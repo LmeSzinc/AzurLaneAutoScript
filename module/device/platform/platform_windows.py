@@ -54,24 +54,21 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         # CAUTION!!!!!!: Windows only.
         command = command.replace(r"\\", "/").replace("\\", "/").replace('"', '"')
         logger.info(f'Execute: {command}')
-        from sys import platform
         if not self.config.Emulator_SilentStart:
-            if platform == 'win32':
-                return subprocess.Popen(command,close_fds=True)
+            return subprocess.Popen(command,close_fds=True)
         
-        if platform == 'win32':
-            startupinfo = subprocess.STARTUPINFO()
-            startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
-            startupinfo.wShowWindow = subprocess.SW_HIDE
-            return subprocess.Popen(
-                command,
-                startupinfo=startupinfo,
-                creationflags=subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP,
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.DEVNULL,
-                stdin=subprocess.DEVNULL,
-                close_fds=True
-                )
+        startupinfo = subprocess.STARTUPINFO()
+        startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+        startupinfo.wShowWindow = subprocess.SW_HIDE
+        return subprocess.Popen(
+            command,
+            startupinfo=startupinfo,
+            creationflags=subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            stdin=subprocess.DEVNULL,
+            close_fds=True
+            )
 
     @classmethod
     def kill_process(cls, command: str):
