@@ -391,6 +391,9 @@ class UI(InfoHandler):
         # Item expired offset=(37, 72), skin expired, offset=(24, 68)
         if self.handle_popup_single(offset=(-6, 48, 54, 88), name='ITEM_EXPIRED'):
             return True
+        # Mail full popup
+        if self.handle_popup_single_white():
+            return True
         # Routed from confirm click
         if self.appear(SHIPYARD_CHECK, offset=(30, 30), interval=3):
             logger.info(f'UI additional: {SHIPYARD_CHECK} -> {GOTO_MAIN}')

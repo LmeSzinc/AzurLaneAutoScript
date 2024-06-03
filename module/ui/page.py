@@ -270,6 +270,12 @@ page_build.link(button=GOTO_MAIN, destination=page_main)
 page_main.link(button=MAIN_GOTO_BUILD, destination=page_build)
 page_main_white.link(button=MAIN_GOTO_BUILD_WHITE, destination=page_build)
 
+# Mail
+page_mail = Page(MAIL_CHECK)
+page_mail.link(button=GOTO_MAIN_WHITE, destination=page_main)
+# Mail enter varies from different UI
+# page_main.link(button=MAIL_ENTER_WHITE, destination=page_mail)
+
 # RPG event (raid_20240328)
 page_rpg_stage = Page(RPG_GOTO_STORY)
 page_rpg_story = Page(RPG_GOTO_STAGE)
