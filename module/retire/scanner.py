@@ -439,7 +439,7 @@ class DockScanner(ShipScanner):
         # Roughly Adjust
         # After graying the image, calculate the standard deviation and take the part below the threshold
         # Those parts should present multiple discontinuous subsequences, which here called gap_seq
-        scan_image = crop(image, self.scan_zone)
+        scan_image = crop(image, self.scan_zone, copy=False)
 
         def find_bound(image):
             bound = []
@@ -454,7 +454,7 @@ class DockScanner(ShipScanner):
                 bound = [0] + bound
             return bound
 
-        bounds = [find_bound(crop(scan_image, button.area)) for button in self.scan_grids.buttons]
+        bounds = [find_bound(crop(scan_image, button.area, copy=False)) for button in self.scan_grids.buttons]
         card_bottom = (np.mean(bounds, axis=0) + 0.5).astype(np.uint8)
         # Calculate the bound of gap_seq, usually we get 3 endpoints
         # The offset is the difference between the two groups of endpoints

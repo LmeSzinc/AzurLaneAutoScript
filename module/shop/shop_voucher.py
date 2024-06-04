@@ -29,7 +29,7 @@ class VoucherShop(ShopClerk, ShopStatus):
         Returns:
             np.array: [[x1, y1], [x2, y2]], location of the voucher icon upper-left corner.
         """
-        left_column = self.image_crop((305, 306, 1256, 646))
+        left_column = self.image_crop((305, 306, 1256, 646), copy=False)
         vouchers = TEMPLATE_VOUCHER_ICON.match_multi(left_column, similarity=0.75, threshold=5)
         vouchers = Points([(0., v.area[1]) for v in vouchers]).group(threshold=5)
         logger.attr('Vouchers_icon', len(vouchers))

@@ -116,7 +116,7 @@ class RadarGrid:
         Returns:
             bool:
         """
-        image = crop(self.image, area_offset(area, self.center))
+        image = crop(self.image, area_offset(area, self.center), copy=False)
         mask = color_similarity_2d(image, color=color) > threshold
         return np.sum(mask) >= count
 
@@ -236,7 +236,7 @@ class Radar:
                 Or None if port not found.
         """
         radius = (15, 82)
-        image = crop(image, area_offset((-radius[1], -radius[1], radius[1], radius[1]), self.center))
+        image = crop(image, area_offset((-radius[1], -radius[1], radius[1], radius[1]), self.center), copy=False)
         # image.show()
         points = np.where(color_similarity_2d(image, color=(255, 255, 255)) > 250)
         points = np.array(points).T[:, ::-1] - (radius[1], radius[1])

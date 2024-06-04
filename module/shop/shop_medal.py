@@ -43,7 +43,7 @@ class MedalShop2(ShopClerk, ShopStatus):
         Returns:
             np.array: [[x1, y1], [x2, y2]], location of the medal icon upper-left corner.
         """
-        left_column = self.image_crop((472, 348, 1170, 648))
+        left_column = self.image_crop((472, 348, 1170, 648), copy=False)
         medals = TEMPLATE_MEDAL_ICON_2.match_multi(left_column, similarity=0.5, threshold=5)
         medals = Points([(0., m.area[1]) for m in medals]).group(threshold=5)
         logger.attr('Medals_icon', len(medals))

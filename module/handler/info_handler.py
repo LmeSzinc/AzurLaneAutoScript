@@ -8,7 +8,7 @@ from module.exception import GameNotRunningError
 from module.handler.assets import *
 from module.logger import logger
 from module.os_handler.assets import CLICK_SAFE_AREA as OS_CLICK_SAFE_AREA
-from module.ui_white.assets import POPUP_SINGLE_WHITE, POPUP_CONFIRM_WHITE, POPUP_CANCEL_WHITE
+from module.ui_white.assets import POPUP_CANCEL_WHITE, POPUP_CONFIRM_WHITE, POPUP_SINGLE_WHITE
 
 
 def info_letter_preprocess(image):
@@ -42,7 +42,7 @@ class InfoHandler(ModuleBase):
         Returns:
             int:
         """
-        image = self.image_crop(INFO_BAR_AREA)
+        image = self.image_crop(INFO_BAR_AREA, copy=False)
         line = cv2.reduce(image, 1, cv2.REDUCE_AVG)
         line = color_similarity_2d(line, color=(107, 158, 255))[:, 0]
 
@@ -294,7 +294,7 @@ class InfoHandler(ModuleBase):
         story_option_area = (730, 188, 1140, 480)
         # Background color of the left part of the option.
         story_option_color = (99, 121, 156)
-        image = color_similarity_2d(self.image_crop(story_option_area), color=story_option_color) > 225
+        image = color_similarity_2d(self.image_crop(story_option_area, copy=False), color=story_option_color) > 225
         x_count = np.where(np.sum(image, axis=0) > 40)[0]
         if not len(x_count):
             return []
@@ -335,7 +335,7 @@ class InfoHandler(ModuleBase):
         story_detect_area = (330, 200, 355, 465)
         story_option_color = (247, 247, 247)
 
-        image = color_similarity_2d(self.image_crop(story_detect_area), color=story_option_color)
+        image = color_similarity_2d(self.image_crop(story_detect_area, copy=False), color=story_option_color)
         line = cv2.reduce(image, 1, cv2.REDUCE_AVG).flatten()
         line[line < 200] = 0
         line[line >= 200] = 255

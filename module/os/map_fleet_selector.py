@@ -67,7 +67,7 @@ class FleetSelector:
         Returns:
             list: List of int. Currently selected fleet ranges from 1 to 4.
         """
-        data = self.parse_fleet_bar(self.main.image_crop(self._bar))
+        data = self.parse_fleet_bar(self.main.image_crop(self._bar, copy=False))
         return data
 
     def get_button(self, index):

@@ -176,7 +176,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         """
         super().hp_get()
         ship_icon = self._hp_grid().crop((0, -67, 67, 0))
-        need_repair = [TEMPLATE_EMPTY_HP.match(self.image_crop(button)) for button in ship_icon.buttons]
+        need_repair = [TEMPLATE_EMPTY_HP.match(self.image_crop(button, copy=False)) for button in ship_icon.buttons]
         self.need_repair = need_repair
         logger.attr('Repair icon', need_repair)
 
