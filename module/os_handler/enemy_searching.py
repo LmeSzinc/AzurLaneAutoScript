@@ -8,7 +8,7 @@ from module.os_handler.assets import AUTO_SEARCH_REWARD, IN_MAP, ORDER_ENTER
 
 class EnemySearchingHandler(EnemySearchingHandler_):
     def is_in_map(self):
-        if self.appear(IN_MAP, offset=(200, 5)):
+        if IN_MAP.match_luma(self.device.image, offset=(200, 5)):
             return True
         if self.appear(MAP_GOTO_GLOBE_FOG, offset=(5, 5)) and MAP_GOTO_GLOBE_FOG.match_appear_on(self.device.image):
             return True
