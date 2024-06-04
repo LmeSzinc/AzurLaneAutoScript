@@ -197,9 +197,9 @@ class UI(InfoHandler):
             if self.appear_then_click(GOTO_MAIN, offset=(30, 30), interval=2):
                 timeout.reset()
                 continue
-            if self.appear_then_click(RPG_HOME, offset=(30, 30), interval=2):
-                timeout.reset()
-                continue
+            # if self.appear_then_click(RPG_HOME, offset=(30, 30), interval=2):
+            #     timeout.reset()
+            #     continue
             if self.ui_additional():
                 timeout.reset()
                 continue
@@ -534,8 +534,8 @@ class UI(InfoHandler):
             return True
 
         # RPG event (raid_20240328)
-        if self.appear_then_click(RPG_STATUS_POPUP, offset=(30, 30), interval=3):
-            return True
+        # if self.appear_then_click(RPG_STATUS_POPUP, offset=(30, 30), interval=3):
+        #     return True
 
         # Idle page
         if self.get_interval_timer(IDLE, interval=3).reached():
@@ -565,5 +565,5 @@ class UI(InfoHandler):
             self.interval_reset(RAID_CHECK)
         if button == SHOP_GOTO_SUPPLY_PACK:
             self.interval_reset(EXCHANGE_CHECK)
-        if button in [RPG_GOTO_STAGE, RPG_GOTO_STORY, RPG_LEAVE_CITY]:
-            self.interval_timer[GET_SHIP.name] = Timer(5).reset()
+        # if button in [RPG_GOTO_STAGE, RPG_GOTO_STORY, RPG_LEAVE_CITY]:
+        #     self.interval_timer[GET_SHIP.name] = Timer(5).reset()
