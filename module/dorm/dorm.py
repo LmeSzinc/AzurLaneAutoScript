@@ -267,10 +267,8 @@ class RewardDorm(UI):
                 continue
 
             # End
-            # - If max _dorm_collect_attempt (3+) reached
-            if _dorm_collect_attempt < 3:
-                _dorm_collect_attempt += 1
-            else:
+            # The collect button cannot be detected
+            if not self.appear(DORM_QUICK_COLLECT, offset=(20, 20), interval=1):
                 break
 
     @cached_property
