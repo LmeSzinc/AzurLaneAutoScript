@@ -16,9 +16,11 @@ class Combat(Combat_, MapEventHandler):
         Returns:
             bool: If enter combat.
         """
-        if not self.is_in_map():
-            if self.is_combat_loading():
-                return True
+        if self.is_in_map():
+            return False
+
+        if self.is_combat_loading():
+            return True
 
         if self.appear(BATTLE_PREPARATION):
             return True
