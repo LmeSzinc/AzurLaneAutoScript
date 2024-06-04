@@ -248,9 +248,8 @@ class RewardDorm(UI):
             in: page_dorm, without info_bar
             out: page_dorm, without info_bar
         """
-        logger.hr("Dorm Collect")
+        logger.hr('Dorm Collect')
 
-        _dorm_collect_attempt = 0
         skip_first_screenshot = True
         while 1:
             if skip_first_screenshot:
@@ -265,10 +264,8 @@ class RewardDorm(UI):
             # Collect coins and loves through the quick collect button
             if self.appear_then_click(DORM_QUICK_COLLECT, offset=(20, 20), interval=1):
                 continue
-
-            # End
-            # The collect button cannot be detected
-            if not self.appear(DORM_QUICK_COLLECT, offset=(20, 20), interval=1):
+            else:
+                # End: The collect button cannot be detected
                 break
 
     @cached_property
