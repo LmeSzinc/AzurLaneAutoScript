@@ -89,7 +89,7 @@ Spend at least 5 minutes for thinking and preparing, before someone spend his/he
 - **Exercise may too late to quit when it's going to failed**
 - **NemuPlayer does not support two-finger zoom out send from minitouch, unable to collect loves and coins in dorm**. NemuPlayer is not recommended.
 - **Swipe may be treated as click if emulator stuck randomly**
-
+- **The current version of the Opsi port shops is not compatible and cannot be purchased automatically**
 
 
 ## Alas Community Guidelines
