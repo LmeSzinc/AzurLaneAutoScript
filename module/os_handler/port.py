@@ -2,6 +2,7 @@ from module.base.timer import Timer
 from module.logger import logger
 from module.os_handler.assets import *
 from module.os_handler.shop import OSShopHandler
+import time
 
 # Azur Lane ports have PORT_GOTO_MISSION, PORT_GOTO_SUPPLY, PORT_GOTO_DOCK.
 # Red axis ports have PORT_GOTO_SUPPLY.
@@ -128,6 +129,7 @@ class PortHandler(OSShopHandler):
 
             # PORT_DOCK_CHECK is button to repair all.
             if self.appear_then_click(PORT_DOCK_CHECK, offset=(20, 20), interval=2):
+                time.sleep(3)
                 continue
             if self.handle_popup_confirm('DOCK_REPAIR'):
                 repaired = True
