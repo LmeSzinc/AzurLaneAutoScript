@@ -74,13 +74,10 @@
       "name": "Event-2",
       "help": ""
     },
-<<<<<<< HEAD
     "Event3": {
       "name": "Task.Event3.name",
       "help": "Task.Event3.help"
     },
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
     "Raid": {
       "name": "Raid",
       "help": ""
@@ -1158,7 +1155,6 @@
       "ship": "Change Ship",
       "ship_equip": "Change Ship + Gears"
     },
-<<<<<<< HEAD
     "ALLowLowVanguardLevel": {
       "name": "ALLow Low Vanguard Level",
       "help": "Destroyers over level 10 will now be used, 49 for Event CD"
@@ -1174,8 +1170,6 @@
       "name": "GemsFarming.StopIFAutoNotEnsured.name",
       "help": "GemsFarming.StopIFAutoNotEnsured.help"
     },
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
     "CommonDD": {
       "name": "Flagship Common DD Preference",
       "help": "",
@@ -2126,7 +2120,6 @@
       "name": "Exercise Settings",
       "help": "Runs exercise and automatically retreats when sum HP volume is low"
     },
-<<<<<<< HEAD
     "DelayUntilHoursBeforeNextUpdate": {
       "name": "Exercise.DelayUntilHoursBeforeNextUpdate.name",
       "help": "Exercise.DelayUntilHoursBeforeNextUpdate.help",
@@ -2137,8 +2130,6 @@
       "5": "5",
       "12": "12"
     },
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
     "OpponentChooseMode": {
       "name": "Opponent Choose Mode",
       "help": "",
@@ -2295,7 +2286,6 @@
       "3": "3",
       "4": "4"
     },
-<<<<<<< HEAD
     "FleetMode": {
       "name": "Fleet Mode",
       "help": "",
@@ -2304,8 +2294,6 @@
       "stand_still_in_the_middle": "stand_still_in_the_middle",
       "hide_in_bottom_left": "hide_in_bottom_left"
     },
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
     "Submarine": {
       "name": "Call Submarine",
       "help": "If enabled, interval increases from 30 to 60 minutes instead"
@@ -2515,7 +2503,6 @@
       "help": "Log back into the game when the game has been ended."
     }
   },
-<<<<<<< HEAD
   "GGHandler": {
     "_info": {
       "name": "GG Handler",
@@ -2813,8 +2800,6 @@
       "help": "GuildCoin.Record.help"
     }
   },
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
   "Storage": {
     "_info": {
       "name": "Task status",
@@ -2839,11 +2824,8 @@
       "Stop": "Stop",
       "ScrollON": "Auto Scroll ON",
       "ScrollOFF": "Auto Scroll OFF",
-<<<<<<< HEAD
       "DashboardON": "Fold",
       "DashboardOFF": "Unfold",
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
       "ClearLog": "Clear Log",
       "Setting": "Setting",
       "CheckUpdate": "Check update",
@@ -2876,7 +2858,6 @@
     },
     "Overview": {
       "Scheduler": "Scheduler",
-<<<<<<< HEAD
       "Dashboard": "Gui.Overview.Dashboard",
       "SecondsAgo": "Seconds ago",
       "MinutesAgo": "Minutes ago",
@@ -2897,8 +2878,6 @@
       "Medal": "Medal",
       "Core": "Core Data",
       "GuildCoin": "Guild Coin",
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
       "Log": "Log",
       "Running": "Running",
       "Pending": "Pending",

@@ -94,6 +94,7 @@ class HTMLConsole(Console):
     Force full feature console
     but not working lol :(
     """
+
     @property
     def options(self) -> ConsoleOptions:
         return ConsoleOptions(

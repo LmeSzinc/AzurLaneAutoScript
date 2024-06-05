@@ -74,13 +74,10 @@
       "name": "イベント海域-2",
       "help": ""
     },
-<<<<<<< HEAD
     "Event3": {
       "name": "Task.Event3.name",
       "help": "Task.Event3.help"
     },
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
     "Raid": {
       "name": "Raid",
       "help": ""
@@ -1142,7 +1139,6 @@
       "ship": "ship",
       "ship_equip": "ship_equip"
     },
-<<<<<<< HEAD
     "ALLowLowVanguardLevel": {
       "name": "GemsFarming.ALLowLowVanguardLevel.name",
       "help": "GemsFarming.ALLowLowVanguardLevel.help"
@@ -1158,8 +1154,6 @@
       "name": "GemsFarming.StopIFAutoNotEnsured.name",
       "help": "GemsFarming.StopIFAutoNotEnsured.help"
     },
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
     "CommonCV": {
       "name": "GemsFarming.CommonCV.name",
       "help": "GemsFarming.CommonCV.help",
@@ -2126,7 +2120,6 @@
       "name": "Exercise._info.name",
       "help": "Exercise._info.help"
     },
-<<<<<<< HEAD
     "DelayUntilHoursBeforeNextUpdate": {
       "name": "Exercise.DelayUntilHoursBeforeNextUpdate.name",
       "help": "Exercise.DelayUntilHoursBeforeNextUpdate.help",
@@ -2137,8 +2130,6 @@
       "5": "5",
       "12": "12"
     },
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
     "OpponentChooseMode": {
       "name": "Exercise.OpponentChooseMode.name",
       "help": "Exercise.OpponentChooseMode.help",
@@ -2295,7 +2286,6 @@
       "3": "3",
       "4": "4"
     },
-<<<<<<< HEAD
     "FleetMode": {
       "name": "OpsiFleet.FleetMode.name",
       "help": "OpsiFleet.FleetMode.help",
@@ -2304,8 +2294,6 @@
       "stand_still_in_the_middle": "stand_still_in_the_middle",
       "hide_in_bottom_left": "hide_in_bottom_left"
     },
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
     "Submarine": {
       "name": "OpsiFleet.Submarine.name",
       "help": "OpsiFleet.Submarine.help"
@@ -2515,7 +2503,6 @@
       "help": "GameManager.AutoRestart.help"
     }
   },
-<<<<<<< HEAD
   "GGHandler": {
     "_info": {
       "name": "GGHandler._info.name",
@@ -2813,8 +2800,6 @@
       "help": "GuildCoin.Record.help"
     }
   },
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
   "Storage": {
     "_info": {
       "name": "Storage._info.name",
@@ -2839,11 +2824,8 @@
       "Stop": "中止",
       "ScrollON": "自動スクロール ON",
       "ScrollOFF": "自動スクロール OFF",
-<<<<<<< HEAD
       "DashboardON": "Gui.Button.DashboardON",
       "DashboardOFF": "Gui.Button.DashboardOFF",
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
       "ClearLog": "ログクリーニング",
       "Setting": "設定",
       "CheckUpdate": "アップデータチェック",
@@ -2876,7 +2858,6 @@
     },
     "Overview": {
       "Scheduler": "スケジューラー",
-<<<<<<< HEAD
       "Dashboard": "Gui.Overview.Dashboard",
       "SecondsAgo": "Seconds ago",
       "MinutesAgo": "Minutes ago",
@@ -2897,8 +2878,6 @@
       "Medal": "Medal",
       "Core": "Core Data",
       "GuildCoin": "Guild Coin",
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
       "Log": "ログ",
       "Running": "実行中",
       "Pending": "隊列中",
