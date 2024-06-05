@@ -1,0 +1,45 @@
+# --------------------
+# Define non-modifiable values
+# --------------------
+
+# ==================== Maa ====================
+
+MaaStartup:
+  Scheduler:
+    Enable:
+      value: true
+      display: disabled
+    SuccessInterval: 0
+    FailureInterval: 0
+    ServerUpdate: 04:00
+
+MaaAnnihilation:
+  MaaFight:
+    Stage: custom
+    CustomStage: Annihilation
+    Medicine: 0
+    MedicineTactics: no_use
+    Stone: 0
+    Times: 5
+    Drops: null
+    DrGrandet: false
+
+MaaMaterial:
+  MaaFight:
+    MedicineTactics: no_use
+
+MaaFight:
+  MaaFight:
+    Medicine: null
+    Stone: null
+    Times: null
+    Drops: null
+    DrGrandet: false
+
+MaaRecruit:
+  Scheduler:
+    SuccessInterval: 180
+
+MaaAward:
+  Scheduler:
+    ServerUpdate: 04:00, 16:00

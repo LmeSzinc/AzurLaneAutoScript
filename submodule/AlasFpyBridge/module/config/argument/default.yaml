@@ -1,0 +1,9 @@
+# --------------------
+# Define default values
+# --------------------
+
+FpyHeartbeat:
+  Scheduler:
+    Enable: True
+  FpyInterval:
+    Interval: 00:05

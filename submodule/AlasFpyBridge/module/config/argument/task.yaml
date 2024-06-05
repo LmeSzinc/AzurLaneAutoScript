@@ -1,0 +1,52 @@
+# --------------------
+# Define argument group of tasks.
+# --------------------
+
+# ==================== Fpy ====================
+
+Fpy:
+  menu: 'list'
+  page: 'setting'
+  tasks:
+    Fpy:
+      - FpyEmulator
+      - Emulator
+      - Error
+      - Optimization
+    FpyHeartbeat:
+      - Scheduler
+      - FpyInterval
+
+# ==================== FpyFarm ====================
+
+FpyFarm:
+  menu: 'list'
+  page: 'setting'
+  tasks:
+    FpyMain:
+      - Scheduler
+      - FpyTeam
+      - FpyApple
+      - FpyLimit
+      - FpyInterval
+
+# ==================== FpyDaily ====================
+
+FpyDaily:
+  menu: 'list'
+  page: 'setting'
+  tasks:
+    FpyDailyFpSummon:
+      - Scheduler
+
+# ==================== FpyTool ====================
+
+FpyTool:
+  menu: 'list'
+  page: 'tool'
+  tasks:
+    FpyBattle: []
+    FpyBenchmark:
+      - FpyBenchmark
+    FpyCall:
+      - FpyCall

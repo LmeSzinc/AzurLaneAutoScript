@@ -1,0 +1,93 @@
+# --------------------
+# Define arguments.
+# --------------------
+
+Scheduler:
+  Enable: False
+  NextRun: 2023-01-01 05:00:00
+  Command: Fpy
+  SuccessInterval:
+    value: 60
+    display: hide
+  FailureInterval:
+    value: 120
+    display: hide
+  ServerUpdate:
+    value: 05:00
+    display: hide
+
+Emulator:
+  ServerName:
+    value: disabled
+    display: hide
+Error:
+  SaveError:
+    value: False
+    display: hide
+  OnePushConfig:
+    mode: yaml
+    value: 'provider: null'
+    display: hide
+Optimization:
+  WhenTaskQueueEmpty:
+    value: stay_there
+    display: hide
+
+FpyEmulator:
+  Serial:
+    value: 127.0.0.1:5555
+    valuetype: str
+  LaunchPath:
+    value: /absolute_path_to_FGO-py/deploy/AzurLaneAutoScript
+    type: textarea
+
+FpyInterval:
+  Interval:
+    value: 07:00
+    validate: "\\d+:\\d"
+
+FpyTeam:
+  Index:
+    value: 0
+
+FpyApple:
+  AppleKind:
+    value: gold
+    option:
+      - gold
+      - silver
+      - bronze
+      - copper
+      - quartz
+  AppleCount:
+    value: 0
+  EatOnce:
+    value: True
+  AppleTotal:
+    value: 999
+
+FpyLimit:
+  Defeated:
+    value: True
+  KizunaReisou:
+    value: True
+  SpecialDrop:
+    value: 999
+
+FpyBenchmark:
+  BenchOption:
+    value: all
+    option:
+      - touch
+      - screen
+      - all
+
+FpyCall:
+  Function:
+    value: lottery
+    option:
+      - fpSummon
+      - lottery
+      - mail
+      - synthesis
+      - summonHistory
