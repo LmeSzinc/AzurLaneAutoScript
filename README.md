@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-![1000033873](https://github.com/Zuosizhu/Alas-with-Dashboard/assets/60862861/432c0502-ecd4-4485-87d7-2c9615aa6407)
-![1000033869](https://github.com/Zuosizhu/Alas-with-Dashboard/assets/60862861/415d94fb-3a9f-46f0-bc62-7c4df3a58388)
-![1000033868](https://github.com/Zuosizhu/Alas-with-Dashboard/assets/60862861/f0d81e16-df27-4faa-9089-68b412ffa893)
-![1000033872](https://github.com/Zuosizhu/Alas-with-Dashboard/assets/60862861/a54bb850-1013-4926-b4c2-55ca657c72d3)
-![1000033871](https://github.com/Zuosizhu/Alas-with-Dashboard/assets/60862861/5f1ed358-e63d-43e6-ba17-bf4eaa824840)
-![1000033870](https://github.com/Zuosizhu/Alas-with-Dashboard/assets/60862861/aa68c984-88dd-4840-98f7-e5daedd5f12b)
-顺序反了，问题不大，跑路
-=======
 **| [English](README_en.md) | 简体中文 | [日本語](README_jp.md) |**
 
 # AzurLaneAutoScript
@@ -188,4 +179,3 @@ Alas 仍在活跃开发中，我们会不定期发布未来的工作在 [Issues]
 - QQ 一群：[1087735381](https://jq.qq.com/?_wv=1027&k=I4NSqX7g) （有开发意向请加一群，入群需要提供你的Github用户名）
 - Bilibili 直播间：https://live.bilibili.com/22216705 ，偶尔直播写Alas，~~为了拯救Alas，Lme决定出道成为偶像~~
 
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0

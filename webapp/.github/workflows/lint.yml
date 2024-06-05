@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 on:
   workflow_dispatch:
   push:
@@ -29,27 +28,6 @@ on:
 concurrency:
   group: lint-${{ github.ref }}
   cancel-in-progress: true
-=======
-name: Linters
-on:
-  push:
-    branches:
-      - main
-    paths:
-      - '**.js'
-      - '**.ts'
-      - '**.vue'
-      - 'package-lock.json'
-      - '.github/workflows/lint.yml'
-  pull_request:
-    paths:
-      - '**.js'
-      - '**.ts'
-      - '**.vue'
-      - 'package-lock.json'
-      - '.github/workflows/lint.yml'
-
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 
 defaults:
   run:
@@ -60,18 +38,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-<<<<<<< HEAD
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
-=======
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
         with:
           node-version: 16 # Need for npm >=7.7
           cache: 'npm'
 
-<<<<<<< HEAD
       - run: npm ci
         env:
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
@@ -91,10 +63,3 @@ jobs:
 
       - run: npm i prettier
       - run: npx prettier --check "**/*.{js,mjs,cjs,jsx,ts,mts,cts,tsx,vue,json}"
-=======
-      # TODO: Install not all dependencies, but only those required for this workflow
-      - name: Install dependencies
-        run: npm ci
-
-      - run: npm run lint
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0

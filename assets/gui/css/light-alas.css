@@ -56,13 +56,10 @@
     box-shadow: 0 0.06rem 0 #4e4c97;
 }
 
-<<<<<<< HEAD
 #pywebio-scope-dashboard input {
     background-color: white !important;
 }
 
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 input[type="checkbox"] {
     accent-color: #7a77bb;
 }
@@ -158,7 +155,6 @@ pre.rich-traceback-code {
 *[style*="--arg-help--"],
 [id^="pywebio-scope-group_"] > p + p {
     color: #777777;
-<<<<<<< HEAD
 }
 
 *[style*="--dashboard-help--"]{
@@ -167,6 +163,4 @@ pre.rich-traceback-code {
 
 *[style*="--dashboard-limit--"]{
     color: #777777;
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 }

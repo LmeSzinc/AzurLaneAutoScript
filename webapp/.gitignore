@@ -5,11 +5,8 @@ dist
 thumbs.db
 
 .eslintcache
-<<<<<<< HEAD
 .browserslistrc
 .electron-vendors.cache.json
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839

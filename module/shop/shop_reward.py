@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 from module.base.decorator import Config
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 from module.shop.shop_core import CoreShop
 from module.shop.shop_general import GeneralShop
 from module.shop.shop_guild import GuildShop
@@ -21,7 +18,6 @@ class RewardShop(ShopUI):
 
         self.config.task_delay(server_update=True)
 
-<<<<<<< HEAD
     @Config.when(SERVER='tw')
     def run_once(self):
         # Munitions shops
@@ -47,8 +43,6 @@ class RewardShop(ShopUI):
         self.config.task_delay(server_update=True)
 
     @Config.when(SERVER=None)
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
     def run_once(self):
         # Munitions shops
         self.ui_goto_shop()

@@ -1,9 +1,6 @@
 import copy
 import json
-<<<<<<< HEAD
 import pywebio.pin
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 import random
 import string
 from typing import Any, Callable, Dict, Generator, List, Optional, TYPE_CHECKING, Union
@@ -78,11 +75,8 @@ class ScrollableCode:
 
 
 class RichLog:
-<<<<<<< HEAD
     last_display_time: dict
 
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
     def __init__(self, scope, font_width="0.559") -> None:
         self.scope = scope
         self.font_width = font_width
@@ -102,13 +96,10 @@ class RichLog:
         # self._callback_thread = None
         # self._width = 80
         self.keep_bottom = True
-<<<<<<< HEAD
         self.display_dashboard = False
         self.first_display = True
         self.last_display_time = {}
         self.dashboard_arg_group = None
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
         if State.theme == "dark":
             self.terminal_theme = DARK_TERMINAL_THEME
         else:
@@ -154,14 +145,11 @@ class RichLog:
         # use for lambda callback function
         self.keep_bottom = b
 
-<<<<<<< HEAD
     def set_dashboard_display(self, b: bool) -> None:
         # use for lambda callback function. Copied.
         self.display_dashboard = b
         self.first_display = True
 
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
     def get_width(self):
         js = """
         let canvas = document.createElement('canvas');

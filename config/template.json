@@ -313,12 +313,9 @@
       "CommonCV": "any",
       "ChangeVanguard": "ship",
       "CommonDD": "any",
-<<<<<<< HEAD
       "ALLowLowVanguardLevel": true,
       "FleetNumberInHardMode": 0,
       "StopIFAutoNotEnsured": true,
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
       "CommissionLimit": true
     },
     "Campaign": {
@@ -516,7 +513,6 @@
       "Storage": {}
     }
   },
-<<<<<<< HEAD
   "Event3": {
     "Scheduler": {
       "Enable": false,
@@ -591,8 +587,6 @@
       "Storage": {}
     }
   },
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
   "Raid": {
     "Scheduler": {
       "Enable": false,
@@ -1474,10 +1468,7 @@
       "ServerUpdate": "00:00, 12:00, 18:00"
     },
     "Exercise": {
-<<<<<<< HEAD
       "DelayUntilHoursBeforeNextUpdate": 12,
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
       "OpponentChooseMode": "max_exp",
       "OpponentTrial": 1,
       "ExerciseStrategy": "aggressive",
@@ -1706,10 +1697,7 @@
     },
     "OpsiFleet": {
       "Fleet": 1,
-<<<<<<< HEAD
       "FleetMode": "combat_auto",
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
       "Submarine": false
     },
     "Storage": {
@@ -1763,10 +1751,7 @@
     },
     "OpsiFleet": {
       "Fleet": 1,
-<<<<<<< HEAD
       "FleetMode": "combat_auto",
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
       "Submarine": false
     },
     "Storage": {
@@ -1787,10 +1772,7 @@
     },
     "OpsiFleet": {
       "Fleet": 1,
-<<<<<<< HEAD
       "FleetMode": "combat_auto",
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
       "Submarine": false
     },
     "Storage": {
@@ -1827,10 +1809,7 @@
     },
     "OpsiFleet": {
       "Fleet": 1,
-<<<<<<< HEAD
       "FleetMode": "combat_auto",
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
       "Submarine": false
     },
     "Storage": {
@@ -1852,14 +1831,11 @@
     "OpsiFleetFilter": {
       "Filter": "Fleet-4 > CallSubmarine > Fleet-2 > Fleet-3 > Fleet-1"
     },
-<<<<<<< HEAD
     "OpsiFleet": {
       "Fleet": 1,
       "FleetMode": "combat_auto",
       "Submarine": true
     },
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
     "Storage": {
       "Storage": {}
     }
@@ -1901,10 +1877,7 @@
     },
     "OpsiFleet": {
       "Fleet": 1,
-<<<<<<< HEAD
       "FleetMode": "combat_auto",
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
       "Submarine": false
     },
     "Storage": {
@@ -1925,10 +1898,7 @@
     },
     "OpsiFleet": {
       "Fleet": 1,
-<<<<<<< HEAD
       "FleetMode": "combat_auto",
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
       "Submarine": false
     },
     "Storage": {
@@ -1986,7 +1956,6 @@
     "GameManager": {
       "AutoRestart": true
     },
-<<<<<<< HEAD
     "GGHandler": {
       "Enabled": false,
       "GGMethod": "u2",
@@ -2072,8 +2041,6 @@
       "Color": "^AAAAAA",
       "Record": "2020-01-01 00:00:00"
     },
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
     "Storage": {
       "Storage": {}
     }

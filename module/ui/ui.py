@@ -4,11 +4,7 @@ from module.base.timer import Timer
 from module.coalition.assets import FLEET_PREPARATION as COALITION_FLEET_PREPARATION
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_SHIP
 from module.exception import (GameNotRunningError, GamePageUnknownError,
-<<<<<<< HEAD
                               GameTooManyClickError)
-=======
-                              RequestHumanTakeover)
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 from module.exercise.assets import EXERCISE_PREPARATION
 from module.freebies.assets import PURCHASE_POPUP
 from module.handler.assets import (AUTO_SEARCH_MENU_EXIT, BATTLE_PASS_NOTICE, GAME_TIPS, LOGIN_ANNOUNCE,
@@ -428,11 +424,7 @@ class UI(InfoHandler):
             logger.critical("Possible reason #1: You haven't set any fleets in operation siren")
             logger.critical(
                 "Possible reason #2: Your fleets haven't satisfied the level restrictions in operation siren")
-<<<<<<< HEAD
             raise GameTooManyClickError
-=======
-            raise RequestHumanTakeover
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
         if self.appear_then_click(RESET_TICKET_POPUP, offset=(30, 30), interval=3):
             return True
         if self.appear_then_click(RESET_FLEET_PREPARATION, offset=(30, 30), interval=3):

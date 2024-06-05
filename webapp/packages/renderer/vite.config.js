@@ -1,7 +1,6 @@
 /* eslint-env node */
 
 import {chrome} from '../../electron-vendors.config.json';
-<<<<<<< HEAD
 import vue from '@vitejs/plugin-vue';
 import {renderer} from 'unplugin-auto-expose';
 import {join, resolve} from 'node:path';
@@ -21,13 +20,6 @@ import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite';
 
 const PACKAGE_ROOT = __dirname;
 const PROJECT_ROOT = join(PACKAGE_ROOT, '../..');
-=======
-import {join} from 'path';
-import {builtinModules} from 'module';
-import vue from '@vitejs/plugin-vue';
-
-const PACKAGE_ROOT = __dirname;
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 
 /**
  * @type {import('vite').UserConfig}
@@ -36,7 +28,6 @@ const PACKAGE_ROOT = __dirname;
 const config = {
   mode: process.env.MODE,
   root: PACKAGE_ROOT,
-<<<<<<< HEAD
   envDir: PROJECT_ROOT,
   resolve: {
     alias: [
@@ -54,14 +45,6 @@ const config = {
       },
     ],
   },
-=======
-  resolve: {
-    alias: {
-      '/@/': join(PACKAGE_ROOT, 'src') + '/',
-    },
-  },
-  plugins: [vue()],
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
   base: '',
   server: {
     fs: {
@@ -73,7 +56,6 @@ const config = {
     target: `chrome${chrome}`,
     outDir: 'dist',
     assetsDir: '.',
-<<<<<<< HEAD
     rollupOptions: {
       input: join(PACKAGE_ROOT, 'index.html'),
     },
@@ -123,22 +105,6 @@ const config = {
       '@arco-design/web-vue/es/locale/lang/ja-jp',
       '@arco-design/web-vue/es/locale/lang/zh-tw',
     ],
-=======
-    terserOptions: {
-      ecma: 2020,
-      compress: {
-        passes: 2,
-      },
-      safari10: false,
-    },
-    rollupOptions: {
-      external: [
-        ...builtinModules,
-      ],
-    },
-    emptyOutDir: true,
-    brotliSize: false,
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
   },
 };
 

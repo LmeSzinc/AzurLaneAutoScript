@@ -17,7 +17,6 @@ from module.map.assets import *
 from module.ui.assets import *
 from module.ui.page import page_campaign_menu
 from module.ui.ui import UI
-<<<<<<< HEAD
 from module.gg_handler.gg_handler import GGHandler
 
 
@@ -25,11 +24,6 @@ class LoginHandler(UI):
     _app_u2_family = ['uiautomator2', 'minitouch', 'scrcpy', 'MaaTouch']
     have_been_reset = False
 
-=======
-
-
-class LoginHandler(UI):
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
     def _handle_app_login(self):
         """
         Pages:
@@ -37,18 +31,10 @@ class LoginHandler(UI):
             out: page_main
         """
         logger.hr('App login')
-<<<<<<< HEAD
         GGHandler(config=self.config, device=self.device).handle_restart()
         confirm_timer = Timer(1.5, count=4).start()
         orientation_timer = Timer(5)
         login_success = False
-=======
-
-        confirm_timer = Timer(1.5, count=4).start()
-        orientation_timer = Timer(5)
-        login_success = False
-
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
         while 1:
             # Watch device rotation
             if not login_success and orientation_timer.reached():
@@ -103,11 +89,7 @@ class LoginHandler(UI):
             # Always goto page_main
             if self.appear_then_click(GOTO_MAIN, offset=(30, 30), interval=5):
                 continue
-<<<<<<< HEAD
         
-=======
-
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
         return True
 
     _user_agreement_timer = Timer(1, count=2)
@@ -161,49 +143,33 @@ class LoginHandler(UI):
 
         logger.critical('Login failed more than 3')
         logger.critical('Azur Lane server may be under maintenance, or you may lost network connection')
-<<<<<<< HEAD
         raise GameStuckError
 
     def app_stop(self):
         if self.config.Emulator_ControlMethod in self._app_u2_family and not self.have_been_reset:
             GGHandler(config=self.config, device=self.device).handle_u2_restart()
             self.have_been_reset = True
-=======
-        raise RequestHumanTakeover
-
-    def app_stop(self):
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
         logger.hr('App stop')
         self.device.app_stop()
 
     def app_start(self):
-<<<<<<< HEAD
         if self.config.Emulator_ControlMethod in self._app_u2_family and not self.have_been_reset:
             GGHandler(config=self.config, device=self.device).handle_u2_restart()
             self.have_been_reset = True
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
         logger.hr('App start')
         self.device.app_start()
         self.handle_app_login()
         # self.ensure_no_unfinished_campaign()
 
     def app_restart(self):
-<<<<<<< HEAD
         if self.config.Emulator_ControlMethod in self._app_u2_family and not self.have_been_reset:
             GGHandler(config=self.config, device=self.device).handle_u2_restart()
             self.have_been_reset = True
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
         logger.hr('App restart')
         self.device.app_stop()
         self.device.app_start()
         self.handle_app_login()
         # self.ensure_no_unfinished_campaign()
-<<<<<<< HEAD
-=======
-        self.config.task_delay(server_update=True)
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 
     def ensure_no_unfinished_campaign(self, confirm_wait=3):
         """

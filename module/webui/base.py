@@ -64,11 +64,7 @@ class Frame(Base):
             "header",
             [
                 put_html(Icon.ALAS).style("--header-icon--"),
-<<<<<<< HEAD
                 put_text("AlasGG").style("--header-text--"),
-=======
-                put_text("Alas").style("--header-text--"),
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
                 put_scope("header_status"),
                 put_scope("header_title"),
             ],

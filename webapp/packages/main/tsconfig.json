@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
   "compilerOptions": {
     "module": "esnext",
     "target": "esnext",
@@ -17,21 +16,4 @@
   },
   "include": ["src/**/*.ts", "../../types/**/*.d.ts","../common/**/*.ts"],
   "exclude": ["**/*.spec.ts", "**/*.test.ts"]
-=======
-  "extends": "../../tsconfig.json",
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "/@/*": [
-        "./src/*"
-      ]
-    },
-  },
-  "files": [
-    "src/index.ts"
-  ],
-  "include": [
-    "../../types/**/*.d.ts"
-  ]
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 }

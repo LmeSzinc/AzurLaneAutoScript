@@ -57,10 +57,7 @@ class RequestHumanTakeover(Exception):
     # Request human takeover
     # Alas is unable to handle such error, probably because of wrong settings.
     pass
-<<<<<<< HEAD
 
 
 class AutoSearchSetError(Exception):
     pass
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0

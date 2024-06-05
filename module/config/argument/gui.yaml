@@ -14,11 +14,8 @@ Button:
   Stop:
   ScrollON:
   ScrollOFF:
-<<<<<<< HEAD
   DashboardON:
   DashboardOFF:
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
   ClearLog:
   Setting:
   CheckUpdate:
@@ -51,7 +48,6 @@ MenuDevelop:
 
 Overview:
   Scheduler:
-<<<<<<< HEAD
   Dashboard:
   SecondsAgo:
   MinutesAgo:
@@ -72,8 +68,6 @@ Overview:
   Medal:
   Core:
   GuildCoin:
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
   Log:
   Running:
   Pending:

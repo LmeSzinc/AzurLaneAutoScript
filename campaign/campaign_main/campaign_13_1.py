@@ -54,10 +54,6 @@ class Config:
         'distance': 50,
         'wlen': 1000
     }
-<<<<<<< HEAD
-=======
-    HOMO_CANNY_THRESHOLD = (75, 100)
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
     HOMO_EDGE_COLOR_RANGE = (0, 49)
     MAP_SWIPE_MULTIPLY = (0.994, 1.013)
     MAP_SWIPE_MULTIPLY_MINITOUCH = (0.961, 0.979)

@@ -646,7 +646,6 @@ def type_to_str(typ):
     return str(typ)
 
 
-<<<<<<< HEAD
 def time_delta(_timedelta):
     """
     Output the delta between two times
@@ -689,7 +688,5 @@ def time_delta(_timedelta):
     return _time_dict
 
 
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 if __name__ == '__main__':
     get_os_reset_remain()

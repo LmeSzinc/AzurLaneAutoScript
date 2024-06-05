@@ -2,10 +2,6 @@
 # Define argument group of tasks.
 # --------------------
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 # ==================== Alas ====================
 
 Alas:
@@ -25,10 +21,7 @@ Alas:
       - OldRetire
     Restart:
       - Scheduler
-<<<<<<< HEAD
       - RestartEmulator
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 
 # ==================== Farm ====================
 
@@ -97,7 +90,6 @@ Event:
       - Emotion
       - HpControl
       - EnemyPriority
-<<<<<<< HEAD
     Event3:
       - Scheduler
       - Campaign
@@ -107,8 +99,6 @@ Event:
       - Emotion
       - HpControl
       - EnemyPriority
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
     Raid:
       - Scheduler
       - Raid
@@ -319,10 +309,7 @@ Opsi:
       - Scheduler
       - OpsiStronghold
       - OpsiFleetFilter
-<<<<<<< HEAD
       - OpsiFleet
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
     OpsiMonthBoss:
       - Scheduler
       - OpsiMonthBoss
@@ -354,8 +341,5 @@ Tool:
       - AzurLaneUncensored
     GameManager:
       - GameManager
-<<<<<<< HEAD
       - GGHandler
       - PowerLimit
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0

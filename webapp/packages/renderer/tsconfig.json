@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
   "compilerOptions": {
     "module": "esnext",
     "target": "esnext",
@@ -20,33 +19,15 @@
     },
     "lib": ["ESNext", "dom", "dom.iterable"]
   },
-=======
-  "extends": "../../tsconfig.json",
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "/@/*": [
-        "./src/*"
-      ]
-    },
-    "lib": ["ESNext", "dom", "dom.iterable"]
-  },
-
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
   "include": [
     "src/**/*.vue",
     "src/**/*.ts",
     "src/**/*.tsx",
     "types/**/*.d.ts",
     "../../types/**/*.d.ts",
-<<<<<<< HEAD
     "../../../types/**/*.d.ts",
     "./components.d.ts"
   ],
   "exclude": ["**/*.spec.ts", "**/*.test.ts"],
   "typeRoots": ["../../node_modules/@types/", "./types", "../../../types"]
-=======
-    "../preload/types/electron-api.d.ts"
-  ]
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 }

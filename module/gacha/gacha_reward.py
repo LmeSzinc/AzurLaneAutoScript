@@ -8,10 +8,7 @@ from module.logger import logger
 from module.ocr.ocr import Digit
 from module.retire.retirement import Retirement
 from module.shop.shop_general import GeneralShop
-<<<<<<< HEAD
 from module.log_res.log_res import LogRes
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 
 RECORD_GACHA_OPTION = ('RewardRecord', 'gacha')
 RECORD_GACHA_SINCE = (0,)
@@ -128,11 +125,8 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
         logger.info(f'Able to submit up to {target_count} build orders')
         self._currency -= gold_total
         self.build_cube_count -= cube_total
-<<<<<<< HEAD
         LogRes(self.config).Cube = self.build_cube_count
         self.config.update()
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
         return target_count
 
     def gacha_goto_pool(self, target_pool):
@@ -297,27 +291,17 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
         # Go to Gacha
         self.ui_goto_gacha()
 
-<<<<<<< HEAD
         # OCR Gold and Cubes
         self.device.screenshot()
         self.shop_currency()
         self.build_cube_count = OCR_BUILD_CUBE_COUNT.ocr(self.device.image)
 
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
         # Flush queue of any pre-existing
         # builds to ensure starting fresh
         # Upon exit, expected to be in
         # main Build page
         self.gacha_flush_queue()
 
-<<<<<<< HEAD
-=======
-        # OCR Gold and Cubes
-        self.shop_currency()
-        self.build_cube_count = OCR_BUILD_CUBE_COUNT.ocr(self.device.image)
-
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
         # Transition to appropriate target construction pool
         # Returns appropriate costs for gacha as well
         actual_pool = self.gacha_goto_pool(self.config.Gacha_Pool)
@@ -341,12 +325,9 @@ class RewardGacha(GachaUI, GeneralShop, Retirement):
             buy[0] = self.build_ticket_count
             # Calculate rolls allowed based on configurations and resources
             buy[1] = self.gacha_calculate(self.config.Gacha_Amount-self.build_ticket_count, gold_cost, cube_cost)
-<<<<<<< HEAD
         else:
             LogRes(self.config).Cube = self.build_cube_count
             self.config.update()
-=======
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 
         # Submit 'buy_count' and execute if capable
         # Cannot use handle_popup_confirm, this window

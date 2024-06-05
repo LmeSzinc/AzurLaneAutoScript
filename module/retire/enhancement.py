@@ -49,11 +49,7 @@ class Enhancement(Dock):
         if self.appear(DOCK_EMPTY, offset=(30, 30)):
             return False
 
-<<<<<<< HEAD
         self.equip_enter(
-=======
-        self.ship_info_enter(
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
             CARD_GRIDS[(0, 0)], check_button=SHIP_DETAIL_CHECK, long_click=False)
         return True
 
@@ -131,11 +127,7 @@ class Enhancement(Dock):
                 logger.info(
                     'Reached maximum number to check, exiting current category')
                 return "state_enhance_exit"
-<<<<<<< HEAD
             if not self.equip_side_navbar_ensure(bottom=4):
-=======
-            if not self.ship_side_navbar_ensure(bottom=4):
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
                 return "state_enhance_check"
 
             self.wait_until_appear(ENHANCE_RECOMMEND, offset=(
@@ -197,11 +189,7 @@ class Enhancement(Dock):
                 return "state_enhance_confirm"
 
             # Try to swipe to next
-<<<<<<< HEAD
             if self.equip_view_next(check_button=ENHANCE_RECOMMEND):
-=======
-            if self.ship_view_next(check_button=ENHANCE_RECOMMEND):
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
                 if not need_to_skip:
                     nonlocal ship_count
                     ship_count -= 1
@@ -233,11 +221,7 @@ class Enhancement(Dock):
                 # Avoid too_many_click exception caused by multiple tries without material
                 if state_list[-2:] == ["state_enhance_recommend", "state_enhance_fail"]:
                     if len(self.device.click_record):
-<<<<<<< HEAD
                         while self.device.click_record[-1] in ['ENHANCE_RECOMMEND', 'EQUIP_SWIPE']:
-=======
-                        while self.device.click_record[-1] in ['ENHANCE_RECOMMEND', 'SHIP_SWIPE']:
->>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
                             self.device.click_record.pop()
                 state_list.clear()
             state_list.append(state)
