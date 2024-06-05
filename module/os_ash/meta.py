@@ -281,8 +281,8 @@ class OpsiAshBeacon(Meta):
                 break
             # Click
             if self.appear_then_click(HELP_ENTER, offset=(20, 20), interval=3):
-                continue
                 time.sleep(2.5)
+                continue
             # Wrongly entered BATTLE_PREPARATION
             if self.appear(BATTLE_PREPARATION, offset=(30, 30), interval=2):
                 self.device.click(BACK_ARROW)
