@@ -74,10 +74,13 @@
       "name": "活動圖-2",
       "help": ""
     },
+<<<<<<< HEAD
     "Event3": {
       "name": "活動圖-3",
       "help": ""
     },
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
     "Raid": {
       "name": "共鬥活動",
       "help": ""
@@ -1150,11 +1153,16 @@
     },
     "ChangeVanguard": {
       "name": "更換前排",
+<<<<<<< HEAD
       "help": "當前排紅臉時更換前排，選擇不更換則會強制紅臉出擊\n換前排通過找一艘心情不低於16、等級70的白鷹白船驅逐完成，所以盡量保證有足夠多的驅逐。國服則為等級100的白鷹白船驅逐。\n\n換裝備只會更換正在裝備中的欄位，即使是白裝也會更換。如果指定了旗艦，則會更換全部5個裝備，未指定旗艦隻會更換設備。",
+=======
+      "help": "當前排紅臉時更換前排，選擇不更換則會強制紅臉出擊\n換前排通過找一艘心情不低於10、等級70的白鷹白船驅逐完成，所以盡量保證有足夠多的驅逐。國服則為等級100的白鷹白船驅逐。\n\n換裝備只會更換正在裝備中的欄位，即使是白裝也會更換。前排會更換全部5個裝備。",
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
       "disabled": "不更换",
       "ship": "更換艦船",
       "ship_equip": "更換艦船 + 裝備"
     },
+<<<<<<< HEAD
     "ALLowLowVanguardLevel": {
       "name": "可更換低等級前排",
       "help": "倍率打開時，前排等級限制改為10以上即可"
@@ -1170,6 +1178,8 @@
       "name": "GemsFarming.StopIFAutoNotEnsured.name",
       "help": "GemsFarming.StopIFAutoNotEnsured.help"
     },
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
     "CommonDD": {
       "name": "指定前排",
       "help": "",
@@ -2120,6 +2130,7 @@
       "name": "演習",
       "help": "打演習，血量過低時自動撤退"
     },
+<<<<<<< HEAD
     "DelayUntilHoursBeforeNextUpdate": {
       "name": "Exercise.DelayUntilHoursBeforeNextUpdate.name",
       "help": "Exercise.DelayUntilHoursBeforeNextUpdate.help",
@@ -2130,6 +2141,8 @@
       "5": "5",
       "12": "12"
     },
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
     "OpponentChooseMode": {
       "name": "對手選擇模式",
       "help": "",
@@ -2286,6 +2299,7 @@
       "3": "3",
       "4": "4"
     },
+<<<<<<< HEAD
     "FleetMode": {
       "name": "自律模式",
       "help": "",
@@ -2294,6 +2308,8 @@
       "stand_still_in_the_middle": "中路站樁",
       "hide_in_bottom_left": "躲左下角"
     },
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
     "Submarine": {
       "name": "呼叫潛艇",
       "help": "開啟後，運行間隔將增加至60分鐘"
@@ -2503,6 +2519,7 @@
       "help": "遊戲被強制結束後自動登錄遊戲"
     }
   },
+<<<<<<< HEAD
   "GGHandler": {
     "_info": {
       "name": "GG管理器",
@@ -2800,6 +2817,8 @@
       "help": "GuildCoin.Record.help"
     }
   },
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
   "Storage": {
     "_info": {
       "name": "任務狀態",
@@ -2824,8 +2843,11 @@
       "Stop": "停止",
       "ScrollON": "自動滾動 開",
       "ScrollOFF": "自動滾動 關",
+<<<<<<< HEAD
       "DashboardON": "開",
       "DashboardOFF": "關",
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
       "ClearLog": "清空日誌",
       "Setting": "設定",
       "CheckUpdate": "檢查更新",
@@ -2858,6 +2880,7 @@
     },
     "Overview": {
       "Scheduler": "調度器",
+<<<<<<< HEAD
       "Dashboard": "Gui.Overview.Dashboard",
       "SecondsAgo": "秒前",
       "MinutesAgo": "分鐘前",
@@ -2878,6 +2901,8 @@
       "Medal": "勳章",
       "Core": "覈心數據",
       "GuildCoin": "艦隊幣",
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
       "Log": "日誌",
       "Running": "執行中",
       "Pending": "佇列中",

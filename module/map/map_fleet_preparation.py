@@ -127,7 +127,11 @@ class FleetOperator:
             stage = self.main.config.Campaign_Name
             logger.critical(f'Stage "{stage}" is a hard mode, '
                             f'please prepare your fleet "{str(self)}" in game before running Alas')
+<<<<<<< HEAD
             raise RequestHumanTakeover('Hard not satisfied', str(self))
+=======
+            raise RequestHumanTakeover
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 
     def clear(self, skip_first_screenshot=True):
         """

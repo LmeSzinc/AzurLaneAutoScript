@@ -8,7 +8,11 @@ from typing import Any
 
 from cached_property import cached_property
 
+<<<<<<< HEAD
 from deploy.Windows.config import DeployConfig
+=======
+from deploy.config import DeployConfig
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 from module.base.timer import Timer
 from module.config.utils import read_file, deep_get, get_server_last_update
 from module.device.connection_attr import ConnectionAttr

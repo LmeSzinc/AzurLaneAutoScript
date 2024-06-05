@@ -6,7 +6,10 @@ from module.coalition.combat import CoalitionCombat
 from module.exception import ScriptError, ScriptEnd
 from module.logger import logger
 from module.ocr.ocr import Digit
+<<<<<<< HEAD
 from  module.log_res.log_res import LogRes
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 
 OCR_PT = Digit(FROSTFALL_OCR_PT, name='OCR_PT', letter=(198, 158, 82), threshold=128)
 
@@ -21,8 +24,11 @@ class Coalition(CoalitionCombat, CampaignEvent):
             int: PT amount, or 0 if unable to parse
         """
         pt = OCR_PT.ocr(self.device.image)
+<<<<<<< HEAD
         LogRes(self.config).Pt = pt
         self.config.update()
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
         return pt
 
     def triggered_stop_condition(self):

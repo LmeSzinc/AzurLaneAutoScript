@@ -1,15 +1,34 @@
 name: Tests
+<<<<<<< HEAD
 on: [ workflow_call ]
 
 concurrency:
   group: tests-${{ github.ref }}
   cancel-in-progress: true
+=======
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'packages/**'
+      - 'tests/**'
+      - 'package-lock.json'
+      - '.github/workflows/tests.yml'
+  pull_request:
+    paths:
+      - 'packages/**'
+      - 'tests/**'
+      - 'package-lock.json'
+      - '.github/workflows/tests.yml'
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 
 defaults:
   run:
     shell: 'bash'
 
 jobs:
+<<<<<<< HEAD
   tests:
     strategy:
       fail-fast: false
@@ -36,3 +55,24 @@ jobs:
 
       - run: npm run test:e2e --if-present
         if: matrix.os != 'ubuntu-latest'
+=======
+  e2e:
+    strategy:
+      matrix:
+        os: [ windows-latest ]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16 # Need for npm >=7.7
+          cache: 'npm'
+
+      # TODO: Install not all dependencies, but only those required for this workflow
+      - name: Install dependencies
+        run: npm ci
+
+      - run: npm test
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0

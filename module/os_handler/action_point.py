@@ -12,8 +12,11 @@ from module.os_handler.map_event import MapEventHandler
 from module.statistics.item import Item, ItemGrid
 from module.ui.assets import OS_CHECK
 from module.ui.ui import UI
+<<<<<<< HEAD
 from module.config.utils import deep_get
 from module.log_res.log_res import LogRes
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 
 OCR_ACTION_POINT_REMAIN = Digit(ACTION_POINT_REMAIN, letter=(255, 219, 66), name='OCR_ACTION_POINT_REMAIN')
 OCR_ACTION_POINT_REMAIN_OS = Digit(ACTION_POINT_REMAIN_OS, letter=(239, 239, 239),
@@ -139,10 +142,15 @@ class ActionPointHandler(UI, MapEventHandler):
         if self.config.OS_ACTION_POINT_BOX_USE:
             total += np.sum(np.array(box) * tuple(ACTION_POINT_BOX.values()))
         oil = box[0]
+<<<<<<< HEAD
         LogRes(self.config).Oil = oil
         logger.info(f'Action points: {current}({total}), oil: {oil}')
         LogRes(self.config).ActionPoint = {'Value': current, 'Total': total}
         self.config.update()
+=======
+
+        logger.info(f'Action points: {current}({total}), oil: {oil}')
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
         self._action_point_current = current
         self._action_point_box = box
         self._action_point_total = total

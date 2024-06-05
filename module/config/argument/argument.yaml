@@ -277,11 +277,14 @@ GemsFarming:
   CommonDD:
     value: any
     option: [ any, aulick_or_foote , cassin_or_downes ]
+<<<<<<< HEAD
   ALLowLowVanguardLevel: true
   FleetNumberInHardMode:
     value: 0
     option: [ 0, 1, 2 ]
   StopIFAutoNotEnsured: true
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
   CommissionLimit: true
 
 # ==================== Event ====================
@@ -620,9 +623,12 @@ Hard:
     value: 1
     option: [ 1, 2 ]
 Exercise:
+<<<<<<< HEAD
   DelayUntilHoursBeforeNextUpdate:
     value: 12
     option: [ 1, 2, 3, 4, 5, 12]
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
   OpponentChooseMode:
     value: max_exp
     option: [ max_exp, easiest, leftmost, easiest_else_exp ]
@@ -668,9 +674,12 @@ OpsiFleet:
   Fleet:
     value: 1
     option: [ 1, 2, 3, 4 ]
+<<<<<<< HEAD
   FleetMode:
     value: combat_auto
     option: [ combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left ]
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
   Submarine: false
 OpsiExplore:
   SpecialRadar: false
@@ -734,6 +743,7 @@ AzurLaneUncensored:
     display: disabled
 GameManager:
   AutoRestart: true
+<<<<<<< HEAD
 
 GGHandler:
   Enabled: false
@@ -838,3 +848,5 @@ GuildCoin:
     value: ^000000
     display: hide
   Record: 2020-01-01 00:00:00
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0

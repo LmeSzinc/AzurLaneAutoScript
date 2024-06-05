@@ -12,13 +12,21 @@ const path = require('path');
  */
 function getVendors() {
   const output = execSync(`${electron} -p "JSON.stringify(process.versions)"`, {
+<<<<<<< HEAD
     env: {ELECTRON_RUN_AS_NODE: '1'},
+=======
+    env: {'ELECTRON_RUN_AS_NODE': '1'},
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
     encoding: 'utf-8',
   });
 
   return JSON.parse(output);
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 function formattedJSON(obj) {
   return JSON.stringify(obj, null, 2) + '\n';
 }
@@ -32,14 +40,19 @@ function updateVendors() {
   const packageJSONPath = path.resolve(process.cwd(), 'package.json');
 
   return Promise.all([
+<<<<<<< HEAD
     writeFile(
       './electron-vendors.config.json',
+=======
+    writeFile('./electron-vendors.config.json',
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
       formattedJSON({
         chrome: chromeMajorVersion,
         node: nodeMajorVersion,
       }),
     ),
 
+<<<<<<< HEAD
     readFile(packageJSONPath)
       .then(JSON.parse)
       .then(packageJSON => {
@@ -51,6 +64,17 @@ function updateVendors() {
 
         return writeFile(packageJSONPath, formattedJSON(packageJSON));
       }),
+=======
+    readFile(packageJSONPath).then(JSON.parse).then((packageJSON) => {
+      if (!packageJSON || !Array.isArray(packageJSON.browserslist)) {
+        throw new Error(`Can't find browserslist in ${packageJSONPath}`);
+      }
+
+      packageJSON.browserslist = [`Chrome ${chromeMajorVersion}`];
+
+      return writeFile(packageJSONPath, formattedJSON(packageJSON));
+    }),
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
   ]);
 }
 

@@ -268,4 +268,8 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy, NemuIpc):
                 return False
         else:
             self._screen_black_checked = True
+<<<<<<< HEAD
             return True
+=======
+            return True
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0

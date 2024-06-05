@@ -2,6 +2,7 @@
   <div class="app-header">
     <div class="header-drag"></div>
     <div class="header-icon">
+<<<<<<< HEAD
       <ArrowDownOutlined
         class="icon"
         @click="trayWin"
@@ -18,11 +19,18 @@
         class="icon"
         @click="closeWin"
       ></CloseOutlined>
+=======
+      <ArrowDownOutlined class="icon" @click="trayWin"></ArrowDownOutlined>
+      <MinusOutlined class="icon" @click="minimizeWin"></MinusOutlined>
+      <BorderOutlined class="icon" @click="maximizeWin"></BorderOutlined>
+      <CloseOutlined class="icon" @click="closeWin"></CloseOutlined>
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
     </div>
   </div>
 </template>
 
 <script lang="ts">
+<<<<<<< HEAD
 import {defineComponent, h} from 'vue';
 import {
   BorderOutlined,
@@ -125,4 +133,66 @@ export default defineComponent({
   padding: 10px;
   margin-right: 5px;
 }
+=======
+  import {defineComponent} from 'vue';
+  import {BorderOutlined, CloseOutlined, MinusOutlined, ArrowDownOutlined} from '@ant-design/icons-vue';
+
+  const ipcRenderer = require('electron').ipcRenderer;
+
+  export default defineComponent({
+    name: 'AppHeader',
+    components: {
+      ArrowDownOutlined,
+      MinusOutlined,
+      BorderOutlined,
+      CloseOutlined,
+    },
+    methods: {
+      trayWin() {
+        ipcRenderer.send('window-tray');
+      },
+      minimizeWin() {
+        ipcRenderer.send('window-min');
+      },
+      maximizeWin() {
+        ipcRenderer.send('window-max');
+      },
+      closeWin() {
+        ipcRenderer.send('window-close');
+      },
+    },
+  });
+</script>
+
+<style scoped>
+  .app-header {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 51px;
+    display: flex;
+    flex-direction: row;
+    -webkit-app-region: drag;
+  }
+
+  .header-drag {
+    width: 100%;
+    height: 100%;
+  }
+
+  .header-icon {
+    -webkit-app-region: no-drag;
+    text-align: right;
+    font-size: 20px;
+    color: #7c7c7c;
+    display: flex;
+    align-items: center;
+  }
+
+  .icon {
+    padding: 10px;
+    margin-right: 5px;
+  }
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 </style>

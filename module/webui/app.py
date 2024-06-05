@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 import re
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 import argparse
 import json
 import queue
@@ -57,8 +60,11 @@ from module.config.utils import (
     filepath_config,
     read_file,
 )
+<<<<<<< HEAD
 from module.config.utils import time_delta
 from module.log_res.log_res import LogRes
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 from module.logger import logger
 from module.ocr.rpc import start_ocr_server_process, stop_ocr_server_process
 from module.submodule.submodule import load_config
@@ -67,7 +73,11 @@ from module.webui.base import Frame
 from module.webui.discord_presence import close_discord_rpc, init_discord_rpc
 from module.webui.fastapi import asgi_app
 from module.webui.lang import _t, t
+<<<<<<< HEAD
 from module.webui.pin import put_input, put_select, pin_update
+=======
+from module.webui.pin import put_input, put_select
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 from module.webui.process_manager import ProcessManager
 from module.webui.remote_access import RemoteAccess
 from module.webui.setting import State
@@ -100,6 +110,7 @@ from module.webui.widgets import (
 task_handler = TaskHandler()
 
 
+<<<<<<< HEAD
 def timedelta_to_text(delta=None):
     time_delta_name_suffix_dict = {
         'Y': 'YearsAgo',
@@ -123,11 +134,16 @@ def timedelta_to_text(delta=None):
     return time_delta_display + t(time_delta_name)
 
 
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 class AlasGUI(Frame):
     ALAS_MENU: Dict[str, Dict[str, List[str]]]
     ALAS_ARGS: Dict[str, Dict[str, Dict[str, Dict[str, str]]]]
     theme = "default"
+<<<<<<< HEAD
     _log = RichLog
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 
     def initial(self) -> None:
         self.ALAS_MENU = read_file(filepath_args("menu", self.alas_mod))
@@ -420,6 +436,7 @@ class AlasGUI(Frame):
         )
 
         log = RichLog("log")
+<<<<<<< HEAD
         self._log = log
         self._log.dashboard_arg_group = LogRes(self.alas_config).groups
 
@@ -457,6 +474,24 @@ class AlasGUI(Frame):
                         put_scope("dashboard"),
                     ],
                 ),
+=======
+
+        with use_scope("logs"):
+            put_scope(
+                "log-bar",
+                [
+                    put_text(t("Gui.Overview.Log")).style(
+                        "font-size: 1.25rem; margin: auto .5rem auto;"
+                    ),
+                    put_scope(
+                        "log-bar-btns",
+                        [
+                            put_scope("log_scroll_btn"),
+                        ],
+                    ),
+                ],
+            )
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
             put_scope("log", [put_html("")])
 
         log.console.width = log.get_width()
@@ -471,6 +506,7 @@ class AlasGUI(Frame):
             color_off="off",
             scope="log_scroll_btn",
         )
+<<<<<<< HEAD
         switch_dashboard = BinarySwitchButton(
             label_on=t("Gui.Button.DashboardON"),
             label_off=t("Gui.Button.DashboardOFF"),
@@ -494,6 +530,14 @@ class AlasGUI(Frame):
         self._log.set_dashboard_display(b)
         self.alas_update_dashboard(True)
 
+=======
+
+        self.task_handler.add(switch_scheduler.g(), 1, True)
+        self.task_handler.add(switch_log_scroll.g(), 1, True)
+        self.task_handler.add(self.alas_update_overview_task, 10, True)
+        self.task_handler.add(log.put_log(self.alas), 0.25, True)
+
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
     def _init_alas_config_watcher(self) -> None:
         def put_queue(path, value):
             self.modified_config_queue.put({"name": path, "value": value})
@@ -530,7 +574,10 @@ class AlasGUI(Frame):
             config_updater: AzurLaneConfig = State.config_updater,
     ) -> None:
         try:
+<<<<<<< HEAD
             skip_time_record = False
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
             valid = []
             invalid = []
             config = config_updater.read_file(config_name)
@@ -634,6 +681,7 @@ class AlasGUI(Frame):
             else:
                 put_text(t("Gui.Overview.NoTask")).style("--overview-notask-text--")
 
+<<<<<<< HEAD
     def _update_dashboard(self, num=None, groups_to_display=None):
         x = 0
         _num = 10000 if num is None else num
@@ -733,6 +781,8 @@ class AlasGUI(Frame):
             elif self._log.display_dashboard:
                 self._update_dashboard()
 
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
     @use_scope("content", clear=True)
     def alas_daemon_overview(self, task: str) -> None:
         self.init_menu(name=task)
@@ -1051,6 +1101,7 @@ class AlasGUI(Frame):
     def dev_utils(self) -> None:
         self.init_menu(name="Utils")
         self.set_title(t("Gui.MenuDevelop.Utils"))
+<<<<<<< HEAD
         put_button(label=t("Gui.MenuDevelop.RaiseException"), onclick=raise_exception)
 
         def _force_restart():
@@ -1062,6 +1113,19 @@ class AlasGUI(Frame):
                 toast(t("Gui.Toast.ReloadEnabled"), color="error")
 
         put_button(label=t("Gui.MenuDevelop.ForceRestart"), onclick=_force_restart)
+=======
+        put_button(label="Raise exception", onclick=raise_exception)
+
+        def _force_restart():
+            if State.restart_event is not None:
+                toast("Alas will restart in 3 seconds", duration=0, color="error")
+                clearup()
+                State.restart_event.set()
+            else:
+                toast("Reload not enabled", color="error")
+
+        put_button(label="Force restart", onclick=_force_restart)
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 
     @use_scope("content", clear=True)
     def dev_remote(self) -> None:
@@ -1279,7 +1343,11 @@ class AlasGUI(Frame):
 
     def run(self) -> None:
         # setup gui
+<<<<<<< HEAD
         set_env(title="AlasGG", output_animation=False)
+=======
+        set_env(title="Alas", output_animation=False)
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
         add_css(filepath_css("alas"))
         if self.is_mobile:
             add_css(filepath_css("alas-mobile"))

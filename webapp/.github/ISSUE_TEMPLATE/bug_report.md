@@ -12,7 +12,10 @@ A clear and concise description of what the bug is.
 
 **To Reproduce**
 Steps to reproduce the behavior:
+<<<<<<< HEAD
 
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 1. Go to '...'
 2. Click on '....'
 3. Scroll down to '....'

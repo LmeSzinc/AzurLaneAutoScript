@@ -13,7 +13,11 @@ from module.ocr.ocr import Digit
 from module.retire.assets import (TEMPLATE_FLEET_1, TEMPLATE_FLEET_2,
                                   TEMPLATE_FLEET_3, TEMPLATE_FLEET_4,
                                   TEMPLATE_FLEET_5, TEMPLATE_FLEET_6,
+<<<<<<< HEAD
                                   TEMPLATE_IN_BATTLE, TEMPLATE_IN_COMMISSION, TEMPLATE_IN_HARD,
+=======
+                                  TEMPLATE_IN_BATTLE, TEMPLATE_IN_COMMISSION,
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
                                   TEMPLATE_IN_EVENT_FLEET)
 from module.retire.dock import (CARD_EMOTION_GRIDS, CARD_GRIDS,
                                 CARD_LEVEL_GRIDS, CARD_RARITY_GRIDS)
@@ -244,6 +248,7 @@ class StatusScanner(Scanner):
         super().__init__()
         self._results = []
         self.grids = CARD_GRIDS
+<<<<<<< HEAD
         self.value_list: List[str] = [
             'free',
             'battle',
@@ -255,6 +260,12 @@ class StatusScanner(Scanner):
             TEMPLATE_IN_BATTLE: 'battle',
             TEMPLATE_IN_COMMISSION: 'commission',
             TEMPLATE_IN_HARD: 'in_hard_fleet',
+=======
+        self.value_list: List[str] = ['free', 'battle', 'commission']
+        self.templates = {
+            TEMPLATE_IN_BATTLE: 'battle',
+            TEMPLATE_IN_COMMISSION: 'commission',
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
             TEMPLATE_IN_EVENT_FLEET: 'in_event_fleet',
         }
 
@@ -291,6 +302,7 @@ class ShipScanner(Scanner):
         level (tuple): (lower, upper). Will be limited in range [1, 125]
         emotion (tuple): (lower, upper). Will be limited in range [0, 150]
         fleet (int): 0 means not in any fleet. Will be limited in range [0, 6]
+<<<<<<< HEAD
         status (str, list): [
             'free',
             'battle',
@@ -298,6 +310,9 @@ class ShipScanner(Scanner):
             'in_hard_fleet',
             'in_event_fleet',
             ]
+=======
+        status (str, list): ['any', 'commission', 'battle']
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
     """
     def __init__(
         self,
@@ -411,6 +426,7 @@ class ShipScanner(Scanner):
             level (tuple): (lower, upper). Will be limited in range [1, 125]
             emotion (tuple): (lower, upper). Will be limited in range [0, 150]
             fleet (int): 0 means not in any fleet. Will be limited in range [0, 6]
+<<<<<<< HEAD
             status (str, list): [
                 'free',
                 'battle',
@@ -418,6 +434,9 @@ class ShipScanner(Scanner):
                 'in_hard_fleet',
                 'in_event_fleet',
                 ]
+=======
+            status (str, list): ['any', 'commission', 'battle']
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
         """
         for attr in self.limitaion.keys():
             value = kwargs.get(attr, self.limitaion[attr])

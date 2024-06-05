@@ -7,6 +7,10 @@
  * @see https://github.com/vitejs/vite/blob/eef51cb37db98a1ad9a541bdd3cd74736ff8488d/packages/vite/types/importMeta.d.ts#L62-L69 Base Interface
  */
 interface ImportMetaEnv {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
   /**
    * The value of the variable is set in scripts/watch.js and depend on packages/main/vite.config.js
    */

@@ -5,16 +5,23 @@ import sys
 from typing import Callable, List
 
 from rich.console import Console, ConsoleOptions, ConsoleRenderable, NewLine
+<<<<<<< HEAD
 from rich.highlighter import NullHighlighter, RegexHighlighter
+=======
+from rich.highlighter import RegexHighlighter, NullHighlighter
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 from rich.logging import RichHandler
 from rich.rule import Rule
 from rich.style import Style
 from rich.theme import Theme
 from rich.traceback import Traceback
 
+<<<<<<< HEAD
 sys.stdout.reconfigure(encoding='utf-8')
 sys.stderr.reconfigure(encoding='utf-8')
 
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 
 def empty_function(*args, **kwargs):
     pass
@@ -47,9 +54,15 @@ class RichRenderableHandler(RichHandler):
         message = self.format(record)
         traceback = None
         if (
+<<<<<<< HEAD
                 self.rich_tracebacks
                 and record.exc_info
                 and record.exc_info != (None, None, None)
+=======
+            self.rich_tracebacks
+            and record.exc_info
+            and record.exc_info != (None, None, None)
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
         ):
             exc_type, exc_value, exc_traceback = record.exc_info
             assert exc_type is not None
@@ -94,7 +107,10 @@ class HTMLConsole(Console):
     Force full feature console
     but not working lol :(
     """
+<<<<<<< HEAD
 
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
     @property
     def options(self) -> ConsoleOptions:
         return ConsoleOptions(
@@ -135,6 +151,10 @@ WEB_THEME = Theme({
     "rule.text": Style(bold=True),
 })
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 # Logger init
 logger_debug = False
 logger = logging.getLogger('alas')
@@ -252,7 +272,11 @@ def set_func_logger(func):
 
 
 def _get_renderables(
+<<<<<<< HEAD
         self: Console, *objects, sep=" ", end="\n", justify=None, emoji=None, markup=None, highlight=None,
+=======
+    self: Console, *objects, sep=" ", end="\n", justify=None, emoji=None, markup=None, highlight=None,
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 ) -> List[ConsoleRenderable]:
     """
     Refer to rich.console.Console.print()

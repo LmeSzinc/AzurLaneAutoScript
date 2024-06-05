@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from functools import wraps
 
 
+<<<<<<< HEAD
 # def timeout(_timeout):
 #     threadstop = thread._thread__stop
 #     from threading import thread
@@ -70,6 +71,8 @@ def timeout(func, timeout_sec=30.0, *args, **kwargs):
     return function_timeout(func)
 
 
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 def timer(function):
     @wraps(function)
     def function_timer(*args, **kwargs):

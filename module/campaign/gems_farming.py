@@ -2,6 +2,7 @@ from module.campaign.campaign_base import CampaignBase
 from module.campaign.run import CampaignRun
 from module.combat.assets import BATTLE_PREPARATION
 from module.equipment.assets import *
+<<<<<<< HEAD
 from module.equipment.equipment_change import EquipmentChange
 from module.equipment.fleet_equipment import OCR_FLEET_INDEX
 from module.exception import CampaignEnd, ScriptError, RequestHumanTakeover
@@ -13,6 +14,12 @@ from module.map.assets import (FLEET_ENTER_FLAGSHIP_HARD_1,
                                FLEET_ENTER_HARD_2_3)
 from module.retire.assets import (
                                   DOCK_SHIP_DOWN)
+=======
+from module.equipment.fleet_equipment import FleetEquipment
+from module.exception import CampaignEnd, ScriptError
+from module.handler.assets import AUTO_SEARCH_MAP_OPTION_OFF
+from module.logger import logger
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 from module.map.assets import FLEET_PREPARATION, MAP_PREPARATION
 from module.retire.assets import (
     DOCK_CHECK,
@@ -24,10 +31,16 @@ from module.retire.assets import (
 from module.retire.dock import Dock
 from module.retire.scanner import ShipScanner
 from module.ui.assets import BACK_ARROW
+<<<<<<< HEAD
 import inflection
 from module.ui.page import page_fleet
 
 SIM_VALUE = 0.95
+=======
+from module.ui.page import page_fleet
+
+SIM_VALUE = 0.92
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 
 
 class GemsCampaignOverride(CampaignBase):
@@ -75,6 +88,7 @@ class GemsCampaignOverride(CampaignBase):
             raise CampaignEnd('Emotion withdraw')
 
 
+<<<<<<< HEAD
 class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
     def event_hard_mode_override(self):
@@ -112,6 +126,9 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             self.FLEET_ENTER = FLEET_ENTER
             self._FLEET_ENTER = FLEET_ENTER
             self.hard_mode = False
+=======
+class GemsFarming(CampaignRun, FleetEquipment, Dock):
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 
     def load_campaign(self, name, folder='campaign_main'):
         super().load_campaign(name, folder)
@@ -139,6 +156,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
     def change_vanguard_equip(self):
         return 'equip' in self.config.GemsFarming_ChangeVanguard
 
+<<<<<<< HEAD
     def _fleet_detail_enter(self):
         """
         Enter GEMS_FLEET page
@@ -179,6 +197,14 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
     def _ship_detail_enter_hard(self, button):
         self._fleet_detail_enter_hard()
         self.equip_enter(button)
+=======
+    @property
+    def fleet_to_attack(self):
+        if self.config.Fleet_FleetOrder == 'fleet1_standby_fleet2_all':
+            return self.config.Fleet_Fleet2
+        else:
+            return self.config.Fleet_Fleet1
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 
     def flagship_change(self):
         """
@@ -195,6 +221,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             index_list = range(0, 5)
         logger.hr('Change flagship', level=1)
         logger.attr('ChangeFlagship', self.config.GemsFarming_ChangeFlagship)
+<<<<<<< HEAD
         if self.change_flagship_equip:
             logger.hr('Record flagship equipment', level=2)
             self._ship_detail_enter(self.FLEET_ENTER_FLAGSHIP)
@@ -204,15 +231,33 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
         logger.hr('Change flagship', level=2)
         self._fleet_detail_enter()
+=======
+        self.fleet_enter(self.fleet_to_attack)
+        if self.change_flagship_equip:
+            logger.hr('Record flagship equipment', level=2)
+            self.fleet_enter_ship(FLEET_DETAIL_ENTER_FLAGSHIP)
+            self.ship_equipment_record_image(index_list=index_list)
+            self.ship_equipment_take_off()
+            self.fleet_back()
+
+        logger.hr('Change flagship', level=2)
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
         success = self.flagship_change_execute()
 
         if self.change_flagship_equip:
             logger.hr('Equip flagship equipment', level=2)
+<<<<<<< HEAD
             self._ship_detail_enter(self.FLEET_ENTER_FLAGSHIP)
             self._equip_take_off_one()
 
             self.equipment_take_on(index_list=index_list)
             self.ui_back(self.page_fleet_check_button)
+=======
+            self.fleet_enter_ship(FLEET_DETAIL_ENTER_FLAGSHIP)
+            self.ship_equipment_take_off()
+            self.ship_equipment_take_on_image(index_list=index_list)
+            self.fleet_back()
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 
         return success
 
@@ -226,6 +271,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
         logger.hr('Change vanguard', level=1)
         logger.attr('ChangeVanguard', self.config.GemsFarming_ChangeVanguard)
+<<<<<<< HEAD
         if self.change_vanguard_equip:
             logger.hr('Record vanguard equipment', level=2)
             self._ship_detail_enter(self.FLEET_ENTER)
@@ -235,15 +281,33 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
         logger.hr('Change vanguard', level=2)
         self._fleet_detail_enter()
+=======
+        self.fleet_enter(self.fleet_to_attack)
+        if self.change_vanguard_equip:
+            logger.hr('Record vanguard equipment', level=2)
+            self.fleet_enter_ship(FLEET_DETAIL_ENTER)
+            self.ship_equipment_record_image()
+            self.ship_equipment_take_off()
+            self.fleet_back()
+
+        logger.hr('Change vanguard', level=2)
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
         success = self.vanguard_change_execute()
 
         if self.change_vanguard_equip:
             logger.hr('Equip vanguard equipment', level=2)
+<<<<<<< HEAD
             self._ship_detail_enter(self.FLEET_ENTER)
             self._equip_take_off_one()
 
             self.equipment_take_on()
             self.ui_back(self.page_fleet_check_button)
+=======
+            self.fleet_enter_ship(FLEET_DETAIL_ENTER)
+            self.ship_equipment_take_off()
+            self.ship_equipment_take_on_image()
+            self.fleet_back()
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 
         return success
 
@@ -252,9 +316,15 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         self.dock_select_one(button)
         self.dock_filter_set()
         self.dock_sort_method_dsc_set()
+<<<<<<< HEAD
         self.dock_select_confirm(check_button=self.page_fleet_check_button)
 
     def get_common_rarity_cv(self, lv=31, emotion=16):
+=======
+        self.dock_select_confirm(check_button=page_fleet.check_button)
+
+    def get_common_rarity_cv(self):
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
         """
         Get a common rarity cv by config.GemsFarming_CommonCV
         If config.GemsFarming_CommonCV == 'any', return a common lv1 ~ lv33 cv
@@ -264,8 +334,13 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
         logger.hr('FINDING FLAGSHIP')
 
+<<<<<<< HEAD
         scanner = ShipScanner(
             level=(1, lv), emotion=(emotion, 150), fleet=self.config.Fleet_Fleet1, status='free')
+=======
+        scanner = ShipScanner(level=(1, 31), emotion=(10, 150),
+                              fleet=self.fleet_to_attack, status='free')
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
         scanner.disable('rarity')
 
         if self.config.GemsFarming_CommonCV == 'any':
@@ -310,7 +385,11 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
             return candidates
 
+<<<<<<< HEAD
     def get_common_rarity_dd(self, emotion=16):
+=======
+    def get_common_rarity_dd(self):
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
         """
         Get a common rarity dd with level is 100 (70 for servers except CN) and emotion > 10
         Returns:
@@ -322,6 +401,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             max_level = 100
         else:
             max_level = 70
+<<<<<<< HEAD
         from module.gg_handler.gg_data import GGData
         _ggdata = GGData(self.config).get_data()
         if _ggdata['gg_enable'] and _ggdata['gg_auto'] and self.config.GemsFarming_ALLowLowVanguardLevel:
@@ -332,6 +412,11 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             min_level = max(min_level, 49)
         scanner = ShipScanner(level=(min_level, max_level), emotion=(emotion, 150),
                               fleet=self.config.Fleet_Fleet1, status='free')
+=======
+
+        scanner = ShipScanner(level=(max_level, max_level), emotion=(10, 150),
+                              fleet=self.fleet_to_attack, status='free')
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
         scanner.disable('rarity')
 
         self.dock_sort_method_dsc_set()
@@ -397,6 +482,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             logger.error(f'Invalid CommonDD setting: {common_dd}')
             raise ScriptError(f'Invalid CommonDD setting: {common_dd}')
 
+<<<<<<< HEAD
     def solve_hard_flagship_black(self):
         if self.hard_mode:
             self.ui_click(self.FLEET_ENTER_FLAGSHIP,
@@ -411,6 +497,8 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             self._FLEET_ENTER_FLAGSHIP = self.FLEET_ENTER_FLAGSHIP
             self.FLEET_ENTER_FLAGSHIP = self.FLEET_ENTER_FLAGSHIP_3_POSITION
 
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
     def flagship_change_execute(self):
         """
         Returns:
@@ -420,9 +508,14 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             in: page_fleet
             out: page_fleet
         """
+<<<<<<< HEAD
         self.solve_hard_flagship_black()
         self.ui_click(self.FLEET_ENTER_FLAGSHIP,
                       appear_button=self.page_fleet_check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
+=======
+        self.ui_click(FLEET_ENTER_FLAGSHIP,
+                      appear_button=page_fleet.check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
         self.dock_filter_set(
             index='cv', rarity='common', extra='enhanceable', sort='total')
         self.dock_favourite_set(False)
@@ -430,13 +523,17 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         ship = self.get_common_rarity_cv()
         if ship:
             self._ship_change_confirm(min(ship, key=lambda s: (s.level, -s.emotion)).button)
+<<<<<<< HEAD
             if self.hard_mode:
                 self.FLEET_ENTER_FLAGSHIP = self._FLEET_ENTER_FLAGSHIP
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 
             logger.info('Change flagship success')
             return True
         else:
             logger.info('Change flagship failed, no CV in common rarity.')
+<<<<<<< HEAD
 
             if self.config.SERVER in ['cn']:
                 max_level = 100
@@ -468,6 +565,12 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             self._FLEET_ENTER = self.FLEET_ENTER
             self.FLEET_ENTER = self.FLEET_ENTER_3_POSITION
 
+=======
+            self.dock_filter_set()
+            self.ui_back(check_button=page_fleet.check_button)
+            return False
+
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
     def vanguard_change_execute(self):
         """
         Returns:
@@ -477,23 +580,32 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             in: page_fleet
             out: page_fleet
         """
+<<<<<<< HEAD
         self.solve_hard_vanguard_black()
         self.ui_click(self.FLEET_ENTER,
                       appear_button=self.page_fleet_check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
+=======
+        self.ui_click(FLEET_ENTER,
+                      appear_button=page_fleet.check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
         self.dock_filter_set(
             index='dd', rarity='common', faction='eagle', extra='can_limit_break')
         self.dock_favourite_set(False)
 
         ship = self.get_common_rarity_dd()
         if ship:
+<<<<<<< HEAD
             if self.hard_mode:
                 self.FLEET_ENTER = self._FLEET_ENTER
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
             self._ship_change_confirm(max(ship, key=lambda s: s.emotion).button)
 
             logger.info('Change vanguard ship success')
             return True
         else:
             logger.info('Change vanguard ship failed, no DD in common rarity.')
+<<<<<<< HEAD
 
             ship = self.get_common_rarity_dd(emotion=0)
             if ship and self.hard_mode:
@@ -505,6 +617,10 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
                 self.ui_back(check_button=self.page_fleet_check_button)
             if self.hard_mode:
                 self.FLEET_ENTER = self._FLEET_ENTER
+=======
+            self.dock_filter_set()
+            self.ui_back(check_button=page_fleet.check_button)
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
             return False
 
     _trigger_lv32 = False
@@ -533,9 +649,14 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             total (int):
         """
         self.config.STOP_IF_REACH_LV32 = self.change_flagship
+<<<<<<< HEAD
         self.campaign_floder = folder
         self.config.RETIRE_KEEP_COMMON_CV = True
         self.event_hard_mode_override()
+=======
+        self.config.RETIRE_KEEP_COMMON_CV = True
+
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
         while 1:
             self._trigger_lv32 = False
             is_limit = self.config.StopCondition_RunCount
@@ -547,6 +668,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
                     self._trigger_emotion = True
                 else:
                     raise e
+<<<<<<< HEAD
             except RequestHumanTakeover as e:
                 try:
                     if (e.args[0] == 'Hard not satisfied' and
@@ -564,6 +686,8 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
                     from module.exception import GameStuckError
                     raise GameStuckError
 
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 
             # End
             if self._trigger_lv32 or self._trigger_emotion:

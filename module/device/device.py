@@ -12,6 +12,7 @@ from module.config.utils import get_server_next_update
 from module.device.app_control import AppControl
 from module.device.control import Control
 from module.device.screenshot import Screenshot
+<<<<<<< HEAD
 from module.exception import (
     EmulatorNotRunningError,
     GameNotRunningError,
@@ -19,6 +20,10 @@ from module.exception import (
     GameTooManyClickError,
     RequestHumanTakeover
 )
+=======
+from module.exception import (EmulatorNotRunningError, GameNotRunningError, GameStuckError, GameTooManyClickError,
+                              RequestHumanTakeover)
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 from module.handler.assets import GET_MISSION
 from module.logger import logger
 

@@ -1,7 +1,12 @@
 import shutil
 
+<<<<<<< HEAD
 from deploy.Windows.git import GitManager
 from deploy.Windows.utils import *
+=======
+from deploy.git import GitManager
+from deploy.utils import *
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 from module.handler.login import LoginHandler
 from module.logger import logger
 

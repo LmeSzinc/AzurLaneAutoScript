@@ -1622,6 +1622,7 @@
           "cassin_or_downes"
         ]
       },
+<<<<<<< HEAD
       "ALLowLowVanguardLevel": {
         "type": "checkbox",
         "value": true
@@ -1639,6 +1640,8 @@
         "type": "checkbox",
         "value": true
       },
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
       "CommissionLimit": {
         "type": "checkbox",
         "value": true
@@ -2844,6 +2847,7 @@
       }
     }
   },
+<<<<<<< HEAD
   "Event3": {
     "Scheduler": {
       "Enable": {
@@ -3292,6 +3296,8 @@
       }
     }
   },
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
   "Raid": {
     "Scheduler": {
       "Enable": {
@@ -7888,6 +7894,7 @@
       }
     },
     "Exercise": {
+<<<<<<< HEAD
       "DelayUntilHoursBeforeNextUpdate": {
         "type": "select",
         "value": 12,
@@ -7900,6 +7907,8 @@
           12
         ]
       },
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
       "OpponentChooseMode": {
         "type": "select",
         "value": "max_exp",
@@ -8844,6 +8853,7 @@
           4
         ]
       },
+<<<<<<< HEAD
       "FleetMode": {
         "type": "select",
         "value": "combat_auto",
@@ -8854,6 +8864,8 @@
           "hide_in_bottom_left"
         ]
       },
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
       "Submarine": {
         "type": "checkbox",
         "value": false
@@ -9027,6 +9039,7 @@
           4
         ]
       },
+<<<<<<< HEAD
       "FleetMode": {
         "type": "select",
         "value": "combat_auto",
@@ -9037,6 +9050,8 @@
           "hide_in_bottom_left"
         ]
       },
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
       "Submarine": {
         "type": "checkbox",
         "value": false
@@ -9104,6 +9119,7 @@
           4
         ]
       },
+<<<<<<< HEAD
       "FleetMode": {
         "type": "select",
         "value": "combat_auto",
@@ -9114,6 +9130,8 @@
           "hide_in_bottom_left"
         ]
       },
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
       "Submarine": {
         "type": "checkbox",
         "value": false
@@ -9232,6 +9250,7 @@
           4
         ]
       },
+<<<<<<< HEAD
       "FleetMode": {
         "type": "select",
         "value": "combat_auto",
@@ -9242,6 +9261,8 @@
           "hide_in_bottom_left"
         ]
       },
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
       "Submarine": {
         "type": "checkbox",
         "value": false
@@ -9304,6 +9325,7 @@
         "value": "Fleet-4 > CallSubmarine > Fleet-2 > Fleet-3 > Fleet-1"
       }
     },
+<<<<<<< HEAD
     "OpsiFleet": {
       "Fleet": {
         "type": "select",
@@ -9332,6 +9354,8 @@
         "display": "hide"
       }
     },
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
     "Storage": {
       "Storage": {
         "type": "storage",
@@ -9478,6 +9502,7 @@
           4
         ]
       },
+<<<<<<< HEAD
       "FleetMode": {
         "type": "select",
         "value": "combat_auto",
@@ -9488,6 +9513,8 @@
           "hide_in_bottom_left"
         ]
       },
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
       "Submarine": {
         "type": "checkbox",
         "value": false
@@ -9560,6 +9587,7 @@
           4
         ]
       },
+<<<<<<< HEAD
       "FleetMode": {
         "type": "select",
         "value": "combat_auto",
@@ -9570,6 +9598,8 @@
           "hide_in_bottom_left"
         ]
       },
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
       "Submarine": {
         "type": "checkbox",
         "value": false,
@@ -9722,6 +9752,7 @@
         "value": true
       }
     },
+<<<<<<< HEAD
     "GGHandler": {
       "Enabled": {
         "type": "checkbox",
@@ -10002,6 +10033,8 @@
         "validate": "datetime"
       }
     },
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
     "Storage": {
       "Storage": {
         "type": "storage",

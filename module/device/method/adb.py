@@ -11,7 +11,11 @@ from module.base.decorator import Config
 from module.device.connection import Connection
 from module.device.method.utils import (RETRY_TRIES, retry_sleep, remove_prefix, handle_adb_error,
                                         ImageTruncated, PackageNotInstalled)
+<<<<<<< HEAD
 from module.exception import RequestHumanTakeover, ScriptError, EmulatorNotRunningError
+=======
+from module.exception import RequestHumanTakeover, ScriptError
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 from module.logger import logger
 
 
@@ -57,6 +61,7 @@ def retry(func):
 
                 def init():
                     pass
+<<<<<<< HEAD
             except AdbError as e:
                 logger.exception(e)
                 import sys
@@ -75,6 +80,8 @@ def retry(func):
 
                     def init():
                         pass
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
             # Unknown
             except Exception as e:
                 logger.exception(e)

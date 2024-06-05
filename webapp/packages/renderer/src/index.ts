@@ -1,6 +1,7 @@
 import {createApp} from 'vue';
 import App from '/@/App.vue';
 import router from '/@/router';
+<<<<<<< HEAD
 import {setupI18n} from '/@/locales/setupI18n';
 import {setupThemeSetting} from '/@/settings/themeSetting';
 import {setupStore} from '/@/store';
@@ -31,3 +32,9 @@ async function bootstrap() {
 }
 
 await bootstrap();
+=======
+
+createApp(App)
+  .use(router)
+  .mount('#app');
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0

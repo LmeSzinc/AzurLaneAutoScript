@@ -61,12 +61,15 @@ Event2:
     Event:
       type: state
     AmbushEvade: true
+<<<<<<< HEAD
 Event3:
   Campaign:
     Mode: normal
     Event:
       display: disabled
     AmbushEvade: true
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 EventA:
   Scheduler:
     SuccessInterval: 30
@@ -421,9 +424,12 @@ OpsiStronghold:
     SuccessInterval: 60
     FailureInterval: 60
     ServerUpdate: 00:00
+<<<<<<< HEAD
   OpsiFleet:
     Fleet: 1
     Submarine: true
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 OpsiMeowfficerFarming:
   Scheduler:
     SuccessInterval: 30
@@ -436,6 +442,7 @@ OpsiHazard1Leveling:
     ServerUpdate: 00:00, 12:00
   OpsiFleet:
     Submarine: false
+<<<<<<< HEAD
 
 # ==================== GGHandler ====================
 GGHandler:
@@ -468,3 +475,5 @@ Dashboard:
     Color: ^FFDD00
   GuildCoin:
     Color: ^AAAAAA
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0

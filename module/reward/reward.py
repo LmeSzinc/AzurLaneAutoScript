@@ -45,11 +45,19 @@ class Reward(UI):
                 confirm_timer.reset()
                 click_timer.reset()
                 continue
+<<<<<<< HEAD
             if coin and click_timer.reached() and self.appear_then_click(COIN, offset=(20, 50), interval=60):
                 confirm_timer.reset()
                 click_timer.reset()
                 continue
             if exp and click_timer.reached() and self.appear_then_click(EXP, offset=(20, 50), interval=60):
+=======
+            if coin and click_timer.reached() and self.appear_then_click(COIN, offset=(25, 50), interval=60):
+                confirm_timer.reset()
+                click_timer.reset()
+                continue
+            if exp and click_timer.reached() and self.appear_then_click(EXP, offset=(30, 50), interval=60):
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
                 confirm_timer.reset()
                 click_timer.reset()
                 continue

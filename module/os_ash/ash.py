@@ -49,6 +49,7 @@ class AshCombat(Combat):
         return False
 
     def handle_battle_preparation(self):
+<<<<<<< HEAD
 
         if self.appear(BATTLE_PREPARATION, offset=(20, 20)):
             self.device.sleep(0.5)
@@ -58,6 +59,10 @@ class AshCombat(Combat):
             GGHandler(config=self.config, device=self.device).power_limit('Ash')
             if super().handle_battle_preparation():
                 return True
+=======
+        if super().handle_battle_preparation():
+            return True
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 
         if self.appear_then_click(ASH_START, offset=(30, 30), interval=2):
             return True

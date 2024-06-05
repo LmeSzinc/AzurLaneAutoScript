@@ -4,12 +4,23 @@ const {createServer, build, createLogger} = require('vite');
 const electronPath = require('electron');
 const {spawn} = require('child_process');
 
+<<<<<<< HEAD
 /** @type 'production' | 'development' | 'test' */
 const mode = (process.env.MODE = process.env.MODE || 'development');
+=======
+
+/** @type 'production' | 'development' | 'test' */
+const mode = process.env.MODE = process.env.MODE || 'development';
+
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 
 /** @type {import('vite').LogLevel} */
 const LOG_LEVEL = 'warn';
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 /** @type {import('vite').InlineConfig} */
 const sharedConfig = {
   mode,
@@ -19,6 +30,10 @@ const sharedConfig = {
   logLevel: LOG_LEVEL,
 };
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 /**
  * @param configFile
  * @param writeBundle
@@ -33,12 +48,20 @@ const getWatcher = ({name, configFile, writeBundle}) => {
   });
 };
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 /**
  * Start or restart App when source files are changed
  * @param {import('vite').ViteDevServer} viteDevServer
  * @returns {Promise<import('vite').RollupOutput | Array<import('vite').RollupOutput> | import('vite').RollupWatcher>}
  */
+<<<<<<< HEAD
 const setupMainPackageWatcher = viteDevServer => {
+=======
+const setupMainPackageWatcher = (viteDevServer) => {
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
   // Write a value to an environment variable to pass it to the main process.
   {
     const protocol = `http${viteDevServer.config.server.https ? 's' : ''}:`;
@@ -66,6 +89,7 @@ const setupMainPackageWatcher = viteDevServer => {
 
       spawnProcess = spawn(String(electronPath), ['.']);
 
+<<<<<<< HEAD
       spawnProcess.stdout.on(
         'data',
         d => d.toString().trim() && logger.warn(d.toString(), {timestamp: true}),
@@ -74,16 +98,28 @@ const setupMainPackageWatcher = viteDevServer => {
         'data',
         d => d.toString().trim() && logger.error(d.toString(), {timestamp: true}),
       );
+=======
+      spawnProcess.stdout.on('data', d => d.toString().trim() && logger.warn(d.toString(), {timestamp: true}));
+      spawnProcess.stderr.on('data', d => d.toString().trim() && logger.error(d.toString(), {timestamp: true}));
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
     },
   });
 };
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 /**
  * Start or restart App when source files are changed
  * @param {import('vite').ViteDevServer} viteDevServer
  * @returns {Promise<import('vite').RollupOutput | Array<import('vite').RollupOutput> | import('vite').RollupWatcher>}
  */
+<<<<<<< HEAD
 const setupPreloadPackageWatcher = viteDevServer => {
+=======
+const setupPreloadPackageWatcher = (viteDevServer) => {
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
   return getWatcher({
     name: 'reload-page-on-preload-package-change',
     configFile: 'packages/preload/vite.config.js',

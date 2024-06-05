@@ -211,23 +211,39 @@ class StrategyHandler(InfoHandler):
         """
         return self.appear(MOB_MOVE_CANCEL, offset=(20, 20))
 
+<<<<<<< HEAD
     def strategy_get_mob_move_remain(self):
+=======
+    def strategy_has_mob_move(self):
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
         """
         Pages:
             in: STRATEGY_OPENED
             out: STRATEGY_OPENED
         """
+<<<<<<< HEAD
         if self.appear(MOB_MOVE_2, offset=MOB_MOVE_OFFSET):
             return 2
         elif self.appear(MOB_MOVE_1, offset=MOB_MOVE_OFFSET):
             return 1
         else:
             return 0
+=======
+        if (self.appear(MOB_MOVE_ENTER, offset=MOB_MOVE_OFFSET)
+                and MOB_MOVE_ENTER.match_appear_on(self.device.image)):
+            return True
+        else:
+            return False
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 
     def strategy_mob_move_enter(self, skip_first_screenshot=True):
         """
         Pages:
+<<<<<<< HEAD
             in: STRATEGY_OPENED, MOB_MOVE_1 or MOB_MOVE_2
+=======
+            in: STRATEGY_OPENED, MOB_MOVE_ENTER
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
             out: MOB_MOVE_CANCEL
         """
         logger.info('Mob move enter')
@@ -240,16 +256,24 @@ class StrategyHandler(InfoHandler):
             if self.appear(MOB_MOVE_CANCEL, offset=(20, 20)):
                 break
 
+<<<<<<< HEAD
             if self.appear_then_click(MOB_MOVE_1, offset=MOB_MOVE_OFFSET, interval=5):
                 continue
             if self.appear_then_click(MOB_MOVE_2, offset=MOB_MOVE_OFFSET, interval=5):
+=======
+            if self.appear_then_click(MOB_MOVE_ENTER, offset=MOB_MOVE_OFFSET, interval=5):
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
                 continue
 
     def strategy_mob_move_cancel(self, skip_first_screenshot=True):
         """
         Pages:
             in: MOB_MOVE_CANCEL
+<<<<<<< HEAD
             out: STRATEGY_OPENED, MOB_MOVE_1 or MOB_MOVE_2
+=======
+            out: STRATEGY_OPENED, MOB_MOVE_ENTER
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
         """
         logger.info('Mob move cancel')
         while 1:
@@ -258,8 +282,12 @@ class StrategyHandler(InfoHandler):
             else:
                 self.device.screenshot()
 
+<<<<<<< HEAD
             if self.appear(MOB_MOVE_1, offset=MOB_MOVE_OFFSET) \
                     or self.appear(MOB_MOVE_2, offset=MOB_MOVE_OFFSET):
+=======
+            if self.appear(MOB_MOVE_ENTER, offset=MOB_MOVE_OFFSET):
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
                 break
 
             if self.appear_then_click(MOB_MOVE_CANCEL, offset=(20, 20), interval=5):

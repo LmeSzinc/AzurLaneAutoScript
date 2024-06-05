@@ -117,6 +117,7 @@ footer {
     margin-bottom: .25rem !important;
 }
 
+<<<<<<< HEAD
 .status-point {
     margin: 37% 50% 63% 50%;
     width: .75rem;
@@ -124,6 +125,8 @@ footer {
     border-radius: 50%;
 }
 
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 .hr-task-group-box {
     display: flex;
     align-items: center;
@@ -295,7 +298,11 @@ pre.rich-traceback-code {
 }
 
 *[style*="--header-text--"] {
+<<<<<<< HEAD
     font-size: 1rem;
+=======
+    font-size: 1.5rem;
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
     font-weight: bold;
     margin: auto !important;
 }
@@ -396,15 +403,19 @@ pre.rich-traceback-code {
     justify-content: space-between;
 }
 
+<<<<<<< HEAD
 #pywebio-scope-log-bar {
     flex-wrap: wrap;
 }
 
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 #pywebio-scope-log-bar-btns {
     display: grid;
     grid-auto-flow: column;
 }
 
+<<<<<<< HEAD
 #pywebio-scope-log-bar .hr-group {
     width: 100%;
 }
@@ -421,6 +432,8 @@ pre.rich-traceback-code {
     padding: 0 0 0;
     }
 
+=======
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 #pywebio-scope-log {
     line-height: 1.2;
     font-size: 0.85rem;
@@ -540,6 +553,7 @@ pre.rich-traceback-code {
     width: 1.5rem;
     height: 1.5rem;
     border: .2em solid currentColor;
+<<<<<<< HEAD
 }
 
 /**[style*="--dashboard-value--"] {*/
@@ -587,3 +601,6 @@ pre.rich-traceback-code {
              "Arial",
              serif;
 }
+=======
+}
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0

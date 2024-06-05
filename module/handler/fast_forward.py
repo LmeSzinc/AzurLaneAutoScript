@@ -245,6 +245,7 @@ class FastForwardHandler(AutoSearchHandler):
 
         logger.info('Auto search setting')
         self.fleet_preparation_sidebar_ensure(3)
+<<<<<<< HEAD
         if not self.auto_search_setting_ensure(self.config.Fleet_FleetOrder):
             if self.config.task.command == 'GemsFarming' and self.config.GemsFarming_StopIFAutoNotEnsured:
                 from module.notify import handle_notify
@@ -261,6 +262,9 @@ class FastForwardHandler(AutoSearchHandler):
                 logger.critical('Auto search could not be ensured.')
                 logger.critical('Close Task: GemsFarming')
                 self.config.task_stop('Auto search could not be ensured.')
+=======
+        self.auto_search_setting_ensure(self.config.Fleet_FleetOrder)
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
         if self.config.SUBMARINE:
             self.auto_search_setting_ensure(self.config.Submarine_AutoSearchMode)
         return True

@@ -5,10 +5,17 @@ import time
 from typing import Generator, List, Tuple
 
 import requests
+<<<<<<< HEAD
 from deploy.Windows.config import ExecutionError
 from deploy.Windows.git import GitManager
 from deploy.Windows.pip import PipManager
 from deploy.Windows.utils import DEPLOY_CONFIG
+=======
+from deploy.config import ExecutionError
+from deploy.git import GitManager
+from deploy.pip import PipManager
+from deploy.utils import DEPLOY_CONFIG
+>>>>>>> 24aa3e00bd9af9a6a050df54c6a0cef959a9c6c0
 from module.base.retry import retry
 from module.logger import logger
 from module.webui.config import DeployConfig
