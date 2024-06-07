@@ -225,7 +225,8 @@ class LoginHandler(UI):
                 XPS('//*[@content-desc="请滑动阅读协议内容"]', xp, hierarchy)])
 
             test_image_original = self.device.image
-            image_handle_crop = crop(test_image_original, (start_padding_results[2], 0, start_margin_results[2], 720))
+            image_handle_crop = crop(
+                test_image_original, (start_padding_results[2], 0, start_margin_results[2], 720), copy=False)
             # Image.fromarray(image_handle_crop).show()
             sims = color_similarity_2d(image_handle_crop, color=(182, 189, 202))
             points = np.sum(sims >= 255)
