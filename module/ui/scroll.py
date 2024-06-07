@@ -47,7 +47,7 @@ class Scroll:
         Returns:
             np.ndarray: Shape (n,), dtype bool.
         """
-        image = main.image_crop(self.area)
+        image = main.image_crop(self.area, copy=False)
         image = color_similarity_2d(image, color=self.color)
         mask = np.max(image, axis=1 if self.is_vertical else 0) > self.color_threshold
         self.length = np.sum(mask)

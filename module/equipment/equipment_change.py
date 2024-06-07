@@ -21,20 +21,34 @@ class EquipmentChange(Equipment):
     equip_list = {}
     equipping_list = []
 
-    def get_equiping_list(self, skip_first_screenshot=True):
-        '''
-        Pages:
-            in: ship's details
-        '''
-        logger.info("Get equipping list")
-        if skip_first_screenshot:
-            pass
-        else:
-            self.device.screenshot()
-        index = 0
-        self.equipping_list = []
-        for button in EQUIPMENT_GRID.buttons:
-            crop_image = self.image_crop(button)
+    def equipping_set(self, enable=False):
+        if equipping_filter.set('on' if enable else 'off', main=self):
+            self.wait_until_stable(SWIPE_AREA)
+
+    def ship_equipment_record_image(self, index_list=range(0, 5)):
+        """
+        Record equipment through upgrade page
+        Notice: The equipment icons in the upgrade page are the same size as the icons in the equipment status
+        """
+        logger.info('RECORD EQUIPMENT')
+        self.ship_side_navbar_ensure(bottom=1)
+
+        # Ensure EQUIPMENT_GRID in the right place
+        skip_first_screenshot = True
+        while True:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+            if self.appear(EQUIPMENT_OPEN, offset=(5, 5)):
+                break
+
+        self.equipment_list = {}
+        info_bar_disappeared = False
+        for index, button in enumerate(EQUIPMENT_GRID.buttons):
+            if index not in index_list:
+                continue
+            crop_image = self.image_crop(button, copy=False)
             edge_value = np.mean(np.abs(cv2.Sobel(crop_image, 3, 1, 1)))
             # Nothing is 0.15~1
             # +1 is 40

@@ -36,7 +36,7 @@ class CampaignBase(CampaignBase_):
 
         # Smaller image to run faster
         area = (73, 135, 1223, 583)
-        image = rgb2gray(crop(self.device.image, area=area))
+        image = rgb2gray(crop(self.device.image, area=area, copy=False))
 
         # E1-1 ~ E1-2
         sim, button = TEMPLATE_EVENT_20230817_STORY_E1.match_result(image)

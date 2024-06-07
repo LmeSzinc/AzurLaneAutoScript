@@ -188,7 +188,7 @@ class OSGridPredictor(GridPredictor):
             return False
 
         area = area_pad((48, 48, 48 + 46, 48 + 46), pad=5)
-        res = cv2.matchTemplate(ASSETS.tile_center_image, crop(self.image_homo, area=area), cv2.TM_CCOEFF_NORMED)
+        res = cv2.matchTemplate(ASSETS.tile_center_image, crop(self.image_homo, area=area, copy=False), cv2.TM_CCOEFF_NORMED)
         _, sim, _, _ = cv2.minMaxLoc(res)
         if sim > 0.8:
             return True
@@ -285,7 +285,7 @@ class OSGridPredictor(GridPredictor):
         h = (185, 195)
         s = (15, 90)
         v = (60, 100)
-        image = cv2.cvtColor(crop(self.image, area), cv2.COLOR_RGB2HSV)
+        image = cv2.cvtColor(crop(self.image, area, copy=False), cv2.COLOR_RGB2HSV)
         lower = (h[0] / 2, s[0] * 2.55, v[0] * 2.55)
         upper = (h[1] / 2 + 1, s[1] * 2.55 + 1, v[1] * 2.55 + 1)
         image = cv2.inRange(image, lower, upper)
@@ -298,7 +298,7 @@ class OSGridPredictor(GridPredictor):
         # Should also have random white rectangles
         area = self.grid2screen(np.array([(0.2, 0.2), (0.8, 0.8)]))
         area = np.rint(area.flatten()).astype(int).tolist()
-        image = color_similarity_2d(crop(self.image, area), color=(255, 255, 255))
+        image = color_similarity_2d(crop(self.image, area, copy=False), color=(255, 255, 255))
         count = image[image > 221].shape[0]
         if count < 30:
             return False
