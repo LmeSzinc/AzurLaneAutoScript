@@ -205,6 +205,13 @@ class Radar:
             grid.image = image
             grid.reset()
             grid.predict()
+        # Fixup is_question near is_port
+        for port in self.select(is_port=True):
+            for grid in self.select(is_question=True):
+                if np.sum(np.abs(np.subtract(port.location, grid.location))) == 1:
+                    logger.warning(f'Wrong radar prediction is_question {grid.location} {grid.encode()} '
+                                   f'near {port.location} {port.encode()}')
+                    grid.is_question = False
 
     def select(self, **kwargs):
         """
