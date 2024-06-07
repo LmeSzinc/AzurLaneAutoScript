@@ -45,28 +45,6 @@ class Selector():
 
         return _items
 
-    def enough_coins_in_port(self, item) -> bool:
-        """
-        Check if there are enough coins to buy the item.
-
-        Args:
-            item:
-
-        Returns:
-            bool: True if there are enough coins.
-        """
-        if item.cost == 'YellowCoins' and \
-                item.price <= self._shop_yellow_coins - (
-                self.config.OS_CL1_YELLOW_COINS_PRESERVE if self.is_cl1_enabled else
-                self.config.OS_NORMAL_YELLOW_COINS_PRESERVE
-                ):
-            return True
-        if item.cost == 'PurpleCoins' and \
-                item.price <= self._shop_purple_coins - self.config.OS_NORMAL_PURPLE_COINS_PRESERVE:
-            return True
-
-        return False
-
     def enough_coins_in_akashi(self, item) -> bool:
         """
         Check if there are enough coins to buy the item.

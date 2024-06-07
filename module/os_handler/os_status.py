@@ -89,3 +89,15 @@ class OSStatus(UI):
         self._shop_yellow_coins = self.get_yellow_coins()
         self._shop_purple_coins = self.get_purple_coins()
         logger.info(f'Yellow coins: {self._shop_yellow_coins}, purple coins: {self._shop_purple_coins}')
+
+    def get_currency_coins(self, item):
+        return self._shop_yellow_coins - (
+            self.config.OS_CL1_YELLOW_COINS_PRESERVE if self.is_cl1_enabled else
+            self.config.OS_NORMAL_YELLOW_COINS_PRESERVE
+        ) if item.cost == 'YellowCoins' \
+            else self._shop_purple_coins - self.config.OS_NORMAL_PURPLE_COINS_PRESERVE
+
+    def is_coins_both_not_enough(self):
+        return self._shop_yellow_coins < (self.config.OS_CL1_YELLOW_COINS_PRESERVE if self.is_cl1_enabled else
+                                          self.config.OS_NORMAL_YELLOW_COINS_PRESERVE) \
+            and self._shop_purple_coins < self.config.OS_NORMAL_PURPLE_COINS_PRESERVE

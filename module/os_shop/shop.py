@@ -4,7 +4,7 @@ from module.os_shop.assets import PORT_SUPPLY_CHECK, SHOP_BUY_CONFIRM
 from module.os_shop.akashi_shop import AkashiShop
 from module.os_shop.port_shop import PortShop
 from module.os_shop.ui import OS_SHOP_SCROLL
-from module.shop.assets import AMOUNT_MAX, SHOP_BUY_CONFIRM_AMOUNT, SHOP_BUY_CONFIRM as OS_SHOP_BUY_CONFIRM
+from module.shop.assets import AMOUNT_MAX, AMOUNT_MINUS, AMOUNT_PLUS, SHOP_BUY_CONFIRM_AMOUNT, SHOP_BUY_CONFIRM as OS_SHOP_BUY_CONFIRM
 from module.shop.clerk import OCR_SHOP_AMOUNT
 
 
@@ -85,36 +85,38 @@ class OSShop(PortShop, AkashiShop):
         Handler item amount to buy.
 
         Args:
-            currency (int): Coins currently had.
-            price (int): Item price.
-            skip_first_screenshot (bool, optional): Defaults to True.
+            item
 
         Raises:
             ScriptError: OCR_SHOP_AMOUNT
-
-        Returns:
-            bool: True if amount handler finished.
         """
-        currency = self._shop_yellow_coins if item.cost == 'YellowCoins' else self._shop_purple_coins
+        currency = self.get_currency_coins(item)
 
         total = int(currency // item.price)
 
         if total == 1:
             return
 
-        if self.appear(AMOUNT_MAX, offset=(50, 50)):
-            limit = None
-            for _ in range(3):
-                self.appear_then_click(AMOUNT_MAX, offset=(50, 50))
-                self.device.sleep((0.3, 0.5))
-                self.device.screenshot()
-                limit = OCR_SHOP_AMOUNT.ocr(self.device.image)
-                if limit and limit > 1:
-                    break
-            if not limit:
-                logger.critical('OCR_SHOP_AMOUNT resulted in zero (0); '
-                                'asset may be compromised')
-                raise ScriptError
+        limit = 0
+        for _ in range(3):
+            self.appear_then_click(AMOUNT_MAX, offset=(50, 50))
+            self.device.sleep((0.3, 0.5))
+            self.device.screenshot()
+            limit = OCR_SHOP_AMOUNT.ocr(self.device.image)
+            if limit and limit > 1:
+                break
+
+        if not limit:
+            logger.critical('OCR_SHOP_AMOUNT resulted in zero (0); '
+                            'asset may be compromised')
+            raise ScriptError
+
+        diff = limit - total
+        if diff > 0:
+            limit = total
+
+        self.ui_ensure_index(limit, letter=OCR_SHOP_AMOUNT, prev_button=AMOUNT_MINUS, next_button=AMOUNT_PLUS,
+                             skip_first_screenshot=True)
 
     def handle_port_supply_buy(self) -> bool:
         """
@@ -138,11 +140,9 @@ class OSShop(PortShop, AkashiShop):
         while len(items):
             item = items.pop()
             self.os_shop_get_coins()
-            if not self.enough_coins_in_port(item):
-                logger.info(f'Not enough coins to buy item: {item.name}, stop.')
-                if self._shop_yellow_coins < (self.config.OS_CL1_YELLOW_COINS_PRESERVE if self.is_cl1_enabled else \
-                                              self.config.OS_NORMAL_YELLOW_COINS_PRESERVE) \
-                        and self._shop_purple_coins < self.config.OS_NORMAL_PURPLE_COINS_PRESERVE:
+            if item.price > self.get_currency_coins(item):
+                logger.info(f'Not enough coins to buy item: {item.name}, skip.')
+                if self.is_coins_both_not_enough():
                     logger.info('Not enough coins to buy any items, stop.')
                     break
                 continue
@@ -159,7 +159,7 @@ class OSShop(PortShop, AkashiShop):
             self.device.click_record.clear()
         logger.info(f'Bought {f"{count} items" if count else "nothing"} in port.')
         return True
- 
+
     def handle_akashi_supply_buy(self, grid):
         """
         Args:

@@ -4,11 +4,10 @@ from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.base.utils import random_rectangle_vector
 from module.exception import ScriptError
-from module.ocr.ocr import DigitYuv
 from module.os_shop.assets import OS_SHOP_SAFE_AREA, OS_SHOP_SCROLL_AREA, PORT_SUPPLY_CHECK
 from module.logger import logger
 from module.ui.navbar import Navbar
-from module.ui.scroll import AdaptiveScroll, Scroll
+from module.ui.scroll import AdaptiveScroll
 from module.ui.ui import UI
 
 OS_SHOP_SCROLL = AdaptiveScroll(
@@ -16,21 +15,8 @@ OS_SHOP_SCROLL = AdaptiveScroll(
     parameters={
         'height': 255 - 99
     },
-    name="OS_SHOP_SCROLL")
-
-
-class OSShopPrice(DigitYuv):
-    def after_process(self, result):
-        result = result.replace('I', '1').replace('D', '0').replace('S', '5')
-        result = result.replace('B', '8')
-
-        prev = result
-        if result.startswith('0'):
-            result = '1' + result
-            logger.warning(f'OS shop amount {prev} is revised to {result}')
-
-        result = super().after_process(result)
-        return result
+    name="OS_SHOP_SCROLL"
+)
 
 
 class OSShopUI(UI):
