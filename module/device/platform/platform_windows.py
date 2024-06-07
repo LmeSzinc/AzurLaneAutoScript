@@ -1,6 +1,8 @@
 import ctypes
 import re
-import subprocess
+import win32process
+import win32con
+import win32gui
 
 import psutil
 
@@ -29,6 +31,21 @@ def minimize_window(hwnd):
     ctypes.windll.user32.ShowWindow(hwnd, 6)
 
 
+def switch_window(hwnd:int, arg:int):
+    win32gui.ShowWindow(hwnd,arg)
+
+
+def gethwnds(pid: int) -> list:
+    def callback(hwnd:int, hwnds:list):
+        _, fpid = win32process.GetWindowThreadProcessId(hwnd)
+        if fpid == pid:
+            hwnds.append(hwnd)
+        return True
+    hwnds = []
+    win32gui.EnumWindows(callback, hwnds)
+    return hwnds
+
+
 def get_window_title(hwnd):
     """Returns the window title as a string."""
     text_len_in_characters = ctypes.windll.user32.GetWindowTextLengthW(hwnd)
@@ -43,32 +60,33 @@ def flash_window(hwnd, flash=True):
 
 
 class PlatformWindows(PlatformBase, EmulatorManager):
+    def __init__(self, config):
+        super().__init__(config)
+        self.process: psutil.Process = None
+        self.hwnds: list[int] = None
+
     def execute(self, command: str):
         """
         Args:
             command (str):
 
         Returns:
-            subprocess.Popen:
+            win32process.CreateProcess -> tuple(int, int, Incomplete, Incomplete):
         """
         # CAUTION!!!!!!: Windows only.
         command = command.replace(r"\\", "/").replace("\\", "/").replace('"', '"')
         logger.info(f'Execute: {command}')
-        if not self.config.Emulator_SilentStart:
-            return subprocess.Popen(command,close_fds=True)
-        
-        startupinfo = subprocess.STARTUPINFO()
-        startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
-        startupinfo.wShowWindow = subprocess.SW_HIDE
-        return subprocess.Popen(
-            command,
-            startupinfo=startupinfo,
-            creationflags=subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-            stdin=subprocess.DEVNULL,
-            close_fds=True
-            )
+        startupinfo = win32process.STARTUPINFO()
+        startupinfo.dwFlags = win32con.STARTF_USESHOWWINDOW
+        if self.config.Emulator_SilentStart:
+            startupinfo.wShowWindow = win32con.SW_HIDE
+        else: 
+            startupinfo.wShowWindow = win32con.SW_MINIMIZE
+        return win32process.CreateProcess(
+            None,command,None,None,False,
+            win32con.NORMAL_PRIORITY_CLASS,
+            None,None,startupinfo
+        )
 
     @classmethod
     def kill_process(cls, command: str):
@@ -77,11 +95,17 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             command (str):
 
         Returns:
-            subprocess.Popen:        
+            win32process.CreateProcess -> tuple(int, int, Incomplete, Incomplete):        
         """
         command = command.replace(r"\\", "/").replace("\\", "/").replace('"', '"')
         logger.info(f'Execute: {command}')
-        return subprocess.Popen(command,close_fds=True,shell=True)
+        startupinfo = win32process.STARTUPINFO()
+        startupinfo.dwFlags = win32con.STARTF_USESHOWWINDOW
+        return win32process.CreateProcess(
+            None,command,None,None,False,
+            win32con.NORMAL_PRIORITY_CLASS,
+            None,None,startupinfo
+        )
 
     @classmethod
     def kill_process_by_regex(cls, regex: str) -> int:
@@ -104,55 +128,41 @@ class PlatformWindows(PlatformBase, EmulatorManager):
                 count += 1
 
         return count
-
-    @classmethod
-    def reshow_window(cls, instance: EmulatorInstance):
-        import win32con
-        import win32gui
-        import win32process
-        def gethwnds(pid:int) -> list:
-            def callback(hwnd:int, hwnds:list):
-                _, fpid = win32process.GetWindowThreadProcessId(hwnd)
-                if fpid == pid:
-                    hwnds.append(hwnd)
-                return True
-            hwnds = []
-            win32gui.EnumWindows(callback, hwnds)
-            return hwnds
-        def switch(hwnds:list, arg):
-            for hwnd in hwnds:
-                win32gui.ShowWindow(hwnd,arg)
-
-        process:psutil.Process = None
+    
+    def get_process(self, instance: EmulatorInstance):
         for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
             if proc.info['cmdline'] is None:
                 continue
             cmdline = ' '.join(proc.info['cmdline']).replace(r"\\", "/").replace("\\", "/").replace('"', '"')
-            match = re.search(r'\d+$',cmdline)
-            matchstr = re.search(fr'\b{instance.name}$',cmdline)
             if not instance.path in cmdline:
                 continue
             if instance == Emulator.MuMuPlayer12:
-                if not match:
-                    continue
-                if int(match.group()) == instance.MuMuPlayer12_id:
-                    process = proc
+                match = re.search(r'\d+$',cmdline)
+                if match and int(match.group()) == instance.MuMuPlayer12_id:
+                    self.process = proc
                     break
             elif instance == Emulator.LDPlayerFamily:
-                if not match:
-                    continue
-                if int(match.group()) == instance.LDPlayer_id:
-                    process = proc
+                match = re.search(r'\d+$',cmdline)
+                if match and int(match.group()) == instance.LDPlayer_id:
+                    self.process = proc
                     break
             else:
-                if not matchstr:
-                    continue
-                if match.group() == instance.name:
-                    process = proc
+                matchstr = re.search(fr'\b{instance.name}$',cmdline)
+                if matchstr and matchstr.group() == instance.name:
+                    self.process = proc
                     break
-        if process:
-            hwnds:int = gethwnds(process.pid)
-            logger.info(hwnds)
+        self.hwnds = gethwnds(self.process.pid)
+
+    def reshow_window(self, arg: int):
+        if self.process is None:
+            return
+        for hwnd in self.hwnds:
+            if win32gui.GetParent(hwnd):
+                continue
+            rect = win32gui.GetWindowRect(hwnd)
+            if set(rect) == {0}:
+                continue
+            switch_window(hwnd,win32con.SW_MINIMIZE)# May arg will be sent in.
 
     def _emulator_start(self, instance: EmulatorInstance):
         """
@@ -180,7 +190,7 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             # HD-Player.exe -instance Pie64
             self.execute(f'"{exe}" -instance {instance.name}')
         elif instance == Emulator.BlueStacks4:
-            # BlueStacks\Client\Bluestacks.exe -vmname Android_1
+            # Bluestacks.exe -vmname Android_1
             self.execute(f'"{exe}" -vmname {instance.name}')
         elif instance == Emulator.MEmuPlayer:
             # MEmu.exe MEmu_0
@@ -241,7 +251,7 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             self.kill_process_by_regex(
                 rf'('
                 rf'HD-Player.exe.*"--instance" "{instance.name}"'
-                rf'BstkSVC.exe.*-Embedding'
+                rf'|BstkSVC.exe.*-Embedding'
                 rf')'
             )
         elif instance == Emulator.BlueStacks4:
@@ -307,7 +317,7 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             self.kill_process_by_regex(
                 rf'('
                 rf'HD-Player.exe.*"--instance" "{instance.name}"'
-                rf'BstkSVC.exe.*-Embedding'
+                rf'|BstkSVC.exe.*-Embedding'
                 rf')'
             )
         else:

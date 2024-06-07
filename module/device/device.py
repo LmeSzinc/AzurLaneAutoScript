@@ -100,9 +100,8 @@ class Device(Screenshot, Control, AppControl):
             if self.config.Emulator_ControlMethod == 'minitouch':
                 self.early_minitouch_init()
 
-        if not self.config.Emulator_SilentStart:
-            self.reshow_window(self.emulator_instance)
-            pass
+        self.get_process(self.emulator_instance)
+        self.reshow_window(self.emulator_instance)
 
     def run_simple_screenshot_benchmark(self):
         """
