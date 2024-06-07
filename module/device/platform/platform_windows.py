@@ -105,6 +105,55 @@ class PlatformWindows(PlatformBase, EmulatorManager):
 
         return count
 
+    @classmethod
+    def reshow_window(cls, instance: EmulatorInstance):
+        import win32con
+        import win32gui
+        import win32process
+        def gethwnds(pid:int) -> list:
+            def callback(hwnd:int, hwnds:list):
+                _, fpid = win32process.GetWindowThreadProcessId(hwnd)
+                if fpid == pid:
+                    hwnds.append(hwnd)
+                return True
+            hwnds = []
+            win32gui.EnumWindows(callback, hwnds)
+            return hwnds
+        def switch(hwnds:list, arg):
+            for hwnd in hwnds:
+                win32gui.ShowWindow(hwnd,arg)
+
+        process:psutil.Process = None
+        for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
+            if proc.info['cmdline'] is None:
+                continue
+            cmdline = ' '.join(proc.info['cmdline']).replace(r"\\", "/").replace("\\", "/").replace('"', '"')
+            match = re.search(r'\d+$',cmdline)
+            matchstr = re.search(fr'\b{instance.name}$',cmdline)
+            if not instance.path in cmdline:
+                continue
+            if instance == Emulator.MuMuPlayer12:
+                if not match:
+                    continue
+                if int(match.group()) == instance.MuMuPlayer12_id:
+                    process = proc
+                    break
+            elif instance == Emulator.LDPlayerFamily:
+                if not match:
+                    continue
+                if int(match.group()) == instance.LDPlayer_id:
+                    process = proc
+                    break
+            else:
+                if not matchstr:
+                    continue
+                if match.group() == instance.name:
+                    process = proc
+                    break
+        if process:
+            hwnds:int = gethwnds(process.pid)
+            logger.info(hwnds)
+
     def _emulator_start(self, instance: EmulatorInstance):
         """
         Start a emulator without error handling
@@ -201,6 +250,66 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         elif instance == Emulator.MEmuPlayer:
             # F:\Program Files\Microvirt\MEmu\memuc.exe stop -n MEmu_0
             self.kill_process(f'"{os.path.join(os.path.dirname(exe),"memuc.exe")}" stop -n {instance.name}')
+        else:
+            raise EmulatorUnknown(f'Cannot stop an unknown emulator instance: {instance}')
+
+    def _emulator_stop_hard(self, instance: EmulatorInstance):
+        """
+        stop emulator by kill process
+        """
+        logger.hr('Emulator stop', level=2)
+        if instance == Emulator.MuMuPlayer:
+            # MuMu6 does not have multi instance, kill one means kill all
+            # Has 4 processes
+            # "C:\Program Files\NemuVbox\Hypervisor\NemuHeadless.exe" --comment nemu-6.0-x64-default --startvm
+            # "E:\ProgramFiles\MuMu\emulator\nemu\EmulatorShell\NemuPlayer.exe"
+            # E:\ProgramFiles\MuMu\emulator\nemu\EmulatorShell\NemuService.exe
+            # "C:\Program Files\NemuVbox\Hypervisor\NemuSVC.exe" -Embedding
+            self.kill_process_by_regex(
+                rf'('
+                rf'NemuHeadless.exe'
+                rf'|NemuPlayer.exe\"'
+                rf'|NemuPlayer.exe$'
+                rf'|NemuService.exe'
+                rf'|NemuSVC.exe'
+                rf')'
+            )
+        elif instance == Emulator.MuMuPlayerX:
+            # MuMu X has 3 processes
+            # "E:\ProgramFiles\MuMu9\emulator\nemu9\EmulatorShell\NemuPlayer.exe" -m nemu-12.0-x64-default -s 0 -l
+            # "C:\Program Files\Muvm6Vbox\Hypervisor\Muvm6Headless.exe" --comment nemu-12.0-x64-default --startvm xxx
+            # "C:\Program Files\Muvm6Vbox\Hypervisor\Muvm6SVC.exe" --Embedding
+            self.kill_process_by_regex(
+                rf'('
+                rf'NemuPlayer.exe.*-m {instance.name}'
+                rf'|Muvm6Headless.exe'
+                rf'|Muvm6SVC.exe'
+                rf')'
+            )
+        elif instance == Emulator.MuMuPlayer12:
+            # MuMu 12 has 2 processes:
+            # E:\ProgramFiles\Netease\MuMuPlayer-12.0\shell\MuMuPlayer.exe -v 0
+            # "C:\Program Files\MuMuVMMVbox\Hypervisor\MuMuVMMHeadless.exe" --comment MuMuPlayer-12.0-0 --startvm xxx
+            if instance.MuMuPlayer12_id is None:
+                logger.warning(f'Cannot get MuMu instance index from name {instance.name}')
+            self.kill_process_by_regex(
+                rf'('
+                rf'MuMuVMMHeadless.exe.*--comment {instance.name}'
+                rf'|MuMuPlayer.exe.*-v {instance.MuMuPlayer12_id}'
+                rf')'
+            )
+            # There is also a shared service, no need to kill it
+            # "C:\Program Files\MuMuVMMVbox\Hypervisor\MuMuVMMSVC.exe" --Embedding
+        elif instance == Emulator.BlueStacks5:
+            # BlueStack has 2 processes
+            # C:\Program Files\BlueStacks_nxt_cn\HD-Player.exe --instance Pie64
+            # C:\Program Files\BlueStacks_nxt_cn\BstkSVC.exe -Embedding
+            self.kill_process_by_regex(
+                rf'('
+                rf'HD-Player.exe.*"--instance" "{instance.name}"'
+                rf'BstkSVC.exe.*-Embedding'
+                rf')'
+            )
         else:
             raise EmulatorUnknown(f'Cannot stop an unknown emulator instance: {instance}')
 

@@ -100,6 +100,10 @@ class Device(Screenshot, Control, AppControl):
             if self.config.Emulator_ControlMethod == 'minitouch':
                 self.early_minitouch_init()
 
+        if not self.config.Emulator_SilentStart:
+            self.reshow_window(self.emulator_instance)
+            pass
+
     def run_simple_screenshot_benchmark(self):
         """
         Perform a screenshot method benchmark, test 3 times on each method.
@@ -321,4 +325,14 @@ class Device(Screenshot, Control, AppControl):
         self.click_record_clear()
 
     def emulator_start(self):
-        return super().emulator_start()
+        # start emulator
+        if self.emulator_instance is not None:
+            super().emulator_start()
+        else:
+            logger.critical(
+                f'No emulator with serial "{self.config.Emulator_Serial}" found, '
+                f'please set a correct serial'
+            )
+            raise
+        self.stuck_record_clear()
+        self.click_record_clear()
