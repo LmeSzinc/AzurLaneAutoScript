@@ -67,6 +67,7 @@ class Device(Screenshot, Control, AppControl):
     stuck_long_wait_list = ['BATTLE_STATUS_S', 'PAUSE', 'LOGIN_CHECK']
 
     def __init__(self, *args, **kwargs):
+        self.initialized = False
         for _ in range(2):
             try:
                 super().__init__(*args, **kwargs)
@@ -99,6 +100,10 @@ class Device(Screenshot, Control, AppControl):
                 self.early_maatouch_init()
             if self.config.Emulator_ControlMethod == 'minitouch':
                 self.early_minitouch_init()
+
+        if not self.initialized:
+            self.switch_window()
+            self.initialized = True
 
     def run_simple_screenshot_benchmark(self):
         """
@@ -306,3 +311,39 @@ class Device(Screenshot, Control, AppControl):
         super().app_stop()
         self.stuck_record_clear()
         self.click_record_clear()
+
+    def emulator_stop(self):
+        # kill emulator
+        if self.emulator_instance is not None:
+            super().emulator_stop()
+        else:
+            logger.critical(
+                f'No emulator with serial "{self.config.Emulator_Serial}" found, '
+                f'please set a correct serial'
+            )
+            raise
+        self.stuck_record_clear()
+        self.click_record_clear()
+
+    def emulator_start(self):
+        # start emulator
+        if self.emulator_instance is not None:
+            super().emulator_start()
+        else:
+            logger.critical(
+                f'No emulator with serial "{self.config.Emulator_Serial}" found, '
+                f'please set a correct serial'
+            )
+            raise
+        if not self.initialized:
+            self.initialized = True
+        self.switch_window()
+        self.stuck_record_clear()
+        self.click_record_clear()
+
+    def switch_window(self):
+        import win32con
+        if self.config.Emulator_SilentStart:
+            return super().switch_window(win32con.SW_MINIMIZE)
+        else:
+            return super().switch_window(win32con.SW_SHOW)

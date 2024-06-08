@@ -26,6 +26,7 @@ class AzurLaneAutoScript:
         # Failure count of tasks
         # Key: str, task name, value: int, failure count
         self.failure_record = {}
+        self.emulator_stopped = False
 
     @cached_property
     def config(self):
@@ -72,6 +73,11 @@ class AzurLaneAutoScript:
         except GameNotRunningError as e:
             logger.warning(e)
             self.config.task_call('Restart')
+            return True
+        except EmulatorNotRunningError as e:
+            logger.warning(e)
+            self.device.emulator_start()
+            self.run('start')
             return True
         except (GameStuckError, GameTooManyClickError) as e:
             logger.error(e)
@@ -446,6 +452,12 @@ class AzurLaneAutoScript:
             str: Name of the next task.
         """
         while 1:
+            # Reboot emulator
+            if self.emulator_stopped and task.next_run <= datetime.now():
+                self.device.emulator_start()
+                self.config.task_call('Restart')
+                self.emulator_stopped = False
+
             task = self.config.get_next()
             self.config.task = task
             self.config.bind(task)
@@ -483,6 +495,15 @@ class AzurLaneAutoScript:
                     if not self.wait_until(task.next_run):
                         del_cached_property(self, 'config')
                         continue
+                elif method == 'stop_emulator':
+                    logger.info('Stop emulator during wait')
+                    self.device.emulator_stop()
+                    self.emulator_stopped = True
+                    release_resources() 
+                    self.device.release_during_wait()
+                    if not self.wait_until(task.next_run):
+                        del_cached_property(self, 'config')
+                        continue
                 else:
                     logger.warning(f'Invalid Optimization_WhenTaskQueueEmpty: {method}, fallback to stay_there')
                     release_resources()
@@ -516,10 +537,10 @@ class AzurLaneAutoScript:
                 del_cached_property(self, 'config')
                 logger.info('Server or network is recovered. Restart game client')
                 self.config.task_call('Restart')
-            # Get task
-            task = self.get_next_task()
             # Init device and change server
             _ = self.device
+            # Get task
+            task = self.get_next_task()
             # Skip first restart
             if self.is_first_task and task == 'Restart':
                 logger.info('Skip task `Restart` at scheduler start')

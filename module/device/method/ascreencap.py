@@ -8,7 +8,7 @@ from module.base.utils import *
 from module.device.connection import Connection
 from module.device.method.utils import (RETRY_TRIES, retry_sleep,
                                         handle_adb_error, ImageTruncated)
-from module.exception import RequestHumanTakeover, ScriptError
+from module.exception import EmulatorNotRunningError, RequestHumanTakeover, ScriptError
 from module.logger import logger
 
 
@@ -58,6 +58,9 @@ def retry(func):
 
                 def init():
                     pass
+            # Emulator not running
+            except EmulatorNotRunningError:
+                raise EmulatorNotRunningError("Emulator not running")
             # Unknown
             except Exception as e:
                 logger.exception(e)

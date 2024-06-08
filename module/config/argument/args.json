@@ -138,6 +138,10 @@
       "AdbRestart": {
         "type": "checkbox",
         "value": false
+      },
+      "SilentStart": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "EmulatorInfo": {
@@ -208,7 +212,8 @@
         "option": [
           "stay_there",
           "goto_main",
-          "close_game"
+          "close_game",
+          "stop_emulator"
         ]
       }
     },

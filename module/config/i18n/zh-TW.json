@@ -428,6 +428,10 @@
     "AdbRestart": {
       "name": "在檢測不到設備的時候嘗試重啟adb",
       "help": ""
+    },
+    "SilentStart": {
+      "name": "靜默啓働模擬器",
+      "help": "勾選此項後由Alas啓働的模擬器將會在後颱靜默運行，若需要監看模擬器運行狀況則不要勾選。"
     }
   },
   "EmulatorInfo": {
@@ -506,7 +510,8 @@
       "help": "無任務時關閉遊戲，能在收菜期間降低 CPU 佔用",
       "stay_there": "停在原處",
       "goto_main": "前往主界面",
-      "close_game": "關閉遊戲"
+      "close_game": "關閉遊戲",
+      "stop_emulator": "關閉模擬器"
     }
   },
   "DropRecord": {

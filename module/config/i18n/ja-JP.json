@@ -428,6 +428,10 @@
     "AdbRestart": {
       "name": "Emulator.AdbRestart.name",
       "help": "Emulator.AdbRestart.help"
+    },
+    "SilentStart": {
+      "name": "Emulator.SilentStart.name",
+      "help": "Emulator.SilentStart.help"
     }
   },
   "EmulatorInfo": {
@@ -506,7 +510,8 @@
       "help": "Optimization.WhenTaskQueueEmpty.help",
       "stay_there": "stay_there",
       "goto_main": "goto_main",
-      "close_game": "close_game"
+      "close_game": "close_game",
+      "stop_emulator": "stop_emulator"
     }
   },
   "DropRecord": {
