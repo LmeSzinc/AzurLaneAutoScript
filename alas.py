@@ -73,6 +73,11 @@ class AzurLaneAutoScript:
             logger.warning(e)
             self.config.task_call('Restart')
             return True
+        except EmulatorNotRunningError as e:
+            logger.warning(e)
+            self.device.emulator_start()
+            self.run('start')
+            return True
         except (GameStuckError, GameTooManyClickError) as e:
             logger.error(e)
             self.save_error_log()
