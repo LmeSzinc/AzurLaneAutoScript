@@ -59,9 +59,6 @@ def retry(func):
 
                 def init():
                     self.detect_package()
-            # Emulator not running
-            except EmulatorNotRunningError:
-                raise EmulatorNotRunningError("Emulator not running")
             # Unknown, probably a trucked image
             except Exception as e:
                 logger.exception(e)

@@ -10,7 +10,7 @@ from module.base.utils import point2str, random_rectangle_point
 from module.device.method.adb import Adb
 from module.device.method.utils import (RETRY_TRIES, retry_sleep,
                                         HierarchyButton, handle_adb_error)
-from module.exception import EmulatorNotRunningError, RequestHumanTakeover
+from module.exception import RequestHumanTakeover
 from module.logger import logger
 
 
@@ -71,9 +71,6 @@ def retry(func):
                 def init():
                     self.adb_reconnect()
                     self.hermit_init()
-            # Emulator not running
-            except EmulatorNotRunningError:
-                raise EmulatorNotRunningError("Emulator not running")
             # Unknown, probably a trucked image
             except Exception as e:
                 logger.exception(e)
