@@ -107,6 +107,7 @@ class PlatformWindows(PlatformBase, EmulatorManager):
                 if matchstr and matchstr.group() == instance.name:
                     self.process = proc
                     break
+        if self.process is None:
             raise ProcessLookupError("Process not found")
 
     def _switch_window(self, hwnd:int, arg:int):
@@ -116,6 +117,8 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         if self.process is None:
             return
         for hwnd in self.hwnds:
+            if not win32gui.IsWindow(hwnd):
+                continue
             if win32gui.GetParent(hwnd):
                 continue
             if set(win32gui.GetWindowRect(hwnd)) == {0}:
