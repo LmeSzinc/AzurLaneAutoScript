@@ -452,12 +452,6 @@ class AzurLaneAutoScript:
             str: Name of the next task.
         """
         while 1:
-            # Reboot emulator
-            if self.emulator_stopped and task.next_run <= datetime.now():
-                self.device.emulator_start()
-                self.config.task_call('Restart')
-                self.emulator_stopped = False
-
             task = self.config.get_next()
             self.config.task = task
             self.config.bind(task)
@@ -512,6 +506,13 @@ class AzurLaneAutoScript:
                         del_cached_property(self, 'config')
                         continue
 
+            # Reboot emulator
+            if self.emulator_stopped:
+                self.device.emulator_start()
+                if not task == 'Restart':
+                    self.run('start')
+                self.emulator_stopped = False
+                del_cached_property(self, 'config')
             break
 
         AzurLaneConfig.is_hoarding_task = False
