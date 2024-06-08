@@ -111,6 +111,7 @@ class PlatformWindows(PlatformBase, EmulatorManager):
                 if matchstr and matchstr.group() == instance.name:
                     self.process = proc
                     break
+        if self.process is None:
             raise ProcessLookupError("Process not found")
 
     def _switch_window(self, hwnd:int, arg:int):
