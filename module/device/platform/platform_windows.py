@@ -83,7 +83,7 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         if not hwnds:
             logger.critical(
                 "Hwnd not found! "
-                "1.Maybe emulator was killed "
+                "1.Perhaps emulator was killed. "
                 "2.Environment has something wrong. Please check the running environment. "
             )
             raise HwndNotFoundError("Hwnd not found")
@@ -286,7 +286,7 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         # Check emulator process and hwnds
         self.getprocess(self.emulator_instance)
         self.gethwnds(self.process.pid)
-        
+
         interval = Timer(0.5).start()
         timeout = Timer(300).start()
         while 1:
@@ -373,6 +373,9 @@ class PlatformWindows(PlatformBase, EmulatorManager):
                 else:
                     return False
 
+        logger.error('Failed to stop emulator 3 times, stopped')
+        return False
+    
 if __name__ == '__main__':
     self = PlatformWindows('alas')
     d = self.emulator_instance
