@@ -506,7 +506,7 @@ class AzurLaneAutoScript:
                         del_cached_property(self, 'config')
                         continue
             # Reboot emulator
-            if self.emulator_stopped and task.next_run <= datetime.now():
+            if self.emulator_stopped:
                 self.device.emulator_start()
                 if not task == 'Restart':
                     self.run('start')
