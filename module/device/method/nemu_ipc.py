@@ -12,7 +12,7 @@ from module.base.utils import ensure_time
 from module.device.method.minitouch import insert_swipe, random_rectangle_point
 from module.device.method.utils import RETRY_TRIES, retry_sleep
 from module.device.platform import Platform
-from module.exception import EmulatorNotRunningError, RequestHumanTakeover
+from module.exception import RequestHumanTakeover
 from module.logger import logger
 
 
@@ -184,9 +184,6 @@ def retry(func):
 
                 def init():
                     self.reconnect()
-            # Emulator not running
-            except EmulatorNotRunningError:
-                raise EmulatorNotRunningError("Emulator not running")
             # Unknown, probably a trucked image
             except Exception as e:
                 logger.exception(e)
