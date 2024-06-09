@@ -25,7 +25,7 @@ class HwndNotFoundError(Exception):
 class PlatformWindows(PlatformBase, EmulatorManager):
     def __init__(self, config):
         super().__init__(config)
-        self.process: psutil.Process = None
+        self.process: tuple = None
         self.hwnds: list[int] = None
 
     def execute(self, command: str):
@@ -34,17 +34,18 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             command (str):
 
         Returns:
-            win32process.CreateProcess -> tuple(int, int, Incomplete, Incomplete):
+            win32process.CreateProcess -> tuple(Incomplete, Incomplete, int, int):
         """
         command = command.replace(r"\\", "/").replace("\\", "/").replace('"', '"')
         logger.info(f'Execute: {command}')
         startupinfo = win32process.STARTUPINFO()
         startupinfo.dwFlags = win32con.STARTF_USESHOWWINDOW
-        return win32process.CreateProcess( #Only work for Windows.
+        self.process = win32process.CreateProcess( #Only work for Windows.
             None,command,None,None,False,
-            win32con.NORMAL_PRIORITY_CLASS,
+            win32con.DETACHED_PROCESS,
             None,None,startupinfo
         )
+        return True
 
     @classmethod
     def kill_process_by_regex(cls, regex: str) -> int:
@@ -69,7 +70,7 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         return count
     
     def gethwnds(self, pid: int):
-        def callback(hwnd:int, hwnds:list):
+        def callback(hwnd: int, hwnds: list):
             _, fpid = win32process.GetWindowThreadProcessId(hwnd)
             if fpid == pid:
                 hwnds.append(hwnd)
@@ -78,37 +79,12 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         win32gui.EnumWindows(callback, hwnds)
         if not hwnds:
             logger.critical(
-                "Hwnd not found! "
-                "1.Perhaps emulator was killed. "
+                "Hwnd not found! \n"
+                "1.Perhaps emulator was killed. \n"
                 "2.Environment has something wrong. Please check the running environment. "
             )
             raise HwndNotFoundError("Hwnd not found")
-        self.hwnds = hwnds
-
-    def getprocess(self, instance: EmulatorInstance):
-        for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
-            if proc.info['cmdline'] is None:
-                continue
-            cmdline = ' '.join(proc.info['cmdline']).replace(r"\\", "/").replace("\\", "/").replace('"', '"')
-            if not instance.path in cmdline:
-                continue
-            if instance == Emulator.MuMuPlayer12:
-                match = re.search(r'\d+$',cmdline)
-                if match and int(match.group()) == instance.MuMuPlayer12_id:
-                    self.process = proc
-                    break
-            elif instance == Emulator.LDPlayerFamily:
-                match = re.search(r'\d+$',cmdline)
-                if match and int(match.group()) == instance.LDPlayer_id:
-                    self.process = proc
-                    break
-            else:
-                matchstr = re.search(fr'\b{instance.name}$',cmdline)
-                if matchstr and matchstr.group() == instance.name:
-                    self.process = proc
-                    break
-        if self.process is None:
-            raise ProcessLookupError("Process not found")
+        return hwnds
 
     def _switch_window(self, hwnd:int, arg:int):
         win32gui.ShowWindow(hwnd,arg)
@@ -123,7 +99,7 @@ class PlatformWindows(PlatformBase, EmulatorManager):
                 continue
             if set(win32gui.GetWindowRect(hwnd)) == {0}:
                 continue
-            self._switch_window(hwnd,arg)# May arg will be sent in.
+            self._switch_window(hwnd, arg)# May arg will be sent in.
 
     def _emulator_start(self, instance: EmulatorInstance):
         """
@@ -224,7 +200,7 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         else:
             raise EmulatorUnknown(f'Cannot stop an unknown emulator instance: {instance}')
 
-    def _emulator_function_wrapper(self, func):
+    def _emulator_function_wrapper(self, func: callable):
         """
         Args:
             func (callable): _emulator_start or _emulator_stop
@@ -254,7 +230,7 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             bool: True if startup completed
                 False if timeout
         """
-        logger.hr('Emulator start', level=2)
+        logger.info("Emulator starting...")
         serial = self.emulator_instance.serial
 
         def adb_connect():
@@ -281,10 +257,6 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         @run_once
         def show_package(m):
             logger.info(f'Found azurlane packages: {m}')
-
-        # Check emulator process and hwnds
-        self.getprocess(self.emulator_instance)
-        self.gethwnds(self.process.pid)
 
         interval = Timer(0.5).start()
         timeout = Timer(300).start()
@@ -332,6 +304,9 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             # All check passed
             break
 
+        # Check emulator process and hwnds
+        self.hwnds = self.gethwnds(self.process[2])
+
         logger.info(f'Emulator start completed')
         logger.info(f'Emulator Process: {self.process}')
         logger.info(f'Emulator hwnds: {self.hwnds}')
@@ -340,9 +315,6 @@ class PlatformWindows(PlatformBase, EmulatorManager):
     def emulator_start(self):
         logger.hr('Emulator start', level=1)
         for _ in range(3):
-            # Stop
-            if not self._emulator_function_wrapper(self._emulator_stop):
-                return False
             # Start
             if self._emulator_function_wrapper(self._emulator_start):
                 # Success
