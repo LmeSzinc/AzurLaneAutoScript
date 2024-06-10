@@ -33,7 +33,7 @@ class PortShop(OSStatus, OSShopUI, Selector, MapEventHandler):
         """
         image = self.image_crop((360, 320, 410, 700))
         result = sum([template.match_multi(image) for template in self.TEMPLATES], [])
-        logger.info(f'Costs: {result}')
+        logger.attr('Costs', f'{result}')
         return Points([(0., m.area[1]) for m in result]).group(threshold=5)
 
     @cached_property
@@ -46,20 +46,26 @@ class PortShop(OSStatus, OSShopUI, Selector, MapEventHandler):
         os_shop_items.load_cost_template_folder('./assets/shop/os_cost')
         return os_shop_items
 
-    def _get_os_shop_grid(self, cost) -> ButtonGrid:
+    def _get_os_shop_grid(self) -> ButtonGrid:
         """
         Returns shop grid.
-
-        Args:
-            cost: The coordinates of the upper left corner of coin icon.
 
         Returns:
             ButtonGris:
         """
-        y = 320 + cost[1] - 130
+        costs = self._get_os_shop_cost()
+        row = len(costs)
+        y = 0
+        delta_y = 0
+
+        if row == 1:
+            y = 320 + costs[0][1] - 130
+        elif row == 2:
+            y = 320 + min(costs[0][1], costs[1][1]) - 130
+            delta_y = abs(costs[0][1] - costs[1][1])
 
         return ButtonGrid(
-            origin=(356, y), delta=(160, 0), button_shape=(98, 98), grid_shape=(5, 1), name='OS_SHOP_GRID')
+            origin=(356, y), delta=(160, delta_y), button_shape=(98, 98), grid_shape=(5, row), name='OS_SHOP_GRID')
 
     def os_shop_get_items(self, shop_index=False, scroll_pos=False) -> List[Item]:
         """
@@ -70,24 +76,23 @@ class PortShop(OSStatus, OSShopUI, Selector, MapEventHandler):
         Returns:
             list[Item]:
         """
-        items = []
-        costs = self._get_os_shop_cost()
+        self.os_shop_items.grids = self._get_os_shop_grid()
+        if self.config.SHOP_EXTRACT_TEMPLATE:
+            self.os_shop_items.extract_template(self.device.image, './assets/shop/os')
+        self.os_shop_items.predict(self.device.image, shop_index=shop_index, scroll_pos=scroll_pos)
+        shop_items = self.os_shop_items.items
 
-        for cost in costs:
-            self.os_shop_items.grids = self._get_os_shop_grid(cost)
-            if self.config.SHOP_EXTRACT_TEMPLATE:
-                self.os_shop_items.extract_template(self.device.image, './assets/shop/os')
-            self.os_shop_items.predict(self.device.image, shop_index=shop_index, scroll_pos=scroll_pos)
-            shop_items = self.os_shop_items.items
+        if len(shop_items):
+            min_row = self.os_shop_items.grids[0, 0].area[1]
+            row = [str(item) for item in shop_items if item.button[1] == min_row]
+            logger.info(f'Shop row 1: {row}')
+            row = [str(item) for item in shop_items if item.button[1] != min_row]
+            logger.info(f'Shop row 2: {row}')
+            return shop_items
+        else:
+            logger.info('No shop items found')
 
-            if len(shop_items):
-                row = [str(item) for item in shop_items]
-                logger.info(f'Shop items found: {row}')
-                items += shop_items
-            else:
-                logger.info('No shop items found')
-
-        return items
+        return []
 
     def os_shop_get_items_to_buy(self, name, price) -> Item:
         """
