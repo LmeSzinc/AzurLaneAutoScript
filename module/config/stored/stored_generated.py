@@ -1,9 +1,11 @@
 from module.config.stored.classes import (
+    StoredActionPoint,
     StoredBase,
     StoredCoin,
     StoredCounter,
     StoredInt,
     StoredOil,
+    StoredStr,
 )
 
 
@@ -18,4 +20,4 @@ class StoredGenerated:
     Cube = StoredInt("Gacha.GachaStorage.Cube")
     YellowCoin = StoredInt("OpsiGeneral.OpsiStorage.YellowCoin")
     PurpleCoin = StoredInt("OpsiGeneral.OpsiStorage.PurpleCoin")
-    ActionPoint = StoredInt("OpsiGeneral.OpsiStorage.ActionPoint")
+    ActionPoint = StoredActionPoint("OpsiGeneral.OpsiStorage.ActionPoint")
