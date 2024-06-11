@@ -130,7 +130,7 @@ class Book:
             image (np.ndarray):
             button (Button):
         """
-        image = crop(image, button.area)
+        image = crop(image, button.area, copy=False)
         self.button = button
 
         # During the test of 40 random screenshots,
@@ -148,7 +148,7 @@ class Book:
             if color_similar(color1=color, color2=value, threshold=50):
                 self.tier = key
 
-        color = color_similarity_2d(crop(image, (15, 0, 97, 13)), color=(148, 251, 99))
+        color = color_similarity_2d(crop(image, (15, 0, 97, 13), copy=False), color=(148, 251, 99))
         self.exp = bool(np.sum(color > 221) > 50)
 
         self.valid = bool(self.genre and self.tier)
@@ -166,7 +166,7 @@ class Book:
         """
         area = self.button.area
         check_area = tuple([area[0], area[3] + 2, area[2], area[3] + 4])
-        im = rgb2gray(crop(image, check_area))
+        im = rgb2gray(crop(image, check_area, copy=False))
         return True if np.mean(im) > 127 else False
 
     def __str__(self):
@@ -534,7 +534,7 @@ class RewardTacticalClass(Dock):
     def check_skill_selected(button, image):
         area = button.area
         check_area = tuple([area[0], area[3] + 2, area[2], area[3] + 4])
-        im = rgb2gray(crop(image, check_area))
+        im = rgb2gray(crop(image, check_area, copy=False))
         return True if np.mean(im) > 127 else False
 
     def _tactical_skill_choose(self):

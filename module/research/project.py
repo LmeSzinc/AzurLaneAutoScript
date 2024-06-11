@@ -45,7 +45,7 @@ def get_research_series_old(image, series_button=RESEARCH_SERIES):
     parameters = {'height': 160, 'prominence': 50, 'width': 1}
 
     for button in series_button:
-        im = color_similarity_2d(resize(crop(image, button.area), (46, 25)), color=(255, 255, 255))
+        im = color_similarity_2d(resize(crop(image, button.area, copy=False), (46, 25)), color=(255, 255, 255))
         peaks = [len(signal.find_peaks(row, **parameters)[0]) for row in im[5:-5]]
         upper, lower = max(peaks), min(peaks)
         # print(peaks)
@@ -116,7 +116,7 @@ def get_research_series(image, series_button=RESEARCH_SERIES):
     result = []
     for button in series_button:
         # img = resize(crop(image, button.area), (46, 25))
-        img = crop(image, button.area)
+        img = crop(image, button.area, copy=False)
         img = cv2.resize(img, (46, 25), interpolation=cv2.INTER_AREA)
         series = _get_research_series(img)
         result.append(series)
@@ -195,7 +195,7 @@ def match_template(image, template, area, offset=30, threshold=0.85):
         offset = np.array((-offset[0], -offset[1], offset[0], offset[1]))
     else:
         offset = np.array((0, -offset, 0, offset))
-    image = crop(image, offset + area)
+    image = crop(image, offset + area, copy=False)
     res = cv2.matchTemplate(image, template, cv2.TM_CCOEFF_NORMED)
     _, sim, _, point = cv2.minMaxLoc(res)
     similarity = sim if sim >= threshold else 0.0
@@ -217,7 +217,7 @@ def get_research_series_jp_old(image):
 
     area = SERIES_DETAIL.area
     # Resize is not needed because only one area will be checked in JP server.
-    im = color_similarity_2d(crop(image, area), color=(255, 255, 255))
+    im = color_similarity_2d(crop(image, area, copy=False), color=(255, 255, 255))
     peaks = [len(signal.find_peaks(row, **parameters)[0]) for row in im[5:-5]]
     upper, lower = max(peaks), min(peaks)
     # print(upper, lower)
@@ -303,7 +303,7 @@ def get_research_cost_jp(image):
     costs = {'coin': False, 'cube': False, 'plate': False}
     for name, template in templates.items():
         template = load_image(template)
-        template = crop(resize(template, size_template), area_template)
+        template = crop(resize(template, size_template), area_template, copy=False)
         sim = match_template(image=image,
                              template=template,
                              area=DETAIL_COST.area,

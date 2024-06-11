@@ -181,10 +181,11 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
             else:
                 self.device.screenshot()
 
-            if self.is_auto_search_running():
-                checked_fleet = self.auto_search_watch_fleet(checked_fleet)
-                checked_oil = self.auto_search_watch_oil(checked_oil)
-                checked_coin = self.auto_search_watch_coin(checked_coin)
+            if not checked_fleet or not checked_oil or not checked_coin:
+                if self.is_auto_search_running():
+                    checked_fleet = self.auto_search_watch_fleet(checked_fleet)
+                    checked_oil = self.auto_search_watch_oil(checked_oil)
+                    checked_coin = self.auto_search_watch_coin(checked_coin)
             if self.handle_retirement():
                 self.map_offensive_auto_search()
                 continue
