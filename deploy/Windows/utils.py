@@ -121,7 +121,10 @@ class DataProcessInfo:
 
     @cached_property
     def name(self):
-        name = self.proc.name()
+        try:
+            name = self.proc.name()
+        except:
+            name = ''
         return name
 
     @cached_property
@@ -130,6 +133,7 @@ class DataProcessInfo:
             cmdline = self.proc.cmdline()
         except:
             # psutil.AccessDenied
+            # # NoSuchProcess: process no longer exists (pid=xxx)
             cmdline = []
         cmdline = ' '.join(cmdline).replace(r'\\', '/').replace('\\', '/')
         return cmdline
