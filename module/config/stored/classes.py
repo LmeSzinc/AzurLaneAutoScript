@@ -1,3 +1,4 @@
+import re
 from datetime import datetime
 
 from module.base.decorator import cached_property
@@ -110,6 +111,10 @@ class StoredInt(StoredBase):
     value = 0
 
 
+class StoredStr(StoredBase):
+    value = ''
+
+
 class StoredCounter(StoredBase):
     value = 0
     total = 0
@@ -156,3 +161,19 @@ class StoredOil(StoredCounter):
 
 class StoredCoin(StoredCounter):
     pass
+
+
+class StoredActionPoint(StoredStr):
+    _current = 0
+    _total = 0
+
+    def __setattr__(self, key, value):
+        if key == 'value' and value:
+            res = re.search(r'(\d+) \((\d+)\)', value)
+            if res:
+                self._current = int(res.group(1))
+                self._total = int(res.group(2))
+        super().__setattr__(key, value)
+
+    def set(self, current, total):
+        self.value = f'{current} ({total})'
