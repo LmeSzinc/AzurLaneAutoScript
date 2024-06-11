@@ -6,6 +6,7 @@ from module.base.filter import Filter
 from module.base.timer import Timer
 from module.base.utils import *
 from module.combat.level import LevelOcr
+from module.config.utils import get_server_next_update
 from module.exception import ScriptError
 from module.handler.assets import GET_MISSION, MISSION_POPUP_ACK, MISSION_POPUP_GO, POPUP_CANCEL, POPUP_CONFIRM
 from module.logger import logger
@@ -389,6 +390,7 @@ class RewardTacticalClass(Dock):
         logger.hr('Tactical class receive', level=1)
         received = False
         study_finished = not self.config.AddNewStudent_Enable
+        book_empty = False
         # tactical cards can't be loaded that fast, confirm if it's empty.
         empty_confirm = Timer(0.6, count=2).start()
         while 1:
@@ -416,6 +418,10 @@ class RewardTacticalClass(Dock):
             # Get finish time
             if self.appear(TACTICAL_CHECK, offset=(20, 20), interval=2):
                 self.interval_clear([POPUP_CONFIRM, POPUP_CANCEL, GET_MISSION])
+                if book_empty:
+                    self.device.click(BACK_ARROW)
+                    self.interval_reset(TACTICAL_CHECK)
+                    continue
                 if self._tactical_get_finish():
                     self.device.click(BACK_ARROW)
                     self.interval_reset(TACTICAL_CHECK)
@@ -449,6 +455,13 @@ class RewardTacticalClass(Dock):
                 # Only one button in the middle, when skill reach max level.
                 continue
             if self.ui_page_main_popups():
+                continue
+            # No books
+            if self.appear(BOOK_EMPTY_POPUP, offset=(20, 20), interval=3):
+                self.device.click(BOOK_EMPTY_POPUP)
+                study_finished = True
+                received = True
+                book_empty = True
                 continue
             # Similar to handle_mission_popup_ack, but battle pass item expire popup has a different ACK button
             if self.appear(MISSION_POPUP_GO, offset=self._popup_offset, interval=2):
@@ -506,6 +519,11 @@ class RewardTacticalClass(Dock):
                 self.interval_reset(TACTICAL_CHECK)
                 self.interval_clear(ADD_NEW_STUDENT)
                 continue
+
+        if book_empty:
+            logger.warning('Tactical books empty, delay to tomorrow')
+            self.tactical_finish = get_server_next_update(self.config.Scheduler_ServerUpdate)
+            logger.info(f'Tactical finish: {[str(f) for f in self.tactical_finish]}')
         return True
 
     def _tactical_skill_select(self, selected_skill, skip_first_screenshot=True):
