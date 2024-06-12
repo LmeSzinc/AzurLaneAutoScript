@@ -123,5 +123,8 @@ class GeneratedConfig:
     MaaCopilot_Formation = False
     MaaCopilot_Cycle = 1
 
+    # Group `MaaUpdates`
+    MaaUpdates_UpdateResource = False
+
     # Group `Storage`
     Storage_Storage = {}

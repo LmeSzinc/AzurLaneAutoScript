@@ -1,5 +1,5 @@
-import os
 import json
+import os
 
 from cached_property import cached_property
 
@@ -162,3 +162,10 @@ def maa_copilot(config_name):
     handler = AssistantHandler(config=script.config, asst=script.asst)
     handler.connect()
     handler.copilot()
+
+
+def maa_updates(config_name):
+    script = ArknightsAutoScript(config_name)
+    script.config.bind('MaaUpdates')
+    handler = AssistantHandler(config=script.config, asst=script.asst)
+    handler.maa_update()

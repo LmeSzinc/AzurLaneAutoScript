@@ -20,7 +20,8 @@
     "menu": "list",
     "page": "tool",
     "tasks": [
-      "MaaCopilot"
+      "MaaCopilot",
+      "MaaUpdates"
     ]
   }
 }

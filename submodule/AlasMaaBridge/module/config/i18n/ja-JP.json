@@ -57,6 +57,10 @@
     "MaaCopilot": {
       "name": "Task.MaaCopilot.name",
       "help": "Task.MaaCopilot.help"
+    },
+    "MaaUpdates": {
+      "name": "Task.MaaUpdates.name",
+      "help": "Task.MaaUpdates.help"
     }
   },
   "Scheduler": {
@@ -628,6 +632,16 @@
     "Cycle": {
       "name": "MaaCopilot.Cycle.name",
       "help": "MaaCopilot.Cycle.help"
+    }
+  },
+  "MaaUpdates": {
+    "_info": {
+      "name": "MaaUpdates._info.name",
+      "help": "MaaUpdates._info.help"
+    },
+    "UpdateResource": {
+      "name": "MaaUpdates.UpdateResource.name",
+      "help": "MaaUpdates.UpdateResource.help"
     }
   },
   "Storage": {

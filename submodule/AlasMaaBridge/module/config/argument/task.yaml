@@ -53,3 +53,5 @@ Tool:
   tasks:
     MaaCopilot:
       - MaaCopilot
+    MaaUpdates:
+      - MaaUpdates

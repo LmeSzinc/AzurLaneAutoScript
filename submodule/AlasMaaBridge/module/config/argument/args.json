@@ -1114,5 +1114,21 @@
         "display": "disabled"
       }
     }
+  },
+  "MaaUpdates": {
+    "MaaUpdates": {
+      "UpdateResource": {
+        "type": "checkbox",
+        "value": false
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
+    }
   }
 }

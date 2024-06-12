@@ -6,6 +6,7 @@ MOD_DICT = {
 }
 MOD_FUNC_DICT = {
     'MaaCopilot': 'maa',
+    'MaaUpdates': 'maa',
     'FpyBattle': 'fpy',
     'FpyBenchmark': 'fpy',
     'FpyCall': 'fpy',

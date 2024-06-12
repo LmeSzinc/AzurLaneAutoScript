@@ -57,6 +57,10 @@
     "MaaCopilot": {
       "name": "自动战斗",
       "help": ""
+    },
+    "MaaUpdates": {
+      "name": "MAA更新",
+      "help": ""
     }
   },
   "Scheduler": {
@@ -628,6 +632,16 @@
     "Cycle": {
       "name": "循环次数",
       "help": "可用于保全派驻"
+    }
+  },
+  "MaaUpdates": {
+    "_info": {
+      "name": "MAA更新",
+      "help": "暂不支持更新MAA本体"
+    },
+    "UpdateResource": {
+      "name": "更新活动关导航",
+      "help": "更新活动关导航（需额外下载）"
     }
   },
   "Storage": {

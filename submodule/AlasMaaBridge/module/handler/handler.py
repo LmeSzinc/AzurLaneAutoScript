@@ -1,11 +1,12 @@
-import os
-import re
-import json
-import time
-import requests
 import datetime
+import json
+import os
+import pathlib
+import re
+import time
 from typing import Any
 
+import requests
 from cached_property import cached_property
 
 from deploy.config import DeployConfig
@@ -14,9 +15,8 @@ from module.config.utils import read_file, deep_get, get_server_last_update
 from module.device.connection_attr import ConnectionAttr
 from module.exception import RequestHumanTakeover
 from module.logger import logger
-
-from submodule.AlasMaaBridge.module.config.config import ArknightsConfig
 from submodule.AlasMaaBridge.module.asst import asst, utils
+from submodule.AlasMaaBridge.module.config.config import ArknightsConfig
 
 
 class AssistantHandler:
@@ -32,6 +32,7 @@ class AssistantHandler:
         AssistantHandler.Message = utils.Message
         AssistantHandler.InstanceOptionType = utils.InstanceOptionType
         AssistantHandler.Asst.load(path, user_dir=path, incremental_path=incremental_path)
+        AssistantHandler.Asst.load(path=path, incremental_path=pathlib.Path(path) / 'cache')
 
         AssistantHandler.ASST_HANDLER = None
 
@@ -459,7 +460,6 @@ class AssistantHandler:
                                                                                                 "生活至上分队",
                                                                                                 "科学主义分队",
                                                                                                 "特训分队"]):
-
             args["squad"] = "指挥分队"
         if self.config.MaaRoguelike_CoreChar:
             args["core_char"] = self.config.MaaRoguelike_CoreChar
@@ -543,3 +543,18 @@ class AssistantHandler:
                 self.maa_start('SSSCopilot', args)
             else:
                 self.maa_start('Copilot', args)
+
+    def maa_update(self):
+        path = pathlib.Path(self.config.MaaEmulator_MaaPath)
+        # 喜闻乐见的文件占用问题，之后再想怎么解决
+        # if self.config.MaaUpdates_UpdateCore is True:
+        #     Updater(path, self.config.MaaUpdates_UpdateChannel).update()
+        if self.config.MaaUpdates_UpdateResource is True:
+            import urllib.request
+            ota_tasks_url = 'https://ota.maa.plus/MaaAssistantArknights/api/resource/tasks.json'
+            ota_tasks_path = path / 'cache' / 'resource' / 'tasks.json'
+            ota_tasks_path.parent.mkdir(parents=True, exist_ok=True)
+            with open(ota_tasks_path, 'w', encoding='utf-8') as f:
+                with urllib.request.urlopen(ota_tasks_url) as u:
+                    f.write(u.read().decode('utf-8'))
+            logger.info(f'MAA资源更新成功：{ota_tasks_path}')
