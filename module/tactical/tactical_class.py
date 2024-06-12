@@ -523,7 +523,7 @@ class RewardTacticalClass(Dock):
         if book_empty:
             logger.warning('Tactical books empty, delay to tomorrow')
             self.tactical_finish = get_server_next_update(self.config.Scheduler_ServerUpdate)
-            logger.info(f'Tactical finish: {[str(f) for f in self.tactical_finish]}')
+            logger.info(f'Tactical finish: {self.tactical_finish}')
         return True
 
     def _tactical_skill_select(self, selected_skill, skip_first_screenshot=True):
