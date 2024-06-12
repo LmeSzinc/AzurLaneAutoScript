@@ -28,6 +28,9 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
     _unable_to_enhance = False
     _have_kept_cv = True
 
+    # From MapOperation
+    map_cat_attack_timer = Timer(2)
+
     def _retirement_choose(self, amount=10, target_rarity=('N',)):
         """
         Args:
@@ -341,6 +344,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
             if self.appear_then_click(RETIRE_APPEAR_3, offset=(20, 20), interval=3):
                 self.interval_clear(DOCK_CHECK)
                 self.interval_reset([AUTO_SEARCH_MAP_OPTION_OFF, AUTO_SEARCH_MAP_OPTION_ON])
+                self.map_cat_attack_timer.reset()
                 return False
             if self.appear(DOCK_CHECK, offset=(20, 20), interval=10):
                 self.handle_dock_cards_loading()
