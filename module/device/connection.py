@@ -378,15 +378,21 @@ class Connection(ConnectionAttr):
         Returns:
             list[str]: ['nc'] or ['busybox', 'nc']
         """
-        sdk = self.sdk_ver
-        logger.info(f'sdk_ver: {sdk}')
-        if sdk >= 28:
-            # Android 9 emulators does not have `nc`, try `busybox nc`
-            # BlueStacks Pie (Android 9) has `nc` but cannot send data, try `busybox nc` first
-            trial = [
-                ['busybox', 'nc'],
-                ['nc'],
-            ]
+        if self.is_emulator:
+            sdk = self.sdk_ver
+            logger.info(f'sdk_ver: {sdk}')
+            if sdk >= 28:
+                # LD Player 9 does not have `nc`, try `busybox nc`
+                # BlueStacks Pie (Android 9) has `nc` but cannot send data, try `busybox nc` first
+                trial = [
+                    ['busybox', 'nc'],
+                    ['nc'],
+                ]
+            else:
+                trial = [
+                    ['nc'],
+                    ['busybox', 'nc'],
+                ]
         else:
             trial = [
                 ['nc'],
@@ -394,8 +400,9 @@ class Connection(ConnectionAttr):
             ]
         for command in trial:
             # About 3ms
-            result = self.adb_shell(command)
             # Result should be command help if success
+            # nc: bad argument count (see "nc --help")
+            result = self.adb_shell(command)
             # `/system/bin/sh: nc: not found`
             if 'not found' in result:
                 continue

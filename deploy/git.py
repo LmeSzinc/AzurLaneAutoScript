@@ -7,7 +7,12 @@ from deploy.utils import *
 class GitManager(DeployConfig):
     @cached_property
     def git(self):
-        return self.filepath('GitExecutable')
+        exe = self.filepath('GitExecutable')
+        if os.path.exists(exe):
+            return exe
+
+        logger.warning(f'GitExecutable: {exe} does not exist, use `git` instead')
+        return 'git'
 
     @staticmethod
     def remove(file):

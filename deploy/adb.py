@@ -20,7 +20,12 @@ def show_fix_tip(module):
 class AdbManager(DeployConfig):
     @cached_property
     def adb(self):
-        return self.filepath('AdbExecutable')
+        exe = self.filepath('AdbExecutable')
+        if os.path.exists(exe):
+            return exe
+
+        logger.warning(f'AdbExecutable: {exe} does not exist, use `adb` instead')
+        return 'adb'
 
     def adb_install(self):
         logger.hr('Start ADB service', 0)
@@ -54,10 +59,15 @@ class AdbManager(DeployConfig):
                     del os.environ[k]
 
             for device in adbutils.adb.iter_device():
+                logger.info(f'Init device {device}')
                 initer = init.Initer(device, loglevel=logging.DEBUG)
                 # MuMu X has no ro.product.cpu.abi, pick abi from ro.product.cpu.abilist
                 if initer.abi not in ['x86_64', 'x86', 'arm64-v8a', 'armeabi-v7a', 'armeabi']:
                     initer.abi = initer.abis[0]
+                # /bin/sh: getprop: not found
+                if 'getprop' in initer.abi:
+                    logger.warning(f'Cannot getprop from device {device}, result: {initer.abi}')
+                    continue
                 initer.set_atx_agent_addr('127.0.0.1:7912')
 
                 for _ in range(2):

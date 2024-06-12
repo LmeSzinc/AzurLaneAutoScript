@@ -34,6 +34,8 @@ class ModuleBase:
         """
         if isinstance(config, AzurLaneConfig):
             self.config = config
+            if task is not None:
+                self.config.init_task(task)
         elif isinstance(config, str):
             self.config = AzurLaneConfig(config, task=task)
         else:
@@ -72,6 +74,9 @@ class ModuleBase:
             return
         if not self.config.is_actual_task:
             logger.info('No actual task bound, skip early_ocr_import')
+            return
+        if self.config.task.command in ['Daemon', 'OpsiDaemon']:
+            logger.info('No ocr in daemon task, skip early_ocr_import')
             return
 
         def do_ocr_import():
@@ -275,7 +280,7 @@ class ModuleBase:
         Returns:
             Button: Or None if nothing matched.
         """
-        image = color_similarity_2d(self.image_crop(area), color=color)
+        image = color_similarity_2d(self.image_crop(area, copy=False), color=color)
         points = np.array(np.where(image > color_threshold)).T[:, ::-1]
         if points.shape[0] < encourage ** 2:
             # Not having enough pixels to match
@@ -286,6 +291,25 @@ class ModuleBase:
         button_area = area_offset((-encourage, -encourage, encourage, encourage), offset=point)
         color = get_color(self.device.image, button_area)
         return Button(area=button_area, color=color, button=button_area, name=name)
+
+    def get_interval_timer(self, button, interval=5, renew=False) -> Timer:
+        if hasattr(button, 'name'):
+            name = button.name
+        elif callable(button):
+            name = button.__name__
+        else:
+            name = str(button)
+
+        try:
+            timer = self.interval_timer[name]
+            if renew and timer.limit != interval:
+                timer = Timer(interval)
+                self.interval_timer[name] = timer
+            return timer
+        except KeyError:
+            timer = Timer(interval)
+            self.interval_timer[name] = timer
+            return timer
 
     def interval_reset(self, button, interval=3):
         if isinstance(button, (list, tuple)):

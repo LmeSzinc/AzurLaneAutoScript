@@ -1,6 +1,7 @@
 import numpy as np
 
 from module.base.timer import Timer
+from module.base.utils import get_color, color_similar
 from module.combat.assets import *
 from module.combat.combat_auto import CombatAuto
 from module.combat.combat_manual import CombatManual
@@ -65,7 +66,8 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         Returns:
             bool:
         """
-        similarity, button = TEMPLATE_COMBAT_LOADING.match_result(self.image_crop((0, 620, 1280, 720)))
+        image = self.image_crop((0, 620, 1280, 720), copy=False)
+        similarity, button = TEMPLATE_COMBAT_LOADING.match_luma_result(image)
         if similarity > 0.85:
             loading = (button.area[0] + 38 - LOADING_BAR.area[0]) / (LOADING_BAR.area[2] - LOADING_BAR.area[0])
             logger.attr('Loading', f'{int(loading * 100)}%')
@@ -78,7 +80,12 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         Returns:
             bool:
         """
-        return self.appear(PAUSE) and np.max(self.image_crop(PAUSE_DOUBLE_CHECK)) < 153
+        self.device.stuck_record_add(PAUSE)
+        color = get_color(self.device.image, PAUSE.area)
+        if color_similar(color, PAUSE.color) or color_similar(color, (238, 244, 248)):
+            if np.max(self.image_crop(PAUSE_DOUBLE_CHECK, copy=False)) < 153:
+                return True
+        return False
 
     def ensure_combat_oil_loaded(self):
         self.wait_until_stable(COMBAT_OIL_LOADING)

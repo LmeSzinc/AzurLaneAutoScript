@@ -299,6 +299,8 @@ class Camera(MapOperation):
             # _update_view()
             try:
                 success = self._update_view()
+                if not success:
+                    continue
                 logger.attr('view.center_offset', self.view.center_offset)
                 if wait_swipe and not swipe_wait_timeout.reached() and success:
                     # If first screenshot is still prev view

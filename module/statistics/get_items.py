@@ -36,7 +36,7 @@ class GetItemsStatistics:
         Returns:
             bool: If the number of items in row is odd.
         """
-        image = crop(image, GET_ITEMS_ODD.area)
+        image = crop(image, GET_ITEMS_ODD.area, copy=False)
         return np.mean(rgb2gray(image) > 127) > 0.1
 
     def _stats_get_items_load(self, image):
