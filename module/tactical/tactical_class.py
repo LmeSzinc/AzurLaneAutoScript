@@ -450,18 +450,13 @@ class RewardTacticalClass(Dock):
             if self.ui_main_appear_then_click(page_reward, interval=3):
                 continue
             if self.handle_popup_confirm('TACTICAL'):
+                self.interval_reset([BOOK_EMPTY_POPUP])
                 continue
             if self.handle_urgent_commission():
                 # Only one button in the middle, when skill reach max level.
                 continue
             if self.ui_page_main_popups():
-                continue
-            # No books
-            if self.appear(BOOK_EMPTY_POPUP, offset=(20, 20), interval=3):
-                self.device.click(BOOK_EMPTY_POPUP)
-                study_finished = True
-                received = True
-                book_empty = True
+                self.interval_reset([BOOK_EMPTY_POPUP])
                 continue
             # Similar to handle_mission_popup_ack, but battle pass item expire popup has a different ACK button
             if self.appear(MISSION_POPUP_GO, offset=self._popup_offset, interval=2):
@@ -471,7 +466,7 @@ class RewardTacticalClass(Dock):
                     and self.appear(TACTICAL_CLASS_START, offset=(30, 30)):
                 if self._tactical_books_choose():
                     self.dock_select_index = 0
-                    self.interval_reset(TACTICAL_CLASS_CANCEL)
+                    self.interval_reset([TACTICAL_CLASS_CANCEL, BOOK_EMPTY_POPUP])
                     self.interval_clear([POPUP_CONFIRM, POPUP_CANCEL, GET_MISSION])
                 else:
                     study_finished = True
@@ -495,6 +490,7 @@ class RewardTacticalClass(Dock):
                     logger.info('Not going to learn skill but in dock, close it')
                     study_finished = True
                     self.device.click(BACK_ARROW)
+                self.interval_reset([BOOK_EMPTY_POPUP])
                 continue
             if self.appear(SKILL_CONFIRM, offset=(20, 20), interval=3):
                 # If not enable or can not find a skill
@@ -508,6 +504,7 @@ class RewardTacticalClass(Dock):
                     logger.info('Not going to learn skill but having SKILL_CONFIRM, close it')
                     study_finished = True
                     self.device.click(BACK_ARROW)
+                self.interval_reset([BOOK_EMPTY_POPUP])
                 continue
             if self.appear(TACTICAL_META, offset=(200, 20), interval=3):
                 # If meta's skill page, it's inappropriate
@@ -516,14 +513,21 @@ class RewardTacticalClass(Dock):
                 # Select the next ship in `select_suitable_ship()`
                 self.dock_select_index += 1
                 # Avoid exit tactical between exiting meta skill to select new ship
-                self.interval_reset(TACTICAL_CHECK)
+                self.interval_reset([TACTICAL_CHECK, BOOK_EMPTY_POPUP])
                 self.interval_clear(ADD_NEW_STUDENT)
+                continue
+            # No books
+            if self.appear(BOOK_EMPTY_POPUP, offset=(20, 20), interval=3):
+                self.device.click(BOOK_EMPTY_POPUP)
+                study_finished = True
+                received = True
+                book_empty = True
                 continue
 
         if book_empty:
             logger.warning('Tactical books empty, delay to tomorrow')
             self.tactical_finish = get_server_next_update(self.config.Scheduler_ServerUpdate)
-            logger.info(f'Tactical finish: {[str(f) for f in self.tactical_finish]}')
+            logger.info(f'Tactical finish: {self.tactical_finish}')
         return True
 
     def _tactical_skill_select(self, selected_skill, skip_first_screenshot=True):
