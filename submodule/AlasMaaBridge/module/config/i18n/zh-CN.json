@@ -637,7 +637,18 @@
   "MaaUpdates": {
     "_info": {
       "name": "MAA更新",
-      "help": "暂不支持更新MAA本体"
+      "help": ""
+    },
+    "UpdateCore": {
+      "name": "更新MAACore",
+      "help": ""
+    },
+    "UpdateChannel": {
+      "name": "更新通道",
+      "help": "",
+      "Stable": "稳定版",
+      "Beta": "公测版",
+      "Nightly": "内测版"
     },
     "UpdateResource": {
       "name": "更新活动关导航",

@@ -191,10 +191,10 @@ MaaCopilot:
   Cycle: 1
 
 MaaUpdates:
-  #  UpdateCore: false
-  #  UpdateChannel:
-  #    value: Stable
-  #    option: [ Stable , Beta , Nightly ]
+  UpdateCore: false
+  UpdateChannel:
+    value: Stable
+    option: [ Stable , Beta , Nightly ]
   UpdateResource: true
 
 

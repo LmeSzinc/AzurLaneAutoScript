@@ -12,7 +12,9 @@ from module.logger import logger
 # 获取文件大小
 def length(url_list):
     def getlenhead(single_url):
-        response = requests.head(single_url)
+        session = requests.Session()
+        session.trust_env = False
+        response = session.head(single_url)
         file_size = response.headers.get('Content-Length')
         if file_size is not None:
             return int(file_size)
@@ -45,10 +47,12 @@ class Downloader:
         filename = f"temp/{self.listhash}/{chunk_id}"
         if self.chunk_status[chunk_id] != 2:
             try:
-                response = requests.get(url, headers=headers, proxies=self.proxies, timeout=5)
+                session = requests.Session()
+                session.trust_env = False
+                response = session.get(url, headers=headers, proxies=self.proxies, timeout=5)
                 if response.status_code in (301, 302, 303, 307, 308):  # 处理HTTP 3xx 重定向问题，继续发送原来的header（range）
                     redirect_url = response.headers['Location']
-                    response = requests.get(redirect_url, headers=headers, timeout=3, proxies=self.proxies)
+                    response = session.get(redirect_url, headers=headers, timeout=3, proxies=self.proxies)
 
                 if response.status_code == 206:  # 206状态码
                     self.failed_requests[url]['success'] += 1

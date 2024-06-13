@@ -543,18 +543,3 @@ class AssistantHandler:
                 self.maa_start('SSSCopilot', args)
             else:
                 self.maa_start('Copilot', args)
-
-    def maa_update(self):
-        path = pathlib.Path(self.config.MaaEmulator_MaaPath)
-        # 喜闻乐见的文件占用问题，之后再想怎么解决
-        # if self.config.MaaUpdates_UpdateCore is True:
-        #     Updater(path, self.config.MaaUpdates_UpdateChannel).update()
-        if self.config.MaaUpdates_UpdateResource is True:
-            import urllib.request
-            ota_tasks_url = 'https://ota.maa.plus/MaaAssistantArknights/api/resource/tasks.json'
-            ota_tasks_path = path / 'cache' / 'resource' / 'tasks.json'
-            ota_tasks_path.parent.mkdir(parents=True, exist_ok=True)
-            with open(ota_tasks_path, 'w', encoding='utf-8') as f:
-                with urllib.request.urlopen(ota_tasks_url) as u:
-                    f.write(u.read().decode('utf-8'))
-            logger.info(f'MAA资源更新成功：{ota_tasks_path}')

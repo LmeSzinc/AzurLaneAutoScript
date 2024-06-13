@@ -165,7 +165,7 @@ def maa_copilot(config_name):
 
 
 def maa_updates(config_name):
+    from submodule.AlasMaaBridge.module.maa_update import maa_update
     script = ArknightsAutoScript(config_name)
     script.config.bind('MaaUpdates')
-    handler = AssistantHandler(config=script.config, asst=script.asst)
-    handler.maa_update()
+    maa_update(script)

@@ -1,4 +1,3 @@
-import json
 import multiprocessing
 import os
 import platform
@@ -6,8 +5,9 @@ import re
 import tarfile
 import zipfile
 from multiprocessing import queues, Process
-from urllib import request
-from urllib.error import HTTPError, URLError
+
+import requests
+from requests import HTTPError
 
 from module.logger import logger
 from . import downloader
@@ -72,8 +72,10 @@ class Updater:
             i = retry_times % len(api_url)
             request_url = api_url[i] + version_summary
             try:
-                response_json = request.urlopen(request_url)
-                response_data = json.loads(response_json.read().decode("utf-8"))
+                session = requests.Session()
+                session.trust_env = False
+                response_json = session.get(request_url)
+                response_data = response_json.json(encoding='utf8')
                 """
                 解析JSON
                 e.g.
@@ -102,7 +104,7 @@ class Updater:
         return False, False
 
     @staticmethod
-    def get_download_url(detail):
+    def get_download_url(current_version, detail):
         """
         1.获取系统及架构信息
         2.找到对应的版本
@@ -133,8 +135,10 @@ class Updater:
                 # Windows ARM64
                 system_platform = "win-arm64"
         # 请求的是https://ota.maa.plus/MaaAssistantArknights/api/version/stable.json，或其他版本类型对应的url
-        detail_json = request.urlopen(detail)
-        detail_data = json.loads(detail_json.read().decode("utf-8"))
+        session = requests.Session()
+        session.trust_env = False
+        detail_json = session.get(detail)
+        detail_data = detail_json.json(encoding='utf8')
         assets_list = detail_data["details"]["assets"]  # 列表，子元素为字典
         # 找到对应系统和架构的版本
         for assets in assets_list:
@@ -153,10 +157,11 @@ class Updater:
                 ]
             }
             """
-            assets_name = assets["name"]  # 示例值:MAA-v4.24.0-beta.1-win-arm64.zip
+            assets_name = assets["name"]  # 示例值:MAAComponent-OTA-v4.27.1_v5.3.1-win-x64.zip
             # 正则匹配（用于选择当前系统及架构的版本）
             # 在线等一个不这么蠢的方法
-            pattern = r"^MAA-.*-" + re.escape(system_platform) + r"\.(zip|tar\.gz)$"
+            pattern = fr'^(MAAComponent-OTA-)({re.escape(current_version)})(_(v[0-9A-Za-z.]+))(-{re.escape(system_platform)})\.(zip|tar\.gz)$'
+            # pattern = r"^MAA-.*-" + re.escape(system_platform) + r"\.(zip|tar\.gz)$"
             match = re.match(pattern, assets_name)
             if match:
                 # Mirrors镜像列表
@@ -186,7 +191,7 @@ class Updater:
             # 开始更新逻辑
             # 解析version_detail的JSON信息
             # 通过API获取下载地址列表和对应文件名
-            url_list, filename = self.get_download_url(version_detail)
+            url_list, filename = self.get_download_url(current_version, version_detail)
             if not url_list:
                 # 如果请求失败则返回False
                 # （此返回值可能会在非Windows-x86_64的程序更新alpha版时出现）
@@ -206,7 +211,7 @@ class Updater:
                     # 调用downloader方法进行下载
                     downloader.file_download(download_url_list=url_list, download_path=file)
                     break  # RNM怎么会有这么蠢的人忘了写break啊淦
-                except(HTTPError, URLError) as e:
+                except HTTPError as e:
                     Updater.custom_print(e)
 
             # 解压下载的文件，

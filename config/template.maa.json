@@ -269,7 +269,9 @@
   },
   "MaaUpdates": {
     "MaaUpdates": {
-      "UpdateResource": false
+      "UpdateCore": false,
+      "UpdateChannel": "Stable",
+      "UpdateResource": true
     },
     "Storage": {
       "Storage": {}
