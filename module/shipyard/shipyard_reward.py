@@ -188,7 +188,7 @@ class RewardShipyard(ShipyardUI, GeneralShop):
         # due to both text and number being
         # right-aligned together
         # Retrieve information from page_reshmenu instead
-        self.ui_goto(page_reshmenu)
+        self.ui_ensure(page_reshmenu)
         # OCR_SHOP_GOLD_COINS is slower than RESHMENU_CHECK
         timeout = Timer(1, count=1).start()
         skip_first_screenshot = True
