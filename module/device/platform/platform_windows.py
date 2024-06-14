@@ -1,7 +1,6 @@
+import ctypes
 import re
-import win32process
-import win32con
-import win32gui
+import subprocess
 
 import psutil
 
@@ -18,34 +17,44 @@ class EmulatorUnknown(Exception):
     pass
 
 
-class HwndNotFoundError(Exception):
-    pass
+def get_focused_window():
+    return ctypes.windll.user32.GetForegroundWindow()
+
+
+def set_focus_window(hwnd):
+    ctypes.windll.user32.SetForegroundWindow(hwnd)
+
+
+def minimize_window(hwnd):
+    ctypes.windll.user32.ShowWindow(hwnd, 6)
+
+
+def get_window_title(hwnd):
+    """Returns the window title as a string."""
+    text_len_in_characters = ctypes.windll.user32.GetWindowTextLengthW(hwnd)
+    string_buffer = ctypes.create_unicode_buffer(
+        text_len_in_characters + 1)  # +1 for the \0 at the end of the null-terminated string.
+    ctypes.windll.user32.GetWindowTextW(hwnd, string_buffer, text_len_in_characters + 1)
+    return string_buffer.value
+
+
+def flash_window(hwnd, flash=True):
+    ctypes.windll.user32.FlashWindow(hwnd, flash)
 
 
 class PlatformWindows(PlatformBase, EmulatorManager):
-    def __init__(self, config):
-        super().__init__(config)
-        self.process: tuple = None
-        self.hwnds: list[int] = None
-
-    def execute(self, command: str):
+    @classmethod
+    def execute(cls, command):
         """
         Args:
             command (str):
 
         Returns:
-            win32process.CreateProcess -> tuple(Incomplete, Incomplete, int, int):
+            subprocess.Popen:
         """
         command = command.replace(r"\\", "/").replace("\\", "/").replace('"', '"')
         logger.info(f'Execute: {command}')
-        startupinfo = win32process.STARTUPINFO()
-        startupinfo.dwFlags = win32con.STARTF_USESHOWWINDOW
-        self.process = win32process.CreateProcess( #Only work for Windows.
-            None,command,None,None,False,
-            win32con.DETACHED_PROCESS,
-            None,None,startupinfo
-        )
-        return True
+        return subprocess.Popen(command, close_fds=True)  # only work on Windows
 
     @classmethod
     def kill_process_by_regex(cls, regex: str) -> int:
@@ -68,38 +77,6 @@ class PlatformWindows(PlatformBase, EmulatorManager):
                 count += 1
 
         return count
-    
-    def gethwnds(self, pid: int):
-        def callback(hwnd: int, hwnds: list):
-            _, fpid = win32process.GetWindowThreadProcessId(hwnd)
-            if fpid == pid:
-                hwnds.append(hwnd)
-            return True
-        hwnds = []
-        win32gui.EnumWindows(callback, hwnds)
-        if not hwnds:
-            logger.critical(
-                "Hwnd not found! \n"
-                "1.Perhaps emulator was killed. \n"
-                "2.Environment has something wrong. Please check the running environment. "
-            )
-            raise HwndNotFoundError("Hwnd not found")
-        return hwnds
-
-    def _switch_window(self, hwnd:int, arg:int):
-        win32gui.ShowWindow(hwnd,arg)
-
-    def switch_window(self, arg: int):
-        if self.process is None:
-            return
-        for hwnd in self.hwnds:
-            if not win32gui.IsWindow(hwnd):
-                continue
-            if win32gui.GetParent(hwnd):
-                continue
-            if set(win32gui.GetWindowRect(hwnd)) == {0}:
-                continue
-            self._switch_window(hwnd, arg)# May arg will be sent in.
 
     def _emulator_start(self, instance: EmulatorInstance):
         """
@@ -188,7 +165,6 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             self.kill_process_by_regex(
                 rf'('
                 rf'HD-Player.exe.*"--instance" "{instance.name}"'
-                rf'|BstkSVC.exe.*-Embedding'
                 rf')'
             )
         elif instance == Emulator.BlueStacks4:
@@ -230,8 +206,10 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             bool: True if startup completed
                 False if timeout
         """
-        logger.info("Emulator starting...")
+        logger.hr('Emulator start', level=2)
+        current_window = get_focused_window()
         serial = self.emulator_instance.serial
+        logger.info(f'Current window: {current_window}')
 
         def adb_connect():
             m = self.adb_client.connect(self.serial)
@@ -260,12 +238,23 @@ class PlatformWindows(PlatformBase, EmulatorManager):
 
         interval = Timer(0.5).start()
         timeout = Timer(300).start()
+        new_window = 0
         while 1:
             interval.wait()
             interval.reset()
             if timeout.reached():
                 logger.warning(f'Emulator start timeout')
                 return False
+
+            # Check emulator window showing up
+            # logger.info([get_focused_window(), get_window_title(get_focused_window())])
+            if current_window != 0 and new_window == 0:
+                new_window = get_focused_window()
+                if current_window != new_window:
+                    logger.info(f'New window showing up: {new_window}, focus back')
+                    set_focus_window(current_window)
+                else:
+                    new_window = 0
 
             # Check device connection
             devices = self.list_device().select(serial=serial)
@@ -304,17 +293,24 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             # All check passed
             break
 
-        # Check emulator process and hwnds
-        self.hwnds = self.gethwnds(self.process[2])
-
-        logger.info(f'Emulator start completed')
-        logger.info(f'Emulator Process: {self.process}')
-        logger.info(f'Emulator hwnds: {self.hwnds}')
+        if new_window != 0 and new_window != current_window:
+            logger.info(f'Minimize new window: {new_window}')
+            minimize_window(new_window)
+        if current_window:
+            logger.info(f'De-flash current window: {current_window}')
+            flash_window(current_window, flash=False)
+        if new_window:
+            logger.info(f'Flash new window: {new_window}')
+            flash_window(new_window, flash=True)
+        logger.info('Emulator start completed')
         return True
 
     def emulator_start(self):
         logger.hr('Emulator start', level=1)
         for _ in range(3):
+            # Stop
+            if not self._emulator_function_wrapper(self._emulator_stop):
+                return False
             # Start
             if self._emulator_function_wrapper(self._emulator_start):
                 # Success
