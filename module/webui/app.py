@@ -76,7 +76,6 @@ from module.webui.utils import (
     add_css,
     filepath_css,
     get_alas_config_listen_path,
-    set_localstorage,
     get_localstorage,
     get_window_visibility_state,
     login,
@@ -116,10 +115,9 @@ class AlasGUI(Frame):
         self.alas_mod = "alas"
         self.alas_config = AzurLaneConfig("template")
         self.initial()
-
-    aside_status_cache = []
-    current_aside_cache = []
-    load_home = False
+        self.aside_status_cache = []
+        self.current_aside_cache = []
+        self.load_home = False
 
     @use_scope("aside", clear=True)
     def set_aside(self) -> None:
@@ -130,7 +128,11 @@ class AlasGUI(Frame):
             buttons=[{"label": t("Gui.Aside.Home"), "value": "Home", "color": "aside"}],
             onclick=[self.ui_develop],
         )
-        self.set_aside_status(0)
+        put_scope("aside_instance",[
+            put_scope(f"alas-instance-{inst}",[])
+            for inst in alas_instance()
+        ])
+        self.set_aside_status()
         put_icon_buttons(
             Icon.SETTING,
             "false",
@@ -144,39 +146,43 @@ class AlasGUI(Frame):
             onclick=[lambda: go_app("manage", new_window=False)],
         )
 
-    @use_scope("aside_status")
-    def set_aside_status(self, state: int) -> None:
+    @use_scope("aside_instance")
+    def set_aside_status(self) -> None:
         flag = True
         self.current_aside_cache = alas_instance()
+        
+        def update(name):
+            with use_scope(f"alas-instance-{name}", clear=True):
+                rendered_state = put_icon_buttons(
+                    Icon.RUN,
+                    "true",
+                    buttons=[{"label": name, "value": name, "color": "aside"}],
+                    onclick=self.ui_alas,
+                )
+            return rendered_state
+        
         if (len(self.aside_status_cache) != len(self.current_aside_cache)) or self.load_home:
-            # Reload when add new instance / first start app.py / go to HomePage
+            # Reload when add/delete new instance | first start app.py | go to HomePage (HomePage load call force reload)
             flag = False
         if flag:
-            self.aside_status_cache = [int(x) for x in get_localstorage("status").strip('[]').split(',')]
-            # Use browser storage to avoid disturb between sessions
             for index, inst in enumerate(self.current_aside_cache):
                 # Check for state change
                 state = ProcessManager.get_manager(inst).state
-                if state != self.aside_status_cache[index]:
+                if state != self.aside_status_cache[index]:                    
+                    self.aside_status_cache[index] = update(inst)
                     flag = False
-                    break
-        if flag:
-            return
-        clear()
-        self.aside_status_cache.clear()
-        for name in self.current_aside_cache:
-            rendered_state = put_icon_buttons(
-                Icon.RUN,
-                "true",
-                buttons=[{"label": name, "value": name, "color": "aside"}],
-                onclick=self.ui_alas,
-            )
-            self.aside_status_cache.append(rendered_state)
-        set_localstorage("status", self.aside_status_cache)
-        self.load_home = False
+        else:
+            self.aside_status_cache.clear()
+            clear()
+            for inst in self.current_aside_cache:                
+                self.aside_status_cache.append(update(inst))
+            self.load_home = False
+        if not flag:
+            # Redraw lost focus, now focus on aside button
+            aside_name = get_localstorage("aside")
+            self.active_button("aside", aside_name)
+
         self.current_aside_cache.clear()
-        aside_name = get_localstorage("aside")
-        self.active_button("aside", aside_name)
         return
 
     @use_scope("header_status")
@@ -1008,7 +1014,6 @@ class AlasGUI(Frame):
         if hasattr(self, "alas"):
             del self.alas
         self.state_switch.switch()
-        self.aside_state_switch.switch()
 
     def ui_alas(self, config_name: str) -> None:
         if config_name == self.alas_name:
@@ -1021,7 +1026,6 @@ class AlasGUI(Frame):
         self.alas = ProcessManager.get_manager(config_name)
         self.alas_config = load_config(config_name)
         self.state_switch.switch()
-        self.aside_state_switch.switch()
         self.initial()
         self.alas_set_menu()
 
@@ -1219,12 +1223,6 @@ class AlasGUI(Frame):
             name="state",
         )
 
-        self.aside_state_switch = Switch(
-            status=self.set_aside_status,
-            get_state=lambda: getattr(getattr(self, "alas", -1), "state", 0),
-            name="aside_state",
-        )
-
         def goto_update():
             self.ui_develop()
             self.dev_update()
@@ -1244,7 +1242,7 @@ class AlasGUI(Frame):
         )
 
         self.task_handler.add(self.state_switch.g(), 2)
-        self.task_handler.add(self.aside_state_switch.g(),2)
+        self.task_handler.add(self.set_aside_status, 2)
         self.task_handler.add(visibility_state_switch.g(), 15)
         self.task_handler.add(update_switch.g(), 1)
         self.task_handler.start()
