@@ -294,7 +294,7 @@ class RewardDorm(UI):
         return Digit(grids.buttons, letter=(255, 255, 255), threshold=128, name='OCR_DORM_FOOD')
 
     def _dorm_has_food(self, button):
-        return np.min(rgb2gray(self.image_crop(button))) < 127
+        return np.min(rgb2gray(self.image_crop(button, copy=False))) < 127
 
     def _dorm_feed_click(self, button, count):
         """

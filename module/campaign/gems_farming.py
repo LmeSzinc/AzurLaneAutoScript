@@ -297,7 +297,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
             scanner.set_limitation(fleet=0)
             candidates = [ship for ship in scanner.scan(self.device.image, output=False)
-                          if template.match(self.image_crop(ship.button), similarity=SIM_VALUE)]
+                          if template.match(self.image_crop(ship.button, copy=False), similarity=SIM_VALUE)]
 
             if candidates:
                 return candidates
@@ -306,7 +306,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             self.dock_sort_method_dsc_set(False)
 
             candidates = [ship for ship in scanner.scan(self.device.image)
-                          if template.match(self.image_crop(ship.button), similarity=SIM_VALUE)]
+                          if template.match(self.image_crop(ship.button, copy=False), similarity=SIM_VALUE)]
 
             return candidates
 
@@ -366,7 +366,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         candidates = []
         for item in template:
             candidates = [ship for ship in scanner.scan(self.device.image, output=False)
-                          if item.match(self.image_crop(ship.button), similarity=SIM_VALUE)]
+                          if item.match(self.image_crop(ship.button, copy=False), similarity=SIM_VALUE)]
             if candidates:
                 break
         return candidates

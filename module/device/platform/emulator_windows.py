@@ -471,8 +471,9 @@ class EmulatorManager(EmulatorManagerBase):
             try:
                 exe = proc.cmdline()
                 exe = exe[0].replace(r'\\', '/').replace('\\', '/')
-            except (psutil.AccessDenied, IndexError):
+            except (psutil.AccessDenied, psutil.NoSuchProcess, IndexError):
                 # psutil.AccessDenied
+                # NoSuchProcess: process no longer exists (pid=xxx)
                 continue
 
             if Emulator.is_emulator(exe):

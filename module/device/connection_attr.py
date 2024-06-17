@@ -89,6 +89,10 @@ class ConnectionAttr:
             res = re.search(r'(127\.\d+\.\d+\.\d+:\d+)', serial)
             if res:
                 serial = res.group(1)
+        # 12127.0.0.1:16384
+        serial = serial.replace('12127.0.0.1', '127.0.0.1')
+        # auto127.0.0.1:16384
+        serial = serial.replace('auto127.0.0.1', '127.0.0.1').replace('autoemulator', 'emulator')
         return str(serial)
 
     def serial_check(self):

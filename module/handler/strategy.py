@@ -123,7 +123,7 @@ class StrategyHandler(InfoHandler):
         Returns:
             int: Formation index.
         """
-        image = self.image_crop(MAP_BUFF)
+        image = self.image_crop(MAP_BUFF, copy=False)
         if TEMPLATE_FORMATION_2.match(image):
             buff = 'double_line'
         elif TEMPLATE_FORMATION_1.match(image):

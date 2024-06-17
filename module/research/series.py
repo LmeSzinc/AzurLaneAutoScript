@@ -41,7 +41,7 @@ def get_research_series_3(image, series_button=RESEARCH_SERIES):
         list[int]:
     """
     return [
-        match_series(crop(image, area_pad(button.area, pad=-10)), scaling)
+        match_series(crop(image, area_pad(button.area, pad=-10), copy=False), scaling)
         for scaling, button in zip(RESEARCH_SCALING, series_button)
     ]
 
@@ -54,4 +54,4 @@ def get_detail_series(image):
     Returns:
         int:
     """
-    return match_series(crop(image, area_pad(SERIES_DETAIL.area, pad=-30)), scaling=1.0)
+    return match_series(crop(image, area_pad(SERIES_DETAIL.area, pad=-30), copy=False), scaling=1.0)
