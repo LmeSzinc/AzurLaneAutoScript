@@ -163,16 +163,6 @@ class ZoneManager:
         ports = ports.sort_by_camera_distance(camera=tuple(zone.location))
         return ports[0]
 
-    def is_in_azur_port(self, zone):
-        """
-        Args:
-            zone (str, int, Zone): Name in CN/EN/JP/TW, zone id, or Zone instance.
-
-        Returns:
-            bool: True if zone is in azur port.
-        """
-        return zone.is_azur_port
-
     def zone_select(self, hazard_level):
         """
         Similar to `self.zone.select(**kwargs)`, but delete zones in region 5.
