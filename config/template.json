@@ -1635,7 +1635,6 @@
       "ServerUpdate": "00:00"
     },
     "OpsiShop": {
-      "ScanFrequencyLimit": "weekly",
       "PresetFilter": "max_benefit_meta",
       "CustomFilter": "Logger"
     },

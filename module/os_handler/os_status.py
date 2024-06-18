@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 
 from module.base.timer import Timer
 from module.config.config import Function
-from module.config.utils import get_server_next_update
+from module.config.utils import get_server_next_update, get_os_reset_remain
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
 from module.ocr.ocr import Digit
@@ -92,12 +92,18 @@ class OSStatus(UI):
 
     def get_currency_coins(self, item):
         return self._shop_yellow_coins - (
+            0 if get_os_reset_remain() == 0 else
             self.config.OS_CL1_YELLOW_COINS_PRESERVE if self.is_cl1_enabled else
             self.config.OS_NORMAL_YELLOW_COINS_PRESERVE
-        ) if item.cost == 'YellowCoins' \
-            else self._shop_purple_coins - self.config.OS_NORMAL_PURPLE_COINS_PRESERVE
+        ) if item.cost == 'YellowCoins' else \
+            self._shop_purple_coins - (
+                0 if get_os_reset_remain() == 0 else
+                self.config.OS_NORMAL_PURPLE_COINS_PRESERVE
+        )
 
     def is_coins_both_not_enough(self):
-        return self._shop_yellow_coins < (self.config.OS_CL1_YELLOW_COINS_PRESERVE if self.is_cl1_enabled else
-                                          self.config.OS_NORMAL_YELLOW_COINS_PRESERVE) \
-            and self._shop_purple_coins < self.config.OS_NORMAL_PURPLE_COINS_PRESERVE
+        return False if get_os_reset_remain() == 0 else \
+            self._shop_yellow_coins < (
+                self.config.OS_CL1_YELLOW_COINS_PRESERVE if self.is_cl1_enabled else
+            self.config.OS_NORMAL_YELLOW_COINS_PRESERVE
+        ) and self._shop_purple_coins < self.config.OS_NORMAL_PURPLE_COINS_PRESERVE
