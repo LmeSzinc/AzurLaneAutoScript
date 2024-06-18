@@ -2287,13 +2287,6 @@
       "name": "OpsiShop._info.name",
       "help": "OpsiShop._info.help"
     },
-    "ScanFrequencyLimit": {
-      "name": "OpsiShop.ScanFrequencyLimit.name",
-      "help": "OpsiShop.ScanFrequencyLimit.help",
-      "everyday": "everyday",
-      "weekly": "weekly",
-      "everyday_of_week_before_reset": "everyday of week before reset"
-    },
     "PresetFilter": {
       "name": "OpsiShop.PresetFilter.name",
       "help": "OpsiShop.PresetFilter.help",

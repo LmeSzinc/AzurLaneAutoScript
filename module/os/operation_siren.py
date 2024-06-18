@@ -262,29 +262,22 @@ class OperationSiren(OSMap):
         Returns:
             datetime: The time of the next shop reset.
         """
-        frequency = self.config.OpsiShop_ScanFrequencyLimit
         next_reset = None
 
-        if not_empty or frequency == 'everyday':
+        if not_empty:
             next_reset = get_server_next_update(self.config.Scheduler_ServerUpdate)
         else:
             remain = get_os_reset_remain()
             next_reset = get_os_next_reset()
-            if frequency == 'weekly':
-                if remain == 0:
-                    next_reset = get_server_next_update(self.config.Scheduler_ServerUpdate)
-                elif remain < 7:
-                    next_reset = next_reset - timedelta(days=1)
-                else:
-                    next_reset = (
-                        get_server_next_update(self.config.Scheduler_ServerUpdate) +
-                        timedelta(days=6)
-                    )
-            elif frequency == 'week_before_reset':
-                if remain < 7:
-                    next_reset = get_server_next_update(self.config.Scheduler_ServerUpdate)
-                else:
-                    next_reset = next_reset - timedelta(days=7)
+            if remain == 0:
+                next_reset = get_server_next_update(self.config.Scheduler_ServerUpdate)
+            elif remain < 7:
+                next_reset = next_reset - timedelta(days=1)
+            else:
+                next_reset = (
+                    get_server_next_update(self.config.Scheduler_ServerUpdate) +
+                    timedelta(days=6)
+                )
         return next_reset
 
     def _os_voucher_enter(self):

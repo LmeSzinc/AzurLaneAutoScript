@@ -8420,15 +8420,6 @@
       }
     },
     "OpsiShop": {
-      "ScanFrequencyLimit": {
-        "type": "select",
-        "value": "weekly",
-        "option": [
-          "everyday",
-          "weekly",
-          "everyday_of_week_before_reset"
-        ]
-      },
       "PresetFilter": {
         "type": "select",
         "value": "max_benefit_meta",
