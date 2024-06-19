@@ -1,10 +1,12 @@
 from datetime import datetime
+from module.base.timer import Timer
+from module.campaign.assets import OCR_OIL_CHECK
 
 from module.exception import ScriptError
 from module.logger import logger
 from module.shipyard.ui import ShipyardUI
 from module.shop.shop_general import GeneralShop
-from module.ui.page import page_main, page_shipyard
+from module.ui.page import page_reshmenu, page_shipyard
 from module.config.utils import get_server_last_update
 
 PRBP_BUY_PRIZE = {
@@ -185,8 +187,22 @@ class RewardShipyard(ShipyardUI, GeneralShop):
         # Gold difficult to Ocr in page_shipyard
         # due to both text and number being
         # right-aligned together
-        # Retrieve information from page_main instead
-        self.ui_ensure(page_main)
+        # Retrieve information from page_reshmenu instead
+        self.ui_ensure(page_reshmenu)
+        # OCR_SHOP_GOLD_COINS is slower than RESHMENU_CHECK
+        timeout = Timer(1, count=1).start()
+        skip_first_screenshot = True
+        while True:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+            if self.appear(OCR_OIL_CHECK, offset=(5, 2)):
+                break
+            if timeout.reached():
+                logger.warning('Assumes that OCR_COIN is in the right place')
+                break
+
         self.shop_currency()
 
         self.ui_goto(page_shipyard)
