@@ -398,6 +398,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         """
         if self.appear(MUNITIONS_CHECK, offset=(20, 20), interval=2):
             self.device.click(BACK_ARROW)
+            self.interval_reset(EXP_INFO_B)
             return True
 
         return False
