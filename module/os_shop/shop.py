@@ -1,3 +1,4 @@
+from module.config.utils import get_os_reset_remain
 from module.exception import ScriptError
 from module.logger import logger
 from module.os_shop.assets import PORT_SUPPLY_CHECK, SHOP_BUY_CONFIRM
@@ -173,3 +174,29 @@ class OSShop(PortShop, AkashiShop):
                       additional=self.handle_story_skip, skip_first_screenshot=True)
         self.os_shop_buy(select_func=self.os_shop_get_item_to_buy_in_akashi)
         self.ui_back(appear_button=PORT_SUPPLY_CHECK, check_button=self.is_in_map, skip_first_screenshot=True)
+
+    def get_currency_coins(self, item):
+        if item.cost == 'YellowCoins':
+            if get_os_reset_remain() == 0:
+                return self._shop_yellow_coins
+            elif self.is_cl1_enabled:
+                return self._shop_yellow_coins - self.config.OS_CL1_YELLOW_COINS_PRESERVE
+            else:
+                return self._shop_yellow_coins - self.config.OS_NORMAL_YELLOW_COINS_PRESERVE
+
+        elif item.cost == 'PurpleCoins':
+            if get_os_reset_remain() == 0:
+                return self._shop_purple_coins
+            else:
+                return self._shop_purple_coins - self.config.OS_NORMAL_PURPLE_COINS_PRESERVE
+
+    def is_coins_both_not_enough(self):
+        if get_os_reset_remain() == 0:
+            return False
+        else:
+            if self.is_cl1_enabled:
+                yellow = self._shop_yellow_coins < self.config.OS_CL1_YELLOW_COINS_PRESERVE
+            else:
+                yellow = self._shop_yellow_coins < self.config.OS_NORMAL_YELLOW_COINS_PRESERVE
+            purple = self._shop_purple_coins < self.config.OS_NORMAL_PURPLE_COINS_PRESERVE
+            return yellow and purple
