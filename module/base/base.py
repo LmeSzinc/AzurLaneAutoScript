@@ -161,6 +161,11 @@ class ModuleBase:
                 self.interval_timer[button.name] = Timer(interval)
             if not self.interval_timer[button.name].reached():
                 return False
+        elif button.name in self.interval_timer:
+            if self.interval_timer[button.name].reached():
+                self.interval_timer.pop(button.name)
+            else:
+                return False
 
         if isinstance(button, HierarchyButton):
             appear = bool(button)
