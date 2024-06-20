@@ -153,7 +153,7 @@ class ProcessManager:
             elif func in get_available_func():
                 from alas import AzurLaneAutoScript
 
-                AzurLaneAutoScript(config_name=config_name).run(inflection.underscore(func))
+                AzurLaneAutoScript(config_name=config_name).run(inflection.underscore(func), skip_first_screenshot=True)
             elif func in get_available_mod():
                 mod = load_mod(func)
 

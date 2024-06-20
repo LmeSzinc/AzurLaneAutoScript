@@ -62,9 +62,10 @@ class AzurLaneAutoScript:
             logger.exception(e)
             exit(1)
 
-    def run(self, command):
+    def run(self, command, skip_first_screenshot=False):
         try:
-            self.device.screenshot()
+            if not skip_first_screenshot:
+                self.device.screenshot()
             self.__getattribute__(command)()
             return True
         except TaskEnd:
