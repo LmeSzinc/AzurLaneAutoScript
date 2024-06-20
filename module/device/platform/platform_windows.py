@@ -151,10 +151,10 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             # E:\Program Files\Netease\MuMu Player 12\shell\MuMuManager.exe api -v 1 shutdown_player
             if instance.MuMuPlayer12_id is None:
                 logger.warning(f'Cannot get MuMu instance index from name {instance.name}')
-            self.execute(f'"{os.path.join(os.path.dirname(exe),"MuMuManager.exe")}" api -v {instance.MuMuPlayer12_id} shutdown_player')
+            self.execute(f'"{Emulator.single_to_console(exe)}" api -v {instance.MuMuPlayer12_id} shutdown_player')
         elif instance == Emulator.LDPlayerFamily:
             # E:\Program Files\leidian\LDPlayer9\dnconsole.exe quit --index 0
-            self.execute(f'"{os.path.join(os.path.dirname(exe),"dnconsole.exe")}" quit --index {instance.LDPlayer_id}')
+            self.execute(f'"{Emulator.single_to_console(exe)}" quit --index {instance.LDPlayer_id}')
         elif instance == Emulator.NoxPlayerFamily:
             # Nox.exe -clone:Nox_1 -quit
             self.execute(f'"{exe}" -clone:{instance.name} -quit')
@@ -169,10 +169,10 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             )
         elif instance == Emulator.BlueStacks4:
             # E:\Program Files (x86)\BluestacksCN\bsconsole.exe quit --name Android
-            self.execute(f'"{os.path.join(os.path.dirname(exe),"bsconsole.exe")}" quit --name {instance.name}')
+            self.execute(f'"{Emulator.single_to_console(exe)}" quit --name {instance.name}')
         elif instance == Emulator.MEmuPlayer:
             # F:\Program Files\Microvirt\MEmu\memuc.exe stop -n MEmu_0
-            self.execute(f'"{os.path.join(os.path.dirname(exe),"memuc.exe")}" stop -n {instance.name}')
+            self.execute(f'"{Emulator.single_to_console(exe)}" stop -n {instance.name}')
         else:
             raise EmulatorUnknown(f'Cannot stop an unknown emulator instance: {instance}')
 
