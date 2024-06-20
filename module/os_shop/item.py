@@ -101,10 +101,7 @@ class OSShopItem(Item):
         return name
 
     def __eq__(self, other):
-        return hash(self) == hash(other)
-
-    def __hash__(self):
-        return hash((self.name, self.price, self.cost, self.shop_index, self.scroll_pos))
+        return id(self) == id(other)
 
 
 class OSShopItemGrid(ItemGrid):
