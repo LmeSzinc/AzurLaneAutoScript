@@ -116,8 +116,6 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         """
         Stop a emulator without error handling
         """
-        import os
-        logger.hr('Emulator stop', level=2)
         exe: str = instance.emulator.path
         if instance == Emulator.MuMuPlayer:
             # MuMu6 does not have multi instance, kill one means kill all
