@@ -206,18 +206,10 @@ class ConfigGenerator:
             if not check_override(p, v):
                 continue
             if isinstance(v, dict):
-                typ = v.get('type')
-                if typ == 'state':
-                    pass
-                elif typ == 'lock':
-                    pass
-                elif deep_get(v, keys='value') is not None:
-                    deep_default(v, keys='display', value='hide')
                 for arg_k, arg_v in v.items():
                     deep_set(data, keys=p + [arg_k], value=arg_v)
             else:
                 deep_set(data, keys=p + ['value'], value=v)
-                deep_set(data, keys=p + ['display'], value='hide')
         # Set command
         for path, groups in deep_iter(self.task, depth=3):
             if 'tasks' not in path:
