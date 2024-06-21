@@ -70,12 +70,13 @@ class AzurLaneAutoScript:
             logger.exception(e)
             exit(1)
 
-    def run(self, command):
+    def run(self, command, skip_first_screenshot=False):
         self.AutoRestart_Enabled = deep_get(self.config.data, "Restart.AutoRestart.Enabled")
         self.AutoRestart_NotifyWhenAutoRestart = deep_get(self.config.data, "Restart.AutoRestart.NotifyWhenAutoRestart")
         self.AutoRestart_AttemptsToRestart = deep_get(self.config.data, "Restart.AutoRestart.AttemptsToRestart")
         try:
-            self.device.screenshot()
+            if not skip_first_screenshot:
+                self.device.screenshot()
             self.__getattribute__(command)()
             if command != "restart" and self.GameRestartBecauseErrorTimes != 0:
                 self.GameRestartBecauseErrorTimes = 0
