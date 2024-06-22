@@ -152,23 +152,7 @@ class ProcessManager:
             elif func == "Daemon":
                 from module.daemon.daemon import AzurLaneDaemon
 
-                AzurLaneDaemon(config=config_name, task="Daemon").run()
-            elif func == "OpsiDaemon":
-                from module.daemon.os_daemon import AzurLaneDaemon
-
-                AzurLaneDaemon(config=config_name, task="OpsiDaemon").run()
-            elif func == "AzurLaneUncensored":
-                from module.daemon.uncensored import AzurLaneUncensored
-
-                AzurLaneUncensored(config=config_name, task="AzurLaneUncensored").run()
-            elif func == "Benchmark":
-                from module.daemon.benchmark import run_benchmark
-
-                run_benchmark(config=config_name)
-            elif func == "GameManager":
-                from module.daemon.game_manager import GameManager
-
-                GameManager(config=config_name, task="GameManager").run()
+                AzurLaneAutoScript(config_name=config_name).run(inflection.underscore(func), skip_first_screenshot=True)
             elif func in get_available_mod():
                 mod = load_mod(func)
 
