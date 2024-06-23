@@ -2285,9 +2285,25 @@
       "name": "OpSi Shop Settings",
       "help": "Completes OpSi daily activities\nThe following must be satisfied:\n- OpSi story and practice battles must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
     },
-    "BuySupply": {
-      "name": "Buy From Port Shops",
-      "help": "Buy all items from port shops\nShop inventory consists of a fixed pool that is reset monthly, items not bought during a cycle has the chance of re-appearing and blocking preferable high value items"
+    "BuyFrequency": {
+      "name": "Buy Frequency",
+      "help": "- Everyday = Check everyday, best after OpSi Explore is complete\n- Weekly = Check once a week and the last day before reset; does not include 1st week of month\n- Week Before Reset = Check the last week before reset and everyday of that week",
+      "everyday": "Everyday",
+      "weekly": "Weekly",
+      "week_before_reset": "Week Before Reset"
+    },
+    "PresetFilter": {
+      "name": "Preset Filter Select",
+      "help": "Reference module/shop/shop_port_preset.py for definitions",
+      "max_benefit": "Max Benefit",
+      "max_benefit_meta": "Max Benefit + META",
+      "max_benefit_exploration": "Max Benefit + Exploration",
+      "all": "All",
+      "custom": "Custom"
+    },
+    "CustomFilter": {
+      "name": "Custom Filter",
+      "help": "All options have been defined at <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string>"
     }
   },
   "OpsiVoucher": {

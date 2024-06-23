@@ -1635,7 +1635,9 @@
       "ServerUpdate": "00:00"
     },
     "OpsiShop": {
-      "BuySupply": true
+      "BuyFrequency": "weekly",
+      "PresetFilter": "max_benefit",
+      "CustomFilter": "Logger\n> PurpleCoins > Tuning > ActionPoint\n> BoxMatT3\n> PlatePartT4 > PlatePartT3 > PlateWildT3\n> GearPlanT4 > GearReportT4 > GearPlanT3 > GearReportT3\n> Book > Rigging"
     },
     "Storage": {
       "Storage": {}

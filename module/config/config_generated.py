@@ -388,7 +388,9 @@ class GeneratedConfig:
     OpsiExplore_LastZone = 0
 
     # Group `OpsiShop`
-    OpsiShop_BuySupply = True
+    OpsiShop_BuyFrequency = 'weekly'  # everyday, weekly, week_before_reset
+    OpsiShop_PresetFilter = 'max_benefit'  # max_benefit, max_benefit_meta, max_benefit_exploration, all, custom
+    OpsiShop_CustomFilter = 'Logger\n> PurpleCoins > Tuning > ActionPoint\n> BoxMatT3\n> PlatePartT4 > PlatePartT3 > PlateWildT3\n> GearPlanT4 > GearReportT4 > GearPlanT3 > GearReportT3\n> Book > Rigging'
 
     # Group `OpsiVoucher`
     OpsiVoucher_Filter = 'LoggerAbyssal > LoggerObscure > Book > Coin > Fragment'

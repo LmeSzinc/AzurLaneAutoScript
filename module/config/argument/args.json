@@ -8418,9 +8418,29 @@
       }
     },
     "OpsiShop": {
-      "BuySupply": {
-        "type": "checkbox",
-        "value": true
+      "BuyFrequency": {
+        "type": "select",
+        "value": "weekly",
+        "option": [
+          "everyday",
+          "weekly",
+          "week_before_reset"
+        ]
+      },
+      "PresetFilter": {
+        "type": "select",
+        "value": "max_benefit",
+        "option": [
+          "max_benefit",
+          "max_benefit_meta",
+          "max_benefit_exploration",
+          "all",
+          "custom"
+        ]
+      },
+      "CustomFilter": {
+        "type": "textarea",
+        "value": "Logger\n> PurpleCoins > Tuning > ActionPoint\n> BoxMatT3\n> PlatePartT4 > PlatePartT3 > PlateWildT3\n> GearPlanT4 > GearReportT4 > GearPlanT3 > GearReportT3\n> Book > Rigging"
       }
     },
     "Storage": {

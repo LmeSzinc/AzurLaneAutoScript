@@ -666,7 +666,27 @@ OpsiExplore:
   ForceRun: false
   LastZone: 0
 OpsiShop:
-  BuySupply: true
+  BuyFrequency:
+    value: weekly
+    option:
+      - everyday
+      - weekly
+      - week_before_reset
+  PresetFilter:
+    value: max_benefit
+    option:
+      - max_benefit
+      - max_benefit_meta
+      - max_benefit_exploration
+      - all
+      - custom
+  CustomFilter: |-
+    Logger
+    > PurpleCoins > Tuning > ActionPoint
+    > BoxMatT3
+    > PlatePartT4 > PlatePartT3 > PlateWildT3
+    > GearPlanT4 > GearReportT4 > GearPlanT3 > GearReportT3
+    > Book > Rigging
 OpsiVoucher:
   Filter: |-
     LoggerAbyssal > LoggerObscure > Book > Coin > Fragment

@@ -2285,9 +2285,25 @@
       "name": "大世界商店",
       "help": "使用此功能前必须满足以下条件：\n- 通关大世界主线并完成模拟战+塞壬试验场\n- 启用大世界开荒任务或使用战役信息记录仪（5000油道具）"
     },
-    "BuySupply": {
-      "name": "购买港口商店",
-      "help": "每月港口商店可购买商品是固定的，未购买的物品下次仍会出现，并阻塞高价值物品，因此需要购买全部"
+    "BuyFrequency": {
+      "name": "OpsiShop.BuyFrequency.name",
+      "help": "OpsiShop.BuyFrequency.help",
+      "everyday": "everyday",
+      "weekly": "weekly",
+      "week_before_reset": "week_before_reset"
+    },
+    "PresetFilter": {
+      "name": "港口商店过滤器",
+      "help": "一般默认即可，白票溢出建议选 \"高价值物品与META材料\"，萌新建议选 \"不购买META材料\"，这会买除了META材料以外的所有东西。\n高价值物品为行动力、坐标和金或者更高级別的商品；META材料为META通用战术教材和4种强化材料。",
+      "max_benefit": "高价值物品",
+      "max_benefit_meta": "高价值物品与META材料",
+      "max_benefit_exploration": "max_benefit_exploration",
+      "all": "全部",
+      "custom": "自定义"
+    },
+    "CustomFilter": {
+      "name": "自定义过滤器",
+      "help": "使用自定义过滤器需将 \"港口商店过滤器\" 设置为 \"自定义\"，并阅读 https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn"
     }
   },
   "OpsiVoucher": {

@@ -5,6 +5,7 @@ import numpy as np
 from module.config.utils import (get_nearest_weekday_date,
                                  get_os_next_reset,
                                  get_os_reset_remain,
+                                 get_server_next_update,
                                  DEFAULT_TIME)
 from module.exception import RequestHumanTakeover, GameStuckError, ScriptError
 from module.logger import logger
@@ -268,8 +269,79 @@ class OperationSiren(OSMap):
             self.handle_after_auto_search()
 
     def os_shop(self):
+        # 04.20.23 replaced by os_port_shop
         self.os_port_daily(supply=self.config.OpsiShop_BuySupply)
         self.config.task_delay(server_update=True)
+
+    def _os_port_shop_delay(self):
+        """
+        Calculate next appropriate task delay
+        based on OpsiShop_BuyFrequency
+
+        Returns:
+            datetime
+        """
+        freq = self.config.OpsiShop_BuyFrequency
+        if freq == 'everyday':
+            next_reset = get_server_next_update(self.config.Scheduler_ServerUpdate)
+        elif freq == 'weekly':
+            # Check if in the week before reset
+            remain = get_os_reset_remain()
+            next_reset = get_os_next_reset()
+            if remain < 7:
+                if remain == 0:
+                    # On the last day, schedule 2 weeks ahead
+                    next_reset = next_reset + timedelta(days=13)
+                else:
+                    # Else, schedule next check to the last day
+                    next_reset = next_reset - timedelta(days=1)
+            else:
+                # Not the last week of current month
+                # So schedule normally
+                next_reset = (get_server_next_update(self.config.Scheduler_ServerUpdate) +
+                    timedelta(days=6)
+                )
+        elif freq == 'week_before_reset':
+            # Check if in the week before reset
+            remain = get_os_reset_remain()
+            next_reset = get_os_next_reset()
+            if remain < 7:
+                if remain == 0:
+                    # On the last day, schedule 3 weeks ahead
+                    next_reset = next_reset + timedelta(days=20)
+                else:
+                    # Else, schedule 'everyday' until the last day
+                    next_reset = get_server_next_update(self.config.Scheduler_ServerUpdate)
+            else:
+                # Not the last week of current month
+                # So schedule normally
+                next_reset = next_reset - timedelta(days=7)
+
+        return next_reset
+
+    def os_port_shop(self):
+        """
+        Execute port shop browse and buy operations
+        """
+        logger.hr('OS port shop', level=1)
+
+        # All port shop items can be reached in any port zone
+        # If not in one, then just go to NY City
+        if not self.zone.is_azur_port:
+            port = self.name_to_zone('NY City')
+            self.globe_goto(port)
+
+        # Execute operations
+        self.port_goto()
+        self.port_enter()
+        self.port_supply_buy()
+        self.port_quit()
+
+        # Schedule next time
+        next_reset = self._os_port_shop_delay()
+        logger.info('OS port shop finished, delay to next reset')
+        logger.attr('OpsiNextReset', next_reset)
+        self.config.task_delay(target=next_reset)
 
     def _os_voucher_enter(self):
         self.os_map_goto_globe(unpin=False)

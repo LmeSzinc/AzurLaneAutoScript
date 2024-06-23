@@ -2285,9 +2285,25 @@
       "name": "OpsiShop._info.name",
       "help": "OpsiShop._info.help"
     },
-    "BuySupply": {
-      "name": "OpsiShop.BuySupply.name",
-      "help": "OpsiShop.BuySupply.help"
+    "BuyFrequency": {
+      "name": "OpsiShop.BuyFrequency.name",
+      "help": "OpsiShop.BuyFrequency.help",
+      "everyday": "everyday",
+      "weekly": "weekly",
+      "week_before_reset": "week_before_reset"
+    },
+    "PresetFilter": {
+      "name": "OpsiShop.PresetFilter.name",
+      "help": "OpsiShop.PresetFilter.help",
+      "max_benefit": "max_benefit",
+      "max_benefit_meta": "max_benefit_meta",
+      "max_benefit_exploration": "max_benefit_exploration",
+      "all": "all",
+      "custom": "custom"
+    },
+    "CustomFilter": {
+      "name": "OpsiShop.CustomFilter.name",
+      "help": "OpsiShop.CustomFilter.help"
     }
   },
   "OpsiVoucher": {

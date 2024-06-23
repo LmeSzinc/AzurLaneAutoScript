@@ -2,6 +2,7 @@ from module.base.timer import Timer
 from module.logger import logger
 from module.os_handler.assets import *
 from module.os_handler.shop import OSShopHandler
+from module.shop.shop_port import PortShop
 
 # Azur Lane ports have PORT_GOTO_MISSION, PORT_GOTO_SUPPLY, PORT_GOTO_DOCK.
 # Red axis ports have PORT_GOTO_SUPPLY.
@@ -96,7 +97,7 @@ class PortHandler(OSShopHandler):
         self.device.sleep(0.5)
         self.device.screenshot()
 
-        success = self.handle_port_supply_buy()
+        success = PortShop(self.config, self.device).run()
 
         self.ui_back(appear_button=PORT_SUPPLY_CHECK, check_button=PORT_CHECK, skip_first_screenshot=True)
         return success
