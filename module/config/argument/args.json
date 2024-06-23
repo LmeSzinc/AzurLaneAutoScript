@@ -6716,7 +6716,11 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": true
+        "value": true,
+        "option":[
+          true,
+          false
+        ]
       },
       "NextRun": {
         "type": "datetime",
