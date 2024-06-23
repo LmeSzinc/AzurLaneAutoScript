@@ -742,7 +742,7 @@ OpsiMeowfficerFarming:
   ActionPointPreserve: 1000
   HazardLevel:
     value: 5
-    option: [ 3, 4, 5, 6, 10 ]
+    option: [ 1,2,3, 4, 5, 6, 10 ]
   TargetZone:
     value: 0
 OpsiHazard1Leveling:

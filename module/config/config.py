@@ -87,7 +87,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
         self.auto_update = True
         # Force override variables
         # Key: Argument name in GeneratedConfig. Value: Modified value.
-        self.overridden = {}
+        #self.overridden = {}
         # Scheduler queue, will be updated in `get_next_task()`, list of Function objects
         # pending_task: Run time has been reached, but haven't been run due to task scheduling.
         # waiting_task: Run time haven't been reached, wait needed.
@@ -176,8 +176,8 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
                     visited.add(path)
 
         # Override arguments
-        for arg, value in self.overridden.items():
-            super().__setattr__(arg, value)
+        #for arg, value in self.overridden.items():
+        #    super().__setattr__(arg, value)
 
     @property
     def hoarding(self):
@@ -294,33 +294,18 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
                 if isinstance(next_run, datetime) and next_run > limit:
                     deep_set(self.data, keys=f"{task}.Scheduler.NextRun", value=now)
 
-        for task in ["Commission", "Research", "Reward"]:
-            if not self.is_task_enabled(task):
-                self.modified[f"{task}.Scheduler.Enable"] = True
-        force_enable = list
-
-        force_enable(
-            [
-                "Commission",
-                "Research",
-                "Reward",
-            ]
-        )
-        limit_next_run(["Commission", "Reward"], limit=now + timedelta(hours=12, seconds=-1))
-        limit_next_run(["Research"], limit=now + timedelta(hours=24, seconds=-1))
-        limit_next_run(["OpsiExplore", "OpsiCrossMonth", "OpsiVoucher", "OpsiMonthBoss"],
-                       limit=now + timedelta(days=31, seconds=-1))
-        limit_next_run(["OpsiArchive"], limit=now + timedelta(days=7, seconds=-1))
-        limit_next_run(self.args.keys(), limit=now + timedelta(hours=24, seconds=-1))
+        #limit_next_run(["Commission", "Reward"], limit=now + timedelta(hours=12, seconds=-1))
+        #limit_next_run(["Research"], limit=now + timedelta(hours=24, seconds=-1))
+        #limit_next_run(["OpsiExplore", "OpsiCrossMonth", "OpsiVoucher", "OpsiMonthBoss"],limit=now + timedelta(days=31, seconds=-1))
+        #limit_next_run(["OpsiArchive"], limit=now + timedelta(days=7, seconds=-1))
+        #limit_next_run(self.args.keys(), limit=now + timedelta(hours=24, seconds=-1))
 
         """
         Override anything you want.
         Variables stall remain overridden even config is reloaded from yaml file.
         Note that this method is irreversible.
         """
-        for arg, value in kwargs.items():
-            self.overridden[arg] = value
-            super().__setattr__(arg, value)
+        pass
 
     config_override = override
 
