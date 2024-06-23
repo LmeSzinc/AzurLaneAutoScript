@@ -16,8 +16,9 @@ FILTER_REGEX = re.compile(
     '^(array|book|box|bulin|cat'
     '|chip|coin|cube|drill|food'
     '|plate|retrofit|pr|dr|specializedcore'
-    '|logger|tuning'
-    '|hecombatplan|fragment'
+    '|logger|tuning|rigging'
+    '|actionpoint|energystoragedevice|purplecoins|repairpack'
+    '|hecombat|fragment|gear'
     '|albacore|bataan|bearn|bluegill|carabiniere|casablanca|contedicavour|dukeofyork'
     '|echo|eldridge|gangut|glorious|grenville|hibiki|hunter|icarus'
     '|kawakaze|kinggeorgev|kinu|kuroshio|lagalissonniere|lemalinmuse|letemeraire|littorio'
@@ -30,14 +31,15 @@ FILTER_REGEX = re.compile(
     '|gascogne|champagne|cheshire|drake|mainz|odin'
     '|anchorage|hakuryu|agir|august|marcopolo'
     '|plymouth|rupprecht|harbin|chkalov|brest'
-    '|red|blue|yellow'
+    '|red|blue|yellow|meta'
     '|general|gun|torpedo|antiair|plane|wild'
     '|dd|cl|bb|cv'
     '|iris'
-    '|abyssal|archive|obscure|unlock'
+    '|mat|part|plan|report'
+    '|abyssal|archive|hidden|obscure|unlock'
     '|combat|offense|survival)?'
 
-    '(s[1-5]|t[1-6])?$',
+    '(s\d+|t\d+|\d+|full\d*|triple\d*)?$',
     flags=re.IGNORECASE)
 FILTER_ATTR = ('group', 'sub_genre', 'tier')
 FILTER = Filter(FILTER_REGEX, FILTER_ATTR)

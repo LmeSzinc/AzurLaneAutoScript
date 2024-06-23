@@ -228,6 +228,7 @@ class VoucherShop(ShopClerk, ShopStatus):
         self.wait_until_voucher_appear()
 
         # Execute buy operations
+        VOUCHER_SHOP_SCROLL.set_top(main=self)
         items = self.shop_get_items()
         self.shop_currency()
         if self._currency <= 0:

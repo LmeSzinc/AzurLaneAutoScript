@@ -91,7 +91,7 @@ BOOKS_GRID = ButtonGrid(origin=(213, 292), delta=(147, 117), button_shape=(98, 9
 BOOK_FILTER = Filter(
     regex=re.compile(
         '(same)?'
-        '(red|blue|yellow)?'
+        '(red|blue|yellow|meta)?'
         '-?'
         '(t[1234])?'
     ),
@@ -102,14 +102,16 @@ BOOK_FILTER = Filter(
 
 class Book:
     color_genre = {
-        1: (214, 69, 74),  # Offensive, red
-        2: (115, 178, 255),  # Defensive, blue
+        1: (214, 69, 74),   # Offensive, red
+        2: (115, 178, 255), # Defensive, blue
         3: (247, 190, 99),  # Support, yellow
+        4: (57, 8, 8),      # META, dark red
     }
     genre_name = {
-        1: 'Red',  # Offensive, red
-        2: 'Blue',  # Defensive, blue
-        3: 'Yellow',  # Support, yellow
+        1: 'Red',    # Offensive, red
+        2: 'Blue',   # Defensive, blue
+        3: 'Yellow', # Support, yellow
+        4: 'META',   # META, dark red
     }
     color_tier = {
         1: (104, 181, 238),  # T1, blue
