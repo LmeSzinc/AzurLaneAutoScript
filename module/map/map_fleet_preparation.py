@@ -1,6 +1,6 @@
 import numpy as np
 from scipy import signal
-
+from cnocr import CnOcr, consts
 from module.base.button import Button
 from module.base.timer import Timer
 from module.base.utils import *
@@ -127,7 +127,11 @@ class FleetOperator:
             stage = self.main.config.Campaign_Name
             logger.critical(f'Stage "{stage}" is a hard mode, '
                             f'please prepare your fleet "{str(self)}" in game before running Alas')
-            raise RequestHumanTakeover
+            if str(self) == "FLEET_1":                 
+                self.main.device.click_adb(1050,215)      
+            if str(self) == "FLEET_2":                   
+                self.main.device.click_adb(1050,330)      
+            # raise RequestHumanTakeover                  
 
     def clear(self, skip_first_screenshot=True):
         """
@@ -255,7 +259,7 @@ class FleetOperator:
         # Check the brightness of the rightest column of the bar area.
         luma = rgb2gray(self.main.image_crop(self._bar.button, copy=False))[:, -1]
         # FLEET_PREPARATION is about 146~155
-        return np.sum(luma > 168) / luma.size > 0.5
+        return np.sum(luma > 168) / luma.size > 0.1
 
     def ensure_to_be(self, index):
         """
@@ -306,6 +310,9 @@ class FleetPreparation(InfoHandler):
             if self.config.Submarine_Fleet:
                 submarine.raise_hard_not_satisfied()
 
+        if fleet_1.is_hard():
+            h1 = True        
+            
         # Skip fleet preparation in hard mode
         self.map_is_hard_mode = h1 or h2 or h3
         if self.map_is_hard_mode:

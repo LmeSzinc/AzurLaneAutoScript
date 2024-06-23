@@ -2,6 +2,59 @@
 # Define arguments.
 # --------------------
 
+# ==================== Dashboard ====================
+Oil:
+  Value: 0
+  Limit: 0
+  Color: ^000000
+  Record: 2020-01-01 00:00:00
+Coin:
+  Value: 0
+  Limit: 0
+  Color: ^FFAA33
+  Record: 2020-01-01 00:00:00
+Gem:
+  Value: 0
+  Color: ^FF3333
+  Record: 2020-01-01 00:00:00
+Pt:
+  Value: 0
+  Color: ^00BFFF
+  Record: 2020-01-01 00:00:00
+YellowCoin:
+  Value: 0
+  Color: ^FF8800
+  Record: 2020-01-01 00:00:00
+PurpleCoin:
+  Value: 0
+  Color: ^7700BB
+  Record: 2020-01-01 00:00:00
+ActionPoint:
+  Value: 0
+  Total: 0
+  Color: ^0000FF
+  Record: 2020-01-01 00:00:00
+Merit:
+  Value: 0
+  Color: ^FFFF00
+  Record: 2020-01-01 00:00:00
+Cube:
+  Value: 0
+  Color: ^33FFFF
+  Record: 2020-01-01 00:00:00
+Core:
+  Value: 0
+  Color: ^AAAAAA
+  Record: 2020-01-01 00:00:00
+Medal:
+  Value: 0
+  Color: ^FFDD00
+  Record: 2020-01-01 00:00:00
+GuildCoin:
+  Value: 0
+  Color: ^AAAAAA
+  Record: 2020-01-01 00:00:00
+
 # ==================== Alas ====================
 
 Scheduler:
@@ -689,7 +742,7 @@ OpsiMeowfficerFarming:
   ActionPointPreserve: 1000
   HazardLevel:
     value: 5
-    option: [ 1,2,3, 4, 5, 6, 10 ]
+    option: [ 3, 4, 5, 6, 10 ]
   TargetZone:
     value: 0
 OpsiHazard1Leveling:
@@ -723,3 +776,27 @@ AzurLaneUncensored:
     display: disabled
 GameManager:
   AutoRestart: true
+# ==================== AutoRestart ====================
+AutoRestart:
+  Enabled:
+    type: checkbox
+    value: True
+  AttemptsToRestart:
+    type: input
+    value: 5
+  NotifyWhenAutoRestart:
+    type: checkbox
+    value: false
+InstanceRestart:
+  Enabled:
+    type: checkbox
+    value: false
+  AttemptsToRestart:
+    type: input
+    value: 5
+  NotifyWhenAutoRestart:
+    type: checkbox
+    value: false
+  HasRestarted:
+    value: 0
+    display: hide

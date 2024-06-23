@@ -157,13 +157,27 @@ class InfoHandler(ModuleBase):
             bool:
         """
         appear = self.appear(GET_MISSION, offset=True, interval=2)
+        appear2 = self.appear(otherlogin, offset=True, interval=2,threshold=0.7)
         if appear:
-            logger.info('Get urgent commission')
-            if drop:
-                self.handle_info_bar()
-                drop.add(self.device.image)
-            self.device.click(GET_MISSION)
-            self._hot_fix_check_wait.reset()
+            if not appear2:
+                self.device.sleep(2)
+                appear3 = self.appear(otherlogin, offset=True, interval=2,threshold=0.6)
+                if not appear3:
+                    logger.info('Get urgent commission')
+                    if drop:
+                        self.handle_info_bar()
+                        drop.add(self.device.image)
+                    self.device.click(GET_MISSION)
+                    self._hot_fix_check_wait.reset()
+            if appear2 or appear3:
+                from module.base.resource import release_resources
+                logger.warning('Other login in')
+                logger.warning('Other login in')
+                logger.warning('Other login in')
+                self.device.app_stop()
+                release_resources()
+                self.device.release_during_wait()
+                self.device.sleep(60*40)
 
         # Check game client existence after 3s to 6s
         # Hot fixes will kill AL if you clicked the confirm button

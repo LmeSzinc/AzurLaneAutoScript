@@ -615,7 +615,7 @@ class OperationSiren(OSMap):
         self.zone_init()
         result = self.run_abyssal()
         if not result:
-            raise RequestHumanTakeover
+            self.map_exit()
 
         self.fleet_repair(revert=False)
         self.delay_abyssal()

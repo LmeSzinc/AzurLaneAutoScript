@@ -21,6 +21,7 @@ Alas:
       - OldRetire
     Restart:
       - Scheduler
+      - AutoRestart
 
 # ==================== Farm ====================
 
@@ -163,6 +164,7 @@ EventDaily:
       - EnemyPriority
     EventSp:
       - Scheduler
+      - EventDaily
       - Campaign
       - StopCondition
       - Fleet

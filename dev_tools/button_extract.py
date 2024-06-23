@@ -1,5 +1,6 @@
 import os
-
+import sys
+sys.path.append(r'D:/M-AzurLaneAutoScript')
 import imageio
 import numpy as np
 from tqdm.contrib.concurrent import process_map

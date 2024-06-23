@@ -148,6 +148,15 @@ class ConfigGenerator:
         return read_file(filepath_argument('gui'))
 
     @cached_property
+    def dashboard(self):
+        """
+        <dashboard>
+          - <group>
+        """
+        return read_file(filepath_argument('dashboard'))
+
+
+    @cached_property
     @timer
     def args(self):
         """
@@ -161,10 +170,12 @@ class ConfigGenerator:
         """
         # Construct args
         data = {}
-        for path, groups in deep_iter(self.task, depth=3):
-            if 'tasks' not in path:
+        # Add dashboard to args
+        dashboard_and_task = {**self.dashboard,**self.task}
+        for path, groups in deep_iter(dashboard_and_task, depth=3):
+            if 'tasks' not in path and 'Dashboard' not in path:
                 continue
-            task = path[2]
+            task = path[2] if 'tasks' in path else path[0]
             # Add storage to all task
             groups.append('Storage')
             for group in groups:
@@ -206,10 +217,18 @@ class ConfigGenerator:
             if not check_override(p, v):
                 continue
             if isinstance(v, dict):
+                typ = v.get('type')
+                if typ == 'state':
+                    pass
+                elif typ == 'lock':
+                    pass
+                elif deep_get(v, keys='value') is not None:
+                    deep_default(v, keys='display', value='hide')
                 for arg_k, arg_v in v.items():
                     deep_set(data, keys=p + [arg_k], value=arg_v)
             else:
                 deep_set(data, keys=p + ['value'], value=v)
+                deep_set(data, keys=p + ['display'], value='hide')
         # Set command
         for path, groups in deep_iter(self.task, depth=3):
             if 'tasks' not in path:
