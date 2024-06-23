@@ -6,11 +6,6 @@
 
 Restart:
   Scheduler:
-    Enable:
-      type: state
-      value: true
-      option: [ true, ]
-      option_bold: [ true, ]
     SuccessInterval: 0
     FailureInterval: 0
     ServerUpdate: 00:00

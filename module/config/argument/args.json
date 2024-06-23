@@ -575,13 +575,11 @@
   "Restart": {
     "Scheduler": {
       "Enable": {
-        "type": "state",
+        "type": "checkbox",
         "value": true,
         "option": [
-          true
-        ],
-        "option_bold": [
-          true
+          true,
+          false
         ]
       },
       "NextRun": {
