@@ -17,6 +17,8 @@ OS_SHOP_SCROLL = AdaptiveScroll(
     },
     name="OS_SHOP_SCROLL"
 )
+OS_SHOP_SCROLL.drag_threshold = 0.1
+OS_SHOP_SCROLL.edge_threshold = 0.1
 
 
 class OSShopUI(UI):
