@@ -24,7 +24,6 @@ equipping_filter.add_status('off', check_button=EQUIPPING_OFF)
 
 class EquipmentChange(Equipment):
     equip_list = {}
-    equipping_list = []
 
     def equipping_set(self, enable=False):
         if equipping_filter.set('on' if enable else 'off', main=self):
@@ -78,32 +77,7 @@ class EquipmentChange(Equipment):
             else:
                 logger.info(f"Equipment {index} is empty")
 
-        logger.info(f"Equipping list: {self.equipping_list}")
-
-    def record_equipment(self, index_list=range(0, 5)):
-        '''
-        Record equipment through upgrade page
-        Notice: The equipment icons in the upgrade page are the same size as the icons in the equipment status
-        '''
-        logger.info('RECORD EQUIPMENT')
-        self.equip_side_navbar_ensure(bottom=1)
-        # self.get_equiping_list()
-
-        for index in index_list:
-            if index in self.equipping_list:
-                logger.info(f'Record {index}')
-                logger.info('Enter equipment info')
-                self.ui_click(appear_button=EQUIPMENT_OPEN, click_button=EQUIP_INFO_BAR[(
-                    index, 0)], check_button=UPGRADE_ENTER)
-                logger.info('Enter upgrade inform')
-                self.ui_click(click_button=UPGRADE_ENTER,
-                              check_button=UPGRADE_ENTER_CHECK, skip_first_screenshot=True)
-                logger.info('Save equipment template')
-                self.equip_list[index] = self.image_crop(EQUIP_SAVE)
-                logger.info('Quit upgrade inform')
-                self.ui_click(
-                    click_button=UPGRADE_QUIT, check_button=EQUIPMENT_OPEN, appear_button=UPGRADE_ENTER_CHECK,
-                    skip_first_screenshot=True)
+        logger.info(f"Equipping list: {list(self.equip_list.keys())}")
 
     def equipment_take_on(self, index_list=range(0, 5), skip_first_screenshot=True):
         '''
