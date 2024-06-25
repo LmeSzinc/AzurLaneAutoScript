@@ -6,6 +6,7 @@ from module.equipment.equipment import Equipment
 from module.logger import logger
 from module.ui.assets import BACK_ARROW
 from module.ui.scroll import Scroll
+from module.ui.switch import Switch
 
 # Button of 5 equipments
 EQUIP_INFO_BAR = ButtonGrid(
@@ -15,6 +16,10 @@ EQUIPMENT_GRID = ButtonGrid(
     origin=(696, 170), delta=(86.25, 0), button_shape=(32, 32), grid_shape=(5, 1), name='EQUIPMENT_GRID')
 EQUIPMENT_SCROLL = Scroll(EQUIP_SCROLL, color=(247, 211, 66), name='EQUIP_SCROLL')
 SIM_VALUE = 0.90
+
+equipping_filter = Switch('Equipping_filter')
+equipping_filter.add_status('on', check_button=EQUIPPING_ON)
+equipping_filter.add_status('off', check_button=EQUIPPING_OFF)
 
 
 class EquipmentChange(Equipment):
@@ -31,7 +36,7 @@ class EquipmentChange(Equipment):
         Notice: The equipment icons in the upgrade page are the same size as the icons in the equipment status
         """
         logger.info('RECORD EQUIPMENT')
-        self.ship_side_navbar_ensure(bottom=1)
+        self.equip_side_navbar_ensure(bottom=1)
 
         # Ensure EQUIPMENT_GRID in the right place
         skip_first_screenshot = True
@@ -43,7 +48,7 @@ class EquipmentChange(Equipment):
             if self.appear(EQUIPMENT_OPEN, offset=(5, 5)):
                 break
 
-        self.equipment_list = {}
+        self.equip_list = {}
         info_bar_disappeared = False
         for index, button in enumerate(EQUIPMENT_GRID.buttons):
             if index not in index_list:
@@ -54,8 +59,25 @@ class EquipmentChange(Equipment):
             # +1 is 40
             # +10 is 46
             if edge_value > 10:
-                self.equipping_list.append(index)
-            index += 1
+                # Enter equipment info
+                self.ui_click(appear_button=EQUIPMENT_OPEN,
+                              click_button=EQUIP_INFO_BAR[(index, 0)],
+                              check_button=UPGRADE_ENTER)
+                # Enter upgrade inform
+                self.ui_click(click_button=UPGRADE_ENTER,
+                              check_button=UPGRADE_ENTER_CHECK, skip_first_screenshot=True)
+                # Save equipment template
+                if not info_bar_disappeared:
+                    self.handle_info_bar()
+                    info_bar_disappeared = True
+                self.equip_list[index] = self.image_crop(EQUIP_SAVE)
+                # Quit upgrade inform
+                self.ui_click(
+                    click_button=UPGRADE_QUIT, check_button=EQUIPMENT_OPEN, appear_button=UPGRADE_ENTER_CHECK,
+                    skip_first_screenshot=True)
+            else:
+                logger.info(f"Equipment {index} is empty")
+
         logger.info(f"Equipping list: {self.equipping_list}")
 
     def record_equipment(self, index_list=range(0, 5)):
@@ -65,7 +87,7 @@ class EquipmentChange(Equipment):
         '''
         logger.info('RECORD EQUIPMENT')
         self.equip_side_navbar_ensure(bottom=1)
-        self.get_equiping_list()
+        # self.get_equiping_list()
 
         for index in index_list:
             if index in self.equipping_list:
@@ -91,7 +113,7 @@ class EquipmentChange(Equipment):
         self.equip_side_navbar_ensure(bottom=2)
 
         for index in index_list:
-            if index in self.equipping_list:
+            if index in self.equip_list:
                 logger.info(f'Take on {index}')
                 enter_button = globals()[
                     'EQUIP_TAKE_ON_{index}'.format(index=index)]
