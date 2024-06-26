@@ -95,19 +95,9 @@ class OSShopUI(UI):
             in: PORT_SUPPLY_CHECK
             out: PORT_SUPPLY_CHECK
         """
-        retry = Timer(0, count=3)
-        retry.start()
-        while True:
-            logger.info(f'OS shop side navbar set to {upper or bottom}, setting')
-
-            if not self.os_shop_load_ensure():
-                continue
-
-            if self._os_shop_side_navbar.set(self, upper=upper, bottom=bottom):
-                return True
-
-            if retry.reached():
-                raise ScriptError('Side navbar set error.')
+        logger.info(f'OpsiShop side navbar set to {upper or bottom}')
+        self.os_shop_load_ensure()
+        self._os_shop_side_navbar.set(self, upper=upper, bottom=bottom)
 
     def init_slider(self) -> Tuple[float, float]:
         """Initialize the slider
