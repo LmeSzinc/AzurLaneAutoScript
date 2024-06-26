@@ -4,7 +4,7 @@ from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.base.utils import random_rectangle_vector
 from module.exception import ScriptError
-from module.os_shop.assets import OS_SHOP_SAFE_AREA, OS_SHOP_SCROLL_AREA, PORT_SUPPLY_CHECK
+from module.os_shop.assets import OS_SHOP_CHECK, OS_SHOP_SAFE_AREA, OS_SHOP_SCROLL_AREA
 from module.logger import logger
 from module.ui.navbar import Navbar
 from module.ui.scroll import AdaptiveScroll
@@ -42,13 +42,14 @@ class OSShopUI(UI):
                 self.device.screenshot()
 
             # End
-            if self.appear(PORT_SUPPLY_CHECK):
+            if self.appear(OS_SHOP_CHECK):
                 return True
+            else:
+                logger.warning('OpsiShop is not appear, retrying.')
 
             # Exception
             if ensure_timeout.reached():
-                logger.warning('Wait for loaded assets is incomplete, ensure not guaranteed')
-                return False
+                raise ScriptError('Waiting too long for OpsiShop to appear.')
 
     @cached_property
     def _os_shop_side_navbar(self):
@@ -96,10 +97,15 @@ class OSShopUI(UI):
         """
         retry = Timer(0, count=3)
         retry.start()
-        while self._os_shop_side_navbar.get_active(main=self) + 1 not in [upper, bottom]:
+        while True:
             logger.info(f'OS shop side navbar set to {upper or bottom}, setting')
-            self._os_shop_side_navbar.set(self, upper=upper, bottom=bottom)
-            self.os_shop_load_ensure()
+
+            if not self.os_shop_load_ensure():
+                continue
+
+            if self._os_shop_side_navbar.set(self, upper=upper, bottom=bottom):
+                return True
+
             if retry.reached():
                 raise ScriptError('Side navbar set error.')
 
