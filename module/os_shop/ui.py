@@ -3,7 +3,7 @@ from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.base.utils import random_rectangle_vector
-from module.exception import ScriptError
+from module.exception import GameStuckError
 from module.os_shop.assets import OS_SHOP_CHECK, OS_SHOP_SAFE_AREA, OS_SHOP_SCROLL_AREA
 from module.logger import logger
 from module.ui.navbar import Navbar
@@ -49,7 +49,7 @@ class OSShopUI(UI):
 
             # Exception
             if ensure_timeout.reached():
-                raise ScriptError('Waiting too long for OpsiShop to appear.')
+                raise GameStuckError('Waiting too long for OpsiShop to appear.')
 
     @cached_property
     def _os_shop_side_navbar(self):
@@ -106,7 +106,7 @@ class OSShopUI(UI):
             Tuple[float, float]: (pre_pos, cur_pos)
         """
         if not OS_SHOP_SCROLL.appear(main=self):
-            logger.warning('ScriptError, Scroll does not appear, try to rescue slider')
+            logger.warning('Scroll does not appear, try to rescue slider')
             self.rescue_slider()
         retry = Timer(0, count=3)
         retry.start()
@@ -114,7 +114,7 @@ class OSShopUI(UI):
             logger.info('Scroll does not at top, try to scroll')
             OS_SHOP_SCROLL.set_top(main=self)
             if retry.reached():
-                raise ScriptError('Scroll drag page error.')
+                raise GameStuckError('Scroll drag page error.')
         return -1.0, 0.0
 
     def rescue_slider(self, distance=200):
@@ -140,21 +140,21 @@ class OSShopUI(UI):
             cur_pos: Current position
         """
         if pre_pos == cur_pos:
-            logger.warning('ScriptError, Scroll drag page failed')
+            logger.warning('Scroll drag page failed')
             if not OS_SHOP_SCROLL.appear(main=self):
-                logger.warning('ScriptError, Scroll does not appear, try to rescue slider')
+                logger.warning('Scroll does not appear, try to rescue slider')
                 self.rescue_slider()
                 OS_SHOP_SCROLL.set(cur_pos, main=self)
             retry = Timer(0, count=3)
             retry.start()
             while True:
-                logger.warning('ScriptError, Scroll does not drag success, retrying scroll')
+                logger.warning('Scroll does not drag success, retrying scroll')
                 OS_SHOP_SCROLL.next_page(main=self, page=0.5)
                 cur_pos = OS_SHOP_SCROLL.cal_position(main=self)
                 if pre_pos != cur_pos:
                     logger.info(f'Scroll success drag page to {cur_pos}')
                     return cur_pos
                 if retry.reached():
-                    raise ScriptError('Scroll drag page error.')
+                    raise GameStuckError('Scroll drag page error.')
         else:
             return cur_pos
