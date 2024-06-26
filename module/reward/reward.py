@@ -103,7 +103,7 @@ class Reward(UI):
             for button in [MISSION_MULTI, MISSION_SINGLE]:
                 if not click_timer.reached():
                     continue
-                if self.appear(button, offset=(0, 200), interval=interval) \
+                if self.appear(button, offset=(20, 200), interval=interval) \
                         and button.match_appear_on(self.device.image):
                     self.device.click(button)
                     exit_timer.reset()
@@ -160,8 +160,8 @@ class Reward(UI):
         """
         self.reward_side_navbar_ensure(upper=1)
 
-        if not self.appear(MISSION_MULTI) and \
-                not self.appear(MISSION_SINGLE):
+        if not self.appear(MISSION_MULTI, offset=(20, 200)) and \
+                not self.appear(MISSION_SINGLE, offset=(20, 200)):
             logger.info('No MISSION_MULTI or MISSION_SINGLE')
             return False
 
