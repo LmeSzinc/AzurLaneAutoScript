@@ -23,7 +23,7 @@ class BattlePass(Combat, UI):
             BATTLE_PASS_RED_DOT.load_offset(REWARD_GOTO_BATTLE_PASS)
             # Not using self.appear() here, because it's transparent,
             # color may be different depending on background.
-            r, _, _ = get_color(self.device.image, BATTLE_PASS_RED_DOT.area)
+            r, _, _ = get_color(self.device.image, BATTLE_PASS_RED_DOT.button)
             if r > BATTLE_PASS_RED_DOT.color[0] - 40:
                 logger.info('Found battle pass red dot')
                 return True

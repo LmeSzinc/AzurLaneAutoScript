@@ -39,7 +39,7 @@ def lines_detect(image):
     """
     # Find white lines under each commission to locate them.
     # (597, 0, 619, 720) is somewhere with white lines only.
-    color_height = np.mean(rgb2gray(crop(image, (597, 0, 619, 720))), axis=1)
+    color_height = np.mean(rgb2gray(crop(image, (597, 0, 619, 720), copy=False)), axis=1)
     parameters = {'height': 200, 'distance': 100}
     peaks, _ = signal.find_peaks(color_height, **parameters)
     # 67 is the height of commission list header
@@ -97,7 +97,7 @@ class RewardCommission(UI, InfoHandler):
 
             image = self.device.image
             if area is not None:
-                image = crop(image, area)
+                image = crop(image, area, copy=False)
             commissions = self._commission_detect(image)
 
             if commissions.count >= 2 and commissions.select(valid=False).count == 1:
@@ -516,7 +516,13 @@ class RewardCommission(UI, InfoHandler):
                 else:
                     self.device.screenshot()
 
-                for button in [EXP_INFO_S_REWARD, GET_ITEMS_1, GET_ITEMS_2, GET_ITEMS_3, GET_SHIP]:
+                # End
+                if self.appear(COMMISSION_CHECK, offset=(20, 20)):
+                    # Leaving at page_commission
+                    # Commission rewards may appear too slow, causing stuck in UI switching
+                    break
+
+                for button in [EXP_INFO_S_REWARD, GET_ITEMS_1, GET_ITEMS_2, GET_ITEMS_3]:
                     if self.appear(button, interval=1):
                         self.ensure_no_info_bar(timeout=1)
                         drop.add(self.device.image)
@@ -527,31 +533,41 @@ class RewardCommission(UI, InfoHandler):
                         reward = True
                         continue
                 if click_timer.reached() and self.appear_then_click(REWARD_1, offset=(20, 20), interval=1):
+                    self.interval_reset(GET_SHIP)
                     click_timer.reset()
                     reward = True
                     continue
                 if click_timer.reached() and self.appear_then_click(REWARD_1_WHITE, offset=(20, 20), interval=1):
+                    self.interval_reset(GET_SHIP)
                     click_timer.reset()
                     reward = True
                     continue
                 if click_timer.reached() and self.appear_then_click(REWARD_GOTO_COMMISSION, offset=(20, 20)):
+                    self.interval_reset(GET_SHIP)
                     click_timer.reset()
                     continue
                 if click_timer.reached() and self.appear_then_click(REWARD_GOTO_COMMISSION_WHITE, offset=(20, 20)):
-                    click_timer.reset()
-                    continue
-                if click_timer.reached() and self.ui_additional():
+                    self.interval_reset(GET_SHIP)
                     click_timer.reset()
                     continue
                 if self.ui_main_appear_then_click(page_reward, interval=3):
+                    self.interval_reset(GET_SHIP)
                     click_timer.reset()
                     continue
+                # Check GET_SHIP at last to handle random white background at page_main
+                for button in [GET_SHIP]:
+                    if self.appear(button, interval=1):
+                        self.ensure_no_info_bar(timeout=1)
+                        drop.add(self.device.image)
 
-                # End
-                if self.appear(COMMISSION_CHECK, offset=(20, 20)):
-                    # Leaving at page_commission
-                    # Commission rewards may appear too slow, causing stuck in UI switching
-                    break
+                        REWARD_SAVE_CLICK.name = button.name
+                        self.device.click(REWARD_SAVE_CLICK)
+                        click_timer.reset()
+                        reward = True
+                        continue
+                if click_timer.reached() and self.ui_additional():
+                    click_timer.reset()
+                    continue
 
         return reward
 

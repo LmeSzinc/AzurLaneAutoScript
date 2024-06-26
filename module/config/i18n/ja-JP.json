@@ -731,7 +731,7 @@
       "event_20220324_cn": "幻像の塔（復刻）",
       "event_20220407_tw": "蒼紅的迴響(復刻)",
       "event_20220414_cn": "極夜照らす幻光（復刻）",
-      "event_20220428_cn": "吟ずる瑠璃の楽章",
+      "event_20220428_cn": "吟ずる瑠璃の楽章（復刻）",
       "event_20220526_cn": "诚閃の剣 搖光の城",
       "event_20220728_cn": "鋼鷲の冒険譚",
       "event_20220818_cn": "結像点作戦",
@@ -1178,9 +1178,11 @@
     "CommonDD": {
       "name": "GemsFarming.CommonDD.name",
       "help": "GemsFarming.CommonDD.help",
-      "any": "any",
-      "aulick_or_foote": "aulick or foote",
-      "cassin_or_downes": "cassin or downes"
+      "any": "GemsFarming.CommonDD.any",
+      "favourite": "GemsFarming.CommonDD.favourite",
+      "aulick_or_foote": "GemsFarming.CommonDD.aulick_or_foote",
+      "cassin_or_downes": "GemsFarming.CommonDD.cassin_or_downes",
+      "z20_or_z21": "GemsFarming.CommonDD.z20_or_z21"
     },
     "ALLowLowVanguardLevel": {
       "name": "GemsFarming.ALLowLowVanguardLevel.name",
@@ -2498,9 +2500,18 @@
       "name": "OpsiShop._info.name",
       "help": "OpsiShop._info.help"
     },
-    "BuySupply": {
-      "name": "OpsiShop.BuySupply.name",
-      "help": "OpsiShop.BuySupply.help"
+    "PresetFilter": {
+      "name": "OpsiShop.PresetFilter.name",
+      "help": "OpsiShop.PresetFilter.help",
+      "max_benefit": "max_benefit",
+      "max_benefit_meta": "max_benefit_meta",
+      "no_meta": "no_meta",
+      "all": "all",
+      "custom": "custom"
+    },
+    "CustomFilter": {
+      "name": "OpsiShop.CustomFilter.name",
+      "help": "OpsiShop.CustomFilter.help"
     }
   },
   "OpsiVoucher": {
