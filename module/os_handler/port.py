@@ -1,7 +1,8 @@
 from module.base.timer import Timer
 from module.logger import logger
-from module.os_handler.assets import *
-from module.os_handler.shop import OSShopHandler
+from module.os_handler.assets import PORT_DOCK_CHECK, PORT_ENTER, PORT_GOTO_DOCK, PORT_GOTO_MISSION, PORT_GOTO_SUPPLY, PORT_MISSION_ACCEPT, PORT_MISSION_CHECK, PORT_MISSION_RED_DOT
+from module.os_shop.assets import PORT_SUPPLY_CHECK
+from module.os_shop.shop import OSShop
 
 # Azur Lane ports have PORT_GOTO_MISSION, PORT_GOTO_SUPPLY, PORT_GOTO_DOCK.
 # Red axis ports have PORT_GOTO_SUPPLY.
@@ -9,7 +10,7 @@ from module.os_handler.shop import OSShopHandler
 PORT_CHECK = PORT_GOTO_SUPPLY
 
 
-class PortHandler(OSShopHandler):
+class PortHandler(OSShop):
     def port_enter(self, skip_first_screenshot=True):
         """
         Pages:

@@ -5,6 +5,7 @@ import numpy as np
 from module.config.utils import (get_nearest_weekday_date,
                                  get_os_next_reset,
                                  get_os_reset_remain,
+                                 get_server_next_update,
                                  DEFAULT_TIME)
 from module.exception import RequestHumanTakeover, GameStuckError, ScriptError
 from module.logger import logger
@@ -15,44 +16,10 @@ from module.os.map import OSMap
 from module.os_handler.action_point import OCR_OS_ADAPTABILITY, ActionPointLimit
 from module.os_handler.assets import OS_MONTHBOSS_NORMAL, OS_MONTHBOSS_HARD, EXCHANGE_CHECK, EXCHANGE_ENTER
 from module.shop.shop_voucher import VoucherShop
+from module.base.decorator import Config
 
 
 class OperationSiren(OSMap):
-    def os_port_daily(self, supply=True):
-        """
-        Accept all missions and buy all supplies in all ports.
-        If reach the maximum number of missions, skip accept missions in next port.
-        If not having enough yellow coins or purple coins, skip buying supplies in next port.
-
-        Args:
-            supply (bool): If needs to buy supplies.
-
-        Returns:
-            bool: True if all mission received.
-            bool: True if all supplies bought.
-        """
-        logger.hr('OS port daily', level=1)
-        ports = ['NY City', 'Gibraltar', 'Liverpool', 'St. Petersburg']
-        if np.random.uniform() > 0.5:
-            ports.reverse()
-
-        mission_success = True
-        supply_success = True
-        for port in ports:
-            port = self.name_to_zone(port)
-            logger.hr(f'OS port daily in {port}', level=2)
-            self.globe_goto(port)
-            self.port_goto()
-            self.port_enter()
-            # Deprecated since 2022.01.13, missions are shown only in overview, no longer to be shown at ports.
-            # if mission and mission_success:
-            #     mission_success &= self.port_mission_accept()
-            if supply:
-                supply_success &= self.port_supply_buy()
-            self.port_quit()
-
-        return mission_success, supply_success
-
     def os_port_mission(self):
         """
         Visit all ports and do the daily mission in it.
@@ -84,7 +51,7 @@ class OperationSiren(OSMap):
         """
         logger.hr('OS finish daily mission', level=1)
         count = 0
-        while 1:
+        while True:
             result = self.os_get_next_mission()
             if not result:
                 break
@@ -115,7 +82,7 @@ class OperationSiren(OSMap):
         if self.config.OpsiDaily_UseTuningSample:
             self.tuning_sample_use()
 
-        while 1:
+        while True:
             # If unable to receive more dailies, finish them and try again.
             success = self.os_mission_overview_accept()
             # Re-init zone name
@@ -156,7 +123,7 @@ class OperationSiren(OSMap):
         # Now we are 10min before OpSi reset
         logger.hr('Wait until OpSi reset', level=1)
         logger.warning('ALAS is now waiting for next OpSi reset, please DO NOT touch the game during wait')
-        while 1:
+        while True:
             logger.info(f'Wait until {next_reset}')
             now = datetime.now()
             remain = (next_reset - now).total_seconds()
@@ -182,7 +149,7 @@ class OperationSiren(OSMap):
         )
         count = 0
         empty_trial = 0
-        while 1:
+        while True:
             # If unable to receive more dailies, finish them and try again.
             success = self.os_mission_overview_accept()
             # Re-init zone name
@@ -217,7 +184,7 @@ class OperationSiren(OSMap):
             OpsiFleetFilter_Filter=self.config.cross_get('OpsiAbyssal.OpsiFleetFilter.Filter'),
             OpsiAbyssal_ForceRun=True,
         )
-        while 1:
+        while True:
             if self.storage_get_next_item('ABYSSAL', use_logger=True):
                 self.zone_init()
                 result = self.run_abyssal()
@@ -228,7 +195,7 @@ class OperationSiren(OSMap):
                 break
 
         logger.hr('OS clear obscure', level=1)
-        while 1:
+        while True:
             if self.storage_get_next_item('OBSCURE', use_logger=True):
                 self.zone_init()
                 self.fleet_set(self.config.OpsiFleet_Fleet)
@@ -253,7 +220,7 @@ class OperationSiren(OSMap):
             OpsiMeowfficerFarming_HazardLevel=3,
             OpsiMeowfficerFarming_TargetZone=0,
         )
-        while 1:
+        while True:
             zones = self.zone_select(hazard_level=3) \
                 .delete(SelectedGrids([self.zone])) \
                 .delete(SelectedGrids(self.zones.select(is_port=True))) \
@@ -268,8 +235,50 @@ class OperationSiren(OSMap):
             self.handle_after_auto_search()
 
     def os_shop(self):
-        self.os_port_daily(supply=self.config.OpsiShop_BuySupply)
-        self.config.task_delay(server_update=True)
+        """
+        Buy all supplies in all ports.
+        If not having enough yellow coins or purple coins, skip buying supplies in next port.
+        """
+        logger.hr('OS port daily', level=1)
+        if not self.zone.is_azur_port:
+            self.globe_goto(self.zone_nearest_azur_port(self.zone))
+        self.port_enter()
+        not_empty = self.port_supply_buy()
+        self.port_quit()
+
+        next_reset = self._os_shop_delay(not_empty)
+        logger.info('OS port daily finished, delay to next reset')
+        logger.attr('OpsiShopNextReset', next_reset)
+        self.config.task_delay(target=next_reset)
+        self.config.task_stop()
+
+    def _os_shop_delay(self, not_empty) -> datetime:
+        """
+        Calculate the delay of OpsiShop.
+
+        Args:
+            not_empty (bool): Indicates whether the shop is not empty.
+
+        Returns:
+            datetime: The time of the next shop reset.
+        """
+        next_reset = None
+
+        if not_empty:
+            next_reset = get_server_next_update(self.config.Scheduler_ServerUpdate)
+        else:
+            remain = get_os_reset_remain()
+            next_reset = get_os_next_reset()
+            if remain == 0:
+                next_reset = get_server_next_update(self.config.Scheduler_ServerUpdate)
+            elif remain < 7:
+                next_reset = next_reset - timedelta(days=1)
+            else:
+                next_reset = (
+                    get_server_next_update(self.config.Scheduler_ServerUpdate) +
+                    timedelta(days=6)
+                )
+        return next_reset
 
     def _os_voucher_enter(self):
         self.os_map_goto_globe(unpin=False)
@@ -325,7 +334,7 @@ class OperationSiren(OSMap):
             self.config.task_stop()
 
         ap_checked = False
-        while 1:
+        while True:
             self.config.OS_ACTION_POINT_PRESERVE = preserve
             if self.config.is_task_enabled('OpsiAshBeacon') \
                     and not self._ash_fully_collected \
@@ -395,7 +404,7 @@ class OperationSiren(OSMap):
         )
         if not self.config.is_task_enabled('OpsiMeowfficerFarming'):
             self.config.cross_set(keys='OpsiMeowfficerFarming.Scheduler.Enable', value=True)
-        while 1:
+        while True:
             # Limited action point preserve of hazard 1 to 200
             self.config.OS_ACTION_POINT_PRESERVE = 200
             if self.config.is_task_enabled('OpsiAshBeacon') \
@@ -449,7 +458,7 @@ class OperationSiren(OSMap):
         with self.config.multi_set():
             next_run = self.config.Scheduler_NextRun
             for task in ['OpsiObscure', 'OpsiAbyssal', 'OpsiArchive', 'OpsiStronghold', 'OpsiMeowfficerFarming',
-                         "OpsiMonthBoss"]:
+                         'OpsiMonthBoss', 'OpsiShop']:
                 keys = f'{task}.Scheduler.NextRun'
                 current = self.config.cross_get(keys=keys, default=DEFAULT_TIME)
                 if current < next_run:
@@ -567,7 +576,7 @@ class OperationSiren(OSMap):
         self.handle_after_auto_search()
 
     def os_obscure(self):
-        while 1:
+        while True:
             self.clear_obscure()
             if self.config.OpsiObscure_ForceRun:
                 self.config.check_task_switch()
@@ -621,7 +630,7 @@ class OperationSiren(OSMap):
         self.delay_abyssal()
 
     def os_abyssal(self):
-        while 1:
+        while True:
             self.clear_abyssal()
             self.config.check_task_switch()
 
@@ -640,7 +649,7 @@ class OperationSiren(OSMap):
             self.config.task_stop()
 
         shop = VoucherShop(self.config, self.device)
-        while 1:
+        while True:
             # In case logger bought manually,
             # finish pre-existing archive zone
             self.os_finish_daily_mission(question=False, rescan=False)
@@ -689,7 +698,7 @@ class OperationSiren(OSMap):
         self.handle_fleet_resolve(revert=False)
 
     def os_stronghold(self):
-        while 1:
+        while True:
             self.clear_stronghold()
             self.config.check_task_switch()
 

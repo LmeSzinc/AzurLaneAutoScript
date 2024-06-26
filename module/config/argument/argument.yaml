@@ -276,7 +276,7 @@ GemsFarming:
     option: [ disabled, ship, ship_equip ]
   CommonDD:
     value: any
-    option: [ any, aulick_or_foote , cassin_or_downes ]
+    option: [ any, favourite, aulick_or_foote , cassin_or_downes, z20_or_z21 ]
   CommissionLimit: true
 
 # ==================== Event ====================
@@ -666,7 +666,19 @@ OpsiExplore:
   ForceRun: false
   LastZone: 0
 OpsiShop:
-  BuySupply: true
+  PresetFilter:
+    value: max_benefit_meta
+    option:
+      - max_benefit
+      - max_benefit_meta
+      - no_meta
+      - all
+      - custom
+  CustomFilter: |-
+    LoggerAbyssalT6 > LoggerAbyssalT5 > LoggerObscure > LoggerAbyssalT4 > ActionPoint > PurpleCoins
+    > GearDesignPlanT3 > PlateRandomT4 > DevelopmentMaterialT3 > GearDesignPlanT2 > GearPart
+    > OrdnanceTestingReportT3 > OrdnanceTestingReportT2 > DevelopmentMaterialT2 > OrdnanceTestingReportT1
+    > METARedBook > CrystallizedHeatResistantSteel > NanoceramicAlloy > NeuroplasticProstheticArm > SupercavitationGenerator
 OpsiVoucher:
   Filter: |-
     LoggerAbyssal > LoggerObscure > Book > Coin > Fragment

@@ -1154,9 +1154,11 @@
     "CommonDD": {
       "name": "GemsFarming.CommonDD.name",
       "help": "GemsFarming.CommonDD.help",
-      "any": "any",
-      "aulick_or_foote": "aulick or foote",
-      "cassin_or_downes": "cassin or downes"
+      "any": "GemsFarming.CommonDD.any",
+      "favourite": "GemsFarming.CommonDD.favourite",
+      "aulick_or_foote": "GemsFarming.CommonDD.aulick_or_foote",
+      "cassin_or_downes": "GemsFarming.CommonDD.cassin_or_downes",
+      "z20_or_z21": "GemsFarming.CommonDD.z20_or_z21"
     },
     "CommissionLimit": {
       "name": "GemsFarming.CommissionLimit.name",
@@ -2285,9 +2287,18 @@
       "name": "OpsiShop._info.name",
       "help": "OpsiShop._info.help"
     },
-    "BuySupply": {
-      "name": "OpsiShop.BuySupply.name",
-      "help": "OpsiShop.BuySupply.help"
+    "PresetFilter": {
+      "name": "OpsiShop.PresetFilter.name",
+      "help": "OpsiShop.PresetFilter.help",
+      "max_benefit": "max_benefit",
+      "max_benefit_meta": "max_benefit_meta",
+      "no_meta": "no_meta",
+      "all": "all",
+      "custom": "custom"
+    },
+    "CustomFilter": {
+      "name": "OpsiShop.CustomFilter.name",
+      "help": "OpsiShop.CustomFilter.help"
     }
   },
   "OpsiVoucher": {

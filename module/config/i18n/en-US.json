@@ -1146,7 +1146,7 @@
     },
     "ChangeVanguard": {
       "name": "Change Vanguard",
-      "help": "Change vanguard if flagship or vanguard are emotion exhausted.If you choose not to change, your fleet will ignore the low emotion warning and continue combat.\nSwitch out to new level 100(70) common vanguard after current flagship has reached level 32+ (Only CN players'0 limit break ship can reach level 100)\n\nThe vanguard's equipment is replaced when being switched out by first recording the current setup. Only populated equipment slots will be replaced.",
+      "help": "Change vanguard if flagship or vanguard are emotion exhausted. If you choose not to change, your fleet will ignore the low emotion warning and continue combat.\nSwitch out to new level 100(70) common vanguard from eagle or ironblood after current flagship has reached level 32+ (Only CN players'0 limit break ship can reach level 100)\n\nThe vanguard's equipment is replaced when being switched out by first recording the current setup. Only populated equipment slots will be replaced.",
       "disabled": "Don't Change",
       "ship": "Change Ship",
       "ship_equip": "Change Ship + Gears"
@@ -1155,8 +1155,10 @@
       "name": "Flagship Common DD Preference",
       "help": "",
       "any": "any",
-      "aulick_or_foote": "aulick or foote",
-      "cassin_or_downes": "cassin or downes"
+      "favourite": "Favourite Ships Only",
+      "aulick_or_foote": "Aulick or Foote",
+      "cassin_or_downes": "Cassin or Downes",
+      "z20_or_z21": "Z20 or Z21"
     },
     "CommissionLimit": {
       "name": "Prevent Too Many Urgent Commissions",
@@ -2285,9 +2287,18 @@
       "name": "OpSi Shop Settings",
       "help": "Completes OpSi daily activities\nThe following must be satisfied:\n- OpSi story and practice battles must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
     },
-    "BuySupply": {
-      "name": "Buy From Port Shops",
-      "help": "Buy all items from port shops\nShop inventory consists of a fixed pool that is reset monthly, items not bought during a cycle has the chance of re-appearing and blocking preferable high value items"
+    "PresetFilter": {
+      "name": "OpSi Shop Filter",
+      "help": "Generally does not need to be modified. Use \"High value items and META material\"` if Voucher Coins spilled or \"Without META materials\" if you are newcomer.\nHigh value items include ActionPoint, Logger and T4 or higher items; META materials include METABook and META enhance materials.",
+      "max_benefit": "High value items",
+      "max_benefit_meta": "High value items and META materials",
+      "no_meta": "Not to buy META materials",
+      "all": "All",
+      "custom": "custom"
+    },
+    "CustomFilter": {
+      "name": "Custom Research Priority",
+      "help": "To use your own filter, set \"OpSi Shop Filter Select\" to \"custom\". All options have been defined at  <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_en>"
     }
   },
   "OpsiVoucher": {

@@ -1618,8 +1618,10 @@
         "value": "any",
         "option": [
           "any",
+          "favourite",
           "aulick_or_foote",
-          "cassin_or_downes"
+          "cassin_or_downes",
+          "z20_or_z21"
         ]
       },
       "CommissionLimit": {
@@ -8418,9 +8420,20 @@
       }
     },
     "OpsiShop": {
-      "BuySupply": {
-        "type": "checkbox",
-        "value": true
+      "PresetFilter": {
+        "type": "select",
+        "value": "max_benefit_meta",
+        "option": [
+          "max_benefit",
+          "max_benefit_meta",
+          "no_meta",
+          "all",
+          "custom"
+        ]
+      },
+      "CustomFilter": {
+        "type": "textarea",
+        "value": "LoggerAbyssalT6 > LoggerAbyssalT5 > LoggerObscure > LoggerAbyssalT4 > ActionPoint > PurpleCoins\n> GearDesignPlanT3 > PlateRandomT4 > DevelopmentMaterialT3 > GearDesignPlanT2 > GearPart\n> OrdnanceTestingReportT3 > OrdnanceTestingReportT2 > DevelopmentMaterialT2 > OrdnanceTestingReportT1\n> METARedBook > CrystallizedHeatResistantSteel > NanoceramicAlloy > NeuroplasticProstheticArm > SupercavitationGenerator"
       }
     },
     "Storage": {
