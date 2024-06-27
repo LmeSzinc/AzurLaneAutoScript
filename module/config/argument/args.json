@@ -3117,14 +3117,16 @@
         "type": "state",
         "value": "campaign_main",
         "option": [
-          "coalition_20230323"
+          "coalition_20230323",
+          "coalition_20240627"
         ],
         "option_bold": [
-          "coalition_20230323"
+          "coalition_20230323",
+          "coalition_20240627"
         ],
-        "cn": "coalition_20230323",
-        "en": "coalition_20230323",
-        "jp": "coalition_20230323",
+        "cn": "coalition_20240627",
+        "en": "coalition_20240627",
+        "jp": "coalition_20240627",
         "tw": "coalition_20230323"
       },
       "Mode": {
@@ -6370,14 +6372,16 @@
         "type": "state",
         "value": "campaign_main",
         "option": [
-          "coalition_20230323"
+          "coalition_20230323",
+          "coalition_20240627"
         ],
         "option_bold": [
-          "coalition_20230323"
+          "coalition_20230323",
+          "coalition_20240627"
         ],
-        "cn": "coalition_20230323",
-        "en": "coalition_20230323",
-        "jp": "coalition_20230323",
+        "cn": "coalition_20240627",
+        "en": "coalition_20240627",
+        "jp": "coalition_20240627",
         "tw": "coalition_20230323"
       },
       "Mode": {

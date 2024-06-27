@@ -79,7 +79,7 @@
       "help": ""
     },
     "Coalition": {
-      "name": "极地风暴",
+      "name": "童心学院",
       "help": ""
     },
     "MaritimeEscort": {
@@ -660,6 +660,7 @@
       "help": "自动选择至最新的活动",
       "campaign_main": "主线图",
       "coalition_20230323": "极地风暴",
+      "coalition_20240627": "欢迎来到童心学院",
       "event_20200227_cn": "北境序曲",
       "event_20200312_cn": "复刻斯图尔特的硝烟",
       "event_20200326_cn": "微层混合",
