@@ -20,7 +20,7 @@ class LuaLoader:
     ]
 
     def __init__(self, folder, server='zh-CN'):
-        self.folder = folder
+        self.folder = os.path.abspath(folder)
         self._server = ''
         self.server = server
 
