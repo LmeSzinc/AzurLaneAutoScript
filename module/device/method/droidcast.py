@@ -344,3 +344,12 @@ class DroidCast(Uiautomator2):
         for proc in self._iter_droidcast_proc():
             logger.info(f'Kill pid={proc.pid}')
             self.adb_shell(['kill', '-s', 9, proc.pid])
+
+if __name__ == '__main__':
+    self = DroidCast('alas')
+    # self.adb_shell(["rm", self.config.DROIDCAST_FILEPATH_REMOTE])
+    # self.droidcast_stop()
+    for _ in range(5):
+        self.image = self.screenshot_droidcast_raw()
+    from PIL import Image
+    Image.fromarray(self.image).show()

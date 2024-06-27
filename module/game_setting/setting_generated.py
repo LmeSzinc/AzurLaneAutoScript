@@ -10,6 +10,12 @@ class GameSettingsGenerated:
     # PlayerPrefs.GetInt("autoBotIsAcitve" .. slot6, 0)
     autoBotIsAcitve = Field(formatter=int, default=0, regex='autoBotIsAcitve(.*)')
 
+    # /controller/command/stage/trackingcommand.lua
+    # PlayerPrefs.GetString("remaster_tip")
+    remaster_tip = Field(formatter=str, default='', regex='remaster_tip')
+    # PlayerPrefs.GetInt("chapter_autofight_flag_" .. uv0.id, 1)
+    chapter_autofight_flag = Field(formatter=int, default=1, regex='chapter_autofight_flag_(.*)')
+
     # /gamecfg/activity/entrancedata.lua
     # PlayerPrefs.GetString("permanent_time", "")
     permanent_time = Field(formatter=str, default='', regex='permanent_time')
@@ -94,6 +100,10 @@ class GameSettingsGenerated:
     # PlayerPrefs.GetInt(AUTOFIGHT_DOWN_FRAME, 0)
     pass  # Unknown
 
+    # /mod/experiment/world/model/worldatlas.lua
+    # PlayerPrefs.GetInt(string.format("world_new_shop_unlock_count_in_port_%d_%d_%d", getProxy(PlayerProxy):getRawData().id, nowWorld().activateCount, slot1), -1)
+    world_new_shop_unlock_count_in_port__d__d__d = Field(formatter=int, default=0, regex='world_new_shop_unlock_count_in_port_%d_%d_%d')
+
     # /mod/experiment/world/model/worldconst.lua
     # PlayerPrefs.GetInt("world_help_progress")
     world_help_progress = Field(formatter=int, default=0, regex='world_help_progress')
@@ -123,12 +133,14 @@ class GameSettingsGenerated:
     auto_switch_mode = Field(formatter=int, default=0, regex='auto_switch_mode')
     # PlayerPrefs.GetString("auto_switch_difficult_safe", "only")
     auto_switch_difficult_safe = Field(formatter=str, default='only', regex='auto_switch_difficult_safe')
+    # PlayerPrefs.GetInt("auto_switch_mode", 0)
+    pass  # Duplicate
     # PlayerPrefs.GetString("auto_switch_difficult_base", "all")
     auto_switch_difficult_base = Field(formatter=str, default='all', regex='auto_switch_difficult_base')
-
-    # /mod/experiment/world/view/wsmapright.lua
-    # PlayerPrefs.GetInt("world_skip_precombat", 0)
+    # PlayerPrefs.GetString("auto_switch_difficult_safe", "only")
     pass  # Duplicate
+    # PlayerPrefs.GetString("auto_switch_difficult_treasure", "all")
+    auto_switch_difficult_treasure = Field(formatter=str, default='all', regex='auto_switch_difficult_treasure')
 
     # /model/const/chapterconst.lua
     # PlayerPrefs.GetInt("chapter_skip_battle")
@@ -221,6 +233,10 @@ class GameSettingsGenerated:
     SetScreenRatio = Field(formatter=float, default=0.0, regex='SetScreenRatio')
     # PlayerPrefs.GetInt("story_autoplay_flag", 0)
     story_autoplay_flag = Field(formatter=int, default=0, regex='story_autoplay_flag')
+    # PlayerPrefs.GetInt("ActBossTipLastTime", 0)
+    ActBossTipLastTime = Field(formatter=int, default=0, regex='ActBossTipLastTime')
+    # PlayerPrefs.GetInt("ActBossTip", 0)
+    ActBossTip = Field(formatter=int, default=0, regex='ActBossTip')
     # PlayerPrefs.GetInt("collection_Help", 0)
     collection_Help = Field(formatter=int, default=0, regex='collection_Help')
     # PlayerPrefs.GetInt("main_scene_word_toggle", 1)
@@ -251,6 +267,8 @@ class GameSettingsGenerated:
     event_act_help1 = Field(formatter=int, default=0, regex='event_act_help1(.*)')
     # PlayerPrefs.GetInt("story_speed_flag" .. ((not getProxy(PlayerProxy) or getProxy(PlayerProxy):getRawData().id) and 1), 0)
     story_speed_flag = Field(formatter=int, default=0, regex='story_speed_flag(.*)')
+    # PlayerPrefs.GetInt("Painting_Download_Prefs", 0)
+    Painting_Download_Prefs = Field(formatter=int, default=0, regex='Painting_Download_Prefs')
     # PlayerPrefs.GetInt("tipLimitSkinShopTime_", 0)
     tipLimitSkinShopTime = Field(formatter=int, default=0, regex='tipLimitSkinShopTime_')
     # PlayerPrefs.GetString("_WorldBossProgressTipFlag_", slot1[1] .. "&" .. slot1[1] + slot1[2])
@@ -265,6 +283,18 @@ class GameSettingsGenerated:
     IsTipNewTheme = Field(formatter=int, default=0, regex='(.*)IsTipNewTheme(.*)')
     # PlayerPrefs.GetString(getProxy(PlayerProxy):getRawData().id .. "IsTipNewGenFurniture")
     IsTipNewGenFurniture = Field(formatter=str, default='', regex='(.*)IsTipNewGenFurniture')
+    # PlayerPrefs.GetString("RandomFlagShipList" .. slot1:getRawData().id, "")
+    RandomFlagShipList = Field(formatter=str, default='', regex='RandomFlagShipList(.*)')
+    # PlayerPrefs.GetInt("RandomFlagShipTime" .. getProxy(PlayerProxy):getRawData().id, 0)
+    RandomFlagShipTime = Field(formatter=int, default=0, regex='RandomFlagShipTime(.*)')
+    # PlayerPrefs.GetInt("AutoBotCOFlag" .. getProxy(PlayerProxy):getRawData().id, 0)
+    AutoBotCOFlag = Field(formatter=int, default=0, regex='AutoBotCOFlag(.*)')
+    # PlayerPrefs.GetInt("WorkbenchDailyTip" .. getProxy(PlayerProxy):getRawData().id, 0)
+    WorkbenchDailyTip = Field(formatter=int, default=0, regex='WorkbenchDailyTip(.*)')
+    # PlayerPrefs.GetInt(BATTLERESULT_SKIP_DISPAY_PAINTING)
+    pass  # Unknown
+    # PlayerPrefs.GetInt(BATTLERESULT_DISPAY_PAINTING, 0)
+    pass  # Unknown
 
     # /model/proxy/technologyproxy.lua
     # PlayerPrefs.GetInt("technology_version")
@@ -293,11 +323,13 @@ class GameSettingsGenerated:
     # /model/vo/activity.lua
     # PlayerPrefs.GetInt("ACTIVITY_TYPE_EVENT_" .. slot0.id .. "_" .. getProxy(PlayerProxy):getData().id)
     ACTIVITY_TYPE_EVENT = Field(formatter=int, default=0, regex='ACTIVITY_TYPE_EVENT_(.*)_(.*)')
+    # PlayerPrefs.GetInt("DAY_TIP_" .. uv0.id .. "_" .. getProxy(PlayerProxy):getData().id .. "_" .. uv0:getDayIndex())
+    DAY_TIP = Field(formatter=int, default=0, regex='DAY_TIP_(.*)_(.*)_(.*)')
 
     # /model/vo/chapter.lua
     # PlayerPrefs.GetInt("chapter_quickPlay_flag_" .. slot0.id, 0)
     chapter_quickPlay_flag = Field(formatter=int, default=0, regex='chapter_quickPlay_flag_(.*)')
-    # PlayerPrefs.GetInt(uv0.GetChapterLastFleetCacheKey(slot0), 0)
+    # PlayerPrefs.GetInt(Chapter.GetSPOperationItemCacheKey(slot0.id), 0)
     pass  # Unknown
 
     # /model/vo/chapterfleet.lua
@@ -313,6 +345,10 @@ class GameSettingsGenerated:
     paint_hide_other_obj = Field(formatter=int, default=0, regex='paint_hide_other_obj_(.*)')
     # PlayerPrefs.GetString("equipment_record" .. "_" .. slot1 .. "_" .. slot0.id)
     equipment_record = Field(formatter=str, default='', regex='equipment_record_(.*)_(.*)')
+    # PlayerPrefs.GetString("spweapon_record" .. "_" .. slot1 .. "_" .. slot0.id, "")
+    spweapon_record = Field(formatter=str, default='', regex='spweapon_record_(.*)_(.*)')
+    # PlayerPrefs.GetInt("SHIP_NAME_COLOR", PLATFORM_CODE == PLATFORM_CH and 1 or 0)
+    SHIP_NAME_COLOR = Field(formatter=int, default=0, regex='SHIP_NAME_COLOR')
 
     # /model/vo/guild/events/guildmission.lua
     # PlayerPrefs.GetInt("guild_mission_formation_tip" .. slot0.configId, 0)
@@ -322,7 +358,15 @@ class GameSettingsGenerated:
     # PlayerPrefs.GetInt(slot0:prefKey())
     pass  # Unknown
 
+    # /model/vo/task/activitytask.lua
+    # PlayerPrefs.GetInt("ryza_task_" .. getProxy(PlayerProxy):getRawData().id .. "_" .. slot0.id)
+    ryza_task = Field(formatter=int, default=0, regex='ryza_task_(.*)_(.*)')
+    # PlayerPrefs.GetInt("ryza_task_" .. getProxy(PlayerProxy):getRawData().id .. "_" .. slot0.id)
+    pass  # Duplicate
+
     # /support/helpers/m02.lua
+    # PlayerPrefs.GetInt("paint_hide_other_obj_" .. slot1, 0)
+    pass  # Duplicate
     # PlayerPrefs.GetInt("paint_hide_other_obj_" .. slot1, 0)
     pass  # Duplicate
     # PlayerPrefs.GetInt("paint_hide_other_obj_" .. slot1, 0)
@@ -331,8 +375,10 @@ class GameSettingsGenerated:
     # /support/utils/hxset.lua
     # PlayerPrefs.GetInt(uv0.codeModeKey)
     pass  # Unknown
-    # PlayerPrefs.GetInt("localization_use", 0)
-    localization_use = Field(formatter=int, default=0, regex='localization_use')
+    # PlayerPrefs.GetInt("localization_time_1_" .. getProxy(PlayerProxy):getData().id, 0)
+    localization_time_1 = Field(formatter=int, default=0, regex='localization_time_1_(.*)')
+    # PlayerPrefs.GetInt("localization_time_2_" .. slot2, 0)
+    localization_time_2 = Field(formatter=int, default=0, regex='localization_time_2_(.*)')
 
     # /view/activity/activitymediator.lua
     # PlayerPrefs.GetString("permanent_time", "")
@@ -354,15 +400,43 @@ class GameSettingsGenerated:
     # PlayerPrefs.GetInt(string.format("cursing_%d_task_week_%d", slot0.activity.id, slot5), 0)
     cursing__d_task_week__d = Field(formatter=int, default=0, regex='cursing_%d_task_week_%d')
 
-    # /view/activity/refluxmediator.lua
-    # PlayerPrefs.GetInt(slot6.id .. "_" .. slot2.data2)
-    pass  # Unknown
+    # /view/activity/ryzataskscene.lua
+    # PlayerPrefs.GetInt("ryza_task_help_" .. getProxy(PlayerProxy):getRawData().id)
+    ryza_task_help = Field(formatter=int, default=0, regex='ryza_task_help_(.*)')
+
+    # /view/activity/atelier/atelierbufflayer.lua
+    # PlayerPrefs.GetInt("first_enter_ryza_buff_" .. getProxy(PlayerProxy):getRawData().id, 0)
+    first_enter_ryza_buff = Field(formatter=int, default=0, regex='first_enter_ryza_buff_(.*)')
+
+    # /view/activity/atelier/ateliercompositescene.lua
+    # PlayerPrefs.GetInt("first_enter_ryza_atelier_" .. getProxy(PlayerProxy):getRawData().id, 0)
+    first_enter_ryza_atelier = Field(formatter=int, default=0, regex='first_enter_ryza_atelier_(.*)')
+
+    # /view/activity/backhills/anniversaryisland2023/anniversaryislandcomposite2023scene.lua
+    # PlayerPrefs.GetInt("workbench_show_composite_avaliable", 0)
+    workbench_show_composite_avaliable = Field(formatter=int, default=0, regex='workbench_show_composite_avaliable')
+
+    # /view/activity/backhills/anniversaryisland2023/anniversaryislandhotspringscene.lua
+    # PlayerPrefs.GetString("hotspring_ship_pos_2023", "")
+    hotspring_ship_pos_2023 = Field(formatter=str, default='', regex='hotspring_ship_pos_2023')
+
+    # /view/activity/backhills/newyearfestival/newyearhotspringscene.lua
+    # PlayerPrefs.GetString("hotspring_ship_pos", "")
+    hotspring_ship_pos = Field(formatter=str, default='', regex='hotspring_ship_pos')
+
+    # /view/activity/backhills/springfestival2023/fireworkpanellayer.lua
+    # PlayerPrefs.GetInt("fireworks_" .. slot0.playerId .. "_pos_" .. slot5)
+    fireworks = Field(formatter=int, default=0, regex='fireworks_(.*)_pos_(.*)')
 
     # /view/activity/banaiactivity/blackwhitegridlayer.lua
     # PlayerPrefs.GetString("BlackWhiteGridMapData-" .. slot1.id .. "-" .. slot0.player.id, "")
     BlackWhiteGridMapData = Field(formatter=str, default='', regex='BlackWhiteGridMapData-(.*)-(.*)')
     # PlayerPrefs.GetInt("BlackWhiteGridMapIndex-" .. slot0.player.id, 1)
     BlackWhiteGridMapIndex = Field(formatter=int, default=1, regex='BlackWhiteGridMapIndex-(.*)')
+
+    # /view/activity/bossrush/bossrushfleetselectmediator.lua
+    # PlayerPrefs.GetInt("series_mode_flag" .. slot1.id, -1)
+    series_mode_flag = Field(formatter=int, default=-1, regex='series_mode_flag(.*)')
 
     # /view/activity/decodegame/game/decodegameview.lua
     # PlayerPrefs.GetInt("DecodeGameHelpBg" .. getProxy(PlayerProxy):getRawData().id .. slot1, 0)
@@ -387,6 +461,10 @@ class GameSettingsGenerated:
     # /view/activity/subpages/aprilfooldiscoveryrepage.lua
     # PlayerPrefs.GetInt("SuperBurinPopUp_" .. getProxy(PlayerProxy):getRawData().id, 0)
     SuperBurinPopUp = Field(formatter=int, default=0, regex='SuperBurinPopUp_(.*)')
+
+    # /view/activity/subpages/cardpuzzlepage.lua
+    # PlayerPrefs.GetInt("DAY_TIP_" .. slot0.activity.id .. "_" .. getProxy(PlayerProxy):getData().id .. "_" .. slot0.activity:getDayIndex())
+    pass  # Duplicate
 
     # /view/activity/subpages/collectioneventptpage.lua
     # PlayerPrefs.GetInt("ACTIVITY_TYPE_EVENT_" .. slot0.activity.id .. "_" .. getProxy(PlayerProxy):getData().id)
@@ -428,6 +506,10 @@ class GameSettingsGenerated:
     # PlayerPrefs.GetInt("wwf_todo_task_num_" .. getProxy(PlayerProxy):getData().id)
     pass  # Duplicate
 
+    # /view/activity/worldboss/activitybosstotalrewardpanel.lua
+    # PlayerPrefs.GetInt(AUTO_BATTLE_LABEL, 0)
+    pass  # Unknown
+
     # /view/activity/worldinpicture/worldinpicturescene.lua
     # PlayerPrefs.GetString("WorldInPictureScene_1" .. getProxy(PlayerProxy):getRawData().id, "0#0")
     WorldInPictureScene_1 = Field(formatter=str, default='0#0', regex='WorldInPictureScene_1(.*)')
@@ -457,12 +539,18 @@ class GameSettingsGenerated:
     chapter_submarine_ai_type = Field(formatter=int, default=0, regex='chapter_submarine_ai_type_(.*)')
 
     # /view/battle/levelscene.lua
-    # PlayerPrefs.GetInt("ex_mapId")
+    # PlayerPrefs.GetInt("ex_mapId", 0)
     ex_mapId = Field(formatter=int, default=0, regex='ex_mapId')
-    # PlayerPrefs.GetString("remaster_tip")
-    remaster_tip = Field(formatter=str, default='', regex='remaster_tip')
-    # PlayerPrefs.GetInt("chapter_autofight_flag_" .. uv2.id, 1)
-    chapter_autofight_flag = Field(formatter=int, default=1, regex='chapter_autofight_flag_(.*)')
+    # PlayerPrefs.GetInt("first_enter_ryza_buff_" .. getProxy(PlayerProxy):getRawData().id, 0)
+    pass  # Duplicate
+
+    # /view/battle/battleresult/pages/newbattleresultdisplayawardpage.lua
+    # PlayerPrefs.GetInt(DISPLAY_SHIP_GET_EFFECT)
+    pass  # Unknown
+
+    # /view/battle/battleresult/util/newbattleresultdataextender.lua
+    # PlayerPrefs.GetInt(AUTO_BATTLE_LABEL, 0)
+    pass  # Unknown
 
     # /view/collection/galleryconst.lua
     # PlayerPrefs.GetInt(uv0.Set_BG_Func_Save_Tag .. getProxy(PlayerProxy):getRawData().id)
@@ -484,12 +572,16 @@ class GameSettingsGenerated:
     # PlayerPrefs.GetInt("Tec_Ship_Gift_Enter_Tag", 0)
     Tec_Ship_Gift_Enter_Tag = Field(formatter=int, default=0, regex='Tec_Ship_Gift_Enter_Tag')
 
-    # /view/level/levelfleetview.lua
+    # /view/level/levelcontinuousoperationtotalrewardpanel.lua
     # PlayerPrefs.GetInt("autoFight_firstUse_sp", 0)
     autoFight_firstUse_sp = Field(formatter=int, default=0, regex='autoFight_firstUse_sp')
+
+    # /view/level/levelfleetview.lua
+    # PlayerPrefs.GetInt("autoFight_firstUse_sp", 0)
+    pass  # Duplicate
     # PlayerPrefs.GetInt(uv0, 1)
     pass  # Unknown
-    # PlayerPrefs.GetInt(uv0, 1)
+    # PlayerPrefs.GetInt(uv1, 1)
     pass  # Unknown
     # PlayerPrefs.GetInt("lastFleetDuty_" .. (slot0.chapter.id or 0), 0)
     lastFleetDuty = Field(formatter=int, default=0, regex='lastFleetDuty_(.*)')
@@ -503,15 +595,13 @@ class GameSettingsGenerated:
     pass  # Unknown
     # PlayerPrefs.GetInt(uv0, 1)
     pass  # Unknown
-    # PlayerPrefs.GetInt(Chapter.GetSPOperationItemCacheKey(slot0.chapter.id), 0)
-    pass  # Unknown
 
     # /view/level/levelinfoview.lua
     # PlayerPrefs.GetInt("chapter_loop_flag_" .. slot1.id, -1)
     chapter_loop_flag = Field(formatter=int, default=-1, regex='chapter_loop_flag_(.*)')
     # PlayerPrefs.GetInt("chapter_autofight_flag_" .. slot1.id, 1)
     pass  # Duplicate
-    # PlayerPrefs.GetInt("chapter_quickPlay_flag_" .. slot1.id, 0)
+    # PlayerPrefs.GetInt("chapter_quickPlay_flag_" .. slot1.id, 1)
     pass  # Duplicate
 
     # /view/level/leveloperationitempanel.lua
@@ -534,17 +624,39 @@ class GameSettingsGenerated:
     # PlayerPrefs.GetInt("help_displayed_on_" .. uv1.id, 0)
     help_displayed_on = Field(formatter=int, default=0, regex='help_displayed_on_(.*)')
 
+    # /view/limitchallenge/limitchallengeconst.lua
+    # PlayerPrefs.GetInt(uv0.RedPointKey, 0)
+    pass  # Unknown
+
     # /view/login/loginscene.lua
     # PlayerPrefs.GetString("op_ver", "")
     op_ver = Field(formatter=str, default='', regex='op_ver')
+
+    # /view/main/mailmediator.lua
+    # PlayerPrefs.GetInt("help_research_package", 0)
+    help_research_package = Field(formatter=int, default=0, regex='help_research_package')
 
     # /view/main/trainingcampscene.lua
     # PlayerPrefs.GetInt("TrainCamp_Tec_Catchup_First_Tag", 0)
     TrainCamp_Tec_Catchup_First_Tag = Field(formatter=int, default=0, regex='TrainCamp_Tec_Catchup_First_Tag')
 
+    # /view/main/skinshop/skinshopscene.lua
+    # PlayerPrefs.GetInt("skinShop#l2dPreViewToggle" .. getProxy(PlayerProxy):getRawData().id, 0)
+    skinShop#l2dPreViewToggle = Field(formatter=int, default=0, regex='skinShop#l2dPreViewToggle(.*)')
+
+    # /view/mediacollection/worldmediacollectionmemorygrouplayer.lua
+    # PlayerPrefs.GetInt("MEMORY_GROUP_NOTIFICATION" .. getProxy(PlayerProxy):getRawData().id .. " " .. slot3.id, 0)
+    pass  # Duplicate
+    # PlayerPrefs.GetInt("MEMORY_GROUP_NOTIFICATION" .. slot2 .. " " .. slot7.id, 0)
+    pass  # Duplicate
+
     # /view/minigame/gameview/decodeminigameview.lua
     # PlayerPrefs.GetInt("DecodeGameMapId", 1)
     DecodeGameMapId = Field(formatter=int, default=1, regex='DecodeGameMapId')
+
+    # /view/minigame/gameview/gameroomqteview.lua
+    # PlayerPrefs.GetInt("QTEGameGuide", 0)
+    QTEGameGuide = Field(formatter=int, default=0, regex='QTEGameGuide')
 
     # /view/minigame/gameview/musicgameview.lua
     # PlayerPrefs.GetInt("musicgame_first_" .. getProxy(PlayerProxy):getData().id)
@@ -554,7 +666,11 @@ class GameSettingsGenerated:
 
     # /view/minigame/gameview/qtegameview.lua
     # PlayerPrefs.GetInt("QTEGameGuide", 0)
-    QTEGameGuide = Field(formatter=int, default=0, regex='QTEGameGuide')
+    pass  # Duplicate
+
+    # /view/minigame/gameview/ryzaminigameview.lua
+    # PlayerPrefs.GetInt("ryza_minigame_help", 0)
+    ryza_minigame_help = Field(formatter=int, default=0, regex='ryza_minigame_help')
 
     # /view/minigame/gameview/volleyballgameview.lua
     # PlayerPrefs.GetInt("volleyballgame_first_" .. getProxy(PlayerProxy):getData().id)
@@ -578,6 +694,12 @@ class GameSettingsGenerated:
     # PlayerPrefs.GetInt("ItemIconChange_" .. slot2.equipID, 0)
     ItemIconChange = Field(formatter=int, default=0, regex='ItemIconChange_(.*)')
 
+    # /view/newmain/sequence/mainguidesequence.lua
+    # PlayerPrefs.GetInt("ryza_task_help_" .. getProxy(PlayerProxy):getRawData().id, 0)
+    pass  # Duplicate
+    # PlayerPrefs.GetInt("first_enter_ryza_atelier_" .. getProxy(PlayerProxy):getRawData().id, 0)
+    pass  # Duplicate
+
     # /view/newmain/view/mainchatroomview.lua
     # PlayerPrefs.GetInt(HIDE_CHAT_FLAG)
     pass  # Unknown
@@ -589,6 +711,14 @@ class GameSettingsGenerated:
     pass  # Duplicate
     # PlayerPrefs.GetInt("paint_hide_other_obj_" .. slot0.painting.paintingName, 0)
     pass  # Duplicate
+
+    # /view/reflux/refluxscene.lua
+    # PlayerPrefs.GetInt(getProxy(PlayerProxy):getRawData().id .. "_" .. getProxy(RefluxProxy).returnTimestamp, 0)
+    pass  # Unknown
+
+    # /view/reflux/refluxshopview.lua
+    # PlayerPrefs.GetInt("RefluxShop_Enter_Day", 0)
+    RefluxShop_Enter_Day = Field(formatter=int, default=0, regex='RefluxShop_Enter_Day')
 
     # /view/setting/newsettingsscene.lua
     # PlayerPrefs.GetFloat("firstIntoOtherPanel")
@@ -694,6 +824,10 @@ class GameSettingsGenerated:
     # PlayerPrefs.GetInt("newserver_shop_first_" .. slot0.playerId)
     pass  # Duplicate
 
+    # /view/shops/skinshop/views/newskinshopmainview.lua
+    # PlayerPrefs.GetInt("skinShop#l2dPreViewToggle" .. getProxy(PlayerProxy):getRawData().id, 0)
+    pass  # Duplicate
+
     # /view/snapshot/snapshotscene.lua
     # PlayerPrefs.GetInt("hadShowForVideoTip")
     hadShowForVideoTip = Field(formatter=int, default=0, regex='hadShowForVideoTip')
@@ -703,6 +837,10 @@ class GameSettingsGenerated:
     # /view/snapshot/snapshotsharelayer.lua
     # PlayerPrefs.GetInt("snapshotAgress")
     snapshotAgress = Field(formatter=int, default=0, regex='snapshotAgress')
+
+    # /view/technology/selecttechnologymediator.lua
+    # PlayerPrefs.GetString("technology_day_mark", "")
+    technology_day_mark = Field(formatter=str, default='', regex='technology_day_mark')
 
     # /view/technology/technologysettingslayer.lua
     # PlayerPrefs.GetInt("isShowFinishCatchupVersion")
@@ -714,6 +852,12 @@ class GameSettingsGenerated:
     # PlayerPrefs.GetInt("world_sub_auto_call", 0)
     pass  # Duplicate
     # PlayerPrefs.GetInt("world_sub_call_line", 0)
+    pass  # Duplicate
+    # PlayerPrefs.GetInt("world_skip_precombat", 0)
+    pass  # Duplicate
+    # PlayerPrefs.GetInt("auto_switch_mode", 0)
+    pass  # Duplicate
+    # PlayerPrefs.GetInt("auto_switch_mode", 0)
     pass  # Duplicate
     # PlayerPrefs.GetInt("auto_switch_mode", 0)
     pass  # Duplicate
@@ -727,11 +871,7 @@ class GameSettingsGenerated:
     auto_switch_wait_2 = Field(formatter=int, default=0, regex='auto_switch_wait_2')
     # PlayerPrefs.GetInt("auto_switch_mode", 0)
     pass  # Duplicate
-    # PlayerPrefs.GetString(slot6, slot7)
+    # PlayerPrefs.GetString(slot4, slot5)
     pass  # Unknown
-
-    # /view/world/worldmediacollection/worldmediacollectionmemorygrouplayer.lua
-    # PlayerPrefs.GetInt("MEMORY_GROUP_NOTIFICATION" .. getProxy(PlayerProxy):getRawData().id .. " " .. slot3.id, 0)
-    pass  # Duplicate
-    # PlayerPrefs.GetInt("MEMORY_GROUP_NOTIFICATION" .. slot2 .. " " .. slot7.id, 0)
-    pass  # Duplicate
+    # PlayerPrefs.GetString(slot4, slot5)
+    pass  # Unknown
