@@ -115,8 +115,9 @@ class AlasGUI(Frame):
         self.alas_mod = "alas"
         self.alas_config = AzurLaneConfig("template")
         self.initial()
-        self.aside_status_cache = []
-        self.current_aside_cache = []
+        # rendered state cache
+        self.rendered_cache = []
+        self.inst_cache = []
         self.load_home = False
 
     @use_scope("aside", clear=True)
@@ -129,8 +130,8 @@ class AlasGUI(Frame):
             onclick=[self.ui_develop],
         )
         put_scope("aside_instance",[
-            put_scope(f"alas-instance-{inst}",[])
-            for inst in alas_instance()
+            put_scope(f"alas-instance-{i}",[])
+            for i, _ in enumerate(alas_instance())
         ])
         self.set_aside_status()
         put_icon_buttons(
@@ -148,11 +149,10 @@ class AlasGUI(Frame):
 
     @use_scope("aside_instance")
     def set_aside_status(self) -> None:
-        flag = True
-        self.current_aside_cache = alas_instance()
+        flag = True      
         
-        def update(name):
-            with use_scope(f"alas-instance-{name}", clear=True):
+        def update(name, seq):
+            with use_scope(f"alas-instance-{seq}", clear=True):
                 rendered_state = put_icon_buttons(
                     Icon.RUN,
                     "true",
@@ -161,28 +161,29 @@ class AlasGUI(Frame):
                 )
             return rendered_state
         
-        if (len(self.aside_status_cache) != len(self.current_aside_cache)) or self.load_home:
+        if not len(self.rendered_cache) or self.load_home:
             # Reload when add/delete new instance | first start app.py | go to HomePage (HomePage load call force reload)
             flag = False
+            self.inst_cache.clear()
+            self.inst_cache = alas_instance()
         if flag:
-            for index, inst in enumerate(self.current_aside_cache):
+            for index, inst in enumerate(self.inst_cache):
                 # Check for state change
                 state = ProcessManager.get_manager(inst).state
-                if state != self.aside_status_cache[index]:                    
-                    self.aside_status_cache[index] = update(inst)
+                if state != self.rendered_cache[index]:
+                    self.rendered_cache[index] = update(inst, index)
                     flag = False
         else:
-            self.aside_status_cache.clear()
-            clear()
-            for inst in self.current_aside_cache:                
-                self.aside_status_cache.append(update(inst))
+            self.rendered_cache.clear()
+            clear("aside_instance")
+            for index, inst in enumerate(self.inst_cache):
+                self.rendered_cache.append(update(inst, index))
             self.load_home = False
         if not flag:
             # Redraw lost focus, now focus on aside button
             aside_name = get_localstorage("aside")
             self.active_button("aside", aside_name)
-
-        self.current_aside_cache.clear()
+        
         return
 
     @use_scope("header_status")
