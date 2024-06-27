@@ -248,6 +248,9 @@ CoalitionSp:
     UseAutoSearch: false
     Use2xBook: false
     AmbushEvade: true
+  Coalition:
+    # CoalitionSp hard-codes Mode='sp'
+    Mode: hard
   StopCondition:
     MapAchievement: non_stop
     StageIncrease: false

@@ -114,14 +114,14 @@ class Coalition(CoalitionCombat, CampaignEvent):
 
         return event, stage
 
-    def run(self, event='', stage='', fleet='', total=0):
+    def run(self, event='', mode='', fleet='', total=0):
         event = event if event else self.config.Campaign_Event
-        stage = stage if stage else self.config.Coalition_Mode
+        mode = mode if mode else self.config.Coalition_Mode
         fleet = fleet if fleet else self.config.Coalition_Fleet
-        if not event or not stage or not fleet:
-            raise ScriptError(f'RaidRun arguments unfilled. name={event}, stage={stage}, fleet={fleet}')
+        if not event or not mode or not fleet:
+            raise ScriptError(f'Coalition arguments unfilled. name={event}, mode={mode}, fleet={fleet}')
 
-        event, stage = self.handle_stage_name(event, stage)
+        event, mode = self.handle_stage_name(event, mode)
         self.run_count = 0
         self.run_limit = self.config.StopCondition_RunCount
         while 1:
@@ -132,7 +132,7 @@ class Coalition(CoalitionCombat, CampaignEvent):
                 self.config.task_stop()
 
             # Log
-            logger.hr(f'{event}_{stage}', level=2)
+            logger.hr(f'{event}_{mode}', level=2)
             if self.config.StopCondition_RunCount > 0:
                 logger.info(f'Count remain: {self.config.StopCondition_RunCount}')
             else:
@@ -152,7 +152,7 @@ class Coalition(CoalitionCombat, CampaignEvent):
             self.device.stuck_record_clear()
             self.device.click_record_clear()
             try:
-                self.coalition_execute_once(event=event, stage=stage, fleet=fleet)
+                self.coalition_execute_once(event=event, stage=mode, fleet=fleet)
             except ScriptEnd as e:
                 logger.hr('Script end')
                 logger.info(str(e))

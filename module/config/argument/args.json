@@ -6439,7 +6439,8 @@
           "normal",
           "hard",
           "ex"
-        ]
+        ],
+        "display": "hide"
       },
       "Fleet": {
         "type": "select",
