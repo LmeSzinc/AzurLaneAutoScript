@@ -198,3 +198,4 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20240523 | event 20230525 cn | Confluence of Nothingness | - | - | -                                    | 空相交會點 |
 | 20240613   | event 20201012 cn    | Sundered Blue   | -       | -       | -     |   復刻劃破海空之翼       |
 | 20240620   | event 20220428 cn | Rondo at Rainbow's End Rerun | 复刻虹彩的终幕曲 | Rondo at Rainbow's End Rerun | 吟ずる瑠璃の楽章（復刻） | - |
+| 20231026   | event 20231026 cn        | Tempesta and the Fountain of Youth           | -   | -  | -    | 飓風與青春之泉 |
