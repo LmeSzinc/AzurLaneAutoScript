@@ -44,7 +44,7 @@ class Coalition(CoalitionCombat, CampaignEvent):
         pt = ocr.ocr(self.device.image)
         return pt
 
-    def triggered_stop_condition(self, oil_check=True):
+    def triggered_stop_condition(self, oil_check=False, pt_check=False):
         """
         Returns:
             bool: If triggered a stop condition.
@@ -62,9 +62,10 @@ class Coalition(CoalitionCombat, CampaignEvent):
                 self.config.task_delay(minute=(120, 240))
                 return True
         # Event limit
-        if self.event_pt_limit_triggered():
-            logger.hr('Triggered stop condition: Event PT limit')
-            return True
+        if pt_check:
+            if self.event_pt_limit_triggered():
+                logger.hr('Triggered stop condition: Event PT limit')
+                return True
         # TaskBalancer
         if self.run_count >= 1:
             if self.config.TaskBalancer_Enable and self.triggered_task_balancer():
@@ -145,7 +146,7 @@ class Coalition(CoalitionCombat, CampaignEvent):
             self.coalition_ensure_mode(event, 'battle')
 
             # End
-            if self.triggered_stop_condition(oil_check=False):
+            if self.triggered_stop_condition(pt_check=True):
                 break
 
             # Run
@@ -163,7 +164,7 @@ class Coalition(CoalitionCombat, CampaignEvent):
             if self.config.StopCondition_RunCount:
                 self.config.StopCondition_RunCount -= 1
             # End
-            if self.triggered_stop_condition(oil_check=False):
+            if self.triggered_stop_condition(pt_check=True):
                 break
             # Scheduler
             if self.config.task_switched():
