@@ -306,12 +306,3 @@ class Device(Screenshot, Control, AppControl):
         super().app_stop()
         self.stuck_record_clear()
         self.click_record_clear()
-if __name__ == '__main__':
-    self = Device('alas')
-    # self.maatouch_uninstall()
-    # self.maatouch_install()
-    # self.click_maatouch(300, 300)
-    # self.click_maatouch(300, 300)
-    # self.drag_maatouch((800, 300), (300, 300))
-    self.swipe_minitouch((300, 300), (800, 300))
-    self.swipe_minitouch((800, 300), (300, 300))

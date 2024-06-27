@@ -38,7 +38,7 @@ class Config:
     MAP_SWIPE_MULTIPLY_MINITOUCH = (1.276, 0.974)
 
 
-cfg = AzurLaneConfig('alas5', task='Alas').merge(Config())
+cfg = AzurLaneConfig('alas', task='Alas').merge(Config())
 cfg.DETECTION_BACKEND = 'perspective'
 az = CampaignBase(cfg)
 az.map = MAP
@@ -165,4 +165,4 @@ if __name__ == '__main__':
     -- -- -- -- -- --
     After run, Result is ready to copy.
     """
-    sim = SwipeSimulate((380, 0)).run()
+    sim = SwipeSimulate((420, 0)).run()

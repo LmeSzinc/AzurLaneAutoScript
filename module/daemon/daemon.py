@@ -7,7 +7,6 @@ from module.map.map_operation import FLEET_PREPARATION, MAP_PREPARATION
 
 class AzurLaneDaemon(DaemonBase, CampaignBase):
     def run(self):
-        self.config.override(Emotion_Mode='ignore')
         while 1:
             self.device.screenshot()
 
@@ -62,8 +61,6 @@ class AzurLaneDaemon(DaemonBase, CampaignBase):
 
             # End
             # No end condition, stop it manually.
-            if self.handle_popup_confirm():
-                continue
 
         return True
 

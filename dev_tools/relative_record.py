@@ -17,19 +17,7 @@ class Config:
     """
     Paste the config of map file here
     """
-    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (80, 255 - 17),
-        'width': (0.9, 10),
-        'prominence': 10,
-        'distance': 35,
-    }
-    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (255 - 17, 255),
-        'prominence': 10,
-        'distance': 50,
-        'wlen': 1000
-    }
-    HOMO_EDGE_COLOR_RANGE = (0, 17)
+    pass
 
 
 """
@@ -53,11 +41,10 @@ Arguments:
     NAME:       Siren name, images will save in <FOLDER>/<NAME>
     NODE:       Node in local map view, that you are going to crop.
 """
-CONFIG = 'alas5'
-FOLDER = r'E:\ProgramData\Pycharm\Azurlane-image\screenshot\record'
-NAME = 'huiguangzhihe'
-NODE = 'E5'
-
+CONFIG = 'alas'
+FOLDER = ''
+NAME = 'Deutschland'
+NODE = 'D5'
 
 if __name__ == '__main__':
     for folder in [FOLDER, os.path.join(FOLDER, NAME)]:

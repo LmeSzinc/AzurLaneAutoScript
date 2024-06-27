@@ -872,7 +872,7 @@ class OperationSiren(OSMap):
 
 
 if __name__ == '__main__':
-    self = OperationSiren('alas', task='OpsiExplore')
+    self = OperationSiren('month_test', task='OpsiMonthBoss')
     from module.os.config import OSConfig
 
     self.config = self.config.merge(OSConfig())
@@ -880,5 +880,5 @@ if __name__ == '__main__':
     self.device.screenshot()
     self.os_init()
 
-    # logger.hr("OS clear Month Boss", level=1)
-    self.os_shop()
+    logger.hr("OS clear Month Boss", level=1)
+    self.clear_month_boss()

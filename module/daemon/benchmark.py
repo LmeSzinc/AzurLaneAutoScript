@@ -173,8 +173,8 @@ class Benchmark(DaemonBase, CampaignUI):
     def get_test_methods(self) -> t.Tuple[t.Tuple[str], t.Tuple[str]]:
         device = self.config.Benchmark_DeviceType
         # device == 'emulator'
-        screenshot = ['DroidCast_raw']
-        click = ['ADB', 'uiautomator2', 'minitouch', 'MaaTouch']
+        screenshot = ['ADB', 'ADB_nc', 'uiautomator2', 'aScreenCap', 'aScreenCap_nc', 'DroidCast', 'DroidCast_raw']
+        click = ['ADB', 'uiautomator2', 'minitouch']
 
         def remove(*args):
             return [l for l in screenshot if l not in args]
@@ -205,8 +205,8 @@ class Benchmark(DaemonBase, CampaignUI):
     def run(self):
         self.config.override(Emulator_ScreenshotMethod='ADB')
         self.device.uninstall_minicap()
-        # self.ui_goto_campaign()
-        # self.campaign_set_chapter('7-2')
+        self.ui_goto_campaign()
+        self.campaign_set_chapter('7-2')
 
         logger.attr('DeviceType', self.config.Benchmark_DeviceType)
         logger.attr('TestScene', self.config.Benchmark_TestScene)

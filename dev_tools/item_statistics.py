@@ -1,5 +1,6 @@
 import shutil
 
+import numpy as np
 from tqdm import tqdm
 
 import module.config.server as server
@@ -7,8 +8,8 @@ import module.config.server as server
 server.server = 'cn'  # Edit your server here.
 
 from module.logger import logger
-from module.statistics.image.battle_status import BattleStatusStatistics
-from module.statistics.image.get_items import GetItemsStatistics
+from module.statistics.battle_status import BattleStatusStatistics
+from module.statistics.get_items import GetItemsStatistics
 from module.statistics.utils import *
 
 STATUS_ITEMS_INTERVAL = 10
