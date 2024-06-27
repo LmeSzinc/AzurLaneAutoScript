@@ -115,7 +115,7 @@
       "help": ""
     },
     "CoalitionSp": {
-      "name": "极地风暴每日SP",
+      "name": "童心学院每日SP",
       "help": ""
     },
     "Commission": {
@@ -1257,6 +1257,14 @@
     "_info": {
       "name": "活动设置",
       "help": "出击前必须在游戏内手动配队"
+    },
+    "Mode": {
+      "name": "难度",
+      "help": "SP图需要使用活动每日SP运行",
+      "easy": "简单",
+      "normal": "普通",
+      "hard": "困难",
+      "ex": "EX"
     },
     "Fleet": {
       "name": "出击队伍",

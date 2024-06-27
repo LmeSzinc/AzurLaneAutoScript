@@ -3111,7 +3111,8 @@
     "Campaign": {
       "Name": {
         "type": "input",
-        "value": "12-4"
+        "value": "dynamic",
+        "display": "hide"
       },
       "Event": {
         "type": "state",
@@ -3165,6 +3166,16 @@
       }
     },
     "Coalition": {
+      "Mode": {
+        "type": "select",
+        "value": "hard",
+        "option": [
+          "easy",
+          "normal",
+          "hard",
+          "ex"
+        ]
+      },
       "Fleet": {
         "type": "select",
         "value": "single",
@@ -6420,6 +6431,16 @@
       }
     },
     "Coalition": {
+      "Mode": {
+        "type": "select",
+        "value": "hard",
+        "option": [
+          "easy",
+          "normal",
+          "hard",
+          "ex"
+        ]
+      },
       "Fleet": {
         "type": "select",
         "value": "single",

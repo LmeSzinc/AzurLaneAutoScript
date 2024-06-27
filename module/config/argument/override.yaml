@@ -215,6 +215,7 @@ Coalition:
   Campaign:
     Event:
       type: state
+    Name: dynamic
     Mode: normal
     UseClearMode: true
     UseFleetLock: true

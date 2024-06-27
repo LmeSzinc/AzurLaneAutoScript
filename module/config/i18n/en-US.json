@@ -115,7 +115,7 @@
       "help": ""
     },
     "CoalitionSp": {
-      "name": "Frostfall Daily SP",
+      "name": "Little Academy SP",
       "help": ""
     },
     "Commission": {
@@ -1257,6 +1257,14 @@
     "_info": {
       "name": "Event Settings",
       "help": "Fleets must be prepared manually in game before running"
+    },
+    "Mode": {
+      "name": "Mode",
+      "help": "SP needs to use event daily SP to run",
+      "easy": "Easy",
+      "normal": "Normal",
+      "hard": "Hard",
+      "ex": "EX"
     },
     "Fleet": {
       "name": "Fleet",
