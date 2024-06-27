@@ -86,3 +86,14 @@ class AdbManager(DeployConfig):
 
                 initer._device.shell(["rm", "/data/local/tmp/minicap"])
                 initer._device.shell(["rm", "/data/local/tmp/minicap.so"])
+
+
+if __name__ == '__main__':
+    import psutil
+    for c in psutil.net_connections():
+        # print(type(c.laddr), c.laddr, type(c.raddr), c.raddr)
+        try:
+            if c.laddr.port == 5038 or c.raddr.port == 5038:
+                print(c.status, c.pid)
+        except AttributeError:
+            continue

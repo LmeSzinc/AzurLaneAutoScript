@@ -79,7 +79,7 @@
       "help": ""
     },
     "Coalition": {
-      "name": "Frostfall",
+      "name": "Little Academy",
       "help": ""
     },
     "MaritimeEscort": {
@@ -115,7 +115,7 @@
       "help": ""
     },
     "CoalitionSp": {
-      "name": "Frostfall Daily SP",
+      "name": "Little Academy SP",
       "help": ""
     },
     "Commission": {
@@ -660,6 +660,7 @@
       "help": "Automatically selects to the latest event",
       "campaign_main": "campaign_main",
       "coalition_20230323": "Frostfall",
+      "coalition_20240627": "Welcome to Little Academy",
       "event_20200227_cn": "Northern Overture",
       "event_20200312_cn": "The Solomon Ranger Rerun",
       "event_20200326_cn": "Microlayer Medley",
@@ -1256,6 +1257,14 @@
     "_info": {
       "name": "Event Settings",
       "help": "Fleets must be prepared manually in game before running"
+    },
+    "Mode": {
+      "name": "Mode",
+      "help": "SP needs to use event daily SP to run",
+      "easy": "Easy",
+      "normal": "Normal",
+      "hard": "Hard",
+      "ex": "EX"
     },
     "Fleet": {
       "name": "Fleet",

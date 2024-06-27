@@ -304,15 +304,15 @@ class MapData:
 
             # portal
             self.portal = []
-            if self.map_id in MAP_EVENT_LIST:
-                for event_id in MAP_EVENT_LIST[self.map_id]['event_list'].values():
-                    event = MAP_EVENT_TEMPLATE[event_id]
-                    for effect in event['effect'].values():
-                        if effect[0] == 'jump':
-                            address = event['address']
-                            address = location2node((address[1], address[0]))
-                            target = location2node((effect[2], effect[1]))
-                            self.portal.append((address, target))
+            # if self.map_id in MAP_EVENT_LIST:
+            #     for event_id in MAP_EVENT_LIST[self.map_id]['event_list'].values():
+            #         event = MAP_EVENT_TEMPLATE[event_id]
+            #         for effect in event['effect'].values():
+            #             if effect[0] == 'jump':
+            #                 address = event['address']
+            #                 address = location2node((address[1], address[0]))
+            #                 target = location2node((effect[2], effect[1]))
+            #                 self.portal.append((address, target))
 
             # land_based
             # land_based = {{6, 7, 1}, ...}
@@ -676,8 +676,8 @@ Arguments:
                      adapted for war_archives usage
 """
 FILE = '../AzurLaneLuaScripts'
-FOLDER = './campaign/test'
-KEYWORD = ''
+FOLDER = './campaign/event_20240521_cn'
+KEYWORD = '1810001'
 SELECT = True
 OVERWRITE = True
 IS_WAR_ARCHIVES = False
@@ -686,8 +686,8 @@ ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
 LOADER = LuaLoader(FILE, server='CN')
 DATA = LOADER.load('./sharecfgdata/chapter_template.lua')
 DATA_LOOP = LOADER.load('./sharecfgdata/chapter_template_loop.lua')
-MAP_EVENT_LIST = LOADER.load('./sharecfg/map_event_list.lua')
-MAP_EVENT_TEMPLATE = LOADER.load('./sharecfg/map_event_template.lua')
+# MAP_EVENT_LIST = LOADER.load('./sharecfg/map_event_list.lua')
+# MAP_EVENT_TEMPLATE = LOADER.load('./sharecfg/map_event_template.lua')
 EXPECTATION_DATA = LOADER.load('./sharecfgdata/expedition_data_template.lua')
 
 ct = ChapterTemplate()

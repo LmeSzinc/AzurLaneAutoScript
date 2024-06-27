@@ -126,7 +126,7 @@ Arguments:
     FILE:  Path to repository, such as 'xxx/AzurLaneLuaScripts'
     SAVE:  File to save, 'module/os/map_data.py'
 """
-FOLDER = ''
+FOLDER = r'E:\ProgramData\Pycharm\AzurLaneLuaScripts'
 SAVE = 'module/os/map_data.py'
 
 LOADER = LuaLoader(FOLDER)

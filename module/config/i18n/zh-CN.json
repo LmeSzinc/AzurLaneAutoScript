@@ -79,7 +79,7 @@
       "help": ""
     },
     "Coalition": {
-      "name": "极地风暴",
+      "name": "童心学院",
       "help": ""
     },
     "MaritimeEscort": {
@@ -115,7 +115,7 @@
       "help": ""
     },
     "CoalitionSp": {
-      "name": "极地风暴每日SP",
+      "name": "童心学院每日SP",
       "help": ""
     },
     "Commission": {
@@ -660,6 +660,7 @@
       "help": "自动选择至最新的活动",
       "campaign_main": "主线图",
       "coalition_20230323": "极地风暴",
+      "coalition_20240627": "欢迎来到童心学院",
       "event_20200227_cn": "北境序曲",
       "event_20200312_cn": "复刻斯图尔特的硝烟",
       "event_20200326_cn": "微层混合",
@@ -1256,6 +1257,14 @@
     "_info": {
       "name": "活动设置",
       "help": "出击前必须在游戏内手动配队"
+    },
+    "Mode": {
+      "name": "难度",
+      "help": "SP图需要使用活动每日SP运行",
+      "easy": "简单",
+      "normal": "普通",
+      "hard": "困难",
+      "ex": "EX"
     },
     "Fleet": {
       "name": "出击队伍",

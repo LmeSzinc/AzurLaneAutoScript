@@ -14,6 +14,7 @@ from adbutils.errors import AdbError
 
 from module.base.decorator import Config, cached_property, del_cached_property, run_once
 from module.base.utils import ensure_time
+from module.config.config import AzurLaneConfig
 from module.config.server import VALID_CHANNEL_PACKAGE, VALID_PACKAGE, set_server
 from module.device.connection_attr import ConnectionAttr
 from module.device.method.utils import (PackageNotInstalled, RETRY_TRIES, get_serial_pair, handle_adb_error,
@@ -1014,3 +1015,16 @@ class Connection(ConnectionAttr):
                 f'Multiple AzurLane packages found, auto package detection cannot decide which to choose, '
                 'please copy one of the available devices listed above to Alas.Emulator.PackageName')
             raise RequestHumanTakeover
+
+
+if __name__ == '__main__':
+    cfg = AzurLaneConfig('alas')
+    cfg.override(Emulator_Serial='127.0.0.1:16416')
+    self = Connection(cfg)
+    with self.adb_client.open as c:
+        list_cmd = f"framebuffer:"
+        c.send_command(list_cmd)
+        c.check_okay()
+
+        version = c.read_string_block()
+        print(version)

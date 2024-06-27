@@ -305,6 +305,9 @@ RaidDaily:
 MaritimeEscort:
   Enable: true
 Coalition:
+  Mode:
+    value: hard
+    option: [ easy, normal, hard, ex ]
   Fleet:
     value: single
     option: [ single, multi ]

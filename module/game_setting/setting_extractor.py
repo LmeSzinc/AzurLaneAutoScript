@@ -190,6 +190,6 @@ class SettingExtractor:
 
 if __name__ == '__main__':
     # Path to AzurLaneLuaScripts\CN
-    FOLDER = r''
+    FOLDER = r'E:\ProgramData\Pycharm\AzurLaneLuaScripts\CN'
     ex = SettingExtractor()
     ex.generate(FOLDER)

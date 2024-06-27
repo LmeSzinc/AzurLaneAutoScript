@@ -79,8 +79,8 @@
       "help": ""
     },
     "Coalition": {
-      "name": "Task.Coalition.name",
-      "help": "Task.Coalition.help"
+      "name": "リトル学園",
+      "help": ""
     },
     "MaritimeEscort": {
       "name": "Maritime Escort",
@@ -660,6 +660,7 @@
       "help": "Campaign.Event.help",
       "campaign_main": "campaign_main",
       "coalition_20230323": "星霜海嵐",
+      "coalition_20240627": "リトル学園へようこそ",
       "event_20200227_cn": "凍絶の北海",
       "event_20200312_cn": "南洋に靡く硝煙（復刻）",
       "event_20200326_cn": "闇靄払う銀翼",
@@ -1256,6 +1257,14 @@
     "_info": {
       "name": "Coalition._info.name",
       "help": "Coalition._info.help"
+    },
+    "Mode": {
+      "name": "Coalition.Mode.name",
+      "help": "Coalition.Mode.help",
+      "easy": "easy",
+      "normal": "normal",
+      "hard": "hard",
+      "ex": "ex"
     },
     "Fleet": {
       "name": "Coalition.Fleet.name",

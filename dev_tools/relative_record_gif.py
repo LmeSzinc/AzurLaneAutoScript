@@ -27,7 +27,7 @@ Arguments:
 """
 # FOLDER = ''
 # NAME = 'Deutschland'
-AREA = (32, 32, 54, 52)
+AREA = (25, 16, 37, 34)
 THRESHOLD = 0.92
 
 if __name__ == '__main__':
