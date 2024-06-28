@@ -41,6 +41,9 @@ def docker_requirements_generate(requirements_in='requirements-in.txt'):
 
     logger.info(f'Generate requirements for Docker image')
     lock = {}
+    expand = {
+        'mxnet-alas': '0.0.5'
+    }
     new = {}
     logger.info(requirements)
     for name, version in requirements.items():
@@ -53,6 +56,8 @@ def docker_requirements_generate(requirements_in='requirements-in.txt'):
         if name in lock:
             version = lock[name] if not isinstance(lock[name], dict) else lock[name]['version']
             name = name if not isinstance(lock[name], dict) else lock[name]['name']
+        new[name] = version
+    for name, version in expand.items():
         new[name] = version
 
     write_file(os.path.join(BASE_FOLDER, f'./requirements.txt'), data=new)
