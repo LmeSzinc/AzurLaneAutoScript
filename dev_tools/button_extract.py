@@ -219,7 +219,7 @@ class AssetExtractor:
         modules = [m for m in os.listdir(AzurLaneConfig.ASSETS_FOLDER + '/cn')
                    if os.path.isdir(os.path.join(AzurLaneConfig.ASSETS_FOLDER + '/cn', m))]
 
-        process_map(worker, modules, max_workers=2)
+        process_map(worker, modules)
 
 
 if __name__ == '__main__':
