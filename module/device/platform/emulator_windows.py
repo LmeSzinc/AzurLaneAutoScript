@@ -89,8 +89,8 @@ class Emulator(EmulatorBase):
                 return cls.NoxPlayer64
             else:
                 return cls.NoxPlayer
-        if exe == 'bluestacks.exe':
-            if dir1 in ['bluestacks', 'bluestacks_cn']:
+        if exe in ['bluestacks.exe', 'bluestacksgp.exe']:
+            if dir1 in ['bluestacks', 'bluestacks_cn', 'bluestackscn']:
                 return cls.BlueStacks4
             elif dir1 in ['bluestacks_nxt', 'bluestacks_nxt_cn']:
                 return cls.BlueStacks5
@@ -127,7 +127,7 @@ class Emulator(EmulatorBase):
         return ''
 
     @staticmethod
-    def multi_to_single(exe):
+    def multi_to_single(exe: str):
         """
         Convert a string that might be a multi-instance manager to its single instance executable.
 
@@ -154,6 +154,28 @@ class Emulator(EmulatorBase):
             yield exe.replace('MEmuConsole.exe', 'MEmu.exe')
         else:
             yield exe
+
+    @staticmethod
+    def single_to_console(exe: str):
+        """
+        Convert a string that might be a single instance executable to its console.
+
+        Args:
+            exe (str): Path to emulator executable
+
+        Returns:
+            str: Path to emulator console
+        """
+        if 'MuMuPlayer.exe' in exe:
+            return exe.replace('MuMuPlayer.exe', 'MuMuManager.exe')
+        elif 'LDPlayer.exe' in exe:
+            return exe.replace('LDPlayer.exe', 'dnconsole.exe')
+        elif 'Bluestacks.exe' in exe:
+            return exe.replace('Bluestacks.exe', 'bsconsole.exe')
+        elif 'MEmu.exe' in exe:
+            return exe.replace('MEmu.exe', 'memuc.exe')
+        else:
+            return exe
 
     @staticmethod
     def vbox_file_to_serial(file: str) -> str:
@@ -224,7 +246,7 @@ class Emulator(EmulatorBase):
         elif self == Emulator.BlueStacks4:
             # ../Engine/Android
             regex = re.compile(r'^Android')
-            for folder in self.list_folder('../Engine', is_dir=True):
+            for folder in self.list_folder('./Engine/ProgramData/Engine', is_dir=True):
                 folder = os.path.basename(folder)
                 res = regex.match(folder)
                 if not res:
