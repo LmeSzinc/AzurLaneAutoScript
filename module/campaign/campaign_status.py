@@ -10,8 +10,6 @@ from module.logger import logger
 from module.ocr.ocr import Digit, Ocr
 from module.ui.ui import UI
 
-OCR_COIN = Digit(OCR_COIN, name='OCR_COIN', letter=(239, 239, 239), threshold=128)
-
 
 class PtOcr(Ocr):
     def __init__(self, *args, **kwargs):
@@ -38,6 +36,8 @@ OCR_PT = PtOcr(OCR_EVENT_PT)
 
 
 class CampaignStatus(UI):
+    OCR_COIN = Digit(OCR_COIN, name='OCR_COIN', letter=(239, 239, 239), threshold=128)
+
     def get_event_pt(self):
         """
         Returns:
@@ -71,7 +71,7 @@ class CampaignStatus(UI):
                 logger.warning('Get coin timeout')
                 break
 
-            amount = OCR_COIN.ocr(self.device.image)
+            amount = self.OCR_COIN.ocr(self.device.image)
             if amount >= 100:
                 break
 

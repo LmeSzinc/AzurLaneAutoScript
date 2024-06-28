@@ -1,5 +1,6 @@
 import re
 from module.base.timer import Timer
+from module.campaign.assets import OCR_COIN
 
 from module.campaign.campaign_event import CampaignEvent
 from module.coalition.assets import *
@@ -28,6 +29,7 @@ class AcademyPtOcr(Digit):
 class Coalition(CoalitionCombat, CampaignEvent):
     run_count: int
     run_limit: int
+    OCR_COIN = Digit(OCR_COIN, name='OCR_COIN', letter=(220, 220, 220), threshold=128)
 
     def get_event_pt(self):
         """
