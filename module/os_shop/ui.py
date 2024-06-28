@@ -3,8 +3,8 @@ from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.base.utils import random_rectangle_vector
-from module.exception import ScriptError
-from module.os_shop.assets import OS_SHOP_SAFE_AREA, OS_SHOP_SCROLL_AREA, PORT_SUPPLY_CHECK
+from module.exception import GameStuckError
+from module.os_shop.assets import OS_SHOP_CHECK, OS_SHOP_SAFE_AREA, OS_SHOP_SCROLL_AREA
 from module.logger import logger
 from module.ui.navbar import Navbar
 from module.ui.scroll import AdaptiveScroll
@@ -42,13 +42,14 @@ class OSShopUI(UI):
                 self.device.screenshot()
 
             # End
-            if self.appear(PORT_SUPPLY_CHECK):
+            if self.appear(OS_SHOP_CHECK):
                 return True
+            else:
+                logger.warning('OpsiShop is not appear, retrying.')
 
             # Exception
             if ensure_timeout.reached():
-                logger.warning('Wait for loaded assets is incomplete, ensure not guaranteed')
-                return False
+                raise GameStuckError('Waiting too long for OpsiShop to appear.')
 
     @cached_property
     def _os_shop_side_navbar(self):
@@ -94,14 +95,9 @@ class OSShopUI(UI):
             in: PORT_SUPPLY_CHECK
             out: PORT_SUPPLY_CHECK
         """
-        retry = Timer(0, count=3)
-        retry.start()
-        while self._os_shop_side_navbar.get_active(main=self) + 1 not in [upper, bottom]:
-            logger.info(f'OS shop side navbar set to {upper or bottom}, setting')
-            self._os_shop_side_navbar.set(self, upper=upper, bottom=bottom)
-            self.os_shop_load_ensure()
-            if retry.reached():
-                raise ScriptError('Side navbar set error.')
+        logger.info(f'OpsiShop side navbar set to {upper or bottom}')
+        self.os_shop_load_ensure()
+        self._os_shop_side_navbar.set(self, upper=upper, bottom=bottom)
 
     def init_slider(self) -> Tuple[float, float]:
         """Initialize the slider
@@ -110,7 +106,7 @@ class OSShopUI(UI):
             Tuple[float, float]: (pre_pos, cur_pos)
         """
         if not OS_SHOP_SCROLL.appear(main=self):
-            logger.warning('ScriptError, Scroll does not appear, try to rescue slider')
+            logger.warning('Scroll does not appear, try to rescue slider')
             self.rescue_slider()
         retry = Timer(0, count=3)
         retry.start()
@@ -118,7 +114,7 @@ class OSShopUI(UI):
             logger.info('Scroll does not at top, try to scroll')
             OS_SHOP_SCROLL.set_top(main=self)
             if retry.reached():
-                raise ScriptError('Scroll drag page error.')
+                raise GameStuckError('Scroll drag page error.')
         return -1.0, 0.0
 
     def rescue_slider(self, distance=200):
@@ -144,21 +140,21 @@ class OSShopUI(UI):
             cur_pos: Current position
         """
         if pre_pos == cur_pos:
-            logger.warning('ScriptError, Scroll drag page failed')
+            logger.warning('Scroll drag page failed')
             if not OS_SHOP_SCROLL.appear(main=self):
-                logger.warning('ScriptError, Scroll does not appear, try to rescue slider')
+                logger.warning('Scroll does not appear, try to rescue slider')
                 self.rescue_slider()
                 OS_SHOP_SCROLL.set(cur_pos, main=self)
             retry = Timer(0, count=3)
             retry.start()
             while True:
-                logger.warning('ScriptError, Scroll does not drag success, retrying scroll')
+                logger.warning('Scroll does not drag success, retrying scroll')
                 OS_SHOP_SCROLL.next_page(main=self, page=0.5)
                 cur_pos = OS_SHOP_SCROLL.cal_position(main=self)
                 if pre_pos != cur_pos:
                     logger.info(f'Scroll success drag page to {cur_pos}')
                     return cur_pos
                 if retry.reached():
-                    raise ScriptError('Scroll drag page error.')
+                    raise GameStuckError('Scroll drag page error.')
         else:
             return cur_pos
