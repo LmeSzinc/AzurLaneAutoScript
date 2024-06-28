@@ -2294,7 +2294,7 @@
   "OpsiShop": {
     "_info": {
       "name": "OpSi Shop Settings",
-      "help": "Completes OpSi daily activities\nThe following must be satisfied:\n- OpSi story and practice battles must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
+      "help": "Completes OpSi daily activities\nThe following must be satisfied:\n- OpSi story and practice battles must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop\nAvailable only in the next month after clearing OpSi story, i.e., after the port shop becomes a new version of the shop"
     },
     "PresetFilter": {
       "name": "OpSi Shop Filter",

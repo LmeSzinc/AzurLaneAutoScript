@@ -15,8 +15,8 @@ from module.os.globe_operation import OSExploreError
 from module.os.map import OSMap
 from module.os_handler.action_point import OCR_OS_ADAPTABILITY, ActionPointLimit
 from module.os_handler.assets import OS_MONTHBOSS_NORMAL, OS_MONTHBOSS_HARD, EXCHANGE_CHECK, EXCHANGE_ENTER
+from module.os_shop.assets import OS_SHOP_CHECK
 from module.shop.shop_voucher import VoucherShop
-from module.base.decorator import Config
 
 
 class OperationSiren(OSMap):
@@ -242,13 +242,23 @@ class OperationSiren(OSMap):
         logger.hr('OS port daily', level=1)
         if not self.zone.is_azur_port:
             self.globe_goto(self.zone_nearest_azur_port(self.zone))
+
         self.port_enter()
-        not_empty = self.port_supply_buy()
+        self.port_shop_enter()
+
+        if self.appear(OS_SHOP_CHECK):
+            not_empty = self.handle_port_supply_buy()
+            next_reset = self._os_shop_delay(not_empty)
+            logger.info('OS port daily finished, delay to next reset')
+            logger.attr('OpsiShopNextReset', next_reset)
+        else:
+            next_reset = get_os_next_reset()
+            logger.warning('There is no shop in the port, skip to the next month.')
+            logger.attr('OpsiShopNextReset', next_reset)
+
+        self.port_shop_quit()
         self.port_quit()
 
-        next_reset = self._os_shop_delay(not_empty)
-        logger.info('OS port daily finished, delay to next reset')
-        logger.attr('OpsiShopNextReset', next_reset)
         self.config.task_delay(target=next_reset)
         self.config.task_stop()
 
