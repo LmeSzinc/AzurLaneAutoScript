@@ -214,6 +214,9 @@ class CoalitionUI(Combat):
             if self.appear(BATTLE_PREPARATION, offset=(20, 20)):
                 break
 
+            if self.handle_guild_popup_cancel():
+                continue
+
             # Enter campaign
             if campaign_timer.reached() and self.in_coalition():
                 self.device.click(button)
