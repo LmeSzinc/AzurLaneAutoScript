@@ -162,7 +162,7 @@ class CoalitionUI(Combat):
             if stage in ['tc1', 'sp']:
                 return False
         if event == 'coalition_20240627':
-            if stage in ['sp', 'ex']:
+            if stage in ['easy', 'sp', 'ex']:
                 return False
 
         self.coalition_ensure_fleet(event, mode)
