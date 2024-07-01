@@ -215,6 +215,7 @@ Coalition:
   Campaign:
     Event:
       type: state
+    Name: dynamic
     Mode: normal
     UseClearMode: true
     UseFleetLock: true
@@ -247,6 +248,9 @@ CoalitionSp:
     UseAutoSearch: false
     Use2xBook: false
     AmbushEvade: true
+  Coalition:
+    # CoalitionSp hard-codes Mode='sp'
+    Mode: hard
   StopCondition:
     MapAchievement: non_stop
     StageIncrease: false
