@@ -7,9 +7,6 @@ from module.shop.clerk import ShopClerk
 from module.shop.shop_status import ShopStatus
 from module.shop.ui import ShopUI
 
-OCR_SHOP_GOLD_COINS = Digit(SHOP_GOLD_COINS, letter=(239, 239, 239), name='OCR_SHOP_GOLD_COINS')
-OCR_SHOP_GEMS = Digit(SHOP_GEMS, letter=(255, 243, 82), name='OCR_SHOP_GEMS')
-
 
 class GeneralShop(ShopClerk, ShopUI, ShopStatus):
     gems = 0

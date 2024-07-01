@@ -98,10 +98,11 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
         This will set auto_search_oil_limit_triggered.
         """
         if not checked:
-            oil = self._get_oil()
+            oil, limit = self._get_oil()
             if oil == 0:
                 logger.warning('Oil not found')
             else:
+                self.config.stored.Oil.set(oil, limit)
                 if oil < max(500, self.config.StopCondition_OilLimit):
                     logger.info('Reach oil limit')
                     self.auto_search_oil_limit_triggered = True

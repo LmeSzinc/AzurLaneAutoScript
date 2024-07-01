@@ -36,9 +36,6 @@
       "OpsiRecord": "do_not",
       "MeowfficerBuy": "do_not",
       "MeowfficerTalent": "do_not"
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "General": {
@@ -59,9 +56,6 @@
       "SR": false,
       "SSR": false,
       "RetireAmount": "retire_all"
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "Restart": {
@@ -72,9 +66,6 @@
       "SuccessInterval": 0,
       "FailureInterval": 0,
       "ServerUpdate": "00:00"
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "Main": {
@@ -146,9 +137,6 @@
     },
     "EnemyPriority": {
       "EnemyScaleBalanceWeight": "default_mode"
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "Main2": {
@@ -220,9 +208,6 @@
     },
     "EnemyPriority": {
       "EnemyScaleBalanceWeight": "default_mode"
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "Main3": {
@@ -294,9 +279,6 @@
     },
     "EnemyPriority": {
       "EnemyScaleBalanceWeight": "default_mode"
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "GemsFarming": {
@@ -343,9 +325,6 @@
       "Fleet2Mode": "combat_auto",
       "Fleet2Step": 2,
       "FleetOrder": "fleet1_all_fleet2_standby"
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "EventGeneral": {
@@ -358,8 +337,11 @@
       "CoinLimit": 10000,
       "TaskCall": "Main"
     },
-    "Storage": {
-      "Storage": {}
+    "CampaignStorage": {
+      "Oil": {},
+      "Coin": {},
+      "Gem": {},
+      "Pt": {}
     }
   },
   "Event": {
@@ -431,9 +413,6 @@
     },
     "EnemyPriority": {
       "EnemyScaleBalanceWeight": "default_mode"
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "Event2": {
@@ -505,9 +484,6 @@
     },
     "EnemyPriority": {
       "EnemyScaleBalanceWeight": "default_mode"
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "Raid": {
@@ -553,9 +529,6 @@
       "Fleet2Control": "prevent_yellow_face",
       "Fleet2Recover": "not_in_dormitory",
       "Fleet2Oath": false
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "Coalition": {
@@ -601,9 +574,6 @@
       "Fleet2Control": "prevent_yellow_face",
       "Fleet2Recover": "not_in_dormitory",
       "Fleet2Oath": false
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "MaritimeEscort": {
@@ -617,9 +587,6 @@
     },
     "MaritimeEscort": {
       "Enable": true
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "WarArchives": {
@@ -691,9 +658,6 @@
     },
     "EnemyPriority": {
       "EnemyScaleBalanceWeight": "default_mode"
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "EventA": {
@@ -769,9 +733,6 @@
     },
     "EnemyPriority": {
       "EnemyScaleBalanceWeight": "default_mode"
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "EventB": {
@@ -847,9 +808,6 @@
     },
     "EnemyPriority": {
       "EnemyScaleBalanceWeight": "default_mode"
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "EventC": {
@@ -925,9 +883,6 @@
     },
     "EnemyPriority": {
       "EnemyScaleBalanceWeight": "default_mode"
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "EventD": {
@@ -1003,9 +958,6 @@
     },
     "EnemyPriority": {
       "EnemyScaleBalanceWeight": "default_mode"
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "EventSp": {
@@ -1077,9 +1029,6 @@
     },
     "EnemyPriority": {
       "EnemyScaleBalanceWeight": "default_mode"
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "RaidDaily": {
@@ -1124,9 +1073,6 @@
       "Fleet2Control": "prevent_yellow_face",
       "Fleet2Recover": "not_in_dormitory",
       "Fleet2Oath": false
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "CoalitionSp": {
@@ -1172,9 +1118,6 @@
       "Fleet2Control": "prevent_yellow_face",
       "Fleet2Recover": "not_in_dormitory",
       "Fleet2Oath": false
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "Commission": {
@@ -1190,9 +1133,6 @@
       "PresetFilter": "cube",
       "CustomFilter": "DailyEvent > Gem-4 > Gem-2 > Gem-8 > ExtraCube-0:30\n> UrgentCube-1:30 > UrgentCube-1:45 > UrgentCube-3\n> ExtraDrill-5:20 > ExtraDrill-2 > ExtraDrill-3:20\n> UrgentCube-2:15 > UrgentCube-4\n> ExtraDrill-1 > UrgentCube-6 > ExtraCube-1:30\n> ExtraDrill-2:40 > ExtraDrill-0:20\n> Major > DailyChip > DailyResource\n> ExtraPart-0:30 > ExtraOil-1 > UrgentBox-6\n> ExtraCube-3 > ExtraPart-1 > UrgentBox-3\n> ExtraCube-4 > ExtraPart-1:30 > ExtraOil-4\n> UrgentBox-1 > ExtraCube-5 > UrgentBox-1\n> ExtraCube-8 > ExtraOil-8\n> UrgentDrill-4 > UrgentDrill-2:40 > UrgentDrill-2\n> UrgentDrill-1 > UrgentDrill-1:30 > UrgentDrill-1:10\n> Extra-0:20 > Extra-0:30 > Extra-1:00 > Extra-1:30 > Extra-2:00\n> shortest",
       "DoMajorCommission": false
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "Tactical": {
@@ -1218,9 +1158,6 @@
     "AddNewStudent": {
       "Enable": false,
       "Favorite": true
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "Research": {
@@ -1239,9 +1176,6 @@
       "AllowDelay": true,
       "PresetFilter": "series_6_blueprint_203",
       "CustomFilter": "S5-DR0.5 > S5-PRY0.5 > S5-H0.5 > S5-Q0.5 > S5-DR2.5 > 0.5 > S5-G1.5\n> S5-Q1 > S5-DR5 > S5-DR8 > S5-G4 > S5-PRY2.5 > 1 > S5-Q2 > reset\n> S5-G2.5 > S5-PRY5 > S5-PRY8 > 1.5 > 2 > S5-Q4 > 2.5 > 3\n> Q4 > G4 > 4 > 5 > S5-C6 > C6 > 6 > S5-C8 > 8\n> S5-C12 > 12"
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "Dorm": {
@@ -1262,9 +1196,6 @@
       "Enable": false,
       "BuyOption": "all",
       "LastRun": "2020-01-01 00:00:00"
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "Meowfficer": {
@@ -1286,9 +1217,6 @@
       "RetainTalentedGold": true,
       "RetainTalentedPurple": true,
       "EnhanceIndex": 1
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "Guild": {
@@ -1312,9 +1240,6 @@
       "JoinThreshold": 1,
       "AttackBoss": true,
       "BossFleetRecommend": false
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "Reward": {
@@ -1332,9 +1257,6 @@
       "CollectExp": true,
       "CollectMission": true,
       "CollectWeeklyMission": true
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "Daily": {
@@ -1361,9 +1283,6 @@
       "ModuleDevelopmentFleet": 1,
       "EmergencyModuleDevelopment": "first",
       "EmergencyModuleDevelopmentFleet": 1
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "Hard": {
@@ -1378,9 +1297,6 @@
     "Hard": {
       "HardStage": "11-4",
       "HardFleet": 1
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "Exercise": {
@@ -1400,9 +1316,6 @@
       "LowHpConfirmWait": 0.1,
       "OpponentRefreshValue": 0,
       "OpponentRefreshRecord": "2020-01-01 00:00:00"
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "ShopFrequent": {
@@ -1420,9 +1333,6 @@
       "BuySkinBox": false,
       "ConsumeCoins": false,
       "Filter": "BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2\n> Cube\n> FoodT6 > FoodT5"
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "ShopOnce": {
@@ -1465,9 +1375,6 @@
     },
     "CoreShop": {
       "Filter": "Array"
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "Shipyard": {
@@ -1490,9 +1397,6 @@
       "ShipIndex": 0,
       "BuyAmount": 2,
       "LastRun": "2020-01-01 00:00:00"
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "Gacha": {
@@ -1510,8 +1414,8 @@
       "UseTicket": true,
       "UseDrill": false
     },
-    "Storage": {
-      "Storage": {}
+    "GachaStorage": {
+      "Cube": {}
     }
   },
   "Freebies": {
@@ -1538,9 +1442,6 @@
     "SupplyPack": {
       "Collect": true,
       "DayOfWeek": 0
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "Minigame": {
@@ -1551,9 +1452,6 @@
       "SuccessInterval": 0,
       "FailureInterval": 120,
       "ServerUpdate": "00:00"
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "OpsiGeneral": {
@@ -1565,8 +1463,10 @@
       "DoRandomMapEvent": true,
       "AkashiShopFilter": "ActionPoint > PurpleCoins"
     },
-    "Storage": {
-      "Storage": {}
+    "OpsiStorage": {
+      "YellowCoin": {},
+      "PurpleCoin": {},
+      "ActionPoint": {}
     }
   },
   "OpsiAshBeacon": {
@@ -1584,9 +1484,6 @@
       "DossierAutoAttackMode": false,
       "RequestAssist": true,
       "EnsureFullyCollected": true
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "OpsiAshAssist": {
@@ -1600,9 +1497,6 @@
     },
     "OpsiAshAssist": {
       "Tier": 15
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "OpsiExplore": {
@@ -1622,9 +1516,6 @@
     "OpsiFleet": {
       "Fleet": 1,
       "Submarine": false
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "OpsiShop": {
@@ -1637,6 +1528,7 @@
       "ServerUpdate": "00:00"
     },
     "OpsiShop": {
+      "BuySupply": true,
       "PresetFilter": "max_benefit_meta",
       "CustomFilter": "LoggerAbyssalT6 > LoggerAbyssalT5 > LoggerObscure > LoggerAbyssalT4 > ActionPoint > PurpleCoins\n> GearDesignPlanT3 > PlateRandomT4 > DevelopmentMaterialT3 > GearDesignPlanT2 > GearPart\n> OrdnanceTestingReportT3 > OrdnanceTestingReportT2 > DevelopmentMaterialT2 > OrdnanceTestingReportT1\n> METARedBook > CrystallizedHeatResistantSteel > NanoceramicAlloy > NeuroplasticProstheticArm > SupercavitationGenerator"
     },
@@ -1655,9 +1547,6 @@
     },
     "OpsiVoucher": {
       "Filter": "LoggerAbyssal > LoggerObscure > Book > Coin > Fragment"
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "OpsiDaily": {
@@ -1676,9 +1565,6 @@
     "OpsiFleet": {
       "Fleet": 1,
       "Submarine": false
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "OpsiObscure": {
@@ -1696,9 +1582,6 @@
     "OpsiFleet": {
       "Fleet": 1,
       "Submarine": false
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "OpsiAbyssal": {
@@ -1715,9 +1598,6 @@
     },
     "OpsiFleetFilter": {
       "Filter": "Fleet-4 > CallSubmarine > Fleet-2 > Fleet-3 > Fleet-1"
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "OpsiArchive": {
@@ -1732,9 +1612,6 @@
     "OpsiFleet": {
       "Fleet": 1,
       "Submarine": false
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "OpsiStronghold": {
@@ -1751,9 +1628,6 @@
     },
     "OpsiFleetFilter": {
       "Filter": "Fleet-4 > CallSubmarine > Fleet-2 > Fleet-3 > Fleet-1"
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "OpsiMonthBoss": {
@@ -1772,9 +1646,6 @@
     },
     "OpsiFleetFilter": {
       "Filter": "Fleet-4 > CallSubmarine > Fleet-2 > Fleet-3 > Fleet-1"
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "OpsiMeowfficerFarming": {
@@ -1794,9 +1665,6 @@
     "OpsiFleet": {
       "Fleet": 1,
       "Submarine": false
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "OpsiHazard1Leveling": {
@@ -1814,9 +1682,6 @@
     "OpsiFleet": {
       "Fleet": 1,
       "Submarine": false
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "OpsiCrossMonth": {
@@ -1827,51 +1692,33 @@
       "SuccessInterval": 0,
       "FailureInterval": 120,
       "ServerUpdate": "00:00"
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "Daemon": {
     "Daemon": {
       "EnterMap": true
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "OpsiDaemon": {
     "OpsiDaemon": {
       "RepairShip": true,
       "SelectEnemy": true
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "Benchmark": {
     "Benchmark": {
       "DeviceType": "emulator",
       "TestScene": "screenshot_click"
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "AzurLaneUncensored": {
     "AzurLaneUncensored": {
       "Repository": "https://gitee.com/LmeSzinc/AzurLaneUncensored"
-    },
-    "Storage": {
-      "Storage": {}
     }
   },
   "GameManager": {
     "GameManager": {
       "AutoRestart": true
-    },
-    "Storage": {
-      "Storage": {}
     }
   }
 }

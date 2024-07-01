@@ -1166,6 +1166,28 @@
       "help": "在7x24運行時防止緊急委託數量過多做不完每日委託，建議在委託過濾器僅選擇短時長高收益委託"
     }
   },
+  "CampaignStorage": {
+    "_info": {
+      "name": "CampaignStorage._info.name",
+      "help": "CampaignStorage._info.help"
+    },
+    "Oil": {
+      "name": "石油",
+      "help": ""
+    },
+    "Coin": {
+      "name": "物資",
+      "help": ""
+    },
+    "Gem": {
+      "name": "鑽石",
+      "help": ""
+    },
+    "Pt": {
+      "name": "活動PT",
+      "help": ""
+    }
+  },
   "EventGeneral": {
     "_info": {
       "name": "活動通用設定",
@@ -1967,6 +1989,16 @@
       "help": ""
     }
   },
+  "GachaStorage": {
+    "_info": {
+      "name": "GachaStorage._info.name",
+      "help": "GachaStorage._info.help"
+    },
+    "Cube": {
+      "name": "魔方",
+      "help": ""
+    }
+  },
   "Daily": {
     "_info": {
       "name": "每日任務",
@@ -2420,6 +2452,24 @@
       "22": "22 | NA海域西南B"
     }
   },
+  "OpsiStorage": {
+    "_info": {
+      "name": "OpsiStorage._info.name",
+      "help": "OpsiStorage._info.help"
+    },
+    "YellowCoin": {
+      "name": "大世界黃幣",
+      "help": ""
+    },
+    "PurpleCoin": {
+      "name": "大世界紫幣",
+      "help": ""
+    },
+    "ActionPoint": {
+      "name": "行動力",
+      "help": ""
+    }
+  },
   "Daemon": {
     "_info": {
       "name": "半自動點擊",
@@ -2610,6 +2660,15 @@
       "Clear": "清除",
       "EnterPassword": "輸入密碼",
       "ChooseFile": "選擇檔案"
+    },
+    "Dashboard": {
+      "NoData": "無數據",
+      "TimeError": "時間錯誤",
+      "JustNow": "剛剛",
+      "MinutesAgo": "{time}分鐘前",
+      "HoursAgo": "{time}小時前",
+      "DaysAgo": "{time}天前",
+      "LongTimeAgo": "很久以前"
     }
   }
 }

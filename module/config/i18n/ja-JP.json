@@ -1166,6 +1166,28 @@
       "help": "GemsFarming.CommissionLimit.help"
     }
   },
+  "CampaignStorage": {
+    "_info": {
+      "name": "CampaignStorage._info.name",
+      "help": "CampaignStorage._info.help"
+    },
+    "Oil": {
+      "name": "CampaignStorage.Oil.name",
+      "help": "CampaignStorage.Oil.help"
+    },
+    "Coin": {
+      "name": "CampaignStorage.Coin.name",
+      "help": "CampaignStorage.Coin.help"
+    },
+    "Gem": {
+      "name": "CampaignStorage.Gem.name",
+      "help": "CampaignStorage.Gem.help"
+    },
+    "Pt": {
+      "name": "CampaignStorage.Pt.name",
+      "help": "CampaignStorage.Pt.help"
+    }
+  },
   "EventGeneral": {
     "_info": {
       "name": "EventGeneral._info.name",
@@ -1967,6 +1989,16 @@
       "help": "Minigame.Collect.help"
     }
   },
+  "GachaStorage": {
+    "_info": {
+      "name": "GachaStorage._info.name",
+      "help": "GachaStorage._info.help"
+    },
+    "Cube": {
+      "name": "GachaStorage.Cube.name",
+      "help": "GachaStorage.Cube.help"
+    }
+  },
   "Daily": {
     "_info": {
       "name": "Daily._info.name",
@@ -2420,6 +2452,24 @@
       "22": "22"
     }
   },
+  "OpsiStorage": {
+    "_info": {
+      "name": "OpsiStorage._info.name",
+      "help": "OpsiStorage._info.help"
+    },
+    "YellowCoin": {
+      "name": "OpsiStorage.YellowCoin.name",
+      "help": "OpsiStorage.YellowCoin.help"
+    },
+    "PurpleCoin": {
+      "name": "OpsiStorage.PurpleCoin.name",
+      "help": "OpsiStorage.PurpleCoin.help"
+    },
+    "ActionPoint": {
+      "name": "OpsiStorage.ActionPoint.name",
+      "help": "OpsiStorage.ActionPoint.help"
+    }
+  },
   "Daemon": {
     "_info": {
       "name": "Daemon._info.name",
@@ -2610,6 +2660,15 @@
       "Clear": "消除",
       "EnterPassword": "パスワードを入力してください",
       "ChooseFile": "ファイルを選択してください"
+    },
+    "Dashboard": {
+      "NoData": "Gui.Dashboard.NoData",
+      "TimeError": "Gui.Dashboard.TimeError",
+      "JustNow": "Gui.Dashboard.JustNow",
+      "MinutesAgo": "Gui.Dashboard.MinutesAgo",
+      "HoursAgo": "Gui.Dashboard.HoursAgo",
+      "DaysAgo": "Gui.Dashboard.DaysAgo",
+      "LongTimeAgo": "Gui.Dashboard.LongTimeAgo"
     }
   }
 }

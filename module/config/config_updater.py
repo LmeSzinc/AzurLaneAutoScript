@@ -38,6 +38,11 @@ COALITIONS = ['Coalition', 'CoalitionSp']
 MARITIME_ESCORTS = ['MaritimeEscort']
 
 
+def get_generator():
+    from module.base.code_generator import CodeGenerator
+    return CodeGenerator()
+
+
 class Event:
     def __init__(self, text):
         self.date, self.directory, self.name, self.cn, self.en, self.jp, self.tw \
@@ -95,6 +100,9 @@ class ConfigGenerator:
             if not isinstance(value, dict):
                 value = {'value': value}
             arg['type'] = data_to_type(value, arg=path[1])
+            if arg['type'] == 'stored':
+                value['value'] = {}
+                arg['display'] = 'hide'  # Hide `stored` by default
             if isinstance(value['value'], datetime):
                 arg['type'] = 'datetime'
                 arg['validate'] = 'datetime'
@@ -166,7 +174,7 @@ class ConfigGenerator:
                 continue
             task = path[2]
             # Add storage to all task
-            groups.append('Storage')
+            # groups.append('Storage')
             for group in groups:
                 if group not in self.argument:
                     print(f'`{task}.{group}` is not related to any argument group')
@@ -257,6 +265,28 @@ class ConfigGenerator:
         with open(filepath_code(), 'w', encoding='utf-8', newline='') as f:
             for text in lines:
                 f.write(text + '\n')
+
+    @timer
+    def generate_stored(self):
+        import module.config.stored.classes as classes
+        gen = get_generator()
+        gen.add('from module.config.stored.classes import (')
+        with gen.tab():
+            for cls in sorted([name for name in dir(classes) if name.startswith('Stored')]):
+                gen.add(cls + ',')
+        gen.add(')')
+        gen.Empty()
+        gen.Empty()
+        gen.Empty()
+        gen.CommentAutoGenerage('module/config/config_updater.py')
+
+        with gen.Class('StoredGenerated'):
+            for path, data in deep_iter(self.args, depth=3):
+                cls = data.get('stored')
+                if cls:
+                    gen.add(f'{path[-1]} = {cls}("{".".join(path)}")')
+
+        gen.write('module/config/stored/stored_generated.py')
 
     @timer
     def generate_i18n(self, lang):
@@ -373,6 +403,32 @@ class ConfigGenerator:
             tasks = list(tasks.keys())
             deep_set(data, keys=[task_group, 'tasks'], value=tasks)
 
+        return data
+
+    @cached_property
+    def stored(self):
+        import module.config.stored.classes as classes
+        data = {}
+        for path, value in deep_iter(self.args, depth=3):
+            if value.get('type') != 'stored':
+                continue
+            name = path[-1]
+            stored = value.get('stored')
+            stored_class = getattr(classes, stored)
+            row = {
+                'name': name,
+                'path': '.'.join(path),
+                'i18n': f'{path[1]}.{path[2]}.name',
+                'stored': stored,
+                'attrs': stored_class('')._attrs,
+                'order': value.get('order', 0),
+                'color': value.get('color', '#777777')
+            }
+            data[name] = row
+
+        # sort by `order` ascending, but `order`==0 at last
+        data = sorted(data.items(), key=lambda kv: (kv[1]['order'] == 0, kv[1]['order']))
+        data = {k: v for k, v in data}
         return data
 
     @cached_property
@@ -514,7 +570,9 @@ class ConfigGenerator:
         self.insert_server()
         write_file(filepath_args(), self.args)
         write_file(filepath_args('menu'), self.menu)
+        write_file(filepath_args('stored'), self.stored)
         self.generate_code()
+        self.generate_stored()
         for lang in LANGUAGES:
             self.generate_i18n(lang)
         self.generate_deploy_template()
