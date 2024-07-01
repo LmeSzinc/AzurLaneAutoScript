@@ -235,6 +235,10 @@ class CoalitionUI(Combat):
                 campaign_timer.reset()
                 continue
 
+            # Gulid popup cancel
+            if self.handle_guild_popup_cancel():
+                continue
+
             # Retire
             if self.handle_retirement():
                 continue
