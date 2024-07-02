@@ -245,13 +245,17 @@ class RewardDorm(UI):
         Collect all the coins and loves in the dorm using the one-click collect button.
 
         Pages:
-            in: page_dorm, without info_bar
-            out: page_dorm, without info_bar
+            in: page_dorm
+            out: page_dorm
         """
-        logger.hr('Dorm Collect')
+        logger.hr('Dorm collect')
 
         self.ensure_no_info_bar()
         skip_first_screenshot = True
+
+        # Set a timer to avoid Alas failing to detect the info_bar by accident.
+        timeout = Timer(1.5, count=3).start()
+
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -266,8 +270,13 @@ class RewardDorm(UI):
             if self.appear_then_click(DORM_QUICK_COLLECT, offset=(20, 20), interval=1):
                 continue
 
-            # End
-            if self.ensure_no_info_bar():
+            # Normal end
+            if self.info_bar_count() > 0:
+                break
+
+            # Timeout end
+            if timeout.reached():
+                logger.warning('Dorm collect timeout, probably because Alas did not detect the info_bar')
                 break
 
     @cached_property
