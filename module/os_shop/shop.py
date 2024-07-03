@@ -178,7 +178,7 @@ class OSShop(PortShop, AkashiShop):
     def get_currency_coins(self, item):
         if item.cost == 'YellowCoins':
             if get_os_reset_remain() == 0:
-                return self._shop_yellow_coins
+                return self._shop_yellow_coins - 100
             elif self.is_cl1_enabled:
                 return self._shop_yellow_coins - self.config.OS_CL1_YELLOW_COINS_PRESERVE
             else:

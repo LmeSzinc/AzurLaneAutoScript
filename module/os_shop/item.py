@@ -115,44 +115,27 @@ class OSShopItemGrid(ItemGrid):
         self.price_ocr = PRICE_OCR
         self.counter_area = counter_area
 
-    def predict(self, image, shop_index=None, scroll_pos=None) -> List[OSShopItem]:
+    def predict(self, image, counter=False, shop_index=None, scroll_pos=None) -> List[OSShopItem]:
         """
         Args:
             image (np.ndarray):
+            counter (bool): If predict item counter.
             shop_index (bool): If predict shop index.
             scroll_pos (bool): If predict scroll position.
 
         Returns:
             list[Item]:
         """
-        self._load_image(image)
-        amount_list = [item.crop(self.amount_area) for item in self.items]
-        amount_list = self.amount_ocr.ocr(amount_list, direct_ocr=True)
-        counter_list = [item.crop(self.counter_area) for item in self.items]
-        counter_list = self.counter_ocr.ocr(counter_list, direct_ocr=True)
-        name_list = [self.match_template(item.image) for item in self.items]
-        cost_list = [self.match_cost_template(item) for item in self.items]
-        price_list = [item.crop(self.price_area) for item in self.items]
-        price_list = self.price_ocr.ocr(price_list, direct_ocr=True)
-        ignore = 0
-        items = []
+        super().predict(image, name=True, amount=True, cost=True, price=True)
+        if counter and len(self.items):
+            counter_list = [item.crop(self.counter_area) for item in self.items]
+            counter_list = self.counter_ocr.ocr(counter_list, direct_ocr=True)
+            for i, t in zip(self.items, counter_list):
+                i.count, i.total_count = t
 
-        for i, a, t, n, c, p in zip(self.items, amount_list, counter_list, name_list, cost_list, price_list):
-            if (p <= 0):
-                ignore += 1
-                continue
-            i.amount = a
-            i.count, i.total_count = t
-            i.name = n
-            i.cost = c
-            i.price = p
-            if isinstance(shop_index, int):
+        if isinstance(shop_index, int) and isinstance(scroll_pos, float) and len(self.items):
+            for i in self.items:
                 i.shop_index = shop_index
-            if isinstance(scroll_pos, float):
                 i.scroll_pos = scroll_pos
-            items.append(i)
 
-        if ignore > 0:
-            logger.warning(f'Ignore {ignore} items, because price <= 0')
-
-        return items
+        return self.items
