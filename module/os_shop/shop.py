@@ -50,6 +50,9 @@ class OSShop(PortShop, AkashiShop):
                 self.interval_reset(SHOP_BUY_CONFIRM_AMOUNT)
                 continue
 
+            if self.handle_popup_confirm('SHOP_BUY'):
+                continue
+
             if not success and self.appear(PORT_SUPPLY_CHECK, offset=(20, 20), interval=5):
                 self.device.click(button)
                 continue
