@@ -435,7 +435,8 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         Keeping enough startup AP to run CL1.
         """
         if self.is_cl1_enabled and get_os_reset_remain() > 2 \
-                and self.get_yellow_coins() > self.config.OS_CL1_YELLOW_COINS_PRESERVE:
+                and self.get_yellow_coins() > self.config.cross_get(
+                    keys="OpsiHazard1Leveling.OpsiHazard1Leveling.OperationCoinsPreserve"):
             logger.info('Keep 1000 AP when CL1 available')
             if not self.action_point_check(1000):
                 self.config.opsi_task_delay(cl1_preserve=True)
