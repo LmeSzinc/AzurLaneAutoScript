@@ -61,7 +61,7 @@ class Reward(UI):
         logger.info('Reward receive end')
         return True
 
-    def _reward_mission_collect(self, interval=1):
+    def _reward_mission_collect(self, interval=1, skip_first_screenshot=True):
         """
         Streamline handling of mission rewards for
         both 'all' and 'weekly' pages
@@ -69,6 +69,7 @@ class Reward(UI):
         Args:
             interval (int, float):
                 Configure the interval for assets involved
+            skip_first_screenshot:
 
         Returns:
             bool, if encountered at least 1 GET_ITEMS_*
@@ -87,7 +88,10 @@ class Reward(UI):
 
         reward = False
         while 1:
-            self.device.screenshot()
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
 
             for button in [GET_ITEMS_1, GET_ITEMS_2]:
                 if self.appear_then_click(button, offset=(30, 30), interval=interval):
@@ -99,7 +103,7 @@ class Reward(UI):
             for button in [MISSION_MULTI, MISSION_SINGLE]:
                 if not click_timer.reached():
                     continue
-                if self.appear(button, offset=(0, 200), interval=interval) \
+                if self.appear(button, offset=(20, 200), interval=interval) \
                         and button.match_appear_on(self.device.image):
                     self.device.click(button)
                     exit_timer.reset()
@@ -156,8 +160,9 @@ class Reward(UI):
         """
         self.reward_side_navbar_ensure(upper=1)
 
-        if not self.appear(MISSION_MULTI) and \
-                not self.appear(MISSION_SINGLE):
+        if not self.appear(MISSION_MULTI, offset=(20, 200)) and \
+                not self.appear(MISSION_SINGLE, offset=(20, 200)):
+            logger.info('No MISSION_MULTI or MISSION_SINGLE')
             return False
 
         # Uses default interval to account for

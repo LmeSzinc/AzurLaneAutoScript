@@ -211,7 +211,7 @@ class AutoSearchHandler(EnemySearchingHandler):
         Returns:
             bool:
         """
-        return self.appear(AUTO_SEARCH_MENU_CONTINUE, offset=self._auto_search_menu_offset)
+        return AUTO_SEARCH_MENU_CONTINUE.match_luma(self.device.image, offset=self._auto_search_menu_offset)
 
     def handle_auto_search_continue(self):
         return self.appear_then_click(AUTO_SEARCH_MENU_CONTINUE, offset=self._auto_search_menu_offset, interval=2)

@@ -130,6 +130,7 @@ class CampaignStatus(UI):
             'Event',
             'Event2',
             'Raid',
+            'Coalition',
             'GemsFarming',
         ]
         command = self.config.Scheduler_Command

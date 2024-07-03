@@ -20,7 +20,8 @@ from module.os.camera import OSCamera
 from module.os.map_base import OSCampaignMap
 from module.os_ash.ash import OSAsh
 from module.os_combat.combat import Combat
-from module.os_handler.assets import AUTO_SEARCH_REWARD, CLICK_SAFE_AREA, IN_MAP, PORT_ENTER, PORT_SUPPLY_CHECK
+from module.os_handler.assets import AUTO_SEARCH_REWARD, CLICK_SAFE_AREA, IN_MAP, PORT_ENTER
+from module.os_shop.assets import PORT_SUPPLY_CHECK
 
 FLEET_FILTER = Filter(regex=re.compile(r'fleet-?(\d)'), attr=('fleet',), preset=('callsubmarine',))
 
@@ -176,7 +177,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         """
         super().hp_get()
         ship_icon = self._hp_grid().crop((0, -67, 67, 0))
-        need_repair = [TEMPLATE_EMPTY_HP.match(self.image_crop(button)) for button in ship_icon.buttons]
+        need_repair = [TEMPLATE_EMPTY_HP.match(self.image_crop(button, copy=False)) for button in ship_icon.buttons]
         self.need_repair = need_repair
         logger.attr('Repair icon', need_repair)
 
@@ -530,7 +531,11 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             if is_normal:
                 self.relative_goto(has_fleet_step=True, near_by=True, is_exclamation=True)
             else:
-                self.relative_goto(has_fleet_step=True, near_by=True, is_question=True)
+                if self.radar.select(is_exclamation=True).count:
+                    logger.warning('Trying to enter month boss hard mode but is_exclamation exists')
+                    self.relative_goto(has_fleet_step=True, near_by=True, is_exclamation=True)
+                else:
+                    self.relative_goto(has_fleet_step=True, near_by=True, is_question=True)
 
     def question_goto(self, has_fleet_step=False):
         logger.hr('Question goto')

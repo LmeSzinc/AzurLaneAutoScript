@@ -157,7 +157,7 @@ class GuildOperations(GuildBase):
 
         list_expand = []
         list_enter = []
-        dots = TEMPLATE_OPERATIONS_RED_DOT.match_multi(self.image_crop(detection_area), threshold=5)
+        dots = TEMPLATE_OPERATIONS_RED_DOT.match_multi(self.image_crop(detection_area, copy=False), threshold=5)
         logger.info(f'Active operations found: {len(dots)}')
         for button in dots:
             button = button.move(vector=detection_area[:2])

@@ -2,33 +2,38 @@ from module.base.timer import Timer
 from module.coalition.assets import *
 from module.combat.assets import BATTLE_PREPARATION
 from module.combat.combat import Combat
-from module.exception import CampaignNameError, RequestHumanTakeover
+from module.exception import CampaignNameError, RequestHumanTakeover, ScriptError
 from module.logger import logger
-from module.ui.assets import COALITION_CHECK
+from module.ui.page import page_coalition
 from module.ui.switch import Switch
-
-MODE_SWITCH = Switch('CoalitionMode', offset=(20, 20))
-MODE_SWITCH.add_status('story', MODE_SWITCH_STORY)
-MODE_SWITCH.add_status('battle', MODE_SWITCH_BATTLE)
-
-FLEET_SWITCH = Switch('FleetMode', is_selector=True, offset=0)  # No offset for color match
-FLEET_SWITCH.add_status('single', FLEET_SWITCH_SINGLE)
-FLEET_SWITCH.add_status('multi', FLEET_SWITCH_MULTI)
 
 
 class CoalitionUI(Combat):
     def in_coalition(self):
         # The same as raid
-        return self.appear(COALITION_CHECK, offset=(20, 20))
+        return self.ui_page_appear(page_coalition, offset=(20, 20))
 
-    def coalition_ensure_mode(self, mode):
+    def coalition_ensure_mode(self, event, mode):
         """
         Args:
+            event (str): Event name.
             mode (str): 'story' or 'battle'
 
         Pages:
             in: in_coalition
         """
+        MODE_SWITCH = Switch('CoalitionMode', offset=(20, 20))
+        if event == 'coalition_20230323':
+            MODE_SWITCH.add_status('story', FROSTFALL_MODE_STORY)
+            MODE_SWITCH.add_status('battle', FROSTFALL_MODE_BATTLE)
+        elif event == 'coalition_20240627':
+            # Note that switch button are reversed
+            MODE_SWITCH.add_status('story', ACADEMY_MODE_BATTLE)
+            MODE_SWITCH.add_status('battle', ACADEMY_MODE_STORY)
+        else:
+            logger.error(f'MODE_SWITCH is not defined in event {event}')
+            raise ScriptError
+
         if mode == 'story':
             MODE_SWITCH.set('battle', main=self)
         elif mode == 'battle':
@@ -36,14 +41,26 @@ class CoalitionUI(Combat):
         else:
             logger.warning(f'Unknown coalition campaign mode: {mode}')
 
-    def coalition_ensure_fleet(self, mode):
+    def coalition_ensure_fleet(self, event, mode):
         """
         Args:
+            event (str): Event name.
             mode (str): 'single' or 'multi'
 
         Pages:
             in: FLEET_PREPARATION
         """
+        FLEET_SWITCH = Switch('FleetMode', is_selector=True, offset=0)  # No offset for color match
+        if event == 'coalition_20230323':
+            FLEET_SWITCH.add_status('single', FROSTFALL_SWITCH_SINGLE)
+            FLEET_SWITCH.add_status('multi', FROSTFALL_SWITCH_MULTI)
+        elif event == 'coalition_20240627':
+            FLEET_SWITCH.add_status('single', ACADEMY_SWITCH_SINGLE)
+            FLEET_SWITCH.add_status('multi', ACADEMY_SWITCH_MULTI)
+        else:
+            logger.error(f'FLEET_SWITCH is not defined in event {event}')
+            raise ScriptError
+
         if mode == 'single':
             FLEET_SWITCH.set('single', main=self)
         elif mode == 'multi':
@@ -52,68 +69,119 @@ class CoalitionUI(Combat):
             logger.warning(f'Unknown coalition fleet mode: {mode}')
 
     @staticmethod
-    def coalition_get_entrance(stage):
+    def coalition_get_entrance(event, stage):
         """
         Args:
+            event (str): Event name.
             stage (str): Stage name.
 
         Returns:
             Button: Entrance button
         """
-        stage = stage.lower()
-        if stage == 'tc1':
-            return FROSTFALL_TC1
-        if stage == 'tc2':
-            return FROSTFALL_TC2
-        if stage == 'tc3':
-            return FROSTFALL_TC3
-        if stage == 'sp':
-            return FROSTFALL_SP
-        if stage == 'ex':
-            return FROSTFALL_EX
+        dic = {
+            ('coalition_20230323', 'tc1'): FROSTFALL_TC1,
+            ('coalition_20230323', 'tc2'): FROSTFALL_TC2,
+            ('coalition_20230323', 'tc3'): FROSTFALL_TC3,
+            ('coalition_20230323', 'sp'): FROSTFALL_SP,
+            ('coalition_20230323', 'ex'): FROSTFALL_EX,
 
-        raise CampaignNameError
+            ('coalition_20240627', 'easy'): ACADEMY_EASY,
+            ('coalition_20240627', 'normal'): ACADEMY_NORMAL,
+            ('coalition_20240627', 'hard'): ACADEMY_HARD,
+            ('coalition_20240627', 'sp'): ACADEMY_SP,
+            ('coalition_20240627', 'ex'): ACADEMY_EX,
+        }
+        stage = stage.lower()
+        try:
+            return dic[(event, stage)]
+        except KeyError as e:
+            logger.error(e)
+            raise CampaignNameError
 
     @staticmethod
-    def coalition_get_battles(stage):
+    def coalition_get_battles(event, stage):
         """
         Args:
+            event (str): Event name.
             stage (str): Stage name.
 
         Returns:
             int: Number of battles
         """
-        if stage == 'tc1':
-            return 1
-        if stage == 'tc2':
-            return 2
-        if stage == 'tc3':
-            return 3
+        dic = {
+            ('coalition_20230323', 'tc1'): 1,
+            ('coalition_20230323', 'tc2'): 2,
+            ('coalition_20230323', 'tc3'): 3,
+            ('coalition_20230323', 'sp'): 1,
+            ('coalition_20230323', 'ex'): 1,
 
-        return 1
-
-    def handle_fleet_preparation(self, stage, fleet):
+            ('coalition_20240627', 'easy'): 1,
+            ('coalition_20240627', 'normal'): 2,
+            ('coalition_20240627', 'hard'): 3,
+            ('coalition_20240627', 'sp'): 4,
+            ('coalition_20240627', 'ex'): 5,
+        }
         stage = stage.lower()
+        try:
+            return dic[(event, stage)]
+        except KeyError as e:
+            logger.error(e)
+            raise CampaignNameError
 
-        # No fleet switch in TC1
-        if stage in ['tc1', 'sp']:
-            return False
-
-        self.coalition_ensure_fleet(fleet)
-        return True
-
-    def enter_map(self, stage, fleet, skip_first_screenshot=True):
+    @staticmethod
+    def coalition_get_fleet_preparation(event):
         """
         Args:
+            event (str): Event name.
+
+        Returns:
+            Button:
+        """
+        if event == 'coalition_20230323':
+            return FROSTFALL_FLEET_PREPARATION
+        elif event == 'coalition_20240627':
+            return ACEDEMY_FLEET_PREPARATION
+        else:
+            logger.error(f'FLEET_PREPARATION is not defined in event {event}')
+            raise ScriptError
+
+    def handle_fleet_preparation(self, event, stage, mode):
+        """
+        Args:
+            event (str): Event name.
+            stage (str): Stage name.
+            mode (str): 'single' or 'multi'
+
+        Returns:
+            bool: If success
+        """
+        stage = stage.lower()
+
+        if event == 'coalition_20230323':
+            # No fleet switch in TC1
+            if stage in ['tc1', 'sp']:
+                return False
+        if event == 'coalition_20240627':
+            if stage in ['easy', 'sp', 'ex']:
+                return False
+
+        self.coalition_ensure_fleet(event, mode)
+        return True
+
+    def enter_map(self, event, stage, mode, skip_first_screenshot=True):
+        """
+        Args:
+            event (str): Event name such as 'coalition_20230323'
             stage (str): Stage name such as 'TC3'
-            fleet (str): 'single' or 'multi'
+            mode (str): 'single' or 'multi'
             skip_first_screenshot:
 
         Pages:
             in: in_coalition
             out: BATTLE_PREPARATION
         """
-        button = self.coalition_get_entrance(stage)
+        button = self.coalition_get_entrance(event, stage)
+        fleet_preparation = self.coalition_get_fleet_preparation(event)
         campaign_timer = Timer(5)
         fleet_timer = Timer(5)
         campaign_click = 0
@@ -146,6 +214,9 @@ class CoalitionUI(Combat):
             if self.appear(BATTLE_PREPARATION, offset=(20, 20)):
                 break
 
+            if self.handle_guild_popup_cancel():
+                continue
+
             # Enter campaign
             if campaign_timer.reached() and self.in_coalition():
                 self.device.click(button)
@@ -154,9 +225,9 @@ class CoalitionUI(Combat):
                 continue
 
             # Fleet preparation
-            if fleet_timer.reached() and self.appear(FLEET_PREPARATION, offset=(20, 50)):
-                self.handle_fleet_preparation(stage, fleet)
-                self.device.click(FLEET_PREPARATION)
+            if fleet_timer.reached() and self.appear(fleet_preparation, offset=(20, 50)):
+                self.handle_fleet_preparation(event, stage, mode)
+                self.device.click(fleet_preparation)
                 fleet_click += 1
                 fleet_timer.reset()
                 campaign_timer.reset()

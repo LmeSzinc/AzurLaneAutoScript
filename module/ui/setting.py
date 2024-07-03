@@ -122,7 +122,7 @@ class Setting:
         """
         status = self._product_setting_status(**kwargs)
 
-        logger.info(f'Setting {self.name} options, {dict_to_kv(kwargs)}')
+        logger.info(f'Setting options {self.name}, {dict_to_kv(kwargs)}')
         skip_first_screenshot = True
         retry = Timer(1, count=2)
         timeout = Timer(10, count=20).start()

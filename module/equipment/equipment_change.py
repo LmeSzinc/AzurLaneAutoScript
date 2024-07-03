@@ -52,7 +52,7 @@ class EquipmentChange(Equipment):
         for index, button in enumerate(EQUIPMENT_GRID.buttons):
             if index not in index_list:
                 continue
-            crop_image = self.image_crop(button)
+            crop_image = self.image_crop(button, copy=False)
             edge_value = np.mean(np.abs(cv2.Sobel(crop_image, 3, 1, 1)))
             # Nothing is 0.15~1
             # +1 is 40

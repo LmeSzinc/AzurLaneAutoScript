@@ -1,7 +1,6 @@
 from module.base.button import Button
 from module.base.decorator import run_once
 from module.base.timer import Timer
-from module.coalition.assets import FLEET_PREPARATION as COALITION_FLEET_PREPARATION
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_SHIP
 from module.exception import (GameNotRunningError, GamePageUnknownError,
                               RequestHumanTakeover)
@@ -19,7 +18,7 @@ from module.ocr.ocr import Ocr
 from module.os_handler.assets import (AUTO_SEARCH_REWARD, EXCHANGE_CHECK, RESET_FLEET_PREPARATION, RESET_TICKET_POPUP)
 from module.raid.assets import *
 from module.ui.assets import *
-from module.ui.page import (Page, page_campaign, page_event, page_main, page_sp, page_main_white)
+from module.ui.page import (Page, page_campaign, page_event, page_main, page_main_white, page_sp)
 from module.ui_white.assets import *
 
 
@@ -197,9 +196,9 @@ class UI(InfoHandler):
             if self.appear_then_click(GOTO_MAIN, offset=(30, 30), interval=2):
                 timeout.reset()
                 continue
-            if self.appear_then_click(RPG_HOME, offset=(30, 30), interval=2):
-                timeout.reset()
-                continue
+            # if self.appear_then_click(RPG_HOME, offset=(30, 30), interval=2):
+            #     timeout.reset()
+            #     continue
             if self.ui_additional():
                 timeout.reset()
                 continue
@@ -391,6 +390,9 @@ class UI(InfoHandler):
         # Item expired offset=(37, 72), skin expired, offset=(24, 68)
         if self.handle_popup_single(offset=(-6, 48, 54, 88), name='ITEM_EXPIRED'):
             return True
+        # Mail full popup
+        if self.handle_popup_single_white():
+            return True
         # Routed from confirm click
         if self.appear(SHIPYARD_CHECK, offset=(30, 30), interval=3):
             logger.info(f'UI additional: {SHIPYARD_CHECK} -> {GOTO_MAIN}')
@@ -492,8 +494,7 @@ class UI(InfoHandler):
         # Campaign preparation
         if self.appear(MAP_PREPARATION, offset=(30, 30), interval=3) \
                 or self.appear(FLEET_PREPARATION, offset=(20, 50), interval=3) \
-                or self.appear(RAID_FLEET_PREPARATION, offset=(30, 30), interval=3) \
-                or self.appear(COALITION_FLEET_PREPARATION, offset=(30, 30), interval=3):
+                or self.appear(RAID_FLEET_PREPARATION, offset=(30, 30), interval=3):
             self.device.click(MAP_PREPARATION_CANCEL)
             return True
         if self.appear_then_click(AUTO_SEARCH_MENU_EXIT, offset=(200, 30), interval=3):
@@ -531,8 +532,8 @@ class UI(InfoHandler):
             return True
 
         # RPG event (raid_20240328)
-        if self.appear_then_click(RPG_STATUS_POPUP, offset=(30, 30), interval=3):
-            return True
+        # if self.appear_then_click(RPG_STATUS_POPUP, offset=(30, 30), interval=3):
+        #     return True
 
         # Idle page
         if self.get_interval_timer(IDLE, interval=3).reached():
@@ -541,6 +542,11 @@ class UI(InfoHandler):
                 self.device.click(REWARD_GOTO_MAIN)
                 self.get_interval_timer(IDLE).reset()
                 return True
+        # Switch on ui_white, no offset just color match
+        if self.appear(MAIN_GOTO_MEMORIES_WHITE, interval=3):
+            logger.info(f'UI additional: {MAIN_GOTO_MEMORIES_WHITE} -> {MAIN_TAB_SWITCH_WHITE}')
+            self.device.click(MAIN_TAB_SWITCH_WHITE)
+            return True
 
         return False
 
@@ -553,6 +559,8 @@ class UI(InfoHandler):
         """
         if button == MEOWFFICER_GOTO_DORMMENU:
             self.interval_reset(GET_SHIP)
+        if button == DORMMENU_GOTO_DORM:
+            self.interval_reset(GET_SHIP)
         for switch_button in page_main.links.values():
             if button == switch_button:
                 self.interval_reset(GET_SHIP)
@@ -562,5 +570,5 @@ class UI(InfoHandler):
             self.interval_reset(RAID_CHECK)
         if button == SHOP_GOTO_SUPPLY_PACK:
             self.interval_reset(EXCHANGE_CHECK)
-        if button in [RPG_GOTO_STAGE, RPG_GOTO_STORY, RPG_LEAVE_CITY]:
-            self.interval_timer[GET_SHIP.name] = Timer(5).reset()
+        # if button in [RPG_GOTO_STAGE, RPG_GOTO_STORY, RPG_LEAVE_CITY]:
+        #     self.interval_timer[GET_SHIP.name] = Timer(5).reset()
