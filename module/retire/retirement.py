@@ -321,7 +321,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
             self._retirement_confirm()
 
         self._have_kept_cv = _
-        self.dock_filter_set()
+        self.dock_filter_set(wait_loading=False)
 
         return total
 
