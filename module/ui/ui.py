@@ -559,6 +559,8 @@ class UI(InfoHandler):
         """
         if button == MEOWFFICER_GOTO_DORMMENU:
             self.interval_reset(GET_SHIP)
+        if button == DORMMENU_GOTO_DORM:
+            self.interval_reset(GET_SHIP)
         for switch_button in page_main.links.values():
             if button == switch_button:
                 self.interval_reset(GET_SHIP)
