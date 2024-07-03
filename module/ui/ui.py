@@ -542,6 +542,11 @@ class UI(InfoHandler):
                 self.device.click(REWARD_GOTO_MAIN)
                 self.get_interval_timer(IDLE).reset()
                 return True
+        # Switch on ui_white, no offset just color match
+        if self.appear(MAIN_GOTO_MEMORIES_WHITE, interval=3):
+            logger.info(f'UI additional: {MAIN_GOTO_MEMORIES_WHITE} -> {MAIN_TAB_SWITCH_WHITE}')
+            self.device.click(MAIN_TAB_SWITCH_WHITE)
+            return True
 
         return False
 
