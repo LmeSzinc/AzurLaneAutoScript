@@ -316,10 +316,10 @@ class OperationSiren(OSMap):
         Recommend 3 or 5 for higher meowfficer searching point per action points ratio.
         """
         logger.hr(f'OS meowfficer farming, hazard_level={self.config.OpsiMeowfficerFarming_HazardLevel}', level=1)
-        if self.is_cl1_enabled and self.config.OpsiMeowfficerFarming_ActionPointPreserve < 5000:
+        if self.is_cl1_enabled and self.config.OpsiMeowfficerFarming_ActionPointPreserve < 3000:
             logger.info('With CL1 leveling enabled, set action point preserve to 1000')
-            self.config.OpsiMeowfficerFarming_ActionPointPreserve = 5000
-        preserve = min(self.get_action_point_limit(), self.config.OpsiMeowfficerFarming_ActionPointPreserve)
+            self.config.OpsiMeowfficerFarming_ActionPointPreserve = 3000
+        preserve = min(self.get_action_point_limit(), self.config.OpsiMeowfficerFarming_ActionPointPreserve,5000)
         if preserve == 0:
             self.config.override(OpsiFleet_Submarine=False)
         if self.is_cl1_enabled:
