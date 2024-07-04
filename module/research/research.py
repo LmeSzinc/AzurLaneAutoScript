@@ -200,7 +200,7 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
             else:
                 self.device.screenshot()
 
-            max_rgb = np.max(rgb2gray(self.image_crop(RESEARCH_UNAVAILABLE)))
+            max_rgb = np.max(rgb2gray(self.image_crop(RESEARCH_UNAVAILABLE, copy=False)))
 
             # Don't use interval here, RESEARCH_CHECK already appeared 5 seconds ago
             if click_timer.reached() and self.is_in_research():

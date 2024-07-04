@@ -249,12 +249,16 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
         return success
 
+    def _dock_reset(self):
+        self.dock_filter_set()
+        self.dock_favourite_set(False)
+        self.dock_sort_method_dsc_set()
+
     def _ship_change_confirm(self, button):
 
         self.dock_select_one(button)
-        self.dock_filter_set()
-        self.dock_sort_method_dsc_set()
-        self.dock_select_confirm(check_button=self.page_fleet_check_button)
+        self._dock_reset()
+        self.dock_select_confirm(check_button=page_fleet.check_button)
 
     def get_common_rarity_cv(self, lv=31, emotion=16):
         """
@@ -299,7 +303,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
 
             scanner.set_limitation(fleet=0)
             candidates = [ship for ship in scanner.scan(self.device.image, output=False)
-                          if template.match(self.image_crop(ship.button), similarity=SIM_VALUE)]
+                          if template.match(self.image_crop(ship.button, copy=False), similarity=SIM_VALUE)]
 
             if candidates:
                 return candidates
@@ -308,7 +312,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             self.dock_sort_method_dsc_set(False)
 
             candidates = [ship for ship in scanner.scan(self.device.image)
-                          if template.match(self.image_crop(ship.button), similarity=SIM_VALUE)]
+                          if template.match(self.image_crop(ship.button, copy=False), similarity=SIM_VALUE)]
 
             return candidates
 
@@ -344,8 +348,9 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             return ships
 
         scanner.set_limitation(fleet=0)
+        self.dock_favourite_set(self.config.GemsFarming_CommonDD == 'favourite')
 
-        if self.config.GemsFarming_CommonDD == 'any':
+        if self.config.GemsFarming_CommonDD in ['any', 'favourite', 'z20_or_z21']:
             return scanner.scan(self.device.image, output=False)
         
         candidates = self.find_candidates(self.get_templates(self.config.GemsFarming_CommonDD), scanner)
@@ -368,7 +373,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         candidates = []
         for item in template:
             candidates = [ship for ship in scanner.scan(self.device.image, output=False)
-                          if item.match(self.image_crop(ship.button), similarity=SIM_VALUE)]
+                          if item.match(self.image_crop(ship.button, copy=False), similarity=SIM_VALUE)]
             if candidates:
                 break
         return candidates
@@ -378,14 +383,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         """
         Returns the corresponding template list based on CommonDD
         """
-        if common_dd == 'any':
-            return [
-                TEMPLATE_CASSIN_1, TEMPLATE_CASSIN_2,
-                TEMPLATE_DOWNES_1, TEMPLATE_DOWNES_2,
-                TEMPLATE_AULICK,
-                TEMPLATE_FOOTE
-            ]
-        elif common_dd == 'aulick_or_foote':
+        if common_dd == 'aulick_or_foote':
             return [
                 TEMPLATE_AULICK,
                 TEMPLATE_FOOTE
@@ -448,21 +446,8 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             return True
         else:
             logger.info('Change flagship failed, no CV in common rarity.')
-
-            if self.config.SERVER in ['cn']:
-                max_level = 100
-            else:
-                max_level = 70
-            ship = self.get_common_rarity_cv(lv=max_level, emotion=0)
-            if ship and self.hard_mode:
-                self._ship_change_confirm(min(ship, key=lambda s: (s.level, -s.emotion)).button)
-            else:
-                if self.hard_mode:
-                    raise RequestHumanTakeover
-                self.dock_filter_set()
-                self.ui_back(check_button=self.page_fleet_check_button)
-            if self.hard_mode:
-                self.FLEET_ENTER_FLAGSHIP = self._FLEET_ENTER_FLAGSHIP
+            self._dock_reset()
+            self.ui_back(check_button=page_fleet.check_button)
             return False
 
     def solve_hard_vanguard_black(self):
@@ -488,19 +473,22 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             in: page_fleet
             out: page_fleet
         """
-        self.solve_hard_vanguard_black()
-        self.ui_click(self.FLEET_ENTER,
-                      appear_button=self.page_fleet_check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
-        # self.dock_filter_set(
-        #     index='dd', rarity='common', faction='eagle', extra='can_limit_break')
+        self.ui_click(FLEET_ENTER,
+                      appear_button=page_fleet.check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
 
+        if self.config.GemsFarming_CommonDD == 'any':
+            faction = ['eagle', 'iron']
+        elif self.config.GemsFarming_CommonDD == 'favourite':
+            faction = 'all'
+        elif self.config.GemsFarming_CommonDD == 'z20_or_z21':
+            faction = 'iron'
+        elif self.config.GemsFarming_CommonDD in ['aulick_or_foote', 'cassin_or_downes']:
+            faction = 'eagle'
+        else:
+            logger.error(f'Invalid CommonDD setting: {self.config.GemsFarming_CommonDD}')
+            raise ScriptError('Invalid GemsFarming_CommonDD')
         self.dock_filter_set(
-            sort=self.config.VanguardFilter_Sort if self.config.VanguardFilter_Sort != 'default' else 'level',
-            index=self.config.VanguardFilter_Index if self.config.VanguardFilter_Index != 'default' else 'dd',
-            faction=self.config.VanguardFilter_Faction if self.config.VanguardFilter_Faction != 'default' else 'eagle',
-            rarity=self.config.VanguardFilter_Rarity if self.config.VanguardFilter_Rarity != 'default' else 'common',
-            extra=self.config.VanguardFilter_Extra if self.config.VanguardFilter_Extra != 'default' else 'can_limit_break'
-            )
+            index='dd', rarity='common', faction=faction, extra='can_limit_break')
         self.dock_favourite_set(False)
 
         ship = self.get_common_rarity_dd()
@@ -513,17 +501,8 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             return True
         else:
             logger.info('Change vanguard ship failed, no DD in common rarity.')
-
-            ship = self.get_common_rarity_dd(emotion=0)
-            if ship and self.hard_mode:
-                self._ship_change_confirm(min(ship, key=lambda s: (s.level, -s.emotion)).button)
-            else:
-                if self.hard_mode:
-                    raise RequestHumanTakeover
-                self.dock_filter_set()
-                self.ui_back(check_button=self.page_fleet_check_button)
-            if self.hard_mode:
-                self.FLEET_ENTER = self._FLEET_ENTER
+            self._dock_reset()
+            self.ui_back(check_button=page_fleet.check_button)
             return False
 
     _trigger_lv32 = False
