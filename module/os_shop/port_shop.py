@@ -127,6 +127,7 @@ class PortShop(OSStatus, OSShopUI, Selector, MapEventHandler):
         self.device.click_record.clear()
 
         for i in range(4):
+            logger.hr(f'OpsiShop scan {i}')
             self.os_shop_side_navbar_ensure(upper=i + 1)
             pre_pos, cur_pos = self.init_slider()
 

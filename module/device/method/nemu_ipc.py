@@ -8,6 +8,7 @@ import cv2
 import numpy as np
 
 from module.base.decorator import cached_property, del_cached_property, has_cached_property
+from module.base.timer import Timer
 from module.base.utils import ensure_time
 from module.device.method.minitouch import insert_swipe, random_rectangle_point
 from module.device.method.utils import RETRY_TRIES, retry_sleep
@@ -277,11 +278,12 @@ class NemuIpcImpl:
     def _ev(self):
         return asyncio.new_event_loop()
 
-    async def ev_run_async(self, func, *args, **kwargs):
+    async def ev_run_async(self, func, *args, timeout=0.15, **kwargs):
         """
         Args:
             func: Sync function to call
             *args:
+            timeout:
             **kwargs:
 
         Raises:
@@ -290,7 +292,7 @@ class NemuIpcImpl:
         func_wrapped = partial(func, *args, **kwargs)
         # Increased timeout for slow PCs
         # Default screenshot interval is 0.2s, so a 0.15s timeout would have a fast retry without extra time costs
-        result = await asyncio.wait_for(self._ev.run_in_executor(None, func_wrapped), timeout=0.15)
+        result = await asyncio.wait_for(self._ev.run_in_executor(None, func_wrapped), timeout=timeout)
         return result
 
     def ev_run_sync(self, func, *args, **kwargs):
@@ -343,7 +345,7 @@ class NemuIpcImpl:
         self.height = height_ptr.contents.value
 
     @retry
-    def screenshot(self):
+    def screenshot(self, timeout=0.15):
         """
         Returns:
             np.ndarray: Image array in RGBA color space
@@ -361,7 +363,8 @@ class NemuIpcImpl:
 
         ret = self.ev_run_sync(
             self.lib.nemu_capture_display,
-            self.connect_id, self.display_id, length, width_ptr, height_ptr, pixels_pointer
+            self.connect_id, self.display_id, length, width_ptr, height_ptr, pixels_pointer,
+            timeout=timeout,
         )
         if ret > 0:
             raise NemuIpcError('nemu_capture_display failed during screenshot()')
@@ -439,6 +442,8 @@ def serial_to_id(serial: str):
 
 
 class NemuIpc(Platform):
+    _screenshot_interval = Timer(0.1)
+
     @cached_property
     def nemu_ipc(self) -> NemuIpcImpl:
         """
@@ -494,7 +499,8 @@ class NemuIpc(Platform):
         logger.info('nemu_ipc released')
 
     def screenshot_nemu_ipc(self):
-        image = self.nemu_ipc.screenshot()
+        timeout = max(self._screenshot_interval.limit - 0.01, 0.15)
+        image = self.nemu_ipc.screenshot(timeout=timeout)
 
         image = cv2.cvtColor(image, cv2.COLOR_BGRA2BGR)
         cv2.flip(image, 0, dst=image)
