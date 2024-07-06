@@ -43,10 +43,10 @@ class CounterOcr(Ocr):
         result_list = super().ocr(image, direct_ocr=direct_ocr)
         if isinstance(result_list, list):
             for r in range(len(result_list)):
-                result_list[r] = result_list[r].split('/')
+                result_list[r] = [int(i) for i in result_list[r].split('/')]
             return result_list
         else:
-            return result_list.split('/')
+            return [int(i) for i in result_list.split('/')]
 
 
 COUNTER_OCR = CounterOcr([], threshold=96, name='Counter_ocr')
