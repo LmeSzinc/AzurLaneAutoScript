@@ -294,7 +294,7 @@ class MaaTouch(Connection):
         self._maatouch_stream.recv(0)
 
         # Wait until operations finished
-        start = time.time()
+        # start = time.time()
         socket_out = self._maatouch_stream.makefile()
         max_trial = 3
         for n in range(3):
