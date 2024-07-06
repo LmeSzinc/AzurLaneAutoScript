@@ -281,7 +281,9 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
             if self.handle_get_ship():
                 continue
             if self.appear(BATTLE_STATUS_S) or self.appear(BATTLE_STATUS_A) or self.appear(BATTLE_STATUS_B) \
+                    or self.appear(BATTLE_STATUS_C) or self.appear(BATTLE_STATUS_D) \
                     or self.appear(EXP_INFO_S) or self.appear(EXP_INFO_A) or self.appear(EXP_INFO_B) \
+                    or self.appear(EXP_INFO_C) or self.appear(EXP_INFO_D) \
                     or self.is_auto_search_running():
                 self.device.screenshot_interval_set()
                 break

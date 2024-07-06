@@ -725,6 +725,7 @@ OpsiHazard1Leveling:
   OperationCoinsPreserve:
     value: 100000
   DisableMeowfficerFarming: false
+
 # ==================== Tools ====================
 
 Daemon:
