@@ -1,8 +1,9 @@
+from module.base.decorator import cached_property
 from module.config.utils import get_os_reset_remain
 from module.exception import ScriptError
 from module.logger import logger
-from module.os_shop.assets import PORT_SUPPLY_CHECK, SHOP_BUY_CONFIRM
 from module.os_shop.akashi_shop import AkashiShop
+from module.os_shop.assets import PORT_SUPPLY_CHECK, SHOP_BUY_CONFIRM
 from module.os_shop.port_shop import PortShop
 from module.os_shop.ui import OS_SHOP_SCROLL
 from module.shop.assets import AMOUNT_MAX, AMOUNT_MINUS, AMOUNT_PLUS, SHOP_BUY_CONFIRM_AMOUNT, SHOP_BUY_CONFIRM as OS_SHOP_BUY_CONFIRM
@@ -48,6 +49,9 @@ class OSShop(PortShop, AkashiShop):
                 self.shop_buy_amount_handler(button)
                 self.device.click(SHOP_BUY_CONFIRM_AMOUNT)
                 self.interval_reset(SHOP_BUY_CONFIRM_AMOUNT)
+                continue
+
+            if self.handle_popup_confirm('SHOP_BUY'):
                 continue
 
             if not success and self.appear(PORT_SUPPLY_CHECK, offset=(20, 20), interval=5):
@@ -139,6 +143,7 @@ class OSShop(PortShop, AkashiShop):
         items.reverse()
         count = 0
         while len(items):
+            logger.hr('OpsiShop buy', level=2)
             item = items.pop()
             self.os_shop_get_coins()
             if item.price > self.get_currency_coins(item):
@@ -175,14 +180,19 @@ class OSShop(PortShop, AkashiShop):
         self.os_shop_buy(select_func=self.os_shop_get_item_to_buy_in_akashi)
         self.ui_back(appear_button=PORT_SUPPLY_CHECK, check_button=self.is_in_map, skip_first_screenshot=True)
 
+    @cached_property
+    def yellow_coins_preserve(self):
+        if self.is_cl1_enabled:
+            return self.config.OS_CL1_YELLOW_COINS_PRESERVE
+        else:
+            return self.config.OS_NORMAL_YELLOW_COINS_PRESERVE
+
     def get_currency_coins(self, item):
         if item.cost == 'YellowCoins':
             if get_os_reset_remain() == 0:
-                return self._shop_yellow_coins
-            elif self.is_cl1_enabled:
-                return self._shop_yellow_coins - self.config.OS_CL1_YELLOW_COINS_PRESERVE
+                return self._shop_yellow_coins - 100
             else:
-                return self._shop_yellow_coins - self.config.OS_NORMAL_YELLOW_COINS_PRESERVE
+                return self._shop_yellow_coins - self.yellow_coins_preserve
 
         elif item.cost == 'PurpleCoins':
             if get_os_reset_remain() == 0:
@@ -194,9 +204,6 @@ class OSShop(PortShop, AkashiShop):
         if get_os_reset_remain() == 0:
             return False
         else:
-            if self.is_cl1_enabled:
-                yellow = self._shop_yellow_coins < self.config.OS_CL1_YELLOW_COINS_PRESERVE
-            else:
-                yellow = self._shop_yellow_coins < self.config.OS_NORMAL_YELLOW_COINS_PRESERVE
+            yellow = self._shop_yellow_coins < self._shop_purple_coins
             purple = self._shop_purple_coins < self.config.OS_NORMAL_PURPLE_COINS_PRESERVE
             return yellow and purple

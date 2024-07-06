@@ -165,6 +165,7 @@ class CampaignStatus(UI):
             'coalition',
             'coalition_sp',
             'Raid',
+            'Coalition',
             'GemsFarming',
         ]
         command = self.config.Scheduler_Command
