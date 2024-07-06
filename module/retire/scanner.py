@@ -423,7 +423,7 @@ class ShipScanner(Scanner):
             value = kwargs.get(attr, self.limitation[attr])
             self.limit_value(key=attr, value=value)
 
-        logger.info(f'Limitaions set to {self.limitation}')
+        logger.info(f'Limitations set to {self.limitation}')
 
 
 class DockScanner(ShipScanner):
