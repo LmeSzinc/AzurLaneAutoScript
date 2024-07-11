@@ -1,6 +1,7 @@
 from module.base.decorator import cached_property
+from module.base.timer import Timer
 from module.config.utils import get_os_reset_remain
-from module.exception import ScriptError
+from module.exception import GameStuckError, ScriptError
 from module.logger import logger
 from module.os_shop.akashi_shop import AkashiShop
 from module.os_shop.assets import PORT_SUPPLY_CHECK, SHOP_BUY_CONFIRM
@@ -96,29 +97,57 @@ class OSShop(PortShop, AkashiShop):
             ScriptError: OCR_SHOP_AMOUNT
         """
         currency = self.get_currency_coins(item)
+        count = min(int(currency // item.price), item.count)
 
-        total = int(currency // item.price)
-
-        if total == 1:
+        if count == 1:
             return
 
+        coins = self.get_coins_no_limit(item)
+        total_count = min(int(coins // item.price), item.count)
+
         limit = 0
-        for _ in range(3):
-            self.appear_then_click(AMOUNT_MAX, offset=(50, 50))
-            self.device.sleep((0.3, 0.5))
-            self.device.screenshot()
+        retry = Timer(0, count=3)
+        retry.start()
+        while True:
             limit = OCR_SHOP_AMOUNT.ocr(self.device.image)
-            if limit and limit > 1:
+            if limit:
                 break
 
-        if not limit:
-            logger.critical('OCR_SHOP_AMOUNT resulted in zero (0); '
-                            'asset may be compromised')
-            raise ScriptError
+            if retry.reached():
+                logger.critical('OCR_SHOP_AMOUNT resulted in zero (0); '
+                                'asset may be compromised')
+                raise ScriptError
 
-        diff = limit - total
-        if diff > 0:
-            limit = total
+            self.device.sleep((0.3, 0.5))
+            self.device.screenshot()
+
+        retry.reset()
+        set_to_max = False
+        # Avg count of all items(no PurpleCoins) is 8.9, so use 10.
+        if count <= 10:
+            if count - 1 > total_count - count:
+                set_to_max = True
+            limit = count
+        elif total_count - count <= 10:
+            set_to_max = True
+            limit = count
+        elif count >= total_count >> 1:
+            set_to_max = True
+            limit = total_count - 10
+        else:
+            limit = 10
+
+        if set_to_max:
+            while True:
+                self.appear_then_click(AMOUNT_MAX, offset=(50, 50))
+                self.device.sleep((0.3, 0.5))
+                self.device.screenshot()
+                amount = OCR_SHOP_AMOUNT.ocr(self.device.image)
+                if amount > 1:
+                    break
+                if retry.reached():
+                    raise GameStuckError('Amount OCR failed.')
+            retry.reset()
 
         self.ui_ensure_index(limit, letter=OCR_SHOP_AMOUNT, prev_button=AMOUNT_MINUS, next_button=AMOUNT_PLUS,
                              skip_first_screenshot=True)
@@ -140,12 +169,15 @@ class OSShop(PortShop, AkashiShop):
         if not len(items):
             logger.warning('Nothing to buy.')
             return False
+        self.os_shop_get_coins()
+        skip_get_coins = True
         items.reverse()
         count = 0
         while len(items):
             logger.hr('OpsiShop buy', level=2)
             item = items.pop()
-            self.os_shop_get_coins()
+            if not skip_get_coins:
+                self.os_shop_get_coins()
             if item.price > self.get_currency_coins(item):
                 logger.info(f'Not enough coins to buy item: {item.name}, skip.')
                 if self.is_coins_both_not_enough():
@@ -161,6 +193,7 @@ class OSShop(PortShop, AkashiShop):
                 continue
             if self.os_shop_buy_execute(_item):
                 logger.info(f'Bought item: {_item.name}.')
+                skip_get_coins = False
                 count += 1
             self.device.click_record.clear()
         logger.info(f'Bought {f"{count} items" if count else "nothing"} in port.')
@@ -199,6 +232,12 @@ class OSShop(PortShop, AkashiShop):
                 return self._shop_purple_coins
             else:
                 return self._shop_purple_coins - self.config.OS_NORMAL_PURPLE_COINS_PRESERVE
+
+    def get_coins_no_limit(self, item):
+        if item.cost == 'YellowCoins':
+            return self._shop_yellow_coins
+        elif item.cost == 'PurpleCoins':
+            return self._shop_purple_coins
 
     def is_coins_both_not_enough(self):
         if get_os_reset_remain() == 0:

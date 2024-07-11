@@ -90,6 +90,8 @@ class TechnologyTemplate:
     def load_projects(self, loader):
         tech = loader.load('sharecfg/technology_data_template.lua')
         item = loader.load('sharecfgdata/item_data_statistics.lua')
+        virtual_item = loader.load('sharecfgdata/item_virtual_data_statistics.lua')
+        item.update(virtual_item)
         task = loader.load('sharecfgdata/task_data_template.lua')
 
         projects = {}
