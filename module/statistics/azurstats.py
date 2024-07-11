@@ -217,10 +217,10 @@ class AzurStats:
             save_thread = threading.Thread(
                 target=self._save, args=(image, genre, filename))
             save_thread.start()
-        if upload:
-            upload_thread = threading.Thread(
-                target=self._upload, args=(image, genre, filename))
-            upload_thread.start()
+        # if upload:
+        #     upload_thread = threading.Thread(
+        #         target=self._upload, args=(image, genre, filename))
+        #     upload_thread.start()
 
         return True
 
