@@ -206,8 +206,8 @@ class GeneratedConfig:
     Research_UseCoin = 'always_use'  # always_use, only_05_hour, only_no_project, do_not_use
     Research_UsePart = 'always_use'  # always_use, only_05_hour, only_no_project, do_not_use
     Research_AllowDelay = True
-    Research_PresetFilter = 'series_6_blueprint_203'  # custom, series_6_blueprint_203, series_6_blueprint_only, series_6_203_only, series_5_blueprint_152, series_5_blueprint_only, series_5_152_only, series_4_blueprint_tenrai, series_4_blueprint_only, series_4_tenrai_only, series_3_blueprint_234, series_3_blueprint_only, series_3_234_only, series_2_than_3_457_234, series_2_blueprint_457, series_2_blueprint_only, series_2_457_only
-    Research_CustomFilter = 'S5-DR0.5 > S5-PRY0.5 > S5-H0.5 > S5-Q0.5 > S5-DR2.5 > 0.5 > S5-G1.5\n> S5-Q1 > S5-DR5 > S5-DR8 > S5-G4 > S5-PRY2.5 > 1 > S5-Q2 > reset\n> S5-G2.5 > S5-PRY5 > S5-PRY8 > 1.5 > 2 > S5-Q4 > 2.5 > 3\n> Q4 > G4 > 4 > 5 > S5-C6 > C6 > 6 > S5-C8 > 8\n> S5-C12 > 12'
+    Research_PresetFilter = 'series_7_blueprint_la9'  # custom, series_7_blueprint_la9, series_7_blueprint_only, series_7_la9_only, series_6_blueprint_203, series_6_blueprint_only, series_6_203_only, series_5_blueprint_152, series_5_blueprint_only, series_5_152_only, series_4_blueprint_tenrai, series_4_blueprint_only, series_4_tenrai_only, series_3_blueprint_234, series_3_blueprint_only, series_3_234_only, series_2_than_3_457_234, series_2_blueprint_457, series_2_blueprint_only, series_2_457_only
+    Research_CustomFilter = 'S7-DR0.5 > S7-PRY0.5 > S7-Q0.5 > S7-H0.5 > Q0.5 > S7-DR2.5\n> S7-G1.5 > S7-Q1 > S7-DR5 > 0.5 > S7-G4 > S7-Q2 > S7-PRY2.5 > reset\n> S7-DR8 > Q1 > 1 > S7-E-315 > S7-G2.5 > G1.5 > 1.5 > S7-E-031\n> S7-Q4 > Q2 > E2 > 2 > DR2.5 > PRY2.5 > G2.5 > 2.5 > S7-PRY5\n> S7-PRY8 > Q4 > G4 > 4 > S7-C6 > DR5 > PRY5 > 5 > C6 > 6 > S7-C8\n> S7-C12 > DR8 > PRY8 > C8 > 8 > C12 > 12'
 
     # Group `Dorm`
     Dorm_Collect = True
