@@ -306,8 +306,16 @@ class Connection(ConnectionAttr):
         Returns:
             bool: If MuMu12 version >= 3.5.6,
                 which has nemud.app_keep_alive and always be a vertical device
+                MuMu PRO on mac has the same feature
         """
-        return self.nemud_app_keep_alive != ''
+        if self.nemud_app_keep_alive != '':
+            return True
+        if IS_MACINTOSH:
+            res = self.adb_getprop('nemud.player_engine')
+            logger.attr('nemud.player_engine', res)
+            if 'MACPRO' in res:
+                return True
+        return False
 
     @cached_property
     def _nc_server_host_port(self):
@@ -896,7 +904,10 @@ class Connection(ConnectionAttr):
                     self.serial = emu_serial
 
         # Redirect MuMu12 from 127.0.0.1:7555 to 127.0.0.1:16xxx
-        if self.serial == '127.0.0.1:7555':
+        if (
+                (IS_WINDOWS and self.serial == '127.0.0.1:7555')
+                or (IS_MACINTOSH and self.serial == '127.0.0.1:5555')
+        ):
             for _ in range(2):
                 mumu12 = available.select(may_mumu12_family=True)
                 if mumu12.count == 1:
