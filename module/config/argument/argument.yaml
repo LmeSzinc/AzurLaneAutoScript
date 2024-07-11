@@ -375,9 +375,12 @@ Research:
     option: [ always_use, only_05_hour, only_no_project, do_not_use ]
   AllowDelay: true
   PresetFilter:
-    value: series_6_blueprint_203
+    value: series_7_blueprint_la9
     option:
       - custom
+      - series_7_blueprint_la9
+      - series_7_blueprint_only
+      - series_7_la9_only
       - series_6_blueprint_203
       - series_6_blueprint_only
       - series_6_203_only
@@ -395,11 +398,12 @@ Research:
       - series_2_blueprint_only
       - series_2_457_only
   CustomFilter: |-
-    S5-DR0.5 > S5-PRY0.5 > S5-H0.5 > S5-Q0.5 > S5-DR2.5 > 0.5 > S5-G1.5
-    > S5-Q1 > S5-DR5 > S5-DR8 > S5-G4 > S5-PRY2.5 > 1 > S5-Q2 > reset
-    > S5-G2.5 > S5-PRY5 > S5-PRY8 > 1.5 > 2 > S5-Q4 > 2.5 > 3
-    > Q4 > G4 > 4 > 5 > S5-C6 > C6 > 6 > S5-C8 > 8
-    > S5-C12 > 12
+    S7-DR0.5 > S7-PRY0.5 > S7-Q0.5 > S7-H0.5 > Q0.5 > S7-DR2.5
+    > S7-G1.5 > S7-Q1 > S7-DR5 > 0.5 > S7-G4 > S7-Q2 > S7-PRY2.5 > reset
+    > S7-DR8 > Q1 > 1 > S7-E-315 > S7-G2.5 > G1.5 > 1.5 > S7-E-031
+    > S7-Q4 > Q2 > E2 > 2 > DR2.5 > PRY2.5 > G2.5 > 2.5 > S7-PRY5
+    > S7-PRY8 > Q4 > G4 > 4 > S7-C6 > DR5 > PRY5 > 5 > C6 > 6 > S7-C8
+    > S7-C12 > DR8 > PRY8 > C8 > 8 > C12 > 12
 Dorm:
   Collect: true
   Feed: true
