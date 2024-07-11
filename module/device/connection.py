@@ -4,7 +4,6 @@ import platform
 import re
 import socket
 import subprocess
-import sys
 import time
 from functools import wraps
 
@@ -16,6 +15,7 @@ from module.base.decorator import Config, cached_property, del_cached_property, 
 from module.base.utils import ensure_time
 from module.config.server import VALID_CHANNEL_PACKAGE, VALID_PACKAGE, set_server
 from module.device.connection_attr import ConnectionAttr
+from module.device.env import IS_WINDOWS, IS_MACINTOSH
 from module.device.method.utils import (PackageNotInstalled, RETRY_TRIES, get_serial_pair, handle_adb_error,
                                         possible_reasons, random_port, recv_all, remove_shell_warning, retry_sleep)
 from module.exception import EmulatorNotRunningError, RequestHumanTakeover
@@ -834,7 +834,7 @@ class Connection(ConnectionAttr):
             # brute_force_connect
             if self.config.Emulator_Serial == 'auto' and available.count == 0:
                 logger.warning(f'No available device found')
-                if sys.platform == 'win32':
+                if IS_WINDOWS:
                     brute_force_connect()
                     continue
                 else:
