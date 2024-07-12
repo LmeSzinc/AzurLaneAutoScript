@@ -1,6 +1,5 @@
 import ipaddress
 import logging
-import platform
 import re
 import socket
 import subprocess
@@ -15,7 +14,7 @@ from module.base.decorator import Config, cached_property, del_cached_property, 
 from module.base.utils import ensure_time
 from module.config.server import VALID_CHANNEL_PACKAGE, VALID_PACKAGE, set_server
 from module.device.connection_attr import ConnectionAttr
-from module.device.env import IS_WINDOWS, IS_MACINTOSH
+from module.device.env import IS_LINUX, IS_MACINTOSH, IS_WINDOWS
 from module.device.method.utils import (PackageNotInstalled, RETRY_TRIES, get_serial_pair, handle_adb_error,
                                         possible_reasons, random_port, recv_all, remove_shell_warning, retry_sleep)
 from module.exception import EmulatorNotRunningError, RequestHumanTakeover
@@ -338,7 +337,7 @@ class Connection(ConnectionAttr):
                 logger.error(e)
                 logger.error(f'Unknown host name: {socket.gethostname()}')
                 host = '127.0.0.1'
-            if platform.system() == 'Linux' and host == '127.0.1.1':
+            if IS_LINUX and host == '127.0.1.1':
                 host = '127.0.0.1'
             logger.info(f'Connecting to local emulator, using host {host}')
             port = random_port(self.config.FORWARD_PORT_RANGE)
@@ -924,7 +923,8 @@ class Connection(ConnectionAttr):
                         # is_mumu_over_version_356 and nemud_app_keep_alive was cached
                         # Acceptable since it's the same device
                         logger.warning(f'Device {self.serial} is MuMu12 but corresponding port not found')
-                        brute_force_connect()
+                        if IS_WINDOWS:
+                            brute_force_connect()
                         devices = self.list_device()
                         # Show available devices
                         available = devices.select(status='device')
