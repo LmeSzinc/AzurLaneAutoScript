@@ -49,31 +49,32 @@ class Coalition(CoalitionCombat, CampaignEvent):
         Returns:
             bool: If triggered a stop condition.
         """
-        # Run count limit
-        if self.run_limit and self.config.StopCondition_RunCount <= 0:
-            logger.hr('Triggered stop condition: Run count')
-            self.config.StopCondition_RunCount = 0
-            self.config.Scheduler_Enable = False
-            return True
-        # Oil limit
-        if oil_check:
-            if self.get_oil() < max(500, self.config.StopCondition_OilLimit):
-                logger.hr('Triggered stop condition: Oil limit')
-                self.config.task_delay(minute=(120, 240))
+        with self.config.multi_set():
+            # Run count limit
+            if self.run_limit and self.config.StopCondition_RunCount <= 0:
+                logger.hr('Triggered stop condition: Run count')
+                self.config.StopCondition_RunCount = 0
+                self.config.Scheduler_Enable = False
                 return True
-        # Event limit
-        if pt_check:
-            if self.event_pt_limit_triggered():
-                logger.hr('Triggered stop condition: Event PT limit')
-                return True
-        # TaskBalancer
-        if self.run_count >= 1:
-            if self.config.TaskBalancer_Enable and self.triggered_task_balancer():
-                logger.hr('Triggered stop condition: Coin limit')
-                self.handle_task_balancer()
-                return True
+            # Oil limit
+            if oil_check:
+                if self.get_oil() < max(500, self.config.StopCondition_OilLimit):
+                    logger.hr('Triggered stop condition: Oil limit')
+                    self.config.task_delay(minute=(120, 240))
+                    return True
+            # Event limit
+            if pt_check:
+                if self.event_pt_limit_triggered():
+                    logger.hr('Triggered stop condition: Event PT limit')
+                    return True
+            # TaskBalancer
+            if self.run_count >= 1:
+                if self.config.TaskBalancer_Enable and self.triggered_task_balancer():
+                    logger.hr('Triggered stop condition: Coin limit')
+                    self.handle_task_balancer()
+                    return True
 
-        return False
+            return False
 
     def coalition_execute_once(self, event, stage, fleet):
         """
