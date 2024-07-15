@@ -1,6 +1,8 @@
 import collections
 from datetime import datetime
 
+from lxml import etree
+
 # Patch pkg_resources before importing adbutils and uiautomator2
 from module.device.pkg_resources import get_distribution
 
@@ -174,6 +176,10 @@ class Device(Screenshot, Control, AppControl):
             super().screenshot()
 
         return self.image
+
+    def dump_hierarchy(self) -> etree._Element:
+        self.stuck_record_check()
+        return super().dump_hierarchy()
 
     def release_during_wait(self):
         # Scrcpy server is still sending video stream,
