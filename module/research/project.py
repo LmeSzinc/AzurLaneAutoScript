@@ -400,9 +400,17 @@ class ResearchProject:
         '|gascogne|champagne|cheshire|drake|mainz|odin'
         '|anchorage|hakuryu|agir|august|marcopolo'
         '|plymouth|rupprecht|harbin|chkalov|brest'
-        '|kearsarge|hindenburg|shimanto|schultz|flandre)')
+        '|kearsarge|hindenburg|shimanto|schultz|flandre'
+        '|napoli|nakhimov|halford|bayard|daisen)')
     REGEX_INPUT = re.compile('(coin|cube|part)')
-    REGEX_DR_SHIP = re.compile('azuma|friedrich|drake|hakuryu|agir|plymouth|brest|kearsarge|hindenburg')
+    REGEX_DR_SHIP = re.compile(
+        'azuma|friedrich'
+        '|drake'
+        '|hakuryu|agir'
+        '|plymouth|brest'
+        '|kearsarge|hindenburg'
+        '|napoli|nakhimov'
+    )
     # Generate with:
     """
     out = []
@@ -419,10 +427,12 @@ class ResearchProject:
         '779', '794', '305', '312', '346', '357', '379', '394', '721', '722', '772', '777', '795', '321', '322', '372',
         '377', '395', '708', '763', '775', '782', '768', '308', '363', '375', '382', '368', '719', '778', '786', '788',
         '793', '319', '378', '386', '388', '393', '783', '713', '739', '771', '796', '383', '313', '339', '371', '396',
-        '418', '431', '444', '459', '474', '492', '018', '031', '044', '059', '074', '092', '405', '412', '446', '457',
-        '479', '494', '005', '012', '046', '057', '079', '094', '421', '422', '472', '477', '495', '021', '022', '072',
-        '077', '095', '408', '463', '475', '482', '468', '008', '063', '075', '082', '068', '419', '478', '486', '488',
-        '493', '019', '078', '086', '088', '093', '483', '413', '439', '471', '496', '083', '013', '039', '071', '096']
+        '703', '758', '766', '790', '797', '303', '358', '366', '390', '397', '418', '431', '444', '459', '474', '492',
+        '018', '031', '044', '059', '074', '092', '405', '412', '446', '457', '479', '494', '005', '012', '046', '057',
+        '079', '094', '421', '422', '472', '477', '495', '021', '022', '072', '077', '095', '408', '463', '475', '482',
+        '468', '008', '063', '075', '082', '068', '419', '478', '486', '488', '493', '019', '078', '086', '088', '093',
+        '483', '413', '439', '471', '496', '083', '013', '039', '071', '096', '403', '458', '466', '490', '497', '003',
+        '058', '066', '090', '097']
 
     def __init__(self, name, series):
         """
@@ -608,8 +618,16 @@ class ResearchProjectJp:
     SHIP_S4 = ['anchorage', 'hakuryu', 'agir', 'august', 'marcopolo']
     SHIP_S5 = ['plymouth', 'rupprecht', 'harbin', 'chkalov', 'brest']
     SHIP_S6 = ['kearsarge', 'hindenburg', 'shimanto', 'schultz', 'flandre']
-    SHIP_ALL = SHIP_S1 + SHIP_S2 + SHIP_S3 + SHIP_S4 + SHIP_S5 + SHIP_S6
-    DR_SHIP = ['azuma', 'friedrich', 'drake', 'hakuryu', 'agir', 'plymouth', 'brest', 'kearsarge', 'hindenburg']
+    SHIP_S7 = ['napoli', 'nakhimov', 'halford', 'bayard', 'daisen']
+    SHIP_ALL = SHIP_S1 + SHIP_S2 + SHIP_S3 + SHIP_S4 + SHIP_S5 + SHIP_S6 + SHIP_S7
+    DR_SHIP = [
+        'azuma', 'friedrich',
+        'drake',
+        'hakuryu', 'agir',
+        'plymouth', 'brest',
+        'kearsarge', 'hindenburg',
+        'napoli', 'nakhimov',
+    ]
 
     def __init__(self):
         self.valid = True

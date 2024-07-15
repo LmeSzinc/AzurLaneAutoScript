@@ -162,7 +162,7 @@ class CoalitionUI(Combat):
             if stage in ['tc1', 'sp']:
                 return False
         if event == 'coalition_20240627':
-            if stage in ['sp', 'ex']:
+            if stage in ['easy', 'sp', 'ex']:
                 return False
 
         self.coalition_ensure_fleet(event, mode)
@@ -213,6 +213,9 @@ class CoalitionUI(Combat):
             # End
             if self.appear(BATTLE_PREPARATION, offset=(20, 20)):
                 break
+
+            if self.handle_guild_popup_cancel():
+                continue
 
             # Enter campaign
             if campaign_timer.reached() and self.in_coalition():

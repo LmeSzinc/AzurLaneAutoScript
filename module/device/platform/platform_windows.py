@@ -101,8 +101,8 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             # Nox.exe -clone:Nox_1
             self.execute(f'"{exe}" -clone:{instance.name}')
         elif instance == Emulator.BlueStacks5:
-            # HD-Player.exe -instance Pie64
-            self.execute(f'"{exe}" -instance {instance.name}')
+            # HD-Player.exe --instance Pie64
+            self.execute(f'"{exe}" --instance {instance.name}')
         elif instance == Emulator.BlueStacks4:
             # Bluestacks.exe -vmname Android_1
             self.execute(f'"{exe}" -vmname {instance.name}')
