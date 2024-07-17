@@ -59,7 +59,8 @@ class OSShop(PortShop, AkashiShop):
             if self.handle_popup_confirm('SHOP_BUY'):
                 continue
 
-            if not success and self.appear(PORT_SUPPLY_CHECK, offset=(20, 20)):
+            if not success and self.appear(PORT_SUPPLY_CHECK, offset=(20, 20), interval=5):
+                amount_finish = False
                 self.device.click(button)
                 continue
 
