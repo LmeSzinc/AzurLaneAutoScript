@@ -201,3 +201,4 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20240627 | event 20231026 cn        | Tempesta and the Fountain of Youth           | -   | -  | -    | 飓風與青春之泉 |
 | 20240627 | coalition 20240627 | Welcome to Little Academy | 欢迎来到童心学院 | Welcome to Little Academy | リトル学園へようこそ | - |
 | 20240711   | event 20211229 cn        | Tower of Transcendence Rerun                 | -  | -  | -　 | 復刻逆轉彩虹之塔  |
+| 20240718   | event 20220526 cn        | Pledge of the Radiant Court Rerun                 | 复刻泠誓光庭               | Pledge of the Radiant Court Rerun                 | 復刻诚閃の剣 搖光の城                | -                        |

@@ -709,7 +709,7 @@
       "event_20220407_tw": "蒼紅的迴響(復刻)",
       "event_20220414_cn": "Aurora Noctis Rerun",
       "event_20220428_cn": "Rondo at Rainbows End Rerun",
-      "event_20220526_cn": "Pledge of the Radiant Court",
+      "event_20220526_cn": "Pledge of the Radiant Court Rerun",
       "event_20220728_cn": "Aquilifers Ballade",
       "event_20220818_cn": "Operation Convergence",
       "event_20220915_cn": "Violet Tempest Blooming Lycoris",
@@ -1926,15 +1926,19 @@
       "name": "Mail Settings",
       "help": ""
     },
-    "Collect": {
-      "name": "Collect Mail Rewards",
-      "help": "Only collects the top 3 mail entries"
+    "ClaimMerit": {
+      "name": "Claim Merit Mails",
+      "help": ""
     },
-    "Filter": {
-      "name": "Mail Filter",
-      "help": "Filter as to which mail types should be collected\nSupports Merit, Coolant, Coin, DecorCoin, Cube, Oil, and/or Gem"
+    "ClaimMaintenance": {
+      "name": "Claim Maintenance Mails",
+      "help": "Mail.ClaimMaintenance.help"
     },
-    "Delete": {
+    "ClaimTradeLicense": {
+      "name": "Claim Trade License Mails",
+      "help": ""
+    },
+    "DeleteCollected": {
       "name": "Delete Collected Mail Rewards",
       "help": "Delete the already collected mail entries\nMark any entries \"important\" in-game to avoid accidental deletion"
     }

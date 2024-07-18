@@ -709,7 +709,7 @@
       "event_20220407_tw": "蒼紅的迴響(復刻)",
       "event_20220414_cn": "复刻永夜幻光",
       "event_20220428_cn": "复刻虹彩的终幕曲",
-      "event_20220526_cn": "泠誓光庭",
+      "event_20220526_cn": "复刻泠誓光庭",
       "event_20220728_cn": "雄鹰的叙事歌",
       "event_20220818_cn": "远汇点作战",
       "event_20220915_cn": "紫绛槿岚",
@@ -1926,15 +1926,19 @@
       "name": "领取邮件",
       "help": ""
     },
-    "Collect": {
-      "name": "领取邮件",
+    "ClaimMerit": {
+      "name": "领取功勋邮件",
       "help": ""
     },
-    "Filter": {
-      "name": "邮件过滤器",
-      "help": "默认只领取演习功勋邮件"
+    "ClaimMaintenance": {
+      "name": "领取维护邮件",
+      "help": ""
     },
-    "Delete": {
+    "ClaimTradeLicense": {
+      "name": "领取月卡邮件",
+      "help": ""
+    },
+    "DeleteCollected": {
       "name": "删除已读邮件",
       "help": ""
     }
