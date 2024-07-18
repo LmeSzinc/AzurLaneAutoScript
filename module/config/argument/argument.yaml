@@ -562,10 +562,10 @@ DataKey:
   Collect: true
   ForceCollect: false
 Mail:
-  Collect: true
-  Filter: |-
-    Merit > Coolant
-  Delete: false
+  ClaimMerit: true
+  ClaimMaintenance: false
+  ClaimTradeLicense: false
+  DeleteCollected: true
 SupplyPack:
   Collect: true
   DayOfWeek:

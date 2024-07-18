@@ -2,7 +2,7 @@ from module.base.decorator import cached_property
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2
 from module.freebies.assets import *
 from module.logger import logger
-from module.ui.page import GOTO_MAIN_WHITE, page_mail, page_main
+from module.ui.page import GOTO_MAIN_WHITE, page_mail, page_main, page_main_white
 from module.ui.setting import Setting
 from module.ui.ui import UI
 
@@ -177,8 +177,8 @@ class MailWhite(UI):
     def mail_claim(
             self,
             merit=True,
-            maintenance=True,
-            trade_license=True,
+            maintenance=False,
+            trade_license=False,
             delete=True,
     ):
         """
@@ -212,10 +212,36 @@ class MailWhite(UI):
         self._mail_quit()
 
     def run(self):
-        pass
+        merit = self.config.Mail_ClaimMerit
+        maintenance = self.config.Mail_ClaimMaintenance
+        trade_license = self.config.Mail_ClaimTradeLicense
+        delete = self.config.Mail_DeleteCollected
+        logger.info(f'Mail reward: merit={merit}, maintenance={maintenance}, '
+                    f'trade_license={trade_license}, delete={delete}')
+        if not merit and not maintenance and not trade_license:
+            logger.warning('Nothing to claim')
+            return False
+        if self.config.SERVER not in ['cn', 'en']:
+            logger.warning(f'Mail is not supported in {self.config.SERVER}, please contact server maintainers')
+            return False
 
+        # Must using white UI
+        self.ui_ensure(page_main)
+        if self.appear(page_main_white.check_button, offset=(30, 30)):
+            logger.info('At page_main_white')
+            pass
+        elif self.appear(page_main.check_button, offset=(5, 5)):
+            logger.warning('At page_main, cannot enter mail page from old UI')
+            return False
+        else:
+            logger.warning('Unknown page_main, cannot enter mail page')
+            return False
 
-if __name__ == '__main__':
-    self = MailWhite('alas')
-    self.device.screenshot()
-    self.mail_claim()
+        # Claim
+        self.mail_claim(
+            merit=merit,
+            maintenance=maintenance,
+            trade_license=trade_license,
+            delete=delete,
+        )
+        return True

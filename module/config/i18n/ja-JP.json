@@ -1926,17 +1926,21 @@
       "name": "Mail._info.name",
       "help": "Mail._info.help"
     },
-    "Collect": {
-      "name": "Mail.Collect.name",
-      "help": "Mail.Collect.help"
+    "ClaimMerit": {
+      "name": "Mail.ClaimMerit.name",
+      "help": "Mail.ClaimMerit.help"
     },
-    "Filter": {
-      "name": "Mail.Filter.name",
-      "help": "Mail.Filter.help"
+    "ClaimMaintenance": {
+      "name": "Mail.ClaimMaintenance.name",
+      "help": "Mail.ClaimMaintenance.help"
     },
-    "Delete": {
-      "name": "Mail.Delete.name",
-      "help": "Mail.Delete.help"
+    "ClaimTradeLicense": {
+      "name": "Mail.ClaimTradeLicense.name",
+      "help": "Mail.ClaimTradeLicense.help"
+    },
+    "DeleteCollected": {
+      "name": "Mail.DeleteCollected.name",
+      "help": "Mail.DeleteCollected.help"
     }
   },
   "SupplyPack": {

@@ -8085,17 +8085,21 @@
       }
     },
     "Mail": {
-      "Collect": {
+      "ClaimMerit": {
         "type": "checkbox",
         "value": true
       },
-      "Filter": {
-        "type": "textarea",
-        "value": "Merit > Coolant"
-      },
-      "Delete": {
+      "ClaimMaintenance": {
         "type": "checkbox",
         "value": false
+      },
+      "ClaimTradeLicense": {
+        "type": "checkbox",
+        "value": false
+      },
+      "DeleteCollected": {
+        "type": "checkbox",
+        "value": true
       }
     },
     "SupplyPack": {

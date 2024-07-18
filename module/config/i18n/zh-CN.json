@@ -1926,15 +1926,19 @@
       "name": "领取邮件",
       "help": ""
     },
-    "Collect": {
-      "name": "领取邮件",
+    "ClaimMerit": {
+      "name": "领取功勋邮件",
       "help": ""
     },
-    "Filter": {
-      "name": "邮件过滤器",
-      "help": "默认只领取演习功勋邮件"
+    "ClaimMaintenance": {
+      "name": "领取维护邮件",
+      "help": ""
     },
-    "Delete": {
+    "ClaimTradeLicense": {
+      "name": "领取月卡邮件",
+      "help": ""
+    },
+    "DeleteCollected": {
       "name": "删除已读邮件",
       "help": ""
     }
