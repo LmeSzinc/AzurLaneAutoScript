@@ -131,6 +131,10 @@ class Device(Screenshot, Control, AppControl):
         # if self.config.Emulator_ScreenshotMethod != 'nemu_ipc' and self.config.Emulator_ControlMethod == 'nemu_ipc':
         #     logger.warning('When not using nemu_ipc, both screenshot and control should not use nemu_ipc')
         #     self.config.Emulator_ControlMethod = 'minitouch'
+        # Allow Hermit on VMOS only
+        if self.config.Emulator_ControlMethod == 'Hermit' and not self.is_vmos:
+            logger.warning('ControlMethod is allowed on VMOS only')
+            self.config.Emulator_ControlMethod = 'minitouch'
         pass
 
     def handle_night_commission(self, daily_trigger='21:00', threshold=30):
