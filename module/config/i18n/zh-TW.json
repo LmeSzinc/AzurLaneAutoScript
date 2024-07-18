@@ -1945,15 +1945,19 @@
       "name": "領取郵件",
       "help": ""
     },
-    "Collect": {
-      "name": "領取郵件",
+    "ClaimMerit": {
+      "name": "領取功勳郵件",
       "help": ""
     },
-    "Filter": {
-      "name": "郵件過濾器",
-      "help": "默認只領取演習功勳郵件"
+    "ClaimMaintenance": {
+      "name": "領取維护郵件",
+      "help": ""
     },
-    "Delete": {
+    "ClaimTradeLicense": {
+      "name": "領取月卡郵件",
+      "help": ""
+    },
+    "DeleteCollected": {
       "name": "刪除已讀郵件",
       "help": ""
     }

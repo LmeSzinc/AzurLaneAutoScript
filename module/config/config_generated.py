@@ -318,9 +318,10 @@ class GeneratedConfig:
     DataKey_ForceCollect = False
 
     # Group `Mail`
-    Mail_Collect = True
-    Mail_Filter = 'Merit > Coolant'
-    Mail_Delete = False
+    Mail_ClaimMerit = True
+    Mail_ClaimMaintenance = False
+    Mail_ClaimTradeLicense = False
+    Mail_DeleteCollected = True
 
     # Group `SupplyPack`
     SupplyPack_Collect = True
