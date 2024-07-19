@@ -1,4 +1,5 @@
 from module.base.decorator import cached_property
+from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2
 from module.freebies.assets import *
 from module.logger import logger
@@ -28,6 +29,9 @@ class MailWhite(UI):
 
     def _mail_enter(self, skip_first_screenshot=True):
         """
+        Returns:
+            int: If having mails
+
         Page:
             in: page_main_white or MAIL_MANAGE
             out: MAIL_BATCH_CLAIM
@@ -36,6 +40,7 @@ class MailWhite(UI):
         self.interval_clear([
             MAIL_MANAGE
         ])
+        timeout = Timer(0.6, count=1)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -45,7 +50,12 @@ class MailWhite(UI):
             # End
             if self.appear(MAIL_BATCH_CLAIM, offset=(20, 20)):
                 logger.info('Mail entered')
-                break
+                return True
+            if self.appear(GOTO_MAIN_WHITE, offset=(20, 20)):
+                timeout.start()
+                if timeout.reached():
+                    logger.info('Mail empty')
+                    return False
 
             # Click
             if self.appear_then_click(MAIL_MANAGE, offset=(30, 30), interval=3):
@@ -186,6 +196,9 @@ class MailWhite(UI):
             in: page_main_white or MAIL_MANAGE
             out: MAIL_BATCH_CLAIM
         """
+        if not self._mail_enter():
+            return
+
         if merit:
             logger.hr('Mail merit', level=2)
             self._mail_enter()
