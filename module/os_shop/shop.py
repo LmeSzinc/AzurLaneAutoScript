@@ -22,6 +22,7 @@ class OSShop(PortShop, AkashiShop):
             in: PORT_SUPPLY_CHECK
         """
         success = False
+        amount_finish = False
         self.interval_clear(PORT_SUPPLY_CHECK)
         self.interval_clear(SHOP_BUY_CONFIRM)
         self.interval_clear(SHOP_BUY_CONFIRM_AMOUNT)
@@ -33,22 +34,25 @@ class OSShop(PortShop, AkashiShop):
             else:
                 self.device.screenshot()
 
-            if self.handle_map_get_items(interval=1):
+            if self.handle_map_get_items(interval=3):
                 self.interval_reset(PORT_SUPPLY_CHECK)
                 success = True
                 continue
 
-            if self.appear_then_click(SHOP_BUY_CONFIRM, offset=(20, 20), interval=1):
+            if self.appear_then_click(SHOP_BUY_CONFIRM, offset=(20, 20), interval=3):
                 self.interval_reset(SHOP_BUY_CONFIRM)
                 continue
 
-            if self.appear_then_click(OS_SHOP_BUY_CONFIRM, offset=(20, 20), interval=1):
+            if self.appear_then_click(OS_SHOP_BUY_CONFIRM, offset=(20, 20), interval=3):
                 self.interval_reset(OS_SHOP_BUY_CONFIRM)
                 continue
 
-            if self.appear(SHOP_BUY_CONFIRM_AMOUNT, offset=(20, 20), interval=1):
+            if not amount_finish and self.appear(SHOP_BUY_CONFIRM_AMOUNT, offset=(20, 20)):
                 self.shop_buy_amount_handler(button)
-                self.device.click(SHOP_BUY_CONFIRM_AMOUNT)
+                amount_finish = True
+                continue
+
+            if amount_finish and self.appear_then_click(SHOP_BUY_CONFIRM_AMOUNT, offset=(20, 20), interval=3):
                 self.interval_reset(SHOP_BUY_CONFIRM_AMOUNT)
                 continue
 
@@ -56,6 +60,7 @@ class OSShop(PortShop, AkashiShop):
                 continue
 
             if not success and self.appear(PORT_SUPPLY_CHECK, offset=(20, 20), interval=5):
+                amount_finish = False
                 self.device.click(button)
                 continue
 
@@ -86,7 +91,7 @@ class OSShop(PortShop, AkashiShop):
         logger.warning('Too many items to buy, stopped')
         return count
 
-    def shop_buy_amount_handler(self, item):
+    def shop_buy_amount_handler(self, item, skip_first_screenshot=True):
         """
         Handler item amount to buy.
 
@@ -137,17 +142,18 @@ class OSShop(PortShop, AkashiShop):
         else:
             limit = 10
 
-        if set_to_max:
-            while True:
-                self.appear_then_click(AMOUNT_MAX, offset=(50, 50))
-                self.device.sleep((0.3, 0.5))
+        self.interval_clear(AMOUNT_MAX)
+        while set_to_max:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
                 self.device.screenshot()
-                amount = OCR_SHOP_AMOUNT.ocr(self.device.image)
-                if amount > 1:
-                    break
-                if retry.reached():
-                    raise GameStuckError('Amount OCR failed.')
-            retry.reset()
+
+            if self.appear_then_click(AMOUNT_MAX, offset=(50, 50), interval=3):
+                continue
+
+            if OCR_SHOP_AMOUNT.ocr(self.device.image) > 1:
+                break
 
         self.ui_ensure_index(limit, letter=OCR_SHOP_AMOUNT, prev_button=AMOUNT_MINUS, next_button=AMOUNT_PLUS,
                              skip_first_screenshot=True)

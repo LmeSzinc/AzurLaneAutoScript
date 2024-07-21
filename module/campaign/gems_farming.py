@@ -400,7 +400,6 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
             total (int):
         """
         self.config.STOP_IF_REACH_LV32 = self.change_flagship
-        self.config.RETIRE_KEEP_COMMON_CV = True
 
         while 1:
             self._trigger_lv32 = False
