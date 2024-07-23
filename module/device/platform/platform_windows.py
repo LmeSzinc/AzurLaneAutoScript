@@ -235,7 +235,7 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             logger.info(f'Found azurlane packages: {m}')
 
         interval = Timer(0.5).start()
-        timeout = Timer(300).start()
+        timeout = Timer(180).start()
         new_window = 0
         while 1:
             interval.wait()
