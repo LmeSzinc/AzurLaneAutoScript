@@ -12,6 +12,13 @@ class EventGrid(Grid):
             if TEMPLATE_ENEMY_BOSS.match(image, similarity=0.6):
                 return 'Siren_Siren'
 
+        # Small icon
+        if self.relative_hsv_count(area=(0.03, -0.15, 0.63, 0.15), h=(32 - 3, 32 + 3), shape=(50, 20)) > 100:
+            image = self.relative_crop((0.03, -0.15, 0.63, 0.15), shape=(50, 20))
+            image = color_similarity_2d(image, color=(255, 150, 33))
+            if TEMPLATE_ENEMY_BOSS.match(image, similarity=0.7):
+                return 'Siren_Siren'
+
         return super().predict_enemy_genre()
 
     def predict_boss(self):
