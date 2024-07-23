@@ -155,6 +155,7 @@ class GeneratedConfig:
     GemsFarming_StopIFAutoNotEnsured = True
     GemsFarming_CommonCV = 'any'  # any, langley, bogue, ranger, hermes
     GemsFarming_CommonDD = 'any'  # any, favourite, aulick_or_foote, cassin_or_downes, z20_or_z21
+    GemsFarming_EquipmentCode = 'DD: null\nbogue: null\nhermes: null\nlangley: null\nranger: null'
     GemsFarming_CommissionLimit = True
 
     # Group `EventGeneral`

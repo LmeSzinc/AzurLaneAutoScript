@@ -2,7 +2,7 @@ from module.campaign.campaign_base import CampaignBase
 from module.campaign.run import CampaignRun
 from module.combat.assets import BATTLE_PREPARATION
 from module.equipment.assets import *
-from module.equipment.equipment_change import EquipmentChange
+from module.equipment.equipment_code import EquipmentCodeHandler
 from module.equipment.fleet_equipment import OCR_FLEET_INDEX
 from module.exception import CampaignEnd, ScriptError, RequestHumanTakeover
 from module.handler.assets import AUTO_SEARCH_MAP_OPTION_OFF
@@ -76,7 +76,35 @@ class GemsCampaignOverride(CampaignBase):
             raise CampaignEnd('Emotion withdraw')
 
 
-class GemsFarming(CampaignRun, Dock, EquipmentChange):
+class GemsEquipmentHandler(EquipmentCodeHandler):
+
+    def __init__(self, config, device=None, task=None):
+        super().__init__(config=config,
+                         device=device,
+                         task=task,
+                         key="GemsFarming.GemsFarming.EquipmentCode",
+                         ships=['DD', 'bogue', 'hermes', 'langley', 'ranger'])
+
+    def current_ship(self):
+        """
+        Reuse templates in module.retire.assets,
+        which needs different rescaling to match each current flagship.
+
+        Pages:
+            in: gear_code
+        """
+        if TEMPLATE_BOGUE.match(self.device.image, scaling=1.46):  # image has rotation
+            return 'bogue'
+        if TEMPLATE_HERMES.match(self.device.image, scaling=124/89):
+            return 'hermes'
+        if TEMPLATE_RANGER.match(self.device.image, scaling=4/3):
+            return 'ranger'
+        if TEMPLATE_LANGLEY.match(self.device.image, scaling=25/21):
+            return 'langley'
+        return 'DD'
+
+
+class GemsFarming(CampaignRun, Dock, GemsEquipmentHandler):
 
     def event_hard_mode_override(self):
         HARDMODEMAPS = [
@@ -196,25 +224,19 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         
     def flagship_change(self):
         """
-        Change flagship and flagship's equipment
-        If config.GemsFarming_CommonCV == 'any', only change auxiliary equipment
+        Change flagship and flagship's equipment using gear code
 
         Returns:
             bool: True if flagship changed.
         """
 
-        if self.config.GemsFarming_CommonCV == 'any':
-            index_list = range(3, 5)
-        else:
-            index_list = range(0, 5)
         logger.hr('Change flagship', level=1)
         logger.attr('ChangeFlagship', self.config.GemsFarming_ChangeFlagship)
         if self.change_flagship_equip:
-            logger.hr('Record flagship equipment', level=2)
+            logger.hr('Unmount flagship equipments', level=2)
             self._ship_detail_enter(self.FLEET_ENTER_FLAGSHIP)
-            self.ship_equipment_record_image(index_list=index_list)
-            self._equip_take_off_one()
-            self._fleet_back()
+            self.clear_all_equip()
+            self._fleet_back() 
 
         logger.hr('Change flagship', level=2)
         self._fleet_detail_enter()
@@ -222,29 +244,26 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         success = self.flagship_change_execute()
 
         if self.change_flagship_equip:
-            logger.hr('Equip flagship equipment', level=2)
+            logger.hr('Mount flagship equipments', level=2)
             self._ship_detail_enter(self.FLEET_ENTER_FLAGSHIP)
-            self._equip_take_off_one()
-            self.equipment_take_on(index_list=index_list)
+            self.apply_equip_code()
             self._fleet_back()
 
         return success
 
     def vanguard_change(self):
         """
-        Change vanguard and vanguard's equipment
+        Change vanguard and vanguard's equipment using gear code
 
         Returns:
             bool: True if vanguard changed
         """
-
         logger.hr('Change vanguard', level=1)
         logger.attr('ChangeVanguard', self.config.GemsFarming_ChangeVanguard)
         if self.change_vanguard_equip:
-            logger.hr('Record vanguard equipment', level=2)
+            logger.hr('Unmount vanguard equipments', level=2)
             self._ship_detail_enter(self.FLEET_ENTER)
-            self.ship_equipment_record_image()
-            self._equip_take_off_one()
+            self.clear_all_equip()
             self._fleet_back()
 
         logger.hr('Change vanguard', level=2)
@@ -253,10 +272,9 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
         success = self.vanguard_change_execute()
 
         if self.change_vanguard_equip:
-            logger.hr('Equip vanguard equipment', level=2)
+            logger.hr('Mount vanguard equipments', level=2)
             self._ship_detail_enter(self.FLEET_ENTER)
-            self._equip_take_off_one()
-            self.equipment_take_on()
+            self.apply_equip_code()
             self._fleet_back()
 
         return success
@@ -589,7 +607,6 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
                 except Exception as e:
                     from module.exception import GameStuckError
                     raise GameStuckError
-
 
             # End
             if self._trigger_lv32 or self._trigger_emotion:
