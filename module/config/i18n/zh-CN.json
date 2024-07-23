@@ -1180,9 +1180,13 @@
       "cassin_or_downes": "卡辛或唐斯",
       "z20_or_z21": "Z20或Z21"
     },
-    "EquipmentCode": {
-      "name": "装备码",
+    "EnableEquipmentCode": {
+      "name": "使用装备码更换装备",
       "help": "仅当选择“更换舰船 + 装备”时生效。在更换舰船时，若指定了对应舰船的装备码则会直接应用，否则会使用前一艘舰船导出的装备码，并修改设置。"
+    },
+    "EquipmentCode": {
+      "name": "",
+      "help": ""
     },
     "CommissionLimit": {
       "name": "防止紧急委托数量过多",

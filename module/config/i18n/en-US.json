@@ -1180,9 +1180,13 @@
       "cassin_or_downes": "Cassin or Downes",
       "z20_or_z21": "Z20 or Z21"
     },
-    "EquipmentCode": {
-      "name": "Gear Code",
+    "EnableEquipmentCode": {
+      "name": "Using Gear Code to Change Equipments",
       "help": "Only works when 'Change Ship + Gears' is chosen.\nWhen changing to corresponding CV/CVL/DD, if gear code is provided, alas will apply it, else alas will use exported gear code from previous ship and modify the config."
+    },
+    "EquipmentCode": {
+      "name": "",
+      "help": ""
     },
     "CommissionLimit": {
       "name": "Prevent Too Many Urgent Commissions",
