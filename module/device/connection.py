@@ -681,16 +681,18 @@ class Connection(ConnectionAttr):
         # No adb connect if over http
         return True
 
-    def adb_disconnect(self):
-        msg = self.adb_client.disconnect(self.serial)
-        if msg:
-            logger.info(msg)
-
+    def release_resource(self):
         del_cached_property(self, 'hermit_session')
         del_cached_property(self, 'droidcast_session')
         del_cached_property(self, '_minitouch_builder')
         del_cached_property(self, '_maatouch_builder')
         del_cached_property(self, 'reverse_server')
+
+    def adb_disconnect(self):
+        msg = self.adb_client.disconnect(self.serial)
+        if msg:
+            logger.info(msg)
+        self.release_resource()
 
     def adb_restart(self):
         """
@@ -701,6 +703,7 @@ class Connection(ConnectionAttr):
         self.adb_client.server_kill()
         # Init adb client
         del_cached_property(self, 'adb_client')
+        self.release_resource()
         _ = self.adb_client
 
     @Config.when(DEVICE_OVER_HTTP=False)
