@@ -16,7 +16,8 @@ from module.config.server import VALID_CHANNEL_PACKAGE, VALID_PACKAGE, set_serve
 from module.device.connection_attr import ConnectionAttr
 from module.device.env import IS_LINUX, IS_MACINTOSH, IS_WINDOWS
 from module.device.method.utils import (PackageNotInstalled, RETRY_TRIES, get_serial_pair, handle_adb_error,
-                                        possible_reasons, random_port, recv_all, remove_shell_warning, retry_sleep)
+                                        handle_unknown_host_service, possible_reasons, random_port, recv_all,
+                                        remove_shell_warning, retry_sleep)
 from module.exception import EmulatorNotRunningError, RequestHumanTakeover
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
@@ -49,6 +50,10 @@ def retry(func):
             except AdbError as e:
                 if handle_adb_error(e):
                     def init():
+                        self.adb_reconnect()
+                elif handle_unknown_host_service(e):
+                    def init():
+                        self.adb_start_server()
                         self.adb_reconnect()
                 else:
                     break
@@ -137,8 +142,18 @@ class Connection(ConnectionAttr):
         """
         cmd = list(map(str, cmd))
         cmd = [self.adb_binary, '-s', self.serial] + cmd
-        logger.info(f'Execute: {cmd}')
+        return self.subprocess_run(cmd, timeout=timeout)
 
+    def subprocess_run(self, cmd, timeout=10):
+        """
+        Args:
+            cmd (list):
+            timeout (int):
+
+        Returns:
+            str:
+        """
+        logger.info(f'Execute: {cmd}')
         # Use shell=True to disable console window when using GUI.
         # Although, there's still a window when you stop running in GUI, which cause by gooey.
         # To disable it, edit gooey/gui/util/taskkill.py
@@ -155,10 +170,20 @@ class Connection(ConnectionAttr):
 
     @Config.when(DEVICE_OVER_HTTP=True)
     def adb_command(self, cmd, timeout=10):
-        logger.warning(
-            f'adb_command() is not available when connecting over http: {self.serial}, '
+        logger.critical(
+            f'Trying to execute {cmd}, '
+            f'but adb_command() is not available when connecting over http: {self.serial}, '
         )
         raise RequestHumanTakeover
+
+    def adb_start_server(self):
+        """
+        Use `adb devices` as `adb start-server`, result is actually useless
+        Start ADB using subprocess instead of connecting via socket to kill the other ADBs
+        """
+        stdout = self.subprocess_run([self.adb_binary, 'devices'])
+        logger.info(stdout)
+        return stdout
 
     @Config.when(DEVICE_OVER_HTTP=False)
     def adb_shell(self, cmd, stream=False, recvall=True, timeout=10, rstrip=True):
