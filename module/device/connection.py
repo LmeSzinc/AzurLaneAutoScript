@@ -332,6 +332,8 @@ class Connection(ConnectionAttr):
                 which has nemud.app_keep_alive and always be a vertical device
                 MuMu PRO on mac has the same feature
         """
+        if not self.is_mumu_family:
+            return False
         if self.nemud_app_keep_alive != '':
             return True
         if IS_MACINTOSH:
