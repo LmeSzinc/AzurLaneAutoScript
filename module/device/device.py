@@ -138,7 +138,11 @@ class Device(Screenshot, Control, AppControl):
         # Allow Hermit on VMOS only
         if self.config.Emulator_ControlMethod == 'Hermit' and not self.is_vmos:
             logger.warning('ControlMethod is allowed on VMOS only')
-            self.config.Emulator_ControlMethod = 'minitouch'
+            self.config.Emulator_ControlMethod = 'MaaTouch'
+        if self.config.Emulator_ScreenshotMethod == 'ldopengl' \
+                and self.config.Emulator_ControlMethod == 'minitouch':
+            logger.warning('Use MaaTouch on ldplayer')
+            self.config.Emulator_ControlMethod = 'MaaTouch'
         pass
 
     def handle_night_commission(self, daily_trigger='21:00', threshold=30):
