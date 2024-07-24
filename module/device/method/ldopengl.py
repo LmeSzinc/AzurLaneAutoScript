@@ -128,12 +128,15 @@ CreateScreenshotInstanceType = ctypes.WINFUNCTYPE(ctypes.c_void_p, ctypes.c_uint
 class IScreenShotClass:
     def __init__(self, ptr):
         self.ptr = ptr
+        # Keep reference count
+        # so __del__ won't have an empty IScreenShotClass_Cap
+        self.release = IScreenShotClass_Release
 
     def cap(self):
         return IScreenShotClass_Cap(self.ptr)
 
     def __del__(self):
-        IScreenShotClass_Release(self.ptr)
+        self.release(self.ptr)
 
 
 def retry(func):
