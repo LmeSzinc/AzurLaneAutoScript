@@ -419,26 +419,28 @@ class NemuIpcImpl:
         if ret > 0:
             raise NemuIpcError('nemu_input_event_touch_up failed')
 
+    @staticmethod
+    def serial_to_id(serial: str):
+        """
+        Predict instance ID from serial
+        E.g.
+            "127.0.0.1:16384" -> 0
+            "127.0.0.1:16416" -> 1
+            Port from 16414 to 16418 -> 1
 
-def serial_to_id(serial: str):
-    """
-    Predict instance ID from serial
-    E.g.
-        "127.0.0.1:16384" -> 0
-        "127.0.0.1:16416" -> 1
-
-    Returns:
-        int: instance_id, or None if failed to predict
-    """
-    try:
-        port = int(serial.split(':')[1])
-    except (IndexError, ValueError):
-        return None
-    index, offset = divmod(port - 16384, 32)
-    if 0 <= index < 32 and offset in [0, 1, 2]:
-        return index
-    else:
-        return None
+        Returns:
+            int: instance_id, or None if failed to predict
+        """
+        try:
+            port = int(serial.split(':')[1])
+        except (IndexError, ValueError):
+            return None
+        index, offset = divmod(port - 16384 + 16, 32)
+        offset -= 16
+        if 0 <= index < 32 and offset in [-2, -1, 0, 1, 2]:
+            return index
+        else:
+            return None
 
 
 class NemuIpc(Platform):
@@ -452,7 +454,7 @@ class NemuIpc(Platform):
         # Try existing settings first
         if self.config.EmulatorInfo_path:
             folder = os.path.abspath(os.path.join(self.config.EmulatorInfo_path, '../../'))
-            index = serial_to_id(self.serial)
+            index = NemuIpcImpl.serial_to_id(self.serial)
             if index is not None:
                 try:
                     return NemuIpcImpl(
