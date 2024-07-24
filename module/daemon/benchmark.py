@@ -193,6 +193,8 @@ class Benchmark(DaemonBase, CampaignUI):
             click = ['ADB', 'Hermit', 'MaaTouch']
         if self.device.nemu_ipc_available():
             screenshot.append('nemu_ipc')
+        if self.device.ldopengl_available():
+            screenshot.append('ldopengl')
 
         scene = self.config.Benchmark_TestScene
         if 'screenshot' not in scene:
