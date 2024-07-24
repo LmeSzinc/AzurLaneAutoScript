@@ -87,18 +87,17 @@ class LDConsole:
         cmd = [self.ld_console] + cmd
         logger.info(f'Execute: {cmd}')
 
-        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=False)
+        try:
+            process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=False)
+        except FileNotFoundError as e:
+            logger.warning(f'warning when calling {cmd}, {str(e)}')
+            raise LDOpenGLIncompatible(f'ld_folder does not have ldconsole.exe')
         try:
             stdout, stderr = process.communicate(timeout=timeout)
         except subprocess.TimeoutExpired:
             process.kill()
             stdout, stderr = process.communicate()
             logger.warning(f'TimeoutExpired when calling {cmd}, stdout={stdout}, stderr={stderr}')
-        except FileNotFoundError:
-            process.kill()
-            stdout, stderr = process.communicate()
-            logger.warning(f'warning when calling {cmd}, stdout={stdout}, stderr={stderr}')
-            raise LDOpenGLIncompatible(f'ld_folder does not have ldconsole.exe')
         return stdout
 
     def list2(self) -> t.List[DataLDPlayerInfo]:
@@ -299,7 +298,7 @@ class LDOpenGL(Platform):
         # with E:/ProgramFiles/LDPlayer9/dnplayer.exe
         # installation path is E:/ProgramFiles/LDPlayer9
         if self.emulator_instance is None:
-            logger.error('Unable to use NemuIpc because emulator instance not found')
+            logger.error('Unable to use LDOpenGL because emulator instance not found')
             raise RequestHumanTakeover
         try:
             return LDOpenGLImpl(
@@ -308,7 +307,7 @@ class LDOpenGL(Platform):
             )
         except (LDOpenGLIncompatible, LDOpenGLError) as e:
             logger.error(e)
-            logger.error('Unable to initialize NemuIpc')
+            logger.error('Unable to initialize LDOpenGL')
             raise RequestHumanTakeover
 
     def ldopengl_available(self) -> bool:
