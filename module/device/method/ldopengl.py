@@ -115,28 +115,23 @@ class LDConsole:
         return out
 
 
-IScreenShotClassDtorType = ctypes.WINFUNCTYPE(None, ctypes.c_int32)
-IScreenShotClassCapType = ctypes.WINFUNCTYPE(ctypes.c_void_p)
-IScreenShotClassReleaseType = ctypes.WINFUNCTYPE(None)
-IScreenShotClass_Dtor = IScreenShotClassDtorType(0, "IScreenShotClass_Dtor")
-IScreenShotClass_Cap = IScreenShotClassCapType(1, "IScreenShotClass_Cap")
-IScreenShotClass_Release = IScreenShotClassReleaseType(2, "IScreenShotClass_Release")
-
-CreateScreenshotInstanceType = ctypes.WINFUNCTYPE(ctypes.c_void_p, ctypes.c_uint, ctypes.c_uint)
-
-
 class IScreenShotClass:
     def __init__(self, ptr):
         self.ptr = ptr
+
+        # Define in class since ctypes.WINFUNCTYPE is windows only
+        cap_type = ctypes.WINFUNCTYPE(ctypes.c_void_p)
+        release_type = ctypes.WINFUNCTYPE(None)
+        self.class_cap = cap_type(1, "IScreenShotClass_Cap")
         # Keep reference count
         # so __del__ won't have an empty IScreenShotClass_Cap
-        self.release = IScreenShotClass_Release
+        self.class_release = release_type(2, "IScreenShotClass_Release")
 
     def cap(self):
-        return IScreenShotClass_Cap(self.ptr)
+        return self.class_cap(self.ptr)
 
     def __del__(self):
-        self.release(self.ptr)
+        self.class_release(self.ptr)
 
 
 def retry(func):
@@ -189,8 +184,8 @@ class LDOpenGLImpl:
         ldopengl_dll = os.path.abspath(os.path.join(ld_folder, './ldopengl64.dll'))
         logger.info(
             f'LDOpenGL init, '
-            f'nemu_folder={ld_folder}, '
-            f'ipc_dll={ldopengl_dll}, '
+            f'ld_folder={ld_folder}, '
+            f'ldopengl_dll={ldopengl_dll}, '
             f'instance_id={instance_id}'
         )
         self.console = LDConsole(ld_folder)
@@ -332,10 +327,10 @@ class LDOpenGL(Platform):
 
 
 if __name__ == '__main__':
-    self = LDOpenGLImpl('E:/ProgramFiles/LDPlayer9', instance_id=1)
+    ld = LDOpenGLImpl('E:/ProgramFiles/LDPlayer9', instance_id=1)
     for _ in range(5):
         import time
 
         start = time.time()
-        self.screenshot()
+        ld.screenshot()
         print(time.time() - start)
