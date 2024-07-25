@@ -17,6 +17,9 @@ class CampaignBase(CampaignBase_):
         Returns:
             bool: If mode changed.
         """
+        if mode == 'hard':
+            self.config.override(Campaign_Mode='hard')
+
         if mode in ['normal', 'hard', 'ex']:
             MODE_SWITCH_20240725.set('combat', main=self)
         elif mode in ['story']:

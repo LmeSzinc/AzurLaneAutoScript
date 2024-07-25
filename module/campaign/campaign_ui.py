@@ -77,6 +77,9 @@ class CampaignUI(CampaignEvent, CampaignOcr):
         Returns:
             bool: If mode changed.
         """
+        if mode == 'hard':
+            self.config.override(Campaign_Mode='hard')
+
         switch_2 = MODE_SWITCH_2.get(main=self)
 
         if switch_2 == 'unknown':
@@ -100,6 +103,29 @@ class CampaignUI(CampaignEvent, CampaignOcr):
             else:
                 logger.warning(f'Unknown campaign mode: {mode}')
 
+    def campaign_get_mode_names(self, name):
+        """
+        Get stage names in both 'normal' and 'hard'
+        t1 -> [t1, ht1]
+        ht1 -> [t1, ht1]
+        a1 -> [a1, c1]
+
+        Args:
+            name (str):
+
+        Returns:
+            list[str]:
+        """
+        if name.startswith('t'):
+            return [f't{name[1:]}', f'ht{name[1:]}']
+        if name.startswith('ht'):
+            return [f't{name[2:]}', f'ht{name[2:]}']
+        if name.startswith('a') or name.startswith('c'):
+            return [f'a{name[1:]}', f'c{name[1:]}']
+        if name.startswith('b') or name.startswith('d'):
+            return [f'b{name[1:]}', f'd{name[1:]}']
+        return [name]
+
     def campaign_get_entrance(self, name):
         """
         Args:
@@ -108,12 +134,18 @@ class CampaignUI(CampaignEvent, CampaignOcr):
         Returns:
             Button:
         """
+        entrance_name = name
+        if self.config.MAP_HAS_MODE_SWITCH:
+            for mode_name in self.campaign_get_mode_names(name):
+                if mode_name in self.stage_entrance:
+                    name = mode_name
+
         if name not in self.stage_entrance:
             logger.warning(f'Stage not found: {name}')
             raise CampaignNameError
 
         entrance = self.stage_entrance[name]
-        entrance.name = name
+        entrance.name = entrance_name
         return entrance
 
     def campaign_set_chapter_main(self, chapter, mode='normal'):
@@ -132,11 +164,11 @@ class CampaignUI(CampaignEvent, CampaignOcr):
             return False
 
     def campaign_set_chapter_event(self, chapter, mode='normal'):
-        if chapter in ['a', 'b', 'c', 'd', 'ex_sp', 'as', 'bs', 'cs', 'ds', 't', 'ts', 'tss', 'hts']:
+        if chapter in ['a', 'b', 'c', 'd', 'ex_sp', 'as', 'bs', 'cs', 'ds', 't', 'ts', 'tss', 'ht', 'hts']:
             self.ui_goto_event()
             if chapter in ['a', 'b', 'as', 'bs', 't', 'ts', 'tss']:
                 self.campaign_ensure_mode('normal')
-            elif chapter in ['c', 'd', 'cs', 'ds', 'hts']:
+            elif chapter in ['c', 'd', 'cs', 'ds', 'ht', 'hts']:
                 self.campaign_ensure_mode('hard')
             elif chapter == 'ex_sp':
                 self.campaign_ensure_mode('ex')
