@@ -70,11 +70,14 @@ class Device(Screenshot, Control, AppControl):
     stuck_long_wait_list = ['BATTLE_STATUS_S', 'PAUSE', 'LOGIN_CHECK']
 
     def __init__(self, *args, **kwargs):
-        for _ in range(2):
+        for trial in range(4):
             try:
                 super().__init__(*args, **kwargs)
                 break
             except EmulatorNotRunningError:
+                if trial >= 3:
+                    logger.critical('Failed to start emulator after 3 trial')
+                    raise RequestHumanTakeover
                 # Try to start emulator
                 if self.emulator_instance is not None:
                     self.emulator_start()
@@ -83,7 +86,7 @@ class Device(Screenshot, Control, AppControl):
                         f'No emulator with serial "{self.config.Emulator_Serial}" found, '
                         f'please set a correct serial'
                     )
-                    raise
+                    raise RequestHumanTakeover
 
         # Auto-fill emulator info
         if IS_WINDOWS and self.config.EmulatorInfo_Emulator == 'auto':
@@ -135,7 +138,11 @@ class Device(Screenshot, Control, AppControl):
         # Allow Hermit on VMOS only
         if self.config.Emulator_ControlMethod == 'Hermit' and not self.is_vmos:
             logger.warning('ControlMethod is allowed on VMOS only')
-            self.config.Emulator_ControlMethod = 'minitouch'
+            self.config.Emulator_ControlMethod = 'MaaTouch'
+        if self.config.Emulator_ScreenshotMethod == 'ldopengl' \
+                and self.config.Emulator_ControlMethod == 'minitouch':
+            logger.warning('Use MaaTouch on ldplayer')
+            self.config.Emulator_ControlMethod = 'MaaTouch'
         pass
 
     def handle_night_commission(self, daily_trigger='21:00', threshold=30):
