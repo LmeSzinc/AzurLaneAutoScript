@@ -206,12 +206,6 @@ def handle_adb_error(e):
         # Raised by uiautomator2 when current adb service is killed by another version of adb service.
         logger.error(e)
         return True
-    elif 'unknown host service' in text:
-        # AdbError(unknown host service)
-        # Another version of ADB service started, current ADB service has been killed.
-        # Usually because user opened a Chinese emulator, which uses ADB from the Stone Age.
-        logger.error(e)
-        return True
     else:
         # AdbError()
         logger.exception(e)
@@ -220,6 +214,25 @@ def handle_adb_error(e):
             'Emulator died, please restart emulator',
             'Serial incorrect, no such device exists or emulator is not running'
         )
+        return False
+
+
+def handle_unknown_host_service(e):
+    """
+    Args:
+        e (Exception):
+
+    Returns:
+        bool: If should retry
+    """
+    text = str(e)
+    if 'unknown host service' in text:
+        # AdbError(unknown host service)
+        # Another version of ADB service started, current ADB service has been killed.
+        # Usually because user opened a Chinese emulator, which uses ADB from the Stone Age.
+        logger.error(e)
+        return True
+    else:
         return False
 
 

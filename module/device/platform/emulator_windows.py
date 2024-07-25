@@ -169,7 +169,9 @@ class Emulator(EmulatorBase):
         if 'MuMuPlayer.exe' in exe:
             return exe.replace('MuMuPlayer.exe', 'MuMuManager.exe')
         elif 'LDPlayer.exe' in exe:
-            return exe.replace('LDPlayer.exe', 'dnconsole.exe')
+            return exe.replace('LDPlayer.exe', 'ldconsole.exe')
+        elif 'dnplayer.exe' in exe:
+            return exe.replace('dnplayer.exe', 'ldconsole.exe')
         elif 'Bluestacks.exe' in exe:
             return exe.replace('Bluestacks.exe', 'bsconsole.exe')
         elif 'MEmu.exe' in exe:
