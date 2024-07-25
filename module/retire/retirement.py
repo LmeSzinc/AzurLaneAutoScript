@@ -105,7 +105,6 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                 break
             if self.appear(IN_RETIREMENT_CHECK, offset=(20, 20)):
                 if executed:
-                    self.handle_info_bar()
                     break
             else:
                 timeout.reset()
@@ -309,6 +308,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
             else:
                 self.device.screenshot()
 
+            self.handle_info_bar()
             ships = scanner.scan(self.device.image)
             if not ships:
                 # exit if nothing can be retired

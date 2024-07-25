@@ -103,7 +103,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
 
         Args:
             button: Campaign to enter.
-            mode (str): 'normal' or 'hard' or 'cd'
+            mode (str): 'normal' or 'hard'
             skip_first_screenshot (bool):
         """
         logger.hr('Enter map')
@@ -115,6 +115,8 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
         fleet_click = 0
         checked_in_map = False
         self.stage_entrance = button
+        self.map_clear_percentage_prev = -1
+        self.map_clear_percentage_timer.reset()
 
         with self.stat.new(
                 genre=self.config.campaign_name, method=self.config.DropRecord_CombatRecord
@@ -153,7 +155,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                     continue
 
                 # Map preparation
-                if map_timer.reached() and self.handle_map_preparation():
+                if map_timer.reached() and self.handle_map_mode_switch(mode) and self.handle_map_preparation():
                     self.map_get_info()
                     self.handle_map_walk_speedup()
                     self.handle_fast_forward()
@@ -253,6 +255,46 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                 continue
 
         return True
+
+    def handle_map_mode_switch(self, mode):
+        """
+        Args:
+            mode (str): 'normal' or 'hard'
+
+        Returns:
+            bool: If map mode satisfied
+                Always True if map doesn't have mode switch in map preparation
+        """
+        if not self.config.MAP_HAS_MODE_SWITCH:
+            return True
+
+        if mode == 'normal':
+            if self.appear(MAP_MODE_SWITCH_NORMAL, offset=(20, 20)) \
+                    and MAP_MODE_SWITCH_NORMAL.match_appear_on(self.device.image):
+                logger.attr('MAP_MODE_SWITCH', 'normal')
+                return True
+            elif self.appear(MAP_MODE_SWITCH_HARD, offset=(20, 20), interval=2):
+                logger.attr('MAP_MODE_SWITCH', 'hard')
+                MAP_MODE_SWITCH_NORMAL.clear_offset()
+                self.device.click(MAP_MODE_SWITCH_NORMAL)
+                return False
+            else:
+                return False
+        elif mode == 'hard':
+            if self.appear(MAP_MODE_SWITCH_HARD, offset=(20, 20)) \
+                    and MAP_MODE_SWITCH_HARD.match_appear_on(self.device.image):
+                logger.attr('MAP_MODE_SWITCH', 'hard')
+                return True
+            if self.appear(MAP_MODE_SWITCH_NORMAL, offset=(20, 20), interval=2):
+                logger.attr('MAP_MODE_SWITCH', 'normal')
+                MAP_MODE_SWITCH_HARD.clear_offset()
+                self.device.click(MAP_MODE_SWITCH_HARD)
+                return False
+            else:
+                return False
+        else:
+            logger.error(f'handle_map_mode_switch: Unknown mode={mode}')
+            return False
 
     def handle_map_preparation(self):
         """

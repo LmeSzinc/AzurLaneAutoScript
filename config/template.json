@@ -5,7 +5,7 @@
       "PackageName": "auto",
       "ServerName": "disabled",
       "ScreenshotMethod": "auto",
-      "ControlMethod": "minitouch",
+      "ControlMethod": "MaaTouch",
       "ScreenshotDedithering": false,
       "AdbRestart": false
     },
