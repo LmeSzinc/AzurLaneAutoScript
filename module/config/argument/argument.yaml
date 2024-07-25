@@ -43,9 +43,10 @@ Emulator:
       DroidCast_raw,
       scrcpy,
       nemu_ipc,
+      ldopengl,
     ]
   ControlMethod:
-    value: minitouch
+    value: MaaTouch
     option: [
       ADB,
       uiautomator2,

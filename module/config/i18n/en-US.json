@@ -410,7 +410,8 @@
       "DroidCast": "DroidCast",
       "DroidCast_raw": "DroidCast_raw",
       "scrcpy": "scrcpy",
-      "nemu_ipc": "nemu_ipc"
+      "nemu_ipc": "nemu_ipc",
+      "ldopengl": "ldopengl"
     },
     "ControlMethod": {
       "name": "Control Method",

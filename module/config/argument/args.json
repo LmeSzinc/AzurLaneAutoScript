@@ -117,12 +117,13 @@
           "DroidCast",
           "DroidCast_raw",
           "scrcpy",
-          "nemu_ipc"
+          "nemu_ipc",
+          "ldopengl"
         ]
       },
       "ControlMethod": {
         "type": "select",
-        "value": "minitouch",
+        "value": "MaaTouch",
         "option": [
           "ADB",
           "uiautomator2",

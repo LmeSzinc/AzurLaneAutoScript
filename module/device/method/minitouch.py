@@ -14,7 +14,7 @@ from module.base.decorator import Config, cached_property, del_cached_property, 
 from module.base.timer import Timer
 from module.base.utils import *
 from module.device.connection import Connection
-from module.device.method.utils import RETRY_TRIES, handle_adb_error, retry_sleep
+from module.device.method.utils import RETRY_TRIES, handle_adb_error, handle_unknown_host_service, retry_sleep
 from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 
@@ -429,6 +429,13 @@ def retry(func):
             except AdbError as e:
                 if handle_adb_error(e):
                     def init():
+                        self.adb_reconnect()
+                        if self._minitouch_port:
+                            self.adb_forward_remove(f'tcp:{self._minitouch_port}')
+                        del_cached_property(self, '_minitouch_builder')
+                elif handle_unknown_host_service(e):
+                    def init():
+                        self.adb_start_server()
                         self.adb_reconnect()
                         if self._minitouch_port:
                             self.adb_forward_remove(f'tcp:{self._minitouch_port}')
