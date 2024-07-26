@@ -9,9 +9,11 @@ from lxml import etree
 
 from module.base.decorator import Config
 from module.device.connection import Connection
-from module.device.method.utils import (ImageTruncated, PackageNotInstalled, RETRY_TRIES, handle_adb_error,
-                                        handle_unknown_host_service, remove_prefix, retry_sleep)
-from module.exception import RequestHumanTakeover, ScriptError
+
+from module.device.method.utils import (RETRY_TRIES, retry_sleep, remove_prefix, handle_adb_error,
+                                        ImageTruncated, PackageNotInstalled)
+from module.exception import RequestHumanTakeover, ScriptError, EmulatorNotRunningError
+
 from module.logger import logger
 
 
@@ -61,6 +63,24 @@ def retry(func):
 
                 def init():
                     pass
+            except AdbError as e:
+                logger.exception(e)
+                import sys
+                if sys.platform == 'win32':
+                    from module.device.platform.platform_windows import PlatformWindows
+                    PlatformWindows(self.config.config_name).emulator_start()
+
+                    def init():
+                        pass
+            except EmulatorNotRunningError as e:
+                logger.exception(e)
+                import sys
+                if sys.platform == 'win32':
+                    from module.device.platform.platform_windows import PlatformWindows
+                    PlatformWindows(self.config.config_name).emulator_start()
+
+                    def init():
+                        pass
             # Unknown
             except Exception as e:
                 logger.exception(e)

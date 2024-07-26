@@ -4,7 +4,7 @@ from copy import deepcopy
 
 from cached_property import cached_property
 
-from deploy.utils import DEPLOY_TEMPLATE, poor_yaml_read, poor_yaml_write
+from deploy.Windows.utils import DEPLOY_TEMPLATE, poor_yaml_read, poor_yaml_write
 from module.base.timer import timer
 from module.config.env import IS_ON_PHONE_CLOUD
 from module.config.redirect_utils.utils import *
@@ -30,7 +30,7 @@ ARCHIVES_PREFIX = {
     'tw': '檔案 '
 }
 MAINS = ['Main', 'Main2', 'Main3']
-EVENTS = ['Event', 'Event2', 'EventA', 'EventB', 'EventC', 'EventD', 'EventSp']
+EVENTS = ['Event', 'Event2', 'Event3', 'EventA', 'EventB', 'EventC', 'EventD', 'EventSp']
 GEMS_FARMINGS = ['GemsFarming']
 RAIDS = ['Raid', 'RaidDaily']
 WAR_ARCHIVES = ['WarArchives']
@@ -148,6 +148,15 @@ class ConfigGenerator:
         return read_file(filepath_argument('gui'))
 
     @cached_property
+    def dashboard(self):
+        """
+        <dashboard>
+          - <group>
+        """
+        return read_file(filepath_argument('dashboard'))
+
+
+    @cached_property
     @timer
     def args(self):
         """
@@ -161,10 +170,12 @@ class ConfigGenerator:
         """
         # Construct args
         data = {}
-        for path, groups in deep_iter(self.task, depth=3):
-            if 'tasks' not in path:
+        # Add dashboard to args
+        dashboard_and_task = {**self.task, **self.dashboard}
+        for path, groups in deep_iter(dashboard_and_task, depth=3):
+            if 'tasks' not in path and 'Dashboard' not in path:
                 continue
-            task = path[2]
+            task = path[2] if 'tasks' in path else path[0]
             # Add storage to all task
             groups.append('Storage')
             for group in groups:
@@ -486,6 +497,22 @@ class ConfigGenerator:
         update('template-docker-cn', docker, cn)
         update('template-linux', linux)
         update('template-linux-cn', linux, cn)
+
+        tpl = {
+            'Repository': '{{repository}}',
+            'GitExecutable': '{{gitExecutable}}',
+            'PythonExecutable': '{{pythonExecutable}}',
+            'AdbExecutable': '{{adbExecutable}}',
+            'Language': '{{language}}',
+            'Theme': '{{theme}}',
+        }
+        def update(file, *args):
+            new = deepcopy(template)
+            for dic in args:
+                new.update(dic)
+            poor_yaml_write(data=new, file=file)
+
+        update('./webapp/packages/main/public/deploy.yaml.tpl', tpl)
 
     def insert_package(self):
         option = deep_get(self.argument, keys='Emulator.PackageName.option')

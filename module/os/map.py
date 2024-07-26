@@ -384,9 +384,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         # Restart the game manually rather
         # than through 'task_call'
         # Ongoing task is uninterrupted
-        self.device.app_stop()
-        self.device.app_start()
-        LoginHandler(self.config, self.device).handle_app_login()
+        self.device.app_restart()
 
         self.ui_ensure(page_os)
         if repair:
@@ -405,7 +403,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         remain = get_os_reset_remain()
         if remain <= 0:
             if self.config.is_task_enabled('OpsiCrossMonth'):
-                logger.info('Just less than 1 day to OpSi reset, OpsiCrossMonth is enabled'
+                logger.info('Just less than 1 day to OpSi reset, OpsiCrossMonth is enabled, '
                             'set OpsiMeowfficerFarming.ActionPointPreserve to 300 temporarily')
                 return 300
             else:

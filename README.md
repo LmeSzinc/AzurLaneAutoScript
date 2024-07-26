@@ -103,7 +103,7 @@ GUI development, thanks **[@18870](https://github.com/18870)** , say HURRAY.
 | 「拥有」满星的同名舰船时，保留几艘符合退役条件的同名舰船 | 不保留           |
 | 「没有」满星的同名舰船时，保留几艘符合退役条件的同名舰船 | 满星所需或不保留 |
 
-将角色设备的装备外观移除，以免影响图像识别
+
 
 ## 如何上报bug How to Report Bugs
 
@@ -177,4 +177,54 @@ Alas 仍在活跃开发中，我们会不定期发布未来的工作在 [Issues]
 - QQ 六群：[410355575](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=AzW2qRgtfAYCXJFFbzVjYUNxoUInYZOP&authKey=8tMiii5txWNZlmuRyxblLlN1jIvyPKbqeRBbHOIsiOayqhr5HvoEei3Y7n4p5TFI&noverify=0&group_code=410355575)
 - QQ 一群：[1087735381](https://jq.qq.com/?_wv=1027&k=I4NSqX7g) （有开发意向请加一群，入群需要提供你的Github用户名）
 - Bilibili 直播间：https://live.bilibili.com/22216705 ，偶尔直播写Alas，~~为了拯救Alas，Lme决定出道成为偶像~~
+
+
+
+
+
+
+# Alas修改版，适用于云
+
+
+## 相较于原版Alas
+
+
+* 合并了一个奇怪的库
+
+
+* 将GamePageUnknownError和RequestHumanTakeover写入重启，重启一次后再运行上次未完成的任务如果依旧报错则抛出错误并用OnePush通知(如果有设置OnePush的话)
+
+
+
+
+
+## 相较于原版Alas
+- 将`GamePageUnknownError`和`RequestHumanTakeover`写入重启，重启一次后再运行上次未完成的任务如果依旧报错则抛出错误并用OnePush通知(如果有设置OnePush的话)
+- 将`优化设置`中的`放慢截图速度至 X 秒一张`和`战斗中放慢截图速度至 X 秒一张`的时间限制分别从`0.1 ~ 0.3`和`0.1 ~ 1.0`放宽至`0.1 ~ 2.0`和`0.1 ~ 5.0`
+- 将`GameStuckError`中`无操作连续截图超过 1 分钟`放宽至`3 分钟`
+- 修复了在云端时由于网络延迟所导致的换装备时卡住(目前还在测试)
+- 修复了在云端时战术学院选择舰船时的bug(由于难以复现，目前还在观察测试)
+
+仪表盘。
+
+出现未知界面，直接重启。 
+
+
+
+紧急委托前排可以选择更换为10级以上的驱逐舰。
+
+困难图可使用紧急委托功能3油刷D3。
+
+演习推迟功能，可以在演习更新次数前1小时再打，但在指定清空次数的时候一刷新次数就清空。
+
+  ## 使用方法：
+
+1，将alas库地址修改为本地址。
+
+2，在以下位置修改配置文件。
+
+![image](https://github.com/Zuosizhu/Alas-with-Dashboard/assets/60862861/5cabd341-d4bc-47c2-a7b2-fe2a7cd73e3b)
+
+3，GG明确表明蓝叠模拟器很慢。加上目前水平太菜无法解决蓝叠时常出现的UI Automator2无法使用的问题。加上蓝叠不能导入文件夹+本人网速极慢。因此若出现问题，不作任何支持。
+
 

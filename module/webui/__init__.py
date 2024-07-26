@@ -1,5 +1,5 @@
 # This must be the first to import
 from module.logger import logger  # Change folder
-import deploy.logger
+import deploy.Windows.logger
 
-deploy.logger.logger = logger
+deploy.Windows.logger.logger = logger

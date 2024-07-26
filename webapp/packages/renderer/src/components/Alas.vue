@@ -1,26 +1,31 @@
 <template>
-  <iframe class="alas" :src="url"></iframe>
+  <iframe
+    class="alas"
+    :src="webuiUrl"
+  ></iframe>
 </template>
 
 <script lang="ts">
-  import {defineComponent} from 'vue';
-  import {webuiUrl} from '../../../main/src/config';
+import {computed, defineComponent} from 'vue';
+import {useAppStoreWithOut} from '/@/store/modules/app';
 
-  export default defineComponent({
-    name: 'Alas',
-    computed: {
-      url: function () {
-        return webuiUrl;
-      },
-    },
-  });
+export default defineComponent({
+  name: 'AlasPage',
+  setup() {
+    const appStore = useAppStoreWithOut();
+    const webuiUrl = computed(() => appStore.webuiUrl);
+    return {
+      webuiUrl,
+    };
+  },
+});
 </script>
 
 <style scoped>
-  .alas {
-    border-width: 0;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-  }
+.alas {
+  border-width: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
 </style>

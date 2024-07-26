@@ -2,6 +2,7 @@ import json
 import os
 import random
 import string
+import calendar
 from datetime import datetime, timedelta, timezone
 
 import yaml
@@ -465,6 +466,16 @@ def ensure_time(second, n=3, precision=3):
         return second
 
 
+def get_first_day_of_next_month() -> datetime:
+    now = datetime.now()
+    return now.replace(day=1, hour=0, minute=0, second=0, microsecond=0) + timedelta(days=(calendar.monthrange(now.year, now.month)[1]))
+
+
+def get_first_day_of_next_week() -> datetime:
+    return datetime.now().replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(
+        days=7 - datetime.weekday(datetime.now()))
+
+
 def get_os_next_reset():
     """
     Get the first day of next month.
@@ -644,6 +655,48 @@ def type_to_str(typ):
     if not isinstance(typ, type):
         typ = type(typ).__name__
     return str(typ)
+
+
+def time_delta(_timedelta):
+    """
+    Output the delta between two times
+
+    Args:
+        _timedelta : datetime.timedelta
+
+    Returns:
+        dict :  {
+                 'Y' : int,
+                 'M' : int,
+                 'D' : int,
+                 'h' : int,
+                 'm' : int,
+                 's' : int
+        }
+    """
+    _time_delta = abs(_timedelta.total_seconds())
+    d_base = datetime(2010, 1, 1, 0, 0, 0)
+    d = datetime(2010, 1, 1, 0, 0, 0) - _timedelta
+    _time_dict = {
+        'Y': d.year - d_base.year,
+        'M': d.month - d_base.month,
+        'D': d.day - d_base.day,
+        'h': d.hour - d_base.hour,
+        'm': d.minute - d_base.minute,
+        's': d.second - d_base.second
+    }
+    # _sec ={
+    #     'Y': 365*24*60*60,
+    #     'M': 30*24*60*60,
+    #     'D': 24*60*60,
+    #     'h': 60*60,
+    #     'm': 60,
+    #     's': 1
+    # }
+    # for _key in _time_dict:
+    #     _time_dict[_key] = int(_time_delta//_sec[_key])
+    #     _time_delta = _time_delta%_sec[_key]
+    return _time_dict
 
 
 if __name__ == '__main__':

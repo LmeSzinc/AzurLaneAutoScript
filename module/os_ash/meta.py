@@ -12,6 +12,7 @@ from module.os_handler.map_event import MapEventHandler
 from module.ui.assets import BACK_ARROW
 from module.ui.page import page_reward
 from module.ui.ui import UI
+import time 
 
 
 class MetaState(Enum):
@@ -280,6 +281,7 @@ class OpsiAshBeacon(Meta):
                 break
             # Click
             if self.appear_then_click(HELP_ENTER, offset=(20, 20), interval=3):
+                time.sleep(2.5)
                 continue
             # Wrongly entered BATTLE_PREPARATION
             if self.appear(BATTLE_PREPARATION, offset=(30, 30), interval=2):
@@ -593,6 +595,7 @@ class AshBeaconAssist(Meta):
                 logger.info('In meta page main')
                 continue
             if self.appear_then_click(BEACON_LIST, offset=(300, 20), interval=2):
+                time.sleep(3)
                 continue
             if self.appear_then_click(DOSSIER_LIST, offset=(20, 20), interval=2):
                 logger.info('In meta page dossier')
