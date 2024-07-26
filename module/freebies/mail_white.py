@@ -236,7 +236,7 @@ class MailWhite(UI):
         if not merit and not maintenance and not trade_license:
             logger.warning('Nothing to claim')
             return False
-        if self.config.SERVER not in ['cn', 'en']:
+        if self.config.SERVER not in ['cn', 'en', 'jp']:
             logger.warning(f'Mail is not supported in {self.config.SERVER}, please contact server maintainers')
             return False
 
