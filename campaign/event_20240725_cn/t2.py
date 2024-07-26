@@ -55,7 +55,7 @@ class Config(ConfigBase):
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
-    STAGE_ENTRANCE = ['normal', '20240725']
+    STAGE_ENTRANCE = ['half', '20240725']
     MAP_HAS_MODE_SWITCH = True
     MAP_SWIPE_MULTIPLY = (1.189, 1.211)
     MAP_SWIPE_MULTIPLY_MINITOUCH = (1.150, 1.171)
