@@ -105,8 +105,9 @@ class FastForwardHandler(AutoSearchHandler):
         'B1 > B2 > B3',
         'C1 > C2 > C3',
         'D1 > D2 > D3',
-        'SP1 > SP2 > SP3 > SP4',
+        'SP1 > SP2 > SP3 > SP4 > SP5',
         'T1 > T2 > T3 > T4',
+        'HT1 > HT2 > HT3 > HT4',
     ]
     map_fleet_checked = False
 

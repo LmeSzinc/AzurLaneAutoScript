@@ -543,9 +543,11 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange):
             total (int):
         """
         self.config.STOP_IF_REACH_LV32 = self.change_flagship
+
         self.campaign_floder = folder
         self.config.RETIRE_KEEP_COMMON_CV = True
         self.event_hard_mode_override()
+
         while 1:
             self._trigger_lv32 = False
             is_limit = self.config.StopCondition_RunCount

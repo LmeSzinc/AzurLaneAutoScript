@@ -5,7 +5,7 @@
       "PackageName": "auto",
       "ServerName": "disabled",
       "ScreenshotMethod": "auto",
-      "ControlMethod": "minitouch",
+      "ControlMethod": "MaaTouch",
       "ScreenshotDedithering": false,
       "AdbRestart": false
     },
@@ -1614,9 +1614,10 @@
       "ForceCollect": false
     },
     "Mail": {
-      "Collect": true,
-      "Filter": "Merit > Coolant",
-      "Delete": false
+      "ClaimMerit": true,
+      "ClaimMaintenance": false,
+      "ClaimTradeLicense": false,
+      "DeleteCollected": true
     },
     "SupplyPack": {
       "Collect": true,
