@@ -203,3 +203,4 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20240711   | event 20211229 cn        | Tower of Transcendence Rerun                 | -  | -  | -　 | 復刻逆轉彩虹之塔  |
 | 20240718   | event 20220526 cn        | Pledge of the Radiant Court Rerun                 | 复刻泠誓光庭               | Pledge of the Radiant Court Rerun                 | 復刻诚閃の剣 搖光の城                | -                        |
 | 20240725 | event 20240725 cn | Interlude of Illusions | 幻梦间奏曲 | Interlude of Illusions | 夢幻の間奏曲 | - |
+| 20240725 | raid 20240328 | From Zero to Hero | - | - | - | 從零開始的魔王討伐之旅 |
