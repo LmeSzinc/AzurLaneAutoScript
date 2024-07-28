@@ -196,6 +196,9 @@ class UI(InfoHandler):
             if self.appear_then_click(GOTO_MAIN, offset=(30, 30), interval=2):
                 timeout.reset()
                 continue
+            if self.appear_then_click(GOTO_MAIN_WHITE, offset=(30, 30), interval=2):
+                timeout.reset()
+                continue
             # if self.appear_then_click(RPG_HOME, offset=(30, 30), interval=2):
             #     timeout.reset()
             #     continue
