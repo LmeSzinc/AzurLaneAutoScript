@@ -27,6 +27,18 @@ class MailWhite(UI):
         )
         return setting
 
+    @cached_property
+    def mail_select_all_setting(self):
+        setting = MailSelectSetting('MailAll', main=self)
+        setting.reset_first = False
+        setting.add_setting(
+            setting='all',
+            option_buttons=[MAIL_SELECT_ALL],
+            option_names=['all'],
+            option_default='all'
+        )
+        return setting
+
     def _mail_enter(self, skip_first_screenshot=True):
         """
         Returns:
@@ -222,6 +234,7 @@ class MailWhite(UI):
         if delete:
             logger.hr('Mail delete', level=2)
             self._mail_enter()
+            self.mail_select_all_setting.set(contains=['all'])
             self._mail_delete()
 
         self._mail_quit()

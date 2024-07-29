@@ -5,6 +5,14 @@ from deploy.emulator import EmulatorConnect
 from deploy.logger import logger
 from deploy.utils import *
 
+IGNORE_SERIAL = [
+    # Water-cooling display
+    # https://github.com/LmeSzinc/AzurLaneAutoScript/issues/3412
+    'HRBDFUN',
+    # USB network card
+    '1234567890ABCDEF',
+]
+
 
 def show_fix_tip(module):
     logger.info(f"""
@@ -59,6 +67,8 @@ class AdbManager(DeployConfig):
                     del os.environ[k]
 
             for device in adbutils.adb.iter_device():
+                if device.serial in IGNORE_SERIAL:
+                    continue
                 logger.info(f'Init device {device}')
                 initer = init.Initer(device, loglevel=logging.DEBUG)
                 # MuMu X has no ro.product.cpu.abi, pick abi from ro.product.cpu.abilist
