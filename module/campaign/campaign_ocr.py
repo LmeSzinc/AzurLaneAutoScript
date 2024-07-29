@@ -165,6 +165,12 @@ class CampaignOcr(ModuleBase):
                 similarity=0.6,
                 name_offset=(52, 0), name_size=(60, 22)
             )
+        if '20240725' in self.config.STAGE_ENTRANCE:
+            digits += self.campaign_match_multi(
+                TEMPLATE_STAGE_CLEAR_20240725,
+                image, self._stage_image_gray,
+                name_offset=(73, -4), name_size=(60, 22)
+            )
 
         return digits
 
@@ -232,6 +238,12 @@ class CampaignOcr(ModuleBase):
                 image, self._stage_image_gray,
                 similarity=0.6,
                 name_offset=(52, 0), name_size=(60, 22)
+            )
+        if '20240725' in self.config.STAGE_ENTRANCE:
+            digits += self.campaign_match_multi(
+                TEMPLATE_STAGE_CLEAR_20240725,
+                image, self._stage_image_gray,
+                name_offset=(73, -4), name_size=(60, 22)
             )
 
         return digits

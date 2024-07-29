@@ -169,6 +169,11 @@ class ConnectionAttr:
         return self.serial == '127.0.0.1:7555' or self.is_mumu12_family
 
     @cached_property
+    def is_ldplayer_bluestacks_family(self):
+        # Note that LDPlayer and BlueStacks have the same serial range
+        return self.serial.startswith('emulator-') or 5555 <= self.port <= 5587
+
+    @cached_property
     def is_nox_family(self):
         return 62001 <= self.port <= 63025
 

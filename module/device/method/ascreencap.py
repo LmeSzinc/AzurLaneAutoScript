@@ -6,8 +6,8 @@ from adbutils.errors import AdbError
 
 from module.base.utils import *
 from module.device.connection import Connection
-from module.device.method.utils import (RETRY_TRIES, retry_sleep,
-                                        handle_adb_error, ImageTruncated)
+from module.device.method.utils import (ImageTruncated, RETRY_TRIES, handle_adb_error, handle_unknown_host_service,
+                                        retry_sleep)
 from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 
@@ -49,6 +49,10 @@ def retry(func):
             except AdbError as e:
                 if handle_adb_error(e):
                     def init():
+                        self.adb_reconnect()
+                elif handle_unknown_host_service(e):
+                    def init():
+                        self.adb_start_server()
                         self.adb_reconnect()
                 else:
                     break
