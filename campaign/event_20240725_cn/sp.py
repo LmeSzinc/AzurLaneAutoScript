@@ -66,7 +66,7 @@ class Config:
     STAR_REQUIRE_3 = 0
     # ===== End of generated config =====
 
-    STAGE_ENTRANCE = ['normal', '20240725']
+    STAGE_ENTRANCE = ['half', '20240725']
     MAP_IS_ONE_TIME_STAGE = True
     MAP_SWIPE_MULTIPLY = (1.073, 1.093)
     MAP_SWIPE_MULTIPLY_MINITOUCH = (1.038, 1.057)
