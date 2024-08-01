@@ -514,7 +514,8 @@ class UI(InfoHandler):
             # - Game client freezes at page_campaign W12, clicking anywhere on the screen doesn't get responses
             # - Restart game client again fix the issue
             logger.info("WITHDRAW button found, wait until map loaded to prevent bugs in game client")
-            self.device.sleep(3)
+            self.device.sleep(2)
+            self.device.screenshot()
             if self.appear_then_click(WITHDRAW, offset=(30, 30)):
                 self.interval_reset(WITHDRAW)
                 return True

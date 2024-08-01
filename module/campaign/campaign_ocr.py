@@ -6,6 +6,7 @@ from module.base.timer import Timer
 from module.base.utils import *
 from module.exception import CampaignNameError
 from module.logger import logger
+from module.map.assets import WITHDRAW
 from module.ocr.ocr import Ocr
 from module.template.assets import *
 
@@ -335,7 +336,9 @@ class CampaignOcr(ModuleBase):
         while 1:
             if timeout.reached():
                 raise CampaignNameError
-
+            if self.appear(WITHDRAW, offset=(30, 30)):
+                logger.warning(f'get_chapter_index: WITHDRAW appears')
+                raise CampaignNameError
             try:
                 self._get_stage_name(image)
                 break

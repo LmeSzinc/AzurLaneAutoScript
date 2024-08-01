@@ -207,8 +207,7 @@ class Benchmark(DaemonBase, CampaignUI):
     def run(self):
         self.config.override(Emulator_ScreenshotMethod='ADB')
         self.device.uninstall_minicap()
-        self.ui_goto_campaign()
-        self.campaign_set_chapter('7-2')
+        self.ensure_campaign_ui('7-2', mode='normal')
 
         logger.attr('DeviceType', self.config.Benchmark_DeviceType)
         logger.attr('TestScene', self.config.Benchmark_TestScene)
