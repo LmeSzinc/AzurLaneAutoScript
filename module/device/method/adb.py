@@ -320,6 +320,24 @@ class Adb(Connection):
         if 'Warning: Activity not started' in ret:
             logger.info('App activity is already started')
             return True
+        # Starting: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.YoStarEN.AzurLane/com.manjuu.azurlane.MainActivity }
+        # java.lang.SecurityException: Permission Denial: starting Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.YoStarEN.AzurLane/com.manjuu.azurlane.MainActivity } from null (pid=5140, uid=2000) not exported from uid 10064
+        #         at android.os.Parcel.readException(Parcel.java:1692)
+        #         at android.os.Parcel.readException(Parcel.java:1645)
+        #         at android.app.ActivityManagerProxy.startActivityAsUser(ActivityManagerNative.java:3152)
+        #         at com.android.commands.am.Am.runStart(Am.java:643)
+        #         at com.android.commands.am.Am.onRun(Am.java:394)
+        #         at com.android.internal.os.BaseCommand.run(BaseCommand.java:51)
+        #         at com.android.commands.am.Am.main(Am.java:124)
+        #         at com.android.internal.os.RuntimeInit.nativeFinishInit(Native Method)
+        #         at com.android.internal.os.RuntimeInit.main(RuntimeInit.java:290)
+        if 'Permission Denial' in ret:
+            if allow_failure:
+                return False
+            else:
+                logger.error(ret)
+                logger.error('Permission Denial while starting app, probably because activity invalid')
+                return False
         # Success
         # Starting: Intent...
         return True
