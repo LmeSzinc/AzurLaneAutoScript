@@ -295,7 +295,8 @@ page_rpg_stage.link(button=RPG_HOME, destination=page_main)
 page_rpg_story.link(button=RPG_GOTO_STAGE, destination=page_rpg_stage)
 page_rpg_story.link(button=RPG_HOME, destination=page_main)
 
-page_main.link(button=MAIN_GOTO_RAID, destination=page_rpg_stage)
+page_campaign_menu.link(button=CAMPAIGN_MENU_GOTO_EVENT, destination=page_rpg_stage)
+# page_main.link(button=MAIN_GOTO_RAID, destination=page_rpg_stage)
 # page_main_white.link(button=MAIN_GOTO_RAID_WHITE, destination=page_rpg_stage)
 
 page_rpg_city = Page(RPG_LEAVE_CITY)
