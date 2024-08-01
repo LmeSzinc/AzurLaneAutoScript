@@ -40,9 +40,9 @@ DICT_PACKAGE_TO_ACTIVITY = {
     # com.manjuu.azurlane.MainActivity
     # VALID_PACKAGE
     'com.bilibili.azurlane': 'com.manjuu.azurlane.MainActivity',
-    'com.YoStarEN.AzurLane': 'com.manjuu.azurlane.MainActivity',
-    'com.YoStarJP.AzurLane': 'com.manjuu.azurlane.MainActivity',
-    'com.hkmanjuu.azurlane.gp': 'com.manjuu.azurlane.MainActivity',
+    'com.YoStarEN.AzurLane': 'com.manjuu.azurlane.PrePermissionActivity',
+    'com.YoStarJP.AzurLane': 'com.manjuu.azurlane.PrePermissionActivity',
+    'com.hkmanjuu.azurlane.gp': 'com.manjuu.azurlane.PrePermissionActivity',
     # App stores
     'com.bilibili.blhx.huawei': 'com.manjuu.azurlane.MainActivity',
     'com.bilibili.blhx.mi': 'com.manjuu.azurlane.MainActivity',
@@ -63,7 +63,7 @@ DICT_PACKAGE_TO_ACTIVITY = {
     'com.bilibili.blhx.bilibiliMove': 'com.manjuu.azurlane.MainActivity',
 
     # Tw
-    'com.hkmanjuu.azurlane.gp.mc': 'com.manjuu.azurlane.MainActivity',
+    'com.hkmanjuu.azurlane.gp.mc': 'com.manjuu.azurlane.PrePermissionActivity',
 }
 VALID_SERVER_LIST = {
     'cn_android': [
