@@ -44,7 +44,7 @@ DICT_PACKAGE_TO_ACTIVITY = {
     'com.YoStarJP.AzurLane': 'com.manjuu.azurlane.PrePermissionActivity',
     'com.hkmanjuu.azurlane.gp': 'com.manjuu.azurlane.PrePermissionActivity',
     # App stores
-    'com.bilibili.blhx.huawei': 'com.manjuu.azurlane.MainActivity',
+    'com.bilibili.blhx.huawei': 'com.manjuu.azurlane.PrePermissionActivityy',
     'com.bilibili.blhx.mi': 'com.manjuu.azurlane.MainActivity',
     'com.tencent.tmgp.bilibili.blhx': 'com.manjuu.azurlane.MainActivity',
     'com.bilibili.blhx.baidu': 'com.manjuu.azurlane.MainActivity',
@@ -59,7 +59,7 @@ DICT_PACKAGE_TO_ACTIVITY = {
     'com.bilibili.blhx.uc': 'com.manjuu.azurlane.MainActivity',
     'com.bilibili.blhx.mzw': 'com.manjuu.azurlane.MainActivity',
     'com.yiwu.blhx.yx15': 'com.manjuu.azurlane.MainActivity',
-    'com.bilibili.blhx.m4399': 'com.manjuu.azurlane.MainActivity',
+    'com.bilibili.blhx.m4399': 'com.manjuu.azurlane.PrePermissionActivity',
     'com.bilibili.blhx.bilibiliMove': 'com.manjuu.azurlane.MainActivity',
 
     # Tw
