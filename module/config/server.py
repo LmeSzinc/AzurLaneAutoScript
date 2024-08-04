@@ -46,9 +46,9 @@ DICT_PACKAGE_TO_ACTIVITY = {
     # App stores
     'com.bilibili.blhx.huawei': 'com.manjuu.azurlane.PrePermissionActivityy',
     'com.bilibili.blhx.mi': 'com.manjuu.azurlane.MainActivity',
-    'com.tencent.tmgp.bilibili.blhx': 'com.manjuu.azurlane.MainActivity',
+    'com.tencent.tmgp.bilibili.blhx': 'com.manjuu.azurlane.PrePermissionActivity',
     'com.bilibili.blhx.baidu': 'com.manjuu.azurlane.MainActivity',
-    'com.bilibili.blhx.qihoo': 'com.manjuu.azurlane.MainActivity',
+    'com.bilibili.blhx.qihoo': 'com.manjuu.azurlane.PrePermissionActivity',
     'com.bilibili.blhx.nearme.gamecenter': 'com.manjuu.azurlane.MainActivity',
     'com.bilibili.blhx.vivo': 'com.manjuu.azurlane.MainActivity',
     'com.bilibili.blhx.mz': 'com.manjuu.azurlane.MainActivity',
