@@ -36,6 +36,35 @@ VALID_CHANNEL_PACKAGE = {
     # Tw
     'com.hkmanjuu.azurlane.gp.mc': ('tw', 'MyCard'),
 }
+DICT_PACKAGE_TO_ACTIVITY = {
+    # com.manjuu.azurlane.MainActivity
+    # VALID_PACKAGE
+    'com.bilibili.azurlane': 'com.manjuu.azurlane.MainActivity',
+    'com.YoStarEN.AzurLane': 'com.manjuu.azurlane.PrePermissionActivity',
+    'com.YoStarJP.AzurLane': 'com.manjuu.azurlane.PrePermissionActivity',
+    'com.hkmanjuu.azurlane.gp': 'com.manjuu.azurlane.PrePermissionActivity',
+    # App stores
+    'com.bilibili.blhx.huawei': 'com.manjuu.azurlane.SplashActivity',
+    'com.bilibili.blhx.mi': 'com.manjuu.azurlane.SplashActivity',
+    'com.tencent.tmgp.bilibili.blhx': 'com.manjuu.azurlane.SplashActivity',
+    'com.bilibili.blhx.baidu': 'com.manjuu.azurlane.SplashActivity',
+    'com.bilibili.blhx.qihoo': 'com.manjuu.azurlane.SplashActivity',
+    'com.bilibili.blhx.nearme.gamecenter': 'com.manjuu.azurlane.SplashActivity',
+    'com.bilibili.blhx.vivo': 'com.manjuu.azurlane.SplashActivity',
+    'com.bilibili.blhx.mz': 'com.manjuu.azurlane.SplashActivity',
+    'com.bilibili.blhx.dl': 'com.manjuu.azurlane.SplashActivity',
+    'com.bilibili.blhx.lenovo': 'com.manjuu.azurlane.SplashActivity',
+
+    # 3rd party gaming platforms
+    'com.bilibili.blhx.uc': 'com.manjuu.azurlane.SplashActivity',
+    'com.bilibili.blhx.mzw': 'com.manjuu.azurlane.SplashActivity',
+    'com.yiwu.blhx.yx15': 'com.manjuu.azurlane.SplashActivity',
+    'com.bilibili.blhx.m4399': 'com.manjuu.azurlane.SplashActivity',
+    'com.bilibili.blhx.bilibiliMove': 'com.manjuu.azurlane.SplashActivity',
+
+    # Tw
+    'com.hkmanjuu.azurlane.gp.mc': 'com.manjuu.azurlane.PrePermissionActivity',
+}
 VALID_SERVER_LIST = {
     'cn_android': [
         '莱茵演习', '巴巴罗萨', '霸王行动', '冰山行动', '彩虹计划',
