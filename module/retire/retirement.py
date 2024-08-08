@@ -342,6 +342,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
             if self.appear_then_click(RETIRE_APPEAR_1, offset=(20, 20), interval=3):
                 self.interval_clear(IN_RETIREMENT_CHECK)
                 self.interval_reset([AUTO_SEARCH_MAP_OPTION_OFF, AUTO_SEARCH_MAP_OPTION_ON])
+                self.map_cat_attack_timer.reset()
                 return False
             if self.appear(IN_RETIREMENT_CHECK, offset=(20, 20), interval=10):
                 self._retire_handler(mode='one_click_retire')

@@ -1,9 +1,9 @@
 from module.campaign.assets import SWITCH_20240725_COMBAT, SWITCH_20240725_STORY
 from module.campaign.campaign_base import CampaignBase as CampaignBase_
+from module.campaign.campaign_ui import ModeSwitch
 from module.logger import logger
-from module.ui.switch import Switch
 
-MODE_SWITCH_20240725 = Switch('Mode_switch_20240725', offset=(30, 30))
+MODE_SWITCH_20240725 = ModeSwitch('Mode_switch_20240725', offset=(30, 30))
 MODE_SWITCH_20240725.add_status('combat', SWITCH_20240725_COMBAT)
 MODE_SWITCH_20240725.add_status('story', SWITCH_20240725_STORY)
 

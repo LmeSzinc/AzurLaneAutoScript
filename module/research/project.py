@@ -547,7 +547,11 @@ class ResearchProject:
                 suffix = 'UL'
             # TW ocr errors, convert B to D
             if prefix == 'B' and number in ResearchProject.D_PROJECT_NUMBERS:
-                prefix = 'D'
+                # Keep B-397-RF, S7 D-397-MI and S* B-397-RF shares 397
+                if number == '397' and suffix == 'RF':
+                    pass
+                else:
+                    prefix = 'D'
             # I-483-RF revised to -483-RF -> D-483-RF
             if prefix == '' and number in ResearchProject.D_PROJECT_NUMBERS:
                 prefix = 'D'

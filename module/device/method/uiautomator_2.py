@@ -9,6 +9,7 @@ from adbutils.errors import AdbError
 from lxml import etree
 
 from module.base.utils import *
+from module.config.server import DICT_PACKAGE_TO_ACTIVITY
 from module.device.connection import Connection
 from module.device.method.utils import (ImageTruncated, PackageNotInstalled, RETRY_TRIES, handle_adb_error,
                                         handle_unknown_host_service, possible_reasons, retry_sleep)
@@ -224,11 +225,24 @@ class Uiautomator2(Connection):
         return result['package']
 
     @retry
-    def app_start_uiautomator2(self, package_name=None):
+    def app_start_uiautomator2(self, package_name=None, activity_name=None):
+        """
+        Args:
+            package_name (str):
+                If None, to get from config
+            activity_name (str):
+                If None, to get from DICT_PACKAGE_TO_ACTIVITY
+
+        Returns:
+
+        """
         if not package_name:
             package_name = self.package
+        if not activity_name:
+            activity_name = DICT_PACKAGE_TO_ACTIVITY.get(package_name)
+
         try:
-            self.u2.app_start(package_name)
+            self.u2.app_start(package_name, activity_name)
         except u2.exceptions.BaseError as e:
             # BaseError: package "com.bilibili.azurlane" not found
             logger.error(e)
