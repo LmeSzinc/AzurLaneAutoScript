@@ -50,12 +50,12 @@ class NewYearChallenge(MinigameRun):
             if self.appear_then_click(GOTO_CHOOSE_GAME, offset=(5, 5), interval=3):
                 continue
             # choose game
-            if self.appear(NEW_YEAR_CHALLENGE_ENTRANCE, offset=(5, 5), interval=3):
+            if self.appear(NEW_YEAR_CHALLENGE_ENTRANCE, offset=(5, 50), interval=3):
                 self.device.click(NEW_YEAR_CHALLENGE_ENTRANCE)
                 continue
             # swipe down
             if self.ui_page_appear(page_game_room) and MINIGAME_SCROLL.appear(main=self) \
-                    and not MINIGAME_SCROLL.at_bottom(main=self):
+                    and not MINIGAME_SCROLL.set(main=self, position=0.25, distance_check=False):
                 MINIGAME_SCROLL.set_bottom(main=self)
                 continue
 
