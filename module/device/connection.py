@@ -686,13 +686,9 @@ class Connection(ConnectionAttr):
                 # Brute force connect nearby ports to handle serial switches
                 if self.is_mumu12_family:
                     before = self.serial
-                    for port_offset in [1, -1, 2, -2]:
-                        port = self.port + port_offset
-                        serial = self.serial.replace(str(self.port), str(port))
-                        msg = self.adb_client.connect(serial)
-                        logger.info(msg)
-                        if 'connected' in msg:
-                            break
+                    serial_list = [self.serial.replace(str(self.port), str(self.port + offset))
+                                   for offset in [1, -1, 2, -2]]
+                    self.adb_brute_force_connect(serial_list)
                     self.detect_device()
                     if self.serial != before:
                         return True
@@ -704,6 +700,25 @@ class Connection(ConnectionAttr):
         logger.warning(f'Failed to connect {self.serial} after 3 trial, assume connected')
         self.detect_device()
         return False
+
+    def adb_brute_force_connect(self, serial_list):
+        """
+        Args:
+            serial_list (list[str]):
+        """
+        import asyncio
+        ev = asyncio.new_event_loop()
+
+        def _connect(serial):
+            msg = self.adb_client.connect(serial)
+            logger.info(msg)
+            return msg
+
+        async def connect():
+            tasks = [ev.run_in_executor(None, _connect, serial) for serial in serial_list]
+            await asyncio.gather(*tasks)
+
+        ev.run_until_complete(connect())
 
     @Config.when(DEVICE_OVER_HTTP=True)
     def adb_connect(self):
