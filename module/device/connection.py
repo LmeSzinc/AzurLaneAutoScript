@@ -303,6 +303,13 @@ class Connection(ConnectionAttr):
 
     @cached_property
     @retry
+    def is_waydroid(self):
+        res = self.adb_getprop('ro.product.brand')
+        logger.attr('ro.product.brand', res)
+        return 'waydroid' in res.lower()
+
+    @cached_property
+    @retry
     def nemud_app_keep_alive(self) -> str:
         res = self.adb_getprop('nemud.app_keep_alive')
         logger.attr('nemud.app_keep_alive', res)

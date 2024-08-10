@@ -303,8 +303,11 @@ class Adb(Connection):
                     logger.error(result)
                     raise PackageNotInstalled(package_name)
 
-        ret = self.adb_shell(['am', 'start', '-a', 'android.intent.action.MAIN', '-c',
-                              'android.intent.category.LAUNCHER', '-n', f'{package_name}/{activity_name}'])
+        cmd = ['am', 'start', '-a', 'android.intent.action.MAIN', '-c',
+               'android.intent.category.LAUNCHER', '-n', f'{package_name}/{activity_name}']
+        if self.is_local_network_device and self.is_waydroid:
+            cmd += ['--windowingMode', '4']
+        ret = self.adb_shell(cmd)
         # Invalid activity
         # Starting: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=... }
         # Error type 3
