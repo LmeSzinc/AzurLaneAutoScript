@@ -225,28 +225,147 @@ class Uiautomator2(Connection):
         return result['package']
 
     @retry
-    def app_start_uiautomator2(self, package_name=None, activity_name=None):
+    def _app_start_u2_monkey(self, package_name=None, allow_failure=False):
+        """
+        Args:
+            package_name (str):
+            allow_failure (bool):
+
+        Returns:
+            bool: If success to start
+
+        Raises:
+            PackageNotInstalled:
+        """
+        if not package_name:
+            package_name = self.package
+        result = self.u2.shell([
+            'monkey', '-p', package_name, '-c',
+            'android.intent.category.LAUNCHER', '--pct-syskeys', '0', '1'
+        ])
+        if 'No activities found' in result.output:
+            # ** No activities found to run, monkey aborted.
+            if allow_failure:
+                return False
+            else:
+                logger.error(result)
+                raise PackageNotInstalled(package_name)
+        elif 'inaccessible' in result:
+            # /system/bin/sh: monkey: inaccessible or not found
+            return False
+        else:
+            # Events injected: 1
+            # ## Network stats: elapsed time=4ms (0ms mobile, 0ms wifi, 4ms not connected)
+            return True
+
+    @retry
+    def _app_start_u2_am(self, package_name=None, activity_name=None, allow_failure=False):
+        """
+        Args:
+            package_name (str):
+            activity_name (str):
+            allow_failure (bool):
+
+        Returns:
+            bool: If success to start
+
+        Raises:
+            PackageNotInstalled:
+        """
+        if not package_name:
+            package_name = self.package
+        if not activity_name:
+            try:
+                info = self.u2.app_info(package_name)
+            except u2.BaseError as e:
+                if allow_failure:
+                    return False
+                # BaseError('package "111" not found')
+                elif 'not found' in str(e):
+                    logger.error(e)
+                    raise PackageNotInstalled(package_name)
+                # Unknown error
+                else:
+                    raise
+            activity_name = info['mainActivity']
+
+        cmd = ['am', 'start', '-a', 'android.intent.action.MAIN', '-c',
+               'android.intent.category.LAUNCHER', '-n', f'{package_name}/{activity_name}']
+        if self.is_local_network_device and self.is_waydroid:
+            cmd += ['--windowingMode', '4']
+        ret = self.u2.shell(cmd)
+        # Invalid activity
+        # Starting: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=... }
+        # Error type 3
+        # Error: Activity class {.../...} does not exist.
+        if 'Error: Activity class' in ret.output:
+            if allow_failure:
+                return False
+            else:
+                logger.error(ret)
+                return False
+        # Already running
+        # Warning: Activity not started, intent has been delivered to currently running top-most instance.
+        if 'Warning: Activity not started' in ret.output:
+            logger.info('App activity is already started')
+            return True
+        # Starting: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.YoStarEN.AzurLane/com.manjuu.azurlane.MainActivity }
+        # java.lang.SecurityException: Permission Denial: starting Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.YoStarEN.AzurLane/com.manjuu.azurlane.MainActivity } from null (pid=5140, uid=2000) not exported from uid 10064
+        #         at android.os.Parcel.readException(Parcel.java:1692)
+        #         at android.os.Parcel.readException(Parcel.java:1645)
+        #         at android.app.ActivityManagerProxy.startActivityAsUser(ActivityManagerNative.java:3152)
+        #         at com.android.commands.am.Am.runStart(Am.java:643)
+        #         at com.android.commands.am.Am.onRun(Am.java:394)
+        #         at com.android.internal.os.BaseCommand.run(BaseCommand.java:51)
+        #         at com.android.commands.am.Am.main(Am.java:124)
+        #         at com.android.internal.os.RuntimeInit.nativeFinishInit(Native Method)
+        #         at com.android.internal.os.RuntimeInit.main(RuntimeInit.java:290)
+        if 'Permission Denial' in ret.output:
+            if allow_failure:
+                return False
+            else:
+                logger.error(ret)
+                logger.error('Permission Denial while starting app, probably because activity invalid')
+                return False
+        # Success
+        # Starting: Intent...
+        return True
+
+    # No @retry decorator since _app_start_adb_am and _app_start_adb_monkey have @retry already
+    # @retry
+    def app_start_uiautomator2(self, package_name=None, activity_name=None, allow_failure=False):
         """
         Args:
             package_name (str):
                 If None, to get from config
             activity_name (str):
                 If None, to get from DICT_PACKAGE_TO_ACTIVITY
+                If still None, launch from monkey
+                If monkey failed, fetch activity name and launch from am
+            allow_failure (bool):
+                True for no PackageNotInstalled raising, just return False
 
         Returns:
+            bool: If success to start
 
+        Raises:
+            PackageNotInstalled:
         """
         if not package_name:
             package_name = self.package
         if not activity_name:
             activity_name = DICT_PACKAGE_TO_ACTIVITY.get(package_name)
 
-        try:
-            self.u2.app_start(package_name, activity_name)
-        except u2.exceptions.BaseError as e:
-            # BaseError: package "com.bilibili.azurlane" not found
-            logger.error(e)
-            raise PackageNotInstalled(package_name)
+        if activity_name:
+            if self._app_start_u2_am(package_name, activity_name, allow_failure):
+                return True
+        if self._app_start_u2_monkey(package_name, allow_failure):
+            return True
+        if self._app_start_u2_am(package_name, activity_name, allow_failure):
+            return True
+
+        logger.error('app_start_uiautomator2: All trials failed')
+        return False
 
     @retry
     def app_stop_uiautomator2(self, package_name=None):
