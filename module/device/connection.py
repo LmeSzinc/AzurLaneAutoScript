@@ -265,6 +265,7 @@ class Connection(ConnectionAttr):
         return self.adb_shell(['getprop', name]).strip()
 
     @cached_property
+    @retry
     def cpu_abi(self) -> str:
         """
         Returns:
@@ -276,6 +277,7 @@ class Connection(ConnectionAttr):
         return abi
 
     @cached_property
+    @retry
     def sdk_ver(self) -> int:
         """
         Android SDK/API levels, see https://apilevels.com/
@@ -289,6 +291,7 @@ class Connection(ConnectionAttr):
         return 0
 
     @cached_property
+    @retry
     def is_avd(self):
         if get_serial_pair(self.serial)[0] is None:
             return False
@@ -299,12 +302,35 @@ class Connection(ConnectionAttr):
         return False
 
     @cached_property
+    @retry
+    def is_waydroid(self):
+        res = self.adb_getprop('ro.product.brand')
+        logger.attr('ro.product.brand', res)
+        return 'waydroid' in res.lower()
+
+    @cached_property
+    @retry
     def nemud_app_keep_alive(self) -> str:
         res = self.adb_getprop('nemud.app_keep_alive')
         logger.attr('nemud.app_keep_alive', res)
         return res
 
+    @cached_property
     @retry
+    def nemud_player_version(self) -> str:
+        # [nemud.player_product_version]: [3.8.27.2950]
+        res = self.adb_getprop('nemud.player_version')
+        logger.attr('nemud.player_version', res)
+        return res
+
+    @cached_property
+    @retry
+    def nemud_player_engine(self) -> str:
+        # NEMUX or MACPRO
+        res = self.adb_getprop('nemud.player_engine')
+        logger.attr('nemud.player_engine', res)
+        return res
+
     def check_mumu_app_keep_alive(self):
         if not self.is_mumu_family:
             return False
@@ -334,12 +360,13 @@ class Connection(ConnectionAttr):
         """
         if not self.is_mumu_family:
             return False
+        # >= 4.0 has no info in getprop
+        if self.nemud_player_version == '':
+            return True
         if self.nemud_app_keep_alive != '':
             return True
         if IS_MACINTOSH:
-            res = self.adb_getprop('nemud.player_engine')
-            logger.attr('nemud.player_engine', res)
-            if 'MACPRO' in res:
+            if 'MACPRO' in self.nemud_player_engine:
                 return True
         return False
 
@@ -659,13 +686,9 @@ class Connection(ConnectionAttr):
                 # Brute force connect nearby ports to handle serial switches
                 if self.is_mumu12_family:
                     before = self.serial
-                    for port_offset in [1, -1, 2, -2]:
-                        port = self.port + port_offset
-                        serial = self.serial.replace(str(self.port), str(port))
-                        msg = self.adb_client.connect(serial)
-                        logger.info(msg)
-                        if 'connected' in msg:
-                            break
+                    serial_list = [self.serial.replace(str(self.port), str(self.port + offset))
+                                   for offset in [1, -1, 2, -2]]
+                    self.adb_brute_force_connect(serial_list)
                     self.detect_device()
                     if self.serial != before:
                         return True
@@ -677,6 +700,25 @@ class Connection(ConnectionAttr):
         logger.warning(f'Failed to connect {self.serial} after 3 trial, assume connected')
         self.detect_device()
         return False
+
+    def adb_brute_force_connect(self, serial_list):
+        """
+        Args:
+            serial_list (list[str]):
+        """
+        import asyncio
+        ev = asyncio.new_event_loop()
+
+        def _connect(serial):
+            msg = self.adb_client.connect(serial)
+            logger.info(msg)
+            return msg
+
+        async def connect():
+            tasks = [ev.run_in_executor(None, _connect, serial) for serial in serial_list]
+            await asyncio.gather(*tasks)
+
+        ev.run_until_complete(connect())
 
     @Config.when(DEVICE_OVER_HTTP=True)
     def adb_connect(self):
