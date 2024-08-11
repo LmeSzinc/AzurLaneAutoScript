@@ -47,7 +47,7 @@ class InfoHandler(ModuleBase):
         line = color_similarity_2d(line, color=(107, 158, 255))[:, 0]
 
         parameters = {
-            'height': 235,
+            'height': 210,
             'prominence': 50,
             # Blue lines are in a interval of 56
             'distance': 50,
