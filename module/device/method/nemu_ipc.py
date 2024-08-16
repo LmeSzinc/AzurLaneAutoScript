@@ -1,5 +1,6 @@
 import asyncio
 import ctypes
+import json
 import os
 import sys
 from functools import partial, wraps
@@ -10,6 +11,7 @@ import numpy as np
 from module.base.decorator import cached_property, del_cached_property, has_cached_property
 from module.base.timer import Timer
 from module.base.utils import ensure_time
+from module.config.utils import deep_get
 from module.device.method.minitouch import insert_swipe, random_rectangle_point
 from module.device.method.utils import RETRY_TRIES, retry_sleep
 from module.device.platform import Platform
@@ -496,6 +498,58 @@ class NemuIpc(Platform):
         except RequestHumanTakeover:
             return False
         return True
+
+    @staticmethod
+    def check_mumu_app_keep_alive_400(file):
+        """
+        Check app_keep_alive from emulator config if version >= 4.0
+
+        Args:
+            file: E:/ProgramFiles/MuMuPlayer-12.0/vms/MuMuPlayer-12.0-1/config/customer_config.json
+
+        Returns:
+            bool: If success to read file
+        """
+        # with E:\ProgramFiles\MuMuPlayer-12.0\shell\MuMuPlayer.exe
+        # config is E:\ProgramFiles\MuMuPlayer-12.0\vms\MuMuPlayer-12.0-1\config\customer_config.json
+        try:
+            with open(file, mode='r', encoding='utf-8') as f:
+                s = f.read()
+                data = json.loads(s)
+        except FileNotFoundError:
+            logger.warning(f'Failed to check check_mumu_app_keep_alive, file {file} not exists')
+            return False
+        value = deep_get(data, keys='customer.app_keptlive', default=None)
+        logger.attr('customer.app_keptlive', value)
+        if str(value).lower() == 'true':
+            # https://mumu.163.com/help/20230802/35047_1102450.html
+            logger.critical('请在MuMu模拟器设置内关闭 "后台挂机时保活运行"')
+            raise RequestHumanTakeover
+        return True
+
+    def check_mumu_app_keep_alive(self):
+        if not self.is_mumu_over_version_400:
+            return super().check_mumu_app_keep_alive()
+
+        # Try existing settings first
+        if self.config.EmulatorInfo_path:
+            index = NemuIpcImpl.serial_to_id(self.serial)
+            if index is not None:
+                file = os.path.abspath(os.path.join(
+                    self.config.EmulatorInfo_path, f'../../vms/MuMuPlayer-12.0-{index}/configs/customer_config.json'))
+                if self.check_mumu_app_keep_alive_400(file):
+                    return True
+
+        # Search emulator instance
+        if self.emulator_instance is None:
+            logger.warning('Failed to check check_mumu_app_keep_alive as emulator_instance is None')
+            return False
+        name = self.emulator_instance.name
+        file = self.emulator_instance.emulator.abspath(f'../vms/{name}/configs/customer_config.json')
+        if self.check_mumu_app_keep_alive_400(file):
+            return True
+
+        return False
 
     def nemu_ipc_release(self):
         if has_cached_property(self, 'nemu_ipc'):
