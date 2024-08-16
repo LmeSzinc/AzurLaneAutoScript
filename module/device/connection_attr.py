@@ -190,6 +190,10 @@ class ConnectionAttr:
         return bool(re.match(r'\d+\.\d+\.\d+\.\d+:\d+', self.serial))
 
     @cached_property
+    def is_local_network_device(self):
+        return bool(re.match(r'192\.168\.\d+\.\d+:\d+', self.serial))
+
+    @cached_property
     def is_over_http(self):
         return bool(re.match(r"^https?://", self.serial))
 

@@ -486,6 +486,9 @@ class NemuIpc(Platform):
     def nemu_ipc_available(self) -> bool:
         if not self.is_mumu_family:
             return False
+        # >= 4.0 has no info in getprop
+        if self.nemud_player_version == '':
+            return True
         if self.nemud_app_keep_alive == '':
             return False
         try:
