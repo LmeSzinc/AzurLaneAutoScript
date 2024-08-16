@@ -376,9 +376,17 @@ class ActionPointHandler(UI, MapEventHandler):
             # Buy action points
             if self.config.OpsiGeneral_BuyActionPointLimit > 0 and not buy_checked:
                 if self.action_point_buy(preserve=self.config.OpsiGeneral_OilLimit):
+                    self.action_point_safe_get()
                     continue
                 else:
                     buy_checked = True
+
+            # Recheck if total ap is less than cost
+            # If it is, skip using boxes
+            if self._action_point_total < cost:
+                logger.info('Not having enough action points')
+                self.action_point_quit()
+                raise ActionPointLimit
 
             # Sort action point boxes
             box = []
