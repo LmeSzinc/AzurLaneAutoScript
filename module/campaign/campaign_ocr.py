@@ -322,6 +322,15 @@ class CampaignOcr(ModuleBase):
         logger.attr('Chapter', self.campaign_chapter)
         logger.attr('Stage', ', '.join(self.stage_entrance.keys()))
 
+    def handle_get_chapter_additional(self):
+        """
+        Returns:
+            bool: If clicked
+        """
+        if self.appear(WITHDRAW, offset=(30, 30)):
+            logger.warning(f'get_chapter_index: WITHDRAW appears')
+            raise CampaignNameError
+
     def get_chapter_index(self, image):
         """
         A tricky method for ui_ensure_index
@@ -336,9 +345,8 @@ class CampaignOcr(ModuleBase):
         while 1:
             if timeout.reached():
                 raise CampaignNameError
-            if self.appear(WITHDRAW, offset=(30, 30)):
-                logger.warning(f'get_chapter_index: WITHDRAW appears')
-                raise CampaignNameError
+            if self.handle_get_chapter_additional():
+                continue
             try:
                 self._get_stage_name(image)
                 break
