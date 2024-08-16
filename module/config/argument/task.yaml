@@ -91,15 +91,6 @@ Event:
       - Emotion
       - HpControl
       - EnemyPriority
-    Event3:
-      - Scheduler
-      - Campaign
-      - StopCondition
-      - Fleet
-      - Submarine
-      - Emotion
-      - HpControl
-      - EnemyPriority
     Raid:
       - Scheduler
       - Raid

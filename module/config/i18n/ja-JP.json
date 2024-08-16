@@ -74,10 +74,6 @@
       "name": "イベント海域-2",
       "help": ""
     },
-    "Event3": {
-      "name": "Task.Event3.name",
-      "help": "Task.Event3.help"
-    },
     "Raid": {
       "name": "Raid",
       "help": ""

@@ -263,7 +263,6 @@ class GGHandler:
             'main3',
             'event',
             'event2',
-            'event3',
             'gems_farming',
             'c72_mystery_farming',
             'c122_medium_leveling',
