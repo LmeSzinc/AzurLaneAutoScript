@@ -266,6 +266,11 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     'aerfuleiduo': 'AlfredoOriani',
     'guogan': 'LAudacieux',
     'dipulaikesi': 'Dupleix',
+
+    # Windborne Steel Wings
+    'qinraozhe_IV': 'Intruder',
+    'tiancheng_m_qingxun': 'AmagiMasked',
+    'tiancheng_m_zhongxun': 'AmagiMasked',
 }
 
 
@@ -469,7 +474,7 @@ class MapData:
             lines.append(f'MAP.portal_data = {self.portal}')
         lines.append('MAP.map_data = \"\"\"')
         for y in range(self.shape[1] + 1):
-            lines.append('    ' + ' '.join([self.map_data[(x, y)] for x in range(self.shape[0] + 1)]))
+            lines.append('    ' + ' '.join([self.map_data.get((x, y), '??') for x in range(self.shape[0] + 1)]))
         lines.append('\"\"\"')
         if self.map_data_loop is not None:
             lines.append('MAP.map_data_loop = \"\"\"')
