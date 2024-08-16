@@ -2,7 +2,7 @@ from module.logger import logger
 from module.map.map_base import CampaignMap
 from module.map.map_grids import RoadGrids, SelectedGrids
 
-from .campaign_base import CampaignBase
+from module.campaign.campaign_base import CampaignBase
 
 MAP = CampaignMap('SP1')
 MAP.shape = 'H7'
@@ -55,6 +55,7 @@ class Config:
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
+    MAP_SIREN_HAS_BOSS_ICON_SMALL = True
     MAP_SWIPE_MULTIPLY = (1.122, 1.143)
     MAP_SWIPE_MULTIPLY_MINITOUCH = (1.085, 1.105)
     MAP_SWIPE_MULTIPLY_MAATOUCH = (1.054, 1.073)

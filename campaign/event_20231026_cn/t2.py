@@ -1,4 +1,4 @@
-from .campaign_base import CampaignBase, EventGrid
+from .campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
@@ -58,6 +58,7 @@ class Config(ConfigBase):
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
+    MAP_SIREN_HAS_BOSS_ICON = True
     MAP_SWIPE_MULTIPLY = (1.223, 1.246)
     MAP_SWIPE_MULTIPLY_MINITOUCH = (1.183, 1.205)
     MAP_SWIPE_MULTIPLY_MAATOUCH = (1.149, 1.169)
@@ -66,7 +67,6 @@ class Config(ConfigBase):
 class Campaign(CampaignBase):
     MAP = MAP
     ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
-    grid_class = EventGrid
 
     def battle_0(self):
         if self.clear_siren():
