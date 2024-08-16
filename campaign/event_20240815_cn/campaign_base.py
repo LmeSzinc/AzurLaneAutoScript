@@ -2,6 +2,7 @@ from module.base.timer import Timer
 from module.campaign.campaign_base import CampaignBase as CampaignBase_
 from module.combat.assets import GET_ITEMS_1
 from module.exception import CampaignNameError
+from module.logger import logger
 
 
 class CampaignBase(CampaignBase_):
@@ -31,6 +32,7 @@ class CampaignBase(CampaignBase_):
         return True
 
     def ensure_no_stage_entrance(self, skip_first_screenshot=True):
+        logger.info('ensure_no_stage_entrance')
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -59,7 +61,7 @@ class CampaignBase(CampaignBase_):
         # Click after stage ended
         if self.is_in_stage_page():
             if self.handle_story_entrance():
-                return True
+                return False
         return super().handle_in_stage()
 
     def handle_get_chapter_additional(self):
