@@ -1,4 +1,5 @@
 from module.base.timer import Timer
+from module.base.utils import area_in_area, area_pad
 from module.campaign.campaign_base import CampaignBase as CampaignBase_
 from module.combat.assets import GET_ITEMS_1
 from module.exception import CampaignNameError
@@ -15,9 +16,15 @@ class CampaignBase(CampaignBase_):
         """
         # 5 story stage after clearing A2
         # You can't go anywhere unless you clicked it
-        return self.image_color_button(
+        button = self.image_color_button(
             area=(66, 200, 1200, 690), color=(0, 0, 0),
             color_threshold=240, encourage=10, name='STORY_ENTRANCE')
+        if button is None:
+            return None
+        # Blacklisted area
+        if area_in_area(button.button, area_pad((424, 522, 444, 542), pad=-20)):
+            return None
+        return button
 
     def handle_story_entrance(self):
         if not self.entrance_timer.reached():
