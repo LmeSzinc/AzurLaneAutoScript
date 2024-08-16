@@ -536,7 +536,7 @@ class NemuIpc(Platform):
             index = NemuIpcImpl.serial_to_id(self.serial)
             if index is not None:
                 file = os.path.abspath(os.path.join(
-                    self.config.EmulatorInfo_path, f'../../vms/MuMuPlayer-12.0-{index}/config/customer_config.json'))
+                    self.config.EmulatorInfo_path, f'../../vms/MuMuPlayer-12.0-{index}/configs/customer_config.json'))
                 if self.check_mumu_app_keep_alive_400(file):
                     return True
 
@@ -545,7 +545,7 @@ class NemuIpc(Platform):
             logger.warning('Failed to check check_mumu_app_keep_alive as emulator_instance is None')
             return False
         name = self.emulator_instance.name
-        file = self.emulator_instance.emulator.abspath(f'../vms/{name}/config/customer_config.json')
+        file = self.emulator_instance.emulator.abspath(f'../vms/{name}/configs/customer_config.json')
         if self.check_mumu_app_keep_alive_400(file):
             return True
 
