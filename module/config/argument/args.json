@@ -1601,6 +1601,7 @@
         "value": "any",
         "option": [
           "any",
+          "eagle",
           "langley",
           "bogue",
           "ranger",

@@ -1145,6 +1145,7 @@
       "name": "Flagship Common CV/CVL Preference",
       "help": "",
       "any": "any",
+      "eagle": "eagle only",
       "langley": "langley",
       "bogue": "bogue",
       "ranger": "ranger",

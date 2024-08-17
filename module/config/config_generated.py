@@ -153,7 +153,7 @@ class GeneratedConfig:
     GemsFarming_ALLowLowVanguardLevel = True
     GemsFarming_FleetNumberInHardMode = 0  # 0, 1, 2
     GemsFarming_StopIFAutoNotEnsured = True
-    GemsFarming_CommonCV = 'any'  # any, langley, bogue, ranger, hermes
+    GemsFarming_CommonCV = 'any'  # any, eagle, langley, bogue, ranger, hermes
     GemsFarming_CommonDD = 'any'  # any, favourite, aulick_or_foote, cassin_or_downes, z20_or_z21
     GemsFarming_EnableEquipmentCode = False
     GemsFarming_EquipmentCode = 'DD: null\nbogue: null\nhermes: null\nlangley: null\nranger: null'

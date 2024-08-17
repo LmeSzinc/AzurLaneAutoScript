@@ -1160,6 +1160,7 @@
       "name": "GemsFarming.CommonCV.name",
       "help": "GemsFarming.CommonCV.help",
       "any": "any",
+      "eagle": "eagle only",
       "langley": "langley",
       "bogue": "bogue",
       "ranger": "ranger",
