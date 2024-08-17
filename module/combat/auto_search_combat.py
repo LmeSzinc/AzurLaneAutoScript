@@ -288,7 +288,7 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
                 self.device.screenshot_interval_set()
                 break
             if self.appear(BATTLE_STATUS_D) or self.appear(EXP_INFO_D) \
-                    or self.appear(OPTS_INFO_D) or timer >= 10:
+                    or self.appear(OPTS_INFO_D) or timer >= 6:
                 self._withdraw = True
                 self.device.sleep(2)
                 self.device.click(OPTS_INFO_D)
@@ -322,7 +322,7 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
 
             if self._withdraw:
                 self._withdraw = False
-                self.device.sleep(2)
+                self.device.sleep(3)
                 self.device.click(GET_MISSION)
                 self.withdraw()
                 break
