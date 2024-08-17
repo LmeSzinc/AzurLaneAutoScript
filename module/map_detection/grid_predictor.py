@@ -187,6 +187,21 @@ class GridPredictor:
         return scale
 
     def predict_enemy_genre(self):
+        if self.config.MAP_SIREN_HAS_BOSS_ICON:
+            if self.enemy_scale:
+                return ''
+            image = self.relative_crop((-0.55, -0.2, 0.45, 0.2), shape=(50, 20))
+            image = color_similarity_2d(image, color=(255, 150, 24))
+            if image[image > 221].shape[0] > 200:
+                if TEMPLATE_ENEMY_BOSS.match(image, similarity=0.6):
+                    return 'Siren_Siren'
+        if self.config.MAP_SIREN_HAS_BOSS_ICON_SMALL:
+            if self.relative_hsv_count(area=(0.03, -0.15, 0.63, 0.15), h=(32 - 3, 32 + 3), shape=(50, 20)) > 100:
+                image = self.relative_crop((0.03, -0.15, 0.63, 0.15), shape=(50, 20))
+                image = color_similarity_2d(image, color=(255, 150, 33))
+                if TEMPLATE_ENEMY_BOSS.match(image, similarity=0.7):
+                    return 'Siren_Siren'
+
         image_dic = {}
         scaling_dic = self.config.MAP_ENEMY_GENRE_DETECTION_SCALING
         for name, template in self.template_enemy_genre.items():
@@ -210,6 +225,9 @@ class GridPredictor:
         return None
 
     def predict_boss(self):
+        if self.enemy_genre == 'Siren_Siren':
+            return False
+
         image = self.relative_crop((-0.55, -0.2, 0.45, 0.2), shape=(50, 20))
         image = color_similarity_2d(image, color=(255, 77, 82))
         if TEMPLATE_ENEMY_BOSS.match(image, similarity=0.75):

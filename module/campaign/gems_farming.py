@@ -601,7 +601,6 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
         while 1:
             self._trigger_lv32 = False
             is_limit = self.config.StopCondition_RunCount
-
             try:
                 super().run(name=name, folder=folder, total=total)
             except CampaignEnd as e:
@@ -625,7 +624,6 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
                 except Exception as e:
                     from module.exception import GameStuckError
                     raise GameStuckError
-
 
             # End
             if self._trigger_lv32 or self._trigger_emotion:
