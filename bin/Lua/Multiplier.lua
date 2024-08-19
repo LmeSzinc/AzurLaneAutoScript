@@ -26,7 +26,7 @@ function HS9()
 	gg.searchNumber("0.0001E;1D::30", gg.TYPE_DWORD, false, gg.SIGN_EQUAL, 0, -1)
 	gg.refineNumber("1D", gg.TYPE_DWORD, false, gg.SIGN_EQUAL, 0, -1)
 	gg.getResults(100)
-	gg.editAll(n, gg.TYPE_DOUBLE)
+	gg.editAll(n, gg.TYPE_DWORD)
 	gg.getResultCount(results)
 	-- 判断
 	if results==nil then
