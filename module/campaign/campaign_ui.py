@@ -49,7 +49,7 @@ class CampaignUI(MapOperation, CampaignEvent, CampaignOcr):
             if self.handle_chapter_additional():
                 continue
 
-            current = self.get_chapter_index(self.device.image)
+            current = self.get_chapter_index()
 
             logger.attr("Index", current)
             diff = index - current
