@@ -105,6 +105,10 @@ class ActionPointHandler(UI, MapEventHandler):
     def _is_in_action_point(self):
         return self.appear(ACTION_POINT_USE, offset=(20, 20))
 
+    def is_current_ap_visible(self):
+        return self.appear(CURRENT_AP_CHECK, offset=(40, 5)) \
+            and CURRENT_AP_CHECK.match_appear_on(self.device.image, threshold=15)
+
     def action_point_use(self, skip_first_screenshot=True):
         prev = self._action_point_current
         self.interval_clear(ACTION_POINT_USE)
@@ -155,7 +159,7 @@ class ActionPointHandler(UI, MapEventHandler):
                 logger.warning('Get action points timeout')
                 break
 
-            if self.info_bar_count() >= 2:
+            if not self.is_current_ap_visible():
                 timeout.reset()
                 continue
 
