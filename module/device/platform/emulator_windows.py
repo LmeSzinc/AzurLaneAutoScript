@@ -299,10 +299,18 @@ class Emulator(EmulatorBase):
             for folder in self.list_folder('../vms', is_dir=True):
                 for file in iter_folder(folder, ext='.nemu'):
                     serial = Emulator.vbox_file_to_serial(file)
+                    name = os.path.basename(folder)
                     if serial:
                         yield EmulatorInstance(
                             serial=serial,
-                            name=os.path.basename(folder),
+                            name=name,
+                            path=self.path,
+                        )
+                    # Fix for MuMu12 v4.0.4, default instance of which has no forward record in vbox config
+                    elif name == 'MuMuPlayer-12.0-0':
+                        yield EmulatorInstance(
+                            serial='127.0.0.1:16384',
+                            name=name,
                             path=self.path,
                         )
         elif self == Emulator.MEmuPlayer:

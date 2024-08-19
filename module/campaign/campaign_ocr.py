@@ -331,28 +331,33 @@ class CampaignOcr(ModuleBase):
             logger.warning(f'get_chapter_index: WITHDRAW appears')
             raise CampaignNameError
 
-    def get_chapter_index(self, image):
+    def get_chapter_index(self, skip_first_screenshot=True):
         """
         A tricky method for ui_ensure_index
 
         Args:
-            image: Screenshot
+            skip_first_screenshot:
 
         Returns:
             int: Chapter index.
         """
         timeout = Timer(2, count=4).start()
         while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
             if timeout.reached():
                 raise CampaignNameError
-            if self.handle_get_chapter_additional():
-                continue
+            image = self.device.image
             try:
                 self._get_stage_name(image)
                 break
             except (IndexError, CampaignNameError):
-                self.device.screenshot()
-                image = self.device.image
+                pass
+
+            if self.handle_get_chapter_additional():
                 continue
 
         return self._campaign_get_chapter_index(self.campaign_chapter)
