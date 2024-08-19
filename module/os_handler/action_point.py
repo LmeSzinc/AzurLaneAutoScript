@@ -148,6 +148,20 @@ class ActionPointHandler(UI, MapEventHandler):
         self._action_point_total = total
 
     def action_point_safe_get(self, skip_first_screenshot=True):
+        timeout = Timer(3, count=6).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.is_current_ap_visible():
+                break
+            if timeout.reached():
+                logger.warning('Get action points timeout, wait is_current_ap_visible timeout')
+                break
+
+        skip_first_screenshot = True
         timeout = Timer(1, count=2).start()
         while 1:
             if skip_first_screenshot:
@@ -158,10 +172,6 @@ class ActionPointHandler(UI, MapEventHandler):
             if timeout.reached():
                 logger.warning('Get action points timeout')
                 break
-
-            if not self.is_current_ap_visible():
-                timeout.reset()
-                continue
 
             self.action_point_update()
 
