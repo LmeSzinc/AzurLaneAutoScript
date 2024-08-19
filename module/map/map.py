@@ -653,8 +653,8 @@ class Map(Fleet):
 
     def clear_filter_enemy(self, string, preserve=0):
         """
-        if EnemyPriority_EnemyScaleBalanceWeight != default_mode
-        Filter will be covered
+        If EnemyPriority_EnemyScaleBalanceWeight != default_mode, enemy filter is ignored
+        If MAP_HAS_MOVABLE_NORMAL_ENEMY, enemy filter is ignored
 
         Args:
             string (str): Filter to select enemies, from easy to hard
@@ -664,6 +664,11 @@ class Map(Fleet):
         Returns:
             bool: If clear an enemy.
         """
+        if self.config.MAP_HAS_MOVABLE_NORMAL_ENEMY:
+            if self.clear_any_enemy(sort=('cost_2',)):
+                return True
+            return False
+
         if self.config.EnemyPriority_EnemyScaleBalanceWeight == 'S3_enemy_first':
             string = '3L > 3M > 3E > 3C > 2L > 2M > 2E > 2C > 1L > 1M > 1E > 1C'
             preserve = 0
