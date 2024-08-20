@@ -182,7 +182,7 @@ class ManualConfig:
     # Use the green arrow on current fleet to decide if fleet arrived a certain grid
     MAP_WALK_USE_CURRENT_FLEET = False
     # Optimize walk path, reducing ambushes
-    MAP_WALK_OPTIMIZE = True
+    MAP_WALK_TURNING_OPTIMIZE = True
     # Optimize swipe path, reducing swipes turn info clicks.
     MAP_SWIPE_OPTIMIZE = True
     # Swipe after boss appear. Could avoid map detection error when camera is on edge.
