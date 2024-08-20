@@ -49,7 +49,7 @@ class CampaignUI(MapOperation, CampaignEvent, CampaignOcr):
             if self.handle_chapter_additional():
                 continue
 
-            current = self.get_chapter_index(self.device.image)
+            current = self.get_chapter_index()
 
             logger.attr("Index", current)
             diff = index - current
@@ -227,18 +227,34 @@ class CampaignUI(MapOperation, CampaignEvent, CampaignOcr):
             return True
         return False
 
-    def ensure_campaign_ui(self, name, mode='normal'):
-        for n in range(20):
+    def ensure_campaign_ui(self, name, mode='normal', skip_first_screenshot=True):
+        """
+        Args:
+            name (str): Campaign name, such as '7-2', 'd3', 'sp3'.
+            mode (str): 'normal' or 'hard'.
+            skip_first_screenshot:
+
+        Raises:
+            ScriptEnd: If failed to switch after retries
+        """
+        timeout = Timer(5, count=20).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if timeout.reached():
+                break
             try:
                 self.campaign_set_chapter(name, mode)
                 self.ENTRANCE = self.campaign_get_entrance(name=name)
                 return True
             except CampaignNameError:
                 pass
+
             if self.handle_campaign_ui_additional():
                 continue
-
-            self.device.screenshot()
 
         logger.warning('Campaign name error')
         raise ScriptEnd('Campaign name error')
