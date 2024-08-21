@@ -530,6 +530,14 @@ MeritShop:
 CoreShop:
   Filter: |-
     Array
+EventShop:
+  BuyShip: 
+    value: 0
+    option: [ 0, 1, 2, 3, 4, 5 ]
+  BuyGear: false
+  BuySkinBox: false
+  Filter: |-
+    Array > Chip > Oil
 ShipyardDr:
   ResearchSeries:
     value: 2

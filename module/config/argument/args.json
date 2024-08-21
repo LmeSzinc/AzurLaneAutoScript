@@ -7847,6 +7847,32 @@
         "value": "Array"
       }
     },
+    "EventShop": {
+      "BuyShip": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      "BuyGear": {
+        "type": "checkbox",
+        "value": false
+      },
+      "BuySkinBox": {
+        "type": "checkbox",
+        "value": false
+      },
+      "Filter": {
+        "type": "textarea",
+        "value": "Array > Chip > Oil"
+      }
+    },
     "Storage": {
       "Storage": {
         "type": "storage",

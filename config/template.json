@@ -1466,6 +1466,12 @@
     "CoreShop": {
       "Filter": "Array"
     },
+    "EventShop": {
+      "BuyShip": 0,
+      "BuyGear": false,
+      "BuySkinBox": false,
+      "Filter": "Array > Chip > Oil"
+    },
     "Storage": {
       "Storage": {}
     }

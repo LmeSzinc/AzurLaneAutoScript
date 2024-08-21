@@ -14,10 +14,11 @@ from module.ui.ui import UI
 
 FILTER_REGEX = re.compile(
     '^(array|book|box|bulin|cat'
-    '|chip|coin|cube|drill|food'
+    '|chip|coin|cube|drill|food|oil'
     '|plate|retrofit|pr|dr|specializedcore'
     '|logger|tuning'
     '|hecombatplan|fragment'
+    '|augmentchange|augmentcore|augmentenhance'
     '|albacore|bataan|bearn|bluegill|carabiniere|casablanca|contedicavour|dukeofyork'
     '|echo|eldridge|gangut|glorious|grenville|hibiki|hunter|icarus'
     '|kawakaze|kinggeorgev|kinu|kuroshio|lagalissonniere|lemalinmuse|letemeraire|littorio'
@@ -37,7 +38,7 @@ FILTER_REGEX = re.compile(
     '|abyssal|archive|obscure|unlock'
     '|combat|offense|survival)?'
 
-    '(s[1-5]|t[1-6])?$',
+    '(s[1-7]|t[1-6])?$',
     flags=re.IGNORECASE)
 FILTER_ATTR = ('group', 'sub_genre', 'tier')
 FILTER = Filter(FILTER_REGEX, FILTER_ATTR)

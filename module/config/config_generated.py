@@ -289,6 +289,12 @@ class GeneratedConfig:
     # Group `CoreShop`
     CoreShop_Filter = 'Array'
 
+    # Group `EventShop`
+    EventShop_BuyShip = 0  # 0, 1, 2, 3, 4, 5
+    EventShop_BuyGear = False
+    EventShop_BuySkinBox = False
+    EventShop_Filter = 'Array > Chip > Oil'
+
     # Group `ShipyardDr`
     ShipyardDr_ResearchSeries = 2  # 2, 3
     ShipyardDr_ShipIndex = 0  # 0, 1, 2, 3, 4, 5, 6

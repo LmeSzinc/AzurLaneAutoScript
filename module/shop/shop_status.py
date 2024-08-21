@@ -8,6 +8,7 @@ OCR_SHOP_MEDAL = Digit(SHOP_MEDAL, letter=(239, 239, 239), name='OCR_SHOP_MEDAL'
 OCR_SHOP_MERIT = Digit(SHOP_MERIT, letter=(239, 239, 239), name='OCR_SHOP_MERIT')
 OCR_SHOP_GUILD_COINS = Digit(SHOP_GUILD_COINS, letter=(255, 255, 255), name='OCR_SHOP_GUILD_COINS')
 OCR_SHOP_CORE = Digit(SHOP_CORE, letter=(239, 239, 239), name='OCR_SHOP_CORE')
+OCR_SHOP_EVENT_PT = Digit(SHOP_EVENT_PT, letter=(239, 239, 239), name='OCR_SHOP_EVENT')
 OCR_SHOP_VOUCHER = Digit(SHOP_VOUCHER, letter=(255, 255, 255), name='OCR_SHOP_VOUCHER')
 
 
@@ -76,6 +77,17 @@ class ShopStatus(UI):
             in: page_shop, core shop
         """
         amount = OCR_SHOP_CORE.ocr(self.device.image)
+        return amount
+
+    def status_get_pt(self):
+        """
+        Returns:
+            int:
+        
+        Pages:
+            in: page_shop, event_shop
+        """
+        amount = OCR_SHOP_EVENT_PT.ocr(self.device.image)
         return amount
 
     def status_get_voucher(self):

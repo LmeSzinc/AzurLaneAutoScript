@@ -1801,6 +1801,34 @@
       "help": "CoreShop.Filter.help"
     }
   },
+  "EventShop": {
+    "_info": {
+      "name": "EventShop._info.name",
+      "help": "EventShop._info.help"
+    },
+    "BuyShip": {
+      "name": "EventShop.BuyShip.name",
+      "help": "EventShop.BuyShip.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5"
+    },
+    "BuyGear": {
+      "name": "EventShop.BuyGear.name",
+      "help": "EventShop.BuyGear.help"
+    },
+    "BuySkinBox": {
+      "name": "EventShop.BuySkinBox.name",
+      "help": "EventShop.BuySkinBox.help"
+    },
+    "Filter": {
+      "name": "EventShop.Filter.name",
+      "help": "EventShop.Filter.help"
+    }
+  },
   "ShipyardDr": {
     "_info": {
       "name": "ShipyardDr._info.name",

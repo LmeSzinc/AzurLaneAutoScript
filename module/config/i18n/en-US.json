@@ -1801,6 +1801,34 @@
       "help": "All options have been defined at <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string>\nHowever unlike other shops, only Chip and Array are supported\nALAS does not browse, scroll, or recognize any other items displayed besides those two"
     }
   },
+  "EventShop": {
+    "_info": {
+      "name": "Event Shop Settings",
+      "help": ""
+    },
+    "BuyShip": {
+      "name": "Buy X Event Ships",
+      "help": "In order to reduce maintenance costs, the event ship selectors in the filter will not be updated with the game, but Alas will consider any unknown items that consume 8000 pts as event ships and buy them",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5"
+    },
+    "BuyGear": {
+      "name": "Buy Event Gears",
+      "help": "In order to reduce maintenance costs, the event gear selectors in the filter will not be updated with the game, but Alas will consider any unknown items with a total quantity of 1 and consume 2000 (ssr) or 12000 (ur) pts as event gears and buy them."
+    },
+    "BuySkinBox": {
+      "name": "Buy Equip Skin Boxes",
+      "help": "In order to reduce maintenance costs, the skin box selectors in the filter will not be updated with the game, but Alas will consider any unknown items with a total quantity of 10 and consume 2000 pts as skin boxes and buy them."
+    },
+    "Filter": {
+      "name": "Item Filter",
+      "help": "All options have been defined at <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string>"
+    }
+  },
   "ShipyardDr": {
     "_info": {
       "name": "DR Blueprints Purchase Settings",
