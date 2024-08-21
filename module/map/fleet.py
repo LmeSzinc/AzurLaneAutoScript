@@ -467,23 +467,27 @@ class Fleet(Camera, AmbushHandler):
             if result == 'nothing' and expected == 'combat':
                 raise MapEnemyMoved
 
-    def goto(self, location, optimize=None, expected=''):
+    def goto(self, location, expected='', step_optimize=None, turning_optimize=None):
         """
         Args:
             location (tuple, str, GridInfo): Destination.
-            optimize (bool): Optimize walk path, reducing ambushes.
-                If None, loads MAP_WALK_OPTIMIZE
             expected (str): Expected result on destination grid, such as 'combat', 'combat_siren', 'mystery'.
                 Will give a waring if arrive with unexpected result.
+            step_optimize (bool): True to walk in fleet step
+            turning_optimize (bool): True to optimize route to reduce ambushes
         """
         location = location_ensure(location)
-        if optimize is None:
-            optimize = self.config.MAP_WALK_OPTIMIZE
+        if step_optimize is None:
+            step_optimize = self.config.MAP_HAS_FLEET_STEP
+            if self.config.MAP_HAS_PORTAL or self.config.MAP_HAS_MAZE:
+                step_optimize = True
+        if turning_optimize is None:
+            turning_optimize = self.config.MAP_HAS_AMBUSH
 
         # self.device.sleep(1000)
-        if optimize and (self.config.MAP_HAS_AMBUSH or self.config.MAP_HAS_FLEET_STEP or self.config.MAP_HAS_PORTAL
-                         or self.config.MAP_HAS_MAZE):
-            nodes = self.map.find_path(location, step=self.fleet_step)
+        if step_optimize or turning_optimize:
+            step = self.fleet_step if step_optimize else 0
+            nodes = self.map.find_path(location, step=step, turning_optimize=turning_optimize)
             for node in nodes:
                 if self.maze_active_on(node):
                     logger.info(f'Maze is active on {location2node(node)}, bouncing to wait')
@@ -499,7 +503,7 @@ class Fleet(Camera, AmbushHandler):
                     logger.warning('Map walk error.')
                     self.predict()
                     self.ensure_edge_insight()
-                    nodes_ = self.map.find_path(node, step=1)
+                    nodes_ = self.map.find_path(node, step=1, turning_optimize=False)
                     for node_ in nodes_:
                         self._goto(node_, expected=expected if node == nodes[-1] else '')
         else:
