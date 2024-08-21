@@ -12,8 +12,7 @@
   "Task": {
     "Maa": {
       "name": "Set-up",
-      "help": "On first use, you will most likely have to configure a few things here.
-      This integration is behind (as in older version of) the standalone MAA, so some things might be outdated or not work properly; WiP"
+      "help": "On first use, you will most likely have to configure a few things here.\nThis integration is behind (as in older version of) the standalone MAA, so some things might be outdated or not work properly; WiP"
     },
     "MaaStartup": {
       "name": "MaaStartup",
@@ -145,7 +144,7 @@
     },
     "MaaPath": {
       "name": "MAA Installation Path",
-      "help": "should end on \MAA"
+      "help": "should end on 'MAA'"
     },
     "TouchMethod": {
       "name": "Touch Mode",
@@ -616,7 +615,7 @@
     },
     "FileName": {
       "name": "Coplilot file name",
-      "help": "by default is located wihtin the MAA installation folder under ressource and copilot, so your path should end like ...\MAA\resource\copilot"
+      "help": "by default is located wihtin the MAA installation folder under ressource and copilot, so your path should end like ...'\\MAA\\resource\\copilot'"
     },
     "Identify": {
       "name": "MaaCopilot.Identify.name",
