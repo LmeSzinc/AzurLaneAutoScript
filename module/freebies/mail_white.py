@@ -64,10 +64,13 @@ class MailWhite(UI):
             if self.appear(MAIL_BATCH_CLAIM, offset=(20, 20)):
                 logger.info('Mail entered')
                 return True
+            if self.appear(MAIL_WHITE_EMPTY, offset=(20, 20)):
+                logger.info('Mail empty')
+                return False
             if not has_mail and self.appear(GOTO_MAIN_WHITE, offset=(20, 20)):
                 timeout.start()
                 if timeout.reached():
-                    logger.info('Mail empty')
+                    logger.info('Mail empty, wait GOTO_MAIN_WHITE timeout')
                     return False
 
             # Click
