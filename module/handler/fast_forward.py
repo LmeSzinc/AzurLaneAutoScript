@@ -407,7 +407,7 @@ class FastForwardHandler(AutoSearchHandler):
                 or 2x book setting is absent
 
         """
-        confirm_timer = Timer(1).start()
+        confirm_timer = Timer(0.3, count=1).start()
         clicked_threshold = 0
         while 1:
             if skip_first_screenshot:
