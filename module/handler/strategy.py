@@ -20,7 +20,7 @@ submarine_view = Switch('Submarine_view', offset=(100, 200))
 submarine_view.add_status('on', check_button=SUBMARINE_VIEW_ON)
 submarine_view.add_status('off', check_button=SUBMARINE_VIEW_OFF)
 
-MOB_MOVE_OFFSET = (120, 120)
+MOB_MOVE_OFFSET = (120, 200)
 
 
 class StrategyHandler(InfoHandler):
@@ -35,10 +35,10 @@ class StrategyHandler(InfoHandler):
             else:
                 self.device.screenshot()
 
-            if self.appear(STRATEGY_OPENED, offset=120):
+            if self.appear(STRATEGY_OPENED, offset=200):
                 break
 
-            if self.appear(IN_MAP, interval=5) and not self.appear(STRATEGY_OPENED, offset=120):
+            if self.appear(IN_MAP, interval=5) and not self.appear(STRATEGY_OPENED, offset=200):
                 self.device.click(STRATEGY_OPEN)
                 continue
 
@@ -54,10 +54,10 @@ class StrategyHandler(InfoHandler):
             else:
                 self.device.screenshot()
 
-            if self.appear_then_click(STRATEGY_OPENED, offset=120, interval=5):
+            if self.appear_then_click(STRATEGY_OPENED, offset=200, interval=5):
                 continue
 
-            if not self.appear(STRATEGY_OPENED, offset=120):
+            if not self.appear(STRATEGY_OPENED, offset=200):
                 break
 
     def strategy_set_execute(self, formation_index=None, sub_view=None, sub_hunt=None):
@@ -156,7 +156,7 @@ class StrategyHandler(InfoHandler):
             else:
                 self.device.screenshot()
 
-            if self.appear(SUBMARINE_MOVE_ENTER, offset=120, interval=5):
+            if self.appear(SUBMARINE_MOVE_ENTER, offset=200, interval=5):
                 self.device.click(SUBMARINE_MOVE_ENTER)
 
             if self.appear(SUBMARINE_MOVE_CONFIRM, offset=(20, 20)):
@@ -180,7 +180,7 @@ class StrategyHandler(InfoHandler):
             if self.handle_popup_confirm('SUBMARINE_MOVE'):
                 pass
 
-            if self.appear(SUBMARINE_MOVE_ENTER, offset=120):
+            if self.appear(SUBMARINE_MOVE_ENTER, offset=200):
                 break
 
     def strategy_submarine_move_cancel(self, skip_first_screenshot=True):
@@ -201,7 +201,7 @@ class StrategyHandler(InfoHandler):
             if self.handle_popup_confirm('SUBMARINE_MOVE'):
                 pass
 
-            if self.appear(SUBMARINE_MOVE_ENTER, offset=120):
+            if self.appear(SUBMARINE_MOVE_ENTER, offset=200):
                 break
 
     def is_in_strategy_mob_move(self):
