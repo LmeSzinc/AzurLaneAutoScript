@@ -244,7 +244,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
             bool: True if flagship changed.
         """
 
-        if self.config.GemsFarming_CommonCV == 'any':
+        if self.config.GemsFarming_CommonCV in ['any', 'eagle']:
             index_list = range(3, 5)
         else:
             index_list = range(0, 5)

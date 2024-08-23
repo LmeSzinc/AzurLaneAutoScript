@@ -470,7 +470,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
         Returns:
             Button:
         """
-        if self.config.GemsFarming_CommonCV == 'any':
+        if self.config.GemsFarming_CommonCV in ['any', 'eagle']:
             for common_cv_name in ['BOGUE', 'HERMES', 'LANGLEY', 'RANGER']:
                 template = globals()[f'TEMPLATE_{common_cv_name}']
                 sim, button = template.match_result(
