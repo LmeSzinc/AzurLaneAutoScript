@@ -79,8 +79,9 @@ class Config:
         # 'width': (0, 7),
         'wlen': 1000
     }
+    HOMO_STORAGE = ((9, 6), [(154.004, 110.162), (1153.33, 110.162), (-36.338, 651.451), (1318.254, 651.451)])
     HOMO_EDGE_COLOR_RANGE = (0, 33)
-    HOMO_EDGE_HOUGHLINES_THRESHOLD = 300
+    # HOMO_EDGE_HOUGHLINES_THRESHOLD = 300
     MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
     MAP_IS_ONE_TIME_STAGE = True
     MAP_SWIPE_MULTIPLY = (1.063, 1.083)
