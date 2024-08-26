@@ -318,7 +318,7 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
                 raise CampaignEnd
 
             # Withdraw
-            if self._withdraw and get_urgent_commission and self.appear(WITHDRAW, offset=(30, 30), interval=5):
+            if self._withdraw and get_urgent_commission and self.appear(WITHDRAW, offset=(30, 30)):
                 self._withdraw = False
                 self.withdraw()
                 break
