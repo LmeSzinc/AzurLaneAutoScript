@@ -3,8 +3,9 @@ from module.campaign.campaign_status import CampaignStatus
 from module.combat.assets import *
 from module.combat.combat import Combat
 from module.exception import CampaignEnd
-from module.handler.assets import GET_MISSION, AUTO_SEARCH_MAP_OPTION_ON
+from module.handler.assets import AUTO_SEARCH_MAP_OPTION_ON
 from module.logger import logger
+from module.map.assets import WITHDRAW
 from module.map.map_operation import MapOperation
 
 
@@ -254,7 +255,6 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
             self.emotion.reduce(fleet_index)
         auto = self.config.Fleet_Fleet1Mode if fleet_index == 1 else self.config.Fleet_Fleet2Mode
 
-        timer = 0
         while 1:
             self.device.screenshot()
 
@@ -282,19 +282,15 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
                 continue
             if self.handle_get_ship():
                 continue
+            if self.appear_then_click(OPTS_INFO_D, interval=2):
+                self._withdraw = True
+                continue
             if self.appear(BATTLE_STATUS_S) or self.appear(BATTLE_STATUS_A) or self.appear(BATTLE_STATUS_B) \
                     or self.appear(BATTLE_STATUS_C) or self.appear(EXP_INFO_S) or self.appear(EXP_INFO_A) \
-                    or self.appear(EXP_INFO_B) or self.appear(EXP_INFO_C) or self.is_auto_search_running():
+                    or self.appear(EXP_INFO_B) or self.appear(EXP_INFO_C) \
+                    or self._withdraw or self.is_auto_search_running():
                 self.device.screenshot_interval_set()
                 break
-            if self.appear(BATTLE_STATUS_D) or self.appear(EXP_INFO_D) \
-                    or self.appear(OPTS_INFO_D) or timer >= 6:
-                self._withdraw = True
-                self.device.sleep(2)
-                self.device.click(OPTS_INFO_D)
-                self.device.screenshot_interval_set()
-                break
-            timer += 1
 
     def auto_search_combat_status(self, skip_first_screenshot=True):
         """
@@ -306,6 +302,7 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
         self.device.stuck_record_clear()
         self.device.click_record_clear()
         exp_info = False  # This is for the white screen bug in game
+        get_urgent_commission = False
 
         while 1:
             if skip_first_screenshot:
@@ -320,10 +317,9 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
             if self.is_in_auto_search_menu() or self._handle_auto_search_menu_missing():
                 raise CampaignEnd
 
-            if self._withdraw:
+            # Withdraw
+            if self._withdraw and get_urgent_commission and self.appear(WITHDRAW, offset=(30, 30), interval=5):
                 self._withdraw = False
-                self.device.sleep(3)
-                self.device.click(GET_MISSION)
                 self.withdraw()
                 break
 
@@ -332,10 +328,11 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
                 continue
             if self.handle_popup_confirm('AUTO_SEARCH_COMBAT_STATUS'):
                 continue
-            if self.handle_auto_search_map_option():
+            if not self._withdraw and self.handle_auto_search_map_option():
                 self._auto_search_status_confirm = False
                 continue
             if self.handle_urgent_commission():
+                get_urgent_commission = True
                 continue
             if self.handle_story_skip():
                 continue
