@@ -1158,21 +1158,6 @@
       "ship": "Change Ship",
       "ship_equip": "Change Ship + Gears"
     },
-    "ALLowLowVanguardLevel": {
-      "name": "ALLow Low Vanguard Level",
-      "help": "Destroyers over level 10 will now be used, 49 for Event CD"
-    },
-    "FleetNumberInHardMode": {
-      "name": "Fleet number used in hard mode",
-      "help": "Fleet number used in hard mode like Event C/D",
-      "0": "Not a hard mode",
-      "1": "Fleet 1",
-      "2": "Fleet 2"
-    },
-    "StopIFAutoNotEnsured": {
-      "name": "GemsFarming.StopIFAutoNotEnsured.name",
-      "help": "GemsFarming.StopIFAutoNotEnsured.help"
-    },
     "CommonDD": {
       "name": "Flagship Common DD Preference",
       "help": "",
@@ -1189,6 +1174,21 @@
     "EquipmentCode": {
       "name": "",
       "help": ""
+    },
+    "ALLowLowVanguardLevel": {
+      "name": "ALLow Low Vanguard Level",
+      "help": "Destroyers over level 10 will now be used, 49 for Event CD"
+    },
+    "FleetNumberInHardMode": {
+      "name": "Fleet number used in hard mode",
+      "help": "Fleet number used in hard mode like Event C/D",
+      "0": "Not a hard mode",
+      "1": "Fleet 1",
+      "2": "Fleet 2"
+    },
+    "StopIFAutoNotEnsured": {
+      "name": "GemsFarming.StopIFAutoNotEnsured.name",
+      "help": "GemsFarming.StopIFAutoNotEnsured.help"
     },
     "CommissionLimit": {
       "name": "Prevent Too Many Urgent Commissions",

@@ -1771,7 +1771,8 @@
       },
       "Use2xBook": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "display": "hide"
       },
       "AmbushEvade": {
         "type": "checkbox",
@@ -9178,11 +9179,7 @@
       },
       "DisableMeowfficerFarming": {
         "type": "checkbox",
-        "value": false,
-        "option": [
-          true,
-          false
-        ]
+        "value": false
       }
     },
     "OpsiFleet": {

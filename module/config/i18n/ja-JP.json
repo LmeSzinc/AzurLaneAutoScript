@@ -1141,21 +1141,6 @@
       "ship": "ship",
       "ship_equip": "ship_equip"
     },
-    "ALLowLowVanguardLevel": {
-      "name": "GemsFarming.ALLowLowVanguardLevel.name",
-      "help": "GemsFarming.ALLowLowVanguardLevel.help"
-    },
-    "FleetNumberInHardMode": {
-      "name": "GemsFarming.FleetNumberInHardMode.name",
-      "help": "GemsFarming.FleetNumberInHardMode.help",
-      "0": "0",
-      "1": "1",
-      "2": "2"
-    },
-    "StopIFAutoNotEnsured": {
-      "name": "GemsFarming.StopIFAutoNotEnsured.name",
-      "help": "GemsFarming.StopIFAutoNotEnsured.help"
-    },
     "CommonCV": {
       "name": "GemsFarming.CommonCV.name",
       "help": "GemsFarming.CommonCV.help",
@@ -1189,6 +1174,21 @@
     "EquipmentCode": {
       "name": "GemsFarming.EquipmentCode.name",
       "help": "GemsFarming.EquipmentCode.help"
+    },
+    "ALLowLowVanguardLevel": {
+      "name": "GemsFarming.ALLowLowVanguardLevel.name",
+      "help": "GemsFarming.ALLowLowVanguardLevel.help"
+    },
+    "FleetNumberInHardMode": {
+      "name": "GemsFarming.FleetNumberInHardMode.name",
+      "help": "GemsFarming.FleetNumberInHardMode.help",
+      "0": "0",
+      "1": "1",
+      "2": "2"
+    },
+    "StopIFAutoNotEnsured": {
+      "name": "GemsFarming.StopIFAutoNotEnsured.name",
+      "help": "GemsFarming.StopIFAutoNotEnsured.help"
     },
     "CommissionLimit": {
       "name": "GemsFarming.CommissionLimit.name",

@@ -1826,7 +1826,9 @@
       "ServerUpdate": "00:00, 12:00"
     },
     "OpsiHazard1Leveling": {
-      "TargetZone": 0
+      "TargetZone": 0,
+      "OperationCoinsPreserve": 100000,
+      "DisableMeowfficerFarming": false
     },
     "OpsiFleet": {
       "Fleet": 1,
