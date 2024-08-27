@@ -258,7 +258,6 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
 
         logger.hr('Change flagship', level=2)
         self._fleet_detail_enter()
-        self.device.sleep(1)
         success = self.flagship_change_execute()
 
         if self.change_flagship_equip:
@@ -286,7 +285,6 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
 
         logger.hr('Change vanguard', level=2)
         self._fleet_detail_enter()
-        self.device.sleep(1)
         success = self.vanguard_change_execute()
 
         if self.change_vanguard_equip:
