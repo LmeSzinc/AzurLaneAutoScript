@@ -407,6 +407,26 @@ class AzurLaneAutoScript:
         GemsFarming(config=self.config, device=self.device).run(
             name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
 
+    def daemon(self):
+        from module.daemon.daemon import AzurLaneDaemon
+        AzurLaneDaemon(config=self.config, device=self.device, task="Daemon").run()
+
+    def opsi_daemon(self):
+        from module.daemon.os_daemon import AzurLaneDaemon
+        AzurLaneDaemon(config=self.config, device=self.device, task="OpsiDaemon").run()
+
+    def azur_lane_uncensored(self):
+        from module.daemon.uncensored import AzurLaneUncensored
+        AzurLaneUncensored(config=self.config, device=self.device, task="AzurLaneUncensored").run()
+
+    def benchmark(self):
+        from module.daemon.benchmark import run_benchmark
+        run_benchmark(config=self.config)
+
+    def game_manager(self):
+        from module.daemon.game_manager import GameManager
+        GameManager(config=self.config, device=self.device, task="GameManager").run()
+
     def wait_until(self, future):
         """
         Wait until a specific time.
