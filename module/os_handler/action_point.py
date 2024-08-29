@@ -480,7 +480,7 @@ class ActionPointHandler(UI, MapEventHandler):
 
         return True
 
-    def action_point_check(self, amount):
+    def action_point_check(self, amount, check_rest_ap=True):
         """
         Args:
             amount: Check if having this amount of action points.
@@ -491,11 +491,21 @@ class ActionPointHandler(UI, MapEventHandler):
         self.action_point_enter()
         self.action_point_safe_get()
 
-        enough = self._action_point_total > amount
-        if enough:
-            logger.info(f'Having {amount} action points')
-        else:
-            logger.info(f'Not having {amount} action points')
+        enough = False
+        if check_rest_ap:
+            diff = get_server_next_update('00:00') - datetime.now()
+            today_rest = int(diff.total_seconds() // 600)
+            enough = self._action_point_current + today_rest >= 200
+            if enough:
+                logger.info('The sum of the current action points and the rest action points'
+                            ' that can be obtained today exceeds 200, skip AP check')
+                logger.info(f'Current={self._action_point_current}  Rest={today_rest}')
+        if not enough:
+            enough = self._action_point_total > amount
+            if enough:
+                logger.info(f'Having {amount} action points')
+            else:
+                logger.info(f'Not having {amount} action points')
 
         self.action_point_quit()
         while 1:
