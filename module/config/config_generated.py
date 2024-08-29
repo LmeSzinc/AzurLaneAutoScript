@@ -399,6 +399,7 @@ class GeneratedConfig:
     # Group `OpsiDaily`
     OpsiDaily_DoMission = True
     OpsiDaily_UseTuningSample = True
+    OpsiDaily_CollectTargetReward = False
 
     # Group `OpsiObscure`
     OpsiObscure_ForceRun = False
@@ -417,7 +418,11 @@ class GeneratedConfig:
     # Group `OpsiMeowfficerFarming`
     OpsiMeowfficerFarming_ActionPointPreserve = 1000
     OpsiMeowfficerFarming_HazardLevel = 5  # 3, 4, 5, 6, 10
-    OpsiMeowfficerFarming_TargetZone = 0
+
+    # Group `OpsiTarget`
+    OpsiTarget_TargetFarming = False
+    OpsiTarget_TargetZone = 0
+    OpsiTarget_LastRun = datetime.datetime(2020, 1, 1, 0, 0)
 
     # Group `OpsiHazard1Leveling`
     OpsiHazard1Leveling_TargetZone = 0  # 0, 44, 22
