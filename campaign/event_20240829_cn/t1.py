@@ -5,16 +5,16 @@ from module.logger import logger
 
 MAP = CampaignMap('T1')
 MAP.shape = 'I7'
-MAP.camera_data = ['D2', 'D5', 'F2', 'F5']
-MAP.camera_data_spawn_point = ['F2', 'D2']
+MAP.camera_data = ['D2', 'D5', 'F5']
+MAP.camera_data_spawn_point = ['F2']
 MAP.map_data = """
-    ++ ++ -- -- SP -- SP -- --
-    MB ++ ME -- -- -- -- -- ++
-    -- ME -- -- -- MS -- -- ME
-    -- -- __ -- Me ++ Me -- --
-    -- ME -- -- -- ++ -- -- ME
-    ++ ++ -- Me -- MS -- Me --
-    ++ ++ ME -- ME -- ME -- ++
+    -- -- ME -- -- ME ++ ++ ++
+    -- ME ++ ME -- -- -- -- SP
+    ME -- ++ Me -- MS -- -- SP
+    -- -- -- -- MB -- ME ++ ++
+    ++ ++ ++ -- __ -- -- Me ++
+    -- ME -- -- Me -- ME -- --
+    -- -- ME -- ++ -- -- ME --
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
@@ -27,7 +27,7 @@ MAP.weight_data = """
 """
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 2, 'siren': 1},
-    {'battle': 1, 'enemy': 2},
+    {'battle': 1, 'enemy': 1},
     {'battle': 2, 'enemy': 1},
     {'battle': 3, 'enemy': 1},
     {'battle': 4, 'boss': 1},
@@ -44,7 +44,7 @@ A7, B7, C7, D7, E7, F7, G7, H7, I7, \
 
 class Config:
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['Sirius', 'Dido']
+    MAP_SIREN_TEMPLATE = []
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
@@ -54,10 +54,26 @@ class Config:
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (80, 255 - 17),
+        'width': (0.9, 10),
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 17, 255),
+        'prominence': 10,
+        'distance': 50,
+        # 'width': (0, 7),
+        'wlen': 1000
+    }
+    HOMO_EDGE_COLOR_RANGE = (0, 17)
+
     STAGE_ENTRANCE = ['half', '20240725']
-    MAP_SWIPE_MULTIPLY = (1.236, 1.259)
-    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.195, 1.217)
-    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.160, 1.181)
+    MAP_SIREN_HAS_BOSS_ICON_SMALL = True
+    MAP_SWIPE_MULTIPLY = (1.237, 1.260)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.196, 1.218)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.161, 1.182)
 
 
 class Campaign(CampaignBase):

@@ -269,8 +269,11 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
 
     # Windborne Steel Wings
     'qinraozhe_IV': 'Intruder',
+    'tiancheng_m_quzhu': 'AmagiMasked',
     'tiancheng_m_qingxun': 'AmagiMasked',
     'tiancheng_m_zhongxun': 'AmagiMasked',
+    'tiancheng_m_zhanlie': 'AmagiMasked',
+    'tiancheng_m_hangmu': 'AmagiMasked',
 }
 
 

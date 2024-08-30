@@ -26,3 +26,21 @@ class CampaignBase(CampaignBase_):
             MODE_SWITCH_20240725.set('story', main=self)
         else:
             logger.warning(f'Unknown campaign mode: {mode}')
+
+    @staticmethod
+    def _campaign_separate_name(name):
+        """
+        Args:
+            name (str): Stage name in lowercase, such as 7-2, d3, sp3.
+
+        Returns:
+            tuple[str]: Campaign_name and stage index in lowercase, Such as ['7', '2'], ['d', '3'], ['sp', '3'].
+        """
+        if name == 'tp':
+            return 'ex_sp', '1'
+        return CampaignBase_._campaign_separate_name(name)
+
+    def campaign_get_entrance(self, name):
+        if name == 'sp':
+            name = 'tp'
+        return super().campaign_get_entrance(name)

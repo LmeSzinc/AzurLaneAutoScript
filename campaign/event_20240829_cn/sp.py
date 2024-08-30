@@ -8,15 +8,15 @@ MAP.shape = 'I9'
 MAP.camera_data = ['E5', 'E7']
 MAP.camera_data_spawn_point = ['E5']
 MAP.map_data = """
-    ++ ++ ++ ++ ++ ++ ++ ++ ++
     -- -- -- ++ ++ ++ -- -- --
     -- -- -- ++ ++ ++ -- -- --
-    ++ -- -- SP -- SP -- -- ++
-    -- -- ME -- MS -- ME -- --
-    -- ME -- MS __ MS -- ME --
-    -- -- ME -- MB -- ME -- --
-    ++ ++ -- ME -- ME -- ++ ++
-    ++ ++ -- -- ME -- -- ++ ++
+    -- -- -- ++ ++ ++ -- -- --
+    -- -- ++ SP -- SP ++ -- --
+    -- ++ ME -- -- -- ME ++ --
+    ++ ME -- -- __ -- -- ME ++
+    ++ -- ME -- MS -- ME -- ++
+    -- ++ ++ MS -- MS ++ ++ --
+    -- ++ ++ -- MB -- ++ ++ --
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
@@ -30,7 +30,7 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 9, 'siren': 3},
+    {'battle': 0, 'enemy': 6, 'siren': 3},
     {'battle': 1},
     {'battle': 2},
     {'battle': 3},
@@ -53,8 +53,8 @@ A9, B9, C9, D9, E9, F9, G9, H9, I9, \
 
 class Config:
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['LAudacieux', 'Dupleix']
-    MOVABLE_ENEMY_TURN = (2,)
+    MAP_SIREN_TEMPLATE = []
+    MOVABLE_ENEMY_TURN = (0,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = False
     MAP_HAS_MAP_STORY = False
@@ -66,11 +66,28 @@ class Config:
     STAR_REQUIRE_3 = 0
     # ===== End of generated config =====
 
-    STAGE_ENTRANCE = ['half', '20240725']
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (80, 255 - 17),
+        'width': (0.9, 10),
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 17, 255),
+        'prominence': 10,
+        'distance': 50,
+        # 'width': (0, 7),
+        'wlen': 1000
+    }
+    HOMO_EDGE_COLOR_RANGE = (0, 17)
+
     MAP_IS_ONE_TIME_STAGE = True
-    MAP_SWIPE_MULTIPLY = (1.073, 1.093)
-    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.038, 1.057)
-    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.008, 1.026)
+    STAGE_ENTRANCE = ['half', '20240725']
+    MAP_SIREN_HAS_BOSS_ICON_SMALL = True
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
+    MAP_SWIPE_MULTIPLY = (1.167, 1.189)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.129, 1.150)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.096, 1.116)
 
 
 class Campaign(CampaignBase):
