@@ -380,14 +380,13 @@ class OperationSiren(OSMap):
                     raise RequestHumanTakeover('wrong input, task stopped')
                 else:
                     logger.hr(f'OS meowfficer farming, zone_id={zone.zone_id}', level=1)
-                    self.globe_goto(zone)
+                    self.globe_goto(zone, refresh=True)
                     self.fleet_set(self.config.OpsiFleet_Fleet)
                     self.os_order_execute(
                         recon_scan=False,
                         submarine_call=self.config.OpsiFleet_Submarine)
                     self.run_auto_search()
-                    if not self.handle_after_auto_search():
-                        self.globe_goto(self.zone_nearest_azur_port(zone=zone))
+                    self.handle_after_auto_search()
                     self.config.check_task_switch()
             else:
                 zones = self.zone_select(hazard_level=self.config.OpsiMeowfficerFarming_HazardLevel) \
