@@ -308,6 +308,9 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
         if not self.config.MAP_HAS_CLEAR_PERCENTAGE:
             logger.attr('MAP_HAS_CLEAR_PERCENTAGE', self.config.MAP_HAS_CLEAR_PERCENTAGE)
             return True
+        if self.config.MAP_IS_ONE_TIME_STAGE:
+            logger.attr('MAP_IS_ONE_TIME_STAGE', self.config.MAP_IS_ONE_TIME_STAGE)
+            return True
         # info_bar covers percentage and MAP_GREEN
         if self.info_bar_count():
             return False
