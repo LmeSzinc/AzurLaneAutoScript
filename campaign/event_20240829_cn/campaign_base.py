@@ -39,3 +39,8 @@ class CampaignBase(CampaignBase_):
         if name == 'tp':
             return 'ex_sp', '1'
         return CampaignBase_._campaign_separate_name(name)
+
+    def campaign_get_entrance(self, name):
+        if name == 'sp':
+            name = 'tp'
+        return super().campaign_get_entrance(name)
