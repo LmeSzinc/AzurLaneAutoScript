@@ -239,7 +239,8 @@ class CampaignRun(CampaignEvent):
             'event_20211125_cn',
             'event_20231026_cn',
             'event_20231123_cn',
-            'event_20240725_cn'
+            'event_20240725_cn',
+            'event_20240829_cn',
         ]:
             name = convert.get(name, name)
         else:
@@ -269,6 +270,10 @@ class CampaignRun(CampaignEvent):
         if folder == 'event_20230817_cn':
             if name.startswith('e0'):
                 name = 'a1'
+        # event_20240829_cn, TP -> SP
+        if folder == 'event_20240829_cn':
+            if name == 'tp':
+                name = 'sp'
         # Stage loop
         for alias, stages in self.config.STAGE_LOOP_ALIAS.items():
             alias_folder, alias = alias
