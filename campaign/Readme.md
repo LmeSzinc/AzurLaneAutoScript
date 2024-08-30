@@ -206,3 +206,5 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20240725 | raid 20240328 | From Zero to Hero | - | - | - | 從零開始的魔王討伐之旅 |
 | 20240815 | event 20240815 cn | Windborne Steel Wings | 铁翼擎风 | Windborne Steel Wings | 錬翼空翔 | - |
 | 20240815 | event 20240425 cn | Heart-Linking Harmony | - | - | - | 共鳴的PASSION |
+| 20240829 | event 20240829 cn | Whence Flowers Bear No Fruit | 埋葬于彼岸之花 | Whence Flowers Bear No Fruit | 徒花咲かす彼岸 | - |
+| 20240829 | event 20220324 cn | Virtual Tower | - | - | - | 復刻虛像構築之塔 |
