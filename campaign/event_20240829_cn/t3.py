@@ -5,20 +5,6 @@ from module.logger import logger
 from .t1 import Config as ConfigBase
 
 MAP = CampaignMap('T3')
-<<<<<<< HEAD
-MAP.shape = 'I8'
-MAP.camera_data = ['D2', 'D6', 'F2', 'F6']
-MAP.camera_data_spawn_point = ['D6']
-MAP.map_data = """
-    ++ ++ Me -- MB -- ++ -- --
-    ++ ++ -- ME -- ME ++ Me ME
-    -- ME -- -- __ -- Me -- --
-    -- ME -- ++ -- -- -- -- ME
-    -- ++ MS ++ MS ++ -- -- ME
-    -- Me -- -- -- MS -- Me --
-    ME -- -- -- -- -- -- ++ ++
-    ++ ++ ++ SP SP ++ ME -- ++
-=======
 MAP.shape = 'I10'
 MAP.camera_data = ['D5', 'D8', 'F5']
 MAP.camera_data_spawn_point = ['D8']
@@ -33,7 +19,6 @@ MAP.map_data = """
     ME -- -- -- MS -- Me -- --
     -- Me ++ -- -- -- ++ ++ --
     -- -- ++ SP -- SP ++ ++ --
->>>>>>> 289c592f8f6fbf61cf9c2675f29b2af6d20e2da0
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
@@ -44,15 +29,6 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50
-<<<<<<< HEAD
-"""
-MAP.spawn_data = [
-    {'battle': 0, 'enemy': 3, 'siren': 2},
-    {'battle': 1, 'enemy': 2},
-    {'battle': 2, 'enemy': 1},
-    {'battle': 3, 'enemy': 1},
-    {'battle': 4},
-=======
     50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50
 """
@@ -62,7 +38,6 @@ MAP.spawn_data = [
     {'battle': 2, 'enemy': 2},
     {'battle': 3, 'enemy': 1},
     {'battle': 4, 'enemy': 1},
->>>>>>> 289c592f8f6fbf61cf9c2675f29b2af6d20e2da0
     {'battle': 5, 'boss': 1},
 ]
 A1, B1, C1, D1, E1, F1, G1, H1, I1, \
