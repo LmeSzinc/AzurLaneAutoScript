@@ -247,7 +247,7 @@ class LDOpenGLImpl:
 
         img = ctypes.cast(img_ptr, ctypes.POINTER(ctypes.c_ubyte * (height * width * 3))).contents
 
-        image = np.ctypeslib.as_array(img).reshape((height, width, 3))
+        image = np.ctypeslib.as_array(img).copy().reshape((height, width, 3))
         return image
 
     @staticmethod
