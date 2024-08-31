@@ -253,17 +253,20 @@ class AutoSearchHandler(EnemySearchingHandler):
         if not self.is_in_auto_search_menu():
             return False
 
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
+        with self.stat.new(
+                genre=self.config.campaign_name, method=self.config.DropRecord_CombatRecord
+        ) as drop:
+            while 1:
+                if skip_first_screenshot:
+                    skip_first_screenshot = False
+                else:
+                    self.device.screenshot()
 
-            if self.handle_auto_search_exit():
-                continue
+                if self.handle_auto_search_exit(drop=drop):
+                    continue
 
-            # End
-            if self.is_in_stage():
-                break
+                # End
+                if self.is_in_stage():
+                    break
 
         return True

@@ -294,7 +294,7 @@ class FastForwardHandler(AutoSearchHandler):
         self.auto_search_setting_ensure('sub_standby')
         return True
 
-    def handle_auto_search_continue(self):
+    def handle_auto_search_continue(self, drop=None):
         """
         Override AutoSearchHandler definition
         for 2x book handling if needed
@@ -302,6 +302,8 @@ class FastForwardHandler(AutoSearchHandler):
         if self.appear(AUTO_SEARCH_MENU_CONTINUE, offset=self._auto_search_menu_offset, interval=2):
             self.map_is_2x_book = self.config.Campaign_Use2xBook
             self.handle_2x_book_setting(mode='auto')
+            if drop:
+                drop.handle_add(main=self, before=4)
             if self.appear_then_click(AUTO_SEARCH_MENU_CONTINUE, offset=self._auto_search_menu_offset):
                 self.interval_reset(AUTO_SEARCH_MENU_CONTINUE)
             else:

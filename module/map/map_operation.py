@@ -185,7 +185,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                     continue
 
                 # Auto search continue
-                if self.handle_auto_search_continue():
+                if self.handle_auto_search_continue(drop=drop):
                     campaign_timer.reset()
                     continue
 
