@@ -15,6 +15,8 @@ from module.logger import logger
 from module.notify import handle_notify
 from module.gg_handler.gg_handler import GGHandler
 
+RESTART_SENSITIVE_TASKS = ['OpsiObscure', 'OpsiAbyssal', 'OpsiCrossMonth']
+
 
 class AzurLaneAutoScript:
     stop_event: threading.Event = None
@@ -585,18 +587,21 @@ class AzurLaneAutoScript:
             failed = deep_get(self.failure_record, keys=task, default=0)
             failed = 0 if success else failed + 1
             deep_set(self.failure_record, keys=task, value=failed)
-            if failed >= 3:
-                logger.critical(f"Task `{task}` failed 3 or more times.")
+            if failed >= 3 or (self.config.Error_StrictRestart and failed >= 1 and task in RESTART_SENSITIVE_TASKS):
+                logger.critical(f"Task `{task}` failed {failed} or more times.")
                 logger.critical("Possible reason #1: You haven't used it correctly. "
                                 "Please read the help text of the options.")
                 logger.critical("Possible reason #2: There is a problem with this task. "
                                 "Please contact developers or try to fix it yourself.")
+                if self.config.Error_StrictRestart and task in RESTART_SENSITIVE_TASKS:
+                    logger.critical("Possible reason #3: This is a restart sensitive task. "
+                                    "Please take over the game manually or turn off 'StrictRestart' option.")
                 logger.critical('Request human takeover')
 
                 handle_notify(
                     self.config.Error_OnePushConfig,
                     title=f"Alas <{self.config_name}> crashed",
-                    content=f"<{self.config_name}> RequestHumanTakeover\nTask `{task}` failed 3 or more times.",
+                    content=f"<{self.config_name}> RequestHumanTakeover\nTask `{task}` failed {failed} or more times.",
                 )
                 exit(1)
 

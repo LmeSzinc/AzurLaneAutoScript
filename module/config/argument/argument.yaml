@@ -84,6 +84,7 @@ EmulatorInfo:
 Error:
   HandleError: true
   SaveError: true
+  StrictRestart: false
   OnePushConfig:
     type: textarea
     mode: yaml

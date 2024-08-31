@@ -182,6 +182,10 @@
         "type": "checkbox",
         "value": true
       },
+      "StrictRestart": {
+        "type": "checkbox",
+        "value": false
+      },
       "OnePushConfig": {
         "type": "textarea",
         "value": "provider: null",
@@ -6702,7 +6706,7 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": true,
+        "value": false,
         "option": [
           true,
           false
@@ -6909,7 +6913,7 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": true,
+        "value": false,
         "option": [
           true,
           false
@@ -6987,7 +6991,7 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": true,
+        "value": false,
         "option": [
           true,
           false
@@ -7068,7 +7072,7 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": true,
+        "value": false,
         "option": [
           true,
           false
@@ -8099,7 +8103,7 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": true,
+        "value": false,
         "option": [
           true,
           false

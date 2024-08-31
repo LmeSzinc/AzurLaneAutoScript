@@ -478,6 +478,10 @@
       "name": "Record Exception",
       "help": "Records exception and log into directory for review or sharing"
     },
+    "StrictRestart": {
+      "name": "Strict Restart",
+      "help": "Error.StrictRestart.help"
+    },
     "OnePushConfig": {
       "name": "Error notify config",
       "help": "When Alas cannot handle exception, send a message through Onepush. Configuration document: \nhttps://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Onepush-configuration-%5BEN%5D"
@@ -1188,8 +1192,8 @@
       "2": "Fleet 2"
     },
     "StopIFAutoNotEnsured": {
-      "name": "GemsFarming.StopIFAutoNotEnsured.name",
-      "help": "GemsFarming.StopIFAutoNotEnsured.help"
+      "name": "Stop task if not ensured",
+      "help": "When it is not possible to set the fleet function, stop the task in the following way to avoid cross-fleet teaming out and oil being consumed heavily: \n If an error push is set then push the message that the task is stopped and stop the task. \n If no error push is set then simply stop the Alas."
     },
     "CommissionLimit": {
       "name": "Prevent Too Many Urgent Commissions",
@@ -2150,14 +2154,14 @@
       "help": "Runs exercise and automatically retreats when sum HP volume is low"
     },
     "DelayUntilHoursBeforeNextUpdate": {
-      "name": "Exercise.DelayUntilHoursBeforeNextUpdate.name",
-      "help": "Exercise.DelayUntilHoursBeforeNextUpdate.help",
+      "name": "Postpone the exercise until X hours before the next update count",
+      "help": "",
       "1": "1",
       "2": "2",
       "3": "3",
       "4": "4",
       "5": "5",
-      "12": "12"
+      "12": "Without Delay"
     },
     "OpponentChooseMode": {
       "name": "Opponent Choose Mode",
@@ -2280,8 +2284,8 @@
       "help": "Strike each beacon only once, then call for support every half hour thereafter\nNot effective in META dossiers"
     },
     "DossierAutoAttackMode": {
-      "name": "OpsiAshBeacon.DossierAutoAttackMode.name",
-      "help": "OpsiAshBeacon.DossierAutoAttackMode.help"
+      "name": "Dossier Auto Attack Mode",
+      "help": "Auto attack after first attack at Dossier beacons"
     },
     "RequestAssist": {
       "name": "Request Assists",
@@ -2564,8 +2568,8 @@
       "u2": "UiAutomator"
     },
     "RestartATX": {
-      "name": "GGHandler.RestartATX.name",
-      "help": "GGHandler.RestartATX.help"
+      "name": "Restart ATX and UiAutomator2",
+      "help": "Restart ATX and UiAutomator2 when restarting the game. Off by default."
     },
     "GGPackageName": {
       "name": "GG Package Name",
@@ -2580,16 +2584,16 @@
       "help": "For sake of safety"
     },
     "RepushLua": {
-      "name": "GGHandler.RepushLua.name",
-      "help": "GGHandler.RepushLua.help"
+      "name": "Repush Lua",
+      "help": "Sometimes the push will fail, if this happens try switching this option on or off."
     },
     "GGMultiplyingFactor": {
       "name": "GG Multiplying Factor",
       "help": "1 - 9999 Recommended"
     },
     "Timeout": {
-      "name": "GGHandler.Timeout.name",
-      "help": "GGHandler.Timeout.help"
+      "name": "Start-up time (seconds)",
+      "help": "The time limit for starting the GG, if the device is running slowly then it needs to be adjusted appropriately."
     },
     "DisabledTask": {
       "name": "Disabled Tasks",

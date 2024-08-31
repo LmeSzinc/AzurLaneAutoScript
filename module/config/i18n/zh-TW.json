@@ -330,8 +330,8 @@
       "com.hkmanjuu.azurlane.gp.mc": "台服 MyCard渠道服 com.hkmanjuu.azurlane.gp.mc"
     },
     "ServerName": {
-      "name": "Emulator.ServerName.name",
-      "help": "Emulator.ServerName.help",
+      "name": "遊戲內伺服器",
+      "help": "選擇遊戲內所在的伺服器以啟用伺服器狀態檢測\n當伺服器維護或網絡不可用時掛起直到恢復",
       "disabled": "不使用檢測",
       "cn_android-0": "[国服] 莱茵演习",
       "cn_android-1": "[国服] 巴巴罗萨",
@@ -477,6 +477,10 @@
     "SaveError": {
       "name": "出錯時，保存 Log 和截圖",
       "help": ""
+    },
+    "StrictRestart": {
+      "name": "敏感任務出錯時禁止重啟",
+      "help": "運行敏感任務出錯時停止Alas，而不是重啟遊戲\n敏感任務包含隱秘海域、深淵海域、跨月每日"
     },
     "OnePushConfig": {
       "name": "錯誤推送設定",
@@ -1181,15 +1185,15 @@
       "help": "倍率打開時，前排等級限制改為10以上即可"
     },
     "FleetNumberInHardMode": {
-      "name": "GemsFarming.FleetNumberInHardMode.name",
-      "help": "GemsFarming.FleetNumberInHardMode.help",
-      "0": "0",
-      "1": "1",
-      "2": "2"
+      "name": "困難模式艦隊編號",
+      "help": "困難模式（如活動圖CD等）下需要更換的艦隊編號。 \n使用時請保證另一個艦隊為6個125級，否則可能會有等級限制出錯",
+      "0": "非困難模式",
+      "1": "第一艦隊",
+      "2": "第二艦隊"
     },
     "StopIFAutoNotEnsured": {
-      "name": "GemsFarming.StopIFAutoNotEnsured.name",
-      "help": "GemsFarming.StopIFAutoNotEnsured.help"
+      "name": "無法設定職能時停止任務",
+      "help": "無法設定艦隊職能時，以以下管道停止任務以免跨隊隊伍出擊，石油被大量消耗：\n若設定了錯誤推送則推送任務停止的消息並停止該任務。 \n若沒有設定錯誤推送，則直接停止Alas。"
     },
     "CommissionLimit": {
       "name": "防止緊急委託數量過多",
@@ -2150,14 +2154,14 @@
       "help": "打演習，血量過低時自動撤退"
     },
     "DelayUntilHoursBeforeNextUpdate": {
-      "name": "Exercise.DelayUntilHoursBeforeNextUpdate.name",
-      "help": "Exercise.DelayUntilHoursBeforeNextUpdate.help",
+      "name": "延後演習至下次更新次數前 X 小時",
+      "help": "",
       "1": "1",
       "2": "2",
       "3": "3",
       "4": "4",
       "5": "5",
-      "12": "12"
+      "12": "不延後"
     },
     "OpponentChooseMode": {
       "name": "對手選擇模式",
@@ -2280,8 +2284,8 @@
       "help": "對每個信標只出擊一次，之後每半個小時呼叫支援\n在檔案信標中不生效"
     },
     "DossierAutoAttackMode": {
-      "name": "OpsiAshBeacon.DossierAutoAttackMode.name",
-      "help": "OpsiAshBeacon.DossierAutoAttackMode.help"
+      "name": "檔案信標自動作戰",
+      "help": "在檔案信標首次戰鬥後進行自動作戰"
     },
     "RequestAssist": {
       "name": "呼叫支援",
@@ -2564,8 +2568,8 @@
       "u2": "UiAutomator2"
     },
     "RestartATX": {
-      "name": "GGHandler.RestartATX.name",
-      "help": "GGHandler.RestartATX.help"
+      "name": "重啟ATX和U2",
+      "help": "重啟遊戲時重啟ATX和U2。 默認關閉。 藍疊和紅手指等環境重啟會報錯。 雷電易丟ATX服務，需要打開。"
     },
     "GGPackageName": {
       "name": "GG包名",
@@ -2580,16 +2584,16 @@
       "help": "打開以初始化倍率内容。 如果你沒有手動操作的壞習慣，可以關閉此選項"
     },
     "RepushLua": {
-      "name": "GGHandler.RepushLua.name",
-      "help": "GGHandler.RepushLua.help"
+      "name": "重新推送Lua",
+      "help": "有時推送時會失敗，若出現此情况可嘗試開關此選項。"
     },
     "GGMultiplyingFactor": {
       "name": "倍率",
       "help": "建議數值1-9999，沒做數位檢查，亂輸入後果自負"
     },
     "Timeout": {
-      "name": "GGHandler.Timeout.name",
-      "help": "GGHandler.Timeout.help"
+      "name": "啟動時限（秒）",
+      "help": "啟動GG的時間限制，若設備運行慢則需要適當調大"
     },
     "DisabledTask": {
       "name": "禁用倍率的項目",

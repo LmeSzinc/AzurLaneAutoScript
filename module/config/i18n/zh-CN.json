@@ -478,6 +478,10 @@
       "name": "出错时，保存 Log 和截图",
       "help": ""
     },
+    "StrictRestart": {
+      "name": "敏感任务出错时禁止重启",
+      "help": "运行敏感任务出错时停止Alas，而不是重启游戏\n敏感任务包含隐秘海域、深渊海域、跨月每日"
+    },
     "OnePushConfig": {
       "name": "错误推送设置",
       "help": "发生无法处理的异常后，使用 Onepush 推送一条错误信息。配置方法见文档：https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Onepush-configuration-%5BCN%5D"
