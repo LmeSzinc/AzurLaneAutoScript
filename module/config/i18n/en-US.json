@@ -480,7 +480,7 @@
     },
     "StrictRestart": {
       "name": "Strict Restart",
-      "help": "Error.StrictRestart.help"
+      "help": "Stop Alas instead of restarting the game when running a sensitive task with an error.\nSensitive tasks include OpsiObscure, OpsiAbyssal and OpsiCrossMonth."
     },
     "OnePushConfig": {
       "name": "Error notify config",

@@ -136,6 +136,7 @@ class OperationSiren(OSMap):
         logger.hr('OpSi reset', level=3)
         logger.info('Wait 1 minute in case the network gets stuck')
         self.device.sleep(60)
+
         def false_func(*args, **kwargs):
             return False
 
