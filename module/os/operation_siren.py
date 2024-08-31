@@ -134,7 +134,8 @@ class OperationSiren(OSMap):
                 continue
 
         logger.hr('OpSi reset', level=3)
-
+        logger.info('Wait 1 minute in case the network gets stuck')
+        self.device.sleep(60)
         def false_func(*args, **kwargs):
             return False
 
@@ -208,7 +209,10 @@ class OperationSiren(OSMap):
             else:
                 break
 
-        logger.hr(f'OS meowfficer farming, hazard_level=3', level=1)
+        OpsiMeowfficerFarming_HazardLevel = self.config.cross_get('OpsiMeowfficerFarming'
+                                                                  '.OpsiMeowfficerFarming'
+                                                                  '.HazardLevel')
+        logger.hr(f'OS meowfficer farming, hazard_level={OpsiMeowfficerFarming_HazardLevel}', level=1)
         self.config.override(
             OpsiGeneral_DoRandomMapEvent=True,
             HOMO_EDGE_DETECT=True,
@@ -217,14 +221,11 @@ class OperationSiren(OSMap):
             OpsiFleet_Fleet=self.config.cross_get('OpsiMeowfficerFarming.OpsiFleet.Fleet'),
             OpsiFleet_Submarine=False,
             OpsiMeowfficerFarming_ActionPointPreserve=0,
-            OpsiMeowfficerFarming_HazardLevel=
-            self.config.cross_get('OpsiMeowfficerFarming'
-                                  '.OpsiMeowfficerFarming'
-                                  '.HazardLevel'),
+            OpsiMeowfficerFarming_HazardLevel=OpsiMeowfficerFarming_HazardLevel,
             OpsiMeowfficerFarming_TargetZone=0,
         )
         while True:
-            zones = self.zone_select(hazard_level=3) \
+            zones = self.zone_select(hazard_level=OpsiMeowfficerFarming_HazardLevel) \
                 .delete(SelectedGrids([self.zone])) \
                 .delete(SelectedGrids(self.zones.select(is_port=True))) \
                 .sort_by_clock_degree(center=(1252, 1012), start=self.zone.location)
