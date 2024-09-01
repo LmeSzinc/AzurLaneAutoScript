@@ -437,8 +437,10 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         if self.is_cl1_enabled and get_os_reset_remain() > 2 \
                 and self.get_yellow_coins() > self.config.cross_get(
                     keys="OpsiHazard1Leveling.OpsiHazard1Leveling.OperationCoinsPreserve"):
-            logger.info('Keep 1000 AP when CL1 available')
-            if not self.action_point_check(1000):
+            OpsiMeowfficerFarming_ActionPointPreservse = self.config.cross_get(
+                    keys="OpsiMeowfficerFarming.OpsiMeowfficerFarming.ActionPointPreserve")
+            logger.info(f'Keep {OpsiMeowfficerFarming_ActionPointPreservse} AP when CL1 available')
+            if not self.action_point_check(OpsiMeowfficerFarming_ActionPointPreservse):
                 self.config.opsi_task_delay(cl1_preserve=True)
                 self.config.task_stop()
 
