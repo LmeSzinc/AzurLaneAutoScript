@@ -5,18 +5,18 @@ from module.logger import logger
 
 MAP = CampaignMap('SP')
 MAP.shape = 'I9'
-MAP.camera_data = ['D4', 'F4', 'E3']
-MAP.camera_data_spawn_point = ['E6']
+MAP.camera_data = ['E5', 'E7']
+MAP.camera_data_spawn_point = ['E5']
 MAP.map_data = """
-    ++ ++ ++ -- MB -- ++ ++ ++
-    -- ++ -- -- -- -- -- ++ --
-    ME -- ME ++ -- ++ ME -- ME
-    -- ME ++ ++ -- ++ ++ ME --
-    -- -- ++ ++ MS ++ ++ -- --
-    ++ -- -- MS -- MS -- -- ++
-    ++ ++ -- -- __ -- -- ++ ++
-    ++ ++ ++ SP -- SP ++ ++ ++
-    -- -- -- ++ -- ++ -- -- --
+    -- -- -- ++ ++ ++ -- -- --
+    -- -- -- ++ ++ ++ -- -- --
+    -- -- -- ++ ++ ++ -- -- --
+    -- -- ++ SP -- SP ++ -- --
+    -- ++ ME -- -- -- ME ++ --
+    ++ ME -- -- __ -- -- ME ++
+    ++ -- ME -- MS -- ME -- ++
+    -- ++ ++ MS -- MS ++ ++ --
+    -- ++ ++ -- MB -- ++ ++ --
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
@@ -53,12 +53,12 @@ A9, B9, C9, D9, E9, F9, G9, H9, I9, \
 
 class Config:
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['AmagiMasked']
-    MOVABLE_ENEMY_TURN = (2,)
+    MAP_SIREN_TEMPLATE = []
+    MOVABLE_ENEMY_TURN = (0,)
     MAP_HAS_SIREN = True
-    MAP_HAS_MOVABLE_ENEMY = True
+    MAP_HAS_MOVABLE_ENEMY = False
     MAP_HAS_MAP_STORY = False
-    MAP_HAS_FLEET_STEP = True
+    MAP_HAS_FLEET_STEP = False
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
     STAR_REQUIRE_1 = 0
@@ -67,37 +67,32 @@ class Config:
     # ===== End of generated config =====
 
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (80, 255 - 33),
+        'height': (80, 255 - 17),
         'width': (0.9, 10),
         'prominence': 10,
         'distance': 35,
     }
     EDGE_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (255 - 33, 255),
+        'height': (255 - 17, 255),
         'prominence': 10,
         'distance': 50,
         # 'width': (0, 7),
         'wlen': 1000
     }
-    HOMO_STORAGE = ((9, 6), [(154.004, 110.162), (1153.33, 110.162), (-36.338, 651.451), (1318.254, 651.451)])
-    HOMO_EDGE_COLOR_RANGE = (0, 33)
-    # HOMO_EDGE_HOUGHLINES_THRESHOLD = 300
-    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
+    HOMO_EDGE_COLOR_RANGE = (0, 17)
+
     MAP_IS_ONE_TIME_STAGE = True
-    MAP_SWIPE_MULTIPLY = (1.063, 1.083)
-    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.028, 1.047)
-    MAP_SWIPE_MULTIPLY_MAATOUCH = (0.998, 1.016)
+    STAGE_ENTRANCE = ['half', '20240725']
+    MAP_SIREN_HAS_BOSS_ICON_SMALL = True
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
+    MAP_SWIPE_MULTIPLY = (1.167, 1.189)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.129, 1.150)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.096, 1.116)
 
 
 class Campaign(CampaignBase):
     MAP = MAP
     ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
-
-    def map_data_init(self, map_):
-        super().map_data_init(map_)
-        E5.is_siren = True
-        D6.is_siren = True
-        F6.is_siren = True
 
     def battle_0(self):
         if self.clear_siren():

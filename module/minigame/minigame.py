@@ -58,6 +58,8 @@ class MinigameRun(UI):
         # specific
         if self.deal_specific_popup():
             return True
+        if self.handle_popup_confirm('TICKETS_FULL'):
+            return True
         # coins more than 31, deal popup
         if self.appear_then_click(COIN_POPUP, offset=(5, 5), interval=3):
             return True
