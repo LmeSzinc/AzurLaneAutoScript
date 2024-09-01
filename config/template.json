@@ -1337,7 +1337,7 @@
       "CollectCoin": true,
       "CollectExp": true,
       "CollectMission": true,
-      "CollectWeeklyMission": true
+      "CollectWeeklyMission": false
     },
     "Storage": {
       "Storage": {}

@@ -78,11 +78,6 @@ class AzurLaneAutoScript:
             return True
         except GameNotRunningError as e:
             logger.warning(e)
-            handle_notify(
-                self.config.Error_OnePushConfig,
-                title=f"Alas <{self.config_name}> crashed",
-                content=f"<{self.config_name}> GameNotRunningError",
-            )
             self.config.task_call('Restart')
             return True
         except (GameStuckError, GameTooManyClickError) as e:
