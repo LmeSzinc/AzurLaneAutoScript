@@ -43,7 +43,7 @@ class W15GridInfo(GridInfo):
 
 
 class CampaignBase(CampaignBase_):
-    ENEMY_FILTER = '1T > 1L > 1E > 1M > 2T > 2L > 2E > 2M > 3T > 3L > 3E > 3M'
+    ENEMY_FILTER = '1L > 1M > 1E > 2L > 3L > 2M > 2E > 1C > 2C > 3M > 3E > 3C'
 
     def map_data_init(self, map_):
         super().map_data_init(map_)
