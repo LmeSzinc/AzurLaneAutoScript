@@ -167,6 +167,7 @@ class LoginHandler(UI):
             self.have_been_reset = True
         logger.hr('App restart')
         self.device.app_stop()
+        self.device.sleep(2)
         self.device.app_start()
         self.handle_app_login()
         # self.ensure_no_unfinished_campaign()
