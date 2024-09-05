@@ -245,6 +245,13 @@ class OperationSiren(OSMap):
         If not having enough yellow coins or purple coins, skip buying supplies in next port.
         """
         logger.hr('OS port daily', level=1)
+        today = datetime.now().day
+        limit = self.config.OpsiShop_DisableBeforeDate
+        if today <= limit:
+            logger.info(f'Delay Opsi shop, today\'s date {today} <= limit {limit}')
+            self.config.task_delay(server_update=True)
+            self.config.task_stop()
+
         if not self.zone.is_azur_port:
             self.globe_goto(self.zone_nearest_azur_port(self.zone))
 

@@ -2367,6 +2367,10 @@
     "CustomFilter": {
       "name": "自定义过滤器",
       "help": "使用自定义过滤器需将 \"港口商店过滤器\" 设置为 \"自定义\"，并阅读 https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn"
+    },
+    "DisableBeforeDate": {
+      "name": "每月 X 号前，不购买大世界商店",
+      "help": "从指定日期的后一天开始，每天买一次大世界商店\n0 表示不限制，每天都购买"
     }
   },
   "OpsiVoucher": {

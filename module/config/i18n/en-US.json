@@ -2367,6 +2367,10 @@
     "CustomFilter": {
       "name": "Custom Research Priority",
       "help": "To use your own filter, set \"OpSi Shop Filter Select\" to \"custom\". All options have been defined at  <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_en>"
+    },
+    "DisableBeforeDate": {
+      "name": "Don't Buy from OpSi Shop before Date X of Every Month",
+      "help": "Starting from the day after the specified date, buy OpSi shop once a day; saving as 0 implies unlimited date (purchase every day)"
     }
   },
   "OpsiVoucher": {
