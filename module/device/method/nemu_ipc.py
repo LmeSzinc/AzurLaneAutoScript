@@ -275,10 +275,24 @@ class NemuIpcImpl:
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.disconnect()
+        if has_cached_property(self, '_ev'):
+            self._ev.close()
+            del_cached_property(self, '_ev')
+        if has_cached_property(self, '_pool'):
+            self._pool.shutdown(wait=False)
+            del_cached_property(self, '_pool')
 
     @cached_property
     def _ev(self):
         return asyncio.new_event_loop()
+
+    @cached_property
+    def _pool(self):
+        from concurrent.futures import ThreadPoolExecutor
+        return ThreadPoolExecutor(
+            max_workers=1,
+            thread_name_prefix='NemuIpc',
+        )
 
     async def ev_run_async(self, func, *args, timeout=0.15, **kwargs):
         """
@@ -294,7 +308,7 @@ class NemuIpcImpl:
         func_wrapped = partial(func, *args, **kwargs)
         # Increased timeout for slow PCs
         # Default screenshot interval is 0.2s, so a 0.15s timeout would have a fast retry without extra time costs
-        result = await asyncio.wait_for(self._ev.run_in_executor(None, func_wrapped), timeout=timeout)
+        result = await asyncio.wait_for(self._ev.run_in_executor(self._pool, func_wrapped), timeout=timeout)
         return result
 
     def ev_run_sync(self, func, *args, **kwargs):

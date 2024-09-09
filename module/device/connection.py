@@ -715,7 +715,12 @@ class Connection(ConnectionAttr):
             serial_list (list[str]):
         """
         import asyncio
+        from concurrent.futures import ThreadPoolExecutor
         ev = asyncio.new_event_loop()
+        pool = ThreadPoolExecutor(
+            max_workers=len(serial_list),
+            thread_name_prefix='adb_brute_force_connect',
+        )
 
         def _connect(serial):
             msg = self.adb_client.connect(serial)
@@ -723,10 +728,12 @@ class Connection(ConnectionAttr):
             return msg
 
         async def connect():
-            tasks = [ev.run_in_executor(None, _connect, serial) for serial in serial_list]
+            tasks = [ev.run_in_executor(pool, _connect, serial) for serial in serial_list]
             await asyncio.gather(*tasks)
 
         ev.run_until_complete(connect())
+        pool.shutdown(wait=False)
+        ev.close()
 
     @Config.when(DEVICE_OVER_HTTP=True)
     def adb_connect(self):
