@@ -500,7 +500,10 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
         if button is not None:
             return button
 
-        while RETIRE_CONFIRM_SCROLL.appear(main=self):
+        for _ in range(7):
+            if not RETIRE_CONFIRM_SCROLL.appear(main=self):
+                logger.info('Scroll bar disappeared, stop')
+                break
             RETIRE_CONFIRM_SCROLL.next_page(main=self)
             button = self.retirement_get_common_rarity_cv_in_page()
             if button is not None:
