@@ -348,6 +348,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                 self._retire_handler(mode='one_click_retire')
                 self._unable_to_enhance = False
                 self.interval_reset(IN_RETIREMENT_CHECK)
+                self.map_cat_attack_timer.reset()
                 return True
         elif self.config.Retirement_RetireMode == 'enhance':
             if self.appear_then_click(RETIRE_APPEAR_3, offset=(20, 20), interval=3):
@@ -367,16 +368,19 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                     logger.info('Too few spare docks, retire next time')
                     self._unable_to_enhance = True
                 self.interval_reset(DOCK_CHECK)
+                self.map_cat_attack_timer.reset()
                 return True
         else:
             if self.appear_then_click(RETIRE_APPEAR_1, offset=(20, 20), interval=3):
                 self.interval_clear(IN_RETIREMENT_CHECK)
                 self.interval_reset([AUTO_SEARCH_MAP_OPTION_OFF, AUTO_SEARCH_MAP_OPTION_ON])
+                self.map_cat_attack_timer.reset()
                 return False
             if self.appear(IN_RETIREMENT_CHECK, offset=(20, 20), interval=10):
                 self._retire_handler()
                 self._unable_to_enhance = False
                 self.interval_reset(IN_RETIREMENT_CHECK)
+                self.map_cat_attack_timer.reset()
                 return True
 
         return False
@@ -500,7 +504,10 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
         if button is not None:
             return button
 
-        while RETIRE_CONFIRM_SCROLL.appear(main=self):
+        for _ in range(7):
+            if not RETIRE_CONFIRM_SCROLL.appear(main=self):
+                logger.info('Scroll bar disappeared, stop')
+                break
             RETIRE_CONFIRM_SCROLL.next_page(main=self)
             button = self.retirement_get_common_rarity_cv_in_page()
             if button is not None:

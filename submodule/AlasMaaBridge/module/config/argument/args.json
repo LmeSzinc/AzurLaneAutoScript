@@ -64,10 +64,9 @@
         "display": "hide"
       },
       "OnePushConfig": {
-        "type": "input",
+        "type": "textarea",
         "value": "provider: null",
-        "mode": "yaml",
-        "display": "hide"
+        "mode": "yaml"
       }
     },
     "Optimization": {
