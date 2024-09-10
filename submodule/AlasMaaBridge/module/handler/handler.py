@@ -458,7 +458,11 @@ class AssistantHandler:
                 self.config.MaaRoguelike_Theme != "Sami" and self.config.MaaRoguelike_Squad in ["永恒狩猎分队",
                                                                                                 "生活至上分队",
                                                                                                 "科学主义分队",
-                                                                                                "特训分队"]):
+                                                                                                "特训分队"]) or (
+                self.config.MaaRoguelike_Theme != "Sarkaz" and self.config.MaaRoguelike_Squad in ["魂灵护送分队",
+                                                                                                "博闻广记分队",
+                                                                                                "蓝图测绘分队",
+                                                                                                "因地制宜分队"]):
 
             args["squad"] = "指挥分队"
         if self.config.MaaRoguelike_CoreChar:

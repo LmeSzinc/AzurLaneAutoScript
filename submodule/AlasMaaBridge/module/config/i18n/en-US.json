@@ -513,7 +513,8 @@
       "help": "MaaRoguelike.Theme.help",
       "Phantom": "Phantom",
       "Mizuki": "Mizuki",
-      "Sami": "Sami"
+      "Sami": "Sami",
+      "Sarkaz": "Sarkaz"
     },
     "Mode": {
       "name": "MaaRoguelike.Mode.name",
@@ -537,6 +538,10 @@
     "Squad": {
       "name": "MaaRoguelike.Squad.name",
       "help": "MaaRoguelike.Squad.help",
+      "魂灵护送分队": "Soul Escort (Sarkaz)",
+      "博闻广记分队": "Well-Informed (Sarkaz)",
+      "蓝图测绘分队": "Blueprint Surveying (Sarkaz)",
+      "因地制宜分队": "Adapting To Local Conditions (Sarkaz)",
       "永恒狩猎分队": "Eternal Hunting (Sami)",
       "生活至上分队": "Life Prioritizing (Sami)",
       "科学主义分队": "Scientific Thinking (Sami)",
