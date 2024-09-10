@@ -106,7 +106,7 @@ class AssistantHandler:
         所有其他回调处理函数应遵循同样格式，
         在需要使用的时候加入callback_list，
         可以被随时移除，或在任务结束时自动清空。
-        参数的详细说明见https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/3.2-回调信息协议.md
+        参数的详细说明见https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/zh-cn/protocol/callback-schema.md
 
         Args:
             m (Message): 消息类型
@@ -207,7 +207,9 @@ class AssistantHandler:
     def startup(self):
         self.connect()
         if self.config.Scheduler_NextRun.strftime('%H:%M') == self.config.Scheduler_ServerUpdate:
-            self.maa_start('CloseDown', {})
+            self.maa_start('CloseDown', {
+                "client_type": self.config.MaaEmulator_PackageName
+            })
 
         self.maa_start('StartUp', {
             "client_type": self.config.MaaEmulator_PackageName,
