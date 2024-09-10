@@ -106,7 +106,7 @@ class AssistantHandler:
         所有其他回调处理函数应遵循同样格式，
         在需要使用的时候加入callback_list，
         可以被随时移除，或在任务结束时自动清空。
-        参数的详细说明见https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/3.2-回调信息协议.md
+        参数的详细说明见https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/zh-cn/protocol/callback-schema.md
 
         Args:
             m (Message): 消息类型
@@ -207,7 +207,9 @@ class AssistantHandler:
     def startup(self):
         self.connect()
         if self.config.Scheduler_NextRun.strftime('%H:%M') == self.config.Scheduler_ServerUpdate:
-            self.maa_start('CloseDown', {})
+            self.maa_start('CloseDown', {
+                "client_type": self.config.MaaEmulator_PackageName
+            })
 
         self.maa_start('StartUp', {
             "client_type": self.config.MaaEmulator_PackageName,
@@ -458,7 +460,11 @@ class AssistantHandler:
                 self.config.MaaRoguelike_Theme != "Sami" and self.config.MaaRoguelike_Squad in ["永恒狩猎分队",
                                                                                                 "生活至上分队",
                                                                                                 "科学主义分队",
-                                                                                                "特训分队"]):
+                                                                                                "特训分队"]) or (
+                self.config.MaaRoguelike_Theme != "Sarkaz" and self.config.MaaRoguelike_Squad in ["魂灵护送分队",
+                                                                                                "博闻广记分队",
+                                                                                                "蓝图测绘分队",
+                                                                                                "因地制宜分队"]):
 
             args["squad"] = "指挥分队"
         if self.config.MaaRoguelike_CoreChar:

@@ -99,12 +99,12 @@ class GeneratedConfig:
     MaaMall_BlackList = '碳 > 家具 > 加急许可'
 
     # Group `MaaRoguelike`
-    MaaRoguelike_Theme = 'Sami'  # Phantom, Mizuki, Sami
+    MaaRoguelike_Theme = 'Sarkaz'  # Phantom, Mizuki, Sami, Sarkaz
     MaaRoguelike_Mode = 0  # 0, 1, 4
     MaaRoguelike_StartsCount = 9999999
     MaaRoguelike_InvestmentsCount = 9999999
     MaaRoguelike_StopWhenInvestmentFull = False
-    MaaRoguelike_Squad = '指挥分队'  # 永恒狩猎分队, 生活至上分队, 科学主义分队, 特训分队, 心胜于物分队, 物尽其用分队, 以人为本分队, 指挥分队, 集群分队, 后勤分队, 矛头分队, 突击战术分队, 堡垒战术分队, 远程战术分队, 破坏战术分队, 研究分队, 高规格分队
+    MaaRoguelike_Squad = '指挥分队'  # 魂灵护送分队, 博闻广记分队, 蓝图测绘分队, 因地制宜分队, 永恒狩猎分队, 生活至上分队, 科学主义分队, 特训分队, 心胜于物分队, 物尽其用分队, 以人为本分队, 指挥分队, 集群分队, 后勤分队, 矛头分队, 突击战术分队, 堡垒战术分队, 远程战术分队, 破坏战术分队, 研究分队, 高规格分队
     MaaRoguelike_Roles = '取长补短'  # 先手必胜, 稳扎稳打, 取长补短, 随心所欲
     MaaRoguelike_CoreChar = None
     MaaRoguelike_Support = 'no_use'  # no_use, friend_support, nonfriend_support
