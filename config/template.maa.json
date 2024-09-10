@@ -243,6 +243,20 @@
       "Storage": {}
     }
   },
+  "MaaAftercareOperation": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 04:00:00",
+      "Command": "MaaAftercareOperation",
+      "SuccessInterval": 60,
+      "FailureInterval": 120,
+      "ServerUpdate": "04:00"
+    },
+    "WhenTaskQueueEmpty": {
+      "type": "input",
+      "value": "stay_there"
+    }
+  },
   "MaaReclamationAlgorithm": {
     "Scheduler": {
       "Enable": false,

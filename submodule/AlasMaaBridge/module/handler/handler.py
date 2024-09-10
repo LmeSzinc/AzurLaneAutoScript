@@ -493,6 +493,13 @@ class AssistantHandler:
         })
         self.config.task_delay(server_update=True)
 
+    def aftercare_operation(self):
+        if self.config.MaaRoguelike_Theme == 'close_game':
+            self.maa_start('CloseDown', {
+                "client_type": self.config.MaaEmulator_PackageName
+            })
+        self.config.task_delay(server_update=True)
+
     def copilot(self):
         filename = self.config.MaaCopilot_FileName
         if filename.startswith('maa://'):

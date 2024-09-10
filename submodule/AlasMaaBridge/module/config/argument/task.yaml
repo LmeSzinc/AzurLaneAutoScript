@@ -42,6 +42,9 @@ Maa:
     MaaRoguelike:
       - Scheduler
       - MaaRoguelike
+    MaaAftercareOperation:
+      - Scheduler
+      - MaaAftercareOperation
     MaaReclamationAlgorithm:
       - Scheduler
 

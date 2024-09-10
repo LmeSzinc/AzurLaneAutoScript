@@ -1050,6 +1050,12 @@
       }
     }
   },
+  "MaaAftercareOperation": {
+    "WhenTaskQueueEmpty": {
+      "type": "input",
+      "value": "stay_there"
+    }
+  },
   "MaaReclamationAlgorithm": {
     "Scheduler": {
       "Enable": {
