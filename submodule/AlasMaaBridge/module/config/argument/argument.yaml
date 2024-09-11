@@ -177,7 +177,7 @@ MaaRoguelike:
 MaaAftercareOperation:
   WhenTaskQueueEmpty:
     value: stay_there
-    option: [ stay_there, goto_main, close_game ]
+    option: [ stay_there, close_game ]
 
 MaaAward:
   Mail: False

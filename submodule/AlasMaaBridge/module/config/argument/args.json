@@ -1060,8 +1060,7 @@
       "NextRun": {
         "type": "datetime",
         "value": "2020-01-01 04:00:00",
-        "validate": "datetime",
-        "display": "hide"
+        "validate": "datetime"
       },
       "Command": {
         "type": "input",
@@ -1090,7 +1089,6 @@
         "value": "stay_there",
         "option": [
           "stay_there",
-          "goto_main",
           "close_game"
         ]
       }

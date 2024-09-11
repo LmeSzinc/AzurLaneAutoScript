@@ -51,7 +51,7 @@
       "help": ""
     },
     "MaaAftercareOperation": {
-      "name": "收尾操作",
+      "name": "结束任务",
       "help": ""
     },
     "MaaReclamationAlgorithm": {
