@@ -8,7 +8,7 @@ from functools import partial
 from typing import Dict, List, Optional
 
 from pywebio import config as webconfig
-from pywebio.input import file_upload, input_group, input, select
+from pywebio.input import file_upload, input, input_group, select
 from pywebio.output import (
     Output,
     clear,
@@ -32,15 +32,7 @@ from pywebio.output import (
     use_scope,
 )
 from pywebio.pin import pin, pin_on_change
-from pywebio.session import (
-    go_app,
-    info,
-    local,
-    register_thread,
-    run_js,
-    set_env,
-    download,
-)
+from pywebio.session import (download, go_app, info, local, register_thread, run_js, set_env)
 
 import module.webui.lang as lang
 from module.config.config import AzurLaneConfig, Function
@@ -64,6 +56,7 @@ from module.webui.base import Frame
 from module.webui.discord_presence import close_discord_rpc, init_discord_rpc
 from module.webui.fastapi import asgi_app
 from module.webui.lang import _t, t
+from module.webui.patch import patch_executor
 from module.webui.pin import put_input, put_select
 from module.webui.process_manager import ProcessManager
 from module.webui.remote_access import RemoteAccess
@@ -94,6 +87,7 @@ from module.webui.widgets import (
     put_output,
 )
 
+patch_executor()
 task_handler = TaskHandler()
 
 

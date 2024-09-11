@@ -44,6 +44,10 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy, NemuIpc, LDOpenGL):
             'ldopengl': self.screenshot_ldopengl,
         }
 
+    @cached_property
+    def screenshot_method_override(self) -> str:
+        return ''
+
     def screenshot(self):
         """
         Returns:
@@ -53,10 +57,11 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy, NemuIpc, LDOpenGL):
         self._screenshot_interval.reset()
 
         for _ in range(2):
-            method = self.screenshot_methods.get(
-                self.config.Emulator_ScreenshotMethod,
-                self.screenshot_adb
-            )
+            if self.screenshot_method_override:
+                method = self.screenshot_method_override
+            else:
+                method = self.config.Emulator_ScreenshotMethod
+            method = self.screenshot_methods.get(method, self.screenshot_adb)
             self.image = method()
 
             if self.config.Emulator_ScreenshotDedithering:
