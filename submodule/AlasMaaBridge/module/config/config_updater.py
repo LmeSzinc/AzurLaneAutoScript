@@ -3,6 +3,7 @@ from cached_property import cached_property
 from module.base.timer import timer
 from module.config import config_updater
 from module.config.utils import *
+from module.logger import logger
 
 
 class ConfigGenerator(config_updater.ConfigGenerator):

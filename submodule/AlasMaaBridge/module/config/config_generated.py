@@ -118,7 +118,7 @@ class GeneratedConfig:
     MaaAward_Specialaccess = False
 
     # Group 'MaaAftercareOperation'
-    WhenTaskQueueEmpty = 'stay_there'
+    MaaAftercareOperation_WhenTaskQueueEmpty = 'stay_there'
 
     # Group `MaaCopilot`
     MaaCopilot_FileName = None

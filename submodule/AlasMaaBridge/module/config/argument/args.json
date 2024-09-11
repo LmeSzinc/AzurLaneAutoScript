@@ -1051,9 +1051,49 @@
     }
   },
   "MaaAftercareOperation": {
-    "WhenTaskQueueEmpty": {
-      "type": "input",
-      "value": "stay_there"
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": true,
+        "display": "disabled"
+      },
+      "NextRun": {
+        "type": "datetime",
+        "value": "2020-01-01 04:00:00",
+        "validate": "datetime",
+        "display": "hide"
+      },
+      "Command": {
+        "type": "input",
+        "value": "MaaAftercareOperation",
+        "display": "hide"
+      },
+      "SuccessInterval": {
+        "type": "input",
+        "value": 0,
+        "display": "hide"
+      },
+      "FailureInterval": {
+        "type": "input",
+        "value": 0,
+        "display": "hide"
+      },
+      "ServerUpdate": {
+        "type": "input",
+        "value": "04:00",
+        "display": "hide"
+      }
+    },
+    "MaaAftercareOperation": {
+      "WhenTaskQueueEmpty": {
+        "type": "select",
+        "value": "stay_there",
+        "option": [
+          "stay_there",
+          "goto_main",
+          "close_game"
+        ]
+      }
     }
   },
   "MaaReclamationAlgorithm": {

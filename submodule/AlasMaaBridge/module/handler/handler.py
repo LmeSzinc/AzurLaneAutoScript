@@ -494,7 +494,8 @@ class AssistantHandler:
         self.config.task_delay(server_update=True)
 
     def aftercare_operation(self):
-        if self.config.MaaRoguelike_Theme == 'close_game':
+        #self.config.Scheduler_NextRun.strftime('%H:%M') == datetime.datetime(2020, 1, 1, 0, 0)
+        if self.config.MaaAftercareOperation_WhenTaskQueueEmpty == 'close_game':
             self.maa_start('CloseDown', {
                 "client_type": self.config.MaaEmulator_PackageName
             })
