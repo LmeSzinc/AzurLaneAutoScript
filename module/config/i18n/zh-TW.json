@@ -187,11 +187,11 @@
       "help": ""
     },
     "OpsiAshBeacon": {
-      "name": "餘燼信標",
+      "name": "META作戰",
       "help": ""
     },
     "OpsiAshAssist": {
-      "name": "信標支援",
+      "name": "META支援",
       "help": ""
     },
     "OpsiExplore": {
@@ -2225,7 +2225,7 @@
   },
   "OpsiAshAssist": {
     "_info": {
-      "name": "信標支援",
+      "name": "META支援",
       "help": "打每日三次的信標支援"
     },
     "Tier": {
@@ -2271,11 +2271,11 @@
   },
   "OpsiAshBeacon": {
     "_info": {
-      "name": "餘燼信標",
+      "name": "META作戰",
       "help": ""
     },
     "AttackMode": {
-      "name": "餘燼信標",
+      "name": "META作戰",
       "help": "",
       "current": "當期",
       "current_dossier": "當期 + 檔案"

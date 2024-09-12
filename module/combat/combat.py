@@ -81,10 +81,13 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             bool:
         """
         self.device.stuck_record_add(PAUSE)
-        color = get_color(self.device.image, PAUSE.area)
-        if color_similar(color, PAUSE.color) or color_similar(color, (238, 244, 248)):
-            if np.max(self.image_crop(PAUSE_DOUBLE_CHECK, copy=False)) < 153:
-                return True
+        if self.config.SERVER in ['en']:
+            return PAUSE.match_luma(self.device.image, offset=(20, 20))
+        else:
+            color = get_color(self.device.image, PAUSE.area)
+            if color_similar(color, PAUSE.color) or color_similar(color, (238, 244, 248)):
+                if np.max(self.image_crop(PAUSE_DOUBLE_CHECK, copy=False)) < 153:
+                    return True
         return False
 
     def ensure_combat_oil_loaded(self):
