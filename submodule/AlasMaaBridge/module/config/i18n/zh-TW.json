@@ -513,7 +513,8 @@
       "help": "MaaRoguelike.Theme.help",
       "Phantom": "Phantom",
       "Mizuki": "Mizuki",
-      "Sami": "Sami"
+      "Sami": "Sami",
+      "Sarkaz": "Sarkaz"
     },
     "Mode": {
       "name": "MaaRoguelike.Mode.name",
@@ -537,6 +538,10 @@
     "Squad": {
       "name": "MaaRoguelike.Squad.name",
       "help": "MaaRoguelike.Squad.help",
+      "魂灵护送分队": "魂灵护送分队",
+      "博闻广记分队": "博闻广记分队",
+      "蓝图测绘分队": "蓝图测绘分队",
+      "因地制宜分队": "因地制宜分队",
       "永恒狩猎分队": "永恒狩猎分队",
       "生活至上分队": "生活至上分队",
       "科学主义分队": "科学主义分队",
