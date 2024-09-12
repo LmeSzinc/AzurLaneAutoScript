@@ -2285,13 +2285,8 @@
       "help": "Strike each beacon only once, then call for support every half hour thereafter\nNot effective in META dossiers"
     },
     "DossierAutoAttackMode": {
-<<<<<<< HEAD
-      "name": "Dossier Auto Attack Mode",
-      "help": "Auto attack after first attack at Dossier beacons"
-=======
       "name": "Use Auto Attack Mode in META Dossier",
       "help": "Use Auto Attack Mode after the first battle, currently only available on CN"
->>>>>>> 9eb2a8dcbc4418dfedbcea59e9fbf7bd929c533a
     },
     "RequestAssist": {
       "name": "Request Assists",
