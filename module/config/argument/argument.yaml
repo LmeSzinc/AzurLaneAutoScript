@@ -289,12 +289,12 @@ GemsFarming:
       hermes: null
       langley: null
       ranger: null
-  ALLowLowVanguardLevel: true
+  ALLowLowVanguardLevel: false
   FleetNumberInHardMode:
     value: 0
     option: [ 0, 1, 2 ]
   StopIFAutoNotEnsured: true
-  CommissionLimit: true
+  CommissionLimit: false
 
 # ==================== Event ====================
 

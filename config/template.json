@@ -316,10 +316,10 @@
       "CommonDD": "any",
       "EnableEquipmentCode": false,
       "EquipmentCode": "DD: null\nbogue: null\nhermes: null\nlangley: null\nranger: null",
-      "ALLowLowVanguardLevel": true,
+      "ALLowLowVanguardLevel": false,
       "FleetNumberInHardMode": 0,
       "StopIFAutoNotEnsured": true,
-      "CommissionLimit": true
+      "CommissionLimit": false
     },
     "Campaign": {
       "Name": "12-4",
