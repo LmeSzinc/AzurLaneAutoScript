@@ -247,7 +247,7 @@ class LDOpenGLImpl:
 
         img = ctypes.cast(img_ptr, ctypes.POINTER(ctypes.c_ubyte * (height * width * 3))).contents
 
-        image = np.ctypeslib.as_array(img).copy().reshape((height, width, 3))
+        image = np.ctypeslib.as_array(img).reshape((height, width, 3))
         return image
 
     @staticmethod
@@ -321,7 +321,7 @@ class LDOpenGL(Platform):
     def screenshot_ldopengl(self):
         image = self.ldopengl.screenshot()
 
-        cv2.flip(image, 0, dst=image)
+        image = cv2.flip(image, 0)
         cv2.cvtColor(image, cv2.COLOR_BGR2RGB, dst=image)
         return image
 

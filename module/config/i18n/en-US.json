@@ -187,11 +187,11 @@
       "help": ""
     },
     "OpsiAshBeacon": {
-      "name": "Ash Beacon",
+      "name": "META Battles",
       "help": ""
     },
     "OpsiAshAssist": {
-      "name": "OpSi Ash Assist",
+      "name": "META Assists",
       "help": ""
     },
     "OpsiExplore": {
@@ -2186,7 +2186,7 @@
   },
   "OpsiAshAssist": {
     "_info": {
-      "name": "OpSi Ash Assist Settings",
+      "name": "META Assist Settings",
       "help": "Limited to 3 everyday"
     },
     "Tier": {
@@ -2232,11 +2232,11 @@
   },
   "OpsiAshBeacon": {
     "_info": {
-      "name": "Ash Beacon Settings",
+      "name": "META Battle Settings",
       "help": ""
     },
     "AttackMode": {
-      "name": "META Attack",
+      "name": "META Battle",
       "help": "",
       "current": "Current",
       "current_dossier": "Current + Dossier"
@@ -2246,8 +2246,8 @@
       "help": "Strike each beacon only once, then call for support every half hour thereafter\nNot effective in META dossiers"
     },
     "DossierAutoAttackMode": {
-      "name": "OpsiAshBeacon.DossierAutoAttackMode.name",
-      "help": "OpsiAshBeacon.DossierAutoAttackMode.help"
+      "name": "Use Auto Attack Mode in META Dossier",
+      "help": "Use Auto Attack Mode after the first battle, currently only available on CN"
     },
     "RequestAssist": {
       "name": "Request Assists",
