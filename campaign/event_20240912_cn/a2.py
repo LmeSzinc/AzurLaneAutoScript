@@ -1,4 +1,4 @@
-from module.campaign.campaign_base import CampaignBase
+from .campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
@@ -6,17 +6,17 @@ from .a1 import Config as ConfigBase
 
 MAP = CampaignMap('A2')
 MAP.shape = 'I8'
-MAP.camera_data = ['D2', 'D6', 'F2', 'F6']
-MAP.camera_data_spawn_point = ['D2', 'D6']
+MAP.camera_data = ['D3', 'D6', 'F2', 'F6']
+MAP.camera_data_spawn_point = ['F6']
 MAP.map_data = """
-    -- -- -- ME -- -- -- ++ ++
-    ++ ++ Me -- Me ++ -- ++ ++
-    ++ ++ -- -- -- ME -- ME --
-    SP -- -- MS -- -- ME -- --
-    -- -- Me __ ++ ++ ++ -- MB
-    SP -- -- MS -- -- -- -- --
-    ++ -- -- -- -- ME -- ME --
-    ++ -- -- ME ++ -- ME -- --
+    -- -- -- ++ -- -- -- -- --
+    ++ ME -- -- ME -- ME ++ --
+    ++ -- ME -- -- -- -- -- ME
+    -- ME -- -- Me Me -- Me --
+    -- -- -- ME ++ ++ -- __ ME
+    -- ME -- -- SP ++ MS -- --
+    -- ++ Me -- -- -- -- MS --
+    MB ++ -- -- SP ++ MS -- ++
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
@@ -48,20 +48,18 @@ A8, B8, C8, D8, E8, F8, G8, H8, I8, \
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = []
+    MAP_SIREN_TEMPLATE = ['AmagiMasked']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
-    MAP_HAS_MAP_STORY = True
+    MAP_HAS_MAP_STORY = False
     MAP_HAS_FLEET_STEP = True
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
-
-    STAGE_ENTRANCE = ['half', '20240725']
-    MAP_SWIPE_MULTIPLY = (1.103, 1.124)
-    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.067, 1.087)
-    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.036, 1.055)
+    MAP_SWIPE_MULTIPLY = (1.070, 1.090)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.035, 1.054)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.005, 1.023)
 
 
 class Campaign(CampaignBase):

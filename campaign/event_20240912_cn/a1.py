@@ -1,24 +1,22 @@
-from module.campaign.campaign_base import CampaignBase
+from .campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
 
 MAP = CampaignMap('A1')
-MAP.shape = 'I8'
-MAP.camera_data = ['E2', 'E5']
-MAP.camera_data_spawn_point = ['E2']
+MAP.shape = 'I7'
+MAP.camera_data = ['D5', 'F2', 'F5']
+MAP.camera_data_spawn_point = ['D2']
 MAP.map_data = """
-    -- -- -- SP -- SP -- -- --
-    -- ME -- -- MB -- -- ME --
-    -- ++ Me -- -- -- ++ ++ --
-    ++ ME -- MS -- MS ++ ++ --
-    -- ME -- -- __ -- -- ME --
-    -- -- ME -- Me -- -- ME --
-    -- -- ++ ME -- ++ Me -- --
-    -- -- ++ -- -- -- -- -- --
+    SP -- SP ++ ++ -- ME -- --
+    -- -- -- ++ ++ ME -- MB --
+    -- MS -- -- Me -- -- -- ME
+    ++ -- MS -- -- -- ME -- --
+    -- -- -- -- __ -- ++ ME --
+    ME -- Me -- Me -- -- -- Me
+    -- ME ++ ++ ++ ME -- ME --
 """
 MAP.weight_data = """
-    50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50
@@ -41,41 +39,36 @@ A4, B4, C4, D4, E4, F4, G4, H4, I4, \
 A5, B5, C5, D5, E5, F5, G5, H5, I5, \
 A6, B6, C6, D6, E6, F6, G6, H6, I6, \
 A7, B7, C7, D7, E7, F7, G7, H7, I7, \
-A8, B8, C8, D8, E8, F8, G8, H8, I8, \
     = MAP.flatten()
 
 
 class Config:
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = []
+    MAP_SIREN_TEMPLATE = ['AmagiMasked']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
-    MAP_HAS_MAP_STORY = True
+    MAP_HAS_MAP_STORY = False
     MAP_HAS_FLEET_STEP = True
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
-
-    STAGE_ENTRANCE = ['half', '20240725']
-    MAP_SIREN_HAS_BOSS_ICON_SMALL = True
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (80, 255 - 33),
-        'width': (0.9, 10),
+        'height': (120, 255 - 49),
+        'width': (1.5, 10),
         'prominence': 10,
         'distance': 35,
     }
     EDGE_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (255 - 33, 255),
+        'height': (255 - 49, 255),
         'prominence': 10,
         'distance': 50,
-        # 'width': (0, 7),
         'wlen': 1000
     }
-    
-    MAP_SWIPE_MULTIPLY = (1.194, 1.217)
-    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.155, 1.176)
-    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.121, 1.142)
+    STAGE_ENTRANCE = ['half', '20240725']
+    MAP_SWIPE_MULTIPLY = (1.157, 1.179)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.119, 1.140)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.086, 1.106)
 
 
 class Campaign(CampaignBase):
