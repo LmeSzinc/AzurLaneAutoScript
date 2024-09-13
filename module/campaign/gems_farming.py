@@ -322,7 +322,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
 
         if self.config.GemsFarming_CommonCV in ['any', 'eagle']:
 
-            self.dock_sort_method_dsc_set(False)
+            self.dock_sort_method_dsc_set()
 
             ships = scanner.scan(self.device.image)
             if ships:
