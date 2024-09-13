@@ -5,8 +5,8 @@ from module.logger import logger
 
 MAP = CampaignMap('SP')
 MAP.shape = 'K5'
-MAP.camera_data = ['D3', 'H3']
-MAP.camera_data_spawn_point = ['H3']
+MAP.camera_data = ['D3', 'F3']
+MAP.camera_data_spawn_point = ['I3']
 MAP.map_data = """
     ++ -- ME -- ++ -- ME -- ++ ++ ++
     -- -- -- ME ++ ME -- MS -- -- SP
@@ -53,6 +53,8 @@ class Config:
     STAR_REQUIRE_2 = 0
     STAR_REQUIRE_3 = 0
     # ===== End of generated config =====
+
+    MAP_IS_ONE_TIME_STAGE = True
     STAGE_ENTRANCE = ['half', '20240725']
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (120, 255 - 49),
