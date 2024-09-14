@@ -3,6 +3,7 @@ import numpy as np
 from module.base.timer import Timer
 from module.base.utils import get_color, color_similar
 from module.combat.assets import *
+from module.combat_ui.assets import *
 from module.combat.combat_auto import CombatAuto
 from module.combat.combat_manual import CombatManual
 from module.combat.hp_balancer import HPBalancer
@@ -81,13 +82,36 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             bool:
         """
         self.device.stuck_record_add(PAUSE)
-        if self.config.SERVER in ['en']:
-            return PAUSE.match_luma(self.device.image, offset=(20, 20))
+        if self.config.SERVER in ['cn', 'en']:
+            if PAUSE.match_luma(self.device.image, offset=(20, 20)):
+                return True
         else:
             color = get_color(self.device.image, PAUSE.area)
             if color_similar(color, PAUSE.color) or color_similar(color, (238, 244, 248)):
                 if np.max(self.image_crop(PAUSE_DOUBLE_CHECK, copy=False)) < 153:
                     return True
+        if PAUSE_New.match_luma(self.device.image, offset=(20, 20)):
+            return True
+        if PAUSE_Iridescent_Fantasy.match_luma(self.device.image, offset=(20, 20)):
+            return True
+        return False
+
+    def handle_combat_quit(self, offset=(20, 20), interval=3):
+        timer = self.get_interval_timer(QUIT, interval=interval)
+        if not timer.reached():
+            return False
+        if QUIT.match_luma(self.device.image, offset=offset):
+            self.device.click(QUIT)
+            timer.reset()
+            return True
+        if QUIT_New.match_luma(self.device.image, offset=offset):
+            self.device.click(QUIT_New)
+            timer.reset()
+            return True
+        if QUIT_Iridescent_Fantasy.match_luma(self.device.image, offset=offset):
+            self.device.click(QUIT_Iridescent_Fantasy)
+            timer.reset()
+            return True
         return False
 
     def ensure_combat_oil_loaded(self):
