@@ -6,7 +6,7 @@ from module.logger import logger
 MAP = CampaignMap('A1')
 MAP.shape = 'I7'
 MAP.camera_data = ['D5', 'F2', 'F5']
-MAP.camera_data_spawn_point = ['D2']
+MAP.camera_data_spawn_point = ['D1']
 MAP.map_data = """
     SP -- SP ++ ++ -- ME -- --
     -- -- -- ++ ++ ME -- MB --
@@ -65,10 +65,11 @@ class Config:
         'distance': 50,
         'wlen': 1000
     }
+    HOMO_CANNY_THRESHOLD = (75, 100)
     STAGE_ENTRANCE = ['half', '20240725']
-    MAP_SWIPE_MULTIPLY = (1.157, 1.179)
-    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.119, 1.140)
-    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.086, 1.106)
+    MAP_SWIPE_MULTIPLY = (1.234, 1.257)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.193, 1.215)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.158, 1.179)
 
 
 class Campaign(CampaignBase):

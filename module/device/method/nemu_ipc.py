@@ -469,6 +469,9 @@ class NemuIpc(Platform):
         """
         # Try existing settings first
         if self.config.EmulatorInfo_path:
+            if 'MuMuPlayerGlobal' in self.config.EmulatorInfo_path:
+                logger.info(f'nemu_ipc is not available on MuMuPlayerGlobal, {self.config.EmulatorInfo_path}')
+                raise RequestHumanTakeover
             folder = os.path.abspath(os.path.join(self.config.EmulatorInfo_path, '../../'))
             index = NemuIpcImpl.serial_to_id(self.serial)
             if index is not None:
@@ -487,6 +490,9 @@ class NemuIpc(Platform):
         # installation path is E:\ProgramFiles\MuMuPlayer-12.0
         if self.emulator_instance is None:
             logger.error('Unable to use NemuIpc because emulator instance not found')
+            raise RequestHumanTakeover
+        if 'MuMuPlayerGlobal' in self.emulator_instance.path:
+            logger.info(f'nemu_ipc is not available on MuMuPlayerGlobal, {self.emulator_instance.path}')
             raise RequestHumanTakeover
         try:
             return NemuIpcImpl(
