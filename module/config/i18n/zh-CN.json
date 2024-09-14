@@ -187,11 +187,11 @@
       "help": ""
     },
     "OpsiAshBeacon": {
-      "name": "余烬信标",
+      "name": "META作战",
       "help": ""
     },
     "OpsiAshAssist": {
-      "name": "信标支援",
+      "name": "META支援",
       "help": ""
     },
     "OpsiExplore": {
@@ -960,6 +960,7 @@
       "event_20240725_cn": "幻梦间奏曲",
       "event_20240815_cn": "铁翼擎风",
       "event_20240829_cn": "埋葬于彼岸之花",
+      "event_20240912_cn": "唤醒苍红之炎",
       "raid_20200624": "复刻特别演习埃塞克斯级",
       "raid_20210708": "复刻穿越彼方的水线",
       "raid_20220127": "演习神秘事件调查",
@@ -2414,7 +2415,7 @@
   },
   "OpsiAshAssist": {
     "_info": {
-      "name": "信标支援",
+      "name": "META支援",
       "help": "打每天三次的信标支援"
     },
     "Tier": {
@@ -2460,11 +2461,11 @@
   },
   "OpsiAshBeacon": {
     "_info": {
-      "name": "余烬信标",
+      "name": "META作战",
       "help": ""
     },
     "AttackMode": {
-      "name": "余烬信标",
+      "name": "META作战",
       "help": "",
       "current": "当期",
       "current_dossier": "当期 + 档案"
@@ -2475,7 +2476,7 @@
     },
     "DossierAutoAttackMode": {
       "name": "档案信标自动作战",
-      "help": "在档案信标首次战斗后进行自动作战"
+      "help": "在档案信标首次战斗后进行自动作战，目前仅国服可用"
     },
     "RequestAssist": {
       "name": "呼叫支援",

@@ -187,11 +187,11 @@
       "help": ""
     },
     "OpsiAshBeacon": {
-      "name": "餘燼信標",
+      "name": "META作戰",
       "help": ""
     },
     "OpsiAshAssist": {
-      "name": "信標支援",
+      "name": "META支援",
       "help": ""
     },
     "OpsiExplore": {
@@ -960,6 +960,7 @@
       "event_20240725_cn": "Interlude of Illusions",
       "event_20240815_cn": "Windborne Steel Wings",
       "event_20240829_cn": "Whence Flowers Bear No Fruit",
+      "event_20240912_cn": "Ode of Everblooming Crimson",
       "raid_20200624": "特別演習埃塞克斯級(復刻)",
       "raid_20210708": "復刻穿越彼方的水線",
       "raid_20220127": "演習神秘事件調查",
@@ -2414,7 +2415,7 @@
   },
   "OpsiAshAssist": {
     "_info": {
-      "name": "信標支援",
+      "name": "META支援",
       "help": "打每日三次的信標支援"
     },
     "Tier": {
@@ -2460,11 +2461,11 @@
   },
   "OpsiAshBeacon": {
     "_info": {
-      "name": "餘燼信標",
+      "name": "META作戰",
       "help": ""
     },
     "AttackMode": {
-      "name": "餘燼信標",
+      "name": "META作戰",
       "help": "",
       "current": "當期",
       "current_dossier": "當期 + 檔案"
@@ -2474,8 +2475,8 @@
       "help": "對每個信標只出擊一次，之後每半個小時呼叫支援\n在檔案信標中不生效"
     },
     "DossierAutoAttackMode": {
-      "name": "OpsiAshBeacon.DossierAutoAttackMode.name",
-      "help": "OpsiAshBeacon.DossierAutoAttackMode.help"
+      "name": "檔案信標自動作戰",
+      "help": "在檔案信標首次戰鬥後進行自動作戰"
     },
     "RequestAssist": {
       "name": "呼叫支援",

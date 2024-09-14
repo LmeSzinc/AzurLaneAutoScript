@@ -64,10 +64,9 @@
         "display": "hide"
       },
       "OnePushConfig": {
-        "type": "input",
+        "type": "textarea",
         "value": "provider: null",
-        "mode": "yaml",
-        "display": "hide"
+        "mode": "yaml"
       }
     },
     "Optimization": {
@@ -953,7 +952,8 @@
         "option": [
           "Phantom",
           "Mizuki",
-          "Sami"
+          "Sami",
+          "Sarkaz"
         ]
       },
       "Mode": {
@@ -981,6 +981,10 @@
         "type": "select",
         "value": "指挥分队",
         "option": [
+          "魂灵护送分队",
+          "博闻广记分队",
+          "蓝图测绘分队",
+          "因地制宜分队",
           "永恒狩猎分队",
           "生活至上分队",
           "科学主义分队",

@@ -321,7 +321,7 @@ class LDOpenGL(Platform):
     def screenshot_ldopengl(self):
         image = self.ldopengl.screenshot()
 
-        cv2.flip(image, 0, dst=image)
+        image = cv2.flip(image, 0)
         cv2.cvtColor(image, cv2.COLOR_BGR2RGB, dst=image)
         return image
 
