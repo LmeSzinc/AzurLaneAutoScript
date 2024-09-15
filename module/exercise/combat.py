@@ -88,10 +88,12 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment, Combat):
             if not end:
                 if self._at_low_hp(image=self.device.image):
                     logger.info('Exercise quit')
-                    if pause_interval.reached() and self.is_combat_executing():
-                        self.device.click(PAUSE)
-                        pause_interval.reset()
-                        continue
+                    if pause_interval.reached():
+                        pause = self.is_combat_executing()
+                        if pause:
+                            self.device.click(pause)
+                            pause_interval.reset()
+                            continue
                 else:
                     if show_hp_timer.reached():
                         show_hp_timer.reset()
