@@ -37,12 +37,13 @@ class GemsEmotion(Emotion):
         Raise:
             CampaignEnd: Pause current task to prevent emotion control in the future.
         """
-        
-        try:
-            super().check_reduce(battle)
-        except ScriptEnd:
+        if not self.is_calculate:
+            return
+
+        recovered, delay = self._check_reduce(battle)
+        if delay:
             self.config.GEMS_EMOTION_TRIGGERED = True
-            self.config.task_delay(minute=0) # to undo emotion delay
+            logger.info('Detect low emotion, pause current task')
             raise CampaignEnd('Emotion control')
 
     def wait(self, fleet_index):
