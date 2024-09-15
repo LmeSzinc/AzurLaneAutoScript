@@ -188,9 +188,6 @@ class LDOpenGLImpl:
             f'ldopengl_dll={ldopengl_dll}, '
             f'instance_id={instance_id}'
         )
-        self.console = LDConsole(ld_folder)
-        self.info = self.get_player_info_by_index(instance_id)
-
         # Load dll
         try:
             self.lib = ctypes.WinDLL(ldopengl_dll)
@@ -206,6 +203,10 @@ class LDOpenGLImpl:
                     f'ldopengl_dll={ldopengl_dll} exist, '
                     f'but cannot be loaded'
                 )
+        # Get info after loading DLL, so DLL existence can act as a version check
+        self.console = LDConsole(ld_folder)
+        self.info = self.get_player_info_by_index(instance_id)
+
         self.lib.CreateScreenShotInstance.restype = ctypes.c_void_p
 
         # Get screenshot instance
