@@ -79,21 +79,21 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
     def is_combat_executing(self):
         """
         Returns:
-            bool:
+            Button: PAUSE button that appears
         """
         self.device.stuck_record_add(PAUSE)
         if self.config.SERVER in ['cn', 'en']:
             if PAUSE.match_luma(self.device.image, offset=(20, 20)):
-                return True
+                return PAUSE
         else:
             color = get_color(self.device.image, PAUSE.area)
             if color_similar(color, PAUSE.color) or color_similar(color, (238, 244, 248)):
                 if np.max(self.image_crop(PAUSE_DOUBLE_CHECK, copy=False)) < 153:
-                    return True
+                    return PAUSE
         if PAUSE_New.match_luma(self.device.image, offset=(20, 20)):
-            return True
+            return PAUSE_New
         if PAUSE_Iridescent_Fantasy.match_luma(self.device.image, offset=(20, 20)):
-            return True
+            return PAUSE_Iridescent_Fantasy
         return False
 
     def handle_combat_quit(self, offset=(20, 20), interval=3):
