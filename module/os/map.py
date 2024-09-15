@@ -553,11 +553,13 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
 
             if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50), interval=3):
                 continue
-            if pause_interval.reached() and self.is_combat_executing():
-                self.device.click(PAUSE)
-                self.interval_reset(MAINTENANCE_ANNOUNCE)
-                pause_interval.reset()
-                continue
+            if pause_interval.reached():
+                pause = self.is_combat_executing()
+                if pause:
+                    self.device.click(pause)
+                    self.interval_reset(MAINTENANCE_ANNOUNCE)
+                    pause_interval.reset()
+                    continue
             if self.handle_combat_quit():
                 self.interval_reset(MAINTENANCE_ANNOUNCE)
                 pause_interval.reset()
