@@ -322,7 +322,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
 
         if self.config.GemsFarming_CommonCV in ['any', 'eagle']:
 
-            self.dock_sort_method_dsc_set()
+            self.dock_sort_method_dsc_set(False)
 
             ships = scanner.scan(self.device.image)
             if ships:
@@ -473,7 +473,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
         self.FLEET_ENTER_FLAGSHIP = self._FLEET_ENTER_FLAGSHIP if not self.hard_mode else self.FLEET_ENTER_FLAGSHIP
         faction = 'eagle' if self.config.GemsFarming_CommonCV == 'eagle' else 'all'
         self.dock_filter_set(
-            index='cv', rarity='common', faction=faction, extra='enhanceable')
+            index='cv', rarity='common', faction=faction, extra='enhanceable', sort='total')
         self.dock_favourite_set(False)
 
         ship = self.get_common_rarity_cv()
