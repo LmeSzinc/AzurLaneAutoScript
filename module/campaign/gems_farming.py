@@ -322,7 +322,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
 
         if self.config.GemsFarming_CommonCV in ['any', 'eagle']:
 
-            self.dock_sort_method_dsc_set(False)
+            self.dock_sort_method_dsc_set()
 
             ships = scanner.scan(self.device.image)
             if ships:
@@ -330,6 +330,28 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
                 return ships
 
             scanner.set_limitation(fleet=0)
+
+            common_cv = [
+                TEMPLATE_BOGUE,
+                TEMPLATE_RANGER,
+                TEMPLATE_LANGLEY,
+                TEMPLATE_HERMES         
+            ]
+
+            candidates = self.find_candidates(common_cv, scanner)
+
+            if candidates:
+                return candidates
+
+            logger.info('No suitable CV was found, try reversed order.')
+            self.dock_sort_method_dsc_set(False)
+
+            candidates = self.find_candidates(common_cv, scanner, output=True)
+            
+            if candidates:
+                return candidates
+
+            self.dock_sort_method_dsc_set(False)
             return scanner.scan(self.device.image, output=False)
 
         else:
@@ -411,14 +433,14 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
 
         return candidates
 
-    def find_candidates(self, template, scanner):
+    def find_candidates(self, template, scanner, output=False):
         """
         Find candidates based on template matching using a scanner.
 
         """
         candidates = []
         for item in template:
-            candidates = [ship for ship in scanner.scan(self.device.image, output=False)
+            candidates = [ship for ship in scanner.scan(self.device.image, output=output)
                           if item.match(self.image_crop(ship.button, copy=False), similarity=SIM_VALUE)]
             if candidates:
                 break
