@@ -331,25 +331,32 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
 
             scanner.set_limitation(fleet=0)
 
-            common_cv = [
-                TEMPLATE_BOGUE,
-                TEMPLATE_RANGER,
-                TEMPLATE_LANGLEY,
-                TEMPLATE_HERMES         
-            ]
+            common_cv = {
+                'Bogue': TEMPLATE_BOGUE,
+                'Ranger': TEMPLATE_RANGER,
+                'Langley': TEMPLATE_LANGLEY
+            }
+            if self.config.GemsFarming_CommonCV == 'any':
+                common_cv['Hermes'] = TEMPLATE_HERMES
 
-            candidates = self.find_candidates(common_cv, scanner)
+            for name, template in common_cv.items():
+                logger.info(f'Search for CV {name}.')
+                self.dock_sort_method_dsc_set()
 
-            if candidates:
-                return candidates
+                candidates = [ship for ship in scanner.scan(self.device.image, output=False)
+                              if template.match(self.image_crop(ship.button, copy=False), similarity=SIM_VALUE)]
 
-            logger.info('No suitable CV was found, try reversed order.')
-            self.dock_sort_method_dsc_set(False)
+                if candidates:
+                    return candidates
 
-            candidates = self.find_candidates(common_cv, scanner, output=True)
-            
-            if candidates:
-                return candidates
+                logger.info(f'No suitable CV {name} was found, try reversed order.')
+                self.dock_sort_method_dsc_set(False)
+
+                candidates = [ship for ship in scanner.scan(self.device.image)
+                              if template.match(self.image_crop(ship.button, copy=False), similarity=SIM_VALUE)]
+
+                if candidates:
+                    return candidates
 
             self.dock_sort_method_dsc_set(False)
             return scanner.scan(self.device.image, output=False)
