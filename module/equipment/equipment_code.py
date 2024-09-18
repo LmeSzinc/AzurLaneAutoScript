@@ -217,6 +217,8 @@ class EquipmentCodeHandler(StorageHandler):
     def clear_all_equip(self):
         self.enter_equip_code_page()
         ship = self.current_ship()
+        self.device.u2_set_fastinput_ime(True)
+        logger.attr("Current_ime", self.device.u2_current_ime())
         if self.codes.__getattribute__(ship) is None:
             self.export_equip_code(ship)
         self.clear_equip_preview()
