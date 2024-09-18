@@ -440,14 +440,14 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
 
         return candidates
 
-    def find_candidates(self, template, scanner, output=False):
+    def find_candidates(self, template, scanner):
         """
         Find candidates based on template matching using a scanner.
 
         """
         candidates = []
         for item in template:
-            candidates = [ship for ship in scanner.scan(self.device.image, output=output)
+            candidates = [ship for ship in scanner.scan(self.device.image, output=False)
                           if item.match(self.image_crop(ship.button, copy=False), similarity=SIM_VALUE)]
             if candidates:
                 break
