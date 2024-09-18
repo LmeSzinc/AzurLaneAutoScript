@@ -63,6 +63,7 @@ Farm:
       - Campaign
       - StopCondition
       - Fleet
+      - Emotion
 
 # ==================== Event ====================
 

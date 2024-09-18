@@ -45,6 +45,10 @@ GemsFarming:
       display: display
       value: fleet1_all_fleet2_standby
       option: [ fleet1_all_fleet2_standby, fleet1_standby_fleet2_all ]
+  Emotion:
+    Mode: calculate_ignore
+    Fleet1Control: prevent_red_face
+    Fleet2Control: prevent_red_face
 
 # ==================== Event ====================
 
