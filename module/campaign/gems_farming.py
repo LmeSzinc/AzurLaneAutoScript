@@ -638,7 +638,6 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
             else:
                 if self.hard_mode:
                     raise RequestHumanTakeover
-                self.set_emotion(0)  # a failure in vanguard change means low emotion DD, assuming 0.
                 self._dock_reset()
                 self.ui_back(check_button=self.page_fleet_check_button)
             if self.hard_mode:
