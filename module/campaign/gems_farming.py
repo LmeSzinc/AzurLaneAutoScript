@@ -545,9 +545,8 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
 
         ship = self.get_common_rarity_cv()
         if ship:
-            target_ship = min(ship, key=lambda s: (s.level, -s.emotion))
-            self.set_emotion(target_ship.emotion)
-            self._ship_change_confirm(target_ship.button)
+            self._ship_change_confirm(min(ship, key=lambda s: (s.level, -s.emotion)).button)
+
             if self.hard_mode:
                 self.FLEET_ENTER_FLAGSHIP = self._FLEET_ENTER_FLAGSHIP
 
@@ -562,9 +561,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
                 max_level = 70
             ship = self.get_common_rarity_cv(lv=max_level, emotion=0)
             if ship and self.hard_mode:
-                target_ship = min(ship, key=lambda s: (s.level, -s.emotion))
-                self.set_emotion(target_ship.emotion)
-                self._ship_change_confirm(target_ship.button)
+                self._ship_change_confirm(min(ship, key=lambda s: (s.level, -s.emotion)).button)
             else:
                 if self.hard_mode:
                     raise RequestHumanTakeover
@@ -622,7 +619,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
             if self.hard_mode:
                 self.FLEET_ENTER = self._FLEET_ENTER
             target_ship = max(ship, key=lambda s: s.emotion)
-            self.set_emotion(min(self.get_emotion(), target_ship.emotion))
+            self.set_emotion(target_ship.emotion)
             self._ship_change_confirm(target_ship.button)
 
             logger.info('Change vanguard ship success')
@@ -633,7 +630,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
             ship = self.get_common_rarity_dd(emotion=0)
             if ship and self.hard_mode:
                 target_ship = max(ship, key=lambda s: s.emotion)
-                self.set_emotion(min(self.get_emotion(), target_ship.emotion))
+                self.set_emotion(target_ship.emotion)
                 self._ship_change_confirm(target_ship.button)
             else:
                 if self.hard_mode:
@@ -660,12 +657,6 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
             return True
 
         return super().triggered_stop_condition(oil_check=oil_check)
-
-    def get_emotion(self):
-        if self.config.Fleet_FleetOrder == 'fleet1_standby_fleet2_all':
-            return self.campaign.config.Emotion_Fleet2Value
-        else:
-            return self.campaign.config.Emotion_Fleet1Value
 
     def set_emotion(self, emotion):
         if self.config.Fleet_FleetOrder == 'fleet1_standby_fleet2_all':
