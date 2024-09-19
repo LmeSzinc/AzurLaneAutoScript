@@ -713,6 +713,10 @@
         "type": "checkbox",
         "value": false
       },
+      "Fleet1Extra": {
+        "type": "checkbox",
+        "value": false
+      },
       "Fleet2Value": {
         "type": "input",
         "value": 119
@@ -743,6 +747,10 @@
         ]
       },
       "Fleet2Oath": {
+        "type": "checkbox",
+        "value": false
+      },
+      "Fleet2Extra": {
         "type": "checkbox",
         "value": false
       }
@@ -1090,6 +1098,10 @@
         "type": "checkbox",
         "value": false
       },
+      "Fleet1Extra": {
+        "type": "checkbox",
+        "value": false
+      },
       "Fleet2Value": {
         "type": "input",
         "value": 119
@@ -1120,6 +1132,10 @@
         ]
       },
       "Fleet2Oath": {
+        "type": "checkbox",
+        "value": false
+      },
+      "Fleet2Extra": {
         "type": "checkbox",
         "value": false
       }
@@ -1467,6 +1483,10 @@
         "type": "checkbox",
         "value": false
       },
+      "Fleet1Extra": {
+        "type": "checkbox",
+        "value": false
+      },
       "Fleet2Value": {
         "type": "input",
         "value": 119
@@ -1497,6 +1517,10 @@
         ]
       },
       "Fleet2Oath": {
+        "type": "checkbox",
+        "value": false
+      },
+      "Fleet2Extra": {
         "type": "checkbox",
         "value": false
       }
@@ -1962,6 +1986,10 @@
         "type": "checkbox",
         "value": false
       },
+      "Fleet1Extra": {
+        "type": "checkbox",
+        "value": false
+      },
       "Fleet2Value": {
         "type": "input",
         "value": 119
@@ -1993,6 +2021,10 @@
         ]
       },
       "Fleet2Oath": {
+        "type": "checkbox",
+        "value": false
+      },
+      "Fleet2Extra": {
         "type": "checkbox",
         "value": false
       }
@@ -2412,6 +2444,10 @@
         "type": "checkbox",
         "value": false
       },
+      "Fleet1Extra": {
+        "type": "checkbox",
+        "value": false
+      },
       "Fleet2Value": {
         "type": "input",
         "value": 119
@@ -2442,6 +2478,10 @@
         ]
       },
       "Fleet2Oath": {
+        "type": "checkbox",
+        "value": false
+      },
+      "Fleet2Extra": {
         "type": "checkbox",
         "value": false
       }
@@ -2866,6 +2906,10 @@
         "type": "checkbox",
         "value": false
       },
+      "Fleet1Extra": {
+        "type": "checkbox",
+        "value": false
+      },
       "Fleet2Value": {
         "type": "input",
         "value": 119
@@ -2896,6 +2940,10 @@
         ]
       },
       "Fleet2Oath": {
+        "type": "checkbox",
+        "value": false
+      },
+      "Fleet2Extra": {
         "type": "checkbox",
         "value": false
       }
@@ -3149,6 +3197,10 @@
         "type": "checkbox",
         "value": false
       },
+      "Fleet1Extra": {
+        "type": "checkbox",
+        "value": false
+      },
       "Fleet2Value": {
         "type": "input",
         "value": 119,
@@ -3185,6 +3237,10 @@
         "type": "checkbox",
         "value": false,
         "display": "hide"
+      },
+      "Fleet2Extra": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Storage": {
@@ -3389,6 +3445,10 @@
         "type": "checkbox",
         "value": false
       },
+      "Fleet1Extra": {
+        "type": "checkbox",
+        "value": false
+      },
       "Fleet2Value": {
         "type": "input",
         "value": 119,
@@ -3425,6 +3485,10 @@
         "type": "checkbox",
         "value": false,
         "display": "hide"
+      },
+      "Fleet2Extra": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Storage": {
@@ -3813,6 +3877,10 @@
         "type": "checkbox",
         "value": false
       },
+      "Fleet1Extra": {
+        "type": "checkbox",
+        "value": false
+      },
       "Fleet2Value": {
         "type": "input",
         "value": 119
@@ -3843,6 +3911,10 @@
         ]
       },
       "Fleet2Oath": {
+        "type": "checkbox",
+        "value": false
+      },
+      "Fleet2Extra": {
         "type": "checkbox",
         "value": false
       }
@@ -4284,6 +4356,10 @@
         "type": "checkbox",
         "value": false
       },
+      "Fleet1Extra": {
+        "type": "checkbox",
+        "value": false
+      },
       "Fleet2Value": {
         "type": "input",
         "value": 119
@@ -4314,6 +4390,10 @@
         ]
       },
       "Fleet2Oath": {
+        "type": "checkbox",
+        "value": false
+      },
+      "Fleet2Extra": {
         "type": "checkbox",
         "value": false
       }
@@ -4755,6 +4835,10 @@
         "type": "checkbox",
         "value": false
       },
+      "Fleet1Extra": {
+        "type": "checkbox",
+        "value": false
+      },
       "Fleet2Value": {
         "type": "input",
         "value": 119
@@ -4785,6 +4869,10 @@
         ]
       },
       "Fleet2Oath": {
+        "type": "checkbox",
+        "value": false
+      },
+      "Fleet2Extra": {
         "type": "checkbox",
         "value": false
       }
@@ -5226,6 +5314,10 @@
         "type": "checkbox",
         "value": false
       },
+      "Fleet1Extra": {
+        "type": "checkbox",
+        "value": false
+      },
       "Fleet2Value": {
         "type": "input",
         "value": 119
@@ -5256,6 +5348,10 @@
         ]
       },
       "Fleet2Oath": {
+        "type": "checkbox",
+        "value": false
+      },
+      "Fleet2Extra": {
         "type": "checkbox",
         "value": false
       }
@@ -5697,6 +5793,10 @@
         "type": "checkbox",
         "value": false
       },
+      "Fleet1Extra": {
+        "type": "checkbox",
+        "value": false
+      },
       "Fleet2Value": {
         "type": "input",
         "value": 119
@@ -5727,6 +5827,10 @@
         ]
       },
       "Fleet2Oath": {
+        "type": "checkbox",
+        "value": false
+      },
+      "Fleet2Extra": {
         "type": "checkbox",
         "value": false
       }
@@ -6159,6 +6263,10 @@
         "type": "checkbox",
         "value": false
       },
+      "Fleet1Extra": {
+        "type": "checkbox",
+        "value": false
+      },
       "Fleet2Value": {
         "type": "input",
         "value": 119
@@ -6189,6 +6297,10 @@
         ]
       },
       "Fleet2Oath": {
+        "type": "checkbox",
+        "value": false
+      },
+      "Fleet2Extra": {
         "type": "checkbox",
         "value": false
       }
@@ -6433,6 +6545,10 @@
         "type": "checkbox",
         "value": false
       },
+      "Fleet1Extra": {
+        "type": "checkbox",
+        "value": false
+      },
       "Fleet2Value": {
         "type": "input",
         "value": 119,
@@ -6469,6 +6585,10 @@
         "type": "checkbox",
         "value": false,
         "display": "hide"
+      },
+      "Fleet2Extra": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Storage": {
@@ -6674,6 +6794,10 @@
         "type": "checkbox",
         "value": false
       },
+      "Fleet1Extra": {
+        "type": "checkbox",
+        "value": false
+      },
       "Fleet2Value": {
         "type": "input",
         "value": 119,
@@ -6710,6 +6834,10 @@
         "type": "checkbox",
         "value": false,
         "display": "hide"
+      },
+      "Fleet2Extra": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Storage": {

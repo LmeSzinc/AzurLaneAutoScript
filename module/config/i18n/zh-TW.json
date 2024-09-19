@@ -995,6 +995,10 @@
       "name": "一隊全員已婚 (+10/h)",
       "help": ""
     },
+    "Fleet1Extra": {
+      "name": "一隊額外心情回復 (+10/h)",
+      "help": ""
+    },
     "Fleet2Value": {
       "name": "二隊心情值",
       "help": ""
@@ -1020,6 +1024,10 @@
     },
     "Fleet2Oath": {
       "name": "二隊全員已婚 (+10/h)",
+      "help": ""
+    },
+    "Fleet2Extra": {
+      "name": "二隊額外心情回復 (+10/h)",
       "help": ""
     }
   },
