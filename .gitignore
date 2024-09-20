@@ -19,6 +19,7 @@ config/reloadflag
 config/reloadalas
 test.py
 test/
+assets/shop/event_cost
 
 # Created by .ignore support plugin (hsz.mobi)
 
