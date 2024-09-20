@@ -713,7 +713,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet1Extra": {
+      "Fleet1Onsen": {
         "type": "checkbox",
         "value": false
       },
@@ -750,7 +750,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet2Extra": {
+      "Fleet2Onsen": {
         "type": "checkbox",
         "value": false
       }
@@ -1098,7 +1098,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet1Extra": {
+      "Fleet1Onsen": {
         "type": "checkbox",
         "value": false
       },
@@ -1135,7 +1135,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet2Extra": {
+      "Fleet2Onsen": {
         "type": "checkbox",
         "value": false
       }
@@ -1483,7 +1483,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet1Extra": {
+      "Fleet1Onsen": {
         "type": "checkbox",
         "value": false
       },
@@ -1520,7 +1520,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet2Extra": {
+      "Fleet2Onsen": {
         "type": "checkbox",
         "value": false
       }
@@ -1986,7 +1986,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet1Extra": {
+      "Fleet1Onsen": {
         "type": "checkbox",
         "value": false
       },
@@ -2024,7 +2024,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet2Extra": {
+      "Fleet2Onsen": {
         "type": "checkbox",
         "value": false
       }
@@ -2444,7 +2444,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet1Extra": {
+      "Fleet1Onsen": {
         "type": "checkbox",
         "value": false
       },
@@ -2481,7 +2481,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet2Extra": {
+      "Fleet2Onsen": {
         "type": "checkbox",
         "value": false
       }
@@ -2906,7 +2906,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet1Extra": {
+      "Fleet1Onsen": {
         "type": "checkbox",
         "value": false
       },
@@ -2943,7 +2943,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet2Extra": {
+      "Fleet2Onsen": {
         "type": "checkbox",
         "value": false
       }
@@ -3197,7 +3197,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet1Extra": {
+      "Fleet1Onsen": {
         "type": "checkbox",
         "value": false
       },
@@ -3238,7 +3238,7 @@
         "value": false,
         "display": "hide"
       },
-      "Fleet2Extra": {
+      "Fleet2Onsen": {
         "type": "checkbox",
         "value": false
       }
@@ -3445,7 +3445,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet1Extra": {
+      "Fleet1Onsen": {
         "type": "checkbox",
         "value": false
       },
@@ -3486,7 +3486,7 @@
         "value": false,
         "display": "hide"
       },
-      "Fleet2Extra": {
+      "Fleet2Onsen": {
         "type": "checkbox",
         "value": false
       }
@@ -3877,7 +3877,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet1Extra": {
+      "Fleet1Onsen": {
         "type": "checkbox",
         "value": false
       },
@@ -3914,7 +3914,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet2Extra": {
+      "Fleet2Onsen": {
         "type": "checkbox",
         "value": false
       }
@@ -4356,7 +4356,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet1Extra": {
+      "Fleet1Onsen": {
         "type": "checkbox",
         "value": false
       },
@@ -4393,7 +4393,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet2Extra": {
+      "Fleet2Onsen": {
         "type": "checkbox",
         "value": false
       }
@@ -4835,7 +4835,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet1Extra": {
+      "Fleet1Onsen": {
         "type": "checkbox",
         "value": false
       },
@@ -4872,7 +4872,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet2Extra": {
+      "Fleet2Onsen": {
         "type": "checkbox",
         "value": false
       }
@@ -5314,7 +5314,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet1Extra": {
+      "Fleet1Onsen": {
         "type": "checkbox",
         "value": false
       },
@@ -5351,7 +5351,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet2Extra": {
+      "Fleet2Onsen": {
         "type": "checkbox",
         "value": false
       }
@@ -5793,7 +5793,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet1Extra": {
+      "Fleet1Onsen": {
         "type": "checkbox",
         "value": false
       },
@@ -5830,7 +5830,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet2Extra": {
+      "Fleet2Onsen": {
         "type": "checkbox",
         "value": false
       }
@@ -6263,7 +6263,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet1Extra": {
+      "Fleet1Onsen": {
         "type": "checkbox",
         "value": false
       },
@@ -6300,7 +6300,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet2Extra": {
+      "Fleet2Onsen": {
         "type": "checkbox",
         "value": false
       }
@@ -6545,7 +6545,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet1Extra": {
+      "Fleet1Onsen": {
         "type": "checkbox",
         "value": false
       },
@@ -6586,7 +6586,7 @@
         "value": false,
         "display": "hide"
       },
-      "Fleet2Extra": {
+      "Fleet2Onsen": {
         "type": "checkbox",
         "value": false
       }
@@ -6794,7 +6794,7 @@
         "type": "checkbox",
         "value": false
       },
-      "Fleet1Extra": {
+      "Fleet1Onsen": {
         "type": "checkbox",
         "value": false
       },
@@ -6835,7 +6835,7 @@
         "value": false,
         "display": "hide"
       },
-      "Fleet2Extra": {
+      "Fleet2Onsen": {
         "type": "checkbox",
         "value": false
       }

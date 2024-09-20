@@ -995,9 +995,9 @@
       "name": "Emotion.Fleet1Oath.name",
       "help": "Emotion.Fleet1Oath.help"
     },
-    "Fleet1Extra": {
-      "name": "Emotion.Fleet1Extra.name",
-      "help": "Emotion.Fleet1Extra.help"
+    "Fleet1Onsen": {
+      "name": "Emotion.Fleet1Onsen.name",
+      "help": "Emotion.Fleet1Onsen.help"
     },
     "Fleet2Value": {
       "name": "Emotion.Fleet2Value.name",
@@ -1026,9 +1026,9 @@
       "name": "Emotion.Fleet2Oath.name",
       "help": "Emotion.Fleet2Oath.help"
     },
-    "Fleet2Extra": {
-      "name": "Emotion.Fleet2Extra.name",
-      "help": "Emotion.Fleet2Extra.help"
+    "Fleet2Onsen": {
+      "name": "Emotion.Fleet2Onsen.name",
+      "help": "Emotion.Fleet2Onsen.help"
     }
   },
   "HpControl": {

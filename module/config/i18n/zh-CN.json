@@ -995,8 +995,8 @@
       "name": "一队全员已婚 (+10/h)",
       "help": ""
     },
-    "Fleet1Extra": {
-      "name": "一队额外心情回复 (+10/h)",
+    "Fleet1Onsen": {
+      "name": "一队全员已放置温泉 (+10/h)",
       "help": ""
     },
     "Fleet2Value": {
@@ -1026,8 +1026,8 @@
       "name": "二队全员已婚 (+10/h)",
       "help": ""
     },
-    "Fleet2Extra": {
-      "name": "二队额外心情回复 (+10/h)",
+    "Fleet2Onsen": {
+      "name": "二队全员已放置温泉 (+10/h)",
       "help": ""
     }
   },
