@@ -545,7 +545,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
 
         ship = self.get_common_rarity_cv()
         if ship:
-            self._ship_change_confirm(min(ship, key=lambda s: (s.level, -s.emotion)).button)
+            self._ship_change_confirm(max(ship, key=lambda s: (s.level, s.emotion)).button)
 
             if self.hard_mode:
                 self.FLEET_ENTER_FLAGSHIP = self._FLEET_ENTER_FLAGSHIP
@@ -561,7 +561,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
                 max_level = 70
             ship = self.get_common_rarity_cv(lv=max_level, emotion=0)
             if ship and self.hard_mode:
-                self._ship_change_confirm(min(ship, key=lambda s: (s.level, -s.emotion)).button)
+                self._ship_change_confirm(max(ship, key=lambda s: (s.level, s.emotion)).button)
             else:
                 if self.hard_mode:
                     raise RequestHumanTakeover
