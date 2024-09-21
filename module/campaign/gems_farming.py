@@ -184,7 +184,6 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
             self.campaign.config.override(Emotion_Mode='ignore_calculate')
         else:
             self.campaign.config.override(Emotion_Mode='ignore')
-        self.campaign.config.override(EnemyPriority_EnemyScaleBalanceWeight='S1_enemy_first')
 
     @property
     def emotion_lower_bound(self):

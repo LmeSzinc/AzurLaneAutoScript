@@ -54,6 +54,7 @@ class Config:
 
 class Campaign(CampaignBase):
     MAP = MAP
+    ENEMY_FILTER = '1T > 2T > 3T > 1L > 1M > 2L > 2M > 3L > 3M'
 
     def battle_0(self):
         if self.fleet_2_step_on(step_on, roadblocks=[road_boss]):
@@ -67,6 +68,8 @@ class Campaign(CampaignBase):
         if self.clear_potential_roadblocks([road_boss]):
             return True
         if self.clear_potential_roadblocks([road_mystery]):
+            return True
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
             return True
 
         return self.battle_default()
