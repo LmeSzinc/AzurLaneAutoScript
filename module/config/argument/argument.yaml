@@ -537,10 +537,9 @@ EventShop:
     value: 0
     option: [ 0, 1, 2 ]
   PresetFilter:
-    value: high_value
+    value: all
     option:
       - all
-      - high_value
       - custom
   CustomFilter: |-
     EquipUR > EquipSSR

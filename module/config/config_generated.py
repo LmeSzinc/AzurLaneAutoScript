@@ -293,7 +293,7 @@ class GeneratedConfig:
     EventShop_Enable = False
     EventShop_UnlockShipSSR = False
     EventShop_BuyShipUR = 0  # 0, 1, 2
-    EventShop_PresetFilter = 'high_value'  # all, high_value, custom
+    EventShop_PresetFilter = 'all'  # all, custom
     EventShop_CustomFilter = 'EquipUR > EquipSSR\n> DR > PR > Array > Chip > CatT3\n> Meta > Skinbox\n> Oil > Coin > FoodT1\n> AugmentCore > AugmentEnhanceT2 > AugmentChangeT2 > AugmentChangeT1\n> CatT2 > CatT1 > PlateGeneralT3 > PlateT3 > BoxT4\n> ShipSSR'
 
     # Group `ShipyardDr`

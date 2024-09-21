@@ -1825,7 +1825,6 @@
       "name": "Preset Filter Select",
       "help": "",
       "all": "all",
-      "high_value": "high_value",
       "custom": "custom"
     },
     "CustomFilter": {

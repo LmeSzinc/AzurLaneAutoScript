@@ -31,11 +31,6 @@ EVENT_SHOP = {
         > CatT2 > CatT1 > PlateGeneralT3 > PlateT3 > BoxT4
         > ShipSSR
     """,
-    'high_value': """
-        EquipUR > EquipSSR
-        > DR > Array > Chip > CatT3
-        > Oil
-    """
 }
 
 class EventShopSelector:

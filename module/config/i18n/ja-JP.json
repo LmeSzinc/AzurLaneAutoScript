@@ -1825,7 +1825,6 @@
       "name": "EventShop.PresetFilter.name",
       "help": "EventShop.PresetFilter.help",
       "all": "all",
-      "high_value": "high_value",
       "custom": "custom"
     },
     "CustomFilter": {

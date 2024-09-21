@@ -1825,7 +1825,6 @@
       "name": "活动商店过滤器",
       "help": "",
       "all": "全部",
-      "high_value": "高价值",
       "custom": "自定义"
     },
     "CustomFilter": {
