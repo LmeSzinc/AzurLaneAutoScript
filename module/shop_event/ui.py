@@ -34,7 +34,7 @@ class EventShopUI(UI):
     def event_shop_load_ensure(self, skip_first_screenshot=True):
         """
         Ensure that event shop has loaded, 
-        using ocr of event pt values.
+        using ocr of event pt values and pt icon at first item.
         If ocr gets nothing, then the shop is not loaded.
 
         Args:
@@ -53,11 +53,23 @@ class EventShopUI(UI):
             digits = OCR_EVENT_SHOP_PT_SSR_ENSURE.ocr(self.device.image)
             # End
             if digits != "":
-                return True
+                break
             else:
                 logger.warning("EventShop is not fully loaded, retrying.")
 
             # Exception
+            if ensure_timeout.reached():
+                raise GameStuckError('Waiting too long for EventShop to appear.')
+
+        ensure_timeout.reset()
+        while 1:
+            self.device.screenshot()
+
+            if self.appear(EVENT_SHOP_LOAD_ENSURE):
+                logger.warning("EventShop is not fully loaded, retrying.")
+            else:
+                break
+            
             if ensure_timeout.reached():
                 raise GameStuckError('Waiting too long for EventShop to appear.')
 
