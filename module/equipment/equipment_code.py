@@ -9,7 +9,7 @@ from module.storage.storage import StorageHandler
 
 
 BASE64_REGEX = re.compile('^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$')
-
+EMPTY_GEAR_CODE = "MC8wLzAvMC8wXDA="
 
 def is_equip_code(string):
     """
@@ -109,13 +109,8 @@ class EquipmentCodeHandler(StorageHandler):
         # Will be overridden in subclasses.
         pass
 
-    def export_equip_code(self, ship=None, skip_first_screenshot=True):
-        """
-        Export current ship's gear code to config file.
-        This is done by first using "export" button 
-        to export gear code to clipboard,
-        then update the config file using yaml.safe_dump().
-        """
+    def click_export_button(self, skip_first_screenshot=True):
+        self.handle_info_bar()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -128,8 +123,17 @@ class EquipmentCodeHandler(StorageHandler):
 
             if self.appear_then_click(EQUIPMENT_CODE_EXPORT, interval=1):
                 continue
-        
+
+    def export_equip_code(self, ship=None):
+        """
+        Export current ship's gear code to config file.
+        This is done by first using "export" button 
+        to export gear code to clipboard,
+        then update the config file using yaml.safe_dump().
+        """
         code = self.device.clipboard
+        if code == EMPTY_GEAR_CODE:
+            logger.info('Detect 0/0/0/0/0\\0 code, continue exporting.')
         logger.attr("Gear code", code)
         if not ship in self.codes.coded_ships:
             ship = self.current_ship()
@@ -220,6 +224,7 @@ class EquipmentCodeHandler(StorageHandler):
         self.device.u2_set_fastinput_ime(True)
         logger.attr("Current_ime", self.device.u2_current_ime())
         if self.codes.__getattribute__(ship) is None:
+            self.click_export_button()
             self.export_equip_code(ship)
         self.clear_equip_preview()
         while 1:
@@ -236,15 +241,18 @@ class EquipmentCodeHandler(StorageHandler):
         if code is None:
             ship = self.current_ship()
             code = self.codes.__getattribute__(ship)
+            if code is None:
+                code = self.device.clipboard  # assuming clipboard is not modified
             logger.info(f'Apply gear code {code} for {ship}')
         else:
             logger.info(f'Forcefully apply gear code {code} to current ship.')
         while 1:
-            self.enter_equip_code_input_mode()
-            self.device.text_input_and_confirm(code, clear=True)
-            success = self.confirm_equip_code()
-            if not success:
-                continue
+            if code is not None and code != EMPTY_GEAR_CODE:
+                self.enter_equip_code_input_mode()
+                self.device.text_input_and_confirm(code, clear=True)
+                success = self.confirm_equip_code()
+                if not success:
+                    continue
             success = self.confirm_equip_preview()
             if success:
                 logger.info("Gear code import complete.")

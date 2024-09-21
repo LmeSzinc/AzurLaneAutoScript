@@ -316,11 +316,11 @@
       "ServerUpdate": "00:00"
     },
     "GemsFarming": {
-      "ChangeFlagship": "ship",
+      "ChangeFlagship": "ship_equip",
       "CommonCV": "any",
-      "ChangeVanguard": "ship",
+      "ChangeVanguard": "ship_equip",
       "CommonDD": "any",
-      "EnableEquipmentCode": false,
+      "EnableEquipmentCode": true,
       "EquipmentCode": "DD: null\nbogue: null\nhermes: null\nlangley: null\nranger: null",
       "ALLowLowVanguardLevel": false,
       "FleetNumberInHardMode": 0,
@@ -1693,7 +1693,7 @@
     "OpsiShop": {
       "PresetFilter": "max_benefit_meta",
       "CustomFilter": "LoggerAbyssalT6 > LoggerAbyssalT5 > LoggerObscure > LoggerAbyssalT4 > ActionPoint > PurpleCoins\n> GearDesignPlanT3 > PlateRandomT4 > DevelopmentMaterialT3 > GearDesignPlanT2 > GearPart\n> OrdnanceTestingReportT3 > OrdnanceTestingReportT2 > DevelopmentMaterialT2 > OrdnanceTestingReportT1\n> METARedBook > CrystallizedHeatResistantSteel > NanoceramicAlloy > NeuroplasticProstheticArm > SupercavitationGenerator",
-      "DisableBeforeDate": 25
+      "DisableBeforeDate": 0
     },
     "Storage": {
       "Storage": {}

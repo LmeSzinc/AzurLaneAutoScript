@@ -151,11 +151,11 @@ class GeneratedConfig:
     C124LargeLeveling_PickupAmmo = 3  # 3, 4, 5
 
     # Group `GemsFarming`
-    GemsFarming_ChangeFlagship = 'ship'  # ship, ship_equip
+    GemsFarming_ChangeFlagship = 'ship_equip'  # ship, ship_equip
     GemsFarming_CommonCV = 'any'  # any, eagle, langley, bogue, ranger, hermes
-    GemsFarming_ChangeVanguard = 'ship'  # disabled, ship, ship_equip
+    GemsFarming_ChangeVanguard = 'ship_equip'  # disabled, ship, ship_equip
     GemsFarming_CommonDD = 'any'  # any, favourite, aulick_or_foote, cassin_or_downes, z20_or_z21
-    GemsFarming_EnableEquipmentCode = False
+    GemsFarming_EnableEquipmentCode = True
     GemsFarming_EquipmentCode = 'DD: null\nbogue: null\nhermes: null\nlangley: null\nranger: null'
     GemsFarming_ALLowLowVanguardLevel = False
     GemsFarming_FleetNumberInHardMode = 0  # 0, 1, 2
@@ -402,7 +402,7 @@ class GeneratedConfig:
     # Group `OpsiShop`
     OpsiShop_PresetFilter = 'max_benefit_meta'  # max_benefit, max_benefit_meta, no_meta, all, custom
     OpsiShop_CustomFilter = 'LoggerAbyssalT6 > LoggerAbyssalT5 > LoggerObscure > LoggerAbyssalT4 > ActionPoint > PurpleCoins\n> GearDesignPlanT3 > PlateRandomT4 > DevelopmentMaterialT3 > GearDesignPlanT2 > GearPart\n> OrdnanceTestingReportT3 > OrdnanceTestingReportT2 > DevelopmentMaterialT2 > OrdnanceTestingReportT1\n> METARedBook > CrystallizedHeatResistantSteel > NanoceramicAlloy > NeuroplasticProstheticArm > SupercavitationGenerator'
-    OpsiShop_DisableBeforeDate = 25
+    OpsiShop_DisableBeforeDate = 0
 
     # Group `OpsiVoucher`
     OpsiVoucher_Filter = 'LoggerAbyssal > LoggerObscure > Book > Coin > Fragment'

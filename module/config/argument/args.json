@@ -1618,7 +1618,7 @@
     "GemsFarming": {
       "ChangeFlagship": {
         "type": "select",
-        "value": "ship",
+        "value": "ship_equip",
         "option": [
           "ship",
           "ship_equip"
@@ -1638,7 +1638,7 @@
       },
       "ChangeVanguard": {
         "type": "select",
-        "value": "ship",
+        "value": "ship_equip",
         "option": [
           "disabled",
           "ship",
@@ -1658,7 +1658,7 @@
       },
       "EnableEquipmentCode": {
         "type": "checkbox",
-        "value": false
+        "value": true
       },
       "EquipmentCode": {
         "type": "textarea",
@@ -8767,7 +8767,7 @@
       },
       "DisableBeforeDate": {
         "type": "input",
-        "value": 25
+        "value": 0
       }
     },
     "Storage": {
