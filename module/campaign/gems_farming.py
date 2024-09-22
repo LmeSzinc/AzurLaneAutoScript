@@ -180,7 +180,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
                 return GemsEmotion(config=self.config)
 
         self.campaign = GemsCampaign(device=self.campaign.device, config=self.campaign.config)
-        if self.change_flagship or self.change_vanguard:
+        if self.change_vanguard:
             self.campaign.config.override(Emotion_Mode='ignore_calculate')
         else:
             self.campaign.config.override(Emotion_Mode='ignore')
