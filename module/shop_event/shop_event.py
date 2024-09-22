@@ -116,7 +116,7 @@ class EventShop(EventShopClerk, EventShopSelector):
         
         _items = []
         for item in items:
-            if not item.name in ["ShipSSR", "Meta"]:
+            if not item.name in ["ShipSSR"]:
                 _items.append(item)
 
         if not self.config.EventShop_UnlockShipSSR:
