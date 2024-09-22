@@ -390,7 +390,8 @@ class CampaignRun(CampaignEvent):
             self.device.stuck_record_clear()
             self.device.click_record_clear()
             try:
-                self.campaign.run()
+                with self.campaign.config.multi_set():
+                    self.campaign.run()
             except ScriptEnd as e:
                 logger.hr('Script end')
                 logger.info(str(e))

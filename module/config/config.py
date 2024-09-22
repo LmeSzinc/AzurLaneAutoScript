@@ -69,6 +69,9 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
             self.modified[path] = value
             if self.auto_update:
                 self.update()
+            else:
+                super().__setattr__(key, value)
+                deep_set(self.data, keys=path, value=value)
         else:
             super().__setattr__(key, value)
 
