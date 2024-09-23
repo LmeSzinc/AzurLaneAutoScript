@@ -131,7 +131,6 @@ class AssistantHandler:
     def annihilation_callback(self, m, d):
         # Skip annihilation error task callback temporary
         # https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/10623
-        logger.info(d)
         ignoreErrorKeywords = ["FightSeries-Indicator","FightSeries-Icon"]
         if m == self.Message.SubTaskError \
                 and deep_get(d, keys='first') != ignoreErrorKeywords:
