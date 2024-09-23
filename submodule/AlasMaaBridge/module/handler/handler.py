@@ -129,9 +129,13 @@ class AssistantHandler:
             self.callback_list.remove(self.penguin_id_callback)
 
     def annihilation_callback(self, m, d):
-        if m == self.Message.SubTaskError:
-            logger.warning("Skip annihilation error task callback temporary")
-            #self.signal = m
+        # Skip annihilation error task callback temporary
+        # https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/10623
+        logger.info(d)
+        ignoreErrorKeywords = ["FightSeries-Indicator","FightSeries-Icon"]
+        if m == self.Message.SubTaskError \
+                and deep_get(d, keys='first') != ignoreErrorKeywords:
+            self.signal = m 
 
     def fight_stop_count_callback(self, m, d):
         if m == self.Message.SubTaskCompleted:
@@ -148,7 +152,7 @@ class AssistantHandler:
                 self.config.MaaFight_Times = self.config.MaaFight_Times - 1
 
             if self.config.MaaFight_Drops is not None:
-                drop_list = deep_get(d, keys='details.drops')
+                drop_ = deep_get(d, keys='details.drops')
                 if drop_list is not None:
                     def replace(matched):
                         value = int(matched.group('value')) - drop['quantity']
