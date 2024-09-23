@@ -130,7 +130,8 @@ class AssistantHandler:
 
     def annihilation_callback(self, m, d):
         if m == self.Message.SubTaskError:
-            self.signal = m
+            logger.warning("Skip annihilation error task callback temporary")
+            #self.signal = m
 
     def fight_stop_count_callback(self, m, d):
         if m == self.Message.SubTaskCompleted:
