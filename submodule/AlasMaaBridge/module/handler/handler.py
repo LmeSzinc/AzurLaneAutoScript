@@ -152,7 +152,7 @@ class AssistantHandler:
                 self.config.MaaFight_Times = self.config.MaaFight_Times - 1
 
             if self.config.MaaFight_Drops is not None:
-                drop_ = deep_get(d, keys='details.drops')
+                drop_list = deep_get(d, keys='details.drops')
                 if drop_list is not None:
                     def replace(matched):
                         value = int(matched.group('value')) - drop['quantity']
