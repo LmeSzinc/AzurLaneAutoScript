@@ -1,7 +1,8 @@
 from module.base.base import ModuleBase
 from module.base.timer import Timer
 from module.base.utils import color_bar_percentage
-from module.exercise.assets import ATTACKER_HP_AREA, DEFENDER_HP_AREA
+from module.combat_ui.assets import PAUSE, PAUSE_Iridescent_Fantasy, PAUSE_New
+from module.exercise.assets import *
 from module.logger import logger
 
 
@@ -54,9 +55,18 @@ class HpDaemon(ModuleBase):
             text += ' - Low HP: %ss' % str(round(low_hp_time, 3)).ljust(5, '0')
         logger.info(text)
 
-    def _at_low_hp(self, image):
-        self.attacker_hp = self._calculate_hp(image, area=ATTACKER_HP_AREA.area, reverse=True)
-        self.defender_hp = self._calculate_hp(image, area=DEFENDER_HP_AREA.area, reverse=False)
+    def _at_low_hp(self, image, pause=None):
+        if pause is None or pause == PAUSE:
+            self.attacker_hp = self._calculate_hp(image, area=ATTACKER_HP_AREA.area, reverse=True)
+            self.defender_hp = self._calculate_hp(image, area=DEFENDER_HP_AREA.area, reverse=False)
+        elif pause in [PAUSE_New, PAUSE_Iridescent_Fantasy]:
+            self.attacker_hp = self._calculate_hp(image, area=ATTACKER_HP_AREA_New.area, reverse=True)
+            self.defender_hp = self._calculate_hp(image, area=DEFENDER_HP_AREA_New.area, reverse=True)
+        else:
+            logger.warning(f'_at_low_hp received unknown pause: {pause}')
+            self.attacker_hp = self._calculate_hp(image, area=ATTACKER_HP_AREA.area, reverse=True)
+            self.defender_hp = self._calculate_hp(image, area=DEFENDER_HP_AREA.area, reverse=False)
+
         if 0.01 < self.attacker_hp <= self.config.Exercise_LowHpThreshold:
             if self.low_hp_confirm_timer.reached() and self.low_hp_confirm_timer.current() < 300:
                 self._show_hp(self.low_hp_confirm_timer.current())
