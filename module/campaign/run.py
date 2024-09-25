@@ -367,7 +367,7 @@ class CampaignRun(CampaignEvent):
                     logger.info('In auto search menu, skip ensure_campaign_ui.')
                 else:
                     logger.info('In auto search menu, closing.')
-                    self.campaign.ensure_auto_search_exit()
+                    # Because event_20240725 task balancer delete self.campaign.ensure_auto_search_exit()
                     self.campaign.ensure_campaign_ui(name=self.stage, mode=mode)
             else:
                 self.campaign.ensure_campaign_ui(name=self.stage, mode=mode)
