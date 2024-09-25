@@ -129,8 +129,12 @@ class AssistantHandler:
             self.callback_list.remove(self.penguin_id_callback)
 
     def annihilation_callback(self, m, d):
-        if m == self.Message.SubTaskError:
-            self.signal = m
+        # Skip annihilation error task callback temporary
+        # https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/10623
+        ignoreErrorKeywords = ["FightSeries-Indicator","FightSeries-Icon"]
+        if m == self.Message.SubTaskError \
+                and deep_get(d, keys='first') != ignoreErrorKeywords:
+            self.signal = m 
 
     def fight_stop_count_callback(self, m, d):
         if m == self.Message.SubTaskCompleted:
