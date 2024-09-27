@@ -117,7 +117,7 @@ class DossierReward(Combat, UI):
             in: dossier meta page
         """
         self.device.screenshot()
-        if self.appear(DOSSIER_REWARD_RECEIVE, offset=(100, 100), threshold=30):
+        if self.appear(DOSSIER_REWARD_RECEIVE, offset=(-40, 10, -10, 40), threshold=0.7):
             logger.info('Found dossier reward red dot')
             return True
         else:
