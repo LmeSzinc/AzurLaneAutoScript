@@ -6,7 +6,7 @@ from module.logger import logger
 MAP = CampaignMap('SP')
 MAP.shape = 'K5'
 MAP.camera_data = ['D3', 'F3']
-MAP.camera_data_spawn_point = ['I3']
+MAP.camera_data_spawn_point = ['I2']
 MAP.map_data = """
     ++ -- ME -- ++ -- ME -- ++ ++ ++
     -- -- -- ME ++ ME -- MS -- -- SP
@@ -68,6 +68,7 @@ class Config:
         'distance': 50,
         'wlen': 1000
     }
+    HOMO_CANNY_THRESHOLD = (75, 100)
     MAP_SWIPE_MULTIPLY = (1.194, 1.217)
     MAP_SWIPE_MULTIPLY_MINITOUCH = (1.155, 1.176)
     MAP_SWIPE_MULTIPLY_MAATOUCH = (1.121, 1.142)

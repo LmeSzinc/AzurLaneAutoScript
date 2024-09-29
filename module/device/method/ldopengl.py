@@ -188,9 +188,6 @@ class LDOpenGLImpl:
             f'ldopengl_dll={ldopengl_dll}, '
             f'instance_id={instance_id}'
         )
-        self.console = LDConsole(ld_folder)
-        self.info = self.get_player_info_by_index(instance_id)
-
         # Load dll
         try:
             self.lib = ctypes.WinDLL(ldopengl_dll)
@@ -199,13 +196,17 @@ class LDOpenGLImpl:
             if not os.path.exists(ldopengl_dll):
                 raise LDOpenGLIncompatible(
                     f'ldopengl_dll={ldopengl_dll} does not exist, '
-                    f'ldopengl requires LDPlayer >= 9.0.75, please check your version'
+                    f'ldopengl requires LDPlayer >= 9.0.78, please check your version'
                 )
             else:
                 raise LDOpenGLIncompatible(
                     f'ldopengl_dll={ldopengl_dll} exist, '
                     f'but cannot be loaded'
                 )
+        # Get info after loading DLL, so DLL existence can act as a version check
+        self.console = LDConsole(ld_folder)
+        self.info = self.get_player_info_by_index(instance_id)
+
         self.lib.CreateScreenShotInstance.restype = ctypes.c_void_p
 
         # Get screenshot instance
@@ -263,6 +264,8 @@ class LDOpenGLImpl:
             int: instance_id, or None if failed to predict
         """
         serial, _ = get_serial_pair(serial)
+        if serial is None:
+            return None
         try:
             port = int(serial.split(':')[1])
         except (IndexError, ValueError):
