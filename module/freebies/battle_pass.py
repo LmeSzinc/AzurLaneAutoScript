@@ -115,6 +115,6 @@ class BattlePass(Combat, UI):
     def run(self):
         self.ui_ensure(page_reward)
 
-        # if self.battle_pass_red_dot_appear():
-        self.battle_pass_enter()
-        self.battle_pass_receive()
+        if self.battle_pass_red_dot_appear():
+            self.battle_pass_enter()
+            self.battle_pass_receive()
