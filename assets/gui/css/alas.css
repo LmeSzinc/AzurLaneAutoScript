@@ -376,6 +376,7 @@ pre.rich-traceback-code {
 #pywebio-scope-scheduler-bar,
 #pywebio-scope-log-bar,
 #pywebio-scope-log,
+#pywebio-scope-daemon-log-bar,
 #pywebio-scope-daemon-overview #pywebio-scope-groups {
     font-weight: 500;
     margin: 0.3125rem;
@@ -383,15 +384,65 @@ pre.rich-traceback-code {
 }
 
 #pywebio-scope-scheduler-bar,
-#pywebio-scope-log-bar {
+#pywebio-scope-log-title {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-#pywebio-scope-log-bar-btns {
+#pywebio-scope-log-title-btns {
     display: grid;
     grid-auto-flow: column;
+}
+
+#pywebio-scope-dashboard {
+    display: flex;
+    align-content: space-between;
+    justify-content: flex-start;
+    flex-flow: row wrap;
+    overflow: auto;
+    margin-top: .5rem;
+}
+
+#pywebio-scope-dashboard > i {
+    flex-grow: 1;
+    align-self: flex-end;
+    width: 10rem;
+}
+
+[id^="pywebio-scope-dashboard-row-"] {
+    display: flex;
+    flex-grow: 1;
+    width: 10rem;
+}
+
+.dashboard-icon {
+    margin: .6rem .8rem 0 .6rem;
+    width: .5rem;
+    height: .5rem;
+    border-radius: 50%;
+}
+
+*[style*="--dashboard-value--"] {
+    font-size: 1rem;
+    font-weight: 500;
+    overflow-wrap: break-word;
+}
+
+*[style*="--dashboard-time--"] {
+    font-size: 0.8rem;
+    font-weight: 400;
+    overflow-wrap: break-word;
+}
+
+[id^="pywebio-scope-dashboard-row-"] p {
+    margin-bottom: 0;
+}
+
+[id^="pywebio-scope-dashboard-value-"] {
+    display: flex;
+    align-items: flex-end;
+    height: 1.5rem;
 }
 
 #pywebio-scope-log {

@@ -352,10 +352,12 @@ def data_to_type(data, **kwargs):
         str:
     """
     kwargs.update(data)
-    if isinstance(kwargs['value'], bool):
+    if isinstance(kwargs.get('value'), bool):
         return 'checkbox'
     elif 'option' in kwargs and kwargs['option']:
         return 'select'
+    elif 'stored' in kwargs and kwargs['stored']:
+        return 'stored'
     elif 'Filter' in kwargs['arg']:
         return 'textarea'
     else:

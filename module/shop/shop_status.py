@@ -32,6 +32,7 @@ class ShopStatus(UI):
             in: page_shop, medal shop
         """
         amount = OCR_SHOP_GEMS.ocr(self.device.image)
+        self.config.stored.Gem.value = amount
         return amount
 
     def status_get_medal(self):
