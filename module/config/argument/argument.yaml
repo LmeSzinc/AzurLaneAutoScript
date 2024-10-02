@@ -693,6 +693,7 @@ OpsiVoucher:
 OpsiDaily:
   DoMission: true
   UseTuningSample: true
+  CollectTargetReward: false
 OpsiObscure:
   ForceRun: false
 OpsiAbyssal:
@@ -710,8 +711,11 @@ OpsiMeowfficerFarming:
   HazardLevel:
     value: 5
     option: [ 3, 4, 5, 6, 10 ]
+OpsiTarget:
+  TargetFarming: false
   TargetZone:
     value: 0
+  LastRun: 2020-01-01 00:00:00
 OpsiHazard1Leveling:
   TargetZone:
     value: 0

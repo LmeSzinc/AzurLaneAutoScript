@@ -1672,7 +1672,8 @@
     },
     "OpsiDaily": {
       "DoMission": true,
-      "UseTuningSample": true
+      "UseTuningSample": true,
+      "CollectTargetReward": false
     },
     "OpsiFleet": {
       "Fleet": 1,
@@ -1789,8 +1790,12 @@
     },
     "OpsiMeowfficerFarming": {
       "ActionPointPreserve": 1000,
-      "HazardLevel": 5,
-      "TargetZone": 0
+      "HazardLevel": 5
+    },
+    "OpsiTarget": {
+      "TargetFarming": false,
+      "TargetZone": 0,
+      "LastRun": "2020-01-01 00:00:00"
     },
     "OpsiFleet": {
       "Fleet": 1,
