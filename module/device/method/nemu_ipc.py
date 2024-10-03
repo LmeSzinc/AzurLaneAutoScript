@@ -15,15 +15,15 @@ from module.config.utils import deep_get
 from module.device.method.minitouch import insert_swipe, random_rectangle_point
 from module.device.method.utils import RETRY_TRIES, retry_sleep
 from module.device.platform import Platform
-from module.exception import RequestHumanTakeover
+from module.exception import RequestHumanTakeover, ALASBaseError
 from module.logger import logger
 
 
-class NemuIpcIncompatible(Exception):
+class NemuIpcIncompatible(ALASBaseError):
     pass
 
 
-class NemuIpcError(Exception):
+class NemuIpcError(ALASBaseError):
     pass
 
 
@@ -195,7 +195,7 @@ def retry(func):
                     pass
 
         logger.critical(f'Retry {func.__name__}() failed')
-        raise RequestHumanTakeover
+        raise RequestHumanTakeover('Request human takeover')
 
     return retry_wrapper
 
@@ -471,7 +471,7 @@ class NemuIpc(Platform):
         if self.config.EmulatorInfo_path:
             if 'MuMuPlayerGlobal' in self.config.EmulatorInfo_path:
                 logger.info(f'nemu_ipc is not available on MuMuPlayerGlobal, {self.config.EmulatorInfo_path}')
-                raise RequestHumanTakeover
+                raise RequestHumanTakeover('Request human takeover')
             folder = os.path.abspath(os.path.join(self.config.EmulatorInfo_path, '../../'))
             index = NemuIpcImpl.serial_to_id(self.serial)
             if index is not None:
@@ -490,10 +490,10 @@ class NemuIpc(Platform):
         # installation path is E:\ProgramFiles\MuMuPlayer-12.0
         if self.emulator_instance is None:
             logger.error('Unable to use NemuIpc because emulator instance not found')
-            raise RequestHumanTakeover
+            raise RequestHumanTakeover('Request human takeover')
         if 'MuMuPlayerGlobal' in self.emulator_instance.path:
             logger.info(f'nemu_ipc is not available on MuMuPlayerGlobal, {self.emulator_instance.path}')
-            raise RequestHumanTakeover
+            raise RequestHumanTakeover('Request human takeover')
         try:
             return NemuIpcImpl(
                 nemu_folder=self.emulator_instance.emulator.abspath('../'),
@@ -503,7 +503,7 @@ class NemuIpc(Platform):
         except (NemuIpcIncompatible, NemuIpcError) as e:
             logger.error(e)
             logger.error('Unable to initialize NemuIpc')
-            raise RequestHumanTakeover
+            raise RequestHumanTakeover('Request human takeover')
 
     def nemu_ipc_available(self) -> bool:
         if not self.is_mumu_family:
@@ -544,7 +544,7 @@ class NemuIpc(Platform):
         if str(value).lower() == 'true':
             # https://mumu.163.com/help/20230802/35047_1102450.html
             logger.critical('请在MuMu模拟器设置内关闭 "后台挂机时保活运行"')
-            raise RequestHumanTakeover
+            raise RequestHumanTakeover('Request human takeover')
         return True
 
     def check_mumu_app_keep_alive(self):

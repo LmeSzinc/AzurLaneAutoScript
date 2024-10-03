@@ -168,7 +168,7 @@ class AlOcr(CnOcr):
         logger.warning(f'Ocr model not prepared: {model_dir}')
         logger.warning(f'Required files: {model_files}')
         logger.critical('Please check if required files of pre-trained OCR model exist')
-        raise RequestHumanTakeover
+        raise RequestHumanTakeover('Request human takeover')
 
     def _get_module(self, context):
         network, self._hp = gen_network(self._model_name, self._hp, self._net_prefix)

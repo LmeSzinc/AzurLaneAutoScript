@@ -219,7 +219,7 @@ class UI(InfoHandler):
         logger.warning(f"Supported page: {[str(page) for page in Page.iter_pages()]}")
         logger.warning('Supported page: Any page with a "HOME" button on the upper-right')
         logger.critical("Please switch to a supported page before starting Alas")
-        raise GamePageUnknownError
+        raise GamePageUnknownError('Game page unknown')
 
     def ui_goto(self, destination, offset=(30, 30), skip_first_screenshot=True):
         """
@@ -429,7 +429,7 @@ class UI(InfoHandler):
             logger.critical("Possible reason #1: You haven't set any fleets in operation siren")
             logger.critical(
                 "Possible reason #2: Your fleets haven't satisfied the level restrictions in operation siren")
-            raise RequestHumanTakeover
+            raise RequestHumanTakeover('Request human takeover')
         if self.appear_then_click(RESET_TICKET_POPUP, offset=(30, 30), interval=3):
             return True
         if self.appear_then_click(RESET_FLEET_PREPARATION, offset=(30, 30), interval=3):

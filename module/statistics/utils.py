@@ -4,9 +4,10 @@ import cv2
 import numpy as np
 
 from module.base.utils import crop, image_size
+from module.exception import ALASBaseError
 
 
-class ImageError(Exception):
+class ImageError(ALASBaseError):
     """ Error when parsing images """
     pass
 

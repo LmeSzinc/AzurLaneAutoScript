@@ -4,9 +4,10 @@ from module.logger import logger
 from module.os_combat.assets import *
 from module.os_handler.assets import *
 from module.os_handler.map_event import MapEventHandler
+from module.exception import ALASBaseError
 
 
-class ContinuousCombat(Exception):
+class ContinuousCombat(ALASBaseError):
     pass
 
 

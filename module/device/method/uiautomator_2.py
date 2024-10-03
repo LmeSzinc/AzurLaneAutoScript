@@ -94,7 +94,7 @@ def retry(func):
                     pass
 
         logger.critical(f'Retry {func.__name__}() failed')
-        raise RequestHumanTakeover
+        raise RequestHumanTakeover('Request human takeover')
 
     return retry_wrapper
 
@@ -426,7 +426,7 @@ class Uiautomator2(Connection):
 
         logger.critical(f'Resolution not supported: {width}x{height}')
         logger.critical('Please set emulator resolution to 1280x720')
-        raise RequestHumanTakeover
+        raise RequestHumanTakeover('Request human takeover')
 
     @retry
     def proc_list_uiautomator2(self) -> t.List[ProcessInfo]:

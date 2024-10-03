@@ -115,7 +115,7 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy, NemuIpc, LDOpenGL):
             length = int(self.config.Error_ScreenshotLength)
         except ValueError:
             logger.error(f'Error_ScreenshotLength={self.config.Error_ScreenshotLength} is not an integer')
-            raise RequestHumanTakeover
+            raise RequestHumanTakeover('Request human takeover')
         # Limit in 1~300
         length = max(1, min(length, 300))
         return deque(maxlen=length)
@@ -238,7 +238,7 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy, NemuIpc, LDOpenGL):
             else:
                 logger.critical(f'Resolution not supported: {width}x{height}')
                 logger.critical('Please set emulator resolution to 1280x720')
-                raise RequestHumanTakeover
+                raise RequestHumanTakeover('Request human takeover')
 
     def check_screen_black(self):
         if self._screen_black_checked:

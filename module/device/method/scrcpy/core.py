@@ -14,11 +14,11 @@ from module.device.connection import Connection
 from module.device.method.scrcpy.control import ControlSender
 from module.device.method.scrcpy.options import ScrcpyOptions
 from module.device.method.utils import AdbConnection, recv_all
-from module.exception import RequestHumanTakeover
+from module.exception import RequestHumanTakeover, ALASBaseError
 from module.logger import logger
 
 
-class ScrcpyError(Exception):
+class ScrcpyError(ALASBaseError):
     pass
 
 
@@ -205,7 +205,7 @@ class ScrcpyCore(Connection):
         except ImportError as e:
             logger.error(e)
             logger.error('You must have `av` installed to use scrcpy screenshot, please update dependencies')
-            raise RequestHumanTakeover
+            raise RequestHumanTakeover('Request human takeover')
 
         codec = CodecContext.create("h264", "r")
         while self._scrcpy_alive:

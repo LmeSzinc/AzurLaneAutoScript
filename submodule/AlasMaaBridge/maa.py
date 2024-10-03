@@ -59,7 +59,7 @@ class ArknightsAutoScript(AzurLaneAutoScript):
             logger.critical(
                 f'未找到路径 {self.config.MaaEmulator_MaaPath}，请确认MAA已安装在该路径。'
                 f'如果你是第一次使用MAA插件，需要自选安装MAA，并在 "MAA设置" - "MAA安装路径" 中填入MAA的安装路径')
-            raise RequestHumanTakeover
+            raise RequestHumanTakeover('Request human takeover')
         try:
             incremental_path = [os.path.join(self.config.MaaEmulator_MaaPath, './cache')]
             if self.config.MaaEmulator_PackageName in ["YoStarEN", "YoStarJP", "YoStarKR", "txwy"]:
@@ -74,7 +74,7 @@ class ArknightsAutoScript(AzurLaneAutoScript):
             AssistantHandler.load(self.config.MaaEmulator_MaaPath, incremental_path)
         except ModuleNotFoundError:
             logger.critical('找不到MAA，请检查安装路径是否正确')
-            raise RequestHumanTakeover
+            raise RequestHumanTakeover('Request human takeover')
         except OSError as e:
             # OSError: [WinError 126] 找不到指定的模块。
             if '[WinError 126]' in str(e):
@@ -82,7 +82,7 @@ class ArknightsAutoScript(AzurLaneAutoScript):
                 logger.critical(
                     f'无法导入MAA，请确认MAA已正确安装在 {self.config.MaaEmulator_MaaPath}'
                 )
-                raise RequestHumanTakeover
+                raise RequestHumanTakeover('Request human takeover')
             else:
                 raise
 
@@ -113,7 +113,7 @@ class ArknightsAutoScript(AzurLaneAutoScript):
                 asst.set_instance_option(AssistantHandler.InstanceOptionType.deployment_with_pause, '1')
             else:
                 logger.critical('使用了不支持暂停下干员的触控方案')
-                raise RequestHumanTakeover
+                raise RequestHumanTakeover('Request human takeover')
 
         return asst
 

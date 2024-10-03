@@ -6,17 +6,18 @@ from module.os_handler.action_point import ActionPointHandler
 from module.os_handler.assets import AUTO_SEARCH_REWARD
 from module.os_handler.port import PORT_CHECK
 from module.ui.assets import BACK_ARROW
+from module.exception import ALASBaseError
 
 ZONE_TYPES = [ZONE_DANGEROUS, ZONE_SAFE, ZONE_OBSCURE, ZONE_ABYSSAL, ZONE_STRONGHOLD, ZONE_ARCHIVE]
 ZONE_SELECT = [SELECT_DANGEROUS, SELECT_SAFE, SELECT_OBSCURE, SELECT_ABYSSAL, SELECT_STRONGHOLD, SELECT_ARCHIVE]
 ASSETS_PINNED_ZONE = ZONE_TYPES + [ZONE_ENTRANCE, ZONE_SWITCH, ZONE_PINNED]
 
 
-class OSExploreError(Exception):
+class OSExploreError(ALASBaseError):
     pass
 
 
-class RewardUncollectedError(Exception):
+class RewardUncollectedError(ALASBaseError):
     pass
 
 

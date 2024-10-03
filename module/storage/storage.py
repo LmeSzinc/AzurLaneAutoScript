@@ -4,7 +4,7 @@ from module.base.button import ButtonGrid
 from module.base.timer import Timer
 from module.base.utils import rgb2gray
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2
-from module.exception import ScriptError
+from module.exception import ScriptError, ALASBaseError
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.statistics.item import ItemGrid
@@ -21,7 +21,7 @@ EQUIPMENT_ITEMS = ItemGrid(EQUIPMENT_GRIDS, templates={}, amount_area=(90, 98, 1
 OCR_DISASSEMBLE_COUNT = Digit(DISASSEMBLE_COUNT_OCR, letter=(235, 235, 235))
 
 
-class StorageFull(Exception):
+class StorageFull(ALASBaseError):
     pass
 
 

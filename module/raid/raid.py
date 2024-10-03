@@ -6,7 +6,7 @@ from module.base.decorator import run_once
 from module.base.timer import Timer
 from module.campaign.campaign_event import CampaignEvent
 from module.combat.assets import *
-from module.exception import ScriptError
+from module.exception import ScriptError, ALASBaseError
 from module.logger import logger
 from module.map.map_operation import MapOperation
 from module.ocr.ocr import Digit, DigitCounter
@@ -16,7 +16,7 @@ from module.ui.assets import RAID_CHECK
 from module.ui.page import page_rpg_stage
 
 
-class OilExhausted(Exception):
+class OilExhausted(ALASBaseError):
     pass
 
 

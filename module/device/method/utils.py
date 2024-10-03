@@ -49,6 +49,7 @@ except ImportError:
 
 from module.base.decorator import cached_property
 from module.logger import logger
+from module.exception import ALASBaseError
 
 RETRY_TRIES = 5
 RETRY_DELAY = 3
@@ -143,11 +144,11 @@ def possible_reasons(*args):
         logger.critical(f'Possible reason #{index}: {reason}')
 
 
-class PackageNotInstalled(Exception):
+class PackageNotInstalled(ALASBaseError):
     pass
 
 
-class ImageTruncated(Exception):
+class ImageTruncated(ALASBaseError):
     pass
 
 

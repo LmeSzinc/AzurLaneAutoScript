@@ -113,7 +113,7 @@ class ConnectionAttr:
         if "127.0.0.1:58526" in self.serial:
             logger.warning('Serial 127.0.0.1:58526 seems to be WSA, '
                            'please use "wsa-0" or others instead')
-            raise RequestHumanTakeover
+            raise RequestHumanTakeover('Request human takeover')
         if self.is_wsa:
             self.serial = '127.0.0.1:58526'
             if self.config.Emulator_ScreenshotMethod != 'uiautomator2' \
@@ -129,7 +129,7 @@ class ConnectionAttr:
                     f'ScreenshotMethod can only use ["ADB", "uiautomator2", "aScreenCap"], '
                     f'ControlMethod can only use ["ADB", "uiautomator2", "minitouch"]'
                 )
-                raise RequestHumanTakeover
+                raise RequestHumanTakeover('Request human takeover')
 
     @cached_property
     def is_bluestacks4_hyperv(self):
@@ -234,7 +234,7 @@ class ConnectionAttr:
             logger.error('Please confirm that your are using BlueStack 4 hyper-v and not regular BlueStacks 4')
             logger.error(r'Please check if there is any other emulator instances under '
                          r'registry HKEY_LOCAL_MACHINE\SOFTWARE\BlueStacks_bgp64_hyperv\Guests')
-            raise RequestHumanTakeover
+            raise RequestHumanTakeover('Request human takeover')
         logger.info(f"New adb port: {port}")
         return f"127.0.0.1:{port}"
 
@@ -270,7 +270,7 @@ class ConnectionAttr:
                 logger.error('Unable to find registry HKEY_LOCAL_MACHINE\SOFTWARE\BlueStacks_nxt '
                              'or HKEY_LOCAL_MACHINE\SOFTWARE\BlueStacks_nxt_cn')
                 logger.error('Please confirm that you are using BlueStacks 5 hyper-v and not regular BlueStacks 5')
-                raise RequestHumanTakeover
+                raise RequestHumanTakeover('Request human takeover')
         logger.info(f"Configuration file directory: {directory}")
 
         with open(os.path.join(directory, 'bluestacks.conf'), encoding='utf-8') as f:
@@ -278,7 +278,7 @@ class ConnectionAttr:
         port = re.search(rf'{parameter_name}="(\d+)"', content)
         if port is None:
             logger.warning(f"Did not match the result: {serial}.")
-            raise RequestHumanTakeover
+            raise RequestHumanTakeover('Request human takeover')
         port = port.group(2)
         logger.info(f"Match to dynamic port: {port}")
         return f"127.0.0.1:{port}"

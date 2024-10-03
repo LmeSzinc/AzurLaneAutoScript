@@ -8,11 +8,11 @@ from module.base.utils import *
 from module.device.connection import Connection
 from module.device.method.utils import (ImageTruncated, RETRY_TRIES, handle_adb_error, handle_unknown_host_service,
                                         retry_sleep)
-from module.exception import RequestHumanTakeover, ScriptError
+from module.exception import RequestHumanTakeover, ScriptError, ALASBaseError
 from module.logger import logger
 
 
-class AscreencapError(Exception):
+class AscreencapError(ALASBaseError):
     pass
 
 
@@ -70,7 +70,7 @@ def retry(func):
                     pass
 
         logger.critical(f'Retry {func.__name__}() failed')
-        raise RequestHumanTakeover
+        raise RequestHumanTakeover('Request human takeover')
 
     return retry_wrapper
 
@@ -103,7 +103,7 @@ class AScreenCap(Connection):
             self.ascreencap_available = False
             logger.error('No suitable version of aScreenCap lib available for this device, '
                          'please use other screenshot methods instead')
-            raise RequestHumanTakeover
+            raise RequestHumanTakeover('Request human takeover')
 
         logger.info(f'pushing {filepath}')
         self.adb_push(filepath, self.config.ASCREENCAP_FILEPATH_REMOTE)

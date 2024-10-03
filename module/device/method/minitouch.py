@@ -15,7 +15,7 @@ from module.base.timer import Timer
 from module.base.utils import *
 from module.device.connection import Connection
 from module.device.method.utils import RETRY_TRIES, handle_adb_error, handle_unknown_host_service, retry_sleep
-from module.exception import RequestHumanTakeover, ScriptError
+from module.exception import RequestHumanTakeover, ScriptError, ALASBaseError
 from module.logger import logger
 
 
@@ -357,11 +357,11 @@ class CommandBuilder:
         return empty
 
 
-class MinitouchNotInstalledError(Exception):
+class MinitouchNotInstalledError(ALASBaseError):
     pass
 
 
-class MinitouchOccupiedError(Exception):
+class MinitouchOccupiedError(ALASBaseError):
     pass
 
 
@@ -455,7 +455,7 @@ def retry(func):
                     pass
 
         logger.critical(f'Retry {func.__name__}() failed')
-        raise RequestHumanTakeover
+        raise RequestHumanTakeover('Request human takeover')
 
     return retry_wrapper
 

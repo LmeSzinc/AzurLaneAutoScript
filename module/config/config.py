@@ -11,12 +11,12 @@ from module.config.config_manual import ManualConfig, OutputConfig
 from module.config.config_updater import ConfigUpdater
 from module.config.watcher import ConfigWatcher
 from module.config.utils import *
-from module.exception import RequestHumanTakeover, ScriptError
+from module.exception import RequestHumanTakeover, ScriptError, ALASBaseError
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
 
 
-class TaskEnd(Exception):
+class TaskEnd(ALASBaseError):
     pass
 
 
@@ -257,7 +257,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
         else:
             logger.critical("No task waiting or pending")
             logger.critical("Please enable at least one task")
-            raise RequestHumanTakeover
+            raise RequestHumanTakeover('Request human takeover')
 
     def save(self, mod_name='alas'):
         if not self.modified:

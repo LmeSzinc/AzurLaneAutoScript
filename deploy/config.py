@@ -3,9 +3,10 @@ from typing import Optional, Union
 
 from deploy.logger import logger
 from deploy.utils import *
+from module.exception import ALASBaseError
 
 
-class ExecutionError(Exception):
+class ExecutionError(ALASBaseError):
     pass
 
 

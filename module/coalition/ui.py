@@ -196,7 +196,7 @@ class CoalitionUI(Combat):
             if campaign_click > 5:
                 logger.critical(f"Failed to enter {button}, too many click on {button}")
                 logger.critical("Possible reason #1: You haven't cleared previous stage to unlock the stage.")
-                raise RequestHumanTakeover
+                raise RequestHumanTakeover('Request human takeover')
             if fleet_click > 5:
                 logger.critical(f"Failed to enter {button}, too many click on FLEET_PREPARATION")
                 logger.critical("Possible reason #1: "
@@ -204,11 +204,11 @@ class CoalitionUI(Combat):
                 logger.critical("Possible reason #2: "
                                 "This stage can only be farmed once a day, "
                                 "but it's the second time that you are entering")
-                raise RequestHumanTakeover
+                raise RequestHumanTakeover('Request human takeover')
             if self.appear(FLEET_NOT_PREPARED, offset=(20, 20)):
                 logger.critical('FLEET_NOT_PREPARED')
                 logger.critical('Please prepare you fleets before running coalition battles')
-                raise RequestHumanTakeover
+                raise RequestHumanTakeover('Request human takeover')
 
             # End
             if self.appear(BATTLE_PREPARATION, offset=(20, 20)):

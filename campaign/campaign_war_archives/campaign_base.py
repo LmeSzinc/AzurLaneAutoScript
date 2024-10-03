@@ -110,7 +110,7 @@ class CampaignBase(CampaignBase_):
             else:
                 logger.critical('Respective server may not yet support the chosen War Archives campaign, '
                                 'check back in the next app update')
-                raise RequestHumanTakeover
+                raise RequestHumanTakeover('Request human takeover')
 
         # Subsequent runs all set False
         if self.first_run:

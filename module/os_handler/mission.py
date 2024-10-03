@@ -10,9 +10,10 @@ from module.os.globe_detection import GLOBE_MAP_SHAPE
 from module.os.globe_operation import GlobeOperation
 from module.os.globe_zone import Zone, ZoneManager
 from module.os_handler.assets import *
+from module.exception import ALASBaseError
 
 
-class MissionAtCurrentZone(Exception):
+class MissionAtCurrentZone(ALASBaseError):
     pass
 
 
