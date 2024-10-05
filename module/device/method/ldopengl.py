@@ -314,6 +314,9 @@ class LDOpenGL(Platform):
     def ldopengl_available(self) -> bool:
         if not self.is_ldplayer_bluestacks_family:
             return False
+        logger.attr('EmulatorInfo_Emulator', self.config.EmulatorInfo_Emulator)
+        if self.config.EmulatorInfo_Emulator not in ['LDPlayer9']:
+            return False
 
         try:
             _ = self.ldopengl
