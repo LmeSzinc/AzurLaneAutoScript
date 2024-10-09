@@ -1503,6 +1503,10 @@
     "EnhanceIndex": {
       "name": "MeowfficerTrain.EnhanceIndex.name",
       "help": "MeowfficerTrain.EnhanceIndex.help"
+    },
+    "MaxFeedLevel": {
+      "name": "強化には最大レベルXの猫を使います",
+      "help": "レベルx以上の猫は、誤ってアンロックされた猫が強化に使用されるのを防ぐため、強化には使用されません"
     }
   },
   "GuildLogistics": {

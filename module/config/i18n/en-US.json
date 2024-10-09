@@ -1503,6 +1503,10 @@
     "EnhanceIndex": {
       "name": "Enhance Index",
       "help": "Index of target meowfficer to enhance. Limited in 1 ~ 12; indices are in ascending order from left to right of the 4 x 3 grid."
+    },
+    "MaxFeedLevel": {
+      "name": "Use a maximum X level meowfficer when enhancing",
+      "help": "Meowfficer above a certain level X will not be used for enhance, to prevent the meowfficer which was unlocked by mistake is used for enhance"
     }
   },
   "GuildLogistics": {
