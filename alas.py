@@ -26,6 +26,7 @@ class AzurLaneAutoScript:
         # Failure count of tasks
         # Key: str, task name, value: int, failure count
         self.failure_record = {}
+        self.first_check = True
 
     @cached_property
     def config(self):
@@ -62,11 +63,11 @@ class AzurLaneAutoScript:
             logger.exception(e)
             exit(1)
 
-    def run(self, command, skip_first_screenshot=False):
+    def run(self, command, *args, skip_first_screenshot=False, **kwargs):
         try:
             if not skip_first_screenshot:
                 self.device.screenshot()
-            self.__getattribute__(command)()
+            getattr(self, command)(*args, **kwargs)
             return True
         except TaskEnd:
             return True
@@ -90,47 +91,42 @@ class AzurLaneAutoScript:
             self.config.task_call('Restart')
             self.device.sleep(10)
             return False
-        except GamePageUnknownError:
+        except GamePageUnknownError as e:
             logger.info('Game server may be under maintenance or network may be broken, check server status now')
             self.checker.check_now()
             if self.checker.is_available():
-                logger.critical('Game page unknown')
-                self.save_error_log()
-                handle_notify(
-                    self.config.Error_OnePushConfig,
-                    title=f"Alas <{self.config_name}> crashed",
-                    content=f"<{self.config_name}> GamePageUnknownError",
-                )
-                exit(1)
-            else:
-                self.checker.wait_until_available()
-                return False
+                self.crash_exit(e, save=True)
+            self.checker.wait_until_available()
+            return False
         except ScriptError as e:
-            logger.exception(e)
-            logger.critical('This is likely to be a mistake of developers, but sometimes just random issues')
-            handle_notify(
-                self.config.Error_OnePushConfig,
-                title=f"Alas <{self.config_name}> crashed",
-                content=f"<{self.config_name}> ScriptError",
-            )
-            exit(1)
-        except RequestHumanTakeover:
-            logger.critical('Request human takeover')
-            handle_notify(
-                self.config.Error_OnePushConfig,
-                title=f"Alas <{self.config_name}> crashed",
-                content=f"<{self.config_name}> RequestHumanTakeover",
-            )
-            exit(1)
+            self.crash_exit(e, 'This is likely to be a mistake of developers, but sometimes just random issues',
+                            log_exc=True)
+        except ALASBaseError as e:
+            if not self.device.emulator_check():
+                self.reboot()
+                return False
+            self.crash_exit(e)
         except Exception as e:
+            if not self.device.emulator_check():
+                self.reboot()
+                return False
+            self.crash_exit(e, log_exc=True, save=True)
+
+    def crash_exit(self, e, *args, log_exc=False, save=False, msg=''):
+        if log_exc:
             logger.exception(e)
+        else:
+            logger.critical(e)
+        for arg in args:
+            logger.critical(arg)
+        if save:
             self.save_error_log()
-            handle_notify(
-                self.config.Error_OnePushConfig,
-                title=f"Alas <{self.config_name}> crashed",
-                content=f"<{self.config_name}> Exception occured",
-            )
-            exit(1)
+        handle_notify(
+            self.config.Error_OnePushConfig,
+            title=f"Alas <{self.config_name}> crashed",
+            content=f"<{self.config_name}> {e.__class__.__name__}{msg}"
+        )
+        exit(1)
 
     def save_error_log(self):
         """
@@ -162,7 +158,16 @@ class AzurLaneAutoScript:
             with open(f'{folder}/log.txt', 'w', encoding='utf-8') as f:
                 f.writelines(lines)
 
-    def restart(self):
+    def reboot(self, use_log=True):
+        if use_log:
+            logger.warning('Emulator is not running')
+        self.device.emulator_stop()
+        self.device.emulator_start()
+        del_cached_property(self, 'config')
+
+    def restart(self, reboot=False):
+        if reboot:
+            self.reboot(use_log=False)
         from module.handler.login import LoginHandler
         LoginHandler(self.config, device=self.device).app_restart()
 
@@ -455,42 +460,76 @@ class AzurLaneAutoScript:
             if self.config.task.command != 'Alas':
                 release_resources(next_task=task.command)
 
-            if task.next_run > datetime.now():
-                logger.info(f'Wait until {task.next_run} for task `{task.command}`')
-                self.is_first_task = False
-                method = self.config.Optimization_WhenTaskQueueEmpty
-                if method == 'close_game':
-                    logger.info('Close game during wait')
-                    self.device.app_stop()
-                    release_resources()
-                    self.device.release_during_wait()
-                    if not self.wait_until(task.next_run):
-                        del_cached_property(self, 'config')
-                        continue
-                    if task.command != 'Restart':
-                        self.run('start')
-                elif method == 'goto_main':
-                    logger.info('Goto main page during wait')
-                    self.run('goto_main')
-                    release_resources()
-                    self.device.release_during_wait()
-                    if not self.wait_until(task.next_run):
-                        del_cached_property(self, 'config')
-                        continue
-                elif method == 'stay_there':
-                    logger.info('Stay there during wait')
-                    release_resources()
-                    self.device.release_during_wait()
-                    if not self.wait_until(task.next_run):
-                        del_cached_property(self, 'config')
-                        continue
-                else:
-                    logger.warning(f'Invalid Optimization_WhenTaskQueueEmpty: {method}, fallback to stay_there')
-                    release_resources()
-                    self.device.release_during_wait()
-                    if not self.wait_until(task.next_run):
-                        del_cached_property(self, 'config')
-                        continue
+            if task.next_run <= datetime.now():
+                break
+
+            logger.info(f'Wait until {task.next_run} for task `{task.command}`')
+            self.is_first_task = False
+
+            method: str             = self.config.Optimization_WhenTaskQueueEmpty
+            remainingtime: float    = (task.next_run - datetime.now()).total_seconds() / 60
+            buffertime: int         = self.config.Optimization_ProcessBufferTime
+            if (
+                method == 'stop_emulator' and
+                self.device.emulator_check() and
+                remainingtime <= buffertime
+            ):
+                method = self.config.Optimization_BufferMethod
+                logger.info(
+                    f"The time to next task `{task.command}` is {remainingtime:.2f} minutes, "
+                    f"less than {buffertime} minutes, fallback to \"{method}\""
+                )
+
+            if method == 'close_game':
+                logger.info('Close game during wait')
+                self.device.app_stop()
+                release_resources()
+                self.device.release_during_wait()
+                if not self.wait_until(task.next_run):
+                    del_cached_property(self, 'config')
+                    continue
+                if task.command != 'Restart':
+                    self.run('start')
+            elif method == 'goto_main':
+                logger.info('Goto main page during wait')
+                self.run('goto_main')
+                release_resources()
+                self.device.release_during_wait()
+                if not self.wait_until(task.next_run):
+                    del_cached_property(self, 'config')
+                    continue
+            elif method == 'stay_there':
+                logger.info('Stay there during wait')
+                release_resources()
+                self.device.release_during_wait()
+                if not self.wait_until(task.next_run):
+                    del_cached_property(self, 'config')
+                    continue
+            elif method == 'stop_emulator':
+                logger.info('Stop emulator during wait')
+                self.device.emulator_stop()
+                release_resources()
+                self.device.release_during_wait()
+                if not self.wait_until(task.next_run):
+                    del_cached_property(self, 'config')
+                    method: str = self.config.Optimization_WhenTaskQueueEmpty
+                    if (
+                        not self.device.emulator_check() and
+                        method != 'stop_emulator'
+                    ):
+                        self.run('reboot', skip_first_screenshot=True, use_log=False)
+                    continue
+                if not self.device.emulator_check():
+                    self.run('reboot', skip_first_screenshot=True, use_log=False)
+                    self.run('start', skip_first_screenshot=True)
+            else:
+                logger.warning(f'Invalid Optimization_WhenTaskQueueEmpty: {method}, fallback to stay_there')
+                release_resources()
+                self.device.release_during_wait()
+                if not self.wait_until(task.next_run):
+                    del_cached_property(self, 'config')
+                    continue
+
             break
 
         AzurLaneConfig.is_hoarding_task = False
@@ -502,11 +541,10 @@ class AzurLaneAutoScript:
 
         while 1:
             # Check update event from GUI
-            if self.stop_event is not None:
-                if self.stop_event.is_set():
-                    logger.info("Update event detected")
-                    logger.info(f"Alas [{self.config_name}] exited.")
-                    break
+            if self.stop_event is not None and self.stop_event.is_set():
+                logger.info("Update event detected")
+                logger.info(f"Alas [{self.config_name}] exited.")
+                break
             # Check game server maintenance
             self.checker.wait_until_available()
             if self.checker.is_recovered():
@@ -517,10 +555,14 @@ class AzurLaneAutoScript:
                 del_cached_property(self, 'config')
                 logger.info('Server or network is recovered. Restart game client')
                 self.config.task_call('Restart')
-            # Get task
-            task = self.get_next_task()
             # Init device and change server
             _ = self.device
+            # Get task
+            task = self.get_next_task()
+            if self.first_check:
+                if not self.device.emulator_check():
+                    self.run('reboot', skip_first_screenshot=True)
+                self.first_check = False
             self.device.config = self.config
             # Skip first restart
             if self.is_first_task and task == 'Restart':
@@ -548,13 +590,7 @@ class AzurLaneAutoScript:
                                 "Please read the help text of the options.")
                 logger.critical("Possible reason #2: There is a problem with this task. "
                                 "Please contact developers or try to fix it yourself.")
-                logger.critical('Request human takeover')
-                handle_notify(
-                    self.config.Error_OnePushConfig,
-                    title=f"Alas <{self.config_name}> crashed",
-                    content=f"<{self.config_name}> RequestHumanTakeover\nTask `{task}` failed 3 or more times.",
-                )
-                exit(1)
+                self.crash_exit(RequestHumanTakeover(), msg=f"\nTask `{task}` failed 3 or more times.")
 
             if success:
                 del_cached_property(self, 'config')
