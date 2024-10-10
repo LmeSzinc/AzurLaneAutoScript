@@ -77,7 +77,7 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
     @Config.when(SERVER='jp')
     def get_zone_name(self):
         # For JP only
-        ocr = Ocr(MAP_NAME, lang='jp', letter=(214, 231, 255), threshold=127, name='OCR_OS_MAP_NAME')
+        ocr = Ocr(MAP_NAME, lang='jp', letter=(185, 192, 201), threshold=127, name='OCR_OS_MAP_NAME')
         name = ocr.ocr(self.device.image)
         self.is_zone_name_hidden = '安全' in name
         # Remove punctuations

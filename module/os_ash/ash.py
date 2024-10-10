@@ -1,5 +1,7 @@
+import cv2
 from datetime import datetime, timedelta
 
+import module.config.server as server
 from module.base.utils import image_left_strip
 from module.combat.combat import BATTLE_PREPARATION, Combat
 from module.config.utils import DEFAULT_TIME
@@ -14,7 +16,11 @@ from module.ui.ui import UI
 class DailyDigitCounter(DigitCounter):
     def pre_process(self, image):
         image = super().pre_process(image)
-        image = image_left_strip(image, threshold=120, length=35)
+        if server.server != 'jp':
+            image = image_left_strip(image, threshold=120, length=35)
+        else:
+            image = image_left_strip(image, threshold=120, length=30)
+            image = cv2.copyMakeBorder(image, 2, 0, 2, 0, cv2.BORDER_CONSTANT, None, [255, 255, 255])
         return image
 
 
@@ -84,6 +90,7 @@ class OSAsh(UI, MapEventHandler):
         Returns:
             int: 0 to 100.
         """
+        is_gray = False
         if self._ash_fully_collected:
             return 0
         if self.image_color_count(ASH_COLLECT_STATUS, color=(235, 235, 235), threshold=221, count=20):
@@ -94,10 +101,15 @@ class OSAsh(UI, MapEventHandler):
                 ASH_DAILY_STATUS, letter=(235, 235, 235), threshold=160, name='OCR_ASH_DAILY_STATUS')
         elif self.image_color_count(ASH_COLLECT_STATUS, color=(140, 142, 140), threshold=221, count=20):
             logger.info('Ash beacon status: gray')
+            is_gray = True
             ocr_collect = DigitCounter(
                 ASH_COLLECT_STATUS, letter=(140, 142, 140), threshold=160, name='OCR_ASH_COLLECT_STATUS')
-            ocr_daily = DailyDigitCounter(
-                ASH_DAILY_STATUS, letter=(140, 142, 140), threshold=160, name='OCR_ASH_DAILY_STATUS')
+            if server.server != 'jp':
+                ocr_daily = DailyDigitCounter(
+                    ASH_DAILY_STATUS, letter=(140, 142, 140), threshold=160, name='OCR_ASH_DAILY_STATUS')
+            else:
+                ocr_daily = DailyDigitCounter(
+                    ASH_DAILY_STATUS, letter=(200, 200, 200), threshold=200, name='OCR_ASH_DAILY_STATUS')
         else:
             # If OS daily mission received or finished, the popup will cover beacon status.
             logger.info('Ash beacon status is covered, will check next time')
@@ -106,7 +118,7 @@ class OSAsh(UI, MapEventHandler):
         status, _, _ = ocr_collect.ocr(self.device.image)
         daily, _, _ = ocr_daily.ocr(self.device.image)
 
-        if daily >= 200:
+        if daily >= 200 or is_gray:
             logger.info('Ash beacon fully collected today')
             self._ash_fully_collected = True
         elif status >= 200:
