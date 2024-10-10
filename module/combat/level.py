@@ -134,7 +134,8 @@ class LevelOcr(Digit):
 
     def after_process(self, result):
         result = result.replace('I', '1').replace('D', '0').replace('S', '5')
-        result = result.replace('B', '8')
+        result = result.replace('B', '8').replace('Z', '2')
+        result = result.replace('V', '0').replace('T', '1').replace('U', '0')
 
         # No correction log, cause levels are usually empty
         # Like: [23, 0, 0, 100, 0, 0]
