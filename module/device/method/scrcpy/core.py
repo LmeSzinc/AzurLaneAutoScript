@@ -14,11 +14,11 @@ from module.device.connection import Connection
 from module.device.method.scrcpy.control import ControlSender
 from module.device.method.scrcpy.options import ScrcpyOptions
 from module.device.method.utils import AdbConnection, recv_all
-from module.exception import RequestHumanTakeover, ALASBaseError
+from module.exception import RequestHumanTakeover
 from module.logger import logger
 
 
-class ScrcpyError(ALASBaseError):
+class ScrcpyError(Exception):
     pass
 
 

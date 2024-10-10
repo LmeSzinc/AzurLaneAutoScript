@@ -11,12 +11,12 @@ from module.config.config_manual import ManualConfig, OutputConfig
 from module.config.config_updater import ConfigUpdater
 from module.config.watcher import ConfigWatcher
 from module.config.utils import *
-from module.exception import RequestHumanTakeover, ScriptError, ALASBaseError
+from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
 
 
-class TaskEnd(ALASBaseError):
+class TaskEnd(Exception):
     pass
 
 

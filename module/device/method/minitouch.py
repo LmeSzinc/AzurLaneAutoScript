@@ -357,11 +357,11 @@ class CommandBuilder:
         return empty
 
 
-class MinitouchNotInstalledError(ALASBaseError):
+class MinitouchNotInstalledError(Exception):
     pass
 
 
-class MinitouchOccupiedError(ALASBaseError):
+class MinitouchOccupiedError(Exception):
     pass
 
 

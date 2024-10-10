@@ -11,15 +11,15 @@ import numpy as np
 from module.base.decorator import cached_property
 from module.device.method.utils import RETRY_TRIES, get_serial_pair, retry_sleep
 from module.device.platform import Platform
-from module.exception import RequestHumanTakeover, ALASBaseError
+from module.exception import RequestHumanTakeover
 from module.logger import logger
 
 
-class LDOpenGLIncompatible(ALASBaseError):
+class LDOpenGLIncompatible(Exception):
     pass
 
 
-class LDOpenGLError(ALASBaseError):
+class LDOpenGLError(Exception):
     pass
 
 

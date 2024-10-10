@@ -11,7 +11,7 @@ from module.base.utils import *
 from module.device.connection import Connection
 from module.device.method.minitouch import Command, CommandBuilder, insert_swipe
 from module.device.method.utils import RETRY_TRIES, handle_adb_error, retry_sleep
-from module.exception import RequestHumanTakeover, ALASBaseError
+from module.exception import RequestHumanTakeover
 from module.logger import logger
 
 
@@ -121,11 +121,11 @@ class MaatouchBuilder(CommandBuilder):
         self.device.sleep(self.DEFAULT_DELAY)
 
 
-class MaaTouchNotInstalledError(ALASBaseError):
+class MaaTouchNotInstalledError(Exception):
     pass
 
 
-class MaaTouchSyncTimeout(ALASBaseError):
+class MaaTouchSyncTimeout(Exception):
     pass
 
 

@@ -15,15 +15,15 @@ from module.config.utils import deep_get
 from module.device.method.minitouch import insert_swipe, random_rectangle_point
 from module.device.method.utils import RETRY_TRIES, retry_sleep
 from module.device.platform import Platform
-from module.exception import RequestHumanTakeover, ALASBaseError
+from module.exception import RequestHumanTakeover
 from module.logger import logger
 
 
-class NemuIpcIncompatible(ALASBaseError):
+class NemuIpcIncompatible(Exception):
     pass
 
 
-class NemuIpcError(ALASBaseError):
+class NemuIpcError(Exception):
     pass
 
 

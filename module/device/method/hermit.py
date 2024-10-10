@@ -10,11 +10,11 @@ from module.base.utils import point2str, random_rectangle_point
 from module.device.method.adb import Adb
 from module.device.method.utils import (RETRY_TRIES, handle_unknown_host_service, retry_sleep,
                                         HierarchyButton, handle_adb_error)
-from module.exception import RequestHumanTakeover, ALASBaseError
+from module.exception import RequestHumanTakeover
 from module.logger import logger
 
 
-class HermitError(ALASBaseError):
+class HermitError(Exception):
     pass
 
 

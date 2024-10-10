@@ -11,11 +11,11 @@ from module.base.timer import Timer
 from module.device.method.uiautomator_2 import ProcessInfo, Uiautomator2
 from module.device.method.utils import (
     ImageTruncated, PackageNotInstalled, RETRY_TRIES, handle_adb_error, handle_unknown_host_service, retry_sleep)
-from module.exception import RequestHumanTakeover, ALASBaseError
+from module.exception import RequestHumanTakeover
 from module.logger import logger
 
 
-class DroidCastVersionIncompatible(ALASBaseError):
+class DroidCastVersionIncompatible(Exception):
     pass
 
 

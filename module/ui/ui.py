@@ -219,7 +219,7 @@ class UI(InfoHandler):
         logger.warning(f"Supported page: {[str(page) for page in Page.iter_pages()]}")
         logger.warning('Supported page: Any page with a "HOME" button on the upper-right')
         logger.critical("Please switch to a supported page before starting Alas")
-        raise GamePageUnknownError('Game page unknown')
+        raise GamePageUnknownError
 
     def ui_goto(self, destination, offset=(30, 30), skip_first_screenshot=True):
         """

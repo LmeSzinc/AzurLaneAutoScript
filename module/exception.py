@@ -54,6 +54,8 @@ class GameNotRunningError(ALASBaseError):
 
 
 class GamePageUnknownError(ALASBaseError):
+    def __init__(self, message='Game page unknown'):
+        super().__init__(message)
     pass
 
 
