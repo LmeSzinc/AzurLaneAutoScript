@@ -427,6 +427,7 @@ MeowfficerTrain:
   RetainTalentedGold: true
   RetainTalentedPurple: true
   EnhanceIndex: 1
+  MaxFeedLevel: 5
 GuildLogistics:
   Enable: true
   SelectNewMission: false
