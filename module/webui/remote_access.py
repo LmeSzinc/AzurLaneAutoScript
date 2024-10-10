@@ -19,7 +19,6 @@ from typing import TYPE_CHECKING
 from module.logger import logger
 from module.config.utils import random_id
 from module.webui.setting import State
-from module.exception import ALASBaseError
 
 if TYPE_CHECKING:
     from module.webui.utils import TaskHandler
@@ -144,7 +143,7 @@ def start_remote_access_service_(**kwargs):
     logger.info("Exit remote access service thread")
 
 
-class ParseError(ALASBaseError):
+class ParseError(Exception):
     pass
 
 

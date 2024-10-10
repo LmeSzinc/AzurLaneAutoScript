@@ -60,4 +60,5 @@ class GamePageUnknownError(ALASBaseError):
 class RequestHumanTakeover(ALASBaseError):
     # Request human takeover
     # Alas is unable to handle such error, probably because of wrong settings.
-    pass
+    def __init__(self, message='Request human takeover'):
+        super().__init__(message)

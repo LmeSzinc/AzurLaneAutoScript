@@ -9,7 +9,6 @@ from module.os_ash.assets import *
 from module.os_handler.map_event import MapEventHandler
 from module.ui.assets import BACK_ARROW
 from module.ui.ui import UI
-from module.exception import ALASBaseError
 
 
 class DailyDigitCounter(DigitCounter):
@@ -19,7 +18,7 @@ class DailyDigitCounter(DigitCounter):
         return image
 
 
-class AshBeaconFinished(ALASBaseError):
+class AshBeaconFinished(Exception):
     pass
 
 
