@@ -88,7 +88,26 @@ class MeowfficerEnhance(MeowfficerBase):
             list(Button)
         """
         clickable = []
-        for index, (button, level) in enumerate(zip(MEOWFFICER_FEED_GRID.buttons, MEOWFICER_FEED_LEVEL_GRID.buttons)):
+
+        # Reset invalid value of MeowfficerTrain_MaxFeedLevel
+        # it can work without this code, just for rigor
+        reset_max_feed_level = -1
+        if self.config.MeowfficerTrain_MaxFeedLevel < 1:
+            reset_max_feed_level = 1
+        elif self.config.MeowfficerTrain_MaxFeedLevel > 30:
+            reset_max_feed_level = 30
+
+        if -1 != reset_max_feed_level:
+            logger.warning(f"Condition '1 <= MeowfficerTrain_MaxFeedLevel <= 30' needs to be satisfied, "
+                           f'now MeowfficerTrain_MaxFeedLevel is {self.config.MeowfficerTrain_MaxFeedLevel}, '
+                           f'reset to {reset_max_feed_level}')
+            self.config.MeowfficerTrain_MaxFeedLevel = reset_max_feed_level
+
+        # Get all the cat levels ready for enhance
+        feed_level_list = Digit(MEOWFICER_FEED_LEVEL_GRID.buttons, letter=(49, 48, 49),
+                                name='FEED_MEOWFFICER_LEVEL').ocr(self.device.image)
+
+        for index, (button, level) in enumerate(zip(MEOWFFICER_FEED_GRID.buttons, feed_level_list)):
             # Exit if 11th button; no need to validate as not
             # possible to click beyond this point
             if index >= 10:
@@ -105,23 +124,6 @@ class MeowfficerEnhance(MeowfficerBase):
 
             # Continue onto next If the target Meowfficer's level
             # is greater than the maximum feed level set
-            level = Digit(level, letter=(49, 48, 49), name=f"{index}th_FEED_MEOWFFICER_LEVEL").ocr(
-                self.device.image)
-
-            # Reset invalid value of MeowfficerTrain_MaxFeedLevel
-            # it can work without this code, just for rigor
-            reset_max_feed_level = -1
-            if self.config.MeowfficerTrain_MaxFeedLevel < 1:
-                reset_max_feed_level = 1
-            elif self.config.MeowfficerTrain_MaxFeedLevel > 30:
-                reset_max_feed_level = 30
-
-            if -1 != reset_max_feed_level:
-                logger.warning(f"Condition '1 <= MeowfficerTrain_MaxFeedLevel <= 30' needs to be satisfied, "
-                               f'now MeowfficerTrain_MaxFeedLevel is {self.config.MeowfficerTrain_MaxFeedLevel}, '
-                               f'reset to {reset_max_feed_level}')
-                self.config.MeowfficerTrain_MaxFeedLevel = reset_max_feed_level
-
             if level > self.config.MeowfficerTrain_MaxFeedLevel:
                 continue
 
