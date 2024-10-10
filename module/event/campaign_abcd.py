@@ -54,7 +54,7 @@ class CampaignABCD(EventBase):
                         f'Cannot find stage "{stage}". '
                         f'Task "{task}" is for 3X daily PT, if you have not unlock {stage}, '
                         f'you should use task "Event" to unlock it instead of using task "{task}"')
-                    raise RequestHumanTakeover('Request human takeover')
+                    raise RequestHumanTakeover
                 else:
                     raise
 

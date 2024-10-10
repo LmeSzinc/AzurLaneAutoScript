@@ -70,7 +70,7 @@ def retry(func):
                     pass
 
         logger.critical(f'Retry {func.__name__}() failed')
-        raise RequestHumanTakeover('Request human takeover')
+        raise RequestHumanTakeover
 
     return retry_wrapper
 
@@ -103,7 +103,7 @@ class AScreenCap(Connection):
             self.ascreencap_available = False
             logger.error('No suitable version of aScreenCap lib available for this device, '
                          'please use other screenshot methods instead')
-            raise RequestHumanTakeover('Request human takeover')
+            raise RequestHumanTakeover
 
         logger.info(f'pushing {filepath}')
         self.adb_push(filepath, self.config.ASCREENCAP_FILEPATH_REMOTE)

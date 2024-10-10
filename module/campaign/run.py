@@ -59,7 +59,7 @@ class CampaignRun(CampaignEvent):
             logger.critical(f'Possible reason #1: This event ({folder}) does not have {name}')
             logger.critical(f'Possible reason #2: You are using an old Alas, '
                             'please check for update, or make map files yourself using dev_tools/map_extractor.py')
-            raise RequestHumanTakeover('Request human takeover')
+            raise RequestHumanTakeover
 
         config = copy.deepcopy(self.config).merge(self.module.Config())
         device = self.device

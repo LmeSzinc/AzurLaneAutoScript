@@ -427,7 +427,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                 logger.critical('No ship retired')
                 logger.critical('Please configure your "Quick Retire Options" in game, '
                                 'make sure it can select ships to retire')
-                raise RequestHumanTakeover('Request human takeover')
+                raise RequestHumanTakeover
         elif mode == 'old_retire':
             self.handle_dock_cards_loading()
             total = self.retire_ships_old()
@@ -436,7 +436,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                 logger.critical('No ship retired')
                 logger.critical('Please configure your retirement settings in Alas, '
                                 'make sure it can select ships to retire')
-                raise RequestHumanTakeover('Request human takeover')
+                raise RequestHumanTakeover
         else:
             raise ScriptError(
                 f'Unknown retire mode: {self.config.Retirement_RetireMode}')

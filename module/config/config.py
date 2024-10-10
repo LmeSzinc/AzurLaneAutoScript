@@ -257,7 +257,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
         else:
             logger.critical("No task waiting or pending")
             logger.critical("Please enable at least one task")
-            raise RequestHumanTakeover('Request human takeover')
+            raise RequestHumanTakeover
 
     def save(self, mod_name='alas'):
         if not self.modified:

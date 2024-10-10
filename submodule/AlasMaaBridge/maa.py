@@ -59,7 +59,7 @@ class ArknightsAutoScript(AzurLaneAutoScript):
             logger.critical(
                 f'未找到路径 {self.config.MaaEmulator_MaaPath}，请确认MAA已安装在该路径。'
                 f'如果你是第一次使用MAA插件，需要自选安装MAA，并在 "MAA设置" - "MAA安装路径" 中填入MAA的安装路径')
-            raise RequestHumanTakeover('Request human takeover')
+            raise RequestHumanTakeover
         try:
             incremental_path = [os.path.join(self.config.MaaEmulator_MaaPath, './cache')]
             if self.config.MaaEmulator_PackageName in ["YoStarEN", "YoStarJP", "YoStarKR", "txwy"]:

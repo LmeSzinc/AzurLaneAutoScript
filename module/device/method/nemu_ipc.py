@@ -195,7 +195,7 @@ def retry(func):
                     pass
 
         logger.critical(f'Retry {func.__name__}() failed')
-        raise RequestHumanTakeover('Request human takeover')
+        raise RequestHumanTakeover
 
     return retry_wrapper
 
@@ -471,7 +471,7 @@ class NemuIpc(Platform):
         if self.config.EmulatorInfo_path:
             if 'MuMuPlayerGlobal' in self.config.EmulatorInfo_path:
                 logger.info(f'nemu_ipc is not available on MuMuPlayerGlobal, {self.config.EmulatorInfo_path}')
-                raise RequestHumanTakeover('Request human takeover')
+                raise RequestHumanTakeover
             folder = os.path.abspath(os.path.join(self.config.EmulatorInfo_path, '../../'))
             index = NemuIpcImpl.serial_to_id(self.serial)
             if index is not None:
@@ -490,10 +490,10 @@ class NemuIpc(Platform):
         # installation path is E:\ProgramFiles\MuMuPlayer-12.0
         if self.emulator_instance is None:
             logger.error('Unable to use NemuIpc because emulator instance not found')
-            raise RequestHumanTakeover('Request human takeover')
+            raise RequestHumanTakeover
         if 'MuMuPlayerGlobal' in self.emulator_instance.path:
             logger.info(f'nemu_ipc is not available on MuMuPlayerGlobal, {self.emulator_instance.path}')
-            raise RequestHumanTakeover('Request human takeover')
+            raise RequestHumanTakeover
         try:
             return NemuIpcImpl(
                 nemu_folder=self.emulator_instance.emulator.abspath('../'),
@@ -503,7 +503,7 @@ class NemuIpc(Platform):
         except (NemuIpcIncompatible, NemuIpcError) as e:
             logger.error(e)
             logger.error('Unable to initialize NemuIpc')
-            raise RequestHumanTakeover('Request human takeover')
+            raise RequestHumanTakeover
 
     def nemu_ipc_available(self) -> bool:
         if not self.is_mumu_family:
@@ -544,7 +544,7 @@ class NemuIpc(Platform):
         if str(value).lower() == 'true':
             # https://mumu.163.com/help/20230802/35047_1102450.html
             logger.critical('请在MuMu模拟器设置内关闭 "后台挂机时保活运行"')
-            raise RequestHumanTakeover('Request human takeover')
+            raise RequestHumanTakeover
         return True
 
     def check_mumu_app_keep_alive(self):

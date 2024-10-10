@@ -6,10 +6,9 @@ from typing import Optional, Union
 
 from deploy.Windows.logger import logger
 from deploy.Windows.utils import DEPLOY_CONFIG, DEPLOY_TEMPLATE, cached_property, poor_yaml_read, poor_yaml_write
-from module.exception import ALASBaseError
 
 
-class ExecutionError(ALASBaseError):
+class ExecutionError(Exception):
     pass
 
 

@@ -66,7 +66,7 @@ class AssistantHandler:
         while 1:
             if self.callback_timer.reached():
                 logger.critical('MAA no respond, probably stuck')
-                raise RequestHumanTakeover('Request human takeover')
+                raise RequestHumanTakeover
 
             if self.signal in [
                 self.Message.AllTasksCompleted,
@@ -88,11 +88,11 @@ class AssistantHandler:
         while 1:
             if self.callback_timer.reached():
                 logger.critical('MAA no respond, probably stuck')
-                raise RequestHumanTakeover('Request human takeover')
+                raise RequestHumanTakeover
 
             if self.signal is not None:
                 if self.signal == self.Message.TaskChainError:
-                    raise RequestHumanTakeover('Request human takeover')
+                    raise RequestHumanTakeover
                 self.maa_stop()
                 self.callback_list.clear()
                 return
@@ -204,7 +204,7 @@ class AssistantHandler:
         self.callback_list = []
 
         if not self.asst.connect(adb, self.serial):
-            raise RequestHumanTakeover('Request human takeover')
+            raise RequestHumanTakeover
 
         self.callback_list = old_callback_list
 
@@ -367,7 +367,7 @@ class AssistantHandler:
             if periods is None:
                 if self.config.MaaCustomInfrast_CustomPeriod == 'null':
                     logger.critical('无法找到配置文件中的排班周期，请检查文件是否有效')
-                    raise RequestHumanTakeover('Request human takeover')
+                    raise RequestHumanTakeover
                 else:
                     args['plan_index'] = self.config.MaaCustomInfrast_PlanIndex
             else:
@@ -407,7 +407,7 @@ class AssistantHandler:
         else:
             if self.config.MaaInfrast_WorkThreshold <= self.config.MaaInfrast_ShiftThreshold:
                 logger.warning('基建换班心情阈值必须小于基建工作心情阈值，请调整基建设置')
-                raise RequestHumanTakeover('Request human takeover')
+                raise RequestHumanTakeover
 
             self.maa_start('Infrast', args)
             # 根据心情阈值计算下次换班时间
@@ -504,7 +504,7 @@ class AssistantHandler:
             r = requests.get(f"https://prts.maa.plus/copilot/get/{filename.strip('maa://')}", timeout=30)
             if r.status_code != 200:
                 logger.critical('作业文件下载失败，请检查神秘代码或网络状况')
-                raise RequestHumanTakeover('Request human takeover')
+                raise RequestHumanTakeover
             logger.info('作业下载完毕')
 
             r.encoding = 'utf-8'
@@ -518,7 +518,7 @@ class AssistantHandler:
         stage = deep_get(homework, keys='stage_name')
         if not stage:
             logger.critical('作业文件不存在或已经损坏')
-            raise RequestHumanTakeover('Request human takeover')
+            raise RequestHumanTakeover
 
         if self.config.MaaCopilot_Identify:
             logger.info(deep_get(homework, keys='doc.title', default='标题：无') + '\n')

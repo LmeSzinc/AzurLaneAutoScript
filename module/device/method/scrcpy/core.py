@@ -205,7 +205,7 @@ class ScrcpyCore(Connection):
         except ImportError as e:
             logger.error(e)
             logger.error('You must have `av` installed to use scrcpy screenshot, please update dependencies')
-            raise RequestHumanTakeover('Request human takeover')
+            raise RequestHumanTakeover
 
         codec = CodecContext.create("h264", "r")
         while self._scrcpy_alive:

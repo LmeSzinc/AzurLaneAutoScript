@@ -132,7 +132,7 @@ class FleetEmotion:
             logger.critical(f'Fleet {self.fleet} Emotion Control=\"Keep Happy Bonus\" and '
                             f'Fleet {self.fleet} Recover Location=\"Docks\" can not be used together, '
                             'please check your emotion settings')
-            raise RequestHumanTakeover('Request human takeover')
+            raise RequestHumanTakeover
         # In 14-4 with 2X book, expected emotion reduce is 32, can't keep happy bonus (>120),
         # otherwise will infinite task delay
         if self.control == 'keep_exp_bonus' and expected_reduce >= 29:

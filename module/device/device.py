@@ -77,7 +77,7 @@ class Device(Screenshot, Control, AppControl):
             except EmulatorNotRunningError:
                 if trial >= 3:
                     logger.critical('Failed to start emulator after 3 trial')
-                    raise RequestHumanTakeover('Request human takeover')
+                    raise RequestHumanTakeover
                 # Try to start emulator
                 if self.emulator_instance is not None:
                     self.emulator_start()
@@ -86,7 +86,7 @@ class Device(Screenshot, Control, AppControl):
                         f'No emulator with serial "{self.config.Emulator_Serial}" found, '
                         f'please set a correct serial'
                     )
-                    raise RequestHumanTakeover('Request human takeover')
+                    raise RequestHumanTakeover
 
         # Auto-fill emulator info
         if IS_WINDOWS and self.config.EmulatorInfo_Emulator == 'auto':
@@ -311,7 +311,7 @@ class Device(Screenshot, Control, AppControl):
         if not self.config.Error_HandleError:
             logger.critical('No app stop/start, because HandleError disabled')
             logger.critical('Please enable Alas.Error.HandleError or manually login to AzurLane')
-            raise RequestHumanTakeover('Request human takeover')
+            raise RequestHumanTakeover
         super().app_start()
         self.stuck_record_clear()
         self.click_record_clear()
@@ -320,7 +320,7 @@ class Device(Screenshot, Control, AppControl):
         if not self.config.Error_HandleError:
             logger.critical('No app stop/start, because HandleError disabled')
             logger.critical('Please enable Alas.Error.HandleError or manually login to AzurLane')
-            raise RequestHumanTakeover('Request human takeover')
+            raise RequestHumanTakeover
         super().app_stop()
         self.stuck_record_clear()
         self.click_record_clear()

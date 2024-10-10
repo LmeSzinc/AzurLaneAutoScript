@@ -71,7 +71,7 @@ def retry(func):
                     pass
 
         logger.critical(f'Retry {func.__name__}() failed')
-        raise RequestHumanTakeover('Request human takeover')
+        raise RequestHumanTakeover
 
     return retry_wrapper
 
@@ -174,7 +174,7 @@ class Connection(ConnectionAttr):
             f'Trying to execute {cmd}, '
             f'but adb_command() is not available when connecting over http: {self.serial}, '
         )
-        raise RequestHumanTakeover('Request human takeover')
+        raise RequestHumanTakeover
 
     def adb_start_server(self):
         """
@@ -345,7 +345,7 @@ class Connection(ConnectionAttr):
         elif res == 'true':
             # https://mumu.163.com/help/20230802/35047_1102450.html
             logger.critical('请在MuMu模拟器设置内关闭 "后台挂机时保活运行"')
-            raise RequestHumanTakeover('Request human takeover')
+            raise RequestHumanTakeover
         else:
             logger.warning(f'Invalid nemud.app_keep_alive value: {res}')
             return False
@@ -482,7 +482,7 @@ class Connection(ConnectionAttr):
             return command
 
         logger.error('No `netcat` command available, please use screenshot methods without `_nc` suffix')
-        raise RequestHumanTakeover('Request human takeover')
+        raise RequestHumanTakeover
 
     def adb_shell_nc(self, cmd, timeout=5, chunk_size=262144):
         """
@@ -686,7 +686,7 @@ class Connection(ConnectionAttr):
             # bad port number '598265' in '127.0.0.1:598265'
             elif 'bad port' in msg:
                 possible_reasons('Serial incorrect, might be a typo')
-                raise RequestHumanTakeover('Request human takeover')
+                raise RequestHumanTakeover
             # cannot connect to 127.0.0.1:55555:
             # No connection could be made because the target machine actively refused it. (10061)
             elif '(10061)' in msg:
@@ -957,7 +957,7 @@ class Connection(ConnectionAttr):
             if available.count == 0:
                 logger.critical('No available device found, auto device detection cannot work, '
                                 'please set an exact serial in Alas.Emulator.Serial instead of using "auto"')
-                raise RequestHumanTakeover('Request human takeover')
+                raise RequestHumanTakeover
             elif available.count == 1:
                 logger.info(f'Auto device detection found only one device, using it')
                 self.config.Emulator_Serial = self.serial = available[0].serial
@@ -974,7 +974,7 @@ class Connection(ConnectionAttr):
             else:
                 logger.critical('Multiple devices found, auto device detection cannot decide which to choose, '
                                 'please copy one of the available devices listed above to Alas.Emulator.Serial')
-                raise RequestHumanTakeover('Request human takeover')
+                raise RequestHumanTakeover
 
         # Handle LDPlayer
         # LDPlayer serial jumps between `127.0.0.1:5555+{X}` and `emulator-5554+{X}`
@@ -1113,7 +1113,7 @@ class Connection(ConnectionAttr):
         if len(packages) == 0:
             logger.critical(f'No AzurLane package found, '
                             f'please confirm AzurLane has been installed on device "{self.serial}"')
-            raise RequestHumanTakeover('Request human takeover')
+            raise RequestHumanTakeover
         if len(packages) == 1:
             logger.info('Auto package detection found only one package, using it')
             self.package = packages[0]
@@ -1127,4 +1127,4 @@ class Connection(ConnectionAttr):
             logger.critical(
                 f'Multiple AzurLane packages found, auto package detection cannot decide which to choose, '
                 'please copy one of the available devices listed above to Alas.Emulator.PackageName')
-            raise RequestHumanTakeover('Request human takeover')
+            raise RequestHumanTakeover

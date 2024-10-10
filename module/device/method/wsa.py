@@ -58,7 +58,7 @@ def retry(func):
                     pass
 
         logger.critical(f'Retry {func.__name__}() failed')
-        raise RequestHumanTakeover('Request human takeover')
+        raise RequestHumanTakeover
 
     return retry_wrapper
 
