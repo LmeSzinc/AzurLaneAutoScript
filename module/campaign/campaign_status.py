@@ -10,7 +10,6 @@ from module.logger import logger
 from module.ocr.ocr import Digit, Ocr
 from module.ui.ui import UI
 
-OCR_COIN = Digit(OCR_COIN, name='OCR_COIN', letter=(239, 239, 239), threshold=128)
 
 
 class PtOcr(Ocr):
@@ -59,6 +58,11 @@ class CampaignStatus(UI):
         Returns:
             int: Coin amount
         """
+        if server.server != 'jp':
+            ocr = Digit(OCR_COIN, name='OCR_COIN', letter=(239, 239, 239), threshold=128)
+        else:
+            ocr = Digit(OCR_COIN, name='OCR_COIN', letter=(192, 192, 192), threshold=192)
+            
         amount = 0
         timeout = Timer(1, count=2).start()
         while 1:
@@ -71,7 +75,7 @@ class CampaignStatus(UI):
                 logger.warning('Get coin timeout')
                 break
 
-            amount = OCR_COIN.ocr(self.device.image)
+            amount = ocr.ocr(self.device.image)
             if amount >= 100:
                 break
 
@@ -84,7 +88,10 @@ class CampaignStatus(UI):
         color = get_color(self.device.image, OCR_OIL_CHECK.button)
         if color_similar(color, OCR_OIL_CHECK.color):
             # Original color
-            ocr = Digit(OCR_OIL, name='OCR_OIL', letter=(247, 247, 247), threshold=128)
+            if server.server != 'jp':
+                ocr = Digit(OCR_OIL, name='OCR_OIL', letter=(247, 247, 247), threshold=128)
+            else:
+                ocr = Digit(OCR_OIL, name='OCR_OIL', letter=(192, 192, 192), threshold=192)
         elif color_similar(color, (59, 59, 64)):
             # With black overlay
             ocr = Digit(OCR_OIL, name='OCR_OIL', letter=(165, 165, 165), threshold=128)
