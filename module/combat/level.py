@@ -1,3 +1,4 @@
+import module.config.server as server
 from module.base.base import ModuleBase
 from module.base.button import *
 from module.base.decorator import Config
@@ -41,7 +42,7 @@ class Level(ModuleBase):
 
     @Config.when(SERVER='jp')
     def _lv_grid(self):
-        return ButtonGrid(origin=(58, 128), delta=(0, 100), button_shape=(46, 19), grid_shape=(1, 6))
+        return ButtonGrid(origin=(58, 126), delta=(0, 100), button_shape=(46, 21), grid_shape=(1, 6))
 
     @Config.when(SERVER=None)
     def _lv_grid(self):
@@ -127,9 +128,17 @@ class LevelOcr(Digit):
         # Return an empty image if 'L' is not found.
         letter_l = np.nonzero(image[9:15, :].max(axis=0) < 127)[0]
         if len(letter_l):
-            first_digit = letter_l[0] + 17
-            if first_digit + 3 < 46:  # LV_GRID_MAIN.button_shape[0] = 46
-                return image[:, first_digit:]
+            if server.server != 'jp':
+                first_digit = letter_l[0] + 17
+                if first_digit + 3 < 46:  # LV_GRID_MAIN.button_shape[0] = 46
+                    return image[:, first_digit:]
+            else:
+                first_digit = letter_l[0] + 14
+                if first_digit + 3 < 46:  # LV_GRID_MAIN.button_shape[0] = 46
+                    image = image[:, first_digit:-2]
+                    image = cv2.copyMakeBorder(image, 2, 0, 1, 2, cv2.BORDER_CONSTANT, None, [255, 255, 255])
+                    cv2.convertScaleAbs(image, alpha=1.5, beta=-128, dst=image)
+                    return image
         return np.array([[255]], dtype=np.uint8)
 
     def after_process(self, result):
