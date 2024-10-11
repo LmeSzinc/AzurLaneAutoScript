@@ -54,13 +54,11 @@ class GameNotRunningError(ALASBaseError):
 
 
 class GamePageUnknownError(ALASBaseError):
-    def __init__(self, message='Game page unknown'):
-        super().__init__(message)
-    pass
-
+    def __init__(self, message='Game page unknown', *args):
+        super().__init__(message, *args)
 
 class RequestHumanTakeover(ALASBaseError):
     # Request human takeover
     # Alas is unable to handle such error, probably because of wrong settings.
-    def __init__(self, message='Request human takeover'):
-        super().__init__(message)
+    def __init__(self, message='Request human takeover', *args):
+        super().__init__(message, *args)
