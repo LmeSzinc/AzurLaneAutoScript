@@ -214,3 +214,4 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20240829 | event 20220324 cn | Virtual Tower | - | - | - | 復刻虛像構築之塔 |
 | 20240912 | event 20240912 cn | Ode of Everblooming Crimson | 唤醒苍红之炎 | Ode of Everblooming Crimson | 絳染む丹華の詠歌 | - |
 | 20240919 | event 20230914 cn | Effulgence Before Eclipse   | - | -  | - | 須臾望月抄    |
+| 20241017   | event 20220728 cn        | Aquilifer's Ballade Return                         | 复刻雄鹰的叙事歌           | Aquilifer's Ballade Return                         | 復刻鋼鷲の冒険譚                         | -                        |
