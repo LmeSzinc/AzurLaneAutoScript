@@ -1503,6 +1503,10 @@
     "EnhanceIndex": {
       "name": "MeowfficerTrain.EnhanceIndex.name",
       "help": "MeowfficerTrain.EnhanceIndex.help"
+    },
+    "MaxFeedLevel": {
+      "name": "レベル X 以上の猫を強化材料にしない",
+      "help": "X 値は1~30に制限します"
     }
   },
   "GuildLogistics": {

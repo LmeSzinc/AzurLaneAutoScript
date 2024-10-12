@@ -1503,6 +1503,10 @@
     "EnhanceIndex": {
       "name": "用无特殊天赋的猫给第 X 只猫强化",
       "help": "猫仓库的第 X 只猫，限制在 1 ~ 12，顺序从左上到右下"
+    },
+    "MaxFeedLevel": {
+      "name": "不使用大于 X 级的猫作为强化材料",
+      "help": "X 值限制在 1 ~ 30"
     }
   },
   "GuildLogistics": {

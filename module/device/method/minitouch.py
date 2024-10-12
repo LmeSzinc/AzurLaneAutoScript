@@ -683,7 +683,7 @@ class Minitouch(Connection):
         points = insert_swipe(p0=p1, p3=p2)
         builder = self.minitouch_builder
 
-        builder.down(*points[0]).commit()
+        builder.down(*points[0]).commit().wait(10)
         builder.send()
 
         for point in points[1:]:
@@ -700,7 +700,7 @@ class Minitouch(Connection):
         points = insert_swipe(p0=p1, p3=p2, speed=20)
         builder = self.minitouch_builder
 
-        builder.down(*points[0]).commit()
+        builder.down(*points[0]).commit().wait(10)
         builder.send()
 
         for point in points[1:]:
