@@ -1,3 +1,5 @@
+import module.config.server as server
+
 from module.base.base import ModuleBase
 from module.base.button import *
 from module.base.decorator import Config
@@ -41,7 +43,7 @@ class Level(ModuleBase):
 
     @Config.when(SERVER='jp')
     def _lv_grid(self):
-        return ButtonGrid(origin=(58, 128), delta=(0, 100), button_shape=(46, 19), grid_shape=(1, 6))
+        return ButtonGrid(origin=(34, 128), delta=(0, 100), button_shape=(68, 19), grid_shape=(1, 6))
 
     @Config.when(SERVER=None)
     def _lv_grid(self):
@@ -125,11 +127,20 @@ class LevelOcr(Digit):
         image = cv2.subtract(255, cv2.multiply(image, 255 / (255 - luma_bg)))
         # Find 'L' to strip 'LV.'.
         # Return an empty image if 'L' is not found.
-        letter_l = np.nonzero(image[9:15, :].max(axis=0) < 127)[0]
-        if len(letter_l):
-            first_digit = letter_l[0] + 17
-            if first_digit + 3 < 46:  # LV_GRID_MAIN.button_shape[0] = 46
-                return image[:, first_digit:]
+        if server.server != 'jp':
+            letter_l = np.nonzero(image[9:15, :].max(axis=0) < 127)[0]
+            if len(letter_l):
+                first_digit = letter_l[0] + 17
+                if first_digit + 3 < 46:  # LV_GRID_MAIN.button_shape[0] = 46
+                    return image[:, first_digit:]
+        else:
+            letter_l = np.nonzero(image[5:11, :].max(axis=0) < 63)[0]
+            if len(letter_l):
+                first_digit = letter_l[0] + 23  # maximal size in dock and minimal size in sea grid
+                if first_digit + 3 < 70:  # LV_GRID_MAIN.button_shape[0] = 46
+                    image = image[:, first_digit:]
+                    image = cv2.copyMakeBorder(image, 2, 2, 2, 2, cv2.BORDER_CONSTANT, value=(255, 255, 255))
+                    return image
         return np.array([[255]], dtype=np.uint8)
 
     def after_process(self, result):
