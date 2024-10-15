@@ -1,3 +1,4 @@
+import re
 from enum import Enum
 
 import module.config.server as server
@@ -33,6 +34,10 @@ class MetaDigitCounter(DigitCounter):
         if result.startswith('00/'):
             result = '100/' + result[3:]
 
+        # 23 -> 2/3
+        if re.match(r'^[0123]3$', result):
+            result = f'{result[0]}/{result[1]}'
+
         return result
 
 
@@ -67,7 +72,7 @@ class Meta(UI, MapEventHandler):
 
 
 def _server_support():
-    return server.server in ['cn', 'en', 'jp','tw']
+    return server.server in ['cn', 'en', 'jp', 'tw']
 
 
 def _server_support_dossier_auto_attack():
@@ -454,7 +459,7 @@ class OpsiAshBeacon(Meta):
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
-            
+
             if self.appear(DOSSIER_LIST, offset=(20, 20)):
                 logger.info('In dossier page')
                 return True
