@@ -318,7 +318,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                     break
                 else:
                     # Try to keep the one with the lowest level
-                    ships.sort(key=lambda ship: -ship.level)
+                    ships.sort(key=lambda s: -s.level)
                     ships = ships[:-1]
 
             for ship in ships[:10]:
@@ -452,8 +452,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
             button (Button): Ship button to select
             skip_first_screenshot:
         """
-
-        retire_coin_timer = Timer(2)
+        count = 0
         RETIRE_COIN.load_color(self.device.image)
 
         while 1:
@@ -461,13 +460,18 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
+
+            # End
+            if not self.appear(RETIRE_COIN, threshold=0.97):
+                return True
+            if count > 3:
+                logger.warning('_retire_select_one failed after 3 trial')
+                return False
+
             if self.appear(SHIP_CONFIRM_2, offset=(30, 30), interval=3):
                 self.device.click(button)
+                count += 1
                 continue
-
-            if retire_coin_timer.reached() and not self.appear(RETIRE_COIN, threshold=0.97):
-                return True
-        return False
 
     def retirement_get_common_rarity_cv_in_page(self):
         """
@@ -515,11 +519,11 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
             if RETIRE_CONFIRM_SCROLL.at_bottom(main=self):
                 logger.info('Scroll bar reached end, stop')
                 break
-        
+
         return button
 
     def keep_one_common_cv(self):
         button = self.retirement_get_common_rarity_cv()
         if button is not None:
-            self._retire_select_one(button, skip_first_screenshot=False)
+            self._retire_select_one(button)
             self._have_kept_cv = True
