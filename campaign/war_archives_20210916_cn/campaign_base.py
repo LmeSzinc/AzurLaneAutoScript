@@ -1,6 +1,6 @@
 from typing import List
 
-from module.campaign.campaign_base import CampaignBase as CampaignBase_
+from ..campaign_war_archives.campaign_base import CampaignBase as CampaignBase_
 from module.logger import logger
 from module.map_detection.grid import GridInfo
 
