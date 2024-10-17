@@ -214,10 +214,6 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20240829   | event 20240829 cn        | Whence Flowers Bear No Fruit                 | 埋葬于彼岸之花         | Whence Flowers Bear No Fruit                 | 徒花咲かす彼岸                       | -                        |
 | 20240829   | event 20220324 cn        | Virtual Tower                                | -                      | -                                            | -                                    | 復刻虛像構築之塔         |
 | 20240912   | event 20240912 cn        | Ode of Everblooming Crimson                  | 唤醒苍红之炎           | Ode of Everblooming Crimson                  | 絳染む丹華の詠歌                     | -                        |
-<<<<<<< HEAD
 | 20240919   | event 20230914 cn        | Effulgence Before Eclipse                    | -                      | -                                            | -                                    | 須臾望月抄               |
 | 20241017   | event 20220728 cn        | Aquilifer's Ballade Rerun                    | 复刻雄鹰的叙事歌       | Aquilifer's Ballade Rerun                    | 鋼鷲の冒険譚（復刻）                 | -                        |
 | 20241017   | coalition 20240627       | Welcome to Little Academy                    | -                      | -                                            | -                                    | 歡迎來到童心學院         |
-=======
-| 20240919   | event 20230914 cn        | Effulgence Before Eclipse                    | -                      | -                                            | -                                    | 須臾望月抄               |
->>>>>>> d35bfa0f5 (Add: War Archives)
