@@ -194,7 +194,7 @@ class MissionHandler(GlobeOperation, ZoneManager):
                 logger.info('Unable to accept missions, because reached the maximum number of missions')
                 success = False
                 break
-            if self.appear_then_click(MISSION_OVERVIEW_ACCEPT, offset=(20, 20), interval=0.2):
+            if self.appear_then_click(MISSION_OVERVIEW_ACCEPT, offset=(20, 20), interval=2):
                 confirm_timer.reset()
                 continue
             else:
@@ -202,7 +202,7 @@ class MissionHandler(GlobeOperation, ZoneManager):
                 if confirm_timer.reached():
                     success = True
                     break
-            if self.appear_then_click(MISSION_OVERVIEW_ACCEPT_SINGLE, offset=(20, 20), interval=0.2):
+            if self.appear_then_click(MISSION_OVERVIEW_ACCEPT_SINGLE, offset=(20, 20), interval=2):
                 confirm_timer.reset()
                 continue
 
