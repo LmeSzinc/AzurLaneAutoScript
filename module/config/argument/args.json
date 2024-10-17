@@ -3302,13 +3302,12 @@
           "coalition_20240627"
         ],
         "option_bold": [
-          "coalition_20230323",
           "coalition_20240627"
         ],
         "cn": "coalition_20240627",
         "en": "coalition_20240627",
         "jp": "coalition_20240627",
-        "tw": "coalition_20230323"
+        "tw": "coalition_20240627"
       },
       "Mode": {
         "type": "select",
@@ -3628,16 +3627,17 @@
           "war_archives_20211014_cn",
           "war_archives_20211028_cn",
           "war_archives_20211111_cn",
+          "war_archives_20211229_cn",
           "war_archives_20220210_cn",
           "war_archives_20220414_cn"
         ],
         "option_bold": [
-          "war_archives_20210422_cn"
+          "war_archives_20211229_cn"
         ],
-        "cn": "war_archives_20210422_cn",
-        "en": "war_archives_20210422_cn",
-        "jp": "war_archives_20210422_cn",
-        "tw": "war_archives_20210422_cn"
+        "cn": "war_archives_20211229_cn",
+        "en": "war_archives_20211229_cn",
+        "jp": "war_archives_20211229_cn",
+        "tw": "war_archives_20211229_cn"
       },
       "Mode": {
         "type": "select",
@@ -6654,13 +6654,12 @@
           "coalition_20240627"
         ],
         "option_bold": [
-          "coalition_20230323",
           "coalition_20240627"
         ],
         "cn": "coalition_20240627",
         "en": "coalition_20240627",
         "jp": "coalition_20240627",
-        "tw": "coalition_20230323"
+        "tw": "coalition_20240627"
       },
       "Mode": {
         "type": "select",
