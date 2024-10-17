@@ -1,20 +1,22 @@
-from module.campaign.campaign_base import CampaignBase
 from module.logger import logger
 from module.map.map_base import CampaignMap
 from module.map.map_grids import RoadGrids, SelectedGrids
 
-MAP = CampaignMap('C1')
+from ..campaign_war_archives.campaign_base import CampaignBase
+from .sp1 import Config as ConfigBase
+
+MAP = CampaignMap('SP2')
 MAP.shape = 'I7'
-MAP.camera_data = ['D3', 'D5', 'F3', 'F5']
+MAP.camera_data = ['D2', 'D5', 'F2', 'F5']
 MAP.camera_data_spawn_point = ['D5']
 MAP.map_data = """
-    -- -- ++ -- -- -- ++ -- --
-    -- -- MS ME -- ME ++ ME --
-    ++ ++ -- -- ME -- Me -- ME
-    -- -- __ -- -- -- -- ++ --
-    SP -- -- MS -- Me -- -- ME
-    SP -- -- Me ++ ++ ME -- ME
-    -- -- ME -- ++ ++ -- MB --
+    ++ -- -- -- ME -- MB ++ ++
+    ME -- MS -- -- -- ME MB ++
+    -- -- ++ ++ ++ __ -- -- MB
+    -- Me ++ MS -- Me -- ++ ++
+    -- -- -- -- ME -- Me ME --
+    ME -- ME ME ++ ME -- -- ME
+    SP SP -- -- ++ ++ ME ME ME
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
@@ -26,11 +28,11 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 2, 'siren': 2},
-    {'battle': 1, 'enemy': 1},
-    {'battle': 2, 'enemy': 2},
+    {'battle': 0, 'enemy': 3, 'siren': 2},
+    {'battle': 1, 'enemy': 2},
+    {'battle': 2, 'enemy': 1},
     {'battle': 3, 'enemy': 1},
-    {'battle': 4, 'enemy': 1, 'boss': 1},
+    {'battle': 4, 'boss': 1},
 ]
 A1, B1, C1, D1, E1, F1, G1, H1, I1, \
 A2, B2, C2, D2, E2, F2, G2, H2, I2, \
@@ -42,34 +44,27 @@ A7, B7, C7, D7, E7, F7, G7, H7, I7, \
     = MAP.flatten()
 
 
-class Config:
+class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['CL', 'CA']
-    MOVABLE_ENEMY_TURN = (2,)
+    MAP_SIREN_TEMPLATE = []
+    # MOVABLE_ENEMY_TURN = (0,)
     MAP_HAS_SIREN = True
-    MAP_HAS_MOVABLE_ENEMY = True
+    # MAP_HAS_MOVABLE_ENEMY = True
     MAP_HAS_MAP_STORY = True
-    MAP_HAS_FLEET_STEP = True
+    MAP_HAS_FLEET_STEP = False
     MAP_HAS_AMBUSH = False
+    MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
-
-    MAP_SWIPE_MULTIPLY = (1.097, 1.117)
-    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.061, 1.080)
-    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.030, 1.048)
-    MAP_ENEMY_GENRE_DETECTION_SCALING = {
-        'DD': 1.111,
-        'CL': 1.111,
-        'CA': 1.111,
-        'CV': 1.111,
-        'BB': 1.111,
-    }
 
 
 class Campaign(CampaignBase):
     MAP = MAP
+    ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
 
     def battle_0(self):
         if self.clear_siren():
+            return True
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
             return True
 
         return self.battle_default()

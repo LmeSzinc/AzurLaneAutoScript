@@ -1,25 +1,23 @@
-from module.campaign.campaign_base import CampaignBase
 from module.logger import logger
 from module.map.map_base import CampaignMap
 from module.map.map_grids import RoadGrids, SelectedGrids
 
-from .b1 import Config as ConfigBase
+from ..campaign_war_archives.campaign_base import CampaignBase
+from .sp1 import Config as ConfigBase
 
-MAP = CampaignMap('B2')
-MAP.shape = 'I9'
-# MAP.camera_data = ['D2', 'D6', 'D7', 'F2', 'F6', 'F7']
-MAP.camera_data = ['D3', 'D5', 'D7', 'F3', 'D5', 'F7']
-MAP.camera_data_spawn_point = ['D2']
+MAP = CampaignMap('SP3')
+MAP.shape = 'I8'
+MAP.camera_data = ['D3', 'D6', 'F3', 'F6']
+MAP.camera_data_spawn_point = ['F6']
 MAP.map_data = """
-    -- SP -- -- -- MS -- ME --
-    SP -- -- ++ MS -- ++ -- ME
-    -- -- __ -- ++ -- -- ++ --
-    -- ++ Me -- Me ++ -- -- ME
-    -- MS ++ -- -- -- ++ ME --
-    MS -- -- ++ Me -- Me ++ --
-    -- ++ -- -- ++ -- -- -- --
-    ME -- ++ -- ME ++ -- MB ME
-    -- ME -- ME -- -- -- ME --
+    ++ ++ ++ ++ ME ME -- -- ME
+    MB MB MB ++ -- -- -- ME --
+    -- ME -- ME Me ++ MS -- ++
+    ME MS -- __ ME -- ME -- ++
+    ++ ++ ++ -- -- ++ ++ -- ME
+    ME ME MS Me -- ++ ++ ME --
+    -- -- -- -- -- SP SP -- --
+    Me ME ++ ME -- -- -- -- ME
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
@@ -30,16 +28,14 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
 """
-MAP.maze_data = [('A4', 'I6'), ('F9', 'D1', 'E5'), ('A7', 'C9', 'G1', 'I3')]
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 2, 'siren': 1},
-    {'battle': 1, 'enemy': 1},
-    {'battle': 2, 'enemy': 2},
+    {'battle': 0, 'enemy': 3, 'siren': 2},
+    {'battle': 1, 'enemy': 2, 'siren': 1},
+    {'battle': 2, 'enemy': 1},
     {'battle': 3, 'enemy': 1},
-    {'battle': 4, 'enemy': 2},
-    {'battle': 5, 'enemy': 1, 'boss': 1},
+    {'battle': 4, 'enemy': 1},
+    {'battle': 5, 'boss': 1},
 ]
 A1, B1, C1, D1, E1, F1, G1, H1, I1, \
 A2, B2, C2, D2, E2, F2, G2, H2, I2, \
@@ -49,27 +45,30 @@ A5, B5, C5, D5, E5, F5, G5, H5, I5, \
 A6, B6, C6, D6, E6, F6, G6, H6, I6, \
 A7, B7, C7, D7, E7, F7, G7, H7, I7, \
 A8, B8, C8, D8, E8, F8, G8, H8, I8, \
-A9, B9, C9, D9, E9, F9, G9, H9, I9, \
     = MAP.flatten()
 
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['Gloucester', 'York']
-    MOVABLE_ENEMY_TURN = (2,)
+    MAP_SIREN_TEMPLATE = []
+    # MOVABLE_ENEMY_TURN = (0,)
     MAP_HAS_SIREN = True
-    MAP_HAS_MOVABLE_ENEMY = True
+    # MAP_HAS_MOVABLE_ENEMY = True
     MAP_HAS_MAP_STORY = True
-    MAP_HAS_FLEET_STEP = True
+    MAP_HAS_FLEET_STEP = False
     MAP_HAS_AMBUSH = False
+    MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
 
 class Campaign(CampaignBase):
     MAP = MAP
+    ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
 
     def battle_0(self):
         if self.clear_siren():
+            return True
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
             return True
 
         return self.battle_default()
