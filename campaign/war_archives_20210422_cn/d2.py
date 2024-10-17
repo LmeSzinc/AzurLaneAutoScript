@@ -1,38 +1,38 @@
-from module.campaign.campaign_base import CampaignBase
+from ..campaign_war_archives.campaign_base import CampaignBase
 from module.logger import logger
 from module.map.map_base import CampaignMap
 from module.map.map_grids import RoadGrids, SelectedGrids
 
 from .d1 import Config as ConfigBase
 
-MAP = CampaignMap('D3')
+MAP = CampaignMap('D2')
 MAP.shape = 'I9'
 # MAP.camera_data = ['D2', 'D6', 'D7', 'F2', 'F6', 'F7']
-MAP.camera_data = ['D2', 'D5', 'D7', 'F2', 'F5', 'F7']
-MAP.camera_data_spawn_point = ['F7', 'D7']
+MAP.camera_data = ['D3', 'D5', 'D7', 'F3', 'D5', 'F7']
+MAP.camera_data_spawn_point = ['D2']
 MAP.map_data = """
-    -- ME -- -- Me -- -- ME --
-    ME -- ++ ++ -- ++ ++ -- ME
-    -- ++ ++ MS -- MS ++ ++ --
-    -- ++ Me -- -- -- Me ++ --
-    ME -- -- -- MB -- -- -- ME
-    -- ++ MS -- __ -- MS ++ --
-    -- ++ ++ Me -- Me ++ ++ --
-    ME -- ++ ++ -- ++ ++ -- ME
-    -- ME -- SP -- SP -- ME --
+    -- SP -- -- -- MS -- ME --
+    SP -- -- ++ MS -- ++ -- ME
+    -- -- __ -- ++ -- -- ++ --
+    -- ++ Me -- Me ++ -- -- ME
+    -- MS ++ -- -- -- ++ ME --
+    MS -- -- ++ Me -- Me ++ --
+    -- ++ -- -- ++ -- -- -- --
+    ME -- ++ -- ME ++ -- MB ME
+    -- ME -- ME -- -- -- ME --
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50
-    50 50 50 10 10 10 50 50 50
-    50 50 10 10 10 10 10 50 50
-    50 50 10 10 10 10 10 50 50
-    50 50 10 10 50 10 10 50 50
-    50 50 50 10 10 10 50 50 50
+    50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50
 """
-MAP.maze_data = [('A3', 'I3', 'C9', 'G9'), ('E2', 'B5', 'H5', 'E8'), ('C1', 'G1', 'A7', 'I7')]
+MAP.maze_data = [('A4', 'I6'), ('F9', 'D1', 'E5'), ('A7', 'C9', 'G1', 'I3')]
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 2, 'siren': 2},
     {'battle': 1, 'enemy': 1},
@@ -56,7 +56,7 @@ A9, B9, C9, D9, E9, F9, G9, H9, I9, \
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['Warspite', 'Formidable', 'Illustrious']
+    MAP_SIREN_TEMPLATE = ['York', 'Nelson', 'Formidable']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
@@ -65,17 +65,26 @@ class Config(ConfigBase):
     MAP_HAS_AMBUSH = False
     # ===== End of generated config =====
 
-    MAP_SWIPE_MULTIPLY = (1.002, 1.021)
-    MAP_SWIPE_MULTIPLY_MINITOUCH = (0.970, 0.987)
-    MAP_SWIPE_MULTIPLY_MAATOUCH = (0.941, 0.958)
-    INTERNAL_LINES_HOUGHLINES_THRESHOLD = 40
-    # EDGE_LINES_HOUGHLINES_THRESHOLD = 40
-
 
 class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
+        self.fleet_2_step_on(SelectedGrids([A1]), roadblocks=[])
+        if self.fleet_2_protect():
+            return True
+
+        if self.clear_siren():
+            return True
+
+        if self.clear_enemy(scale=(2,)):
+            return True
+        if self.clear_enemy(scale=(3,)):
+            return True
+
+        return self.battle_default()
+
+    def battle_2(self):
         if self.clear_siren():
             return True
 

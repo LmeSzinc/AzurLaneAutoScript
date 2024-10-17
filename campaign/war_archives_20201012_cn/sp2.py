@@ -1,21 +1,22 @@
+from ..campaign_war_archives.campaign_base import CampaignBase
 from module.logger import logger
 from module.map.map_base import CampaignMap
 from module.map.map_grids import RoadGrids, SelectedGrids
 
-from module.campaign.campaign_base import CampaignBase
+from .sp1 import Config as ConfigBase
 
-MAP = CampaignMap('SP1')
+MAP = CampaignMap('SP2')
 MAP.shape = 'H7'
 MAP.camera_data = ['D2', 'D5', 'E2', 'E5']
-MAP.camera_data_spawn_point = ['D5']
+MAP.camera_data_spawn_point = ['D2', 'E2']
 MAP.map_data = """
-    ME -- ME ++ ++ ++ MB MB
-    ++ -- ME Me __ -- -- MB
-    -- Me -- -- Me Me ME --
-    -- ME ++ -- ME ++ ++ --
-    ME -- ++ MS -- ME -- --
-    -- -- -- ++ -- -- -- ME
-    SP SP -- -- -- ME ME ++
+    -- ME -- SP SP -- -- ME
+    ME ++ -- -- -- -- Me --
+    -- -- -- -- ++ ++ ++ --
+    -- -- Me -- -- -- ME --
+    Me -- ++ ++ ME __ -- MB
+    ME -- -- ++ ME -- Me ++
+    ++ ME -- ME -- MB -- ++
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50
@@ -27,8 +28,8 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 3, 'siren': 1},
-    {'battle': 1, 'enemy': 1},
+    {'battle': 0, 'enemy': 4},
+    {'battle': 1, 'enemy': 3},
     {'battle': 2, 'enemy': 1},
     {'battle': 3, 'enemy': 1},
     {'battle': 4, 'boss': 1},
@@ -43,22 +44,12 @@ A7, B7, C7, D7, E7, F7, G7, H7, \
     = MAP.flatten()
 
 
-class Config:
+class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = []
-    # MOVABLE_ENEMY_TURN = (0,)
-    MAP_HAS_SIREN = True
-    # MAP_HAS_MOVABLE_ENEMY = True
-    MAP_HAS_MAP_STORY = True
+    MAP_HAS_MAP_STORY = False
     MAP_HAS_FLEET_STEP = False
     MAP_HAS_AMBUSH = False
-    MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
-
-    MAP_SIREN_HAS_BOSS_ICON_SMALL = True
-    MAP_SWIPE_MULTIPLY = (1.122, 1.143)
-    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.085, 1.105)
-    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.054, 1.073)
 
 
 class Campaign(CampaignBase):
@@ -66,11 +57,8 @@ class Campaign(CampaignBase):
     ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
 
     def battle_0(self):
-        if self.clear_siren():
-            return True
         if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
             return True
-
         return self.battle_default()
 
     def battle_4(self):
