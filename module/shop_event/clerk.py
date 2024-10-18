@@ -46,7 +46,7 @@ class EventShopClerk(EventShopUI):
             np.array: [[x1, y1], [x2, y2]], location of the pt icon upper-left corner.
         """
         image = self.image_crop((472, 348, 1170, 625), copy=False)
-        similarity = 0.6
+        similarity = 0.5
 
         TEMPLATE_PT_SSR_ICON = Template('./assets/shop/event_cost/Pt.png')
         result = TEMPLATE_PT_SSR_ICON.match_multi(image, similarity=similarity, threshold=5)
