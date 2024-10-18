@@ -4,7 +4,7 @@ from module.base.filter import Filter
 from module.config.config_generated import GeneratedConfig
 
 FILTER_REGEX = re.compile(
-    '^(ship|equip|pt'
+    '^(ship|equip|pt|gachaticket'
     '|meta|skinbox'
     '|array|chip|cat|pr|dr'
     '|augment'
@@ -23,9 +23,9 @@ FILTER = Filter(FILTER_REGEX, FILTER_ATTR)
 
 EVENT_SHOP = {
     'all': """
-        EquipUR > EquipSSR
+        EquipUR > EquipSSR > GachaTicket
         > DR > PR > Array > Chip > CatT3
-        > Meta > Skinbox
+        > Meta > SkinBox
         > Oil > Coin > FoodT1
         > AugmentCore > AugmentEnhanceT2 > AugmentChangeT2 > AugmentChangeT1
         > CatT2 > CatT1 > PlateGeneralT3 > PlateT3 > BoxT4

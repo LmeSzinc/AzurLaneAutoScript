@@ -542,7 +542,7 @@ EventShop:
       - all
       - custom
   CustomFilter: |-
-    EquipUR > EquipSSR
+    EquipUR > EquipSSR > GachaTicket
     > DR > PR > Array > Chip > CatT3
     > Meta > Skinbox
     > Oil > Coin > FoodT1
