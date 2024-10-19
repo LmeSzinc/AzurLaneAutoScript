@@ -1801,7 +1801,8 @@
       },
       "Use2xBook": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "display": "hide"
       },
       "AmbushEvade": {
         "type": "checkbox",

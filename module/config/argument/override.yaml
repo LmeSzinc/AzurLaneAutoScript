@@ -33,6 +33,7 @@ GemsFarming:
     Mode: normal
     UseClearMode: true
     UseFleetLock: true
+    Use2xBook: false
     AmbushEvade: true
   StopCondition:
     RunCount: 0
