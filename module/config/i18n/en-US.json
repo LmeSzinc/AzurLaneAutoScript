@@ -2503,10 +2503,6 @@
     "OperationCoinsPreserve": {
       "name": "Keep X Amount of Operation Coins",
       "help": "Stops task if total operation coins is below this number, and then starts task Meowfficer Farming"
-    },
-    "DisableMeowfficerFarming": {
-      "name": "Disable running Meowfficer Farming with using overflow Action Points",
-      "help": "Run CL1 instead of meowfficer farming when AP and operation coins are enough.\nOperation Coins will still be supplemented by running meowfficer farming."
     }
   },
   "Daemon": {

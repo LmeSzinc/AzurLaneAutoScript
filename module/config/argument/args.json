@@ -9414,10 +9414,6 @@
       "OperationCoinsPreserve": {
         "type": "input",
         "value": 100000
-      },
-      "DisableMeowfficerFarming": {
-        "type": "checkbox",
-        "value": false
       }
     },
     "OpsiFleet": {

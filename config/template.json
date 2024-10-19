@@ -1875,8 +1875,7 @@
     },
     "OpsiHazard1Leveling": {
       "TargetZone": 0,
-      "OperationCoinsPreserve": 100000,
-      "DisableMeowfficerFarming": false
+      "OperationCoinsPreserve": 100000
     },
     "OpsiFleet": {
       "Fleet": 1,

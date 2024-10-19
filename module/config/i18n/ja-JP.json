@@ -2503,10 +2503,6 @@
     "OperationCoinsPreserve": {
       "name": "OpsiHazard1Leveling.OperationCoinsPreserve.name",
       "help": "OpsiHazard1Leveling.OperationCoinsPreserve.help"
-    },
-    "DisableMeowfficerFarming": {
-      "name": "OpsiHazard1Leveling.DisableMeowfficerFarming.name",
-      "help": "OpsiHazard1Leveling.DisableMeowfficerFarming.help"
     }
   },
   "Daemon": {

@@ -744,7 +744,6 @@ OpsiHazard1Leveling:
     option: [ 0, 44, 22 ]
   OperationCoinsPreserve:
     value: 100000
-  DisableMeowfficerFarming: false
 
 # ==================== Tools ====================
 

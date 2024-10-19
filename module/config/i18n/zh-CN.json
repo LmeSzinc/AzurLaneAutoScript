@@ -2503,10 +2503,6 @@
     "OperationCoinsPreserve": {
       "name": "保留 X 个作战补给凭证",
       "help": "作战补给凭证低于 X 时运行短猫相接，不建议修改"
-    },
-    "DisableMeowfficerFarming": {
-      "name": "不使用溢出行动力运行短猫相接",
-      "help": "开启后，在行动力和作战补给凭证均充足时仍然选择运行侵蚀1练级\n作战补给凭证不足时仍然会运行短猫相接进行补充"
     }
   },
   "Daemon": {
