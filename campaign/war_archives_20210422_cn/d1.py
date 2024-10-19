@@ -1,9 +1,9 @@
-from module.campaign.campaign_base import CampaignBase
+from ..campaign_war_archives.campaign_base import CampaignBase
 from module.logger import logger
 from module.map.map_base import CampaignMap
 from module.map.map_grids import RoadGrids, SelectedGrids
 
-MAP = CampaignMap('B1')
+MAP = CampaignMap('D1')
 MAP.shape = 'J8'
 MAP.camera_data = ['D2', 'D6', 'G2', 'G6']
 MAP.camera_data_spawn_point = ['G2', 'D2']
@@ -29,12 +29,12 @@ MAP.weight_data = """
 """
 MAP.maze_data = [('D5', 'I4', 'J6'), ('B4', 'E4', 'D8'), ('C2', 'G2', 'G6')]
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 2, 'siren': 1},
+    {'battle': 0, 'enemy': 2, 'siren': 2},
     {'battle': 1, 'enemy': 1},
     {'battle': 2, 'enemy': 2},
     {'battle': 3, 'enemy': 1},
-    {'battle': 4, 'enemy': 2, 'boss': 1},
-    {'battle': 5, 'enemy': 1},
+    {'battle': 4, 'enemy': 2},
+    {'battle': 5, 'enemy': 1, 'boss': 1},
 ]
 A1, B1, C1, D1, E1, F1, G1, H1, I1, J1, \
 A2, B2, C2, D2, E2, F2, G2, H2, I2, J2, \
@@ -49,7 +49,7 @@ A8, B8, C8, D8, E8, F8, G8, H8, I8, J8, \
 
 class Config:
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['Gloucester', 'York']
+    MAP_SIREN_TEMPLATE = ['York', 'Nelson', 'Formidable']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
@@ -58,21 +58,8 @@ class Config:
     MAP_HAS_AMBUSH = False
     # ===== End of generated config =====
 
-    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (80, 255 - 33),
-        'width': (0.9, 10),
-        'prominence': 10,
-        'distance': 35,
-    }
-    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (255 - 33, 255),
-        'prominence': 10,
-        'distance': 50,
-        # 'width': (0, 7),
-        'wlen': 1000
-    }
-    MAP_WALK_USE_CURRENT_FLEET = True
     MAP_HAS_MAZE = True
+    MAP_WALK_USE_CURRENT_FLEET = True
     MAP_SWIPE_MULTIPLY = (1.207, 1.229)
     MAP_SWIPE_MULTIPLY_MINITOUCH = (1.167, 1.189)
     MAP_SWIPE_MULTIPLY_MAATOUCH = (1.133, 1.153)
@@ -85,7 +72,14 @@ class Campaign(CampaignBase):
         if self.clear_siren():
             return True
 
+        if self.clear_enemy(scale=(1,)):
+            return True
+        if self.clear_enemy(scale=(2,)):
+            return True
+        if self.clear_enemy(scale=(3,)):
+            return True
+
         return self.battle_default()
 
-    def battle_4(self):
-        return self.clear_boss()
+    def battle_5(self):
+        return self.fleet_boss.clear_boss()

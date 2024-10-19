@@ -1,3 +1,4 @@
+import re
 from enum import Enum
 
 import module.config.server as server
@@ -22,7 +23,10 @@ class MetaState(Enum):
 
 
 OCR_BEACON_TIER = Digit(BEACON_TIER, name='OCR_ASH_TIER')
-OCR_META_DAMAGE = Digit(META_DAMAGE, name='OCR_META_DAMAGE')
+if server.server != 'jp':
+    OCR_META_DAMAGE = Digit(META_DAMAGE, name='OCR_META_DAMAGE')
+else:
+    OCR_META_DAMAGE = Digit(META_DAMAGE, letter=(201, 201, 201), name='OCR_META_DAMAGE')
 
 
 class MetaDigitCounter(DigitCounter):
@@ -33,13 +37,20 @@ class MetaDigitCounter(DigitCounter):
         if result.startswith('00/'):
             result = '100/' + result[3:]
 
+        # 23 -> 2/3
+        if re.match(r'^[0123]3$', result):
+            result = f'{result[0]}/{result[1]}'
+
         return result
 
 
 class Meta(UI, MapEventHandler):
 
     def digit_ocr_point_and_check(self, button: Button, check_number: int):
-        point_ocr = MetaDigitCounter(button, letter=(235, 235, 235), threshold=160, name='POINT_OCR')
+        if server.server != 'jp':
+            point_ocr = MetaDigitCounter(button, letter=(235, 235, 235), threshold=160, name='POINT_OCR')
+        else:
+            point_ocr = MetaDigitCounter(button, letter=(192, 192, 192), threshold=160, name='POINT_OCR')
         point, _, _ = point_ocr.ocr(self.device.image)
         if point >= check_number:
             return True
@@ -67,7 +78,7 @@ class Meta(UI, MapEventHandler):
 
 
 def _server_support():
-    return server.server in ['cn', 'en', 'jp','tw']
+    return server.server in ['cn', 'en', 'jp', 'tw']
 
 
 def _server_support_dossier_auto_attack():
@@ -454,7 +465,7 @@ class OpsiAshBeacon(Meta):
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
-            
+
             if self.appear(DOSSIER_LIST, offset=(20, 20)):
                 logger.info('In dossier page')
                 return True

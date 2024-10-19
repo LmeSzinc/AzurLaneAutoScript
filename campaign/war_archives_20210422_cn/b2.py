@@ -1,11 +1,11 @@
-from module.campaign.campaign_base import CampaignBase
+from ..campaign_war_archives.campaign_base import CampaignBase
 from module.logger import logger
 from module.map.map_base import CampaignMap
 from module.map.map_grids import RoadGrids, SelectedGrids
 
-from .d1 import Config as ConfigBase
+from .b1 import Config as ConfigBase
 
-MAP = CampaignMap('D2')
+MAP = CampaignMap('B2')
 MAP.shape = 'I9'
 # MAP.camera_data = ['D2', 'D6', 'D7', 'F2', 'F6', 'F7']
 MAP.camera_data = ['D3', 'D5', 'D7', 'F3', 'D5', 'F7']
@@ -34,13 +34,12 @@ MAP.weight_data = """
 """
 MAP.maze_data = [('A4', 'I6'), ('F9', 'D1', 'E5'), ('A7', 'C9', 'G1', 'I3')]
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 2, 'siren': 2},
+    {'battle': 0, 'enemy': 2, 'siren': 1},
     {'battle': 1, 'enemy': 1},
-    {'battle': 2, 'enemy': 2, 'siren': 1},
+    {'battle': 2, 'enemy': 2},
     {'battle': 3, 'enemy': 1},
     {'battle': 4, 'enemy': 2},
-    {'battle': 5, 'enemy': 1},
-    {'battle': 6, 'boss': 1},
+    {'battle': 5, 'enemy': 1, 'boss': 1},
 ]
 A1, B1, C1, D1, E1, F1, G1, H1, I1, \
 A2, B2, C2, D2, E2, F2, G2, H2, I2, \
@@ -56,7 +55,7 @@ A9, B9, C9, D9, E9, F9, G9, H9, I9, \
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['York', 'Nelson', 'Formidable']
+    MAP_SIREN_TEMPLATE = ['Gloucester', 'York']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
@@ -70,40 +69,10 @@ class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
-        self.fleet_2_step_on(SelectedGrids([A1]), roadblocks=[])
-        if self.fleet_2_protect():
-            return True
-
         if self.clear_siren():
-            return True
-
-        if self.clear_enemy(scale=(2,)):
-            return True
-        if self.clear_enemy(scale=(3,)):
-            return True
-
-        return self.battle_default()
-
-    def battle_2(self):
-        if self.clear_siren():
-            return True
-
-        if self.clear_enemy(scale=(2,)):
-            return True
-        if self.clear_enemy(scale=(3,)):
             return True
 
         return self.battle_default()
 
     def battle_5(self):
-        if self.clear_enemy(scale=(1,)):
-            return True
-        if self.clear_enemy(scale=(2,)):
-            return True
-        if self.clear_enemy(scale=(3,)):
-            return True
-
-        return self.battle_default()
-
-    def battle_6(self):
         return self.fleet_boss.clear_boss()
