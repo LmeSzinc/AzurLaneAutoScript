@@ -49,6 +49,9 @@ class ExpOnBookSelect(DigitCounter):
         if server.server == 'en':
             # Bold `Next:`
             image = image_left_strip(image, threshold=105, length=46)
+        elif server.server == 'jp':
+            # Wide `Next:`
+            image = image_left_strip(image, threshold=105, length=55)
         else:
             image = image_left_strip(image, threshold=105, length=42)
         return image
