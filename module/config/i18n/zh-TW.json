@@ -431,6 +431,13 @@
     "AdbRestart": {
       "name": "在檢測不到設備的時候嘗試重啟adb",
       "help": ""
+    },
+    "SilentStart": {
+      "name": "靜默啓働模擬器",
+      "help": "由Alas啓動模擬器時，選擇最小化將使模擬器最小化運行，選擇靜默將使模擬器靜默運行",
+      "normal": "常規模式",
+      "minimize": "最小化模式",
+      "silent": "靜默模式"
     }
   },
   "EmulatorInfo": {
@@ -507,6 +514,18 @@
     "WhenTaskQueueEmpty": {
       "name": "當任務隊列清空後",
       "help": "無任務時關閉遊戲，能在收菜期間降低 CPU 佔用",
+      "stay_there": "停在原處",
+      "goto_main": "前往主界面",
+      "close_game": "關閉遊戲",
+      "stop_emulator": "關閉模擬器"
+    },
+    "ProcessBufferTime": {
+      "name": "模擬器關閉緩衝 X 分鐘",
+      "help": "噹前時間距離下箇任務小於 X 分鐘時，alas將由關閉模擬器轉爲停在原處，能避免頻緐啓停模擬器\n噹任務隊列清空後關閉模擬器，此設置生傚"
+    },
+    "BufferMethod": {
+      "name": "緩衝時間内",
+      "help": "",
       "stay_there": "停在原處",
       "goto_main": "前往主界面",
       "close_game": "關閉遊戲"
