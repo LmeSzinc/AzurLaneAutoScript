@@ -144,6 +144,9 @@ class ArknightsAutoScript(AzurLaneAutoScript):
     def maa_roguelike(self):
         AssistantHandler(config=self.config, asst=self.asst).roguelike()
 
+    def maa_aftercare_operation(self):
+        AssistantHandler(config=self.config, asst=self.asst).aftercare_operation()
+
     def maa_reclamation_algorithm(self):
         AssistantHandler(config=self.config, asst=self.asst).reclamation_algorithm()
 
