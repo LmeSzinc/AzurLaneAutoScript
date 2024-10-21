@@ -374,26 +374,38 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
             if self.config.GemsFarming_CommonCV == 'any':
                 common_cv['Hermes'] = TEMPLATE_HERMES
 
-            for name, template in common_cv.items():
-                logger.info(f'Search for CV {name}.')
-                self.dock_sort_method_dsc_set()
+            logger.info(f'Search for Common CV.')
+            self.dock_sort_method_dsc_set()
 
+            find_bogue = True
+            common_cv_candidates = {}
+            for name, template in common_cv.items():
                 candidates = [ship for ship in scanner.scan(self.device.image, output=False)
                               if template.match(self.image_crop(ship.button, copy=False), similarity=SIM_VALUE)]
 
-                if candidates:
-                    return candidates
+                if find_bogue:
+                    find_bogue = False
+                    if candidates:
+                        logger.info(f'Find Common CV {name}.')
+                        return candidates
 
-                logger.info(f'No suitable CV {name} was found, try reversed order.')
-                self.dock_sort_method_dsc_set(False)
+                common_cv_candidates[name] = candidates
 
+            logger.info(f'No suitable CV was found, try reversed order.')
+            self.dock_sort_method_dsc_set(False)
+
+            for name, template in common_cv.items():
                 candidates = [ship for ship in scanner.scan(self.device.image)
                               if template.match(self.image_crop(ship.button, copy=False), similarity=SIM_VALUE)]
 
                 if candidates:
+                    logger.info(f'Find Common CV {name}.')
                     return candidates
+                elif common_cv_candidates[name]:
+                    logger.info(f'Find Common CV {name}.')
+                    self.dock_sort_method_dsc_set()
+                    return common_cv_candidates[name]
 
-            self.dock_sort_method_dsc_set(False)
             return scanner.scan(self.device.image, output=False)
 
         else:
