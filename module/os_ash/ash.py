@@ -97,7 +97,7 @@ class OSAsh(UI, MapEventHandler):
                     ASH_DAILY_STATUS, letter=(235, 235, 235), threshold=160, name='OCR_ASH_DAILY_STATUS')
             else:
                 ocr_collect = DigitCounter(
-                    ASH_COLLECT_STATUS, letter=(193, 193, 193), threshold=160, name='OCR_ASH_COLLECT_STATUS')
+                    ASH_COLLECT_STATUS, letter=(201, 201, 201), threshold=128, name='OCR_ASH_COLLECT_STATUS')
                 ocr_daily = DailyDigitCounter(
                     ASH_DAILY_STATUS, letter=(193, 193, 193), threshold=160, name='OCR_ASH_DAILY_STATUS')
         elif self.image_color_count(ASH_COLLECT_STATUS, color=(140, 142, 140), threshold=221, count=20):
