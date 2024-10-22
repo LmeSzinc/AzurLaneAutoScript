@@ -112,7 +112,7 @@ class GemsEquipmentHandler(EquipmentCodeHandler):
                          key="GemsFarming.GemsFarming.EquipmentCode",
                          ships=['DD', 'bogue', 'hermes', 'langley', 'ranger'])
 
-    def current_ship(self):
+    def current_ship(self, skip_first_screenshot=True):
         """
         Reuse templates in module.retire.assets,
         which needs different rescaling to match each current flagship.
@@ -120,6 +120,18 @@ class GemsEquipmentHandler(EquipmentCodeHandler):
         Pages:
             in: gear_code
         """
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+            
+            # End
+            if not self.appear(EMPTY_SHIP_R):
+                break
+            else:
+                logger.info('Waiting ship icon loading.')
+
         if TEMPLATE_BOGUE.match(self.device.image, scaling=1.46):  # image has rotation
             return 'bogue'
         if TEMPLATE_HERMES.match(self.device.image, scaling=124/89):
