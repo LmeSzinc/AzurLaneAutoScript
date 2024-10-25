@@ -181,7 +181,7 @@ class Updater(DeployConfig, GitManager, PipManager):
         return 1
 
     def check_update(self):
-        if False: # self.state in (0, "failed", "finish"):
+        if self.state in (0, "failed", "finish"):
             self.state = self._check_update()
 
     @retry(ExecutionError, tries=3, delay=5, logger=None)
