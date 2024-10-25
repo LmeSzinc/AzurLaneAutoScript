@@ -107,26 +107,26 @@ class EventShop(EventShopClerk, EventShopSelector):
 
     def handle_buy_ship_ssr_unlock(self, items):
         """
-        Will delete all ssr ship items if not unlocking any in the setting.
+        Will delete all locked ssr ship items if not unlocking any in the setting.
         """
         ships = self.items_get_items(items, name="ShipSSR")
+        ships = [ship for ship in ships if ship.tag == "unobtained"]
 
         if ships == []:
             return items
         
         _items = []
         for item in items:
-            if not item.name in ["ShipSSR"]:
+            if not item in ships:
                 _items.append(item)
 
         if not self.config.EventShop_UnlockShipSSR:
             return _items
             
-        parse_ships = [ship for ship in ships if ship.tag == "unobtained"]
         if self.event_remain_days > 0:
-            self.pt_preserve += sum([ship.price for ship in parse_ships])
+            self.pt_preserve += sum([ship.price for ship in ships])
         else:
-            for ship in parse_ships:
+            for ship in ships:
                 self.event_shop_buy(ship)
                 self._pt = self.event_shop_get_pt()
                 ship.count -= 1
@@ -183,4 +183,7 @@ class EventShop(EventShopClerk, EventShopSelector):
                     logger.info(f'Not enough pts to buy item: {item.name}, skip.')
                     continue
             skip_get_pts = not self.event_shop_buy(item)
+            if not skip_get_pts and item.name == "ShipSSR" and item.count > 1:
+                item.count -= 1
+                items.append(item)
         return True
