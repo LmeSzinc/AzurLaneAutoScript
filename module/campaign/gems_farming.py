@@ -268,20 +268,6 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
 
     def _fleet_back_hard(self):
         self.ui_back(self.page_fleet_check_button)
-        
-    def equip_take_off(self, index_list=range(0, 5)):
-        if self.config.GemsFarming_EnableEquipmentCode:
-            self.clear_all_equip()
-        else:
-            self.ship_equipment_record_image(index_list=index_list)
-            self._equip_take_off_one()
-
-    def equip_take_on(self, index_list=range(0, 5)):
-        if self.config.GemsFarming_EnableEquipmentCode:
-            self.apply_equip_code()
-        else:
-            self._equip_take_off_one()
-            self.equipment_take_on(index_list=index_list)
 
     def flagship_change(self):
         """
@@ -300,7 +286,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
         if self.change_flagship_equip:
             logger.hr('Unmount flagship equipments', level=2)
             self._ship_detail_enter(self.FLEET_ENTER_FLAGSHIP)
-            self.equip_take_off(index_list)
+            self.clear_all_equip()
             self._fleet_back() 
 
         logger.hr('Change flagship', level=2)
@@ -310,7 +296,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
         if self.change_flagship_equip:
             logger.hr('Mount flagship equipments', level=2)
             self._ship_detail_enter(self.FLEET_ENTER_FLAGSHIP)
-            self.equip_take_on(index_list)
+            self.apply_equip_code()
             self._fleet_back()
 
         return success
@@ -327,7 +313,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
         if self.change_vanguard_equip:
             logger.hr('Unmount vanguard equipments', level=2)
             self._ship_detail_enter(self.FLEET_ENTER)
-            self.equip_take_off()
+            self.clear_all_equip()
             self._fleet_back()
 
         logger.hr('Change vanguard', level=2)
@@ -337,7 +323,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
         if self.change_vanguard_equip:
             logger.hr('Mount vanguard equipments', level=2)
             self._ship_detail_enter(self.FLEET_ENTER)
-            self.equip_take_on()
+            self.apply_equip_code()
             self._fleet_back()
 
         return success

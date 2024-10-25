@@ -320,7 +320,6 @@
       "CommonCV": "any",
       "ChangeVanguard": "ship_equip",
       "CommonDD": "any",
-      "EnableEquipmentCode": true,
       "EquipmentCode": "DD: null\nbogue: null\nhermes: null\nlangley: null\nranger: null",
       "ALLowHighFlagshipLevel": false,
       "ALLowLowVanguardLevel": false,
