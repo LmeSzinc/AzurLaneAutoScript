@@ -104,21 +104,26 @@ class EventShopItem(Item):
     def identify_name(self):
         if not self.name.isdigit():
             return
-        if self.price == 8000 and self.cost == "Pt":
+        elif self.price == 8000 and self.cost == "Pt":
             self.name = "ShipSSR"
-        if self.price in [200, 300] and self.cost == "URPt":
+        elif self.price in [200, 300] and self.cost == "URPt":
             self.name = "ShipUR"
-        if self.price == 2000 and self.cost == "Pt":
+        elif self.price == 2000 and self.cost == "Pt":
             if self.total_count == 4:
                 self.name = "Meta"
             elif self.total_count == 10:
                 self.name = "SkinBox"
             elif self.total_count == 1:
                 self.name = "EquipSSR"
-        if self.price == 10000 and self.cost == "URPt":
+        elif self.price == 10000 and self.cost == "URPt":
             self.name = "EquipUR"
-        if self.price == 150 and self.cost == "Pt" and self.total_count == 500:
+        elif self.price == 150 and self.cost == "Pt" and self.total_count == 500:
             self.name = "PtUR"
+        else:
+            if self.cost == "Pt":
+                self.name = "EquipSSR"
+            elif self.cost == "URPt":
+                self.name = "EquipUR"
 
 
 class EventShopItemGrid(ItemGrid):
