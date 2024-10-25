@@ -1,4 +1,4 @@
-from .campaign_base import CampaignBase
+from .campaign_base import CampaignBase, EventGrid
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
@@ -6,8 +6,8 @@ from .t1 import Config as ConfigBase
 
 MAP = CampaignMap('T4')
 MAP.shape = 'J8'
-MAP.camera_data = ['D2', 'D6', 'G2', 'G6']
-MAP.camera_data_spawn_point = ['G2', 'D2']
+MAP.camera_data = ['D4', 'G4', 'E6']
+MAP.camera_data_spawn_point = ['E2']
 MAP.map_data = """
     -- ++ ++ ++ SP SP ++ ++ ++ --
     -- -- -- -- -- -- -- -- -- --
@@ -49,7 +49,7 @@ A8, B8, C8, D8, E8, F8, G8, H8, I8, J8, \
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['gulite_special']
+    MAP_SIREN_TEMPLATE = []
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
@@ -58,11 +58,31 @@ class Config(ConfigBase):
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
+
     STAGE_ENTRANCE = ['half', '20240725']
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (80, 255 - 17),
+        'width': (0.9, 10),
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 17, 255),
+        'prominence': 10,
+        'distance': 50,
+        # 'width': (0, 7),
+        'wlen': 1000
+    }
+    MAP_SWIPE_MULTIPLY = (1.264, 1.287)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.222, 1.245)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.186, 1.208)
+
 
 class Campaign(CampaignBase):
     MAP = MAP
     ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
+
+    grid_class = EventGrid
 
     def battle_0(self):
         if self.clear_siren():

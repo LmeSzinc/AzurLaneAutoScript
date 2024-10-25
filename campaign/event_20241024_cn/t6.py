@@ -2,12 +2,12 @@ from .campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
-from .t1 import Config as ConfigBase
+from .t4 import Config as ConfigBase
 
 MAP = CampaignMap('T6')
 MAP.shape = 'K10'
-MAP.camera_data = ['E3', 'E4', 'G3', 'G4']
-MAP.camera_data_spawn_point = ['G4', 'E4']
+MAP.camera_data = ['E3', 'G3']
+MAP.camera_data_spawn_point = ['F4']
 MAP.map_data = """
     ++ ++ -- -- ++ ++ ++ -- -- ++ ++
     ++ -- -- ME -- MB -- ME -- -- ++
@@ -56,7 +56,7 @@ A10, B10, C10, D10, E10, F10, G10, H10, I10, J10, K10, \
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['fengfan_haigu03']
+    MAP_SIREN_TEMPLATE = ['fengfanhaigu03']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
@@ -65,7 +65,12 @@ class Config(ConfigBase):
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
-    STAGE_ENTRANCE = ['half', '20240725']
+
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'top'
+    MAP_SWIPE_MULTIPLY = (1.124, 1.145)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.087, 1.107)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.055, 1.074)
+
 
 class Campaign(CampaignBase):
     MAP = MAP

@@ -5,7 +5,7 @@ from module.logger import logger
 
 MAP = CampaignMap('T1')
 MAP.shape = 'I8'
-MAP.camera_data = ['D2', 'D6', 'E2', 'E6']
+MAP.camera_data = ['D3', 'D6']
 MAP.camera_data_spawn_point = ['D2']
 MAP.map_data = """
     ++ SP SP ++ ME -- ME -- --
@@ -47,7 +47,7 @@ A8, B8, C8, D8, E8, F8, G8, H8, I8, \
 
 class Config:
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['hemuhao', 'pucimaosi']
+    MAP_SIREN_TEMPLATE = ['Amity', 'Portsmouth']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
@@ -56,10 +56,11 @@ class Config:
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
+
     STAGE_ENTRANCE = ['half', '20240725']
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (80, 255 - 33),
-        'width': (1.5, 10),
+        'width': (0.9, 10),
         'prominence': 10,
         'distance': 35,
     }
@@ -67,19 +68,12 @@ class Config:
         'height': (255 - 33, 255),
         'prominence': 10,
         'distance': 50,
+        # 'width': (0, 7),
         'wlen': 1000
     }
-    HOMO_EDGE_COLOR_RANGE = (0, 33)
-    MAP_ENEMY_GENRE_DETECTION_SCALING = {
-        'DD': 1.111,
-        'CL': 1.111,
-        'CA': 1.111,
-        'CV': 1.111,
-        'BB': 1.111,
-    }
-    MAP_SWIPE_MULTIPLY = (1.067, 1.087)
-    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.032, 1.051)
-    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.002, 1.020)
+    MAP_SWIPE_MULTIPLY = (1.235, 1.258)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.194, 1.216)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.159, 1.180)
 
 
 class Campaign(CampaignBase):
