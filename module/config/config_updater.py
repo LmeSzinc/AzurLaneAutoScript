@@ -393,19 +393,9 @@ class ConfigGenerator:
         Returns:
             list[Event]: From latest to oldest
         """
-        def is_wide_char(char):
-            return '\u4e00' <= char <= '\u9fff' \
-                or '\u3400' <= char <= '\u4dbf' \
-                or '\u3000' <= char <= '\u30ff' \
-                or char in ['、', '！', '（', '）']
         def calc_width(text):
-            width = 0
-            for char in text:
-                if is_wide_char(char):
-                    width += 2
-                else:
-                    width += 1
-            return width
+            return len(text) + len(re.findall(
+                r'[\u3000-\u30ff\u3400-\u4dbf\u4e00-\u9fff、！（）]', text))
 
         lines = []
         data_lines = []
@@ -424,7 +414,6 @@ class ConfigGenerator:
                     line_entries = [x.strip() for x in text.strip('| \n').split('|')]
                     data_lines.append(line_entries)
                     data_width = [calc_width(string) for string in line_entries]
-                    print(data_width)
                     data_widths.append(data_width)
                     column_width = [max(l1, l2) for l1, l2 in zip(column_width, data_width)]
                     if re.search(r'\d{8}', text):
