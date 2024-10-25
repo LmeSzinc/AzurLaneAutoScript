@@ -382,13 +382,38 @@ class ConfigGenerator:
         Returns:
             list[Event]: From latest to oldest
         """
+        def calc_width(text):
+            return len(text) + len(re.findall(
+                r'[\u3000-\u30ff\u3400-\u4dbf\u4e00-\u9fff、！（）]', text))
+
+        lines = []
+        data_lines = []
+        data_widths = []
+        column_width = [4]*7  # `:---`
         events = []
         with open('./campaign/Readme.md', encoding='utf-8') as f:
             for text in f.readlines():
-                if re.search(r'\d{8}', text):
-                    event = Event(text)
-                    events.append(event)
-
+                if not re.search(r'^\|.+\|$', text):
+                    # not a table line
+                    lines.append(text)
+                elif re.search(r'^.*\-{3,}.*$', text):
+                    # is a delimiter line
+                    continue
+                else:
+                    line_entries = [x.strip() for x in text.strip('| \n').split('|')]
+                    data_lines.append(line_entries)
+                    data_width = [calc_width(string) for string in line_entries]
+                    data_widths.append(data_width)
+                    column_width = [max(l1, l2) for l1, l2 in zip(column_width, data_width)]
+                    if re.search(r'\d{8}', text):
+                        event = Event(text)
+                        events.append(event)
+        for i, (line, old_width) in enumerate(zip(data_lines, data_widths)):
+            lines.append('| ' + ' | '.join([cell+' '*(width-length) for cell, width, length in zip(line, column_width, old_width)]) + ' |\n')
+            if i == 0:
+                lines.append('| ' + ' | '.join([':'+'-'*(width-1) for width in column_width]) + ' |\n')
+        with open('./campaign/Readme.md', 'w', encoding='utf-8') as f:
+            f.writelines(lines)
         return events[::-1]
 
     def insert_event(self):
