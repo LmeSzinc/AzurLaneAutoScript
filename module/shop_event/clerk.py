@@ -49,10 +49,14 @@ class EventShopClerk(EventShopUI):
         similarity = 0.5
 
         TEMPLATE_PT_SSR_ICON = Template('./assets/shop/event_cost/Pt.png')
-        result = TEMPLATE_PT_SSR_ICON.match_multi(image, similarity=similarity, threshold=5)
+        result = TEMPLATE_PT_SSR_ICON.match_multi(image, similarity=similarity, threshold=15)
         if self.event_shop_has_pt_ur:
             TEMPLATE_PT_UR_ICON = Template('./assets/shop/event_cost/URPt.png')
-            result += TEMPLATE_PT_UR_ICON.match_multi(image, similarity=similarity, threshold=5)
+            result += TEMPLATE_PT_UR_ICON.match_multi(image, similarity=similarity, threshold=15)
+        offsets = [(res.area[0] % 156, res.area[1] % 213) for res in result]
+        offset = max(set(offsets), key=offsets.count, default=(0, 0))
+        result = [res for res in result 
+            if abs(res.area[0] % 156 - offset[0]) < 5 and abs(res.area[1] % 213 - offset[1]) < 5]
         logger.attr('Costs', f'{result}')
         return Points([(0., p.area[1]) for p in result]).group(threshold=5)
 
