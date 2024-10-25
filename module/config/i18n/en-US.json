@@ -1195,6 +1195,10 @@
       "name": "",
       "help": ""
     },
+    "ALLowHighFlagshipLevel": {
+      "name": "ALLow High Flagship Level",
+      "help": "Only Common CV at level 70 will now be used"
+    },
     "ALLowLowVanguardLevel": {
       "name": "ALLow Low Vanguard Level",
       "help": "Destroyers over level 10 will now be used, 49 for Event CD"

@@ -1195,6 +1195,10 @@
       "name": "GemsFarming.EquipmentCode.name",
       "help": "GemsFarming.EquipmentCode.help"
     },
+    "ALLowHighFlagshipLevel": {
+      "name": "GemsFarming.ALLowHighFlagshipLevel.name",
+      "help": "GemsFarming.ALLowHighFlagshipLevel.help"
+    },
     "ALLowLowVanguardLevel": {
       "name": "GemsFarming.ALLowLowVanguardLevel.name",
       "help": "GemsFarming.ALLowLowVanguardLevel.help"

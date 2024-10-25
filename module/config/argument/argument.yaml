@@ -291,6 +291,7 @@ GemsFarming:
       hermes: null
       langley: null
       ranger: null
+  ALLowHighFlagshipLevel: false
   ALLowLowVanguardLevel: false
   FleetNumberInHardMode:
     value: 0

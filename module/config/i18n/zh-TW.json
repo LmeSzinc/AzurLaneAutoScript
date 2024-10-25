@@ -1195,6 +1195,10 @@
       "name": "",
       "help": ""
     },
+    "ALLowHighFlagshipLevel": {
+      "name": "仅更换满级后排",
+      "help": "打開後，更換旗艦時僅會選擇70級的白皮輕航。 \n使用時請保證船塢中有符合條件的艦船。"
+    },
     "ALLowLowVanguardLevel": {
       "name": "可更換低等級前排",
       "help": "倍率打開時，前排等級限制改為10以上即可"

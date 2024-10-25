@@ -1665,6 +1665,10 @@
         "value": "DD: null\nbogue: null\nhermes: null\nlangley: null\nranger: null",
         "mode": "yaml"
       },
+      "ALLowHighFlagshipLevel": {
+        "type": "checkbox",
+        "value": false
+      },
       "ALLowLowVanguardLevel": {
         "type": "checkbox",
         "value": false

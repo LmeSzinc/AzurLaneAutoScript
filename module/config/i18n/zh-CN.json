@@ -1195,6 +1195,10 @@
       "name": "",
       "help": ""
     },
+    "ALLowHighFlagshipLevel": {
+      "name": "仅更换满级后排",
+      "help": "打开后，更换旗舰时仅会选择100级的白皮轻航。\n使用时请保证船坞中有符合条件的舰船。"
+    },
     "ALLowLowVanguardLevel": {
       "name": "可更换低等级前排",
       "help": "倍率打开时，前排等级限制改为10以上即可。若为困难模式（如CD图）改为49级。"

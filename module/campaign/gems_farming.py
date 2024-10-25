@@ -362,9 +362,19 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
         """
 
         logger.hr('FINDING FLAGSHIP')
+
+        if self.config.GemsFarming_ALLowHighFlagshipLevel:
+            if self.config.SERVER in ['cn']:
+                max_level = 100
+            else:
+                max_level = 70
+            min_level = max_level
+        else:
+            max_level = lv
+            min_level = 1
         emotion_lower_bound = 0 if emotion == 0 else self.emotion_lower_bound
         scanner = ShipScanner(
-            level=(1, lv), emotion=(emotion_lower_bound, 150), fleet=self.fleet_to_attack, status='free')
+            level=(min_level, max_level), emotion=(emotion_lower_bound, 150), fleet=self.fleet_to_attack, status='free')
         scanner.disable('rarity')
 
         if self.config.GemsFarming_CommonCV in ['any', 'eagle']:
@@ -547,6 +557,12 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
             self._FLEET_ENTER_FLAGSHIP = self.FLEET_ENTER_FLAGSHIP
             self.FLEET_ENTER_FLAGSHIP = self.FLEET_ENTER_FLAGSHIP_3_POSITION
 
+    def flagship_change_with_emotion(self, ship):
+        target_ship = max(ship, key=lambda s: (s.level, s.emotion))
+        if self.config.GemsFarming_ALLowHighFlagshipLevel:
+            self.set_emotion(target_ship.emotion)
+        self._ship_change_confirm(target_ship.button)
+
     def flagship_change_execute(self):
         """
         Returns:
@@ -562,13 +578,14 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
                       appear_button=self.page_fleet_check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
         self.FLEET_ENTER_FLAGSHIP = self._FLEET_ENTER_FLAGSHIP if not self.hard_mode else self.FLEET_ENTER_FLAGSHIP
         faction = 'eagle' if self.config.GemsFarming_CommonCV == 'eagle' else 'all'
+        extra = 'can_limit_break' if self.config.GemsFarming_ALLowHighFlagshipLevel else 'enhanceable'
         self.dock_filter_set(
-            index='cv', rarity='common', faction=faction, extra='enhanceable', sort='total')
+            index='cv', rarity='common', faction=faction, extra=extra, sort='total')
         self.dock_favourite_set(False)
 
         ship = self.get_common_rarity_cv()
         if ship:
-            self._ship_change_confirm(max(ship, key=lambda s: (s.level, s.emotion)).button)
+            self.flagship_change_with_emotion(ship)
 
             if self.hard_mode:
                 self.FLEET_ENTER_FLAGSHIP = self._FLEET_ENTER_FLAGSHIP
@@ -584,7 +601,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
                 max_level = 70
             ship = self.get_common_rarity_cv(lv=max_level, emotion=0)
             if ship and self.hard_mode:
-                self._ship_change_confirm(max(ship, key=lambda s: (s.level, s.emotion)).button)
+                self.flagship_change_with_emotion(ship)
             else:
                 if self.hard_mode:
                     raise RequestHumanTakeover
@@ -607,6 +624,14 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
                 self.ui_back(check_button=FLEET_PREPARATION)
             self._FLEET_ENTER = self.FLEET_ENTER
             self.FLEET_ENTER = self.FLEET_ENTER_3_POSITION
+
+    def vanguard_change_with_emotion(self, ship):
+        target_ship = max(ship, key=lambda s: s.emotion)
+        if self.config.GemsFarming_ALLowHighFlagshipLevel:
+            self.set_emotion(min(self.get_emotion(), target_ship.emotion))
+        else:
+            self.set_emotion(target_ship.emotion)
+        self._ship_change_confirm(target_ship.button)
 
     def vanguard_change_execute(self):
         """
@@ -641,9 +666,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
         if ship:
             if self.hard_mode:
                 self.FLEET_ENTER = self._FLEET_ENTER
-            target_ship = max(ship, key=lambda s: s.emotion)
-            self.set_emotion(target_ship.emotion)
-            self._ship_change_confirm(target_ship.button)
+            self.vanguard_change_with_emotion(ship)
 
             logger.info('Change vanguard ship success')
             return True
@@ -652,9 +675,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
 
             ship = self.get_common_rarity_dd(emotion=0)
             if ship and self.hard_mode:
-                target_ship = max(ship, key=lambda s: s.emotion)
-                self.set_emotion(target_ship.emotion)
-                self._ship_change_confirm(target_ship.button)
+                self.vanguard_change_with_emotion(ship)
             else:
                 if self.hard_mode:
                     raise RequestHumanTakeover
@@ -680,6 +701,12 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
             return True
 
         return super().triggered_stop_condition(oil_check=oil_check)
+
+    def get_emotion(self):
+        if self.config.Fleet_FleetOrder == 'fleet1_standby_fleet2_all':
+            return self.campaign.config.Emotion_Fleet2Value
+        else:
+            return self.campaign.config.Emotion_Fleet1Value
 
     def set_emotion(self, emotion):
         if self.config.Fleet_FleetOrder == 'fleet1_standby_fleet2_all':

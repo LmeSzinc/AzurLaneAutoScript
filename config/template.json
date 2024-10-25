@@ -322,6 +322,7 @@
       "CommonDD": "any",
       "EnableEquipmentCode": true,
       "EquipmentCode": "DD: null\nbogue: null\nhermes: null\nlangley: null\nranger: null",
+      "ALLowHighFlagshipLevel": false,
       "ALLowLowVanguardLevel": false,
       "FleetNumberInHardMode": 0,
       "StopIFAutoNotEnsured": true,
