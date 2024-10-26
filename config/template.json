@@ -325,6 +325,7 @@
       "ALLowLowVanguardLevel": false,
       "FleetNumberInHardMode": 0,
       "StopIFAutoNotEnsured": true,
+      "DelayTaskIFNoFlagship": true,
       "CommissionLimit": false
     },
     "Campaign": {

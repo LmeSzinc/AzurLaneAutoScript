@@ -296,6 +296,7 @@ GemsFarming:
     value: 0
     option: [ 0, 1, 2 ]
   StopIFAutoNotEnsured: true
+  DelayTaskIFNoFlagship: true
   CommissionLimit: false
 
 # ==================== Event ====================

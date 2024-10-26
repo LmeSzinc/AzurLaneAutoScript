@@ -1682,6 +1682,10 @@
         "type": "checkbox",
         "value": true
       },
+      "DelayTaskIFNoFlagship": {
+        "type": "checkbox",
+        "value": true
+      },
       "CommissionLimit": {
         "type": "checkbox",
         "value": false

@@ -761,7 +761,7 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
                 if self.config.task_switched():
                     self.campaign.ensure_auto_search_exit()
                     self.config.task_stop()
-                elif not success:
+                elif not success and self.config.GemsFarming_DelayTaskIFNoFlagship:
                     self.campaign.ensure_auto_search_exit()
                     self.config.task_delay(minute=30)
                     self.config.task_stop()

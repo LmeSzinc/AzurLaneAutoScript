@@ -1210,6 +1210,10 @@
       "name": "GemsFarming.StopIFAutoNotEnsured.name",
       "help": "GemsFarming.StopIFAutoNotEnsured.help"
     },
+    "DelayTaskIFNoFlagship": {
+      "name": "GemsFarming.DelayTaskIFNoFlagship.name",
+      "help": "GemsFarming.DelayTaskIFNoFlagship.help"
+    },
     "CommissionLimit": {
       "name": "GemsFarming.CommissionLimit.name",
       "help": "GemsFarming.CommissionLimit.help"
