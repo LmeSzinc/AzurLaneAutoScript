@@ -1678,10 +1678,6 @@
           2
         ]
       },
-      "StopIFAutoNotEnsured": {
-        "type": "checkbox",
-        "value": true
-      },
       "DelayTaskIFNoFlagship": {
         "type": "checkbox",
         "value": true

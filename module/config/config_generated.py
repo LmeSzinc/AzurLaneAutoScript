@@ -159,7 +159,6 @@ class GeneratedConfig:
     GemsFarming_ALLowHighFlagshipLevel = False
     GemsFarming_ALLowLowVanguardLevel = False
     GemsFarming_FleetNumberInHardMode = 0  # 0, 1, 2
-    GemsFarming_StopIFAutoNotEnsured = True
     GemsFarming_DelayTaskIFNoFlagship = True
     GemsFarming_CommissionLimit = False
 

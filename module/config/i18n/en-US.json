@@ -1153,7 +1153,7 @@
   "GemsFarming": {
     "_info": {
       "name": "Commission Farming Settings",
-      "help": "Warning: This task allows players to get a small amount of gems, but not an efficient way to farm.\nPlayers who have recently started Azur Lane are easily superstitious about 0LB and low oil consumption, while being ignorant about character leveling.\nRunning this function will only make you feel fulfilled however in reality your account will not actually progress very much.\nThe main purpose of this task is to get extra cubes for players with a formed lineup. Please rationally treat gems as a by-product.\n\nFleet 1 is expected to consist of 1 0LB CV/CVL and 1 0LB Vanguard, Fleet 2 is expected to consist of support ships such as New Jersey or Shinano to provide external battle assistance.\nFor information about the drop mechanism/rate of urgent commissions, you can refer to <https://bbs.nga.cn/read.php?tid=27134956> (in Chinese Simplified)"
+      "help": "Warning: This task allows players to get a small amount of gems, but not an efficient way to farm.\nPlayers who have recently started Azur Lane are easily superstitious about 0LB and low oil consumption, while being ignorant about character leveling.\nRunning this function will only make you feel fulfilled however in reality your account will not actually progress very much.\nThe main purpose of this task is to get extra cubes for players with a formed lineup. Please rationally treat gems as a by-product.\n\nFleet 1 is expected to consist of 1 0LB CV/CVL and 1 0LB Vanguard, Fleet 2 is expected to consist of support ships such as New Jersey or Shinano to provide external battle assistance.\nFor information about the drop mechanism/rate of urgent commissions, you can refer to <https://bbs.nga.cn/read.php?tid=27134956> (in Chinese Simplified)When it is not possible to set the fleet function, stop the task in the following way to avoid cross-fleet teaming out and oil being consumed heavily: \n If an error push is set then push the message that the task is stopped and stop the task. \n If no error push is set then simply stop the Alas."
     },
     "ChangeFlagship": {
       "name": "Change Flagship",
@@ -1205,10 +1205,6 @@
       "0": "Not a hard mode",
       "1": "Fleet 1",
       "2": "Fleet 2"
-    },
-    "StopIFAutoNotEnsured": {
-      "name": "Stop task if not ensured",
-      "help": "When it is not possible to set the fleet function, stop the task in the following way to avoid cross-fleet teaming out and oil being consumed heavily: \n If an error push is set then push the message that the task is stopped and stop the task. \n If no error push is set then simply stop the Alas."
     },
     "DelayTaskIFNoFlagship": {
       "name": "Delay task if no common CV",
