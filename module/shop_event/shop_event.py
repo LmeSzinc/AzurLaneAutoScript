@@ -179,7 +179,7 @@ class EventShop(EventShopClerk, EventShopSelector):
                     logger.info(f'Not enough pts to buy item: {item.name}, stop.')
                     break
                 else:
-                    logger.info(f"URPt: {self._pt_ur}, price: {item.price}")
+                    logger.info(f"Pt: {self._pt}, price: {item.price}")
                     logger.info(f'Not enough pts to buy item: {item.name}, skip.')
                     continue
             skip_get_pts = not self.event_shop_buy(item)
