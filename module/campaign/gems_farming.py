@@ -739,7 +739,8 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
                     raise GameStuckError
 
             # End
-            if self._trigger_lv32 or self._trigger_emotion:
+            if (self._trigger_lv32 and not self.config.GemsFarming_ALLowHighFlagshipLevel) \
+                    or self._trigger_emotion:
                 success = True
                 if self.change_flagship:
                     success = self.flagship_change()
