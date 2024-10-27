@@ -9423,6 +9423,10 @@
       "OperationCoinsPreserve": {
         "type": "input",
         "value": 100000
+      },
+      "DoScanningDevice": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "OpsiFleet": {

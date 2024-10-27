@@ -2504,6 +2504,10 @@
     "OperationCoinsPreserve": {
       "name": "保留 X 個作戰補給憑證",
       "help": "作戰補給憑證低於 X 時運行短猫相接，不建議修改"
+    },
+    "DoScanningDevice": {
+      "name": "做塞壬探測裝置",
+      "help": "消耗紫幣換取黃幣"
     }
   },
   "Daemon": {

@@ -2504,6 +2504,10 @@
     "OperationCoinsPreserve": {
       "name": "OpsiHazard1Leveling.OperationCoinsPreserve.name",
       "help": "OpsiHazard1Leveling.OperationCoinsPreserve.help"
+    },
+    "DoScanningDevice": {
+      "name": "OpsiHazard1Leveling.DoScanningDevice.name",
+      "help": "OpsiHazard1Leveling.DoScanningDevice.help"
     }
   },
   "Daemon": {

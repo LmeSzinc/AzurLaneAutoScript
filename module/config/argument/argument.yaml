@@ -742,8 +742,8 @@ OpsiHazard1Leveling:
   TargetZone:
     value: 0
     option: [ 0, 44, 22 ]
-  OperationCoinsPreserve:
-    value: 100000
+  OperationCoinsPreserve: 100000
+  DoScanningDevice: false
 
 # ==================== Tools ====================
 

@@ -2504,6 +2504,10 @@
     "OperationCoinsPreserve": {
       "name": "保留 X 个作战补给凭证",
       "help": "作战补给凭证低于 X 时运行短猫相接，不建议修改"
+    },
+    "DoScanningDevice": {
+      "name": "做塞壬探测装置",
+      "help": "消耗紫币换取黄币"
     }
   },
   "Daemon": {
