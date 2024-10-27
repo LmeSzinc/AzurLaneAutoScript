@@ -20,7 +20,10 @@ from module.ui.page import page_reward
 from module.ui_white.assets import REWARD_2_WHITE, REWARD_GOTO_TACTICAL_WHITE
 
 SKILL_GRIDS = ButtonGrid(origin=(315, 140), delta=(621, 132), button_shape=(621, 119), grid_shape=(1, 3), name='SKILL')
-SKILL_LEVEL_GRIDS = SKILL_GRIDS.crop(area=(406, 98, 618, 116), name='EXP')
+if server.server != 'jp':
+    SKILL_LEVEL_GRIDS = SKILL_GRIDS.crop(area=(406, 98, 618, 116), name='EXP')
+else:
+    SKILL_LEVEL_GRIDS = SKILL_GRIDS.crop(area=(406, 98, 621, 118), name='EXP')
 
 
 class ExpOnBookSelect(DigitCounter):
@@ -49,6 +52,9 @@ class ExpOnBookSelect(DigitCounter):
         if server.server == 'en':
             # Bold `Next:`
             image = image_left_strip(image, threshold=105, length=46)
+        elif server.server == 'jp':
+            # Wide `Next:`
+            image = image_left_strip(image, threshold=105, length=55)
         else:
             image = image_left_strip(image, threshold=105, length=42)
         return image
@@ -81,6 +87,9 @@ class ExpOnSkillSelect(Ocr):
         if server.server == 'en':
             # Bold `Next:`
             image = image_left_strip(image, threshold=105, length=46)
+        elif server.server == 'jp':
+            # Wide `Next:`
+            image = image_left_strip(image, threshold=105, length=53)
         else:
             image = image_left_strip(image, threshold=105, length=42)
         return image

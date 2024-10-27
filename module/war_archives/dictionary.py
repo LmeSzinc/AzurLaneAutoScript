@@ -31,4 +31,9 @@ dic_archives_template = {
     'war_archives_20190314_en': TEMPLATE_PRELUDE_UNDER_THE_MOON,
     'war_archives_20200312_cn': TEMPLATE_THE_SOLOMON_RANGER,
     'war_archives_20200507_cn': TEMPLATE_THE_WAY_HOME_IN_THE_NIGHT,
+    'war_archives_20201012_cn': TEMPLATE_SUNDERED_BLUE,
+    'war_archives_20211111_cn': TEMPLATE_THE_FLAME_TOUCHED_DAGGER,
+    'war_archives_20210916_cn': TEMPLATE_UPON_THE_SHIMMERING_BLUE,
+    'war_archives_20210422_cn': TEMPLATE_DAEDALIAN_HYMN,
+    'war_archives_20211229_cn': TEMPLATE_TOWER_OF_TRANSCENDENCE,
 }

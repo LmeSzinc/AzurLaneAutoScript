@@ -27,7 +27,7 @@ if server.server != 'jp':
     CARD_EMOTION_GRIDS = CARD_GRIDS.crop(area=(23, 29, 48, 52), name='EMOTION')
 else:
     CARD_LEVEL_GRIDS = CARD_GRIDS.crop(area=(74, 5, 136, 27), name='LEVEL')
-    CARD_EMOTION_GRIDS = CARD_GRIDS.crop(area=(31, 29, 61, 52), name='EMOTION')
+    CARD_EMOTION_GRIDS = CARD_GRIDS.crop(area=(21, 29, 71, 48), name='EMOTION')
 
 DOCK_SCROLL = Scroll(DOCK_SCROLL, color=(247, 211, 66), name='DOCK_SCROLL')
 
