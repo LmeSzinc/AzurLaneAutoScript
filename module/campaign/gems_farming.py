@@ -754,19 +754,22 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
                     break
 
                 self._trigger_lv32 = False
-                self._trigger_emotion = False
                 self.campaign.config.LV32_TRIGGERED = False
                 self.campaign.config.GEMS_EMOTION_TRIGGERED = False
 
                 # Scheduler
                 if self.config.task_switched():
+                    self._trigger_emotion = False
                     self.campaign.ensure_auto_search_exit()
                     self.config.task_stop()
-                elif not success and self.config.GemsFarming_DelayTaskIFNoFlagship:
+                elif not success and (self.config.GemsFarming_DelayTaskIFNoFlagship \
+                        or self._trigger_emotion):
+                    self._trigger_emotion = False
                     self.campaign.ensure_auto_search_exit()
                     self.config.task_delay(minute=30)
                     self.config.task_stop()
 
+                self._trigger_emotion = False
                 continue
             else:
                 break
