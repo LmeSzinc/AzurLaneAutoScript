@@ -167,6 +167,7 @@ class OSShop(PortShop, AkashiShop):
         Pages:
             in: PORT_SUPPLY_CHECK
         """
+        self.os_shop_get_coins()
         items = self.scan_all()
         if not len(items):
             logger.warning('Empty OS shop.')
@@ -174,8 +175,7 @@ class OSShop(PortShop, AkashiShop):
         items = self.items_filter_in_os_shop(items)
         if not len(items):
             logger.warning('Nothing to buy.')
-            return False
-        self.os_shop_get_coins()
+            return False  
         skip_get_coins = True
         items.reverse()
         count = 0
