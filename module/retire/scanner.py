@@ -24,9 +24,11 @@ class EmotionDigit(Digit):
     def pre_process(self, image):
         if server.server == 'jp':
             image_gray = extract_letters(image, letter=(255, 255, 255), threshold=self.threshold)
-            right_side = np.nonzero(image_gray[0:16, :].min(axis=0) > 176)[-1]
-            image = image[:, :right_side[-1]]
-
+            right_side = np.nonzero(image_gray[0:16, :].max(axis=0) > 192)[-1]
+            for i, col in enumerate(right_side):
+                if i < col:
+                    break
+            image = image[:, :i]
         image = super().pre_process(image)
         return image
 
