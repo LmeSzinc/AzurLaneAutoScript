@@ -17,7 +17,7 @@ from module.map.assets import *
 from module.ui.assets import *
 from module.ui.page import page_campaign_menu
 from module.ui.ui import UI
-
+from module.handler.GG import GGHandler
 
 class LoginHandler(UI):
     def _handle_app_login(self):
@@ -156,9 +156,12 @@ class LoginHandler(UI):
         logger.hr('App restart')
         self.device.app_stop()
         self.device.app_start()
+        GG = GGHandler(self.config, device=self.device)
+        GG.restart_check()
         self.handle_app_login()
         # self.ensure_no_unfinished_campaign()
         self.config.task_delay(server_update=True)
+        GG.apply()
 
     def ensure_no_unfinished_campaign(self, confirm_wait=3):
         """

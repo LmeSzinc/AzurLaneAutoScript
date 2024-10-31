@@ -4,6 +4,9 @@ import imageio
 import numpy as np
 from tqdm.contrib.concurrent import process_map
 
+# import sys
+# sys.path.append('工程根目录')
+
 from module.base.utils import get_bbox, get_color, image_size, load_image
 from module.config.config_manual import ManualConfig as AzurLaneConfig
 from module.config.server import VALID_SERVER
