@@ -79,5 +79,14 @@ class GGHandler(UI):
         self.selet_script() # 选择运行脚本
         self.select_mode() # 选择脚本模式
         self.execute_script() # 点击确定
+        while 1:
+            # 检查GG界面是否关闭
+            if self.appear_then_click(GG_Close_Interface, offset=(30, 30), interval=5):
+                continue
+
+            # End
+            if self.is_in_main():
+                break
+        logger.info('Open GG success')
 
 

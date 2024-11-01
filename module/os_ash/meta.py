@@ -118,9 +118,14 @@ class OpsiAshBeacon(Meta):
             if MetaState.ATTACKING == state:
                 if not self._pre_attack():
                     continue
-                if self._satisfy_attack_condition():
-                    self._make_an_attack()
-                    continue
+                # if self._satisfy_attack_condition():
+                #     self._make_an_attack()
+                #     continue
+                # 仅呼叫支援，不出击
+                logger.info('Ask help success, check after 30 minutes')
+                self.config.task_delay(minute=30)
+                self.config.task_stop()
+                break
             if MetaState.COMPLETE == state:
                 self._handle_ash_beacon_reward()
                 if not self._meta_category in self._meta_receive:
