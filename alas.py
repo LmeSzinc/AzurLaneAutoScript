@@ -158,6 +158,14 @@ class AzurLaneAutoScript:
             with open(f'{folder}/log.txt', 'w', encoding='utf-8') as f:
                 f.writelines(lines)
 
+    def check(self):
+        from module.device.platform import Platform
+        p = Platform(self.config_name)
+        if not p.emulator_check():
+            p.emulator_start()
+            self.config.task_call('Restart')
+            self.is_first_task = False
+
     def reboot(self, use_log=True):
         if use_log:
             logger.warning('Emulator is not running')
@@ -555,14 +563,13 @@ class AzurLaneAutoScript:
                 del_cached_property(self, 'config')
                 logger.info('Server or network is recovered. Restart game client')
                 self.config.task_call('Restart')
+            if self.is_first_check:
+                self.check()
+                self.is_first_check = False
             # Init device and change server
             _ = self.device
             # Get task
             task = self.get_next_task()
-            if self.is_first_check:
-                if not self.device.emulator_check():
-                    self.run('reboot', skip_first_screenshot=True)
-                self.is_first_check = False
             self.device.config = self.config
             # Skip first restart
             if self.is_first_task and task == 'Restart':

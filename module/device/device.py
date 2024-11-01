@@ -70,23 +70,7 @@ class Device(Screenshot, Control, AppControl):
     stuck_long_wait_list = ['BATTLE_STATUS_S', 'PAUSE', 'LOGIN_CHECK']
 
     def __init__(self, *args, **kwargs):
-        for trial in range(4):
-            try:
-                super().__init__(*args, **kwargs)
-                break
-            except EmulatorNotRunningError:
-                if trial >= 3:
-                    logger.critical('Failed to start emulator after 3 trial')
-                    raise RequestHumanTakeover
-                # Try to start emulator
-                if self.emulator_instance is not None:
-                    self.emulator_start()
-                else:
-                    logger.critical(
-                        f'No emulator with serial "{self.config.Emulator_Serial}" found, '
-                        f'please set a correct serial'
-                    )
-                    raise RequestHumanTakeover
+        super().__init__(*args, **kwargs)
 
         # Auto-fill emulator info
         if IS_WINDOWS and self.config.EmulatorInfo_Emulator == 'auto':

@@ -26,6 +26,16 @@ class PlatformWindows(PlatformBase, EmulatorManager):
     hwnds: list = []
     # Pair, contains the hwnd of the focused window and a WINDOWPLACEMENT object.
     focusedwindow: tuple = ()
+    # Implements Singleton pattern and ensures that other classes use multiple instances.
+    _instance = None
+
+    def __new__(cls, *args, **kwargs):
+        if cls is PlatformWindows:
+            if cls._instance is None:
+                cls._instance = super(PlatformWindows, cls).__new__(cls)
+            return cls._instance
+        else:
+            return super(PlatformWindows, cls).__new__(cls)
 
     def __execute(self, command: str, start: bool) -> bool:
         command = hex_or_normalize_path(command)
