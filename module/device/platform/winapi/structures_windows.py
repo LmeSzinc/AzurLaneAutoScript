@@ -1,7 +1,7 @@
 from re import search, fullmatch
 
 from ctypes import \
-    POINTER, Structure as _Structure, WINFUNCTYPE, \
+    POINTER, Structure as _Structure, WINFUNCTYPE, _SimpleCData, _Pointer, _CFuncPtr, \
     c_int32, c_uint32, c_uint64, c_uint16, \
     c_wchar, c_wchar_p, c_void_p, c_ubyte, c_byte, c_long, c_ulong
 from ctypes.wintypes import MAX_PATH, FILETIME as _FILETIME
@@ -20,83 +20,107 @@ class EmulatorLaunchFailedError(WinApiBaseException): ...
 class HwndNotFoundError(WinApiBaseException): ...
 class IterationFinished(WinApiBaseException): ...
 
+def _retrieve_contents(value):
+    try:
+        return value.contents # Pointer to a Structure or a simple CData type
+    except ValueError:
+        return # NULL pointer
+
+def _cmp_objs(obj_a, obj_b, *cmp_types):
+    # Compare two objects of different types
+    return any(isinstance(obj_a, types) and isinstance(obj_b, types) and obj_a == obj_b for types in cmp_types)
+
+def _cmp_ptrs(ptr_a, ptr_b):
+    contents_a, contents_b = _retrieve_contents(ptr_a), _retrieve_contents(ptr_b)
+
+    if contents_a is contents_b is None:
+        return True # Both NULL pointers
+    if contents_a is None or contents_b is None:
+        return False # One NULL pointer and one non-NULL pointer
+    if isinstance(contents_a, _SimpleCData) and isinstance(contents_b, _SimpleCData):
+        return contents_a.value == contents_b.value # Assuming it's a simple CData type
+    return contents_a == contents_b # Assuming it's a Structure, Recursive call Structure.__eq__
+
+def _check_object(value, *valid_types):
+    if isinstance(value, str):
+        return value not in ('', '\x00')
+    return isinstance(value, valid_types) and bool(value)
+
+def _check_ptr(ptr):
+    try:
+        return bool(ptr.contents.value)
+    except AttributeError:
+        return bool(ptr.contents)
+    except ValueError:
+        return False
+
 class Structure(_Structure):
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
         cls.field_name, cls.field_type = zip(*cls._fields_)
 
-    def __eq__(self, other):
-        def eq_obj(x, y, *objs):
-            return any(isinstance(x, obj) and isinstance(y, obj) and x == y for obj in objs)
-        def eq_ptr(x, y):
-            try:
-                return x.contents.value == y.contents.value
-            except AttributeError:
-                return x.contents == y.contents
-            except ValueError:
-                return True
-
+    def __eq__(self, other: 'Structure'):
         if not isinstance(other, self.__class__):
             return NotImplemented
 
-        for name, _type in self._fields_:
-            vself, vother = getattr(self, name), getattr(other, name)
-            if eq_obj(vself, vother, int, str, Structure):
+        for field_name, field_type in self._fields_:
+            self_value, other_value = getattr(self, field_name), getattr(other, field_name)
+            if _cmp_objs(self_value, other_value, int, str, Structure):
+                continue # Simple Python types
+            elif self_value is other_value is None:
+                continue # Both c_void_p
+            elif self_value is None or other_value is None:
+                return False # Two c_void_p pointers, one is NULL and the other is not
+            elif (isinstance(self_value, _Pointer) and
+                  isinstance(other_value, _Pointer) and
+                  _cmp_ptrs(self_value, other_value)):
+                continue # Pointers to the same object
+            elif isinstance(self_value, _CFuncPtr) and isinstance(other_value, _CFuncPtr):
                 continue
-            elif vself is None and vother is None:
-                continue
-            elif eq_ptr(vself, vother):
-                continue
-            match = search(r'\d+$', _type.__name__)
+
+            match = search(r'(\d+)$', field_type.__name__) # Check if it's an array
             if match is None:
-                return False
-            if all(vself[i] == vother[i] for i in range(int(match.group()))):
-                continue
+                return False # Not an array, assume not equal
+            if all(self_value[i] == other_value[i] for i in range(int(match.group(1)))):
+                continue # All elements match
             else:
-                return False
+                return False # Not all elements match
         return True
 
     def __bool__(self):
-        def bool_obj(v, *objs):
-            if isinstance(v, str):
-                return v != '\x00'
-            return isinstance(v, objs) and bool(v)
-        def bool_ptr(val):
-            try:
-                return bool(val.contents.value)
-            except AttributeError:
-                return bool(val.contents)
-            except ValueError:
-                return False
+        for field_name, field_type in self._fields_:
+            field_value = getattr(self, field_name)
+            if _check_object(field_value, int, Structure):
+                return True # Simple Python types
+            if field_value is None:
+                continue # NULL c_void_p
+            if isinstance(field_value, _Pointer) and _check_ptr(field_value):
+                return True # _Pointer to a Structure or a simple CData type
+            if isinstance(field_value, _CFuncPtr):
+                continue
 
-        for name, _type in self._fields_:
-            value = getattr(self, name)
-            if bool_obj(value, int, Structure):
-                return True
-            if value is None:
-                continue
-            if bool_ptr(value):
-                return True
-            match = search(r'\d+$', _type.__name__)
+            match = search(r'(\d+)$', field_type.__name__) # Check if it's an array
             if match is None:
-                continue
-            if any(value[i] for i in range(int(match.group()))):
-                return True
-            else:
-                continue
+                continue # Not an array, assume False
+            try:
+                if any(field_value[i] for i in range(int(match.group(1)))):
+                    return True # At least one element is True
+            except IndexError:
+                continue # Char array
         return False
 
     def __setitem__(self, key, value):
+        length = len(self)
         if isinstance(key, slice):
-            indices = range(*key.indices(len(self)))
+            indices = range(*key.indices(length))
             if len(indices) != len(value):
                 raise ValueError("Value list length does not match slice length")
             for i, val in zip(indices, value):
                 setattr(self, self.field_name[i], val)
         elif isinstance(key, int):
             if key < 0:
-                key += len(self)
-            if key < 0 or key >= len(self):
+                key += length
+            if key < 0 or key >= length:
                 raise IndexError("Index out of range")
             setattr(self, self.field_name[key], value)
         elif isinstance(key, str):
@@ -107,13 +131,14 @@ class Structure(_Structure):
             raise TypeError("Invalid argument type")
 
     def __getitem__(self, item):
+        length = len(self)
         if isinstance(item, slice):
-            indices = range(*item.indices(len(self)))
+            indices = range(*item.indices(length))
             return [getattr(self, self.field_name[i]) for i in indices]
         elif isinstance(item, int):
             if item < 0:
-                item += len(self)
-            if item < 0 or item >= len(self):
+                item += length
+            if item < 0 or item >= length:
                 raise IndexError("Index out of range")
             return getattr(self, self.field_name[item])
         elif isinstance(item, str):
@@ -148,7 +173,7 @@ class Structure(_Structure):
 
     def __repr__(self):
         field_values = ', '.join(f"{name}={getattr(self, name)!r}" for name in self.field_name)
-        return f"{self.__class__.__name__}<{field_values}>"
+        return f"{self.__class__.__name__}({field_values})"
 
     def __str__(self):
         field_values = ', '.join(f"{name}={getattr(self, name)}" for name in self.field_name)
@@ -324,3 +349,20 @@ class MSGBOXPARAMSW(Structure):
         ("lpfnMsgBoxCallback",  MSGBOXCALLBACK),
         ("dwLanguageId",        c_ulong),
     ]
+
+def test_structure():
+    g = globals()
+    structures1 = [g[s]() for s in __all__ if issubclass(g[s], Structure) and g[s] is not Structure]
+    for structure in structures1:
+        print(structure)
+    bools1 = [bool(structure) for structure in structures1]
+    print(bools1)
+    structures1[11][1] = POINTER(PEB)(PEB())
+    print(bool(structures1[11]))
+
+    structures2 = [g[s]() for s in __all__ if issubclass(g[s], Structure) and g[s] is not Structure]
+    bools2 = [structure1 == structure2 for structure1, structure2 in zip(structures1, structures2)]
+    print(bools2)
+
+if __name__ == '__main__':
+    test_structure()

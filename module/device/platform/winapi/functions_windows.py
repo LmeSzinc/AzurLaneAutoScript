@@ -250,13 +250,13 @@ class Handle_(metaclass=ABCMeta):
             self._handle = None
 
     def __bool__(self) -> bool:
-        return not self._is_invalid_handle()
+        return self._is_valid_handle()
 
     @abstractmethod
     def __get_init_args__(self, *args: Any, **kwargs: Any) -> tuple: ...
 
-    def _is_invalid_handle(self) -> bool:
-        return self._handle.value is None
+    def _is_valid_handle(self) -> bool:
+        return self._handle.value is not None
 
 class ProcessHandle(Handle_):
     """

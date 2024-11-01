@@ -345,8 +345,8 @@ def is_running(pid: int = 0, ppid: int = 0) -> bool:
     Check if a process is still running.
 
     Args:
-        pid (int): Parent process ID.
-        ppid (int): Process ID.
+        pid (int): Process ID.
+        ppid (int): Parent Process ID.
 
     Returns:
         bool: True if process is still running, False if process has some condition.

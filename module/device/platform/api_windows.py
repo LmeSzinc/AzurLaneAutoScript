@@ -22,8 +22,6 @@ __all__ = [
     'send_message_box'
 ]
 
-_lock = threading.Lock()
-
 def close_handle(handles: Iterable[Any], *args, fclose=None):
     from itertools import chain
 
@@ -97,41 +95,37 @@ def set_focus_to_window(focusedwindow):
 def refresh_window(focusedwindow, max_attempts=10, interval=0.5):
     from itertools import combinations
 
-    with _lock:
-        attempts = 0
-        prevwindow = None
+    attempts = 0
+    prevwindow = None
 
-        unique = lambda *args: all(x[0].value != y[0].value for x, y in combinations(args, 2))
-        interval = Timer(interval).start()
+    unique = lambda *args: all(x[0].value != y[0].value for x, y in combinations(args, 2))
+    interval = Timer(interval).start()
 
-        while attempts < max_attempts:
-            currentwindow = get_focused_window()
-            if prevwindow and unique(currentwindow, prevwindow, focusedwindow):
-                break
+    while attempts < max_attempts:
+        currentwindow = get_focused_window()
+        if prevwindow is not None and unique(currentwindow, prevwindow, focusedwindow):
+            break
 
-            if unique(focusedwindow, currentwindow):
-                logger.info(f"Current window is {currentwindow[0]}, flash back to {focusedwindow[0]}")
-                set_focus_to_window(focusedwindow)
-                attempts += 1
-                interval.wait()
-                interval.reset()
-                continue
-
+        if unique(focusedwindow, currentwindow):
+            logger.info(f"Current window is {currentwindow[0]}, flash back to {focusedwindow[0]}")
+            set_focus_to_window(focusedwindow)
             attempts += 1
             interval.wait()
             interval.reset()
+            continue
 
-            prevwindow = currentwindow
+        attempts += 1
+        interval.wait()
+        interval.reset()
 
-        del focusedwindow, currentwindow, prevwindow
+        prevwindow = currentwindow
+
+    del focusedwindow, currentwindow, prevwindow
 
 def execute(command, silentstart, start):
     # TODO:Create Process with non-administrator privileges
     logger.info(f"Create Process: {command}")
     focusedwindow               = get_focused_window()
-    if start and silentstart:
-        refresh_thread = threading.Thread(target=refresh_window, name='Refresh-Thread', args=(focusedwindow,))
-        refresh_thread.start()
 
     lpApplicationName           = split_(command)[0]
     lpCommandLine               = command
@@ -169,6 +163,10 @@ def execute(command, silentstart, start):
         byref(lpStartupInfo),
         byref(lpProcessInformation)
     ),  report("Failed to start emulator", exc=EmulatorLaunchFailedError)
+
+    if start and silentstart:
+        refresh_thread = threading.Thread(target=refresh_window, name='Refresh-Thread', args=(focusedwindow,))
+        refresh_thread.start()
 
     if start:
         wait = WaitForInputIdle(lpProcessInformation[0], INFINITE)

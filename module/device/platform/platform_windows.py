@@ -88,7 +88,7 @@ class PlatformWindows(PlatformBase, EmulatorManager):
                 logger.warning(f'Cannot get MuMu instance index from name {instance.name}')
             self._start(f'"{exe}" -v {instance.MuMuPlayer12_id}')
         elif instance == Emulator.LDPlayerFamily:
-            # ldconsole.exe launch --index 0
+            # LDPlayer.exe index=0
             if instance.LDPlayer_id is None:
                 logger.warning(f'Cannot get LDPlayer instance index from name {instance.name}')
             self._start(f'"{exe}" index={instance.LDPlayer_id}')
@@ -180,11 +180,6 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         try:
             func(self.emulator_instance)
             return True
-        except OSError as e:
-            msg = str(e)
-            # OSError: [WinError 740] 请求的操作需要提升。
-            if 'WinError 740' in msg:
-                logger.error('To start/stop MumuAppPlayer, ALAS needs to be run as administrator')
         except EmulatorUnknown as e:
             logger.error(e)
         except EmulatorLaunchFailedError as e:

@@ -26,7 +26,7 @@ class AzurLaneAutoScript:
         # Failure count of tasks
         # Key: str, task name, value: int, failure count
         self.failure_record = {}
-        self.first_check = True
+        self.is_first_check = True
 
     @cached_property
     def config(self):
@@ -101,7 +101,7 @@ class AzurLaneAutoScript:
         except ScriptError as e:
             self.crash_exit(e, 'This is likely to be a mistake of developers, but sometimes just random issues',
                             log_exc=True)
-        except ALASBaseError as e:
+        except ALASBaseException as e:
             if not self.device.emulator_check():
                 self.reboot()
                 return False
@@ -112,19 +112,19 @@ class AzurLaneAutoScript:
                 return False
             self.crash_exit(e, log_exc=True, save=True)
 
-    def crash_exit(self, e, *args, log_exc=False, save=False, msg=''):
+    def crash_exit(self, e: Exception, *msgs, log_exc=False, save=False):
         if log_exc:
             logger.exception(e)
         else:
             logger.critical(e)
-        for arg in args:
-            logger.critical(arg)
+        for msg in msgs:
+            logger.critical(msg)
         if save:
             self.save_error_log()
         handle_notify(
             self.config.Error_OnePushConfig,
             title=f"Alas <{self.config_name}> crashed",
-            content=f"<{self.config_name}> {e.__class__.__name__}{msg}"
+            content=f"<{self.config_name}> {e.__class__.__name__}"
         )
         exit(1)
 
@@ -559,10 +559,10 @@ class AzurLaneAutoScript:
             _ = self.device
             # Get task
             task = self.get_next_task()
-            if self.first_check:
+            if self.is_first_check:
                 if not self.device.emulator_check():
                     self.run('reboot', skip_first_screenshot=True)
-                self.first_check = False
+                self.is_first_check = False
             self.device.config = self.config
             # Skip first restart
             if self.is_first_task and task == 'Restart':
@@ -590,7 +590,7 @@ class AzurLaneAutoScript:
                                 "Please read the help text of the options.")
                 logger.critical("Possible reason #2: There is a problem with this task. "
                                 "Please contact developers or try to fix it yourself.")
-                self.crash_exit(RequestHumanTakeover(), msg=f"\nTask `{task}` failed 3 or more times.")
+                self.crash_exit(RequestHumanTakeover(f"Task `{task}` failed 3 or more times."))
 
             if success:
                 del_cached_property(self, 'config')
