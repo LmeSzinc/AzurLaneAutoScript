@@ -276,11 +276,6 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
         Returns:
             bool: True if flagship changed.
         """
-
-        if self.config.GemsFarming_CommonCV in ['any', 'eagle']:
-            index_list = range(3, 5)
-        else:
-            index_list = range(0, 5)
         logger.hr('Change flagship', level=1)
         logger.attr('ChangeFlagship', self.config.GemsFarming_ChangeFlagship)
         if self.change_flagship_equip:
@@ -477,7 +472,9 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
         ships = scanner.scan(self.device.image)
         if ships:
             # Don't need to change current
-            return ships
+            if self.config.GemsFarming_CommonDD != 'z20_or_z21' or \
+                    ships[0].emotion not in [24, 44, 54, 64, 84]:
+                return ships
 
         scanner.set_limitation(fleet=0)
         self.dock_favourite_set(self.config.GemsFarming_CommonDD == 'favourite')
