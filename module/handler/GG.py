@@ -45,43 +45,46 @@ class GGHandler(UI):
     def restart_check(self):
         logger.hr('GG Restart Check')
         self.click_template(GG_RestarCheck, 'GG Restart Check Success')
-    
-    # 点击GG图标，打开界面
-    def open_interface(self):
-        self.click_template(GG_Logo, '[GG] Open interface success')
 
-    # 选择需要修改的程序
-    def select_game(self):
-        self.click_template(GG_Game_LOGO, '[GG] Select game success')
-
-    # 脚本中断确定
-    def interrupt_check(self):
-        self.click_template(GG_Interrupt_Check, '[GG] Interrupt check success')
-
-    # 选择脚本
-    def selet_script(self):
-        self.click_template(GG_Execute1, '[GG] Execute1 click success')
-        self.click_template(GG_Execute2, '[GG] Execute2 click success')
-
-    # 选择模式
-    def select_mode(self):
-        self.click_template(GG_Select_Mode, '[GG] Select mode success')
-
-    # 点击确定，执行脚本
-    def execute_script(self):
-        self.click_template(GG_Determine1, '[GG] Open script success')
-        self.click_template(GG_Determine2, '[GG] Apply script success')
-
+    # 开启GG
     def apply(self):
         logger.hr('Open GG', level=0)
-        self.open_interface() # 点击图标，打开界面
-        self.select_game()  # 选择程序
-        self.interrupt_check() # 关闭脚本中止弹窗
-        self.selet_script() # 选择运行脚本
-        self.select_mode() # 选择脚本模式
-        self.execute_script() # 点击确定
+        open_interface = False
+        logger.hr('Steps 1', level=2)
+        while 1:
+            self.device.screenshot() # 截图
+
+            if not open_interface:
+                if self.appear_then_click(GG_Logo, offset=(30, 30), interval=5):
+                    open_interface = True # 点击图标，打开界面
+                    continue
+
+            if self.appear_then_click(GG_Game_LOGO, offset=(30, 30), interval=5):
+                continue # 选择程序
+
+            if self.appear_then_click(GG_Interrupt_Check, offset=(30, 30), interval=5):
+                continue  # 关闭脚本中止弹窗
+
+            if self.appear_then_click(GG_Execute1, offset=(30, 30), interval=5):
+                continue  # 选择运行脚本
+
+            if self.appear_then_click(GG_Execute2, offset=(30, 30), interval=5):
+                continue  # 选择运行脚本
+
+            if self.appear_then_click(GG_Select_Mode, offset=(30, 30), interval=5):
+                continue  # 选择脚本模式
+
+            if self.appear_then_click(GG_Determine1, offset=(30, 30), interval=5):
+                break  # 点击确定
+
+        logger.hr('Steps 2', level=2)
+        while 1:
+            self.device.screenshot() # 截图
+            if self.appear_then_click(GG_Determine2, offset=(30, 30), interval=5):
+                break  # 点击确定
         # 检查GG界面是否关闭
-        time.sleep(10)
+        time.sleep(3)
+        self.device.screenshot() # 截图
         self.appear_then_click(GG_Close_Interface, offset=(30, 30), interval=5)
         logger.info('Open GG success')
 

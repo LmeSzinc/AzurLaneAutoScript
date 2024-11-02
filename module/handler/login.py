@@ -86,6 +86,9 @@ class LoginHandler(UI):
             # Always goto page_main
             if self.appear_then_click(GOTO_MAIN, offset=(30, 30), interval=5):
                 continue
+            # GG错误弹窗
+            if self.appear_then_click(GG_RestarCheck, offset=(30, 30), interval=5):
+                continue
 
         return True
 
@@ -156,12 +159,10 @@ class LoginHandler(UI):
         logger.hr('App restart')
         self.device.app_stop()
         self.device.app_start()
-        GG = GGHandler(self.config, device=self.device)
-        GG.restart_check()
         self.handle_app_login()
         # self.ensure_no_unfinished_campaign()
         self.config.task_delay(server_update=True)
-        GG.apply()
+        GGHandler(self.config, device=self.device).apply() # 开启GG
 
     def ensure_no_unfinished_campaign(self, confirm_wait=3):
         """
