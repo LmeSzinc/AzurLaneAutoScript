@@ -3,7 +3,7 @@ from module.campaign.campaign_status import CampaignStatus
 from module.combat.assets import *
 from module.combat.combat import Combat
 from module.exception import CampaignEnd
-from module.handler.assets import AUTO_SEARCH_MAP_OPTION_ON
+from module.handler.assets import AUTO_SEARCH_MAP_OPTION_ON, GET_MISSION
 from module.logger import logger
 from module.map.assets import WITHDRAW
 from module.map.map_operation import MapOperation
@@ -255,6 +255,8 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
             self.emotion.reduce(fleet_index)
         auto = self.config.Fleet_Fleet1Mode if fleet_index == 1 else self.config.Fleet_Fleet2Mode
 
+        confirm_timer = Timer(10)
+        confirm_timer.start()
         while 1:
             self.device.screenshot()
 
@@ -285,10 +287,15 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
             if self.appear_then_click(OPTS_INFO_D, interval=2):
                 self._withdraw = True
                 continue
+            if confirm_timer.reached():
+                self._withdraw = True
+                self.device.click(OPTS_INFO_D)
+                confirm_timer.reset()
+                continue
             if self.appear(BATTLE_STATUS_S) or self.appear(BATTLE_STATUS_A) or self.appear(BATTLE_STATUS_B) \
                     or self.appear(BATTLE_STATUS_C) or self.appear(EXP_INFO_S) or self.appear(EXP_INFO_A) \
-                    or self.appear(EXP_INFO_B) or self.appear(EXP_INFO_C) \
-                    or self._withdraw or self.is_auto_search_running():
+                    or self.appear(EXP_INFO_B) or self.appear(EXP_INFO_C) or self.appear(GET_MISSION) \
+                    or self.is_auto_search_running():
                 self.device.screenshot_interval_set()
                 break
 
