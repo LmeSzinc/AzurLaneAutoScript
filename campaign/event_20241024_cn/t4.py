@@ -1,8 +1,10 @@
-from .campaign_base import CampaignBase, EventGrid
+from module.base.utils import color_similarity_2d
+from .campaign_base import CampaignBase, EventGrid as Grid
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
 from .t1 import Config as ConfigBase
+from module.template.assets import TEMPLATE_ENEMY_BOSS
 
 MAP = CampaignMap('T4')
 MAP.shape = 'J8'
@@ -76,6 +78,20 @@ class Config(ConfigBase):
     MAP_SWIPE_MULTIPLY = (1.264, 1.287)
     MAP_SWIPE_MULTIPLY_MINITOUCH = (1.222, 1.245)
     MAP_SWIPE_MULTIPLY_MAATOUCH = (1.186, 1.208)
+
+
+class EventGrid(Grid):
+    def predict_enemy_genre(self):
+        if self.enemy_scale:
+            return ''
+
+        image = self.relative_crop((-0, -0.2, 0.8, 0.2), shape=(40, 20))
+        image = color_similarity_2d(image, color=(255, 190, 84))
+        if image[image > 221].shape[0] > 30:
+            if TEMPLATE_ENEMY_BOSS.match(image, similarity=0.6, scaling=0.5):
+                return 'Siren_Siren'
+
+        return super().predict_enemy_genre()
 
 
 class Campaign(CampaignBase):
