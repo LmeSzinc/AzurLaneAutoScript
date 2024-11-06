@@ -281,10 +281,11 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
                 self.device.screenshot_interval_set()
                 raise CampaignEnd
             if self.is_combat_executing():
+                confirm_timer.reset()
                 continue
             if self.handle_get_ship():
                 continue
-            if self.appear_then_click(OPTS_INFO_D, interval=2):
+            if self.appear_then_click(OPTS_INFO_D, offset=(30, 30), interval=2):
                 self._withdraw = True
                 continue
             if confirm_timer.reached():
