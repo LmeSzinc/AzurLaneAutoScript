@@ -255,7 +255,7 @@ class FleetOperator:
         # Check the brightness of the rightest column of the bar area.
         luma = rgb2gray(self.main.image_crop(self._bar.button, copy=False))[:, -1]
         # FLEET_PREPARATION is about 146~155
-        return np.sum(luma > 168) / luma.size > 0.5
+        return np.sum(luma > 168) / luma.size > 0.1
 
     def ensure_to_be(self, index):
         """
