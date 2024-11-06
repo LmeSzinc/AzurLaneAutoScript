@@ -449,12 +449,16 @@ class RewardTacticalClass(Dock):
 
             # Popups
             if self.appear_then_click(REWARD_2, offset=(20, 20), interval=3):
+                self.interval_reset(REWARD_2_WHITE)
                 continue
             if self.appear_then_click(REWARD_2_WHITE, offset=(20, 20), interval=3):
+                self.interval_reset(REWARD_2)
                 continue
             if self.appear_then_click(REWARD_GOTO_TACTICAL, offset=(20, 20), interval=3):
+                self.interval_reset(REWARD_GOTO_TACTICAL_WHITE)
                 continue
             if self.appear_then_click(REWARD_GOTO_TACTICAL_WHITE, offset=(20, 20), interval=3):
+                self.interval_reset(REWARD_GOTO_TACTICAL)
                 continue
             if self.ui_main_appear_then_click(page_reward, interval=3):
                 continue
