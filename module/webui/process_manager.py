@@ -1,6 +1,7 @@
-import argparse
 import os
 import queue
+import ctypes
+import argparse
 import threading
 from multiprocessing import Process
 from typing import Dict, List, Union
@@ -8,6 +9,16 @@ from typing import Dict, List, Union
 import inflection
 from filelock import FileLock
 from rich.console import Console, ConsoleRenderable
+
+# This will be executed when subprocess starts
+# In order for MAA submodule to exexute,
+# it is necessary to load runtime before module PIL
+if os.name == 'nt':
+    try:
+        ctypes.WinDLL(os.path.join(os.environ['SystemRoot'], 'System32/vcruntime140_1.dll'))
+        ctypes.WinDLL(os.path.join(os.environ['SystemRoot'], 'System32/msvcp140.dll'))
+    except Exception:
+        pass
 
 from module.config.utils import filepath_config
 from module.logger import logger, set_file_logger, set_func_logger

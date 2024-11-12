@@ -50,14 +50,13 @@ class Asst:
         platform_type = platform.system().lower()
         if platform_type == 'windows':
             lib_import_func = ctypes.WinDLL
-            # Todo: MAA v4.12.0正式版更新之后删除
-            # 手动加载onnxruntime.dll以避免部分版本的python错误地从System32加载旧版本
             try:
-                lib_import_func(str(pathlib.Path(path) / 'onnxruntime.dll'))
-            except Exception as e:
-                print(e)
+                # Override by System32 dll
+                lib_import_func.WinDLL(os.path.join(os.environ['SystemRoot'], 'System32/vcruntime140_1.dll'))
+                lib_import_func(os.path.join(os.environ['SystemRoot'], 'System32/msvcp140.dll'))
                 pass
-            # Todo
+            except Exception:
+                pass
         else:
             lib_import_func = ctypes.CDLL
 
