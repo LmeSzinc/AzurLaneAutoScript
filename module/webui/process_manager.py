@@ -1,6 +1,7 @@
-import argparse
 import os
+import sys
 import queue
+import argparse
 import threading
 from multiprocessing import Process
 from typing import Dict, List, Union
@@ -140,6 +141,10 @@ class ProcessManager:
         set_func_logger(func=q.put)
 
         from module.config.config import AzurLaneConfig
+
+        # Remove fake PIL module, because subprocess will use it
+        sys.modules.pop('PIL', None)
+        sys.modules.pop('PIL.Image', None)
 
         AzurLaneConfig.stop_event = e
         try:

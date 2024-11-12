@@ -1,8 +1,17 @@
+import sys
 import threading
+from types import ModuleType
 from multiprocessing import Event, Process
 
 from module.logger import logger
 from module.webui.setting import State
+
+# Use fake module to avoid importing unnecessary module PIL
+fake_pil_module = ModuleType('PIL')
+fake_pil_module.Image = ModuleType('PIL.Image')
+fake_pil_module.Image.Image = type('MockPILImage', (), dict(__init__=None))
+sys.modules['PIL'] = fake_pil_module
+sys.modules['PIL.Image'] = fake_pil_module.Image
 
 
 def func(ev: threading.Event):
