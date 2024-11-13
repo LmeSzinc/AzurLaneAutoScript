@@ -269,6 +269,7 @@ class EventShopClerk(EventShopUI):
                     return False
             if amount_finish and self.appear_then_click(SHOP_BUY_CONFIRM_AMOUNT, offset=(20, 20), interval=3):
                 self.interval_reset(SHOP_BUY_CONFIRM_AMOUNT)
+                success = True
                 continue
             if self.handle_popup_confirm('SHOP_BUY'):
                 continue
@@ -312,6 +313,17 @@ class EventShopClerk(EventShopUI):
         Returns:
             bool: if bought
         """
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+            if self.event_shop_obstruct_handle():
+                self.interval_reset(BACK_ARROW)
+                continue
+            if self.appear(BACK_ARROW, interval=5):
+                break
+        
         self.device.click_record.clear()
         EVENT_SHOP_SCROLL.set(item.scroll_pos, main=self, skip_first_screenshot=skip_first_screenshot)
         _item = self.event_shop_get_items_to_buy(name=item.name, price=item.price, tag=item.tag)
