@@ -1,10 +1,14 @@
+# docker build -t hgjazhgj/alas:latest .
+# docker run -v ${PWD}:/app/AzurLaneAutoScript -p 22267:22267 --name alas -it --rm hgjazhgj/alas
+
 FROM python:3.7-slim
 
 WORKDIR /app/AzurLaneAutoScript
 
 COPY requirements.txt /tmp/requirements.txt
 
-RUN sed -ri "s#http://deb.debian.org#http://mirrors.tuna.tsinghua.edu.cn#g" /etc/apt/sources.list.d/debian.sources \
+# Initial download of UiAutomator2 is slow outside of China using appetizer mirror, switch to GitHub
+RUN sed -i "s#http://deb.debian.org#http://mirrors.tuna.tsinghua.edu.cn#g" /etc/apt/sources.list.d/debian.sources \
  && apt update \
  && apt install -y git adb libgomp1 \
  && git config --global --add safe.directory '*' \
@@ -12,8 +16,11 @@ RUN sed -ri "s#http://deb.debian.org#http://mirrors.tuna.tsinghua.edu.cn#g" /etc
  && echo 'Asia/Shanghai' > /etc/timezone \
  && pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple \
  && pip install -r /tmp/requirements.txt \
- && pip install mxnet-alas \
  && rm /tmp/requirements.txt \
  && rm -r ~/.cache/pip
 
 CMD python gui.py
+
+# Fix NUC "Loading OCR dependencies" error
+# https://github.com/LmeSzinc/AzurLaneAutoScript/issues/2754
+# docker exec -it alas sh -c "pip install mxnet-alas" && docker restart alas
