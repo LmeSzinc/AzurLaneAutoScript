@@ -10,6 +10,12 @@ import inflection
 from filelock import FileLock
 from rich.console import Console, ConsoleRenderable
 
+# Since this file does not run under the same process or subprocess of app.py
+# the following code needs to be repeated
+# Import fake module before import pywebio to avoid importing unnecessary module PIL
+from module.webui.fake_pil_module import *
+import_fake_pil_module()
+
 from module.config.utils import filepath_config
 from module.logger import logger, set_file_logger, set_func_logger
 from module.submodule.submodule import load_mod
@@ -143,8 +149,7 @@ class ProcessManager:
         from module.config.config import AzurLaneConfig
 
         # Remove fake PIL module, because subprocess will use it
-        sys.modules.pop('PIL', None)
-        sys.modules.pop('PIL.Image', None)
+        remove_fake_pil_module()
 
         AzurLaneConfig.stop_event = e
         try:
