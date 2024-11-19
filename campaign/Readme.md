@@ -219,3 +219,5 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20241017   | coalition 20240627       | Welcome to Little Academy                    | -                      | -                                            | -                                    | 歡迎來到童心學院         |
 | 20241024   | event 20241024 cn        | Tempesta and the Sleeping Sea                | 飓风与沉眠之海         | Tempesta and the Sleeping Sea                | テンペスタと眠りし海                 | -                        |
 | 20241031   | event 20240829 cn        | Whence Flowers Bear No Fruit                 | -                      | -                                            | -                                    | 埋葬於彼岸之花           |
+| 20241114   | event 20220915 cn        | Violet Tempest Blooming Lycoris Rerun        | 复刻紫绛槿岚           | Violet Tempest Blooming Lycoris Rerun        | 赫の涙月 菫の暁風（復刻）            | -                        |
+| 20241114   | event 20240229 cn        | Snowrealm Peregrination                      | -                      | -                                            | -                                    | 雪境迷蹤                 |

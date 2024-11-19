@@ -1,7 +1,28 @@
 import os
 import json
-
+import ctypes
 from cached_property import cached_property
+
+# In order for MAA submodule to exexute,
+# it is necessary to load runtime before module PIL
+if os.name == 'nt':
+    # This DLL is the dependency for next DLL
+    # Try loading to avoid mix different versions of runtime
+    try:
+        ctypes.WinDLL(os.path.join(os.environ['SystemRoot'], 'System32/vcruntime140_1.dll'))
+    except Exception as e:
+        print(e)
+
+    # This DLL must be loaded due to conflict issues
+    ctypes.WinDLL(os.path.join(os.environ['SystemRoot'], 'System32/msvcp140.dll'))
+
+    # These DLLS are other DLLS that MAA depends on
+    # Try loading to avoid mix different versions of runtime
+    try:
+        ctypes.WinDLL(os.path.join(os.environ['SystemRoot'], 'System32/msvcp140_1.dll'))
+        ctypes.WinDLL(os.path.join(os.environ['SystemRoot'], 'System32/concrt140.dll'))
+    except Exception as e:
+        print(e)
 
 from alas import AzurLaneAutoScript
 from module.exception import RequestHumanTakeover
