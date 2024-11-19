@@ -50,11 +50,6 @@ class Asst:
         platform_type = platform.system().lower()
         if platform_type == 'windows':
             lib_import_func = ctypes.WinDLL
-            try:
-                # Override by System32 dll
-                lib_import_func(os.path.join(os.environ['SystemRoot'], 'System32/msvcp140.dll'))
-            except Exception as e:
-                pass
         else:
             lib_import_func = ctypes.CDLL
 
