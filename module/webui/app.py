@@ -1,11 +1,17 @@
-import argparse
+import sys
 import json
-import queue
-import threading
 import time
+import queue
+import argparse
+import threading
+
 from datetime import datetime
 from functools import partial
 from typing import Dict, List, Optional
+
+# Import fake module before import pywebio to avoid importing unnecessary module PIL
+from module.webui.fake_pil_module import import_fake_pil_module
+import_fake_pil_module()
 
 from pywebio import config as webconfig
 from pywebio.input import file_upload, input, input_group, select
