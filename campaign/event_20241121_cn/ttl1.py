@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+from module.config.config import AzurLaneConfig
+>>>>>>> a0f252ea906aa1de2d39efba8bf21f41c3a06a16
 from .campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
@@ -5,13 +9,13 @@ from module.logger import logger
 
 MAP = CampaignMap('TTL1')
 MAP.shape = 'E5'
-MAP.camera_data = ['D3']
-MAP.camera_data_spawn_point = ['D3']
+MAP.camera_data = ['C2']
+MAP.camera_data_spawn_point = ['C2']
 MAP.map_data = """
-    -- ++ ++ ++ --
-    -- -- ++ -- --
-    -- SP -- MB --
-    ++ -- -- -- ++
+    ++ ++ -- ++ ++
+    ++ ++ MB ++ ++
+    -- -- -- -- --
+    ++ -- SP -- ++
     -- ++ ++ ++ --
 """
 MAP.weight_data = """
@@ -44,9 +48,10 @@ class Config:
     # ===== End of generated config =====
 
     STAGE_ENTRANCE = ['half', '20240725']
+    MAP_IS_ONE_TIME_STAGE = True
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (80, 255 - 33),
-        'width': (1.5, 10),
+        'width': (0.9, 10),
         'prominence': 10,
         'distance': 35,
     }
@@ -54,14 +59,13 @@ class Config:
         'height': (255 - 33, 255),
         'prominence': 10,
         'distance': 50,
+        # 'width': (0, 7),
         'wlen': 1000
     }
-    HOMO_EDGE_COLOR_RANGE = (0, 33)
-    MAP_SWIPE_MULTIPLY = (1.187, 1.209)
-    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.148, 1.169)
-    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.115, 1.135)
-    MAP_IS_ONE_TIME_STAGE = True
-    FLEET_2 = 0
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
+    MAP_SWIPE_MULTIPLY = (1.107, 1.128)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.071, 1.091)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.040, 1.059)
 
 
 class Campaign(CampaignBase):
@@ -70,3 +74,11 @@ class Campaign(CampaignBase):
 
     def battle_0(self):
         return self.clear_boss()
+
+
+if __name__ == '__main__':
+    cfg = AzurLaneConfig('alas5').merge(Config())
+    self = Campaign(cfg)
+    self.device.screenshot()
+    self.campaign_set_chapter('ttl1', 'normal')
+    self.ENTRANCE = self.campaign_get_entrance(name='ttl1')

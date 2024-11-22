@@ -5,27 +5,17 @@ from module.logger import logger
 
 MAP = CampaignMap('T1')
 MAP.shape = 'I8'
-MAP.camera_data = ['E3', 'E6']
-MAP.camera_data_spawn_point = ['E3']
+MAP.camera_data = ['E3', 'E6', 'F3', 'F6']
+MAP.camera_data_spawn_point = ['E6']
 MAP.map_data = """
-    -- -- -- -- -- -- -- -- --
-    -- -- SP -- SP -- ME ++ --
     -- ++ -- -- -- -- -- -- --
-    -- ME -- -- -- ++ ME -- ME
-    -- -- Me -- Me ++ -- __ --
+    -- -- ME ++ ++ ++ -- -- --
     -- ME -- MS -- -- -- ME --
-    ++ ++ Me -- Me -- ME -- ME
-    ++ ++ -- MB -- ++ ++ ++ --
-"""
-MAP.map_data_loop = """
-    -- -- -- -- -- -- -- -- --
-    -- -- SP -- SP -- ME ++ --
-    -- ++ -- -- -- -- -- -- --
-    -- ME -- MS -- ++ ME -- ME
-    -- -- Me -- Me ++ -- __ --
-    -- ME -- -- -- -- -- ME --
-    ++ ++ Me -- Me -- ME -- ME
-    ++ ++ -- MB -- ++ ++ ++ --
+    -- -- -- -- Me -- ME -- ME
+    -- Me -- SP ++ ++ -- -- --
+    -- -- -- SP ++ ++ -- ME ++
+    -- ME -- -- Me ME __ -- ++
+    -- ++ ME -- -- -- -- -- MB
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
@@ -38,13 +28,6 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 2, 'siren': 1},
-    {'battle': 1, 'enemy': 2},
-    {'battle': 2, 'enemy': 1},
-    {'battle': 3, 'enemy': 1},
-    {'battle': 4, 'boss': 1},
-]
-MAP.spawn_data_loop = [
     {'battle': 0, 'enemy': 2, 'siren': 1},
     {'battle': 1, 'enemy': 2},
     {'battle': 2, 'enemy': 1},
@@ -64,11 +47,11 @@ A8, B8, C8, D8, E8, F8, G8, H8, I8, \
 
 class Config:
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['SK_DD']
+    MAP_SIREN_TEMPLATE = ['ToLoveNana03']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
-    MAP_HAS_MAP_STORY = True
+    MAP_HAS_MAP_STORY = False
     MAP_HAS_FLEET_STEP = True
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
@@ -77,7 +60,7 @@ class Config:
     STAGE_ENTRANCE = ['half', '20240725']
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (80, 255 - 33),
-        'width': (1.5, 10),
+        'width': (0.9, 10),
         'prominence': 10,
         'distance': 35,
     }
@@ -85,12 +68,12 @@ class Config:
         'height': (255 - 33, 255),
         'prominence': 10,
         'distance': 50,
+        # 'width': (0, 7),
         'wlen': 1000
     }
-    HOMO_EDGE_COLOR_RANGE = (0, 33)
-    MAP_SWIPE_MULTIPLY = (1.187, 1.209)
-    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.148, 1.169)
-    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.115, 1.135)
+    MAP_SWIPE_MULTIPLY = (1.107, 1.128)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.071, 1.091)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.040, 1.059)
 
 
 class Campaign(CampaignBase):

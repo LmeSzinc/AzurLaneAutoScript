@@ -5,20 +5,19 @@ from module.logger import logger
 from .t1 import Config as ConfigBase
 
 MAP = CampaignMap('T5')
-MAP.shape = 'I10'
-MAP.camera_data = ['D2', 'D6', 'D7', 'F2', 'F6', 'F7']
-MAP.camera_data_spawn_point = ['F7', 'D7']
+MAP.shape = 'I9'
+MAP.camera_data = ['E3', 'E5']
+MAP.camera_data_spawn_point = ['E7']
 MAP.map_data = """
-    ++ ++ -- ME -- ME -- ++ ++
-    ++ ++ ME -- MB -- ME ++ ++
-    -- ME -- -- -- -- -- ME --
-    ME -- -- ME -- ME -- -- ME
-    ++ ME -- ++ ++ ++ -- ME ++
-    ++ -- -- Me MS Me -- -- ++
-    -- MS -- -- __ -- -- MS --
-    -- ++ -- SP -- SP -- ++ --
+    -- ++ ++ -- -- -- ++ ++ --
+    -- ++ ++ -- MB -- ++ ++ --
+    ++ ME ME -- -- -- ME ME ++
+    -- -- -- Me -- Me -- -- --
+    -- ME ++ -- -- -- ++ ME --
+    -- ME ++ MS -- MS ++ ME --
     -- -- Me -- MS -- Me -- --
-    ++ ++ ++ -- -- -- ++ ++ ++
+    ++ -- -- -- __ -- -- -- ++
+    ++ ++ ++ SP -- SP ++ ++ ++
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
@@ -30,18 +29,8 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 3, 'siren': 3},
-    {'battle': 1, 'enemy': 2},
-    {'battle': 2, 'enemy': 1},
-    {'battle': 3, 'enemy': 1},
-    {'battle': 4, 'enemy': 1},
-    {'battle': 5},
-    {'battle': 6, 'boss': 1},
-]
-MAP.spawn_data_loop = [
     {'battle': 0, 'enemy': 3, 'siren': 2},
     {'battle': 1, 'enemy': 2, 'siren': 1},
     {'battle': 2, 'enemy': 1},
@@ -59,25 +48,25 @@ A6, B6, C6, D6, E6, F6, G6, H6, I6, \
 A7, B7, C7, D7, E7, F7, G7, H7, I7, \
 A8, B8, C8, D8, E8, F8, G8, H8, I8, \
 A9, B9, C9, D9, E9, F9, G9, H9, I9, \
-A10, B10, C10, D10, E10, F10, G10, H10, I10, \
     = MAP.flatten()
 
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['SK_BB', 'SK_CV']
+    MAP_SIREN_TEMPLATE = ['ToLoveGoldenDarkness05', 'ToLoveYui02']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
-    MAP_HAS_MAP_STORY = True
+    MAP_HAS_MAP_STORY = False
     MAP_HAS_FLEET_STEP = True
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
-    MAP_SWIPE_MULTIPLY = (0.978, 0.997)
-    MAP_SWIPE_MULTIPLY_MINITOUCH = (0.946, 0.963)
-    MAP_SWIPE_MULTIPLY_MAATOUCH = (0.918, 0.935)
+    MAP_WALK_USE_CURRENT_FLEET = True
+    MAP_SWIPE_MULTIPLY = (1.034, 1.053)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.000, 1.018)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (0.971, 0.988)
 
 
 class Campaign(CampaignBase):

@@ -4,44 +4,27 @@ from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
 
 MAP = CampaignMap('SP')
-MAP.shape = 'I9'
-MAP.camera_data = ['D4', 'D6', 'F4', 'F6']
-MAP.camera_data_spawn_point = ['F6', 'D6']
+MAP.shape = 'K6'
+MAP.camera_data = ['E2', 'E4', 'G2', 'G4']
+MAP.camera_data_spawn_point = ['E4']
 MAP.map_data = """
-    ++ ++ ++ ++ ++ ++ ++ ++ ++
-    ++ MS -- -- MS -- -- MS ++
-    ++ -- Me -- -- -- Me -- ++
-    ME -- -- ++ -- ++ -- -- ME
-    -- ME -- -- MB -- -- ME --
-    ME -- -- ++ -- ++ -- -- ME
-    ++ -- Me -- __ -- Me -- ++
-    ++ ME -- SP -- SP -- ME ++
-    ++ ++ ++ ++ -- ++ ++ ++ ++
-"""
-MAP.map_data_loop = """
-    ++ ++ ++ ++ ++ ++ ++ ++ ++
-    ++ -- -- -- -- -- -- -- ++
-    ++ -- Me -- -- -- Me -- ++
-    ME -- -- ++ MS ++ -- -- ME
-    -- ME -- MS MB MS -- ME --
-    ME -- -- ++ -- ++ -- -- ME
-    ++ -- Me -- __ -- Me -- ++
-    ++ -- -- SP -- SP -- -- ++
-    ++ ++ ++ ++ -- ++ ++ ++ ++
+    -- -- -- ME ++ -- ME -- ++ ++ ++
+    ++ ++ ME -- ++ ME -- ME -- ++ ++
+    ++ ++ -- -- -- __ -- -- -- -- --
+    -- SP -- -- MS -- ++ ME -- MB --
+    -- -- -- MS -- ME -- -- -- ++ ++
+    -- SP -- -- MS -- ++ ME ++ ++ ++
 """
 MAP.weight_data = """
-    50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 10, 'siren': 3},
+    {'battle': 0, 'enemy': 8, 'siren': 3},
     {'battle': 1},
     {'battle': 2},
     {'battle': 3},
@@ -50,34 +33,21 @@ MAP.spawn_data = [
     {'battle': 6},
     {'battle': 7, 'boss': 1},
 ]
-MAP.spawn_data_loop = [
-    {'battle': 0, 'enemy': 10, 'siren': 3},
-    {'battle': 1},
-    {'battle': 2},
-    {'battle': 3},
-    {'battle': 4},
-    {'battle': 5},
-    {'battle': 6},
-    {'battle': 7, 'boss': 1},
-]
-A1, B1, C1, D1, E1, F1, G1, H1, I1, \
-A2, B2, C2, D2, E2, F2, G2, H2, I2, \
-A3, B3, C3, D3, E3, F3, G3, H3, I3, \
-A4, B4, C4, D4, E4, F4, G4, H4, I4, \
-A5, B5, C5, D5, E5, F5, G5, H5, I5, \
-A6, B6, C6, D6, E6, F6, G6, H6, I6, \
-A7, B7, C7, D7, E7, F7, G7, H7, I7, \
-A8, B8, C8, D8, E8, F8, G8, H8, I8, \
-A9, B9, C9, D9, E9, F9, G9, H9, I9, \
+A1, B1, C1, D1, E1, F1, G1, H1, I1, J1, K1, \
+A2, B2, C2, D2, E2, F2, G2, H2, I2, J2, K2, \
+A3, B3, C3, D3, E3, F3, G3, H3, I3, J3, K3, \
+A4, B4, C4, D4, E4, F4, G4, H4, I4, J4, K4, \
+A5, B5, C5, D5, E5, F5, G5, H5, I5, J5, K5, \
+A6, B6, C6, D6, E6, F6, G6, H6, I6, J6, K6, \
     = MAP.flatten()
 
 
 class Config:
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['SK_BB', 'SK_CV']
+    # MAP_SIREN_TEMPLATE = ['ToLoveGoldenDarkness05', 'ToLoveYui02']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
-    MAP_HAS_MOVABLE_ENEMY = True
+    MAP_HAS_MOVABLE_ENEMY = False
     MAP_HAS_MAP_STORY = False
     MAP_HAS_FLEET_STEP = False
     MAP_HAS_AMBUSH = False
@@ -87,9 +57,11 @@ class Config:
     STAR_REQUIRE_3 = 0
     # ===== End of generated config =====
 
+    STAGE_ENTRANCE = ['half', '20240725']
+    MAP_IS_ONE_TIME_STAGE = True
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (80, 255 - 33),
-        'width': (1.5, 10),
+        'width': (0.9, 10),
         'prominence': 10,
         'distance': 35,
     }
@@ -97,19 +69,24 @@ class Config:
         'height': (255 - 33, 255),
         'prominence': 10,
         'distance': 50,
+        # 'width': (0, 7),
         'wlen': 1000
     }
-    HOMO_EDGE_COLOR_RANGE = (0, 33)
-    MAP_SWIPE_MULTIPLY = (1.038, 1.058)
-    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.004, 1.023)
-    MAP_SWIPE_MULTIPLY_MAATOUCH = (0.975, 0.992)
     MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
-    MAP_IS_ONE_TIME_STAGE = True
+    MAP_SWIPE_MULTIPLY = (1.192, 1.215)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.153, 1.174)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.119, 1.140)
 
 
 class Campaign(CampaignBase):
     MAP = MAP
     ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
+
+    def map_data_init(self, map_):
+        super().map_data_init(map_)
+        D5.is_siren = True
+        E4.is_siren = True
+        E6.is_siren = True
 
     def battle_0(self):
         if self.clear_siren():

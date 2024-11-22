@@ -6,13 +6,13 @@ from .ttl1 import Config as ConfigBase
 
 MAP = CampaignMap('TTL3')
 MAP.shape = 'E5'
-MAP.camera_data = ['D3']
-MAP.camera_data_spawn_point = ['D3']
+MAP.camera_data = ['C2']
+MAP.camera_data_spawn_point = ['C2']
 MAP.map_data = """
-    -- ++ ++ ++ --
-    -- -- ++ -- --
-    -- SP -- MB --
-    ++ -- -- -- ++
+    ++ ++ -- ++ ++
+    ++ ++ MB ++ ++
+    -- -- -- -- --
+    ++ -- SP -- ++
     -- ++ ++ ++ --
 """
 MAP.weight_data = """

@@ -7,16 +7,18 @@ from .t1 import Config as ConfigBase
 MAP = CampaignMap('T4')
 MAP.shape = 'I8'
 MAP.camera_data = ['D2', 'D6', 'F2', 'F6']
-MAP.camera_data_spawn_point = ['F6', 'D6']
+MAP.camera_data_spawn_point = ['D4']
+# Huge siren on C5 may cover D4
+MAP.map_covered = ['D4']
 MAP.map_data = """
-    ++ ++ ++ ME -- MB -- ME ++
-    ++ MS -- -- ME -- ME -- --
-    ME -- -- ++ -- __ -- -- ++
-    -- ME -- -- -- Me -- -- ++
-    ++ ++ -- MS -- ++ -- MS --
-    ++ ++ -- -- Me ++ Me -- --
-    -- -- ME -- -- -- -- -- ME
-    -- ME -- -- SP -- SP ++ --
+    ++ -- -- -- -- -- -- ME ++
+    ME -- ++ ++ -- ME -- -- ++
+    -- -- ++ ++ -- ++ ME -- --
+    SP -- -- MS -- Me -- -- ME
+    -- -- MS -- Me -- ++ -- --
+    SP -- -- ++ ++ ++ -- ME --
+    ++ ME __ Me -- Me -- -- ME
+    MB -- -- -- -- -- -- ME --
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
@@ -29,14 +31,6 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 3, 'siren': 2},
-    {'battle': 1, 'enemy': 2},
-    {'battle': 2, 'enemy': 1},
-    {'battle': 3, 'enemy': 1},
-    {'battle': 4, 'enemy': 1},
-    {'battle': 5, 'boss': 1},
-]
-MAP.spawn_data_loop = [
     {'battle': 0, 'enemy': 3, 'siren': 2},
     {'battle': 1, 'enemy': 2},
     {'battle': 2, 'enemy': 1},
@@ -57,19 +51,20 @@ A8, B8, C8, D8, E8, F8, G8, H8, I8, \
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['SK_CL', 'SK_CA']
+    MAP_SIREN_TEMPLATE = ['ToLoveHaruna04', 'ToLoveGoldenDarkness05']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
-    MAP_HAS_MAP_STORY = True
+    MAP_HAS_MAP_STORY = False
     MAP_HAS_FLEET_STEP = True
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
-    MAP_SWIPE_MULTIPLY = (1.080, 1.100)
-    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.044, 1.063)
-    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.014, 1.032)
+    MAP_WALK_USE_CURRENT_FLEET = True
+    MAP_SWIPE_MULTIPLY = (1.112, 1.132)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.075, 1.095)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.044, 1.062)
 
 
 class Campaign(CampaignBase):
