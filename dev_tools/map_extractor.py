@@ -274,6 +274,19 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     'tiancheng_m_zhongxun': 'AmagiMasked',
     'tiancheng_m_zhanlie': 'AmagiMasked',
     'tiancheng_m_hangmu': 'AmagiMasked',
+
+    # Tempesta and the Sleeping Sea
+    'hemuhao': 'Amity',
+    'pucimaosi': 'Portsmouth',
+    'mali': 'MaryCeleste',
+    'fengfan_haigu03': 'fengfanhaigu03',
+
+    # Dangerous Inventions Incoming
+    'tolove_renxing01': 'ToLoveNana01',
+    'tolove_renxing02': 'ToLoveYui02',
+    'tolove_renxing03': 'ToLoveNana03',
+    'tolove_renxing04': 'ToLoveHaruna04',
+    'tolove_renxing05': 'ToLoveGoldenDarkness05',
 }
 
 
