@@ -50,7 +50,6 @@ class CampaignBase(CampaignBase_):
             mode (str): 'normal' or 'hard'.
         """
         chapter, stage = self._campaign_separate_name(name)
-        logger.info([chapter, stage])
 
         if chapter in ['t']:
             self.ui_goto_event()
