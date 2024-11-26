@@ -371,14 +371,13 @@ class OpsiAshBeacon(Meta):
         # Page meta main
         if self.appear(ASH_SHOWDOWN, offset=(30, 30), interval=2):
             # Beacon
-            if self.config.OpsiAshBeacon_AttackMode in ['current', 'current_dossier'] \
-                    and self._check_beacon_point():
+            if self._check_beacon_point():
                 self.device.click(META_MAIN_BEACON_ENTRANCE)
                 logger.info('Select beacon entrance into')
                 return True
             # Dossier
             if _server_support() \
-                    and self.config.OpsiAshBeacon_AttackMode in ['dossier', 'current_dossier'] \
+                    and self.config.OpsiAshBeacon_AttackMode == 'current_dossier' \
                     and self._check_dossier_point():
                 if self.appear_then_click(META_MAIN_DOSSIER_ENTRANCE, offset=(20, 20), interval=2):
                     logger.info('Select dossier entrance into')
@@ -388,15 +387,14 @@ class OpsiAshBeacon(Meta):
             return False
         # Page beacon
         elif self.appear(BEACON_LIST, offset=(20, 20), interval=2):
-            if self.config.OpsiAshBeacon_AttackMode in ['current', 'current_dossier'] \
-                    and self._check_beacon_point():
+            if self._check_beacon_point():
                 self.device.click(META_BEGIN_ENTRANCE)
                 logger.info('Begin a beacon')
             return True
         # Page dossier
         elif _server_support() \
                 and self.appear(DOSSIER_LIST, offset=(20, 20), interval=2):
-            if self.config.OpsiAshBeacon_AttackMode in ['dossier', 'current_dossier'] \
+            if self.config.OpsiAshBeacon_AttackMode == 'current_dossier' \
                     and self._check_dossier_point():
                 if self.appear_then_click(META_BEGIN_ENTRANCE, offset=(20, 20), interval=2):
                     logger.info('Begin a dossier')

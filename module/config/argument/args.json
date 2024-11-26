@@ -8568,7 +8568,6 @@
         "value": "current",
         "option": [
           "current",
-          "dossier",
           "current_dossier"
         ]
       },

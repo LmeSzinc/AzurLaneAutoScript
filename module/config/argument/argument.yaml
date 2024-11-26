@@ -678,7 +678,7 @@ OpsiGeneral:
 OpsiAshBeacon:
   AttackMode:
     value: current
-    option: [ current, dossier, current_dossier ]
+    option: [ current, current_dossier ]
   OneHitMode: true
   DossierAutoAttackMode: false
   RequestAssist: true

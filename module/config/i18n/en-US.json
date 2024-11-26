@@ -2297,7 +2297,6 @@
       "name": "META Battle",
       "help": "",
       "current": "Current",
-      "dossier": "Dossier",
       "current_dossier": "Current + Dossier"
     },
     "OneHitMode": {
