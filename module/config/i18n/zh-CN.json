@@ -2297,6 +2297,7 @@
       "name": "META作战",
       "help": "",
       "current": "当期",
+      "dossier": "档案",
       "current_dossier": "当期 + 档案"
     },
     "OneHitMode": {
