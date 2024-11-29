@@ -36,6 +36,13 @@ class SuffixOcr(Ocr):
         if len(left):
             image = image[:, left[-1] - look_back:]
 
+        if server.server in ['jp']:
+            # slice top and bottom part to get clearer roman digits
+            # will need to pad white background for better recognization
+            image = image[8:-10, :]
+            cv2.normalize(image, image, -55, 255, cv2.NORM_MINMAX)
+            image = (image > 128).astype(np.uint8) * 255
+            image = np.pad(image, ((4, 4), (0, 0)), mode='constant', constant_values=255)
         return image
 
 
@@ -167,7 +174,7 @@ class Commission:
         self.genre = self.commission_name_parse(self.name)
 
         # Suffix
-        ocr = SuffixOcr(button, lang='azur_lane', letter=(255, 255, 255), threshold=128, alphabet='IV')
+        ocr = SuffixOcr(button, lang='azur_lane', letter=(201, 201, 201), threshold=128, alphabet='IV')
         self.suffix = self.beautify_name(ocr.ocr(self.image))
 
         # Duration time
