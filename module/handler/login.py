@@ -33,6 +33,12 @@ class LoginHandler(UI):
         login_success = False
 
         while 1:
+            # Make sure device is interactive
+            if not self.device.get_interactive():
+                self.device.wake()
+                self.device.sleep(1)
+                continue
+
             # Watch device rotation
             if not login_success and orientation_timer.reached():
                 # Screen may rotate after starting an app
