@@ -1814,6 +1814,37 @@
       "help": "All options have been defined at <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string>\nHowever unlike other shops, only Chip and Array are supported\nALAS does not browse, scroll, or recognize any other items displayed besides those two"
     }
   },
+  "EventShop": {
+    "_info": {
+      "name": "Event Shop",
+      "help": "Ships will be bought after event ends, and corresponding pts will be preserved."
+    },
+    "Enable": {
+      "name": "Enable Event Shop",
+      "help": ""
+    },
+    "UnlockShipSSR": {
+      "name": "Unlock event SSR ship",
+      "help": "If not enabled, will discard `ShipSSR` and `Meta` in filter string."
+    },
+    "BuyShipUR": {
+      "name": "Buy X event UR ship",
+      "help": "",
+      "0": "0",
+      "1": "1",
+      "2": "2"
+    },
+    "PresetFilter": {
+      "name": "Preset Filter Select",
+      "help": "",
+      "all": "all",
+      "custom": "custom"
+    },
+    "CustomFilter": {
+      "name": "Custom Filter",
+      "help": "To use your own filter, set \"Preset Filter Select\" to \"custom\". All options have been defined at  <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string>"
+    }
+  },
   "ShipyardDr": {
     "_info": {
       "name": "DR Blueprints Purchase Settings",
