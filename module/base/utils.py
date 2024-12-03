@@ -360,9 +360,9 @@ def point2str(x, y, length=4):
         length (int): Align length.
 
     Returns:
-        str: String with numbers right aligned, such as '( 100,  80)'.
+        str: String with numbers right aligned, such as '(_100,__80)'.
     """
-    return '(%s, %s)' % (str(int(x)).rjust(length), str(int(y)).rjust(length))
+    return '(%s, %s)' % (str(int(x)).rjust(length, '_'), str(int(y)).rjust(length, '_'))
 
 
 def col2name(col):
