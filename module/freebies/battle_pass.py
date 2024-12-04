@@ -6,6 +6,7 @@ from module.logger import logger
 from module.ui.assets import BATTLE_PASS_CHECK, REWARD_GOTO_BATTLE_PASS
 from module.ui.page import page_reward
 from module.ui.ui import UI
+from module.ui_white.assets import POPUP_CONFIRM_WHITE_BATTLEPASS
 
 
 class BattlePass(Combat, UI):
@@ -83,6 +84,10 @@ class BattlePass(Combat, UI):
             if self.handle_battle_pass_popup():
                 confirm_timer.reset()
                 continue
+            if self.config.SERVER == 'cn':
+                if self.appear_then_click(POPUP_CONFIRM_WHITE_BATTLEPASS, offset=(20, 20), interval=3):
+                    confirm_timer.reset()
+                    continue
             if self.handle_popup_confirm('BATTLE_PASS'):
                 # Lock new META ships
                 confirm_timer.reset()
