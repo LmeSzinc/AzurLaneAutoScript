@@ -169,9 +169,9 @@ class Equipment(StorageHandler):
 
         while 1:
             if skip_first_screenshot:
-                self.device.screenshot()
-            else:
                 skip_first_screenshot = False
+            else:
+                self.device.screenshot()
 
             # End
             # if self.handle_info_bar():
@@ -224,9 +224,9 @@ class Equipment(StorageHandler):
 
         while 1:
             if skip_first_screenshot:
-                self.device.screenshot()
-            else:
                 skip_first_screenshot = False
+            else:
+                self.device.screenshot()
 
             # End
             # if self.handle_info_bar():
