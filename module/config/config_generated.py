@@ -25,6 +25,7 @@ class GeneratedConfig:
     Emulator_ControlMethod = 'MaaTouch'  # ADB, uiautomator2, minitouch, Hermit, MaaTouch
     Emulator_ScreenshotDedithering = False
     Emulator_AdbRestart = False
+    Emulator_SilentStart = 'normal'  # normal, minimize, silent
 
     # Group `EmulatorInfo`
     EmulatorInfo_Emulator = 'auto'  # auto, NoxPlayer, NoxPlayer64, BlueStacks4, BlueStacks5, BlueStacks4HyperV, BlueStacks5HyperV, LDPlayer3, LDPlayer4, LDPlayer9, MuMuPlayer, MuMuPlayerX, MuMuPlayer12, MEmuPlayer
@@ -41,7 +42,9 @@ class GeneratedConfig:
     Optimization_ScreenshotInterval = 0.3
     Optimization_CombatScreenshotInterval = 1.0
     Optimization_TaskHoardingDuration = 0
-    Optimization_WhenTaskQueueEmpty = 'goto_main'  # stay_there, goto_main, close_game
+    Optimization_WhenTaskQueueEmpty = 'goto_main'  # stay_there, goto_main, close_game, stop_emulator
+    Optimization_ProcessBufferTime = 10
+    Optimization_BufferMethod = 'stay_there'
 
     # Group `DropRecord`
     DropRecord_SaveFolder = './screenshots'

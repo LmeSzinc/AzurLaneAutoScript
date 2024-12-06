@@ -107,15 +107,12 @@ class HTMLConsole(Console):
 class Highlighter(RegexHighlighter):
     base_style = 'web.'
     highlights = [
-        # (r'(?P<datetime>(\d{2}|\d{4})(?:\-)?([0]{1}\d{1}|[1]{1}[0-2]{1})'
-        #  r'(?:\-)?([0-2]{1}\d{1}|[3]{1}[0-1]{1})(?:\s)?([0-1]{1}\d{1}|'
-        #  r'[2]{1}[0-3]{1})(?::)?([0-5]{1}\d{1})(?::)?([0-5]{1}\d{1}).\d+\b)'),
-        (r'(?P<time>([0-1]{1}\d{1}|[2]{1}[0-3]{1})(?::)?'
-         r'([0-5]{1}\d{1})(?::)?([0-5]{1}\d{1})(.\d+\b))'),
+        r'(?P<time>([01]\d|2[0-3])(:[0-5]\d){2}(\.\d+\b))',
         r"(?P<brace>[\{\[\(\)\]\}])",
         r"\b(?P<bool_true>True)\b|\b(?P<bool_false>False)\b|\b(?P<none>None)\b",
-        r"(?P<path>(([A-Za-z]\:)|.)?\B([\/\\][\w\.\-\_\+]+)*[\/\\])(?P<filename>[\w\.\-\_\+]*)?",
-        # r"(?<![\\\w])(?P<str>b?\'\'\'.*?(?<!\\)\'\'\'|b?\'.*?(?<!\\)\'|b?\"\"\".*?(?<!\\)\"\"\"|b?\".*?(?<!\\)\")",
+        r'(?P<win_path>(?:(?:[a-zA-Z]:|\.{1,2})[\\/](?:[^,.\\?/*|<>:"]+[\\/])*))'
+        r'(?P<filename>(?:[^,\\?/*|<>:"]+)(?:\.[^,.\\?/*|<>:"]+)?)?',
+        r'(?P<ipv4_address>(https?|ftp)?(\:\/\/)?(?:\d{1,3}\.){3}\d{1,3}(?:\:\d{1,5})?(\/[\S]*)?)',
     ]
 
 
@@ -123,11 +120,11 @@ WEB_THEME = Theme({
     "web.brace": Style(bold=True),
     "web.bool_true": Style(color="bright_green", italic=True),
     "web.bool_false": Style(color="bright_red", italic=True),
-    "web.none": Style(color="magenta", italic=True),
-    "web.path": Style(color="magenta"),
+    "web.none": Style(color="#808080", italic=True), # grey
+    "web.win_path": Style(color="magenta"),
     "web.filename": Style(color="bright_magenta"),
-    "web.str": Style(color="green", italic=False, bold=False),
     "web.time": Style(color="cyan"),
+    "web.ipv4_address": Style(color="#1E90FF", underline=True), # dark blue
     "rule.text": Style(bold=True),
 })
 

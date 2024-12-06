@@ -3,7 +3,7 @@ import typing as t
 
 from pydantic import BaseModel
 
-from module.base.decorator import cached_property, del_cached_property
+from module.base.decorator import cached_property, del_cached_property, run_once
 from module.device.connection import Connection
 from module.device.method.utils import get_serial_pair
 from module.device.platform.emulator_base import EmulatorInstanceBase, EmulatorManagerBase, remove_duplicated_path
@@ -27,23 +27,53 @@ class PlatformBase(Connection, EmulatorManagerBase):
     For each `Platform` class, the following APIs must be implemented.
     - all_emulators()
     - all_emulator_instances()
+    - switch_window()
+    - emulator_check()
     - emulator_start()
     - emulator_stop()
     """
 
+    def switch_window(self, hwnds=None, arg=None):
+        """
+        Switch emulator's window.
+        """
+        @run_once
+        def skip_switch():
+            logger.info(f'Current platform {sys.platform} does not support switch_window, skip')
+        skip_switch()
+        return True
+
     def emulator_start(self):
         """
-        Start a emulator, until startup completed.
+        Start an emulator, until startup completed.
         - Retry is required.
         - Using bored sleep to wait startup is forbidden.
         """
-        logger.info(f'Current platform {sys.platform} does not support emulator_start, skip')
+        @run_once
+        def skip_start():
+            logger.info(f'Current platform {sys.platform} does not support emulator_start, skip')
+        skip_start()
+        return True
 
     def emulator_stop(self):
         """
-        Stop a emulator.
+        Stop an emulator.
         """
-        logger.info(f'Current platform {sys.platform} does not support emulator_stop, skip')
+        @run_once
+        def skip_stop():
+            logger.info(f'Current platform {sys.platform} does not support emulator_stop, skip')
+        skip_stop()
+        return True
+
+    def emulator_check(self):
+        """
+        Check if emulator is running.
+        """
+        @run_once
+        def skip_check():
+            logger.info(f'Current platform {sys.platform} does not support emulator_check, skip')
+        skip_check()
+        return True
 
     @cached_property
     def emulator_info(self) -> EmulatorInfo:

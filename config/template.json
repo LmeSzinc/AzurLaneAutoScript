@@ -7,7 +7,8 @@
       "ScreenshotMethod": "auto",
       "ControlMethod": "MaaTouch",
       "ScreenshotDedithering": false,
-      "AdbRestart": false
+      "AdbRestart": false,
+      "SilentStart": "normal"
     },
     "EmulatorInfo": {
       "Emulator": "auto",
@@ -24,7 +25,9 @@
       "ScreenshotInterval": 0.3,
       "CombatScreenshotInterval": 1.0,
       "TaskHoardingDuration": 0,
-      "WhenTaskQueueEmpty": "goto_main"
+      "WhenTaskQueueEmpty": "goto_main",
+      "ProcessBufferTime": 10,
+      "BufferMethod": "stay_there"
     },
     "DropRecord": {
       "SaveFolder": "./screenshots",
