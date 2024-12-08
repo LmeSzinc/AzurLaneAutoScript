@@ -28,6 +28,8 @@ COMMISSION_SWITCH.add_status('daily', COMMISSION_DAILY)
 COMMISSION_SWITCH.add_status('urgent', COMMISSION_URGENT)
 COMMISSION_SCROLL = Scroll(COMMISSION_SCROLL_AREA, color=(247, 211, 66), name='COMMISSION_SCROLL')
 
+# threshold for current selected commision to be correct
+COMMISSION_NAME_MATCH_RATE = 0.95
 
 def lines_detect(image):
     """
@@ -385,10 +387,11 @@ class RewardCommission(UI, InfoHandler):
                     current.call('convert_to_night')  # Convert extra commission to night
                 if current.count >= 1:
                     current = current[0]
-                    if current == comm:
-                        logger.info('Selected to the correct commission')
+                    ratio   = diff_string(str(current), str(comm))
+                    if ratio >= COMMISSION_NAME_MATCH_RATE:
+                        logger.info(f'Selected to the correct commission (r={ratio})')
                     else:
-                        logger.warning('Selected to the wrong commission')
+                        logger.warning(f'Selected to the wrong commission, wanted `{comm}` but got `{current}` (r={ratio})')
                         return False
                 else:
                     logger.warning('No selected commission detected, assuming correct')
@@ -430,8 +433,11 @@ class RewardCommission(UI, InfoHandler):
                 # In different scans, they have the same information, but have different locations.
                 current = None
                 for new_comm in new:
-                    if new_comm == comm:
+                    ratio = diff_string(str(new_comm), str(comm))
+                    if ratio >= COMMISSION_NAME_MATCH_RATE:
+                        logger.info(f'Selecting commission {new_comm} (r={ratio})')
                         current = new_comm
+                        break
                 if current is not None:
                     if self._commission_start_click(current, is_urgent=is_urgent):
                         self.device.click_record_clear()

@@ -3,6 +3,7 @@ import re
 import cv2
 import numpy as np
 from PIL import Image
+from difflib import SequenceMatcher
 
 REGEX_NODE = re.compile(r'(-?[A-Za-z]+)(-?\d+)')
 
@@ -971,3 +972,6 @@ def color_bar_percentage(image, area, prev_color, reverse=False, starter=0, thre
         prev_color = np.mean(image[:, left:prev_index + 1][mask], axis=0)
 
     return 0.
+
+def diff_string(a,b):
+    return SequenceMatcher(None,a,b).ratio()
