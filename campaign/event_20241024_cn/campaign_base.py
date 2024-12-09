@@ -7,14 +7,14 @@ from module.map_detection.grid import Grid
 from module.template.assets import TEMPLATE_ENEMY_BOSS
 
 MODE_SWITCH_20240725 = ModeSwitch('Mode_switch_20240725', is_selector=True, offset=(30, 30))
-MODE_SWITCH_20240725.add_status('combat', SWITCH_20240725_COMBAT, offset=(444, 4))
-MODE_SWITCH_20240725.add_status('story', SWITCH_20240725_STORY, offset=(444, 4))
+MODE_SWITCH_20240725.add_state('combat', SWITCH_20240725_COMBAT, offset=(444, 4))
+MODE_SWITCH_20240725.add_state('story', SWITCH_20240725_STORY, offset=(444, 4))
 
 CHAPTER_SWITCH_20241024 = ModeSwitch('Chapter_switch_20241024', is_selector=True, offset=(30, 30))
-CHAPTER_SWITCH_20241024.add_status('ab', CHAPTER_20241024_AB)
-CHAPTER_SWITCH_20241024.add_status('cd', CHAPTER_20241024_CD)
-CHAPTER_SWITCH_20241024.add_status('sp', CHAPTER_20241024_SP)
-CHAPTER_SWITCH_20241024.add_status('ex', CHAPTER_20241024_EX)
+CHAPTER_SWITCH_20241024.add_state('ab', CHAPTER_20241024_AB)
+CHAPTER_SWITCH_20241024.add_state('cd', CHAPTER_20241024_CD)
+CHAPTER_SWITCH_20241024.add_state('sp', CHAPTER_20241024_SP)
+CHAPTER_SWITCH_20241024.add_state('ex', CHAPTER_20241024_EX)
 
 
 class EventGrid(Grid):
