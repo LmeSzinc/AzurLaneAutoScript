@@ -110,12 +110,9 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                 timeout.reset()
 
             # Click
-            if self.appear(SHIP_CONFIRM, offset=(30, 30), interval=2):
-                if SHIP_CONFIRM.match_appear_on(self.device.image):
-                    self.device.click(SHIP_CONFIRM)
-                    continue
-                else:
-                    self.interval_clear(SHIP_CONFIRM)
+            if self.match_template_color(SHIP_CONFIRM, offset=(30, 30), interval=2):
+                self.device.click(SHIP_CONFIRM)
+                continue
             if self.appear(SHIP_CONFIRM_2, offset=(30, 30), interval=2):
                 if self.retire_keep_common_cv and not self._have_kept_cv:
                     self.keep_one_common_cv()
@@ -259,7 +256,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
             if selected == 0:
                 break
             self.device.screenshot()
-            if not (self.appear(SHIP_CONFIRM, offset=(30, 30)) and SHIP_CONFIRM.match_appear_on(self.device.image)):
+            if not self.match_template_color(SHIP_CONFIRM, offset=(30, 30)):
                 logger.warning('No ship selected, retrying')
                 continue
 
@@ -454,6 +451,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
         """
         count = 0
         RETIRE_COIN.load_color(self.device.image)
+        RETIRE_COIN._match_init = True
 
         while 1:
             if skip_first_screenshot:
@@ -462,7 +460,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                 self.device.screenshot()
 
             # End
-            if not self.appear(RETIRE_COIN, threshold=0.97):
+            if not RETIRE_COIN.match(self.device.image, offset=(20, 20), similarity=0.97):
                 return True
             if count > 3:
                 logger.warning('_retire_select_one failed after 3 trial')
@@ -504,25 +502,56 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
             return None
 
     def retirement_get_common_rarity_cv(self, skip_first_screenshot=False):
-        button = self.retirement_get_common_rarity_cv_in_page()
-        if button is not None:
-            return button
+        """
+        Args:
+            skip_first_screenshot:
 
-        for _ in range(7):
-            if not RETIRE_CONFIRM_SCROLL.appear(main=self):
-                logger.info('Scroll bar disappeared, stop')
-                break
-            RETIRE_CONFIRM_SCROLL.next_page(main=self)
+        Returns:
+            Button: Button to click to remove ship from retire list
+        """
+        swipe_count = 0
+        disappear_confirm = Timer(2, count=6)
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # Try to get CV
             button = self.retirement_get_common_rarity_cv_in_page()
             if button is not None:
                 return button
+
+            # Wait scroll bar
+            if RETIRE_CONFIRM_SCROLL.appear(main=self):
+                disappear_confirm.clear()
+            else:
+                disappear_confirm.start()
+                if disappear_confirm.reached():
+                    logger.warning('Scroll bar disappeared, stop')
+                    break
+                else:
+                    continue
+
             if RETIRE_CONFIRM_SCROLL.at_bottom(main=self):
                 logger.info('Scroll bar reached end, stop')
                 break
 
+            # Swipe next page
+            if swipe_count >= 7:
+                logger.info('Reached maximum swipes to find common CV')
+                break
+            RETIRE_CONFIRM_SCROLL.next_page(main=self)
+            swipe_count += 1
+
         return button
 
     def keep_one_common_cv(self):
+        """
+        Returns:
+
+        """
+        logger.info('Keep one common CV')
         button = self.retirement_get_common_rarity_cv()
         if button is not None:
             self._retire_select_one(button)

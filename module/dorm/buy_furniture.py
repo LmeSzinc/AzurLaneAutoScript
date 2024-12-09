@@ -183,8 +183,7 @@ class BuyFurniture(UI):
                   False if Failed buy
         """
         self.enter_first_furniture_details_page()
-        if self.appear(DORM_FURNITURE_COUNTDOWN, offset=(20, 20)) \
-                and DORM_FURNITURE_COUNTDOWN.match_appear_on(self.device.image):
+        if self.match_template_color(DORM_FURNITURE_COUNTDOWN, offset=(20, 20)):
             logger.info("There is a time-limited furniture available for buy")
 
             if self.buy_furniture_once(self.config.BuyFurniture_BuyOption):

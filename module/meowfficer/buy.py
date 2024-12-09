@@ -99,8 +99,7 @@ class MeowfficerBuy(MeowfficerBase):
                     continue
 
                 # End
-                if self.appear(MEOWFFICER_BUY_ENTER, offset=(20, 20)) \
-                        and MEOWFFICER_BUY_ENTER.match_appear_on(self.device.image):
+                if self.match_template_color(MEOWFFICER_BUY_ENTER, offset=(20, 20)):
                     break
 
     def meow_buy(self) -> bool:

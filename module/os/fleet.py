@@ -369,7 +369,8 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
 
             # Arrive
             # Check colors, because screen goes black when something is unlocking.
-            if self.is_in_map() and IN_MAP.match_appear_on(self.device.image):
+            # A direct use of IN_MAP, basically `self.is_in_map() and IN_MAP.match_template_color()`
+            if self.match_template_color(IN_MAP, offset=(200, 5)):
                 self.update_os()
                 current = self.view.backend.homo_loca
                 logger.attr('homo_loca', current)

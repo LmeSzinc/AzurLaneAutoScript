@@ -231,12 +231,10 @@ class OpsiAshBeacon(Meta):
             else:
                 self.device.screenshot()
 
-            if self.appear(META_INNER_PAGE_DAMAGE, offset=(20, 20)) \
-                    and META_INNER_PAGE_DAMAGE.match_appear_on(self.device.image):
+            if self.match_template_color(META_INNER_PAGE_DAMAGE, offset=(20, 20)):
                 logger.info('Already in meta damage page')
                 break
-            if self.appear(META_INNER_PAGE_NOT_DAMAGE, offset=(20, 20)) \
-                    and META_INNER_PAGE_NOT_DAMAGE.match_appear_on(self.device.image):
+            if self.match_template_color(META_INNER_PAGE_NOT_DAMAGE, offset=(20, 20)):
                 logger.info('In meta details page, should switch to damage page')
                 self.appear_then_click(META_INNER_PAGE_NOT_DAMAGE, offset=(20, 20), interval=2)
                 continue

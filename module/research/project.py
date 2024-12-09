@@ -180,14 +180,14 @@ def parse_time(string):
         return timedelta(hours=result[0], minutes=result[1], seconds=result[2])
 
 
-def match_template(image, template, area, offset=30, threshold=0.85):
+def match_template(image, template, area, offset=30, similarity=0.85):
     """
     Args:
         image (np.ndarray): Screenshot
         template (np.ndarray):
         area (tuple): Crop area of image.
         offset (int, tuple): Detection area offset.
-        threshold (float): 0-1. Similarity. Lower than this value will return float(0).
+        similarity (float): 0-1. Similarity. Lower than this value will return float(0).
     Returns:
         similarity (float):
     """
@@ -198,8 +198,9 @@ def match_template(image, template, area, offset=30, threshold=0.85):
     image = crop(image, offset + area, copy=False)
     res = cv2.matchTemplate(image, template, cv2.TM_CCOEFF_NORMED)
     _, sim, _, point = cv2.minMaxLoc(res)
-    similarity = sim if sim >= threshold else 0.0
-    return similarity
+    if sim < similarity:
+        sim = 0.0
+    return sim
 
 
 def get_research_series_jp_old(image):
@@ -274,7 +275,7 @@ def get_research_genre_jp(image):
     """
     genre = ''
     for button in RESEARCH_DETAIL_GENRE:
-        if button.match(image, offset=(30, 20), threshold=0.9):
+        if button.match(image, offset=(30, 20), similarity=0.9):
             # DETAIL_GENRE_H_0.name.split("_")[2] == 'H'
             genre = button.name.split("_")[2]
             break
@@ -308,7 +309,7 @@ def get_research_cost_jp(image):
                              template=template,
                              area=DETAIL_COST.area,
                              offset=(10, 10),
-                             threshold=0.8)
+                             similarity=0.8)
         if not sim:
             continue
         for cost in costs:
@@ -343,7 +344,7 @@ def get_research_ship_jp(image):
                              template=load_image(template),
                              area=DETAIL_BLUEPRINT.area,
                              offset=(10, 10),
-                             threshold=0.9)
+                             similarity=0.9)
         if sim > similarity:
             similarity = sim
             ship = name
