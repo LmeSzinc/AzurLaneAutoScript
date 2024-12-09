@@ -243,17 +243,22 @@ class RewardTacticalClass(Dock):
             book (Book):
             skip_first_screenshot (bool):
         """
+        logger.info(f'Book select {book}')
+        interval = Timer(2, count=6)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
 
-            if not book.check_selected(self.device.image):
-                self.device.click(book.button)
-                self.device.sleep((0.3, 0.5))
-            else:
+            # End
+            if book.check_selected(self.device.image):
                 break
+
+            if interval.reached():
+                self.device.click(book.button)
+                interval.reset()
+                continue
 
     def _tactical_books_filter_exp(self):
         """
