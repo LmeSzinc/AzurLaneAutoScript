@@ -332,11 +332,11 @@ class GridPredictor:
         color = cv2.mean(crop(mask.image, area=np.rint(area).astype(int), copy=False))
         return color[0] > 235
 
-    def is_similar_to(self, grid, threshold=0.9):
+    def is_similar_to(self, grid, similarity=0.9):
         """
         Args:
             grid (GridPredictor): Another Grid instance.
-            threshold (float): 0 to 1.
+            similarity (float): 0 to 1.
 
         Returns:
             bool: If current grid is similar to another.
@@ -346,5 +346,5 @@ class GridPredictor:
         piece_1 = self._image_similar_piece
         piece_2 = grid._image_similar_full
         res = cv2.matchTemplate(piece_2, piece_1, cv2.TM_CCOEFF_NORMED)
-        _, similarity, _, point = cv2.minMaxLoc(res)
-        return similarity > threshold
+        _, sim, _, point = cv2.minMaxLoc(res)
+        return sim > similarity

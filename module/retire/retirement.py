@@ -462,7 +462,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                 self.device.screenshot()
 
             # End
-            if not self.appear(RETIRE_COIN, threshold=0.97):
+            if not self.appear(RETIRE_COIN, similarity=0.97):
                 return True
             if count > 3:
                 logger.warning('_retire_select_one failed after 3 trial')

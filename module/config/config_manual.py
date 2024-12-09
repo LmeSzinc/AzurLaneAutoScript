@@ -39,9 +39,7 @@ class ManualConfig:
     """
     module.base
     """
-    COLOR_SIMILAR_THRESHOLD = 10
     BUTTON_OFFSET = 30
-    BUTTON_MATCH_SIMILARITY = 0.85
     WAIT_BEFORE_SAVING_SCREEN_SHOT = 1
 
     """
