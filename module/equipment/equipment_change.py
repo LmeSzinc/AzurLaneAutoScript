@@ -18,8 +18,8 @@ EQUIPMENT_SCROLL = Scroll(EQUIP_SCROLL, color=(247, 211, 66), name='EQUIP_SCROLL
 SIM_VALUE = 0.90
 
 equipping_filter = Switch('Equipping_filter')
-equipping_filter.add_status('on', check_button=EQUIPPING_ON)
-equipping_filter.add_status('off', check_button=EQUIPPING_OFF)
+equipping_filter.add_state('on', check_button=EQUIPPING_ON)
+equipping_filter.add_state('off', check_button=EQUIPPING_OFF)
 
 
 class EquipmentChange(Equipment):
