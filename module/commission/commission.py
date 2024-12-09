@@ -363,8 +363,7 @@ class RewardCommission(UI, InfoHandler):
                 raise GameStuckError('Triggered commission list flashing bug')
 
             # Click
-            if (self.appear(COMMISSION_START, offset=(5, 20), interval=7)
-                    and COMMISSION_START.match_appear_on(self.device.image)):
+            if self.match_template_color(COMMISSION_START, offset=(5, 20), interval=7):
                 self.device.click(COMMISSION_START)
                 self.interval_reset(COMMISSION_ADVICE)
                 comm_timer.reset()

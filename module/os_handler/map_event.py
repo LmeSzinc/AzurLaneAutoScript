@@ -244,14 +244,12 @@ class MapEventHandler(EnemySearchingHandler):
         Returns:
             bool: If clicked.
         """
-        if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 120)) \
-                and AUTO_SEARCH_OS_MAP_OPTION_OFF.match_appear_on(self.device.image):
+        if self.match_template_color(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 120)):
             if self.info_bar_count() >= 2:
                 self.device.screenshot_interval_set()
                 self.os_auto_search_quit(drop=drop)
                 raise CampaignEnd
-        if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF_DISABLED, offset=(5, 120)) \
-                and AUTO_SEARCH_OS_MAP_OPTION_OFF_DISABLED.match_appear_on(self.device.image):
+        if self.match_template_color(AUTO_SEARCH_OS_MAP_OPTION_OFF_DISABLED, offset=(5, 120)):
             if self.info_bar_count() >= 2:
                 self.device.screenshot_interval_set()
                 self.os_auto_search_quit(drop=drop)
@@ -268,20 +266,17 @@ class MapEventHandler(EnemySearchingHandler):
         if enable is None:
             pass
         elif enable:
-            if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 120), interval=3) \
-                    and AUTO_SEARCH_OS_MAP_OPTION_OFF.match_appear_on(self.device.image):
+            if self.match_template_color(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 120), interval=3):
                 self.device.click(AUTO_SEARCH_OS_MAP_OPTION_OFF)
                 self.interval_reset(AUTO_SEARCH_OS_MAP_OPTION_OFF_DISABLED)
                 return True
             # Game client bugged sometimes, AUTO_SEARCH_OS_MAP_OPTION_OFF grayed out but still functional
-            if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF_DISABLED, offset=(5, 120), interval=3) \
-                    and AUTO_SEARCH_OS_MAP_OPTION_OFF_DISABLED.match_appear_on(self.device.image):
+            if self.match_template_color(AUTO_SEARCH_OS_MAP_OPTION_OFF_DISABLED, offset=(5, 120), interval=3):
                 self.device.click(AUTO_SEARCH_OS_MAP_OPTION_OFF_DISABLED)
                 self.interval_reset(AUTO_SEARCH_OS_MAP_OPTION_OFF)
                 return True
         else:
-            if self.appear(AUTO_SEARCH_OS_MAP_OPTION_ON, offset=(5, 120), interval=3) \
-                    and AUTO_SEARCH_OS_MAP_OPTION_ON.match_appear_on(self.device.image):
+            if self.match_template_color(AUTO_SEARCH_OS_MAP_OPTION_ON, offset=(5, 120), interval=3):
                 self.device.click(AUTO_SEARCH_OS_MAP_OPTION_ON)
                 return True
 

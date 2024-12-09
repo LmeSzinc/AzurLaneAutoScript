@@ -176,6 +176,38 @@ class ModuleBase:
 
         return appear
 
+    def match_template_color(self, button, offset=(20, 20), interval=0, similarity=0.85, threshold=30):
+        """
+        Args:
+            button (Button):
+            offset (bool, int):
+            interval (int, float): interval between two active events.
+            similarity (int, float): 0 to 1.
+            threshold (int, float): 0 to 255 if not use offset, smaller means more similar
+
+        Returns:
+            bool:
+        """
+        button = self.ensure_button(button)
+        self.device.stuck_record_add(button)
+
+        if interval:
+            if button.name in self.interval_timer:
+                if self.interval_timer[button.name].limit != interval:
+                    self.interval_timer[button.name] = Timer(interval)
+            else:
+                self.interval_timer[button.name] = Timer(interval)
+            if not self.interval_timer[button.name].reached():
+                return False
+
+        appear = button.match_template_color(
+            self.device.image, offset=offset, similarity=similarity, threshold=threshold)
+
+        if appear and interval:
+            self.interval_timer[button.name].reset()
+
+        return appear
+
     def appear_then_click(self, button, screenshot=False, genre='items', offset=0, interval=0, similarity=0.85,
                           threshold=30):
         button = self.ensure_button(button)

@@ -321,18 +321,26 @@ class Button(Resource):
             self._button_offset = area_offset(self._button, offset[:2] + np.array(point))
             return sim > similarity
 
-    def match_appear_on(self, image, threshold=30):
+    def match_template_color(self, image, offset=(20, 20), similarity=0.85, threshold=30):
         """
+        Template match first, color match then
+
         Args:
             image: Screenshot.
-            threshold: Default to 10.
+            offset (int, tuple): Detection area offset.
+            similarity (float): 0-1.
+            threshold (int): Default to 30.
 
         Returns:
-            bool:
+            bool.
         """
-        diff = np.subtract(self.button, self._button)[:2]
-        area = area_offset(self.area, offset=diff)
-        return color_similar(color1=get_color(image, area), color2=self.color, threshold=threshold)
+        if self.match(image, offset=offset, similarity=similarity):
+            diff = np.subtract(self.button, self._button)[:2]
+            area = area_offset(self.area, offset=diff)
+            color = get_color(image, area)
+            return color_similar(color1=color, color2=self.color, threshold=threshold)
+        else:
+            return False
 
     def crop(self, area, image=None, name=None):
         """

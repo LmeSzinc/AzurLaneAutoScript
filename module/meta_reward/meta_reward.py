@@ -64,8 +64,7 @@ class BeaconReward(Combat, UI):
             else:
                 self.device.screenshot()
 
-            if self.appear(REWARD_RECEIVE, offset=(20, 20), interval=3) and REWARD_RECEIVE.match_appear_on(
-                    self.device.image):
+            if self.match_template_color(REWARD_RECEIVE, offset=(20, 20), interval=3):
                 self.device.click(REWARD_RECEIVE)
                 confirm_timer.reset()
                 continue
@@ -166,8 +165,7 @@ class DossierReward(Combat, UI):
             else:
                 self.device.screenshot()
 
-            if self.appear(DOSSIER_REWARD_RECEIVE, offset=(20, 20), interval=3) and DOSSIER_REWARD_RECEIVE.match_appear_on(
-                    self.device.image):
+            if self.match_template_color(DOSSIER_REWARD_RECEIVE, offset=(20, 20), interval=3):
                 self.device.click(DOSSIER_REWARD_RECEIVE)
                 confirm_timer.reset()
                 continue

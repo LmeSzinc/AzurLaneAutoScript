@@ -110,12 +110,9 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                 timeout.reset()
 
             # Click
-            if self.appear(SHIP_CONFIRM, offset=(30, 30), interval=2):
-                if SHIP_CONFIRM.match_appear_on(self.device.image):
-                    self.device.click(SHIP_CONFIRM)
-                    continue
-                else:
-                    self.interval_clear(SHIP_CONFIRM)
+            if self.match_template_color(SHIP_CONFIRM, offset=(30, 30), interval=2):
+                self.device.click(SHIP_CONFIRM)
+                continue
             if self.appear(SHIP_CONFIRM_2, offset=(30, 30), interval=2):
                 if self.retire_keep_common_cv and not self._have_kept_cv:
                     self.keep_one_common_cv()
@@ -259,7 +256,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
             if selected == 0:
                 break
             self.device.screenshot()
-            if not (self.appear(SHIP_CONFIRM, offset=(30, 30)) and SHIP_CONFIRM.match_appear_on(self.device.image)):
+            if not self.match_template_color(SHIP_CONFIRM, offset=(30, 30)):
                 logger.warning('No ship selected, retrying')
                 continue
 

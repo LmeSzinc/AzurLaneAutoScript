@@ -81,15 +81,13 @@ class MissionHandler(GlobeOperation, ZoneManager):
             # End
             if self.is_in_os_mission() \
                     and not self.appear(MISSION_FINISH, offset=(20, 20)) \
-                    and not (self.appear(MISSION_CHECKOUT, offset=(20, 20))
-                             and MISSION_CHECKOUT.match_appear_on(self.device.image)):
+                    and not self.match_template_color(MISSION_CHECKOUT, offset=(20, 20)):
                 # No mission found, wait to confirm. Missions might not be loaded so fast.
                 if confirm_timer.reached():
                     logger.info('No OS mission found.')
                     break
             elif self.is_in_os_mission() \
-                    and (self.appear(MISSION_CHECKOUT, offset=(20, 20))
-                         and MISSION_CHECKOUT.match_appear_on(self.device.image)):
+                    and self.match_template_color(MISSION_CHECKOUT, offset=(20, 20)):
                 # Found one mission.
                 logger.info('Found at least one OS missions.')
                 break
@@ -119,8 +117,7 @@ class MissionHandler(GlobeOperation, ZoneManager):
             logger.info('Monthly BOSS mission found, checking missions bellow it')
             checkout_offset = (-20, 100, 20, 150)
 
-        if not (self.appear(MISSION_CHECKOUT, offset=checkout_offset)
-                and MISSION_CHECKOUT.match_appear_on(self.device.image)):
+        if not self.match_template_color(MISSION_CHECKOUT, offset=checkout_offset):
             # If not having enough items to claim a mission,
             # there will still be MISSION_CHECKOUT, but button is transparent.
             # So here needs to use both template matching and color detection.
