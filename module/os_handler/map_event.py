@@ -1,12 +1,13 @@
 from module.base.timer import Timer
 from module.combat.assets import *
 from module.exception import CampaignEnd
-from module.handler.assets import *
+from module.handler.assets import POPUP_CANCEL, POPUP_CONFIRM
 from module.logger import logger
 from module.os.assets import GLOBE_GOTO_MAP
 from module.os_handler.assets import *
 from module.os_handler.enemy_searching import EnemySearchingHandler
 from module.statistics.azurstats import DropImage
+from module.ui.assets import BACK_ARROW
 from module.ui.switch import Switch
 
 
@@ -208,7 +209,6 @@ class MapEventHandler(EnemySearchingHandler):
                 if drop:
                     drop.handle_add(main=self, before=4)
                 self.device.click(AUTO_SEARCH_REWARD)
-                self.clicked = True
                 self.interval_reset([
                     AUTO_SEARCH_REWARD,
                     AUTO_SEARCH_OS_MAP_OPTION_ON,
@@ -223,6 +223,14 @@ class MapEventHandler(EnemySearchingHandler):
             if self.appear_then_click(GLOBE_GOTO_MAP, offset=(20, 20), interval=2):
                 # Sometimes entered globe map after clicking AUTO_SEARCH_REWARD
                 # because of duplicated clicks and clicks to places outside the map
+                confirm_timer.reset()
+                continue
+            # Donno why but it just entered storage, exit it anyway
+            # Equivalent to is_in_storage, but can't inherit StorageHandler here
+            # STORAGE_CHECK is a duplicate name, this is the os_handler/STORAGE_CHECK, not handler/STORAGE_CHECK
+            if self.appear(STORAGE_CHECK, offset=(20, 20), interval=5):
+                logger.info(f'{STORAGE_CHECK} -> {BACK_ARROW}')
+                self.device.click(BACK_ARROW)
                 confirm_timer.reset()
                 continue
 
