@@ -103,8 +103,7 @@ class Reward(UI):
             for button in [MISSION_MULTI, MISSION_SINGLE]:
                 if not click_timer.reached():
                     continue
-                if self.appear(button, offset=(20, 200), interval=interval) \
-                        and button.match_appear_on(self.device.image):
+                if self.match_template_color(button, offset=(20, 200), interval=interval):
                     self.device.click(button)
                     exit_timer.reset()
                     click_timer.reset()

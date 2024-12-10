@@ -477,7 +477,7 @@ class UI(InfoHandler):
                 return True
 
         # Dorm popup
-        if self.appear(DORM_INFO, offset=(30, 30), threshold=0.75, interval=3):
+        if self.appear(DORM_INFO, offset=(30, 30), similarity=0.75, interval=3):
             self.device.click(DORM_INFO)
             return True
         if self.appear_then_click(DORM_FEED_CANCEL, offset=(30, 30), interval=3):
