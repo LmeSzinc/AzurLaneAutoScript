@@ -94,7 +94,7 @@ class EquipmentCodeHandler(StorageHandler):
             if self.appear(EQUIPMENT_CODE_PAGE_CHECK, threshold=10):
                 break
 
-            if self.appear_then_click(EQUIPMENT_CODE_ENTRANCE):
+            if self.appear_then_click(EQUIPMENT_CODE_ENTRANCE, interval=2):
                 continue
 
     # def exit_equip_code_page(self):
@@ -160,7 +160,7 @@ class EquipmentCodeHandler(StorageHandler):
                 logger.info('Confirm equipment preview cleared.')
                 break
 
-            if self.appear_then_click(EQUIPMENT_CODE_CLEAR):
+            if self.appear_then_click(EQUIPMENT_CODE_CLEAR, interval=2):
                 continue
 
     def enter_equip_code_input_mode(self, skip_first_screenshot=True):
@@ -170,7 +170,7 @@ class EquipmentCodeHandler(StorageHandler):
             else:
                 self.device.screenshot()
 
-            if self.appear(EQUIPMENT_CODE_ENTER):
+            if self.appear(EQUIPMENT_CODE_ENTER, interval=2):
                 self.device.click(EQUIPMENT_CODE_TEXTBOX)
                 continue
 
