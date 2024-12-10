@@ -1814,6 +1814,37 @@
       "help": ""
     }
   },
+  "EventShop": {
+    "_info": {
+      "name": "活动商店",
+      "help": "活动船只将会在活动结束后购买"
+    },
+    "Enable": {
+      "name": "启用活动商店",
+      "help": ""
+    },
+    "UnlockShipSSR": {
+      "name": "解锁活动金船",
+      "help": "如果不启用，将会抛掉过滤器中的ShipSSR和Meta"
+    },
+    "BuyShipUR": {
+      "name": "购买X只活动彩船",
+      "help": "",
+      "0": "0",
+      "1": "1",
+      "2": "2"
+    },
+    "PresetFilter": {
+      "name": "活动商店过滤器",
+      "help": "",
+      "all": "全部",
+      "custom": "自定义"
+    },
+    "CustomFilter": {
+      "name": "自定义过滤器",
+      "help": "使用自定义过滤器需将 \"活动商店过滤器\" 设置为 \"自定义\"，并阅读 https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string"
+    }
+  },
   "ShipyardDr": {
     "_info": {
       "name": "彩科研图纸购买设置",
