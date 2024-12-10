@@ -217,8 +217,7 @@ class StrategyHandler(InfoHandler):
             in: STRATEGY_OPENED
             out: STRATEGY_OPENED
         """
-        if (self.appear(MOB_MOVE_ENTER, offset=MOB_MOVE_OFFSET)
-                and MOB_MOVE_ENTER.match_appear_on(self.device.image)):
+        if self.match_template_color(MOB_MOVE_ENTER, offset=MOB_MOVE_OFFSET):
             return True
         else:
             return False

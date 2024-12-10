@@ -75,8 +75,7 @@ class MeowfficerCollect(MeowfficerBase):
         Returns:
            bool
         """
-        if self.appear(MEOWFFICER_GET_CHECK, offset=(40, 40)) and MEOWFFICER_GET_CHECK.match_appear_on(
-                self.device.image):
+        if self.match_template_color(MEOWFFICER_GET_CHECK, offset=(40, 40)):
             return True
 
         if self.appear(MEOWFFICER_TRAIN_START, offset=(20, 20)):

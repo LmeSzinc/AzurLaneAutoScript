@@ -124,14 +124,14 @@ class ModuleBase:
 
         return button
 
-    def appear(self, button, offset=0, interval=0, threshold=None):
+    def appear(self, button, offset=0, interval=0, similarity=0.85, threshold=30):
         """
         Args:
             button (Button, Template, HierarchyButton, str):
             offset (bool, int):
             interval (int, float): interval between two active events.
-            threshold (int, float): 0 to 1 if use offset, bigger means more similar,
-                0 to 255 if not use offset, smaller means more similar
+            similarity (int, float): 0 to 1.
+            threshold (int, float): 0 to 255 if not use offset, smaller means more similar
 
         Returns:
             bool:
@@ -167,20 +167,51 @@ class ModuleBase:
         elif offset:
             if isinstance(offset, bool):
                 offset = self.config.BUTTON_OFFSET
-            appear = button.match(self.device.image, offset=offset,
-                                  threshold=self.config.BUTTON_MATCH_SIMILARITY if threshold is None else threshold)
+            appear = button.match(self.device.image, offset=offset, similarity=similarity)
         else:
-            appear = button.appear_on(self.device.image,
-                                      threshold=self.config.COLOR_SIMILAR_THRESHOLD if threshold is None else threshold)
+            appear = button.appear_on(self.device.image, threshold=threshold)
 
         if appear and interval:
             self.interval_timer[button.name].reset()
 
         return appear
 
-    def appear_then_click(self, button, screenshot=False, genre='items', offset=0, interval=0, threshold=None):
+    def match_template_color(self, button, offset=(20, 20), interval=0, similarity=0.85, threshold=30):
+        """
+        Args:
+            button (Button):
+            offset (bool, int):
+            interval (int, float): interval between two active events.
+            similarity (int, float): 0 to 1.
+            threshold (int, float): 0 to 255 if not use offset, smaller means more similar
+
+        Returns:
+            bool:
+        """
         button = self.ensure_button(button)
-        appear = self.appear(button, offset=offset, interval=interval, threshold=threshold)
+        self.device.stuck_record_add(button)
+
+        if interval:
+            if button.name in self.interval_timer:
+                if self.interval_timer[button.name].limit != interval:
+                    self.interval_timer[button.name] = Timer(interval)
+            else:
+                self.interval_timer[button.name] = Timer(interval)
+            if not self.interval_timer[button.name].reached():
+                return False
+
+        appear = button.match_template_color(
+            self.device.image, offset=offset, similarity=similarity, threshold=threshold)
+
+        if appear and interval:
+            self.interval_timer[button.name].reset()
+
+        return appear
+
+    def appear_then_click(self, button, screenshot=False, genre='items', offset=0, interval=0, similarity=0.85,
+                          threshold=30):
+        button = self.ensure_button(button)
+        appear = self.appear(button, offset=offset, interval=interval, similarity=similarity, threshold=threshold)
         if appear:
             if screenshot:
                 self.device.sleep(self.config.WAIT_BEFORE_SAVING_SCREEN_SHOT)
