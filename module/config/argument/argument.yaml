@@ -56,6 +56,13 @@ Emulator:
     ]
   ScreenshotDedithering: false
   AdbRestart: false
+  SilentStart:
+    value: normal
+    option: [
+      normal,
+      minimize,
+      silent
+    ]
 EmulatorInfo:
   Emulator:
     value: auto
@@ -95,7 +102,8 @@ Optimization:
   TaskHoardingDuration: 0
   WhenTaskQueueEmpty:
     value: goto_main
-    option: [ stay_there, goto_main, close_game ]
+    option: [ stay_there, goto_main, close_game, stop_emulator ]
+  ProcessBufferTime: 10
 DropRecord:
   SaveFolder: ./screenshots
   AzurStatsID: null
