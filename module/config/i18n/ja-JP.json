@@ -431,6 +431,13 @@
     "AdbRestart": {
       "name": "Emulator.AdbRestart.name",
       "help": "Emulator.AdbRestart.help"
+    },
+    "SilentStart": {
+      "name": "Emulator.SilentStart.name",
+      "help": "Emulator.SilentStart.help",
+      "normal": "Normal mode",
+      "minimize": "Minimize mode",
+      "silent": "Silent mode"
     }
   },
   "EmulatorInfo": {
@@ -507,6 +514,18 @@
     "WhenTaskQueueEmpty": {
       "name": "Optimization.WhenTaskQueueEmpty.name",
       "help": "Optimization.WhenTaskQueueEmpty.help",
+      "stay_there": "stay_there",
+      "goto_main": "goto_main",
+      "close_game": "close_game",
+      "stop_emulator": "stop_emulator"
+    },
+    "ProcessBufferTime": {
+      "name": "Optimization.ProcessBufferTime.name",
+      "help": "Optimization.ProcessBufferTime.help"
+    },
+    "BufferMethod": {
+      "name": "Optimization.WhenTaskQueueEmpty.name",
+      "help": "",
       "stay_there": "stay_there",
       "goto_main": "goto_main",
       "close_game": "close_game"

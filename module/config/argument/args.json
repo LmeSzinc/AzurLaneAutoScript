@@ -141,6 +141,15 @@
       "AdbRestart": {
         "type": "checkbox",
         "value": false
+      },
+      "SilentStart": {
+        "type": "select",
+        "value": "normal",
+        "option": [
+          "normal",
+          "minimize",
+          "silent"
+        ]
       }
     },
     "EmulatorInfo": {
@@ -208,6 +217,20 @@
       "WhenTaskQueueEmpty": {
         "type": "select",
         "value": "goto_main",
+        "option": [
+          "stay_there",
+          "goto_main",
+          "close_game",
+          "stop_emulator"
+        ]
+      },
+      "ProcessBufferTime": {
+        "type": "input",
+        "value": 10
+      },
+      "BufferMethod": {
+        "type": "select",
+        "value": "stay_there",
         "option": [
           "stay_there",
           "goto_main",

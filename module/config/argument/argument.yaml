@@ -56,6 +56,13 @@ Emulator:
     ]
   ScreenshotDedithering: false
   AdbRestart: false
+  SilentStart:
+    value: normal
+    option: [
+      normal,
+      minimize,
+      silent
+    ]
 EmulatorInfo:
   Emulator:
     value: auto
@@ -95,6 +102,10 @@ Optimization:
   TaskHoardingDuration: 0
   WhenTaskQueueEmpty:
     value: goto_main
+    option: [ stay_there, goto_main, close_game, stop_emulator ]
+  ProcessBufferTime: 10
+  BufferMethod:
+    value: stay_there
     option: [ stay_there, goto_main, close_game ]
 DropRecord:
   SaveFolder: ./screenshots

@@ -431,6 +431,13 @@
     "AdbRestart": {
       "name": "Try to restart adb when no device found",
       "help": ""
+    },
+    "SilentStart": {
+      "name": "Start the emulator silently",
+      "help": "When the simulator is started by Alas, selecting 'Minimize mode' will cause the simulator to run minimally and selecting 'Silent mode' will cause the simulator to run silently.",
+      "normal": "Normal mode",
+      "minimize": "Minimize mode",
+      "silent": "Silent mode"
     }
   },
   "EmulatorInfo": {
@@ -509,7 +516,19 @@
       "help": "Close AL when there are no pending tasks, can help reduce CPU",
       "stay_there": "Stay There",
       "goto_main": "Goto Main Page",
-      "close_game": "Close Game"
+      "close_game": "Close Game",
+      "stop_emulator": "Stop Emulator"
+    },
+    "ProcessBufferTime": {
+      "name": "Emulator turns off buffering for X minutes",
+      "help": "When the current time is less than X minutes from the next task, ALAS will switch from 'stop_emulator' to 'stay_there', preventing frequent start-stop cycles of the emulator.\nThis setting takes effect when the option is 'stop emulator'."
+    },
+    "BufferMethod": {
+      "name": "Behavior during buffer time",
+      "help": "",
+      "stay_there": "stay_there",
+      "goto_main": "goto_main",
+      "close_game": "close_game"
     }
   },
   "DropRecord": {
