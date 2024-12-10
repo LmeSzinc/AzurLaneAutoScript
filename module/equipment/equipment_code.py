@@ -91,7 +91,7 @@ class EquipmentCodeHandler(StorageHandler):
                 self.device.screenshot()
 
             # End
-            if self.appear(EQUIPMENT_CODE_PAGE_CHECK):
+            if self.appear(EQUIPMENT_CODE_PAGE_CHECK, threshold=10):
                 break
 
             if self.appear_then_click(EQUIPMENT_CODE_ENTRANCE):
