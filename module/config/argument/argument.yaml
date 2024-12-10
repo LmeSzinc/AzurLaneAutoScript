@@ -104,9 +104,6 @@ Optimization:
     value: goto_main
     option: [ stay_there, goto_main, close_game, stop_emulator ]
   ProcessBufferTime: 10
-  BufferMethod:
-    value: stay_there
-    option: [ stay_there, goto_main, close_game ]
 DropRecord:
   SaveFolder: ./screenshots
   AzurStatsID: null

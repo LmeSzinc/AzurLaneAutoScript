@@ -227,15 +227,6 @@
       "ProcessBufferTime": {
         "type": "input",
         "value": 10
-      },
-      "BufferMethod": {
-        "type": "select",
-        "value": "stay_there",
-        "option": [
-          "stay_there",
-          "goto_main",
-          "close_game"
-        ]
       }
     },
     "DropRecord": {

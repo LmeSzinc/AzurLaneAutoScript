@@ -522,13 +522,6 @@
     "ProcessBufferTime": {
       "name": "模拟器关闭缓冲 X 分钟",
       "help": "当前时间距离下个任务小于 X 分钟时，alas将由关闭模拟器转为停在原处，能避免频繁启停模拟器\n当任务队列清空后关闭模拟器，此设置生效"
-    },
-    "BufferMethod": {
-      "name": "缓冲时间内",
-      "help": "",
-      "stay_there": "停在原处",
-      "goto_main": "前往主界面",
-      "close_game": "关闭游戏"
     }
   },
   "DropRecord": {

@@ -481,7 +481,7 @@ class AzurLaneAutoScript:
                 self.device.emulator_check() and
                 remainingtime <= buffertime
             ):
-                method = self.config.Optimization_BufferMethod
+                method = 'close_game'
                 logger.info(
                     f"The time to next task `{task.command}` is {remainingtime:.2f} minutes, "
                     f"less than {buffertime} minutes, fallback to \"{method}\""

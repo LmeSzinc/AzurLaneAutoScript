@@ -44,7 +44,6 @@ class GeneratedConfig:
     Optimization_TaskHoardingDuration = 0
     Optimization_WhenTaskQueueEmpty = 'goto_main'  # stay_there, goto_main, close_game, stop_emulator
     Optimization_ProcessBufferTime = 10
-    Optimization_BufferMethod = 'stay_there'
 
     # Group `DropRecord`
     DropRecord_SaveFolder = './screenshots'

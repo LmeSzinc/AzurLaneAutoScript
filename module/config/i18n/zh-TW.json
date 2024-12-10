@@ -522,13 +522,6 @@
     "ProcessBufferTime": {
       "name": "模擬器關閉緩衝 X 分鐘",
       "help": "噹前時間距離下箇任務小於 X 分鐘時，alas將由關閉模擬器轉爲停在原處，能避免頻緐啓停模擬器\n噹任務隊列清空後關閉模擬器，此設置生傚"
-    },
-    "BufferMethod": {
-      "name": "緩衝時間内",
-      "help": "",
-      "stay_there": "停在原處",
-      "goto_main": "前往主界面",
-      "close_game": "關閉遊戲"
     }
   },
   "DropRecord": {

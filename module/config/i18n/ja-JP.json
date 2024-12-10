@@ -522,13 +522,6 @@
     "ProcessBufferTime": {
       "name": "Optimization.ProcessBufferTime.name",
       "help": "Optimization.ProcessBufferTime.help"
-    },
-    "BufferMethod": {
-      "name": "Optimization.WhenTaskQueueEmpty.name",
-      "help": "",
-      "stay_there": "stay_there",
-      "goto_main": "goto_main",
-      "close_game": "close_game"
     }
   },
   "DropRecord": {
