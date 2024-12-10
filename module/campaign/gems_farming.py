@@ -4,29 +4,25 @@ from module.campaign.run import CampaignRun
 from module.combat.assets import BATTLE_PREPARATION
 from module.combat.emotion import Emotion
 from module.equipment.assets import *
-from module.equipment.equipment_change import EquipmentChange
 from module.equipment.equipment_code import EquipmentCodeHandler
 from module.equipment.fleet_equipment import OCR_FLEET_INDEX
 from module.exception import CampaignEnd, ScriptError, RequestHumanTakeover
 from module.handler.assets import AUTO_SEARCH_MAP_OPTION_OFF
 from module.logger import logger
-from module.map.assets import (FLEET_ENTER_FLAGSHIP_HARD_1,
-                               FLEET_ENTER_FLAGSHIP_HARD_2, FLEET_ENTER_HARD_1, FLEET_ENTER_HARD_2,
-                               FLEET_ENTER_FLAGSHIP_HARD_1_3, FLEET_ENTER_FLAGSHIP_HARD_2_3, FLEET_ENTER_HARD_1_3,
-                               FLEET_ENTER_HARD_2_3)
+from module.map.assets import (
+    FLEET_ENTER_FLAGSHIP_HARD_1, FLEET_ENTER_FLAGSHIP_HARD_2, FLEET_ENTER_HARD_1, FLEET_ENTER_HARD_2,
+    FLEET_ENTER_FLAGSHIP_HARD_1_3, FLEET_ENTER_FLAGSHIP_HARD_2_3, FLEET_ENTER_HARD_1_3, FLEET_ENTER_HARD_2_3,
+    FLEET_PREPARATION, MAP_PREPARATION
+    )
 from module.retire.assets import (
-                                  DOCK_SHIP_DOWN)
-from module.map.assets import FLEET_PREPARATION, MAP_PREPARATION
-from module.retire.assets import (
-    DOCK_CHECK,
+    DOCK_CHECK, DOCK_SHIP_DOWN,
     TEMPLATE_BOGUE, TEMPLATE_HERMES, TEMPLATE_LANGLEY, TEMPLATE_RANGER,
     TEMPLATE_CASSIN_1, TEMPLATE_CASSIN_2, TEMPLATE_DOWNES_1, TEMPLATE_DOWNES_2,
     TEMPLATE_AULICK, TEMPLATE_FOOTE
 )
-
-from module.retire.dock import Dock
+from module.retire.retirement import Retirement
 from module.retire.scanner import ShipScanner
-from module.ui.assets import (BACK_ARROW, FLEET_CHECK)
+from module.ui.assets import BACK_ARROW, FLEET_CHECK
 import inflection
 from module.ui.page import page_fleet
 
@@ -143,7 +139,7 @@ class GemsEquipmentHandler(EquipmentCodeHandler):
         return 'DD'
 
 
-class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
+class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
 
     def event_hard_mode_override(self):
         HARDMODEMAPS = [
@@ -239,24 +235,19 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
         self.equip_enter(button, long_click=False)
 
     def _fleet_detail_enter_hard(self):
-        from module.retire.retirement import Retirement
-        _retire_class = Retirement(config=self.config, device=self.device)
         self.campaign.ensure_campaign_ui(self.stage)
-        button_area = self.campaign.ENTRANCE.button
-        button = Button(name=str(self.stage), area=button_area, color=(0, 0, 0), button=button_area)
-        for __ in range(5):
-            self.campaign.ensure_campaign_ui(self.stage)
-            self.ui_click(click_button=button, appear_button=BACK_ARROW, check_button=MAP_PREPARATION)
-            for _ in range(30):
-                self.device.screenshot()
-                if self.appear_then_click(MAP_PREPARATION):
-                    self.device.sleep(0.5)
-                if _retire_class.handle_retirement():
-                    continue
-                if self.appear(button=FLEET_PREPARATION, offset=(50, 50)):
-                    return
-        from module.exception import GameStuckError
-        raise GameStuckError
+        self.ui_click(click_button=self.campaign.ENTRANCE, appear_button=BACK_ARROW, check_button=MAP_PREPARATION)
+        while 1:
+            self.device.screenshot()
+
+            if self.appear_then_click(MAP_PREPARATION, interval=1):
+                continue
+
+            if self.handle_retirement():
+                continue
+
+            if self.appear(FLEET_PREPARATION, offset=(50, 50)):
+                break
 
     def _ship_detail_enter_hard(self, button):
         self._fleet_detail_enter_hard()
@@ -329,7 +320,6 @@ class GemsFarming(CampaignRun, Dock, EquipmentChange, GemsEquipmentHandler):
         self.dock_sort_method_dsc_set()
 
     def _ship_change_confirm(self, button):
-
         self.dock_select_one(button)
         self._dock_reset()
         self.dock_select_confirm(check_button=self.page_fleet_check_button)
