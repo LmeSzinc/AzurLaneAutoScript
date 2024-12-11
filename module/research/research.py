@@ -50,7 +50,7 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
         Returns:
             bool: If reset success.
         """
-        if not self.appear(RESET_AVAILABLE):
+        if not self.appear(RESET_AVAILABLE, threshold=10):
             logger.info('Research reset unavailable')
             return False
 
@@ -63,7 +63,7 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
             else:
                 self.device.screenshot()
 
-            if self.appear_then_click(RESET_AVAILABLE, interval=10):
+            if self.appear_then_click(RESET_AVAILABLE, interval=10, threshold=10):
                 continue
             if self.handle_popup_confirm('RESEARCH_RESET'):
                 executed = True
