@@ -15,12 +15,12 @@ MEOWFFICER_SHIFT_DETECT = Button(
     name='MEOWFFICER_SHIFT_DETECT')
 
 SWITCH_LOCK = Switch(name='Meowfficer_Lock', offset=(40, 40))
-SWITCH_LOCK.add_status(
+SWITCH_LOCK.add_state(
     'lock',
     check_button=MEOWFFICER_APPLY_UNLOCK,
     click_button=MEOWFFICER_APPLY_LOCK
 )
-SWITCH_LOCK.add_status(
+SWITCH_LOCK.add_state(
     'unlock',
     check_button=MEOWFFICER_APPLY_LOCK,
     click_button=MEOWFFICER_APPLY_UNLOCK
@@ -175,7 +175,7 @@ class MeowfficerCollect(MeowfficerBase):
             lock (bool):
         """
         # Apply designated lock status
-        SWITCH_LOCK.set(status='lock' if lock else 'unlock', main=self)
+        SWITCH_LOCK.set('lock' if lock else 'unlock', main=self)
 
         # Wait until info bar disappears
         self.ensure_no_info_bar(timeout=1)

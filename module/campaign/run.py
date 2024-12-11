@@ -2,7 +2,6 @@ import copy
 import importlib
 import os
 import random
-import re
 
 from module.campaign.campaign_base import CampaignBase
 from module.campaign.campaign_event import CampaignEvent
@@ -171,7 +170,6 @@ class CampaignRun(CampaignEvent, ShopStatus):
         Returns:
             str, str: name, folder
         """
-        name = re.sub('[ \t\n]', '', str(name)).lower()
         name = to_map_file_name(name)
         # For GemsFarming, auto choose events or main chapters
         if self.config.task.command == 'GemsFarming':
