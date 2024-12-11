@@ -11,8 +11,8 @@ from module.ui.navbar import Navbar
 from module.ui.switch import Switch
 
 equipping_filter = Switch('Equiping_filter')
-equipping_filter.add_status('on', check_button=EQUIPPING_ON)
-equipping_filter.add_status('off', check_button=EQUIPPING_OFF)
+equipping_filter.add_state('on', check_button=EQUIPPING_ON)
+equipping_filter.add_state('off', check_button=EQUIPPING_OFF)
 
 SWIPE_DISTANCE = 250
 SWIPE_RANDOM_RANGE = (-40, -20, 40, 20)
