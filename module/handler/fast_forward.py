@@ -1,4 +1,5 @@
 import os
+import re
 
 from module.base.timer import Timer
 from module.base.utils import color_bar_percentage
@@ -51,7 +52,14 @@ def to_map_input_name(name: str) -> str:
     campaign_7_2 -> 7-2
     d3 -> D3
     """
-    name = name.upper()
+    name = str(name).upper()
+    # Remove whitespaces
+    name = re.sub('[ \t\n]', '', name).lower()
+    # B-1 -> B1
+    res = re.match(r'([a-zA-Z])+[- ]+(\d+)', name)
+    if res:
+        name = f'{res.group(1)}{res.group(2)}'
+    # campaign_7_2 -> 7-2
     name = name.replace('CAMPAIGN_', '').replace('_', '-')
     return name
 
@@ -64,7 +72,14 @@ def to_map_file_name(name: str) -> str:
     campaign_7_2 -> campaign_7_2
     D3 -> d3
     """
-    name = name.lower()
+    name = str(name).lower()
+    # Remove whitespaces
+    name = re.sub('[ \t\n]', '', name).lower()
+    # B-1 -> B1
+    res = re.match(r'([a-zA-Z])+[- ]+(\d+)', name)
+    if res:
+        name = f'{res.group(1)}{res.group(2)}'
+    # 7-2 to campaign_7_2
     if name and name[0].isdigit():
         name = 'campaign_' + name.replace('-', '_')
     return name
