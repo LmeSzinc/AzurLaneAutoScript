@@ -12,8 +12,8 @@ from module.war_archives.assets import (WAR_ARCHIVES_CAMPAIGN_CHECK,
 from module.war_archives.dictionary import dic_archives_template
 
 WAR_ARCHIVES_SWITCH = Switch('War_Archives_switch', is_selector=True)
-WAR_ARCHIVES_SWITCH.add_status('ex', WAR_ARCHIVES_EX_ON)
-WAR_ARCHIVES_SWITCH.add_status('sp', WAR_ARCHIVES_SP_ON)
+WAR_ARCHIVES_SWITCH.add_state('ex', WAR_ARCHIVES_EX_ON)
+WAR_ARCHIVES_SWITCH.add_state('sp', WAR_ARCHIVES_SP_ON)
 WAR_ARCHIVES_SCROLL = Scroll(WAR_ARCHIVES_SCROLL, color=(247, 211, 66), name='WAR_ARCHIVES_SCROLL')
 
 

@@ -18,11 +18,11 @@ class ModeSwitch(Switch):
 
 
 MODE_SWITCH_1 = ModeSwitch('Mode_switch_1', offset=(30, 10))
-MODE_SWITCH_1.add_status('normal', SWITCH_1_NORMAL)
-MODE_SWITCH_1.add_status('hard', SWITCH_1_HARD)
+MODE_SWITCH_1.add_state('normal', SWITCH_1_NORMAL)
+MODE_SWITCH_1.add_state('hard', SWITCH_1_HARD)
 MODE_SWITCH_2 = ModeSwitch('Mode_switch_2', offset=(30, 10))
-MODE_SWITCH_2.add_status('hard', SWITCH_2_HARD)
-MODE_SWITCH_2.add_status('ex', SWITCH_2_EX)
+MODE_SWITCH_2.add_state('hard', SWITCH_2_HARD)
+MODE_SWITCH_2.add_state('ex', SWITCH_2_EX)
 
 
 class CampaignUI(MapOperation, CampaignEvent, CampaignOcr):
