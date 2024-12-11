@@ -20,8 +20,8 @@ class FleetLockSwitch(Switch):
 
 
 fleet_lock = FleetLockSwitch('Fleet_Lock', offset=(10, 120))
-fleet_lock.add_status('on', check_button=OS_FLEET_LOCKED)
-fleet_lock.add_status('off', check_button=OS_FLEET_UNLOCKED)
+fleet_lock.add_state('on', check_button=OS_FLEET_LOCKED)
+fleet_lock.add_state('off', check_button=OS_FLEET_UNLOCKED)
 
 
 class MapEventHandler(EnemySearchingHandler):
@@ -306,7 +306,7 @@ class MapEventHandler(EnemySearchingHandler):
 
         if enable is None:
             enable = self.config.Campaign_UseFleetLock
-        status = 'on' if enable else 'off'
-        changed = fleet_lock.set(status=status, main=self)
+        state = 'on' if enable else 'off'
+        changed = fleet_lock.set(state, main=self)
 
         return changed

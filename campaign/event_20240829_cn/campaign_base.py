@@ -4,8 +4,8 @@ from module.campaign.campaign_ui import ModeSwitch
 from module.logger import logger
 
 MODE_SWITCH_20240725 = ModeSwitch('Mode_switch_20240725', offset=(30, 30))
-MODE_SWITCH_20240725.add_status('combat', SWITCH_20240725_COMBAT)
-MODE_SWITCH_20240725.add_status('story', SWITCH_20240725_STORY)
+MODE_SWITCH_20240725.add_state('combat', SWITCH_20240725_COMBAT)
+MODE_SWITCH_20240725.add_state('story', SWITCH_20240725_STORY)
 
 
 class CampaignBase(CampaignBase_):

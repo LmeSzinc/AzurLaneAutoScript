@@ -12,12 +12,12 @@ from module.ui.setting import Setting
 from module.ui.switch import Switch
 
 DOCK_SORTING = Switch('Dork_sorting')
-DOCK_SORTING.add_status('Ascending', check_button=SORT_ASC, click_button=SORTING_CLICK)
-DOCK_SORTING.add_status('Descending', check_button=SORT_DESC, click_button=SORTING_CLICK)
+DOCK_SORTING.add_state('Ascending', check_button=SORT_ASC, click_button=SORTING_CLICK)
+DOCK_SORTING.add_state('Descending', check_button=SORT_DESC, click_button=SORTING_CLICK)
 
 DOCK_FAVOURITE = Switch('Favourite_filter')
-DOCK_FAVOURITE.add_status('on', check_button=COMMON_SHIP_FILTER_ENABLE)
-DOCK_FAVOURITE.add_status('off', check_button=COMMON_SHIP_FILTER_DISABLE)
+DOCK_FAVOURITE.add_state('on', check_button=COMMON_SHIP_FILTER_ENABLE)
+DOCK_FAVOURITE.add_state('off', check_button=COMMON_SHIP_FILTER_DISABLE)
 
 CARD_GRIDS = ButtonGrid(
     origin=(93, 76), delta=(164 + 2 / 3, 227), button_shape=(138, 204), grid_shape=(7, 2), name='CARD')

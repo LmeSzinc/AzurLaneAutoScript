@@ -24,12 +24,12 @@ class CoalitionUI(Combat):
         """
         MODE_SWITCH = Switch('CoalitionMode', offset=(20, 20))
         if event == 'coalition_20230323':
-            MODE_SWITCH.add_status('story', FROSTFALL_MODE_STORY)
-            MODE_SWITCH.add_status('battle', FROSTFALL_MODE_BATTLE)
+            MODE_SWITCH.add_state('story', FROSTFALL_MODE_STORY)
+            MODE_SWITCH.add_state('battle', FROSTFALL_MODE_BATTLE)
         elif event == 'coalition_20240627':
             # Note that switch button are reversed
-            MODE_SWITCH.add_status('story', ACADEMY_MODE_BATTLE)
-            MODE_SWITCH.add_status('battle', ACADEMY_MODE_STORY)
+            MODE_SWITCH.add_state('story', ACADEMY_MODE_BATTLE)
+            MODE_SWITCH.add_state('battle', ACADEMY_MODE_STORY)
         else:
             logger.error(f'MODE_SWITCH is not defined in event {event}')
             raise ScriptError
@@ -52,11 +52,11 @@ class CoalitionUI(Combat):
         """
         FLEET_SWITCH = Switch('FleetMode', is_selector=True, offset=0)  # No offset for color match
         if event == 'coalition_20230323':
-            FLEET_SWITCH.add_status('single', FROSTFALL_SWITCH_SINGLE)
-            FLEET_SWITCH.add_status('multi', FROSTFALL_SWITCH_MULTI)
+            FLEET_SWITCH.add_state('single', FROSTFALL_SWITCH_SINGLE)
+            FLEET_SWITCH.add_state('multi', FROSTFALL_SWITCH_MULTI)
         elif event == 'coalition_20240627':
-            FLEET_SWITCH.add_status('single', ACADEMY_SWITCH_SINGLE)
-            FLEET_SWITCH.add_status('multi', ACADEMY_SWITCH_MULTI)
+            FLEET_SWITCH.add_state('single', ACADEMY_SWITCH_SINGLE)
+            FLEET_SWITCH.add_state('multi', ACADEMY_SWITCH_MULTI)
         else:
             logger.error(f'FLEET_SWITCH is not defined in event {event}')
             raise ScriptError
