@@ -92,6 +92,104 @@ class BeaconReward(Combat, UI):
         logger.info(f'Meta reward receive finished, received={received}')
         return received
 
+    def meta_progress_appear(self):
+        return self.appear(META_PROGRESS, offset=(30, 30))
+
+    def meta_progress_receive(self, skip_first_screenshot=True):
+        """
+        Args:
+            skip_first_screenshot:
+
+        Returns:
+            bool: If received.
+
+        Pages:
+            in: page_meta
+            out: page_meta
+        """
+        logger.hr('Meta reward receive', level=1)
+        confirm_timer = Timer(1, count=3).start()
+        received = False
+        progress_loaded = False
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if not progress_loaded:
+                if not self.appear(META_PROGRESS_CHECK):
+                    confirm_timer.reset()
+                    continue
+                else:
+                    progress_loaded = True
+            if self.appear(META_PROGRESS_NOTICE, offset=(20, 20), interval=3):
+                self.device.click(META_PROGRESS_RECEIVE)
+                confirm_timer.reset()
+                continue
+            if self.handle_get_items():
+                received = True
+                confirm_timer.reset()
+                continue
+            
+            # End
+            if not self.image_color_count(META_PROGRESS_NOTICE, color=(247, 182, 58), threshold=221, count=6):
+                if confirm_timer.reached():
+                    break
+            else:
+                confirm_timer.reset()
+
+        logger.info(f'Meta reward receive finished, received={received}')
+        return received
+
+    def meta_progress_finished(self):
+        return self.appear(META_PROGRESS_FINISHED, offset=(30, 0))
+
+    def meta_ship_receive(self, skip_first_screenshot=True):
+        """
+        Args:
+            skip_first_screenshot:
+
+        Returns:
+            bool: If received.
+
+        Pages:
+            in: page_meta
+            out: page_meta
+        """
+        logger.hr('Meta reward receive', level=1)
+        confirm_timer = Timer(1, count=3).start()
+        received = False
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.meta_progress_finished():
+                self.device.click(META_SHIP_RECEIVE)
+                confirm_timer.reset()
+                continue
+            if self.handle_popup_confirm('META_REWARD'):
+                # Lock new META ships
+                confirm_timer.reset()
+                continue
+            if self.handle_get_items():
+                received = True
+                confirm_timer.reset()
+                continue
+            if self.handle_get_ship():
+                received = True
+                confirm_timer.reset()
+                continue
+            
+            # End
+            if self.appear(REWARD_ENTER):
+                break
+
+        logger.info(f'Meta reward receive finished, received={received}')
+        return received
+
     def run(self):
         if self.config.SERVER in ['cn', 'en', 'jp']:
             pass
@@ -100,6 +198,12 @@ class BeaconReward(Combat, UI):
             return
 
         self.ui_ensure(page_meta)
+
+        if self.meta_progress_appear():
+            self.meta_progress_receive()
+        
+        if self.meta_progress_finished():
+            self.meta_ship_receive()
 
         if self.meta_reward_notice_appear():
             self.meta_reward_enter()
