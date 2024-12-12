@@ -290,6 +290,13 @@ class GeneratedConfig:
     # Group `CoreShop`
     CoreShop_Filter = 'Array'
 
+    # Group `EventShop`
+    EventShop_Enable = False
+    EventShop_UnlockShipSSR = False
+    EventShop_BuyShipUR = 0  # 0, 1, 2
+    EventShop_PresetFilter = 'all'  # all, custom
+    EventShop_CustomFilter = 'EquipUR > EquipSSR > GachaTicket\n> DR > PR > Array > Chip > CatT3\n> Meta > Skinbox\n> Oil > Coin > FoodT1\n> AugmentCore > AugmentEnhanceT2 > AugmentChangeT2 > AugmentChangeT1\n> CatT2 > CatT1 > PlateGeneralT3 > PlateT3 > BoxT4\n> ShipSSR'
+
     # Group `ShipyardDr`
     ShipyardDr_ResearchSeries = 2  # 2, 3
     ShipyardDr_ShipIndex = 0  # 0, 1, 2, 3, 4, 5, 6

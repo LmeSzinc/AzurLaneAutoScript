@@ -1814,6 +1814,37 @@
       "help": "CoreShop.Filter.help"
     }
   },
+  "EventShop": {
+    "_info": {
+      "name": "EventShop._info.name",
+      "help": "EventShop._info.help"
+    },
+    "Enable": {
+      "name": "EventShop.Enable.name",
+      "help": "EventShop.Enable.help"
+    },
+    "UnlockShipSSR": {
+      "name": "EventShop.UnlockShipSSR.name",
+      "help": "EventShop.UnlockShipSSR.help"
+    },
+    "BuyShipUR": {
+      "name": "EventShop.BuyShipUR.name",
+      "help": "EventShop.BuyShipUR.help",
+      "0": "0",
+      "1": "1",
+      "2": "2"
+    },
+    "PresetFilter": {
+      "name": "EventShop.PresetFilter.name",
+      "help": "EventShop.PresetFilter.help",
+      "all": "all",
+      "custom": "custom"
+    },
+    "CustomFilter": {
+      "name": "EventShop.CustomFilter.name",
+      "help": "EventShop.CustomFilter.help"
+    }
+  },
   "ShipyardDr": {
     "_info": {
       "name": "ShipyardDr._info.name",
