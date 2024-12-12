@@ -553,6 +553,12 @@
       "do_not": "do_not",
       "save": "save"
     },
+    "NewShipRecord": {
+      "name": "DropRecord.NewShipRecord.name",
+      "help": "DropRecord.NewShipRecord.help",
+      "do_not": "do_not",
+      "save": "save"
+    },
     "OpsiRecord": {
       "name": "DropRecord.OpsiRecord.name",
       "help": "DropRecord.OpsiRecord.help",

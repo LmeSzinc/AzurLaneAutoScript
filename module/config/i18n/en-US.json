@@ -553,6 +553,12 @@
       "do_not": "Do nothing",
       "save": "Save"
     },
+    "NewShipRecord": {
+      "name": "New Ship Record",
+      "help": "",
+      "do_not": "Do nothing",
+      "save": "Save"
+    },
     "OpsiRecord": {
       "name": "OpSi Record",
       "help": "",
