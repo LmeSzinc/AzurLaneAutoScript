@@ -2357,6 +2357,10 @@
     "UseTuningSample": {
       "name": "OpsiDaily.UseTuningSample.name",
       "help": "OpsiDaily.UseTuningSample.help"
+    },
+    "CollectTargetReward": {
+      "name": "OpsiDaily.CollectTargetReward.name",
+      "help": "OpsiDaily.CollectTargetReward.help"
     }
   },
   "OpsiObscure": {
@@ -2426,10 +2430,24 @@
       "5": "5",
       "6": "6",
       "10": "10"
+    }
+  },
+  "OpsiTarget": {
+    "_info": {
+      "name": "OpsiTarget._info.name",
+      "help": "OpsiTarget._info.help"
+    },
+    "TargetFarming": {
+      "name": "OpsiTarget.TargetFarming.name",
+      "help": "OpsiTarget.TargetFarming.help"
     },
     "TargetZone": {
-      "name": "OpsiMeowfficerFarming.TargetZone.name",
-      "help": "OpsiMeowfficerFarming.TargetZone.help"
+      "name": "OpsiTarget.TargetZone.name",
+      "help": "OpsiTarget.TargetZone.help"
+    },
+    "LastRun": {
+      "name": "OpsiTarget.LastRun.name",
+      "help": "OpsiTarget.LastRun.help"
     }
   },
   "OpsiHazard1Leveling": {
