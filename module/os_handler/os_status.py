@@ -83,6 +83,7 @@ class OSStatus(UI):
             else:
                 break
         LogRes(self.config).YellowCoin = yellow_coins
+        logger.info(f'Yellow coins: {yellow_coins}')
 
         return yellow_coins
 

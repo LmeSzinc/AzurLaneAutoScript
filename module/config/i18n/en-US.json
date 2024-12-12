@@ -2508,7 +2508,7 @@
     },
     "DoScanningDevice": {
       "name": "Do Siren Scanning Device",
-      "help": "Exchange purple coins to operation coins"
+      "help": "Exchange purple coins to operation coins, which may cause a shortage of purple coins"
     }
   },
   "Daemon": {

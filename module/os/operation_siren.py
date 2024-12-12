@@ -335,7 +335,6 @@ class OperationSiren(OSMap):
         if preserve == 0:
             self.config.override(OpsiFleet_Submarine=False)
         if self.is_cl1_enabled:
-            OperationCoins_Preserve = self.config.cross_get(keys="OpsiHazard1Leveling.OpsiHazard1Leveling.OperationCoinsPreserve")
             # Without these enabled, CL1 gains 0 profits
             self.config.override(
                 OpsiGeneral_DoRandomMapEvent=True,
@@ -372,7 +371,8 @@ class OperationSiren(OSMap):
                 check_rest_ap = True
                 if not self.is_cl1_enabled and self.config.OpsiGeneral_BuyActionPointLimit > 0:
                     keep_current_ap = False
-                if self.is_cl1_enabled and self.get_yellow_coins() >= OperationCoins_Preserve:
+                if self.is_cl1_enabled and self.get_yellow_coins() >= self.config.cross_get(
+                        keys='OpsiHazard1Leveling.OpsiHazard1Leveling.OperationCoinsPreserve'):
                     check_rest_ap = False
                     try:
                         self.action_point_set(cost=0, keep_current_ap=keep_current_ap, check_rest_ap=check_rest_ap)
@@ -452,12 +452,6 @@ class OperationSiren(OSMap):
             if self.config.OpsiGeneral_BuyActionPointLimit > 0:
                 keep_current_ap = False
             self.action_point_set(cost=70, keep_current_ap=keep_current_ap, check_rest_ap=True)
-            # if self._action_point_total >= 3000:
-            #     with self.config.multi_set():
-            #         self.config.task_delay(server_update=True)
-            #         if not self.is_in_opsi_explore():
-            #             self.config.task_call('OpsiMeowfficerFarming')
-            #     self.config.task_stop()
 
             if self.config.OpsiHazard1Leveling_TargetZone != 0:
                 zone = self.config.OpsiHazard1Leveling_TargetZone

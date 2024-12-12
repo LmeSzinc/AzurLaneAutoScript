@@ -222,7 +222,7 @@ class OSShop(PortShop, AkashiShop):
     @cached_property
     def yellow_coins_preserve(self):
         if self.is_cl1_enabled:
-            return self.config.cross_get(keys="OpsiHazard1Leveling.OpsiHazard1Leveling.OperationCoinsPreserve")
+            return self.config.cross_get(keys='OpsiHazard1Leveling.OpsiHazard1Leveling.OperationCoinsPreserve')
         else:
             return self.config.OS_NORMAL_YELLOW_COINS_PRESERVE
 

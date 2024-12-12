@@ -436,9 +436,9 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         """
         if self.is_cl1_enabled and get_os_reset_remain() > 2 \
                 and self.get_yellow_coins() > self.config.cross_get(
-                    keys="OpsiHazard1Leveling.OpsiHazard1Leveling.OperationCoinsPreserve"):
+                    keys='OpsiHazard1Leveling.OpsiHazard1Leveling.OperationCoinsPreserve'):
             OpsiMeowfficerFarming_ActionPointPreservse = self.config.cross_get(
-                    keys="OpsiMeowfficerFarming.OpsiMeowfficerFarming.ActionPointPreserve")
+                    keys='OpsiMeowfficerFarming.OpsiMeowfficerFarming.ActionPointPreserve')
             logger.info(f'Keep {OpsiMeowfficerFarming_ActionPointPreservse} AP when CL1 available')
             if not self.action_point_check(OpsiMeowfficerFarming_ActionPointPreservse):
                 self.config.opsi_task_delay(cl1_preserve=True)
@@ -791,7 +791,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
             self.device.click(grid)
             with self.config.temporary(STORY_ALLOW_SKIP=False):
                 result = self.wait_until_walk_stable(
-                    drop=drop, walk_out_of_step=False, confirm_timer=Timer(1.5, count=4))
+                    drop=drop, walk_out_of_step=False, confirm_timer=Timer(1.5, count=8))
             self.os_auto_search_run(drop=drop)
             if 'event' in result:
                 self._solved_map_event.add('is_scanning_device')
