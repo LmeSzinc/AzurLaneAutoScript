@@ -9,11 +9,7 @@ from module.equipment.fleet_equipment import OCR_FLEET_INDEX
 from module.exception import CampaignEnd, ScriptError, RequestHumanTakeover
 from module.handler.assets import AUTO_SEARCH_MAP_OPTION_OFF
 from module.logger import logger
-from module.map.assets import (
-    FLEET_ENTER_FLAGSHIP_HARD_1, FLEET_ENTER_FLAGSHIP_HARD_2, FLEET_ENTER_HARD_1, FLEET_ENTER_HARD_2,
-    FLEET_ENTER_FLAGSHIP_HARD_1_3, FLEET_ENTER_FLAGSHIP_HARD_2_3, FLEET_ENTER_HARD_1_3, FLEET_ENTER_HARD_2_3,
-    FLEET_PREPARATION, MAP_PREPARATION
-    )
+from module.map.assets import FLEET_PREPARATION, MAP_PREPARATION
 from module.retire.assets import (
     DOCK_CHECK, DOCK_SHIP_DOWN,
     TEMPLATE_BOGUE, TEMPLATE_HERMES, TEMPLATE_LANGLEY, TEMPLATE_RANGER,
@@ -140,7 +136,7 @@ class GemsEquipmentHandler(EquipmentCodeHandler):
 
 class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
 
-    def event_hard_mode_override(self):
+    def hard_mode_override(self):
         HARDMODEMAPS = [
             'c1', 'c2', 'c3',
             'd1', 'd2', 'd3',
@@ -148,31 +144,24 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
         ]
         if self.config.Campaign_Name.lower() in HARDMODEMAPS:
             logger.info('Is in hard mode, switch ship changing method.')
+            self.hard_mode = True
             self._ship_detail_enter = self._ship_detail_enter_hard
             self._fleet_detail_enter = self._fleet_detail_enter_hard
             self._fleet_back = self._fleet_back_hard
             self.page_fleet_check_button = FLEET_PREPARATION
             if self.config.Fleet_FleetOrder == 'fleet1_standby_fleet2_all':
-                self.FLEET_ENTER_FLAGSHIP = FLEET_ENTER_FLAGSHIP_HARD_2
-                self.FLEET_ENTER = FLEET_ENTER_HARD_2
-                self.FLEET_ENTER_FLAGSHIP_3_POSITION = FLEET_ENTER_FLAGSHIP_HARD_2_3
-                self.FLEET_ENTER_3_POSITION = FLEET_ENTER_HARD_2_3
+                self.fleet_detail_enter_flagship = self.fleet_enter_flagship = FLEET_ENTER_FLAGSHIP_HARD_2
+                self.fleet_detail_enter = self.fleet_enter = FLEET_ENTER_HARD_2
             else:
-                self.FLEET_ENTER_FLAGSHIP = FLEET_ENTER_FLAGSHIP_HARD_1
-                self.FLEET_ENTER = FLEET_ENTER_HARD_1
-                self.FLEET_ENTER_FLAGSHIP_3_POSITION = FLEET_ENTER_FLAGSHIP_HARD_1_3
-                self.FLEET_ENTER_3_POSITION = FLEET_ENTER_HARD_1_3
-            self.hard_mode = True
+                self.fleet_detail_enter_flagship = self.fleet_enter_flagship = FLEET_ENTER_FLAGSHIP_HARD_1
+                self.fleet_detail_enter = self.fleet_enter = FLEET_ENTER_HARD_1
         else:
-            self._ship_detail_enter = self._ship_detail_enter
-            self._fleet_detail_enter = self._fleet_detail_enter
-            self._fleet_back = self._fleet_back
-            self.page_fleet_check_button = page_fleet.check_button
-            self.FLEET_ENTER_FLAGSHIP = FLEET_DETAIL_ENTER_FLAGSHIP
-            self._FLEET_ENTER_FLAGSHIP = self.FLEET_ENTER_FLAGSHIP
-            self.FLEET_ENTER = FLEET_DETAIL_ENTER
-            self._FLEET_ENTER = self.FLEET_ENTER
             self.hard_mode = False
+            self.page_fleet_check_button = page_fleet.check_button
+            self.fleet_detail_enter_flagship = FLEET_DETAIL_ENTER_FLAGSHIP
+            self.fleet_detail_enter = FLEET_DETAIL_ENTER
+            self.fleet_enter_flagship = FLEET_ENTER_FLAGSHIP
+            self.fleet_enter = FLEET_ENTER
 
     def load_campaign(self, name, folder='campaign_main'):
         super().load_campaign(name, folder)
@@ -216,12 +205,9 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
         else:
             return self.config.Fleet_Fleet1
 
-    def _fleet_detail_enter(self):
-        """
-        Enter GEMS_FLEET page
-        """
+    def _fleet_detail_enter(self, fleet):
         self.ui_ensure(page_fleet)
-        self.ui_ensure_index(self.fleet_to_attack, letter=OCR_FLEET_INDEX,
+        self.ui_ensure_index(fleet, letter=OCR_FLEET_INDEX,
                              next_button=FLEET_NEXT, prev_button=FLEET_PREV, skip_first_screenshot=True)
 
     def _ship_detail_enter(self, button):
@@ -229,7 +215,7 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
                       check_button=FLEET_DETAIL_CHECK, skip_first_screenshot=True)
         self.equip_enter(button, long_click=False)
 
-    def _fleet_detail_enter_hard(self):
+    def _fleet_detail_enter_hard(self, fleet):
         if self.appear(FLEET_PREPARATION, offset=(20, 50)):
             return
         self.campaign.ensure_campaign_ui(self.stage)
@@ -265,10 +251,10 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
         """
         logger.hr('Change flagship', level=1)
         logger.attr('ChangeFlagship', self.config.GemsFarming_ChangeFlagship)
-        self._fleet_detail_enter()
+        self._fleet_detail_enter(self.fleet_to_attack)
         if self.change_flagship_equip:
             logger.hr('Unmount flagship equipments', level=2)
-            self._ship_detail_enter(self.FLEET_ENTER_FLAGSHIP)
+            self._ship_detail_enter(self.fleet_detail_enter_flagship)
             self.clear_all_equip()
             self._fleet_back() 
 
@@ -277,7 +263,7 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
 
         if self.change_flagship_equip:
             logger.hr('Mount flagship equipments', level=2)
-            self._ship_detail_enter(self.FLEET_ENTER_FLAGSHIP)
+            self._ship_detail_enter(self.fleet_detail_enter_flagship)
             self.apply_equip_code()
             self._fleet_back()
 
@@ -292,10 +278,10 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
         """
         logger.hr('Change vanguard', level=1)
         logger.attr('ChangeVanguard', self.config.GemsFarming_ChangeVanguard)
-        self._fleet_detail_enter()
+        self._fleet_detail_enter(self.fleet_to_attack)
         if self.change_vanguard_equip:
             logger.hr('Unmount vanguard equipments', level=2)
-            self._ship_detail_enter(self.FLEET_ENTER)
+            self._ship_detail_enter(self.fleet_detail_enter)
             self.clear_all_equip()
             self._fleet_back()
 
@@ -304,7 +290,7 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
 
         if self.change_vanguard_equip:
             logger.hr('Mount vanguard equipments', level=2)
-            self._ship_detail_enter(self.FLEET_ENTER)
+            self._ship_detail_enter(self.fleet_detail_enter)
             self.apply_equip_code()
             self._fleet_back()
 
@@ -514,7 +500,7 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
 
     def solve_hard_flagship_black(self):
         if self.hard_mode:
-            self.ui_click(self.FLEET_ENTER_FLAGSHIP,
+            self.ui_click(self.fleet_enter_flagship,
                           appear_button=self.page_fleet_check_button, check_button=DOCK_CHECK,
                           skip_first_screenshot=True)
             if self.appear(DOCK_SHIP_DOWN):
@@ -523,8 +509,6 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
                               skip_first_screenshot=True)
             else:
                 self.ui_back(check_button=FLEET_PREPARATION)
-            self._FLEET_ENTER_FLAGSHIP = self.FLEET_ENTER_FLAGSHIP
-            self.FLEET_ENTER_FLAGSHIP = self.FLEET_ENTER_FLAGSHIP_3_POSITION
 
     def flagship_change_with_emotion(self, ship):
         target_ship = max(ship, key=lambda s: (s.level, s.emotion))
@@ -542,10 +526,8 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
             out: page_fleet
         """
         self.solve_hard_flagship_black()
-        self.FLEET_ENTER_FLAGSHIP = FLEET_ENTER_FLAGSHIP if not self.hard_mode else self.FLEET_ENTER_FLAGSHIP
-        self.ui_click(self.FLEET_ENTER_FLAGSHIP,
+        self.ui_click(self.fleet_enter_flagship,
                       appear_button=self.page_fleet_check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
-        self.FLEET_ENTER_FLAGSHIP = self._FLEET_ENTER_FLAGSHIP if not self.hard_mode else self.FLEET_ENTER_FLAGSHIP
         faction = 'eagle' if self.config.GemsFarming_CommonCV == 'eagle' else 'all'
         extra = 'can_limit_break' if self.config.GemsFarming_ALLowHighFlagshipLevel else 'enhanceable'
         self.dock_filter_set(
@@ -555,10 +537,6 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
         ship = self.get_common_rarity_cv()
         if ship:
             self.flagship_change_with_emotion(ship)
-
-            if self.hard_mode:
-                self.FLEET_ENTER_FLAGSHIP = self._FLEET_ENTER_FLAGSHIP
-
             logger.info('Change flagship success')
             return True
         else:
@@ -576,13 +554,11 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
                     raise RequestHumanTakeover
                 self._dock_reset()
                 self.ui_back(check_button=self.page_fleet_check_button)
-            if self.hard_mode:
-                self.FLEET_ENTER_FLAGSHIP = self._FLEET_ENTER_FLAGSHIP
             return False
 
     def solve_hard_vanguard_black(self):
         if self.hard_mode:
-            self.ui_click(self.FLEET_ENTER,
+            self.ui_click(self.fleet_enter,
                           appear_button=self.page_fleet_check_button, check_button=DOCK_CHECK,
                           skip_first_screenshot=True)
             if self.appear(DOCK_SHIP_DOWN):
@@ -591,8 +567,6 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
                               skip_first_screenshot=True)
             else:
                 self.ui_back(check_button=FLEET_PREPARATION)
-            self._FLEET_ENTER = self.FLEET_ENTER
-            self.FLEET_ENTER = self.FLEET_ENTER_3_POSITION
 
     def vanguard_change_with_emotion(self, ship):
         target_ship = max(ship, key=lambda s: s.emotion)
@@ -612,10 +586,8 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
             out: page_fleet
         """
         self.solve_hard_vanguard_black()
-        self.FLEET_ENTER = FLEET_ENTER if not self.hard_mode else self.FLEET_ENTER
-        self.ui_click(self.FLEET_ENTER,
+        self.ui_click(self.fleet_enter,
                       appear_button=self.page_fleet_check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
-        self.FLEET_ENTER = self._FLEET_ENTER if not self.hard_mode else self.FLEET_ENTER
         if self.config.GemsFarming_CommonDD == 'any':
             faction = ['eagle', 'iron']
         elif self.config.GemsFarming_CommonDD == 'favourite':
@@ -633,10 +605,7 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
 
         ship = self.get_common_rarity_dd()
         if ship:
-            if self.hard_mode:
-                self.FLEET_ENTER = self._FLEET_ENTER
             self.vanguard_change_with_emotion(ship)
-
             logger.info('Change vanguard ship success')
             return True
         else:
@@ -650,8 +619,6 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
                     raise RequestHumanTakeover
                 self._dock_reset()
                 self.ui_back(check_button=self.page_fleet_check_button)
-            if self.hard_mode:
-                self.FLEET_ENTER = self._FLEET_ENTER
             return False
 
     _trigger_lv32 = False
@@ -693,7 +660,7 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
         """
         self.config.STOP_IF_REACH_LV32 = self.change_flagship
         self.campaign_floder = folder
-        self.event_hard_mode_override()
+        self.hard_mode_override()
         while 1:
             self._trigger_lv32 = False
             is_limit = self.config.StopCondition_RunCount
