@@ -1669,15 +1669,6 @@
         "type": "checkbox",
         "value": false
       },
-      "FleetNumberInHardMode": {
-        "type": "select",
-        "value": 0,
-        "option": [
-          0,
-          1,
-          2
-        ]
-      },
       "DelayTaskIFNoFlagship": {
         "type": "checkbox",
         "value": true

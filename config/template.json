@@ -323,7 +323,6 @@
       "EquipmentCode": "DD: null\nbogue: null\nhermes: null\nlangley: null\nranger: null",
       "ALLowHighFlagshipLevel": false,
       "ALLowLowVanguardLevel": false,
-      "FleetNumberInHardMode": 0,
       "DelayTaskIFNoFlagship": true,
       "CommissionLimit": false
     },

@@ -158,7 +158,6 @@ class GeneratedConfig:
     GemsFarming_EquipmentCode = 'DD: null\nbogue: null\nhermes: null\nlangley: null\nranger: null'
     GemsFarming_ALLowHighFlagshipLevel = False
     GemsFarming_ALLowLowVanguardLevel = False
-    GemsFarming_FleetNumberInHardMode = 0  # 0, 1, 2
     GemsFarming_DelayTaskIFNoFlagship = True
     GemsFarming_CommissionLimit = False
 
