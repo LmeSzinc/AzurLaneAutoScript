@@ -498,15 +498,16 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
             logger.error(f'Invalid CommonDD setting: {common_dd}')
             raise ScriptError(f'Invalid CommonDD setting: {common_dd}')
 
-    def solve_hard_flagship_black(self):
+    def ship_down_hard(self, button):
+        """
+        In hard mode, let the ship leave the fleet first
+        """
         if self.hard_mode:
-            self.ui_click(self.fleet_enter_flagship,
-                          appear_button=self.page_fleet_check_button, check_button=DOCK_CHECK,
-                          skip_first_screenshot=True)
+            self.ui_click(button,
+                          appear_button=self.page_fleet_check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
             if self.appear(DOCK_SHIP_DOWN):
                 self.ui_click(DOCK_SHIP_DOWN,
-                              appear_button=DOCK_CHECK, check_button=self.page_fleet_check_button,
-                              skip_first_screenshot=True)
+                              appear_button=DOCK_CHECK, check_button=self.page_fleet_check_button, skip_first_screenshot=True)
             else:
                 self.ui_back(check_button=FLEET_PREPARATION)
 
@@ -525,7 +526,7 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
             in: page_fleet
             out: page_fleet
         """
-        self.solve_hard_flagship_black()
+        self.ship_down_hard(self.fleet_enter_flagship)
         self.ui_click(self.fleet_enter_flagship,
                       appear_button=self.page_fleet_check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
         faction = 'eagle' if self.config.GemsFarming_CommonCV == 'eagle' else 'all'
@@ -556,18 +557,6 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
                 self.ui_back(check_button=self.page_fleet_check_button)
             return False
 
-    def solve_hard_vanguard_black(self):
-        if self.hard_mode:
-            self.ui_click(self.fleet_enter,
-                          appear_button=self.page_fleet_check_button, check_button=DOCK_CHECK,
-                          skip_first_screenshot=True)
-            if self.appear(DOCK_SHIP_DOWN):
-                self.ui_click(DOCK_SHIP_DOWN,
-                              appear_button=DOCK_CHECK, check_button=self.page_fleet_check_button,
-                              skip_first_screenshot=True)
-            else:
-                self.ui_back(check_button=FLEET_PREPARATION)
-
     def vanguard_change_with_emotion(self, ship):
         target_ship = max(ship, key=lambda s: s.emotion)
         if self.config.GemsFarming_ALLowHighFlagshipLevel:
@@ -585,7 +574,7 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
             in: page_fleet
             out: page_fleet
         """
-        self.solve_hard_vanguard_black()
+        self.ship_down_hard(self.fleet_enter)
         self.ui_click(self.fleet_enter,
                       appear_button=self.page_fleet_check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
         if self.config.GemsFarming_CommonDD == 'any':
