@@ -24,8 +24,8 @@ from module.ui.ui import UI
 from module.ui_white.assets import REWARD_1_WHITE, REWARD_GOTO_COMMISSION_WHITE
 
 COMMISSION_SWITCH = Switch('Commission_switch', is_selector=True)
-COMMISSION_SWITCH.add_status('daily', COMMISSION_DAILY)
-COMMISSION_SWITCH.add_status('urgent', COMMISSION_URGENT)
+COMMISSION_SWITCH.add_state('daily', COMMISSION_DAILY)
+COMMISSION_SWITCH.add_state('urgent', COMMISSION_URGENT)
 COMMISSION_SCROLL = Scroll(COMMISSION_SCROLL_AREA, color=(247, 211, 66), name='COMMISSION_SCROLL')
 
 

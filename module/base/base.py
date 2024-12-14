@@ -124,7 +124,7 @@ class ModuleBase:
 
         return button
 
-    def appear(self, button, offset=0, interval=0, similarity=0.85, threshold=30):
+    def appear(self, button, offset=0, interval=0, similarity=0.85, threshold=10):
         """
         Args:
             button (Button, Template, HierarchyButton, str):
