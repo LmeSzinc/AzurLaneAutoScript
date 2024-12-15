@@ -314,6 +314,14 @@ pre.rich-traceback-code {
     margin: 0;
 }
 
+.side_status {
+    position: relative;
+    width: 18px;
+    height: 18px;
+    bottom: -8px;
+    left: 4px;
+}
+
 #pywebio-scope-contents {
     margin-top: 0;
     overflow-y: auto;
