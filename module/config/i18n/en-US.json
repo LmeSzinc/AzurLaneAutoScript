@@ -2357,6 +2357,10 @@
     "UseTuningSample": {
       "name": "Use Tuning Samples",
       "help": "Use all tuning samples and quality tuning samples"
+    },
+    "CollectTargetReward": {
+      "name": "Collect Achievement Rewards",
+      "help": ""
     }
   },
   "OpsiObscure": {
@@ -2426,10 +2430,24 @@
       "5": "5",
       "6": "6",
       "10": "Center Zones"
+    }
+  },
+  "OpsiTarget": {
+    "_info": {
+      "name": "Opsi Achievement",
+      "help": ""
+    },
+    "TargetFarming": {
+      "name": "Farm for Safe Zone Achievement",
+      "help": ""
     },
     "TargetZone": {
       "name": "Target Zone ID",
       "help": "Supports either Zone ID or Name in CN/EN/JP/TW, i.e. \"51\", \"NA Ocean SE Sector E\"\nIf specified, Alas will loop on this same zone after each clear\nUse default value 0 or clear the field to remove the specification\nZone information can be acquired from <./module/os/map_data.py>"
+    },
+    "LastRun": {
+      "name": "Last Collect Time",
+      "help": "This value is automatically recorded and generally does not need to be modified."
     }
   },
   "OpsiHazard1Leveling": {
