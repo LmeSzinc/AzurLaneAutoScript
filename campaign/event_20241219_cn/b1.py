@@ -58,6 +58,7 @@ class Config:
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
     STAGE_ENTRANCE = ['half', '20240725']
+    MAP_HAS_MODE_SWITCH = True
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (80, 255 - 17),
         'width': (0.9, 10),
