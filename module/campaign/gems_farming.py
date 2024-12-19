@@ -67,24 +67,60 @@ class GemsCampaignOverride(CampaignBase):
             raise CampaignEnd('Emotion withdraw')
 
 
-class GemsFarming(CampaignRun, FleetEquipment, Retirement):
+class GemsFleetEquipment(FleetEquipment, Retirement):
+    """
+    Overwrite fleet_equipment.FleetEquipment()
+    """
+    def fleet_enter(self, fleet):
+        if self.hard_mode:
+            if self.appear(self.page_fleet_check_button, offset=(20, 50)):
+                return
+            self.campaign.ensure_campaign_ui(self.stage)
+            self.ui_click(click_button=self.campaign.ENTRANCE, appear_button=BACK_ARROW, check_button=MAP_PREPARATION)
+            while 1:
+                self.device.screenshot()
+
+                if self.appear_then_click(MAP_PREPARATION, interval=1):
+                    continue
+
+                if self.handle_retirement():
+                    continue
+
+                if self.appear(self.page_fleet_check_button, offset=(20, 50)):
+                    break
+        else:
+            super().fleet_enter(fleet)
+
+    def fleet_enter_ship(self, button):
+        if self.hard_mode:
+            self.ship_info_enter(button)
+        else:
+            super().fleet_enter_ship(button)
+
+    def fleet_back(self):
+        if self.hard_mode:
+            self.ui_back(self.page_fleet_check_button)
+        else:
+            super().fleet_back()
+
+
+class GemsFarming(CampaignRun, GemsFleetEquipment):
 
     def hard_mode_override(self):
-        HARDMODEMAPS = [
-            'c1', 'c2', 'c3',
-            'd1', 'd2', 'd3',
-            'ht1', 'ht2', 'ht3', 'ht4', 'ht5', 'ht6',
-        ]
-        if self.config.Campaign_Name.lower() in HARDMODEMAPS:
+        if self.campaign.config.Campaign_Mode in ['hard']:
             logger.info('Is in hard mode, switch ship changing method.')
             self.hard_mode = True
             self.page_fleet_check_button = FLEET_PREPARATION
             if self.config.Fleet_FleetOrder == 'fleet1_standby_fleet2_all':
-                self.fleet_detail_enter_flagship = self.fleet_enter_flagship = FLEET_ENTER_FLAGSHIP_HARD_2
-                self.fleet_detail_enter = self.fleet_enter_ = FLEET_ENTER_HARD_2
+                self.fleet_detail_enter_flagship = FLEET_DETAIL_ENTER_FLAGSHIP_HARD_2
+                self.fleet_detail_enter = FLEET_DETAIL_ENTER_HARD_2
+                self.fleet_enter_flagship = FLEET_ENTER_FLAGSHIP_HARD_2
+                self.fleet_enter_ = FLEET_ENTER_HARD_2
             else:
-                self.fleet_detail_enter_flagship = self.fleet_enter_flagship = FLEET_ENTER_FLAGSHIP_HARD_1
-                self.fleet_detail_enter = self.fleet_enter_ = FLEET_ENTER_HARD_1
+                self.fleet_detail_enter_flagship = FLEET_DETAIL_ENTER_FLAGSHIP_HARD_1
+                self.fleet_detail_enter = FLEET_DETAIL_ENTER_HARD_1
+                self.fleet_enter_flagship = FLEET_ENTER_FLAGSHIP_HARD_1
+                self.fleet_enter_ = FLEET_ENTER_HARD_1
         else:
             self.hard_mode = False
             self.page_fleet_check_button = page_fleet.check_button
@@ -125,38 +161,6 @@ class GemsFarming(CampaignRun, FleetEquipment, Retirement):
             return self.config.Fleet_Fleet2
         else:
             return self.config.Fleet_Fleet1
-
-    def fleet_enter(self, fleet):
-        if self.hard_mode:
-            if self.appear(self.page_fleet_check_button, offset=(20, 50)):
-                return
-            self.campaign.ensure_campaign_ui(self.stage)
-            self.ui_click(click_button=self.campaign.ENTRANCE, appear_button=BACK_ARROW, check_button=MAP_PREPARATION)
-            while 1:
-                self.device.screenshot()
-
-                if self.appear_then_click(MAP_PREPARATION, interval=1):
-                    continue
-
-                if self.handle_retirement():
-                    continue
-
-                if self.appear(self.page_fleet_check_button, offset=(20, 50)):
-                    break
-        else:
-            super().fleet_enter(fleet)
-
-    def fleet_enter_ship(self, button):
-        if self.hard_mode:
-            self.ship_info_enter(button)
-        else:
-            super().fleet_enter_ship(button)
-
-    def fleet_back(self):
-        if self.hard_mode:
-            self.ui_back(self.page_fleet_check_button)
-        else:
-            super().fleet_back()
 
     def flagship_change(self):
         """
@@ -386,7 +390,7 @@ class GemsFarming(CampaignRun, FleetEquipment, Retirement):
             in: page_fleet
             out: page_fleet
         """
-        self.ship_down_hard(self.fleet_enter_flagship)
+        self.ship_down_hard(self.fleet_detail_enter_flagship)
         self.ui_click(self.fleet_enter_flagship,
                       appear_button=self.page_fleet_check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
         self.dock_filter_set(
@@ -425,7 +429,7 @@ class GemsFarming(CampaignRun, FleetEquipment, Retirement):
             in: page_fleet
             out: page_fleet
         """
-        self.ship_down_hard(self.fleet_enter_)
+        self.ship_down_hard(self.fleet_detail_enter)
         self.ui_click(self.fleet_enter_,
                       appear_button=self.page_fleet_check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
 
@@ -489,7 +493,6 @@ class GemsFarming(CampaignRun, FleetEquipment, Retirement):
             total (int):
         """
         self.config.STOP_IF_REACH_LV32 = self.change_flagship
-        self.hard_mode_override()
 
         while 1:
             self._trigger_lv32 = False
@@ -505,6 +508,7 @@ class GemsFarming(CampaignRun, FleetEquipment, Retirement):
             except RequestHumanTakeover as e:
                 try:
                     if e.args[0] == 'Hard not satisfied' and self.change_flagship and self.change_vanguard:
+                        self.hard_mode_override()
                         self.flagship_change()
                         self.vanguard_change()
                     else:
@@ -517,6 +521,7 @@ class GemsFarming(CampaignRun, FleetEquipment, Retirement):
             # End
             if self._trigger_lv32 or self._trigger_emotion:
                 success = True
+                self.hard_mode_override()
                 if self.change_flagship:
                     success = self.flagship_change()
                 if self.change_vanguard:
