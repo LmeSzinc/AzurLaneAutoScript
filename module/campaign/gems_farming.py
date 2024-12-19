@@ -135,14 +135,8 @@ class GemsEquipmentHandler(EquipmentCodeHandler):
 
 
 class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
-
     def hard_mode_override(self):
-        HARDMODEMAPS = [
-            'c1', 'c2', 'c3',
-            'd1', 'd2', 'd3',
-            'ht1', 'ht2', 'ht3', 'ht4', 'ht5', 'ht6',
-        ]
-        if self.config.Campaign_Name.lower() in HARDMODEMAPS:
+        if self.campaign.config.Campaign_Mode == 'hard':
             logger.info('Is in hard mode, switch ship changing method.')
             self.hard_mode = True
             self._ship_detail_enter = self._ship_detail_enter_hard
@@ -652,8 +646,6 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
             total (int):
         """
         self.config.STOP_IF_REACH_LV32 = self.change_flagship
-        self.campaign_floder = folder
-        self.hard_mode_override()
         while 1:
             self._trigger_lv32 = False
             is_limit = self.config.StopCondition_RunCount
@@ -667,6 +659,7 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
             except RequestHumanTakeover as e:
                 try:
                     if e.args[0] == 'Hard not satisfied' and self.change_flagship and self.change_vanguard:
+                        self.hard_mode_override()
                         self.flagship_change()
                         self.vanguard_change()
                     else:
@@ -681,6 +674,7 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
             if (self._trigger_lv32 and not self.config.GemsFarming_ALLowHighFlagshipLevel) \
                     or self._trigger_emotion:
                 success = True
+                self.hard_mode_override()
                 if self.change_flagship:
                     success = self.flagship_change()
                 if self.change_vanguard:
