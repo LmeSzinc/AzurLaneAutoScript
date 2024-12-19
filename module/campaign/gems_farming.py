@@ -150,11 +150,15 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
             self._fleet_back = self._fleet_back_hard
             self.page_fleet_check_button = FLEET_PREPARATION
             if self.config.Fleet_FleetOrder == 'fleet1_standby_fleet2_all':
-                self.fleet_detail_enter_flagship = self.fleet_enter_flagship = FLEET_ENTER_FLAGSHIP_HARD_2
-                self.fleet_detail_enter = self.fleet_enter = FLEET_ENTER_HARD_2
+                self.fleet_detail_enter_flagship = FLEET_DETAIL_ENTER_FLAGSHIP_HARD_2
+                self.fleet_enter_flagship = FLEET_ENTER_FLAGSHIP_HARD_2
+                self.fleet_detail_enter = FLEET_DETAIL_ENTER_HARD_2
+                self.fleet_enter = FLEET_ENTER_HARD_2
             else:
-                self.fleet_detail_enter_flagship = self.fleet_enter_flagship = FLEET_ENTER_FLAGSHIP_HARD_1
-                self.fleet_detail_enter = self.fleet_enter = FLEET_ENTER_HARD_1
+                self.fleet_detail_enter_flagship = FLEET_DETAIL_ENTER_FLAGSHIP_HARD_1
+                self.fleet_enter_flagship = FLEET_ENTER_FLAGSHIP_HARD_1
+                self.fleet_detail_enter = FLEET_DETAIL_ENTER_HARD_1
+                self.fleet_enter = FLEET_ENTER_HARD_1
         else:
             self.hard_mode = False
             self.page_fleet_check_button = page_fleet.check_button
@@ -526,7 +530,7 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
             in: page_fleet
             out: page_fleet
         """
-        self.ship_down_hard(self.fleet_enter_flagship)
+        self.ship_down_hard(self.fleet_detail_enter_flagship)
         self.ui_click(self.fleet_enter_flagship,
                       appear_button=self.page_fleet_check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
         faction = 'eagle' if self.config.GemsFarming_CommonCV == 'eagle' else 'all'
@@ -574,7 +578,7 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
             in: page_fleet
             out: page_fleet
         """
-        self.ship_down_hard(self.fleet_enter)
+        self.ship_down_hard(self.fleet_detail_enter)
         self.ui_click(self.fleet_enter,
                       appear_button=self.page_fleet_check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
         if self.config.GemsFarming_CommonDD == 'any':
