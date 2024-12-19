@@ -223,3 +223,4 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20241114   | event 20240229 cn        | Snowrealm Peregrination                      | -                      | -                                            | -                                    | 雪境迷蹤                 |
 | 20241121   | event 20241121 cn        | Dangerous Inventions Incoming                | 危险发明迫近中         | Dangerous Inventions Incoming                | 危険発明接近中                       | -                        |
 | 20241128   | event 20241121 cn        | -                                            | -                      | -                                            | -                                    | 危險發明逼近中           |
+| 20241219   | event 20241219 cn        | Substellar Crepuscule                        | 星光下的余晖           | Substellar Crepuscule                        | 星降る夕影の残光                     | -                        |
