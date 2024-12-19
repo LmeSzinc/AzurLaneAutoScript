@@ -52,13 +52,14 @@ def to_map_input_name(name: str) -> str:
     campaign_7_2 -> 7-2
     d3 -> D3
     """
-    name = str(name).upper()
     # Remove whitespaces
     name = re.sub('[ \t\n]', '', name).lower()
     # B-1 -> B1
     res = re.match(r'([a-zA-Z])+[- ]+(\d+)', name)
     if res:
         name = f'{res.group(1)}{res.group(2)}'
+    # Change back to upper case for campaign removal
+    name = str(name).upper()
     # campaign_7_2 -> 7-2
     name = name.replace('CAMPAIGN_', '').replace('_', '-')
     return name
