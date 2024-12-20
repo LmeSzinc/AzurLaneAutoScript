@@ -197,7 +197,7 @@ class CampaignUI(MapOperation, CampaignEvent, CampaignOcr):
             Button:
         """
         entrance_name = name
-        if self.config.MAP_HAS_MODE_SWITCH or self.config.MAP_CHAPTER_SWITCH_20241219:
+        if self.config.MAP_HAS_MODE_SWITCH:
             for mode_name in self.campaign_get_mode_names(name):
                 if mode_name in self.stage_entrance:
                     name = mode_name

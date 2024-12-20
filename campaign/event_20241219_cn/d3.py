@@ -25,11 +25,11 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50 50 50
+    50 50 10 50 50 50 50 50 50 50 50
+    50 50 10 10 10 10 10 50 50 50 50
+    50 50 10 10 10 10 10 50 50 50 50
+    50 50 10 10 10 10 10 50 50 50 50
+    50 50 10 10 10 10 10 50 50 50 50
 """
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 2, 'siren': 2},
@@ -76,7 +76,7 @@ class Campaign(CampaignBase):
     def battle_0(self):
         if self.clear_siren():
             return True
-        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=1):
+        if self.clear_enemy(sort=('weight', 'cost_2', 'cost_1')):
             return True
 
         return self.battle_default()
@@ -84,7 +84,7 @@ class Campaign(CampaignBase):
     def battle_5(self):
         if self.clear_siren():
             return True
-        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
+        if self.clear_enemy(sort=('weight', 'cost_2', 'cost_1')):
             return True
 
         return self.battle_default()
