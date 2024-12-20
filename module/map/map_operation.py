@@ -265,7 +265,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
             bool: If map mode satisfied
                 Always True if map doesn't have mode switch in map preparation
         """
-        if not self.config.MAP_HAS_MODE_SWITCH:
+        if not self.config.MAP_HAS_MODE_SWITCH and not self.config.MAP_CHAPTER_SWITCH_20241219:
             return True
 
         if mode == 'normal':

@@ -45,6 +45,7 @@ class Config:
     # ===== End of generated config =====
 
     STAGE_ENTRANCE = ['half', '20240725']
+    MAP_CHAPTER_SWITCH_20241219 = True
     MAP_IS_ONE_TIME_STAGE = True
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (80, 255 - 33),
