@@ -735,6 +735,7 @@
       "event_20240912_cn": "Ode of Everblooming Crimson",
       "event_20241024_cn": "Tempesta and the Sleeping Sea",
       "event_20241121_cn": "Dangerous Inventions Incoming",
+      "event_20241219_cn": "Substellar Crepuscule",
       "raid_20200624": "Air Raid Drills with Essex Rerun",
       "raid_20210708": "Cross Wave rerun",
       "raid_20220127": "Mystery Investigation",
@@ -2304,8 +2305,8 @@
       "help": "At the beginning of each month OpSi is reset\nThe following must be satisfied:\n- OpSi story and practice battles must be complete\nEach zone will be visited in a clockwise direction every 27 minutes until world has been been completely opened\nNo need to consume 5000 oil for special radar in OpSi voucher shop"
     },
     "SpecialRadar": {
-      "name": "SpecialRadar Bought",
-      "help": "Enable if you have purchased the special radar\nAllows Alas to explore OpSi continously without having to wait 27 minutes between each zone clear\nCannot be selected when not purchased and used manually"
+      "name": "OpSi Data Logger Bought (5k oil item)",
+      "help": "Purchase Operation Siren Data Logger is not a must, enable if you have purchased.\nAllows Alas to explore OpSi continously without having to wait 27 minutes between each zone clear\nCannot be selected when not purchased and used manually"
     },
     "ForceRun": {
       "name": "Force Run",

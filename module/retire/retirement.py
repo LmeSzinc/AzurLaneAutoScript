@@ -89,6 +89,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
         executed = False
         for button in [SHIP_CONFIRM, SHIP_CONFIRM_2, EQUIP_CONFIRM, EQUIP_CONFIRM_2, GET_ITEMS_1, SR_SSR_CONFIRM]:
             self.interval_clear(button)
+        self.popup_interval_clear()
         timeout = Timer(10, count=10).start()
         while 1:
             if skip_first_screenshot:
@@ -110,34 +111,41 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                 timeout.reset()
 
             # Click
-            if self.match_template_color(SHIP_CONFIRM, offset=(30, 30), interval=2):
-                self.device.click(SHIP_CONFIRM)
-                continue
-            if self.appear(SHIP_CONFIRM_2, offset=(30, 30), interval=2):
+            # Ship confirm, order by display hierarchy
+            if self._unable_to_enhance \
+                    or self.config.OldRetire_SR \
+                    or self.config.OldRetire_SSR \
+                    or self.config.Retirement_RetireMode == 'one_click_retire':
+                if self.handle_popup_confirm(name='RETIRE_SR_SSR', offset=(20, 50)):
+                    self.interval_reset([SHIP_CONFIRM, SHIP_CONFIRM_2])
+                    continue
+                if self.config.SERVER in ['cn', 'jp', 'tw'] and \
+                        self.appear_then_click(SR_SSR_CONFIRM, offset=(20, 50), interval=2):
+                    self.interval_reset([SHIP_CONFIRM, SHIP_CONFIRM_2])
+                    continue
+            if self.match_template_color(SHIP_CONFIRM_2, offset=(30, 30), interval=2):
                 if self.retire_keep_common_cv and not self._have_kept_cv:
                     self.keep_one_common_cv()
                 self.device.click(SHIP_CONFIRM_2)
+                # GET_ITEMS_1 is going to appear, avoid re-entering ship confirm
                 self.interval_clear(GET_ITEMS_1)
+                self.interval_reset([SHIP_CONFIRM, SHIP_CONFIRM_2])
                 continue
+            if self.match_template_color(SHIP_CONFIRM, offset=(30, 30), interval=2):
+                self.device.click(SHIP_CONFIRM)
+                continue
+            # Equip confirm
             if self.appear_then_click(EQUIP_CONFIRM, offset=(30, 30), interval=2):
                 executed = True
                 continue
             if self.appear_then_click(EQUIP_CONFIRM_2, offset=(30, 30), interval=2):
                 self.interval_clear(GET_ITEMS_1)
                 continue
+            # Get items
             if self.appear(GET_ITEMS_1, offset=(30, 30), interval=2):
                 self.device.click(GET_ITEMS_1_RETIREMENT_SAVE)
                 self.interval_reset(SHIP_CONFIRM)
                 continue
-            if self._unable_to_enhance \
-                    or self.config.OldRetire_SR \
-                    or self.config.OldRetire_SSR \
-                    or self.config.Retirement_RetireMode == 'one_click_retire':
-                if self.handle_popup_confirm(name='RETIRE_SR_SSR', offset=(20, 50)):
-                    continue
-                if self.config.SERVER in ['cn', 'jp', 'tw'] and \
-                        self.appear_then_click(SR_SSR_CONFIRM, offset=(20, 50), interval=2):
-                    continue
 
     def retirement_appear(self):
         return self.appear(RETIRE_APPEAR_1, offset=30) \
@@ -452,6 +460,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
         count = 0
         RETIRE_COIN.load_color(self.device.image)
         RETIRE_COIN._match_init = True
+        self.interval_clear(SHIP_CONFIRM_2)
 
         while 1:
             if skip_first_screenshot:
@@ -466,7 +475,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                 logger.warning('_retire_select_one failed after 3 trial')
                 return False
 
-            if self.appear(SHIP_CONFIRM_2, offset=(30, 30), interval=3):
+            if self.appear(SHIP_CONFIRM_2, offset=(30, 30), interval=2):
                 self.device.click(button)
                 count += 1
                 continue
@@ -556,3 +565,4 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
         if button is not None:
             self._retire_select_one(button)
             self._have_kept_cv = True
+        logger.info('Keep one common CV end')

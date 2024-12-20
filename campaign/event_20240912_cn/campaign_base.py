@@ -1,12 +1,11 @@
-from module.campaign.assets import SWITCH_20240725_COMBAT, SWITCH_20240725_STORY
+from module.campaign.assets import SWITCH_20241219_COMBAT, SWITCH_20241219_STORY
 from module.campaign.campaign_base import CampaignBase as CampaignBase_
 from module.campaign.campaign_ui import ModeSwitch
 from module.ui.ui import page_event
 
-
-MODE_SWITCH_20240912 = ModeSwitch('Mode_switch_20240912', is_selector=True, offset=(30, 30))
-MODE_SWITCH_20240912.add_state('combat', SWITCH_20240725_COMBAT, offset=(444, 4))
-MODE_SWITCH_20240912.add_state('story', SWITCH_20240725_STORY, offset=(444, 4))
+MODE_SWITCH_20240912 = ModeSwitch('Mode_switch_20240912', is_selector=True)
+MODE_SWITCH_20240912.add_state('combat', SWITCH_20241219_COMBAT, offset=(444, 4))
+MODE_SWITCH_20240912.add_state('story', SWITCH_20241219_STORY, offset=(444, 4))
 
 
 class CampaignBase(CampaignBase_):
@@ -18,6 +17,9 @@ class CampaignBase(CampaignBase_):
         Returns:
             bool: If mode changed.
         """
+        # event_20240912_cn has two mode switches at bottom
+        # The classic one, MODE_SWITCH_* is at bottom-left,
+        # and MODE_SWITCH_20240912 is at bottom-middle
         if mode == "story":
             MODE_SWITCH_20240912.set('story', main=self)
         elif mode in ['normal', 'hard', 'ex']:

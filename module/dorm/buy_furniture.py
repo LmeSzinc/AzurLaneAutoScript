@@ -37,11 +37,11 @@ class BuyFurniture(UI):
             # Enter furniture shop page from page_dorm, only need to enter once
             if self.appear(DORM_CHECK, offset=(20, 20), interval=3):
                 self.device.click(DORM_FURNITURE_SHOP_ENTER)
-                self.interval_reset(GET_SHIP)
+                self.interval_reset([GET_SHIP, EXERCISE_PREPARATION])
                 continue
 
             if self.appear(DORM_FURNITURE_SHOP_FIRST_SELECTED, offset=(20, 20)):
-                self.interval_reset(EXERCISE_PREPARATION)
+                self.interval_reset([GET_SHIP, EXERCISE_PREPARATION])
                 # Enter furniture details page from furniture shop page
                 if self.appear(DORM_FURNITURE_DETAILS_ENTER, offset=(20, 20), interval=3):
                     self.device.click(DORM_FURNITURE_DETAILS_ENTER)
@@ -50,6 +50,7 @@ class BuyFurniture(UI):
             # Re select the first piece of furniture on left side of furniture list below.
             elif self.appear(DORM_FURNITURE_SHOP_FIRST, offset=(20, 20), interval=3):
                 self.device.click(DORM_FURNITURE_SHOP_FIRST)
+                self.interval_reset([GET_SHIP, EXERCISE_PREPARATION])
                 continue
 
             if self.appear(DORM_FURNITURE_DETAILS_QUIT, offset=(20, 20)):
