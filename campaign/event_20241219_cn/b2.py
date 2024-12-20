@@ -6,17 +6,17 @@ from .b1 import Config as ConfigBase
 
 MAP = CampaignMap('B2')
 MAP.shape = 'K8'
-MAP.camera_data = ['E2', 'E6', 'H2', 'H6']
-MAP.camera_data_spawn_point = ['E2']
+MAP.camera_data = ['D2', 'D5', 'H2', 'H5']
+MAP.camera_data_spawn_point = ['D5']
 MAP.map_data = """
-    -- -- -- ++ SP -- SP ++ ME -- ME
-    -- MB -- -- -- __ -- -- -- ME --
-    -- -- -- ++ -- MS -- ++ ME -- --
-    ++ ++ ++ ++ MS ++ MS ++ ++ ++ --
-    -- -- -- -- -- Me -- -- -- -- --
-    -- ++ ++ Me -- -- -- ME -- ME --
-    -- ++ ++ Me -- Me ++ ++ ME -- ME
-    -- -- -- -- ME -- -- ++ -- ++ --
+    -- -- ME ++ ++ MB ++ ++ -- -- --
+    -- ME -- ++ MS -- MS ++ Me ++ ++
+    ME -- -- Me -- MS -- Me -- ++ ++
+    ++ -- Me -- -- __ -- -- -- ME ME
+    ++ -- -- -- SP -- SP -- -- -- --
+    ME -- ME -- ++ ++ ++ Me -- ++ --
+    -- ++ ++ ME ++ -- ++ -- ME -- ME
+    -- -- ++ -- -- ++ -- -- ++ ++ ++
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50 50 50
@@ -49,7 +49,7 @@ A8, B8, C8, D8, E8, F8, G8, H8, I8, J8, K8, \
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['Fox']
+    MAP_SIREN_TEMPLATE = []
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
@@ -58,9 +58,10 @@ class Config(ConfigBase):
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
-    MAP_SWIPE_MULTIPLY = (1.215, 1.238)
-    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.175, 1.197)
-    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.141, 1.161)
+
+    MAP_SWIPE_MULTIPLY = (1.168, 1.190)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.130, 1.151)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.097, 1.117)
 
 
 class Campaign(CampaignBase):

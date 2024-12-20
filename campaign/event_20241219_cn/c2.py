@@ -6,17 +6,17 @@ from .c1 import Config as ConfigBase
 
 MAP = CampaignMap('C2')
 MAP.shape = 'I8'
-MAP.camera_data = ['D3', 'D6', 'F2', 'F6']
-MAP.camera_data_spawn_point = ['F6']
+MAP.camera_data = ['D2', 'D6', 'F2', 'F6']
+MAP.camera_data_spawn_point = ['D6']
 MAP.map_data = """
-    -- -- -- ++ -- -- -- -- --
-    ++ ME -- -- ME -- ME ++ --
-    ++ -- ME -- -- -- -- -- ME
-    -- ME -- -- Me Me -- Me --
-    -- -- -- ME ++ ++ -- __ ME
-    -- ME -- -- SP ++ MS -- --
-    -- ++ Me -- -- -- -- MS --
-    MB ++ -- -- SP ++ MS -- ++
+    ME -- -- ME -- -- ME -- --
+    -- -- ME -- ++ ME -- ME --
+    ME -- -- ME -- -- -- ++ ++
+    ++ -- Me ++ ++ ++ -- Me ++
+    ++ -- -- MS MB MS -- -- --
+    -- -- -- -- MS -- -- -- ME
+    -- ++ Me -- __ -- Me ++ --
+    ++ ME -- SP -- SP -- ME ++
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
@@ -48,7 +48,7 @@ A8, B8, C8, D8, E8, F8, G8, H8, I8, \
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['AmagiMasked']
+    MAP_SIREN_TEMPLATE = []
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
@@ -57,9 +57,10 @@ class Config(ConfigBase):
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
-    MAP_SWIPE_MULTIPLY = (1.062, 1.082)
-    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.027, 1.046)
-    MAP_SWIPE_MULTIPLY_MAATOUCH = (0.997, 1.015)
+
+    MAP_SWIPE_MULTIPLY = (1.108, 1.129)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.072, 1.092)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.041, 1.059)
 
 
 class Campaign(CampaignBase):

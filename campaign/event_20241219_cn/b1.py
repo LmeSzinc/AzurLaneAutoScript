@@ -5,17 +5,17 @@ from module.logger import logger
 
 MAP = CampaignMap('B1')
 MAP.shape = 'K8'
-MAP.camera_data = ['D3', 'D6', 'G2', 'G6']
-MAP.camera_data_spawn_point = ['E2']
+MAP.camera_data = ['D2', 'D6', 'H2', 'H6']
+MAP.camera_data_spawn_point = ['D2']
 MAP.map_data = """
-    -- ++ ++ ++ SP -- SP ++ -- -- --
-    ME -- Me -- -- __ -- -- -- MB --
-    -- -- -- -- -- MS -- ++ -- -- --
-    ME -- Me ++ MS -- MS ++ ++ ++ ++
-    ++ -- -- ++ ++ ME -- -- -- -- --
-    ME -- ME -- ME -- -- Me ++ ++ --
-    -- -- -- -- -- -- -- Me ++ ++ --
-    -- ME -- ME ++ ME -- -- -- -- --
+    -- -- -- ++ SP -- SP ++ ++ ++ MB
+    -- ME ++ ++ -- __ -- -- Me -- --
+    ME -- Me -- -- MS -- -- -- -- ME
+    -- -- -- -- MS -- MS Me -- ++ --
+    -- ME ++ Me -- -- ++ ++ -- ME --
+    -- -- ++ -- Me ++ ++ ++ -- -- --
+    ++ -- ME -- -- ME -- ME -- -- ME
+    -- -- -- -- ++ -- ME -- -- ME ++
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50 50 50
@@ -48,7 +48,7 @@ A8, B8, C8, D8, E8, F8, G8, H8, I8, J8, K8, \
 
 class Config:
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ["Fox"]
+    MAP_SIREN_TEMPLATE = []
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
@@ -57,24 +57,31 @@ class Config:
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
+
     STAGE_ENTRANCE = ['half', '20240725']
+    MAP_CHAPTER_SWITCH_20241219 = True
     MAP_HAS_MODE_SWITCH = True
+    MAP_HAS_MOVABLE_NORMAL_ENEMY = True
+    MAP_SIREN_HAS_BOSS_ICON_SMALL = True
+
+    MOVABLE_NORMAL_ENEMY_TURN = (2,)
+    MAP_SIREN_MOVE_WAIT = 0.7
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (80, 255 - 17),
+        'height': (80, 255 - 33),
         'width': (0.9, 10),
         'prominence': 10,
         'distance': 35,
     }
     EDGE_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (255 - 17, 255),
+        'height': (255 - 33, 255),
         'prominence': 10,
         'distance': 50,
         # 'width': (0, 7),
         'wlen': 1000
     }
-    MAP_SWIPE_MULTIPLY = (1.222, 1.245)
-    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.182, 1.204)
-    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.148, 1.168)
+    MAP_SWIPE_MULTIPLY = (1.254, 1.278)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.213, 1.235)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.178, 1.199)
 
 
 class Campaign(CampaignBase):

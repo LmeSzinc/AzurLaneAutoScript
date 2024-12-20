@@ -163,6 +163,7 @@ class Equipment(StorageHandler):
         return False
 
     def _equip_take_off_one(self, skip_first_screenshot=True):
+        logger.info('Equipment take off')
         bar_timer = Timer(5)
         off_timer = Timer(5)
         confirm_timer = Timer(5)
@@ -184,11 +185,14 @@ class Equipment(StorageHandler):
 
             if confirm_timer.reached() and self.handle_popup_confirm():
                 confirm_timer.reset()
+                off_timer.reset()
+                bar_timer.reset()
                 continue
 
             if off_timer.reached():
                 if not self.info_bar_count() and self.appear_then_click(EQUIP_OFF, offset=(20, 20)):
                     off_timer.reset()
+                    bar_timer.reset()
                     continue
 
             if bar_timer.reached():
@@ -196,6 +200,8 @@ class Equipment(StorageHandler):
                     self.device.click(EQUIPMENT_OPEN)
                     bar_timer.reset()
                     continue
+
+        logger.info('Equipment take off ended')
 
     def equipment_take_off(self, enter, out, fleet):
         """
@@ -219,6 +225,7 @@ class Equipment(StorageHandler):
         self.equipment_has_take_on = False
 
     def _equip_take_on_one(self, index, skip_first_screenshot=True):
+        logger.info('Equipment take on preset')
         bar_timer = Timer(5)
         on_timer = Timer(5)
 
@@ -249,7 +256,10 @@ class Equipment(StorageHandler):
                     self.device.click(EQUIP_3)
 
                 on_timer.reset()
+                bar_timer.reset()
                 continue
+
+        logger.info('Equipment take on ended')
 
     def equipment_take_on(self, enter, out, fleet):
         """
