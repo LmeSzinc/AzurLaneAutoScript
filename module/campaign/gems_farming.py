@@ -424,6 +424,8 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
             max_level = 100
         else:
             max_level = 70
+        if self.config.GemsFarming_CommonDD == 'DDG':
+            max_level = 125
         from module.gg_handler.gg_data import GGData
         _ggdata = GGData(self.config).get_data()
         if _ggdata['gg_enable'] and _ggdata['gg_auto'] and self.config.GemsFarming_ALLowLowVanguardLevel:
@@ -449,7 +451,7 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
         scanner.set_limitation(fleet=0)
         self.dock_favourite_set(self.config.GemsFarming_CommonDD == 'favourite')
 
-        if self.config.GemsFarming_CommonDD in ['any', 'favourite', 'z20_or_z21']:
+        if self.config.GemsFarming_CommonDD in ['any', 'favourite', 'z20_or_z21', 'DDG']:
             return scanner.scan(self.device.image, output=False)
         
         candidates = self.find_candidates(self.get_templates(self.config.GemsFarming_CommonDD), scanner)
@@ -575,19 +577,25 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
         self.ship_down_hard(self.fleet_detail_enter)
         self.ui_click(self.fleet_enter,
                       appear_button=self.page_fleet_check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
+        rarity = 'common'
+        extra = 'can_limit_break'
         if self.config.GemsFarming_CommonDD == 'any':
             faction = ['eagle', 'iron']
         elif self.config.GemsFarming_CommonDD == 'favourite':
             faction = 'all'
         elif self.config.GemsFarming_CommonDD == 'z20_or_z21':
             faction = 'iron'
+        elif self.config.GemsFarming_CommonDD == 'DDG':
+            faction = 'dragon'
+            rarity = 'super_rare'
+            extra = 'no_limit'
         elif self.config.GemsFarming_CommonDD in ['aulick_or_foote', 'cassin_or_downes']:
             faction = 'eagle'
         else:
             logger.error(f'Invalid CommonDD setting: {self.config.GemsFarming_CommonDD}')
             raise ScriptError('Invalid GemsFarming_CommonDD')
         self.dock_filter_set(
-            index='dd', rarity='common', faction=faction, extra='can_limit_break')
+            index='dd', rarity=rarity, faction=faction, extra=extra)
         self.dock_favourite_set(False)
 
         ship = self.get_common_rarity_dd()
