@@ -24,6 +24,17 @@ MODE_SWITCH_2 = ModeSwitch('Mode_switch_2', offset=(30, 10))
 MODE_SWITCH_2.add_state('hard', SWITCH_2_HARD)
 MODE_SWITCH_2.add_state('ex', SWITCH_2_EX)
 
+# Event mode switches changing from 20240725 to 20241219
+# I think it stable at 20241219, so give them names with date 20241219
+MODE_SWITCH_20241219 = ModeSwitch('Mode_switch_20241219', is_selector=True, offset=(30, 30))
+MODE_SWITCH_20241219.add_state('combat', SWITCH_20241219_COMBAT)
+MODE_SWITCH_20241219.add_state('story', SWITCH_20241219_STORY)
+ASIDE_SWITCH_20241219 = ModeSwitch('Aside_switch_20241219', is_selector=True, offset=(30, 30))
+ASIDE_SWITCH_20241219.add_state('part1', CHAPTER_20241219_PART1)
+ASIDE_SWITCH_20241219.add_state('part2', CHAPTER_20241219_PART2)
+ASIDE_SWITCH_20241219.add_state('sp', CHAPTER_20241219_SP)
+ASIDE_SWITCH_20241219.add_state('ex', CHAPTER_20241219_EX)
+
 
 class CampaignUI(MapOperation, CampaignEvent, CampaignOcr):
     ENTRANCE = Button(area=(), color=(), button=(), name='default_button')
@@ -83,9 +94,6 @@ class CampaignUI(MapOperation, CampaignEvent, CampaignOcr):
         """
         Args:
             mode (str): 'normal', 'hard', 'ex'
-
-        Returns:
-            bool: If mode changed.
         """
         if mode == 'hard':
             self.config.override(Campaign_Mode='hard')
@@ -113,6 +121,34 @@ class CampaignUI(MapOperation, CampaignEvent, CampaignOcr):
             else:
                 logger.warning(f'Unknown campaign mode: {mode}')
 
+    def campaign_ensure_mode_20241219(self, mode='combat'):
+        """
+        Args:
+            mode (str): 'combat' or 'story'
+        """
+        if mode in ['normal', 'hard', 'ex', 'combat']:
+            MODE_SWITCH_20241219.set('combat', main=self)
+        elif mode in ['story']:
+            MODE_SWITCH_20241219.set('story', main=self)
+        else:
+            logger.warning(f'Unknown campaign mode: {mode}')
+
+    def campaign_ensure_aside_20241219(self, chapter):
+        """
+        Args:
+            chapter: 'part1', 'part2', 'sp', 'ex'
+        """
+        if chapter in ['part1', 'a', 'c', 't']:
+            MODE_SWITCH_20241219.set('part1', main=self)
+        elif chapter in ['part2', 'b', 'd']:
+            MODE_SWITCH_20241219.set('part2', main=self)
+        elif chapter in ['sp', 'ex_sp']:
+            MODE_SWITCH_20241219.set('sp', main=self)
+        elif chapter in ['ex', 'ex_ex']:
+            MODE_SWITCH_20241219.set('sp', main=self)
+        else:
+            logger.warning(f'Unknown campaign aside: {chapter}')
+
     def campaign_get_mode_names(self, name):
         """
         Get stage names in both 'normal' and 'hard'
@@ -135,6 +171,22 @@ class CampaignUI(MapOperation, CampaignEvent, CampaignOcr):
         if name.startswith('b') or name.startswith('d'):
             return [f'b{name[1:]}', f'd{name[1:]}']
         return [name]
+
+    def _campaign_name_is_hard(self, name):
+        """
+        Reuse manual defination in campaign_get_mode_names()
+
+        Args:
+            name: 'a1', 'ht1', 'sp1'
+
+        Returns:
+            bool: If stage is hard mode
+        """
+        mode_names = self.campaign_get_mode_names(name)
+        if len(mode_names) == 2 and mode_names[1] == name:
+            return True
+        else:
+            return False
 
     def campaign_get_entrance(self, name):
         """
@@ -195,15 +247,54 @@ class CampaignUI(MapOperation, CampaignEvent, CampaignOcr):
         else:
             return False
 
+    def campaign_set_chapter_20241219(self, chapter, stage, mode='combat'):
+        if not self.config.MAP_CHAPTER_SWITCH_20241219:
+            return False
+
+        if self._campaign_name_is_hard(f'{chapter}{stage}'):
+            self.config.override(Campaign_Mode='hard')
+
+        if mode == 'story':
+            MODE_SWITCH_20241219.set('story', main=self)
+            return True
+        if chapter in ['a', 'c', 't']:
+            self.ui_goto_event()
+            MODE_SWITCH_20241219.set('combat', main=self)
+            ASIDE_SWITCH_20241219.set('part1', main=self)
+            self.campaign_ensure_chapter(index=chapter)
+            return True
+        if chapter in ['b', 'd', 'ttl']:
+            self.ui_goto_event()
+            MODE_SWITCH_20241219.set('combat', main=self)
+            ASIDE_SWITCH_20241219.set('part2', main=self)
+            self.campaign_ensure_chapter(index=chapter)
+            return True
+        if chapter in ['ex_sp']:
+            self.ui_goto_event()
+            MODE_SWITCH_20241219.set('combat', main=self)
+            ASIDE_SWITCH_20241219.set('sp', main=self)
+            self.campaign_ensure_chapter(index=chapter)
+            return True
+        if chapter in ['ex_ex']:
+            self.ui_goto_event()
+            MODE_SWITCH_20241219.set('combat', main=self)
+            ASIDE_SWITCH_20241219.set('ex', main=self)
+            self.campaign_ensure_chapter(index=chapter)
+            return True
+        else:
+            return False
+
     def campaign_set_chapter(self, name, mode='normal'):
         """
         Args:
             name (str): Campaign name, such as '7-2', 'd3', 'sp3'.
             mode (str): 'normal' or 'hard'.
         """
-        chapter, _ = self._campaign_separate_name(name)
+        chapter, stage = self._campaign_separate_name(name)
 
         if self.campaign_set_chapter_main(chapter, mode):
+            pass
+        elif self.campaign_set_chapter_20241219(chapter, stage, mode):
             pass
         elif self.campaign_set_chapter_event(chapter, mode):
             pass

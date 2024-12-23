@@ -3,19 +3,19 @@ from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
 
-MAP = CampaignMap('T1')
+MAP = CampaignMap('C1')
 MAP.shape = 'I8'
-MAP.camera_data = ['E3', 'E6', 'F3', 'F6']
-MAP.camera_data_spawn_point = ['E6']
+MAP.camera_data = ['D2', 'D6', 'F2', 'F6']
+MAP.camera_data_spawn_point = ['D6']
 MAP.map_data = """
-    -- ++ -- -- -- -- -- -- --
-    -- -- ME ++ ++ ++ -- -- --
-    -- ME -- MS -- -- -- ME --
-    -- -- -- -- Me -- ME -- ME
-    -- Me -- SP ++ ++ -- -- --
-    -- -- -- SP ++ ++ -- ME ++
-    -- ME -- -- Me ME __ -- ++
-    -- ++ ME -- -- -- -- -- MB
+    -- -- ME ++ ++ ++ -- ++ ++
+    ++ ME -- MS -- MS -- ++ ++
+    -- -- -- -- MB -- -- Me ++
+    -- ME -- -- __ -- -- Me --
+    ME -- ++ SP -- SP ++ ++ ++
+    -- ME ++ -- -- -- -- ME --
+    -- -- Me -- Me ++ -- -- ME
+    ++ -- -- -- -- ++ -- ME --
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
@@ -28,11 +28,11 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 2, 'siren': 1},
-    {'battle': 1, 'enemy': 2},
-    {'battle': 2, 'enemy': 1},
+    {'battle': 0, 'enemy': 2, 'siren': 2},
+    {'battle': 1, 'enemy': 1},
+    {'battle': 2, 'enemy': 2},
     {'battle': 3, 'enemy': 1},
-    {'battle': 4, 'boss': 1},
+    {'battle': 4, 'enemy': 1, 'boss': 1},
 ]
 A1, B1, C1, D1, E1, F1, G1, H1, I1, \
 A2, B2, C2, D2, E2, F2, G2, H2, I2, \
@@ -47,7 +47,7 @@ A8, B8, C8, D8, E8, F8, G8, H8, I8, \
 
 class Config:
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['ToLoveNana03']
+    MAP_SIREN_TEMPLATE = []
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
@@ -59,6 +59,12 @@ class Config:
 
     STAGE_ENTRANCE = ['half', '20240725']
     MAP_CHAPTER_SWITCH_20241219 = True
+    MAP_HAS_MODE_SWITCH = True
+    MAP_HAS_MOVABLE_NORMAL_ENEMY = True
+    MAP_SIREN_HAS_BOSS_ICON_SMALL = True
+
+    MOVABLE_NORMAL_ENEMY_TURN = (2,)
+    MAP_SIREN_MOVE_WAIT = 0.7
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (80, 255 - 33),
         'width': (0.9, 10),
@@ -72,9 +78,9 @@ class Config:
         # 'width': (0, 7),
         'wlen': 1000
     }
-    MAP_SWIPE_MULTIPLY = (1.107, 1.128)
-    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.071, 1.091)
-    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.040, 1.059)
+    MAP_SWIPE_MULTIPLY = (1.127, 1.148)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.090, 1.110)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.058, 1.077)
 
 
 class Campaign(CampaignBase):

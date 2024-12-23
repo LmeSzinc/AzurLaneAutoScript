@@ -137,13 +137,22 @@ class Device(Screenshot, Control, AppControl):
         #     self.config.Emulator_ControlMethod = 'minitouch'
         # Allow Hermit on VMOS only
         if self.config.Emulator_ControlMethod == 'Hermit' and not self.is_vmos:
-            logger.warning('ControlMethod is allowed on VMOS only')
+            logger.warning('ControlMethod Hermit is allowed on VMOS only')
             self.config.Emulator_ControlMethod = 'MaaTouch'
         if self.config.Emulator_ScreenshotMethod == 'ldopengl' \
                 and self.config.Emulator_ControlMethod == 'minitouch':
             logger.warning('Use MaaTouch on ldplayer')
             self.config.Emulator_ControlMethod = 'MaaTouch'
-        pass
+
+        # Fallback to auto if nemu_ipc and ldopengl are selected on non-corresponding emulators
+        if self.config.Emulator_ScreenshotMethod == 'nemu_ipc':
+            if not (self.is_emulator and self.is_mumu_family):
+                logger.warning('ScreenshotMethod nemu_ipc is available on MuMu Player 12 only, fallback to auto')
+                self.config.Emulator_ScreenshotMethod = 'auto'
+        if self.config.Emulator_ScreenshotMethod == 'ldopengl':
+            if not (self.is_emulator and self.is_ldplayer_bluestacks_family):
+                logger.warning('ScreenshotMethod ldopengl is available on LD Player only, fallback to auto')
+                self.config.Emulator_ScreenshotMethod = 'auto'
 
     def handle_night_commission(self, daily_trigger='21:00', threshold=30):
         """
