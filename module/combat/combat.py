@@ -183,7 +183,9 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                     interval_set = True
 
             # End
-            if self.is_combat_executing():
+            pause = self.is_combat_executing()
+            if pause:
+                logger.attr('BattleUI', pause)
                 if emotion_reduce:
                     self.emotion.reduce(fleet_index)
                 break
