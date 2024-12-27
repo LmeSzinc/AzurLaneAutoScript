@@ -1,9 +1,8 @@
-import asyncio
 import ctypes
 import json
 import os
 import sys
-from functools import partial, wraps
+from functools import wraps
 
 import cv2
 import numpy as np
@@ -13,6 +12,7 @@ from module.base.timer import Timer
 from module.base.utils import ensure_time
 from module.config.utils import deep_get
 from module.device.method.minitouch import insert_swipe, random_rectangle_point
+from module.device.method.pool import JobTimeout, WORKER_POOL
 from module.device.method.utils import RETRY_TRIES, retry_sleep
 from module.device.platform import Platform
 from module.exception import RequestHumanTakeover
@@ -176,11 +176,11 @@ def retry(func):
                 logger.error(e)
                 break
             # Function call timeout
-            except asyncio.TimeoutError:
+            except JobTimeout:
                 logger.warning(f'Func {func.__name__}() call timeout, retrying: {_}')
 
                 def init():
-                    self.reconnect()
+                    pass
             # NemuIpcError
             except NemuIpcError as e:
                 logger.error(e)
@@ -237,14 +237,17 @@ class NemuIpcImpl:
         self.width = 0
         self.height = 0
 
-    def connect(self):
+    def connect(self, on_thread=True):
         if self.connect_id > 0:
             return
 
-        connect_id = self.ev_run_sync(
-            self.lib.nemu_connect,
-            self.nemu_folder, self.instance_id
-        )
+        if on_thread:
+            connect_id = self.run_func(
+                self.lib.nemu_connect,
+                self.nemu_folder, self.instance_id
+            )
+        else:
+            connect_id = self.lib.nemu_connect(self.nemu_folder, self.instance_id)
         if connect_id == 0:
             raise NemuIpcError(
                 'Connection failed, please check if nemu_folder is correct and emulator is running'
@@ -257,7 +260,7 @@ class NemuIpcImpl:
         if self.connect_id == 0:
             return
 
-        self.ev_run_sync(
+        self.run_func(
             self.lib.nemu_disconnect,
             self.connect_id
         )
@@ -275,58 +278,32 @@ class NemuIpcImpl:
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.disconnect()
-        if has_cached_property(self, '_ev'):
-            self._ev.close()
-            del_cached_property(self, '_ev')
-        if has_cached_property(self, '_pool'):
-            self._pool.shutdown(wait=False)
-            del_cached_property(self, '_pool')
 
-    @cached_property
-    def _ev(self):
-        return asyncio.new_event_loop()
-
-    @cached_property
-    def _pool(self):
-        from concurrent.futures import ThreadPoolExecutor
-        return ThreadPoolExecutor(
-            max_workers=1,
-            thread_name_prefix='NemuIpc',
-        )
-
-    async def ev_run_async(self, func, *args, timeout=0.15, **kwargs):
+    @staticmethod
+    def run_func(func, *args, on_thread=True, timeout=0.5):
         """
         Args:
             func: Sync function to call
             *args:
+            on_thread: True to run func on a separated thread
             timeout:
-            **kwargs:
 
         Raises:
-            asyncio.TimeoutError: If function call timeout
-        """
-        func_wrapped = partial(func, *args, **kwargs)
-        # Increased timeout for slow PCs
-        # Default screenshot interval is 0.2s, so a 0.15s timeout would have a fast retry without extra time costs
-        result = await asyncio.wait_for(self._ev.run_in_executor(self._pool, func_wrapped), timeout=timeout)
-        return result
-
-    def ev_run_sync(self, func, *args, **kwargs):
-        """
-        Args:
-            func: Sync function to call
-            *args:
-            **kwargs:
-
-        Raises:
-            asyncio.TimeoutError: If function call timeout
+            JobTimeout: If function call timeout
             NemuIpcIncompatible:
             NemuIpcError
         """
-        result = self._ev.run_until_complete(self.ev_run_async(func, *args, **kwargs))
+        if on_thread:
+            # nemu_ipc may timeout sometimes, so we run it on a separated thread
+            job = WORKER_POOL.start_thread_soon(func, *args)
+            result = job.get_or_kill(timeout)
+        else:
+            result = func(*args)
 
         err = False
-        if func.__name__ == 'nemu_connect':
+        if func.__name__ == '_screenshot':
+            pass
+        elif func.__name__ == 'nemu_connect':
             if result == 0:
                 err = True
         else:
@@ -336,11 +313,11 @@ class NemuIpcImpl:
         if err:
             logger.warning(f'Failed to call {func.__name__}, result={result}')
             with CaptureNemuIpc():
-                result = self._ev.run_until_complete(self.ev_run_async(func, *args, **kwargs))
+                func(*args)
 
         return result
 
-    def get_resolution(self):
+    def get_resolution(self, on_thread=True):
         """
         Get emulator resolution, `self.width` and `self.height` will be set
         """
@@ -351,17 +328,37 @@ class NemuIpcImpl:
         height_ptr = ctypes.pointer(ctypes.c_int(0))
         nullptr = ctypes.POINTER(ctypes.c_int)()
 
-        ret = self.ev_run_sync(
+        ret = self.run_func(
             self.lib.nemu_capture_display,
-            self.connect_id, self.display_id, 0, width_ptr, height_ptr, nullptr
+            self.connect_id, self.display_id, 0, width_ptr, height_ptr, nullptr,
+            on_thread=on_thread
         )
         if ret > 0:
             raise NemuIpcError('nemu_capture_display failed during get_resolution()')
         self.width = width_ptr.contents.value
         self.height = height_ptr.contents.value
 
+    def _screenshot(self):
+        if self.connect_id == 0:
+            self.connect(on_thread=False)
+        self.get_resolution(on_thread=False)
+
+        width_ptr = ctypes.pointer(ctypes.c_int(self.width))
+        height_ptr = ctypes.pointer(ctypes.c_int(self.height))
+        length = self.width * self.height * 4
+        pixels_pointer = ctypes.pointer((ctypes.c_ubyte * length)())
+
+        ret = self.lib.nemu_capture_display(
+            self.connect_id, self.display_id, length, width_ptr, height_ptr, pixels_pointer,
+        )
+        if ret > 0:
+            raise NemuIpcError('nemu_capture_display failed during screenshot()')
+
+        # Return pixels_pointer instead of image to avoid passing image through jobs
+        return pixels_pointer
+
     @retry
-    def screenshot(self, timeout=0.15):
+    def screenshot(self, timeout=0.5):
         """
         Returns:
             np.ndarray: Image array in RGBA color space
@@ -370,20 +367,7 @@ class NemuIpcImpl:
         if self.connect_id == 0:
             self.connect()
 
-        self.get_resolution()
-
-        width_ptr = ctypes.pointer(ctypes.c_int(self.width))
-        height_ptr = ctypes.pointer(ctypes.c_int(self.height))
-        length = self.width * self.height * 4
-        pixels_pointer = ctypes.pointer((ctypes.c_ubyte * length)())
-
-        ret = self.ev_run_sync(
-            self.lib.nemu_capture_display,
-            self.connect_id, self.display_id, length, width_ptr, height_ptr, pixels_pointer,
-            timeout=timeout,
-        )
-        if ret > 0:
-            raise NemuIpcError('nemu_capture_display failed during screenshot()')
+        pixels_pointer = self.run_func(self._screenshot, timeout=timeout)
 
         # image = np.ctypeslib.as_array(pixels_pointer, shape=(self.height, self.width, 4))
         image = np.ctypeslib.as_array(pixels_pointer.contents).reshape((self.height, self.width, 4))
@@ -413,7 +397,7 @@ class NemuIpcImpl:
 
         x, y = self.convert_xy(x, y)
 
-        ret = self.ev_run_sync(
+        ret = self.run_func(
             self.lib.nemu_input_event_touch_down,
             self.connect_id, self.display_id, x, y
         )
@@ -428,7 +412,7 @@ class NemuIpcImpl:
         if self.connect_id == 0:
             self.connect()
 
-        ret = self.ev_run_sync(
+        ret = self.run_func(
             self.lib.nemu_input_event_touch_up,
             self.connect_id, self.display_id
         )
