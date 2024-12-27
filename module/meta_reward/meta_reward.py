@@ -92,6 +92,51 @@ class BeaconReward(Combat, UI):
         logger.info(f'Meta reward receive finished, received={received}')
         return received
 
+    def meta_progress_appear(self):
+        return self.appear(META_PROGRESS_CHECK)
+
+    def meta_progress_receive(self, skip_first_screenshot=True):
+        """
+        Args:
+            skip_first_screenshot:
+
+        Returns:
+            bool: If received.
+
+        Pages:
+            in: page_meta
+            out: page_meta
+        """
+        logger.hr('Meta progress reward receive', level=1)
+        received = False
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.match_template_color(META_PROGRESS_NOTICE, interval=1):
+                self.device.click(META_PROGRESS_RECEIVE)
+                received = True
+                continue
+            if self.handle_get_items():
+                continue
+            if self.match_template_color(META_PROGRESS_FINISHED, interval=1):
+                self.device.click(META_SHIP_RECEIVE)
+                received = True
+                continue
+            if self.handle_get_ship():
+                continue
+
+            # End
+            if self.appear(REWARD_ENTER):
+                break
+            if self.appear(META_PROGRESS_LOADED) and not self.image_color_count(META_PROGRESS_NOTICE, color=(247, 182, 58), threshold=221, count=6):
+                break
+
+        logger.info(f'Meta progress reward receive finished, received={received}')
+        return received
+
     def run(self):
         if self.config.SERVER in ['cn', 'en', 'jp']:
             pass
@@ -100,6 +145,9 @@ class BeaconReward(Combat, UI):
             return
 
         self.ui_ensure(page_meta)
+
+        if self.meta_progress_appear():
+            self.meta_progress_receive()
 
         if self.meta_reward_notice_appear():
             self.meta_reward_enter()
