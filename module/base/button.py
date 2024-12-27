@@ -334,7 +334,7 @@ class Button(Resource):
         Returns:
             bool.
         """
-        if self.match(image, offset=offset, similarity=similarity):
+        if self.match_luma(image, offset=offset, similarity=similarity):
             diff = np.subtract(self.button, self._button)[:2]
             area = area_offset(self.area, offset=diff)
             color = get_color(image, area)

@@ -237,7 +237,9 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
             # End
             if self.is_in_auto_search_menu() or self._handle_auto_search_menu_missing():
                 raise CampaignEnd
-            if self.is_combat_executing():
+            pause = self.is_combat_executing()
+            if pause:
+                logger.attr('BattleUI', pause)
                 break
 
         logger.info('Auto Search combat execute')
