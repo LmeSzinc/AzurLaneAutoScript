@@ -154,16 +154,16 @@ class ImageTruncated(Exception):
 def retry_sleep(trial):
     # First trial
     if trial == 0:
-        pass
+        return 0
     # Failed once, fast retry
     elif trial == 1:
-        pass
+        return 0
     # Failed twice
     elif trial == 2:
-        time.sleep(1)
+        return 1
     # Failed more
     else:
-        time.sleep(RETRY_DELAY)
+        return RETRY_DELAY
 
 
 def handle_adb_error(e):

@@ -2,6 +2,7 @@ import ctypes
 import json
 import os
 import sys
+import time
 from functools import wraps
 
 import cv2
@@ -163,9 +164,14 @@ def retry(func):
         """
         init = None
         for _ in range(RETRY_TRIES):
+            # Extend timeout on retries
+            if func.__name__ == 'screenshot':
+                timeout = retry_sleep(_)
+                if timeout > 0:
+                    kwargs['timeout'] = timeout
             try:
                 if callable(init):
-                    retry_sleep(_)
+                    time.sleep(retry_sleep(_))
                     init()
                 return func(self, *args, **kwargs)
             # Can't handle
@@ -360,6 +366,10 @@ class NemuIpcImpl:
     @retry
     def screenshot(self, timeout=0.5):
         """
+        Args:
+            timeout: Timout in seconds to call nemu_ipc
+                Will be dynamically extended by `@retry`
+
         Returns:
             np.ndarray: Image array in RGBA color space
                 Note that image is upside down
@@ -562,8 +572,7 @@ class NemuIpc(Platform):
         logger.info('nemu_ipc released')
 
     def screenshot_nemu_ipc(self):
-        timeout = max(self._screenshot_interval.limit - 0.01, 0.15)
-        image = self.nemu_ipc.screenshot(timeout=timeout)
+        image = self.nemu_ipc.screenshot()
 
         image = cv2.cvtColor(image, cv2.COLOR_BGRA2BGR)
         cv2.flip(image, 0, dst=image)
