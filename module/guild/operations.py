@@ -477,7 +477,9 @@ class GuildOperations(GuildBase):
                 continue
 
             # End
-            if az.is_combat_executing():
+            pause = az.is_combat_executing()
+            if pause:
+                logger.attr('BattleUI', pause)
                 return True
 
     def _guild_operations_boss_combat(self):
