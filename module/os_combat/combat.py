@@ -77,7 +77,9 @@ class Combat(Combat_, MapEventHandler):
                 continue
 
             # End
-            if self.is_combat_executing():
+            pause = self.is_combat_executing()
+            if pause:
+                logger.attr('BattleUI', pause)
                 # if emotion_reduce:
                 #     self.emotion.reduce(fleet_index)
                 break
@@ -236,7 +238,9 @@ class Combat(Combat_, MapEventHandler):
             # End
             if self.handle_os_auto_search_map_option(drop=drop):
                 break
-            if self.is_combat_executing():
+            pause = self.is_combat_executing()
+            if pause:
+                logger.attr('BattleUI', pause)
                 break
             if self.is_in_map():
                 break
