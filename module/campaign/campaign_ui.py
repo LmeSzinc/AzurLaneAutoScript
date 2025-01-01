@@ -255,30 +255,30 @@ class CampaignUI(MapOperation, CampaignEvent, CampaignOcr):
             self.config.override(Campaign_Mode='hard')
 
         if mode == 'story':
-            MODE_SWITCH_20241219.set('story', main=self)
+            self.campaign_ensure_mode_20241219('story')
             return True
         if chapter in ['a', 'c', 't']:
             self.ui_goto_event()
-            MODE_SWITCH_20241219.set('combat', main=self)
-            ASIDE_SWITCH_20241219.set('part1', main=self)
+            self.campaign_ensure_mode_20241219('combat')
+            self.campaign_ensure_aside_20241219('part1')
             self.campaign_ensure_chapter(index=chapter)
             return True
         if chapter in ['b', 'd', 'ttl']:
             self.ui_goto_event()
-            MODE_SWITCH_20241219.set('combat', main=self)
-            ASIDE_SWITCH_20241219.set('part2', main=self)
+            self.campaign_ensure_mode_20241219('combat')
+            self.campaign_ensure_aside_20241219('part2')
             self.campaign_ensure_chapter(index=chapter)
             return True
         if chapter in ['ex_sp']:
             self.ui_goto_event()
-            MODE_SWITCH_20241219.set('combat', main=self)
-            ASIDE_SWITCH_20241219.set('sp', main=self)
+            self.campaign_ensure_mode_20241219('combat')
+            self.campaign_ensure_aside_20241219('sp')
             self.campaign_ensure_chapter(index=chapter)
             return True
         if chapter in ['ex_ex']:
             self.ui_goto_event()
-            MODE_SWITCH_20241219.set('combat', main=self)
-            ASIDE_SWITCH_20241219.set('ex', main=self)
+            self.campaign_ensure_mode_20241219('combat')
+            self.campaign_ensure_aside_20241219('ex')
             self.campaign_ensure_chapter(index=chapter)
             return True
         else:
