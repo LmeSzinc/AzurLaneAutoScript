@@ -109,16 +109,16 @@ class EventStory(CampaignUI, Combat, LoginHandler):
         Returns:
             str: 'finish', 'story', 'unknown'
         """
-        if self.match_template_color(STORY_FINISHED, offset=(20, 20), interval=3):
+        if self.match_template_color(STORY_FINISHED, offset=(20, 20)):
             return 'finish'
 
-        if self.appear_then_click(STORY_FIRST, offset=(20, 20), interval=3):
+        if self.appear_then_click(STORY_FIRST, offset=(20, 20)):
             return 'story'
-        if self.match_template_color(STORY_LAST, offset=(20, 20), interval=3):
+        if self.match_template_color(STORY_LAST, offset=(20, 20)):
             return 'story'
-        if self.appear_then_click(STORY_MIDDLE, offset=(20, 200), interval=3):
+        if self.appear_then_click(STORY_MIDDLE, offset=(20, 200)):
             return 'story'
-        if self.appear_then_click(BATTLE_MIDDLE, offset=(20, 200), interval=3):
+        if self.appear_then_click(BATTLE_MIDDLE, offset=(20, 200)):
             return 'story'
 
         return 'unknown'

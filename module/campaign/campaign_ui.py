@@ -139,13 +139,13 @@ class CampaignUI(MapOperation, CampaignEvent, CampaignOcr):
             chapter: 'part1', 'part2', 'sp', 'ex'
         """
         if chapter in ['part1', 'a', 'c', 't']:
-            MODE_SWITCH_20241219.set('part1', main=self)
+            ASIDE_SWITCH_20241219.set('part1', main=self)
         elif chapter in ['part2', 'b', 'd']:
-            MODE_SWITCH_20241219.set('part2', main=self)
+            ASIDE_SWITCH_20241219.set('part2', main=self)
         elif chapter in ['sp', 'ex_sp']:
-            MODE_SWITCH_20241219.set('sp', main=self)
+            ASIDE_SWITCH_20241219.set('sp', main=self)
         elif chapter in ['ex', 'ex_ex']:
-            MODE_SWITCH_20241219.set('sp', main=self)
+            ASIDE_SWITCH_20241219.set('ex', main=self)
         else:
             logger.warning(f'Unknown campaign aside: {chapter}')
 
