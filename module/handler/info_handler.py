@@ -447,6 +447,10 @@ class InfoHandler(ModuleBase):
 
         return False
 
+    def story_skip_interval_clear(self):
+        self.interval_clear(STORY_SKIP_3)
+        self.interval_clear(STORY_LETTERS_ONLY)
+
     def handle_story_skip(self, drop=None):
         # Rerun events in clear mode but still have stories.
         # No stories in clear mode
