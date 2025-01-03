@@ -138,14 +138,19 @@ class Dock(Equipment):
         A faster filter set function.
 
         Args:
-            sort (str, list): ['rarity', 'level', 'total', 'join', 'intimacy', 'stat']
-            index (str, list): [['all', 'vanguard', 'main', 'dd', 'cl', 'ca'],
-                                ['bb', 'cv', 'repair', 'ss', 'others', 'not_available']]
-            faction (str, list): [['all', 'eagle', 'royal', 'sakura', 'iron', 'dragon'],
-                                  ['sardegna', 'northern', 'iris', 'vichya', 'other', 'not_available']]
-            rarity (str, list): [['all', 'common', 'rare', 'elite', 'super_rare', 'ultra']]
-            extra (str, list): [['no_limit', 'has_skin', 'can_retrofit', 'enhanceable', 'can_limit_break', 'not_level_max'],
-                                ['can_awaken', 'can_awaken_plus', 'special', 'oath_skin', 'not_available', 'not_available']]
+            sort (str, list):
+                ['rarity', 'level', 'total', 'join', 'intimacy', 'mood', 'stat']
+            index (str, list):
+                ['all', 'vanguard', 'main', 'dd', 'cl', 'ca', 'bb',
+                 'cv', 'repair', 'ss', 'others', 'not_available', 'not_available', 'not_available']
+            faction (str, list):
+                ['all', 'eagle', 'royal', 'sakura', 'iron', 'dragon', 'sardegna',
+                 'northern', 'iris', 'vichya', 'other', 'not_available', 'not_available', 'not_available']
+            rarity (str, list):
+                ['all', 'common', 'rare', 'elite', 'super_rare', 'ultra', 'not_available']
+            extra (str, list):
+                ['no_limit', 'has_skin', 'can_retrofit', 'enhanceable', 'can_limit_break', 'not_level_max', 'can_awaken',
+                 'can_awaken_plus', 'special', 'oath_skin', 'unique_augment_module', 'not_available', 'not_available', 'not_available'],
 
         Pages:
             in: page_dock
