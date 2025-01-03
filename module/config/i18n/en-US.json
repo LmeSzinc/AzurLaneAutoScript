@@ -2260,7 +2260,7 @@
     },
     "DossierAutoAttackMode": {
       "name": "Use Auto Attack Mode in META Dossier",
-      "help": "Use Auto Attack Mode after the first battle, currently only available on CN"
+      "help": "Use Auto Attack Mode after the first battle"
     },
     "RequestAssist": {
       "name": "Request Assists",
