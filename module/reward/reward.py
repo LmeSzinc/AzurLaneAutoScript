@@ -176,7 +176,8 @@ class Reward(UI):
         Returns:
             bool, if handled
         """
-        if not self.appear(MISSION_WEEKLY_RED_DOT):
+        if not self.image_color_count(MISSION_WEEKLY_RED_DOT, color=(206, 81, 66), threshold=221, count=20):
+            logger.info('No MISSION_WEEKLY_RED_DOT')
             return False
 
         self.reward_side_navbar_ensure(upper=5)
