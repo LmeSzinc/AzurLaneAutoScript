@@ -149,13 +149,13 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
 
     def retirement_appear(self):
         return self.appear(RETIRE_APPEAR_1, offset=30) \
-            and self.appear(RETIRE_APPEAR_2, offset=30) \
-            and self.appear(RETIRE_APPEAR_3, offset=30)
+               and self.appear(RETIRE_APPEAR_2, offset=30) \
+               and self.appear(RETIRE_APPEAR_3, offset=30)
 
     def _retirement_quit(self):
         def check_func():
             return not self.appear(IN_RETIREMENT_CHECK, offset=(20, 20)) \
-                and not self.appear(DOCK_CHECK, offset=(20, 20))
+                   and not self.appear(DOCK_CHECK, offset=(20, 20))
 
         self.ui_back(check_button=check_func, skip_first_screenshot=True)
 
@@ -176,7 +176,8 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
         logger.hr('Retirement')
         logger.info('Using one click retirement.')
         # No need to wait, one-click-retire doesn't need to check dock
-        self.dock_favourite_set(False, wait_loading=False)
+        self.dock_favourite_set(wait_loading=False)
+        self.dock_sort_method_dsc_set(wait_loading=False)
         end = False
         total = 0
 
@@ -300,7 +301,8 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
             logger.info('Not in GemsFarming, skip')
             return 0
 
-        self.dock_favourite_set(False, wait_loading=False)
+        self.dock_favourite_set(wait_loading=False)
+        self.dock_sort_method_dsc_set(wait_loading=False)
         self.dock_filter_set(index='cv', rarity='common', extra='not_level_max', sort='level')
 
         scanner = ShipScanner(
@@ -331,12 +333,16 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                     ships.sort(key=lambda s: -s.level)
                     ships = ships[:-1]
 
-            for ship in ships[:10]:
+            for ship in ships:
                 self.device.click(ship.button)
                 self.device.sleep((0.1, 0.15))
                 total += 1
 
             self._retirement_confirm()
+
+            # Quick exit if there's only a few CV to retire
+            if len(ships) < 10:
+                break
 
         self._have_kept_cv = _
         # No need to wait, retire finished, just about to exit
