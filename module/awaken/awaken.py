@@ -366,7 +366,7 @@ class Awaken(Dock):
         return result
 
     def run(self):
-        if self.config.SERVER not in ['cn']:
+        if self.config.SERVER not in ['cn', 'en']:
             logger.error(f'Task "Awaken" is not available on server {self.config.SERVER} yet, '
                          f'please contact server maintainers')
             self.config.task_stop()
