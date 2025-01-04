@@ -2926,12 +2926,13 @@
           "raid_20240328"
         ],
         "option_bold": [
+          "raid_20240130",
           "raid_20240328"
         ],
         "cn": "raid_20240328",
         "en": "raid_20240328",
         "jp": "raid_20240328",
-        "tw": "raid_20240328"
+        "tw": "raid_20240130"
       },
       "Mode": {
         "type": "select",
@@ -6228,12 +6229,13 @@
           "raid_20240328"
         ],
         "option_bold": [
+          "raid_20240130",
           "raid_20240328"
         ],
         "cn": "raid_20240328",
         "en": "raid_20240328",
         "jp": "raid_20240328",
-        "tw": "raid_20240328"
+        "tw": "raid_20240130"
       },
       "Mode": {
         "type": "select",
