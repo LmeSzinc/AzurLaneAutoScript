@@ -251,6 +251,9 @@ class GeneratedConfig:
     Reward_CollectMission = True
     Reward_CollectWeeklyMission = True
 
+    # Group `Awaken`
+    Awaken_LevelCap = 'level120'  # level120, level125
+
     # Group `GeneralShop`
     GeneralShop_UseGems = False
     GeneralShop_Refresh = False

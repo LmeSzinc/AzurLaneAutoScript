@@ -146,6 +146,10 @@
       "name": "収穫",
       "help": ""
     },
+    "Awaken": {
+      "name": "Task.Awaken.name",
+      "help": "Task.Awaken.help"
+    },
     "Daily": {
       "name": "デイリー",
       "help": ""
@@ -1589,6 +1593,18 @@
     "CollectWeeklyMission": {
       "name": "Reward.CollectWeeklyMission.name",
       "help": "Reward.CollectWeeklyMission.help"
+    }
+  },
+  "Awaken": {
+    "_info": {
+      "name": "Awaken._info.name",
+      "help": "Awaken._info.help"
+    },
+    "LevelCap": {
+      "name": "Awaken.LevelCap.name",
+      "help": "Awaken.LevelCap.help",
+      "level120": "level120",
+      "level125": "level125"
     }
   },
   "GeneralShop": {

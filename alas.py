@@ -209,6 +209,10 @@ class AzurLaneAutoScript:
         from module.reward.reward import Reward
         Reward(config=self.config, device=self.device).run()
 
+    def awaken(self):
+        from module.awaken.awaken import Awaken
+        Awaken(config=self.config, device=self.device).run()
+
     def shop_frequent(self):
         from module.shop.shop_reward import RewardShop
         RewardShop(config=self.config, device=self.device).run_frequent()

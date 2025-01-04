@@ -55,7 +55,7 @@ class Awaken(Dock):
         chip = self._get_button_state(COST_CHIP)
         array = self._get_button_state(COST_ARRAY)
 
-        logger.attr('AwaikenCost', {'coin': coin, 'chip': chip, 'array': array})
+        logger.attr('AwakenCost', {'coin': coin, 'chip': chip, 'array': array})
 
         def is_right_moved(button):
             # If COST_ARRAY is absent, COST_COIN and COST_CHIP are right moved 54px
@@ -70,14 +70,14 @@ class Awaken(Dock):
             if coin is not None and not is_right_moved(COST_COIN) \
                     and chip is not None and not is_right_moved(COST_CHIP):
                 result = coin and chip and array
-                logger.attr('AwaikenSufficient', result)
+                logger.attr('AwakenSufficient', result)
                 return result
         else:
             # If array is not needed, coin and chip should both present and right moved
             if coin is not None and is_right_moved(COST_COIN) \
                     and chip is not None and is_right_moved(COST_CHIP):
                 result = coin and chip
-                logger.attr('AwaikenSufficient', result)
+                logger.attr('AwakenSufficient', result)
                 return result
 
         logger.warning('Invalid awaken cost')
@@ -147,13 +147,14 @@ class Awaken(Dock):
 
             result = self._get_awaken_cost(use_array)
             if result == 'unexpected_array':
-                # Get resources time out, assume sufficient
+                # This shouldn't happen
                 self.awaken_popup_close()
-                return 'unexpected_array'
+                return result
             elif result is False:
                 logger.info('Insufficient resources to awaken')
                 return 'insufficient'
             elif result is True:
+                # Sufficient resources
                 break
             elif result == 'invalid':
                 # Retry, and check timeout also
@@ -317,17 +318,18 @@ class Awaken(Dock):
             use_array: True to awaken to level 125, False to 120
 
         Returns:
-            str: 'insufficient', 'timeout'
+            str: 'insufficient', 'finish', 'timeout'
 
         Pages:
             in: Any
             out: page_dock
         """
+        logger.hr('Awaken run', level=1)
         self.ui_ensure(page_dock)
         self.dock_favourite_set(wait_loading=False)
         self.dock_sort_method_dsc_set(wait_loading=False)
         if use_array:
-            extra = ['can_awaken', 'can_awaken_plus']
+            extra = ['can_awaken_plus']
         else:
             extra = ['can_awaken']
         self.dock_filter_set(extra=extra)
@@ -336,6 +338,7 @@ class Awaken(Dock):
             # page_dock
             if self.appear(DOCK_EMPTY, offset=(20, 20)):
                 logger.info('awaken_run finished, no ships to awaken')
+                result = 'finish'
                 break
 
             # page_dock -> SHIP_DETAIL_CHECK
@@ -351,11 +354,35 @@ class Awaken(Dock):
                 continue
             if result == 'insufficient':
                 logger.info('awaken_run finished, resources exhausted')
-                return result
+                break
             if result == 'timeout':
                 logger.info(f'awaken_run finished, result={result}')
-                return result
+                break
             raise ScriptError(f'Unexpected awaken_ship result: {result}')
 
+        return result
+
+    def run(self):
+        if self.config.SERVER not in ['cn']:
+            logger.error(f'Task "Awaken" is not available on server {self.config.SERVER} yet, '
+                         f'please contact server maintainers')
+            self.config.task_stop()
+
+        # Run Awakening+ first
+        if self.config.Awaken_LevelCap == 'level125':
+            # Use Cognitive Arrays
+            self.awaken_run(use_array=True)
+            # Use Cognitive Chips
+            self.awaken_run()
+        elif self.config.Awaken_LevelCap == 'level120':
+            # Use Cognitive Chips
+            self.awaken_run()
+        else:
+            raise ScriptError(f'Unknown Awaken_LevelCap={self.config.Awaken_LevelCap}')
+
+        # Reset dock filters
         logger.hr('Awaken run exit', level=1)
-        self.dock_filter_set()
+        self.dock_filter_set(wait_loading=False)
+
+        # Scheduler
+        self.config.task_delay(server_update=True)
