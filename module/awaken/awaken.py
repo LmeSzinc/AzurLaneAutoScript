@@ -152,6 +152,7 @@ class Awaken(Dock):
                 return result
             elif result is False:
                 logger.info('Insufficient resources to awaken')
+                self.awaken_popup_close()
                 return 'insufficient'
             elif result is True:
                 # Sufficient resources
@@ -305,6 +306,8 @@ class Awaken(Dock):
                 interval.reset()
                 continue
             if self.handle_awaken_finish():
+                continue
+            if self.appear_then_click(AWAKEN_CANCEL, offset=(20, 20), interval=3):
                 continue
             if self.is_in_main(interval=5):
                 self.device.click(page_main.links[page_dock])
