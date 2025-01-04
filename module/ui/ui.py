@@ -451,7 +451,7 @@ class UI(InfoHandler):
 
         return False
 
-    def ui_additional(self):
+    def ui_additional(self, get_ship=True):
         """
         Handle all annoying popups during UI switching.
         """
@@ -468,7 +468,7 @@ class UI(InfoHandler):
             return True
 
         # Popups appear at page_main, page_reward
-        if self.ui_page_main_popups():
+        if self.ui_page_main_popups(get_ship=get_ship):
             return True
 
         # Story

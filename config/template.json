@@ -1338,6 +1338,22 @@
       "Storage": {}
     }
   },
+  "Awaken": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "Awaken",
+      "SuccessInterval": 0,
+      "FailureInterval": 120,
+      "ServerUpdate": "00:00"
+    },
+    "Awaken": {
+      "LevelCap": "level120"
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
   "Daily": {
     "Scheduler": {
       "Enable": false,

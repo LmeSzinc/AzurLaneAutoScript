@@ -221,7 +221,7 @@ class RewardDorm(UI):
             if self.appear_then_click(DORM_MANAGE, offset=(20, 20), interval=3):
                 continue
             # Handle all popups
-            if self.ui_additional():
+            if self.ui_additional(get_ship=False):
                 continue
             if self.appear_then_click(DORM_FURNITURE_CONFIRM, offset=(30, 30), interval=3):
                 continue
@@ -263,7 +263,7 @@ class RewardDorm(UI):
                 self.device.screenshot()
 
             # Handle all popups
-            if self.ui_additional():
+            if self.ui_additional(get_ship=False):
                 continue
 
             # Collect coins and loves through the quick collect button
@@ -423,7 +423,7 @@ class RewardDorm(UI):
             if self.appear(DORM_FEED_CHECK, offset=(20, 20)):
                 break
 
-            if self.ui_additional():
+            if self.ui_additional(get_ship=False):
                 self.interval_clear(DORM_CHECK)
                 continue
             if self.appear(DORM_CHECK, offset=(20, 20), interval=5):
@@ -465,7 +465,7 @@ class RewardDorm(UI):
             if self.handle_popup_cancel('DORM_FEED'):
                 self.interval_clear(DORM_CHECK)
                 continue
-            if self.ui_additional():
+            if self.ui_additional(get_ship=False):
                 self.interval_clear(DORM_CHECK)
                 continue
 
@@ -526,7 +526,7 @@ class RewardDorm(UI):
             if self.appear_then_click(DORM_FURNITURE_CONFIRM, offset=(30, 30), interval=3):
                 timeout.reset()
                 continue
-            if self.ui_additional():
+            if self.ui_additional(get_ship=False):
                 timeout.reset()
                 continue
 

@@ -56,7 +56,7 @@ class BuyFurniture(UI):
             if self.appear(DORM_FURNITURE_DETAILS_QUIT, offset=(20, 20)):
                 break
 
-            if self.ui_additional():
+            if self.ui_additional(get_ship=False):
                 self.interval_clear(DORM_CHECK)
                 continue
 

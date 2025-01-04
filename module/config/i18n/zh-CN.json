@@ -146,6 +146,10 @@
       "name": "收获",
       "help": ""
     },
+    "Awaken": {
+      "name": "认知觉醒",
+      "help": ""
+    },
     "Daily": {
       "name": "每日任务",
       "help": ""
@@ -1589,6 +1593,18 @@
     "CollectWeeklyMission": {
       "name": "领取周任务奖励",
       "help": ""
+    }
+  },
+  "Awaken": {
+    "_info": {
+      "name": "认知觉醒",
+      "help": "认知觉醒船坞内所有的船直到心智单元耗尽"
+    },
+    "LevelCap": {
+      "name": "觉醒至等级上限",
+      "help": "",
+      "level120": "120级",
+      "level125": "125级"
     }
   },
   "GeneralShop": {
