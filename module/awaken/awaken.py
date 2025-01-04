@@ -371,9 +371,10 @@ class Awaken(Dock):
         # Run Awakening+ first
         if self.config.Awaken_LevelCap == 'level125':
             # Use Cognitive Arrays
-            self.awaken_run(use_array=True)
+            result = self.awaken_run(use_array=True)
             # Use Cognitive Chips
-            self.awaken_run()
+            if result != 'timeout':
+                self.awaken_run()
         elif self.config.Awaken_LevelCap == 'level120':
             # Use Cognitive Chips
             self.awaken_run()
