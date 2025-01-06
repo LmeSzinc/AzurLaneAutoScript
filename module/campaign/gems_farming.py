@@ -492,6 +492,7 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
         logger.info('No specific DD was found, try reversed order.')
         self.dock_sort_method_dsc_set(False)
 
+        # Change specific ship
         candidates = self.find_candidates(self.get_templates(self.config.GemsFarming_CommonDD), scanner)
         return candidates
 
