@@ -2,6 +2,7 @@ import traceback
 
 from module.coalition.assets import *
 from module.raid.assets import *
+from module.retire.assets import DOCK_CHECK
 from module.ui.assets import *
 from module.ui_white.assets import *
 
@@ -201,6 +202,12 @@ page_raid = Page(RAID_CHECK)
 page_raid.link(button=GOTO_MAIN, destination=page_main)
 page_main.link(button=MAIN_GOTO_RAID, destination=page_raid)
 # page_main_white.link(button=MAIN_GOTO_RAID_WHITE, destination=page_raid)
+
+# Dock
+page_dock = Page(DOCK_CHECK)
+page_dock.link(button=GOTO_MAIN, destination=page_main)
+page_main.link(button=MAIN_GOTO_DOCK, destination=page_dock)
+page_main_white.link(button=MAIN_GOTO_DOCK_WHITE, destination=page_dock)
 
 # Research
 # Please don't goto page_research from page_reward.

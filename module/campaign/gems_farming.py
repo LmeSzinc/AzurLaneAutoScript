@@ -295,9 +295,9 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
         return success
 
     def _dock_reset(self):
+        self.dock_favourite_set(False, wait_loading=False)
+        self.dock_sort_method_dsc_set(wait_loading=False)
         self.dock_filter_set()
-        self.dock_favourite_set(False)
-        self.dock_sort_method_dsc_set()
 
     def _ship_change_confirm(self, button):
         self.dock_select_one(button)
@@ -308,9 +308,18 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
         """
         Get a common rarity cv by config.GemsFarming_CommonCV
         If config.GemsFarming_CommonCV == 'any', return a common lv1 ~ lv33 cv
+
+        _dock_reset() needs to be called later.
+
         Returns:
             Ship:
         """
+        faction = 'eagle' if self.config.GemsFarming_CommonCV == 'eagle' else 'all'
+        extra = 'can_limit_break' if self.config.GemsFarming_ALLowHighFlagshipLevel else 'enhanceable'
+        self.dock_favourite_set(False, wait_loading=False)
+        self.dock_sort_method_dsc_set(False, wait_loading=False)
+        self.dock_filter_set(
+            index='cv', rarity='common', faction=faction, extra=extra, sort='total')
 
         logger.hr('FINDING FLAGSHIP')
 
@@ -330,13 +339,12 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
 
         if self.config.GemsFarming_CommonCV in ['any', 'eagle']:
 
-            self.dock_sort_method_dsc_set()
-
             ships = scanner.scan(self.device.image)
             if ships:
                 # Don't need to change current
                 return ships
 
+            # Change to any ship
             scanner.set_limitation(fleet=0)
 
             common_cv = {
@@ -348,7 +356,6 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
                 common_cv['Hermes'] = TEMPLATE_HERMES
 
             logger.info(f'Search for Common CV.')
-            self.dock_sort_method_dsc_set()
 
             find_bogue = True
             common_cv_candidates = {}
@@ -365,7 +372,7 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
                 common_cv_candidates[name] = candidates
 
             logger.info(f'No suitable CV was found, try reversed order.')
-            self.dock_sort_method_dsc_set(False)
+            self.dock_sort_method_dsc_set(True)
 
             for name, template in common_cv.items():
                 candidates = [ship for ship in scanner.scan(self.device.image)
@@ -376,7 +383,6 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
                     return candidates
                 elif common_cv_candidates[name]:
                     logger.info(f'Find Common CV {name}.')
-                    self.dock_sort_method_dsc_set()
                     return common_cv_candidates[name]
 
             return scanner.scan(self.device.image, output=False)
@@ -389,8 +395,6 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
                 'RANGER': TEMPLATE_RANGER
             }[f'{self.config.GemsFarming_CommonCV.upper()}']
 
-            self.dock_sort_method_dsc_set()
-
             ships = scanner.scan(self.device.image)
             if ships:
                 # Don't need to change current
@@ -401,10 +405,11 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
                           if template.match(self.image_crop(ship.button, copy=False), similarity=SIM_VALUE)]
 
             if candidates:
+                # Change to specific ship
                 return candidates
 
             logger.info('No specific CV was found, try reversed order.')
-            self.dock_sort_method_dsc_set(False)
+            self.dock_sort_method_dsc_set(True)
 
             candidates = [ship for ship in scanner.scan(self.device.image)
                           if template.match(self.image_crop(ship.button, copy=False), similarity=SIM_VALUE)]
@@ -415,9 +420,35 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
         """
         Get a common rarity dd with level is 100 (70 for servers except CN) 
         and emotion >= self.emotion_lower_bound
+
+        _dock_reset() needs to be called later.
+
         Returns:
             Ship:
         """
+        rarity = 'common'
+        extra = 'can_limit_break'
+        if self.config.GemsFarming_CommonDD == 'any':
+            faction = ['eagle', 'iron']
+        elif self.config.GemsFarming_CommonDD == 'favourite':
+            faction = 'all'
+        elif self.config.GemsFarming_CommonDD == 'z20_or_z21':
+            faction = 'iron'
+        elif self.config.GemsFarming_CommonDD == 'DDG':
+            faction = 'dragon'
+            rarity = 'super_rare'
+            extra = 'no_limit'
+        elif self.config.GemsFarming_CommonDD in ['aulick_or_foote', 'cassin_or_downes']:
+            faction = 'eagle'
+        else:
+            logger.error(f'Invalid CommonDD setting: {self.config.GemsFarming_CommonDD}')
+            raise ScriptError('Invalid GemsFarming_CommonDD')
+        favourite = self.config.GemsFarming_CommonDD == 'favourite'
+        self.dock_favourite_set(favourite, wait_loading=False)
+        self.dock_sort_method_dsc_set(True, wait_loading=False)
+        self.dock_filter_set(
+            index='dd', rarity=rarity, faction=faction, extra=extra)
+
         logger.hr('FINDING VANGUARD')
 
         if self.config.SERVER in ['cn']:
@@ -439,8 +470,6 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
                               fleet=self.fleet_to_attack, status='free')
         scanner.disable('rarity')
 
-        self.dock_sort_method_dsc_set()
-
         ships = scanner.scan(self.device.image)
         if ships:
             # Don't need to change current
@@ -449,21 +478,21 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
                 return ships
 
         scanner.set_limitation(fleet=0)
-        self.dock_favourite_set(self.config.GemsFarming_CommonDD == 'favourite')
 
         if self.config.GemsFarming_CommonDD in ['any', 'favourite', 'z20_or_z21', 'DDG']:
+            # Change to any ship
             return scanner.scan(self.device.image, output=False)
-        
+
         candidates = self.find_candidates(self.get_templates(self.config.GemsFarming_CommonDD), scanner)
 
         if candidates:
+            # Change to specific ship
             return candidates
-        
+
         logger.info('No specific DD was found, try reversed order.')
         self.dock_sort_method_dsc_set(False)
 
         candidates = self.find_candidates(self.get_templates(self.config.GemsFarming_CommonDD), scanner)
-
         return candidates
 
     def find_candidates(self, template, scanner):
@@ -529,11 +558,6 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
         self.ship_down_hard(self.fleet_detail_enter_flagship)
         self.ui_click(self.fleet_enter_flagship,
                       appear_button=self.page_fleet_check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
-        faction = 'eagle' if self.config.GemsFarming_CommonCV == 'eagle' else 'all'
-        extra = 'can_limit_break' if self.config.GemsFarming_ALLowHighFlagshipLevel else 'enhanceable'
-        self.dock_filter_set(
-            index='cv', rarity='common', faction=faction, extra=extra, sort='total')
-        self.dock_favourite_set(False)
 
         ship = self.get_common_rarity_cv()
         if ship:
@@ -577,26 +601,6 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
         self.ship_down_hard(self.fleet_detail_enter)
         self.ui_click(self.fleet_enter,
                       appear_button=self.page_fleet_check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
-        rarity = 'common'
-        extra = 'can_limit_break'
-        if self.config.GemsFarming_CommonDD == 'any':
-            faction = ['eagle', 'iron']
-        elif self.config.GemsFarming_CommonDD == 'favourite':
-            faction = 'all'
-        elif self.config.GemsFarming_CommonDD == 'z20_or_z21':
-            faction = 'iron'
-        elif self.config.GemsFarming_CommonDD == 'DDG':
-            faction = 'dragon'
-            rarity = 'super_rare'
-            extra = 'no_limit'
-        elif self.config.GemsFarming_CommonDD in ['aulick_or_foote', 'cassin_or_downes']:
-            faction = 'eagle'
-        else:
-            logger.error(f'Invalid CommonDD setting: {self.config.GemsFarming_CommonDD}')
-            raise ScriptError('Invalid GemsFarming_CommonDD')
-        self.dock_filter_set(
-            index='dd', rarity=rarity, faction=faction, extra=extra)
-        self.dock_favourite_set(False)
 
         ship = self.get_common_rarity_dd()
         if ship:

@@ -40,9 +40,15 @@ class Dock(Equipment):
         self.device.sleep((1, 1.5))
         self.device.screenshot()
 
-    def dock_favourite_set(self, enable=False):
+    def dock_favourite_set(self, enable=False, wait_loading=True):
+        """
+        Args:
+            enable: True to filter favourite ships only
+            wait_loading: Default to True, use False on continuous operation
+        """
         if DOCK_FAVOURITE.set('on' if enable else 'off', main=self):
-            self.handle_dock_cards_loading()
+            if wait_loading:
+                self.handle_dock_cards_loading()
 
     def _dock_quit_check_func(self):
         return not self.appear(DOCK_CHECK, offset=(20, 20))
@@ -50,15 +56,25 @@ class Dock(Equipment):
     def dock_quit(self):
         self.ui_back(check_button=self._dock_quit_check_func, skip_first_screenshot=True)
 
-    def dock_sort_method_dsc_set(self, enable=True):
+    def dock_sort_method_dsc_set(self, enable=True, wait_loading=True):
+        """
+        Args:
+            enable: True to set descending sorting
+            wait_loading: Default to True, use False on continuous operation
+        """
         if DOCK_SORTING.set('Descending' if enable else 'Ascending', main=self):
-            self.handle_dock_cards_loading()
+            if wait_loading:
+                self.handle_dock_cards_loading()
 
     def dock_filter_enter(self):
         self.ui_click(DOCK_FILTER, appear_button=DOCK_CHECK, check_button=DOCK_FILTER_CONFIRM,
                       skip_first_screenshot=True)
 
     def dock_filter_confirm(self, wait_loading=True):
+        """
+        Args:
+            wait_loading: Default to True, use False on continuous operation
+        """
         self.ui_click(DOCK_FILTER_CONFIRM, check_button=DOCK_CHECK, skip_first_screenshot=True)
         if wait_loading:
             self.handle_dock_cards_loading()
@@ -122,14 +138,19 @@ class Dock(Equipment):
         A faster filter set function.
 
         Args:
-            sort (str, list): ['rarity', 'level', 'total', 'join', 'intimacy', 'stat']
-            index (str, list): [['all', 'vanguard', 'main', 'dd', 'cl', 'ca'],
-                                ['bb', 'cv', 'repair', 'ss', 'others', 'not_available']]
-            faction (str, list): [['all', 'eagle', 'royal', 'sakura', 'iron', 'dragon'],
-                                  ['sardegna', 'northern', 'iris', 'vichya', 'other', 'not_available']]
-            rarity (str, list): [['all', 'common', 'rare', 'elite', 'super_rare', 'ultra']]
-            extra (str, list): [['no_limit', 'has_skin', 'can_retrofit', 'enhanceable', 'can_limit_break', 'not_level_max'],
-                                ['can_awaken', 'can_awaken_plus', 'special', 'oath_skin', 'not_available', 'not_available']]
+            sort (str, list):
+                ['rarity', 'level', 'total', 'join', 'intimacy', 'mood', 'stat']
+            index (str, list):
+                ['all', 'vanguard', 'main', 'dd', 'cl', 'ca', 'bb',
+                 'cv', 'repair', 'ss', 'others', 'not_available', 'not_available', 'not_available']
+            faction (str, list):
+                ['all', 'eagle', 'royal', 'sakura', 'iron', 'dragon', 'sardegna',
+                 'northern', 'iris', 'vichya', 'other', 'not_available', 'not_available', 'not_available']
+            rarity (str, list):
+                ['all', 'common', 'rare', 'elite', 'super_rare', 'ultra', 'not_available']
+            extra (str, list):
+                ['no_limit', 'has_skin', 'can_retrofit', 'enhanceable', 'can_limit_break', 'not_level_max', 'can_awaken',
+                 'can_awaken_plus', 'special', 'oath_skin', 'unique_augment_module', 'not_available', 'not_available', 'not_available'],
 
         Pages:
             in: page_dock

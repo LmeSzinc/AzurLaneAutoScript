@@ -225,3 +225,4 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20241128   | event 20241121 cn        | Dangerous Inventions                         | -                      | -                                            | -                                    | 危險發明逼近中           |
 | 20241219   | event 20241219 cn        | Substellar Crepuscule                        | 星光下的余晖           | Substellar Crepuscule                        | 星降る夕影の残光                     | -                        |
 | 20241219   | event 20231221 cn        | Light-Chasing Sea of Stars                   | -                      | -                                            | -                                    | 星海逐光                 |
+| 20250102   | raid 20240130            | Spring Festive Fiasco                        | -                      | -                                            | -                                    | 寰昌宇定家事忙           |
