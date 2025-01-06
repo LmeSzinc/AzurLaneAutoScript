@@ -88,6 +88,8 @@ class Equipment(StorageHandler):
                 else:
                     self.device.click(click_button)
                 enter_timer.reset()
+            if self.handle_game_tips():
+                continue
 
     @cached_property
     def _ship_side_navbar(self):
