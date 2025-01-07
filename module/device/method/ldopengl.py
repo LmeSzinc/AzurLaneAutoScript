@@ -9,6 +9,7 @@ import cv2
 import numpy as np
 
 from module.base.decorator import cached_property
+from module.device.env import IS_WINDOWS
 from module.device.method.utils import RETRY_TRIES, get_serial_pair, retry_sleep
 from module.device.platform import Platform
 from module.exception import RequestHumanTakeover
@@ -312,6 +313,8 @@ class LDOpenGL(Platform):
             raise RequestHumanTakeover
 
     def ldopengl_available(self) -> bool:
+        if not IS_WINDOWS:
+            return False
         if not self.is_ldplayer_bluestacks_family:
             return False
         logger.attr('EmulatorInfo_Emulator', self.config.EmulatorInfo_Emulator)
