@@ -146,6 +146,10 @@
       "name": "收穫",
       "help": ""
     },
+    "Awaken": {
+      "name": "認知覺醒",
+      "help": ""
+    },
     "Daily": {
       "name": "每日任務",
       "help": ""
@@ -743,7 +747,7 @@
       "raid_20221027": "戰鬥！皇家女僕隊3rd",
       "raid_20230118": "冬日的尋路人",
       "raid_20230629": "綠洲往事",
-      "raid_20240130": "Spring Festive Fiasco",
+      "raid_20240130": "寰昌宇定家事忙",
       "raid_20240328": "從零開始的魔王討伐之旅",
       "war_archives_20180607_cn": "檔案 墨染的鋼鐵之花",
       "war_archives_20180726_cn": "檔案 光與影的鳶尾之華",
@@ -1589,6 +1593,18 @@
     "CollectWeeklyMission": {
       "name": "領取周任務獎勵",
       "help": ""
+    }
+  },
+  "Awaken": {
+    "_info": {
+      "name": "認知覺醒",
+      "help": "認知覺醒船塢內所有的船隻直到心智單元耗盡"
+    },
+    "LevelCap": {
+      "name": "覺醒至等級上限",
+      "help": "",
+      "level120": "120級",
+      "level125": "125級"
     }
   },
   "GeneralShop": {
