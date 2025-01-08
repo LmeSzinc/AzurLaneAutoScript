@@ -1,5 +1,6 @@
 from module.base.decorator import cached_property
 from module.base.timer import Timer
+from module.combat.assets import GET_ITEMS_1
 from module.config.utils import get_os_reset_remain
 from module.exception import GameStuckError, ScriptError
 from module.logger import logger
@@ -23,10 +24,10 @@ class OSShop(PortShop, AkashiShop):
         """
         success = False
         amount_finish = False
-        self.interval_clear(PORT_SUPPLY_CHECK)
-        self.interval_clear(SHOP_BUY_CONFIRM)
-        self.interval_clear(SHOP_BUY_CONFIRM_AMOUNT)
-        self.interval_clear(OS_SHOP_BUY_CONFIRM)
+        self.interval_clear([
+            PORT_SUPPLY_CHECK, SHOP_BUY_CONFIRM_AMOUNT,
+            SHOP_BUY_CONFIRM, OS_SHOP_BUY_CONFIRM, GET_ITEMS_1
+        ])
 
         while True:
             if skip_first_screenshot:
