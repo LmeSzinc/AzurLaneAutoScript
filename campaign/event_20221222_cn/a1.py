@@ -57,7 +57,7 @@ class Config:
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
-    MAP_SIREN_HAS_BOSS_ICON = True
+    MAP_SIREN_HAS_BOSS_ICON_SMALL = True
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (80, 255 - 33),
         'width': (1.5, 10),
