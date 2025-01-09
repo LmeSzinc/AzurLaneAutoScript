@@ -41,7 +41,6 @@ Emulator:
       aScreenCap_nc,
       DroidCast,
       DroidCast_raw,
-      scrcpy,
       nemu_ipc,
       ldopengl,
     ]
