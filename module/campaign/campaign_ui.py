@@ -36,16 +36,33 @@ ASIDE_SWITCH_20241219.add_state('sp', CHAPTER_20241219_SP)
 ASIDE_SWITCH_20241219.add_state('ex', CHAPTER_20241219_EX)
 
 
+def is_digit_chapter(chapter):
+    """
+    Args:
+         chapter (int, str): Chapter. Such as 7, 'd', 'sp'.
+
+    Returns:
+        bool:
+    """
+    if isinstance(chapter, int):
+        return True
+    try:
+        return chapter[0].isdigit()
+    except IndexError:
+        return False
+
+
 class CampaignUI(MapOperation, CampaignEvent, CampaignOcr):
     ENTRANCE = Button(area=(), color=(), button=(), name='default_button')
 
-    def campaign_ensure_chapter(self, index, skip_first_screenshot=True):
+    def campaign_ensure_chapter(self, chapter, skip_first_screenshot=True):
         """
         Args:
-            index (int, str): Chapter. Such as 7, 'd', 'sp'.
+            chapter (int, str): Chapter. Such as 7, 'd', 'sp'.
             skip_first_screenshot:
         """
-        index = self._campaign_get_chapter_index(index)
+        index = self._campaign_get_chapter_index(chapter)
+        isdigit = is_digit_chapter(chapter)
 
         # A copy of use ui_ensure_index.
         logger.hr("UI ensure index")
@@ -61,11 +78,16 @@ class CampaignUI(MapOperation, CampaignEvent, CampaignOcr):
                 continue
 
             current = self.get_chapter_index()
+            current_isdigit = is_digit_chapter(self.campaign_chapter)
 
             logger.attr("Index", current)
             diff = index - current
             if diff == 0:
                 break
+
+            # Getting 3-7 when looking for D3
+            if not (isdigit == current_isdigit):
+                continue
 
             # 14-4 may be OCR as 4-1 due to slow animation, confirm if it is 4-1
             if index >= 11 and index % 10 == current:
@@ -214,13 +236,13 @@ class CampaignUI(MapOperation, CampaignEvent, CampaignOcr):
         if chapter.isdigit():
             self.ui_goto_campaign()
             self.campaign_ensure_mode('normal')
-            self.campaign_ensure_chapter(index=chapter)
+            self.campaign_ensure_chapter(chapter)
             if mode == 'hard':
                 self.campaign_ensure_mode('hard')
                 # info_bar shows: Hard mode for this map is not available yet.
                 # There's also a game bug in EN, HM12 shows not available but it's actually available.
                 self.handle_info_bar()
-                self.campaign_ensure_chapter(index=chapter)
+                self.campaign_ensure_chapter(chapter)
             return True
         else:
             return False
@@ -234,7 +256,7 @@ class CampaignUI(MapOperation, CampaignEvent, CampaignOcr):
                 self.campaign_ensure_mode('hard')
             elif chapter == 'ex_sp':
                 self.campaign_ensure_mode('ex')
-            self.campaign_ensure_chapter(index=chapter)
+            self.campaign_ensure_chapter(chapter)
             return True
         else:
             return False
@@ -242,7 +264,7 @@ class CampaignUI(MapOperation, CampaignEvent, CampaignOcr):
     def campaign_set_chapter_sp(self, chapter, mode='normal'):
         if chapter == 'sp':
             self.ui_goto_sp()
-            self.campaign_ensure_chapter(index=chapter)
+            self.campaign_ensure_chapter(chapter)
             return True
         else:
             return False
@@ -261,25 +283,25 @@ class CampaignUI(MapOperation, CampaignEvent, CampaignOcr):
             self.ui_goto_event()
             self.campaign_ensure_mode_20241219('combat')
             self.campaign_ensure_aside_20241219('part1')
-            self.campaign_ensure_chapter(index=chapter)
+            self.campaign_ensure_chapter(chapter)
             return True
         if chapter in ['b', 'd', 'ttl']:
             self.ui_goto_event()
             self.campaign_ensure_mode_20241219('combat')
             self.campaign_ensure_aside_20241219('part2')
-            self.campaign_ensure_chapter(index=chapter)
+            self.campaign_ensure_chapter(chapter)
             return True
         if chapter in ['ex_sp']:
             self.ui_goto_event()
             self.campaign_ensure_mode_20241219('combat')
             self.campaign_ensure_aside_20241219('sp')
-            self.campaign_ensure_chapter(index=chapter)
+            self.campaign_ensure_chapter(chapter)
             return True
         if chapter in ['ex_ex']:
             self.ui_goto_event()
             self.campaign_ensure_mode_20241219('combat')
             self.campaign_ensure_aside_20241219('ex')
-            self.campaign_ensure_chapter(index=chapter)
+            self.campaign_ensure_chapter(chapter)
             return True
         else:
             return False
