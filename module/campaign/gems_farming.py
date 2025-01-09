@@ -282,7 +282,7 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
             return ships
 
         scanner.set_limitation(fleet=0)
-        if self.config.GemsFarming_CommonDD in ['any', 'favourite']:
+        if self.config.GemsFarming_CommonDD in ['any', 'favourite', 'z20_or_z21']:
             # Change to any ship
             return scanner.scan(self.device.image, output=False)
 

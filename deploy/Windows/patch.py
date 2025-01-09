@@ -59,17 +59,34 @@ def patch_uiautomator2():
     https://tool.appetizer.io is added to bypass the wall in China but https://tool.appetizer.io is slow outside of CN
     plus some CN users cannot access it for unknown reason.
 
-    So we patch `uiautomator2/init.py` to a local assets cache `uiautomator2cache/cache`.
+    1. So we patch `uiautomator2/init.py` to a local assets cache `uiautomator2cache/cache`.
         appdir = os.path.join(os.path.expanduser('~'), '.uiautomator2')
     to:
         appdir = os.path.join(__file__, '../../uiautomator2cache')
 
-    And we also remove minicap installations since emulators doesn't need it.
+    2. And we also remove minicap installations since emulators doesn't need it.
         for url in self.minicap_urls:
             self.push_url(url)
     to:
         for url in []:
             self.push_url(url)
+
+    3. Fix atx_agent_url so ARM Mac can have correct ATX installed
+    ```
+    @property
+    def atx_agent_url(self):
+        files = {
+            'armeabi-v7a': 'atx-agent_{v}_linux_armv7.tar.gz',
+            'arm64-v8a': 'atx-agent_{v}_linux_armv7.tar.gz',
+            'armeabi': 'atx-agent_{v}_linux_armv6.tar.gz',
+            'x86': 'atx-agent_{v}_linux_386.tar.gz',
+            'x86_64': 'atx-agent_{v}_linux_386.tar.gz',
+        }
+    ```
+    where
+        'arm64-v8a': 'atx-agent_{v}_linux_armv7.tar.gz',
+    to
+        'arm64-v8a': 'atx-agent_{v}_linux_arm64.tar.gz',
     """
     init_file = './toolkit/Lib/site-packages/uiautomator2/init.py'
     cache_dir = './toolkit/Lib/site-packages/uiautomator2cache/cache'
@@ -91,6 +108,17 @@ def patch_uiautomator2():
         logger.info(f'{init_file} minicap_urls patched')
     else:
         logger.info(f'{init_file} minicap_urls no need to patch')
+
+    # Patch atx_agent_url
+    res = re.search(r"'arm64-v8a': 'atx-agent_\{v}_linux_armv7.tar.gz'", content)
+    if res:
+        content = re.sub(r"'arm64-v8a': 'atx-agent_\{v}_linux_armv7.tar.gz'",
+                         "'arm64-v8a': 'atx-agent_{v}_linux_arm64.tar.gz'",
+                         content)
+        modified = True
+        logger.info(f'{init_file} atx_agent_url patched')
+    else:
+        logger.info(f'{init_file} atx_agent_url no need to patch')
 
     # Patch appdir
     if os.path.exists(cache_dir):
