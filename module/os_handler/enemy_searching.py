@@ -2,7 +2,7 @@ from module.base.timer import Timer
 from module.handler.enemy_searching import \
     EnemySearchingHandler as EnemySearchingHandler_
 from module.logger import logger
-from module.os.assets import MAP_GOTO_GLOBE_FOG
+from module.os.assets import MAP_GOTO_GLOBE_FOG, MAP_GOTO_GLOBE_STORY
 from module.os_handler.assets import AUTO_SEARCH_REWARD, IN_MAP, ORDER_ENTER
 
 
@@ -11,6 +11,8 @@ class EnemySearchingHandler(EnemySearchingHandler_):
         if IN_MAP.match_luma(self.device.image, offset=(200, 5)):
             return True
         if self.match_template_color(MAP_GOTO_GLOBE_FOG, offset=(5, 5)):
+            return True
+        if self.match_template_color(MAP_GOTO_GLOBE_STORY, offset=(200, 5)):
             return True
 
         return False
