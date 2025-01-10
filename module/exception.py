@@ -1,59 +1,100 @@
-class CampaignEnd(Exception):
+# ALASBaseException
+#  ├── ScriptError
+#  ├── ScriptEnd
+#  ├── EmulatorNotRunningError
+#  ├── RequestHumanTakeover
+#  ├── CampaignBaseException
+#  │    ├── CampaignEnd
+#  │    └── CampaignNameError
+#  ├── MapBaseException
+#  │    ├── MapDetectionError
+#  │    ├── MapWalkError
+#  │    └── MapEnemyMoved
+#  └── GameBaseException
+#       ├── GameStuckError
+#       ├── GameBugError
+#       ├── GameTooManyClickError
+#       ├── GameNotRunningError
+#       └── GamePageUnknownError
+
+
+class ALASBaseException(Exception):
     pass
 
 
-class MapDetectionError(Exception):
-    pass
-
-
-class MapWalkError(Exception):
-    pass
-
-
-class MapEnemyMoved(Exception):
-    pass
-
-
-class CampaignNameError(Exception):
-    pass
-
-
-class ScriptError(Exception):
+class ScriptError(ALASBaseException):
     # This is likely to be a mistake of developers, but sometimes a random issue
     pass
 
 
-class ScriptEnd(Exception):
+class ScriptEnd(ALASBaseException):
     pass
 
 
-class GameStuckError(Exception):
+class EmulatorNotRunningError(ALASBaseException):
     pass
 
 
-class GameBugError(Exception):
+class RequestHumanTakeover(ALASBaseException):
+    # Request human takeover
+    # Alas is unable to handle such error, probably because of wrong settings.
+    def __init__(self, message='Request human takeover', *args):
+        super().__init__(message, *args)
+
+
+# Campaign
+class CampaignBaseException(ALASBaseException):
+    pass
+
+
+class CampaignEnd(CampaignBaseException):
+    pass
+
+
+class CampaignNameError(CampaignBaseException):
+    pass
+
+
+# Map
+class MapBaseException(ALASBaseException):
+    pass
+
+
+class MapDetectionError(MapBaseException):
+    pass
+
+
+class MapWalkError(MapBaseException):
+    pass
+
+
+class MapEnemyMoved(MapBaseException):
+    pass
+
+
+# Game
+class GameBaseException(ALASBaseException):
+    pass
+
+
+class GameStuckError(GameBaseException):
+    pass
+
+
+class GameBugError(GameBaseException):
     # An error has occurred in Azur Lane game client. Alas is unable to handle.
     # A restart should fix it.
     pass
 
 
-class GameTooManyClickError(Exception):
+class GameTooManyClickError(GameBaseException):
     pass
 
 
-class EmulatorNotRunningError(Exception):
+class GameNotRunningError(GameBaseException):
     pass
 
 
-class GameNotRunningError(Exception):
-    pass
-
-
-class GamePageUnknownError(Exception):
-    pass
-
-
-class RequestHumanTakeover(Exception):
-    # Request human takeover
-    # Alas is unable to handle such error, probably because of wrong settings.
-    pass
+class GamePageUnknownError(GameBaseException):
+    def __init__(self, message='Game page unknown', *args):
+        super().__init__(message, *args)
