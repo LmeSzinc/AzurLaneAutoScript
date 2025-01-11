@@ -13,7 +13,7 @@ from module.template.assets import *
 
 class CampaignOcr(ModuleBase):
     stage_entrance = {}
-    campaign_chapter = 0
+    campaign_chapter: str = '0'
     # An approximate area where stages will appear for faster template matching
     _stage_detect_area = (87, 117, 1151, 636)
 

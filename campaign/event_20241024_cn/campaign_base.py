@@ -42,6 +42,6 @@ class CampaignBase(CampaignBase_):
                 ASIDE_SWITCH_20241219.set('part2', main=self)
             else:
                 logger.warning(f'Stage {chapter}{stage} is not in event_20241024')
-            self.campaign_ensure_chapter(index=chapter)
+            self.campaign_ensure_chapter(chapter)
 
         return super().campaign_set_chapter_20241219(chapter, stage, mode)
