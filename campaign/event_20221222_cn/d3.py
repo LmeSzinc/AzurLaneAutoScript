@@ -6,7 +6,7 @@ from .d1 import Config as ConfigBase
 
 MAP = CampaignMap('D3')
 MAP.shape = 'I9'
-MAP.camera_data = ['D2', 'D5', 'D7', 'F2', 'F5', 'F7']
+MAP.camera_data = ['D3', 'F3', 'F5', 'F7']
 MAP.camera_data_spawn_point = ['D7']
 MAP.map_data = """
     -- ++ ++ ME -- ME -- ++ ++
@@ -49,6 +49,9 @@ A7, B7, C7, D7, E7, F7, G7, H7, I7, \
 A8, B8, C8, D8, E8, F8, G8, H8, I8, \
 A9, B9, C9, D9, E9, F9, G9, H9, I9, \
     = MAP.flatten()
+MAP.ignore_prediction(C5, is_siren=True)
+MAP.ignore_prediction(E7, is_siren=True)
+MAP.ignore_prediction(G4, is_siren=True)
 
 
 class Config(ConfigBase):
@@ -63,6 +66,7 @@ class Config(ConfigBase):
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
+    MAP_SIREN_HAS_BOSS_ICON_SMALL = False
     MAP_SWIPE_MULTIPLY = (0.997, 1.015)
     MAP_SWIPE_MULTIPLY_MINITOUCH = (0.964, 0.982)
     MAP_SWIPE_MULTIPLY_MAATOUCH = (0.936, 0.953)
