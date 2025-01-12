@@ -326,6 +326,9 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
 
         _dock_reset() needs to be called later.
 
+        Args:
+            lv (int): max level of common cv
+            emotion (int): min emotion of common cv
         Returns:
             Ship:
         """
@@ -363,11 +366,7 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
             scanner.set_limitation(fleet=0)
 
             logger.info(f'Search for Common CV.')
-            # get common cv filter
-            SHIP_FILTER.load(self.config.GemsFarming_CommonCVFilter)
-            common_cv = [str(name[0]) for name in SHIP_FILTER.filter if name[0].upper() in TEMPLATE_COMMON_CV.keys()]
-            logger.attr('Filter sort', ' > '.join(common_cv))
-
+            common_cv = self.get_common_cv_filter(self.config.GemsFarming_CommonCVFilter)
             find_first = True
             common_cv_candidates = {}
             for name in common_cv:
@@ -424,6 +423,27 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
 
             return candidates
 
+    def get_common_cv_filter(self, string):
+        """
+        Get the filter of common rarity cv,
+        If the filter is invalid, export default value to config and use it
+
+        Returns:
+            List[str]:
+        """
+        while 1:
+            SHIP_FILTER.load(string)
+            common_cv = [str(name[0]) for name in SHIP_FILTER.filter if name[0].upper() in TEMPLATE_COMMON_CV.keys()]
+            if not common_cv:
+                logger.warning(f'Invalid filter set: "{string}". Set to default filter.')
+                string = self.config.COMMON_CV_FILTER
+                self.config.cross_set(keys='GemsFarming.GemsFarming.CommonCVFilter', value=self.config.COMMON_CV_FILTER)
+                continue
+
+            # End
+            logger.attr('Filter sort', ' > '.join(common_cv))
+            return common_cv
+
     def get_common_rarity_dd(self, emotion=16):
         """
         Get a common rarity dd with level is 100 (70 for servers except CN) 
@@ -431,6 +451,8 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
 
         _dock_reset() needs to be called later.
 
+        Args:
+            emotion (int): min emotion of common dd
         Returns:
             Ship:
         """
