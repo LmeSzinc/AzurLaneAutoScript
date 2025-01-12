@@ -31,7 +31,12 @@ class AssistantHandler:
         AssistantHandler.Asst = asst.Asst
         AssistantHandler.Message = utils.Message
         AssistantHandler.InstanceOptionType = utils.InstanceOptionType
-        AssistantHandler.Asst.load(path, user_dir=path, incremental_path=incremental_path)
+        try:
+            AssistantHandler.Asst.load(path, user_dir=path, incremental_path=incremental_path)
+        except OSError as e:
+            logger.critical(e)
+            logger.critical("MAA加载失败，请检查MAA本体能否正常打开")
+            raise RequestHumanTakeover
 
         AssistantHandler.ASST_HANDLER = None
 
@@ -129,8 +134,12 @@ class AssistantHandler:
             self.callback_list.remove(self.penguin_id_callback)
 
     def annihilation_callback(self, m, d):
-        if m == self.Message.SubTaskError:
-            self.signal = m
+        # Skip annihilation error task callback temporary
+        # https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/10623
+        ignoreErrorKeywords = ["FightSeries-Indicator","FightSeries-Icon"]
+        if m == self.Message.SubTaskError \
+                and deep_get(d, keys='first') != ignoreErrorKeywords:
+            self.signal = m 
 
     def fight_stop_count_callback(self, m, d):
         if m == self.Message.SubTaskCompleted:

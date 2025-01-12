@@ -106,8 +106,7 @@ class ActionPointHandler(UI, MapEventHandler):
         return self.appear(ACTION_POINT_USE, offset=(20, 20))
 
     def is_current_ap_visible(self):
-        return self.appear(CURRENT_AP_CHECK, offset=(40, 5)) \
-            and CURRENT_AP_CHECK.match_appear_on(self.device.image, threshold=15)
+        return self.match_template_color(CURRENT_AP_CHECK, offset=(40, 5), threshold=15)
 
     def action_point_use(self, skip_first_screenshot=True):
         prev = self._action_point_current

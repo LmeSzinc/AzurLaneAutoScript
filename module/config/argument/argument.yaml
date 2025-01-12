@@ -41,7 +41,6 @@ Emulator:
       aScreenCap_nc,
       DroidCast,
       DroidCast_raw,
-      scrcpy,
       nemu_ipc,
       ldopengl,
     ]
@@ -427,6 +426,7 @@ MeowfficerTrain:
   RetainTalentedGold: true
   RetainTalentedPurple: true
   EnhanceIndex: 1
+  MaxFeedLevel: 5
 GuildLogistics:
   Enable: true
   SelectNewMission: false
@@ -448,6 +448,10 @@ Reward:
   CollectExp: true
   CollectMission: true
   CollectWeeklyMission: true
+Awaken:
+  LevelCap:
+    value: level120
+    option: [ level120, level125 ]
 GeneralShop:
   UseGems: false
   Refresh: false

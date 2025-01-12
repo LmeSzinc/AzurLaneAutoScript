@@ -1,6 +1,6 @@
 from module.campaign.campaign_base import CampaignBase as CampaignBase_
 from module.combat.assets import GET_ITEMS_1_RYZA
-from module.handler.fast_forward import auto_search
+from module.handler.fast_forward import AUTO_SEARCH
 from module.handler.assets import MYSTERY_ITEM
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
@@ -15,7 +15,7 @@ class CampaignBase(CampaignBase_):
     def campaign_set_chapter_event(self, chapter, mode='normal'):
         if chapter.startswith('t'):
             self.ui_goto_event()
-            self.campaign_ensure_chapter(index=chapter)
+            self.campaign_ensure_chapter(chapter)
             return True
 
         return super().campaign_set_chapter_event(chapter, mode=mode)
@@ -62,7 +62,7 @@ class CampaignBase(CampaignBase_):
 
         # Chapter TH has no map_percentage and no 3_stars
         if name.startswith('th') or name.startswith('ht'):
-            appear = auto_search.appear(main=self)
+            appear = AUTO_SEARCH.appear(main=self)
             self.map_is_100_percent_clear = self.map_is_3_stars = self.map_is_threat_safe = appear
             self.map_has_clear_mode = appear
             self.map_show_info()

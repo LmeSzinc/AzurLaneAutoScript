@@ -146,6 +146,10 @@
       "name": "Reward",
       "help": ""
     },
+    "Awaken": {
+      "name": "Awaken",
+      "help": ""
+    },
     "Daily": {
       "name": "Daily",
       "help": ""
@@ -187,11 +191,11 @@
       "help": ""
     },
     "OpsiAshBeacon": {
-      "name": "Ash Beacon",
+      "name": "META Battles",
       "help": ""
     },
     "OpsiAshAssist": {
-      "name": "OpSi Ash Assist",
+      "name": "META Assists",
       "help": ""
     },
     "OpsiExplore": {
@@ -276,7 +280,7 @@
     },
     "NextRun": {
       "name": "Next Run",
-      "help": "Updated automatically after completing the task to set next scheduled run, typically not manually modified\nHowever you can force immediate scheduling if you clear this text field"
+      "help": "Updated automatically after completing the task to set next scheduled run, typically not manually modified\nHowever you can force immediate scheduling if text field cleared"
     },
     "Command": {
       "name": "Command",
@@ -411,7 +415,6 @@
       "aScreenCap_nc": "aScreenCap_nc",
       "DroidCast": "DroidCast",
       "DroidCast_raw": "DroidCast_raw",
-      "scrcpy": "scrcpy",
       "nemu_ipc": "nemu_ipc",
       "ldopengl": "ldopengl"
     },
@@ -713,11 +716,11 @@
       "event_20220414_cn": "Aurora Noctis Rerun",
       "event_20220428_cn": "Rondo at Rainbows End Rerun",
       "event_20220526_cn": "Pledge of the Radiant Court Rerun",
-      "event_20220728_cn": "Aquilifers Ballade",
+      "event_20220728_cn": "Aquilifers Ballade Rerun",
       "event_20220818_cn": "Operation Convergence",
-      "event_20220915_cn": "Violet Tempest Blooming Lycoris",
+      "event_20220915_cn": "Violet Tempest Blooming Lycoris Rerun",
       "event_20221124_cn": "The Alchemist and the Archipelago of Secrets",
-      "event_20221222_cn": "Parallel Superimposition",
+      "event_20221222_cn": "Parallel Superimposition Rerun",
       "event_20230223_cn": "Revelations of Dust",
       "event_20230525_cn": "Confluence of Nothingness",
       "event_20230803_cn": "Anthem of Remembrance",
@@ -732,6 +735,10 @@
       "event_20240725_cn": "Interlude of Illusions",
       "event_20240815_cn": "Windborne Steel Wings",
       "event_20240829_cn": "Whence Flowers Bear No Fruit",
+      "event_20240912_cn": "Ode of Everblooming Crimson",
+      "event_20241024_cn": "Tempesta and the Sleeping Sea",
+      "event_20241121_cn": "Dangerous Inventions Incoming",
+      "event_20241219_cn": "Substellar Crepuscule",
       "raid_20200624": "Air Raid Drills with Essex Rerun",
       "raid_20210708": "Cross Wave rerun",
       "raid_20220127": "Mystery Investigation",
@@ -760,15 +767,20 @@
       "war_archives_20200820_cn": "archives Scherzo of Iron and Blood",
       "war_archives_20200903_cn": "archives Stars of the Shimmering Fjord",
       "war_archives_20200917_cn": "archives Dreamwakers Butterfly",
+      "war_archives_20201012_cn": "archives Sundered Blue",
       "war_archives_20201029_cn": "archives Universe in Unison",
       "war_archives_20201229_cn": "archives Inverted Orthant",
       "war_archives_20210225_cn": "archives Khorovod of Dawns Rime",
       "war_archives_20210325_cn": "archives Ashen Simulacrum",
+      "war_archives_20210422_cn": "archives Daedalian Hymn",
       "war_archives_20210527_cn": "archives Mirror Involution",
       "war_archives_20210624_cn": "archives Swirling Cherry Blossoms",
       "war_archives_20210819_cn": "archives Microlayer Medley",
+      "war_archives_20210916_cn": "archives Upon the Shimmering Blue",
       "war_archives_20211014_cn": "archives Crescendo of Polaris",
       "war_archives_20211028_cn": "archives Skybound Oratorio",
+      "war_archives_20211111_cn": "archives The Flame-Touched Dagger",
+      "war_archives_20211229_cn": "archives Tower of Transcendence",
       "war_archives_20220210_cn": "archives Northern Overture",
       "war_archives_20220414_cn": "archives Aurora Noctis"
     },
@@ -1502,6 +1514,10 @@
     "EnhanceIndex": {
       "name": "Enhance Index",
       "help": "Index of target meowfficer to enhance. Limited in 1 ~ 12; indices are in ascending order from left to right of the 4 x 3 grid."
+    },
+    "MaxFeedLevel": {
+      "name": "Do not use meowfficer larger than level X as enhancing materials",
+      "help": "The X value is limited to 1 to 30"
     }
   },
   "GuildLogistics": {
@@ -1576,6 +1592,18 @@
     "CollectWeeklyMission": {
       "name": "Collect Weekly Mission Rewards",
       "help": ""
+    }
+  },
+  "Awaken": {
+    "_info": {
+      "name": "Cognitive Awakening Settings",
+      "help": "Awaken all ships in dock til cognitive chips/arrays exhausted"
+    },
+    "LevelCap": {
+      "name": "To Level Cap",
+      "help": "",
+      "level120": "Lv.120",
+      "level125": "Lv.125"
     }
   },
   "GeneralShop": {
@@ -2186,7 +2214,7 @@
   },
   "OpsiAshAssist": {
     "_info": {
-      "name": "OpSi Ash Assist Settings",
+      "name": "META Assist Settings",
       "help": "Limited to 3 everyday"
     },
     "Tier": {
@@ -2232,11 +2260,11 @@
   },
   "OpsiAshBeacon": {
     "_info": {
-      "name": "Ash Beacon Settings",
+      "name": "META Battle Settings",
       "help": ""
     },
     "AttackMode": {
-      "name": "META Attack",
+      "name": "META Battle",
       "help": "",
       "current": "Current",
       "current_dossier": "Current + Dossier"
@@ -2246,8 +2274,8 @@
       "help": "Strike each beacon only once, then call for support every half hour thereafter\nNot effective in META dossiers"
     },
     "DossierAutoAttackMode": {
-      "name": "OpsiAshBeacon.DossierAutoAttackMode.name",
-      "help": "OpsiAshBeacon.DossierAutoAttackMode.help"
+      "name": "Use Auto Attack Mode in META Dossier",
+      "help": "Use Auto Attack Mode after the first battle, currently only available on CN"
     },
     "RequestAssist": {
       "name": "Request Assists",
@@ -2292,8 +2320,8 @@
       "help": "At the beginning of each month OpSi is reset\nThe following must be satisfied:\n- OpSi story and practice battles must be complete\nEach zone will be visited in a clockwise direction every 27 minutes until world has been been completely opened\nNo need to consume 5000 oil for special radar in OpSi voucher shop"
     },
     "SpecialRadar": {
-      "name": "SpecialRadar Bought",
-      "help": "Enable if you have purchased the special radar\nAllows Alas to explore OpSi continously without having to wait 27 minutes between each zone clear\nCannot be selected when not purchased and used manually"
+      "name": "OpSi Data Logger Bought (5k oil item)",
+      "help": "Purchase Operation Siren Data Logger is not a must, enable if you have purchased.\nAllows Alas to explore OpSi continously without having to wait 27 minutes between each zone clear\nCannot be selected when not purchased and used manually"
     },
     "ForceRun": {
       "name": "Force Run",

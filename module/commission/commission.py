@@ -24,8 +24,8 @@ from module.ui.ui import UI
 from module.ui_white.assets import REWARD_1_WHITE, REWARD_GOTO_COMMISSION_WHITE
 
 COMMISSION_SWITCH = Switch('Commission_switch', is_selector=True)
-COMMISSION_SWITCH.add_status('daily', COMMISSION_DAILY)
-COMMISSION_SWITCH.add_status('urgent', COMMISSION_URGENT)
+COMMISSION_SWITCH.add_state('daily', COMMISSION_DAILY)
+COMMISSION_SWITCH.add_state('urgent', COMMISSION_URGENT)
 COMMISSION_SCROLL = Scroll(COMMISSION_SCROLL_AREA, color=(247, 211, 66), name='COMMISSION_SCROLL')
 
 
@@ -363,7 +363,8 @@ class RewardCommission(UI, InfoHandler):
                 raise GameStuckError('Triggered commission list flashing bug')
 
             # Click
-            if self.appear_then_click(COMMISSION_START, offset=(5, 20), interval=7):
+            if self.match_template_color(COMMISSION_START, offset=(5, 20), interval=7):
+                self.device.click(COMMISSION_START)
                 self.interval_reset(COMMISSION_ADVICE)
                 comm_timer.reset()
                 continue

@@ -103,8 +103,7 @@ class Reward(UI):
             for button in [MISSION_MULTI, MISSION_SINGLE]:
                 if not click_timer.reached():
                     continue
-                if self.appear(button, offset=(20, 200), interval=interval) \
-                        and button.match_appear_on(self.device.image):
+                if self.match_template_color(button, offset=(20, 200), interval=interval):
                     self.device.click(button)
                     exit_timer.reset()
                     click_timer.reset()
@@ -177,7 +176,8 @@ class Reward(UI):
         Returns:
             bool, if handled
         """
-        if not self.appear(MISSION_WEEKLY_RED_DOT):
+        if not self.image_color_count(MISSION_WEEKLY_RED_DOT, color=(206, 81, 66), threshold=221, count=20):
+            logger.info('No MISSION_WEEKLY_RED_DOT')
             return False
 
         self.reward_side_navbar_ensure(upper=5)

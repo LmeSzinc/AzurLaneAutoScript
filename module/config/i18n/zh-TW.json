@@ -146,6 +146,10 @@
       "name": "收穫",
       "help": ""
     },
+    "Awaken": {
+      "name": "認知覺醒",
+      "help": ""
+    },
     "Daily": {
       "name": "每日任務",
       "help": ""
@@ -187,11 +191,11 @@
       "help": ""
     },
     "OpsiAshBeacon": {
-      "name": "餘燼信標",
+      "name": "META作戰",
       "help": ""
     },
     "OpsiAshAssist": {
-      "name": "信標支援",
+      "name": "META支援",
       "help": ""
     },
     "OpsiExplore": {
@@ -411,7 +415,6 @@
       "aScreenCap_nc": "aScreenCap_nc",
       "DroidCast": "DroidCast",
       "DroidCast_raw": "DroidCast_raw",
-      "scrcpy": "scrcpy",
       "nemu_ipc": "nemu_ipc",
       "ldopengl": "ldopengl"
     },
@@ -663,7 +666,7 @@
       "help": "自動選擇至最新的活動圖",
       "campaign_main": "主線圖",
       "coalition_20230323": "極地風暴",
-      "coalition_20240627": "Welcome to Little Academy",
+      "coalition_20240627": "歡迎來到童心學院",
       "event_20200227_cn": "Northern Overture",
       "event_20200312_cn": "斯圖爾特的硝煙",
       "event_20200326_cn": "Microlayer Medley",
@@ -722,16 +725,20 @@
       "event_20230525_cn": "空相交會點",
       "event_20230803_cn": "奏響鳶尾之歌",
       "event_20230817_cn": "愚者的天平",
-      "event_20230914_cn": "Effulgence Before Eclipse",
+      "event_20230914_cn": "須臾望月抄",
       "event_20231026_cn": "飓風與青春之泉",
       "event_20231123_cn": "蒼閃忍法帖",
-      "event_20231221_cn": "Light-Chasing Sea of Stars",
-      "event_20240229_cn": "Snowrealm Peregrination",
+      "event_20231221_cn": "星海逐光",
+      "event_20240229_cn": "雪境迷蹤",
       "event_20240425_cn": "共鳴的PASSION",
       "event_20240521_cn": "Light of the Martyrium",
       "event_20240725_cn": "Interlude of Illusions",
       "event_20240815_cn": "Windborne Steel Wings",
-      "event_20240829_cn": "Whence Flowers Bear No Fruit",
+      "event_20240829_cn": "埋葬於彼岸之花",
+      "event_20240912_cn": "Ode of Everblooming Crimson",
+      "event_20241024_cn": "Tempesta and the Sleeping Sea",
+      "event_20241121_cn": "危險發明逼近中",
+      "event_20241219_cn": "Substellar Crepuscule",
       "raid_20200624": "特別演習埃塞克斯級(復刻)",
       "raid_20210708": "復刻穿越彼方的水線",
       "raid_20220127": "演習神秘事件調查",
@@ -739,7 +746,7 @@
       "raid_20221027": "戰鬥！皇家女僕隊3rd",
       "raid_20230118": "冬日的尋路人",
       "raid_20230629": "綠洲往事",
-      "raid_20240130": "Spring Festive Fiasco",
+      "raid_20240130": "寰昌宇定家事忙",
       "raid_20240328": "從零開始的魔王討伐之旅",
       "war_archives_20180607_cn": "檔案 墨染的鋼鐵之花",
       "war_archives_20180726_cn": "檔案 光與影的鳶尾之華",
@@ -760,15 +767,20 @@
       "war_archives_20200820_cn": "檔案 鐵血音符誓言",
       "war_archives_20200903_cn": "檔案 峽灣間的星辰",
       "war_archives_20200917_cn": "檔案 蝶海夢花",
+      "war_archives_20201012_cn": "檔案 劃破海空之翼",
       "war_archives_20201029_cn": "檔案 激唱的UNIVERSE",
       "war_archives_20201229_cn": "檔案 負象限作戰",
       "war_archives_20210225_cn": "檔案 破曉冰華",
       "war_archives_20210325_cn": "檔案 箱庭療法",
+      "war_archives_20210422_cn": "檔案 復興的讚美詩",
       "war_archives_20210527_cn": "檔案 鏡位螺旋",
       "war_archives_20210624_cn": "檔案 浮櫻影華",
       "war_archives_20210819_cn": "檔案 微層混合",
+      "war_archives_20210916_cn": "檔案 碧海光粼",
       "war_archives_20211014_cn": "檔案 激奏的Polaris",
       "war_archives_20211028_cn": "檔案 穹頂下的聖詠曲",
+      "war_archives_20211111_cn": "檔案 杰諾瓦的焰火",
+      "war_archives_20211229_cn": "檔案 逆轉彩虹之塔",
       "war_archives_20220210_cn": "檔案 北境序曲",
       "war_archives_20220414_cn": "檔案 永夜幻光"
     },
@@ -1502,6 +1514,10 @@
     "EnhanceIndex": {
       "name": "用無特殊天賦的貓給第 X 隻貓強化",
       "help": "貓倉庫的第 X 隻貓，限制在 1 ~ 12，順序從左上到右下"
+    },
+    "MaxFeedLevel": {
+      "name": "不使用大於 X 級的貓作為強化材料",
+      "help": "X 值限制在 1 ~ 30"
     }
   },
   "GuildLogistics": {
@@ -1576,6 +1592,18 @@
     "CollectWeeklyMission": {
       "name": "領取周任務獎勵",
       "help": ""
+    }
+  },
+  "Awaken": {
+    "_info": {
+      "name": "認知覺醒",
+      "help": "認知覺醒船塢內所有的船隻直到心智單元耗盡"
+    },
+    "LevelCap": {
+      "name": "覺醒至等級上限",
+      "help": "",
+      "level120": "120級",
+      "level125": "125級"
     }
   },
   "GeneralShop": {
@@ -2186,7 +2214,7 @@
   },
   "OpsiAshAssist": {
     "_info": {
-      "name": "信標支援",
+      "name": "META支援",
       "help": "打每日三次的信標支援"
     },
     "Tier": {
@@ -2232,11 +2260,11 @@
   },
   "OpsiAshBeacon": {
     "_info": {
-      "name": "餘燼信標",
+      "name": "META作戰",
       "help": ""
     },
     "AttackMode": {
-      "name": "餘燼信標",
+      "name": "META作戰",
       "help": "",
       "current": "當期",
       "current_dossier": "當期 + 檔案"
@@ -2246,8 +2274,8 @@
       "help": "對每個信標只出擊一次，之後每半個小時呼叫支援\n在檔案信標中不生效"
     },
     "DossierAutoAttackMode": {
-      "name": "OpsiAshBeacon.DossierAutoAttackMode.name",
-      "help": "OpsiAshBeacon.DossierAutoAttackMode.help"
+      "name": "檔案信標自動作戰",
+      "help": "在檔案信標首次戰鬥後進行自動作戰"
     },
     "RequestAssist": {
       "name": "呼叫支援",

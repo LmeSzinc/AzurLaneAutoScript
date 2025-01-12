@@ -30,7 +30,7 @@ def retry(func):
         for _ in range(RETRY_TRIES):
             try:
                 if callable(init):
-                    retry_sleep(_)
+                    time.sleep(retry_sleep(_))
                     init()
                 return func(self, *args, **kwargs)
             # Can't handle
@@ -355,7 +355,7 @@ class MaaTouch(Connection):
         points = insert_swipe(p0=p1, p3=p2)
         builder = self.maatouch_builder
 
-        builder.down(*points[0]).wait(10).commit()
+        builder.down(*points[0]).commit().wait(10)
         builder.send_sync()
 
         for point in points[1:]:

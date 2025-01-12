@@ -5,8 +5,9 @@ from typing import Any, Dict, List, Tuple, Union
 import cv2
 import numpy as np
 
+import module.config.server as server
 from module.base.button import ButtonGrid
-from module.base.utils import color_similar, crop, get_color, limit_in
+from module.base.utils import color_similar, crop, extract_letters, get_color, limit_in, save_image
 from module.combat.level import LevelOcr
 from module.logger import logger
 from module.ocr.ocr import Digit
@@ -20,6 +21,17 @@ from module.retire.dock import (CARD_EMOTION_GRIDS, CARD_GRIDS,
 
 
 class EmotionDigit(Digit):
+    def pre_process(self, image):
+        if server.server == 'jp':
+            image_gray = extract_letters(image, letter=(255, 255, 255), threshold=self.threshold)
+            right_side = np.nonzero(image_gray[0:16, :].max(axis=0) > 192)[-1]
+            for i, col in enumerate(right_side):
+                if i < col:
+                    break
+            image = image[:, :i]
+        image = super().pre_process(image)
+        return image
+
     def after_process(self, result):
         # Random OCR error on Downes' hair
         # OCR DOCK_EMOTION_OCR: Result "044" is revised to "44"
@@ -132,8 +144,14 @@ class EmotionScanner(Scanner):
         super().__init__()
         self._results = []
         self.grids = CARD_EMOTION_GRIDS
-        self.ocr_model = EmotionDigit(self.grids.buttons,
+        if server.server != 'jp':
+            self.ocr_model = EmotionDigit(self.grids.buttons,
                                       name='DOCK_EMOTION_OCR', threshold=176)
+        else:
+            self.ocr_model = EmotionDigit(self.grids.buttons,
+                                      name='DOCK_EMOTION_OCR', 
+                                      letter=(201, 201, 201), 
+                                      threshold=176)
 
     def _scan(self, image) -> List:
         return self.ocr_model.ocr(image)

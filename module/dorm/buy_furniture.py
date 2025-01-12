@@ -37,11 +37,11 @@ class BuyFurniture(UI):
             # Enter furniture shop page from page_dorm, only need to enter once
             if self.appear(DORM_CHECK, offset=(20, 20), interval=3):
                 self.device.click(DORM_FURNITURE_SHOP_ENTER)
-                self.interval_reset(GET_SHIP)
+                self.interval_reset([GET_SHIP, EXERCISE_PREPARATION])
                 continue
 
             if self.appear(DORM_FURNITURE_SHOP_FIRST_SELECTED, offset=(20, 20)):
-                self.interval_reset(EXERCISE_PREPARATION)
+                self.interval_reset([GET_SHIP, EXERCISE_PREPARATION])
                 # Enter furniture details page from furniture shop page
                 if self.appear(DORM_FURNITURE_DETAILS_ENTER, offset=(20, 20), interval=3):
                     self.device.click(DORM_FURNITURE_DETAILS_ENTER)
@@ -50,12 +50,13 @@ class BuyFurniture(UI):
             # Re select the first piece of furniture on left side of furniture list below.
             elif self.appear(DORM_FURNITURE_SHOP_FIRST, offset=(20, 20), interval=3):
                 self.device.click(DORM_FURNITURE_SHOP_FIRST)
+                self.interval_reset([GET_SHIP, EXERCISE_PREPARATION])
                 continue
 
             if self.appear(DORM_FURNITURE_DETAILS_QUIT, offset=(20, 20)):
                 break
 
-            if self.ui_additional():
+            if self.ui_additional(get_ship=False):
                 self.interval_clear(DORM_CHECK)
                 continue
 
@@ -183,8 +184,7 @@ class BuyFurniture(UI):
                   False if Failed buy
         """
         self.enter_first_furniture_details_page()
-        if self.appear(DORM_FURNITURE_COUNTDOWN, offset=(20, 20)) \
-                and DORM_FURNITURE_COUNTDOWN.match_appear_on(self.device.image):
+        if self.match_template_color(DORM_FURNITURE_COUNTDOWN, offset=(20, 20)):
             logger.info("There is a time-limited furniture available for buy")
 
             if self.buy_furniture_once(self.config.BuyFurniture_BuyOption):

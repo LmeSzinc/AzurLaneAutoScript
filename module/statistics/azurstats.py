@@ -67,7 +67,10 @@ class DropImage:
         return len(self.images)
 
     def __bool__(self):
-        return self.save or self.upload
+        # Uncomment these if stats service re-run in the future
+        # return self.save or self.upload
+
+        return self.save
 
     def __enter__(self):
         return self
@@ -217,6 +220,8 @@ class AzurStats:
             save_thread = threading.Thread(
                 target=self._save, args=(image, genre, filename))
             save_thread.start()
+
+        # Uncomment these if stats service re-run in the future
         # if upload:
         #     upload_thread = threading.Thread(
         #         target=self._upload, args=(image, genre, filename))

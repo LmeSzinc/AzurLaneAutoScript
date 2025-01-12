@@ -146,6 +146,10 @@
       "name": "収穫",
       "help": ""
     },
+    "Awaken": {
+      "name": "Task.Awaken.name",
+      "help": "Task.Awaken.help"
+    },
     "Daily": {
       "name": "デイリー",
       "help": ""
@@ -187,11 +191,11 @@
       "help": ""
     },
     "OpsiAshBeacon": {
-      "name": "Ash Beacon",
+      "name": "META Battles",
       "help": ""
     },
     "OpsiAshAssist": {
-      "name": "OpSi Ash Assist",
+      "name": "META Assists",
       "help": ""
     },
     "OpsiExplore": {
@@ -411,7 +415,6 @@
       "aScreenCap_nc": "aScreenCap_nc",
       "DroidCast": "DroidCast",
       "DroidCast_raw": "DroidCast_raw",
-      "scrcpy": "scrcpy",
       "nemu_ipc": "nemu_ipc",
       "ldopengl": "ldopengl"
     },
@@ -713,11 +716,11 @@
       "event_20220414_cn": "極夜照らす幻光（復刻）",
       "event_20220428_cn": "吟ずる瑠璃の楽章（復刻）",
       "event_20220526_cn": "復刻诚閃の剣 搖光の城",
-      "event_20220728_cn": "鋼鷲の冒険譚",
+      "event_20220728_cn": "鋼鷲の冒険譚（復刻）",
       "event_20220818_cn": "結像点作戦",
-      "event_20220915_cn": "赫の涙月 菫の暁風",
+      "event_20220915_cn": "赫の涙月 菫の暁風（復刻）",
       "event_20221124_cn": "錬金術士と謎の遺跡群島",
-      "event_20221222_cn": "積重なる事象の幻界",
+      "event_20221222_cn": "積重なる事象の幻界（復刻）",
       "event_20230223_cn": "黙示の遺構",
       "event_20230525_cn": "覆天せし万象の塵",
       "event_20230803_cn": "燃ゆる聖都の回想曲",
@@ -732,6 +735,10 @@
       "event_20240725_cn": "夢幻の間奏曲",
       "event_20240815_cn": "錬翼空翔",
       "event_20240829_cn": "徒花咲かす彼岸",
+      "event_20240912_cn": "絳染む丹華の詠歌",
+      "event_20241024_cn": "テンペスタと眠りし海",
+      "event_20241121_cn": "危険発明接近中",
+      "event_20241219_cn": "星降る夕影の残光",
       "raid_20200624": "特別演習超空強襲波（復刻）",
       "raid_20210708": "交錯する新たな波 (復刻)",
       "raid_20220127": "秘密事件調査",
@@ -760,15 +767,20 @@
       "war_archives_20200820_cn": "檔案 黒鉄の楽章 誓いの海",
       "war_archives_20200903_cn": "檔案 輝ける峡湾の星",
       "war_archives_20200917_cn": "檔案 刹那觀る胡蝶の夢",
+      "war_archives_20201012_cn": "檔案 奔る彩帆の青",
       "war_archives_20201029_cn": "檔案 激唱のユニバース",
       "war_archives_20201229_cn": "檔案 虚畳なりし限象",
       "war_archives_20210225_cn": "檔案 暁射す氷華の嵐",
       "war_archives_20210325_cn": "檔案 開かれし紺碧の砂箱",
+      "war_archives_20210422_cn": "檔案 讃える復興の迷路",
       "war_archives_20210527_cn": "檔案 照らす螺旋の鏡海",
       "war_archives_20210624_cn": "檔案 翳りし満ちる影の華",
       "war_archives_20210819_cn": "檔案 闇靄払う銀翼",
+      "war_archives_20210916_cn": "檔案 駆けよ 碧海の吹き風",
       "war_archives_20211014_cn": "檔案 激奏のポラリス",
       "war_archives_20211028_cn": "檔案 神穹を衝く聖歌",
+      "war_archives_20211111_cn": "檔案 燈火のシニエ",
+      "war_archives_20211229_cn": "檔案 遡望せし虹彩の塔",
       "war_archives_20220210_cn": "檔案 凍絶の北海",
       "war_archives_20220414_cn": "檔案 極夜照らす幻光"
     },
@@ -1502,6 +1514,10 @@
     "EnhanceIndex": {
       "name": "MeowfficerTrain.EnhanceIndex.name",
       "help": "MeowfficerTrain.EnhanceIndex.help"
+    },
+    "MaxFeedLevel": {
+      "name": "レベル X 以上の猫を強化材料にしない",
+      "help": "X 値は1~30に制限します"
     }
   },
   "GuildLogistics": {
@@ -1576,6 +1592,18 @@
     "CollectWeeklyMission": {
       "name": "Reward.CollectWeeklyMission.name",
       "help": "Reward.CollectWeeklyMission.help"
+    }
+  },
+  "Awaken": {
+    "_info": {
+      "name": "Awaken._info.name",
+      "help": "Awaken._info.help"
+    },
+    "LevelCap": {
+      "name": "Awaken.LevelCap.name",
+      "help": "Awaken.LevelCap.help",
+      "level120": "level120",
+      "level125": "level125"
     }
   },
   "GeneralShop": {

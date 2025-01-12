@@ -31,7 +31,5 @@ class CampaignWarArchives(CampaignRun, CampaignBase):
         return False
 
     def run(self, name=None, folder='campaign_main', mode='normal', total=0):
-        backup = self.config.temporary(USE_DATA_KEY=True)
+        self.config.override(USE_DATA_KEY=True)
         super().run(name, folder, mode, total)
-        backup.recover()
-        self.ui_goto_main()  # Go to main, as remaining in page can throw off Event task

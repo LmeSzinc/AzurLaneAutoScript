@@ -965,6 +965,9 @@ def color_bar_percentage(image, area, prev_color, reverse=False, starter=0, thre
         prev_row = bar[:, prev_index] > 255 - threshold
         if not prev_row.size:
             return prev_index / length
-        prev_color = np.mean(image[:, prev_index], axis=0)
+        # Look back 5px to get average color
+        left = max(prev_index - 5, 0)
+        mask = np.where(bar[:, left:prev_index + 1] > 255 - threshold)
+        prev_color = np.mean(image[:, left:prev_index + 1][mask], axis=0)
 
     return 0.

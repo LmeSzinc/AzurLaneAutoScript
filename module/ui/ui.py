@@ -5,10 +5,9 @@ from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_SHIP
 from module.exception import (GameNotRunningError, GamePageUnknownError,
                               RequestHumanTakeover)
 from module.exercise.assets import EXERCISE_PREPARATION
-from module.freebies.assets import PURCHASE_POPUP
-from module.handler.assets import (AUTO_SEARCH_MENU_EXIT, BATTLE_PASS_NOTICE, GAME_TIPS, LOGIN_ANNOUNCE,
-                                   LOGIN_ANNOUNCE_2, LOGIN_CHECK, LOGIN_RETURN_SIGN, MAINTENANCE_ANNOUNCE,
-                                   MONTHLY_PASS_NOTICE)
+from module.handler.assets import (AUTO_SEARCH_MENU_EXIT, BATTLE_PASS_NEW_SEASON, BATTLE_PASS_NOTICE, GAME_TIPS,
+                                   LOGIN_ANNOUNCE, LOGIN_ANNOUNCE_2, LOGIN_CHECK, LOGIN_RETURN_SIGN,
+                                   MAINTENANCE_ANNOUNCE, MONTHLY_PASS_NOTICE)
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
 from module.map.assets import (FLEET_PREPARATION, MAP_PREPARATION,
@@ -378,7 +377,7 @@ class UI(InfoHandler):
                 return True
         if self.appear_then_click(LOGIN_RETURN_SIGN, offset=(30, 30), interval=3):
             return True
-        if self.appear(EVENT_LIST_CHECK, offset=(30, 30), interval=3):
+        if self.appear(EVENT_LIST_CHECK, offset=(30, 30), interval=5):
             logger.info(f'UI additional: {EVENT_LIST_CHECK} -> {GOTO_MAIN}')
             if self.appear_then_click(GOTO_MAIN, offset=(30, 30)):
                 return True
@@ -388,7 +387,14 @@ class UI(InfoHandler):
         # Battle pass is about to expire and player has uncollected battle pass rewards
         if self.appear_then_click(BATTLE_PASS_NOTICE, offset=(30, 30), interval=3):
             return True
-        if self.appear_then_click(PURCHASE_POPUP, offset=(44, -77, 84, -37), interval=3):
+        # Popup that advertise you to buy battle pass
+        # 2024.12.19, PURCHASE_POPUP at main page becomes BATTLE_PASS_NEW_SEASON
+        # if self.appear_then_click(PURCHASE_POPUP, offset=(44, -77, 84, -37), interval=3):
+        #     return True
+        # Popup that tells you new battle pass season is aired
+        if self.appear(BATTLE_PASS_NEW_SEASON, offset=(30, 30), interval=3):
+            logger.info(f'UI additional: {BATTLE_PASS_NEW_SEASON} -> {BACK_ARROW}')
+            self.device.click(BACK_ARROW)
             return True
         # Item expired offset=(37, 72), skin expired, offset=(24, 68)
         if self.handle_popup_single(offset=(-6, 48, 54, 88), name='ITEM_EXPIRED'):
@@ -397,11 +403,11 @@ class UI(InfoHandler):
         if self.handle_popup_single_white():
             return True
         # Routed from confirm click
-        if self.appear(SHIPYARD_CHECK, offset=(30, 30), interval=3):
+        if self.appear(SHIPYARD_CHECK, offset=(30, 30), interval=5):
             logger.info(f'UI additional: {SHIPYARD_CHECK} -> {GOTO_MAIN}')
             if self.appear_then_click(GOTO_MAIN, offset=(30, 30)):
                 return True
-        if self.appear(META_CHECK, offset=(30, 30), interval=3):
+        if self.appear(META_CHECK, offset=(30, 30), interval=5):
             logger.info(f'UI additional: {META_CHECK} -> {GOTO_MAIN}')
             if self.appear_then_click(GOTO_MAIN, offset=(30, 30)):
                 return True
@@ -445,7 +451,7 @@ class UI(InfoHandler):
 
         return False
 
-    def ui_additional(self):
+    def ui_additional(self, get_ship=True):
         """
         Handle all annoying popups during UI switching.
         """
@@ -462,7 +468,7 @@ class UI(InfoHandler):
             return True
 
         # Popups appear at page_main, page_reward
-        if self.ui_page_main_popups():
+        if self.ui_page_main_popups(get_ship=get_ship):
             return True
 
         # Story
@@ -477,7 +483,7 @@ class UI(InfoHandler):
                 return True
 
         # Dorm popup
-        if self.appear(DORM_INFO, offset=(30, 30), threshold=0.75, interval=3):
+        if self.appear(DORM_INFO, offset=(30, 30), similarity=0.75, interval=3):
             self.device.click(DORM_INFO)
             return True
         if self.appear_then_click(DORM_FEED_CANCEL, offset=(30, 30), interval=3):
@@ -568,6 +574,12 @@ class UI(InfoHandler):
         for switch_button in page_main.links.values():
             if button == switch_button:
                 self.interval_reset(GET_SHIP)
+        if button in [MAIN_GOTO_REWARD, MAIN_GOTO_REWARD_WHITE]:
+            self.interval_reset(GET_SHIP)
+        if button == REWARD_GOTO_TACTICAL:
+            self.interval_reset(REWARD_GOTO_TACTICAL_WHITE)
+        if button == REWARD_GOTO_TACTICAL_WHITE:
+            self.interval_reset(REWARD_GOTO_TACTICAL)
         if button in [MAIN_GOTO_CAMPAIGN, MAIN_GOTO_CAMPAIGN_WHITE]:
             self.interval_reset(GET_SHIP)
             # Shinano event has the same title as raid

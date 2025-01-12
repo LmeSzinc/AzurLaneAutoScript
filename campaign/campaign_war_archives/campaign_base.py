@@ -12,8 +12,8 @@ from module.war_archives.assets import (WAR_ARCHIVES_CAMPAIGN_CHECK,
 from module.war_archives.dictionary import dic_archives_template
 
 WAR_ARCHIVES_SWITCH = Switch('War_Archives_switch', is_selector=True)
-WAR_ARCHIVES_SWITCH.add_status('ex', WAR_ARCHIVES_EX_ON)
-WAR_ARCHIVES_SWITCH.add_status('sp', WAR_ARCHIVES_SP_ON)
+WAR_ARCHIVES_SWITCH.add_state('ex', WAR_ARCHIVES_EX_ON)
+WAR_ARCHIVES_SWITCH.add_state('sp', WAR_ARCHIVES_SP_ON)
 WAR_ARCHIVES_SCROLL = Scroll(WAR_ARCHIVES_SCROLL, color=(247, 211, 66), name='WAR_ARCHIVES_SCROLL')
 
 
@@ -58,11 +58,14 @@ class CampaignBase(CampaignBase_):
         Fixed number of scrolls until give up, may need to
         increase as more war archives campaigns are added
         """
-        for _ in range(10):
+        for _ in range(20):
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
+
+            while self.device.click_record and self.device.click_record[-1] == 'WAR_ARCHIVES_SCROLL':
+                self.device.click_record.pop()
 
             # Drag may result in accidental exit, recover
             # before starting next search attempt
@@ -80,7 +83,7 @@ class CampaignBase(CampaignBase_):
                 if WAR_ARCHIVES_SCROLL.at_bottom(main=self):
                     WAR_ARCHIVES_SCROLL.set_top(main=self)
                 else:
-                    WAR_ARCHIVES_SCROLL.next_page(main=self)
+                    WAR_ARCHIVES_SCROLL.next_page(main=self, page=0.66)
                 continue
             else:
                 break

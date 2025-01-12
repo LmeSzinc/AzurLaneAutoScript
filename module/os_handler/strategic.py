@@ -25,8 +25,7 @@ class StrategicSearchHandler(MapEventHandler):
                 continue
             if self.appear(AUTO_SEARCH_REWARD, offset=(50, 50)):
                 continue
-            if self.appear(STRATEGIC_SEARCH_MAP_OPTION_OFF, offset=(20, 20), interval=2) \
-                    and STRATEGIC_SEARCH_MAP_OPTION_OFF.match_appear_on(self.device.image):
+            if self.match_template_color(STRATEGIC_SEARCH_MAP_OPTION_OFF, offset=(20, 20), interval=2):
                 self.device.click(STRATEGIC_SEARCH_MAP_OPTION_OFF)
                 continue
 
@@ -104,7 +103,7 @@ class StrategicSearchHandler(MapEventHandler):
             else:
                 self.device.screenshot()
 
-            self.appear(STRATEGIC_SEARCH_DEVICE_CHECK, offset=(20, 200), threshold=0.7)
+            self.appear(STRATEGIC_SEARCH_DEVICE_CHECK, offset=(20, 200), similarity=0.7)
             STRATEGIC_SEARCH_DEVICE_STOP.load_offset(STRATEGIC_SEARCH_DEVICE_CHECK)
             STRATEGIC_SEARCH_DEVICE_CONTINUE.load_offset(STRATEGIC_SEARCH_DEVICE_CHECK)
 
@@ -129,7 +128,7 @@ class StrategicSearchHandler(MapEventHandler):
             else:
                 self.device.screenshot()
 
-            self.appear(STRATEGIC_SEARCH_SUBMIT_CHECK, offset=(20, 20), threshold=0.7)
+            self.appear(STRATEGIC_SEARCH_SUBMIT_CHECK, offset=(20, 20), similarity=0.7)
             STRATEGIC_SEARCH_SUBMIT_OFF.load_offset(STRATEGIC_SEARCH_SUBMIT_CHECK)
             STRATEGIC_SEARCH_SUBMIT_ON.load_offset(STRATEGIC_SEARCH_SUBMIT_CHECK)
 

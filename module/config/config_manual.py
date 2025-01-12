@@ -15,12 +15,13 @@ class ManualConfig:
     > Exercise
     > Dorm > Meowfficer > Guild > Gacha
     > Reward
-    > ShopFrequent > ShopOnce > Shipyard > Freebies > Minigame
+    > ShopFrequent > ShopOnce > Shipyard > Freebies
     > OpsiExplore
+    > Minigame > Awaken
     > OpsiAshBeacon
     > OpsiDaily > OpsiShop > OpsiVoucher
     > OpsiAbyssal > OpsiStronghold > OpsiObscure > OpsiArchive
-    > Daily > Hard > OpsiAshBeacon > OpsiAshAssist  > OpsiMonthBoss
+    > Daily > Hard > OpsiAshBeacon > OpsiAshAssist > OpsiMonthBoss
     > Sos > EventSp > EventA > EventB > EventC > EventD
     > RaidDaily > CoalitionSp > WarArchives > MaritimeEscort
     > Event > Event2 > Raid > Coalition > Main > Main2 > Main3
@@ -39,9 +40,7 @@ class ManualConfig:
     """
     module.base
     """
-    COLOR_SIMILAR_THRESHOLD = 10
     BUTTON_OFFSET = 30
-    BUTTON_MATCH_SIMILARITY = 0.85
     WAIT_BEFORE_SAVING_SCREEN_SHOT = 1
 
     """
@@ -114,6 +113,8 @@ class ManualConfig:
     module.map.fleet
     """
     MAP_HAS_MODE_SWITCH = False  # event_20240725_cn has mode switch in map preparation
+    # Events from 20240725 to 20241219 introduced new chapter switches
+    MAP_CHAPTER_SWITCH_20241219 = False
     MAP_HAS_CLEAR_PERCENTAGE = True
     MAP_HAS_WALK_SPEEDUP = False
     MAP_HAS_AMBUSH = True
