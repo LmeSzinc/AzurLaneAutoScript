@@ -58,6 +58,7 @@ class Config:
     # ===== End of generated config =====
 
     MAP_SIREN_HAS_BOSS_ICON_SMALL = True
+    MAP_ENEMY_TEMPLATE = ['Light20221222', 'Main20221222', 'Carrier20221222']
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (80, 255 - 33),
         'width': (1.5, 10),
@@ -80,9 +81,10 @@ class Config:
 
 class Campaign(CampaignBase):
     MAP = MAP
-    ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
+    ENEMY_FILTER = '1L > 1M > 2L > 2M > 3L > 3M > 1E > 2E > 3E > 1C > 2C > 3C'
 
     def battle_0(self):
+        self.config.override(EnemyPriority_EnemyScaleBalanceWeight='default_mode')
         if self.clear_siren():
             return True
         if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):

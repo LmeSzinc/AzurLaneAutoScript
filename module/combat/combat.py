@@ -237,7 +237,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         if not self.config.HpControl_UseEmergencyRepair:
             return False
 
-        if self.appear_then_click(EMERGENCY_REPAIR_CONFIRM, offset=True):
+        if self.appear_then_click(EMERGENCY_REPAIR_CONFIRM, offset=True, interval=3):
             return True
         if self.appear(BATTLE_PREPARATION, offset=(20, 20)) and self.appear(EMERGENCY_REPAIR_AVAILABLE):
             # When entering battle_preparation page (or after emergency repairing),
@@ -251,16 +251,22 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             self.wait_until_stable(stable_checker)
             if not self.appear(EMERGENCY_REPAIR_AVAILABLE):
                 return False
+
             logger.info('EMERGENCY_REPAIR_AVAILABLE')
             if not len(self.hp):
                 return False
+            if max(self.hp[:3]) <= 0.001 or max(self.hp[3:]) <= 0.001:
+                logger.warning(f'Invalid HP to use emergency repair: {self.hp}')
+                return False
+
             hp = np.array(self.hp)
             hp = hp[hp > 0.001]
             if (len(hp) and np.min(hp) < self.config.HpControl_RepairUseSingleThreshold) \
-                    or np.max(self.hp[:3]) < self.config.HpControl_RepairUseMultiThreshold \
-                    or np.max(self.hp[3:]) < self.config.HpControl_RepairUseMultiThreshold:
+                    or max(self.hp[:3]) < self.config.HpControl_RepairUseMultiThreshold \
+                    or max(self.hp[3:]) < self.config.HpControl_RepairUseMultiThreshold:
                 logger.info('Use emergency repair')
                 self.device.click(EMERGENCY_REPAIR_AVAILABLE)
+                self.interval_clear(EMERGENCY_REPAIR_CONFIRM)
                 return True
 
         return False
