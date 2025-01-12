@@ -1,4 +1,6 @@
+import re
 from module.base.decorator import cached_property
+from module.base.filter import Filter
 from module.campaign.campaign_base import CampaignBase
 from module.campaign.run import CampaignRun
 from module.combat.assets import BATTLE_PREPARATION
@@ -22,6 +24,19 @@ from module.ui.assets import BACK_ARROW, FLEET_CHECK
 from module.ui.page import page_fleet
 
 SIM_VALUE = 0.92
+
+FILTER_REGEX = re.compile(
+    '(bogue|hermes|langley|ranger)+?',
+    flags=re.IGNORECASE)
+FILTER_ATTR = ('ship',)
+SHIP_FILTER = Filter(FILTER_REGEX, FILTER_ATTR)
+
+TEMPLATE_COMMON_CV = {
+    'BOGUE': TEMPLATE_BOGUE,
+    'HERMES': TEMPLATE_HERMES,
+    'LANGLEY': TEMPLATE_LANGLEY,
+    'RANGER': TEMPLATE_RANGER
+}
 
 
 class GemsEmotion(Emotion):
@@ -347,24 +362,21 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
             # Change to any ship
             scanner.set_limitation(fleet=0)
 
-            common_cv = {
-                'Bogue': TEMPLATE_BOGUE,
-                'Ranger': TEMPLATE_RANGER,
-                'Langley': TEMPLATE_LANGLEY
-            }
-            if self.config.GemsFarming_CommonCV == 'any':
-                common_cv['Hermes'] = TEMPLATE_HERMES
-
             logger.info(f'Search for Common CV.')
+            # get common cv filter
+            SHIP_FILTER.load(self.config.GemsFarming_CommonCVFilter)
+            common_cv = [str(name[0]) for name in SHIP_FILTER.filter if name[0].upper() in TEMPLATE_COMMON_CV.keys()]
+            logger.attr('Filter sort', ' > '.join(common_cv))
 
-            find_bogue = True
+            find_first = True
             common_cv_candidates = {}
-            for name, template in common_cv.items():
+            for name in common_cv:
+                template = TEMPLATE_COMMON_CV[name.upper()]
                 candidates = [ship for ship in scanner.scan(self.device.image, output=False)
                               if template.match(self.image_crop(ship.button, copy=False), similarity=SIM_VALUE)]
 
-                if find_bogue:
-                    find_bogue = False
+                if find_first:
+                    find_first = False
                     if candidates:
                         logger.info(f'Find Common CV {name}.')
                         return candidates
@@ -374,8 +386,9 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
             logger.info(f'No suitable CV was found, try reversed order.')
             self.dock_sort_method_dsc_set(True)
 
-            for name, template in common_cv.items():
-                candidates = [ship for ship in scanner.scan(self.device.image)
+            for name in common_cv:
+                template = TEMPLATE_COMMON_CV[name.upper()]
+                candidates = [ship for ship in scanner.scan(self.device.image, output=False)
                               if template.match(self.image_crop(ship.button, copy=False), similarity=SIM_VALUE)]
 
                 if candidates:
@@ -388,12 +401,7 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
             return scanner.scan(self.device.image, output=False)
 
         else:
-            template = {
-                'BOGUE': TEMPLATE_BOGUE,
-                'HERMES': TEMPLATE_HERMES,
-                'LANGLEY': TEMPLATE_LANGLEY,
-                'RANGER': TEMPLATE_RANGER
-            }[f'{self.config.GemsFarming_CommonCV.upper()}']
+            template = TEMPLATE_COMMON_CV[f'{self.config.GemsFarming_CommonCV.upper()}']
 
             ships = scanner.scan(self.device.image)
             if ships:

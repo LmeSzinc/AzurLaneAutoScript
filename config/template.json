@@ -318,6 +318,7 @@
     "GemsFarming": {
       "ChangeFlagship": "ship_equip",
       "CommonCV": "any",
+      "CommonCVFilter": "bogue > ranger > langley > hermes",
       "ChangeVanguard": "ship_equip",
       "CommonDD": "any",
       "EquipmentCode": "DD: null\nbogue: null\nhermes: null\nlangley: null\nranger: null",

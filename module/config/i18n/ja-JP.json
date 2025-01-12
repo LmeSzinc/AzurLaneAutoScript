@@ -1177,6 +1177,10 @@
       "ranger": "ranger",
       "hermes": "hermes"
     },
+    "CommonCVFilter": {
+      "name": "GemsFarming.CommonCVFilter.name",
+      "help": "GemsFarming.CommonCVFilter.help"
+    },
     "ChangeVanguard": {
       "name": "GemsFarming.ChangeVanguard.name",
       "help": "GemsFarming.ChangeVanguard.help",

@@ -1177,6 +1177,10 @@
       "ranger": "ranger",
       "hermes": "hermes"
     },
+    "CommonCVFilter": {
+      "name": "Flagship CV Filter",
+      "help": "When use 'any' or 'eagle only' option in CommonCV, filter will be prioritized in order"
+    },
     "ChangeVanguard": {
       "name": "Change Vanguard",
       "help": "Change vanguard if flagship or vanguard are emotion exhausted. If you choose not to change, your fleet will ignore the low emotion warning and continue combat.\nSwitch out to new level 100(70) common vanguard from eagle or ironblood after current flagship has reached level 32+ (Only CN players'0 limit break ship can reach level 100)\n\nThe vanguard's equipment is replaced when being switched out by first recording the current setup. Only populated equipment slots will be replaced.",

@@ -1636,6 +1636,10 @@
           "hermes"
         ]
       },
+      "CommonCVFilter": {
+        "type": "textarea",
+        "value": "bogue > ranger > langley > hermes"
+      },
       "ChangeVanguard": {
         "type": "select",
         "value": "ship_equip",
