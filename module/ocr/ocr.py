@@ -2,6 +2,7 @@ import time
 from datetime import timedelta
 from typing import TYPE_CHECKING
 
+import module.config.server as server
 from module.base.button import Button
 from module.base.decorator import cached_property
 from module.base.utils import *
@@ -38,6 +39,8 @@ class Ocr:
         self.threshold = threshold
         self.alphabet = alphabet
         self.lang = lang
+        if lang == 'azur_lane' and server.server in ['jp']:
+            self.lang = 'azur_lane_' + server.server
 
     @property
     def cnocr(self) -> "AlOcr":
