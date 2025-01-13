@@ -36,4 +36,5 @@ dic_archives_template = {
     'war_archives_20210916_cn': TEMPLATE_UPON_THE_SHIMMERING_BLUE,
     'war_archives_20210422_cn': TEMPLATE_DAEDALIAN_HYMN,
     'war_archives_20211229_cn': TEMPLATE_TOWER_OF_TRANSCENDENCE,
+    'war_archives_20220224_cn': TEMPLATE_ABYSSAL_REFRAIN,
 }

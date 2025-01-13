@@ -633,7 +633,7 @@
     },
     "Campaign": {
       "Name": "D3",
-      "Event": "war_archives_20211229_cn",
+      "Event": "war_archives_20220224_cn",
       "Mode": "normal",
       "UseClearMode": true,
       "UseFleetLock": true,
