@@ -428,6 +428,8 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
         Get the filter of common rarity cv,
         If the filter is invalid, export default value to config and use it
 
+        Args:
+            string (str): filter string
         Returns:
             List[str]:
         """
@@ -572,6 +574,9 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
                 self.ui_back(check_button=FLEET_PREPARATION)
 
     def flagship_change_with_emotion(self, ship):
+        """
+        Change flagship and calculate emotion
+        """
         target_ship = max(ship, key=lambda s: (s.level, s.emotion))
         if self.config.GemsFarming_ALLowHighFlagshipLevel:
             self.set_emotion(target_ship.emotion)
@@ -613,6 +618,9 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
             return False
 
     def vanguard_change_with_emotion(self, ship):
+        """
+        Change vanguard and calculate emotion
+        """
         target_ship = max(ship, key=lambda s: s.emotion)
         if self.config.GemsFarming_ALLowHighFlagshipLevel:
             self.set_emotion(min(self.get_emotion(), target_ship.emotion))
@@ -670,12 +678,18 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
         return super().triggered_stop_condition(oil_check=oil_check)
 
     def get_emotion(self):
+        """
+        Get fleet emotion value from config
+        """
         if self.config.Fleet_FleetOrder == 'fleet1_standby_fleet2_all':
             return self.campaign.config.Emotion_Fleet2Value
         else:
             return self.campaign.config.Emotion_Fleet1Value
 
     def set_emotion(self, emotion):
+        """
+        Set fleet emotion value
+        """
         if self.config.Fleet_FleetOrder == 'fleet1_standby_fleet2_all':
             self.campaign.config.set_record(Emotion_Fleet2Value=emotion)
         else:
@@ -715,8 +729,7 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
                     raise GameStuckError
 
             # End
-            if (self._trigger_lv32 and not self.config.GemsFarming_ALLowHighFlagshipLevel) \
-                    or self._trigger_emotion:
+            if self._trigger_lv32 or self._trigger_emotion:
                 success = True
                 self.hard_mode_override()
                 if self.change_flagship:
