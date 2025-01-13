@@ -656,7 +656,8 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
 
     def triggered_stop_condition(self, oil_check=True):
         # Lv32 limit
-        if self.change_flagship and self.campaign.config.LV32_TRIGGERED:
+        if self.change_flagship and self.campaign.config.LV32_TRIGGERED \
+                and not self.config.GemsFarming_ALLowHighFlagshipLevel:
             self._trigger_lv32 = True
             logger.hr('TRIGGERED LV32 LIMIT')
             return True
