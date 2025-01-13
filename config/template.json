@@ -324,7 +324,7 @@
       "EquipmentCode": "DD: null\nbogue: null\nhermes: null\nlangley: null\nranger: null",
       "ALLowHighFlagshipLevel": false,
       "ALLowLowVanguardLevel": false,
-      "DelayTaskIFNoFlagship": true,
+      "DelayTaskIFNoFlagship": false,
       "CommissionLimit": false
     },
     "Campaign": {
@@ -1691,7 +1691,6 @@
     },
     "OpsiFleet": {
       "Fleet": 1,
-      "FleetMode": "combat_auto",
       "Submarine": false
     },
     "Storage": {
@@ -1747,7 +1746,6 @@
     },
     "OpsiFleet": {
       "Fleet": 1,
-      "FleetMode": "combat_auto",
       "Submarine": false
     },
     "Storage": {
@@ -1768,7 +1766,6 @@
     },
     "OpsiFleet": {
       "Fleet": 1,
-      "FleetMode": "combat_auto",
       "Submarine": false
     },
     "Storage": {
@@ -1805,7 +1802,6 @@
     },
     "OpsiFleet": {
       "Fleet": 1,
-      "FleetMode": "combat_auto",
       "Submarine": false
     },
     "Storage": {
@@ -1826,11 +1822,6 @@
     },
     "OpsiFleetFilter": {
       "Filter": "Fleet-4 > CallSubmarine > Fleet-2 > Fleet-3 > Fleet-1"
-    },
-    "OpsiFleet": {
-      "Fleet": 1,
-      "FleetMode": "combat_auto",
-      "Submarine": true
     },
     "Storage": {
       "Storage": {}
@@ -1873,7 +1864,6 @@
     },
     "OpsiFleet": {
       "Fleet": 1,
-      "FleetMode": "combat_auto",
       "Submarine": false
     },
     "Storage": {
@@ -1896,7 +1886,6 @@
     },
     "OpsiFleet": {
       "Fleet": 1,
-      "FleetMode": "combat_auto",
       "Submarine": false
     },
     "Storage": {
@@ -1953,23 +1942,6 @@
   "GameManager": {
     "GameManager": {
       "AutoRestart": true
-    },
-    "GGHandler": {
-      "Enabled": false,
-      "GGMethod": "u2",
-      "RestartATX": false,
-      "GGPackageName": "com.",
-      "AutoRestartGG": false,
-      "RestartEverytime": true,
-      "RepushLua": true,
-      "GGMultiplyingFactor": 200,
-      "Timeout": 120,
-      "DisabledTask": "disable_all_dangerous_task"
-    },
-    "PowerLimit": {
-      "Exercise": 16500,
-      "Raid": 16500,
-      "Ash": 16500
     },
     "Storage": {
       "Storage": {}

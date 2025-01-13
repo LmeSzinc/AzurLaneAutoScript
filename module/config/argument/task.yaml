@@ -2,7 +2,6 @@
 # Define argument group of tasks.
 # --------------------
 
-
 # ==================== Alas ====================
 
 Alas:
@@ -22,7 +21,6 @@ Alas:
       - OldRetire
     Restart:
       - Scheduler
-      - RestartEmulator
 
 # ==================== Farm ====================
 
@@ -305,7 +303,6 @@ Opsi:
       - Scheduler
       - OpsiStronghold
       - OpsiFleetFilter
-      - OpsiFleet
     OpsiMonthBoss:
       - Scheduler
       - OpsiMonthBoss
@@ -337,5 +334,3 @@ Tool:
       - AzurLaneUncensored
     GameManager:
       - GameManager
-      - GGHandler
-      - PowerLimit

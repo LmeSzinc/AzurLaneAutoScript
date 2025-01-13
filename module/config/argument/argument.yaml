@@ -293,7 +293,7 @@ GemsFarming:
       ranger: null
   ALLowHighFlagshipLevel: false
   ALLowLowVanguardLevel: false
-  DelayTaskIFNoFlagship: true
+  DelayTaskIFNoFlagship: false
   CommissionLimit: false
 
 # ==================== Event ====================
@@ -692,9 +692,6 @@ OpsiFleet:
   Fleet:
     value: 1
     option: [ 1, 2, 3, 4 ]
-  FleetMode:
-    value: combat_auto
-    option: [ combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left ]
   Submarine: false
 OpsiExplore:
   SpecialRadar: false
@@ -773,33 +770,6 @@ AzurLaneUncensored:
     display: disabled
 GameManager:
   AutoRestart: true
-
-GGHandler:
-  Enabled: false
-  GGMethod:
-    value: u2
-    option: [ u2 ]
-  RestartATX: false
-  GGPackageName: com.
-  AutoRestartGG: false
-  RestartEverytime:
-    value: true
-    display: disabled
-  RepushLua: true
-  GGMultiplyingFactor: 200
-  Timeout: 120
-  DisabledTask:
-    value: disable_all_dangerous_task
-    option: [
-      disable_all_dangerous_task,
-      disable_guild_and_dangerous,
-      disable_exercise,
-      enable_all,
-    ]
-PowerLimit:
-  Exercise: 16500
-  Raid: 16500
-  Ash: 16500
 
 # ==================== Dashboard ====================
 Oil:

@@ -1,7 +1,7 @@
 import os
 import re
 
-from deploy.Windows.logger import logger
+from deploy.logger import logger
 
 BASE_FOLDER = './deploy/AidLux'
 

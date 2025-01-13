@@ -2353,14 +2353,6 @@
       "3": "3",
       "4": "4"
     },
-    "FleetMode": {
-      "name": "OpsiFleet.FleetMode.name",
-      "help": "OpsiFleet.FleetMode.help",
-      "combat_auto": "combat_auto",
-      "combat_manual": "combat_manual",
-      "stand_still_in_the_middle": "stand_still_in_the_middle",
-      "hide_in_bottom_left": "hide_in_bottom_left"
-    },
     "Submarine": {
       "name": "OpsiFleet.Submarine.name",
       "help": "OpsiFleet.Submarine.help"
@@ -2589,75 +2581,6 @@
     "AutoRestart": {
       "name": "GameManager.AutoRestart.name",
       "help": "GameManager.AutoRestart.help"
-    }
-  },
-  "GGHandler": {
-    "_info": {
-      "name": "GGHandler._info.name",
-      "help": "GGHandler._info.help"
-    },
-    "Enabled": {
-      "name": "GGHandler.Enabled.name",
-      "help": "GGHandler.Enabled.help"
-    },
-    "GGMethod": {
-      "name": "GGHandler.GGMethod.name",
-      "help": "GGHandler.GGMethod.help",
-      "u2": "u2"
-    },
-    "RestartATX": {
-      "name": "GGHandler.RestartATX.name",
-      "help": "GGHandler.RestartATX.help"
-    },
-    "GGPackageName": {
-      "name": "GGHandler.GGPackageName.name",
-      "help": "GGHandler.GGPackageName.help"
-    },
-    "AutoRestartGG": {
-      "name": "GGHandler.AutoRestartGG.name",
-      "help": "GGHandler.AutoRestartGG.help"
-    },
-    "RestartEverytime": {
-      "name": "GGHandler.RestartEverytime.name",
-      "help": "GGHandler.RestartEverytime.help"
-    },
-    "RepushLua": {
-      "name": "GGHandler.RepushLua.name",
-      "help": "GGHandler.RepushLua.help"
-    },
-    "GGMultiplyingFactor": {
-      "name": "GGHandler.GGMultiplyingFactor.name",
-      "help": "GGHandler.GGMultiplyingFactor.help"
-    },
-    "Timeout": {
-      "name": "GGHandler.Timeout.name",
-      "help": "GGHandler.Timeout.help"
-    },
-    "DisabledTask": {
-      "name": "GGHandler.DisabledTask.name",
-      "help": "GGHandler.DisabledTask.help",
-      "disable_all_dangerous_task": "disable_all_dangerous_task",
-      "disable_guild_and_dangerous": "disable_guild_and_dangerous",
-      "disable_exercise": "disable_exercise",
-      "enable_all": "enable_all"
-    }
-  },
-  "PowerLimit": {
-    "_info": {
-      "name": "PowerLimit._info.name",
-      "help": "PowerLimit._info.help"
-    },
-    "Exercise": {
-      "name": "PowerLimit.Exercise.name",
-      "help": "PowerLimit.Exercise.help"
-    },
-    "Raid": {
-      "name": "PowerLimit.Raid.name",
-      "help": "PowerLimit.Raid.help"
-    },
-    "Ash": {
-      "name": "PowerLimit.Ash.name",
-      "help": "PowerLimit.Ash.help"
     }
   },
   "Oil": {

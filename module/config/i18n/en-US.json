@@ -1178,7 +1178,7 @@
     },
     "CommonCVFilter": {
       "name": "Flagship CV Filter",
-      "help": "When use 'any' or 'eagle only' option in CommonCV, filter will be prioritized in order"
+      "help": "When do not select the specific flagship option in Flagship Common CV/CVL Preference, filter will be prioritized in order"
     },
     "ChangeVanguard": {
       "name": "Change Vanguard",
@@ -1207,7 +1207,7 @@
     },
     "ALLowLowVanguardLevel": {
       "name": "ALLow Low Vanguard Level",
-      "help": "Destroyers over level 10 will now be used, 49 for Event CD"
+      "help": "Destroyers over level 30 will now be used, 70 for Event CD"
     },
     "DelayTaskIFNoFlagship": {
       "name": "Delay task if no common CV",
@@ -2353,14 +2353,6 @@
       "3": "3",
       "4": "4"
     },
-    "FleetMode": {
-      "name": "Fleet Mode",
-      "help": "",
-      "combat_auto": "combat_auto",
-      "combat_manual": "combat_manual",
-      "stand_still_in_the_middle": "stand_still_in_the_middle",
-      "hide_in_bottom_left": "hide_in_bottom_left"
-    },
     "Submarine": {
       "name": "Call Submarine",
       "help": "If enabled, interval increases from 30 to 60 minutes instead"
@@ -2589,75 +2581,6 @@
     "AutoRestart": {
       "name": "Automatic Login",
       "help": "Log back into the game when the game has been ended."
-    }
-  },
-  "GGHandler": {
-    "_info": {
-      "name": "GG Handler",
-      "help": ""
-    },
-    "Enabled": {
-      "name": "Enabled",
-      "help": ""
-    },
-    "GGMethod": {
-      "name": "Control Method",
-      "help": "Screenshot is slow and has some bugs, only for environments that not support UiAutomator",
-      "u2": "UiAutomator"
-    },
-    "RestartATX": {
-      "name": "Restart ATX and UiAutomator2",
-      "help": "Restart ATX and UiAutomator2 when restarting the game. Off by default."
-    },
-    "GGPackageName": {
-      "name": "GG Package Name",
-      "help": "In /Android/data/com.xxxxxxx. (xxxxxxx means a lot of random characters)"
-    },
-    "AutoRestartGG": {
-      "name": "Auto Restart GG",
-      "help": "Start GG before tasks"
-    },
-    "RestartEverytime": {
-      "name": "Restart Everytime Alas starts",
-      "help": "For sake of safety"
-    },
-    "RepushLua": {
-      "name": "Repush Lua",
-      "help": "Sometimes the push will fail, if this happens try switching this option on or off."
-    },
-    "GGMultiplyingFactor": {
-      "name": "GG Multiplying Factor",
-      "help": "1 - 9999 Recommended"
-    },
-    "Timeout": {
-      "name": "Start-up time (seconds)",
-      "help": "The time limit for starting the GG, if the device is running slowly then it needs to be adjusted appropriately."
-    },
-    "DisabledTask": {
-      "name": "Disabled Tasks",
-      "help": "",
-      "disable_all_dangerous_task": "Disable_all_dangerous_task",
-      "disable_guild_and_dangerous": "disable_guild_and_dangerous",
-      "disable_exercise": "Disable_exercise",
-      "enable_all": "Enable_all"
-    }
-  },
-  "PowerLimit": {
-    "_info": {
-      "name": "Power Limit",
-      "help": "Power over this will cause a restart and enable GG in config"
-    },
-    "Exercise": {
-      "name": "Exercise",
-      "help": ""
-    },
-    "Raid": {
-      "name": "Raid",
-      "help": ""
-    },
-    "Ash": {
-      "name": "Ash",
-      "help": ""
     }
   },
   "Oil": {

@@ -4,7 +4,7 @@ from copy import deepcopy
 
 from cached_property import cached_property
 
-from deploy.Windows.utils import DEPLOY_TEMPLATE, poor_yaml_read, poor_yaml_write
+from deploy.utils import DEPLOY_TEMPLATE, poor_yaml_read, poor_yaml_write
 from module.base.timer import timer
 from module.config.env import IS_ON_PHONE_CLOUD
 from module.config.redirect_utils.utils import *

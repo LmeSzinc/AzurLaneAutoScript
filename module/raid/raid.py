@@ -194,11 +194,6 @@ class Raid(MapOperation, RaidCombat, CampaignEvent):
             fleet_index (int):
         """
         logger.info('Combat preparation.')
-
-        # Power limit check
-        from module.gg_handler.gg_handler import GGHandler
-        GGHandler(config=self.config, device=self.device).power_limit('Raid')
-
         skip_first_screenshot = True
 
         # No need, already waited in `raid_execute_once()`

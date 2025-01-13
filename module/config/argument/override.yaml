@@ -423,9 +423,6 @@ OpsiStronghold:
     SuccessInterval: 60
     FailureInterval: 60
     ServerUpdate: 00:00
-  OpsiFleet:
-    Fleet: 1
-    Submarine: true
 OpsiMeowfficerFarming:
   Scheduler:
     SuccessInterval: 30
@@ -438,11 +435,6 @@ OpsiHazard1Leveling:
     ServerUpdate: 00:00, 12:00
   OpsiFleet:
     Submarine: false
-
-# ==================== GGHandler ====================
-GGHandler:
-  Timeout:
-    value: 120
 
 # ==================== Dashboard ====================
 Dashboard:

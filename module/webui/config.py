@@ -1,7 +1,7 @@
 from filelock import FileLock
 
-from deploy.Windows.config import DeployConfig as _DeployConfig
-from deploy.Windows.utils import *
+from deploy.config import DeployConfig as _DeployConfig
+from deploy.utils import *
 
 
 def poor_yaml_read_with_lock(file):

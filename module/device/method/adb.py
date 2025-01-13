@@ -12,7 +12,7 @@ from module.config.server import DICT_PACKAGE_TO_ACTIVITY
 from module.device.connection import Connection
 from module.device.method.utils import (ImageTruncated, PackageNotInstalled, RETRY_TRIES, handle_adb_error,
                                         handle_unknown_host_service, remove_prefix, retry_sleep)
-from module.exception import RequestHumanTakeover, ScriptError
+from module.exception import EmulatorNotRunningError, RequestHumanTakeover, ScriptError
 from module.logger import logger
 
 
@@ -62,15 +62,6 @@ def retry(func):
 
                 def init():
                     pass
-            except AdbError as e:
-                logger.exception(e)
-                import sys
-                if sys.platform == 'win32':
-                    from module.device.platform.platform_windows import PlatformWindows
-                    PlatformWindows(self.config.config_name).emulator_start()
-
-                    def init():
-                        pass
             except EmulatorNotRunningError as e:
                 logger.exception(e)
                 import sys

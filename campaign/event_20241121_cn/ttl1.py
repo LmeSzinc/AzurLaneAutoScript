@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-=======
 from module.config.config import AzurLaneConfig
->>>>>>> a0f252ea906aa1de2d39efba8bf21f41c3a06a16
 from .campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids

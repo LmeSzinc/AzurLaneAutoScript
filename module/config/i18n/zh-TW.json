@@ -1178,7 +1178,7 @@
     },
     "CommonCVFilter": {
       "name": "旗艦航母過濾器",
-      "help": "指定旗艦航母選擇“任意”或“僅白鷹”時，將按照過濾器順序優先選擇\nbogue：博格    ranger：突擊者    langley：蘭利    hermes：競技神"
+      "help": "不指定具體旗艦航母時，將按照過濾器順序優先選擇\nbogue：博格    ranger：突擊者    langley：蘭利    hermes：競技神"
     },
     "ChangeVanguard": {
       "name": "更換前排",
@@ -1199,7 +1199,7 @@
     },
     "EquipmentCode": {
       "name": "裝備碼",
-      "help": "僅當選擇「更換艦船 + 裝備」時生效。\n在換下艦船時，若設定裏當前艦船裝備碼為null則會導出；在換上艦船時，若設定裏當前艦船裝備碼為null則會使用上一艘艦船導出的裝備碼，否則使用設定裏的裝備碼\n藍疊模擬器用戶需要先開啟虛擬鍵盤，詳見https://support.bluestacks.com/hc/zh-tw/articles/360061968892-%E5%A6%82%E4%BD%95%E5%9C%A8-BlueStacks-5-%E4%B8%8A%E4%BD%BF%E7%94%A8%E5%B0%8F%E9%8D%B5%E7%9B%A4-%E8%99%9B%E6%93%AC%E9%8D%B5%E7%9B%A4"
+      "help": "僅當選擇「更換艦船 + 裝備」時生效。\n在換下艦船時，若設定裏當前艦船裝備碼為null則會導出；在換上艦船時，若設定裏當前艦船裝備碼為null則會使用上一艘艦船導出的裝備碼，否則使用設定裏的裝備碼\n藍疊模擬器用戶需要先開啟虛擬鍵盤，詳見https://support.bluestacks.com/hc/zh-tw/articles/360061968892-%E5%A6%82%E4%BD%95%E5%9C%A8-BlueStacks-5-%E4%B8%8A%E4%BD%BF%E7%94%A8%E5%B0%8F%E9%8D%B5%E7%9B%A4-%E8%99%9B%E6%93%AC%E9%8D%B5%E7%9B%A4\nDD：前排驅逐    bogue：博格    hermes：競技神    langley：蘭利    ranger：突擊者"
     },
     "ALLowHighFlagshipLevel": {
       "name": "仅更换满级后排",
@@ -1207,7 +1207,7 @@
     },
     "ALLowLowVanguardLevel": {
       "name": "可更換低等級前排",
-      "help": "倍率打開時，前排等級限制改為10以上即可"
+      "help": "打開後，前排等級限制改為30级以上。 若為困難模式（如CD圖）則改為70級。"
     },
     "DelayTaskIFNoFlagship": {
       "name": "沒有可更換的旗艦時延后任務",
@@ -2353,14 +2353,6 @@
       "3": "3",
       "4": "4"
     },
-    "FleetMode": {
-      "name": "自律模式",
-      "help": "",
-      "combat_auto": "自律戰鬥",
-      "combat_manual": "手動",
-      "stand_still_in_the_middle": "中路站樁",
-      "hide_in_bottom_left": "躲左下角"
-    },
     "Submarine": {
       "name": "呼叫潛艇",
       "help": "開啟後，運行間隔將增加至60分鐘"
@@ -2589,75 +2581,6 @@
     "AutoRestart": {
       "name": "自動登錄",
       "help": "遊戲被強制結束後自動登錄遊戲"
-    }
-  },
-  "GGHandler": {
-    "_info": {
-      "name": "GG管理器",
-      "help": ""
-    },
-    "Enabled": {
-      "name": "啟用該功能",
-      "help": "注意事項！若GG打開則應該啟用該功能以達成防彈窗卡重啟\n只能使用指定的lua，會自動推送至/sdcard/Notes/Multiplier.lua\n演習，共鬥，Meta信標時會自動關閉倍率"
-    },
-    "GGMethod": {
-      "name": "GG操作方法",
-      "help": "推薦UiAutomator2，但未填寫包名時會使用截圖\n截圖相容性較差（已知逍遙模擬器無法使用）\n無法安裝UiAutomator2（如紅手指，vmos環境）時可嘗試使用\n使用截圖時，開啟模擬器後需要手動打開GG，將GG懸浮窗遮擋住石油圖標。 第一次使用還需要手動指定好lua路徑。",
-      "u2": "UiAutomator2"
-    },
-    "RestartATX": {
-      "name": "重啟ATX和U2",
-      "help": "重啟遊戲時重啟ATX和U2。 默認關閉。 藍疊和紅手指等環境重啟會報錯。 雷電易丟ATX服務，需要打開。"
-    },
-    "GGPackageName": {
-      "name": "GG包名",
-      "help": "GG安裝後請自行前往/Android/Data資料夾查看包名，應是com.一串亂碼"
-    },
-    "AutoRestartGG": {
-      "name": "自動重啟GG",
-      "help": "是否在重啟後自動重啟倍率"
-    },
-    "RestartEverytime": {
-      "name": "每次啟動Alas時重啟",
-      "help": "打開以初始化倍率内容。 如果你沒有手動操作的壞習慣，可以關閉此選項"
-    },
-    "RepushLua": {
-      "name": "重新推送Lua",
-      "help": "有時推送時會失敗，若出現此情况可嘗試開關此選項。"
-    },
-    "GGMultiplyingFactor": {
-      "name": "倍率",
-      "help": "建議數值1-9999，沒做數位檢查，亂輸入後果自負"
-    },
-    "Timeout": {
-      "name": "啟動時限（秒）",
-      "help": "啟動GG的時間限制，若設備運行慢則需要適當調大"
-    },
-    "DisabledTask": {
-      "name": "禁用倍率的項目",
-      "help": "會關閉倍率的項目，建議全關。 打開的項目導致封號後果自負。\n所有，指演習，共鬥，Meta信標\n注意：戰力限制依舊生效。",
-      "disable_all_dangerous_task": "禁用所有敏感項目",
-      "disable_guild_and_dangerous": "禁用Meta和演習，大艦隊",
-      "disable_exercise": "禁用演習",
-      "enable_all": "百無禁忌"
-    }
-  },
-  "PowerLimit": {
-    "_info": {
-      "name": "戰力限制",
-      "help": "敏感項目前的最後一道保險\n若前排戰力高於此值強制重啟"
-    },
-    "Exercise": {
-      "name": "演習",
-      "help": ""
-    },
-    "Raid": {
-      "name": "共鬥",
-      "help": ""
-    },
-    "Ash": {
-      "name": "餘燼信標",
-      "help": ""
     }
   },
   "Oil": {

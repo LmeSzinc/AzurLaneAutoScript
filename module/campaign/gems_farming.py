@@ -489,14 +489,12 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
             max_level = 70
         if self.config.GemsFarming_CommonDD == 'DDG':
             max_level = 125
-        from module.gg_handler.gg_data import GGData
-        _ggdata = GGData(self.config).get_data()
-        if _ggdata['gg_enable'] and _ggdata['gg_auto'] and self.config.GemsFarming_ALLowLowVanguardLevel:
-            min_level = 2
+        if self.config.GemsFarming_ALLowLowVanguardLevel:
+            min_level = 30
         else:
             min_level = max_level
         if self.hard_mode:
-            min_level = max(min_level, 49)
+            min_level = max(min_level, 70)
         emotion_lower_bound = 0 if emotion == 0 else self.emotion_lower_bound
         scanner = ShipScanner(level=(min_level, max_level), emotion=(emotion_lower_bound, 150),
                               fleet=self.fleet_to_attack, status='free')

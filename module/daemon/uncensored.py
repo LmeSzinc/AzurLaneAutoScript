@@ -1,7 +1,7 @@
 import shutil
 
-from deploy.Windows.git import GitManager
-from deploy.Windows.utils import *
+from deploy.git import GitManager
+from deploy.utils import *
 from module.handler.login import LoginHandler
 from module.logger import logger
 
