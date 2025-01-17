@@ -537,7 +537,7 @@ CoreShop:
 ShipyardDr:
   ResearchSeries:
     value: 2
-    option: [ 2, 3 ]
+    option: [ 2, 3, 4 ]
   ShipIndex:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6 ]
@@ -546,7 +546,7 @@ ShipyardDr:
 Shipyard:
   ResearchSeries:
     value: 1
-    option: [ 1, 2, 3, 4 ]
+    option: [ 1, 2, 3, 4, 5 ]
   ShipIndex:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6 ]

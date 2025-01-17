@@ -171,7 +171,7 @@ class ModelProxy:
 
 class ModelProxyFactory:
     def __getattribute__(self, __name: str) -> ModelProxy:
-        if __name in ["azur_lane", "cnocr", "jp", "tw"]:
+        if __name in ["azur_lane", "cnocr", "jp", "tw", "azur_lane_jp"]:
             if ModelProxy.client is None:
                 ModelProxy.init(address=State.deploy_config.OcrClientAddress)
             return ModelProxy(lang=__name)

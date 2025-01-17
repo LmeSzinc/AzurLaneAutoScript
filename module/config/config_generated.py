@@ -294,13 +294,13 @@ class GeneratedConfig:
     CoreShop_Filter = 'Array'
 
     # Group `ShipyardDr`
-    ShipyardDr_ResearchSeries = 2  # 2, 3
+    ShipyardDr_ResearchSeries = 2  # 2, 3, 4
     ShipyardDr_ShipIndex = 0  # 0, 1, 2, 3, 4, 5, 6
     ShipyardDr_BuyAmount = 2
     ShipyardDr_LastRun = datetime.datetime(2020, 1, 1, 0, 0)
 
     # Group `Shipyard`
-    Shipyard_ResearchSeries = 1  # 1, 2, 3, 4
+    Shipyard_ResearchSeries = 1  # 1, 2, 3, 4, 5
     Shipyard_ShipIndex = 0  # 0, 1, 2, 3, 4, 5, 6
     Shipyard_BuyAmount = 2
     Shipyard_LastRun = datetime.datetime(2020, 1, 1, 0, 0)
