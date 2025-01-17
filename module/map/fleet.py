@@ -1030,7 +1030,7 @@ class Fleet(Camera, AmbushHandler):
     def catch_camera_repositioning(self, destination):
         """
         Args:
-            Destination (GridInfo): Globe map grid.
+            destination (GridInfo): Globe map grid.
         """
         appear = False
         for data in self.map.spawn_data:

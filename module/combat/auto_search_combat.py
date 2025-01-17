@@ -36,7 +36,7 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
         """
         Pages:
             in: in_map, MAP_OFFENSIVE
-            out: combat_appear
+            out: is_combat_loading
         """
         self.interval_reset(AUTO_SEARCH_MAP_OPTION_ON)
         while 1:
@@ -188,7 +188,8 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
                     checked_coin = self.auto_search_watch_coin(checked_coin)
             if self.handle_retirement():
                 self.map_offensive_auto_search()
-                continue
+                # Map offensive ends at is_combat_loading
+                break
             if self.handle_auto_search_map_option():
                 continue
             if self.handle_combat_low_emotion():

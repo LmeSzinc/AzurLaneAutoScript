@@ -17,6 +17,20 @@ class OcrModel:
                      name='azur_lane')
 
     @cached_property
+    def azur_lane_jp(self):
+        # Folder: ./bin/cnocr_models/azur_lane_jp
+        # Size: 3.29MB
+        # Model: densenet-lite-gru
+        # Epoch: 93
+        # Validation accuracy: 99.38%
+        # Font: Impact, VibeMO Compressed Pro Thin, Folk R
+        # Charset: 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ:/- (Letter 'O' and <space> is not included)
+        # _num_classes: 39
+        from module.ocr.al_ocr import AlOcr
+        return AlOcr(model_name='densenet-lite-gru', model_epoch=93, root='./bin/cnocr_models/azur_lane_jp',
+                     name='azur_lane_jp')
+
+    @cached_property
     def cnocr(self):
         # Folder: ./bin/cnocr_models/cnocr
         # Size: 9.51MB

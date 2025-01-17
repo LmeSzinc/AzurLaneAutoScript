@@ -748,6 +748,7 @@
       "raid_20230629": "Reflections of the Oasis",
       "raid_20240130": "Spring Festive Fiasco",
       "raid_20240328": "From Zero to Hero",
+      "raid_20250116": "Spring Fashion Festa",
       "war_archives_20180607_cn": "archives Ink Stained Steel Sakura",
       "war_archives_20180726_cn": "archives Iris of Light and Dark",
       "war_archives_20181020_en": "archives Strive Wish and Strategize",
@@ -782,6 +783,7 @@
       "war_archives_20211111_cn": "archives The Flame-Touched Dagger",
       "war_archives_20211229_cn": "archives Tower of Transcendence",
       "war_archives_20220210_cn": "archives Northern Overture",
+      "war_archives_20220224_cn": "archives Abyssal Refrain",
       "war_archives_20220414_cn": "archives Aurora Noctis"
     },
     "Mode": {
@@ -2275,7 +2277,7 @@
     },
     "DossierAutoAttackMode": {
       "name": "Use Auto Attack Mode in META Dossier",
-      "help": "Use Auto Attack Mode after the first battle, currently only available on CN"
+      "help": "Use Auto Attack Mode after the first battle"
     },
     "RequestAssist": {
       "name": "Request Assists",

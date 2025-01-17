@@ -49,6 +49,7 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20240718   | war archives 20210916 cn | Upon the Shimmering Blue                     | 碧海光粼               | Upon the Shimmering Blue                     | 駆けよ 碧海の吹き風                  | 碧海光粼                 |
 | 20240829   | war archives 20210422 cn | Daedalian Hymn                               | 复兴的赞美诗           | Daedalian Hymn                               | 讃える復興の迷路                     | 復興的讚美詩             |
 | 20241017   | war archives 20211229 cn | Tower of Transcendence                       | 逆转彩虹之塔           | Tower of Transcendence                       | 遡望せし虹彩の塔                     | 逆轉彩虹之塔             |
+| 20250109   | war archives 20220224 cn | Abyssal Refrain                              | 深度回音               | Abyssal Refrain                              | 鳴動せし星霜の淵                     | 深度回音                 |
 | 20200227   | event 20200227 cn        | Northern Overture                            | 北境序曲               | Northern Overture                            | 凍絶の北海                           | -                        |
 | 20200312   | event 20200312 cn        | The Solomon Ranger                           | 复刻斯图尔特的硝烟     | The Solomon Ranger Rerun                     | 南洋に靡く硝煙（復刻）               | -                        |
 | 20200326   | event 20200326 cn        | Microlayer Medley                            | 微层混合               | Microlayer Medley                            | 闇靄払う銀翼                         | -                        |
@@ -227,3 +228,4 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20241219   | event 20231221 cn        | Light-Chasing Sea of Stars                   | -                      | -                                            | -                                    | 星海逐光                 |
 | 20250102   | raid 20240130            | Spring Festive Fiasco                        | -                      | -                                            | -                                    | 寰昌宇定家事忙           |
 | 20250109   | event 20221222 cn        | Parallel Superimposition Rerun               | 复刻定向折叠           | Parallel Superimposition Rerun               | 積重なる事象の幻界（復刻）           | -                        |
+| 20250116   | raid 20250116            | Spring Fashion Festa                         | 华裳巧展喜事长         | Spring Fashion Festa                         | 新春華裳協奏曲                       | -                        |
