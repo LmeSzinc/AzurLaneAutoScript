@@ -201,7 +201,7 @@ page_main_white.link(button=MAIN_GOTO_EVENT_LIST_WHITE, destination=page_event_l
 page_raid = Page(RAID_CHECK)
 page_raid.link(button=GOTO_MAIN, destination=page_main)
 page_main.link(button=MAIN_GOTO_RAID, destination=page_raid)
-# page_main_white.link(button=MAIN_GOTO_RAID_WHITE, destination=page_raid)
+page_main_white.link(button=MAIN_GOTO_RAID_WHITE, destination=page_raid)
 
 # Dock
 page_dock = Page(DOCK_CHECK)
