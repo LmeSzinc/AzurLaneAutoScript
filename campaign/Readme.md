@@ -228,3 +228,4 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20241219   | event 20231221 cn        | Light-Chasing Sea of Stars                   | -                      | -                                            | -                                    | 星海逐光                 |
 | 20250102   | raid 20240130            | Spring Festive Fiasco                        | -                      | -                                            | -                                    | 寰昌宇定家事忙           |
 | 20250109   | event 20221222 cn        | Parallel Superimposition Rerun               | 复刻定向折叠           | Parallel Superimposition Rerun               | 積重なる事象の幻界（復刻）           | -                        |
+| 20250116   | raid 20250116            | Spring Fashion Festa                         | 华裳巧展喜事长         | Spring Fashion Festa                         | 新春華裳協奏曲                       | -                        |
