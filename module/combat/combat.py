@@ -418,6 +418,12 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         if self.appear_then_click(EXP_INFO_B):
             self.device.sleep((0.25, 0.5))
             return True
+        if self.appear_then_click(EXP_INFO_C):
+            self.device.sleep((0.25, 0.5))
+            return True
+        if self.appear_then_click(EXP_INFO_D):
+            sslf.device.sleep((0.25, 0.5))
+            return True
 
         return False
 
