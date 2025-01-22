@@ -3247,7 +3247,8 @@
       },
       "Fleet2Onsen": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "display": "hide"
       }
     },
     "Storage": {
@@ -3494,7 +3495,8 @@
       },
       "Fleet2Onsen": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "display": "hide"
       }
     },
     "Storage": {
@@ -6617,7 +6619,8 @@
       },
       "Fleet2Onsen": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "display": "hide"
       }
     },
     "Storage": {
@@ -6865,7 +6868,8 @@
       },
       "Fleet2Onsen": {
         "type": "checkbox",
-        "value": false
+        "value": false,
+        "display": "hide"
       }
     },
     "Storage": {
