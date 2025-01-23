@@ -345,7 +345,7 @@ class Awaken(Dock):
                 break
 
             # page_dock -> SHIP_DETAIL_CHECK
-            self.ship_info_enter(
+            self.equip_enter(
                 CARD_GRIDS[(0, 0)], check_button=SHIP_DETAIL_CHECK, long_click=False)
 
             # is_in_awaken
