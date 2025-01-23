@@ -1640,6 +1640,10 @@
       "help": "",
       "level120": "Lv.120",
       "level125": "Lv.125"
+    },
+    "Favourite": {
+      "name": "Favourite Only",
+      "help": ""
     }
   },
   "GeneralShop": {
