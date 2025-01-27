@@ -2926,13 +2926,12 @@
           "raid_20250116"
         ],
         "option_bold": [
-          "raid_20240130",
           "raid_20250116"
         ],
         "cn": "raid_20250116",
         "en": "raid_20250116",
         "jp": "raid_20250116",
-        "tw": "raid_20240130"
+        "tw": "raid_20250116"
       },
       "Mode": {
         "type": "select",
@@ -6231,13 +6230,12 @@
           "raid_20250116"
         ],
         "option_bold": [
-          "raid_20240130",
           "raid_20250116"
         ],
         "cn": "raid_20250116",
         "en": "raid_20250116",
         "jp": "raid_20250116",
-        "tw": "raid_20240130"
+        "tw": "raid_20250116"
       },
       "Mode": {
         "type": "select",
