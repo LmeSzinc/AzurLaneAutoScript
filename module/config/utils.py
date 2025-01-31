@@ -603,6 +603,17 @@ def get_server_weekday():
     return result
 
 
+def get_server_monthday():
+    """
+    Returns:
+        int: The server's current day of the month
+    """
+    diff = server_time_offset()
+    server_now = datetime.now() - diff
+    result = server_now.day
+    return result
+
+
 def random_id(length=32):
     """
     Args:
