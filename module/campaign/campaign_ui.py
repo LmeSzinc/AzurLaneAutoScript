@@ -361,6 +361,7 @@ class CampaignUI(MapOperation, CampaignEvent, CampaignOcr):
                 break
             try:
                 self.campaign_set_chapter(name, mode)
+                self.handle_info_bar()
                 self.ENTRANCE = self.campaign_get_entrance(name=name)
                 return True
             except CampaignNameError:
