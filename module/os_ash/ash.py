@@ -76,7 +76,6 @@ class AshCombat(Combat):
 
 
 class OSAsh(UI, MapEventHandler):
-
     _ash_fully_collected = False
 
     def ash_collect_status(self):
