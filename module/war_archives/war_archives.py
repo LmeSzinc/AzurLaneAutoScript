@@ -1,3 +1,5 @@
+import re
+
 from campaign.campaign_war_archives.campaign_base import CampaignBase
 from module.campaign.run import CampaignRun
 from module.logger import logger
@@ -5,7 +7,15 @@ from module.ocr.ocr import DigitCounter
 from module.war_archives.assets import (OCR_DATA_KEY_CAMPAIGN,
                                         WAR_ARCHIVES_CAMPAIGN_CHECK)
 
-DATA_KEY_CAMPAIGN = DigitCounter(OCR_DATA_KEY_CAMPAIGN, letter=(255, 247, 247), threshold=64)
+
+class OcrDataKey(DigitCounter):
+    def after_process(self, result):
+        result = super().after_process(result)
+        result = re.sub(r'(\d{1,2})60$', r'\1/60', result)
+        return result
+
+
+DATA_KEY_CAMPAIGN = OcrDataKey(OCR_DATA_KEY_CAMPAIGN, letter=(255, 247, 247), threshold=64)
 
 
 class CampaignWarArchives(CampaignRun, CampaignBase):
