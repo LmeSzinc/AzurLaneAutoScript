@@ -2,6 +2,7 @@ import importlib
 
 from campaign.campaign_hard.campaign_hard import Campaign
 from module.campaign.run import CampaignRun
+from module.handler.fast_forward import to_map_file_name
 from module.hard.assets import *
 from module.logger import logger
 from module.ocr.ocr import Digit
@@ -15,8 +16,7 @@ class CampaignHard(CampaignRun):
 
     def run(self):
         logger.hr('Campaign hard', level=1)
-        chapter, stage = self.config.Hard_HardStage.split('-')
-        name = f'campaign_{chapter}_{stage}'
+        name = to_map_file_name(self.config.Hard_HardStage)
         self.config.override(
             Campaign_Mode='hard',
             Campaign_UseFleetLock=True,
