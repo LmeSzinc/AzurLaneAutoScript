@@ -717,7 +717,7 @@
       "event_20220428_cn": "Rondo at Rainbows End Rerun",
       "event_20220526_cn": "Pledge of the Radiant Court Rerun",
       "event_20220728_cn": "Aquilifers Ballade Rerun",
-      "event_20220818_cn": "Operation Convergence Rerun",
+      "event_20220818_cn": "Operation Convergence Return",
       "event_20220915_cn": "Violet Tempest Blooming Lycoris Rerun",
       "event_20221124_cn": "The Alchemist and the Archipelago of Secrets",
       "event_20221222_cn": "Parallel Superimposition Rerun",
@@ -1546,15 +1546,15 @@
       "help": ""
     },
     "Enable": {
-      "name": "Enable Guild ",
-      "help": "Enables the following:\n- Start new / Join ongoing guild s\n- Dispatch ships to complete objectives\n- Optionally attack guild boss when available"
+      "name": "Enable Guild Operation",
+      "help": "Enables the following:\n- Start new / Join ongoing guild operations\n- Dispatch ships to complete objectives\n- Optionally attack guild boss when available"
     },
-    "SelectNew": {
-      "name": "Start New Guild s",
-      "help": "This account must be a guild master or officer to use this.\nThe most rewarding  Solomon Air-Sea Battle is selected by default"
+    "SelectNewOperation": {
+      "name": "Start New Guild Operations",
+      "help": "This account must be a guild master or officer to use this.\nThe most rewarding operation Solomon Air-Sea Battle is selected by default"
     },
-    "NewMaxDate": {
-      "name": "Don't Start Guild  After Date X of Every Month",
+    "NewOperationMaxDate": {
+      "name": "Don't Start Guild Operation After Date X of Every Month",
       "help": "Only takes effect when \"Start New Guild Operations\" is enabled.\nStarting a third operation in the same month is not recommended. Members are limited in joining up to 2 operations each month; a third operation will unlikely be finished as most cannot participate and spill over to the following month. This will affect the evaluation of the dispatch event, resulting in a reduction of the final reward"
     },
     "JoinThreshold": {
