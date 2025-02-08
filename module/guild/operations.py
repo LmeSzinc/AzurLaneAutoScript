@@ -3,6 +3,7 @@ from datetime import datetime
 from module.base.button import ButtonGrid
 from module.base.timer import Timer
 from module.base.utils import *
+from module.config.utils import get_server_monthday
 from module.exception import GameBugError
 from module.guild.assets import *
 from module.guild.base import GuildBase
@@ -89,7 +90,7 @@ class GuildOperations(GuildBase):
         if not self.config.GuildOperation_SelectNewOperation:
             return False
 
-        today = datetime.now().day
+        today = get_server_monthday()
         limit = self.config.GuildOperation_NewOperationMaxDate
         if today >= limit:
             logger.info(f'No new guild operations because, today\'s date {today} >= limit {limit}')

@@ -165,6 +165,9 @@ class Benchmark(DaemonBase, CampaignUI):
         if click_result:
             self.show(test='Control', data=click_result, evaluate_func=self.evaluate_click)
             fastest = sorted(click_result, key=lambda item: compare(item))[0]
+            # Prefer MaaTouch if both minitouch and MaaTouch are fastest
+            if 'MaaTouch' in click and fastest[0] == 'minitouch':
+                fastest[0] = 'MaaTouch'
             logger.info(f'Recommend control method: {fastest[0]} ({float2str(fastest[1])})')
             fastest_click = fastest[0]
 
@@ -174,7 +177,7 @@ class Benchmark(DaemonBase, CampaignUI):
         device = self.config.Benchmark_DeviceType
         # device == 'emulator'
         screenshot = ['ADB', 'ADB_nc', 'uiautomator2', 'aScreenCap', 'aScreenCap_nc', 'DroidCast', 'DroidCast_raw']
-        click = ['ADB', 'uiautomator2', 'minitouch']
+        click = ['ADB', 'uiautomator2', 'minitouch', 'MaaTouch']
 
         def remove(*args):
             return [l for l in screenshot if l not in args]
@@ -195,6 +198,8 @@ class Benchmark(DaemonBase, CampaignUI):
             screenshot.append('nemu_ipc')
         if self.device.ldopengl_available():
             screenshot.append('ldopengl')
+        if self.device.is_bluestacks_air:
+            screenshot = [l for l in screenshot if 'DroidCast' not in l]
 
         scene = self.config.Benchmark_TestScene
         if 'screenshot' not in scene:
