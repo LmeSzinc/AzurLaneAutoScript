@@ -9,16 +9,16 @@ from module.combat.hp_balancer import HPBalancer
 from module.combat.level import Level
 from module.combat.submarine import SubmarineCall
 from module.combat_ui.assets import *
+from module.combat_ui.combat_ui import CombatUI
 from module.handler.auto_search import AutoSearchHandler
 from module.logger import logger
 from module.map.assets import MAP_OFFENSIVE
 from module.retire.retirement import Retirement
 from module.statistics.azurstats import DropImage
-from module.template.assets import TEMPLATE_COMBAT_LOADING
-from module.ui.assets import BACK_ARROW, EXERCISE_CHECK, MUNITIONS_CHECK
+from module.ui.assets import BACK_ARROW
 
 
-class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatManual, AutoSearchHandler):
+class Combat(Level, HPBalancer, Retirement, CombatUI, SubmarineCall, CombatAuto, CombatManual, AutoSearchHandler):
     _automation_set_timer = Timer(1)
     battle_status_click_interval = 0
 
@@ -61,84 +61,6 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             # Break
             if self.combat_appear():
                 break
-
-    def is_combat_loading(self):
-        """
-        Returns:
-            bool:
-        """
-        image = self.image_crop((0, 620, 1280, 720), copy=False)
-        similarity, button = TEMPLATE_COMBAT_LOADING.match_luma_result(image)
-        if similarity > 0.85:
-            loading = (button.area[0] + 38 - LOADING_BAR.area[0]) / (LOADING_BAR.area[2] - LOADING_BAR.area[0])
-            logger.attr('Loading', f'{int(loading * 100)}%')
-            return True
-        else:
-            return False
-
-    def is_combat_executing(self):
-        """
-        Returns:
-            Button: PAUSE button that appears
-        """
-        self.device.stuck_record_add(PAUSE)
-        if self.config.SERVER in ['cn', 'en']:
-            if PAUSE.match_luma(self.device.image, offset=(10, 10)):
-                return PAUSE
-        else:
-            color = get_color(self.device.image, PAUSE.area)
-            if color_similar(color, PAUSE.color) or color_similar(color, (238, 244, 248)):
-                if np.max(self.image_crop(PAUSE_DOUBLE_CHECK, copy=False)) < 153:
-                    return PAUSE
-        if PAUSE_New.match_template_color(self.device.image, offset=(10, 10)):
-            return PAUSE_New
-        if PAUSE_Iridescent_Fantasy.match_luma(self.device.image, offset=(10, 10)):
-            return PAUSE_Iridescent_Fantasy
-        if PAUSE_Christmas.match_luma(self.device.image, offset=(10, 10)):
-            return PAUSE_Christmas
-        # PAUSE_New, PAUSE_Cyber, PAUSE_Neon look similar, check colors
-        if PAUSE_Neon.match_template_color(self.device.image, offset=(10, 10)):
-            return PAUSE_Neon
-        if PAUSE_Cyber.match_template_color(self.device.image, offset=(10, 10)):
-            return PAUSE_Cyber
-        if PAUSE_HolyLight.match_template_color(self.device.image, offset=(10, 10)):
-            return PAUSE_HolyLight
-        return False
-
-    def handle_combat_quit(self, offset=(20, 20), interval=3):
-        timer = self.get_interval_timer(QUIT, interval=interval)
-        if not timer.reached():
-            return False
-        if QUIT.match_luma(self.device.image, offset=offset):
-            self.device.click(QUIT)
-            timer.reset()
-            return True
-        if QUIT_New.match_luma(self.device.image, offset=offset):
-            self.device.click(QUIT_New)
-            timer.reset()
-            return True
-        if QUIT_Iridescent_Fantasy.match_luma(self.device.image, offset=offset):
-            self.device.click(QUIT_Iridescent_Fantasy)
-            timer.reset()
-            return True
-        # Battle UI PAUSE_Neon uses QUIT_New
-        # Battle UI PAUSE_Cyber uses QUIT_New
-        if QUIT_Christmas.match_luma(self.device.image, offset=offset):
-            self.device.click(QUIT_Christmas)
-            timer.reset()
-            return True
-        # Battle UI PAUSE_HolyLight uses QUIT_New
-        return False
-
-    def ensure_combat_oil_loaded(self):
-        self.wait_until_stable(COMBAT_OIL_LOADING)
-
-    def handle_combat_automation_confirm(self):
-        if self.appear(AUTOMATION_CONFIRM_CHECK, threshold=30, interval=1):
-            self.appear_then_click(AUTOMATION_CONFIRM, offset=(20, 20))
-            return True
-
-        return False
 
     def combat_preparation(self, balance_hp=False, emotion_reduce=False, auto='combat_auto', fleet_index=1):
         """
@@ -192,16 +114,6 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                 if emotion_reduce:
                     self.emotion.reduce(fleet_index)
                 break
-
-    def handle_battle_preparation(self):
-        """
-        Returns:
-            bool:
-        """
-        if self.appear_then_click(BATTLE_PREPARATION, offset=(20, 20), interval=2):
-            return True
-
-        return False
 
     def handle_combat_automation_set(self, auto):
         """
@@ -315,148 +227,6 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             if self.handle_battle_status(drop=drop) \
                     or self.handle_get_items(drop=drop):
                 break
-
-    def handle_battle_status(self, drop=None):
-        """
-        Args:
-            drop (DropImage):
-
-        Returns:
-            bool:
-        """
-        if self.is_combat_executing():
-            return False
-        if self.appear(BATTLE_STATUS_S, interval=self.battle_status_click_interval):
-            if drop:
-                drop.handle_add(self)
-            else:
-                self.device.sleep((0.25, 0.5))
-            self.device.click(BATTLE_STATUS_S)
-            return True
-        if self.appear(BATTLE_STATUS_A, interval=self.battle_status_click_interval):
-            logger.warning('Battle status A')
-            if drop:
-                drop.handle_add(self)
-            else:
-                self.device.sleep((0.25, 0.5))
-            self.device.click(BATTLE_STATUS_A)
-            return True
-        if self.appear(BATTLE_STATUS_B, interval=self.battle_status_click_interval):
-            logger.warning('Battle Status B')
-            if drop:
-                drop.handle_add(self)
-            else:
-                self.device.sleep((0.25, 0.5))
-            self.device.click(BATTLE_STATUS_B)
-            return True
-        if self.appear(BATTLE_STATUS_C, interval=self.battle_status_click_interval):
-            logger.warning('Battle Status C')
-            # raise GameStuckError('Battle status C')
-            if drop:
-                drop.handle_add(self)
-            else:
-                self.device.sleep((0.25, 0.5))
-            self.device.click(BATTLE_STATUS_C)
-            return True
-        if self.appear(BATTLE_STATUS_D, interval=self.battle_status_click_interval):
-            logger.warning('Battle Status D')
-            # raise GameStuckError('Battle Status D')
-            if drop:
-                drop.handle_add(self)
-            else:
-                self.device.sleep((0.25, 0.5))
-            self.device.click(BATTLE_STATUS_D)
-            return True
-
-        return False
-
-    def handle_get_items(self, drop=None):
-        """
-        Args:
-            drop (DropImage):
-
-        Returns:
-            bool:
-        """
-        if self.appear(GET_ITEMS_1, offset=5, interval=self.battle_status_click_interval):
-            if drop:
-                drop.handle_add(self)
-            self.device.click(GET_ITEMS_1)
-            self.interval_reset(BATTLE_STATUS_S)
-            self.interval_reset(BATTLE_STATUS_A)
-            self.interval_reset(BATTLE_STATUS_B)
-            return True
-        if self.appear(GET_ITEMS_2, offset=5, interval=self.battle_status_click_interval):
-            if drop:
-                drop.handle_add(self)
-            self.device.click(GET_ITEMS_1)
-            self.interval_reset(BATTLE_STATUS_S)
-            self.interval_reset(BATTLE_STATUS_A)
-            self.interval_reset(BATTLE_STATUS_B)
-            return True
-        if self.appear(GET_ITEMS_3, offset=5, interval=self.battle_status_click_interval):
-            if drop:
-                drop.handle_add(self)
-            self.device.click(GET_ITEMS_1)
-            self.interval_reset(BATTLE_STATUS_S)
-            self.interval_reset(BATTLE_STATUS_A)
-            self.interval_reset(BATTLE_STATUS_B)
-            return True
-
-        return False
-
-    def handle_exp_info(self):
-        """
-        Returns:
-            bool:
-        """
-        if self.is_combat_executing():
-            return False
-        if self.appear_then_click(EXP_INFO_S):
-            self.device.sleep((0.25, 0.5))
-            return True
-        if self.appear_then_click(EXP_INFO_A):
-            self.device.sleep((0.25, 0.5))
-            return True
-        if self.appear_then_click(EXP_INFO_B):
-            self.device.sleep((0.25, 0.5))
-            return True
-
-        return False
-
-    def handle_get_ship(self, drop=None):
-        """
-        Args:
-            drop (DropImage):
-
-        Returns:
-            bool:
-        """
-        if self.appear_then_click(GET_SHIP, interval=1):
-            if self.appear(NEW_SHIP):
-                logger.info('Get a new SHIP')
-                if drop:
-                    drop.handle_add(self)
-                self.config.GET_SHIP_TRIGGERED = True
-            return True
-
-        return False
-
-    def handle_combat_mis_click(self):
-        """
-        Returns:
-            bool:
-        """
-        if self.appear(MUNITIONS_CHECK, offset=(20, 20), interval=5):
-            logger.info(f'{MUNITIONS_CHECK} -> {BACK_ARROW}')
-            self.device.click(BACK_ARROW)
-            return True
-        if self.appear(EXERCISE_CHECK, offset=(20, 20), interval=5):
-            logger.info(f'{EXERCISE_CHECK} -> {BACK_ARROW}')
-            self.device.click(BACK_ARROW)
-            return True
-
-        return False
 
     def combat_status(self, drop=None, expected_end=None):
         """
