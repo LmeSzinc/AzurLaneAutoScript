@@ -9,6 +9,7 @@ from module.combat.hp_balancer import HPBalancer
 from module.combat.level import Level
 from module.combat.submarine import SubmarineCall
 from module.combat_ui.assets import *
+from module.combat_ui.combat_ui import CombatUI
 from module.handler.auto_search import AutoSearchHandler
 from module.logger import logger
 from module.map.assets import MAP_OFFENSIVE
@@ -18,7 +19,7 @@ from module.template.assets import TEMPLATE_COMBAT_LOADING
 from module.ui.assets import BACK_ARROW, EXERCISE_CHECK, MUNITIONS_CHECK
 
 
-class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatManual, AutoSearchHandler):
+class Combat(Level, HPBalancer, Retirement, CombatUI, SubmarineCall, CombatAuto, CombatManual, AutoSearchHandler):
     _automation_set_timer = Timer(1)
     battle_status_click_interval = 0
 
@@ -75,60 +76,6 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             return True
         else:
             return False
-
-    def is_combat_executing(self):
-        """
-        Returns:
-            Button: PAUSE button that appears
-        """
-        self.device.stuck_record_add(PAUSE)
-        if self.config.SERVER in ['cn', 'en']:
-            if PAUSE.match_luma(self.device.image, offset=(10, 10)):
-                return PAUSE
-        else:
-            color = get_color(self.device.image, PAUSE.area)
-            if color_similar(color, PAUSE.color) or color_similar(color, (238, 244, 248)):
-                if np.max(self.image_crop(PAUSE_DOUBLE_CHECK, copy=False)) < 153:
-                    return PAUSE
-        if PAUSE_New.match_template_color(self.device.image, offset=(10, 10)):
-            return PAUSE_New
-        if PAUSE_Iridescent_Fantasy.match_luma(self.device.image, offset=(10, 10)):
-            return PAUSE_Iridescent_Fantasy
-        if PAUSE_Christmas.match_luma(self.device.image, offset=(10, 10)):
-            return PAUSE_Christmas
-        # PAUSE_New, PAUSE_Cyber, PAUSE_Neon look similar, check colors
-        if PAUSE_Neon.match_template_color(self.device.image, offset=(10, 10)):
-            return PAUSE_Neon
-        if PAUSE_Cyber.match_template_color(self.device.image, offset=(10, 10)):
-            return PAUSE_Cyber
-        if PAUSE_HolyLight.match_template_color(self.device.image, offset=(10, 10)):
-            return PAUSE_HolyLight
-        return False
-
-    def handle_combat_quit(self, offset=(20, 20), interval=3):
-        timer = self.get_interval_timer(QUIT, interval=interval)
-        if not timer.reached():
-            return False
-        if QUIT.match_luma(self.device.image, offset=offset):
-            self.device.click(QUIT)
-            timer.reset()
-            return True
-        if QUIT_New.match_luma(self.device.image, offset=offset):
-            self.device.click(QUIT_New)
-            timer.reset()
-            return True
-        if QUIT_Iridescent_Fantasy.match_luma(self.device.image, offset=offset):
-            self.device.click(QUIT_Iridescent_Fantasy)
-            timer.reset()
-            return True
-        # Battle UI PAUSE_Neon uses QUIT_New
-        # Battle UI PAUSE_Cyber uses QUIT_New
-        if QUIT_Christmas.match_luma(self.device.image, offset=offset):
-            self.device.click(QUIT_Christmas)
-            timer.reset()
-            return True
-        # Battle UI PAUSE_HolyLight uses QUIT_New
-        return False
 
     def ensure_combat_oil_loaded(self):
         self.wait_until_stable(COMBAT_OIL_LOADING)
