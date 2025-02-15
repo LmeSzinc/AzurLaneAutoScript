@@ -310,6 +310,23 @@ class Connection(ConnectionAttr):
 
     @cached_property
     @retry
+    def is_bluestacks_air(self):
+        # BlueStacks Air is the Mac version of BlueStacks
+        if not IS_MACINTOSH:
+            return False
+        if not self.is_ldplayer_bluestacks_family:
+            return False
+        # [bst.installed_images]: [Tiramisu64]
+        # [bst.instance]: [Tiramisu64]
+        # Tiramisu64 is Android 13 and BlueStacks Air is the only BlueStacks version that uses Android 13
+        res = self.adb_getprop('bst.installed_images')
+        logger.attr('bst.installed_images', res)
+        if 'Tiramisu64' in res:
+            return True
+        return False
+
+    @cached_property
+    @retry
     def nemud_app_keep_alive(self) -> str:
         res = self.adb_getprop('nemud.app_keep_alive')
         logger.attr('nemud.app_keep_alive', res)
@@ -401,11 +418,13 @@ class Connection(ConnectionAttr):
                 host = '127.0.0.1'
             if IS_LINUX and host == '127.0.1.1':
                 host = '127.0.0.1'
+            if self.is_bluestacks_air:
+                host = '127.0.0.1'
             logger.info(f'Connecting to local emulator, using host {host}')
             port = random_port(self.config.FORWARD_PORT_RANGE)
 
             # For AVD instance
-            if self.is_avd:
+            if self.is_avd or self.is_bluestacks_air:
                 return host, port, "10.0.2.2", port
 
             return host, port, host, port

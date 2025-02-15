@@ -721,7 +721,7 @@
       "event_20220428_cn": "Rondo at Rainbows End Rerun",
       "event_20220526_cn": "Pledge of the Radiant Court Rerun",
       "event_20220728_cn": "Aquilifers Ballade Rerun",
-      "event_20220818_cn": "Operation Convergence",
+      "event_20220818_cn": "Operation Convergence Return",
       "event_20220915_cn": "Violet Tempest Blooming Lycoris Rerun",
       "event_20221124_cn": "The Alchemist and the Archipelago of Secrets",
       "event_20221222_cn": "Parallel Superimposition Rerun",
@@ -752,6 +752,7 @@
       "raid_20230629": "Reflections of the Oasis",
       "raid_20240130": "Spring Festive Fiasco",
       "raid_20240328": "From Zero to Hero",
+      "raid_20250116": "Spring Fashion Festa",
       "war_archives_20180607_cn": "archives Ink Stained Steel Sakura",
       "war_archives_20180726_cn": "archives Iris of Light and Dark",
       "war_archives_20181020_en": "archives Strive Wish and Strategize",
@@ -786,6 +787,7 @@
       "war_archives_20211111_cn": "archives The Flame-Touched Dagger",
       "war_archives_20211229_cn": "archives Tower of Transcendence",
       "war_archives_20220210_cn": "archives Northern Overture",
+      "war_archives_20220224_cn": "archives Abyssal Refrain",
       "war_archives_20220414_cn": "archives Aurora Noctis"
     },
     "Mode": {
@@ -1853,7 +1855,8 @@
       "name": "Research Series",
       "help": "",
       "2": "DR2",
-      "3": "DR3"
+      "3": "DR3",
+      "4": "DR4"
     },
     "ShipIndex": {
       "name": "Ship Index",
@@ -1886,7 +1889,8 @@
       "1": "PR1",
       "2": "PR2",
       "3": "PR3",
-      "4": "PR4"
+      "4": "PR4",
+      "5": "PR5"
     },
     "ShipIndex": {
       "name": "Ship Index",
@@ -2289,7 +2293,7 @@
     },
     "DossierAutoAttackMode": {
       "name": "Use Auto Attack Mode in META Dossier",
-      "help": "Use Auto Attack Mode after the first battle, currently only available on CN"
+      "help": "Use Auto Attack Mode after the first battle"
     },
     "RequestAssist": {
       "name": "Request Assists",

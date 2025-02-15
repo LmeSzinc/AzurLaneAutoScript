@@ -1,0 +1,1905 @@
+{
+  "nodes": [
+    {
+      "op": "null", 
+      "name": "data", 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage0_conv0_weight", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(32, 0, 3, 3)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "Convolution", 
+      "name": "densenet0_stage0_conv0_fwd", 
+      "attrs": {
+        "dilate": "(1, 1)", 
+        "kernel": "(3, 3)", 
+        "layout": "NCHW", 
+        "no_bias": "True", 
+        "num_filter": "32", 
+        "num_group": "1", 
+        "pad": "(1, 1)", 
+        "stride": "(1, 1)"
+      }, 
+      "inputs": [[0, 0, 0], [1, 0, 0]]
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage0_batchnorm0_gamma", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "ones", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage0_batchnorm0_beta", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "zeros", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage0_batchnorm0_running_mean", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "zeros", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage0_batchnorm0_running_var", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "ones", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "BatchNorm", 
+      "name": "densenet0_stage0_batchnorm0_fwd", 
+      "attrs": {
+        "axis": "1", 
+        "eps": "1e-05", 
+        "fix_gamma": "False", 
+        "momentum": "0.9", 
+        "use_global_stats": "False"
+      }, 
+      "inputs": [[2, 0, 0], [3, 0, 0], [4, 0, 0], [5, 0, 1], [6, 0, 1]]
+    }, 
+    {
+      "op": "Activation", 
+      "name": "densenet0_stage0_relu0_fwd", 
+      "attrs": {"act_type": "relu"}, 
+      "inputs": [[7, 0, 0]]
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage0_conv1_weight", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(64, 0, 3, 3)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "Convolution", 
+      "name": "densenet0_stage0_conv1_fwd", 
+      "attrs": {
+        "dilate": "(1, 1)", 
+        "kernel": "(3, 3)", 
+        "layout": "NCHW", 
+        "no_bias": "True", 
+        "num_filter": "64", 
+        "num_group": "1", 
+        "pad": "(1, 1)", 
+        "stride": "(1, 1)"
+      }, 
+      "inputs": [[8, 0, 0], [9, 0, 0]]
+    }, 
+    {
+      "op": "Concat", 
+      "name": "densenet0_concat0", 
+      "attrs": {
+        "dim": "1", 
+        "num_args": "2"
+      }, 
+      "inputs": [[0, 0, 0], [10, 0, 0]]
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_batchnorm0_gamma", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "ones", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_batchnorm0_beta", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "zeros", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_batchnorm0_running_mean", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "zeros", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_batchnorm0_running_var", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "ones", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "BatchNorm", 
+      "name": "densenet0_batchnorm0_fwd", 
+      "attrs": {
+        "axis": "1", 
+        "eps": "1e-05", 
+        "fix_gamma": "False", 
+        "momentum": "0.9", 
+        "use_global_stats": "False"
+      }, 
+      "inputs": [[11, 0, 0], [12, 0, 0], [13, 0, 0], [14, 0, 1], [15, 0, 1]]
+    }, 
+    {
+      "op": "Activation", 
+      "name": "densenet0_relu0_fwd", 
+      "attrs": {"act_type": "relu"}, 
+      "inputs": [[16, 0, 0]]
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_conv0_weight", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(64, 0, 1, 1)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "Convolution", 
+      "name": "densenet0_conv0_fwd", 
+      "attrs": {
+        "dilate": "(1, 1)", 
+        "kernel": "(1, 1)", 
+        "layout": "NCHW", 
+        "no_bias": "True", 
+        "num_filter": "64", 
+        "num_group": "1", 
+        "pad": "(0, 0)", 
+        "stride": "(1, 1)"
+      }, 
+      "inputs": [[17, 0, 0], [18, 0, 0]]
+    }, 
+    {
+      "op": "Pooling", 
+      "name": "densenet0_pool0_fwd", 
+      "attrs": {
+        "global_pool": "False", 
+        "kernel": "(2, 2)", 
+        "layout": "NCHW", 
+        "pad": "(0, 0)", 
+        "pool_type": "max", 
+        "pooling_convention": "valid", 
+        "stride": "(2, 2)"
+      }, 
+      "inputs": [[19, 0, 0]]
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage1_batchnorm0_gamma", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "ones", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage1_batchnorm0_beta", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "zeros", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage1_batchnorm0_running_mean", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "zeros", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage1_batchnorm0_running_var", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "ones", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "BatchNorm", 
+      "name": "densenet0_stage1_batchnorm0_fwd", 
+      "attrs": {
+        "axis": "1", 
+        "eps": "1e-05", 
+        "fix_gamma": "False", 
+        "momentum": "0.9", 
+        "use_global_stats": "False"
+      }, 
+      "inputs": [[20, 0, 0], [21, 0, 0], [22, 0, 0], [23, 0, 1], [24, 0, 1]]
+    }, 
+    {
+      "op": "Activation", 
+      "name": "densenet0_stage1_relu0_fwd", 
+      "attrs": {"act_type": "relu"}, 
+      "inputs": [[25, 0, 0]]
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage1_conv0_weight", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(64, 0, 1, 1)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "Convolution", 
+      "name": "densenet0_stage1_conv0_fwd", 
+      "attrs": {
+        "dilate": "(1, 1)", 
+        "kernel": "(1, 1)", 
+        "layout": "NCHW", 
+        "no_bias": "True", 
+        "num_filter": "64", 
+        "num_group": "1", 
+        "pad": "(0, 0)", 
+        "stride": "(1, 1)"
+      }, 
+      "inputs": [[26, 0, 0], [27, 0, 0]]
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage1_batchnorm1_gamma", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "ones", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage1_batchnorm1_beta", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "zeros", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage1_batchnorm1_running_mean", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "zeros", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage1_batchnorm1_running_var", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "ones", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "BatchNorm", 
+      "name": "densenet0_stage1_batchnorm1_fwd", 
+      "attrs": {
+        "axis": "1", 
+        "eps": "1e-05", 
+        "fix_gamma": "False", 
+        "momentum": "0.9", 
+        "use_global_stats": "False"
+      }, 
+      "inputs": [[28, 0, 0], [29, 0, 0], [30, 0, 0], [31, 0, 1], [32, 0, 1]]
+    }, 
+    {
+      "op": "Activation", 
+      "name": "densenet0_stage1_relu1_fwd", 
+      "attrs": {"act_type": "relu"}, 
+      "inputs": [[33, 0, 0]]
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage1_conv1_weight", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(32, 0, 3, 3)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "Convolution", 
+      "name": "densenet0_stage1_conv1_fwd", 
+      "attrs": {
+        "dilate": "(1, 1)", 
+        "kernel": "(3, 3)", 
+        "layout": "NCHW", 
+        "no_bias": "True", 
+        "num_filter": "32", 
+        "num_group": "1", 
+        "pad": "(1, 1)", 
+        "stride": "(1, 1)"
+      }, 
+      "inputs": [[34, 0, 0], [35, 0, 0]]
+    }, 
+    {
+      "op": "Concat", 
+      "name": "densenet0_stage1_concat0", 
+      "attrs": {
+        "dim": "1", 
+        "num_args": "2"
+      }, 
+      "inputs": [[20, 0, 0], [36, 0, 0]]
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage1_batchnorm2_gamma", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "ones", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage1_batchnorm2_beta", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "zeros", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage1_batchnorm2_running_mean", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "zeros", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage1_batchnorm2_running_var", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "ones", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "BatchNorm", 
+      "name": "densenet0_stage1_batchnorm2_fwd", 
+      "attrs": {
+        "axis": "1", 
+        "eps": "1e-05", 
+        "fix_gamma": "False", 
+        "momentum": "0.9", 
+        "use_global_stats": "False"
+      }, 
+      "inputs": [[37, 0, 0], [38, 0, 0], [39, 0, 0], [40, 0, 1], [41, 0, 1]]
+    }, 
+    {
+      "op": "Activation", 
+      "name": "densenet0_stage1_relu2_fwd", 
+      "attrs": {"act_type": "relu"}, 
+      "inputs": [[42, 0, 0]]
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage1_conv2_weight", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(64, 0, 1, 1)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "Convolution", 
+      "name": "densenet0_stage1_conv2_fwd", 
+      "attrs": {
+        "dilate": "(1, 1)", 
+        "kernel": "(1, 1)", 
+        "layout": "NCHW", 
+        "no_bias": "True", 
+        "num_filter": "64", 
+        "num_group": "1", 
+        "pad": "(0, 0)", 
+        "stride": "(1, 1)"
+      }, 
+      "inputs": [[43, 0, 0], [44, 0, 0]]
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage1_batchnorm3_gamma", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "ones", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage1_batchnorm3_beta", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "zeros", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage1_batchnorm3_running_mean", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "zeros", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage1_batchnorm3_running_var", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "ones", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "BatchNorm", 
+      "name": "densenet0_stage1_batchnorm3_fwd", 
+      "attrs": {
+        "axis": "1", 
+        "eps": "1e-05", 
+        "fix_gamma": "False", 
+        "momentum": "0.9", 
+        "use_global_stats": "False"
+      }, 
+      "inputs": [[45, 0, 0], [46, 0, 0], [47, 0, 0], [48, 0, 1], [49, 0, 1]]
+    }, 
+    {
+      "op": "Activation", 
+      "name": "densenet0_stage1_relu3_fwd", 
+      "attrs": {"act_type": "relu"}, 
+      "inputs": [[50, 0, 0]]
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage1_conv3_weight", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(32, 0, 3, 3)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "Convolution", 
+      "name": "densenet0_stage1_conv3_fwd", 
+      "attrs": {
+        "dilate": "(1, 1)", 
+        "kernel": "(3, 3)", 
+        "layout": "NCHW", 
+        "no_bias": "True", 
+        "num_filter": "32", 
+        "num_group": "1", 
+        "pad": "(1, 1)", 
+        "stride": "(1, 1)"
+      }, 
+      "inputs": [[51, 0, 0], [52, 0, 0]]
+    }, 
+    {
+      "op": "Concat", 
+      "name": "densenet0_stage1_concat1", 
+      "attrs": {
+        "dim": "1", 
+        "num_args": "2"
+      }, 
+      "inputs": [[37, 0, 0], [53, 0, 0]]
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_batchnorm1_gamma", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "ones", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_batchnorm1_beta", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "zeros", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_batchnorm1_running_mean", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "zeros", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_batchnorm1_running_var", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "ones", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "BatchNorm", 
+      "name": "densenet0_batchnorm1_fwd", 
+      "attrs": {
+        "axis": "1", 
+        "eps": "1e-05", 
+        "fix_gamma": "False", 
+        "momentum": "0.9", 
+        "use_global_stats": "False"
+      }, 
+      "inputs": [[54, 0, 0], [55, 0, 0], [56, 0, 0], [57, 0, 1], [58, 0, 1]]
+    }, 
+    {
+      "op": "Activation", 
+      "name": "densenet0_relu1_fwd", 
+      "attrs": {"act_type": "relu"}, 
+      "inputs": [[59, 0, 0]]
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_conv1_weight", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(128, 0, 1, 1)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "Convolution", 
+      "name": "densenet0_conv1_fwd", 
+      "attrs": {
+        "dilate": "(1, 1)", 
+        "kernel": "(1, 1)", 
+        "layout": "NCHW", 
+        "no_bias": "True", 
+        "num_filter": "128", 
+        "num_group": "1", 
+        "pad": "(0, 0)", 
+        "stride": "(1, 1)"
+      }, 
+      "inputs": [[60, 0, 0], [61, 0, 0]]
+    }, 
+    {
+      "op": "Pooling", 
+      "name": "densenet0_pool1_fwd", 
+      "attrs": {
+        "global_pool": "False", 
+        "kernel": "(2, 2)", 
+        "layout": "NCHW", 
+        "pad": "(0, 0)", 
+        "pool_type": "max", 
+        "pooling_convention": "valid", 
+        "stride": "(2, 2)"
+      }, 
+      "inputs": [[62, 0, 0]]
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage2_batchnorm0_gamma", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "ones", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage2_batchnorm0_beta", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "zeros", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage2_batchnorm0_running_mean", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "zeros", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage2_batchnorm0_running_var", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "ones", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "BatchNorm", 
+      "name": "densenet0_stage2_batchnorm0_fwd", 
+      "attrs": {
+        "axis": "1", 
+        "eps": "1e-05", 
+        "fix_gamma": "False", 
+        "momentum": "0.9", 
+        "use_global_stats": "False"
+      }, 
+      "inputs": [[63, 0, 0], [64, 0, 0], [65, 0, 0], [66, 0, 1], [67, 0, 1]]
+    }, 
+    {
+      "op": "Activation", 
+      "name": "densenet0_stage2_relu0_fwd", 
+      "attrs": {"act_type": "relu"}, 
+      "inputs": [[68, 0, 0]]
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage2_conv0_weight", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(128, 0, 1, 1)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "Convolution", 
+      "name": "densenet0_stage2_conv0_fwd", 
+      "attrs": {
+        "dilate": "(1, 1)", 
+        "kernel": "(1, 1)", 
+        "layout": "NCHW", 
+        "no_bias": "True", 
+        "num_filter": "128", 
+        "num_group": "1", 
+        "pad": "(0, 0)", 
+        "stride": "(1, 1)"
+      }, 
+      "inputs": [[69, 0, 0], [70, 0, 0]]
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage2_batchnorm1_gamma", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "ones", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage2_batchnorm1_beta", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "zeros", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage2_batchnorm1_running_mean", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "zeros", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage2_batchnorm1_running_var", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "ones", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "BatchNorm", 
+      "name": "densenet0_stage2_batchnorm1_fwd", 
+      "attrs": {
+        "axis": "1", 
+        "eps": "1e-05", 
+        "fix_gamma": "False", 
+        "momentum": "0.9", 
+        "use_global_stats": "False"
+      }, 
+      "inputs": [[71, 0, 0], [72, 0, 0], [73, 0, 0], [74, 0, 1], [75, 0, 1]]
+    }, 
+    {
+      "op": "Activation", 
+      "name": "densenet0_stage2_relu1_fwd", 
+      "attrs": {"act_type": "relu"}, 
+      "inputs": [[76, 0, 0]]
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage2_conv1_weight", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(64, 0, 3, 3)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "Convolution", 
+      "name": "densenet0_stage2_conv1_fwd", 
+      "attrs": {
+        "dilate": "(1, 1)", 
+        "kernel": "(3, 3)", 
+        "layout": "NCHW", 
+        "no_bias": "True", 
+        "num_filter": "64", 
+        "num_group": "1", 
+        "pad": "(1, 1)", 
+        "stride": "(1, 1)"
+      }, 
+      "inputs": [[77, 0, 0], [78, 0, 0]]
+    }, 
+    {
+      "op": "Concat", 
+      "name": "densenet0_stage2_concat0", 
+      "attrs": {
+        "dim": "1", 
+        "num_args": "2"
+      }, 
+      "inputs": [[63, 0, 0], [79, 0, 0]]
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage2_batchnorm2_gamma", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "ones", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage2_batchnorm2_beta", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "zeros", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage2_batchnorm2_running_mean", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "zeros", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage2_batchnorm2_running_var", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "ones", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "BatchNorm", 
+      "name": "densenet0_stage2_batchnorm2_fwd", 
+      "attrs": {
+        "axis": "1", 
+        "eps": "1e-05", 
+        "fix_gamma": "False", 
+        "momentum": "0.9", 
+        "use_global_stats": "False"
+      }, 
+      "inputs": [[80, 0, 0], [81, 0, 0], [82, 0, 0], [83, 0, 1], [84, 0, 1]]
+    }, 
+    {
+      "op": "Activation", 
+      "name": "densenet0_stage2_relu2_fwd", 
+      "attrs": {"act_type": "relu"}, 
+      "inputs": [[85, 0, 0]]
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage2_conv2_weight", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(128, 0, 1, 1)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "Convolution", 
+      "name": "densenet0_stage2_conv2_fwd", 
+      "attrs": {
+        "dilate": "(1, 1)", 
+        "kernel": "(1, 1)", 
+        "layout": "NCHW", 
+        "no_bias": "True", 
+        "num_filter": "128", 
+        "num_group": "1", 
+        "pad": "(0, 0)", 
+        "stride": "(1, 1)"
+      }, 
+      "inputs": [[86, 0, 0], [87, 0, 0]]
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage2_batchnorm3_gamma", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "ones", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage2_batchnorm3_beta", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "zeros", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage2_batchnorm3_running_mean", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "zeros", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage2_batchnorm3_running_var", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "ones", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "BatchNorm", 
+      "name": "densenet0_stage2_batchnorm3_fwd", 
+      "attrs": {
+        "axis": "1", 
+        "eps": "1e-05", 
+        "fix_gamma": "False", 
+        "momentum": "0.9", 
+        "use_global_stats": "False"
+      }, 
+      "inputs": [[88, 0, 0], [89, 0, 0], [90, 0, 0], [91, 0, 1], [92, 0, 1]]
+    }, 
+    {
+      "op": "Activation", 
+      "name": "densenet0_stage2_relu3_fwd", 
+      "attrs": {"act_type": "relu"}, 
+      "inputs": [[93, 0, 0]]
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage2_conv3_weight", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(64, 0, 3, 3)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "Convolution", 
+      "name": "densenet0_stage2_conv3_fwd", 
+      "attrs": {
+        "dilate": "(1, 1)", 
+        "kernel": "(3, 3)", 
+        "layout": "NCHW", 
+        "no_bias": "True", 
+        "num_filter": "64", 
+        "num_group": "1", 
+        "pad": "(1, 1)", 
+        "stride": "(1, 1)"
+      }, 
+      "inputs": [[94, 0, 0], [95, 0, 0]]
+    }, 
+    {
+      "op": "Concat", 
+      "name": "densenet0_stage2_concat1", 
+      "attrs": {
+        "dim": "1", 
+        "num_args": "2"
+      }, 
+      "inputs": [[80, 0, 0], [96, 0, 0]]
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_last_trans_batchnorm0_gamma", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "ones", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_last_trans_batchnorm0_beta", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "zeros", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_last_trans_batchnorm0_running_mean", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "zeros", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_last_trans_batchnorm0_running_var", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "ones", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "BatchNorm", 
+      "name": "densenet0_last_trans_batchnorm0_fwd", 
+      "attrs": {
+        "axis": "1", 
+        "eps": "1e-05", 
+        "fix_gamma": "False", 
+        "momentum": "0.9", 
+        "use_global_stats": "False"
+      }, 
+      "inputs": [[97, 0, 0], [98, 0, 0], [99, 0, 0], [100, 0, 1], [101, 0, 1]]
+    }, 
+    {
+      "op": "Activation", 
+      "name": "densenet0_last_trans_relu0_fwd", 
+      "attrs": {"act_type": "relu"}, 
+      "inputs": [[102, 0, 0]]
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_last_trans_conv0_weight", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(256, 0, 1, 1)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "Convolution", 
+      "name": "densenet0_last_trans_conv0_fwd", 
+      "attrs": {
+        "dilate": "(1, 1)", 
+        "kernel": "(1, 1)", 
+        "layout": "NCHW", 
+        "no_bias": "True", 
+        "num_filter": "256", 
+        "num_group": "1", 
+        "pad": "(0, 0)", 
+        "stride": "(1, 1)"
+      }, 
+      "inputs": [[103, 0, 0], [104, 0, 0]]
+    }, 
+    {
+      "op": "Activation", 
+      "name": "densenet0_last_trans_relu1_fwd", 
+      "attrs": {"act_type": "relu"}, 
+      "inputs": [[105, 0, 0]]
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_last_trans_conv1_weight", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(256, 0, 2, 3)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "Convolution", 
+      "name": "densenet0_last_trans_conv1_fwd", 
+      "attrs": {
+        "dilate": "(1, 1)", 
+        "kernel": "(2, 3)", 
+        "layout": "NCHW", 
+        "no_bias": "True", 
+        "num_filter": "256", 
+        "num_group": "256", 
+        "pad": "(0, 1)", 
+        "stride": "(2, 1)"
+      }, 
+      "inputs": [[106, 0, 0], [107, 0, 0]]
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage3_batchnorm0_gamma", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "ones", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage3_batchnorm0_beta", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "zeros", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage3_batchnorm0_running_mean", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "zeros", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "densenet0_stage3_batchnorm0_running_var", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "ones", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(0,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "BatchNorm", 
+      "name": "densenet0_stage3_batchnorm0_fwd", 
+      "attrs": {
+        "axis": "1", 
+        "eps": "1e-05", 
+        "fix_gamma": "False", 
+        "momentum": "0.9", 
+        "use_global_stats": "False"
+      }, 
+      "inputs": [[108, 0, 0], [109, 0, 0], [110, 0, 0], [111, 0, 1], [112, 0, 1]]
+    }, 
+    {
+      "op": "Activation", 
+      "name": "densenet0_stage3_relu0_fwd", 
+      "attrs": {"act_type": "relu"}, 
+      "inputs": [[113, 0, 0]]
+    }, 
+    {
+      "op": "Pooling", 
+      "name": "densenet0_stage3_pool0_fwd", 
+      "attrs": {
+        "global_pool": "False", 
+        "kernel": "(2, 1)", 
+        "layout": "NCHW", 
+        "pad": "(0, 0)", 
+        "pool_type": "max", 
+        "pooling_convention": "valid", 
+        "stride": "(2, 1)"
+      }, 
+      "inputs": [[114, 0, 0]]
+    }, 
+    {
+      "op": "Reshape", 
+      "name": "densenet0_reshape0", 
+      "attrs": {"shape": "(0, -3, 0)"}, 
+      "inputs": [[115, 0, 0]]
+    }, 
+    {
+      "op": "expand_dims", 
+      "name": "densenet0_expand_dims0", 
+      "attrs": {"axis": "2"}, 
+      "inputs": [[116, 0, 0]]
+    }, 
+    {
+      "op": "Dropout", 
+      "name": "dropout0_fwd", 
+      "attrs": {
+        "axes": "()", 
+        "cudnn_off": "False", 
+        "p": "0.5"
+      }, 
+      "inputs": [[117, 0, 0]]
+    }, 
+    {
+      "op": "squeeze", 
+      "name": "crnn0_squeeze0", 
+      "attrs": {"axis": "2"}, 
+      "inputs": [[118, 0, 0]]
+    }, 
+    {
+      "op": "transpose", 
+      "name": "crnn0_transpose0", 
+      "attrs": {"axes": "(2, 0, 1)"}, 
+      "inputs": [[119, 0, 0]]
+    }, 
+    {
+      "op": "null", 
+      "name": "gru0_l0_i2h_weight", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(384, 0)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "Reshape", 
+      "name": "gru0_reshape0", 
+      "attrs": {"shape": "-1"}, 
+      "inputs": [[121, 0, 0]]
+    }, 
+    {
+      "op": "null", 
+      "name": "gru0_l0_h2h_weight", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(384, 128)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "Reshape", 
+      "name": "gru0_reshape1", 
+      "attrs": {"shape": "-1"}, 
+      "inputs": [[123, 0, 0]]
+    }, 
+    {
+      "op": "null", 
+      "name": "gru0_r0_i2h_weight", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(384, 0)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "Reshape", 
+      "name": "gru0_reshape2", 
+      "attrs": {"shape": "-1"}, 
+      "inputs": [[125, 0, 0]]
+    }, 
+    {
+      "op": "null", 
+      "name": "gru0_r0_h2h_weight", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(384, 128)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "Reshape", 
+      "name": "gru0_reshape3", 
+      "attrs": {"shape": "-1"}, 
+      "inputs": [[127, 0, 0]]
+    }, 
+    {
+      "op": "null", 
+      "name": "gru0_l0_i2h_bias", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "zeros", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(384,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "Reshape", 
+      "name": "gru0_reshape4", 
+      "attrs": {"shape": "-1"}, 
+      "inputs": [[129, 0, 0]]
+    }, 
+    {
+      "op": "null", 
+      "name": "gru0_l0_h2h_bias", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "zeros", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(384,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "Reshape", 
+      "name": "gru0_reshape5", 
+      "attrs": {"shape": "-1"}, 
+      "inputs": [[131, 0, 0]]
+    }, 
+    {
+      "op": "null", 
+      "name": "gru0_r0_i2h_bias", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "zeros", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(384,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "Reshape", 
+      "name": "gru0_reshape6", 
+      "attrs": {"shape": "-1"}, 
+      "inputs": [[133, 0, 0]]
+    }, 
+    {
+      "op": "null", 
+      "name": "gru0_r0_h2h_bias", 
+      "attrs": {
+        "__dtype__": "0", 
+        "__init__": "zeros", 
+        "__lr_mult__": "1.0", 
+        "__shape__": "(384,)", 
+        "__storage_type__": "0", 
+        "__wd_mult__": "1.0"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "Reshape", 
+      "name": "gru0_reshape7", 
+      "attrs": {"shape": "-1"}, 
+      "inputs": [[135, 0, 0]]
+    }, 
+    {
+      "op": "_rnn_param_concat", 
+      "name": "gru0__rnn_param_concat0", 
+      "attrs": {
+        "dim": "0", 
+        "num_args": "8"
+      }, 
+      "inputs": [[122, 0, 0], [124, 0, 0], [126, 0, 0], [128, 0, 0], [130, 0, 0], [132, 0, 0], [134, 0, 0], [136, 0, 0]]
+    }, 
+    {
+      "op": "_zeros", 
+      "name": "crnn0_gru0_h0_0", 
+      "attrs": {
+        "__layout__": "LNC", 
+        "dtype": "float32", 
+        "shape": "(2, 0, 128)"
+      }, 
+      "inputs": []
+    }, 
+    {
+      "op": "RNN", 
+      "name": "gru0_rnn0", 
+      "attrs": {
+        "bidirectional": "True", 
+        "lstm_state_clip_max": "None", 
+        "lstm_state_clip_min": "None", 
+        "lstm_state_clip_nan": "False", 
+        "mode": "gru", 
+        "num_layers": "1", 
+        "p": "0", 
+        "projection_size": "None", 
+        "state_outputs": "True", 
+        "state_size": "128", 
+        "use_sequence_length": "False"
+      }, 
+      "inputs": [[120, 0, 0], [137, 0, 0], [138, 0, 0]]
+    }, 
+    {
+      "op": "Reshape", 
+      "name": "reshape0", 
+      "attrs": {"shape": "(-3, -2)"}, 
+      "inputs": [[139, 0, 0]]
+    }, 
+    {
+      "op": "null", 
+      "name": "pred_fc_weight", 
+      "attrs": {"num_hidden": "39"}, 
+      "inputs": []
+    }, 
+    {
+      "op": "null", 
+      "name": "pred_fc_bias", 
+      "attrs": {"num_hidden": "39"}, 
+      "inputs": []
+    }, 
+    {
+      "op": "FullyConnected", 
+      "name": "pred_fc", 
+      "attrs": {"num_hidden": "39"}, 
+      "inputs": [[140, 0, 0], [141, 0, 0], [142, 0, 0]]
+    }, 
+    {
+      "op": "SoftmaxActivation", 
+      "name": "softmaxactivation0", 
+      "inputs": [[143, 0, 0]]
+    }, 
+    {
+      "op": "MakeLoss", 
+      "name": "makeloss1", 
+      "inputs": [[144, 0, 0]]
+    }, 
+    {
+      "op": "BlockGrad", 
+      "name": "blockgrad0", 
+      "inputs": [[145, 0, 0]]
+    }, 
+    {
+      "op": "Reshape", 
+      "name": "reshape1", 
+      "attrs": {"shape": "(-4, 70, -1, 0)"}, 
+      "inputs": [[143, 0, 0]]
+    }, 
+    {
+      "op": "null", 
+      "name": "label", 
+      "inputs": []
+    }, 
+    {
+      "op": "CTCLoss", 
+      "name": "ctc_loss0", 
+      "inputs": [[147, 0, 0], [148, 0, 0]]
+    }, 
+    {
+      "op": "MakeLoss", 
+      "name": "makeloss0", 
+      "inputs": [[149, 0, 0]]
+    }
+  ], 
+  "arg_nodes": [
+    0, 
+    1, 
+    3, 
+    4, 
+    5, 
+    6, 
+    9, 
+    12, 
+    13, 
+    14, 
+    15, 
+    18, 
+    21, 
+    22, 
+    23, 
+    24, 
+    27, 
+    29, 
+    30, 
+    31, 
+    32, 
+    35, 
+    38, 
+    39, 
+    40, 
+    41, 
+    44, 
+    46, 
+    47, 
+    48, 
+    49, 
+    52, 
+    55, 
+    56, 
+    57, 
+    58, 
+    61, 
+    64, 
+    65, 
+    66, 
+    67, 
+    70, 
+    72, 
+    73, 
+    74, 
+    75, 
+    78, 
+    81, 
+    82, 
+    83, 
+    84, 
+    87, 
+    89, 
+    90, 
+    91, 
+    92, 
+    95, 
+    98, 
+    99, 
+    100, 
+    101, 
+    104, 
+    107, 
+    109, 
+    110, 
+    111, 
+    112, 
+    121, 
+    123, 
+    125, 
+    127, 
+    129, 
+    131, 
+    133, 
+    135, 
+    141, 
+    142, 
+    148
+  ], 
+  "node_row_ptr": [
+    0, 
+    1, 
+    2, 
+    3, 
+    4, 
+    5, 
+    6, 
+    7, 
+    10, 
+    11, 
+    12, 
+    13, 
+    14, 
+    15, 
+    16, 
+    17, 
+    18, 
+    21, 
+    22, 
+    23, 
+    24, 
+    26, 
+    27, 
+    28, 
+    29, 
+    30, 
+    33, 
+    34, 
+    35, 
+    36, 
+    37, 
+    38, 
+    39, 
+    40, 
+    43, 
+    44, 
+    45, 
+    46, 
+    47, 
+    48, 
+    49, 
+    50, 
+    51, 
+    54, 
+    55, 
+    56, 
+    57, 
+    58, 
+    59, 
+    60, 
+    61, 
+    64, 
+    65, 
+    66, 
+    67, 
+    68, 
+    69, 
+    70, 
+    71, 
+    72, 
+    75, 
+    76, 
+    77, 
+    78, 
+    80, 
+    81, 
+    82, 
+    83, 
+    84, 
+    87, 
+    88, 
+    89, 
+    90, 
+    91, 
+    92, 
+    93, 
+    94, 
+    97, 
+    98, 
+    99, 
+    100, 
+    101, 
+    102, 
+    103, 
+    104, 
+    105, 
+    108, 
+    109, 
+    110, 
+    111, 
+    112, 
+    113, 
+    114, 
+    115, 
+    118, 
+    119, 
+    120, 
+    121, 
+    122, 
+    123, 
+    124, 
+    125, 
+    126, 
+    129, 
+    130, 
+    131, 
+    132, 
+    133, 
+    134, 
+    135, 
+    136, 
+    137, 
+    138, 
+    139, 
+    142, 
+    143, 
+    145, 
+    146, 
+    147, 
+    149, 
+    150, 
+    151, 
+    152, 
+    153, 
+    154, 
+    155, 
+    156, 
+    157, 
+    158, 
+    159, 
+    160, 
+    161, 
+    162, 
+    163, 
+    164, 
+    165, 
+    166, 
+    167, 
+    168, 
+    169, 
+    171, 
+    172, 
+    173, 
+    174, 
+    175, 
+    176, 
+    177, 
+    178, 
+    179, 
+    180, 
+    182, 
+    183
+  ], 
+  "heads": [[146, 0, 0], [150, 0, 0]], 
+  "attrs": {"mxnet_version": ["int", 10600]}
+}

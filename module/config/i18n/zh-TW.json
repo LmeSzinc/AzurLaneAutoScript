@@ -737,7 +737,7 @@
       "event_20240425_cn": "共鳴的PASSION",
       "event_20240521_cn": "Light of the Martyrium",
       "event_20240725_cn": "Interlude of Illusions",
-      "event_20240815_cn": "Windborne Steel Wings",
+      "event_20240815_cn": "鐵翼擎風",
       "event_20240829_cn": "埋葬於彼岸之花",
       "event_20240912_cn": "Ode of Everblooming Crimson",
       "event_20241024_cn": "Tempesta and the Sleeping Sea",
@@ -752,6 +752,7 @@
       "raid_20230629": "綠洲往事",
       "raid_20240130": "寰昌宇定家事忙",
       "raid_20240328": "從零開始的魔王討伐之旅",
+      "raid_20250116": "華裳巧展喜事長",
       "war_archives_20180607_cn": "檔案 墨染的鋼鐵之花",
       "war_archives_20180726_cn": "檔案 光與影的鳶尾之華",
       "war_archives_20181020_en": "檔案 努力希望和計劃",
@@ -786,6 +787,7 @@
       "war_archives_20211111_cn": "檔案 杰諾瓦的焰火",
       "war_archives_20211229_cn": "檔案 逆轉彩虹之塔",
       "war_archives_20220210_cn": "檔案 北境序曲",
+      "war_archives_20220224_cn": "檔案 深度回音",
       "war_archives_20220414_cn": "檔案 永夜幻光"
     },
     "Mode": {
@@ -1853,7 +1855,8 @@
       "name": "科研期數",
       "help": "",
       "2": "二期科研",
-      "3": "三期科研"
+      "3": "三期科研",
+      "4": "四期科研"
     },
     "ShipIndex": {
       "name": "艦船序號",
@@ -1886,7 +1889,8 @@
       "1": "一期科研",
       "2": "二期科研",
       "3": "三期科研",
-      "4": "四期科研"
+      "4": "四期科研",
+      "5": "五期科研"
     },
     "ShipIndex": {
       "name": "艦船序號",

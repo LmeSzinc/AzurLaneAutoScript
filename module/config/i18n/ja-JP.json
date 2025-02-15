@@ -721,7 +721,7 @@
       "event_20220428_cn": "吟ずる瑠璃の楽章（復刻）",
       "event_20220526_cn": "復刻诚閃の剣 搖光の城",
       "event_20220728_cn": "鋼鷲の冒険譚（復刻）",
-      "event_20220818_cn": "結像点作戦",
+      "event_20220818_cn": "結像点作戦（復刻）",
       "event_20220915_cn": "赫の涙月 菫の暁風（復刻）",
       "event_20221124_cn": "錬金術士と謎の遺跡群島",
       "event_20221222_cn": "積重なる事象の幻界（復刻）",
@@ -752,6 +752,7 @@
       "raid_20230629": "緑地伽話",
       "raid_20240130": "新春宴会狂騒曲",
       "raid_20240328": "ゼロから頑張る魔王討伐",
+      "raid_20250116": "新春華裳協奏曲",
       "war_archives_20180607_cn": "檔案 墨染まりし鋼の桜",
       "war_archives_20180726_cn": "檔案 光と影のアイリス",
       "war_archives_20181020_en": "檔案 努力希望と計画",
@@ -786,6 +787,7 @@
       "war_archives_20211111_cn": "檔案 燈火のシニエ",
       "war_archives_20211229_cn": "檔案 遡望せし虹彩の塔",
       "war_archives_20220210_cn": "檔案 凍絶の北海",
+      "war_archives_20220224_cn": "檔案 鳴動せし星霜の淵",
       "war_archives_20220414_cn": "檔案 極夜照らす幻光"
     },
     "Mode": {
@@ -1853,7 +1855,8 @@
       "name": "ShipyardDr.ResearchSeries.name",
       "help": "ShipyardDr.ResearchSeries.help",
       "2": "2",
-      "3": "3"
+      "3": "3",
+      "4": "4"
     },
     "ShipIndex": {
       "name": "ShipyardDr.ShipIndex.name",
@@ -1886,7 +1889,8 @@
       "1": "1",
       "2": "2",
       "3": "3",
-      "4": "4"
+      "4": "4",
+      "5": "5"
     },
     "ShipIndex": {
       "name": "Shipyard.ShipIndex.name",

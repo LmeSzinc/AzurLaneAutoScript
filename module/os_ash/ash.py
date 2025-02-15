@@ -1,7 +1,5 @@
 from datetime import datetime, timedelta
 
-import module.config.server as server
-
 from module.base.utils import image_left_strip
 from module.combat.combat import BATTLE_PREPARATION, Combat
 from module.config.utils import DEFAULT_TIME
@@ -78,7 +76,6 @@ class AshCombat(Combat):
 
 
 class OSAsh(UI, MapEventHandler):
-
     _ash_fully_collected = False
 
     def ash_collect_status(self):
@@ -90,16 +87,10 @@ class OSAsh(UI, MapEventHandler):
             return 0
         if self.image_color_count(ASH_COLLECT_STATUS, color=(235, 235, 235), threshold=221, count=20):
             logger.info('Ash beacon status: light')
-            if server.server != 'jp':
-                ocr_collect = DigitCounter(
-                    ASH_COLLECT_STATUS, letter=(235, 235, 235), threshold=160, name='OCR_ASH_COLLECT_STATUS')
-                ocr_daily = DailyDigitCounter(
-                    ASH_DAILY_STATUS, letter=(235, 235, 235), threshold=160, name='OCR_ASH_DAILY_STATUS')
-            else:
-                ocr_collect = DigitCounter(
-                    ASH_COLLECT_STATUS, letter=(201, 201, 201), threshold=128, name='OCR_ASH_COLLECT_STATUS')
-                ocr_daily = DailyDigitCounter(
-                    ASH_DAILY_STATUS, letter=(193, 193, 193), threshold=160, name='OCR_ASH_DAILY_STATUS')
+            ocr_collect = DigitCounter(
+                ASH_COLLECT_STATUS, letter=(235, 235, 235), threshold=160, name='OCR_ASH_COLLECT_STATUS')
+            ocr_daily = DailyDigitCounter(
+                ASH_DAILY_STATUS, letter=(235, 235, 235), threshold=160, name='OCR_ASH_DAILY_STATUS')
         elif self.image_color_count(ASH_COLLECT_STATUS, color=(140, 142, 140), threshold=221, count=20):
             logger.info('Ash beacon status: gray')
             ocr_collect = DigitCounter(
