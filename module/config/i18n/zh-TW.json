@@ -150,6 +150,10 @@
       "name": "認知覺醒",
       "help": ""
     },
+    "Augment": {
+      "name": "Task.Augment.name",
+      "help": "Task.Augment.help"
+    },
     "Daily": {
       "name": "每日任務",
       "help": ""
@@ -1604,6 +1608,16 @@
       "help": "",
       "level120": "120級",
       "level125": "125級"
+    }
+  },
+  "Augment": {
+    "_info": {
+      "name": "Augment._info.name",
+      "help": "Augment._info.help"
+    },
+    "ConversionUnique": {
+      "name": "Augment.ConversionUnique.name",
+      "help": "Augment.ConversionUnique.help"
     }
   },
   "GeneralShop": {

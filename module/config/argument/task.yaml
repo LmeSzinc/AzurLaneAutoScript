@@ -218,6 +218,9 @@ Reward:
     Awaken:
       - Scheduler
       - Awaken
+    Augment:
+      - Scheduler
+      - Unique Conversion      
 
 # ==================== DailyMission ====================
 

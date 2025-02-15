@@ -150,6 +150,10 @@
       "name": "Awaken",
       "help": ""
     },
+    "Augment": {
+      "name": "Task.Augment.name",
+      "help": "Task.Augment.help"
+    },
     "Daily": {
       "name": "Daily",
       "help": ""
@@ -1604,6 +1608,16 @@
       "help": "",
       "level120": "Lv.120",
       "level125": "Lv.125"
+    }
+  },
+  "Augment": {
+    "_info": {
+      "name": "Augment._info.name",
+      "help": "Augment._info.help"
+    },
+    "ConversionUnique": {
+      "name": "Augment.ConversionUnique.name",
+      "help": "Augment.ConversionUnique.help"
     }
   },
   "GeneralShop": {

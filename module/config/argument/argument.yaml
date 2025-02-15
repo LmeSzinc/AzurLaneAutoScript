@@ -452,6 +452,8 @@ Awaken:
   LevelCap:
     value: level120
     option: [ level120, level125 ]
+Augment:
+  ConversionUnique: true
 GeneralShop:
   UseGems: false
   Refresh: false
