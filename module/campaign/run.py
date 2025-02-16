@@ -379,6 +379,7 @@ class CampaignRun(CampaignEvent, ShopStatus):
                     self.campaign.ensure_campaign_ui(name=self.stage, mode=mode)
             else:
                 self.campaign.ensure_campaign_ui(name=self.stage, mode=mode)
+            self.disable_raid_on_event()
             self.handle_commission_notice()
 
             # if in hard mode, check remain times
