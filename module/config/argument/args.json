@@ -259,6 +259,14 @@
           "save"
         ]
       },
+      "NewShipRecord": {
+        "type": "select",
+        "value": "do_not",
+        "option": [
+          "do_not",
+          "save"
+        ]
+      },
       "OpsiRecord": {
         "type": "select",
         "value": "do_not",
