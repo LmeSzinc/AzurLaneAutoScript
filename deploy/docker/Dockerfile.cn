@@ -19,7 +19,7 @@ deb https://mirrors.aliyun.com/debian/ bullseye-backports main non-free contrib\
 deb-src https://mirrors.aliyun.com/debian/ bullseye-backports main non-free contrib" \
 > /etc/apt/sources.list \
  && apt update \
- && apt install -y git adb libgomp1 \
+ && apt install -y git adb libgomp1 openssh-client \
  && git config --global --add safe.directory '*' \
  && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
  && echo 'Asia/Shanghai' > /etc/timezone \
