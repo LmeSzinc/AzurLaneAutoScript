@@ -4,7 +4,6 @@ from sys import maxsize
 import inflection
 
 from module.base.timer import Timer
-from module.combat_ui.assets import PAUSE
 from module.config.utils import get_os_reset_remain
 from module.exception import CampaignEnd, GameTooManyClickError, MapWalkError, RequestHumanTakeover, ScriptError
 from module.exercise.assets import QUIT_RECONFIRM
@@ -540,6 +539,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         logger.info('Interrupting auto search')
         is_loading = False
         pause_interval = Timer(0.5, count=1)
+        in_main_timer = Timer(3, count=6)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -552,24 +552,31 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
                 self.config.task_stop()
 
             if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50), interval=3):
+                self.interval_clear(GOTO_MAIN)
+                in_main_timer.reset()
                 continue
             if pause_interval.reached():
                 pause = self.is_combat_executing()
                 if pause:
                     self.device.click(pause)
                     self.interval_reset(MAINTENANCE_ANNOUNCE)
+                    is_loading = False
                     pause_interval.reset()
+                    in_main_timer.reset()
                     continue
             if self.handle_combat_quit():
                 self.interval_reset(MAINTENANCE_ANNOUNCE)
                 pause_interval.reset()
+                in_main_timer.reset()
                 continue
             if self.appear_then_click(QUIT_RECONFIRM, offset=True, interval=5):
                 self.interval_reset(MAINTENANCE_ANNOUNCE)
                 pause_interval.reset()
+                in_main_timer.reset()
                 continue
 
             if self.appear_then_click(GOTO_MAIN, offset=(20, 20), interval=3):
+                in_main_timer.reset()
                 continue
             if self.ui_additional():
                 continue
@@ -579,13 +586,18 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
             if not is_loading:
                 if self.is_combat_loading():
                     is_loading = True
+                    in_main_timer.clear()
                     continue
-                if self.handle_battle_status():
-                    continue
-                if self.handle_exp_info():
-                    continue
+                # Random background from page_main may trigger EXP_INFO_*, don't check them
+                if in_main_timer.reached():
+                    logger.info('handle_exp_info')
+                    if self.handle_battle_status():
+                        continue
+                    if self.handle_exp_info():
+                        continue
             elif self.is_combat_executing():
                 is_loading = False
+                in_main_timer.clear()
                 continue
 
     def os_auto_search_run(self, drop=None, strategic=False):
