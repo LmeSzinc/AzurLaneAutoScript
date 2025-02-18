@@ -4,7 +4,6 @@ from sys import maxsize
 import inflection
 
 from module.base.timer import Timer
-from module.combat_ui.assets import PAUSE
 from module.config.utils import get_os_reset_remain
 from module.exception import CampaignEnd, GameTooManyClickError, MapWalkError, RequestHumanTakeover, ScriptError
 from module.exercise.assets import QUIT_RECONFIRM
@@ -552,6 +551,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
                 self.config.task_stop()
 
             if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50), interval=3):
+                self.interval_clear(GOTO_MAIN)
                 continue
             if pause_interval.reached():
                 pause = self.is_combat_executing()
