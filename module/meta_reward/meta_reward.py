@@ -92,6 +92,71 @@ class BeaconReward(Combat, UI):
         logger.info(f'Meta reward receive finished, received={received}')
         return received
 
+    def meta_sync_notice_appear(self):
+        """
+        "sync" is the period that you gather meta points to 100% and get a meta ship
+
+        Returns:
+            bool: If appear.
+
+        Page:
+            in: page_meta
+        """
+        if self.appear(SYNC_REWARD_NOTICE, threshold=30):
+            logger.info('Found meta sync red dot')
+            return True
+        else:
+            logger.info('No meta sync red dot')
+            return False
+
+    def meta_sync_receive(self, skip_first_screenshot=True):
+        """
+        Args:
+            skip_first_screenshot:
+
+        Returns:
+            bool: If received.
+
+        Pages:
+            in: SYNC_ENTER
+            out: SYNC_ENTER if meta ship synced < 100%
+                REWARD_ENTER if meta ship synced >= 100%
+        """
+        logger.hr('Meta sync receive', level=1)
+        received = False
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            # Sync progress >= 100%
+            if self.appear(REWARD_ENTER, offset=(20, 20)):
+                logger.info('meta_sync_receive ends at REWARD_ENTER')
+                break
+            if self.appear(SYNC_ENTER, offset=(20, 20)):
+                if not self.meta_sync_notice_appear():
+                    logger.info('meta_sync_receive ends at SYNC_ENTER')
+                    break
+
+            # Click
+            if self.handle_popup_confirm('META_REWARD'):
+                # Lock new META ships
+                continue
+            if self.handle_get_items():
+                received = True
+                continue
+            if self.handle_get_ship():
+                received = True
+                continue
+            if self.appear_then_click(SYNC_TAP, offset=(20, 20), interval=3):
+                received = True
+                continue
+
+        logger.info(f'Meta sync receive finished, received={received}')
+        return received
+
     def run(self):
         if self.config.SERVER in ['cn', 'en', 'jp']:
             pass
@@ -100,6 +165,10 @@ class BeaconReward(Combat, UI):
             return
 
         self.ui_ensure(page_meta)
+
+        if self.config.SERVER in ['cn']:
+            if self.meta_sync_notice_appear():
+                self.meta_sync_receive()
 
         if self.meta_reward_notice_appear():
             self.meta_reward_enter()
