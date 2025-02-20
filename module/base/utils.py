@@ -714,7 +714,7 @@ def get_bbox(image, threshold=0):
     return x[0], y[0], x[-1] + 1, y[-1] + 1
 
 
-def get_bbox_reversed(image, threshold=0):
+def get_bbox_reversed(image, threshold=255):
     """
     Similar to `get_bbox` but for black contents on white background.
 
