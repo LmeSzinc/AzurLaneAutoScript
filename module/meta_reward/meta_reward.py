@@ -146,7 +146,7 @@ class BeaconReward(Combat, UI):
 
         self.ui_ensure(page_meta)
 
-        if self.config.SERVER in ['cn']:
+        if self.config.SERVER in ['cn', 'en']:
             if self.meta_sync_notice_appear():
                 self.meta_sync_receive()
 
