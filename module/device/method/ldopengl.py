@@ -1,6 +1,7 @@
 import ctypes
 import os
 import subprocess
+import time
 import typing as t
 from dataclasses import dataclass
 from functools import wraps
@@ -333,13 +334,3 @@ class LDOpenGL(Platform):
         image = cv2.flip(image, 0)
         cv2.cvtColor(image, cv2.COLOR_BGR2RGB, dst=image)
         return image
-
-
-if __name__ == '__main__':
-    ld = LDOpenGLImpl('E:/ProgramFiles/LDPlayer9', instance_id=1)
-    for _ in range(5):
-        import time
-
-        start = time.time()
-        ld.screenshot()
-        print(time.time() - start)
