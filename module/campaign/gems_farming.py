@@ -1,6 +1,4 @@
-import re
 from module.base.decorator import cached_property
-from module.base.filter import Filter
 from module.campaign.campaign_base import CampaignBase
 from module.campaign.run import CampaignRun
 from module.combat.assets import BATTLE_PREPARATION
@@ -18,25 +16,12 @@ from module.retire.assets import (
     TEMPLATE_CASSIN_1, TEMPLATE_CASSIN_2, TEMPLATE_DOWNES_1, TEMPLATE_DOWNES_2,
     TEMPLATE_AULICK, TEMPLATE_FOOTE
 )
-from module.retire.retirement import Retirement
+from module.retire.retirement import Retirement, TEMPLATE_COMMON_CV
 from module.retire.scanner import ShipScanner
 from module.ui.assets import BACK_ARROW, FLEET_CHECK
 from module.ui.page import page_fleet
 
 SIM_VALUE = 0.92
-
-FILTER_REGEX = re.compile(
-    '(bogue|hermes|langley|ranger)+?',
-    flags=re.IGNORECASE)
-FILTER_ATTR = ('ship',)
-SHIP_FILTER = Filter(FILTER_REGEX, FILTER_ATTR)
-
-TEMPLATE_COMMON_CV = {
-    'BOGUE': TEMPLATE_BOGUE,
-    'HERMES': TEMPLATE_HERMES,
-    'LANGLEY': TEMPLATE_LANGLEY,
-    'RANGER': TEMPLATE_RANGER
-}
 
 
 class GemsEmotion(Emotion):
@@ -422,29 +407,6 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
                           if template.match(self.image_crop(ship.button, copy=False), similarity=SIM_VALUE)]
 
             return candidates
-
-    def get_common_cv_filter(self, string):
-        """
-        Get the filter of common rarity cv,
-        If the filter is invalid, export default value to config and use it
-
-        Args:
-            string (str): filter string
-        Returns:
-            List[str]:
-        """
-        while 1:
-            SHIP_FILTER.load(string)
-            common_cv = [str(name[0]) for name in SHIP_FILTER.filter if name[0].upper() in TEMPLATE_COMMON_CV.keys()]
-            if not common_cv:
-                logger.warning(f'Invalid filter set: "{string}". Set to default filter.')
-                string = self.config.COMMON_CV_FILTER
-                self.config.cross_set(keys='GemsFarming.GemsFarming.CommonCVFilter', value=self.config.COMMON_CV_FILTER)
-                continue
-
-            # End
-            logger.attr('Filter sort', ' > '.join(common_cv))
-            return common_cv
 
     def get_common_rarity_dd(self, emotion=16):
         """

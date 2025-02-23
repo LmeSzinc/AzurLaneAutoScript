@@ -1,4 +1,7 @@
+import re
+
 from module.base.button import ButtonGrid
+from module.base.filter import Filter
 from module.base.timer import Timer
 from module.base.utils import color_similar, get_color, resize
 from module.combat.assets import GET_ITEMS_1
@@ -27,6 +30,18 @@ CARD_RARITY_COLORS = {
 RETIRE_CONFIRM_SCROLL = Scroll(RETIRE_CONFIRM_SCROLL_AREA, color=(74, 77, 110), name='STRATEGIC_SEARCH_SCROLL')
 RETIRE_CONFIRM_SCROLL.color_threshold = 240  # Background color is (66, 72, 77), so default (256-221)=35 is not enough to dintinguish.
 
+FILTER_REGEX = re.compile(
+    '(bogue|hermes|langley|ranger)+?',
+    flags=re.IGNORECASE)
+FILTER_ATTR = ('ship',)
+SHIP_FILTER = Filter(FILTER_REGEX, FILTER_ATTR)
+
+TEMPLATE_COMMON_CV = {
+    'BOGUE': TEMPLATE_BOGUE,
+    'HERMES': TEMPLATE_HERMES,
+    'LANGLEY': TEMPLATE_LANGLEY,
+    'RANGER': TEMPLATE_RANGER
+}
 
 class Retirement(Enhancement, QuickRetireSettingHandler):
     _unable_to_enhance = False
@@ -492,24 +507,49 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                 count += 1
                 continue
 
+    def get_common_cv_filter(self, string, output=True):
+        """
+        Get the filter of common rarity cv,
+        If the filter is invalid, export default value to config and use it
+
+        Args:
+            string (str): filter string
+        Returns:
+            List[str]:
+        """
+        while 1:
+            SHIP_FILTER.load(string)
+            common_cv = [str(name[0]) for name in SHIP_FILTER.filter if name[0].upper() in TEMPLATE_COMMON_CV.keys()]
+            if not common_cv:
+                logger.warning(f'Invalid filter set: "{string}". Set to default filter.')
+                string = self.config.COMMON_CV_FILTER
+                self.config.cross_set(keys='GemsFarming.GemsFarming.CommonCVFilter', value=self.config.COMMON_CV_FILTER)
+                continue
+
+            # End
+            if output:
+                logger.attr('Filter sort', ' > '.join(common_cv))
+            return common_cv
+
     def retirement_get_common_rarity_cv_in_page(self):
         """
         Returns:
             Button:
         """
         if self.config.GemsFarming_CommonCV in ['any', 'eagle']:
-            common_cv = ['BOGUE', 'RANGER', 'LANGLEY']
-            if self.config.GemsFarming_CommonCV == 'any':
-                common_cv.append('HERMES')
-            for common_cv_name in common_cv:
-                template = globals()[f'TEMPLATE_{common_cv_name}']
+            common_cv = self.get_common_cv_filter(self.config.GemsFarming_CommonCVFilter, output=False)
+            if self.config.GemsFarming_CommonCV == 'any' and 'hermes' in common_cv:
+                common_cv.remove('hermes')
+            logger.attr('Filter sort', ' > '.join(common_cv))
+            for name in common_cv:
+                template = globals()[f'TEMPLATE_{name.upper()}']
                 sim, button = template.match_result(
                     resize(self.device.image, size=(1189, 669)))
 
                 if sim > self.config.COMMON_CV_THRESHOLD:
                     return Button(button=tuple(_ * 155 // 144 for _ in button.button), area=button.area,
                                   color=button.color,
-                                  name=f'TEMPLATE_{common_cv_name}_RETIRE')
+                                  name=f'TEMPLATE_{name}_RETIRE')
 
             return None
         else:
