@@ -1,3 +1,4 @@
+from module.combat.assets import EXP_INFO_C, EXP_INFO_D
 from module.combat.combat import Combat
 from module.guild.assets import BATTLE_STATUS_CF, EXP_INFO_CF
 
@@ -47,6 +48,12 @@ class RaidCombat(Combat):
         if self.is_combat_executing():
             return False
         if super().handle_exp_info():
+            return True
+        if self.appear_then_click(EXP_INFO_C):
+            self.device.sleep((0.25, 0.5))
+            return True
+        if self.appear_then_click(EXP_INFO_D):
+            self.device.sleep((0.25, 0.5))
             return True
         if self.appear_then_click(EXP_INFO_CF):
             self.device.sleep((0.25, 0.5))
