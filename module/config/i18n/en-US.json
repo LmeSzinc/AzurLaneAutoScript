@@ -1210,7 +1210,7 @@
     },
     "EquipmentCode": {
       "name": "Gear Code",
-      "help": "Only works when 'Change Ship + Gears' is chosen.\nWhen changing to corresponding CV/CVL/DD, if gear code is provided, alas will apply it, else alas will use exported gear code from previous ship and modify the config."
+      "help": "Only works when 'Change Ship + Gears' is chosen.\nWhen substituting down CV/CVL/DD, if corresponding gear code is not provided, alas will export it\nWhen substituting up corresponding CV/CVL/DD, if corresponding gear code is not provided, alas will use exported gear code from previous ship; otherwise alas will use gear code in the config"
     },
     "CommissionLimit": {
       "name": "Prevent Too Many Urgent Commissions",
