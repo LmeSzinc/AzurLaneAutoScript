@@ -104,6 +104,13 @@ class EventShopUI(UI):
         """
         digits = OCR_EVENT_SHOP_PT_UR_ENSURE.ocr(self.device.image)
         return digits != ""
+    
+    @cached_property
+    def event_shop_is_commission(self):
+        """
+        Check if the event shop is commission shop.
+        """
+        return self.appear(EVENT_SHOP_COMMISSION)
 
     def event_shop_get_pt(self):
         """

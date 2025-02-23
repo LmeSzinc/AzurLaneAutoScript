@@ -548,9 +548,10 @@ EventShop:
   CustomFilter: |-
     EquipUR > EquipSSR > GachaTicket
     > DR > PR > Array > Chip > CatT3
-    > Meta > Skinbox
+    > Meta > SkinBox
     > Oil > Coin > FoodT1
     > AugmentCore > AugmentEnhanceT2 > AugmentChangeT2 > AugmentChangeT1
+    > Cube > Medal > ExpBookT1
     > CatT2 > CatT1 > PlateGeneralT3 > PlateT3 > BoxT4
     > ShipSSR
 ShipyardDr:

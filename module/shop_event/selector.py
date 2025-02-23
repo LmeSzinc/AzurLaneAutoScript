@@ -8,6 +8,7 @@ FILTER_REGEX = re.compile(
     '|meta|skinbox'
     '|array|chip|cat|pr|dr'
     '|augment'
+    '|cube|medal|expbook'
     '|box|plate|coin|oil|food'
     ')'
 
@@ -28,6 +29,7 @@ EVENT_SHOP = {
         > Meta > SkinBox
         > Oil > Coin > FoodT1
         > AugmentCore > AugmentEnhanceT2 > AugmentChangeT2 > AugmentChangeT1
+        > Cube > Medal > ExpBookT1
         > CatT2 > CatT1 > PlateGeneralT3 > PlateT3 > BoxT4
         > ShipSSR
     """,

@@ -4,7 +4,7 @@ import os
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.base.template import Template
-from module.base.utils import save_image
+from module.base.utils import save_image, load_image
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_3, GET_SHIP
 from module.shop_event.item import EventShopItemGrid
 from module.shop_event.ui import EventShopUI, EVENT_SHOP_SCROLL, OCR_EVENT_SHOP_ITEM_REMAIN
@@ -26,6 +26,9 @@ class EventShopClerk(EventShopUI):
         Uses pt icon on the upper-right part for templates.
         """
         logger.hr('Record Event Pt Icon', level=2)
+        if self.event_shop_is_commission:
+            save_image(load_image('./assets/shop/event_cost/CommissionPt.png'), './assets/shop/event_cost/Pt.png')
+            return
 
         os.makedirs(os.path.dirname('./assets/shop/event_cost/'), exist_ok=True)
         scaling = 5/6

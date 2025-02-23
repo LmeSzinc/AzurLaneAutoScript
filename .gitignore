@@ -19,7 +19,9 @@ config/reloadflag
 config/reloadalas
 test.py
 test/
-assets/shop/event_cost
+assets/shop/event_cost/Pt.png
+assets/shop/event_cost/URPt.png
+
 
 # Created by .ignore support plugin (hsz.mobi)
 
