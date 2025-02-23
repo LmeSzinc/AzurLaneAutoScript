@@ -35,6 +35,14 @@
     grid-template-columns: 1fr auto;
     grid-template-rows: 1fr auto;
 }
+#pywebio-scope-dashboard {
+    font-weight: 400;
+    width: 100%;
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-columns: repeat(auto-fit,minmax(6rem,1fr));
+    overflow: hidden;
+}
 
 #pywebio-scope-_groups {
     grid-template-columns: 0fr 1fr;
@@ -59,4 +67,26 @@
 #pywebio-scope-waiting,
 #pywebio-scope-log {
     overflow-y: auto;
+}
+
+#output-container .status-point {
+    margin: 45% 50% 55% 50%;
+    width: .4rem;
+    height: .4rem;
+    border-radius: 50%;
+}
+
+*[style*="--dashboard-limit--"] {
+    font-size: .8rem;
+    padding: 0.2rem 0 0 0;
+}
+*[style*="--dashboard-value--"] {
+    font-size: 1rem;
+    margin: 0 0 0 0.4rem !important;
+}
+*[style*="--dashboard-total--"] {
+    font-size: 1rem;
+}
+*[style*="--dashboard-help--"] {
+    font-size: .6rem;
 }
