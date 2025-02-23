@@ -126,6 +126,10 @@ class DeployConfig(ConfigModel):
             super().__setattr__('Repository', 'https://github.com/LmeSzinc/AzurLaneAutoScript')
         if self.Repository in ['cn']:
             super().__setattr__('Repository', 'git://git.lyoko.io/AzurLaneAutoScript')
+        if self.PypiMirror in [
+            'https://pypi.tuna.tsinghua.edu.cn/simple'
+        ]:
+            super().__setattr__('PypiMirror', 'https://mirrors.aliyun.com/pypi/simple')
 
     def filepath(self, key):
         """
