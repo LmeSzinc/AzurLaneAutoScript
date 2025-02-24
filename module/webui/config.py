@@ -1,4 +1,5 @@
-from typing import Optional, Union
+import copy
+
 from filelock import FileLock
 
 from deploy.config import DeployConfig as _DeployConfig
@@ -32,13 +33,18 @@ class DeployConfig(_DeployConfig):
         Read and update deploy config, copy `self.configs` to properties.
         """
         self.config = poor_yaml_read_with_lock(DEPLOY_TEMPLATE)
-        self.config.update(poor_yaml_read_with_lock(self.file))
+        self.config_template = copy.deepcopy(self.config)
+        origin = poor_yaml_read_with_lock(self.file)
+        self.config.update(origin)
 
         for key, value in self.config.items():
             if hasattr(self, key):
                 super().__setattr__(key, value)
 
         self.config_redirect()
+
+        if self.config != origin:
+            self.write()
 
     def write(self):
         """
@@ -52,5 +58,11 @@ class DeployConfig(_DeployConfig):
         """
         super().__setattr__(key, value)
         if key[0].isupper() and key in self.config:
-            self.config[key] = value
-            self.write()
+            if key in self.config:
+                before = self.config[key]
+                if before != value:
+                    self.config[key] = value
+                    self.write()
+            else:
+                self.config[key] = value
+                self.write()
