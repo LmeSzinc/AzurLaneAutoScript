@@ -1181,6 +1181,10 @@
       "cassin_or_downes": "卡辛或唐斯",
       "z20_or_z21": "Z20或Z21"
     },
+    "EquipmentCode": {
+      "name": "装备码",
+      "help": "仅当选择“更换舰船 + 装备”时生效。\n在换下舰船时，若设置里当前舰船装备码为null则会导出；在换上舰船时，若设置里当前舰船装备码为null则会使用上一艘舰船导出的装备码，否则使用设置里的装备码\n蓝叠模拟器用户需要先开启虚拟键盘，详见https://support.bluestacks.com/hc/zh-tw/articles/360061968892-%E5%A6%82%E4%BD%95%E5%9C%A8-BlueStacks-5-%E4%B8%8A%E4%BD%BF%E7%94%A8%E5%B0%8F%E9%8D%B5%E7%9B%A4-%E8%99%9B%E6%93%AC%E9%8D%B5%E7%9B%A4"
+    },
     "CommissionLimit": {
       "name": "防止紧急委托数量过多",
       "help": "在7x24运行时防止紧急委托数量过多做不完每日委托，建议在委托过滤器仅选择短时长高收益委托"
@@ -1830,6 +1834,37 @@
     "Filter": {
       "name": "商店过滤器",
       "help": ""
+    }
+  },
+  "EventShop": {
+    "_info": {
+      "name": "活动商店",
+      "help": "活动船只将会在活动结束后购买"
+    },
+    "Enable": {
+      "name": "启用活动商店",
+      "help": ""
+    },
+    "UnlockShipSSR": {
+      "name": "解锁活动金船",
+      "help": "如果不启用，将会抛掉过滤器中的ShipSSR和Meta"
+    },
+    "BuyShipUR": {
+      "name": "购买X只活动彩船",
+      "help": "",
+      "0": "0",
+      "1": "1",
+      "2": "2"
+    },
+    "PresetFilter": {
+      "name": "活动商店过滤器",
+      "help": "",
+      "all": "全部",
+      "custom": "自定义"
+    },
+    "CustomFilter": {
+      "name": "自定义过滤器",
+      "help": "使用自定义过滤器需将 \"活动商店过滤器\" 设置为 \"自定义\"，并阅读 https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string"
     }
   },
   "ShipyardDr": {
@@ -2555,6 +2590,8 @@
       "Stop": "停止",
       "ScrollON": "自动滚动 开",
       "ScrollOFF": "自动滚动 关",
+      "DashboardON": "折叠",
+      "DashboardOFF": "展开",
       "ClearLog": "清空日志",
       "Setting": "设置",
       "CheckUpdate": "检查更新",
@@ -2587,11 +2624,34 @@
     },
     "Overview": {
       "Scheduler": "调度器",
+      "Dashboard": "仪表盘",
       "Log": "日志",
       "Running": "运行中",
       "Pending": "队列中",
       "Waiting": "等待中",
       "NoTask": "无任务"
+    },
+    "Dashboard": {
+      "TimeError": "时间错误",
+      "JustNow": "刚刚",
+      "MinutesAgo": "分钟前",
+      "HoursAgo": "小时前",
+      "DaysAgo": "天前",
+      "MonthsAgo": "月前",
+      "LongTimeAgo": "很久之前",
+      "NoData": "无数据",
+      "Oil": "石油",
+      "Coin": "物资",
+      "Gem": "钻石",
+      "Cube": "魔方",
+      "Pt": "活动PT",
+      "YellowCoin": "大世界黄币",
+      "PurpleCoin": "大世界紫币",
+      "ActionPoint": "行动力",
+      "Merit": "功勋",
+      "Medal": "勋章",
+      "Core": "核心数据",
+      "GuildCoin": "舰队币"
     },
     "AddAlas": {
       "PopupTitle": "添加新配置",

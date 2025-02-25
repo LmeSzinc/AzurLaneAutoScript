@@ -61,6 +61,7 @@ Farm:
       - Campaign
       - StopCondition
       - Fleet
+      - Emotion
 
 # ==================== Event ====================
 
@@ -243,6 +244,7 @@ DailyMission:
       - MedalShop2
       - MeritShop
       - CoreShop
+      - EventShop
     Shipyard:
       - Scheduler
       - ShipyardDr
@@ -333,3 +335,22 @@ Tool:
       - AzurLaneUncensored
     GameManager:
       - GameManager
+
+# ==================== Dashboard ====================
+
+Dashboard:
+  page: 'dashboard'
+  tasks:
+    Resource:
+      - Oil
+      - Coin
+      - Gem
+      - Pt
+      - Cube
+      - ActionPoint
+      - YellowCoin
+      - PurpleCoin
+      - Core
+      - Medal
+      - Merit
+      - GuildCoin

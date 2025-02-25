@@ -1181,6 +1181,10 @@
       "cassin_or_downes": "Cassin or Downes",
       "z20_or_z21": "Z20 or Z21"
     },
+    "EquipmentCode": {
+      "name": "Gear Code",
+      "help": "Only works when 'Change Ship + Gears' is chosen.\nWhen substituting down CV/CVL/DD, if corresponding gear code is not provided, alas will export it\nWhen substituting up corresponding CV/CVL/DD, if corresponding gear code is not provided, alas will use exported gear code from previous ship; otherwise alas will use gear code in the config\nBluestacks users need to enable virtual keyboard first.\nSee https://support.bluestacks.com/hc/en-us/articles/360061968892-How-to-use-a-virtual-on-screen-keyboard-on-BlueStacks-5"
+    },
     "CommissionLimit": {
       "name": "Prevent Too Many Urgent Commissions",
       "help": "When running 7x24, prevent having a lot of urgent commissions and not being able to complete daily commissions. It is recommended to select only short-terms and high-yields in the commission filter"
@@ -1830,6 +1834,37 @@
     "Filter": {
       "name": "Item Filter",
       "help": "All options have been defined at <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string>\nHowever unlike other shops, only Chip and Array are supported\nALAS does not browse, scroll, or recognize any other items displayed besides those two"
+    }
+  },
+  "EventShop": {
+    "_info": {
+      "name": "Event Shop",
+      "help": "Ships will be bought after event ends, and corresponding pts will be preserved."
+    },
+    "Enable": {
+      "name": "Enable Event Shop",
+      "help": ""
+    },
+    "UnlockShipSSR": {
+      "name": "Unlock event SSR ship",
+      "help": "If not enabled, will discard `ShipSSR` and `Meta` in filter string."
+    },
+    "BuyShipUR": {
+      "name": "Buy X event UR ship",
+      "help": "",
+      "0": "0",
+      "1": "1",
+      "2": "2"
+    },
+    "PresetFilter": {
+      "name": "Preset Filter Select",
+      "help": "",
+      "all": "all",
+      "custom": "custom"
+    },
+    "CustomFilter": {
+      "name": "Custom Filter",
+      "help": "To use your own filter, set \"Preset Filter Select\" to \"custom\". All options have been defined at  <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string>"
     }
   },
   "ShipyardDr": {
@@ -2555,6 +2590,8 @@
       "Stop": "Stop",
       "ScrollON": "Auto Scroll ON",
       "ScrollOFF": "Auto Scroll OFF",
+      "DashboardON": "Dashboard ON",
+      "DashboardOFF": "Dashboard OFF",
       "ClearLog": "Clear Log",
       "Setting": "Setting",
       "CheckUpdate": "Check update",
@@ -2587,11 +2624,34 @@
     },
     "Overview": {
       "Scheduler": "Scheduler",
+      "Dashboard": "Dashboard",
       "Log": "Log",
       "Running": "Running",
       "Pending": "Pending",
       "Waiting": "Waiting",
       "NoTask": "No Task"
+    },
+    "Dashboard": {
+      "TimeError": "Time error",
+      "JustNow": "Just now",
+      "MinutesAgo": "Minutes ago",
+      "HoursAgo": "Hours ago",
+      "DaysAgo": "Days ago",
+      "MonthsAgo": "Months ago",
+      "LongTimeAgo": "Long time ago",
+      "NoData": "No data",
+      "Oil": "Oil",
+      "Coin": "Coin",
+      "Gem": "Gem",
+      "Cube": "Cube",
+      "Pt": "Event Pt",
+      "YellowCoin": "Operation Supply Coin",
+      "PurpleCoin": "Special Item Token",
+      "ActionPoint": "Action Point",
+      "Merit": "Merit",
+      "Medal": "Medal",
+      "Core": "Core Data",
+      "GuildCoin": "Guild Coin"
     },
     "AddAlas": {
       "PopupTitle": "Add new config",
