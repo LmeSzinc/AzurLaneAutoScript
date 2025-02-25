@@ -158,7 +158,7 @@ class MissionHandler(GlobeOperation, ZoneManager):
                 logger.info('Already at mission zone')
                 return 'already_at_mission_zone'
 
-    def os_mission_overview_accept(self):
+    def os_mission_overview_accept(self, skip_first_screenshot=True):
         """
         Accept all missions in mission overview.
 
@@ -178,8 +178,6 @@ class MissionHandler(GlobeOperation, ZoneManager):
                       offset=(200, 20), retry_wait=3, skip_first_screenshot=True)
 
         # MISSION_OVERVIEW_CHECK
-        confirm_timer = Timer(1, count=3).start()
-        skip_first_screenshot = True
         success = True
         while 1:
             if skip_first_screenshot:
@@ -187,20 +185,21 @@ class MissionHandler(GlobeOperation, ZoneManager):
             else:
                 self.device.screenshot()
 
+            # End
             if self.info_bar_count():
                 logger.info('Unable to accept missions, because reached the maximum number of missions')
                 success = False
                 break
-            if self.appear_then_click(MISSION_OVERVIEW_ACCEPT, offset=(20, 20), interval=0.2):
-                confirm_timer.reset()
+            if self.appear(MISSION_OVERVIEW_EMPTY, offset=(20, 20)):
+                logger.info('No more missions to accept')
+                success = True
+                break
+
+            if self.appear_then_click(MISSION_OVERVIEW_ACCEPT, offset=(20, 20), interval=2):
+                self.interval_reset(MISSION_OVERVIEW_ACCEPT_SINGLE)
                 continue
-            else:
-                # End
-                if confirm_timer.reached():
-                    success = True
-                    break
-            if self.appear_then_click(MISSION_OVERVIEW_ACCEPT_SINGLE, offset=(20, 20), interval=0.2):
-                confirm_timer.reset()
+            if self.appear_then_click(MISSION_OVERVIEW_ACCEPT_SINGLE, offset=(20, 20), interval=2):
+                self.interval_reset(MISSION_OVERVIEW_ACCEPT)
                 continue
 
         # is_in_globe
