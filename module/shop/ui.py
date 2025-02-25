@@ -4,9 +4,9 @@ from module.base.timer import Timer
 from module.handler.assets import POPUP_CONFIRM
 from module.logger import logger
 from module.shop.assets import *
-from module.ui.assets import ACADEMY_GOTO_MUNITIONS, BACK_ARROW
+from module.ui.assets import ACADEMY_GOTO_MUNITIONS, BACK_ARROW, SHOP_GOTO_MUNITIONS
 from module.ui.navbar import Navbar
-from module.ui.page import page_academy, page_munitions
+from module.ui.page import page_academy, page_main, page_shop, page_munitions
 from module.ui.ui import UI
 
 
@@ -57,10 +57,11 @@ class ShopUI(UI):
         - index
             1: Monthly shops
             2: General supply shops
+            3: Event shops
         """
         grids = ButtonGrid(
             origin=(340, 93), delta=(189, 0),
-            button_shape=(188, 54), grid_shape=(2, 1),
+            button_shape=(188, 54), grid_shape=(3, 1),
             name='SHOP_TAB')
         return Navbar(
             grids=grids,
@@ -85,6 +86,9 @@ class ShopUI(UI):
             3: Guild shop
             4: Meta shop
             5: Gift shop
+        - index when `shop_tab` is at 3
+            1: Current event shop
+            2: Previous event shop (if exists)
         """
         grids = ButtonGrid(
             origin=(339, 217), delta=(0, 65),
@@ -236,4 +240,34 @@ class ShopUI(UI):
 
             # Large offset cause it camera in academy can be move around
             if self.appear_then_click(ACADEMY_GOTO_MUNITIONS, offset=(200, 200), interval=5):
+                continue
+    
+    def ui_goto_event_shop(self):
+        """
+        Goes to page_munitions
+        This route guarantees start
+        in event shop if exists
+
+        Pages:
+            in: Any
+            out: page_munitions
+        """
+        if self.ui_get_current_page() == page_munitions\
+                and self.shop_tab.get_active(main=self) == 2:
+            logger.info(f'Already at {page_munitions}')
+            return
+
+        self.ui_ensure(page_shop)
+
+        skip_first_screenshot = True
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+            
+            if self.appear(page_munitions.check_button, offset=(20, 20)):
+                break
+            
+            if self.appear_then_click(SHOP_GOTO_MUNITIONS, offset=(20, 20), interval=5):
                 continue
