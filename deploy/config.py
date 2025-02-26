@@ -124,7 +124,7 @@ class DeployConfig(ConfigModel):
             'https://pypi.tuna.tsinghua.edu.cn/simple'
         ]:
             self.PypiMirror = 'https://mirrors.aliyun.com/pypi/simple'
-            self.config['Repository'] = 'https://mirrors.aliyun.com/pypi/simple'
+            self.config['PypiMirror'] = 'https://mirrors.aliyun.com/pypi/simple'
 
         # Bypass webui.config.DeployConfig.__setattr__()
         # Don't write these into deploy.yaml
