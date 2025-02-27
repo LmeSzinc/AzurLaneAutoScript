@@ -50,6 +50,10 @@
       "name": "Task.MaaRoguelike.name",
       "help": "Task.MaaRoguelike.help"
     },
+    "MaaAftercareOperation": {
+      "name": "Task.MaaAftercareOperation.name",
+      "help": "Task.MaaAftercareOperation.help"
+    },
     "MaaReclamationAlgorithm": {
       "name": "Task.MaaReclamationAlgorithm.name",
       "help": "Task.MaaReclamationAlgorithm.help"
@@ -611,6 +615,19 @@
     "Specialaccess": {
       "name": "MaaAward.Specialaccess.name",
       "help": "MaaAward.Specialaccess.help"
+    }
+  },
+  "MaaAftercareOperation": {
+    "_info": {
+      "name": "MaaAftercareOperation._info.name",
+      "help": "MaaAftercareOperation._info.help"
+    },
+    "WhenTaskQueueEmpty": {
+      "name": "MaaAftercareOperation.WhenTaskQueueEmpty.name",
+      "help": "MaaAftercareOperation.WhenTaskQueueEmpty.help",
+      "stay_there": "Stay There",
+      "goto_main": "Goto Main Page",
+      "close_game": "Close Game"
     }
   },
   "MaaCopilot": {
