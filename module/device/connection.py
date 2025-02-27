@@ -1025,10 +1025,7 @@ class Connection(ConnectionAttr):
                     self.serial = emu_serial
 
         # Redirect MuMu12 from 127.0.0.1:7555 to 127.0.0.1:16xxx
-        if (
-                (IS_WINDOWS and self.serial == '127.0.0.1:7555')
-                or (IS_MACINTOSH and self.serial == '127.0.0.1:5555')
-        ):
+        if self.serial == '127.0.0.1:7555':
             for _ in range(2):
                 mumu12 = available.select(may_mumu12_family=True)
                 if mumu12.count == 1:
