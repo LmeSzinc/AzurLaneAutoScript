@@ -232,3 +232,5 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20250123   | raid 20250116            | Spring Fashion Festa                         | -                      | -                                            | -                                    | 華裳巧展喜事長           |
 | 20250206   | event 20220818 cn        | Operation Convergence Rerun                  | 复刻远汇点作战         | Operation Convergence Return                 | 結像点作戦（復刻）                   | -                        |
 | 20250213   | event 20240815 cn        | Windborne Steel Wings                        | -                      | -                                            | -                                    | 鐵翼擎風                 |
+| 20250227   | event 20250227 cn        | Paradiso of Shackled Light                   | 樊笼内的神光           | Paradiso of Shackled Light                   | 籠檻に囚われし神光                   | -                        |
+| 20250227   | event 20240725 cn        | Interlude of Illusions                       | -                      | -                                            | -                                    | 幻夢間奏曲               |

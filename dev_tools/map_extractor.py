@@ -287,6 +287,13 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     'tolove_renxing03': 'ToLoveNana03',
     'tolove_renxing04': 'ToLoveHaruna04',
     'tolove_renxing05': 'ToLoveGoldenDarkness05',
+
+    # Paradiso of Shackled Light
+    'boerzhanuo_alter': 'BolzanoAlter',
+    'kaisa_alter': 'CesareAlter',
+    'teluntuo_alter': 'TrentoAlter',
+    'sairenboss26': 'SirenBoss26',
+    'sairenboss25': 'SirenBoss25',
 }
 
 

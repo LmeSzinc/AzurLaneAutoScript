@@ -332,8 +332,12 @@ class FastForwardHandler(AutoSearchHandler):
             str: Name of next stage in upper case,
                 or origin name if unable to increase.
         """
+        # Copy STAGE_INCREASE to avoid potential duplicate inserting
+        stage_increase = [r for r in self.STAGE_INCREASE]
+        if self.config.STAGE_INCREASE_AB:
+            stage_increase.insert(0, 'A1 > A2 > A3 > B1 > B2 > B3')
         name = to_map_input_name(name)
-        for increase in self.STAGE_INCREASE:
+        for increase in stage_increase:
             increase = [i.strip(' \t\r\n') for i in increase.split('>')]
             if name in increase:
                 index = increase.index(name) + 1
