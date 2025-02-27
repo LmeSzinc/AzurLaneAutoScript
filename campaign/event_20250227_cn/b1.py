@@ -3,51 +3,52 @@ from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
 
-MAP = CampaignMap('A1')
-MAP.shape = 'I8'
-MAP.camera_data = ['D2', 'D6', 'F2', 'F6']
-MAP.camera_data_spawn_point = ['F2']
+MAP = CampaignMap('B1')
+MAP.shape = 'K8'
+MAP.camera_data = ['D2', 'D6', 'H2', 'H6']
+MAP.camera_data_spawn_point = ['D6']
 MAP.map_data = """
-    ++ -- ME -- -- SP SP ++ MB
-    -- ME -- ME -- -- -- -- --
-    ME -- ++ ++ Me -- -- __ Me
-    -- -- ++ ++ -- MS MS -- --
-    -- ME -- -- ME -- -- ++ --
-    -- -- ME -- -- -- Me ++ --
-    ME -- -- -- Me -- -- Me --
-    -- -- ME ++ ++ ++ -- -- --
+    ++ ME -- -- -- ME -- ++ -- ME --
+    ME -- ++ -- ++ -- ME ++ ME -- ME
+    -- -- -- MB -- -- -- -- -- -- --
+    -- Me ++ -- ++ Me -- ++ ++ ++ --
+    -- -- MS __ MS -- -- -- ME -- --
+    Me -- -- MS -- -- Me -- -- ME --
+    ++ ++ -- -- -- ++ ++ Me ME -- ++
+    ++ ++ SP -- SP ++ ++ -- -- -- ++
 """
 MAP.weight_data = """
-    50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 2, 'siren': 1},
     {'battle': 1, 'enemy': 1},
-    {'battle': 2, 'enemy': 1},
-    {'battle': 3, 'enemy': 1, 'boss': 1},
-    {'battle': 4, 'enemy': 1},
+    {'battle': 2, 'enemy': 2},
+    {'battle': 3, 'enemy': 1},
+    {'battle': 4, 'enemy': 2, 'boss': 1},
+    {'battle': 5, 'enemy': 1},
 ]
-A1, B1, C1, D1, E1, F1, G1, H1, I1, \
-A2, B2, C2, D2, E2, F2, G2, H2, I2, \
-A3, B3, C3, D3, E3, F3, G3, H3, I3, \
-A4, B4, C4, D4, E4, F4, G4, H4, I4, \
-A5, B5, C5, D5, E5, F5, G5, H5, I5, \
-A6, B6, C6, D6, E6, F6, G6, H6, I6, \
-A7, B7, C7, D7, E7, F7, G7, H7, I7, \
-A8, B8, C8, D8, E8, F8, G8, H8, I8, \
+A1, B1, C1, D1, E1, F1, G1, H1, I1, J1, K1, \
+A2, B2, C2, D2, E2, F2, G2, H2, I2, J2, K2, \
+A3, B3, C3, D3, E3, F3, G3, H3, I3, J3, K3, \
+A4, B4, C4, D4, E4, F4, G4, H4, I4, J4, K4, \
+A5, B5, C5, D5, E5, F5, G5, H5, I5, J5, K5, \
+A6, B6, C6, D6, E6, F6, G6, H6, I6, J6, K6, \
+A7, B7, C7, D7, E7, F7, G7, H7, I7, J7, K7, \
+A8, B8, C8, D8, E8, F8, G8, H8, I8, J8, K8, \
     = MAP.flatten()
 
 
 class Config:
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = []
+    MAP_SIREN_TEMPLATE = ['TrentoAlter', 'BolzanoAlter', 'CesareAlter']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
@@ -61,7 +62,6 @@ class Config:
     MAP_HAS_MODE_SWITCH = True
     STAGE_ENTRANCE = ['half', '20240725']
     STAGE_INCREASE_AB = True
-    MAP_SIREN_HAS_BOSS_ICON_SMALL = True
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (80, 255 - 33),
         'width': (0.9, 10),
@@ -75,9 +75,9 @@ class Config:
         # 'width': (0, 7),
         'wlen': 1000
     }
-    MAP_SWIPE_MULTIPLY = (1.227, 1.250)
-    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.187, 1.209)
-    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.152, 1.173)
+    MAP_SWIPE_MULTIPLY = (1.131, 1.152)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.094, 1.114)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.062, 1.081)
 
 
 class Campaign(CampaignBase):
@@ -92,5 +92,5 @@ class Campaign(CampaignBase):
 
         return self.battle_default()
 
-    def battle_3(self):
+    def battle_4(self):
         return self.clear_boss()
