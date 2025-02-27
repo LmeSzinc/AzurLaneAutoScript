@@ -81,7 +81,6 @@ class DeployConfig(ConfigModel):
         self.config_template = {}
         self.read()
 
-        self.write()
         self.show_config()
 
     def show_config(self):
@@ -89,7 +88,7 @@ class DeployConfig(ConfigModel):
         for k, v in self.config.items():
             if k in ("Password", "SSHUser"):
                 continue
-            if self.config_template[k] == v:
+            if self.config_template.get(k) == v:
                 continue
             logger.info(f"{k}: {v}")
 
@@ -98,13 +97,17 @@ class DeployConfig(ConfigModel):
     def read(self):
         self.config = poor_yaml_read(DEPLOY_TEMPLATE)
         self.config_template = copy.deepcopy(self.config)
-        self.config.update(poor_yaml_read(self.file))
+        origin = poor_yaml_read(self.file)
+        self.config.update(origin)
 
         for key, value in self.config.items():
             if hasattr(self, key):
                 super().__setattr__(key, value)
 
         self.config_redirect()
+
+        if self.config != origin:
+            self.write()
 
     def write(self):
         poor_yaml_write(self.config, self.file)

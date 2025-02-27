@@ -131,7 +131,8 @@ class Awaken(Dock):
             if LEVEL_UP.match_luma(self.device.image):
                 logger.info(f'awaken_once ended at {LEVEL_UP}')
                 return 'no_exp'
-            if interval.reached() and AWAKENING.match_luma(self.device.image):
+            # Lower similarity due to random background
+            if interval.reached() and AWAKENING.match_luma(self.device.image, similarity=0.7):
                 self.device.click(AWAKENING)
                 interval.reset()
                 continue
