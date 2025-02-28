@@ -115,6 +115,11 @@ class ManualConfig:
     MAP_HAS_MODE_SWITCH = False  # event_20240725_cn has mode switch in map preparation
     # Events from 20240725 to 20241219 introduced new chapter switches
     MAP_CHAPTER_SWITCH_20241219 = False
+    # Since event_20241219_cn chapter B unlocks event startup
+    # which means chapter AB are continuous
+    STAGE_INCREASE_AB = False
+    # Insert anything to STAGE_INCREASE
+    STAGE_INCREASE_CUSTOM = ''
     MAP_HAS_CLEAR_PERCENTAGE = True
     MAP_HAS_WALK_SPEEDUP = False
     MAP_HAS_AMBUSH = True
