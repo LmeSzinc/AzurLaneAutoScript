@@ -1,46 +1,36 @@
-from .campaign_base import CampaignBase
+from module.campaign.campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
 
 MAP = CampaignMap('SP')
 MAP.shape = 'I9'
-MAP.camera_data = ['D2', 'D5', 'D7', 'F2', 'F5', 'F7']
-MAP.camera_data_spawn_point = ['F6']
+MAP.camera_data = ['E3', 'E5', 'E7']
+MAP.camera_data_spawn_point = ['E7']
 MAP.map_data = """
-    ++ -- ME ++ ++ ++ ME -- ++
-    -- ME -- -- MB -- -- -- ME
-    -- -- -- -- -- -- ME -- ++
-    ++ ME ++ ++ ++ ++ ++ -- --
-    ++ -- ++ ++ ++ ++ ++ ME --
-    -- -- ++ ++ ++ SP SP -- --
-    ME -- -- -- -- __ __ -- MS
-    -- ME -- ++ ME -- ME MS --
-    ++ -- ME ++ -- MS ++ -- ++
+    -- ++ ++ -- -- -- ++ ++ --
+    -- ++ ++ -- MB -- ++ ++ --
+    -- ++ ++ ++ -- ++ ++ ++ --
+    -- -- ME -- -- -- ME -- --
+    ++ ME -- -- -- -- -- ME ++
+    ++ -- ME -- __ -- ME -- ++
+    -- ME -- -- -- -- -- ME --
+    -- ++ -- -- -- -- -- ++ --
+    -- -- ++ SP -- SP -- -- --
 """
 MAP.weight_data = """
-    50 50 50 50 10 10 10 10 10
-    50 50 50 50 10 10 10 10 10
-    50 50 50 50 10 10 10 10 10
-    50 50 50 50 50 50 50 10 10
-    50 50 50 50 50 50 50 10 10
-    50 50 50 50 50 10 10 10 10
-    50 50 50 50 10 10 10 10 10
-    50 50 50 50 10 10 10 10 10
-    50 50 50 50 10 10 10 10 10
+    50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 2, 'siren': 2},
-    {'battle': 1, 'enemy': 1},
-    {'battle': 2, 'enemy': 2, 'siren': 1},
-    {'battle': 3, 'enemy': 1},
-    {'battle': 4, 'enemy': 2},
-    {'battle': 5, 'enemy': 1},
-    {'battle': 6},
-    {'battle': 7, 'boss': 1},
-]
-MAP.spawn_data_loop = [
-    {'battle': 0, 'enemy': 12, 'siren': 3},
+    {'battle': 0, 'enemy': 8},
     {'battle': 1},
     {'battle': 2},
     {'battle': 3},
@@ -63,10 +53,6 @@ A9, B9, C9, D9, E9, F9, G9, H9, I9, \
 
 class Config:
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = []
-    MOVABLE_ENEMY_TURN = (2,)
-    MAP_HAS_SIREN = True
-    MAP_HAS_MOVABLE_ENEMY = True
     MAP_HAS_MAP_STORY = False
     MAP_HAS_FLEET_STEP = True
     MAP_HAS_AMBUSH = False
@@ -76,54 +62,77 @@ class Config:
     STAR_REQUIRE_3 = 0
     # ===== End of generated config =====
 
-    STAGE_ENTRANCE = ['half', '20240725']
     MAP_CHAPTER_SWITCH_20241219 = True
-    MAP_HAS_MODE_SWITCH = False
-    MAP_HAS_MOVABLE_NORMAL_ENEMY = True
-    MAP_SIREN_HAS_BOSS_ICON_SMALL = True
-
-    MOVABLE_NORMAL_ENEMY_TURN = (2,)
-    MAP_SIREN_MOVE_WAIT = 0.7
+    # MAP_HAS_MODE_SWITCH = True
+    STAGE_ENTRANCE = ['half', '20240725']
+    STAGE_INCREASE_AB = True
+    MAP_IS_ONE_TIME_STAGE = True
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (80, 255 - 17),
+        'height': (80, 255 - 33),
         'width': (0.9, 10),
         'prominence': 10,
         'distance': 35,
     }
     EDGE_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (255 - 17, 255),
+        'height': (255 - 33, 255),
         'prominence': 10,
         'distance': 50,
         # 'width': (0, 7),
         'wlen': 1000
     }
-    HOMO_EDGE_COLOR_RANGE = (0, 17)
-    HOMO_EDGE_HOUGHLINES_THRESHOLD = 210
-    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
-    MAP_SWIPE_MULTIPLY = (1.090, 1.110)
-    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.054, 1.073)
-    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.023, 1.042)
-
-    MAP_IS_ONE_TIME_STAGE = True
-    MAP_WALK_USE_CURRENT_FLEET = True
+    MAP_SWIPE_MULTIPLY = (1.153, 1.175)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.115, 1.136)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.082, 1.102)
 
 
 class Campaign(CampaignBase):
     MAP = MAP
     ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
+    _is_D9 = False
 
     def battle_0(self):
-        if self.clear_siren():
-            return True
-        if self.clear_enemy(sort=('weight', 'cost_2', 'cost_1')):
+        if self.fleet_at(D9):
+            self._is_D9 = True
+
+        if self._is_D9:
+            self.clear_chosen_enemy(D7)
+        else:
+            self.clear_chosen_enemy(F7)
+
+        return True
+
+    def battle_1(self):
+        if self._is_D9:
+            self.clear_chosen_enemy(F7)
+        else:
+            self.clear_chosen_enemy(D7)
+
+        return True
+
+    def battle_2(self):
+        if self._is_D9:
+            self.clear_chosen_enemy(D7)
+        else:
+            self.clear_chosen_enemy(F7)
+
+        return True
+
+    def battle_3(self):
+        if self._is_D9:
+            self.clear_chosen_enemy(F7)
+        else:
+            self.clear_chosen_enemy(D7)
+
+        return True
+
+    def battle_4(self):
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=2):
             return True
 
         return self.battle_default()
 
     def battle_5(self):
-        if self.clear_siren():
-            return True
-        if self.clear_enemy(sort=('weight', 'cost_1')):
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
             return True
 
         return self.battle_default()

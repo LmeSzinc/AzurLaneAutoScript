@@ -1,4 +1,4 @@
-from .campaign_base import CampaignBase
+from module.campaign.campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
@@ -6,16 +6,16 @@ from module.logger import logger
 MAP = CampaignMap('B1')
 MAP.shape = 'K8'
 MAP.camera_data = ['D2', 'D6', 'H2', 'H6']
-MAP.camera_data_spawn_point = ['D2']
+MAP.camera_data_spawn_point = ['D6']
 MAP.map_data = """
-    -- -- -- ++ SP -- SP ++ ++ ++ MB
-    -- ME ++ ++ -- __ -- -- Me -- --
-    ME -- Me -- -- MS -- -- -- -- ME
-    -- -- -- -- MS -- MS Me -- ++ --
-    -- ME ++ Me -- -- ++ ++ -- ME --
-    -- -- ++ -- Me ++ ++ ++ -- -- --
-    ++ -- ME -- -- ME -- ME -- -- ME
-    -- -- -- -- ++ -- ME -- -- ME ++
+    ++ ME -- -- -- ME -- ++ -- ME --
+    ME -- ++ -- ++ -- ME ++ ME -- ME
+    -- -- -- MB -- -- -- -- -- -- --
+    -- Me ++ -- ++ Me -- ++ ++ ++ --
+    -- -- MS __ MS -- -- -- ME -- --
+    Me -- -- MS -- -- Me -- -- ME --
+    ++ ++ -- -- -- ++ ++ Me ME -- ++
+    ++ ++ SP -- SP ++ ++ -- -- -- ++
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50 50 50
@@ -48,7 +48,7 @@ A8, B8, C8, D8, E8, F8, G8, H8, I8, J8, K8, \
 
 class Config:
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = []
+    MAP_SIREN_TEMPLATE = ['TrentoAlter', 'BolzanoAlter', 'CesareAlter']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
@@ -58,14 +58,10 @@ class Config:
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
-    STAGE_ENTRANCE = ['half', '20240725']
     MAP_CHAPTER_SWITCH_20241219 = True
     MAP_HAS_MODE_SWITCH = True
-    MAP_HAS_MOVABLE_NORMAL_ENEMY = True
-    MAP_SIREN_HAS_BOSS_ICON_SMALL = True
-
-    MOVABLE_NORMAL_ENEMY_TURN = (2,)
-    MAP_SIREN_MOVE_WAIT = 0.7
+    STAGE_ENTRANCE = ['half', '20240725']
+    STAGE_INCREASE_AB = True
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (80, 255 - 33),
         'width': (0.9, 10),
@@ -79,9 +75,9 @@ class Config:
         # 'width': (0, 7),
         'wlen': 1000
     }
-    MAP_SWIPE_MULTIPLY = (1.254, 1.278)
-    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.213, 1.235)
-    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.178, 1.199)
+    MAP_SWIPE_MULTIPLY = (1.131, 1.152)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.094, 1.114)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.062, 1.081)
 
 
 class Campaign(CampaignBase):

@@ -1,4 +1,4 @@
-from .campaign_base import CampaignBase
+from module.campaign.campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
@@ -6,16 +6,16 @@ from module.logger import logger
 MAP = CampaignMap('A1')
 MAP.shape = 'I8'
 MAP.camera_data = ['D2', 'D6', 'F2', 'F6']
-MAP.camera_data_spawn_point = ['D6']
+MAP.camera_data_spawn_point = ['F2']
 MAP.map_data = """
-    -- -- ME ++ ++ ++ -- ++ ++
-    ++ ME -- MS -- MS -- ++ ++
-    -- -- -- -- MB -- -- Me ++
-    -- ME -- -- __ -- -- Me --
-    ME -- ++ SP -- SP ++ ++ ++
-    -- ME ++ -- -- -- -- ME --
-    -- -- Me -- Me ++ -- -- ME
-    ++ -- -- -- -- ++ -- ME --
+    ++ -- ME -- -- SP SP ++ MB
+    -- ME -- ME -- -- -- -- --
+    ME -- ++ ++ Me -- -- __ Me
+    -- -- ++ ++ -- MS MS -- --
+    -- ME -- -- ME -- -- ++ --
+    -- -- ME -- -- -- Me ++ --
+    ME -- -- -- Me -- -- Me --
+    -- -- ME ++ ++ ++ -- -- --
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
@@ -57,14 +57,11 @@ class Config:
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
-    STAGE_ENTRANCE = ['half', '20240725']
     MAP_CHAPTER_SWITCH_20241219 = True
     MAP_HAS_MODE_SWITCH = True
-    MAP_HAS_MOVABLE_NORMAL_ENEMY = True
+    STAGE_ENTRANCE = ['half', '20240725']
+    STAGE_INCREASE_AB = True
     MAP_SIREN_HAS_BOSS_ICON_SMALL = True
-
-    MOVABLE_NORMAL_ENEMY_TURN = (2,)
-    MAP_SIREN_MOVE_WAIT = 0.7
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (80, 255 - 33),
         'width': (0.9, 10),
@@ -78,9 +75,9 @@ class Config:
         # 'width': (0, 7),
         'wlen': 1000
     }
-    MAP_SWIPE_MULTIPLY = (1.127, 1.148)
-    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.090, 1.110)
-    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.058, 1.077)
+    MAP_SWIPE_MULTIPLY = (1.227, 1.250)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.187, 1.209)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.152, 1.173)
 
 
 class Campaign(CampaignBase):

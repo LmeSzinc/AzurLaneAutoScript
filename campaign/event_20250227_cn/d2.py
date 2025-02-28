@@ -1,4 +1,4 @@
-from .campaign_base import CampaignBase
+from module.campaign.campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
@@ -6,17 +6,17 @@ from .d1 import Config as ConfigBase
 
 MAP = CampaignMap('D2')
 MAP.shape = 'K8'
-MAP.camera_data = ['D2', 'D5', 'H2', 'H5']
-MAP.camera_data_spawn_point = ['D5']
+MAP.camera_data = ['E2', 'E6', 'G2', 'G6']
+MAP.camera_data_spawn_point = ['G2', 'E2']
 MAP.map_data = """
-    -- -- ME ++ ++ MB ++ ++ -- -- --
-    -- ME -- ++ MS -- MS ++ Me ++ ++
-    ME -- -- Me -- MS -- Me -- ++ ++
-    ++ -- Me -- -- __ -- -- -- ME ME
-    ++ -- -- -- SP -- SP -- -- -- --
-    ME -- ME -- ++ ++ ++ Me -- ++ --
-    -- ++ ++ ME ++ -- ++ -- ME -- ME
-    -- -- ++ -- -- ++ -- -- ++ ++ ++
+    -- -- ++ ++ SP -- SP ++ ++ -- --
+    -- -- ++ ++ -- -- -- ++ ++ -- --
+    -- -- Me -- -- MS -- -- Me -- --
+    ++ ME -- -- MS -- MS -- -- ME ++
+    ++ -- -- ME -- MB -- ME -- -- ++
+    -- -- Me -- -- __ -- -- Me -- --
+    -- ++ -- ME -- Me -- ME -- ++ --
+    -- -- -- -- ME -- ME -- -- -- --
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50 50 50
@@ -50,7 +50,7 @@ A8, B8, C8, D8, E8, F8, G8, H8, I8, J8, K8, \
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = []
+    MAP_SIREN_TEMPLATE = ['SirenBoss26']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
@@ -60,9 +60,9 @@ class Config(ConfigBase):
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
-    MAP_SWIPE_MULTIPLY = (1.168, 1.190)
-    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.130, 1.151)
-    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.097, 1.117)
+    MAP_SWIPE_MULTIPLY = (1.258, 1.282)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.217, 1.239)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.182, 1.203)
 
 
 class Campaign(CampaignBase):

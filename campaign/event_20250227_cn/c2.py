@@ -1,4 +1,4 @@
-from .campaign_base import CampaignBase
+from module.campaign.campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
@@ -7,16 +7,16 @@ from .c1 import Config as ConfigBase
 MAP = CampaignMap('C2')
 MAP.shape = 'I8'
 MAP.camera_data = ['D2', 'D6', 'F2', 'F6']
-MAP.camera_data_spawn_point = ['D6']
+MAP.camera_data_spawn_point = ['F2', 'D2']
 MAP.map_data = """
-    ME -- -- ME -- -- ME -- --
-    -- -- ME -- ++ ME -- ME --
-    ME -- -- ME -- -- -- ++ ++
-    ++ -- Me ++ ++ ++ -- Me ++
-    ++ -- -- MS MB MS -- -- --
-    -- -- -- -- MS -- -- -- ME
-    -- ++ Me -- __ -- Me ++ --
-    ++ ME -- SP -- SP -- ME ++
+    -- -- ME -- -- ME -- ++ --
+    ME ++ -- ME -- -- -- -- ME
+    -- -- ME ++ ++ ++ -- Me --
+    -- ME -- SP -- SP -- -- --
+    -- -- -- -- -- -- -- -- ME
+    -- ME -- -- __ -- -- Me --
+    ME ++ -- MS -- MS -- ++ ++
+    -- ++ Me -- MB -- Me ++ ++
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
@@ -58,9 +58,9 @@ class Config(ConfigBase):
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
-    MAP_SWIPE_MULTIPLY = (1.108, 1.129)
-    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.072, 1.092)
-    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.041, 1.059)
+    MAP_SWIPE_MULTIPLY = (1.128, 1.149)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.091, 1.111)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.059, 1.078)
 
 
 class Campaign(CampaignBase):
