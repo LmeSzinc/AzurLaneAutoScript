@@ -16,7 +16,7 @@ deb-src https://mirrors.aliyun.com/debian-security/ bookworm-security main\n\
 deb https://mirrors.aliyun.com/debian/ bookworm-updates main non-free contrib\n\
 deb-src https://mirrors.aliyun.com/debian/ bookworm-updates main non-free contrib\n\
 deb https://mirrors.aliyun.com/debian/ bookworm-backports main non-free contrib\n\
-deb-src https://mirrors.aliyun.com/debian/ bookworm-backports main non-free contrib\
+deb-src https://mirrors.aliyun.com/debian/ bookworm-backports main non-free contrib" \
 > /etc/apt/sources.list \
  && apt update \
  && apt install -y git adb libgomp1 openssh-client \
