@@ -1,22 +1,22 @@
 # docker build -t hgjazhgj/alas:latest .
 # docker run -v ${PWD}:/app/AzurLaneAutoScript -p 22267:22267 --name alas -it --rm hgjazhgj/alas
 
-FROM python:3.7-slim-bullseye
+FROM python:3.7-slim-bookworm
 
 WORKDIR /app/AzurLaneAutoScript
 
 COPY requirements.txt /tmp/requirements.txt
 
-# python:3.7-slim is based on debian:11, apt source from https://developer.aliyun.com/mirror/debian
+# python:3.7-slim-bookworm is based on debian:12, apt source from https://developer.aliyun.com/mirror/debian
 RUN echo "\
-deb https://mirrors.aliyun.com/debian/ bullseye main non-free contrib\n\
-deb-src https://mirrors.aliyun.com/debian/ bullseye main non-free contrib\n\
-deb https://mirrors.aliyun.com/debian-security/ bullseye-security main\n\
-deb-src https://mirrors.aliyun.com/debian-security/ bullseye-security main\n\
-deb https://mirrors.aliyun.com/debian/ bullseye-updates main non-free contrib\n\
-deb-src https://mirrors.aliyun.com/debian/ bullseye-updates main non-free contrib\n\
-deb https://mirrors.aliyun.com/debian/ bullseye-backports main non-free contrib\n\
-deb-src https://mirrors.aliyun.com/debian/ bullseye-backports main non-free contrib" \
+deb https://mirrors.aliyun.com/debian/ bookworm main non-free contrib\n\
+deb-src https://mirrors.aliyun.com/debian/ bookworm main non-free contrib\n\
+deb https://mirrors.aliyun.com/debian-security/ bookworm-security main\n\
+deb-src https://mirrors.aliyun.com/debian-security/ bookworm-security main\n\
+deb https://mirrors.aliyun.com/debian/ bookworm-updates main non-free contrib\n\
+deb-src https://mirrors.aliyun.com/debian/ bookworm-updates main non-free contrib\n\
+deb https://mirrors.aliyun.com/debian/ bookworm-backports main non-free contrib\n\
+deb-src https://mirrors.aliyun.com/debian/ bookworm-backports main non-free contrib\
 > /etc/apt/sources.list \
  && apt update \
  && apt install -y git adb libgomp1 openssh-client \
