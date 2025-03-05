@@ -462,31 +462,26 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
                               fleet=self.fleet_to_attack, status='free')
         scanner.disable('rarity')
 
-        ships = scanner.scan(self.device.image)
-        if ships:
-            # Don't need to change current
-            if self.config.GemsFarming_CommonDD != 'z20_or_z21' or \
-                    ships[0].emotion not in [24, 44, 54, 64, 84]:
-                return ships
+        current_ship = scanner.scan(self.device.image)
 
         scanner.set_limitation(fleet=0)
 
         if self.config.GemsFarming_CommonDD in ['any', 'favourite', 'z20_or_z21', 'DDG']:
             # Change to any ship
-            return scanner.scan(self.device.image, output=False)
+            return current_ship + scanner.scan(self.device.image, output=False)
 
         candidates = self.find_candidates(self.get_templates(self.config.GemsFarming_CommonDD), scanner)
 
         if candidates:
             # Change to specific ship
-            return candidates
+            return current_ship + candidates
 
         logger.info('No specific DD was found, try reversed order.')
         self.dock_sort_method_dsc_set(False)
 
         # Change specific ship
         candidates = self.find_candidates(self.get_templates(self.config.GemsFarming_CommonDD), scanner)
-        return candidates
+        return current_ship + candidates
 
     def find_candidates(self, template, scanner):
         """
