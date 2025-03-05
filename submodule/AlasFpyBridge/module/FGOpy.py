@@ -63,9 +63,7 @@ class FGOpy(HeadlessCliApplication):
             return
         prompt, datetime, level, module, content = match.groups()
         getattr(logger, level.lower())(content)
-        item = self.counter.get(content)
-        if item:
-            setattr(self.config, item, getattr(self.config, item) - 1)
+        self.counter.get(content, lambda: None)()
 
         if self.first_log:
             self.first_log = False
