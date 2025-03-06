@@ -157,6 +157,17 @@ EventSp:
     ReachLevel: 0
   Submarine:
     AutoSearchMode: sub_standby
+EventStory:
+  Campaign:
+    Name: dynamic
+    Event:
+      type: state
+    Mode: normal
+    UseClearMode: true
+    UseFleetLock: true
+    UseAutoSearch: true
+    Use2xBook: false
+    AmbushEvade: true
 Raid:
   Campaign:
     Name: dynamic

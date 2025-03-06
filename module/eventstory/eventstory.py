@@ -1,4 +1,5 @@
-from module.campaign.campaign_event import CampaignEvent
+import re
+
 from module.campaign.campaign_ui import CampaignUI
 from module.combat.combat import Combat
 from module.eventstory.assets import *
@@ -6,7 +7,7 @@ from module.handler.login import LoginHandler
 from module.logger import logger
 
 
-class EventStory(CampaignEvent, CampaignUI, Combat, LoginHandler):
+class EventStory(CampaignUI, Combat, LoginHandler):
     def ui_goto_event_story(self):
         """
         Returns:
@@ -124,7 +125,11 @@ class EventStory(CampaignEvent, CampaignUI, Combat, LoginHandler):
         return 'unknown'
 
     def run(self):
-        self.run_event_story()
+        event = re.search(r'event_(\d{8})_cn', self.config.Campaign_Event)
+        if event and int(event.group(1)) >= 20241219:
+            self.run_event_story()
+        else:
+            logger.info(f'Campaign {self.config.Campaign_Event} has no story mode')
 
         # Scheduler
         self.config.task_delay(server_update=True)

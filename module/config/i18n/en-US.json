@@ -110,6 +110,10 @@
       "name": "Event Daily SP",
       "help": ""
     },
+    "EventStory": {
+      "name": "Event Story",
+      "help": ""
+    },
     "RaidDaily": {
       "name": "Raid Daily",
       "help": ""

@@ -110,6 +110,10 @@
       "name": "活动每日SP图",
       "help": ""
     },
+    "EventStory": {
+      "name": "活动剧情",
+      "help": ""
+    },
     "RaidDaily": {
       "name": "共斗活动每日",
       "help": ""

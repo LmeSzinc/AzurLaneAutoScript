@@ -110,6 +110,10 @@
       "name": "毎日イベント海域SP",
       "help": ""
     },
+    "EventStory": {
+      "name": "Event Story",
+      "help": ""
+    },
     "RaidDaily": {
       "name": "Raid Daily",
       "help": ""

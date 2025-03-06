@@ -2,7 +2,7 @@ import re
 from datetime import datetime
 
 from module.campaign.campaign_status import CampaignStatus
-from module.config.config_updater import EVENTS, EVENT_STORYS, RAIDS, COALITIONS, GEMS_FARMINGS, MARITIME_ESCORTS
+from module.config.config_updater import EVENTS, RAIDS, COALITIONS, GEMS_FARMINGS, MARITIME_ESCORTS
 from module.config.utils import DEFAULT_TIME
 from module.logger import logger
 from module.ui.assets import CAMPAIGN_MENU_NO_EVENT
@@ -140,7 +140,7 @@ class CampaignEvent(CampaignStatus):
         """
         if self.appear(CAMPAIGN_MENU_NO_EVENT, offset=(20, 20)):
             logger.info('Event unavailable, disable task')
-            tasks = EVENTS + EVENT_STORYS + RAIDS + COALITIONS + GEMS_FARMINGS
+            tasks = EVENTS + RAIDS + COALITIONS + GEMS_FARMINGS
             self._disable_tasks(tasks)
             self.config.task_stop()
         else:
