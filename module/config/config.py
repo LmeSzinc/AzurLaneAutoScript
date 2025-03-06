@@ -297,15 +297,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
         for task in ["Commission", "Research", "Reward"]:
             if not self.is_task_enabled(task):
                 self.modified[f"{task}.Scheduler.Enable"] = True
-        force_enable = list
 
-        force_enable(
-            [
-                "Commission",
-                "Research",
-                "Reward",
-            ]
-        )
         limit_next_run(["Commission", "Reward"], limit=now + timedelta(hours=12, seconds=-1))
         limit_next_run(["Research"], limit=now + timedelta(hours=24, seconds=-1))
         limit_next_run(["OpsiExplore", "OpsiCrossMonth", "OpsiVoucher", "OpsiMonthBoss", "OpsiShop"],
