@@ -37,7 +37,7 @@ class GemsCampaignOverride(CampaignBase):
             return result
 
         if self.handle_popup_cancel('IGNORE_LOW_EMOTION'):
-            self.config.GEMS_EMOTION_TRIGGRED = True
+            self.config.GEMS_EMOTION_TRIGGERED = True
             logger.hr('EMOTION WITHDRAW')
 
             while 1:
@@ -388,7 +388,7 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
             logger.hr('TRIGGERED LV32 LIMIT')
             return True
 
-        if self.campaign.map_is_auto_search and self.campaign.config.GEMS_EMOTION_TRIGGRED:
+        if self.campaign.map_is_auto_search and self.campaign.config.GEMS_EMOTION_TRIGGERED:
             self._trigger_emotion = True
             logger.hr('TRIGGERED EMOTION LIMIT')
             return True
@@ -434,7 +434,7 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
                 self._trigger_lv32 = False
                 self._trigger_emotion = False
                 self.campaign.config.LV32_TRIGGERED = False
-                self.campaign.config.GEMS_EMOTION_TRIGGRED = False
+                self.campaign.config.GEMS_EMOTION_TRIGGERED = False
 
                 # Scheduler
                 if self.config.task_switched():
