@@ -1,18 +1,18 @@
+from module.campaign.campaign_event import CampaignEvent
 from module.campaign.campaign_ui import CampaignUI
 from module.combat.combat import Combat
 from module.eventstory.assets import *
 from module.handler.login import LoginHandler
 from module.logger import logger
-from module.ui.page import page_event
 
 
-class EventStory(CampaignUI, Combat, LoginHandler):
+class EventStory(CampaignEvent, CampaignUI, Combat, LoginHandler):
     def ui_goto_event_story(self):
         """
         Returns:
             str: 'finish', 'story', 'unknown'
         """
-        self.ui_ensure(page_event)
+        self.ui_goto_event()
         self.campaign_ensure_mode_20241219('story')
 
         state = 'unknown'

@@ -140,7 +140,7 @@ class CampaignEvent(CampaignStatus):
         """
         if self.appear(CAMPAIGN_MENU_NO_EVENT, offset=(20, 20)):
             logger.info('Event unavailable, disable task')
-            tasks = EVENTS + RAIDS + COALITIONS + GEMS_FARMINGS
+            tasks = EVENTS + EVENT_STORYS + RAIDS + COALITIONS + GEMS_FARMINGS
             self._disable_tasks(tasks)
             self.config.task_stop()
         else:
