@@ -2,7 +2,7 @@ import re
 from datetime import datetime
 
 from module.campaign.campaign_status import CampaignStatus
-from module.config.config_updater import EVENTS, RAIDS, COALITIONS, GEMS_FARMINGS, MARITIME_ESCORTS
+from module.config.config_updater import EVENTS, EVENT_STORYS, RAIDS, COALITIONS, GEMS_FARMINGS, MARITIME_ESCORTS
 from module.config.utils import DEFAULT_TIME
 from module.logger import logger
 from module.ui.assets import CAMPAIGN_MENU_NO_EVENT
@@ -88,7 +88,7 @@ class CampaignEvent(CampaignStatus):
             return False
 
         now = datetime.now().replace(microsecond=0)
-        logger.attr('Event_PT_limit', f'{now} -> {limit}')
+        logger.attr('Event_Time_limit', f'{now} -> {limit}')
         if now > limit:
             logger.hr(f'Reach event time limit: {limit}')
             self._disable_tasks(tasks)

@@ -289,6 +289,10 @@ class AzurLaneAutoScript:
         from module.event.campaign_sp import CampaignSP
         CampaignSP(config=self.config, device=self.device).run()
 
+    def event_story(self):
+        from module.eventstory.eventstory import EventStory
+        EventStory(config=self.config, device=self.device).run()
+
     def maritime_escort(self):
         from module.event.maritime_escort import MaritimeEscort
         MaritimeEscort(config=self.config, device=self.device).run()

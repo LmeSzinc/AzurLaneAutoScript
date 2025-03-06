@@ -127,7 +127,7 @@ class EventStory(CampaignUI, Combat, LoginHandler):
         self.run_event_story()
 
         # Scheduler
-        pass
+        self.config.task_delay(server_update=True)
 
 
 if __name__ == '__main__':
