@@ -254,6 +254,10 @@
       "name": "OpSi Semi-auto",
       "help": ""
     },
+    "EventStory": {
+      "name": "Event Story",
+      "help": ""
+    },
     "Benchmark": {
       "name": "Performance Test",
       "help": ""
@@ -2488,6 +2492,18 @@
     "SelectEnemy": {
       "name": "Clear nearby enemies and resources",
       "help": "Clean nearby enemies and resources, and find new enemies or materials after cleaning, which usually clears the entire map. If some of them haven't been cleared, you need to solve them manually"
+    }
+  },
+  "EventStory": {
+    "_info": {
+      "name": "Event Story",
+      "help": "Complete the event story, only applicable to events aired on or after 20241219, please wait for about 3 minutes"
+    },
+    "SkipBattle": {
+      "name": "Kill game to skip battles",
+      "help": "",
+      "True": "Enabled",
+      "False": "False"
     }
   },
   "Benchmark": {

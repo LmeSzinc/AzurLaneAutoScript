@@ -100,6 +100,7 @@
     "tasks": [
       "Daemon",
       "OpsiDaemon",
+      "EventStory",
       "Benchmark",
       "AzurLaneUncensored",
       "GameManager"

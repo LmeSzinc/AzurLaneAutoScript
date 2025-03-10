@@ -431,3 +431,13 @@ OpsiHazard1Leveling:
     ServerUpdate: 00:00, 12:00
   OpsiFleet:
     Submarine: false
+
+# ==================== Tool ====================
+
+EventStory:
+  EventStory:
+    SkipBattle:
+      type: lock
+      value: true
+      option: [ true, ]
+      option_bold: [ true, ]
