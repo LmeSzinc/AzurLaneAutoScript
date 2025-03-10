@@ -254,6 +254,10 @@
       "name": "セイレーン作戦半自動",
       "help": ""
     },
+    "EventStory": {
+      "name": "Event Story",
+      "help": ""
+    },
     "Benchmark": {
       "name": "機能テスト",
       "help": ""
@@ -2488,6 +2492,18 @@
     "SelectEnemy": {
       "name": "OpsiDaemon.SelectEnemy.name",
       "help": "OpsiDaemon.SelectEnemy.help"
+    }
+  },
+  "EventStory": {
+    "_info": {
+      "name": "EventStory._info.name",
+      "help": "EventStory._info.help"
+    },
+    "SkipBattle": {
+      "name": "EventStory.SkipBattle.name",
+      "help": "EventStory.SkipBattle.help",
+      "True": "True",
+      "False": "False"
     }
   },
   "Benchmark": {

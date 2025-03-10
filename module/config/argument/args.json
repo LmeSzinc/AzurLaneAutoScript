@@ -9278,6 +9278,28 @@
       }
     }
   },
+  "EventStory": {
+    "EventStory": {
+      "SkipBattle": {
+        "type": "lock",
+        "value": true,
+        "option": [
+          true
+        ],
+        "option_bold": [
+          true
+        ]
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
+    }
+  },
   "Benchmark": {
     "Benchmark": {
       "DeviceType": {
