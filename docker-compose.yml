@@ -12,3 +12,4 @@ services:
             context: ./deploy/docker/
             dockerfile: ./Dockerfile
             # dockerfile: ./Dockerfile.cn
+            # dockerfile: ./Dockerfile.maa
