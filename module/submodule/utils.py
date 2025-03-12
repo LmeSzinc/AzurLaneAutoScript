@@ -17,6 +17,7 @@ def get_available_func():
     return (
         'Daemon',
         'OpsiDaemon',
+        'EventStory',
         'AzurLaneUncensored',
         'Benchmark',
         'GameManager',

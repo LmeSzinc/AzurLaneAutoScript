@@ -171,9 +171,6 @@ EventDaily:
       - Emotion
       - HpControl
       - EnemyPriority
-    EventStory:
-      - Scheduler
-      - Campaign
     RaidDaily:
       - Scheduler
       - RaidDaily
@@ -331,6 +328,8 @@ Tool:
       - Daemon
     OpsiDaemon:
       - OpsiDaemon
+    EventStory:
+      - EventStory
     Benchmark:
       - Benchmark
     AzurLaneUncensored:
