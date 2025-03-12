@@ -175,11 +175,8 @@ class InfoHandler(ModuleBase):
                 raise GameNotRunningError
             # Use template match without color match due to maintenance popup
             if self.appear(LOGIN_CHECK, offset=(30, 30)):
-                logger.error('Account logged out, '
-                             'probably because account kicked by server maintenance or another log in')
-                # Kill game, because game patches after maintenance can only be downloaded at game startup
-                self.device.app_stop()
-                raise GameNotRunningError
+                logger.warning('Account logged out, '
+                               'probably because account kicked by server maintenance or another log in')
             self._hot_fix_check_wait.clear()
 
         return appear
