@@ -2,7 +2,7 @@ import re
 from datetime import datetime
 
 from module.campaign.campaign_status import CampaignStatus
-from module.config.config_updater import EVENTS, RAIDS, COALITIONS, GEMS_FARMINGS, MARITIME_ESCORTS, GACHA
+from module.config.config_updater import EVENTS, RAIDS, COALITIONS, GEMS_FARMINGS, MARITIME_ESCORTS
 from module.config.utils import DEFAULT_TIME, server_time_offset
 from module.logger import logger
 from module.ui.assets import CAMPAIGN_MENU_NO_EVENT
@@ -17,16 +17,13 @@ class CampaignEvent(CampaignStatus):
             tasks (list[str]): Task name
         """
         with self.config.multi_set():
-            # Disable normal events and modify gacha pool and amount, but keep task enabled
+            # Disable normal events
             for task in tasks:
                 if task in GEMS_FARMINGS:
                     continue
                 keys = f'{task}.Scheduler.Enable'
                 logger.info(f'Disable task `{task}`')
                 self.config.cross_set(keys=keys, value=False)
-                self.config.cross_set(keys=f'Gacha.Scheduler.Enable', value=True)
-                self.config.cross_set(keys=f'Gacha.Gacha.Pool', value= 'light')
-                self.config.cross_set(keys=f'Gacha.Gacha.Amount', value= 1)
             # Reset GemsFarming
             for task in tasks:
                 if task not in GEMS_FARMINGS:
@@ -77,7 +74,7 @@ class CampaignEvent(CampaignStatus):
             in: page_event or page_sp
         """
         limit = self.config.EventGeneral_TimeLimit + server_time_offset()
-        tasks = EVENTS + RAIDS + COALITIONS + MARITIME_ESCORTS +GACHA
+        tasks = EVENTS + RAIDS + COALITIONS + MARITIME_ESCORTS
         command = self.config.Scheduler_Command
         if command not in tasks or limit == DEFAULT_TIME:
             return False
