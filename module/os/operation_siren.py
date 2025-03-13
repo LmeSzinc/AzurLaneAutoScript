@@ -5,6 +5,7 @@ import numpy as np
 from module.config.utils import (get_nearest_weekday_date,
                                  get_os_next_reset,
                                  get_os_reset_remain,
+                                 get_server_last_update,
                                  get_server_next_update,
                                  DEFAULT_TIME)
 from module.exception import RequestHumanTakeover, GameStuckError, ScriptError
@@ -14,7 +15,8 @@ from module.os.fleet import BossFleet
 from module.os.globe_operation import OSExploreError
 from module.os.map import OSMap
 from module.os_handler.action_point import OCR_OS_ADAPTABILITY, ActionPointLimit
-from module.os_handler.assets import OS_MONTHBOSS_NORMAL, OS_MONTHBOSS_HARD, EXCHANGE_CHECK, EXCHANGE_ENTER
+from module.os_handler.assets import OS_MONTHBOSS_NORMAL, OS_MONTHBOSS_HARD, EXCHANGE_CHECK, EXCHANGE_ENTER, TARGET_ENTER, TARGET_ALL_ON, TARGET_RED_DOT
+from module.os_handler.target import OSTargetHandler
 from module.os_shop.assets import OS_SHOP_CHECK
 from module.shop.shop_voucher import VoucherShop
 
@@ -97,6 +99,12 @@ class OperationSiren(OSMap):
             if success:
                 break
 
+        if self.config.OpsiDaily_CollectTargetReward:
+            if self.server_support_os_target():
+                self.os_target_receive()
+            else:
+                logger.info(f'Server {self.config.SERVER} does not support OpsiTarget yet, please contact the developers.')
+            
         self.config.task_delay(server_update=True)
 
     def os_cross_month_end(self):
@@ -218,7 +226,7 @@ class OperationSiren(OSMap):
             OpsiFleet_Submarine=False,
             OpsiMeowfficerFarming_ActionPointPreserve=0,
             OpsiMeowfficerFarming_HazardLevel=3,
-            OpsiMeowfficerFarming_TargetZone=0,
+            OpsiTarget_TargetZone=0,
         )
         while True:
             zones = self.zone_select(hazard_level=3) \
@@ -311,6 +319,46 @@ class OperationSiren(OSMap):
         logger.attr('OpsiNextReset', next_reset)
         self.config.task_delay(target=next_reset)
 
+    def _os_target_enter(self):
+        self.os_map_goto_globe(unpin=False)
+        self.ui_click(click_button=TARGET_ENTER, check_button=TARGET_ALL_ON,
+                      offset=(200, 20), retry_wait=3, skip_first_screenshot=True)
+        
+    def _os_target_exit(self):
+        self.ui_back(check_button=TARGET_ENTER, appear_button=TARGET_ALL_ON,
+                     offset=(200, 20), retry_wait=3, skip_first_screenshot=True)  
+        self.os_globe_goto_map()
+
+    def os_target_receive(self):
+        next_reset = get_os_next_reset()
+        now = datetime.now()
+        logger.attr('OpsiNextReset', next_reset)
+        if next_reset - now < timedelta(days=1):
+            logger.error('Only one day to next reset, received loggers may be wasted.'
+                         'Running Achievement Collection is undesirable, delayed to next reset.')
+        else:
+            self.os_map_goto_globe(unpin=False)
+            if self.appear(TARGET_RED_DOT):
+                self._os_target_enter()
+                OSTargetHandler(self.config, self.device).receive_reward()
+                self._os_target_exit()
+            else:
+                logger.info('No reward to receive')
+        self.config.OpsiTarget_LastRun = now.replace(microsecond=0)
+
+    def _os_target(self):
+        if self.config.OpsiTarget_LastRun > get_server_last_update('00:00'):
+            logger.warning('Opsi Safe Achievement search has already been run today, stop')
+        else:
+            logger.hr('OS target', level=1)
+            self._os_target_enter()
+            OSTargetHandler(self.config, self.device).run()
+            self._os_target_exit()
+            self.config.OpsiTarget_LastRun = datetime.now().replace(microsecond=0)
+        
+    def server_support_os_target(self):
+        return self.config.SERVER in ['cn', 'jp']
+
     def os_meowfficer_farming(self):
         """
         Recommend 3 or 5 for higher meowfficer searching point per action points ratio.
@@ -343,6 +391,12 @@ class OperationSiren(OSMap):
             self.config.task_delay(server_update=True)
             self.config.task_stop()
 
+        if self.config.OpsiTarget_TargetFarming:
+            if self.server_support_os_target():
+                self._os_target()
+            else:
+                logger.info(f'Server {self.config.SERVER} does not support OpsiTarget yet, please contact the developers.')            
+
         ap_checked = False
         while True:
             self.config.OS_ACTION_POINT_PRESERVE = preserve
@@ -372,11 +426,11 @@ class OperationSiren(OSMap):
                 ap_checked = True
 
             # (1252, 1012) is the coordinate of zone 134 (the center zone) in os_globe_map.png
-            if self.config.OpsiMeowfficerFarming_TargetZone != 0:
+            if self.config.OpsiTarget_TargetZone != 0:
                 try:
-                    zone = self.name_to_zone(self.config.OpsiMeowfficerFarming_TargetZone)
+                    zone = self.name_to_zone(self.config.OpsiTarget_TargetZone)
                 except ScriptError:
-                    logger.warning(f'wrong zone_id input:{self.config.OpsiMeowfficerFarming_TargetZone}')
+                    logger.warning(f'wrong zone_id input:{self.config.OpsiTarget_TargetZone}')
                     raise RequestHumanTakeover('wrong input, task stopped')
                 else:
                     logger.hr(f'OS meowfficer farming, zone_id={zone.zone_id}', level=1)
