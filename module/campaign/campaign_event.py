@@ -3,7 +3,7 @@ from datetime import datetime
 
 from module.campaign.campaign_status import CampaignStatus
 from module.config.config_updater import EVENTS, RAIDS, COALITIONS, GEMS_FARMINGS, MARITIME_ESCORTS
-from module.config.utils import DEFAULT_TIME
+from module.config.utils import DEFAULT_TIME, server_time_offset
 from module.logger import logger
 from module.ui.assets import CAMPAIGN_MENU_NO_EVENT
 from module.ui.page import page_event, page_campaign_menu, page_sp, page_coalition
@@ -24,7 +24,6 @@ class CampaignEvent(CampaignStatus):
                 keys = f'{task}.Scheduler.Enable'
                 logger.info(f'Disable task `{task}`')
                 self.config.cross_set(keys=keys, value=False)
-
             # Reset GemsFarming
             for task in tasks:
                 if task not in GEMS_FARMINGS:
@@ -74,7 +73,7 @@ class CampaignEvent(CampaignStatus):
         Pages:
             in: page_event or page_sp
         """
-        limit = self.config.EventGeneral_TimeLimit
+        limit = self.config.EventGeneral_TimeLimit + server_time_offset()
         tasks = EVENTS + RAIDS + COALITIONS + MARITIME_ESCORTS
         command = self.config.Scheduler_Command
         if command not in tasks or limit == DEFAULT_TIME:
