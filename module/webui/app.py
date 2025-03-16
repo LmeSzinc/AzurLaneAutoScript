@@ -1,16 +1,15 @@
-import sys
-import json
-import time
-import queue
 import argparse
+import json
+import queue
 import threading
-
+import time
 from datetime import datetime
 from functools import partial
 from typing import Dict, List, Optional
 
 # Import fake module before import pywebio to avoid importing unnecessary module PIL
 from module.webui.fake_pil_module import import_fake_pil_module
+
 import_fake_pil_module()
 
 from pywebio import config as webconfig
@@ -1439,6 +1438,9 @@ def app():
     logger.attr("Password", True if key else False)
     logger.attr("CDN", cdn)
     logger.attr("IS_ON_PHONE_CLOUD", IS_ON_PHONE_CLOUD)
+
+    from deploy.atomic import atomic_failure_cleanup
+    atomic_failure_cleanup('./config')
 
     def index():
         if key is not None and not login(key):
