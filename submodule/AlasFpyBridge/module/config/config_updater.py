@@ -2,6 +2,7 @@ from cached_property import cached_property
 
 from module.base.timer import timer
 from module.config import config_updater
+from module.config.deep import deep_get, deep_set, deep_iter
 from module.config.utils import *
 
 
