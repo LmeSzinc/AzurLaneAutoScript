@@ -85,22 +85,18 @@ class ConfigUpdater(config_updater.ConfigUpdater):
         """
         new = {}
 
-        def deep_load(keys):
-            data = deep_get(self.args, keys=keys, default={})
+        for keys, data in deep_iter(self.args, depth=3):
             value = deep_get(old, keys=keys, default=data["value"])
             if (
-                is_template
-                or value is None
-                or value == ""
-                or data["type"] == "lock"
-                or data.get("display") == "hide"
+                    is_template
+                    or value is None
+                    or value == ""
+                    or data["type"] == "lock"
+                    or data.get("display") == "hide"
             ):
                 value = data["value"]
             value = parse_value(value, data=data)
             deep_set(new, keys=keys, value=value)
-
-        for path, _ in deep_iter(self.args, depth=3):
-            deep_load(path)
 
         if not is_template:
             new = self.config_redirect(old, new)
