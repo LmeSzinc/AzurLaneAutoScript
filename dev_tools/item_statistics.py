@@ -7,6 +7,7 @@ import module.config.server as server
 
 server.server = 'cn'  # Edit your server here.
 
+from module.base.utils import load_image
 from module.logger import logger
 from module.statistics.battle_status import BattleStatusStatistics
 from module.statistics.get_items import GetItemsStatistics

@@ -373,8 +373,13 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             else:
                 self.device.sleep((0.25, 0.5))
             self.device.click(BATTLE_STATUS_D)
-            return True
 
+            if self.appear(OPTS_INFO_D, interval=self.battle_status_click_interval):
+                self.device.click(OPTS_INFO_D)               
+            # Click BATTLE_STATUS_D again
+            self.device.click(BATTLE_STATUS_D)
+            return True
+        
         return False
 
     def handle_get_items(self, drop=None):

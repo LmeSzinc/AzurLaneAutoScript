@@ -1,10 +1,13 @@
 from module.base.button import ButtonGrid
+from module.base.decorator import cached_property
 from module.base.utils import *
+import module.config.server as server
 from module.handler.assets import AUTO_SEARCH_MENU_EXIT
 from module.statistics.assets import CAMPAIGN_BONUS
 from module.statistics.get_items import ITEM_GROUP, GetItemsStatistics
 from module.statistics.item import Item
 from module.statistics.utils import *
+from module.ocr.ocr import Ocr
 
 
 class BonusItem(Item):
@@ -13,12 +16,28 @@ class BonusItem(Item):
 
 
 class CampaignBonusStatistics(GetItemsStatistics):
-    def appear_on(self, image):
-        if AUTO_SEARCH_MENU_EXIT.match(image, offset=(200, 20)) \
-                and CAMPAIGN_BONUS.match(image, offset=(20, 500)):
-            return True
+    @cached_property
+    def ocr_object(self):
+        return Ocr(lang='cnocr', threshold=128, name='REWARDS_OCR')
 
-        return False
+    def appear_on(self, image):
+        if server.server == 'cn':
+            if AUTO_SEARCH_MENU_EXIT.match(image, offset=(200, 20)) \
+                    and CAMPAIGN_BONUS.match(image, offset=(20, 500)):
+                return True
+            return False
+
+        if server.server == 'en':
+            if not AUTO_SEARCH_MENU_EXIT.match(image, offset=(200, 20)):
+                return False
+
+            # Crop image to CAMPAIGN_BONUS area, since there are multiple areas with "Rewards"
+            campaign_bonus_area = CAMPAIGN_BONUS.button
+            cropped_image = crop(image, campaign_bonus_area)
+
+            # OCR to find "Rewards" text since there is "Clearing Rewards Obtained" and "Total Rewards"
+            ocr_result = self.ocr_object.ocr(cropped_image)
+            return "Rewards" in ocr_result
 
     def _stats_get_items_load(self, image):
         ITEM_GROUP.item_class = BonusItem
