@@ -87,7 +87,7 @@ class Awaken(Dock):
         return self.appear_then_click(AWAKEN_FINISH, offset=(20, 20), interval=1)
 
     def is_in_awaken(self):
-        return SHIP_LEVEL_CHECK.match_luma(self.device.image)
+        return SHIP_LEVEL_CHECK.match_luma(self.device.image, similarity=0.7)
 
     def awaken_popup_close(self, skip_first_screenshot=True):
         logger.info('Awaken popup close')

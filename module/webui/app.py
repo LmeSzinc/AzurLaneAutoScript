@@ -1,16 +1,15 @@
-import sys
-import json
-import time
-import queue
 import argparse
+import json
+import queue
 import threading
-
+import time
 from datetime import datetime
 from functools import partial
 from typing import Dict, List, Optional
 
 # Import fake module before import pywebio to avoid importing unnecessary module PIL
 from module.webui.fake_pil_module import import_fake_pil_module
+
 import_fake_pil_module()
 
 from pywebio import config as webconfig
@@ -38,17 +37,15 @@ from pywebio.output import (
     use_scope,
 )
 from pywebio.pin import pin, pin_on_change
-from pywebio.session import (download, go_app, info, local, register_thread, run_js, set_env)
+from pywebio.session import download, go_app, info, local, register_thread, run_js, set_env
 
 import module.webui.lang as lang
 from module.config.config import AzurLaneConfig, Function
+from module.config.deep import deep_get, deep_iter, deep_set
 from module.config.env import IS_ON_PHONE_CLOUD
 from module.config.utils import (
     alas_instance,
     alas_template,
-    deep_get,
-    deep_iter,
-    deep_set,
     dict_to_kv,
     filepath_args,
     filepath_config,
@@ -1439,6 +1436,9 @@ def app():
     logger.attr("Password", True if key else False)
     logger.attr("CDN", cdn)
     logger.attr("IS_ON_PHONE_CLOUD", IS_ON_PHONE_CLOUD)
+
+    from deploy.atomic import atomic_failure_cleanup
+    atomic_failure_cleanup('./config')
 
     def index():
         if key is not None and not login(key):
