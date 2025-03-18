@@ -9,7 +9,7 @@ from cached_property import cached_property
 
 from module.base.decorator import del_cached_property
 from module.config.config import AzurLaneConfig, TaskEnd
-from module.config.utils import deep_get, deep_set
+from module.config.deep import deep_get, deep_set
 from module.exception import *
 from module.logger import logger
 from module.notify import handle_notify

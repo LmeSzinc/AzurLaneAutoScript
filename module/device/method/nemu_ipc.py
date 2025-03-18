@@ -11,7 +11,7 @@ import numpy as np
 from module.base.decorator import cached_property, del_cached_property, has_cached_property
 from module.base.timer import Timer
 from module.base.utils import ensure_time
-from module.config.utils import deep_get
+from module.config.deep import deep_get
 from module.device.env import IS_WINDOWS
 from module.device.method.minitouch import insert_swipe, random_rectangle_point
 from module.device.method.pool import JobTimeout, WORKER_POOL
