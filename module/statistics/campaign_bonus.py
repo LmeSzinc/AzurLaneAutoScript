@@ -21,12 +21,7 @@ class CampaignBonusStatistics(GetItemsStatistics):
         return Ocr(lang='cnocr', threshold=128, name='REWARDS_OCR')
 
     def appear_on(self, image):
-        if server.server == 'cn':
-            if AUTO_SEARCH_MENU_EXIT.match(image, offset=(200, 20)) \
-                    and CAMPAIGN_BONUS.match(image, offset=(20, 500)):
-                return True
-            return False
-
+        #Unsure if other servers need an updated version too, or if previous worked
         if server.server == 'en':
             if not AUTO_SEARCH_MENU_EXIT.match(image, offset=(200, 20)):
                 return False
@@ -38,6 +33,11 @@ class CampaignBonusStatistics(GetItemsStatistics):
             # OCR to find "Rewards" text since there is "Clearing Rewards Obtained" and "Total Rewards"
             ocr_result = self.ocr_object.ocr(cropped_image)
             return "Rewards" in ocr_result
+        else:
+            if AUTO_SEARCH_MENU_EXIT.match(image, offset=(200, 20)) \
+                    and CAMPAIGN_BONUS.match(image, offset=(20, 500)):
+                return True
+            return False
 
     def _stats_get_items_load(self, image):
         ITEM_GROUP.item_class = BonusItem
