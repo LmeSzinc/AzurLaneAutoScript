@@ -23,15 +23,8 @@ class CampaignBonusStatistics(GetItemsStatistics):
     def appear_on(self, image):
         #Unsure if other servers need an updated version too, or if previous worked
         if server.server == 'en':
-            if not AUTO_SEARCH_MENU_EXIT.match(image, offset=(200, 20)):
-                return False
-
-            # Crop image to CAMPAIGN_BONUS area, since there are multiple areas with "Rewards"
-            campaign_bonus_area = CAMPAIGN_BONUS.button
-            cropped_image = crop(image, campaign_bonus_area)
-
-            # OCR to find "Rewards" text since there is "Clearing Rewards Obtained" and "Total Rewards"
-            ocr_result = self.ocr_object.ocr(cropped_image)
+            if AUTO_SEARCH_MENU_EXIT.appear_on(image):
+                ocr_result = self.ocr_object.ocr(image)
             return "Rewards" in ocr_result
         else:
             if AUTO_SEARCH_MENU_EXIT.match(image, offset=(200, 20)) \
