@@ -1,5 +1,5 @@
 from module.logger import logger
-from module.config.utils import deep_get
+from module.config.deep import deep_get
 from datetime import datetime
 from cached_property import cached_property
 from module.config.utils import read_file, filepath_argument
