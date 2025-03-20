@@ -6,6 +6,7 @@ from module.coalition.combat import CoalitionCombat
 from module.exception import ScriptError, ScriptEnd
 from module.logger import logger
 from module.ocr.ocr import Digit
+from module.log_res import LogRes
 
 
 class AcademyPtOcr(Digit):
@@ -42,6 +43,8 @@ class Coalition(CoalitionCombat, CampaignEvent):
             raise ScriptError
 
         pt = ocr.ocr(self.device.image)
+        LogRes(self.config).Pt = pt
+        self.config.update()
         return pt
 
     def triggered_stop_condition(self, oil_check=False, pt_check=False):
