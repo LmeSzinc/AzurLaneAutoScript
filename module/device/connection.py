@@ -327,6 +327,17 @@ class Connection(ConnectionAttr):
 
     @cached_property
     @retry
+    def is_mumu_pro(self):
+        # MuMU Pro is the Mac version of MuMu
+        if not IS_MACINTOSH:
+            return False
+        if not self.is_mumu_family:
+            return False
+        logger.attr('is_mumu_pro', True)
+        return True
+
+    @cached_property
+    @retry
     def nemud_app_keep_alive(self) -> str:
         res = self.adb_getprop('nemud.app_keep_alive')
         logger.attr('nemud.app_keep_alive', res)
@@ -410,23 +421,26 @@ class Connection(ConnectionAttr):
             return host, port, host, self.config.REVERSE_SERVER_PORT
         # For emulators, listen on current host
         if self.is_emulator or self.is_over_http:
+            # Mac emulators
+            if self.is_bluestacks_air or self.is_mumu_pro:
+                logger.info(f'Connecting to local emulator, using host 127.0.0.1')
+                port = random_port(self.config.FORWARD_PORT_RANGE)
+                return '127.0.0.1', port, "10.0.2.2", port
+            # Get host IP
             try:
                 host = socket.gethostbyname(socket.gethostname())
             except socket.gaierror as e:
                 logger.error(e)
                 logger.error(f'Unknown host name: {socket.gethostname()}')
                 host = '127.0.0.1'
+            # Fixup linux AVD host
             if IS_LINUX and host == '127.0.1.1':
-                host = '127.0.0.1'
-            if self.is_bluestacks_air:
                 host = '127.0.0.1'
             logger.info(f'Connecting to local emulator, using host {host}')
             port = random_port(self.config.FORWARD_PORT_RANGE)
-
             # For AVD instance
-            if self.is_avd or self.is_bluestacks_air:
+            if self.is_avd:
                 return host, port, "10.0.2.2", port
-
             return host, port, host, port
         # For local network devices, listen on the host under the same network as target device
         if self.is_network_device:
