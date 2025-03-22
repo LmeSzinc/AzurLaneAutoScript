@@ -243,6 +243,7 @@ DailyMission:
       - MedalShop2
       - MeritShop
       - CoreShop
+      - EventShop
     Shipyard:
       - Scheduler
       - ShipyardDr
