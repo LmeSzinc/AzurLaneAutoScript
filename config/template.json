@@ -1622,7 +1622,8 @@
       "OneHitMode": true,
       "DossierAutoAttackMode": false,
       "RequestAssist": true,
-      "EnsureFullyCollected": true
+      "EnsureFullyCollected": true,
+      "AutoCollectShip": true
     },
     "Storage": {
       "Storage": {}
