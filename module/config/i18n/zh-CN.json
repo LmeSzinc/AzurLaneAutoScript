@@ -1176,6 +1176,7 @@
     "CommonCV": {
       "name": "指定旗舰航母",
       "help": "",
+      "custom": "自定义",
       "any": "任意",
       "eagle": "仅白鹰",
       "langley": "兰利",
@@ -1184,8 +1185,8 @@
       "hermes": "竞技神"
     },
     "CommonCVFilter": {
-      "name": "旗舰航母过滤器",
-      "help": "不指定具体旗舰航母时，将按照过滤器顺序优先选择\nbogue：博格    ranger：突击者    langley：兰利    hermes：竞技神"
+      "name": "自定义旗舰航母过滤器",
+      "help": "使用自定义过滤器需将 \"指定旗舰航母\" 设置为 \"自定义\"，将按照过滤器顺序优先选择旗舰航母更换\nbogue：博格    ranger：突击者    langley：兰利    hermes：竞技神"
     },
     "ChangeVanguard": {
       "name": "更换前排",

@@ -536,8 +536,10 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
         Returns:
             Button:
         """
-        if self.config.GemsFarming_CommonCV in ['any', 'eagle']:
-            common_cv = self.get_common_cv_filter(self.config.GemsFarming_CommonCVFilter, output=False)
+        preset = self.config.GemsFarming_CommonCV
+        if preset in ['custom', 'any', 'eagle']:
+            filter_string = self.config.GemsFarming_CommonCVFilter if preset == 'custom' else self.config.COMMON_CV_FILTER
+            common_cv = self.get_common_cv_filter(filter_string, output=False)
             if self.config.GemsFarming_CommonCV == 'eagle' and 'hermes' in common_cv:
                 common_cv.remove('hermes')
             logger.attr('Filter sort', ' > '.join(common_cv))

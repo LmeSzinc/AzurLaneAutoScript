@@ -1176,6 +1176,7 @@
     "CommonCV": {
       "name": "Flagship Common CV/CVL Preference",
       "help": "",
+      "custom": "custom",
       "any": "any",
       "eagle": "eagle only",
       "langley": "langley",
@@ -1184,8 +1185,8 @@
       "hermes": "hermes"
     },
     "CommonCVFilter": {
-      "name": "Flagship CV Filter",
-      "help": "When do not select the specific flagship option in Flagship Common CV/CVL Preference, filter will be prioritized in order"
+      "name": "Custom Flagship CV Filter",
+      "help": "To use your own filter, set \"Flagship Common CV/CVL Preference\" to \"custom\". Filter will be prioritized in order."
     },
     "ChangeVanguard": {
       "name": "Change Vanguard",

@@ -340,8 +340,8 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
             level=(min_level, max_level), emotion=(emotion_lower_bound, 150), fleet=self.fleet_to_attack, status='free')
         scanner.disable('rarity')
 
-        if self.config.GemsFarming_CommonCV in ['any', 'eagle']:
-
+        preset = self.config.GemsFarming_CommonCV
+        if preset in ['custom', 'any', 'eagle']:
             ships = scanner.scan(self.device.image)
             if ships:
                 # Don't need to change current
@@ -351,7 +351,8 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
             scanner.set_limitation(fleet=0)
 
             logger.info(f'Search for Common CV.')
-            common_cv = self.get_common_cv_filter(self.config.GemsFarming_CommonCVFilter)
+            filter_string = self.config.GemsFarming_CommonCVFilter if preset == 'custom' else self.config.COMMON_CV_FILTER
+            common_cv = self.get_common_cv_filter(filter_string)
             find_first = True
             common_cv_candidates = {}
             for name in common_cv:

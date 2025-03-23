@@ -273,7 +273,7 @@ GemsFarming:
     option: [ ship, ship_equip ]
   CommonCV:
     value: any
-    option: [ any, eagle, langley, bogue, ranger, hermes ]
+    option: [ custom, any, eagle, langley, bogue, ranger, hermes ]
   CommonCVFilter: |-
     bogue > ranger > langley > hermes
   ChangeVanguard:

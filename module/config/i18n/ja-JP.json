@@ -1176,6 +1176,7 @@
     "CommonCV": {
       "name": "GemsFarming.CommonCV.name",
       "help": "GemsFarming.CommonCV.help",
+      "custom": "custom",
       "any": "any",
       "eagle": "eagle only",
       "langley": "langley",
