@@ -389,6 +389,7 @@
       "CommonCVFilter": "bogue > ranger > langley > hermes",
       "ChangeVanguard": "ship_equip",
       "CommonDD": "any",
+      "CommonDDFilter": "z20 > z21 > aulick > foote > cassin > downes",
       "EquipmentCode": "DD: null\nbogue: null\nhermes: null\nlangley: null\nranger: null",
       "ALLowHighFlagshipLevel": false,
       "ALLowLowVanguardLevel": false,

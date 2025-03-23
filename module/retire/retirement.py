@@ -30,17 +30,29 @@ CARD_RARITY_COLORS = {
 RETIRE_CONFIRM_SCROLL = Scroll(RETIRE_CONFIRM_SCROLL_AREA, color=(74, 77, 110), name='STRATEGIC_SEARCH_SCROLL')
 RETIRE_CONFIRM_SCROLL.color_threshold = 240  # Background color is (66, 72, 77), so default (256-221)=35 is not enough to dintinguish.
 
-FILTER_REGEX = re.compile(
+COMMON_CV_FILTER_REGEX = re.compile(
     '(bogue|hermes|langley|ranger)+?',
     flags=re.IGNORECASE)
+COMMON_DD_FILTER_REGEX = re.compile(
+    '(z20|z21|aulick|foote|cassin|downes)+?',
+    flags=re.IGNORECASE)
 FILTER_ATTR = ('ship',)
-SHIP_FILTER = Filter(FILTER_REGEX, FILTER_ATTR)
+COMMON_CV_FILTER = Filter(COMMON_CV_FILTER_REGEX, FILTER_ATTR)
+COMMON_DD_FILTER = Filter(COMMON_DD_FILTER_REGEX, FILTER_ATTR)
 
 TEMPLATE_COMMON_CV = {
     'BOGUE': TEMPLATE_BOGUE,
     'HERMES': TEMPLATE_HERMES,
     'LANGLEY': TEMPLATE_LANGLEY,
     'RANGER': TEMPLATE_RANGER
+}
+TEMPLATE_COMMON_DD = {
+    'Z20': TEMPLATE_Z20,
+    'Z21': TEMPLATE_Z21,
+    'AULICK': TEMPLATE_AULICK,
+    'FOOTE': TEMPLATE_FOOTE,
+    'CASSIN': [TEMPLATE_CASSIN_1, TEMPLATE_CASSIN_2],
+    'DOWNES': [TEMPLATE_DOWNES_1, TEMPLATE_DOWNES_2]
 }
 
 class Retirement(Enhancement, QuickRetireSettingHandler):
@@ -507,23 +519,36 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                 count += 1
                 continue
 
-    def get_common_cv_filter(self, string, output=True):
+    def get_common_ship_filter(self, string, ship_type='cv', output=True):
         """
-        Get the filter of common rarity cv,
+        Get the filter of common rarity cv/dd,
         If the filter is invalid, export default value to config and use it
 
         Args:
             string (str): filter string
+            ship_type (str): 'cv' or 'dd' 
+            output:
         Returns:
-            List[str]:
+            List[str]: unique ship name list
         """
+        if ship_type.lower() not in ['cv', 'dd']:
+            logger.warning(f'Invalid ship_type: {ship_type}')
+            return []
+
+        ship_type = ship_type.upper()
+        filter_obj: Filter = globals()[f'COMMON_{ship_type}_FILTER']
+        templates = globals()[f'TEMPLATE_COMMON_{ship_type}']
+        key = f'GemsFarming.GemsFarming.Common{ship_type}Filter'
+        default = self.config.__getattribute__(f'COMMON_{ship_type}_FILTER')
+
         while 1:
-            SHIP_FILTER.load(string)
-            common_cv = [str(name[0]) for name in SHIP_FILTER.filter if name[0].upper() in TEMPLATE_COMMON_CV.keys()]
+            filter_obj.load(string)
+            common_cv = list(dict.fromkeys(
+                [str(name[0]) for name in filter_obj.filter if name[0].upper() in templates]))
             if not common_cv:
                 logger.warning(f'Invalid filter set: "{string}". Set to default filter.')
-                string = self.config.COMMON_CV_FILTER
-                self.config.cross_set(keys='GemsFarming.GemsFarming.CommonCVFilter', value=self.config.COMMON_CV_FILTER)
+                string = default
+                self.config.cross_set(keys=key, value=default)
                 continue
 
             # End
@@ -539,7 +564,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
         preset = self.config.GemsFarming_CommonCV
         if preset in ['custom', 'any', 'eagle']:
             filter_string = self.config.GemsFarming_CommonCVFilter if preset == 'custom' else self.config.COMMON_CV_FILTER
-            common_cv = self.get_common_cv_filter(filter_string, output=False)
+            common_cv = self.get_common_ship_filter(filter_string, ship_type='cv', output=False)
             if self.config.GemsFarming_CommonCV == 'eagle' and 'hermes' in common_cv:
                 common_cv.remove('hermes')
             logger.attr('Filter sort', ' > '.join(common_cv))

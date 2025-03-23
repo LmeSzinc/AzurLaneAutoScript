@@ -1198,12 +1198,17 @@
     "CommonDD": {
       "name": "Flagship Common DD Preference",
       "help": "",
+      "custom": "custom",
       "any": "any",
       "favourite": "Favourite Ships Only",
       "aulick_or_foote": "Aulick or Foote",
       "cassin_or_downes": "Cassin or Downes",
       "z20_or_z21": "Z20 or Z21",
       "DDG": "Guided-Missile Destroyer"
+    },
+    "CommonDDFilter": {
+      "name": "Custom DD Filter",
+      "help": "To use your own filter, set \"Flagship Common DD Preference\" to \"custom\". Filter will be prioritized in order."
     },
     "EquipmentCode": {
       "name": "Gear Code",

@@ -97,6 +97,7 @@ class ManualConfig:
     module.campaign.gems_farming
     """
     COMMON_CV_FILTER = 'bogue > ranger > langley > hermes'
+    COMMON_DD_FILTER =  'z20 > z21 > aulick > foote > cassin > downes'
     GEMS_EMOTION_TRIGGERED = False
 
     """

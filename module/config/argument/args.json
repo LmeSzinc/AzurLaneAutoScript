@@ -1867,6 +1867,7 @@
         "type": "select",
         "value": "any",
         "option": [
+          "custom",
           "any",
           "favourite",
           "aulick_or_foote",
@@ -1874,6 +1875,10 @@
           "z20_or_z21",
           "DDG"
         ]
+      },
+      "CommonDDFilter": {
+        "type": "textarea",
+        "value": "z20 > z21 > aulick > foote > cassin > downes"
       },
       "EquipmentCode": {
         "type": "textarea",

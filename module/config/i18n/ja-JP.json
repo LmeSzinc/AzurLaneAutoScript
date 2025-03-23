@@ -1198,12 +1198,17 @@
     "CommonDD": {
       "name": "GemsFarming.CommonDD.name",
       "help": "GemsFarming.CommonDD.help",
+      "custom": "custom",
       "any": "GemsFarming.CommonDD.any",
       "favourite": "GemsFarming.CommonDD.favourite",
       "aulick_or_foote": "GemsFarming.CommonDD.aulick_or_foote",
       "cassin_or_downes": "GemsFarming.CommonDD.cassin_or_downes",
       "z20_or_z21": "GemsFarming.CommonDD.z20_or_z21",
       "DDG": "GemsFarming.CommonDD.DDG"
+    },
+    "CommonDDFilter": {
+      "name": "GemsFarming.CommonDDFilter.name",
+      "help": "GemsFarming.CommonDDFilter.help"
     },
     "EquipmentCode": {
       "name": "GemsFarming.EquipmentCode.name",

@@ -16,7 +16,7 @@ from module.retire.assets import (
     TEMPLATE_CASSIN_1, TEMPLATE_CASSIN_2, TEMPLATE_DOWNES_1, TEMPLATE_DOWNES_2,
     TEMPLATE_AULICK, TEMPLATE_FOOTE
 )
-from module.retire.retirement import Retirement, TEMPLATE_COMMON_CV
+from module.retire.retirement import Retirement, TEMPLATE_COMMON_CV, TEMPLATE_COMMON_DD
 from module.retire.scanner import ShipScanner
 from module.ui.assets import BACK_ARROW, FLEET_CHECK
 from module.ui.page import page_fleet
@@ -340,8 +340,7 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
             level=(min_level, max_level), emotion=(emotion_lower_bound, 150), fleet=self.fleet_to_attack, status='free')
         scanner.disable('rarity')
 
-        preset = self.config.GemsFarming_CommonCV
-        if preset in ['custom', 'any', 'eagle']:
+        if self.config.GemsFarming_CommonCV in ['custom', 'any', 'eagle']:
             ships = scanner.scan(self.device.image)
             if ships:
                 # Don't need to change current
@@ -350,38 +349,11 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
             # Change to any ship
             scanner.set_limitation(fleet=0)
 
-            logger.info(f'Search for Common CV.')
-            filter_string = self.config.GemsFarming_CommonCVFilter if preset == 'custom' else self.config.COMMON_CV_FILTER
-            common_cv = self.get_common_cv_filter(filter_string)
-            find_first = True
-            common_cv_candidates = {}
-            for name in common_cv:
-                template = TEMPLATE_COMMON_CV[name.upper()]
-                candidates = [ship for ship in scanner.scan(self.device.image, output=False)
-                              if template.match(self.image_crop(ship.button, copy=False), similarity=SIM_VALUE)]
+            candidates = self.find_custom_candidates(scanner, ship_type='cv')
 
-                if find_first:
-                    find_first = False
-                    if candidates:
-                        logger.info(f'Find Common CV {name}.')
-                        return candidates
-
-                common_cv_candidates[name] = candidates
-
-            logger.info(f'No suitable CV was found, try reversed order.')
-            self.dock_sort_method_dsc_set(True)
-
-            for name in common_cv:
-                template = TEMPLATE_COMMON_CV[name.upper()]
-                candidates = [ship for ship in scanner.scan(self.device.image, output=False)
-                              if template.match(self.image_crop(ship.button, copy=False), similarity=SIM_VALUE)]
-
-                if candidates:
-                    logger.info(f'Find Common CV {name}.')
-                    return candidates
-                elif common_cv_candidates[name]:
-                    logger.info(f'Find Common CV {name}.')
-                    return common_cv_candidates[name]
+            if candidates:
+                # Change to specific ship
+                return candidates
 
             return scanner.scan(self.device.image, output=False)
 
@@ -423,7 +395,7 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
         """
         rarity = 'common'
         extra = 'can_limit_break'
-        if self.config.GemsFarming_CommonDD == 'any':
+        if self.config.GemsFarming_CommonDD in ['any', 'custom']:
             faction = ['eagle', 'iron']
         elif self.config.GemsFarming_CommonDD == 'favourite':
             faction = 'all'
@@ -467,18 +439,84 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
             # Change to any ship
             return scanner.scan(self.device.image)
 
-        candidates = self.find_candidates(self.get_templates(self.config.GemsFarming_CommonDD), scanner)
+        elif self.config.GemsFarming_CommonDD == 'custom':
+            candidates = self.find_custom_candidates(scanner, ship_type='dd')
 
-        if candidates:
-            # Change to specific ship
+            if candidates:
+                # Change to specific ship
+                return candidates
+
+            return scanner.scan(self.device.image, output=False)
+
+        else:
+            candidates = self.find_candidates(self.get_templates(self.config.GemsFarming_CommonDD), scanner)
+
+            if candidates:
+                # Change to specific ship
+                return candidates
+
+            logger.info('No specific DD was found, try reversed order.')
+            self.dock_sort_method_dsc_set(False)
+
+            # Change specific ship
+            candidates = self.find_candidates(self.get_templates(self.config.GemsFarming_CommonDD), scanner)
             return candidates
 
-        logger.info('No specific DD was found, try reversed order.')
-        self.dock_sort_method_dsc_set(False)
+    def find_custom_candidates(self, scanner, ship_type='cv'):
+        """
+        Get the candidates of common rarity cv/dd,
+        only for 'custom' GemsFarming_CommonCV/DD settings
 
-        # Change specific ship
-        candidates = self.find_candidates(self.get_templates(self.config.GemsFarming_CommonDD), scanner)
-        return candidates
+        Args:
+            scanner (ShipScanner):
+            ship_type (str): 'cv' or 'dd' 
+        """
+        if ship_type.lower() not in ['cv', 'dd']:
+            logger.warning(f'Invalid ship_type: {ship_type}')
+            return []
+
+        ship_type = ship_type.upper()
+        logger.info(f'Search for Common {ship_type}.')
+        if ship_type.lower() == 'cv' and self.config.GemsFarming_CommonCV != 'custom':
+            filter_string = self.config.COMMON_CV_FILTER
+        else:
+            filter_string =  self.config.__getattribute__(f'GemsFarming_Common{ship_type}Filter')
+        sort_dsc_first = ship_type.lower() == 'dd'
+    
+        common_ship = self.get_common_ship_filter(filter_string, ship_type=ship_type)
+        templates = globals()[f'TEMPLATE_COMMON_{ship_type}']
+        find_first = True
+        common_ship_candidates = {}
+        for name in common_ship:
+            template = templates[name.upper()]
+            print(name)
+            candidates = self.find_candidates(template, scanner)
+
+            if find_first:
+                find_first = False
+                if candidates:
+                    logger.info(f'Find Common {ship_type} {name}.')
+                    return candidates
+
+            common_ship_candidates[name] = candidates
+
+        logger.info(f'No suitable {ship_type} was found, try reversed order.')
+        self.dock_sort_method_dsc_set(not sort_dsc_first)
+
+        for name in common_ship:
+            template = templates[name.upper()]
+            print(name)
+            candidates = self.find_candidates(template, scanner)
+
+            if candidates:
+                logger.info(f'Find Common DD {name}.')
+                return candidates
+            elif common_ship_candidates[name]:
+                logger.info(f'Find Common DD {name}.')
+                self.dock_sort_method_dsc_set(sort_dsc_first)
+                return common_ship_candidates[name]
+
+        return []
 
     def find_candidates(self, template, scanner):
         """
@@ -486,11 +524,15 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
 
         """
         candidates = []
-        for item in template:
+        if isinstance(template, list):
+            for item in template:
+                candidates = [ship for ship in scanner.scan(self.device.image, output=False)
+                            if item.match(self.image_crop(ship.button, copy=False), similarity=SIM_VALUE)]
+                if candidates:
+                    break
+        else:
             candidates = [ship for ship in scanner.scan(self.device.image, output=False)
-                          if item.match(self.image_crop(ship.button, copy=False), similarity=SIM_VALUE)]
-            if candidates:
-                break
+                          if template.match(self.image_crop(ship.button, copy=False), similarity=SIM_VALUE)]
         return candidates
 
     @staticmethod

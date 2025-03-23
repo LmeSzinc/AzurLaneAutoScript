@@ -1198,12 +1198,17 @@
     "CommonDD": {
       "name": "指定前排",
       "help": "",
+      "custom": "自定义",
       "any": "任意",
       "favourite": "仅常用",
       "aulick_or_foote": "奥利克或富特",
       "cassin_or_downes": "卡辛或唐斯",
       "z20_or_z21": "Z20或Z21",
       "DDG": "导驱"
+    },
+    "CommonDDFilter": {
+      "name": "自定义前排过滤器",
+      "help": "使用自定义过滤器需将 \"指定前排\" 设置为 \"自定义\"，将按照过滤器顺序优先选择前排更换\nz20：Z20    z21：Z21    aulick：奥利克    foote：富特    cassin：卡辛    downes：唐斯"
     },
     "EquipmentCode": {
       "name": "装备码",

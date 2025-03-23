@@ -155,7 +155,8 @@ class GeneratedConfig:
     GemsFarming_CommonCV = 'any'  # custom, any, eagle, langley, bogue, ranger, hermes
     GemsFarming_CommonCVFilter = 'bogue > ranger > langley > hermes'
     GemsFarming_ChangeVanguard = 'ship_equip'  # disabled, ship, ship_equip
-    GemsFarming_CommonDD = 'any'  # any, favourite, aulick_or_foote, cassin_or_downes, z20_or_z21, DDG
+    GemsFarming_CommonDD = 'any'  # custom, any, favourite, aulick_or_foote, cassin_or_downes, z20_or_z21, DDG
+    GemsFarming_CommonDDFilter = 'z20 > z21 > aulick > foote > cassin > downes'
     GemsFarming_EquipmentCode = 'DD: null\nbogue: null\nhermes: null\nlangley: null\nranger: null'
     GemsFarming_ALLowHighFlagshipLevel = False
     GemsFarming_ALLowLowVanguardLevel = False
