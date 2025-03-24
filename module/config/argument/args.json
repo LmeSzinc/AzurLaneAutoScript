@@ -8530,6 +8530,10 @@
       "EnsureFullyCollected": {
         "type": "checkbox",
         "value": true
+      },
+      "AutoCollectShip": {
+        "type": "checkbox",
+        "value": true
       }
     },
     "Storage": {

@@ -2328,6 +2328,10 @@
     "EnsureFullyCollected": {
       "name": "保证收集满每日200信标数据",
       "help": "在收集满为前，暂时无视保留行动力设置，需要同时开启 \"短猫相接\""
+    },
+    "AutoCollectShip": {
+      "name": "自动获取新META舰船",
+      "help": "领取奖励时自动获取新META舰船。关闭后将不会点击\"点击同步\"按钮，需要手动领取"
     }
   },
   "OpsiFleetFilter": {

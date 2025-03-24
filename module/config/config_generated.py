@@ -388,6 +388,7 @@ class GeneratedConfig:
     OpsiAshBeacon_DossierAutoAttackMode = False
     OpsiAshBeacon_RequestAssist = True
     OpsiAshBeacon_EnsureFullyCollected = True
+    OpsiAshBeacon_AutoCollectShip = True
 
     # Group `OpsiFleetFilter`
     OpsiFleetFilter_Filter = 'Fleet-4 > CallSubmarine > Fleet-2 > Fleet-3 > Fleet-1'

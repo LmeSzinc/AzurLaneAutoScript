@@ -131,9 +131,17 @@ class BeaconReward(Combat, UI):
                 self.device.click(SYNC_ENTER)
                 received = True
                 continue
-            if self.appear_then_click(SYNC_TAP, offset=(20, 20), interval=3):
-                received = True
-                continue
+            if self.config.OpsiAshBeacon_AutoCollectShip:
+                # Collect ship automatically
+                if self.appear_then_click(SYNC_TAP, offset=(20, 20), interval=3):
+                    received = True
+                    continue
+            else:
+                # Collect ship manually, just skip SYNC_TAP
+                if self.appear(SYNC_TAP, offset=(20, 20)):
+                    logger.info(f"Skip ship collection due to auto collect ship is disabled")
+                    received = False
+                    break
 
         logger.info(f'Meta sync receive finished, received={received}')
         return received
