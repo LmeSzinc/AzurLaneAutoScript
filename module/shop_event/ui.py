@@ -80,7 +80,7 @@ class EventShopUI(UI):
             datetime: server time of shop deadline.
         """
         period = OCR_EVENT_SHOP_DEADLINE.ocr(self.device.image)[:-8]
-        y, m, d = [int(i) for i in re.split('[\~\-.]', period)[3:6]]
+        y, m, d = [int(i) for i in re.split('\D', period)[3:6]]
         deadline = datetime(y, m, d) + timedelta(days=1) # server deadline
         return deadline
 
