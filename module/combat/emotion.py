@@ -26,6 +26,7 @@ DIC_RECOVER_MAX = {
     'dormitory_floor_2': 150,
 }
 OATH_RECOVER = 10
+ONSEN_RECOVER = 10
 
 
 class FleetEmotion:
@@ -88,6 +89,14 @@ class FleetEmotion:
         return getattr(self.config, f'Emotion_Fleet{self.fleet}Oath')
 
     @property
+    def onsen(self):
+        """
+        Returns:
+            bool: If all ships onsen.
+        """
+        return getattr(self.config, f'Emotion_Fleet{self.fleet}Onsen')
+
+    @property
     def speed(self):
         """
         Returns:
@@ -96,6 +105,8 @@ class FleetEmotion:
         speed = DIC_RECOVER[self.recover]
         if self.oath:
             speed += OATH_RECOVER
+        if self.onsen:
+            speed += ONSEN_RECOVER
         return speed // 10
 
     @property

@@ -1009,6 +1009,10 @@
       "name": "一隊全員已婚 (+10/h)",
       "help": ""
     },
+    "Fleet1Onsen": {
+      "name": "一隊全員已放置溫泉 (+10/h)",
+      "help": ""
+    },
     "Fleet2Value": {
       "name": "二隊心情值",
       "help": ""
@@ -1034,6 +1038,10 @@
     },
     "Fleet2Oath": {
       "name": "二隊全員已婚 (+10/h)",
+      "help": ""
+    },
+    "Fleet2Onsen": {
+      "name": "二隊全員已放置溫泉 (+10/h)",
       "help": ""
     }
   },

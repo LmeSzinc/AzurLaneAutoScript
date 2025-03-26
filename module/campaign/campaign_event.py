@@ -24,6 +24,10 @@ class CampaignEvent(CampaignStatus):
                 keys = f'{task}.Scheduler.Enable'
                 logger.info(f'Disable task `{task}`')
                 self.config.cross_set(keys=keys, value=False)
+                keys = f'{task}.Emotion.Fleet1Onsen'
+                self.config.cross_set(keys=keys, value=False)
+                keys = f'{task}.Emotion.Fleet2Onsen'
+                self.config.cross_set(keys=keys, value=False)
 
             # Reset GemsFarming
             for task in tasks:
