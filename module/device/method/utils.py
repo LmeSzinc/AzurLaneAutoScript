@@ -238,6 +238,11 @@ def handle_adb_error(e):
         # Raised by uiautomator2 when current adb service is killed by another version of adb service.
         logger.error(e)
         return True
+    elif text == 'rest':
+        # AdbError(rest)
+        # Response telling adbd service has reset, client should reconnect
+        logger.error(e)
+        return True
     else:
         # AdbError()
         logger.exception(e)
