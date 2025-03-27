@@ -8,6 +8,7 @@ from module.exception import OilExhausted, RequestHumanTakeover
 from module.logger import logger
 from module.map.assets import *
 from module.map.map_fleet_preparation import FleetOperator
+from module.raid.assets import RAID_FLEET_PREPARATION
 
 
 class HospitalCombat(Combat, HospitalUI, CampaignEvent):
@@ -84,11 +85,11 @@ class HospitalCombat(Combat, HospitalUI, CampaignEvent):
             if self.handle_story_skip():
                 continue
             # Handle fleet preparation
-            if self.appear(FLEET_PREPARATION, offset=(20, 50), interval=2):
+            if self.appear(RAID_FLEET_PREPARATION, offset=(20, 50), interval=2):
                 if self.handle_fleet_recommend(recommend=self.config.Hospital_UseRecommendFleet):
-                    self.interval_clear(FLEET_PREPARATION)
+                    self.interval_clear(RAID_FLEET_PREPARATION)
                     continue
-                self.device.click(FLEET_PREPARATION)
+                self.device.click(RAID_FLEET_PREPARATION)
                 continue
             if self.appear_then_click(HOSPITAL_BATTLE_PREPARE, offset=(20, 20), interval=2):
                 continue

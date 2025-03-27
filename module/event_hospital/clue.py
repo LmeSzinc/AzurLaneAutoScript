@@ -8,7 +8,7 @@ from module.base.utils import area_offset, color_similarity_2d, image_size, rgb2
 from module.event_hospital.assets import *
 from module.event_hospital.ui import HospitalUI
 from module.logger import logger
-from module.map.assets import FLEET_PREPARATION
+from module.raid.assets import RAID_FLEET_PREPARATION
 from module.ui.page import page_hospital
 from module.ui.scroll import Scroll
 
@@ -145,6 +145,7 @@ class HospitalClue(HospitalUI):
             out: is_in_clue
         """
         logger.info('Hospital clue enter')
+        self.interval_clear(page_hospital.check_button)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -194,7 +195,7 @@ class HospitalClue(HospitalUI):
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
-            if self.appear(FLEET_PREPARATION, offset=(20, 50)):
+            if self.appear(RAID_FLEET_PREPARATION, offset=(20, 50)):
                 return True
 
             if self.is_in_clue(interval=2):
@@ -271,8 +272,20 @@ class HospitalClue(HospitalUI):
                 continue
             yield button
 
-    def select_aside(self, button, skip_first_screenshot=True):
-        logger.info(f'Select aside: {button}')
+    def select_aside(self, skip_first_screenshot=True):
+        """
+        Args:
+            skip_first_screenshot:
+
+        Returns:
+            bool: True if success to select any unfinished aside
+                False if all aside finished
+
+        Pages:
+            in: is_in_clue
+        """
+        logger.info(f'Select aside')
+        aside = None
         self.interval_clear(HOSIPITAL_CLUE_CHECK)
         while 1:
             if skip_first_screenshot:
@@ -280,10 +293,15 @@ class HospitalClue(HospitalUI):
             else:
                 self.device.screenshot()
             # End
-            if self.is_aside_selected(button):
-                break
+            if aside is not None and self.is_aside_selected(aside):
+                return True
             if self.is_in_clue(interval=2):
-                self.device.click(button)
+                aside = next(self.iter_aside(), None)
+                if aside is None:
+                    logger.info('No more aside')
+                    return False
+                logger.info(f'is_in_clue -> {aside}')
+                self.device.click(aside)
                 continue
             if self.handle_clue_exit():
                 continue
