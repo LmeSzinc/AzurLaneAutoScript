@@ -1,4 +1,5 @@
 from module.base.timer import Timer
+from module.base.utils import random_rectangle_vector
 from module.config.config import TaskEnd
 from module.event_hospital.assets import *
 from module.event_hospital.clue import HospitalClue
@@ -6,6 +7,42 @@ from module.event_hospital.combat import HospitalCombat
 from module.exception import OilExhausted, ScriptEnd
 from module.logger import logger
 from module.ui.page import page_hospital
+from module.ui.switch import Switch
+
+
+class HospitalSwitch(Switch):
+    def appear(self, main):
+        """
+        Args:
+            main (ModuleBase):
+
+        Returns:
+            bool
+        """
+        for data in self.state_list:
+            if main.image_color_count(data['check_button'], color=(33, 77, 189), threshold=221, count=100):
+                return True
+
+        return False
+
+    def get(self, main):
+        """
+        Args:
+            main (ModuleBase):
+
+        Returns:
+            str: state name or 'unknown'.
+        """
+        for data in self.state_list:
+            if main.image_color_count(data['check_button'], color=(33, 77, 189), threshold=221, count=100):
+                return data['state']
+
+        return 'unknown'
+
+
+HOSPITAL_TAB = HospitalSwitch('HOSPITAL_ASIDE', is_selector=True)
+HOSPITAL_TAB.add_state('LOCATION', check_button=TAB_LOCATION)
+HOSPITAL_TAB.add_state('CHARACTER', check_button=TAB_CHARACTER)
 
 
 class Hospital(HospitalClue, HospitalCombat):
@@ -26,11 +63,11 @@ class Hospital(HospitalClue, HospitalCombat):
         Pages:
             in: page_hospital
         """
-        # if self.daily_red_dot_appear():
-        #     logger.info('Daily red dot appear')
-        # else:
-        #     logger.info('No daily red dot')
-        #     return False
+        if self.daily_red_dot_appear():
+            logger.info('Daily red dot appear')
+        else:
+            logger.info('No daily red dot')
+            return False
 
         logger.hr('Daily reward receive', level=2)
         # Enter reward
@@ -157,15 +194,54 @@ class Hospital(HospitalClue, HospitalCombat):
         """
         while 1:
             logger.hr('Loop hospital aside', level=1)
-            aside = next(self.iter_aside(), None)
-            if aside is None:
-                logger.info('No more aside')
+            HOSPITAL_TAB.set('LOCATION', main=self)
+            selected = self.select_aside()
+            if not selected:
                 break
+            self.loop_invest()
 
-            self.select_aside(aside)
+        while 1:
+            logger.hr('Loop hospital aside', level=1)
+            HOSPITAL_TAB.set('CHARACTER', main=self)
+            selected = self.select_aside()
+            if not selected:
+                break
+            self.loop_invest()
+
+        while 1:
+            logger.hr('Loop hospital aside', level=1)
+            HOSPITAL_TAB.set('CHARACTER', main=self)
+            self.aside_swipe_down()
+            selected = self.select_aside()
+            if not selected:
+                break
             self.loop_invest()
 
         logger.info('Loop hospital aside end')
+
+    def aside_swipe_down(self, skip_first_screenshot=True):
+        """
+        Swipe til no ASIDE_NEXT_PAGE
+        """
+        logger.info('Aside swipe down')
+        swiped = False
+        interval = Timer(2, count=6)
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if swiped and not self.appear(ASIDE_NEXT_PAGE, offset=(20, 20)):
+                logger.info('Aside reached end')
+                break
+            if interval.reached():
+                p1, p2 = random_rectangle_vector(
+                    vector=(0, -200), box=CLUE_LIST.area, random_range=(-20, -10, 20, 10))
+                self.device.swipe(p1, p2)
+                interval.reset()
+                swiped = True
+                continue
 
     def run(self):
         self.ui_ensure(page_hospital)
