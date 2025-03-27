@@ -168,7 +168,7 @@ class HospitalClue(HospitalUI):
             if self.appear(FLEET_PREPARATION, offset=(20, 50)):
                 break
 
-            if self.is_in_clue(interval=3):
+            if self.is_in_clue(interval=2):
                 logger.info(f'is_in_clue -> {invest}')
                 self.device.click(invest)
                 continue
