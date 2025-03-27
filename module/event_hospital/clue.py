@@ -9,6 +9,7 @@ from module.event_hospital.assets import *
 from module.event_hospital.ui import HospitalUI
 from module.logger import logger
 from module.map.assets import FLEET_PREPARATION
+from module.ui.page import page_hospital
 from module.ui.scroll import Scroll
 
 
@@ -138,8 +139,7 @@ class HospitalClue(HospitalUI):
             in: Any sub page of hospital event
             out: is_in_clue
         """
-        logger.info('Hospital goto clue')
-        self.interval_clear(HOSIPITAL_CLUE_CHECK)
+        logger.info('Hospital clue enter')
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -148,6 +148,26 @@ class HospitalClue(HospitalUI):
             if self.is_in_clue():
                 break
             if self.handle_clue_exit():
+                continue
+
+    def clue_exit(self, skip_first_screenshot=True):
+        """
+        Pages:
+            in: Any sub page of hospital event
+            out: page_hospital
+        """
+        logger.info('Hospital clue exit')
+        self.interval_clear(HOSIPITAL_CLUE_CHECK)
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+            if self.ui_page_appear(page_hospital):
+                break
+            if self.handle_clue_exit():
+                continue
+            if self.appear_then_click(HOSIPITAL_CLUE_CHECK, offset=(20, 20), interval=2):
                 continue
 
     def invest_enter(self, invest, skip_first_screenshot=True):

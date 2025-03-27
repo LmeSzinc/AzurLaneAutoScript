@@ -1,7 +1,11 @@
-from module.event_hospital.clue import HospitalClue
+from module.config.config import TaskEnd
 from module.event_hospital.assets import *
+from module.event_hospital.clue import HospitalClue
 from module.event_hospital.combat import HospitalCombat
+from module.exception import ScriptEnd
 from module.logger import logger
+from module.raid.raid import OilExhausted
+from module.ui.page import page_hospital
 
 
 class Hospital(HospitalClue, HospitalCombat):
@@ -9,8 +13,13 @@ class Hospital(HospitalClue, HospitalCombat):
         """
         Do all invest in page
         """
+        self.config.override(Fleet_FleetOrder='fleet1_all_fleet2_standby')
         while 1:
             logger.hr('Loop hospital invest', level=2)
+            # Scheduler
+            # May raise ScriptEnd
+            self.emotion.check_reduce(battle=1)
+
             invest = next(self.iter_invest(), None)
             if invest is None:
                 logger.info('No more invest')
@@ -18,6 +27,11 @@ class Hospital(HospitalClue, HospitalCombat):
 
             self.invest_enter(invest)
             self.hospital_combat()
+
+            # Scheduler
+            # May raise TaskEnd
+            if self.config.task_switched():
+                self.config.task_stop()
 
         self.claim_invest_reward()
         logger.info('Loop hospital invest end')
@@ -67,6 +81,28 @@ class Hospital(HospitalClue, HospitalCombat):
             self.loop_invest()
 
         logger.info('Loop hospital aside end')
+
+    def run(self):
+        self.ui_ensure(page_hospital)
+        self.clue_enter()
+
+        try:
+            self.loop_aside()
+        except OilExhausted:
+            self.clue_exit()
+            logger.hr('Triggered stop condition: Oil limit')
+            self.config.task_delay(minute=(120, 240))
+        except ScriptEnd as e:
+            logger.hr('Script end')
+            logger.info(str(e))
+            self.clue_exit()
+            raise
+        except TaskEnd:
+            self.clue_exit()
+            raise
+
+        # Scheduler
+        self.config.task_delay(server_update=True)
 
 
 if __name__ == '__main__':

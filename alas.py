@@ -371,6 +371,10 @@ class AzurLaneAutoScript:
         from module.raid.run import RaidRun
         RaidRun(config=self.config, device=self.device).run()
 
+    def hospital(self):
+        from module.event_hospital.hospital import Hospital
+        Hospital(config=self.config, device=self.device).run()
+
     def coalition(self):
         from module.coalition.coalition import Coalition
         Coalition(config=self.config, device=self.device).run()
