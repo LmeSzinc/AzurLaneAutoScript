@@ -37,6 +37,7 @@ RAIDS = ['Raid', 'RaidDaily']
 WAR_ARCHIVES = ['WarArchives']
 COALITIONS = ['Coalition', 'CoalitionSp']
 MARITIME_ESCORTS = ['MaritimeEscort']
+HOSPITAL = ['Hospital']
 
 
 class Event:
