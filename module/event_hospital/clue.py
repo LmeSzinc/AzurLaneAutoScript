@@ -4,7 +4,7 @@ from typing import List, Optional, Tuple
 import cv2
 import numpy as np
 
-from module.base.utils import area_offset, color_similarity_2d, rgb2gray, xywh2xyxy
+from module.base.utils import area_offset, color_similarity_2d, rgb2gray, xywh2xyxy, area_pad
 from module.event_hospital.assets import *
 from module.event_hospital.ui import HospitalUI
 from module.logger import logger
@@ -139,6 +139,7 @@ class HospitalClue(HospitalUI):
             out: is_in_clue
         """
         logger.info('Hospital goto clue')
+        self.interval_clear(HOSIPITAL_CLUE_CHECK)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -160,6 +161,7 @@ class HospitalClue(HospitalUI):
             out: FLEET_PREPARATION
         """
         logger.info('Clue invest')
+        self.interval_clear(HOSIPITAL_CLUE_CHECK)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -213,5 +215,44 @@ class HospitalClue(HospitalUI):
             if button:
                 yield button
 
+    def is_aside_selected(self, button: Button) -> bool:
+        area = button.area
+        search = CLUE_LIST.area
+        # Search around if having dark background
+        area = (search[0], area[1], search[2], area[3])
+        return self.image_color_count(area, color=(82, 85, 107), threshold=221, count=500)
+
+    def is_aside_checked(self, button: Button) -> bool:
+        area = button.area
+        search = CLUE_LIST.area
+        # Search if there's any cyan
+        area = (search[0], area[1], search[2], area[3])
+        return self.image_color_count(area, color=(74, 130, 148), threshold=221, count=20)
+
     def iter_aside(self):
-        pass
+        """
+        Yields:
+            Button:
+        """
+        list_button = self.get_clue_list()
+        for button in list_button:
+            if self.is_aside_checked(button):
+                continue
+            yield button
+
+    def select_aside(self, button, skip_first_screenshot=True):
+        logger.info(f'Select aside: {button}')
+        self.interval_clear(HOSIPITAL_CLUE_CHECK)
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+            # End
+            if self.is_aside_selected(button):
+                break
+            if self.is_in_clue(interval=2):
+                self.device.click(button)
+                continue
+            if self.handle_clue_exit():
+                continue
