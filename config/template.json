@@ -558,6 +558,43 @@
       "Storage": {}
     }
   },
+  "Hospital": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "Hospital",
+      "SuccessInterval": 0,
+      "FailureInterval": 120,
+      "ServerUpdate": "00:00"
+    },
+    "Hospital": {
+      "UseRecommendFleet": true
+    },
+    "StopCondition": {
+      "OilLimit": 1000,
+      "RunCount": 0,
+      "MapAchievement": "non_stop",
+      "StageIncrease": false,
+      "GetNewShip": false,
+      "ReachLevel": 0
+    },
+    "Emotion": {
+      "Mode": "calculate",
+      "Fleet1Value": 119,
+      "Fleet1Record": "2020-01-01 00:00:00",
+      "Fleet1Control": "prevent_yellow_face",
+      "Fleet1Recover": "not_in_dormitory",
+      "Fleet1Oath": false,
+      "Fleet2Value": 119,
+      "Fleet2Record": "2020-01-01 00:00:00",
+      "Fleet2Control": "prevent_yellow_face",
+      "Fleet2Recover": "not_in_dormitory",
+      "Fleet2Oath": false
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
   "Coalition": {
     "Scheduler": {
       "Enable": false,

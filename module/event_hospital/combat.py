@@ -86,7 +86,7 @@ class HospitalCombat(Combat, HospitalUI, CampaignEvent):
                 continue
             # Handle fleet preparation
             if self.appear(FLEET_PREPARATION, offset=(20, 50), interval=2):
-                if self.handle_fleet_recommend():
+                if self.handle_fleet_recommend(recommend=self.config.Hospital_UseRecommendFleet):
                     self.interval_clear(FLEET_PREPARATION)
                     continue
                 self.device.click(FLEET_PREPARATION)

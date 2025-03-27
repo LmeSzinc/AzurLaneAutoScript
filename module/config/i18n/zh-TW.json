@@ -78,6 +78,10 @@
       "name": "共鬥活動",
       "help": ""
     },
+    "Hospital": {
+      "name": "深谷来信",
+      "help": ""
+    },
     "Coalition": {
       "name": "極地風暴",
       "help": ""
@@ -1266,6 +1270,16 @@
     "StageFilter": {
       "name": "共鬥難度過濾器",
       "help": ""
+    }
+  },
+  "Hospital": {
+    "_info": {
+      "name": "活動設定",
+      "help": ""
+    },
+    "UseRecommendFleet": {
+      "name": "使用艦隊推薦",
+      "help": "如果關閉，需要事先手動為所有15個關卡配隊"
     }
   },
   "MaritimeEscort": {
