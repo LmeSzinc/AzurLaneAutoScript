@@ -95,7 +95,6 @@ class Hospital(HospitalClue, HospitalCombat):
             logger.hr('Script end')
             logger.info(str(e))
             self.clue_exit()
-            raise
         except TaskEnd:
             self.clue_exit()
             raise
