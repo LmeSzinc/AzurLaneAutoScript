@@ -30,6 +30,9 @@ class Hospital(HospitalClue, HospitalCombat):
             if self.config.task_switched():
                 self.config.task_stop()
 
+            # Aside reset after combat, so we should loop in aside again
+            break
+
         self.claim_invest_reward()
         logger.info('Loop hospital invest end')
 
