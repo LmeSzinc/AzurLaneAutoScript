@@ -4,7 +4,7 @@ from typing import List, Optional, Tuple
 import cv2
 import numpy as np
 
-from module.base.utils import area_offset, color_similarity_2d, rgb2gray, xywh2xyxy, area_pad
+from module.base.utils import area_offset, color_similarity_2d, image_size, rgb2gray, xywh2xyxy
 from module.event_hospital.assets import *
 from module.event_hospital.ui import HospitalUI
 from module.logger import logger
@@ -126,6 +126,11 @@ class HospitalClue(HospitalUI):
             search = (area[0], button.button[3], area[2], second.button[1])
         image = self.image_crop(search, copy=False)
         image = rgb2gray(image)
+
+        # Check image size
+        x, y = image_size(image)
+        if y < 50:
+            return None
 
         # Check if there's TEMPLATE_REMAIN_CURRENT TEMPLATE_REMAIN_TIMES bellow INVEST
         if TEMPLATE_REMAIN_CURRENT.match(image):

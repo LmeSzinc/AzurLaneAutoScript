@@ -4,11 +4,10 @@ from module.campaign.campaign_event import CampaignEvent
 from module.combat.combat import BATTLE_PREPARATION, Combat
 from module.event_hospital.assets import HOSPITAL_BATTLE_PREPARE
 from module.event_hospital.ui import HospitalUI
-from module.exception import RequestHumanTakeover
+from module.exception import OilExhausted, RequestHumanTakeover
 from module.logger import logger
 from module.map.assets import *
 from module.map.map_fleet_preparation import FleetOperator
-from module.raid.raid import OilExhausted
 
 
 class HospitalCombat(Combat, HospitalUI, CampaignEvent):
