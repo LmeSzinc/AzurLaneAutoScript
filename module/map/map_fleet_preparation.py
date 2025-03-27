@@ -154,6 +154,27 @@ class FleetOperator:
                 main.device.click(self._clear)
                 click_timer.reset()
 
+    def recommend(self, skip_first_screenshot=True):
+        """
+        Recommend fleet
+        """
+        main = self.main
+        click_timer = Timer(3, count=6)
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                main.device.screenshot()
+
+            # End
+            if self.in_use():
+                break
+
+            # Click
+            if click_timer.reached():
+                main.device.click(self._choose)
+                click_timer.reset()
+
     def open(self, skip_first_screenshot=True):
         """
         Activate dropdown menu for fleet selection.
