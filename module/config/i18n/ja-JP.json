@@ -78,6 +78,10 @@
       "name": "Raid",
       "help": ""
     },
+    "Hospital": {
+      "name": "病院探訪",
+      "help": ""
+    },
     "Coalition": {
       "name": "リトル学園",
       "help": ""
@@ -1266,6 +1270,16 @@
     "StageFilter": {
       "name": "RaidDaily.StageFilter.name",
       "help": "RaidDaily.StageFilter.help"
+    }
+  },
+  "Hospital": {
+    "_info": {
+      "name": "Hospital._info.name",
+      "help": "Hospital._info.help"
+    },
+    "UseRecommendFleet": {
+      "name": "Hospital.UseRecommendFleet.name",
+      "help": "Hospital.UseRecommendFleet.help"
     }
   },
   "MaritimeEscort": {

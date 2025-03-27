@@ -73,7 +73,7 @@ class AzurLaneAutoScript:
         except GameNotRunningError as e:
             logger.warning(e)
             self.config.task_call('Restart')
-            return True
+            return False
         except (GameStuckError, GameTooManyClickError) as e:
             logger.error(e)
             self.save_error_log()
@@ -370,6 +370,10 @@ class AzurLaneAutoScript:
     def raid(self):
         from module.raid.run import RaidRun
         RaidRun(config=self.config, device=self.device).run()
+
+    def hospital(self):
+        from module.event_hospital.hospital import Hospital
+        Hospital(config=self.config, device=self.device).run()
 
     def coalition(self):
         from module.coalition.coalition import Coalition

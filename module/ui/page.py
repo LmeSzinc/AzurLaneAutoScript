@@ -1,6 +1,7 @@
 import traceback
 
 from module.coalition.assets import *
+from module.event_hospital.assets import HOSIPITAL_CHECK
 from module.raid.assets import *
 from module.retire.assets import DOCK_CHECK
 from module.ui.assets import *
@@ -318,3 +319,8 @@ page_rpg_city.link(button=RPG_HOME, destination=page_main)
 
 # Keep page_rpg_stage, so Raid can import
 # page_rpg_stage = page_raid
+
+# Hospital event (20250327)
+page_hospital = Page(HOSIPITAL_CHECK)
+page_hospital.link(button=GOTO_MAIN_WHITE, destination=page_main)
+page_campaign_menu.link(button=CAMPAIGN_MENU_GOTO_EVENT, destination=page_hospital)

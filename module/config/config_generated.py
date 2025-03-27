@@ -174,6 +174,9 @@ class GeneratedConfig:
     # Group `RaidDaily`
     RaidDaily_StageFilter = 'hard > normal > easy'
 
+    # Group `Hospital`
+    Hospital_UseRecommendFleet = True
+
     # Group `MaritimeEscort`
     MaritimeEscort_Enable = True
 
