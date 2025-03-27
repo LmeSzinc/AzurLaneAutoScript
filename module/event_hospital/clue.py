@@ -195,7 +195,7 @@ class HospitalClue(HospitalUI):
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
-            if self.appear(RAID_FLEET_PREPARATION, offset=(20, 50)):
+            if self.appear(RAID_FLEET_PREPARATION, offset=(30, 30)):
                 return True
 
             if self.is_in_clue(interval=2):

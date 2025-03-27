@@ -85,7 +85,7 @@ class HospitalCombat(Combat, HospitalUI, CampaignEvent):
             if self.handle_story_skip():
                 continue
             # Handle fleet preparation
-            if self.appear(RAID_FLEET_PREPARATION, offset=(20, 50), interval=2):
+            if self.appear(RAID_FLEET_PREPARATION, offset=(30, 30), interval=2):
                 if self.handle_fleet_recommend(recommend=self.config.Hospital_UseRecommendFleet):
                     self.interval_clear(RAID_FLEET_PREPARATION)
                     continue
