@@ -250,6 +250,8 @@ class Hospital(HospitalClue, HospitalCombat):
         self.clue_enter()
         try:
             self.loop_aside()
+            # Scheduler
+            self.config.task_delay(server_update=True)
         except OilExhausted:
             self.clue_exit()
             logger.hr('Triggered stop condition: Oil limit')
@@ -261,9 +263,6 @@ class Hospital(HospitalClue, HospitalCombat):
         except TaskEnd:
             self.clue_exit()
             raise
-
-        # Scheduler
-        self.config.task_delay(server_update=True)
 
 
 if __name__ == '__main__':
