@@ -20,12 +20,9 @@ class Hospital(HospitalClue, HospitalCombat):
             # May raise ScriptEnd
             self.emotion.check_reduce(battle=1)
 
-            invest = next(self.iter_invest(), None)
-            if invest is None:
-                logger.info('No more invest')
+            entered = self.invest_enter()
+            if not entered:
                 break
-
-            self.invest_enter(invest)
             self.hospital_combat()
 
             # Scheduler

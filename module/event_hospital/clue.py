@@ -170,11 +170,13 @@ class HospitalClue(HospitalUI):
             if self.appear_then_click(HOSIPITAL_CLUE_CHECK, offset=(20, 20), interval=2):
                 continue
 
-    def invest_enter(self, invest, skip_first_screenshot=True):
+    def invest_enter(self, skip_first_screenshot=True):
         """
         Args:
-            invest:
             skip_first_screenshot:
+
+        Returns:
+            bool: If success to enter
 
         Pages:
             in: is_in_clue
@@ -188,9 +190,13 @@ class HospitalClue(HospitalUI):
             else:
                 self.device.screenshot()
             if self.appear(FLEET_PREPARATION, offset=(20, 50)):
-                break
+                return True
 
             if self.is_in_clue(interval=2):
+                invest = next(self.iter_invest(), None)
+                if invest is None:
+                    logger.info('No more invest')
+                    return False
                 logger.info(f'is_in_clue -> {invest}')
                 self.device.click(invest)
                 continue
