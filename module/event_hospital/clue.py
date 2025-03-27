@@ -8,7 +8,7 @@ from module.base.utils import area_offset, color_similarity_2d, image_size, rgb2
 from module.event_hospital.assets import *
 from module.event_hospital.ui import HospitalUI
 from module.logger import logger
-from module.map.assets import FLEET_PREPARATION
+from module.raid.assets import RAID_FLEET_PREPARATION
 from module.ui.page import page_hospital
 from module.ui.scroll import Scroll
 
@@ -195,7 +195,7 @@ class HospitalClue(HospitalUI):
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
-            if self.appear(FLEET_PREPARATION, offset=(20, 50)):
+            if self.appear(RAID_FLEET_PREPARATION, offset=(20, 50)):
                 return True
 
             if self.is_in_clue(interval=2):
