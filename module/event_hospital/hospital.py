@@ -2,9 +2,8 @@ from module.config.config import TaskEnd
 from module.event_hospital.assets import *
 from module.event_hospital.clue import HospitalClue
 from module.event_hospital.combat import HospitalCombat
-from module.exception import ScriptEnd
+from module.exception import OilExhausted, ScriptEnd
 from module.logger import logger
-from module.raid.raid import OilExhausted
 from module.ui.page import page_hospital
 
 

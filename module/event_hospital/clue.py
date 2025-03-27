@@ -4,7 +4,7 @@ from typing import List, Optional, Tuple
 import cv2
 import numpy as np
 
-from module.base.utils import area_offset, color_similarity_2d, rgb2gray, xywh2xyxy, area_pad, image_size
+from module.base.utils import area_offset, color_similarity_2d, image_size, rgb2gray, xywh2xyxy
 from module.event_hospital.assets import *
 from module.event_hospital.ui import HospitalUI
 from module.logger import logger
