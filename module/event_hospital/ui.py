@@ -16,7 +16,7 @@ class HospitalUI(UI):
         Returns:
             bool: If clicked
         """
-        if self.appear_then_click(GET_CLUE, offset=(20, 20), interval=3):
+        if self.appear_then_click(GET_CLUE, offset=(20, 20), interval=1):
             return True
         return False
 
