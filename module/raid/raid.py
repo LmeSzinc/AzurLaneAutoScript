@@ -194,7 +194,7 @@ def pt_ocr(raid):
 
 
 class Raid(MapOperation, RaidCombat, CampaignEvent):
-    def combat_preparation(self, balance_hp=False, emotion_reduce=False, auto=True, fleet_index=1):
+    def combat_preparation(self, balance_hp=False, emotion_reduce=False, auto='combat_auto', fleet_index=1):
         """
         Args:
             balance_hp (bool):
