@@ -145,6 +145,7 @@ class HospitalClue(HospitalUI):
             out: is_in_clue
         """
         logger.info('Hospital clue enter')
+        self.interval_clear(page_hospital.check_button)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
