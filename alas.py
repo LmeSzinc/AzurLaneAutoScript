@@ -382,6 +382,10 @@ class AzurLaneAutoScript:
         from module.event_hospital.hospital import Hospital
         Hospital(config=self.config, device=self.device).run()
 
+    def hospital_event(self):
+        from module.event_hospital.hospital_event import HospitalEvent
+        HospitalEvent(config=self.config, device=self.device).run()
+
     def coalition(self):
         from module.coalition.coalition import Coalition
         Coalition(config=self.config, device=self.device).run()
