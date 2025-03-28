@@ -137,6 +137,7 @@ class HospitalClue(HospitalUI):
             return button
         if TEMPLATE_REMAIN_TIMES.match(image):
             return button
+        return None
 
     def clue_enter(self, skip_first_screenshot=True):
         """
@@ -205,6 +206,7 @@ class HospitalClue(HospitalUI):
                     return False
                 logger.info(f'is_in_clue -> {invest}')
                 self.device.click(invest)
+                self.interval_reset(HOSIPITAL_CLUE_CHECK, interval=2)
                 continue
             if self.appear_then_click(HOSPITAL_BATTLE_PREPARE, offset=(20, 20), interval=2):
                 continue
@@ -302,6 +304,7 @@ class HospitalClue(HospitalUI):
                     return False
                 logger.info(f'is_in_clue -> {aside}')
                 self.device.click(aside)
+                self.interval_reset(HOSIPITAL_CLUE_CHECK, interval=2)
                 continue
             if self.handle_clue_exit():
                 continue
