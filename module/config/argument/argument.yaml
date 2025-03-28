@@ -323,6 +323,13 @@ RaidDaily:
     hard > normal > easy
 Hospital:
   UseRecommendFleet: true
+HospitalEvent:
+  Mode:
+    value: hard
+    option: [ easy, normal, hard ]
+  Stage:
+    value: T1
+    option: [ T1, T2, T3, T4, ESP ]
 MaritimeEscort:
   Enable: true
 Coalition:

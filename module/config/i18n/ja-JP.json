@@ -79,6 +79,10 @@
       "help": ""
     },
     "Hospital": {
+      "name": "病院探訪ストーリー",
+      "help": ""
+    },
+    "HospitalEvent": {
       "name": "病院探訪",
       "help": ""
     },
@@ -1320,6 +1324,28 @@
     "UseRecommendFleet": {
       "name": "Hospital.UseRecommendFleet.name",
       "help": "Hospital.UseRecommendFleet.help"
+    }
+  },
+  "HospitalEvent": {
+    "_info": {
+      "name": "HospitalEvent._info.name",
+      "help": "HospitalEvent._info.help"
+    },
+    "Mode": {
+      "name": "HospitalEvent.Mode.name",
+      "help": "HospitalEvent.Mode.help",
+      "easy": "easy",
+      "normal": "normal",
+      "hard": "hard"
+    },
+    "Stage": {
+      "name": "HospitalEvent.Stage.name",
+      "help": "HospitalEvent.Stage.help",
+      "T1": "T1",
+      "T2": "T2",
+      "T3": "T3",
+      "T4": "T4",
+      "ESP": "ESP"
     }
   },
   "MaritimeEscort": {

@@ -79,6 +79,10 @@
       "help": ""
     },
     "Hospital": {
+      "name": "Valley Hospital Story",
+      "help": ""
+    },
+    "HospitalEvent": {
       "name": "Valley Hospital",
       "help": ""
     },
@@ -1320,6 +1324,28 @@
     "UseRecommendFleet": {
       "name": "Use Fleet Recommendation",
       "help": "If turned off, you need to manually prepare fleets of all 15 stages in advance"
+    }
+  },
+  "HospitalEvent": {
+    "_info": {
+      "name": "Raid Settings",
+      "help": ""
+    },
+    "Mode": {
+      "name": "Raid Mode",
+      "help": "",
+      "easy": "Day",
+      "normal": "Dusk",
+      "hard": "Night"
+    },
+    "Stage": {
+      "name": "Level Name",
+      "help": "",
+      "T1": "T1",
+      "T2": "T2",
+      "T3": "T3",
+      "T4": "T4",
+      "ESP": "ESP"
     }
   },
   "MaritimeEscort": {

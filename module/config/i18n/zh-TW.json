@@ -79,6 +79,10 @@
       "help": ""
     },
     "Hospital": {
+      "name": "深谷来信劇情",
+      "help": ""
+    },
+    "HospitalEvent": {
       "name": "深谷来信",
       "help": ""
     },
@@ -1320,6 +1324,28 @@
     "UseRecommendFleet": {
       "name": "使用艦隊推薦",
       "help": "如果關閉，需要事先手動為所有15個關卡配隊"
+    }
+  },
+  "HospitalEvent": {
+    "_info": {
+      "name": "共鬥活動設定",
+      "help": ""
+    },
+    "Mode": {
+      "name": "難度",
+      "help": "",
+      "easy": "正午",
+      "normal": "黃昏",
+      "hard": "夜晚"
+    },
+    "Stage": {
+      "name": "地圖名稱",
+      "help": "",
+      "T1": "T1",
+      "T2": "T2",
+      "T3": "T3",
+      "T4": "T4",
+      "ESP": "ESP"
     }
   },
   "MaritimeEscort": {

@@ -27,6 +27,7 @@
       "Event2",
       "Raid",
       "Hospital",
+      "HospitalEvent",
       "Coalition",
       "MaritimeEscort",
       "WarArchives"

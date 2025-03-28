@@ -179,7 +179,7 @@ Raid:
     Fleet2Control: prevent_yellow_face
     Fleet2Recover: not_in_dormitory
     Fleet2Oath: false
-    Fleet2Onsen: False
+    Fleet2Onsen: false
 Hospital:
   StopCondition:
     RunCount: 0
@@ -191,11 +191,26 @@ Hospital:
     Fleet1Control: prevent_yellow_face
     Fleet1Recover: not_in_dormitory
     Fleet1Oath: false
+    Fleet1Onsen: false
     Fleet2Value: 119
     Fleet2Record: 2020-01-01 00:00:00
     Fleet2Control: prevent_yellow_face
     Fleet2Recover: not_in_dormitory
     Fleet2Oath: false
+    Fleet2Onsen: false
+HospitalEvent:
+  StopCondition:
+    MapAchievement: non_stop
+    StageIncrease: false
+    GetNewShip: false
+    ReachLevel: 0
+  Emotion:
+    Fleet2Value: 119
+    Fleet2Record: 2020-01-01 00:00:00
+    Fleet2Control: prevent_yellow_face
+    Fleet2Recover: not_in_dormitory
+    Fleet2Oath: false
+    Fleet2Onsen: false
 RaidDaily:
   Scheduler:
     SuccessInterval: 30
@@ -285,7 +300,7 @@ CoalitionSp:
     Fleet2Control: prevent_yellow_face
     Fleet2Recover: not_in_dormitory
     Fleet2Oath: false
-    Fleet2Onsen: False
+    Fleet2Onsen: false
 
 # ==================== Reward ====================
 

@@ -186,6 +186,10 @@ class GeneratedConfig:
     # Group `Hospital`
     Hospital_UseRecommendFleet = True
 
+    # Group `HospitalEvent`
+    HospitalEvent_Mode = 'hard'  # easy, normal, hard
+    HospitalEvent_Stage = 'T1'  # T1, T2, T3, T4, ESP
+
     # Group `MaritimeEscort`
     MaritimeEscort_Enable = True
 
