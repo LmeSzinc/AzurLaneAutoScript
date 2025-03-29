@@ -111,6 +111,8 @@ class HospitalClue(HospitalUI):
 
         # Search INVEST
         buttons = TEMPLATE_INVEST.match_multi(image)
+        buttons += TEMPLATE_INVEST2.match_multi(image)
+        buttons = sorted(buttons, key=lambda b: b.area[1])
         count = len(buttons)
         if count == 0:
             return None
