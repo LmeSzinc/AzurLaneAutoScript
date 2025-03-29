@@ -257,6 +257,9 @@ class GeneratedConfig:
     # Group `Awaken`
     Awaken_LevelCap = 'level120'  # level120, level125
 
+    # Group `Augment`
+    Augment_ConversionUnique = True
+
     # Group `GeneralShop`
     GeneralShop_UseGems = False
     GeneralShop_Refresh = False
