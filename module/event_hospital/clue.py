@@ -111,6 +111,8 @@ class HospitalClue(HospitalUI):
 
         # Search INVEST
         buttons = TEMPLATE_INVEST.match_multi(image)
+        buttons += TEMPLATE_INVEST2.match_multi(image)
+        buttons = sorted(buttons, key=lambda b: b.area[1])
         count = len(buttons)
         if count == 0:
             return None
@@ -260,7 +262,8 @@ class HospitalClue(HospitalUI):
         area = button.area
         search = CLUE_LIST.area
         # Search if there's any cyan
-        area = (search[0], area[1], search[2], area[3])
+        # JP has text overflowed, set right to 308
+        area = (search[0], area[1], 308, area[3])
         return self.image_color_count(area, color=(74, 130, 148), threshold=221, count=20)
 
     def iter_aside(self):
