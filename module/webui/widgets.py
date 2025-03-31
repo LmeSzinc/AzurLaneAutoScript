@@ -285,7 +285,7 @@ def put_icon_buttons(
         state = ProcessManager.get_manager(value).state
         if state == 1 and af_flag:
             icon_html = getattr(Icon, "AFRUNNING")
-    return put_column(
+    put_column(
         [
             output(put_html(icon_html)).style(
                 "z-index: 1; margin-left: 8px;text-align: center"
