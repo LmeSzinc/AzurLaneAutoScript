@@ -117,6 +117,7 @@ class AlasGUI(Frame):
         self.rendered_cache = []
         self.inst_cache = []
         self.load_home = False
+        self.af_flag = False
 
     @use_scope("aside", clear=True)
     def set_aside(self) -> None:
@@ -143,19 +144,18 @@ class AlasGUI(Frame):
             onclick=[lambda: go_app("manage", new_window=False)],
         )
 
+        current_date = datetime.now().date()
+        if current_date.month == 4 and current_date.day == 1:
+            self.af_flag = True
+
     @use_scope("aside_instance")
     def set_aside_status(self) -> None:
-        flag = True      
-        
+        flag = True       
         def update(name, seq):
             with use_scope(f"alas-instance-{seq}", clear=True):
                 icon_html = Icon.RUN
                 rendered_state = ProcessManager.get_manager(inst).state
-                af_flag = False
-                current_date = datetime.now().date()
-                if current_date.month == 4 and current_date.day == 1:
-                    af_flag = True
-                if rendered_state == 1 and af_flag:
+                if rendered_state == 1 and self.af_flag:
                     icon_html = icon_html[:31] + ' anim-rotate' + icon_html[31:]
                 put_icon_buttons(
                     icon_html,
