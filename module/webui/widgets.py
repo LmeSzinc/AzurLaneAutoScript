@@ -277,6 +277,7 @@ def put_icon_buttons(
 ) -> Output:
     value = buttons[0]["value"]
     af_flag = False
+    state = 2 
     if signal == "true":
         current_date = datetime.now().date()
         if current_date.month == 4 and current_date.day == 1:
