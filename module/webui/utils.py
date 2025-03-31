@@ -388,6 +388,7 @@ class Icon:
     RUN = _read(filepath_icon("run"))
     DEVELOP = _read(filepath_icon("develop"))
     ADD = _read(filepath_icon("add"))
+    AFRUNNING = _read(filepath_icon("afrun"))
 
 
 str2type = {
