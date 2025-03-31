@@ -279,7 +279,7 @@ def put_icon_buttons(
     af_flag = False
     if signal == "true":
         current_date = datetime.now().date()
-        if current_date.month == 3 and current_date.day == 31:
+        if current_date.month == 4 and current_date.day == 1:
             af_flag = True
         state = ProcessManager.get_manager(value).state
         if state == 1 and af_flag:
