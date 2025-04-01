@@ -213,6 +213,10 @@ class AzurLaneAutoScript:
         from module.awaken.awaken import Awaken
         Awaken(config=self.config, device=self.device).run()
 
+    def augment(self):
+        from module.augment.conversion_unique import ConversionUnique
+        ConversionUnique(config=self.config, device=self.device).run()
+
     def shop_frequent(self):
         from module.shop.shop_reward import RewardShop
         RewardShop(config=self.config, device=self.device).run_frequent()
