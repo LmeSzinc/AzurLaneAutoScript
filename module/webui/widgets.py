@@ -2,7 +2,6 @@ import copy
 import json
 import random
 import string
-from datetime import datetime
 from typing import Any, Callable, Dict, Generator, List, Optional, TYPE_CHECKING, Union
 
 from pywebio.exceptions import SessionException
@@ -21,7 +20,6 @@ from module.webui.utils import (
     LIGHT_TERMINAL_THEME,
     LOG_CODE_FORMAT,
     Switch,
-    Icon
 )
 
 if TYPE_CHECKING:
@@ -271,21 +269,11 @@ class BinarySwitchButton(Switch):
 
 def put_icon_buttons(
         icon_html: str,
-        signal: str,
         buttons: List[Dict[str, str]],
         onclick: Union[List[Callable[[], None]], Callable[[], None]],
 ) -> Output:
     value = buttons[0]["value"]
-    af_flag = False
-    state = 2 
-    if signal == "true":
-        current_date = datetime.now().date()
-        if current_date.month == 4 and current_date.day == 1:
-            af_flag = True
-        state = ProcessManager.get_manager(value).state
-        if state == 1 and af_flag:
-            icon_html = getattr(Icon, "AFRUNNING")
-    put_column(
+    return put_column(
         [
             output(put_html(icon_html)).style(
                 "z-index: 1; margin-left: 8px;text-align: center"
@@ -294,8 +282,6 @@ def put_icon_buttons(
         ],
         size="0",
     )
-
-    return state
 
 
 def put_none() -> Output:
