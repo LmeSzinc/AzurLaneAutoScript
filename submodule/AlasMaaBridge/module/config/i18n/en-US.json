@@ -50,6 +50,10 @@
       "name": "Roguelike (I.S.)",
       "help": "auto for Integrated strategies"
     },
+    "MaaAftercareOperation": {
+      "name": "EndTask",
+      "help": ""
+    },
     "MaaReclamationAlgorithm": {
       "name": "ReclamationAlgorithm",
       "help": "auto for Reclamation Algorithm"
@@ -611,6 +615,19 @@
     "Specialaccess": {
       "name": "MaaAward.Specialaccess.name",
       "help": "MaaAward.Specialaccess.help"
+    }
+  },
+  "MaaAftercareOperation": {
+    "_info": {
+      "name": "MaaAftercareOperation._info.name",
+      "help": "MaaAftercareOperation._info.help"
+    },
+    "WhenTaskQueueEmpty": {
+      "name": "MaaAftercareOperation.WhenTaskQueueEmpty.name",
+      "help": "MaaAftercareOperation.WhenTaskQueueEmpty.help",
+      "stay_there": "Stay There",
+      "goto_main": "Goto Main Page",
+      "close_game": "Close Game"
     }
   },
   "MaaCopilot": {

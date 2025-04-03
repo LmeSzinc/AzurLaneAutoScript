@@ -225,6 +225,7 @@ class AssistantHandler:
             "client_type": self.config.MaaEmulator_PackageName,
             "start_game_enabled": True
         })
+        self.config.task_call('MaaAftercareOperation', force_call=False)
         self.config.task_delay(server_update=True)
 
     def fight(self):
@@ -501,6 +502,16 @@ class AssistantHandler:
         self.maa_start('ReclamationAlgorithm', {
             "enable": True
         })
+        self.config.task_delay(server_update=True)
+
+    def aftercare_operation(self):
+        if self.config.MaaAftercareOperation_WhenTaskQueueEmpty == 'close_game':
+            self.maa_start('CloseDown', {
+                "client_type": self.config.MaaEmulator_PackageName
+            })
+            if self.config.waiting_task:
+                nexttime = self.config.waiting_task[0].next_run
+                self.config.task_delay(target=nexttime, task="MaaStartup")
         self.config.task_delay(server_update=True)
 
     def copilot(self):
