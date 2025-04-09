@@ -2,7 +2,7 @@ from module.base.base import ModuleBase
 from module.base.timer import Timer
 from module.base.utils import color_bar_percentage
 from module.combat_ui.assets import (PAUSE, PAUSE_Christmas, PAUSE_Cyber, PAUSE_HolyLight, PAUSE_Iridescent_Fantasy,
-                                     PAUSE_Neon, PAUSE_New, PAUSE_Nurse, PAUSE_Pharaoh)
+                                     PAUSE_Neon, PAUSE_New, PAUSE_Nurse, PAUSE_Pharaoh, PAUSE_Devil)
 from module.exercise.assets import *
 from module.logger import logger
 
@@ -71,6 +71,7 @@ class HpDaemon(ModuleBase):
             PAUSE_HolyLight,
             PAUSE_Pharaoh,
             PAUSE_Nurse,
+            PAUSE_Devil,
         ]:
             self.attacker_hp = self._calculate_hp(image, area=ATTACKER_HP_AREA_New.area, reverse=True)
             self.defender_hp = self._calculate_hp(image, area=DEFENDER_HP_AREA_New.area, reverse=True)
