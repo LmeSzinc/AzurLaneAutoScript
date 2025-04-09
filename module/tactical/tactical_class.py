@@ -422,11 +422,11 @@ class RewardTacticalClass(Dock):
                 # Tactical page, has empty position
                 if self.appear_then_click(ADD_NEW_STUDENT, offset=(800, 20), interval=1):
                     self.interval_reset([TACTICAL_CHECK, RAPID_TRAINING])
-                    self.interval_clear([POPUP_CONFIRM, POPUP_CANCEL, GET_MISSION])
+                    self.interval_clear([POPUP_CONFIRM, POPUP_CANCEL, GET_MISSION, DOCK_CHECK, SKILL_CONFIRM])
                     continue
             if self.handle_rapid_training():
                 self.interval_reset(TACTICAL_CHECK)
-                self.interval_clear([POPUP_CONFIRM, POPUP_CANCEL, GET_MISSION])
+                self.interval_clear([POPUP_CONFIRM, POPUP_CANCEL, GET_MISSION, DOCK_CHECK, SKILL_CONFIRM])
                 continue
 
             # Get finish time
@@ -496,6 +496,7 @@ class RewardTacticalClass(Dock):
                     # so we need click BACK_ARROW to clear selected state
                     logger.info('Having pre-selected ship in dock, re-enter')
                     self.device.click(BACK_ARROW)
+                    self.interval_reset([BOOK_EMPTY_POPUP, DOCK_CHECK], interval=3)
                     continue
                 # If not enable or can not fina a suitable ship
                 if self.config.AddNewStudent_Enable:
@@ -508,7 +509,7 @@ class RewardTacticalClass(Dock):
                     logger.info('Not going to learn skill but in dock, close it')
                     study_finished = True
                     self.device.click(BACK_ARROW)
-                self.interval_reset([BOOK_EMPTY_POPUP])
+                self.interval_reset([BOOK_EMPTY_POPUP, DOCK_CHECK], interval=3)
                 continue
             if self.appear(SKILL_CONFIRM, offset=(20, 20), interval=3):
                 # If not enable or can not find a skill
@@ -522,7 +523,7 @@ class RewardTacticalClass(Dock):
                     logger.info('Not going to learn skill but having SKILL_CONFIRM, close it')
                     study_finished = True
                     self.device.click(BACK_ARROW)
-                self.interval_reset([BOOK_EMPTY_POPUP])
+                self.interval_reset([BOOK_EMPTY_POPUP, SKILL_CONFIRM], interval=3)
                 continue
             if self.appear(TACTICAL_META, offset=(200, 20), interval=3):
                 # If meta's skill page, it's inappropriate

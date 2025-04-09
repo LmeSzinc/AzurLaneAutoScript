@@ -79,6 +79,8 @@ class MailWhite(UI):
                 continue
             if self.ui_main_appear_then_click(page_mail, offset=(30, 30), interval=3):
                 continue
+            if self._handle_mail_reward():
+                continue
 
     def _mail_quit(self, skip_first_screenshot=True):
         """
@@ -196,6 +198,8 @@ class MailWhite(UI):
                 continue
             if self.handle_popup_confirm('MAIL_CLAIM'):
                 deleted = True
+                continue
+            if self._handle_mail_reward():
                 continue
 
         # info_bar appears if mail success to delete and no mail deleted
