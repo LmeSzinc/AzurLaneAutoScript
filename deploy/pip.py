@@ -119,9 +119,9 @@ class PipManager(DeployConfig):
     def pip_install(self):
         logger.hr('Update Dependencies', 0)
 
-        # if not self.InstallDependencies:
-        #     logger.info('InstallDependencies is disabled, skip')
-        #     return
+        if not self.InstallDependencies:
+            logger.info('InstallDependencies is disabled, skip')
+            return
 
         if not len(self.set_dependency_to_install):
             logger.info('All dependencies installed')
@@ -131,7 +131,7 @@ class PipManager(DeployConfig):
 
         logger.hr('Check Python', 1)
         self.execute(f'"{self.python}" --version')
-        exit(1)
+
         arg = []
         if self.PypiMirror:
             mirror = self.PypiMirror
