@@ -1,6 +1,6 @@
 import module.config.server as server
 
-from module.base.button import ButtonGrid
+from module.base.button import ButtonGrid, get_color, color_similar
 from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.equipment.equipment import Equipment
@@ -256,4 +256,58 @@ class Dock(Equipment):
             if self.appear_then_click(SHIP_CONFIRM, offset=(200, 50), interval=5):
                 continue
             if self.handle_popup_confirm('DOCK_SELECT_CONFIRM'):
+                continue
+
+    def dock_enter_first(self, non_npc=True, skip_first_screenshot=True):
+        """
+        Enter first ship in dock
+
+        Args:
+            non_npc: True to enter the second ship if first ship is NPC
+            skip_first_screenshot:
+
+        Returns:
+            bool: True if success to enter
+                False if dock empty
+                False if non_npc and only one NPC in dock
+
+        Pages:
+            in: page_dock
+            out: SHIP_DETAIL_CHECK
+        """
+        logger.info('Dock enter first')
+        self.interval_clear(DOCK_CHECK, interval=3)
+
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            if self.appear(SHIP_DETAIL_CHECK, offset=(20, 20)):
+                return True
+            if self.appear(DOCK_EMPTY, offset=(20, 20)):
+                logger.info('Dock empty')
+                return False
+
+            # Click
+            if self.appear(DOCK_CHECK, offset=(20, 20), interval=3):
+                if non_npc:
+                    # Check NPC
+                    if DOCK_FIRST_NPC.match_luma(self.device.image, offset=(20, 20)):
+                        logger.info('First ship is NPC, select second')
+                        button = CARD_GRIDS[(1, 0)]
+                        # Check if there's second ship
+                        color = get_color(self.device.image, button.area)
+                        if color_similar(color, (34, 34, 42)):
+                            logger.info('Second ship empty, dock empty')
+                            return False
+                    else:
+                        button = CARD_GRIDS[(0, 0)]
+                else:
+                    button = CARD_GRIDS[(0, 0)]
+                self.device.click(button)
+                continue
+            if self.handle_game_tips():
                 continue

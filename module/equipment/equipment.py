@@ -3,8 +3,7 @@ from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.equipment.assets import *
 from module.logger import logger
-from module.retire.assets import DOCK_CHECK
-from module.retire.assets import EQUIP_CONFIRM as RETIRE_EQUIP_CONFIRM
+from module.retire.assets import DOCK_CHECK, EQUIP_CONFIRM as RETIRE_EQUIP_CONFIRM
 from module.storage.storage import StorageHandler
 from module.ui.assets import BACK_ARROW
 from module.ui.navbar import Navbar
