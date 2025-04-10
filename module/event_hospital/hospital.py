@@ -6,7 +6,7 @@ from module.event_hospital.clue import HospitalClue
 from module.event_hospital.combat import HospitalCombat
 from module.exception import OilExhausted, ScriptEnd
 from module.logger import logger
-from module.ui.page import page_hospital
+from module.ui.page import page_hospital, page_campaign_menu
 from module.ui.switch import Switch
 
 
@@ -244,9 +244,17 @@ class Hospital(HospitalClue, HospitalCombat):
                 continue
 
     def run(self):
-        self.ui_ensure(page_hospital)
+        # Check if event available
+        if self.event_time_limit_triggered():
+            self.config.task_stop()
+        self.ui_ensure(page_campaign_menu)
+        if self.is_event_entrance_available():
+            self.ui_goto(page_hospital)
+
+        # Receive rewards
         self.daily_reward_receive()
 
+        # Run
         self.clue_enter()
         try:
             self.loop_aside()
