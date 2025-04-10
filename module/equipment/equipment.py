@@ -40,6 +40,9 @@ class Equipment(StorageHandler):
                     if self.appear(RETIRE_EQUIP_CONFIRM, offset=(30, 30)):
                         logger.info('RETIRE_EQUIP_CONFIRM popup in _ship_view_swipe()')
                         return False
+                    # Popup when enhancing a NPC ship
+                    if self.handle_popup_confirm('SHIP_VIEW_SWIPE'):
+                        continue
                 swipe_count += 1
 
             self.device.screenshot()
