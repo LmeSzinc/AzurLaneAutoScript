@@ -237,3 +237,4 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20250227   | event 20240725 cn        | Interlude of Illusions                       | -                      | -                                            | -                                    | 幻夢間奏曲               |
 | 20250320   | event 20230223 cn        | Revelations of Dust                          | 复刻湮烬尘墟           | Revelations of Dust Rerun                    | 黙示の遺構（復刻）                   | -                        |
 | 20250320   | event 20240521 cn        | Light of the Martyrium                       | -                      | -                                            | -                                    | 綻放於輝光之城           |
+| 20250410   | event 20241024 cn        | Tempesta and the Sleeping Sea                | -                      | -                                            | -                                    | 颶風與沉眠之海           |
