@@ -6,7 +6,7 @@ from datetime import datetime, timedelta, timezone
 import yaml
 
 import module.config.server as server_
-from deploy.atomic import atomic_read, atomic_write
+from deploy.atomic import atomic_read_text, atomic_read_bytes, atomic_write
 from module.submodule.utils import *
 
 LANGUAGES = ['zh-CN', 'en-US', 'ja-JP', 'zh-TW']
@@ -79,12 +79,12 @@ def read_file(file):
     """
     print(f'read: {file}')
     if file.endswith('.json'):
-        content = atomic_read(file, mode='rb')
+        content = atomic_read_bytes(file)
         if not content:
             return {}
         return json.loads(content)
     elif file.endswith('.yaml'):
-        content = atomic_read(file, mode='r')
+        content = atomic_read_text(file)
         data = list(yaml.safe_load_all(content))
         if len(data) == 1:
             data = data[0]
