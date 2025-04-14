@@ -428,6 +428,11 @@ class OperationSiren(OSMap):
                 with self.config.multi_set():
                     self.config.task_delay(server_update=True)
                     if not self.is_in_opsi_explore():
+                        cd = self.nearest_task_cooling_down
+                        if cd is None:
+                            self.config.task_call('OpsiAbyssal')
+                            self.config.task_call('OpsiStronghold')
+                            self.config.task_call('OpsiObscure')
                         self.config.task_call('OpsiMeowfficerFarming')
                 self.config.task_stop()
 
@@ -443,6 +448,11 @@ class OperationSiren(OSMap):
                 with self.config.multi_set():
                     self.config.task_delay(server_update=True)
                     if not self.is_in_opsi_explore():
+                        cd = self.nearest_task_cooling_down
+                        if cd is None:
+                            self.config.task_call('OpsiAbyssal')
+                            self.config.task_call('OpsiStronghold')
+                            self.config.task_call('OpsiObscure')
                         self.config.task_call('OpsiMeowfficerFarming')
                 self.config.task_stop()
 
