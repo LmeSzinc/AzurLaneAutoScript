@@ -1,0 +1,29 @@
+#Dockerfile.maa
+FROM python:3.7-slim-bookworm
+
+WORKDIR /app/AzurLaneAutoScript
+
+COPY requirements.txt /tmp/requirements.txt
+
+# python:3.7-slim-bookworm is based on debian:12, apt source from https://developer.aliyun.com/mirror/debian
+RUN echo "\
+deb https://mirrors.aliyun.com/debian/ bookworm main non-free contrib\n\
+deb-src https://mirrors.aliyun.com/debian/ bookworm main non-free contrib\n\
+deb https://mirrors.aliyun.com/debian-security/ bookworm-security main\n\
+deb-src https://mirrors.aliyun.com/debian-security/ bookworm-security main\n\
+deb https://mirrors.aliyun.com/debian/ bookworm-updates main non-free contrib\n\
+deb-src https://mirrors.aliyun.com/debian/ bookworm-updates main non-free contrib\n\
+deb https://mirrors.aliyun.com/debian/ bookworm-backports main non-free contrib\n\
+deb-src https://mirrors.aliyun.com/debian/ bookworm-backports main non-free contrib" \
+> /etc/apt/sources.list \
+ && apt update \
+ && apt install -y git adb libgomp1 openssh-client \
+ && git config --global --add safe.directory '*' \
+ && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+ && echo 'Asia/Shanghai' > /etc/timezone \
+ && pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple \
+ && pip install -r /tmp/requirements.txt \
+ && rm /tmp/requirements.txt \
+ && rm -r ~/.cache/pip
+
+CMD python gui.py
