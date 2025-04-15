@@ -54,9 +54,7 @@ class Enhancement(Dock):
         if self.appear(DOCK_EMPTY, offset=(30, 30)):
             return False
 
-        self.ship_info_enter(
-            CARD_GRIDS[(0, 0)], check_button=SHIP_DETAIL_CHECK, long_click=False)
-        return True
+        return self.dock_enter_first()
 
     def _enhance_quit(self):
         """

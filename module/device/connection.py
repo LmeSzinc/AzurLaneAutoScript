@@ -11,6 +11,7 @@ from adbutils import AdbClient, AdbDevice, AdbTimeout, ForwardItem, ReverseItem
 from adbutils.errors import AdbError
 
 from module.base.decorator import Config, cached_property, del_cached_property, run_once
+from module.base.timer import Timer
 from module.base.utils import ensure_time
 from module.config.server import VALID_CHANNEL_PACKAGE, VALID_PACKAGE, set_server
 from module.device.connection_attr import ConnectionAttr
@@ -113,7 +114,7 @@ class Connection(ConnectionAttr):
             self.detect_device()
 
         # Connect
-        self.adb_connect()
+        self.adb_connect(wait_device=False)
         logger.attr('AdbDevice', self.adb)
 
         # Package
@@ -327,6 +328,17 @@ class Connection(ConnectionAttr):
 
     @cached_property
     @retry
+    def is_mumu_pro(self):
+        # MuMU Pro is the Mac version of MuMu
+        if not IS_MACINTOSH:
+            return False
+        if not self.is_mumu_family:
+            return False
+        logger.attr('is_mumu_pro', True)
+        return True
+
+    @cached_property
+    @retry
     def nemud_app_keep_alive(self) -> str:
         res = self.adb_getprop('nemud.app_keep_alive')
         logger.attr('nemud.app_keep_alive', res)
@@ -410,23 +422,26 @@ class Connection(ConnectionAttr):
             return host, port, host, self.config.REVERSE_SERVER_PORT
         # For emulators, listen on current host
         if self.is_emulator or self.is_over_http:
+            # Mac emulators
+            if self.is_bluestacks_air or self.is_mumu_pro:
+                logger.info(f'Connecting to local emulator, using host 127.0.0.1')
+                port = random_port(self.config.FORWARD_PORT_RANGE)
+                return '127.0.0.1', port, "10.0.2.2", port
+            # Get host IP
             try:
                 host = socket.gethostbyname(socket.gethostname())
             except socket.gaierror as e:
                 logger.error(e)
                 logger.error(f'Unknown host name: {socket.gethostname()}')
                 host = '127.0.0.1'
+            # Fixup linux AVD host
             if IS_LINUX and host == '127.0.1.1':
-                host = '127.0.0.1'
-            if self.is_bluestacks_air:
                 host = '127.0.0.1'
             logger.info(f'Connecting to local emulator, using host {host}')
             port = random_port(self.config.FORWARD_PORT_RANGE)
-
             # For AVD instance
-            if self.is_avd or self.is_bluestacks_air:
+            if self.is_avd:
                 return host, port, "10.0.2.2", port
-
             return host, port, host, port
         # For local network devices, listen on the host under the same network as target device
         if self.is_network_device:
@@ -659,8 +674,40 @@ class Connection(ConnectionAttr):
         cmd = ['push', local, remote]
         return self.adb_command(cmd)
 
+    def _wait_device_appear(self, serial, first_devices=None):
+        """
+        Args:
+            serial:
+            first_devices (list[AdbDeviceWithStatus]):
+
+        Returns:
+            bool: If appear
+        """
+        # Wait a little longer than 5s
+        timeout = Timer(5.2).start()
+        first_log = True
+        while 1:
+            if first_devices is not None:
+                devices = first_devices
+                first_devices = None
+            else:
+                devices = self.list_device()
+            # Check if device appear
+            for device in devices:
+                if device.serial == serial and device.status == 'device':
+                    return True
+            # Delay and check later
+            if timeout.reached():
+                break
+            if first_log:
+                logger.info(f'Waiting device appear: {serial}')
+                first_log = False
+            time.sleep(0.05)
+
+        return False
+
     @Config.when(DEVICE_OVER_HTTP=False)
-    def adb_connect(self):
+    def adb_connect(self, wait_device=True):
         """
         Connect to a serial, try 3 times at max.
         If there's an old ADB server running while Alas is using a newer one, which happens on Chinese emulators,
@@ -668,12 +715,14 @@ class Connection(ConnectionAttr):
 
         Args:
             serial (str):
+            wait_device: True to wait emulator-* and android devices appear
 
         Returns:
             bool: If success
         """
         # Disconnect offline device before connecting
-        for device in self.list_device():
+        devices = self.list_device()
+        for device in devices:
             if device.status == 'offline':
                 logger.warning(f'Device {device.serial} is offline, disconnect it before connecting')
                 msg = self.adb_client.disconnect(device.serial)
@@ -686,11 +735,23 @@ class Connection(ConnectionAttr):
             else:
                 logger.warning(f'Device {device.serial} is is having a unknown status: {device.status}')
 
-        # Skip for emulator-5554
+        # Skip connecting emulator-5554 and android phones, as they should be auto connected once plugged in
         if 'emulator-' in self.serial:
+            if wait_device:
+                if self._wait_device_appear(self.serial, first_devices=devices):
+                    logger.info(f'Serial {self.serial} connected')
+                    return True
+                else:
+                    logger.info(f'Serial {self.serial} is not connected')
             logger.info(f'"{self.serial}" is a `emulator-*` serial, skip adb connect')
             return True
         if re.match(r'^[a-zA-Z0-9]+$', self.serial):
+            if wait_device:
+                if self._wait_device_appear(self.serial, first_devices=devices):
+                    logger.info(f'Serial {self.serial} connected')
+                    return True
+                else:
+                    logger.info(f'Serial {self.serial} is not connected')
             logger.info(f'"{self.serial}" seems to be a Android serial, skip adb connect')
             return True
 
@@ -755,7 +816,7 @@ class Connection(ConnectionAttr):
         ev.close()
 
     @Config.when(DEVICE_OVER_HTTP=True)
-    def adb_connect(self):
+    def adb_connect(self, wait_device=True):
         # No adb connect if over http
         return True
 

@@ -302,6 +302,8 @@ Raid:
 RaidDaily:
   StageFilter: |-
     hard > normal > easy
+Hospital:
+  UseRecommendFleet: true
 MaritimeEscort:
   Enable: true
 Coalition:

@@ -17,10 +17,8 @@ class BeaconReward(Combat, UI):
             in: page_meta
         """
         if self.appear(META_REWARD_NOTICE, threshold=30):
-            logger.info('Found meta reward red dot')
             return True
         else:
-            logger.info('No meta reward red dot')
             return False
 
     def meta_reward_receive(self, skip_first_screenshot=True):
@@ -72,7 +70,7 @@ class BeaconReward(Combat, UI):
         logger.info(f'Meta reward receive finished, received={received}')
         return received
 
-    def meta_sync_notice_appear(self):
+    def meta_sync_notice_appear(self, interval=0):
         """
         "sync" is the period that you gather meta points to 100% and get a meta ship
 
@@ -82,11 +80,9 @@ class BeaconReward(Combat, UI):
         Page:
             in: page_meta
         """
-        if self.appear(SYNC_REWARD_NOTICE, threshold=30):
-            logger.info('Found meta sync red dot')
+        if self.appear(SYNC_REWARD_NOTICE, threshold=30, interval=interval):
             return True
         else:
-            logger.info('No meta sync red dot')
             return False
 
     def meta_sync_receive(self, skip_first_screenshot=True):
@@ -130,12 +126,47 @@ class BeaconReward(Combat, UI):
             if self.handle_get_ship():
                 received = True
                 continue
+            if self.meta_sync_notice_appear(interval=3):
+                logger.info(f'meta_sync_notice_appear -> {SYNC_ENTER}')
+                self.device.click(SYNC_ENTER)
+                received = True
+                continue
             if self.appear_then_click(SYNC_TAP, offset=(20, 20), interval=3):
                 received = True
                 continue
 
         logger.info(f'Meta sync receive finished, received={received}')
         return received
+
+    def meta_wait_reward_page(self, skip_first_screenshot=True):
+        """
+        Wait the circle loading animation
+        """
+        timeout = Timer(2, count=6).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if timeout.reached():
+                logger.warning(f'meta_wait_reward_page timeout')
+                break
+            if self.appear(REWARD_ENTER, offset=(20, 20)):
+                logger.info(f'meta_wait_reward_page ends at {REWARD_ENTER}')
+                break
+            if self.appear(SYNC_ENTER, offset=(20, 20)):
+                logger.info(f'meta_wait_reward_page ends at {SYNC_ENTER}')
+                break
+            if self.appear(SYNC_TAP, offset=(20, 20)):
+                logger.info(f'meta_wait_reward_page ends at {SYNC_TAP}')
+                break
+            if self.meta_sync_notice_appear():
+                logger.info('meta_wait_reward_page ends at sync red dot')
+                break
+            if self.meta_reward_notice_appear():
+                logger.info('meta_wait_reward_page ends at reward red dot')
+                break
 
     def run(self):
         if self.config.SERVER in ['cn', 'en', 'jp']:
@@ -145,12 +176,22 @@ class BeaconReward(Combat, UI):
             return
 
         self.ui_ensure(page_meta)
+        self.meta_wait_reward_page()
 
+        # Sync rewards
+        # "sync" is the period that you gather meta points to 100% and get a meta ship
         if self.meta_sync_notice_appear():
+            logger.info('Found meta sync red dot')
             self.meta_sync_receive()
+        else:
+            logger.info('No meta sync red dot')
 
+        # Meta rewards
         if self.meta_reward_notice_appear():
+            logger.info('Found meta reward red dot')
             self.meta_reward_receive()
+        else:
+            logger.info('No meta reward red dot')
 
 
 class DossierReward(Combat, UI):

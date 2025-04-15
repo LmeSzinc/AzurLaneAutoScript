@@ -78,6 +78,10 @@
       "name": "共鬥活動",
       "help": ""
     },
+    "Hospital": {
+      "name": "深谷来信",
+      "help": ""
+    },
     "Coalition": {
       "name": "極地風暴",
       "help": ""
@@ -735,12 +739,12 @@
       "event_20231221_cn": "星海逐光",
       "event_20240229_cn": "雪境迷蹤",
       "event_20240425_cn": "共鳴的PASSION",
-      "event_20240521_cn": "Light of the Martyrium",
+      "event_20240521_cn": "綻放於輝光之城",
       "event_20240725_cn": "幻夢間奏曲",
       "event_20240815_cn": "鐵翼擎風",
       "event_20240829_cn": "埋葬於彼岸之花",
       "event_20240912_cn": "Ode of Everblooming Crimson",
-      "event_20241024_cn": "Tempesta and the Sleeping Sea",
+      "event_20241024_cn": "颶風與沉眠之海",
       "event_20241121_cn": "危險發明逼近中",
       "event_20241219_cn": "Substellar Crepuscule",
       "event_20250227_cn": "Paradiso of Shackled Light",
@@ -789,6 +793,7 @@
       "war_archives_20211229_cn": "檔案 逆轉彩虹之塔",
       "war_archives_20220210_cn": "檔案 北境序曲",
       "war_archives_20220224_cn": "檔案 深度回音",
+      "war_archives_20220324_cn": "檔案 虛像構築之塔",
       "war_archives_20220414_cn": "檔案 永夜幻光"
     },
     "Mode": {
@@ -1266,6 +1271,16 @@
     "StageFilter": {
       "name": "共鬥難度過濾器",
       "help": ""
+    }
+  },
+  "Hospital": {
+    "_info": {
+      "name": "活動設定",
+      "help": ""
+    },
+    "UseRecommendFleet": {
+      "name": "使用艦隊推薦",
+      "help": "如果關閉，需要事先手動為所有15個關卡配隊"
     }
   },
   "MaritimeEscort": {

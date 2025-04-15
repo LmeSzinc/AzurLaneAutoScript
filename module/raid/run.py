@@ -1,9 +1,9 @@
 from module.base.timer import Timer
 from module.campaign.campaign_event import CampaignEvent
-from module.exception import ScriptEnd, ScriptError
+from module.exception import OilExhausted, ScriptEnd, ScriptError
 from module.logger import logger
 from module.raid.assets import RAID_REWARDS
-from module.raid.raid import OilExhausted, Raid, raid_ocr
+from module.raid.raid import Raid, raid_ocr
 from module.ui.page import page_raid, page_rpg_stage
 
 
