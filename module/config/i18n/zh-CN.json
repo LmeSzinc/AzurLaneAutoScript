@@ -83,7 +83,7 @@
       "help": ""
     },
     "Coalition": {
-      "name": "童心学院",
+      "name": "极地风暴",
       "help": ""
     },
     "MaritimeEscort": {
@@ -119,7 +119,7 @@
       "help": ""
     },
     "CoalitionSp": {
-      "name": "童心学院每日SP",
+      "name": "极地风暴每日SP",
       "help": ""
     },
     "Commission": {
@@ -1301,9 +1301,10 @@
     "Mode": {
       "name": "难度",
       "help": "SP图需要使用活动每日SP运行",
-      "easy": "简单",
-      "normal": "普通",
-      "hard": "困难",
+      "tc1": "tc1",
+      "tc2": "tc2",
+      "tc3": "tc3",
+      "sp": "sp",
       "ex": "EX"
     },
     "Fleet": {
