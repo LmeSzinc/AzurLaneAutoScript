@@ -78,8 +78,12 @@
       "name": "Raid",
       "help": ""
     },
+    "Hospital": {
+      "name": "Valley Hospital",
+      "help": ""
+    },
     "Coalition": {
-      "name": "Little Academy",
+      "name": "Frostfall",
       "help": ""
     },
     "MaritimeEscort": {
@@ -115,7 +119,7 @@
       "help": ""
     },
     "CoalitionSp": {
-      "name": "Little Academy SP",
+      "name": "Frostfall SP",
       "help": ""
     },
     "Commission": {
@@ -789,6 +793,7 @@
       "war_archives_20211229_cn": "archives Tower of Transcendence",
       "war_archives_20220210_cn": "archives Northern Overture",
       "war_archives_20220224_cn": "archives Abyssal Refrain",
+      "war_archives_20220324_cn": "archives Virtual Tower",
       "war_archives_20220414_cn": "archives Aurora Noctis"
     },
     "Mode": {
@@ -1272,6 +1277,16 @@
       "help": "Generally does not need to be modified or re-arranged but can do so if desired\nCan save on oil consumption if less are attacked\nSupports EX difficulty if specified, submarine is force called to increase clearing rate"
     }
   },
+  "Hospital": {
+    "_info": {
+      "name": "Event Settings",
+      "help": ""
+    },
+    "UseRecommendFleet": {
+      "name": "Use Fleet Recommendation",
+      "help": "If turned off, you need to manually prepare fleets of all 15 stages in advance"
+    }
+  },
   "MaritimeEscort": {
     "_info": {
       "name": "Maritime Escort",
@@ -1290,9 +1305,10 @@
     "Mode": {
       "name": "Mode",
       "help": "SP needs to use event daily SP to run",
-      "easy": "Easy",
-      "normal": "Normal",
-      "hard": "Hard",
+      "tc1": "tc1",
+      "tc2": "tc2",
+      "tc3": "tc3",
+      "sp": "sp",
       "ex": "EX"
     },
     "Fleet": {

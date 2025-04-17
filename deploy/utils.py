@@ -2,7 +2,7 @@ import os
 import re
 from typing import Callable, Generic, TypeVar
 
-from deploy.atomic import atomic_read, atomic_write
+from deploy.atomic import atomic_read_text, atomic_write
 
 T = TypeVar("T")
 
@@ -65,7 +65,7 @@ def poor_yaml_read(file):
     Returns:
         dict:
     """
-    content = atomic_read(file)
+    content = atomic_read_text(file)
     data = {}
     regex = re.compile(r'^(.*?):(.*?)$')
     for line in content.splitlines():
@@ -96,7 +96,7 @@ def poor_yaml_write(data, file, template_file=DEPLOY_TEMPLATE):
         file (str):
         template_file (str):
     """
-    text = atomic_read(template_file)
+    text = atomic_read_text(template_file)
     text = text.replace('\\', '/')
 
     for key, value in data.items():

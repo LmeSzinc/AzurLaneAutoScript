@@ -376,7 +376,8 @@ class Uiautomator2(Connection):
 
     @retry
     def dump_hierarchy_uiautomator2(self) -> etree._Element:
-        content = self.u2.dump_hierarchy(compressed=True)
+        content = self.u2.dump_hierarchy(compressed=False)
+        # print(content)
         hierarchy = etree.fromstring(content.encode('utf-8'))
         return hierarchy
 

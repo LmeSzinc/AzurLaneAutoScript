@@ -78,8 +78,12 @@
       "name": "共斗活动",
       "help": ""
     },
+    "Hospital": {
+      "name": "深谷来信",
+      "help": ""
+    },
     "Coalition": {
-      "name": "童心学院",
+      "name": "极地风暴",
       "help": ""
     },
     "MaritimeEscort": {
@@ -115,7 +119,7 @@
       "help": ""
     },
     "CoalitionSp": {
-      "name": "童心学院每日SP",
+      "name": "极地风暴每日SP",
       "help": ""
     },
     "Commission": {
@@ -789,6 +793,7 @@
       "war_archives_20211229_cn": "档案 逆转彩虹之塔",
       "war_archives_20220210_cn": "档案 北境序曲",
       "war_archives_20220224_cn": "档案 深度回音",
+      "war_archives_20220324_cn": "档案 虚像构筑之塔",
       "war_archives_20220414_cn": "档案 永夜幻光"
     },
     "Mode": {
@@ -1272,6 +1277,16 @@
       "help": ""
     }
   },
+  "Hospital": {
+    "_info": {
+      "name": "活动设置",
+      "help": ""
+    },
+    "UseRecommendFleet": {
+      "name": "使用舰队推荐",
+      "help": "如果关闭，需要事先手动为所有15个关卡配队"
+    }
+  },
   "MaritimeEscort": {
     "_info": {
       "name": "商船护航",
@@ -1290,9 +1305,10 @@
     "Mode": {
       "name": "难度",
       "help": "SP图需要使用活动每日SP运行",
-      "easy": "简单",
-      "normal": "普通",
-      "hard": "困难",
+      "tc1": "tc1",
+      "tc2": "tc2",
+      "tc3": "tc3",
+      "sp": "sp",
       "ex": "EX"
     },
     "Fleet": {

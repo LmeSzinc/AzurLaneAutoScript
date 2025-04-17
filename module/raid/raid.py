@@ -6,7 +6,7 @@ from module.base.decorator import run_once
 from module.base.timer import Timer
 from module.campaign.campaign_event import CampaignEvent
 from module.combat.assets import *
-from module.exception import ScriptError
+from module.exception import OilExhausted, ScriptError
 from module.logger import logger
 from module.map.map_operation import MapOperation
 from module.ocr.ocr import Digit, DigitCounter
@@ -15,10 +15,6 @@ from module.raid.combat import RaidCombat
 from module.ui.assets import RAID_CHECK
 from module.ui.page import page_rpg_stage
 from module.log_res import LogRes
-
-
-class OilExhausted(Exception):
-    pass
 
 
 class RaidCounter(DigitCounter):
@@ -195,7 +191,7 @@ def pt_ocr(raid):
 
 
 class Raid(MapOperation, RaidCombat, CampaignEvent):
-    def combat_preparation(self, balance_hp=False, emotion_reduce=False, auto=True, fleet_index=1):
+    def combat_preparation(self, balance_hp=False, emotion_reduce=False, auto='combat_auto', fleet_index=1):
         """
         Args:
             balance_hp (bool):

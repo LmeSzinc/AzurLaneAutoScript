@@ -50,6 +50,7 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20240829   | war archives 20210422 cn | Daedalian Hymn                               | 复兴的赞美诗           | Daedalian Hymn                               | 讃える復興の迷路                     | 復興的讚美詩             |
 | 20241017   | war archives 20211229 cn | Tower of Transcendence                       | 逆转彩虹之塔           | Tower of Transcendence                       | 遡望せし虹彩の塔                     | 逆轉彩虹之塔             |
 | 20250109   | war archives 20220224 cn | Abyssal Refrain                              | 深度回音               | Abyssal Refrain                              | 鳴動せし星霜の淵                     | 深度回音                 |
+| 20250320   | war archives 20220324 cn | Virtual Tower                                | 虚像构筑之塔           | Virtual Tower                                | 幻像の塔                             | 虛像構築之塔             |
 | 20200227   | event 20200227 cn        | Northern Overture                            | 北境序曲               | Northern Overture                            | 凍絶の北海                           | -                        |
 | 20200312   | event 20200312 cn        | The Solomon Ranger                           | 复刻斯图尔特的硝烟     | The Solomon Ranger Rerun                     | 南洋に靡く硝煙（復刻）               | -                        |
 | 20200326   | event 20200326 cn        | Microlayer Medley                            | 微层混合               | Microlayer Medley                            | 闇靄払う銀翼                         | -                        |
@@ -236,3 +237,5 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20250227   | event 20240725 cn        | Interlude of Illusions                       | -                      | -                                            | -                                    | 幻夢間奏曲               |
 | 20250320   | event 20230223 cn        | Revelations of Dust                          | 复刻湮烬尘墟           | Revelations of Dust Rerun                    | 黙示の遺構（復刻）                   | -                        |
 | 20250320   | event 20240521 cn        | Light of the Martyrium                       | -                      | -                                            | -                                    | 綻放於輝光之城           |
+| 20250410   | event 20241024 cn        | Tempesta and the Sleeping Sea                | -                      | -                                            | -                                    | 颶風與沉眠之海           |
+| 20250417   | coalition 20230323       | Frostfall                                    | 极地风暴               | Frostfall                                    | 星霜海嵐                             | -                        |

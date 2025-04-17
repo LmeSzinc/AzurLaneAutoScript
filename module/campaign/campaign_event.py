@@ -2,11 +2,11 @@ import re
 from datetime import datetime
 
 from module.campaign.campaign_status import CampaignStatus
-from module.config.config_updater import EVENTS, RAIDS, COALITIONS, GEMS_FARMINGS, MARITIME_ESCORTS
+from module.config.config_updater import COALITIONS, EVENTS, GEMS_FARMINGS, HOSPITAL, MARITIME_ESCORTS, RAIDS
 from module.config.utils import DEFAULT_TIME
 from module.logger import logger
 from module.ui.assets import CAMPAIGN_MENU_NO_EVENT
-from module.ui.page import page_event, page_campaign_menu, page_sp, page_coalition
+from module.ui.page import page_campaign_menu, page_coalition, page_event, page_sp
 from module.war_archives.assets import WAR_ARCHIVES_CAMPAIGN_CHECK
 
 
@@ -50,7 +50,7 @@ class CampaignEvent(CampaignStatus):
         limit = int(
             re.sub(r'[,.\'"，。]', '', str(self.config.EventGeneral_PtLimit))
         )
-        tasks = EVENTS + RAIDS + COALITIONS + GEMS_FARMINGS
+        tasks = EVENTS + RAIDS + COALITIONS + GEMS_FARMINGS + HOSPITAL
         command = self.config.Scheduler_Command
         if limit < 0 or command not in tasks:
             return False
@@ -75,7 +75,7 @@ class CampaignEvent(CampaignStatus):
             in: page_event or page_sp
         """
         limit = self.config.EventGeneral_TimeLimit
-        tasks = EVENTS + RAIDS + COALITIONS + MARITIME_ESCORTS
+        tasks = EVENTS + RAIDS + COALITIONS + MARITIME_ESCORTS + HOSPITAL
         command = self.config.Scheduler_Command
         if command not in tasks or limit == DEFAULT_TIME:
             return False
@@ -133,7 +133,7 @@ class CampaignEvent(CampaignStatus):
         """
         if self.appear(CAMPAIGN_MENU_NO_EVENT, offset=(20, 20)):
             logger.info('Event unavailable, disable task')
-            tasks = EVENTS + RAIDS + COALITIONS + GEMS_FARMINGS
+            tasks = EVENTS + RAIDS + COALITIONS + GEMS_FARMINGS + HOSPITAL
             self._disable_tasks(tasks)
             self.config.task_stop()
         else:
