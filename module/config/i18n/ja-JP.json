@@ -1367,10 +1367,10 @@
     "Mode": {
       "name": "Coalition.Mode.name",
       "help": "Coalition.Mode.help",
-      "easy": "easy",
-      "normal": "normal",
-      "hard": "hard",
-      "ex": "ex"
+      "TC1": "TC1",
+      "TC2": "TC2",
+      "TC3": "TC3",
+      "EX": "EX"
     },
     "Fleet": {
       "name": "Coalition.Fleet.name",

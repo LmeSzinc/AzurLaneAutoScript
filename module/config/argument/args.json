@@ -3995,12 +3995,12 @@
     "Coalition": {
       "Mode": {
         "type": "select",
-        "value": "hard",
+        "value": "TC1",
         "option": [
-          "easy",
-          "normal",
-          "hard",
-          "ex"
+          "TC1",
+          "TC2",
+          "TC3",
+          "EX"
         ]
       },
       "Fleet": {
@@ -7373,14 +7373,13 @@
     "Coalition": {
       "Mode": {
         "type": "select",
-        "value": "hard",
+        "value": "TC1",
         "option": [
-          "easy",
-          "normal",
-          "hard",
-          "ex"
-        ],
-        "display": "hide"
+          "TC1",
+          "TC2",
+          "TC3",
+          "EX"
+        ]
       },
       "Fleet": {
         "type": "select",
