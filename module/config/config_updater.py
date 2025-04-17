@@ -589,6 +589,8 @@ class ConfigUpdater:
         #  'GemsFarming.GemsFarming.ChangeVanguard',
         #  change_ship_redirect),
         # ('Alas.DropRecord.API', 'Alas.DropRecord.API', api_redirect2)
+        # 2025.04.17
+        ('Coalition.Coalition.Mode', 'Coalition.Coalition.Mode', coalition_to_frostfall)
     ]
     # redirection += [
     #     (
