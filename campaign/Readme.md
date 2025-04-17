@@ -238,3 +238,4 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20250320   | event 20230223 cn        | Revelations of Dust                          | 复刻湮烬尘墟           | Revelations of Dust Rerun                    | 黙示の遺構（復刻）                   | -                        |
 | 20250320   | event 20240521 cn        | Light of the Martyrium                       | -                      | -                                            | -                                    | 綻放於輝光之城           |
 | 20250410   | event 20241024 cn        | Tempesta and the Sleeping Sea                | -                      | -                                            | -                                    | 颶風與沉眠之海           |
+| 20250417   | coalition 20230323       | Frostfall                                    | 极地风暴               | Frostfall                                    | 星霜海嵐                             | -                        |
