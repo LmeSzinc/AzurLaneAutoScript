@@ -47,6 +47,12 @@ class CoalitionCombat(CoalitionUI, CampaignBase):
                     self.device.click(BATTLE_STATUS)
                     click_timer.reset()
 
+    def auto_search_combat_end(self):
+        if self.handle_battle_status():
+            return False
+        if self.appear(BATTLE_STATUS, offset=(80, 20)):
+            return True
+
     def coalition_combat(self):
         """
         Pages:
@@ -61,7 +67,8 @@ class CoalitionCombat(CoalitionUI, CampaignBase):
                 logger.hr(f'{self.FUNCTION_NAME_BASE}{self.battle_count}', level=2)
                 self.auto_search_combat_execute(
                     emotion_reduce=self.battle_count == 0 or self.config.Coalition_Fleet == 'single',
-                    fleet_index=1
+                    fleet_index=1,
+                    expected_end=self.auto_search_combat_end
                 )
                 self.coalition_combat_re_enter()
                 self.battle_count += 1

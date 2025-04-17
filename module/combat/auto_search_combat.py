@@ -213,11 +213,12 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
             if self.is_in_auto_search_menu() or self._handle_auto_search_menu_missing():
                 raise CampaignEnd
 
-    def auto_search_combat_execute(self, emotion_reduce, fleet_index):
+    def auto_search_combat_execute(self, emotion_reduce, fleet_index, expected_end=None):
         """
         Args:
             emotion_reduce (bool):
             fleet_index (int):
+            expected_end (callable):
 
         Pages:
             in: is_combat_loading()
@@ -297,11 +298,15 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
                 confirm_timer.reset()
                 continue
             if self.appear(BATTLE_STATUS_S) or self.appear(BATTLE_STATUS_A) or self.appear(BATTLE_STATUS_B) \
-                    or self.appear(BATTLE_STATUS_C) or self.appear(EXP_INFO_S) or self.appear(EXP_INFO_A) \
-                    or self.appear(EXP_INFO_B) or self.appear(EXP_INFO_C) or self.appear(GET_MISSION) \
-                    or self.is_auto_search_running():
+                    or self.appear(EXP_INFO_S) or self.appear(EXP_INFO_A) or self.appear(EXP_INFO_B) \
+                    or self.appear(GET_MISSION) or self.is_auto_search_running():
                 self.device.screenshot_interval_set()
                 break
+            if callable(expected_end):
+                if expected_end():
+                    self.device.screenshot_interval_set()
+                    break
+            
 
     def auto_search_combat_status(self, skip_first_screenshot=True):
         """
