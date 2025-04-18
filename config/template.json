@@ -765,7 +765,7 @@
       "AmbushEvade": true
     },
     "Coalition": {
-      "Mode": "TC1",
+      "Mode": "tc1",
       "Fleet": "single"
     },
     "StopCondition": {
@@ -1352,7 +1352,7 @@
       "AmbushEvade": true
     },
     "Coalition": {
-      "Mode": "TC1",
+      "Mode": "sp",
       "Fleet": "single"
     },
     "StopCondition": {

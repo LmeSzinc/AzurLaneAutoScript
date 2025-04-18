@@ -87,7 +87,7 @@
       "help": ""
     },
     "Coalition": {
-      "name": "リトル学園",
+      "name": "星霜海嵐",
       "help": ""
     },
     "MaritimeEscort": {
@@ -123,8 +123,8 @@
       "help": ""
     },
     "CoalitionSp": {
-      "name": "Task.CoalitionSp.name",
-      "help": "Task.CoalitionSp.help"
+      "name": "星霜海嵐SP",
+      "help": ""
     },
     "Commission": {
       "name": "委託",
@@ -156,7 +156,7 @@
     },
     "Awaken": {
       "name": "Task.Awaken.name",
-      "help": "Task.Awaken.help"
+      "help": ""
     },
     "Daily": {
       "name": "デイリー",
@@ -192,7 +192,7 @@
     },
     "Minigame": {
       "name": "Task.Minigame.name",
-      "help": "Task.Minigame.help"
+      "help": ""
     },
     "OpsiGeneral": {
       "name": "一般設定",
@@ -1367,10 +1367,11 @@
     "Mode": {
       "name": "Coalition.Mode.name",
       "help": "Coalition.Mode.help",
-      "TC1": "TC1",
-      "TC2": "TC2",
-      "TC3": "TC3",
-      "EX": "EX"
+      "tc1": "tc1",
+      "tc2": "tc2",
+      "tc3": "tc3",
+      "sp": "sp",
+      "ex": "ex"
     },
     "Fleet": {
       "name": "Coalition.Fleet.name",
