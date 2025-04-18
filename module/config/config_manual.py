@@ -17,7 +17,7 @@ class ManualConfig:
     > Reward
     > ShopFrequent > ShopOnce > Shipyard > Freebies
     > OpsiExplore
-    > Minigame > Awaken
+    > Minigame > Awaken > Augment
     > OpsiAshBeacon
     > OpsiDaily > OpsiShop > OpsiVoucher
     > OpsiAbyssal > OpsiStronghold > OpsiObscure > OpsiArchive
