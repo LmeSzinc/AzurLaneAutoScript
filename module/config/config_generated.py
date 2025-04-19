@@ -334,6 +334,11 @@ class GeneratedConfig:
     # Group `Minigame`
     Minigame_Collect = False
 
+    # Group `PrivateQuarters`
+    PrivateQuarters_BuyRoses = True
+    PrivateQuarters_TargetInteract = True
+    PrivateQuarters_TargetShip = 'anchorage'  # anchorage, noshiro, sirius
+
     # Group `Daily`
     Daily_UseDailySkip = True
     Daily_EscortMission = 'first'  # skip, first, second, third

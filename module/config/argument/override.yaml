@@ -359,6 +359,11 @@ Freebies:
     SuccessInterval: 30
     FailureInterval: 30
     ServerUpdate: 00:00
+PrivateQuarters:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
 
 # ==================== Daily ====================
 
