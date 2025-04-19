@@ -36,6 +36,8 @@ class CoalitionCombat(CoalitionUI, CampaignBase):
                 # About (+53, +3)
                 continue
             if self.appear_then_click(COALITION_REWARD_CONFIRM, offset=(20, 20), interval=2):
+                # Stop clicking BATTLE_STATUS because combat ends
+                status_clicked = False
                 continue
             if self.handle_battle_status():
                 status_clicked = True
