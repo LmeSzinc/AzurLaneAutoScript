@@ -190,6 +190,10 @@
       "name": "小遊戲",
       "help": "遊戲幣不會溢出時自動領取遊戲幣，有遊戲幣且獎勵沒滿時自動進行小遊戲"
     },
+    "PrivateQuarters": {
+      "name": "Task.PrivateQuarters.name",
+      "help": "Task.PrivateQuarters.help"
+    },
     "OpsiGeneral": {
       "name": "通用設定",
       "help": ""
@@ -2038,6 +2042,27 @@
     "Collect": {
       "name": "啟用",
       "help": ""
+    }
+  },
+  "PrivateQuarters": {
+    "_info": {
+      "name": "PrivateQuarters._info.name",
+      "help": "PrivateQuarters._info.help"
+    },
+    "BuyRoses": {
+      "name": "PrivateQuarters.BuyRoses.name",
+      "help": "PrivateQuarters.BuyRoses.help"
+    },
+    "TargetInteract": {
+      "name": "PrivateQuarters.TargetInteract.name",
+      "help": "PrivateQuarters.TargetInteract.help"
+    },
+    "TargetShip": {
+      "name": "PrivateQuarters.TargetShip.name",
+      "help": "PrivateQuarters.TargetShip.help",
+      "anchorage": "anchorage",
+      "noshiro": "noshiro",
+      "sirius": "sirius"
     }
   },
   "Daily": {
