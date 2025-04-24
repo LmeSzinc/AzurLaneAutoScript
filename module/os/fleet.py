@@ -285,6 +285,8 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         if confirm_timer is None:
             confirm_timer = Timer(0.8, count=2)
         result = set()
+        # Record story history to clear click record
+        clicked_story = False
 
         confirm_timer.reset()
         while 1:
@@ -294,9 +296,21 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 self.device.screenshot()
 
             # Map event
-            if self.handle_map_event(drop=drop):
+            event = self.handle_map_event(drop=drop)
+            if event:
                 confirm_timer.reset()
                 result.add('event')
+                if event == 'story_skip':
+                    clicked_story = True
+                elif event == 'map_get_items':
+                    # story_skip -> map_get_items means abyssal progress reward is received
+                    if clicked_story:
+                        logger.info('Got items from story')
+                        self.device.click_record_clear()
+                        clicked_story = False
+                else:
+                    # Handled other events, clear history
+                    clicked_story = False
                 continue
             if self.handle_retirement():
                 confirm_timer.reset()
