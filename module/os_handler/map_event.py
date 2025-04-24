@@ -31,26 +31,40 @@ class MapEventHandler(EnemySearchingHandler):
         if self.is_in_map():
             return False
 
-        if self.appear(GET_ITEMS_1, interval=interval) \
-                or self.appear(GET_ITEMS_2, interval=interval) \
-                or self.appear(GET_ITEMS_3, interval=interval):
+        if self.appear(GET_ITEMS_1, interval=interval):
             if drop:
                 drop.handle_add(main=self, before=2)
+            logger.info(f'{GET_ITEMS_1} -> {CLICK_SAFE_AREA}')
+            self.device.click(CLICK_SAFE_AREA)
+            return True
+        if self.appear(GET_ITEMS_2, interval=interval):
+            if drop:
+                drop.handle_add(main=self, before=2)
+            logger.info(f'{GET_ITEMS_2} -> {CLICK_SAFE_AREA}')
+            self.device.click(CLICK_SAFE_AREA)
+            return True
+        if self.appear(GET_ITEMS_3, interval=interval):
+            if drop:
+                drop.handle_add(main=self, before=2)
+            logger.info(f'{GET_ITEMS_3} -> {CLICK_SAFE_AREA}')
             self.device.click(CLICK_SAFE_AREA)
             return True
         if self.appear(GET_ADAPTABILITY, interval=interval):
             if drop:
                 drop.handle_add(main=self, before=2)
+            logger.info(f'{GET_ADAPTABILITY} -> {CLICK_SAFE_AREA}')
             self.device.click(CLICK_SAFE_AREA)
             return True
         if self.appear(GET_MEOWFFICER_ITEMS_1, interval=interval):
             if drop:
                 drop.handle_add(main=self, before=2)
+            logger.info(f'{GET_MEOWFFICER_ITEMS_1} -> {CLICK_SAFE_AREA}')
             self.device.click(CLICK_SAFE_AREA)
             return True
         if self.appear(GET_MEOWFFICER_ITEMS_2, interval=interval):
             if drop:
                 drop.handle_add(main=self, before=2)
+            logger.info(f'{GET_MEOWFFICER_ITEMS_2} -> {CLICK_SAFE_AREA}')
             self.device.click(CLICK_SAFE_AREA)
             return True
 
@@ -60,6 +74,7 @@ class MapEventHandler(EnemySearchingHandler):
         if self.appear(MAP_ARCHIVES, interval=5):
             if drop:
                 drop.add(self.device.image)
+            logger.info(f'{MAP_ARCHIVES} -> {CLICK_SAFE_AREA}')
             self.device.click(CLICK_SAFE_AREA)
             return True
         if self.appear_then_click(MAP_WORLD, offset=(20, 20), interval=5):
