@@ -51,6 +51,7 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20241017   | war archives 20211229 cn | Tower of Transcendence                       | 逆转彩虹之塔           | Tower of Transcendence                       | 遡望せし虹彩の塔                     | 逆轉彩虹之塔             |
 | 20250109   | war archives 20220224 cn | Abyssal Refrain                              | 深度回音               | Abyssal Refrain                              | 鳴動せし星霜の淵                     | 深度回音                 |
 | 20250320   | war archives 20220324 cn | Virtual Tower                                | 虚像构筑之塔           | Virtual Tower                                | 幻像の塔                             | 虛像構築之塔             |
+| 20250417   | war archives 20220526 cn | Pledge of the Radiant Court                  | 泠誓光庭               | Pledge of the Radiant Court                  | 诚閃の剣 搖光の城                    | 泠誓光庭                 |
 | 20200227   | event 20200227 cn        | Northern Overture                            | 北境序曲               | Northern Overture                            | 凍絶の北海                           | -                        |
 | 20200312   | event 20200312 cn        | The Solomon Ranger                           | 复刻斯图尔特的硝烟     | The Solomon Ranger Rerun                     | 南洋に靡く硝煙（復刻）               | -                        |
 | 20200326   | event 20200326 cn        | Microlayer Medley                            | 微层混合               | Microlayer Medley                            | 闇靄払う銀翼                         | -                        |
@@ -239,3 +240,4 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20250320   | event 20240521 cn        | Light of the Martyrium                       | -                      | -                                            | -                                    | 綻放於輝光之城           |
 | 20250410   | event 20241024 cn        | Tempesta and the Sleeping Sea                | -                      | -                                            | -                                    | 颶風與沉眠之海           |
 | 20250417   | coalition 20230323       | Frostfall                                    | 极地风暴               | Frostfall                                    | 星霜海嵐                             | -                        |
+| 20250424   | event 20250424 cn        | Toward Tulipa’s Seas                         | 扬起郁金之旗           | Toward Tulipa’s Seas                         | チュリッパの海へ                     | -                        |
