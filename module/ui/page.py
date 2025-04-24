@@ -2,6 +2,7 @@ import traceback
 
 from module.coalition.assets import *
 from module.event_hospital.assets import HOSIPITAL_CHECK
+from module.freebies.assets import MAIL_ENTER
 from module.raid.assets import *
 from module.retire.assets import DOCK_CHECK
 from module.ui.assets import *
@@ -294,6 +295,7 @@ page_mail = Page(MAIL_CHECK)
 page_mail.link(button=GOTO_MAIN_WHITE, destination=page_main)
 # Mail enter varies from different UI
 page_main_white.link(button=MAIL_ENTER_WHITE, destination=page_mail)
+page_main.link(button=MAIL_ENTER, destination=page_mail)
 
 # World channel
 # Both old and new UI have CHANNEL_CHECK
