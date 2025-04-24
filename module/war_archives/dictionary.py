@@ -38,4 +38,5 @@ dic_archives_template = {
     'war_archives_20211229_cn': TEMPLATE_TOWER_OF_TRANSCENDENCE,
     'war_archives_20220224_cn': TEMPLATE_ABYSSAL_REFRAIN,
     'war_archives_20220324_cn': TEMPLATE_VIRTUAL_TOWER,
+    'war_archives_20220526_cn': TEMPLATE_PLEDGE_OF_THE_RADIANT_COURT,
 }

@@ -266,8 +266,8 @@ class MailWhite(UI):
             logger.info('At page_main_white')
             pass
         elif self.appear(page_main.check_button, offset=(5, 5)):
-            logger.warning('At page_main, cannot enter mail page from old UI')
-            return False
+            logger.info('At page_main')
+            pass
         else:
             logger.warning('Unknown page_main, cannot enter mail page')
             return False

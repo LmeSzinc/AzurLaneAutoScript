@@ -253,8 +253,12 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
                     break
             else:
                 confirm_timer.reset()
+            # If MAP_EXIT still appears, we haven't exit this zone yet
+            if self.appear(MAP_EXIT, offset=(20, 20)):
+                confirm_timer.reset()
 
-            if self.appear_then_click(MAP_EXIT, offset=(20, 20), interval=5):
+            # Click
+            if self.appear_then_click(MAP_EXIT, offset=(20, 20), interval=3):
                 continue
             if self.handle_popup_confirm('MAP_EXIT'):
                 self.interval_reset(MAP_EXIT)

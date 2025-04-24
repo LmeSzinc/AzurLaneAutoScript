@@ -270,41 +270,55 @@ class CampaignUI(MapOperation, CampaignEvent, CampaignOcr):
             return False
 
     def campaign_set_chapter_20241219(self, chapter, stage, mode='combat'):
-        if not self.config.MAP_CHAPTER_SWITCH_20241219:
-            return False
-
-        if self._campaign_name_is_hard(f'{chapter}{stage}'):
-            self.config.override(Campaign_Mode='hard')
-
-        if mode == 'story':
-            self.campaign_ensure_mode_20241219('story')
-            return True
-        if chapter in ['a', 'c', 't']:
-            self.ui_goto_event()
-            self.campaign_ensure_mode_20241219('combat')
-            self.campaign_ensure_aside_20241219('part1')
-            self.campaign_ensure_chapter(chapter)
-            return True
-        if chapter in ['b', 'd', 'ttl']:
-            self.ui_goto_event()
-            self.campaign_ensure_mode_20241219('combat')
-            self.campaign_ensure_aside_20241219('part2')
-            self.campaign_ensure_chapter(chapter)
-            return True
-        if chapter in ['ex_sp']:
-            self.ui_goto_event()
-            self.campaign_ensure_mode_20241219('combat')
-            self.campaign_ensure_aside_20241219('sp')
-            self.campaign_ensure_chapter(chapter)
-            return True
-        if chapter in ['ex_ex']:
-            self.ui_goto_event()
-            self.campaign_ensure_mode_20241219('combat')
-            self.campaign_ensure_aside_20241219('ex')
-            self.campaign_ensure_chapter(chapter)
-            return True
-        else:
-            return False
+        if self.config.MAP_CHAPTER_SWITCH_20241219:
+            if self._campaign_name_is_hard(f'{chapter}{stage}'):
+                self.config.override(Campaign_Mode='hard')
+            # part1, part2, sp, ex
+            if mode == 'story':
+                self.campaign_ensure_mode_20241219('story')
+                return True
+            if chapter in ['a', 'c', 't']:
+                self.ui_goto_event()
+                self.campaign_ensure_mode_20241219('combat')
+                self.campaign_ensure_aside_20241219('part1')
+                self.campaign_ensure_chapter(chapter)
+                return True
+            if chapter in ['b', 'd', 'ttl']:
+                self.ui_goto_event()
+                self.campaign_ensure_mode_20241219('combat')
+                self.campaign_ensure_aside_20241219('part2')
+                self.campaign_ensure_chapter(chapter)
+                return True
+            if chapter in ['ex_sp']:
+                self.ui_goto_event()
+                self.campaign_ensure_mode_20241219('combat')
+                self.campaign_ensure_aside_20241219('sp')
+                self.campaign_ensure_chapter(chapter)
+                return True
+            if chapter in ['ex_ex']:
+                self.ui_goto_event()
+                self.campaign_ensure_mode_20241219('combat')
+                self.campaign_ensure_aside_20241219('ex')
+                self.campaign_ensure_chapter(chapter)
+                return True
+        if self.config.MAP_CHAPTER_SWITCH_20241219_SP:
+            if self._campaign_name_is_hard(f'{chapter}{stage}'):
+                self.config.override(Campaign_Mode='hard')
+            # (empty), normal, sp, (empty)
+            if chapter in ['sp', 't', 'ht']:
+                self.ui_goto_event()
+                self.campaign_ensure_mode_20241219('combat')
+                # normal is on the position of part2
+                self.campaign_ensure_aside_20241219('part2')
+                self.campaign_ensure_chapter(chapter)
+                return True
+            if chapter in ['ex_sp']:
+                self.ui_goto_event()
+                self.campaign_ensure_mode_20241219('combat')
+                self.campaign_ensure_aside_20241219('sp')
+                self.campaign_ensure_chapter(chapter)
+                return True
+        return False
 
     def campaign_set_chapter(self, name, mode='normal'):
         """
