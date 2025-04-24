@@ -335,9 +335,11 @@ class RewardTacticalClass(Dock):
             else:
                 logger.info('Choose first book')
                 self._tactical_book_select(first)
+            logger.info(f'_tactical_books_choose -> {TACTICAL_CLASS_START}')
             self.device.click(TACTICAL_CLASS_START)
         else:
             logger.info('Cancel tactical')
+            logger.info(f'_tactical_books_choose -> {TACTICAL_CLASS_CANCEL}')
             self.device.click(TACTICAL_CLASS_CANCEL)
         return True
 
@@ -362,6 +364,8 @@ class RewardTacticalClass(Dock):
         offset = (slot * 220 - 20, -20, slot * 220 + 20, 20)
         if self.appear(RAPID_TRAINING, offset=offset, interval=1):
             self.device.click(RAPID_TRAINING)
+            # Clear interval to enter _tactical_books_choose fast
+            self.interval_clear(TACTICAL_CLASS_CANCEL, interval=2)
             return True
 
         return False
