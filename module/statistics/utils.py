@@ -23,7 +23,7 @@ def load_folder(folder, ext='.png'):
             Image shape: width=96, height=96, channel=3, format=png.
             Image name: Camel-Case, such as 'PlateGeneralT3'. Suffix in name will be ignore.
             For example, 'Javelin' and 'Javelin_2' are different templates, but have same output name 'Javelin'.
-        ext (str): File extension.
+        ext (str|list[str]): File extension.
 
     Returns:
         dict: Key: str, image file base name. Value: full filepath.
@@ -34,7 +34,8 @@ def load_folder(folder, ext='.png'):
     out = {}
     for file in os.listdir(folder):
         name, extension = os.path.splitext(file)
-        if extension == ext:
+        if (isinstance(ext, str) and extension == ext) \
+                or (isinstance(ext, list) and extension in ext):
             out[name] = os.path.join(folder, file)
 
     return out

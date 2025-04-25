@@ -92,4 +92,4 @@ class GetItemsStatistics:
         if ITEM_GROUP.grids is not None:
             new = ITEM_GROUP.extract_template(image)
             for name, im in new.items():
-                cv2.imwrite(os.path.join(folder, f'{name}.png'), im)
+                save_image(im, os.path.join(folder, f'{name}.png'))

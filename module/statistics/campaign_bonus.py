@@ -1,7 +1,7 @@
 from module.base.button import ButtonGrid
 from module.base.utils import *
 from module.handler.assets import AUTO_SEARCH_MENU_EXIT
-from module.statistics.assets import CAMPAIGN_BONUS
+from module.statistics.assets import CAMPAIGN_BONUS, CAMPAIGN_BONUS_SINGLE
 from module.statistics.get_items import ITEM_GROUP, GetItemsStatistics
 from module.statistics.item import Item
 from module.statistics.utils import *
@@ -15,7 +15,8 @@ class BonusItem(Item):
 class CampaignBonusStatistics(GetItemsStatistics):
     def appear_on(self, image):
         if AUTO_SEARCH_MENU_EXIT.match(image, offset=(200, 20)) \
-                and CAMPAIGN_BONUS.match(image, offset=(20, 500)):
+                and (CAMPAIGN_BONUS.match(image, offset=(200, 500)) \
+                or CAMPAIGN_BONUS_SINGLE.match(image, offset=(200, 500))):
             return True
 
         return False
@@ -41,11 +42,16 @@ class CampaignBonusStatistics(GetItemsStatistics):
         """
         result = super().stats_get_items(image, **kwargs)
         valid = False
+        valid_coin = False
         for item in result:
             if item.name == 'Coin':
                 valid = True
-        if valid:
+                if item.amount > 100:
+                    valid_coin = True
+        if valid and valid_coin:
             return [self.revise_item(item) for item in result]
+        elif valid:
+            raise ImageError('Campaign bonus image have too low coins, dropped')
         else:
             raise ImageError('Campaign bonus image does not have coins, dropped')
 
@@ -60,5 +66,14 @@ class CampaignBonusStatistics(GetItemsStatistics):
         # Campaign bonus drop 9 to 30+ chips, but sometimes 10 is detected as 1.
         if item.name == 'Chip' and 0 < item.amount < 4:
             item.amount *= 10
+
+        if 'ship' in item.name:
+            if 3 < item.amount < 10:
+                item.amount = 1
+            elif item.amount >= 10:
+                if 0 <= item.amount % 10 <= 3:
+                    item.amount %= 10
+                else:
+                    item.amount //= 10
 
         return item
