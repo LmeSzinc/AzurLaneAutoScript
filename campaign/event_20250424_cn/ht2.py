@@ -7,15 +7,15 @@ from .ht1 import Config as ConfigBase
 MAP = CampaignMap('HT2')
 MAP.shape = 'I7'
 MAP.camera_data = ['D2', 'D5', 'F2', 'F5']
-MAP.camera_data_spawn_point = ['F2']
+MAP.camera_data_spawn_point = ['F2', 'D2']
 MAP.map_data = """
-    -- ++ -- Me -- MS ++ ++ ++
-    ME ++ Me -- -- -- -- SP --
-    -- -- -- -- -- MS -- -- SP
-    ME -- ME -- Me ++ ++ -- --
-    -- ++ -- __ -- ++ ++ MS Me
-    ++ ME -- ME -- ME ME -- ++
-    MB -- -- ++ Me -- -- ME --
+    ++ ++ ++ SP -- SP ++ ++ --
+    Me -- Me -- -- -- ++ ++ ME
+    -- -- -- -- MS -- -- Me --
+    -- ME ++ MS __ MS -- -- --
+    -- -- -- -- ++ -- -- Me --
+    ME ME ++ -- MB -- ME -- ME
+    -- -- ++ ME -- ME ++ ++ ++
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
@@ -47,7 +47,7 @@ A7, B7, C7, D7, E7, F7, G7, H7, I7, \
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['Z23_g', 'Leipzig_g']
+    MAP_SIREN_TEMPLATE = ['BB', 'CV']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
@@ -57,11 +57,9 @@ class Config(ConfigBase):
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
-    STAGE_ENTRANCE = ['half', '20240725']
-    MAP_HAS_MODE_SWITCH = True
-    MAP_SWIPE_MULTIPLY = (1.189, 1.211)
-    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.150, 1.171)
-    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.116, 1.137)
+    MAP_SWIPE_MULTIPLY = (1.246, 1.269)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.205, 1.227)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.170, 1.191)
 
 
 class Campaign(CampaignBase):

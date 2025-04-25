@@ -6,17 +6,17 @@ from .t1 import Config as ConfigBase
 
 MAP = CampaignMap('T3')
 MAP.shape = 'I8'
-MAP.camera_data = ['D2', 'D6', 'F2', 'F6']
-MAP.camera_data_spawn_point = ['D6']
+MAP.camera_data = ['E3', 'F3', 'F6']
+MAP.camera_data_spawn_point = ['F6']
 MAP.map_data = """
-    ++ ++ Me -- MB -- ++ -- --
-    ++ ++ -- ME -- ME ++ Me ME
-    -- ME -- -- __ -- Me -- --
-    -- ME -- ++ -- -- -- -- ME
-    -- ++ MS ++ MS ++ -- -- ME
-    -- Me -- -- -- MS -- Me --
-    ME -- -- -- -- -- -- ++ ++
-    ++ ++ ++ SP SP ++ ME -- ++
+    ++ ++ -- -- ++ -- -- ++ ++
+    ++ ++ ME -- ++ -- ME -- ++
+    -- ME -- Me ME Me -- ME --
+    -- ME -- -- -- -- -- ME --
+    ++ ++ ++ Me -- Me ++ ++ ++
+    -- -- ++ -- -- MS -- -- SP
+    -- -- MB -- __ -- MS -- --
+    -- -- ++ -- -- MS -- -- SP
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
@@ -49,7 +49,7 @@ A8, B8, C8, D8, E8, F8, G8, H8, I8, \
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['PompeoMagno', 'AlfredoOriani']
+    MAP_SIREN_TEMPLATE = ['Intruder']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
@@ -59,11 +59,12 @@ class Config(ConfigBase):
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
-    STAGE_ENTRANCE = ['half', '20240725']
-    MAP_HAS_MODE_SWITCH = True
-    MAP_SWIPE_MULTIPLY = (1.089, 1.109)
-    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.053, 1.072)
-    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.022, 1.041)
+    HOMO_EDGE_COLOR_RANGE = (0, 17)
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 300
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
+    MAP_SWIPE_MULTIPLY = (1.077, 1.098)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.042, 1.061)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.012, 1.030)
 
 
 class Campaign(CampaignBase):

@@ -135,10 +135,10 @@ class GlobeCamera(GlobeOperation, ZoneManager):
 
     def globe2screen(self, points):
         points = np.array(points) - self.globe_camera + self.globe.homo_center
-        return self.globe.globe2screen(points)
+        return self.globe.globe2screen(points).round()
 
     def screen2globe(self, points):
-        points = self.globe.screen2globe(points)
+        points = self.globe.screen2globe(points).round()
         return points - self.globe.homo_center + self.globe_camera
 
     def zone_to_button(self, zone):
