@@ -2,7 +2,7 @@ import ctypes
 import subprocess
 from functools import wraps
 from threading import Lock, Thread
-from typing import Generic, TypeVar
+from typing import Generic, NoReturn, TypeVar
 
 from module.logger import logger
 
@@ -59,6 +59,26 @@ class Error:
             del captured_error, self
 
 
+<<<<<<< HEAD
+=======
+def capture(sync_fn, *args, **kwargs):
+    """
+    Run ``sync_fn(*args, **kwargs)`` and capture the result.
+
+    Args:
+        sync_fn (Callable[..., ResultT]):
+
+    Returns:
+        Value[ResultT] | Error:
+    """
+    try:
+        return Value(sync_fn(*args, **kwargs))
+    except BaseException as exc:
+        exc = remove_tb_frames(exc, 1)
+        return Error(exc)
+
+
+>>>>>>> 31905ce94 (Sync: [ALAS] thread pool)
 class JobError(Exception):
     pass
 
@@ -87,7 +107,11 @@ class Job(Generic[ResultT]):
         self.args = args
         self.kwargs = kwargs
 
+<<<<<<< HEAD
         # self.result: "Any | Error"
+=======
+        self.queue: "deque[Outcome[ResultT]]" = deque()
+>>>>>>> 31905ce94 (Sync: [ALAS] thread pool)
         self.put_lock = Lock()
         self.notify_get = Lock()
         self.notify_get.acquire()
@@ -141,11 +165,18 @@ class Job(Generic[ResultT]):
 
 
 class WorkerThread:
+<<<<<<< HEAD
     def __init__(self, thread_pool, index):
         """
         Args:
             thread_pool (WorkerPool):
             index (int): Thread index, starting from 0
+=======
+    def __init__(self, thread_pool):
+        """
+        Args:
+            thread_pool (WorkerPool):
+>>>>>>> 31905ce94 (Sync: [ALAS] thread pool)
         """
         self.job: "Job | None" = None
         self.thread_pool = thread_pool
@@ -258,10 +289,17 @@ class WorkerPool:
     A thread pool imitating trio.to_thread.start_thread_soon()
     https://github.com/python-trio/trio/issues/6
     """
+<<<<<<< HEAD
 
     # Thread exits after 10s idling.
     IDLE_TIMEOUT = 1
 
+=======
+
+    # Thread exits after 10s idling.
+    IDLE_TIMEOUT = 10
+
+>>>>>>> 31905ce94 (Sync: [ALAS] thread pool)
     def __init__(self, pool_size: int = 8):
         # Pool has 8 threads at max.
         # Alasio is for local low-frequency access so default pool size is small
@@ -308,8 +346,11 @@ class WorkerPool:
             pass
 
         # Wait if reached max thread
+<<<<<<< HEAD
         # Check without `create_lock` first, otherwise will be 10x slower
         # if multiple thread trying to get `create_lock`
+=======
+>>>>>>> 31905ce94 (Sync: [ALAS] thread pool)
         if len(self.all_workers) >= self.pool_size:
             # See release_full_lock()
             try:
@@ -388,7 +429,11 @@ class WorkerPool:
 
     def start_thread_soon(self, func, *args, **kwargs):
         """
+<<<<<<< HEAD
         Run a function on thread, costs extra ~15us,
+=======
+        Run a function on thread,
+>>>>>>> 31905ce94 (Sync: [ALAS] thread pool)
         result can be got from `job` object
 
         Args:
@@ -428,7 +473,10 @@ class WorkerPool:
             job = function(...)
             result = job.get()
         """
+<<<<<<< HEAD
 
+=======
+>>>>>>> 31905ce94 (Sync: [ALAS] thread pool)
         @wraps(func)
         def thread_wrapper(*args, **kwargs) -> "Job[ResultT]":
             return self.start_thread_soon(func, *args, **kwargs)
