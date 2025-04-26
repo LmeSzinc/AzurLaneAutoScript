@@ -128,7 +128,7 @@ class ArknightsAutoScript(AzurLaneAutoScript):
         asst = AssistantHandler.Asst(callback)
 
         asst.set_instance_option(AssistantHandler.InstanceOptionType.touch_type, self.config.MaaEmulator_TouchMethod)
-        asst.set_instance_option(AssistantHandler.InstanceOptionType.adb_lite_enabled, '0')
+        asst.set_instance_option(AssistantHandler.InstanceOptionType.adblite_enabled, '0')
         if self.config.MaaEmulator_DeploymentWithPause:
             if self.config.MaaEmulator_TouchMethod == 'maatouch':
                 asst.set_instance_option(AssistantHandler.InstanceOptionType.deployment_with_pause, '1')

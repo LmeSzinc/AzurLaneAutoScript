@@ -9,7 +9,7 @@ class HeadlessCliApplication:
     """Wrap a cli application to provide programmable interactive access"""
 
     def __init__(self, launch):
-        self.pipe = Popen([launch], stdin=PIPE, stdout=PIPE, stderr=STDOUT, text=True)
+        self.pipe = Popen([launch], stdin=PIPE, stdout=PIPE, stderr=STDOUT, encoding="utf-8", text=True)
 
         def f():
             while True:

@@ -173,7 +173,8 @@ class InfoHandler(ModuleBase):
             if not self.device.app_is_running():
                 logger.error('Detected hot fixes from game server, game died')
                 raise GameNotRunningError
-            if self.match_template_color(LOGIN_CHECK, offset=(30, 30)):
+            # Use template match without color match due to maintenance popup
+            if self.appear(LOGIN_CHECK, offset=(30, 30)):
                 logger.error('Account logged out, '
                              'probably because account kicked by server maintenance or another log in')
                 # Kill game, because game patches after maintenance can only be downloaded at game startup
@@ -434,8 +435,10 @@ class InfoHandler(ModuleBase):
                 if drop:
                     drop.handle_add(self, before=2)
                 if self.config.STORY_ALLOW_SKIP:
+                    logger.info(f'{STORY_SKIP_3} -> {STORY_SKIP}')
                     self.device.click(STORY_SKIP)
                 else:
+                    logger.info(f'{STORY_SKIP_3} -> {OS_CLICK_SAFE_AREA}')
                     self.device.click(OS_CLICK_SAFE_AREA)
                 self._story_confirm.reset()
                 self.story_popup_timeout.reset()

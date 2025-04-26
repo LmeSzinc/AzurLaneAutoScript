@@ -1,4 +1,5 @@
 from typing import List
+import module.config.server as server
 from module.logger import logger
 from module.ocr.ocr import DigitYuv, Ocr
 from module.statistics.item import Item, ItemGrid
@@ -48,7 +49,10 @@ class CounterOcr(Ocr):
 
 
 COUNTER_OCR = CounterOcr([], threshold=96, name='Counter_ocr')
-PRICE_OCR = PriceOcr([], letter=(255, 223, 57), threshold=32, name='Price_ocr')
+if server.server in ['jp']:
+    PRICE_OCR = PriceOcr([], letter=(245, 214, 58), threshold=32, name='Price_ocr')
+else:
+    PRICE_OCR = PriceOcr([], letter=(255, 223, 57), threshold=32, name='Price_ocr')
 
 
 class OSShopItem(Item):

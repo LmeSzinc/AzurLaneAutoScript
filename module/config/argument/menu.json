@@ -26,6 +26,7 @@
       "Event",
       "Event2",
       "Raid",
+      "Hospital",
       "Coalition",
       "MaritimeEscort",
       "WarArchives"
@@ -101,6 +102,7 @@
     "tasks": [
       "Daemon",
       "OpsiDaemon",
+      "EventStory",
       "Benchmark",
       "AzurLaneUncensored",
       "GameManager"

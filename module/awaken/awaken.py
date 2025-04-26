@@ -3,7 +3,7 @@ from module.base.timer import Timer
 from module.exception import ScriptError
 from module.logger import logger
 from module.ocr.ocr import Digit
-from module.retire.dock import CARD_GRIDS, DOCK_EMPTY, Dock, SHIP_DETAIL_CHECK
+from module.retire.dock import DOCK_EMPTY, Dock
 from module.ui.assets import BACK_ARROW
 from module.ui.page import page_dock, page_main
 
@@ -87,7 +87,7 @@ class Awaken(Dock):
         return self.appear_then_click(AWAKEN_FINISH, offset=(20, 20), interval=1)
 
     def is_in_awaken(self):
-        return SHIP_LEVEL_CHECK.match_luma(self.device.image)
+        return SHIP_LEVEL_CHECK.match_luma(self.device.image, similarity=0.7)
 
     def awaken_popup_close(self, skip_first_screenshot=True):
         logger.info('Awaken popup close')
@@ -131,7 +131,8 @@ class Awaken(Dock):
             if LEVEL_UP.match_luma(self.device.image):
                 logger.info(f'awaken_once ended at {LEVEL_UP}')
                 return 'no_exp'
-            if interval.reached() and AWAKENING.match_luma(self.device.image):
+            # Lower similarity due to random background
+            if interval.reached() and AWAKENING.match_luma(self.device.image, similarity=0.7):
                 self.device.click(AWAKENING)
                 interval.reset()
                 continue
@@ -345,8 +346,11 @@ class Awaken(Dock):
                 break
 
             # page_dock -> SHIP_DETAIL_CHECK
-            self.ship_info_enter(
-                CARD_GRIDS[(0, 0)], check_button=SHIP_DETAIL_CHECK, long_click=False)
+            entered = self.dock_enter_first()
+            if not entered:
+                logger.info('awaken_run finished, no ships to awaken')
+                result = 'finish'
+                break
 
             # is_in_awaken
             result = self.awaken_ship(use_array)

@@ -37,7 +37,7 @@ class GemsCampaignOverride(CampaignBase):
             return result
 
         if self.handle_popup_cancel('IGNORE_LOW_EMOTION'):
-            self.config.GEMS_EMOTION_TRIGGRED = True
+            self.config.GEMS_EMOTION_TRIGGERED = True
             logger.hr('EMOTION WITHDRAW')
 
             while 1:
@@ -273,18 +273,12 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
             max_level = 70
 
         scanner = ShipScanner(level=(max_level, max_level), emotion=(10, 150),
-                              fleet=self.fleet_to_attack, status='free')
+                              fleet=[0, self.fleet_to_attack], status='free')
         scanner.disable('rarity')
 
-        ships = scanner.scan(self.device.image)
-        if ships:
-            # Don't need to change current
-            return ships
-
-        scanner.set_limitation(fleet=0)
         if self.config.GemsFarming_CommonDD in ['any', 'favourite', 'z20_or_z21']:
             # Change to any ship
-            return scanner.scan(self.device.image, output=False)
+            return scanner.scan(self.device.image)
 
         candidates = self.find_candidates(self.get_templates(self.config.GemsFarming_CommonDD), scanner)
         if candidates:
@@ -388,7 +382,7 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
             logger.hr('TRIGGERED LV32 LIMIT')
             return True
 
-        if self.campaign.map_is_auto_search and self.campaign.config.GEMS_EMOTION_TRIGGRED:
+        if self.campaign.map_is_auto_search and self.campaign.config.GEMS_EMOTION_TRIGGERED:
             self._trigger_emotion = True
             logger.hr('TRIGGERED EMOTION LIMIT')
             return True
@@ -434,7 +428,7 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
                 self._trigger_lv32 = False
                 self._trigger_emotion = False
                 self.campaign.config.LV32_TRIGGERED = False
-                self.campaign.config.GEMS_EMOTION_TRIGGRED = False
+                self.campaign.config.GEMS_EMOTION_TRIGGERED = False
 
                 # Scheduler
                 if self.config.task_switched():

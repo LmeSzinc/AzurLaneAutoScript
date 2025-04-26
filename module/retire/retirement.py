@@ -172,6 +172,27 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
             rarity.add('SSR')
         return rarity
 
+    def _retire_wait_slow_retire(self, skip_first_screenshot=True):
+        """
+        SHIP_CONFIRM_2 may slow to appear on slow devices or large dock, wait it
+        If SHIP_CONFIRM_2 can't be waited within 60s, GameStuckError will be raised
+
+        Returns:
+            bool: If SHIP_CONFIRM_2 appears
+        """
+        logger.info('Wait slow retire')
+        self.device.click_record_clear()
+        self.device.stuck_record_clear()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            if self.appear(SHIP_CONFIRM_2, offset=(30, 30)):
+                return True
+
     def retire_ships_one_click(self):
         logger.hr('Retirement')
         logger.info('Using one click retirement.')
@@ -204,14 +225,19 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                     break
 
                 # Click
-                if click_count >= 7:
-                    logger.warning('Failed to select ships using ONE_CLICK_RETIREMENT after 7 trial, '
-                                   'probably because game bugged, a re-enter should fix it')
-                    # Mark as retire finished, higher level will call retires
-                    end = True
-                    total = 10
-                    break
-                elif self.appear_then_click(ONE_CLICK_RETIREMENT, offset=(20, 20), interval=2):
+                if click_count >= 5:
+                    logger.warning('Failed to select ships using ONE_CLICK_RETIREMENT after 5 trial')
+                    if self._retire_wait_slow_retire():
+                        # Waited, all good
+                        # Use pass to trigger ONE_CLICK_RETIREMENT on the same screenshot
+                        pass
+                    else:
+                        # probably because game bugged, a re-enter should fix it
+                        # Mark as retire finished, higher level will call retires
+                        end = True
+                        total = 10
+                        break
+                if self.appear_then_click(ONE_CLICK_RETIREMENT, offset=(20, 20), interval=2):
                     click_count += 1
                     continue
 
@@ -532,6 +558,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
         """
         swipe_count = 0
         disappear_confirm = Timer(2, count=6)
+        top_checked = False
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -554,16 +581,21 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                 else:
                     continue
 
-            if RETIRE_CONFIRM_SCROLL.at_bottom(main=self):
-                logger.info('Scroll bar reached end, stop')
-                break
-
-            # Swipe next page
-            if swipe_count >= 7:
-                logger.info('Reached maximum swipes to find common CV')
-                break
-            RETIRE_CONFIRM_SCROLL.next_page(main=self)
-            swipe_count += 1
+            if not top_checked:
+                top_checked = True
+                logger.info('Find common CV from bottom to top')
+                RETIRE_CONFIRM_SCROLL.set_bottom(main=self)
+                continue
+            else:
+                if RETIRE_CONFIRM_SCROLL.at_top(main=self):
+                    logger.info('Scroll bar reached top, stop')
+                    break
+                # Swipe prev page
+                if swipe_count >= 7:
+                    logger.info('Reached maximum swipes to find common CV')
+                    break
+                RETIRE_CONFIRM_SCROLL.prev_page(main=self)
+                swipe_count += 1
 
         return button
 

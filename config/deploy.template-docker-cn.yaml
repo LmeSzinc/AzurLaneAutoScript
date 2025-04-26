@@ -35,9 +35,9 @@ Deploy:
     # [Other] Use you own python, and its version should be 3.7.6 64bit
     PythonExecutable: /usr/local/bin/python
     # URL of pypi mirror
-    # [CN user] Use 'https://pypi.tuna.tsinghua.edu.cn/simple' for faster and more stable download
+    # [CN user] Use 'https://mirrors.aliyun.com/pypi/simple' for faster and more stable download
     # [Other] Use null
-    PypiMirror: https://pypi.tuna.tsinghua.edu.cn/simple
+    PypiMirror: https://mirrors.aliyun.com/pypi/simple
     # Install dependencies at startup
     # [In most cases] Use true
     InstallDependencies: true

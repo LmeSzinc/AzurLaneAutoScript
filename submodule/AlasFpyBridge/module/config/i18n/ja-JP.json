@@ -20,7 +20,7 @@
   "Task": {
     "Fpy": {
       "name": "FGO-py設定",
-      "help": "FGO-py v11.2.0以降が必要です"
+      "help": "FGO-py v20.1.2以降が必要です"
     },
     "FpyHeartbeat": {
       "name": "心拍",

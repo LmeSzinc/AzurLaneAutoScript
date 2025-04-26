@@ -9,7 +9,7 @@ jellyfish==0.11.2
 lz4
 mxnet==1.6.0
 numpy
-onepush==1.3.0
+onepush==1.4.0
 pillow
 prettytable==2.2.1
 psutil==5.9.3
