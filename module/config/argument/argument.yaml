@@ -110,6 +110,9 @@ DropRecord:
   CombatRecord:
     value: do_not
     option: [ do_not, save ]
+  NewShipRecord:
+    value: do_not
+    option: [ do_not, save ]
   OpsiRecord:
     value: do_not
     option: [ do_not, save, upload, save_and_upload ]
