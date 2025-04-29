@@ -139,10 +139,24 @@ class PrivateQuarters(UI):
 
         # Roses available for purchase?
         # Exit shop if not
-        if not self.appear(PRIVATE_QUARTERS_SHOP_WEEKLY_ROSES_CHECK, offset=(20, 20)):
-            logger.info('No more weekly roses to purchase, exit subtask')
-            self._pq_shop_exit()
-            return
+        # Noticeable lag observed on appearance of roses
+        appear_timer = Timer(1.5, count=3).start()
+        skip_first_screenshot = True
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End, no roses
+            if appear_timer.reached():
+                logger.info('No more weekly roses to purchase, exit subtask')
+                self._pq_shop_exit()
+                return
+
+            # End, has roses
+            if self.appear(PRIVATE_QUARTERS_SHOP_WEEKLY_ROSES_CHECK, offset=(20, 20)):
+                break
 
         # Read coins, exit if < 24000 (total price for all roses)
         # Try again next day if low
@@ -277,7 +291,7 @@ class PrivateQuarters(UI):
             in: Any page
             out: page_main, may have info_bar
         """
-        self.ui_goto(page_private_quarters)
+        self.ui_goto(page_private_quarters, get_ship=False)
         self.handle_info_bar()
 
         self.pq_run(
