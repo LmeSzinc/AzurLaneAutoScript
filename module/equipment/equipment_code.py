@@ -144,7 +144,7 @@ class EquipmentCodeHandler(StorageHandler):
 
     def equip_preview_empty(self):
         for index in range(6):
-            if not self.appear(globals()['EQUIPMENT_CODE_EQUIP_{index}'.format(index=index)]):
+            if not self.appear(globals()['EQUIPMENT_CODE_EQUIP_{index}'.format(index=index)], threshold=15):
                 return False
         return True
     
