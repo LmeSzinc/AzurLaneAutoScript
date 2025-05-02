@@ -60,7 +60,7 @@ class PrivateQuarters(UI):
             check_button=self._pq_goto_room_check,
             appear_button=page_private_quarters.check_button,
             offset=(20, 20),
-            skip_first_screenshot=False)
+            skip_first_screenshot=True)
 
         # If was download asset popup
         # Terminate the run
@@ -108,7 +108,7 @@ class PrivateQuarters(UI):
             check_button=page_private_quarters.check_button,
             offset=(20, 20),
             retry_wait=1.5,
-            skip_first_screenshot=False
+            skip_first_screenshot=True
         )
         self.handle_info_bar()
 
@@ -120,7 +120,7 @@ class PrivateQuarters(UI):
             click_button=PRIVATE_QUARTERS_SHOP_BACK,
             check_button=page_private_quarters.check_button,
             offset=(20, 20),
-            skip_first_screenshot=False
+            skip_first_screenshot=True
         )
 
     def pq_shop_weekly_roses(self):
@@ -134,7 +134,7 @@ class PrivateQuarters(UI):
             check_button=PRIVATE_QUARTERS_SHOP_CHECK,
             appear_button=page_private_quarters.check_button,
             offset=(20, 20),
-            skip_first_screenshot=False
+            skip_first_screenshot=True
         )
 
         # Roses available for purchase?
@@ -204,7 +204,7 @@ class PrivateQuarters(UI):
                 self.device.screenshot()
 
             # End
-            if click_iteration > 2:
+            if click_iteration > 2 and self.appear(PRIVATE_QUARTERS_INTERACT, offset=(20, 20)):
                 break
 
             if click_timer.reached():
