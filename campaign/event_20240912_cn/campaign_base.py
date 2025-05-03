@@ -27,6 +27,17 @@ class CampaignBase(CampaignBase_):
             MODE_SWITCH_20240912.set('combat', main=self)
             super().campaign_ensure_mode(mode)
 
+    def campaign_set_chapter_20241219(self, *args, **kwargs):
+        """
+        2025.05.01 TW airs event_20240912_cn but uses event entry after 20241219
+        """
+        if self.config.SERVER == 'tw':
+            self.config.override(
+                MAP_CHAPTER_SWITCH_20241219=True,
+                MAP_HAS_MODE_SWITCH=True
+            )
+        return super().campaign_set_chapter_20241219(*args, **kwargs)
+
     def handle_exp_info(self):
         # Random background of hits EXP_INFO_B
         if self.ui_page_appear(page_event):
