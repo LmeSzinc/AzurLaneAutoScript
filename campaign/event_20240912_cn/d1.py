@@ -57,6 +57,9 @@ class Config:
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
+
+    MAP_CHAPTER_SWITCH_20241219 = True
+    MAP_HAS_MODE_SWITCH = True
     STAGE_ENTRANCE = ['half', '20240725']
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (80, 255 - 17),
