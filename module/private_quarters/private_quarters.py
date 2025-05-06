@@ -30,9 +30,20 @@ class PrivateQuarters(UI):
         ship, can use the available_targets to store similarly into tuples instead
         """
         settle_timer = Timer(1.5, count=3).start()
-        settle_timer.wait()
-        self.device.screenshot()
-        return self.appear(PRIVATE_QUARTERS_ROOM_TARGET_CHECK, offset=(100, 100))
+        skip_first_screenshot = True
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End, success
+            if self.appear(PRIVATE_QUARTERS_ROOM_TARGET_CHECK, offset=(100, 100)):
+                return True
+
+            # End, failed expired wait time
+            if settle_timer.reached():
+                return False
 
     def _pq_goto_room_check(self):
         """
