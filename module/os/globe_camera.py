@@ -184,8 +184,37 @@ class GlobeCamera(GlobeOperation, ZoneManager):
         location = self.screen2globe([ZONE_PINNED.button[:2]])[0] + (0, 5)
         return self.camera_to_zone(location)
 
+    def globe_wait_until_zone_pinned(self, zone, skip_first_screenshot=True):
+        """
+        Args:
+            zone (str, int, Zone): Name in CN/EN/JP/TW, zone id, or Zone instance.
+            skip_first_screenshot:
+
+        Returns:
+            bool: True if zone pinned, False if timeout
+        """
+        zone = self.name_to_zone(zone)
+        timeout = Timer(5, count=5).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+                self.globe_update()
+
+            if self.is_zone_pinned():
+                if self.get_globe_pinned_zone() == zone:
+                    logger.attr('Globe_pinned', zone)
+                    return True
+            if timeout.reached():
+                logger.warning('Wait until zone pinned timeout')
+                return False
+
     def globe_focus_to(self, zone):
         """
+        Focus to a zone in globe view
+        self.globe_update() needs to be called first
+
         Args:
             zone (str, int, Zone): Name in CN/EN/JP/TW, zone id, or Zone instance.
 
@@ -196,23 +225,19 @@ class GlobeCamera(GlobeOperation, ZoneManager):
         zone = self.name_to_zone(zone)
         logger.info(f'Globe focus_to: {zone.zone_id}')
 
-        interval = Timer(2, count=2)
         while 1:
             if self.handle_zone_pinned():
                 self.globe_update()
                 continue
 
+            # Insight
             self.globe_in_sight(zone)
-            if interval.reached_and_reset():
-                self.device.click(self.zone_to_button(zone))
-                self.device.sleep(0.3)
-
-            self.globe_update()
-
-            if self.is_zone_pinned():
-                if self.get_globe_pinned_zone() == zone:
-                    logger.attr('Globe_pinned', zone)
-                    break
+            # Click zone
+            button = self.zone_to_button(zone)
+            self.device.click(button)
+            # Wait until zone pinned
+            if self.globe_wait_until_zone_pinned(zone):
+                break
 
     def _globe_predict_stronghold(self, zone):
         """
@@ -245,6 +270,8 @@ class GlobeCamera(GlobeOperation, ZoneManager):
 
     def _find_siren_stronghold(self, zones):
         """
+        self.globe_update() needs to be called first
+
         Args:
             zones (SelectGrids): A group of zones to search from.
 
