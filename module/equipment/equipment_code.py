@@ -3,6 +3,7 @@ import yaml
 
 from module.config.config import AzurLaneConfig
 from module.equipment.assets import *
+from module.exception import RequestHumanTakeover
 from module.logger import logger
 from module.storage.assets import EQUIPMENT_FULL
 from module.storage.storage import StorageHandler
@@ -91,7 +92,7 @@ class EquipmentCodeHandler(StorageHandler):
                 self.device.screenshot()
 
             # End
-            if self.appear(EQUIPMENT_CODE_PAGE_CHECK, threshold=10):
+            if self.appear(EQUIPMENT_CODE_PAGE_CHECK):
                 break
 
             if self.appear_then_click(EQUIPMENT_CODE_ENTRANCE, interval=2):
@@ -143,9 +144,14 @@ class EquipmentCodeHandler(StorageHandler):
         self.codes.export_to_config()
 
     def equip_preview_empty(self):
-        for index in range(6):
-            if not self.appear(globals()['EQUIPMENT_CODE_EQUIP_{index}'.format(index=index)], threshold=15):
+        if self.appear(EQUIPMENT_CODE_EQUIP_5_LOCKED):
+            max_index = 5
+        else:
+            max_index = 6
+        for index in range(max_index):
+            if not self.appear(globals()['EQUIPMENT_CODE_EQUIP_{index}'.format(index=index)]):
                 return False
+
         return True
     
     def clear_equip_preview(self, skip_first_screenshot=True):
@@ -227,13 +233,17 @@ class EquipmentCodeHandler(StorageHandler):
             self.click_export_button()
             self.export_equip_code(ship)
         self.clear_equip_preview()
-        while 1:
+        for _ in range(5):
             success = self.confirm_equip_preview()
             if success:
-                break
+                return True
             else:
                 self.handle_storage_full()
                 self.clear_equip_preview()
+
+        raise RequestHumanTakeover(
+            f'Failed to clear all equipment for {ship}, please check manually.'
+        )
 
     def apply_equip_code(self, code=None):
         self.enter_equip_code_page()
@@ -246,7 +256,7 @@ class EquipmentCodeHandler(StorageHandler):
             logger.info(f'Apply gear code {code} for {ship}')
         else:
             logger.info(f'Forcefully apply gear code {code} to current ship.')
-        while 1:
+        for _ in range(5):
             if code is not None and code != EMPTY_GEAR_CODE:
                 self.enter_equip_code_input_mode()
                 self.device.text_input_and_confirm(code, clear=True)
@@ -256,7 +266,11 @@ class EquipmentCodeHandler(StorageHandler):
             success = self.confirm_equip_preview()
             if success:
                 logger.info("Gear code import complete.")
-                break
+                return True
             else:
                 self.handle_storage_full()
                 self.clear_equip_preview()
+
+        raise RequestHumanTakeover(
+            f'Failed to apply equipment for {ship}, please check manually.'
+        )
