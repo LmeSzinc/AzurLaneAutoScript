@@ -5,7 +5,7 @@ from collections import deque
 from functools import wraps
 from itertools import count
 from threading import Lock, Thread
-from typing import Callable, Dict, Generic, List, NoReturn, Optional, TypeVar, Union
+from typing import Generic, NoReturn, TypeVar
 
 from module.logger import logger
 
@@ -13,7 +13,15 @@ ValueT = TypeVar("ValueT", covariant=True)
 ResultT = TypeVar("ResultT")
 
 
-def remove_tb_frames(exc: BaseException, n: int) -> BaseException:
+def remove_tb_frames(exc, n: int):
+    """
+    Args:
+        exc (BaseException):
+        n:
+
+    Returns:
+        BaseException:
+    """
     tb = exc.__traceback__
     for _ in range(n):
         assert tb is not None
@@ -63,7 +71,7 @@ class Error(Outcome[NoReturn]):
     def __repr__(self) -> str:
         return f'Error({self.error!r})'
 
-    def unwrap(self) -> NoReturn:
+    def unwrap(self):
         # Tracebacks show the 'raise' line below out of context, so let's give
         # this variable a name that makes sense out of context.
         captured_error = self.error
@@ -85,16 +93,15 @@ class Error(Outcome[NoReturn]):
             del captured_error, self
 
 
-def capture(
-        sync_fn: Callable[..., ResultT],
-        *args,
-        **kwargs,
-) -> Union[Value[ResultT], Error]:
-    """Run ``sync_fn(*args, **kwargs)`` and capture the result.
+def capture(sync_fn, *args, **kwargs):
+    """
+    Run ``sync_fn(*args, **kwargs)`` and capture the result.
+
+    Args:
+        sync_fn (Callable[..., ResultT]):
 
     Returns:
-      Either a :class:`Value` or :class:`Error` as appropriate.
-
+        Value[ResultT] | Error:
     """
     try:
         return Value(sync_fn(*args, **kwargs))
@@ -129,7 +136,7 @@ class Job(Generic[ResultT]):
         self.worker = worker
         self.func_args_kwargs = func_args_kwargs
 
-        self.queue: deque[Outcome[ResultT]] = deque()
+        self.queue: "deque[Outcome[ResultT]]" = deque()
         self.put_lock = Lock()
         self.notify_get = Lock()
         self.notify_get.acquire()
@@ -178,8 +185,12 @@ name_counter = count()
 
 
 class WorkerThread:
-    def __init__(self, thread_pool: "WorkerPool") -> None:
-        self.job: Optional[Job] = None
+    def __init__(self, thread_pool):
+        """
+        Args:
+            thread_pool (WorkerPool):
+        """
+        self.job: "Job | None" = None
         self.thread_pool = thread_pool
         # This Lock is used in an unconventional way.
         #
@@ -264,6 +275,8 @@ class WorkerThread:
         res = ctypes.pythonapi.PyThreadState_SetAsyncExc(
             thread_id, ctypes.py_object(_JobKill))
         if res <= 1:
+            del self.thread_pool.all_workers[self]
+            self.thread_pool.release_full_lock()
             return True
         else:
             try:
@@ -281,14 +294,17 @@ class WorkerPool:
     A thread pool imitating trio.to_thread.start_thread_soon()
     https://github.com/python-trio/trio/issues/6
     """
-    # Pool has 40 threads at max.
-    POOL_SIZE = 40
+
     # Thread exits after 10s idling.
     IDLE_TIMEOUT = 10
 
-    def __init__(self) -> None:
-        self.idle_workers: Dict[WorkerThread, None] = {}
-        self.all_workers: Dict[WorkerThread, None] = {}
+    def __init__(self, pool_size: int = 8):
+        # Pool has 8 threads at max.
+        # Alasio is for local low-frequency access so default pool size is small
+        self.pool_size = pool_size
+
+        self.idle_workers: "dict[WorkerThread, None]" = {}
+        self.all_workers: "dict[WorkerThread, None]" = {}
 
         self.notify_worker = Lock()
         self.notify_worker.acquire()
@@ -320,7 +336,7 @@ class WorkerPool:
             pass
 
         # Wait if reached max thread
-        if len(self.all_workers) >= WorkerPool.POOL_SIZE:
+        if len(self.all_workers) >= self.pool_size:
             # See release_full_lock()
             self.notify_worker.release()
             self.notify_pool.acquire()
@@ -340,12 +356,23 @@ class WorkerPool:
         self.all_workers[worker] = None
         return worker
 
-    def start_thread_soon(
-            self,
-            func: Callable[..., ResultT],
-            *args,
-            **kwargs,
-    ) -> Job[ResultT]:
+    def start_thread_soon(self, func, *args, **kwargs):
+        """
+        Run a function on thread,
+        result can be got from `job` object
+
+        Args:
+            func (Callable[..., ResultT]):
+            *args:
+            **kwargs:
+
+        Returns:
+            Job[ResultT]:
+
+        Examples:
+            job = WORKER_POOL.start_thread_soon(func, *args)
+            result = job.get()
+        """
         worker = self._get_thread_worker()
         job = Job(worker=worker, func_args_kwargs=(func, args, kwargs))
 
@@ -353,15 +380,42 @@ class WorkerPool:
         worker.worker_lock.release()
         return job
 
-    def run_on_thread(self, func: Callable[..., ResultT]) -> Callable[..., Job[ResultT]]:
+    def run_on_thread(self, func):
+        """
+        Decorate a function to run on thread,
+        result can be got from `job` object
+
+        Args:
+            func (Callable[..., ResultT]):
+
+        Returns:
+            Job[ResultT]:
+
+        Examples:
+            @run_on_thread
+            def function(...):
+                pass
+            job = function(...)
+            result = job.get()
+        """
         @wraps(func)
-        def thread_wrapper(*args, **kwargs) -> Job[ResultT]:
+        def thread_wrapper(*args, **kwargs) -> "Job[ResultT]":
             return self.start_thread_soon(func, *args, **kwargs)
 
         return thread_wrapper
 
     @staticmethod
-    def _subprocess_execute(cmd: List[str], timeout=10) -> bytes:
+    def _subprocess_execute(cmd, timeout=10):
+        """
+        Helper function to run cmd in subprocess
+
+        Args:
+            cmd (list[str]):
+            timeout:
+
+        Returns:
+            bytes:
+        """
         logger.info(f'Execute: {cmd}')
 
         process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=False)
@@ -374,11 +428,18 @@ class WorkerPool:
             logger.warning(f'TimeoutExpired when calling {cmd}, stdout={stdout}, stderr={stderr}')
         return stdout
 
-    def start_cmd_soon(
-            self,
-            cmd: List[str],
-            timeout=10
-    ) -> Job[bytes]:
+    def start_cmd_soon(self, cmd, timeout=10):
+        """
+        Run cmd on subprocess and communicate it on another thread,
+        result can be got from `job` object
+
+        Args:
+            cmd (list[str]):
+            timeout:
+
+        Returns:
+            Job[bytes]:
+        """
         worker = self._get_thread_worker()
         job = Job(worker=worker, func_args_kwargs=(
             self._subprocess_execute, (cmd,), {'timeout': timeout}
@@ -387,6 +448,133 @@ class WorkerPool:
         worker.job = job
         worker.worker_lock.release()
         return job
+
+    def wait_jobs(self) -> "WaitJobsWrapper":
+        """
+        Auto wait all jobs finished
+
+        Examples:
+            with WORKER_POOL.wait_jobs() as pool:
+                pool.start_thread_soon(...)
+        """
+        return WaitJobsWrapper(self)
+
+    def gather_jobs(self) -> "GatherJobsWrapper":
+        """
+        Auto wait all jobs finished and gather results
+
+        Examples:
+            pool = WORKER_POOL.gather_jobs()
+            with pool:
+                pool.start_thread_soon(...)
+            # Get results
+            print(pool.results)
+        """
+        return GatherJobsWrapper(self)
+
+    def thread_map(self, func, iterables):
+        """
+        Alternative to ThreadPoolExecutor.map(func, iterables)
+
+        Args:
+            func (Callable[..., ResultT]):
+            iterables:
+
+        Returns:
+            list[ResultT]:
+        """
+        jobs = [self.start_thread_soon(func, arg) for arg in iterables]
+        results = [job.get() for job in jobs]
+        return results
+
+    def thread_starmap(self, func, iterables):
+        """
+        Alternative to multiprocessing.pool.Pool().starmap(func, iterables) but on threads
+
+        Args:
+            func (Callable[..., ResultT]):
+            iterables:
+
+        Returns:
+            list[ResultT]:
+        """
+        jobs = [self.start_thread_soon(func, *arg) for arg in iterables]
+        results = [job.get() for job in jobs]
+        return results
+
+    def thread_funcmap(self, func_iterables):
+        """
+        Run a list of functions on threads
+
+        Args:
+            func_iterables (Iterable[Callable[..., ResultT]]):
+
+        Returns:
+            list[ResultT]:
+        """
+        jobs = [self.start_thread_soon(func) for func in func_iterables]
+        results = [job.get() for job in jobs]
+        return results
+
+
+class WaitJobsWrapper:
+    """
+    Wrapper class to wait all jobs
+    """
+
+    def __init__(self, pool: "WorkerPool"):
+        self.pool: "WorkerPool" = pool
+        self.jobs: "list[Job[ResultT]]" = []
+
+    def get(self):
+        for job in self.jobs:
+            job.get()
+        self.jobs.clear()
+
+    def __enter__(self):
+        self.jobs.clear()
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.get()
+
+    def start_thread_soon(self, func, *args, **kwargs):
+        """
+        Run a function on thread,
+        result can be got from `job` object
+
+        Args:
+            func (Callable[..., ResultT]):
+            *args:
+            **kwargs:
+
+        Returns:
+            Job[ResultT]:
+        """
+        job = self.pool.start_thread_soon(func, *args, **kwargs)
+        self.jobs.append(job)
+        return job
+
+
+class GatherJobsWrapper(WaitJobsWrapper):
+    """
+    Wrapper class to gather all jobs
+    """
+
+    def __init__(self, pool: "WorkerPool"):
+        super().__init__(pool)
+        self.results: "list[ResultT]" = []
+
+    def get(self):
+        for job in self.jobs:
+            result = job.get()
+            self.results.append(result)
+        self.jobs.clear()
+
+    def __enter__(self):
+        self.jobs.clear()
+        self.results.clear()
+        return self
 
 
 WORKER_POOL = WorkerPool()
