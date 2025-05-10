@@ -172,11 +172,14 @@ class OpsiAshBeacon(Meta):
             else:
                 self.device.screenshot()
 
+            # End
+            if not self.appear(BEACON_REWARD, offset=(30, 30)):
+                if self._in_meta_page():
+                    break
+
             if self.appear_then_click(BEACON_REWARD, offset=(30, 30), interval=2):
                 logger.info('Reap meta rewards')
                 continue
-            if self._in_meta_page():
-                break
             # Finish random events
             if self.handle_map_event():
                 continue
