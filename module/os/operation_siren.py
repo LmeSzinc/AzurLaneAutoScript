@@ -477,6 +477,9 @@ class OperationSiren(OSMap):
     def _os_explore(self):
         """
         Explore all dangerous zones at the beginning of month.
+
+        Returns:
+            list[int]: List of failed zone id
         """
 
         def end():
@@ -513,12 +516,15 @@ class OperationSiren(OSMap):
             end()
 
         # Run
+        failed_zone = []
         for zone in order:
+            # Check if zone already unlock safe zone
             if not self.globe_goto(zone, stop_if_safe=True):
                 logger.info(f'Zone cleared: {self.name_to_zone(zone)}')
                 self.config.OpsiExplore_LastZone = zone
                 continue
 
+            # Run zone
             logger.hr(f'OS explore {zone}', level=1)
             if not self.config.OpsiExplore_SpecialRadar:
                 # Special radar gives 90 turning samples,
@@ -529,23 +535,35 @@ class OperationSiren(OSMap):
                 recon_scan=not self.config.OpsiExplore_SpecialRadar,
                 submarine_call=self.config.OpsiFleet_Submarine)
             self._os_explore_task_delay()
-            self.run_auto_search()
+
+            finished_combat = self.run_auto_search()
             self.config.OpsiExplore_LastZone = zone
             logger.info(f'Zone cleared: {self.name_to_zone(zone)}')
+            if finished_combat == 0:
+                logger.warning('Zone cleared but did not finish any combat')
+                failed_zone.append(zone)
             self.handle_after_auto_search()
             self.config.check_task_switch()
+
+            # Reached end
             if zone == order[-1]:
                 end()
 
+        return failed_zone
+
     def os_explore(self):
+        failed_zone = []
         for _ in range(2):
             try:
-                self._os_explore()
+                failed_zone = self._os_explore()
             except OSExploreError:
                 logger.info('Go back to NY, explore again')
                 self.config.OpsiExplore_LastZone = 0
                 self.globe_goto(0)
 
+        failed_zone = [self.name_to_zone(zone) for zone in failed_zone]
+        logger.error(f'OpsiExplore failed at these zones, please check you game settings '
+                     f'and check if there is any unfinished event in them: {failed_zone}')
         logger.critical('Failed to solve the locked zone')
         raise GameStuckError
 
