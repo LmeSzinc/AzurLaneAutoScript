@@ -39,7 +39,22 @@ GUI development, thanks **[@18870](https://github.com/18870)** , say HURRAY.
 
 ## Installation [![](https://img.shields.io/github/downloads/LmeSzinc/AzurLaneAutoScript/total?color=4e4c97)](https://github.com/LmeSzinc/AzurLaneAutoScript/releases)
 
-Refers to [Installation tutorial](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Installation_en), including easy-installer manual, use manual, manual installation tutorial, remote access manul.
+Refers to [Installation tutorial](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Installation_en), including easy-installer manual, use manual, manual installation tutorial, remote access manual.
+
+## Correctly Using the Scheduler
+
+- **For *Task* and *Scheduler***
+
+  In Alas, each task runs independently and is coordinated by a central scheduler. Once a task finishes, the scheduler automatically sets the next execution time. For example, if the *Research* task takes four hours to complete, the scheduler postpones it for four hours afterward, so it can seamlessly pick up where it left off.
+
+- **For *Emotion Settings***
+
+  Alas focuses on prevention, so it doesn’t wait for a warning about to appear before addressing morale. This approach helps keep morale above 120 and gain an extra 20% experience. For instance, if a fleet’s morale is at 113 and is rested in the Dorm’s second floor (+50/h) without bonuses from Oath (+0/h), Alas waits about twelve minutes for morale to recover to 120+ before resuming. Meanwhile, other tasks can still be run.
+
+- **Making the Most of the Scheduler**
+
+  An *incorrect* way to use the scheduler is turning on only a couple of tasks and manually managing them or restarting Alas. The *correct* approach is to enable all tasks that might be useful, let the scheduler do its job, minimize both the emulator and Alas to the background, and you can enjoy your life while Alas does the work for you. 
+
 
 ## Modify Game Settings
 
@@ -53,6 +68,10 @@ Modify the in-game settings according to this table.
 | OpSi - Default to Auto Mode in Threat Safe |    Off    |
 |               Story Autoplay               |  Enable   |
 |           Text Auto-Scroll Speed           | Very Fast |
+|        No Sleep Mode on Main Menu          |    Off    |
+|           Duplicate Ship Display           |    Off    |
+|        Display Quick-Switch Prompt         |    Off    |
+|       Display Battle Result Cutscene       |    Off    |
 
 Operation Siren => Navigation Orders => Submarine Support:
 
