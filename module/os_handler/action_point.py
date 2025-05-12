@@ -347,8 +347,11 @@ class ActionPointHandler(UI, MapEventHandler):
                 self.device.screenshot()
 
             # End
-            if self.appear(OS_CHECK, offset=(20, 20)):
-                break
+            # sometimes you have action point popup without black-blurred background
+            # ACTION_POINT_CANCEL and OS_CHECK both appears
+            if not self.appear(ACTION_POINT_CANCEL, offset=(20, 20)):
+                if self.appear(OS_CHECK, offset=(20, 20)):
+                    break
             # Click
             if self.appear_then_click(ACTION_POINT_CANCEL, offset=(20, 20), interval=3):
                 continue
