@@ -83,12 +83,27 @@ class Dock(Equipment):
         self.ui_click(DOCK_FILTER, appear_button=DOCK_CHECK, check_button=DOCK_FILTER_CONFIRM,
                       skip_first_screenshot=True)
 
-    def dock_filter_confirm(self, wait_loading=True):
+    def dock_filter_confirm(self, wait_loading=True, skip_first_screenshot=True):
         """
         Args:
             wait_loading: Default to True, use False on continuous operation
+            skip_first_screenshot:
         """
-        self.ui_click(DOCK_FILTER_CONFIRM, check_button=DOCK_CHECK, skip_first_screenshot=True)
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            # sometimes you have dock filter without black-blurred background
+            # DOCK_FILTER_CONFIRM and DOCK_CHECK appears
+            if not self.appear(DOCK_FILTER_CONFIRM, offset=(20, 20)):
+                if self.appear(DOCK_CHECK, offset=(20, 20)):
+                    break
+            if self.appear_then_click(DOCK_FILTER_CONFIRM, offset=(20, 20), interval=3):
+                continue
+
         if wait_loading:
             self.handle_dock_cards_loading()
 
