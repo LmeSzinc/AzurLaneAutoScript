@@ -97,8 +97,21 @@ class MissionHandler(GlobeOperation, ZoneManager):
 
     def os_mission_quit(self, skip_first_screenshot=True):
         logger.info('OS mission quit')
-        self.ui_click(MISSION_QUIT, check_button=self.is_in_map, offset=(200, 5),
-                      skip_first_screenshot=skip_first_screenshot)
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            # sometimes you have os mission popup without black-blurred background
+            # MISSION_QUIT and is_in_map appears
+            if not self.appear(MISSION_QUIT, offset=(20, 20)):
+                if self.is_in_map():
+                    break
+            # Click
+            if self.appear_then_click(MISSION_QUIT, offset=(20, 20), interval=3):
+                continue
 
     def os_get_next_mission(self):
         """
