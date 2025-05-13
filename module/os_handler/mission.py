@@ -58,6 +58,23 @@ class MissionHandler(GlobeOperation, ZoneManager):
             else:
                 self.device.screenshot()
 
+            # End
+            if self.is_in_os_mission() \
+                    and not self.appear(MISSION_FINISH, offset=(20, 20)) \
+                    and not self.match_template_color(MISSION_CHECKOUT, offset=(20, 20)):
+                # No mission found, wait to confirm. Missions might not be loaded so fast.
+                if confirm_timer.reached():
+                    logger.info('No OS mission found.')
+                    break
+            elif self.is_in_os_mission() \
+                    and self.match_template_color(MISSION_CHECKOUT, offset=(20, 20)):
+                # Found one mission.
+                logger.info('Found at least one OS missions.')
+                break
+            else:
+                confirm_timer.reset()
+
+            # Click
             if self.appear_then_click(MISSION_ENTER, offset=(200, 5), interval=5):
                 confirm_timer.reset()
                 continue
@@ -77,22 +94,6 @@ class MissionHandler(GlobeOperation, ZoneManager):
                 # Accidentally entered globe
                 confirm_timer.reset()
                 continue
-
-            # End
-            if self.is_in_os_mission() \
-                    and not self.appear(MISSION_FINISH, offset=(20, 20)) \
-                    and not self.match_template_color(MISSION_CHECKOUT, offset=(20, 20)):
-                # No mission found, wait to confirm. Missions might not be loaded so fast.
-                if confirm_timer.reached():
-                    logger.info('No OS mission found.')
-                    break
-            elif self.is_in_os_mission() \
-                    and self.match_template_color(MISSION_CHECKOUT, offset=(20, 20)):
-                # Found one mission.
-                logger.info('Found at least one OS missions.')
-                break
-            else:
-                confirm_timer.reset()
 
     def os_mission_quit(self, skip_first_screenshot=True):
         logger.info('OS mission quit')
@@ -138,12 +139,6 @@ class MissionHandler(GlobeOperation, ZoneManager):
             else:
                 self.device.screenshot()
 
-            if self.appear_then_click(MISSION_CHECKOUT, offset=checkout_offset, interval=2):
-                continue
-            if self.handle_popup_confirm('OS_MISSION_CHECKOUT'):
-                # Popup: Submarine will retreat after exiting current zone.
-                continue
-
             # End
             if self.is_zone_pinned():
                 if self.get_zone_pinned_name() == 'ARCHIVE':
@@ -157,6 +152,12 @@ class MissionHandler(GlobeOperation, ZoneManager):
             if self.is_in_map() and self.info_bar_count():
                 logger.info('Already at mission zone')
                 return 'already_at_mission_zone'
+
+            if self.appear_then_click(MISSION_CHECKOUT, offset=checkout_offset, interval=2):
+                continue
+            if self.handle_popup_confirm('OS_MISSION_CHECKOUT'):
+                # Popup: Submarine will retreat after exiting current zone.
+                continue
 
     def os_mission_overview_accept(self):
         """
