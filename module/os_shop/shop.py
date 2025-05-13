@@ -198,6 +198,9 @@ class OSShop(PortShop, AkashiShop):
             if _item is None:
                 logger.warning(f'Item {item.name} not found in shop {item.shop_index + 1} at pos {item.scroll_pos:.2f}, skip.')
                 continue
+            if not self.check_item_count(_item):
+                logger.warning(f'Get {_item.name} count error, skip.')
+                continue
             if self.os_shop_buy_execute(_item):
                 logger.info(f'Bought item: {_item.name}.')
                 skip_get_coins = False

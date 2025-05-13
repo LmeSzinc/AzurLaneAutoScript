@@ -74,6 +74,9 @@ class Selector():
         """
         return not (self.is_cl1_enabled and item.name == 'PurpleCoins')
 
+    def check_item_count(self, item) -> bool:
+        return item.count >= 1 and item.totoal_count >= 1 and item.count <= item.totoal_count
+
     def items_filter_in_akashi_shop(self, items) -> List[Item]:
         """
         Returns items that can be bought.
@@ -89,7 +92,7 @@ class Selector():
         if not parser.strip():
             parser = GeneratedConfig.OpsiGeneral_AkashiShopFilter
         FILTER.load(parser)
-        return FILTER.applys(items, funcs=[self.check_cl1_purple_coins, self.enough_coins_in_akashi])
+        return FILTER.applys(items, funcs=[self.check_cl1_purple_coins, self.enough_coins_in_akashi, self.check_item_count])
 
     def items_filter_in_os_shop(self, items) -> List[Item]:
         """
@@ -111,4 +114,4 @@ class Selector():
         else:
             parser = OS_SHOP[preset]
         FILTER.load(parser)
-        return FILTER.apply(items, func=self.check_cl1_purple_coins)
+        return FILTER.applys(items, func=[self.check_cl1_purple_coins, self.check_item_count])
