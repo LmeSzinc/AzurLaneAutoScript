@@ -83,8 +83,8 @@ class OSShopItem(Item):
         super().__init__(*args, **kwargs)
         self._shop_index = None
         self._scroll_pos = None
-        self.total_count = 1
-        self.count = 1
+        self.total_count = -1
+        self.count = -1
 
     @property
     def shop_index(self):
