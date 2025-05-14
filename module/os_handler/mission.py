@@ -166,6 +166,12 @@ class MissionHandler(GlobeOperation, ZoneManager):
                 logger.info('Already at mission zone')
                 return 'already_at_mission_zone'
 
+            if self.appear_then_click(MISSION_CHECKOUT, offset=checkout_offset, interval=2):
+                continue
+            if self.handle_popup_confirm('OS_MISSION_CHECKOUT'):
+                # Popup: Submarine will retreat after exiting current zone.
+                continue
+
     def os_mission_overview_accept(self, skip_first_screenshot=True):
         """
         Accept all missions in mission overview.
