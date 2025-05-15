@@ -75,7 +75,7 @@ class Selector():
         return not (self.is_cl1_enabled and item.name == 'PurpleCoins')
 
     def check_item_count(self, item) -> bool:
-        return item.count >= 1 and item.totoal_count >= 1 and item.count <= item.totoal_count
+        return item.count >= 1 and item.total_count >= 1 and item.count <= item.total_count
 
     def items_filter_in_akashi_shop(self, items) -> List[Item]:
         """
