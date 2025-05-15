@@ -75,6 +75,16 @@ class Selector():
         return not (self.is_cl1_enabled and item.name == 'PurpleCoins')
 
     def check_item_count(self, item) -> bool:
+        """
+        Check if the item has a valid count.
+        
+        Args:
+            item: Irem.
+            
+        Returns:
+            bool: True if the item has at least one count, the total count is at least one,
+                  and the current count does not exceed the total count. False otherwise.
+        """
         return item.count >= 1 and item.total_count >= 1 and item.count <= item.total_count
 
     def items_filter_in_akashi_shop(self, items) -> List[Item]:
