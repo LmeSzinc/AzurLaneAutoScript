@@ -1626,6 +1626,11 @@
           "z20_or_z21"
         ]
       },
+      "EquipmentCode": {
+        "type": "textarea",
+        "value": "DD: null\nbogue: null\nhermes: null\nlangley: null\nranger: null",
+        "mode": "yaml"
+      },
       "CommissionLimit": {
         "type": "checkbox",
         "value": true
