@@ -505,11 +505,15 @@ class NemuIpc(Platform):
             return False
         if not self.is_mumu_family:
             return False
-        # >= 4.0 has no info in getprop
         if self.nemud_player_version == '':
-            return True
-        if self.nemud_app_keep_alive == '':
-            return False
+            # >= 4.0 has no info in getprop
+            # Try initializing nemu_ipc for final check
+            pass
+        else:
+            # Having version, probably MuMu6 or MuMu12 version 3.x
+            if self.nemud_app_keep_alive == '':
+                # Empty property, probably MuMu6 or MuMu12 version < 3.5.6
+                return False
         try:
             _ = self.nemu_ipc
         except RequestHumanTakeover:
