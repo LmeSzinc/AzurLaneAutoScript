@@ -325,7 +325,16 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                     continue
             if self.handle_submarine_call(submarine):
                 continue
+            # bunch of popup handlers
             if self.handle_popup_confirm('COMBAT_EXECUTE'):
+                continue
+            if self.handle_urgent_commission():
+                continue
+            if self.handle_guild_popup_cancel():
+                continue
+            if self.handle_vote_popup():
+                continue
+            if self.handle_mission_popup_ack():
                 continue
 
             # End
@@ -532,6 +541,9 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                 if not exp_info and self.handle_battle_status(drop=drop):
                     battle_status = True
                     continue
+            # bunch of popup handlers
+            if self.handle_popup_confirm('COMBAT_STATUS'):
+                continue
             if self.handle_urgent_commission(drop=drop):
                 continue
             if self.handle_guild_popup_cancel():
@@ -540,6 +552,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                 continue
             if self.handle_mission_popup_ack():
                 continue
+            # additional handlers in combat
             if self.handle_auto_search_exit(drop=drop):
                 continue
             if self.handle_combat_mis_click():

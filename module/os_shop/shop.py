@@ -8,7 +8,7 @@ from module.os_shop.akashi_shop import AkashiShop
 from module.os_shop.assets import PORT_SUPPLY_CHECK, SHOP_BUY_CONFIRM
 from module.os_shop.port_shop import PortShop
 from module.os_shop.ui import OS_SHOP_SCROLL
-from module.shop.assets import AMOUNT_MAX, AMOUNT_MINUS, AMOUNT_PLUS, SHOP_BUY_CONFIRM_AMOUNT, SHOP_BUY_CONFIRM as OS_SHOP_BUY_CONFIRM
+from module.shop.assets import AMOUNT_MAX, AMOUNT_MINUS, AMOUNT_PLUS, SHOP_BUY_CONFIRM_AMOUNT, SHOP_BUY_CONFIRM as OS_SHOP_BUY_CONFIRM, SHOP_CLICK_SAFE_AREA
 from module.shop.clerk import OCR_SHOP_AMOUNT
 
 
@@ -26,7 +26,8 @@ class OSShop(PortShop, AkashiShop):
         amount_finish = False
         self.interval_clear([
             PORT_SUPPLY_CHECK, SHOP_BUY_CONFIRM_AMOUNT,
-            SHOP_BUY_CONFIRM, OS_SHOP_BUY_CONFIRM, GET_ITEMS_1
+            SHOP_BUY_CONFIRM, OS_SHOP_BUY_CONFIRM, GET_ITEMS_1,
+            SHOP_CLICK_SAFE_AREA
         ])
 
         while True:
@@ -41,16 +42,16 @@ class OSShop(PortShop, AkashiShop):
                 continue
 
             if self.appear_then_click(SHOP_BUY_CONFIRM, offset=(20, 20), interval=3):
-                self.interval_reset(SHOP_BUY_CONFIRM)
                 continue
 
             if self.appear_then_click(OS_SHOP_BUY_CONFIRM, offset=(20, 20), interval=3):
-                self.interval_reset(OS_SHOP_BUY_CONFIRM)
                 continue
 
             if not amount_finish and self.appear(SHOP_BUY_CONFIRM_AMOUNT, offset=(20, 20)):
-                self.shop_buy_amount_handler(button)
-                amount_finish = True
+                amount_finish = self.shop_buy_amount_handler(button)
+                if amount_finish:
+                    self.interval_reset(SHOP_BUY_CONFIRM)
+                    self.interval_reset(OS_SHOP_BUY_CONFIRM)
                 continue
 
             if amount_finish and self.appear_then_click(SHOP_BUY_CONFIRM_AMOUNT, offset=(20, 20), interval=3):
@@ -102,32 +103,40 @@ class OSShop(PortShop, AkashiShop):
         Raises:
             ScriptError: OCR_SHOP_AMOUNT
         """
+        limit = -1
+        retry = Timer(0, count=3)
+        retry.start()
+        while True:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+            limit = OCR_SHOP_AMOUNT.ocr(self.device.image)
+
+            if limit == 0:
+                logger.warning('OCR_SHOP_AMOUNT resulted 0, retrying')
+                self.device.click(SHOP_CLICK_SAFE_AREA)
+                return False
+
+            if limit > 0:
+                break
+
+            if retry.reached():
+                logger.critical('OCR_SHOP_AMOUNT resulted error; '
+                                'asset may be compromised')
+                raise ScriptError
+        retry.reset()
+
+
         currency = self.get_currency_coins(item)
         count = min(int(currency // item.price), item.count)
 
         if count == 1:
-            return
+            return True
 
         coins = self.get_coins_no_limit(item)
         total_count = min(int(coins // item.price), item.count)
 
-        limit = 0
-        retry = Timer(0, count=3)
-        retry.start()
-        while True:
-            limit = OCR_SHOP_AMOUNT.ocr(self.device.image)
-            if limit:
-                break
-
-            if retry.reached():
-                logger.critical('OCR_SHOP_AMOUNT resulted in zero (0); '
-                                'asset may be compromised')
-                raise ScriptError
-
-            self.device.sleep((0.3, 0.5))
-            self.device.screenshot()
-
-        retry.reset()
         set_to_max = False
         # Avg count of all items(no PurpleCoins) is 8.9, so use 10.
         if count <= 10:
@@ -158,6 +167,7 @@ class OSShop(PortShop, AkashiShop):
 
         self.ui_ensure_index(limit, letter=OCR_SHOP_AMOUNT, prev_button=AMOUNT_MINUS, next_button=AMOUNT_PLUS,
                              skip_first_screenshot=True)
+        return True
 
     def handle_port_supply_buy(self) -> bool:
         """
@@ -197,6 +207,9 @@ class OSShop(PortShop, AkashiShop):
             _item = self.os_shop_get_items_to_buy(name=item.name, price=item.price)
             if _item is None:
                 logger.warning(f'Item {item.name} not found in shop {item.shop_index + 1} at pos {item.scroll_pos:.2f}, skip.')
+                continue
+            if not self.check_item_count(_item):
+                logger.warning(f'Get {_item.name} count error, skip.')
                 continue
             if self.os_shop_buy_execute(_item):
                 logger.info(f'Bought item: {_item.name}.')

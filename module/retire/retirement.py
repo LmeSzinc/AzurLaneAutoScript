@@ -104,7 +104,9 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                 # Handled with dirty timeout, a better fix is required
                 logger.warning('Wait _retirement_confirm timeout, assume finished')
                 break
-            if self.appear(IN_RETIREMENT_CHECK, offset=(20, 20)):
+            # sometimes you have EQUIP_CONFIRM without black-blurred background
+            # EQUIP_CONFIRM and IN_RETIREMENT_CHECK appears
+            if self.appear(IN_RETIREMENT_CHECK, offset=(20, 20)) and not self.appear(EQUIP_CONFIRM, offset=(30, 30)):
                 if executed:
                     break
             else:
