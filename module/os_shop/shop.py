@@ -29,6 +29,7 @@ class OSShop(PortShop, AkashiShop):
             SHOP_BUY_CONFIRM, OS_SHOP_BUY_CONFIRM, GET_ITEMS_1,
             SHOP_CLICK_SAFE_AREA
         ])
+        set_amount_retry = 0
 
         while True:
             if skip_first_screenshot:
@@ -37,21 +38,25 @@ class OSShop(PortShop, AkashiShop):
                 self.device.screenshot()
 
             if self.handle_map_get_items(interval=3):
-                self.interval_reset(PORT_SUPPLY_CHECK)
+                self.interval_clear(PORT_SUPPLY_CHECK)
                 success = True
                 continue
 
             if self.appear_then_click(SHOP_BUY_CONFIRM, offset=(20, 20), interval=3):
+                self.interval_reset(SHOP_BUY_CONFIRM)
                 continue
 
             if self.appear_then_click(OS_SHOP_BUY_CONFIRM, offset=(20, 20), interval=3):
+                self.interval_reset(OS_SHOP_BUY_CONFIRM)
                 continue
 
             if not amount_finish and self.appear(SHOP_BUY_CONFIRM_AMOUNT, offset=(20, 20)):
                 amount_finish = self.shop_buy_amount_handler(button)
-                if amount_finish:
-                    self.interval_reset(SHOP_BUY_CONFIRM)
-                    self.interval_reset(OS_SHOP_BUY_CONFIRM)
+                set_amount_retry += 1
+                if not amount_finish and set_amount_retry > 3:
+                    logger.warning(f'Item {button.name} cant get amount.')
+                    self.close_shop_buy_confirm_amount(skip_first_screenshot)
+                    break
                 continue
 
             if amount_finish and self.appear_then_click(SHOP_BUY_CONFIRM_AMOUNT, offset=(20, 20), interval=3):
@@ -76,7 +81,8 @@ class OSShop(PortShop, AkashiShop):
         """
         Args:
             select_func:
-        @@ -213,20 +341,131 @@ def os_shop_buy(self, select_func):
+                Function to select items to buy.
+
             in: PORT_SUPPLY_CHECK
         """
         count = 0
@@ -92,6 +98,30 @@ class OSShop(PortShop, AkashiShop):
 
         logger.warning('Too many items to buy, stopped')
         return count
+
+    def close_shop_buy_confirm_amount(self, skip_first_screenshot=True):
+        """
+        Close shop buy confirm amount.
+
+        Args:
+            skip_first_screenshot:
+
+        Pages:
+            in: SHOP_BUY_CONFIRM_AMOUNT
+        """
+        self.interval_clear([PORT_SUPPLY_CHECK, SHOP_BUY_CONFIRM_AMOUNT])
+        while True:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.appear(PORT_SUPPLY_CHECK, offset=(20, 20)):
+                self.interval_clear(SHOP_BUY_CONFIRM_AMOUNT)
+                break
+
+            if self.appear(SHOP_BUY_CONFIRM_AMOUNT, offset=(20, 20), interval=3):
+                self.device.click(SHOP_CLICK_SAFE_AREA)
 
     def shop_buy_amount_handler(self, item, skip_first_screenshot=True):
         """
@@ -115,7 +145,7 @@ class OSShop(PortShop, AkashiShop):
 
             if limit == 0:
                 logger.warning('OCR_SHOP_AMOUNT resulted 0, retrying')
-                self.device.click(SHOP_CLICK_SAFE_AREA)
+                self.close_shop_buy_confirm_amount()
                 return False
 
             if limit > 0:
@@ -215,6 +245,8 @@ class OSShop(PortShop, AkashiShop):
                 logger.info(f'Bought item: {_item.name}.')
                 skip_get_coins = False
                 count += 1
+            else:
+                logger.warning(f'Item {_item.name} cant be bought, skip.')
             self.device.click_record.clear()
         logger.info(f'Bought {f"{count} items" if count else "nothing"} in port.')
         return True
