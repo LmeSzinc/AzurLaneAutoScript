@@ -115,6 +115,18 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment, Combat):
                         show_hp_timer.reset()
                         self._show_hp()
 
+            # bunch of popup handlers
+            if self.handle_popup_confirm('EXERCISE_COMBAT_EXECUTE'):
+                continue
+            if self.handle_urgent_commission():
+                continue
+            if self.handle_guild_popup_cancel():
+                continue
+            if self.handle_vote_popup():
+                continue
+            if self.handle_mission_popup_ack():
+                continue
+
         return success
 
     def _choose_opponent(self, index, skip_first_screenshot=True):
