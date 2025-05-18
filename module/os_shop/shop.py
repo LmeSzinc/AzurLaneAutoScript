@@ -29,8 +29,7 @@ class OSShop(PortShop, AkashiShop):
             SHOP_BUY_CONFIRM, OS_SHOP_BUY_CONFIRM, GET_ITEMS_1,
             SHOP_CLICK_SAFE_AREA
         ])
-        retry = Timer(0, count=3)
-        retry.start()
+        set_amount_retry = 0
 
         while True:
             if skip_first_screenshot:
@@ -39,7 +38,7 @@ class OSShop(PortShop, AkashiShop):
                 self.device.screenshot()
 
             if self.handle_map_get_items(interval=3):
-                self.interval_reset(PORT_SUPPLY_CHECK)
+                self.interval_clear(PORT_SUPPLY_CHECK)
                 success = True
                 continue
 
@@ -53,11 +52,11 @@ class OSShop(PortShop, AkashiShop):
 
             if not amount_finish and self.appear(SHOP_BUY_CONFIRM_AMOUNT, offset=(20, 20)):
                 amount_finish = self.shop_buy_amount_handler(button)
-                if not amount_finish and retry.reached():
+                set_amount_retry += 1
+                if not amount_finish and set_amount_retry > 3:
                     logger.warning(f'Item {button.name} cant get amount.')
                     self.close_shop_buy_confirm_amount(skip_first_screenshot)
                     break
-                retry.reset()
                 continue
 
             if amount_finish and self.appear_then_click(SHOP_BUY_CONFIRM_AMOUNT, offset=(20, 20), interval=3):
@@ -110,24 +109,19 @@ class OSShop(PortShop, AkashiShop):
         Pages:
             in: SHOP_BUY_CONFIRM_AMOUNT
         """
-        retry = Timer(0, count=3)
-        retry.start()
+        self.interval_clear([PORT_SUPPLY_CHECK, SHOP_BUY_CONFIRM_AMOUNT])
         while True:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
 
-            if self.appear(SHOP_BUY_CONFIRM_AMOUNT, offset=(20, 20)):
-                self.device.click(SHOP_CLICK_SAFE_AREA)
-            
             if self.appear(PORT_SUPPLY_CHECK, offset=(20, 20)):
+                self.interval_clear(SHOP_BUY_CONFIRM_AMOUNT)
                 break
 
-            if retry.reached():
-                logger.critical('Close SHOP_BUY_CONFIRM_AMOUNT failed.')
-                raise GameStuckError
-        retry.reset()
+            if self.appear(SHOP_BUY_CONFIRM_AMOUNT, offset=(20, 20), interval=3):
+                self.device.click(SHOP_CLICK_SAFE_AREA)
 
     def shop_buy_amount_handler(self, item, skip_first_screenshot=True):
         """
@@ -151,7 +145,7 @@ class OSShop(PortShop, AkashiShop):
 
             if limit == 0:
                 logger.warning('OCR_SHOP_AMOUNT resulted 0, retrying')
-                self.close_shop_buy_confirm_amount(skip_first_screenshot)
+                self.close_shop_buy_confirm_amount()
                 return False
 
             if limit > 0:
