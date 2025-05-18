@@ -124,6 +124,65 @@ class ModuleBase:
 
         return button
 
+    def loop(self, skip_first=True):
+        """
+        A syntactic sugar to start a state loop
+
+        Args:
+            skip_first (bool): Usually to be True to reuse the previous screenshot
+
+        Yields:
+            np.ndarray: screenshot
+
+        Examples:
+            for _ in self.loop():
+                if self.appear(...):
+                    break
+                if self.appear_then_click(...):
+                    continue
+        """
+        while 1:
+            if skip_first:
+                skip_first = False
+            else:
+                self.device.screenshot()
+            yield self.device.image
+
+    def loop_hierarchy(self, skip_first=True):
+        """
+        A syntactic sugar to start a hierarchy state loop
+
+        Args:
+            skip_first (bool): Usually to be True to reuse the previous hierarchy
+
+        Yields:
+            etree._Element: hierarchy
+        """
+        while 1:
+            if skip_first:
+                skip_first = False
+            else:
+                self.device.dump_hierarchy()
+            yield self.device.hierarchy
+
+    def loop_screenshot_hierarchy(self, skip_first=True):
+        """
+        A syntactic sugar to start a state loop that takes screenshots and dump hierarchy
+
+        Args:
+            skip_first (bool): Usually to be True to reuse the previous screenshot
+
+        Yields:
+            tuple[np.ndarray, etree._Element]: screenshot, hierarchy
+        """
+        while 1:
+            if skip_first:
+                skip_first = False
+            else:
+                self.device.screenshot()
+                self.device.dump_hierarchy()
+            yield self.device.image, self.device.hierarchy
+
     def appear(self, button, offset=0, interval=0, similarity=0.85, threshold=10):
         """
         Args:
