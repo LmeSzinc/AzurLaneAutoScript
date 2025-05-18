@@ -1,6 +1,7 @@
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property, del_cached_property
 from module.base.timer import Timer
+from module.base.utils import area_offset
 from module.logger import logger
 from module.map_detection.utils import Points
 from module.ocr.ocr import Digit, DigitYuv, Ocr
@@ -43,8 +44,17 @@ class MedalShop2(ShopClerk, ShopStatus):
         Returns:
             np.array: [[x1, y1], [x2, y2]], location of the medal icon upper-left corner.
         """
-        left_column = self.image_crop((472, 348, 1170, 648), copy=False)
-        medals = TEMPLATE_MEDAL_ICON_2.match_multi(left_column, similarity=0.5, threshold=5)
+        area = (472, 348, 1170, 648)
+        # copy image because we gonna paint it
+        image = self.image_crop(area, copy=True)
+        # a random background thingy that may cause mis-detection in template matching
+        paint = (869, 589, 913, 643)
+        paint = area_offset(paint, (-area[0], -area[1]))
+        # paint it black
+        x1, y1, x2, y2 = paint
+        image[y1:y2, x1:x2] = (0, 0, 0)
+
+        medals = TEMPLATE_MEDAL_ICON_2.match_multi(image, similarity=0.5, threshold=5)
         medals = Points([(0., m.area[1]) for m in medals]).group(threshold=5)
         logger.attr('Medals_icon', len(medals))
         return medals
@@ -100,7 +110,7 @@ class MedalShop2(ShopClerk, ShopStatus):
             delta_y = abs(y1 - y2)
             row = 2
         else:
-            logger.warning(f'Unexpected medal icon match result: {[m.area for m in medals]}')
+            logger.warning(f'Unexpected medal icon match result: {[m for m in medals]}')
             origin_y = 246
             delta_y = 213
             row = 2

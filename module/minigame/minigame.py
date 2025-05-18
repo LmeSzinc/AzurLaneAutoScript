@@ -32,20 +32,26 @@ class MinigameRun(UI):
         """
         logger.hr('Minigame run', level=1)
 
+        # page_game_room main_page -> MINIGAME_SCROLL
         logger.info("Enter minigame")
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
+            # End
+            # both minigame main and minigame list has GOTO_CHOOSE_GAME
+            if self.appear(GAME_ROOM_CHECK, offset=(5, 5)) and not self.appear(GOTO_CHOOSE_GAME, offset=(20, 20)):
+                if MINIGAME_SCROLL.appear(main=self):
+                    break
             # unable to get more ticket popup
             if self.deal_popup():
                 continue
             if self.appear_then_click(GOTO_CHOOSE_GAME, offset=(5, 5), interval=3):
+                # note: GOTO_CHOOSE_GAME is some where safe to click
+                # that won't enter any minigame on the minigame list page
                 continue
-            if self.appear(GAME_ROOM_CHECK, offset=(5, 5)) \
-                    and MINIGAME_SCROLL.appear(main=self):
-                break
+
         logger.info("Choose minigame")
         self.choose_game()
         # try to add coins, if failed, skip play
