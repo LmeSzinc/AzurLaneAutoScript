@@ -2,34 +2,32 @@ from module.campaign.campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
-from .b1 import Config as ConfigBase
+from .c1 import Config as ConfigBase
 
-MAP = CampaignMap('B3')
-MAP.shape = 'I10'
-MAP.camera_data = ['D3', 'D7', 'E3', 'E7']
-MAP.camera_data_spawn_point = ['E3', 'D3']
+MAP = CampaignMap('C3')
+MAP.shape = 'I9'
+MAP.camera_data = ['D5', 'D7', 'F5', 'F7']
+MAP.camera_data_spawn_point = ['F5', 'D5']
 MAP.map_data = """
     -- -- -- -- -- -- -- -- --
-    -- ++ ME ++ ++ ++ ME ++ --
-    ++ Me -- ++ ++ ++ -- Me --
-    ME -- -- ++ ++ ++ -- -- ++
-    -- -- -- SP -- SP -- -- --
-    -- ME -- -- __ -- -- ME ++
-    ME ++ ME -- MS -- ME ++ ++
+    -- -- -- ++ ++ ++ -- -- --
+    ++ -- -- ++ ++ ++ -- -- --
+    -- ME -- ++ ++ ++ -- ME ++
+    ME -- -- SP -- SP -- -- ME
+    -- Me -- -- __ -- -- -- ME
+    -- ++ Me -- MB -- Me ++ ++
     -- ++ -- MS -- MS -- ++ ++
-    ++ -- Me -- MB -- Me -- --
-    -- -- -- ++ -- ++ -- -- --
+    -- -- ME -- ++ -- ME -- --
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
-    50 20 10 10 10 10 10 50 50
-    50 30 20 10 10 10 20 30 50
-    50 50 30 20 25 20 30 50 50
+    50 50 25 50 50 50 25 50 50
+    50 25 10 10 10 10 10 25 50
+    50 50 20 10 10 10 20 50 50
+    50 50 25 20 20 20 25 50 50
     50 50 50 25 25 25 50 50 50
-    50 50 50 50 30 50 50 50 50
     50 50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
@@ -37,8 +35,8 @@ MAP.spawn_data = [
     {'battle': 1, 'enemy': 1},
     {'battle': 2, 'enemy': 2},
     {'battle': 3, 'enemy': 1},
-    {'battle': 4, 'enemy': 2},
-    {'battle': 5, 'enemy': 1, 'boss': 1},
+    {'battle': 4, 'enemy': 1},
+    {'battle': 5, 'boss': 1},
 ]
 A1, B1, C1, D1, E1, F1, G1, H1, I1, \
 A2, B2, C2, D2, E2, F2, G2, H2, I2, \
@@ -49,7 +47,6 @@ A6, B6, C6, D6, E6, F6, G6, H6, I6, \
 A7, B7, C7, D7, E7, F7, G7, H7, I7, \
 A8, B8, C8, D8, E8, F8, G8, H8, I8, \
 A9, B9, C9, D9, E9, F9, G9, H9, I9, \
-A10, B10, C10, D10, E10, F10, G10, H10, I10, \
     = MAP.flatten()
 
 
@@ -65,34 +62,14 @@ class Config(ConfigBase):
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
-    MAP_ENEMY_TEMPLATE = []
-    MAP_SWIPE_MULTIPLY = (1.100, 1.121)
-    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.064, 1.084)
-    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.033, 1.052)
+    MAP_SWIPE_MULTIPLY = (1.084, 1.104)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.048, 1.067)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.017, 1.036)
 
 
 class Campaign(CampaignBase):
     MAP = MAP
     ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
-
-    def battle_function(self):
-        # soo many enemies coming from 3 sides
-        if self.config.MAP_CLEAR_ALL_THIS_TIME:
-            remain = self.map.select(is_enemy=True)
-            logger.info(f'Enemy remain: {remain}')
-            if remain:
-                if self.fleet_2_protect():
-                    return True
-        if not self.map_is_clear_mode:
-            remain = self.map.select(is_enemy=True)
-            logger.info(f'Enemy remain: {remain}')
-            boss = self.map.select(is_boss=True)
-            logger.info(f'Boss appear: {remain}')
-            if not boss:
-                if self.fleet_2_protect():
-                    return True
-
-        return super().battle_function()
 
     def battle_0(self):
         if self.clear_siren():

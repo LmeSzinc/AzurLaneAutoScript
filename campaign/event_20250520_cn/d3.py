@@ -2,9 +2,9 @@ from module.campaign.campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
-from .b1 import Config as ConfigBase
+from .d1 import Config as ConfigBase
 
-MAP = CampaignMap('B3')
+MAP = CampaignMap('D3')
 MAP.shape = 'I10'
 MAP.camera_data = ['D3', 'D7', 'E3', 'E7']
 MAP.camera_data_spawn_point = ['E3', 'D3']
@@ -35,10 +35,11 @@ MAP.weight_data = """
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 2, 'siren': 2},
     {'battle': 1, 'enemy': 1},
-    {'battle': 2, 'enemy': 2},
+    {'battle': 2, 'enemy': 2, 'siren': 1},
     {'battle': 3, 'enemy': 1},
     {'battle': 4, 'enemy': 2},
-    {'battle': 5, 'enemy': 1, 'boss': 1},
+    {'battle': 5, 'enemy': 1},
+    {'battle': 6, 'boss': 1},
 ]
 A1, B1, C1, D1, E1, F1, G1, H1, I1, \
 A2, B2, C2, D2, E2, F2, G2, H2, I2, \
@@ -97,10 +98,18 @@ class Campaign(CampaignBase):
     def battle_0(self):
         if self.clear_siren():
             return True
-        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=1):
             return True
 
         return self.battle_default()
 
     def battle_5(self):
+        if self.clear_siren():
+            return True
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
+            return True
+
+        return self.battle_default()
+
+    def battle_6(self):
         return self.fleet_boss.clear_boss()
