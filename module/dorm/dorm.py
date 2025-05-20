@@ -442,7 +442,7 @@ class RewardDorm(UI):
                 logger.info(f'{DORM_FURNITURE_SHOP_FIRST_SELECTED} -> {DORM_FURNITURE_SHOP_QUIT}')
                 continue
 
-    def dorm_feed_quit(self, skip_first_screenshot=False):
+    def dorm_feed_quit(self, skip_first_screenshot=True):
         """
         Pages:
             in: DORM_FEED_CHECK

@@ -131,6 +131,11 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             return True
         # Battle UI PAUSE_Neon uses QUIT_New
         # Battle UI PAUSE_Cyber uses QUIT_New
+        # [TW] QUIT_New is in bold and PAUSE_Cyber is regular weight
+        if QUIT_Cyber.match_luma(self.device.image, offset=offset):
+            self.device.click(QUIT_Cyber)
+            timer.reset()
+            return True
         if QUIT_Christmas.match_luma(self.device.image, offset=offset):
             self.device.click(QUIT_Christmas)
             timer.reset()
