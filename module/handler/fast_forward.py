@@ -319,7 +319,10 @@ class FastForwardHandler(AutoSearchHandler):
         Pages:
             in: MAP_PREPARATION
         """
-        return color_bar_percentage(self.device.image, area=MAP_CLEAR_PERCENTAGE.area, prev_color=(231, 170, 82))
+        percent = color_bar_percentage(self.device.image, area=MAP_CLEAR_PERCENTAGE.area, prev_color=(231, 170, 82))
+        if self.config.MAP_CLEAR_PERCENTAGE_SHORT:
+            percent *= 1.4
+        return percent
 
     def campaign_name_increase(self, name):
         """
