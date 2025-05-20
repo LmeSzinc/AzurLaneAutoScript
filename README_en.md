@@ -138,7 +138,7 @@ Development documents, refer to [WIKI](https://github.com/LmeSzinc/AzurLaneAutoS
 
 ## Join Development
 
-Alas is still in active development, we will occasionally publish future work on [Issues](https://github.com/LmeSzinc/AzurLaneAutoScript/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22) and mark it as `help wanted`, feel free to submit [Pull Requests](https://github.com.com/LmeSzinc/AzurLaneAutoScript/pulls) to Alas, we will read every line of your code.
+Alas is still in active development, we will occasionally publish future work on [Issues](https://github.com/LmeSzinc/AzurLaneAutoScript/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22) and mark it as `help wanted`, feel free to submit [Pull Requests](https://github.com/LmeSzinc/AzurLaneAutoScript/pulls) to Alas, we will read every line of your code.
 
 Oh yeah, don't forget to read the [development documentation](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/1.-Start).
 
