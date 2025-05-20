@@ -7,6 +7,7 @@ from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2
 from module.exception import ScriptError
 from module.logger import logger
 from module.ocr.ocr import Digit
+from module.retire.assets import EQUIP_CONFIRM, EQUIP_CONFIRM_2
 from module.shop.assets import AMOUNT_MINUS, AMOUNT_PLUS
 from module.statistics.item import ItemGrid
 from module.storage.assets import *
@@ -93,8 +94,8 @@ class StorageHandler(StorageUI):
             GET_ITEMS_2,
             EQUIPMENT_FULL,
             BOX_AMOUNT_CONFIRM,
-            BOX_ITEM_RECONFIRM,
-            BOX_ITEM_DISASSEMBLE,
+            EQUIP_CONFIRM,
+            EQUIP_CONFIRM_2,
         ])
 
         for _ in self.loop():
@@ -128,10 +129,10 @@ class StorageHandler(StorageUI):
                 self.interval_reset(BOX_AMOUNT_CONFIRM)
                 used = amount
                 continue
-            if self.appear_then_click(BOX_ITEM_DISASSEMBLE, offset=(20, 20), interval=5):
+            if self.appear_then_click(EQUIP_CONFIRM, offset=(20, 20), interval=5):
                 self.interval_reset(MATERIAL_CHECK)
                 continue
-            if self.appear_then_click(BOX_ITEM_RECONFIRM, offset=(20, 20), interval=5):
+            if self.appear_then_click(EQUIP_CONFIRM_2, offset=(20, 20), interval=5):
                 # GET_ITEMS_* don't appear that fast
                 self.interval_reset(MATERIAL_CHECK)
                 self.interval_clear([GET_ITEMS_1, GET_ITEMS_2])
