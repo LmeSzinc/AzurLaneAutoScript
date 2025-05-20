@@ -65,10 +65,11 @@ def handle_notify(_config: str, **kwargs) -> bool:
                             f"Return message:{return_data['wording']}")
                         return False
     except OnePushException:
-        logger.exception("Push notify failed")
+        logger.error("Push notify failed")
         return False
     except Exception as e:
-        logger.exception(e)
+        # don't show any exceptions because exceptions contain variable traceback
+        logger.error(e)
         return False
 
     logger.info("Push notify success")

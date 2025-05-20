@@ -241,3 +241,4 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20250410   | event 20241024 cn        | Tempesta and the Sleeping Sea                | -                      | -                                            | -                                    | 颶風與沉眠之海           |
 | 20250417   | coalition 20230323       | Frostfall                                    | 极地风暴               | Frostfall                                    | 星霜海嵐                             | -                        |
 | 20250424   | event 20250424 cn        | Toward Tulipa’s Seas                         | 扬起郁金之旗           | Toward Tulipa’s Seas                         | チュリッパの海へ                     | -                        |
+| 20250430   | event 20240912 cn        | Ode of Everblooming Crimson                  | -                      | -                                            | -                                    | 喚醒蒼紅之炎             |

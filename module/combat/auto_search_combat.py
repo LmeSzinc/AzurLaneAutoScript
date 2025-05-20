@@ -268,11 +268,18 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
             if auto != 'combat_auto' and self.auto_mode_checked and self.is_combat_executing():
                 if self.handle_combat_weapon_release():
                     continue
+            # bunch of popup handlers
             if self.handle_popup_confirm('AUTO_SEARCH_COMBAT_EXECUTE'):
+                continue
+            if self.handle_urgent_commission():
                 continue
             if self.handle_story_skip():
                 continue
+            if self.handle_guild_popup_cancel():
+                continue
             if self.handle_vote_popup():
+                continue
+            if self.handle_mission_popup_ack():
                 continue
 
             # End
@@ -316,10 +323,11 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
             # Combat status
             if self.handle_get_ship():
                 continue
-            if self.handle_popup_confirm('AUTO_SEARCH_COMBAT_STATUS'):
-                continue
             if self.handle_auto_search_map_option():
                 self._auto_search_status_confirm = False
+                continue
+            # bunch of popup handlers
+            if self.handle_popup_confirm('AUTO_SEARCH_COMBAT_STATUS'):
                 continue
             if self.handle_urgent_commission():
                 continue
