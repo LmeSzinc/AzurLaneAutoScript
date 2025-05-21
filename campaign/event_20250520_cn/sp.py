@@ -86,6 +86,7 @@ class Config:
         'distance': 50,
         'wlen': 1000
     }
+    HOMO_STORAGE = ((9, 6), [(205.118, 96.796), (1192.803, 96.796), (71.385, 634.321), (1407.083, 634.321)])
     HOMO_EDGE_COLOR_RANGE = (0, 17)
     HOMO_EDGE_HOUGHLINES_THRESHOLD = 210
     MAP_HAS_MOVABLE_NORMAL_ENEMY = True
