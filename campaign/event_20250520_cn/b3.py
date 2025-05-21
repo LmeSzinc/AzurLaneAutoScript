@@ -87,7 +87,7 @@ class Campaign(CampaignBase):
             remain = self.map.select(is_enemy=True)
             logger.info(f'Enemy remain: {remain}')
             boss = self.map.select(is_boss=True)
-            logger.info(f'Boss appear: {remain}')
+            logger.info(f'Boss appear: {boss}')
             if not boss:
                 if self.fleet_2_protect():
                     return True
