@@ -294,6 +294,10 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     'teluntuo_alter': 'TrentoAlter',
     'sairenboss26': 'SirenBoss26',
     'sairenboss25': 'SirenBoss25',
+
+    # A Rose on the High Tower
+    'shengli': 'Victorious',
+    'huangjiaxiangshu': 'RoyalOak',
 }
 
 
