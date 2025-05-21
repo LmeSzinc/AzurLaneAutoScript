@@ -1,4 +1,3 @@
-from alas import GameNotRunningError
 from module.campaign.campaign_ui import CampaignUI
 from module.combat.combat import Combat
 from module.eventstory.assets import *
