@@ -51,21 +51,52 @@ class StorageHandler(StorageUI):
         Pages:
             in: SHOP_BUY_CONFIRM_AMOUNT
         """
-        # same code from shop clerk
+        logger.info(f'Set box amount')
 
-        OCR_SHOP_AMOUNT = Digit(BOX_AMOUNT_OCR, letter=(239, 239, 239), name='OCR_SHOP_AMOUNT')
+        # same code from shop clerk
+        ocr = Digit(BOX_AMOUNT_OCR, letter=(239, 239, 239), name='OCR_SHOP_AMOUNT')
         index_offset = (40, 50)
-        # In case either -/+ shift position, use
-        # shipyard ocr trick to accurately parse
-        self.appear(AMOUNT_MINUS, offset=index_offset)
-        self.appear(AMOUNT_PLUS, offset=index_offset)
-        area = OCR_SHOP_AMOUNT.buttons[0]
-        OCR_SHOP_AMOUNT.buttons = [(AMOUNT_MINUS.button[2] + 3, area[1], AMOUNT_PLUS.button[0] - 3, area[3])]
+
+        # wait until amount buttons appear
+        timeout = Timer(1, count=3).start()
+        for _ in self.loop():
+            # In case either -/+ shift position, use
+            # shipyard ocr trick to accurately parse
+            if self.appear(AMOUNT_MINUS, offset=index_offset) and self.appear(AMOUNT_PLUS, offset=index_offset):
+                break
+            if timeout.reached():
+                logger.warning('Wait AMOUNT_MINUS AMOUNT_PLUS timeout')
+                break
+
+        # wait until a normal number
+        current = 0
+        timeout = Timer(1, count=3).start()
+        for _ in self.loop():
+            current = ocr.ocr(self.device.image)
+            if 1 <= current <= amount + 10:
+                break
+            if timeout.reached():
+                logger.warning('Wait box amount timeout')
+                break
 
         # set amount
-        self.ui_ensure_index(amount, letter=OCR_SHOP_AMOUNT, prev_button=AMOUNT_MINUS, next_button=AMOUNT_PLUS,
-                             interval=(0.1, 0.2), skip_first_screenshot=True)
-        self.device.click(BOX_AMOUNT_CONFIRM)
+        # a ui_ensure_index
+        logger.info(f'Set box amount: {amount}')
+        retry = Timer(1, count=2)
+        for _ in self.loop():
+            if current:
+                current = 0
+            else:
+                current = ocr.ocr(self.device.image)
+            diff = amount - current
+            if diff == 0:
+                break
+
+            if retry.reached():
+                button = AMOUNT_PLUS if diff > 0 else AMOUNT_MINUS
+                self.device.multi_click(button, n=abs(diff), interval=(0.1, 0.2))
+                retry.reset()
+
         return True
 
     def _storage_use_one_box(self, button, amount=1):
@@ -126,6 +157,7 @@ class StorageHandler(StorageUI):
             # a long animation that opens a box, will be on the top of BOX_AMOUNT_CONFIRM
             if self.match_template_color(BOX_AMOUNT_CONFIRM, offset=(20, 20), interval=5):
                 self._handle_use_box_amount(amount)
+                self.device.click(BOX_AMOUNT_CONFIRM)
                 self.interval_reset(BOX_AMOUNT_CONFIRM)
                 used = amount
                 continue
@@ -362,7 +394,7 @@ class StorageHandler(StorageUI):
         self.equipment_filter_set()
         return disassembled
 
-    def storage_disassemble_equipment(self, rarity=1, amount=40):
+    def storage_disassemble_equipment(self, rarity=1, amount=15):
         """
         Disassemble target amount of equipment.
         If not having enough equipment, use boxes then disassemble.

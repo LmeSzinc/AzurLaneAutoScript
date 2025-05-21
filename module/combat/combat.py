@@ -111,6 +111,9 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         # PAUSE_Devil is in red
         if PAUSE_Devil.match_template_color(self.device.image, offset=(10, 10)):
             return PAUSE_Devil
+        # PAUSE_Seaside is in light blue
+        if PAUSE_Seaside.match_template_color(self.device.image, offset=(10, 10)):
+            return PAUSE_Seaside
         return False
 
     def handle_combat_quit(self, offset=(20, 20), interval=3):
@@ -150,6 +153,10 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             timer.reset()
             return True
         # Battle UI PAUSE_Devil uses QUIT_New
+        if QUIT_Seaside.match_luma(self.device.image, offset=offset):
+            self.device.click(QUIT_Seaside)
+            timer.reset()
+            return True
         return False
 
     def ensure_combat_oil_loaded(self):
