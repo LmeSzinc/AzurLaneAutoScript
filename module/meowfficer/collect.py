@@ -194,9 +194,13 @@ class MeowfficerCollect(MeowfficerBase):
 
             # Next meow MEOWFFICER_APPLY_LOCK load faster than MEOWFFICER_GET_CHECK,
             # make sure exit with a full screenshot
-            if self.appear(MEOWFFICER_GET_CHECK, offset=(40, 40), interval=3):
+            if self.appear(MEOWFFICER_GET_CHECK, offset=(40, 40)):
                 if self.appear(MEOWFFICER_APPLY_LOCK, offset=(40, 40)):
                     break
+            # accidentally exited get queue
+            if self.appear(MEOWFFICER_TRAIN_START, offset=(20, 20)):
+                logger.info('_meow_skip_popup_after_locking exits at MEOWFFICER_TRAIN_START')
+                break
 
             if self.appear(MEOWFFICER_APPLY_UNLOCK, offset=(40, 40), interval=3):
                 self.device.click(MEOWFFICER_TRAIN_CLICK_SAFE_AREA)
@@ -241,6 +245,13 @@ class MeowfficerCollect(MeowfficerBase):
             else:
                 self.device.screenshot()
 
+            # End
+            if self.appear(MEOWFFICER_TRAIN_START, offset=(20, 20)):
+                if confirm_timer.reached():
+                    break
+            else:
+                confirm_timer.reset()
+
             if self.handle_meow_popup_dismiss():
                 confirm_timer.reset()
                 continue
@@ -248,6 +259,9 @@ class MeowfficerCollect(MeowfficerBase):
                 if self.appear(MEOWFFICER_APPLY_UNLOCK, offset=(40, 40)):
                     self._meow_skip_popup_after_locking(skip_first_screenshot=True)
                     confirm_timer.reset()
+                    # accidentally exited get queue
+                    if self.appear(MEOWFFICER_TRAIN_START, offset=(20, 20)):
+                        continue
 
                 count += 1
                 logger.attr('Meow_get', count)
@@ -280,13 +294,6 @@ class MeowfficerCollect(MeowfficerBase):
             if self.appear(MEOWFFICER_TRAIN_EVALUATE, offset=(20, 20), interval=3):
                 self.device.click(MEOWFFICER_TRAIN_EVALUATE)
                 continue
-
-            # End
-            if self.appear(MEOWFFICER_TRAIN_START, offset=(20, 20)):
-                if confirm_timer.reached():
-                    break
-            else:
-                confirm_timer.reset()
 
     def meow_collect(self, collect_all=True):
         """
