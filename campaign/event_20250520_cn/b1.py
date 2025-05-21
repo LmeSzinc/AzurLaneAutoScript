@@ -5,26 +5,26 @@ from module.logger import logger
 
 MAP = CampaignMap('B1')
 MAP.shape = 'K8'
-MAP.camera_data = ['D2', 'D6', 'H2', 'H6']
-MAP.camera_data_spawn_point = ['D6']
+MAP.camera_data = ['E3', 'E6', 'H3', 'H6']
+MAP.camera_data_spawn_point = ['H6']
 MAP.map_data = """
-    ++ ME -- -- -- ME -- ++ -- ME --
-    ME -- ++ -- ++ -- ME ++ ME -- ME
-    -- -- -- MB -- -- -- -- -- -- --
-    -- Me ++ -- ++ Me -- ++ ++ ++ --
-    -- -- MS __ MS -- -- -- ME -- --
-    Me -- -- MS -- -- Me -- -- ME --
-    ++ ++ -- -- -- ++ ++ Me ME -- ++
-    ++ ++ SP -- SP ++ ++ -- -- -- ++
+    -- ++ -- -- -- -- -- -- -- -- --
+    ++ -- ME -- ME -- -- ++ ++ ++ --
+    -- ME -- -- ++ ME -- ++ ++ ++ --
+    -- -- ++ -- ME -- -- ++ ++ ++ --
+    -- -- -- -- -- -- -- SP -- SP --
+    -- ME -- ++ -- Me -- -- __ -- --
+    ++ -- ME -- ME ++ Me -- MS -- Me
+    -- ++ -- -- -- ++ -- MS MB MS --
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50 50 50
+    50 50 50 50 50 20 20 50 50 50 50
+    50 50 50 50 50 20 10 10 10 10 10
+    50 50 50 50 50 20 10 10 10 10 10
+    50 50 50 50 50 50 20 20 20 20 20
     50 50 50 50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
@@ -48,7 +48,7 @@ A8, B8, C8, D8, E8, F8, G8, H8, I8, J8, K8, \
 
 class Config:
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['TrentoAlter', 'BolzanoAlter', 'CesareAlter']
+    MAP_SIREN_TEMPLATE = []
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
@@ -62,22 +62,30 @@ class Config:
     MAP_HAS_MODE_SWITCH = True
     STAGE_ENTRANCE = ['half', '20240725']
     STAGE_INCREASE_AB = True
+    MAP_CLEAR_PERCENTAGE_SHORT = True
+
+    MAP_SIREN_HAS_BOSS_ICON_SMALL = True
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (80, 255 - 33),
-        'width': (0.9, 10),
+        'height': (120, 255 - 17),
+        'width': (1.5, 10),
         'prominence': 10,
         'distance': 35,
     }
     EDGE_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (255 - 33, 255),
+        'height': (255 - 17, 255),
         'prominence': 10,
         'distance': 50,
-        # 'width': (0, 7),
         'wlen': 1000
     }
-    MAP_SWIPE_MULTIPLY = (1.131, 1.152)
-    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.094, 1.114)
-    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.062, 1.081)
+    HOMO_EDGE_COLOR_RANGE = (0, 17)
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 210
+    MAP_HAS_MOVABLE_NORMAL_ENEMY = True
+    MAP_SIREN_MOVE_WAIT = 0.5
+    MAP_WALK_USE_CURRENT_FLEET = True
+    MAP_SWIPE_MULTIPLY = (1.126, 1.147)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.089, 1.109)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.057, 1.076)
 
 
 class Campaign(CampaignBase):

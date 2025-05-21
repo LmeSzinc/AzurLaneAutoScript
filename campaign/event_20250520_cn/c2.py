@@ -6,24 +6,24 @@ from .c1 import Config as ConfigBase
 
 MAP = CampaignMap('C2')
 MAP.shape = 'I8'
-MAP.camera_data = ['D2', 'D6', 'F2', 'F6']
-MAP.camera_data_spawn_point = ['F2', 'D2']
+MAP.camera_data = ['D3', 'D6', 'E3', 'E6']
+MAP.camera_data_spawn_point = ['E3', 'D3']
 MAP.map_data = """
-    -- -- ME -- -- ME -- ++ --
-    ME ++ -- ME -- -- -- -- ME
-    -- -- ME ++ ++ ++ -- Me --
-    -- ME -- SP -- SP -- -- --
-    -- -- -- -- -- -- -- -- ME
-    -- ME -- -- __ -- -- Me --
-    ME ++ -- MS -- MS -- ++ ++
-    -- ++ Me -- MB -- Me ++ ++
+    ++ -- ++ ++ ++ -- -- -- --
+    -- -- SP -- SP -- ++ ++ --
+    -- -- -- -- -- -- Me ++ --
+    -- ++ -- __ -- -- -- Me --
+    -- ++ MS -- MS -- ME -- --
+    -- -- -- MB -- -- -- ME --
+    -- ME ++ ++ ++ ME -- ME --
+    ME -- -- ++ -- -- ME ++ --
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
+    20 10 10 10 10 10 50 50 50
+    50 10 10 10 10 10 20 50 50
+    50 50 10 10 10 20 50 50 50
+    50 50 20 20 20 50 50 50 50
     50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50
@@ -58,9 +58,9 @@ class Config(ConfigBase):
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
-    MAP_SWIPE_MULTIPLY = (1.128, 1.149)
-    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.091, 1.111)
-    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.059, 1.078)
+    MAP_SWIPE_MULTIPLY = (1.234, 1.257)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.193, 1.215)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.158, 1.179)
 
 
 class Campaign(CampaignBase):

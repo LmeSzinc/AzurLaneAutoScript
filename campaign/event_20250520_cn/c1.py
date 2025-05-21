@@ -5,24 +5,24 @@ from module.logger import logger
 
 MAP = CampaignMap('C1')
 MAP.shape = 'I8'
-MAP.camera_data = ['D2', 'D6', 'F2', 'F6']
-MAP.camera_data_spawn_point = ['F2']
+MAP.camera_data = ['D3', 'D6', 'E3', 'E6']
+MAP.camera_data_spawn_point = ['D3']
 MAP.map_data = """
-    ++ -- ME -- -- SP SP ++ MB
-    -- ME -- ME -- -- -- -- --
-    ME -- ++ ++ Me -- -- __ Me
-    -- -- ++ ++ -- MS MS -- --
-    -- ME -- -- ME -- -- ++ --
-    -- -- ME -- -- -- Me ++ --
-    ME -- -- -- Me -- -- Me --
-    -- -- ME ++ ++ ++ -- -- --
+    -- ++ ++ -- -- -- -- -- --
+    -- SP ++ Me -- Me -- ME --
+    SP -- -- -- -- ++ -- -- ++
+    -- -- MS -- Me ++ ME -- --
+    ++ MS -- -- -- -- -- ME --
+    ++ -- __ ++ -- ME -- ME --
+    MB -- ME -- -- ++ ++ -- ++
+    -- ME -- ME -- ++ ++ -- --
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50 50
+    10 10 50 50 50 50 50 50 50
+    10 10 20 25 50 50 50 50 50
+    10 20 25 50 50 50 50 50 50
+    50 25 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50
@@ -61,23 +61,29 @@ class Config:
     MAP_HAS_MODE_SWITCH = True
     STAGE_ENTRANCE = ['half', '20240725']
     STAGE_INCREASE_AB = True
+
     MAP_SIREN_HAS_BOSS_ICON_SMALL = True
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (80, 255 - 33),
-        'width': (0.9, 10),
+        'height': (120, 255 - 17),
+        'width': (1.5, 10),
         'prominence': 10,
         'distance': 35,
     }
     EDGE_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (255 - 33, 255),
+        'height': (255 - 17, 255),
         'prominence': 10,
         'distance': 50,
-        # 'width': (0, 7),
         'wlen': 1000
     }
-    MAP_SWIPE_MULTIPLY = (1.227, 1.250)
-    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.187, 1.209)
-    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.152, 1.173)
+    HOMO_EDGE_COLOR_RANGE = (0, 17)
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 210
+    MAP_HAS_MOVABLE_NORMAL_ENEMY = True
+    MAP_SIREN_MOVE_WAIT = 0.5
+    MAP_WALK_USE_CURRENT_FLEET = True
+    MAP_SWIPE_MULTIPLY = (1.259, 1.283)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.218, 1.240)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.182, 1.204)
 
 
 class Campaign(CampaignBase):
