@@ -1,3 +1,4 @@
+from alas import GameNotRunningError
 from module.campaign.campaign_ui import CampaignUI
 from module.combat.combat import Combat
 from module.eventstory.assets import *
@@ -127,6 +128,10 @@ class EventStory(CampaignUI, Combat, LoginHandler):
         return 'unknown'
 
     def run(self):
+        if not self.device.app_is_running():
+            logger.warning('Game is not running, start it')
+            self.app_start()
+
         self.run_event_story()
 
         # Scheduler
