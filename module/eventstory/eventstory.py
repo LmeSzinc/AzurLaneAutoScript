@@ -127,6 +127,10 @@ class EventStory(CampaignUI, Combat, LoginHandler):
         return 'unknown'
 
     def run(self):
+        if not self.device.app_is_running():
+            logger.warning('Game is not running, start it')
+            self.app_start()
+
         self.run_event_story()
 
         # Scheduler

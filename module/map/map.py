@@ -637,7 +637,11 @@ class Map(Fleet):
                 return False
 
             nearby = self.map.select(cost_2=1).add(self.map.select(cost_2=2))
-            approaching = nearby.select(is_siren=True)
+            approaching = SelectedGrids([])
+            if self.config.MAP_HAS_MOVABLE_ENEMY:
+                approaching = approaching.add(nearby.select(is_siren=True))
+            if self.config.MAP_HAS_MOVABLE_NORMAL_ENEMY:
+                approaching = approaching.add(nearby.select(is_enemy=True))
             if approaching:
                 grids = self.select_grids(approaching, sort=('cost_2', 'cost_1'))
                 self.clear_chosen_enemy(grids[0], expected='siren')
