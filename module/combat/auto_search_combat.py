@@ -276,6 +276,8 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
             # bunch of popup handlers
             if self.handle_popup_confirm('AUTO_SEARCH_COMBAT_EXECUTE'):
                 continue
+            if not self._withdraw and self.handle_urgent_commission():
+                continue
             if self.handle_story_skip():
                 continue
             if self.handle_guild_popup_cancel():
