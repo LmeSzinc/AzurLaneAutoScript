@@ -82,10 +82,11 @@ class StorageHandler(StorageUI):
         # set amount
         # a ui_ensure_index
         logger.info(f'Set box amount: {amount}')
+        skip_first = True
         retry = Timer(1, count=2)
         for _ in self.loop():
-            if current:
-                current = 0
+            if skip_first:
+                skip_first = False
             else:
                 current = ocr.ocr(self.device.image)
             diff = amount - current
