@@ -132,7 +132,7 @@ class StorageHandler(StorageUI):
 
         for _ in self.loop():
             # End
-            if success and self._storage_in_material():
+            if success and self._storage_in_material() and not self.appear(EQUIP_CONFIRM_2, offset=(20, 20)):
                 break
 
             # use
@@ -146,13 +146,11 @@ class StorageHandler(StorageUI):
                 logger.info(f'{GET_ITEMS_1} -> {MATERIAL_ENTER}')
                 self.device.click(MATERIAL_ENTER)
                 self.interval_reset(MATERIAL_CHECK)
-                success = True
                 continue
             if self.appear(GET_ITEMS_2, offset=(5, 5), interval=5):
                 logger.info(f'{GET_ITEMS_2} -> {MATERIAL_ENTER}')
                 self.device.click(MATERIAL_ENTER)
                 self.interval_reset(MATERIAL_CHECK)
-                success = True
                 continue
             # use match_template_color on BOX_AMOUNT_CONFIRM
             # a long animation that opens a box, will be on the top of BOX_AMOUNT_CONFIRM
@@ -169,6 +167,9 @@ class StorageHandler(StorageUI):
                 # GET_ITEMS_* don't appear that fast
                 self.interval_reset(MATERIAL_CHECK)
                 self.interval_clear([GET_ITEMS_1, GET_ITEMS_2])
+                # EQUIP_CONFIRM_2 -> GET_ITEMS -> _storage_in_material
+                # mark EQUIP_CONFIRM_2 as the last
+                success = True
                 continue
 
             # Storage full
