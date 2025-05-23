@@ -499,6 +499,7 @@ class UI(InfoHandler):
         if self.appear(MEOWFFICER_BUY, offset=(30, 30), interval=3):
             logger.info(f'UI additional: {MEOWFFICER_BUY} -> {BACK_ARROW}')
             self.device.click(BACK_ARROW)
+            self.interval_reset(GET_SHIP)
             return True
 
         # Campaign preparation
