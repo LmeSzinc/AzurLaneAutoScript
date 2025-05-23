@@ -340,7 +340,11 @@ class FleetPreparation(InfoHandler):
             return False
 
         # Submarine.
-        if submarine.allow():
+        # cache submarine.allow() to avoid inconsistency after setting fleet_2
+        # because the expanded fleet_2 may cover submarine buttons
+        map_allow_submarine = submarine.allow()
+        logger.attr('map_allow_submarine', map_allow_submarine)
+        if map_allow_submarine:
             if self.config.Submarine_Fleet:
                 submarine.ensure_to_be(self.config.Submarine_Fleet)
             else:
@@ -364,14 +368,12 @@ class FleetPreparation(InfoHandler):
             fleet_1.ensure_to_be(self.config.Fleet_Fleet1)
 
         # Check if submarine is empty again.
-        if submarine.allow():
-            logger.attr('map_allow_submarine', True)
+        if map_allow_submarine:
             if self.config.Submarine_Fleet:
                 pass
             else:
                 submarine.clear()
         else:
-            logger.attr('map_allow_submarine', False)
             self.config.SUBMARINE = 0
 
         if self.appear(FLEET_1_CLEAR, offset=(-20, -80, 20, 5)):
