@@ -250,9 +250,11 @@ class StorageHandler(StorageUI):
             else:
                 MATERIAL_SCROLL.set_top(main=self)
 
-            while amount > used:
+            while 1:
                 logger.hr('Use boxes in page')
-                used += self._storage_use_box_in_page(rarity=rarity, amount=amount - used)
+                used += self._storage_use_box_in_page(rarity=rarity, amount=max(amount - used, 0))
+                if used >= amount:
+                    break
                 if MATERIAL_SCROLL.at_bottom(main=self):
                     logger.info('Scroll bar reached end, stop')
                     break
