@@ -92,8 +92,8 @@ class StrategicSearchHandler(MapEventHandler):
                 logger.attr('encounter_merchant', 'continue')
                 self.device.click(STRATEGIC_SEARCH_MERCHANT_STOP)
                 continue
-            if self.appear(STRATEGIC_SEARCH_ZONEMODE_REPEAT) \
-                    and self.appear(STRATEGIC_SEARCH_MERCHANT_STOP):
+            if self._strategy_option_selected(STRATEGIC_SEARCH_ZONEMODE_REPEAT) \
+                    and self._strategy_option_selected(STRATEGIC_SEARCH_MERCHANT_STOP):
                 logger.attr('zone_mode', 'repeat')
                 logger.attr('encounter_merchant', 'stop')
                 skip_first_screenshot = True
