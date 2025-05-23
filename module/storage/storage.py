@@ -425,14 +425,29 @@ class StorageHandler(StorageUI):
                 break
 
             self._storage_enter_material()
-            boxes = self._storage_use_box_execute(rarity=rarity, amount=amount - disassembled)
-            if boxes <= 0:
-                logger.warning('No more boxes to use, disassemble equipment end')
+            try:
+                boxes = self._storage_use_box_execute(rarity=rarity, amount=amount - disassembled)
+                if boxes <= 0:
+                    logger.warning('No more boxes to use, disassemble equipment end')
+                    self.storage_has_boxes = False
+                    break
+                # since 2025.05.20, equipments in boxes get disassembled automatically
+                disassembled += boxes
+                # use bos success, check total again
+                continue
+            except StorageFull:
+                pass
+            # handle storage full
+            self._storage_enter_disassemble()
+            equip = self._storage_disassemble_equipment_execute(rarity=rarity, amount=amount)
+            disassembled += equip
+            if equip <= 0:
+                logger.warning('StorageFull but unable to disassemble, '
+                               'probably because storage is full of rare equipments or above, '
+                               'disassemble equipment end')
+                logger.warning('Please manually disassemble some equipments to free up storage')
                 self.storage_has_boxes = False
                 break
-
-            # since 2025.05.20, equipments in boxes get disassembled automatically
-            disassembled += boxes
 
         return disassembled
 
