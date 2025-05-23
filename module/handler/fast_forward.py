@@ -1,4 +1,5 @@
 import os
+import re
 
 from module.base.timer import Timer
 from module.base.utils import color_bar_percentage
@@ -7,15 +8,15 @@ from module.handler.auto_search import AutoSearchHandler
 from module.logger import logger
 from module.ui.switch import Switch
 
-fast_forward = Switch('Fast_Forward')
-fast_forward.add_status('on', check_button=FAST_FORWARD_ON)
-fast_forward.add_status('off', check_button=FAST_FORWARD_OFF)
-fleet_lock = Switch('Fleet_Lock', offset=(5, 20))
-fleet_lock.add_status('on', check_button=FLEET_LOCKED)
-fleet_lock.add_status('off', check_button=FLEET_UNLOCKED)
-auto_search = Switch('Auto_Search', offset=(20, 20))
-auto_search.add_status('on', check_button=AUTO_SEARCH_ON)
-auto_search.add_status('off', check_button=AUTO_SEARCH_OFF)
+FAST_FORWARD = Switch('Fast_Forward')
+FAST_FORWARD.add_state('on', check_button=FAST_FORWARD_ON)
+FAST_FORWARD.add_state('off', check_button=FAST_FORWARD_OFF)
+FLEET_LOCK = Switch('Fleet_Lock', offset=(5, 20))
+FLEET_LOCK.add_state('on', check_button=FLEET_LOCKED)
+FLEET_LOCK.add_state('off', check_button=FLEET_UNLOCKED)
+AUTO_SEARCH = Switch('Auto_Search', offset=(20, 20))
+AUTO_SEARCH.add_state('on', check_button=AUTO_SEARCH_ON)
+AUTO_SEARCH.add_state('off', check_button=AUTO_SEARCH_OFF)
 
 
 def map_files(event):
@@ -51,7 +52,15 @@ def to_map_input_name(name: str) -> str:
     campaign_7_2 -> 7-2
     d3 -> D3
     """
-    name = name.upper()
+    # Remove whitespaces
+    name = re.sub('[ \t\n]', '', name).lower()
+    # B-1 -> B1
+    res = re.match(r'([a-zA-Z])+[- ]+(\d+)', name)
+    if res:
+        name = f'{res.group(1)}{res.group(2)}'
+    # Change back to upper case for campaign removal
+    name = str(name).upper()
+    # campaign_7_2 -> 7-2
     name = name.replace('CAMPAIGN_', '').replace('_', '-')
     return name
 
@@ -64,7 +73,14 @@ def to_map_file_name(name: str) -> str:
     campaign_7_2 -> campaign_7_2
     D3 -> d3
     """
-    name = name.lower()
+    name = str(name).lower()
+    # Remove whitespaces
+    name = re.sub('[ \t\n]', '', name).lower()
+    # B-1 -> B1
+    res = re.match(r'([a-zA-Z])+[- ]+(\d+)', name)
+    if res:
+        name = f'{res.group(1)}{res.group(2)}'
+    # 7-2 to campaign_7_2
     if name and name[0].isdigit():
         name = 'campaign_' + name.replace('-', '_')
     return name
@@ -127,9 +143,9 @@ class FastForwardHandler(AutoSearchHandler):
             # Minor issue here
             # Using auto_search option because clear mode cannot be detected whether on SP
             # If user manually turn off auto search, alas can't enable it again
-            self.map_has_clear_mode = auto_search.appear(main=self)
+            self.map_has_clear_mode = AUTO_SEARCH.appear(main=self)
         else:
-            self.map_has_clear_mode = self.map_is_100_percent_clear and fast_forward.appear(main=self)
+            self.map_has_clear_mode = self.map_is_100_percent_clear and FAST_FORWARD.appear(main=self)
 
         # Override config
         if self.map_achieved_star_1:
@@ -187,8 +203,8 @@ class FastForwardHandler(AutoSearchHandler):
             self.map_is_2x_book = False
             pass
 
-        status = 'on' if self.config.Campaign_UseClearMode else 'off'
-        changed = fast_forward.set(status=status, main=self)
+        state = 'on' if self.config.Campaign_UseClearMode else 'off'
+        changed = FAST_FORWARD.set(state, main=self)
         return changed
 
     def handle_map_fleet_lock(self, enable=None):
@@ -201,14 +217,14 @@ class FastForwardHandler(AutoSearchHandler):
         """
         # Fleet lock depends on if it appear on map, not depends on map status.
         # Because if already in map, there's no map status,
-        if not fleet_lock.appear(main=self):
+        if not FLEET_LOCK.appear(main=self):
             logger.info('No fleet lock option.')
             return False
 
         if enable is None:
             enable = self.config.Campaign_UseFleetLock
-        status = 'on' if enable else 'off'
-        changed = fleet_lock.set(status=status, main=self)
+        state = 'on' if enable else 'off'
+        changed = FLEET_LOCK.set(state, main=self)
 
         return changed
 
@@ -223,13 +239,13 @@ class FastForwardHandler(AutoSearchHandler):
         # if not self.map_is_clear_mode:
         #     return False
 
-        if not auto_search.appear(main=self):
+        if not AUTO_SEARCH.appear(main=self):
             logger.info('No auto search option.')
             self.map_is_auto_search = False
             return False
 
-        status = 'on' if self.map_is_auto_search else 'off'
-        changed = auto_search.set(status=status, main=self)
+        state = 'on' if self.map_is_auto_search else 'off'
+        changed = AUTO_SEARCH.set(state, main=self)
 
         return changed
 
@@ -303,7 +319,10 @@ class FastForwardHandler(AutoSearchHandler):
         Pages:
             in: MAP_PREPARATION
         """
-        return color_bar_percentage(self.device.image, area=MAP_CLEAR_PERCENTAGE.area, prev_color=(231, 170, 82))
+        percent = color_bar_percentage(self.device.image, area=MAP_CLEAR_PERCENTAGE.area, prev_color=(231, 170, 82))
+        if self.config.MAP_CLEAR_PERCENTAGE_SHORT:
+            percent *= 1.4
+        return percent
 
     def campaign_name_increase(self, name):
         """
@@ -316,8 +335,23 @@ class FastForwardHandler(AutoSearchHandler):
             str: Name of next stage in upper case,
                 or origin name if unable to increase.
         """
+        # Copy STAGE_INCREASE to avoid potential duplicate inserting
+        stage_increase = [r for r in self.STAGE_INCREASE]
+        # Insert custom increase logic
+        if self.config.STAGE_INCREASE_AB:
+            stage_increase = [
+                'A1 > A2 > A3 > B1 > B2 > B3',
+                'C1 > C2 > C3 > D1 > D2 > D3',
+            ] + stage_increase
+        custom = self.config.STAGE_INCREASE_CUSTOM
+        if custom:
+            if isinstance(custom, str):
+                custom = [custom]
+            stage_increase = custom + stage_increase
+
+        # Increase stage
         name = to_map_input_name(name)
-        for increase in self.STAGE_INCREASE:
+        for increase in stage_increase:
             increase = [i.strip(' \t\r\n') for i in increase.split('>')]
             if name in increase:
                 index = increase.index(name) + 1
@@ -461,8 +495,8 @@ class FastForwardHandler(AutoSearchHandler):
             book_check = BOOK_CHECK_AUTO
             book_box = BOOK_BOX_AUTO
 
-        status = 'on' if self.map_is_2x_book else 'off'
-        if self._set_2x_book_status(status, book_check, book_box):
+        state = 'on' if self.map_is_2x_book else 'off'
+        if self._set_2x_book_status(state, book_check, book_box):
             self.emotion.map_is_2x_book = self.map_is_2x_book
         else:
             self.map_is_2x_book = False

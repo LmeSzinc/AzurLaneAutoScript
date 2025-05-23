@@ -630,10 +630,12 @@ class Fleet(Camera, AmbushHandler):
         logger.info(f'Tracked enemy {matched_before} -> {matched_after}')
 
         # Delete wrong prediction
-        for grid in after.delete(matched_after):
-            if not grid.may_siren:
-                logger.warning(f'Wrong detection: {grid}')
-                grid.wipe_out()
+        # keep whatever if MAP_HAS_MOVABLE_NORMAL_ENEMY, it's kind of a mess
+        if not self.config.MAP_HAS_MOVABLE_NORMAL_ENEMY:
+            for grid in after.delete(matched_after):
+                if not grid.may_siren:
+                    logger.warning(f'Wrong detection: {grid}')
+                    grid.wipe_out()
 
         # Predict missing siren
         diff = before.delete(matched_before)
@@ -649,6 +651,13 @@ class Fleet(Camera, AmbushHandler):
                 covered = covered.add(self.map.grid_covered(self.map[self.fleet_1_location], location=[(0, -1)]))
             if self.fleet_2_location:
                 covered = covered.add(self.map.grid_covered(self.map[self.fleet_2_location], location=[(0, -1)]))
+            if self.config.MAP_HAS_MOVABLE_NORMAL_ENEMY and not self.config.MAP_ENEMY_TEMPLATE:
+                # enemy_scale icon of the right grid may get covered by fleet
+                # if enemy template is empty, must predict by enemy_scale
+                if self.fleet_1_location:
+                    covered = covered.add(self.map.grid_covered(self.map[self.fleet_1_location], location=[(1, 0)]))
+                if self.fleet_2_location:
+                    covered = covered.add(self.map.grid_covered(self.map[self.fleet_2_location], location=[(1, 0)]))
             covered = covered.add(self.map._map_covered)
             if siren:
                 for grid in after:
@@ -1030,7 +1039,7 @@ class Fleet(Camera, AmbushHandler):
     def catch_camera_repositioning(self, destination):
         """
         Args:
-            Destination (GridInfo): Globe map grid.
+            destination (GridInfo): Globe map grid.
         """
         appear = False
         for data in self.map.spawn_data:

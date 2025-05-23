@@ -94,7 +94,6 @@ Emulator:
       aScreenCap_nc,
       DroidCast,
       DroidCast_raw,
-      scrcpy,
       nemu_ipc,
       ldopengl,
     ]
@@ -356,12 +355,14 @@ Raid:
 RaidDaily:
   StageFilter: |-
     hard > normal > easy
+Hospital:
+  UseRecommendFleet: true
 MaritimeEscort:
   Enable: true
 Coalition:
   Mode:
-    value: hard
-    option: [ easy, normal, hard, ex ]
+    value: tc1
+    option: [ tc1, tc2, tc3, sp, ex ]
   Fleet:
     value: single
     option: [ single, multi ]
@@ -502,6 +503,10 @@ Reward:
   CollectExp: true
   CollectMission: true
   CollectWeeklyMission: true
+Awaken:
+  LevelCap:
+    value: level120
+    option: [ level120, level125 ]
 GeneralShop:
   UseGems: false
   Refresh: false
@@ -587,7 +592,7 @@ CoreShop:
 ShipyardDr:
   ResearchSeries:
     value: 2
-    option: [ 2, 3 ]
+    option: [ 2, 3, 4 ]
   ShipIndex:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6 ]
@@ -596,7 +601,7 @@ ShipyardDr:
 Shipyard:
   ResearchSeries:
     value: 1
-    option: [ 1, 2, 3, 4 ]
+    option: [ 1, 2, 3, 4, 5 ]
   ShipIndex:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6 ]
@@ -778,6 +783,11 @@ Daemon:
 OpsiDaemon:
   RepairShip: true
   SelectEnemy: true
+EventStory:
+  SkipBattle:
+    type: checkbox
+    value: false
+    option: [ true, false ]
 Benchmark:
   DeviceType:
     value: emulator

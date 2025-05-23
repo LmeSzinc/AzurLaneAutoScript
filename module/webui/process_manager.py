@@ -6,10 +6,15 @@ from multiprocessing import Process
 from typing import Dict, List, Union
 
 import inflection
-from filelock import FileLock
 from rich.console import Console, ConsoleRenderable
 
-from module.config.utils import filepath_config
+# Since this file does not run under the same process or subprocess of app.py
+# the following code needs to be repeated
+# Import fake module before import pywebio to avoid importing unnecessary module PIL
+from module.webui.fake_pil_module import *
+
+import_fake_pil_module()
+
 from module.logger import logger, set_file_logger, set_func_logger
 from module.submodule.submodule import load_mod
 from module.submodule.utils import get_available_func, get_available_mod, get_available_mod_func, get_config_mod, \
@@ -27,6 +32,7 @@ class ProcessManager:
         self.renderables_max_length = 400
         self.renderables_reduce_length = 80
         self._process: Process = None
+        self._process_locks: Dict[str, threading.Lock] = {}
         self.thd_log_queue_handler: threading.Thread = None
 
     def start(self, func, ev: threading.Event = None) -> None:
@@ -57,7 +63,12 @@ class ProcessManager:
         self.thd_log_queue_handler.start()
 
     def stop(self) -> None:
-        lock = FileLock(f"{filepath_config(self.config_name)}.lock")
+        try:
+            lock = self._process_locks[self.config_name]
+        except KeyError:
+            lock = threading.Lock()
+            self._process_locks[self.config_name] = lock
+
         with lock:
             if self.alive:
                 self._process.kill()
@@ -140,6 +151,9 @@ class ProcessManager:
         set_func_logger(func=q.put)
 
         from module.config.config import AzurLaneConfig
+
+        # Remove fake PIL module, because subprocess will use it
+        remove_fake_pil_module()
 
         AzurLaneConfig.stop_event = e
         try:

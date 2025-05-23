@@ -82,7 +82,7 @@ def _server_support():
 
 
 def _server_support_dossier_auto_attack():
-    return server.server in ['cn']
+    return server.server in ['cn', 'en']
 
 
 class OpsiAshBeacon(Meta):
@@ -172,11 +172,14 @@ class OpsiAshBeacon(Meta):
             else:
                 self.device.screenshot()
 
+            # End
+            if not self.appear(BEACON_REWARD, offset=(30, 30)):
+                if self._in_meta_page():
+                    break
+
             if self.appear_then_click(BEACON_REWARD, offset=(30, 30), interval=2):
                 logger.info('Reap meta rewards')
                 continue
-            if self._in_meta_page():
-                break
             # Finish random events
             if self.handle_map_event():
                 continue
@@ -231,12 +234,10 @@ class OpsiAshBeacon(Meta):
             else:
                 self.device.screenshot()
 
-            if self.appear(META_INNER_PAGE_DAMAGE, offset=(20, 20)) \
-                    and META_INNER_PAGE_DAMAGE.match_appear_on(self.device.image):
+            if self.match_template_color(META_INNER_PAGE_DAMAGE, offset=(20, 20)):
                 logger.info('Already in meta damage page')
                 break
-            if self.appear(META_INNER_PAGE_NOT_DAMAGE, offset=(20, 20)) \
-                    and META_INNER_PAGE_NOT_DAMAGE.match_appear_on(self.device.image):
+            if self.match_template_color(META_INNER_PAGE_NOT_DAMAGE, offset=(20, 20)):
                 logger.info('In meta details page, should switch to damage page')
                 self.appear_then_click(META_INNER_PAGE_NOT_DAMAGE, offset=(20, 20), interval=2)
                 continue
@@ -247,7 +248,7 @@ class OpsiAshBeacon(Meta):
         In beacon:
             ask for help if needed
         In dossier:
-            [cn]: auto attack if needed
+            ['cn', 'en']: auto attack if needed
             others: do nothing this version
         """
         # Page beacon or dossier
@@ -312,11 +313,14 @@ class OpsiAshBeacon(Meta):
                 self.device.screenshot()
 
             # End
-            if self.appear(HELP_ENTER, offset=(30, 30)):
-                return True
-            if self.appear(BEACON_REWARD, offset=(30, 30)):
-                logger.info('META finished just after calling assist, ignore meta assist')
-                return False
+            # sometimes you have help popup without black-blurred background
+            # HELP_CONFIRM and HELP_ENTER appears
+            if not self.appear(HELP_CONFIRM, offset=(30, 30)):
+                if self.appear(HELP_ENTER, offset=(30, 30)):
+                    return True
+                if self.appear(BEACON_REWARD, offset=(30, 30)):
+                    logger.info('META finished just after calling assist, ignore meta assist')
+                    return False
             # Click
             if self.appear_then_click(HELP_CONFIRM, offset=(30, 30), interval=3):
                 continue

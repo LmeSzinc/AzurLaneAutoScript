@@ -467,16 +467,20 @@ class OperationSiren(OSMap):
         with self.config.multi_set():
             next_run = self.config.Scheduler_NextRun
             for task in ['OpsiObscure', 'OpsiAbyssal', 'OpsiArchive', 'OpsiStronghold', 'OpsiMeowfficerFarming',
-                         'OpsiMonthBoss', 'OpsiShop']:
+                         'OpsiMonthBoss', 'OpsiShop', 'OpsiHazard1Leveling']:
                 keys = f'{task}.Scheduler.NextRun'
                 current = self.config.cross_get(keys=keys, default=DEFAULT_TIME)
                 if current < next_run:
                     logger.info(f'Delay task `{task}` to {next_run}')
                     self.config.cross_set(keys=keys, value=next_run)
 
+    # List of failed zone id
+    _os_explore_failed_zone = []
+
     def _os_explore(self):
         """
         Explore all dangerous zones at the beginning of month.
+        Failed zone id will be set to _os_explore_failed_zone
         """
 
         def end():
@@ -513,12 +517,15 @@ class OperationSiren(OSMap):
             end()
 
         # Run
+        self._os_explore_failed_zone = []
         for zone in order:
+            # Check if zone already unlock safe zone
             if not self.globe_goto(zone, stop_if_safe=True):
                 logger.info(f'Zone cleared: {self.name_to_zone(zone)}')
                 self.config.OpsiExplore_LastZone = zone
                 continue
 
+            # Run zone
             logger.hr(f'OS explore {zone}', level=1)
             if not self.config.OpsiExplore_SpecialRadar:
                 # Special radar gives 90 turning samples,
@@ -529,11 +536,17 @@ class OperationSiren(OSMap):
                 recon_scan=not self.config.OpsiExplore_SpecialRadar,
                 submarine_call=self.config.OpsiFleet_Submarine)
             self._os_explore_task_delay()
-            self.run_auto_search()
+
+            finished_combat = self.run_auto_search()
             self.config.OpsiExplore_LastZone = zone
             logger.info(f'Zone cleared: {self.name_to_zone(zone)}')
+            if finished_combat == 0:
+                logger.warning('Zone cleared but did not finish any combat')
+                self._os_explore_failed_zone.append(zone)
             self.handle_after_auto_search()
             self.config.check_task_switch()
+
+            # Reached end
             if zone == order[-1]:
                 end()
 
@@ -546,6 +559,9 @@ class OperationSiren(OSMap):
                 self.config.OpsiExplore_LastZone = 0
                 self.globe_goto(0)
 
+        failed_zone = [self.name_to_zone(zone) for zone in self._os_explore_failed_zone]
+        logger.error(f'OpsiExplore failed at these zones, please check you game settings '
+                     f'and check if there is any unfinished event in them: {failed_zone}')
         logger.critical('Failed to solve the locked zone')
         raise GameStuckError
 

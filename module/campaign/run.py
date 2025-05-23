@@ -2,7 +2,6 @@ import copy
 import importlib
 import os
 import random
-import re
 
 from module.campaign.campaign_base import CampaignBase
 from module.campaign.campaign_event import CampaignEvent
@@ -168,7 +167,6 @@ class CampaignRun(CampaignEvent, ShopStatus):
         Returns:
             str, str: name, folder
         """
-        name = re.sub('[ \t\n]', '', str(name)).lower()
         name = to_map_file_name(name)
         # For GemsFarming, auto choose events or main chapters
         if self.config.task.command == 'GemsFarming':
@@ -218,6 +216,7 @@ class CampaignRun(CampaignEvent, ShopStatus):
             'event_20211125_cn',
             'event_20231026_cn',
             'event_20241024_cn',
+            'event_20250424_cn',
         ]:
             name = convert.get(name, name)
         # Convert between A/B/C/D and T/HT
@@ -247,6 +246,8 @@ class CampaignRun(CampaignEvent, ShopStatus):
             'event_20240725_cn',
             'event_20240829_cn',
             'event_20241024_cn',
+            'event_20241121_cn',
+            'event_20250424_cn',
         ]:
             name = convert.get(name, name)
         else:
@@ -377,6 +378,7 @@ class CampaignRun(CampaignEvent, ShopStatus):
                     self.campaign.ensure_campaign_ui(name=self.stage, mode=mode)
             else:
                 self.campaign.ensure_campaign_ui(name=self.stage, mode=mode)
+            self.disable_raid_on_event()
             self.handle_commission_notice()
 
             # if in hard mode, check remain times

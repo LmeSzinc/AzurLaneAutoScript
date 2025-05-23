@@ -8,6 +8,11 @@ from datetime import datetime
 from functools import partial
 from typing import Dict, List, Optional
 
+# Import fake module before import pywebio to avoid importing unnecessary module PIL
+from module.webui.fake_pil_module import import_fake_pil_module
+
+import_fake_pil_module()
+
 from pywebio import config as webconfig
 from pywebio.input import file_upload, input, input_group, select
 from pywebio.output import (
@@ -33,17 +38,15 @@ from pywebio.output import (
     use_scope,
 )
 from pywebio.pin import pin, pin_on_change
-from pywebio.session import (download, go_app, info, local, register_thread, run_js, set_env)
+from pywebio.session import download, go_app, info, local, register_thread, run_js, set_env
 
 import module.webui.lang as lang
 from module.config.config import AzurLaneConfig, Function
+from module.config.deep import deep_get, deep_iter, deep_set
 from module.config.env import IS_ON_PHONE_CLOUD
 from module.config.utils import (
     alas_instance,
     alas_template,
-    deep_get,
-    deep_iter,
-    deep_set,
     dict_to_kv,
     filepath_args,
     filepath_config,
@@ -137,6 +140,11 @@ class AlasGUI(Frame):
         self.alas_mod = "alas"
         self.alas_config = AzurLaneConfig("template")
         self.initial()
+        # rendered state cache
+        self.rendered_cache = []
+        self.inst_cache = []
+        self.load_home = False
+        self.af_flag = False
 
     @use_scope("aside", clear=True)
     def set_aside(self) -> None:
@@ -146,12 +154,11 @@ class AlasGUI(Frame):
             buttons=[{"label": t("Gui.Aside.Home"), "value": "Home", "color": "aside"}],
             onclick=[self.ui_develop],
         )
-        for name in alas_instance():
-            put_icon_buttons(
-                Icon.RUN,
-                buttons=[{"label": name, "value": name, "color": "aside"}],
-                onclick=self.ui_alas,
-            )
+        put_scope("aside_instance",[
+            put_scope(f"alas-instance-{i}",[])
+            for i, _ in enumerate(alas_instance())
+        ])
+        self.set_aside_status()
         put_icon_buttons(
             Icon.SETTING,
             buttons=[
@@ -163,6 +170,51 @@ class AlasGUI(Frame):
             ],
             onclick=[lambda: go_app("manage", new_window=False)],
         )
+
+        current_date = datetime.now().date()
+        if current_date.month == 4 and current_date.day == 1:
+            self.af_flag = True
+
+    @use_scope("aside_instance")
+    def set_aside_status(self) -> None:
+        flag = True       
+        def update(name, seq):
+            with use_scope(f"alas-instance-{seq}", clear=True):
+                icon_html = Icon.RUN
+                rendered_state = ProcessManager.get_manager(inst).state
+                if rendered_state == 1 and self.af_flag:
+                    icon_html = icon_html[:31] + ' anim-rotate' + icon_html[31:]
+                put_icon_buttons(
+                    icon_html,
+                    buttons=[{"label": name, "value": name, "color": "aside"}],
+                    onclick=self.ui_alas,
+                )
+            return rendered_state
+        
+        if not len(self.rendered_cache) or self.load_home:
+            # Reload when add/delete new instance | first start app.py | go to HomePage (HomePage load call force reload)
+            flag = False
+            self.inst_cache.clear()
+            self.inst_cache = alas_instance()
+        if flag:
+            for index, inst in enumerate(self.inst_cache):
+                # Check for state change
+                state = ProcessManager.get_manager(inst).state
+                if state != self.rendered_cache[index]:
+                    self.rendered_cache[index] = update(inst, index)
+                    flag = False
+        else:
+            self.rendered_cache.clear()
+            clear("aside_instance")
+            for index, inst in enumerate(self.inst_cache):
+                self.rendered_cache.append(update(inst, index))
+            self.load_home = False
+        if not flag:
+            # Redraw lost focus, now focus on aside button
+            aside_name = get_localstorage("aside")
+            self.active_button("aside", aside_name)
+        
+        return
 
     @use_scope("header_status")
     def set_status(self, state: int) -> None:
@@ -1211,6 +1263,7 @@ class AlasGUI(Frame):
 
     def show(self) -> None:
         self._show()
+        self.load_home = True
         self.set_aside()
         self.init_aside(name="Home")
         self.dev_set_menu()
@@ -1358,6 +1411,7 @@ class AlasGUI(Frame):
         )
 
         self.task_handler.add(self.state_switch.g(), 2)
+        self.task_handler.add(self.set_aside_status, 2)
         self.task_handler.add(visibility_state_switch.g(), 15)
         self.task_handler.add(update_switch.g(), 1)
         self.task_handler.start()
@@ -1598,6 +1652,9 @@ def app():
     logger.attr("Password", True if key else False)
     logger.attr("CDN", cdn)
     logger.attr("IS_ON_PHONE_CLOUD", IS_ON_PHONE_CLOUD)
+
+    from deploy.atomic import atomic_failure_cleanup
+    atomic_failure_cleanup('./config')
 
     def index():
         if key is not None and not login(key):

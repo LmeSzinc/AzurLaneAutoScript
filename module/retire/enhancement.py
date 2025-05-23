@@ -43,7 +43,7 @@ class Enhancement(Dock):
                   available to be picked.
         """
         if favourite:
-            self.dock_favourite_set(enable=True)
+            self.dock_favourite_set(enable=True, wait_loading=False)
 
         if ship_type is not None:
             ship_type = str(ship_type)
@@ -54,9 +54,7 @@ class Enhancement(Dock):
         if self.appear(DOCK_EMPTY, offset=(30, 30)):
             return False
 
-        self.ship_info_enter(
-            CARD_GRIDS[(0, 0)], check_button=SHIP_DETAIL_CHECK, long_click=False)
-        return True
+        return self.dock_enter_first()
 
     def _enhance_quit(self):
         """
@@ -65,7 +63,7 @@ class Enhancement(Dock):
             out: page_dock
         """
         self.ui_back(DOCK_CHECK)
-        self.dock_favourite_set(enable=False)
+        self.dock_favourite_set(enable=False, wait_loading=False)
         self.dock_filter_set()
 
     def _enhance_confirm(self, skip_first_screenshot=True):

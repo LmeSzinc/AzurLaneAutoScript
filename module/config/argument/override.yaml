@@ -175,6 +175,22 @@ Raid:
     Fleet2Control: prevent_yellow_face
     Fleet2Recover: not_in_dormitory
     Fleet2Oath: false
+Hospital:
+  StopCondition:
+    RunCount: 0
+    MapAchievement: non_stop
+    StageIncrease: false
+    GetNewShip: false
+    ReachLevel: 0
+  Emotion:
+    Fleet1Control: prevent_yellow_face
+    Fleet1Recover: not_in_dormitory
+    Fleet1Oath: false
+    Fleet2Value: 119
+    Fleet2Record: 2020-01-01 00:00:00
+    Fleet2Control: prevent_yellow_face
+    Fleet2Recover: not_in_dormitory
+    Fleet2Oath: false
 RaidDaily:
   Scheduler:
     SuccessInterval: 30
@@ -222,6 +238,9 @@ Coalition:
     UseAutoSearch: false
     Use2xBook: false
     AmbushEvade: true
+  Coalition:
+    Mode:
+      option: [ tc1, tc2, tc3, ex ]
   StopCondition:
     MapAchievement: non_stop
     StageIncrease: false
@@ -250,7 +269,7 @@ CoalitionSp:
     AmbushEvade: true
   Coalition:
     # CoalitionSp hard-codes Mode='sp'
-    Mode: hard
+    Mode: sp
   StopCondition:
     MapAchievement: non_stop
     StageIncrease: false
@@ -431,3 +450,13 @@ OpsiHazard1Leveling:
     ServerUpdate: 00:00, 12:00
   OpsiFleet:
     Submarine: false
+
+# ==================== Tool ====================
+
+EventStory:
+  EventStory:
+    SkipBattle:
+      type: lock
+      value: true
+      option: [ true, ]
+      option_bold: [ true, ]

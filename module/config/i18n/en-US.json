@@ -78,8 +78,12 @@
       "name": "Raid",
       "help": ""
     },
+    "Hospital": {
+      "name": "Valley Hospital",
+      "help": ""
+    },
     "Coalition": {
-      "name": "Little Academy",
+      "name": "Frostfall",
       "help": ""
     },
     "MaritimeEscort": {
@@ -115,7 +119,7 @@
       "help": ""
     },
     "CoalitionSp": {
-      "name": "Little Academy SP",
+      "name": "Frostfall SP",
       "help": ""
     },
     "Commission": {
@@ -144,6 +148,10 @@
     },
     "Reward": {
       "name": "Reward",
+      "help": ""
+    },
+    "Awaken": {
+      "name": "Awaken",
       "help": ""
     },
     "Daily": {
@@ -248,6 +256,10 @@
     },
     "OpsiDaemon": {
       "name": "OpSi Semi-auto",
+      "help": ""
+    },
+    "EventStory": {
+      "name": "Event Story",
       "help": ""
     },
     "Benchmark": {
@@ -504,7 +516,7 @@
     },
     "NextRun": {
       "name": "Next Run",
-      "help": "Updated automatically after completing the task to set next scheduled run, typically not manually modified\nHowever you can force immediate scheduling if you clear this text field"
+      "help": "Updated automatically after completing the task to set next scheduled run, typically not manually modified\nHowever you can force immediate scheduling if text field cleared"
     },
     "Command": {
       "name": "Command",
@@ -639,7 +651,6 @@
       "aScreenCap_nc": "aScreenCap_nc",
       "DroidCast": "DroidCast",
       "DroidCast_raw": "DroidCast_raw",
-      "scrcpy": "scrcpy",
       "nemu_ipc": "nemu_ipc",
       "ldopengl": "ldopengl"
     },
@@ -942,11 +953,11 @@
       "event_20220428_cn": "Rondo at Rainbows End Rerun",
       "event_20220526_cn": "Pledge of the Radiant Court Rerun",
       "event_20220728_cn": "Aquilifers Ballade Rerun",
-      "event_20220818_cn": "Operation Convergence",
-      "event_20220915_cn": "Violet Tempest Blooming Lycoris",
+      "event_20220818_cn": "Operation Convergence Return",
+      "event_20220915_cn": "Violet Tempest Blooming Lycoris Rerun",
       "event_20221124_cn": "The Alchemist and the Archipelago of Secrets",
-      "event_20221222_cn": "Parallel Superimposition",
-      "event_20230223_cn": "Revelations of Dust",
+      "event_20221222_cn": "Parallel Superimposition Rerun",
+      "event_20230223_cn": "Revelations of Dust Rerun",
       "event_20230525_cn": "Confluence of Nothingness",
       "event_20230803_cn": "Anthem of Remembrance",
       "event_20230817_cn": "The Fools Scales",
@@ -962,6 +973,11 @@
       "event_20240829_cn": "Whence Flowers Bear No Fruit",
       "event_20240912_cn": "Ode of Everblooming Crimson",
       "event_20241024_cn": "Tempesta and the Sleeping Sea",
+      "event_20241121_cn": "Dangerous Inventions Incoming",
+      "event_20241219_cn": "Substellar Crepuscule",
+      "event_20250227_cn": "Paradiso of Shackled Light",
+      "event_20250424_cn": "Toward Tulipa’s Seas",
+      "event_20250520_cn": "A Rose on the High Tower",
       "raid_20200624": "Air Raid Drills with Essex Rerun",
       "raid_20210708": "Cross Wave rerun",
       "raid_20220127": "Mystery Investigation",
@@ -971,6 +987,7 @@
       "raid_20230629": "Reflections of the Oasis",
       "raid_20240130": "Spring Festive Fiasco",
       "raid_20240328": "From Zero to Hero",
+      "raid_20250116": "Spring Fashion Festa",
       "war_archives_20180607_cn": "archives Ink Stained Steel Sakura",
       "war_archives_20180726_cn": "archives Iris of Light and Dark",
       "war_archives_20181020_en": "archives Strive Wish and Strategize",
@@ -1005,7 +1022,10 @@
       "war_archives_20211111_cn": "archives The Flame-Touched Dagger",
       "war_archives_20211229_cn": "archives Tower of Transcendence",
       "war_archives_20220210_cn": "archives Northern Overture",
-      "war_archives_20220414_cn": "archives Aurora Noctis"
+      "war_archives_20220224_cn": "archives Abyssal Refrain",
+      "war_archives_20220324_cn": "archives Virtual Tower",
+      "war_archives_20220414_cn": "archives Aurora Noctis",
+      "war_archives_20220526_cn": "archives Pledge of the Radiant Court"
     },
     "Mode": {
       "name": "Level Mode",
@@ -1484,6 +1504,16 @@
       "help": "Generally does not need to be modified or re-arranged but can do so if desired\nCan save on oil consumption if less are attacked\nSupports EX difficulty if specified, submarine is force called to increase clearing rate"
     }
   },
+  "Hospital": {
+    "_info": {
+      "name": "Event Settings",
+      "help": ""
+    },
+    "UseRecommendFleet": {
+      "name": "Use Fleet Recommendation",
+      "help": "If turned off, you need to manually prepare fleets of all 15 stages in advance"
+    }
+  },
   "MaritimeEscort": {
     "_info": {
       "name": "Maritime Escort",
@@ -1502,9 +1532,10 @@
     "Mode": {
       "name": "Mode",
       "help": "SP needs to use event daily SP to run",
-      "easy": "Easy",
-      "normal": "Normal",
-      "hard": "Hard",
+      "tc1": "tc1",
+      "tc2": "tc2",
+      "tc3": "tc3",
+      "sp": "sp",
       "ex": "EX"
     },
     "Fleet": {
@@ -1817,6 +1848,18 @@
       "help": ""
     }
   },
+  "Awaken": {
+    "_info": {
+      "name": "Cognitive Awakening Settings",
+      "help": "Awaken all ships in dock til cognitive chips/arrays exhausted"
+    },
+    "LevelCap": {
+      "name": "To Level Cap",
+      "help": "",
+      "level120": "Lv.120",
+      "level125": "Lv.125"
+    }
+  },
   "GeneralShop": {
     "_info": {
       "name": "General Shop Settings",
@@ -2050,7 +2093,8 @@
       "name": "Research Series",
       "help": "",
       "2": "DR2",
-      "3": "DR3"
+      "3": "DR3",
+      "4": "DR4"
     },
     "ShipIndex": {
       "name": "Ship Index",
@@ -2083,7 +2127,8 @@
       "1": "PR1",
       "2": "PR2",
       "3": "PR3",
-      "4": "PR4"
+      "4": "PR4",
+      "5": "PR5"
     },
     "ShipIndex": {
       "name": "Ship Index",
@@ -2486,7 +2531,7 @@
     },
     "DossierAutoAttackMode": {
       "name": "Use Auto Attack Mode in META Dossier",
-      "help": "Use Auto Attack Mode after the first battle, currently only available on CN"
+      "help": "Use Auto Attack Mode after the first battle"
     },
     "RequestAssist": {
       "name": "Request Assists",
@@ -2531,8 +2576,8 @@
       "help": "At the beginning of each month OpSi is reset\nThe following must be satisfied:\n- OpSi story and practice battles must be complete\nEach zone will be visited in a clockwise direction every 27 minutes until world has been been completely opened\nNo need to consume 5000 oil for special radar in OpSi voucher shop"
     },
     "SpecialRadar": {
-      "name": "SpecialRadar Bought",
-      "help": "Enable if you have purchased the special radar\nAllows Alas to explore OpSi continously without having to wait 27 minutes between each zone clear\nCannot be selected when not purchased and used manually"
+      "name": "OpSi Data Logger Bought (5k oil item)",
+      "help": "Purchase Operation Siren Data Logger is not a must, enable if you have purchased.\nAllows Alas to explore OpSi continously without having to wait 27 minutes between each zone clear\nCannot be selected when not purchased and used manually"
     },
     "ForceRun": {
       "name": "Force Run",
@@ -2694,6 +2739,18 @@
     "SelectEnemy": {
       "name": "Clear nearby enemies and resources",
       "help": "Clean nearby enemies and resources, and find new enemies or materials after cleaning, which usually clears the entire map. If some of them haven't been cleared, you need to solve them manually"
+    }
+  },
+  "EventStory": {
+    "_info": {
+      "name": "Event Story",
+      "help": "Complete the event story, only applicable to events aired on or after 20241219, please wait for about 3 minutes"
+    },
+    "SkipBattle": {
+      "name": "Kill game to skip battles",
+      "help": "",
+      "True": "Enabled",
+      "False": "False"
     }
   },
   "Benchmark": {

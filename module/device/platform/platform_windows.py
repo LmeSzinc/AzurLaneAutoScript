@@ -54,7 +54,9 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         """
         command = command.replace(r"\\", "/").replace("\\", "/").replace('"', '"')
         logger.info(f'Execute: {command}')
-        return subprocess.Popen(command, close_fds=True)  # only work on Windows
+        # `close_fds` only work on Windows
+        # `start_new_session` to avoid emulator getting tree-killed when Alas gets killed
+        return subprocess.Popen(command, close_fds=True, start_new_session=True)
 
     @classmethod
     def kill_process_by_regex(cls, regex: str) -> int:

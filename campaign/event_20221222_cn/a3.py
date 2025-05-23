@@ -1,4 +1,4 @@
-from module.campaign.campaign_base import CampaignBase
+from .campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
@@ -65,7 +65,7 @@ class Config(ConfigBase):
 
 class Campaign(CampaignBase):
     MAP = MAP
-    ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
+    ENEMY_FILTER = '1L > 1M > 2L > 2M > 3L > 3M > 1E > 2E > 3E > 1C > 2C > 3C'
 
     def battle_0(self):
         if self.clear_siren():

@@ -10,7 +10,7 @@ class EnemySearchingHandler(EnemySearchingHandler_):
     def is_in_map(self):
         if IN_MAP.match_luma(self.device.image, offset=(200, 5)):
             return True
-        if self.appear(MAP_GOTO_GLOBE_FOG, offset=(5, 5)) and MAP_GOTO_GLOBE_FOG.match_appear_on(self.device.image):
+        if self.match_template_color(MAP_GOTO_GLOBE_FOG, offset=(5, 5)):
             return True
 
         return False

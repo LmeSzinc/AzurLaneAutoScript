@@ -40,8 +40,7 @@ class StorageUI(UI):
         Returns:
             bool, if in MATERIAL_CHECK, appear and match_appear_on
         """
-        return self.appear(MATERIAL_CHECK, offset=(20, 20), interval=interval) \
-               and MATERIAL_CHECK.match_appear_on(self.device.image)
+        return self.match_template_color(MATERIAL_CHECK, offset=(20, 20), interval=interval)
 
     def _storage_enter_material(self, skip_first_screenshot=True):
         """

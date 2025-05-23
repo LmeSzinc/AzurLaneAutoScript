@@ -85,6 +85,8 @@ class Reward(UI):
         timeout = Timer(10)
         exit_timer.start()
         timeout.start()
+        # Record received missions to clear click record
+        clicked_mission = False
 
         reward = False
         while 1:
@@ -98,14 +100,19 @@ class Reward(UI):
                     exit_timer.reset()
                     timeout.reset()
                     reward = True
+                    # MISSION_SINGLE -> GET_ITEMS_* means one mission reward received
+                    if clicked_mission:
+                        logger.info('Got items from mission')
+                        self.device.click_record_clear()
+                        clicked_mission = False
                     continue
 
             for button in [MISSION_MULTI, MISSION_SINGLE]:
                 if not click_timer.reached():
                     continue
-                if self.appear(button, offset=(20, 200), interval=interval) \
-                        and button.match_appear_on(self.device.image):
+                if self.match_template_color(button, offset=(20, 200), interval=interval):
                     self.device.click(button)
+                    clicked_mission = True
                     exit_timer.reset()
                     click_timer.reset()
                     timeout.reset()
@@ -151,6 +158,36 @@ class Reward(UI):
 
         return reward
 
+    def _reward_wait_mission_list(self):
+        """
+        Wait until mission list fully loaded
+
+        Pages:
+            in: page_mission
+            out: page_mission, MISSION_MULTI or MISSION_SINGLE or MISSION_UNFINISH
+        """
+        # MISSION_UNFINISH is available on CN only yet
+        if self.config.SERVER not in ['cn', 'en', 'jp']:
+            return
+
+        timeout = Timer(1, count=2).start()
+        for _ in self.loop():
+            if timeout.reached():
+                logger.warning('Reward wait mission list timeout')
+                break
+            if self.appear(MISSION_MULTI, offset=(20, 20)):
+                logger.info(f'mission list: {MISSION_MULTI}')
+                break
+            if MISSION_SINGLE.match_luma(self.device.image, offset=(20, 200)):
+                logger.info(f'mission list: {MISSION_SINGLE}')
+                break
+            if self.appear(MISSION_UNFINISH, offset=(20, 20)):
+                logger.info(f'mission list: {MISSION_UNFINISH}')
+                break
+            if self.appear(MISSION_EMPTY, offset=(20, 20)):
+                logger.info(f'mission list: {MISSION_EMPTY}')
+                break
+
     def _reward_mission_all(self):
         """
         Collects all page mission rewards
@@ -159,6 +196,7 @@ class Reward(UI):
             bool, if handled
         """
         self.reward_side_navbar_ensure(upper=1)
+        self._reward_wait_mission_list()
 
         if not self.appear(MISSION_MULTI, offset=(20, 200)) and \
                 not self.appear(MISSION_SINGLE, offset=(20, 200)):
@@ -177,10 +215,12 @@ class Reward(UI):
         Returns:
             bool, if handled
         """
-        if not self.appear(MISSION_WEEKLY_RED_DOT):
+        if not self.image_color_count(MISSION_WEEKLY_RED_DOT, color=(206, 81, 66), threshold=221, count=20):
+            logger.info('No MISSION_WEEKLY_RED_DOT')
             return False
 
         self.reward_side_navbar_ensure(upper=5)
+        self._reward_wait_mission_list()
 
         # Uses no interval to account for
         # behavior differences and avoid

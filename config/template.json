@@ -626,6 +626,43 @@
       "Storage": {}
     }
   },
+  "Hospital": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "Hospital",
+      "SuccessInterval": 0,
+      "FailureInterval": 120,
+      "ServerUpdate": "00:00"
+    },
+    "Hospital": {
+      "UseRecommendFleet": true
+    },
+    "StopCondition": {
+      "OilLimit": 1000,
+      "RunCount": 0,
+      "MapAchievement": "non_stop",
+      "StageIncrease": false,
+      "GetNewShip": false,
+      "ReachLevel": 0
+    },
+    "Emotion": {
+      "Mode": "calculate",
+      "Fleet1Value": 119,
+      "Fleet1Record": "2020-01-01 00:00:00",
+      "Fleet1Control": "prevent_yellow_face",
+      "Fleet1Recover": "not_in_dormitory",
+      "Fleet1Oath": false,
+      "Fleet2Value": 119,
+      "Fleet2Record": "2020-01-01 00:00:00",
+      "Fleet2Control": "prevent_yellow_face",
+      "Fleet2Recover": "not_in_dormitory",
+      "Fleet2Oath": false
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
   "Coalition": {
     "Scheduler": {
       "Enable": false,
@@ -646,7 +683,7 @@
       "AmbushEvade": true
     },
     "Coalition": {
-      "Mode": "hard",
+      "Mode": "tc1",
       "Fleet": "single"
     },
     "StopCondition": {
@@ -701,7 +738,7 @@
     },
     "Campaign": {
       "Name": "D3",
-      "Event": "war_archives_20211229_cn",
+      "Event": "war_archives_20220526_cn",
       "Mode": "normal",
       "UseClearMode": true,
       "UseFleetLock": true,
@@ -1217,7 +1254,7 @@
       "AmbushEvade": true
     },
     "Coalition": {
-      "Mode": "hard",
+      "Mode": "sp",
       "Fleet": "single"
     },
     "StopCondition": {
@@ -1401,6 +1438,22 @@
       "CollectExp": true,
       "CollectMission": true,
       "CollectWeeklyMission": true
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
+  "Awaken": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "Awaken",
+      "SuccessInterval": 0,
+      "FailureInterval": 120,
+      "ServerUpdate": "00:00"
+    },
+    "Awaken": {
+      "LevelCap": "level120"
     },
     "Storage": {
       "Storage": {}
@@ -1914,6 +1967,14 @@
     "OpsiDaemon": {
       "RepairShip": true,
       "SelectEnemy": true
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
+  "EventStory": {
+    "EventStory": {
+      "SkipBattle": true
     },
     "Storage": {
       "Storage": {}

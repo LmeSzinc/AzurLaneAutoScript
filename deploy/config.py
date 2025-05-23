@@ -73,9 +73,9 @@ class DeployConfig(ConfigModel):
         """
         self.file = file
         self.config = {}
+        self.config_template = {}
         self.read()
 
-        self.write()
         self.show_config()
 
     def show_config(self):
@@ -90,15 +90,22 @@ class DeployConfig(ConfigModel):
         logger.info(f"Rest of the configs are the same as default")
 
     def read(self):
+        """
+        Read and update deploy config, copy `self.configs` to properties.
+        """
         self.config = poor_yaml_read(DEPLOY_TEMPLATE)
         self.config_template = copy.deepcopy(self.config)
-        self.config.update(poor_yaml_read(self.file))
+        origin = poor_yaml_read(self.file)
+        self.config.update(origin)
 
         for key, value in self.config.items():
             if hasattr(self, key):
                 super().__setattr__(key, value)
 
         self.config_redirect()
+
+        if self.config != origin:
+            self.write()
 
     def write(self):
         poor_yaml_write(self.config, self.file)
@@ -115,6 +122,12 @@ class DeployConfig(ConfigModel):
             'https://git.saarcenter.com/LmeSzinc/AzurLaneAutoScript.git',
         ]:
             self.Repository = 'git://git.lyoko.io/AzurLaneAutoScript'
+            self.config['Repository'] = 'git://git.lyoko.io/AzurLaneAutoScript'
+        if self.PypiMirror in [
+            'https://pypi.tuna.tsinghua.edu.cn/simple'
+        ]:
+            self.PypiMirror = 'https://mirrors.aliyun.com/pypi/simple'
+            self.config['PypiMirror'] = 'https://mirrors.aliyun.com/pypi/simple'
 
         # Bypass webui.config.DeployConfig.__setattr__()
         # Don't write these into deploy.yaml

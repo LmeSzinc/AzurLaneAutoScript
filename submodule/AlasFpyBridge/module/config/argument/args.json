@@ -83,7 +83,7 @@
       "Interval": {
         "type": "input",
         "value": "00:05",
-        "validate": "\\d+:\\d"
+        "validate": "\\d+:\\d+"
       }
     },
     "Storage": {
@@ -176,7 +176,7 @@
       "Interval": {
         "type": "input",
         "value": "07:00",
-        "validate": "\\d+:\\d"
+        "validate": "\\d+:\\d+"
       }
     },
     "Storage": {

@@ -154,6 +154,27 @@ class FleetOperator:
                 main.device.click(self._clear)
                 click_timer.reset()
 
+    def recommend(self, skip_first_screenshot=True):
+        """
+        Recommend fleet
+        """
+        main = self.main
+        click_timer = Timer(3, count=6)
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                main.device.screenshot()
+
+            # End
+            if self.in_use():
+                break
+
+            # Click
+            if click_timer.reached():
+                main.device.click(self._choose)
+                click_timer.reset()
+
     def open(self, skip_first_screenshot=True):
         """
         Activate dropdown menu for fleet selection.
@@ -344,10 +365,14 @@ class FleetPreparation(InfoHandler):
 
         # Check if submarine is empty again.
         if submarine.allow():
+            logger.attr('map_allow_submarine', True)
             if self.config.Submarine_Fleet:
                 pass
             else:
                 submarine.clear()
+        else:
+            logger.attr('map_allow_submarine', False)
+            self.config.SUBMARINE = 0
 
         if self.appear(FLEET_1_CLEAR, offset=(-20, -80, 20, 5)):
             AUTO_SEARCH_SET_MOB.load_offset(FLEET_1_CLEAR)

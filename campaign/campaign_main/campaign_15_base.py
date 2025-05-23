@@ -53,9 +53,9 @@ class CampaignBase(CampaignBase_):
 
     map_has_mob_move = True
 
-    def strategy_set_execute(self, formation_index=None, sub_view=None, sub_hunt=None):
+    def strategy_set_execute(self, formation=None, sub_view=None, sub_hunt=None):
         super().strategy_set_execute(
-            formation_index=formation_index,
+            formation=formation,
             sub_view=sub_view,
             sub_hunt=sub_hunt,
         )

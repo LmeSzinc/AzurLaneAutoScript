@@ -78,8 +78,12 @@
       "name": "Raid",
       "help": ""
     },
+    "Hospital": {
+      "name": "病院探訪",
+      "help": ""
+    },
     "Coalition": {
-      "name": "リトル学園",
+      "name": "星霜海嵐",
       "help": ""
     },
     "MaritimeEscort": {
@@ -115,8 +119,8 @@
       "help": ""
     },
     "CoalitionSp": {
-      "name": "Task.CoalitionSp.name",
-      "help": "Task.CoalitionSp.help"
+      "name": "星霜海嵐SP",
+      "help": ""
     },
     "Commission": {
       "name": "委託",
@@ -144,6 +148,10 @@
     },
     "Reward": {
       "name": "収穫",
+      "help": ""
+    },
+    "Awaken": {
+      "name": "Task.Awaken.name",
       "help": ""
     },
     "Daily": {
@@ -180,7 +188,7 @@
     },
     "Minigame": {
       "name": "Task.Minigame.name",
-      "help": "Task.Minigame.help"
+      "help": ""
     },
     "OpsiGeneral": {
       "name": "一般設定",
@@ -248,6 +256,10 @@
     },
     "OpsiDaemon": {
       "name": "セイレーン作戦半自動",
+      "help": ""
+    },
+    "EventStory": {
+      "name": "Event Story",
       "help": ""
     },
     "Benchmark": {
@@ -639,7 +651,6 @@
       "aScreenCap_nc": "aScreenCap_nc",
       "DroidCast": "DroidCast",
       "DroidCast_raw": "DroidCast_raw",
-      "scrcpy": "scrcpy",
       "nemu_ipc": "nemu_ipc",
       "ldopengl": "ldopengl"
     },
@@ -942,11 +953,11 @@
       "event_20220428_cn": "吟ずる瑠璃の楽章（復刻）",
       "event_20220526_cn": "復刻诚閃の剣 搖光の城",
       "event_20220728_cn": "鋼鷲の冒険譚（復刻）",
-      "event_20220818_cn": "結像点作戦",
-      "event_20220915_cn": "赫の涙月 菫の暁風",
+      "event_20220818_cn": "結像点作戦（復刻）",
+      "event_20220915_cn": "赫の涙月 菫の暁風（復刻）",
       "event_20221124_cn": "錬金術士と謎の遺跡群島",
-      "event_20221222_cn": "積重なる事象の幻界",
-      "event_20230223_cn": "黙示の遺構",
+      "event_20221222_cn": "積重なる事象の幻界（復刻）",
+      "event_20230223_cn": "黙示の遺構（復刻）",
       "event_20230525_cn": "覆天せし万象の塵",
       "event_20230803_cn": "燃ゆる聖都の回想曲",
       "event_20230817_cn": "愚者の天秤",
@@ -962,6 +973,11 @@
       "event_20240829_cn": "徒花咲かす彼岸",
       "event_20240912_cn": "絳染む丹華の詠歌",
       "event_20241024_cn": "テンペスタと眠りし海",
+      "event_20241121_cn": "危険発明接近中",
+      "event_20241219_cn": "星降る夕影の残光",
+      "event_20250227_cn": "籠檻に囚われし神光",
+      "event_20250424_cn": "チュリッパの海へ",
+      "event_20250520_cn": "高い塔の薔薇",
       "raid_20200624": "特別演習超空強襲波（復刻）",
       "raid_20210708": "交錯する新たな波 (復刻)",
       "raid_20220127": "秘密事件調査",
@@ -971,6 +987,7 @@
       "raid_20230629": "緑地伽話",
       "raid_20240130": "新春宴会狂騒曲",
       "raid_20240328": "ゼロから頑張る魔王討伐",
+      "raid_20250116": "新春華裳協奏曲",
       "war_archives_20180607_cn": "檔案 墨染まりし鋼の桜",
       "war_archives_20180726_cn": "檔案 光と影のアイリス",
       "war_archives_20181020_en": "檔案 努力希望と計画",
@@ -1005,7 +1022,10 @@
       "war_archives_20211111_cn": "檔案 燈火のシニエ",
       "war_archives_20211229_cn": "檔案 遡望せし虹彩の塔",
       "war_archives_20220210_cn": "檔案 凍絶の北海",
-      "war_archives_20220414_cn": "檔案 極夜照らす幻光"
+      "war_archives_20220224_cn": "檔案 鳴動せし星霜の淵",
+      "war_archives_20220324_cn": "檔案 幻像の塔",
+      "war_archives_20220414_cn": "檔案 極夜照らす幻光",
+      "war_archives_20220526_cn": "檔案 诚閃の剣 搖光の城"
     },
     "Mode": {
       "name": "Campaign.Mode.name",
@@ -1484,6 +1504,16 @@
       "help": "RaidDaily.StageFilter.help"
     }
   },
+  "Hospital": {
+    "_info": {
+      "name": "Hospital._info.name",
+      "help": "Hospital._info.help"
+    },
+    "UseRecommendFleet": {
+      "name": "Hospital.UseRecommendFleet.name",
+      "help": "Hospital.UseRecommendFleet.help"
+    }
+  },
   "MaritimeEscort": {
     "_info": {
       "name": "MaritimeEscort._info.name",
@@ -1502,9 +1532,10 @@
     "Mode": {
       "name": "Coalition.Mode.name",
       "help": "Coalition.Mode.help",
-      "easy": "easy",
-      "normal": "normal",
-      "hard": "hard",
+      "tc1": "tc1",
+      "tc2": "tc2",
+      "tc3": "tc3",
+      "sp": "sp",
       "ex": "ex"
     },
     "Fleet": {
@@ -1817,6 +1848,18 @@
       "help": "Reward.CollectWeeklyMission.help"
     }
   },
+  "Awaken": {
+    "_info": {
+      "name": "Awaken._info.name",
+      "help": "Awaken._info.help"
+    },
+    "LevelCap": {
+      "name": "Awaken.LevelCap.name",
+      "help": "Awaken.LevelCap.help",
+      "level120": "level120",
+      "level125": "level125"
+    }
+  },
   "GeneralShop": {
     "_info": {
       "name": "GeneralShop._info.name",
@@ -2050,7 +2093,8 @@
       "name": "ShipyardDr.ResearchSeries.name",
       "help": "ShipyardDr.ResearchSeries.help",
       "2": "2",
-      "3": "3"
+      "3": "3",
+      "4": "4"
     },
     "ShipIndex": {
       "name": "ShipyardDr.ShipIndex.name",
@@ -2083,7 +2127,8 @@
       "1": "1",
       "2": "2",
       "3": "3",
-      "4": "4"
+      "4": "4",
+      "5": "5"
     },
     "ShipIndex": {
       "name": "Shipyard.ShipIndex.name",
@@ -2694,6 +2739,18 @@
     "SelectEnemy": {
       "name": "OpsiDaemon.SelectEnemy.name",
       "help": "OpsiDaemon.SelectEnemy.help"
+    }
+  },
+  "EventStory": {
+    "_info": {
+      "name": "EventStory._info.name",
+      "help": "EventStory._info.help"
+    },
+    "SkipBattle": {
+      "name": "EventStory.SkipBattle.name",
+      "help": "EventStory.SkipBattle.help",
+      "True": "True",
+      "False": "False"
     }
   },
   "Benchmark": {

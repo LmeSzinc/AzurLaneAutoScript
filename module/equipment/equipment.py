@@ -3,8 +3,7 @@ from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.equipment.assets import *
 from module.logger import logger
-from module.retire.assets import DOCK_CHECK
-from module.retire.assets import EQUIP_CONFIRM as RETIRE_EQUIP_CONFIRM
+from module.retire.assets import DOCK_CHECK, EQUIP_CONFIRM as RETIRE_EQUIP_CONFIRM
 from module.storage.storage import StorageHandler
 from module.ui.assets import BACK_ARROW
 from module.ui.navbar import Navbar
@@ -40,6 +39,9 @@ class Equipment(StorageHandler):
                     if self.appear(RETIRE_EQUIP_CONFIRM, offset=(30, 30)):
                         logger.info('RETIRE_EQUIP_CONFIRM popup in _ship_view_swipe()')
                         return False
+                    # Popup when enhancing a NPC ship
+                    if self.handle_popup_confirm('SHIP_VIEW_SWIPE'):
+                        continue
                 swipe_count += 1
 
             self.device.screenshot()
@@ -88,6 +90,8 @@ class Equipment(StorageHandler):
                 else:
                     self.device.click(click_button)
                 enter_timer.reset()
+            if self.handle_game_tips():
+                continue
 
     @cached_property
     def _ship_side_navbar(self):
@@ -154,6 +158,7 @@ class Equipment(StorageHandler):
         return False
 
     def ship_equipment_take_off(self, skip_first_screenshot=True):
+        logger.info('Equipment take off')
         bar_timer = Timer(5)
         off_timer = Timer(5)
         confirm_timer = Timer(5)
@@ -175,11 +180,14 @@ class Equipment(StorageHandler):
 
             if confirm_timer.reached() and self.handle_popup_confirm('EQUIPMENT_TAKE_OFF'):
                 confirm_timer.reset()
+                off_timer.reset()
+                bar_timer.reset()
                 continue
 
             if off_timer.reached():
                 if not self.info_bar_count() and self.appear_then_click(EQUIP_OFF, offset=(20, 20)):
                     off_timer.reset()
+                    bar_timer.reset()
                     continue
 
             if bar_timer.reached():
@@ -187,6 +195,8 @@ class Equipment(StorageHandler):
                     self.device.click(EQUIPMENT_OPEN)
                     bar_timer.reset()
                     continue
+
+        logger.info('Equipment take off ended')
 
     def fleet_equipment_take_off(self, enter, long_click, out):
         """
@@ -208,6 +218,7 @@ class Equipment(StorageHandler):
         self.equipment_has_take_on = False
 
     def ship_equipment_take_on_preset(self, index, skip_first_screenshot=True):
+        logger.info('Equipment take on preset')
         bar_timer = Timer(5)
         on_timer = Timer(5)
 
@@ -238,7 +249,10 @@ class Equipment(StorageHandler):
                     self.device.click(EQUIP_3)
 
                 on_timer.reset()
+                bar_timer.reset()
                 continue
+
+        logger.info('Equipment take on ended')
 
     def fleet_equipment_take_on_preset(self, preset_record, enter, long_click, out):
         """

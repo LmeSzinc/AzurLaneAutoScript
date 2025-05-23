@@ -6,7 +6,7 @@ from module.base.decorator import run_once
 from module.base.timer import Timer
 from module.campaign.campaign_event import CampaignEvent
 from module.combat.assets import *
-from module.exception import ScriptError
+from module.exception import OilExhausted, ScriptError
 from module.logger import logger
 from module.map.map_operation import MapOperation
 from module.ocr.ocr import Digit, DigitCounter
@@ -14,10 +14,6 @@ from module.raid.assets import *
 from module.raid.combat import RaidCombat
 from module.ui.assets import RAID_CHECK
 from module.ui.page import page_rpg_stage
-
-
-class OilExhausted(Exception):
-    pass
 
 
 class RaidCounter(DigitCounter):
@@ -85,6 +81,8 @@ def raid_name_shorten(name):
         return "HUANCHANG"
     elif name == "raid_20240328":
         return "RPG"
+    elif name == 'raid_20250116':
+        return 'CHIENWU'
     else:
         raise ScriptError(f'Unknown raid name: {name}')
 
@@ -118,43 +116,48 @@ def raid_ocr(raid, mode):
     key = f'{raid}_OCR_REMAIN_{mode.upper()}'
     try:
         button = globals()[key]
-        # Old raids use RaidCounter to compatible with old OCR model and its assets
-        # New raids use DigitCounter
-        if raid == 'ESSEX':
-            return RaidCounter(button, letter=(57, 52, 255), threshold=128)
-        elif raid == 'SURUGA':
-            return RaidCounter(button, letter=(49, 48, 49), threshold=128)
-        elif raid == 'BRISTOL':
-            return RaidCounter(button, letter=(214, 231, 219), threshold=128)
-        elif raid == 'IRIS':
-            # Font is not in model 'azur_lane', so use general ocr model
-            if server.server == 'en':
-                # Bold in EN
-                return RaidCounter(button, letter=(148, 138, 123), threshold=80, lang='cnocr')
-            if server.server == 'jp':
-                return RaidCounter(button, letter=(148, 138, 123), threshold=128, lang='cnocr')
-            else:
-                return DigitCounter(button, letter=(148, 138, 123), threshold=128, lang='cnocr')
-        elif raid == "ALBION":
-            return DigitCounter(button, letter=(99, 73, 57), threshold=128)
-        elif raid == 'KUYBYSHEY':
-            if mode == 'ex':
-                return Digit(button, letter=(189, 203, 214), threshold=128)
-            else:
-                return DigitCounter(button, letter=(231, 239, 247), threshold=128)
-        elif raid == 'GORIZIA':
-            if mode == 'ex':
-                return Digit(button, letter=(198, 223, 140), threshold=128)
-            else:
-                return DigitCounter(button, letter=(82, 89, 66), threshold=128)
-        elif raid == "HUANCHANG":
-            if mode == 'ex':
-                return Digit(button, letter=(255, 255, 255), threshold=180)
-            else:
-                # Vertical count
-                return HuanChangCounter(button, letter=(255, 255, 255), threshold=80)
     except KeyError:
         raise ScriptError(f'Raid entrance asset not exists: {key}')
+    # Old raids use RaidCounter to compatible with old OCR model and its assets
+    # New raids use DigitCounter
+    if raid == 'ESSEX':
+        return RaidCounter(button, letter=(57, 52, 255), threshold=128)
+    elif raid == 'SURUGA':
+        return RaidCounter(button, letter=(49, 48, 49), threshold=128)
+    elif raid == 'BRISTOL':
+        return RaidCounter(button, letter=(214, 231, 219), threshold=128)
+    elif raid == 'IRIS':
+        # Font is not in model 'azur_lane', so use general ocr model
+        if server.server == 'en':
+            # Bold in EN
+            return RaidCounter(button, letter=(148, 138, 123), threshold=80, lang='cnocr')
+        if server.server == 'jp':
+            return RaidCounter(button, letter=(148, 138, 123), threshold=128, lang='cnocr')
+        else:
+            return DigitCounter(button, letter=(148, 138, 123), threshold=128, lang='cnocr')
+    elif raid == "ALBION":
+        return DigitCounter(button, letter=(99, 73, 57), threshold=128)
+    elif raid == 'KUYBYSHEY':
+        if mode == 'ex':
+            return Digit(button, letter=(189, 203, 214), threshold=128)
+        else:
+            return DigitCounter(button, letter=(231, 239, 247), threshold=128)
+    elif raid == 'GORIZIA':
+        if mode == 'ex':
+            return Digit(button, letter=(198, 223, 140), threshold=128)
+        else:
+            return DigitCounter(button, letter=(82, 89, 66), threshold=128)
+    elif raid == "HUANCHANG":
+        if mode == 'ex':
+            return Digit(button, letter=(255, 255, 255), threshold=180)
+        else:
+            # Vertical count
+            return HuanChangCounter(button, letter=(255, 255, 255), threshold=80)
+    elif raid == 'CHIENWU':
+        if mode == 'ex':
+            return Digit(button, letter=(247, 223, 222), threshold=128)
+        else:
+            return DigitCounter(button, letter=(0, 0, 0), threshold=128)
 
 
 def pt_ocr(raid):
@@ -169,23 +172,25 @@ def pt_ocr(raid):
     key = f'{raid}_OCR_PT'
     try:
         button = globals()[key]
-        if raid == 'IRIS':
-            return Digit(button, letter=(181, 178, 165), threshold=128)
-        elif raid == "ALBION":
-            return Digit(button, letter=(23, 20, 9), threshold=128)
-        elif raid == 'KUYBYSHEY':
-            return Digit(button, letter=(16, 24, 33), threshold=64)
-        elif raid == 'GORIZIA':
-            return Digit(button, letter=(255, 255, 255), threshold=64)
-        elif raid == "HUANCHANG":
-            return HuanChangPtOcr(button, letter=(23, 20, 6), threshold=128)
     except KeyError:
         # raise ScriptError(f'Raid pt ocr asset not exists: {key}')
         return None
+    if raid == 'IRIS':
+        return Digit(button, letter=(181, 178, 165), threshold=128)
+    elif raid == "ALBION":
+        return Digit(button, letter=(23, 20, 9), threshold=128)
+    elif raid == 'KUYBYSHEY':
+        return Digit(button, letter=(16, 24, 33), threshold=64)
+    elif raid == 'GORIZIA':
+        return Digit(button, letter=(255, 255, 255), threshold=64)
+    elif raid == "HUANCHANG":
+        return HuanChangPtOcr(button, letter=(23, 20, 6), threshold=128)
+    elif raid == 'CHIENWU':
+        return Digit(button, letter=(255, 231, 231), threshold=128)
 
 
 class Raid(MapOperation, RaidCombat, CampaignEvent):
-    def combat_preparation(self, balance_hp=False, emotion_reduce=False, auto=True, fleet_index=1):
+    def combat_preparation(self, balance_hp=False, emotion_reduce=False, auto='combat_auto', fleet_index=1):
         """
         Args:
             balance_hp (bool):
@@ -238,7 +243,9 @@ class Raid(MapOperation, RaidCombat, CampaignEvent):
                 continue
 
             # End
-            if self.is_combat_executing():
+            pause = self.is_combat_executing()
+            if pause:
+                logger.attr('BattleUI', pause)
                 if emotion_reduce:
                     self.emotion.reduce(fleet_index)
                 break
