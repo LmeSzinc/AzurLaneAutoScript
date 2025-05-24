@@ -67,8 +67,8 @@ MaaFight:
   Stone: null
   Times: null
   Series:
-    value: 1
-    option: [ 1,2,3,4,5,6 ]
+    value: 0
+    option: [ -1,0,1,2,3,4,5,6 ]
   Drops:
     value: null
     type: textarea

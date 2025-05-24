@@ -226,7 +226,9 @@
     },
     "Series": {
       "name": "Series",
-      "help": "arknights native repeat stage option",
+      "help": "Arknights native repeat stage option.\n\"DISABLE\" does not adjust the in-game repeat count setting. If there is not enough sanity to complete the current in-game setting, the task will end directly.\n\"AUTO\" automatically identifies the maximum repeat count for the level, maintaining the maximum repeat count without overflowing sanity.\n\"1-6\" perform the selected number of repetitions. If the current sanity is not enough to complete the set number (such as only enough for 5 times but set to 6 times), the task will end directly.",
+      "-1": "DISABLE",
+      "0": "AUTO",
       "1": "1",
       "2": "2",
       "3": "3",
