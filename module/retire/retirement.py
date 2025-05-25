@@ -138,10 +138,10 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                 continue
             # Equip confirm
             if self.appear_then_click(EQUIP_CONFIRM, offset=(30, 30), interval=2):
-                executed = True
                 continue
             if self.appear_then_click(EQUIP_CONFIRM_2, offset=(30, 30), interval=2):
                 self.interval_clear(GET_ITEMS_1)
+                executed = True
                 continue
             # Get items
             if self.appear(GET_ITEMS_1, offset=(30, 30), interval=2):
