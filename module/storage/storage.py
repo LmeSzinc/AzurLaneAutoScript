@@ -338,9 +338,14 @@ class StorageHandler(StorageUI):
                 logger.warning('Failed to confirm disassemble after 3 trial')
                 disassembled = 0
                 break
+            if success and self.appear(DISASSEMBLE_CANCEL, offset=(20, 20)):
+                self.wait_until_stable(MATERIAL_STABLE_CHECK)
+                break
 
             if self.appear_then_click(DISASSEMBLE_CONFIRM, offset=(20, 20), interval=5):
                 click_count += 1
+                # since 2025.05.20 disassemble no longer shows GET_ITEMS
+                success = True
                 continue
             if self.appear_then_click(DISASSEMBLE_POPUP_CONFIRM, offset=(-15, -5, 5, 70), interval=5):
                 continue
@@ -354,10 +359,6 @@ class StorageHandler(StorageUI):
                 self.device.click(DISASSEMBLE_CONFIRM)
                 success = True
                 continue
-
-            if success and self.appear(DISASSEMBLE_CANCEL, offset=(20, 20)):
-                self.wait_until_stable(MATERIAL_STABLE_CHECK)
-                break
 
         return disassembled
 
