@@ -139,6 +139,7 @@ class PrivateQuarters(UI):
         Execute purchase weekly roses from shop routine
         Must have 24K+, try next day if low
         """
+        logger.hr(f'Get Weekly Roses', level=2)
         # Enter shop
         self.ui_click(
             click_button=PRIVATE_QUARTERS_SHOP_ENTER,
@@ -163,6 +164,7 @@ class PrivateQuarters(UI):
             if appear_timer.reached():
                 logger.info('No more weekly roses to purchase, exit subtask')
                 self._pq_shop_exit()
+                logger.hr(f'End Weekly Roses', level=2)
                 return
 
             # End, has roses
@@ -174,6 +176,7 @@ class PrivateQuarters(UI):
         currency = OCR_SHOP_GOLD_COINS.ocr(self.device.image)
         if currency < 24000:
             logger.warn(f'Have: {currency}, Need: 24000. Try again next day')
+            logger.hr(f'End Weekly Roses', level=2)
             return
         logger.info('Purchasing all available weekly roses')
 
@@ -199,13 +202,15 @@ class PrivateQuarters(UI):
 
         # Exit shop
         self._pq_shop_exit()
+        logger.hr(f'End Weekly Roses', level=2)
 
 
     def pq_interact(self):
         """
         Execute target interact routine
         """
-        click_iteration = 0
+        # Click target ship girl for 1st stage sequence
+        logger.hr(f'Interact Start', level=2)
         click_timer = Timer(1.5, count=3).start()
         skip_first_screenshot = True
         while 1:
@@ -215,19 +220,48 @@ class PrivateQuarters(UI):
                 self.device.screenshot()
 
             # End
-            if click_iteration > 2 and self.appear(PRIVATE_QUARTERS_INTERACT, offset=(20, 20)):
+            if self.appear(PRIVATE_QUARTERS_INTERACT, offset=(20, 20)):
                 break
 
             if click_timer.reached():
                 self.device.click(PRIVATE_QUARTERS_ROOM_TARGET_CLICK_AREA)
                 click_timer.reset()
-            if self.appear_then_click(PRIVATE_QUARTERS_INTERACT, offset=(20, 20), interval=1):
-                click_timer.reset()
-            if self.appear(PRIVATE_QUARTERS_INTERACT_CHECK, offset=(20, 20), interval=1):
-                self.device.click(PRIVATE_QUARTERS_ROOM_BACK)
-                click_timer.reset()
-                click_iteration += 1
 
+        # Repeat 2nd and 3rd stage sequence 3 times
+        for i in range(1, 4):
+            logger.hr(f'Interact Loop {i}/3', level=3)
+            self.interval_clear([PRIVATE_QUARTERS_INTERACT_CHECK,
+                PRIVATE_QUARTERS_INTERACT])
+            skip_first_screenshot = True
+            while 1:
+                if skip_first_screenshot:
+                    skip_first_screenshot = False
+                else:
+                    self.device.screenshot()
+
+                # End
+                if self.appear(PRIVATE_QUARTERS_INTERACT_CHECK, offset=(20, 20)):
+                    break
+
+                if self.appear_then_click(PRIVATE_QUARTERS_INTERACT, offset=(20, 20), interval=1):
+                    continue
+
+            skip_first_screenshot = True
+            while 1:
+                if skip_first_screenshot:
+                    skip_first_screenshot = False
+                else:
+                    self.device.screenshot()
+
+                # End
+                if self.appear(PRIVATE_QUARTERS_INTERACT, offset=(20, 20)):
+                    break
+
+                if self.appear(PRIVATE_QUARTERS_INTERACT_CHECK, offset=(20, 20), interval=1):
+                    self.device.click(PRIVATE_QUARTERS_ROOM_BACK)
+                    continue
+
+        logger.hr(f'Interact End', level=2)
         self._pq_goto_room_exit()
 
     def pq_goto_room(self, target_ship, retry=3):
@@ -242,6 +276,7 @@ class PrivateQuarters(UI):
         """
         success = False
         target_title = target_ship.title()
+        logger.hr(f'Enter {target_title}\'s Room', level=1)
 
         for _ in range(retry):
             if not self._pq_goto_room_enter(target_ship):
@@ -268,7 +303,11 @@ class PrivateQuarters(UI):
             target_interact (bool):
             target_ship     (str):
         """
-        logger.info('Private Quarters run')
+        logger.hr(f'Private Quarters Run', level=1)
+        target_title = target_ship.title()
+        logger.info((f'Task configured for Buy_Roses={buy_roses}, '
+            f'Interact_ShipGirl={target_interact}, '
+            f'Target_ShipGirl={target_title}'))
 
         # Enter shop and spend coin for weekly roses if enabled
         if buy_roses:
@@ -283,7 +322,6 @@ class PrivateQuarters(UI):
                 return
 
             # Verify target is a valid selectable
-            target_title = target_ship.title()
             if target_ship not in self.available_targets:
                 logger.error(f'Unsupported target ship: {target_title}, cannot continue subtask')
                 return
