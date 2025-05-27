@@ -208,7 +208,7 @@ class StorageHandler(StorageUI):
             if self._storage_in_material(interval=5):
                 self.device.click(button)
                 continue
-            if self.appear_then_click(BOX_USE, offset=(20, 20), interval=5):
+            if self.appear_then_click(BOX_USE, offset=(-330, -20, 20, 20), interval=5):
                 self.interval_reset(MATERIAL_CHECK)
                 continue
             if self.appear(GET_ITEMS_1, offset=(5, 5), interval=5):
