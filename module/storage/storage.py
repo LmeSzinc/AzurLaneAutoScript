@@ -208,7 +208,7 @@ class StorageHandler(StorageUI):
             if self._storage_in_material(interval=5):
                 self.device.click(button)
                 continue
-            if self.appear_then_click(BOX_USE, offset=(20, 20), interval=5):
+            if self.appear_then_click(BOX_USE, offset=(-330, -20, 20, 20), interval=5):
                 self.interval_reset(MATERIAL_CHECK)
                 continue
             if self.appear(GET_ITEMS_1, offset=(5, 5), interval=5):
@@ -413,10 +413,10 @@ class StorageHandler(StorageUI):
 
             if self.appear_then_click(DISASSEMBLE_CONFIRM, offset=(20, 20), interval=5):
                 click_count += 1
-                # since 2025.05.20 disassemble no longer shows GET_ITEMS
-                success = True
                 continue
             if self.appear_then_click(DISASSEMBLE_POPUP_CONFIRM, offset=(-15, -5, 5, 70), interval=5):
+                # since 2025.05.20 disassemble no longer shows GET_ITEMS
+                success = True
                 continue
             if self.handle_popup_confirm('DISASSEMBLE'):
                 continue
