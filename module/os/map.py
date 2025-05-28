@@ -76,8 +76,13 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
             self.map_exit()
 
         # Clear current zone
-        if self.zone.zone_id in [22, 44, 154]:
-            logger.info('In zone 22, 44, 154, skip running first auto search')
+        if self.zone.zone_id in [22, 44]:
+            logger.info('In zone 22, 44, run first auto search')
+            self.handle_ash_beacon_attack()
+            self.run_auto_search()
+            self.handle_after_auto_search()
+        elif self.zone.zone_id == 154:
+            logger.info('In zone 154, skip running first auto search')
             self.handle_ash_beacon_attack()
         else:
             self.run_auto_search(rescan=False)
