@@ -165,9 +165,7 @@ class UI(InfoHandler):
             if self.config.Emulator_ControlMethod == "uiautomator2":
                 self.device.uninstall_minicap()
 
-        @run_once
-        def rotation_check():
-            self.device.get_orientation()
+        orientation_timer = Timer(5)
 
         timeout = Timer(10, count=20).start()
         while 1:
@@ -208,7 +206,10 @@ class UI(InfoHandler):
 
             app_check()
             minicap_check()
-            rotation_check()
+            # continuously check rotation
+            if orientation_timer.reached():
+                self.device.get_orientation()
+                orientation_timer.reset()
 
         # Unknown page, need manual switching
         logger.warning("Unknown ui page")
@@ -499,6 +500,7 @@ class UI(InfoHandler):
         if self.appear(MEOWFFICER_BUY, offset=(30, 30), interval=3):
             logger.info(f'UI additional: {MEOWFFICER_BUY} -> {BACK_ARROW}')
             self.device.click(BACK_ARROW)
+            self.interval_reset(GET_SHIP)
             return True
 
         # Campaign preparation
