@@ -493,6 +493,9 @@ class RewardTacticalClass(Dock):
                 else:
                     study_finished = True
                 continue
+            # 2025.05.29 game tips that infos skin feature when you enter dock
+            if self.handle_game_tips():
+                return True
             if self.appear(DOCK_CHECK, offset=(20, 20), interval=3):
                 if self.dock_selected():
                     # When you click a ship from page_main -> dock,
