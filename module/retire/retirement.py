@@ -383,6 +383,9 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
         Returns:
             bool: If retired.
         """
+        # 2025.05.29 game tips that infos skin feature when you enter dock
+        if self.handle_game_tips():
+            return True
         if self._unable_to_enhance:
             if self.appear_then_click(RETIRE_APPEAR_1, offset=(20, 20), interval=3):
                 self.interval_clear(IN_RETIREMENT_CHECK)
