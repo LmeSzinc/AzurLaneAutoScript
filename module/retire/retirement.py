@@ -119,11 +119,17 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                     or self.config.OldRetire_SSR \
                     or self.config.Retirement_RetireMode == 'one_click_retire':
                 if self.handle_popup_confirm(name='RETIRE_SR_SSR', offset=(20, 50)):
+                    # Avoid clicking the undelying SHIP_CONFIRM again
                     self.interval_reset([SHIP_CONFIRM, SHIP_CONFIRM_2])
+                    # EQUIP_CONFIRM_2 may be detected as popup confirm
+                    self.interval_reset([EQUIP_CONFIRM, EQUIP_CONFIRM_2])
                     continue
                 if self.config.SERVER in ['cn', 'jp', 'tw'] and \
                         self.appear_then_click(SR_SSR_CONFIRM, offset=(20, 50), interval=2):
+                    # Avoid clicking the undelying SHIP_CONFIRM again
                     self.interval_reset([SHIP_CONFIRM, SHIP_CONFIRM_2])
+                    # EQUIP_CONFIRM_2 may be detected as popup confirm
+                    self.interval_reset([EQUIP_CONFIRM, EQUIP_CONFIRM_2])
                     continue
             if self.match_template_color(SHIP_CONFIRM_2, offset=(30, 30), interval=2):
                 if self.retire_keep_common_cv and not self._have_kept_cv:
@@ -147,6 +153,8 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
             if self.appear(GET_ITEMS_1, offset=(30, 30), interval=2):
                 self.device.click(GET_ITEMS_1_RETIREMENT_SAVE)
                 self.interval_reset(SHIP_CONFIRM)
+                # equipment confirms are the next to appear
+                self.interval_clear([EQUIP_CONFIRM, EQUIP_CONFIRM_2])
                 continue
 
     def retirement_appear(self):
