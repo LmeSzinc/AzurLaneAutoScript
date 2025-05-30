@@ -479,10 +479,11 @@ class UI(InfoHandler):
 
         # Game tips
         # Event commission in Vacation Lane.
-        if self.appear(GAME_TIPS, offset=(30, 30), interval=3):
+        # 2025.05.29 game tips that infos skin feature when you enter dock
+        if self.appear(GAME_TIPS, offset=(30, 30), interval=2):
             logger.info(f'UI additional: {GAME_TIPS} -> {GOTO_MAIN}')
-            if self.appear_then_click(GOTO_MAIN, offset=(30, 30)):
-                return True
+            self.device.click(GOTO_MAIN)
+            return True
 
         # Dorm popup
         if self.appear(DORM_INFO, offset=(30, 30), similarity=0.75, interval=3):

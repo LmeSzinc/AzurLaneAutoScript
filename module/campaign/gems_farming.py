@@ -489,7 +489,6 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
         common_ship_candidates = {}
         for name in common_ship:
             template = templates[name.upper()]
-            print(name)
             candidates = self.find_candidates(template, scanner)
 
             if find_first:
@@ -505,7 +504,6 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
 
         for name in common_ship:
             template = templates[name.upper()]
-            print(name)
             candidates = self.find_candidates(template, scanner)
 
             if candidates:
@@ -513,7 +511,7 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
                 return candidates
             elif common_ship_candidates[name]:
                 logger.info(f'Find Common DD {name}.')
-                self.dock_sort_method_dsc_set(sort_dsc_first)
+                self.dock_sort_method_dsc_set(sort_dsc_first, wait_loading=False)
                 return common_ship_candidates[name]
 
         return []
@@ -554,18 +552,27 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
             logger.error(f'Invalid CommonDD setting: {common_dd}')
             raise ScriptError(f'Invalid CommonDD setting: {common_dd}')
 
-    def ship_down_hard(self, button):
+    def ship_down_hard(self):
         """
         In hard mode, let the ship leave the fleet first
         """
-        if self.hard_mode:
-            self.ui_click(button,
-                          appear_button=self.page_fleet_check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
-            if self.appear(DOCK_SHIP_DOWN):
-                self.ui_click(DOCK_SHIP_DOWN,
-                              appear_button=DOCK_CHECK, check_button=self.page_fleet_check_button, skip_first_screenshot=True)
-            else:
-                self.ui_back(check_button=FLEET_PREPARATION)
+        if self.appear(DOCK_SHIP_DOWN):
+            self.ui_click(DOCK_SHIP_DOWN,
+                            appear_button=DOCK_CHECK, check_button=self.page_fleet_check_button, skip_first_screenshot=True)
+        else:
+            self.ui_back(check_button=FLEET_PREPARATION)
+
+    def dock_enter(self, button):
+        for _ in self.loop():
+            if self.appear(DOCK_CHECK, offset=(20, 20)):
+                break
+            if self.appear(self.page_fleet_check_button, offset=(30, 30), interval=5):
+                self.device.click(button)
+                continue
+            # 2025.05.29 game tips that infos skin feature when you enter dock
+            if self.handle_game_tips():
+                return False
+        return True
 
     def flagship_change_with_emotion(self, ship):
         """
@@ -585,9 +592,12 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
             in: page_fleet
             out: page_fleet
         """
-        self.ship_down_hard(self.fleet_detail_enter_flagship)
-        self.ui_click(self.fleet_enter_flagship,
-                      appear_button=self.page_fleet_check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
+        if self.hard_mode:
+            if not self.dock_enter(self.fleet_detail_enter_flagship):
+                return True
+            self.ship_down_hard()  
+        if not self.dock_enter(self.fleet_enter_flagship):
+            return True
 
         ship = self.get_common_rarity_cv()
         if ship:
@@ -631,9 +641,12 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
             in: page_fleet
             out: page_fleet
         """
-        self.ship_down_hard(self.fleet_detail_enter)
-        self.ui_click(self.fleet_enter,
-                      appear_button=self.page_fleet_check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
+        if self.hard_mode:
+            if not self.dock_enter(self.fleet_detail_enter):
+                return True
+            self.ship_down_hard()  
+        if not self.dock_enter(self.fleet_enter):
+            return True
 
         ship = self.get_common_rarity_dd()
         if ship:
