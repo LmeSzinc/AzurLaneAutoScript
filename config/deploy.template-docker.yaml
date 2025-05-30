@@ -157,3 +157,11 @@ Deploy:
     # '["alas"]' specified "alas" config
     # '["alas","alas2"]' specified "alas" "alas2" configs
     Run: null
+    # SSL support
+    # Only effective when both parameters below are set
+    # --ssl-key. Path to SSL key file
+    # [Default] null (no SSL)
+    WebuiSSLKey: null
+    # --ssl-cert. Path to SSL cert file
+    # [Default] null (no SSL)
+    WebuiSSLCert: null
