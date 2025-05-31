@@ -174,6 +174,18 @@ class DroidCast(Uiautomator2):
         if self.config.DROIDCAST_VERSION == 'DroidCast':
             logger.attr('DroidCast', self.droidcast_url())
             self.droidcast_wait_startup()
+        elif self.config.DROIDCAST_VERSION == 'DroidCast_webp':
+            logger.attr('DroidCast_raw', self.droidcast_raw(format='webp'))
+            self.droidcast_wait_startup()
+        elif self.config.DROIDCAST_VERSION == 'DroidCast_jpeg':
+            logger.attr('DroidCast_raw', self.droidcast_raw(format='jpeg'))
+            self.droidcast_wait_startup()
+        elif self.config.DROIDCAST_VERSION == 'DroidCast_jpeg_98':
+            logger.attr('DroidCast_raw', self.droidcast_raw(format='jpeg', quality=98))
+            self.droidcast_wait_startup()
+        elif self.config.DROIDCAST_VERSION == 'DroidCast_jpeg_96':
+            logger.attr('DroidCast_raw', self.droidcast_raw(format='jpeg', quality=96))
+            self.droidcast_wait_startup()
         elif self.config.DROIDCAST_VERSION == 'DroidCast_raw':
             logger.attr('DroidCast_raw', self.droidcast_raw_url())
             self.droidcast_wait_startup()
