@@ -223,21 +223,34 @@ class OperationSiren(OSMap):
             OpsiFleet_Submarine=False,
             OpsiMeowfficerFarming_ActionPointPreserve=0,
             OpsiMeowfficerFarming_HazardLevel=OpsiMeowfficerFarming_HazardLevel,
-            OpsiMeowfficerFarming_TargetZone=0,
+            OpsiMeowfficerFarming_TargetZone=self.config.cross_get('OpsiMeowfficerFarming.OpsiMeowfficerFarming.TargetZone'),
         )
         while True:
-            zones = self.zone_select(hazard_level=OpsiMeowfficerFarming_HazardLevel) \
-                .delete(SelectedGrids([self.zone])) \
-                .delete(SelectedGrids(self.zones.select(is_port=True))) \
-                .sort_by_clock_degree(center=(1252, 1012), start=self.zone.location)
-            logger.hr(f'OS meowfficer farming, zone_id={zones[0].zone_id}', level=1)
-            self.globe_goto(zones[0])
-            self.fleet_set(self.config.OpsiFleet_Fleet)
-            self.os_order_execute(
-                recon_scan=False,
-                submarine_call=False)
-            self.run_auto_search()
-            self.handle_after_auto_search()
+            if self.config.OpsiMeowfficerFarming_TargetZone != 0:
+                try:
+                    zone = self.name_to_zone(self.config.OpsiMeowfficerFarming_TargetZone)
+                except ScriptError:
+                    logger.warning(f'wrong zone_id input:{self.config.OpsiMeowfficerFarming_TargetZone}')
+                    raise RequestHumanTakeover('wrong input, task stopped')
+                else:
+                    logger.hr(f'OS meowfficer farming, zone_id={zone.zone_id}', level=1)
+                    self.globe_goto(zone, types='SAFE', refresh=True)
+                    self.fleet_set(self.config.OpsiFleet_Fleet)
+                    self.run_strategic_search()
+                    self.handle_after_auto_search()
+            else:
+                zones = self.zone_select(hazard_level=OpsiMeowfficerFarming_HazardLevel) \
+                    .delete(SelectedGrids([self.zone])) \
+                    .delete(SelectedGrids(self.zones.select(is_port=True))) \
+                    .sort_by_clock_degree(center=(1252, 1012), start=self.zone.location)
+                logger.hr(f'OS meowfficer farming, zone_id={zones[0].zone_id}', level=1)
+                self.globe_goto(zones[0])
+                self.fleet_set(self.config.OpsiFleet_Fleet)
+                self.os_order_execute(
+                    recon_scan=False,
+                    submarine_call=False)
+                self.run_auto_search()
+                self.handle_after_auto_search()
 
     def os_shop(self):
         """
