@@ -3,6 +3,7 @@ import typing as t
 from functools import wraps
 
 import cv2
+import lz4.block
 import numpy as np
 import requests
 from adbutils.errors import AdbError
@@ -120,31 +121,31 @@ class DroidCast(Uiautomator2):
         To get PNG screenshots.
     """
 
-    def droidcast_url(self, url='/preview'):
+    def droidcast_url(self, url='/preview', format='png', quality=100):
         if self.is_mumu_over_version_356:
             w, h = self.droidcast_width, self.droidcast_height
             if self.orientation == 0:
-                return f'http://127.0.0.1:{self._droidcast_port}{url}?width={w}&height={h}'
+                return f'http://127.0.0.1:{self._droidcast_port}{url}?width={w}&height={h}&format={format}&quality={quality}'
             elif self.orientation == 1:
-                return f'http://127.0.0.1:{self._droidcast_port}{url}?width={h}&height={w}'
+                return f'http://127.0.0.1:{self._droidcast_port}{url}?width={h}&height={w}&format={format}&quality={quality}'
             else:
                 # logger.warning('DroidCast receives invalid device orientation')
                 pass
 
-        return f'http://127.0.0.1:{self._droidcast_port}{url}'
+        return f'http://127.0.0.1:{self._droidcast_port}{url}?format={format}&quality={quality}'
 
-    def droidcast_raw_url(self, url='/screenshot'):
+    def droidcast_raw_url(self, url='/screenshot', compress=''):
         if self.is_mumu_over_version_356:
             w, h = self.droidcast_width, self.droidcast_height
             if self.orientation == 0:
-                return f'http://127.0.0.1:{self._droidcast_port}{url}?width={w}&height={h}'
+                return f'http://127.0.0.1:{self._droidcast_port}{url}?width={w}&height={h}&compress={compress}'
             elif self.orientation == 1:
-                return f'http://127.0.0.1:{self._droidcast_port}{url}?width={h}&height={w}'
+                return f'http://127.0.0.1:{self._droidcast_port}{url}?width={h}&height={w}&compress={compress}'
             else:
                 # logger.warning('DroidCast receives invalid device orientation')
                 pass
 
-        return f'http://127.0.0.1:{self._droidcast_port}{url}'
+        return f'http://127.0.0.1:{self._droidcast_port}{url}?compress={compress}'
 
     def droidcast_init(self):
         logger.hr('DroidCast init')
@@ -176,6 +177,9 @@ class DroidCast(Uiautomator2):
         elif self.config.DROIDCAST_VERSION == 'DroidCast_raw':
             logger.attr('DroidCast_raw', self.droidcast_raw_url())
             self.droidcast_wait_startup()
+        elif self.config.DROIDCAST_VERSION == 'DroidCast_lz4':
+            logger.attr('DroidCast_raw', self.droidcast_raw_url(compress='lz4'))
+            self.droidcast_wait_startup()
         else:
             logger.error(f'Unknown DROIDCAST_VERSION: {self.config.DROIDCAST_VERSION}')
 
@@ -190,13 +194,17 @@ class DroidCast(Uiautomator2):
             logger.info(f'Droicast resolution: {(w, h)}')
 
     @retry
-    def screenshot_droidcast(self):
+    def screenshot_droidcast(self, format='png', quality=100):
         self.config.DROIDCAST_VERSION = 'DroidCast'
+        if format != 'png':
+            self.config.DROIDCAST_VERSION += '_' + format
+        if quality != 100:
+            self.config.DROIDCAST_VERSION += f'_{quality}'
         if self.is_mumu_over_version_356:
             if not self.droidcast_width or not self.droidcast_height:
                 self._droidcast_update_resolution()
 
-        resp = self.droidcast_session.get(self.droidcast_url(), timeout=3)
+        resp = self.droidcast_session.get(self.droidcast_url(format=format, quality=quality), timeout=3)
 
         if resp.status_code == 404:
             raise DroidCastVersionIncompatible('DroidCast server does not have /preview')
@@ -224,8 +232,8 @@ class DroidCast(Uiautomator2):
         return image
 
     @retry
-    def screenshot_droidcast_raw(self):
-        self.config.DROIDCAST_VERSION = 'DroidCast_raw'
+    def screenshot_droidcast_raw(self, use_lz4=False):
+        self.config.DROIDCAST_VERSION = 'DroidCast_raw' if not use_lz4 else 'DroidCast_lz4'
         shape = (720, 1280)
         if self.is_mumu_over_version_356:
             if not self.droidcast_width or not self.droidcast_height:
@@ -235,7 +243,11 @@ class DroidCast(Uiautomator2):
 
         rotate = self.is_mumu_over_version_356 and self.orientation == 1
 
-        image = self.droidcast_session.get(self.droidcast_raw_url(), timeout=3).content
+        if use_lz4:
+            image_lz4 = self.droidcast_session.get(self.droidcast_raw_url(compress='lz4'), timeout=3).content
+            image = lz4.block.decompress(image_lz4, uncompressed_size=shape[0] * shape[1] * 2)
+        else:
+            image = self.droidcast_session.get(self.droidcast_raw_url(), timeout=3).content
         # DroidCast_raw returns a RGB565 bitmap
 
         try:
@@ -296,6 +308,21 @@ class DroidCast(Uiautomator2):
         image = cv2.merge([r, g, b])
 
         return image
+
+    def screenshot_droidcast_lz4(self):
+        return self.screenshot_droidcast_raw(use_lz4=True)
+
+    def screenshot_droidcast_webp(self):
+        return self.screenshot_droidcast(format='webp')
+
+    def screenshot_droidcast_jpeg(self):
+        return self.screenshot_droidcast(format='jpeg')
+
+    def screenshot_droidcast_jpeg_98(self):
+        return self.screenshot_droidcast(format='jpeg', quality=98)
+
+    def screenshot_droidcast_jpeg_96(self):
+        return self.screenshot_droidcast(format='jpeg', quality=96)
 
     def droidcast_wait_startup(self):
         """
