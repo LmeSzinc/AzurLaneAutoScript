@@ -425,6 +425,7 @@
       "aScreenCap_nc": "aScreenCap_nc",
       "DroidCast": "DroidCast",
       "DroidCast_raw": "DroidCast_raw",
+      "DroidCast_lz4": "DroidCast_lz4",
       "nemu_ipc": "nemu_ipc",
       "ldopengl": "ldopengl"
     },

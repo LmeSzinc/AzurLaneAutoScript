@@ -416,7 +416,7 @@
     },
     "ScreenshotMethod": {
       "name": "Screenshot Method",
-      "help": "When using auto-select, a benchmark will be performed and automatically changed to the fastest screenshot method.\nGeneral speed: DroidCast_raw >> aScreenCap_nc > ADB_nc >>> aScreenCap > uiautomator2 ~= ADB.\nRun Tools - Performance Test to find the fastest method.",
+      "help": "When using auto-select, a benchmark will be performed and automatically changed to the fastest screenshot method.\nGeneral speed: DroidCast_lz4 > DroidCast_raw >> aScreenCap_nc > ADB_nc >>> aScreenCap > uiautomator2 ~= ADB.\nRun Tools - Performance Test to find the fastest method.",
       "auto": "Auto-select the fastest",
       "ADB": "ADB ",
       "ADB_nc": "ADB_nc",
@@ -425,6 +425,7 @@
       "aScreenCap_nc": "aScreenCap_nc",
       "DroidCast": "DroidCast",
       "DroidCast_raw": "DroidCast_raw",
+      "DroidCast_lz4": "DroidCast_lz4",
       "nemu_ipc": "nemu_ipc",
       "ldopengl": "ldopengl"
     },
