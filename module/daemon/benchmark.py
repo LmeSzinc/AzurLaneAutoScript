@@ -176,7 +176,8 @@ class Benchmark(DaemonBase, CampaignUI):
     def get_test_methods(self) -> t.Tuple[t.Tuple[str], t.Tuple[str]]:
         device = self.config.Benchmark_DeviceType
         # device == 'emulator'
-        screenshot = ['ADB', 'ADB_nc', 'uiautomator2', 'aScreenCap', 'aScreenCap_nc', 'DroidCast', 'DroidCast_raw']
+        screenshot = ['ADB', 'ADB_nc', 'uiautomator2', 'aScreenCap', 'aScreenCap_nc', 'DroidCast', 'DroidCast_raw',
+                      'DroidCast_lz4', 'DroidCast_webp', 'DroidCast_jpeg', 'DroidCast_jpeg_98', 'DroidCast_jpeg_96']
         click = ['ADB', 'uiautomator2', 'minitouch', 'MaaTouch']
 
         def remove(*args):
@@ -198,8 +199,6 @@ class Benchmark(DaemonBase, CampaignUI):
             screenshot.append('nemu_ipc')
         if self.device.ldopengl_available():
             screenshot.append('ldopengl')
-        if self.device.is_bluestacks_air:
-            screenshot = [l for l in screenshot if 'DroidCast' not in l]
 
         scene = self.config.Benchmark_TestScene
         if 'screenshot' not in scene:
