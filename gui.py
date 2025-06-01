@@ -58,12 +58,13 @@ def func(ev: threading.Event):
     port = args.port or int(State.deploy_config.WebuiPort) or 22267
     ssl_key = args.ssl_key or State.deploy_config.WebuiSSLKey
     ssl_cert = args.ssl_cert or State.deploy_config.WebuiSSLCert
+    ssl = ssl_key is not None and ssl_cert is not None
     State.electron = args.electron
 
     logger.hr("Launcher config")
     logger.attr("Host", host)
     logger.attr("Port", port)
-    logger.attr("SSL", True if ssl_key and ssl_cert else False)
+    logger.attr("SSL", ssl)
     logger.attr("Electron", args.electron)
     logger.attr("Reload", ev is not None)
 
@@ -72,13 +73,13 @@ def func(ev: threading.Event):
         logger.info("Electron detected, remove log output to stdout")
         from module.logger import console_hdlr
         logger.removeHandler(console_hdlr)
-        
+
     if ssl_cert is None and ssl_key is not None:
         logger.error("SSL key provided without certificate. Please provide both SSL key and certificate.")
     elif ssl_key is None and ssl_cert is not None:
         logger.error("SSL certificate provided without key. Please provide both SSL key and certificate.")
 
-    if ssl_cert is not None and ssl_key is not None:
+    if ssl:
         uvicorn.run("module.webui.app:app", host=host, port=port, factory=True, ssl_keyfile=ssl_key, ssl_certfile=ssl_cert)
     else:
         uvicorn.run("module.webui.app:app", host=host, port=port, factory=True)
