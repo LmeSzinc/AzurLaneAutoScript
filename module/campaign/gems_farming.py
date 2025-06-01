@@ -403,8 +403,15 @@ class GemsFarming(CampaignRun, Dock, FleetEquipment, GemsEquipmentHandler):
             in: page_fleet
             out: page_fleet
         """
-        self.ui_click(FLEET_ENTER_FLAGSHIP,
-                      appear_button=page_fleet.check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
+        for _ in self.loop():
+            if self.appear(DOCK_CHECK, offset=(20, 20)):
+                break
+            if self.ui_page_appear(page_fleet, interval=5):
+                self.device.click(FLEET_ENTER_FLAGSHIP)
+                continue
+            # 2025.05.29 game tips that infos skin feature when you enter dock
+            if self.handle_game_tips():
+                return True
 
         ship = self.get_common_rarity_cv()
         if ship:
@@ -429,8 +436,15 @@ class GemsFarming(CampaignRun, Dock, FleetEquipment, GemsEquipmentHandler):
             in: page_fleet
             out: page_fleet
         """
-        self.ui_click(FLEET_ENTER,
-                      appear_button=page_fleet.check_button, check_button=DOCK_CHECK, skip_first_screenshot=True)
+        for _ in self.loop():
+            if self.appear(DOCK_CHECK, offset=(20, 20)):
+                break
+            if self.ui_page_appear(page_fleet, interval=5):
+                self.device.click(FLEET_ENTER)
+                continue
+            # 2025.05.29 game tips that infos skin feature when you enter dock
+            if self.handle_game_tips():
+                return True
 
         ship = self.get_common_rarity_dd()
         if ship:
