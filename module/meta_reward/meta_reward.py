@@ -111,10 +111,20 @@ class BeaconReward(Combat, UI):
             if self.appear(REWARD_ENTER, offset=(20, 20)):
                 logger.info('meta_sync_receive ends at REWARD_ENTER')
                 break
-            if self.appear(SYNC_ENTER, offset=(20, 20)):
-                if not self.meta_sync_notice_appear():
-                    logger.info('meta_sync_receive ends at SYNC_ENTER')
+
+            if self.config.SERVER == 'en':
+                if self.appear(SYNC_ENTER, offset=(20, 20)):
+                    logger.info(f'meta_sync_receive ends at SYNC_ENTER')
                     break
+                elif self.appear(SYNC_ENTER2, offset=(20, 20)):
+                    if not self.meta_sync_notice_appear():
+                        logger.info(f'meta_sync_receive ends at SYNC_ENTER2')
+                        break
+            else:
+                if self.appear(SYNC_ENTER, offset=(20, 20)):
+                    if not self.meta_sync_notice_appear():
+                        logger.info('meta_sync_receive ends at SYNC_ENTER')
+                        break
 
             # Click
             if self.handle_popup_confirm('META_REWARD'):
@@ -155,9 +165,17 @@ class BeaconReward(Combat, UI):
             if self.appear(REWARD_ENTER, offset=(20, 20)):
                 logger.info(f'meta_wait_reward_page ends at {REWARD_ENTER}')
                 break
-            if self.appear(SYNC_ENTER, offset=(20, 20)):
-                logger.info(f'meta_wait_reward_page ends at {SYNC_ENTER}')
-                break
+            if self.config.SERVER == 'en':
+                if self.appear(SYNC_ENTER, offset=(20, 20)):
+                    logger.info(f'meta_wait_reward_page ends at {SYNC_ENTER}')
+                    break
+                elif self.appear(SYNC_ENTER2, offset=(20, 20)):
+                    logger.info(f'meta_wait_reward_page ends at {SYNC_ENTER2}')
+                    break
+            else:
+                if self.appear(SYNC_ENTER, offset=(20, 20)):
+                    logger.info(f'meta_wait_reward_page ends at {SYNC_ENTER}')
+                    break
             if self.appear(SYNC_TAP, offset=(20, 20)):
                 logger.info(f'meta_wait_reward_page ends at {SYNC_TAP}')
                 break
