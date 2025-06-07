@@ -434,7 +434,10 @@ class RewardTacticalClass(Dock):
                 continue
 
             # Get finish time
-            if self.appear(TACTICAL_CHECK, offset=(20, 20), interval=2):
+            # sometimes you have TACTICAL_CHECK without black-blurred background
+            # TACTICAL_CLASS_CANCEL and TACTICAL_CHECK appears
+            if not self.appear(TACTICAL_CLASS_CANCEL, offset=(20, 20)) \
+                    and self.appear(TACTICAL_CHECK, offset=(20, 20), interval=2):
                 self.interval_clear([POPUP_CONFIRM, POPUP_CANCEL, GET_MISSION])
                 if book_empty:
                     self.device.click(BACK_ARROW)
