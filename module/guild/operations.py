@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from module.base.button import ButtonGrid
 from module.base.timer import Timer
 from module.base.utils import *
@@ -19,6 +17,10 @@ class GuildOperations(GuildBase):
         """
         Ensure guild operation is loaded
         After entering guild operation, background loaded first, then dispatch/boss
+
+        Returns:
+            bool: True if success to enter operation
+                False if fund insufficient
         """
         logger.attr('Guild master/official', self.config.GuildOperation_SelectNewOperation)
         confirm_timer = Timer(1.5, count=3).start()
@@ -39,6 +41,8 @@ class GuildOperations(GuildBase):
                     'probably because guild operation has been started by another guild officer already')
                 raise GameBugError('Unable to start/join guild operation')
 
+            if self._guild_operation_fund_insufficient():
+                return False
             if self._handle_guild_operations_start():
                 confirm_timer.reset()
                 continue
@@ -73,7 +77,7 @@ class GuildOperations(GuildBase):
             # End
             if self.appear(GUILD_BOSS_ENTER) or self.appear(GUILD_OPERATIONS_ACTIVE_CHECK, offset=(20, 20)):
                 if not self.info_bar_count() and confirm_timer.reached():
-                    break
+                    return True
 
     def _handle_guild_operations_start(self):
         """
@@ -111,6 +115,21 @@ class GuildOperations(GuildBase):
 
         return False
 
+    def _guild_operation_fund_insufficient(self):
+        """
+        Returns:
+            bool: True if insufficient
+
+        Pages:
+            in: GUILD_OPERATIONS_NEW
+        """
+        if not self.appear(GUILD_OPERATIONS_NEW, offset=(20, 20)):
+            return False
+        if self.image_color_count(GUILD_OPERATION_FUND_CHECK, color=(255, 93, 91), threshold=180, count=30):
+            logger.warning('Insufficient guild fund to start new operation')
+            return True
+        return False
+
     def _guild_operations_get_mode(self):
         """
         Returns:
@@ -133,7 +152,10 @@ class GuildOperations(GuildBase):
             logger.info('Mode: Operations Active, may proceed to scan and dispatch fleets')
             return 1
         elif self.appear(GUILD_BOSS_ENTER):
-            logger.info('Mode: Guild Raid Boss')
+            logger.info('Mode: Guild Raid Boss (GUILD_BOSS_ENTER)')
+            return 2
+        elif self.appear(GUILD_OPERATIONS_NEW, offset=(20, 20)):
+            logger.info('Mode: Guild Raid Boss (GUILD_OPERATIONS_NEW)')
             return 2
         else:
             logger.warning('Operations interface is unrecognized')
@@ -517,7 +539,10 @@ class GuildOperations(GuildBase):
     def guild_operations(self):
         logger.hr('Guild operations', level=1)
         self.guild_side_navbar_ensure(bottom=1)
-        self._guild_operations_ensure()
+        entered = self._guild_operations_ensure()
+        if not entered:
+            logger.info(f'Guild operation run success: {entered}')
+            return False
         # Determine the mode of operations, currently 3 are available
         operations_mode = self._guild_operations_get_mode()
 

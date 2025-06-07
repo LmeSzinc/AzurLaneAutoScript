@@ -189,7 +189,8 @@ class MissionHandler(GlobeOperation, ZoneManager):
         self.os_map_goto_globe(unpin=False)
         # is_in_globe
         self.ui_click(MISSION_OVERVIEW_ENTER, check_button=MISSION_OVERVIEW_CHECK,
-                      offset=(200, 20), retry_wait=3, skip_first_screenshot=True)
+                      offset=(200, 20), retry_wait=3, additional=self.handle_manjuu,
+                      skip_first_screenshot=True)
 
         # MISSION_OVERVIEW_CHECK
         confirm_timer = Timer(1, count=3).start()
@@ -201,6 +202,9 @@ class MissionHandler(GlobeOperation, ZoneManager):
             else:
                 self.device.screenshot()
 
+            if self.handle_manjuu():
+                confirm_timer.reset()
+                continue
             if self.info_bar_count():
                 logger.info('Unable to accept missions, because reached the maximum number of missions')
                 success = False
