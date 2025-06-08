@@ -78,6 +78,8 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         # Clear current zone
         if self.zone.zone_id in [22, 44]:
             logger.info('In zone 22, 44, run first auto search')
+            self.config.override(OpsiFleet_Fleet=self.config.cross_get('OpsiHazard1Leveling.OpsiFleet.Fleet'))
+            self.fleet_set(self.config.OpsiFleet_Fleet)
             self.handle_ash_beacon_attack()
             self.run_auto_search()
             self.handle_after_auto_search()
@@ -842,7 +844,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
             logger.info(f'Found scanning device on {grid}')
             cl1_do_scanning_device = self.config.cross_get(
                     keys="OpsiHazard1Leveling.OpsiHazard1Leveling.DoScanningDevice")
-            if self.is_in_task_cl1_leveling and not cl1_do_scanning_device:
+            if (self.is_in_task_cl1_leveling or self.zone.zone_id in [22, 44]) and not cl1_do_scanning_device:
                 logger.info('In CL1 leveling, mark scanning device as solved')
                 self._solved_map_event.add('is_scanning_device')
                 return True
