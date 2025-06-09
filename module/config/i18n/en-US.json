@@ -853,6 +853,7 @@
       "name": "Level Achievement",
       "help": "Stop current task if level has been 100% Clear, 3 Stars, Threat Safe, or Threat Safe without 3 Stars. Non-stop implies no achievement requirement and loops until different stop condition is met",
       "non_stop": "Non-stop",
+      "non_stop_clear_all": "Non-stop + Clear All",
       "100_percent_clear": "100% Clear",
       "map_3_stars": "100% Clear + 3 Stars",
       "threat_safe": "100% Clear + 3 Stars + Threat Safe",

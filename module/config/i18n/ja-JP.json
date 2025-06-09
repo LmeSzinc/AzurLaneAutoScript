@@ -853,6 +853,7 @@
       "name": "StopCondition.MapAchievement.name",
       "help": "StopCondition.MapAchievement.help",
       "non_stop": "non_stop",
+      "non_stop_clear_all": "non_stop_clear_all",
       "100_percent_clear": "100_percent_clear",
       "map_3_stars": "map_3_stars",
       "threat_safe": "threat_safe",

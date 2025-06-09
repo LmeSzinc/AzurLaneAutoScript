@@ -152,8 +152,9 @@ class FastForwardHandler(AutoSearchHandler):
             # Story before boss spawn, Attribute "story_refresh_boss" in chapter_template.lua
             self.config.MAP_HAS_MAP_STORY = False
         self.config.MAP_CLEAR_ALL_THIS_TIME = self.config.STAR_REQUIRE_3 \
-            and not self.__getattribute__(f'map_achieved_star_{self.config.STAR_REQUIRE_3}') \
-            and (self.config.StopCondition_MapAchievement in ['map_3_stars', 'threat_safe'])
+            and (self.config.StopCondition_MapAchievement == 'non_stop_clear_all' \
+            or (not self.__getattribute__(f'map_achieved_star_{self.config.STAR_REQUIRE_3}') \
+            and (self.config.StopCondition_MapAchievement in ['map_3_stars', 'threat_safe'])))
 
         self.map_show_info()
 

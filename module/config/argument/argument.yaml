@@ -163,7 +163,7 @@ StopCondition:
   RunCount: 0
   MapAchievement:
     value: non_stop
-    option: [ non_stop, 100_percent_clear, map_3_stars, threat_safe, threat_safe_without_3_stars ]
+    option: [ non_stop, non_stop_clear_all, 100_percent_clear, map_3_stars, threat_safe, threat_safe_without_3_stars ]
   StageIncrease: false
   GetNewShip: false
   ReachLevel: 0

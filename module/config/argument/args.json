@@ -731,6 +731,7 @@
         "value": "non_stop",
         "option": [
           "non_stop",
+          "non_stop_clear_all",
           "100_percent_clear",
           "map_3_stars",
           "threat_safe",
@@ -1116,6 +1117,7 @@
         "value": "non_stop",
         "option": [
           "non_stop",
+          "non_stop_clear_all",
           "100_percent_clear",
           "map_3_stars",
           "threat_safe",
@@ -1501,6 +1503,7 @@
         "value": "non_stop",
         "option": [
           "non_stop",
+          "non_stop_clear_all",
           "100_percent_clear",
           "map_3_stars",
           "threat_safe",
@@ -2048,6 +2051,7 @@
         "value": "non_stop",
         "option": [
           "non_stop",
+          "non_stop_clear_all",
           "100_percent_clear",
           "map_3_stars",
           "threat_safe",
@@ -2517,6 +2521,7 @@
         "value": "non_stop",
         "option": [
           "non_stop",
+          "non_stop_clear_all",
           "100_percent_clear",
           "map_3_stars",
           "threat_safe",
@@ -2985,6 +2990,7 @@
         "value": "non_stop",
         "option": [
           "non_stop",
+          "non_stop_clear_all",
           "100_percent_clear",
           "map_3_stars",
           "threat_safe",
@@ -3408,6 +3414,7 @@
         "value": "non_stop",
         "option": [
           "non_stop",
+          "non_stop_clear_all",
           "100_percent_clear",
           "map_3_stars",
           "threat_safe",
@@ -3587,6 +3594,7 @@
         "value": "non_stop",
         "option": [
           "non_stop",
+          "non_stop_clear_all",
           "100_percent_clear",
           "map_3_stars",
           "threat_safe",
@@ -3785,6 +3793,7 @@
         "value": "non_stop",
         "option": [
           "non_stop",
+          "non_stop_clear_all",
           "100_percent_clear",
           "map_3_stars",
           "threat_safe",
@@ -4034,6 +4043,7 @@
         "value": "non_stop",
         "option": [
           "non_stop",
+          "non_stop_clear_all",
           "100_percent_clear",
           "map_3_stars",
           "threat_safe",
@@ -4344,6 +4354,7 @@
         "value": "non_stop",
         "option": [
           "non_stop",
+          "non_stop_clear_all",
           "100_percent_clear",
           "map_3_stars",
           "threat_safe",
@@ -4825,6 +4836,7 @@
         "value": "non_stop",
         "option": [
           "non_stop",
+          "non_stop_clear_all",
           "100_percent_clear",
           "map_3_stars",
           "threat_safe",
@@ -5310,6 +5322,7 @@
         "value": "non_stop",
         "option": [
           "non_stop",
+          "non_stop_clear_all",
           "100_percent_clear",
           "map_3_stars",
           "threat_safe",
@@ -5795,6 +5808,7 @@
         "value": "non_stop",
         "option": [
           "non_stop",
+          "non_stop_clear_all",
           "100_percent_clear",
           "map_3_stars",
           "threat_safe",
@@ -6280,6 +6294,7 @@
         "value": "non_stop",
         "option": [
           "non_stop",
+          "non_stop_clear_all",
           "100_percent_clear",
           "map_3_stars",
           "threat_safe",
@@ -6755,6 +6770,7 @@
         "value": "non_stop",
         "option": [
           "non_stop",
+          "non_stop_clear_all",
           "100_percent_clear",
           "map_3_stars",
           "threat_safe",
@@ -7174,6 +7190,7 @@
         "value": "non_stop",
         "option": [
           "non_stop",
+          "non_stop_clear_all",
           "100_percent_clear",
           "map_3_stars",
           "threat_safe",
@@ -7425,6 +7442,7 @@
         "value": "non_stop",
         "option": [
           "non_stop",
+          "non_stop_clear_all",
           "100_percent_clear",
           "map_3_stars",
           "threat_safe",
