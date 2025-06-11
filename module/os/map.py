@@ -78,11 +78,13 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         # Clear current zone
         if self.zone.zone_id in [22, 44]:
             logger.info('In zone 22, 44, run first auto search')
+            OpsiFleet_Fleet = self.config.OpsiFleet_Fleet
             self.config.override(OpsiFleet_Fleet=self.config.cross_get('OpsiHazard1Leveling.OpsiFleet.Fleet'))
             self.fleet_set(self.config.OpsiFleet_Fleet)
             self.handle_ash_beacon_attack()
             self.run_auto_search()
             self.handle_after_auto_search()
+            self.config.override(OpsiFleet_Fleet=OpsiFleet_Fleet)
         elif self.zone.zone_id == 154:
             logger.info('In zone 154, skip running first auto search')
             self.handle_ash_beacon_attack()
