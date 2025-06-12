@@ -205,6 +205,8 @@ class FastForwardHandler(AutoSearchHandler):
 
         state = 'on' if self.config.Campaign_UseClearMode else 'off'
         changed = FAST_FORWARD.set(state, main=self)
+        if changed:
+            self.map_wait_auto_search()
         return changed
 
     def handle_map_fleet_lock(self, enable=None):
@@ -227,6 +229,25 @@ class FastForwardHandler(AutoSearchHandler):
         changed = FLEET_LOCK.set(state, main=self)
 
         return changed
+
+    def map_wait_auto_search(self):
+        """
+        When enabling clear mode (FAST_FORWARD), AUTO_SEARCH has an animation to appear
+        wait until it fully appeared
+
+        Returns:
+            bool: If waited
+        """
+        timeout = Timer(1, count=3).start()
+        for _ in self.loop():
+            state = AUTO_SEARCH.get(main=self)
+            logger.attr('AUTO_SEARCH', state)
+            if state != 'unknown':
+                return True
+            if timeout.reached():
+                # some maps may have clear mode but don't have auto search
+                logger.info('map wait auto search timeout')
+                return False
 
     def handle_auto_search(self):
         """

@@ -2,7 +2,6 @@ import ctypes
 import os
 import subprocess
 import time
-import typing as t
 from dataclasses import dataclass
 from functools import wraps
 
@@ -102,17 +101,31 @@ class LDConsole:
             logger.warning(f'TimeoutExpired when calling {cmd}, stdout={stdout}, stderr={stderr}')
         return stdout
 
-    def list2(self) -> t.List[DataLDPlayerInfo]:
+    def list2(self):
         """
         > ldconsole.exe list2
         0,雷电模拟器,28053900,42935798,1,59776,36816,1280,720,240
         1,雷电模拟器-1,0,0,0,-1,-1,1280,720,240
+
+        Returns:
+            list[DataLDPlayerInfo]:
         """
         out = []
         data = self.subprocess_run(['list2'])
         for row in data.strip().split(b'\n'):
-            info = row.strip().split(b',')
-            info = DataLDPlayerInfo(*info)
+            row = row.strip()
+            if not row:
+                continue
+            info = row.split(b',')
+            # check parts
+            if len(info) != 10:
+                logger.warning(f'ldplayer info does not have 10 parts: "{row}"')
+                continue
+            # build info
+            try:
+                info = DataLDPlayerInfo(*info)
+            except Exception as e:
+                logger.warning(f'Failed to build ldplayer info from "{row}", {e}')
             out.append(info)
         return out
 

@@ -434,7 +434,10 @@ class RewardTacticalClass(Dock):
                 continue
 
             # Get finish time
-            if self.appear(TACTICAL_CHECK, offset=(20, 20), interval=2):
+            # sometimes you have TACTICAL_CHECK without black-blurred background
+            # TACTICAL_CLASS_CANCEL and TACTICAL_CHECK appears
+            if not self.appear(TACTICAL_CLASS_CANCEL, offset=(20, 20)) \
+                    and self.appear(TACTICAL_CHECK, offset=(20, 20), interval=2):
                 self.interval_clear([POPUP_CONFIRM, POPUP_CANCEL, GET_MISSION])
                 if book_empty:
                     self.device.click(BACK_ARROW)
@@ -493,6 +496,9 @@ class RewardTacticalClass(Dock):
                 else:
                     study_finished = True
                 continue
+            # 2025.05.29 game tips that infos skin feature when you enter dock
+            if self.handle_game_tips():
+                return True
             if self.appear(DOCK_CHECK, offset=(20, 20), interval=3):
                 if self.dock_selected():
                     # When you click a ship from page_main -> dock,
