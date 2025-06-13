@@ -554,6 +554,7 @@ class NemuIpc(Platform):
         logger.attr('customer.app_keptlive', value)
         if str(value).lower() == 'true':
             # https://mumu.163.com/help/20230802/35047_1102450.html
+            logger.critical('Please turn off "Keep alive in the background" in the settings or MuMuPlayer')
             logger.critical('请在MuMu模拟器设置内关闭 "后台挂机时保活运行"')
             raise RequestHumanTakeover
         return True
@@ -576,7 +577,7 @@ class NemuIpc(Platform):
             logger.warning('Failed to check check_mumu_app_keep_alive as emulator_instance is None')
             return False
         name = self.emulator_instance.name
-        file = self.emulator_instance.emulator.abspath(f'../vms/{name}/configs/customer_config.json')
+        file = self.emulator_instance.mumu_vms_config('customer_config.json')
         if self.check_mumu_app_keep_alive_400(file):
             return True
 

@@ -1,4 +1,5 @@
 import ipaddress
+import json
 import logging
 import re
 import socket
@@ -13,6 +14,7 @@ from adbutils.errors import AdbError
 from module.base.decorator import Config, cached_property, del_cached_property, run_once
 from module.base.timer import Timer
 from module.base.utils import ensure_time
+from module.config.deep import deep_get
 from module.config.server import VALID_CHANNEL_PACKAGE, VALID_PACKAGE, set_server
 from module.device.connection_attr import ConnectionAttr
 from module.device.env import IS_LINUX, IS_MACINTOSH, IS_WINDOWS
@@ -781,6 +783,7 @@ class Connection(ConnectionAttr):
                     self.detect_device()
                     if self.serial != before:
                         return True
+                run_once(self.check_mumu_bridge_network())()
                 # No such device
                 logger.warning('No such device exists, please restart the emulator or set a correct serial')
                 raise EmulatorNotRunningError
@@ -803,6 +806,35 @@ class Connection(ConnectionAttr):
         with WORKER_POOL.wait_jobs() as pool:
             for serial in serial_list:
                 pool.start_thread_soon(connect, serial)
+
+    def check_mumu_bridge_network(self):
+        """
+        Returns:
+            bool: True if success to check, False if check is skipped
+        """
+        if not self.is_mumu12_family:
+            return True
+        if not hasattr(self, 'find_emulator_instance'):
+            return False
+        # Assume PlatformBase inherited this class
+        instance = self.find_emulator_instance(
+            serial=self.serial,
+        )
+        file = instance.mumu_vms_config('customer_config.json')
+        try:
+            with open(file, mode='r', encoding='utf-8') as f:
+                s = f.read()
+                data = json.loads(s)
+        except FileNotFoundError:
+            logger.warning(f'Failed to check check_mumu_bridge_network, file {file} not exists')
+            return False
+        value = deep_get(data, keys='customer.network_bridge_opened', default=None)
+        logger.attr('customer.network_bridge_opened', value)
+        if str(value).lower() == 'true':
+            logger.critical('Please turn off "Network Bridging" in the settings of MuMuPlayer')
+            logger.critical('请在MuMU模拟器设置中关闭 网络桥接')
+            raise RequestHumanTakeover
+        return True
 
     @Config.when(DEVICE_OVER_HTTP=True)
     def adb_connect(self, wait_device=True):
