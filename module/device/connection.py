@@ -16,6 +16,7 @@ from module.base.utils import ensure_time
 from module.config.server import VALID_CHANNEL_PACKAGE, VALID_PACKAGE, set_server
 from module.device.connection_attr import ConnectionAttr
 from module.device.env import IS_LINUX, IS_MACINTOSH, IS_WINDOWS
+from module.device.method.pool import WORKER_POOL
 from module.device.method.utils import (PackageNotInstalled, RETRY_TRIES, get_serial_pair, handle_adb_error,
                                         handle_unknown_host_service, possible_reasons, random_port, recv_all,
                                         remove_shell_warning, retry_sleep)
@@ -794,26 +795,14 @@ class Connection(ConnectionAttr):
         Args:
             serial_list (list[str]):
         """
-        import asyncio
-        from concurrent.futures import ThreadPoolExecutor
-        ev = asyncio.new_event_loop()
-        pool = ThreadPoolExecutor(
-            max_workers=len(serial_list),
-            thread_name_prefix='adb_brute_force_connect',
-        )
-
-        def _connect(serial):
-            msg = self.adb_client.connect(serial)
+        def connect(s):
+            msg = self.adb_client.connect(s)
             logger.info(msg)
             return msg
 
-        async def connect():
-            tasks = [ev.run_in_executor(pool, _connect, serial) for serial in serial_list]
-            await asyncio.gather(*tasks)
-
-        ev.run_until_complete(connect())
-        pool.shutdown(wait=False)
-        ev.close()
+        with WORKER_POOL.wait_jobs() as pool:
+            for serial in serial_list:
+                pool.start_thread_soon(connect, serial)
 
     @Config.when(DEVICE_OVER_HTTP=True)
     def adb_connect(self, wait_device=True):
