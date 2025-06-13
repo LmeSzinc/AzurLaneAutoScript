@@ -1720,13 +1720,12 @@
         ],
         "display": "hide",
         "option_bold": [
-          "event_20240912_cn",
           "event_20250520_cn"
         ],
         "cn": "event_20250520_cn",
         "en": "event_20250520_cn",
         "jp": "event_20250520_cn",
-        "tw": "event_20240912_cn"
+        "tw": "event_20250520_cn"
       },
       "Mode": {
         "type": "select",
@@ -2065,13 +2064,12 @@
           "event_20250520_cn"
         ],
         "option_bold": [
-          "event_20240912_cn",
           "event_20250520_cn"
         ],
         "cn": "event_20250520_cn",
         "en": "event_20250520_cn",
         "jp": "event_20250520_cn",
-        "tw": "event_20240912_cn"
+        "tw": "event_20250520_cn"
       },
       "Mode": {
         "type": "select",
@@ -2525,13 +2523,12 @@
           "event_20250520_cn"
         ],
         "option_bold": [
-          "event_20240912_cn",
           "event_20250520_cn"
         ],
         "cn": "event_20250520_cn",
         "en": "event_20250520_cn",
         "jp": "event_20250520_cn",
-        "tw": "event_20240912_cn"
+        "tw": "event_20250520_cn"
       },
       "Mode": {
         "type": "select",
@@ -4125,13 +4122,12 @@
           "event_20250520_cn"
         ],
         "option_bold": [
-          "event_20240912_cn",
           "event_20250520_cn"
         ],
         "cn": "event_20250520_cn",
         "en": "event_20250520_cn",
         "jp": "event_20250520_cn",
-        "tw": "event_20240912_cn"
+        "tw": "event_20250520_cn"
       },
       "Mode": {
         "type": "select",
@@ -4602,13 +4598,12 @@
           "event_20250520_cn"
         ],
         "option_bold": [
-          "event_20240912_cn",
           "event_20250520_cn"
         ],
         "cn": "event_20250520_cn",
         "en": "event_20250520_cn",
         "jp": "event_20250520_cn",
-        "tw": "event_20240912_cn"
+        "tw": "event_20250520_cn"
       },
       "Mode": {
         "type": "select",
@@ -5079,13 +5074,12 @@
           "event_20250520_cn"
         ],
         "option_bold": [
-          "event_20240912_cn",
           "event_20250520_cn"
         ],
         "cn": "event_20250520_cn",
         "en": "event_20250520_cn",
         "jp": "event_20250520_cn",
-        "tw": "event_20240912_cn"
+        "tw": "event_20250520_cn"
       },
       "Mode": {
         "type": "select",
@@ -5556,13 +5550,12 @@
           "event_20250520_cn"
         ],
         "option_bold": [
-          "event_20240912_cn",
           "event_20250520_cn"
         ],
         "cn": "event_20250520_cn",
         "en": "event_20250520_cn",
         "jp": "event_20250520_cn",
-        "tw": "event_20240912_cn"
+        "tw": "event_20250520_cn"
       },
       "Mode": {
         "type": "select",
@@ -6023,13 +6016,12 @@
           "event_20250520_cn"
         ],
         "option_bold": [
-          "event_20240912_cn",
           "event_20250520_cn"
         ],
         "cn": "event_20250520_cn",
         "en": "event_20250520_cn",
         "jp": "event_20250520_cn",
-        "tw": "event_20240912_cn"
+        "tw": "event_20250520_cn"
       },
       "Mode": {
         "type": "select",
