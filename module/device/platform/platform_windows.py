@@ -93,6 +93,7 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             self.execute(f'"{exe}" -m {instance.name}')
         elif instance == Emulator.MuMuPlayer12:
             # MuMuPlayer.exe -v 0
+            # MuMuNxMain.exe -v 0
             if instance.MuMuPlayer12_id is None:
                 logger.warning(f'Cannot get MuMu instance index from name {instance.name}')
             self.execute(f'"{exe}" -v {instance.MuMuPlayer12_id}')

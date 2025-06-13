@@ -101,74 +101,6 @@ class StorageHandler(StorageUI):
 
         return True
 
-    @Config.when(SERVER='tw')
-    def _storage_use_one_box(self, button, amount=1):
-        """
-        Args:
-            button (Button): Box
-            amount (int):
-
-        Returns:
-            int: amount of box used, not accurate
-
-        Raises:
-            StorageFull:
-
-        Pages:
-            in: MATERIAL_CHECK
-            out: MATERIAL_CHECK
-        """
-        logger.hr('Use one box')
-        success = False
-        used = 0
-        self.interval_clear([
-            MATERIAL_CHECK,
-            BOX_USE,
-            GET_ITEMS_1,
-            GET_ITEMS_2,
-            EQUIPMENT_FULL,
-        ])
-
-        for _ in self.loop():
-            # Storage full
-            if self.appear(EQUIPMENT_FULL, offset=(20, 20)):
-                logger.info('Storage full')
-                # Close popup
-                self.ui_click(MATERIAL_ENTER, check_button=self._storage_in_material, appear_button=EQUIPMENT_FULL,
-                              retry_wait=3, skip_first_screenshot=True)
-                raise StorageFull
-            # End
-            if success and self._storage_in_material():
-                break
-
-            if self._storage_in_material(interval=5):
-                self.device.click(button)
-                continue
-            # 75 is a magic number to distinguish `use 1` and `use 10`
-            # See https://github.com/LmeSzinc/AzurLaneAutoScript/pull/1529#issuecomment-1221315455
-            if self.appear_then_click(BOX_USE, offset=(-75, -20, 10, 20), interval=5):
-                used = 10
-                self.interval_reset(MATERIAL_CHECK)
-                continue
-            if self.appear_then_click(BOX_USE, offset=(-330, -20, -75, 20), interval=5):
-                used = 1
-                self.interval_reset(MATERIAL_CHECK)
-                continue
-            if self.appear(GET_ITEMS_1, offset=(5, 5), interval=5):
-                self.device.click(MATERIAL_ENTER)
-                self.interval_reset(MATERIAL_CHECK)
-                success = True
-                continue
-            if self.appear(GET_ITEMS_2, offset=(5, 5), interval=5):
-                self.device.click(MATERIAL_ENTER)
-                self.interval_reset(MATERIAL_CHECK)
-                success = True
-                continue
-
-        logger.info(f'Used {used} box(es)')
-        return used
-
-    @Config.when(SERVER=None)
     def _storage_use_one_box(self, button, amount=1):
         """
         Args:
@@ -468,59 +400,6 @@ class StorageHandler(StorageUI):
         self.equipment_filter_set()
         return disassembled
 
-    @Config.when(SERVER='tw')
-    def storage_disassemble_equipment(self, rarity=1, amount=15):
-        """
-        Disassemble target amount of equipment.
-        If not having enough equipment, use boxes then disassemble.
-
-        Args:
-            rarity (int): 1 for common, 2 for rare, 3 for elite, 4 for super_rare
-            amount (int): Expected amount to disassemble.
-                Actual amount >= expected
-
-        Returns:
-            int: Actual amount of equipments disassembled
-
-        Pages:
-            in: Any
-            out: page_storage, equipment, DISASSEMBLE
-        """
-        logger.hr('Disassemble Equipment', level=2)
-        self.ui_goto_storage()
-        # No need, equipping toggle does not effect disassemble
-        # self.equipping_set()
-        # Also no need to call _wait_until_storage_stable(), filter confirm will do that
-        disassembled = 0
-        while 1:
-            logger.attr('Total_Disassemble', f'{disassembled}/{amount}')
-            if disassembled >= amount:
-                logger.info('Reached total target amount, stop')
-                break
-
-            self._storage_enter_disassemble()
-            equip = self._storage_disassemble_equipment_execute(rarity=rarity, amount=amount)
-            disassembled += equip
-            if equip <= 0:
-                logger.info('No more equipment to disassemble, going to use boxes')
-                boxes = 0
-                try:
-                    self._storage_enter_material()
-                    boxes = self._storage_use_box_execute(rarity=rarity, amount=amount - disassembled)
-                    if boxes <= 0:
-                        logger.warning('No more boxes to use, disassemble equipment end')
-                        self.storage_has_boxes = False
-                        break
-                except StorageFull:
-                    if boxes <= 0:
-                        logger.warning('Unable to use boxes because storage full, '
-                                       'probably because storage is full of rare equipments or above, '
-                                       'disassemble equipment end')
-                        logger.warning('Please manually disassemble some equipments to free up storage')
-                        self.storage_has_boxes = False
-                        break
-
-    @Config.when(SERVER=None)
     def storage_disassemble_equipment(self, rarity=1, amount=15):
         """
         Disassemble target amount of equipment.
