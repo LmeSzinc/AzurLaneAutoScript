@@ -783,7 +783,7 @@ class Connection(ConnectionAttr):
                     self.detect_device()
                     if self.serial != before:
                         return True
-                run_once(self.check_mumu_bridge_network())()
+                run_once(self.check_mumu_bridge_network)()
                 # No such device
                 logger.warning('No such device exists, please restart the emulator or set a correct serial')
                 raise EmulatorNotRunningError
@@ -799,7 +799,10 @@ class Connection(ConnectionAttr):
             serial_list (list[str]):
         """
         def connect(s):
-            msg = self.adb_client.connect(s)
+            try:
+                msg = self.adb_client.connect(s)
+            except Exception:
+                return ''
             logger.info(msg)
             return msg
 
