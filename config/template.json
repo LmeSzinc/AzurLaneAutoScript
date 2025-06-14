@@ -1850,6 +1850,10 @@
       "Fleet": 1,
       "Submarine": false
     },
+    "OpsiCheckLeveling": {
+      "TargetLevel": 0,
+      "LastRun": "2020-01-01 00:00:00"
+    },
     "Storage": {
       "Storage": {}
     }
@@ -1869,6 +1873,10 @@
     "OpsiFleet": {
       "Fleet": 1,
       "Submarine": false
+    },
+    "OpsiCheckLeveling": {
+      "TargetLevel": 0,
+      "LastRun": "2020-01-01 00:00:00"
     },
     "Storage": {
       "Storage": {}
