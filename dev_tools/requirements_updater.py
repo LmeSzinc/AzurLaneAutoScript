@@ -3,6 +3,7 @@ import os
 from deploy.AidLux.requirements_generator import aidlux_requirements_generate
 from deploy.docker.requirements_generator import docker_requirements_generate
 from deploy.headless.requirements_generator import headless_requirements_generate
+from deploy.launcher2.requirements_generator import launcher2_requirements_generate
 
 # Ensure running in Alas root folder
 os.chdir(os.path.join(os.path.dirname(__file__), '../'))
@@ -41,3 +42,4 @@ if __name__ == '__main__':
     aidlux_requirements_generate()
     docker_requirements_generate()
     headless_requirements_generate()
+    launcher2_requirements_generate()
