@@ -585,7 +585,7 @@ PrivateQuarters:
     TargetInteract: true
     TargetShip:
       value: anchorage
-      option: [ anchorage, noshiro, sirius ]
+      option: [ anchorage, noshiro, sirius, new_jersey ]
 # ==================== Daily ====================
 
 Daily:

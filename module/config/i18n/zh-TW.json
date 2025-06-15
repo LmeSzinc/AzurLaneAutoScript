@@ -2060,7 +2060,8 @@
       "help": "PrivateQuarters.TargetShip.help",
       "anchorage": "anchorage",
       "noshiro": "noshiro",
-      "sirius": "sirius"
+      "sirius": "sirius",
+      "new_jersey": "new_jersey"
     }
   },
   "Daily": {

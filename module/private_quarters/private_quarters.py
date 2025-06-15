@@ -1,5 +1,6 @@
 import module.config.server as server
 from module.base.timer import Timer
+from module.base.utils import random_rectangle_vector
 from module.handler.assets import POPUP_CANCEL
 from module.logger import logger
 from module.ocr.ocr import Digit, DigitCounter
@@ -15,17 +16,19 @@ else:
 
 class PrivateQuarters(UI):
     # Key: str, target ship name
-    # Value: Button, button instance
+    # Value: list[Button], button instances
+    #        (Room_Entrance, Page_Locale)
     available_targets = {
-        'anchorage': PRIVATE_QUARTERS_SHIP_ANCHORAGE,
-        'noshiro': PRIVATE_QUARTERS_SHIP_NOSHIRO,
-        'sirius': PRIVATE_QUARTERS_SHIP_SIRIUS,
+        'anchorage':  (PRIVATE_QUARTERS_SHIP_ANCHORAGE, PRIVATE_QUARTERS_PAGE_LOCALE_BEACH),
+        'noshiro':    (PRIVATE_QUARTERS_SHIP_NOSHIRO, PRIVATE_QUARTERS_PAGE_LOCALE_BEACH),
+        'sirius':     (PRIVATE_QUARTERS_SHIP_SIRIUS, PRIVATE_QUARTERS_PAGE_LOCALE_BEACH),
+        'new_jersey': (PRIVATE_QUARTERS_SHIP_NEW_JERSEY, PRIVATE_QUARTERS_PAGE_LOCALE_LOFT),
     }
 
     def _pq_target_appear(self):
         """
         Callable wrapper to validate target's appearance
-        offset=(100, 100) detectable for anchorage, noshiro, and sirus
+        offset=(100, 100) detectable for anchorage, noshiro, sirus, and new_jersey
         When more ships added may need to adjust or capture specific bubble position per
         ship, can use the available_targets to store similarly into tuples instead
         """
@@ -38,12 +41,69 @@ class PrivateQuarters(UI):
                 self.device.screenshot()
 
             # End, success
-            if self.appear(PRIVATE_QUARTERS_ROOM_TARGET_CHECK, offset=(100, 100)):
+            if self.appear(PRIVATE_QUARTERS_ROOM_TARGET_CHECK_1, offset=(100, 100)):
+                return True
+            if self.appear(PRIVATE_QUARTERS_ROOM_TARGET_CHECK_2, offset=(100, 100)):
                 return True
 
             # End, failed expired wait time
             if settle_timer.reached():
                 return False
+
+            # Factor in couple drag up actions to
+            # counter odd default distance/zoom on target
+            p1, p2 = random_rectangle_vector(
+                (0, -30), box=PRIVATE_QUARTERS_ROOM_SAFE_CLICK_AREA.area, random_range=(-10, -10, 10, 10), padding=5)
+            self.device.drag(p1, p2, segments=2, shake=(0, 25), point_random=(0, 0, 0, 0), shake_random=(0, -5, 0, 5))
+
+    def _pq_goto_room_seek(self, target_ship):
+        """
+        Execute seek room routine
+
+        Args:
+            target_ship (str):
+
+        Returns:
+            bool
+        """
+        target_title = target_ship.title().replace('_', ' ')
+        page_btn = self.available_targets[target_ship][1]
+        logger.hr(f'Seek {target_title}\'s Page', level=2)
+
+        # Depending on current page position
+        # Search left then right or reverse order
+        directions = [PRIVATE_QUARTERS_PAGE_LEFT, PRIVATE_QUARTERS_PAGE_RIGHT]
+        if not self.appear(PRIVATE_QUARTERS_PAGE_LEFT, offset=(20, 20)):
+            directions.reverse()
+
+        # Execute page seek
+        skip_first_screenshot = True
+        self.interval_clear(directions)
+        settle_timer = Timer(1.5, count=3).start()
+        for direction in directions:
+            while 1:
+                if skip_first_screenshot:
+                    skip_first_screenshot = False
+                else:
+                    self.device.screenshot()
+
+                # End, success
+                if self.appear(page_btn, offset=(20, 20)):
+                    logger.info(f'Reached {target_title}\'s page')
+                    return True
+
+                # Enable interval delay to confirm page after click
+                if self.appear_then_click(direction, offset=(20, 20), interval=1):
+                    settle_timer.reset()
+                    continue
+
+                # No more page clicks past interval 1
+                # Thus can safely go the other direction
+                if settle_timer.reached():
+                    break
+
+        logger.warn(f'{target_title}\'s page cannot be found')
+        return False
 
     def _pq_goto_room_check(self):
         """
@@ -64,8 +124,8 @@ class PrivateQuarters(UI):
         # Initiate goto into target's room
         # Ensure either loading or popup
         # prompt appears after click
-        target_title = target_ship.title()
-        target_btn = self.available_targets[target_ship]
+        target_title = target_ship.title().replace('_', ' ')
+        target_btn = self.available_targets[target_ship][0]
         self.ui_click(
             click_button=target_btn,
             check_button=self._pq_goto_room_check,
@@ -208,6 +268,8 @@ class PrivateQuarters(UI):
     def pq_interact(self):
         """
         Execute target interact routine
+        offset=(0, 60) to account for y-position of asset
+        Depending on intimacy level, the asset may shift
         """
         # Click target ship girl for 1st stage sequence
         logger.hr(f'Interact Start', level=2)
@@ -220,7 +282,7 @@ class PrivateQuarters(UI):
                 self.device.screenshot()
 
             # End
-            if self.appear(PRIVATE_QUARTERS_INTERACT, offset=(20, 20)):
+            if self.appear(PRIVATE_QUARTERS_INTERACT, offset=(0, 60)):
                 break
 
             if click_timer.reached():
@@ -243,7 +305,7 @@ class PrivateQuarters(UI):
                 if self.appear(PRIVATE_QUARTERS_INTERACT_CHECK, offset=(20, 20)):
                     break
 
-                if self.appear_then_click(PRIVATE_QUARTERS_INTERACT, offset=(20, 20), interval=1):
+                if self.appear_then_click(PRIVATE_QUARTERS_INTERACT, offset=(0, 60), interval=1):
                     continue
 
             skip_first_screenshot = True
@@ -254,7 +316,7 @@ class PrivateQuarters(UI):
                     self.device.screenshot()
 
                 # End
-                if self.appear(PRIVATE_QUARTERS_INTERACT, offset=(20, 20)):
+                if self.appear(PRIVATE_QUARTERS_INTERACT, offset=(0, 60)):
                     break
 
                 if self.appear(PRIVATE_QUARTERS_INTERACT_CHECK, offset=(20, 20), interval=1):
@@ -273,10 +335,16 @@ class PrivateQuarters(UI):
         Args:
             target_ship (str):
             retry  (int):
+
+        Returns:
+            bool
         """
         success = False
-        target_title = target_ship.title()
+        target_title = target_ship.title().replace('_', ' ')
         logger.hr(f'Enter {target_title}\'s Room', level=1)
+
+        if not self._pq_goto_room_seek(target_ship):
+            return success
 
         for _ in range(retry):
             if not self._pq_goto_room_enter(target_ship):
@@ -304,7 +372,7 @@ class PrivateQuarters(UI):
             target_ship     (str):
         """
         logger.hr(f'Private Quarters Run', level=1)
-        target_title = target_ship.title()
+        target_title = target_ship.title().replace('_', ' ')
         logger.info((f'Task configured for Buy_Roses={buy_roses}, '
             f'Interact_ShipGirl={target_interact}, '
             f'Target_ShipGirl={target_title}'))

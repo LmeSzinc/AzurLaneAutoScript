@@ -337,7 +337,7 @@ class GeneratedConfig:
     # Group `PrivateQuarters`
     PrivateQuarters_BuyRoses = True
     PrivateQuarters_TargetInteract = True
-    PrivateQuarters_TargetShip = 'anchorage'  # anchorage, noshiro, sirius
+    PrivateQuarters_TargetShip = 'anchorage'  # anchorage, noshiro, sirius, new_jersey
 
     # Group `Daily`
     Daily_UseDailySkip = True
