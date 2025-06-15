@@ -553,11 +553,12 @@ class RewardCommission(UI, InfoHandler):
                     continue
                 if self.ui_main_appear_then_click(page_reward, interval=3):
                     self.interval_reset(GET_SHIP)
-                    click_timer.reset()
+                    # no need to reset click_timer, just instant click REWARD_1
+                    # click_timer.reset()
                     continue
                 # Check GET_SHIP at last to handle random white background at page_main
                 for button in [GET_SHIP]:
-                    if self.appear(button, interval=1):
+                    if click_timer.reached() and self.appear(button, interval=1):
                         self.ensure_no_info_bar(timeout=1)
                         drop.add(self.device.image)
 

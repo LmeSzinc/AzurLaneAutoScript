@@ -243,3 +243,4 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20250424   | event 20250424 cn        | Toward Tulipa’s Seas                         | 扬起郁金之旗           | Toward Tulipa’s Seas                         | チュリッパの海へ                     | -                        |
 | 20250430   | event 20240912 cn        | Ode of Everblooming Crimson                  | -                      | -                                            | -                                    | 喚醒蒼紅之炎             |
 | 20250520   | event 20250520 cn        | A Rose on the High Tower                     | 高塔上的蔷薇           | A Rose on the High Tower                     | 高い塔の薔薇                         | -                        |
+| 20250612   | event 20250520 cn        | A Rose on the High Tower                     | -                      | -                                            | -                                    | 高塔上的薔薇             |
