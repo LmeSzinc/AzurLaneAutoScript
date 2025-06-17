@@ -725,6 +725,7 @@ OpsiHazard1Leveling:
 OpsiCheckLeveling:
   TargetLevel: 0
   LastRun: 2020-01-01 00:00:00
+  DelayAfterFull: false
 
 # ==================== Tools ====================
 

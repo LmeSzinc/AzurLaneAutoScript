@@ -2503,6 +2503,10 @@
     "LastRun": {
       "name": "OpsiCheckLeveling.LastRun.name",
       "help": "OpsiCheckLeveling.LastRun.help"
+    },
+    "DelayAfterFull": {
+      "name": "OpsiCheckLeveling.DelayAfterFull.name",
+      "help": "OpsiCheckLeveling.DelayAfterFull.help"
     }
   },
   "Daemon": {

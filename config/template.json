@@ -1852,7 +1852,8 @@
     },
     "OpsiCheckLeveling": {
       "TargetLevel": 0,
-      "LastRun": "2020-01-01 00:00:00"
+      "LastRun": "2020-01-01 00:00:00",
+      "DelayAfterFull": false
     },
     "Storage": {
       "Storage": {}
@@ -1876,7 +1877,8 @@
     },
     "OpsiCheckLeveling": {
       "TargetLevel": 0,
-      "LastRun": "2020-01-01 00:00:00"
+      "LastRun": "2020-01-01 00:00:00",
+      "DelayAfterFull": false
     },
     "Storage": {
       "Storage": {}

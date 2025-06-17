@@ -501,11 +501,15 @@ class OperationSiren(OSMap):
                         f'level {target_level} or above')
             handle_notify(
                 self.config.Error_OnePushConfig,
-                title=f"Alas <{self.config.config_name}> level check finished",
+                title=f"Alas <{self.config.config_name}> level check passed",
                 content=f"<{self.config.config_name}> {self.config.task} reached level limit {target_level} or above."
             )
         self.ui_back(appear_button=EQUIPMENT_OPEN, check_button=self.is_in_map)
         self.config.OpsiCheckLeveling_LastRun = datetime.now().replace(microsecond=0)
+        if all_full_exp and self.config.OpsiCheckLeveling_DelayAfterFull:
+            logger.info('Delay task after all ships are full exp')
+            self.config.task_delay(server_update=True)
+            self.config.task_stop()
 
     def _os_explore_task_delay(self):
         """

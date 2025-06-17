@@ -9312,6 +9312,10 @@
         "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
+      },
+      "DelayAfterFull": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Storage": {
@@ -9396,6 +9400,10 @@
         "type": "datetime",
         "value": "2020-01-01 00:00:00",
         "validate": "datetime"
+      },
+      "DelayAfterFull": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Storage": {

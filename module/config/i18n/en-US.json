@@ -2503,6 +2503,10 @@
     "LastRun": {
       "name": "Last Check Time",
       "help": "Automatically updated with the last check time, generally does not need to be modified"
+    },
+    "DelayAfterFull": {
+      "name": "Delay task when target level reached",
+      "help": ""
     }
   },
   "Daemon": {
