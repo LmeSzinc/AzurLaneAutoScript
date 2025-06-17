@@ -438,6 +438,11 @@ class GeneratedConfig:
     # Group `OpsiHazard1Leveling`
     OpsiHazard1Leveling_TargetZone = 0  # 0, 44, 22
 
+    # Group `OpsiCheckLeveling`
+    OpsiCheckLeveling_TargetLevel = 0
+    OpsiCheckLeveling_LastRun = datetime.datetime(2020, 1, 1, 0, 0)
+    OpsiCheckLeveling_DelayAfterFull = False
+
     # Group `Daemon`
     Daemon_EnterMap = True
 
