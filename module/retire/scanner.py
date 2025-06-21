@@ -29,6 +29,8 @@ class EmotionDigit(Digit):
                 if i < col:
                     break
             image = image[:, :i]
+        else:
+            image = image[:, :24]
         image = super().pre_process(image)
         return image
 
