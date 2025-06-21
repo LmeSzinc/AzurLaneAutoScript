@@ -32,7 +32,14 @@ class AppControl(Adb, WSA, Uiautomator2):
 
     def app_start(self):
         method = self.config.Emulator_ControlMethod
-        logger.info(f'App start: {self.package}')
+        package = self.package
+        # Check DPI for CN 4399
+        if 'com.bilibili.blhx.m4399' == package:
+            if method in AppControl._app_u2_family:
+                self.check_dpi_uiautomator2()
+            else:
+                self.check_dpi_adb()
+        logger.info(f'App start: {package}')
         if self.config.Emulator_Serial == 'wsa-0':
             self.app_start_wsa(display=0)
         elif method in AppControl._app_u2_family:

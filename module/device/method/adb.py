@@ -424,3 +424,64 @@ class Adb(Connection):
         # Parse with lxml
         hierarchy = etree.fromstring(content)
         return hierarchy
+
+    @retry
+    def get_dpi_adb(self) -> int:
+        """
+        Get device DPI
+
+        This method tries two ways to get DPI:
+        1. (Preferred) Get from system property 'ro.sf.lcd_density'.
+        2. (Fallback) Execute 'wm density' and parse the output.
+
+        Returns:
+            int: The DPI of the device.
+
+        Raises:
+            ScriptError: If DPI cannot be determined by any method.
+        """
+        # Get from system property
+        try:
+            output = self.adb_shell(['getprop', 'ro.sf.lcd_density'])
+            if output and output.strip().isdigit():
+                dpi = int(output.strip())
+                return dpi
+            else:
+                logger.warning("Property 'ro.sf.lcd_density' is empty or not a number.")
+        except Exception as e:
+            # This might happen if getprop fails, though unlikely
+            logger.warning(f"Failed to get DPI from properties: {e}")
+
+        # Fallback to 'wm density'
+        try:
+            output = self.adb_shell(['wm', 'density'])
+            match = re.search(r'Physical density:\s*(\d+)', output)
+            if match:
+                dpi = int(match.group(1))
+                return dpi
+            else:
+                # Handle cases where the output might just be a number
+                match_simple = re.search(r'(\d+)', output)
+                if match_simple:
+                    dpi = int(match_simple.group(1))
+                    return dpi
+        except Exception as e:
+            logger.warning(f"Failed to get DPI from 'wm density': {e}")
+
+        # If both methods fail
+        logger.error("Failed to determine device DPI using all available methods.")
+        raise ScriptError("Unable to get device DPI.")
+
+    def check_dpi_adb(self):
+        """
+        Check DPI.
+        Only for CN 4399 float operation.
+
+        Raises:
+            RequestHumanTakeover: If DPI is not 320
+        """
+        dpi = self.get_dpi_adb()
+        if dpi != 320:
+            logger.critical(f'DPI not supported: {dpi}')
+            logger.critical('Please set emulator DPI to 320')
+            raise RequestHumanTakeover

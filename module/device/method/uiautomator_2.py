@@ -14,7 +14,7 @@ from module.config.server import DICT_PACKAGE_TO_ACTIVITY
 from module.device.connection import Connection
 from module.device.method.utils import (ImageTruncated, PackageNotInstalled, RETRY_TRIES, handle_adb_error,
                                         handle_unknown_host_service, possible_reasons, retry_sleep)
-from module.exception import RequestHumanTakeover
+from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 
 
@@ -429,6 +429,40 @@ class Uiautomator2(Connection):
         logger.critical(f'Resolution not supported: {width}x{height}')
         logger.critical('Please set emulator resolution to 1280x720')
         raise RequestHumanTakeover
+
+    def dpi_uiautomator2(self) -> int:
+        """
+        Calculate device DPI.
+
+        Returns:
+            int: The DPI of the device.
+
+        Raises:
+            ScriptError
+        """
+        device_info = self.u2.info
+        px_h = device_info['displayHeight']
+        dp_y = device_info['displaySizeDpY']
+
+        if px_h == 0 or dp_y == 0:
+            logger.critical('Failed to calculate DPI')
+            raise ScriptError
+        calculated_dpi = (px_h / dp_y) * 160
+        return round(calculated_dpi)
+
+    def check_dpi_uiautomator2(self):
+        """
+        Check DPI.
+        Only for CN 4399 float operation.
+
+        Raises:
+            RequestHumanTakeover: If DPI is not 320
+        """
+        dpi = self.dpi_uiautomator2()
+        if dpi != 320:
+            logger.critical(f'DPI not supported: {dpi}')
+            logger.critical('Please set emulator DPI to 320')
+            raise RequestHumanTakeover
 
     @retry
     def proc_list_uiautomator2(self) -> t.List[ProcessInfo]:

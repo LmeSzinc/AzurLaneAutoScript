@@ -82,6 +82,8 @@ class BeaconReward(Combat, UI):
         """
         if self.appear(SYNC_REWARD_NOTICE, threshold=30, interval=interval):
             return True
+        elif self.appear(SYNC_TAP, threshold=30, interval=interval):
+            return True
         else:
             return False
 
@@ -136,8 +138,8 @@ class BeaconReward(Combat, UI):
             if self.handle_get_ship():
                 received = True
                 continue
-            if self.meta_sync_notice_appear(interval=3):
-                logger.info(f'meta_sync_notice_appear -> {SYNC_ENTER}')
+            if self.appear(SYNC_REWARD_NOTICE, threshold=30, interval=3):
+                logger.info(f'sync reward notice appear -> {SYNC_ENTER}')
                 self.device.click(SYNC_ENTER)
                 received = True
                 continue
@@ -199,10 +201,10 @@ class BeaconReward(Combat, UI):
         # Sync rewards
         # "sync" is the period that you gather meta points to 100% and get a meta ship
         if self.meta_sync_notice_appear():
-            logger.info('Found meta sync red dot')
+            logger.info('Found meta sync red dot or sync tap')
             self.meta_sync_receive()
         else:
-            logger.info('No meta sync red dot')
+            logger.info('No meta sync red dot or sync tap')
 
         # Meta rewards
         if self.meta_reward_notice_appear():
