@@ -175,41 +175,46 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
         checked_fleet = False
         checked_oil = False
         checked_coin = False
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
+        with self.stat.new(
+            genre=self.config.campaign_name, method=self.config.DropRecord_CombatRecord
+        ) as drop:
+            while 1:
+                if skip_first_screenshot:
+                    skip_first_screenshot = False
+                else:
+                    self.device.screenshot()
 
-            if self.is_auto_search_running():
-                checked_fleet = self.auto_search_watch_fleet(checked_fleet)
-                if not checked_oil or not checked_coin:
-                    checked_oil = self.auto_search_watch_oil(checked_oil)
-                    checked_coin = self.auto_search_watch_coin(checked_coin)
-            if self.handle_retirement():
-                self.map_offensive_auto_search()
-                # Map offensive ends at is_combat_loading
-                break
-            if self.handle_auto_search_map_option():
-                continue
-            if self.handle_combat_low_emotion():
-                self._auto_search_status_confirm = True
-                continue
-            if self.handle_story_skip():
-                continue
-            if self.handle_map_cat_attack():
-                continue
-            if self.handle_vote_popup():
-                continue
+                if self.is_auto_search_running():
+                    checked_fleet = self.auto_search_watch_fleet(checked_fleet)
+                    if not checked_oil or not checked_coin:
+                        checked_oil = self.auto_search_watch_oil(checked_oil)
+                        checked_coin = self.auto_search_watch_coin(checked_coin)
+                if self.handle_retirement():
+                    self.map_offensive_auto_search()
+                    # Map offensive ends at is_combat_loading
+                    break
+                if self.handle_auto_search_map_option():
+                    continue
+                if self.handle_combat_low_emotion():
+                    self._auto_search_status_confirm = True
+                    continue
+                if self.handle_story_skip():
+                    continue
+                if self.handle_map_cat_attack():
+                    continue
+                if self.handle_vote_popup():
+                    continue
 
-            # End
-            if self.is_combat_loading():
-                break
-            if self.is_combat_executing():
-                logger.info('is_combat_executing')
-                break
-            if self.is_in_auto_search_menu() or self._handle_auto_search_menu_missing():
-                raise CampaignEnd
+                # End
+                if self.is_combat_loading():
+                    break
+                if self.is_combat_executing():
+                    logger.info('is_combat_executing')
+                    break
+                if self.is_in_auto_search_menu() or self._handle_auto_search_menu_missing():
+                    if drop and self.is_in_auto_search_menu():
+                        drop.handle_add(main=self, before=4)
+                    raise CampaignEnd
 
     def auto_search_combat_execute(self, emotion_reduce, fleet_index):
         """
