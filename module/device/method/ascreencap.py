@@ -170,7 +170,9 @@ class AScreenCap(Connection):
             # ValueError: cannot reshape array of size 0 into shape (720,1280,4)
             raise ImageTruncated(str(e))
 
-        cv2.flip(image, 0, dst=image)
+        # flip without `dst=image`
+        # np.frombuffer creates a read-only memory view, we need to create a writable copy here
+        image = cv2.flip(image, 0)
         if image is None:
             raise ImageTruncated('Empty image after cv2.flip')
 
