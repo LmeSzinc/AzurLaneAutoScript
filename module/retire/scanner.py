@@ -40,7 +40,11 @@ class EmotionDigit(Digit):
         if result == '044' or result == 'D44':
             result = '0'
 
-        return super().after_process(result)
+        result = super().after_process(result)
+        if result > 150 and result % 10 == 1:
+            result //= 10
+
+        return result
 
 
 @dataclass(frozen=True)
