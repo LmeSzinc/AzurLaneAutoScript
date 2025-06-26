@@ -244,6 +244,12 @@ class CoalitionUI(Combat):
                 logger.critical('FLEET_NOT_PREPARED')
                 logger.critical('Please prepare you fleets before running coalition battles')
                 raise RequestHumanTakeover
+            if self.appear(EMPTY_FLAGSHIP, offset=(20, 20)):
+                logger.critical('EMPTY_FLAGSHIP, Please prepare you fleets before running coalition battles')
+                raise RequestHumanTakeover
+            if self.appear(EMPTY_VANGUARD, offset=(20, 20)):
+                logger.critical('EMPTY_VANGUARD, Please prepare you fleets before running coalition battles')
+                raise RequestHumanTakeover
 
             # End
             if self.appear(BATTLE_PREPARATION, offset=(20, 20)):
