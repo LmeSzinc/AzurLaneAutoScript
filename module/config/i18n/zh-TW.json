@@ -1307,9 +1307,9 @@
     "Mode": {
       "name": "難度",
       "help": "SP圖需要使用活動每日SP運行",
-      "tc1": "tc1",
-      "tc2": "tc2",
-      "tc3": "tc3",
+      "easy": "簡單",
+      "normal": "普通",
+      "hard": "困難",
       "sp": "sp",
       "ex": "EX"
     },

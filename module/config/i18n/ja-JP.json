@@ -1307,9 +1307,9 @@
     "Mode": {
       "name": "Coalition.Mode.name",
       "help": "Coalition.Mode.help",
-      "tc1": "tc1",
-      "tc2": "tc2",
-      "tc3": "tc3",
+      "easy": "easy",
+      "normal": "normal",
+      "hard": "hard",
       "sp": "sp",
       "ex": "ex"
     },

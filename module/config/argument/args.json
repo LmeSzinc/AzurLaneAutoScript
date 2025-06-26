@@ -2040,11 +2040,11 @@
     "Coalition": {
       "Mode": {
         "type": "select",
-        "value": "tc1",
+        "value": "hard",
         "option": [
-          "tc1",
-          "tc2",
-          "tc3",
+          "easy",
+          "normal",
+          "hard",
           "ex"
         ]
       },
@@ -4092,9 +4092,9 @@
         "type": "select",
         "value": "sp",
         "option": [
-          "tc1",
-          "tc2",
-          "tc3",
+          "easy",
+          "normal",
+          "hard",
           "sp",
           "ex"
         ],
