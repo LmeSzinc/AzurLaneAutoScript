@@ -11,20 +11,6 @@ from module.ui.switch import Switch
 
 
 class HospitalSwitch(Switch):
-    def appear(self, main):
-        """
-        Args:
-            main (ModuleBase):
-
-        Returns:
-            bool
-        """
-        for data in self.state_list:
-            if main.image_color_count(data['check_button'], color=(33, 77, 189), threshold=221, count=100):
-                return True
-
-        return False
-
     def get(self, main):
         """
         Args:
