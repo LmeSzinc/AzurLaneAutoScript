@@ -15,7 +15,7 @@ class NeoncitySwitch(Switch):
             if main.image_color_count(data['check_button'], color=(123, 41, 41), threshold=221, count=100):
                 return data['state']
 
-            return 'unknown'
+        return 'unknown'
 
 
 class CoalitionUI(Combat):
@@ -34,11 +34,11 @@ class CoalitionUI(Combat):
         """
         if event == 'coalition_20230323':
             mode_switch = Switch('CoalitionMode', offset=(20, 20))
+            # Note that switch button are reversed
             mode_switch.add_state('story', FROSTFALL_MODE_STORY)
             mode_switch.add_state('battle', FROSTFALL_MODE_BATTLE)
         elif event == 'coalition_20240627':
             mode_switch = Switch('CoalitionMode', offset=(20, 20))
-            # Note that switch button are reversed
             mode_switch.add_state('story', ACADEMY_MODE_BATTLE)
             mode_switch.add_state('battle', ACADEMY_MODE_STORY)
         elif event == 'coalition_20250626':
@@ -50,9 +50,9 @@ class CoalitionUI(Combat):
             raise ScriptError
 
         if mode == 'story':
-            mode_switch.set('battle', main=self)
-        elif mode == 'battle':
             mode_switch.set('story', main=self)
+        elif mode == 'battle':
+            mode_switch.set('battle', main=self)
         else:
             logger.warning(f'Unknown coalition campaign mode: {mode}')
 
@@ -293,3 +293,10 @@ class CoalitionUI(Combat):
             # Auto confirm
             if self.handle_combat_automation_confirm():
                 continue
+
+
+
+if __name__ == '__main__':
+    self = CoalitionUI('alas')
+    self.device.screenshot()
+    print(self.image_color_count(NEONCITY_MODE_BATTLE, color=(123, 41, 41), threshold=221, count=100))
