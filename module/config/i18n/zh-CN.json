@@ -66,6 +66,10 @@
       "name": "活动通用设置",
       "help": ""
     },
+    "Coalition": {
+      "name": "迷彩都市的寻踪者",
+      "help": ""
+    },
     "Event": {
       "name": "活动图",
       "help": ""
@@ -82,10 +86,6 @@
       "name": "深谷来信",
       "help": ""
     },
-    "Coalition": {
-      "name": "极地风暴",
-      "help": ""
-    },
     "MaritimeEscort": {
       "name": "商船护航",
       "help": ""
@@ -93,6 +93,10 @@
     "WarArchives": {
       "name": "作战档案",
       "help": "由于作战档案缺少维护，开荒功能不一定能正常使用，如果发现Alas运行异常，请手动完成开荒后使用自律寻敌功能"
+    },
+    "CoalitionSp": {
+      "name": "迷彩都市的寻踪者SP",
+      "help": ""
     },
     "EventA": {
       "name": "活动每日A图",
@@ -116,10 +120,6 @@
     },
     "RaidDaily": {
       "name": "共斗活动每日",
-      "help": ""
-    },
-    "CoalitionSp": {
-      "name": "极地风暴每日SP",
       "help": ""
     },
     "Commission": {
@@ -677,6 +677,7 @@
       "campaign_main": "主线图",
       "coalition_20230323": "极地风暴",
       "coalition_20240627": "欢迎来到童心学院",
+      "coalition_20250626": "迷彩都市的寻踪者",
       "event_20200227_cn": "北境序曲",
       "event_20200312_cn": "复刻斯图尔特的硝烟",
       "event_20200326_cn": "微层混合",
@@ -1306,10 +1307,10 @@
     "Mode": {
       "name": "难度",
       "help": "SP图需要使用活动每日SP运行",
-      "tc1": "tc1",
-      "tc2": "tc2",
-      "tc3": "tc3",
-      "sp": "sp",
+      "easy": "简单",
+      "normal": "普通",
+      "hard": "困难",
+      "sp": "SP",
       "ex": "EX"
     },
     "Fleet": {

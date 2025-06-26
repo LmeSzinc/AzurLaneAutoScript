@@ -8,6 +8,16 @@ from module.ui.page import page_coalition
 from module.ui.switch import Switch
 
 
+class NeoncitySwitch(Switch):
+    def get(self, main):
+        # check if having red text
+        for data in self.state_list:
+            if main.image_color_count(data['check_button'], color=(123, 41, 41), threshold=221, count=100):
+                return data['state']
+
+        return 'unknown'
+
+
 class CoalitionUI(Combat):
     def in_coalition(self):
         # The same as raid
@@ -22,22 +32,27 @@ class CoalitionUI(Combat):
         Pages:
             in: in_coalition
         """
-        MODE_SWITCH = Switch('CoalitionMode', offset=(20, 20))
         if event == 'coalition_20230323':
-            MODE_SWITCH.add_state('story', FROSTFALL_MODE_STORY)
-            MODE_SWITCH.add_state('battle', FROSTFALL_MODE_BATTLE)
-        elif event == 'coalition_20240627':
+            mode_switch = Switch('CoalitionMode', offset=(20, 20))
             # Note that switch button are reversed
-            MODE_SWITCH.add_state('story', ACADEMY_MODE_BATTLE)
-            MODE_SWITCH.add_state('battle', ACADEMY_MODE_STORY)
+            mode_switch.add_state('story', FROSTFALL_MODE_STORY)
+            mode_switch.add_state('battle', FROSTFALL_MODE_BATTLE)
+        elif event == 'coalition_20240627':
+            mode_switch = Switch('CoalitionMode', offset=(20, 20))
+            mode_switch.add_state('story', ACADEMY_MODE_BATTLE)
+            mode_switch.add_state('battle', ACADEMY_MODE_STORY)
+        elif event == 'coalition_20250626':
+            mode_switch = NeoncitySwitch('CoalitionMode', offset=(20, 20))
+            mode_switch.add_state('story', NEONCITY_MODE_STORY)
+            mode_switch.add_state('battle', NEONCITY_MODE_BATTLE)
         else:
             logger.error(f'MODE_SWITCH is not defined in event {event}')
             raise ScriptError
 
         if mode == 'story':
-            MODE_SWITCH.set('battle', main=self)
+            mode_switch.set('story', main=self)
         elif mode == 'battle':
-            MODE_SWITCH.set('story', main=self)
+            mode_switch.set('battle', main=self)
         else:
             logger.warning(f'Unknown coalition campaign mode: {mode}')
 
@@ -50,21 +65,24 @@ class CoalitionUI(Combat):
         Pages:
             in: FLEET_PREPARATION
         """
-        FLEET_SWITCH = Switch('FleetMode', is_selector=True, offset=0)  # No offset for color match
+        fleet_switch = Switch('FleetMode', is_selector=True, offset=0)  # No offset for color match
         if event == 'coalition_20230323':
-            FLEET_SWITCH.add_state('single', FROSTFALL_SWITCH_SINGLE)
-            FLEET_SWITCH.add_state('multi', FROSTFALL_SWITCH_MULTI)
+            fleet_switch.add_state('single', FROSTFALL_SWITCH_SINGLE)
+            fleet_switch.add_state('multi', FROSTFALL_SWITCH_MULTI)
         elif event == 'coalition_20240627':
-            FLEET_SWITCH.add_state('single', ACADEMY_SWITCH_SINGLE)
-            FLEET_SWITCH.add_state('multi', ACADEMY_SWITCH_MULTI)
+            fleet_switch.add_state('single', ACADEMY_SWITCH_SINGLE)
+            fleet_switch.add_state('multi', ACADEMY_SWITCH_MULTI)
+        elif event == 'coalition_20250626':
+            fleet_switch.add_state('single', NEONCITY_SWITCH_SINGLE)
+            fleet_switch.add_state('multi', NEONCITY_SWITCH_MULTI)
         else:
             logger.error(f'FLEET_SWITCH is not defined in event {event}')
             raise ScriptError
 
         if mode == 'single':
-            FLEET_SWITCH.set('single', main=self)
+            fleet_switch.set('single', main=self)
         elif mode == 'multi':
-            FLEET_SWITCH.set('multi', main=self)
+            fleet_switch.set('multi', main=self)
         else:
             logger.warning(f'Unknown coalition fleet mode: {mode}')
 
@@ -90,6 +108,12 @@ class CoalitionUI(Combat):
             ('coalition_20240627', 'hard'): ACADEMY_HARD,
             ('coalition_20240627', 'sp'): ACADEMY_SP,
             ('coalition_20240627', 'ex'): ACADEMY_EX,
+
+            ('coalition_20250626', 'easy'): NEONCITY_EASY,
+            ('coalition_20250626', 'normal'): NEONCITY_NORMAL,
+            ('coalition_20250626', 'hard'): NEONCITY_HARD,
+            ('coalition_20250626', 'sp'): NEONCITY_SP,
+            ('coalition_20250626', 'ex'): NEONCITY_EX,
         }
         stage = stage.lower()
         try:
@@ -120,6 +144,12 @@ class CoalitionUI(Combat):
             ('coalition_20240627', 'hard'): 3,
             ('coalition_20240627', 'sp'): 4,
             ('coalition_20240627', 'ex'): 5,
+
+            ('coalition_20250626', 'easy'): 1,
+            ('coalition_20250626', 'normal'): 2,
+            ('coalition_20250626', 'hard'): 3,
+            ('coalition_20250626', 'sp'): 4,
+            ('coalition_20250626', 'ex'): 5,
         }
         stage = stage.lower()
         try:
@@ -141,6 +171,8 @@ class CoalitionUI(Combat):
             return FROSTFALL_FLEET_PREPARATION
         elif event == 'coalition_20240627':
             return ACEDEMY_FLEET_PREPARATION
+        elif event == 'coalition_20250626':
+            return NEONCITY_FLEET_PREPARATION
         else:
             logger.error(f'FLEET_PREPARATION is not defined in event {event}')
             raise ScriptError
@@ -162,6 +194,9 @@ class CoalitionUI(Combat):
             if stage in ['tc1', 'sp']:
                 return False
         if event == 'coalition_20240627':
+            if stage in ['easy', 'sp', 'ex']:
+                return False
+        if event == 'coalition_20250626':
             if stage in ['easy', 'sp', 'ex']:
                 return False
 
@@ -208,6 +243,12 @@ class CoalitionUI(Combat):
             if self.appear(FLEET_NOT_PREPARED, offset=(20, 20)):
                 logger.critical('FLEET_NOT_PREPARED')
                 logger.critical('Please prepare you fleets before running coalition battles')
+                raise RequestHumanTakeover
+            if self.appear(EMPTY_FLAGSHIP, offset=(20, 20)):
+                logger.critical('EMPTY_FLAGSHIP, Please prepare you fleets before running coalition battles')
+                raise RequestHumanTakeover
+            if self.appear(EMPTY_VANGUARD, offset=(20, 20)):
+                logger.critical('EMPTY_VANGUARD, Please prepare you fleets before running coalition battles')
                 raise RequestHumanTakeover
 
             # End
@@ -258,3 +299,10 @@ class CoalitionUI(Combat):
             # Auto confirm
             if self.handle_combat_automation_confirm():
                 continue
+
+
+
+if __name__ == '__main__':
+    self = CoalitionUI('alas')
+    self.device.screenshot()
+    print(self.image_color_count(NEONCITY_MODE_BATTLE, color=(123, 41, 41), threshold=221, count=100))

@@ -66,6 +66,10 @@
       "name": "Event General",
       "help": ""
     },
+    "Coalition": {
+      "name": "Neon City Investigator",
+      "help": ""
+    },
     "Event": {
       "name": "Event",
       "help": ""
@@ -82,10 +86,6 @@
       "name": "Valley Hospital",
       "help": ""
     },
-    "Coalition": {
-      "name": "Frostfall",
-      "help": ""
-    },
     "MaritimeEscort": {
       "name": "Maritime Escort",
       "help": ""
@@ -93,6 +93,10 @@
     "WarArchives": {
       "name": "War Archives",
       "help": "Due to the lack of maintenance of war archives, continuous clear may not work normally, if Alas runs abnormally, Please manually finish clearing and use auto search"
+    },
+    "CoalitionSp": {
+      "name": "Neon City Investigator SP",
+      "help": ""
     },
     "EventA": {
       "name": "Event Daily A",
@@ -116,10 +120,6 @@
     },
     "RaidDaily": {
       "name": "Raid Daily",
-      "help": ""
-    },
-    "CoalitionSp": {
-      "name": "Frostfall SP",
       "help": ""
     },
     "Commission": {
@@ -677,6 +677,7 @@
       "campaign_main": "campaign_main",
       "coalition_20230323": "Frostfall",
       "coalition_20240627": "Welcome to Little Academy",
+      "coalition_20250626": "The Neon City Investigator",
       "event_20200227_cn": "Northern Overture",
       "event_20200312_cn": "The Solomon Ranger Rerun",
       "event_20200326_cn": "Microlayer Medley",
@@ -1306,10 +1307,10 @@
     "Mode": {
       "name": "Mode",
       "help": "SP needs to use event daily SP to run",
-      "tc1": "tc1",
-      "tc2": "tc2",
-      "tc3": "tc3",
-      "sp": "sp",
+      "easy": "Easy",
+      "normal": "Normal",
+      "hard": "Hard",
+      "sp": "SP",
       "ex": "EX"
     },
     "Fleet": {
