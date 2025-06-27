@@ -78,7 +78,7 @@ class ManualConfig:
     ASCREENCAP_FILEPATH_LOCAL = './bin/ascreencap'
     ASCREENCAP_FILEPATH_REMOTE = '/data/local/tmp/ascreencap'
 
-    # 'DroidCast', 'DroidCast_raw'
+    # 'DroidCast', 'DroidCast_raw', 'DroidCast_lz4'
     DROIDCAST_VERSION = 'DroidCast'
     DROIDCAST_FILEPATH_LOCAL = './bin/DroidCast/DroidCast_raw-release-1.0.apk'
     DROIDCAST_FILEPATH_REMOTE = '/data/local/tmp/DroidCast_raw.apk'

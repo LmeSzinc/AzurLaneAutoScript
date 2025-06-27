@@ -176,7 +176,8 @@ class Benchmark(DaemonBase, CampaignUI):
     def get_test_methods(self) -> t.Tuple[t.Tuple[str], t.Tuple[str]]:
         device = self.config.Benchmark_DeviceType
         # device == 'emulator'
-        screenshot = ['ADB', 'ADB_nc', 'uiautomator2', 'aScreenCap', 'aScreenCap_nc', 'DroidCast', 'DroidCast_raw']
+        screenshot = ['ADB', 'ADB_nc', 'uiautomator2', 'aScreenCap', 'aScreenCap_nc', 'DroidCast', 'DroidCast_raw',
+                      'DroidCast_lz4']
         click = ['ADB', 'uiautomator2', 'minitouch', 'MaaTouch']
 
         def remove(*args):
@@ -192,14 +193,12 @@ class Benchmark(DaemonBase, CampaignUI):
             screenshot = remove('ADB_nc', 'aScreenCap_nc')
         # VMOS
         if device == 'android_phone_vmos':
-            screenshot = ['ADB', 'aScreenCap', 'DroidCast', 'DroidCast_raw']
+            screenshot = ['ADB', 'aScreenCap', 'DroidCast', 'DroidCast_raw', 'DroidCast_lz4']
             click = ['ADB', 'Hermit', 'MaaTouch']
         if self.device.nemu_ipc_available():
             screenshot.append('nemu_ipc')
         if self.device.ldopengl_available():
             screenshot.append('ldopengl')
-        if self.device.is_bluestacks_air:
-            screenshot = [l for l in screenshot if 'DroidCast' not in l]
 
         scene = self.config.Benchmark_TestScene
         if 'screenshot' not in scene:
@@ -224,7 +223,7 @@ class Benchmark(DaemonBase, CampaignUI):
         Returns:
             str: The fastest screenshot method on current device.
         """
-        screenshot = ['ADB', 'ADB_nc', 'uiautomator2', 'aScreenCap', 'aScreenCap_nc', 'DroidCast', 'DroidCast_raw']
+        screenshot = ['ADB', 'ADB_nc', 'uiautomator2', 'aScreenCap', 'aScreenCap_nc', 'DroidCast', 'DroidCast_raw', 'DroidCast_lz4']
 
         def remove(*args):
             return [l for l in screenshot if l not in args]
