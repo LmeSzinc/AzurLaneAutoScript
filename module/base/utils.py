@@ -530,13 +530,17 @@ def load_image(file, area=None):
     Returns:
         np.ndarray:
     """
-    image = Image.open(file)
-    if area is not None:
-        image = image.crop(area)
-    image = np.array(image)
-    channel = image.shape[2] if len(image.shape) > 2 else 1
-    if channel > 3:
-        image = image[:, :, :3].copy()
+    # always remember to close Image object
+    with Image.open(file) as f:
+        if area is not None:
+            f = f.crop(area)
+
+        image = np.array(f)
+
+    channel = image_channel(image)
+    if channel == 4:
+        image = cv2.cvtColor(image, cv2.COLOR_RGBA2RGB)
+
     return image
 
 
