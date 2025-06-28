@@ -223,8 +223,8 @@ class CoalitionUI(Combat):
                 self.device.click(BACK_ARROW)
                 continue
             if self.appear(fleet_preparation, offset=(20, 20), interval=3):
-                logger.info(f'{fleet_preparation} -> {BACK_ARROW}')
-                self.device.click(BACK_ARROW)
+                logger.info(f'{fleet_preparation} -> {NEONCITY_PREPARATION_EXIT}')
+                self.device.click(NEONCITY_PREPARATION_EXIT)
                 continue
 
     def enter_map(self, event, stage, mode, skip_first_screenshot=True):
