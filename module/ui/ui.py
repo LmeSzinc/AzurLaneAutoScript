@@ -1,6 +1,7 @@
 from module.base.button import Button
 from module.base.decorator import run_once
 from module.base.timer import Timer
+from module.coalition.assets import NEONCITY_FLEET_PREPARATION, NEONCITY_PREPARATION_EXIT
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_SHIP
 from module.event_hospital.assets import HOSIPITAL_CLUE_CHECK, HOSPITAL_BATTLE_EXIT
 from module.exception import (GameNotRunningError, GamePageUnknownError,
@@ -18,7 +19,7 @@ from module.ocr.ocr import Ocr
 from module.os_handler.assets import (AUTO_SEARCH_REWARD, EXCHANGE_CHECK, RESET_FLEET_PREPARATION, RESET_TICKET_POPUP)
 from module.raid.assets import *
 from module.ui.assets import *
-from module.ui.page import (Page, page_campaign, page_event, page_main, page_main_white, page_sp)
+from module.ui.page import Page, page_campaign, page_event, page_main, page_main_white, page_sp
 from module.ui_white.assets import *
 
 
@@ -546,12 +547,17 @@ class UI(InfoHandler):
             return True
 
         # RPG event (raid_20240328)
-        if self.appear_then_click(RPG_STATUS_POPUP, offset=(30, 30), interval=3):
-            return True
+        # if self.appear_then_click(RPG_STATUS_POPUP, offset=(30, 30), interval=3):
+        #     return True
         # Hospital event (20250327)
-        if self.appear_then_click(HOSIPITAL_CLUE_CHECK, offset=(20, 20), interval=2):
-            return True
-        if self.appear_then_click(HOSPITAL_BATTLE_EXIT, offset=(20, 20), interval=2):
+        # if self.appear_then_click(HOSIPITAL_CLUE_CHECK, offset=(20, 20), interval=2):
+        #     return True
+        # if self.appear_then_click(HOSPITAL_BATTLE_EXIT, offset=(20, 20), interval=2):
+        #     return True
+        # Neon city (coalition_20250626)
+        if self.appear(NEONCITY_FLEET_PREPARATION, offset=(20, 20), interval=3):
+            logger.info(f'{NEONCITY_FLEET_PREPARATION} -> {NEONCITY_PREPARATION_EXIT}')
+            self.device.click(NEONCITY_PREPARATION_EXIT)
             return True
 
         # Idle page
