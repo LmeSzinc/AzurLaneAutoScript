@@ -408,13 +408,17 @@ class PrivateQuarters(UI):
             in: Any page
             out: page_main, may have info_bar
         """
-        self.ui_goto(page_private_quarters, get_ship=False)
-        self.handle_info_bar()
+        if server.server == 'en':
+            self.ui_goto(page_private_quarters, get_ship=False)
+            self.handle_info_bar()
 
-        self.pq_run(
-            buy_roses=self.config.PrivateQuarters_BuyRoses,
-            target_interact=self.config.PrivateQuarters_TargetInteract,
-            target_ship=self.config.PrivateQuarters_TargetShip
-        )
+            self.pq_run(
+                buy_roses=self.config.PrivateQuarters_BuyRoses,
+                target_interact=self.config.PrivateQuarters_TargetInteract,
+                target_ship=self.config.PrivateQuarters_TargetShip
+            )
+        else:
+            logger.info(f'Private Quarters task not presently supported for {server.server} server.')
+            logger.info('If want to address, review necessary assets, replace, update above condition, and test')
 
         self.config.task_delay(server_update=True)
