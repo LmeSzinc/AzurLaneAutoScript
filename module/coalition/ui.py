@@ -4,6 +4,7 @@ from module.combat.assets import BATTLE_PREPARATION
 from module.combat.combat import Combat
 from module.exception import CampaignNameError, RequestHumanTakeover, ScriptError
 from module.logger import logger
+from module.ui.assets import BACK_ARROW
 from module.ui.page import page_coalition
 from module.ui.switch import Switch
 
@@ -203,6 +204,29 @@ class CoalitionUI(Combat):
         self.coalition_ensure_fleet(event, mode)
         return True
 
+    def coalition_map_exit(self, event):
+        """
+        Pages:
+            in: BATTLE_PREPARATION, or coalition specific fleet_preparation
+            out: in_coalition
+        """
+        logger.info('Coalition map exit')
+        fleet_preparation = self.coalition_get_fleet_preparation(event)
+        for _ in self.loop():
+            if self.in_coalition():
+                break
+            if self.is_in_main():
+                break
+
+            if self.appear(BATTLE_PREPARATION, offset=(20, 20), interval=3):
+                logger.info(f'{BATTLE_PREPARATION} -> {BACK_ARROW}')
+                self.device.click(BACK_ARROW)
+                continue
+            if self.appear(fleet_preparation, offset=(20, 20), interval=3):
+                logger.info(f'{fleet_preparation} -> {NEONCITY_PREPARATION_EXIT}')
+                self.device.click(NEONCITY_PREPARATION_EXIT)
+                continue
+
     def enter_map(self, event, stage, mode, skip_first_screenshot=True):
         """
         Args:
@@ -299,10 +323,3 @@ class CoalitionUI(Combat):
             # Auto confirm
             if self.handle_combat_automation_confirm():
                 continue
-
-
-
-if __name__ == '__main__':
-    self = CoalitionUI('alas')
-    self.device.screenshot()
-    print(self.image_color_count(NEONCITY_MODE_BATTLE, color=(123, 41, 41), threshold=221, count=100))
