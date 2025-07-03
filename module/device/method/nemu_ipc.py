@@ -486,7 +486,7 @@ class NemuIpc(Platform):
                         instance_id=index,
                         display_id=0
                     ).__enter__()
-                except (NemuIpcIncompatible, NemuIpcError) as e:
+                except (NemuIpcIncompatible, NemuIpcError, JobTimeout) as e:
                     logger.error(e)
                     logger.error('Emulator info incorrect')
 
@@ -505,7 +505,7 @@ class NemuIpc(Platform):
                 instance_id=self.emulator_instance.MuMuPlayer12_id,
                 display_id=0
             ).__enter__()
-        except (NemuIpcIncompatible, NemuIpcError) as e:
+        except (NemuIpcIncompatible, NemuIpcError, JobTimeout) as e:
             logger.error(e)
             logger.error('Unable to initialize NemuIpc')
             raise RequestHumanTakeover
