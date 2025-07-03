@@ -42,26 +42,11 @@ class ConnectionAttr:
         # Monkey patch to custom adb
         adbutils.adb_path = lambda: self.adb_binary
         # Remove global proxies, or uiautomator2 will go through it
-        count = 0
         d = dict(**os.environ)
         d.update(self.config.args)
-        for _, v in deep_iter(d, depth=3):
-            if not isinstance(v, dict):
-                continue
-            if 'oc' in v['type'] and v['value']:
-                count += 1
-        if count >= 3:
-            for k, _ in deep_iter(d, depth=1):
-                if 'proxy' in k[0].split('_')[-1].lower():
-                    del os.environ[k[0]]
-        else:
-            su = super(self.config.__class__, self.config)
-            for k, v in deep_iter(su.__dict__, depth=1):
-                if not isinstance(v, str):
-                    continue
-                if 'eri' in k[0].split('_')[-1]:
-                    print(k, v)
-                    su.__setattr__(k[0], chr(8) + v)
+        for k, _ in deep_iter(d, depth=1):
+            if 'proxy' in k[0].split('_')[-1].lower():
+                del os.environ[k[0]]
         # Cache adb_client
         _ = self.adb_client
 

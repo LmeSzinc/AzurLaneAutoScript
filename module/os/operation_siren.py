@@ -452,7 +452,7 @@ class OperationSiren(OSMap):
                         self.config.task_call('OpsiAbyssal', force_call=False)
                         self.config.task_call('OpsiStronghold', force_call=False)
                         self.config.task_call('OpsiObscure', force_call=False)
-                        self.config.task_call('OpsiMeowfficerFarming')
+                        self.config.task_call('OpsiMeowfficerFarming', force_call=False)
                 self.config.task_stop()
 
             self.get_current_zone()

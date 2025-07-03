@@ -2553,6 +2553,7 @@
     "HazardLevel": {
       "name": "Target Zone Hazard Level",
       "help": "Recommend 3 or 5 as these have higher meowfficer ratio to AP cost",
+      "2": "2",
       "3": "3",
       "4": "4",
       "5": "5",
