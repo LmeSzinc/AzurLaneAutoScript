@@ -2,7 +2,6 @@ import os
 import time
 from functools import wraps
 
-import lz4.block
 from adbutils.errors import AdbError
 
 from module.base.utils import *
@@ -157,7 +156,8 @@ class AScreenCap(Connection):
 
         _, uncompressed_size, _, width, height = compressed_data_header
         channel = 3
-        data = lz4.block.decompress(raw_compressed_data[20:], uncompressed_size=uncompressed_size)
+        from lz4.block import decompress
+        data = decompress(raw_compressed_data[20:], uncompressed_size=uncompressed_size)
 
         image = np.frombuffer(data, dtype=np.uint8)
         if image is None:
@@ -183,20 +183,21 @@ class AScreenCap(Connection):
         return image
 
     def __process_screenshot(self, screenshot):
+        from lz4.block import LZ4BlockError
         for method in self.__screenshot_method_fixed:
             try:
                 result = self.__load_screenshot(screenshot, method=method)
                 result = self.__uncompress(result)
                 self.__screenshot_method_fixed = [method] + self.__screenshot_method
                 return result
-            except lz4.block.LZ4BlockError:
+            except LZ4BlockError:
                 self.__bytepointer = 0
                 continue
 
         self.__screenshot_method_fixed = self.__screenshot_method
         if len(screenshot) < 500:
             logger.warning(f'Unexpected screenshot: {screenshot}')
-        raise OSError(f'cannot load screenshot')
+        raise ImageTruncated(f'cannot load screenshot')
 
     @retry
     def screenshot_ascreencap(self):
