@@ -449,9 +449,10 @@ class OperationSiren(OSMap):
                 with self.config.multi_set():
                     self.config.task_delay(minute=30, server_update=True)
                     if not self.is_in_opsi_explore():
-                        self.config.task_call('OpsiAbyssal', force_call=False)
-                        self.config.task_call('OpsiStronghold', force_call=False)
-                        self.config.task_call('OpsiObscure', force_call=False)
+                        cd = self.nearest_task_cooling_down
+                        if cd is None:
+                            for task in ['OpsiAbyssal', 'OpsiStronghold', 'OpsiObscure']:
+                                self.config.task_call(task, force_call=False)
                         self.config.task_call('OpsiMeowfficerFarming', force_call=False)
                 self.config.task_stop()
 
