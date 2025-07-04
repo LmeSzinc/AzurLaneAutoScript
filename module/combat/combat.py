@@ -106,6 +106,9 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         # PAUSE_Pharaoh has random animation, assets should avoid the area in the middle and use match_luma
         if PAUSE_Pharaoh.match_luma(self.device.image, offset=(10, 10)):
             return PAUSE_Pharaoh
+        # PAUSE_Star may get detected as PAUSE_Nurse, should before it
+        if PAUSE_Star.match_luma(self.device.image, offset=(10, 10)):
+            return PAUSE_Star
         if PAUSE_Nurse.match_luma(self.device.image, offset=(10, 10)):
             return PAUSE_Nurse
         # PAUSE_Devil is in red
