@@ -2636,7 +2636,7 @@
       "help": ""
     },
     "PurpleBoxLimit": {
-      "name": "Keep Purple Box number above X",
+      "name": "Keep each kind of Purple Box number above X",
       "help": ""
     },
     "UseBlueBox": {
@@ -2644,7 +2644,7 @@
       "help": ""
     },
     "BlueBoxLimit": {
-      "name": "Keep Blue Box number above X",
+      "name": "Keep each kind of Blue Box number above X",
       "help": ""
     },
     "UseWhiteBox": {
@@ -2652,7 +2652,7 @@
       "help": ""
     },
     "WhiteBoxLimit": {
-      "name": "Keep White Box number above X",
+      "name": "Keep each kind of White Box number above X",
       "help": ""
     }
   },

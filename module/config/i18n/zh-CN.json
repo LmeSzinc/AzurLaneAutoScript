@@ -2636,7 +2636,7 @@
       "help": ""
     },
     "PurpleBoxLimit": {
-      "name": "保留 X 个紫色装备箱",
+      "name": "保留每种紫色装备箱 X 个",
       "help": ""
     },
     "UseBlueBox": {
@@ -2644,7 +2644,7 @@
       "help": ""
     },
     "BlueBoxLimit": {
-      "name": "保留 X 个蓝色装备箱",
+      "name": "保留每种蓝色装备箱 X 个",
       "help": ""
     },
     "UseWhiteBox": {
@@ -2652,7 +2652,7 @@
       "help": ""
     },
     "WhiteBoxLimit": {
-      "name": "保留 X 个白色装备箱",
+      "name": "保留每种白色装备箱 X 个",
       "help": ""
     }
   },
