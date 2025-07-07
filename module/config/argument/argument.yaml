@@ -769,6 +769,13 @@ EventStory:
     type: checkbox
     value: false
     option: [ true, false ]
+BoxDisassemble:
+  UsePurpleBox: false
+  PurpleBoxLimit: 100
+  UseBlueBox: false
+  BlueBoxLimit: 1000
+  UseWhiteBox: true
+  WhiteBoxLimit: 2000
 Benchmark:
   DeviceType:
     value: emulator

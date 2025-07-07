@@ -10242,6 +10242,42 @@
       }
     }
   },
+  "BoxDisassemble": {
+    "BoxDisassemble": {
+      "UsePurpleBox": {
+        "type": "checkbox",
+        "value": false
+      },
+      "PurpleBoxLimit": {
+        "type": "input",
+        "value": 100
+      },
+      "UseBlueBox": {
+        "type": "checkbox",
+        "value": false
+      },
+      "BlueBoxLimit": {
+        "type": "input",
+        "value": 1000
+      },
+      "UseWhiteBox": {
+        "type": "checkbox",
+        "value": true
+      },
+      "WhiteBoxLimit": {
+        "type": "input",
+        "value": 2000
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
+    }
+  },
   "Benchmark": {
     "Benchmark": {
       "DeviceType": {

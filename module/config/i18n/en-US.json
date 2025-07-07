@@ -266,6 +266,10 @@
       "name": "Event Story",
       "help": ""
     },
+    "BoxDisassemble": {
+      "name": "Box Disassemble",
+      "help": ""
+    },
     "Benchmark": {
       "name": "Performance Test",
       "help": ""
@@ -2620,6 +2624,36 @@
       "help": "",
       "True": "Enabled",
       "False": "False"
+    }
+  },
+  "BoxDisassemble": {
+    "_info": {
+      "name": "Box Disassemble",
+      "help": "Disassemble equipment boxes in storage, configure before starting up, then wait"
+    },
+    "UsePurpleBox": {
+      "name": "Disassemble Purple Box",
+      "help": ""
+    },
+    "PurpleBoxLimit": {
+      "name": "Keep Purple Box number above X",
+      "help": ""
+    },
+    "UseBlueBox": {
+      "name": "Disassemble Blue Box",
+      "help": ""
+    },
+    "BlueBoxLimit": {
+      "name": "Keep Blue Box number above X",
+      "help": ""
+    },
+    "UseWhiteBox": {
+      "name": "Disassemble White Box",
+      "help": ""
+    },
+    "WhiteBoxLimit": {
+      "name": "Keep White Box number above X",
+      "help": ""
     }
   },
   "Benchmark": {

@@ -2085,6 +2085,19 @@
       "Storage": {}
     }
   },
+  "BoxDisassemble": {
+    "BoxDisassemble": {
+      "UsePurpleBox": false,
+      "PurpleBoxLimit": 100,
+      "UseBlueBox": false,
+      "BlueBoxLimit": 1000,
+      "UseWhiteBox": true,
+      "WhiteBoxLimit": 2000
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
   "Benchmark": {
     "Benchmark": {
       "DeviceType": "emulator",

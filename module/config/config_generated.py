@@ -457,6 +457,14 @@ class GeneratedConfig:
     # Group `EventStory`
     EventStory_SkipBattle = False  # True, False
 
+    # Group `BoxDisassemble`
+    BoxDisassemble_UsePurpleBox = False
+    BoxDisassemble_PurpleBoxLimit = 100
+    BoxDisassemble_UseBlueBox = False
+    BoxDisassemble_BlueBoxLimit = 1000
+    BoxDisassemble_UseWhiteBox = True
+    BoxDisassemble_WhiteBoxLimit = 2000
+
     # Group `Benchmark`
     Benchmark_DeviceType = 'emulator'  # emulator, plone_cloud_with_adb, phone_cloud_without_adb, android_phone, android_phone_vmos
     Benchmark_TestScene = 'screenshot_click'  # screenshot_click, screenshot, click

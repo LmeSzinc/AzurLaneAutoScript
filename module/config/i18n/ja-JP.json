@@ -266,6 +266,10 @@
       "name": "Event Story",
       "help": ""
     },
+    "BoxDisassemble": {
+      "name": "Task.BoxDisassemble.name",
+      "help": "Task.BoxDisassemble.help"
+    },
     "Benchmark": {
       "name": "機能テスト",
       "help": ""
@@ -2620,6 +2624,36 @@
       "help": "EventStory.SkipBattle.help",
       "True": "True",
       "False": "False"
+    }
+  },
+  "BoxDisassemble": {
+    "_info": {
+      "name": "BoxDisassemble._info.name",
+      "help": "BoxDisassemble._info.help"
+    },
+    "UsePurpleBox": {
+      "name": "BoxDisassemble.UsePurpleBox.name",
+      "help": "BoxDisassemble.UsePurpleBox.help"
+    },
+    "PurpleBoxLimit": {
+      "name": "BoxDisassemble.PurpleBoxLimit.name",
+      "help": "BoxDisassemble.PurpleBoxLimit.help"
+    },
+    "UseBlueBox": {
+      "name": "BoxDisassemble.UseBlueBox.name",
+      "help": "BoxDisassemble.UseBlueBox.help"
+    },
+    "BlueBoxLimit": {
+      "name": "BoxDisassemble.BlueBoxLimit.name",
+      "help": "BoxDisassemble.BlueBoxLimit.help"
+    },
+    "UseWhiteBox": {
+      "name": "BoxDisassemble.UseWhiteBox.name",
+      "help": "BoxDisassemble.UseWhiteBox.help"
+    },
+    "WhiteBoxLimit": {
+      "name": "BoxDisassemble.WhiteBoxLimit.name",
+      "help": "BoxDisassemble.WhiteBoxLimit.help"
     }
   },
   "Benchmark": {

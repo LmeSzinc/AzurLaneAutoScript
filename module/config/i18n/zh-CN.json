@@ -266,6 +266,10 @@
       "name": "活动剧情",
       "help": ""
     },
+    "BoxDisassemble": {
+      "name": "拆装备箱",
+      "help": ""
+    },
     "Benchmark": {
       "name": "性能测试",
       "help": ""
@@ -2620,6 +2624,36 @@
       "help": "",
       "True": "已启用",
       "False": "False"
+    }
+  },
+  "BoxDisassemble": {
+    "_info": {
+      "name": "拆解装备箱",
+      "help": "拆解仓库中的装备箱子，配置完成后启动并等待即可"
+    },
+    "UsePurpleBox": {
+      "name": "拆解紫色装备箱",
+      "help": ""
+    },
+    "PurpleBoxLimit": {
+      "name": "保留 X 个紫色装备箱",
+      "help": ""
+    },
+    "UseBlueBox": {
+      "name": "拆解蓝色装备箱",
+      "help": ""
+    },
+    "BlueBoxLimit": {
+      "name": "保留 X 个蓝色装备箱",
+      "help": ""
+    },
+    "UseWhiteBox": {
+      "name": "拆解白色装备箱",
+      "help": ""
+    },
+    "WhiteBoxLimit": {
+      "name": "保留 X 个白色装备箱",
+      "help": ""
     }
   },
   "Benchmark": {
