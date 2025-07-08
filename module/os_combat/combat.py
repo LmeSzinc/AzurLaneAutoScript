@@ -272,7 +272,7 @@ class Combat(Combat_, MapEventHandler):
             if self.handle_auto_search_battle_status():
                 success = None
                 continue
-            if self.handle_auto_search_exp_info():
+            if self.config.OpsiGeneral_RepairThreshold > 0 and self.handle_auto_search_exp_info():
                 success = None
                 continue
             if self.handle_map_event():
