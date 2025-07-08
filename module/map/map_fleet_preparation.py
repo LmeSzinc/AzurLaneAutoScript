@@ -296,7 +296,7 @@ class FleetPreparation(InfoHandler):
     map_fleet_checked = False
     map_is_hard_mode = False
 
-    def fleet_preparation(self):
+    def fleet_preparation(self, skip_first_screenshot=True):
         """Change fleets.
 
         Returns:
@@ -381,8 +381,20 @@ class FleetPreparation(InfoHandler):
             AUTO_SEARCH_SET_BOSS.load_offset(FLEET_1_CLEAR)
             AUTO_SEARCH_SET_ALL.load_offset(FLEET_1_CLEAR)
             AUTO_SEARCH_SET_STANDBY.load_offset(FLEET_1_CLEAR)
-        if self.appear(SUBMARINE_CLEAR, offset=(-20, -80, 20, 5)):
-            AUTO_SEARCH_SET_SUB_AUTO.load_offset(SUBMARINE_CLEAR)
-            AUTO_SEARCH_SET_SUB_STANDBY.load_offset(SUBMARINE_CLEAR)
+
+        timeout = Timer(1, count=3).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if timeout.reached():
+                break
+
+            if self.appear(SUBMARINE_CLEAR, offset=(-20, -80, 20, 5)):
+                AUTO_SEARCH_SET_SUB_AUTO.load_offset(SUBMARINE_CLEAR)
+                AUTO_SEARCH_SET_SUB_STANDBY.load_offset(SUBMARINE_CLEAR)
+                break
 
         return True
