@@ -8,7 +8,11 @@ from module.private_quarters.assets import *
 from module.ui.page import page_private_quarters
 from module.ui.ui import UI
 
-OCR_DAILY_COUNT = DigitCounter(PRIVATE_QUARTERS_DAILY_COUNT, letter=(255, 247, 247), threshold=64)
+if server.server == 'cn':
+    OCR_DAILY_COUNT = DigitCounter(PRIVATE_QUARTERS_DAILY_COUNT, letter=(218, 219, 221))
+else:
+    OCR_DAILY_COUNT = DigitCounter(PRIVATE_QUARTERS_DAILY_COUNT, letter=(255, 247, 247), threshold=64)
+
 if server.server != 'jp':
     OCR_SHOP_GOLD_COINS = Digit(PRIVATE_QUARTERS_SHOP_GOLD_COINS, letter=(239, 239, 239), name='OCR_SHOP_GOLD_COINS')
 else:
@@ -236,6 +240,7 @@ class PrivateQuarters(UI):
         currency = OCR_SHOP_GOLD_COINS.ocr(self.device.image)
         if currency < 24000:
             logger.warn(f'Have: {currency}, Need: 24000. Try again next day')
+            self._pq_shop_exit()
             logger.hr(f'End Weekly Roses', level=2)
             return
         logger.info('Purchasing all available weekly roses')
@@ -408,7 +413,7 @@ class PrivateQuarters(UI):
             in: Any page
             out: page_main, may have info_bar
         """
-        if server.server == 'en':
+        if server.server == 'en' or server.server == 'cn':
             self.ui_goto(page_private_quarters, get_ship=False)
             self.handle_info_bar()
 
