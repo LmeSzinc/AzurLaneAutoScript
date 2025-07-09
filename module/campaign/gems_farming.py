@@ -336,11 +336,12 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
             max_level = lv
             min_level = 1
         emotion_lower_bound = 0 if emotion == 0 else self.emotion_lower_bound
+        fleet = [0, self.fleet_to_attack] if self.config.GemsFarming_ALLowHighFlagshipLevel else self.fleet_to_attack
         scanner = ShipScanner(
-            level=(min_level, max_level), emotion=(emotion_lower_bound, 150), fleet=self.fleet_to_attack, status='free')
+            level=(min_level, max_level), emotion=(emotion_lower_bound, 150), fleet=fleet, status='free')
         scanner.disable('rarity')
 
-        if self.config.GemsFarming_CommonCV in ['custom', 'any', 'eagle']:
+        if not self.config.GemsFarming_ALLowHighFlagshipLevel:
             ships = scanner.scan(self.device.image)
             if ships:
                 # Don't need to change current
@@ -349,6 +350,7 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
             # Change to any ship
             scanner.set_limitation(fleet=0)
 
+        if self.config.GemsFarming_CommonCV in ['custom', 'any', 'eagle']:
             candidates = self.find_custom_candidates(scanner, ship_type='cv')
 
             if candidates:
@@ -360,12 +362,6 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
         else:
             template = TEMPLATE_COMMON_CV[f'{self.config.GemsFarming_CommonCV.upper()}']
 
-            ships = scanner.scan(self.device.image)
-            if ships:
-                # Don't need to change current
-                return ships
-
-            scanner.set_limitation(fleet=0)
             candidates = [ship for ship in scanner.scan(self.device.image, output=False)
                           if template.match(self.image_crop(ship.button, copy=False), similarity=SIM_VALUE)]
 
