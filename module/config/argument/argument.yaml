@@ -377,9 +377,12 @@ Research:
     option: [ always_use, only_05_hour, only_no_project, do_not_use ]
   AllowDelay: true
   PresetFilter:
-    value: series_7_blueprint_la9
+    value: series_8_blueprint_305
     option:
       - custom
+      - series_8_blueprint_305
+      - series_8_blueprint_only
+      - series_8_305_only
       - series_7_blueprint_la9
       - series_7_blueprint_only
       - series_7_la9_only
@@ -400,12 +403,12 @@ Research:
       - series_2_blueprint_only
       - series_2_457_only
   CustomFilter: |-
-    S7-DR0.5 > S7-PRY0.5 > S7-Q0.5 > S7-H0.5 > Q0.5 > S7-DR2.5
-    > S7-G1.5 > S7-Q1 > S7-DR5 > 0.5 > S7-G4 > S7-Q2 > S7-PRY2.5 > reset
-    > S7-DR8 > Q1 > 1 > S7-E-315 > S7-G2.5 > G1.5 > 1.5 > S7-E-031
-    > S7-Q4 > Q2 > E2 > 2 > DR2.5 > PRY2.5 > G2.5 > 2.5 > S7-PRY5
-    > S7-PRY8 > Q4 > G4 > 4 > S7-C6 > DR5 > PRY5 > 5 > C6 > 6 > S7-C8
-    > S7-C12 > DR8 > PRY8 > C8 > 8 > C12 > 12
+    S8-DR0.5 > S8-PRY0.5 > S8-Q0.5 > S8-H0.5 > Q0.5 > S8-DR2.5
+    > S8-G1.5 > S8-Q1 > S8-DR5 > 0.5 > S8-G4 > S8-Q2 > S8-PRY2.5 > reset
+    > S8-DR8 > Q1 > 1 > S8-E-315 > S8-G2.5 > G1.5 > 1.5 > S8-E-031
+    > S8-Q4 > Q2 > E2 > 2 > DR2.5 > PRY2.5 > G2.5 > 2.5 > S8-PRY5
+    > S8-PRY8 > Q4 > G4 > 4 > S8-C6 > DR5 > PRY5 > 5 > C6 > 6 > S8-C8
+    > S8-C12 > DR8 > PRY8 > C8 > 8 > C12 > 12
 Dorm:
   Collect: true
   Feed: true
@@ -580,6 +583,12 @@ SupplyPack:
     option: [ 0, 1, 2, 3, 4, 5, 6 ]
 Minigame:
   Collect: false
+PrivateQuarters:
+    BuyRoses: true
+    TargetInteract: true
+    TargetShip:
+      value: anchorage
+      option: [ anchorage, noshiro, sirius, new_jersey ]
 # ==================== Daily ====================
 
 Daily:

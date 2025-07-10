@@ -190,6 +190,10 @@
       "name": "小遊戲",
       "help": "遊戲幣不會溢出時自動領取遊戲幣，有遊戲幣且獎勵沒滿時自動進行小遊戲"
     },
+    "PrivateQuarters": {
+      "name": "宿舍計劃",
+      "help": ""
+    },
     "OpsiGeneral": {
       "name": "通用設定",
       "help": ""
@@ -1441,6 +1445,9 @@
       "name": "科研過濾器",
       "help": "科研掉落和項目刷新見 https://azur-stats.lyoko.io/，對這些沒有基本了解的人不建議編寫自定義過濾器，建議使用預優化科研過濾器",
       "custom": "自定義",
+      "series_8_blueprint_305": "八期 藍圖+305",
+      "series_8_blueprint_only": "八期 僅藍圖",
+      "series_8_305_only": "八期 僅305",
       "series_7_blueprint_la9": "七期 藍圖+La9",
       "series_7_blueprint_only": "七期 僅藍圖",
       "series_7_la9_only": "七期 僅La9",
@@ -2038,6 +2045,28 @@
     "Collect": {
       "name": "啟用",
       "help": ""
+    }
+  },
+  "PrivateQuarters": {
+    "_info": {
+      "name": "宿舍計劃",
+      "help": "PrivateQuarters._info.help"
+    },
+    "BuyRoses": {
+      "name": "PrivateQuarters.BuyRoses.name",
+      "help": "PrivateQuarters.BuyRoses.help"
+    },
+    "TargetInteract": {
+      "name": "PrivateQuarters.TargetInteract.name",
+      "help": "PrivateQuarters.TargetInteract.help"
+    },
+    "TargetShip": {
+      "name": "PrivateQuarters.TargetShip.name",
+      "help": "PrivateQuarters.TargetShip.help",
+      "anchorage": "anchorage",
+      "noshiro": "noshiro",
+      "sirius": "sirius",
+      "new_jersey": "new_jersey"
     }
   },
   "Daily": {

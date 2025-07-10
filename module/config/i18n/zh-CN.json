@@ -190,6 +190,10 @@
       "name": "小游戏",
       "help": "游戏币不会溢出时自动领取游戏币，有游戏币且奖励没满时自动进行小游戏"
     },
+    "PrivateQuarters": {
+      "name": "宿舍计划",
+      "help": ""
+    },
     "OpsiGeneral": {
       "name": "通用设置",
       "help": ""
@@ -1441,6 +1445,9 @@
       "name": "科研过滤器",
       "help": "科研掉落和项目刷新见 https://azur-stats.lyoko.io/，对这些没有基本了解的人不建议编写自定义过滤器，建议使用预优化科研过滤器",
       "custom": "自定义",
+      "series_8_blueprint_305": "八期 蓝图+305",
+      "series_8_blueprint_only": "八期 仅蓝图",
+      "series_8_305_only": "八期 仅305",
       "series_7_blueprint_la9": "七期 蓝图+La9",
       "series_7_blueprint_only": "七期 仅蓝图",
       "series_7_la9_only": "七期 仅La9",
@@ -2038,6 +2045,28 @@
     "Collect": {
       "name": "启用",
       "help": ""
+    }
+  },
+  "PrivateQuarters": {
+    "_info": {
+      "name": "宿舍计划设置",
+      "help": ""
+    },
+    "BuyRoses": {
+      "name": "购买每周浪漫满分",
+      "help": "浪漫满分购买次数每周一重置\n每次运行会尝试一次性全部购买，如果物资不够（不足24K）则取消购买并推迟至次日运行"
+    },
+    "TargetInteract": {
+      "name": "清空每日精力",
+      "help": "与选择的舰娘互动清空今日精力"
+    },
+    "TargetShip": {
+      "name": "选择每日互动的舰娘",
+      "help": "选择需要与之每日互动的舰娘",
+      "anchorage": "安克雷奇",
+      "noshiro": "能代",
+      "sirius": "天狼星",
+      "new_jersey": "新泽西"
     }
   },
   "Daily": {

@@ -190,6 +190,10 @@
       "name": "Minigame",
       "help": "Receive credits and spend them"
     },
+    "PrivateQuarters": {
+      "name": "Private Quarters",
+      "help": ""
+    },
     "OpsiGeneral": {
       "name": "OpSi General",
       "help": ""
@@ -1441,6 +1445,9 @@
       "name": "Preset Filter Select",
       "help": "See research drops rates and spawn rates in https://azur-stats.lyoko.io/. People without a basic knowledge of these are recommended to use pre-optimized presets instead of writing custom filters",
       "custom": "custom",
+      "series_8_blueprint_305": "Series 8 Blueprints+305",
+      "series_8_blueprint_only": "Series 8 Blueprints Only",
+      "series_8_305_only": "Series 8 305 Only",
       "series_7_blueprint_la9": "Series 7 Blueprints+La9",
       "series_7_blueprint_only": "Series 7 Blueprints Only",
       "series_7_la9_only": "Series 7 La9 Only",
@@ -2038,6 +2045,28 @@
     "Collect": {
       "name": "Enable",
       "help": ""
+    }
+  },
+  "PrivateQuarters": {
+    "_info": {
+      "name": "Private Quarters Settings",
+      "help": "Execute the automated task relating to the private quarters feature\nToggle desired subtasks, can enable just 1 or both"
+    },
+    "BuyRoses": {
+      "name": "Buy Weekly Roses",
+      "help": "On week reset, roses will be available for purchase\nThe purchase is made in bulk wholsesale or none at all\nMinimum of 24K coin is required, if not enough subtask will be delayed to the next day and try again then"
+    },
+    "TargetInteract": {
+      "name": "Enable Daily Interact",
+      "help": "Enables execution of the interation sequence with target ship girl"
+    },
+    "TargetShip": {
+      "name": "Choose Ship Girl",
+      "help": "Select the target ship girl for interaction sequence",
+      "anchorage": "Anchorage",
+      "noshiro": "Noshiro",
+      "sirius": "Sirius",
+      "new_jersey": "New Jersey"
     }
   },
   "Daily": {
