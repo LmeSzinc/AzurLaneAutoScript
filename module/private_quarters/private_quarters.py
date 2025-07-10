@@ -18,6 +18,7 @@ if server.server != 'jp':
 else:
     OCR_SHOP_GOLD_COINS = Digit(PRIVATE_QUARTERS_SHOP_GOLD_COINS, letter=(201, 201, 201), name='OCR_SHOP_GOLD_COINS')
 
+
 class PrivateQuarters(UI):
     # Key: str, target ship name
     # Value: list[Button], button instances
@@ -106,14 +107,15 @@ class PrivateQuarters(UI):
                 if settle_timer.reached():
                     break
 
-        logger.warn(f'{target_title}\'s page cannot be found')
+        logger.warning(f'{target_title}\'s page cannot be found')
         return False
 
     def _pq_goto_room_check(self):
         """
         Callable wrapper for whether is loading or blocked by download asset popup
         """
-        return self.appear(PRIVATE_QUARTERS_LOADING_CHECK, offset=(20,20)) or self.appear(POPUP_CANCEL, offset=(20, 20))
+        return self.appear(PRIVATE_QUARTERS_LOADING_CHECK, offset=(20, 20)) \
+               or self.appear(POPUP_CANCEL, offset=(20, 20))
 
     def _pq_goto_room_enter(self, target_ship):
         """
@@ -168,7 +170,8 @@ class PrivateQuarters(UI):
         # If target's intimacy is maxed
         # Terminate the run
         if self.appear(PRIVATE_QUARTERS_ROOM_TARGET_INTIMACY_MAX, offset=(20, 20)):
-            logger.warn(f'{target_title}\'s intimacy is maxed, configure to new target or turn off subtask altogether')
+            logger.warning(
+                f'{target_title}\'s intimacy is maxed, configure to new target or turn off subtask altogether')
             return False
 
         return True
@@ -239,14 +242,14 @@ class PrivateQuarters(UI):
         # Try again next day if low
         currency = OCR_SHOP_GOLD_COINS.ocr(self.device.image)
         if currency < 24000:
-            logger.warn(f'Have: {currency}, Need: 24000. Try again next day')
+            logger.warning(f'Have: {currency}, Need: 24000. Try again next day')
             self._pq_shop_exit()
             logger.hr(f'End Weekly Roses', level=2)
             return
         logger.info('Purchasing all available weekly roses')
 
         # Execute purchase operation
-        skip_first_screenshot=True
+        skip_first_screenshot = True
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -268,7 +271,6 @@ class PrivateQuarters(UI):
         # Exit shop
         self._pq_shop_exit()
         logger.hr(f'End Weekly Roses', level=2)
-
 
     def pq_interact(self):
         """
@@ -298,7 +300,7 @@ class PrivateQuarters(UI):
         for i in range(1, 4):
             logger.hr(f'Interact Loop {i}/3', level=3)
             self.interval_clear([PRIVATE_QUARTERS_INTERACT_CHECK,
-                PRIVATE_QUARTERS_INTERACT])
+                                 PRIVATE_QUARTERS_INTERACT])
             skip_first_screenshot = True
             while 1:
                 if skip_first_screenshot:
@@ -359,7 +361,7 @@ class PrivateQuarters(UI):
                 logger.info(f'{target_title} is waiting and excited for your arrival!')
                 success = True
                 break
-            logger.warn(f'{target_title} is not ready, exit and try again; retry={retry - (_ + 1)}')
+            logger.warning(f'{target_title} is not ready, exit and try again; retry={retry - (_ + 1)}')
 
             self._pq_goto_room_exit()
 
@@ -378,9 +380,9 @@ class PrivateQuarters(UI):
         """
         logger.hr(f'Private Quarters Run', level=1)
         target_title = target_ship.title().replace('_', ' ')
-        logger.info((f'Task configured for Buy_Roses={buy_roses}, '
-            f'Interact_ShipGirl={target_interact}, '
-            f'Target_ShipGirl={target_title}'))
+        logger.info(f'Task configured for Buy_Roses={buy_roses}, '
+                    f'Interact_ShipGirl={target_interact}, '
+                    f'Target_ShipGirl={target_title}')
 
         # Enter shop and spend coin for weekly roses if enabled
         if buy_roses:
