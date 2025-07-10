@@ -191,8 +191,8 @@
       "help": "游戏币不会溢出时自动领取游戏币，有游戏币且奖励没满时自动进行小游戏"
     },
     "PrivateQuarters": {
-      "name": "Task.PrivateQuarters.name",
-      "help": "Task.PrivateQuarters.help"
+      "name": "宿舍计划",
+      "help": ""
     },
     "OpsiGeneral": {
       "name": "通用设置",
@@ -2046,24 +2046,24 @@
   },
   "PrivateQuarters": {
     "_info": {
-      "name": "PrivateQuarters._info.name",
-      "help": "PrivateQuarters._info.help"
+      "name": "宿舍计划设置",
+      "help": ""
     },
     "BuyRoses": {
-      "name": "PrivateQuarters.BuyRoses.name",
-      "help": "PrivateQuarters.BuyRoses.help"
+      "name": "购买每周浪漫满分",
+      "help": "浪漫满分购买次数每周一重置\n每次运行会尝试一次性全部购买，如果物资不够（不足24K）则取消购买并推迟至次日运行"
     },
     "TargetInteract": {
-      "name": "PrivateQuarters.TargetInteract.name",
-      "help": "PrivateQuarters.TargetInteract.help"
+      "name": "清空每日精力",
+      "help": "与选择的舰娘互动清空今日精力"
     },
     "TargetShip": {
-      "name": "PrivateQuarters.TargetShip.name",
-      "help": "PrivateQuarters.TargetShip.help",
-      "anchorage": "anchorage",
-      "noshiro": "noshiro",
-      "sirius": "sirius",
-      "new_jersey": "new_jersey"
+      "name": "选择每日互动的舰娘",
+      "help": "选择需要与之每日互动的舰娘",
+      "anchorage": "安克雷奇",
+      "noshiro": "能代",
+      "sirius": "天狼星",
+      "new_jersey": "新泽西"
     }
   },
   "Daily": {
