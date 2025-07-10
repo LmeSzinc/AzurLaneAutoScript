@@ -185,7 +185,7 @@ class PrivateQuarters(UI):
             click_button=PRIVATE_QUARTERS_ROOM_BACK,
             check_button=page_private_quarters.check_button,
             offset=(20, 20),
-            retry_wait=1.5,
+            retry_wait=3.0,
             skip_first_screenshot=True
         )
         self.handle_info_bar()
