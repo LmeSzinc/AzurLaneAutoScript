@@ -804,7 +804,8 @@
       "war_archives_20220224_cn": "archives Abyssal Refrain",
       "war_archives_20220324_cn": "archives Virtual Tower",
       "war_archives_20220414_cn": "archives Aurora Noctis",
-      "war_archives_20220526_cn": "archives Pledge of the Radiant Court"
+      "war_archives_20220526_cn": "archives Pledge of the Radiant Court",
+      "war_archives_20220728_cn": "archives Aquilifers Ballade"
     },
     "Mode": {
       "name": "Level Mode",
@@ -1444,6 +1445,9 @@
       "name": "Preset Filter Select",
       "help": "See research drops rates and spawn rates in https://azur-stats.lyoko.io/. People without a basic knowledge of these are recommended to use pre-optimized presets instead of writing custom filters",
       "custom": "custom",
+      "series_8_blueprint_305": "Series 8 Blueprints+305",
+      "series_8_blueprint_only": "Series 8 Blueprints Only",
+      "series_8_305_only": "Series 8 305 Only",
       "series_7_blueprint_la9": "Series 7 Blueprints+La9",
       "series_7_blueprint_only": "Series 7 Blueprints Only",
       "series_7_la9_only": "Series 7 La9 Only",

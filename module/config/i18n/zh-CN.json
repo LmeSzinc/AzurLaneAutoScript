@@ -804,7 +804,8 @@
       "war_archives_20220224_cn": "档案 深度回音",
       "war_archives_20220324_cn": "档案 虚像构筑之塔",
       "war_archives_20220414_cn": "档案 永夜幻光",
-      "war_archives_20220526_cn": "档案 泠誓光庭"
+      "war_archives_20220526_cn": "档案 泠誓光庭",
+      "war_archives_20220728_cn": "档案 雄鹰的叙事歌"
     },
     "Mode": {
       "name": "关卡模式",
@@ -1444,6 +1445,9 @@
       "name": "科研过滤器",
       "help": "科研掉落和项目刷新见 https://azur-stats.lyoko.io/，对这些没有基本了解的人不建议编写自定义过滤器，建议使用预优化科研过滤器",
       "custom": "自定义",
+      "series_8_blueprint_305": "八期 蓝图+305",
+      "series_8_blueprint_only": "八期 仅蓝图",
+      "series_8_305_only": "八期 仅305",
       "series_7_blueprint_la9": "七期 蓝图+La9",
       "series_7_blueprint_only": "七期 仅蓝图",
       "series_7_la9_only": "七期 仅La9",
