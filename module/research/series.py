@@ -14,6 +14,8 @@ RESEARCH_SCALING = [
 def match_series(image, scaling):
     image = rgb2gray(image)
 
+    if TEMPLATE_S8.match(image, scaling=scaling):
+        return 8
     if TEMPLATE_S7.match(image, scaling=scaling):
         return 7
     if TEMPLATE_S6.match(image, scaling=scaling):
