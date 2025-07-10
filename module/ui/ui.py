@@ -223,10 +223,11 @@ class UI(InfoHandler):
         logger.critical("Please switch to a supported page before starting Alas")
         raise GamePageUnknownError
 
-    def ui_goto(self, destination, offset=(30, 30), skip_first_screenshot=True):
+    def ui_goto(self, destination, get_ship=True, offset=(30, 30), skip_first_screenshot=True):
         """
         Args:
             destination (Page):
+            get_ship:
             offset:
             skip_first_screenshot:
         """
@@ -263,7 +264,7 @@ class UI(InfoHandler):
                 continue
 
             # Additional
-            if self.ui_additional():
+            if self.ui_additional(get_ship=get_ship):
                 continue
 
         # Reset connection
@@ -457,6 +458,9 @@ class UI(InfoHandler):
     def ui_additional(self, get_ship=True):
         """
         Handle all annoying popups during UI switching.
+
+        Args:
+            get_ship:
         """
         # Popups appear at page_os
         # Has a popup_confirm variant

@@ -270,6 +270,9 @@ DailyMission:
       - SupplyPack
     Minigame:
       - Scheduler
+    PrivateQuarters:
+      - Scheduler
+      - PrivateQuarters
 
 # ==================== Opsi ====================
 
