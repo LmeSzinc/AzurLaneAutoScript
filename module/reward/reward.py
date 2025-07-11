@@ -166,10 +166,6 @@ class Reward(UI):
             in: page_mission
             out: page_mission, MISSION_MULTI or MISSION_SINGLE or MISSION_UNFINISH
         """
-        # MISSION_UNFINISH is available on CN only yet
-        if self.config.SERVER not in ['cn', 'en', 'jp']:
-            return
-
         timeout = Timer(1, count=2).start()
         for _ in self.loop():
             if timeout.reached():
