@@ -66,6 +66,10 @@
       "name": "活動通用",
       "help": ""
     },
+    "Coalition": {
+      "name": "極地風暴",
+      "help": ""
+    },
     "Event": {
       "name": "活動圖",
       "help": ""
@@ -82,10 +86,6 @@
       "name": "深谷来信",
       "help": ""
     },
-    "Coalition": {
-      "name": "極地風暴",
-      "help": ""
-    },
     "MaritimeEscort": {
       "name": "商船護航",
       "help": ""
@@ -93,6 +93,10 @@
     "WarArchives": {
       "name": "作戰檔案",
       "help": "由於作戰檔案缺少維護，開荒功能不一定能正常使用，如果發現Alas運行異常，請手動完成開荒後使用自律尋敵功能"
+    },
+    "CoalitionSp": {
+      "name": "極地風暴每日SP",
+      "help": ""
     },
     "EventA": {
       "name": "活動每日A圖",
@@ -116,10 +120,6 @@
     },
     "RaidDaily": {
       "name": "共鬥活動每日",
-      "help": ""
-    },
-    "CoalitionSp": {
-      "name": "極地風暴每日SP",
       "help": ""
     },
     "Commission": {
@@ -189,6 +189,10 @@
     "Minigame": {
       "name": "小遊戲",
       "help": "遊戲幣不會溢出時自動領取遊戲幣，有遊戲幣且獎勵沒滿時自動進行小遊戲"
+    },
+    "PrivateQuarters": {
+      "name": "宿舍計劃",
+      "help": ""
     },
     "OpsiGeneral": {
       "name": "通用設定",
@@ -677,6 +681,7 @@
       "campaign_main": "主線圖",
       "coalition_20230323": "極地風暴",
       "coalition_20240627": "歡迎來到童心學院",
+      "coalition_20250626": "The Neon City Investigator",
       "event_20200227_cn": "Northern Overture",
       "event_20200312_cn": "斯圖爾特的硝煙",
       "event_20200326_cn": "Microlayer Medley",
@@ -750,7 +755,7 @@
       "event_20241121_cn": "危險發明逼近中",
       "event_20241219_cn": "Substellar Crepuscule",
       "event_20250227_cn": "Paradiso of Shackled Light",
-      "event_20250424_cn": "Toward Tulipa’s Seas",
+      "event_20250424_cn": "揚起鬱金之旗",
       "event_20250520_cn": "高塔上的薔薇",
       "raid_20200624": "特別演習埃塞克斯級(復刻)",
       "raid_20210708": "復刻穿越彼方的水線",
@@ -799,7 +804,8 @@
       "war_archives_20220224_cn": "檔案 深度回音",
       "war_archives_20220324_cn": "檔案 虛像構築之塔",
       "war_archives_20220414_cn": "檔案 永夜幻光",
-      "war_archives_20220526_cn": "檔案 泠誓光庭"
+      "war_archives_20220526_cn": "檔案 泠誓光庭",
+      "war_archives_20220728_cn": "檔案 雄鷹的敘事歌"
     },
     "Mode": {
       "name": "地圖模式",
@@ -1306,9 +1312,9 @@
     "Mode": {
       "name": "難度",
       "help": "SP圖需要使用活動每日SP運行",
-      "tc1": "tc1",
-      "tc2": "tc2",
-      "tc3": "tc3",
+      "easy": "簡單",
+      "normal": "普通",
+      "hard": "困難",
       "sp": "sp",
       "ex": "EX"
     },
@@ -1439,6 +1445,9 @@
       "name": "科研過濾器",
       "help": "科研掉落和項目刷新見 https://azur-stats.lyoko.io/，對這些沒有基本了解的人不建議編寫自定義過濾器，建議使用預優化科研過濾器",
       "custom": "自定義",
+      "series_8_blueprint_305": "八期 藍圖+305",
+      "series_8_blueprint_only": "八期 僅藍圖",
+      "series_8_305_only": "八期 僅305",
       "series_7_blueprint_la9": "七期 藍圖+La9",
       "series_7_blueprint_only": "七期 僅藍圖",
       "series_7_la9_only": "七期 僅La9",
@@ -2036,6 +2045,28 @@
     "Collect": {
       "name": "啟用",
       "help": ""
+    }
+  },
+  "PrivateQuarters": {
+    "_info": {
+      "name": "宿舍計劃",
+      "help": "PrivateQuarters._info.help"
+    },
+    "BuyRoses": {
+      "name": "PrivateQuarters.BuyRoses.name",
+      "help": "PrivateQuarters.BuyRoses.help"
+    },
+    "TargetInteract": {
+      "name": "PrivateQuarters.TargetInteract.name",
+      "help": "PrivateQuarters.TargetInteract.help"
+    },
+    "TargetShip": {
+      "name": "PrivateQuarters.TargetShip.name",
+      "help": "PrivateQuarters.TargetShip.help",
+      "anchorage": "anchorage",
+      "noshiro": "noshiro",
+      "sirius": "sirius",
+      "new_jersey": "new_jersey"
     }
   },
   "Daily": {

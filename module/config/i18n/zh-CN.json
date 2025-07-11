@@ -66,6 +66,10 @@
       "name": "活动通用设置",
       "help": ""
     },
+    "Coalition": {
+      "name": "迷彩都市的寻踪者",
+      "help": ""
+    },
     "Event": {
       "name": "活动图",
       "help": ""
@@ -82,10 +86,6 @@
       "name": "深谷来信",
       "help": ""
     },
-    "Coalition": {
-      "name": "极地风暴",
-      "help": ""
-    },
     "MaritimeEscort": {
       "name": "商船护航",
       "help": ""
@@ -93,6 +93,10 @@
     "WarArchives": {
       "name": "作战档案",
       "help": "由于作战档案缺少维护，开荒功能不一定能正常使用，如果发现Alas运行异常，请手动完成开荒后使用自律寻敌功能"
+    },
+    "CoalitionSp": {
+      "name": "迷彩都市的寻踪者SP",
+      "help": ""
     },
     "EventA": {
       "name": "活动每日A图",
@@ -116,10 +120,6 @@
     },
     "RaidDaily": {
       "name": "共斗活动每日",
-      "help": ""
-    },
-    "CoalitionSp": {
-      "name": "极地风暴每日SP",
       "help": ""
     },
     "Commission": {
@@ -189,6 +189,10 @@
     "Minigame": {
       "name": "小游戏",
       "help": "游戏币不会溢出时自动领取游戏币，有游戏币且奖励没满时自动进行小游戏"
+    },
+    "PrivateQuarters": {
+      "name": "宿舍计划",
+      "help": ""
     },
     "OpsiGeneral": {
       "name": "通用设置",
@@ -677,6 +681,7 @@
       "campaign_main": "主线图",
       "coalition_20230323": "极地风暴",
       "coalition_20240627": "欢迎来到童心学院",
+      "coalition_20250626": "迷彩都市的寻踪者",
       "event_20200227_cn": "北境序曲",
       "event_20200312_cn": "复刻斯图尔特的硝烟",
       "event_20200326_cn": "微层混合",
@@ -799,7 +804,8 @@
       "war_archives_20220224_cn": "档案 深度回音",
       "war_archives_20220324_cn": "档案 虚像构筑之塔",
       "war_archives_20220414_cn": "档案 永夜幻光",
-      "war_archives_20220526_cn": "档案 泠誓光庭"
+      "war_archives_20220526_cn": "档案 泠誓光庭",
+      "war_archives_20220728_cn": "档案 雄鹰的叙事歌"
     },
     "Mode": {
       "name": "关卡模式",
@@ -1306,10 +1312,10 @@
     "Mode": {
       "name": "难度",
       "help": "SP图需要使用活动每日SP运行",
-      "tc1": "tc1",
-      "tc2": "tc2",
-      "tc3": "tc3",
-      "sp": "sp",
+      "easy": "简单",
+      "normal": "普通",
+      "hard": "困难",
+      "sp": "SP",
       "ex": "EX"
     },
     "Fleet": {
@@ -1439,6 +1445,9 @@
       "name": "科研过滤器",
       "help": "科研掉落和项目刷新见 https://azur-stats.lyoko.io/，对这些没有基本了解的人不建议编写自定义过滤器，建议使用预优化科研过滤器",
       "custom": "自定义",
+      "series_8_blueprint_305": "八期 蓝图+305",
+      "series_8_blueprint_only": "八期 仅蓝图",
+      "series_8_305_only": "八期 仅305",
       "series_7_blueprint_la9": "七期 蓝图+La9",
       "series_7_blueprint_only": "七期 仅蓝图",
       "series_7_la9_only": "七期 仅La9",
@@ -2036,6 +2045,28 @@
     "Collect": {
       "name": "启用",
       "help": ""
+    }
+  },
+  "PrivateQuarters": {
+    "_info": {
+      "name": "宿舍计划设置",
+      "help": ""
+    },
+    "BuyRoses": {
+      "name": "购买每周浪漫满分",
+      "help": "浪漫满分购买次数每周一重置\n每次运行会尝试一次性全部购买，如果物资不够（不足24K）则取消购买并推迟至次日运行"
+    },
+    "TargetInteract": {
+      "name": "清空每日精力",
+      "help": "与选择的舰娘互动清空今日精力"
+    },
+    "TargetShip": {
+      "name": "选择每日互动的舰娘",
+      "help": "选择需要与之每日互动的舰娘",
+      "anchorage": "安克雷奇",
+      "noshiro": "能代",
+      "sirius": "天狼星",
+      "new_jersey": "新泽西"
     }
   },
   "Daily": {

@@ -66,6 +66,10 @@
       "name": "イベント共通設定",
       "help": ""
     },
+    "Coalition": {
+      "name": "ネオンシティの探索者",
+      "help": ""
+    },
     "Event": {
       "name": "イベント海域",
       "help": ""
@@ -82,16 +86,16 @@
       "name": "病院探訪",
       "help": ""
     },
-    "Coalition": {
-      "name": "星霜海嵐",
-      "help": ""
-    },
     "MaritimeEscort": {
       "name": "Maritime Escort",
       "help": ""
     },
     "WarArchives": {
       "name": "作戦履歴",
+      "help": ""
+    },
+    "CoalitionSp": {
+      "name": "ネオンシティの探索者SP",
       "help": ""
     },
     "EventA": {
@@ -116,10 +120,6 @@
     },
     "RaidDaily": {
       "name": "Raid Daily",
-      "help": ""
-    },
-    "CoalitionSp": {
-      "name": "星霜海嵐SP",
       "help": ""
     },
     "Commission": {
@@ -189,6 +189,10 @@
     "Minigame": {
       "name": "Task.Minigame.name",
       "help": ""
+    },
+    "PrivateQuarters": {
+      "name": "Task.PrivateQuarters.name",
+      "help": "Task.PrivateQuarters.help"
     },
     "OpsiGeneral": {
       "name": "一般設定",
@@ -677,6 +681,7 @@
       "campaign_main": "campaign_main",
       "coalition_20230323": "星霜海嵐",
       "coalition_20240627": "リトル学園へようこそ",
+      "coalition_20250626": "ネオンシティの探索者",
       "event_20200227_cn": "凍絶の北海",
       "event_20200312_cn": "南洋に靡く硝煙（復刻）",
       "event_20200326_cn": "闇靄払う銀翼",
@@ -799,7 +804,8 @@
       "war_archives_20220224_cn": "檔案 鳴動せし星霜の淵",
       "war_archives_20220324_cn": "檔案 幻像の塔",
       "war_archives_20220414_cn": "檔案 極夜照らす幻光",
-      "war_archives_20220526_cn": "檔案 诚閃の剣 搖光の城"
+      "war_archives_20220526_cn": "檔案 诚閃の剣 搖光の城",
+      "war_archives_20220728_cn": "檔案 鋼鷲の冒険譚"
     },
     "Mode": {
       "name": "Campaign.Mode.name",
@@ -1306,9 +1312,9 @@
     "Mode": {
       "name": "Coalition.Mode.name",
       "help": "Coalition.Mode.help",
-      "tc1": "tc1",
-      "tc2": "tc2",
-      "tc3": "tc3",
+      "easy": "easy",
+      "normal": "normal",
+      "hard": "hard",
       "sp": "sp",
       "ex": "ex"
     },
@@ -1439,15 +1445,18 @@
       "name": "Research.PresetFilter.name",
       "help": "Research.PresetFilter.help",
       "custom": "custom",
-      "series_7_blueprint_la9": "series_7_blueprint_la9",
-      "series_7_blueprint_only": "series_7_blueprint_only",
-      "series_7_la9_only": "series_7_la9_only",
-      "series_6_blueprint_203": "series_6_blueprint_203",
-      "series_6_blueprint_only": "series_6_blueprint_only",
-      "series_6_203_only": "series_6_203_only",
-      "series_5_blueprint_152": "series_5_blueprint_152",
-      "series_5_blueprint_only": "series_5_blueprint_only",
-      "series_5_152_only": "series_5_152_only",
+      "series_8_blueprint_305": "Series 8 Blueprints+305",
+      "series_8_blueprint_only": "Series 8 Blueprints Only",
+      "series_8_305_only": "Series 8 305 Only",
+      "series_7_blueprint_la9": "Series 7 Blueprints+La9",
+      "series_7_blueprint_only": "Series 7 Blueprints Only",
+      "series_7_la9_only": "Series 7 La9 Only",
+      "series_6_blueprint_203": "Series 6 Blueprints+203",
+      "series_6_blueprint_only": "Series 6 Blueprints Only",
+      "series_6_203_only": "Series 6 203 Only",
+      "series_5_blueprint_152": "Series 5 Blueprints+152",
+      "series_5_blueprint_only": "Series 5 Blueprints Only",
+      "series_5_152_only": "Series 5 152 Only",
       "series_4_blueprint_tenrai": "Series 4 Blueprints+Tenrai",
       "series_4_blueprint_only": "Series 4 Blueprints Only",
       "series_4_tenrai_only": "Series 4 Tenrai Only",
@@ -2036,6 +2045,28 @@
     "Collect": {
       "name": "Minigame.Collect.name",
       "help": "Minigame.Collect.help"
+    }
+  },
+  "PrivateQuarters": {
+    "_info": {
+      "name": "PrivateQuarters._info.name",
+      "help": "PrivateQuarters._info.help"
+    },
+    "BuyRoses": {
+      "name": "PrivateQuarters.BuyRoses.name",
+      "help": "PrivateQuarters.BuyRoses.help"
+    },
+    "TargetInteract": {
+      "name": "PrivateQuarters.TargetInteract.name",
+      "help": "PrivateQuarters.TargetInteract.help"
+    },
+    "TargetShip": {
+      "name": "PrivateQuarters.TargetShip.name",
+      "help": "PrivateQuarters.TargetShip.help",
+      "anchorage": "anchorage",
+      "noshiro": "noshiro",
+      "sirius": "sirius",
+      "new_jersey": "new_jersey"
     }
   },
   "Daily": {
