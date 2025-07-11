@@ -185,7 +185,7 @@ class PrivateQuarters(UI):
             click_button=PRIVATE_QUARTERS_ROOM_BACK,
             check_button=page_private_quarters.check_button,
             offset=(20, 20),
-            retry_wait=1.5,
+            retry_wait=3.0,
             skip_first_screenshot=True
         )
         self.handle_info_bar()
@@ -237,6 +237,29 @@ class PrivateQuarters(UI):
             # End, has roses
             if self.appear(PRIVATE_QUARTERS_SHOP_WEEKLY_ROSES_CHECK, offset=(20, 20)):
                 break
+
+        # Check for rose sold out
+        # Only for cn server, other servers has not yet this asset PRIVATE_QUARTERS_SHOP_WEEKLY_ROSES_CHECK
+        if server.server == 'cn':
+                if self.appear(PRIVATE_QUARTERS_SHOP_WEEKLY_ROSES_CHECK, offset=(20, 20)):
+                    logger.info('Due to AZL UI BUG, Refresh the page to check again for rose availability')
+                    # Exit shop to refresh 
+                    self._pq_shop_exit()
+                    # Enter shop
+                    self.ui_click(
+                        click_button=PRIVATE_QUARTERS_SHOP_ENTER,
+                        check_button=PRIVATE_QUARTERS_SHOP_CHECK,
+                        appear_button=page_private_quarters.check_button,
+                        offset=(20, 20)
+                    )
+                    logger.info('Page refreshed, check again for rose availability')
+
+                # Check for rose availability
+                if self.appear(PRIVATE_QUARTERS_SHOP_WEEKLY_ROSES_SOLD_OUT, offset=(20, 20)):
+                    logger.warning('Weekly roses are sold out, exit subtask')
+                    self._pq_shop_exit()
+                    logger.hr(f'End Weekly Roses', level=2)
+                    return
 
         # Read coins, exit if < 24000 (total price for all roses)
         # Try again next day if low
