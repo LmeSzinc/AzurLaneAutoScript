@@ -5,7 +5,7 @@ from module.map.map_grids import SelectedGrids, RoadGrids
 from .campaign_15_base import CampaignBase, W15GridInfo
 from .campaign_15_base import Config as ConfigBase
 
-MAP = CampaignMap('15-4(121)')
+MAP = CampaignMap('15-4-121')
 MAP.grid_class = W15GridInfo
 MAP.shape = 'K9'
 MAP.camera_data = ['C2', 'C5', 'C7', 'F2', 'F5', 'F7', 'H2', 'H5', 'H7']
