@@ -8,7 +8,7 @@ from module.private_quarters.assets import *
 from module.ui.page import page_private_quarters
 from module.ui.ui import UI
 
-if server.server == 'cn':
+if server.server in ['cn', 'jp']:
     OCR_DAILY_COUNT = DigitCounter(PRIVATE_QUARTERS_DAILY_COUNT, letter=(218, 219, 221))
 else:
     OCR_DAILY_COUNT = DigitCounter(PRIVATE_QUARTERS_DAILY_COUNT, letter=(255, 247, 247), threshold=64)
@@ -415,7 +415,7 @@ class PrivateQuarters(UI):
             in: Any page
             out: page_main, may have info_bar
         """
-        if server.server == 'en' or server.server == 'cn':
+        if server.server in ['cn', 'en', 'jp']:
             self.ui_goto(page_private_quarters, get_ship=False)
             self.handle_info_bar()
 
