@@ -150,7 +150,7 @@ class Dock(Equipment):
             option_buttons=ButtonGrid(
                 origin=(218, 268), delta=delta, button_shape=button_shape, grid_shape=(7, 2), name='FILTER_FACTION'),
             option_names=['all', 'eagle', 'royal', 'sakura', 'iron', 'dragon', 'sardegna',
-                          'northern', 'iris', 'vichya', 'other', 'not_available', 'not_available', 'not_available'],
+                          'northern', 'iris', 'vichya', 'tulipa', 'meta', 'tempesta', 'other'],
             option_default='all'
         )
         setting.add_setting(
@@ -165,7 +165,7 @@ class Dock(Equipment):
             option_buttons=ButtonGrid(
                 origin=(218, 471), delta=delta, button_shape=button_shape, grid_shape=(7, 2), name='FILTER_EXTRA'),
             option_names=['no_limit', 'has_skin', 'can_retrofit', 'enhanceable', 'can_limit_break', 'not_level_max', 'can_awaken',
-                          'can_awaken_plus', 'special', 'oath_skin', 'unique_augment_module', 'not_available', 'not_available', 'not_available'],
+                          'can_awaken_plus', 'special', 'oath_skin', 'unique_augment_module', 'wear_skin', 'oathed', 'not_available'],
             option_default='no_limit'
         )
         return setting

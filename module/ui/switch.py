@@ -55,13 +55,9 @@ class Switch:
             main (ModuleBase):
 
         Returns:
-            bool
+            bool:
         """
-        for data in self.state_list:
-            if main.appear(data['check_button'], offset=data['offset']):
-                return True
-
-        return False
+        return self.get(main=main) != 'unknown'
 
     def get(self, main):
         """

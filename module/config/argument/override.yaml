@@ -240,7 +240,7 @@ Coalition:
     AmbushEvade: true
   Coalition:
     Mode:
-      option: [ tc1, tc2, tc3, ex ]
+      option: [ easy, normal, hard, ex ]
   StopCondition:
     MapAchievement: non_stop
     StageIncrease: false
@@ -355,6 +355,11 @@ Gacha:
     FailureInterval: 30
     ServerUpdate: 00:00
 Freebies:
+  Scheduler:
+    SuccessInterval: 30
+    FailureInterval: 30
+    ServerUpdate: 00:00
+PrivateQuarters:
   Scheduler:
     SuccessInterval: 30
     FailureInterval: 30

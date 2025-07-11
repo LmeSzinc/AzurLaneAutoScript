@@ -601,7 +601,9 @@ class ConfigUpdater:
         #  change_ship_redirect),
         # ('Alas.DropRecord.API', 'Alas.DropRecord.API', api_redirect2)
         # 2025.04.17
-        ('Coalition.Coalition.Mode', 'Coalition.Coalition.Mode', coalition_to_frostfall)
+        # ('Coalition.Coalition.Mode', 'Coalition.Coalition.Mode', coalition_to_frostfall),
+        # 2025.06.26
+        ('Coalition.Coalition.Mode', 'Coalition.Coalition.Mode', coalition_to_little_academy),
     ]
     # redirection += [
     #     (
@@ -672,7 +674,7 @@ class ConfigUpdater:
         for task in EVENTS + WAR_ARCHIVES:
             default_stage(task, 'D3')
         for task in COALITIONS:
-            default_stage(task, 'TC-3')
+            default_stage(task, 'hard')
 
         if not is_template:
             new = self.config_redirect(old, new)
