@@ -269,7 +269,7 @@ page_academy.link(button=GOTO_MAIN, destination=page_main)
 # Private Quarters
 page_private_quarters = Page(PRIVATE_QUARTERS_CHECK)
 page_dormmenu.link(button=DORMMENU_GOTO_PRIVATE_QUARTERS, destination=page_private_quarters)
-page_private_quarters.link(button=GOTO_MAIN_WHITE, destination=page_main)
+page_private_quarters.link(button=PQ_GOTO_MAIN, destination=page_main)
 
 # Game room & choose game
 page_game_room = Page(GAME_ROOM_CHECK)
