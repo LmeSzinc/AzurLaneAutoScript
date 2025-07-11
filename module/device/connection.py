@@ -823,6 +823,9 @@ class Connection(ConnectionAttr):
         instance = self.find_emulator_instance(
             serial=self.serial,
         )
+        if instance is None:
+            logger.warning(f'Failed to check check_mumu_bridge_network, emulator instance not found')
+            return False
         file = instance.mumu_vms_config('customer_config.json')
         try:
             with open(file, mode='r', encoding='utf-8') as f:
