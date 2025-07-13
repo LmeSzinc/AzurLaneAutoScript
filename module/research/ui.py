@@ -46,11 +46,11 @@ class ResearchUI(UI):
                 continue
             # handle get_items
             # get_items should be handled when receiving, but sometimes just slow network
-            if self.appear(GET_ITEMS_1, offset=(20, 20)):
+            if self.appear(GET_ITEMS_1, offset=(20, 20), interval=3):
                 logger.info(f'{GET_ITEMS_1} -> {GET_ITEMS_RESEARCH_SAVE}')
                 self.device.click(GET_ITEMS_RESEARCH_SAVE)
                 continue
-            if self.appear(GET_ITEMS_2, offset=(20, 20)):
+            if self.appear(GET_ITEMS_2, offset=(20, 20), interval=3):
                 logger.info(f'{GET_ITEMS_1} -> {GET_ITEMS_RESEARCH_SAVE}')
                 self.device.click(GET_ITEMS_RESEARCH_SAVE)
                 continue
