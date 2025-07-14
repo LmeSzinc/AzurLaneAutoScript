@@ -854,7 +854,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
             self.device.click(grid)
             with self.config.temporary(STORY_ALLOW_SKIP=False):
                 result = self.wait_until_walk_stable(
-                    drop=drop, walk_out_of_step=False, confirm_timer=Timer(1.5, count=8))
+                    drop=drop, walk_out_of_step=False, confirm_timer=Timer(1.5, count=4))
             self.os_auto_search_run(drop=drop)
             if 'event' in result:
                 self._solved_map_event.add('is_scanning_device')

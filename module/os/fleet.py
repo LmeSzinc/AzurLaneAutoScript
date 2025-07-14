@@ -322,6 +322,11 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                     continue
             if self.handle_popup_confirm('WALK_UNTIL_STABLE'):
                 # Confirm to submit items, in siren scanning devices
+                # story_skip -> popup_confirm_story_skip means scanning devices reawrd is received
+                if clicked_story:
+                    logger.info('Got items from scanning device')
+                    self.device.click_record_clear()
+                    clicked_story = False
                 confirm_timer.reset()
                 continue
 
