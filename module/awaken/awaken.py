@@ -314,12 +314,13 @@ class Awaken(Dock):
                 self.device.click(page_main.links[page_dock])
                 continue
 
-    def awaken_run(self, use_array=False):
+    def awaken_run(self, use_array=False, favourite=False):
         """
         Awaken all ships in dock until resources exhausted
 
         Args:
             use_array: True to awaken to level 125, False to 120
+            favourite: True to awaken favourite ships only, False to awaken all ships
 
         Returns:
             str: 'insufficient', 'finish', 'timeout'
@@ -330,7 +331,7 @@ class Awaken(Dock):
         """
         logger.hr('Awaken run', level=1)
         self.ui_ensure(page_dock)
-        self.dock_favourite_set(wait_loading=False)
+        self.dock_favourite_set(enable=favourite, wait_loading=False)
         self.dock_sort_method_dsc_set(wait_loading=False)
         if use_array:
             extra = ['can_awaken_plus']
@@ -371,20 +372,23 @@ class Awaken(Dock):
 
     def run(self):
         # Run Awakening+ first
+        favourite = self.config.Awaken_Favourite
         if self.config.Awaken_LevelCap == 'level125':
             # Use Cognitive Arrays
-            result = self.awaken_run(use_array=True)
+            result = self.awaken_run(use_array=True, favourite=favourite)
             # Use Cognitive Chips
             if result != 'timeout':
-                self.awaken_run()
+                self.awaken_run(favourite=favourite)
         elif self.config.Awaken_LevelCap == 'level120':
             # Use Cognitive Chips
-            self.awaken_run()
+            self.awaken_run(favourite=favourite)
         else:
             raise ScriptError(f'Unknown Awaken_LevelCap={self.config.Awaken_LevelCap}')
 
         # Reset dock filters
         logger.hr('Awaken run exit', level=1)
+        if favourite:
+            self.dock_favourite_set(wait_loading=False)
         self.dock_filter_set(wait_loading=False)
 
         # Scheduler

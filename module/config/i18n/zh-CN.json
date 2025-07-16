@@ -1641,6 +1641,10 @@
       "help": "",
       "level120": "120级",
       "level125": "125级"
+    },
+    "Favourite": {
+      "name": "仅觉醒常用舰船",
+      "help": ""
     }
   },
   "GeneralShop": {
