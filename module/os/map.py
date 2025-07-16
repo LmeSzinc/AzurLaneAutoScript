@@ -81,7 +81,6 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
             OpsiFleet_Fleet = self.config.OpsiFleet_Fleet
             self.config.override(OpsiFleet_Fleet=self.config.cross_get('OpsiHazard1Leveling.OpsiFleet.Fleet'))
             self.fleet_set(self.config.OpsiFleet_Fleet)
-            self.handle_ash_beacon_attack()
             self.run_auto_search()
             self.handle_after_auto_search()
             self.config.override(OpsiFleet_Fleet=OpsiFleet_Fleet)
