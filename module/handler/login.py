@@ -60,7 +60,7 @@ class LoginHandler(UI):
                 if not login_success:
                     logger.info('Login success')
                     login_success = True
-            if self.appear_then_click(LOGIN_NO_RESPOND_LEIDIAN, offset=(30, 30), interval=5):
+            if self.appear_then_click(ANDROID_NO_RESPOND, offset=(30, 30), interval=5):
                 logger.warning('Emulator no respond')
                 continue
             if self.appear_then_click(LOGIN_ANNOUNCE, offset=(30, 30), interval=5):
