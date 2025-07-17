@@ -1641,6 +1641,10 @@
       "help": "Awaken.LevelCap.help",
       "level120": "level120",
       "level125": "level125"
+    },
+    "Favourite": {
+      "name": "Awaken.Favourite.name",
+      "help": "Awaken.Favourite.help"
     }
   },
   "GeneralShop": {
