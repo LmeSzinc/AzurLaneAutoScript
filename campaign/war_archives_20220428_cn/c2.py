@@ -1,37 +1,22 @@
-from module.logger import logger
+from ..campaign_war_archives.campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
-from module.map.map_grids import RoadGrids, SelectedGrids
-
+from module.map.map_grids import SelectedGrids, RoadGrids
+from module.logger import logger
 from .c1 import Config as ConfigBase
-from .campaign_base import CampaignBase
 
 MAP = CampaignMap('C2')
-MAP.shape = 'H10'
-MAP.camera_data = ['D2', 'E5', 'E7']
-MAP.camera_data_spawn_point = ['D2']
+MAP.shape = 'H8'
+MAP.camera_data = ['C2', 'C6', 'E2', 'E6']
+MAP.camera_data_spawn_point = ['C2']
 MAP.map_data = """
-    ++ -- SP SP -- -- ++ ++
-    -- Me -- -- -- Me ++ ++
-    Me -- -- -- -- -- Me --
-    ++ ++ -- __ -- Me -- --
-    -- ++ -- -- -- ++ ++ ++
-    -- ME -- -- -- -- ME --
-    ++ ME -- -- -- -- -- MB
-    -- ME -- ME -- -- ME --
-    -- ++ ME -- ME ME ++ ++
-    -- -- -- -- -- -- -- ++
-"""
-MAP.map_data_loop = """
-    ++ -- SP SP -- -- ++ ++
-    -- Me -- -- -- Me ++ ++
-    Me -- -- MS -- -- Me --
-    ++ ++ -- __ -- Me -- --
-    -- ++ -- MS -- ++ ++ ++
-    -- ME -- -- ME -- ME --
-    ++ ME -- -- -- -- -- MB
-    -- ME -- ME -- -- ME --
-    -- ++ ME -- ME ME ++ ++
-    -- -- -- -- -- -- -- ++
+    ++ ME ME -- -- Me ++ ++
+    Me -- -- -- MS -- -- ++
+    SP -- ++ -- -- ME ME --
+    SP -- ++ ME -- -- -- --
+    -- -- -- ME Me ++ __ --
+    -- -- Me -- -- MS -- MB
+    Me ++ MS -- ME -- -- MB
+    -- -- ME -- ++ ++ ++ --
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50
@@ -42,17 +27,8 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50
-    50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 1},
-    {'battle': 1, 'enemy': 1},
-    {'battle': 2, 'enemy': 2},
-    {'battle': 3, 'enemy': 1},
-    {'battle': 4, 'enemy': 1, 'boss': 1},
-]
-MAP.spawn_data_loop = [
     {'battle': 0, 'enemy': 2, 'siren': 2},
     {'battle': 1, 'enemy': 1},
     {'battle': 2, 'enemy': 2},
@@ -67,25 +43,48 @@ A5, B5, C5, D5, E5, F5, G5, H5, \
 A6, B6, C6, D6, E6, F6, G6, H6, \
 A7, B7, C7, D7, E7, F7, G7, H7, \
 A8, B8, C8, D8, E8, F8, G8, H8, \
-A9, B9, C9, D9, E9, F9, G9, H9, \
-A10, B10, C10, D10, E10, F10, G10, H10, \
     = MAP.flatten()
-
-MAP.bouncing_enemy_data = [(B3, C3, D3, E3, F3), (F6, F7, F8)]
-MAP.fortress_data = [D5, (C5, E5, C6, D6, E6)]
 
 
 class Config(ConfigBase):
     # ===== Start of generated config =====
+    MAP_SIREN_TEMPLATE = ['CL', 'CA']
+    MOVABLE_ENEMY_TURN = (2,)
+    MAP_HAS_SIREN = True
+    MAP_HAS_MOVABLE_ENEMY = True
     MAP_HAS_MAP_STORY = True
     MAP_HAS_FLEET_STEP = True
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
-    MAP_SWIPE_MULTIPLY = (1.216, 1.239)
-    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.176, 1.198)
-    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.142, 1.163)
+    MAP_HAS_DECOY_ENEMY = False
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (150, 255 - 24),
+        'width': (0.9, 10),
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 24, 255),
+        'prominence': 10,
+        'distance': 50,
+        # 'width': (0, 7),
+        'wlen': 1000
+    }
+    HOMO_EDGE_COLOR_RANGE = (0, 24)
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 300
+    MAP_ENEMY_GENRE_DETECTION_SCALING = {
+        'DD': 1.111,
+        'CL': 1.111,
+        'CA': 1.111,
+        'CV': 1.111,
+        'BB': 1.111,
+    }
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
+    MAP_SWIPE_MULTIPLY = (1.222, 1.245)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.182, 1.204)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.148, 1.168)
 
 
 class Campaign(CampaignBase):
@@ -93,8 +92,6 @@ class Campaign(CampaignBase):
     ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
 
     def battle_0(self):
-        if self.clear_bouncing_enemy():
-            return True
         if self.clear_siren():
             return True
         if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):

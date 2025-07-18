@@ -2,7 +2,7 @@ from module.logger import logger
 from module.map.map_base import CampaignMap
 from module.map.map_grids import RoadGrids, SelectedGrids
 
-from ..campaign_war_archives.campaign_base import CampaignBase
+from .campaign_base import CampaignBase
 
 MAP = CampaignMap('C1')
 MAP.shape = 'J6'
