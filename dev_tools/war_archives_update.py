@@ -221,7 +221,7 @@ class WarArchivesUpdater:
                 use the YYYYMMDD format, such as '20220428',
                 'today' or None for datetime.today()
             event (str, list[str], None):
-                use the YYYYMMDD format, also can use the event name, such as ['雄鹰的叙事歌', '20220418']
+                use the YYYYMMDD format, also can use the event name, such as ['雄鹰的叙事歌', '20220428']
                 'recent' or None for the lastest event for CN server
         """
         if aired_date is None or aired_date == 'today':
@@ -257,8 +257,14 @@ class WarArchivesUpdater:
 
 if __name__ == '__main__':
     # Date of update of war archives
+    # input strings in YYYYMMDD format for war archives update time
+    # use 'today' for today, use a list to input multiple values,
+    # such as '20250717', 'today', ['20250619' , '20250717', 'today']
     WarArchivesUpdater.aired_date = '20250717'
     # Event name or date of update of war archives
+    # input strings in YYYYMMDD format for event time, or input event name
+    # use 'recent' for the latest CN enent, use a list to input multiple values,
+    # such as '20220428', '虹彩的终幕曲', 'recent', ['雄鹰的叙事歌' , '20220428', 'recent']
     WarArchivesUpdater.event = '20220428'
 
     updater = WarArchivesUpdater()
