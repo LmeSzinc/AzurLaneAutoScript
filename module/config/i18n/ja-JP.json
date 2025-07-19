@@ -2056,9 +2056,9 @@
       "name": "PrivateQuarters._info.name",
       "help": "PrivateQuarters._info.help"
     },
-    "BuyRoses": {
-      "name": "PrivateQuarters.BuyRoses.name",
-      "help": "PrivateQuarters.BuyRoses.help"
+    "Filter": {
+      "name": "PrivateQuarters.Filter.name",
+      "help": "PrivateQuarters.Filter.help"
     },
     "TargetInteract": {
       "name": "PrivateQuarters.TargetInteract.name",
