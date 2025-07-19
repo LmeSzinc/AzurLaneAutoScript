@@ -2063,6 +2063,10 @@
       "name": "PrivateQuarters.BuyRoses.name",
       "help": "PrivateQuarters.BuyRoses.help"
     },
+    "BuyCake": {
+      "name": "PrivateQuarters.BuyCake.name",
+      "help": "PrivateQuarters.BuyCake.help"
+    },
     "TargetInteract": {
       "name": "PrivateQuarters.TargetInteract.name",
       "help": "PrivateQuarters.TargetInteract.help"

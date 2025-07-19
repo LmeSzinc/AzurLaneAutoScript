@@ -1623,6 +1623,7 @@
     },
     "PrivateQuarters": {
       "BuyRoses": true,
+      "BuyCake": false,
       "TargetInteract": true,
       "TargetShip": "anchorage"
     },
