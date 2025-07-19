@@ -2063,6 +2063,10 @@
       "name": "Buy Weekly Roses",
       "help": "On week reset, roses will be available for purchase\nThe purchase is made in bulk wholsesale or none at all\nMinimum of 24K coin is required, if not enough subtask will be delayed to the next day and try again then"
     },
+    "BuyCake": {
+      "name": "Buy Weekly Cake",
+      "help": "Ditto, minimum of 210 gems is required however"
+    },
     "TargetInteract": {
       "name": "Enable Daily Interact",
       "help": "Enables execution of the interation sequence with target ship girl"
