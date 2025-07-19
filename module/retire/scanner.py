@@ -570,11 +570,13 @@ class DockScanner(ShipScanner):
         self.scanner = ShipScanner(emotion=False, fleet=False, status=False)
 
         # The following is for the debug
+        self.save_debug_info = False
         self.debug_folder = f'./log/dock_scan_test/{test_name}_{int(time.time()*1000):x}'
-        if not os.path.exists('./log/dock_scan_test'):
-            os.mkdir('./log/dock_scan_test')
-        if not os.path.exists(self.debug_folder):
-            os.mkdir(self.debug_folder)
+        if self.save_debug_info:
+            if not os.path.exists('./log/dock_scan_test'):
+                os.mkdir('./log/dock_scan_test')
+            if not os.path.exists(self.debug_folder):
+                os.mkdir(self.debug_folder)
         self.debug_info = {
             'time' : 0,
             'ship_count' : 0,
@@ -786,30 +788,31 @@ class DockScanner(ShipScanner):
         self.debug_info['time'] = end_time - start_time
         self.debug_info['ship_count'] = len(self._results)
 
-        # save hash sims
-        hashs = [ship.hash_ for ship in self.results]
-        sims = []
-        for i in range(len(hashs)):
-            for j in range(i+1, len(hashs)):
-                sims.append(DHash.distance(hashs[i],hashs[j]))
-        np.save(f'{self.debug_folder}/{len(sims)}.npy', np.array(sims))
-        # save ocr mistake
-        for name, image in self.ocr_mistake_image:
-            cv2.imwrite(f'{self.debug_folder}/{name}.png', image)
-        # save another ocr mistake
-        self.extend_log.append((0, None))
-        for i in range(len(self.extend_log) - 1):
-            cnt, top, level, image = self.extend_log[i]
-            if cnt != 14 and cnt != 7 and self.extend_log[i+1][0] != 0:
-                cv2.imwrite(f'{self.debug_folder}/len={cnt}_top={top}_id={i}.png', image)
-                self.debug_info[f'len={cnt}_top={top}_id={i}'] = level
-        # save debug info
-        self.debug_info['moving_mean'] = np.mean(self.moving_distance_log)
-        with open(f'{self.debug_folder}/debug_info.txt', 'w', encoding='utf-8') as f:
-            for k,v in self.debug_info.items():
-                f.write(f'{k} = {v}\n')
+        if self.save_debug_info:
+            # save hash sims
+            hashs = [ship.hash_ for ship in self.results]
+            sims = []
+            for i in range(len(hashs)):
+                for j in range(i+1, len(hashs)):
+                    sims.append(DHash.distance(hashs[i],hashs[j]))
+            np.save(f'{self.debug_folder}/{len(sims)}.npy', np.array(sims))
+            # save ocr mistake
+            for name, image in self.ocr_mistake_image:
+                cv2.imwrite(f'{self.debug_folder}/{name}.png', image)
+            # save another ocr mistake
+            self.extend_log.append((0, None))
+            for i in range(len(self.extend_log) - 1):
+                cnt, top, level, image = self.extend_log[i]
+                if cnt != 14 and cnt != 7 and self.extend_log[i+1][0] != 0:
+                    cv2.imwrite(f'{self.debug_folder}/len={cnt}_top={top}_id={i}.png', image)
+                    self.debug_info[f'len={cnt}_top={top}_id={i}'] = level
+            # save debug info
+            self.debug_info['moving_mean'] = np.mean(self.moving_distance_log)
+            with open(f'{self.debug_folder}/debug_info.txt', 'w', encoding='utf-8') as f:
+                for k,v in self.debug_info.items():
+                    f.write(f'{k} = {v}\n')
 
-        logger.info(f'debug info has been saved in {self.debug_folder}')
+            logger.info(f'debug info has been saved in {self.debug_folder}')
 
     def scan(self, image, cached=False, output=True) -> Union[List, None]:
         """
