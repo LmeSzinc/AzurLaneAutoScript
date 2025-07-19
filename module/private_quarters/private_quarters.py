@@ -1,4 +1,7 @@
+import cv2
 import module.config.server as server
+from module.base.button import Button
+from module.base.template import Template
 from module.base.timer import Timer
 from module.base.utils import random_rectangle_vector
 from module.handler.assets import POPUP_CANCEL
@@ -18,6 +21,11 @@ if server.server != 'jp':
 else:
     OCR_SHOP_GOLD_COINS = Digit(PRIVATE_QUARTERS_SHOP_GOLD_COINS, letter=(201, 201, 201), name='OCR_SHOP_GOLD_COINS')
 
+if server.server == 'cn':
+    OCR_SHOP_GEMS = Digit(PRIVATE_QUARTERS_SHOP_GEMS, letter=(253, 247, 119), name='OCR_SHOP_GEMS')
+else:
+    OCR_SHOP_GEMS = Digit(PRIVATE_QUARTERS_SHOP_GEMS, letter=(253, 247, 119), name='OCR_SHOP_GEMS') # TODO: replace letter=(r,g,b) to match other servers gems color
+
 
 class PrivateQuarters(UI):
     # Key: str, target ship name
@@ -29,6 +37,25 @@ class PrivateQuarters(UI):
         'sirius':     (PRIVATE_QUARTERS_SHIP_SIRIUS, PRIVATE_QUARTERS_PAGE_LOCALE_BEACH),
         'new_jersey': (PRIVATE_QUARTERS_SHIP_NEW_JERSEY, PRIVATE_QUARTERS_PAGE_LOCALE_LOFT),
     }
+
+    shop_weekly_items = {
+    'rose': {
+        'name': 'romantic_bouquet',
+        'price': 1000,
+        'limit': 8,
+        'item_img': TEMPLATE_PRIVATE_QUARTERS_SHOP_ROSE_CARD,
+        'get_img': PRIVATE_QUARTERS_SHOP_WEEKLY_ROSES_GET,
+        'sold_out_img': TEMPLATE_PRIVATE_QUARTERS_SHOP_ROSE_AVAILABLE
+    },
+    'cake': {
+        'name': 'cake_gift',
+        'price': 30,
+        'limit': 5,
+        'item_img': TEMPLATE_PRIVATE_QUARTERS_SHOP_CAKE_CARD,
+        'get_img': PRIVATE_QUARTERS_SHOP_WEEKLY_CAKES_GET,
+        'sold_out_img': TEMPLATE_PRIVATE_QUARTERS_SHOP_CAKE_AVAILABLE
+    }
+}
 
     def _pq_target_appear(self):
         """
@@ -190,6 +217,24 @@ class PrivateQuarters(UI):
         )
         self.handle_info_bar()
 
+    def find_button_box(self, button, similarity=0.85):
+        """
+        Get matching area from Template type (returns Box)
+        """
+        button = self.ensure_button(button)
+
+        # If it's a Template instance, use match_result
+        if isinstance(button, Template):
+            sim, matched = button.match_result(self.device.image)
+            if sim >= similarity:
+                return matched.button  # (x1, y1, x2, y2)
+            else:
+                logger.info(f'Template match failed: {button.name} sim={sim:.3f} < {similarity}')
+        else:
+            logger.warning(f'Unsupported button type: {type(button)}, expect Template.')
+
+        return None
+
     def _pq_shop_exit(self):
         """
         Execute shop exit routine
@@ -200,13 +245,14 @@ class PrivateQuarters(UI):
             offset=(20, 20),
             skip_first_screenshot=True
         )
+    
+    def _pq_shop_weekly_cake(self):
+        """
+        Execute purchase cake gift from shop routine.
+        Will check current coins and item availability via template match.
+        """
+        logger.hr(f'Get Weekly Cake Gift', level=2)
 
-    def pq_shop_weekly_roses(self):
-        """
-        Execute purchase weekly roses from shop routine
-        Must have 24K+, try next day if low
-        """
-        logger.hr(f'Get Weekly Roses', level=2)
         # Enter shop
         self.ui_click(
             click_button=PRIVATE_QUARTERS_SHOP_ENTER,
@@ -216,62 +262,128 @@ class PrivateQuarters(UI):
             skip_first_screenshot=True
         )
 
-        # Roses available for purchase?
-        # Exit shop if not
-        # Noticeable lag observed on appearance of roses
-        appear_timer = Timer(1.5, count=3).start()
-        skip_first_screenshot = True
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
+        # Enter Sirius's shop page
+        self.ui_click(
+            click_button=PRIVATE_QUARTERS_SHOP_PAGE_SIRIUS,
+            check_button=PRIVATE_QUARTERS_SHOP_PAGE_SIRIUS_CHECK,
+            appear_button=PRIVATE_QUARTERS_SHOP_PAGE_SIRIUS,
+            offset=(20, 20),
+            retry_wait=2.0,
+            skip_first_screenshot=True
+        )
 
-            # End, no roses
-            if appear_timer.reached():
-                logger.info('No more weekly roses to purchase, exit subtask')
-                self._pq_shop_exit()
-                logger.hr(f'End Weekly Roses', level=2)
-                return
+        # Enter gift section
+        self.ui_click(
+            click_button=PRIVATE_QUARTERS_SHOP_PAGE_GIFT_SECTION,
+            check_button=PRIVATE_QUARTERS_SHOP_PAGE_GIFT_CHECK,
+            appear_button=PRIVATE_QUARTERS_SHOP_PAGE_GIFT_SECTION,
+            offset=False,
+        )
 
-            # End, has roses
-            if self.appear(PRIVATE_QUARTERS_SHOP_WEEKLY_ROSES_CHECK, offset=(20, 20)):
-                break
-
-        # Check for rose sold out
-        # Only for cn server, other servers has not yet this asset PRIVATE_QUARTERS_SHOP_WEEKLY_ROSES_CHECK
-        if server.server == 'cn':
-                if self.appear(PRIVATE_QUARTERS_SHOP_WEEKLY_ROSES_CHECK, offset=(20, 20)):
-                    logger.info('Due to AZL UI BUG, Refresh the page to check again for rose availability')
-                    # Exit shop to refresh 
-                    self._pq_shop_exit()
-                    # Enter shop
-                    self.ui_click(
-                        click_button=PRIVATE_QUARTERS_SHOP_ENTER,
-                        check_button=PRIVATE_QUARTERS_SHOP_CHECK,
-                        appear_button=page_private_quarters.check_button,
-                        offset=(20, 20)
-                    )
-                    logger.info('Page refreshed, check again for rose availability')
-
-                # Check for rose availability
-                if self.appear(PRIVATE_QUARTERS_SHOP_WEEKLY_ROSES_SOLD_OUT, offset=(20, 20)):
-                    logger.warning('Weekly roses are sold out, exit subtask')
-                    self._pq_shop_exit()
-                    logger.hr(f'End Weekly Roses', level=2)
-                    return
-
-        # Read coins, exit if < 24000 (total price for all roses)
-        # Try again next day if low
-        currency = OCR_SHOP_GOLD_COINS.ocr(self.device.image)
-        if currency < 24000:
-            logger.warning(f'Have: {currency}, Need: 24000. Try again next day')
+        # Check if gems are sufficient
+        cake = self.shop_weekly_items['cake']
+        needed = cake['price'] * cake['limit']
+        gems = int(OCR_SHOP_GEMS.ocr(self.device.image))
+        if gems < needed:
+            logger.warning(f'Insufficient gems, skipping cake purchase: Have {gems}, need {needed}')
             self._pq_shop_exit()
-            logger.hr(f'End Weekly Roses', level=2)
+            logger.hr(f'End Weekly Cake Gift', level=2)
             return
-        logger.info('Purchasing all available weekly roses')
 
-        # Execute purchase operation
+        # Execute cake purchase process
+        self._pq_shop_weekly_item_buy('cake')
+
+        # Exit shop
+        self._pq_shop_exit()
+        logger.hr(f'End Weekly Cake Gift', level=2)
+
+    def _pq_shop_weekly_rose(self):
+        """
+        Execute purchase rose gift from shop routine.
+        Will check current coins and item availability via template match.
+        """
+        logger.hr(f'Get Weekly Rose Gift', level=2)
+
+        # Enter shop
+        self.ui_click(
+            click_button=PRIVATE_QUARTERS_SHOP_ENTER,
+            check_button=PRIVATE_QUARTERS_SHOP_CHECK,
+            appear_button=page_private_quarters.check_button,
+            offset=(20, 20),
+            skip_first_screenshot=True
+        )
+
+        # Enter Sirius's shop page
+        self.ui_click(
+            click_button=PRIVATE_QUARTERS_SHOP_PAGE_SIRIUS,
+            check_button=PRIVATE_QUARTERS_SHOP_PAGE_SIRIUS_CHECK,
+            appear_button=PRIVATE_QUARTERS_SHOP_PAGE_SIRIUS,
+            offset=(20, 20),
+            retry_wait=2.0,
+            skip_first_screenshot=True
+        )
+
+        # Enter gift section
+        self.ui_click(
+            click_button=PRIVATE_QUARTERS_SHOP_PAGE_GIFT_SECTION,
+            check_button=PRIVATE_QUARTERS_SHOP_PAGE_GIFT_CHECK,
+            appear_button=PRIVATE_QUARTERS_SHOP_PAGE_GIFT_SECTION,
+            offset=False,
+        )
+
+        # Check if gold coins are sufficient
+        rose = self.shop_weekly_items['rose']
+        needed = rose['price'] * rose['limit']
+        currency = int(OCR_SHOP_GOLD_COINS.ocr(self.device.image))
+        if currency < needed:
+            logger.warning(f'Insufficient gold coins, skipping rose purchase: Have {currency}, need {needed}')
+            self._pq_shop_exit()
+            logger.hr(f'End Weekly Rose Gift', level=2)
+            return
+
+        # Execute rose purchase process
+        self._pq_shop_weekly_item_buy('rose')
+
+        # Exit shop
+        self._pq_shop_exit()
+        logger.hr(f'End Weekly Rose Gift', level=2)
+    
+    def _pq_shop_weekly_item_buy(self, item_key):
+        """
+        Execute purchase operation for a single item
+        item_key: 'rose' or 'cake'
+        """
+        item = self.shop_weekly_items[item_key]
+        logger.hr(f'Try to buy {item["name"]}', level=2)
+
+        # Identify if the item exists and get its position
+        self.device.screenshot()
+
+        item_box = self.find_button_box(item['item_img'], similarity=0.85)
+        if not item_box:
+            logger.info(f'{item["name"]} not on the page (may be sold out or not refreshed), skip.')
+            return False
+        logger.info(f'{item["name"]} item location: {item_box}')
+
+        x1, y1, x2, y2 = item_box
+        cx = (x1 + x2) // 2
+        cy = (y1 + y2) // 2
+
+        # Check if the item is sold out
+        self.device.screenshot()
+
+        price_box = self.find_button_box(item['sold_out_img'], similarity=0.85)
+        if not price_box:
+            logger.info(f'{item["name"]} is sold out, skipping purchase.')
+            return False
+        logger.info(f'{item["name"]} is available, starting purchase.')
+
+        # Click on item area to start purchase process
+        button = Button(area=item_box, color=None, button=item_box)
+        self.device.click(button)
+
+        # Common purchase logic (max amount → confirm → check if successful)
+        purchase_timer = Timer(1.5, count=6).start()
         skip_first_screenshot = True
         while 1:
             if skip_first_screenshot:
@@ -279,21 +391,24 @@ class PrivateQuarters(UI):
             else:
                 self.device.screenshot()
 
-            # End
-            if self.appear(PRIVATE_QUARTERS_SHOP_WEEKLY_ROSES_GET, offset=(20, 20), interval=1):
+            # Purchase completion indicator
+            if self.appear(item['get_img'], offset=(20, 20), interval=1):
+                logger.info(f'{item["name"]} purchase completed, clicking back.')
                 self.device.click(PRIVATE_QUARTERS_SHOP_BACK)
                 break
-
-            if self.appear_then_click(PRIVATE_QUARTERS_SHOP_WEEKLY_ROSES_CHECK, offset=(20, 20), interval=1):
-                continue
+          
             if self.appear_then_click(PRIVATE_QUARTERS_SHOP_AMOUNT_MAX, offset=(20, 20), interval=1):
                 continue
             if self.appear_then_click(PRIVATE_QUARTERS_SHOP_CONFIRM_AMOUNT, offset=(20, 20), interval=1):
                 continue
 
+            if purchase_timer.reached():
+                logger.warning(f'{item["name"]} purchase process timed out, abandoning this attempt.')
+                return False
+
         # Exit shop
         self._pq_shop_exit()
-        logger.hr(f'End Weekly Roses', level=2)
+        logger.hr(f'End {item["name"]} Purchase', level=2)
 
     def pq_interact(self):
         """
@@ -390,7 +505,7 @@ class PrivateQuarters(UI):
 
         return success
 
-    def pq_run(self, buy_roses, target_interact, target_ship):
+    def pq_run(self, buy_roses, buy_cake, target_interact, target_ship):
         """
         Execute daily private quarters routine
         - Purchase weekly roses from shop
@@ -398,18 +513,23 @@ class PrivateQuarters(UI):
 
         Args:
             buy_roses       (bool):
+            buy_cake        (bool):
             target_interact (bool):
             target_ship     (str):
         """
         logger.hr(f'Private Quarters Run', level=1)
         target_title = target_ship.title().replace('_', ' ')
         logger.info(f'Task configured for Buy_Roses={buy_roses}, '
+                    f'Buy_Cake={buy_cake}, '
                     f'Interact_ShipGirl={target_interact}, '
                     f'Target_ShipGirl={target_title}')
 
         # Enter shop and spend coin for weekly roses if enabled
         if buy_roses:
-            self.pq_shop_weekly_roses()
+            self._pq_shop_weekly_rose()
+        # Enter shop and spend gem for weekly cake if enabled
+        if buy_cake:
+            self._pq_shop_weekly_cake()
 
         # Interact with target if enabled
         if target_interact:
@@ -444,6 +564,7 @@ class PrivateQuarters(UI):
 
             self.pq_run(
                 buy_roses=self.config.PrivateQuarters_BuyRoses,
+                buy_cake=self.config.PrivateQuarters_BuyCake,
                 target_interact=self.config.PrivateQuarters_TargetInteract,
                 target_ship=self.config.PrivateQuarters_TargetShip
             )

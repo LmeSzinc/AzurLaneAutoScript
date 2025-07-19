@@ -8553,6 +8553,10 @@
         "type": "checkbox",
         "value": true
       },
+      "BuyCake": {
+        "type": "checkbox",
+        "value": false
+      },
       "TargetInteract": {
         "type": "checkbox",
         "value": true
