@@ -336,7 +336,7 @@ class GeneratedConfig:
     Minigame_Collect = False
 
     # Group `PrivateQuarters`
-    PrivateQuarters_BuyRoses = True
+    PrivateQuarters_Filter = 'GiftRoses'
     PrivateQuarters_TargetInteract = True
     PrivateQuarters_TargetShip = 'anchorage'  # anchorage, noshiro, sirius, new_jersey
 

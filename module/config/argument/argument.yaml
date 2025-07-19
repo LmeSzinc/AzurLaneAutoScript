@@ -586,7 +586,8 @@ SupplyPack:
 Minigame:
   Collect: false
 PrivateQuarters:
-    BuyRoses: true
+    Filter: |-
+      GiftRoses
     TargetInteract: true
     TargetShip:
       value: anchorage

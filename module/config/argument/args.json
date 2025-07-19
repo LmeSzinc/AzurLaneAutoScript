@@ -8549,9 +8549,9 @@
       }
     },
     "PrivateQuarters": {
-      "BuyRoses": {
-        "type": "checkbox",
-        "value": true
+      "Filter": {
+        "type": "textarea",
+        "value": "GiftRoses"
       },
       "TargetInteract": {
         "type": "checkbox",

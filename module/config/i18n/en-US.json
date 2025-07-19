@@ -2056,9 +2056,9 @@
       "name": "Private Quarters Settings",
       "help": "Execute the automated task relating to the private quarters feature\nToggle desired subtasks, can enable just 1 or both"
     },
-    "BuyRoses": {
-      "name": "Buy Weekly Roses",
-      "help": "On week reset, roses will be available for purchase\nThe purchase is made in bulk wholsesale or none at all\nMinimum of 24K coin is required, if not enough subtask will be delayed to the next day and try again then"
+    "Filter": {
+      "name": "Item Filter",
+      "help": "Restricted to 2 items, GiftRoses and GiftCake\nOn week reset, they will be available for purchase\nThe purchase is made in bulk wholsesale or none at all\nMinimum of 24K coins is required for GiftRoses\nMinimum of 210 gems for GiftCake\nIf not enough for one or both items subtask will be delayed to the next day and try again then\nTo disable, insert a single whitespace into the field"
     },
     "TargetInteract": {
       "name": "Enable Daily Interact",
