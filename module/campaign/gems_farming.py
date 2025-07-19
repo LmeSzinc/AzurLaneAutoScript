@@ -301,6 +301,7 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
 
     def _ship_change_confirm(self, button):
         self.dock_select_one(button)
+        self.interval_clear(DOCK_CHECK)
         self._dock_reset()
         self.dock_select_confirm(check_button=self.page_fleet_check_button)
 
