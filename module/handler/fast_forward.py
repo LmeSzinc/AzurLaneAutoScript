@@ -295,8 +295,7 @@ class FastForwardHandler(AutoSearchHandler):
                                     ):
                 from module.exception import AutoSearchSetError
                 raise AutoSearchSetError
-            self.config.modified['GemsFarming.Scheduler.Enable'] = False
-            self.config.update()
+            self.config.cross_set(keys='GemsFarming.Scheduler.Enable', value=False)
             logger.critical('Auto search could not be ensured.')
             logger.critical('Close Task: GemsFarming')
             self.config.task_stop('Auto search could not be ensured.')
