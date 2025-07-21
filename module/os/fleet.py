@@ -287,6 +287,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         result = set()
         # Record story history to clear click record
         clicked_story = False
+        clicked_story_count = 0
 
         confirm_timer.reset()
         while 1:
@@ -302,15 +303,28 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 result.add('event')
                 if event == 'story_skip':
                     clicked_story = True
+                    clicked_story_count += 1
+                    # Clear click record to avoid GameTooManyClickError caused by
+                    # over 6 options in siren scanning devices
+                    # The progress of confirming to submit items, in siren scanning devices is
+                    # STORY_OPTION_2_OF_3 -> POPUP_CONFIRM_STORY_SKIP
+                    # both of operations return 'story_skip' event
+                    # Continuous 2 story_skip means a submission of siren scanning devices
+                    if clicked_story_count >= 11:
+                        logger.info('Continuous options in story')
+                        self.device.click_record_clear()
+                        clicked_story_count = 0
                 elif event == 'map_get_items':
                     # story_skip -> map_get_items means abyssal progress reward is received
                     if clicked_story:
                         logger.info('Got items from story')
                         self.device.click_record_clear()
                         clicked_story = False
+                    clicked_story_count = 0
                 else:
                     # Handled other events, clear history
                     clicked_story = False
+                    clicked_story_count = 0
                 continue
             if self.handle_retirement():
                 confirm_timer.reset()
@@ -321,12 +335,6 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 else:
                     continue
             if self.handle_popup_confirm('WALK_UNTIL_STABLE'):
-                # Confirm to submit items, in siren scanning devices
-                # story_skip -> popup_confirm_story_skip means scanning devices reawrd is received
-                if clicked_story:
-                    logger.info('Got items from scanning device')
-                    self.device.click_record_clear()
-                    clicked_story = False
                 confirm_timer.reset()
                 continue
 
