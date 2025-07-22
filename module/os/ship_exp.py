@@ -1,10 +1,18 @@
 import re
 
 from module.awaken.assets import OCR_SHIP_LEVEL, OCR_SHIP_EXP
-from module.awaken.awaken import ShipLevel
 from module.base.timer import Timer
 from module.logger import logger
 from module.ocr.ocr import Ocr, Digit
+
+
+class ShipLevel(Digit):
+    def after_process(self, result):
+        result = super().after_process(result)
+        if result < 1 or result > 125:
+            logger.warning('Unexpected ship level')
+            result = 0
+        return result
 
 
 class ShipExp(Ocr):
