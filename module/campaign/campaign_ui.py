@@ -283,7 +283,7 @@ class CampaignUI(MapOperation, CampaignEvent, CampaignOcr):
                 self.campaign_ensure_aside_20241219('part1')
                 self.campaign_ensure_chapter(chapter)
                 return True
-            if chapter in ['b', 'd', 'ttl', 'th']:
+            if chapter in ['b', 'd', 'ttl']:
                 self.ui_goto_event()
                 self.campaign_ensure_mode_20241219('combat')
                 self.campaign_ensure_aside_20241219('part2')

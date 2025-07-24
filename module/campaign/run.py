@@ -200,8 +200,6 @@ class CampaignRun(CampaignEvent, ShopStatus):
             name = name.replace('lsp', 'isp').replace('1sp', 'isp')
             if name == 'isp':
                 name = 'isp1'
-        if folder == 'event_20250724_cn' and name in ['ysp', 'y.sp']:
-            name = 'sp'
         # Convert to chapter T
         convert = {
             'a1': 't1',
@@ -253,7 +251,6 @@ class CampaignRun(CampaignEvent, ShopStatus):
             'event_20241024_cn',
             'event_20241121_cn',
             'event_20250424_cn',
-            'event_20250724_cn',
         ]:
             name = convert.get(name, name)
         else:
@@ -287,16 +284,6 @@ class CampaignRun(CampaignEvent, ShopStatus):
         if folder == 'event_20240829_cn':
             if name == 'tp':
                 name = 'sp'
-        # The Alchemist and the Tower of Horizons
-        # Handle typo
-        if folder == 'event_20250724_cn':
-            name = name.replace('ht', 'th').replace('ts', 'th')
-        # Chapter TH has no map_percentage and no 3_stars
-        if folder == 'event_20250724_cn' and name.startswith('th'):
-            if self.config.StopCondition_MapAchievement != 'non_stop':
-                logger.info(f'When running chapter TH of event_20250724_cn, '
-                            f'StopCondition.MapAchievement is forced set to threat_safe')
-                self.config.override(StopCondition_MapAchievement='threat_safe')
         # Stage loop
         for alias, stages in self.config.STAGE_LOOP_ALIAS.items():
             alias_folder, alias = alias
