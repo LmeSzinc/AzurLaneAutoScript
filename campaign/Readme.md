@@ -53,6 +53,7 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20250320   | war archives 20220324 cn | Virtual Tower                                | 虚像构筑之塔           | Virtual Tower                                | 幻像の塔                             | 虛像構築之塔             |
 | 20250417   | war archives 20220526 cn | Pledge of the Radiant Court                  | 泠誓光庭               | Pledge of the Radiant Court                  | 诚閃の剣 搖光の城                    | 泠誓光庭                 |
 | 20250619   | war archives 20220728 cn | Aquilifer's Ballade                          | 雄鹰的叙事歌           | Aquilifer's Ballade                          | 鋼鷲の冒険譚                         | 雄鷹的敘事歌             |
+| 20250717   | war archives 20220428 cn | Rondo at Rainbow's End                       | 虹彩的终幕曲           | Rondo at Rainbow's End                       | 吟ずる瑠璃の楽章                     | 虹彩的終幕曲             |
 | 20200227   | event 20200227 cn        | Northern Overture                            | 北境序曲               | Northern Overture                            | 凍絶の北海                           | -                        |
 | 20200312   | event 20200312 cn        | The Solomon Ranger                           | 复刻斯图尔特的硝烟     | The Solomon Ranger Rerun                     | 南洋に靡く硝煙（復刻）               | -                        |
 | 20200326   | event 20200326 cn        | Microlayer Medley                            | 微层混合               | Microlayer Medley                            | 闇靄払う銀翼                         | -                        |
@@ -248,3 +249,5 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20250619   | event 20230525 cn        | Confluence of Nothingness                    | 复刻空相交汇点         | Confluence of Nothingness Rerun              | 覆天せし万象の塵（復刻）             | -                        |
 | 20250626   | coalition 20250626       | The Neon City Investigator                   | 迷彩都市的寻踪者       | The Neon City Investigator                   | ネオンシティの探索者                 | -                        |
 | 20250703   | event 20250424 cn        | Toward Tulipa’s Seas                         | -                      | -                                            | -                                    | 揚起鬱金之旗             |
+| 20250724   | event 20241219 cn        | Substellar Crepuscule                        | -                      | -                                            | -                                    | 星光下的餘暉             |
+| 20250724   | event 20250724 cn        | The Alchemist and the Tower of Horizons      | 优米雅的炼金工房       | The Alchemist and the Tower of Horizons      | 錬金術士と天空邂逅の塔               | -                        |

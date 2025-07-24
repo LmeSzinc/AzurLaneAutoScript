@@ -66,10 +66,6 @@
       "name": "イベント共通設定",
       "help": ""
     },
-    "Coalition": {
-      "name": "ネオンシティの探索者",
-      "help": ""
-    },
     "Event": {
       "name": "イベント海域",
       "help": ""
@@ -86,16 +82,16 @@
       "name": "病院探訪",
       "help": ""
     },
+    "Coalition": {
+      "name": "ネオンシティの探索者",
+      "help": ""
+    },
     "MaritimeEscort": {
       "name": "Maritime Escort",
       "help": ""
     },
     "WarArchives": {
       "name": "作戦履歴",
-      "help": ""
-    },
-    "CoalitionSp": {
-      "name": "ネオンシティの探索者SP",
       "help": ""
     },
     "EventA": {
@@ -120,6 +116,10 @@
     },
     "RaidDaily": {
       "name": "Raid Daily",
+      "help": ""
+    },
+    "CoalitionSp": {
+      "name": "ネオンシティの探索者SP",
       "help": ""
     },
     "Commission": {
@@ -329,6 +329,7 @@
       "com.YoStarJP.AzurLane": "JP",
       "com.hkmanjuu.azurlane.gp": "TW",
       "com.bilibili.blhx.huawei": "CN com.bilibili.blhx.huawei",
+      "com.bilibili.blhx.honor": "CN com.bilibili.blhx.honor",
       "com.bilibili.blhx.mi": "CN com.bilibili.blhx.mi",
       "com.tencent.tmgp.bilibili.blhx": "CN com.tencent.tmgp.bilibili.blhx",
       "com.bilibili.blhx.baidu": "CN com.bilibili.blhx.baidu",
@@ -757,6 +758,7 @@
       "event_20250227_cn": "籠檻に囚われし神光",
       "event_20250424_cn": "チュリッパの海へ",
       "event_20250520_cn": "高い塔の薔薇",
+      "event_20250724_cn": "錬金術士と天空邂逅の塔",
       "raid_20200624": "特別演習超空強襲波（復刻）",
       "raid_20210708": "交錯する新たな波 (復刻)",
       "raid_20220127": "秘密事件調査",
@@ -804,6 +806,7 @@
       "war_archives_20220224_cn": "檔案 鳴動せし星霜の淵",
       "war_archives_20220324_cn": "檔案 幻像の塔",
       "war_archives_20220414_cn": "檔案 極夜照らす幻光",
+      "war_archives_20220428_cn": "檔案 吟ずる瑠璃の楽章",
       "war_archives_20220526_cn": "檔案 诚閃の剣 搖光の城",
       "war_archives_20220728_cn": "檔案 鋼鷲の冒険譚"
     },

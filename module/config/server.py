@@ -14,6 +14,7 @@ VALID_PACKAGE = {
 VALID_CHANNEL_PACKAGE = {
     # App stores
     'com.bilibili.blhx.huawei': ('cn', '华为'),
+    'com.bilibili.blhx.honor': ('cn', '荣耀'),
     'com.bilibili.blhx.mi': ('cn', '小米'),
     'com.tencent.tmgp.bilibili.blhx': ('cn', '腾讯应用宝'),
     'com.bilibili.blhx.baidu': ('cn', '百度'),

@@ -3,7 +3,7 @@ from module.map.map_base import CampaignMap
 from module.map.map_grids import RoadGrids, SelectedGrids
 
 from .c1 import Config as ConfigBase
-from ..campaign_war_archives.campaign_base import CampaignBase
+from .campaign_base import CampaignBase
 
 MAP = CampaignMap('C3')
 MAP.shape = 'I9'

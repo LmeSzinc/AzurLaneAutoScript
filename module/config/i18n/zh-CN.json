@@ -66,10 +66,6 @@
       "name": "活动通用设置",
       "help": ""
     },
-    "Coalition": {
-      "name": "迷彩都市的寻踪者",
-      "help": ""
-    },
     "Event": {
       "name": "活动图",
       "help": ""
@@ -86,6 +82,10 @@
       "name": "深谷来信",
       "help": ""
     },
+    "Coalition": {
+      "name": "迷彩都市的寻踪者",
+      "help": ""
+    },
     "MaritimeEscort": {
       "name": "商船护航",
       "help": ""
@@ -93,10 +93,6 @@
     "WarArchives": {
       "name": "作战档案",
       "help": "由于作战档案缺少维护，开荒功能不一定能正常使用，如果发现Alas运行异常，请手动完成开荒后使用自律寻敌功能"
-    },
-    "CoalitionSp": {
-      "name": "迷彩都市的寻踪者SP",
-      "help": ""
     },
     "EventA": {
       "name": "活动每日A图",
@@ -120,6 +116,10 @@
     },
     "RaidDaily": {
       "name": "共斗活动每日",
+      "help": ""
+    },
+    "CoalitionSp": {
+      "name": "迷彩都市的寻踪者SP",
       "help": ""
     },
     "Commission": {
@@ -329,6 +329,7 @@
       "com.YoStarJP.AzurLane": "日服",
       "com.hkmanjuu.azurlane.gp": "台服",
       "com.bilibili.blhx.huawei": "国服 华为渠道服 com.bilibili.blhx.huawei",
+      "com.bilibili.blhx.honor": "国服 荣耀渠道服 com.bilibili.blhx.honor",
       "com.bilibili.blhx.mi": "国服 小米渠道服 com.bilibili.blhx.mi",
       "com.tencent.tmgp.bilibili.blhx": "国服 腾讯应用宝渠道服 com.tencent.tmgp.bilibili.blhx",
       "com.bilibili.blhx.baidu": "国服 百度渠道服 com.bilibili.blhx.baidu",
@@ -757,6 +758,7 @@
       "event_20250227_cn": "樊笼内的神光",
       "event_20250424_cn": "扬起郁金之旗",
       "event_20250520_cn": "高塔上的蔷薇",
+      "event_20250724_cn": "优米雅的炼金工房",
       "raid_20200624": "复刻特别演习埃塞克斯级",
       "raid_20210708": "复刻穿越彼方的水线",
       "raid_20220127": "演习神秘事件调查",
@@ -804,6 +806,7 @@
       "war_archives_20220224_cn": "档案 深度回音",
       "war_archives_20220324_cn": "档案 虚像构筑之塔",
       "war_archives_20220414_cn": "档案 永夜幻光",
+      "war_archives_20220428_cn": "档案 虹彩的终幕曲",
       "war_archives_20220526_cn": "档案 泠誓光庭",
       "war_archives_20220728_cn": "档案 雄鹰的叙事歌"
     },
