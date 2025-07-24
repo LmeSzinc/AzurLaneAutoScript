@@ -66,10 +66,6 @@
       "name": "イベント共通設定",
       "help": ""
     },
-    "Coalition": {
-      "name": "ネオンシティの探索者",
-      "help": ""
-    },
     "Event": {
       "name": "イベント海域",
       "help": ""
@@ -86,16 +82,16 @@
       "name": "病院探訪",
       "help": ""
     },
+    "Coalition": {
+      "name": "ネオンシティの探索者",
+      "help": ""
+    },
     "MaritimeEscort": {
       "name": "Maritime Escort",
       "help": ""
     },
     "WarArchives": {
       "name": "作戦履歴",
-      "help": ""
-    },
-    "CoalitionSp": {
-      "name": "ネオンシティの探索者SP",
       "help": ""
     },
     "EventA": {
@@ -120,6 +116,10 @@
     },
     "RaidDaily": {
       "name": "Raid Daily",
+      "help": ""
+    },
+    "CoalitionSp": {
+      "name": "ネオンシティの探索者SP",
       "help": ""
     },
     "Commission": {

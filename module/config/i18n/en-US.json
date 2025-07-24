@@ -66,10 +66,6 @@
       "name": "Event General",
       "help": ""
     },
-    "Coalition": {
-      "name": "Neon City Investigator",
-      "help": ""
-    },
     "Event": {
       "name": "Event",
       "help": ""
@@ -86,6 +82,10 @@
       "name": "Valley Hospital",
       "help": ""
     },
+    "Coalition": {
+      "name": "Neon City Investigator",
+      "help": ""
+    },
     "MaritimeEscort": {
       "name": "Maritime Escort",
       "help": ""
@@ -93,10 +93,6 @@
     "WarArchives": {
       "name": "War Archives",
       "help": "Due to the lack of maintenance of war archives, continuous clear may not work normally, if Alas runs abnormally, Please manually finish clearing and use auto search"
-    },
-    "CoalitionSp": {
-      "name": "Neon City Investigator SP",
-      "help": ""
     },
     "EventA": {
       "name": "Event Daily A",
@@ -120,6 +116,10 @@
     },
     "RaidDaily": {
       "name": "Raid Daily",
+      "help": ""
+    },
+    "CoalitionSp": {
+      "name": "Neon City Investigator SP",
       "help": ""
     },
     "Commission": {
