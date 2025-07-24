@@ -1,5 +1,6 @@
 from module.campaign.campaign_base import CampaignBase as CampaignBase_
 from module.combat.assets import ALCHEMIST_MATERIAL_CONFIRM
+from module.handler.fast_forward import AUTO_SEARCH
 
 
 class CampaignBase(CampaignBase_):
@@ -19,3 +20,18 @@ class CampaignBase(CampaignBase_):
         if self.appear_then_click(ALCHEMIST_MATERIAL_CONFIRM, offset=(20, 20), interval=1):
             return False
         return super().handle_exp_info()
+
+    def get_map_clear_percentage(self):
+        if AUTO_SEARCH.appear(main=self):
+            return 1.00
+        return super().get_map_clear_percentage()
+
+    def map_get_info(self):
+        super().map_get_info()
+
+        # Chapter TS don't have clear percentage
+        # if auto search appears, consider it cleared
+        appear = AUTO_SEARCH.appear(main=self)
+        self.map_is_100_percent_clear = self.map_is_3_stars = self.map_is_threat_safe = appear
+        self.map_has_clear_mode = appear
+        self.map_show_info()
