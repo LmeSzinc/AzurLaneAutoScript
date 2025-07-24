@@ -264,6 +264,11 @@ class CampaignRun(CampaignEvent):
                 logger.info(f'When running chapter TH of event_20221124_cn, '
                             f'StopCondition.MapAchievement is forced set to threat_safe')
                 self.config.override(StopCondition_MapAchievement='threat_safe')
+        if folder == 'event_20250724_cn' and name.startswith('ts'):
+            if self.config.StopCondition_MapAchievement != 'non_stop':
+                logger.info(f'When running chapter TS of event_20250724_cn, '
+                            f'StopCondition.MapAchievement is forced set to threat_safe')
+                self.config.override(StopCondition_MapAchievement='threat_safe')
         # event_20211125_cn, TSS maps are on time maps
         if folder == 'event_20211125_cn' and 'tss' in name:
             self.config.override(

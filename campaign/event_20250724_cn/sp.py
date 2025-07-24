@@ -72,6 +72,7 @@ class Config:
     MAP_CHAPTER_SWITCH_20241219 = True
     STAGE_ENTRANCE = ['half', '20240725']
 
+    MAP_IS_ONE_TIME_STAGE = True
     HOMO_STORAGE = ((8, 6), [(142.416, 83.7), (1025.571, 83.7), (-16.287, 615.233), (1147.605, 615.233)])
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (80, 255 - 33),
