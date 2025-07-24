@@ -305,6 +305,10 @@ class CampaignRun(CampaignEvent):
                                 f'run ordered stage: {stage}')
                 name = stage.lower()
                 self.is_stage_loop = True
+                # disable continuous clear
+                logger.info('disable continuous clear')
+                self.config.override(StopCondition_MapAchievement='non_stop')
+                self.config.override(StopCondition_StageIncrease=False)
         # Convert campaign_main to campaign hard if mode is hard and file exists
         if mode == 'hard' and folder == 'campaign_main' and name in map_files('campaign_hard'):
             folder = 'campaign_hard'
