@@ -250,3 +250,4 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20250626   | coalition 20250626       | The Neon City Investigator                   | 迷彩都市的寻踪者       | The Neon City Investigator                   | ネオンシティの探索者                 | -                        |
 | 20250703   | event 20250424 cn        | Toward Tulipa’s Seas                         | -                      | -                                            | -                                    | 揚起鬱金之旗             |
 | 20250724   | event 20241219 cn        | Substellar Crepuscule                        | -                      | -                                            | -                                    | 星光下的餘暉             |
+| 20250724   | event 20250724 cn        | The Alchemist and the Tower of Horizons      | 优米雅的炼金工房       | The Alchemist and the Tower of Horizons      | 錬金術士と天空邂逅の塔               | -                        |
