@@ -59,7 +59,8 @@ class ManualConfig:
     STAGE_ENTRANCE = ['normal']  # normal, blue, half
     # Set stage='TH' and run_count=100, to run TH1~TH5 in cycle
     STAGE_LOOP_ALIAS = {
-        ('event_20221124_cn', 'TH'): 'TH1 > TH2 > TH3 > TH4 > TH5'
+        ('event_20221124_cn', 'TH'): 'TH1 > TH2 > TH3 > TH4 > TH5',
+        ('event_20250724_cn', 'TS'): 'TS1 > TS2 > TS3 > TS4 > TS5',
     }
 
     """
