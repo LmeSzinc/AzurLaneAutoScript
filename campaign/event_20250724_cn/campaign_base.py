@@ -1,9 +1,32 @@
 from module.campaign.campaign_base import CampaignBase as CampaignBase_
 from module.combat.assets import ALCHEMIST_MATERIAL_CONFIRM
 from module.handler.fast_forward import AUTO_SEARCH
+from module.template.assets import TEMPLATE_STAGE_HALF_PERCENT, TEMPLATE_STAGE_CLEAR_20240725
 
 
-class CampaignBase(CampaignBase_):
+class CampaignBaseT(CampaignBase_):
+    def campaign_extract_name_image(self, image):
+        if self.config.SERVER == 'en':
+            # EN has small stage name
+            digits = []
+            if 'half' in self.config.STAGE_ENTRANCE:
+                digits += self.campaign_match_multi(
+                    TEMPLATE_STAGE_HALF_PERCENT,
+                    image, self._stage_image_gray,
+                    name_offset=(54, 3), name_size=(60, 10)
+                )
+            if '20240725' in self.config.STAGE_ENTRANCE:
+                digits += self.campaign_match_multi(
+                    TEMPLATE_STAGE_CLEAR_20240725,
+                    image, self._stage_image_gray,
+                    name_offset=(73, 2), name_size=(60, 10)
+                )
+            return digits
+
+        return super().campaign_extract_name_image(image)
+
+
+class CampaignBaseTS(CampaignBaseT):
     def campaign_set_chapter_20241219(self, chapter, stage, mode='combat'):
         if self.config.MAP_CHAPTER_SWITCH_20241219:
             # TS is hard mode
