@@ -1,3 +1,5 @@
+from module.base.timer import Timer
+from module.base.utils import rgb2gray
 from module.campaign.campaign_ui import CampaignUI
 from module.combat.combat import Combat
 from module.eventstory.assets import *
@@ -17,8 +19,16 @@ class EventStory(CampaignUI, Combat, LoginHandler):
 
         state = 'unknown'
         for _ in range(3):
-            state = self.get_event_story_state()
-            logger.attr('EventStoryState', state)
+            # wait any story state
+            timeout = Timer(2, count=6).start()
+            for _ in self.loop():
+                state = self.get_event_story_state()
+                logger.attr('EventStoryState', state)
+                if state != 'unknown':
+                    break
+                if timeout.reached():
+                    logger.warning('Wait EventStoryState timeout')
+                    break
             if state == 'unknown':
                 # Story page get swiped, can't find story entrance
                 # Reset mode to reset swipe
@@ -29,6 +39,39 @@ class EventStory(CampaignUI, Combat, LoginHandler):
                 break
 
         return state
+
+    def get_event_20250724_button(self):
+        """
+        Returns:
+            Button | None:
+        """
+        area = (0, 72, 1280, 560)
+        image = self.image_crop(area, copy=False)
+        image = rgb2gray(image)
+        sim, button = TEMPLATE_ALCHEMIST_STORY.match_result(image)
+        if sim >= 0.85:
+            button = button.move(area[:2])
+            return button
+        else:
+            return None
+
+    def handle_event_20250724(self, interval=2):
+        """
+        In Alchemist collab 2, story button just appear everywhere
+
+        Returns:
+            bool: If clicked
+        """
+        interval = self.get_interval_timer(TEMPLATE_ALCHEMIST_STORY, interval=interval)
+        if not interval.reached():
+            return False
+        button = self.get_event_20250724_button()
+        if button:
+            self.device.click(button)
+            interval.reset()
+            return True
+        else:
+            return False
 
     def event_story(self, skip_first_screenshot=True):
         """
@@ -82,6 +125,11 @@ class EventStory(CampaignUI, Combat, LoginHandler):
                 self.popup_interval_clear()
                 self.device.click_record_clear()
                 continue
+            if self.handle_event_20250724():
+                self.story_skip_interval_clear()
+                self.popup_interval_clear()
+                self.device.click_record_clear()
+                continue
 
     def run_event_story(self):
         """
@@ -123,6 +171,8 @@ class EventStory(CampaignUI, Combat, LoginHandler):
             return 'story'
         if self.appear_then_click(BATTLE_MIDDLE, offset=(20, 200)):
             return 'story'
+        if self.get_event_20250724_button():
+            return 'story_alchemist'
 
         return 'unknown'
 

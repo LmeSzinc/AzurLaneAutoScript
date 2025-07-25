@@ -298,6 +298,13 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     # A Rose on the High Tower
     'shengli': 'Victorious',
     'huangjiaxiangshu': 'RoyalOak',
+
+    # The Alchemist and the Tower of Horizons
+    'lianjin_II_sairenquzhu': 'DDalchemist2',
+    'lianjin_II_sairenqingxun': 'CLalchemist2',
+    'lianjin_II_sairenzhongxun': 'CAalchemist2',
+    'lianjin_II_sairenzhanlie': 'BBalchemist2',
+    'lianjin_II_sairenhangmu': 'CValchemist2',
 }
 
 
