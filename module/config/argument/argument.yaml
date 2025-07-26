@@ -616,6 +616,7 @@ Minigame:
   Collect: false
 PrivateQuarters:
     BuyRoses: true
+    BuyCake: false
     TargetInteract: true
     TargetShip:
       value: anchorage
