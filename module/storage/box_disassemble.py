@@ -181,6 +181,7 @@ class StorageBox(StorageHandler):
                     used = 0
                     break
                 used += box_used
+                timeout.reset()
                 continue
             else:
                 logger.info('No boxes found')
