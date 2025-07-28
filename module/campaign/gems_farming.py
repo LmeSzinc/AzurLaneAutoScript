@@ -300,6 +300,9 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
         self.dock_filter_set()
 
     def _ship_change_confirm(self, button):
+        # clear the interval for DOCK_CHECK because 
+        # state loops in dock_filter_set, dock_select_one and _dock_reset all use this asset
+        self.interval_clear(DOCK_CHECK)
         self.dock_select_one(button)
         self.interval_clear(DOCK_CHECK)
         self._dock_reset()
