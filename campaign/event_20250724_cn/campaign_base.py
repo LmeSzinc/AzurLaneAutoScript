@@ -1,10 +1,32 @@
+from module.campaign.assets import EVENT_20221124_CHECK
 from module.campaign.campaign_base import CampaignBase as CampaignBase_
 from module.combat.assets import ALCHEMIST_MATERIAL_CONFIRM
 from module.handler.fast_forward import AUTO_SEARCH
+from module.logger import logger
 from module.template.assets import TEMPLATE_STAGE_HALF_PERCENT, TEMPLATE_STAGE_CLEAR_20240725
+from module.ui.page import page_campaign_menu, page_event
+from module.war_archives.assets import WAR_ARCHIVES_CAMPAIGN_CHECK
 
 
 class CampaignBaseT(CampaignBase_):
+    def ui_goto_event_20250724(self):
+        # Already in page_event, skip event_check.
+        if self.ui_get_current_page() == page_event:
+            if self.appear(WAR_ARCHIVES_CAMPAIGN_CHECK, offset=(20, 20)):
+                logger.info('At war archives')
+                self.ui_goto_main()
+            elif self.appear(EVENT_20221124_CHECK, offset=(20, 20)):
+                logger.info('At event 20221124')
+                self.ui_goto_main()
+            else:
+                logger.info('Already at page_event')
+                return True
+        return True
+
+    def campaign_set_chapter_20241219(self, chapter, stage, mode='combat'):
+        self.ui_goto_event_20250724()
+        return super().campaign_set_chapter_20241219(chapter, stage, mode)
+
     def campaign_extract_name_image(self, image):
         if self.config.SERVER == 'en':
             # EN has small stage name
@@ -29,6 +51,7 @@ class CampaignBaseT(CampaignBase_):
 class CampaignBaseTS(CampaignBaseT):
     def campaign_set_chapter_20241219(self, chapter, stage, mode='combat'):
         if self.config.MAP_CHAPTER_SWITCH_20241219:
+            self.ui_goto_event_20250724()
             # TS is hard mode
             if chapter in ['ts']:
                 self.ui_goto_event()
