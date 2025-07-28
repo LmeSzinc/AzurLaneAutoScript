@@ -175,5 +175,6 @@ class CampaignBase(CampaignUI, Map, AutoSearchCombat):
     def auto_search_execute_a_battle(self):
         logger.hr(f'{self.FUNCTION_NAME_BASE}{self.battle_count}', level=2)
         self.auto_search_moving()
-        self.auto_search_combat(fleet_index=self.fleet_show_index)
+        self.auto_search_combat(fleet_index=self.fleet_show_index,
+                                battle=(self.battle_count, self._map_battle))
         self.battle_count += 1

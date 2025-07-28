@@ -16,16 +16,19 @@ class SubmarineCall(ModuleBase):
         self.submarine_call_timer.reset()
         self.submarine_call_flag = False
 
-    def handle_submarine_call(self, submarine='do_not_use'):
+    def handle_submarine_call(self, submarine='do_not_use', call=False):
         """
         Returns:
             str: If call.
         """
         if self.submarine_call_flag:
             return False
-        if submarine in ['do_not_use', 'hunt_only', 'hunt_and_boss']:
-            self.submarine_call_flag = True
-            return False
+        if call and submarine == 'boss_only':
+            pass
+        else:
+            if submarine in ['do_not_use', 'hunt_only', 'boss_only', 'hunt_and_boss']:
+                self.submarine_call_flag = True
+                return False
         if self.submarine_call_timer.reached():
             logger.info('Submarine call timer reached')
             self.submarine_call_flag = True

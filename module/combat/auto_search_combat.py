@@ -213,7 +213,7 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
             if self.is_in_auto_search_menu() or self._handle_auto_search_menu_missing():
                 raise CampaignEnd
 
-    def auto_search_combat_execute(self, emotion_reduce, fleet_index, expected_end=None):
+    def auto_search_combat_execute(self, emotion_reduce, fleet_index, battle=None, expected_end=None):
         """
         Args:
             emotion_reduce (bool):
@@ -251,6 +251,7 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
         submarine_mode = 'do_not_use'
         if self.config.Submarine_Fleet:
             submarine_mode = self.config.Submarine_Mode
+        force_call = battle[0] == battle[1] - 1 if battle is not None else False
         self.combat_auto_reset()
         self.combat_manual_reset()
         self.device.stuck_record_clear()
@@ -264,7 +265,7 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
         while 1:
             self.device.screenshot()
 
-            if self.handle_submarine_call(submarine_mode):
+            if self.handle_submarine_call(submarine_mode, call=force_call):
                 continue
             if self.handle_combat_auto(auto):
                 continue
@@ -382,7 +383,7 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
                     exp_info = True
                     continue
 
-    def auto_search_combat(self, emotion_reduce=None, fleet_index=1):
+    def auto_search_combat(self, emotion_reduce=None, fleet_index=1, battle=None):
         """
         Execute a combat.
 
@@ -391,7 +392,7 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
         """
         emotion_reduce = emotion_reduce if emotion_reduce is not None else self.emotion.is_calculate
 
-        self.auto_search_combat_execute(emotion_reduce=emotion_reduce, fleet_index=fleet_index)
+        self.auto_search_combat_execute(emotion_reduce=emotion_reduce, fleet_index=fleet_index, battle=battle)
         self.auto_search_combat_status()
 
         logger.info('Combat end.')
