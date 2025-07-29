@@ -170,7 +170,7 @@ class CampaignRun(CampaignEvent):
                 logger.info(f'Stage name {name} is from campaign_main')
                 folder = 'campaign_main'
             else:
-                folder = self.config.cross_get('Event.Campaign.Event')
+                folder = self.config.Campaign_Event
                 if folder is not None:
                     logger.info(f'Stage name {name} is from event {folder}')
                 else:

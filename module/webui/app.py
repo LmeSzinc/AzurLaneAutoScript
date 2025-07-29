@@ -43,6 +43,7 @@ import module.webui.lang as lang
 from module.config.config import AzurLaneConfig, Function
 from module.config.deep import deep_get, deep_iter, deep_set
 from module.config.env import IS_ON_PHONE_CLOUD
+from module.config.server import to_server
 from module.config.utils import (
     alas_instance,
     alas_template,
@@ -338,7 +339,12 @@ class AlasGUI(Frame):
             # Default value
             output_kwargs["value"] = value
             # Options
-            output_kwargs["options"] = options = output_kwargs.pop("option", [])
+            options = output_kwargs.pop("option", [])
+            server = to_server(deep_get(config, 'Alas.Emulator.PackageName', 'cn'))
+            available_event = deep_get(self.ALAS_ARGS, keys=[task, group_name, arg_name, server])
+            if available_event is not None:
+                options = [opt for opt in options if opt in available_event]
+            output_kwargs["options"] = options
             # Options label
             options_label = []
             for opt in options:

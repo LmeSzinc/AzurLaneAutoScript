@@ -251,3 +251,4 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20250703   | event 20250424 cn        | Toward Tulipa’s Seas                         | -                      | -                                            | -                                    | 揚起鬱金之旗             |
 | 20250724   | event 20241219 cn        | Substellar Crepuscule                        | -                      | -                                            | -                                    | 星光下的餘暉             |
 | 20250724   | event 20250724 cn        | The Alchemist and the Tower of Horizons      | 优米雅的炼金工房       | The Alchemist and the Tower of Horizons      | 錬金術士と天空邂逅の塔               | -                        |
+| 20250726   | event 20221124 cn        | The Alchemist and the Archipelago of Secrets | 复刻莱莎的炼金工房     | The Alchemist and the Archipelago of Secrets | 錬金術士と謎の遺跡群島（復刻）       | -                        |
