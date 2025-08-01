@@ -28,8 +28,6 @@ Main3:
     Event: campaign_main
 GemsFarming:
   Campaign:
-    Event:
-      value: campaign_main
     Mode: normal
     UseClearMode: true
     UseFleetLock: true
@@ -146,6 +144,8 @@ EventSp:
 Raid:
   Campaign:
     Name: dynamic
+    Event:
+      type: state
     Mode: normal
     UseClearMode: true
     UseFleetLock: true
@@ -202,6 +202,8 @@ RaidDaily:
     ServerUpdate: 00:00
   Campaign:
     Name: dynamic
+    Event:
+      type: state
     Mode: normal
     UseClearMode: true
     UseFleetLock: true
@@ -233,6 +235,8 @@ Coalition:
     ServerUpdate: 00:00
   Campaign:
     Name: dynamic
+    Event:
+      type: state
     Mode: normal
     UseClearMode: true
     UseFleetLock: true
@@ -261,6 +265,8 @@ CoalitionSp:
     ServerUpdate: 00:00
   Campaign:
     Name: sp
+    Event:
+      type: state
     Mode: normal
     UseClearMode: true
     UseFleetLock: true
