@@ -43,6 +43,7 @@ import module.webui.lang as lang
 from module.config.config import AzurLaneConfig, Function
 from module.config.deep import deep_get, deep_iter, deep_set
 from module.config.env import IS_ON_PHONE_CLOUD
+from module.config.server import to_server
 from module.config.utils import (
     alas_instance,
     alas_template,
@@ -338,7 +339,10 @@ class AlasGUI(Frame):
             # Default value
             output_kwargs["value"] = value
             # Options
-            output_kwargs["options"] = options = output_kwargs.pop("option", [])
+            options = output_kwargs.pop("option", [])
+            # Filter event options based on server
+            options = self.filter_options(task, group_name, arg_name, options, config)
+            output_kwargs["options"] = options
             # Options label
             options_label = []
             for opt in options:
@@ -475,6 +479,36 @@ class AlasGUI(Frame):
         self.task_handler.add(switch_log_scroll.g(), 1, True)
         self.task_handler.add(self.alas_update_overview_task, 10, True)
         self.task_handler.add(log.put_log(self.alas), 0.25, True)
+
+    def filter_options(self, task, group_name, arg_name, options, config):
+        """
+        Filter options based on specific criteria.
+        This method can be extended to handle various filtering scenarios.
+        
+        Args:
+            task (str): Current task name
+            group_name (str): Group name
+            arg_name (str): Argument name
+            options (list): Original options list
+            config (dict): Current configuration
+            
+        Returns:
+            list: Filtered options list
+        """
+        EVENTS = ['Event', 'Event2', 'EventA', 'EventB', 'EventC', 'EventD', 'EventSp']
+        # Filter Campaign.Event options based on server
+        if task in EVENTS and group_name == 'Campaign' and arg_name == 'Event':
+            try:
+                server = to_server(deep_get(config, ['Alas', 'Emulator', 'PackageName'], 'cn'))
+                available_events = deep_get(self.ALAS_ARGS, keys=f'{task}.Campaign.Event.{server}')
+                # Handle both list and string format
+                if isinstance(available_events, list):
+                    return [opt for opt in options if opt in available_events]
+                else:
+                    return [opt for opt in options if opt == available_events]
+            except Exception:
+                pass
+        return options
 
     def _init_alas_config_watcher(self) -> None:
         def put_queue(path, value):

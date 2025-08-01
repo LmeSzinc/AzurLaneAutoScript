@@ -1,6 +1,7 @@
 import re
 import typing as t
 from copy import deepcopy
+from datetime import datetime, timedelta
 
 from cached_property import cached_property
 
@@ -418,6 +419,32 @@ class ConfigGenerator:
             f.writelines(lines)
         return events[::-1]
 
+    def is_event_active(self, event):
+        """
+        Check if an event is currently active.
+        Events are active for 14 days after their aired date.
+        War Archives events are always active.
+        
+        Args:
+            event (Event): Event to check
+            
+        Returns:
+            bool: True if event is active, False otherwise
+        """
+        if event.is_war_archives:
+            return True
+            
+        try:
+            # Parse date from format YYYYMMDD
+            date_str = event.date
+            event_date = datetime.strptime(date_str, '%Y%m%d')
+            current_date = datetime.now()
+            # Event is active for 14 days
+            return current_date <= (event_date + timedelta(days=14))
+        except Exception:
+            # If date parsing fails, consider the event as active
+            return True
+
     def insert_event(self):
         """
         Insert event information into `self.args`.
@@ -427,15 +454,45 @@ class ConfigGenerator:
                    args.json -----+-----> args.json
         """
         for event in self.event:
+            is_active = self.is_event_active(event)
+            
             for server in ARCHIVES_PREFIX.keys():
                 name = event.__getattribute__(server)
 
                 def insert(key):
                     opts = deep_get(self.args, keys=f'{key}.Campaign.Event.option')
+                    # Only add to options if active or is war archives
                     if event not in opts:
-                        opts.append(event)
-                    if name:
-                        deep_default(self.args, keys=f'{key}.Campaign.Event.{server}', value=event)
+                        if is_active and not event.is_war_archives:
+                            opts.append(event)
+                        if event.is_raid and 'campaign_main' in opts:
+                            opts.append(event)
+                        if event.is_war_archives:
+                            opts.append(event)
+                        if event.is_coalition and 'campaign_main' in opts:
+                            opts.append(event)
+                    # Store active events for each server
+                    server_opts = deep_get(self.args, keys=f'{key}.Campaign.Event.{server}')
+                    
+                    # Check if the event should be written
+                    write = (
+                        (name and is_active and not event.is_war_archives) or
+                        (server_opts is None and (
+                            event.is_raid or 
+                            event.is_war_archives or 
+                            event.is_coalition
+                        ))
+                    )
+                    
+                    if write:
+                        # Initialize server-specific events list if not exists
+                        server_events = deep_get(self.args, keys=f'{key}.Campaign.Event.{server}', default=[])
+                        if isinstance(server_events, str):
+                            # Convert existing single event to list
+                            server_events = [server_events]
+                        if event not in server_events:
+                            server_events.append(event)
+                        deep_set(self.args, keys=f'{key}.Campaign.Event.{server}', value=server_events)
 
                 if name:
                     if event.is_raid:
@@ -462,7 +519,19 @@ class ConfigGenerator:
             latest = {}
             for server in ARCHIVES_PREFIX.keys():
                 latest[server] = deep_pop(self.args, keys=f'{task}.Campaign.Event.{server}', default='')
-            bold = sorted(set(latest.values()))
+            
+            # Handle list-type values
+            bold = []
+            for value in latest.values():
+                # If it's a list, add each element to bold
+                if isinstance(value, list):
+                    bold.extend(value)
+                # Otherwise, add the value directly
+                elif value:
+                    bold.append(value)
+            
+            # Remove duplicates and sort
+            bold = sorted(set(bold))
             deep_set(self.args, keys=f'{task}.Campaign.Event.option_bold', value=bold)
             for server, event in latest.items():
                 deep_set(self.args, keys=f'{task}.Campaign.Event.{server}', value=event)
@@ -640,9 +709,31 @@ class ConfigUpdater:
         server = to_server(deep_get(new, 'Alas.Emulator.PackageName', 'cn'))
         if not is_template:
             for task in EVENTS + RAIDS + COALITIONS:
-                deep_set(new,
-                         keys=f'{task}.Campaign.Event',
-                         value=deep_get(self.args, f'{task}.Campaign.Event.{server}'))
+                current_event = deep_get(new, keys=f'{task}.Campaign.Event', default='campaign_main')
+                available_events = deep_get(self.args, f'{task}.Campaign.Event.{server}')
+                event_type = deep_get(self.args, keys=f'{task}.Campaign.Event.type', default='select')
+                # Check if the current event is in the available events list
+                if event_type == 'state':
+                    # For state type, ensure using a single value
+                    if isinstance(available_events, list) and len(available_events) > 0:
+                        # If available_events is a list, take the first element
+                        event_value = str(available_events[0])
+                    else:
+                        # Otherwise, use available_events directly
+                        event_value = available_events
+                    
+                    if current_event != event_value:
+                        deep_set(new, keys=f'{task}.Campaign.Event', value=event_value)
+                else:
+                    # For select type, keep the original logic
+                    if isinstance(available_events, list) and current_event not in available_events:
+                        deep_set(new,
+                                keys=f'{task}.Campaign.Event',
+                                value=deep_get(self.args, f'{task}.Campaign.Event.{server}'))
+                    elif isinstance(available_events, str) and current_event != available_events:
+                        deep_set(new,
+                                keys=f'{task}.Campaign.Event',
+                                value=deep_get(self.args, f'{task}.Campaign.Event.{server}'))
             for task in ['GemsFarming']:
                 if deep_get(new, keys=f'{task}.Campaign.Event', default='campaign_main') != 'campaign_main':
                     deep_set(new,
