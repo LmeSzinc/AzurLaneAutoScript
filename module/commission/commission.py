@@ -157,7 +157,7 @@ class RewardCommission(UI, InfoHandler):
         # Add shortest
         no_shortest = run.delete(SelectedGrids(['shortest']))
         if no_shortest.count + running_count < self.max_commission:
-            if no_shortest.count < run.count:
+            if daily.count:
                 logger.info('Not enough commissions to run, add shortest daily commissions')
                 COMMISSION_FILTER.load(SHORTEST_FILTER)
                 shortest = COMMISSION_FILTER.apply(daily[::-1], func=self._commission_check)
