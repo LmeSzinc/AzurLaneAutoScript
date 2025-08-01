@@ -443,12 +443,7 @@ class ConfigGenerator:
 
                 def insert(key):
                     opts = deep_get(self.args, keys=f'{key}.Campaign.Event.option')
-                    start = datetime.strptime('2025-07-26 00:00:00', '%Y-%m-%d %H:%M:%S')
-                    end = datetime.strptime('2025-08-07 23:59:59', '%Y-%m-%d %H:%M:%S')
-                    if start < datetime.now() < end:
-                        if event.date in ['20250724', '20250726'] and event not in opts:
-                            opts.append(event)
-                    elif event not in opts:
+                    if event not in opts:
                         opts.append(event)
                     if name:
                         deep_default(self.args, keys=f'{key}.Campaign.Event.{server}', value=event)
@@ -672,32 +667,14 @@ class ConfigUpdater:
         server = to_server(deep_get(new, 'Alas.Emulator.PackageName', 'cn'))
         if not is_template:
             for task in EVENTS + RAIDS + COALITIONS:
-                # Get current event from user's config
-                current_event = deep_get(new, keys=f'{task}.Campaign.Event', default=None)
-                # Get system default latest event
-                latest_event = deep_get(self.args, f'{task}.Campaign.Event.{server}')
-
-                # Check if user has manually modified the event
-                # If current event is empty or equals to the system default latest event, update to the latest event
-                # Otherwise, keep user's choice
-                if current_event is None or current_event == '' or \
-                        current_event == 'campaign_main' or current_event == latest_event:
-                    deep_set(new,
-                             keys=f'{task}.Campaign.Event',
-                             value=latest_event)
-
+                deep_set(new,
+                         keys=f'{task}.Campaign.Event',
+                         value=deep_get(self.args, f'{task}.Campaign.Event.{server}'))
             for task in ['GemsFarming']:
-                current_event = deep_get(new, keys=f'{task}.Campaign.Event', default='campaign_main')
-                latest_event = deep_get(self.args, f'{task}.Campaign.Event.{server}')
-
-                # If current event is empty or equals to the system default latest event, update to the latest event
-                # Otherwise, keep user's choice
-                if current_event is None or current_event == '' or \
-                        current_event == 'campaign_main' or current_event == latest_event:
+                if deep_get(new, keys=f'{task}.Campaign.Event', default='campaign_main') != 'campaign_main':
                     deep_set(new,
                              keys=f'{task}.Campaign.Event',
-                             value=latest_event)
-
+                             value=deep_get(self.args, f'{task}.Campaign.Event.{server}'))
         # War archive does not allow campaign_main
         for task in WAR_ARCHIVES:
             if deep_get(new, keys=f'{task}.Campaign.Event', default='campaign_main') == 'campaign_main':
