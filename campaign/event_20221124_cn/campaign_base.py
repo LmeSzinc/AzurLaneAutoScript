@@ -83,7 +83,7 @@ class CampaignBase(CampaignBase_):
         # Handle a different GET_ITEMS_1
         if super().handle_mystery_items(button, drop=drop):
             return True
-        if self.appear(GET_ITEMS_1_RYZA, offset=(20, 20)):
+        if self.appear(GET_ITEMS_1_RYZA, offset=(-20, -100, 20, 20)):
             logger.attr('Mystery', 'Get item')
             if drop:
                 drop.add(self.device.image)
