@@ -1,6 +1,6 @@
 from module.campaign.assets import EVENT_20221124_ENTRANCE, EVENT_20221124_PT_ICON
 from module.campaign.campaign_base import CampaignBase as CampaignBase_
-from module.combat.assets import GET_ITEMS_1_RYZA
+from module.combat.assets import GET_ITEMS_1_RYZA, GET_ITEMS_3_RYZA
 from module.handler.assets import MYSTERY_ITEM
 from module.handler.fast_forward import AUTO_SEARCH
 from module.logger import logger
@@ -84,6 +84,15 @@ class CampaignBase(CampaignBase_):
         if super().handle_mystery_items(button, drop=drop):
             return True
         if self.appear(GET_ITEMS_1_RYZA, offset=(20, 20)):
+            logger.attr('Mystery', 'Get item')
+            if drop:
+                drop.add(self.device.image)
+            self.device.click(MYSTERY_ITEM)
+            self.device.sleep(0.5)
+            self.device.screenshot()
+            # self.strategy_close()
+            return True
+        if self.appear(GET_ITEMS_3_RYZA, offset=(20, 20)):
             logger.attr('Mystery', 'Get item')
             if drop:
                 drop.add(self.device.image)
