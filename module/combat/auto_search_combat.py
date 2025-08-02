@@ -6,9 +6,10 @@ from module.exception import CampaignEnd
 from module.handler.assets import AUTO_SEARCH_MAP_OPTION_ON
 from module.logger import logger
 from module.map.map_operation import MapOperation
+from module.statistics.campaign_bonus import CampaignBonusStatistics
 
 
-class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
+class AutoSearchCombat(MapOperation, Combat, CampaignStatus, CampaignBonusStatistics):
     _auto_search_in_stage_timer = Timer(3, count=6)
     _auto_search_status_confirm = False
     auto_search_oil_limit_triggered = False
@@ -213,7 +214,14 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
                     break
                 if self.is_in_auto_search_menu() or self._handle_auto_search_menu_missing():
                     if drop and self.is_in_auto_search_menu():
-                        drop.handle_add(main=self, before=4)
+                        while 1:
+                            if self.wait_until_reward_stable() is True:
+                                drop.handle_add(main=self)
+                            else:
+                                logger.info('area stable failed, this should not have happened, taking fallback screenshot')
+                                drop.handle_add(main=self)
+                            raise CampaignEnd
+                            
                     raise CampaignEnd
 
     def auto_search_combat_execute(self, emotion_reduce, fleet_index):
@@ -260,46 +268,57 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
         if emotion_reduce:
             self.emotion.reduce(fleet_index)
         auto = self.config.Fleet_Fleet1Mode if fleet_index == 1 else self.config.Fleet_Fleet2Mode
+        with self.stat.new(
+            genre=self.config.campaign_name, method=self.config.DropRecord_CombatRecord
+        ) as drop:
+            while 1:
+                self.device.screenshot()
 
-        while 1:
-            self.device.screenshot()
-
-            if self.handle_submarine_call(submarine_mode):
-                continue
-            if self.handle_combat_auto(auto):
-                continue
-            if self.handle_combat_manual(auto):
-                continue
-            if auto != 'combat_auto' and self.auto_mode_checked and self.is_combat_executing():
-                if self.handle_combat_weapon_release():
+                if self.handle_submarine_call(submarine_mode):
                     continue
-            # bunch of popup handlers
-            if self.handle_popup_confirm('AUTO_SEARCH_COMBAT_EXECUTE'):
-                continue
-            if self.handle_urgent_commission():
-                continue
-            if self.handle_story_skip():
-                continue
-            if self.handle_guild_popup_cancel():
-                continue
-            if self.handle_vote_popup():
-                continue
-            if self.handle_mission_popup_ack():
-                continue
-
-            # End
-            if self.is_in_auto_search_menu() or self._handle_auto_search_menu_missing():
-                self.device.screenshot_interval_set()
-                raise CampaignEnd
-            if self.is_combat_executing():
-                continue
-            if self.handle_get_ship():
-                continue
-            if self.appear(BATTLE_STATUS_S) or self.appear(BATTLE_STATUS_A) or self.appear(BATTLE_STATUS_B) \
-                    or self.appear(EXP_INFO_S) or self.appear(EXP_INFO_A) or self.appear(EXP_INFO_B) \
-                    or self.is_auto_search_running():
-                self.device.screenshot_interval_set()
-                break
+                if self.handle_combat_auto(auto):
+                    continue
+                if self.handle_combat_manual(auto):
+                    continue
+                if auto != 'combat_auto' and self.auto_mode_checked and self.is_combat_executing():
+                    if self.handle_combat_weapon_release():
+                        continue
+                # bunch of popup handlers
+                if self.handle_popup_confirm('AUTO_SEARCH_COMBAT_EXECUTE'):
+                    continue
+                if self.handle_urgent_commission():
+                    continue
+                if self.handle_story_skip():
+                    continue
+                if self.handle_guild_popup_cancel():
+                    continue
+                if self.handle_vote_popup():
+                    continue
+                if self.handle_mission_popup_ack():
+                    continue
+                # needed drop here too, since it fails proper leaving if handle_get_ship triggers (even if that was false)
+                # End
+                if self.is_in_auto_search_menu() or self._handle_auto_search_menu_missing():
+                    self.device.screenshot_interval_set()
+                    if drop and self.is_in_auto_search_menu():
+                        while 1:
+                            if self.wait_until_reward_stable() is True:
+                                drop.handle_add(main=self)
+                            else:
+                                logger.info('area stable failed, this should not have happened, taking fallback screenshot')
+                                drop.handle_add(main=self)
+                            raise CampaignEnd
+                            
+                    raise CampaignEnd
+                if self.is_combat_executing():
+                    continue
+                if self.handle_get_ship():
+                    continue
+                if self.appear(BATTLE_STATUS_S) or self.appear(BATTLE_STATUS_A) or self.appear(BATTLE_STATUS_B) \
+                        or self.appear(EXP_INFO_S) or self.appear(EXP_INFO_A) or self.appear(EXP_INFO_B) \
+                        or self.is_auto_search_running():
+                    self.device.screenshot_interval_set()
+                    break
 
     def auto_search_combat_status(self, skip_first_screenshot=True):
         """
