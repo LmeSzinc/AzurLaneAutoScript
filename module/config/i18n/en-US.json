@@ -66,10 +66,6 @@
       "name": "Event General",
       "help": ""
     },
-    "Coalition": {
-      "name": "Neon City Investigator",
-      "help": ""
-    },
     "Event": {
       "name": "Event",
       "help": ""
@@ -86,6 +82,10 @@
       "name": "Valley Hospital",
       "help": ""
     },
+    "Coalition": {
+      "name": "Neon City Investigator",
+      "help": ""
+    },
     "MaritimeEscort": {
       "name": "Maritime Escort",
       "help": ""
@@ -93,10 +93,6 @@
     "WarArchives": {
       "name": "War Archives",
       "help": "Due to the lack of maintenance of war archives, continuous clear may not work normally, if Alas runs abnormally, Please manually finish clearing and use auto search"
-    },
-    "CoalitionSp": {
-      "name": "Neon City Investigator SP",
-      "help": ""
     },
     "EventA": {
       "name": "Event Daily A",
@@ -120,6 +116,10 @@
     },
     "RaidDaily": {
       "name": "Raid Daily",
+      "help": ""
+    },
+    "CoalitionSp": {
+      "name": "Neon City Investigator SP",
       "help": ""
     },
     "Commission": {
@@ -557,6 +557,7 @@
       "com.YoStarJP.AzurLane": "JP",
       "com.hkmanjuu.azurlane.gp": "TW",
       "com.bilibili.blhx.huawei": "CN com.bilibili.blhx.huawei",
+      "com.bilibili.blhx.honor": "CN com.bilibili.blhx.honor",
       "com.bilibili.blhx.mi": "CN com.bilibili.blhx.mi",
       "com.tencent.tmgp.bilibili.blhx": "CN com.tencent.tmgp.bilibili.blhx",
       "com.bilibili.blhx.baidu": "CN com.bilibili.blhx.baidu",
@@ -962,7 +963,7 @@
       "event_20220728_cn": "Aquilifers Ballade Rerun",
       "event_20220818_cn": "Operation Convergence Return",
       "event_20220915_cn": "Violet Tempest Blooming Lycoris Rerun",
-      "event_20221124_cn": "The Alchemist and the Archipelago of Secrets",
+      "event_20221124_cn": "The Alchemist and the Archipelago of Secrets Rerun",
       "event_20221222_cn": "Parallel Superimposition Rerun",
       "event_20230223_cn": "Revelations of Dust Rerun",
       "event_20230525_cn": "Confluence of Nothingness Rerun",
@@ -985,6 +986,7 @@
       "event_20250227_cn": "Paradiso of Shackled Light",
       "event_20250424_cn": "Toward Tulipa’s Seas",
       "event_20250520_cn": "A Rose on the High Tower",
+      "event_20250724_cn": "The Alchemist and the Tower of Horizons",
       "raid_20200624": "Air Raid Drills with Essex Rerun",
       "raid_20210708": "Cross Wave rerun",
       "raid_20220127": "Mystery Investigation",
@@ -1032,6 +1034,7 @@
       "war_archives_20220224_cn": "archives Abyssal Refrain",
       "war_archives_20220324_cn": "archives Virtual Tower",
       "war_archives_20220414_cn": "archives Aurora Noctis",
+      "war_archives_20220428_cn": "archives Rondo at Rainbows End",
       "war_archives_20220526_cn": "archives Pledge of the Radiant Court",
       "war_archives_20220728_cn": "archives Aquilifers Ballade"
     },
@@ -1869,6 +1872,10 @@
       "help": "",
       "level120": "Lv.120",
       "level125": "Lv.125"
+    },
+    "Favourite": {
+      "name": "Awaken Favourite Ships Only",
+      "help": ""
     }
   },
   "GeneralShop": {
@@ -2283,6 +2290,10 @@
     "BuyRoses": {
       "name": "Buy Weekly Roses",
       "help": "On week reset, roses will be available for purchase\nThe purchase is made in bulk wholsesale or none at all\nMinimum of 24K coin is required, if not enough subtask will be delayed to the next day and try again then"
+    },
+    "BuyCake": {
+      "name": "Buy Weekly Cake",
+      "help": "Ditto, minimum of 210 gems is required however"
     },
     "TargetInteract": {
       "name": "Enable Daily Interact",

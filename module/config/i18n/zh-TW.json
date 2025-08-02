@@ -66,10 +66,6 @@
       "name": "活動通用",
       "help": ""
     },
-    "Coalition": {
-      "name": "極地風暴",
-      "help": ""
-    },
     "Event": {
       "name": "活動圖",
       "help": ""
@@ -86,6 +82,10 @@
       "name": "深谷来信",
       "help": ""
     },
+    "Coalition": {
+      "name": "極地風暴",
+      "help": ""
+    },
     "MaritimeEscort": {
       "name": "商船護航",
       "help": ""
@@ -93,10 +93,6 @@
     "WarArchives": {
       "name": "作戰檔案",
       "help": "由於作戰檔案缺少維護，開荒功能不一定能正常使用，如果發現Alas運行異常，請手動完成開荒後使用自律尋敵功能"
-    },
-    "CoalitionSp": {
-      "name": "極地風暴每日SP",
-      "help": ""
     },
     "EventA": {
       "name": "活動每日A圖",
@@ -120,6 +116,10 @@
     },
     "RaidDaily": {
       "name": "共鬥活動每日",
+      "help": ""
+    },
+    "CoalitionSp": {
+      "name": "極地風暴每日SP",
       "help": ""
     },
     "Commission": {
@@ -557,6 +557,7 @@
       "com.YoStarJP.AzurLane": "日服",
       "com.hkmanjuu.azurlane.gp": "台服",
       "com.bilibili.blhx.huawei": "國服 com.bilibili.blhx.huawei",
+      "com.bilibili.blhx.honor": "國服 com.bilibili.blhx.honor",
       "com.bilibili.blhx.mi": "國服 com.bilibili.blhx.mi",
       "com.tencent.tmgp.bilibili.blhx": "國服 com.tencent.tmgp.bilibili.blhx",
       "com.bilibili.blhx.baidu": "國服 com.bilibili.blhx.baidu",
@@ -981,10 +982,11 @@
       "event_20240912_cn": "喚醒蒼紅之炎",
       "event_20241024_cn": "颶風與沉眠之海",
       "event_20241121_cn": "危險發明逼近中",
-      "event_20241219_cn": "Substellar Crepuscule",
+      "event_20241219_cn": "星光下的餘暉",
       "event_20250227_cn": "Paradiso of Shackled Light",
       "event_20250424_cn": "揚起鬱金之旗",
       "event_20250520_cn": "高塔上的薔薇",
+      "event_20250724_cn": "The Alchemist and the Tower of Horizons",
       "raid_20200624": "特別演習埃塞克斯級(復刻)",
       "raid_20210708": "復刻穿越彼方的水線",
       "raid_20220127": "演習神秘事件調查",
@@ -1032,6 +1034,7 @@
       "war_archives_20220224_cn": "檔案 深度回音",
       "war_archives_20220324_cn": "檔案 虛像構築之塔",
       "war_archives_20220414_cn": "檔案 永夜幻光",
+      "war_archives_20220428_cn": "檔案 虹彩的終幕曲",
       "war_archives_20220526_cn": "檔案 泠誓光庭",
       "war_archives_20220728_cn": "檔案 雄鷹的敘事歌"
     },
@@ -1869,6 +1872,10 @@
       "help": "",
       "level120": "120級",
       "level125": "125級"
+    },
+    "Favourite": {
+      "name": "僅覺醒常用艦船",
+      "help": ""
     }
   },
   "GeneralShop": {
@@ -2283,6 +2290,10 @@
     "BuyRoses": {
       "name": "PrivateQuarters.BuyRoses.name",
       "help": "PrivateQuarters.BuyRoses.help"
+    },
+    "BuyCake": {
+      "name": "PrivateQuarters.BuyCake.name",
+      "help": "PrivateQuarters.BuyCake.help"
     },
     "TargetInteract": {
       "name": "PrivateQuarters.TargetInteract.name",

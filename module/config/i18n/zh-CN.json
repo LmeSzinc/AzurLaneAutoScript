@@ -66,10 +66,6 @@
       "name": "活动通用设置",
       "help": ""
     },
-    "Coalition": {
-      "name": "迷彩都市的寻踪者",
-      "help": ""
-    },
     "Event": {
       "name": "活动图",
       "help": ""
@@ -86,6 +82,10 @@
       "name": "深谷来信",
       "help": ""
     },
+    "Coalition": {
+      "name": "迷彩都市的寻踪者",
+      "help": ""
+    },
     "MaritimeEscort": {
       "name": "商船护航",
       "help": ""
@@ -93,10 +93,6 @@
     "WarArchives": {
       "name": "作战档案",
       "help": "由于作战档案缺少维护，开荒功能不一定能正常使用，如果发现Alas运行异常，请手动完成开荒后使用自律寻敌功能"
-    },
-    "CoalitionSp": {
-      "name": "迷彩都市的寻踪者SP",
-      "help": ""
     },
     "EventA": {
       "name": "活动每日A图",
@@ -120,6 +116,10 @@
     },
     "RaidDaily": {
       "name": "共斗活动每日",
+      "help": ""
+    },
+    "CoalitionSp": {
+      "name": "迷彩都市的寻踪者SP",
       "help": ""
     },
     "Commission": {
@@ -557,6 +557,7 @@
       "com.YoStarJP.AzurLane": "日服",
       "com.hkmanjuu.azurlane.gp": "台服",
       "com.bilibili.blhx.huawei": "国服 华为渠道服 com.bilibili.blhx.huawei",
+      "com.bilibili.blhx.honor": "国服 荣耀渠道服 com.bilibili.blhx.honor",
       "com.bilibili.blhx.mi": "国服 小米渠道服 com.bilibili.blhx.mi",
       "com.tencent.tmgp.bilibili.blhx": "国服 腾讯应用宝渠道服 com.tencent.tmgp.bilibili.blhx",
       "com.bilibili.blhx.baidu": "国服 百度渠道服 com.bilibili.blhx.baidu",
@@ -962,7 +963,7 @@
       "event_20220728_cn": "复刻雄鹰的叙事歌",
       "event_20220818_cn": "复刻远汇点作战",
       "event_20220915_cn": "复刻紫绛槿岚",
-      "event_20221124_cn": "炼金术士与秘密遗迹群岛",
+      "event_20221124_cn": "复刻炼金术士与秘密遗迹群岛",
       "event_20221222_cn": "复刻定向折叠",
       "event_20230223_cn": "复刻湮烬尘墟",
       "event_20230525_cn": "复刻空相交汇点",
@@ -985,6 +986,7 @@
       "event_20250227_cn": "樊笼内的神光",
       "event_20250424_cn": "扬起郁金之旗",
       "event_20250520_cn": "高塔上的蔷薇",
+      "event_20250724_cn": "优米雅的炼金工房",
       "raid_20200624": "复刻特别演习埃塞克斯级",
       "raid_20210708": "复刻穿越彼方的水线",
       "raid_20220127": "演习神秘事件调查",
@@ -1032,6 +1034,7 @@
       "war_archives_20220224_cn": "档案 深度回音",
       "war_archives_20220324_cn": "档案 虚像构筑之塔",
       "war_archives_20220414_cn": "档案 永夜幻光",
+      "war_archives_20220428_cn": "档案 虹彩的终幕曲",
       "war_archives_20220526_cn": "档案 泠誓光庭",
       "war_archives_20220728_cn": "档案 雄鹰的叙事歌"
     },
@@ -1869,6 +1872,10 @@
       "help": "",
       "level120": "120级",
       "level125": "125级"
+    },
+    "Favourite": {
+      "name": "仅觉醒常用舰船",
+      "help": ""
     }
   },
   "GeneralShop": {
@@ -2283,6 +2290,10 @@
     "BuyRoses": {
       "name": "购买每周浪漫满分",
       "help": "浪漫满分购买次数每周一重置\n每次运行会尝试一次性全部购买，如果物资不够（不足24K）则取消购买并推迟至次日运行"
+    },
+    "BuyCake": {
+      "name": "购买每周蛋糕礼盒",
+      "help": "蛋糕礼盒购买次数每周一重置\n每次运行会尝试一次性全部购买，如果物资不够（不足210钻石）则取消购买并推迟至次日运行"
     },
     "TargetInteract": {
       "name": "清空每日精力",

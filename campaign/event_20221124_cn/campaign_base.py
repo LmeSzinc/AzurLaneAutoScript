@@ -1,9 +1,11 @@
+from module.campaign.assets import EVENT_20221124_ENTRANCE, EVENT_20221124_PT_ICON
 from module.campaign.campaign_base import CampaignBase as CampaignBase_
 from module.combat.assets import GET_ITEMS_1_RYZA
-from module.handler.fast_forward import AUTO_SEARCH
 from module.handler.assets import MYSTERY_ITEM
+from module.handler.fast_forward import AUTO_SEARCH
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
+from module.ui.page import page_campaign_menu, page_event
 
 
 class CampaignBase(CampaignBase_):
@@ -11,6 +13,16 @@ class CampaignBase(CampaignBase_):
         'T1 > T2 > T3 > TS1 > T4 > T5',
         'TH1 > TH2 > TH3 > TH4 > TH5',
     ]
+
+    def ui_goto_event(self):
+        if self.appear(EVENT_20221124_PT_ICON, offset=(20, 20)) and self.ui_page_appear(page_event):
+            logger.info('Already at EVENT_20221124')
+            return True
+        self.ui_ensure(page_campaign_menu)
+        self.ui_click(EVENT_20221124_ENTRANCE,
+                      check_button=EVENT_20221124_PT_ICON,
+                      appear_button=EVENT_20221124_ENTRANCE)
+        return True
 
     def campaign_set_chapter_event(self, chapter, mode='normal'):
         if chapter.startswith('t'):

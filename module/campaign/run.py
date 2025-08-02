@@ -197,6 +197,9 @@ class CampaignRun(CampaignEvent, ShopStatus):
             name = name.replace('lsp', 'isp').replace('1sp', 'isp')
             if name == 'isp':
                 name = 'isp1'
+        if folder == 'event_20240724_cn':
+            if name in ['ysp', 'y.sp']:
+                name = 'sp'
         # Convert to chapter T
         convert = {
             'a1': 't1',
@@ -217,6 +220,7 @@ class CampaignRun(CampaignEvent, ShopStatus):
             'event_20231026_cn',
             'event_20241024_cn',
             'event_20250424_cn',
+            'event_20250724_cn',
         ]:
             name = convert.get(name, name)
         # Convert between A/B/C/D and T/HT
@@ -248,6 +252,7 @@ class CampaignRun(CampaignEvent, ShopStatus):
             'event_20241024_cn',
             'event_20241121_cn',
             'event_20250424_cn',
+            'event_20250724_cn',
         ]:
             name = convert.get(name, name)
         else:
@@ -261,6 +266,11 @@ class CampaignRun(CampaignEvent, ShopStatus):
         if folder == 'event_20221124_cn' and name.startswith('th'):
             if self.config.StopCondition_MapAchievement != 'non_stop':
                 logger.info(f'When running chapter TH of event_20221124_cn, '
+                            f'StopCondition.MapAchievement is forced set to threat_safe')
+                self.config.override(StopCondition_MapAchievement='threat_safe')
+        if folder == 'event_20250724_cn' and name.startswith('ts'):
+            if self.config.StopCondition_MapAchievement != 'non_stop':
+                logger.info(f'When running chapter TS of event_20250724_cn, '
                             f'StopCondition.MapAchievement is forced set to threat_safe')
                 self.config.override(StopCondition_MapAchievement='threat_safe')
         # event_20211125_cn, TSS maps are on time maps
@@ -299,6 +309,10 @@ class CampaignRun(CampaignEvent, ShopStatus):
                                 f'run ordered stage: {stage}')
                 name = stage.lower()
                 self.is_stage_loop = True
+                # disable continuous clear
+                logger.info('disable continuous clear')
+                self.config.override(StopCondition_MapAchievement='non_stop')
+                self.config.override(StopCondition_StageIncrease=False)
         # Convert campaign_main to campaign hard if mode is hard and file exists
         if mode == 'hard' and folder == 'campaign_main' and name in map_files('campaign_hard'):
             folder = 'campaign_hard'
