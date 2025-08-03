@@ -1,10 +1,21 @@
+from module.campaign.assets import EVENT_20250724_PT_ICON
 from module.campaign.campaign_base import CampaignBase as CampaignBase_
 from module.combat.assets import ALCHEMIST_MATERIAL_CONFIRM
 from module.handler.fast_forward import AUTO_SEARCH
-from module.template.assets import TEMPLATE_STAGE_HALF_PERCENT, TEMPLATE_STAGE_CLEAR_20240725
+from module.logger import logger
+from module.template.assets import TEMPLATE_STAGE_CLEAR_20240725, TEMPLATE_STAGE_HALF_PERCENT
+from module.ui.page import page_campaign_menu, page_event
 
 
 class CampaignBaseT(CampaignBase_):
+    def ui_goto_event(self):
+        if self.appear(EVENT_20250724_PT_ICON, offset=(20, 20)) and self.ui_page_appear(page_event):
+            logger.info('Already at EVENT_20250724')
+            return True
+        self.ui_ensure(page_campaign_menu)
+        self.ui_goto(page_event)
+        return True
+    
     def campaign_extract_name_image(self, image):
         if self.config.SERVER == 'en':
             # EN has small stage name
