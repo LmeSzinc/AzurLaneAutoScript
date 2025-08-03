@@ -6,10 +6,10 @@ from module.exception import CampaignEnd
 from module.handler.assets import AUTO_SEARCH_MAP_OPTION_ON
 from module.logger import logger
 from module.map.map_operation import MapOperation
-from module.statistics.campaign_bonus import CampaignBonusStatistics
+from module.statistics.autosearch_reward import *
 
 
-class AutoSearchCombat(MapOperation, Combat, CampaignStatus, CampaignBonusStatistics):
+class AutoSearchCombat(MapOperation, Combat, CampaignStatus, AutosearchReward):
     _auto_search_in_stage_timer = Timer(3, count=6)
     _auto_search_status_confirm = False
     auto_search_oil_limit_triggered = False
