@@ -68,4 +68,6 @@ class CampaignBaseTS(CampaignBaseT):
         appear = AUTO_SEARCH.appear(main=self)
         self.map_is_100_percent_clear = self.map_is_3_stars = self.map_is_threat_safe = appear
         self.map_has_clear_mode = appear
+        if self.config.StopCondition_MapAchievement == 'non_stop_clear_all':
+            self.config.MAP_CLEAR_ALL_THIS_TIME = True
         self.map_show_info()

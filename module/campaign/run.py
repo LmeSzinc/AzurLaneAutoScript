@@ -267,12 +267,12 @@ class CampaignRun(CampaignEvent, ShopStatus):
             name = name.replace('ht', 'th')
         # Chapter TH has no map_percentage and no 3_stars
         if folder == 'event_20221124_cn' and name.startswith('th'):
-            if self.config.StopCondition_MapAchievement != 'non_stop':
+            if self.config.StopCondition_MapAchievement not in ['non_stop', 'non_stop_clear_all']:
                 logger.info(f'When running chapter TH of event_20221124_cn, '
                             f'StopCondition.MapAchievement is forced set to threat_safe')
                 self.config.override(StopCondition_MapAchievement='threat_safe')
         if folder == 'event_20250724_cn' and name.startswith('ts'):
-            if self.config.StopCondition_MapAchievement != 'non_stop':
+            if self.config.StopCondition_MapAchievement not in ['non_stop', 'non_stop_clear_all']:
                 logger.info(f'When running chapter TS of event_20250724_cn, '
                             f'StopCondition.MapAchievement is forced set to threat_safe')
                 self.config.override(StopCondition_MapAchievement='threat_safe')
