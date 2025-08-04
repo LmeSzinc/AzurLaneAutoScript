@@ -1,5 +1,6 @@
 import time
 import cv2
+import datetime
 import numpy as np
 from module.base.button import ButtonGrid
 from module.base.timer import Timer
@@ -16,13 +17,14 @@ class AutosearchReward(ButtonGrid, Timer, AzurStats):
         change due to Meta xp, then verifies via amount ocr, after that waits till the reward area has no changes
         e.g all drops appeared
 
-        timeout: may or may not need adjustment, after gathering data\\
+        timeout: may or may not need adjustment, after gathering data; 5.23s longest atm\\
         required_consecutive_matches: 3 seems a good compromise\\
         similarity_threshold: in testing the similarity ranged in 0.002- 0.01 ranges so opted for 0.999
         """
         logger.info('wait until area stable')
 
         try:
+            timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
             # 1. Image handling separation, ocr uses non modified, area stable check uses modified
             self.device.screenshot()
             original_bgr = self.device.image.copy()
@@ -34,7 +36,7 @@ class AutosearchReward(ButtonGrid, Timer, AzurStats):
             debug_img = original_bgr.copy()
             cv2.rectangle(debug_img, (exit_btn[0], exit_btn[1]), (exit_btn[2], exit_btn[3]), (255,0,0), 2)
             cv2.rectangle(debug_img, (continue_btn[0], continue_btn[1]), (continue_btn[2], continue_btn[3]), (0,0,255), 2)
-            self._save(debug_img, 'debug', 'reference_points.png')
+            self._save(debug_img, 'debug', f'{timestamp}_reference_points.png')
 
             # 3. Grid setup with single row, tested with EN, CN is fine due to same button,
             #continue button shift less of an issue, but alot of the measures depend on exit
@@ -114,7 +116,7 @@ class AutosearchReward(ButtonGrid, Timer, AzurStats):
             logger.info(f"DEBUG - Monitor area: {monitor_area}")
             
             self.device.image = gray_image
-            return self.reward_area_stable_check(monitor_area, timeout, required_consecutive_matches, similarity_threshold)
+            return self.reward_area_stable_check(monitor_area, timeout, required_consecutive_matches, similarity_threshold, timestamp)
 
         except Exception as e:
             logger.error(f'Stabilization failure: {str(e)}')
@@ -179,7 +181,7 @@ class AutosearchReward(ButtonGrid, Timer, AzurStats):
                 logger.info(f"Grid {grid_idx} summary: No amounts detected")
                 return False
 
-    def reward_area_stable_check(self, monitor_area, timeout, required_matches, similarity_threshold):
+    def reward_area_stable_check(self, monitor_area, timeout, required_matches, similarity_threshold, timestamp=""):
         """
         checks if the previously assigned area has any changes
         returns True for being stable after 3 same consecutive matches, while similarity was met or beaten
@@ -191,7 +193,7 @@ class AutosearchReward(ButtonGrid, Timer, AzurStats):
         check_count = 0
 
         last_luma = crop(self.device.image, monitor_area)
-        self._save(last_luma, 'debug/dropstats', '0_initial.png')
+        self._save(last_luma, 'debug/dropstats', f'{timestamp}_0_initial.png')
 
         while True:
             current_time = time.time()
@@ -208,7 +210,7 @@ class AutosearchReward(ButtonGrid, Timer, AzurStats):
                 self.device.screenshot()
                 current_luma = cv2.cvtColor(self.device.image, cv2.COLOR_BGR2GRAY)
                 current_luma = crop(current_luma, monitor_area)
-                self._save(current_luma, 'debug/dropstats', f'{check_count}_check.png')
+                self._save(current_luma, 'debug/dropstats', f'{timestamp}_{check_count}_check.png')
 
                 res = cv2.matchTemplate(last_luma, current_luma, cv2.TM_CCOEFF_NORMED)
                 similarity = cv2.minMaxLoc(res)[1]
@@ -222,7 +224,7 @@ class AutosearchReward(ButtonGrid, Timer, AzurStats):
                         stabilization_time = time.time() - stabilization_start
                         total_time = time.time() - start_time
                         logger.info(f'Area stabilized after {total_time:.2f}s (took {stabilization_time:.2f}s to confirm)')
-                        self._save(current_luma, 'debug/dropstats', 'final_stable.png')
+                        self._save(current_luma, 'debug/dropstats', f'{timestamp}_final_stable.png')
                         return True
                 else:
                     consecutive_matches = 0
