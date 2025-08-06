@@ -33,7 +33,7 @@ FILTER_REGEX = re.compile(
     '|red|blue|yellow'
     '|general|gun|torpedo|antiair|plane|wild'
     '|dd|cl|bb|cv'
-    '|iris'
+    '|iris|sardegna'
     '|abyssal|archive|obscure|unlock'
     '|combat|offense|survival)?'
 
