@@ -13,8 +13,10 @@ class CampaignBaseT(CampaignBase_):
             logger.info('Already at EVENT_20250724')
             return True
         self.ui_ensure(page_campaign_menu)
-        self.ui_goto(page_event)
-        return True
+        # Check event availability
+        if self.is_event_entrance_available():
+            self.ui_goto(page_event)
+            return True
     
     def campaign_extract_name_image(self, image):
         if self.config.SERVER == 'en':
