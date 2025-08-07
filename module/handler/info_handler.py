@@ -549,3 +549,25 @@ class InfoHandler(ModuleBase):
             return True
         else:
             return False
+        
+    def ensure_no_manjuu(self, timeout=1.5, skip_first_screenshot=True):
+        logger.info('Ensure no manjuu')
+        manjuu_timer = Timer(timeout, count=6).start()
+        handled = False
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.handle_manjuu():
+                manjuu_timer.reset()
+                handled = True
+            else:
+                if not handled:
+                    break
+
+            if manjuu_timer.reached():
+                break
+
+        return handled

@@ -202,7 +202,7 @@ class MissionHandler(GlobeOperation, ZoneManager):
             else:
                 self.device.screenshot()
 
-            if self.handle_manjuu():
+            if self.ensure_no_manjuu():
                 confirm_timer.reset()
                 continue
             if self.info_bar_count():
