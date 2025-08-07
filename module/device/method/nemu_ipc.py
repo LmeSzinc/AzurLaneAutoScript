@@ -474,9 +474,6 @@ class NemuIpc(Platform):
         """
         # Try existing settings first
         if self.config.EmulatorInfo_path:
-            if 'MuMuPlayerGlobal' in self.config.EmulatorInfo_path:
-                logger.info(f'nemu_ipc is not available on MuMuPlayerGlobal, {self.config.EmulatorInfo_path}')
-                raise RequestHumanTakeover
             folder = os.path.abspath(os.path.join(self.config.EmulatorInfo_path, '../../'))
             index = NemuIpcImpl.serial_to_id(self.serial)
             if index is not None:
