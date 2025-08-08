@@ -9438,6 +9438,10 @@
       "UseTuningSample": {
         "type": "checkbox",
         "value": true
+      },
+      "SkipSirenResearchMission": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "OpsiFleet": {

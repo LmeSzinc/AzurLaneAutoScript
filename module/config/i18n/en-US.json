@@ -2530,6 +2530,10 @@
     "UseTuningSample": {
       "name": "Use Tuning Samples",
       "help": "Use all tuning samples and quality tuning samples"
+    },
+    "SkipSirenResearchMission": {
+      "name": "Skip Siren Research Mission(s)",
+      "help": "When enabled, the \"Siren Research I\" and \"Siren Research II\" missions will be skipped.\nThe Siren Research missions use yellow coins to exchange for purple coins."
     }
   },
   "OpsiObscure": {

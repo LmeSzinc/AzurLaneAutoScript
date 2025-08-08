@@ -2530,6 +2530,10 @@
     "UseTuningSample": {
       "name": "OpsiDaily.UseTuningSample.name",
       "help": "OpsiDaily.UseTuningSample.help"
+    },
+    "SkipSirenResearchMission": {
+      "name": "OpsiDaily.SkipSirenResearchMission.name",
+      "help": "OpsiDaily.SkipSirenResearchMission.help"
     }
   },
   "OpsiObscure": {

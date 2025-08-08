@@ -741,6 +741,7 @@ OpsiVoucher:
 OpsiDaily:
   DoMission: true
   UseTuningSample: true
+  SkipSirenResearchMission: false
 OpsiObscure:
   ForceRun: false
 OpsiAbyssal:

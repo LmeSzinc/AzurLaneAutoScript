@@ -2530,6 +2530,10 @@
     "UseTuningSample": {
       "name": "使用效能樣本",
       "help": "使用所有六種效能樣本和強力效能樣本"
+    },
+    "SkipSirenResearchMission": {
+      "name": "不做塞壬研究任務",
+      "help": "開啟後，將跳過“塞壬研究·I”與“塞壬研究·II”兩個任務\n塞壬研究任務使用黃幣兌換紫幣"
     }
   },
   "OpsiObscure": {
