@@ -37,12 +37,13 @@ class OperationSiren(OSMap):
             self.run_auto_search()
             self.handle_after_auto_search()
 
-    def os_finish_daily_mission(self, question=True, rescan=None):
+    def os_finish_daily_mission(self, skip_siren_mission=False, question=True, rescan=None):
         """
         Finish all daily mission in Operation Siren.
         Suggest to run os_port_daily to accept missions first.
 
         Args:
+            skip_siren_mission (bool): if skip siren research missions
             question (bool): refer to run_auto_search
             rescan (None, bool): refer to run_auto_search
 
@@ -52,7 +53,7 @@ class OperationSiren(OSMap):
         logger.hr('OS finish daily mission', level=1)
         count = 0
         while True:
-            result = self.os_get_next_mission()
+            result = self.os_get_next_mission(skip_siren_mission=skip_siren_mission)
             if not result:
                 break
 
@@ -82,15 +83,21 @@ class OperationSiren(OSMap):
         if self.config.OpsiDaily_UseTuningSample:
             self.tuning_sample_use()
 
+        if self.config.OpsiDaily_SkipSirenResearchMission and self.config.SERVER not in ['cn']:
+            logger.warning(f'OpsiDaily.SkipSirenResearchMission is not supported in {self.config.SERVER}')
+            self.config.OpsiDaily_SkipSirenResearchMission = False
+
+        skip_siren_mission = self.config.OpsiDaily_SkipSirenResearchMission
         while True:
             # If unable to receive more dailies, finish them and try again.
-            success = self.os_mission_overview_accept()
+            success = self.os_mission_overview_accept(skip_siren_mission=skip_siren_mission)
             # Re-init zone name
             # MISSION_ENTER appear from the right,
             # need to confirm that the animation has ended,
             # or it will click on MAP_GOTO_GLOBE
             self.zone_init()
-            self.os_finish_daily_mission()
+            if self.os_finish_daily_mission(skip_siren_mission=skip_siren_mission) and skip_siren_mission:
+                continue
             if self.is_in_opsi_explore():
                 self.os_port_mission()
                 break
@@ -696,7 +703,9 @@ class OperationSiren(OSMap):
         while True:
             # In case logger bought manually,
             # finish pre-existing archive zone
-            self.os_finish_daily_mission(question=False, rescan=False)
+            self.os_finish_daily_mission(
+                skip_siren_mission=self.config.cross_get('OpsiDaily.OpsiDaily.SkipSirenResearchMission'),
+                question=False, rescan=False)
 
             logger.hr('OS voucher', level=1)
             self._os_voucher_enter()
@@ -840,7 +849,8 @@ class OperationSiren(OSMap):
 
         logger.hr("OS clear Month Boss", level=1)
         logger.hr("Month Boss precheck", level=2)
-        self.os_mission_enter()
+        self.os_mission_enter(
+            skip_siren_mission=self.config.cross_get('OpsiDaily.OpsiDaily.SkipSirenResearchMission'))
         logger.attr('OpsiMonthBoss.Mode', self.config.OpsiMonthBoss_Mode)
         if self.appear(OS_MONTHBOSS_NORMAL, offset=(20, 20)):
             logger.attr('Month boss difficulty', 'normal')
