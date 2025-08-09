@@ -69,13 +69,13 @@ class MissionHandler(GlobeOperation, ZoneManager):
             # End
             if self.is_in_os_mission() \
                     and not self.appear(MISSION_FINISH, offset=checkout_offset) \
-                    and not self.match_template_color(MISSION_CHECKOUT, offset=checkout_offset):
+                    and not self.match_template_color(MISSION_CHECKOUT, offset=checkout_offset, similarity=0.78):
                 # No mission found, wait to confirm. Missions might not be loaded so fast.
                 if confirm_timer.reached():
                     logger.info('No OS mission found.')
                     break
             elif self.is_in_os_mission() \
-                    and self.match_template_color(MISSION_CHECKOUT, offset=checkout_offset):
+                    and self.match_template_color(MISSION_CHECKOUT, offset=checkout_offset, similarity=0.78):
                 # Found one mission.
                 logger.info('Found at least one OS missions.')
                 break
@@ -150,7 +150,7 @@ class MissionHandler(GlobeOperation, ZoneManager):
             logger.info('Monthly BOSS mission found, checking missions bellow it')
             checkout_offset = area_offset(checkout_offset, (0, 110))
 
-        if not self.match_template_color(MISSION_CHECKOUT, offset=checkout_offset):
+        if not self.match_template_color(MISSION_CHECKOUT, offset=checkout_offset, similarity=0.78):
             # If not having enough items to claim a mission,
             # there will still be MISSION_CHECKOUT, but button is transparent.
             # So here needs to use both template matching and color detection.
@@ -185,7 +185,7 @@ class MissionHandler(GlobeOperation, ZoneManager):
                 logger.info('Already at mission zone')
                 return 'already_at_mission_zone'
 
-            if self.appear_then_click(MISSION_CHECKOUT, offset=checkout_offset, interval=2):
+            if self.appear_then_click(MISSION_CHECKOUT, offset=checkout_offset, interval=2, similarity=0.78):
                 continue
             if self.handle_popup_confirm('OS_MISSION_CHECKOUT'):
                 # Popup: Submarine will retreat after exiting current zone.
