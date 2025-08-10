@@ -756,6 +756,10 @@ class OperationSiren(OSMap):
         self.run_stronghold(submarine=self.config.OpsiStronghold_SubmarineEveryCombat)
 
         if self.config.OpsiStronghold_SubmarineEveryCombat:
+            if self.zone.is_azur_port:
+                logger.info('Already in azur port')
+            else:
+                self.globe_goto(self.zone_nearest_azur_port(self.zone))
             self.handle_fleet_repair(revert=False)
         else:
             self.fleet_repair(revert=False)
