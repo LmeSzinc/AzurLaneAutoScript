@@ -743,6 +743,7 @@ OpsiDaily:
   UseTuningSample: true
   SkipSirenResearchMission: false
 OpsiObscure:
+  SkipHazard2Obscure: false
   ForceRun: false
 OpsiAbyssal:
   ForceRun: false

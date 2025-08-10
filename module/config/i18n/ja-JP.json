@@ -2541,6 +2541,10 @@
       "name": "OpsiObscure._info.name",
       "help": "OpsiObscure._info.help"
     },
+    "SkipHazard2Obscure": {
+      "name": "OpsiObscure.SkipHazard2Obscure.name",
+      "help": "OpsiObscure.SkipHazard2Obscure.help"
+    },
     "ForceRun": {
       "name": "OpsiObscure.ForceRun.name",
       "help": "OpsiObscure.ForceRun.help"

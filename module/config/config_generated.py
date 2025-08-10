@@ -431,6 +431,7 @@ class GeneratedConfig:
     OpsiDaily_SkipSirenResearchMission = False
 
     # Group `OpsiObscure`
+    OpsiObscure_SkipHazard2Obscure = False
     OpsiObscure_ForceRun = False
 
     # Group `OpsiAbyssal`

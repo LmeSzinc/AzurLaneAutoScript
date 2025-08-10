@@ -9506,6 +9506,10 @@
       }
     },
     "OpsiObscure": {
+      "SkipHazard2Obscure": {
+        "type": "checkbox",
+        "value": false
+      },
       "ForceRun": {
         "type": "checkbox",
         "value": false

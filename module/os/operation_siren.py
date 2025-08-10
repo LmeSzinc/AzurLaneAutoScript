@@ -153,6 +153,8 @@ class OperationSiren(OSMap):
             OpsiGeneral_DoRandomMapEvent=True,
             OpsiFleet_Fleet=self.config.cross_get('OpsiDaily.OpsiFleet.Fleet'),
             OpsiFleet_Submarine=False,
+            # Daily
+            OpsiDaily_SkipSirenResearchMission=False,
         )
         count = 0
         empty_trial = 0
@@ -184,6 +186,7 @@ class OperationSiren(OSMap):
             STORY_OPTION=0,
             OpsiGeneral_UseLogger=True,
             # Obscure
+            OpsiObscure_SkipHazard2Obscure=self.config.cross_get('OpsiObscure.OpsiObscure.SkipHazard2Obscure'),
             OpsiObscure_ForceRun=True,
             OpsiFleet_Fleet=self.config.cross_get('OpsiObscure.OpsiFleet.Fleet'),
             OpsiFleet_Submarine=False,
@@ -203,7 +206,8 @@ class OperationSiren(OSMap):
 
         logger.hr('OS clear obscure', level=1)
         while True:
-            if self.storage_get_next_item('OBSCURE', use_logger=True):
+            if self.storage_get_next_item('OBSCURE', use_logger=True, 
+                    skip_obscure_hazard_2=self.config.OpsiObscure_SkipHazard2Obscure):
                 self.zone_init()
                 self.fleet_set(self.config.OpsiFleet_Fleet)
                 self.os_order_execute(
@@ -601,7 +605,8 @@ class OperationSiren(OSMap):
         if self.config.OpsiObscure_ForceRun:
             logger.info('OS obscure finish is under force run')
 
-        result = self.storage_get_next_item('OBSCURE', use_logger=self.config.OpsiGeneral_UseLogger)
+        result = self.storage_get_next_item('OBSCURE', use_logger=self.config.OpsiGeneral_UseLogger,
+                                            skip_obscure_hazard_2=self.config.OpsiObscure_SkipHazard2Obscure)
         if not result:
             # No obscure coordinates, delay next run to tomorrow.
             if get_os_reset_remain() > 0:

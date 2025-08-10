@@ -2541,6 +2541,10 @@
       "name": "OpSi Obscure Settings",
       "help": "Clear obscure zones every 27 minutes\nThe following must be satisfied:\n- OpSi story and practice battles must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
     },
+    "SkipHazard2Obscure": {
+      "name": "Skip Hazard Level 2 Obscure",
+      "help": "Skip clearing the obscure zones of Hazard Level 2"
+    },
     "ForceRun": {
       "name": "Force Run",
       "help": "Ignore interval, clear all obscure zones, and use AP to submit scan orders (and submarine if enabled)\nGenerally not needed to force run, just run in intervals unless in a rush"
