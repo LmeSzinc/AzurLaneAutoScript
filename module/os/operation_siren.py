@@ -753,9 +753,12 @@ class OperationSiren(OSMap):
         self.globe_enter(zone)
         self.zone_init()
         self.os_order_execute(recon_scan=True, submarine_call=False)
-        self.run_stronghold()
+        self.run_stronghold(submarine=self.config.OpsiStronghold_SubmarineEveryCombat)
 
-        self.fleet_repair(revert=False)
+        if self.config.OpsiStronghold_SubmarineEveryCombat:
+            self.handle_fleet_repair(revert=False)
+        else:
+            self.fleet_repair(revert=False)
         self.handle_fleet_resolve(revert=False)
 
     def os_stronghold(self):
@@ -813,9 +816,11 @@ class OperationSiren(OSMap):
                 self.globe_goto(prev, types='STRONGHOLD')
                 continue
 
-    def run_stronghold(self):
+    def run_stronghold(self, submarine=False):
         """
         All fleets take turns in attacking siren stronghold.
+        Args:
+            submarine (bool): If use submarine every combat
 
         Returns:
             bool: If success to clear.
@@ -833,7 +838,7 @@ class OperationSiren(OSMap):
                 self.os_order_execute(recon_scan=False, submarine_call=True)
                 continue
 
-            result = self.run_stronghold_one_fleet(fleet, submarine=self.config.OpsiStronghold_SubmarineEveryCombat)
+            result = self.run_stronghold_one_fleet(fleet, submarine=submarine)
             if result:
                 return True
             else:
