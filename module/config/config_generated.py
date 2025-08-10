@@ -438,6 +438,7 @@ class GeneratedConfig:
     OpsiAbyssal_ForceRun = False
 
     # Group `OpsiStronghold`
+    OpsiStronghold_SubmarineEveryCombat = False
     OpsiStronghold_ForceRun = False
 
     # Group `OpsiMonthBoss`

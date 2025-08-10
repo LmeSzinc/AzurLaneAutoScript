@@ -1994,6 +1994,7 @@
       "ServerUpdate": "00:00"
     },
     "OpsiStronghold": {
+      "SubmarineEveryCombat": false,
       "ForceRun": false
     },
     "OpsiFleetFilter": {

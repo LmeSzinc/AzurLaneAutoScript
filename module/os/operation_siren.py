@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 
 import numpy as np
 
+from module.config.config import TaskEnd
 from module.config.utils import (get_nearest_weekday_date,
                                  get_os_next_reset,
                                  get_os_reset_remain,
@@ -14,9 +15,11 @@ from module.os.fleet import BossFleet
 from module.os.globe_operation import OSExploreError
 from module.os.map import OSMap
 from module.os_handler.action_point import OCR_OS_ADAPTABILITY, ActionPointLimit
-from module.os_handler.assets import OS_MONTHBOSS_NORMAL, OS_MONTHBOSS_HARD, EXCHANGE_CHECK, EXCHANGE_ENTER
+from module.os_handler.assets import (OS_MONTHBOSS_NORMAL, OS_MONTHBOSS_HARD, OS_SUBMARINE_CHECK,
+                                      EXCHANGE_CHECK, EXCHANGE_ENTER)
 from module.os_shop.assets import OS_SHOP_CHECK
 from module.shop.shop_voucher import VoucherShop
+from module.ui.page import page_os
 
 
 class OperationSiren(OSMap):
@@ -760,10 +763,11 @@ class OperationSiren(OSMap):
             self.clear_stronghold()
             self.config.check_task_switch()
 
-    def run_stronghold_one_fleet(self, fleet):
+    def run_stronghold_one_fleet(self, fleet, submarine=False):
         """
         Args
             fleet (BossFleet):
+            submarine (bool): If use submarine every combat
 
         Returns:
             bool: If all cleared.
@@ -777,7 +781,10 @@ class OperationSiren(OSMap):
         for _ in range(3):
             # Attack
             self.fleet_set(fleet.fleet_index)
-            self.run_auto_search(question=False, rescan=False)
+            try:
+                self.run_auto_search(question=False, rescan=False, interrupt=submarine)
+            except TaskEnd:
+                self.ui_ensure(page_os)
             self.hp_reset()
             self.hp_get()
 
@@ -793,6 +800,10 @@ class OperationSiren(OSMap):
                 self.handle_fog_block(repair=True)
                 self.globe_goto(prev, types='STRONGHOLD')
                 return False
+            elif submarine and self.match_template_color(OS_SUBMARINE_CHECK, offset=(20, 20)):
+                logger.info('Submarine ammo exhausted, wait for the next clear')
+                self.globe_goto(self.zone_nearest_azur_port(self.zone))
+                return True
             else:
                 logger.info('Auto search stopped, because fleet stuck')
                 # Re-enter to reset fleet position
@@ -822,7 +833,7 @@ class OperationSiren(OSMap):
                 self.os_order_execute(recon_scan=False, submarine_call=True)
                 continue
 
-            result = self.run_stronghold_one_fleet(fleet)
+            result = self.run_stronghold_one_fleet(fleet, submarine=self.config.OpsiStronghold_SubmarineEveryCombat)
             if result:
                 return True
             else:

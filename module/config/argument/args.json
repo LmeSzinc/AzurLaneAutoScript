@@ -9695,6 +9695,10 @@
       }
     },
     "OpsiStronghold": {
+      "SubmarineEveryCombat": {
+        "type": "checkbox",
+        "value": false
+      },
       "ForceRun": {
         "type": "checkbox",
         "value": false

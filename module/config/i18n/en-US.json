@@ -2565,6 +2565,10 @@
       "name": "OpSi Siren Stronghold Settings",
       "help": "Clear the weekly siren strongholds\nThe following must be satisfied:\n- OpSi story and practice battles must be complete\n- Task OpSi Explore enabled or consuming 5000 oil for special radar in OpSi voucher shop"
     },
+    "SubmarineEveryCombat": {
+      "name": "Use Submarine Every Combat",
+      "help": "if there is a submarine fleet in the Fleet Filter, when the submarine fleet runs out of ammo,\n Task Opsi Siren Stronghold will be delayed"
+    },
     "ForceRun": {
       "name": "Force Run",
       "help": "Ignore interval, clear all siren strongholds, and use AP to submit scan orders (and submarine if enabled)\nGenerally not needed to force run, just run in intervals unless in a rush"

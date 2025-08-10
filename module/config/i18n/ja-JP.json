@@ -2565,6 +2565,10 @@
       "name": "OpsiStronghold._info.name",
       "help": "OpsiStronghold._info.help"
     },
+    "SubmarineEveryCombat": {
+      "name": "OpsiStronghold.SubmarineEveryCombat.name",
+      "help": "OpsiStronghold.SubmarineEveryCombat.help"
+    },
     "ForceRun": {
       "name": "OpsiStronghold.ForceRun.name",
       "help": "OpsiStronghold.ForceRun.help"
