@@ -270,8 +270,7 @@ class StorageHandler(GlobeOperation, ZoneManager):
                         if TEMPLATE_STORAGE_OBSCURE_HAZARD_2.match(crop_image, similarity=0.92):
                             continue
                     self._storage_coordinate_checkout(button, types=(item,))
-                    break
-                return True
+                    return True
             if confirm_timer.reached():
                 logger.info(f'No more {item} items in storage')
                 self.storage_quit()
