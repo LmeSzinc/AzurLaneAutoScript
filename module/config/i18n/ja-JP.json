@@ -2402,6 +2402,14 @@
       "name": "OpsiGeneral.RepairThreshold.name",
       "help": "OpsiGeneral.RepairThreshold.help"
     },
+    "UseRepairPack": {
+      "name": "OpsiGeneral.UseRepairPack.name",
+      "help": "OpsiGeneral.UseRepairPack.help"
+    },
+    "RepairPackThreshold": {
+      "name": "OpsiGeneral.RepairPackThreshold.name",
+      "help": "OpsiGeneral.RepairPackThreshold.help"
+    },
     "DoRandomMapEvent": {
       "name": "OpsiGeneral.DoRandomMapEvent.name",
       "help": "OpsiGeneral.DoRandomMapEvent.help"

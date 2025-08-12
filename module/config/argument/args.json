@@ -9062,6 +9062,14 @@
         "type": "input",
         "value": 0.4
       },
+      "UseRepairPack": {
+        "type": "checkbox",
+        "value": false
+      },
+      "RepairPackThreshold": {
+        "type": "input",
+        "value": 0.9
+      },
       "DoRandomMapEvent": {
         "type": "checkbox",
         "value": true

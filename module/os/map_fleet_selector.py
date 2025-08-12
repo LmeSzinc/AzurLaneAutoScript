@@ -3,6 +3,7 @@ from module.base.timer import Timer
 from module.base.utils import *
 from module.logger import logger
 from module.os.assets import *
+from module.os_handler.assets import *
 from module.os_handler.map_event import MapEventHandler
 
 
@@ -13,6 +14,7 @@ class FleetSelector:
     FLEET_BAR_SHAPE_Y = 42
     FLEET_BAR_MARGIN_Y = 11
     FLEET_BAR_ACTIVE_STD = 45  # Active: 67, inactive: 12.
+    FLEET_LIST = [FLEET_1, FLEET_2, FLEET_3, FLEET_4]
 
     def __init__(self, main):
         """
@@ -28,7 +30,7 @@ class FleetSelector:
         Returns:
             int: Index of current fleet, 1 to 4. return 0 if unrecognized.
         """
-        for index, button in enumerate([FLEET_1, FLEET_2, FLEET_3, FLEET_4]):
+        for index, button in enumerate(self.FLEET_LIST):
             if self.main.appear(button, offset=(20, 20), similarity=0.75):
                 return index + 1
 
@@ -70,7 +72,7 @@ class FleetSelector:
         data = self.parse_fleet_bar(self.main.image_crop(self._bar, copy=False))
         return data
 
-    def get_button(self, index):
+    def get_button(self, index, numbers=5):
         """
         Convert fleet index to the Button object on dropdown menu.
 
@@ -80,7 +82,7 @@ class FleetSelector:
         Returns:
             Button: Button instance.
         """
-        index = 5 - index
+        index = numbers - index
         area = area_offset(area=(
             0,
             (self.FLEET_BAR_SHAPE_Y + self.FLEET_BAR_MARGIN_Y) * (index - 1),
@@ -88,7 +90,7 @@ class FleetSelector:
             (self.FLEET_BAR_SHAPE_Y + self.FLEET_BAR_MARGIN_Y) * (index - 1) + self.FLEET_BAR_SHAPE_Y
         ), offset=(self._bar.area[0:2]))
         area = area_pad(area, pad=3)
-        index = 5 - index
+        index = numbers - index
         return Button(area=(), color=(), button=area, name='%s_INDEX_%s' % (str(self._bar), str(index)))
 
     def open(self, skip_first_screenshot=True):
@@ -210,8 +212,36 @@ class FleetSelector:
         logger.warning('Unknown OpSi fleet, use current fleet instead')
         return False
 
+class StorageFleetSelector(FleetSelector):
+    FLEET_LIST = [STORAGE_FLEET_1, STORAGE_FLEET_2, STORAGE_FLEET_3, STORAGE_FLEET_4, STORAGE_FLEET_5]
+    SUBMARINE_FLEET = 5
+
+    def __init__(self, main):
+        """
+        Args:
+            main (OSFleetSelector): Alas module
+        """
+        self._choose = STORAGE_FLEET_CHOOSE
+        self._bar = STORAGE_FLEET_BAR
+        self.main = main
+
+    def bar_opened(self):
+        # Check the 3-13 column
+        area = self._bar.area
+        area = (area[0] + 3, area[1], area[0] + 13, area[3])
+        # Should have at least 2 gray option and 1 orange option.
+        return self.main.image_color_count(area, color=(200, 207, 231), threshold=221, count=400) \
+               and self.main.image_color_count(area, color=(214, 150, 96), threshold=221, count=150)
+
+    def get_button(self, index):
+        return super().get_button(index, 6)
+
 
 class OSFleetSelector(MapEventHandler):
     @cached_property
     def fleet_selector(self):
         return FleetSelector(main=self)
+
+    @cached_property
+    def storage_fleet_selector(self):
+        return StorageFleetSelector(main=self)

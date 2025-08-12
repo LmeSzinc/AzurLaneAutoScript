@@ -203,7 +203,7 @@ class OperationSiren(OSMap):
                 result = self.run_abyssal()
                 if not result:
                     self.map_exit()
-                self.fleet_repair(revert=False)
+                self.handle_fleet_repair_by_config(revert=False)
             else:
                 break
 
@@ -685,7 +685,7 @@ class OperationSiren(OSMap):
         if not result:
             raise RequestHumanTakeover
 
-        self.fleet_repair(revert=False)
+        self.handle_fleet_repair_by_config(revert=False)
         self.delay_abyssal()
 
     def os_abyssal(self):
@@ -760,9 +760,7 @@ class OperationSiren(OSMap):
                 logger.info('Already in azur port')
             else:
                 self.globe_goto(self.zone_nearest_azur_port(self.zone))
-            self.handle_fleet_repair(revert=False)
-        else:
-            self.fleet_repair(revert=False)
+        self.handle_fleet_repair_by_config(revert=False)
         self.handle_fleet_resolve(revert=False)
 
     def os_stronghold(self):
@@ -914,7 +912,7 @@ class OperationSiren(OSMap):
 
         # end
         logger.hr("Month Boss repair", level=2)
-        self.fleet_repair(revert=False)
+        self.handle_fleet_repair_by_config(revert=False)
         self.handle_fleet_resolve(revert=False)
         self.month_boss_delay(is_normal=is_normal, result=result)
 

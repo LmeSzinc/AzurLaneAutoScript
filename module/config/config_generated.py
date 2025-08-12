@@ -395,6 +395,8 @@ class GeneratedConfig:
     OpsiGeneral_BuyActionPointLimit = 0  # 0, 1, 2, 3, 4, 5
     OpsiGeneral_OilLimit = 1000
     OpsiGeneral_RepairThreshold = 0.4
+    OpsiGeneral_UseRepairPack = False
+    OpsiGeneral_RepairPackThreshold = 0.9
     OpsiGeneral_DoRandomMapEvent = True
     OpsiGeneral_AkashiShopFilter = 'ActionPoint > PurpleCoins'
 
