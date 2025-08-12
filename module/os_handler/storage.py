@@ -202,7 +202,7 @@ class StorageHandler(GlobeOperation, ZoneManager):
                 self.device.screenshot()
 
             # End
-            if TEMPLATE_STORAGE_SHIP_SELECTED.match(self.image_crop(crop_area, copy=False), similarity=0.75):
+            if TEMPLATE_STORAGE_SHIP_SELECTED.match(self.image_crop(crop_area, copy=False)):
                 logger.info('Storage Ship Selected')
                 self.interval_clear(STORAGE_FLEET_CHOOSE)
                 return True
@@ -236,7 +236,7 @@ class StorageHandler(GlobeOperation, ZoneManager):
 
             # End
             if self.appear(STORAGE_REPAIR_CONFIRM, offset=(20, 20)) and \
-                    not TEMPLATE_STORAGE_SHIP_SELECTED.match(self.image_crop(crop_area, copy=False), similarity=0.75):
+                    not TEMPLATE_STORAGE_SHIP_SELECTED.match(self.image_crop(crop_area, copy=False)):
                 logger.info('Ship Fixed')
                 break
             if self.handle_popup_cancel('STORAGE_REPAIR_FULL_CANCEL'):
@@ -342,7 +342,11 @@ class StorageHandler(GlobeOperation, ZoneManager):
         """
         logger.hr(f'Storage checkout item {item}')
         if SCROLL_STORAGE.appear(main=self):
-            SCROLL_STORAGE.set_top(main=self, skip_first_screenshot=skip_first_screenshot)
+            if item == 'REPAIR_PACK':
+                # repair packs always at the bottom page
+                SCROLL_STORAGE.set_bottom(main=self, skip_first_screenshot=skip_first_screenshot)
+            else:
+                SCROLL_STORAGE.set_top(main=self, skip_first_screenshot=skip_first_screenshot)
 
         confirm_timer = Timer(0.6, count=2).start()
         while 1:
