@@ -266,7 +266,7 @@ class StorageHandler(GlobeOperation, ZoneManager):
             if len(items):
                 for button in items:
                     if skip_obscure_hazard_2:
-                        crop_image = crop(image, area_offset(button.area, (-25, -35)))
+                        crop_image = crop(image, area_offset(button.area, (-25, -35)), copy=False)
                         if TEMPLATE_STORAGE_OBSCURE_HAZARD_2.match(crop_image, similarity=0.92):
                             continue
                     self._storage_coordinate_checkout(button, types=(item,))
