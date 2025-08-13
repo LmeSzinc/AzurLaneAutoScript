@@ -768,6 +768,9 @@ class OperationSiren(OSMap):
             self.clear_stronghold()
             self.config.check_task_switch()
 
+    def _stronghold_sumbarine_check(self):
+        return self.match_template_color(OS_SUBMARINE_CHECK, offset=(20, 20))
+
     def run_stronghold_one_fleet(self, fleet, submarine=False):
         """
         Args
@@ -782,12 +785,13 @@ class OperationSiren(OSMap):
             HOMO_EDGE_DETECT=False,
             STORY_OPTION=0
         )
+        interrupt = self._stronghold_sumbarine_check if submarine else None
         # Try 3 times, because fleet may stuck in fog.
         for _ in range(3):
             # Attack
             self.fleet_set(fleet.fleet_index)
             try:
-                self.run_auto_search(question=False, rescan=False, interrupt=submarine)
+                self.run_auto_search(question=False, rescan=False, interrupt=interrupt)
             except TaskEnd:
                 self.ui_ensure(page_os)
             self.hp_reset()
@@ -805,7 +809,7 @@ class OperationSiren(OSMap):
                 self.handle_fog_block(repair=True)
                 self.globe_goto(prev, types='STRONGHOLD')
                 return False
-            elif submarine and self.match_template_color(OS_SUBMARINE_CHECK, offset=(20, 20)):
+            elif submarine and self._stronghold_sumbarine_check():
                 logger.info('Submarine ammo exhausted, wait for the next clear')
                 self.globe_goto(self.zone_nearest_azur_port(self.zone))
                 return True

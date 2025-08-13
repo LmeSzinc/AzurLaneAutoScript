@@ -576,12 +576,12 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
                     logger.attr('CL1 time cost', f'{cost}s/round')
                 self._auto_search_round_timer = time.time()
 
-    def os_auto_search_daemon(self, drop=None, strategic=False, interrupt=False, skip_first_screenshot=True):
+    def os_auto_search_daemon(self, drop=None, strategic=False, interrupt=None, skip_first_screenshot=True):
         """
         Args:
             drop (DropRecord):
             strategic (bool): True if running in strategic search
-            interrupt (bool): If check submarine ammo and interupt auto search 
+            interrupt (callable):
             skip_first_screenshot:
 
         Returns:
@@ -625,7 +625,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
                     if died_timer.reached():
                         logger.warning('Fleet died confirm')
                         break
-                elif interrupt and self.match_template_color(OS_SUBMARINE_CHECK, offset=(20, 20)):
+                elif callable(interrupt) and interrupt():
                     interrupt_confirm = True
                     died_timer.reset()
                 else:
@@ -748,12 +748,12 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
                 in_main_timer.clear()
                 continue
 
-    def os_auto_search_run(self, drop=None, strategic=False, interrupt=False):
+    def os_auto_search_run(self, drop=None, strategic=False, interrupt=None):
         """
         Args:
             drop (DropRecord):
             strategic (bool): True to use strategic search
-            interrupt (bool): If check submarine ammo and interupt auto search
+            interrupt (callable):
         Returns:
             int: Number of finished combat
         """
@@ -836,7 +836,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
                        'this might be 2 adjacent fleet mechanism, stopped')
         return False
 
-    def run_auto_search(self, question=True, rescan=None, after_auto_search=True, interrupt=False):
+    def run_auto_search(self, question=True, rescan=None, after_auto_search=True, interrupt=None):
         """
         Clear current zone by running auto search.
         OpSi story mode must be cleared to unlock auto search.
@@ -853,8 +853,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
                 This option should be disabled in special tasks like OpsiObscure, OpsiAbyssal, OpsiStronghold.
             after_auto_search (bool):
                 Whether to call handle_after_auto_search() after auto search
-            interrupt (bool):
-                If check submarine ammo and interupt auto search
+            interrupt (callable):
 
         Returns:
             int: Number of finished combat
