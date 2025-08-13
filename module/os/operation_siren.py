@@ -170,6 +170,9 @@ class OperationSiren(OSMap):
         if self.config.OpsiDaily_SkipSirenResearchMission and self.config.SERVER not in ['cn']:
             logger.warning(f'OpsiDaily.SkipSirenResearchMission is not supported in {self.config.SERVER}')
             self.config.OpsiDaily_SkipSirenResearchMission = False
+        if self.config.OpsiDaily_KeepMissionZone and self.config.SERVER not in ['cn']:
+            logger.warning(f'OpsiDaily.KeepMissionZone is not supported in {self.config.SERVER}')
+            self.config.OpsiDaily_KeepMissionZone = False
 
         skip_siren_mission = self.config.OpsiDaily_SkipSirenResearchMission
         while True:
