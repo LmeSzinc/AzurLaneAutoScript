@@ -625,7 +625,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
                     if died_timer.reached():
                         logger.warning('Fleet died confirm')
                         break
-                elif callable(interrupt) and interrupt():
+                elif not interrupt_confirm and callable(interrupt) and interrupt():
                     interrupt_confirm = True
                     died_timer.reset()
                 else:
@@ -688,6 +688,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
         is_loading = False
         pause_interval = Timer(0.5, count=1)
         in_main_timer = Timer(3, count=6)
+        in_map_timer = Timer(3, count=6)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -695,13 +696,18 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
                 self.device.screenshot()
 
             # End
-            if self.is_in_main() or (not goto_main and self.is_in_map()):
+            if self.is_in_main():
                 logger.info('Auto search interrupted')
                 self.config.task_stop()
+            if not goto_main and self.is_in_map():
+                if in_map_timer.reached():
+                    logger.info('Auto search interrupted')
+                    self.config.task_stop()
 
             if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50), interval=3):
                 self.interval_clear(GOTO_MAIN)
                 in_main_timer.reset()
+                in_map_timer.reset()
                 continue
             if pause_interval.reached():
                 pause = self.is_combat_executing()
@@ -711,16 +717,19 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
                     is_loading = False
                     pause_interval.reset()
                     in_main_timer.reset()
+                    in_map_timer.reset()
                     continue
             if self.handle_combat_quit():
                 self.interval_reset(MAINTENANCE_ANNOUNCE)
                 pause_interval.reset()
                 in_main_timer.reset()
+                in_map_timer.reset()
                 continue
             if self.appear_then_click(QUIT_RECONFIRM, offset=True, interval=5):
                 self.interval_reset(MAINTENANCE_ANNOUNCE)
                 pause_interval.reset()
                 in_main_timer.reset()
+                in_map_timer.reset()
                 continue
 
             if goto_main and self.appear_then_click(GOTO_MAIN, offset=(20, 20), interval=3):
@@ -735,6 +744,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
                 if self.is_combat_loading():
                     is_loading = True
                     in_main_timer.clear()
+                    in_map_timer.clear()
                     continue
                 # Random background from page_main may trigger EXP_INFO_*, don't check them
                 if in_main_timer.reached():
@@ -746,6 +756,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
             elif self.is_combat_executing():
                 is_loading = False
                 in_main_timer.clear()
+                in_map_timer.clear()
                 continue
 
     def os_auto_search_run(self, drop=None, strategic=False, interrupt=None):

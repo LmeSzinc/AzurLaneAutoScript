@@ -2543,6 +2543,14 @@
     "SkipSirenResearchMission": {
       "name": "不做塞壬研究任务",
       "help": "开启后，将跳过“塞壬研究·I”与“塞壬研究·II”两个任务\n塞壬研究任务使用黄币兑换紫币"
+    },
+    "KeepMissionZone": {
+      "name": "保留海域不清理",
+      "help": "完成每日任务后退出海域，下次任务刷在同一海域时不用再消耗行动力进入\n每个月的最后一天会对所有未清理海域进行清理"
+    },
+    "MissionZones": {
+      "name": "月底需要清理的海域",
+      "help": ""
     }
   },
   "OpsiObscure": {

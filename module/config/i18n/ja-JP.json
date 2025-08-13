@@ -2543,6 +2543,14 @@
     "SkipSirenResearchMission": {
       "name": "OpsiDaily.SkipSirenResearchMission.name",
       "help": "OpsiDaily.SkipSirenResearchMission.help"
+    },
+    "KeepMissionZone": {
+      "name": "OpsiDaily.KeepMissionZone.name",
+      "help": "OpsiDaily.KeepMissionZone.help"
+    },
+    "MissionZones": {
+      "name": "OpsiDaily.MissionZones.name",
+      "help": "OpsiDaily.MissionZones.help"
     }
   },
   "OpsiObscure": {

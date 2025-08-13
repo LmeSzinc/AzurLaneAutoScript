@@ -29,6 +29,16 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
         """
         return self.appear(MEOWFFICER_SEARCHING, offset=(10, 10))
 
+    def no_meowfficer_searching(self):
+        """
+        Returns:
+            bool:
+
+        Page:
+            in: IN_MAP
+        """
+        return not self.appear(AUTO_SEARCH_REWARD, offset=(50, 50)) and not self.is_meowfficer_searching()
+
     def get_meowfficer_searching_percentage(self):
         """
         Returns:

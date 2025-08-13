@@ -9442,6 +9442,15 @@
       "SkipSirenResearchMission": {
         "type": "checkbox",
         "value": false
+      },
+      "KeepMissionZone": {
+        "type": "checkbox",
+        "value": false
+      },
+      "MissionZones": {
+        "type": "stored",
+        "value": null,
+        "display": "hide"
       }
     },
     "OpsiFleet": {

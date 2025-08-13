@@ -1919,7 +1919,9 @@
     "OpsiDaily": {
       "DoMission": true,
       "UseTuningSample": true,
-      "SkipSirenResearchMission": false
+      "SkipSirenResearchMission": false,
+      "KeepMissionZone": false,
+      "MissionZones": null
     },
     "OpsiFleet": {
       "Fleet": 1,

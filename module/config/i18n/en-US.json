@@ -2543,6 +2543,14 @@
     "SkipSirenResearchMission": {
       "name": "Skip Siren Research Mission(s)",
       "help": "When enabled, the \"Siren Research I\" and \"Siren Research II\" missions will be skipped.\nThe Siren Research missions use yellow coins to exchange for purple coins."
+    },
+    "KeepMissionZone": {
+      "name": "Keep Mission Zone Unclear",
+      "help": "After completing the daily mission, exit the mission zone so that it will not consume extra action points for entrance when the mission appears in the same zone newxt time."
+    },
+    "MissionZones": {
+      "name": "Zones needed to be clear at the end of the month",
+      "help": ""
     }
   },
   "OpsiObscure": {

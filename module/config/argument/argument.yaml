@@ -744,6 +744,11 @@ OpsiDaily:
   DoMission: true
   UseTuningSample: true
   SkipSirenResearchMission: false
+  KeepMissionZone: false
+  MissionZones:
+    value: null
+    type: stored
+    display: hide
 OpsiObscure:
   SkipHazard2Obscure: false
   ForceRun: false
