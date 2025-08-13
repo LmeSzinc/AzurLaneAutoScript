@@ -2409,7 +2409,7 @@
     },
     "RepairPackThreshold": {
       "name": "Repair Pack Threshold",
-      "help": "If any one ship's HP is below threshold, use repair packs for repairs\n0.0 ~ 1.0"
+      "help": "If any one ship's HP is below threshold, use repair packs for repairs.\ncheck only after OpSi Abyssal, Opsi Siren Stronghold and Monthly Boss.\n0.0 ~ 1.0"
     },
     "DoRandomMapEvent": {
       "name": "Do Random Map Events",
