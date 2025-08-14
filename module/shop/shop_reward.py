@@ -8,6 +8,9 @@ from module.shop.ui import ShopUI
 
 class RewardShop(ShopUI):
     def run_frequent(self):
+        self.config.task_delay(server_update=True)
+        self.config.task_stop()
+
         # Munitions shops
         self.ui_goto_shop()
 
@@ -19,6 +22,9 @@ class RewardShop(ShopUI):
         self.config.task_delay(server_update=True)
 
     def run_once(self):
+        self.config.task_delay(server_update=True)
+        self.config.task_stop()
+
         # Munitions shops
         self.ui_goto_shop()
 
