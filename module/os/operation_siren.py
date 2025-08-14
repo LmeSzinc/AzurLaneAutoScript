@@ -54,7 +54,7 @@ class OperationSiren(OSMap):
         if self.is_meowfficer_searching():
             logger.info('Found meowfficer searching, complete this zone')
             try:
-                self.run_auto_search(interrupt=self.no_meowfficer_searching)
+                self.run_auto_search(interrupt=[self.no_meowfficer_searching, self.is_meowfficer_searching])
                 self.handle_after_auto_search()
                 success = False
             except TaskEnd:

@@ -602,8 +602,18 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
         unlock_check_timer = Timer(5, count=10).start()
         self.ash_popup_canceled = False
 
+        def false_func(*args, **kwargs):
+            return False
+
         success = True
         interrupt_confirm = False
+        if callable(interrupt):
+            is_interrupt, not_interrupt = interrupt, false_func
+        elif isinstance(interrupt, list) and len(interrupt) == 2:
+            is_interrupt = interrupt[0] if callable(interrupt[0]) else false_func
+            not_interrupt = interrupt[1] if callable(interrupt[1]) else false_func
+        else:
+            is_interrupt, not_interrupt = false_func, false_func
         finished_combat = 0
         died_timer = Timer(1.5, count=3)
         self.hp_reset()
@@ -625,11 +635,11 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
                     if died_timer.reached():
                         logger.warning('Fleet died confirm')
                         break
-                elif not interrupt_confirm and callable(interrupt) and interrupt():
+                if not interrupt_confirm and is_interrupt():
                     interrupt_confirm = True
-                    died_timer.reset()
-                else:
-                    died_timer.reset()
+                if interrupt_confirm and not_interrupt():
+                    interrupt_confirm = False
+                died_timer.reset()
             else:
                 died_timer.reset()
 
