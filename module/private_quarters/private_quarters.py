@@ -4,7 +4,7 @@ from module.logger import logger
 from module.private_quarters.assets import *
 from module.private_quarters.interact import PQInteract
 from module.private_quarters.shop import PQShop
-from module.ui.page import page_private_quarters
+from module.ui.page import page_private_quarters, page_dormmenu
 
 
 class PrivateQuarters(PQInteract, PQShop):
@@ -157,6 +157,7 @@ class PrivateQuarters(PQInteract, PQShop):
             out: page_main, may have info_bar
         """
         if server.server in ['cn', 'en', 'jp']:
+            self.ui_ensure(page_dormmenu)
             self.ui_goto(page_private_quarters, get_ship=False)
             self.handle_info_bar()
 
