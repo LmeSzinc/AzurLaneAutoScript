@@ -656,7 +656,7 @@ class ChapterTemplate:
         if isinstance(name, str):
             maps = []
             for map_id, data in DATA.items():
-                if not isinstance(map_id, int) or is_extra(data['chapter_name']):
+                if not isinstance(map_id, int) or not isinstance(data, dict) or is_extra(data['chapter_name']):
                     continue
                 if not re.search(name, data['name']):
                     continue
@@ -682,7 +682,7 @@ class ChapterTemplate:
             event_id = get_event_id(maps[0].map_id)
             new = []
             for map_id, data in DATA.items():
-                if not isinstance(map_id, int) or is_extra(data['chapter_name']):
+                if not isinstance(map_id, int) or not isinstance(data, dict) or is_extra(data['chapter_name']):
                     continue
                 if get_event_id(data['id']) == event_id:
                     data = MapData(data, DATA_LOOP.get(map_id, None))
