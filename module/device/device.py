@@ -11,13 +11,14 @@ from module.device.pkg_resources import get_distribution
 _ = get_distribution
 
 from module.base.timer import Timer
+from module.base.utils import crop
 from module.config.utils import get_server_next_update
 from module.device.app_control import AppControl
 from module.device.control import Control
 from module.device.screenshot import Screenshot
 from module.exception import (EmulatorNotRunningError, GameNotRunningError, GameStuckError, GameTooManyClickError,
                               RequestHumanTakeover)
-from module.handler.assets import GET_MISSION
+from module.handler.assets import GET_MISSION, MANJUU_AREA, TEMPLATE_MANJUU
 from module.logger import logger
 
 
@@ -176,6 +177,13 @@ class Device(Screenshot, Control, AppControl):
 
         return False
 
+    def manjuu_count(self):
+        image = crop(self.image, MANJUU_AREA.area, False)
+        buttons = TEMPLATE_MANJUU.match_multi(image, similarity=0.8, name='INFO_MANJUU')
+        return len(buttons)
+    
+    manjuu_timer = Timer(1.5, count=3)
+
     def screenshot(self):
         """
         Returns:
@@ -195,6 +203,18 @@ class Device(Screenshot, Control, AppControl):
 
         if self.handle_night_commission():
             super().screenshot()
+
+        if self.manjuu_count() >= 1:
+            logger.info('Manjuu loading appeared')
+            self.manjuu_timer.reset()
+            while 1:
+                super().screenshot()
+                if self.manjuu_count() <= 0:
+                    if self.manjuu_timer.reached():
+                        logger.info('Manjuu loading disappeared')
+                        break
+                else:
+                    self.manjuu_timer.reset()         
 
         return self.image
 
