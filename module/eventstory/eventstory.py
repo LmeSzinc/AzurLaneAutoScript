@@ -51,9 +51,16 @@ class EventStory(CampaignUI, Combat, LoginHandler):
         sim, button = TEMPLATE_ALCHEMIST_STORY.match_result(image)
         if sim >= 0.85:
             button = button.move(area[:2])
+            # move down to click the text
+            button = button.move((0, 44))
             return button
-        else:
-            return None
+        sim, button = TEMPLATE_ALCHEMIST_BATTLE.match_result(image)
+        if sim >= 0.85:
+            button = button.move(area[:2])
+            # move down to click the text
+            button = button.move((0, 44))
+            return button
+        return None
 
     def handle_event_20250724(self, interval=2):
         """
