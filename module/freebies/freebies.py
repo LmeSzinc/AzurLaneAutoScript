@@ -22,8 +22,9 @@ class Freebies(ModuleBase):
         logger.hr('Mail', level=1)
         MailWhite(self.config, self.device).run()
 
-        if self.config.SupplyPack_Collect:
-            logger.hr('Supply pack', level=1)
-            SupplyPack(self.config, self.device).run()
+        if self.config.SERVER in ['tw']:
+            if self.config.SupplyPack_Collect:
+                logger.hr('Supply pack', level=1)
+                SupplyPack(self.config, self.device).run()
 
         self.config.task_delay(server_update=True)
