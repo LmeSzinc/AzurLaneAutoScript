@@ -7,6 +7,8 @@ class CampaignBase(CampaignBase_):
 
     def campaign_set_chapter_20241219(self, chapter, stage, mode='combat'):
         if chapter == 't':
+            if self._campaign_name_is_hard(f'{chapter}{stage}'):
+                self.config.override(Campaign_Mode='hard')
             self.ui_goto_event()
             MODE_SWITCH_20241219.set('combat', main=self)
             if stage in ['1', '2', '3']:
@@ -18,6 +20,8 @@ class CampaignBase(CampaignBase_):
             self.campaign_ensure_chapter(chapter)
             return True
         if chapter == 'ht':
+            if self._campaign_name_is_hard(f'{chapter}{stage}'):
+                self.config.override(Campaign_Mode='hard')
             self.ui_goto_event()
             MODE_SWITCH_20241219.set('combat', main=self)
             if stage in ['1', '2', '3']:
