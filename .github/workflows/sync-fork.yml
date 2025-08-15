@@ -12,8 +12,9 @@ jobs:
       - name: Checkout your fork
         uses: actions/checkout@v4
         with:
-          persist-credentials: false
-          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}   # 允许 push
+          persist-credentials: true            # 保留认证信息
+          fetch-depth: 0                        # 拉取完整历史，便于合并
 
       - name: Set Git identity
         run: |
