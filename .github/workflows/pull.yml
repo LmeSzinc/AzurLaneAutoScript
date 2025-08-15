@@ -1,26 +1,65 @@
-name: Auto Sync from LmeSzinc (Keep My Changes)
+name: Sync Fork from Two Upstreams (Keep My Changes and Email Notify)
 
 on:
   schedule:
-    - cron: '*/30 * * * *'  # 每半小时运行
-  workflow_dispatch:        # 手动触发
+    - cron: "0 * * * *"  # 每小时运行一次
+  workflow_dispatch:
 
 jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout my repo
+      - name: Checkout your fork
         uses: actions/checkout@v4
         with:
+          persist-credentials: false
           fetch-depth: 0
 
-      - name: Add upstream
+      - name: Set Git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      # 第一个 upstream
+      - name: Add first upstream (LmeSzinc)
         run: |
           git remote add upstream https://github.com/LmeSzinc/AzurLaneAutoScript.git
-          git fetch upstream master
+          git fetch upstream
 
-      - name: Merge upstream changes (preserve mine)
+      - name: Merge from LmeSzinc (keep my changes and detect conflicts)
+        id: merge1
         run: |
           git checkout master
-          git merge upstream/master --no-edit -X ours || true
-          git push origin master
+          if ! git merge upstream/master --strategy-option ours --no-edit; then
+            echo "conflict_detected=true" >> $GITHUB_OUTPUT
+          fi
+
+      # 第二个 upstream
+      - name: Add second upstream (guoh064)
+        run: |
+          git remote add upstream2 https://github.com/guoh064/AzurLaneAutoScript.git
+          git fetch upstream2
+
+      - name: Merge from guoh064 (keep my changes and detect conflicts)
+        id: merge2
+        run: |
+          if ! git merge upstream2/main --strategy-option ours --no-edit; then
+            echo "conflict_detected=true" >> $GITHUB_OUTPUT
+          fi
+
+      # 推送
+      - name: Push changes back to my fork
+        run: git push origin master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # 直接发邮件通知（无 Issue）
+      - name: Email notify if conflicts
+        if: steps.merge1.outputs.conflict_detected == 'true' || steps.merge2.outputs.conflict_detected == 'true'
+        run: |
+          gh api repos/${{ github.repository }}/dispatches \
+            --method POST \
+            --field event_type="sync_conflict_detected" \
+            --field client_payload='{"message":"在同步 upstream 时发生冲突（已保留你的改动），请手动检查。"}'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
