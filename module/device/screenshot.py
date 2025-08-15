@@ -47,37 +47,52 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy, NemuIpc, LDOpenGL):
     @cached_property
     def screenshot_method_override(self) -> str:
         return ''
+def screenshot(self):
+    """
+    截取模拟器画面，并进行可选的去噪、方向调整、错误保存和有效性检查
+    Returns:
+        np.ndarray: 截图的 Numpy 数组
+    """
+    # 等待截图间隔
+    self._screenshot_interval.wait()
+    self._screenshot_interval.reset()
 
-    def screenshot(self):
-        """
-        Returns:
-            np.ndarray:
-        """
-        self._screenshot_interval.wait()
-        self._screenshot_interval.reset()
+    for _ in range(2):
+        # 选择截图方法
+        if self.screenshot_method_override:
+            method = self.screenshot_method_override
+        else:
+            method = self.config.Emulator_ScreenshotMethod
+        method = self.screenshot_methods.get(method, self.screenshot_adb)
 
-        for _ in range(2):
-            if self.screenshot_method_override:
-                method = self.screenshot_method_override
-            else:
-                method = self.config.Emulator_ScreenshotMethod
-            method = self.screenshot_methods.get(method, self.screenshot_adb)
-            self.image = method()
+        # 执行截图
+        self.image = method()
 
-            if self.config.Emulator_ScreenshotDedithering:
-                # This will take 40-60ms
-                cv2.fastNlMeansDenoising(self.image, self.image, h=17, templateWindowSize=1, searchWindowSize=2)
-            self.image = self._handle_orientated_image(self.image)
+        # 匹配分辨率到 1280x720
+        width, height = image_size(self.image)
+        if width != 1280:
+            self.image = cv2.resize(self.image, (1280, 720), interpolation=cv2.INTER_LANCZOS4)
+            # logger.info("resized")
 
-            if self.config.Error_SaveError:
-                self.screenshot_deque.append({'time': datetime.now(), 'image': self.image})
+        # 可选的去色带/去噪处理
+        if self.config.Emulator_ScreenshotDedithering:
+            cv2.fastNlMeansDenoising(self.image, self.image, h=17, templateWindowSize=1, searchWindowSize=2)
 
-            if self.check_screen_size() and self.check_screen_black():
-                break
-            else:
-                continue
+        # 处理图片方向
+        self.image = self._handle_orientated_image(self.image)
 
-        return self.image
+        # 保存错误调试截图
+        if self.config.Error_SaveError:
+            self.screenshot_deque.append({'time': datetime.now(), 'image': self.image})
+
+        # 检查截图有效性（尺寸、是否全黑）
+        if self.check_screen_size() and self.check_screen_black():
+            break
+        else:
+            continue
+
+    return self.image
+
 
     @property
     def has_cached_image(self):
