@@ -5,6 +5,7 @@ from module.handler.assets import POPUP_CONFIRM
 from module.logger import logger
 from module.shop.assets import *
 from module.ui.assets import ACADEMY_GOTO_MUNITIONS, BACK_ARROW
+from module.ui_white.assets import BACK_ARROW_WHITE
 from module.ui.navbar import Navbar
 from module.ui.page import page_academy, page_munitions
 from module.ui.ui import UI
@@ -54,26 +55,44 @@ class ShopUI(UI):
     def shop_tab(self):
         """
         Set with `self.shop_tab.set(main=self, left={index})`
-        - index
+        - index for tw
             1: Monthly shops
             2: General supply shops
+        -index for others
+            1: General supply shops
+            2: Monthly shops
         """
-        grids = ButtonGrid(
-            origin=(340, 93), delta=(189, 0),
-            button_shape=(188, 54), grid_shape=(2, 1),
-            name='SHOP_TAB')
-        return Navbar(
-            grids=grids,
-            # Yellow bottom dash
-            active_color=(255, 219, 83), active_threshold=221, active_count=100,
-            # Black bottom dash
-            inactive_color=(181, 178, 181), inactive_threshold=221, inactive_count=100,
-        )
+        if self.config.SERVER in ['cn', 'jp', 'en']:
+            grids = ButtonGrid(
+                origin=(22, 514), delta=(0, 51),
+                button_shape=(115, 21), grid_shape=(1, 2),
+                name='SHOP_TAB')
+            return Navbar(
+                grids=grids,
+                # white-ish encircle
+                active_color=(225, 238, 244), active_threshold=221, active_count=100,
+                # blue-ish encircle
+                inactive_color=(67, 152, 192), inactive_threshold=221, inactive_count=100,
+            )
+
+        if self.config.SERVER in ['tw']:
+            grids = ButtonGrid(
+                origin=(340, 93), delta=(189, 0),
+                button_shape=(188, 54), grid_shape=(2, 1),
+                name='SHOP_TAB')
+            return Navbar(
+                grids=grids,
+                # Yellow bottom dash
+                active_color=(255, 219, 83), active_threshold=221, active_count=100,
+                # Black bottom dash
+                inactive_color=(181, 178, 181), inactive_threshold=221, inactive_count=100,
+            )
 
     @cached_property
     def shop_nav(self):
         """
         Set with `self.shop_nav.set(main=self, upper={index})`
+        for tw:
         - index when `shop_tab` is at 1
             1: Core shop (limited items)
             2: Core shop monthly
@@ -85,18 +104,56 @@ class ShopUI(UI):
             3: Guild shop
             4: Meta shop
             5: Gift shop
+        for others
+        - index when `shop_tab` is at 1
+            1: General shop
+            2: Merit shop
+            3: Guild shop
+            4: Meta shop
+            5: Gift shop
+        - index when `shop_tab` is at 2
+            1: Core shop (limited items)
+            2: Core shop monthly
+            3: Medal shop
+            4: Prototype shop
         """
-        grids = ButtonGrid(
-            origin=(339, 217), delta=(0, 65),
-            button_shape=(15, 64), grid_shape=(1, 5),
-            name='SHOP_NAV')
-        return Navbar(
-            grids=grids,
-            # White vertical line to the left of shop names
-            active_color=(255, 255, 255), active_threshold=221, active_count=100,
-            # Just whatever to make it match
-            inactive_color=(49, 56, 82), inactive_threshold=0, inactive_count=100,
-        )
+        if self.config.SERVER in ['cn', 'en', 'jp']:
+            current_tab = self.shop_tab.get_active()
+            
+            if current_tab == 1:
+                delta =(174, 0)
+                button_shape=(142, 43)
+                grid_shape=(5, 1)
+            elif current_tab == 2:
+                delta =(217, 0)
+                button_shape=(185, 43)
+                grid_shape=(4, 1)
+                
+            grids = ButtonGrid(
+                origin=(169, 91), delta=delta ,
+                button_shape=button_shape, grid_shape=grid_shape,
+                name='SHOP_NAV')
+                
+            return Navbar(
+                grids=grids,
+                # white-ish encircle
+                active_color=(248, 250, 250), active_threshold=221, active_count=100,
+                # Just whatever to make it match
+                inactive_color=(49, 56, 82), inactive_threshold=0, inactive_count=100,
+            )
+
+        if self.config.SERVER in ['tw']:
+            grids = ButtonGrid(
+                origin=(339, 217), delta=(0, 65),
+                button_shape=(15, 64), grid_shape=(1, 5),
+                name='SHOP_NAV')
+            return Navbar(
+                grids=grids,
+                # White vertical line to the left of shop names
+                active_color=(255, 255, 255), active_threshold=221, active_count=100,
+                # Just whatever to make it match
+                inactive_color=(49, 56, 82), inactive_threshold=0, inactive_count=100,
+            )
 
     def shop_refresh(self, skip_first_screenshot=True):
         """
@@ -129,8 +186,8 @@ class ShopUI(UI):
                 refreshed = True
                 continue
 
-            # End
-            if self.appear(BACK_ARROW, offset=(30, 30)):
+            # End, new Shop UI uses white
+            if self.appear(BACK_ARROW, offset=(30, 30)) or self.appear (BACK_ARROW_WHITE, offset=(30, 30)):
                 if exit_timer.reached():
                     break
             else:
