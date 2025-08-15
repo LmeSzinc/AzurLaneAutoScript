@@ -47,7 +47,7 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy, NemuIpc, LDOpenGL):
     @cached_property
     def screenshot_method_override(self) -> str:
         return ''
-def screenshot(self):
+    def screenshot(self):
     """
     截取模拟器画面，并进行可选的去噪、方向调整、错误保存和有效性检查
     Returns:
@@ -92,6 +92,7 @@ def screenshot(self):
             continue
 
     return self.image
+
 
 
     @property
