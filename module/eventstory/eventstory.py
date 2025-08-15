@@ -140,6 +140,10 @@ class EventStory(CampaignUI, Combat, LoginHandler):
                 self.popup_interval_clear()
                 self.device.click_record_clear()
                 continue
+            # Secrets of the Abyss (event_20250814_cn)
+            # popup after all story finished
+            if self.appear_then_click(POPUP_RPG_STATUS, offset=(20, 20), interval=3):
+                continue
 
     def run_event_story(self):
         """
