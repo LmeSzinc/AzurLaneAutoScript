@@ -400,7 +400,10 @@ class OperationSiren(OSMap):
                 self.os_order_execute(
                     recon_scan=False,
                     submarine_call=self.config.OpsiFleet_Submarine)
-                self.run_auto_search()
+                if self.config.OpsiFleet_Submarine:
+                    self.run_auto_search()
+                else:
+                    self.run_strategic_search()
                 self.handle_after_auto_search()
                 self.config.check_task_switch()
 
