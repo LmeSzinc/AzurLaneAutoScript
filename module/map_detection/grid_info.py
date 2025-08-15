@@ -106,8 +106,19 @@ class GridInfo:
                 return key
 
         if self.is_siren:
-            name = self.enemy_genre[6:8].upper() if self.enemy_genre else 'SU'
-            return name if name else 'SU'
+            if not self.enemy_genre:
+                return 'SU'
+            # enemy_genre is like "Siren_xxx"
+            name = self.enemy_genre[6:]
+            if '_' in name:
+                _, _, name = name.partition('_')
+            name = name[:2]
+            length = len(name)
+            if length == 2:
+                return name.upper()
+            if length == 1:
+                return f'{name.upper()} '
+            return 'SU'
 
         if self.is_enemy:
             return '%s%s' % (

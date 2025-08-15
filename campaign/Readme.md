@@ -254,3 +254,4 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20250724   | event 20221124 cn        | The Alchemist and the Archipelago of Secrets | 复刻炼金术士与秘密遗迹群岛 | The Alchemist and the Archipelago of Secrets Rerun | 錬金術士と謎の遺跡群島（復刻）       | -                          |
 | 20250807   | event 20250724 cn        | The Alchemist and the Tower of Horizons      | -                          | -                                                  | -                                    | 鍊金術士與天際交會之塔     |
 | 20250807   | event 20221124 cn        | The Alchemist and the Archipelago of Secrets | -                          | -                                                  | -                                    | 復刻鍊金術士與秘密遺跡群島 |
+| 20250814   | event 20250814 cn        | Secrets of the Abyss                         | 奇渊下的秘密               | Secrets of the Abyss                               | 淵層界の秘密                         | -                          |
