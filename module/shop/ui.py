@@ -118,7 +118,10 @@ class ShopUI(UI):
             4: Prototype shop
         """
         if self.config.SERVER in ['cn', 'en', 'jp']:
-            current_tab = self.shop_tab.get_active()
+            current_tab = self.shop_tab.get_active(main=self)
+            #get active starts from 0, but followup starts from 1
+            if current_tab is not None:
+                current_tab += 1
             
             if current_tab == 1:
                 delta =(174, 0)
