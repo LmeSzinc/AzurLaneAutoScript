@@ -102,6 +102,9 @@ class EventStory(CampaignUI, Combat, LoginHandler):
             if self.match_template_color(STORY_FINISHED, offset=(20, 20), interval=3):
                 logger.info('run_story end at STORY_FINISHED')
                 return 'finish'
+            if self.appear(REWARD_GOT, offset=(50, 30)):
+                logger.info('run_story end at REWARD_GOT')
+                return 'finish'
 
             # Story skip
             if self.handle_story_skip():
@@ -168,6 +171,8 @@ class EventStory(CampaignUI, Combat, LoginHandler):
             str: 'finish', 'story', 'unknown'
         """
         if self.match_template_color(STORY_FINISHED, offset=(20, 20)):
+            return 'finish'
+        if self.appear(REWARD_GOT, offset=(50, 30)):
             return 'finish'
 
         if self.appear_then_click(STORY_FIRST, offset=(20, 20)):
