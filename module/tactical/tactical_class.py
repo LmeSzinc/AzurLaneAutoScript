@@ -38,9 +38,14 @@ class ExpOnBookSelect(DigitCounter):
         lower = (h[0], s[0], v[0])
         upper = (h[1], s[1], v[1])
         green = np.mean(cv2.inRange(hsv, lower, upper), axis=0)
-        # Convert to gray scale
-        r, g, b = cv2.split(image)
-        image = cv2.max(cv2.max(r, g), b)
+        if server.server != 'jp':
+            # Convert to gray scale
+            r, g, b = cv2.split(image)
+            image = cv2.max(cv2.max(r, g), b)
+        else:
+            # digit letter is not white, fall back to super().pre_process
+            image = super().pre_process(image)
+            image = 255 - image
         # Paint `+500` to white
         matched = np.where(green > 0.5)[0]
         if len(matched):
@@ -54,7 +59,7 @@ class ExpOnBookSelect(DigitCounter):
             image = image_left_strip(image, threshold=105, length=46)
         elif server.server == 'jp':
             # Wide `Next:`
-            image = image_left_strip(image, threshold=105, length=55)
+            image = image_left_strip(image, threshold=150, length=55)
         else:
             image = image_left_strip(image, threshold=105, length=42)
         return image
@@ -95,7 +100,10 @@ class ExpOnSkillSelect(Ocr):
         return image
 
 
-SKILL_EXP = ExpOnBookSelect(buttons=OCR_SKILL_EXP)
+if server.server != 'jp':
+    SKILL_EXP = ExpOnBookSelect(buttons=OCR_SKILL_EXP)
+else:
+    SKILL_EXP = ExpOnBookSelect(buttons=OCR_SKILL_EXP, letter=(160, 160, 160))
 BOOKS_GRID = ButtonGrid(origin=(213, 292), delta=(147, 117), button_shape=(98, 98), grid_shape=(6, 2))
 BOOK_FILTER = Filter(
     regex=re.compile(
