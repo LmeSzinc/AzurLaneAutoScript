@@ -43,6 +43,7 @@ import module.webui.lang as lang
 from module.config.config import AzurLaneConfig, Function
 from module.config.deep import deep_get, deep_iter, deep_set
 from module.config.env import IS_ON_PHONE_CLOUD
+from module.config.server import to_server
 from module.config.utils import (
     alas_instance,
     alas_template,
@@ -305,6 +306,36 @@ class AlasGUI(Frame):
             if self.set_group(group, arg_dict, config, task):
                 self.set_navigator(group)
 
+    def filter_event_options(self, task, group_name, arg_name, options, config):
+        """
+        Filter options based on specific criteria.
+        This method can be extended to handle various filtering scenarios.
+        
+        Args:
+            task (str): Current task name
+            group_name (str): Group name
+            arg_name (str): Argument name
+            options (list): Original options list
+            config (dict): Current configuration
+            
+        Returns:
+            list: Filtered options list
+        """
+        EVENTS = ['Event', 'Event2', 'EventA', 'EventB', 'EventC', 'EventD', 'EventSp']
+        # Filter Campaign.Event options based on server
+        if task in EVENTS and group_name == 'Campaign' and arg_name == 'Event':
+            try:
+                server = to_server(deep_get(config, ['Alas', 'Emulator', 'PackageName'], 'cn'))
+                available_events = deep_get(self.ALAS_ARGS, keys=f'{task}.Campaign.Event.option_{server}')
+                # Handle both list and string format
+                if isinstance(available_events, list):
+                    return [opt for opt in options if opt in available_events]
+                else:
+                    return [opt for opt in options if opt == available_events]
+            except Exception:
+                pass
+        return options
+
     @use_scope("groups")
     def set_group(self, group, arg_dict, config, task):
         group_name = group[0]
@@ -338,7 +369,10 @@ class AlasGUI(Frame):
             # Default value
             output_kwargs["value"] = value
             # Options
-            output_kwargs["options"] = options = output_kwargs.pop("option", [])
+            options = output_kwargs.pop("option", [])
+            # filter event option based on server selected
+            options = self.filter_event_options(task, group_name, arg_name, options, config)
+            output_kwargs["options"] = options
             # Options label
             options_label = []
             for opt in options:
