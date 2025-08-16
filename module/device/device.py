@@ -252,12 +252,6 @@ class Device(Screenshot, Control, AppControl, Input):
         if self.app_is_running():
             raise GameStuckError(f'Wait too long')
         else:
-            from module.notify import handle_notify
-            handle_notify(
-                self.config.Error_OnePushConfig,
-                title=f"Alas <{self.config.config_name}> crashed",
-                content=f"<{self.config.config_name}> GameNotRunningError"
-            )
             raise GameNotRunningError('Game died')
 
     def handle_control_check(self, button):
