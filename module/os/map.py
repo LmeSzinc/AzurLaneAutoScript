@@ -698,7 +698,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
         is_loading = False
         pause_interval = Timer(0.5, count=1)
         in_main_timer = Timer(3, count=6)
-        in_map_timer = Timer(3, count=6)
+        in_map_timer = Timer(1, count=6)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
