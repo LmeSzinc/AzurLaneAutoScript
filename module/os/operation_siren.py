@@ -50,17 +50,12 @@ class OperationSiren(OSMap):
         Returns:
             bool: If handled
         """
-        success = True
-        if self.is_meowfficer_searching():
-            logger.info('Found meowfficer searching, complete this zone')
-            try:
-                self.run_auto_search(interrupt=[self.no_meowfficer_searching, self.is_meowfficer_searching])
-                self.handle_after_auto_search()
-                success = False
-            except TaskEnd:
-                self.ui_ensure(page_os)
-                success = True
-        return success
+        if not self.config.OS_MISSION_COMPLETE and self._os_daily_mission_complete_check():
+            self.config.OS_MISSION_COMPLETE = True
+
+        if self.config.OS_MISSION_COMPLETE and self.no_meowfficer_searching():
+            return True
+        return False
 
     def os_daily_set_keep_mission_zone(self):
         """
@@ -142,7 +137,8 @@ class OperationSiren(OSMap):
                 recon_scan=False,
                 submarine_call=self.config.OpsiFleet_Submarine and result != 'pinned_at_archive_zone')
             if keep_mission_zone and not self.zone.is_port:
-                interrupt = self._os_daily_mission_complete_check
+                interrupt = [self.handle_meowfficer_searching, self.is_meowfficer_searching]
+                self.config.OS_MISSION_COMPLETE = False
             else:
                 interrupt = None
             try:
@@ -150,7 +146,7 @@ class OperationSiren(OSMap):
                 self.handle_after_auto_search()
             except TaskEnd:
                 self.ui_ensure(page_os)
-                if keep_mission_zone and self.handle_meowfficer_searching():
+                if keep_mission_zone:
                     self.os_daily_set_keep_mission_zone()
             count += 1
             if not keep_mission_zone:

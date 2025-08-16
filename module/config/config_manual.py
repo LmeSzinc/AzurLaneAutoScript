@@ -337,6 +337,7 @@ class ManualConfig:
     OS_ACTION_POINT_PRESERVE = 0
     OS_NORMAL_YELLOW_COINS_PRESERVE = 35000
     OS_NORMAL_PURPLE_COINS_PRESERVE = 100
+    OS_MISSION_COMPLETE = False
 
     """
     module.os.globe_detection
