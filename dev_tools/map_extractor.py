@@ -305,6 +305,12 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     'lianjin_II_sairenzhongxun': 'CAalchemist2',
     'lianjin_II_sairenzhanlie': 'BBalchemist2',
     'lianjin_II_sairenhangmu': 'CValchemist2',
+
+    # Secrets of the Abyss
+    'jiulaimu_ruanniguai': 'Jiulaimu_Mud',
+    'jiulaimu_shixianggui': 'Jiulaimu_Statue',
+    'jiulaimu_emo': 'Jiulaimu_Demon',
+    'youlin_ylsb': 'Jiulaimu_Ghost',
 }
 
 
