@@ -157,6 +157,7 @@ class EventStory(CampaignUI, Combat, LoginHandler):
                 logger.hr('Event Story Battle', level=2)
                 self.config.override(Error_HandleError=True)
                 self.app_stop()
+                self.device.sleep(2)
                 self.app_start()
                 continue
             if result == 'finish':
