@@ -5,9 +5,15 @@ from module.shop.clerk import ShopClerk
 from module.shop.shop_status import ShopStatus
 from module.shop.ui import ShopUI
 
+import module.config.server as server
 
-class MeritShop(ShopClerk, ShopUI, ShopStatus):
-    shop_template_folder = './assets/shop/merit'
+
+class MeritShop(ShopClerk, ShopUI, ShopStatus, server):
+    if server in ['cn', 'en', 'jp']:
+        shop_template_folder = './assets/shop/merit_white'
+
+    if server in ['tw']:
+        shop_template_folder = './assets/shop/merit'
 
     @cached_property
     def shop_filter(self):
@@ -26,7 +32,10 @@ class MeritShop(ShopClerk, ShopUI, ShopStatus):
         shop_grid = self.shop_grid
         shop_merit_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
         shop_merit_items.load_template_folder(self.shop_template_folder)
-        shop_merit_items.load_cost_template_folder('./assets/shop/cost')
+        if server in ['cn', 'en', 'jp']:
+            shop_merit_items.load_cost_template_folder('./assets/shop/cost_white')
+        if server in ['tw']:
+            shop_merit_items.load_cost_template_folder('./assets/shop/cost')
         return shop_merit_items
 
     def shop_items(self):

@@ -5,9 +5,14 @@ from module.shop.base import ShopItemGrid
 from module.shop.clerk import ShopClerk
 from module.shop.shop_status import ShopStatus
 
+import module.config.server as server
 
-class CoreShop(ShopClerk, ShopStatus):
-    shop_template_folder = './assets/shop/core'
+class CoreShop(ShopClerk, ShopStatus, server):
+    if server in ['cn', 'en', 'jp']:
+        shop_template_folder = './assets/shop/core_white'
+
+    if server in ['tw']:
+        shop_template_folder = './assets/shop/core'
 
     @cached_property
     def shop_filter(self):
@@ -26,7 +31,10 @@ class CoreShop(ShopClerk, ShopStatus):
         shop_grid = self.shop_grid
         shop_core_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
         shop_core_items.load_template_folder(self.shop_template_folder)
-        shop_core_items.load_cost_template_folder('./assets/shop/cost')
+        if server in ['cn', 'en', 'jp']:
+            shop_core_items.load_cost_template_folder('./assets/shop/cost_white')
+        if server in ['tw']:
+            shop_core_items.load_cost_template_folder('./assets/shop/cost')
         return shop_core_items
 
     def shop_items(self):

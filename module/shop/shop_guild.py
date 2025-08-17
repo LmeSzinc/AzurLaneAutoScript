@@ -6,9 +6,14 @@ from module.shop.clerk import ShopClerk
 from module.shop.shop_status import ShopStatus
 from module.shop.ui import ShopUI
 
+import module.config.server as server
 
-class GuildShop(ShopClerk, ShopUI, ShopStatus):
-    shop_template_folder = './assets/shop/guild'
+class GuildShop(ShopClerk, ShopUI, ShopStatus, server):
+    if server in ['cn', 'en', 'jp']:
+        shop_template_folder = './assets/shop/guild_white'
+
+    if server in ['tw']:
+        shop_template_folder = './assets/shop/guild'
 
     @cached_property
     def shop_filter(self):
@@ -26,9 +31,15 @@ class GuildShop(ShopClerk, ShopUI, ShopStatus):
         """
         shop_grid = self.shop_grid
         shop_guild_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
-        self.shop_template_folder = './assets/shop/guild'
+        if server in ['cn', 'en', 'jp']:
+            self.shop_template_folder = './assets/shop/guild_white'
+        if server in ['tw']:
+            self.shop_template_folder = './assets/shop/guild'
         shop_guild_items.load_template_folder(self.shop_template_folder)
-        shop_guild_items.load_cost_template_folder('./assets/shop/cost')
+        if server in ['cn', 'en', 'jp']:
+            shop_guild_items.load_cost_template_folder('./assets/shop/cost_white')
+        if server in ['tw']:
+            shop_guild_items.load_cost_template_folder('./assets/shop/cost')
         return shop_guild_items
 
     def shop_items(self):
