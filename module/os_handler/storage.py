@@ -206,7 +206,7 @@ class StorageHandler(GlobeOperation, ZoneManager):
         """
         crop_area = (button.area[0] + 80, button.area[1] - 25, button.area[2] + 2, button.area[3] - 10)
         click_area = (button.area[0] + 40, button.area[1] - 100, button.area[2] - 10, button.area[3] - 50)
-        click_buttton = Button(area=click_area, color=(0, 0, 0), button=click_area, name='STORAGE_SHIP_SELECT')
+        click_button = Button(area=click_area, color=(0, 0, 0), button=click_area, name='STORAGE_SHIP_SELECT')
         timeout = Timer(5, count=3).start()
         while 1:
             if skip_first_screenshot:
@@ -225,7 +225,7 @@ class StorageHandler(GlobeOperation, ZoneManager):
                 return False
 
             if self.appear(STORAGE_FLEET_CHOOSE, offset=(20, 20), interval=2):
-                self.device.click(click_buttton)
+                self.device.click(click_button)
                 continue
 
     def repair_pack_use_confirm(self, button, skip_first_screenshot=True):

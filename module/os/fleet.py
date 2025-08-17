@@ -22,8 +22,7 @@ from module.os.camera import OSCamera
 from module.os.map_base import OSCampaignMap
 from module.os_ash.ash import OSAsh
 from module.os_combat.combat import Combat
-from module.os_handler.assets import (AUTO_SEARCH_REWARD, CLICK_SAFE_AREA, IN_MAP, PORT_ENTER, 
-                                      STORAGE_REPAIR_ICON, TEMPLATE_STORAGE_SHIP_EMPTY)
+from module.os_handler.assets import AUTO_SEARCH_REWARD, CLICK_SAFE_AREA, IN_MAP, PORT_ENTER, TEMPLATE_STORAGE_SHIP_EMPTY
 from module.os_shop.assets import PORT_SUPPLY_CHECK
 from module.ui.assets import BACK_ARROW
 
@@ -202,26 +201,20 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
 
     def _storage_hp_get(self):
         super().hp_get()
-        if self.appear(STORAGE_REPAIR_ICON, offset=(20, 20)):
-            need_repair = [not repair for repair in self.hp_has_ship]
-            for index, repair in enumerate(need_repair):
-                if repair:
-                    self._hp[self.fleet_current_index][index] = 0
-
-            ship_icon = self._hp_grid().crop((-29, -165, 106, -30))
-            has_ship = [not TEMPLATE_STORAGE_SHIP_EMPTY.match(
-                        self.image_crop(button, copy=False)) for button in ship_icon.buttons]
-            for index, ship in enumerate(has_ship):
-                if ship:
-                    self._hp_has_ship[self.fleet_current_index][index] = True
-
-            self.need_repair = [all(repair) for repair in zip(need_repair, has_ship)]
-            logger.attr('Repair icon', self.need_repair)
-            logger.attr('HP', ' '.join(
-                [str(int(data * 100)).rjust(3) + '%' if use else '____'
-                for data, use in zip(self.hp, self.hp_has_ship)]))
-        else:
-            logger.attr('Repair icon', self.need_repair)
+        ship_icon = self._hp_grid().crop((-29, -165, 106, -30))
+        has_ship = [not TEMPLATE_STORAGE_SHIP_EMPTY.match(
+                    self.image_crop(button, copy=False)) for button in ship_icon.buttons]
+        need_repair = [not repair for repair in self.hp_has_ship]
+        for index, repair in enumerate(need_repair):
+            if repair:
+                self._hp[self.fleet_current_index][index] = 0
+        for index, ship in enumerate(has_ship):
+            self._hp_has_ship[self.fleet_current_index][index] = ship
+        self.need_repair = [all(repair) for repair in zip(need_repair, has_ship)]
+        logger.attr('Repair icon', self.need_repair)
+        logger.attr('HP', ' '.join(
+            [str(int(data * 100)).rjust(3) + '%' if use else '____'
+            for data, use in zip(self.hp, self.hp_has_ship)]))
 
     def storage_hp_get(self):
         """
