@@ -161,7 +161,9 @@ class OperationSiren(OSMap):
 
         # Clear tuning samples daily
         if self.config.OpsiDaily_UseTuningSample:
-            self.tuning_sample_use()
+            self.tuning_sample_use(quit=not self.config.OpsiGeneral_UseLogger)
+        if self.config.OpsiGeneral_UseLogger:
+            self.logger_use()
 
         if self.config.OpsiDaily_SkipSirenResearchMission and self.config.SERVER not in ['cn']:
             logger.warning(f'OpsiDaily.SkipSirenResearchMission is not supported in {self.config.SERVER}')
