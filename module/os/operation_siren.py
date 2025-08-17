@@ -15,7 +15,7 @@ from module.os.fleet import BossFleet
 from module.os.globe_operation import OSExploreError
 from module.os.map import OSMap
 from module.os_handler.action_point import OCR_OS_ADAPTABILITY, ActionPointLimit
-from module.os_handler.assets import (OS_MONTHBOSS_NORMAL, OS_MONTHBOSS_HARD, OS_SUBMARINE_CHECK,
+from module.os_handler.assets import (OS_MONTHBOSS_NORMAL, OS_MONTHBOSS_HARD, OS_SUBMARINE_EMPTY,
                                       EXCHANGE_CHECK, EXCHANGE_ENTER, MISSION_COMPLETE_POPUP)
 from module.os_shop.assets import OS_SHOP_CHECK
 from module.shop.shop_voucher import VoucherShop
@@ -45,11 +45,7 @@ class OperationSiren(OSMap):
         return not self.appear(OS_CHECK, offset=(20, 20)) and \
             self.appear(MISSION_COMPLETE_POPUP, offset=(20, 20))
 
-    def handle_meowfficer_searching(self):
-        """
-        Returns:
-            bool: If handled
-        """
+    def daily_interrupt_check(self):
         if not self.config.OS_MISSION_COMPLETE and self._os_daily_mission_complete_check():
             self.config.OS_MISSION_COMPLETE = True
 
@@ -137,7 +133,7 @@ class OperationSiren(OSMap):
                 recon_scan=False,
                 submarine_call=self.config.OpsiFleet_Submarine and result != 'pinned_at_archive_zone')
             if keep_mission_zone and not self.zone.is_port:
-                interrupt = [self.handle_meowfficer_searching, self.is_meowfficer_searching]
+                interrupt = [self.daily_interrupt_check, self.is_meowfficer_searching]
                 self.config.OS_MISSION_COMPLETE = False
             else:
                 interrupt = None
@@ -859,8 +855,11 @@ class OperationSiren(OSMap):
             self.clear_stronghold()
             self.config.check_task_switch()
 
-    def _stronghold_sumbarine_check(self):
-        return self.match_template_color(OS_SUBMARINE_CHECK, offset=(20, 20))
+    def os_sumbarine_empty(self):
+        return self.match_template_color(OS_SUBMARINE_EMPTY, offset=(20, 20))
+
+    def stronghold_interrupt_check(self):
+        return self.os_sumbarine_empty() and self.no_meowfficer_searching()
 
     def run_stronghold_one_fleet(self, fleet, submarine=False):
         """
@@ -876,7 +875,7 @@ class OperationSiren(OSMap):
             HOMO_EDGE_DETECT=False,
             STORY_OPTION=0
         )
-        interrupt = self._stronghold_sumbarine_check if submarine else None
+        interrupt = [self.stronghold_interrupt_check, self.is_meowfficer_searching] if submarine else None
         # Try 3 times, because fleet may stuck in fog.
         for _ in range(3):
             # Attack
@@ -900,7 +899,7 @@ class OperationSiren(OSMap):
                 self.handle_fog_block(repair=True)
                 self.globe_goto(prev, types='STRONGHOLD')
                 return False
-            elif submarine and self._stronghold_sumbarine_check():
+            elif submarine and self.os_sumbarine_empty():
                 logger.info('Submarine ammo exhausted, wait for the next clear')
                 self.globe_goto(self.zone_nearest_azur_port(self.zone))
                 return True

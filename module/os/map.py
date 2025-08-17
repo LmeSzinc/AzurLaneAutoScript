@@ -15,7 +15,7 @@ from module.os.fleet import OSFleet, BossFleet
 from module.os.globe_camera import GlobeCamera
 from module.os.globe_operation import RewardUncollectedError
 from module.os_handler.assets import AUTO_SEARCH_OS_MAP_OPTION_OFF, AUTO_SEARCH_OS_MAP_OPTION_OFF_DISABLED, \
-    AUTO_SEARCH_OS_MAP_OPTION_ON, AUTO_SEARCH_REWARD, OS_SUBMARINE_CHECK
+    AUTO_SEARCH_OS_MAP_OPTION_ON, AUTO_SEARCH_REWARD
 from module.os_handler.storage import StorageHandler
 from module.os_handler.strategic import StrategicSearchHandler
 from module.ui.assets import GOTO_MAIN
