@@ -1,19 +1,26 @@
 from module.base.decorator import cached_property
 from module.logger import logger
+from module.ocr.ocr import Digit
 from module.shop.assets import *
 from module.shop.base import ShopItemGrid
 from module.shop.clerk import ShopClerk
 from module.shop.shop_status import ShopStatus
 from module.shop.ui import ShopUI
 
-import module.config.server as server
-
-class GuildShop(ShopClerk, ShopUI, ShopStatus, server):
-    if server in ['cn', 'en', 'jp']:
-        shop_template_folder = './assets/shop/guild_white'
-
-    if server in ['tw']:
-        shop_template_folder = './assets/shop/guild'
+class GuildShop(ShopClerk, ShopUI, ShopStatus):
+    @cached_property
+    def shop_template_folder(self):
+        if self.config.SERVER in ['cn', 'en', 'jp']:
+            return './assets/shop/guild_white'
+        elif self.config.SERVER in ['tw']:
+            return './assets/shop/guild'
+    
+    @cached_property
+    def cost_template_folder(self):
+        if self.config.SERVER in ['cn', 'en', 'jp']:
+            return './assets/shop/cost_white'
+        elif self.config.SERVER in ['tw']:
+            return './assets/shop/cost'
 
     @cached_property
     def shop_filter(self):
@@ -31,15 +38,8 @@ class GuildShop(ShopClerk, ShopUI, ShopStatus, server):
         """
         shop_grid = self.shop_grid
         shop_guild_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
-        if server in ['cn', 'en', 'jp']:
-            self.shop_template_folder = './assets/shop/guild_white'
-        if server in ['tw']:
-            self.shop_template_folder = './assets/shop/guild'
         shop_guild_items.load_template_folder(self.shop_template_folder)
-        if server in ['cn', 'en', 'jp']:
-            shop_guild_items.load_cost_template_folder('./assets/shop/cost_white')
-        if server in ['tw']:
-            shop_guild_items.load_cost_template_folder('./assets/shop/cost')
+        shop_guild_items.load_cost_template_folder(self.cost_template_folder)
         return shop_guild_items
 
     def shop_items(self):

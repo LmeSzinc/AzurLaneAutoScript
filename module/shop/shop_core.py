@@ -5,14 +5,20 @@ from module.shop.base import ShopItemGrid
 from module.shop.clerk import ShopClerk
 from module.shop.shop_status import ShopStatus
 
-import module.config.server as server
-
-class CoreShop(ShopClerk, ShopStatus, server):
-    if server in ['cn', 'en', 'jp']:
-        shop_template_folder = './assets/shop/core_white'
-
-    if server in ['tw']:
-        shop_template_folder = './assets/shop/core'
+class CoreShop(ShopClerk, ShopStatus):
+    @cached_property
+    def shop_template_folder(self):
+        if self.config.SERVER in ['cn', 'en', 'jp']:
+            return './assets/shop/core_white'
+        elif self.config.SERVER in ['tw']:
+            return './assets/shop/core'
+    
+    @cached_property
+    def cost_template_folder(self):
+        if self.config.SERVER in ['cn', 'en', 'jp']:
+            return './assets/shop/cost_white'
+        elif self.config.SERVER in ['tw']:
+            return './assets/shop/cost'
 
     @cached_property
     def shop_filter(self):
@@ -31,10 +37,7 @@ class CoreShop(ShopClerk, ShopStatus, server):
         shop_grid = self.shop_grid
         shop_core_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
         shop_core_items.load_template_folder(self.shop_template_folder)
-        if server in ['cn', 'en', 'jp']:
-            shop_core_items.load_cost_template_folder('./assets/shop/cost_white')
-        if server in ['tw']:
-            shop_core_items.load_cost_template_folder('./assets/shop/cost')
+        shop_core_items.load_cost_template_folder(self.cost_template_folder)
         return shop_core_items
 
     def shop_items(self):

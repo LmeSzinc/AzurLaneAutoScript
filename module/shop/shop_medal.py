@@ -11,8 +11,6 @@ from module.shop.clerk import ShopClerk
 from module.shop.shop_status import ShopStatus
 from module.ui.scroll import Scroll
 
-import module.config.server as server
-
 MEDAL_SHOP_SCROLL = Scroll(MEDAL_SHOP_SCROLL_AREA, color=(247, 211, 66))
 MEDAL_SHOP_SCROLL.edge_threshold = 0.15
 MEDAL_SHOP_SCROLL.drag_threshold = 0.15
@@ -28,15 +26,37 @@ class ShopPriceOcr(DigitYuv):
 
 
 PRICE_OCR = ShopPriceOcr([], letter=(255, 223, 57), threshold=32, name='Price_ocr')
-if server in ['cn', 'en', 'jp']:
-    TEMPLATE_MEDAL_ICON = Template('./assets/shop/cost_white/Medal.png')
-    TEMPLATE_MEDAL_ICON_2 = Template('./assets/shop/cost_white/Medal_2.png')
-if server in ['tw']:
-    TEMPLATE_MEDAL_ICON = Template('./assets/shop/cost/Medal.png')
-    TEMPLATE_MEDAL_ICON_2 = Template('./assets/shop/cost/Medal_2.png')
 
 
 class MedalShop2(ShopClerk, ShopStatus):
+    @cached_property
+    def shop_template_folder(self):
+        if self.config.SERVER in ['cn', 'en', 'jp']:
+            return './assets/shop/medal_white'
+        elif self.config.SERVER in ['tw']:
+            return './assets/shop/medal'
+    
+    @cached_property
+    def cost_template_folder(self):
+        if self.config.SERVER in ['cn', 'en', 'jp']:
+            return './assets/shop/cost_white'
+        elif self.config.SERVER in ['tw']:
+            return './assets/shop/cost'
+        
+    @cached_property
+    def template_medal_icon(self):
+        if self.config.SERVER in ['cn', 'en', 'jp']:
+            return Template('./assets/shop/cost_white/Medal.png')
+        elif self.config.SERVER in ['tw']:
+            return Template('./assets/shop/cost/Medal.png')
+    
+    @cached_property
+    def template_medal_icon_2(self):
+        if self.config.SERVER in ['cn', 'en', 'jp']:
+            return Template('./assets/shop/cost_white/Medal_2.png')
+        elif self.config.SERVER in ['tw']:
+            return Template('./assets/shop/cost/Medal_2.png')
+        
     @cached_property
     def shop_filter(self):
         """
@@ -60,7 +80,7 @@ class MedalShop2(ShopClerk, ShopStatus):
         x1, y1, x2, y2 = paint
         image[y1:y2, x1:x2] = (0, 0, 0)
 
-        medals = TEMPLATE_MEDAL_ICON_2.match_multi(image, similarity=0.5, threshold=5)
+        medals = self.template_medal_icon_2.match_multi(image, similarity=0.5, threshold=5)
         medals = Points([(0., m.area[1]) for m in medals]).group(threshold=5)
         logger.attr('Medals_icon', len(medals))
         return medals
@@ -129,12 +149,6 @@ class MedalShop2(ShopClerk, ShopStatus):
             origin=(476, origin_y), delta=(156, delta_y), button_shape=(98, 98), grid_shape=(5, row), name='SHOP_GRID')
         return shop_grid
 
-    if server in ['cn', 'en', 'jp']:
-        shop_template_folder = './assets/shop/medal_white'
-
-    if server in ['tw']:
-        shop_template_folder = './assets/shop/medal'
-
     @cached_property
     def shop_medal_items(self):
         """
@@ -147,10 +161,7 @@ class MedalShop2(ShopClerk, ShopStatus):
             templates={}, amount_area=(60, 74, 96, 95),
             price_area=(52, 132, 132, 162))
         shop_medal_items.load_template_folder(self.shop_template_folder)
-        if server in ['cn', 'en', 'jp']:
-            shop_medal_items.load_cost_template_folder('./assets/shop/cost_white')
-        if server in ['tw']:
-            shop_medal_items.load_cost_template_folder('./assets/shop/cost')
+        shop_medal_items.load_cost_template_folder(self.cost_template_folder)
         shop_medal_items.similarity = 0.85  # Lower the threshold for consistent matches of PR/DRBP
         shop_medal_items.cost_similarity = 0.5
         shop_medal_items.price_ocr = PRICE_OCR

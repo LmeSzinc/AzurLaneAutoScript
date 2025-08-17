@@ -13,7 +13,20 @@ OCR_SHOP_GEMS = Digit(SHOP_GEMS, letter=(255, 243, 82), name='OCR_SHOP_GEMS')
 
 class GeneralShop(ShopClerk, ShopUI, ShopStatus):
     gems = 0
-    shop_template_folder = './assets/shop/general'
+
+    @cached_property
+    def shop_template_folder(self):
+        if self.config.SERVER in ['cn', 'en', 'jp']:
+            return './assets/shop/general_white'
+        elif self.config.SERVER in ['tw']:
+            return './assets/shop/general'
+    
+    @cached_property
+    def cost_template_folder(self):
+        if self.config.SERVER in ['cn', 'en', 'jp']:
+            return './assets/shop/cost_white'
+        elif self.config.SERVER in ['tw']:
+            return './assets/shop/cost'
 
     @cached_property
     def shop_filter(self):
@@ -32,7 +45,7 @@ class GeneralShop(ShopClerk, ShopUI, ShopStatus):
         shop_grid = self.shop_grid
         shop_general_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
         shop_general_items.load_template_folder(self.shop_template_folder)
-        shop_general_items.load_cost_template_folder('./assets/shop/cost')
+        shop_general_items.load_cost_template_folder(self.cost_template_folder)
         return shop_general_items
 
     def shop_items(self):
