@@ -104,8 +104,12 @@ class ShopBase(UI):
         Returns:
             ButtonGrid:
         """
-        shop_grid = ButtonGrid(
-            origin=(476, 246), delta=(156, 213), button_shape=(98, 98), grid_shape=(5, 2), name='SHOP_GRID')
+        if self.config.SERVER in ['cn', 'en', 'jp']:
+            shop_grid = ButtonGrid(
+                origin=(183, 204), delta=(162, 215), button_shape=(152, 206), grid_shape=(5, 2), name='SHOP_GRID')
+        elif self.config.SERVER in ['tw']:
+            shop_grid = ButtonGrid(
+                origin=(476, 246), delta=(156, 213), button_shape=(98, 98), grid_shape=(5, 2), name='SHOP_GRID')
         return shop_grid
 
     def shop_items(self):

@@ -37,7 +37,11 @@ class GuildShop(ShopClerk, ShopUI, ShopStatus):
             ShopItemGrid:
         """
         shop_grid = self.shop_grid
-        shop_guild_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
+        if self.config.SERVER in ['cn', 'en', 'jp']:
+            shop_guild_items = ShopItemGrid(shop_grid, templates={}, amount_area=(72, 74, 96, 95), 
+                                           cost_area=(15, 165, 139, 193),price_area=(15, 165, 139, 193))
+        elif self.config.SERVER in ['tw']:
+            shop_guild_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
         shop_guild_items.load_template_folder(self.shop_template_folder)
         shop_guild_items.load_cost_template_folder(self.cost_template_folder)
         return shop_guild_items
