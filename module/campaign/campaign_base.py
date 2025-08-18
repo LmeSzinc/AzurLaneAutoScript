@@ -120,6 +120,8 @@ class CampaignBase(CampaignUI, Map, AutoSearchCombat):
         logger.hr(self.ENTRANCE, level=2)
 
         # Enter map
+        self.map_get_info(star=True)
+        logger.attr('Map Battle', self._map_battle)
         self.emotion.check_reduce(self._map_battle)
         self.ENTRANCE.area = self.ENTRANCE.button
         self.enter_map(self.ENTRANCE, mode=self.config.Campaign_Mode)
@@ -157,6 +159,7 @@ class CampaignBase(CampaignUI, Map, AutoSearchCombat):
             raise ScriptError('Battle function exhausted.')
 
     @cached_property
+    @Config.when(MAP_CLEAR_ALL_THIS_TIME=False)
     def _map_battle(self):
         """
         Returns:
@@ -171,6 +174,24 @@ class CampaignBase(CampaignUI, Map, AutoSearchCombat):
 
         logger.warning('No boss data found in spawn_data')
         return 0
+
+    @cached_property
+    @Config.when(MAP_CLEAR_ALL_THIS_TIME=True)
+    def _map_battle(self):
+        """
+        Returns:
+            int: Battle on this map.
+        """
+        battle_count = 0
+        for data in self.MAP.spawn_data:
+            if 'battle' in data:
+                for k, v in data.items():
+                    if k != 'battle':
+                        battle_count += v
+            else:
+                logger.warning('No battle count in spawn_data')
+
+        return battle_count
 
     def auto_search_execute_a_battle(self):
         logger.hr(f'{self.FUNCTION_NAME_BASE}{self.battle_count}', level=2)

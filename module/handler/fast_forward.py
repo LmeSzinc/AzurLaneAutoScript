@@ -127,15 +127,15 @@ class FastForwardHandler(AutoSearchHandler):
     ]
     map_fleet_checked = False
 
-    def map_get_info(self):
+    def map_get_info(self, star=False):
         """
         Logs:
             | INFO | [Map_info] 98%, star_1, star_2, star_3, clear, 3_star, green, fast_forward
         """
         self.map_clear_percentage = self.get_map_clear_percentage()
-        self.map_achieved_star_1 = self.appear(MAP_STAR_1)
-        self.map_achieved_star_2 = self.appear(MAP_STAR_2)
-        self.map_achieved_star_3 = self.appear(MAP_STAR_3)
+        self.map_achieved_star_1 = self.appear(MAP_STAR_1) or star
+        self.map_achieved_star_2 = self.appear(MAP_STAR_2) or star
+        self.map_achieved_star_3 = self.appear(MAP_STAR_3) or star
         self.map_is_100_percent_clear = self.map_clear_percentage > 0.95
         self.map_is_3_stars = self.map_achieved_star_1 and self.map_achieved_star_2 and self.map_achieved_star_3
         self.map_is_threat_safe = self.appear(MAP_GREEN)
