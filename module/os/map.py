@@ -635,11 +635,12 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
                     if died_timer.reached():
                         logger.warning('Fleet died confirm')
                         break
-                if not interrupt_confirm and is_interrupt():
-                    interrupt_confirm = True
-                if interrupt_confirm and not_interrupt():
-                    interrupt_confirm = False
-                died_timer.reset()
+                else:
+                    if not interrupt_confirm and is_interrupt():
+                        interrupt_confirm = True
+                    if interrupt_confirm and not_interrupt():
+                        interrupt_confirm = False
+                    died_timer.reset()
             else:
                 died_timer.reset()
 
