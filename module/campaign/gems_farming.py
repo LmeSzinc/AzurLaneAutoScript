@@ -717,8 +717,11 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
             try:
                 super().run(name=name, folder=folder, total=total)
             except CampaignEnd as e:
-                if e.args[0] in ['Emotion withdraw', 'Emotion control']:
+                if e.args[0] == 'Emotion control':
                     self._trigger_emotion = True
+                elif e.args[0] == 'Emotion withdraw':
+                    self._trigger_emotion = True
+                    self.set_emotion(0)
                 else:
                     raise e
             except RequestHumanTakeover as e:
@@ -739,10 +742,13 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
             if self._trigger_lv32 or self._trigger_emotion:
                 success = True
                 self.hard_mode_override()
+                emotion = self.get_emotion()
                 if self.change_flagship:
                     success = self.flagship_change()
-                if self.change_vanguard:
-                    success = success and self.vanguard_change()
+                if self.change_vanguard and success:
+                    success = self.vanguard_change()
+                    if not success and self.config.GemsFarming_ALLowHighFlagshipLevel:
+                        self.set_emotion(emotion)
 
                 if is_limit and self.config.StopCondition_RunCount <= 0:
                     logger.hr('Triggered stop condition: Run count')
