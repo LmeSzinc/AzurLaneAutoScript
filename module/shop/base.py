@@ -47,7 +47,12 @@ FILTER = Filter(FILTER_REGEX, FILTER_ATTR)
 
 class ShopItem_250814(Item):
     def predict_valid(self):
-        return np.var(rgb2gray(self.image)) > 1400  # TODO
+        """
+        2025-08-14 shop ui update, calculate variance of sold items,
+        Select the sold xx with a variance of 1298, set threshold to 1400,
+        other unsold items are generally above 1700
+        """
+        return np.var(rgb2gray(self.image)) > 1400
 
 
 class ShopItemGrid(ItemGrid):
