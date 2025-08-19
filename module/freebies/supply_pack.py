@@ -6,6 +6,8 @@ from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2
 from module.config.utils import get_server_weekday
 from module.freebies.assets import *
 from module.logger import logger
+from module.ocr.ocr import Digit
+from module.shop.assets import SHOP_OCR_OIL, SHOP_OCR_OIL_CHECK
 from module.ui.page import page_supply_pack
 
 
@@ -82,3 +84,32 @@ class SupplyPack(CampaignStatus):
                 logger.info(f'Delaying free week supply pack to {target_name}')
         else:
             logger.info('Oil > 21000, unable to buy free weekly supply pack')
+
+
+class SupplyPack_250814(SupplyPack):
+    def get_oil(self, skip_first_screenshot=True):
+        """
+        Returns:
+            int: Oil amount
+        """
+        amount = 0
+        timeout = Timer(1, count=2).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if timeout.reached():
+                logger.warning('Get oil timeout')
+                break
+
+            if not self.appear(SHOP_OCR_OIL_CHECK, offset=(10, 2)):
+                logger.info('No oil icon')
+                continue
+            ocr = Digit(SHOP_OCR_OIL, name='OCR_OIL', letter=(247, 247, 247), threshold=128)
+            amount = ocr.ocr(self.device.image)
+            if amount >= 100:
+                break
+
+        return amount
