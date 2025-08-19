@@ -37,7 +37,13 @@ class EmotionDigit(Digit):
                     break
             image = image[:, :i]
         else:
-            image = image[:, :24]
+            cv2.convertScaleAbs(image, alpha=2, beta=-160, dst=image)
+            image_gray = extract_letters(image, letter=(255, 255, 255), threshold=self.threshold)
+            right_side = np.nonzero(image_gray[0:16, :].max(axis=0) > 160)[-1]
+            for i, col in enumerate(right_side):
+                if i < col:
+                    break
+            image = image[:, :i]
         image = super().pre_process(image)
         return image
 
@@ -48,7 +54,7 @@ class EmotionDigit(Digit):
             result = '0'
 
         result = super().after_process(result)
-        if result > 150 and result % 10 == 1:
+        if result > 150 and result % 10 in [1, 4]:
             result //= 10
 
         return result
