@@ -149,6 +149,7 @@ pre.rich-traceback-code {
     border-bottom: 1px solid #36393f;
 }
 
+/* dashboard */
 #pywebio-scope-dashboard input {
     background-color: #2f3136 !important;
 }
@@ -158,6 +159,7 @@ pre.rich-traceback-code {
     color: #adb5bd;
 }
 
+/* dashboard */
 *[style*="--dashboard-help--"]{
     color: #adb5bd;
 }

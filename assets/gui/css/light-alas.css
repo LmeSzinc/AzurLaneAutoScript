@@ -60,6 +60,7 @@ input[type="checkbox"] {
     accent-color: #7a77bb;
 }
 
+/* dashboard */
 #pywebio-scope-dashboard input {
     background-color: white !important;
 }
@@ -157,6 +158,7 @@ pre.rich-traceback-code {
     color: #777777;
 }
 
+/* dashboard */
 *[style*="--dashboard-help--"]{
     color: #777777;
 }

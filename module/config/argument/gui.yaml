@@ -14,8 +14,8 @@ Button:
   Stop:
   ScrollON:
   ScrollOFF:
-  DashboardON:
-  DashboardOFF:
+  DashboardON: #
+  DashboardOFF: #
   ClearLog:
   Setting:
   CheckUpdate:
@@ -48,6 +48,7 @@ MenuDevelop:
 
 Overview:
   Scheduler:
+  # dashboard
   Dashboard:
   SecondsAgo:
   MinutesAgo:
@@ -68,6 +69,7 @@ Overview:
   Medal:
   Core:
   GuildCoin:
+  # dashboard end
   Log:
   Running:
   Pending:

@@ -53,10 +53,10 @@ class CampaignEvent(CampaignStatus):
         tasks = EVENTS + RAIDS + COALITIONS + GEMS_FARMINGS + HOSPITAL
         command = self.config.Scheduler_Command
         if limit <= 0 or command not in tasks:
-            self.get_event_pt()
+            self.get_event_pt() # dashboard
             return False
         if command in GEMS_FARMINGS and self.stage_is_main(self.config.Campaign_Name):
-            self.get_event_pt()
+            self.get_event_pt() # dashboard
             return False
 
         pt = self.get_event_pt()
@@ -100,6 +100,7 @@ class CampaignEvent(CampaignStatus):
         Pages:
             in: page_event or page_sp
         """
+        # dashboard
         from module.config.deep import deep_get
         limit = self.config.TaskBalancer_CoinLimit
         coin = deep_get(self.config.data, 'Dashboard.Coin.Value')
@@ -110,7 +111,7 @@ class CampaignEvent(CampaignStatus):
             'Raid',
             'GemsFarming',
         ]
-        command = self.config.Scheduler_Command
+        command = self.config.Scheduler_Command # dashboard
         # Check Coin
         if coin == 0:
             # Avoid wrong/zero OCR result
@@ -127,7 +128,7 @@ class CampaignEvent(CampaignStatus):
                 return False
 
     def handle_task_balancer(self):
-        if self.config.TaskBalancer_Enable and self.triggered_task_balancer():
+        if self.config.TaskBalancer_Enable and self.triggered_task_balancer():  # dashboard
             self.config.task_delay(minute=5)
             next_task = self.config.TaskBalancer_TaskCall
             logger.hr(f'TaskBalancer triggered, switching task to {next_task}')

@@ -9,6 +9,7 @@ class GeneratedConfig:
     Auto generated configuration
     """
 
+    # dashboard
     # Group `Oil`
     Oil_Value = 0
     Oil_Limit = 0
@@ -71,6 +72,7 @@ class GeneratedConfig:
     GuildCoin_Value = 0
     GuildCoin_Color = '^AAAAAA'
     GuildCoin_Record = datetime.datetime(2020, 1, 1, 0, 0)
+    # dashboard end
 
     # Group `Scheduler`
     Scheduler_Enable = False  # True, False

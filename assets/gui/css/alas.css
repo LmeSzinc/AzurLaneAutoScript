@@ -133,6 +133,7 @@ footer {
     font-size: 0.875rem;
 }
 
+/* dashboard */
 .status-point {
     margin: 37% 50% 63% 50%;
     width: .75rem;
@@ -406,6 +407,7 @@ pre.rich-traceback-code {
     justify-content: space-between;
 }
 
+/* dashboard */
 #pywebio-scope-log-bar {
     flex-wrap: wrap;
 }
@@ -415,6 +417,7 @@ pre.rich-traceback-code {
     grid-auto-flow: column;
 }
 
+/* dashboard */
 #pywebio-scope-log-bar .hr-group {
     width: 100%;
 }
@@ -430,6 +433,7 @@ pre.rich-traceback-code {
 #pywebio-scope-dashboard .form-control{
     padding: 0 0 0;
     }
+/* dashboard */
 
 #pywebio-scope-log {
     line-height: 1.2;
