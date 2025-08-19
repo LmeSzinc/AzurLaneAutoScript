@@ -119,6 +119,7 @@ class ShopBase(UI):
         return shop_grid
 
     @cached_property
+    @Config.when(SERVER=None)
     def shop_grid(self):
         """
         New UI in 2025-08-14

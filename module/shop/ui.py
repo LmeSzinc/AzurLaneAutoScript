@@ -184,7 +184,6 @@ class ShopUI(UI):
                 continue
             if self.appear(SHOP_BUY_CONFIRM_MISTAKE, interval=3, offset=(200, 200)) \
                     and self.appear(POPUP_CONFIRM, offset=(3, 30)):
-                # TODO server 'tw'
                 self.ui_click(SHOP_CLICK_SAFE_AREA, appear_button=POPUP_CONFIRM, check_button=SHOP_BACK_ARROW,
                               offset=(20, 30), skip_first_screenshot=True)
                 exit_timer.reset()
@@ -196,7 +195,6 @@ class ShopUI(UI):
                 continue
 
             # End
-            # TODO server 'tw'
             if self.appear(SHOP_BACK_ARROW, offset=(30, 30)):
                 if exit_timer.reached():
                     break
