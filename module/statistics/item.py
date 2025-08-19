@@ -1,5 +1,6 @@
 import numpy as np
 
+import module.config.server as server
 from module.base.button import ButtonGrid
 from module.base.utils import *
 from module.logger import logger
@@ -21,7 +22,11 @@ class AmountOcr(Digit):
 
 
 AMOUNT_OCR = AmountOcr([], threshold=96, name='Amount_ocr')
-PRICE_OCR = DigitYuv([], letter=(255, 223, 57), threshold=128, name='Price_ocr')
+# UI update in 20250814, but server TW is still old UI.
+if server.server == 'tw':
+    PRICE_OCR = DigitYuv([], letter=(255, 223, 57), threshold=128, name='Price_ocr')
+else:
+    PRICE_OCR = DigitYuv([], letter=(255, 255, 255), threshold=256, name='Price_ocr')
 
 
 class Item:
