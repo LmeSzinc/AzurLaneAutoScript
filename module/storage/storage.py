@@ -1,6 +1,7 @@
 import numpy as np
 
 from module.base.button import ButtonGrid
+from module.base.decorator import Config
 from module.base.timer import Timer
 from module.base.utils import rgb2gray
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2
@@ -285,25 +286,8 @@ class StorageHandler(StorageUI):
         ])
         logger.info(f'Disassemble once, expected amount: {amount}')
 
-        for _ in self.loop():
-            if self.appear(GET_ITEMS_1, offset=(5, 5), interval=3):
-                logger.info(f'{GET_ITEMS_1} -> {DISASSEMBLE_CONFIRM}')
-                self.device.click(DISASSEMBLE_CONFIRM)
-                continue
-            if self.appear(GET_ITEMS_2, offset=(5, 5), interval=3):
-                logger.info(f'{GET_ITEMS_2} -> {DISASSEMBLE_CONFIRM}')
-                self.device.click(DISASSEMBLE_CONFIRM)
-                continue
-            if self.handle_info_bar():
-                continue
-            if self.appear(DISASSEMBLE_CANCEL, offset=(20, 20)):
-                break
-        self.interval_clear([
-            GET_ITEMS_1,
-            GET_ITEMS_2,
-        ])
+        self.handle_info_bar()
         self.wait_until_stable(MATERIAL_STABLE_CHECK)
-
         items = EQUIPMENT_ITEMS.predict(self.device.image, name=False, amount=True)
         if not len(items):
             logger.warning('No items in storage to disassemble')
@@ -369,12 +353,10 @@ class StorageHandler(StorageUI):
             if self.handle_popup_confirm('DISASSEMBLE'):
                 continue
             if self.appear(GET_ITEMS_1, offset=(5, 5), interval=3):
-                logger.info(f'{GET_ITEMS_1} -> {DISASSEMBLE_CONFIRM}')
                 self.device.click(DISASSEMBLE_CONFIRM)
                 success = True
                 continue
             if self.appear(GET_ITEMS_2, offset=(5, 5), interval=3):
-                logger.info(f'{GET_ITEMS_2} -> {DISASSEMBLE_CONFIRM}')
                 self.device.click(DISASSEMBLE_CONFIRM)
                 success = True
                 continue
