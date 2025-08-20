@@ -240,7 +240,7 @@ class StorageHandler(GlobeOperation, ZoneManager):
         """
         crop_area = (button.area[0] + 80, button.area[1] - 25, button.area[2] + 2, button.area[3] - 10)
         self.interval_clear(POPUP_CANCEL)
-        self.device.stuck_record_clear()
+        self.device.click_record_clear()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -271,10 +271,8 @@ class StorageHandler(GlobeOperation, ZoneManager):
             in: STORAGE_FLEET_CHOOSE
             out: STORAGE_FLEET_CHOOSE
         """
-        for _ in range(3):
-            if self.repair_ship_select(button):
-                self.repair_pack_use_confirm(button)
-                break
+        self.repair_ship_select(button)
+        self.repair_pack_use_confirm(button)
 
     def storage_repair_cancel(self):
         self.ui_click(STORAGE_REPAIR_CANCEL, STORAGE_CHECK, retry_wait=2, skip_first_screenshot=True)
