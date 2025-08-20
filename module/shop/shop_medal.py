@@ -342,7 +342,7 @@ class MedalShop_250814(MedalShop2):
         shop_medal_items = ShopItemGrid_250814(
             shop_grid,
             templates={}, amount_area=(60, 74, 96, 95),
-            price_area=(18, 121, 76, 150))
+            price_area=(18, 121, 76, 150), cost_area=(-12, 115, 60, 155))
         shop_medal_items.load_template_folder(self.shop_template_folder)
         shop_medal_items.load_cost_template_folder('./assets/shop/cost')
         shop_medal_items.similarity = 0.85  # Lower the threshold for consistent matches of PR/DRBP
