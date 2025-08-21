@@ -25,8 +25,10 @@ AMOUNT_OCR = AmountOcr([], threshold=96, name='Amount_ocr')
 # UI update in 20250814, but server TW is still old UI.
 if server.server == 'tw':
     PRICE_OCR = DigitYuv([], letter=(255, 223, 57), threshold=128, name='Price_ocr')
+elif server.server == 'jp':
+    PRICE_OCR = Digit([], lang='cnocr', letter=(205, 205, 205), threshold=128, name='Price_ocr')
 else:
-    PRICE_OCR = DigitYuv([], letter=(255, 255, 255), threshold=256, name='Price_ocr')
+    PRICE_OCR = Digit([], letter=(255, 255, 255), threshold=128, name='Price_ocr')
 
 
 class Item:

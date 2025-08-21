@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 from scipy import signal
 
+import module.config.server as server
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property, del_cached_property
 from module.base.timer import Timer
@@ -64,7 +65,10 @@ class ShopPriceOcr(DigitYuv):
 
 
 PRICE_OCR = ShopPriceOcr([], letter=(255, 223, 57), threshold=32, name='Price_ocr')
-PRICE_OCR_250814 = DigitYuv([], letter=(255, 255, 255), threshold=128, name='Price_ocr')
+if server.server == 'jp':
+    PRICE_OCR_250814 = Digit([], lang='cnocr', letter=(235, 235, 255), threshold=128, name='Price_ocr')
+else:
+    PRICE_OCR_250814 = Digit([], letter=(255, 255, 255), threshold=128, name='Price_ocr')
 TEMPLATE_MEDAL_ICON = Template('./assets/shop/cost/Medal.png')
 TEMPLATE_MEDAL_ICON_2 = Template('./assets/shop/cost/Medal_2.png')
 TEMPLATE_MEDAL_ICON_3 = Template('./assets/shop/cost/Medal_3.png')
@@ -342,7 +346,7 @@ class MedalShop_250814(MedalShop2):
         shop_medal_items = ShopItemGrid_250814(
             shop_grid,
             templates={}, amount_area=(60, 74, 96, 95),
-            price_area=(18, 121, 76, 150), cost_area=(-12, 115, 60, 155))
+            price_area=(14, 122, 85, 149), cost_area=(-12, 115, 60, 155))
         shop_medal_items.load_template_folder(self.shop_template_folder)
         shop_medal_items.load_cost_template_folder('./assets/shop/cost')
         shop_medal_items.similarity = 0.85  # Lower the threshold for consistent matches of PR/DRBP
