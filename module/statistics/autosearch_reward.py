@@ -1,24 +1,11 @@
 import time
 import cv2
 import datetime
-import numpy as np
-from module.base.button import Button
-from module.base.timer import Timer
 from module.logger import logger
 from module.base.utils import crop
-from module.base.base import ModuleBase
 from module.statistics.assets import REWARD_HEADER2, REWARD_AREA
-from module.statistics.azurstats import AzurStats
 
-class AutosearchReward(Button, Timer, AzurStats, ModuleBase):
-
-    def __init__(self, config, device=None, **kwargs):
-        """
-        ModuleBase needed this init
-        """
-        ModuleBase.__init__(self, config, device)
-        
-        AzurStats.__init__(self, config)
+class AutosearchReward():
 
     def wait_until_reward_stable(self, timeout=6.6, required_consecutive_matches=3):
         """
@@ -72,8 +59,6 @@ class AutosearchReward(Button, Timer, AzurStats, ModuleBase):
 
         initial_gray = cv2.cvtColor(self.device.image, cv2.COLOR_BGR2GRAY)
         last_luma = crop(initial_gray, monitor_area)
-        #visual debug
-        #self._save(last_luma, 'debug/dropstats', f'{timestamp}_0_initial.png')
 
         while True:
             current_time = time.time()
@@ -90,8 +75,6 @@ class AutosearchReward(Button, Timer, AzurStats, ModuleBase):
                 self.device.screenshot()
                 current_luma = cv2.cvtColor(self.device.image, cv2.COLOR_BGR2GRAY)
                 current_luma = crop(current_luma, monitor_area)
-                #visual debug
-                #self._save(current_luma, 'debug/dropstats', f'{timestamp}_{check_count}_check.png')
 
                 res = cv2.matchTemplate(last_luma, current_luma, cv2.TM_CCOEFF_NORMED)
                 similarity = cv2.minMaxLoc(res)[1]
@@ -105,8 +88,7 @@ class AutosearchReward(Button, Timer, AzurStats, ModuleBase):
                         stabilization_time = time.time() - stabilization_start
                         total_time = time.time() - start_time
                         logger.info(f'Area stabilized after {total_time:.2f}s (took {stabilization_time:.2f}s to confirm)')
-                        #visual debug
-                        #self._save(current_luma, 'debug/dropstats', f'{timestamp}_final_stable.png')
+
                         return True
                 else:
                     consecutive_matches = 0
