@@ -8,7 +8,7 @@ from module.freebies.assets import *
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.shop.assets import SHOP_OCR_OIL, SHOP_OCR_OIL_CHECK
-from module.ui.page import page_supply_pack
+from module.ui.page import page_shop, page_supply_pack
 
 
 class SupplyPack(CampaignStatus):
@@ -66,14 +66,22 @@ class SupplyPack(CampaignStatus):
         logger.info(f'Supply pack buy finished, executed={executed}')
         return executed
 
+    def goto_supply_pack(self, skip_first_screenshot=True):
+        """
+        Pages:
+            in: page_shop
+            out: page_supply_pack, supply pack tab
+        """
+        self.ui_goto(page_supply_pack, skip_first_screenshot=skip_first_screenshot)
+
     def run(self):
         """
         Pages:
             in: Any page
             out: page_supply_pack, supply pack tab
         """
-        self.ui_ensure(page_supply_pack)
-
+        self.ui_ensure(page_shop)
+        self.goto_supply_pack()
         if self.get_oil() < 21000:
             server_today = get_server_weekday()
             target = self.config.SupplyPack_DayOfWeek
@@ -113,3 +121,22 @@ class SupplyPack_250814(SupplyPack):
                 break
 
         return amount
+
+    def goto_supply_pack(self, skip_first_screenshot=True):
+        """
+        Pages:
+            in: page_shop
+            out: page_supply_pack, supply pack tab
+        """
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()     
+      
+            if self.match_template_color(page_supply_pack.check_button, offset=(20, 20)):
+                logger.info("Page arrive: page_supply_pack")
+                break
+
+            elif self.appear_then_click(page_supply_pack.check_button, offset=(20, 20), interval=3):
+                continue
