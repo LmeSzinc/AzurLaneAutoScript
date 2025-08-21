@@ -1,4 +1,5 @@
 import re
+from module.statistics.utils import *
 
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
@@ -106,7 +107,7 @@ class ShopBase(UI):
         """
         if self.config.SERVER in ['cn', 'en', 'jp']:
             shop_grid = ButtonGrid(
-                origin=(183, 204), delta=(162, 215), button_shape=(152, 206), grid_shape=(5, 2), name='SHOP_GRID')
+                origin=(223, 233), delta=(161, 215), button_shape=(72, 71), grid_shape=(5, 2), name='SHOP_GRID')
         elif self.config.SERVER in ['tw']:
             shop_grid = ButtonGrid(
                 origin=(476, 246), delta=(156, 213), button_shape=(98, 98), grid_shape=(5, 2), name='SHOP_GRID')
@@ -278,6 +279,16 @@ class ShopBase(UI):
         # Log final result on predicted items
         items = shop_items.items
         grids = shop_items.grids
+
+                # DEBUG:
+        for row in range(grids.grid_shape[1]):
+            row_buttons = [button for button in grids.buttons if button.area[1] == grids.origin[1] + row * grids.delta[1]]
+            logger.info(f'Row {row+1} has {len(row_buttons)} buttons at y={grids.origin[1] + row * grids.delta[1]}')
+        
+        # DEBUG: Check why items are being filtered out
+        for i, item in enumerate(items):
+            logger.info(f'Item {i}: button={item.button}, valid={item.is_valid}, name={item.name}')
+
         if len(items):
             min_row = grids[0, 0].area[1]
             row = [str(item) for item in items if item.button[1] == min_row]

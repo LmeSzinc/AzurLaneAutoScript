@@ -16,7 +16,7 @@ class CoreShop(ShopClerk, ShopStatus):
     @cached_property
     def cost_template_folder(self):
         if self.config.SERVER in ['cn', 'en', 'jp']:
-            return './assets/shop/cost_white'
+            return './assets/shop/core_white/cost'
         elif self.config.SERVER in ['tw']:
             return './assets/shop/cost'
 
@@ -36,8 +36,9 @@ class CoreShop(ShopClerk, ShopStatus):
         """
         shop_grid = self.shop_grid
         if self.config.SERVER in ['cn', 'en', 'jp']:
-            shop_core_items = ShopItemGrid(shop_grid, templates={}, amount_area=(72, 74, 96, 95), 
-                                           cost_area=(15, 165, 139, 193),price_area=(15, 165, 139, 193))
+            shop_core_items = ShopItemGrid(shop_grid, templates={}, template_area=(0, 0, 63, 63),
+                                           amount_area=(31, 52, 68, 66), cost_area=(-14, 139, 45, 160),
+                                           price_area=(24, 139, 80, 162))
         elif self.config.SERVER in ['tw']:
             shop_core_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
         shop_core_items.load_template_folder(self.shop_template_folder)

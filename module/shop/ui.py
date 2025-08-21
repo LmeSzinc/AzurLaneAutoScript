@@ -4,7 +4,7 @@ from module.base.timer import Timer
 from module.handler.assets import POPUP_CONFIRM
 from module.logger import logger
 from module.shop.assets import *
-from module.ui.assets import ACADEMY_GOTO_MUNITIONS, BACK_ARROW
+from module.ui.assets import ACADEMY_GOTO_MUNITIONS, BACK_ARROW, SHOP_GOTO_SUPPLY_PACK
 from module.ui_white.assets import BACK_ARROW_WHITE
 from module.ui.navbar import Navbar
 from module.ui.page import page_academy, page_munitions
@@ -62,18 +62,21 @@ class ShopUI(UI):
             1: General supply shops
             2: Monthly shops
         """
+        #sidebar needs to load in
+        self.wait_until_appear(SHOP_GOTO_SUPPLY_PACK)
+
         if self.config.SERVER in ['cn', 'jp', 'en']:
             grids = ButtonGrid(
-                origin=(22, 514), delta=(0, 51),
-                button_shape=(115, 21), grid_shape=(1, 2),
+                origin=(22, 515), delta=(0, 51),
+                button_shape=(7, 19), grid_shape=(1, 2),
                 name='SHOP_TAB')
             return Navbar(
-                grids=grids,
-                # white-ish encircle
-                active_color=(225, 238, 244), active_threshold=221, active_count=100,
-                # blue-ish encircle
-                inactive_color=(67, 152, 192), inactive_threshold=221, inactive_count=100,
-            )
+            grids=grids,
+            # white
+            active_color=(225, 238, 244), active_threshold=221, active_count=50,
+            # grey
+            inactive_color=(75, 150, 200), inactive_threshold=0, inactive_count=100,
+        )
 
         if self.config.SERVER in ['tw']:
             grids = ButtonGrid(
@@ -124,25 +127,29 @@ class ShopUI(UI):
                 current_tab += 1
             
             if current_tab == 1:
+            #if self.appear(SHOP_TAB1):
+                logger.info(('confirmed shop_tab 1'))
                 delta =(174, 0)
-                button_shape=(142, 43)
+                button_shape=(112, 42)
                 grid_shape=(5, 1)
             elif current_tab == 2:
-                delta =(217, 0)
-                button_shape=(185, 43)
+            #elif self.appear(SHOP_TAB2):
+                logger.info(('confirmed shop_tab 2'))
+                delta =(220, 0)
+                button_shape=(155, 42)
                 grid_shape=(4, 1)
                 
             grids = ButtonGrid(
-                origin=(169, 91), delta=delta ,
+                origin=(185, 92), delta=delta ,
                 button_shape=button_shape, grid_shape=grid_shape,
                 name='SHOP_NAV')
-                
+
             return Navbar(
                 grids=grids,
-                # white-ish encircle
-                active_color=(248, 250, 250), active_threshold=221, active_count=100,
+                # White area
+                active_color=(90, 90, 90), active_threshold=221, active_count=80,
                 # Just whatever to make it match
-                inactive_color=(49, 56, 82), inactive_threshold=0, inactive_count=100,
+                inactive_color=(130, 160, 170), inactive_threshold=221, inactive_count=100,
             )
 
         if self.config.SERVER in ['tw']:

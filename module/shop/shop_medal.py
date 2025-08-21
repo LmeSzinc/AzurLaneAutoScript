@@ -1,3 +1,5 @@
+import module.config.server as server
+
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property, del_cached_property
 from module.base.timer import Timer
@@ -9,11 +11,22 @@ from module.shop.assets import *
 from module.shop.base import ShopItemGrid
 from module.shop.clerk import ShopClerk
 from module.shop.shop_status import ShopStatus
-from module.ui.scroll import Scroll
+from module.ui.scroll import AdaptiveScroll, Scroll
 
-MEDAL_SHOP_SCROLL = Scroll(MEDAL_SHOP_SCROLL_AREA, color=(247, 211, 66))
-MEDAL_SHOP_SCROLL.edge_threshold = 0.15
-MEDAL_SHOP_SCROLL.drag_threshold = 0.15
+#scroll not working for new ui
+if server.server != 'tw':
+    MEDAL_SHOP_SCROLL = AdaptiveScroll(
+        MEDAL_SHOP_SCROLL_AREA,
+        parameters={'height': 40, 'prominence': 15, 'width': 3}, background=8,
+        name='MEDAL_SHOP_SCROLL'
+    )
+    MEDAL_SHOP_SCROLL.edge_threshold = 0.15
+    MEDAL_SHOP_SCROLL.drag_threshold = 0.08
+    MEDAL_SHOP_SCROLL.edge_add = (0.6, 0.8)
+else:
+    MEDAL_SHOP_SCROLL = Scroll(MEDAL_SHOP_SCROLL_AREA, color=(247, 211, 66))
+    MEDAL_SHOP_SCROLL.edge_threshold = 0.15
+    MEDAL_SHOP_SCROLL.drag_threshold = 0.15
 
 
 class ShopPriceOcr(DigitYuv):
@@ -27,6 +40,18 @@ class ShopPriceOcr(DigitYuv):
 
 PRICE_OCR = ShopPriceOcr([], letter=(255, 223, 57), threshold=32, name='Price_ocr')
 
+class ShopPriceOcrWhite(Digit):  # Use Digit instead of DigitYuv for new shop, might not need this?
+    def after_process(self, result):
+        result = Ocr.after_process(self, result)
+        if result == '00':
+            result = '100'
+        return Digit.after_process(self, result)
+
+PRICE_OCR_WHITE = ShopPriceOcrWhite([], letter=(255, 255, 255), threshold=100, name='Price_ocr')
+
+TEMPLATE_MEDAL_ICON = Template('./assets/shop/cost/Medal.png')
+TEMPLATE_MEDAL_ICON_2 = Template('./assets/shop/cost/Medal_2.png')
+TEMPLATE_MEDAL_ICON_2_WHITE = Template('./assets/shop/medal_white/cost/Medal_2.png')
 
 class MedalShop2(ShopClerk, ShopStatus):
     @cached_property
@@ -39,24 +64,10 @@ class MedalShop2(ShopClerk, ShopStatus):
     @cached_property
     def cost_template_folder(self):
         if self.config.SERVER in ['cn', 'en', 'jp']:
-            return './assets/shop/cost_white'
+            return './assets/shop/medal_white/cost'
         elif self.config.SERVER in ['tw']:
             return './assets/shop/cost'
-        
-    @cached_property
-    def template_medal_icon(self):
-        if self.config.SERVER in ['cn', 'en', 'jp']:
-            return Template('./assets/shop/cost_white/Medal.png')
-        elif self.config.SERVER in ['tw']:
-            return Template('./assets/shop/cost/Medal.png')
-    
-    @cached_property
-    def template_medal_icon_2(self):
-        if self.config.SERVER in ['cn', 'en', 'jp']:
-            return Template('./assets/shop/cost_white/Medal_2.png')
-        elif self.config.SERVER in ['tw']:
-            return Template('./assets/shop/cost/Medal_2.png')
-        
+
     @cached_property
     def shop_filter(self):
         """
@@ -70,17 +81,21 @@ class MedalShop2(ShopClerk, ShopStatus):
         Returns:
             np.array: [[x1, y1], [x2, y2]], location of the medal icon upper-left corner.
         """
-        area = (472, 348, 1170, 648)
-        # copy image because we gonna paint it
-        image = self.image_crop(area, copy=True)
-        # a random background thingy that may cause mis-detection in template matching
-        paint = (869, 589, 913, 643)
-        paint = area_offset(paint, (-area[0], -area[1]))
-        # paint it black
-        x1, y1, x2, y2 = paint
-        image[y1:y2, x1:x2] = (0, 0, 0)
-
-        medals = self.template_medal_icon_2.match_multi(image, similarity=0.5, threshold=5)
+        if self.config.SERVER in ['cn', 'en', 'jp']:
+            area = (197, 348, 983, 634)
+            image = self.image_crop(area, copy=True)
+            medals = TEMPLATE_MEDAL_ICON_2_WHITE.match_multi(image, similarity=0.5, threshold=5)
+        elif self.config.SERVER in ['tw']:
+            area = (472, 348, 1170, 648)
+            # copy image because we gonna paint it
+            image = self.image_crop(area, copy=True)
+            # a random background thingy that may cause mis-detection in template matching
+            paint = (869, 589, 913, 643)
+            paint = area_offset(paint, (-area[0], -area[1]))
+            # paint it black
+            x1, y1, x2, y2 = paint
+            image[y1:y2, x1:x2] = (0, 0, 0)
+            medals = TEMPLATE_MEDAL_ICON_2.match_multi(image, similarity=0.5, threshold=5)        
         medals = Points([(0., m.area[1]) for m in medals]).group(threshold=5)
         logger.attr('Medals_icon', len(medals))
         return medals
@@ -116,29 +131,47 @@ class MedalShop2(ShopClerk, ShopStatus):
         """
         # (472, 348, 1170, 648)
         medals = self._get_medals()
-        count = len(medals)
+        count = len(medals)       
+        if self.config.SERVER in ['cn', 'en', 'jp']:
+            base_origin_y = 233
+            base_delta_y = 215
+            origin_x = 223
+            delta_x = 161
+            button_shape = (72, 71)
+        elif self.config.SERVER in ['tw']:
+            base_origin_y = 246
+            base_delta_y = 213
+            origin_x = 476
+            delta_x = 156
+            button_shape = (98, 98)
         if count == 0:
             logger.warning('Unable to find medal icon, assume item list is at top')
-            origin_y = 246
-            delta_y = 213
+            origin_y = base_origin_y
+            delta_y = base_delta_y
             row = 2
         elif count == 1:
             y_list = medals[:, 1]
             # +256, top of the crop area in _get_medals()
             # -125, from the top of medal icon to the top of shop item
-            origin_y = y_list[0] + 348 - 127
+            if self.config.SERVER in ['cn', 'en', 'jp']:
+                origin_y = y_list[0] + 348 - 140
+            elif self.config.SERVER in ['tw']:
+                origin_y = y_list[0] + 348 - 127
             delta_y = 213
             row = 1
         elif count == 2:
             y_list = medals[:, 1]
             y1, y2 = y_list[0], y_list[1]
-            origin_y = min(y1, y2) + 348 - 127
+            if self.config.SERVER in ['cn', 'en', 'jp']:
+                origin_y = min(y1, y2) + 348 - 140
+            elif self.config.SERVER in ['tw']:
+                origin_y = min(y1, y2) + 348 - 127
             delta_y = abs(y1 - y2)
             row = 2
         else:
             logger.warning(f'Unexpected medal icon match result: {[m for m in medals]}')
-            origin_y = 246
-            delta_y = 213
+            origin_y = base_origin_y
+            delta_y = base_delta_y
             row = 2
 
         # Make up a ButtonGrid
@@ -146,7 +179,7 @@ class MedalShop2(ShopClerk, ShopStatus):
         # shop_grid = ButtonGrid(
         #     origin=(476, 246), delta=(156, 213), button_shape=(98, 98), grid_shape=(5, 2), name='SHOP_GRID')
         shop_grid = ButtonGrid(
-            origin=(476, origin_y), delta=(156, delta_y), button_shape=(98, 98), grid_shape=(5, row), name='SHOP_GRID')
+            origin=(origin_x, origin_y), delta=(delta_x, delta_y), button_shape=button_shape, grid_shape=(5, row), name='SHOP_GRID')
         return shop_grid
 
     @cached_property
@@ -158,15 +191,19 @@ class MedalShop2(ShopClerk, ShopStatus):
         shop_grid = self.shop_grid
 
         if self.config.SERVER in ['cn', 'en', 'jp']:
-            shop_medal_items = ShopItemGrid(shop_grid, templates={}, amount_area=(72, 74, 96, 95), 
-                                           cost_area=(15, 165, 139, 193),price_area=(15, 165, 139, 193))
+            shop_medal_items = ShopItemGrid(shop_grid, templates={}, template_area=(5, 4, 68, 67), 
+                                            amount_area=(31, 52, 68, 66), cost_area=(6, 140, 41, 161),
+                                            price_area=(24, 139, 73, 162))
         elif self.config.SERVER in ['tw']:
             shop_medal_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95), price_area=(52, 132, 132, 162))
         shop_medal_items.load_template_folder(self.shop_template_folder)
         shop_medal_items.load_cost_template_folder(self.cost_template_folder)
         shop_medal_items.similarity = 0.85  # Lower the threshold for consistent matches of PR/DRBP
-        shop_medal_items.cost_similarity = 0.5
-        shop_medal_items.price_ocr = PRICE_OCR
+        shop_medal_items.cost_similarity = 0.5        
+        if self.config.SERVER in ['cn', 'en', 'jp']:
+            shop_medal_items.price_ocr = PRICE_OCR_WHITE
+        elif self.config.SERVER in ['tw']:
+            shop_medal_items.price_ocr = PRICE_OCR            
         return shop_medal_items
 
     def shop_items(self):
@@ -250,7 +287,8 @@ class MedalShop2(ShopClerk, ShopStatus):
         self.wait_until_medal_appear()
 
         # Execute buy operations
-        MEDAL_SHOP_SCROLL.set_top(main=self)
+        if self.config.SERVER is 'tw':
+            MEDAL_SHOP_SCROLL.set_top(main=self)
         while 1:
             self.shop_buy()
             if MEDAL_SHOP_SCROLL.at_bottom(main=self):

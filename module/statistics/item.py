@@ -1,4 +1,6 @@
 import numpy as np
+import module.config.server as server
+import inspect
 
 from module.base.button import ButtonGrid
 from module.base.utils import *
@@ -21,11 +23,14 @@ class AmountOcr(Digit):
 
 
 AMOUNT_OCR = AmountOcr([], threshold=96, name='Amount_ocr')
-PRICE_OCR = DigitYuv([], letter=(255, 223, 57), threshold=128, name='Price_ocr')
+if server.server != 'tw':
+    PRICE_OCR = Digit([], letter=(255, 255, 255), threshold=128, name='Price_ocr')
+else:
+    PRICE_OCR = DigitYuv([], letter=(255, 223, 57), threshold=128, name='Price_ocr')
 
 
 class Item:
-    IMAGE_SHAPE = (96, 96)
+    SPECIAL_SHOPS = {'CoreShop', 'GeneralShop', 'GuildShop', 'MedalShop2', 'MeritShop'}
 
     def __init__(self, image, button):
         """
@@ -33,19 +38,63 @@ class Item:
             image:
             button:
         """
+        #image shape based only 63x63 for 5 shops above, else 96,96; tw always 96,96
+        self.IMAGE_SHAPE = self._get_image_shape()
+        
         self.image_raw = image
         self._button = button
-        image = crop(image, button.area)
-        if image.shape == self.IMAGE_SHAPE:
-            self.image = image
+        button_image = crop(image, button.area)
+        button_size = button_image.shape[:2] 
+        if button_size == (71, 72):  # Height 71, Width 72
+            self.image = self._extract_template_from_button(button_image)
         else:
-            self.image = cv2.resize(image, self.IMAGE_SHAPE, interpolation=cv2.INTER_CUBIC)
+            # old logic
+            if button_image.shape[:2] == self.IMAGE_SHAPE:
+                self.image = button_image
+            else:
+                self.image = cv2.resize(button_image, self.IMAGE_SHAPE, interpolation=cv2.INTER_CUBIC)
         self.is_valid = self.predict_valid()
         self._name = 'DefaultItem'
         self.amount = 1
         self._cost = 'DefaultCost'
         self.price = 0
         self.tag = None
+
+    def _get_image_shape(self):
+        if server.server == 'tw':
+            return (96, 96)
+        frame = inspect.currentframe()
+        try:
+            while frame:
+                frame = frame.f_back
+                if frame and 'self' in frame.f_locals:
+                    caller_self = frame.f_locals['self']
+                    caller_class_name = caller_self.__class__.__name__
+                    
+                    # If shop with new UI
+                    if caller_class_name in self.SPECIAL_SHOPS:
+                        return (63, 63)
+                    
+                    # If it's other like 3dorm, use old ones
+                    if 'Shop' in caller_class_name:
+                        return (96, 96)
+        finally:
+            del frame
+        return (63, 63)
+    
+    def _extract_template_from_button(self, button_image):
+        """
+        Extract template area from 72x71 button image
+        button_image shape: (71, 72, channels) - height 71, width 72
+        """
+        # Template area for 72×71 buttons, due to slight position variations of the item icons, but they all have the white border
+        # -> use that as anchor -> take tmeplates form within -> 63×63 template, mostly consistant
+        # These coordinates are relative to the button image
+        template_area = (5, 4, 68, 67)
+        if (template_area[2] > 72 or template_area[3] > 71):
+            logger.warning(f"Template area {template_area} exceeds button size (72,71), using full button")
+            return button_image
+        return crop(button_image, template_area)
 
     @property
     def name(self):

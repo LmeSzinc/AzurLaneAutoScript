@@ -9,10 +9,16 @@ if server.server != 'jp':
 else:
     OCR_SHOP_GOLD_COINS = Digit(SHOP_GOLD_COINS, letter=(201, 201, 201), name='OCR_SHOP_GOLD_COINS')
     OCR_SHOP_GEMS = Digit(SHOP_GEMS, letter=(190, 180, 82), name='OCR_SHOP_GEMS')
-OCR_SHOP_MEDAL = Digit(SHOP_MEDAL, letter=(239, 239, 239), name='OCR_SHOP_MEDAL')
-OCR_SHOP_MERIT = Digit(SHOP_MERIT, letter=(239, 239, 239), name='OCR_SHOP_MERIT')
-OCR_SHOP_GUILD_COINS = Digit(SHOP_GUILD_COINS, letter=(255, 255, 255), name='OCR_SHOP_GUILD_COINS')
-OCR_SHOP_CORE = Digit(SHOP_CORE, letter=(239, 239, 239), name='OCR_SHOP_CORE')
+if server.server != 'tw':
+    OCR_SHOP_MEDAL = Digit(SHOP_MEDAL, letter=(100, 114, 125), name='OCR_SHOP_MEDAL')
+    OCR_SHOP_MERIT = Digit(SHOP_MERIT, letter=(100, 114, 125), name='OCR_SHOP_MERIT')
+    OCR_SHOP_GUILD_COINS = Digit(SHOP_GUILD_COINS, letter=(100, 114, 125), name='OCR_SHOP_GUILD_COINS')
+    OCR_SHOP_CORE = Digit(SHOP_CORE, letter=(100, 114, 125), name='OCR_SHOP_CORE')
+else:
+    OCR_SHOP_MEDAL = Digit(SHOP_MEDAL, letter=(239, 239, 239), name='OCR_SHOP_MEDAL')
+    OCR_SHOP_MERIT = Digit(SHOP_MERIT, letter=(239, 239, 239), name='OCR_SHOP_MERIT')
+    OCR_SHOP_GUILD_COINS = Digit(SHOP_GUILD_COINS, letter=(255, 255, 255), name='OCR_SHOP_GUILD_COINS')
+    OCR_SHOP_CORE = Digit(SHOP_CORE, letter=(239, 239, 239), name='OCR_SHOP_CORE')
 OCR_SHOP_VOUCHER = Digit(SHOP_VOUCHER, letter=(255, 255, 255), name='OCR_SHOP_VOUCHER')
 
 

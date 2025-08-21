@@ -6,7 +6,8 @@ from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2
 from module.config.utils import get_server_weekday
 from module.freebies.assets import *
 from module.logger import logger
-from module.ui.page import page_supply_pack
+from module.ui.assets import SHOP_GOTO_SUPPLY_PACK
+from module.ui.page import page_shop, page_supply_pack
 
 
 class SupplyPack(CampaignStatus):
@@ -64,21 +65,70 @@ class SupplyPack(CampaignStatus):
         logger.info(f'Supply pack buy finished, executed={executed}')
         return executed
 
+    def get_oil_shop(self, skip_first_screenshot=True):
+        """
+        Returns:
+            int: Oil amount
+        """
+        amount = 0
+        timeout = Timer(1, count=2).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if timeout.reached():
+                logger.warning('Get oil timeout')
+                break
+
+            if not self.appear(OCR_OIL_CHECK_WHITE, offset=(10, 2)):
+                logger.info('No oil icon')
+                continue
+
+            amount = self._get_oil_white()
+            if amount >= 100:
+                break
+
+        return amount
+
     def run(self):
         """
         Pages:
             in: Any page
             out: page_supply_pack, supply pack tab
         """
-        self.ui_ensure(page_supply_pack)
+        if self.config.SERVER in ['cn', 'en', 'jp']:
+            self.ui_ensure(page_shop)
+            #sidebar of shop takes a bit to show
+            self.wait_until_appear(SHOP_GOTO_SUPPLY_PACK)
+            if self.appear(FREE_SUPPLY_PACK_EXCLAM):
 
-        if self.get_oil() < 21000:
-            server_today = get_server_weekday()
-            target = self.config.SupplyPack_DayOfWeek
-            target_name = day_name[target]
-            if server_today >= target:
-                self.supply_pack_buy(FREE_SUPPLY_PACK)
+                self.ui_ensure(page_supply_pack)
+
+                if self.get_oil_shop() < 21000:
+                    server_today = get_server_weekday()
+                    target = self.config.SupplyPack_DayOfWeek
+                    target_name = day_name[target]
+                    if server_today >= target:
+                        self.supply_pack_buy(FREE_SUPPLY_PACK)
+                    else:
+                        logger.info(f'Delaying free week supply pack to {target_name}')
+                else:
+                    logger.info('Oil > 21000, unable to buy free weekly supply pack')
             else:
-                logger.info(f'Delaying free week supply pack to {target_name}')
-        else:
-            logger.info('Oil > 21000, unable to buy free weekly supply pack')
+                logger.info('weekly supply pack already claimed')
+
+        elif self.config.SERVER in ['tw']:
+            self.ui_ensure(page_supply_pack)
+
+            if self.get_oil() < 21000:
+                server_today = get_server_weekday()
+                target = self.config.SupplyPack_DayOfWeek
+                target_name = day_name[target]
+                if server_today >= target:
+                    self.supply_pack_buy(FREE_SUPPLY_PACK)
+                else:
+                    logger.info(f'Delaying free week supply pack to {target_name}')
+            else:
+                logger.info('Oil > 21000, unable to buy free weekly supply pack')
