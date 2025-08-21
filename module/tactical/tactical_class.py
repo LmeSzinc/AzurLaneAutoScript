@@ -62,6 +62,10 @@ class ExpOnBookSelect(DigitCounter):
     def after_process(self, result):
         result = super().after_process(result)
 
+        if result.endswith("580"):
+            new = result[:-3] + "5800"
+            logger.info(f'ExpOnBookSelect result {result} is revised to {new}')
+            result = new
         if '/' not in result:
             for exp in [5800, 4400, 3200, 2200, 1400, 800, 400, 200, 100]:
                 res = re.match(rf'^(\d+){exp}$', result)
