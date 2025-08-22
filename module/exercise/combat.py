@@ -72,14 +72,16 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment, Combat):
                 if self.appear_then_click(BATTLE_STATUS_S, interval=1):
                     success = True
                     end = True
+                    if self.appear_then_click(GET_ITEMS_1, interval=1):
+                        continue
                     continue
                 if self.appear_then_click(BATTLE_STATUS_D, interval=1):
                     success = True
                     end = True
                     logger.info("Exercise LOST")
+                    if self.appear_then_click(GET_ITEMS_1, interval=1):
+                        continue
                     continue
-            if self.appear_then_click(GET_ITEMS_1, interval=1):
-                continue
             if self.appear(EXP_INFO_S, interval=1):
                 self.device.click(CLICK_SAFE_AREA)
                 continue
