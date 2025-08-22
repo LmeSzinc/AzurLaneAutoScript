@@ -4,6 +4,7 @@ from module.logger import logger
 from module.os_handler.assets import *
 from module.os_handler.map_event import MapEventHandler
 from module.ui.scroll import Scroll
+from module.combat.combat import Combat
 
 STRATEGIC_SEARCH_SCROLL = Scroll(STRATEGIC_SEARCH_SCROLL_AREA, color=(247, 211, 66), name='STRATEGIC_SEARCH_SCROLL')
 
@@ -20,13 +21,19 @@ class StrategicSearchHandler(MapEventHandler):
 
             if self.appear(STRATEGIC_SEARCH_POPUP_CHECK, offset=(20, 20)):
                 return True
-
-            if self.handle_map_event():
+            #before handle_map_event because sometimes CL1 stop doesn't happen before item is taken
+            #leading to reward popup
+            if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50)):
                 continue
-            if self.appear(AUTO_SEARCH_REWARD, offset=(50, 50)):
+            if self.handle_map_event():
                 continue
             if self.match_template_color(STRATEGIC_SEARCH_MAP_OPTION_OFF, offset=(20, 20), interval=2):
                 self.device.click(STRATEGIC_SEARCH_MAP_OPTION_OFF)
+                continue
+            #handle cl1 farming issue where fleet reaches enemy before autosearch turned off and starts combat
+            if self.handle_battle_status():
+                continue
+            if self.handle_exp_info():
                 continue
 
     def strategic_search_set_tab(self, skip_first_screenshot=False):
