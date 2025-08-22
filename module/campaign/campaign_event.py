@@ -83,7 +83,7 @@ class CampaignEvent(CampaignStatus):
             return False
 
         now = datetime.now().replace(microsecond=0)
-        logger.attr('Event_PT_limit', f'{now} -> {limit}')
+        logger.attr('Event_time_limit', f'{now} -> {limit}')
         if now > limit:
             logger.hr(f'Reach event time limit: {limit}')
             self._disable_tasks(tasks)
