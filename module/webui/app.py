@@ -302,39 +302,50 @@ class AlasGUI(Frame):
             )
 
         config = self.alas_config.read_file(self.alas_name)
-        for group, arg_dict in deep_iter(self.ALAS_ARGS[task], depth=1):
+        # 预处理：只对特定的Event任务进行选项过滤，避免所有选项都经过不必要的过滤
+        task_args = self._get_processed_task_args(task, config)
+        
+        for group, arg_dict in deep_iter(task_args, depth=1):
             if self.set_group(group, arg_dict, config, task):
                 self.set_navigator(group)
 
-    def filter_event_options(self, task, group_name, arg_name, options, config):
+    def _get_processed_task_args(self, task, config):
         """
-        Filter options based on specific criteria.
-        This method can be extended to handle various filtering scenarios.
+        获取处理后的任务参数
+        只对Event任务的Campaign.Event字段进行服务器特定的选项过滤
         
         Args:
-            task (str): Current task name
-            group_name (str): Group name
-            arg_name (str): Argument name
-            options (list): Original options list
-            config (dict): Current configuration
+            task (str): 任务名称
+            config (dict): 配置
             
         Returns:
-            list: Filtered options list
+            dict: 处理后的任务参数
         """
+        import copy
+        
         EVENTS = ['Event', 'Event2', 'EventA', 'EventB', 'EventC', 'EventD', 'EventSp']
-        # Filter Campaign.Event options based on server
-        if task in EVENTS and group_name == 'Campaign' and arg_name == 'Event':
+        
+        # 只对Event任务进行处理，其他任务直接返回原始参数
+        if task not in EVENTS:
+            return self.ALAS_ARGS[task]
+            
+        task_args = copy.deepcopy(self.ALAS_ARGS[task])
+        
+        # 只处理Campaign.Event字段
+        if 'Campaign' in task_args and 'Event' in task_args['Campaign']:
             try:
                 server = to_server(deep_get(config, ['Alas', 'Emulator', 'PackageName'], 'cn'))
-                available_events = deep_get(self.ALAS_ARGS, keys=f'{task}.Campaign.Event.option_{server}')
-                # Handle both list and string format
-                if isinstance(available_events, list):
-                    return [opt for opt in options if opt in available_events]
-                else:
-                    return [opt for opt in options if opt == available_events]
+                event_config = task_args['Campaign']['Event']
+                server_option_key = f"option_{server}"
+                
+                # 如果存在服务器特定选项，则替换默认选项
+                if server_option_key in event_config:
+                    server_options = event_config.get(server_option_key, [])
+                    if server_options:
+                        event_config['option'] = server_options
             except Exception:
                 pass
-        return options
+        return task_args
 
     @use_scope("groups")
     def set_group(self, group, arg_dict, config, task):
@@ -369,10 +380,7 @@ class AlasGUI(Frame):
             # Default value
             output_kwargs["value"] = value
             # Options
-            options = output_kwargs.pop("option", [])
-            # filter event option based on server selected
-            options = self.filter_event_options(task, group_name, arg_name, options, config)
-            output_kwargs["options"] = options
+            output_kwargs["options"] = options = output_kwargs.pop("option", [])
             # Options label
             options_label = []
             for opt in options:
@@ -728,7 +736,10 @@ class AlasGUI(Frame):
         )
 
         config = self.alas_config.read_file(self.alas_name)
-        for group, arg_dict in deep_iter(self.ALAS_ARGS[task], depth=1):
+        # 预处理：只对特定的Event任务进行选项过滤，避免所有选项都经过不必要的过滤
+        task_args = self._get_processed_task_args(task, config)
+        
+        for group, arg_dict in deep_iter(task_args, depth=1):
             if group[0] == "Storage":
                 continue
             self.set_group(group, arg_dict, config, task)
