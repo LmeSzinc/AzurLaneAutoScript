@@ -16,6 +16,7 @@ from module.retire.assets import (
     TEMPLATE_CASSIN_1, TEMPLATE_CASSIN_2, TEMPLATE_DOWNES_1, TEMPLATE_DOWNES_2,
     TEMPLATE_AULICK, TEMPLATE_FOOTE
 )
+# TEMPLATE_COMMON_CV and TEMPLATE_COMMON_DD are both used in function find_custom_candidates
 from module.retire.retirement import Retirement, TEMPLATE_COMMON_CV, TEMPLATE_COMMON_DD
 from module.retire.scanner import ShipScanner
 from module.ui.assets import BACK_ARROW, FLEET_CHECK
@@ -300,11 +301,7 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
         self.dock_filter_set()
 
     def _ship_change_confirm(self, button):
-        # clear the interval for DOCK_CHECK because 
-        # state loops in dock_filter_set, dock_select_one and _dock_reset all use this asset
-        self.interval_clear(DOCK_CHECK)
         self.dock_select_one(button)
-        self.interval_clear(DOCK_CHECK)
         self._dock_reset()
         self.dock_select_confirm(check_button=self.page_fleet_check_button)
 
