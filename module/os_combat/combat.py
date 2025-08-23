@@ -157,7 +157,9 @@ class Combat(Combat_, MapEventHandler):
 
     def combat_status(self, drop=None, expected_end=None):
         self.__os_combat_drop = drop
-        super().combat_status(drop=drop, expected_end=self._os_combat_expected_end)
+        if expected_end is None:
+            expected_end = self._os_combat_expected_end
+        super().combat_status(drop=drop, expected_end=expected_end)
 
     def combat(self, *args, save_get_items=False, **kwargs):
         """
