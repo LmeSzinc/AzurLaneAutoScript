@@ -46,9 +46,13 @@ FILTER = Filter(FILTER_REGEX, FILTER_ATTR)
 
 
 class ShopItem_250814(Item):
+    """
+    Calculation result of unsold ship_T2 is 0.36, so 0.3 is taken as threshold,
+    result of sold product is < 0.2
+    """
     def predict_valid(self):
-        mean = np.mean(rgb2gray(self.image) > 139)
-        return mean > 0.23
+        mean = np.mean(np.max(self.image, axis=2) > 139)
+        return mean > 0.3
 
 
 class ShopItemGrid(ItemGrid):
