@@ -6,7 +6,9 @@ from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2
 from module.config.utils import get_server_weekday
 from module.freebies.assets import *
 from module.logger import logger
-from module.ui.page import page_supply_pack
+from module.ocr.ocr import Digit
+from module.shop.assets import SHOP_OCR_OIL, SHOP_OCR_OIL_CHECK
+from module.ui.page import page_shop, page_supply_pack
 
 
 class SupplyPack(CampaignStatus):
@@ -64,14 +66,22 @@ class SupplyPack(CampaignStatus):
         logger.info(f'Supply pack buy finished, executed={executed}')
         return executed
 
+    def goto_supply_pack(self, skip_first_screenshot=True):
+        """
+        Pages:
+            in: page_shop
+            out: page_supply_pack, supply pack tab
+        """
+        self.ui_goto(page_supply_pack, skip_first_screenshot=skip_first_screenshot)
+
     def run(self):
         """
         Pages:
             in: Any page
             out: page_supply_pack, supply pack tab
         """
-        self.ui_ensure(page_supply_pack)
-
+        self.ui_ensure(page_shop)
+        self.goto_supply_pack()
         if self.get_oil() < 21000:
             server_today = get_server_weekday()
             target = self.config.SupplyPack_DayOfWeek
@@ -82,3 +92,48 @@ class SupplyPack(CampaignStatus):
                 logger.info(f'Delaying free week supply pack to {target_name}')
         else:
             logger.info('Oil > 21000, unable to buy free weekly supply pack')
+
+
+class SupplyPack_250814(SupplyPack):
+    def get_oil(self, skip_first_screenshot=True):
+        """
+        Returns:
+            int: Oil amount
+        """
+        amount = 0
+        timeout = Timer(1, count=2).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if timeout.reached():
+                logger.warning('Get oil timeout')
+                break
+
+            if not self.appear(SHOP_OCR_OIL_CHECK, offset=(10, 2)):
+                logger.info('No oil icon')
+                continue
+            ocr = Digit(SHOP_OCR_OIL, name='OCR_OIL', letter=(247, 247, 247), threshold=128)
+            amount = ocr.ocr(self.device.image)
+            if amount >= 100:
+                break
+
+        return amount
+
+    def goto_supply_pack(self, skip_first_screenshot=True):
+        """
+        Pages:
+            in: page_shop
+            out: page_supply_pack, supply pack tab
+        """
+        logger.info('Goto supply pack')
+        for _ in self.loop():
+
+            if self.match_template_color(page_supply_pack.check_button, offset=(20, 20)):
+                logger.info('At supply pack')
+                break
+
+            elif self.appear_then_click(page_supply_pack.check_button, offset=(20, 20), interval=3):
+                continue

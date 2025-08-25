@@ -145,6 +145,10 @@ class Book:
             button (Button):
         """
         image = crop(image, button.area, copy=False)
+        # UI update in 20250814, input item image size is (64, 64), but default
+        # input is (98, 98), if image is not enlarged, get_color result is 0, book will ouput 'BookUnknownTn'
+        if image_size(image) < (98, 98):
+            image = resize(image, (98, 98))
         self.button = button
 
         # During the test of 40 random screenshots,

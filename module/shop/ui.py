@@ -4,7 +4,7 @@ from module.base.timer import Timer
 from module.handler.assets import POPUP_CONFIRM
 from module.logger import logger
 from module.shop.assets import *
-from module.ui.assets import ACADEMY_GOTO_MUNITIONS, BACK_ARROW
+from module.ui.assets import ACADEMY_GOTO_MUNITIONS, SHOP_BACK_ARROW
 from module.ui.navbar import Navbar
 from module.ui.page import page_academy, page_munitions
 from module.ui.ui import UI
@@ -98,6 +98,71 @@ class ShopUI(UI):
             inactive_color=(49, 56, 82), inactive_threshold=0, inactive_count=100,
         )
 
+    @cached_property
+    def shop_tab_250814(self):
+        """
+        Set with `self.shop_tab.set(main=self, upper={index})`
+        - index
+            1: Monthly shops
+            2: General supply shops
+        """
+        grids = ButtonGrid(
+            origin=(29, 424), delta=(0, 61),
+            button_shape=(74, 21), grid_shape=(1, 2),
+            name='SHOP_TAB')
+        return Navbar(
+            grids=grids,
+            # white bottom dash
+            active_color=(40, 150, 254), active_threshold=221, active_count=50,
+            # Black bottom dash
+            inactive_color=(75, 150, 200), inactive_threshold=0, inactive_count=100,
+        )
+
+    @cached_property
+    def shop_nav_250814(self):
+        """
+        Set with `self.shop_nav.set(main=self, left={index})`
+        - index when `shop_tab_250814` is at 1
+            1: General shop
+            2: Merit shop
+            3: Guild shop
+            4: Meta shop
+            5: Gift shop
+        """
+        grids = ButtonGrid(
+            origin=(184, 92), delta=(173, 0),
+            button_shape=(113, 42), grid_shape=(5, 1),
+            name='SHOP_NAV')
+        return Navbar(
+            grids=grids,
+            # White vertical line to the left of shop names
+            active_color=(90, 90, 90), active_threshold=221, active_count=80,
+            # Just whatever to make it match
+            inactive_color=(130, 160, 170), inactive_threshold=221, inactive_count=100,
+        )
+
+    @cached_property
+    def monthly_shop_nav_250814(self):
+        """
+        Set with `self.shop_nav.set(main=self, left={index})`
+        - index when `shop_tab_250814` is at 2
+            1: Core shop (limited items)
+            2: Core shop monthly
+            3: Medal shop
+            4: Prototype shop
+        """
+        grids = ButtonGrid(
+            origin=(184, 92), delta=(217, 0),
+            button_shape=(156, 42), grid_shape=(4, 1),
+            name='MONTHLY_SHOP_NAV')
+        return Navbar(
+            grids=grids,
+            # White vertical line to the left of shop names
+            active_color=(90, 90, 90), active_threshold=221, active_count=80,
+            # Just whatever to make it match
+            inactive_color=(130, 160, 170), inactive_threshold=221, inactive_count=100,
+        )
+
     def shop_refresh(self, skip_first_screenshot=True):
         """
         Args:
@@ -119,7 +184,7 @@ class ShopUI(UI):
                 continue
             if self.appear(SHOP_BUY_CONFIRM_MISTAKE, interval=3, offset=(200, 200)) \
                     and self.appear(POPUP_CONFIRM, offset=(3, 30)):
-                self.ui_click(SHOP_CLICK_SAFE_AREA, appear_button=POPUP_CONFIRM, check_button=BACK_ARROW,
+                self.ui_click(SHOP_CLICK_SAFE_AREA, appear_button=POPUP_CONFIRM, check_button=SHOP_BACK_ARROW,
                               offset=(20, 30), skip_first_screenshot=True)
                 exit_timer.reset()
                 refreshed = False
@@ -130,7 +195,7 @@ class ShopUI(UI):
                 continue
 
             # End
-            if self.appear(BACK_ARROW, offset=(30, 30)):
+            if self.appear(SHOP_BACK_ARROW, offset=(30, 30)):
                 if exit_timer.reached():
                     break
             else:
