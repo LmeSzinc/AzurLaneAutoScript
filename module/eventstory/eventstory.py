@@ -51,9 +51,16 @@ class EventStory(CampaignUI, Combat, LoginHandler):
         sim, button = TEMPLATE_ALCHEMIST_STORY.match_result(image)
         if sim >= 0.85:
             button = button.move(area[:2])
+            # move down to click the text
+            button = button.move((0, 44))
             return button
-        else:
-            return None
+        sim, button = TEMPLATE_ALCHEMIST_BATTLE.match_result(image)
+        if sim >= 0.85:
+            button = button.move(area[:2])
+            # move down to click the text
+            button = button.move((0, 44))
+            return button
+        return None
 
     def handle_event_20250724(self, interval=2):
         """
@@ -95,6 +102,9 @@ class EventStory(CampaignUI, Combat, LoginHandler):
             if self.match_template_color(STORY_FINISHED, offset=(20, 20), interval=3):
                 logger.info('run_story end at STORY_FINISHED')
                 return 'finish'
+            if self.appear(REWARD_GOT, offset=(50, 30)):
+                logger.info('run_story end at REWARD_GOT')
+                return 'finish'
 
             # Story skip
             if self.handle_story_skip():
@@ -130,6 +140,10 @@ class EventStory(CampaignUI, Combat, LoginHandler):
                 self.popup_interval_clear()
                 self.device.click_record_clear()
                 continue
+            # Secrets of the Abyss (event_20250814_cn)
+            # popup after all story finished
+            if self.appear_then_click(POPUP_RPG_STATUS, offset=(20, 20), interval=3):
+                continue
 
     def run_event_story(self):
         """
@@ -161,6 +175,8 @@ class EventStory(CampaignUI, Combat, LoginHandler):
             str: 'finish', 'story', 'unknown'
         """
         if self.match_template_color(STORY_FINISHED, offset=(20, 20)):
+            return 'finish'
+        if self.appear(REWARD_GOT, offset=(50, 30)):
             return 'finish'
 
         if self.appear_then_click(STORY_FIRST, offset=(20, 20)):

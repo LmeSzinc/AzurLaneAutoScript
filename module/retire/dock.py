@@ -82,6 +82,7 @@ class Dock(Equipment):
 
     def dock_filter_enter(self):
         logger.info('Dock filter enter')
+        self.interval_clear(DOCK_CHECK)
         for _ in self.loop():
             if self.appear(DOCK_FILTER_CONFIRM, offset=(20, 20)):
                 break
@@ -224,6 +225,7 @@ class Dock(Equipment):
         #             continue
         #     return
 
+        self.interval_clear(DOCK_CHECK)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
