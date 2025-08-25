@@ -1,10 +1,10 @@
-import numpy as np
 import re
+
+import numpy as np
 
 from module.base.button import ButtonGrid
 from module.base.decorator import Config, cached_property
 from module.base.filter import Filter
-from module.base.utils import rgb2gray
 from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_3, GET_SHIP
 from module.logger import logger
@@ -50,6 +50,7 @@ class ShopItem_250814(Item):
     Calculation result of unsold ship_T2 is 0.36, so 0.3 is taken as threshold,
     result of sold product is < 0.2
     """
+
     def predict_valid(self):
         mean = np.mean(np.max(self.image, axis=2) > 139)
         return mean > 0.3
@@ -99,6 +100,7 @@ class ShopItemGrid(ItemGrid):
 
 class ShopItemGrid_250814(ShopItemGrid):
     item_class = ShopItem_250814
+
 
 class ShopBase(UI):
     _currency = 0

@@ -24,7 +24,6 @@ MEDAL_SHOP_SCROLL.drag_threshold = 0.15
 
 class ShopAdaptiveScroll(AdaptiveScroll):
     def match_color(self, main):
-        from module.base.utils import save_image
         area = (self.area[0] - self.background, self.area[1], self.area[2] + self.background, self.area[3])
         image = main.image_crop(area, copy=False)
 
@@ -45,6 +44,7 @@ class ShopAdaptiveScroll(AdaptiveScroll):
         mask = np.zeros((self.total,), dtype=np.bool_)
         mask[peaks] = 1
         return mask
+
 
 MEDAL_SHOP_SCROLL_250814 = ShopAdaptiveScroll(
     MEDAL_SHOP_SCROLL_AREA_250814.button,

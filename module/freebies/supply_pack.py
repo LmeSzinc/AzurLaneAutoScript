@@ -128,14 +128,11 @@ class SupplyPack_250814(SupplyPack):
             in: page_shop
             out: page_supply_pack, supply pack tab
         """
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()     
-      
+        logger.info('Goto supply pack')
+        for _ in self.loop():
+
             if self.match_template_color(page_supply_pack.check_button, offset=(20, 20)):
-                logger.info("Page arrive: page_supply_pack")
+                logger.info('At supply pack')
                 break
 
             elif self.appear_then_click(page_supply_pack.check_button, offset=(20, 20), interval=3):

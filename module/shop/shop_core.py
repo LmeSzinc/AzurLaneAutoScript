@@ -104,7 +104,14 @@ class CoreShop_250814(CoreShop):
             ShopItemGrid:
         """
         shop_grid = self.shop_grid
-        shop_core_items = ShopItemGrid_250814(shop_grid, templates={}, template_area=(25, 20, 82, 72), amount_area=(42, 50, 65, 65), cost_area=(-12, 115, 60, 155), price_area=(18, 121, 85, 150))
+        shop_core_items = ShopItemGrid_250814(
+            shop_grid,
+            templates={},
+            template_area=(25, 20, 82, 72),
+            amount_area=(42, 50, 65, 65),
+            cost_area=(-12, 115, 60, 155),
+            price_area=(18, 121, 85, 150),
+        )
         shop_core_items.load_template_folder(self.shop_template_folder)
         shop_core_items.load_cost_template_folder('./assets/shop/cost')
         return shop_core_items
