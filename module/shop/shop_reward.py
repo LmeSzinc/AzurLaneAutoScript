@@ -1,7 +1,7 @@
 from module.shop.shop_core import CoreShop, CoreShop_250814
 from module.shop.shop_general import GeneralShop, GeneralShop_250814
 from module.shop.shop_guild import GuildShop, GuildShop_250814
-from module.shop.shop_medal import MedalShop2, MedalShop_250814
+from module.shop.shop_medal import MedalShop2, MedalShop2_250814
 from module.shop.shop_merit import MeritShop, MeritShop_250814
 from module.shop.ui import ShopUI
 
@@ -66,6 +66,6 @@ class RewardShop(ShopUI):
             self.device.click_record_clear()
             self.shop_tab_250814.set(main=self, upper=2)
             self.monthly_shop_nav_250814.set(main=self, left=3)
-            MedalShop_250814(self.config, self.device).run()
+            MedalShop2_250814(self.config, self.device).run()
 
         self.config.task_delay(server_update=True)
