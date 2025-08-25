@@ -281,7 +281,7 @@ class MedalShop2(ShopClerk, ShopStatus):
                 continue
 
 
-class MedalShop_250814(MedalShop2):
+class MedalShop2_250814(MedalShop2):
     # New UI in 2025-08-14
     def _get_medals(self):
         """
