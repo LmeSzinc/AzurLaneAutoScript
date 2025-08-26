@@ -477,6 +477,8 @@ class ActionPointHandler(UI, MapEventHandler):
                 self.device.click(ACTION_POINT_REMAIN_OS)
                 continue
             if self.handle_map_event():
+                # story is transparent, OS_CHECK may get detected while handling stories
+                self.interval_reset(OS_CHECK)
                 continue
             if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50)):
                 continue
