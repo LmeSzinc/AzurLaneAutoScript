@@ -14,15 +14,13 @@ if server.server != 'tw':
     OCR_SHOP_MERIT = Digit(SHOP_OCR_BALANCE, letter=(100, 100, 100), name='OCR_SHOP_MERIT')
     OCR_SHOP_GUILD_COINS = Digit(SHOP_OCR_BALANCE, letter=(100, 100, 100), name='OCR_SHOP_GUILD_COINS')
     OCR_SHOP_CORE = Digit(SHOP_OCR_BALANCE, letter=(100, 100, 100), name='OCR_SHOP_CORE')
-    OCR_SHOP_VOUCHER = Digit(SHOP_OCR_BALANCE, letter=(100, 100, 100), name='OCR_SHOP_VOUCHER')
 else:
     OCR_SHOP_GOLD_COINS = Digit(SHOP_GOLD_COINS, letter=(239, 239, 239), name='OCR_SHOP_GOLD_COINS')
     OCR_SHOP_MEDAL = Digit(SHOP_MEDAL, letter=(239, 239, 239), name='OCR_SHOP_MEDAL')
     OCR_SHOP_MERIT = Digit(SHOP_MERIT, letter=(239, 239, 239), name='OCR_SHOP_MERIT')
     OCR_SHOP_GUILD_COINS = Digit(SHOP_GUILD_COINS, letter=(255, 255, 255), name='OCR_SHOP_GUILD_COINS')
     OCR_SHOP_CORE = Digit(SHOP_CORE, letter=(239, 239, 239), name='OCR_SHOP_CORE')
-    OCR_SHOP_VOUCHER = Digit(SHOP_VOUCHER, letter=(255, 255, 255), name='OCR_SHOP_VOUCHER')
-
+OCR_SHOP_VOUCHER = Digit(SHOP_VOUCHER, letter=(255, 255, 255), name='OCR_SHOP_VOUCHER')
 
 class ShopStatus(UI):
     def status_get_gold_coins(self):
