@@ -13,6 +13,10 @@ from module.ocr.ocr import Digit, Ocr
 from module.ui.ui import UI
 from module.log_res.log_res import LogRes
 
+if server.server != 'jp':
+    OCR_COIN = Digit(OCR_COIN, name='OCR_COIN', letter=(239, 239, 239), threshold=128)
+else:
+    OCR_COIN = Digit(OCR_COIN, name='OCR_COIN', letter=(201, 201, 201), threshold=128)
 
 class PtOcr(Ocr):
     def __init__(self, *args, **kwargs):
@@ -94,10 +98,13 @@ class CampaignStatus(UI):
         color = get_color(self.device.image, OCR_OIL_CHECK.button)
         if color_similar(color, OCR_OIL_CHECK.color):
             # Original color
-            if server.server != 'jp':
-                ocr = Digit(_button, name=name, letter=letter, threshold=128)
+            if isinstance(OCR_COIN, Ocr):
+                ocr = _button
             else:
-                ocr = Digit(_button, name=name, letter=(201, 201, 201), threshold=128)
+                if server.server != 'jp':
+                    ocr = Digit(_button, name=name, letter=letter, threshold=128)
+                else:
+                    ocr = Digit(_button, name=name, letter=(201, 201, 201), threshold=128)
         elif color_similar(color, (59, 59, 64)):
             # With black overlay
             ocr = Digit(_button, name=name, letter=(165, 165, 165), threshold=128)
