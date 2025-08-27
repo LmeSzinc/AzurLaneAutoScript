@@ -6,9 +6,8 @@ import module.config.server as server
 from module.base.button import ButtonGrid
 from module.base.decorator import Config, cached_property, del_cached_property
 from module.base.timer import Timer
-from module.base.utils import area_offset
+from module.base.utils import area_offset, rgb2gray
 from module.logger import logger
-from module.base.utils import rgb2gray
 from module.map_detection.utils import Points
 from module.ocr.ocr import Digit, DigitYuv, Ocr
 from module.shop.assets import *
@@ -340,7 +339,7 @@ class MedalShop2_250814(MedalShop2):
     def shop_medal_items(self):
         """
         Returns:
-            ShopItemGrid:
+            ShopItemGrid_250814:
         """
         shop_grid = self.shop_grid
         shop_medal_items = ShopItemGrid_250814(
@@ -390,7 +389,14 @@ class MedalShop2_250814(MedalShop2):
         MEDAL_SHOP_SCROLL_250814.set_top(main=self)
         time.sleep(0.5)
         while 1:
+            # sold items are auto sorted behind
+            # if we find any soldout items, no need to check behind
+            if self.shop_items().get_soldout_count(self.device.image):
+                logger.info('Medal shop early stop')
+                break
+
             self.shop_buy()
+
             if MEDAL_SHOP_SCROLL_250814.at_bottom(main=self):
                 logger.info('Medal shop reach bottom, stop')
                 break
