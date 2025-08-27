@@ -1,4 +1,4 @@
-from module.base.decorator import cached_property
+from module.base.decorator import Config, cached_property
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.shop.assets import *
@@ -171,8 +171,26 @@ class GeneralShop_250814(GeneralShop):
             template_area=(25, 20, 82, 72),
             amount_area=(42, 50, 65, 65),
             cost_area=(-12, 115, 60, 155),
-            price_area=(14, 121, 85, 150),
+            price_area=self._shop_general_price_area,
         )
         shop_general_items.load_template_folder(self.shop_template_folder)
         shop_general_items.load_cost_template_folder('./assets/shop/cost')
         return shop_general_items
+
+    @cached_property
+    @Config.when(SERVER='en')
+    def _shop_general_price_area(self):
+        """
+        Returns:
+            tuple:
+        """
+        return 18, 121, 85, 160
+
+    @cached_property
+    @Config.when(SERVER=None)
+    def _shop_general_price_area(self):
+        """
+        Returns:
+            tuple:
+        """
+        return 14, 121, 85, 150
