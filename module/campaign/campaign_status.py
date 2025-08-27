@@ -98,7 +98,7 @@ class CampaignStatus(UI):
         color = get_color(self.device.image, OCR_OIL_CHECK.button)
         if color_similar(color, OCR_OIL_CHECK.color):
             # Original color
-            if isinstance(OCR_COIN, Ocr):
+            if isinstance(_button, Ocr):
                 ocr = _button
             else:
                 if server.server != 'jp':
