@@ -4,11 +4,10 @@ from scipy import signal
 
 import module.config.server as server
 from module.base.button import ButtonGrid
-from module.base.decorator import cached_property, del_cached_property
+from module.base.decorator import Config, cached_property, del_cached_property
 from module.base.timer import Timer
-from module.base.utils import area_offset
+from module.base.utils import area_offset, rgb2gray
 from module.logger import logger
-from module.base.utils import rgb2gray
 from module.map_detection.utils import Points
 from module.ocr.ocr import Digit, DigitYuv, Ocr
 from module.shop.assets import *
@@ -340,19 +339,39 @@ class MedalShop2_250814(MedalShop2):
     def shop_medal_items(self):
         """
         Returns:
-            ShopItemGrid:
+            ShopItemGrid_250814:
         """
         shop_grid = self.shop_grid
         shop_medal_items = ShopItemGrid_250814(
             shop_grid,
-            templates={}, amount_area=(60, 74, 96, 95),
-            price_area=(14, 122, 85, 149), cost_area=(-12, 115, 60, 155))
+            templates={},
+            amount_area=(60, 74, 96, 95),
+            cost_area=(-12, 115, 60, 155),
+            price_area=self._shop_medal_price_area)
         shop_medal_items.load_template_folder(self.shop_template_folder)
         shop_medal_items.load_cost_template_folder('./assets/shop/cost')
         shop_medal_items.similarity = 0.85  # Lower the threshold for consistent matches of PR/DRBP
         shop_medal_items.cost_similarity = 0.5
         shop_medal_items.price_ocr = PRICE_OCR_250814
         return shop_medal_items
+
+    @cached_property
+    @Config.when(SERVER='en')
+    def _shop_medal_price_area(self):
+        """
+        Returns:
+            tuple:
+        """
+        return 18, 121, 85, 160
+
+    @cached_property
+    @Config.when(SERVER=None)
+    def _shop_medal_price_area(self):
+        """
+        Returns:
+            tuple:
+        """
+        return 14, 122, 85, 149
 
     def run(self):
         """
@@ -370,7 +389,14 @@ class MedalShop2_250814(MedalShop2):
         MEDAL_SHOP_SCROLL_250814.set_top(main=self)
         time.sleep(0.5)
         while 1:
+            # sold items are auto sorted behind
+            # if we find any soldout items, no need to check behind
+            if self.shop_items().get_soldout_count(self.device.image):
+                logger.info('Medal shop early stop')
+                break
+
             self.shop_buy()
+
             if MEDAL_SHOP_SCROLL_250814.at_bottom(main=self):
                 logger.info('Medal shop reach bottom, stop')
                 break
