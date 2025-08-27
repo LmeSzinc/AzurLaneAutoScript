@@ -152,7 +152,8 @@ class VoucherShop(ShopClerk, ShopStatus):
         Clear interval on select assets for
         shop_buy_handle
         """
-        super().shop_interval_clear()
+        self.interval_clear(BACK_ARROW)
+        self.interval_clear(SHOP_BUY_CONFIRM)
         self.interval_clear([
             SHOP_BUY_CONFIRM_SELECT,
             SHOP_BUY_CONFIRM_AMOUNT,
@@ -192,7 +193,6 @@ class VoucherShop(ShopClerk, ShopStatus):
         Args:
             item: Item to check
             skip_first_screenshot: bool
-
         Returns:
             None: exits appropriately therefore successful
         """

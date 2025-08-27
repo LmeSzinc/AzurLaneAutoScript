@@ -1,4 +1,4 @@
-from module.base.decorator import cached_property
+from module.base.decorator import Config, cached_property
 from module.logger import logger
 from module.shop.assets import *
 from module.shop.base import ShopItemGrid, ShopItemGrid_250814
@@ -123,9 +123,27 @@ class GuildShop_250814(GuildShop):
             template_area=(25, 20, 82, 72),
             amount_area=(42, 50, 65, 65),
             cost_area=(-12, 115, 60, 155),
-            price_area=(14, 121, 85, 150),
+            price_area=self._shop_guild_price_area,
         )
         self.shop_template_folder = './assets/shop/guild'
         shop_guild_items.load_template_folder(self.shop_template_folder)
         shop_guild_items.load_cost_template_folder('./assets/shop/cost')
         return shop_guild_items
+
+    @cached_property
+    @Config.when(SERVER='en')
+    def _shop_guild_price_area(self):
+        """
+        Returns:
+            tuple:
+        """
+        return 18, 121, 85, 160
+
+    @cached_property
+    @Config.when(SERVER=None)
+    def _shop_guild_price_area(self):
+        """
+        Returns:
+            tuple:
+        """
+        return 14, 121, 85, 150

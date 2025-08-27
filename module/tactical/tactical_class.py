@@ -628,8 +628,10 @@ class RewardTacticalClass(Dock):
         # Set if favorite from config
         self.dock_favourite_set(enable=self.config.AddNewStudent_Favorite, wait_loading=False)
 
-        # reset filter
-        self.dock_filter_set()
+        # reset filter; naturally skip meta ships this way
+        self.dock_filter_set(
+            faction=[v for k, v in self.dock_filter.settings if k == 'faction' and v not in ['all', 'meta']]
+        )
 
         # No ship in dock
         if self.appear(DOCK_EMPTY, offset=(30, 30)):

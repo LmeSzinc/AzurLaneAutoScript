@@ -101,6 +101,15 @@ class ShopItemGrid(ItemGrid):
 class ShopItemGrid_250814(ShopItemGrid):
     item_class = ShopItem_250814
 
+    def get_soldout_count(self, image):
+        count = 0
+        for button in self.grids.buttons:
+            item = self.item_class(image, button)
+            if not item.is_valid:
+                count += 1
+        logger.attr('Item soldout', count)
+        return count
+
 
 class ShopBase(UI):
     _currency = 0
