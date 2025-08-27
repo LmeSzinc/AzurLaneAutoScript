@@ -89,7 +89,10 @@ class OperationSiren(OSMap):
 
         for zone in clear_zones:
             logger.hr(f'OS clear mission zones, zone_id={zone.zone_id}', level=1)
-            self.globe_goto(zone, types='SAFE', refresh=True)
+            try:
+                self.globe_goto(zone, types='SAFE', refresh=True)
+            except ActionPointLimit:
+                continue
             self.fleet_set(self.config.OpsiFleet_Fleet)
             self.os_order_execute(recon_scan=False, submarine_call=False)
             self.run_auto_search()
