@@ -15,7 +15,7 @@ class RewardShop(ShopUI):
             self.shop_tab.set(main=self, left=2)
             self.shop_nav.set(main=self, upper=1)
             GeneralShop(self.config, self.device).run()
-        elif self.config.SERVER in ['cn']:
+        elif self.config.SERVER in ['cn', 'en']:
             self.device.click_record_clear()
             self.shop_tab_250814.set(main=self, upper=1)
             self.shop_nav_250814.set(main=self, left=1)
@@ -46,7 +46,7 @@ class RewardShop(ShopUI):
             self.shop_tab.set(main=self, left=1)
             self.shop_nav.set(main=self, upper=3)
             MedalShop2(self.config, self.device).run()
-        elif self.config.SERVER in ['cn']:
+        elif self.config.SERVER in ['cn', 'en']:
             self.device.click_record_clear()
             self.shop_tab_250814.set(main=self, upper=1)
             self.shop_nav_250814.set(main=self, left=2)
