@@ -384,6 +384,7 @@ class ConfigGenerator:
         Returns:
             list[Event]: From latest to oldest
         """
+
         def calc_width(text):
             return len(text) + len(re.findall(
                 r'[\u3000-\u30ff\u3400-\u4dbf\u4e00-\u9fff、！（）]', text))
@@ -391,7 +392,7 @@ class ConfigGenerator:
         lines = []
         data_lines = []
         data_widths = []
-        column_width = [4]*7  # `:---`
+        column_width = [4] * 7  # `:---`
         events = []
         with open('./campaign/Readme.md', encoding='utf-8') as f:
             for text in f.readlines():
@@ -411,9 +412,9 @@ class ConfigGenerator:
                         event = Event(text)
                         events.append(event)
         for i, (line, old_width) in enumerate(zip(data_lines, data_widths)):
-            lines.append('| ' + ' | '.join([cell+' '*(width-length) for cell, width, length in zip(line, column_width, old_width)]) + ' |\n')
+            lines.append('| ' + ' | '.join([cell + ' ' * (width - length) for cell, width, length in zip(line, column_width, old_width)]) + ' |\n')
             if i == 0:
-                lines.append('| ' + ' | '.join([':'+'-'*(width-1) for width in column_width]) + ' |\n')
+                lines.append('| ' + ' | '.join([':' + '-' * (width - 1) for width in column_width]) + ' |\n')
         with open('./campaign/Readme.md', 'w', encoding='utf-8') as f:
             f.writelines(lines)
         return events[::-1]
@@ -426,46 +427,46 @@ class ConfigGenerator:
                                   v
                    args.json -----+-----> args.json
         """
-        for event in self.event:
-            for server in ARCHIVES_PREFIX.keys():
+        for server in ARCHIVES_PREFIX.keys():
+            for event in self.event:
                 name = event.__getattribute__(server)
 
                 def insert(key):
-                    opts = deep_get(self.args, keys=f'{key}.Campaign.Event.option')
+                    opts = deep_get(self.args, keys=f'{key}.Campaign.Event.option_{server}', default=[])
                     if event not in opts:
                         opts.append(event)
-                    if name:
-                        deep_default(self.args, keys=f'{key}.Campaign.Event.{server}', value=event)
+                    deep_set(self.args, keys=f'{key}.Campaign.Event.option_{server}', value=opts)
 
                 if name:
                     if event.is_raid:
-                        for task in RAIDS:
-                            insert(task)
+                        if not hasattr(self, f'_{server}_latest_raid_date'):
+                            setattr(self, f'_{server}_latest_raid_date', int(event.date))
+                        if int(event.date) == getattr(self, f'_{server}_latest_raid_date'):
+                            for task in RAIDS:
+                                insert(task)
                     elif event.is_war_archives:
                         for task in WAR_ARCHIVES:
                             insert(task)
                     elif event.is_coalition:
-                        for task in COALITIONS:
-                            insert(task)
+                        if not hasattr(self, f'_{server}_latest_coalition_date'):
+                            setattr(self, f'_{server}_latest_coalition_date', int(event.date))
+                        if int(event.date) == getattr(self, f'_{server}_latest_coalition_date'):
+                            for task in COALITIONS:
+                                insert(task)
                     else:
-                        for task in EVENTS + GEMS_FARMINGS:
-                            insert(task)
+                        if not hasattr(self, f'_{server}_latest_event_date'):
+                            setattr(self, f'_{server}_latest_event_date', int(event.date))
+                        if int(event.date) == getattr(self, f'_{server}_latest_event_date'):
+                            for task in EVENTS + GEMS_FARMINGS:
+                                insert(task)
 
         for task in EVENTS + GEMS_FARMINGS + WAR_ARCHIVES + RAIDS + COALITIONS:
-            options = deep_get(self.args, keys=f'{task}.Campaign.Event.option')
-            # Remove campaign_main from event list
-            options = [option for option in options if option != 'campaign_main']
-            # Sort options
-            options = sorted(options)
-            deep_set(self.args, keys=f'{task}.Campaign.Event.option', value=options)
-            # Sort latest
             latest = {}
             for server in ARCHIVES_PREFIX.keys():
-                latest[server] = deep_pop(self.args, keys=f'{task}.Campaign.Event.{server}', default='')
-            bold = sorted(set(latest.values()))
-            deep_set(self.args, keys=f'{task}.Campaign.Event.option_bold', value=bold)
-            for server, event in latest.items():
-                deep_set(self.args, keys=f'{task}.Campaign.Event.{server}', value=event)
+                latest[server] = deep_get(self.args, keys=f'{task}.Campaign.Event.option_{server}', default=[])
+            options = set().union(*latest.values())
+            options = sorted([option for option in options if option != 'campaign_main'])
+            deep_set(self.args, keys=f'{task}.Campaign.Event.option', value=options)
 
     @staticmethod
     def generate_deploy_template():
@@ -594,6 +595,7 @@ class ConfigUpdater:
         # 2025.06.26
         ('Coalition.Coalition.Mode', 'Coalition.Coalition.Mode', coalition_to_little_academy),
     ]
+
     # redirection += [
     #     (
     #         (f'{task}.Emotion.CalculateEmotion', f'{task}.Emotion.IgnoreLowEmotionWarn'),
@@ -640,20 +642,23 @@ class ConfigUpdater:
         server = to_server(deep_get(new, 'Alas.Emulator.PackageName', 'cn'))
         if not is_template:
             for task in EVENTS + RAIDS + COALITIONS:
-                deep_set(new,
-                         keys=f'{task}.Campaign.Event',
-                         value=deep_get(self.args, f'{task}.Campaign.Event.{server}'))
+                opts = deep_get(self.args, keys=f'{task}.Campaign.Event.option_{server}', default=[])
+                if not deep_get(new, keys=f'{task}.Campaign.Event', default='campaign_main') in opts:
+                    deep_set(new,
+                             keys=f'{task}.Campaign.Event',
+                             value=opts[0])
+
             for task in ['GemsFarming']:
                 if deep_get(new, keys=f'{task}.Campaign.Event', default='campaign_main') != 'campaign_main':
                     deep_set(new,
                              keys=f'{task}.Campaign.Event',
-                             value=deep_get(self.args, f'{task}.Campaign.Event.{server}'))
+                             value=deep_get(self.args, f'{task}.Campaign.Event.option_{server}')[0])
         # War archive does not allow campaign_main
         for task in WAR_ARCHIVES:
             if deep_get(new, keys=f'{task}.Campaign.Event', default='campaign_main') == 'campaign_main':
                 deep_set(new,
                          keys=f'{task}.Campaign.Event',
-                         value=deep_get(self.args, f'{task}.Campaign.Event.{server}'))
+                         value=deep_get(self.args, f'{task}.Campaign.Event.option_{server}')[0])
 
         # Events does not allow default stage 12-4
         def default_stage(t, stage):

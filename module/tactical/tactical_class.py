@@ -62,6 +62,10 @@ class ExpOnBookSelect(DigitCounter):
     def after_process(self, result):
         result = super().after_process(result)
 
+        if result.endswith("580"):
+            new = result[:-3] + "5800"
+            logger.info(f'ExpOnBookSelect result {result} is revised to {new}')
+            result = new
         if '/' not in result:
             for exp in [5800, 4400, 3200, 2200, 1400, 800, 400, 200, 100]:
                 res = re.match(rf'^(\d+){exp}$', result)
@@ -141,6 +145,10 @@ class Book:
             button (Button):
         """
         image = crop(image, button.area, copy=False)
+        # UI update in 20250814, input item image size is (64, 64), but default
+        # input is (98, 98), if image is not enlarged, get_color result is 0, book will ouput 'BookUnknownTn'
+        if image_size(image) < (98, 98):
+            image = resize(image, (98, 98))
         self.button = button
 
         # During the test of 40 random screenshots,
@@ -620,8 +628,10 @@ class RewardTacticalClass(Dock):
         # Set if favorite from config
         self.dock_favourite_set(enable=self.config.AddNewStudent_Favorite, wait_loading=False)
 
-        # reset filter
-        self.dock_filter_set()
+        # reset filter; naturally skip meta ships this way
+        self.dock_filter_set(
+            faction=[v for k, v in self.dock_filter.settings if k == 'faction' and v not in ['all', 'meta']]
+        )
 
         # No ship in dock
         if self.appear(DOCK_EMPTY, offset=(30, 30)):

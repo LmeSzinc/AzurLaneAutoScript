@@ -457,6 +457,8 @@ Awaken:
   LevelCap:
     value: level120
     option: [ level120, level125 ]
+  Favourite:
+    value: false
 GeneralShop:
   UseGems: false
   Refresh: false
@@ -585,6 +587,7 @@ Minigame:
   Collect: false
 PrivateQuarters:
     BuyRoses: true
+    BuyCake: false
     TargetInteract: true
     TargetShip:
       value: anchorage

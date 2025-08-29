@@ -75,7 +75,7 @@ class CampaignEvent(CampaignStatus):
             in: page_event or page_sp
         """
         limit = self.config.EventGeneral_TimeLimit
-        tasks = EVENTS + RAIDS + COALITIONS + MARITIME_ESCORTS + HOSPITAL
+        tasks = EVENTS + RAIDS + COALITIONS + GEMS_FARMINGS + MARITIME_ESCORTS + HOSPITAL
         command = self.config.Scheduler_Command
         if command not in tasks or limit == DEFAULT_TIME:
             return False
@@ -83,7 +83,7 @@ class CampaignEvent(CampaignStatus):
             return False
 
         now = datetime.now().replace(microsecond=0)
-        logger.attr('Event_PT_limit', f'{now} -> {limit}')
+        logger.attr('Event_time_limit', f'{now} -> {limit}')
         if now > limit:
             logger.hr(f'Reach event time limit: {limit}')
             self._disable_tasks(tasks)

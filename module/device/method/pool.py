@@ -275,7 +275,7 @@ class WorkerThread:
         res = ctypes.pythonapi.PyThreadState_SetAsyncExc(
             thread_id, ctypes.py_object(_JobKill))
         if res <= 1:
-            del self.thread_pool.all_workers[self]
+            self.thread_pool.all_workers.pop(self, None)
             self.thread_pool.release_full_lock()
             return True
         else:
