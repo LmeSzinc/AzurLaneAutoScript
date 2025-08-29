@@ -98,6 +98,7 @@ class ShopUI(UI):
             inactive_color=(49, 56, 82), inactive_threshold=0, inactive_count=100,
         )
 
+
     @cached_property
     @Config.when(SERVER='en')
     def shop_tab_250814(self):
@@ -109,15 +110,15 @@ class ShopUI(UI):
             3: Event shops
         """
         grids = ButtonGrid(
-            origin=(29, 519), delta=(0, 50),
-            button_shape=(60, 15), grid_shape=(1, 3),
+            origin=(29, 436), delta=(0, 50),
+            button_shape=(74, 21), grid_shape=(1, 3),
             name='SHOP_TAB')
         return Navbar(
             grids=grids,
             # blue text active
-            active_color=(0, 131, 255), active_threshold=221, active_count=100,
+            active_color=(60, 174, 255), active_threshold=221, active_count=100,
             # white text inactive
-            inactive_color=(249, 252, 253), inactive_threshold=221, inactive_count=100,
+            inactive_color=(252, 252, 253), inactive_threshold=221, inactive_count=100,
         )
 
     @cached_property

@@ -26,4 +26,5 @@ class Freebies(ModuleBase):
             logger.hr('Supply pack', level=1)
             SupplyPack_250814(self.config, self.device).run()
 
+
         self.config.task_delay(server_update=True)
