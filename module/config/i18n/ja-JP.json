@@ -674,7 +674,7 @@
     },
     "Name": {
       "name": "Campaign.Name.name",
-      "help": "15-4には2つのオプションがあります：15-4と15-4-121"
+      "help": ""
     },
     "Event": {
       "name": "Campaign.Event.name",
