@@ -466,6 +466,8 @@ class ConfigGenerator:
                 latest[server] = deep_get(self.args, keys=f'{task}.Campaign.Event.option_{server}', default=[])
             options = set().union(*latest.values())
             options = sorted([option for option in options if option != 'campaign_main'])
+            if task not in WAR_ARCHIVES:
+                deep_set(self.args, keys=f'{task}.Campaign.Event.option_bold', value=options)
             deep_set(self.args, keys=f'{task}.Campaign.Event.option', value=options)
 
     @staticmethod
