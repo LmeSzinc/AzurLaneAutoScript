@@ -250,6 +250,8 @@ Coalition:
     FailureInterval: 30
     ServerUpdate: 00:00
   Campaign:
+    Event:
+      type: state
     Name: dynamic
     Event:
       type: state
