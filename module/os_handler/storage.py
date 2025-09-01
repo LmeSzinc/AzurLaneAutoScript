@@ -148,11 +148,12 @@ class StorageHandler(GlobeOperation, ZoneManager):
                 logger.info('All loggers in storage have been used')
                 break
 
-    def logger_use(self):
+    def logger_use(self, quit=True):
         logger.hr('Logger use')
         self.storage_enter()
         self.storage_logger_use_all()
-        self.storage_quit()
+        if quit:
+            self.storage_quit()
 
     def storage_sample_use_all(self, skip_first_screenshot=True):
         """
