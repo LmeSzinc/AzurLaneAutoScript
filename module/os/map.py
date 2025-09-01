@@ -1,4 +1,5 @@
 import time
+from sys import maxsize
 
 import inflection
 
@@ -534,7 +535,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
             return 300
         else:
             logger.info('Not close to OpSi reset')
-            return 2000
+            return maxsize
 
     def handle_after_auto_search(self):
         logger.hr('After auto search', level=2)
