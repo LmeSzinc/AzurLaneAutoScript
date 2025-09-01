@@ -118,6 +118,8 @@ class Combat(Combat_, MapEventHandler):
         Returns:
             bool:
         """
+        if getattr(self, '_disable_handle_get_items', False):
+            return False
         if self.appear(GET_ITEMS_1, offset=5, interval=self.battle_status_click_interval):
             if drop:
                 drop.handle_add(self, before=2)
@@ -159,7 +161,12 @@ class Combat(Combat_, MapEventHandler):
         self.__os_combat_drop = drop
         if expected_end is None:
             expected_end = self._os_combat_expected_end
-        super().combat_status(drop=drop, expected_end=expected_end)
+        # disable handle_get_items and use only handle_map_get_items
+        self._disable_handle_get_items = True
+        try:
+            super().combat_status(drop=drop, expected_end=expected_end)
+        finally:
+            self._disable_handle_get_items = False
 
     def combat(self, *args, save_get_items=False, **kwargs):
         """

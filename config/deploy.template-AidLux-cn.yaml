@@ -23,11 +23,6 @@ Deploy:
     # Update Alas at startup
     # [In most cases] Use true
     AutoUpdate: true
-    # Whether to keep local changes during update
-    # User settings, logs and screenshots will be kept, no mather this is true or false
-    # [Developer] Use true, if you modified the code
-    # [Other] Use false
-    KeepLocalChanges: false
 
   Python:
     # Filepath of python executable `python.exe`
