@@ -95,6 +95,7 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
         name = name.replace('一', 'ー').replace('力', 'カ').replace('卜', 'ト').replace('ぺ', 'ペ')
         name = name.replace('ジブフルタル', 'ジブラルタル')
         name = name.replace('タント', 'タラント').replace('タフント', 'タラント')
+        name = name.replace('N海域', 'NA海域')
         return name
 
     @Config.when(SERVER='tw')
