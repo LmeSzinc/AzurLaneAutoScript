@@ -9814,6 +9814,10 @@
       "TargetZone": {
         "type": "input",
         "value": 0
+      },
+      "APPreserveUntilReset": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "OpsiFleet": {

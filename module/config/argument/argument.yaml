@@ -770,6 +770,7 @@ OpsiMeowfficerFarming:
     option: [ 2, 3, 4, 5, 6, 10 ]
   TargetZone:
     value: 0
+  APPreserveUntilReset: false
 OpsiHazard1Leveling:
   TargetZone:
     value: 0

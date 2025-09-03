@@ -7,9 +7,12 @@
     "skipLibCheck": true,
     "strict": true,
     "isolatedModules": true,
-    "types": ["node"],
-    "typeRoots": ["node_modules/@types"],
-    "lib": ["ESNext"],
-    "allowSyntheticDefaultImports": true
-  }
+    "types": [
+      "node"
+    ],
+    "typeRoots": [
+      "node_modules/@types",
+    ],
+    "lib": ["ESNext"]
+  },
 }

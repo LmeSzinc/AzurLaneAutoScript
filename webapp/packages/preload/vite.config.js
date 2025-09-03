@@ -1,10 +1,8 @@
-import {chrome} from '../../.electron-vendors.cache.json';
-import {preload} from 'unplugin-auto-expose';
-import {join} from 'node:path';
-import {injectAppVersion} from '../../version/inject-app-version-plugin.mjs';
+import {chrome} from '../../electron-vendors.config.json';
+import {join} from 'path';
+import {builtinModules} from 'module';
 
 const PACKAGE_ROOT = __dirname;
-const PROJECT_ROOT = join(PACKAGE_ROOT, '../..');
 
 /**
  * @type {import('vite').UserConfig}
@@ -13,35 +11,41 @@ const PROJECT_ROOT = join(PACKAGE_ROOT, '../..');
 const config = {
   mode: process.env.MODE,
   root: PACKAGE_ROOT,
-  envDir: PROJECT_ROOT,
+  envDir: process.cwd(),
   resolve: {
-    alias: [
-      {
-        find: '@common',
-        replacement: join(PACKAGE_ROOT, '../common'),
-      },
-    ],
+    alias: {
+      '/@/': join(PACKAGE_ROOT, 'src') + '/',
+    },
   },
   build: {
-    ssr: true,
     sourcemap: 'inline',
     target: `chrome${chrome}`,
     outDir: 'dist',
     assetsDir: '.',
-    minify: process.env.MODE !== 'development',
+    minify: process.env.MODE === 'development' ? false : 'terser',
+    terserOptions: {
+      ecma: 2020,
+      compress: {
+        passes: 2,
+      },
+      safari10: false,
+    },
     lib: {
       entry: 'src/index.ts',
       formats: ['cjs'],
     },
     rollupOptions: {
+      external: [
+        'electron',
+        ...builtinModules,
+      ],
       output: {
         entryFileNames: '[name].cjs',
       },
     },
     emptyOutDir: true,
-    reportCompressedSize: false,
+    brotliSize: false,
   },
-  plugins: [preload.vite(), injectAppVersion()],
 };
 
 export default config;

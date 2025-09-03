@@ -2633,6 +2633,10 @@
     "TargetZone": {
       "name": "Target Zone ID",
       "help": "Supports either Zone ID or Name in CN/EN/JP/TW, i.e. \"51\", \"NA Ocean SE Sector E\"\nIf specified, Alas will loop on this same zone after each clear\nUse default value 0 or clear the field to remove the specification\nZone information can be acquired from <./module/os/map_data.py>"
+    },
+    "APPreserveUntilReset": {
+      "name": "Keep AP until OpSi Reset",
+      "help": "The value of \"Keep X Amount of AP\" will not be reduced until OpSi reset. Note: When enabled, these action points will only be consumed in task OpsiCrossMonth. This setting is inactive when OpsiCrossMonth is not enabled, meaning you must manually use these overflow action points to gain more rewards."
     }
   },
   "OpsiHazard1Leveling": {

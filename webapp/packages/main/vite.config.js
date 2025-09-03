@@ -1,9 +1,9 @@
-import {node} from '../../.electron-vendors.cache.json';
-import {join} from 'node:path';
-import {injectAppVersion} from '../../version/inject-app-version-plugin.mjs';
+import {node} from '../../electron-vendors.config.json';
+import {join} from 'path';
+import {builtinModules} from 'module';
 
 const PACKAGE_ROOT = __dirname;
-const PROJECT_ROOT = join(PACKAGE_ROOT, '../..');
+
 
 /**
  * @type {import('vite').UserConfig}
@@ -12,33 +12,42 @@ const PROJECT_ROOT = join(PACKAGE_ROOT, '../..');
 const config = {
   mode: process.env.MODE,
   root: PACKAGE_ROOT,
-  envDir: PROJECT_ROOT,
+  envDir: process.cwd(),
   resolve: {
     alias: {
       '/@/': join(PACKAGE_ROOT, 'src') + '/',
-      '@common': join(PACKAGE_ROOT, '../common/'),
     },
   },
   build: {
-    ssr: true,
     sourcemap: 'inline',
     target: `node${node}`,
     outDir: 'dist',
     assetsDir: '.',
-    minify: process.env.MODE !== 'development',
+    minify: process.env.MODE === 'development' ? false : 'terser',
+    terserOptions: {
+      ecma: 2020,
+      compress: {
+        passes: 2,
+      },
+      safari10: false,
+    },
     lib: {
       entry: 'src/index.ts',
       formats: ['cjs'],
     },
     rollupOptions: {
+      external: [
+        'electron',
+        'electron-devtools-installer',
+        ...builtinModules,
+      ],
       output: {
         entryFileNames: '[name].cjs',
       },
     },
     emptyOutDir: true,
-    reportCompressedSize: false,
+    brotliSize: false,
   },
-  plugins: [injectAppVersion()],
 };
 
 export default config;

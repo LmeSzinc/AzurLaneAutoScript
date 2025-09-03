@@ -2,26 +2,57 @@
   "extends": [
     "config:base",
     ":semanticCommits",
-    ":semanticCommitTypeAll(deps)",
-    ":semanticCommitScopeDisabled",
-    ":automergeAll",
-    ":automergeBranch",
-    ":disableDependencyDashboard",
-    ":pinVersions",
-    ":onlyNpm",
-    ":label(dependencies)"
+    ":automergeTypes",
+    ":disableDependencyDashboard"
   ],
+  "labels": [
+    "dependencies"
+  ],
+  "baseBranches": [
+    "main"
+  ],
+  "bumpVersion": "patch",
+  "patch": {
+    "automerge": true
+  },
+  "minor": {
+    "automerge": true
+  },
   "packageRules": [
     {
-      "groupName": "Vite packages",
-      "matchUpdateTypes": "major",
+      "packageNames": [
+        "node",
+        "npm"
+      ],
+      "enabled": false
+    },
+    {
+      "depTypeList": [
+        "devDependencies"
+      ],
+      "semanticCommitType": "build"
+    },
+    {
       "matchSourceUrlPrefixes": [
-        "https://github.com/vitejs/"
-      ]
+        "https://github.com/vitejs/vite/"
+      ],
+      "groupName": "Vite monorepo packages",
+      "automerge": false
+    },
+    {
+      "matchPackagePatterns": [
+        "^@typescript-eslint",
+        "^eslint"
+      ],
+      "automerge": true,
+      "groupName": "eslint"
+    },
+    {
+      "matchPackageNames": [
+        "electron"
+      ],
+      "separateMajorMinor": false
     }
   ],
-  "gitNoVerify": [
-    "commit",
-    "push"
-  ]
+  "rangeStrategy": "pin"
 }

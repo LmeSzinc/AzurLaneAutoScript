@@ -2633,6 +2633,10 @@
     "TargetZone": {
       "name": "OpsiMeowfficerFarming.TargetZone.name",
       "help": "OpsiMeowfficerFarming.TargetZone.help"
+    },
+    "APPreserveUntilReset": {
+      "name": "OpsiMeowfficerFarming.APPreserveUntilReset.name",
+      "help": "OpsiMeowfficerFarming.APPreserveUntilReset.help"
     }
   },
   "OpsiHazard1Leveling": {

@@ -538,22 +538,6 @@ class ConfigGenerator:
         update('template-linux', linux)
         update('template-linux-cn', linux, cn)
 
-        tpl = {
-            'Repository': '{{repository}}',
-            'GitExecutable': '{{gitExecutable}}',
-            'PythonExecutable': '{{pythonExecutable}}',
-            'AdbExecutable': '{{adbExecutable}}',
-            'Language': '{{language}}',
-            'Theme': '{{theme}}',
-        }
-        def update(file, *args):
-            new = deepcopy(template)
-            for dic in args:
-                new.update(dic)
-            poor_yaml_write(data=new, file=file)
-
-        update('./webapp/packages/main/public/deploy.yaml.tpl', tpl)
-
     def insert_package(self):
         option = deep_get(self.argument, keys='Emulator.PackageName.option')
         option += list(VALID_PACKAGE.keys())
