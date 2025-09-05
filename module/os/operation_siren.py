@@ -593,7 +593,7 @@ class OperationSiren(OSMap):
         with self.config.multi_set():
             next_run = self.config.Scheduler_NextRun
             for task in ['OpsiObscure', 'OpsiAbyssal', 'OpsiArchive', 'OpsiStronghold', 'OpsiMeowfficerFarming',
-                         'OpsiMonthBoss', 'OpsiShop', 'OpsiHazard1Leveling']:
+                         'OpsiMonthBoss', 'OpsiShop']:
                 keys = f'{task}.Scheduler.NextRun'
                 current = self.config.cross_get(keys=keys, default=DEFAULT_TIME)
                 if current < next_run:
