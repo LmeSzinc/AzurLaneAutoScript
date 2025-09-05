@@ -972,13 +972,13 @@ class OperationSiren(OSMap):
 
         logger.hr("OS clear Month Boss", level=1)
         logger.hr("Month Boss precheck", level=2)
-        self.os_mission_enter(
+        checkout_offset = self.os_mission_enter(
             skip_siren_mission=self.config.cross_get('OpsiDaily.OpsiDaily.SkipSirenResearchMission'))
         logger.attr('OpsiMonthBoss.Mode', self.config.OpsiMonthBoss_Mode)
-        if self.appear(OS_MONTHBOSS_NORMAL, offset=(20, 20)):
+        if self.appear(OS_MONTHBOSS_NORMAL, offset=checkout_offset):
             logger.attr('Month boss difficulty', 'normal')
             is_normal = True
-        elif self.appear(OS_MONTHBOSS_HARD, offset=(20, 20)):
+        elif self.appear(OS_MONTHBOSS_HARD, offset=checkout_offset):
             logger.attr('Month boss difficulty', 'hard')
             is_normal = False
         else:
