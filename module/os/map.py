@@ -583,6 +583,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
             logger.info(f'Keep {OpsiMeowfficerFarming_ActionPointPreservse} AP when CL1 available')
             if not self.action_point_check(OpsiMeowfficerFarming_ActionPointPreservse):
                 self.config.opsi_task_delay(cl1_preserve=True)
+                self.cl1_task_call()
                 self.config.task_stop()
 
     _auto_search_battle_count = 0

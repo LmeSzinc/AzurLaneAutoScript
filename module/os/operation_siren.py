@@ -554,7 +554,7 @@ class OperationSiren(OSMap):
             if self.get_yellow_coins() < self.config.OpsiHazard1Leveling_OperationCoinsPreserve:
                 logger.info(f'Reach the limit of yellow coins, preserve={self.config.OpsiHazard1Leveling_OperationCoinsPreserve}')
                 with self.config.multi_set():
-                    self.config.task_delay(minute=30, server_update=True)
+                    self.config.task_delay(minute=27, server_update=True)
                     if not self.is_in_opsi_explore():
                         cd = self.nearest_task_cooling_down
                         if cd is None:

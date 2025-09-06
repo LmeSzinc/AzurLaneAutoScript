@@ -99,3 +99,8 @@ class OSStatus(UI):
         self._shop_yellow_coins = self.get_yellow_coins()
         self._shop_purple_coins = self.get_purple_coins()
         logger.info(f'Yellow coins: {self._shop_yellow_coins}, purple coins: {self._shop_purple_coins}')
+
+    def cl1_task_call(self):
+        if self.is_cl1_enabled and self.get_yellow_coins() > self.config.cross_get(
+                keys='OpsiHazard1Leveling.OpsiHazard1Leveling.OperationCoinsPreserve'):
+            self.config.task_call('OpsiHazard1Leveling')
