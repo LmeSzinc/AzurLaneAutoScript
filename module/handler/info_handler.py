@@ -499,15 +499,22 @@ class InfoHandler(ModuleBase):
         Returns:
             bool: If handled
         """
-        if self.appear(GAME_TIPS, offset=(20, 20), interval=2):
-            self.device.click(GAME_TIPS)
-            return True
-        if self.appear(GAME_TIPS3, offset=(20, 20), interval=2):
-            self.device.click(GAME_TIPS)
-            return True
-        if self.appear(GAME_TIPS4, offset=(20, 20), interval=2):
-            self.device.click(GAME_TIPS)
-            return True
+        if self.appear(GAME_TIPS, offset=(20, 20), interval=2) \
+                or self.appear(GAME_TIPS3, offset=(20, 20), interval=2) \
+                or self.appear(GAME_TIPS4, offset=(20, 20), interval=2):
+            AREA_GAME_TIPS = (227, 83, 1053, 637)
+            BACKGROUND_COLOR = (0, 0, 0)
+            THRESHOLD = 200
+            COUNT = 250000
+            # Rewrite image_color_count for area substraction.
+            mask = color_similarity_2d(self.device.image, color=BACKGROUND_COLOR)
+            x1, y1, x2, y2 = AREA_GAME_TIPS
+            mask[y1:y2, x1:x2] = 0
+            cv2.inRange(mask, THRESHOLD, 255, dst=mask)
+            sum_ = cv2.countNonZero(mask)
+            if sum_ > COUNT:
+                self.device.click(GAME_TIPS)
+                return True
 
         return False
 
