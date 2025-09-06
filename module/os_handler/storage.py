@@ -205,7 +205,7 @@ class StorageHandler(GlobeOperation, ZoneManager):
             in: STORAGE_FLEET_CHOOSE
             out: STORAGE_FLEET_CHOOSE
         """
-        crop_area = (button.area[0] + 80, button.area[1] - 25, button.area[2] + 2, button.area[3] - 10)
+        # click area above hp bar to avoid click effects
         click_area = (button.area[0] + 40, button.area[1] - 100, button.area[2] - 10, button.area[3] - 50)
         click_button = Button(area=click_area, color=(0, 0, 0), button=click_area, name='STORAGE_SHIP_SELECT')
         timeout = Timer(5, count=3).start()
@@ -215,8 +215,10 @@ class StorageHandler(GlobeOperation, ZoneManager):
             else:
                 self.device.screenshot()
 
+            image = self.image_crop(area_offset(button.area, (0, 10)), copy=False)
             # End
-            if TEMPLATE_STORAGE_SHIP_SELECTED.match(self.image_crop(crop_area, copy=False), similarity=0.78):
+            # blue background for area below hp bar means ship selected
+            if self.image_color_count(image, color=(93, 148, 203), count=300):
                 logger.info('Storage Ship Selected')
                 self.interval_clear(STORAGE_FLEET_CHOOSE)
                 return True
@@ -239,7 +241,6 @@ class StorageHandler(GlobeOperation, ZoneManager):
             in: STORAGE_FLEET_CHOOSE
             out: STORAGE_FLEET_CHOOSE
         """
-        crop_area = (button.area[0] + 80, button.area[1] - 25, button.area[2] + 2, button.area[3] - 10)
         self.interval_clear(POPUP_CANCEL)
         self.device.click_record_clear()
         while 1:
@@ -248,9 +249,10 @@ class StorageHandler(GlobeOperation, ZoneManager):
             else:
                 self.device.screenshot()
 
+            image = self.image_crop(area_offset(button.area, (0, 10)), copy=False)
             # End
             if self.appear(STORAGE_REPAIR_CONFIRM, offset=(20, 20)) and \
-                    not TEMPLATE_STORAGE_SHIP_SELECTED.match(self.image_crop(crop_area, copy=False), similarity=0.78):
+                    not self.image_color_count(image, color=(93, 148, 203), count=300):
                 logger.info('Ship Fixed')
                 break
             if self.handle_popup_cancel('STORAGE_REPAIR_FULL_CANCEL'):
