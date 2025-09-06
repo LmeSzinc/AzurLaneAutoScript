@@ -259,53 +259,61 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
             self.hp_reset()
             return False
 
-    def handle_storage_one_fleet_repair(self, index, threshold):
+    def handle_storage_one_fleet_repair(self, fleet_index, threshold):
         """
         Args:
-            index (int): fleet index
+            fleet_index (int): fleet index
             threshold (int): repair threshold
 
         Returns:
             bool: If repaired.
+
+        Pages:
+            in: STORAGE_FLEET_CHOOSE
+            out: STORAGE_FLEET_CHOOSE
         """
-        self.storage_fleet_set(index)
+        self.storage_fleet_set(fleet_index)
         self.storage_hp_get()
         hp_grids = self._storage_hp_grid()
         check = [round(data, 2) <= threshold if use else False
                 for data, use in zip(self.hp, self.hp_has_ship)]
         if any(check):
-            logger.info(f'At least one ship in fleet {index} is below threshold '
+            logger.info(f'At least one ship in fleet {fleet_index} is below threshold '
                         f'{str(int(threshold * 100))}%, '
                         'use repair packs for repairs')
             for index, repair in enumerate(check):
                 if repair:
                     self.repair_pack_use(hp_grids.buttons[index])
-            logger.info(f'All ships in fleet {index} repaired')
+            logger.info(f'All ships in fleet {fleet_index} repaired')
             self.hp_reset()
             return True
         else:
-            logger.info(f'No ship in fleet {index} found to be below threshold '
+            logger.info(f'No ship in fleet {fleet_index} found to be below threshold '
                         f'{str(int(threshold * 100))}%, '
                         'continue OS exploration')
             self.hp_reset()
             return False
 
-    def handle_storage_fleet_repair(self, index=None, revert=True):
+    def handle_storage_fleet_repair(self, fleet_index=None, revert=True):
         """
         Args:
-            index (None|int|list[int]): fleet index
+            fleet_index (None|int|list[int]): fleet index
             revert (bool): If go back to previous zone.
 
         Returns:
             bool: If repaired.
+
+        Pages:
+            in: in_map
+            out: in_map
         """
         logger.hr('OS fleet repair by repair packs')
-        if index is None:
-            index = self.fleet_current_index
-        if isinstance(index, int):
-            index = [index]
-        if not isinstance(index, list):
-            logger.warning(f'Unknown fleet index: {index}')
+        if fleet_index is None:
+            fleet_index = self.fleet_selector.get()
+        if isinstance(fleet_index, int):
+            fleet_index = [fleet_index]
+        if not isinstance(fleet_index, list):
+            logger.warning(f'Unknown fleet index: {fleet_index}')
             return False
         if self.config.OpsiGeneral_RepairPackThreshold < 0:
             return False
@@ -313,8 +321,8 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
         repair = False
         success = False
         if self.storage_get_next_item('REPAIR_PACK'): 
-            for fleet_index in index:
-                if self.handle_storage_one_fleet_repair(index=fleet_index,
+            for index in fleet_index:
+                if self.handle_storage_one_fleet_repair(fleet_index=index,
                         threshold=self.config.OpsiGeneral_RepairPackThreshold):
                     success = True
                 if any(self.need_repair):
@@ -327,40 +335,48 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
 
         return success
 
-    def handle_fleet_repair_by_config(self, index=None, revert=True):
+    def handle_fleet_repair_by_config(self, fleet_index=None, revert=True):
         """
         Args:
-            index (None|int|list[int]): fleet index
-                If None, fixed fleet in OpsiFleetFilter_Filter before current fleet,     
+            fleet_index (None|int|list[int]): fleet index
+                If None, fixed fleet in OpsiFleetFilter_Filter before current fleet, 
+                         submarine fleet is always the last fleet to repair if it exists in filter string    
                 E.g.: OpsiFleetFilter_Filter = 'Fleet-1 > CallSubmarine > Fleet-3 > Fleet-4 > Fleet-2'
                       current fleet is fleet 1, repair fleet 1 and submarine fleet
-                      current fleet is fleet 4, repair fleet 1, submarine fleet, fleet 3 and fleet 4
+                      current fleet is fleet 4, repair fleet 1, fleet 3, fleet 4 and submarine fleet
                 If int, the number of fleet index
                 If list, a list of numbers of fleet index
             revert (bool): If go back to previous zone.
 
         Returns:
             bool: If repaired.
+
+        Pages:
+            in: in_map
+            out: in_map
         """
         if self.config.OpsiGeneral_UseRepairPack and self.config.SERVER not in ['cn']:
             logger.warning(f'OpsiDaily.SkipSirenResearchMission is not supported in {self.config.SERVER}')
             self.config.OpsiGeneral_UseRepairPack = False
 
         if self.config.OpsiGeneral_UseRepairPack:
-            if index is None:
+            if fleet_index is None:
                 fleet_current_index = self.fleet_selector.get()
                 submarine_fleet = self.storage_fleet_selector.SUBMARINE_FLEET
                 fleet_all_index = [fleet.fleet_index if isinstance(fleet, BossFleet) else submarine_fleet
                                    for fleet in self.parse_fleet_filter()]
-                index = []
-                for fleet_index in fleet_all_index:
-                    index.append(fleet_index)
-                    if fleet_current_index == fleet_index:
+                fleet_index = []
+                for index in fleet_all_index:
+                    fleet_index.append(index)
+                    if fleet_current_index == index:
                         break
-                if submarine_fleet in fleet_all_index and submarine_fleet not in index:
-                    index.append(submarine_fleet)
-            logger.attr('Repair Fleet', index)
-            return self.handle_storage_fleet_repair(index=index, revert=revert)
+                if submarine_fleet not in fleet_index and submarine_fleet in fleet_all_index:
+                    fleet_index.append(submarine_fleet)
+                elif submarine_fleet in fleet_index:
+                    fleet_index.remove(submarine_fleet)
+                    fleet_index.append(submarine_fleet)
+            logger.attr('Repair Fleet', fleet_index)
+            return self.handle_storage_fleet_repair(fleet_index=fleet_index, revert=revert)
         else:
             return self.fleet_repair(revert=revert)
 

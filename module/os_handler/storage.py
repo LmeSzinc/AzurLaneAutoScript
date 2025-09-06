@@ -278,6 +278,11 @@ class StorageHandler(GlobeOperation, ZoneManager):
         self.repair_pack_use_confirm(button)
 
     def storage_repair_cancel(self):
+        """
+        Pages:
+            in: STORAGE_FLEET_CHOOSE
+            out: STORAGE_CHECK
+        """
         self.ui_click(STORAGE_REPAIR_CANCEL, STORAGE_CHECK, retry_wait=2, skip_first_screenshot=True)
 
     def _storage_coordinate_checkout(self, button, types=('OBSCURE',), skip_first_screenshot=True):
@@ -353,6 +358,7 @@ class StorageHandler(GlobeOperation, ZoneManager):
             in: STORAGE_CHECK
             out: is_in_map, in an obscure/abyssal zone if checkout.
                  is_in_map, in previous zone if no more obscure/abyssal coordinates.
+                 STORAGE_FLEET_CHOOSE, for using repair packs.
         """
         logger.hr(f'Storage checkout item {item}')
         if SCROLL_STORAGE.appear(main=self):
@@ -400,6 +406,7 @@ class StorageHandler(GlobeOperation, ZoneManager):
             in: in_map
             out: is_in_map, in an obscure/abyssal zone if checkout.
                  is_in_map, in previous zone if no more obscure/abyssal coordinates.
+                 STORAGE_FLEET_CHOOSE, for using repair packs.
         """
         logger.hr('OS get next obscure')
         self.storage_enter()
