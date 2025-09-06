@@ -444,6 +444,7 @@ class GeneratedConfig:
     # Group `OpsiStronghold`
     OpsiStronghold_SubmarineEveryCombat = False
     OpsiStronghold_ForceRun = False
+    OpsiStronghold_HasStronghold = True
 
     # Group `OpsiMonthBoss`
     OpsiMonthBoss_Mode = 'normal'  # normal, normal_hard

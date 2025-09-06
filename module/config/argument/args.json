@@ -7253,7 +7253,7 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": true,
+        "value": false,
         "option": [
           true,
           false
@@ -7414,7 +7414,7 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": true,
+        "value": false,
         "option": [
           true,
           false
@@ -7776,7 +7776,7 @@
     "Scheduler": {
       "Enable": {
         "type": "checkbox",
-        "value": true,
+        "value": false,
         "option": [
           true,
           false
@@ -9672,6 +9672,11 @@
       "ForceRun": {
         "type": "checkbox",
         "value": false
+      },
+      "HasStronghold": {
+        "type": "stored",
+        "value": true,
+        "display": "hide"
       }
     },
     "OpsiFleetFilter": {

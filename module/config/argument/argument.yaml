@@ -746,8 +746,8 @@ OpsiDaily:
   SkipSirenResearchMission: false
   KeepMissionZone: false
   MissionZones:
-    value: null
     type: stored
+    value: null
     display: hide
 OpsiObscure:
   SkipHazard2Obscure: false
@@ -757,6 +757,10 @@ OpsiAbyssal:
 OpsiStronghold:
   SubmarineEveryCombat: false
   ForceRun: false
+  HasStronghold:
+    type: stored
+    value: True
+    display: hide
 OpsiMonthBoss:
   Mode:
     value: normal

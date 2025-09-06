@@ -2589,6 +2589,10 @@
     "ForceRun": {
       "name": "OpsiStronghold.ForceRun.name",
       "help": "OpsiStronghold.ForceRun.help"
+    },
+    "HasStronghold": {
+      "name": "OpsiStronghold.HasStronghold.name",
+      "help": "OpsiStronghold.HasStronghold.help"
     }
   },
   "OpsiMonthBoss": {

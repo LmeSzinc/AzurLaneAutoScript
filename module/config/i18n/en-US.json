@@ -2550,7 +2550,7 @@
     },
     "MissionZones": {
       "name": "Zones needed to be clear at the end of the month",
-      "help": ""
+      "help": "This value is automatically recorded and generally does not need to be modified."
     }
   },
   "OpsiObscure": {
@@ -2589,6 +2589,10 @@
     "ForceRun": {
       "name": "Force Run",
       "help": "Ignore interval, clear all siren strongholds, and use AP to submit scan orders (and submarine if enabled)\nGenerally not needed to force run, just run in intervals unless in a rush"
+    },
+    "HasStronghold": {
+      "name": "If found stronghold in last run",
+      "help": "This value is automatically recorded and generally does not need to be modified."
     }
   },
   "OpsiMonthBoss": {

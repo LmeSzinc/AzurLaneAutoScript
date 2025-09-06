@@ -556,10 +556,14 @@ class OperationSiren(OSMap):
                 with self.config.multi_set():
                     self.config.task_delay(minute=27, server_update=True)
                     if not self.is_in_opsi_explore():
-                        cd = self.nearest_task_cooling_down
-                        if cd is None:
-                            for task in ['OpsiAbyssal', 'OpsiStronghold', 'OpsiObscure']:
+                        if self.nearest_task_cooling_down is None:
+                            for task in ['OpsiAbyssal', 'OpsiObscure']:
                                 self.config.task_call(task, force_call=False)
+                            if self.config.is_task_enabled('OpsiStronghold'):
+                                if self.config.cross_get(keys='OpsiStronghold.OpsiStronghold.HasStronghold'):
+                                    self.config.task_call('OpsiStronghold')
+                                else:
+                                    logger.info('No stronghold left, skip task call')
                         self.config.task_call('OpsiMeowfficerFarming', force_call=False)
                 self.config.task_stop()
 
@@ -833,15 +837,18 @@ class OperationSiren(OSMap):
             RequestHumanTakeover: If unable to clear boss, fleets exhausted.
         """
         logger.hr('OS clear stronghold', level=1)
-        self.cl1_ap_preserve()
+        with self.config.multi_set():
+            self.config.OpsiStronghold_HasStronghold = True
+            self.cl1_ap_preserve()
 
-        self.os_map_goto_globe()
-        self.globe_update()
-        zone = self.find_siren_stronghold()
-        if zone is None:
-            # No siren stronghold, delay next run to tomorrow.
-            self.config.task_delay(server_update=True)
-            self.config.task_stop()
+            self.os_map_goto_globe()
+            self.globe_update()
+            zone = self.find_siren_stronghold()
+            if zone is None:
+                # No siren stronghold, delay next run to tomorrow.
+                self.config.OpsiStronghold_HasStronghold = False
+                self.config.task_delay(server_update=True)
+                self.config.task_stop()
 
         self.globe_enter(zone)
         self.zone_init()
