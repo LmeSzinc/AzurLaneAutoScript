@@ -170,7 +170,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         return hp_grid
 
     def _storage_hp_grid(self):
-        return ButtonGrid(origin=(185, 553), delta=(167, 0), button_shape=(99, 4), grid_shape=(6, 1))
+        return ButtonGrid(origin=(185, 553), delta=(166, 0), button_shape=(99, 4), grid_shape=(6, 1))
 
     def hp_retreat_triggered(self):
         return False
@@ -220,12 +220,14 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         """
         Calculate current HP in page STORAGE_CHECK, also detects the wrench (Ship died, need to repair)
         """
-        origin = self._hp_grid
+        origin = (self._hp_grid, self.COLOR_HP_RED)
         self._hp_grid = self._storage_hp_grid
+        self.COLOR_HP_RED = (236, 0, 0)
         try:
             self._storage_hp_get()
         finally:
-            self._hp_grid = origin
+            self._hp_grid = origin[0]
+            self.COLOR_HP_RED = origin[1]
         return self.hp
 
     def lv_get(self, after_battle=False):

@@ -4,9 +4,6 @@ from module.base.decorator import Config
 from module.config.utils import to_list
 from module.logger import logger
 
-# Color that shows on HP bar.
-COLOR_HP_GREEN = (156, 235, 57)
-COLOR_HP_RED = (99, 44, 24)
 SCOUT_POSITION = [
     (403, 421),
     (625, 369),
@@ -19,6 +16,9 @@ class HPBalancer(ModuleBase):
     fleet_show_index = 1
     _hp = {}
     _hp_has_ship = {}
+    # Color that shows on HP bar.
+    COLOR_HP_GREEN = (156, 235, 57)
+    COLOR_HP_RED = (99, 44, 24)
 
     @property
     def hp(self):
@@ -62,8 +62,8 @@ class HPBalancer(ModuleBase):
             float: HP.
         """
         data = max(
-            color_bar_percentage(self.device.image, area=area, prev_color=COLOR_HP_RED),
-            color_bar_percentage(self.device.image, area=area, prev_color=COLOR_HP_GREEN)
+            color_bar_percentage(self.device.image, area=area, prev_color=self.COLOR_HP_RED),
+            color_bar_percentage(self.device.image, area=area, prev_color=self.COLOR_HP_GREEN)
         )
         return data
 
