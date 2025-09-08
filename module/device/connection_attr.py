@@ -165,7 +165,7 @@ class ConnectionAttr:
 
     @cached_property
     def is_mumu12_family(self):
-        # 127.0.0.1:16XXX
+        # 127.0.0.1:16384 + 32*n, assume 32 instances at max
         return 16384 <= self.port <= 17408
 
     @cached_property
@@ -177,7 +177,8 @@ class ConnectionAttr:
     @cached_property
     def is_ldplayer_bluestacks_family(self):
         # Note that LDPlayer and BlueStacks have the same serial range
-        return self.serial.startswith('emulator-') or 5555 <= self.port <= 5587
+        # 127.0.0.1:5555 + 2*n, assume 32 instances at max
+        return self.serial.startswith('emulator-') or 5555 <= self.port <= 5619
 
     @cached_property
     def is_nox_family(self):
