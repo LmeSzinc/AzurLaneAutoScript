@@ -318,7 +318,8 @@ class Connection(ConnectionAttr):
         # BlueStacks Air is the Mac version of BlueStacks
         if not IS_MACINTOSH:
             return False
-        if not self.is_ldplayer_bluestacks_family:
+        # 127.0.0.1:5555 + 10*n, assume 32 instances at max
+        if not (5555 <= self.port <= 5875):
             return False
         # [bst.installed_images]: [Tiramisu64]
         # [bst.instance]: [Tiramisu64]
