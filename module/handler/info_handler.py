@@ -535,11 +535,12 @@ class InfoHandler(ModuleBase):
         """
         Wait until manjuu loading disappear.
         """
+        # Abuse of notation. Template do not have readable name, so add string here.
+        self.device.stuck_record_add('TEMPLATE_MANJUU')
         timer = Timer(1.5, count=3).start()
         while 1:
             self.device.screenshot()
             if self.manjuu_count():
-                self.device.stuck_record_clear()
                 timer.reset()
             else:
                 if timer.reached():
