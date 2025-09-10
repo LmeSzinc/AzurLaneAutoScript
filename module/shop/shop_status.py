@@ -9,7 +9,13 @@ if server.server != 'jp':
 else:
     OCR_SHOP_GEMS = Digit(SHOP_GEMS, letter=(190, 180, 82), name='OCR_SHOP_GEMS')
 # UI update in 20250814, but server TW is still old UI.
-if server.server != 'tw':
+if server.server == 'jp':
+    OCR_SHOP_GOLD_COINS = Digit(SHOP_OCR_BALANCE, letter=(110, 120, 130), name='OCR_SHOP_GOLD_COINS')
+    OCR_SHOP_MEDAL = Digit(SHOP_OCR_BALANCE, letter=(110, 120, 130), name='OCR_SHOP_MEDAL')
+    OCR_SHOP_MERIT = Digit(SHOP_OCR_BALANCE, letter=(110, 120, 130), name='OCR_SHOP_MERIT')
+    OCR_SHOP_GUILD_COINS = Digit(SHOP_OCR_BALANCE, letter=(110, 120, 130), name='OCR_SHOP_GUILD_COINS')
+    OCR_SHOP_CORE = Digit(SHOP_OCR_BALANCE, letter=(110, 120, 130), name='OCR_SHOP_CORE')
+elif server.server != 'tw':
     OCR_SHOP_GOLD_COINS = Digit(SHOP_OCR_BALANCE, letter=(100, 100, 100), name='OCR_SHOP_GOLD_COINS')
     OCR_SHOP_MEDAL = Digit(SHOP_OCR_BALANCE, letter=(100, 100, 100), name='OCR_SHOP_MEDAL')
     OCR_SHOP_MERIT = Digit(SHOP_OCR_BALANCE, letter=(100, 100, 100), name='OCR_SHOP_MERIT')

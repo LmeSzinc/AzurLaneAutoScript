@@ -4,7 +4,7 @@ from scipy import signal
 
 import module.config.server as server
 from module.base.button import ButtonGrid
-from module.base.decorator import Config, cached_property, del_cached_property
+from module.base.decorator import cached_property, del_cached_property
 from module.base.timer import Timer
 from module.base.utils import area_offset, rgb2gray
 from module.logger import logger
@@ -186,7 +186,7 @@ class MedalShop2(ShopClerk, ShopStatus):
         shop_medal_items.price_ocr = PRICE_OCR
         return shop_medal_items
 
-    def shop_items(self):
+    def shop_items(self) -> ShopItemGrid:
         """
         Shared alias name for all shops,
         so to use  @Config must define
@@ -347,7 +347,8 @@ class MedalShop2_250814(MedalShop2):
             templates={},
             amount_area=(60, 74, 96, 95),
             cost_area=(-12, 115, 60, 155),
-            price_area=self._shop_medal_price_area)
+            price_area=(14, 122, 85, 149),
+        )
         shop_medal_items.load_template_folder(self.shop_template_folder)
         shop_medal_items.load_cost_template_folder('./assets/shop/cost')
         shop_medal_items.similarity = 0.85  # Lower the threshold for consistent matches of PR/DRBP
@@ -355,23 +356,19 @@ class MedalShop2_250814(MedalShop2):
         shop_medal_items.price_ocr = PRICE_OCR_250814
         return shop_medal_items
 
-    @cached_property
-    @Config.when(SERVER='en')
-    def _shop_medal_price_area(self):
+    def shop_items(self) -> ShopItemGrid_250814:
         """
-        Returns:
-            tuple:
-        """
-        return 18, 121, 85, 160
+        Shared alias name for all shops,
+        so to use  @Config must define
+        a unique alias as cover
+        Overriding to add type hint to
+        accommodate unique func,
+        get_soldout_count in run()
 
-    @cached_property
-    @Config.when(SERVER=None)
-    def _shop_medal_price_area(self):
-        """
         Returns:
-            tuple:
+            ShopItemGrid_250814:
         """
-        return 14, 122, 85, 149
+        return self.shop_medal_items
 
     def run(self):
         """

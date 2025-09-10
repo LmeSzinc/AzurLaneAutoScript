@@ -122,6 +122,10 @@ class OpsiAshBeacon(Meta):
                     self._make_an_attack()
                     continue
             if MetaState.COMPLETE == state:
+                if self.appear(BEACON_LIST, offset=(20, 20)):
+                    self._meta_category = "beacon"
+                elif self.appear(DOSSIER_LIST, offset=(20, 20)):
+                    self._meta_category = "dossier"
                 self._handle_ash_beacon_reward()
                 if not self._meta_category in self._meta_receive:
                     self._meta_receive.append(self._meta_category)
@@ -244,7 +248,7 @@ class OpsiAshBeacon(Meta):
 
     def _pre_attack(self):
         """
-        Some pre_attack preparations, including recording meta category.
+        Some pre_attack preparations
         In beacon:
             ask for help if needed
         In dossier:
@@ -253,13 +257,11 @@ class OpsiAshBeacon(Meta):
         """
         # Page beacon or dossier
         if self.appear(BEACON_LIST, offset=(20, 20)):
-            self._meta_category = "beacon"
             if self.config.OpsiAshBeacon_OneHitMode or self.config.OpsiAshBeacon_RequestAssist:
                 if not self._ask_for_help():
                     return False
             return True
         if self.appear(DOSSIER_LIST, offset=(20, 20)):
-            self._meta_category = "dossier"
             # can auto attack but not auto attacking
             if _server_support_dossier_auto_attack() and self.config.OpsiAshBeacon_DossierAutoAttackMode \
                     and self.appear(META_AUTO_ATTACK_START, offset=(5, 5)):
