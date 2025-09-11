@@ -73,6 +73,7 @@ EmulatorInfo:
       MuMuPlayerX,
       MuMuPlayer12,
       MEmuPlayer,
+      Waydroid,
     ]
   name:
     value: null

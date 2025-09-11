@@ -161,6 +161,7 @@ class EmulatorBase:
     MuMuPlayer12 = 'MuMuPlayer12'
     MuMuPlayerFamily = [MuMuPlayer, MuMuPlayerX, MuMuPlayer12]
     MEmuPlayer = 'MEmuPlayer'
+    Waydroid = 'Waydroid'
 
     @classmethod
     def path_to_type(cls, path: str) -> str:
