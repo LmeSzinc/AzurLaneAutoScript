@@ -3,7 +3,7 @@ from datetime import datetime
 
 from lxml import etree
 
-from module.device.env import IS_WINDOWS
+from module.device.env import IS_LINUX, IS_WINDOWS
 # Patch pkg_resources before importing adbutils and uiautomator2
 from module.device.pkg_resources import get_distribution
 
@@ -89,7 +89,7 @@ class Device(Screenshot, Control, AppControl):
                     raise RequestHumanTakeover
 
         # Auto-fill emulator info
-        if IS_WINDOWS and self.config.EmulatorInfo_Emulator == 'auto':
+        if (IS_WINDOWS or IS_LINUX) and self.config.EmulatorInfo_Emulator == 'auto':
             _ = self.emulator_instance
 
         self.screenshot_interval_set()
