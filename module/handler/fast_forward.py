@@ -14,9 +14,13 @@ FAST_FORWARD.add_state('off', check_button=FAST_FORWARD_OFF)
 FLEET_LOCK = Switch('Fleet_Lock', offset=(5, 20))
 FLEET_LOCK.add_state('on', check_button=FLEET_LOCKED)
 FLEET_LOCK.add_state('off', check_button=FLEET_UNLOCKED)
-AUTO_SEARCH = Switch('Auto_Search', offset=(20, 20))
+AUTO_SEARCH = Switch('Auto_Search', offset=(60, 20))
 AUTO_SEARCH.add_state('on', check_button=AUTO_SEARCH_ON)
+AUTO_SEARCH.add_state('on', check_button=AUTO_SEARCH_ON2)
+AUTO_SEARCH.add_state('on', check_button=AUTO_SEARCH_ON3)
 AUTO_SEARCH.add_state('off', check_button=AUTO_SEARCH_OFF)
+AUTO_SEARCH.add_state('off', check_button=AUTO_SEARCH_OFF2)
+AUTO_SEARCH.add_state('off', check_button=AUTO_SEARCH_OFF3)
 
 
 def map_files(event):
