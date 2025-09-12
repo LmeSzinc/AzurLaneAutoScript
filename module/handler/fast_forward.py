@@ -138,7 +138,7 @@ class FastForwardHandler(AutoSearchHandler):
         self.map_achieved_star_3 = self._is_map_star_active(MAP_STAR_3)
         self.map_is_100_percent_clear = self.map_clear_percentage > 0.95
         self.map_is_3_stars = self.map_achieved_star_1 and self.map_achieved_star_2 and self.map_achieved_star_3
-        self.map_is_threat_safe = self.appear(MAP_GREEN)
+        self.map_is_threat_safe = self.appear(MAP_GREEN, offset=(20, 20))
         if self.config.Campaign_Name.lower() == 'sp':
             # Minor issue here
             # Using auto_search option because clear mode cannot be detected whether on SP
