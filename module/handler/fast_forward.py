@@ -18,9 +18,11 @@ AUTO_SEARCH = Switch('Auto_Search', offset=(60, 20))
 AUTO_SEARCH.add_state('on', check_button=AUTO_SEARCH_ON)
 AUTO_SEARCH.add_state('on', check_button=AUTO_SEARCH_ON2)
 AUTO_SEARCH.add_state('on', check_button=AUTO_SEARCH_ON3)
+AUTO_SEARCH.add_state('on', check_button=AUTO_SEARCH_ON4)
 AUTO_SEARCH.add_state('off', check_button=AUTO_SEARCH_OFF)
 AUTO_SEARCH.add_state('off', check_button=AUTO_SEARCH_OFF2)
 AUTO_SEARCH.add_state('off', check_button=AUTO_SEARCH_OFF3)
+AUTO_SEARCH.add_state('off', check_button=AUTO_SEARCH_OFF4)
 
 
 def map_files(event):
