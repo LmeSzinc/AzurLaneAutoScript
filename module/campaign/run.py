@@ -314,7 +314,16 @@ class CampaignRun(CampaignEvent):
         # Convert campaign_main to campaign hard if mode is hard and file exists
         if mode == 'hard' and folder == 'campaign_main' and name in map_files('campaign_hard'):
             folder = 'campaign_hard'
-
+        # event_20240912_cn does not have "Threat: Safe" indicator, fallback MapAchievement
+        if folder == 'event_20240912_cn':
+            if self.config.StopCondition_MapAchievement == 'threat_safe':
+                logger.info(
+                    'In event_20240912_cn, MapAchievement=threat_safe fallback to map_3_stars')
+                self.config.override(StopCondition_MapAchievement='map_3_stars')
+            if self.config.StopCondition_MapAchievement == 'threat_safe_without_3_stars':
+                logger.info(
+                    'In event_20240912_cn, MapAchievement=threat_safe_without_3_stars fallback to 100_percent_clear')
+                self.config.override(StopCondition_MapAchievement='100_percent_clear')
         return name, folder
 
     def can_use_auto_search_continue(self):

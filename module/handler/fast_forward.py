@@ -14,9 +14,15 @@ FAST_FORWARD.add_state('off', check_button=FAST_FORWARD_OFF)
 FLEET_LOCK = Switch('Fleet_Lock', offset=(5, 20))
 FLEET_LOCK.add_state('on', check_button=FLEET_LOCKED)
 FLEET_LOCK.add_state('off', check_button=FLEET_UNLOCKED)
-AUTO_SEARCH = Switch('Auto_Search', offset=(20, 20))
+AUTO_SEARCH = Switch('Auto_Search', offset=(60, 20))
 AUTO_SEARCH.add_state('on', check_button=AUTO_SEARCH_ON)
+AUTO_SEARCH.add_state('on', check_button=AUTO_SEARCH_ON2)
+AUTO_SEARCH.add_state('on', check_button=AUTO_SEARCH_ON3)
+AUTO_SEARCH.add_state('on', check_button=AUTO_SEARCH_ON4)
 AUTO_SEARCH.add_state('off', check_button=AUTO_SEARCH_OFF)
+AUTO_SEARCH.add_state('off', check_button=AUTO_SEARCH_OFF2)
+AUTO_SEARCH.add_state('off', check_button=AUTO_SEARCH_OFF3)
+AUTO_SEARCH.add_state('off', check_button=AUTO_SEARCH_OFF4)
 
 
 def map_files(event):
@@ -133,12 +139,12 @@ class FastForwardHandler(AutoSearchHandler):
             | INFO | [Map_info] 98%, star_1, star_2, star_3, clear, 3_star, green, fast_forward
         """
         self.map_clear_percentage = self.get_map_clear_percentage()
-        self.map_achieved_star_1 = self.appear(MAP_STAR_1)
-        self.map_achieved_star_2 = self.appear(MAP_STAR_2)
-        self.map_achieved_star_3 = self.appear(MAP_STAR_3)
+        self.map_achieved_star_1 = self._is_map_star_active(MAP_STAR_1)
+        self.map_achieved_star_2 = self._is_map_star_active(MAP_STAR_2)
+        self.map_achieved_star_3 = self._is_map_star_active(MAP_STAR_3)
         self.map_is_100_percent_clear = self.map_clear_percentage > 0.95
         self.map_is_3_stars = self.map_achieved_star_1 and self.map_achieved_star_2 and self.map_achieved_star_3
-        self.map_is_threat_safe = self.appear(MAP_GREEN)
+        self.map_is_threat_safe = self.appear(MAP_GREEN, offset=(20, 20))
         if self.config.Campaign_Name.lower() == 'sp':
             # Minor issue here
             # Using auto_search option because clear mode cannot be detected whether on SP
@@ -208,6 +214,9 @@ class FastForwardHandler(AutoSearchHandler):
         if changed:
             self.map_wait_auto_search()
         return changed
+
+    def _is_map_star_active(self, button):
+        return self.image_color_count(button, color=(250, 232, 140), threshold=180, count=35)
 
     def handle_map_fleet_lock(self, enable=None):
         """
