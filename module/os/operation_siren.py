@@ -211,6 +211,7 @@ class OperationSiren(OSMap):
         logger.hr(f'OS meowfficer farming, hazard_level=3', level=1)
         self.config.override(
             OpsiGeneral_DoRandomMapEvent=True,
+            OpsiGeneral_BuyActionPointLimit=0,
             HOMO_EDGE_DETECT=True,
             STORY_OPTION=-2,
             # Meowfficer farming

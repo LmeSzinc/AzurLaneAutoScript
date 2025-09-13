@@ -145,6 +145,10 @@ class Book:
             button (Button):
         """
         image = crop(image, button.area, copy=False)
+        # UI update in 20250814, input item image size is (64, 64), but default
+        # input is (98, 98), if image is not enlarged, get_color result is 0, book will ouput 'BookUnknownTn'
+        if image_size(image) < (98, 98):
+            image = resize(image, (98, 98))
         self.button = button
 
         # During the test of 40 random screenshots,
@@ -624,8 +628,10 @@ class RewardTacticalClass(Dock):
         # Set if favorite from config
         self.dock_favourite_set(enable=self.config.AddNewStudent_Favorite, wait_loading=False)
 
-        # reset filter
-        self.dock_filter_set()
+        # reset filter; naturally skip meta ships this way
+        self.dock_filter_set(
+            faction=[v for k, v in self.dock_filter.settings if k == 'faction' and v not in ['all', 'meta']]
+        )
 
         # No ship in dock
         if self.appear(DOCK_EMPTY, offset=(30, 30)):

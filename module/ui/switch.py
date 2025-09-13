@@ -31,6 +31,9 @@ class Switch:
         self.is_selector = is_selector
         self.offset = offset
         self.state_list = []
+        self.set_unknown_timer = Timer(5, count=10)
+        self.set_click_timer = Timer(1, count=2)
+        self.wait_timeout = Timer(2, count=4)
 
     def add_state(self, state, check_button, click_button=None, offset=0):
         """
@@ -124,8 +127,8 @@ class Switch:
 
         changed = False
         has_unknown = False
-        unknown_timer = Timer(5, count=10).start()
-        click_timer = Timer(1, count=3)
+        unknown_timer = self.set_unknown_timer.reset()
+        click_timer = self.set_click_timer.clear()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -193,7 +196,7 @@ class Switch:
         Returns:
             bool: If success
         """
-        timeout = Timer(2, count=6).start()
+        timeout = self.wait_timeout.reset()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
