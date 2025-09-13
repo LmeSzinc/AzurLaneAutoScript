@@ -145,14 +145,16 @@ class FleetOperator:
             if self.main.handle_popup_confirm(str(self._clear)):
                 continue
 
-            # End
-            if not self.in_use():
-                break
+            # check CLEAR button to avoid early stopped at popup showing animation
+            if self.allow():
+                # End
+                if not self.in_use():
+                    break
 
-            # Click
-            if click_timer.reached():
-                main.device.click(self._clear)
-                click_timer.reset()
+                # Click
+                if click_timer.reached():
+                    main.device.click(self._clear)
+                    click_timer.reset()
 
     def recommend(self, skip_first_screenshot=True):
         """

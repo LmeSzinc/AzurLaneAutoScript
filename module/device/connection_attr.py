@@ -78,9 +78,9 @@ class ConnectionAttr:
         # 127.0.0.1.5555
         serial = serial.replace('127.0.0.1.', '127.0.0.1:')
         # Mumu12 5.0 shows double serials, some people may just copy-paste it
-        # 5555,16384
-        if ',' in serial:
-            left, _, right = serial.partition(',')
+        # 5555,16384 -> replaced to 5555.16384
+        if '.' in serial:
+            left, _, right = serial.partition('.')
             if left.startswith('55') and right.startswith('16'):
                 serial = right
         # 16384

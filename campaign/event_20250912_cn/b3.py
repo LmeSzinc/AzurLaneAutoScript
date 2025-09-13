@@ -62,6 +62,7 @@ class Config(ConfigBase):
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
+    HOMO_STORAGE = ((8, 6), [(137.405, 104.804), (1046.044, 104.804), (-12.171, 652.093), (1166.717, 652.093)])
     MAP_SWIPE_MULTIPLY = (1.109, 1.130)
     MAP_SWIPE_MULTIPLY_MINITOUCH = (1.073, 1.093)
     MAP_SWIPE_MULTIPLY_MAATOUCH = (1.042, 1.060)
