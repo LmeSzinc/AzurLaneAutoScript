@@ -284,14 +284,14 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
             if self._is_mod_switch_hard_appear(active=True):
                 logger.attr('MAP_MODE_SWITCH', 'hard')
                 return True
-            if self.appear(MAP_MODE_SWITCH_NORMAL, offset=(20, 20), interval=2):
+            if self.match_template_color(MAP_MODE_SWITCH_NORMAL, offset=(20, 20), interval=2):
                 logger.attr('MAP_MODE_SWITCH', 'normal')
                 MAP_MODE_SWITCH_HARD.clear_offset()
                 self.device.click(MAP_MODE_SWITCH_HARD)
                 return False
             return False
         else:
-            logger.error(f'handle_map_mode_switch: Unknown mode={mode}')
+            logger.attr('MAP_MODE_SWITCH', 'unknown')
             return False
 
     def _is_mod_switch_hard_appear(self, active=True, interval=0):
