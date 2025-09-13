@@ -245,6 +245,7 @@ class InfoHandler(ModuleBase):
     """
     Guild popup info
     """
+
     def handle_guild_popup_confirm(self):
         if self.appear(GUILD_POPUP_CANCEL, offset=self._popup_offset) \
                 and self.appear(GUILD_POPUP_CONFIRM, offset=self._popup_offset, interval=2):
@@ -264,6 +265,7 @@ class InfoHandler(ModuleBase):
     """
     Mission popup info
     """
+
     def handle_mission_popup_go(self):
         if self.appear(MISSION_POPUP_ACK, offset=self._popup_offset) \
                 and self.appear(MISSION_POPUP_GO, offset=self._popup_offset, interval=2):
@@ -447,9 +449,6 @@ class InfoHandler(ModuleBase):
                 self.interval_clear(STORY_SKIP_3)
         else:
             self._story_confirm.reset()
-        if self.appear_then_click(GAME_TIPS, offset=(20, 20), interval=2):
-            self.story_popup_timeout.reset()
-            return True
         if self.appear_then_click(STORY_CLOSE, offset=(10, 10), interval=2):
             self.story_popup_timeout.reset()
             return True
@@ -494,18 +493,22 @@ class InfoHandler(ModuleBase):
     """
     Game tips
     """
+
     def handle_game_tips(self):
         """
         Returns:
             bool: If handled
         """
-        if self.appear(GAME_TIPS, offset=(20, 20), interval=2):
+        if self.appear(GAME_TIPS, offset=(20, 20), interval=2) and self.image_color_count(
+                GAME_TIPS.button, color=(40, 40, 40), threshold=240, count=50):
             self.device.click(GAME_TIPS)
             return True
-        if self.appear(GAME_TIPS3, offset=(20, 20), interval=2):
+        if self.appear(GAME_TIPS3, offset=(20, 20), interval=2) and self.image_color_count(
+                GAME_TIPS3.button, color=(40, 40, 40), threshold=240, count=50):
             self.device.click(GAME_TIPS)
             return True
-        if self.appear(GAME_TIPS4, offset=(20, 20), interval=2):
+        if self.appear(GAME_TIPS4, offset=(20, 20), interval=2) and self.image_color_count(
+                GAME_TIPS4.button, color=(40, 40, 40), threshold=240, count=50):
             self.device.click(GAME_TIPS)
             return True
 
@@ -514,6 +517,7 @@ class InfoHandler(ModuleBase):
     """
     Manjuu loading
     """
+
     def manjuu_count(self):
         """
         detect manjuu count by template matching
@@ -535,7 +539,7 @@ class InfoHandler(ModuleBase):
             self.device.screenshot()
             if not self.manjuu_count():
                 break
-    
+
     def handle_manjuu(self):
         """
         Handle manjuu loading.
