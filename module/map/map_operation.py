@@ -1,3 +1,5 @@
+import cv2
+
 from module.base.timer import Timer
 from module.exception import CampaignEnd, RequestHumanTakeover, ScriptEnd
 from module.handler.fast_forward import FastForwardHandler
@@ -272,15 +274,14 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
             if self.match_template_color(MAP_MODE_SWITCH_NORMAL, offset=(20, 20)):
                 logger.attr('MAP_MODE_SWITCH', 'normal')
                 return True
-            elif self.appear(MAP_MODE_SWITCH_HARD, offset=(20, 20), interval=2):
+            if self._is_mod_switch_hard_appear(active=False, interval=2):
                 logger.attr('MAP_MODE_SWITCH', 'hard')
                 MAP_MODE_SWITCH_NORMAL.clear_offset()
                 self.device.click(MAP_MODE_SWITCH_NORMAL)
-                return False
-            else:
-                return False
+                self.interval_reset(MAP_MODE_SWITCH_HARD)
+            return False
         elif mode == 'hard':
-            if self.match_template_color(MAP_MODE_SWITCH_HARD, offset=(20, 20)):
+            if self._is_mod_switch_hard_appear(active=True):
                 logger.attr('MAP_MODE_SWITCH', 'hard')
                 return True
             if self.appear(MAP_MODE_SWITCH_NORMAL, offset=(20, 20), interval=2):
@@ -288,11 +289,43 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                 MAP_MODE_SWITCH_HARD.clear_offset()
                 self.device.click(MAP_MODE_SWITCH_HARD)
                 return False
-            else:
-                return False
+            return False
         else:
             logger.error(f'handle_map_mode_switch: Unknown mode={mode}')
             return False
+
+    def _is_mod_switch_hard_appear(self, active=True, interval=0):
+        if interval:
+            interval = self.get_interval_timer(MAP_MODE_SWITCH_HARD, interval=interval)
+            if not interval.reached():
+                return False
+
+        for button in [
+            MAP_MODE_SWITCH_HARD,
+            MAP_MODE_SWITCH_HARD2,
+            MAP_MODE_SWITCH_HARD3,
+            MAP_MODE_SWITCH_HARD4,
+            MAP_MODE_SWITCH_HARD5,
+            MAP_MODE_SWITCH_HARD6,
+        ]:
+            if self.appear(button, offset=(20, 20), threshold=0.7):
+                if active:
+                    return self._is_mod_switch_hard_active(button)
+                else:
+                    return True
+        return False
+
+    def _is_mod_switch_hard_active(self, button):
+        image = self.image_crop(button.button)
+        # rgbmax
+        r, g, b = cv2.split(image)
+        cv2.max(r, g, dst=r)
+        cv2.max(r, b, dst=r)
+        # active button has white icon, check if count any color > 235
+        cv2.inRange(r, 235, 255, dst=r)
+        sum_ = cv2.countNonZero(r)
+        total = r.shape[0] * r.shape[1]
+        return sum_ / total > 0.5
 
     def handle_map_preparation(self):
         """
