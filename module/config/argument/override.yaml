@@ -46,6 +46,13 @@ GemsFarming:
       display: display
       value: fleet1_all_fleet2_standby
       option: [ fleet1_all_fleet2_standby, fleet1_standby_fleet2_all ]
+  Submarine:
+    Mode:
+      display: display
+      value: do_not_use
+      option: [ do_not_use, hunt_only ]
+    AutoSearchMode: sub_standby
+    DistanceToBoss: use_open_ocean_support
 
 # ==================== Event ====================
 
