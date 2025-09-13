@@ -34,6 +34,9 @@ ASIDE_SWITCH_20241219.add_state('part1', CHAPTER_20241219_PART1)
 ASIDE_SWITCH_20241219.add_state('part2', CHAPTER_20241219_PART2)
 ASIDE_SWITCH_20241219.add_state('sp', CHAPTER_20241219_SP)
 ASIDE_SWITCH_20241219.add_state('ex', CHAPTER_20241219_EX)
+# shorten unknown_timer for faster hanlding
+# because of game bug that aside indicator will be missing after campaign retreat or finish
+ASIDE_SWITCH_20241219.set_unknown_timer = Timer(0.6, count=2)
 
 
 def is_digit_chapter(chapter):
