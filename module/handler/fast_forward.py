@@ -8,7 +8,7 @@ from module.handler.auto_search import AutoSearchHandler
 from module.logger import logger
 from module.ui.switch import Switch
 
-FAST_FORWARD = Switch('Fast_Forward')
+FAST_FORWARD = Switch('Fast_Forward', offset=(5, 5))
 FAST_FORWARD.add_state('on', check_button=FAST_FORWARD_ON)
 FAST_FORWARD.add_state('off', check_button=FAST_FORWARD_OFF)
 FLEET_LOCK = Switch('Fleet_Lock', offset=(5, 20))
