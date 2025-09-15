@@ -572,31 +572,11 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
         if deep_get(self.data, keys=f"{task}.Scheduler.NextRun", default=None) is None:
             raise ScriptError(f"Task to call: `{task}` does not exist in user config")
 
-        # if force_call or self.is_task_enabled(task):
-        #     logger.info(f"Task call: {task}")
-        #     self.modified[f"{task}.Scheduler.NextRun"] = datetime.now().replace(
-        #         microsecond=0
-        #     )
-        #     self.modified[f"{task}.Scheduler.Enable"] = True
-        #     if self.auto_update:
-        #         self.update()
-        #     return True
-        # else:
-        #     logger.info(f"Task call: {task} (skipped because disabled by user)")
-        #     return False
-
-# modfiy by MHY
         if force_call or self.is_task_enabled(task):
             logger.info(f"Task call: {task}")
-
-            # 特殊处理 Restart 任务，如果配置了自定义时间则不覆盖
-            if task == 'Restart' and getattr(self, '_restart_has_custom_time', False):
-                logger.info(f"Restart task has custom time configured, skipping NextRun override")
-            else:
-                self.modified[f"{task}.Scheduler.NextRun"] = datetime.now().replace(
-                    microsecond=0
-                )
-            
+            self.modified[f"{task}.Scheduler.NextRun"] = datetime.now().replace(
+                microsecond=0
+            )
             self.modified[f"{task}.Scheduler.Enable"] = True
             if self.auto_update:
                 self.update()
@@ -604,7 +584,6 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
         else:
             logger.info(f"Task call: {task} (skipped because disabled by user)")
             return False
-# end modfiy by MHY
 
     @staticmethod
     def task_stop(message=""):
