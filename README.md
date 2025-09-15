@@ -9,20 +9,20 @@
 
 ### 2025.09.15 - 重启逻辑优化
 - **核心改进**：尝试重构脚本重启游戏逻辑
-  - ~~修改 `Restart` 任务的调用机制，支持可配置的重启时间点~~ *(已放弃)*
-  - ~~添加 `RestartTime` 配置选项，支持多种时间格式~~ *(已放弃)*
-  - ~~优化 `task_call` 方法，避免自定义重启时间被覆盖~~ *(已放弃)*
+  - ~~修改 `Restart` 任务的调用机制，支持可配置的重启时间点~~ *(暂时弃用)*
+  - ~~添加 `RestartTime` 配置选项，支持多种时间格式~~ *(暂时弃用)*
+  - ~~优化 `task_call` 方法，避免自定义重启时间被覆盖~~ *(暂时弃用)*
   - 在部分异常情况下，系统会尝试保持运行状态，减少不必要的游戏重启
 - **技术细节**：
-  - ~~修改 `module/handler/login.py` 中的 `app_restart` 方法~~  *(已放弃)*
-  - ~~更新 `module/config/config.py` 中的 `task_call` 方法~~  *(已放弃)*
+  - ~~修改 `module/handler/login.py` 中的 `app_restart` 方法~~  *(暂时弃用)*
+  - ~~更新 `module/config/config.py` 中的 `task_call` 方法~~  *(暂时弃用)*
   - ~~修改 `alas.py` 中的判断重启逻辑~~ *(已禁用修改)*
   - ~~修改 `module/campaign/run.py` 中的重启调用~~ *(已禁用修改)*
-  - ~~添加了配置选项到 `module/config/argument/args.json`~~ *(已放弃)*
+  - ~~添加了配置选项到 `module/config/argument/args.json`~~ *(暂时弃用)*
   - 支持禁用强制重启功能，以供特殊需求
 - **状态说明**：
   - ✅ 已完成：禁用强制重启功能
-  - ❌ 已放弃：独立配置`Restart`逻辑
+  - ❌ 暂时弃用：独立配置`Restart`逻辑
 
 
 
