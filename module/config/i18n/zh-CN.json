@@ -48,7 +48,7 @@
     },
     "RestartTime": {
       "name": "重启时间点",
-      "help": "重启时间点，支持格式：YYYY-MM-DD HH:MM、YYYY/MM/DD HH:MM、MM-DD HH:MM、MM/DD HH:MM，空值表示使用默认的服务器更新时间"
+      "help": ""
     },
     "Main": {
       "name": "主线图",
