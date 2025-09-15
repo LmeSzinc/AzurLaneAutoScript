@@ -1,3 +1,26 @@
+## 个人修改项目
+
+### 2025.08.19 - 添加仪表盘
+- **参考项目**：[Alas-with-Dashboard](https://github.com/Zuosizhu/Alas-with-Dashboard)
+- **新增功能**：集成 Dashboard 模块，可实时显示游戏内所有资源量
+  - 支持显示石油、金币、钻石等主要资源
+  - 实时更新资源状态
+  - 提供直观的资源监控界面
+
+### 2025.09.15 - 重启逻辑优化
+- **核心改进**：尝试重构脚本重启游戏逻辑
+  - 修改 `Restart` 任务的调用机制，支持可配置的重启时间点
+  - 添加 `RestartTime` 配置选项，支持多种时间格式
+  - 优化 `task_call` 方法，避免自定义重启时间被覆盖
+  - 在部分异常情况下，系统会尝试保持运行状态，减少不必要的游戏重启
+- **技术细节**：
+  - 修改了 `module/handler/login.py` 中的 `app_restart` 方法
+  - 更新了 `module/config/config.py` 中的 `task_call` 方法
+  - 添加了配置选项到 `module/config/argument/args.json`
+  - 支持禁用强制重启功能，以供特殊需求
+
+
+
 **| [English](README_en.md) | 简体中文 | [日本語](README_jp.md) |**
 
 # AzurLaneAutoScript
