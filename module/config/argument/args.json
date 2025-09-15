@@ -580,7 +580,7 @@
   "Restart": {
     "Scheduler": {
       "Enable": {
-        "type": "state",
+        "type": "checkbox",
         "value": true,
         "option": [
           true,
@@ -594,7 +594,8 @@
         "type": "input",
         "value": "",
         "validate": "datetime",
-        "help": ""
+        "name": "RestartTime",
+        "help": "RestartTime"
       },
       "NextRun": {
         "type": "datetime",
