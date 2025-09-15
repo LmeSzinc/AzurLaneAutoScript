@@ -10,7 +10,8 @@ import numpy as np
 
 import module.config.server as server
 from module.base.button import ButtonGrid
-from module.base.utils import (color_similar, crop, extract_letters, get_color, limit_in,
+from module.base.utils import (color_similar, crop, extract_letters, get_color,
+                               image_color_count, limit_in,
                                random_normal_distribution_int,
                                random_rectangle_point)
 from module.combat.level import LevelOcr
@@ -22,9 +23,9 @@ from module.retire.assets import (DOCK_CHECK, SHIP_DETAIL_CHECK,
                                   TEMPLATE_FLEET_5, TEMPLATE_FLEET_6,
                                   TEMPLATE_IN_BATTLE, TEMPLATE_IN_COMMISSION, TEMPLATE_IN_HARD,
                                   TEMPLATE_IN_EVENT_FLEET)
-from module.retire.dock import (CARD_EMOTION_GRIDS, CARD_GRIDS,
-                                CARD_LEVEL_GRIDS, CARD_RARITY_GRIDS,
-                                DOCK_SCROLL)
+from module.retire.dock import (CARD_EMOTION_GRIDS, CARD_EMOTION_STATUS_GRIDS, CARD_GRIDS,
+                                CARD_LEVEL_GRIDS, CARD_RARITY_GRIDS, DOCK_SCROLL,
+                                EMOTION_RED, EMOTION_YELLOW, EMOTION_GREEN)
 
 
 class EmotionDigit(Digit):
@@ -32,14 +33,6 @@ class EmotionDigit(Digit):
         if server.server == 'jp':
             image_gray = extract_letters(image, letter=(255, 255, 255), threshold=self.threshold)
             right_side = np.nonzero(image_gray[0:16, :].max(axis=0) > 192)[-1]
-            for i, col in enumerate(right_side):
-                if i < col:
-                    break
-            image = image[:, :i]
-        else:
-            cv2.convertScaleAbs(image, alpha=2, beta=-160, dst=image)
-            image_gray = extract_letters(image, letter=(255, 255, 255), threshold=self.threshold)
-            right_side = np.nonzero(image_gray[0:16, :].max(axis=0) > 160)[-1]
             for i, col in enumerate(right_side):
                 if i < col:
                     break
@@ -216,7 +209,21 @@ class EmotionScanner(Scanner):
                                       threshold=176)
 
     def _scan(self, image) -> List:
-        return self.ocr_model.ocr(image)
+        results = []
+        for emotion, emotion_status in zip(
+                self.ocr_model.ocr(image),
+                EmotionStatusScanner().scan(image)):
+            if emotion_status == 'red':
+                emotion = 0
+            elif emotion_status == 'yellow':
+                if emotion > 30:
+                    emotion //= 10
+            elif emotion_status == 'green':
+                if emotion > 40:
+                    emotion //= 10
+            results.append(emotion)
+        logger.attr('DOCK_EMOTION_OCR', results)
+        return results
 
     def limit_value(self, value) -> int:
         return limit_in(value, 0, 150)
@@ -224,6 +231,47 @@ class EmotionScanner(Scanner):
     def move(self, vector) -> None:
         super().move(vector)
         self.ocr_model.buttons = [button.area for button in self.grids.buttons]
+
+
+class EmotionStatusScanner(Scanner):
+    def __init__(self) -> None:
+        super().__init__()
+        self._results = []
+        self.grids = CARD_EMOTION_STATUS_GRIDS
+        self.value_list: List[str] = ['red', 'yellow', 'green', 'unknown']
+
+    def get_emotion_status(self, image) -> str:
+        """
+        Get the emotion status (at the right-up corner of the ship card).
+        EmotionStatus can be ['yellow', 'green', 'red', 'unknown'].
+            'yellow': 1 <= emotion <= 30
+            'green': 31 <= emotion <= 40
+            'red': emotion = 0
+            'unknown': emotion > 40
+
+        Args:
+            image (np.ndarray):
+
+        Returns:
+            str: EmotionStatus
+        """
+        if image_color_count(image, color=EMOTION_YELLOW, count=300):
+            return 'yellow'
+        elif image_color_count(image, color=EMOTION_GREEN, count=300):
+            return 'green'
+        elif image_color_count(image, color=EMOTION_RED, count=300):
+            return 'red'
+        else:
+            return 'unknown'
+
+    def _scan(self, image) -> List:
+        results = [self.get_emotion_status(crop(image, button.area, copy=False))
+                   for button in self.grids.buttons]
+        logger.attr('DOCK_EMOTION_STATUS', results)
+        return results
+
+    def limit_value(self, value) -> str:
+        return value if value in self.value_list else 'any'
 
 
 class RarityScanner(Scanner):

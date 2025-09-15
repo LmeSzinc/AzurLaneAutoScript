@@ -1039,6 +1039,23 @@ def color_similarity_2d(image, color):
     return positive
 
 
+def image_color_count(image, color, threshold=221, count=50):
+    """
+    Args:
+        image (np.ndarray):
+        color (tuple): RGB.
+        threshold: 255 means colors are the same, the lower the worse.
+        count (int): Pixels count.
+
+    Returns:
+        bool:
+    """
+    mask = color_similarity_2d(image, color=color)
+    cv2.inRange(mask, threshold, 255, dst=mask)
+    sum_ = cv2.countNonZero(mask)
+    return sum_ > count
+
+
 def extract_letters(image, letter=(255, 255, 255), threshold=128):
     """Set letter color to black, set background color to white.
 

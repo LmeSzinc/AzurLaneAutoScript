@@ -351,10 +351,7 @@ class ModuleBase:
             image = button
         else:
             image = self.image_crop(button, copy=False)
-        mask = color_similarity_2d(image, color=color)
-        cv2.inRange(mask, threshold, 255, dst=mask)
-        sum_ = cv2.countNonZero(mask)
-        return sum_ > count
+        return image_color_count(image, color, threshold, count)
 
     def image_color_button(self, area, color, color_threshold=250, encourage=5, name='COLOR_BUTTON'):
         """
