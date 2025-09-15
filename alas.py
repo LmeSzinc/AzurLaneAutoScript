@@ -72,14 +72,16 @@ class AzurLaneAutoScript:
             return True
         except GameNotRunningError as e:
             logger.warning(e)
-            self.config.task_call('Restart')
+            # self.config.task_call('Restart')  # modfiy by MHY
+            self.config.task_call('Restart', force_call=False)  # 禁用强制重启
             return False
         except (GameStuckError, GameTooManyClickError) as e:
             logger.error(e)
             self.save_error_log()
             logger.warning(f'Game stuck, {self.device.package} will be restarted in 10 seconds')
             logger.warning('If you are playing by hand, please stop Alas')
-            self.config.task_call('Restart')
+            # self.config.task_call('Restart')  # modfiy by MHY
+            self.config.task_call('Restart', force_call=False)  # 禁用强制重启
             self.device.sleep(10)
             return False
         except GameBugError as e:
@@ -87,7 +89,8 @@ class AzurLaneAutoScript:
             self.save_error_log()
             logger.warning('An error has occurred in Azur Lane game client, Alas is unable to handle')
             logger.warning(f'Restarting {self.device.package} to fix it')
-            self.config.task_call('Restart')
+            # self.config.task_call('Restart')  # modfiy by MHY
+            self.config.task_call('Restart', force_call=False)  # 禁用强制重启
             self.device.sleep(10)
             return False
         except GamePageUnknownError:
@@ -534,7 +537,7 @@ class AzurLaneAutoScript:
                 # So update it once recovered
                 del_cached_property(self, 'config')
                 logger.info('Server or network is recovered. Restart game client')
-                self.config.task_call('Restart')
+                self.config.task_call('Restart', force_call=False)
             # Get task
             task = self.get_next_task()
             # Init device and change server
