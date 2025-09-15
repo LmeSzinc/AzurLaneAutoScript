@@ -149,8 +149,8 @@ class CampaignRun(CampaignEvent, ShopStatus):
 
     def handle_app_restart(self):
         if self._triggered_app_restart():
-            # self.config.task_call('Restart')  # modfiy by MHY
-            self.config.task_call('Restart', force_call=False)  # 禁用强制重启
+            self.config.task_call('Restart')  # modfiy by MHY
+            # self.config.task_call('Restart', force_call=False)  # 禁用强制重启
             return True
 
         return False

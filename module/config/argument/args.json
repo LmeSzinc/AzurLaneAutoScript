@@ -590,13 +590,6 @@
           true
         ]
       },
-      "RestartTime": {
-        "type": "input",
-        "value": "",
-        "validate": "datetime",
-        "name": "RestartTime",
-        "help": "RestartTime"
-      },
       "NextRun": {
         "type": "datetime",
         "value": "2020-01-01 00:00:00",
