@@ -445,9 +445,9 @@ class OperationSiren(OSMap):
         Recommend 3 or 5 for higher meowfficer searching point per action points ratio.
         """
         logger.hr(f'OS meowfficer farming, hazard_level={self.config.OpsiMeowfficerFarming_HazardLevel}', level=1)
-        if self.is_cl1_enabled and self.config.OpsiMeowfficerFarming_ActionPointPreserve < 1000:
-            logger.info('With CL1 leveling enabled, set action point preserve to 1000')
-            self.config.OpsiMeowfficerFarming_ActionPointPreserve = 1000
+        if self.is_cl1_enabled and self.config.OpsiMeowfficerFarming_ActionPointPreserve < 500:
+            logger.info('With CL1 leveling enabled, set action point preserve to 500')
+            self.config.OpsiMeowfficerFarming_ActionPointPreserve = 500
         preserve = min(self.get_action_point_limit(self.config.OpsiMeowfficerFarming_APPreserveUntilReset),
                        self.config.OpsiMeowfficerFarming_ActionPointPreserve)
         if preserve == 0:
@@ -489,8 +489,7 @@ class OperationSiren(OSMap):
                 check_rest_ap = True
                 if not self.is_cl1_enabled and self.config.OpsiGeneral_BuyActionPointLimit > 0:
                     keep_current_ap = False
-                if self.is_cl1_enabled and self.get_yellow_coins() >= self.config.cross_get(
-                        keys='OpsiHazard1Leveling.OpsiHazard1Leveling.OperationCoinsPreserve'):
+                if self.is_cl1_enabled and self.cl1_enough_yellow_coins:
                     check_rest_ap = False
                     try:
                         self.action_point_set(cost=0, keep_current_ap=keep_current_ap, check_rest_ap=check_rest_ap)

@@ -39,6 +39,11 @@ class OSStatus(UI):
         return self.config.is_task_enabled('OpsiHazard1Leveling')
 
     @property
+    def cl1_enough_yellow_coins(self) -> bool:
+        return self.get_yellow_coins() >= self.config.cross_get(
+            keys='OpsiHazard1Leveling.OpsiHazard1Leveling.OperationCoinsPreserve')
+
+    @property
     def nearest_task_cooling_down(self) -> t.Optional[Function]:
         """
         If having any tasks cooling down,
@@ -101,6 +106,5 @@ class OSStatus(UI):
         logger.info(f'Yellow coins: {self._shop_yellow_coins}, purple coins: {self._shop_purple_coins}')
 
     def cl1_task_call(self):
-        if self.is_cl1_enabled and self.get_yellow_coins() > self.config.cross_get(
-                keys='OpsiHazard1Leveling.OpsiHazard1Leveling.OperationCoinsPreserve'):
+        if self.is_cl1_enabled and self.cl1_enough_yellow_coins:
             self.config.task_call('OpsiHazard1Leveling')

@@ -575,13 +575,10 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
         """
         Keeping enough startup AP to run CL1.
         """
-        if self.is_cl1_enabled and get_os_reset_remain() > 2 \
-                and self.get_yellow_coins() > self.config.cross_get(
-                    keys='OpsiHazard1Leveling.OpsiHazard1Leveling.OperationCoinsPreserve'):
-            OpsiMeowfficerFarming_ActionPointPreservse = self.config.cross_get(
-                    keys='OpsiMeowfficerFarming.OpsiMeowfficerFarming.ActionPointPreserve')
-            logger.info(f'Keep {OpsiMeowfficerFarming_ActionPointPreservse} AP when CL1 available')
-            if not self.action_point_check(OpsiMeowfficerFarming_ActionPointPreservse):
+        if self.is_cl1_enabled and get_os_reset_remain() > 2 and self.cl1_enough_yellow_coins:
+            preserve = self.config.cross_get(keys='OpsiMeowfficerFarming.OpsiMeowfficerFarming.ActionPointPreserve')
+            logger.info(f'Keep {preserve} AP when CL1 available')
+            if not self.action_point_check(preserve):
                 self.config.opsi_task_delay(cl1_preserve=True)
                 self.cl1_task_call()
                 self.config.task_stop()
