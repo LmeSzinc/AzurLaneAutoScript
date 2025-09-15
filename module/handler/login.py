@@ -156,13 +156,79 @@ class LoginHandler(UI):
         self.handle_app_login()
         # self.ensure_no_unfinished_campaign()
 
+    # def app_restart(self):
+    #     logger.hr('App restart')
+    #     self.device.app_stop()
+    #     self.device.app_start()
+    #     self.handle_app_login()
+    #     # self.ensure_no_unfinished_campaign()
+    #     self.config.task_delay(server_update=True)    # modfiy by MHY
+
+# modfiy by MHY
     def app_restart(self):
         logger.hr('App restart')
         self.device.app_stop()
         self.device.app_start()
         self.handle_app_login()
-        # self.ensure_no_unfinished_campaign()
-        self.config.task_delay(server_update=True)
+        # self.ensure_no_unfinished_campaign()      # del original code
+        # self.config.task_delay(server_update=True)    # modfiy by MHY
+        
+        # 计算重启时间并直接设置到配置中，避免被 task_call 覆盖
+        restart_time = None
+        if hasattr(self.config, 'RestartTime') and self.config.RestartTime:
+            try:
+                from datetime import datetime
+                restart_time_str = self.config.RestartTime.strip()
+                
+                # 支持多种时间格式
+                time_formats = [
+                    '%Y-%m-%d %H:%M',      # 2025-09-20 24:00
+                    '%Y-%m-%d %H:%M:%S',   # 2025-09-20 24:00:00
+                    '%Y/%m/%d %H:%M',      # 2025/09/20 24:00
+                    '%Y/%m/%d %H:%M:%S',   # 2025/09/20 24:00:00
+                    '%m-%d %H:%M',         # 09-20 24:00 (当年)
+                    '%m/%d %H:%M',         # 09/20 24:00 (当年)
+                ]
+                
+                for fmt in time_formats:
+                    try:
+                        restart_time = datetime.strptime(restart_time_str, fmt)
+                        # 如果是没有年份的格式，使用当前年份
+                        if fmt in ['%m-%d %H:%M', '%m/%d %H:%M']:
+                            current_year = datetime.now().year
+                            restart_time = restart_time.replace(year=current_year)
+                        break
+                    except ValueError:
+                        continue
+                
+                if restart_time:
+                    logger.info(f'Using configured restart time: {restart_time}')
+                else:
+                    raise ValueError(f"Unsupported time format: {restart_time_str}")
+                    
+            except ValueError as e:
+                logger.warning(f'Invalid RestartTime format: {self.config.RestartTime}, using server update time instead')
+                restart_time = None
+        
+        # 直接设置 NextRun 时间，避免被 task_call 覆盖
+        if restart_time:
+            # 直接设置到配置中，确保不会被 task_call 覆盖
+            self.config.modified['Restart.Scheduler.NextRun'] = restart_time
+            logger.info(f'Set Restart NextRun to: {restart_time}')
+        else:
+            # 使用默认的服务器更新时间
+            from module.base.utils import get_server_next_update
+            server_update_time = get_server_next_update(self.config.Scheduler_ServerUpdate)
+            self.config.modified['Restart.Scheduler.NextRun'] = server_update_time
+            logger.info(f'Set Restart NextRun to server update time: {server_update_time}')
+        
+        # 标记 Restart 任务有自定义时间配置，防止被 task_call 覆盖
+        self.config._restart_has_custom_time = True
+        
+        # 更新配置
+        if self.config.auto_update:
+            self.config.update()
+# end modfiy by MHY
 
     def ensure_no_unfinished_campaign(self, confirm_wait=3):
         """

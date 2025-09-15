@@ -583,11 +583,18 @@
         "type": "state",
         "value": true,
         "option": [
-          true
+          true,
+          false
         ],
         "option_bold": [
           true
         ]
+      },
+      "RestartTime": {
+        "type": "input",
+        "value": "",
+        "validate": "datetime",
+        "help": "重启时间点，支持格式：YYYY-MM-DD HH:MM、YYYY/MM/DD HH:MM、MM-DD HH:MM、MM/DD HH:MM，空值表示使用默认的服务器更新时间"
       },
       "NextRun": {
         "type": "datetime",
