@@ -897,7 +897,7 @@ class Fleet(Camera, AmbushHandler):
         self.lv_get()
         self.ensure_edge_insight(preset=self.map.in_map_swipe_preset_data)
         self.handle_info_bar()  # The info_bar which shows "Changed to fleet 2", will block the ammo icon
-        self.full_scan(must_scan=self.map.camera_data_spawn_point)
+        self.full_scan(must_scan=self.map.camera_data_spawn_point, mode='init')
         self.find_current_fleet()
         self.find_submarine()
         self.find_path_initial()
