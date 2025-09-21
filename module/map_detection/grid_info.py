@@ -186,7 +186,7 @@ class GridInfo:
         """
         Args:
             info (GridInfo):
-            mode (str): Scan mode, such as 'normal', 'carrier', 'movable'
+            mode (str): Scan mode, such as 'init', 'normal', 'carrier', 'movable'
 
         Returns:
             bool: If success.
@@ -209,7 +209,12 @@ class GridInfo:
                 self.is_fleet = True
                 if info.is_current_fleet:
                     self.is_current_fleet = True
-                return True
+                if mode == 'init' and info.is_enemy:
+                    # on init scan, we allow a grid to be both is_fleet and is_enemy
+                    # so fixup_submarine_fleet can info
+                    pass
+                else:
+                    return True
             else:
                 return False
         if info.is_boss:
