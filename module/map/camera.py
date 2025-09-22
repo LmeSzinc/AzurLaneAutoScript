@@ -411,7 +411,7 @@ class Camera(MapOperation):
             mystery_count:
             siren_count:
             carrier_count:
-            mode (str): Scan mode, such as 'normal', 'carrier', 'movable'
+            mode (str): Scan mode, such as 'init', 'normal', 'carrier', 'movable'
 
         """
         logger.info(f'Full scan start, mode={mode}')
