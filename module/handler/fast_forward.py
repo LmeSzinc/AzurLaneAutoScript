@@ -328,7 +328,8 @@ class FastForwardHandler(AutoSearchHandler):
             return False
         if not self.is_call_submarine_at_boss:
             return False
-        if not self.map_is_auto_search:
+        # 2025.09.22, correct that fleet role settings is unlocked after clear mode
+        if not self.map_is_clear_mode:
             logger.warning('Can not set submarine call because auto search not available, assuming disabled')
             logger.warning('Please do the followings: '
                            'goto any stage -> auto search role -> set submarine role to standby')
