@@ -154,6 +154,10 @@ class Device(Screenshot, Control, AppControl, Input):
             if not (self.is_emulator and self.is_ldplayer_bluestacks_family):
                 logger.warning('ScreenshotMethod ldopengl is available on LD Player only, fallback to auto')
                 self.config.Emulator_ScreenshotMethod = 'auto'
+        if not IS_WINDOWS and self.config.Emulator_ScreenshotMethod in ['nemu_ipc', 'ldopengl']:
+            logger.warning(f'ScreenshotMethod {self.config.Emulator_ScreenshotMethod} is available on Windows only, '
+                           f'fallback to auto')
+            self.config.Emulator_ScreenshotMethod = 'auto'
 
     def handle_night_commission(self, daily_trigger='21:00', threshold=30):
         """
