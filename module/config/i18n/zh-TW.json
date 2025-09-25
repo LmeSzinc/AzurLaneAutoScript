@@ -1876,6 +1876,37 @@
       "help": ""
     }
   },
+  "EventShop": {
+    "_info": {
+      "name": "活動商店",
+      "help": ""
+    },
+    "Enable": {
+      "name": "啟用活動商店",
+      "help": ""
+    },
+    "UnlockSSRShip": {
+      "name": "解鎖SSR艦船",
+      "help": ""
+    },
+    "BuyURShip": {
+      "name": "購買X艘UR艦船",
+      "help": "",
+      "0": "0",
+      "1": "1",
+      "2": "2"
+    },
+    "PresetFilter": {
+      "name": "活動商店過濾器",
+      "help": "一般不需要修改",
+      "all": "全部",
+      "custom": "自定義過濾器"
+    },
+    "CustomFilter": {
+      "name": "自定義活動商店過濾器",
+      "help": "使用自定義過濾器需將 \"活動商店過濾器\" 設定為 \"自定義過濾器\"，並閱讀 https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn"
+    }
+  },
   "ShipyardDr": {
     "_info": {
       "name": "彩科研圖紙購買設定",
