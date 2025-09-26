@@ -39,6 +39,7 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy, NemuIpc, LDOpenGL):
             'aScreenCap_nc': self.screenshot_ascreencap_nc,
             'DroidCast': self.screenshot_droidcast,
             'DroidCast_raw': self.screenshot_droidcast_raw,
+            'DroidCast_lz4': self.screenshot_droidcast_lz4,
             'scrcpy': self.screenshot_scrcpy,
             'nemu_ipc': self.screenshot_nemu_ipc,
             'ldopengl': self.screenshot_ldopengl,
