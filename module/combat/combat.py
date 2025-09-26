@@ -117,6 +117,8 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         # PAUSE_Seaside is in light blue
         if PAUSE_Seaside.match_template_color(self.device.image, offset=(10, 10)):
             return PAUSE_Seaside
+        if PAUSE_Ninja.match_template_color(self.device.image, offset=(10, 10)):
+            return PAUSE_Ninja
         return False
 
     def handle_combat_quit(self, offset=(20, 20), interval=3):
@@ -158,6 +160,10 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         # Battle UI PAUSE_Devil uses QUIT_New
         if QUIT_Seaside.match_luma(self.device.image, offset=offset):
             self.device.click(QUIT_Seaside)
+            timer.reset()
+            return True
+        if QUIT_Ninja.match_luma(self.device.image, offset=offset):
+            self.device.click(QUIT_Ninja)
             timer.reset()
             return True
         return False

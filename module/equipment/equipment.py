@@ -15,6 +15,8 @@ equipping_filter.add_state('off', check_button=EQUIPPING_OFF)
 
 SWIPE_DISTANCE = 250
 SWIPE_RANDOM_RANGE = (-40, -20, 40, 20)
+# patch to handle both blue (folded) and orange (expanded) button
+EQUIPMENT_OPEN.match = EQUIPMENT_OPEN.match_luma
 
 
 class Equipment(StorageHandler):
