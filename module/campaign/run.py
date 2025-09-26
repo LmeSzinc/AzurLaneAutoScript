@@ -98,8 +98,6 @@ class CampaignRun(CampaignEvent, ShopStatus):
             return True
         # Oil limit
         if oil_check:
-            self.ui_goto_main()
-            self.campaign.ensure_campaign_ui(name=self.stage, mode=self.mode)
             self.status_get_gems()
             self.get_coin()
             _oil = self.get_oil()
@@ -371,7 +369,6 @@ class CampaignRun(CampaignEvent, ShopStatus):
         self.load_campaign(name, folder=folder)
         self.run_count = 0
         self.run_limit = self.config.StopCondition_RunCount
-        self.mode = mode
         while 1:
             # End
             if total and self.run_count >= total:
