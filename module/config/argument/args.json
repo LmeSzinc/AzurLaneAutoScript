@@ -8618,6 +8618,10 @@
       "UseTuningSample": {
         "type": "checkbox",
         "value": true
+      },
+      "CollectTargetReward": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "OpsiFleet": {
@@ -9007,10 +9011,21 @@
           6,
           10
         ]
+      }
+    },
+    "OpsiTarget": {
+      "TargetFarming": {
+        "type": "checkbox",
+        "value": false
       },
       "TargetZone": {
         "type": "input",
         "value": 0
+      },
+      "LastRun": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
       }
     },
     "OpsiFleet": {
