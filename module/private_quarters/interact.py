@@ -165,11 +165,12 @@ class PQInteract(UI):
                 self.device.screenshot()
 
             # End
-            if self.appear(PRIVATE_QUARTERS_ROOM_CHECK, offset=(20, 20)):
+            if self.appear(PRIVATE_QUARTERS_ROOM_CHECK, offset=(20, 20), interval=1):
                 break
 
             # Continue without clicking, mitigate too many click exception
             if self.appear(PRIVATE_QUARTERS_LOADING_CHECK, offset=(20, 20)):
+                self.interval_reset(PRIVATE_QUARTERS_ROOM_CHECK)
                 continue
 
             if click_timer.reached():
