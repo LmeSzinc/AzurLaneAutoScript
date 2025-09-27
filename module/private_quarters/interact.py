@@ -16,12 +16,13 @@ class PQInteract(UI):
         'noshiro': (PRIVATE_QUARTERS_SHIP_NOSHIRO, PRIVATE_QUARTERS_PAGE_LOCALE_BEACH),
         'sirius': (PRIVATE_QUARTERS_SHIP_SIRIUS, PRIVATE_QUARTERS_PAGE_LOCALE_BEACH),
         'new_jersey': (PRIVATE_QUARTERS_SHIP_NEW_JERSEY, PRIVATE_QUARTERS_PAGE_LOCALE_LOFT),
+        'taihou': (PRIVATE_QUARTERS_SHIP_TAIHOU, PRIVATE_QUARTERS_PAGE_LOCALE_LOFT),
     }
 
     def _pq_target_appear(self):
         """
         Callable wrapper to validate target's appearance
-        offset=(100, 100) detectable for anchorage, noshiro, sirus, and new_jersey
+        offset=(100, 100) detectable for anchorage, noshiro, sirus, new_jersey, and taihou
         When more ships added may need to adjust or capture specific bubble position per
         ship, can use the available_targets to store similarly into tuples instead
         """
@@ -174,6 +175,7 @@ class PQInteract(UI):
             if click_timer.reached():
                 self.device.click(PRIVATE_QUARTERS_ROOM_SAFE_CLICK_AREA)
                 click_timer.reset()
+                continue
 
         # If target's intimacy is maxed
         # Terminate the run
