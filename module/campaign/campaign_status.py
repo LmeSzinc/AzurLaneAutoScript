@@ -117,6 +117,11 @@ class CampaignStatus(UI):
 
             if timeout.reached():
                 logger.warning('Get oil timeout')
+                # Return to main and come back
+                self.ui_goto_main()
+                from module.campaign.run import CampaignRun
+                CampaignRun(config=self.config, device=self.device).run(
+                    name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
                 break
 
             if not self.appear(OCR_OIL_CHECK, offset=(10, 2)):
