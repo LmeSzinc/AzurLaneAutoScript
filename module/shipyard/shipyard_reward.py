@@ -6,7 +6,7 @@ from module.campaign.campaign_status import OCR_COIN
 from module.exception import ScriptError
 from module.logger import logger
 from module.shipyard.ui import ShipyardUI
-from module.ui.page import page_reshmenu, page_shipyard
+from module.ui.page import page_research, page_reshmenu, page_shipyard
 from module.config.utils import get_server_last_update
 
 PRBP_BUY_PRIZE = {
@@ -188,8 +188,8 @@ class RewardShipyard(ShipyardUI):
         # Gold difficult to Ocr in page_shipyard
         # due to both text and number being
         # right-aligned together
-        # Retrieve information from page_reshmenu instead
-        self.ui_ensure(page_reshmenu)
+        # Retrieve information from page_research instead
+        self.ui_ensure(page_research)
         timeout = Timer(1, count=1).start()
         skip_first_screenshot = True
         while True:
@@ -205,6 +205,7 @@ class RewardShipyard(ShipyardUI):
 
         self._coin_count = OCR_COIN.ocr(self.device.image)
 
+        self.ui_back(page_reshmenu.check_button)
         self.ui_goto(page_shipyard)
         if not self.shipyard_set_focus(series=series, index=index) \
                 or not self._shipyard_buy_enter() \
