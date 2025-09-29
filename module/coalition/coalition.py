@@ -60,7 +60,14 @@ class Coalition(CoalitionCombat, CampaignEvent):
             return True
         # Oil limit
         if oil_check:
-            if self.get_oil() < max(500, self.config.StopCondition_OilLimit):
+            oil_amount = self.get_oil()
+            if oil_amount == 0:
+                # Return to main and come back if cant get oil/oil=0
+                from module.campaign.run import CampaignRun
+                self.ui_goto_main()
+                CampaignRun(config=self.config, device=self.device).run(
+                    name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
+            if oil_amount < max(500, self.config.StopCondition_OilLimit):
                 logger.hr('Triggered stop condition: Oil limit')
                 self.config.task_delay(minute=(120, 240))
                 return True
