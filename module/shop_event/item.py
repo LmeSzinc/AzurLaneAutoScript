@@ -5,7 +5,7 @@ import numpy as np
 
 import module.config.server as server
 
-from module.base.utils import color_similarity_2d
+from module.base.utils import color_similarity_2d, rgb2luma
 from module.logger import logger
 from module.ocr.ocr import Ocr, Digit
 from module.shop_event.assets import TEMPLATE_UNOBTAINED
@@ -138,12 +138,11 @@ class EventShopItem(Item):
         return name
 
     def predict_valid(self):
-        r, g, b = cv2.split(self.image)
-        mask = (r > 95) | (g > 110) | (b > 120)
-        mean = np.mean(mask)
+        luma = rgb2luma(self.image)
+        mean = np.mean(luma > 127)
         if mean >= 0.3:
             return True
-        result = TEMPLATE_UNOBTAINED.match(mask.astype(np.uint8), similarity=0.7)
+        result = TEMPLATE_UNOBTAINED.match_luma(self.image, similarity=0.7)
         if result:
             self.tag = 'unobtained'
         return result
