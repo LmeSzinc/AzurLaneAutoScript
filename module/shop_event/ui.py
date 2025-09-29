@@ -63,8 +63,13 @@ class EventShopUI(UI):
         if self.config.EVENT_SHOP_IGNORE_DEADLINE:
             return True
         period = OCR_EVENT_SHOP_DEADLINE.ocr(self.device.image)[:-8]
-        y, m, d = [int(i) for i in re.split('[.~-]', period)[3:6]]
-        deadline = datetime(y, m, d) + timedelta(days=1)  # server deadline
+        pattern = r'(\d{4})\.(\d{1,2})\.(\d{1,2})'
+        matches = re.findall(pattern, period)
+        if not matches or len(matches) < 2:
+            logger.warning(f"Failed to read event deadline: {period}")
+            return False
+        y, m, d = matches[-1]
+        deadline = datetime(int(y), int(m), int(d)) + timedelta(days=1)  # server deadline
         server_now = datetime.now() - server_time_offset()
         return (deadline - server_now).days < 7
 
