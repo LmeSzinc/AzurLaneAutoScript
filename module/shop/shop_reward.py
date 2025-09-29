@@ -34,7 +34,7 @@ class RewardShop(ShopUI):
             self.device.click_record_clear()
             self.shop_tab_250814.set(main=self, bottom=1)
             if self.shop_tab_250814.get_active(main=self) == 2:
-                while 1:
+                for _ in range(7):  # Try event shop up to 7 times, should be enough
                     try:
                         EventShop(self.config, self.device).run()
                         break
