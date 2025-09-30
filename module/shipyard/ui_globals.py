@@ -23,3 +23,5 @@ OCR_SHIPYARD_TOTAL_DEV = Digit(SHIPYARD_TOTAL_DEV, letter=(255, 247, 247),
 
 OCR_SHIPYARD_TOTAL_FATE = Digit(SHIPYARD_TOTAL_FATE, letter=(255, 247, 247),
                                 threshold=64)
+
+MAIN_OCR_COIN = Digit(MAIN_OCR_COIN, letter=(255, 255, 255), threshold=128, name='MAIN_OCR_COIN')
