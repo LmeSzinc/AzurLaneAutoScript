@@ -13,7 +13,7 @@ Restart:
       option_bold: [ true, ]
     SuccessInterval: 0
     FailureInterval: 0
-    ServerUpdate: 00:00, 04:00, 8:00, 12:00, 16:00, 20:00
+    ServerUpdate: 00:00
 
 # ==================== Farm ====================
 

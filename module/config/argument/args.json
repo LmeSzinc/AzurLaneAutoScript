@@ -627,7 +627,7 @@
       },
       "ServerUpdate": {
         "type": "input",
-        "value": "00:00, 04:00, 8:00, 12:00, 16:00, 20:00",
+        "value": "00:00",
         "display": "hide"
       }
     },
