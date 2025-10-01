@@ -108,6 +108,8 @@ class StorageHandler(GlobeOperation, ZoneManager):
                 self.device.click(CLICK_SAFE_AREA)
                 success = True
                 continue
+            if self.handle_story_skip():
+                continue
             # Use item
             if self.appear(STORAGE_CHECK, offset=(20, 20), interval=5):
                 self.device.click(button)
