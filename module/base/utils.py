@@ -5,6 +5,8 @@ import cv2
 import numpy as np
 from PIL import Image
 
+from deploy.atomic import atomic_read_bytes, atomic_write
+
 REGEX_NODE = re.compile(r'(-?[A-Za-z]+)(-?\d+)')
 
 
@@ -672,9 +674,13 @@ def image_channel(image):
         image (np.ndarray):
 
     Returns:
-        int: 0 for grayscale, 3 for RGB.
+        int: 0 for grayscale, 3 for RGB, 4 for RGBA
     """
-    return image.shape[2] if len(image.shape) == 3 else 0
+    shape = image.shape
+    if len(shape) == 2:
+        return 0
+    else:
+        return shape[2]
 
 
 def image_size(image):
@@ -791,11 +797,199 @@ def get_color(image, area):
     return color[:3]
 
 
+class ImageBroken(Exception):
+    """
+    Raised if image failed to decode/encode
+    Raised if image is empty
+    """
+    pass
+
+
 class ImageNotSupported(Exception):
     """
     Raised if we can't perform image calculation on this image
     """
     pass
+
+
+def cvt_color_decode(image, area=None):
+    """
+    Convert color from opencv to RGB or grayscale
+
+    Args:
+        data (np.ndarray):
+        area (tuple):
+
+    Returns:
+        np.ndarray
+    """
+    channel = image_channel(image)
+    if area:
+        # If image get cropped, return image should be copied to re-order array,
+        # making later usages faster
+        if channel == 3:
+            # RGB
+            image = crop(image, area, copy=False)
+            return cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        elif channel == 0:
+            # grayscale
+            return crop(image, area, copy=True)
+        elif channel == 4:
+            # RGBA
+            image = crop(image, area, copy=False)
+            return cv2.cvtColor(image, cv2.COLOR_BGRA2RGB)
+        else:
+            raise ImageNotSupported(f'shape={image.shape}')
+    else:
+        if channel == 3:
+            # RGB
+            cv2.cvtColor(image, cv2.COLOR_BGR2RGB, dst=image)
+            return image
+        elif channel == 0:
+            # grayscale
+            return image
+        elif channel == 4:
+            # RGBA
+            return cv2.cvtColor(image, cv2.COLOR_BGRA2RGB)
+        else:
+            raise ImageNotSupported(f'shape={image.shape}')
+
+
+def image_decode(data, area=None):
+    """
+    Args:
+        data (np.ndarray):
+        area (tuple):
+
+    Returns:
+        np.ndarray
+
+    Raises:
+        ImageBroken:
+    """
+    # Decode image
+    image = cv2.imdecode(data, cv2.IMREAD_UNCHANGED)
+    if image is None:
+        raise ImageBroken('Empty image after cv2.imdecode')
+    shape = image.shape
+    if not shape:
+        raise ImageBroken('Empty image after cv2.imdecode')
+
+    return cvt_color_decode(image, area=area)
+
+
+def cvt_color_encode(image):
+    """
+    Convert color from RGB or grayscale to opencv
+
+    Args:
+        data (np.ndarray):
+
+    Returns:
+        np.ndarray
+    """
+    channel = image_channel(image)
+    if channel == 3:
+        # RGB
+        return cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+    elif channel == 0:
+        # grayscale, keep grayscale unchanged
+        return image
+    elif channel == 4:
+        # RGBA
+        return cv2.cvtColor(image, cv2.COLOR_RGBA2BGRA)
+    else:
+        raise ImageNotSupported(f'shape={image.shape}')
+
+
+def image_encode(image, ext='png', encode=None):
+    """
+    Encode image
+
+    Args:
+        image (np.ndarray):
+        ext:
+        encode (list): Extra encode options
+
+    Returns:
+        np.ndarray:
+    """
+    # Prepare encode params
+    ext = ext.lower()
+    if encode is None:
+        if ext == 'png':
+            # Best compression, 0~9
+            encode = [cv2.IMWRITE_PNG_COMPRESSION, 9]
+        elif ext == 'jpg' or ext == 'jpeg':
+            # Best quality
+            encode = [cv2.IMWRITE_JPEG_QUALITY, 100]
+        elif ext.lower() == '.webp':
+            # Best quality
+            encode = [cv2.IMWRITE_WEBP_QUALITY, 100]
+        elif ext == 'tiff' or ext == 'tif':
+            # LZW compression in TIFF
+            encode = [cv2.IMWRITE_TIFF_COMPRESSION, 5]
+        else:
+            raise ImageNotSupported(f'Unsupported file extension "{ext}"')
+
+    # Encode
+    image = cvt_color_encode(image)
+    ret, buf = cv2.imencode(f'.{ext}', image, encode)
+    if not ret:
+        raise ImageBroken('cv2.imencode failed')
+
+    return buf
+
+
+def image_fixup(file: str):
+    """
+    Save image using opencv again, making it smaller and shutting up libpng
+    libpng warning: iCCP: known incorrect sRGB profile
+    libpng warning: iCCP: cHRM chunk does not match sRGB
+    libpng warning: sBIT: invalid
+
+    Args:
+        file (str):
+
+    Returns:
+        bool: If file changed
+    """
+    # fixup png only
+    _, _, ext = file.rpartition('.')
+    if ext != 'png':
+        return False
+
+    # image_load
+    try:
+        content = atomic_read_bytes(file)
+    except FileNotFoundError:
+        # File not exist, no need to fixup
+        return False
+    data = np.frombuffer(content, dtype=np.uint8)
+    if not data.size:
+        return False
+    try:
+        image = image_decode(data)
+    except ImageBroken:
+        # Ignore error because truncated image don't need fixup
+        return False
+
+    # image_save
+    try:
+        data = image_encode(image, ext=ext)
+    except ImageBroken:
+        # Ignore error because truncated image don't need fixup
+        return False
+
+    # Convert numpy array to bytes is slower than directly writing into file
+    # but here we want to compare before and after
+    new_content = data.tobytes()
+    if content == new_content:
+        # Same as before, no need to write
+        return False
+    else:
+        atomic_write(file, data)
+        return True
 
 
 def get_bbox(image, threshold=0):
