@@ -80,7 +80,9 @@ class OperationSiren(OSMap):
 
         # Clear tuning samples daily
         if self.config.OpsiDaily_UseTuningSample:
-            self.tuning_sample_use()
+            self.tuning_sample_use(quit=not self.config.OpsiGeneral_UseLogger)
+        if self.config.OpsiGeneral_UseLogger:
+            self.logger_use()
 
         while True:
             # If unable to receive more dailies, finish them and try again.
@@ -306,6 +308,7 @@ class OperationSiren(OSMap):
         self._os_voucher_enter()
         VoucherShop(self.config, self.device).run()
         self._os_voucher_exit()
+        self.logger_use()
 
         next_reset = get_os_next_reset()
         logger.info('OS voucher finished, delay to next reset')
