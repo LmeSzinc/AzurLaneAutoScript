@@ -138,7 +138,7 @@ class StorageHandler(GlobeOperation, ZoneManager):
 
             image = rgb2gray(self.device.image)
             items = TEMPLATE_STORAGE_LOGGER.match_multi(image, similarity=0.5)
-            items.extend(TEMPLATE_STORAGE_LOGGER_UNLOCK.match_multi(image, similarity=0.75))
+            items.extend(TEMPLATE_STORAGE_LOGGER_UNLOCK.match_multi(image, similarity=0.5))
             logger.attr('Storage_logger', len(items))
 
             if len(items):
