@@ -271,6 +271,16 @@ page_private_quarters = Page(PRIVATE_QUARTERS_CHECK)
 page_dormmenu.link(button=DORMMENU_GOTO_PRIVATE_QUARTERS, destination=page_private_quarters)
 page_private_quarters.link(button=PQ_GOTO_MAIN, destination=page_main)
 
+# Island
+page_island = Page(ISLAND_CHECK)
+page_dormmenu.link(button=DORMMENU_GOTO_ISLAND, destination=page_island)
+
+# Island Phone
+page_island_phone = Page(ISLAND_PHONE_CHECK)
+page_island.link(button=ISLAND_GOTO_ISLAND_PHONE, destination=page_island_phone)
+page_island_phone.link(button=ISLAND_PHONE_GOTO_MAIN, destination=page_main)
+page_island_phone.link(button=ISLAND_PHONE_GOTO_ISLAND, destination=page_island)
+
 # Game room & choose game
 page_game_room = Page(GAME_ROOM_CHECK)
 page_academy.link(button=ACADEMY_GOTO_GAME_ROOM, destination=page_game_room)
