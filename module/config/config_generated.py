@@ -272,6 +272,9 @@ class GeneratedConfig:
     Awaken_LevelCap = 'level120'  # level120, level125
     Awaken_Favourite = False
 
+    # Group `Island`
+    Island_ReceiveMiningForaging = True
+
     # Group `GeneralShop`
     GeneralShop_UseGems = False
     GeneralShop_Refresh = False

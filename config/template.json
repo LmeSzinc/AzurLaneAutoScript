@@ -1561,6 +1561,22 @@
       "Storage": {}
     }
   },
+  "Island": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "Island",
+      "SuccessInterval": 0,
+      "FailureInterval": 120,
+      "ServerUpdate": "00:00"
+    },
+    "Island": {
+      "ReceiveMiningForaging": true
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
   "Daily": {
     "Scheduler": {
       "Enable": false,

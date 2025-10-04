@@ -488,6 +488,8 @@ Awaken:
     option: [ level120, level125 ]
   Favourite:
     value: false
+Island:
+  ReceiveMiningForaging: True
 GeneralShop:
   UseGems: false
   Refresh: false

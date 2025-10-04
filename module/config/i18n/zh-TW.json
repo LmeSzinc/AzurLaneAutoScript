@@ -158,6 +158,10 @@
       "name": "認知覺醒",
       "help": ""
     },
+    "Island": {
+      "name": "Task.Island.name",
+      "help": "Task.Island.help"
+    },
     "Daily": {
       "name": "每日任務",
       "help": ""
@@ -1727,6 +1731,16 @@
     "Favourite": {
       "name": "僅覺醒常用艦船",
       "help": ""
+    }
+  },
+  "Island": {
+    "_info": {
+      "name": "Island._info.name",
+      "help": "Island._info.help"
+    },
+    "ReceiveMiningForaging": {
+      "name": "Island.ReceiveMiningForaging.name",
+      "help": "Island.ReceiveMiningForaging.help"
     }
   },
   "GeneralShop": {

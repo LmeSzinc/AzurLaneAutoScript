@@ -248,6 +248,10 @@ class AzurLaneAutoScript:
         from module.private_quarters.private_quarters import PrivateQuarters
         PrivateQuarters(config=self.config, device=self.device).run()
 
+    def island(self):
+        from module.island.island import Island
+        Island(config=self.config, device=self.device).run()
+
     def daily(self):
         from module.daily.daily import Daily
         Daily(config=self.config, device=self.device).run()

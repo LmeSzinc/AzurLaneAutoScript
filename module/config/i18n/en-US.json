@@ -158,6 +158,10 @@
       "name": "Awaken",
       "help": ""
     },
+    "Island": {
+      "name": "Task.Island.name",
+      "help": "Task.Island.help"
+    },
     "Daily": {
       "name": "Daily",
       "help": ""
@@ -1727,6 +1731,16 @@
     "Favourite": {
       "name": "Awaken Favourite Ships Only",
       "help": ""
+    }
+  },
+  "Island": {
+    "_info": {
+      "name": "Island._info.name",
+      "help": "Island._info.help"
+    },
+    "ReceiveMiningForaging": {
+      "name": "Island.ReceiveMiningForaging.name",
+      "help": "Island.ReceiveMiningForaging.help"
     }
   },
   "GeneralShop": {

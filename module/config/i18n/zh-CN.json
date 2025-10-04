@@ -158,6 +158,10 @@
       "name": "认知觉醒",
       "help": ""
     },
+    "Island": {
+      "name": "岛屿计划",
+      "help": ""
+    },
     "Daily": {
       "name": "每日任务",
       "help": ""
@@ -1727,6 +1731,16 @@
     "Favourite": {
       "name": "仅觉醒常用舰船",
       "help": ""
+    }
+  },
+  "Island": {
+    "_info": {
+      "name": "岛屿计划设置",
+      "help": "需要岛屿等级18级并解锁集成管理面板后使用"
+    },
+    "ReceiveMiningForaging": {
+      "name": "开启委托砍树挖矿",
+      "help": "包括沉石矿山和翠土林场"
     }
   },
   "GeneralShop": {
