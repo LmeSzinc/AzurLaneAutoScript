@@ -51,55 +51,6 @@ class ShopUI(UI):
         return False
 
     @cached_property
-    def shop_tab(self):
-        """
-        Set with `self.shop_tab.set(main=self, left={index})`
-        - index
-            1: Monthly shops
-            2: General supply shops
-        """
-        grids = ButtonGrid(
-            origin=(340, 93), delta=(189, 0),
-            button_shape=(188, 54), grid_shape=(2, 1),
-            name='SHOP_TAB')
-        return Navbar(
-            grids=grids,
-            # Yellow bottom dash
-            active_color=(255, 219, 83), active_threshold=221, active_count=100,
-            # Black bottom dash
-            inactive_color=(181, 178, 181), inactive_threshold=221, inactive_count=100,
-        )
-
-    @cached_property
-    def shop_nav(self):
-        """
-        Set with `self.shop_nav.set(main=self, upper={index})`
-        - index when `shop_tab` is at 1
-            1: Core shop (limited items)
-            2: Core shop monthly
-            3: Medal shop
-            4: Prototype shop
-        - index when `shop_tab` is at 2
-            1: General shop
-            2: Merit shop
-            3: Guild shop
-            4: Meta shop
-            5: Gift shop
-        """
-        grids = ButtonGrid(
-            origin=(339, 217), delta=(0, 65),
-            button_shape=(15, 64), grid_shape=(1, 5),
-            name='SHOP_NAV')
-        return Navbar(
-            grids=grids,
-            # White vertical line to the left of shop names
-            active_color=(255, 255, 255), active_threshold=221, active_count=100,
-            # Just whatever to make it match
-            inactive_color=(49, 56, 82), inactive_threshold=0, inactive_count=100,
-        )
-
-
-    @cached_property
     @Config.when(SERVER='en')
     def shop_tab_250814(self):
         """
@@ -121,7 +72,8 @@ class ShopUI(UI):
             inactive_color=(252, 252, 253), inactive_threshold=221, inactive_count=100,
         )
 
-    @Config.when(SERVER='jp')
+    @cached_property
+    @Config.when(SERVER='None')
     def shop_tab_250814(self):
         """
         Set with `self.shop_tab.set(main=self, upper={index})`
@@ -140,27 +92,6 @@ class ShopUI(UI):
             active_color=(88, 186, 255), active_threshold=221, active_count=100,
             # white text inactive
             inactive_color=(38, 92, 121), inactive_threshold=221, inactive_count=100,
-        )
-
-    @cached_property
-    @Config.when(SERVER=None)
-    def shop_tab_250814(self):
-        """
-        Set with `self.shop_tab.set(main=self, upper={index})`
-        - index
-            1: Monthly shops
-            2: General supply shops
-        """
-        grids = ButtonGrid(
-            origin=(29, 424), delta=(0, 61),
-            button_shape=(74, 21), grid_shape=(1, 2),
-            name='SHOP_TAB')
-        return Navbar(
-            grids=grids,
-            # white bottom dash
-            active_color=(40, 150, 254), active_threshold=221, active_count=50,
-            # Black bottom dash
-            inactive_color=(75, 150, 200), inactive_threshold=0, inactive_count=100,
         )
 
     @cached_property

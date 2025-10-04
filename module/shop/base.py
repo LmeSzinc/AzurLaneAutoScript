@@ -124,17 +124,6 @@ class ShopBase(UI):
         return ''
 
     @cached_property
-    @Config.when(SERVER='tw')
-    def shop_grid(self):
-        """
-        Returns:
-            ButtonGrid:
-        """
-        shop_grid = ButtonGrid(
-            origin=(476, 246), delta=(156, 213), button_shape=(98, 98), grid_shape=(5, 2), name='SHOP_GRID')
-        return shop_grid
-
-    @cached_property
     @Config.when(SERVER=None)
     def shop_grid(self):
         """

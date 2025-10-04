@@ -15,18 +15,13 @@ if server.server == 'jp':
     OCR_SHOP_MERIT = Digit(SHOP_OCR_BALANCE, letter=(110, 120, 130), name='OCR_SHOP_MERIT')
     OCR_SHOP_GUILD_COINS = Digit(SHOP_OCR_BALANCE, letter=(110, 120, 130), name='OCR_SHOP_GUILD_COINS')
     OCR_SHOP_CORE = Digit(SHOP_OCR_BALANCE, letter=(110, 120, 130), name='OCR_SHOP_CORE')
-elif server.server != 'tw':
+else:
     OCR_SHOP_GOLD_COINS = Digit(SHOP_OCR_BALANCE, letter=(100, 100, 100), name='OCR_SHOP_GOLD_COINS')
     OCR_SHOP_MEDAL = Digit(SHOP_OCR_BALANCE, letter=(100, 100, 100), name='OCR_SHOP_MEDAL')
     OCR_SHOP_MERIT = Digit(SHOP_OCR_BALANCE, letter=(100, 100, 100), name='OCR_SHOP_MERIT')
     OCR_SHOP_GUILD_COINS = Digit(SHOP_OCR_BALANCE, letter=(100, 100, 100), name='OCR_SHOP_GUILD_COINS')
     OCR_SHOP_CORE = Digit(SHOP_OCR_BALANCE, letter=(100, 100, 100), name='OCR_SHOP_CORE')
-else:
-    OCR_SHOP_GOLD_COINS = Digit(SHOP_GOLD_COINS, letter=(239, 239, 239), name='OCR_SHOP_GOLD_COINS')
-    OCR_SHOP_MEDAL = Digit(SHOP_MEDAL, letter=(239, 239, 239), name='OCR_SHOP_MEDAL')
-    OCR_SHOP_MERIT = Digit(SHOP_MERIT, letter=(239, 239, 239), name='OCR_SHOP_MERIT')
-    OCR_SHOP_GUILD_COINS = Digit(SHOP_GUILD_COINS, letter=(255, 255, 255), name='OCR_SHOP_GUILD_COINS')
-    OCR_SHOP_CORE = Digit(SHOP_CORE, letter=(239, 239, 239), name='OCR_SHOP_CORE')
+
 OCR_SHOP_VOUCHER = Digit(SHOP_VOUCHER, letter=(255, 255, 255), name='OCR_SHOP_VOUCHER')
 
 class ShopStatus(UI):
