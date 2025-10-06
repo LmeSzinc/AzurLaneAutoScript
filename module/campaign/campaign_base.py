@@ -186,7 +186,7 @@ class CampaignBase(CampaignUI, Map, AutoSearchCombat):
         for data in self.MAP.spawn_data:
             if 'battle' in data:
                 for k, v in data.items():
-                    if k != 'battle':
+                    if k not in ['battle', 'mystery']:
                         battle_count += v
             else:
                 logger.warning('No battle count in spawn_data')
