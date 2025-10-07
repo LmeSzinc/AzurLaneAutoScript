@@ -263,7 +263,7 @@ class Island(IslandUI):
         self.device.drag(p1, p2, segments=2, shake=(0, 25), point_random=(0, 0, 0, 0), shake_random=(0, -5, 0, 5))
         self.device.sleep(sleep)
 
-    def ensure_project(self, project: IslandProject, trial=5, skip_first_screenshot=True):
+    def ensure_project(self, project: IslandProject, trial=7, skip_first_screenshot=True):
         for _ in range(trial):
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -271,6 +271,8 @@ class Island(IslandUI):
                 self.device.screenshot()
 
             projects = self.project_detect(self.device.image)
+            if not projects:
+                continue
             if project.name in projects.get('name'):
                 break
 

@@ -10,6 +10,13 @@ from module.island.ui import OCR_PRODUCTION_TIME, OCR_PRODUCTION_TIME_REMAIN
 from module.ocr.ocr import Ocr
 
 
+class ProjectNameOcr(Ocr):
+    def after_process(self, result):
+        result = super().after_process(result)
+        result = re.sub(r'[^\u4e00-\u9fff]', '', result)
+        return result
+
+
 class IslandProject:
     valid: bool
     name: str
@@ -42,7 +49,7 @@ class IslandProject:
         # name
         area = (self.x1 - 446, self.y1, self.x1 - 326, self.y2)
         button = Button(area=area, color=(), button=area, name='PROJECT_NAME')
-        ocr = Ocr(button, lang='cnocr')
+        ocr = ProjectNameOcr(button, lang='cnocr')
         self.name = ocr.ocr(self.image)
         if not self.name:
             self.valid = False
