@@ -222,6 +222,9 @@ class Island(IslandUI):
 
             if timeout.reached():
                 break
+            if self.image_color_count(PROJECT_START, color=(151, 155, 155), threshold=221, count=200):
+                self.island_product_quit()
+                break
 
             if not success:
                 if self.appear_then_click(ISLAND_AMOUNT_MAX, offset=(5, 5), interval=5):
@@ -241,9 +244,6 @@ class Island(IslandUI):
                     self.interval_reset(ISLAND_MANAGEMENT_CHECK)
                     continue
 
-                if self.appear(PROJECT_STAR_NOT_SATISFIED, offset=(20,20)):
-                    self.island_product_quit()
-                    break
                 if self.info_bar_count():
                     self.island_product_quit()
                     break
@@ -262,6 +262,19 @@ class Island(IslandUI):
         p1, p2 = random_rectangle_vector(vector, box=box, random_range=(0, -5, 0, 5))
         self.device.drag(p1, p2, segments=2, shake=(0, 25), point_random=(0, 0, 0, 0), shake_random=(0, -5, 0, 5))
         self.device.sleep(sleep)
+
+    def ensure_project(self, project: IslandProject, trial=5, skip_first_screenshot=True):
+        for _ in range(trial):
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            projects = self.project_detect(self.device.image)
+            if project.name in projects.get('name'):
+                break
+
+            self.island_drag_next_page((0, -500), ISLAND_PROJECT_SWIPE.area, 0.6)
 
     def island_run(self, names, trial=2, skip_first_screenshot=True):
         """
@@ -300,14 +313,12 @@ class Island(IslandUI):
                 for button, option in zip(proj.slot_buttons.buttons, proj_config):
                     if option is None:
                         continue
-                    self.device.click_record_clear()
-                    self.device.click(button)
-                    self.device.sleep(0.3)
-                    self.device.click(ISLAND_CLICK_SAFE_AREA)
                     if self.project_receive(button):
                         self.island_select_role()
                         self.island_select_product(option)
                         self.island_product_confirm()
+                        if not end or option != proj_config[-1]:
+                            self.ensure_project(proj)
                 timeout.reset()
 
             if end:
