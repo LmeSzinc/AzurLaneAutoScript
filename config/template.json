@@ -1570,8 +1570,90 @@
       "FailureInterval": 120,
       "ServerUpdate": "00:00"
     },
-    "Island": {
-      "ReceiveMiningForaging": true
+    "Island1": {
+      "Receive": false,
+      "Option1": 0,
+      "Option2": 0,
+      "Option3": 0,
+      "Option4": 0
+    },
+    "Island2": {
+      "Receive": false,
+      "Option1": 0,
+      "Option2": 0,
+      "Option3": 0,
+      "Option4": 0
+    },
+    "Island3": {
+      "Receive": false,
+      "Option1": 0,
+      "Option2": 0,
+      "Option3": 0,
+      "Option4": 0
+    },
+    "Island4": {
+      "Receive": false,
+      "Option1": 0,
+      "Option2": 0,
+      "Option3": 0,
+      "Option4": 0
+    },
+    "Island5": {
+      "Receive": false,
+      "Option1": 0,
+      "Option2": 0,
+      "Option3": 0,
+      "Option4": 0
+    },
+    "Island6": {
+      "Receive": false,
+      "Option1": 0,
+      "Option2": 0
+    },
+    "Island7": {
+      "Receive": false,
+      "Option1": 0,
+      "Option2": 0
+    },
+    "Island8": {
+      "Receive": false,
+      "Option1": 0,
+      "Option2": 0
+    },
+    "Island9": {
+      "Receive": false,
+      "Option1": 0,
+      "Option2": 0
+    },
+    "Island10": {
+      "Receive": false,
+      "Option1": 0,
+      "Option2": 0
+    },
+    "Island11": {
+      "Receive": false,
+      "Option1": 0,
+      "Option2": 0
+    },
+    "Island12": {
+      "Receive": false,
+      "Option1": 0,
+      "Option2": 0
+    },
+    "Island13": {
+      "Receive": false,
+      "Option1": 0,
+      "Option2": 0
+    },
+    "Island14": {
+      "Receive": false,
+      "Option1": 0,
+      "Option2": 0
+    },
+    "Island15": {
+      "Receive": false,
+      "Option1": 0,
+      "Option2": 0
     },
     "Storage": {
       "Storage": {}

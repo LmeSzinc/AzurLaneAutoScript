@@ -1733,14 +1733,614 @@
       "help": ""
     }
   },
-  "Island": {
+  "Island1": {
     "_info": {
-      "name": "Island._info.name",
-      "help": "Island._info.help"
+      "name": "Island1._info.name",
+      "help": "Island1._info.help"
     },
-    "ReceiveMiningForaging": {
-      "name": "Island.ReceiveMiningForaging.name",
-      "help": "Island.ReceiveMiningForaging.help"
+    "Receive": {
+      "name": "Island1.Receive.name",
+      "help": "Island1.Receive.help"
+    },
+    "Option1": {
+      "name": "Island1.Option1.name",
+      "help": "Island1.Option1.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8"
+    },
+    "Option2": {
+      "name": "Island1.Option2.name",
+      "help": "Island1.Option2.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8"
+    },
+    "Option3": {
+      "name": "Island1.Option3.name",
+      "help": "Island1.Option3.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8"
+    },
+    "Option4": {
+      "name": "Island1.Option4.name",
+      "help": "Island1.Option4.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8"
+    }
+  },
+  "Island2": {
+    "_info": {
+      "name": "Island2._info.name",
+      "help": "Island2._info.help"
+    },
+    "Receive": {
+      "name": "Island2.Receive.name",
+      "help": "Island2.Receive.help"
+    },
+    "Option1": {
+      "name": "Island2.Option1.name",
+      "help": "Island2.Option1.help",
+      "0": "0",
+      "1": "1"
+    },
+    "Option2": {
+      "name": "Island2.Option2.name",
+      "help": "Island2.Option2.help",
+      "0": "0",
+      "2": "2"
+    },
+    "Option3": {
+      "name": "Island2.Option3.name",
+      "help": "Island2.Option3.help",
+      "0": "0",
+      "3": "3"
+    },
+    "Option4": {
+      "name": "Island2.Option4.name",
+      "help": "Island2.Option4.help",
+      "0": "0",
+      "4": "4"
+    }
+  },
+  "Island3": {
+    "_info": {
+      "name": "Island3._info.name",
+      "help": "Island3._info.help"
+    },
+    "Receive": {
+      "name": "Island3.Receive.name",
+      "help": "Island3.Receive.help"
+    },
+    "Option1": {
+      "name": "Island3.Option1.name",
+      "help": "Island3.Option1.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
+    },
+    "Option2": {
+      "name": "Island3.Option2.name",
+      "help": "Island3.Option2.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
+    },
+    "Option3": {
+      "name": "Island3.Option3.name",
+      "help": "Island3.Option3.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
+    },
+    "Option4": {
+      "name": "Island3.Option4.name",
+      "help": "Island3.Option4.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
+    }
+  },
+  "Island4": {
+    "_info": {
+      "name": "Island4._info.name",
+      "help": "Island4._info.help"
+    },
+    "Receive": {
+      "name": "Island4.Receive.name",
+      "help": "Island4.Receive.help"
+    },
+    "Option1": {
+      "name": "Island4.Option1.name",
+      "help": "Island4.Option1.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4"
+    },
+    "Option2": {
+      "name": "Island4.Option2.name",
+      "help": "Island4.Option2.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4"
+    },
+    "Option3": {
+      "name": "Island4.Option3.name",
+      "help": "Island4.Option3.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4"
+    },
+    "Option4": {
+      "name": "Island4.Option4.name",
+      "help": "Island4.Option4.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4"
+    }
+  },
+  "Island5": {
+    "_info": {
+      "name": "Island5._info.name",
+      "help": "Island5._info.help"
+    },
+    "Receive": {
+      "name": "Island5.Receive.name",
+      "help": "Island5.Receive.help"
+    },
+    "Option1": {
+      "name": "Island5.Option1.name",
+      "help": "Island5.Option1.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9"
+    },
+    "Option2": {
+      "name": "Island5.Option2.name",
+      "help": "Island5.Option2.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9"
+    },
+    "Option3": {
+      "name": "Island5.Option3.name",
+      "help": "Island5.Option3.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9"
+    },
+    "Option4": {
+      "name": "Island5.Option4.name",
+      "help": "Island5.Option4.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9"
+    }
+  },
+  "Island6": {
+    "_info": {
+      "name": "Island6._info.name",
+      "help": "Island6._info.help"
+    },
+    "Receive": {
+      "name": "Island6.Receive.name",
+      "help": "Island6.Receive.help"
+    },
+    "Option1": {
+      "name": "Island6.Option1.name",
+      "help": "Island6.Option1.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7"
+    },
+    "Option2": {
+      "name": "Island6.Option2.name",
+      "help": "Island6.Option2.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7"
+    }
+  },
+  "Island7": {
+    "_info": {
+      "name": "Island7._info.name",
+      "help": "Island7._info.help"
+    },
+    "Receive": {
+      "name": "Island7.Receive.name",
+      "help": "Island7.Receive.help"
+    },
+    "Option1": {
+      "name": "Island7.Option1.name",
+      "help": "Island7.Option1.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9"
+    },
+    "Option2": {
+      "name": "Island7.Option2.name",
+      "help": "Island7.Option2.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9"
+    }
+  },
+  "Island8": {
+    "_info": {
+      "name": "Island8._info.name",
+      "help": "Island8._info.help"
+    },
+    "Receive": {
+      "name": "Island8.Receive.name",
+      "help": "Island8.Receive.help"
+    },
+    "Option1": {
+      "name": "Island8.Option1.name",
+      "help": "Island8.Option1.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9",
+      "10": "10",
+      "11": "11"
+    },
+    "Option2": {
+      "name": "Island8.Option2.name",
+      "help": "Island8.Option2.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9",
+      "10": "10",
+      "11": "11"
+    }
+  },
+  "Island9": {
+    "_info": {
+      "name": "Island9._info.name",
+      "help": "Island9._info.help"
+    },
+    "Receive": {
+      "name": "Island9.Receive.name",
+      "help": "Island9.Receive.help"
+    },
+    "Option1": {
+      "name": "Island9.Option1.name",
+      "help": "Island9.Option1.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9"
+    },
+    "Option2": {
+      "name": "Island9.Option2.name",
+      "help": "Island9.Option2.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9"
+    }
+  },
+  "Island10": {
+    "_info": {
+      "name": "Island10._info.name",
+      "help": "Island10._info.help"
+    },
+    "Receive": {
+      "name": "Island10.Receive.name",
+      "help": "Island10.Receive.help"
+    },
+    "Option1": {
+      "name": "Island10.Option1.name",
+      "help": "Island10.Option1.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7"
+    },
+    "Option2": {
+      "name": "Island10.Option2.name",
+      "help": "Island10.Option2.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7"
+    }
+  },
+  "Island11": {
+    "_info": {
+      "name": "Island11._info.name",
+      "help": "Island11._info.help"
+    },
+    "Receive": {
+      "name": "Island11.Receive.name",
+      "help": "Island11.Receive.help"
+    },
+    "Option1": {
+      "name": "Island11.Option1.name",
+      "help": "Island11.Option1.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5"
+    },
+    "Option2": {
+      "name": "Island11.Option2.name",
+      "help": "Island11.Option2.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5"
+    }
+  },
+  "Island12": {
+    "_info": {
+      "name": "Island12._info.name",
+      "help": "Island12._info.help"
+    },
+    "Receive": {
+      "name": "Island12.Receive.name",
+      "help": "Island12.Receive.help"
+    },
+    "Option1": {
+      "name": "Island12.Option1.name",
+      "help": "Island12.Option1.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
+    },
+    "Option2": {
+      "name": "Island12.Option2.name",
+      "help": "Island12.Option2.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
+    }
+  },
+  "Island13": {
+    "_info": {
+      "name": "Island13._info.name",
+      "help": "Island13._info.help"
+    },
+    "Receive": {
+      "name": "Island13.Receive.name",
+      "help": "Island13.Receive.help"
+    },
+    "Option1": {
+      "name": "Island13.Option1.name",
+      "help": "Island13.Option1.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4"
+    },
+    "Option2": {
+      "name": "Island13.Option2.name",
+      "help": "Island13.Option2.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4"
+    }
+  },
+  "Island14": {
+    "_info": {
+      "name": "Island14._info.name",
+      "help": "Island14._info.help"
+    },
+    "Receive": {
+      "name": "Island14.Receive.name",
+      "help": "Island14.Receive.help"
+    },
+    "Option1": {
+      "name": "Island14.Option1.name",
+      "help": "Island14.Option1.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7"
+    },
+    "Option2": {
+      "name": "Island14.Option2.name",
+      "help": "Island14.Option2.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7"
+    }
+  },
+  "Island15": {
+    "_info": {
+      "name": "Island15._info.name",
+      "help": "Island15._info.help"
+    },
+    "Receive": {
+      "name": "Island15.Receive.name",
+      "help": "Island15.Receive.help"
+    },
+    "Option1": {
+      "name": "Island15.Option1.name",
+      "help": "Island15.Option1.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9"
+    },
+    "Option2": {
+      "name": "Island15.Option2.name",
+      "help": "Island15.Option2.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9"
     }
   },
   "GeneralShop": {
