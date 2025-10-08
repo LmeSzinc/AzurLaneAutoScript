@@ -22,7 +22,7 @@ from module.os.camera import OSCamera
 from module.os.map_base import OSCampaignMap
 from module.os_ash.ash import OSAsh
 from module.os_combat.combat import Combat
-from module.os_handler.assets import AUTO_SEARCH_REWARD, CLICK_SAFE_AREA, IN_MAP, PORT_ENTER, TEMPLATE_STORAGE_SHIP_EMPTY
+from module.os_handler.assets import AUTO_SEARCH_REWARD, CLICK_SAFE_AREA, IN_MAP, PORT_ENTER
 from module.os_shop.assets import PORT_SUPPLY_CHECK
 from module.ui.assets import BACK_ARROW
 
@@ -202,8 +202,9 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
     def _storage_hp_get(self):
         super().hp_get()
         ship_icon = self._hp_grid().crop((-29, -165, 106, -30))
-        has_ship = [not TEMPLATE_STORAGE_SHIP_EMPTY.match(
-                    self.image_crop(button, copy=False)) for button in ship_icon.buttons]
+        # gray background if no ship
+        has_ship = [not self.image_color_count(button, color=(36, 41, 46), threshold=221, count=15000)
+                    for button in ship_icon.buttons]
         need_repair = [not repair for repair in self.hp_has_ship]
         for index, repair in enumerate(need_repair):
             if repair:
