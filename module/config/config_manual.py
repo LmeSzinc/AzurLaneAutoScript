@@ -16,6 +16,7 @@ class ManualConfig:
     > Dorm > Meowfficer > Guild > Gacha
     > Reward
     > ShopFrequent > ShopOnce > Shipyard > Freebies
+    > Island
     > PrivateQuarters
     > OpsiExplore
     > Minigame > Awaken
@@ -27,7 +28,6 @@ class ManualConfig:
     > RaidDaily > CoalitionSp > WarArchives > MaritimeEscort
     > Event > Event2 > Raid > Hospital > HospitalEvent > Coalition > Main > Main2 > Main3
     > OpsiMeowfficerFarming
-    > Island
     > GemsFarming
     > OpsiHazard1Leveling
     """
