@@ -349,8 +349,8 @@ class GeneratedConfig:
 
     # Group `Island14`
     Island14_Receive = False
-    Island14_Option1 = 0  # 0, 1, 2, 3, 4, 5, 6, 7
-    Island14_Option2 = 0  # 0, 1, 2, 3, 4, 5, 6, 7
+    Island14_Option1 = 0  # 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+    Island14_Option2 = 0  # 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 
     # Group `Island15`
     Island15_Receive = False
