@@ -85,7 +85,7 @@ class MedalShop2_250814(ShopClerk, ShopStatus):
         Returns:
             np.array: [[x1, y1], [x2, y2]], location of the medal icon upper-left corner.
         """
-        area = (226, 317, 960, 635)
+        area = (265, 317, 999, 635)
         # copy image because we gonna paint it
         image = self.image_crop(area, copy=True)
         medals = TEMPLATE_MEDAL_ICON_3.match_multi(image, similarity=0.5, threshold=5)
@@ -128,14 +128,14 @@ class MedalShop2_250814(ShopClerk, ShopStatus):
         if count == 0:
             logger.warning('Unable to find medal icon, assume item list is at top')
             origin_y = 228
-            delta_y = 217
+            delta_y = 223
             row = 2
         elif count == 1:
             y_list = medals[:, 1]
             # +256, top of the crop area in _get_medals()
             # -125, from the top of medal icon to the top of shop item
             origin_y = y_list[0] + 317 - 126
-            delta_y = 217
+            delta_y = 223
             row = 1
         elif count == 2:
             y_list = medals[:, 1]
@@ -146,7 +146,7 @@ class MedalShop2_250814(ShopClerk, ShopStatus):
         else:
             logger.warning(f'Unexpected medal icon match result: {[m for m in medals]}')
             origin_y = 228
-            delta_y = 217
+            delta_y = 223
             row = 2
 
         # Make up a ButtonGrid
@@ -154,7 +154,7 @@ class MedalShop2_250814(ShopClerk, ShopStatus):
         # shop_grid = ButtonGrid(
         #     origin=(476, 246), delta=(156, 213), button_shape=(98, 98), grid_shape=(5, 2), name='SHOP_GRID')
         shop_grid = ButtonGrid(
-            origin=(226, origin_y), delta=(162, delta_y), button_shape=(64, 64), grid_shape=(5, row), name='SHOP_GRID')
+            origin=(265, origin_y), delta=(169, delta_y), button_shape=(64, 64), grid_shape=(5, row), name='SHOP_GRID')
         return shop_grid
 
     shop_template_folder = './assets/shop/medal'
