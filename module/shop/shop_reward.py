@@ -8,6 +8,10 @@ from module.shop.ui import ShopUI
 
 class RewardShop(ShopUI):
     def run_frequent(self):
+        if self.config.SERVER in ['en', 'jp', 'tw']:
+            self.config.task_delay(server_update=True)
+            self.config.task_stop()
+
         self.ui_goto_shop()
         self.device.click_record_clear()
         self.shop_tab_250814.set(main=self, upper=1)
@@ -17,6 +21,10 @@ class RewardShop(ShopUI):
         self.config.task_delay(server_update=True)
 
     def run_once(self):
+        if self.config.SERVER in ['en', 'jp', 'tw']:
+            self.config.task_delay(server_update=True)
+            self.config.task_stop()
+
         # Munitions shops
         self.ui_goto_shop()
         self.device.click_record_clear()
