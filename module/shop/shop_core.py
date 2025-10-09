@@ -6,7 +6,7 @@ from module.shop.clerk import ShopClerk
 from module.shop.shop_status import ShopStatus
 
 
-class CoreShop(ShopClerk, ShopStatus):
+class CoreShop_250814(ShopClerk, ShopStatus):
     shop_template_folder = './assets/shop/core'
 
     @cached_property
@@ -17,6 +17,7 @@ class CoreShop(ShopClerk, ShopStatus):
         """
         return self.config.CoreShop_Filter.strip()
 
+    # New UI in 2025-08-14
     @cached_property
     def shop_core_items(self):
         """
@@ -24,7 +25,14 @@ class CoreShop(ShopClerk, ShopStatus):
             ShopItemGrid:
         """
         shop_grid = self.shop_grid
-        shop_core_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
+        shop_core_items = ShopItemGrid_250814(
+            shop_grid,
+            templates={},
+            template_area=(25, 20, 82, 72),
+            amount_area=(42, 50, 65, 65),
+            cost_area=(-12, 115, 60, 155),
+            price_area=(18, 121, 85, 150),
+        )
         shop_core_items.load_template_folder(self.shop_template_folder)
         shop_core_items.load_cost_template_folder('./assets/shop/cost')
         return shop_core_items
@@ -93,25 +101,3 @@ class CoreShop(ShopClerk, ShopStatus):
 
         # Execute buy operations
         self.shop_buy()
-
-
-class CoreShop_250814(CoreShop):
-    # New UI in 2025-08-14
-    @cached_property
-    def shop_core_items(self):
-        """
-        Returns:
-            ShopItemGrid:
-        """
-        shop_grid = self.shop_grid
-        shop_core_items = ShopItemGrid_250814(
-            shop_grid,
-            templates={},
-            template_area=(25, 20, 82, 72),
-            amount_area=(42, 50, 65, 65),
-            cost_area=(-12, 115, 60, 155),
-            price_area=(18, 121, 85, 150),
-        )
-        shop_core_items.load_template_folder(self.shop_template_folder)
-        shop_core_items.load_cost_template_folder('./assets/shop/cost')
-        return shop_core_items
