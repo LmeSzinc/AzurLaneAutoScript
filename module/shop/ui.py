@@ -83,15 +83,15 @@ class ShopUI(UI):
             3: Event shops
         """
         grids = ButtonGrid(
-            origin=(29, 436), delta=(0, 50),
+            origin=(53, 436), delta=(0, 50),
             button_shape=(74, 21), grid_shape=(1, 3),
             name='SHOP_TAB')
         return Navbar(
             grids=grids,
             # blue text active
-            active_color=(88, 186, 255), active_threshold=221, active_count=100,
+            active_color=(0, 95, 164), active_threshold=221, active_count=100,
             # white text inactive
-            inactive_color=(38, 92, 121), inactive_threshold=221, inactive_count=100,
+            inactive_color=(252, 252, 253), inactive_threshold=221, inactive_count=100,
         )
 
     @cached_property
@@ -106,8 +106,8 @@ class ShopUI(UI):
             5: Gift shop
         """
         grids = ButtonGrid(
-            origin=(184, 92), delta=(173, 0),
-            button_shape=(113, 42), grid_shape=(5, 1),
+            origin=(222, 92), delta=(184, 0),
+            button_shape=(118, 42), grid_shape=(5, 1),
             name='SHOP_NAV')
         return Navbar(
             grids=grids,
@@ -128,13 +128,13 @@ class ShopUI(UI):
             4: Prototype shop
         """
         grids = ButtonGrid(
-            origin=(184, 92), delta=(217, 0),
-            button_shape=(156, 42), grid_shape=(4, 1),
+            origin=(222, 92), delta=(230, 0),
+            button_shape=(164, 42), grid_shape=(4, 1),
             name='MONTHLY_SHOP_NAV')
         return Navbar(
             grids=grids,
             # White vertical line to the left of shop names
-            active_color=(90, 90, 90), active_threshold=221, active_count=80,
+            active_color=(90, 90, 90), active_threshold=221, active_count=150,
             # Just whatever to make it match
             inactive_color=(130, 160, 170), inactive_threshold=221, inactive_count=100,
         )
