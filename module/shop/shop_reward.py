@@ -5,6 +5,8 @@ from module.shop.shop_guild import GuildShop_250814
 from module.shop.shop_medal import MedalShop2_250814
 from module.shop.shop_merit import MeritShop_250814
 from module.shop.ui import ShopUI
+from module.shop_event.clerk import ItemNotFoundError
+from module.shop_event.shop_event import EventShop
 
 
 class RewardShop(ShopUI):
@@ -28,6 +30,20 @@ class RewardShop(ShopUI):
 
         # Munitions shops
         self.ui_goto_shop()
+        if self.config.EventShop_Enable:
+            self.device.click_record_clear()
+            self.shop_tab_250814.set(main=self, bottom=1)
+            if self.shop_tab_250814.get_active(main=self) == 2:
+                for _ in range(7):  # Try event shop up to 7 times, should be enough
+                    try:
+                        EventShop(self.config, self.device).run()
+                        break
+                    except ItemNotFoundError:
+                        # Refresh the event shop to avoid random item not found error
+                        self.shop_tab_250814.set(main=self, upper=1)
+                        self.device.click_record_clear()
+                        self.shop_tab_250814.set(main=self, upper=3)
+
         self.device.click_record_clear()
         self.shop_nav_250814.set(NAV_GENERAL, main=self)
         self.shop_tab_250814.set(TAB_MERIT, main=self)
