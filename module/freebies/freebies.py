@@ -22,7 +22,7 @@ class Freebies(ModuleBase):
         logger.hr('Mail', level=1)
         MailWhite(self.config, self.device).run()
 
-        if self.config.SERVER not in ['en', 'jp', 'tw']:
+        if self.config.SERVER not in ['jp', 'tw']:
             if self.config.SupplyPack_Collect:
                 logger.hr('Supply pack', level=1)
                 SupplyPack_250814(self.config, self.device).run()
