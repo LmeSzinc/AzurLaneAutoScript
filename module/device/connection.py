@@ -604,7 +604,7 @@ class Connection(ConnectionAttr):
         args = ["reverse:forward"]
         if norebind:
             args.append("norebind")
-        args.append(local + ";" + remote)
+        args.append(remote + ";" + local)
         cmd = ":".join(args)
         with self.adb_client._connect() as c:
             c.send_command(f'host:transport:{self.serial}')
@@ -615,11 +615,10 @@ class Connection(ConnectionAttr):
     def adb_reverse(self, remote):
         port = 0
         for reverse in self.adb.reverse_list():
-            # note that ReverseItem.local is remote
-            if reverse.local == remote and reverse.remote.startswith('tcp:'):
+            if reverse.remote == remote and reverse.local.startswith('tcp:'):
                 if not port:
                     logger.info(f'Reuse reverse: {reverse}')
-                    port = int(reverse.remote[4:])
+                    port = int(reverse.local[4:])
                 else:
                     logger.info(f'Remove redundant forward: {reverse}')
                     self.adb_reverse_remove(reverse.remote)
@@ -629,9 +628,9 @@ class Connection(ConnectionAttr):
         else:
             # Create new reverse
             port = random_port(self.config.FORWARD_PORT_RANGE)
-            reverse = ReverseItem(f'tcp:{port}', remote)
+            reverse = ReverseItem(remote, f'tcp:{port}')
             logger.info(f'Create reverse: {reverse}')
-            self._adb_reverse_transport(reverse.local, reverse.remote)
+            self._adb_reverse_transport(reverse.remote, reverse.local)
             return port
 
     def adb_forward_remove(self, local):
