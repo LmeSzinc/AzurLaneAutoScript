@@ -2,7 +2,7 @@ from module.base.base import ModuleBase
 from module.freebies.battle_pass import BattlePass
 from module.freebies.data_key import DataKey
 from module.freebies.mail_white import MailWhite
-from module.freebies.supply_pack import SupplyPack, SupplyPack_250814
+from module.freebies.supply_pack import SupplyPack_250814
 from module.logger import logger
 
 
@@ -22,8 +22,9 @@ class Freebies(ModuleBase):
         logger.hr('Mail', level=1)
         MailWhite(self.config, self.device).run()
 
-        if self.config.SupplyPack_Collect:
-            logger.hr('Supply pack', level=1)
-            SupplyPack_250814(self.config, self.device).run()
+        if self.config.SERVER not in ['en', 'jp', 'tw']:
+            if self.config.SupplyPack_Collect:
+                logger.hr('Supply pack', level=1)
+                SupplyPack_250814(self.config, self.device).run()
 
         self.config.task_delay(server_update=True)

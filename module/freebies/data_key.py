@@ -2,9 +2,8 @@ from module.combat.assets import GET_ITEMS_1
 from module.freebies.assets import *
 from module.logger import logger
 from module.ocr.ocr import DigitCounter
-from module.ui.assets import (CAMPAIGN_MENU_GOTO_WAR_ARCHIVES,
-                              WAR_ARCHIVES_CHECK)
-from module.ui.page import page_archives
+from module.ui.assets import CAMPAIGN_MENU_GOTO_WAR_ARCHIVES, WAR_ARCHIVES_CHECK
+from module.ui.page import page_archives, page_campaign_menu
 from module.ui.ui import UI
 
 
@@ -51,11 +50,8 @@ class DataKey(UI):
             bool: If execute a collection.
 
         Pages:
-            in: page_any
-            out: page_archives
+            in: page_archives
         """
-        self.ui_ensure(page_archives)
-
         if self.appear(DATA_KEY_COLLECTED, offset=(20, 20)):
             logger.info('Data key has been collected')
             return False
@@ -77,4 +73,9 @@ class DataKey(UI):
             in: page_any
             out: page_main
         """
+        self.ui_ensure(page_archives)
+
         self.data_key_collect()
+
+        # clear interval of pages, for faster switching on the next ui_goto()
+        self.interval_clear([page_archives.check_button, page_campaign_menu.check_button])

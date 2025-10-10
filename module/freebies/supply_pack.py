@@ -34,7 +34,7 @@ class SupplyPack(CampaignStatus):
             else:
                 self.device.screenshot()
 
-            if self.appear(supply_pack, offset=(20, 20), interval=3):
+            if self.appear(supply_pack, offset=(200, 20), interval=3):
                 if click_count >= 3:
                     logger.warning(f'Failed to buy {supply_pack} after 3 trail, probably reached resource limit, skip')
                     break
