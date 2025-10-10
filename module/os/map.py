@@ -259,11 +259,39 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
             self.hp_reset()
             return False
 
-    def handle_storage_one_fleet_repair(self, fleet_index, threshold):
+    def hp_pre_check(self):
+        """
+        Check if the current fleet need to be repaird by repair packs.
+
+        Returns:
+            bool: If needs to repair.
+        """
+        if self.config.OpsiGeneral_RepairPackThreshold < 0:
+            return False
+        if self.is_in_special_zone():
+            logger.info('OS is in a special zone type, skip fleet repair')
+            return False
+
+        self.hp_get()
+        check = [round(data, 2) <= self.config.OpsiGeneral_RepairPackThreshold if use else False
+                 for data, use in zip(self.hp, self.hp_has_ship)]
+        if any(check):
+            logger.info('At least one ship is below threshold '
+                        f'{str(int(self.config.OpsiGeneral_RepairPackThreshold * 100))}%, '
+                        'using repair packs for repairs')
+            self.hp_reset()
+            return True
+        else:
+            logger.info('No ship found to be below threshold '
+                        f'{str(int(self.config.OpsiGeneral_RepairPackThreshold * 100))}%, '
+                        'continue OS exploration')
+            self.hp_reset()
+            return False
+
+    def handle_storage_one_fleet_repair(self, fleet_index):
         """
         Args:
             fleet_index (int): fleet index
-            threshold (int): repair threshold
 
         Returns:
             bool: If repaired.
@@ -275,11 +303,11 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
         self.storage_fleet_set(fleet_index)
         self.storage_hp_get()
         hp_grids = self._storage_hp_grid()
-        check = [round(data, 2) <= threshold if use else False
+        check = [round(data, 2) <= self.config.OpsiGeneral_RepairPackThreshold if use else False
                 for data, use in zip(self.hp, self.hp_has_ship)]
         if any(check):
             logger.info(f'At least one ship in fleet {fleet_index} is below threshold '
-                        f'{str(int(threshold * 100))}%, '
+                        f'{str(int(self.config.OpsiGeneral_RepairPackThreshold * 100))}%, '
                         'use repair packs for repairs')
             for index, repair in enumerate(check):
                 if repair:
@@ -289,7 +317,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
             return True
         else:
             logger.info(f'No ship in fleet {fleet_index} found to be below threshold '
-                        f'{str(int(threshold * 100))}%, '
+                        f'{str(int(self.config.OpsiGeneral_RepairPackThreshold * 100))}%, '
                         'continue OS exploration')
             self.hp_reset()
             return False
@@ -317,13 +345,15 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
             return False
         if self.config.OpsiGeneral_RepairPackThreshold < 0:
             return False
+        # if only 1 fleet to repair, pre-check hp in map before enter storage
+        if len(fleet_index) == 1 and not self.hp_pre_check():
+            return False
 
         repair = False
         success = False
         if self.storage_get_next_item('REPAIR_PACK'): 
             for index in fleet_index:
-                if self.handle_storage_one_fleet_repair(fleet_index=index,
-                        threshold=self.config.OpsiGeneral_RepairPackThreshold):
+                if self.handle_storage_one_fleet_repair(fleet_index=index):
                     success = True
                 if any(self.need_repair):
                     repair = True
@@ -356,7 +386,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
             out: in_map
         """
         if self.config.OpsiGeneral_UseRepairPack and self.config.SERVER not in ['cn']:
-            logger.warning(f'OpsiDaily.SkipSirenResearchMission is not supported in {self.config.SERVER}')
+            logger.warning(f'OpsiGeneral.UseRepairPack is not supported in {self.config.SERVER}')
             self.config.OpsiGeneral_UseRepairPack = False
 
         if self.config.OpsiGeneral_UseRepairPack:
