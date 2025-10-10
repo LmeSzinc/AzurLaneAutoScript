@@ -9,7 +9,7 @@ from module.shop.ui import ShopUI
 
 class RewardShop(ShopUI):
     def run_frequent(self):
-        if self.config.SERVER in ['en', 'jp', 'tw']:
+        if self.config.SERVER in ['jp', 'tw']:
             self.config.task_delay(server_update=True)
             self.config.task_stop()
 
@@ -22,7 +22,7 @@ class RewardShop(ShopUI):
         self.config.task_delay(server_update=True)
 
     def run_once(self):
-        if self.config.SERVER in ['en', 'jp', 'tw']:
+        if self.config.SERVER in ['jp', 'tw']:
             self.config.task_delay(server_update=True)
             self.config.task_stop()
 
