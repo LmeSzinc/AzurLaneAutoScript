@@ -7,7 +7,7 @@ from module.shop.shop_status import ShopStatus
 from module.shop.ui import ShopUI
 
 
-class GuildShop(ShopClerk, ShopUI, ShopStatus):
+class GuildShop_250814(ShopClerk, ShopUI, ShopStatus):
     shop_template_folder = './assets/shop/guild'
 
     @cached_property
@@ -18,6 +18,7 @@ class GuildShop(ShopClerk, ShopUI, ShopStatus):
         """
         return self.config.GuildShop_Filter.strip()
 
+    # New UI in 2025-08-14
     @cached_property
     def shop_guild_items(self):
         """
@@ -25,7 +26,14 @@ class GuildShop(ShopClerk, ShopUI, ShopStatus):
             ShopItemGrid:
         """
         shop_grid = self.shop_grid
-        shop_guild_items = ShopItemGrid(shop_grid, templates={}, amount_area=(60, 74, 96, 95))
+        shop_guild_items = ShopItemGrid_250814(
+            shop_grid,
+            templates={},
+            template_area=(25, 20, 82, 72),
+            amount_area=(42, 50, 65, 65),
+            cost_area=(-12, 115, 60, 155),
+            price_area=(14, 121, 85, 150),
+        )
         self.shop_template_folder = './assets/shop/guild'
         shop_guild_items.load_template_folder(self.shop_template_folder)
         shop_guild_items.load_cost_template_folder('./assets/shop/cost')
@@ -106,26 +114,3 @@ class GuildShop(ShopClerk, ShopUI, ShopStatus):
                 else:
                     logger.info('Guild coins < 110, skip refreshing')
             break
-
-
-class GuildShop_250814(GuildShop):
-    # New UI in 2025-08-14
-    @cached_property
-    def shop_guild_items(self):
-        """
-        Returns:
-            ShopItemGrid:
-        """
-        shop_grid = self.shop_grid
-        shop_guild_items = ShopItemGrid_250814(
-            shop_grid,
-            templates={},
-            template_area=(25, 20, 82, 72),
-            amount_area=(42, 50, 65, 65),
-            cost_area=(-12, 115, 60, 155),
-            price_area=(14, 121, 85, 150),
-        )
-        self.shop_template_folder = './assets/shop/guild'
-        shop_guild_items.load_template_folder(self.shop_template_folder)
-        shop_guild_items.load_cost_template_folder('./assets/shop/cost')
-        return shop_guild_items

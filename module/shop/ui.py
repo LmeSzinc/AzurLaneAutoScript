@@ -1,5 +1,5 @@
 from module.base.button import ButtonGrid
-from module.base.decorator import Config, cached_property
+from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.handler.assets import POPUP_CONFIRM
 from module.logger import logger
@@ -7,6 +7,7 @@ from module.shop.assets import *
 from module.ui.assets import ACADEMY_GOTO_MUNITIONS, SHOP_BACK_ARROW
 from module.ui.navbar import Navbar
 from module.ui.page import page_academy, page_munitions
+from module.ui.switch import Switch
 from module.ui.ui import UI
 
 
@@ -51,93 +52,25 @@ class ShopUI(UI):
         return False
 
     @cached_property
-    @Config.when(SERVER='en')
-    def shop_tab_250814(self):
-        """
-        Set with `self.shop_tab.set(main=self, upper={index})`
-        - index
-            1: General supply shops
-            2: Monthly shops
-            3: Event shops
-        """
-        grids = ButtonGrid(
-            origin=(29, 436), delta=(0, 50),
-            button_shape=(74, 21), grid_shape=(1, 3),
-            name='SHOP_TAB')
-        return Navbar(
-            grids=grids,
-            # blue text active
-            active_color=(60, 174, 255), active_threshold=221, active_count=100,
-            # white text inactive
-            inactive_color=(252, 252, 253), inactive_threshold=221, inactive_count=100,
-        )
-
-    @cached_property
-    @Config.when(SERVER='None')
-    def shop_tab_250814(self):
-        """
-        Set with `self.shop_tab.set(main=self, upper={index})`
-        - index
-            1: General supply shops
-            2: Monthly shops
-            3: Event shops
-        """
-        grids = ButtonGrid(
-            origin=(29, 436), delta=(0, 50),
-            button_shape=(74, 21), grid_shape=(1, 3),
-            name='SHOP_TAB')
-        return Navbar(
-            grids=grids,
-            # blue text active
-            active_color=(88, 186, 255), active_threshold=221, active_count=100,
-            # white text inactive
-            inactive_color=(38, 92, 121), inactive_threshold=221, inactive_count=100,
-        )
-
-    @cached_property
     def shop_nav_250814(self):
-        """
-        Set with `self.shop_nav.set(main=self, left={index})`
-        - index when `shop_tab_250814` is at 1
-            1: General shop
-            2: Merit shop
-            3: Guild shop
-            4: Meta shop
-            5: Gift shop
-        """
-        grids = ButtonGrid(
-            origin=(184, 92), delta=(173, 0),
-            button_shape=(113, 42), grid_shape=(5, 1),
-            name='SHOP_NAV')
-        return Navbar(
-            grids=grids,
-            # White vertical line to the left of shop names
-            active_color=(90, 90, 90), active_threshold=221, active_count=80,
-            # Just whatever to make it match
-            inactive_color=(130, 160, 170), inactive_threshold=221, inactive_count=100,
-        )
+        switch = Switch('shop_nav_250814', is_selector=True, offset=(20, 20))
+        switch.add_state(NAV_GENERAL, check_button=NAV_GENERAL)
+        switch.add_state(NAV_MONTHLY, check_button=NAV_MONTHLY)
+        return switch
 
     @cached_property
-    def monthly_shop_nav_250814(self):
-        """
-        Set with `self.shop_nav.set(main=self, left={index})`
-        - index when `shop_tab_250814` is at 2
-            1: Core shop (limited items)
-            2: Core shop monthly
-            3: Medal shop
-            4: Prototype shop
-        """
-        grids = ButtonGrid(
-            origin=(184, 92), delta=(217, 0),
-            button_shape=(156, 42), grid_shape=(4, 1),
-            name='MONTHLY_SHOP_NAV')
-        return Navbar(
-            grids=grids,
-            # White vertical line to the left of shop names
-            active_color=(90, 90, 90), active_threshold=221, active_count=80,
-            # Just whatever to make it match
-            inactive_color=(130, 160, 170), inactive_threshold=221, inactive_count=100,
-        )
+    def shop_tab_250814(self):
+        switch = Switch('shop_tab_250814', is_selector=True, offset=(20, 20))
+        switch.add_state(TAB_GENERAL, check_button=TAB_GENERAL)
+        switch.add_state(TAB_MERIT, check_button=TAB_MERIT)
+        switch.add_state(TAB_GUILD, check_button=TAB_GUILD)
+        switch.add_state(TAB_META, check_button=TAB_META)
+        switch.add_state(TAB_PRIZE, check_button=TAB_PRIZE)
+        switch.add_state(TAB_CORE_LIMITED, check_button=TAB_CORE_LIMITED)
+        switch.add_state(TAB_CORE_MONTHLY, check_button=TAB_CORE_MONTHLY)
+        switch.add_state(TAB_MEDAL, check_button=TAB_MEDAL)
+        switch.add_state(TAB_PROTOTYPE, check_button=TAB_PROTOTYPE)
+        return switch
 
     def shop_refresh(self, skip_first_screenshot=True):
         """
@@ -179,75 +112,6 @@ class ShopUI(UI):
 
         self.handle_info_bar()
         return refreshed
-
-    @Config.when(SERVER='tw')
-    def shop_swipe(self, skip_first_screenshot=True):
-        """
-        Swipes bottom navbar one way, right only
-
-        Args:
-            skip_first_screenshot (bool):
-
-        Returns:
-            bool: True if detected correct exit
-                  condition otherwise False
-        """
-        detection_area = (480, 640, 960, 660)
-        swipe_interval = Timer(0.6, count=2)
-
-        for _ in range(3):
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            # Swipe to the left, medal shop on the leftmost and merit shop on the right most
-            if self.appear(SHOP_MEDAL_SWIPE_END, offset=(15, 5)) or \
-                    self.appear(SHOP_MERIT_SWIPE_END, offset=(15, 5)):
-                return True
-
-            if swipe_interval.reached():
-                self.device.swipe_vector((480, 0), box=detection_area, random_range=(-50, -10, 50, 10), padding=0)
-                swipe_interval.reset()
-
-        return False
-
-    @Config.when(SERVER=None)
-    def shop_swipe(self, skip_first_screenshot=True):
-        """
-        Swipes bottom navbar one way, right only
-
-        Args:
-            skip_first_screenshot (bool):
-
-        Returns:
-            bool: True if detected correct exit
-                  condition otherwise False
-        """
-        detection_area = (480, 640, 960, 660)
-        swipe_interval = Timer(0.6, count=2)
-        trial = 0
-
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            # End
-            if trial > 5:
-                logger.warning('shop_swipe trail exhausted, assume end reached')
-                return False
-
-            # Swipe to the left, medal shop on the leftmost and merit shop on the right most
-            if self.appear(SHOP_GIFT_SWIPE_END, offset=(15, 5)) or \
-                    self.appear(SHOP_PROTOTYPE_SWIPE_END, offset=(15, 5)):
-                return True
-
-            if swipe_interval.reached():
-                self.device.swipe_vector((360, 0), box=detection_area, random_range=(-50, -10, 50, 10), padding=0)
-                swipe_interval.reset()
-                trial += 1
 
     def ui_goto_shop(self):
         """
