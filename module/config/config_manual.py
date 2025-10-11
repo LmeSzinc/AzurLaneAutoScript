@@ -16,7 +16,7 @@ class ManualConfig:
     > Dorm > Meowfficer > Guild > Gacha
     > Reward
     > ShopFrequent > ShopOnce > Shipyard > Freebies
-    > PrivateQuarters
+    > PrivateQuarters > PostManage
     > OpsiExplore
     > Minigame > Awaken
     > OpsiAshBeacon
