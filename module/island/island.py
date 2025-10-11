@@ -196,7 +196,8 @@ class Island(IslandUI):
                     drag = False
             
             if last == current.items[-1]:
-                logger.info('Reach the bottom of items')
+                logger.info(f'Reach the bottom of items, dit not match item {option}')
+                self.island_product_quit()
                 return False
 
             if drag:
@@ -317,8 +318,8 @@ class Island(IslandUI):
                         continue
                     if self.project_receive(button):
                         self.island_select_role()
-                        self.island_select_product(option)
-                        self.island_product_confirm()
+                        if self.island_select_product(option):
+                            self.island_product_confirm()
                         if not end or option != proj_config[-1]:
                             self.ensure_project(proj)
                 timeout.reset()
