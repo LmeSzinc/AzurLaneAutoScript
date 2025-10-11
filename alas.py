@@ -184,7 +184,6 @@ class AzurLaneAutoScript:
     def research(self):
         from module.research.research import RewardResearch
         RewardResearch(config=self.config, device=self.device).run()
-        # RewardResearch(config=self.config, device=self.device).config.task_delay(success=True, minute=60*24*7)
 
     def commission(self):
         from module.commission.commission import RewardCommission
