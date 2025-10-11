@@ -194,6 +194,10 @@
       "name": "Task.PrivateQuarters.name",
       "help": "Task.PrivateQuarters.help"
     },
+    "IslandPostManage": {
+      "name": "離島一括管理",
+      "help": ""
+    },
     "OpsiGeneral": {
       "name": "一般設定",
       "help": ""
@@ -2080,6 +2084,34 @@
       "noshiro": "noshiro",
       "sirius": "sirius",
       "new_jersey": "new_jersey"
+    }
+  },
+  "IslandPostManage": {
+    "_info": {
+      "name": "一括管理",
+      "help": "この機能を使うには、先に研究を解放する必要があります"
+    },
+    "Mining": {
+      "name": "積岩鉱山",
+      "help": "",
+      "disabled": "無効",
+      "coal": "石炭",
+      "copper": "銅",
+      "aluminium": "アルミニウム"
+    },
+    "Lumbering": {
+      "name": "翠緑の森",
+      "help": "",
+      "disabled": "無効",
+      "raw": "大自然の原木",
+      "useful": "実用の木材",
+      "premium": "プレミアム木材"
+    },
+    "Ranch": {
+      "name": "悠々牧場",
+      "help": "事前に十分な飼料を用意してください",
+      "disabled": "無効",
+      "enabled": "有効"
     }
   },
   "Daily": {

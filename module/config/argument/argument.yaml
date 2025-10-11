@@ -592,6 +592,28 @@ PrivateQuarters:
     TargetShip:
       value: anchorage
       option: [ anchorage, noshiro, sirius, new_jersey ]
+IslandPostManage:
+  Mining:
+    value: disabled
+    option:
+      - disabled
+      - coal
+      - copper
+      - aluminium
+      # - iron # disabled due to scroll not implemented
+      # - sulfur
+      # - silver
+  Lumbering:
+    value: disabled
+    option:
+      - disabled
+      - raw
+      - useful
+      - premium
+      # - elegant
+  Ranch:
+    value: disabled
+    option: [ disabled, enabled ]
 # ==================== Daily ====================
 
 Daily:

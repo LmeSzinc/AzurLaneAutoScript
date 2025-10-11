@@ -184,6 +184,7 @@ class AzurLaneAutoScript:
     def research(self):
         from module.research.research import RewardResearch
         RewardResearch(config=self.config, device=self.device).run()
+        # RewardResearch(config=self.config, device=self.device).config.task_delay(success=True, minute=60*24*7)
 
     def commission(self):
         from module.commission.commission import RewardCommission
@@ -241,9 +242,9 @@ class AzurLaneAutoScript:
         from module.private_quarters.private_quarters import PrivateQuarters
         PrivateQuarters(config=self.config, device=self.device).run()
 
-    def post_manage(self):
-        from module.island.post_manage import PostManage
-        PostManage(config=self.config, device=self.device).run()
+    def island_post_manage(self):
+        from module.island.post_manage import IslandPostManage
+        IslandPostManage(config=self.config, device=self.device).run()
 
     def daily(self):
         from module.daily.daily import Daily

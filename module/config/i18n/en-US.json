@@ -194,6 +194,10 @@
       "name": "Private Quarters",
       "help": ""
     },
+    "IslandPostManage": {
+      "name": "Island Post Manage",
+      "help": ""
+    },
     "OpsiGeneral": {
       "name": "OpSi General",
       "help": "Ensure the following settings in Azur Lane:\nReduce TB Guidance: On\nAuto use items during Auto Search: On\nAuto Mode in secured zones: Off\nStory Autoplay: Enabled\nText Auto-Scroll Speed: Very Fast"
@@ -2080,6 +2084,34 @@
       "noshiro": "Noshiro",
       "sirius": "Sirius",
       "new_jersey": "New Jersey"
+    }
+  },
+  "IslandPostManage": {
+    "_info": {
+      "name": "Island Post Manage",
+      "help": "You MUST unlock the research first in order to use this feature"
+    },
+    "Mining": {
+      "name": "Mining",
+      "help": "",
+      "disabled": "Disabled",
+      "coal": "Coal",
+      "copper": "Copper",
+      "aluminium": "Aluminium"
+    },
+    "Lumbering": {
+      "name": "Lumbering",
+      "help": "",
+      "disabled": "Disabled",
+      "raw": "Raw Wood",
+      "useful": "Useful Planks",
+      "premium": "Premium Planks"
+    },
+    "Ranch": {
+      "name": "Ranch",
+      "help": "You need to have feed to produce",
+      "disabled": "Disabled",
+      "enabled": "Enabled"
     }
   },
   "Daily": {

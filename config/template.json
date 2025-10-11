@@ -1631,6 +1631,24 @@
       "Storage": {}
     }
   },
+  "IslandPostManage": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "IslandPostManage",
+      "SuccessInterval": 0,
+      "FailureInterval": 120,
+      "ServerUpdate": "00:00"
+    },
+    "IslandPostManage": {
+      "Mining": "disabled",
+      "Lumbering": "disabled",
+      "Ranch": "disabled"
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
   "OpsiGeneral": {
     "OpsiGeneral": {
       "UseLogger": true,

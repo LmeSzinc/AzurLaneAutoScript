@@ -341,6 +341,11 @@ class GeneratedConfig:
     PrivateQuarters_TargetInteract = True
     PrivateQuarters_TargetShip = 'anchorage'  # anchorage, noshiro, sirius, new_jersey
 
+    # Group `IslandPostManage`
+    IslandPostManage_Mining = 'disabled'  # disabled, coal, copper, aluminium
+    IslandPostManage_Lumbering = 'disabled'  # disabled, raw, useful, premium
+    IslandPostManage_Ranch = 'disabled'  # disabled, enabled
+
     # Group `Daily`
     Daily_UseDailySkip = True
     Daily_EscortMission = 'first'  # skip, first, second, third

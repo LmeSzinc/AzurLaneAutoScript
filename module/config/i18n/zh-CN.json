@@ -194,6 +194,10 @@
       "name": "宿舍计划",
       "help": ""
     },
+    "IslandPostManage": {
+      "name": "离岛配置管理",
+      "help": ""
+    },
     "OpsiGeneral": {
       "name": "通用设置",
       "help": ""
@@ -2080,6 +2084,34 @@
       "noshiro": "能代",
       "sirius": "天狼星",
       "new_jersey": "新泽西"
+    }
+  },
+  "IslandPostManage": {
+    "_info": {
+      "name": "配置管理",
+      "help": "必须先解锁研究后才能使用此功能"
+    },
+    "Mining": {
+      "name": "积岩矿山",
+      "help": "",
+      "disabled": "停用",
+      "coal": "煤炭",
+      "copper": "铜",
+      "aluminium": "铝"
+    },
+    "Lumbering": {
+      "name": "翠绿之森",
+      "help": "",
+      "disabled": "停用",
+      "raw": "大自然原木",
+      "useful": "实用木材",
+      "premium": "高级木材"
+    },
+    "Ranch": {
+      "name": "悠悠牧场",
+      "help": "需先准备足够饲料",
+      "disabled": "停用",
+      "enabled": "启用"
     }
   },
   "Daily": {
