@@ -265,6 +265,7 @@ class Island(IslandUI):
         self.device.sleep(sleep)
 
     def ensure_project(self, project: IslandProject, trial=7, skip_first_screenshot=True):
+        logger.hr('Project ensure')
         for _ in range(trial):
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -313,14 +314,15 @@ class Island(IslandUI):
                     end = True
                 proj_config = self.island_project_config(proj)
 
-                for button, option in zip(proj.slot_buttons.buttons, proj_config):
+                for button, option, index in zip(
+                        proj.slot_buttons.buttons, proj_config, range(len(proj_config))):
                     if option is None:
                         continue
                     if self.project_receive(button):
                         self.island_select_role()
                         if self.island_select_product(option):
                             self.island_product_confirm()
-                        if not end or option != proj_config[-1]:
+                        if not end or index != len(proj_config) - 1:
                             self.ensure_project(proj)
                 timeout.reset()
 

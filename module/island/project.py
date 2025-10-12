@@ -98,6 +98,8 @@ class IslandProject:
 
         return True
 
+    def __str__(self):
+        return self.name
 
 class ItemNameOcr(Ocr):
     def after_process(self, result):
