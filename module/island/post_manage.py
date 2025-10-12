@@ -13,7 +13,6 @@ from module.ui.page import (
     page_island_postmanage,
 )
 import module.config.server as server
-from module.base.timer import Timer
 from module.ocr.ocr import Ocr
 
 class IslandPostManage(IslandInteract):
@@ -96,8 +95,10 @@ class IslandPostManage(IslandInteract):
 
     def process_completed(self, btn: Button):
         logger.info("Processing completed job")
-        self.device.click(btn)
-        self.wait_until_appear_then_click(ISLAND_ITEM_GET, offset=(10, 10))
+        t = self.click_and_wait_until_appear(btn, ISLAND_ITEM_GET, TEMPLATE_ISLAND_JOB_SELCHAR)
+        if t == TEMPLATE_ISLAND_JOB_SELCHAR:
+            return True
+        self.click_and_wait_until_appear(self.BTN_EMPTY, ISLAND_POSTMANAGE_CHECK)
         return True
 
     def process_empty(self, btn: Button):
@@ -109,8 +110,8 @@ class IslandPostManage(IslandInteract):
             logger.error('Failed to find Manjuu worker in selection')
             self.device.click(ISLAND_POSTMANAGE_GOTO_MANAGEMENT)
             return False
-        self.device.click(worker_btn)
-        self.wait_until_appear_then_click(ISLAND_WORKER_CONFIRM, offset=(20, 10))
+        self.click_and_wait_until_appear(worker_btn, ISLAND_WORKER_CONFIRM)
+        self.device.click(ISLAND_WORKER_CONFIRM)
         return self.process_production(btn)
 
     def process_production(self, btn=None):
