@@ -16,7 +16,7 @@ from module.shop_event.item import ITEM_SHAPE, EventShopItemGrid, DELTA_PRICE_BA
 from module.shop_event.ui import EventShopUI, EVENT_SHOP_SCROLL
 from module.ui_white.assets import BACK_ARROW_WHITE
 
-DETECT_AREA= (183, 194, 985, 632)
+DETECT_AREA = (221, 194, 1049, 632)
 
 
 class ItemNotFoundError(Exception):
@@ -50,7 +50,7 @@ class EventShopClerk(EventShopUI):
 
         shop_grid = ButtonGrid(
             origin=(DETECT_AREA[0] + DELTA_ITEM[0], y + DELTA_ITEM[1]),
-            delta=(162.5, delta_y),
+            delta=(169, delta_y),
             button_shape=ITEM_SHAPE,
             grid_shape=(5, row),
             name="EVENT_SHOP_GRID",
