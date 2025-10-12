@@ -157,6 +157,7 @@ class IslandItem:
         self.valid = True
         self.name = None
         self.button = None
+        self.items = []
         self.parse_item(get_button=get_button)
 
     def parse_item(self, get_button):

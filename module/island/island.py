@@ -39,7 +39,7 @@ class Island(IslandUI):
         Receive and start a project.
 
         Args:
-            button (Button):
+            button (Button): project button to click
 
         Returns:
             bool: if received.
@@ -103,6 +103,10 @@ class Island(IslandUI):
         return received
 
     def island_select_manjuu(self, button):
+        """
+        Args:
+            button (Button): role button to click
+        """
         self.interval_clear([ROLE_SELECT_CONFIRM, ISLAND_AMOUNT_MAX])
         for _ in self.loop():
             if self.appear(ROLE_SELECT_CHECK, offset=(20, 20)):
@@ -123,7 +127,14 @@ class Island(IslandUI):
     def island_select_role(self, skip_first_screenshot=True):
         """
         Select a role to produce.
+
+        Args:
+            skip_first_screenshot (bool):
+
+        Returns:
+            bool: if selected
         """
+        logger.info('Island select role')
         timeout = Timer(1.5, count=3).start()
         while 1:
             if skip_first_screenshot:
@@ -132,13 +143,14 @@ class Island(IslandUI):
                 self.device.screenshot()
 
             if timeout.reached():
-                break
+                self.island_product_quit()
+                return False
 
             image = self.image_crop((0, 0, 910, 1280), copy=False)
             sim, button = TEMPLATE_ISLAND_MANJUU.match_result(image)
             if sim > 0.9:
                 self.island_select_manjuu(button)
-                break
+                return True
             else:
                 logger.info('No manjuu found')
                 continue
@@ -163,13 +175,17 @@ class Island(IslandUI):
         peaks = np.array(peaks) + y_top
         return IslandItem(self.device.image, peaks)
 
-    def island_select_product(self, option, skip_first_screenshot=True):
+    def island_select_product(self, option, trial=2, skip_first_screenshot=True):
         """
         Select a product in items list.
 
         Args:
             option (str): option to select
+            trail (int): retry times
             skip_first_screenshot (bool):
+
+        Returns:
+            bool: if selected
         """
         logger.hr('Island Select Product')
         last = None
@@ -181,6 +197,12 @@ class Island(IslandUI):
                 self.device.screenshot()
 
             current = self.island_current_product()
+            if trial > 0 and not len(current.items):
+                trial -= 1
+                continue
+            if trial <= 0:
+                self.island_product_quit()
+                return False
 
             if option == current.name:
                 logger.info(f'Selected item {option}')
@@ -212,6 +234,7 @@ class Island(IslandUI):
         Args:
             skip_first_screenshot (bool):
         """
+        logger.info('Island product confirm')
         last = None
         success = False
         timeout = Timer(1.5, count=3).start()
@@ -260,6 +283,7 @@ class Island(IslandUI):
             box (tuple):
             sleep (float):
         """
+        logger.info('Island drag to next page')
         p1, p2 = random_rectangle_vector(vector, box=box, random_range=(0, -5, 0, 5))
         self.device.drag(p1, p2, segments=2, shake=(0, 25), point_random=(0, 0, 0, 0), shake_random=(0, -5, 0, 5))
         self.device.sleep(sleep)
@@ -276,6 +300,7 @@ class Island(IslandUI):
             if not projects:
                 continue
             if project.name in projects.get('name'):
+                logger.info(f'Ensured project: {project}')
                 break
 
             self.island_drag_next_page((0, -500), ISLAND_PROJECT_SWIPE.area, 0.6)
@@ -285,8 +310,8 @@ class Island(IslandUI):
         Execute island run to receive and start project.
 
         Args:
-            names (bool):
-            trial (int):
+            names (list[str]): a list of name for island receive
+            trial (int): retry times
             skip_first_screenshot (bool):
         """
         logger.hr('Island Run', level=1)
@@ -319,9 +344,10 @@ class Island(IslandUI):
                     if option is None:
                         continue
                     if self.project_receive(button):
-                        self.island_select_role()
-                        if self.island_select_product(option):
-                            self.island_product_confirm()
+                        if self.island_select_role():
+                            if self.island_select_product(option):
+                                self.island_product_confirm()
+                        self.ui_ensure_management_page()
                         if not end or index != len(proj_config) - 1:
                             self.ensure_project(proj)
                 timeout.reset()
