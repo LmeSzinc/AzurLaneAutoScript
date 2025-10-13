@@ -153,7 +153,7 @@ class Coalition(CoalitionCombat, CampaignEvent):
             if self.config.SERVER in ['tw']:
 	            self.ui_goto_main()
 	            self.ui_goto(page_campaign_menu)
-	                if self.triggered_stop_condition(oil_check=True):
+	            if self.triggered_stop_condition(oil_check=True):
 		            break
             self.device.stuck_record_clear()
             self.device.click_record_clear()
