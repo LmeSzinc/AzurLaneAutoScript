@@ -597,7 +597,7 @@ _anchors:
     - disabled
     - coal
     - copper
-    - aluminium
+    - aluminum
   lumbering_options: &lumbering_options
     - disabled
     - raw

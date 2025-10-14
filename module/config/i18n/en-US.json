@@ -2111,7 +2111,7 @@
       "disabled": "disabled",
       "coal": "coal",
       "copper": "copper",
-      "aluminium": "aluminium"
+      "aluminum": "aluminum"
     },
     "Slot_2": {
       "name": "IslandMining.Slot_2.name",
@@ -2119,7 +2119,7 @@
       "disabled": "disabled",
       "coal": "coal",
       "copper": "copper",
-      "aluminium": "aluminium"
+      "aluminum": "aluminum"
     },
     "Slot_3": {
       "name": "IslandMining.Slot_3.name",
@@ -2127,7 +2127,7 @@
       "disabled": "disabled",
       "coal": "coal",
       "copper": "copper",
-      "aluminium": "aluminium"
+      "aluminum": "aluminum"
     },
     "Slot_4": {
       "name": "IslandMining.Slot_4.name",
@@ -2135,7 +2135,7 @@
       "disabled": "disabled",
       "coal": "coal",
       "copper": "copper",
-      "aluminium": "aluminium"
+      "aluminum": "aluminum"
     }
   },
   "IslandLumbering": {

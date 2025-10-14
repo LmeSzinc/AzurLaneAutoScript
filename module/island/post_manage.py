@@ -71,7 +71,7 @@ class IslandPostManage(IslandInteract):
             target_product = ''
             if product_key_prefix:
                 target_product = getattr(self.config, f'{product_key_prefix}_Slot_{i+1}', 'disabled')
-            logger.info("Target product for slot#{}: {}".format(i+1, target_product))
+            logger.hr(f'Slot {i+1}', level=3)
             if target_product != 'disabled':
                 self.device.click_record_clear()
                 self.dismiss()
@@ -89,6 +89,7 @@ class IslandPostManage(IslandInteract):
             TEMPLATE_ISLAND_JOB_SELCHAR: self.process_empty,
             TEMPLATE_ISLAND_ADD_PRODUCE: self.process_production,
         }
+        logger.info(f'Target product: {target_product}')
         for template, func in templates.items():
             self.wait_until_appear(ISLAND_POSTMANAGE_CHECK)
             sim, btn = template.match_luma_result(self.device.screenshot())

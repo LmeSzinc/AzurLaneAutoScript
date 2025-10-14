@@ -2111,7 +2111,7 @@
       "disabled": "停用",
       "coal": "煤炭",
       "copper": "銅",
-      "aluminium": "鋁"
+      "aluminum": "鋁"
     },
     "Slot_2": {
       "name": "配置位#2",
@@ -2119,7 +2119,7 @@
       "disabled": "停用",
       "coal": "煤炭",
       "copper": "銅",
-      "aluminium": "鋁"
+      "aluminum": "鋁"
     },
     "Slot_3": {
       "name": "配置位#3",
@@ -2127,7 +2127,7 @@
       "disabled": "停用",
       "coal": "煤炭",
       "copper": "銅",
-      "aluminium": "鋁"
+      "aluminum": "鋁"
     },
     "Slot_4": {
       "name": "配置位#4",
@@ -2135,7 +2135,7 @@
       "disabled": "停用",
       "coal": "煤炭",
       "copper": "銅",
-      "aluminium": "鋁"
+      "aluminum": "鋁"
     }
   },
   "IslandLumbering": {
