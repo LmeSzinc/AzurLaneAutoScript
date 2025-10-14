@@ -115,7 +115,7 @@ class IslandPostManage(IslandInteract):
             return False
         self.click_and_wait_until_appear(worker_btn, ISLAND_WORKER_CONFIRM)
         self.device.click(ISLAND_WORKER_CONFIRM)
-        return self.process_production(btn)
+        return self.process_production(btn, **kwargs)
 
     def process_production(self, btn=None, **kwargs):
         logger.info("Processing production")
