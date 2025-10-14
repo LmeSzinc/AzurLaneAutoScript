@@ -110,7 +110,7 @@ class Reward(UI):
             for button in [MISSION_MULTI, MISSION_SINGLE]:
                 if not click_timer.reached():
                     continue
-                if self.match_template_color(button, offset=(20, 200), interval=interval):
+                if self.match_template_color(button, offset=(50, 200), interval=interval):
                     self.device.click(button)
                     clicked_mission = True
                     exit_timer.reset()
@@ -174,7 +174,7 @@ class Reward(UI):
             if self.appear(MISSION_MULTI, offset=(20, 20)):
                 logger.info(f'mission list: {MISSION_MULTI}')
                 break
-            if MISSION_SINGLE.match_luma(self.device.image, offset=(20, 200)):
+            if MISSION_SINGLE.match_luma(self.device.image, offset=(50, 200)):
                 logger.info(f'mission list: {MISSION_SINGLE}')
                 break
             if self.appear(MISSION_UNFINISH, offset=(20, 20)):
@@ -195,7 +195,7 @@ class Reward(UI):
         self._reward_wait_mission_list()
 
         if not self.appear(MISSION_MULTI, offset=(20, 200)) and \
-                not self.appear(MISSION_SINGLE, offset=(20, 200)):
+                not self.appear(MISSION_SINGLE, offset=(50, 200)):
             logger.info('No MISSION_MULTI or MISSION_SINGLE')
             return False
 

@@ -67,25 +67,33 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment, Combat):
             else:
                 self.low_hp_confirm_timer.reset()
                 # Finish - S or D rank
-                if self.appear_then_click(BATTLE_STATUS_S, interval=1):
+                if self.appear(BATTLE_STATUS_S, interval=1):
+                    logger.info(f'{BATTLE_STATUS_S} -> {CLICK_SAFE_AREA}')
+                    self.device.click(CLICK_SAFE_AREA)
                     success = True
                     end = True
                     battle_status_detected = True
                     continue
-                if self.appear_then_click(BATTLE_STATUS_D, interval=1):
+                if self.appear(BATTLE_STATUS_D, interval=1):
+                    logger.info(f'{BATTLE_STATUS_D} -> {CLICK_SAFE_AREA}')
+                    self.device.click(CLICK_SAFE_AREA)
                     success = True
                     end = True
                     battle_status_detected = True
                     logger.info("Exercise LOST")
                     continue
-            
+
             # Only handle GET_ITEMS_1 after battle status
-            if battle_status_detected and self.appear_then_click(GET_ITEMS_1, offset=(30, 30), interval=1):
+            if battle_status_detected and self.appear(GET_ITEMS_1, offset=(30, 30), interval=1):
+                logger.info(f'{GET_ITEMS_1} -> {CLICK_SAFE_AREA}')
+                self.device.click(CLICK_SAFE_AREA)
                 continue
             if self.appear(EXP_INFO_S, interval=1):
+                logger.info(f'{EXP_INFO_S} -> {CLICK_SAFE_AREA}')
                 self.device.click(CLICK_SAFE_AREA)
                 continue
             if self.appear(EXP_INFO_D, interval=1):
+                logger.info(f'{EXP_INFO_D} -> {CLICK_SAFE_AREA}')
                 self.device.click(CLICK_SAFE_AREA)
                 continue
             # Last D rank screen
