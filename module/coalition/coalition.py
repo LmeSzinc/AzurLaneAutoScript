@@ -112,7 +112,7 @@ class Coalition(CoalitionCombat, CampaignEvent):
 
         self.enter_map(event=event, stage=stage, mode=fleet)
         oil_check_boolean=True if self.config.SERVER not in ['tw'] else False
-        if self.triggered_stop_condition(oil_check_boolean):
+        if self.triggered_stop_condition(oil_check=oil_check_boolean):
             self.coalition_map_exit(event)
             raise ScriptEnd
         self.coalition_combat()
