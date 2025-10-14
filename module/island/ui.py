@@ -1,22 +1,9 @@
 from module.base.timer import Timer
 from module.island.assets import *
 from module.logger import logger
-from module.ocr.ocr import Duration
 from module.ui.assets import SHOP_BACK_ARROW
 from module.ui.page import page_island_phone
 from module.ui.ui import UI
-
-
-class IslandProductionTime(Duration):
-    def after_process(self, result):
-        result = super().after_process(result)
-        if result == '0:40:00':
-            result = '01:40:00'
-        return result
-
-
-OCR_PRODUCTION_TIME = IslandProductionTime(OCR_PRODUCTION_TIME, lang='azur_lane_jp', name='OCR_PRODUCTION_TIME')
-OCR_PRODUCTION_TIME_REMAIN = Duration(OCR_PRODUCTION_TIME_REMAIN, name='OCR_PRODUCTION_TIME_REMAIN')
 
 
 class IslandUI(UI):
