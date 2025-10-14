@@ -54,7 +54,7 @@ class IslandInteract(UI):
                     if self.appear(t, threshold=threshold, similarity=similarity):
                         return t
                 elif isinstance(t, Template):
-                    sim, btn = t.match_luma_result(self.device.image, threshold=threshold)
+                    sim, btn = t.match_luma_result(self.device.image)
                     if sim >= similarity:
                         return btn
                 else:
