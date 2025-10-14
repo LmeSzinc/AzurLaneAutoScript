@@ -151,7 +151,6 @@ class Coalition(CoalitionCombat, CampaignEvent):
 
             # UI switches
             if self.config.SERVER in ['tw']:
-	            self.ui_goto_main()
 	            self.ui_goto(page_campaign_menu)
 	            if self.triggered_stop_condition(oil_check=True):
 		            break
