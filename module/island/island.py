@@ -406,9 +406,13 @@ class Island(IslandUI):
                 self.ui_goto(page_island, get_ship=False)
                 self.device.sleep(0.5)
                 self.ui_ensure(page_island_phone)
-                self.island_management_enter()
-                self.island_run(names=names)
-                self.island_management_quit()
+                if self.island_management_enter():
+                    self.island_run(names=names)
+                    self.island_management_quit()
+                else:
+                    logger.warning('Island management locked, please reach island level 18 '
+                                   'and unlock island management to use this task.')
+                    self.config.Scheduler_Enable = False
                 self.ui_goto(page_main, get_ship=False)
             else:
                 logger.info('Nothing to receive, skip island running')

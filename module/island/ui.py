@@ -32,12 +32,19 @@ class IslandUI(UI):
 
     def island_management_enter(self):
         """
+        Enter island management page.
+
+        Returns:
+            bool: if success
+
         Pages:
             in: page_island_phone
             out: ISLAND_MANAGEMENT_CHECK
         """
         logger.info('Island management enter')
         self.interval_clear(ISLAND_MANAGEMENT_CHECK)
+        if self.appear(ISLAND_MANAGEMENT_LOCKED, offset=(20, 20)):
+            return False
         self.ui_click(
             click_button=ISLAND_MANAGEMENT,
             check_button=self.island_in_management,
@@ -45,9 +52,15 @@ class IslandUI(UI):
             retry_wait=2,
             skip_first_screenshot=True
         )
+        return True
 
     def island_management_quit(self):
         """
+        Exit island management page.
+
+        Returns:
+            bool: if success
+
         Pages:
             in: ISLAND_MANAGEMENT_CHECK
             out: page_island_phone
@@ -60,6 +73,7 @@ class IslandUI(UI):
             retry_wait=2,
             skip_first_screenshot=True
         )
+        return True
 
     def island_product_quit(self):
         """
