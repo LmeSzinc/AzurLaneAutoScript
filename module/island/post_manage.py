@@ -73,12 +73,12 @@ class IslandPostManage(IslandInteract):
                 target_product = getattr(self.config, f'{product_key_prefix}_Slot_{i+1}', 'disabled')
             logger.hr(f'Slot {i+1}', level=3)
             if target_product != 'disabled':
-                self.device.click_record_clear()
-                self.dismiss()
                 self.wait_until_appear(ISLAND_POSTMANAGE_CHECK)
                 logger.info(f'Processing slot#{i+1}')
                 btn = Button(area=(x, y, x+30, y+30), color=(), button=(x, y, x+30, y+30), name='Island Job Grid')
                 self.process_slot(btn, target_product)
+                self.device.click_record_clear()
+                self.dismiss()
             x += self.GRID_OFFSET[2]
             y += self.GRID_OFFSET[3]
 
@@ -90,11 +90,17 @@ class IslandPostManage(IslandInteract):
             TEMPLATE_ISLAND_ADD_PRODUCE: self.process_production,
         }
         logger.info(f'Target product: {target_product}')
-        for template, func in templates.items():
-            self.wait_until_appear(ISLAND_POSTMANAGE_CHECK)
-            sim, btn = template.match_luma_result(self.device.screenshot())
-            if sim >= self.TEMPLATE_SIM_THRESHOLD:
-                func(btn, target_product=target_product)
+        should_retry = True
+        while should_retry:
+            for template, func in templates.items():
+                self.ui_ensure(page_island_postmanage)
+                sim, btn = template.match_luma_result(self.device.screenshot())
+                if sim >= self.TEMPLATE_SIM_THRESHOLD:
+                    if not func(btn, target_product=target_product):
+                        logger.info('Retry')
+                        break
+            else:
+                should_retry = False
 
     def process_completed(self, btn: Button, **kwargs):
         logger.info("Processing completed job")
@@ -111,7 +117,6 @@ class IslandPostManage(IslandInteract):
         sim, worker_btn = TEMPLATE_ISLAND_WORKER_MANJUU.match_luma_result(self.device.screenshot())
         if sim < self.TEMPLATE_SIM_THRESHOLD: # should not happen
             logger.error('Failed to find Manjuu worker in selection')
-            self.device.click(ISLAND_POSTMANAGE_GOTO_MANAGEMENT)
             return False
         self.click_and_wait_until_appear(worker_btn, ISLAND_WORKER_CONFIRM)
         self.device.click(ISLAND_WORKER_CONFIRM)
@@ -125,8 +130,8 @@ class IslandPostManage(IslandInteract):
         while 1:
             self.device.screenshot()
             if ISLAND_POSTMANAGE_CHECK.match(self.device.image):
-                logger.info('Bugged, retrying')
-                return self.process_empty(btn)
+                logger.info('UI bug detected')
+                return False
             if ISLAND_PRODUCT_SEL_CHECK.match(self.device.image):
                 break
         product_name = kwargs.get('target_product', '')
