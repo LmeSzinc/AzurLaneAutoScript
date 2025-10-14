@@ -30,6 +30,16 @@ class IslandUI(UI):
         """
         return self.appear(ISLAND_MANAGEMENT_CHECK, offset=(20, 20), interval=interval)
 
+    def island_in_transport(self, interval=0):
+        """
+        Args:
+            interval (int):
+
+        Returns:
+            bool: if in page ISLAND_TRANSPORT_CHECK
+        """
+        return self.appear(ISLAND_TRANSPORT_CHECK, offset=(20, 20), interval=interval)
+
     def island_management_enter(self):
         """
         Enter island management page.
@@ -54,18 +64,34 @@ class IslandUI(UI):
         )
         return True
 
-    def island_management_quit(self):
+    def island_transport_enter(self):
         """
-        Exit island management page.
+        Enter island management page.
 
         Returns:
             bool: if success
 
         Pages:
-            in: ISLAND_MANAGEMENT_CHECK
+            in: page_island_phone
+            out: ISLAND_MANAGEMENT_CHECK
+        """
+        logger.info('Island transport enter')
+        self.ui_click(
+            click_button=ISLAND_TRANSPORT,
+            check_button=self.island_in_transport,
+            offset=(20, 20),
+            retry_wait=2,
+            skip_first_screenshot=True
+        )
+        return True
+
+    def island_ui_back(self):
+        """
+        Pages:
+            in: any page with SHOP_BACK_ARROW
             out: page_island_phone
         """
-        logger.info('Island management quit')
+        logger.info('Island UI back')
         self.ui_click(
             click_button=SHOP_BACK_ARROW,
             check_button=page_island_phone.check_button,
@@ -73,7 +99,6 @@ class IslandUI(UI):
             retry_wait=2,
             skip_first_screenshot=True
         )
-        return True
 
     def island_product_quit(self):
         """

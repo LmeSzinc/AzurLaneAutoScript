@@ -305,7 +305,7 @@ class Island(IslandUI):
 
             self.island_drag_next_page((0, -500), ISLAND_PROJECT_SWIPE.area, 0.6)
 
-    def island_run(self, names, trial=2, skip_first_screenshot=True):
+    def island_project_run(self, names, trial=2, skip_first_screenshot=True):
         """
         Execute island run to receive and start project.
 
@@ -313,8 +313,11 @@ class Island(IslandUI):
             names (list[str]): a list of name for island receive
             trial (int): retry times
             skip_first_screenshot (bool):
+
+        Returns:
+            list[timedelta]: future finish timedelta
         """
-        logger.hr('Island Run', level=1)
+        logger.hr('Island Project Run', level=1)
         end = False
         timeout = Timer(3, count=3).start()
         while 1:
@@ -359,11 +362,9 @@ class Island(IslandUI):
         # task delay
         future_finish = sorted([f for f in self.total.get('finish_time') if f is not None])
         logger.info(f'Project finish: {[str(f) for f in future_finish]}')
-        if len(future_finish):
-            self.config.task_delay(target=future_finish)
-        else:
+        if not len(future_finish):
             logger.info('No island project running')
-            self.config.task_delay(success=False)
+        return future_finish
 
     def island_project_config(self, project: IslandProject):
         """
@@ -397,6 +398,39 @@ class Island(IslandUI):
         else:
             return []
 
+    def island_transport_run(self):
+        
+        return []
+
+    def island_run(self, transport=False, project=True, names=None):
+        """
+        Args:
+            transport (bool):
+            project (bool):
+            names (list[str]): a list of name for island receive
+        """
+        future_finish = []
+        if transport:
+            if self.island_transport_enter():
+                future_finish.extend(self.island_transport_run())
+                self.island_ui_back()
+
+        if project:
+            if self.island_management_enter():
+                future_finish.extend(self.island_project_run(names=names))
+                self.island_ui_back()
+            else:
+                logger.warning('Island management locked, please reach island level 18 '
+                                'and unlock island management to use this task.')
+                self.config.Scheduler_Enable = False
+                return False
+
+        if len(future_finish):
+            self.config.task_delay(target=future_finish)
+        else:
+            logger.info('No island routine running')
+            self.config.task_delay(success=False)
+
     def run(self):
         if server.server in ['cn']:
             names = self.island_config_to_names(
@@ -406,13 +440,7 @@ class Island(IslandUI):
                 self.ui_goto(page_island, get_ship=False)
                 self.device.sleep(0.5)
                 self.ui_ensure(page_island_phone)
-                if self.island_management_enter():
-                    self.island_run(names=names)
-                    self.island_management_quit()
-                else:
-                    logger.warning('Island management locked, please reach island level 18 '
-                                   'and unlock island management to use this task.')
-                    self.config.Scheduler_Enable = False
+                self.island_run(names=names)
                 self.ui_goto(page_main, get_ship=False)
             else:
                 logger.info('Nothing to receive, skip island running')
