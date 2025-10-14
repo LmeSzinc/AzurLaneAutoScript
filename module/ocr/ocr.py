@@ -39,6 +39,9 @@ class Ocr:
         self.threshold = threshold
         self.alphabet = alphabet
         self.lang = lang
+        self.upscale = 1
+        self.binarize_threshold = 0
+        self.fxaa = False
         if lang == 'azur_lane' and server.server in ['jp']:
             self.lang = 'azur_lane_' + server.server
 
