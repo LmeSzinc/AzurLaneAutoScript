@@ -13,18 +13,25 @@ from module.ui.page import (
     page_island_postmanage,
 )
 import module.config.server as server
-from module.ocr.ocr import Ocr
+from module.config.utils import nearest_future
+from module.ocr.ocr import Duration
+from datetime import datetime, timedelta
 
 class IslandPostManage(IslandInteract):
     TEMPLATE_SIM_THRESHOLD = 0.85
     GRID_OFFSET = (100, 80, 95, 0) # x, y, dx, dy
 
     BTN_PRODUCT_MAX = Button(area=(960, 379, 960+28, 379+28), color=(), button=(960, 379, 960+28, 379+28), name='Island Product Max')
-    BTN_PRODUCT_CONFIRM = Button(area=(713, 612, 680+95, 600+20), color=(), button=(713, 612, 680+95, 600+20), name='Island Product Confirm')
+    BTN_PRODUCT_CONFIRM = Button(area=(713, 612, 713+95, 612+20), color=(), button=(713, 612, 713+95, 612+20), name='Island Product Confirm')
 
-    OCR_PRODUCTION_TIME = Ocr(BTN_PRODUCT_CONFIRM, letter=(255, 255, 255), name='OCR_ISLAND_PRODUCTION_TIME')
+    OCR_PRODUCTION_TIME = Duration(BTN_PRODUCT_CONFIRM, lang='cnocr', name='OCR_ISLAND_PRODUCTION_TIME')
+    # manually tested best effort params
+    OCR_PRODUCTION_TIME.binarize_threshold = 250
+    OCR_PRODUCTION_TIME.upscale = 2
+    OCR_PRODUCTION_TIME.fxaa = True
 
     def run(self):
+        self.estimated_finish_times = []
         if server.server in ['jp']:
             self.ui_ensure(page_dormmenu)
             self.goto_ui(page_island)
@@ -35,7 +42,15 @@ class IslandPostManage(IslandInteract):
             logger.info('If want to address, review necessary assets, replace, update above condition, and test')
 
         # fixed due to limitation of ocr model
-        self.config.task_delay(minute=100)
+        if not self.estimated_finish_times:
+            self.config.task_delay(minute=100)
+        else:
+            # ensure at least 5 minutes delay
+            least_seconds = 300
+            future = nearest_future(self.estimated_finish_times)
+            if (future - datetime.now()).total_seconds() < least_seconds:
+                future = datetime.now() + timedelta(seconds=least_seconds)
+            self.config.task_delay(target=future)
 
     def process_harvests(self):
         logger.hr(f'Process Harvests', level=1)
@@ -147,6 +162,11 @@ class IslandPostManage(IslandInteract):
         self.device.click(self.BTN_PRODUCT_MAX)
         colors = self.BTN_PRODUCT_CONFIRM.load_color(self.device.screenshot())
         if colors[2] > 230: # doable
+            dur = self.OCR_PRODUCTION_TIME.ocr(self.device.image)
+            if type(dur) is timedelta:
+                self.estimated_finish_times.append(datetime.now() + dur)
+            else:
+                logger.warning(f'Failed to OCR production time, got {dur}')
             self.device.click(self.BTN_PRODUCT_CONFIRM)
         else:
             logger.warning(f'Insufficient resources to produce {product_name}, skipping')

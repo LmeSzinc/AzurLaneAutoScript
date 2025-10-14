@@ -57,7 +57,7 @@ class Ocr:
     def buttons(self, value):
         self._buttons = value
 
-    def pre_process(self, image):
+    def pre_process(self, image: np.ndarray) -> np.ndarray:
         """
         Args:
             image (np.ndarray): Shape (height, width, channel)
@@ -65,9 +65,41 @@ class Ocr:
         Returns:
             np.ndarray: Shape (width, height)
         """
-        image = extract_letters(image, letter=self.letter, threshold=self.threshold)
+        img = extract_letters(image, letter=self.letter, threshold=self.threshold)
 
-        return image.astype(np.uint8)
+        # Upscale (nearest preserves edges)
+        if self.upscale:
+            img = cv2.resize(img, None, fx=self.upscale, fy=self.upscale, interpolation=cv2.INTER_NEAREST)
+
+        # Lightweight FXAA-like smoothing (edge-aware blend)
+        if self.fxaa:
+            f = img.astype(np.float32)
+
+            # Edge strength via gradients
+            gx = cv2.Sobel(f, cv2.CV_32F, 1, 0, ksize=3)
+            gy = cv2.Sobel(f, cv2.CV_32F, 0, 1, ksize=3)
+            edge = cv2.magnitude(gx, gy)
+
+            # Edge mask in [0,1]
+            t0, t1 = 6.0, 18.0   # adjust sensitivity as needed
+            edge_w = np.clip((edge - t0) / (t1 - t0), 0.0, 1.0)
+
+            # Small blur
+            sigma = 0.6 + 0.15 * max(1, self.upscale)
+            blurred = cv2.GaussianBlur(f, (0, 0), sigmaX=sigma, sigmaY=sigma)
+
+            # Blend stronger on edges
+            alpha = 0.85
+            w = alpha * edge_w
+            img = f * (1.0 - w) + blurred * w
+            img = np.clip(img, 0, 255).astype(np.uint8)
+
+        # Thresholded binarization:
+        if self.binarize_threshold:
+            bin_thresh = max(0, min(255, self.binarize_threshold))
+            _, img = cv2.threshold(img, bin_thresh, 255, cv2.THRESH_BINARY_INV)
+
+        return img.astype(np.uint8)
 
     def after_process(self, result):
         """
