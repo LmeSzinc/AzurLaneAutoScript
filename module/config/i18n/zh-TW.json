@@ -2086,30 +2086,104 @@
       "new_jersey": "new_jersey"
     }
   },
-  "IslandPostManage": {
+  "_anchors": {
     "_info": {
-      "name": "配置管理",
-      "help": "必須要先解鎖科技才能使用此功能"
+      "name": "_anchors._info.name",
+      "help": "_anchors._info.help"
     },
-    "Mining": {
+    "mining_options": {
+      "name": "_anchors.mining_options.name",
+      "help": "_anchors.mining_options.help"
+    },
+    "lumbering_options": {
+      "name": "_anchors.lumbering_options.name",
+      "help": "_anchors.lumbering_options.help"
+    }
+  },
+  "IslandMining": {
+    "_info": {
       "name": "積岩礦山",
+      "help": ""
+    },
+    "Slot_1": {
+      "name": "配置位#1",
       "help": "",
       "disabled": "停用",
       "coal": "煤炭",
       "copper": "銅",
       "aluminium": "鋁"
     },
-    "Lumbering": {
+    "Slot_2": {
+      "name": "配置位#2",
+      "help": "",
+      "disabled": "停用",
+      "coal": "煤炭",
+      "copper": "銅",
+      "aluminium": "鋁"
+    },
+    "Slot_3": {
+      "name": "配置位#3",
+      "help": "",
+      "disabled": "停用",
+      "coal": "煤炭",
+      "copper": "銅",
+      "aluminium": "鋁"
+    },
+    "Slot_4": {
+      "name": "配置位#4",
+      "help": "",
+      "disabled": "停用",
+      "coal": "煤炭",
+      "copper": "銅",
+      "aluminium": "鋁"
+    }
+  },
+  "IslandLumbering": {
+    "_info": {
       "name": "翠綠之森",
+      "help": ""
+    },
+    "Slot_1": {
+      "name": "配置位#1",
       "help": "",
       "disabled": "停用",
       "raw": "大自然原木",
       "useful": "實用木材",
       "premium": "高級木材"
     },
-    "Ranch": {
+    "Slot_2": {
+      "name": "配置位#2",
+      "help": "",
+      "disabled": "停用",
+      "raw": "大自然原木",
+      "useful": "實用木材",
+      "premium": "高級木材"
+    },
+    "Slot_3": {
+      "name": "配置位#3",
+      "help": "",
+      "disabled": "停用",
+      "raw": "大自然原木",
+      "useful": "實用木材",
+      "premium": "高級木材"
+    },
+    "Slot_4": {
+      "name": "配置位#4",
+      "help": "",
+      "disabled": "停用",
+      "raw": "大自然原木",
+      "useful": "實用木材",
+      "premium": "高級木材"
+    }
+  },
+  "IslandRanch": {
+    "_info": {
       "name": "悠悠牧場",
-      "help": "需先準備足夠飼料",
+      "help": "需先準備足夠飼料"
+    },
+    "Ranch": {
+      "name": "自動分派",
+      "help": "",
       "disabled": "停用",
       "enabled": "啟用"
     }

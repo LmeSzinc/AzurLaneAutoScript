@@ -268,7 +268,9 @@ DailyMission:
       - PrivateQuarters
     IslandPostManage:
       - Scheduler
-      - IslandPostManage
+      - IslandMining
+      - IslandLumbering
+      - IslandRanch
 
 # ==================== Opsi ====================
 

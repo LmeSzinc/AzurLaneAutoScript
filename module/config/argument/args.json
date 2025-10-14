@@ -8252,8 +8252,8 @@
         "display": "hide"
       }
     },
-    "IslandPostManage": {
-      "Mining": {
+    "IslandMining": {
+      "Slot_1": {
         "type": "select",
         "value": "disabled",
         "option": [
@@ -8263,7 +8263,39 @@
           "aluminium"
         ]
       },
-      "Lumbering": {
+      "Slot_2": {
+        "type": "select",
+        "value": "disabled",
+        "option": [
+          "disabled",
+          "coal",
+          "copper",
+          "aluminium"
+        ]
+      },
+      "Slot_3": {
+        "type": "select",
+        "value": "disabled",
+        "option": [
+          "disabled",
+          "coal",
+          "copper",
+          "aluminium"
+        ]
+      },
+      "Slot_4": {
+        "type": "select",
+        "value": "disabled",
+        "option": [
+          "disabled",
+          "coal",
+          "copper",
+          "aluminium"
+        ]
+      }
+    },
+    "IslandLumbering": {
+      "Slot_1": {
         "type": "select",
         "value": "disabled",
         "option": [
@@ -8273,6 +8305,38 @@
           "premium"
         ]
       },
+      "Slot_2": {
+        "type": "select",
+        "value": "disabled",
+        "option": [
+          "disabled",
+          "raw",
+          "useful",
+          "premium"
+        ]
+      },
+      "Slot_3": {
+        "type": "select",
+        "value": "disabled",
+        "option": [
+          "disabled",
+          "raw",
+          "useful",
+          "premium"
+        ]
+      },
+      "Slot_4": {
+        "type": "select",
+        "value": "disabled",
+        "option": [
+          "disabled",
+          "raw",
+          "useful",
+          "premium"
+        ]
+      }
+    },
+    "IslandRanch": {
       "Ranch": {
         "type": "select",
         "value": "disabled",

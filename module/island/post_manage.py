@@ -16,9 +16,6 @@ import module.config.server as server
 from module.ocr.ocr import Ocr
 
 class IslandPostManage(IslandInteract):
-    target_product: str = ''
-    estimated_complete_times: list = []
-
     TEMPLATE_SIM_THRESHOLD = 0.85
     GRID_OFFSET = (100, 80, 95, 0) # x, y, dx, dy
 
@@ -28,13 +25,6 @@ class IslandPostManage(IslandInteract):
     OCR_PRODUCTION_TIME = Ocr(BTN_PRODUCT_CONFIRM, letter=(255, 255, 255), name='OCR_ISLAND_PRODUCTION_TIME')
 
     def run(self):
-        """
-        Pages:
-            in: Any page
-            out: page_main, may have info_bar
-        """
-        self.target_product = ''
-        self.estimated_complete_times = []
         if server.server in ['jp']:
             self.ui_ensure(page_dormmenu)
             self.goto_ui(page_island)
@@ -50,18 +40,25 @@ class IslandPostManage(IslandInteract):
     def process_harvests(self):
         logger.hr(f'Process Harvests', level=1)
         self.device.screenshot_interval_set()
-        if self.config.IslandPostManage_Mining != 'disabled':
-            self.target_product = self.config.IslandPostManage_Mining
-            self.process_job(TEMPLATE_ISLAND_MINING)
-        if self.config.IslandPostManage_Lumbering != 'disabled':
-            self.target_product = self.config.IslandPostManage_Lumbering
-            self.process_job(TEMPLATE_ISLAND_LUMBERING)
-        if self.config.IslandPostManage_Ranch != 'disabled':
-            self.target_product = ''
-            self.process_job(TEMPLATE_ISLAND_RANCH)
+        self.process_job('mining')
+        self.process_job('lumbering')
+        self.process_job('ranch')
 
-    def process_job(self, job_heading_template: Template) -> bool:
-        logger.hr(job_heading_template.name, level=2)
+    def process_job(self, job_name:str) -> bool:
+        product_key_prefix = ''
+        if job_name == 'mining':
+            job_heading_template = TEMPLATE_ISLAND_MINING
+            product_key_prefix = 'IslandMining'
+        elif job_name == 'lumbering':
+            job_heading_template = TEMPLATE_ISLAND_LUMBERING
+            product_key_prefix = 'IslandLumbering'
+        elif job_name == 'ranch':
+            job_heading_template = TEMPLATE_ISLAND_RANCH
+            product_key_prefix = '' # fixed product, no selection
+        else:
+            logger.error(f'Unknown job name {job_name}')
+            return
+        logger.hr(job_name, level=2)
         self.goto_ui(page_island_postmanage)
         sim, btn = job_heading_template.match_luma_result(self.device.screenshot())
         if sim < self.TEMPLATE_SIM_THRESHOLD:
@@ -71,16 +68,21 @@ class IslandPostManage(IslandInteract):
         x += self.GRID_OFFSET[0]
         y += self.GRID_OFFSET[1]
         for i in range(4):
-            self.device.click_record_clear()
-            self.dismiss()
-            self.wait_until_appear(ISLAND_POSTMANAGE_CHECK)
-            logger.info(f'Processing slot#{i+1}')
-            btn = Button(area=(x, y, x+30, y+30), color=(), button=(x, y, x+30, y+30), name='Island Job Grid')
-            self.process_slot(btn)
+            target_product = ''
+            if product_key_prefix:
+                target_product = getattr(self.config, f'{product_key_prefix}_Slot_{i+1}', 'disabled')
+            logger.info("Target product for slot#{}: {}".format(i+1, target_product))
+            if target_product != 'disabled':
+                self.device.click_record_clear()
+                self.dismiss()
+                self.wait_until_appear(ISLAND_POSTMANAGE_CHECK)
+                logger.info(f'Processing slot#{i+1}')
+                btn = Button(area=(x, y, x+30, y+30), color=(), button=(x, y, x+30, y+30), name='Island Job Grid')
+                self.process_slot(btn, target_product)
             x += self.GRID_OFFSET[2]
             y += self.GRID_OFFSET[3]
 
-    def process_slot(self, btn: Button):
+    def process_slot(self, btn: Button, target_product: str=''):
         self.device.click(btn)
         templates = {
             TEMPLATE_ISLAND_JOB_COMPLETE: self.process_completed,
@@ -91,9 +93,9 @@ class IslandPostManage(IslandInteract):
             self.wait_until_appear(ISLAND_POSTMANAGE_CHECK)
             sim, btn = template.match_luma_result(self.device.screenshot())
             if sim >= self.TEMPLATE_SIM_THRESHOLD:
-                func(btn)
+                func(btn, target_product=target_product)
 
-    def process_completed(self, btn: Button):
+    def process_completed(self, btn: Button, **kwargs):
         logger.info("Processing completed job")
         t = self.click_and_wait_until_appear(btn, ISLAND_ITEM_GET, TEMPLATE_ISLAND_JOB_SELCHAR)
         if t == TEMPLATE_ISLAND_JOB_SELCHAR:
@@ -101,10 +103,10 @@ class IslandPostManage(IslandInteract):
         self.click_and_wait_until_appear(self.BTN_EMPTY, ISLAND_POSTMANAGE_CHECK)
         return True
 
-    def process_empty(self, btn: Button):
+    def process_empty(self, btn: Button, **kwargs):
         logger.info("Processing empty slot")
         self.device.click(btn)
-        self.wait_until_appear(ISLAND_WORKER_SEL_CHECK, threshold=15)
+        self.wait_until_appear(ISLAND_WORKER_SEL_CHECK, threshold=20)
         sim, worker_btn = TEMPLATE_ISLAND_WORKER_MANJUU.match_luma_result(self.device.screenshot())
         if sim < self.TEMPLATE_SIM_THRESHOLD: # should not happen
             logger.error('Failed to find Manjuu worker in selection')
@@ -114,7 +116,7 @@ class IslandPostManage(IslandInteract):
         self.device.click(ISLAND_WORKER_CONFIRM)
         return self.process_production(btn)
 
-    def process_production(self, btn=None):
+    def process_production(self, btn=None, **kwargs):
         logger.info("Processing production")
         if btn:
             self.device.click(btn)
@@ -126,12 +128,13 @@ class IslandPostManage(IslandInteract):
                 return self.process_empty(btn)
             if ISLAND_PRODUCT_SEL_CHECK.match(self.device.image):
                 break
-        product = get_product_template(self.target_product)
+        product_name = kwargs.get('target_product', '')
+        product = get_product_template(product_name)
         if product:
             sim, btn = product.match_luma_result(self.device.screenshot())
             if sim < self.TEMPLATE_SIM_THRESHOLD:
                 # TODO: scroll page and retry
-                logger.warning(f'Could not find product {self.target_product} in selection, proceed with default option')
+                logger.warning(f'Could not find product {product_name} in selection, proceed with default option')
                 self.device.click(ISLAND_POSTMANAGE_GOTO_MANAGEMENT)
             else:
                 self.device.click(btn)
@@ -140,6 +143,6 @@ class IslandPostManage(IslandInteract):
         if colors[2] > 230: # doable
             self.device.click(self.BTN_PRODUCT_CONFIRM)
         else:
-            logger.warning(f'Insufficient resources to produce {self.target_product}, skipping')
+            logger.warning(f'Insufficient resources to produce {product_name}, skipping')
             self.device.click(ISLAND_POSTMANAGE_GOTO_MANAGEMENT)
         return True
