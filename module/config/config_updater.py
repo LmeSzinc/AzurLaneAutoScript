@@ -489,7 +489,6 @@ class ConfigGenerator:
             if task not in WAR_ARCHIVES:
                 deep_set(self.args, keys=f'{task}.Campaign.Event.option_bold', value=options)
             deep_set(self.args, keys=f'{task}.Campaign.Event.option', value=options)
-            deep_set(self.args, keys=f'{task}.Campaign.Event.option_bold', value=options)
 
     @staticmethod
     def generate_deploy_template():
