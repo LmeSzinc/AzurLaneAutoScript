@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 
+from module.base.timer import Timer
 from module.base.utils import area_offset
 from module.island.assets import *
 from module.island.ui import IslandUI
@@ -80,6 +81,7 @@ class IslandTransport:
     def convert_to_running(self):
         if self.valid:
             self.status = 'running'
+            self.can_start = False
             self.create_time = datetime.now()
 
     @property
@@ -144,10 +146,94 @@ class IslandTransportRun(IslandUI):
         logger.info('trials of transport commission detect exhausted, stop')
         return commissions.select(valid=True)
 
+    def transport_receive(self, skip_first_screenshot=True):
+        logger.hr('Island Transport', level=2)
+        self.device.click_record_clear()
+        self.interval_clear([GET_ITEMS_ISLAND, TRANSPORT_RECEIVE])
+        success = True
+        click_timer = Timer(5)
+        confirm_timer = Timer(1, count=2).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.handle_info_bar():
+                confirm_timer.reset()
+                continue
+
+            if self.appear_then_click(TRANSPORT_RECEIVE, offset=(-20, -20, 20, 400), interval=2):
+                success = False
+                self.interval_clear(GET_ITEMS_ISLAND)
+                confirm_timer.reset()
+                continue
+
+            if self.handle_get_items():
+                success = True
+                self.interval_clear(TRANSPORT_RECEIVE)
+                confirm_timer.reset()
+                continue
+
+            if self.island_in_transport():
+                if success and confirm_timer.reached():
+                    break
+                continue
+            else:
+                confirm_timer.reset()
+
+            if click_timer.reached():
+                self.device.click(GET_ITEMS_ISLAND)
+                self.device.sleep(0.3)
+                click_timer.reset()
+
+        return success
+
+    def transport_start(self, comm, skip_first_screenshot=True):
+        logger.info('Transport commission start')
+        self.interval_clear([GET_ITEMS_ISLAND, TRANSPORT_START])
+        success = True
+        confirm_timer = Timer(1, count=2).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.appear_then_click(TRANSPORT_START, offset=comm.offset, interval=2):
+                success = False
+                self.interval_clear(GET_ITEMS_ISLAND)
+                confirm_timer.reset()
+                continue
+
+            if self.handle_get_items():
+                success = True
+                self.interval_clear(TRANSPORT_START)
+                confirm_timer.reset()
+                continue
+
+            if self.island_in_transport():
+                if success and confirm_timer.reached():
+                    break
+                continue
+            else:
+                confirm_timer.reset()
+        return success
+
     def island_transport_run(self):
         logger.hr('Island Transport Run', level=1)
         future_finish = []
+        self.transport_receive()
         commissions = self.transport_detect(trial=2)
+
+        comm_choose = commissions.select(status='pending', can_start=True)
+        for comm in comm_choose:
+            if self.transport_start(comm):
+                comm.convert_to_running()
+
+        logger.hr('Showing transport commission', level=2)
+        for comm in commissions:
+            logger.attr(f'Transport Commission', comm)
 
         future_finish = sorted([f for f in commissions.select(status='running').get('finish_time') if f is not None])
         logger.info(f'Transport finish: {[str(f) for f in future_finish]}')

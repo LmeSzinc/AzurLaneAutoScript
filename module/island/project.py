@@ -339,7 +339,7 @@ class IslandProjectRun(IslandUI):
                 timeout.reset()
                 continue
 
-            if self.appear_then_click(GET_ITEMS_ISLAND, offset=(20, 20), interval=2):
+            if self.handle_get_items():
                 enter = True
                 self.interval_clear(ROLE_SELECT_ENTER)
                 timeout.reset()

@@ -25,7 +25,7 @@ class IslandUI(UI):
         Returns:
             bool: if in page ISLAND_TRANSPORT_CHECK
         """
-        return self.appear(ISLAND_TRANSPORT_CHECK, offset=(20, 20), interval=interval)
+        return self.match_template_color(ISLAND_TRANSPORT_CHECK, offset=(20, 20), interval=interval)
 
     def island_management_enter(self):
         """
@@ -128,3 +128,8 @@ class IslandUI(UI):
 
             if self.appear_then_click(ISLAND_MANAGEMENT, offset=(20, 20), interval=2):
                 continue
+
+    def handle_get_items(self):
+        if self.appear_then_click(GET_ITEMS_ISLAND, offset=(20, 20), interval=2):
+            return True
+        return False
