@@ -296,7 +296,7 @@ class IslandTransportRun(IslandUI):
 
             if self.handle_get_items():
                 success = True
-                self.interval_clear(TRANSPORT_START)
+                self.interval_reset(TRANSPORT_START)
                 confirm_timer.reset()
                 continue
 

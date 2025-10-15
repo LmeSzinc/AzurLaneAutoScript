@@ -1733,6 +1733,16 @@
       "help": ""
     }
   },
+  "IslandTransport": {
+    "_info": {
+      "name": "IslandTransport._info.name",
+      "help": "IslandTransport._info.help"
+    },
+    "Enable": {
+      "name": "IslandTransport.Enable.name",
+      "help": "IslandTransport.Enable.help"
+    }
+  },
   "Island1": {
     "_info": {
       "name": "Island1._info.name",

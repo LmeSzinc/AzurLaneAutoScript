@@ -7938,6 +7938,12 @@
         "display": "hide"
       }
     },
+    "IslandTransport": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      }
+    },
     "Island1": {
       "Receive": {
         "type": "checkbox",

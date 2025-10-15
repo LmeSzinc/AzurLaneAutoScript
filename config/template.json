@@ -1570,6 +1570,9 @@
       "FailureInterval": 120,
       "ServerUpdate": "00:00"
     },
+    "IslandTransport": {
+      "Enable": false
+    },
     "Island1": {
       "Receive": false,
       "Option1": 0,
