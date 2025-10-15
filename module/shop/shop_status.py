@@ -1,8 +1,8 @@
 import module.config.server as server
+from module.log_res.log_res import LogRes
 from module.ocr.ocr import Digit
 from module.shop.assets import *
 from module.ui.ui import UI
-from module.log_res.log_res import LogRes
 
 if server.server != 'jp':
     OCR_SHOP_GEMS = Digit(SHOP_GEMS, letter=(255, 243, 82), name='OCR_SHOP_GEMS')
