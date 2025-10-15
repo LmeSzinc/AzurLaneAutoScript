@@ -1,7 +1,9 @@
 from datetime import datetime, timedelta
+import numpy as np
 
+from module.base.button import ButtonGrid
 from module.base.timer import Timer
-from module.base.utils import area_offset
+from module.base.utils import area_offset, crop, image_color_count, rgb2gray
 from module.island.assets import *
 from module.island.ui import IslandUI
 from module.logger import logger
@@ -21,10 +23,17 @@ class IslandTransport:
     status: str
 
     def __init__(self, main, index):
+        """
+        Args:
+            main:
+            index (int):
+        """
         self.index = index
+        self.image = main.device.image
         self.valid = True
         self.duration = None
         self.can_start = True
+        self.items = SelectedGrids([])
         self.parse_transport(main)
         if not self.valid:
             self.can_start = False
@@ -48,7 +57,7 @@ class IslandTransport:
         elif self.status == 'pending':
             button = OCR_TRANSPORT_TIME.move((0, self.offset[1] + 20))
             ocr = Duration(button, lang='cnocr', letter=(207, 207, 207), name='OCR_TRANSPORT_TIME')
-            self.duration = ocr.ocr(main.device.image)
+            self.duration = ocr.ocr(self.image)
             if not self.duration.total_seconds():
                 self.valid = False
                 return
@@ -56,12 +65,20 @@ class IslandTransport:
             if not main.match_template_color(TRANSPORT_START, offset=self.offset):
                 self.can_start = False
                 return
+
+            origin_y = 174 + delta * self.index
+            grids = ButtonGrid(origin=(481, origin_y), delta=(105, 0), 
+                               button_shape=(86, 86), grid_shape=(3, 1), name='ITEMS')
+            self.items = SelectedGrids([TransportItem(self.image, button)
+                                        for button in grids.buttons]).select(valid=True)
+            self.can_start = self.items.select(can_load=True).count == self.items.count
+
         elif self.status == 'running':
             self.can_start = False
 
             button = OCR_TRANSPORT_TIME_REMAIN.move((0, self.offset[1] + 20))
             ocr = Duration(button, name='OCR_TRANSPORT_TIME')
-            self.duration = ocr.ocr(main.device.image)
+            self.duration = ocr.ocr(self.image)
             if not self.duration.total_seconds():
                 self.valid = False
                 return
@@ -101,6 +118,55 @@ class IslandTransport:
         info = ', '.join([f'{k}: {v}' for k, v in info.items()])
         return info
 
+class TransportItem:
+    BLACKLIST_ITEMS = [TEMPLATE_CHICKEN]
+
+    def __init__(self, image, button):
+        """
+        Args:
+            image:
+            button:
+        """
+        self.image_raw = image
+        self.button = button
+        self.image = crop(image, button.area)
+        self.valid = self.predict_valid()
+        self.can_load = self.predict_load()
+
+    def predict_valid(self):
+        # gray item means an empty item
+        mean = np.mean(np.max(self.image, axis=2) > 234)
+        # blue bar on top of the item means already loaded
+        blue_bar_check = image_color_count(self.image[:10, :, :], color=(90, 201, 255), threshold=221, count=500)
+        return mean > 0.3 and not blue_bar_check
+
+    def predict_load(self):
+        if not self.valid:
+            return False
+        if not TEMPLATE_ITEM_SATISFIED.match(rgb2gray(self.image)):
+            return False
+        if self.handle_blacklist_items():
+            return False
+        return True
+
+    def handle_blacklist_items(self):
+        """
+        Check if current item is a blacklist item.
+
+        Returns:
+            bool: if any blacklist item
+        """
+        for template in self.BLACKLIST_ITEMS:
+            if template.match(self.image):
+                return True
+        return False
+
+    def __str__(self):
+        if not self.valid:
+            return '(Invalid)'
+        info = {'can_load': self.can_load}
+        info = ', '.join([f'{k}: {v}' for k, v in info.items()])
+        return info
 
 class IslandTransportRun(IslandUI):
     def _transport_detect(self):
@@ -115,6 +181,8 @@ class IslandTransportRun(IslandUI):
         for index in range(3):
             comm = IslandTransport(main=self, index=index)
             logger.attr(f'Transport Commission', comm)
+            for item in comm.items:
+                logger.attr(item.button, item)
             commission.append(comm)
         return SelectedGrids(commission)
 
@@ -147,6 +215,15 @@ class IslandTransportRun(IslandUI):
         return commissions.select(valid=True)
 
     def transport_receive(self, skip_first_screenshot=True):
+        """
+        Receive all transport missions from transport page.
+
+        Args:
+            skip_first_screenshot (bool):
+
+        Returns:
+            bool: if received
+        """
         logger.hr('Island Transport', level=2)
         self.device.click_record_clear()
         self.interval_clear([GET_ITEMS_ISLAND, TRANSPORT_RECEIVE])
@@ -182,6 +259,7 @@ class IslandTransportRun(IslandUI):
             else:
                 confirm_timer.reset()
 
+            # handle island level up
             if click_timer.reached():
                 self.device.click(GET_ITEMS_ISLAND)
                 self.device.sleep(0.3)
@@ -190,6 +268,16 @@ class IslandTransportRun(IslandUI):
         return success
 
     def transport_start(self, comm, skip_first_screenshot=True):
+        """
+        Start the specific transport mission from transport page.
+
+        Args:
+            comm (IslandTransport): the commission to start
+            skip_first_screenshot (bool):
+
+        Returns:
+            bool: if success
+        """
         logger.info('Transport commission start')
         self.interval_clear([GET_ITEMS_ISLAND, TRANSPORT_START])
         success = True
@@ -221,6 +309,12 @@ class IslandTransportRun(IslandUI):
         return success
 
     def island_transport_run(self):
+        """
+        Execute island run to receive and start transport commissions.
+
+        Returns:
+            list[timedelta]: future finish timedelta
+        """
         logger.hr('Island Transport Run', level=1)
         future_finish = []
         self.transport_receive()

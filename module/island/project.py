@@ -38,6 +38,12 @@ class IslandProject:
     slot_buttons: ButtonGrid
 
     def __init__(self, image, image_gray, button):
+        """
+        Args:
+            image:
+            image_gray:
+            button:
+        """
         self.image = image
         self.image_gray = image_gray
         self.button = button
@@ -174,7 +180,7 @@ class IslandProduct:
 
         return True
 
-class IslandItem:
+class ProductItem:
     # OCR result
     name: str
     # If success to parse item name
@@ -185,6 +191,12 @@ class IslandItem:
     item_buttons: ButtonGrid
 
     def __init__(self, image, y, get_button=True):
+        """
+        Args:
+            image:
+            y (int):
+            get_button (bool): if parse other items in the current page
+        """
         self.image = image
         self.y = y
         self.valid = True
@@ -216,7 +228,7 @@ class IslandItem:
             self.item_buttons = ButtonGrid(origin=(x1, origin_y), delta=(0, delta),
                                            button_shape=(x2 - x1, y2 - y1),
                                            grid_shape=(1, shape_y), name='ITEMS')
-            self.items = [IslandItem(self.image, (item.area[1], item.area[3]), get_button=False)
+            self.items = [ProductItem(self.image, (item.area[1], item.area[3]), get_button=False)
                           for item in self.item_buttons.buttons]
         else:
             self.ocr_name(y1, y2)
@@ -259,12 +271,12 @@ class IslandItem:
     def __eq__(self, other):
         """
         Args:
-            other (IslandItem):
+            other (ProductItem):
 
         Returns:
             bool:
         """
-        if not isinstance(other, IslandItem):
+        if not isinstance(other, ProductItem):
             return False
         if not self.valid or not other.valid:
             return False
@@ -301,13 +313,13 @@ class IslandProjectRun(IslandUI):
             button (Button): project button to click
 
         Returns:
-            bool: if received.
+            bool: if success
         """
         logger.hr('Island Project', level=2)
         self.device.click_record_clear()
         self.interval_clear([ISLAND_MANAGEMENT_CHECK, PROJECT_COMPLETE,
                              GET_ITEMS_ISLAND, ROLE_SELECT_ENTER])
-        received = False
+        success = False
         enter = True
         timeout = Timer(3, count=6).start()
         while 1:
@@ -326,13 +338,13 @@ class IslandProjectRun(IslandUI):
                 continue
 
             if enter and self.appear_then_click(ROLE_SELECT_ENTER, offset=(5, 5), interval=2):
-                received = True
+                success = True
                 self.interval_clear(GET_ITEMS_ISLAND)
                 timeout.reset()
                 continue
 
             if self.appear_then_click(PROJECT_COMPLETE, offset=(20, 20), interval=2):
-                received = True
+                success = True
                 enter = False
                 self.interval_clear(GET_ITEMS_ISLAND)
                 self.interval_reset(ROLE_SELECT_ENTER)
@@ -350,7 +362,7 @@ class IslandProjectRun(IslandUI):
             if timeout.reached():
                 break
 
-            if not received:
+            if not success:
                 product = IslandProduct(self.device.image)
                 if product.valid:
                     self.total = self.total.add_by_eq(SelectedGrids([product]))
@@ -359,7 +371,7 @@ class IslandProjectRun(IslandUI):
                 else:
                     self.interval_clear(ROLE_SELECT_ENTER)
 
-        return received
+        return success
 
     def island_select_manjuu(self, button):
         """
@@ -419,7 +431,7 @@ class IslandProjectRun(IslandUI):
         Get currently selected product on self.device.image.
 
         Returns:
-            IslandItem: currently selected item
+            ProductItem: currently selected item
         """
         image = self.image_crop(ISLAND_PRODUCT_ITEMS, copy=False)
         y_top = ISLAND_PRODUCT_ITEMS.area[1]
@@ -432,7 +444,7 @@ class IslandProjectRun(IslandUI):
         }
         peaks, _ = signal.find_peaks(line, **parameters)
         peaks = np.array(peaks) + y_top
-        return IslandItem(self.device.image, peaks)
+        return ProductItem(self.device.image, peaks)
 
     def island_select_product(self, option, trial=2, skip_first_screenshot=True):
         """
@@ -547,7 +559,15 @@ class IslandProjectRun(IslandUI):
         self.device.drag(p1, p2, segments=2, shake=(0, 25), point_random=(0, 0, 0, 0), shake_random=(0, -5, 0, 5))
         self.device.sleep(sleep)
 
-    def ensure_project(self, project: IslandProject, trial=7, skip_first_screenshot=True):
+    def ensure_project(self, project, trial=7, skip_first_screenshot=True):
+        """
+        Ensure the specific project is in the current page.
+
+        Args:
+            project (IslandProject): the project to ensure
+            trial (int): retry times
+            skip_first_screenshot (bool):
+        """
         logger.hr('Project ensure')
         for _ in range(trial):
             if skip_first_screenshot:
