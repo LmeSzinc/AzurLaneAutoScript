@@ -6,6 +6,7 @@ from module.coalition.combat import CoalitionCombat
 from module.exception import ScriptError, ScriptEnd
 from module.logger import logger
 from module.ocr.ocr import Digit
+from module.ui.page import page_campaign_menu
 
 
 class AcademyPtOcr(Digit):
@@ -110,7 +111,8 @@ class Coalition(CoalitionCombat, CampaignEvent):
             raise
 
         self.enter_map(event=event, stage=stage, mode=fleet)
-        if self.triggered_stop_condition(oil_check=True):
+        oil_check_boolean=True if self.config.SERVER not in ['tw'] else False
+        if self.triggered_stop_condition(oil_check=oil_check_boolean):
             self.coalition_map_exit(event)
             raise ScriptEnd
         self.coalition_combat()
@@ -148,6 +150,10 @@ class Coalition(CoalitionCombat, CampaignEvent):
                 logger.info(f'Count: {self.run_count}')
 
             # UI switches
+            if self.config.SERVER in ['tw']:
+	            self.ui_goto(page_campaign_menu)
+	            if self.triggered_stop_condition(oil_check=True):
+		            break
             self.device.stuck_record_clear()
             self.device.click_record_clear()
             self.ui_goto_coalition()
