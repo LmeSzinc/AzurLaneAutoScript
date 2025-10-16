@@ -480,11 +480,12 @@ class RewardDorm(UI):
 
         self.ui_ensure(page_dormmenu)
         self.handle_info_bar()
-        if not self.appear(DORM_RED_DOT, offset=(30, 30)):
-            logger.info('Nothing to collect. Dorm collecting skipped.')
-            collect = False
-            if not feed and not buy_furniture:
-                return
+        # 2025.10.17 Remove DORM_RED_DOT check, as dorm card has a slow appear animation
+        # if not self.appear(DORM_RED_DOT, offset=(30, 30)):
+        #     logger.info('Nothing to collect. Dorm collecting skipped.')
+        #     collect = False
+        #     if not feed and not buy_furniture:
+        #         return
         self.ui_goto(page_dorm, skip_first_screenshot=True)
 
         # Feed first to handle DORM_INFO
