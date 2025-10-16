@@ -260,12 +260,12 @@ if __name__ == '__main__':
     # input strings in YYYYMMDD format for war archives update time
     # use 'today' for today, use a list to input multiple values,
     # such as '20250717', 'today', ['20250619' , '20250717', 'today']
-    WarArchivesUpdater.aired_date = '20250717'
+    WarArchivesUpdater.aired_date = 'today'
     # Event name or date of update of war archives
     # input strings in YYYYMMDD format for event time, or input event name
     # use 'recent' for the latest CN enent, use a list to input multiple values,
     # such as '20220428', '虹彩的终幕曲', 'recent', ['雄鹰的叙事歌' , '20220428', 'recent']
-    WarArchivesUpdater.event = '20220428'
+    WarArchivesUpdater.event = '飓风与青春之泉'
 
     updater = WarArchivesUpdater()
 
