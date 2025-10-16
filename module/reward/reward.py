@@ -118,7 +118,7 @@ class Reward(UI):
                     timeout.reset()
                     continue
 
-            if not self.appear(MISSION_CHECK):
+            if not self.ui_page_appear(page_mission):
                 if self.appear_then_click(GET_SHIP, interval=interval):
                     exit_timer.reset()
                     click_timer.reset()
