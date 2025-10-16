@@ -19,7 +19,8 @@ from module.ocr.ocr import Ocr
 from module.os_handler.assets import (AUTO_SEARCH_REWARD, EXCHANGE_CHECK, RESET_FLEET_PREPARATION, RESET_TICKET_POPUP)
 from module.raid.assets import *
 from module.ui.assets import *
-from module.ui.page import Page, page_campaign, page_event, page_main, page_main_white, page_sp
+from module.ui.page import Page, page_campaign, page_event, page_main, page_main_white, page_sp, page_commission, \
+    page_mission
 from module.ui_white.assets import *
 
 
@@ -39,6 +40,13 @@ class UI(InfoHandler):
             if self.appear(page_main.check_button, offset=(5, 5), interval=interval):
                 return True
             return False
+        # 2025.10.16 Temp fix for bugged UI
+        if page == page_commission:
+            if self.appear(COMMISSION_CHECK_ENTMP, offset=offset, interval=interval):
+                return True
+        if page == page_mission:
+            if self.appear(MISSION_CHECK_ENTMP, offset=offset, interval=interval):
+                return True
         return self.appear(page.check_button, offset=offset, interval=interval)
 
     def is_in_main(self, offset=(30, 30), interval=0):

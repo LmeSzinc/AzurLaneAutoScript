@@ -17,7 +17,7 @@ from module.logger import logger
 from module.map.map_grids import SelectedGrids
 from module.retire.assets import DOCK_CHECK
 from module.ui.assets import BACK_ARROW, COMMISSION_CHECK, REWARD_GOTO_COMMISSION
-from module.ui.page import page_reward
+from module.ui.page import page_reward, page_commission
 from module.ui.scroll import Scroll
 from module.ui.switch import Switch
 from module.ui.ui import UI
@@ -518,7 +518,7 @@ class RewardCommission(UI, InfoHandler):
                     self.device.screenshot()
 
                 # End
-                if self.appear(COMMISSION_CHECK, offset=(20, 20)):
+                if self.ui_page_appear(page_commission, offset=(20, 20)):
                     # Leaving at page_commission
                     # Commission rewards may appear too slow, causing stuck in UI switching
                     break
