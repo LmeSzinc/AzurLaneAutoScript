@@ -70,6 +70,8 @@ class CampaignBase(CampaignBase_):
 
             if self.handle_story_skip():
                 continue
+            if self.handle_get_items():
+                continue
 
             button = self.get_story_button()
             if button:
