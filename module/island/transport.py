@@ -9,6 +9,7 @@ from module.island.ui import IslandUI
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
 from module.ocr.ocr import Duration
+from module.ui_white.assets import POPUP_CANCEL_WHITE, POPUP_CONFIRM_WHITE
 
 
 class IslandTransport:
@@ -19,8 +20,12 @@ class IslandTransport:
     # Duration to run this transport commission
     duration: timedelta
     # Status of transport commission
-    # Value: finished, running, pending, unknown
+    # Value: finished, running, pending, refreshing, unknown
     status: str
+    # If the transprt commission need to start
+    start: bool
+    # If the transprt commission need to refresh
+    refresh: bool
 
     def __init__(self, main, index):
         """
@@ -32,11 +37,12 @@ class IslandTransport:
         self.image = main.device.image
         self.valid = True
         self.duration = None
-        self.can_start = True
+        self.start = True
+        self.refresh = False
         self.items = SelectedGrids([])
         self.parse_transport(main)
         if not self.valid:
-            self.can_start = False
+            self.start = False
         self.create_time = datetime.now()
 
     def parse_transport(self, main):
@@ -63,7 +69,7 @@ class IslandTransport:
                 return
 
             if not main.match_template_color(TRANSPORT_START, offset=self.offset):
-                self.can_start = False
+                self.start = False
                 return
 
             origin_y = 174 + delta * self.index
@@ -71,11 +77,11 @@ class IslandTransport:
                                button_shape=(86, 86), grid_shape=(3, 1), name='ITEMS')
             self.items = SelectedGrids([TransportItem(self.image, button)
                                         for button in grids.buttons]).select(valid=True)
-            self.can_start = self.items.select(can_load=True).count == self.items.count
-
+            self.start = self.items.select(load=True).count == self.items.count
+            self.refresh = main.appear(TRANSPORT_REFRESH, offset=self.offset) and \
+                           bool(self.items.select(refresh=True).count)
         elif self.status == 'running':
-            self.can_start = False
-
+            self.start = False
             button = OCR_TRANSPORT_TIME_REMAIN.move((0, self.offset[1] + 20))
             ocr = Duration(button, name='OCR_TRANSPORT_TIME')
             self.duration = ocr.ocr(self.image)
@@ -83,7 +89,15 @@ class IslandTransport:
                 self.valid = False
                 return
         elif self.status == 'finished':
-            self.can_start = False
+            self.start = False
+        elif self.status == 'refreshing':
+            self.start = False
+            button = OCR_TRANSPORT_REFRESH.move((0, self.offset[1] + 20))
+            ocr = Duration(button, letter=(63, 64, 66), name='OCR_TRANSPORT_REFRESH')
+            self.duration = ocr.ocr(self.image)
+            if not self.duration.total_seconds():
+                self.valid = False
+                return
 
     def get_transport_status(self, main):
         if main.appear(TRANSPORT_STATUS_PENDING, offset=self.offset):
@@ -92,13 +106,24 @@ class IslandTransport:
             return 'running'
         elif main.appear(TRANSPORT_RECEIVE, offset=self.offset):
             return 'finished'
+        elif main.appear(TRANSPORT_REFRESH_CHECK, offset=self.offset):
+            return 'refreshing'
         else:
             return 'unknown'
+
+    def convert_to_refreshing(self):
+        if self.valid:
+            self.status = 'refreshing'
+            self.start = False
+            self.refresh = False
+            self.duration = timedelta(hours=0, minutes=30, seconds=0)
+            self.create_time = datetime.now()
 
     def convert_to_running(self):
         if self.valid:
             self.status = 'running'
-            self.can_start = False
+            self.start = False
+            self.refresh = False
             self.create_time = datetime.now()
 
     @property
@@ -114,12 +139,13 @@ class IslandTransport:
         info = {'Index': self.index, 'Status': self.status}
         if self.duration:
             info['Duration'] = self.duration
-        info['can_start'] = self.can_start
+        info['Start'] = self.start
+        info['Refresh'] = self.refresh
         info = ', '.join([f'{k}: {v}' for k, v in info.items()])
         return info
 
 class TransportItem:
-    BLACKLIST_ITEMS = [TEMPLATE_CHICKEN]
+    BLACKLIST_ITEMS = [TEMPLATE_CHICKEN, TEMPLATE_MILK]
 
     def __init__(self, image, button):
         """
@@ -131,7 +157,8 @@ class TransportItem:
         self.button = button
         self.image = crop(image, button.area)
         self.valid = self.predict_valid()
-        self.can_load = self.predict_load()
+        self.refresh = False
+        self.load = self.predict_load()
 
     def predict_valid(self):
         # gray item means an empty item
@@ -145,7 +172,8 @@ class TransportItem:
             return False
         if not TEMPLATE_ITEM_SATISFIED.match(rgb2gray(self.image)):
             return False
-        if self.handle_blacklist_items():
+        self.refresh = self.handle_blacklist_items()
+        if self.refresh:
             return False
         return True
 
@@ -164,7 +192,7 @@ class TransportItem:
     def __str__(self):
         if not self.valid:
             return '(Invalid)'
-        info = {'can_load': self.can_load}
+        info = {'Load': self.load}
         info = ', '.join([f'{k}: {v}' for k, v in info.items()])
         return info
 
@@ -226,7 +254,7 @@ class IslandTransportRun(IslandUI):
         """
         logger.hr('Island Transport', level=2)
         self.device.click_record_clear()
-        self.interval_clear([GET_ITEMS_ISLAND, TRANSPORT_RECEIVE])
+        self.interval_clear([GET_ITEMS_ISLAND, TRANSPORT_RECEIVE, POPUP_CANCEL_WHITE])
         success = True
         click_timer = Timer(5)
         confirm_timer = Timer(1, count=2).start()
@@ -242,13 +270,15 @@ class IslandTransportRun(IslandUI):
 
             if self.appear_then_click(TRANSPORT_RECEIVE, offset=(-20, -20, 20, 400), interval=2):
                 success = False
-                self.interval_clear(GET_ITEMS_ISLAND)
                 confirm_timer.reset()
                 continue
 
             if self.handle_get_items():
                 success = True
-                self.interval_clear(TRANSPORT_RECEIVE)
+                confirm_timer.reset()
+                continue
+
+            if self.handle_popup_cancel('REFRESH_CANCEL', offset=(30, 30)):
                 confirm_timer.reset()
                 continue
 
@@ -267,6 +297,43 @@ class IslandTransportRun(IslandUI):
 
         return success
 
+    def transport_refresh(self, comm, skip_first_screenshot=True):
+        """
+        Refresh the specific transport mission from transport page.
+
+        Args:
+            comm (IslandTransport): the commission to refresh
+            skip_first_screenshot (bool):
+
+        Returns:
+            bool: if success
+        """
+        logger.info('Transport commission refresh')
+        self.interval_clear([TRANSPORT_REFRESH, POPUP_CONFIRM_WHITE])
+        success = True
+        confirm_timer = Timer(1, count=2).start()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.appear_then_click(TRANSPORT_REFRESH, offset=comm.offset, interval=2):
+                continue
+
+            if self.handle_popup_confirm('REFRESH_CONFIRM', offset=(30, 30)):
+                success = True
+                confirm_timer.reset()
+                continue
+
+            if self.island_in_transport():
+                if success and confirm_timer.reached():
+                    break
+                continue
+            else:
+                confirm_timer.reset()
+        return success
+
     def transport_start(self, comm, skip_first_screenshot=True):
         """
         Start the specific transport mission from transport page.
@@ -279,7 +346,7 @@ class IslandTransportRun(IslandUI):
             bool: if success
         """
         logger.info('Transport commission start')
-        self.interval_clear([GET_ITEMS_ISLAND, TRANSPORT_START])
+        self.interval_clear([GET_ITEMS_ISLAND, TRANSPORT_START, POPUP_CANCEL_WHITE])
         success = True
         confirm_timer = Timer(1, count=2).start()
         while 1:
@@ -290,13 +357,15 @@ class IslandTransportRun(IslandUI):
 
             if self.appear_then_click(TRANSPORT_START, offset=comm.offset, interval=2):
                 success = False
-                self.interval_clear(GET_ITEMS_ISLAND)
                 confirm_timer.reset()
                 continue
 
             if self.handle_get_items():
                 success = True
-                self.interval_reset(TRANSPORT_START)
+                confirm_timer.reset()
+                continue
+
+            if self.handle_popup_cancel('REFRESH_CANCEL', offset=(30, 30)):
                 confirm_timer.reset()
                 continue
 
@@ -320,7 +389,11 @@ class IslandTransportRun(IslandUI):
         self.transport_receive()
         commissions = self.transport_detect(trial=2)
 
-        comm_choose = commissions.select(status='pending', can_start=True)
+        comm_refresh = commissions.select(status='pending', refresh=True)
+        comm_choose = commissions.select(status='pending', start=True)
+        for comm in comm_refresh:
+            if self.transport_refresh(comm):
+                comm.convert_to_refreshing()
         for comm in comm_choose:
             if self.transport_start(comm):
                 comm.convert_to_running()
