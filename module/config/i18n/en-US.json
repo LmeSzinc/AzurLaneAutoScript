@@ -740,7 +740,7 @@
       "event_20230223_cn": "Revelations of Dust Rerun",
       "event_20230525_cn": "Confluence of Nothingness Rerun",
       "event_20230803_cn": "Anthem of Remembrance",
-      "event_20230817_cn": "The Fools Scales",
+      "event_20230817_cn": "The Fools Scales Rerun",
       "event_20230914_cn": "Effulgence Before Eclipse",
       "event_20231026_cn": "Tempesta and the Fountain of Youth",
       "event_20231123_cn": "The Ninja Scrolls: Azur Flash",
@@ -810,7 +810,8 @@
       "war_archives_20220414_cn": "archives Aurora Noctis",
       "war_archives_20220428_cn": "archives Rondo at Rainbows End",
       "war_archives_20220526_cn": "archives Pledge of the Radiant Court",
-      "war_archives_20220728_cn": "archives Aquilifers Ballade"
+      "war_archives_20220728_cn": "archives Aquilifers Ballade",
+      "war_archives_20231026_cn": "archives Tempesta and the Fountain of Youth"
     },
     "Mode": {
       "name": "Level Mode",
