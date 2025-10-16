@@ -41,4 +41,5 @@ dic_archives_template = {
     'war_archives_20220526_cn': TEMPLATE_PLEDGE_OF_THE_RADIANT_COURT,
     'war_archives_20220728_cn': TEMPLATE_AQUILIFERS_BALLADE,
     'war_archives_20220428_cn': TEMPLATE_RONDO_AT_RAINBOWS_END,
+    'war_archives_20231026_cn': TEMPLATE_TEMPESTA_AND_THE_FOUNTAIN_OF_YOUTH,
 }
