@@ -333,6 +333,10 @@ class IslandProjectRun(IslandUI):
                 timeout.reset()
                 continue
 
+            if self.appear_then_click(ISLAND_MANAGEMENT, offset=(20, 20), interval=2):
+                timeout.reset()
+                continue
+
             if self.handle_info_bar():
                 timeout.reset()
                 continue
