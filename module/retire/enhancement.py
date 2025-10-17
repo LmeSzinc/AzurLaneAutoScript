@@ -130,7 +130,7 @@ class Enhancement(Dock):
                 logger.info(
                     'Reached maximum number to check, exiting current category')
                 return "state_enhance_exit"
-            if not self.equip_side_navbar_ensure(bottom=4):
+            if not self.ship_side_navbar_ensure(bottom=4):
                 return "state_enhance_check"
 
             self.wait_until_appear(ENHANCE_RECOMMEND, offset=(
@@ -192,7 +192,7 @@ class Enhancement(Dock):
                 return "state_enhance_confirm"
 
             # Try to swipe to next
-            if self.equip_view_next(check_button=ENHANCE_RECOMMEND):
+            if self.ship_view_next(check_button=ENHANCE_RECOMMEND):
                 if not need_to_skip:
                     nonlocal ship_count
                     ship_count -= 1

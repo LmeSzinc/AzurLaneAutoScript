@@ -1,10 +1,7 @@
-from module.campaign.campaign_base import CampaignBase
-from module.campaign.run import CampaignRun
 from module.equipment.assets import *
 from module.equipment.equipment_change import EquipmentChange
-from module.map.assets import FLEET_PREPARATION, MAP_PREPARATION
 from module.ocr.ocr import Digit
-from module.ui.assets import BACK_ARROW, FLEET_CHECK
+from module.ui.assets import FLEET_CHECK
 from module.ui.page import page_fleet
 
 OCR_FLEET_INDEX = Digit(OCR_FLEET_INDEX, letter=(90, 154, 255), threshold=128, alphabet='123456')
@@ -33,7 +30,7 @@ class FleetEquipment(EquipmentChange):
     def fleet_enter_ship(self, button):
         self.ui_click(FLEET_DETAIL, appear_button=page_fleet.check_button,
                       check_button=FLEET_DETAIL_CHECK, skip_first_screenshot=True)
-        self.equip_enter(button, long_click=False)
+        self.ship_info_enter(button, long_click=False)
 
     def fleet_back(self):
         self.ui_back(FLEET_DETAIL_CHECK)

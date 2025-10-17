@@ -35,7 +35,7 @@ class EquipmentChange(Equipment):
         Notice: The equipment icons in the upgrade page are the same size as the icons in the equipment status
         """
         logger.info('RECORD EQUIPMENT')
-        self.equip_side_navbar_ensure(bottom=1)
+        self.ship_side_navbar_ensure(bottom=1)
 
         # Ensure EQUIPMENT_GRID in the right place
         skip_first_screenshot = True
@@ -79,12 +79,12 @@ class EquipmentChange(Equipment):
 
         logger.info(f"Equipping list: {list(self.equip_list.keys())}")
 
-    def equipment_take_on(self, index_list=range(0, 5), skip_first_screenshot=True):
+    def ship_equipment_take_on_image(self, index_list=range(0, 5), skip_first_screenshot=True):
         '''
         Equip the equipment previously recorded
         '''
         logger.info('Take on equipment')
-        self.equip_side_navbar_ensure(bottom=2)
+        self.ship_side_navbar_ensure(bottom=2)
 
         for index in index_list:
             if index in self.equip_list:
@@ -95,7 +95,7 @@ class EquipmentChange(Equipment):
                 self.ui_click(enter_button, check_button=EQUIPPING_ON,
                               skip_first_screenshot=skip_first_screenshot, offset=(5, 5))
                 self.handle_info_bar()
-                self._find_equip(index)
+                self._find_equipment(index)
 
     @Config.when(DEVICE_CONTROL_METHOD='minitouch')
     def _equipment_swipe(self, distance=190):
@@ -132,7 +132,7 @@ class EquipmentChange(Equipment):
         logger.info('Equip confirm')
         self.ui_click(click_button=EQUIP_CONFIRM, check_button=SHIP_INFO_EQUIPMENT_CHECK)
 
-    def _find_equip(self, index):
+    def _find_equipment(self, index):
         '''
         Find the equipment previously recorded
         Pages:

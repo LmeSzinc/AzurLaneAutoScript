@@ -212,7 +212,7 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
     def _ship_detail_enter(self, button):
         self.ui_click(FLEET_DETAIL, appear_button=page_fleet.check_button,
                       check_button=FLEET_DETAIL_CHECK, skip_first_screenshot=True)
-        self.equip_enter(button, long_click=False)
+        self.ship_info_enter(button, long_click=False)
 
     def _fleet_detail_enter_hard(self, fleet):
         if self.appear(FLEET_PREPARATION, offset=(20, 50)):
@@ -232,7 +232,7 @@ class GemsFarming(CampaignRun, GemsEquipmentHandler, Retirement):
                 break
 
     def _ship_detail_enter_hard(self, button):
-        self.equip_enter(button)
+        self.ship_info_enter(button)
 
     def _fleet_back(self):
         self.ui_back(FLEET_DETAIL_CHECK)
