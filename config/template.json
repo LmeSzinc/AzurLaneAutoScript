@@ -1640,21 +1640,6 @@
       "FailureInterval": 120,
       "ServerUpdate": "00:00"
     },
-    "IslandMining": {
-      "Slot_1": "disabled",
-      "Slot_2": "disabled",
-      "Slot_3": "disabled",
-      "Slot_4": "disabled"
-    },
-    "IslandLumbering": {
-      "Slot_1": "disabled",
-      "Slot_2": "disabled",
-      "Slot_3": "disabled",
-      "Slot_4": "disabled"
-    },
-    "IslandRanch": {
-      "Ranch": "disabled"
-    },
     "Storage": {
       "Storage": {}
     }

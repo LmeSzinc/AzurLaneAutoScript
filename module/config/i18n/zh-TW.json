@@ -814,7 +814,8 @@
       "war_archives_20220414_cn": "檔案 永夜幻光",
       "war_archives_20220428_cn": "檔案 虹彩的終幕曲",
       "war_archives_20220526_cn": "檔案 泠誓光庭",
-      "war_archives_20220728_cn": "檔案 雄鷹的敘事歌"
+      "war_archives_20220728_cn": "檔案 雄鷹的敘事歌",
+      "war_archives_20231026_cn": "檔案 飓風與青春之泉"
     },
     "Mode": {
       "name": "地圖模式",
@@ -2086,56 +2087,14 @@
       "new_jersey": "new_jersey"
     }
   },
-  "_anchors": {
-    "_info": {
-      "name": "_anchors._info.name",
-      "help": "_anchors._info.help"
-    },
-    "mining_options": {
-      "name": "_anchors.mining_options.name",
-      "help": "_anchors.mining_options.help"
-    },
-    "lumbering_options": {
-      "name": "_anchors.lumbering_options.name",
-      "help": "_anchors.lumbering_options.help"
-    }
-  },
   "IslandMining": {
     "_info": {
       "name": "積岩礦山",
       "help": ""
     },
-    "Slot_1": {
-      "name": "配置位#1",
-      "help": "",
-      "disabled": "停用",
-      "coal": "煤炭",
-      "copper": "銅",
-      "aluminum": "鋁"
-    },
-    "Slot_2": {
-      "name": "配置位#2",
-      "help": "",
-      "disabled": "停用",
-      "coal": "煤炭",
-      "copper": "銅",
-      "aluminum": "鋁"
-    },
-    "Slot_3": {
-      "name": "配置位#3",
-      "help": "",
-      "disabled": "停用",
-      "coal": "煤炭",
-      "copper": "銅",
-      "aluminum": "鋁"
-    },
-    "Slot_4": {
-      "name": "配置位#4",
-      "help": "",
-      "disabled": "停用",
-      "coal": "煤炭",
-      "copper": "銅",
-      "aluminum": "鋁"
+    "MineProduction": {
+      "name": "生產設定",
+      "help": "每個數字代表該配置位生產第N個物品, 0代表不使用\n如 1111 代表全四個配置位都生產第一個物品; 下亦同"
     }
   },
   "IslandLumbering": {
@@ -2143,37 +2102,9 @@
       "name": "翠綠之森",
       "help": ""
     },
-    "Slot_1": {
-      "name": "配置位#1",
-      "help": "",
-      "disabled": "停用",
-      "raw": "大自然原木",
-      "useful": "實用木材",
-      "premium": "高級木材"
-    },
-    "Slot_2": {
-      "name": "配置位#2",
-      "help": "",
-      "disabled": "停用",
-      "raw": "大自然原木",
-      "useful": "實用木材",
-      "premium": "高級木材"
-    },
-    "Slot_3": {
-      "name": "配置位#3",
-      "help": "",
-      "disabled": "停用",
-      "raw": "大自然原木",
-      "useful": "實用木材",
-      "premium": "高級木材"
-    },
-    "Slot_4": {
-      "name": "配置位#4",
-      "help": "",
-      "disabled": "停用",
-      "raw": "大自然原木",
-      "useful": "實用木材",
-      "premium": "高級木材"
+    "LumberProduction": {
+      "name": "生產設定",
+      "help": ""
     }
   },
   "IslandRanch": {
@@ -2184,6 +2115,26 @@
     "Ranch": {
       "name": "自動分派",
       "help": "",
+      "disabled": "停用",
+      "enabled": "啟用"
+    }
+  },
+  "IslandPostManage": {
+    "_info": {
+      "name": "生產設置",
+      "help": "預設為每個數字的代表該配置位生產第N個物品, 0代表不使用\n如 1111 代表全四個配置位都生產第一個物品"
+    },
+    "MineProduction": {
+      "name": "積岩礦山",
+      "help": ""
+    },
+    "LumberProduction": {
+      "name": "翠綠之森",
+      "help": ""
+    },
+    "Ranch": {
+      "name": "悠悠牧場",
+      "help": "需先準備足夠飼料",
       "disabled": "停用",
       "enabled": "啟用"
     }

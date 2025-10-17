@@ -2086,104 +2086,22 @@
       "new_jersey": "New Jersey"
     }
   },
-  "_anchors": {
+  "IslandPostManage": {
     "_info": {
-      "name": "_anchors._info.name",
-      "help": "_anchors._info.help"
+      "name": "IslandPostManage._info.name",
+      "help": "IslandPostManage._info.help"
     },
-    "mining_options": {
-      "name": "_anchors.mining_options.name",
-      "help": "_anchors.mining_options.help"
+    "MineProduction": {
+      "name": "IslandPostManage.MineProduction.name",
+      "help": "IslandPostManage.MineProduction.help"
     },
-    "lumbering_options": {
-      "name": "_anchors.lumbering_options.name",
-      "help": "_anchors.lumbering_options.help"
-    }
-  },
-  "IslandMining": {
-    "_info": {
-      "name": "IslandMining._info.name",
-      "help": "IslandMining._info.help"
-    },
-    "Slot_1": {
-      "name": "IslandMining.Slot_1.name",
-      "help": "IslandMining.Slot_1.help",
-      "disabled": "disabled",
-      "coal": "coal",
-      "copper": "copper",
-      "aluminum": "aluminum"
-    },
-    "Slot_2": {
-      "name": "IslandMining.Slot_2.name",
-      "help": "IslandMining.Slot_2.help",
-      "disabled": "disabled",
-      "coal": "coal",
-      "copper": "copper",
-      "aluminum": "aluminum"
-    },
-    "Slot_3": {
-      "name": "IslandMining.Slot_3.name",
-      "help": "IslandMining.Slot_3.help",
-      "disabled": "disabled",
-      "coal": "coal",
-      "copper": "copper",
-      "aluminum": "aluminum"
-    },
-    "Slot_4": {
-      "name": "IslandMining.Slot_4.name",
-      "help": "IslandMining.Slot_4.help",
-      "disabled": "disabled",
-      "coal": "coal",
-      "copper": "copper",
-      "aluminum": "aluminum"
-    }
-  },
-  "IslandLumbering": {
-    "_info": {
-      "name": "IslandLumbering._info.name",
-      "help": "IslandLumbering._info.help"
-    },
-    "Slot_1": {
-      "name": "IslandLumbering.Slot_1.name",
-      "help": "IslandLumbering.Slot_1.help",
-      "disabled": "disabled",
-      "raw": "raw",
-      "useful": "useful",
-      "premium": "premium"
-    },
-    "Slot_2": {
-      "name": "IslandLumbering.Slot_2.name",
-      "help": "IslandLumbering.Slot_2.help",
-      "disabled": "disabled",
-      "raw": "raw",
-      "useful": "useful",
-      "premium": "premium"
-    },
-    "Slot_3": {
-      "name": "IslandLumbering.Slot_3.name",
-      "help": "IslandLumbering.Slot_3.help",
-      "disabled": "disabled",
-      "raw": "raw",
-      "useful": "useful",
-      "premium": "premium"
-    },
-    "Slot_4": {
-      "name": "IslandLumbering.Slot_4.name",
-      "help": "IslandLumbering.Slot_4.help",
-      "disabled": "disabled",
-      "raw": "raw",
-      "useful": "useful",
-      "premium": "premium"
-    }
-  },
-  "IslandRanch": {
-    "_info": {
-      "name": "IslandRanch._info.name",
-      "help": "IslandRanch._info.help"
+    "LumberProduction": {
+      "name": "IslandPostManage.LumberProduction.name",
+      "help": "IslandPostManage.LumberProduction.help"
     },
     "Ranch": {
-      "name": "IslandRanch.Ranch.name",
-      "help": "IslandRanch.Ranch.help",
+      "name": "IslandPostManage.Ranch.name",
+      "help": "IslandPostManage.Ranch.help",
       "disabled": "disabled",
       "enabled": "enabled"
     }

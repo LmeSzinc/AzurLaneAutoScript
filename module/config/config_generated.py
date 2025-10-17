@@ -341,24 +341,10 @@ class GeneratedConfig:
     PrivateQuarters_TargetInteract = True
     PrivateQuarters_TargetShip = 'anchorage'  # anchorage, noshiro, sirius, new_jersey
 
-    # Group `_anchors`
-    _anchors_mining_options = ['disabled', 'coal', 'copper', 'aluminum']
-    _anchors_lumbering_options = ['disabled', 'raw', 'useful', 'premium']
-
-    # Group `IslandMining`
-    IslandMining_Slot_1 = 'disabled'  # disabled, coal, copper, aluminum
-    IslandMining_Slot_2 = 'disabled'  # disabled, coal, copper, aluminum
-    IslandMining_Slot_3 = 'disabled'  # disabled, coal, copper, aluminum
-    IslandMining_Slot_4 = 'disabled'  # disabled, coal, copper, aluminum
-
-    # Group `IslandLumbering`
-    IslandLumbering_Slot_1 = 'disabled'  # disabled, raw, useful, premium
-    IslandLumbering_Slot_2 = 'disabled'  # disabled, raw, useful, premium
-    IslandLumbering_Slot_3 = 'disabled'  # disabled, raw, useful, premium
-    IslandLumbering_Slot_4 = 'disabled'  # disabled, raw, useful, premium
-
-    # Group `IslandRanch`
-    IslandRanch_Ranch = 'disabled'  # disabled, enabled
+    # Group `IslandPostManage`
+    IslandPostManage_MineProduction = 1230
+    IslandPostManage_LumberProduction = 1230
+    IslandPostManage_Ranch = 'disabled'  # disabled, enabled
 
     # Group `Daily`
     Daily_UseDailySkip = True

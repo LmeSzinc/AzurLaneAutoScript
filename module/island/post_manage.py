@@ -2,10 +2,11 @@ import module.config.server as server
 from module.base.button import Button
 from module.logger import logger
 from module.base.template import Template
+from module.base.timer import Timer
 from module.template.assets import *
 from module.island.assets import *
 from module.island.interact import IslandInteract
-from module.island.product import get_product_template
+from module.island.product import *
 from module.ui.page import (
     page_dormmenu,
     page_island,
@@ -31,7 +32,7 @@ class IslandPostManage(IslandInteract):
     OCR_PRODUCTION_TIME.fxaa = True
 
     def run(self):
-        self.estimated_finish_times = []
+        self.estimated_work_times = []
         if server.server in ['jp']:
             self.ui_ensure(page_dormmenu)
             self.goto_ui(page_island)
@@ -41,16 +42,8 @@ class IslandPostManage(IslandInteract):
             logger.info(f'Island Post Manage task not presently supported for {server.server} server.')
             logger.info('If want to address, review necessary assets, replace, update above condition, and test')
 
-        # fixed due to limitation of ocr model
-        if not self.estimated_finish_times:
-            self.config.task_delay(minute=100)
-        else:
-            # ensure at least 5 minutes delay
-            least_seconds = 300
-            future = nearest_future(self.estimated_finish_times)
-            if (future - datetime.now()).total_seconds() < least_seconds:
-                future = datetime.now() + timedelta(seconds=least_seconds)
-            self.config.task_delay(target=future)
+        # So far 100 mins is best for prevent frequent run and ensure productions
+        self.config.task_delay(minute=100)
 
     def process_harvests(self):
         logger.hr(f'Process Harvests', level=1)
@@ -60,19 +53,22 @@ class IslandPostManage(IslandInteract):
         self.process_job('ranch')
 
     def process_job(self, job_name:str) -> bool:
-        product_key_prefix = ''
+        product_config = ''
         if job_name == 'mining':
             job_heading_template = TEMPLATE_ISLAND_MINING
-            product_key_prefix = 'IslandMining'
+            product_config = self.config.IslandMining_MineProduction
         elif job_name == 'lumbering':
             job_heading_template = TEMPLATE_ISLAND_LUMBERING
-            product_key_prefix = 'IslandLumbering'
+            product_config = self.config.IslandLumbering_LumberProduction
         elif job_name == 'ranch':
             job_heading_template = TEMPLATE_ISLAND_RANCH
-            product_key_prefix = '' # fixed product, no selection
+            product_config = '1234' # fixed
         else:
             logger.error(f'Unknown job name {job_name}')
             return
+        product_config = str(product_config)
+        while len(product_config) < 4:
+            product_config += '0'
         logger.hr(job_name, level=2)
         self.goto_ui(page_island_postmanage)
         sim, btn = job_heading_template.match_luma_result(self.device.screenshot())
@@ -84,8 +80,11 @@ class IslandPostManage(IslandInteract):
         y += self.GRID_OFFSET[1]
         for i in range(4):
             target_product = ''
-            if product_key_prefix:
-                target_product = getattr(self.config, f'{product_key_prefix}_Slot_{i+1}', 'disabled')
+            if product_config:
+                try:
+                    target_product = PRODUCT_INDEX_MAP[job_heading_template.name][product_config[i]]
+                except KeyError as e:
+                    logger.warning(f'Invalid product index for slot {i+1} in job {job_name}: {e}')
             logger.hr(f'Slot {i+1}', level=3)
             if target_product != 'disabled':
                 self.wait_until_appear(ISLAND_POSTMANAGE_CHECK)
@@ -97,78 +96,70 @@ class IslandPostManage(IslandInteract):
             x += self.GRID_OFFSET[2]
             y += self.GRID_OFFSET[3]
 
-    def process_slot(self, btn: Button, target_product: str=''):
-        self.device.click(btn)
-        templates = {
-            TEMPLATE_ISLAND_JOB_COMPLETE: self.process_completed,
-            TEMPLATE_ISLAND_JOB_SELCHAR: self.process_empty,
-            TEMPLATE_ISLAND_ADD_PRODUCE: self.process_production,
-        }
+    def process_slot(self, slot: Button, target_product: str=''):
+        click_handles = (
+            TEMPLATE_ISLAND_JOB_COMPLETE,
+            TEMPLATE_ISLAND_JOB_SELCHAR,
+            TEMPLATE_ISLAND_ADD_PRODUCE, # TODO: potential ignore production config due to keep add production
+            ISLAND_ITEM_GET,
+        )
         logger.info(f'Target product: {target_product}')
-        should_retry = True
-        while should_retry:
-            for template, func in templates.items():
-                self.ui_ensure(page_island_postmanage)
-                sim, btn = template.match_luma_result(self.device.screenshot())
-                if sim >= self.TEMPLATE_SIM_THRESHOLD:
-                    if not func(btn, target_product=target_product):
-                        logger.info('Retry')
-                        break
-            else:
-                should_retry = False
-
-    def process_completed(self, btn: Button, **kwargs):
-        logger.info("Processing completed job")
-        t = self.click_and_wait_until_appear(btn, ISLAND_ITEM_GET, TEMPLATE_ISLAND_JOB_SELCHAR)
-        if t == TEMPLATE_ISLAND_JOB_SELCHAR:
-            return True
-        self.click_and_wait_until_appear(self.BTN_EMPTY, ISLAND_POSTMANAGE_CHECK)
-        return True
-
-    def process_empty(self, btn: Button, **kwargs):
-        logger.info("Processing empty slot")
-        self.device.click(btn)
-        self.wait_until_appear(ISLAND_WORKER_SEL_CHECK, threshold=20)
-        sim, worker_btn = TEMPLATE_ISLAND_WORKER_MANJUU.match_luma_result(self.device.screenshot())
-        if sim < self.TEMPLATE_SIM_THRESHOLD: # should not happen
-            logger.error('Failed to find Manjuu worker in selection')
-            return False
-        self.click_and_wait_until_appear(worker_btn, ISLAND_WORKER_CONFIRM)
-        self.device.click(ISLAND_WORKER_CONFIRM)
-        return self.process_production(btn, **kwargs)
-
-    def process_production(self, btn=None, **kwargs):
-        logger.info("Processing production")
-        if btn:
-            self.device.click(btn)
-        # dealing with bug that sometimes closes window instead of going to production selection
+        production_flag = False
         while 1:
             self.device.screenshot()
-            if ISLAND_POSTMANAGE_CHECK.match(self.device.image):
-                logger.info('UI bug detected')
-                return False
-            if ISLAND_PRODUCT_SEL_CHECK.match(self.device.image):
-                break
-        product_name = kwargs.get('target_product', '')
-        product = get_product_template(product_name)
+            for obj in click_handles:
+                if isinstance(obj, Template):
+                    sim, btn = obj.match_luma_result(self.device.image)
+                    if sim >= self.TEMPLATE_SIM_THRESHOLD:
+                        self.device.click(btn)
+                        production_flag = True
+                        break
+                elif obj.match_luma(self.device.image):
+                    break
+            else:
+                if ISLAND_WORKER_SEL_CHECK.match(self.device.image):
+                    self.select_worker()
+                elif ISLAND_PRODUCT_SEL_CHECK.match(self.device.image):
+                    if self.process_production(target_product):
+                        return
+                elif not production_flag and TEMPLATE_ISLAND_TIMER.match(self.device.image):
+                    return # still in production
+                else:
+                    self.device.click(slot)
+
+    def select_worker(self):
+        if not self.appear(ISLAND_WORKER_CONFIRM):
+            sim, worker_btn = TEMPLATE_ISLAND_WORKER_MANJUU.match_luma_result(self.device.screenshot())
+            if sim < self.TEMPLATE_SIM_THRESHOLD: # should not happen
+                logger.error('Failed to find Manjuu worker in selection')
+                return
+            self.device.click(worker_btn)
+        self.device.click(ISLAND_WORKER_CONFIRM)
+
+    def process_production(self, target_product: str=''):
+        logger.info("Processing production")
+        try:
+            product = PRODUCT_TEMPLATE_ICON_MAP[target_product]
+        except KeyError:
+            logger.warning(f'No template icon defined for product {target_product}')
+            product = None
         if product:
             sim, btn = product.match_luma_result(self.device.screenshot())
             if sim < self.TEMPLATE_SIM_THRESHOLD:
                 # TODO: scroll page and retry
-                logger.warning(f'Could not find product {product_name} in selection, proceed with default option')
-                self.device.click(ISLAND_POSTMANAGE_GOTO_MANAGEMENT)
+                logger.warning(f'Could not find product {target_product} in selection, proceed with default option')
             else:
                 self.device.click(btn)
         self.device.click(self.BTN_PRODUCT_MAX)
         colors = self.BTN_PRODUCT_CONFIRM.load_color(self.device.screenshot())
         if colors[2] > 230: # doable
-            dur = self.OCR_PRODUCTION_TIME.ocr(self.device.image)
-            if type(dur) is timedelta:
-                self.estimated_finish_times.append(datetime.now() + dur)
-            else:
-                logger.warning(f'Failed to OCR production time, got {dur}')
+            # dur = self.OCR_PRODUCTION_TIME.ocr(self.device.image)
+            # if type(dur) is timedelta:
+            #     self.estimated_work_times.append(dur)
+            # else:
+            #     logger.warning(f'Failed to OCR production time, got {dur}')
             self.device.click(self.BTN_PRODUCT_CONFIRM)
         else:
-            logger.warning(f'Insufficient resources to produce {product_name}, skipping')
+            logger.warning(f'Insufficient resources to produce {target_product}, skipping')
             self.device.click(ISLAND_POSTMANAGE_GOTO_MANAGEMENT)
         return True

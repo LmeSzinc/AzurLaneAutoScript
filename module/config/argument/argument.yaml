@@ -592,44 +592,9 @@ PrivateQuarters:
     TargetShip:
       value: anchorage
       option: [ anchorage, noshiro, sirius, new_jersey ]
-_anchors:
-  mining_options: &mining_options
-    - disabled
-    - coal
-    - copper
-    - aluminum
-  lumbering_options: &lumbering_options
-    - disabled
-    - raw
-    - useful
-    - premium
-IslandMining:
-  Slot_1:
-    value: disabled
-    option: *mining_options
-  Slot_2:
-    value: disabled
-    option: *mining_options
-  Slot_3:
-    value: disabled
-    option: *mining_options
-  Slot_4:
-    value: disabled
-    option: *mining_options
-IslandLumbering:
-  Slot_1:
-    value: disabled
-    option: *lumbering_options
-  Slot_2:
-    value: disabled
-    option: *lumbering_options
-  Slot_3:
-    value: disabled
-    option: *lumbering_options
-  Slot_4:
-    value: disabled
-    option: *lumbering_options
-IslandRanch:
+IslandPostManage:
+  MineProduction: "1230"
+  LumberProduction: "1230"
   Ranch:
     value: disabled
     option: [ disabled, enabled ]

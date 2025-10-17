@@ -12,14 +12,6 @@ class IslandInteract(UI):
     def goto_ui(self, target_page):
         return self.ui_goto(target_page, get_ship=False)
 
-    def dismiss(self, repeats=1):
-        """
-        Dismiss any popups if exist
-        """
-        for _ in range(repeats):
-            self.device.click(self.BTN_EMPTY)
-            self.device.sleep(0.1)
-
     def click_and_wait_until_appear(self,
                                     btn: Button,
                                     *targets: list,
