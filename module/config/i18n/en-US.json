@@ -1742,6 +1742,18 @@
     "Enable": {
       "name": "IslandTransport.Enable.name",
       "help": "IslandTransport.Enable.help"
+    },
+    "SubmitChicken": {
+      "name": "IslandTransport.SubmitChicken.name",
+      "help": "IslandTransport.SubmitChicken.help"
+    },
+    "SubmitMilk": {
+      "name": "IslandTransport.SubmitMilk.name",
+      "help": "IslandTransport.SubmitMilk.help"
+    },
+    "SubmitPork": {
+      "name": "IslandTransport.SubmitPork.name",
+      "help": "IslandTransport.SubmitPork.help"
     }
   },
   "Island1": {

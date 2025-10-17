@@ -7921,6 +7921,18 @@
       "Enable": {
         "type": "checkbox",
         "value": false
+      },
+      "SubmitChicken": {
+        "type": "checkbox",
+        "value": false
+      },
+      "SubmitMilk": {
+        "type": "checkbox",
+        "value": false
+      },
+      "SubmitPork": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Island1": {

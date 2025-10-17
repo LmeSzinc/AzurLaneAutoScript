@@ -490,6 +490,9 @@ Awaken:
     value: false
 IslandTransport:
   Enable: false
+  SubmitChicken: false
+  SubmitMilk: false
+  SubmitPork: false
 Island1:
   Receive: false
   Option1:

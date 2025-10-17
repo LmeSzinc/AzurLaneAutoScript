@@ -274,6 +274,9 @@ class GeneratedConfig:
 
     # Group `IslandTransport`
     IslandTransport_Enable = False
+    IslandTransport_SubmitChicken = False
+    IslandTransport_SubmitMilk = False
+    IslandTransport_SubmitPork = False
 
     # Group `Island1`
     Island1_Receive = False

@@ -1,6 +1,8 @@
 from datetime import datetime, timedelta
 import numpy as np
 
+from cached_property import cached_property
+
 from module.base.button import ButtonGrid
 from module.base.timer import Timer
 from module.base.utils import area_offset, crop, image_color_count, rgb2gray
@@ -27,13 +29,15 @@ class IslandTransport:
     # If the transprt commission need to refresh
     refresh: bool
 
-    def __init__(self, main, index):
+    def __init__(self, main, index, blacklist):
         """
         Args:
             main:
             index (int):
+            blacklist (list[Template]): a blacklist of templates of items to submit
         """
         self.index = index
+        self.blacklist = blacklist
         self.image = main.device.image
         self.valid = True
         self.duration = None
@@ -75,7 +79,7 @@ class IslandTransport:
             origin_y = 174 + delta * self.index
             grids = ButtonGrid(origin=(481, origin_y), delta=(105, 0), 
                                button_shape=(86, 86), grid_shape=(3, 1), name='ITEMS')
-            self.items = SelectedGrids([TransportItem(self.image, button)
+            self.items = SelectedGrids([TransportItem(self.image, button, self.blacklist)
                                         for button in grids.buttons]).select(valid=True)
             self.start = self.items.select(load=True).count == self.items.count
             self.refresh = main.appear(TRANSPORT_REFRESH, offset=self.offset) and \
@@ -145,16 +149,16 @@ class IslandTransport:
         return info
 
 class TransportItem:
-    BLACKLIST_ITEMS = [TEMPLATE_CHICKEN, TEMPLATE_MILK]
-
-    def __init__(self, image, button):
+    def __init__(self, image, button, blacklist):
         """
         Args:
             image:
             button:
+            blacklist:
         """
         self.image_raw = image
         self.button = button
+        self.blacklist = blacklist
         self.image = crop(image, button.area)
         self.valid = self.predict_valid()
         self.refresh = False
@@ -184,7 +188,7 @@ class TransportItem:
         Returns:
             bool: if any blacklist item
         """
-        for template in self.BLACKLIST_ITEMS:
+        for template in self.blacklist:
             if template.match(self.image):
                 return True
         return False
@@ -197,6 +201,17 @@ class TransportItem:
         return info
 
 class IslandTransportRun(IslandUI):
+    @cached_property
+    def blacklist(self):
+        blacklist = []
+        if not self.config.IslandTransport_SubmitChicken:
+            blacklist.append(TEMPLATE_CHICKEN)
+        if not self.config.IslandTransport_SubmitMilk:
+            blacklist.append(TEMPLATE_MILK)
+        if not self.config.IslandTransport_SubmitPork:
+            blacklist.append(TEMPLATE_PORK)
+        return blacklist
+
     def _transport_detect(self):
         """
         Get all commissions from self.device.image.
@@ -207,7 +222,7 @@ class IslandTransportRun(IslandUI):
         logger.hr('Transport Commission detect')
         commission = []
         for index in range(3):
-            comm = IslandTransport(main=self, index=index)
+            comm = IslandTransport(main=self, index=index, blacklist=self.blacklist)
             logger.attr(f'Transport Commission', comm)
             for item in comm.items:
                 logger.attr(item.button, item)
