@@ -119,11 +119,14 @@ class IslandProject:
     def __str__(self):
         return self.name
 
+
 class ItemNameOcr(Ocr):
     def after_process(self, result):
         result = super().after_process(result)
         result = result.replace('蛮', '蜜').replace('茉', '末').replace('汗', '汁')
         result = re.sub(r'[^\u4e00-\u9fff]', '', result)
+        if '冰咖' in result:
+            retult = '冰咖啡'
         return result
 
 
@@ -307,7 +310,7 @@ class IslandProjectRun(IslandUI):
 
     def project_receive(self, button, skip_first_screenshot=True):
         """
-        Receive and start a project.
+        Receive a project and enter role select page.
 
         Args:
             button (Button): project button to click
@@ -377,27 +380,47 @@ class IslandProjectRun(IslandUI):
 
         return success
 
-    def island_select_manjuu(self, button):
+    def island_select_manjuu(self, button, skip_first_screenshot=True):
         """
         Args:
             button (Button): role button to click
+            skip_first_screenshot (bool):
         """
-        self.interval_clear([ROLE_SELECT_CONFIRM, ISLAND_AMOUNT_MAX])
-        for _ in self.loop():
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
             if self.appear(ROLE_SELECT_CHECK, offset=(20, 20)):
                 break
-
-            if self.appear(ROLE_SELECT_CONFIRM, offset=(20, 20), interval=5):
+            if self.appear(ROLE_SELECT_CONFIRM, offset=(20, 20), interval=2):
                 self.device.click(button)
                 continue
 
-        self.ui_click(
-            click_button=ROLE_SELECT_CONFIRM,
-            check_button=ISLAND_AMOUNT_MAX,
-            offset=(20, 20),
-            retry_wait=3,
-            skip_first_screenshot=True
-        )
+    def island_select_confirm(self, skip_first_screenshot=True):
+        """
+        Args:
+            skip_first_screenshot (bool):
+
+        Returns:
+            bool: if success
+        """
+        self.interval_clear(ROLE_SELECT_CONFIRM)
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+            # End
+            if self.appear(ISLAND_AMOUNT_MAX, offset=(20, 20)):
+                return True
+            # game bug that page returns to ISLAND_MANAGEMENT_CHECK after clicking ROLE_SELECT_CONFIRM
+            if self.island_in_management():
+                return False
+
+            if self.appear_then_click(ROLE_SELECT_CONFIRM, offset=(20, 20), interval=2):
+                self.interval_clear(ISLAND_MANAGEMENT_CHECK)
+                continue
 
     def island_select_role(self, skip_first_screenshot=True):
         """
@@ -425,7 +448,7 @@ class IslandProjectRun(IslandUI):
             sim, button = TEMPLATE_ISLAND_MANJUU.match_result(image)
             if sim > 0.9:
                 self.island_select_manjuu(button)
-                return True
+                return self.island_select_confirm()
             else:
                 logger.info('No manjuu found')
                 continue
@@ -526,7 +549,7 @@ class IslandProjectRun(IslandUI):
                 break
 
             if not success:
-                if self.appear_then_click(ISLAND_AMOUNT_MAX, offset=(5, 5), interval=5):
+                if self.appear_then_click(ISLAND_AMOUNT_MAX, offset=(5, 5), interval=2):
                     timeout.reset()
                     continue
 
@@ -540,7 +563,7 @@ class IslandProjectRun(IslandUI):
             else:
                 if self.appear_then_click(PROJECT_START, offset=(20,20), interval=2):
                     timeout.reset()
-                    self.interval_reset(ISLAND_MANAGEMENT_CHECK)
+                    self.interval_clear(ISLAND_MANAGEMENT_CHECK)
                     continue
 
                 if self.info_bar_count():
@@ -587,6 +610,29 @@ class IslandProjectRun(IslandUI):
                 break
 
             self.island_drag_next_page((0, -500), ISLAND_PROJECT_SWIPE.area, 0.6)
+
+    def island_project_receive_and_start(self, proj, button, option, ensure=True):
+        """
+        Receive and start a project is in the current page.
+
+        Args:
+            proj (IslandProject): the project to ensure
+            button (Button): project button to click
+            option (str): option to select
+            ensure (bool): whether to call ensure_project() after project start
+        """
+        if self.project_receive(button):
+            if self.island_select_role():
+                if self.island_select_product(option):
+                    self.island_product_confirm()
+            else:
+                logger.info('Island select role failed due to game bug, retrying')
+                return False
+            self.ui_ensure_management_page()
+            if ensure:
+                self.ensure_project(proj)
+            return True
+        return False
 
     def island_project_config(self, project: IslandProject):
         """
@@ -647,13 +693,11 @@ class IslandProjectRun(IslandUI):
                         proj.slot_buttons.buttons, proj_config, range(len(proj_config))):
                     if option is None:
                         continue
-                    if self.project_receive(button):
-                        if self.island_select_role():
-                            if self.island_select_product(option):
-                                self.island_product_confirm()
-                        self.ui_ensure_management_page()
-                        if not end or index != len(proj_config) - 1:
-                            self.ensure_project(proj)
+                    # retry 2 times because of a game bug
+                    for _ in range(2):
+                        ensure = not end or index != len(proj_config) - 1
+                        if self.island_project_receive_and_start(proj, button, option, ensure):
+                            break
                 timeout.reset()
 
             if end:
