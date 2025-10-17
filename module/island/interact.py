@@ -11,3 +11,6 @@ class IslandInteract(UI):
 
     def goto_ui(self, target_page):
         return self.ui_goto(target_page, get_ship=False)
+
+    def dismiss(self):
+        self.device.click(self.BTN_EMPTY)
