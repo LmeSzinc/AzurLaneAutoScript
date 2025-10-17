@@ -5,19 +5,19 @@ import numpy as np
 
 import module.config.server as server
 
-from module.base.utils import color_similarity_2d, rgb2luma
+from module.base.utils import color_similarity_2d, color_similar
 from module.logger import logger
 from module.ocr.ocr import Ocr, Digit
-from module.shop_event.assets import TEMPLATE_UNOBTAINED
 from module.shop_event.selector import FILTER_REGEX
 from module.statistics.item import Item, ItemGrid
 
 ITEM_SHAPE = (63, 63)
 GRID_SHAPE = (152, 206)
 DELTA_PRICE_BACKGROUND = (14, 164)
-DELTA_ITEM = (44, 44, 45 + ITEM_SHAPE[0], 33 + ITEM_SHAPE[1])
+DELTA_ITEM = (45, 44, 45 + ITEM_SHAPE[0], 33 + ITEM_SHAPE[1])
 DELTA_AMOUNT = (13, 144, 136, 160)
 DELTA_PRICE = (35, 170, 119, 192)
+DELTA_TAG = (108, 30, 155, 52)
 COUNTER_COLOR = (106, 120, 131)
 COUNTER_THRESHOLD = 150
 PRICE_THRESHOLD = 230
@@ -124,7 +124,6 @@ class EventShopItem(Item):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.is_ship = False
-        self.is_valid = self.predict_valid()  # Decide is_valid again after tag to avoid tag being overwritten
         self._scroll_pos = None
         self.total_count = -1
         self.count = 1
@@ -136,16 +135,6 @@ class EventShopItem(Item):
             name = f'{name}_{self.tag}'
 
         return name
-
-    def predict_valid(self):
-        luma = rgb2luma(self.image)
-        mean = np.mean(luma > 127)
-        if mean >= 0.3:
-            return True
-        result = TEMPLATE_UNOBTAINED.match_luma(self.image, similarity=0.7)
-        if result:
-            self.tag = 'unobtained'
-        return result
 
     @property
     def scroll_pos(self):
@@ -210,7 +199,8 @@ class EventShopItemGrid(ItemGrid):
                             DELTA_PRICE[2] - DELTA_ITEM[0], DELTA_PRICE[3] - DELTA_ITEM[1]),
                  price_area=(DELTA_PRICE[0] - DELTA_ITEM[0], DELTA_PRICE[1] - DELTA_ITEM[1],
                              DELTA_PRICE[2] - DELTA_ITEM[0], DELTA_PRICE[3] - DELTA_ITEM[1]),
-                 tag_area=(0, 0, ITEM_SHAPE[0], ITEM_SHAPE[1]),
+                 tag_area=(DELTA_TAG[0] - DELTA_ITEM[0], DELTA_TAG[1] - DELTA_ITEM[1],
+                           DELTA_TAG[2] - DELTA_ITEM[0], DELTA_TAG[3] - DELTA_ITEM[1]),
                  counter_area=(DELTA_AMOUNT[0] - DELTA_ITEM[0], DELTA_AMOUNT[1] - DELTA_ITEM[1],
                                DELTA_AMOUNT[2] - DELTA_ITEM[0], DELTA_AMOUNT[3] - DELTA_ITEM[1]),
                  ):
@@ -219,8 +209,14 @@ class EventShopItemGrid(ItemGrid):
         self.counter_area = counter_area
         self.price_ocr = PRICE_OCR
 
-    def predict(self, image, name=True, amount=True, cost=False, price=True, counter=True, scroll_pos=None):
-        super().predict(image, name=True, amount=True, cost=False, price=True, tag=False)
+    def predict_tag(self, image):
+        color = cv2.mean(np.array(image))[:3]
+        if color_similar(color1=color, color2=(255, 72, 72), threshold=50):
+            return 'unobtained'
+        return None
+
+    def predict(self, image, name=True, amount=True, cost=False, price=True, tag=True, counter=True, scroll_pos=None):
+        super().predict(image, name=name, amount=amount, cost=cost, price=price, tag=tag)
         if counter and len(self.items):
             counter_list = [item.crop(self.counter_area) for item in self.items]
             counter_list = self.counter_ocr.ocr(counter_list, direct_ocr=True)

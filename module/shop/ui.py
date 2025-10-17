@@ -56,6 +56,7 @@ class ShopUI(UI):
         switch = Switch('shop_nav_250814', is_selector=True, offset=(20, 20))
         switch.add_state(NAV_GENERAL, check_button=NAV_GENERAL)
         switch.add_state(NAV_MONTHLY, check_button=NAV_MONTHLY)
+        switch.add_state(NAV_EVENT, check_button=NAV_EVENT)
         return switch
 
     @cached_property

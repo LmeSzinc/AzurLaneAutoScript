@@ -67,7 +67,8 @@ class EventShopClerk(EventShopUI):
         self.event_shop_items.grids = self._get_event_shop_grid()
         if self.config.SHOP_EXTRACT_TEMPLATE:
             self.event_shop_items.extract_template(self.device.image, './assets/shop/event')
-        self.event_shop_items.predict(self.device.image, counter=True, scroll_pos=scroll_pos)
+        self.event_shop_items.predict(self.device.image, name=True, amount=True, cost=False,
+                                      price=True, tag=True, counter=True, scroll_pos=scroll_pos)
         shop_items = self.event_shop_items.items
         if len(shop_items):
             min_row = self.event_shop_items.grids[0, 0].area[1]
