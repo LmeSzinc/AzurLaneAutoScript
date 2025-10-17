@@ -56,10 +56,10 @@ class IslandPostManage(IslandInteract):
         product_config = ''
         if job_name == 'mining':
             job_heading_template = TEMPLATE_ISLAND_MINING
-            product_config = self.config.IslandMining_MineProduction
+            product_config = self.config.IslandPostManage_MineProduction
         elif job_name == 'lumbering':
             job_heading_template = TEMPLATE_ISLAND_LUMBERING
-            product_config = self.config.IslandLumbering_LumberProduction
+            product_config = self.config.IslandPostManage_LumberProduction
         elif job_name == 'ranch':
             job_heading_template = TEMPLATE_ISLAND_RANCH
             product_config = '1234' # fixed
