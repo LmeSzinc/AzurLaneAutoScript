@@ -194,6 +194,10 @@
       "name": "Task.PrivateQuarters.name",
       "help": "Task.PrivateQuarters.help"
     },
+    "IslandPostManage": {
+      "name": "離島一括管理",
+      "help": ""
+    },
     "OpsiGeneral": {
       "name": "一般設定",
       "help": ""
@@ -2081,6 +2085,26 @@
       "noshiro": "noshiro",
       "sirius": "sirius",
       "new_jersey": "new_jersey"
+    }
+  },
+  "IslandPostManage": {
+    "_info": {
+      "name": "生産設定",
+      "help": "既定では、各桁の数字はそのスロットがN番目のアイテムを生産することを表し、0は未使用を意味します。\\n例：1111 は4つすべてのスロットが1番目のアイテムを生産することを示します"
+    },
+    "MineProduction": {
+      "name": "積岩鉱山",
+      "help": ""
+    },
+    "LumberProduction": {
+      "name": "翠緑の森",
+      "help": ""
+    },
+    "Ranch": {
+      "name": "悠々牧場",
+      "help": "あらかじめ十分な飼料を用意してください",
+      "disabled": "無効",
+      "enabled": "有効"
     }
   },
   "Daily": {

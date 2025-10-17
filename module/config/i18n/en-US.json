@@ -194,6 +194,10 @@
       "name": "Private Quarters",
       "help": ""
     },
+    "IslandPostManage": {
+      "name": "Island Post Manage",
+      "help": ""
+    },
     "OpsiGeneral": {
       "name": "OpSi General",
       "help": "Ensure the following settings in Azur Lane:\nReduce TB Guidance: On\nAuto use items during Auto Search: On\nAuto Mode in secured zones: Off\nStory Autoplay: Enabled\nText Auto-Scroll Speed: Very Fast"
@@ -2081,6 +2085,26 @@
       "noshiro": "Noshiro",
       "sirius": "Sirius",
       "new_jersey": "New Jersey"
+    }
+  },
+  "IslandPostManage": {
+    "_info": {
+      "name": "Production Settings",
+      "help": "By default, each digit indicates which N-th item that slot produces; 0 means unused.\\nFor example, 1111 means all four slots produce the first item."
+    },
+    "MineProduction": {
+      "name": "Mining",
+      "help": ""
+    },
+    "LumberProduction": {
+      "name": "Lumbering",
+      "help": ""
+    },
+    "Ranch": {
+      "name": "Ranch",
+      "help": "Prepare sufficient feed beforehand",
+      "disabled": "Disabled",
+      "enabled": "Enabled"
     }
   },
   "Daily": {
