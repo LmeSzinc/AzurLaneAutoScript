@@ -2088,22 +2088,22 @@
   },
   "IslandPostManage": {
     "_info": {
-      "name": "IslandPostManage._info.name",
-      "help": "IslandPostManage._info.help"
+      "name": "生産設定",
+      "help": "既定では、各桁の数字はそのスロットがN番目のアイテムを生産することを表し、0は未使用を意味します。\\n例：1111 は4つすべてのスロットが1番目のアイテムを生産することを示します"
     },
     "MineProduction": {
-      "name": "IslandPostManage.MineProduction.name",
-      "help": "IslandPostManage.MineProduction.help"
+      "name": "積岩鉱山",
+      "help": ""
     },
     "LumberProduction": {
-      "name": "IslandPostManage.LumberProduction.name",
-      "help": "IslandPostManage.LumberProduction.help"
+      "name": "翠緑の森",
+      "help": ""
     },
     "Ranch": {
-      "name": "IslandPostManage.Ranch.name",
-      "help": "IslandPostManage.Ranch.help",
-      "disabled": "disabled",
-      "enabled": "enabled"
+      "name": "悠々牧場",
+      "help": "あらかじめ十分な飼料を用意してください",
+      "disabled": "無効",
+      "enabled": "有効"
     }
   },
   "Daily": {

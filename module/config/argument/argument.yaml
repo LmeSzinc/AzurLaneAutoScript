@@ -596,7 +596,7 @@ IslandPostManage:
   MineProduction: "1230"
   LumberProduction: "1230"
   Ranch:
-    value: disabled
+    value: enabled
     option: [ disabled, enabled ]
 # ==================== Daily ====================
 

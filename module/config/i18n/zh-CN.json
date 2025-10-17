@@ -2088,22 +2088,22 @@
   },
   "IslandPostManage": {
     "_info": {
-      "name": "IslandPostManage._info.name",
-      "help": "IslandPostManage._info.help"
+      "name": "生产设置",
+      "help": "默认情况下, 每个数字表示该配置位生产第N个物品, 0表示不使用\\n例如 1111 表示所有四个配置位都生产第一个物品"
     },
     "MineProduction": {
-      "name": "IslandPostManage.MineProduction.name",
-      "help": "IslandPostManage.MineProduction.help"
+      "name": "积岩矿山",
+      "help": ""
     },
     "LumberProduction": {
-      "name": "IslandPostManage.LumberProduction.name",
-      "help": "IslandPostManage.LumberProduction.help"
+      "name": "翠绿之森",
+      "help": ""
     },
     "Ranch": {
-      "name": "IslandPostManage.Ranch.name",
-      "help": "IslandPostManage.Ranch.help",
-      "disabled": "disabled",
-      "enabled": "enabled"
+      "name": "悠悠牧场",
+      "help": "需先准备足够饲料",
+      "disabled": "停用",
+      "enabled": "启用"
     }
   },
   "Daily": {

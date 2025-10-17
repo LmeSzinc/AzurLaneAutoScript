@@ -2088,22 +2088,22 @@
   },
   "IslandPostManage": {
     "_info": {
-      "name": "IslandPostManage._info.name",
-      "help": "IslandPostManage._info.help"
+      "name": "Production Settings",
+      "help": "By default, each digit indicates which N-th item that slot produces; 0 means unused.\\nFor example, 1111 means all four slots produce the first item."
     },
     "MineProduction": {
-      "name": "IslandPostManage.MineProduction.name",
-      "help": "IslandPostManage.MineProduction.help"
+      "name": "Mining",
+      "help": ""
     },
     "LumberProduction": {
-      "name": "IslandPostManage.LumberProduction.name",
-      "help": "IslandPostManage.LumberProduction.help"
+      "name": "Lumbering",
+      "help": ""
     },
     "Ranch": {
-      "name": "IslandPostManage.Ranch.name",
-      "help": "IslandPostManage.Ranch.help",
-      "disabled": "disabled",
-      "enabled": "enabled"
+      "name": "Ranch",
+      "help": "Prepare sufficient feed beforehand",
+      "disabled": "Disabled",
+      "enabled": "Enabled"
     }
   },
   "Daily": {
