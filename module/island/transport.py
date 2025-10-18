@@ -72,10 +72,7 @@ class IslandTransport:
                 self.valid = False
                 return
 
-            if not main.match_template_color(TRANSPORT_START, offset=self.offset):
-                self.start = False
-                return
-
+            # items info
             origin_y = 174 + delta * self.index
             grids = ButtonGrid(origin=(481, origin_y), delta=(105, 0), 
                                button_shape=(86, 86), grid_shape=(3, 1), name='ITEMS')
@@ -84,6 +81,10 @@ class IslandTransport:
             self.start = self.items.select(load=True).count == self.items.count
             self.refresh = main.appear(TRANSPORT_REFRESH, offset=self.offset) and \
                            bool(self.items.select(refresh=True).count)
+            
+            # detect items first because we need to get refresh info
+            if not main.match_template_color(TRANSPORT_START, offset=self.offset):
+                self.start = False
         elif self.status == 'running':
             self.start = False
             button = OCR_TRANSPORT_TIME_REMAIN.move((0, self.offset[1] + 20))
@@ -174,10 +175,10 @@ class TransportItem:
     def predict_load(self):
         if not self.valid:
             return False
-        if not TEMPLATE_ITEM_SATISFIED.match(rgb2gray(self.image)):
-            return False
         self.refresh = self.handle_blacklist_items()
         if self.refresh:
+            return False
+        if not TEMPLATE_ITEM_SATISFIED.match(rgb2gray(self.image)):
             return False
         return True
 
@@ -196,7 +197,7 @@ class TransportItem:
     def __str__(self):
         if not self.valid:
             return '(Invalid)'
-        info = {'Load': self.load}
+        info = {'Load': self.load, 'Refresh': self.refresh}
         info = ', '.join([f'{k}: {v}' for k, v in info.items()])
         return info
 
