@@ -1754,6 +1754,22 @@
     "SubmitPork": {
       "name": "提交鲜肉",
       "help": ""
+    },
+    "SubmitLinen": {
+      "name": "提交亚麻",
+      "help": ""
+    },
+    "SubmitStrawberry": {
+      "name": "提交草莓",
+      "help": ""
+    },
+    "SubmitCotton": {
+      "name": "提交棉花",
+      "help": ""
+    },
+    "SubmitOnion": {
+      "name": "提交洋葱",
+      "help": ""
     }
   },
   "Island1": {

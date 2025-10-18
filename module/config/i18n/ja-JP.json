@@ -1754,6 +1754,22 @@
     "SubmitPork": {
       "name": "IslandTransport.SubmitPork.name",
       "help": "IslandTransport.SubmitPork.help"
+    },
+    "SubmitLinen": {
+      "name": "IslandTransport.SubmitLinen.name",
+      "help": "IslandTransport.SubmitLinen.help"
+    },
+    "SubmitStrawberry": {
+      "name": "IslandTransport.SubmitStrawberry.name",
+      "help": "IslandTransport.SubmitStrawberry.help"
+    },
+    "SubmitCotton": {
+      "name": "IslandTransport.SubmitCotton.name",
+      "help": "IslandTransport.SubmitCotton.help"
+    },
+    "SubmitOnion": {
+      "name": "IslandTransport.SubmitOnion.name",
+      "help": "IslandTransport.SubmitOnion.help"
     }
   },
   "Island1": {

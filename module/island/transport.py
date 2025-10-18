@@ -211,6 +211,14 @@ class IslandTransportRun(IslandUI):
             blacklist.append(TEMPLATE_MILK)
         if not self.config.IslandTransport_SubmitPork:
             blacklist.append(TEMPLATE_PORK)
+        if not self.config.IslandTransport_SubmitLinen:
+            blacklist.append(TEMPLATE_LINEN)
+        if not self.config.IslandTransport_SubmitStrawberry:
+            blacklist.append(TEMPLATE_STRAWBERRY)
+        if not self.config.IslandTransport_SubmitCotton:
+            blacklist.append(TEMPLATE_COTTON)
+        if not self.config.IslandTransport_SubmitOnion:
+            blacklist.append(TEMPLATE_ONION)
         return blacklist
 
     def _transport_detect(self):
