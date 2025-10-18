@@ -5,7 +5,7 @@ import numpy as np
 
 import module.config.server as server
 
-from module.base.utils import color_similarity_2d, color_similar
+from module.base.utils import color_similarity_2d, color_similar, rgb2luma
 from module.logger import logger
 from module.ocr.ocr import Ocr, Digit
 from module.shop_event.selector import FILTER_REGEX
@@ -135,6 +135,10 @@ class EventShopItem(Item):
             name = f'{name}_{self.tag}'
 
         return name
+
+    def predict_valid(self):
+        luma = rgb2luma(self.image)
+        return np.mean(luma > 127) >= 0.3
 
     @property
     def scroll_pos(self):
