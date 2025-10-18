@@ -19,6 +19,8 @@ class IslandTransport:
     index: int
     # If success to parse transport commission
     valid: bool
+    # If the commission is locked
+    locked: bool
     # Duration to run this transport commission
     duration: timedelta
     # Status of transport commission
@@ -40,6 +42,7 @@ class IslandTransport:
         self.blacklist = blacklist
         self.image = main.device.image
         self.valid = True
+        self.locked = False
         self.duration = None
         self.start = True
         self.refresh = False
@@ -57,7 +60,7 @@ class IslandTransport:
         # commission locked
         lock_offset = area_offset(offset, (0, delta * (self.index - 1)))
         if self.index >= 1 and main.appear(TRANSPORT_LOCKED, lock_offset):
-            self.valid = False
+            self.locked = True
             return
 
         self.status = self.get_transport_status(main)
@@ -141,6 +144,8 @@ class IslandTransport:
     def __str__(self):
         if not self.valid:
             return f'Index: {self.index} (Invalid)'
+        if self.locked:
+            return f'Index: {self.index} (Locked)'
         info = {'Index': self.index, 'Status': self.status}
         if self.duration:
             info['Duration'] = self.duration
@@ -257,8 +262,11 @@ class IslandTransportRun(IslandUI):
                 self.device.screenshot()
 
             commissions = self._transport_detect()
-            if commissions.count >= 2 and commissions.select(valid=False).count == 1:
-                logger.warning('Found 1 invalid commission, retry commission detect')
+            if not commissions.count:
+                logger.warning('No commission detected, retry commission detect')
+                continue
+            elif commissions.select(valid=False).count:
+                logger.warning('Found 1 invalid commission at least, retry commission detect')
                 continue
             else:
                 return commissions.select(valid=True)
@@ -409,7 +417,7 @@ class IslandTransportRun(IslandUI):
         logger.hr('Island Transport Run', level=1)
         future_finish = []
         self.transport_receive()
-        commissions = self.transport_detect(trial=2)
+        commissions = self.transport_detect(trial=5)
 
         comm_refresh = commissions.select(status='pending', refresh=True)
         comm_choose = commissions.select(status='pending', start=True)
