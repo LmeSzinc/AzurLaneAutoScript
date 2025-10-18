@@ -1574,7 +1574,11 @@
       "Enable": false,
       "SubmitChicken": false,
       "SubmitMilk": false,
-      "SubmitPork": false
+      "SubmitPork": false,
+      "SubmitLinen": false,
+      "SubmitStrawberry": false,
+      "SubmitCotton": false,
+      "SubmitOnion": false
     },
     "Island1": {
       "Receive": false,

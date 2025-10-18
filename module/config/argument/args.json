@@ -7933,6 +7933,22 @@
       "SubmitPork": {
         "type": "checkbox",
         "value": false
+      },
+      "SubmitLinen": {
+        "type": "checkbox",
+        "value": false
+      },
+      "SubmitStrawberry": {
+        "type": "checkbox",
+        "value": false
+      },
+      "SubmitCotton": {
+        "type": "checkbox",
+        "value": false
+      },
+      "SubmitOnion": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Island1": {
