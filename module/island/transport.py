@@ -432,7 +432,9 @@ class IslandTransportRun(IslandUI):
         for comm in commissions:
             logger.attr(f'Transport Commission', comm)
 
-        future_finish = sorted([f for f in commissions.select(status='running').get('finish_time') if f is not None])
+        running_finish = [f for f in commissions.select(status='running').get('finish_time') if f is not None]
+        refreshing_finish = [f for f in commissions.select(status='refreshing').get('finish_time') if f is not None]
+        future_finish = sorted(running_finish + refreshing_finish)
         logger.info(f'Transport finish: {[str(f) for f in future_finish]}')
         if not len(future_finish):
             logger.info('No island transport running')
