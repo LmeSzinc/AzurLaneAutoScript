@@ -375,6 +375,11 @@ class ManualConfig:
     SHOP_EXTRACT_TEMPLATE = False
 
     """
+    module.shop_event
+    """
+    EVENT_SHOP_IGNORE_DEADLINE = False
+
+    """
     module.war_archives
     """
     USE_DATA_KEY = False
