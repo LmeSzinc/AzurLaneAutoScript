@@ -497,7 +497,6 @@ IslandTransport:
   SubmitStrawberry: false
   SubmitCotton: false
   SubmitOnion: false
-
 Island1:
   Receive: false
   Option1:
