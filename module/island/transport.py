@@ -309,12 +309,12 @@ class IslandTransportRun(IslandUI):
             if self.island_in_transport():
                 if success and confirm_timer.reached():
                     break
-                continue
             else:
                 confirm_timer.reset()
 
             # handle island level up
             if click_timer.reached():
+                success = True
                 self.device.click(GET_ITEMS_ISLAND)
                 self.device.sleep(0.3)
                 click_timer.reset()
@@ -353,7 +353,6 @@ class IslandTransportRun(IslandUI):
             if self.island_in_transport():
                 if success and confirm_timer.reached():
                     break
-                continue
             else:
                 confirm_timer.reset()
         return success
@@ -396,7 +395,6 @@ class IslandTransportRun(IslandUI):
             if self.island_in_transport():
                 if success and confirm_timer.reached():
                     break
-                continue
             else:
                 confirm_timer.reset()
         return success
