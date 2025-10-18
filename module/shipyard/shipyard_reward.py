@@ -180,7 +180,7 @@ class RewardShipyard(ShipyardUI):
                   pages. If no transition took place,
                   then did not run
         """
-        if count <= 0:
+        if index <= 0 or count <= 0:
             return False
 
         # Gold difficult to Ocr in page_shipyard
@@ -221,7 +221,8 @@ class RewardShipyard(ShipyardUI):
             in: Any page
             out: page_shipyard
         """
-        if self.config.Shipyard_BuyAmount <= 0 and self.config.ShipyardDr_BuyAmount <= 0:
+        if (self.config.Shipyard_ShipIndex == 0 and self.config.ShipyardDr_ShipIndex == 0) or \
+                (self.config.Shipyard_BuyAmount <= 0 and self.config.ShipyardDr_BuyAmount <= 0):
             self.config.Scheduler_Enable = False
             self.config.task_stop()
 
