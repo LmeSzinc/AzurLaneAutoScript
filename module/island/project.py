@@ -324,6 +324,7 @@ class IslandProjectRun(IslandUI):
                              GET_ITEMS_ISLAND, ROLE_SELECT_ENTER])
         success = False
         enter = True
+        click_timer = Timer(5, count=10)
         timeout = Timer(3, count=6).start()
         while 1:
             if skip_first_screenshot:
@@ -355,6 +356,7 @@ class IslandProjectRun(IslandUI):
                 enter = False
                 self.interval_clear(GET_ITEMS_ISLAND)
                 self.interval_reset(ROLE_SELECT_ENTER)
+                click_timer.reset()
                 timeout.reset()
                 continue
 
@@ -362,6 +364,13 @@ class IslandProjectRun(IslandUI):
                 enter = True
                 self.interval_clear(ROLE_SELECT_ENTER)
                 timeout.reset()
+                continue
+
+            # handle island level up
+            if click_timer.reached():
+                self.device.click(GET_ITEMS_ISLAND)
+                self.device.sleep(0.3)
+                click_timer.reset()
                 continue
 
             if self.appear(ROLE_SELECT_CONFIRM, offset=(20, 20)):
