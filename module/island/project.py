@@ -318,12 +318,13 @@ class IslandProjectRun(IslandUI):
         Returns:
             bool: if success
         """
-        logger.hr('Island Project', level=2)
+        logger.hr('Island Project')
         self.device.click_record_clear()
         self.interval_clear([ISLAND_MANAGEMENT_CHECK, PROJECT_COMPLETE,
                              GET_ITEMS_ISLAND, ROLE_SELECT_ENTER])
         success = False
         enter = True
+        click_timer = Timer(5, count=10).start()
         timeout = Timer(3, count=6).start()
         while 1:
             if skip_first_screenshot:
@@ -333,20 +334,24 @@ class IslandProjectRun(IslandUI):
 
             if self.island_in_management(interval=5):
                 self.device.click(button)
+                click_timer.reset()
                 timeout.reset()
                 continue
 
             if self.appear_then_click(ISLAND_MANAGEMENT, offset=(20, 20), interval=2):
+                click_timer.reset()
                 timeout.reset()
                 continue
 
             if self.handle_info_bar():
+                click_timer.reset()
                 timeout.reset()
                 continue
 
             if enter and self.appear_then_click(ROLE_SELECT_ENTER, offset=(5, 5), interval=2):
                 success = True
                 self.interval_clear(GET_ITEMS_ISLAND)
+                click_timer.reset()
                 timeout.reset()
                 continue
 
@@ -355,12 +360,22 @@ class IslandProjectRun(IslandUI):
                 enter = False
                 self.interval_clear(GET_ITEMS_ISLAND)
                 self.interval_reset(ROLE_SELECT_ENTER)
+                click_timer.reset()
                 timeout.reset()
                 continue
 
             if self.handle_get_items():
                 enter = True
                 self.interval_clear(ROLE_SELECT_ENTER)
+                click_timer.reset()
+                timeout.reset()
+                continue
+
+            # handle island level up
+            if not enter and click_timer.reached():
+                self.device.click(GET_ITEMS_ISLAND)
+                self.device.sleep(0.3)
+                click_timer.reset()
                 timeout.reset()
                 continue
 
@@ -631,8 +646,7 @@ class IslandProjectRun(IslandUI):
             self.ui_ensure_management_page()
             if ensure:
                 self.ensure_project(proj)
-            return True
-        return False
+        return True
 
     def island_project_config(self, project: IslandProject):
         """

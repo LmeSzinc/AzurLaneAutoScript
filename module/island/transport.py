@@ -288,7 +288,7 @@ class IslandTransportRun(IslandUI):
         self.device.click_record_clear()
         self.interval_clear([GET_ITEMS_ISLAND, TRANSPORT_RECEIVE, POPUP_CANCEL_WHITE])
         success = True
-        click_timer = Timer(5)
+        click_timer = Timer(5, count=10).start()
         confirm_timer = Timer(1, count=2).start()
         while 1:
             if skip_first_screenshot:
@@ -297,28 +297,26 @@ class IslandTransportRun(IslandUI):
                 self.device.screenshot()
 
             if self.handle_info_bar():
+                click_timer.reset()
                 confirm_timer.reset()
                 continue
 
             if self.appear_then_click(TRANSPORT_RECEIVE, offset=(-20, -20, 20, 400), interval=2):
                 success = False
+                click_timer.reset()
                 confirm_timer.reset()
                 continue
 
             if self.handle_get_items():
                 success = True
+                click_timer.reset()
                 confirm_timer.reset()
                 continue
 
             if self.handle_popup_cancel('REFRESH_CANCEL', offset=(30, 30)):
+                click_timer.reset()
                 confirm_timer.reset()
                 continue
-
-            if self.island_in_transport():
-                if success and confirm_timer.reached():
-                    break
-            else:
-                confirm_timer.reset()
 
             # handle island level up
             if click_timer.reached():
@@ -326,6 +324,15 @@ class IslandTransportRun(IslandUI):
                 self.device.click(GET_ITEMS_ISLAND)
                 self.device.sleep(0.3)
                 click_timer.reset()
+                confirm_timer.reset()
+                continue
+
+            if self.island_in_transport():
+                if success and confirm_timer.reached():
+                    break
+                click_timer.reset()
+            else:
+                confirm_timer.reset()
 
         return success
 
