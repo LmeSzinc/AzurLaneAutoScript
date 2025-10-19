@@ -1755,6 +1755,14 @@
       "name": "提交鲜肉",
       "help": ""
     },
+    "SubmitNapaCabbage": {
+      "name": "提交白菜",
+      "help": ""
+    },
+    "SubmitCarrot": {
+      "name": "提交胡萝卜",
+      "help": ""
+    },
     "SubmitFlex": {
       "name": "提交亚麻",
       "help": ""

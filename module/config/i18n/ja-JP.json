@@ -1755,6 +1755,14 @@
       "name": "IslandTransport.SubmitFreshMeat.name",
       "help": "IslandTransport.SubmitFreshMeat.help"
     },
+    "SubmitNapaCabbage": {
+      "name": "IslandTransport.SubmitNapaCabbage.name",
+      "help": "IslandTransport.SubmitNapaCabbage.help"
+    },
+    "SubmitCarrot": {
+      "name": "IslandTransport.SubmitCarrot.name",
+      "help": "IslandTransport.SubmitCarrot.help"
+    },
     "SubmitFlex": {
       "name": "IslandTransport.SubmitFlex.name",
       "help": "IslandTransport.SubmitFlex.help"

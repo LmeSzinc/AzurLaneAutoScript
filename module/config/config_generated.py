@@ -277,6 +277,8 @@ class GeneratedConfig:
     IslandTransport_SubmitPoultry = False
     IslandTransport_SubmitMilk = False
     IslandTransport_SubmitFreshMeat = False
+    IslandTransport_SubmitNapaCabbage = True
+    IslandTransport_SubmitCarrot = True
     IslandTransport_SubmitFlex = True
     IslandTransport_SubmitCotton = True
     IslandTransport_SubmitStrawberries = True

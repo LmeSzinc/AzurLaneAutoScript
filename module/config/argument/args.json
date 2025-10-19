@@ -7934,6 +7934,14 @@
         "type": "checkbox",
         "value": false
       },
+      "SubmitNapaCabbage": {
+        "type": "checkbox",
+        "value": true
+      },
+      "SubmitCarrot": {
+        "type": "checkbox",
+        "value": true
+      },
       "SubmitFlex": {
         "type": "checkbox",
         "value": true

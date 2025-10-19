@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 import numpy as np
+import re
 
 from cached_property import cached_property
 
@@ -210,20 +211,12 @@ class IslandTransportRun(IslandUI):
     @cached_property
     def blacklist(self):
         blacklist = []
-        if not self.config.IslandTransport_SubmitPoultry:
-            blacklist.append(TEMPLATE_POULTRY)
-        if not self.config.IslandTransport_SubmitMilk:
-            blacklist.append(TEMPLATE_MILK)
-        if not self.config.IslandTransport_SubmitFreshMeat:
-            blacklist.append(TEMPLATE_FRESH_MEAT)
-        if not self.config.IslandTransport_SubmitFlex:
-            blacklist.append(TEMPLATE_FLEX)
-        if not self.config.IslandTransport_SubmitCotton:
-            blacklist.append(TEMPLATE_COTTON)
-        if not self.config.IslandTransport_SubmitStrawberries:
-            blacklist.append(TEMPLATE_STRAWBERRIES)
-        if not self.config.IslandTransport_SubmitOnion:
-            blacklist.append(TEMPLATE_ONION)
+        for k, v in self.config.cross_get(keys='Island.IslandTransport').items():
+            if k.startswith('Submit') and not v:
+                item = k.split('Submit')[-1]
+                item = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', item)
+                item = re.sub('([a-z0-9])([A-Z])', r'\1_\2', item)
+                blacklist.append(globals()[f'TEMPLATE_{item.upper()}'])
         return blacklist
 
     def _transport_detect(self):
