@@ -1741,9 +1741,9 @@
     },
     "Enable": {
       "name": "做货运委托",
-      "help": "装载满足全部装载条件的货运委托，并计算下一次收货时间\n默认会跳过以下选项中的物品\n默认在碰到包含下面选项对应物品的货运委托时会选择刷新委托，启用对应选项可以开启提交对应物品"
+      "help": "装载满足全部装载条件的货运委托，并计算下一次收货时间\n默认在碰到包含下面选项对应物品的货运委托时会选择跳过并刷新委托，启用对应选项可以开启提交对应物品"
     },
-    "SubmitChicken": {
+    "SubmitPoultry": {
       "name": "提交禽肉",
       "help": ""
     },
@@ -1751,20 +1751,20 @@
       "name": "提交牛奶",
       "help": ""
     },
-    "SubmitPork": {
+    "SubmitFreshMeat": {
       "name": "提交鲜肉",
       "help": ""
     },
-    "SubmitLinen": {
+    "SubmitFlex": {
       "name": "提交亚麻",
-      "help": ""
-    },
-    "SubmitStrawberry": {
-      "name": "提交草莓",
       "help": ""
     },
     "SubmitCotton": {
       "name": "提交棉花",
+      "help": ""
+    },
+    "SubmitStrawberries": {
+      "name": "提交草莓",
       "help": ""
     },
     "SubmitOnion": {

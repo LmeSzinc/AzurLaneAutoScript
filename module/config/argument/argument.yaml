@@ -490,13 +490,13 @@ Awaken:
     value: false
 IslandTransport:
   Enable: false
-  SubmitChicken: false
+  SubmitPoultry: false
   SubmitMilk: false
-  SubmitPork: false
-  SubmitLinen: false
-  SubmitStrawberry: false
-  SubmitCotton: false
-  SubmitOnion: false
+  SubmitFreshMeat: false
+  SubmitFlex: true
+  SubmitCotton: true
+  SubmitStrawberries: true
+  SubmitOnion: true
 Island1:
   Receive: false
   Option1:

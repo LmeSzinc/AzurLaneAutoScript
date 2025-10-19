@@ -210,18 +210,18 @@ class IslandTransportRun(IslandUI):
     @cached_property
     def blacklist(self):
         blacklist = []
-        if not self.config.IslandTransport_SubmitChicken:
-            blacklist.append(TEMPLATE_CHICKEN)
+        if not self.config.IslandTransport_SubmitPoultry:
+            blacklist.append(TEMPLATE_POULTRY)
         if not self.config.IslandTransport_SubmitMilk:
             blacklist.append(TEMPLATE_MILK)
-        if not self.config.IslandTransport_SubmitPork:
-            blacklist.append(TEMPLATE_PORK)
-        if not self.config.IslandTransport_SubmitLinen:
-            blacklist.append(TEMPLATE_LINEN)
-        if not self.config.IslandTransport_SubmitStrawberry:
-            blacklist.append(TEMPLATE_STRAWBERRY)
+        if not self.config.IslandTransport_SubmitFreshMeat:
+            blacklist.append(TEMPLATE_FRESH_MEAT)
+        if not self.config.IslandTransport_SubmitFlex:
+            blacklist.append(TEMPLATE_FLEX)
         if not self.config.IslandTransport_SubmitCotton:
             blacklist.append(TEMPLATE_COTTON)
+        if not self.config.IslandTransport_SubmitStrawberries:
+            blacklist.append(TEMPLATE_STRAWBERRIES)
         if not self.config.IslandTransport_SubmitOnion:
             blacklist.append(TEMPLATE_ONION)
         return blacklist

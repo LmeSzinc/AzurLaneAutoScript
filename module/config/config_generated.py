@@ -274,13 +274,13 @@ class GeneratedConfig:
 
     # Group `IslandTransport`
     IslandTransport_Enable = False
-    IslandTransport_SubmitChicken = False
+    IslandTransport_SubmitPoultry = False
     IslandTransport_SubmitMilk = False
-    IslandTransport_SubmitPork = False
-    IslandTransport_SubmitLinen = False
-    IslandTransport_SubmitStrawberry = False
-    IslandTransport_SubmitCotton = False
-    IslandTransport_SubmitOnion = False
+    IslandTransport_SubmitFreshMeat = False
+    IslandTransport_SubmitFlex = True
+    IslandTransport_SubmitCotton = True
+    IslandTransport_SubmitStrawberries = True
+    IslandTransport_SubmitOnion = True
 
     # Group `Island1`
     Island1_Receive = False

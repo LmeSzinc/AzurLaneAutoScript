@@ -7922,7 +7922,7 @@
         "type": "checkbox",
         "value": false
       },
-      "SubmitChicken": {
+      "SubmitPoultry": {
         "type": "checkbox",
         "value": false
       },
@@ -7930,25 +7930,25 @@
         "type": "checkbox",
         "value": false
       },
-      "SubmitPork": {
+      "SubmitFreshMeat": {
         "type": "checkbox",
         "value": false
       },
-      "SubmitLinen": {
+      "SubmitFlex": {
         "type": "checkbox",
-        "value": false
-      },
-      "SubmitStrawberry": {
-        "type": "checkbox",
-        "value": false
+        "value": true
       },
       "SubmitCotton": {
         "type": "checkbox",
-        "value": false
+        "value": true
+      },
+      "SubmitStrawberries": {
+        "type": "checkbox",
+        "value": true
       },
       "SubmitOnion": {
         "type": "checkbox",
-        "value": false
+        "value": true
       }
     },
     "Island1": {

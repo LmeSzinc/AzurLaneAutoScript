@@ -1743,29 +1743,29 @@
       "name": "IslandTransport.Enable.name",
       "help": "IslandTransport.Enable.help"
     },
-    "SubmitChicken": {
-      "name": "IslandTransport.SubmitChicken.name",
-      "help": "IslandTransport.SubmitChicken.help"
+    "SubmitPoultry": {
+      "name": "IslandTransport.SubmitPoultry.name",
+      "help": "IslandTransport.SubmitPoultry.help"
     },
     "SubmitMilk": {
       "name": "IslandTransport.SubmitMilk.name",
       "help": "IslandTransport.SubmitMilk.help"
     },
-    "SubmitPork": {
-      "name": "IslandTransport.SubmitPork.name",
-      "help": "IslandTransport.SubmitPork.help"
+    "SubmitFreshMeat": {
+      "name": "IslandTransport.SubmitFreshMeat.name",
+      "help": "IslandTransport.SubmitFreshMeat.help"
     },
-    "SubmitLinen": {
-      "name": "IslandTransport.SubmitLinen.name",
-      "help": "IslandTransport.SubmitLinen.help"
-    },
-    "SubmitStrawberry": {
-      "name": "IslandTransport.SubmitStrawberry.name",
-      "help": "IslandTransport.SubmitStrawberry.help"
+    "SubmitFlex": {
+      "name": "IslandTransport.SubmitFlex.name",
+      "help": "IslandTransport.SubmitFlex.help"
     },
     "SubmitCotton": {
       "name": "IslandTransport.SubmitCotton.name",
       "help": "IslandTransport.SubmitCotton.help"
+    },
+    "SubmitStrawberries": {
+      "name": "IslandTransport.SubmitStrawberries.name",
+      "help": "IslandTransport.SubmitStrawberries.help"
     },
     "SubmitOnion": {
       "name": "IslandTransport.SubmitOnion.name",
