@@ -135,6 +135,8 @@ class IslandProductionTime(Duration):
         result = super().after_process(result)
         if result == '0:40:00':
             result = '01:40:00'
+        elif result == '05:7:15':
+            result = '05:47:45'
         return result
 
 
