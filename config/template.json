@@ -1585,87 +1585,126 @@
     "Island1": {
       "Receive": false,
       "Option1": 0,
+      "Character1": "manjuu",
       "Option2": 0,
+      "Character2": "manjuu",
       "Option3": 0,
+      "Character3": "manjuu",
       "Option4": 0
     },
     "Island2": {
       "Receive": false,
       "Option1": 0,
+      "Character1": "manjuu",
       "Option2": 0,
+      "Character2": "manjuu",
       "Option3": 0,
-      "Option4": 0
+      "Character3": "manjuu",
+      "Option4": 0,
+      "Character4": "manjuu"
     },
     "Island3": {
       "Receive": false,
       "Option1": 0,
+      "Character1": "manjuu",
       "Option2": 0,
+      "Character2": "manjuu",
       "Option3": 0,
-      "Option4": 0
+      "Character3": "manjuu",
+      "Option4": 0,
+      "Character4": "manjuu"
     },
     "Island4": {
       "Receive": false,
       "Option1": 0,
+      "Character1": "manjuu",
       "Option2": 0,
+      "Character2": "manjuu",
       "Option3": 0,
-      "Option4": 0
+      "Character3": "manjuu",
+      "Option4": 0,
+      "Character4": "manjuu"
     },
     "Island5": {
       "Receive": false,
       "Option1": 0,
+      "Character1": "manjuu",
       "Option2": 0,
+      "Character2": "manjuu",
       "Option3": 0,
-      "Option4": 0
+      "Character3": "manjuu",
+      "Option4": 0,
+      "Character4": "manjuu"
     },
     "Island6": {
       "Receive": false,
       "Option1": 0,
-      "Option2": 0
+      "Character1": "manjuu",
+      "Option2": 0,
+      "Character2": "manjuu"
     },
     "Island7": {
       "Receive": false,
       "Option1": 0,
-      "Option2": 0
+      "Character1": "manjuu",
+      "Option2": 0,
+      "Character2": "manjuu"
     },
     "Island8": {
       "Receive": false,
       "Option1": 0,
-      "Option2": 0
+      "Character1": "manjuu",
+      "Option2": 0,
+      "Character2": "manjuu"
     },
     "Island9": {
       "Receive": false,
       "Option1": 0,
-      "Option2": 0
+      "Character1": "manjuu",
+      "Option2": 0,
+      "Character2": "manjuu"
     },
     "Island10": {
       "Receive": false,
       "Option1": 0,
-      "Option2": 0
+      "Character1": "manjuu",
+      "Option2": 0,
+      "Character2": "manjuu"
     },
     "Island11": {
       "Receive": false,
       "Option1": 0,
-      "Option2": 0
+      "Character1": "manjuu",
+      "Option2": 0,
+      "Character2": "manjuu"
     },
     "Island12": {
       "Receive": false,
       "Option1": 0,
-      "Option2": 0
+      "Character1": "manjuu",
+      "Option2": 0,
+      "Character2": "manjuu"
     },
     "Island13": {
       "Receive": false,
       "Option1": 0,
-      "Option2": 0
+      "Character1": "manjuu",
+      "Option2": 0,
+      "Character2": "manjuu"
     },
     "Island14": {
       "Receive": false,
       "Option1": 0,
-      "Option2": 0
+      "Character1": "manjuu",
+      "Option2": 0,
+      "Character2": "manjuu"
     },
     "Island15": {
       "Receive": false,
       "Option1": 0,
-      "Option2": 0
+      "Character1": "manjuu",
+      "Option2": 0,
+      "Character2": "manjuu"
     },
     "Storage": {
       "Storage": {}

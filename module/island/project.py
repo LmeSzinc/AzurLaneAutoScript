@@ -126,17 +126,7 @@ class ItemNameOcr(Ocr):
         result = result.replace('蛮', '蜜').replace('茉', '末').replace('汗', '汁')
         result = re.sub(r'[^\u4e00-\u9fff]', '', result)
         if '冰咖' in result:
-            retult = '冰咖啡'
-        return result
-
-
-class IslandProductionTime(Duration):
-    def after_process(self, result):
-        result = super().after_process(result)
-        if result == '0:40:00':
-            result = '01:40:00'
-        elif result == '05:7:15':
-            result = '05:47:45'
+            result = '冰咖啡'
         return result
 
 
@@ -148,7 +138,7 @@ class IslandProduct:
 
     def __init__(self, image, new=False):
         if new:
-            ocr = IslandProductionTime(OCR_PRODUCTION_TIME, lang='azur_lane_jp', name='OCR_PRODUCTION_TIME')
+            ocr = Duration(OCR_PRODUCTION_TIME, lang='cnocr', name='OCR_PRODUCTION_TIME')
             self.duration = ocr.ocr(image)
         else:
             ocr = Duration(OCR_PRODUCTION_TIME_REMAIN, name='OCR_PRODUCTION_TIME_REMAIN')
@@ -307,7 +297,7 @@ class IslandProjectRun(IslandUI):
         """
         image_gray = rgb2gray(image)
         projects = SelectedGrids([IslandProject(image, image_gray, button)
-                                  for button in TEMPLATE_ISLAND_SWITCH.match_multi(image_gray)])
+                                  for button in TEMPLATE_PROJECT.match_multi(image_gray)])
         return projects.select(valid=True)
 
     def project_receive(self, button, skip_first_screenshot=True):
@@ -397,32 +387,27 @@ class IslandProjectRun(IslandUI):
 
         return success
 
-    def island_select_manjuu(self, button, skip_first_screenshot=True):
+    def _project_character_select(self, click_button, check_button):
         """
+        Select a specific character for an island project.
+
         Args:
-            button (Button): role button to click
-            skip_first_screenshot (bool):
+            click_button (Button): character button to click
         """
+        skip_first_screenshot=True
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
-            if self.appear(ROLE_SELECT_CHECK, offset=(20, 20)):
+            if self.appear(check_button, offset=(20, 20)):
                 break
             if self.appear(ROLE_SELECT_CONFIRM, offset=(20, 20), interval=2):
-                self.device.click(button)
+                self.device.click(click_button)
                 continue
 
-    def island_select_confirm(self, skip_first_screenshot=True):
-        """
-        Args:
-            skip_first_screenshot (bool):
-
-        Returns:
-            bool: if success
-        """
         self.interval_clear(ROLE_SELECT_CONFIRM)
+        skip_first_screenshot=True
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -439,11 +424,12 @@ class IslandProjectRun(IslandUI):
                 self.interval_clear(ISLAND_MANAGEMENT_CHECK)
                 continue
 
-    def island_select_role(self, skip_first_screenshot=True):
+    def project_character_select(self, character='manjuu', skip_first_screenshot=True):
         """
         Select a role to produce.
 
         Args:
+            character (str): character name to select
             skip_first_screenshot (bool):
 
         Returns:
@@ -451,6 +437,7 @@ class IslandProjectRun(IslandUI):
         """
         logger.info('Island select role')
         timeout = Timer(1.5, count=3).start()
+        count = 0
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -462,15 +449,27 @@ class IslandProjectRun(IslandUI):
                 return False
 
             image = self.image_crop((0, 0, 910, 1280), copy=False)
-            sim, button = TEMPLATE_ISLAND_MANJUU.match_result(image)
+            sim, click_button = self.get_character_template(character).match_result(image)
             if sim > 0.9:
-                self.island_select_manjuu(button)
-                return self.island_select_confirm()
+                check_button = self.get_character_check_button(character)
+                return self._project_character_select(click_button, check_button)
             else:
-                logger.info('No manjuu found')
+                name = ' '.join(map(lambda x: x.capitalize(), character.split('_')))
+                logger.info(f'No character {name} found')
+                if count >= 2:
+                    character = 'manjuu'
+                count += 1
                 continue
 
-    def island_current_product(self):
+    @staticmethod
+    def get_character_template(character):
+        return globals().get(f'TEMPLATE_{character.upper()}', TEMPLATE_MANJUU)
+
+    @staticmethod
+    def get_character_check_button(character):
+        return globals().get(f'PROJECT_{character.upper()}_CHECK', PRODUCT_MANJUU_CHECK)
+
+    def get_current_product(self):
         """
         Get currently selected product on self.device.image.
 
@@ -490,7 +489,7 @@ class IslandProjectRun(IslandUI):
         peaks = np.array(peaks) + y_top
         return ProductItem(self.device.image, peaks)
 
-    def island_select_product(self, option, trial=2, skip_first_screenshot=True):
+    def product_select(self, option, trial=2, skip_first_screenshot=True):
         """
         Select a product in items list.
 
@@ -511,7 +510,7 @@ class IslandProjectRun(IslandUI):
             else:
                 self.device.screenshot()
 
-            current = self.island_current_product()
+            current = self.get_current_product()
             if trial > 0 and not len(current.items):
                 trial -= 1
                 continue
@@ -542,7 +541,7 @@ class IslandProjectRun(IslandUI):
                 self.device.click(last.button)
                 self.island_drag_next_page((0, -300), ISLAND_PRODUCT_ITEMS.area, 0.5)
 
-    def island_product_confirm(self, skip_first_screenshot=True):
+    def product_select_confirm(self, skip_first_screenshot=True):
         """
         Start the product after product selected.
 
@@ -628,20 +627,21 @@ class IslandProjectRun(IslandUI):
 
             self.island_drag_next_page((0, -500), ISLAND_PROJECT_SWIPE.area, 0.6)
 
-    def island_project_receive_and_start(self, proj, button, option, ensure=True):
+    def project_receive_and_start(self, proj, button, character, option, ensure=True):
         """
         Receive and start a project is in the current page.
 
         Args:
             proj (IslandProject): the project to ensure
             button (Button): project button to click
+            character (str): character to select
             option (str): option to select
             ensure (bool): whether to call ensure_project() after project start
         """
         if self.project_receive(button):
-            if self.island_select_role():
-                if self.island_select_product(option):
-                    self.island_product_confirm()
+            if self.project_character_select(character):
+                if self.product_select(option):
+                    self.product_select_confirm()
             else:
                 logger.info('Island select role failed due to game bug, retrying')
                 return False
@@ -650,13 +650,25 @@ class IslandProjectRun(IslandUI):
                 self.ensure_project(proj)
         return True
 
-    def island_project_config(self, project: IslandProject):
+    def island_project_character(self, project: IslandProject):
         """
         Args:
             project (IslandProject):
         
         Returns:
-            list[str]: a list of options for production
+            list[str]: a list of options of characters
+        """
+        proj_id = project.id
+        return [self.config.__getattribute__(f'Island{proj_id}_Character{proj_slot}')
+                for proj_slot in range(1, project.slot + 1)]
+
+    def island_project_option(self, project: IslandProject):
+        """
+        Args:
+            project (IslandProject):
+        
+        Returns:
+            list[str]: a list of options of production items
         """
         slot_option = []
         proj_id = project.id
@@ -703,16 +715,18 @@ class IslandProjectRun(IslandUI):
             for proj in projects:
                 if proj.name == names[-1]:
                     end = True
-                proj_config = self.island_project_config(proj)
-
-                for button, option, index in zip(
-                        proj.slot_buttons.buttons, proj_config, range(len(proj_config))):
+                
+                character_config = self.island_project_character(proj)
+                option_config = self.island_project_option(proj)
+                option_num = len(option_config)
+                for button, character, option, index in zip(
+                        proj.slot_buttons.buttons, character_config, option_config, range(option_num)):
                     if option is None:
                         continue
                     # retry 2 times because of a game bug
                     for _ in range(2):
-                        ensure = not end or index != len(proj_config) - 1
-                        if self.island_project_receive_and_start(proj, button, option, ensure):
+                        ensure = not end or index != option_num - 1
+                        if self.project_receive_and_start(proj, button, character, option, ensure):
                             break
                 timeout.reset()
 

@@ -504,12 +504,21 @@ Island1:
   Option1:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
+  Character1:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option2:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
+  Character2:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option3:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
+  Character3:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option4:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
@@ -518,137 +527,245 @@ Island2:
   Option1:
     value: 0
     option: [ 0, 1 ]
+  Character1:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option2:
     value: 0
     option: [ 0, 2 ]
+  Character2:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option3:
     value: 0
     option: [ 0, 3 ]
+  Character3:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option4:
     value: 0
     option: [ 0, 4 ]
+  Character4:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
 Island3:
   Receive: false
   Option1:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6 ]
+  Character1:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option2:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6 ]
+  Character2:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option3:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6 ]
+  Character3:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option4:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6 ]
+  Character4:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
 Island4:
   Receive: false
   Option1:
     value: 0
     option: [ 0, 1, 2, 3, 4 ]
+  Character1:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option2:
     value: 0
     option: [ 0, 1, 2, 3, 4 ]
+  Character2:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option3:
     value: 0
     option: [ 0, 1, 2, 3, 4 ]
+  Character3:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option4:
     value: 0
     option: [ 0, 1, 2, 3, 4 ]
+  Character4:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
 Island5:
   Receive: false
   Option1:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+  Character1:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option2:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+  Character2:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option3:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+  Character3:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option4:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+  Character4:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
 Island6:
   Receive: false
   Option1:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+  Character1:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option2:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+  Character2:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
 Island7:
   Receive: false
   Option1:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+  Character1:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option2:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+  Character2:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
 Island8:
   Receive: false
   Option1:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
+  Character1:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option2:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
+  Character2:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
 Island9:
   Receive: false
   Option1:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+  Character1:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option2:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+  Character2:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
 Island10:
   Receive: false
   Option1:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+  Character1:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option2:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+  Character2:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
 Island11:
   Receive: false
   Option1:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5 ]
+  Character1:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option2:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5 ]
+  Character2:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
 Island12:
   Receive: false
   Option1:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6 ]
+  Character1:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option2:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6 ]
+  Character2:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
 Island13:
   Receive: false
   Option1:
     value: 0
     option: [ 0, 1, 2, 3, 4 ]
+  Character1:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option2:
     value: 0
     option: [ 0, 1, 2, 3, 4 ]
+  Character2:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
 Island14:
   Receive: false
   Option1:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+  Character1:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option2:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+  Character2:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
 Island15:
   Receive: false
   Option1:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+  Character1:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option2:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+  Character2:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
 GeneralShop:
   UseGems: false
   Refresh: false
