@@ -257,7 +257,6 @@ class MailWhite(UI):
             logger.warning('Nothing to claim')
             return False
 
-
         # Must using white UI
         self.ui_ensure(page_main)
         if self.appear(page_main_white.check_button, offset=(30, 30)):
