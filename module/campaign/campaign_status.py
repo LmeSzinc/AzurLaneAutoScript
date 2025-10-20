@@ -107,10 +107,16 @@ class CampaignStatus(UI):
                     ocr = Digit(_button, name=name, letter=(201, 201, 201), threshold=128)
         elif color_similar(color, (59, 59, 64)):
             # With black overlay
-            ocr = Digit(_button, name=name, letter=(165, 165, 165), threshold=128)
+            if isinstance(_button, Ocr):
+                ocr = Digit(_button.buttons, name=name, letter=(165, 165, 165), threshold=128)
+            else:
+                ocr = Digit(_button, name=name, letter=(165, 165, 165), threshold=128)
         else:
             logger.warning(f'Unexpected OCR_OIL_CHECK color')
-            ocr = Digit(_button, name=name, letter=(247, 247, 247), threshold=128)
+            if isinstance(_button, Ocr):
+                ocr = Digit(_button.buttons, name=name, letter=(247, 247, 247), threshold=128)
+            else:
+                ocr = Digit(_button, name=name, letter=(247, 247, 247), threshold=128)
 
         return ocr.ocr(self.device.image)
 
