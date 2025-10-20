@@ -169,7 +169,7 @@ class InfoHandler(ModuleBase):
         # Hot fixes will kill AL if you clicked the confirm button
         if self._hot_fix_check_wait.reached():
             self._hot_fix_check_wait.clear()
-        if self._hot_fix_check_wait.started() and 3 <= self._hot_fix_check_wait.current() <= 6:
+        if self._hot_fix_check_wait.started() and 3 <= self._hot_fix_check_wait.current_time() <= 6:
             if not self.device.app_is_running():
                 logger.error('Detected hot fixes from game server, game died')
                 raise GameNotRunningError
