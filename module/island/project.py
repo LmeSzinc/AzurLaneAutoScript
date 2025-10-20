@@ -284,6 +284,7 @@ class ProductItem:
 class IslandProjectRun(IslandUI):
     project = SelectedGrids([])
     total = SelectedGrids([])
+    character: str
 
     def project_detect(self, image):
         """
@@ -393,6 +394,7 @@ class IslandProjectRun(IslandUI):
 
         Args:
             click_button (Button): character button to click
+            check_button (Button):
         """
         skip_first_screenshot=True
         while 1:
@@ -547,6 +549,9 @@ class IslandProjectRun(IslandUI):
 
         Args:
             skip_first_screenshot (bool):
+
+        Returns:
+            bool: if success
         """
         logger.info('Island product confirm')
         last = None
@@ -561,8 +566,13 @@ class IslandProjectRun(IslandUI):
             if timeout.reached():
                 break
             if self.image_color_count(PROJECT_START, color=(151, 155, 155), threshold=221, count=200):
-                self.island_product_quit()
-                break
+                if self.appear(PRODUCT_MANJUU_CHECK, offset=(20, 20)):
+                    self.island_product_quit()
+                    return True
+                else:
+                    logger.warning('Product requirement is not satisfied, quitting and retrying')
+                    self.island_product_quit()
+                    return False
 
             if not success:
                 if self.appear_then_click(ISLAND_AMOUNT_MAX, offset=(5, 5), interval=2):
@@ -584,9 +594,9 @@ class IslandProjectRun(IslandUI):
 
                 if self.info_bar_count():
                     self.island_product_quit()
-                    break
+                    return True
                 if self.island_in_management():
-                    break
+                    return True
 
     def island_drag_next_page(self, vector, box, sleep=0.5):
         """
@@ -638,16 +648,20 @@ class IslandProjectRun(IslandUI):
             option (str): option to select
             ensure (bool): whether to call ensure_project() after project start
         """
-        if self.project_receive(button):
-            if self.project_character_select(character):
-                if self.product_select(option):
-                    self.product_select_confirm()
-            else:
-                logger.info('Island select role failed due to game bug, retrying')
-                return False
-            self.ui_ensure_management_page()
-            if ensure:
-                self.ensure_project(proj)
+        if not self.project_receive(button):
+            return True
+        if not self.project_character_select(character):
+            logger.warning('Island select role failed due to game bug, retrying')
+            return False
+        if not self.product_select(option):
+            return True
+        if not self.product_select_confirm():
+            self.character = 'manjuu'
+            self.ensure_project(proj)
+            return False
+        self.ui_ensure_management_page()
+        if ensure:
+            self.ensure_project(proj)
         return True
 
     def island_project_character(self, project: IslandProject):
@@ -723,10 +737,11 @@ class IslandProjectRun(IslandUI):
                         proj.slot_buttons.buttons, character_config, option_config, range(option_num)):
                     if option is None:
                         continue
-                    # retry 2 times because of a game bug
-                    for _ in range(2):
+                    self.character = character
+                    # retry 3 times because of a game bug
+                    for _ in range(3):
                         ensure = not end or index != option_num - 1
-                        if self.project_receive_and_start(proj, button, character, option, ensure):
+                        if self.project_receive_and_start(proj, button, self.character, option, ensure):
                             break
                 timeout.reset()
 
