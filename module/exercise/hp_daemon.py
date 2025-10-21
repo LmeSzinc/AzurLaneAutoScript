@@ -43,7 +43,7 @@ class HpDaemon(ModuleBase):
         return color_bar_percentage(
             image, area, prev_color=prev_color, starter=starter, reverse=reverse, threshold=threshold)
 
-    def _show_hp(self, low_hp_time=0):
+    def _show_hp(self, low_hp_time=0.):
         """
         Examples:
             [ 80% - 70%]
@@ -86,8 +86,8 @@ class HpDaemon(ModuleBase):
         if self.defender_hp < 0.01:
             self.low_hp_confirm_timer.reset()
         if 0.01 < self.attacker_hp <= self.config.Exercise_LowHpThreshold:
-            if self.low_hp_confirm_timer.reached() and self.low_hp_confirm_timer.current() < 300:
-                self._show_hp(self.low_hp_confirm_timer.current())
+            if self.low_hp_confirm_timer.reached() and self.low_hp_confirm_timer.current_time() < 300:
+                self._show_hp(self.low_hp_confirm_timer.current_time())
                 return True
             else:
                 return False

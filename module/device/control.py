@@ -50,7 +50,7 @@ class Control(Hermit, Minitouch, Scrcpy, MaaTouch, NemuIpc):
         self.handle_control_check(button)
         click_timer = Timer(0.1)
         for _ in range(n):
-            remain = ensure_time(interval) - click_timer.current()
+            remain = ensure_time(interval) - click_timer.current_time()
             if remain > 0:
                 self.sleep(remain)
             click_timer.reset()
