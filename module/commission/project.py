@@ -115,7 +115,7 @@ class Commission:
     def commission_parse(self):
         # Name
         # This is different from CN, EN has longer names
-        area = area_offset((176, 23, 420, 53), self.area[0:2])
+        area = area_offset((131, 23, 409, 53), self.area[0:2])
         button = Button(area=area, color=(), button=area, name='COMMISSION')
         ocr = Ocr(button, lang='cnocr')
         self.button = button
