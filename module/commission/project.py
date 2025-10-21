@@ -39,22 +39,6 @@ class SuffixOcr(Ocr):
         return image
 
 
-class TwOcr(Ocr):
-    def after_process(self, result):
-        """
-        Args:
-            result (str): '第二行'
-
-        Returns:
-            str:
-        """
-        # There no letter `艦` in training dataset
-        result = result.replace('鑑', '艦').replace('盤', '艦')
-        # 支援土蒙爾島
-        result = result.replace('土蒙爾', '土豪爾')
-        return result
-
-
 class Commission:
     # Button to enter commission start
     button: Button
@@ -115,12 +99,15 @@ class Commission:
     def commission_parse(self):
         # Name
         # This is different from CN, EN has longer names
-        area = area_offset((176, 23, 420, 53), self.area[0:2])
+        area = area_offset((131, 23, 409, 53), self.area[0:2])
         button = Button(area=area, color=(), button=area, name='COMMISSION')
         ocr = Ocr(button, lang='cnocr')
         self.button = button
-        self.name = ocr.ocr(self.image)
-        self.genre = self.commission_name_parse(self.name.upper())
+        result = ocr.ocr(self.image).upper()
+        # DALY RESOURCE EXTRACTION -> DAILY RESOURCE EXTRACTION
+        result = result.replace('DALY', 'DAILY')
+        self.name = result
+        self.genre = self.commission_name_parse(self.name)
 
         # Suffix
         ocr = SuffixOcr(button, lang='azur_lane', letter=(255, 255, 255), threshold=128, alphabet='IV')
@@ -163,9 +150,10 @@ class Commission:
         button = Button(area=area, color=(), button=area, name='COMMISSION')
         ocr = Ocr(button, letter=(201, 201, 201), lang='jp')
         self.button = button
-        self.name = ocr.ocr(self.image)
+        result = ocr.ocr(self.image).upper()
         # NB装備輸送 -> NYB装備輸送
-        self.name = self.name.replace('NB', 'BYB').replace('BW', 'BIW')
+        result = result.replace('NB', 'BYB').replace('BW', 'BIW')
+        self.name = result
         self.genre = self.commission_name_parse(self.name)
 
         # Suffix
@@ -207,9 +195,14 @@ class Commission:
         # Name
         area = area_offset((176, 23, 420, 53), self.area[0:2])
         button = Button(area=area, color=(), button=area, name='COMMISSION')
-        ocr = TwOcr(button, lang='tw', threshold=256)
+        ocr = Ocr(button, lang='tw', threshold=256)
         self.button = button
-        self.name = ocr.ocr(self.image)
+        result = ocr.ocr(self.image).upper()
+        # There no letter `艦` in training dataset
+        result = result.replace('鑑', '艦').replace('盤', '艦')
+        # 支援土蒙爾島
+        result = result.replace('土蒙爾', '土豪爾')
+        self.name = result
         self.genre = self.commission_name_parse(self.name)
 
         # Suffix
@@ -253,7 +246,8 @@ class Commission:
         button = Button(area=area, color=(), button=area, name='COMMISSION')
         ocr = Ocr(button, lang='cnocr', threshold=256)
         self.button = button
-        self.name = ocr.ocr(self.image)
+        result = ocr.ocr(self.image).upper()
+        self.name = result
         self.genre = self.commission_name_parse(self.name)
 
         # Suffix

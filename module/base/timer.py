@@ -1,16 +1,19 @@
-import time
+from time import time, sleep
 from datetime import datetime, timedelta
 from functools import wraps
 
 
 def timer(function):
+    """
+    Decorator to time a function, for debug only
+    """
+
     @wraps(function)
     def function_timer(*args, **kwargs):
-        t0 = time.time()
-
+        start = time()
         result = function(*args, **kwargs)
-        t1 = time.time()
-        print('%s: %s s' % (function.__name__, str(round(t1 - t0, 10))))
+        cost = time() - start
+        print(f'{function.__name__}: {cost:.10f} s')
         return result
 
     return function_timer
@@ -72,62 +75,105 @@ def time_range_active(time_range):
 class Timer:
     def __init__(self, limit, count=0):
         """
+        Dual timer for time count and access count.
+        Access count can provide robustness on slow devices where screen shot time cost > timer.limit
+
         Args:
-            limit (int, float): Timer limit
-            count (int): Timer reach confirm count. Default to 0.
-                When using a structure like this, must set a count.
-                Otherwise it goes wrong, if screenshot time cost greater than limit.
-
-                if self.appear(MAIN_CHECK):
-                    if confirm_timer.reached():
-                        pass
-                else:
-                    confirm_timer.reset()
-
-                Also, It's a good idea to set `count`, to make alas run more stable on slow computers.
-                Expected speed is 0.35 second / screenshot.
+            limit (int | float): Timer limit
+            count (int): Timer access count. Default to 0.
         """
         self.limit = limit
         self.count = count
-        self._current = 0
-        self._reach_count = count
+        self._start = 0.
+        self._access = 0
+
+    @classmethod
+    def from_seconds(cls, limit, speed=0.5):
+        """
+        Create timer from given seconds
+
+        Args:
+            limit (int | float):
+            speed (int | float): Approximate screen shot time cost
+                if time cost > 0.5s, device is considered slow
+        """
+        count = int(limit / speed)
+        return cls(limit, count=count)
 
     def start(self):
-        if not self.started():
-            self._current = time.time()
-            self._reach_count = 0
+        """
+        Start current timer.
+        If timer not started, reached() always return True. So we can have fast first try on:
+
+        interval = Timer(2)
+        while 1:
+            if interval.reached():
+                pass
+        """
+        if self._start <= 0:
+            self._start = time()
+            self._access = 0
 
         return self
 
     def started(self):
-        return bool(self._current)
-
-    def current(self):
         """
         Returns:
-            float
+            bool:
         """
-        if self.started():
-            return time.time() - self._current
+        return self._start > 0
+
+    def current_time(self):
+        """
+        Returns:
+            float:
+        """
+        if self._start > 0:
+            diff = time() - self._start
+            if diff < 0:
+                diff = 0.
+            return diff
         else:
             return 0.
+
+    def current_count(self):
+        """
+        Returns:
+            int:
+        """
+        return self._access
+
+    def add_count(self):
+        self._access += 1
+        return self
 
     def reached(self):
         """
         Returns:
-            bool
+            bool:
         """
-        self._reach_count += 1
-        return time.time() - self._current > self.limit and self._reach_count > self.count
+        # each reached() call is consider as an access
+        self._access += 1
+        if self._start > 0:
+            return self._access > self.count and time() - self._start > self.limit
+        else:
+            # not started, return True for fast first try
+            return True
 
     def reset(self):
-        self._current = time.time()
-        self._reach_count = 0
+        """
+        Reset the timer as if it just started
+        """
+        self._start = time()
+        self._access = 0
         return self
 
     def clear(self):
-        self._current = 0
-        self._reach_count = self.count
+        """
+        Reset the timer as if it never started
+        """
+        self._start = 0.
+        self._access = self.count
         return self
 
     def reached_and_reset(self):
@@ -145,15 +191,16 @@ class Timer:
         """
         Wait until timer reached.
         """
-        diff = self._current + self.limit - time.time()
+        diff = self._start + self.limit - time()
         if diff > 0:
-            time.sleep(diff)
+            sleep(diff)
 
     def show(self):
         from module.logger import logger
         logger.info(str(self))
 
     def __str__(self):
-        return f'Timer(limit={round(self.current(), 3)}/{self.limit}, count={self._reach_count}/{self.count})'
+        # Timer(limit=2.351/3, count=4/6)
+        return f'Timer(limit={round(self.current_time(), 3)}/{self.limit}, count={self._access}/{self.count})'
 
     __repr__ = __str__

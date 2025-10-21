@@ -18,8 +18,8 @@ dictionary_cn = {
 # major_comm needs to be after extra_cube,
 # because `Fleet Cargo Transport` is `extra_cube` and `Cargo Transport I` is major_comm
 dictionary_en = {
-    'daily_resource': ['AILY RESOURCE EXTRACTION'],
-    'daily_chip': ['AKENING TACTICAL RESEARCH'],
+    'daily_resource': ['DAILY RESOURCE EXTRACTION'],
+    'daily_chip': ['AWAKENING TACTICAL RESEARCH'],
     'extra_drill': ['SAILING', 'BUOY', 'FRONTIER', 'COASTAL', 'SALING'],
     'extra_part': ['VEIN', 'FOREST'],
     'extra_cube': ['FLEET ESCORT EXERCISE', 'FLEET EXERCISE', 'FLEET CARGO TRANSPORT', 'FLEET COMBAT EXERCISE'],
