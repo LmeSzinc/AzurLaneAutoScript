@@ -504,47 +504,50 @@ Island1:
   Option1:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
-  Character1:
-    value: manjuu
-    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option2:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
-  Character2:
-    value: manjuu
-    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option3:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
-  Character3:
-    value: manjuu
-    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option4:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
+  Character1:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
+  Character2:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
+  Character3:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
+  Character4:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
 Island2:
   Receive: false
   Option1:
     value: 0
     option: [ 0, 1 ]
-  Character1:
-    value: manjuu
-    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option2:
     value: 0
     option: [ 0, 2 ]
-  Character2:
-    value: manjuu
-    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option3:
     value: 0
     option: [ 0, 3 ]
-  Character3:
-    value: manjuu
-    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option4:
     value: 0
     option: [ 0, 4 ]
+  Character1:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
+  Character2:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
+  Character3:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Character4:
     value: manjuu
     option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
@@ -553,24 +556,24 @@ Island3:
   Option1:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6 ]
-  Character1:
-    value: manjuu
-    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option2:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6 ]
-  Character2:
-    value: manjuu
-    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option3:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6 ]
-  Character3:
-    value: manjuu
-    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option4:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6 ]
+  Character1:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
+  Character2:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
+  Character3:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Character4:
     value: manjuu
     option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
@@ -579,24 +582,24 @@ Island4:
   Option1:
     value: 0
     option: [ 0, 1, 2, 3, 4 ]
-  Character1:
-    value: manjuu
-    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option2:
     value: 0
     option: [ 0, 1, 2, 3, 4 ]
-  Character2:
-    value: manjuu
-    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option3:
     value: 0
     option: [ 0, 1, 2, 3, 4 ]
-  Character3:
-    value: manjuu
-    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option4:
     value: 0
     option: [ 0, 1, 2, 3, 4 ]
+  Character1:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
+  Character2:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
+  Character3:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Character4:
     value: manjuu
     option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
@@ -605,24 +608,24 @@ Island5:
   Option1:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
-  Character1:
-    value: manjuu
-    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option2:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
-  Character2:
-    value: manjuu
-    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option3:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
-  Character3:
-    value: manjuu
-    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option4:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+  Character1:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
+  Character2:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
+  Character3:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Character4:
     value: manjuu
     option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
@@ -631,12 +634,12 @@ Island6:
   Option1:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
-  Character1:
-    value: manjuu
-    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option2:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+  Character1:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Character2:
     value: manjuu
     option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
@@ -645,12 +648,12 @@ Island7:
   Option1:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
-  Character1:
-    value: manjuu
-    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option2:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+  Character1:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Character2:
     value: manjuu
     option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
@@ -659,12 +662,12 @@ Island8:
   Option1:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
-  Character1:
-    value: manjuu
-    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option2:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
+  Character1:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Character2:
     value: manjuu
     option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
@@ -673,12 +676,12 @@ Island9:
   Option1:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
-  Character1:
-    value: manjuu
-    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option2:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+  Character1:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Character2:
     value: manjuu
     option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
@@ -687,12 +690,12 @@ Island10:
   Option1:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
-  Character1:
-    value: manjuu
-    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option2:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+  Character1:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Character2:
     value: manjuu
     option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
@@ -701,12 +704,12 @@ Island11:
   Option1:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5 ]
-  Character1:
-    value: manjuu
-    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option2:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5 ]
+  Character1:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Character2:
     value: manjuu
     option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
@@ -715,12 +718,12 @@ Island12:
   Option1:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6 ]
-  Character1:
-    value: manjuu
-    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option2:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6 ]
+  Character1:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Character2:
     value: manjuu
     option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
@@ -729,12 +732,12 @@ Island13:
   Option1:
     value: 0
     option: [ 0, 1, 2, 3, 4 ]
-  Character1:
-    value: manjuu
-    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option2:
     value: 0
     option: [ 0, 1, 2, 3, 4 ]
+  Character1:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Character2:
     value: manjuu
     option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
@@ -743,12 +746,12 @@ Island14:
   Option1:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
-  Character1:
-    value: manjuu
-    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option2:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+  Character1:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Character2:
     value: manjuu
     option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
@@ -757,12 +760,12 @@ Island15:
   Option1:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
-  Character1:
-    value: manjuu
-    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Option2:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+  Character1:
+    value: manjuu
+    option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
   Character2:
     value: manjuu
     option: [ manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, cheshire ]
