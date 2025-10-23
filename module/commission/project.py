@@ -106,6 +106,7 @@ class Commission:
         result = ocr.ocr(self.image).upper()
         # DALY RESOURCE EXTRACTION -> DAILY RESOURCE EXTRACTION
         result = result.replace('DALY', 'DAILY')
+        result = result.replace('NVB', 'NYB')
         self.name = result
         self.genre = self.commission_name_parse(self.name)
 
