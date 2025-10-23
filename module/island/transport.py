@@ -85,7 +85,7 @@ class IslandTransport:
             self.start = self.items.select(load=True).count == self.items.count
             self.refresh = main.appear(TRANSPORT_REFRESH, offset=self.offset) and \
                            bool(self.items.select(refresh=True).count)
-            
+
             # detect items first because we need to get refresh info
             if not main.match_template_color(TRANSPORT_START, offset=self.offset):
                 self.start = False
@@ -156,6 +156,11 @@ class IslandTransport:
         return info
 
 class TransportItem:
+    # If the item is enough to submit and not in blacklist
+    load: bool
+    # If the item is in blacklist
+    refresh: bool
+
     def __init__(self, image, button, blacklist):
         """
         Args:
