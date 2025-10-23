@@ -1208,6 +1208,10 @@
       "cassin_or_downes": "GemsFarming.CommonDD.cassin_or_downes",
       "z20_or_z21": "GemsFarming.CommonDD.z20_or_z21"
     },
+    "EquipmentCode": {
+      "name": "GemsFarming.EquipmentCode.name",
+      "help": "GemsFarming.EquipmentCode.help"
+    },
     "CommissionLimit": {
       "name": "GemsFarming.CommissionLimit.name",
       "help": "GemsFarming.CommissionLimit.help"
