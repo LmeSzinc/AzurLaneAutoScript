@@ -16,4 +16,10 @@ class CampaignBase(CampaignBase_):
                     logger.warning(f'Stage {chapter}{stage} is not in event_20241024')
                 self.campaign_ensure_chapter(chapter)
                 return True
+            if chapter in ['ex_sp']:
+                self.ui_goto_sp()
+                self.campaign_ensure_mode_20241219('combat')
+                self.campaign_ensure_aside_20241219('sp')
+                self.campaign_ensure_chapter(chapter)
+                return True
         return super().campaign_set_chapter_20241219(chapter, stage, mode)
