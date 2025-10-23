@@ -1884,7 +1884,8 @@
       "ServerUpdate": "00:00, 12:00"
     },
     "OpsiHazard1Leveling": {
-      "TargetZone": 0
+      "TargetZone": 0,
+      "ExecuteFixedPatrolScan": false
     },
     "OpsiFleet": {
       "Fleet": 1,

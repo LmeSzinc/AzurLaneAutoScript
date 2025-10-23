@@ -734,7 +734,8 @@ OpsiHazard1Leveling:
   TargetZone:
     value: 0
     option: [ 0, 44, 22 ]
-
+  ExecuteFixedPatrolScan: false
+  
 # ==================== Tools ====================
 
 Daemon:

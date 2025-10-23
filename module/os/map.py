@@ -949,13 +949,32 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         self.fleet_set(self.config.OpsiFleet_Fleet)
         return False
 
-    def _execute_fixed_patrol_scan(self):
+    def _execute_fixed_patrol_scan(self, DoScanningDevice: bool = None, **kwargs):
         """
         该函数在指挥每支舰队移动前，都会先执行一次强制的视角复位，
         然后精确指挥1-4号舰队前往预设的网格坐标，并在所有舰队
         移动到位后，执行一次清除了残留状态的全图扫描。
         """
         logger.hr('执行定点巡逻扫描')
+
+        # 兼容性处理：有历史代码/调用可能会错误地以配置项名作为关键字参数传入。
+        # 接受 DoScanningDevice 参数（外部可能传入），若未传入则从配置中读取。
+        if 'OpsiHazard1Leveling_ExecuteFixedPatrolScan' in kwargs:
+            # 这个参数是多余的，记录并忽略以免抛出 TypeError
+            logger.info('忽略多余的关键字参数 `OpsiHazard1Leveling_ExecuteFixedPatrolScan`')
+
+        # 从 kwargs 中提取 DoScanningDevice（如果被传入）
+        if DoScanningDevice is None:
+            DoScanningDevice = kwargs.get('DoScanningDevice', None)
+
+        # 如果仍然为 None，则从配置读取（优先使用 config 中的值）
+        if DoScanningDevice is None:
+            try:
+                DoScanningDevice = self.config.OpsiHazard1Leveling_DoScanningDevice
+            except Exception:
+                DoScanningDevice = False
+
+        logger.attr('DoScanningDevice', DoScanningDevice)
 
         # 地图初始化，只需要在整个任务开始时执行一次
         self.map_init(map_=None)
