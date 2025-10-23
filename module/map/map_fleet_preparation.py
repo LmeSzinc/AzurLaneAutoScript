@@ -308,24 +308,30 @@ class FleetPreparation(InfoHandler):
         if self.map_fleet_checked:
             return False
 
-        fleet_1 = FleetOperator(
-            choose=FLEET_1_CHOOSE, advice=FLEET_1_ADVICE, bar=FLEET_1_BAR, clear=FLEET_1_CLEAR,
-            in_use=FLEET_1_IN_USE, hard_satisfied=FLEET_1_HARD_SATIESFIED, main=self)
-        fleet_2 = FleetOperator(
-            choose=FLEET_2_CHOOSE, advice=FLEET_2_ADVICE, bar=FLEET_2_BAR, clear=FLEET_2_CLEAR,
-            in_use=FLEET_2_IN_USE, hard_satisfied=FLEET_2_HARD_SATIESFIED, main=self)
-        submarine = FleetOperator(
-            choose=SUBMARINE_CHOOSE, advice=SUBMARINE_ADVICE, bar=SUBMARINE_BAR, clear=SUBMARINE_CLEAR,
-            in_use=SUBMARINE_IN_USE, hard_satisfied=SUBMARINE_HARD_SATIESFIED, main=self)
-
-        if self.appear(FLEET_1_CLEAR, offset=(-20, -80, 20, 5)):
+        if self.appear(FLEET_1_CLEAR, offset=FleetOperator.OFFSET):
             AUTO_SEARCH_SET_MOB.load_offset(FLEET_1_CLEAR)
             AUTO_SEARCH_SET_BOSS.load_offset(FLEET_1_CLEAR)
             AUTO_SEARCH_SET_ALL.load_offset(FLEET_1_CLEAR)
             AUTO_SEARCH_SET_STANDBY.load_offset(FLEET_1_CLEAR)
-        if self.appear(SUBMARINE_CLEAR, offset=(-20, -80, 20, 5)):
+        if self.appear(SUBMARINE_CLEAR, offset=FleetOperator.OFFSET):
             AUTO_SEARCH_SET_SUB_AUTO.load_offset(SUBMARINE_CLEAR)
             AUTO_SEARCH_SET_SUB_STANDBY.load_offset(SUBMARINE_CLEAR)
+
+        fleet_1 = FleetOperator(
+            choose=FLEET_1_CHOOSE, advice=FLEET_1_ADVICE, bar=FLEET_1_BAR, clear=FLEET_1_CLEAR,
+            in_use=FLEET_1_IN_USE, hard_satisfied=FLEET_1_HARD_SATIESFIED, main=self)
+        y = FLEET_1_CLEAR.button[1] - FLEET_1_CLEAR.area[1]
+        if y < -10:
+            logger.info('FLEET_1_CLEAR moves up, load W15 assets')
+            in_use = FLEET_2_IN_USE_W15
+        else:
+            in_use = FLEET_2_IN_USE
+        fleet_2 = FleetOperator(
+            choose=FLEET_2_CHOOSE, advice=FLEET_2_ADVICE, bar=FLEET_2_BAR, clear=FLEET_2_CLEAR,
+            in_use=in_use, hard_satisfied=FLEET_2_HARD_SATIESFIED, main=self)
+        submarine = FleetOperator(
+            choose=SUBMARINE_CHOOSE, advice=SUBMARINE_ADVICE, bar=SUBMARINE_BAR, clear=SUBMARINE_CLEAR,
+            in_use=SUBMARINE_IN_USE, hard_satisfied=SUBMARINE_HARD_SATIESFIED, main=self)
 
         # Check if ship is prepared in hard mode
         h1, h2, h3 = fleet_1.is_hard_satisfied(), fleet_2.is_hard_satisfied(), submarine.is_hard_satisfied()

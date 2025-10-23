@@ -169,7 +169,7 @@ class Emulator(EmulatorBase):
         if 'MuMuPlayer.exe' in exe:
             return exe.replace('MuMuPlayer.exe', 'MuMuManager.exe')
         # MuMuPlayer12 5.0
-        elif 'MuMuPlayer.exe' in exe:
+        elif 'MuMuNxMain.exe' in exe:
             return exe.replace('MuMuNxMain.exe', 'MuMuManager.exe')
         elif 'LDPlayer.exe' in exe:
             return exe.replace('LDPlayer.exe', 'ldconsole.exe')
