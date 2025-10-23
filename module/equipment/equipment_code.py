@@ -144,9 +144,14 @@ class EquipmentCodeHandler(StorageHandler):
         self.codes.export_to_config()
 
     def equip_preview_empty(self):
-        for index in range(6):
+        if self.appear(EQUIPMENT_CODE_EQUIP_5_LOCKED):
+            max_index = 5
+        else:
+            max_index = 6
+        for index in range(max_index):
             if not self.appear(globals()['EQUIPMENT_CODE_EQUIP_{index}'.format(index=index)]):
                 return False
+        
         return True
     
     def clear_equip_preview(self, skip_first_screenshot=True):
