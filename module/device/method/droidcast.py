@@ -275,23 +275,16 @@ class DroidCast(Uiautomator2):
         # b = b.astype(np.uint8)
         # image = cv2.merge([r, g, b])
 
-        # The same as the code above but costs about 3~4ms instead of 10ms.
+        # The same as the code above but costs about 2.7ms instead of 16ms.
         # Note that cv2.convertScaleAbs is 5x fast as cv2.multiply, cv2.add is 8x fast as cv2.convertScaleAbs
         # Note that cv2.convertScaleAbs includes rounding
-        r = cv2.bitwise_and(arr, 0b1111100000000000)
-        r = cv2.convertScaleAbs(r, alpha=0.00390625)
-        m = cv2.convertScaleAbs(r, alpha=0.03125)
-        cv2.add(r, m, dst=r)
-
-        g = cv2.bitwise_and(arr, 0b0000011111100000)
-        g = cv2.convertScaleAbs(g, alpha=0.125)
-        m = cv2.convertScaleAbs(g, alpha=0.015625, dst=m)
-        cv2.add(g, m, dst=g)
-
-        b = cv2.bitwise_and(arr, 0b0000000000011111)
-        b = cv2.convertScaleAbs(b, alpha=8)
-        m = cv2.convertScaleAbs(b, alpha=0.03125, dst=m)
-        cv2.add(b, m, dst=b)
+        tmp = np.empty_like(arr)
+        cv2.bitwise_and(arr, 0b1111100000000000, dst=tmp)
+        r = cv2.convertScaleAbs(tmp, alpha=0.0040283203125)  # 0.00390625 * 1.03125
+        cv2.bitwise_and(arr, 0b0000011111100000, dst=tmp)
+        g = cv2.convertScaleAbs(tmp, alpha=0.126953125)  # 0.125 * 1.015625
+        cv2.bitwise_and(arr, 0b0000000000011111, dst=tmp)
+        b = cv2.convertScaleAbs(tmp, alpha=8.25)  # 8 * 1.03125
 
         image = cv2.merge([r, g, b])
 
