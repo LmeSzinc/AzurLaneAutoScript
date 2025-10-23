@@ -39,11 +39,7 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
             out: is_combat_loading
         """
         self.interval_reset(AUTO_SEARCH_MAP_OPTION_ON)
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
+        for _ in self.loop():
 
             if self.handle_auto_search_map_option():
                 self.interval_reset(AUTO_SEARCH_MAP_OPTION_ON)
@@ -152,11 +148,7 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
             out: in_map()
         """
         timeout = Timer(3, count=6).start()
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
+        for _ in self.loop():
 
             if self.is_in_map():
                 break
@@ -175,11 +167,7 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
         checked_fleet = False
         checked_oil = False
         checked_coin = False
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
+        for _ in self.loop():
 
             if self.is_auto_search_running():
                 checked_fleet = self.auto_search_watch_fleet(checked_fleet)
@@ -225,8 +213,7 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
         self.device.stuck_record_clear()
         self.device.click_record_clear()
         self.device.screenshot_interval_set('combat')
-        while 1:
-            self.device.screenshot()
+        for _ in self.loop():
 
             if self.handle_combat_automation_confirm():
                 continue
@@ -256,8 +243,7 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
             self.emotion.reduce(fleet_index)
         auto = self.config.Fleet_Fleet1Mode if fleet_index == 1 else self.config.Fleet_Fleet2Mode
 
-        while 1:
-            self.device.screenshot()
+        for _ in self.loop():
 
             if self.handle_submarine_call(submarine_mode):
                 continue
@@ -296,7 +282,7 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
                 self.device.screenshot_interval_set()
                 break
 
-    def auto_search_combat_status(self, skip_first_screenshot=True):
+    def auto_search_combat_status(self):
         """
         Pages:
             in: any
@@ -307,11 +293,7 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
         self.device.click_record_clear()
         exp_info = False  # This is for the white screen bug in game
 
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
+        for _ in self.loop():
 
             # End
             if self.is_auto_search_running():

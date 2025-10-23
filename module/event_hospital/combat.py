@@ -63,11 +63,7 @@ class HospitalCombat(Combat, HospitalUI, CampaignEvent):
                 self.handle_task_balancer()
                 return True
 
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
+        for _ in self.loop():
 
             if self.appear(BATTLE_PREPARATION, offset=(30, 20)):
                 if self.handle_combat_automation_set(auto=auto == 'combat_auto'):
