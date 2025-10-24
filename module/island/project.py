@@ -123,7 +123,7 @@ class IslandProject:
 class ItemNameOcr(Ocr):
     def after_process(self, result):
         result = super().after_process(result)
-        result = result.replace('蛮', '蜜').replace('茉', '末').replace('汗', '汁')
+        result = result.replace('蛮', '蜜').replace('茉', '末').replace('汗', '汁').replace('纠', '组')
         result = re.sub(r'[^\u4e00-\u9fff]', '', result)
         if '冰咖' in result:
             result = '冰咖啡'
