@@ -58,8 +58,6 @@ class Config(ConfigBase):
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
-    # topleft is spawn points
-    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'top-right'
     MAP_SWIPE_MULTIPLY = (1.255, 1.279)
     MAP_SWIPE_MULTIPLY_MINITOUCH = (1.214, 1.236)
     MAP_SWIPE_MULTIPLY_MAATOUCH = (1.179, 1.200)
