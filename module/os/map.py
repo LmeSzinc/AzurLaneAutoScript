@@ -948,3 +948,67 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         logger.warning('Too many trial on map rescan, stop')
         self.fleet_set(self.config.OpsiFleet_Fleet)
         return False
+
+    def _execute_fixed_patrol_scan(self):
+        """
+        该函数在指挥每支舰队移动前，都会先执行一次强制的视角复位，
+        然后精确指挥1-4号舰队前往预设的网格坐标，并在所有舰队
+        移动到位后，执行一次清除了残留状态的全图扫描。
+        """
+        logger.hr('执行定点巡逻扫描')
+
+        # 地图初始化，只需要在整个任务开始时执行一次
+        self.map_init(map_=None)
+        if not hasattr(self, 'map') or not self.map.grids:
+            logger.warning('无法获取当前地图网格数据，已跳过定点巡逻。')
+            return
+
+        patrol_locations = [(1, 0), (2, 0), (3, 0), (4, 0)]  # 对应 B1, C1, D1, E1
+        
+        # 循环指派四支舰队
+        for i, target_loc in enumerate(patrol_locations):
+            fleet_index = i + 1
+            
+            target_grid_group = self.map.select(location=target_loc)
+            if not target_grid_group:
+                logger.warning(f'在地图上找不到坐标为 {target_loc} 的格子，跳过舰队 {fleet_index} 的移动。')
+                continue
+            target_grid = target_grid_group[0]
+            
+            logger.hr(f'定点巡逻: 指挥舰队 {fleet_index} 前往 {target_grid}', level=2)
+            
+            # 1. 首先切换舰队
+            self.fleet_set(fleet_index)
+            
+            # 2. 执行视角复位
+            logger.info('执行视角复位，强制滑动到地图顶端...')
+
+            # 拉出地图
+            top_point = (640, 150)
+            bottom_point = (640, 600)
+            for _ in range(2):
+                self.device.swipe(top_point, bottom_point, duration=300)
+            logger.info('视角已复位。')
+            time.sleep(0.5)
+            
+            # 3. 从一个已知的顶部位置，开始精确定位和移动
+            self.focus_to(target_grid.location)
+            self.update()
+            clickable_grid_group = self.view.select(location=target_loc)
+            if not clickable_grid_group:
+                logger.warning(f'已将视角移动到 {target_loc}，但在视野中找不到可点击的格子。')
+                continue
+            
+            self.device.click(clickable_grid_group[0])
+            self.wait_until_walk_stable()
+            logger.info(f'舰队 {fleet_index} 已到达 {target_grid}。')
+
+        # 4. 所有舰队移动到位后，执行最终的确认性扫描
+        logger.info('所有舰队均已移动到位，执行最终的全图扫描...')
+
+        # 二次检查
+        for _ in range(2):
+            self._solved_map_event = set()
+            self.map_rescan(rescan_mode='full')
+        
+        logger.info('定点巡逻扫描任务完成。')

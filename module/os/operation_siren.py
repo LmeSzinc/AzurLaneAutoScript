@@ -450,6 +450,9 @@ class OperationSiren(OSMap):
             self.fleet_set(self.config.OpsiFleet_Fleet)
             self.run_strategic_search()
 
+            # 调用暴力移动函数检查是否漏装置
+            self._execute_fixed_patrol_scan()
+
             self.handle_after_auto_search()
             self.config.check_task_switch()
 
