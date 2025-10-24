@@ -59,7 +59,6 @@ class Config(ConfigBase):
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
-    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
     # swipe multiply same as T1
 
 
