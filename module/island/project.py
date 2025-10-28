@@ -120,16 +120,6 @@ class IslandProject:
         return self.name
 
 
-class ItemNameOcr(Ocr):
-    def after_process(self, result):
-        result = super().after_process(result)
-        result = result.replace('蛮', '蜜').replace('茉', '末').replace('汗', '汁').replace('纠', '组')
-        result = re.sub(r'[^\u4e00-\u9fff]', '', result)
-        if '冰咖' in result:
-            result = '冰咖啡'
-        return result
-
-
 class IslandProduct:
     # Duration to run this product
     duration: timedelta
@@ -174,6 +164,19 @@ class IslandProduct:
             return False
 
         return True
+
+
+class ItemNameOcr(Ocr):
+    def after_process(self, result):
+        result = super().after_process(result)
+        result = result.replace('蛮', '蜜').replace('茉', '末').replace('汗', '汁').replace('纠', '组')
+        result = re.sub(r'[^\u4e00-\u9fff]', '', result)
+        if '冰咖' in result:
+            result = '冰咖啡'
+        if '莓果香橙' in result:
+            result = '莓果香橙甜点组'
+        return result
+
 
 class ProductItem:
     # OCR result
