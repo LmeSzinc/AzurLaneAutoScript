@@ -103,12 +103,12 @@ class CampaignRun(CampaignEvent, ShopStatus):
             _oil = self.get_oil()
             if _oil < max(500, self.config.StopCondition_OilLimit):
                 logger.hr('Triggered stop condition: Oil limit')
-                self.config.task_delay(minute=(120, 240))
+                self.config.task_delay(minute=60)
                 return True
         # Auto search oil limit
         if self.campaign.auto_search_oil_limit_triggered:
             logger.hr('Triggered stop condition: Auto search oil limit')
-            self.config.task_delay(minute=(120, 240))
+            self.config.task_delay(minute=60)
             return True
         # If Get a New Ship
         if self.config.StopCondition_GetNewShip and self.campaign.config.GET_SHIP_TRIGGERED:

@@ -126,6 +126,7 @@ class CampaignStatus(UI):
             int: Oil amount
         """
         _oil = {}
+        last = 0
         timeout = Timer(1, count=2).start()
         while 1:
             if skip_first_screenshot:
@@ -145,8 +146,9 @@ class CampaignStatus(UI):
                 'Value': self._get_num(OCR_OIL, 'OCR_OIL', (247, 247, 247)),
                 'Limit': self._get_num(OCR_OIL_LIMIT, 'OCR_OIL_LIMIT', (247, 247, 247))
             }
-            if _oil['Value'] >= 100:
+            if last == _oil['Value'] and _oil['Value'] >= 100 and _oil['Limit'] <= 50000:
                 break
+            last = _oil['Value']
         LogRes(self.config).Oil = _oil
         if update:
             self.config.update()
