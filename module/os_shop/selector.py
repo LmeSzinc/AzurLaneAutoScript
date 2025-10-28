@@ -72,7 +72,8 @@ class Selector():
         Returns:
             bool: False if cl1 is enable and item name is PurpleCoins.
         """
-        return not (self.is_cl1_enabled and item.name == 'PurpleCoins')
+        # return not (self.is_cl1_enabled and item.name == 'PurpleCoins')
+        return not (False and item.name == 'PurpleCoins')
 
     def check_item_count(self, item) -> bool:
         """
