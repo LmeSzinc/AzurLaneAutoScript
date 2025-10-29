@@ -7979,51 +7979,6 @@
           8
         ]
       },
-      "Option2": {
-        "type": "select",
-        "value": 0,
-        "option": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8
-        ]
-      },
-      "Option3": {
-        "type": "select",
-        "value": 0,
-        "option": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8
-        ]
-      },
-      "Option4": {
-        "type": "select",
-        "value": 0,
-        "option": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8
-        ]
-      },
       "Character1": {
         "type": "select",
         "value": "manjuu",
@@ -8039,6 +7994,21 @@
           "unicorn",
           "cheshire",
           "amagi_chan"
+        ]
+      },
+      "Option2": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
         ]
       },
       "Character2": {
@@ -8058,6 +8028,21 @@
           "amagi_chan"
         ]
       },
+      "Option3": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ]
+      },
       "Character3": {
         "type": "select",
         "value": "manjuu",
@@ -8073,6 +8058,21 @@
           "unicorn",
           "cheshire",
           "amagi_chan"
+        ]
+      },
+      "Option4": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
         ]
       },
       "Character4": {
@@ -8106,30 +8106,6 @@
           1
         ]
       },
-      "Option2": {
-        "type": "select",
-        "value": 0,
-        "option": [
-          0,
-          2
-        ]
-      },
-      "Option3": {
-        "type": "select",
-        "value": 0,
-        "option": [
-          0,
-          3
-        ]
-      },
-      "Option4": {
-        "type": "select",
-        "value": 0,
-        "option": [
-          0,
-          4
-        ]
-      },
       "Character1": {
         "type": "select",
         "value": "manjuu",
@@ -8145,6 +8121,14 @@
           "unicorn",
           "cheshire",
           "amagi_chan"
+        ]
+      },
+      "Option2": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          2
         ]
       },
       "Character2": {
@@ -8164,6 +8148,14 @@
           "amagi_chan"
         ]
       },
+      "Option3": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          3
+        ]
+      },
       "Character3": {
         "type": "select",
         "value": "manjuu",
@@ -8179,6 +8171,14 @@
           "unicorn",
           "cheshire",
           "amagi_chan"
+        ]
+      },
+      "Option4": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          4
         ]
       },
       "Character4": {
@@ -8217,45 +8217,6 @@
           6
         ]
       },
-      "Option2": {
-        "type": "select",
-        "value": 0,
-        "option": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6
-        ]
-      },
-      "Option3": {
-        "type": "select",
-        "value": 0,
-        "option": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6
-        ]
-      },
-      "Option4": {
-        "type": "select",
-        "value": 0,
-        "option": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6
-        ]
-      },
       "Character1": {
         "type": "select",
         "value": "manjuu",
@@ -8271,6 +8232,19 @@
           "unicorn",
           "cheshire",
           "amagi_chan"
+        ]
+      },
+      "Option2": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
         ]
       },
       "Character2": {
@@ -8290,6 +8264,19 @@
           "amagi_chan"
         ]
       },
+      "Option3": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
+      },
       "Character3": {
         "type": "select",
         "value": "manjuu",
@@ -8305,6 +8292,19 @@
           "unicorn",
           "cheshire",
           "amagi_chan"
+        ]
+      },
+      "Option4": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
         ]
       },
       "Character4": {
@@ -8341,39 +8341,6 @@
           4
         ]
       },
-      "Option2": {
-        "type": "select",
-        "value": 0,
-        "option": [
-          0,
-          1,
-          2,
-          3,
-          4
-        ]
-      },
-      "Option3": {
-        "type": "select",
-        "value": 0,
-        "option": [
-          0,
-          1,
-          2,
-          3,
-          4
-        ]
-      },
-      "Option4": {
-        "type": "select",
-        "value": 0,
-        "option": [
-          0,
-          1,
-          2,
-          3,
-          4
-        ]
-      },
       "Character1": {
         "type": "select",
         "value": "manjuu",
@@ -8389,6 +8356,17 @@
           "unicorn",
           "cheshire",
           "amagi_chan"
+        ]
+      },
+      "Option2": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          1,
+          2,
+          3,
+          4
         ]
       },
       "Character2": {
@@ -8408,6 +8386,17 @@
           "amagi_chan"
         ]
       },
+      "Option3": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ]
+      },
       "Character3": {
         "type": "select",
         "value": "manjuu",
@@ -8423,6 +8412,17 @@
           "unicorn",
           "cheshire",
           "amagi_chan"
+        ]
+      },
+      "Option4": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          1,
+          2,
+          3,
+          4
         ]
       },
       "Character4": {
@@ -8464,54 +8464,6 @@
           9
         ]
       },
-      "Option2": {
-        "type": "select",
-        "value": 0,
-        "option": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9
-        ]
-      },
-      "Option3": {
-        "type": "select",
-        "value": 0,
-        "option": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9
-        ]
-      },
-      "Option4": {
-        "type": "select",
-        "value": 0,
-        "option": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9
-        ]
-      },
       "Character1": {
         "type": "select",
         "value": "manjuu",
@@ -8527,6 +8479,22 @@
           "unicorn",
           "cheshire",
           "amagi_chan"
+        ]
+      },
+      "Option2": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
         ]
       },
       "Character2": {
@@ -8546,6 +8514,22 @@
           "amagi_chan"
         ]
       },
+      "Option3": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ]
+      },
       "Character3": {
         "type": "select",
         "value": "manjuu",
@@ -8561,6 +8545,22 @@
           "unicorn",
           "cheshire",
           "amagi_chan"
+        ]
+      },
+      "Option4": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
         ]
       },
       "Character4": {
@@ -8600,20 +8600,6 @@
           7
         ]
       },
-      "Option2": {
-        "type": "select",
-        "value": 0,
-        "option": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7
-        ]
-      },
       "Character1": {
         "type": "select",
         "value": "manjuu",
@@ -8629,6 +8615,20 @@
           "unicorn",
           "cheshire",
           "amagi_chan"
+        ]
+      },
+      "Option2": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
         ]
       },
       "Character2": {
@@ -8670,22 +8670,6 @@
           9
         ]
       },
-      "Option2": {
-        "type": "select",
-        "value": 0,
-        "option": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9
-        ]
-      },
       "Character1": {
         "type": "select",
         "value": "manjuu",
@@ -8701,6 +8685,22 @@
           "unicorn",
           "cheshire",
           "amagi_chan"
+        ]
+      },
+      "Option2": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
         ]
       },
       "Character2": {
@@ -8744,6 +8744,23 @@
           11
         ]
       },
+      "Character1": {
+        "type": "select",
+        "value": "manjuu",
+        "option": [
+          "manjuu",
+          "saratoga",
+          "new_jersey",
+          "tashkent",
+          "lemalin",
+          "shimakaze",
+          "akashi",
+          "ying_swei",
+          "unicorn",
+          "cheshire",
+          "amagi_chan"
+        ]
+      },
       "Option2": {
         "type": "select",
         "value": 0,
@@ -8760,23 +8777,6 @@
           9,
           10,
           11
-        ]
-      },
-      "Character1": {
-        "type": "select",
-        "value": "manjuu",
-        "option": [
-          "manjuu",
-          "saratoga",
-          "new_jersey",
-          "tashkent",
-          "lemalin",
-          "shimakaze",
-          "akashi",
-          "ying_swei",
-          "unicorn",
-          "cheshire",
-          "amagi_chan"
         ]
       },
       "Character2": {
@@ -8818,22 +8818,6 @@
           9
         ]
       },
-      "Option2": {
-        "type": "select",
-        "value": 0,
-        "option": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9
-        ]
-      },
       "Character1": {
         "type": "select",
         "value": "manjuu",
@@ -8849,6 +8833,22 @@
           "unicorn",
           "cheshire",
           "amagi_chan"
+        ]
+      },
+      "Option2": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
         ]
       },
       "Character2": {
@@ -8888,20 +8888,6 @@
           7
         ]
       },
-      "Option2": {
-        "type": "select",
-        "value": 0,
-        "option": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7
-        ]
-      },
       "Character1": {
         "type": "select",
         "value": "manjuu",
@@ -8917,6 +8903,20 @@
           "unicorn",
           "cheshire",
           "amagi_chan"
+        ]
+      },
+      "Option2": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
         ]
       },
       "Character2": {
@@ -8954,18 +8954,6 @@
           5
         ]
       },
-      "Option2": {
-        "type": "select",
-        "value": 0,
-        "option": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5
-        ]
-      },
       "Character1": {
         "type": "select",
         "value": "manjuu",
@@ -8981,6 +8969,18 @@
           "unicorn",
           "cheshire",
           "amagi_chan"
+        ]
+      },
+      "Option2": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
         ]
       },
       "Character2": {
@@ -9019,19 +9019,6 @@
           6
         ]
       },
-      "Option2": {
-        "type": "select",
-        "value": 0,
-        "option": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6
-        ]
-      },
       "Character1": {
         "type": "select",
         "value": "manjuu",
@@ -9047,6 +9034,19 @@
           "unicorn",
           "cheshire",
           "amagi_chan"
+        ]
+      },
+      "Option2": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
         ]
       },
       "Character2": {
@@ -9083,17 +9083,6 @@
           4
         ]
       },
-      "Option2": {
-        "type": "select",
-        "value": 0,
-        "option": [
-          0,
-          1,
-          2,
-          3,
-          4
-        ]
-      },
       "Character1": {
         "type": "select",
         "value": "manjuu",
@@ -9109,6 +9098,17 @@
           "unicorn",
           "cheshire",
           "amagi_chan"
+        ]
+      },
+      "Option2": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          1,
+          2,
+          3,
+          4
         ]
       },
       "Character2": {
@@ -9150,22 +9150,6 @@
           9
         ]
       },
-      "Option2": {
-        "type": "select",
-        "value": 0,
-        "option": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9
-        ]
-      },
       "Character1": {
         "type": "select",
         "value": "manjuu",
@@ -9181,6 +9165,22 @@
           "unicorn",
           "cheshire",
           "amagi_chan"
+        ]
+      },
+      "Option2": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
         ]
       },
       "Character2": {
@@ -9222,22 +9222,6 @@
           9
         ]
       },
-      "Option2": {
-        "type": "select",
-        "value": 0,
-        "option": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9
-        ]
-      },
       "Character1": {
         "type": "select",
         "value": "manjuu",
@@ -9253,6 +9237,22 @@
           "unicorn",
           "cheshire",
           "amagi_chan"
+        ]
+      },
+      "Option2": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
         ]
       },
       "Character2": {

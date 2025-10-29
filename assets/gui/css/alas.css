@@ -375,6 +375,23 @@ pre.rich-traceback-code {
     display: none;
 }
 
+[id^="pywebio-scope-group_Island"] {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 5%
+}
+
+[id^="pywebio-scope-group_Island"] > [id*="Enable"],
+[id^="pywebio-scope-group_Island"] > [id*="Receive"] {
+    display: grid;
+    grid-column: 1 / -1;
+}
+
+[id^="pywebio-scope-group_Island"] > [id^="pywebio-scope-arg_container-"]:not([id*="Enable"]):not([id*="Receive"]) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
 #pywebio-scope-navigator {
     margin: .5rem 1rem .5rem;
     height: min-content;
