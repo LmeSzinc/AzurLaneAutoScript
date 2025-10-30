@@ -194,6 +194,10 @@
       "name": "宿舍計劃",
       "help": ""
     },
+    "IslandPostManage": {
+      "name": "離島配置管理",
+      "help": ""
+    },
     "OpsiGeneral": {
       "name": "通用設定",
       "help": ""
@@ -2082,6 +2086,58 @@
       "noshiro": "noshiro",
       "sirius": "sirius",
       "new_jersey": "new_jersey"
+    }
+  },
+  "IslandMining": {
+    "_info": {
+      "name": "積岩礦山",
+      "help": ""
+    },
+    "MineProduction": {
+      "name": "生產設定",
+      "help": "每個數字代表該配置位生產第N個物品, 0代表不使用\n如 1111 代表全四個配置位都生產第一個物品; 下亦同"
+    }
+  },
+  "IslandLumbering": {
+    "_info": {
+      "name": "翠綠之森",
+      "help": ""
+    },
+    "LumberProduction": {
+      "name": "生產設定",
+      "help": ""
+    }
+  },
+  "IslandRanch": {
+    "_info": {
+      "name": "悠悠牧場",
+      "help": "需先準備足夠飼料"
+    },
+    "Ranch": {
+      "name": "自動分派",
+      "help": "",
+      "disabled": "停用",
+      "enabled": "啟用"
+    }
+  },
+  "IslandPostManage": {
+    "_info": {
+      "name": "生產設置",
+      "help": "預設為每個數字的代表該配置位生產第N個物品, 0代表不使用\n如 1111 代表全四個配置位都生產第一個物品"
+    },
+    "MineProduction": {
+      "name": "積岩礦山",
+      "help": ""
+    },
+    "LumberProduction": {
+      "name": "翠綠之森",
+      "help": ""
+    },
+    "Ranch": {
+      "name": "悠悠牧場",
+      "help": "需先準備足夠飼料",
+      "disabled": "停用",
+      "enabled": "啟用"
     }
   },
   "Daily": {
