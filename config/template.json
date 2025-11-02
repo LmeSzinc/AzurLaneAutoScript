@@ -659,6 +659,25 @@
       "Storage": {}
     }
   },
+  "EventShop": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "EventShop",
+      "SuccessInterval": 30,
+      "FailureInterval": 30,
+      "ServerUpdate": "00:00"
+    },
+    "EventShop": {
+      "UnlockSSRShip": true,
+      "BuyURShip": 2,
+      "PresetFilter": "all",
+      "CustomFilter": "EquipUR > EquipSSR > Cube > GachaTicket\n> Array > Chip > CatT3 \n> Meta > SkinBox\n> Oil > Coin > Medal > ExpBookT1 > FoodT1\n> DR > PR\n> AugmentCore > AugmentEnhanceT2 > AugmentChangeT2 > AugmentChangeT1\n> CatT2 > CatT1 > PlateGeneralT3 > PlateT3 > BoxT4\n> ShipSSR"
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
   "WarArchives": {
     "Scheduler": {
       "Enable": false,

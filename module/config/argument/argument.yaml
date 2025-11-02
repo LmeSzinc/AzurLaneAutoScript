@@ -313,6 +313,23 @@ Coalition:
   Fleet:
     value: single
     option: [ single, multi ]
+EventShop:
+  UnlockSSRShip: true
+  BuyURShip:
+    value: 2
+    option: [ 0, 1, 2 ]
+  PresetFilter:
+    value: all
+    option: [ all, custom ]
+  CustomFilter: |-
+    EquipUR > EquipSSR > Cube > GachaTicket
+    > Array > Chip > CatT3 
+    > Meta > SkinBox
+    > Oil > Coin > Medal > ExpBookT1 > FoodT1
+    > DR > PR
+    > AugmentCore > AugmentEnhanceT2 > AugmentChangeT2 > AugmentChangeT1
+    > CatT2 > CatT1 > PlateGeneralT3 > PlateT3 > BoxT4
+    > ShipSSR
 
 
 # ==================== Reward ====================
