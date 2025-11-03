@@ -16,14 +16,45 @@ class PQInteract(UI):
         'noshiro': (PRIVATE_QUARTERS_SHIP_NOSHIRO, PRIVATE_QUARTERS_PAGE_LOCALE_BEACH),
         'sirius': (PRIVATE_QUARTERS_SHIP_SIRIUS, PRIVATE_QUARTERS_PAGE_LOCALE_BEACH),
         'new_jersey': (PRIVATE_QUARTERS_SHIP_NEW_JERSEY, PRIVATE_QUARTERS_PAGE_LOCALE_LOFT),
+        'taihou': (PRIVATE_QUARTERS_SHIP_TAIHOU, PRIVATE_QUARTERS_PAGE_LOCALE_LOFT),
     }
+
+    def _pq_handle_dialogue(self):
+        """
+        Handles dialogue sequence of target
+        After the addition of Taihou this sequence
+        has been discovered lagging on rare cases
+        Hence this call is used in other states
+        besides on room enter
+        """
+
+        # Helper funcs to hold off spam clicking until loading
+        # state is not present
+        def after_loading_state():
+            return not self.appear(PRIVATE_QUARTERS_LOADING_CHECK, offset=(20, 20))
+
+        def additional():
+            return True
+
+        self.ui_click(
+            click_button=PRIVATE_QUARTERS_ROOM_SAFE_CLICK_AREA,
+            check_button=PRIVATE_QUARTERS_ROOM_CHECK,
+            appear_button=after_loading_state,
+            additional=additional,
+            confirm_wait=3,
+            offset=(20, 20),
+            retry_wait=1.5
+        )
 
     def _pq_target_appear(self):
         """
         Callable wrapper to validate target's appearance
-        offset=(100, 100) detectable for anchorage, noshiro, sirus, and new_jersey
+        offset=(100, 100) detectable for anchorage, noshiro, sirus, new_jersey, and taihou
         When more ships added may need to adjust or capture specific bubble position per
         ship, can use the available_targets to store similarly into tuples instead
+
+        Returns:
+            bool
         """
         settle_timer = Timer(1.5, count=3).start()
         skip_first_screenshot = True
@@ -43,11 +74,20 @@ class PQInteract(UI):
             if settle_timer.reached():
                 return False
 
-            # Factor in couple drag up actions to
-            # counter odd default distance/zoom on target
-            p1, p2 = random_rectangle_vector(
-                (0, -30), box=PRIVATE_QUARTERS_ROOM_SAFE_CLICK_AREA.area, random_range=(-10, -10, 10, 10), padding=5)
-            self.device.drag(p1, p2, segments=2, shake=(0, 25), point_random=(0, 0, 0, 0), shake_random=(0, -5, 0, 5))
+            if self.appear(PRIVATE_QUARTERS_ROOM_CHECK, offset=(20, 20)):
+                # Factor in couple drag up actions to
+                # counter odd default distance/zoom on target
+                p1, p2 = random_rectangle_vector(
+                    (0, -30), box=PRIVATE_QUARTERS_ROOM_SAFE_CLICK_AREA.area,
+                    random_range=(-10, -10, 10, 10), padding=5)
+                self.device.drag(p1, p2, segments=2,
+                                 shake=(0, 25), point_random=(0, 0, 0, 0),
+                                 shake_random=(0, -5, 0, 5))
+                settle_timer.reset()
+            else:
+                # Absence of check likely means dialogue is ongoing
+                self._pq_handle_dialogue()
+                settle_timer.reset()
 
     def _pq_goto_room_seek(self, target_ship):
         """
@@ -112,8 +152,11 @@ class PQInteract(UI):
         """
         Callable wrapper for whether is loading or blocked by download asset popup
         """
-        return self.appear(PRIVATE_QUARTERS_LOADING_CHECK, offset=(20, 20)) \
-            or self.appear(POPUP_CANCEL, offset=(20, 20))
+        if self.appear(PRIVATE_QUARTERS_LOADING_CHECK, offset=(20, 20)):
+            return True
+        if self.appear(POPUP_CANCEL, offset=(20, 20)):
+            return True
+        return False
 
     def _pq_goto_room_enter(self, target_ship):
         """
@@ -155,25 +198,7 @@ class PQInteract(UI):
 
         # Fully enter into target's room
         # through click progression
-        click_timer = Timer(1.5, count=3).start()
-        skip_first_screenshot = True
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            # End
-            if self.appear(PRIVATE_QUARTERS_ROOM_CHECK, offset=(20, 20)):
-                break
-
-            # Continue without clicking, mitigate too many click exception
-            if self.appear(PRIVATE_QUARTERS_LOADING_CHECK, offset=(20, 20)):
-                continue
-
-            if click_timer.reached():
-                self.device.click(PRIVATE_QUARTERS_ROOM_SAFE_CLICK_AREA)
-                click_timer.reset()
+        self._pq_handle_dialogue()
 
         # If target's intimacy is maxed
         # Terminate the run
@@ -188,6 +213,11 @@ class PQInteract(UI):
         """
         Execute room exit routine
         """
+        # Rare case in the middle of dialogue, so address
+        # before initiating room exit
+        if not self.appear(PRIVATE_QUARTERS_ROOM_CHECK, offset=(20, 20)):
+            self._pq_handle_dialogue()
+
         self.interval_clear(PRIVATE_QUARTERS_ROOM_BACK)
         self.ui_click(
             click_button=PRIVATE_QUARTERS_ROOM_BACK,
