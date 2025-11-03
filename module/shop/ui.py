@@ -1,6 +1,5 @@
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
-from module.base.timer import Timer
 from module.handler.assets import POPUP_CONFIRM
 from module.logger import logger
 from module.shop.assets import *
@@ -72,43 +71,43 @@ class ShopUI(UI):
         switch.add_state(TAB_PROTOTYPE, check_button=TAB_PROTOTYPE)
         return switch
 
-    def shop_refresh(self, skip_first_screenshot=True):
+    def shop_refresh(self):
         """
-        Args:
-            skip_first_screenshot: bool
-
         Returns:
             bool: If refreshed
         """
+        logger.info('Shop refresh')
         refreshed = False
-        exit_timer = Timer(3, count=6).start()
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
 
-            if self.appear_then_click(SHOP_REFRESH, interval=3):
-                exit_timer.reset()
-                continue
-            if self.appear(SHOP_BUY_CONFIRM_MISTAKE, interval=3, offset=(200, 200)) \
-                    and self.appear(POPUP_CONFIRM, offset=(3, 30)):
+        # SHOP_REFRESH -> POPUP_CONFIRM
+        for _ in self.loop():
+            if self.appear(POPUP_CONFIRM, offset=(30, 30)):
+                break
+            if self.appear(SHOP_REFRESH, offset=(30, 30), interval=3):
+                # SHOP_REFRESH has two kinds of color when active
+                if self.image_color_count(SHOP_REFRESH.button, color=(49, 142, 207), threshold=221, count=50):
+                    self.device.click(SHOP_REFRESH)
+                    continue
+                if self.image_color_count(SHOP_REFRESH.button, color=(54, 117, 161), threshold=221, count=50):
+                    self.device.click(SHOP_REFRESH)
+                    continue
+                # not available: (52, 74, 94)
+                # no `continue`, act like SHOP_REFRESH not matched
+                self.interval_clear(SHOP_REFRESH)
+
+        # POPUP_CONFIRM -> SHOP_BACK_ARROW
+        for _ in self.loop():
+            if self.appear(SHOP_BACK_ARROW, offset=(30, 30)):
+                break
+            if self.appear(SHOP_BUY_CONFIRM_MISTAKE, interval=3, offset=(200, 200)):
+                logger.warning('SHOP_BUY_CONFIRM_MISTAKE')
                 self.ui_click(SHOP_CLICK_SAFE_AREA, appear_button=POPUP_CONFIRM, check_button=SHOP_BACK_ARROW,
                               offset=(20, 30), skip_first_screenshot=True)
-                exit_timer.reset()
                 refreshed = False
                 break
             if self.handle_popup_confirm('SHOP_REFRESH_CONFIRM'):
-                exit_timer.reset()
                 refreshed = True
                 continue
-
-            # End
-            if self.appear(SHOP_BACK_ARROW, offset=(30, 30)):
-                if exit_timer.reached():
-                    break
-            else:
-                exit_timer.reset()
 
         self.handle_info_bar()
         return refreshed
