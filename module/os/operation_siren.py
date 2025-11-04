@@ -578,7 +578,9 @@ class OperationSiren(OSMap):
                 self.globe_goto(self.name_to_zone(zone), types='SAFE', refresh=True)
             self.fleet_set(self.config.OpsiFleet_Fleet)
             self.run_strategic_search()
-
+            self.get_current_zone()
+            if self.is_zone_name_hidden and not len(self._solved_map_event):
+                self.fleets_clear_question()
             self.handle_after_auto_search()
             self.config.check_task_switch()
 

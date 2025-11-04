@@ -912,6 +912,24 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
                        'this might be 2 adjacent fleet mechanism, stopped')
         return False
 
+    def fleets_clear_question(self, drop=None):
+        """
+        Call clear_question() for all fleets except current fleet.
+
+        Args:
+            drop:
+
+        Returns:
+            bool: If cleared
+        """
+        logger.hr('Fleets Clear Question', level=2)
+        fleets = [fleet for fleet in range(1, 5) if fleet != self.config.OpsiFleet_Fleet]
+        for fleet in fleets:
+            self.fleet_set(fleet)
+            if self.clear_question(drop=drop):
+                return True
+        return False
+
     def run_auto_search(self, question=True, rescan=None, after_auto_search=True, interrupt=None):
         """
         Clear current zone by running auto search.
