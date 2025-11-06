@@ -57,7 +57,7 @@ class Island(IslandProjectRun, IslandTransportRun):
 
     def run(self):
         if server.server in ['cn']:
-            transport = self.config.IslandTransport_Enable
+            transport = False
             project_config = [self.config.__getattribute__(f'Island{i}_Receive') for i in range(1, 16)]
             project = any(project_config)
             names = self.island_config_to_names(project_config)

@@ -1570,18 +1570,6 @@
       "FailureInterval": 120,
       "ServerUpdate": "00:00"
     },
-    "IslandTransport": {
-      "Enable": false,
-      "SubmitPoultry": false,
-      "SubmitMilk": false,
-      "SubmitFreshMeat": false,
-      "SubmitNapaCabbage": true,
-      "SubmitCarrot": true,
-      "SubmitFlex": true,
-      "SubmitCotton": true,
-      "SubmitStrawberries": true,
-      "SubmitOnion": true
-    },
     "Island1": {
       "Receive": false,
       "Option1": 0,

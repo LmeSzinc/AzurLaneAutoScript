@@ -1736,52 +1736,6 @@
       "help": ""
     }
   },
-  "IslandTransport": {
-    "_info": {
-      "name": "货运委托",
-      "help": ""
-    },
-    "Enable": {
-      "name": "做货运委托",
-      "help": "装载满足全部装载条件的货运委托，并计算下一次收货时间\n默认在碰到包含下面选项对应物品的货运委托时会选择跳过并刷新委托，启用对应选项可以开启提交对应物品"
-    },
-    "SubmitPoultry": {
-      "name": "提交禽肉",
-      "help": ""
-    },
-    "SubmitMilk": {
-      "name": "提交牛奶",
-      "help": ""
-    },
-    "SubmitFreshMeat": {
-      "name": "提交鲜肉",
-      "help": ""
-    },
-    "SubmitNapaCabbage": {
-      "name": "提交白菜",
-      "help": ""
-    },
-    "SubmitCarrot": {
-      "name": "提交胡萝卜",
-      "help": ""
-    },
-    "SubmitFlex": {
-      "name": "提交亚麻",
-      "help": ""
-    },
-    "SubmitCotton": {
-      "name": "提交棉花",
-      "help": ""
-    },
-    "SubmitStrawberries": {
-      "name": "提交草莓",
-      "help": ""
-    },
-    "SubmitOnion": {
-      "name": "提交洋葱",
-      "help": ""
-    }
-  },
   "Island1": {
     "_info": {
       "name": "丰壤农田",

@@ -272,18 +272,6 @@ class GeneratedConfig:
     Awaken_LevelCap = 'level120'  # level120, level125
     Awaken_Favourite = False
 
-    # Group `IslandTransport`
-    IslandTransport_Enable = False
-    IslandTransport_SubmitPoultry = False
-    IslandTransport_SubmitMilk = False
-    IslandTransport_SubmitFreshMeat = False
-    IslandTransport_SubmitNapaCabbage = True
-    IslandTransport_SubmitCarrot = True
-    IslandTransport_SubmitFlex = True
-    IslandTransport_SubmitCotton = True
-    IslandTransport_SubmitStrawberries = True
-    IslandTransport_SubmitOnion = True
-
     # Group `Island1`
     Island1_Receive = False
     Island1_Option1 = 0  # 0, 1, 2, 3, 4, 5, 6, 7, 8

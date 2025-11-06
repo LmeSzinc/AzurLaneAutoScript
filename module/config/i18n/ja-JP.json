@@ -1736,52 +1736,6 @@
       "help": "Awaken.Favourite.help"
     }
   },
-  "IslandTransport": {
-    "_info": {
-      "name": "IslandTransport._info.name",
-      "help": "IslandTransport._info.help"
-    },
-    "Enable": {
-      "name": "IslandTransport.Enable.name",
-      "help": "IslandTransport.Enable.help"
-    },
-    "SubmitPoultry": {
-      "name": "IslandTransport.SubmitPoultry.name",
-      "help": "IslandTransport.SubmitPoultry.help"
-    },
-    "SubmitMilk": {
-      "name": "IslandTransport.SubmitMilk.name",
-      "help": "IslandTransport.SubmitMilk.help"
-    },
-    "SubmitFreshMeat": {
-      "name": "IslandTransport.SubmitFreshMeat.name",
-      "help": "IslandTransport.SubmitFreshMeat.help"
-    },
-    "SubmitNapaCabbage": {
-      "name": "IslandTransport.SubmitNapaCabbage.name",
-      "help": "IslandTransport.SubmitNapaCabbage.help"
-    },
-    "SubmitCarrot": {
-      "name": "IslandTransport.SubmitCarrot.name",
-      "help": "IslandTransport.SubmitCarrot.help"
-    },
-    "SubmitFlex": {
-      "name": "IslandTransport.SubmitFlex.name",
-      "help": "IslandTransport.SubmitFlex.help"
-    },
-    "SubmitCotton": {
-      "name": "IslandTransport.SubmitCotton.name",
-      "help": "IslandTransport.SubmitCotton.help"
-    },
-    "SubmitStrawberries": {
-      "name": "IslandTransport.SubmitStrawberries.name",
-      "help": "IslandTransport.SubmitStrawberries.help"
-    },
-    "SubmitOnion": {
-      "name": "IslandTransport.SubmitOnion.name",
-      "help": "IslandTransport.SubmitOnion.help"
-    }
-  },
   "Island1": {
     "_info": {
       "name": "Island1._info.name",

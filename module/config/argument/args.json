@@ -7922,48 +7922,6 @@
         "display": "hide"
       }
     },
-    "IslandTransport": {
-      "Enable": {
-        "type": "checkbox",
-        "value": false
-      },
-      "SubmitPoultry": {
-        "type": "checkbox",
-        "value": false
-      },
-      "SubmitMilk": {
-        "type": "checkbox",
-        "value": false
-      },
-      "SubmitFreshMeat": {
-        "type": "checkbox",
-        "value": false
-      },
-      "SubmitNapaCabbage": {
-        "type": "checkbox",
-        "value": true
-      },
-      "SubmitCarrot": {
-        "type": "checkbox",
-        "value": true
-      },
-      "SubmitFlex": {
-        "type": "checkbox",
-        "value": true
-      },
-      "SubmitCotton": {
-        "type": "checkbox",
-        "value": true
-      },
-      "SubmitStrawberries": {
-        "type": "checkbox",
-        "value": true
-      },
-      "SubmitOnion": {
-        "type": "checkbox",
-        "value": true
-      }
-    },
     "Island1": {
       "Receive": {
         "type": "checkbox",

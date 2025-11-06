@@ -488,17 +488,6 @@ Awaken:
     option: [ level120, level125 ]
   Favourite:
     value: false
-IslandTransport:
-  Enable: false
-  SubmitPoultry: false
-  SubmitMilk: false
-  SubmitFreshMeat: false
-  SubmitNapaCabbage: true
-  SubmitCarrot: true
-  SubmitFlex: true
-  SubmitCotton: true
-  SubmitStrawberries: true
-  SubmitOnion: true
 Island1:
   Receive: false
   Option1:
