@@ -92,10 +92,10 @@ class EquipmentCodeHandler(StorageHandler):
                 self.device.screenshot()
 
             # End
-            if self.appear(EQUIPMENT_CODE_PAGE_CHECK):
+            if self.appear(EQUIPMENT_CODE_PAGE_CHECK, offset=(5, 5)):
                 break
 
-            if self.appear_then_click(EQUIPMENT_CODE_ENTRANCE, interval=2):
+            if self.appear_then_click(EQUIPMENT_CODE_ENTRANCE, offset=(5, 5), interval=2):
                 continue
 
     # def exit_equip_code_page(self):
@@ -122,7 +122,7 @@ class EquipmentCodeHandler(StorageHandler):
             if self.info_bar_count():
                 break
 
-            if self.appear_then_click(EQUIPMENT_CODE_EXPORT, interval=1):
+            if self.appear_then_click(EQUIPMENT_CODE_EXPORT, offset=(5, 5), interval=1):
                 continue
 
     def export_equip_code(self, ship=None):
@@ -149,7 +149,7 @@ class EquipmentCodeHandler(StorageHandler):
         else:
             max_index = 6
         for index in range(max_index):
-            if not self.appear(globals()['EQUIPMENT_CODE_EQUIP_{index}'.format(index=index)]):
+            if not self.appear(globals()['EQUIPMENT_CODE_EQUIP_{index}'.format(index=index)], offset=(5, 5)):
                 return False
 
         return True
@@ -166,7 +166,7 @@ class EquipmentCodeHandler(StorageHandler):
                 logger.info('Confirm equipment preview cleared.')
                 break
 
-            if self.appear_then_click(EQUIPMENT_CODE_CLEAR, interval=2):
+            if self.appear_then_click(EQUIPMENT_CODE_CLEAR, offset=(5, 5), interval=2):
                 continue
 
     def enter_equip_code_input_mode(self, skip_first_screenshot=True):
@@ -176,7 +176,7 @@ class EquipmentCodeHandler(StorageHandler):
             else:
                 self.device.screenshot()
 
-            if self.appear(EQUIPMENT_CODE_ENTER, interval=2):
+            if self.appear(EQUIPMENT_CODE_ENTER, offset=(5, 5), interval=2):
                 self.device.click(EQUIPMENT_CODE_TEXTBOX)
                 continue
 
@@ -192,7 +192,7 @@ class EquipmentCodeHandler(StorageHandler):
             else:
                 self.device.screenshot()
 
-            if self.appear_then_click(EQUIPMENT_CODE_ENTER, interval=1):
+            if self.appear_then_click(EQUIPMENT_CODE_ENTER, offset=(5, 5), interval=1):
                 continue
 
             # End
@@ -212,14 +212,14 @@ class EquipmentCodeHandler(StorageHandler):
             else:
                 self.device.screenshot()
 
-            if self.appear_then_click(EQUIPMENT_CODE_CONFIRM, interval=5):
+            if self.appear_then_click(EQUIPMENT_CODE_CONFIRM, offset=(5, 5), interval=5):
                 continue
 
             if self.handle_popup_confirm('EQUIPMENT_CODE'):
                 continue
 
             # End
-            if self.appear(EQUIPMENT_CODE_ENTRANCE):
+            if self.appear(EQUIPMENT_CODE_ENTRANCE, offset=(5, 5)):
                 return True
             if self.appear(EQUIPMENT_FULL, offset=(30, 30)):
                 return False
