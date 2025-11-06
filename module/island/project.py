@@ -126,9 +126,12 @@ class IslandProduct:
     # If success to parse product duration
     valid: bool
 
-    def __init__(self, image, new=False):
+    def __init__(self, image, offset=None, new=False):
         if new:
-            ocr = Duration(OCR_PRODUCTION_TIME, lang='cnocr', name='OCR_PRODUCTION_TIME')
+            button = OCR_PRODUCTION_TIME
+            if offset:
+                button = OCR_PRODUCTION_TIME.move(offset)
+            ocr = Duration(button, lang='cnocr', name='OCR_PRODUCTION_TIME')
             self.duration = ocr.ocr(image)
         else:
             ocr = Duration(OCR_PRODUCTION_TIME_REMAIN, name='OCR_PRODUCTION_TIME_REMAIN')
@@ -582,7 +585,10 @@ class IslandProjectRun(IslandUI):
                     timeout.reset()
                     continue
 
-                product = IslandProduct(self.device.image, new=True)
+                button = PROJECT_START
+                self.appear(button, offset=(100, 0))
+                offset = tuple(np.subtract(button.button, button._button)[:2])
+                product = IslandProduct(self.device.image, new=True, offset=offset)
                 if product == last:
                     success = True
                     self.total = self.total.add_by_eq(SelectedGrids([product]))
