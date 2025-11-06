@@ -596,7 +596,7 @@ class IslandProjectRun(IslandUI):
                     continue
                 last = product
             else:
-                if self.appear_then_click(PROJECT_START, offset=(20,20), interval=2):
+                if self.appear_then_click(PROJECT_START, offset=(100, 0), interval=2):
                     timeout.reset()
                     self.interval_clear(ISLAND_MANAGEMENT_CHECK)
                     continue
