@@ -215,8 +215,9 @@ class PQInteract(UI):
         """
         # Rare case in the middle of dialogue, so address
         # before initiating room exit
-        if not self.appear(PRIVATE_QUARTERS_ROOM_CHECK, offset=(20, 20)):
-            self._pq_handle_dialogue()
+        if (not self.appear(PRIVATE_QUARTERS_ROOM_CHECK, offset=(20, 20)) and
+            not self.appear(PRIVATE_QUARTERS_INTERACT, offset=(0, 60))):
+                self._pq_handle_dialogue()
 
         self.interval_clear(PRIVATE_QUARTERS_ROOM_BACK)
         self.ui_click(
