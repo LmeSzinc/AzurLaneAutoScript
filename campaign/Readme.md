@@ -263,3 +263,4 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20251009   | coalition 20250626       | The Neon City Investigator                   | -                          | -                                                  | -                                    | 迷彩都市的尋蹤者           |
 | 20251016   | event 20230817 cn        | The Fool's Scales                            | 复刻愚者的天平             | The Fool's Scales Rerun                            | 愚者の天秤（復刻）                   | -                          |
 | 20251023   | event 20251023 cn        | Tempesta and Islas de Libertád               | 飓风与自由群岛             | Tempesta and Islas de Libertád                     | テンペスタと自由群島                 | -                          |
+| 20251106   | event 20230803 cn        | Anthem of Remembrance                        | 复刻奏响鸢尾之歌           | Anthem of Remembrance Rerun                        | 燃ゆる聖都の回想曲（復刻）           | -                          |
