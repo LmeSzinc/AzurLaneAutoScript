@@ -42,4 +42,5 @@ dic_archives_template = {
     'war_archives_20220728_cn': TEMPLATE_AQUILIFERS_BALLADE,
     'war_archives_20220428_cn': TEMPLATE_RONDO_AT_RAINBOWS_END,
     'war_archives_20231026_cn': TEMPLATE_TEMPESTA_AND_THE_FOUNTAIN_OF_YOUTH,
+    'war_archives_20220915_cn': TEMPLATE_VIOLET_TEMPEST_BLOOMING_LYCORIS,
 }
