@@ -19,6 +19,7 @@ from module.ocr.ocr import Duration, Ocr
 class ProjectNameOcr(Ocr):
     def after_process(self, result):
         result = super().after_process(result)
+        result = result.replace('主', '丰')
         result = re.sub(r'[^\u4e00-\u9fff]', '', result)
         return result
 
