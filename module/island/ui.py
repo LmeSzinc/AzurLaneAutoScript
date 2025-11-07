@@ -1,8 +1,9 @@
 from module.base.timer import Timer
+from module.handler.assets import MAINTENANCE_ANNOUNCE, USE_DATA_KEY_NOTIFIED
 from module.island.assets import *
 from module.logger import logger
-from module.ui.assets import SHOP_BACK_ARROW
-from module.ui.page import page_island_phone
+from module.ui.assets import DORMMENU_GOTO_ISLAND, SHOP_BACK_ARROW
+from module.ui.page import page_dormmenu, page_island, page_island_phone
 from module.ui.ui import UI
 
 
@@ -133,3 +134,39 @@ class IslandUI(UI):
         if self.appear_then_click(GET_ITEMS_ISLAND, offset=(20, 20), interval=2):
             return True
         return False
+
+    def handle_island_ui_additional(self, skip_first_screenshot=True):
+        if not self.appear(MAINTENANCE_ANNOUNCE, offset=(100, 50)):
+            return False
+
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            enabled = self.image_color_count(
+                USE_DATA_KEY_NOTIFIED, color=(140, 207, 66), threshold=180, count=10)
+            if enabled:
+                break
+
+            if self.appear(MAINTENANCE_ANNOUNCE, offset=(100, 50), interval=5):
+                self.device.click(USE_DATA_KEY_NOTIFIED)
+                continue
+
+        self.interval_clear(MAINTENANCE_ANNOUNCE)
+        self.appear_then_click(MAINTENANCE_ANNOUNCE, offset=(100, 50), interval=2)
+        return True
+
+    def ui_goto_island(self):
+        if self.ui_get_current_page() in [page_island, page_island_phone]:
+            logger.info(f'Already at {self.ui_current}')
+            return True
+
+        self.ui_ensure(page_dormmenu)
+        self.ui_click(click_button=DORMMENU_GOTO_ISLAND,
+                      check_button=page_island.check_button,
+                      additional=self.handle_island_ui_additional,
+                      offset=(30, 30),
+                      retry_wait=2,
+                      skip_first_screenshot=True)
