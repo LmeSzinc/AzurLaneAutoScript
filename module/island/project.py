@@ -454,7 +454,7 @@ class IslandProjectRun(IslandUI):
                 self.device.screenshot()
 
             if timeout.reached():
-                self.island_product_quit()
+                self.ui_ensure_management_page()
                 return False
 
             image = self.image_crop((0, 0, 910, 1280), copy=False)
@@ -524,7 +524,7 @@ class IslandProjectRun(IslandUI):
                 trial -= 1
                 continue
             if trial <= 0:
-                self.island_product_quit()
+                self.ui_ensure_management_page()
                 return False
 
             if option == current.name:
@@ -542,7 +542,7 @@ class IslandProjectRun(IslandUI):
             
             if last == current.items[-1]:
                 logger.info(f'Reach the bottom of items, dit not match item {option}')
-                self.island_product_quit()
+                self.ui_ensure_management_page()
                 return False
 
             if drag:
@@ -574,11 +574,11 @@ class IslandProjectRun(IslandUI):
                 break
             if self.image_color_count(PROJECT_START, color=(151, 155, 155), threshold=221, count=200):
                 if self.appear(PRODUCT_MANJUU_CHECK, offset=(20, 20)):
-                    self.island_product_quit()
+                    self.ui_ensure_management_page()
                     return True
                 else:
                     logger.warning('Product requirement is not satisfied, quitting and retrying')
-                    self.island_product_quit()
+                    self.ui_ensure_management_page()
                     return False
 
             if not success:
@@ -603,7 +603,7 @@ class IslandProjectRun(IslandUI):
                     continue
 
                 if self.info_bar_count():
-                    self.island_product_quit()
+                    self.ui_ensure_management_page()
                     return True
                 if self.island_in_management():
                     return True

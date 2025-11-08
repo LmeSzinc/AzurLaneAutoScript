@@ -88,20 +88,6 @@ class IslandUI(UI):
             skip_first_screenshot=True
         )
 
-    def island_product_quit(self):
-        """
-        Execute quit product page
-        """
-        logger.info('Island product quit')
-        self.interval_clear(ISLAND_MANAGEMENT_CHECK)
-        self.ui_click(
-            click_button=SHOP_BACK_ARROW,
-            check_button=self.island_in_management,
-            offset=(20, 20),
-            retry_wait=2,
-            skip_first_screenshot=True
-        )
-
     def ui_ensure_management_page(self, skip_first_screenshot=True):
         """
         Pages:
