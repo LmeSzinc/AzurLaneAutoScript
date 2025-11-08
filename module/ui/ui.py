@@ -1,14 +1,15 @@
 from module.base.button import Button
 from module.base.decorator import run_once
 from module.base.timer import Timer
+from module.coalition.assets import NEONCITY_FLEET_PREPARATION, NEONCITY_PREPARATION_EXIT
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_SHIP
+from module.event_hospital.assets import HOSIPITAL_CLUE_CHECK, HOSPITAL_BATTLE_EXIT
 from module.exception import (GameNotRunningError, GamePageUnknownError,
                               RequestHumanTakeover)
 from module.exercise.assets import EXERCISE_PREPARATION
-from module.freebies.assets import PURCHASE_POPUP
-from module.handler.assets import (AUTO_SEARCH_MENU_EXIT, BATTLE_PASS_NOTICE, GAME_TIPS, LOGIN_ANNOUNCE,
-                                   LOGIN_ANNOUNCE_2, LOGIN_CHECK, LOGIN_RETURN_SIGN, MAINTENANCE_ANNOUNCE,
-                                   MONTHLY_PASS_NOTICE)
+from module.handler.assets import (AUTO_SEARCH_MENU_EXIT, BATTLE_PASS_NEW_SEASON, BATTLE_PASS_NOTICE, GAME_TIPS,
+                                   LOGIN_ANNOUNCE, LOGIN_ANNOUNCE_2, LOGIN_CHECK, LOGIN_RETURN_SIGN,
+                                   MAINTENANCE_ANNOUNCE, MONTHLY_PASS_NOTICE)
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
 from module.map.assets import (FLEET_PREPARATION, MAP_PREPARATION,
@@ -18,7 +19,7 @@ from module.ocr.ocr import Ocr
 from module.os_handler.assets import (AUTO_SEARCH_REWARD, EXCHANGE_CHECK, RESET_FLEET_PREPARATION, RESET_TICKET_POPUP)
 from module.raid.assets import *
 from module.ui.assets import *
-from module.ui.page import (Page, page_campaign, page_event, page_main, page_main_white, page_sp)
+from module.ui.page import Page, page_campaign, page_event, page_main, page_main_white, page_sp
 from module.ui_white.assets import *
 
 
@@ -165,9 +166,7 @@ class UI(InfoHandler):
             if self.config.Emulator_ControlMethod == "uiautomator2":
                 self.device.uninstall_minicap()
 
-        @run_once
-        def rotation_check():
-            self.device.get_orientation()
+        orientation_timer = Timer(5)
 
         timeout = Timer(10, count=20).start()
         while 1:
@@ -208,7 +207,10 @@ class UI(InfoHandler):
 
             app_check()
             minicap_check()
-            rotation_check()
+            # continuously check rotation
+            if orientation_timer.reached():
+                self.device.get_orientation()
+                orientation_timer.reset()
 
         # Unknown page, need manual switching
         logger.warning("Unknown ui page")
@@ -221,10 +223,11 @@ class UI(InfoHandler):
         logger.critical("Please switch to a supported page before starting Alas")
         raise GamePageUnknownError
 
-    def ui_goto(self, destination, offset=(30, 30), skip_first_screenshot=True):
+    def ui_goto(self, destination, get_ship=True, offset=(30, 30), skip_first_screenshot=True):
         """
         Args:
             destination (Page):
+            get_ship:
             offset:
             skip_first_screenshot:
         """
@@ -261,7 +264,7 @@ class UI(InfoHandler):
                 continue
 
             # Additional
-            if self.ui_additional():
+            if self.ui_additional(get_ship=get_ship):
                 continue
 
         # Reset connection
@@ -388,7 +391,14 @@ class UI(InfoHandler):
         # Battle pass is about to expire and player has uncollected battle pass rewards
         if self.appear_then_click(BATTLE_PASS_NOTICE, offset=(30, 30), interval=3):
             return True
-        if self.appear_then_click(PURCHASE_POPUP, offset=(44, -77, 84, -37), interval=3):
+        # Popup that advertise you to buy battle pass
+        # 2024.12.19, PURCHASE_POPUP at main page becomes BATTLE_PASS_NEW_SEASON
+        # if self.appear_then_click(PURCHASE_POPUP, offset=(44, -77, 84, -37), interval=3):
+        #     return True
+        # Popup that tells you new battle pass season is aired
+        if self.appear(BATTLE_PASS_NEW_SEASON, offset=(30, 30), interval=3):
+            logger.info(f'UI additional: {BATTLE_PASS_NEW_SEASON} -> {BACK_ARROW}')
+            self.device.click(BACK_ARROW)
             return True
         # Item expired offset=(37, 72), skin expired, offset=(24, 68)
         if self.handle_popup_single(offset=(-6, 48, 54, 88), name='ITEM_EXPIRED'):
@@ -445,9 +455,12 @@ class UI(InfoHandler):
 
         return False
 
-    def ui_additional(self):
+    def ui_additional(self, get_ship=True):
         """
         Handle all annoying popups during UI switching.
+
+        Args:
+            get_ship:
         """
         # Popups appear at page_os
         # Has a popup_confirm variant
@@ -462,7 +475,7 @@ class UI(InfoHandler):
             return True
 
         # Popups appear at page_main, page_reward
-        if self.ui_page_main_popups():
+        if self.ui_page_main_popups(get_ship=get_ship):
             return True
 
         # Story
@@ -471,10 +484,11 @@ class UI(InfoHandler):
 
         # Game tips
         # Event commission in Vacation Lane.
-        if self.appear(GAME_TIPS, offset=(30, 30), interval=3):
+        # 2025.05.29 game tips that infos skin feature when you enter dock
+        if self.appear(GAME_TIPS, offset=(30, 30), interval=2):
             logger.info(f'UI additional: {GAME_TIPS} -> {GOTO_MAIN}')
-            if self.appear_then_click(GOTO_MAIN, offset=(30, 30)):
-                return True
+            self.device.click(GOTO_MAIN)
+            return True
 
         # Dorm popup
         if self.appear(DORM_INFO, offset=(30, 30), similarity=0.75, interval=3):
@@ -492,6 +506,7 @@ class UI(InfoHandler):
         if self.appear(MEOWFFICER_BUY, offset=(30, 30), interval=3):
             logger.info(f'UI additional: {MEOWFFICER_BUY} -> {BACK_ARROW}')
             self.device.click(BACK_ARROW)
+            self.interval_reset(GET_SHIP)
             return True
 
         # Campaign preparation
@@ -536,22 +551,53 @@ class UI(InfoHandler):
             return True
 
         # RPG event (raid_20240328)
-        if self.appear_then_click(RPG_STATUS_POPUP, offset=(30, 30), interval=3):
+        # if self.appear_then_click(RPG_STATUS_POPUP, offset=(30, 30), interval=3):
+        #     return True
+        # Hospital event (20250327)
+        # if self.appear_then_click(HOSIPITAL_CLUE_CHECK, offset=(20, 20), interval=2):
+        #     return True
+        # if self.appear_then_click(HOSPITAL_BATTLE_EXIT, offset=(20, 20), interval=2):
+        #     return True
+        # Neon city (coalition_20250626)
+        if self.appear(NEONCITY_FLEET_PREPARATION, offset=(20, 20), interval=3):
+            logger.info(f'{NEONCITY_FLEET_PREPARATION} -> {NEONCITY_PREPARATION_EXIT}')
+            self.device.click(NEONCITY_PREPARATION_EXIT)
             return True
 
         # Idle page
-        if self.get_interval_timer(IDLE, interval=3).reached():
-            if IDLE.match_luma(self.device.image, offset=(5, 5)):
-                logger.info(f'UI additional: {IDLE} -> {REWARD_GOTO_MAIN}')
-                self.device.click(REWARD_GOTO_MAIN)
-                self.get_interval_timer(IDLE).reset()
-                return True
+        if self.handle_idle_page():
+            return True
         # Switch on ui_white, no offset just color match
         if self.appear(MAIN_GOTO_MEMORIES_WHITE, interval=3):
             logger.info(f'UI additional: {MAIN_GOTO_MEMORIES_WHITE} -> {MAIN_TAB_SWITCH_WHITE}')
             self.device.click(MAIN_TAB_SWITCH_WHITE)
             return True
 
+        return False
+
+    def handle_idle_page(self):
+        """
+        Returns:
+            bool: If handled
+        """
+        timer = self.get_interval_timer(IDLE, interval=3)
+        if not timer.reached():
+            return False
+        if IDLE.match_luma(self.device.image, offset=(5, 5)):
+            logger.info(f'UI additional: {IDLE} -> {REWARD_GOTO_MAIN}')
+            self.device.click(REWARD_GOTO_MAIN)
+            timer.reset()
+            return True
+        if IDLE_2.match_luma(self.device.image, offset=(5, 5)):
+            logger.info(f'UI additional: {IDLE_2} -> {REWARD_GOTO_MAIN}')
+            self.device.click(REWARD_GOTO_MAIN)
+            timer.reset()
+            return True
+        if IDLE_3.match_luma(self.device.image, offset=(5, 5)):
+            logger.info(f'UI additional: {IDLE_3} -> {REWARD_GOTO_MAIN}')
+            self.device.click(REWARD_GOTO_MAIN)
+            timer.reset()
+            return True
         return False
 
     def ui_button_interval_reset(self, button):
@@ -564,6 +610,8 @@ class UI(InfoHandler):
         if button == MEOWFFICER_GOTO_DORMMENU:
             self.interval_reset(GET_SHIP)
         if button == DORMMENU_GOTO_DORM:
+            self.interval_reset(GET_SHIP)
+        if button == DORMMENU_GOTO_MEOWFFICER:
             self.interval_reset(GET_SHIP)
         for switch_button in page_main.links.values():
             if button == switch_button:

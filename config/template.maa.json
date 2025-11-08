@@ -55,7 +55,7 @@
       "Medicine": 0,
       "Stone": 0,
       "Times": 5,
-      "Series": 1,
+      "Series": 0,
       "Drops": null,
       "DrGrandet": false
     },
@@ -79,7 +79,7 @@
       "Medicine": null,
       "Stone": null,
       "Times": null,
-      "Series": 1,
+      "Series": 0,
       "Drops": null,
       "DrGrandet": false
     },
@@ -103,7 +103,7 @@
       "Medicine": null,
       "Stone": null,
       "Times": null,
-      "Series": 1,
+      "Series": 0,
       "Drops": null,
       "DrGrandet": false
     },

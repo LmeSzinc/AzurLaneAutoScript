@@ -6,6 +6,7 @@ from module.coalition.combat import CoalitionCombat
 from module.exception import ScriptError, ScriptEnd
 from module.logger import logger
 from module.ocr.ocr import Digit
+from module.ui.page import page_campaign_menu
 
 
 class AcademyPtOcr(Digit):
@@ -37,6 +38,9 @@ class Coalition(CoalitionCombat, CampaignEvent):
             ocr = Digit(FROSTFALL_OCR_PT, name='OCR_PT', letter=(198, 158, 82), threshold=128)
         elif event == 'coalition_20240627':
             ocr = AcademyPtOcr(ACADEMY_PT_OCR, name='OCR_PT', letter=(255, 255, 255), threshold=128)
+        elif event == 'coalition_20250626':
+            # use generic ocr model
+            ocr = Digit(NEONCITY_PT_OCR, name='OCR_PT', lang='cnocr', letter=(208, 208, 208), threshold=128)
         else:
             logger.error(f'ocr object is not defined in event {event}')
             raise ScriptError
@@ -100,10 +104,16 @@ class Coalition(CoalitionCombat, CampaignEvent):
             self.config.override(
                 Coalition_Fleet='multi',
             )
-        self.emotion.check_reduce(battle=self.coalition_get_battles(event, stage))
+        try:
+            self.emotion.check_reduce(battle=self.coalition_get_battles(event, stage))
+        except ScriptEnd:
+            self.coalition_map_exit(event)
+            raise
 
         self.enter_map(event=event, stage=stage, mode=fleet)
-        if self.triggered_stop_condition(oil_check=True):
+        oil_check_boolean=True if self.config.SERVER not in ['tw'] else False
+        if self.triggered_stop_condition(oil_check=oil_check_boolean):
+            self.coalition_map_exit(event)
             raise ScriptEnd
         self.coalition_combat()
 
@@ -140,6 +150,10 @@ class Coalition(CoalitionCombat, CampaignEvent):
                 logger.info(f'Count: {self.run_count}')
 
             # UI switches
+            if self.config.SERVER in ['tw']:
+	            self.ui_goto(page_campaign_menu)
+	            if self.triggered_stop_condition(oil_check=True):
+		            break
             self.device.stuck_record_clear()
             self.device.click_record_clear()
             self.ui_goto_coalition()

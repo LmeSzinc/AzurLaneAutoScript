@@ -1,7 +1,7 @@
 import typing as t
 
 from module.base.decorator import cached_property
-from module.config.utils import deep_get
+from module.config.deep import deep_get
 from module.logger import logger
 
 

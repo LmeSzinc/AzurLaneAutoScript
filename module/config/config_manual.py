@@ -15,15 +15,17 @@ class ManualConfig:
     > Exercise
     > Dorm > Meowfficer > Guild > Gacha
     > Reward
-    > ShopFrequent > ShopOnce > Shipyard > Freebies > Minigame
+    > ShopFrequent > ShopOnce > Shipyard > Freebies
+    > PrivateQuarters
     > OpsiExplore
+    > Minigame > Awaken
     > OpsiAshBeacon
     > OpsiDaily > OpsiShop > OpsiVoucher
     > OpsiAbyssal > OpsiStronghold > OpsiObscure > OpsiArchive
-    > Daily > Hard > OpsiAshBeacon > OpsiAshAssist  > OpsiMonthBoss
+    > Daily > Hard > OpsiAshBeacon > OpsiAshAssist > OpsiMonthBoss
     > Sos > EventSp > EventA > EventB > EventC > EventD
     > RaidDaily > CoalitionSp > WarArchives > MaritimeEscort
-    > Event > Event2 > Raid > Coalition > Main > Main2 > Main3
+    > Event > Event2 > Raid > Hospital > Coalition > Main > Main2 > Main3
     > OpsiMeowfficerFarming
     > GemsFarming
     > OpsiHazard1Leveling
@@ -57,7 +59,8 @@ class ManualConfig:
     STAGE_ENTRANCE = ['normal']  # normal, blue, half
     # Set stage='TH' and run_count=100, to run TH1~TH5 in cycle
     STAGE_LOOP_ALIAS = {
-        ('event_20221124_cn', 'TH'): 'TH1 > TH2 > TH3 > TH4 > TH5'
+        ('event_20221124_cn', 'TH'): 'TH1 > TH2 > TH3 > TH4 > TH5',
+        ('event_20250724_cn', 'TS'): 'TS1 > TS2 > TS3 > TS4 > TS5',
     }
 
     """
@@ -95,7 +98,7 @@ class ManualConfig:
     """
     module.campaign.gems_farming
     """
-    GEMS_EMOTION_TRIGGRED = False
+    GEMS_EMOTION_TRIGGERED = False
 
     """
     module.handler
@@ -112,7 +115,16 @@ class ManualConfig:
     module.map.fleet
     """
     MAP_HAS_MODE_SWITCH = False  # event_20240725_cn has mode switch in map preparation
+    # Events from 20240725 to 20241219 introduced new chapter switches
+    MAP_CHAPTER_SWITCH_20241219 = False
+    MAP_CHAPTER_SWITCH_20241219_SP = False
+    # Since event_20241219_cn chapter B unlocks event startup
+    # which means chapter AB are continuous
+    STAGE_INCREASE_AB = False
+    # Insert anything to STAGE_INCREASE
+    STAGE_INCREASE_CUSTOM = ''
     MAP_HAS_CLEAR_PERCENTAGE = True
+    MAP_CLEAR_PERCENTAGE_SHORT = False
     MAP_HAS_WALK_SPEEDUP = False
     MAP_HAS_AMBUSH = True
     MAP_HAS_FLEET_STEP = False

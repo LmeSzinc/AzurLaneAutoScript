@@ -26,7 +26,7 @@ def retry(func):
         for _ in range(RETRY_TRIES):
             try:
                 if callable(init):
-                    retry_sleep(_)
+                    time.sleep(retry_sleep(_))
                     init()
                 return func(self, *args, **kwargs)
             # Can't handle
@@ -101,7 +101,8 @@ class Scrcpy(ScrcpyCore, Uiautomator2):
                 if thread is None or not thread.is_alive():
                     raise ScrcpyError('_scrcpy_stream_loop_thread died')
                 if self._scrcpy_last_frame_time > now:
-                    screenshot = self._scrcpy_last_frame.copy()
+                    # no copy
+                    screenshot = self._scrcpy_last_frame
                     return screenshot
 
     @retry

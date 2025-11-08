@@ -154,11 +154,16 @@ class ActionPointHandler(UI, MapEventHandler):
             else:
                 self.device.screenshot()
 
+            # End
             if self.is_current_ap_visible():
                 break
             if timeout.reached():
                 logger.warning('Get action points timeout, wait is_current_ap_visible timeout')
                 break
+            # Forced map event on the top of action point popup
+            if self.handle_map_event():
+                timeout.reset()
+                continue
 
         skip_first_screenshot = True
         timeout = Timer(1, count=2).start()
@@ -171,6 +176,10 @@ class ActionPointHandler(UI, MapEventHandler):
             if timeout.reached():
                 logger.warning('Get action points timeout')
                 break
+            # Forced map event on the top of action point popup
+            if self.handle_map_event():
+                timeout.reset()
+                continue
 
             self.action_point_update()
 
@@ -331,7 +340,24 @@ class ActionPointHandler(UI, MapEventHandler):
             in: ACTION_POINT_USE
             out: page_os
         """
-        self.ui_click(ACTION_POINT_CANCEL, check_button=OS_CHECK, skip_first_screenshot=skip_first_screenshot)
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            # sometimes you have action point popup without black-blurred background
+            # ACTION_POINT_CANCEL and OS_CHECK both appears
+            if not self.appear(ACTION_POINT_CANCEL, offset=(20, 20)):
+                if self.appear(OS_CHECK, offset=(20, 20)):
+                    break
+            # Click
+            if self.appear_then_click(ACTION_POINT_CANCEL, offset=(20, 20), interval=3):
+                continue
+            # Forced map event on the top of action point popup
+            if self.handle_map_event():
+                continue
 
     def handle_action_point(self, zone, pinned, cost=None, keep_current_ap=True, check_rest_ap=False):
         """
@@ -447,6 +473,8 @@ class ActionPointHandler(UI, MapEventHandler):
                 self.device.click(ACTION_POINT_REMAIN_OS)
                 continue
             if self.handle_map_event():
+                # story is transparent, OS_CHECK may get detected while handling stories
+                self.interval_reset(OS_CHECK)
                 continue
             if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50)):
                 continue

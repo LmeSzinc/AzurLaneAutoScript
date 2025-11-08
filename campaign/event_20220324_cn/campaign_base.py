@@ -5,7 +5,7 @@ class CampaignBase(CampaignBase_):
     def campaign_set_chapter_sp(self, chapter, mode='normal'):
         if chapter == 'sp':
             self.ui_goto_event()
-            self.campaign_ensure_chapter(index=chapter)
+            self.campaign_ensure_chapter(chapter)
             return True
         else:
             return False

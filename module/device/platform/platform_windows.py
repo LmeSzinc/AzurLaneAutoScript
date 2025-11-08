@@ -54,7 +54,9 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         """
         command = command.replace(r"\\", "/").replace("\\", "/").replace('"', '"')
         logger.info(f'Execute: {command}')
-        return subprocess.Popen(command, close_fds=True)  # only work on Windows
+        # `close_fds` only work on Windows
+        # `start_new_session` to avoid emulator getting tree-killed when Alas gets killed
+        return subprocess.Popen(command, close_fds=True, start_new_session=True)
 
     @classmethod
     def kill_process_by_regex(cls, regex: str) -> int:
@@ -91,6 +93,7 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             self.execute(f'"{exe}" -m {instance.name}')
         elif instance == Emulator.MuMuPlayer12:
             # MuMuPlayer.exe -v 0
+            # MuMuNxMain.exe -v 0
             if instance.MuMuPlayer12_id is None:
                 logger.warning(f'Cannot get MuMu instance index from name {instance.name}')
             self.execute(f'"{exe}" -v {instance.MuMuPlayer12_id}')

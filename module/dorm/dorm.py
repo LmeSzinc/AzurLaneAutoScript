@@ -221,7 +221,7 @@ class RewardDorm(UI):
             if self.appear_then_click(DORM_MANAGE, offset=(20, 20), interval=3):
                 continue
             # Handle all popups
-            if self.ui_additional():
+            if self.ui_additional(get_ship=False):
                 continue
             if self.appear_then_click(DORM_FURNITURE_CONFIRM, offset=(30, 30), interval=3):
                 continue
@@ -263,7 +263,7 @@ class RewardDorm(UI):
                 self.device.screenshot()
 
             # Handle all popups
-            if self.ui_additional():
+            if self.ui_additional(get_ship=False):
                 continue
 
             # Collect coins and loves through the quick collect button
@@ -423,7 +423,7 @@ class RewardDorm(UI):
             if self.appear(DORM_FEED_CHECK, offset=(20, 20)):
                 break
 
-            if self.ui_additional():
+            if self.ui_additional(get_ship=False):
                 self.interval_clear(DORM_CHECK)
                 continue
             if self.appear(DORM_CHECK, offset=(20, 20), interval=5):
@@ -442,7 +442,7 @@ class RewardDorm(UI):
                 logger.info(f'{DORM_FURNITURE_SHOP_FIRST_SELECTED} -> {DORM_FURNITURE_SHOP_QUIT}')
                 continue
 
-    def dorm_feed_quit(self, skip_first_screenshot=False):
+    def dorm_feed_quit(self, skip_first_screenshot=True):
         """
         Pages:
             in: DORM_FEED_CHECK
@@ -465,7 +465,7 @@ class RewardDorm(UI):
             if self.handle_popup_cancel('DORM_FEED'):
                 self.interval_clear(DORM_CHECK)
                 continue
-            if self.ui_additional():
+            if self.ui_additional(get_ship=False):
                 self.interval_clear(DORM_CHECK)
                 continue
 
@@ -480,11 +480,12 @@ class RewardDorm(UI):
 
         self.ui_ensure(page_dormmenu)
         self.handle_info_bar()
-        if not self.appear(DORM_RED_DOT, offset=(30, 30)):
-            logger.info('Nothing to collect. Dorm collecting skipped.')
-            collect = False
-            if not feed and not buy_furniture:
-                return
+        # 2025.10.17 Remove DORM_RED_DOT check, as dorm card has a slow appear animation
+        # if not self.appear(DORM_RED_DOT, offset=(30, 30)):
+        #     logger.info('Nothing to collect. Dorm collecting skipped.')
+        #     collect = False
+        #     if not feed and not buy_furniture:
+        #         return
         self.ui_goto(page_dorm, skip_first_screenshot=True)
 
         # Feed first to handle DORM_INFO
@@ -526,7 +527,7 @@ class RewardDorm(UI):
             if self.appear_then_click(DORM_FURNITURE_CONFIRM, offset=(30, 30), interval=3):
                 timeout.reset()
                 continue
-            if self.ui_additional():
+            if self.ui_additional(get_ship=False):
                 timeout.reset()
                 continue
 

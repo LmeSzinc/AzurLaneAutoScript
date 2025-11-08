@@ -10,7 +10,7 @@ from requests.adapters import HTTPAdapter
 
 from module.base.utils import save_image
 from module.config.config import AzurLaneConfig
-from module.config.utils import deep_get
+from module.config.deep import deep_get
 from module.exception import ScriptError
 from module.logger import logger
 from module.statistics.utils import pack

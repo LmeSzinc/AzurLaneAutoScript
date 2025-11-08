@@ -41,6 +41,12 @@ def func(ev: threading.Event):
         "--electron", action="store_true", help="Runs by electron client."
     )
     parser.add_argument(
+        "--ssl-key", dest="ssl_key", type=str, help="SSL key file path for HTTPS support"
+    )
+    parser.add_argument(
+        "--ssl-cert", type=str, help="SSL certificate file path for HTTPS support"
+    )
+    parser.add_argument(
         "--run",
         nargs="+",
         type=str,
@@ -50,11 +56,15 @@ def func(ev: threading.Event):
 
     host = args.host or State.deploy_config.WebuiHost or "0.0.0.0"
     port = args.port or int(State.deploy_config.WebuiPort) or 22267
+    ssl_key = args.ssl_key or State.deploy_config.WebuiSSLKey
+    ssl_cert = args.ssl_cert or State.deploy_config.WebuiSSLCert
+    ssl = ssl_key is not None and ssl_cert is not None
     State.electron = args.electron
 
     logger.hr("Launcher config")
     logger.attr("Host", host)
     logger.attr("Port", port)
+    logger.attr("SSL", ssl)
     logger.attr("Electron", args.electron)
     logger.attr("Reload", ev is not None)
 
@@ -64,7 +74,15 @@ def func(ev: threading.Event):
         from module.logger import console_hdlr
         logger.removeHandler(console_hdlr)
 
-    uvicorn.run("module.webui.app:app", host=host, port=port, factory=True)
+    if ssl_cert is None and ssl_key is not None:
+        logger.error("SSL key provided without certificate. Please provide both SSL key and certificate.")
+    elif ssl_key is None and ssl_cert is not None:
+        logger.error("SSL certificate provided without key. Please provide both SSL key and certificate.")
+
+    if ssl:
+        uvicorn.run("module.webui.app:app", host=host, port=port, factory=True, ssl_keyfile=ssl_key, ssl_certfile=ssl_cert)
+    else:
+        uvicorn.run("module.webui.app:app", host=host, port=port, factory=True)
 
 
 if __name__ == "__main__":

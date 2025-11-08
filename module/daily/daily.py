@@ -15,7 +15,7 @@ DAILY_MISSION_LIST = [DAILY_MISSION_1, DAILY_MISSION_2, DAILY_MISSION_3]
 if server.server != 'jp':
     OCR_REMAIN = Digit(OCR_REMAIN, threshold=128, alphabet='01234')
 else:
-    OCR_REMAIN = Digit(OCR_REMAIN, letter=(201, 201, 201), threshold=128, alphabet='01234')
+    OCR_REMAIN = Digit(OCR_REMAIN, letter=(222, 223, 222), threshold=128, alphabet='01234')
 OCR_DAILY_FLEET_INDEX = Digit(OCR_DAILY_FLEET_INDEX, letter=(90, 154, 255), threshold=128, alphabet='123456')
 
 

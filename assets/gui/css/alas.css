@@ -314,6 +314,16 @@ pre.rich-traceback-code {
     margin: 0;
 }
 
+.anim-rotate {
+    animation: rotate-keyframes 0.4s linear infinite
+}
+
+@keyframes rotate-keyframes {
+    100% {
+        transform: rotate(360deg)
+    }
+}
+
 #pywebio-scope-contents {
     margin-top: 0;
     overflow-y: auto;

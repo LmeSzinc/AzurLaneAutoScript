@@ -26,6 +26,7 @@
       "Event",
       "Event2",
       "Raid",
+      "Hospital",
       "Coalition",
       "MaritimeEscort",
       "WarArchives"
@@ -54,7 +55,8 @@
       "Dorm",
       "Meowfficer",
       "Guild",
-      "Reward"
+      "Reward",
+      "Awaken"
     ]
   },
   "DailyMission": {
@@ -69,7 +71,8 @@
       "Shipyard",
       "Gacha",
       "Freebies",
-      "Minigame"
+      "Minigame",
+      "PrivateQuarters"
     ]
   },
   "Opsi": {
@@ -99,6 +102,7 @@
     "tasks": [
       "Daemon",
       "OpsiDaemon",
+      "EventStory",
       "Benchmark",
       "AzurLaneUncensored",
       "GameManager"

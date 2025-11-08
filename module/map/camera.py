@@ -128,7 +128,7 @@ class Camera(MapOperation):
                 # Don't use handle_mystery() here since OpSi overrides it.
                 self.device.click(GET_ITEMS_1)
                 return False
-            elif self.appear(GET_ITEMS_1_RYZA, offset=(20, 20)):
+            elif self.appear(GET_ITEMS_1_RYZA, offset=(-20, -100, 20, 20)):
                 logger.warning('Perspective error caused by GET_ITEMS_1_RYZA')
                 self.device.click(GET_ITEMS_1_RYZA)
                 return False
@@ -188,15 +188,10 @@ class Camera(MapOperation):
                 logger.warning('Perspective error caused by akashi shop')
                 self.device.click(BACK_ARROW)
                 return False
-            elif not self.is_in_map() \
-                    and not self.is_in_strategy_submarine_move() \
-                    and not self.is_in_strategy_mob_move():
-                if self.appear(GAME_TIPS, offset=(20, 20)):
-                    logger.warning('Perspective error caused by game tips')
-                    self.device.click(GAME_TIPS)
-                    return False
-                else:
-                    raise e
+            elif self.appear(GAME_TIPS, offset=(20, 20)):
+                logger.warning('Perspective error caused by game tips')
+                self.device.click(GAME_TIPS)
+                return False
             elif 'Camera outside map' in str(e):
                 string = str(e)
                 logger.warning(string)
@@ -416,7 +411,7 @@ class Camera(MapOperation):
             mystery_count:
             siren_count:
             carrier_count:
-            mode (str): Scan mode, such as 'normal', 'carrier', 'movable'
+            mode (str): Scan mode, such as 'init', 'normal', 'carrier', 'movable'
 
         """
         logger.info(f'Full scan start, mode={mode}')

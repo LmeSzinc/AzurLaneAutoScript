@@ -1,4 +1,5 @@
 import json
+import time
 from functools import wraps
 
 import requests
@@ -29,7 +30,7 @@ def retry(func):
         for _ in range(RETRY_TRIES):
             try:
                 if callable(init):
-                    retry_sleep(_)
+                    time.sleep(retry_sleep(_))
                     init()
                 return func(self, *args, **kwargs)
             # Can't handle

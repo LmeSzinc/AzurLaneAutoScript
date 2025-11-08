@@ -1,3 +1,4 @@
+import time
 import typing as t
 from dataclasses import dataclass
 from functools import wraps
@@ -28,7 +29,7 @@ def retry(func):
         for _ in range(RETRY_TRIES):
             try:
                 if callable(init):
-                    retry_sleep(_)
+                    time.sleep(retry_sleep(_))
                     init()
                 return func(self, *args, **kwargs)
             # Can't handle
@@ -375,7 +376,8 @@ class Uiautomator2(Connection):
 
     @retry
     def dump_hierarchy_uiautomator2(self) -> etree._Element:
-        content = self.u2.dump_hierarchy(compressed=True)
+        content = self.u2.dump_hierarchy(compressed=False)
+        # print(content)
         hierarchy = etree.fromstring(content.encode('utf-8'))
         return hierarchy
 

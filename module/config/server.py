@@ -14,6 +14,7 @@ VALID_PACKAGE = {
 VALID_CHANNEL_PACKAGE = {
     # App stores
     'com.bilibili.blhx.huawei': ('cn', '华为'),
+    'com.bilibili.blhx.honor': ('cn', '荣耀'),
     'com.bilibili.blhx.mi': ('cn', '小米'),
     'com.tencent.tmgp.bilibili.blhx': ('cn', '腾讯应用宝'),
     'com.bilibili.blhx.baidu': ('cn', '百度'),
@@ -72,7 +73,8 @@ VALID_SERVER_LIST = {
         '杜立特空袭', '地狱犬行动', '开罗宣言', '奥林匹克行动',
         '小王冠行动', '波茨坦公告', '白色方案', '瓦尔基里行动',
         '曼哈顿计划', '八月风暴', '秋季旅行', '水星行动', '莱茵河卫兵',
-        '北极光计划', '长戟计划', '暴雨行动', '水仙行动',
+        '北极光计划', '长戟计划', '暴雨行动', '水仙行动', '冬月计划',
+        '长弓计划'
     ],
     'cn_ios': [
         '夏威夷', '珊瑚海', '中途岛', '铁底湾', '所罗门', '马里亚纳',

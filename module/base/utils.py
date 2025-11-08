@@ -1,3 +1,4 @@
+import random
 import re
 
 import cv2
@@ -8,8 +9,9 @@ REGEX_NODE = re.compile(r'(-?[A-Za-z]+)(-?\d+)')
 
 
 def random_normal_distribution_int(a, b, n=3):
-    """Generate a normal distribution int within the interval. Use the average value of several random numbers to
-    simulate normal distribution.
+    """
+    Generate a normal distribution int within the interval.
+    Use the average value of several random numbers to simulate normal distribution.
 
     Args:
         a (int): The minimum of the interval.
@@ -19,9 +21,13 @@ def random_normal_distribution_int(a, b, n=3):
     Returns:
         int
     """
+    a = round(a)
+    b = round(b)
     if a < b:
-        output = np.mean(np.random.randint(a, b, size=n))
-        return int(output.round())
+        total = 0
+        for _ in range(n):
+            total += random.randint(a, b)
+        return round(total / n)
     else:
         return b
 
@@ -497,6 +503,22 @@ def location2node(location):
     return col2name(x) + str(y)
 
 
+def xywh2xyxy(area):
+    """
+    Convert (x, y, width, height) to (x1, y1, x2, y2)
+    """
+    x, y, w, h = area
+    return x, y, x + w, y + h
+
+
+def xyxy2xywh(area):
+    """
+    Convert (x1, y1, x2, y2) to (x, y, width, height)
+    """
+    x1, y1, x2, y2 = area
+    return min(x1, x2), min(y1, y2), abs(x2 - x1), abs(y2 - y1)
+
+
 def load_image(file, area=None):
     """
     Load an image like pillow and drop alpha channel.
@@ -508,13 +530,17 @@ def load_image(file, area=None):
     Returns:
         np.ndarray:
     """
-    image = Image.open(file)
-    if area is not None:
-        image = image.crop(area)
-    image = np.array(image)
-    channel = image.shape[2] if len(image.shape) > 2 else 1
-    if channel > 3:
-        image = image[:, :, :3].copy()
+    # always remember to close Image object
+    with Image.open(file) as f:
+        if area is not None:
+            f = f.crop(area)
+
+        image = np.array(f)
+
+    channel = image_channel(image)
+    if channel == 4:
+        image = cv2.cvtColor(image, cv2.COLOR_RGBA2RGB)
+
     return image
 
 
@@ -531,6 +557,19 @@ def save_image(image, file):
     Image.fromarray(image).save(file)
 
 
+def copy_image(src):
+    """
+    Equivalent to image.copy() but a little bit faster
+
+    Time cost to copy a 1280*720*3 image:
+        image.copy()      0.743ms
+        copy_image(image) 0.639ms
+    """
+    dst = np.empty_like(src)
+    cv2.copyTo(src, None, dst)
+    return dst
+
+
 def crop(image, area, copy=True):
     """
     Crop image like pillow, when using opencv / numpy.
@@ -544,16 +583,72 @@ def crop(image, area, copy=True):
     Returns:
         np.ndarray:
     """
-    x1, y1, x2, y2 = map(int, map(round, area))
-    h, w = image.shape[:2]
-    border = np.maximum((0 - y1, y2 - h, 0 - x1, x2 - w), 0)
-    x1, y1, x2, y2 = np.maximum((x1, y1, x2, y2), 0)
+    # map(round, area)
+    x1, y1, x2, y2 = area
+    x1 = round(x1)
+    y1 = round(y1)
+    x2 = round(x2)
+    y2 = round(y2)
+    # h, w = image.shape[:2]
+    shape = image.shape
+    h = shape[0]
+    w = shape[1]
+    # top, bottom, left, right
+    # border = np.maximum((0 - y1, y2 - h, 0 - x1, x2 - w), 0)
+    overflow = False
+    if y1 >= 0:
+        top = 0
+        if y1 >= h:
+            overflow = True
+    else:
+        top = -y1
+    if y2 > h:
+        bottom = y2 - h
+    else:
+        bottom = 0
+        if y2 <= 0:
+            overflow = True
+    if x1 >= 0:
+        left = 0
+        if x1 >= w:
+            overflow = True
+    else:
+        left = -x1
+    if x2 > w:
+        right = x2 - w
+    else:
+        right = 0
+        if x2 <= 0:
+            overflow = True
+    # If overflowed, return empty image
+    if overflow:
+        if len(shape) == 2:
+            size = (y2 - y1, x2 - x1)
+        else:
+            size = (y2 - y1, x2 - x1, shape[2])
+        return np.zeros(size, dtype=image.dtype)
+    # x1, y1, x2, y2 = np.maximum((x1, y1, x2, y2), 0)
+    if x1 < 0:
+        x1 = 0
+    if y1 < 0:
+        y1 = 0
+    if x2 < 0:
+        x2 = 0
+    if y2 < 0:
+        y2 = 0
+    # crop image
     image = image[y1:y2, x1:x2]
-    if sum(border) > 0:
-        image = cv2.copyMakeBorder(image, *border, borderType=cv2.BORDER_CONSTANT, value=(0, 0, 0))
-    if copy:
-        image = image.copy()
-    return image
+    # if border
+    if top or bottom or left or right:
+        if len(shape) == 2:
+            value = 0
+        else:
+            value = tuple(0 for _ in range(image.shape[2]))
+        return cv2.copyMakeBorder(image, top, bottom, left, right, borderType=cv2.BORDER_CONSTANT, value=value)
+    elif copy:
+        return copy_image(image)
+    else:
+        return image
 
 
 def resize(image, size):
@@ -626,12 +721,12 @@ def rgb2gray(image):
     # )
     r, g, b = cv2.split(image)
     maximum = cv2.max(r, g)
-    cv2.max(maximum, b, dst=maximum)
-    cv2.convertScaleAbs(maximum, alpha=0.5, dst=maximum)
     cv2.min(r, g, dst=r)
+    cv2.max(maximum, b, dst=maximum)
     cv2.min(r, b, dst=r)
-    cv2.convertScaleAbs(r, alpha=0.5, dst=r)
     # minimum = r
+    cv2.convertScaleAbs(maximum, alpha=0.5, dst=maximum)
+    cv2.convertScaleAbs(r, alpha=0.5, dst=r)
     cv2.add(maximum, r, dst=maximum)
     return maximum
 
@@ -648,7 +743,7 @@ def rgb2hsv(image):
         np.ndarray: Hue (0~360), Saturation (0~100), Value (0~100).
     """
     image = cv2.cvtColor(image, cv2.COLOR_RGB2HSV).astype(float)
-    image *= (360 / 180, 100 / 255, 100 / 255)
+    cv2.multiply(image, (360 / 180, 100 / 255, 100 / 255, 0), dst=image)
     return image
 
 
@@ -696,40 +791,133 @@ def get_color(image, area):
     return color[:3]
 
 
+class ImageNotSupported(Exception):
+    """
+    Raised if we can't perform image calculation on this image
+    """
+    pass
+
+
 def get_bbox(image, threshold=0):
     """
-    A numpy implementation of the getbbox() in pillow.
+    Get outbound box of the content in image
+    A opencv implementation of the getbbox() in pillow
 
     Args:
-        image (np.ndarray): Screenshot.
-        threshold (int): Color <= threshold will be considered black
+        image (np.ndarray):
+        threshold (int):
+            color > threshold will be considered as content
+            color <= threshold will be considered background
 
     Returns:
-        tuple: (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y)
+        tuple[int, int, int, int]: area
+
+    Raises:
+        ImageNotSupported: if failed to get bbox
     """
-    if image_channel(image) == 3:
-        image = np.max(image, axis=2)
-    x = np.where(np.max(image, axis=0) > threshold)[0]
-    y = np.where(np.max(image, axis=1) > threshold)[0]
-    return x[0], y[0], x[-1] + 1, y[-1] + 1
+    channel = image_channel(image)
+    # convert to grayscale
+    if channel == 3:
+        # RGB
+        mask = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
+        cv2.threshold(mask, threshold, 255, cv2.THRESH_BINARY, dst=mask)
+    elif channel == 0:
+        # grayscale
+        _, mask = cv2.threshold(image, threshold, 255, cv2.THRESH_BINARY)
+    elif channel == 4:
+        # RGBA
+        mask = cv2.cvtColor(image, cv2.COLOR_RGBA2GRAY)
+        cv2.threshold(mask, threshold, 255, cv2.THRESH_BINARY, dst=mask)
+    else:
+        raise ImageNotSupported(f'shape={image.shape}')
+
+    # find bbox
+    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    min_y, min_x = mask.shape
+    max_x = 0
+    max_y = 0
+    # all black
+    if not contours:
+        raise ImageNotSupported(f'Cannot get bbox from a pure black image')
+    for contour in contours:
+        # x, y, w, h
+        x1, y1, x2, y2 = cv2.boundingRect(contour)
+        x2 += x1
+        y2 += y1
+        if x1 < min_x:
+            min_x = x1
+        if y1 < min_y:
+            min_y = y1
+        if x2 > max_x:
+            max_x = x2
+        if y2 > max_y:
+            max_y = y2
+    if min_x < max_x and min_y < max_y:
+        return min_x, min_y, max_x, max_y
+    else:
+        # This shouldn't happen
+        raise ImageNotSupported(f'Empty bbox {(min_x, min_y, max_x, max_y)}')
 
 
-def get_bbox_reversed(image, threshold=0):
+def get_bbox_reversed(image, threshold=255):
     """
-    Similar to `get_bbox` but for black contents on white background.
+    Get outbound box of the content in image
+    A opencv implementation of the getbbox() in pillow
 
     Args:
-        image (np.ndarray): Screenshot.
-        threshold (int): Color >= threshold will be considered white
+        image (np.ndarray):
+        threshold (int):
+            color < threshold will be considered as content
+            color >= threshold will be considered background
 
     Returns:
-        tuple: (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y)
+        tuple[int, int, int, int]: area
+
+    Raises:
+        ImageNotSupported: if failed to get bbox
     """
-    if image_channel(image) == 3:
-        image = np.min(image, axis=2)
-    x = np.where(np.min(image, axis=0) < threshold)[0]
-    y = np.where(np.min(image, axis=1) < threshold)[0]
-    return x[0], y[0], x[-1] + 1, y[-1] + 1
+    channel = image_channel(image)
+    # convert to grayscale
+    if channel == 3:
+        # RGB
+        mask = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
+        cv2.threshold(mask, 0, threshold, cv2.THRESH_BINARY, dst=mask)
+    elif channel == 0:
+        # grayscale
+        mask = cv2.threshold(image, 0, threshold, cv2.THRESH_BINARY)
+    elif channel == 4:
+        # RGBA
+        mask = cv2.cvtColor(image, cv2.COLOR_RGBA2GRAY)
+        cv2.threshold(mask, 0, threshold, cv2.THRESH_BINARY, dst=mask)
+    else:
+        raise ImageNotSupported(f'shape={image.shape}')
+
+    # find bbox
+    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    min_y, min_x = mask.shape
+    max_x = 0
+    max_y = 0
+    # all black
+    if not contours:
+        raise ImageNotSupported(f'Cannot get bbox from a pure black image')
+    for contour in contours:
+        # x, y, w, h
+        x1, y1, x2, y2 = cv2.boundingRect(contour)
+        x2 += x1
+        y2 += y1
+        if x1 < min_x:
+            min_x = x1
+        if y1 < min_y:
+            min_y = y1
+        if x2 > max_x:
+            max_x = x2
+        if y2 > max_y:
+            max_y = y2
+    if min_x < max_x and min_y < max_y:
+        return min_x, min_y, max_x, max_y
+    else:
+        # This shouldn't happen
+        raise ImageNotSupported(f'Empty bbox {(min_x, min_y, max_x, max_y)}')
 
 
 def color_similarity(color1, color2):
@@ -741,13 +929,35 @@ def color_similarity(color1, color2):
     Returns:
         int:
     """
-    diff = np.array(color1).astype(int) - np.array(color2).astype(int)
-    diff = np.max(np.maximum(diff, 0)) - np.min(np.minimum(diff, 0))
+    # print(color1, color2)
+    # diff = np.array(color1).astype(int) - np.array(color2).astype(int)
+    # diff = np.max(np.maximum(diff, 0)) - np.min(np.minimum(diff, 0))
+    diff_r = color1[0] - color2[0]
+    diff_g = color1[1] - color2[1]
+    diff_b = color1[2] - color2[2]
+
+    max_positive = 0
+    max_negative = 0
+    if diff_r > max_positive:
+        max_positive = diff_r
+    elif diff_r < max_negative:
+        max_negative = diff_r
+    if diff_g > max_positive:
+        max_positive = diff_g
+    elif diff_g < max_negative:
+        max_negative = diff_g
+    if diff_b > max_positive:
+        max_positive = diff_b
+    elif diff_b < max_negative:
+        max_negative = diff_b
+
+    diff = max_positive - max_negative
     return diff
 
 
 def color_similar(color1, color2, threshold=10):
-    """Consider two colors are similar, if tolerance lesser or equal threshold.
+    """
+    Consider two colors are similar, if tolerance lesser or equal threshold.
     Tolerance = Max(Positive(difference_rgb)) + Max(- Negative(difference_rgb))
     The same as the tolerance in Photoshop.
 
@@ -760,8 +970,28 @@ def color_similar(color1, color2, threshold=10):
         bool: True if two colors are similar.
     """
     # print(color1, color2)
-    diff = np.array(color1).astype(int) - np.array(color2).astype(int)
-    diff = np.max(np.maximum(diff, 0)) - np.min(np.minimum(diff, 0))
+    # diff = np.array(color1).astype(int) - np.array(color2).astype(int)
+    # diff = np.max(np.maximum(diff, 0)) - np.min(np.minimum(diff, 0))
+    diff_r = color1[0] - color2[0]
+    diff_g = color1[1] - color2[1]
+    diff_b = color1[2] - color2[2]
+
+    max_positive = 0
+    max_negative = 0
+    if diff_r > max_positive:
+        max_positive = diff_r
+    elif diff_r < max_negative:
+        max_negative = diff_r
+    if diff_g > max_positive:
+        max_positive = diff_g
+    elif diff_g < max_negative:
+        max_negative = diff_g
+    if diff_b > max_positive:
+        max_positive = diff_b
+    elif diff_b < max_negative:
+        max_negative = diff_b
+
+    diff = max_positive - max_negative
     return diff <= threshold
 
 
@@ -836,7 +1066,8 @@ def extract_letters(image, letter=(255, 255, 255), threshold=128):
     cv2.max(r, b, dst=r)
     negative = r
     cv2.add(positive, negative, dst=positive)
-    cv2.convertScaleAbs(positive, alpha=255.0 / threshold, dst=positive)
+    if threshold != 255:
+        cv2.convertScaleAbs(positive, alpha=255.0 / threshold, dst=positive)
     return positive
 
 
@@ -856,16 +1087,19 @@ def extract_white_letters(image, threshold=128):
     # return cv2.multiply(cv2.add(maximum, cv2.subtract(maximum, minimum)), 255.0 / threshold)
     r, g, b = cv2.split(cv2.subtract((255, 255, 255, 0), image))
     maximum = cv2.max(r, g)
-    cv2.max(maximum, b, dst=maximum)
-    cv2.convertScaleAbs(maximum, alpha=0.5, dst=maximum)
     cv2.min(r, g, dst=r)
+    cv2.max(maximum, b, dst=maximum)
     cv2.min(r, b, dst=r)
+    # minimum = r
+
+    cv2.convertScaleAbs(maximum, alpha=0.5, dst=maximum)
     cv2.convertScaleAbs(r, alpha=0.5, dst=r)
-    minimum = r
-    cv2.subtract(maximum, minimum, dst=minimum)
-    cv2.add(maximum, minimum, dst=maximum)
-    cv2.convertScaleAbs(maximum, alpha=255.0 / threshold, dst=maximum)
+    cv2.subtract(maximum, r, dst=r)
+    cv2.add(maximum, r, dst=maximum)
+    if threshold != 255:
+        cv2.convertScaleAbs(maximum, alpha=255.0 / threshold, dst=maximum)
     return maximum
+
 
 
 def color_mapping(image, max_multiply=2):

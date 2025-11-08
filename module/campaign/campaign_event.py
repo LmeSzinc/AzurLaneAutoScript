@@ -2,11 +2,11 @@ import re
 from datetime import datetime
 
 from module.campaign.campaign_status import CampaignStatus
-from module.config.config_updater import EVENTS, RAIDS, COALITIONS, GEMS_FARMINGS, MARITIME_ESCORTS
+from module.config.config_updater import COALITIONS, EVENTS, GEMS_FARMINGS, HOSPITAL, MARITIME_ESCORTS, RAIDS
 from module.config.utils import DEFAULT_TIME
 from module.logger import logger
 from module.ui.assets import CAMPAIGN_MENU_NO_EVENT
-from module.ui.page import page_event, page_campaign_menu, page_sp, page_coalition
+from module.ui.page import page_campaign_menu, page_coalition, page_event, page_sp
 from module.war_archives.assets import WAR_ARCHIVES_CAMPAIGN_CHECK
 
 
@@ -17,14 +17,18 @@ class CampaignEvent(CampaignStatus):
             tasks (list[str]): Task name
         """
         with self.config.multi_set():
+            # Disable normal events
             for task in tasks:
-                if task in ['GemsFarming']:
+                if task in GEMS_FARMINGS:
                     continue
                 keys = f'{task}.Scheduler.Enable'
                 logger.info(f'Disable task `{task}`')
                 self.config.cross_set(keys=keys, value=False)
 
-            for task in ['GemsFarming']:
+            # Reset GemsFarming
+            for task in tasks:
+                if task not in GEMS_FARMINGS:
+                    continue
                 name = self.config.cross_get(keys=f'{task}.Campaign.Name', default='2-4')
                 if not self.stage_is_main(name):
                     logger.info(f'Reset GemsFarming to 2-4')
@@ -46,11 +50,11 @@ class CampaignEvent(CampaignStatus):
         limit = int(
             re.sub(r'[,.\'"，。]', '', str(self.config.EventGeneral_PtLimit))
         )
-        tasks = EVENTS + RAIDS + COALITIONS + GEMS_FARMINGS
+        tasks = EVENTS + RAIDS + COALITIONS + GEMS_FARMINGS + HOSPITAL
         command = self.config.Scheduler_Command
         if limit <= 0 or command not in tasks:
             return False
-        if command == 'GemsFarming' and self.stage_is_main(self.config.Campaign_Name):
+        if command in GEMS_FARMINGS and self.stage_is_main(self.config.Campaign_Name):
             return False
 
         pt = self.get_event_pt()
@@ -71,15 +75,15 @@ class CampaignEvent(CampaignStatus):
             in: page_event or page_sp
         """
         limit = self.config.EventGeneral_TimeLimit
-        tasks = EVENTS + RAIDS + COALITIONS + MARITIME_ESCORTS
+        tasks = EVENTS + RAIDS + COALITIONS + GEMS_FARMINGS + MARITIME_ESCORTS + HOSPITAL
         command = self.config.Scheduler_Command
         if command not in tasks or limit == DEFAULT_TIME:
             return False
-        if command == 'GemsFarming' and self.stage_is_main(self.config.Campaign_Name):
+        if command in GEMS_FARMINGS and self.stage_is_main(self.config.Campaign_Name):
             return False
 
         now = datetime.now().replace(microsecond=0)
-        logger.attr('Event_PT_limit', f'{now} -> {limit}')
+        logger.attr('Event_time_limit', f'{now} -> {limit}')
         if now > limit:
             logger.hr(f'Reach event time limit: {limit}')
             self._disable_tasks(tasks)
@@ -128,7 +132,7 @@ class CampaignEvent(CampaignStatus):
         """
         if self.appear(CAMPAIGN_MENU_NO_EVENT, offset=(20, 20)):
             logger.info('Event unavailable, disable task')
-            tasks = EVENTS + COALITIONS + GEMS_FARMINGS
+            tasks = EVENTS + RAIDS + COALITIONS + GEMS_FARMINGS + HOSPITAL
             self._disable_tasks(tasks)
             self.config.task_stop()
         else:
@@ -176,6 +180,26 @@ class CampaignEvent(CampaignStatus):
             if self.is_event_entrance_available():
                 self.ui_goto(page_coalition)
                 return True
+
+    def disable_raid_on_event(self):
+        """
+        Disable raid tasks (or coalition) when entered an event,
+        to be foolproof if user forgot to disable raid tasks when raid is over and another event is ongoing
+        """
+        command = self.config.Scheduler_Command
+        if command not in EVENTS + GEMS_FARMINGS:
+            return False
+        if command in GEMS_FARMINGS and self.stage_is_main(self.config.Campaign_Name):
+            return False
+
+        tasks = RAIDS + COALITIONS + MARITIME_ESCORTS
+        tasks = [t for t in tasks if self.config.is_task_enabled(t)]
+        if tasks:
+            logger.info('New event ongoing, disable old event tasks')
+            self._disable_tasks(tasks)
+            return True
+        else:
+            return False
 
     @staticmethod
     def stage_is_main(name) -> bool:

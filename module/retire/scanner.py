@@ -64,6 +64,10 @@ class Ship:
                 elif isinstance(value, tuple):
                     if not (value[0] <= self.__dict__[key] <= value[1]):
                         return False
+                # list means should be in the list
+                elif isinstance(value, list):
+                    if self.__dict__[key] not in value:
+                        return False
 
         return True
 
@@ -384,6 +388,8 @@ class ShipScanner(Scanner):
             lower = self.sub_scanners[key].limit_value(lower)
             upper = self.sub_scanners[key].limit_value(upper)
             self.limitaion[key] = (lower, upper)
+        elif isinstance(value, list):
+            self.limitaion[key] = [self.sub_scanners[key].limit_value(v) for v in value]
         else:
             self.limitaion[key] = self.sub_scanners[key].limit_value(value)
 

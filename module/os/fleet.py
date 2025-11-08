@@ -9,19 +9,22 @@ from module.base.timer import Timer
 from module.base.utils import point_limit
 from module.config.utils import dict_to_kv
 from module.exception import MapWalkError
+from module.exercise.assets import QUIT_RECONFIRM
+from module.handler.assets import MAINTENANCE_ANNOUNCE
 from module.logger import logger
 from module.map.fleet import Fleet
 from module.map.map_grids import SelectedGrids
 from module.map.utils import location_ensure
 from module.map_detection.utils import area2corner, corner2inner
 from module.ocr.ocr import Ocr
-from module.os.assets import MAP_GOTO_GLOBE, STRONGHOLD_PERCENTAGE, TEMPLATE_EMPTY_HP, FLEET_EMP_DEBUFF, MAP_EXIT
+from module.os.assets import FLEET_EMP_DEBUFF, MAP_EXIT, MAP_GOTO_GLOBE, STRONGHOLD_PERCENTAGE, TEMPLATE_EMPTY_HP
 from module.os.camera import OSCamera
 from module.os.map_base import OSCampaignMap
 from module.os_ash.ash import OSAsh
 from module.os_combat.combat import Combat
 from module.os_handler.assets import AUTO_SEARCH_REWARD, CLICK_SAFE_AREA, IN_MAP, PORT_ENTER
 from module.os_shop.assets import PORT_SUPPLY_CHECK
+from module.ui.assets import BACK_ARROW
 
 FLEET_FILTER = Filter(regex=re.compile(r'fleet-?(\d)'), attr=('fleet',), preset=('callsubmarine',))
 
@@ -282,6 +285,8 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         if confirm_timer is None:
             confirm_timer = Timer(0.8, count=2)
         result = set()
+        # Record story history to clear click record
+        clicked_story = False
 
         confirm_timer.reset()
         while 1:
@@ -291,9 +296,21 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 self.device.screenshot()
 
             # Map event
-            if self.handle_map_event(drop=drop):
+            event = self.handle_map_event(drop=drop)
+            if event:
                 confirm_timer.reset()
                 result.add('event')
+                if event == 'story_skip':
+                    clicked_story = True
+                elif event == 'map_get_items':
+                    # story_skip -> map_get_items means abyssal progress reward is received
+                    if clicked_story:
+                        logger.info('Got items from story')
+                        self.device.click_record_clear()
+                        clicked_story = False
+                else:
+                    # Handled other events, clear history
+                    clicked_story = False
                 continue
             if self.handle_retirement():
                 confirm_timer.reset()
@@ -659,6 +676,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         self.update_os()
 
         click_timer = Timer(3)
+        pause_interval = Timer(0.5, count=1)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -673,8 +691,26 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                     break
 
             # Re-enter boss accidentally
-            if self.combat_appear():
-                self.ui_back(check_button=self.is_in_map)
+            if pause_interval.reached():
+                if self.combat_appear():
+                    logger.info(f'combat_appear -> {BACK_ARROW}')
+                    self.device.click(BACK_ARROW)
+                    pause_interval.reset()
+                    continue
+                pause = self.is_combat_executing()
+                if pause:
+                    self.device.click(pause)
+                    self.interval_reset(MAINTENANCE_ANNOUNCE)
+                    pause_interval.reset()
+                    continue
+            if self.handle_combat_quit():
+                self.interval_reset(MAINTENANCE_ANNOUNCE)
+                pause_interval.reset()
+                continue
+            if self.appear_then_click(QUIT_RECONFIRM, offset=True, interval=5):
+                self.interval_reset(MAINTENANCE_ANNOUNCE)
+                pause_interval.reset()
+                continue
 
             # Click leave button
             if self.is_in_map() and click_timer.reached():

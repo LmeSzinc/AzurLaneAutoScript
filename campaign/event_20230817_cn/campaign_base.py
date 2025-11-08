@@ -31,7 +31,7 @@ class CampaignBase(CampaignBase_):
             Button:
         """
         # Story before A1, E0-1 ~ E0-3
-        if self.appear(EVENT_20230817_STORY, offset=(20, 20)):
+        if self.appear(EVENT_20230817_STORY, offset=(20, 100)):
             return EVENT_20230817_STORY
 
         # Smaller image to run faster
@@ -69,6 +69,8 @@ class CampaignBase(CampaignBase_):
                 confirm.reset()
 
             if self.handle_story_skip():
+                continue
+            if self.handle_get_items():
                 continue
 
             button = self.get_story_button()

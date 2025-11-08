@@ -6,8 +6,8 @@ from pywebio.output import put_buttons, put_markdown
 from pywebio.session import defer_call, hold, run_js, set_env
 
 import module.webui.lang as lang
-from module.config.utils import (LANGUAGES, deep_get, deep_iter, deep_set,
-                                 filepath_i18n, read_file, write_file)
+from module.config.deep import deep_get, deep_iter, deep_set
+from module.config.utils import LANGUAGES, filepath_i18n, read_file, write_file
 
 
 def translate():

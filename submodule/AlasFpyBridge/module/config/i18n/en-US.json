@@ -20,7 +20,7 @@
   "Task": {
     "Fpy": {
       "name": "FGO-py",
-      "help": "Requries FGO-py v11.2.0 or higher"
+      "help": "Requries FGO-py v20.1.2 or higher"
     },
     "FpyHeartbeat": {
       "name": "Heartbeat",

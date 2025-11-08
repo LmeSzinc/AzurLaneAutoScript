@@ -49,6 +49,7 @@ class Config:
     # ===== End of generated config =====
 
     STAGE_ENTRANCE = ['half', '20240725']
+    MAP_CHAPTER_SWITCH_20241219 = True
     HOMO_STORAGE = ((10, 5), [(152.845, 95.044), (1264.11, 95.044), (28.172, 525.208), (1419.191, 525.208)])
     HOMO_EDGE_COLOR_RANGE = (0, 33)
     HOMO_EDGE_HOUGHLINES_THRESHOLD = 120

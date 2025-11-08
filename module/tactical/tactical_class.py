@@ -62,6 +62,10 @@ class ExpOnBookSelect(DigitCounter):
     def after_process(self, result):
         result = super().after_process(result)
 
+        if result.endswith("580"):
+            new = result[:-3] + "5800"
+            logger.info(f'ExpOnBookSelect result {result} is revised to {new}')
+            result = new
         if '/' not in result:
             for exp in [5800, 4400, 3200, 2200, 1400, 800, 400, 200, 100]:
                 res = re.match(rf'^(\d+){exp}$', result)
@@ -141,6 +145,10 @@ class Book:
             button (Button):
         """
         image = crop(image, button.area, copy=False)
+        # UI update in 20250814, input item image size is (64, 64), but default
+        # input is (98, 98), if image is not enlarged, get_color result is 0, book will ouput 'BookUnknownTn'
+        if image_size(image) < (98, 98):
+            image = resize(image, (98, 98))
         self.button = button
 
         # During the test of 40 random screenshots,
@@ -335,9 +343,11 @@ class RewardTacticalClass(Dock):
             else:
                 logger.info('Choose first book')
                 self._tactical_book_select(first)
+            logger.info(f'_tactical_books_choose -> {TACTICAL_CLASS_START}')
             self.device.click(TACTICAL_CLASS_START)
         else:
             logger.info('Cancel tactical')
+            logger.info(f'_tactical_books_choose -> {TACTICAL_CLASS_CANCEL}')
             self.device.click(TACTICAL_CLASS_CANCEL)
         return True
 
@@ -362,6 +372,8 @@ class RewardTacticalClass(Dock):
         offset = (slot * 220 - 20, -20, slot * 220 + 20, 20)
         if self.appear(RAPID_TRAINING, offset=offset, interval=1):
             self.device.click(RAPID_TRAINING)
+            # Clear interval to enter _tactical_books_choose fast
+            self.interval_clear(TACTICAL_CLASS_CANCEL, interval=2)
             return True
 
         return False
@@ -422,15 +434,18 @@ class RewardTacticalClass(Dock):
                 # Tactical page, has empty position
                 if self.appear_then_click(ADD_NEW_STUDENT, offset=(800, 20), interval=1):
                     self.interval_reset([TACTICAL_CHECK, RAPID_TRAINING])
-                    self.interval_clear([POPUP_CONFIRM, POPUP_CANCEL, GET_MISSION])
+                    self.interval_clear([POPUP_CONFIRM, POPUP_CANCEL, GET_MISSION, DOCK_CHECK, SKILL_CONFIRM])
                     continue
             if self.handle_rapid_training():
                 self.interval_reset(TACTICAL_CHECK)
-                self.interval_clear([POPUP_CONFIRM, POPUP_CANCEL, GET_MISSION])
+                self.interval_clear([POPUP_CONFIRM, POPUP_CANCEL, GET_MISSION, DOCK_CHECK, SKILL_CONFIRM])
                 continue
 
             # Get finish time
-            if self.appear(TACTICAL_CHECK, offset=(20, 20), interval=2):
+            # sometimes you have TACTICAL_CHECK without black-blurred background
+            # TACTICAL_CLASS_CANCEL and TACTICAL_CHECK appears
+            if not self.appear(TACTICAL_CLASS_CANCEL, offset=(20, 20)) \
+                    and self.appear(TACTICAL_CHECK, offset=(20, 20), interval=2):
                 self.interval_clear([POPUP_CONFIRM, POPUP_CANCEL, GET_MISSION])
                 if book_empty:
                     self.device.click(BACK_ARROW)
@@ -489,6 +504,9 @@ class RewardTacticalClass(Dock):
                 else:
                     study_finished = True
                 continue
+            # 2025.05.29 game tips that infos skin feature when you enter dock
+            if self.handle_game_tips():
+                return True
             if self.appear(DOCK_CHECK, offset=(20, 20), interval=3):
                 if self.dock_selected():
                     # When you click a ship from page_main -> dock,
@@ -496,6 +514,7 @@ class RewardTacticalClass(Dock):
                     # so we need click BACK_ARROW to clear selected state
                     logger.info('Having pre-selected ship in dock, re-enter')
                     self.device.click(BACK_ARROW)
+                    self.interval_reset([BOOK_EMPTY_POPUP, DOCK_CHECK], interval=3)
                     continue
                 # If not enable or can not fina a suitable ship
                 if self.config.AddNewStudent_Enable:
@@ -508,7 +527,7 @@ class RewardTacticalClass(Dock):
                     logger.info('Not going to learn skill but in dock, close it')
                     study_finished = True
                     self.device.click(BACK_ARROW)
-                self.interval_reset([BOOK_EMPTY_POPUP])
+                self.interval_reset([BOOK_EMPTY_POPUP, DOCK_CHECK], interval=3)
                 continue
             if self.appear(SKILL_CONFIRM, offset=(20, 20), interval=3):
                 # If not enable or can not find a skill
@@ -522,7 +541,7 @@ class RewardTacticalClass(Dock):
                     logger.info('Not going to learn skill but having SKILL_CONFIRM, close it')
                     study_finished = True
                     self.device.click(BACK_ARROW)
-                self.interval_reset([BOOK_EMPTY_POPUP])
+                self.interval_reset([BOOK_EMPTY_POPUP, SKILL_CONFIRM], interval=3)
                 continue
             if self.appear(TACTICAL_META, offset=(200, 20), interval=3):
                 # If meta's skill page, it's inappropriate
@@ -606,11 +625,13 @@ class RewardTacticalClass(Dock):
     def select_suitable_ship(self):
         logger.hr(f'Select suitable ship')
 
-        # reset filter
-        self.dock_filter_set()
-
         # Set if favorite from config
-        self.dock_favourite_set(enable=self.config.AddNewStudent_Favorite)
+        self.dock_favourite_set(enable=self.config.AddNewStudent_Favorite, wait_loading=False)
+
+        # reset filter; naturally skip meta ships this way
+        self.dock_filter_set(
+            faction=[v for k, v in self.dock_filter.settings if k == 'faction' and v not in ['all', 'meta']]
+        )
 
         # No ship in dock
         if self.appear(DOCK_EMPTY, offset=(30, 30)):
