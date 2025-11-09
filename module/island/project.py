@@ -318,7 +318,6 @@ class IslandProjectRun(IslandUI):
         Returns:
             bool: if success
         """
-        logger.hr('Island Project')
         self.device.click_record_clear()
         self.interval_clear([ISLAND_MANAGEMENT_CHECK, PROJECT_COMPLETE,
                              GET_ITEMS_ISLAND, ROLE_SELECT_ENTER])
@@ -512,6 +511,7 @@ class IslandProjectRun(IslandUI):
         """
         logger.hr('Island Select Product')
         last = None
+        retry = trial
         click_interval = Timer(1)
         while 1:
             if skip_first_screenshot:
@@ -541,7 +541,10 @@ class IslandProjectRun(IslandUI):
                     drag = False
             
             if last == current.items[-1]:
-                logger.info(f'Reach the bottom of items, dit not match item {option}')
+                if retry > 0:
+                    retry -= 1
+                    continue
+                logger.info(f'Reach the bottom of items, did not match item {option}')
                 self.ui_ensure_management_page()
                 return False
 
@@ -572,16 +575,17 @@ class IslandProjectRun(IslandUI):
 
             if timeout.reached():
                 break
-            if self.image_color_count(PROJECT_START, color=(151, 155, 155), threshold=221, count=200):
-                if self.appear(PRODUCT_MANJUU_CHECK, offset=(20, 20)):
-                    self.ui_ensure_management_page()
-                    return True
-                else:
-                    logger.warning('Product requirement is not satisfied, quitting and retrying')
-                    self.ui_ensure_management_page()
-                    return False
 
             if not success:
+                if self.image_color_count(PROJECT_START, color=(151, 155, 155), threshold=221, count=200):
+                    if self.appear(PRODUCT_MANJUU_CHECK, offset=(20, 20)):
+                        self.ui_ensure_management_page()
+                        return True
+                    else:
+                        logger.warning('Product requirement is not satisfied, quitting and retrying')
+                        self.ui_ensure_management_page()
+                        return False
+
                 if self.appear_then_click(ISLAND_AMOUNT_MAX, offset=(5, 5), interval=2):
                     timeout.reset()
                     continue
@@ -737,6 +741,8 @@ class IslandProjectRun(IslandUI):
             self.project = self.project.add_by_eq(projects)
 
             for proj in projects:
+                logger.hr('Island Project')
+                logger.attr('Project_name', proj)
                 if proj.name == names[-1]:
                     end = True
                 
