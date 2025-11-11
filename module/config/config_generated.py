@@ -225,6 +225,7 @@ class GeneratedConfig:
     # Group `Meowfficer`
     Meowfficer_BuyAmount = 1
     Meowfficer_FortChoreMeowfficer = True
+    Meowfficer_OverflowCoins = 500000
 
     # Group `MeowfficerTrain`
     MeowfficerTrain_Enable = False
