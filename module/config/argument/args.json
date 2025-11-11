@@ -3,7 +3,7 @@
     "Emulator": {
       "Serial": {
         "type": "input",
-        "value": "127.0.0.1:7555",
+        "value": "auto",
         "valuetype": "str"
       },
       "PackageName": {
