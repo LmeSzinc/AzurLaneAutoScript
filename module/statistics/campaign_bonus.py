@@ -1,4 +1,4 @@
-from module.base.button import ButtonGrid
+from module.base.button import Button, ButtonGrid
 from module.base.utils import *
 from module.handler.assets import AUTO_SEARCH_MENU_EXIT
 from module.statistics.assets import CAMPAIGN_BONUS, CAMPAIGN_BONUS_SINGLE
@@ -13,6 +13,8 @@ class BonusItem(Item):
 
 
 class CampaignBonusStatistics(GetItemsStatistics):
+    bonus_button: Button = CAMPAIGN_BONUS
+
     def appear_on(self, image):
         if AUTO_SEARCH_MENU_EXIT.match(image, offset=(200, 20)) \
                 and (CAMPAIGN_BONUS.match(image, offset=(200, 500)) \
@@ -25,7 +27,7 @@ class CampaignBonusStatistics(GetItemsStatistics):
         ITEM_GROUP.item_class = BonusItem
         ITEM_GROUP.similarity = 0.85
         ITEM_GROUP.amount_area = (35, 51, 63, 63)
-        origin = area_offset(CAMPAIGN_BONUS.button, offset=(-7, 34))[:2]
+        origin = area_offset(self.bonus_button.button, offset=(-7, 34))[:2]
         grids = ButtonGrid(origin=origin, button_shape=(64, 64), grid_shape=(7, 2), delta=(72 + 2 / 3, 75))
 
         reward_bottom = AUTO_SEARCH_MENU_EXIT.button[1]

@@ -8,6 +8,7 @@ from module.base.utils import load_image
 from module.logger import logger
 from module.ocr.al_ocr import AlOcr
 from module.ocr.ocr import Ocr
+from module.statistics.assets import CAMPAIGN_BONUS, CAMPAIGN_BONUS_SINGLE
 from module.statistics.battle_status import BattleStatusStatistics
 from module.statistics.campaign_bonus import CampaignBonusStatistics
 from module.statistics.get_items import GetItemsStatistics
@@ -67,7 +68,9 @@ class DropStatistics:
             if self.get_items.appear_on(image):
                 self.get_items.extract_template(image, folder=self.template_folder)
             if self.campaign_bonus.appear_on(image):
-                self.campaign_bonus.extract_template(image, folder=self.template_folder)
+                for button in [CAMPAIGN_BONUS_SINGLE, CAMPAIGN_BONUS]:
+                    self.campaign_bonus.bonus_button = button
+                    self.campaign_bonus.extract_template(image, folder=self.template_folder)
 
     def parse_drop(self, file):
         """
@@ -90,8 +93,10 @@ class DropStatistics:
                 for item in self.get_items.stats_get_items(image):
                     yield [ts, campaign, enemy_name, 'GET_ITEMS', item.name, item.amount]
             if self.campaign_bonus.appear_on(image):
-                for item in self.campaign_bonus.stats_get_items(image):
-                    yield [ts, campaign, enemy_name, 'CAMPAIGN_BONUS', item.name, item.amount]
+                for button in [CAMPAIGN_BONUS_SINGLE, CAMPAIGN_BONUS]:
+                    self.campaign_bonus.bonus_button = button
+                    for item in self.campaign_bonus.stats_get_items(image):
+                        yield [ts, campaign, enemy_name, button.name, item.name, item.amount]
 
     def extract_template(self, campaign):
         """
