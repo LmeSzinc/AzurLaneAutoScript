@@ -139,8 +139,12 @@ class MeowfficerBuy(MeowfficerBase):
 
         desired = int(getattr(self.config, 'Meowfficer_BuyAmount', 0))
         overflow_th = getattr(self.config, 'Meowfficer_OverflowCoins', None)
+        skip_overflow = False
         try:
             overflow_th = int(overflow_th) if overflow_th is not None else None
+            if overflow_th == -1:
+                skip_overflow = True
+                overflow_th = None
         except Exception:
             overflow_th = None  # Disable overflow if invalid.
 
@@ -156,7 +160,7 @@ class MeowfficerBuy(MeowfficerBase):
             if _attempt(target_total_today):
                 remain, bought, total, coins = _read() 
 
-        if overflow_th is None:
+        if skip_overflow or overflow_th is None:
             return True
 
         if coins > overflow_th:
