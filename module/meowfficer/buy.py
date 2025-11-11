@@ -4,6 +4,7 @@ from module.meowfficer.assets import *
 from module.meowfficer.base import MeowfficerBase
 from module.ocr.ocr import Digit, DigitCounter
 from module.ui.assets import MEOWFFICER_GOTO_DORMMENU
+import math
 
 BUY_MAX = 15
 BUY_PRIZE = 1500
@@ -103,18 +104,75 @@ class MeowfficerBuy(MeowfficerBase):
                     break
 
     def meow_buy(self) -> bool:
-        """
+        """Buy Meowfficers by baseline plan and optional overflow plan.
+
         Pages:
             in: page_meowfficer
             out: page_meowfficer
+
+        Returns:
+        bool: Always True (no blocking errors).
         """
         logger.hr('Meowfficer buy', level=1)
 
-        for _ in range(3):
-            if self.meow_choose(count=self.config.Meowfficer_BuyAmount):
-                self.meow_confirm()
-            else:
+        def _read():
+            """Screenshot + OCR once; normalize total to BUY_MAX if needed."""
+            self.device.screenshot()
+            remain, bought, total = MEOWFFICER.ocr(self.device.image)
+            coins = MEOWFFICER_COINS.ocr(self.device.image)
+            if total != BUY_MAX:
+                logger.warning(f'Invalid meowfficer buy limit: {total}, revise to {BUY_MAX}')
+                total = BUY_MAX
+                bought = total - remain
+            return remain, bought, total, coins
+
+        def _attempt(target_total_today: int) -> bool:
+            """Try choose+confirm up to 3 times; target means today's total bought."""
+            for _ in range(3):
+                if self.meow_choose(count=target_total_today):
+                    self.meow_confirm()
+                    return True
+                return False
+            return False
+
+        remain, bought, total, coins = _read()
+
+        desired = int(getattr(self.config, 'Meowfficer_BuyAmount', 0))
+        overflow_th = getattr(self.config, 'Meowfficer_OverflowCoins', None)
+        try:
+            overflow_th = int(overflow_th) if overflow_th is not None else None
+        except Exception:
+            overflow_th = None  # Disable overflow if invalid.
+
+        today_left = max(0, total - int(bought))
+
+        baseline = max(0, min(desired, today_left, BUY_MAX))
+        if baseline > 0:
+            logger.info(
+                f'[Meowfficer] baseline buy={baseline} | coins={coins} | '
+                f'desired={desired} | bought_today={bought}/{total}'
+            )
+            target_total_today = min(total, int(bought) + baseline)
+            if _attempt(target_total_today):
+                remain, bought, total, coins = _read() 
+
+        if overflow_th is None:
+            return True
+
+        if coins > overflow_th:
+            need_more = math.ceil((coins - overflow_th) / BUY_PRIZE)  
+            today_left = max(0, total - int(bought))                  
+            planned = max(1, min(need_more, today_left, BUY_MAX))   
+            if planned <= 0:
+                logger.info('No extra to buy after overflow planning.')
                 return True
 
-        logger.warning('Too many trial in meowfficer buy, stopped.')
-        return False
+            target_total_today = min(total, int(bought) + planned)
+            logger.info(
+                f'[Meowfficer] overflow extra buy={planned} | coins={coins} | overflow_th={overflow_th} | '
+                f'bought_today={bought}/{total} -> target_total_today={target_total_today}'
+            )
+            _attempt(target_total_today)
+
+        return True
+
