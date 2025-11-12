@@ -65,8 +65,8 @@ class DropStatistics:
         """
         images = unpack(load_image(file))
         for image in images:
-            if self.get_items.appear_on(image):
-                self.get_items.extract_template(image, folder=self.template_folder)
+            # if self.get_items.appear_on(image):
+            #     self.get_items.extract_template(image, folder=self.template_folder)
             if self.campaign_bonus.appear_on(image):
                 for button in [CAMPAIGN_BONUS_SINGLE, CAMPAIGN_BONUS]:
                     self.campaign_bonus.bonus_button = button
@@ -87,11 +87,11 @@ class DropStatistics:
         images = unpack(load_image(file))
         enemy_name = 'unknown'
         for image in images:
-            if self.battle_status.appear_on(image):
-                enemy_name = self.battle_status.stats_battle_status(image)
-            if self.get_items.appear_on(image):
-                for item in self.get_items.stats_get_items(image):
-                    yield [ts, campaign, enemy_name, 'GET_ITEMS', item.name, item.amount]
+            # if self.battle_status.appear_on(image):
+            #     enemy_name = self.battle_status.stats_battle_status(image)
+            # if self.get_items.appear_on(image):
+            #     for item in self.get_items.stats_get_items(image):
+            #         yield [ts, campaign, enemy_name, 'GET_ITEMS', item.name, item.amount]
             if self.campaign_bonus.appear_on(image):
                 for button in [CAMPAIGN_BONUS_SINGLE, CAMPAIGN_BONUS]:
                     self.campaign_bonus.bonus_button = button
