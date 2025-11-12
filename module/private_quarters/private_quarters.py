@@ -137,7 +137,10 @@ class PrivateQuarters(PQInteract, PQShop):
 
         # Enter shop and buy weekly items (if any)
         if self.shop_filter:
-            self.pq_shop_weekly_items()
+            if server.server not in ['tw']:
+                self.pq_shop_weekly_items()
+            else:
+                logger.info(f'Private Quarters shop not supported for {server.server} server.')
 
         # Interact with target if enabled
         if target_interact:
@@ -146,7 +149,9 @@ class PrivateQuarters(PQInteract, PQShop):
             if count == 0:
                 logger.info('Daily intimacy count exhausted, exit subtask')
                 return
-
+            if server.server in ['tw'] and target_ship not in ['anchorage', 'noshiro', 'sirius']:
+                logger.info(f'Target ship:{target_ship} not supported for {server.server} server.')
+                return
             # Able to interact with target, execute
             self.pq_execute_interact(target_ship)
 
@@ -156,18 +161,17 @@ class PrivateQuarters(PQInteract, PQShop):
             in: Any page
             out: page_main, may have info_bar
         """
-        if server.server in ['cn', 'en', 'jp']:
-            self.ui_ensure(page_dormmenu)
-            self.ui_goto(page_private_quarters, get_ship=False)
-            self.handle_info_bar()
-
-            self.pq_run(
-                buy_roses=self.config.PrivateQuarters_BuyRoses,
-                buy_cake=self.config.PrivateQuarters_BuyCake,
-                target_interact=self.config.PrivateQuarters_TargetInteract,
-                target_ship=self.config.PrivateQuarters_TargetShip
-            )
-        else:
+        
+        self.ui_ensure(page_dormmenu)
+        self.ui_goto(page_private_quarters, get_ship=False)
+        self.handle_info_bar()
+        self.pq_run(
+            buy_roses=self.config.PrivateQuarters_BuyRoses,
+            buy_cake=self.config.PrivateQuarters_BuyCake,
+            target_interact=self.config.PrivateQuarters_TargetInteract,
+            target_ship=self.config.PrivateQuarters_TargetShip
+        )
+        if server.server in ['tw']:
             logger.info(f'Private Quarters task not presently supported for {server.server} server.')
             logger.info('If want to address, review necessary assets, replace, update above condition, and test')
 
