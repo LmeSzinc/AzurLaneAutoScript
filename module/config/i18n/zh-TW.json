@@ -2061,29 +2061,29 @@
   },
   "PrivateQuarters": {
     "_info": {
-      "name": "宿舍計劃",
-      "help": "PrivateQuarters._info.help"
+      "name": "宿舍計劃設定",
+      "help": ""
     },
     "BuyRoses": {
-      "name": "PrivateQuarters.BuyRoses.name",
-      "help": "PrivateQuarters.BuyRoses.help"
+      "name": "購買每週浪漫滿分",
+      "help": "此功能未於台服實現\n浪漫滿分購買數量每週一刷新\n每次執行會嘗試一次性全部購買，若物資不夠（24K物資）則取消購買並延後至明日執行"
     },
     "BuyCake": {
-      "name": "PrivateQuarters.BuyCake.name",
-      "help": "PrivateQuarters.BuyCake.help"
+      "name": "購買每週蛋糕禮盒",
+      "help": "此功能未於台服實現\n蛋糕禮盒購買數量每週一刷新\n每次執行會嘗試一次性全部購買，若鑽石不夠（210鑽石）則取消購買並延後至明日執行"
     },
     "TargetInteract": {
-      "name": "PrivateQuarters.TargetInteract.name",
-      "help": "PrivateQuarters.TargetInteract.help"
+      "name": "清空每日精力",
+      "help": "與選擇的艦娘互動清空今日精力"
     },
     "TargetShip": {
-      "name": "PrivateQuarters.TargetShip.name",
-      "help": "PrivateQuarters.TargetShip.help",
-      "anchorage": "anchorage",
-      "noshiro": "noshiro",
-      "sirius": "sirius",
-      "new_jersey": "new_jersey",
-      "taihou": "taihou"
+      "name": "選擇每日互動的艦娘",
+      "help": "選擇需要與之每日互動的艦娘\n台服將跳過紐澤西與大鳳",
+      "anchorage": "安克拉治",
+      "noshiro": "能代",
+      "sirius": "天狼星",
+      "new_jersey": "紐澤西",
+      "taihou": "大鳳"
     }
   },
   "Daily": {
