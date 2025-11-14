@@ -1,8 +1,6 @@
-import cv2
 import numpy as np
 import re
 from datetime import datetime, timedelta
-from scipy import signal
 
 import module.config.server as server
 from module.base.button import ButtonGrid
@@ -18,34 +16,39 @@ from module.ocr.ocr import Ocr, Digit
 from module.shop.assets import SHOP_OCR_BALANCE, SHOP_OCR_OIL_CHECK, SHOP_OCR_OIL
 from module.shop_event.assets import *
 from module.ui.navbar import Navbar
-from module.ui.scroll import AdaptiveScroll
+from module.ui.scroll import Scroll
 from module.ui.ui import UI
 
 
-class EventShopAdaptiveScroll(AdaptiveScroll):
+class EventShopScroll(Scroll):
     def match_color(self, main):
-        area = (self.area[0] - self.background, self.area[1], self.area[2] + self.background, self.area[3])
+        delta_x = 3
+        area = (self.area[0] - delta_x, self.area[1], self.area[2] + delta_x, self.area[3])
         image = main.image_crop(area, copy=False)
-        image = rgb2luma(image)
-        cv2.bitwise_not(image, dst=image)
-        image = image.flatten()
-        width = area[2] - area[0]
-        parameters = {
-            'prominence': 60,
-            'wlen': 2 * width + 1,
-        }
-        parameters.update(self.parameters)
-        peaks, _ = signal.find_peaks(image, **parameters)
-        peaks //= width
-        self.length = len(peaks)
+        image = rgb2luma(image).astype(np.float)
+        dif = image[:, image.shape[1] // 2] / (image[:, 0] + image[:, -1])
+        delta = np.diff(dif)
+        peak_candidates = np.where(np.abs(delta) > 0.025)[0]
+        if len(peak_candidates) == 2:
+            assert delta[peak_candidates[0]] < 0 < delta[peak_candidates[1]]
+            up, down = peak_candidates[0], peak_candidates[1]
+        elif len(peak_candidates) == 1:
+            if delta[peak_candidates[0]] > 0:
+                up, down = 0, peak_candidates[0]
+            else:
+                up, down = peak_candidates[0], self.total
+        else:
+            logger.warning(f'peak_candidates: {peak_candidates}'
+                           f'peak_values: {delta[peak_candidates]}')
+            up, down = 0, 100
         mask = np.zeros((self.total,), dtype=np.bool_)
-        mask[peaks] = 1
+        mask[up:down] = True
         return mask
 
 
-EVENT_SHOP_SCROLL = EventShopAdaptiveScroll(
-    EVENT_SHOP_SCROLL_AREA.button,
-    background=2,
+EVENT_SHOP_SCROLL = EventShopScroll(
+    EVENT_SHOP_SCROLL_AREA,
+    color=(0, 0, 0),
     name="EVENT_SHOP_SCROLL"
 )
 
