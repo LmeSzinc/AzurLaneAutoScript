@@ -9,7 +9,7 @@ from module.statistics.utils import *
 
 class BonusItem(Item):
     def predict_valid(self):
-        return np.mean(rgb2gray(self.image) > 160) > 0.1
+        return np.mean(rgb2gray(self.image) > 160) > 0.3
 
 
 class CampaignBonusStatistics(GetItemsStatistics):
@@ -18,7 +18,7 @@ class CampaignBonusStatistics(GetItemsStatistics):
     def appear_on(self, image):
         if AUTO_SEARCH_MENU_EXIT.match(image, offset=(200, 20)) \
                 and (CAMPAIGN_BONUS.match(image, offset=(200, 500)) \
-                or CAMPAIGN_BONUS_SINGLE.match(image, offset=(200, 500))):
+                and CAMPAIGN_BONUS_SINGLE.match(image, offset=(200, 500))):
             return True
 
         return False
@@ -48,7 +48,7 @@ class CampaignBonusStatistics(GetItemsStatistics):
         for item in result:
             if item.name == 'Coin':
                 valid = True
-                if item.amount > 100:
+                if item.amount > 80:
                     valid_coin = True
         if valid and valid_coin:
             return [self.revise_item(item) for item in result]
