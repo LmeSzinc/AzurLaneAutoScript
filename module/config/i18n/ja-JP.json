@@ -1402,11 +1402,18 @@
     "Mode": {
       "name": "Coalition.Mode.name",
       "help": "Coalition.Mode.help",
-      "easy": "easy",
+      "AREA-1": "AREA-1",
+      "AREA-2": "AREA-2",
+      "AREA-3": "AREA-3",
+      "AREA-4": "AREA-4",
+      "AREA-5": "AREA-5",
+      "AREA-6": "AREA-6"
+    },
+    "MapMode": {
+      "name": "Coalition.MapMode.name",
+      "help": "Coalition.MapMode.help",
       "normal": "normal",
-      "hard": "hard",
-      "sp": "sp",
-      "ex": "ex"
+      "hard": "hard"
     },
     "Fleet": {
       "name": "Coalition.Fleet.name",

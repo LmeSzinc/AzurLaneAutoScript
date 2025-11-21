@@ -195,7 +195,8 @@ class GeneratedConfig:
     MaritimeEscort_Enable = True
 
     # Group `Coalition`
-    Coalition_Mode = 'hard'  # easy, normal, hard, sp, ex
+    Coalition_Mode = 'AREA-1'  # AREA-1, AREA-2, AREA-3, AREA-4, AREA-5, AREA-6
+    Coalition_MapMode = 'normal'  # normal, hard
     Coalition_Fleet = 'single'  # single, multi
 
     # Group `Commission`

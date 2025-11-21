@@ -46,6 +46,9 @@ class CoalitionUI(Combat):
             mode_switch = NeoncitySwitch('CoalitionMode', offset=(20, 20))
             mode_switch.add_state('story', NEONCITY_MODE_STORY)
             mode_switch.add_state('battle', NEONCITY_MODE_BATTLE)
+        elif event == 'coalition_20251120':
+            # coalition 20251120 has no story mode
+            return True
         else:
             logger.error(f'MODE_SWITCH is not defined in event {event}')
             raise ScriptError
@@ -76,6 +79,9 @@ class CoalitionUI(Combat):
         elif event == 'coalition_20250626':
             fleet_switch.add_state('single', NEONCITY_SWITCH_SINGLE)
             fleet_switch.add_state('multi', NEONCITY_SWITCH_MULTI)
+        elif event == 'coalition_20251120':
+            fleet_switch.add_state('single', DATEALANE_SWITCH_SINGLE)
+            fleet_switch.add_state('multi', DATEALANE_SWITCH_MULTI)
         else:
             logger.error(f'FLEET_SWITCH is not defined in event {event}')
             raise ScriptError
@@ -115,6 +121,13 @@ class CoalitionUI(Combat):
             ('coalition_20250626', 'hard'): NEONCITY_HARD,
             ('coalition_20250626', 'sp'): NEONCITY_SP,
             ('coalition_20250626', 'ex'): NEONCITY_EX,
+
+            ('coalition_20251120', 'area1'): DATEALANE_AREA1,
+            ('coalition_20251120', 'area2'): DATEALANE_AREA2,
+            ('coalition_20251120', 'area3'): DATEALANE_AREA3,
+            ('coalition_20251120', 'area4'): DATEALANE_AREA4,
+            ('coalition_20251120', 'area5'): DATEALANE_AREA5,
+            ('coalition_20251120', 'area6'): DATEALANE_AREA6,
         }
         stage = stage.lower()
         try:
@@ -151,6 +164,13 @@ class CoalitionUI(Combat):
             ('coalition_20250626', 'hard'): 3,
             ('coalition_20250626', 'sp'): 4,
             ('coalition_20250626', 'ex'): 5,
+
+            ('coalition_20251120', 'area1'): 2,
+            ('coalition_20251120', 'area2'): 3,
+            ('coalition_20251120', 'area3'): 3,
+            ('coalition_20251120', 'area4'): 3,
+            ('coalition_20251120', 'area5'): 3,
+            ('coalition_20251120', 'area6'): 4,
         }
         stage = stage.lower()
         try:
@@ -174,8 +194,31 @@ class CoalitionUI(Combat):
             return ACEDEMY_FLEET_PREPARATION
         elif event == 'coalition_20250626':
             return NEONCITY_FLEET_PREPARATION
+        elif event == 'coalition_20251120':
+            return DATEALANE_FLEET_PREPARATION
         else:
             logger.error(f'FLEET_PREPARATION is not defined in event {event}')
+            raise ScriptError
+
+    def coalition_get_mode_switch(self, event, mode):
+        """
+        Args:
+            event (str): Event name.
+            mode (str): 'normal' or 'hard'
+
+        Returns:
+            Button:
+        """
+        if event == 'coalition_20251120':
+            if mode == 'normal':
+                return DATEALANE_MODE_NORMAL
+            elif mode == 'hard':
+                return DATEALANE_MODE_HARD
+            else:
+                logger.error(f'Mode switch is not defined in event {event}')
+                raise ScriptError
+        else:
+            logger.error(f'Mode switch is not defined in event {event}')
             raise ScriptError
 
     def handle_fleet_preparation(self, event, stage, mode):
@@ -222,17 +265,16 @@ class CoalitionUI(Combat):
                 logger.info(f'{BATTLE_PREPARATION} -> {BACK_ARROW}')
                 self.device.click(BACK_ARROW)
                 continue
-            if self.appear(fleet_preparation, offset=(20, 20), interval=3):
-                logger.info(f'{fleet_preparation} -> {NEONCITY_PREPARATION_EXIT}')
-                self.device.click(NEONCITY_PREPARATION_EXIT)
+            if self.appear_then_click(DATEALANE_PREPARATION_EXIT, offset=(50, 100), interval=1):
                 continue
 
-    def enter_map(self, event, stage, mode, skip_first_screenshot=True):
+    def enter_map(self, event, stage, mode, map_mode='normal', skip_first_screenshot=True):
         """
         Args:
             event (str): Event name such as 'coalition_20230323'
             stage (str): Stage name such as 'TC3'
             mode (str): 'single' or 'multi'
+            map_mode (str): 'normal' or 'hard'
             skip_first_screenshot:
 
         Pages:
@@ -241,10 +283,13 @@ class CoalitionUI(Combat):
         """
         button = self.coalition_get_entrance(event, stage)
         fleet_preparation = self.coalition_get_fleet_preparation(event)
+        mode_switch = self.coalition_get_mode_switch(event, map_mode)
         campaign_timer = Timer(5)
+        mode_timer = Timer(5)
         fleet_timer = Timer(5)
         campaign_click = 0
         fleet_click = 0
+        mode_click = 0
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -263,6 +308,9 @@ class CoalitionUI(Combat):
                 logger.critical("Possible reason #2: "
                                 "This stage can only be farmed once a day, "
                                 "but it's the second time that you are entering")
+                raise RequestHumanTakeover
+            if mode_click > 5:
+                logger.critical(f"Failed to enter {button}, too many click on {mode_switch}")
                 raise RequestHumanTakeover
             if self.appear(FLEET_NOT_PREPARED, offset=(20, 20)):
                 logger.critical('FLEET_NOT_PREPARED')
@@ -286,6 +334,14 @@ class CoalitionUI(Combat):
             if campaign_timer.reached() and self.in_coalition():
                 self.device.click(button)
                 campaign_click += 1
+                campaign_timer.reset()
+                continue
+
+            # Stage mode
+            if mode_timer.reached() and self.appear(mode_switch, offset=(20, 20)):
+                self.device.click(mode_switch)
+                mode_click += 1
+                mode_timer.reset()
                 campaign_timer.reset()
                 continue
 

@@ -87,7 +87,7 @@
       "help": ""
     },
     "Coalition": {
-      "name": "迷彩都市的寻踪者",
+      "name": "DATE A LANE",
       "help": ""
     },
     "MaritimeEscort": {
@@ -123,7 +123,7 @@
       "help": ""
     },
     "CoalitionSp": {
-      "name": "迷彩都市的寻踪者SP",
+      "name": "DATE A LANE SP",
       "help": ""
     },
     "Commission": {
@@ -1400,13 +1400,20 @@
       "help": "出击前必须在游戏内手动配队"
     },
     "Mode": {
+      "name": "关卡名称",
+      "help": "",
+      "AREA-1": "AREA-1",
+      "AREA-2": "AREA-2",
+      "AREA-3": "AREA-3",
+      "AREA-4": "AREA-4",
+      "AREA-5": "AREA-5",
+      "AREA-6": "AREA-6"
+    },
+    "MapMode": {
       "name": "难度",
-      "help": "SP图需要使用活动每日SP运行",
-      "easy": "简单",
+      "help": "",
       "normal": "普通",
-      "hard": "困难",
-      "sp": "SP",
-      "ex": "EX"
+      "hard": "困难"
     },
     "Fleet": {
       "name": "出击队伍",

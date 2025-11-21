@@ -44,6 +44,8 @@ class Coalition(CoalitionCombat, CampaignEvent):
         elif event == 'coalition_20250626':
             # use generic ocr model
             ocr = Digit(NEONCITY_PT_OCR, name='OCR_PT', lang='cnocr', letter=(208, 208, 208), threshold=128)
+        elif event == 'coalition_20251120':
+            ocr = Digit(DATEALANE_PT_OCR, name='OCR_PT', letter=(250, 213, 69), threshold=128)
         else:
             logger.error(f'ocr object is not defined in event {event}')
             raise ScriptError
@@ -101,12 +103,13 @@ class Coalition(CoalitionCombat, CampaignEvent):
 
         return False
 
-    def coalition_execute_once(self, event, stage, fleet):
+    def coalition_execute_once(self, event, stage, fleet, map_mode):
         """
         Args:
             event:
             stage:
             fleet:
+            map_mode:
 
         Pages:
             in: in_coalition
@@ -132,27 +135,29 @@ class Coalition(CoalitionCombat, CampaignEvent):
             self.coalition_map_exit(event)
             raise
 
-        self.enter_map(event=event, stage=stage, mode=fleet)
-        oil_check_boolean=True if self.config.SERVER not in ['tw'] else False
-        if self.triggered_stop_condition(oil_check=oil_check_boolean):
-            self.coalition_map_exit(event)
-            raise ScriptEnd
+        
+        self.enter_map(event=event, stage=stage, mode=fleet, map_mode=map_mode)
+        oil_check_boolean = True if self.config.SERVER not in ['tw'] else False
+        # if self.triggered_stop_condition(oil_check=oil_check_boolean):
+        #     self.coalition_map_exit(event)
+        #     raise ScriptEnd
         self.coalition_combat()
 
     @staticmethod
     def handle_stage_name(event, stage):
         stage = re.sub('[ \t\n]', '', str(stage)).lower()
-        if event == 'coalition_20230323':
+        if event in ['coalition_20230323', 'coalition_20251120']:
             stage = stage.replace('-', '')
 
         return event, stage
 
-    def run(self, event='', mode='', fleet='', total=0):
+    def run(self, event='', mode='', fleet='', map_mode='normal', total=0):
         event = event if event else self.config.Campaign_Event
         mode = mode if mode else self.config.Coalition_Mode
         fleet = fleet if fleet else self.config.Coalition_Fleet
-        if not event or not mode or not fleet:
-            raise ScriptError(f'Coalition arguments unfilled. name={event}, mode={mode}, fleet={fleet}')
+        map_mode = self.config.Coalition_MapMode
+        if not event or not mode or not fleet or not map_mode:
+            raise ScriptError(f'Coalition arguments unfilled. name={event}, mode={mode}, fleet={fleet}, map_mode={map_mode}')
 
         event, mode = self.handle_stage_name(event, mode)
         self.run_count = 0
@@ -189,7 +194,7 @@ class Coalition(CoalitionCombat, CampaignEvent):
             self.device.stuck_record_clear()
             self.device.click_record_clear()
             try:
-                self.coalition_execute_once(event=event, stage=mode, fleet=fleet)
+                self.coalition_execute_once(event=event, stage=mode, fleet=fleet, map_mode=map_mode)
             except ScriptEnd as e:
                 logger.hr('Script end')
                 logger.info(str(e))

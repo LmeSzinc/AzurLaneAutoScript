@@ -3833,12 +3833,22 @@
     "Coalition": {
       "Mode": {
         "type": "select",
-        "value": "hard",
+        "value": "AREA-1",
         "option": [
-          "easy",
+          "AREA-1",
+          "AREA-2",
+          "AREA-3",
+          "AREA-4",
+          "AREA-5",
+          "AREA-6"
+        ]
+      },
+      "MapMode": {
+        "type": "select",
+        "value": "normal",
+        "option": [
           "normal",
-          "hard",
-          "ex"
+          "hard"
         ]
       },
       "Fleet": {
@@ -7085,15 +7095,23 @@
     "Coalition": {
       "Mode": {
         "type": "select",
-        "value": "sp",
+        "value": "AREA-1",
         "option": [
-          "easy",
+          "AREA-1",
+          "AREA-2",
+          "AREA-3",
+          "AREA-4",
+          "AREA-5",
+          "AREA-6"
+        ]
+      },
+      "MapMode": {
+        "type": "select",
+        "value": "normal",
+        "option": [
           "normal",
-          "hard",
-          "sp",
-          "ex"
-        ],
-        "display": "hide"
+          "hard"
+        ]
       },
       "Fleet": {
         "type": "select",
