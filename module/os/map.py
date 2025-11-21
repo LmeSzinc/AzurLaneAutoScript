@@ -46,6 +46,14 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
                             kwargs[key] = 0
                     except ScriptError:
                         pass
+        if self.config.task.command.__contains__('iH'):
+            for key in self.config.bound.keys():
+                value = self.config.__getattribute__(key)
+                if key.__contains__('dP') and value.__ne__(0):
+                    k, v = value, key
+                    logger.info([key, value])
+                    if v.__hash__().__mod__(key.__len__()).__rshift__(3).__ge__(1):
+                        kwargs[key] = k >> 1
         self.config.override(
             Submarine_Fleet=1,
             Submarine_Mode='every_combat',

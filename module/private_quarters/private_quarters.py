@@ -149,7 +149,7 @@ class PrivateQuarters(PQInteract, PQShop):
             if count == 0:
                 logger.info('Daily intimacy count exhausted, exit subtask')
                 return
-            if server.server in ['tw'] and target_ship not in ['anchorage', 'noshiro', 'sirius']:
+            if server.server in ['tw'] and target_ship in ['taihou']:
                 logger.info(f'Target ship:{target_ship} not supported for {server.server} server.')
                 return
             # Able to interact with target, execute
