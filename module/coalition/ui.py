@@ -24,6 +24,9 @@ class CoalitionUI(Combat):
         # The same as raid
         return self.ui_page_appear(page_coalition, offset=(20, 20))
 
+    def in_coalition_20251120_difficulty_selection(self):
+        return self.appear(DAL_DIFFICULTY_EXIT, offset=(20, 20))
+
     def coalition_ensure_mode(self, event, mode):
         """
         Args:
@@ -46,6 +49,9 @@ class CoalitionUI(Combat):
             mode_switch = NeoncitySwitch('CoalitionMode', offset=(20, 20))
             mode_switch.add_state('story', NEONCITY_MODE_STORY)
             mode_switch.add_state('battle', NEONCITY_MODE_BATTLE)
+        elif event == 'coalition_20251120':
+            logger.info('Coalition event coalition_20251120 has no mode switch')
+            return
         else:
             logger.error(f'MODE_SWITCH is not defined in event {event}')
             raise ScriptError
@@ -76,6 +82,9 @@ class CoalitionUI(Combat):
         elif event == 'coalition_20250626':
             fleet_switch.add_state('single', NEONCITY_SWITCH_SINGLE)
             fleet_switch.add_state('multi', NEONCITY_SWITCH_MULTI)
+        elif event == 'coalition_20251120':
+            fleet_switch.add_state('single', DAL_SWITCH_SINGLE)
+            fleet_switch.add_state('multi', DAL_SWITCH_MULTI)
         else:
             logger.error(f'FLEET_SWITCH is not defined in event {event}')
             raise ScriptError
@@ -115,6 +124,49 @@ class CoalitionUI(Combat):
             ('coalition_20250626', 'hard'): NEONCITY_HARD,
             ('coalition_20250626', 'sp'): NEONCITY_SP,
             ('coalition_20250626', 'ex'): NEONCITY_EX,
+
+            ('coalition_20251120', 'area1-normal'): DAL_AREA1,
+            ('coalition_20251120', 'area2-normal'): DAL_AREA2,
+            ('coalition_20251120', 'area3-normal'): DAL_AREA3,
+            ('coalition_20251120', 'area4-normal'): DAL_AREA4,
+            ('coalition_20251120', 'area5-normal'): DAL_AREA5,
+            ('coalition_20251120', 'area6-normal'): DAL_AREA6,
+            ('coalition_20251120', 'area1-hard'): DAL_AREA1,
+            ('coalition_20251120', 'area2-hard'): DAL_AREA2,
+            ('coalition_20251120', 'area3-hard'): DAL_AREA3,
+            ('coalition_20251120', 'area4-hard'): DAL_AREA4,
+            ('coalition_20251120', 'area5-hard'): DAL_AREA5,
+            ('coalition_20251120', 'area6-hard'): DAL_AREA6,
+        }
+        stage = stage.lower()
+        try:
+            return dic[(event, stage)]
+        except KeyError as e:
+            logger.error(e)
+            raise CampaignNameError
+
+    @staticmethod
+    def coalition_20251120_get_entrance_difficulty(event, stage):
+        """
+        Args:
+            stage (str): Stage name.
+
+        Returns:
+            Button: Entrance difficulty button
+        """
+        dic = {
+            ('coalition_20251120', 'area1-normal'): DAL_NORMAL,
+            ('coalition_20251120', 'area2-normal'): DAL_NORMAL,
+            ('coalition_20251120', 'area3-normal'): DAL_NORMAL,
+            ('coalition_20251120', 'area4-normal'): DAL_NORMAL,
+            ('coalition_20251120', 'area5-normal'): DAL_NORMAL,
+            ('coalition_20251120', 'area6-normal'): DAL_NORMAL,
+            ('coalition_20251120', 'area1-hard'): DAL_HARD,
+            ('coalition_20251120', 'area2-hard'): DAL_HARD,
+            ('coalition_20251120', 'area3-hard'): DAL_HARD,
+            ('coalition_20251120', 'area4-hard'): DAL_HARD,
+            ('coalition_20251120', 'area5-hard'): DAL_HARD,
+            ('coalition_20251120', 'area6-hard'): DAL_HARD,
         }
         stage = stage.lower()
         try:
@@ -151,6 +203,19 @@ class CoalitionUI(Combat):
             ('coalition_20250626', 'hard'): 3,
             ('coalition_20250626', 'sp'): 4,
             ('coalition_20250626', 'ex'): 5,
+
+            ('coalition_20251120', 'area1-normal'): 2,
+            ('coalition_20251120', 'area2-normal'): 3,
+            ('coalition_20251120', 'area3-normal'): 3,
+            ('coalition_20251120', 'area4-normal'): 3,
+            ('coalition_20251120', 'area5-normal'): 3,
+            ('coalition_20251120', 'area6-normal'): 4,
+            ('coalition_20251120', 'area1-hard'): 2,
+            ('coalition_20251120', 'area2-hard'): 3,
+            ('coalition_20251120', 'area3-hard'): 3,
+            ('coalition_20251120', 'area4-hard'): 3,
+            ('coalition_20251120', 'area5-hard'): 3,
+            ('coalition_20251120', 'area6-hard'): 4,
         }
         stage = stage.lower()
         try:
@@ -174,6 +239,8 @@ class CoalitionUI(Combat):
             return ACEDEMY_FLEET_PREPARATION
         elif event == 'coalition_20250626':
             return NEONCITY_FLEET_PREPARATION
+        elif event == 'coalition_20251120':
+            return DAL_FLEET_PREPARATION
         else:
             logger.error(f'FLEET_PREPARATION is not defined in event {event}')
             raise ScriptError
@@ -240,10 +307,15 @@ class CoalitionUI(Combat):
             out: BATTLE_PREPARATION
         """
         button = self.coalition_get_entrance(event, stage)
+        if event in ['coalition_20251120']:
+            button_difficulty = self.coalition_20251120_get_entrance_difficulty(event, stage)
+        else:
+            button_difficulty = None
         fleet_preparation = self.coalition_get_fleet_preparation(event)
         campaign_timer = Timer(5)
         fleet_timer = Timer(5)
         campaign_click = 0
+        campaign_difficulty_click = 0
         fleet_click = 0
         while 1:
             if skip_first_screenshot:
@@ -255,6 +327,10 @@ class CoalitionUI(Combat):
             if campaign_click > 5:
                 logger.critical(f"Failed to enter {button}, too many click on {button}")
                 logger.critical("Possible reason #1: You haven't cleared previous stage to unlock the stage.")
+                raise RequestHumanTakeover
+            if campaign_difficulty_click > 5:
+                logger.critical(f"Failed to enter {button_difficulty}, too many click on {button_difficulty}")
+                logger.critical("Possible reason #1: The difficulty asset is not correct.")
                 raise RequestHumanTakeover
             if fleet_click > 5:
                 logger.critical(f"Failed to enter {button}, too many click on FLEET_PREPARATION")
@@ -288,6 +364,12 @@ class CoalitionUI(Combat):
                 campaign_click += 1
                 campaign_timer.reset()
                 continue
+            if event in ['coalition_20251120']:
+                if campaign_timer.reached() and self.in_coalition_20251120_difficulty_selection() and button_difficulty:
+                    self.device.click(button_difficulty)
+                    campaign_difficulty_click += 1
+                    campaign_timer.reset()
+                    continue
 
             # Fleet preparation
             if fleet_timer.reached() and self.appear(fleet_preparation, offset=(20, 50)):
