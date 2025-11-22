@@ -96,7 +96,7 @@ class Level(ModuleBase):
         if not self.config.STOP_IF_REACH_LV32:
             return False
 
-        if self.lv[0] >= 32:
+        if self.lv[0] >= 31:
             logger.info(f'Position 0 LV.32 Reached')
             self.config.LV32_TRIGGERED = True
             return True
