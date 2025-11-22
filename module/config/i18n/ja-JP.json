@@ -82,10 +82,6 @@
       "name": "病院探訪ストーリー",
       "help": ""
     },
-    "HospitalEvent": {
-      "name": "病院探訪",
-      "help": ""
-    },
     "Coalition": {
       "name": "ネオンシティの探索者",
       "help": ""
