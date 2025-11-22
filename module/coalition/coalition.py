@@ -1,7 +1,6 @@
 import re
 
 from module.campaign.campaign_event import CampaignEvent
-from module.campaign.campaign_status import OCR_PT
 from module.coalition.assets import *
 from module.coalition.combat import CoalitionCombat
 from module.exception import ScriptError, ScriptEnd
@@ -20,6 +19,20 @@ class AcademyPtOcr(Digit):
         try:
             # 累计: 840
             result = result.rsplit(':')[1]
+        except IndexError:
+            pass
+        return super().after_process(result)
+
+class DALPtOcr(Digit):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.alphabet += 'X'
+
+    def after_process(self, result):
+        logger.attr(self.name, result)
+        try:
+            # X9100
+            result = result.rsplit('X')[1]
         except IndexError:
             pass
         return super().after_process(result)
@@ -43,7 +56,7 @@ class Coalition(CoalitionCombat, CampaignEvent):
             # use generic ocr model
             ocr = Digit(NEONCITY_PT_OCR, name='OCR_PT', lang='cnocr', letter=(208, 208, 208), threshold=128)
         elif event == 'coalition_20251120':
-            ocr = OCR_PT
+            ocr = DALPtOcr(DAL_PT_OCR, name='OCR_PT' ,letter=(255, 213, 69), threshold=128)
         else:
             logger.error(f'ocr object is not defined in event {event}')
             raise ScriptError
