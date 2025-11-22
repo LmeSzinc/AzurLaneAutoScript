@@ -85,13 +85,15 @@ class CoalitionUI(Combat):
         else:
             logger.error(f'FLEET_SWITCH is not defined in event {event}')
             raise ScriptError
-
+        
+        """
         if mode == 'single':
             fleet_switch.set('single', main=self)
         elif mode == 'multi':
             fleet_switch.set('multi', main=self)
         else:
             logger.warning(f'Unknown coalition fleet mode: {mode}')
+        """
 
     @staticmethod
     def coalition_get_entrance(event, stage):
