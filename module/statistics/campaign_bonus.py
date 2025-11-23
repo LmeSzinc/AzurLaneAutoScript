@@ -1,7 +1,7 @@
 from module.base.button import Button, ButtonGrid
 from module.base.utils import *
 from module.handler.assets import AUTO_SEARCH_MENU_EXIT
-from module.statistics.assets import CAMPAIGN_BONUS, CAMPAIGN_BONUS_SINGLE
+from module.statistics.assets import *
 from module.statistics.get_items import ITEM_GROUP, GetItemsStatistics
 from module.statistics.item import Item
 from module.statistics.utils import *
@@ -16,6 +16,8 @@ class CampaignBonusStatistics(GetItemsStatistics):
     bonus_button: Button = CAMPAIGN_BONUS
 
     def appear_on(self, image):
+        if CAMPAIGN_BONUS_STRATEGY_CHECK.match(image, offset=(200, 500)):
+            return False
         if AUTO_SEARCH_MENU_EXIT.match(image, offset=(200, 20)) \
                 and (CAMPAIGN_BONUS.match(image, offset=(200, 500)) \
                 and CAMPAIGN_BONUS_SINGLE.match(image, offset=(200, 500))):
