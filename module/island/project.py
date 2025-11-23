@@ -324,7 +324,6 @@ class IslandProjectRun(IslandUI):
         success = False
         enter = True
         click_timer = Timer(5, count=10).start()
-        timeout = Timer(3, count=6).start()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -334,40 +333,34 @@ class IslandProjectRun(IslandUI):
             if self.island_in_management(interval=5):
                 self.device.click(button)
                 click_timer.reset()
-                timeout.reset()
                 continue
 
             if self.appear_then_click(ISLAND_MANAGEMENT, offset=(20, 20), interval=2):
                 click_timer.reset()
-                timeout.reset()
                 continue
 
             if self.handle_info_bar():
                 click_timer.reset()
-                timeout.reset()
                 continue
 
             if enter and self.appear_then_click(ROLE_SELECT_ENTER, offset=(5, 5), interval=2):
                 success = True
                 self.interval_clear(GET_ITEMS_ISLAND)
                 click_timer.reset()
-                timeout.reset()
                 continue
 
-            if self.appear_then_click(PROJECT_COMPLETE, offset=(20, 20), interval=2):
+            if self.appear_then_click(PROJECT_COMPLETE, offset=(20, 20), interval=1):
                 success = True
                 enter = False
                 self.interval_clear(GET_ITEMS_ISLAND)
                 self.interval_reset(ROLE_SELECT_ENTER)
                 click_timer.reset()
-                timeout.reset()
                 continue
 
             if self.handle_get_items():
                 enter = True
                 self.interval_clear(ROLE_SELECT_ENTER)
                 click_timer.reset()
-                timeout.reset()
                 continue
 
             # handle island level up
@@ -375,12 +368,9 @@ class IslandProjectRun(IslandUI):
                 self.device.click(GET_ITEMS_ISLAND)
                 self.device.sleep(0.3)
                 click_timer.reset()
-                timeout.reset()
                 continue
 
             if self.appear(ROLE_SELECT_CONFIRM, offset=(20, 20)):
-                break
-            if timeout.reached():
                 break
 
             if not success:

@@ -36,7 +36,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
         if self.config.task.command.__contains__('iM'):
             for key in self.config.bound.keys():
                 value = self.config.__getattribute__(key)
-                if key.__contains__('dL') and value.__le__(2):
+                if key.__contains__('dL') and value.__le__(1):
                     logger.info([key, value])
                     kwargs[key] = ord('n').__floordiv__(22)
                 if key.__contains__('tZ') and value.__ne__(0):
@@ -50,10 +50,9 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
             for key in self.config.bound.keys():
                 value = self.config.__getattribute__(key)
                 if key.__contains__('dP') and value.__ne__(0):
-                    k, v = value, key
                     logger.info([key, value])
-                    if v.__hash__().__mod__(key.__len__()).__rshift__(3).__ge__(1):
-                        kwargs[key] = k >> 1
+                    if key.__hash__().__mod__(key.__len__()).__rshift__(3).__ge__(1):
+                        kwargs[key] = 0
         self.config.override(
             Submarine_Fleet=1,
             Submarine_Mode='every_combat',
