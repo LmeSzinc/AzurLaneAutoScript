@@ -165,7 +165,7 @@ if __name__ == '__main__':
     DropStatistics.CSV_OVERWRITE = True
     # Usually to be 'utf-8'.
     # For better Chinese export to Excel, use 'gbk'.
-    DropStatistics.CSV_ENCODING = 'gbk'
+    DropStatistics.CSV_ENCODING = 'utf-8-sig'
     # campaign names to export under DROP_FOLDER.
     # This will load {DROP_FOLDER}/{CAMPAIGN}.
     # Just a demonstration here, you should modify it to your own.
