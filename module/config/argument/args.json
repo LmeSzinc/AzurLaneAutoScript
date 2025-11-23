@@ -3638,14 +3638,14 @@
     "Coalition": {
       "Mode": {
         "type": "select",
-        "value": "AREA-1",
+        "value": "area1",
         "option": [
-          "AREA-1",
-          "AREA-2",
-          "AREA-3",
-          "AREA-4",
-          "AREA-5",
-          "AREA-6"
+          "area1",
+          "area2",
+          "area3",
+          "area4",
+          "area5",
+          "area6"
         ]
       },
       "MapMode": {
@@ -6900,14 +6900,14 @@
     "Coalition": {
       "Mode": {
         "type": "select",
-        "value": "AREA-1",
+        "value": "area1",
         "option": [
-          "AREA-1",
-          "AREA-2",
-          "AREA-3",
-          "AREA-4",
-          "AREA-5",
-          "AREA-6"
+          "area1",
+          "area2",
+          "area3",
+          "area4",
+          "area5",
+          "area6"
         ]
       },
       "MapMode": {
