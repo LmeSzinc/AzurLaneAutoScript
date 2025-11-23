@@ -120,7 +120,12 @@
           "aScreenCap",
           "aScreenCap_nc",
           "DroidCast",
+          "DroidCast_webp",
+          "DroidCast_jpeg",
+          "DroidCast_jpeg_98",
+          "DroidCast_jpeg_96",
           "DroidCast_raw",
+          "DroidCast_lz4",
           "nemu_ipc",
           "ldopengl"
         ]
