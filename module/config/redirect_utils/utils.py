@@ -130,9 +130,3 @@ def coalition_to_little_academy(value):
         return 'hard'
     else:
         return value
-
-def coalition_to_dal(value):
-    """
-    Redirect DAL stage names to Frostfall
-    """
-    return value
