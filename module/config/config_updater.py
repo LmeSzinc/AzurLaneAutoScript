@@ -654,8 +654,6 @@ class ConfigUpdater:
         # ('Coalition.Coalition.Mode', 'Coalition.Coalition.Mode', coalition_to_frostfall),
         # 2025.06.26
         # ('Coalition.Coalition.Mode', 'Coalition.Coalition.Mode', coalition_to_little_academy),
-        # 2025.11.20
-        ('Coalition.Coalition.Mode', 'Coalition.Coalition.Mode', coalition_to_dal),
     ]
 
     # redirection += [
