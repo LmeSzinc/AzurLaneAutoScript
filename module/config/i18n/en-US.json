@@ -1398,18 +1398,18 @@
     "Mode": {
       "name": "Mode",
       "help": "SP needs to use event daily SP to run",
-      "area1": "AREA-1",
-      "area2": "AREA-2",
-      "area3": "AREA-3",
-      "area4": "AREA-4",
-      "area5": "AREA-5",
-      "area6": "AREA-6"
+      "AREA-1": "AREA-1",
+      "AREA-2": "AREA-2",
+      "AREA-3": "AREA-3",
+      "AREA-4": "AREA-4",
+      "AREA-5": "AREA-5",
+      "AREA-6": "AREA-6"
     },
     "MapMode": {
-      "name": "Map Mode",
-      "help": "",
-      "normal": "Normal",
-      "hard": "Hard"
+      "name": "Coalition.MapMode.name",
+      "help": "Coalition.MapMode.help",
+      "normal": "normal",
+      "hard": "hard"
     },
     "Fleet": {
       "name": "Fleet",

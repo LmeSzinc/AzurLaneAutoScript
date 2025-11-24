@@ -1396,18 +1396,18 @@
       "help": "出擊前必須在遊戲內手動配隊"
     },
     "Mode": {
-      "name": "地圖名稱",
+      "name": "難度",
       "help": "SP圖需要使用活動每日SP運行",
-      "area1": "AREA-1",
-      "area2": "AREA-2",
-      "area3": "AREA-3",
-      "area4": "AREA-4",
-      "area5": "AREA-5",
-      "area6": "AREA-6"
+      "AREA-1": "AREA-1",
+      "AREA-2": "AREA-2",
+      "AREA-3": "AREA-3",
+      "AREA-4": "AREA-4",
+      "AREA-5": "AREA-5",
+      "AREA-6": "AREA-6"
     },
     "MapMode": {
-      "name": "難度",
-      "help": "",
+      "name": "Coalition.MapMode.name",
+      "help": "Coalition.MapMode.help",
       "normal": "normal",
       "hard": "hard"
     },

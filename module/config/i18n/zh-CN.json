@@ -119,7 +119,7 @@
       "help": ""
     },
     "CoalitionSp": {
-      "name": "迷彩都市的寻踪者SP",
+      "name": "DATE A LANE SP",
       "help": ""
     },
     "Commission": {
@@ -1398,15 +1398,15 @@
     "Mode": {
       "name": "关卡名称",
       "help": "",
-      "area1": "AREA-1",
-      "area2": "AREA-2",
-      "area3": "AREA-3",
-      "area4": "AREA-4",
-      "area5": "AREA-5",
-      "area6": "AREA-6"
+      "AREA-1": "AREA-1",
+      "AREA-2": "AREA-2",
+      "AREA-3": "AREA-3",
+      "AREA-4": "AREA-4",
+      "AREA-5": "AREA-5",
+      "AREA-6": "AREA-6"
     },
     "MapMode": {
-      "name": "关卡难度",
+      "name": "难度",
       "help": "",
       "normal": "普通",
       "hard": "困难"

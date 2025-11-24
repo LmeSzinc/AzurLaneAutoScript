@@ -261,9 +261,6 @@ Coalition:
     UseAutoSearch: false
     Use2xBook: false
     AmbushEvade: true
-  Coalition:
-    Mode:
-      option: [ area1, area2, area3, area4, area5, area6 ]
   StopCondition:
     MapAchievement: non_stop
     StageIncrease: false

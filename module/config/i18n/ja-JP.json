@@ -1398,12 +1398,12 @@
     "Mode": {
       "name": "Coalition.Mode.name",
       "help": "Coalition.Mode.help",
-      "area1": "area1",
-      "area2": "area2",
-      "area3": "area3",
-      "area4": "area4",
-      "area5": "area5",
-      "area6": "area6"
+      "AREA-1": "AREA-1",
+      "AREA-2": "AREA-2",
+      "AREA-3": "AREA-3",
+      "AREA-4": "AREA-4",
+      "AREA-5": "AREA-5",
+      "AREA-6": "AREA-6"
     },
     "MapMode": {
       "name": "Coalition.MapMode.name",

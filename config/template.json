@@ -726,7 +726,7 @@
       "AmbushEvade": true
     },
     "Coalition": {
-      "Mode": "area1",
+      "Mode": "AREA-1",
       "MapMode": "normal",
       "Fleet": "single"
     },
@@ -1314,7 +1314,7 @@
       "AmbushEvade": true
     },
     "Coalition": {
-      "Mode": "area1",
+      "Mode": "AREA-1",
       "MapMode": "normal",
       "Fleet": "single"
     },

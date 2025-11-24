@@ -130,16 +130,3 @@ def coalition_to_little_academy(value):
         return 'hard'
     else:
         return value
-
-def coalition_to_date_a_lane(value):
-    """
-    Redirect date a lane stage names to Frostfall
-    """
-    if value == 'easy':
-        return 'area1'
-    elif value == 'normal':
-        return 'area2'
-    elif value == 'hard':
-        return 'area6'
-    else:
-        return value
