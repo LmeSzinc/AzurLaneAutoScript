@@ -293,6 +293,9 @@ class CoalitionUI(Combat):
                 logger.info(f'{fleet_preparation} -> {NEONCITY_PREPARATION_EXIT}')
                 self.device.click(NEONCITY_PREPARATION_EXIT)
                 continue
+            if self.appear_then_click(DAL_DIFFICULTY_EXIT, offset=(20, 20), interval=3):
+                logger.info(f'{DAL_DIFFICULTY_EXIT} -> {DAL_DIFFICULTY_EXIT}')
+                continue
 
     def enter_map(self, event, stage, mode, skip_first_screenshot=True):
         """
@@ -313,6 +316,7 @@ class CoalitionUI(Combat):
             button_difficulty = None
         fleet_preparation = self.coalition_get_fleet_preparation(event)
         campaign_timer = Timer(5)
+        campaign_difficulty_timer = Timer(5)
         fleet_timer = Timer(5)
         campaign_click = 0
         campaign_difficulty_click = 0
@@ -365,10 +369,10 @@ class CoalitionUI(Combat):
                 campaign_timer.reset()
                 continue
             if event in ['coalition_20251120']:
-                if campaign_timer.reached() and self.in_coalition_20251120_difficulty_selection() and button_difficulty:
+                if campaign_difficulty_timer.reached() and self.in_coalition_20251120_difficulty_selection() and button_difficulty:
                     self.device.click(button_difficulty)
                     campaign_difficulty_click += 1
-                    campaign_timer.reset()
+                    campaign_difficulty_timer.reset()
                     continue
 
             # Fleet preparation

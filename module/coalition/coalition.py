@@ -166,10 +166,10 @@ class Coalition(CoalitionCombat, CampaignEvent):
                 logger.info(f'Count: {self.run_count}')
 
             # UI switches
-            if self.config.SERVER in ['tw']:
-	            self.ui_goto(page_campaign_menu)
-	            if self.triggered_stop_condition(oil_check=True):
-		            break
+            # if self.config.SERVER in ['tw']:
+	        #     self.ui_goto(page_campaign_menu)
+	        #     if self.triggered_stop_condition(oil_check=True):
+		    #         break
             self.device.stuck_record_clear()
             self.device.click_record_clear()
             self.ui_goto_coalition()
