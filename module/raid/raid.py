@@ -223,9 +223,8 @@ class Raid(MapOperation, RaidCombat, CampaignEvent):
             if self.appear(BATTLE_PREPARATION, offset=(30, 20)):
                 if self.handle_combat_automation_set(auto=auto == 'combat_auto'):
                     continue
-                with self.config.multi_set():
-                    check_oil()
-                    check_coin()
+                check_oil()
+                check_coin()
             if self.handle_raid_ticket_use():
                 continue
             if self.handle_retirement():
