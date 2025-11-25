@@ -1870,6 +1870,40 @@
         ]
       }
     },
+    "CampaignStorage": {
+      "Oil": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredOil",
+        "order": 1,
+        "color": "#000000"
+      },
+      "Coin": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredCoin",
+        "order": 2,
+        "color": "#FFAA33"
+      },
+      "Gem": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredInt",
+        "order": 3,
+        "color": "#FF3333"
+      },
+      "Pt": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredInt",
+        "order": 4,
+        "color": "#00BFFF"
+      }
+    },
     "Storage": {
       "Storage": {
         "type": "storage",
@@ -8021,6 +8055,16 @@
         "value": false
       }
     },
+    "GachaStorage": {
+      "Cube": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredInt",
+        "order": 5,
+        "color": "#33FFFF"
+      }
+    },
     "Storage": {
       "Storage": {
         "type": "storage",
@@ -8276,6 +8320,32 @@
       "AkashiShopFilter": {
         "type": "textarea",
         "value": "ActionPoint > PurpleCoins"
+      }
+    },
+    "OpsiStorage": {
+      "YellowCoin": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredInt",
+        "order": 7,
+        "color": "#FF8800"
+      },
+      "PurpleCoin": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredInt",
+        "order": 8,
+        "color": "#7700BB"
+      },
+      "ActionPoint": {
+        "type": "stored",
+        "value": {},
+        "display": "hide",
+        "stored": "StoredActionPoint",
+        "order": 6,
+        "color": "#008000"
       }
     },
     "Storage": {
