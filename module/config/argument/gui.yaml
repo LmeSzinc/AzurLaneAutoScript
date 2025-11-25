@@ -114,3 +114,12 @@ Text:
   Clear:
   EnterPassword:
   ChooseFile:
+
+Dashboard:
+  NoData:
+  TimeError:
+  JustNow:
+  MinutesAgo:
+  HoursAgo:
+  DaysAgo:
+  LongTimeAgo:
