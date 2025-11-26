@@ -308,8 +308,8 @@ MaritimeEscort:
   Enable: true
 Coalition:
   Mode:
-    value: hard
-    option: [ easy, normal, hard, sp, ex ]
+    value: area1-normal
+    option: [ area1-normal, area1-hard, area2-normal, area2-hard, area3-normal, area3-hard, area4-normal, area4-hard, area5-normal, area5-hard, area6-normal, area6-hard ]
   Fleet:
     value: single
     option: [ single, multi ]

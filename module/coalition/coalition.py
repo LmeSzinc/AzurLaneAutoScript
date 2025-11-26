@@ -23,6 +23,20 @@ class AcademyPtOcr(Digit):
             pass
         return super().after_process(result)
 
+class DALPtOcr(Digit):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.alphabet += 'X'
+
+    def after_process(self, result):
+        logger.attr(self.name, result)
+        try:
+            # X9100
+            result = result.rsplit('X')[1]
+        except IndexError:
+            pass
+        return super().after_process(result)
+
 
 class Coalition(CoalitionCombat, CampaignEvent):
     run_count: int
@@ -41,6 +55,8 @@ class Coalition(CoalitionCombat, CampaignEvent):
         elif event == 'coalition_20250626':
             # use generic ocr model
             ocr = Digit(NEONCITY_PT_OCR, name='OCR_PT', lang='cnocr', letter=(208, 208, 208), threshold=128)
+        elif event == 'coalition_20251120':
+            ocr = DALPtOcr(DAL_PT_OCR, name='OCR_PT' ,letter=(255, 213, 69), threshold=128)
         else:
             logger.error(f'ocr object is not defined in event {event}')
             raise ScriptError
@@ -110,11 +126,11 @@ class Coalition(CoalitionCombat, CampaignEvent):
             self.coalition_map_exit(event)
             raise
 
-        self.enter_map(event=event, stage=stage, mode=fleet)
-        oil_check_boolean=True if self.config.SERVER not in ['tw'] else False
-        if self.triggered_stop_condition(oil_check=oil_check_boolean):
+        if self.triggered_stop_condition(oil_check=True):
             self.coalition_map_exit(event)
             raise ScriptEnd
+
+        self.enter_map(event=event, stage=stage, mode=fleet)
         self.coalition_combat()
 
     @staticmethod
@@ -150,10 +166,10 @@ class Coalition(CoalitionCombat, CampaignEvent):
                 logger.info(f'Count: {self.run_count}')
 
             # UI switches
-            if self.config.SERVER in ['tw']:
-	            self.ui_goto(page_campaign_menu)
-	            if self.triggered_stop_condition(oil_check=True):
-		            break
+            # if self.config.SERVER in ['tw']:
+	        #     self.ui_goto(page_campaign_menu)
+	        #     if self.triggered_stop_condition(oil_check=True):
+		    #         break
             self.device.stuck_record_clear()
             self.device.click_record_clear()
             self.ui_goto_coalition()

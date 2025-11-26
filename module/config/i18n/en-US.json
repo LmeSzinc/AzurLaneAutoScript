@@ -83,7 +83,7 @@
       "help": ""
     },
     "Coalition": {
-      "name": "Neon City Investigator",
+      "name": "DATE A LANE",
       "help": ""
     },
     "MaritimeEscort": {
@@ -683,6 +683,7 @@
       "coalition_20230323": "Frostfall",
       "coalition_20240627": "Welcome to Little Academy",
       "coalition_20250626": "The Neon City Investigator",
+      "coalition_20251120": "DATE A LANE",
       "event_20200227_cn": "Northern Overture",
       "event_20200312_cn": "The Solomon Ranger Rerun",
       "event_20200326_cn": "Microlayer Medley",
@@ -1320,11 +1321,18 @@
     "Mode": {
       "name": "Mode",
       "help": "SP needs to use event daily SP to run",
-      "easy": "Easy",
-      "normal": "Normal",
-      "hard": "Hard",
-      "sp": "SP",
-      "ex": "EX"
+      "area1-normal": "area1-normal",
+      "area1-hard": "area1-hard",
+      "area2-normal": "area2-normal",
+      "area2-hard": "area2-hard",
+      "area3-normal": "area3-normal",
+      "area3-hard": "area3-hard",
+      "area4-normal": "area4-normal",
+      "area4-hard": "area4-hard",
+      "area5-normal": "area5-normal",
+      "area5-hard": "area5-hard",
+      "area6-normal": "area6-normal",
+      "area6-hard": "area6-hard"
     },
     "Fleet": {
       "name": "Fleet",
