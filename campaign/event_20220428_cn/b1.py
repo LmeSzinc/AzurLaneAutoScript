@@ -13,8 +13,8 @@ MAP.map_data = """
     -- -- -- -- MS -- MS ++
     -- -- Me -- -- -- -- ME
     ME __ -- Me -- ++ -- --
-    Me MS ME -- MS -- -- ME
-    ++ ++ -- -- ++ ME -- --
+    Me MS ME -- MS -- Me ME
+    ++ ++ -- Me ++ ME -- --
     ++ ++ ME -- ME -- SP SP
 """
 MAP.map_data_loop = """
