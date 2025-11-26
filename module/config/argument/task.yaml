@@ -110,6 +110,9 @@ Event:
     MaritimeEscort:
       - Scheduler
       - MaritimeEscort
+    EventShop:
+      - Scheduler
+      - EventShop
     WarArchives:
       - Scheduler
       - Campaign
