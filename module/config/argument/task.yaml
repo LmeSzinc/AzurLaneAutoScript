@@ -2,6 +2,7 @@
 # Define argument group of tasks.
 # --------------------
 
+
 # ==================== Alas ====================
 
 Alas:
@@ -21,6 +22,7 @@ Alas:
       - OldRetire
     Restart:
       - Scheduler
+      - RestartEmulator
 
 # ==================== Farm ====================
 
@@ -61,6 +63,11 @@ Farm:
       - Campaign
       - StopCondition
       - Fleet
+      - Submarine
+      - Emotion
+
+      
+
 
 # ==================== Event ====================
 
@@ -71,7 +78,12 @@ Event:
     EventGeneral:
       - EventGeneral
       - TaskBalancer
-      - CampaignStorage
+    Coalition:
+      - Scheduler
+      - Campaign
+      - Coalition
+      - StopCondition
+      - Emotion
     Event:
       - Scheduler
       - Campaign
@@ -82,6 +94,15 @@ Event:
       - HpControl
       - EnemyPriority
     Event2:
+      - Scheduler
+      - Campaign
+      - StopCondition
+      - Fleet
+      - Submarine
+      - Emotion
+      - HpControl
+      - EnemyPriority
+    Event3:
       - Scheduler
       - Campaign
       - StopCondition
@@ -101,15 +122,13 @@ Event:
       - Hospital
       - StopCondition
       - Emotion
-    Coalition:
-      - Scheduler
-      - Campaign
-      - Coalition
-      - StopCondition
-      - Emotion
+
     MaritimeEscort:
       - Scheduler
       - MaritimeEscort
+    EventShop:
+      - Scheduler
+      - EventShop
     WarArchives:
       - Scheduler
       - Campaign
@@ -256,7 +275,6 @@ DailyMission:
     Gacha:
       - Scheduler
       - Gacha
-      - GachaStorage
     Freebies:
       - Scheduler
       - BattlePass
@@ -277,7 +295,6 @@ Opsi:
   tasks:
     OpsiGeneral:
       - OpsiGeneral
-      - OpsiStorage
     OpsiAshBeacon:
       - Scheduler
       - OpsiAshBeacon
@@ -313,6 +330,7 @@ Opsi:
       - Scheduler
       - OpsiStronghold
       - OpsiFleetFilter
+      - OpsiFleet
     OpsiMonthBoss:
       - Scheduler
       - OpsiMonthBoss
@@ -321,10 +339,12 @@ Opsi:
       - Scheduler
       - OpsiMeowfficerFarming
       - OpsiFleet
+      - OpsiCheckLeveling
     OpsiHazard1Leveling:
       - Scheduler
       - OpsiHazard1Leveling
       - OpsiFleet
+      - OpsiCheckLeveling
     OpsiCrossMonth:
       - Scheduler
 
@@ -346,3 +366,5 @@ Tool:
       - AzurLaneUncensored
     GameManager:
       - GameManager
+      - GGHandler
+      - PowerLimit
