@@ -39,6 +39,9 @@ class CoalitionCombat(CoalitionUI, CampaignBase):
                 # Stop clicking BATTLE_STATUS because combat ends
                 status_clicked = False
                 continue
+            # Coalition 20251120 has ship drop
+            if self.handle_get_ship():
+                continue
             if self.handle_battle_status():
                 status_clicked = True
                 click_last.reset()
