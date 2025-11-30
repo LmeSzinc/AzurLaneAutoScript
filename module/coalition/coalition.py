@@ -3,10 +3,9 @@ import re
 from module.campaign.campaign_event import CampaignEvent
 from module.coalition.assets import *
 from module.coalition.combat import CoalitionCombat
-from module.exception import ScriptError, ScriptEnd
+from module.exception import ScriptEnd, ScriptError
 from module.logger import logger
 from module.ocr.ocr import Digit
-from module.ui.page import page_campaign_menu
 
 
 class AcademyPtOcr(Digit):
@@ -61,7 +60,15 @@ class Coalition(CoalitionCombat, CampaignEvent):
             logger.error(f'ocr object is not defined in event {event}')
             raise ScriptError
 
-        pt = ocr.ocr(self.device.image)
+        pt = 0
+        for _ in self.loop(timeout=1.5):
+            pt = ocr.ocr(self.device.image)
+            # 999999 seems to be a default value, wait
+            if pt not in [999999]:
+                break
+        else:
+            logger.warning('Wait PT timeout, assume it is')
+
         return pt
 
     def triggered_stop_condition(self, oil_check=False, pt_check=False):
