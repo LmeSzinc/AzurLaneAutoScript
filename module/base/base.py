@@ -124,28 +124,50 @@ class ModuleBase:
 
         return button
 
-    def loop(self, skip_first=True):
+    def loop(self, skip_first=True, timeout=None):
         """
         A syntactic sugar to start a state loop
 
         Args:
             skip_first (bool): Usually to be True to reuse the previous screenshot
+            timeout (int | float | Timer): Seconds of timeout or a Timer object
 
         Yields:
             np.ndarray: screenshot
 
         Examples:
+            # state machine that handle clicking until destination
             for _ in self.loop():
                 if self.appear(...):
                     break
                 if self.appear_then_click(...):
                     continue
+
+        Examples:
+            # state machine with timeout
+            for _ in self.loop(timeout=2):
+                if self.appear(...):
+                    logger.info('Wait success')
+                    break
+            else:
+                logger.warning('Wait timeout')
         """
+        if timeout is not None:
+            if isinstance(timeout, Timer):
+                timeout.reset()
+            else:
+                timeout = Timer.from_seconds(timeout).start()
+
         while 1:
+            if timeout is not None:
+                if timeout.reached():
+                    return
+
             if skip_first:
                 skip_first = False
             else:
                 self.device.screenshot()
+
             try:
                 yield self.device.image
             except AttributeError:
