@@ -276,6 +276,47 @@ page_private_quarters = Page(PRIVATE_QUARTERS_CHECK)
 page_dormmenu.link(button=DORMMENU_GOTO_PRIVATE_QUARTERS, destination=page_private_quarters)
 page_private_quarters.link(button=PQ_GOTO_MAIN, destination=page_main)
 
+# Island
+page_island = Page(ISLAND_CHECK)
+page_dormmenu.link(button=DORMMENU_GOTO_ISLAND, destination=page_island)
+
+page_island_shop = Page(ISLAND_SHOP_CHECK)  # use coin icon as check
+page_island.link(button=ISLAND_GOTO_ISLAND_SHOP, destination=page_island_shop)
+page_island_shop.link(button=BACK_ARROW_WHITE, destination=page_island)
+
+page_island_map = Page(ISLAND_MAP_CHECK)
+page_island.link(button=ISLAND_GOTO_ISLAND_MAP, destination=page_island_map)
+page_island_map.link(button=BACK_ARROW_WHITE, destination=page_island)
+
+page_island_season = Page(ISLAND_SEASON_CHECK)
+page_island.link(button=ISLAND_GOTO_ISLAND_SEASON, destination=page_island_season)
+page_island_season.link(button=BACK_ARROW_WHITE, destination=page_island)
+
+page_island_technology = Page(ISLAND_TECHNOLOGY_CHECK)
+page_island.link(button=ISLAND_GOTO_ISLAND_TECHNOLOGY, destination=page_island_technology)
+page_island_technology.link(button=BACK_ARROW_WHITE, destination=page_island)
+
+page_island_phone = Page(ISLAND_PHONE_CHECK)
+page_island.link(button=ISLAND_GOTO_ISLAND_PHONE, destination=page_island_phone)
+page_island_phone.link(button=ISLAND_PHONE_GOTO_ISLAND, destination=page_island)
+page_island_phone.link(button=ISLAND_PHONE_GOTO_MAIN, destination=page_main)
+
+page_island_order = Page(ISLAND_ORDER_CHECK)
+page_island_phone.link(button=ISLAND_PHONE_GOTO_ISLAND_ORDER, destination=page_island_order)
+page_island_order.link(button=BACK_ARROW_WHITE, destination=page_island_phone)
+
+page_island_commission = Page(ISLAND_COMMISSION_CHECK)  # IslandShipOrder
+page_island_phone.link(button=ISLAND_PHONE_GOTO_ISLAND_COMMISSION, destination=page_island_commission)
+page_island_commission.link(button=BACK_ARROW_WHITE, destination=page_island_phone)
+
+page_island_storage = Page(ISLAND_STORAGE_CHECK)
+page_island_phone.link(button=ISLAND_PHONE_GOTO_ISLAND_STORAGE, destination=page_island_storage)
+page_island_storage.link(button=ISLAND_STORAGE_EXIT, destination=page_island_phone)
+
+page_island_manage = Page(ISLAND_MANAGE_CHECK)
+page_island_phone.link(button=ISLAND_PHONE_GOTO_ISLAND_MANAGE, destination=page_island_manage)
+page_island_manage.link(button=BACK_ARROW_WHITE, destination=page_island_phone)
+
 # Game room & choose game
 page_game_room = Page(GAME_ROOM_CHECK)
 page_academy.link(button=ACADEMY_GOTO_GAME_ROOM, destination=page_game_room)
