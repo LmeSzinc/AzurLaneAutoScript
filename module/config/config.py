@@ -4,6 +4,7 @@ import threading
 from datetime import datetime, timedelta
 
 import pywebio
+from module.base.decorator import cached_property, del_cached_property
 
 from module.base.filter import Filter
 from module.config.config_generated import GeneratedConfig
@@ -11,6 +12,9 @@ from module.config.config_manual import ManualConfig, OutputConfig
 from module.config.config_updater import ConfigUpdater, ensure_time, get_server_next_update, nearest_future
 from module.config.deep import deep_get, deep_set
 from module.config.utils import DEFAULT_TIME, dict_to_kv, filepath_config, get_os_reset_remain, path_to_arg
+from module.config.config_updater import ConfigUpdater
+from module.config.stored.classes import iter_attribute
+from module.config.stored.stored_generated import StoredGenerated
 from module.config.watcher import ConfigWatcher
 from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
@@ -198,6 +202,15 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
     @property
     def is_actual_task(self):
         return self.task.command.lower() not in ['alas', 'template']
+
+    @cached_property
+    def stored(self) -> StoredGenerated:
+        stored = StoredGenerated()
+        # Bind config
+        for _, value in iter_attribute(stored):
+            value._bind(self)
+            del_cached_property(value, '_stored')
+        return stored
 
     def get_next_task(self):
         """

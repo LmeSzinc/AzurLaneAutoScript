@@ -139,6 +139,7 @@ pre.rich-traceback-code {
 #pywebio-scope-running,
 #pywebio-scope-pending,
 #pywebio-scope-waiting,
+#pywebio-scope-daemon-log-bar,
 #pywebio-scope-daemon-overview #pywebio-scope-groups {
     background-color: white;
     border: 1px solid lightgrey;
@@ -150,5 +151,9 @@ pre.rich-traceback-code {
 
 *[style*="--arg-help--"],
 [id^="pywebio-scope-group_"] > p + p {
+    color: #777777;
+}
+
+*[style*="--dashboard-time--"] {
     color: #777777;
 }

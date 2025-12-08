@@ -1,3 +1,5 @@
+from typing import Any, Dict
+
 from pywebio.output import clear, put_html, put_scope, put_text, use_scope
 from pywebio.session import defer_call, info, run_js
 
@@ -13,11 +15,33 @@ class Base:
         self.is_mobile = info.user_agent.is_mobile
         # Task handler
         self.task_handler = WebIOTaskHandler()
+        # Record scopes to reduce data transfer to frontend
+        # Key: scope name, value: last update time
+        self.scope: Dict[str, Any] = {}
         defer_call(self.stop)
 
     def stop(self) -> None:
         self.alive = False
         self.task_handler.stop()
+
+    def scope_clear(self):
+        self.scope = {}
+
+    def scope_add(self, key, value):
+        self.scope[key] = value
+
+    def scope_expired(self, key, value) -> bool:
+        try:
+            return self.scope[key] != value
+        except KeyError:
+            return True
+
+    def scope_expired_then_add(self, key, value) -> bool:
+        if self.scope_expired(key, value):
+            self.scope_add(key, value)
+            return True
+        else:
+            return False
 
 
 class Frame(Base):
@@ -33,6 +57,7 @@ class Frame(Base):
             name: button name(label) to be highlight
         """
         self.visible = True
+        self.scope_clear()
         self.task_handler.remove_pending_task()
         clear("menu")
         if expand_menu:
@@ -50,6 +75,7 @@ class Frame(Base):
         """
         self.visible = True
         self.page = name
+        self.scope_clear()
         self.task_handler.remove_pending_task()
         clear("content")
         if collapse_menu:
