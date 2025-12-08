@@ -378,6 +378,12 @@
       "CoinLimit": 10000,
       "TaskCall": "Main"
     },
+    "CampaignStorage": {
+      "Oil": {},
+      "Coin": {},
+      "Gem": {},
+      "Pt": {}
+    },
     "Storage": {
       "Storage": {}
     }
@@ -1585,6 +1591,9 @@
       "UseTicket": true,
       "UseDrill": false
     },
+    "GachaStorage": {
+      "Cube": {}
+    },
     "Storage": {
       "Storage": {}
     }
@@ -1659,6 +1668,11 @@
       "RepairThreshold": 0.4,
       "DoRandomMapEvent": true,
       "AkashiShopFilter": "ActionPoint > PurpleCoins"
+    },
+    "OpsiStorage": {
+      "YellowCoin": {},
+      "PurpleCoin": {},
+      "ActionPoint": {}
     },
     "Storage": {
       "Storage": {}
