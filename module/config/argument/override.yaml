@@ -53,6 +53,14 @@ GemsFarming:
       option: [ do_not_use, hunt_only ]
     AutoSearchMode: sub_standby
     DistanceToBoss: use_open_ocean_support
+  Emotion:
+    Mode: calculate_ignore
+    Fleet1Control: prevent_red_face
+    Fleet1Recover: not_in_dormitory
+    Fleet1Oath: false
+    Fleet2Control: prevent_red_face
+    Fleet2Recover: not_in_dormitory
+    Fleet2Oath: false
 
 # ==================== Event ====================
 
