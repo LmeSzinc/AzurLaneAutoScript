@@ -155,6 +155,12 @@ class GeneratedConfig:
     GemsFarming_EquipmentCode = 'DD: null\nbogue: null\nhermes: null\nlangley: null\nranger: null'
     GemsFarming_CommissionLimit = True
 
+    # Group `CampaignStorage`
+    CampaignStorage_Oil = {}
+    CampaignStorage_Coin = {}
+    CampaignStorage_Gem = {}
+    CampaignStorage_Pt = {}
+
     # Group `EventGeneral`
     EventGeneral_PtLimit = 0
     EventGeneral_TimeLimit = datetime.datetime(2020, 1, 1, 0, 0)
@@ -341,6 +347,8 @@ class GeneratedConfig:
     PrivateQuarters_BuyCake = False
     PrivateQuarters_TargetInteract = True
     PrivateQuarters_TargetShip = 'anchorage'  # anchorage, noshiro, sirius, new_jersey, taihou
+    # Group `GachaStorage`
+    GachaStorage_Cube = {}
 
     # Group `Daily`
     Daily_UseDailySkip = True
@@ -436,6 +444,11 @@ class GeneratedConfig:
 
     # Group `OpsiHazard1Leveling`
     OpsiHazard1Leveling_TargetZone = 0  # 0, 44, 22
+
+    # Group `OpsiStorage`
+    OpsiStorage_YellowCoin = {}
+    OpsiStorage_PurpleCoin = {}
+    OpsiStorage_ActionPoint = {}
 
     # Group `Daemon`
     Daemon_EnterMap = True
