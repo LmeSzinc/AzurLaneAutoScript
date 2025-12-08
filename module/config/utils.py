@@ -545,19 +545,42 @@ def type_to_str(typ):
 
 from typing import Any, Mapping
 
-def deep_get(d: Mapping, keys: str, default=None) -> Any:
+def deep_get(d, keys, default=None):
     """
-    按点分隔的字符串 keys 取深层值
-    例：deep_get(cfg, 'Task.Main.Scheduler.Enable', False)
+    Get values in dictionary safely.
+    https://stackoverflow.com/questions/25833613/safe-method-to-get-value-of-nested-dictionary
+
+    Args:
+        d (dict):
+        keys (str, list): Such as `Scheduler.NextRun.value`
+        default: Default return if key not found.
+
+    Returns:
+
     """
-    if not isinstance(d, Mapping):
+    if isinstance(keys, str):
+        keys = keys.split('.')
+    assert type(keys) is list
+    if d is None:
         return default
-    for k in keys.split('.'):
-        try:
-            d = d[k]
-        except (KeyError, TypeError):
-            return default
+    if not keys:
+        return d
+    return deep_get(d.get(keys[0]), keys[1:], default)
+
+def deep_set(d, keys, value):
+    """
+    Set value into dictionary safely, imitating deep_get().
+    """
+    if isinstance(keys, str):
+        keys = keys.split('.')
+    assert type(keys) is list
+    if not keys:
+        return value
+    if not isinstance(d, dict):
+        d = {}
+    d[keys[0]] = deep_set(d.get(keys[0], {}), keys[1:], value)
     return d
+
 
 if __name__ == '__main__':
     get_os_reset_remain()
