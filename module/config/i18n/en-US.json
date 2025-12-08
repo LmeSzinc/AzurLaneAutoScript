@@ -83,7 +83,7 @@
       "help": ""
     },
     "Coalition": {
-      "name": "Neon City Investigator",
+      "name": "DATE A LANE",
       "help": ""
     },
     "MaritimeEscort": {
@@ -683,6 +683,7 @@
       "coalition_20230323": "Frostfall",
       "coalition_20240627": "Welcome to Little Academy",
       "coalition_20250626": "The Neon City Investigator",
+      "coalition_20251120": "DATE A LANE",
       "event_20200227_cn": "Northern Overture",
       "event_20200312_cn": "The Solomon Ranger Rerun",
       "event_20200326_cn": "Microlayer Medley",
@@ -1210,6 +1211,10 @@
       "cassin_or_downes": "Cassin or Downes",
       "z20_or_z21": "Z20 or Z21"
     },
+    "EquipmentCode": {
+      "name": "Gear Code",
+      "help": "Only works when 'Change Ship + Gears' is chosen.\nWhen substituting down CV/CVL/DD, if corresponding gear code is not provided, alas will export it\nWhen substituting up corresponding CV/CVL/DD, if corresponding gear code is not provided, alas will use exported gear code from previous ship; otherwise alas will use gear code in the config\nBluestacks users need to enable virtual keyboard first.\nSee https://support.bluestacks.com/hc/en-us/articles/360061968892-How-to-use-a-virtual-on-screen-keyboard-on-BlueStacks-5"
+    },
     "CommissionLimit": {
       "name": "Prevent Too Many Urgent Commissions",
       "help": "When running 7x24, prevent having a lot of urgent commissions and not being able to complete daily commissions. It is recommended to select only short-terms and high-yields in the commission filter"
@@ -1320,11 +1325,18 @@
     "Mode": {
       "name": "Mode",
       "help": "SP needs to use event daily SP to run",
-      "easy": "Easy",
-      "normal": "Normal",
-      "hard": "Hard",
-      "sp": "SP",
-      "ex": "EX"
+      "area1-normal": "area1-normal",
+      "area1-hard": "area1-hard",
+      "area2-normal": "area2-normal",
+      "area2-hard": "area2-hard",
+      "area3-normal": "area3-normal",
+      "area3-hard": "area3-hard",
+      "area4-normal": "area4-normal",
+      "area4-hard": "area4-hard",
+      "area5-normal": "area5-normal",
+      "area5-hard": "area5-hard",
+      "area6-normal": "area6-normal",
+      "area6-hard": "area6-hard"
     },
     "Fleet": {
       "name": "Fleet",

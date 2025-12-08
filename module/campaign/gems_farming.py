@@ -1,9 +1,12 @@
+from module.base.decorator import cached_property
 from module.campaign.campaign_base import CampaignBase
 from module.campaign.run import CampaignRun
 from module.combat.assets import BATTLE_PREPARATION
+from module.combat.emotion import Emotion
 from module.equipment.assets import *
+from module.equipment.equipment_code import EquipmentCodeHandler
 from module.equipment.fleet_equipment import FleetEquipment
-from module.exception import CampaignEnd, ScriptError
+from module.exception import CampaignEnd, ScriptEnd, ScriptError
 from module.handler.assets import AUTO_SEARCH_MAP_OPTION_OFF
 from module.logger import logger
 from module.map.assets import FLEET_PREPARATION, MAP_PREPARATION
@@ -20,6 +23,32 @@ from module.ui.assets import BACK_ARROW
 from module.ui.page import page_fleet
 
 SIM_VALUE = 0.92
+
+
+class GemsEmotion(Emotion):
+
+    def check_reduce(self, battle):
+        """
+        Overwrite emotion.check_reduce()
+        Check emotion before entering a campaign.
+
+        Args:
+            battle (int): Battles in this campaign
+
+        Raise:
+            CampaignEnd: Pause current task to prevent emotion control in the future.
+        """
+        if not self.is_calculate:
+            return
+
+        recovered, delay = self._check_reduce(battle)
+        if delay:
+            self.config.GEMS_EMOTION_TRIGGERED = True
+            logger.info('Detect low emotion, pause current task')
+            raise CampaignEnd('Emotion control')
+
+    def wait(self, fleet_index):
+        pass
 
 
 class GemsCampaignOverride(CampaignBase):
@@ -67,17 +96,66 @@ class GemsCampaignOverride(CampaignBase):
             raise CampaignEnd('Emotion withdraw')
 
 
-class GemsFarming(CampaignRun, FleetEquipment, Dock):
+class GemsEquipmentHandler(EquipmentCodeHandler):
+    def __init__(self, config, device=None, task=None):
+        super().__init__(config=config,
+                         device=device,
+                         task=task,
+                         key="GemsFarming.GemsFarming.EquipmentCode",
+                         ships=['DD', 'bogue', 'hermes', 'langley', 'ranger'])
+
+    def current_ship(self, skip_first_screenshot=True):
+        """
+        Reuse templates in module.retire.assets,
+        which needs different rescaling to match each current flagship.
+
+        Pages:
+            in: gear_code
+        """
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+            
+            # End
+            if not self.appear(EMPTY_SHIP_R):
+                break
+            else:
+                logger.info('Waiting ship icon loading.')
+            
+        if TEMPLATE_BOGUE.match(self.device.image, scaling=1.46):  # image has rotation
+            return 'bogue'
+        if TEMPLATE_HERMES.match(self.device.image, scaling=124/89):
+            return 'hermes'
+        if TEMPLATE_RANGER.match(self.device.image, scaling=4/3):
+            return 'ranger'
+        if TEMPLATE_LANGLEY.match(self.device.image, scaling=25/21):
+            return 'langley'
+        return 'DD'
+
+
+class GemsFarming(CampaignRun, Dock, FleetEquipment, GemsEquipmentHandler):
 
     def load_campaign(self, name, folder='campaign_main'):
         super().load_campaign(name, folder)
 
         class GemsCampaign(GemsCampaignOverride, self.module.Campaign):
-            pass
+
+            @cached_property
+            def emotion(self) -> GemsEmotion:
+                return GemsEmotion(config=self.config)
 
         self.campaign = GemsCampaign(device=self.campaign.device, config=self.campaign.config)
-        self.campaign.config.override(Emotion_Mode='ignore')
+        if self.change_flagship or self.change_vanguard:
+            self.campaign.config.override(Emotion_Mode='ignore_calculate')
+        else:
+            self.campaign.config.override(Emotion_Mode='ignore')
         self.campaign.config.override(EnemyPriority_EnemyScaleBalanceWeight='S1_enemy_first')
+
+    @property
+    def emotion_lower_bound(self):
+        return 4 + self.campaign._map_battle * 2
 
     @property
     def change_flagship(self):
@@ -104,65 +182,55 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
 
     def flagship_change(self):
         """
-        Change flagship and flagship's equipment
-        If config.GemsFarming_CommonCV == 'any', only change auxiliary equipment
+        Change flagship and flagship's equipment using gear code
 
         Returns:
             bool: True if flagship changed.
         """
 
-        if self.config.GemsFarming_CommonCV == 'any':
-            index_list = range(3, 5)
-        else:
-            index_list = range(0, 5)
         logger.hr('Change flagship', level=1)
         logger.attr('ChangeFlagship', self.config.GemsFarming_ChangeFlagship)
         self.fleet_enter(self.fleet_to_attack)
         if self.change_flagship_equip:
-            logger.hr('Record flagship equipment', level=2)
+            logger.hr('Unmount flagship equipments', level=2)
             self.fleet_enter_ship(FLEET_DETAIL_ENTER_FLAGSHIP)
-            self.ship_equipment_record_image(index_list=index_list)
-            self.ship_equipment_take_off()
+            self.clear_all_equip()
             self.fleet_back()
 
         logger.hr('Change flagship', level=2)
         success = self.flagship_change_execute()
 
         if self.change_flagship_equip:
-            logger.hr('Equip flagship equipment', level=2)
+            logger.hr('Mount flagship equipments', level=2)
             self.fleet_enter_ship(FLEET_DETAIL_ENTER_FLAGSHIP)
-            self.ship_equipment_take_off()
-            self.ship_equipment_take_on_image(index_list=index_list)
+            self.apply_equip_code()
             self.fleet_back()
 
         return success
 
     def vanguard_change(self):
         """
-        Change vanguard and vanguard's equipment
+        Change vanguard and vanguard's equipment using gear code
 
         Returns:
             bool: True if vanguard changed
         """
-
         logger.hr('Change vanguard', level=1)
         logger.attr('ChangeVanguard', self.config.GemsFarming_ChangeVanguard)
         self.fleet_enter(self.fleet_to_attack)
         if self.change_vanguard_equip:
-            logger.hr('Record vanguard equipment', level=2)
+            logger.hr('Unmount vanguard equipments', level=2)
             self.fleet_enter_ship(FLEET_DETAIL_ENTER)
-            self.ship_equipment_record_image()
-            self.ship_equipment_take_off()
+            self.clear_all_equip()
             self.fleet_back()
 
         logger.hr('Change vanguard', level=2)
         success = self.vanguard_change_execute()
 
         if self.change_vanguard_equip:
-            logger.hr('Equip vanguard equipment', level=2)
+            logger.hr('Mount vanguard equipments', level=2)
             self.fleet_enter_ship(FLEET_DETAIL_ENTER)
-            self.ship_equipment_take_off()
-            self.ship_equipment_take_on_image()
+            self.apply_equip_code()
             self.fleet_back()
 
         return success
@@ -194,7 +262,8 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
 
         logger.hr('FINDING FLAGSHIP')
 
-        scanner = ShipScanner(level=(1, 31), emotion=(10, 150),
+        scanner = ShipScanner(level=(1, 31),
+                              emotion=(self.emotion_lower_bound, 150),
                               fleet=self.fleet_to_attack, status='free')
         scanner.disable('rarity')
 
@@ -240,8 +309,8 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
 
     def get_common_rarity_dd(self):
         """
-        Get a common rarity dd with level is 100 (70 for servers except CN) and emotion > 10
-
+        Get a common rarity dd with level is 100 (70 for servers except CN)
+        and emotion >= self.emotion_lower_bound
         _dock_reset() needs to be called later.
 
         Returns:
@@ -272,7 +341,8 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
         else:
             max_level = 70
 
-        scanner = ShipScanner(level=(max_level, max_level), emotion=(10, 150),
+        scanner = ShipScanner(level=(max_level, max_level),
+                              emotion=(self.emotion_lower_bound, 150),
                               fleet=[0, self.fleet_to_attack], status='free')
         scanner.disable('rarity')
 
@@ -345,7 +415,9 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
 
         ship = self.get_common_rarity_cv()
         if ship:
-            self._ship_change_confirm(min(ship, key=lambda s: (s.level, -s.emotion)).button)
+            target_ship = min(ship, key=lambda s: (s.level, -s.emotion))
+            self.set_emotion(target_ship.emotion)
+            self._ship_change_confirm(target_ship.button)
 
             logger.info('Change flagship success')
             return True
@@ -376,12 +448,15 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
 
         ship = self.get_common_rarity_dd()
         if ship:
-            self._ship_change_confirm(max(ship, key=lambda s: s.emotion).button)
+            target_ship = max(ship, key=lambda s: s.emotion)
+            self.set_emotion(min(self.get_emotion(), target_ship.emotion))
+            self._ship_change_confirm(target_ship.button)
 
             logger.info('Change vanguard ship success')
             return True
         else:
             logger.info('Change vanguard ship failed, no DD in common rarity.')
+            self.set_emotion(0)  # a failure in vanguard change means low emotion DD, assuming 0.
             self._dock_reset()
             self.ui_back(check_button=page_fleet.check_button)
             return False
@@ -403,6 +478,18 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
 
         return super().triggered_stop_condition(oil_check=oil_check)
 
+    def get_emotion(self):
+        if self.config.Fleet_FleetOrder == 'fleet1_standby_fleet2_all':
+            return self.campaign.config.Emotion_Fleet2Value
+        else:
+            return self.campaign.config.Emotion_Fleet1Value
+
+    def set_emotion(self, emotion):
+        if self.config.Fleet_FleetOrder == 'fleet1_standby_fleet2_all':
+            self.campaign.config.set_record(Emotion_Fleet2Value=emotion)
+        else:
+            self.campaign.config.set_record(Emotion_Fleet1Value=emotion)
+
     def run(self, name, folder='campaign_main', mode='normal', total=0):
         """
         Args:
@@ -420,7 +507,7 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
             try:
                 super().run(name=name, folder=folder, total=total)
             except CampaignEnd as e:
-                if e.args[0] == 'Emotion withdraw':
+                if e.args[0] in ['Emotion withdraw', 'Emotion control']:
                     self._trigger_emotion = True
                 else:
                     raise e

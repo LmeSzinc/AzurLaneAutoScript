@@ -11,10 +11,10 @@ MAP.map_data = """
     -- ++ ++ ++ -- MB MB MB
     ME -- -- MS -- Me -- ++
     -- ME ++ -- __ -- ME ++
-    -- -- -- -- ME ME -- --
+    -- -- -- Me ME ME -- --
     ++ SP -- ME -- ++ -- --
     ++ SP -- -- Me -- MS ME
-    ++ ++ -- -- ME -- Me --
+    ++ ++ Me -- ME -- Me --
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50

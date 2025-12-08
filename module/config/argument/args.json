@@ -120,7 +120,12 @@
           "aScreenCap",
           "aScreenCap_nc",
           "DroidCast",
+          "DroidCast_webp",
+          "DroidCast_jpeg",
+          "DroidCast_jpeg_98",
+          "DroidCast_jpeg_96",
           "DroidCast_raw",
+          "DroidCast_lz4",
           "nemu_ipc",
           "ldopengl"
         ]
@@ -1629,6 +1634,11 @@
           "z20_or_z21"
         ]
       },
+      "EquipmentCode": {
+        "type": "textarea",
+        "value": "DD: null\nbogue: null\nhermes: null\nlangley: null\nranger: null",
+        "mode": "yaml"
+      },
       "CommissionLimit": {
         "type": "checkbox",
         "value": true
@@ -1867,6 +1877,90 @@
           "2_grid_to_boss",
           "use_open_ocean_support"
         ],
+        "display": "hide"
+        }
+      },
+    "Emotion": {
+      "Mode": {
+        "type": "select",
+        "value": "calculate_ignore",
+        "option": [
+          "calculate",
+          "ignore",
+          "calculate_ignore"
+        ],
+        "display": "hide"
+      },
+      "Fleet1Value": {
+        "type": "input",
+        "value": 119
+      },
+      "Fleet1Record": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime",
+        "display": "disabled"
+      },
+      "Fleet1Control": {
+        "type": "select",
+        "value": "prevent_red_face",
+        "option": [
+          "keep_exp_bonus",
+          "prevent_green_face",
+          "prevent_yellow_face",
+          "prevent_red_face"
+        ],
+        "display": "hide"
+      },
+      "Fleet1Recover": {
+        "type": "select",
+        "value": "not_in_dormitory",
+        "option": [
+          "not_in_dormitory",
+          "dormitory_floor_1",
+          "dormitory_floor_2"
+        ],
+        "display": "hide"
+      },
+      "Fleet1Oath": {
+        "type": "checkbox",
+        "value": false,
+        "display": "hide"
+      },
+      "Fleet2Value": {
+        "type": "input",
+        "value": 119
+      },
+      "Fleet2Record": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime",
+        "display": "disabled"
+      },
+      "Fleet2Control": {
+        "type": "select",
+        "value": "prevent_red_face",
+        "option": [
+          "keep_exp_bonus",
+          "prevent_green_face",
+          "prevent_yellow_face",
+          "prevent_red_face"
+        ],
+        "display": "hide"
+      },
+      "Fleet2Recover": {
+        "type": "select",
+        "value": "not_in_dormitory",
+        "option": [
+          "not_in_dormitory",
+          "dormitory_floor_1",
+          "dormitory_floor_2"
+        ],
+        "display": "hide"
+      },
+      "Fleet2Oath": {
+        "type": "checkbox",
+        "value": false,
         "display": "hide"
       }
     },
@@ -3170,22 +3264,22 @@
         "type": "state",
         "value": "campaign_main",
         "option": [
-          "coalition_20250626"
+          "coalition_20251120"
         ],
         "option_cn": [
-          "coalition_20250626"
+          "coalition_20251120"
         ],
         "option_en": [
-          "coalition_20250626"
+          "coalition_20251120"
         ],
         "option_jp": [
-          "coalition_20250626"
+          "coalition_20251120"
         ],
         "option_tw": [
-          "coalition_20250626"
+          "coalition_20251120"
         ],
         "option_bold": [
-          "coalition_20250626"
+          "coalition_20251120"
         ]
       },
       "Mode": {
@@ -3226,12 +3320,20 @@
     "Coalition": {
       "Mode": {
         "type": "select",
-        "value": "hard",
+        "value": "area1-normal",
         "option": [
-          "easy",
-          "normal",
-          "hard",
-          "ex"
+          "area1-normal",
+          "area1-hard",
+          "area2-normal",
+          "area2-hard",
+          "area3-normal",
+          "area3-hard",
+          "area4-normal",
+          "area4-hard",
+          "area5-normal",
+          "area5-hard",
+          "area6-normal",
+          "area6-hard"
         ]
       },
       "Fleet": {
@@ -6346,22 +6448,22 @@
         "type": "state",
         "value": "campaign_main",
         "option": [
-          "coalition_20250626"
+          "coalition_20251120"
         ],
         "option_cn": [
-          "coalition_20250626"
+          "coalition_20251120"
         ],
         "option_en": [
-          "coalition_20250626"
+          "coalition_20251120"
         ],
         "option_jp": [
-          "coalition_20250626"
+          "coalition_20251120"
         ],
         "option_tw": [
-          "coalition_20250626"
+          "coalition_20251120"
         ],
         "option_bold": [
-          "coalition_20250626"
+          "coalition_20251120"
         ]
       },
       "Mode": {
@@ -6402,15 +6504,21 @@
     "Coalition": {
       "Mode": {
         "type": "select",
-        "value": "sp",
+        "value": "area1-normal",
         "option": [
-          "easy",
-          "normal",
-          "hard",
-          "sp",
-          "ex"
-        ],
-        "display": "hide"
+          "area1-normal",
+          "area1-hard",
+          "area2-normal",
+          "area2-hard",
+          "area3-normal",
+          "area3-hard",
+          "area4-normal",
+          "area4-hard",
+          "area5-normal",
+          "area5-hard",
+          "area6-normal",
+          "area6-hard"
+        ]
       },
       "Fleet": {
         "type": "select",
