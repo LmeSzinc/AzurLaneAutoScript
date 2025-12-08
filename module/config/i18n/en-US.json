@@ -1220,28 +1220,6 @@
       "help": "When running 7x24, prevent having a lot of urgent commissions and not being able to complete daily commissions. It is recommended to select only short-terms and high-yields in the commission filter"
     }
   },
-  "CampaignStorage": {
-    "_info": {
-      "name": "CampaignStorage._info.name",
-      "help": "CampaignStorage._info.help"
-    },
-    "Oil": {
-      "name": "Oil",
-      "help": ""
-    },
-    "Coin": {
-      "name": "Coin",
-      "help": ""
-    },
-    "Gem": {
-      "name": "Gem",
-      "help": ""
-    },
-    "Pt": {
-      "name": "Event Pt",
-      "help": ""
-    }
-  },
   "EventGeneral": {
     "_info": {
       "name": "Event General Settings",
@@ -2117,16 +2095,7 @@
       "noshiro": "Noshiro",
       "sirius": "Sirius",
       "new_jersey": "New Jersey",
-      "taihou": "Taihou"}
-    },
-  "GachaStorage": {
-    "_info": {
-      "name": "GachaStorage._info.name",
-      "help": "GachaStorage._info.help"
-    },
-    "Cube": {
-      "name": "Cube",
-      "help": ""
+      "taihou": "Taihou"
     }
   },
   "Daily": {
@@ -2582,24 +2551,6 @@
       "22": "22 | NA Ocean SW Sector B"
     }
   },
-  "OpsiStorage": {
-    "_info": {
-      "name": "OpsiStorage._info.name",
-      "help": "OpsiStorage._info.help"
-    },
-    "YellowCoin": {
-      "name": "Operation Supply Coin",
-      "help": ""
-    },
-    "PurpleCoin": {
-      "name": "Special Item Token",
-      "help": ""
-    },
-    "ActionPoint": {
-      "name": "Action Point",
-      "help": ""
-    }
-  },
   "Daemon": {
     "_info": {
       "name": "Semi-auto Clicking",
@@ -2802,15 +2753,6 @@
       "Clear": "Clear",
       "EnterPassword": "Enter password",
       "ChooseFile": "Choose file"
-    },
-    "Dashboard": {
-      "NoData": "no data",
-      "TimeError": "time error",
-      "JustNow": "just now",
-      "MinutesAgo": "{time}min ago",
-      "HoursAgo": "{time}h ago",
-      "DaysAgo": "{time}d ago",
-      "LongTimeAgo": "long time ago"
     }
   }
 }
