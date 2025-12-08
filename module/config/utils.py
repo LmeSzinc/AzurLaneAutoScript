@@ -543,6 +543,21 @@ def type_to_str(typ):
         typ = type(typ).__name__
     return str(typ)
 
+from typing import Any, Mapping
+
+def deep_get(d: Mapping, keys: str, default=None) -> Any:
+    """
+    按点分隔的字符串 keys 取深层值
+    例：deep_get(cfg, 'Task.Main.Scheduler.Enable', False)
+    """
+    if not isinstance(d, Mapping):
+        return default
+    for k in keys.split('.'):
+        try:
+            d = d[k]
+        except (KeyError, TypeError):
+            return default
+    return d
 
 if __name__ == '__main__':
     get_os_reset_remain()
