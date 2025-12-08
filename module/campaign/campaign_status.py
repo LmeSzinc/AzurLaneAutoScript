@@ -13,10 +13,6 @@ from module.ocr.ocr import Digit, Ocr
 from module.shop.shop_status import OCR_SHOP_GEMS
 from module.ui.ui import UI
 
-if server.server != 'jp':
-    OCR_COIN = Digit(OCR_COIN, name='OCR_COIN', letter=(239, 239, 239), threshold=128)
-else:
-    OCR_COIN = Digit(OCR_COIN, name='OCR_COIN', letter=(201, 201, 201), threshold=128)
 OCR_COIN = Digit(OCR_COIN, name='OCR_COIN', letter=(239, 239, 239), threshold=128)
 OCR_COIN_LIMIT = Digit(OCR_COIN_LIMIT, name='OCR_COIN_LIMIT', letter=(239, 239, 239), threshold=128)
 
