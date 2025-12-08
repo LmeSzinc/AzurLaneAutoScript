@@ -119,6 +119,8 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             return PAUSE_Seaside
         if PAUSE_Ninja.match_template_color(self.device.image, offset=(10, 10)):
             return PAUSE_Ninja
+        if PAUSE_ShadowPuppetry.match_luma(self.device.image, offset=(10, 10)):
+            return PAUSE_ShadowPuppetry
         return False
 
     def handle_combat_quit(self, offset=(20, 20), interval=3):
