@@ -56,8 +56,16 @@
     box-shadow: 0 0.06rem 0 #4e4c97;
 }
 
+#pywebio-scope-dashboard input {
+    background-color: white !important;
+}
+
 input[type="checkbox"] {
     accent-color: #7a77bb;
+}
+
+#pywebio-scope-dashboard input {
+    background-color: white !important;
 }
 
 select {
@@ -139,7 +147,6 @@ pre.rich-traceback-code {
 #pywebio-scope-running,
 #pywebio-scope-pending,
 #pywebio-scope-waiting,
-#pywebio-scope-daemon-log-bar,
 #pywebio-scope-daemon-overview #pywebio-scope-groups {
     background-color: white;
     border: 1px solid lightgrey;
@@ -154,6 +161,10 @@ pre.rich-traceback-code {
     color: #777777;
 }
 
-*[style*="--dashboard-time--"] {
+*[style*="--dashboard-help--"]{
+    color: #777777;
+}
+
+*[style*="--dashboard-limit--"]{
     color: #777777;
 }

@@ -117,6 +117,13 @@ footer {
     margin-bottom: .25rem !important;
 }
 
+.status-point {
+    margin: 37% 50% 63% 50%;
+    width: .75rem;
+    height: .75rem;
+    border-radius: 50%;
+}
+
 .hr-task-group-box {
     display: flex;
     align-items: center;
@@ -131,6 +138,13 @@ footer {
 .hr-task-group-text {
     margin: 0 0.5rem;
     font-size: 0.875rem;
+}
+
+.status-point {
+    margin: 37% 50% 63% 50%;
+    width: .75rem;
+    height: .75rem;
+    border-radius: 50%;
 }
 
 input[type="checkbox"] {
@@ -288,7 +302,7 @@ pre.rich-traceback-code {
 }
 
 *[style*="--header-text--"] {
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-weight: bold;
     margin: auto !important;
 }
@@ -386,7 +400,6 @@ pre.rich-traceback-code {
 #pywebio-scope-scheduler-bar,
 #pywebio-scope-log-bar,
 #pywebio-scope-log,
-#pywebio-scope-daemon-log-bar,
 #pywebio-scope-daemon-overview #pywebio-scope-groups {
     font-weight: 500;
     margin: 0.3125rem;
@@ -394,66 +407,36 @@ pre.rich-traceback-code {
 }
 
 #pywebio-scope-scheduler-bar,
-#pywebio-scope-log-title {
+#pywebio-scope-log-bar {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-#pywebio-scope-log-title-btns {
+#pywebio-scope-log-bar {
+    flex-wrap: wrap;
+}
+
+#pywebio-scope-log-bar-btns {
     display: grid;
     grid-auto-flow: column;
 }
 
+#pywebio-scope-log-bar .hr-group {
+    width: 100%;
+}
+
 #pywebio-scope-dashboard {
-    display: flex;
-    align-content: space-between;
-    justify-content: flex-start;
-    flex-flow: row wrap;
-    overflow: auto;
-    margin-top: .5rem;
-}
-
-#pywebio-scope-dashboard > i {
-    flex-grow: 1;
-    align-self: flex-end;
-    width: 10rem;
-}
-
-[id^="pywebio-scope-dashboard-row-"] {
-    display: flex;
-    flex-grow: 1;
-    width: 10rem;
-}
-
-.dashboard-icon {
-    margin: .6rem .8rem 0 .6rem;
-    width: .5rem;
-    height: .5rem;
-    border-radius: 50%;
-}
-
-*[style*="--dashboard-value--"] {
-    font-size: 1rem;
-    font-weight: 500;
-    overflow-wrap: break-word;
-}
-
-*[style*="--dashboard-time--"] {
-    font-size: 0.8rem;
     font-weight: 400;
-    overflow-wrap: break-word;
+    width: 100%;
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-columns: repeat(auto-fit,minmax(10rem,1fr));
 }
 
-[id^="pywebio-scope-dashboard-row-"] p {
-    margin-bottom: 0;
-}
-
-[id^="pywebio-scope-dashboard-value-"] {
-    display: flex;
-    align-items: flex-end;
-    height: 1.5rem;
-}
+#pywebio-scope-dashboard .form-control{
+    padding: 0 0 0;
+    }
 
 #pywebio-scope-log {
     line-height: 1.2;
@@ -574,4 +557,50 @@ pre.rich-traceback-code {
     width: 1.5rem;
     height: 1.5rem;
     border: .2em solid currentColor;
+}
+
+/**[style*="--dashboard-value--"] {*/
+/*    font-size: 1.3rem;*/
+/*    font-weight: 400;*/
+/*    margin: 0 0 -0.2rem 0.6rem !important;*/
+/*    overflow-wrap: break-word;*/
+/*    overflow: visible;*/
+/*    border-bottom: 0;*/
+/*}*/
+
+*[style*="--dashboard-value--"] {
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin: 0 0 0 0.6rem !important;
+    font-family:
+             "Arial",
+             serif;
+}
+
+*[style*="--dashboard-total--"] {
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin: 0 0 0 0.15rem !important;
+    font-family:
+             "Arial",
+             serif;
+}
+
+*[style*="--dashboard-help--"] {
+    font-size: .8rem;
+    margin: 0 0 0 0.6rem !important;
+    font-family:
+             "Arial",
+             serif;
+}
+
+*[style*="--dashboard-limit--"] {
+    font-weight: 400;
+    font-size: .9rem;
+    margin: 0 0 0 0 !important;
+    vertical-align: text-bottom;
+    overflow-wrap: normal;
+    font-family:
+             "Arial",
+             serif;
 }
