@@ -6,6 +6,7 @@ from module.coalition.combat import CoalitionCombat
 from module.exception import ScriptEnd, ScriptError
 from module.logger import logger
 from module.ocr.ocr import Digit
+from  module.log_res.log_res import LogRes
 
 
 class AcademyPtOcr(Digit):
@@ -63,6 +64,8 @@ class Coalition(CoalitionCombat, CampaignEvent):
         pt = 0
         for _ in self.loop(timeout=1.5):
             pt = ocr.ocr(self.device.image)
+            LogRes(self.config).Pt = pt
+            self.config.update()
             # 999999 seems to be a default value, wait
             if pt not in [999999]:
                 break
