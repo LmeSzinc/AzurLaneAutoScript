@@ -309,7 +309,6 @@
       "ServerUpdate": "00:00"
     },
     "GemsFarming": {
-      "ChangeFlagship": "ship",
       "CommonCV": "any",
       "ChangeVanguard": "ship",
       "CommonDD": "any",
