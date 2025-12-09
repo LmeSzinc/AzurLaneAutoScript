@@ -1220,28 +1220,6 @@
       "help": "在7x24运行时防止紧急委托数量过多做不完每日委托，建议在委托过滤器仅选择短时长高收益委托"
     }
   },
-  "CampaignStorage": {
-    "_info": {
-      "name": "CampaignStorage._info.name",
-      "help": ""
-    },
-    "Oil": {
-      "name": "石油",
-      "help": ""
-    },
-    "Coin": {
-      "name": "物资",
-      "help": ""
-    },
-    "Gem": {
-      "name": "钻石",
-      "help": ""
-    },
-    "Pt": {
-      "name": "活动PT",
-      "help": ""
-    }
-  },
   "EventGeneral": {
     "_info": {
       "name": "活动通用设置",
@@ -2117,15 +2095,7 @@
       "noshiro": "能代",
       "sirius": "天狼星",
       "new_jersey": "新泽西",
-      "taihou": "鹩"}},
-  "GachaStorage": {
-    "_info": {
-      "name": "GachaStorage._info.name",
-      "help": "GachaStorage._info.help"
-    },
-    "Cube": {
-      "name": "魔方",
-      "help": ""
+      "taihou": "鹩"
     }
   },
   "Daily": {
@@ -2581,24 +2551,6 @@
       "22": "22 | NA海域西南B"
     }
   },
-  "OpsiStorage": {
-    "_info": {
-      "name": "OpsiStorage._info.name",
-      "help": "OpsiStorage._info.help"
-    },
-    "YellowCoin": {
-      "name": "大世界黄币",
-      "help": ""
-    },
-    "PurpleCoin": {
-      "name": "大世界紫币",
-      "help": ""
-    },
-    "ActionPoint": {
-      "name": "行动力",
-      "help": ""
-    }
-  },
   "Daemon": {
     "_info": {
       "name": "半自动点击",
@@ -2801,15 +2753,6 @@
       "Clear": "清除",
       "EnterPassword": "输入密码",
       "ChooseFile": "选择文件"
-    },
-    "Dashboard": {
-      "NoData": "无数据",
-      "TimeError": "时间错误",
-      "JustNow": "刚刚",
-      "MinutesAgo": "{time}分钟前",
-      "HoursAgo": "{time}小时前",
-      "DaysAgo": "{time}天前",
-      "LongTimeAgo": "很久以前"
     }
   }
 }
