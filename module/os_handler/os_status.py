@@ -12,7 +12,6 @@ from module.ocr.ocr import Digit
 from module.os_handler.assets import *
 from module.os_shop.assets import OS_SHOP_CHECK, OS_SHOP_PURPLE_COINS, SHOP_PURPLE_COINS, SHOP_YELLOW_COINS
 from module.ui.ui import UI
-from module.log_res.log_res import LogRes
 
 if server.server != 'jp':
     OCR_SHOP_YELLOW_COINS = Digit(SHOP_YELLOW_COINS, letter=(239, 239, 239), threshold=160, name='OCR_SHOP_YELLOW_COINS')
@@ -82,17 +81,17 @@ class OSStatus(UI):
                 continue
             else:
                 break
-        LogRes(self.config).YellowCoin = yellow_coins
 
+        self.config.stored.YellowCoin.value = yellow_coins
         return yellow_coins
 
     def get_purple_coins(self) -> int:
         if self.appear(OS_SHOP_CHECK):
-            amount = OCR_OS_SHOP_PURPLE_COINS.ocr(self.device.image)
+            purple_coins = OCR_OS_SHOP_PURPLE_COINS.ocr(self.device.image)
         else:
-            amount = OCR_SHOP_PURPLE_COINS.ocr(self.device.image)
-        LogRes(self.config).PurpleCoin = amount
-        return amount
+            purple_coins = OCR_SHOP_PURPLE_COINS.ocr(self.device.image)
+        self.config.stored.PurpleCoin.value = purple_coins
+        return purple_coins
 
     def os_shop_get_coins(self):
         self._shop_yellow_coins = self.get_yellow_coins()
