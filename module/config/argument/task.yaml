@@ -73,6 +73,7 @@ Event:
     EventGeneral:
       - EventGeneral
       - TaskBalancer
+      - CampaignStorage
     Coalition:
       - Scheduler
       - Campaign
