@@ -14,10 +14,8 @@ from module.ocr.ocr import Digit, Ocr
 from module.ui.ui import UI
 from module.log_res.log_res import LogRes
 
-#if server.server != 'jp':
-#    OCR_COIN = Digit(OCR_COIN, name='OCR_COIN', letter=(239, 239, 239), threshold=128)
-#else:
-#    OCR_COIN = Digit(OCR_COIN, name='OCR_COIN', letter=(201, 201, 201), threshold=128)
+OCR_COIN = Digit(OCR_COIN, name='OCR_COIN', letter=(239, 239, 239), threshold=128)
+OCR_COIN_LIMIT = Digit(OCR_COIN_LIMIT, name='OCR_COIN_LIMIT', letter=(239, 239, 239), threshold=128)
 
 
 class PtOcr(Ocr):
@@ -100,10 +98,6 @@ class CampaignStatus(UI):
         color = get_color(self.device.image, OCR_OIL_CHECK.button)
         if color_similar(color, OCR_OIL_CHECK.color):
             # Original color
-            if server.server != 'jp':
-                ocr = Digit(OCR_OIL, name='OCR_OIL', letter=(247, 247, 247), threshold=128)
-            else:
-                ocr = Digit(OCR_OIL, name='OCR_OIL', letter=(201, 201, 201), threshold=128)
             ocr_oil = Digit(OCR_OIL, name='OCR_OIL', letter=(247, 247, 247), threshold=128)
             ocr_oil_limit = Digit(OCR_OIL_LIMIT, name='OCR_OIL_LIMIT', letter=(247, 247, 247), threshold=128)
         elif color_similar(color, (59, 59, 64)):

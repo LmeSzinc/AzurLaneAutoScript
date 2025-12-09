@@ -6,7 +6,7 @@ from module.shop.shop_status import ShopStatus
 from module.shop.ui import ShopUI
 
 
-class GeneralShop(ShopClerk, ShopUI, ShopStatus):
+class GeneralShop_250814(ShopClerk, ShopUI, ShopStatus):
     gems = 0
     shop_template_folder = './assets/shop/general'
 
