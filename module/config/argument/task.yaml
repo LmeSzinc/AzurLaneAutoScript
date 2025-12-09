@@ -62,6 +62,7 @@ Farm:
       - Campaign
       - StopCondition
       - Fleet
+      - Emotion
       - Submarine
 
 # ==================== Event ====================
