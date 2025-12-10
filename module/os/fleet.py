@@ -287,7 +287,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         result = set()
         # Record story history to clear click record
         clicked_story = False
-
+        stuck_timer = Timer(20, count=5).start()
         confirm_timer.reset()
         while 1:
             if skip_first_screenshot:
@@ -299,6 +299,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             event = self.handle_map_event(drop=drop)
             if event:
                 confirm_timer.reset()
+                stuck_timer.reset()
                 result.add('event')
                 if event == 'story_skip':
                     clicked_story = True
@@ -314,6 +315,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 continue
             if self.handle_retirement():
                 confirm_timer.reset()
+                stuck_timer.reset()
                 continue
             if self.handle_walk_out_of_step():
                 if walk_out_of_step:
@@ -323,27 +325,33 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             if self.handle_popup_confirm('WALK_UNTIL_STABLE'):
                 # Confirm to submit items, in siren scanning devices
                 confirm_timer.reset()
+                stuck_timer.reset()
                 continue
 
             # Accident click
             if self.is_in_globe():
                 self.os_globe_goto_map()
                 confirm_timer.reset()
+                stuck_timer.reset()
                 continue
             if self.is_in_storage():
                 self.storage_quit()
                 confirm_timer.reset()
+                stuck_timer.reset()
                 continue
             if self.is_in_os_mission():
                 self.os_mission_quit()
                 confirm_timer.reset()
+                stuck_timer.reset()
                 continue
             if self.handle_os_game_tips():
                 confirm_timer.reset()
+                stuck_timer.reset()
                 continue
             if self.is_in_map_order():
                 self.order_quit()
                 confirm_timer.reset()
+                stuck_timer.reset()
                 continue
 
             # Combat
@@ -352,6 +360,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 # self.ui_back(check_button=self.is_in_map)
                 self.combat(expected_end=self.is_in_map, fleet_index=self.fleet_show_index, save_get_items=drop)
                 confirm_timer.reset()
+                stuck_timer.reset()
                 result.add('event')
                 continue
 
@@ -360,18 +369,21 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 self.interval_clear(PORT_SUPPLY_CHECK)
                 self.handle_akashi_supply_buy(CLICK_SAFE_AREA)
                 confirm_timer.reset()
+                stuck_timer.reset()
                 result.add('akashi')
                 continue
 
             # A game bug that AUTO_SEARCH_REWARD from the last cleared zone popups
             if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50), interval=3):
                 confirm_timer.reset()
+                stuck_timer.reset()
                 continue
 
             # Enemy searching
             if not enemy_searching_appear and self.enemy_searching_appear():
                 enemy_searching_appear = True
                 confirm_timer.reset()
+                stuck_timer.reset()
                 continue
             else:
                 if enemy_searching_appear:
@@ -380,6 +392,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                     logger.info('Enemy searching appeared.')
                     enemy_searching_appear = False
                     confirm_timer.reset()
+                    stuck_timer.reset()
                     result.add('search')
                 if self.is_in_map():
                     self.enemy_searching_color_initial()
@@ -396,15 +409,33 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                     if confirm_timer.reached():
                         break
                 else:
+                    if stuck_timer.reached():
+                        logger.warning(f"homo_loca stuck at current view, try reset.")
+                        if self.fleet_reset_view():
+                            stuck_timer.reset()
                     confirm_timer.reset()
                 record = current
             else:
                 confirm_timer.reset()
+                stuck_timer.reset()
 
         result = '_'.join(result)
         logger.info(f'Walk stabled, result: {result}')
         self.device.screenshot_interval_set()
         return result
+
+    def fleet_reset_view(self):
+        """
+        Returns:
+            bool: If reset
+        """
+        current_fleet = self.fleet_selector.get()
+        if not current_fleet:
+            logger.warning('Failed to get OpSi fleet')
+            return False
+        self.fleet_selector.open()
+        self.fleet_selector.click(current_fleet)
+        return True
 
     def port_goto(self, allow_port_arrive=True):
         """
@@ -569,6 +600,12 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             self.predict()
             self.predict_radar()
 
+            fleets = self.view.select(is_current_fleet=True)
+            if fleets.count == 0:
+                logger.warning('Current fleet not found on local view, reset camera view to current fleet.')
+                if self.fleet_reset_view():
+                    self.wait_until_camera_stable()
+                    continue
             # Calculate destination
             grids = self.radar.select(is_question=True)
             if grids:
