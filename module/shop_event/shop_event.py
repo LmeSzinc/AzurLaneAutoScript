@@ -4,6 +4,7 @@ from module.base.decorator import del_cached_property
 from module.base.timer import Timer
 from module.logger import logger
 from module.shop.assets import NAV_GENERAL, NAV_EVENT
+from module.shop_event.assets import NO_NAV_EVENT_CHECK
 from module.shop_event.clerk import EventShopClerk, ItemNotFoundError
 from module.shop_event.item import EventShopItem, UR_SHIP_PRICES_IN_URPT, COIN_PRICE_IN_URPT, URPT_PRICE_IN_PT
 from module.shop_event.selector import EVENT_SHOP_PRESET_FILTER, FILTER
@@ -256,9 +257,12 @@ class EventShop(EventShopClerk):
                 timeout.reset()
 
         if self.appear(NAV_GENERAL, offset=(5, 5)):
-            logger.info("There is no event shop currently. End the task.")
-            self.config.task_delay(server_update=True)
-            return False
+            if self.appear(NO_NAV_EVENT_CHECK, offset=(5, 5)):
+                logger.info("There is no event shop currently. End the task.")
+                self.config.task_delay(server_update=True)
+                return False
+            else:
+                self.ui_click(NAV_EVENT, check_button=NAV_EVENT, appear_button=NAV_GENERAL)
 
         count, navbar = self.event_shop_tab_count_and_navbar
         logger.info(f"Detected {count} event shop(s). Start processing.")
