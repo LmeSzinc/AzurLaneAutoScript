@@ -250,7 +250,9 @@ class PQInteract(UI):
                 break
 
             if click_timer.reached():
+                self.delay(1.0)
                 self.device.click(PRIVATE_QUARTERS_ROOM_TARGET_CLICK_AREA)
+                self.delay(2.0)
                 click_timer.reset()
 
         # Repeat 2nd and 3rd stage sequence 3 times
@@ -270,6 +272,7 @@ class PQInteract(UI):
                     break
 
                 if self.appear_then_click(PRIVATE_QUARTERS_INTERACT, offset=(0, 60), interval=1):
+                    self.delay(1.0)
                     continue
 
             skip_first_screenshot = True
@@ -284,7 +287,9 @@ class PQInteract(UI):
                     break
 
                 if self.appear(PRIVATE_QUARTERS_INTERACT_CHECK, offset=(20, 20), interval=1):
+                    self.delay(1.0)
                     self.device.click(PRIVATE_QUARTERS_ROOM_BACK)
+                    self.delay(1.0)
                     continue
 
         logger.hr(f'Interact End', level=2)
