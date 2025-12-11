@@ -61,6 +61,8 @@ Farm:
       - Campaign
       - StopCondition
       - Fleet
+      - Submarine
+      - Emotion
 
 # ==================== Event ====================
 
@@ -71,6 +73,13 @@ Event:
     EventGeneral:
       - EventGeneral
       - TaskBalancer
+      - CampaignStorage
+    Coalition:
+      - Scheduler
+      - Campaign
+      - Coalition
+      - StopCondition
+      - Emotion
     Event:
       - Scheduler
       - Campaign
