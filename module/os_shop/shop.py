@@ -268,9 +268,9 @@ class OSShop(PortShop, AkashiShop):
     @cached_property
     def yellow_coins_preserve(self):
         if self.is_cl1_enabled:
-            return self.config.OS_CL1_YELLOW_COINS_PRESERVE
+            return 100000
         else:
-            return self.config.OS_NORMAL_YELLOW_COINS_PRESERVE
+            return 35000
 
     def get_currency_coins(self, item):
         if item.cost == 'YellowCoins':
