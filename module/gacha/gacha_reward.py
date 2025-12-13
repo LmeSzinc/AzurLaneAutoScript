@@ -8,6 +8,7 @@ from module.handler.assets import POPUP_CONFIRM, STORY_SKIP
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.retire.retirement import Retirement
+from module.log_res import LogRes
 
 RECORD_GACHA_OPTION = ('RewardRecord', 'gacha')
 RECORD_GACHA_SINCE = (0,)
@@ -125,6 +126,8 @@ class RewardGacha(GachaUI, Retirement):
         logger.info(f'Able to submit up to {target_count} build orders')
         self.build_coin_count -= gold_total
         self.build_cube_count -= cube_total
+        LogRes(self.config).Cube = self.build_cube_count
+        self.config.update()
         return target_count
 
     def gacha_goto_pool(self, target_pool):

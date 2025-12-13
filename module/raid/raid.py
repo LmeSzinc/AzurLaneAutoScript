@@ -14,6 +14,7 @@ from module.raid.assets import *
 from module.raid.combat import RaidCombat
 from module.ui.assets import RAID_CHECK
 from module.ui.page import page_rpg_stage
+from module.log_res import LogRes
 
 
 class RaidCounter(DigitCounter):
@@ -355,10 +356,12 @@ class Raid(MapOperation, RaidCombat, CampaignEvent):
                 pt = ocr.ocr(self.device.image)
                 if timeout.reached():
                     logger.warning('Wait PT timeout, assume it is')
+                    LogRes(self.config).Pt = pt
                     return pt
                 if pt in [70000, 70001]:
                     continue
                 else:
+                    LogRes(self.config).Pt = pt
                     return pt
         else:
             logger.info(f'Raid {self.config.Campaign_Event} does not support PT ocr, skip')

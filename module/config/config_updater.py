@@ -284,15 +284,18 @@ class ConfigGenerator:
             if 'tasks' not in path:
                 continue
             task_group, _, task = path
-            deep_load(['Menu', task_group])
-            deep_load(['Task', task])
+            if task_group != 'Dashboard':
+                deep_load(['Menu', task_group])
+                deep_load(['Task', task])
         # Arguments
         visited_group = set()
+        dashboard_args = deep_get(read_file(filepath_argument("task")), 'Dashboard.tasks.Resource')
         for path, data in deep_iter(self.argument, depth=2):
-            if path[0] not in visited_group:
-                deep_load([path[0], '_info'])
-                visited_group.add(path[0])
-            deep_load(path)
+            if path[0] not in dashboard_args:
+                if path[0] not in visited_group:
+                    deep_load([path[0], '_info'])
+                    visited_group.add(path[0])
+                deep_load(path)
             if 'option' in data:
                 deep_load(path, words=data['option'], default=False)
         # Event names
@@ -363,17 +366,18 @@ class ConfigGenerator:
         """
         data = {}
         for task_group in self.task.keys():
-            value = deep_get(self.task, keys=[task_group, 'menu'])
-            if value not in ['collapse', 'list']:
-                value = 'collapse'
-            deep_set(data, keys=[task_group, 'menu'], value=value)
-            value = deep_get(self.task, keys=[task_group, 'page'])
-            if value not in ['setting', 'tool']:
-                value = 'setting'
-            deep_set(data, keys=[task_group, 'page'], value=value)
-            tasks = deep_get(self.task, keys=[task_group, 'tasks'], default={})
-            tasks = list(tasks.keys())
-            deep_set(data, keys=[task_group, 'tasks'], value=tasks)
+            if task_group != 'Dashboard':
+                value = deep_get(self.task, keys=[task_group, 'menu'])
+                if value not in ['collapse', 'list']:
+                    value = 'collapse'
+                deep_set(data, keys=[task_group, 'menu'], value=value)
+                value = deep_get(self.task, keys=[task_group, 'page'])
+                if value not in ['setting', 'tool']:
+                    value = 'setting'
+                deep_set(data, keys=[task_group, 'page'], value=value)
+                tasks = deep_get(self.task, keys=[task_group, 'tasks'], default={})
+                tasks = list(tasks.keys())
+                deep_set(data, keys=[task_group, 'tasks'], value=tasks)
 
         return data
 

@@ -1,3 +1,4 @@
+import re
 import argparse
 import json
 import queue
@@ -50,8 +51,10 @@ from module.config.utils import (
     filepath_args,
     filepath_config,
     read_file,
+    readable_time,
 )
 from module.logger import logger
+from module.log_res import LogRes
 from module.ocr.rpc import start_ocr_server_process, stop_ocr_server_process
 from module.submodule.submodule import load_config
 from module.submodule.utils import get_config_mod
@@ -99,6 +102,7 @@ class AlasGUI(Frame):
     ALAS_MENU: Dict[str, Dict[str, List[str]]]
     ALAS_ARGS: Dict[str, Dict[str, Dict[str, Dict[str, str]]]]
     theme = "default"
+    _log = RichLog
 
     def initial(self) -> None:
         self.ALAS_MENU = read_file(filepath_args("menu", self.alas_mod))
@@ -440,22 +444,43 @@ class AlasGUI(Frame):
         )
 
         log = RichLog("log")
+        self._log = log
+        self._log.dashboard_arg_group = LogRes(self.alas_config).groups
 
         with use_scope("logs"):
-            put_scope(
-                "log-bar",
-                [
-                    put_text(t("Gui.Overview.Log")).style(
-                        "font-size: 1.25rem; margin: auto .5rem auto;"
-                    ),
-                    put_scope(
-                        "log-bar-btns",
-                        [
-                            put_scope("log_scroll_btn"),
-                        ],
-                    ),
-                ],
-            )
+            if not 'Alas' in self.ALAS_ARGS:
+                put_scope(
+                    "log-bar",
+                    [
+                        put_text(t("Gui.Overview.Log")).style(
+                            "font-size: 1.25rem; margin: auto .5rem auto;"
+                        ),
+                        put_scope(
+                            "log-bar-btns",
+                            [
+                                put_scope("log_scroll_btn"),
+                            ],
+                        ),
+                    ],
+                )
+            else:
+                put_scope(
+                    "log-bar",
+                    [
+                        put_text(t("Gui.Overview.Log")).style(
+                            "font-size: 1.25rem; margin: auto .5rem auto;"
+                        ),
+                        put_scope(
+                            "log-bar-btns",
+                            [
+                                put_scope("log_scroll_btn"),
+                                put_scope("dashboard_btn"),
+                            ],
+                        ),
+                        put_html('<hr class="hr-group">'),
+                        put_scope("dashboard"),
+                    ],
+                )
             put_scope("log", [put_html("")])
 
         log.console.width = log.get_width()
@@ -470,11 +495,28 @@ class AlasGUI(Frame):
             color_off="off",
             scope="log_scroll_btn",
         )
+        switch_dashboard = BinarySwitchButton(
+            label_on=t("Gui.Button.DashboardON"),
+            label_off=t("Gui.Button.DashboardOFF"),
+            onclick_on=lambda: self.set_dashboard_display(False),
+            onclick_off=lambda: self.set_dashboard_display(True),
+            get_state=lambda: log.display_dashboard,
+            color_on="off",
+            color_off="on",
+            scope="dashboard_btn",
+        )
 
         self.task_handler.add(switch_scheduler.g(), 1, True)
         self.task_handler.add(switch_log_scroll.g(), 1, True)
+        if 'Alas' in self.ALAS_ARGS:
+            self.task_handler.add(switch_dashboard.g(), 1, True)
+            self.task_handler.add(self.alas_update_dashboard, 10, True)
         self.task_handler.add(self.alas_update_overview_task, 10, True)
         self.task_handler.add(log.put_log(self.alas), 0.25, True)
+
+    def set_dashboard_display(self, b):
+        self._log.set_dashboard_display(b)
+        self.alas_update_dashboard(True)
 
     def _init_alas_config_watcher(self) -> None:
         def put_queue(path, value):
@@ -614,6 +656,90 @@ class AlasGUI(Frame):
                     put_task(task)
             else:
                 put_text(t("Gui.Overview.NoTask")).style("--overview-notask-text--")
+
+    def _update_dashboard(self, num=None, groups_to_display=None):
+        x = 0
+        _num = 10000 if num is None else num
+        _arg_group = self._log.dashboard_arg_group if groups_to_display is None else groups_to_display
+        for group_name in _arg_group:
+            group = LogRes(self.alas_config).group(group_name)
+            if group is None:
+                continue
+
+            value = str(group['Value'])
+            if 'Limit' in group.keys():
+                value_limit = f' / {group["Limit"]}'
+                value_total = ''
+            elif 'Total' in group.keys():
+                value_total = f' ({group["Total"]})'
+                value_limit = ''
+            elif group_name == 'Pt':
+                value_limit = ' / ' + re.sub(r'[,.\'"，。]', '',
+                                             str(deep_get(self.alas_config.data, 'EventGeneral.EventGeneral.PtLimit')))
+                if value_limit == ' / 0':
+                    value_limit = ''
+            else:
+                value = str(group['Value'])
+                value_limit = ''
+                value_total = ''
+
+            value_time = group['Record']
+            timedata = readable_time(str(value_time), str(group['Value']))
+            value =timedata['value']
+            time = timedata['time']
+            time_name = timedata['time_name']
+            delta = str(time) + t(f'Gui.Dashboard.{time_name}')
+            if group_name not in self._log.last_display_time.keys():
+                self._log.last_display_time[group_name] = ''
+            if self._log.last_display_time[group_name] == delta and not self._log.first_display:
+                continue
+            self._log.last_display_time[group_name] = delta
+
+            value_limit = '' if value == 'None' else value_limit
+            value_total = '' if value == 'None' else value_total
+            limit_style = '--dashboard-limit--' if value_limit else '--dashboard-total--'
+            value_limit = value_limit if value_limit else value_total
+            # Handle dot color
+            _color = f"""background-color:{deep_get(group, 'Color').replace('^', '#')}"""
+            color = f'<div class="status-point" style={_color}>'
+            with use_scope(group_name, clear=True):
+                put_row(
+                    [
+                        put_html(color),
+                        put_scope(
+                            f"{group_name}_group",
+                            [
+                                put_column(
+                                    [
+                                        put_row(
+                                            [
+                                                put_text(value).style("--dashboard-value--"),
+                                                put_text(value_limit).style(limit_style),
+                                            ],
+                                        ).style("grid-template-columns:min-content auto;align-items: baseline;"),
+                                        put_text(t(f"Gui.Dashboard.{group_name}") + " - " + delta).style("---dashboard-help--")
+                                    ],
+                                    size="auto auto",
+                                ),
+                            ],
+                        ),
+                    ],
+                    size="20px 1fr"
+                ).style("height: 1fr"),
+            x += 1
+            if x >= _num:
+                break
+        if self._log.first_display:
+            self._log.first_display = False
+
+    def alas_update_dashboard(self, _clear=False):
+        if not self.visible:
+            return
+        with use_scope("dashboard", clear=_clear):
+            if not self._log.display_dashboard:
+                self._update_dashboard(num=4, groups_to_display=['Oil', 'Coin', 'Gem', 'Pt'])
+            elif self._log.display_dashboard:
+                self._update_dashboard()
 
     @use_scope("content", clear=True)
     def alas_daemon_overview(self, task: str) -> None:

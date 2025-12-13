@@ -56,6 +56,9 @@
     box-shadow: 0 0.06rem 0 #4e4c97;
 }
 
+#pywebio-scope-dashboard input {
+    background-color: white !important;
+}
 input[type="checkbox"] {
     accent-color: #7a77bb;
 }
@@ -150,5 +153,13 @@ pre.rich-traceback-code {
 
 *[style*="--arg-help--"],
 [id^="pywebio-scope-group_"] > p + p {
+    color: #777777;
+}
+
+*[style*="--dashboard-help--"]{
+    color: #777777;
+}
+
+*[style*="--dashboard-limit--"]{
     color: #777777;
 }

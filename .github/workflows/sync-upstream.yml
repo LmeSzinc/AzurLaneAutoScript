@@ -1,0 +1,34 @@
+name: Sync Upstream Repository
+
+on:
+  schedule:
+    - cron: '0 2 * * *'  # UTC时间2点（北京时间10点）
+    - cron: '0 10 * * *' # UTC时间10点（北京时间18点）
+    - cron: '0 18 * * *' # UTC时间18点（北京时间次日2点）
+  workflow_dispatch: # 允许手动触发
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout current repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN}}
+          fetch-depth: 0 # 获取完整历史记录
+
+      - name: Add upstream remote
+        run: |
+          git remote add upstream https://github.com/LmeSzinc/AzurLaneAutoScript.git # 链接更换为上游仓库地址
+          git fetch upstream
+
+      - name: Merge upstream changes
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git checkout master # 可将本文件全部master替换为仓库主分支名称
+          git merge upstream/master --allow-unrelated-histories # master替换为上游仓库主分支名称
+          # 如果有冲突，这里会失败，你需要手动处理
+
+      - name: Push changes
+        run: git push origin master # master替换为仓库主分支名称
