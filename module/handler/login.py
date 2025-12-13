@@ -1,3 +1,7 @@
+# 基于原版 login.py 增加了智能的游戏重启逻辑
+# 用于解决 启动游戏时闪退、发送终止命令后立即发送启动命令导致未生效 的问题
+# Modified: app_restart
+# Last Updated: 2025-08-25 20:41
 from typing import Union
 
 import numpy as np
@@ -156,10 +160,49 @@ class LoginHandler(UI):
         self.handle_app_login()
         # self.ensure_no_unfinished_campaign()
 
+    # def app_restart(self):
+    #     logger.hr('App restart')
+    #     self.device.app_stop()
+    #     self.device.app_start()
+    #     self.handle_app_login()
+    #     # self.ensure_no_unfinished_campaign()
+    #     self.config.task_delay(server_update=True)
+
     def app_restart(self):
         logger.hr('App restart')
-        self.device.app_stop()
-        self.device.app_start()
+
+        # --- 新增代码：智能的多次尝试重启逻辑 ---
+        RESTART_TRIES = 4                    # 最大尝试次数
+        FIRST_TRY_WAIT_SECONDS = 30          # 首次尝试等待时间
+        SUBSEQUENT_TRY_WAIT_SECONDS = 20     # 后续尝试间隔
+
+        is_restart_success = False
+
+        for i in range(RESTART_TRIES):
+            logger.info(f"App restart attempt {i + 1}/{RESTART_TRIES}...")
+            self.device.app_stop()
+            self.device.sleep(3)
+            self.device.app_start()
+            wait_seconds = FIRST_TRY_WAIT_SECONDS if i == 0 else SUBSEQUENT_TRY_WAIT_SECONDS
+            logger.info(f"Waiting {wait_seconds} seconds for app to launch and stabilize...")
+            self.device.sleep(wait_seconds)
+
+            # --- 验证软件是否已运行 ---
+            if self.device.app_is_running():
+                logger.info(">>> App started successfully and is running.")
+                is_restart_success = True
+                break  # 成功启动，跳出循环
+            else:
+                logger.warning(f"Attempt {i + 1} failed. App is not running after launch (likely crashed).")
+                if i < RESTART_TRIES - 1:
+                    logger.info("Retrying...")
+        
+        # --- 如果所有尝试均以失败告终，则抛出异常 ---
+        if not is_restart_success:
+            logger.critical(f"Failed to start app after {RESTART_TRIES} attempts. This might be a serious issue.")
+            from module.exception import RequestHumanTakeover
+            raise RequestHumanTakeover("App restart failed repeatedly")
+
         self.handle_app_login()
         # self.ensure_no_unfinished_campaign()
         self.config.task_delay(server_update=True)

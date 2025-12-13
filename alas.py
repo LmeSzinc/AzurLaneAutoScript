@@ -1,3 +1,8 @@
+# rev: auto_restart
+# 基于原版 alas.py 增加了自动尝试重启调度器的功能
+# 用于解决 Unknown ui page 、短暂网络不良等 无需人工修复的偶发意外情形，避免调度器直接终止
+# Modified: run, loop
+# Last Updated: 2025-09-01 00:03
 import os
 import re
 import threading
@@ -62,6 +67,76 @@ class AzurLaneAutoScript:
             logger.exception(e)
             exit(1)
 
+    # def run(self, command, skip_first_screenshot=False):
+    #     try:
+    #         if not skip_first_screenshot:
+    #             self.device.screenshot()
+    #         self.__getattribute__(command)()
+    #         return True
+    #     except TaskEnd:
+    #         return True
+    #     except GameNotRunningError as e:
+    #         logger.warning(e)
+    #         self.config.task_call('Restart')
+    #         return False
+    #     except (GameStuckError, GameTooManyClickError) as e:
+    #         logger.error(e)
+    #         self.save_error_log()
+    #         logger.warning(f'Game stuck, {self.device.package} will be restarted in 10 seconds')
+    #         logger.warning('If you are playing by hand, please stop Alas')
+    #         self.config.task_call('Restart')
+    #         self.device.sleep(10)
+    #         return False
+    #     except GameBugError as e:
+    #         logger.warning(e)
+    #         self.save_error_log()
+    #         logger.warning('An error has occurred in Azur Lane game client, Alas is unable to handle')
+    #         logger.warning(f'Restarting {self.device.package} to fix it')
+    #         self.config.task_call('Restart')
+    #         self.device.sleep(10)
+    #         return False
+    #     except GamePageUnknownError:
+    #         logger.info('Game server may be under maintenance or network may be broken, check server status now')
+    #         self.checker.check_now()
+    #         if self.checker.is_available():
+    #             logger.critical('Game page unknown')
+    #             self.save_error_log()
+    #             handle_notify(
+    #                 self.config.Error_OnePushConfig,
+    #                 title=f"Alas <{self.config_name}> crashed",
+    #                 content=f"<{self.config_name}> GamePageUnknownError",
+    #             )
+    #             exit(1)
+    #         else:
+    #             self.checker.wait_until_available()
+    #             return False
+    #     except ScriptError as e:
+    #         logger.exception(e)
+    #         logger.critical('This is likely to be a mistake of developers, but sometimes just random issues')
+    #         handle_notify(
+    #             self.config.Error_OnePushConfig,
+    #             title=f"Alas <{self.config_name}> crashed",
+    #             content=f"<{self.config_name}> ScriptError",
+    #         )
+    #         exit(1)
+    #     except RequestHumanTakeover:
+    #         logger.critical('Request human takeover')
+    #         handle_notify(
+    #             self.config.Error_OnePushConfig,
+    #             title=f"Alas <{self.config_name}> crashed",
+    #             content=f"<{self.config_name}> RequestHumanTakeover",
+    #         )
+    #         exit(1)
+    #     except Exception as e:
+    #         logger.exception(e)
+    #         self.save_error_log()
+    #         handle_notify(
+    #             self.config.Error_OnePushConfig,
+    #             title=f"Alas <{self.config_name}> crashed",
+    #             content=f"<{self.config_name}> Exception occured",
+    #         )
+    #         exit(1)
+
     def run(self, command, skip_first_screenshot=False):
         try:
             if not skip_first_screenshot:
@@ -101,7 +176,8 @@ class AzurLaneAutoScript:
                     title=f"Alas <{self.config_name}> crashed",
                     content=f"<{self.config_name}> GamePageUnknownError",
                 )
-                exit(1)
+                # exit(1)
+                raise   # 向上抛出给loop函数
             else:
                 self.checker.wait_until_available()
                 return False
@@ -113,7 +189,8 @@ class AzurLaneAutoScript:
                 title=f"Alas <{self.config_name}> crashed",
                 content=f"<{self.config_name}> ScriptError",
             )
-            exit(1)
+            # exit(1)
+            raise
         except RequestHumanTakeover:
             logger.critical('Request human takeover')
             handle_notify(
@@ -121,7 +198,8 @@ class AzurLaneAutoScript:
                 title=f"Alas <{self.config_name}> crashed",
                 content=f"<{self.config_name}> RequestHumanTakeover",
             )
-            exit(1)
+            # exit(1)
+            raise
         except Exception as e:
             logger.exception(e)
             self.save_error_log()
@@ -130,7 +208,8 @@ class AzurLaneAutoScript:
                 title=f"Alas <{self.config_name}> crashed",
                 content=f"<{self.config_name}> Exception occured",
             )
-            exit(1)
+            # exit(1)
+            raise
 
     def save_error_log(self):
         """
@@ -514,77 +593,201 @@ class AzurLaneAutoScript:
         AzurLaneConfig.is_hoarding_task = False
         return task.command
 
+    # def loop(self):
+    #     logger.set_file_logger(self.config_name)
+    #     logger.info(f'Start scheduler loop: {self.config_name}')
+
+    #     while 1:
+    #         # Check update event from GUI
+    #         if self.stop_event is not None:
+    #             if self.stop_event.is_set():
+    #                 logger.info("Update event detected")
+    #                 logger.info(f"Alas [{self.config_name}] exited.")
+    #                 break
+    #         # Check game server maintenance
+    #         self.checker.wait_until_available()
+    #         if self.checker.is_recovered():
+    #             # There is an accidental bug hard to reproduce
+    #             # Sometimes, config won't be updated due to blocking
+    #             # even though it has been changed
+    #             # So update it once recovered
+    #             del_cached_property(self, 'config')
+    #             logger.info('Server or network is recovered. Restart game client')
+    #             self.config.task_call('Restart')
+    #         # Get task
+    #         task = self.get_next_task()
+    #         # Init device and change server
+    #         _ = self.device
+    #         self.device.config = self.config
+    #         # Skip first restart
+    #         if self.is_first_task and task == 'Restart':
+    #             logger.info('Skip task `Restart` at scheduler start')
+    #             self.config.task_delay(server_update=True)
+    #             del_cached_property(self, 'config')
+    #             continue
+
+    #         # Run
+    #         logger.info(f'Scheduler: Start task `{task}`')
+    #         self.device.stuck_record_clear()
+    #         self.device.click_record_clear()
+    #         logger.hr(task, level=0)
+    #         success = self.run(inflection.underscore(task))
+    #         logger.info(f'Scheduler: End task `{task}`')
+    #         self.is_first_task = False
+
+    #         # Check failures
+    #         failed = deep_get(self.failure_record, keys=task, default=0)
+    #         failed = 0 if success else failed + 1
+    #         deep_set(self.failure_record, keys=task, value=failed)
+    #         if failed >= 3:
+    #             logger.critical(f"Task `{task}` failed 3 or more times.")
+    #             logger.critical("Possible reason #1: You haven't used it correctly. "
+    #                             "Please read the help text of the options.")
+    #             logger.critical("Possible reason #2: There is a problem with this task. "
+    #                             "Please contact developers or try to fix it yourself.")
+    #             logger.critical('Request human takeover')
+    #             handle_notify(
+    #                 self.config.Error_OnePushConfig,
+    #                 title=f"Alas <{self.config_name}> crashed",
+    #                 content=f"<{self.config_name}> RequestHumanTakeover\nTask `{task}` failed 3 or more times.",
+    #             )
+    #             exit(1)
+
+    #         if success:
+    #             del_cached_property(self, 'config')
+    #             continue
+    #         elif self.config.Error_HandleError:
+    #             # self.config.task_delay(success=False)
+    #             del_cached_property(self, 'config')
+    #             self.checker.check_now()
+    #             continue
+    #         else:
+    #             break
+
     def loop(self):
         logger.set_file_logger(self.config_name)
         logger.info(f'Start scheduler loop: {self.config_name}')
 
+        # --- 新增代码：初始化计数器 ---
+        consecutive_global_failures = 0
+        MAX_GLOBAL_FAILURES = 3     # 3 or more，4次及以上会执行长达5分钟的防网络波动等待
+        RESTART_DELAY = 20     # 重启尝试间隔
+        LONG_WAIT = 300
+
         while 1:
-            # Check update event from GUI
-            if self.stop_event is not None:
-                if self.stop_event.is_set():
-                    logger.info("Update event detected")
-                    logger.info(f"Alas [{self.config_name}] exited.")
+            try:
+                # Check update event from GUI
+                if self.stop_event is not None:
+                    if self.stop_event.is_set():
+                        logger.info("Update event detected")
+                        logger.info(f"Alas [{self.config_name}] exited.")
+                        break
+                # Check game server maintenance
+                self.checker.wait_until_available()
+                if self.checker.is_recovered():
+                    # There is an accidental bug hard to reproduce
+                    # Sometimes, config won't be updated due to blocking
+                    # even though it has been changed
+                    # So update it once recovered
+                    del_cached_property(self, 'config')
+                    logger.info('Server or network is recovered. Restart game client')
+                    self.config.task_call('Restart')
+                # Get task
+                task = self.get_next_task()
+                # Init device and change server
+                _ = self.device
+                self.device.config = self.config
+                # Skip first restart
+                if self.is_first_task and task == 'Restart':
+                    logger.info('Skip task `Restart` at scheduler start')
+                    self.config.task_delay(server_update=True)
+                    del_cached_property(self, 'config')
+                    continue
+
+                # Run
+                logger.info(f'Scheduler: Start task `{task}`')
+                self.device.stuck_record_clear()
+                self.device.click_record_clear()
+                logger.hr(task, level=0)
+                success = self.run(inflection.underscore(task))
+                logger.info(f'Scheduler: End task `{task}`')
+                self.is_first_task = False
+
+                # --- 新增代码：任意任务成功后重置计数器 ---
+                if consecutive_global_failures > 0:
+                    if task != 'Restart' and success:
+                        logger.info(f"A task completed (successfully or with recoverable error), resetting global failure counter from {consecutive_global_failures} to 0.")
+                        consecutive_global_failures = 0
+
+                # Check failures
+                # @ 单个任务连续失败三次终止程序
+                failed = deep_get(self.failure_record, keys=task, default=0)
+                failed = 0 if success else failed + 1
+                deep_set(self.failure_record, keys=task, value=failed)
+                if failed >= 3:
+                    logger.critical(f"Task `{task}` failed 3 or more times.")
+                    logger.critical("Possible reason #1: You haven't used it correctly. "
+                                    "Please read the help text of the options.")
+                    logger.critical("Possible reason #2: There is a problem with this task. "
+                                    "Please contact developers or try to fix it yourself.")
+                    logger.critical('Request human takeover')
+                    handle_notify(
+                        self.config.Error_OnePushConfig,
+                        title=f"Alas <{self.config_name}> crashed",
+                        content=f"<{self.config_name}> RequestHumanTakeover\nTask `{task}` failed 3 or more times.",
+                    )
+                    exit(1)
+
+                if success:
+                    del_cached_property(self, 'config')
+                    continue
+                elif self.config.Error_HandleError:
+                    # self.config.task_delay(success=False)
+                    del_cached_property(self, 'config')
+                    self.checker.check_now()
+                    continue
+                else:
                     break
-            # Check game server maintenance
-            self.checker.wait_until_available()
-            if self.checker.is_recovered():
-                # There is an accidental bug hard to reproduce
-                # Sometimes, config won't be updated due to blocking
-                # even though it has been changed
-                # So update it once recovered
-                del_cached_property(self, 'config')
-                logger.info('Server or network is recovered. Restart game client')
-                self.config.task_call('Restart')
-            # Get task
-            task = self.get_next_task()
-            # Init device and change server
-            _ = self.device
-            self.device.config = self.config
-            # Skip first restart
-            if self.is_first_task and task == 'Restart':
-                logger.info('Skip task `Restart` at scheduler start')
-                self.config.task_delay(server_update=True)
-                del_cached_property(self, 'config')
-                continue
-
-            # Run
-            logger.info(f'Scheduler: Start task `{task}`')
-            self.device.stuck_record_clear()
-            self.device.click_record_clear()
-            logger.hr(task, level=0)
-            success = self.run(inflection.underscore(task))
-            logger.info(f'Scheduler: End task `{task}`')
-            self.is_first_task = False
-
-            # Check failures
-            failed = deep_get(self.failure_record, keys=task, default=0)
-            failed = 0 if success else failed + 1
-            deep_set(self.failure_record, keys=task, value=failed)
-            if failed >= 3:
-                logger.critical(f"Task `{task}` failed 3 or more times.")
-                logger.critical("Possible reason #1: You haven't used it correctly. "
-                                "Please read the help text of the options.")
-                logger.critical("Possible reason #2: There is a problem with this task. "
-                                "Please contact developers or try to fix it yourself.")
-                logger.critical('Request human takeover')
-                handle_notify(
-                    self.config.Error_OnePushConfig,
-                    title=f"Alas <{self.config_name}> crashed",
-                    content=f"<{self.config_name}> RequestHumanTakeover\nTask `{task}` failed 3 or more times.",
+            
+            # --- 新增代码：捕获全局异常并执行重启 ---
+            except Exception as e:
+                consecutive_global_failures += 1
+                self.is_first_task = False
+                logger.error("An unexpected global exception occurred in the scheduler loop!")
+                import traceback
+                logger.error(traceback.format_exc()) # 打印完整的错误堆栈
+                logger.warning(
+                    f">>> This is consecutive global failure #{consecutive_global_failures} of {MAX_GLOBAL_FAILURES}."
                 )
-                exit(1)
 
-            if success:
-                del_cached_property(self, 'config')
-                continue
-            elif self.config.Error_HandleError:
-                # self.config.task_delay(success=False)
-                del_cached_property(self, 'config')
-                self.checker.check_now()
-                continue
-            else:
-                break
+                # --- 检查是否达到重试上限 ---
+                if consecutive_global_failures >= MAX_GLOBAL_FAILURES:
+                    logger.critical(
+                        f"Maximum number of consecutive global failures ({MAX_GLOBAL_FAILURES}) reached."
+                    )
+                    logger.critical("The error appears to be fatal and unrecoverable by restarting.")
+                    self.save_error_log()
+                    logger.critical("Scheduler is now terminating. Manual intervention is required.")
+                    exit(1)   # 达到上限，强制终止程序
 
+                 # --- 尝试重启 ---
+                logger.warning("Attempting to recover by forcing a RESTART task...")
+                try:
+                    # 注入 Restart 任务
+                    self.config.task_call('Restart')
+                    # 重新加载配置
+                    del_cached_property(self, 'config')
+                    logger.info("A `Restart` task has been scheduled for the next loop.")
+                except Exception as restart_e:
+                    logger.error("Failed to even schedule a restart task!")
+                    logger.error(f"Scheduling Error: {restart_e}")
+
+                # --- 等待一段时间后开始下一次循环 ---
+                wait_seconds = RESTART_DELAY if consecutive_global_failures < 4 else LONG_WAIT
+                logger.info(
+                    f"Scheduler will retry from the beginning in {wait_seconds} seconds."
+                )
+                time.sleep(wait_seconds)
 
 if __name__ == '__main__':
     alas = AzurLaneAutoScript()

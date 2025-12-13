@@ -204,7 +204,7 @@ class GitOverCdnClient:
             self.logger.warning(f'TimeoutExpired when calling {cmd}, stdout={stdout}, stderr={stderr}')
         return stdout.decode()
 
-    def git_reset(self):
+    def git_reset(self, keep_changes=False):
         """
         git reset --hard <commit>
         """
@@ -217,7 +217,12 @@ class GitOverCdnClient:
             if os.path.exists(lock_file):
                 self.logger.info(f'Lock file {lock_file} exists, removing')
                 os.remove(lock_file)
-        self.git_command('reset', '--hard', f'{self.source}/{self.branch}')
+        if keep_changes:
+            self.git_command('stash')
+            self.git_command('reset', '--hard', f'{self.source}/{self.branch}')
+            self.git_command('stash', 'pop')
+        else:
+            self.git_command('reset', '--hard', f'{self.source}/{self.branch}')
 
     def get_status(self):
         """
@@ -240,8 +245,11 @@ class GitOverCdnClient:
         self.logger.info('Current repo is behind remote')
         return 'behind'
 
-    def update(self):
+    def update(self, keep_changes=False):
         """
+        Args:
+            keep_changes:
+
         Returns:
             bool: If repo is up-to-date
         """
@@ -255,13 +263,13 @@ class GitOverCdnClient:
             return False
         if self.current_commit == self.latest_commit:
             self.logger.info('Already up to date')
-            self.git_reset()
+            self.git_reset(keep_changes=keep_changes)
             return True
 
         if not self.download_pack():
             return False
         if not self.update_refs():
             return False
-        self.git_reset()
+        self.git_reset(keep_changes=keep_changes)
         self.logger.info('Update success')
         return True

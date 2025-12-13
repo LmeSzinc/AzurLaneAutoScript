@@ -23,7 +23,8 @@ class GitManager(DeployConfig):
             logger.info(f'File not found: {file}')
 
     def git_repository_init(
-            self, repo, source='origin', branch='master', proxy='', ssl_verify=True
+            self, repo, source='origin', branch='master',
+            proxy='', ssl_verify=True, keep_changes=False
     ):
         logger.hr('Git Init', 1)
         if not self.execute(f'"{self.git}" init', allow_failure=True):
@@ -62,8 +63,21 @@ class GitManager(DeployConfig):
             if os.path.exists(lock_file):
                 logger.info(f'Lock file {lock_file} exists, removing')
                 os.remove(lock_file)
-        self.execute(f'"{self.git}" reset --hard {source}/{branch}')
-        self.execute(f'"{self.git}" pull --ff-only {source} {branch}')
+        if keep_changes:
+            if self.execute(f'"{self.git}" stash', allow_failure=True):
+                self.execute(f'"{self.git}" pull --ff-only {source} {branch}')
+                if self.execute(f'"{self.git}" stash pop', allow_failure=True):
+                    pass
+                else:
+                    # No local changes to existing files, untracked files not included
+                    logger.info('Stash pop failed, there seems to be no local changes, skip instead')
+            else:
+                logger.info('Stash failed, this may be the first installation, drop changes instead')
+                self.execute(f'"{self.git}" reset --hard {source}/{branch}')
+                self.execute(f'"{self.git}" pull --ff-only {source} {branch}')
+        else:
+            self.execute(f'"{self.git}" reset --hard {source}/{branch}')
+            self.execute(f'"{self.git}" pull --ff-only {source} {branch}')
 
         logger.hr('Show Version', 1)
         self.execute(f'"{self.git}" --no-pager log --no-merges -1')
@@ -88,7 +102,7 @@ class GitManager(DeployConfig):
             return
 
         if self.GitOverCdn:
-            if self.goc_client.update():
+            if self.goc_client.update(keep_changes=self.KeepLocalChanges):
                 return
 
         self.git_repository_init(
@@ -97,6 +111,7 @@ class GitManager(DeployConfig):
             branch=self.Branch,
             proxy=self.GitProxy,
             ssl_verify=self.SSLVerify,
+            keep_changes=self.KeepLocalChanges,
         )
 
 
