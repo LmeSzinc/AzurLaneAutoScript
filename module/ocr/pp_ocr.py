@@ -173,10 +173,14 @@ class PpOcr:
             img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)
 
         if resize_mode == 'rec':
+            if img.shape[0] > img.shape[1] * 1.5:
+                img = cv2.rotate(img, cv2.ROTATE_90_COUNTERCLOCKWISE)
+
             # Image's height must be 48
             scale = 48 / img.shape[0]
             new_w = int(img.shape[1] * scale)
             img = cv2.resize(img, (new_w, 48))
+
         elif resize_mode == 'det':
             pad_h = math.ceil(img.shape[0] / 32) * 32 - img.shape[0]
             pad_w = math.ceil(img.shape[1] / 32) * 32 - img.shape[1]
