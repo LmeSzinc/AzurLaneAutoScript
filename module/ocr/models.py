@@ -61,5 +61,13 @@ class OcrModel:
         from module.ocr.al_ocr import AlOcr
         return AlOcr(model_name='densenet-lite-gru', model_epoch=63, root='./bin/cnocr_models/tw', name='tw')
 
+    @cached_property
+    def ppocr(self):
+        # Folder: ./bin/ppocr_models/ppocrv5
+        # Size: 4.52MB(detection) + 15.7MB(recognition)
+        # Model: PP-OCRv5 from PaddleOCR including detection and recognition
+        from module.ocr.pp_ocr import PpOcr
+        return PpOcr(model_name='ppocrv5', root='./bin/ppocr_models/ppocrv5', name='ppocr')
+
 
 OCR_MODEL = OcrModel()

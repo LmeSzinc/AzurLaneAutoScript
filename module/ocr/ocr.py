@@ -47,6 +47,10 @@ class Ocr:
         return OCR_MODEL.__getattribute__(self.lang)
 
     @property
+    def ppocr(self):
+        return OCR_MODEL.__getattribute__('ppocr')
+
+    @property
     def buttons(self):
         buttons = self._buttons
         buttons = buttons if isinstance(buttons, list) else [buttons]
