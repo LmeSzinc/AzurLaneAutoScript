@@ -71,16 +71,28 @@ class PpOcr:
         result = self._postprocess_text(preds)
         return result
 
-    def atomic_ocr_for_single_lines(self, img_list, cand_alphabet=None):
+    def atomic_ocr_for_single_lines(self, img_list, cand_alphabet=None, batch_size=10, batch_threshold=20):
         """
         Multi images, one line OCR
         """
         if len(img_list) == 0:
             return []
-        self.set_cand_alphabet(cand_alphabet)
-        return [self.ocr(img) for img in img_list]
 
-    def detect_then_ocr(self, img, pad=10, threshold=0.3, mode=cv2.RETR_EXTERNAL, debug=False):
+        if not self._model_loaded:
+            self.init(*self._args)
+            self._model_loaded = True
+
+        self.set_cand_alphabet(cand_alphabet)
+
+        results = []
+        for batch in self._batch_imgs(img_list, batch_size, batch_threshold):
+            preds = self._predict(batch)
+            results.extend(self._postprocess_text(preds))
+
+        return results
+
+    def detect_then_ocr(self, img, pad=10, threshold=0.3, mode=cv2.RETR_EXTERNAL, batch_size=10, batch_threshold=20,
+                        debug=False):
         """
         Detect potential text regions and perform OCR.
         The order of detected text is not guaranteed.
@@ -90,6 +102,10 @@ class PpOcr:
         :param pad: pad detected text region, both width and height.
         :param threshold: threshold for detect text.
         :param mode: cv2.findCounters(), one of [RETR_EXTERNAL, RETR_LIST, RETR_CCOMP, RETR_TREE, RETR_FLOODFILL].
+        :param batch_size: the batch size of text recognition.
+        :param batch_threshold: images with width differences less than or equal to batch_threshold are placed in the same batch,
+            ensuring similar dimensions within a batch and improving memory and computational efficiency.
+        :param debug: debug mode.
         :return: A tuple containing two lists:
             the recognized text and its corresponding region (x, y, w, h).
         """
@@ -101,24 +117,32 @@ class PpOcr:
         image = img
         image = self._preprocess_image(image, 'det')
         boxes = self._detect(image, pad, threshold, mode)
+        boxes.sort(key=lambda box: box[2])
 
-        texts, regions = [], []
+        crops, regions = [], []
         for box in boxes:
             x, y, w, h = box
             crop = img[y:y + h, x:x + w, :]
-            crop = self._preprocess_image(crop)
-            preds = self._predict(crop)
+            crops.append(crop)
 
-            text = ''.join([c.strip() for c in self._postprocess_text(preds)])
-            if text:
-                texts.append(text)
-                regions.append(box)
+        texts, index = [], 0
+        for batch in self._batch_imgs(crops, batch_size, batch_threshold):
+            preds = self._predict(batch)
+            batch_text = self._postprocess_text(preds)
+            for chars in batch_text:
+                text = ''.join([c.strip() for c in chars])
+                if text:
+                    texts.append(text)
+                    regions.append(boxes[index])
 
-            if debug:
-                logger.info(f'[OCR] Text: {text}, Region: ({x}, {y}), ({x + w}, {y + h})')
-                tmp = cv2.rectangle(img.copy(), (x, y), (x + w, y + h), (255, 0, 0), 2)
-                cv2.imshow("ppocr", cv2.cvtColor(tmp, cv2.COLOR_RGB2BGR))
-                cv2.waitKey(0)
+                if debug:
+                    x, y, w, h = boxes[index]
+                    logger.info(f'[OCR] Text: {text}, Region: ({x}, {y}), ({x + w}, {y + h})')
+                    tmp = cv2.rectangle(img.copy(), (x, y), (x + w, y + h), (255, 0, 0), 2)
+                    cv2.imshow("ppocr", cv2.cvtColor(tmp, cv2.COLOR_RGB2BGR))
+                    cv2.waitKey(0)
+
+                index += 1
 
         return texts, regions
 
@@ -191,6 +215,38 @@ class PpOcr:
         img = img.astype('float32') / 255.0
         return img
 
+    def _batch_imgs(self, imgs, batch_size=None, batch_threshold=20):
+        def pad_img():
+            batch_padded = []
+            for b in batch:
+                padded = np.pad(b, ((0, 0), (0, 0), (0, 0), (0, max_width - b.shape[3])))
+                batch_padded.append(padded)
+            return np.vstack(batch_padded)
+
+        batch = []
+        min_width, max_width = 1280, 0
+        for img in imgs:
+            img = self._load_image(img)
+            img = self._preprocess_image(img)
+
+            min_width = min(min_width, img.shape[3])
+            max_width = max(max_width, img.shape[3])
+
+            if isinstance(batch_threshold, int) and max_width - min_width > batch_threshold:
+                yield pad_img()
+                batch = []
+                min_width, max_width = img.shape[3], img.shape[3]
+
+            batch.append(img)
+
+            if len(batch) == batch_size:
+                yield pad_img()
+                batch = []
+                min_width, max_width = 1280, 0
+
+        if batch:
+            yield pad_img()
+
     def _detect(self, img, pad=10, threshold=0.3, mode=cv2.RETR_EXTERNAL):
         input_name = self._det_model.get_inputs()[0].name
         preds = self._det_model.run(None, {input_name: img})[0][0, 0]
@@ -208,12 +264,19 @@ class PpOcr:
     def _predict(self, img):
         input_name = self._rec_model.get_inputs()[0].name
         preds = self._rec_model.run(None, {input_name: img})[0]
-        preds = preds[0].argmax(axis=1) - 1
+        preds = preds.argmax(axis=2) - 1
         return preds
 
     def _postprocess_text(self, preds):
-        result = self._alphabet[preds]
-        if self._cand_alphabet:
-            mask = np.isin(result, self._cand_alphabet)
-            result = result[mask]
+        if len(preds.shape) == 1:
+            preds = np.expand_dims(preds, 0)
+
+        result = []
+        for pred in preds:
+            chars = self._alphabet[pred]
+            if self._cand_alphabet:
+                mask = np.isin(chars, self._cand_alphabet)
+                chars = chars[mask]
+            result.append(chars)
+
         return result
