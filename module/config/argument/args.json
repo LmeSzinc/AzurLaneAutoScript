@@ -1835,6 +1835,46 @@
         "display": "display"
       }
     },
+    "Submarine": {
+      "Fleet": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          1,
+          2
+        ]
+      },
+      "Mode": {
+        "type": "select",
+        "value": "do_not_use",
+        "option": [
+          "do_not_use",
+          "hunt_only"
+        ],
+        "display": "display"
+      },
+      "AutoSearchMode": {
+        "type": "select",
+        "value": "sub_standby",
+        "option": [
+          "sub_standby",
+          "sub_auto_call"
+        ],
+        "display": "hide"
+      },
+      "DistanceToBoss": {
+        "type": "select",
+        "value": "use_open_ocean_support",
+        "option": [
+          "to_boss_position",
+          "1_grid_to_boss",
+          "2_grid_to_boss",
+          "use_open_ocean_support"
+        ],
+        "display": "hide"
+      }
+    },
     "Storage": {
       "Storage": {
         "type": "storage",
