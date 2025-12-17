@@ -91,7 +91,7 @@ class PpOcr:
 
         return results
 
-    def detect_then_ocr(self, img, pad=10, threshold=0.3, mode=cv2.RETR_EXTERNAL, batch_size=10, batch_threshold=20,
+    def detect_then_ocr(self, img, pad=10, threshold=0.6, mode=cv2.RETR_EXTERNAL, batch_size=10, batch_threshold=20,
                         debug=False):
         """
         Detect potential text regions and perform OCR.
@@ -213,6 +213,7 @@ class PpOcr:
         img = np.transpose(img, (2, 0, 1))
         img = np.expand_dims(img, axis=0)
         img = img.astype('float32') / 255.0
+        img = (img - 0.5) / 0.5
         return img
 
     def _batch_imgs(self, imgs, batch_size=None, batch_threshold=20):
