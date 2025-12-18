@@ -67,7 +67,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         Returns:
             bool:
         """
-        image = self.image_crop((0, 620, 1280, 720), copy=False)
+        image = self.image_crop((0, 620, 1280, 690), copy=False)
         similarity, button = TEMPLATE_COMBAT_LOADING.match_luma_result(image)
         if similarity > 0.85:
             loading = (button.area[0] + 38 - LOADING_BAR.area[0]) / (LOADING_BAR.area[2] - LOADING_BAR.area[0])
