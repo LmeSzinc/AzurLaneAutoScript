@@ -22,33 +22,31 @@ from module.ui.ui import UI
 
 class EventShopScroll(Scroll):
     def match_color(self, main):
+        background_transparency = 0.2
+        button_transparency = 0.5
         delta_x = 3
-        area = (self.area[0] - delta_x, self.area[1], self.area[2] + delta_x, self.area[3])
-        image = main.image_crop(area, copy=False)
-        image = rgb2luma(image).astype(np.float)
-        dif = image[:, image.shape[1] // 2] / (image[:, 0] + image[:, -1])
-        delta = np.diff(dif)
-        peak_candidates = np.where(np.abs(delta) > 0.025)[0]
-        if len(peak_candidates) == 2:
-            assert delta[peak_candidates[0]] < 0 < delta[peak_candidates[1]]
-            up, down = peak_candidates[0], peak_candidates[1]
-        elif len(peak_candidates) == 1:
-            if delta[peak_candidates[0]] > 0:
-                up, down = 0, peak_candidates[0]
-            else:
-                up, down = peak_candidates[0], self.total
-        else:
-            logger.warning(f'peak_candidates: {peak_candidates}'
-                           f'peak_values: {delta[peak_candidates]}')
-            up, down = 0, 100
-        mask = np.zeros((self.total,), dtype=np.bool_)
-        mask[up:down] = True
+        area = (
+            self.area[0] - delta_x,
+            self.area[1],
+            self.area[2] + delta_x,
+            self.area[3]
+        )
+        image = main.image_crop(area, copy=False).astype(np.float)
+        baseline_color = np.mean(image[:, [0, -1], :], axis=1)
+        masked_color = image[:, image.shape[1] // 2, :]
+        background_mask = background_transparency * np.array(self.color) + (1 - background_transparency) * baseline_color
+        button_mask = button_transparency * np.array(self.color) + (1 - button_transparency) * baseline_color
+        err_background = np.sum((masked_color - background_mask) ** 2, axis=1)
+        err_button = np.sum((masked_color - button_mask) ** 2, axis=1)
+        mask = err_button < err_background
+        self.length = np.sum(mask)
+        # print(mask)
         return mask
 
 
 EVENT_SHOP_SCROLL = EventShopScroll(
     EVENT_SHOP_SCROLL_AREA,
-    color=(0, 0, 0),
+    color=(44, 48, 56),
     name="EVENT_SHOP_SCROLL"
 )
 
