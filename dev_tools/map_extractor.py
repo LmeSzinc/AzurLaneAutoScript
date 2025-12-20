@@ -311,6 +311,12 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     'jiulaimu_shixianggui': 'Jiulaimu_Statue',
     'jiulaimu_emo': 'Jiulaimu_Demon',
     'youlin_ylsb': 'Jiulaimu_Ghost',
+
+    # A Note Through the Firmament
+    'unknownV_boss_star': 'Vboss_Star',
+    'unknownV_boss_hermit': 'Vboss_Hermit',
+    'unknownV_boss_lovers': 'Vboss_Lovers',
+    'unknownV_boss_chariot': 'Vboss_Chariot',
 }
 
 
