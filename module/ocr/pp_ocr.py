@@ -52,12 +52,13 @@ class PpOcr:
         self._det_model = ort.InferenceSession(os.path.join(self._model_dir, 'det.onnx'))
         self._rec_model = ort.InferenceSession(os.path.join(self._model_dir, 'rec.onnx'))
 
-    def ocr(self, img):
+    def ocr(self, img, detect=True):
         """
         Only support one line OCR
 
         :param img: image file path; or color image np.ndarray,
             with shape (height, width, 3), and the channels should be RGB formatted.
+        :param detect: If true, detect the text region for recognization. Default: True.
         :return: List(Char), such as:
             ['第', '一', '行']
         """
@@ -65,13 +66,24 @@ class PpOcr:
             self.init(*self._args)
             self._model_loaded = True
 
-        image = self._load_image(img)
+        img = self._load_image(img)
+
+        if detect:
+            image = self._preprocess_image(img, 'det')
+            boxes = self._detect(image)
+            if boxes:
+                boxes.sort(key=lambda box: box[2], reverse=True)
+                x, y, w, h = boxes[0]
+                image = img[y:y + h, x:x + w]
+            else:
+                image = img
+
         image = self._preprocess_image(image)
         preds = self._predict(image)
         result = self._postprocess_text(preds)
         return result
 
-    def atomic_ocr_for_single_lines(self, img_list, cand_alphabet=None, batch_size=10, batch_threshold=20):
+    def atomic_ocr_for_single_lines(self, img_list, cand_alphabet=None, batch_size=10, batch_threshold=20, detect=True):
         """
         Multi images, one line OCR
         """
@@ -85,6 +97,20 @@ class PpOcr:
         self.set_cand_alphabet(cand_alphabet)
 
         results = []
+
+        if detect:
+            image_list = [self._load_image(img) for img in img_list]
+            image_list = [self._preprocess_image(img, 'det') for img in image_list]
+            for i, img in enumerate(image_list):
+                boxes = self._detect(img)
+                if boxes:
+                    boxes.sort(key=lambda box: box[2], reverse=True)
+                    x, y, w, h = boxes[0]
+                    image_list[i] = img_list[i][y:y + h, x:x + w]
+                else:
+                    image_list[i] = img_list[i]
+            img_list = image_list
+
         for batch in self._batch_imgs(img_list, batch_size, batch_threshold):
             preds = self._predict(batch)
             results.extend(self._postprocess_text(preds))
@@ -208,7 +234,7 @@ class PpOcr:
         elif resize_mode == 'det':
             pad_h = math.ceil(img.shape[0] / 32) * 32 - img.shape[0]
             pad_w = math.ceil(img.shape[1] / 32) * 32 - img.shape[1]
-            img = np.pad(img, ((0, pad_h), (0, pad_w), (0, 0)))
+            img = np.pad(img, ((0, pad_h), (0, pad_w), (0, 0)), mode='constant')
 
         img = np.transpose(img, (2, 0, 1))
         img = np.expand_dims(img, axis=0)
@@ -220,7 +246,7 @@ class PpOcr:
         def pad_img():
             batch_padded = []
             for b in batch:
-                padded = np.pad(b, ((0, 0), (0, 0), (0, 0), (0, max_width - b.shape[3])))
+                padded = np.pad(b, ((0, 0), (0, 0), (0, 0), (0, max_width - b.shape[3])), mode='constant')
                 batch_padded.append(padded)
             return np.vstack(batch_padded)
 
