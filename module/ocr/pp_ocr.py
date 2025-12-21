@@ -80,7 +80,7 @@ class PpOcr:
 
         image = self._preprocess_image(image)
         preds = self._predict(image)
-        result = self._postprocess_text(preds)
+        result = self._postprocess_text(preds)[0]
         return result
 
     def atomic_ocr_for_single_lines(self, img_list, cand_alphabet=None, batch_size=10, batch_threshold=20, detect=True):
