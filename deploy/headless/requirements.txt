@@ -34,6 +34,7 @@ pypresence==4.2.1
 # Ocr
 cnocr==1.2.2
 mxnet==1.6.0
+onnxruntime==1.10.0
 
 # Webui
 pywebio==1.6.2
