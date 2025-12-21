@@ -365,9 +365,23 @@ class FleetPreparation(InfoHandler):
         logger.attr('map_allow_submarine', map_allow_submarine)
         if map_allow_submarine:
             if self.config.Submarine_Fleet:
+                if fleet_2.allow():
+                    self.device.click(fleet_2._clear)
+                    # no need to take new screenshot, because submarine check does not need the fleet 2 part
                 submarine.ensure_to_be(self.config.Submarine_Fleet)
             else:
-                submarine.clear()
+                # clear submarine and fleet2 together using simple click
+                # this is faster because no need to wait clicking animation to disappear
+                # click success can be guaranteed by later calls of clear()
+                op = False
+                if fleet_2.allow():
+                    self.device.click(fleet_2._clear)
+                    op = True
+                if submarine.allow():
+                    self.device.click(submarine._clear)
+                    op = True
+                if op:
+                    self.device.screenshot()
 
         # No need, this may clear FLEET_2 by mistake, clear FLEET_2 in map config.
         # if not fleet_2.allow():

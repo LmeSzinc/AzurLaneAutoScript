@@ -67,7 +67,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         Returns:
             bool:
         """
-        image = self.image_crop((0, 620, 1280, 720), copy=False)
+        image = self.image_crop((0, 620, 1280, 690), copy=False)
         similarity, button = TEMPLATE_COMBAT_LOADING.match_luma_result(image)
         if similarity > 0.85:
             loading = (button.area[0] + 38 - LOADING_BAR.area[0]) / (LOADING_BAR.area[2] - LOADING_BAR.area[0])
@@ -216,6 +216,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                 continue
             if self.handle_story_skip():
                 continue
+            # slow down the screenshot interval earlier
             if not interval_set:
                 if self.is_combat_loading():
                     self.device.screenshot_interval_set('combat')
@@ -227,6 +228,9 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                 logger.attr('BattleUI', pause)
                 if emotion_reduce:
                     self.emotion.reduce(fleet_index)
+                # fallback slow down if is_combat_loading() not detected
+                if not interval_set:
+                    self.device.screenshot_interval_set('combat')
                 break
 
     def handle_battle_preparation(self):
@@ -626,3 +630,9 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             # self.handle_map_after_combat_story()
 
         logger.info('Combat end.')
+
+
+if __name__ == '__main__':
+    self = Combat('alas5')
+    self.image_file = r'C:\Users\LmeSzinc\Documents\MuMu共享文件夹\Screenshots\MuMu12-20251219-021500.png'
+    self.is_combat_loading()
