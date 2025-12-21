@@ -2,12 +2,11 @@ import os
 
 import imageio
 import numpy as np
-from tqdm.contrib.concurrent import process_map
-
 from module.base.utils import get_bbox, get_color, image_size, load_image
 from module.config.config_manual import ManualConfig as AzurLaneConfig
 from module.config.server import VALID_SERVER
 from module.logger import logger
+from tqdm.contrib.concurrent import process_map
 
 MODULE_FOLDER = './module'
 BUTTON_FILE = 'assets.py'
@@ -31,11 +30,12 @@ class ImageExtractor:
         self.module = module
         self.name, self.ext = os.path.splitext(file)
         self.area, self.color, self.button, self.file = {}, {}, {}, {}
+        self.text = set()
         for server in VALID_SERVER:
             self.load(server)
 
     def get_file(self, genre='', server='cn'):
-        for ext in ['.png', '.gif']:
+        for ext in ['.png', '.gif', '.txt']:
             file = f'{self.name}.{genre}{ext}' if genre else f'{self.name}{ext}'
             file = os.path.join(AzurLaneConfig.ASSETS_FOLDER, server, self.module, file).replace('\\', '/')
             if os.path.exists(file):
@@ -61,6 +61,9 @@ class ImageExtractor:
                 if mean is None:
                     mean = new_mean
             return bbox, mean
+        elif os.path.splitext(file)[1] == '.txt':
+            with open(file, 'r', encoding='utf-8') as f:
+                return set([line.strip() for line in f.readlines() if line.strip()])
         else:
             image = load_image(file)
             return self._extract(image, file)
@@ -80,6 +83,7 @@ class ImageExtractor:
         if os.path.exists(file):
             area, color = self.extract(file)
             button = area
+            text = set()
             override = self.get_file('AREA', server=server)
             if os.path.exists(override):
                 area, _ = self.extract(override)
@@ -89,10 +93,14 @@ class ImageExtractor:
             override = self.get_file('BUTTON', server=server)
             if os.path.exists(override):
                 button, _ = self.extract(override)
+            override = self.get_file('TEXT', server=server)
+            if os.path.exists(override):
+                text = self.extract(override)
 
             self.area[server] = area
             self.color[server] = color
             self.button[server] = button
+            self.text |= text
             self.file[server] = file
         else:
             logger.attr(server, f'{self.name} not found, use cn server assets')
@@ -103,8 +111,14 @@ class ImageExtractor:
 
     @property
     def expression(self):
-        return '%s = Button(area=%s, color=%s, button=%s, file=%s)' % (
+        exp = '%s = Button(area=%s, color=%s, button=%s, file=%s)' % (
             self.name, self.area, self.color, self.button, self.file)
+
+        # only modify assets that have a text property
+        if self.text:
+            exp = '%s, text=%s)' % (exp[:-1], self.text)
+
+        return exp
 
 
 class TemplateExtractor(ImageExtractor):
@@ -184,7 +198,7 @@ class ModuleExtractor:
         folder = os.path.join(MODULE_FOLDER, self.name)
         if not os.path.exists(folder):
             os.mkdir(folder)
-        with open(os.path.join(folder, BUTTON_FILE), 'w', newline='') as f:
+        with open(os.path.join(folder, BUTTON_FILE), 'w', newline='', encoding='utf-8') as f:
             for text in self.expression:
                 f.write(text + '\n')
 

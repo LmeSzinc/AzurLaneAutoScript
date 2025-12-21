@@ -3,15 +3,15 @@ import traceback
 
 import imageio
 from PIL import ImageDraw
-
 from module.base.decorator import cached_property
 from module.base.resource import Resource
 from module.base.utils import *
 from module.config.server import VALID_SERVER
+from module.ocr.models import OCR_MODEL
 
 
 class Button(Resource):
-    def __init__(self, area, color, button, file=None, name=None):
+    def __init__(self, area, color, button, file=None, name=None, text=None):
         """Initialize a Button instance.
 
         Args:
@@ -22,6 +22,7 @@ class Button(Resource):
             button (dict[tuple], tuple): Area to be click if button appears on the image.
                             (upper_left_x, upper_left_y, bottom_right_x, bottom_right_y)
                             If tuple is empty, this object can be use as a checker.
+            text (list): Text to be displayed on the button. Used for OCR.
         Examples:
             BATTLE_PREPARATION = Button(
                 area=(1562, 908, 1864, 1003),
@@ -34,6 +35,7 @@ class Button(Resource):
         self.raw_button = button
         self.raw_file = file
         self.raw_name = name
+        self.text = text
 
         self._button_offset = None
         self._match_init = False
@@ -198,13 +200,14 @@ class Button(Resource):
         self._match_binary_init = False
         self._match_luma_init = False
 
-    def match(self, image, offset=30, similarity=0.85):
+    def match(self, image, offset=30, similarity=0.85, match_text=True):
         """Detects button by template matching. To Some button, its location may not be static.
 
         Args:
             image: Screenshot.
             offset (int, tuple): Detection area offset.
             similarity (float): 0-1. Similarity.
+            match_text (bool): If True, fallback to matching the button text.
 
         Returns:
             bool.
@@ -232,7 +235,11 @@ class Button(Resource):
             res = cv2.matchTemplate(self.image, image, cv2.TM_CCOEFF_NORMED)
             _, sim, _, point = cv2.minMaxLoc(res)
             self._button_offset = area_offset(self._button, offset[:2] + np.array(point))
-            return sim > similarity
+            matched = sim > similarity
+
+        if not matched and match_text:
+            return self.match_text(image, crop_image=False)
+        return matched
 
     def match_binary(self, image, offset=30, similarity=0.85):
         """Detects button by template matching. To Some button, its location may not be static.
@@ -341,6 +348,33 @@ class Button(Resource):
             return color_similar(color1=color, color2=self.color, threshold=threshold)
         else:
             return False
+
+    def match_text(self, image, detect=True, crop_image=True):
+        """
+        Match text in image
+
+        Args:
+            image: Screenshot.
+            detect (bool): Detect text region for recognization if True.
+            crop_image (bool): Crop image if True.
+
+        Returns:
+            bool.
+        """
+        if not self.text:
+            return False
+
+        if crop_image:
+            image = crop(image, self.area, copy=False)
+        result = ''.join(OCR_MODEL.ppocr.ocr(image, detect=detect))
+
+        for text in self.text:
+            # Check for a subsequence instead of a contiguous subarray
+            it = iter(result)
+            if all(x in it for x in text):
+                return True
+
+        return False
 
     def crop(self, area, image=None, name=None):
         """
