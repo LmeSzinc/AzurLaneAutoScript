@@ -815,7 +815,9 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
             if fleet.distance_to(grid) > 1:
                 self.device.click(grid)
                 with self.config.temporary(STORY_ALLOW_SKIP=False):
-                    result = self.wait_until_walk_stable(drop=drop, walk_out_of_step=False)
+                    walk_time = 1.5 + 0.6 * grid.distance_to(fleet)
+                    result = self.wait_until_walk_stable(
+                        confirm_timer=Timer(walk_time, count=4), drop=drop, walk_out_of_step=False)
                 if 'akashi' in result:
                     self._solved_map_event.add('is_akashi')
                     return True
