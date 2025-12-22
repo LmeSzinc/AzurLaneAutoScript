@@ -209,7 +209,7 @@ class ModuleBase:
                 self.device.dump_hierarchy()
             yield self.device.image, self.device.hierarchy
 
-    def appear(self, button, offset=0, interval=0, similarity=0.85, threshold=10):
+    def appear(self, button, offset=0, interval=0, similarity=0.8, threshold=10):
         """
         Args:
             button (Button, Template, HierarchyButton, str):
