@@ -65,6 +65,9 @@ class Config(ConfigBase):
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
+    DETECTION_BACKEND = 'homography'
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 120
+    HOMO_STORAGE = ((9, 6), [(219.576, 86.713), (1226.51, 86.713), (98.511, 620.206), (1399.1, 620.206)])
 
 
 class Campaign(CampaignBase):
