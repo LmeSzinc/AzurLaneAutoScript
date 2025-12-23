@@ -154,7 +154,7 @@ class EventShopClerk(EventShopUI):
                     executed = True
                     timer.reset()
                     continue
-            elif self.appear(SHOP_BUY_CONFIRM, offset=(20, 20)):
+            elif self.appear(SHOP_BUY_CONFIRM, offset=(20, 40)):
                 self.device.click(SHOP_BUY_CONFIRM)
                 executed = True
                 timer.reset()
