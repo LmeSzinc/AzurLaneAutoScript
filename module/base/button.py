@@ -221,6 +221,10 @@ class Button(Resource):
                 offset = np.array(offset)
         else:
             offset = np.array((-3, -offset, 3, offset))
+
+        if match_text and self.text:
+            return self.match_text(image)
+
         image = crop(image, offset + self.area, copy=False)
 
         if self.is_gif:
@@ -235,11 +239,7 @@ class Button(Resource):
             res = cv2.matchTemplate(self.image, image, cv2.TM_CCOEFF_NORMED)
             _, sim, _, point = cv2.minMaxLoc(res)
             self._button_offset = area_offset(self._button, offset[:2] + np.array(point))
-            matched = sim > similarity
-
-        if not matched and match_text:
-            return self.match_text(image, crop_image=False)
-        return matched
+            return sim > similarity
 
     def match_binary(self, image, offset=30, similarity=0.85):
         """Detects button by template matching. To Some button, its location may not be static.
