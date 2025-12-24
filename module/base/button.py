@@ -3,6 +3,7 @@ import traceback
 
 import imageio
 from PIL import ImageDraw
+
 from module.base.decorator import cached_property
 from module.base.resource import Resource
 from module.base.utils import *
@@ -223,7 +224,7 @@ class Button(Resource):
             offset = np.array((-3, -offset, 3, offset))
 
         if match_text and self.text:
-            return self.match_text(image)
+            return self.match_text(image, detect=False)
 
         image = crop(image, offset + self.area, copy=False)
 
