@@ -77,6 +77,8 @@ class PpOcr:
                 image = img[y:y + h, x:x + w]
             else:
                 image = img
+        else:
+            image = img
 
         image = self._preprocess_image(image)
         preds = self._predict(image)
