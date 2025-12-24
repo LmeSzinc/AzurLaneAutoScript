@@ -178,8 +178,13 @@ class EventShopItem(Item):
                 self.name = 'URpt'
             elif self.name.isdigit():
                 logger.warning(f'Unrecognized item with price {self.price} and total count {self.total_count}, '
-                               f'defaulting to EquipSSR')
-                self.name = 'EquipSSR'
+                               # f'defaulting to EquipSSR')
+                               f'saving image for analysis.')
+                import os
+                from module.base.utils import save_image
+                os.mkdir('assets/shop/event/new_templates/') if not os.path.exists('assets/shop/event/new_templates/') else None
+                save_image(self.image, f'assets/shop/event/new_templates/{self.name}.png')
+                # self.name = 'EquipSSR'
 
     def predict_genre(self):
         self.group, self.sub_genre, self.tier = None, None, None
