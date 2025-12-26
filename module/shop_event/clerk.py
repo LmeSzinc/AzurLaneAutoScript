@@ -139,6 +139,9 @@ class EventShopClerk(EventShopUI):
         amount_handled = False
         timer = Timer(2, count=4).start()
         for _ in self.loop():
+            if self.handle_popup_confirm("meta_buy_confirm"):
+                timer.reset()
+                continue
             if self.appear(AMOUNT_MAX, offset=(20, 20)):
                 if not amount_handled:
                     self.device.click(AMOUNT_MAX)
@@ -161,8 +164,9 @@ class EventShopClerk(EventShopUI):
                 continue
             elif self.appear(BACK_ARROW_WHITE, offset=(20, 20)):
                 if not executed:
-                    self.device.click(item)
-                    timer.reset()
+                    if timer.reached():
+                        self.device.click(item)
+                        timer.reset()
                     continue
                 elif timer.reached():
                     break
