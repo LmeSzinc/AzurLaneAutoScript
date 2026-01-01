@@ -74,6 +74,7 @@ class Config:
         'distance': 50,
         'wlen': 1000
     }
+    HOMO_STORAGE = ((8, 6), [(137.405, 104.804), (1046.044, 104.804), (-12.171, 652.093), (1166.717, 652.093)])
     HOMO_EDGE_COLOR_RANGE = (0, 17)
     MAP_WALK_USE_CURRENT_FLEET = True
     MAP_SWIPE_MULTIPLY = (1.217, 1.240)
