@@ -1,21 +1,21 @@
-from module.campaign.campaign_base import CampaignBase
+from ..campaign_war_archives.campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
 
-MAP = CampaignMap('SP')
+MAP = CampaignMap('D1')
 MAP.shape = 'I8'
-MAP.camera_data = ['D3', 'D6', 'F3', 'F6']
-MAP.camera_data_spawn_point = ['F2']
+MAP.camera_data = ['D2', 'D6', 'F2', 'F6']
+MAP.camera_data_spawn_point = ['D6']
 MAP.map_data = """
-    ++ ++ ++ -- -- -- -- SP --
-    -- ME -- -- -- MS -- -- SP
-    -- -- ME ++ -- -- MS -- --
-    ME -- -- -- ME __ -- MS --
-    -- ME -- ME ++ -- ++ ++ ME
-    ++ -- -- -- -- -- ++ ++ --
-    -- MB -- ++ ME -- ME -- --
-    -- -- -- ++ -- ME ++ ++ ++
+    -- ME ++ -- Me -- Me ++ ++
+    ME -- -- -- -- ME -- MB ++
+    -- -- MS -- -- -- __ -- Me
+    Me -- ME ++ MS Me -- -- Me
+    -- -- -- ++ ++ ++ -- ME --
+    -- -- -- ME -- ME MS -- --
+    SP -- -- -- MS -- ME -- ME
+    ++ SP -- ME ++ ++ ++ ME --
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
@@ -28,14 +28,12 @@ MAP.weight_data = """
     50 50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
-    {'battle': 0, 'enemy': 10, 'siren': 3},
-    {'battle': 1},
-    {'battle': 2},
-    {'battle': 3},
-    {'battle': 4},
-    {'battle': 5},
-    {'battle': 6},
-    {'battle': 7, 'boss': 1},
+    {'battle': 0, 'enemy': 2, 'siren': 2},
+    {'battle': 1, 'enemy': 1},
+    {'battle': 2, 'enemy': 2},
+    {'battle': 3, 'enemy': 1},
+    {'battle': 4, 'enemy': 2},
+    {'battle': 5, 'enemy': 1, 'boss': 1},
 ]
 A1, B1, C1, D1, E1, F1, G1, H1, I1, \
 A2, B2, C2, D2, E2, F2, G2, H2, I2, \
@@ -50,42 +48,35 @@ A8, B8, C8, D8, E8, F8, G8, H8, I8, \
 
 class Config:
     # ===== Start of generated config =====
-    MAP_SIREN_TEMPLATE = ['Vboss_Hermit', 'Vboss_Lovers', 'Vboss_Chariot']
+    MAP_SIREN_TEMPLATE = []
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
     MAP_HAS_MOVABLE_ENEMY = True
-    MAP_HAS_MAP_STORY = False
+    MAP_HAS_MAP_STORY = True
     MAP_HAS_FLEET_STEP = True
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
-    STAR_REQUIRE_1 = 0
-    STAR_REQUIRE_2 = 0
-    STAR_REQUIRE_3 = 0
     # ===== End of generated config =====
 
-    MAP_CHAPTER_SWITCH_20241219 = True
-    STAGE_ENTRANCE = ['half', '20240725']
-    STAGE_INCREASE_AB = True
+    MAP_SIREN_HAS_BOSS_ICON_SMALL = True
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (80, 255 - 17),
-        'width': (0.9, 10),
+        'height': (80, 255 - 24),
+        'width': (1.5, 10),
         'prominence': 10,
         'distance': 35,
     }
     EDGE_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (255 - 17, 255),
+        'height': (255 - 24, 255),
         'prominence': 10,
         'distance': 50,
         'wlen': 1000
     }
-    HOMO_STORAGE = ((8, 6), [(137.405, 104.804), (1046.044, 104.804), (-12.171, 652.093), (1166.717, 652.093)])
-    HOMO_EDGE_COLOR_RANGE = (0, 17)
-    MAP_WALK_USE_CURRENT_FLEET = True
-    MAP_SWIPE_MULTIPLY = (1.180, 1.202)
-    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.141, 1.162)
-    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.108, 1.128)
+    HOMO_EDGE_COLOR_RANGE = (0, 24)
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 300
     MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
-    MAP_IS_ONE_TIME_STAGE = True
+    MAP_SWIPE_MULTIPLY = (1.028, 1.047)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (0.994, 1.013)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (0.965, 0.983)
 
 
 class Campaign(CampaignBase):
@@ -95,18 +86,10 @@ class Campaign(CampaignBase):
     def battle_0(self):
         if self.clear_siren():
             return True
-        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=2):
-            return True
-
-        return self.battle_default()
-
-    def battle_5(self):
-        if self.clear_siren():
-            return True
         if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
             return True
 
         return self.battle_default()
 
-    def battle_7(self):
+    def battle_5(self):
         return self.fleet_boss.clear_boss()
