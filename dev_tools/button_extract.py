@@ -116,7 +116,7 @@ class ImageExtractor:
 
         # only modify assets that have a text property
         if self.text:
-            exp = '%s, text=%s)' % (exp[:-1], self.text)
+            exp = '%s, text=%s)' % (exp[:-1], sorted(self.text))
 
         return exp
 
