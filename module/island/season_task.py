@@ -20,7 +20,7 @@ else:
 TASK_NAME_OCR = Ocr([], lang=lang, letter=(64, 64, 64), name='TASK_NAME_OCR')
 TASK_COUNTER_OCR = DigitCounter([], letter=(128, 128, 128), name='TASK_COUNTER_OCR')
 
-class IslandSeasonTaskScanner(IslandUI):
+class IslandSeasonTaskHandler(IslandUI):
     def _get_bars(self):
         """
         Returns:
@@ -184,4 +184,5 @@ class IslandSeasonTaskScanner(IslandUI):
         self.ui_ensure(page_island_season)
         self.island_season_bottom_navbar_ensure(left=3)
         result = self.scan_all()
+        self.config.cross_set(keys="IslandInfo.IslandSeasonTask", value=result)
         return result
