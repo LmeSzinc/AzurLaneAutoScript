@@ -1,3 +1,5 @@
+from yaml import safe_dump
+
 import module.config.server as server
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property, del_cached_property, Config
@@ -184,5 +186,6 @@ class IslandSeasonTaskHandler(IslandUI):
         self.ui_ensure(page_island_season)
         self.island_season_bottom_navbar_ensure(left=3)
         result = self.scan_all()
-        self.config.cross_set(keys="IslandInfo.IslandSeasonTask", value=result)
-        return result
+        value = safe_dump(result)
+        self.config.cross_set(keys="IslandInfo.IslandSeasonTask.TaskDict", value=value)
+        self.config.task_delay(server_update=True)
