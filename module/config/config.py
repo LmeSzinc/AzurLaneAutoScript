@@ -679,6 +679,10 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
         return self.Emulator_ControlMethod
 
     @property
+    def DEVICE_HIGH_RESOLUTION(self):
+        return self.Emulator_HighResolutionSupport
+
+    @property
     def FLEET_1(self):
         return self.Fleet_Fleet1
 

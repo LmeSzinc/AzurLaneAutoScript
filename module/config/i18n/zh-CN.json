@@ -442,6 +442,10 @@
       "Hermit": "Hermit",
       "MaaTouch": "MaaTouch"
     },
+    "HighResolutionSupport": {
+      "name": "高分辨率支持（实验性）",
+      "help": "允许模拟器使用高于 720p 的分辨率。目前仅在 CN 服务器上提供部分支持"
+    },
     "ScreenshotDedithering": {
       "name": "去除图片色彩抖动",
       "help": "在手机上运行时开启"

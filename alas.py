@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 import inflection
 from cached_property import cached_property
 
+from module.base.button import Button
 from module.base.decorator import del_cached_property
 from module.config.config import AzurLaneConfig, TaskEnd
 from module.config.deep import deep_get, deep_set
@@ -517,6 +518,9 @@ class AzurLaneAutoScript:
     def loop(self):
         logger.set_file_logger(self.config_name)
         logger.info(f'Start scheduler loop: {self.config_name}')
+
+        # Inject config property
+        Button.config = self.config
 
         while 1:
             # Check update event from GUI

@@ -53,6 +53,7 @@ Emulator:
       Hermit,
       MaaTouch,
     ]
+  HighResolutionSupport: false
   ScreenshotDedithering: false
   AdbRestart: false
 EmulatorInfo:

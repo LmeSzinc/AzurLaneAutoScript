@@ -4,7 +4,7 @@ import traceback
 import imageio
 from PIL import ImageDraw
 
-from module.base.decorator import cached_property
+from module.base.decorator import cached_property, Config
 from module.base.resource import Resource
 from module.base.utils import *
 from module.config.server import VALID_SERVER
@@ -12,6 +12,8 @@ from module.ocr.models import OCR_MODEL
 
 
 class Button(Resource):
+    config = None
+
     def __init__(self, area, color, button, file=None, name=None, text=None):
         """Initialize a Button instance.
 
@@ -201,7 +203,18 @@ class Button(Resource):
         self._match_binary_init = False
         self._match_luma_init = False
 
-    def match(self, image, offset=30, similarity=0.85, match_text=True):
+    @Config.when(DEVICE_HIGH_RESOLUTION=True)
+    def match(self, image, offset=30, similarity=0.85):
+        if self.text:
+            return self.match_text(image, detect=False)
+        else:
+            return self.match_base(image, offset=offset, similarity=similarity)
+
+    @Config.when(DEVICE_HIGH_RESOLUTION=False)
+    def match(self, image, offset=30, similarity=0.85):
+        return self.match_base(image, offset=offset, similarity=similarity)
+
+    def match_base(self, image, offset=30, similarity=0.85):
         """Detects button by template matching. To Some button, its location may not be static.
 
         Args:
@@ -222,9 +235,6 @@ class Button(Resource):
                 offset = np.array(offset)
         else:
             offset = np.array((-3, -offset, 3, offset))
-
-        if match_text and self.text:
-            return self.match_text(image, detect=False)
 
         image = crop(image, offset + self.area, copy=False)
 

@@ -442,6 +442,10 @@
       "Hermit": "Hermit",
       "MaaTouch": "MaaTouch"
     },
+    "HighResolutionSupport": {
+      "name": "High Resolution Support (Experimental)",
+      "help": "Allows the emulator to use resolutions higher than 720p. Currently, this feature is only partially supported on the CN server"
+    },
     "ScreenshotDedithering": {
       "name": "Image Color De-dithering",
       "help": "Enable when running Alas on phones"

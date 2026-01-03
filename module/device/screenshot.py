@@ -63,9 +63,10 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy, NemuIpc, LDOpenGL):
             method = self.screenshot_methods.get(method, self.screenshot_adb)
             self.image = method()
 
-            h, w, _ = self.image.shape
-            if h * 1.5 < w:
-                self.image = cv2.resize(self.image, (1280, 720))
+            if self.config.Emulator_HighResolutionSupport:
+                h, w, _ = self.image.shape
+                if h * 1.5 < w:
+                    self.image = cv2.resize(self.image, (1280, 720))
 
             if self.config.Emulator_ScreenshotDedithering:
                 # This will take 40-60ms

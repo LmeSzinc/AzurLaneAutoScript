@@ -442,6 +442,10 @@
       "Hermit": "Hermit",
       "MaaTouch": "MaaTouch"
     },
+    "HighResolutionSupport": {
+      "name": "Emulator.HighResolutionSupport.name",
+      "help": "Emulator.HighResolutionSupport.help"
+    },
     "ScreenshotDedithering": {
       "name": "Emulator.ScreenshotDedithering.name",
       "help": "Emulator.ScreenshotDedithering.help"

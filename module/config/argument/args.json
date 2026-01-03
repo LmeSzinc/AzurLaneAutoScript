@@ -136,6 +136,10 @@
           "MaaTouch"
         ]
       },
+      "HighResolutionSupport": {
+        "type": "checkbox",
+        "value": false
+      },
       "ScreenshotDedithering": {
         "type": "checkbox",
         "value": false
