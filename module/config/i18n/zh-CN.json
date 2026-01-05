@@ -2562,6 +2562,16 @@
       "help": "Alas会自动导出列表"
     }
   },
+  "IslandTechnology": {
+    "_info": {
+      "name": "岛屿科技",
+      "help": ""
+    },
+    "TechnologyStatus": {
+      "name": "科技列表",
+      "help": "Alas会自动导出列表"
+    }
+  },
   "Daemon": {
     "_info": {
       "name": "半自动点击",

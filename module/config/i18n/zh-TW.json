@@ -2562,6 +2562,16 @@
       "help": "IslandSeasonTask.TaskDict.help"
     }
   },
+  "IslandTechnology": {
+    "_info": {
+      "name": "IslandTechnology._info.name",
+      "help": "IslandTechnology._info.help"
+    },
+    "TechnologyStatus": {
+      "name": "IslandTechnology.TechnologyStatus.name",
+      "help": "IslandTechnology.TechnologyStatus.help"
+    }
+  },
   "Daemon": {
     "_info": {
       "name": "半自動點擊",

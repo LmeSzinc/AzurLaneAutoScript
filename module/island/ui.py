@@ -57,3 +57,43 @@ class IslandUI(UI):
         if self._island_season_bottom_navbar.set(self, left=left, right=right):
             return True
         return False
+
+    @cached_property
+    def _island_technology_side_navbar(self):
+        island_technology_side_navbar = ButtonGrid(
+            origin=(13, 107), delta=(0, 196/3),
+            button_shape=(128, 43), grid_shape=(1, 5)
+        )
+        return Navbar(grids=island_technology_side_navbar,
+                      active_color=(30, 143, 255),
+                      inactive_color=(50, 52, 55),
+                      active_count=500,
+                      inactive_count=500)
+
+    def _island_technology_side_navbar_get_active(self):
+        active, _, _ = self._island_technology_side_navbar.get_info(main=self)
+        if active is None:
+            return 1
+        return active + 2
+
+    def island_technology_side_navbar_ensure(self, tab=1, skip_first_screenshot=True):
+        """
+        Tab 2, 3, 4, 5, 6 corresponds to _island_technology_side_navbar 1, 2, 3, 4, 5
+        Tab 1 is a special situation where the botton icon is chosen,
+        and all the navbar icons are inactive.
+        """
+        for _ in self.loop(skip_first=skip_first_screenshot):
+            active = self._island_technology_side_navbar_get_active()
+            if active == tab:
+                return True
+            if tab == 1:
+                self.device.click(ISLAND_TECHNOLOGY_TAB1)
+                continue
+            else:
+                if active == 1:
+                    self.device.click(self._island_technology_side_navbar.grids.buttons[tab-2])
+                    continue
+                else:
+                    self._island_technology_side_navbar.set(self, upper=tab-1)
+                    return True
+        return False

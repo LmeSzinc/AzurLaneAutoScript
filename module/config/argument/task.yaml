@@ -332,6 +332,7 @@ Island:
   tasks:
     IslandInfo:
       - IslandSeasonTask
+      - IslandTechnology
     IslandSeasonTask:
       - Scheduler
 

@@ -408,6 +408,74 @@ class IslandRestaurantExtractor:
                 f.write(text + '\n')
 
 
+class IslandTechnology:
+    def __init__(self, item):
+        self.id = item['id']
+        self.tech_belong = item['tech_belong']
+        self.axis_x = item['axis'][0]
+        self.axis_y = item['axis'][1]
+        self.island_level = item['island_level']
+
+    def encode(self):
+        data = {
+            'name': {
+                'cn': '',
+                'en': '',
+                'jp': '',
+                # 'tw': '',
+            },
+            'tech_belong': self.tech_belong,
+            'axis': (self.axis_x, self.axis_y),
+            'island_level': self.island_level,
+        }
+        return data
+
+class IslandTechnologyExtractor:
+    def __init__(self):
+        self.item = {}
+
+        data = LOADER.load('sharecfg/island_technology_template.lua', keyword='pg.base.island_technology_template')
+        for index, item in data.items():
+            if not isinstance(index, int) or item['tech_belong'] == 1:
+                continue
+
+            self.item[item['id']] = IslandTechnology(item).encode()
+
+        for index, name in self.extract_item_name('zh-CN').items():
+            self.item[index]['name']['cn'] = name
+        for index, name in self.extract_item_name('en-US').items():
+            self.item[index]['name']['en'] = name
+        for index, name in self.extract_item_name('ja-JP').items():
+            self.item[index]['name']['jp'] = name
+        # for index, name in self.extract_item_name('zh-TW').items():
+        #     self.item[index]['name']['tw'] = name
+
+    def extract_item_name(self, server):
+        LOADER.server = server
+        data = LOADER.load('sharecfg/island_technology_template.lua', keyword='pg.base.island_technology_template')
+        out = {}
+        for index, item in data.items():
+            if not isinstance(index, int) or item['tech_belong'] == 1:
+                continue
+            out[item['id']] = item['tech_name']
+
+        return out
+
+    def encode(self):
+        lines = []
+        lines.append('DIC_ISLAND_TECHNOLOGY = {')
+        for index, item in self.item.items():
+            lines.append(f'    {index}: {item},')
+        lines.append('}')
+        return lines
+
+    def write(self, file):
+        print(f'writing {file}')
+        with open(file, 'w', encoding='utf-8') as f:
+            for text in self.encode():
+                f.write(text + '\n')
+
+
 if __name__ == '__main__':
     FILE = '../AzurLaneLuaScripts'
     LOADER = LuaLoader(FILE, server='CN')
@@ -466,6 +534,8 @@ if __name__ == '__main__':
     lines += IslandSeasonalTaskExtractor().encode()
     lines.append('')
     lines += IslandRestaurantExtractor().encode()
+    lines.append('')
+    lines += IslandTechnologyExtractor().encode()
     with open(save, 'w', encoding='utf-8') as f:
         for text in lines:
             f.write(text + '\n')

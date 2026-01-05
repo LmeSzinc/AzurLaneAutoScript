@@ -438,6 +438,9 @@ class GeneratedConfig:
     # Group `IslandSeasonTask`
     IslandSeasonTask_TaskDict = None
 
+    # Group `IslandTechnology`
+    IslandTechnology_TechnologyStatus = None
+
     # Group `Daemon`
     Daemon_EnterMap = True
 

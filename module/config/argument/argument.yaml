@@ -737,7 +737,10 @@ IslandSeasonTask:
   TaskDict:
     type: textarea
     value: |-
-    
+IslandTechnology:
+  TechnologyStatus:
+    type: textarea
+    value: |-
 
 # ==================== Tools ====================
 

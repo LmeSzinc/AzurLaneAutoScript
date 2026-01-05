@@ -9191,6 +9191,12 @@
         "value": ""
       }
     },
+    "IslandTechnology": {
+      "TechnologyStatus": {
+        "type": "textarea",
+        "value": ""
+      }
+    },
     "Storage": {
       "Storage": {
         "type": "storage",
