@@ -398,6 +398,8 @@ class OperationSiren(OSMap):
                 self.handle_after_auto_search()
                 self.config.check_task_switch()
 
+    _cl1_first_clear_done = False
+
     def os_hazard1_leveling(self):
         logger.hr('OS hazard 1 leveling', level=1)
         # Without these enabled, CL1 gains 0 profits
@@ -447,7 +449,19 @@ class OperationSiren(OSMap):
             logger.hr(f'OS hazard 1 leveling, zone_id={zone}', level=1)
             if self.zone.zone_id != zone or not self.is_zone_name_hidden:
                 self.globe_goto(self.name_to_zone(zone), types='SAFE', refresh=True)
+                # Reset first clear flag when entering a new zone
+                self._cl1_first_clear_done = False
+            
             self.fleet_set(self.config.OpsiFleet_Fleet)
+            
+            # Perform initial auto search and clear random events before starting strategic search
+            if not self._cl1_first_clear_done:
+                logger.hr('CL1: First clear before strategic search', level=2)
+                logger.info('Running auto search to clear current map before strategic search')
+                self.run_auto_search(question=True, rescan=True, after_auto_search=False)
+                self._cl1_first_clear_done = True
+                logger.info('First clear completed, will start strategic search now')
+            
             self.run_strategic_search()
 
             self.handle_after_auto_search()
