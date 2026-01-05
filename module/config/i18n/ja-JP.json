@@ -988,6 +988,10 @@
       "sub_standby": "sub_standby",
       "sub_auto_call": "sub_auto_call"
     },
+    "CallDelay": {
+      "name": "Submarine.CallDelay.name",
+      "help": "Submarine.CallDelay.help"
+    },
     "DistanceToBoss": {
       "name": "Submarine.DistanceToBoss.name",
       "help": "Submarine.DistanceToBoss.help",

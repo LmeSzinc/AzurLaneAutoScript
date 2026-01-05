@@ -988,6 +988,10 @@
       "sub_standby": "Standby",
       "sub_auto_call": "Auto Call"
     },
+    "CallDelay": {
+      "name": "Submarine Call Delay (seconds)",
+      "help": "Delay time before calling submarine after entering battle, in seconds. 0 means call immediately"
+    },
     "DistanceToBoss": {
       "name": "Before BOSS battle move the submarine near BOSS",
       "help": "Effective only if \"Submarine Mode\" is \"BOSS Only\" or \"Hunt and BOSS\"\nSelecting \"X Grids To BOSS\" needs to ensure that the submarine hunting range can cover the BOSS. Distance is calculated using the Manhattan Distance. Selecting \"Use Open Ocean Support\" requires submarine with aforementioned skill",

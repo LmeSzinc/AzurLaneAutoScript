@@ -329,7 +329,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             drop (DropImage):
         """
         logger.info('Combat execute')
-        self.submarine_call_reset()
+        self.submarine_call_reset(call_delay=self.config.Submarine_CallDelay)
         self.combat_auto_reset()
         self.combat_manual_reset()
         self.device.stuck_record_clear()

@@ -8,13 +8,22 @@ class SubmarineCall(ModuleBase):
     submarine_call_flag = False
     submarine_call_timer = Timer(5)
     submarine_call_click_timer = Timer(1)
+    submarine_call_delay_timer = None
 
-    def submarine_call_reset(self):
+    def submarine_call_reset(self, call_delay=0):
         """
         Call this method after in battle_execute.
+        
+        Args:
+            call_delay (float): Delay time before calling submarine, in seconds.
         """
         self.submarine_call_timer.reset()
         self.submarine_call_flag = False
+        if call_delay > 0:
+            self.submarine_call_delay_timer = Timer(call_delay)
+            self.submarine_call_delay_timer.start()
+        else:
+            self.submarine_call_delay_timer = None
 
     def handle_submarine_call(self, submarine='do_not_use'):
         """
@@ -26,6 +35,14 @@ class SubmarineCall(ModuleBase):
         if submarine in ['do_not_use', 'hunt_only', 'hunt_and_boss']:
             self.submarine_call_flag = True
             return False
+        
+        # Check if delay timer is active, and if it hasn't reached yet
+        if self.submarine_call_delay_timer is not None:
+            if not self.submarine_call_delay_timer.reached():
+                return False
+            # Delay reached, disable the timer
+            self.submarine_call_delay_timer = None
+        
         if self.submarine_call_timer.reached():
             logger.info('Submarine call timer reached')
             self.submarine_call_flag = True

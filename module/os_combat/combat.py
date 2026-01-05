@@ -250,7 +250,7 @@ class Combat(Combat_, MapEventHandler):
                 break
 
         logger.info('Auto Search combat execute')
-        self.submarine_call_reset()
+        self.submarine_call_reset(call_delay=self.config.Submarine_CallDelay)
         self.device.stuck_record_clear()
         self.device.click_record_clear()
         submarine_mode = 'do_not_use'

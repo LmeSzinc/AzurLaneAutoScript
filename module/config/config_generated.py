@@ -105,6 +105,7 @@ class GeneratedConfig:
     Submarine_Fleet = 0  # 0, 1, 2
     Submarine_Mode = 'do_not_use'  # do_not_use, hunt_only, boss_only, hunt_and_boss, every_combat
     Submarine_AutoSearchMode = 'sub_standby'  # sub_standby, sub_auto_call
+    Submarine_CallDelay = 0  # float, delay time before calling submarine in seconds
     Submarine_DistanceToBoss = '2_grid_to_boss'  # to_boss_position, 1_grid_to_boss, 2_grid_to_boss, use_open_ocean_support
 
     # Group `Emotion`
