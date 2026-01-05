@@ -231,7 +231,7 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
                 break
 
         logger.info('Auto Search combat execute')
-        self.submarine_call_reset(call_delay=self.config.Submarine_CallDelay)
+        self.submarine_call_reset()
         submarine_mode = 'do_not_use'
         if self.config.Submarine_Fleet:
             submarine_mode = self.config.Submarine_Mode
