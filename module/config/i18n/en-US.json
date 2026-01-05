@@ -982,6 +982,10 @@
       "hunt_and_boss": "Hunt and BOSS",
       "every_combat": "Every Combat"
     },
+    "CallDelay": {
+      "name": "Delay Before Calling Submarine (s)",
+      "help": "Wait this many seconds after the battle starts before tapping submarine support. Use 0 for immediate call."
+    },
     "AutoSearchMode": {
       "name": "Submarine Roles in Auto Search",
       "help": "Effective only for auto search",

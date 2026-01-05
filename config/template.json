@@ -118,6 +118,7 @@
     "Submarine": {
       "Fleet": 0,
       "Mode": "do_not_use",
+      "CallDelay": 0,
       "AutoSearchMode": "sub_standby",
       "DistanceToBoss": "2_grid_to_boss"
     },
@@ -192,6 +193,7 @@
     "Submarine": {
       "Fleet": 0,
       "Mode": "do_not_use",
+      "CallDelay": 0,
       "AutoSearchMode": "sub_standby",
       "DistanceToBoss": "2_grid_to_boss"
     },
@@ -266,6 +268,7 @@
     "Submarine": {
       "Fleet": 0,
       "Mode": "do_not_use",
+      "CallDelay": 0,
       "AutoSearchMode": "sub_standby",
       "DistanceToBoss": "2_grid_to_boss"
     },
@@ -402,6 +405,7 @@
     "Submarine": {
       "Fleet": 0,
       "Mode": "do_not_use",
+      "CallDelay": 0,
       "AutoSearchMode": "sub_standby",
       "DistanceToBoss": "2_grid_to_boss"
     },
@@ -476,6 +480,7 @@
     "Submarine": {
       "Fleet": 0,
       "Mode": "do_not_use",
+      "CallDelay": 0,
       "AutoSearchMode": "sub_standby",
       "DistanceToBoss": "2_grid_to_boss"
     },
@@ -699,6 +704,7 @@
     "Submarine": {
       "Fleet": 0,
       "Mode": "do_not_use",
+      "CallDelay": 0,
       "AutoSearchMode": "sub_standby",
       "DistanceToBoss": "2_grid_to_boss"
     },
@@ -777,6 +783,7 @@
     "Submarine": {
       "Fleet": 0,
       "Mode": "do_not_use",
+      "CallDelay": 0,
       "AutoSearchMode": "sub_standby",
       "DistanceToBoss": "2_grid_to_boss"
     },
@@ -855,6 +862,7 @@
     "Submarine": {
       "Fleet": 0,
       "Mode": "do_not_use",
+      "CallDelay": 0,
       "AutoSearchMode": "sub_standby",
       "DistanceToBoss": "2_grid_to_boss"
     },
@@ -933,6 +941,7 @@
     "Submarine": {
       "Fleet": 0,
       "Mode": "do_not_use",
+      "CallDelay": 0,
       "AutoSearchMode": "sub_standby",
       "DistanceToBoss": "2_grid_to_boss"
     },
@@ -1011,6 +1020,7 @@
     "Submarine": {
       "Fleet": 0,
       "Mode": "do_not_use",
+      "CallDelay": 0,
       "AutoSearchMode": "sub_standby",
       "DistanceToBoss": "2_grid_to_boss"
     },
@@ -1085,6 +1095,7 @@
     "Submarine": {
       "Fleet": 0,
       "Mode": "do_not_use",
+      "CallDelay": 0,
       "AutoSearchMode": "sub_standby",
       "DistanceToBoss": "2_grid_to_boss"
     },

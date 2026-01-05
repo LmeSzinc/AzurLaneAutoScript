@@ -649,6 +649,10 @@
           "every_combat"
         ]
       },
+      "CallDelay": {
+        "type": "input",
+        "value": 0
+      },
       "AutoSearchMode": {
         "type": "select",
         "value": "sub_standby",
@@ -1026,6 +1030,10 @@
           "every_combat"
         ]
       },
+      "CallDelay": {
+        "type": "input",
+        "value": 0
+      },
       "AutoSearchMode": {
         "type": "select",
         "value": "sub_standby",
@@ -1402,6 +1410,10 @@
           "hunt_and_boss",
           "every_combat"
         ]
+      },
+      "CallDelay": {
+        "type": "input",
+        "value": 0
       },
       "AutoSearchMode": {
         "type": "select",
@@ -2111,6 +2123,10 @@
           "every_combat"
         ]
       },
+      "CallDelay": {
+        "type": "input",
+        "value": 0
+      },
       "AutoSearchMode": {
         "type": "select",
         "value": "sub_standby",
@@ -2503,6 +2519,10 @@
           "hunt_and_boss",
           "every_combat"
         ]
+      },
+      "CallDelay": {
+        "type": "input",
+        "value": 0
       },
       "AutoSearchMode": {
         "type": "select",
@@ -3824,6 +3844,10 @@
           "every_combat"
         ]
       },
+      "CallDelay": {
+        "type": "input",
+        "value": 0
+      },
       "AutoSearchMode": {
         "type": "select",
         "value": "sub_standby",
@@ -4233,6 +4257,10 @@
           "hunt_and_boss",
           "every_combat"
         ]
+      },
+      "CallDelay": {
+        "type": "input",
+        "value": 0
       },
       "AutoSearchMode": {
         "type": "select",
@@ -4644,6 +4672,10 @@
           "every_combat"
         ]
       },
+      "CallDelay": {
+        "type": "input",
+        "value": 0
+      },
       "AutoSearchMode": {
         "type": "select",
         "value": "sub_standby",
@@ -5053,6 +5085,10 @@
           "hunt_and_boss",
           "every_combat"
         ]
+      },
+      "CallDelay": {
+        "type": "input",
+        "value": 0
       },
       "AutoSearchMode": {
         "type": "select",
@@ -5464,6 +5500,10 @@
           "every_combat"
         ]
       },
+      "CallDelay": {
+        "type": "input",
+        "value": 0
+      },
       "AutoSearchMode": {
         "type": "select",
         "value": "sub_standby",
@@ -5863,6 +5903,10 @@
           "hunt_and_boss",
           "every_combat"
         ]
+      },
+      "CallDelay": {
+        "type": "input",
+        "value": 0
       },
       "AutoSearchMode": {
         "type": "select",

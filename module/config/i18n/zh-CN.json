@@ -982,6 +982,10 @@
       "hunt_and_boss": "狩猎及BOSS战",
       "every_combat": "每战出击"
     },
+    "CallDelay": {
+      "name": "潜艇召唤延迟 (秒)",
+      "help": "在战斗开始后等待x秒再点击潜艇支援。使用0表示立即召唤。"
+    },
     "AutoSearchMode": {
       "name": "潜艇自律方案",
       "help": "仅在自律寻敌下生效",

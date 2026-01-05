@@ -982,6 +982,10 @@
       "hunt_and_boss": "狩獵及BOSS戰",
       "every_combat": "每戰出擊"
     },
+    "CallDelay": {
+      "name": "Submarine.CallDelay.name",
+      "help": "Submarine.CallDelay.help"
+    },
     "AutoSearchMode": {
       "name": "潛艇自律尋敵方案",
       "help": "僅在自律尋敵下生效",

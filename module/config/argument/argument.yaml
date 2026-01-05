@@ -201,6 +201,8 @@ Submarine:
   Mode:
     value: do_not_use
     option: [ do_not_use, hunt_only, boss_only, hunt_and_boss, every_combat ]
+  CallDelay:
+    value: 0
   AutoSearchMode:
     value: sub_standby
     option: [ sub_standby, sub_auto_call ]

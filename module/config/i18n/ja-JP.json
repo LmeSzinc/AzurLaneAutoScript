@@ -982,6 +982,10 @@
       "hunt_and_boss": "hunt_and_boss",
       "every_combat": "every_combat"
     },
+    "CallDelay": {
+      "name": "Submarine.CallDelay.name",
+      "help": "Submarine.CallDelay.help"
+    },
     "AutoSearchMode": {
       "name": "Submarine.AutoSearchMode.name",
       "help": "Submarine.AutoSearchMode.help",
