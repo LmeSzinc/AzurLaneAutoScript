@@ -1995,6 +1995,30 @@
       "Storage": {}
     }
   },
+  "IslandInfo": {
+    "IslandSeasonTask": {
+      "TaskDict": null
+    },
+    "IslandTechnology": {
+      "TechnologyStatus": null
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
+  "IslandSeasonTask": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "IslandSeasonTask",
+      "SuccessInterval": 0,
+      "FailureInterval": 120,
+      "ServerUpdate": "00:00"
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
   "Daemon": {
     "Daemon": {
       "EnterMap": true

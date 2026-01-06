@@ -801,6 +801,16 @@ OpsiHazard1Leveling:
     value: 0
     option: [ 0, 44, 22 ]
 
+# =================== Island ====================
+IslandSeasonTask:
+  TaskDict:
+    type: textarea
+    value: |-
+IslandTechnology:
+  TechnologyStatus:
+    type: textarea
+    value: |-
+
 # ==================== Tools ====================
 
 Daemon:
