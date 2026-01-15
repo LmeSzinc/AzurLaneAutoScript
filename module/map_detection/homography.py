@@ -408,7 +408,7 @@ class Homography:
         hori = Points([640, grids[(0, 0)][1, 1]]).link(None, is_horizontal=True)
         for y in range(shape[1] + 1):
             hori = hori.add(Points([640, grids[(0, y)][3, 1]]).link(None, is_horizontal=True))
-        vert = Points(grids[(0, 0)][1]).link(grids[(0, shape[1])][3])
+        vert = Points(grids[(0, 0)][0]).link(grids[(0, shape[1])][2])
         for x in range(shape[0] + 1):
             vert = vert.add(Points(grids[(x, 0)][1]).link(grids[(x, shape[1])][3]))
         return hori, vert
