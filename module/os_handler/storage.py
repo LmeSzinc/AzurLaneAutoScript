@@ -7,6 +7,7 @@ from module.logger import logger
 from module.os.globe_operation import GlobeOperation
 from module.os.globe_zone import ZoneManager
 from module.os_handler.assets import *
+from module.storage.assets import BOX_USE
 from module.ui.scroll import Scroll
 
 SCROLL_STORAGE = Scroll(STORATE_SCROLL, color=(247, 211, 66))
@@ -91,6 +92,10 @@ class StorageHandler(GlobeOperation, ZoneManager):
             if self.appear_then_click(STORAGE_USE, offset=(180, 30), interval=5):
                 self.interval_reset(STORAGE_CHECK)
                 continue
+            if self.appear_then_click(BOX_USE, offset=(180, 30), interval=5):
+                self.interval_reset(STORAGE_CHECK)
+                success = True
+                continue
             if self.appear_then_click(GET_ITEMS_1, interval=5):
                 self.interval_reset(STORAGE_CHECK)
                 success = True
@@ -102,6 +107,8 @@ class StorageHandler(GlobeOperation, ZoneManager):
             if self.appear(GET_ADAPTABILITY, offset=5, interval=2):
                 self.device.click(CLICK_SAFE_AREA)
                 success = True
+                continue
+            if self.handle_story_skip():
                 continue
             # Use item
             if self.appear(STORAGE_CHECK, offset=(20, 20), interval=5):
@@ -133,6 +140,7 @@ class StorageHandler(GlobeOperation, ZoneManager):
 
             image = rgb2gray(self.device.image)
             items = TEMPLATE_STORAGE_LOGGER.match_multi(image, similarity=0.5)
+            items.extend(TEMPLATE_STORAGE_LOGGER_UNLOCK.match_multi(image, similarity=0.5))
             logger.attr('Storage_logger', len(items))
 
             if len(items):
@@ -141,6 +149,12 @@ class StorageHandler(GlobeOperation, ZoneManager):
             else:
                 logger.info('All loggers in storage have been used')
                 break
+
+    def logger_use(self):
+        logger.hr('Logger use')
+        self.storage_enter()
+        self.storage_logger_use_all()
+        self.storage_quit()
 
     def storage_sample_use_all(self, skip_first_screenshot=True):
         """

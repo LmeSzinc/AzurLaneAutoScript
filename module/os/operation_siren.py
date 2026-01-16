@@ -306,6 +306,7 @@ class OperationSiren(OSMap):
         self._os_voucher_enter()
         VoucherShop(self.config, self.device).run()
         self._os_voucher_exit()
+        self.logger_use()
 
         next_reset = get_os_next_reset()
         logger.info('OS voucher finished, delay to next reset')
