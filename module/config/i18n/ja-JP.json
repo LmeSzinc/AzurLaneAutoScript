@@ -745,7 +745,7 @@
       "event_20230914_cn": "須臾望月抄（復刻）",
       "event_20231026_cn": "テンペスタと若返りの泉",
       "event_20231123_cn": "蒼閃忍法帖",
-      "event_20231221_cn": "光追う星の海",
+      "event_20231221_cn": "光追う星の海（復刻）",
       "event_20240229_cn": "銀界遊廻",
       "event_20240425_cn": "共鳴のパッション",
       "event_20240521_cn": "赫輝のマルティリウム",
@@ -2086,7 +2086,8 @@
       "noshiro": "noshiro",
       "sirius": "sirius",
       "new_jersey": "new_jersey",
-      "taihou": "taihou"
+      "taihou": "taihou",
+      "aegir": "aegir"
     }
   },
   "Daily": {
