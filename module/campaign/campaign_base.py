@@ -131,6 +131,7 @@ class CampaignBase(CampaignUI, Map, AutoSearchCombat):
         else:
             self.map = self.MAP
             self.battle_count = 0
+            self.reset_auto_search_battle_count()
             self.lv_reset()
             self.lv_get()
 

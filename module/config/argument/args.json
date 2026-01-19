@@ -658,8 +658,13 @@
         "value": "sub_standby",
         "option": [
           "sub_standby",
-          "sub_auto_call"
+          "sub_auto_call",
+          "sub_call_at_battle"
         ]
+      },
+      "CallAtBattle": {
+        "type": "input",
+        "value": ""
       },
       "DistanceToBoss": {
         "type": "select",
@@ -1039,8 +1044,13 @@
         "value": "sub_standby",
         "option": [
           "sub_standby",
-          "sub_auto_call"
+          "sub_auto_call",
+          "sub_call_at_battle"
         ]
+      },
+      "CallAtBattle": {
+        "type": "input",
+        "value": ""
       },
       "DistanceToBoss": {
         "type": "select",
@@ -1420,8 +1430,13 @@
         "value": "sub_standby",
         "option": [
           "sub_standby",
-          "sub_auto_call"
+          "sub_auto_call",
+          "sub_call_at_battle"
         ]
+      },
+      "CallAtBattle": {
+        "type": "input",
+        "value": ""
       },
       "DistanceToBoss": {
         "type": "select",
@@ -2136,8 +2151,13 @@
         "value": "sub_standby",
         "option": [
           "sub_standby",
-          "sub_auto_call"
+          "sub_auto_call",
+          "sub_call_at_battle"
         ]
+      },
+      "CallAtBattle": {
+        "type": "input",
+        "value": ""
       },
       "DistanceToBoss": {
         "type": "select",
@@ -2535,8 +2555,13 @@
         "value": "sub_standby",
         "option": [
           "sub_standby",
-          "sub_auto_call"
+          "sub_auto_call",
+          "sub_call_at_battle"
         ]
+      },
+      "CallAtBattle": {
+        "type": "input",
+        "value": ""
       },
       "DistanceToBoss": {
         "type": "select",
@@ -3859,8 +3884,13 @@
         "value": "sub_standby",
         "option": [
           "sub_standby",
-          "sub_auto_call"
+          "sub_auto_call",
+          "sub_call_at_battle"
         ]
+      },
+      "CallAtBattle": {
+        "type": "input",
+        "value": ""
       },
       "DistanceToBoss": {
         "type": "select",
@@ -4275,8 +4305,13 @@
         "value": "sub_standby",
         "option": [
           "sub_standby",
-          "sub_auto_call"
+          "sub_auto_call",
+          "sub_call_at_battle"
         ]
+      },
+      "CallAtBattle": {
+        "type": "input",
+        "value": ""
       },
       "DistanceToBoss": {
         "type": "select",
@@ -4691,8 +4726,13 @@
         "value": "sub_standby",
         "option": [
           "sub_standby",
-          "sub_auto_call"
+          "sub_auto_call",
+          "sub_call_at_battle"
         ]
+      },
+      "CallAtBattle": {
+        "type": "input",
+        "value": ""
       },
       "DistanceToBoss": {
         "type": "select",
@@ -5107,8 +5147,13 @@
         "value": "sub_standby",
         "option": [
           "sub_standby",
-          "sub_auto_call"
+          "sub_auto_call",
+          "sub_call_at_battle"
         ]
+      },
+      "CallAtBattle": {
+        "type": "input",
+        "value": ""
       },
       "DistanceToBoss": {
         "type": "select",
@@ -5523,8 +5568,13 @@
         "value": "sub_standby",
         "option": [
           "sub_standby",
-          "sub_auto_call"
+          "sub_auto_call",
+          "sub_call_at_battle"
         ]
+      },
+      "CallAtBattle": {
+        "type": "input",
+        "value": ""
       },
       "DistanceToBoss": {
         "type": "select",
@@ -5929,9 +5979,14 @@
         "value": "sub_standby",
         "option": [
           "sub_standby",
-          "sub_auto_call"
+          "sub_auto_call",
+          "sub_call_at_battle"
         ],
         "display": "hide"
+      },
+      "CallAtBattle": {
+        "type": "input",
+        "value": ""
       },
       "DistanceToBoss": {
         "type": "select",

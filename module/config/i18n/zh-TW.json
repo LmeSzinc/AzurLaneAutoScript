@@ -990,7 +990,12 @@
       "name": "潛艇自律尋敵方案",
       "help": "僅在自律尋敵下生效",
       "sub_standby": "待機",
-      "sub_auto_call": "自動出擊"
+      "sub_auto_call": "自動出擊",
+      "sub_call_at_battle": "sub_call_at_battle"
+    },
+    "CallAtBattle": {
+      "name": "Submarine.CallAtBattle.name",
+      "help": "Submarine.CallAtBattle.help"
     },
     "DistanceToBoss": {
       "name": "BOSS戰前將潛艇移動到BOSS附近",

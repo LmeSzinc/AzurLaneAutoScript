@@ -120,6 +120,7 @@
       "Mode": "do_not_use",
       "CallDelay": 0,
       "AutoSearchMode": "sub_standby",
+      "CallAtBattle": null,
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
@@ -195,6 +196,7 @@
       "Mode": "do_not_use",
       "CallDelay": 0,
       "AutoSearchMode": "sub_standby",
+      "CallAtBattle": null,
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
@@ -270,6 +272,7 @@
       "Mode": "do_not_use",
       "CallDelay": 0,
       "AutoSearchMode": "sub_standby",
+      "CallAtBattle": null,
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
@@ -407,6 +410,7 @@
       "Mode": "do_not_use",
       "CallDelay": 0,
       "AutoSearchMode": "sub_standby",
+      "CallAtBattle": null,
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
@@ -482,6 +486,7 @@
       "Mode": "do_not_use",
       "CallDelay": 0,
       "AutoSearchMode": "sub_standby",
+      "CallAtBattle": null,
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
@@ -706,6 +711,7 @@
       "Mode": "do_not_use",
       "CallDelay": 0,
       "AutoSearchMode": "sub_standby",
+      "CallAtBattle": null,
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
@@ -785,6 +791,7 @@
       "Mode": "do_not_use",
       "CallDelay": 0,
       "AutoSearchMode": "sub_standby",
+      "CallAtBattle": null,
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
@@ -864,6 +871,7 @@
       "Mode": "do_not_use",
       "CallDelay": 0,
       "AutoSearchMode": "sub_standby",
+      "CallAtBattle": null,
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
@@ -943,6 +951,7 @@
       "Mode": "do_not_use",
       "CallDelay": 0,
       "AutoSearchMode": "sub_standby",
+      "CallAtBattle": null,
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
@@ -1022,6 +1031,7 @@
       "Mode": "do_not_use",
       "CallDelay": 0,
       "AutoSearchMode": "sub_standby",
+      "CallAtBattle": null,
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {
@@ -1097,6 +1107,7 @@
       "Mode": "do_not_use",
       "CallDelay": 0,
       "AutoSearchMode": "sub_standby",
+      "CallAtBattle": null,
       "DistanceToBoss": "2_grid_to_boss"
     },
     "Emotion": {

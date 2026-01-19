@@ -205,7 +205,9 @@ Submarine:
     value: 0
   AutoSearchMode:
     value: sub_standby
-    option: [ sub_standby, sub_auto_call ]
+    option: [ sub_standby, sub_auto_call, sub_call_at_battle ]
+  CallAtBattle:
+    value: ''
   DistanceToBoss:
     value: '2_grid_to_boss'
     option: [ to_boss_position, 1_grid_to_boss, 2_grid_to_boss, use_open_ocean_support ]

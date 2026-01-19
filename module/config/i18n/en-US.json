@@ -990,7 +990,12 @@
       "name": "Submarine Roles in Auto Search",
       "help": "Effective only for auto search",
       "sub_standby": "Standby",
-      "sub_auto_call": "Auto Call"
+      "sub_auto_call": "Auto Call",
+      "sub_call_at_battle": "sub_call_at_battle"
+    },
+    "CallAtBattle": {
+      "name": "Submarine.CallAtBattle.name",
+      "help": "Submarine.CallAtBattle.help"
     },
     "DistanceToBoss": {
       "name": "Before BOSS battle move the submarine near BOSS",

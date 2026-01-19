@@ -14,6 +14,11 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
     auto_search_oil_limit_triggered = False
     auto_search_coin_limit_triggered = False
 
+    def reset_auto_search_battle_count(self):
+        """Reset battle count for auto search submarine call tracking."""
+        self.auto_search_battle_count = 0
+        logger.attr('auto_search_battle_count', self.auto_search_battle_count)
+
     def _handle_auto_search_menu_missing(self):
         """
         Sometimes game is bugged, auto search menu is not shown.
@@ -234,7 +239,22 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
         self.submarine_call_reset()
         submarine_mode = 'do_not_use'
         if self.config.Submarine_Fleet:
-            submarine_mode = self.config.Submarine_Mode
+            # When using auto search, always use Submarine_AutoSearchMode to determine behavior
+            # Submarine_Mode is only used when auto search is disabled
+            auto_search_mode = getattr(self.config, 'Submarine_AutoSearchMode', 'sub_standby')
+            if auto_search_mode == 'sub_standby':
+                # Standby mode: do not call submarine actively
+                submarine_mode = 'do_not_use'
+            elif auto_search_mode == 'sub_auto_call':
+                # Auto call mode: let game handle it, do not call actively
+                submarine_mode = 'do_not_use'
+            elif auto_search_mode == 'sub_call_at_battle':
+                # Call at specific battles: use every_combat mode so handle_submarine_call gets called
+                submarine_mode = 'every_combat'
+                logger.info(f'Submarine call at battle mode, current battle count: {self.auto_search_battle_count}')
+            else:
+                submarine_mode = 'do_not_use'
+        logger.attr('submarine_mode', submarine_mode)
         self.combat_auto_reset()
         self.combat_manual_reset()
         self.device.stuck_record_clear()
@@ -348,5 +368,9 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
 
         self.auto_search_combat_execute(emotion_reduce=emotion_reduce, fleet_index=fleet_index)
         self.auto_search_combat_status()
+
+        # Increment battle count for submarine call tracking
+        self.auto_search_battle_count += 1
+        logger.attr('auto_search_battle_count', self.auto_search_battle_count)
 
         logger.info('Combat end.')
