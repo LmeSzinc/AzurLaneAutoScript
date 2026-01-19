@@ -987,15 +987,15 @@
       "help": "Wait this many seconds after the battle starts before tapping submarine support. Use 0 for immediate call."
     },
     "AutoSearchMode": {
-      "name": "Submarine Roles in Auto Search",
-      "help": "Effective only for auto search",
+      "name": "Submarine Role in Auto Search",
+      "help": "Only effective when using Auto Search.\nStandby: Do not actively call submarine; Auto Call: Let game's auto search system handle it; Call at Specified Battle: Manually specify which battles to call submarine.",
       "sub_standby": "Standby",
       "sub_auto_call": "Auto Call",
-      "sub_call_at_battle": "sub_call_at_battle"
+      "sub_call_at_battle": "Call at Specified Battle"
     },
     "CallAtBattle": {
-      "name": "Submarine.CallAtBattle.name",
-      "help": "Submarine.CallAtBattle.help"
+      "name": "Call Submarine at Specified Battles",
+      "help": "Only effective when 'Submarine Role in Auto Search' is 'Call at Specified Battle'.\nEnter comma-separated battle numbers (starting from 0), e.g., '0,3,5' to call submarine at battle 1, 4, and 6.\nLeave empty to not call. Respects 'Delay Before Calling Submarine' setting."
     },
     "DistanceToBoss": {
       "name": "Before BOSS battle move the submarine near BOSS",

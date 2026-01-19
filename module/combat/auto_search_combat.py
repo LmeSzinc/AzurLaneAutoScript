@@ -251,10 +251,8 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
             elif auto_search_mode == 'sub_call_at_battle':
                 # Call at specific battles: use every_combat mode so handle_submarine_call gets called
                 submarine_mode = 'every_combat'
-                logger.info(f'Submarine call at battle mode, current battle count: {self.auto_search_battle_count}')
             else:
                 submarine_mode = 'do_not_use'
-        logger.attr('submarine_mode', submarine_mode)
         self.combat_auto_reset()
         self.combat_manual_reset()
         self.device.stuck_record_clear()

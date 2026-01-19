@@ -988,14 +988,14 @@
     },
     "AutoSearchMode": {
       "name": "潜艇自律方案",
-      "help": "仅在自律寻敌下生效",
+      "help": "仅在自律寻敌下生效。待机：不主动召唤；自动召唤潜艇：由游戏自律系统处理；控制召唤潜艇：手动指定在哪些战斗召唤。",
       "sub_standby": "待机",
       "sub_auto_call": "自动召唤潜艇",
-      "sub_call_at_battle": "sub_call_at_battle"
+      "sub_call_at_battle": "控制召唤潜艇"
     },
     "CallAtBattle": {
-      "name": "Submarine.CallAtBattle.name",
-      "help": "Submarine.CallAtBattle.help"
+      "name": "在指定战斗召唤潜艇",
+      "help": "仅在'潜艇自律方案'为'控制召唤潜艇'时生效。\n输入逗号分隔的战斗编号（从 0 开始），如 '0,3,5' 表示在第 1 战、第 4 战和第 6 战召唤潜艇。\n留空则不召唤。遵守'潜艇召唤延迟'设置。"
     },
     "DistanceToBoss": {
       "name": "BOSS战前将潜艇移动到BOSS附近",

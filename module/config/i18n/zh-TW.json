@@ -988,14 +988,14 @@
     },
     "AutoSearchMode": {
       "name": "潛艇自律尋敵方案",
-      "help": "僅在自律尋敵下生效",
+      "help": "僅在自律尋敵下生效。待機：不主動召喚；自動出擊：由遊戲自律系統處理；控制召喚潛艇：手動指定在哪些戰鬥召喚。",
       "sub_standby": "待機",
       "sub_auto_call": "自動出擊",
-      "sub_call_at_battle": "sub_call_at_battle"
+      "sub_call_at_battle": "控制召喚潛艇"
     },
     "CallAtBattle": {
-      "name": "Submarine.CallAtBattle.name",
-      "help": "Submarine.CallAtBattle.help"
+      "name": "在指定戰鬥召喚潛艇",
+      "help": "僅在'潛艇自律尋敵方案'為'控制召喚潛艇'時生效。\n輸入逗號分隔的戰鬥編號（從 0 開始），如 '0,3,5' 表示在第 1 戰、第 4 戰和第 6 戰召喚潛艇。\n留空則不召喚。遵守'潛艇召喚延遲'設定。"
     },
     "DistanceToBoss": {
       "name": "BOSS戰前將潛艇移動到BOSS附近",
