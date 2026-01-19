@@ -467,8 +467,7 @@ pre.rich-traceback-code {
     display: grid;
 }
 
-.bs-title-option,
-.form-check-input[id*="ch_S"] {
+.bs-title-option {
     display: none;
 }
 
