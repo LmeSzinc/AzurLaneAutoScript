@@ -374,11 +374,24 @@ class OperationSiren(OSMap):
                     raise RequestHumanTakeover('wrong input, task stopped')
                 else:
                     logger.hr(f'OS meowfficer farming, zone_id={zone.zone_id}', level=1)
+                    zone_changed = self.zone.zone_id != zone.zone_id
                     self.globe_goto(zone, refresh=True)
+                    if zone_changed:
+                        self._meow_first_clear_done = False
+                    
                     self.fleet_set(self.config.OpsiFleet_Fleet)
                     self.os_order_execute(
                         recon_scan=False,
                         submarine_call=self.config.OpsiFleet_Submarine)
+                    
+                    # Perform initial auto search and clear random events before next run
+                    if not self._meow_first_clear_done:
+                        logger.hr('Meowfficer Farming: First clear before next run', level=2)
+                        logger.info('Running auto search to clear current map and random events')
+                        self.run_auto_search(question=True, rescan=True, after_auto_search=False)
+                        self._meow_first_clear_done = True
+                        logger.info('First clear completed')
+                    
                     self.run_auto_search()
                     self.handle_after_auto_search()
                     self.config.check_task_switch()
@@ -389,15 +402,29 @@ class OperationSiren(OSMap):
                     .sort_by_clock_degree(center=(1252, 1012), start=self.zone.location)
 
                 logger.hr(f'OS meowfficer farming, zone_id={zones[0].zone_id}', level=1)
+                zone_changed = self.zone.zone_id != zones[0].zone_id
                 self.globe_goto(zones[0])
+                if zone_changed:
+                    self._meow_first_clear_done = False
+                
                 self.fleet_set(self.config.OpsiFleet_Fleet)
                 self.os_order_execute(
                     recon_scan=False,
                     submarine_call=self.config.OpsiFleet_Submarine)
+                
+                # Perform initial auto search and clear random events before next run
+                if not self._meow_first_clear_done:
+                    logger.hr('Meowfficer Farming: First clear before next run', level=2)
+                    logger.info('Running auto search to clear current map and random events')
+                    self.run_auto_search(question=True, rescan=True, after_auto_search=False)
+                    self._meow_first_clear_done = True
+                    logger.info('First clear completed')
+                
                 self.run_auto_search()
                 self.handle_after_auto_search()
                 self.config.check_task_switch()
 
+    _meow_first_clear_done = False
     _cl1_first_clear_done = False
 
     def os_hazard1_leveling(self):
@@ -484,6 +511,7 @@ class OperationSiren(OSMap):
 
     # List of failed zone id
     _os_explore_failed_zone = []
+    _explore_first_clear_done = False
 
     def _os_explore(self):
         """
@@ -535,6 +563,8 @@ class OperationSiren(OSMap):
 
             # Run zone
             logger.hr(f'OS explore {zone}', level=1)
+            # Reset first clear flag for each new zone
+            self._explore_first_clear_done = False
             if not self.config.OpsiExplore_SpecialRadar:
                 # Special radar gives 90 turning samples,
                 # If no special radar, use the turning samples in storage to acquire stronger fleets.
@@ -544,6 +574,14 @@ class OperationSiren(OSMap):
                 recon_scan=not self.config.OpsiExplore_SpecialRadar,
                 submarine_call=self.config.OpsiFleet_Submarine)
             self._os_explore_task_delay()
+
+            # Perform initial auto search and clear random events before exploration
+            if not self._explore_first_clear_done:
+                logger.hr('Explore: First clear before exploration', level=2)
+                logger.info('Running auto search to clear current map and random events')
+                self.run_auto_search(question=True, rescan=True, after_auto_search=False)
+                self._explore_first_clear_done = True
+                logger.info('First clear completed')
 
             finished_combat = self.run_auto_search()
             self.config.OpsiExplore_LastZone = zone
@@ -573,6 +611,8 @@ class OperationSiren(OSMap):
         logger.critical('Failed to solve the locked zone')
         raise GameStuckError
 
+    _obscure_first_clear_done = False
+
     def clear_obscure(self):
         """
         Raises:
@@ -599,10 +639,22 @@ class OperationSiren(OSMap):
             STORY_OPTION=0,
         )
         self.zone_init()
+        # Reset first clear flag when entering obscure zone
+        self._obscure_first_clear_done = False
+        
         self.fleet_set(self.config.OpsiFleet_Fleet)
         self.os_order_execute(
             recon_scan=True,
             submarine_call=self.config.OpsiFleet_Submarine)
+        
+        # Perform initial auto search and clear random events before clearing obscure
+        if not self._obscure_first_clear_done:
+            logger.hr('Obscure: First clear before clearing obscure', level=2)
+            logger.info('Running auto search to clear current map and random events')
+            self.run_auto_search(question=True, rescan='current', after_auto_search=False)
+            self._obscure_first_clear_done = True
+            logger.info('First clear completed')
+        
         self.run_auto_search(rescan='current')
 
         self.map_exit()
@@ -700,6 +752,8 @@ class OperationSiren(OSMap):
         logger.attr('OpsiNextReset', next_reset)
         self.config.task_delay(target=next_reset)
 
+    _stronghold_first_clear_done = False
+
     def clear_stronghold(self):
         """
         Find a siren stronghold on globe map,
@@ -724,7 +778,21 @@ class OperationSiren(OSMap):
 
         self.globe_enter(zone)
         self.zone_init()
+        # Reset first clear flag when entering stronghold zone
+        self._stronghold_first_clear_done = False
+        
         self.os_order_execute(recon_scan=True, submarine_call=False)
+        
+        # Perform initial auto search and clear random events before clearing stronghold
+        if not self._stronghold_first_clear_done:
+            logger.hr('Stronghold: First clear before clearing stronghold', level=2)
+            logger.info('Running auto search to clear current map and random events')
+            # Use first fleet to do initial clear
+            self.fleet_set(1)
+            self.run_auto_search(question=True, rescan=False, after_auto_search=False)
+            self._stronghold_first_clear_done = True
+            logger.info('First clear completed')
+        
         self.run_stronghold()
 
         self.fleet_repair(revert=False)
