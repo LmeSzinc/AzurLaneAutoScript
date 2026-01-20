@@ -174,6 +174,11 @@ MaaRoguelike:
     option: [ no_use, start_with_elite_two, only_start_with_elite_two ]
   refreshTraderWithDice: false
 
+MaaAftercareOperation:
+  WhenTaskQueueEmpty:
+    value: stay_there
+    option: [ stay_there, close_game ]
+
 MaaAward:
   Mail: False
   Recruit: False
