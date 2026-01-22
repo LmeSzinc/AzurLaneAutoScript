@@ -180,7 +180,7 @@ class GeneratedConfig:
     MaritimeEscort_Enable = True
 
     # Group `Coalition`
-    Coalition_Mode = 'area1-normal'  # area1-normal, area1-hard, area2-normal, area2-hard, area3-normal, area3-hard, area4-normal, area4-hard, area5-normal, area5-hard, area6-normal, area6-hard
+    Coalition_Mode = 'hard'  # easy, normal, hard, sp
     Coalition_Fleet = 'single'  # single, multi
 
     # Group `Commission`

@@ -104,46 +104,6 @@ class MapEventHandler(EnemySearchingHandler):
         else:
             return False
 
-    def handle_siren_platform(self):
-        """
-        Handle siren platform notice after entering map
-
-        Returns:
-            bool: If handled
-        """
-        if not self.handle_story_skip():
-            return False
-
-        logger.info('Handle siren platform')
-        timeout = Timer(self.MAP_ENEMY_SEARCHING_TIMEOUT_SECOND).start()
-        appeared = False
-        while 1:
-            self.device.screenshot()
-            if self.is_in_map():
-                timeout.start()
-            else:
-                timeout.reset()
-
-            if self.handle_story_skip():
-                timeout.reset()
-                continue
-
-            # End
-            if self.enemy_searching_appear():
-                appeared = True
-            else:
-                if appeared:
-                    self.handle_enemy_flashing()
-                    self.device.sleep(1)
-                    logger.info('Enemy searching appeared.')
-                    break
-                self.enemy_searching_color_initial()
-            if timeout.reached():
-                logger.info('Enemy searching timeout.')
-                break
-
-        return True
-
     def handle_map_event(self, drop=None):
         """
         Args:
@@ -185,39 +145,27 @@ class MapEventHandler(EnemySearchingHandler):
             self._os_in_map_confirm_timer.reset()
             return False
 
-    def ensure_no_map_event(self, skip_first_screenshot=True):
+    def ensure_no_map_event(self):
         self._os_in_map_confirm_timer.reset()
 
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
+        for _ in self.loop():
             if self.handle_map_event():
                 continue
-
             # End
             if self.handle_os_in_map():
                 break
 
-    def os_auto_search_quit(self, drop=None, skip_first_screenshot=True):
+    def os_auto_search_quit(self, drop=None):
         """
         Args:
             drop (DropImage):
-            skip_first_screenshot (bool):
 
         Returns:
             bool: True if current map cleared
         """
         confirm_timer = Timer(1.2, count=3).start()
         cleared = False
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
+        for _ in self.loop():
             if self.appear(AUTO_SEARCH_REWARD, offset=(50, 50), interval=2):
                 if self.ensure_no_info_bar():
                     cleared = True

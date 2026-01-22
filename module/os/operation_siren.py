@@ -35,7 +35,7 @@ class OperationSiren(
 
 
 if __name__ == '__main__':
-    self = OperationSiren('month_test', task='OpsiMonthBoss')
+    self = OperationSiren('alas', task='OpsiMonthBoss')
 
     self.config = self.config.merge(OSConfig())
 

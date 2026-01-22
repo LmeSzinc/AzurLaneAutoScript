@@ -62,14 +62,10 @@ class OSStatus(UI):
         tasks = SelectedGrids(self.config.pending_task + self.config.waiting_task).filter(func).sort('next_run')
         return tasks.first_or_none()
 
-    def get_yellow_coins(self, skip_first_screenshot=True) -> int:
+    def get_yellow_coins(self) -> int:
         timeout = Timer(2, count=3).start()
-        while True:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
+        for _ in self.loop():
+            # End
             yellow_coins = OCR_SHOP_YELLOW_COINS.ocr(self.device.image)
             if timeout.reached():
                 logger.warning('Get yellow coins timeout')

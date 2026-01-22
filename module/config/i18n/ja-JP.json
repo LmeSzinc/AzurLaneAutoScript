@@ -66,6 +66,10 @@
       "name": "イベント共通設定",
       "help": ""
     },
+    "Coalition": {
+      "name": "特集写真-撮影進行中",
+      "help": ""
+    },
     "Event": {
       "name": "イベント海域",
       "help": ""
@@ -82,16 +86,16 @@
       "name": "病院探訪",
       "help": ""
     },
-    "Coalition": {
-      "name": "ネオンシティの探索者",
-      "help": ""
-    },
     "MaritimeEscort": {
       "name": "Maritime Escort",
       "help": ""
     },
     "WarArchives": {
       "name": "作戦履歴",
+      "help": ""
+    },
+    "CoalitionSp": {
+      "name": "特集写真-撮影進行中SP",
       "help": ""
     },
     "EventA": {
@@ -116,10 +120,6 @@
     },
     "RaidDaily": {
       "name": "Raid Daily",
-      "help": ""
-    },
-    "CoalitionSp": {
-      "name": "ネオンシティの探索者SP",
       "help": ""
     },
     "Commission": {
@@ -684,6 +684,7 @@
       "coalition_20240627": "リトル学園へようこそ",
       "coalition_20250626": "ネオンシティの探索者",
       "coalition_20251120": "DATE A LANE",
+      "coalition_20260122": "特集写真-撮影進行中",
       "event_20200227_cn": "凍絶の北海",
       "event_20200312_cn": "南洋に靡く硝煙（復刻）",
       "event_20200326_cn": "闇靄払う銀翼",
@@ -1316,18 +1317,10 @@
     "Mode": {
       "name": "Coalition.Mode.name",
       "help": "Coalition.Mode.help",
-      "area1-normal": "area1-normal",
-      "area1-hard": "area1-hard",
-      "area2-normal": "area2-normal",
-      "area2-hard": "area2-hard",
-      "area3-normal": "area3-normal",
-      "area3-hard": "area3-hard",
-      "area4-normal": "area4-normal",
-      "area4-hard": "area4-hard",
-      "area5-normal": "area5-normal",
-      "area5-hard": "area5-hard",
-      "area6-normal": "area6-normal",
-      "area6-hard": "area6-hard"
+      "easy": "easy",
+      "normal": "normal",
+      "hard": "hard",
+      "sp": "sp"
     },
     "Fleet": {
       "name": "Coalition.Fleet.name",
