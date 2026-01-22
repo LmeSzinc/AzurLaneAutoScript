@@ -177,6 +177,15 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             return True
         return False
 
+    def handle_combat_quit_reconfirm(self, interval=2):
+        # QUIT_RECONFIRM interval should shorter than QUIT,
+        # so multiple retries can be made during the interval of QUIT
+        if self.appear_then_click(QUIT_RECONFIRM, offset=(20, 20), interval=interval):
+            # reset QUIT timer to avoid duplicate QUIT clicks canceling QUIT_RECONFIRM
+            self.interval_reset(QUIT)
+            return True
+        return False
+
     def ensure_combat_oil_loaded(self):
         self.wait_until_stable(COMBAT_OIL_LOADING)
 

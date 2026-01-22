@@ -9,7 +9,6 @@ from module.base.timer import Timer
 from module.base.utils import point_limit
 from module.config.utils import dict_to_kv
 from module.exception import MapWalkError
-from module.exercise.assets import QUIT_RECONFIRM
 from module.handler.assets import MAINTENANCE_ANNOUNCE
 from module.logger import logger
 from module.map.fleet import Fleet
@@ -729,7 +728,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 self.interval_reset(MAINTENANCE_ANNOUNCE)
                 pause_interval.reset()
                 continue
-            if self.appear_then_click(QUIT_RECONFIRM, offset=True, interval=5):
+            if self.handle_combat_quit_reconfirm():
                 self.interval_reset(MAINTENANCE_ANNOUNCE)
                 pause_interval.reset()
                 continue
