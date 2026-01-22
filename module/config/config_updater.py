@@ -640,6 +640,8 @@ class ConfigUpdater:
             deep_set(new, 'Alas.DropRecord.AzurStatsID', None)
         else:
             deep_default(new, 'Alas.DropRecord.AzurStatsID', random_id())
+        if deep_get(new, keys='OpsiHazard1Leveling.Scheduler.Enable'):
+            deep_set(new, keys='OpsiMeowfficerFarming.Scheduler.Enable', value=True)
         # Update to latest event
         server = to_server(deep_get(new, 'Alas.Emulator.PackageName', 'cn'))
         if not is_template:
