@@ -432,3 +432,8 @@ class CoalitionUI(Combat):
             # Auto confirm
             if self.handle_combat_automation_confirm():
                 continue
+
+            # 2026.01.22 coalition FASHION adds popup to load fleet from previous fleet
+            # coalition does not allow low emotion battle, so clicking any popup confirm should be safe
+            if self.handle_popup_confirm('COALITION'):
+                continue
