@@ -96,8 +96,8 @@ class Coalition(CoalitionCombat, CampaignEvent):
             self.config.StopCondition_RunCount = 0
             self.config.Scheduler_Enable = False
             return True
-        # Oil limit
-        if oil_check and self._coalition_has_oil_icon:
+        # Oil limit in current page
+        if oil_check:
             if self.get_oil() < max(500, self.config.StopCondition_OilLimit):
                 logger.hr('Triggered stop condition: Oil limit')
                 self.config.task_delay(minute=(120, 240))
@@ -147,7 +147,7 @@ class Coalition(CoalitionCombat, CampaignEvent):
             self.coalition_map_exit(event)
             raise
 
-        if self.triggered_stop_condition(oil_check=True):
+        if self._coalition_has_oil_icon and self.triggered_stop_condition(oil_check=True):
             self.coalition_map_exit(event)
             raise ScriptEnd
 
@@ -194,6 +194,7 @@ class Coalition(CoalitionCombat, CampaignEvent):
             self.device.stuck_record_clear()
             self.device.click_record_clear()
             self.ui_goto_coalition()
+            self.disable_event_on_raid()
             self.coalition_ensure_mode(event, 'battle')
 
             # End

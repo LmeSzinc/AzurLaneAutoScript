@@ -2,14 +2,12 @@ import typing as t
 from datetime import datetime, timedelta
 
 import module.config.server as server
-
 from module.base.timer import Timer
 from module.config.config import Function
 from module.config.utils import get_server_next_update
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
 from module.ocr.ocr import Digit
-from module.os_handler.assets import *
 from module.os_shop.assets import OS_SHOP_CHECK, OS_SHOP_PURPLE_COINS, SHOP_PURPLE_COINS, SHOP_YELLOW_COINS
 from module.ui.ui import UI
 
@@ -63,6 +61,7 @@ class OSStatus(UI):
         return tasks.first_or_none()
 
     def get_yellow_coins(self) -> int:
+        yellow_coins = 0
         timeout = Timer(2, count=3).start()
         for _ in self.loop():
             # End

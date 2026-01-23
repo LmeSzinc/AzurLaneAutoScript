@@ -11,6 +11,22 @@ from module.war_archives.assets import WAR_ARCHIVES_CAMPAIGN_CHECK
 
 
 class CampaignEvent(CampaignStatus):
+    def _reset_gems_farming(self, tasks):
+        """
+        Reset GemsFarming to 2-4 when event is over
+
+        Args:
+            tasks (list[str]): Task name
+        """
+        for task in tasks:
+            if task not in GEMS_FARMINGS:
+                continue
+            name = self.config.cross_get(keys=f'{task}.Campaign.Name', default='2-4')
+            if not self.stage_is_main(name):
+                logger.info(f'Reset GemsFarming to 2-4')
+                self.config.cross_set(keys=f'{task}.Campaign.Name', value='2-4')
+                self.config.cross_set(keys=f'{task}.Campaign.Event', value='campaign_main')
+
     def _disable_tasks(self, tasks):
         """
         Args:
@@ -26,14 +42,7 @@ class CampaignEvent(CampaignStatus):
                 self.config.cross_set(keys=keys, value=False)
 
             # Reset GemsFarming
-            for task in tasks:
-                if task not in GEMS_FARMINGS:
-                    continue
-                name = self.config.cross_get(keys=f'{task}.Campaign.Name', default='2-4')
-                if not self.stage_is_main(name):
-                    logger.info(f'Reset GemsFarming to 2-4')
-                    self.config.cross_set(keys=f'{task}.Campaign.Name', value='2-4')
-                    self.config.cross_set(keys=f'{task}.Campaign.Event', value='campaign_main')
+            self._reset_gems_farming(tasks)
 
             logger.info(f'Reset event time limit')
             self.config.cross_set(keys='EventGeneral.EventGeneral.TimeLimit', value=DEFAULT_TIME)
@@ -195,11 +204,30 @@ class CampaignEvent(CampaignStatus):
         tasks = RAIDS + COALITIONS + MARITIME_ESCORTS
         tasks = [t for t in tasks if self.config.is_task_enabled(t)]
         if tasks:
-            logger.info('New event ongoing, disable old event tasks')
+            logger.info('New event ongoing, disable old raid event tasks')
             self._disable_tasks(tasks)
             return True
         else:
             return False
+
+    def disable_event_on_raid(self):
+        """
+        Disable event tasks when entered an raid or coalition,
+        to be foolproof if user forgot to disable event tasks when event is over and another raid is ongoing
+        """
+        command = self.config.Scheduler_Command
+        if command not in RAIDS + COALITIONS + MARITIME_ESCORTS:
+            return False
+
+        events = [t for t in EVENTS if self.config.is_task_enabled(t)]
+        gems = [t for t in GEMS_FARMINGS if self.config.is_task_enabled(t)]
+        with self.config.multi_set():
+            if events:
+                logger.info('New raid event ongoing, disable old event tasks')
+                self._disable_tasks(events)
+            if gems:
+                self._reset_gems_farming(gems)
+        return events or gems
 
     @staticmethod
     def stage_is_main(name) -> bool:

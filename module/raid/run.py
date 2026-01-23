@@ -105,6 +105,7 @@ class RaidRun(Raid, CampaignEvent):
             else:
                 self.ui_ensure(page_rpg_stage)
                 self.raid_rpg_swipe()
+            self.disable_event_on_raid()
 
             # End for mode EX
             if mode == 'ex':
