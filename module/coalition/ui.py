@@ -67,11 +67,14 @@ class CoalitionUI(Combat):
         else:
             logger.warning(f'Unknown coalition campaign mode: {mode}')
 
-    def coalition_ensure_fleet(self, event, mode):
+    def coalition_set_fleet(self, event, mode):
         """
         Args:
             event (str): Event name.
             mode (str): 'single' or 'multi'
+
+        Returns:
+            bool: If clicked
 
         Pages:
             in: FLEET_PREPARATION
@@ -96,12 +99,17 @@ class CoalitionUI(Combat):
             logger.error(f'FLEET_SWITCH is not defined in event {event}')
             raise ScriptError
 
+        if fleet_switch.get(main=self) == mode:
+            return False
         if mode == 'single':
             fleet_switch.set('single', main=self)
+            return True
         elif mode == 'multi':
             fleet_switch.set('multi', main=self)
+            return True
         else:
             logger.warning(f'Unknown coalition fleet mode: {mode}')
+            return False
 
     @staticmethod
     def coalition_get_entrance(event, stage):
@@ -279,7 +287,7 @@ class CoalitionUI(Combat):
             mode (str): 'single' or 'multi'
 
         Returns:
-            bool: If success
+            bool: If clicked
         """
         stage = stage.lower()
 
@@ -296,8 +304,20 @@ class CoalitionUI(Combat):
             if stage in ['easy', 'sp', 'ex']:
                 return False
 
-        self.coalition_ensure_fleet(event, mode)
-        return True
+        clicked = self.coalition_set_fleet(event, mode)
+
+        if self.appear(FLEET_NOT_PREPARED, offset=(20, 20)):
+            logger.critical('FLEET_NOT_PREPARED')
+            logger.critical('Please prepare you fleets before running coalition battles')
+            raise RequestHumanTakeover
+        if self.appear(EMPTY_FLAGSHIP, offset=(20, 20)):
+            logger.critical('EMPTY_FLAGSHIP, Please prepare you fleets before running coalition battles')
+            raise RequestHumanTakeover
+        if self.appear(EMPTY_VANGUARD, offset=(20, 20)):
+            logger.critical('EMPTY_VANGUARD, Please prepare you fleets before running coalition battles')
+            raise RequestHumanTakeover
+
+        return clicked
 
     def coalition_map_exit(self, event):
         """
@@ -366,16 +386,6 @@ class CoalitionUI(Combat):
                 logger.critical("Possible reason #2: "
                                 "This stage can only be farmed once a day, "
                                 "but it's the second time that you are entering")
-                raise RequestHumanTakeover
-            if self.appear(FLEET_NOT_PREPARED, offset=(20, 20)):
-                logger.critical('FLEET_NOT_PREPARED')
-                logger.critical('Please prepare you fleets before running coalition battles')
-                raise RequestHumanTakeover
-            if self.appear(EMPTY_FLAGSHIP, offset=(20, 20)):
-                logger.critical('EMPTY_FLAGSHIP, Please prepare you fleets before running coalition battles')
-                raise RequestHumanTakeover
-            if self.appear(EMPTY_VANGUARD, offset=(20, 20)):
-                logger.critical('EMPTY_VANGUARD, Please prepare you fleets before running coalition battles')
                 raise RequestHumanTakeover
 
             # End
