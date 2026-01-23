@@ -194,6 +194,7 @@ class Coalition(CoalitionCombat, CampaignEvent):
             self.device.stuck_record_clear()
             self.device.click_record_clear()
             self.ui_goto_coalition()
+            self.disable_event_on_raid()
             self.coalition_ensure_mode(event, 'battle')
 
             # End
