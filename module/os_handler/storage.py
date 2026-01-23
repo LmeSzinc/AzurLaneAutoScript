@@ -215,7 +215,7 @@ class StorageHandler(GlobeOperation, ZoneManager):
         """
         logger.hr(f'Storage checkout item {item}')
         if SCROLL_STORAGE.appear(main=self):
-            SCROLL_STORAGE.set_top(main=self, skip_first_screenshot=skip_first_screenshot)
+            SCROLL_STORAGE.set_top(main=self)
 
         confirm_timer = Timer(0.6, count=2).start()
         for _ in self.loop():
