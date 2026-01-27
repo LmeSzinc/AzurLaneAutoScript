@@ -71,28 +71,39 @@ class ConnectionAttr:
         self.config.DEVICE_OVER_HTTP = self.is_over_http
 
     @staticmethod
-    def revise_serial(serial):
-        serial = serial.replace(' ', '')
+    def revise_serial(serial: str):
+        """
+        Tons of fool-proof fixes to handle manual serial input
+        To load a serial:
+            serial = SerialStr.revise_serial(serial)
+        """
+        serial = serial.strip().replace(' ', '')
         # 127。0。0。1：5555
         serial = serial.replace('。', '.').replace('，', '.').replace(',', '.').replace('：', ':')
         # 127.0.0.1.5555
         serial = serial.replace('127.0.0.1.', '127.0.0.1:')
-        # Mumu12 5.0 shows double serials, some people may just copy-paste it
-        # 5555,16384 -> replaced to 5555.16384
+        # 5555,16384 (actually "5555.16384" because replace(',', '.'))
         if '.' in serial:
             left, _, right = serial.partition('.')
-            if left.startswith('55') and right.startswith('16'):
-                serial = right
+            try:
+                left = int(left)
+                right = int(right)
+                if 5500 < left < 6000 and 16300 < right < 20000:
+                    serial = str(right)
+            except ValueError:
+                pass
         # 16384
-        try:
-            port = int(serial)
-            if 1000 < port < 65536:
-                serial = f'127.0.0.1:{port}'
-        except ValueError:
-            pass
+        if serial.isdigit():
+            try:
+                port = int(serial)
+                if 1000 < port < 65536:
+                    serial = f'127.0.0.1:{port}'
+            except ValueError:
+                pass
         # 夜神模拟器 127.0.0.1:62001
         # MuMu模拟器12127.0.0.1:16384
         if '模拟' in serial:
+            import re
             res = re.search(r'(127\.\d+\.\d+\.\d+:\d+)', serial)
             if res:
                 serial = res.group(1)
