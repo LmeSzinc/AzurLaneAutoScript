@@ -11,13 +11,20 @@ PORT_CHECK = PORT_GOTO_SUPPLY
 
 
 class PortHandler(OSShop):
-    def port_enter(self, skip_first_screenshot=True):
+    def port_enter(self):
         """
         Pages:
             in: IN_MAP
             out: PORT_CHECK
         """
-        self.ui_click(PORT_ENTER, check_button=PORT_CHECK, skip_first_screenshot=skip_first_screenshot)
+        logger.info('Port enter')
+        for _ in self.loop():
+            if self.appear(PORT_CHECK, offset=(20, 20)):
+                break
+            if self.appear_then_click(PORT_ENTER, offset=(20, 20), interval=5):
+                continue
+            if self.handle_map_event():
+                continue
         # Buttons at the bottom has an animation to show
         pass  # Already ensured in ui_click
 
@@ -27,6 +34,7 @@ class PortHandler(OSShop):
             in: PORT_CHECK
             out: IN_MAP
         """
+        logger.info('Port quit')
         self.ui_back(appear_button=PORT_CHECK, check_button=self.is_in_map,
                      skip_first_screenshot=skip_first_screenshot)
         # Buttons at the bottom has an animation to show
