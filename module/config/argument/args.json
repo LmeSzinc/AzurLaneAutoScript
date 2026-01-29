@@ -3461,9 +3461,11 @@
           "war_archives_20220728_cn",
           "war_archives_20220915_cn",
           "war_archives_20221222_cn",
+          "war_archives_20230223_cn",
           "war_archives_20231026_cn"
         ],
         "option_cn": [
+          "war_archives_20230223_cn",
           "war_archives_20221222_cn",
           "war_archives_20220915_cn",
           "war_archives_20231026_cn",
@@ -3509,6 +3511,7 @@
           "war_archives_20181020_en"
         ],
         "option_en": [
+          "war_archives_20230223_cn",
           "war_archives_20221222_cn",
           "war_archives_20220915_cn",
           "war_archives_20231026_cn",
@@ -3554,6 +3557,7 @@
           "war_archives_20181020_en"
         ],
         "option_jp": [
+          "war_archives_20230223_cn",
           "war_archives_20221222_cn",
           "war_archives_20220915_cn",
           "war_archives_20231026_cn",
@@ -3599,6 +3603,7 @@
           "war_archives_20181020_en"
         ],
         "option_tw": [
+          "war_archives_20230223_cn",
           "war_archives_20221222_cn",
           "war_archives_20220915_cn",
           "war_archives_20231026_cn",
