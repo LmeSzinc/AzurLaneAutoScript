@@ -1590,6 +1590,14 @@
       }
     },
     "GemsFarming": {
+      "ChangeFlagship": {
+        "type": "select",
+        "value": "ship",
+        "option": [
+          "ship",
+          "ship_equip"
+        ]
+      },
       "CommonCV": {
         "type": "select",
         "value": "any",
@@ -1606,7 +1614,8 @@
         "value": "ship",
         "option": [
           "disabled",
-          "ship"
+          "ship",
+          "ship_equip"
         ]
       },
       "CommonDD": {
@@ -1619,6 +1628,11 @@
           "cassin_or_downes",
           "z20_or_z21"
         ]
+      },
+      "EquipmentCode": {
+        "type": "textarea",
+        "value": "DD: null\nbogue: null\nhermes: null\nlangley: null\nranger: null",
+        "mode": "yaml"
       },
       "CommissionLimit": {
         "type": "checkbox",
