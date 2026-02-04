@@ -176,27 +176,28 @@ class MissionHandler(GlobeOperation, ZoneManager):
                       offset=(200, 20), retry_wait=3, additional=self.handle_manjuu,
                       skip_first_screenshot=True)
 
+        timeout = 5
+        accept_button_timer = Timer(timeout)
+        self.interval_timer[MISSION_OVERVIEW_ACCEPT_SINGLE.name] = accept_button_timer
+        self.interval_timer[MISSION_OVERVIEW_ACCEPT.name] = accept_button_timer
         # MISSION_OVERVIEW_CHECK
-        confirm_timer = Timer(1, count=3).start()
         success = True
         for _ in self.loop():
-            if self.handle_manjuu():
-                confirm_timer.reset()
-                continue
+            # End
+            if self.appear(MISSION_OVERVIEW_EMPTY, offset=(20, 20)):
+                success = True
+                break
             if self.info_bar_count():
                 logger.info('Unable to accept missions, because reached the maximum number of missions')
                 success = False
                 break
-            if self.appear_then_click(MISSION_OVERVIEW_ACCEPT, offset=(20, 20), interval=0.2):
-                confirm_timer.reset()
+
+            if self.handle_manjuu():
                 continue
-            else:
-                # End
-                if confirm_timer.reached():
-                    success = True
-                    break
-            if self.appear_then_click(MISSION_OVERVIEW_ACCEPT_SINGLE, offset=(20, 20), interval=0.2):
-                confirm_timer.reset()
+            # Click
+            if self.appear_then_click(MISSION_OVERVIEW_ACCEPT, offset=(20, 20), interval=timeout):
+                continue
+            if self.appear_then_click(MISSION_OVERVIEW_ACCEPT_SINGLE, offset=(20, 20), interval=timeout):
                 continue
 
         # is_in_globe
