@@ -2722,21 +2722,23 @@
         "type": "state",
         "value": "campaign_main",
         "option": [
+          "raid_20240328",
           "raid_20250116"
         ],
         "option_cn": [
-          "raid_20250116"
+          "raid_20240328"
         ],
         "option_en": [
-          "raid_20250116"
+          "raid_20240328"
         ],
         "option_jp": [
-          "raid_20250116"
+          "raid_20240328"
         ],
         "option_tw": [
           "raid_20250116"
         ],
         "option_bold": [
+          "raid_20240328",
           "raid_20250116"
         ]
       },
@@ -6080,21 +6082,23 @@
         "type": "state",
         "value": "campaign_main",
         "option": [
+          "raid_20240328",
           "raid_20250116"
         ],
         "option_cn": [
-          "raid_20250116"
+          "raid_20240328"
         ],
         "option_en": [
-          "raid_20250116"
+          "raid_20240328"
         ],
         "option_jp": [
-          "raid_20250116"
+          "raid_20240328"
         ],
         "option_tw": [
           "raid_20250116"
         ],
         "option_bold": [
+          "raid_20240328",
           "raid_20250116"
         ]
       },
