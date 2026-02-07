@@ -61,6 +61,7 @@ Farm:
       - Campaign
       - StopCondition
       - Fleet
+      - Submarine
 
 # ==================== Event ====================
 
