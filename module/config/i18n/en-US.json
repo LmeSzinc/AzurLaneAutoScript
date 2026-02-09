@@ -1270,10 +1270,10 @@
     "Mode": {
       "name": "Raid Mode",
       "help": "",
-      "easy": "easy",
-      "normal": "normal",
-      "hard": "hard",
-      "ex": "ex"
+      "easy": "Easy",
+      "normal": "Normal",
+      "hard": "Hard",
+      "ex": "EX"
     },
     "UseTicket": {
       "name": "Use Ticket(s)",
