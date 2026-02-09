@@ -124,6 +124,8 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             return PAUSE_ShadowPuppetry
         if PAUSE_MaidCafe.match_template_color(self.device.image, offset=(10, 10)):
             return PAUSE_MaidCafe
+        if PAUSE_Ancient.match_template_color(self.device.image, offset=(10, 10)):
+            return PAUSE_Ancient
         return False
 
     def handle_combat_quit(self, offset=(20, 20), interval=3):
