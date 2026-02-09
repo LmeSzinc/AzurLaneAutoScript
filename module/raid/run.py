@@ -110,7 +110,7 @@ class RaidRun(Raid, CampaignEvent):
             self.disable_event_on_raid()
 
             # End for mode EX
-            if mode == 'ex':
+            if mode == 'ex' and not self.is_raid_rpg():
                 if not self.get_remain(mode):
                     logger.info('Triggered stop condition: Zero '
                                 'raid tickets to do EX mode')
