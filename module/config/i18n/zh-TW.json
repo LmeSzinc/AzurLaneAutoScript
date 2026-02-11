@@ -1494,6 +1494,10 @@
     "FeedFilter": {
       "name": "餵食過濾器",
       "help": "一般不需要修改"
+    },
+    "BuyFood": {
+      "name": "Dorm.BuyFood.name",
+      "help": "Dorm.BuyFood.help"
     }
   },
   "BuyFurniture": {

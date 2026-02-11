@@ -410,6 +410,9 @@ Dorm:
   Collect: true
   Feed: true
   FeedFilter: 20000 > 10000 > 5000 > 3000 > 2000 > 1000
+  BuyFood:
+    value: false
+    display: disabled
 BuyFurniture:
   Enable: false
   BuyOption:
