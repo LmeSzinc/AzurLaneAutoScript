@@ -556,6 +556,13 @@ class RewardCommission(UI, InfoHandler):
                     # no need to reset click_timer, just instant click REWARD_1
                     # click_timer.reset()
                     continue
+                if self.appear(FUEL_MAXED):
+                    logger.info("Fuel maxed, skip reward receive")
+                    self.config.cross_set('Dorm.Dorm.BuyFood', True)
+                    self.config.task_call('Dorm')
+                    self.config.task_delay(minute=1)
+                    self.config.task_stop()
+                    break
                 # Check GET_SHIP at last to handle random white background at page_main
                 for button in [GET_SHIP]:
                     if click_timer.reached() and self.appear(button, interval=1):
