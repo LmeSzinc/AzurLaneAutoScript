@@ -280,3 +280,4 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20260122   | event 20220526 cn        | Pledge of the Radiant Court                  | -                          | -                                                  | -                                    | 泠誓光庭                   |
 | 20260129   | coalition 20260122       | Light & Shadow Fashion Shoot!                | -                          | -                                                  | -                                    | 光影風尚-拍攝進行時        |
 | 20260205   | raid 20240328            | From Zero to Hero                            | 复刻从零开始的魔王讨伐之旅 | From Zero to Hero Rerun                            | ゼロから頑張る魔王討伐（復刻）       | -                          |
+| 20260212   | raid 20260212            | Spring Auction Adventure                     | 春宴怀玉香满庭             | Spring Auction Adventure                           | 新春玉逸品会                         | 春宴懷玉香滿庭             |

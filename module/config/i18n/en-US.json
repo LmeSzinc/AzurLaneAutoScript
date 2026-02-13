@@ -66,10 +66,6 @@
       "name": "Event General",
       "help": ""
     },
-    "Coalition": {
-      "name": "Light & Shadow Fashion Shoot",
-      "help": ""
-    },
     "Event": {
       "name": "Event",
       "help": ""
@@ -86,6 +82,10 @@
       "name": "Valley Hospital",
       "help": ""
     },
+    "Coalition": {
+      "name": "Light & Shadow Fashion Shoot",
+      "help": ""
+    },
     "MaritimeEscort": {
       "name": "Maritime Escort",
       "help": ""
@@ -93,10 +93,6 @@
     "WarArchives": {
       "name": "War Archives",
       "help": "Due to the lack of maintenance of war archives, continuous clear may not work normally, if Alas runs abnormally, Please manually finish clearing and use auto search"
-    },
-    "CoalitionSp": {
-      "name": "Light & Shadow Fashion Shoot SP",
-      "help": ""
     },
     "EventA": {
       "name": "Event Daily A",
@@ -120,6 +116,10 @@
     },
     "RaidDaily": {
       "name": "Raid Daily",
+      "help": ""
+    },
+    "CoalitionSp": {
+      "name": "Light & Shadow Fashion Shoot SP",
       "help": ""
     },
     "Commission": {
@@ -378,6 +378,7 @@
       "cn_android-25": "[国服] 水仙行动",
       "cn_android-26": "[国服] 冬月计划",
       "cn_android-27": "[国服] 长弓计划",
+      "cn_android-28": "[国服] 裁决协议",
       "cn_ios-0": "[国服] 夏威夷",
       "cn_ios-1": "[国服] 珊瑚海",
       "cn_ios-2": "[国服] 中途岛",
@@ -775,6 +776,7 @@
       "raid_20240130": "Spring Festive Fiasco",
       "raid_20240328": "From Zero to Hero Rerun",
       "raid_20250116": "Spring Fashion Festa",
+      "raid_20260212": "Spring Auction Adventure",
       "war_archives_20180607_cn": "archives Ink Stained Steel Sakura",
       "war_archives_20180726_cn": "archives Iris of Light and Dark",
       "war_archives_20181020_en": "archives Strive Wish and Strategize",

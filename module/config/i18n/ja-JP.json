@@ -66,10 +66,6 @@
       "name": "イベント共通設定",
       "help": ""
     },
-    "Coalition": {
-      "name": "特集写真-撮影進行中",
-      "help": ""
-    },
     "Event": {
       "name": "イベント海域",
       "help": ""
@@ -86,16 +82,16 @@
       "name": "病院探訪",
       "help": ""
     },
+    "Coalition": {
+      "name": "特集写真-撮影進行中",
+      "help": ""
+    },
     "MaritimeEscort": {
       "name": "Maritime Escort",
       "help": ""
     },
     "WarArchives": {
       "name": "作戦履歴",
-      "help": ""
-    },
-    "CoalitionSp": {
-      "name": "特集写真-撮影進行中SP",
       "help": ""
     },
     "EventA": {
@@ -120,6 +116,10 @@
     },
     "RaidDaily": {
       "name": "Raid Daily",
+      "help": ""
+    },
+    "CoalitionSp": {
+      "name": "特集写真-撮影進行中SP",
       "help": ""
     },
     "Commission": {
@@ -378,6 +378,7 @@
       "cn_android-25": "[国服] 水仙行动",
       "cn_android-26": "[国服] 冬月计划",
       "cn_android-27": "[国服] 长弓计划",
+      "cn_android-28": "[国服] 裁决协议",
       "cn_ios-0": "[国服] 夏威夷",
       "cn_ios-1": "[国服] 珊瑚海",
       "cn_ios-2": "[国服] 中途岛",
@@ -775,6 +776,7 @@
       "raid_20240130": "新春宴会狂騒曲",
       "raid_20240328": "ゼロから頑張る魔王討伐（復刻）",
       "raid_20250116": "新春華裳協奏曲",
+      "raid_20260212": "新春玉逸品会",
       "war_archives_20180607_cn": "檔案 墨染まりし鋼の桜",
       "war_archives_20180726_cn": "檔案 光と影のアイリス",
       "war_archives_20181020_en": "檔案 努力希望と計画",
