@@ -2722,7 +2722,6 @@
         "type": "state",
         "value": "campaign_main",
         "option": [
-          "raid_20250116",
           "raid_20260212"
         ],
         "option_cn": [
@@ -2735,10 +2734,9 @@
           "raid_20260212"
         ],
         "option_tw": [
-          "raid_20250116"
+          "raid_20260212"
         ],
         "option_bold": [
-          "raid_20250116",
           "raid_20260212"
         ]
       },
@@ -6082,7 +6080,6 @@
         "type": "state",
         "value": "campaign_main",
         "option": [
-          "raid_20250116",
           "raid_20260212"
         ],
         "option_cn": [
@@ -6095,10 +6092,9 @@
           "raid_20260212"
         ],
         "option_tw": [
-          "raid_20250116"
+          "raid_20260212"
         ],
         "option_bold": [
-          "raid_20250116",
           "raid_20260212"
         ]
       },
