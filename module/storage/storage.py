@@ -45,8 +45,12 @@ class StorageHandler(StorageUI):
 
     def _handle_use_box_amount(self, amount):
         """
+        Args:
+            amount (int): Expected amount to set
+
         Returns:
-            bool: if clicked
+            int: Actual amount set in the UI.
+                May be less than expected if not enough boxes available.
 
         Pages:
             in: SHOP_BUY_CONFIRM_AMOUNT
@@ -84,6 +88,7 @@ class StorageHandler(StorageUI):
         logger.info(f'Set box amount: {amount}')
         skip_first = True
         retry = Timer(1, count=2)
+        click_count = 0
         for _ in self.loop():
             if skip_first:
                 skip_first = False
@@ -92,13 +97,19 @@ class StorageHandler(StorageUI):
             diff = amount - current
             if diff == 0:
                 break
+            if click_count >= 2:
+                logger.warning(f'Box amount stuck at {current}, '
+                               f'requested {amount} but only {current} available')
+                break
 
             if retry.reached():
                 button = AMOUNT_PLUS if diff > 0 else AMOUNT_MINUS
                 self.device.multi_click(button, n=abs(diff), interval=(0.1, 0.2))
+                click_count += 1
                 retry.reset()
 
-        return True
+        logger.info(f'Box amount set to {current}')
+        return current
 
     def _storage_use_one_box(self, button, amount=1):
         """
@@ -155,10 +166,10 @@ class StorageHandler(StorageUI):
             # use match_template_color on BOX_AMOUNT_CONFIRM
             # a long animation that opens a box, will be on the top of BOX_AMOUNT_CONFIRM
             if self.match_template_color(BOX_AMOUNT_CONFIRM, offset=(20, 20), interval=5):
-                self._handle_use_box_amount(amount)
+                actual = self._handle_use_box_amount(amount)
                 self.device.click(BOX_AMOUNT_CONFIRM)
                 self.interval_reset(BOX_AMOUNT_CONFIRM)
-                used = amount
+                used = actual
                 continue
             if self.appear_then_click(EQUIP_CONFIRM, offset=(20, 20), interval=5):
                 self.interval_reset(MATERIAL_CHECK)
