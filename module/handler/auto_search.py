@@ -2,6 +2,7 @@ import numpy as np
 
 from module.base.button import ButtonGrid
 from module.base.decorator import Config
+from module.base.timer import Timer
 from module.handler.assets import *
 from module.handler.enemy_searching import EnemySearchingHandler
 from module.logger import logger
@@ -49,21 +50,14 @@ class AutoSearchHandler(EnemySearchingHandler):
             origin=(1185, 155 + offset), delta=(0, 111),
             button_shape=(53, 104), grid_shape=(1, 3), name='FLEET_SIDEBAR')
 
-    def _fleet_preparation_sidebar_click(self, index):
+    def _fleet_preparation_get(self):
         """
-        Args:
-            index (int):
+        Returns:
+            int:
                 1 for formation
                 2 for meowfficers
                 3 for auto search setting
-
-        Returns:
-            bool: If changed.
         """
-        if index <= 0 or index > 3:
-            logger.warning(f'Sidebar index cannot be clicked, {index}, limit to 1 through 5 only')
-            return False
-
         current = 0
         total = 0
         sidebar = self._fleet_sidebar()
@@ -81,46 +75,38 @@ class AutoSearchHandler(EnemySearchingHandler):
         if not current:
             logger.warning('No fleet sidebar active.')
         logger.attr('Fleet_sidebar', f'{current}/{total}')
-        if current == index:
-            return False
+        return current
 
-        self.device.click(sidebar[0, index - 1])
-        return True
-
-    def fleet_preparation_sidebar_ensure(self, index, skip_first_screenshot=True):
+    def fleet_preparation_sidebar_ensure(self, index):
         """
         Args:
             index (int):
                 1 for formation
                 2 for meowfficers
                 3 for auto search setting
-            skip_first_screenshot (bool):
 
-            Returns:
-                bool: whether sidebar could be ensured
-                      at most 3 attempts are made before
-                      return False otherwise True
+        Returns:
+            bool: whether sidebar could be ensured
+                  at most 3 attempts are made before
+                  return False otherwise True
         """
         if index <= 0 or index > 5:
             logger.warning(f'Sidebar index cannot be ensured, {index}, limit 1 through 5 only')
             return False
 
-        counter = 0
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            if self._fleet_preparation_sidebar_click(index):
-                if counter >= 2:
-                    logger.warning('Sidebar could not be ensured')
-                    return False
-                counter += 1
-                self.device.sleep((0.3, 0.5))
-                continue
-            else:
+        interval = Timer(1, count=2)
+        sidebar = self._fleet_sidebar()
+        for _ in self.loop(timeout=3):
+            current = self._fleet_preparation_get()
+            if current == index:
                 return True
+            if interval.reached():
+                self.device.click(sidebar[0, index - 1])
+                interval.reset()
+                continue
+        else:
+            logger.warning('Sidebar could not be ensured')
+            return False
 
     def _auto_search_set_click(self, setting):
         """
