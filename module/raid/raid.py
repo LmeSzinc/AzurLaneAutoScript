@@ -15,6 +15,15 @@ from module.ui.assets import RAID_CHECK
 from module.ui.page import page_rpg_stage
 
 
+class RaidCounterPostMixin(DigitCounter):
+    def after_process(self, result):
+        # fix result like "915/", "1515"
+        result = result.strip('/')
+        if result.isdigit() and len(result) > 2 and result.endswith('15'):
+            result = f'{result[:-2]}/15'
+        return result
+
+
 class RaidCounter(DigitCounter):
     def pre_process(self, image):
         image = super().pre_process(image)
@@ -163,7 +172,7 @@ def raid_ocr(raid, mode):
         if mode == 'ex':
             return Digit(button, letter=(255, 239, 215), threshold=128)
         else:
-            return DigitCounter(button, lang='cnocr', letter=(154, 148, 133), threshold=128)
+            return RaidCounterPostMixin(button, lang='cnocr', letter=(154, 148, 133), threshold=128)
 
 
 def pt_ocr(raid):
