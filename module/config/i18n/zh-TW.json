@@ -913,7 +913,8 @@
       "combat_auto": "自律戰鬥",
       "combat_manual": "手動",
       "stand_still_in_the_middle": "中路站樁",
-      "hide_in_bottom_left": "躲左下角"
+      "hide_in_bottom_left": "躲左下角",
+      "hide_in_upper_left": "躲左上角"
     },
     "Fleet1Step": {
       "name": "一隊步幅",
@@ -947,7 +948,8 @@
       "combat_auto": "自律戰鬥",
       "combat_manual": "手動",
       "stand_still_in_the_middle": "中路站樁",
-      "hide_in_bottom_left": "躲左下角"
+      "hide_in_bottom_left": "躲左下角",
+      "hide_in_upper_left": "躲左上角"
     },
     "Fleet2Step": {
       "name": "二隊步幅",

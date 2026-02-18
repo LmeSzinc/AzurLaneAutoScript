@@ -913,7 +913,8 @@
       "combat_auto": "combat_auto",
       "combat_manual": "combat_manual",
       "stand_still_in_the_middle": "stand_still_in_the_middle",
-      "hide_in_bottom_left": "hide_in_bottom_left"
+      "hide_in_bottom_left": "hide_in_bottom_left",
+      "hide_in_upper_left": "hide_in_upper_left"
     },
     "Fleet1Step": {
       "name": "Fleet 1 Step Number",
@@ -947,7 +948,8 @@
       "combat_auto": "combat_auto",
       "combat_manual": "combat_manual",
       "stand_still_in_the_middle": "stand_still_in_the_middle",
-      "hide_in_bottom_left": "hide_in_bottom_left"
+      "hide_in_bottom_left": "hide_in_bottom_left",
+      "hide_in_upper_left": "hide_in_upper_left"
     },
     "Fleet2Step": {
       "name": "Fleet 2 Step Number",
