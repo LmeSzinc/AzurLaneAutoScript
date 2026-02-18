@@ -95,7 +95,7 @@ class RaidRun(Raid, CampaignEvent):
 
             # UI switches
             if not self._raid_has_oil_icon:
-                self.ui_goto(page_campaign_menu)
+                self.ui_ensure(page_campaign_menu)
                 if self.triggered_stop_condition(oil_check=True, coin_check=True):
                     break
 
