@@ -3,8 +3,8 @@ from module.combat.assets import GET_ITEMS_1
 from module.logger import logger
 from module.minigame.assets import *
 from module.ocr.ocr import Digit
-from module.ui.assets import GAME_ROOM_CHECK
-from module.ui.page import page_game_room
+from module.ui.assets import ACADEMY_GOTO_GAME_ROOM, GAME_ROOM_CHECK
+from module.ui.page import page_academy, page_game_room
 from module.ui.scroll import Scroll
 from module.ui.ui import UI
 
@@ -131,6 +131,7 @@ class Minigame(UI):
             in: page_game_room main_page/choose_game_page
             out: page_game_room main_page
         """
+        logger.info('minigame go_to_main_page')
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -183,8 +184,19 @@ class Minigame(UI):
             in: Any page
             out: page_game_room
         """
+        # TEMP: 2026.02.18 separate self.ui_ensure(page_game_room) into 2 steps
+        # EN has different page_academy detection, to use ui_ensure(page_game_room),
+        # ui_goto must use `if self.ui_page_appear(page)` instead of `if self.appear(page.check_button)`
+        # But that would cause page_main/page_main_white clicking a static switch button
+        self.ui_ensure(page_academy)
+        # page_academy -> page_game_room
+        for _ in self.loop():
+            if self.ui_page_appear(page_game_room):
+                break
+            if self.ui_page_appear(page_academy, interval=5):
+                self.device.click(ACADEMY_GOTO_GAME_ROOM)
+                continue
 
-        self.ui_ensure(page_game_room)
         # game room and choose game have same header, go to game room first
         self.go_to_main_page()
         coin_collected = False
