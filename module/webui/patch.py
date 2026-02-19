@@ -50,20 +50,16 @@ def patch_mimetype():
     all deployment, we use the builtin mimetype table only.
     """
     import mimetypes
-    if mimetypes.inited:
-        # ohno mimetypes already inited
-        db = mimetypes.MimeTypes()
-        mimetypes._db = db
-        # override global variable
-        mimetypes.encodings_map = db.encodings_map
-        mimetypes.suffix_map = db.suffix_map
-        mimetypes.types_map = db.types_map[True]
-        mimetypes.common_types = db.types_map[False]
-    else:
-        # init db with the default table
-        db = mimetypes.MimeTypes()
-        mimetypes._db = db
-        mimetypes.inited = True
+    # lock as inited
+    mimetypes.inited = True
+    # create a new clean instance
+    db = mimetypes.MimeTypes(filenames=())
+    mimetypes._db = db
+    # override global variable
+    mimetypes.encodings_map = db.encodings_map
+    mimetypes.suffix_map = db.suffix_map
+    mimetypes.types_map = db.types_map[True]
+    mimetypes.common_types = db.types_map[False]
 
 
 def fix_py37_subprocess_communicate():
