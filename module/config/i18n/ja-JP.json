@@ -473,7 +473,8 @@
       "MuMuPlayer": "MuMuPlayer",
       "MuMuPlayerX": "MuMuPlayerX",
       "MuMuPlayer12": "MuMuPlayer12",
-      "MEmuPlayer": "MEmuPlayer"
+      "MEmuPlayer": "MEmuPlayer",
+      "Waydroid": "Waydroid"
     },
     "name": {
       "name": "EmulatorInfo.name.name",
