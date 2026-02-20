@@ -1,5 +1,5 @@
-from campaign.campaign_main.campaign_3_1 import Config as Config31
-from .campaign_3_base import CampaignBase
+from campaign.campaign_main.campaign_3_1 import Config as ConfigBase
+from module.campaign.campaign_base import CampaignBase
 from module.logger import logger
 from module.map.map_base import CampaignMap
 from module.map.map_grids import RoadGrids, SelectedGrids
@@ -35,7 +35,7 @@ A4, B4, C4, D4, E4, F4, G4, H4, \
     = MAP.flatten()
 
 
-class Config(Config31):
+class Config(ConfigBase):
     MAP_MYSTERY_HAS_CARRIER = False
 
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
