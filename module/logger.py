@@ -1,11 +1,21 @@
 import datetime
+import io
+import json
 import logging
+import multiprocessing
 import os
+import shutil
 import sys
+import tarfile
+import threading
+import time
+import zipfile
+from logging.handlers import TimedRotatingFileHandler
+from pathlib import Path
 from typing import Callable, List
 
 from rich.console import Console, ConsoleOptions, ConsoleRenderable, NewLine
-from rich.highlighter import RegexHighlighter, NullHighlighter
+from rich.highlighter import NullHighlighter, RegexHighlighter
 from rich.logging import RichHandler
 from rich.rule import Rule
 from rich.style import Style
@@ -84,6 +94,207 @@ class RichRenderableHandler(RichHandler):
         if not self._func:
             return True
         super().handle(record)
+
+
+class RichTimedRotatingHandler(TimedRotatingFileHandler):
+    ZIPMAP = {
+        "gzip": "gz",
+        "gz" : "gz",
+        "bz2" : "bz2",
+        "xz": "xz",
+        "zip": "zip",
+    }
+    def __init__(self, pname:str, *args, **kwargs) -> None:
+        count, bak_method, zip_method = self._read_file_logger_config(pname)
+        TimedRotatingFileHandler.__init__(self, backupCount=count,* args, **kwargs)
+        self.console = Console(file=io.StringIO(), no_color=True, highlight=False, width=119)
+        self.richd = RichHandler(
+            console=self.console,
+            show_path=False,
+            show_time=False,
+            show_level=False,
+            rich_tracebacks=True,
+            tracebacks_show_locals=True,
+            tracebacks_extra_lines=3,
+            highlighter=NullHighlighter(),
+        )
+        # Keep the same format
+        self.richd.setFormatter(
+            logging.Formatter(
+                fmt="%(asctime)s.%(msecs)03d | %(levelname)s | %(message)s",
+                datefmt="%Y-%m-%d %H:%M:%S",
+            )
+        )
+        # To handle the API of alas.save_error_log()
+        self.log_file = None
+        # For expire method
+        self.pname = pname
+        self.bak = bak_method.lower()
+        self.compression = zip_method.lower()
+
+        # Override the initial rolloverAt and rich.console.file
+        self.rolloverAt = time.time()
+        self.doRollover()
+        
+        # Close unnecessary stream
+        self.stream.close()
+        self.stream = None
+    
+    def _read_file_logger_config(self, process_name):
+        cfg_name = "alas" if process_name == "gui" else process_name
+        config_file = Path("./config").joinpath(f"{cfg_name}.json")
+        if config_file.exists():
+            try:
+                with config_file.open("r") as f:
+                    config = json.load(f)
+                    log_config = config.get("General", {}).get("Log", {})
+                    count = log_config.get("LogKeepCount", 7)
+                    bak_method = log_config.get("LogBackUpMethod", "copy")
+                    zip_method = log_config.get("ZipMethod", "bz2")
+            except Exception as e:
+                logging.exception(e)
+                count = 7
+                bak_method = "copy"
+                zip_method = "bz2"
+        else:
+            count = 7
+            bak_method = "zip" if process_name == "gui" else "copy"
+            zip_method = "bz2"
+        return count, bak_method, zip_method
+
+    def getFilesToDelete(self) -> List[Path]:
+        """
+        Determine the files to delete when rolling over.\n
+        Override the original method to use RichHandler and keep the same format
+        """
+        dirName, baseName = os.path.split(self.baseFilename)
+        fileNames = os.listdir(dirName)
+        result = []
+        suffix = "_" + baseName
+        plen = len(suffix)
+        for fileName in fileNames:
+            if fileName[-plen:] == suffix:
+                prefix = fileName[:-plen]
+                if self.extMatch.match(prefix):
+                    result.append(Path(dirName).joinpath(fileName).resolve())
+        if len(result) < self.backupCount:
+            result = []
+        else:
+            result.sort()
+            result = result[: len(result) - self.backupCount]
+        return result
+
+    def doRollover(self) -> None:
+        """
+        Do a rollover.\n
+        Override the original method to use RichHandler
+        """
+        if self.richd.console:
+            self.richd.console.file.close()
+            self.richd.console.file = None
+
+        currentTime = int(time.time())
+        dstNow = time.localtime(currentTime)[-1]
+        t = self.rolloverAt
+        if self.utc:
+            timeTuple = time.gmtime(t)
+        else:
+            timeTuple = time.localtime(t)
+            dstThen = timeTuple[-1]
+            if dstNow != dstThen:
+                if dstNow:
+                    addend = 3600
+                else:
+                    addend = -3600
+                timeTuple = time.localtime(t + addend)
+
+        path = Path(self.baseFilename)
+        # 2021-08-01 + _ + alas.txt -> "2021-08-01_alas.txt"
+        newPath = path.with_name(
+            time.strftime(self.suffix, timeTuple) + "_" + path.name
+        )
+        self.richd.console.file = open(newPath, "a", encoding="utf-8")
+
+        if self.backupCount > 0:
+            files = self.getFilesToDelete()
+            if files:
+                threading.Thread(target=self.expire, args=(files,), daemon=True).start()
+                # self.expire(files)
+
+        newRolloverAt = self.computeRollover(currentTime)
+        while newRolloverAt <= currentTime:
+            newRolloverAt = newRolloverAt + self.interval
+        # If DST changes and midnight or weekly rollover, adjust for this.
+        if (self.when == "MIDNIGHT" or self.when.startswith("W")) and not self.utc:
+            dstAtRollover = time.localtime(newRolloverAt)[-1]
+            if dstNow != dstAtRollover:
+                if (
+                    not dstNow
+                ):  # DST kicks in before next rollover, so we need to deduct an hour
+                    addend = -3600
+                else:  # DST bows out before next rollover, so we need to add an hour
+                    addend = 3600
+                newRolloverAt += addend
+        self.rolloverAt = newRolloverAt
+
+        self.log_file = str(newPath.resolve())
+
+    def expire(self, files: List[Path]) -> None:
+        """
+        Remove or backup the expired log files\n
+
+        Template:
+            2021-08-01_alas.txt...2021-08-07_alas.txt   ->  bak/2021-08-01~2021-08-07_alas.tar.bz2  \n
+            2021-08-01_gui.txt                          ->  bak/2021-08-01_gui.zip                  \n
+            2021-08-01_gui.txt(copy)                    ->  bak/2021-08-01_gui.txt(copy)            \n
+        """
+        basePath = Path(self.baseFilename)
+        bakPath = basePath.parent / "bak"
+        bakPath.mkdir(parents=True, exist_ok=True)
+        if self.bak == "delete":
+            for file in files:
+                file.unlink()
+            return
+        elif self.bak == "copy":
+            for file in files:
+                dst = bakPath.joinpath(file.name)
+                if not dst.exists():
+                    shutil.copy2(file, dst)
+                file.unlink()
+            return
+        try:
+            dates = [file.stem.split("_")[0] for file in files]
+            name = (
+                min(dates) + "~" + max(dates) + "_" + basePath.name
+                if len(dates) > 1
+                else files[0].name
+            )
+            ext = self.ZIPMAP[self.compression]
+            if ext == "zip":
+                zipFile = bakPath.joinpath(name).with_suffix(".zip")
+                with zipfile.ZipFile(zipFile, "w", zipfile.ZIP_DEFLATED) as zipf:
+                    for file in files:
+                        zipf.write(file, arcname=file.name)
+                        file.unlink()
+            else:
+                zipFile = bakPath.joinpath(name).with_suffix(".tar." + ext)
+                with tarfile.open(zipFile, "w:" + ext) as tar:
+                    for file in files:
+                        tar.add(file, arcname=file.name)
+                        file.unlink()
+        except Exception as e:
+            logger.exception(e)
+
+    def print(self, *objects: ConsoleRenderable, **kwargs) -> None:
+        Console.print(self.console, *objects, **kwargs)
+
+    def emit(self, record: logging.LogRecord) -> None:
+        try:
+            if self.shouldRollover(record):
+                self.doRollover()
+            RichHandler.emit(self.richd, record)
+        except Exception:
+            RichHandler.handleError(self.richd, record)
 
 
 class HTMLConsole(Console):
@@ -186,38 +397,51 @@ def _set_file_logger(name=pyw_name):
 
 
 def set_file_logger(name=pyw_name):
-    if '_' in name:
-        name = name.split('_', 1)[0]
-    log_file = f'./log/{datetime.date.today()}_{name}.txt'
-    try:
-        file = open(log_file, mode='a', encoding='utf-8')
-    except FileNotFoundError:
-        os.mkdir('./log')
-        file = open(log_file, mode='a', encoding='utf-8')
+    if "_" in name:
+        name = name.split("_", 1)[0]
+    # Handler Windows : Windows have "SyncManager-N:N", "MainProcess", "Process-N", "gui" 4 Processes
+    # There have no process named "SyncManager", only "MainProcess" on Linux
+    if os.name == "nt":
+        # These process needn't to save log file on Windows
+        processes = ["SyncManager-", "MainProcess", "Process-"]
+        pname = multiprocessing.current_process().name.replace(":", "_")
+        # Each process should only call once when alas start.
+        if any(isinstance(hdlr, RichTimedRotatingHandler) for hdlr in logger.handlers):
+            return
+    else:
+        processes = []
+        pname = name
+        for hdlr in logger.handlers:
+            if isinstance(hdlr, RichTimedRotatingHandler):
+                # Each process should only call once when alas start.
+                if hdlr.pname == name:
+                    return
+                else:
+                    logger.handlers = [h for h in logger.handlers if not isinstance(
+                        h, (logging.FileHandler, RichTimedRotatingHandler, RichFileHandler))]
+    
+    log_dir = Path("./log")
+    log_dir.mkdir(parents=True, exist_ok=True)
+    log_file = log_dir.joinpath(f"{pname}.txt" if name == "gui" else f"{name}.txt")
+    if any(p in log_file.name for p in processes):
+        return
 
-    file_console = Console(
-        file=file,
-        no_color=True,
-        highlight=False,
-        width=119,
+    hdlr = RichTimedRotatingHandler(
+        pname=name,
+        filename=str(log_file),
+        when="midnight",
+        interval=1,
+        encoding="utf-8",
     )
 
-    hdlr = RichFileHandler(
-        console=file_console,
-        show_path=False,
-        show_time=False,
-        show_level=False,
-        rich_tracebacks=True,
-        tracebacks_show_locals=True,
-        tracebacks_extra_lines=3,
-        highlighter=NullHighlighter(),
-    )
-    hdlr.setFormatter(file_formatter)
-
-    logger.handlers = [h for h in logger.handlers if not isinstance(
-        h, (logging.FileHandler, RichFileHandler))]
     logger.addHandler(hdlr)
-    logger.log_file = log_file
+    logger.log_file = hdlr.log_file
+    try:
+        if log_file.exists():
+            log_file.unlink()
+    except Exception:
+        pass
+
 
 
 def set_func_logger(func):
@@ -280,6 +504,8 @@ def print(*objects: ConsoleRenderable, **kwargs):
                 hdlr._func(renderable)
         elif isinstance(hdlr, RichHandler):
             hdlr.console.print(*objects)
+        elif isinstance(hdlr, RichTimedRotatingHandler):
+            hdlr.print(*objects, **kwargs)
 
 
 def rule(title="", *, characters="─", style="rule.line", end="\n", align="center"):

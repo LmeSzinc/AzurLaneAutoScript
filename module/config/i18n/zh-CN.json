@@ -497,6 +497,10 @@
       "name": "出错时，保存 Log 和截图",
       "help": ""
     },
+    "SaveErrorCount": {
+      "name": "Error Log 保存上限",
+      "help": "超出上限的错误日志将被删除，若为0或负值则没有限制"
+    },
     "OnePushConfig": {
       "name": "错误推送设置",
       "help": "发生无法处理的异常后，使用 Onepush 推送一条错误信息。配置方法见文档：https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Onepush-configuration-%5BCN%5D"
@@ -593,6 +597,31 @@
       "save": "保存",
       "upload": "上传",
       "save_and_upload": "保存并上传"
+    }
+  },
+  "Log": {
+    "_info": {
+      "name": "日志",
+      "help": "调度器重启后生效"
+    },
+    "LogKeepCount": {
+      "name": "Log保留数量",
+      "help": "Log过期时间(天)"
+    },
+    "LogBackUpMethod": {
+      "name": "过期Log处理方式",
+      "help": "备份目录为./log/bak",
+      "delete": "删除",
+      "zip": "压缩备份",
+      "copy": "拷贝备份"
+    },
+    "ZipMethod": {
+      "name": "压缩格式",
+      "help": "",
+      "bz2": "bz2",
+      "gzip": "gzip",
+      "xz": "xz",
+      "zip": "zip"
     }
   },
   "Retirement": {

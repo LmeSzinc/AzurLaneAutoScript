@@ -15,6 +15,7 @@ Alas:
       - Optimization
       - DropRecord
     General:
+      - Log
       - Retirement
       - OneClickRetire
       - Enhance

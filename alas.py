@@ -1,5 +1,6 @@
 import os
 import re
+import shutil
 import threading
 import time
 from datetime import datetime, timedelta
@@ -132,20 +133,41 @@ class AzurLaneAutoScript:
             )
             exit(1)
 
+    def keep_last_errlog(self, folder_path, n: int = 30):
+        """
+
+        Keep last n folders in folder_path, delete others.
+        If n is negative or 0, do nothing.(Keep all errlog folders)
+
+        Args:
+            folder_path (str): Path to folder.\n
+            n (int): Number of folders to keep.
+        """
+        if n <= 0:
+            return
+        folders = [
+            os.path.join(folder_path, f)
+            for f in os.listdir(folder_path)
+            if os.path.isdir(os.path.join(folder_path, f))
+        ]
+        for folder in folders[:-n]:
+            shutil.rmtree(folder)
+
     def save_error_log(self):
         """
-        Save last 60 screenshots in ./log/error/<timestamp>
-        Save logs to ./log/error/<timestamp>/log.txt
+        Save last 60 screenshots in ./log/error/<config-name>/<timestamp>
+        Save logs to ./log/error/<config-name>/<timestamp>/log.txt
         """
+        import pathlib
         from module.base.utils import save_image
         from module.handler.sensitive_info import (handle_sensitive_image,
                                                    handle_sensitive_logs)
         if self.config.Error_SaveError:
-            if not os.path.exists('./log/error'):
-                os.mkdir('./log/error')
-            folder = f'./log/error/{int(time.time() * 1000)}'
+            config_folder = pathlib.Path(f"./log/error/{self.config_name}")
+            folder = config_folder.joinpath(str(int(time.time() * 1000)))
+            folder.mkdir(parents=True, exist_ok=True)
             logger.warning(f'Saving error: {folder}')
-            os.mkdir(folder)
+
             for data in self.device.screenshot_deque:
                 image_time = datetime.strftime(data['time'], '%Y-%m-%d_%H-%M-%S-%f')
                 image = handle_sensitive_image(data['image'])
@@ -161,6 +183,7 @@ class AzurLaneAutoScript:
                 lines = handle_sensitive_logs(lines)
             with open(f'{folder}/log.txt', 'w', encoding='utf-8') as f:
                 f.writelines(lines)
+            self.keep_last_errlog(config_folder, self.config.Error_SaveErrorCount)
 
     def restart(self):
         from module.handler.login import LoginHandler

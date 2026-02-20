@@ -497,6 +497,10 @@
       "name": "Record Exception",
       "help": "Records exception and log into directory for review or sharing"
     },
+    "SaveErrorCount": {
+      "name": "Error storage limit",
+      "help": "Error logs that exceed will be deleted, unlimited if it is negative"
+    },
     "OnePushConfig": {
       "name": "Error notify config",
       "help": "When Alas cannot handle exception, send a message through Onepush. Configuration document: \nhttps://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Onepush-configuration-%5BEN%5D"
@@ -593,6 +597,31 @@
       "save": "Save",
       "upload": "Upload",
       "save_and_upload": "Save and upload"
+    }
+  },
+  "Log": {
+    "_info": {
+      "name": "Log",
+      "help": "General settings, effective after the scheduler is restarted"
+    },
+    "LogKeepCount": {
+      "name": "Count of log rotation",
+      "help": "Number of days to rotate logs"
+    },
+    "LogBackUpMethod": {
+      "name": "Log backup method",
+      "help": "Back up logs or delete expired logs directly",
+      "delete": "delete",
+      "zip": "create zip in ./log/bak",
+      "copy": "copy to ./log/bak"
+    },
+    "ZipMethod": {
+      "name": "Zip Method",
+      "help": "Log.ZipMethod.help",
+      "bz2": "bz2",
+      "gzip": "gzip",
+      "xz": "xz",
+      "zip": "zip"
     }
   },
   "Retirement": {
