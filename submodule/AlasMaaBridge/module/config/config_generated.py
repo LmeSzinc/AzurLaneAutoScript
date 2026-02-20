@@ -117,6 +117,9 @@ class GeneratedConfig:
     MaaAward_Orundum = False
     MaaAward_Specialaccess = False
 
+    # Group 'MaaAftercareOperation'
+    MaaAftercareOperation_WhenTaskQueueEmpty = 'stay_there'
+
     # Group `MaaCopilot`
     MaaCopilot_FileName = None
     MaaCopilot_Identify = False
