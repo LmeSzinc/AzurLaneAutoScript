@@ -1192,6 +1192,20 @@ class AlasGUI(Frame):
                 )
             }
         );
+        window.createMetaTag = (name,content)=>{
+            var meta = document.createElement('meta');
+            meta.content = content;
+            meta.name = name;
+            document.getElementsByTagName('head')[0].appendChild(meta);
+        };
+        window.onload = ()=>{
+            window.createMetaTag("apple-mobile-web-app-capable","yes");
+            window.createMetaTag("apple-mobile-web-app-status-bar-style","black-translucent");
+            //Because apple-touch-icon need PNG file,so add Safari icon need to change to many thing
+            //User should change the icon manually
+            //This code is without test,so please be careful to avoid cause exception
+            //But I test this JS code in a html file,the logic should be correct
+        };
         """
         )
 
