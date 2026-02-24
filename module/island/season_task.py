@@ -23,19 +23,19 @@ TASK_NAME_OCR = Ocr([], lang=lang, letter=(64, 64, 64), name='TASK_NAME_OCR')
 TASK_COUNTER_OCR = DigitCounter([], letter=(128, 128, 128), name='TASK_COUNTER_OCR')
 
 class IslandSeasonTaskHandler(IslandUI):
-    def _get_bars(self):
+    def _get_icons(self):
         """
         Returns:
-            np.array: [[x1, y1], [x2, y2]], location of the bar icon upper left corner.
+            np.array: [[x1, y1], [x2, y2]], location of the expbook icon upper left corner.
         """
-        area = (43, 178, 875, 478)
+        area = (43, 298, 875, 604)
         image = self.image_crop(area, copy=True)
-        bars = TEMPLATE_ISLAND_SEASON_TASK_ICON.match_multi(image, threshold=5)
+        bars = TEMPLATE_ISLAND_SEASON_REWARD.match_multi(image, threshold=5)
         bars = Points([(0., b.area[1]) for b in bars]).group(threshold=5)
         logger.attr('bars_icon', len(bars))
         return bars
 
-    def wait_until_bar_appear(self, skip_first_screenshot=False):
+    def wait_until_icon_appear(self, skip_first_screenshot=False):
         """
         After entering season task page,
         tasks are not loaded that fast,
@@ -43,8 +43,8 @@ class IslandSeasonTaskHandler(IslandUI):
         """
         confirm_timer = Timer(1.5, count=3).start()
         for _ in self.loop(skip_first=skip_first_screenshot):
-            bars = self._get_bars()
-            if len(bars):
+            icons = self._get_icons()
+            if len(icons):
                 if confirm_timer.reached():
                     return
                 else:
@@ -54,35 +54,35 @@ class IslandSeasonTaskHandler(IslandUI):
 
     @cached_property
     def task_grid(self):
-        return self.task_bar_grid()
+        return self.task_icon_grid()
 
-    def task_bar_grid(self):
+    def task_icon_grid(self):
         """
         Returns:
             ButtonGrid:
         """
-        bars = self._get_bars()
-        count = len(bars)
+        icons = self._get_icons()
+        count = len(icons)
         if count == 0:
             logger.warning('Unable to find bar icon, assume task list is at top')
             origin_y = 178
             delta_y = 229
             row = 2
         elif count == 1:
-            y_list = bars[:, 1]
-            # -16 to adjust the bar position to grid position
-            origin_y = y_list[0] - 16 + 178
+            y_list = icons[:, 1]
+            # -18 to adjust the icon position to grid position
+            origin_y = y_list[0] - 18 + 178
             delta_y = 229
             row = 1
         elif count == 2:
-            y_list = bars[:, 1]
-            origin_y = min(y_list) - 16 + 178
+            y_list = icons[:, 1]
+            origin_y = min(y_list) - 18 + 178
             delta_y = abs(y_list[1] - y_list[0])
             row = 2
         else:
-            logger.warning(f'Too many bars found ({count}), assume max rows')
-            y_list = bars[:, 1]
-            origin_y = min(y_list) - 16 + 178
+            logger.warning(f'Too many icons found ({count}), assume max rows')
+            y_list = icons[:, 1]
+            origin_y = min(y_list) - 18 + 178
             delta_y = abs(y_list[1] - y_list[0])
             row = 2
         task_grid = ButtonGrid(
@@ -152,7 +152,7 @@ class IslandSeasonTaskHandler(IslandUI):
                 recipe_id: (item_id, current, total)
             }
         """
-        self.wait_until_bar_appear()
+        self.wait_until_icon_appear()
         logger.hr('Scanning seasonal tasks')
         ISLAND_SEASON_TASK_SCROLL.set_top(main=self)
         unfinished_tasks = {}
