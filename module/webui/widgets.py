@@ -7,6 +7,7 @@ from typing import Any, Callable, Dict, Generator, List, Optional, TYPE_CHECKING
 from pywebio.exceptions import SessionException
 from pywebio.io_ctrl import Output
 from pywebio.output import *
+from pywebio.pin import pin_update
 from pywebio.session import eval_js, local, run_js
 from rich.console import ConsoleRenderable
 
@@ -422,13 +423,30 @@ def put_arg_textarea(kwargs: T_Output_Kwargs) -> Output:
     kwargs.setdefault(
         "code", {"lineWrapping": True, "lineNumbers": False, "mode": mode}
     )
+    outputs = [
+        get_title_help(kwargs),
+        put_textarea(**kwargs),
+    ]
+
+    # Quick presets for Error.OnePushConfig so MeoW can be configured from UI directly.
+    if name.endswith("_Error_OnePushConfig"):
+        outputs.append(
+            put_buttons(
+                buttons=[
+                    {"label": "Disable", "value": "provider: null"},
+                    {
+                        "label": "MeoW",
+                        "value": "provider: meow\nnickname: your_nickname\nmsgType: text",
+                    },
+                ],
+                onclick=lambda value: pin_update(name, value=value),
+                small=True,
+            ).style("margin-top: 8px")
+        )
 
     return put_scope(
         f"arg_contianer-textarea-{name}",
-        [
-            get_title_help(kwargs),
-            put_textarea(**kwargs),
-        ],
+        outputs,
     )
 
 

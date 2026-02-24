@@ -499,7 +499,7 @@
     },
     "OnePushConfig": {
       "name": "Error notify config",
-      "help": "When Alas cannot handle exception, send a message through Onepush. Configuration document: \nhttps://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Onepush-configuration-%5BEN%5D"
+      "help": "When Alas cannot handle exceptions, send an error message through a push provider.\nSupported: OnePush and MeoW.\nOnePush doc:\nhttps://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Onepush-configuration-%5BEN%5D\nMeoW example:\nprovider: meow\nnickname: your_nickname\nmsgType: text"
     },
     "ScreenshotLength": {
       "name": "Record Screenshot(s)",

@@ -499,7 +499,7 @@
     },
     "OnePushConfig": {
       "name": "錯誤推送設定",
-      "help": "發生無法處理的異常後，使用 Onepush 推送错误消息。設定參考文檔：https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Onepush-configuration-%5BCN%5D"
+      "help": "發生無法處理的異常後，使用推送服務發送錯誤消息。\n支援 OnePush 與 MeoW。\nOnePush 文檔：https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Onepush-configuration-%5BCN%5D\nMeoW 範例：\nprovider: meow\nnickname: your_nickname\nmsgType: text"
     },
     "ScreenshotLength": {
       "name": "出錯時，保留最後 X 張截圖",
