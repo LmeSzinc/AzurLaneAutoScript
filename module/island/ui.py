@@ -20,16 +20,17 @@ class IslandUI(UI):
     @cached_property
     def _island_season_bottom_navbar(self):
         """
-        5 options:
+        6 options:
             homepage,
             pt_reward,
             season_task,
             season_shop,
-            season_rank
+            season_rank,
+            season_history
         """
         island_season_bottom_navbar = ButtonGrid(
-            origin=(54, 677), delta=(246.5, 0),
-            button_shape=(186, 33), grid_shape=(5, 1),
+            origin=(14, 677), delta=(213, 0),
+            button_shape=(186, 33), grid_shape=(6, 1),
             name='ISLAND_SEASON_BOTTOM_NAVBAR'
         )
         return Navbar(grids=island_season_bottom_navbar,
@@ -46,13 +47,16 @@ class IslandUI(UI):
                 2 for pt_reward,
                 3 for season_task,
                 4 for season_shop,
-                5 for season_rank
+                5 for season_rank,
+                6 for season_history
             right (int):
-                1 for season_rank,
-                2 for season_shop,
-                3 for season_task,
-                4 for pt_reward,
-                5 for homepage
+                1 for season_history,
+                2 for season_rank,
+                3 for season_shop,
+                4 for season_task,
+                5 for pt_reward,
+                6 for homepage
+
         """
         if self._island_season_bottom_navbar.set(self, left=left, right=right):
             return True
