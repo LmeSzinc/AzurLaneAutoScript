@@ -199,6 +199,10 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                 if self.handle_use_data_key():
                     continue
 
+                # 16-1/16-2 submarine support popup
+                if self.handle_submarine_support_popup():
+                    continue
+
                 # Emotion
                 if self.handle_combat_low_emotion():
                     continue
