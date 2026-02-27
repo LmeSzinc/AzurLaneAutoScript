@@ -955,6 +955,10 @@
     "AmbushEvade": {
       "name": "規避伏擊",
       "help": ""
+    },
+    "UseRecommendFleet": {
+      "name": "Campaign.UseRecommendFleet.name",
+      "help": "Campaign.UseRecommendFleet.help"
     }
   },
   "StopCondition": {

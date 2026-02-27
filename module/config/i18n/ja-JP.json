@@ -955,6 +955,10 @@
     "AmbushEvade": {
       "name": "Campaign.AmbushEvade.name",
       "help": "Campaign.AmbushEvade.help"
+    },
+    "UseRecommendFleet": {
+      "name": "Campaign.UseRecommendFleet.name",
+      "help": "Campaign.UseRecommendFleet.help"
     }
   },
   "StopCondition": {

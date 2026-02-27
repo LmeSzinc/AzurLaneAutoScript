@@ -955,6 +955,10 @@
     "AmbushEvade": {
       "name": "规避伏击",
       "help": ""
+    },
+    "UseRecommendFleet": {
+      "name": "自动配队",
+      "help": "使用游戏内置的推荐阵容自动完成困难图配队"
     }
   },
   "StopCondition": {

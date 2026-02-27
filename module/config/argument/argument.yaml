@@ -251,6 +251,7 @@ Campaign:
   UseAutoSearch: true
   Use2xBook: false
   AmbushEvade: true
+  UseRecommendFleet: false
 StopCondition:
   OilLimit: 1000
   RunCount: 0

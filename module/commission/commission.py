@@ -548,6 +548,15 @@ class RewardCommission(UI, InfoHandler):
                     logger.info(f"FUEL_MAXED OCR text: {text}")
                     if '石油' in text:
                         logger.info("Fuel maxed confirmed by OCR, skip reward receive")
+                        
+                        import os
+                        import time
+                        from PIL import Image
+                        os.makedirs('log/error', exist_ok=True)
+                        debug_image_path = f"log/error/FUEL_MAXED_debug_{int(time.time())}.png"
+                        Image.fromarray(self.device.image).save(debug_image_path)
+                        logger.info(f"Saved OCR-confirmed triggering frame to {debug_image_path}")
+                        
                         self.config.cross_set('Dorm.Dorm.BuyFood', True)
                         self.config.task_call('Dorm')
                         self.config.task_delay(minute=1)

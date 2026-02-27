@@ -335,8 +335,47 @@ class FleetPreparation(InfoHandler):
             choose=SUBMARINE_CHOOSE, advice=SUBMARINE_ADVICE, bar=SUBMARINE_BAR, clear=SUBMARINE_CLEAR,
             in_use=SUBMARINE_IN_USE, hard_satisfied=SUBMARINE_HARD_SATIESFIED, main=self)
 
-        # Check if ship is prepared in hard mode
+        # Check if map is hard mode
         h1, h2, h3 = fleet_1.is_hard_satisfied(), fleet_2.is_hard_satisfied(), submarine.is_hard_satisfied()
+        self.map_is_hard_mode = h1 is not None or h2 is not None or h3 is not None
+
+        # Submarine.
+        # cache submarine.allow() to avoid inconsistency after setting fleet_2
+        # because the expanded fleet_2 may cover submarine buttons
+        map_allow_submarine = submarine.allow()
+        logger.attr('map_allow_submarine', map_allow_submarine)
+
+        # Use recommend fleet in hard mode
+        if self.map_is_hard_mode and self.config.Campaign_UseRecommendFleet:
+            logger.info('Using recommend fleet for hard mode')
+            click_timer = Timer(3, count=6)
+            self.device.screenshot()
+
+            # Click RECOMMEND_A for fleet 1
+            if fleet_1.allow():
+                logger.info('Click RECOMMEND_A')
+                self.device.click(RECOMMEND_A)                
+            # Click RECOMMEND_B for fleet 2
+            if fleet_2.allow():
+                logger.info('Click RECOMMEND_B')
+                self.device.click(RECOMMEND_B)                
+            # Click RECOMMEND_C for submarine
+            if map_allow_submarine:
+                if self.config.Submarine_Fleet:
+                    logger.info('Click RECOMMEND_C')
+                    self.device.click(RECOMMEND_C)
+                else:
+                    submarine.clear()
+            else:
+                self.config.SUBMARINE = 0
+            
+            # Wait for animation
+            self.device.sleep(0.5)
+            self.device.screenshot()
+
+            # Re-check hard satisfied after recommendation
+            h1, h2, h3 = fleet_1.is_hard_satisfied(), fleet_2.is_hard_satisfied(), submarine.is_hard_satisfied()
+
         logger.info(f'Hard satisfied: Fleet_1: {h1}, Fleet_2: {h2}, Submarine: {h3}')
         if self.config.SERVER in ['cn', 'en', 'jp']:
             if self.config.Fleet_Fleet1:
@@ -346,8 +385,7 @@ class FleetPreparation(InfoHandler):
             if self.config.Submarine_Fleet:
                 submarine.raise_hard_not_satisfied()
 
-        # Skip fleet preparation in hard mode
-        self.map_is_hard_mode = h1 or h2 or h3
+        # Skip fleet preparation in hard mode (or after handling recommendation in hard mode)
         if self.map_is_hard_mode:
             logger.info('Hard Campaign. No fleet preparation')
             # Clear submarine if user did not set a submarine fleet
@@ -356,13 +394,9 @@ class FleetPreparation(InfoHandler):
                     pass
                 else:
                     submarine.clear()
+            self.map_fleet_checked = True
             return False
 
-        # Submarine.
-        # cache submarine.allow() to avoid inconsistency after setting fleet_2
-        # because the expanded fleet_2 may cover submarine buttons
-        map_allow_submarine = submarine.allow()
-        logger.attr('map_allow_submarine', map_allow_submarine)
         if map_allow_submarine:
             if self.config.Submarine_Fleet:
                 if fleet_2.allow():
