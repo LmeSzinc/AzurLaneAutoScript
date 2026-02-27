@@ -57,12 +57,16 @@ class Config:
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
+
     MAP_CHAPTER_SWITCH_20241219 = True
     STAGE_ENTRANCE = ['half', '20240725']
     MAP_HAS_MODE_SWITCH = True
     STAGE_INCREASE_AB = True
     MAP_WALK_USE_CURRENT_FLEET = True
     MAP_SIREN_HAS_BOSS_ICON_SMALL = True
+    MAP_SWIPE_MULTIPLY = (1.138, 1.160)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.101, 1.121)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.069, 1.088)
 
 
 class Campaign(CampaignBase):

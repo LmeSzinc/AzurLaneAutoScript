@@ -6,7 +6,7 @@ from .c1 import Config as ConfigBase
 
 MAP = CampaignMap('C2')
 MAP.shape = 'J7'
-MAP.camera_data = ['D2', 'D5', 'F2', 'F5']
+MAP.camera_data = ['D2', 'D5', 'E4']
 MAP.camera_data_spawn_point = ['D5']
 MAP.map_data = """
     -- ME -- -- ME ++ ++ -- -- --
@@ -54,12 +54,8 @@ class Config(ConfigBase):
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
-    MAP_CHAPTER_SWITCH_20241219 = True
-    STAGE_ENTRANCE = ['half', '20240725']
-    MAP_HAS_MODE_SWITCH = True
-    STAGE_INCREASE_AB = True
-    MAP_WALK_USE_CURRENT_FLEET = True
-    MAP_SIREN_HAS_BOSS_ICON_SMALL = True
+
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom-left'
 
 
 class Campaign(CampaignBase):
