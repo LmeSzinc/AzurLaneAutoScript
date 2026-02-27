@@ -1497,6 +1497,10 @@
     "FeedFilter": {
       "name": "Snack Filter",
       "help": "Generally does not need to be modified or re-arranged but can do so if desired"
+    },
+    "BuyFood": {
+      "name": "Dorm.BuyFood.name",
+      "help": "Dorm.BuyFood.help"
     }
   },
   "BuyFurniture": {

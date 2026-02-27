@@ -1,7 +1,7 @@
 import time
 import typing as t
 
-from module.base.button import ButtonGrid
+from module.base.button import ButtonGrid, Button
 from module.base.decorator import Config, cached_property
 from module.base.filter import Filter
 from module.base.mask import Mask
@@ -21,7 +21,22 @@ MASK_DORM = Mask(file='./assets/mask/MASK_DORM.png')
 DORM_CAMERA_SWIPE = (300, 250)
 DORM_CAMERA_RANDOM = (-20, -20, 20, 20)
 OCR_SLOT = DigitCounter(OCR_DORM_SLOT, letter=(107, 89, 82), threshold=128, name='OCR_DORM_SLOT')
-
+OCR_FUEL_COST = Digit(OCR_FUEL_COST, letter=(107, 89, 90), threshold=128, name='OCR_DORM_FUEL_COST')
+BTN_BUY_CURRY = Button(
+    area={
+        'cn': (862, 370, 892, 400),
+        'en': (862, 370, 892, 400),
+        'jp': (862, 370, 892, 400),
+        'tw': (862, 370, 892, 400)
+    },
+    button={
+        'cn': (862, 370, 892, 400),
+        'en': (862, 370, 892, 400),
+        'jp': (862, 370, 892, 400),
+        'tw': (862, 370, 892, 400)
+    },
+    color={'cn': (1, 1, 1), 'en': (1, 1, 1), 'jp': (1, 1, 1), 'tw': (1, 1, 1)}
+)
 
 class OcrDormFood(DigitCounter):
     def pre_process(self, image):
@@ -388,6 +403,25 @@ class RewardDorm(UI):
 
         return False
 
+    def buy_food(self):
+        """
+        Buy 11 navy curries, should only be here when fuel is maxed.
+        """
+        while 1:
+            self.device.screenshot()
+            cost = OCR_FUEL_COST.ocr(self.device.image)
+            logger.info(f'Current dorm food fuel cost: {cost}')
+            if self.appear(FOOD_BUY_COST) and cost > 100:
+                self.appear_then_click(FOOD_BUY_CONFIRM)
+                break
+            elif self.appear(FOOD_BUY_ADD_10) and cost < 100:
+                self.device.click(FOOD_BUY_ADD_10)
+            elif cost > 1000:
+                logger.warning('Incorrect cost for dorm food, abort')
+                break
+            else:
+                self.device.click(BTN_BUY_CURRY)
+
     def dorm_feed(self):
         """
         Returns:
@@ -469,13 +503,13 @@ class RewardDorm(UI):
                 self.interval_clear(DORM_CHECK)
                 continue
 
-    def dorm_run(self, feed=True, collect=True, buy_furniture=False):
+    def dorm_run(self, feed=True, collect=True, buy_furniture=False, buy_food=False):
         """
         Pages:
             in: Any page
             out: page_dorm
         """
-        if not feed and not collect and not buy_furniture:
+        if not feed and not collect and not buy_furniture and not buy_food:
             return
 
         self.ui_ensure(page_dormmenu)
@@ -490,10 +524,15 @@ class RewardDorm(UI):
 
         # Feed first to handle DORM_INFO
         # DORM_INFO may cover dorm coins and loves
-        if feed:
+        if feed or buy_food:
             logger.hr('Dorm feed', level=1)
             self.dorm_feed_enter()
-            self.dorm_feed()
+            if buy_food:
+                logger.hr('Dorm buy food', level=2)
+                self.buy_food()
+                self.config.Dorm_BuyFood = False
+            if feed:
+                self.dorm_feed()
             self.dorm_feed_quit()
 
         if collect:
@@ -588,13 +627,15 @@ class RewardDorm(UI):
             out: page_dorm
         """
         if not self.config.Dorm_Feed and not self.config.Dorm_Collect \
-                and not self.config.BuyFurniture_Enable:
+                and not self.config.BuyFurniture_Enable \
+                and not self.config.Dorm_BuyFood:
             self.config.Scheduler_Enable = False
             self.config.task_stop()
 
         self.dorm_run(feed=self.config.Dorm_Feed,
                       collect=self.config.Dorm_Collect,
-                      buy_furniture=self.config.BuyFurniture_Enable)
+                      buy_furniture=self.config.BuyFurniture_Enable,
+                      buy_food=self.config.Dorm_BuyFood)
 
         # Scheduler
         ships = self.get_dorm_ship_amount()
