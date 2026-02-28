@@ -191,17 +191,12 @@ class OpsiHazard1Leveling(CoinTaskMixin, OSMap):
         self.fleet_set(self.config.OpsiFleet_Fleet)
         search_completed = self.run_strategic_search()
 
-        # 获取之前可能已经抓取到的明石
-        was_akashi_found = 'is_akashi' in getattr(self, '_solved_map_event', set())
-        
         # 无论战略搜索是否正常完成，都执行后续重扫和巡逻，以确保任务不被遗漏
         if True: 
             if not search_completed and search_completed is not None:
                  logger.warning("战略搜索返回 False，但仍将继续执行重扫/巡逻")
 
             self._solved_map_event = set()
-            if was_akashi_found:
-                self._solved_map_event.add('is_akashi')
             self._solved_fleet_mechanism = False
             self.clear_question()
             self.map_rescan()
