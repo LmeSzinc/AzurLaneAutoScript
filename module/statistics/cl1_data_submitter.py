@@ -109,8 +109,8 @@ class Cl1DataSubmitter:
         sortie_cost = battle_rounds * 120
         
         # 计算明石遇见概率
-        if battle_count > 0:
-            akashi_probability = round(akashi_encounters / battle_count, 4)
+        if battle_rounds > 0:
+            akashi_probability = round(akashi_encounters / battle_rounds, 4)
         else:
             akashi_probability = 0.0
         

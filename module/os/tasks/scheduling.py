@@ -157,13 +157,23 @@ class CoinTaskMixin:
     
     def check_and_notify_action_point_threshold(self):
         """
-        发送行动力变化推送通知。
+        发送行动力变化推送通知，并保存体力快照数据。
         需要类中包含 _action_point_total 属性。
         """
         if not hasattr(self, '_action_point_total'):
             return
             
         current_ap = self._action_point_total
+
+        # 保存体力快照到数据库（用于 WebUI 体力变化曲线图）
+        try:
+            from module.statistics.cl1_database import db as cl1_db
+            instance_name = getattr(self.config, 'config_name', 'default')
+            source = 'cl1' if getattr(self, 'is_in_task_cl1_leveling', False) else 'meow'
+            cl1_db.add_ap_snapshot(instance_name, current_ap, source=source)
+        except Exception:
+            logger.exception('Failed to save AP snapshot')
+
         self.notify_push(
             title="[Alas] 行动力出现变化！",
             content=f"当前行动力: {current_ap}"

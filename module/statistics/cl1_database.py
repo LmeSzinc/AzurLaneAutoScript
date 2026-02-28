@@ -167,6 +167,28 @@ class Cl1Database:
         data['akashi_ap'] = data.get('akashi_ap', 0) + amount
         self.save_stats(instance, month, data)
 
+    def add_ap_snapshot(self, instance: str, ap_current: int, source: str = 'cl1'):
+        """记录行动力快照（真实剩余体力）
+
+        Args:
+            instance: 实例名称
+            ap_current: 当前行动力剩余
+            source: 数据来源标记 (cl1 / meow 等)
+        """
+        month = datetime.now().strftime('%Y-%m')
+        data = self.get_stats(instance, month)
+
+        snapshot = {
+            'ts': datetime.now().isoformat(),
+            'ap': int(ap_current),
+            'source': source,
+        }
+
+        snapshots = data.get('ap_snapshots', [])
+        snapshots.append(snapshot)
+        data['ap_snapshots'] = snapshots
+        self.save_stats(instance, month, data)
+
     def migrate_from_json(self, json_path: Path, instance: str):
         """从 JSON 文件迁移数据到数据库"""
         if not json_path.exists():

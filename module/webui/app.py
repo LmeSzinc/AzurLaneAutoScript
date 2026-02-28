@@ -536,6 +536,265 @@ class AlasGUI(Frame):
             put_scope("opsi_stats", [])
             _render_opsi_stats()
 
+            # ========== 体力变化曲线图 ==========
+            def _render_ap_chart():
+                try:
+                    from module.statistics.opsi_month import get_ap_timeline
+                    instance_name = self.alas_name if hasattr(self, 'alas_name') and self.alas_name else None
+                    timeline = get_ap_timeline(instance_name=instance_name)
+                except Exception as e:
+                    with use_scope("ap_chart", clear=True):
+                        put_text(f"加载体力数据失败: {e}")
+                    return
+
+                if not timeline:
+                    with use_scope("ap_chart", clear=True):
+                        put_html('<div style="color:#888; margin:12px 0">暂无体力变化数据，运行侵蚀1任务后将自动记录</div>')
+                        put_button("刷新", onclick=_render_ap_chart, color="off")
+                    return
+
+                # 准备数据
+                import json as _json
+                ts_list = []
+                ap_list = []
+                for pt in timeline:
+                    ts_raw = pt.get('ts', '')
+                    try:
+                        from datetime import datetime as _dt
+                        dt = _dt.fromisoformat(ts_raw)
+                        ts_list.append(dt.strftime('%m-%d %H:%M'))
+                    except Exception:
+                        ts_list.append(ts_raw[:16] if len(ts_raw) >= 16 else ts_raw)
+                    ap_list.append(int(pt.get('ap', 0)))
+
+                ts_json = _json.dumps(ts_list, ensure_ascii=False)
+                ap_json = _json.dumps(ap_list)
+
+                # 计算统计
+                ap_max = max(ap_list) if ap_list else 0
+                ap_min = min(ap_list) if ap_list else 0
+                ap_avg = int(sum(ap_list) / len(ap_list)) if ap_list else 0
+                ap_cur = ap_list[-1] if ap_list else 0
+                ap_change = ap_list[-1] - ap_list[0] if len(ap_list) >= 2 else 0
+                change_color = '#26a69a' if ap_change >= 0 else '#ef5350'
+                change_sign = '+' if ap_change >= 0 else ''
+
+                chart_id = f"ap_cv_{id(self)}"
+
+                html = '<div style="margin-top:16px; margin-bottom:8px;">'
+                html += '<div style="font-weight:600; font-size:14px; margin-bottom:8px;">体力变化曲线</div>'
+                html += '<div style="display:flex; flex-wrap:wrap; gap:16px; margin-bottom:8px; font-size:13px; color:#aaa;">'
+                html += f'<span>当前: <b style="color:#e0e0e0">{ap_cur}</b></span>'
+                html += f'<span>变化: <b style="color:{change_color}">{change_sign}{ap_change}</b></span>'
+                html += f'<span>最高: <b style="color:#26a69a">{ap_max}</b></span>'
+                html += f'<span>最低: <b style="color:#ef5350">{ap_min}</b></span>'
+                html += f'<span>均值: <b style="color:#e0e0e0">{ap_avg}</b></span>'
+                html += f'<span style="color:#666">共 {len(ap_list)} 个数据点</span>'
+                html += '</div></div>'
+                html += f'<div style="position:relative;background:#1a1a2e;border-radius:8px;border:1px solid #333;padding:4px;">'
+                html += f'<canvas id="{chart_id}" style="width:100%;height:320px;display:block;cursor:crosshair;"></canvas>'
+                html += f'<canvas id="{chart_id}_ov" style="position:absolute;top:4px;left:4px;width:100%;height:320px;pointer-events:none;"></canvas>'
+                html += f'<div id="{chart_id}_tip" style="display:none;position:absolute;pointer-events:none;'
+                html += 'background:rgba(22,22,40,0.95);border:1px solid #555;border-radius:6px;padding:8px 12px;'
+                html += 'font-size:12px;color:#ddd;z-index:10;white-space:nowrap;"></div>'
+                html += '</div>'
+
+                import json as _json
+                js_code = '''
+(function() {
+    var ts = ''' + _json.dumps(ts_list, ensure_ascii=False) + ''';
+    var ap = ''' + _json.dumps(ap_list) + ''';
+    var avg = ''' + str(ap_avg) + ''';
+    var n = ap.length;
+    if (n < 1) return;
+
+    var cv = document.getElementById("''' + chart_id + '''");
+    if (!cv) return;
+    var tipEl = document.getElementById("''' + chart_id + '''_tip");
+    var ovCv = document.getElementById("''' + chart_id + '''_ov");
+
+    var dpr = window.devicePixelRatio || 1;
+    var W = cv.clientWidth, H = cv.clientHeight;
+    cv.width = W * dpr; cv.height = H * dpr;
+    ovCv.width = W * dpr; ovCv.height = H * dpr;
+    ovCv.style.width = W + "px"; ovCv.style.height = H + "px";
+
+    var ctx = cv.getContext("2d");
+    ctx.scale(dpr, dpr);
+    var oc = ovCv.getContext("2d");
+
+    var pad = {t: 20, r: 20, b: 52, l: 52};
+    var gW = W - pad.l - pad.r, gH = H - pad.t - pad.b;
+
+    var mn = Math.min.apply(null, ap), mx = Math.max.apply(null, ap);
+    var rng = mx - mn || 1;
+    mn = mn - rng * 0.1; mx = mx + rng * 0.1;
+
+    function xOf(i) { return pad.l + (i / Math.max(n - 1, 1)) * gW; }
+    function yOf(v) { return pad.t + gH - (v - mn) / (mx - mn) * gH; }
+
+    // 背景
+    ctx.fillStyle = "#1a1a2e";
+    ctx.fillRect(0, 0, W, H);
+
+    // Y轴网格 + 刻度
+    ctx.strokeStyle = "#2a2a3e";
+    ctx.lineWidth = 1;
+    ctx.fillStyle = "#666";
+    ctx.font = "11px -apple-system, sans-serif";
+    ctx.textAlign = "right";
+    ctx.textBaseline = "middle";
+    for (var i = 0; i <= 5; i++) {
+        var v = mn + (mx - mn) * (i / 5);
+        var y = yOf(v);
+        ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(W - pad.r, y); ctx.stroke();
+        ctx.fillText(Math.round(v), pad.l - 8, y);
+    }
+
+    // 均值虚线
+    var avgY = yOf(avg);
+    ctx.save();
+    ctx.strokeStyle = "#ff9800";
+    ctx.lineWidth = 1;
+    ctx.setLineDash([6, 4]);
+    ctx.beginPath(); ctx.moveTo(pad.l, avgY); ctx.lineTo(W - pad.r, avgY); ctx.stroke();
+    ctx.restore();
+    ctx.fillStyle = "#ff9800";
+    ctx.font = "10px -apple-system, sans-serif";
+    ctx.textAlign = "right";
+    ctx.fillText("均值:" + avg, W - pad.r - 4, avgY - 8);
+
+    // X轴标签
+    ctx.fillStyle = "#666";
+    ctx.font = "10px -apple-system, sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "top";
+    var step = Math.max(1, Math.floor(n / 8));
+    for (var i = 0; i < n; i += step) {
+        ctx.save();
+        ctx.translate(xOf(i), H - pad.b + 8);
+        ctx.rotate(0.4);
+        ctx.fillText(ts[i], 0, 0);
+        ctx.restore();
+    }
+
+    // 渐变填充区域
+    var grad = ctx.createLinearGradient(0, pad.t, 0, pad.t + gH);
+    grad.addColorStop(0, "rgba(100,181,246,0.28)");
+    grad.addColorStop(1, "rgba(100,181,246,0.02)");
+    ctx.beginPath();
+    ctx.moveTo(xOf(0), yOf(ap[0]));
+    for (var i = 1; i < n; i++) {
+        if (n < 30) {
+            var x0 = xOf(i-1), y0 = yOf(ap[i-1]), x1 = xOf(i), y1 = yOf(ap[i]);
+            var cpx = (x0 + x1) / 2;
+            ctx.bezierCurveTo(cpx, y0, cpx, y1, x1, y1);
+        } else {
+            ctx.lineTo(xOf(i), yOf(ap[i]));
+        }
+    }
+    ctx.lineTo(xOf(n-1), pad.t + gH);
+    ctx.lineTo(xOf(0), pad.t + gH);
+    ctx.closePath();
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    // 主折线 (平滑)
+    ctx.beginPath();
+    ctx.moveTo(xOf(0), yOf(ap[0]));
+    for (var i = 1; i < n; i++) {
+        if (n < 30) {
+            var x0 = xOf(i-1), y0 = yOf(ap[i-1]), x1 = xOf(i), y1 = yOf(ap[i]);
+            var cpx = (x0 + x1) / 2;
+            ctx.bezierCurveTo(cpx, y0, cpx, y1, x1, y1);
+        } else {
+            ctx.lineTo(xOf(i), yOf(ap[i]));
+        }
+    }
+    ctx.strokeStyle = "#64b5f6";
+    ctx.lineWidth = 2;
+    ctx.lineJoin = "round";
+    ctx.stroke();
+
+    // 数据点
+    if (n < 60) {
+        for (var i = 0; i < n; i++) {
+            ctx.beginPath();
+            ctx.arc(xOf(i), yOf(ap[i]), 3.5, 0, Math.PI * 2);
+            ctx.fillStyle = "#64b5f6";
+            ctx.fill();
+            ctx.strokeStyle = "#1a1a2e";
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+        }
+    }
+
+    // 鼠标交互
+    cv.addEventListener("mousemove", function(e) {
+        var rect = cv.getBoundingClientRect();
+        var mx_ = e.clientX - rect.left;
+        var my_ = e.clientY - rect.top;
+
+        oc.setTransform(1, 0, 0, 1, 0, 0);
+        oc.clearRect(0, 0, ovCv.width, ovCv.height);
+
+        if (mx_ < pad.l || mx_ > W - pad.r || my_ < pad.t || my_ > pad.t + gH) {
+            tipEl.style.display = "none";
+            return;
+        }
+
+        var ratio = (mx_ - pad.l) / gW;
+        var idx = Math.round(ratio * (n - 1));
+        idx = Math.max(0, Math.min(n - 1, idx));
+        var px = xOf(idx), py = yOf(ap[idx]);
+
+        oc.scale(dpr, dpr);
+        // 十字虚线
+        oc.strokeStyle = "rgba(255,255,255,0.18)";
+        oc.lineWidth = 1;
+        oc.setLineDash([4, 3]);
+        oc.beginPath(); oc.moveTo(px, pad.t); oc.lineTo(px, pad.t + gH); oc.stroke();
+        oc.beginPath(); oc.moveTo(pad.l, py); oc.lineTo(W - pad.r, py); oc.stroke();
+        oc.setLineDash([]);
+        // 高亮点
+        oc.beginPath(); oc.arc(px, py, 6, 0, Math.PI * 2);
+        oc.fillStyle = "rgba(100,181,246,0.3)"; oc.fill();
+        oc.beginPath(); oc.arc(px, py, 4, 0, Math.PI * 2);
+        oc.fillStyle = "#64b5f6"; oc.fill();
+        oc.strokeStyle = "#fff"; oc.lineWidth = 2; oc.stroke();
+        oc.setTransform(1, 0, 0, 1, 0, 0);
+
+        // tooltip
+        var diff = idx > 0 ? (ap[idx] - ap[idx - 1]) : 0;
+        var dc = diff >= 0 ? "#26a69a" : "#ef5350";
+        var ds = (diff >= 0 ? "+" : "") + diff;
+        tipEl.innerHTML = '<div style="color:#888;margin-bottom:4px">' + ts[idx] + '</div>'
+            + '<div>体力: <b style="color:#64b5f6">' + ap[idx] + '</b></div>'
+            + '<div>变化: <b style="color:' + dc + '">' + ds + '</b></div>';
+        tipEl.style.display = "block";
+        var tx = px + 18, ty = py - 45;
+        if (tx + 140 > W) tx = px - 155;
+        if (ty < 8) ty = py + 18;
+        tipEl.style.left = tx + "px";
+        tipEl.style.top = ty + "px";
+    });
+
+    cv.addEventListener("mouseleave", function() {
+        tipEl.style.display = "none";
+        oc.setTransform(1, 0, 0, 1, 0, 0);
+        oc.clearRect(0, 0, ovCv.width, ovCv.height);
+    });
+})();
+'''
+                from pywebio.session import run_js
+                with use_scope("ap_chart", clear=True):
+                    put_html(html)
+                    run_js(js_code)
+                    put_button("刷新图表", onclick=_render_ap_chart, color="off")
+
+            put_scope("ap_chart", [])
+            _render_ap_chart()
+
             # ========== 舰船经验检测表格 ==========
             def _render_ship_exp():
                 try:
@@ -1656,16 +1915,6 @@ class AlasGUI(Frame):
 
 
 
-            
-            # show something
-            put_markdown(
-                """
-            Alas is a free open source software, if you paid for Alas from any channel, please refund.
-            Alas 是一款免费开源软件，如果你在任何渠道付费购买了Alas，请退款。
-            Project repository 项目地址：`https://github.com/LmeSzinc/AzurLaneAutoScript`
-            禁止在 Alas官方仓库 Alas官方群 Alas官方社区 提及本分支！
-            """
-            ).style("text-align: center")
 
         if lang.TRANSLATE_MODE:
             lang.reload()
