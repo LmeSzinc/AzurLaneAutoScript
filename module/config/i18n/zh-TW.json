@@ -28,6 +28,10 @@
       "name": "大世界",
       "help": ""
     },
+    "Island": {
+      "name": "Menu.Island.name",
+      "help": "Menu.Island.help"
+    },
     "Tool": {
       "name": "工具",
       "help": ""
@@ -253,6 +257,14 @@
     "OpsiCrossMonth": {
       "name": "跨月每日",
       "help": "    Alas將在大世界跨月重置之前10分鐘進入大世界，等待大世界重置但不退出大世界，然後完成新一天的大世界每日、隱秘海域、深淵海域和短貓相接，以獲得額外的金菜。運行大世界每日時，按\"大世界每日\"任務設定運行，其餘同理。\n    重要：Alas等待跨月期間，請不要操作遊戲。"
+    },
+    "IslandInfo": {
+      "name": "Task.IslandInfo.name",
+      "help": "Task.IslandInfo.help"
+    },
+    "IslandSeasonTask": {
+      "name": "Task.IslandSeasonTask.name",
+      "help": "Task.IslandSeasonTask.help"
     },
     "Daemon": {
       "name": "半自動點擊",
@@ -2540,6 +2552,26 @@
       "0": "不指定",
       "44": "44 | 西大陸棚D",
       "22": "22 | NA海域西南B"
+    }
+  },
+  "IslandSeasonTask": {
+    "_info": {
+      "name": "IslandSeasonTask._info.name",
+      "help": "IslandSeasonTask._info.help"
+    },
+    "TaskDict": {
+      "name": "IslandSeasonTask.TaskDict.name",
+      "help": "IslandSeasonTask.TaskDict.help"
+    }
+  },
+  "IslandTechnology": {
+    "_info": {
+      "name": "IslandTechnology._info.name",
+      "help": "IslandTechnology._info.help"
+    },
+    "TechnologyStatus": {
+      "name": "IslandTechnology.TechnologyStatus.name",
+      "help": "IslandTechnology.TechnologyStatus.help"
     }
   },
   "Daemon": {
