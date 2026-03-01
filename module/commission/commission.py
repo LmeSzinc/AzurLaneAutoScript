@@ -543,7 +543,8 @@ class RewardCommission(UI, InfoHandler):
 
                 if self.appear(FUEL_MAXED, offset=(20, 20), interval=1):
                     from module.ocr.ocr import Ocr
-                    ocr = Ocr(FUEL_MAXED, letter=FUEL_MAXED.color, threshold=64)
+                    # Use cnocr model for Chinese text, white letter color, and the new OCR_FUEL_MAXED asset
+                    ocr = Ocr(OCR_FUEL_MAXED, lang='cnocr', letter=(255, 255, 255), threshold=128)
                     text = ocr.ocr(self.device.image)
                     logger.info(f"FUEL_MAXED OCR text: {text}")
                     if '石油' in text:
