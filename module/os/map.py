@@ -1023,21 +1023,6 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
             finally:
                 backup.recover()
 
-            self.handle_after_auto_search()
-            
-            solved_events = getattr(self, '_solved_map_event', set())
-            if 'is_akashi' in solved_events:
-                try:
-                    from module.statistics.cl1_database import db as cl1_db
-                    from datetime import datetime
-                    instance_name = getattr(self.config, 'config_name', 'default')
-                    cl1_db.increment_akashi_encounter(instance_name)
-                    month_key = datetime.now().strftime('%Y-%m')
-                    data = cl1_db.get_stats(instance_name, month_key)
-                    logger.attr('cl1_akashi_monthly', data.get('akashi_encounters', 0))
-                except Exception:
-                    logger.exception('Failed to persist CL1 akashi monthly count')
-
             # Continue if was Auto search interrupted by ash popup
             # Break if zone cleared
             if self.config.is_task_enabled('OpsiAshBeacon'):
