@@ -83,7 +83,7 @@
       "help": ""
     },
     "Coalition": {
-      "name": "極地風暴",
+      "name": "光影風尚-拍攝進行時",
       "help": ""
     },
     "MaritimeEscort": {
@@ -119,7 +119,7 @@
       "help": ""
     },
     "CoalitionSp": {
-      "name": "極地風暴每日SP",
+      "name": "光影風尚-拍攝進行時SP",
       "help": ""
     },
     "Commission": {
@@ -386,6 +386,7 @@
       "cn_android-25": "[国服] 水仙行动",
       "cn_android-26": "[国服] 冬月计划",
       "cn_android-27": "[国服] 长弓计划",
+      "cn_android-28": "[国服] 裁决协议",
       "cn_ios-0": "[国服] 夏威夷",
       "cn_ios-1": "[国服] 珊瑚海",
       "cn_ios-2": "[国服] 中途岛",
@@ -702,6 +703,7 @@
       "coalition_20240627": "歡迎來到童心學院",
       "coalition_20250626": "迷彩都市的尋蹤者",
       "coalition_20251120": "DATE A LANE",
+      "coalition_20260122": "光影風尚-拍攝進行時",
       "event_20200227_cn": "Northern Overture",
       "event_20200312_cn": "斯圖爾特的硝煙",
       "event_20200326_cn": "Microlayer Medley",
@@ -782,6 +784,7 @@
       "event_20250912_cn": "起舞於天原之上",
       "event_20251023_cn": "颶風與自由群島",
       "event_20251218_cn": "響徹於天穹之音",
+      "event_20260226_cn": "Springtide Inn Online",
       "raid_20200624": "特別演習埃塞克斯級(復刻)",
       "raid_20210708": "復刻穿越彼方的水線",
       "raid_20220127": "演習神秘事件調查",
@@ -792,6 +795,7 @@
       "raid_20240130": "寰昌宇定家事忙",
       "raid_20240328": "從零開始的魔王討伐之旅",
       "raid_20250116": "華裳巧展喜事長",
+      "raid_20260212": "春宴懷玉香滿庭",
       "war_archives_20180607_cn": "檔案 墨染的鋼鐵之花",
       "war_archives_20180726_cn": "檔案 光與影的鳶尾之華",
       "war_archives_20181020_en": "檔案 努力希望和計劃",
@@ -834,6 +838,7 @@
       "war_archives_20220728_cn": "檔案 雄鷹的敘事歌",
       "war_archives_20220915_cn": "檔案 紫絳槿嵐",
       "war_archives_20221222_cn": "檔案 定向折疊",
+      "war_archives_20230223_cn": "檔案 湮燼塵墟",
       "war_archives_20231026_cn": "檔案 飓風與青春之泉"
     },
     "Mode": {
@@ -1343,7 +1348,7 @@
       "easy": "簡單",
       "normal": "普通",
       "hard": "困難",
-      "ex": "ex"
+      "ex": "EX"
     },
     "UseTicket": {
       "name": "使用演習券",
@@ -1370,28 +1375,6 @@
       "help": "如果關閉，需要事先手動為所有15個關卡配隊"
     }
   },
-  "HospitalEvent": {
-    "_info": {
-      "name": "共鬥活動設定",
-      "help": ""
-    },
-    "Mode": {
-      "name": "難度",
-      "help": "",
-      "easy": "正午",
-      "normal": "黃昏",
-      "hard": "夜晚"
-    },
-    "Stage": {
-      "name": "地圖名稱",
-      "help": "",
-      "T1": "T1",
-      "T2": "T2",
-      "T3": "T3",
-      "T4": "T4",
-      "ESP": "ESP"
-    }
-  },
   "MaritimeEscort": {
     "_info": {
       "name": "商船護航",
@@ -1410,18 +1393,10 @@
     "Mode": {
       "name": "難度",
       "help": "SP圖需要使用活動每日SP運行",
-      "area1-normal": "area1-normal",
-      "area1-hard": "area1-hard",
-      "area2-normal": "area2-normal",
-      "area2-hard": "area2-hard",
-      "area3-normal": "area3-normal",
-      "area3-hard": "area3-hard",
-      "area4-normal": "area4-normal",
-      "area4-hard": "area4-hard",
-      "area5-normal": "area5-normal",
-      "area5-hard": "area5-hard",
-      "area6-normal": "area6-normal",
-      "area6-hard": "area6-hard"
+      "easy": "easy",
+      "normal": "normal",
+      "hard": "hard",
+      "sp": "sp"
     },
     "Fleet": {
       "name": "出擊隊伍",
@@ -3247,7 +3222,8 @@
       "help": "",
       "2": "二期科研",
       "3": "三期科研",
-      "4": "四期科研"
+      "4": "四期科研",
+      "5": "五期科研"
     },
     "ShipIndex": {
       "name": "艦船序號",
@@ -3281,7 +3257,8 @@
       "2": "二期科研",
       "3": "三期科研",
       "4": "四期科研",
-      "5": "五期科研"
+      "5": "五期科研",
+      "6": "六期科研"
     },
     "ShipIndex": {
       "name": "艦船序號",
@@ -3696,14 +3673,6 @@
       "name": "任意艦船血量低於 X 後，回港修理",
       "help": "0.0 ~ 1.0"
     },
-    "UseRepairPack": {
-      "name": "使用維修箱修船",
-      "help": "開啟後，將使用倉庫內的維修箱修船，建議配合侵蝕1練級功能使用"
-    },
-    "RepairPackThreshold": {
-      "name": "任意艦船血量低於 X 後，使用維修箱修理",
-      "help": "僅在開啟“使用維修箱修船”時生效\n僅在打完深淵海域、塞壬要塞、月度Boss後嘗試維修\n0.0 ~ 1.0"
-    },
     "DoRandomMapEvent": {
       "name": "完成地圖隨機事件",
       "help": "在自律尋敵完成後重新掃描一遍地圖，購買明石商店、使用塞壬信息收集裝置、使用塞壬探測裝置、解鎖兩艦隊機關"
@@ -3833,14 +3802,6 @@
       "name": "使用效能樣本",
       "help": "使用所有六種效能樣本和強力效能樣本"
     },
-    "SkipSirenResearchMission": {
-      "name": "不做塞壬研究任務",
-      "help": "開啟後，將跳過“塞壬研究·I”與“塞壬研究·II”兩個任務\n塞壬研究任務使用黃幣兌換紫幣"
-    },
-    "KeepMissionZone": {
-      "name": "保留海域不清理",
-      "help": "完成每日任務後退出海域，下次任務刷在同一海域時不用再消耗行動力進入\n每個月的最後一天會對所有未清理海域進行清理"
-    },
     "MissionZones": {
       "name": "月底需要清理的海域",
       "help": "這個數值是自動記錄的，一般不需要修改"
@@ -3930,10 +3891,6 @@
     "TargetZone": {
       "name": "指定海域",
       "help": "僅出擊指定的海域，可以用來獲取大世界成就星星\n自動更新的數值，填0可重置進度，重置後自動跳過已開荒的海域\n支援海域ID、國服/國際服/日服/台服海域名稱，例如 \"51\", \"NA海域東南E\", \"NA Ocean SE Sector E\"\n填入默認值0，或者刪除數值即可取消指定"
-    },
-    "APPreserveUntilReset": {
-      "name": "保留行動力直到月底",
-      "help": "\"保留 X 點行動力\" 設定不會在大世界重置前幾天减少\n注意：開啟後只會在跨月每日任務中消耗這些行動力，未啟用跨月每日任務時該設定無效，這意味著你需要手動使用這些行動力以獲得更高的收益"
     }
   },
   "OpsiHazard1Leveling": {

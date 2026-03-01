@@ -726,7 +726,7 @@
       "AmbushEvade": true
     },
     "Coalition": {
-      "Mode": "area1-normal",
+      "Mode": "hard",
       "Fleet": "single"
     },
     "StopCondition": {
@@ -783,7 +783,7 @@
     },
     "Campaign": {
       "Name": "D3",
-      "Event": "war_archives_20221222_cn",
+      "Event": "war_archives_20230223_cn",
       "Mode": "normal",
       "UseClearMode": true,
       "UseFleetLock": true,
@@ -1316,7 +1316,7 @@
       "AmbushEvade": true
     },
     "Coalition": {
-      "Mode": "area1-normal",
+      "Mode": "sp",
       "Fleet": "single"
     },
     "StopCondition": {
@@ -1909,8 +1909,6 @@
       "BuyActionPointLimit": 0,
       "OilLimit": 1000,
       "RepairThreshold": 0.4,
-      "UseRepairPack": false,
-      "RepairPackThreshold": 0.9,
       "DoRandomMapEvent": true,
       "AkashiShopFilter": "ActionPoint > PurpleCoins"
     },
@@ -2022,8 +2020,6 @@
     "OpsiDaily": {
       "DoMission": true,
       "UseTuningSample": true,
-      "SkipSirenResearchMission": false,
-      "KeepMissionZone": false,
       "MissionZones": null
     },
     "OpsiFleet": {
@@ -2145,8 +2141,7 @@
     "OpsiMeowfficerFarming": {
       "ActionPointPreserve": 1000,
       "HazardLevel": 5,
-      "TargetZone": 0,
-      "APPreserveUntilReset": false
+      "TargetZone": 0
     },
     "OpsiFleet": {
       "Fleet": 1,

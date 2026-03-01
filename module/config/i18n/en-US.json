@@ -83,7 +83,7 @@
       "help": ""
     },
     "Coalition": {
-      "name": "DATE A LANE",
+      "name": "Light & Shadow Fashion Shoot",
       "help": ""
     },
     "MaritimeEscort": {
@@ -119,7 +119,7 @@
       "help": ""
     },
     "CoalitionSp": {
-      "name": "Neon City Investigator SP",
+      "name": "Light & Shadow Fashion Shoot SP",
       "help": ""
     },
     "Commission": {
@@ -386,6 +386,7 @@
       "cn_android-25": "[国服] 水仙行动",
       "cn_android-26": "[国服] 冬月计划",
       "cn_android-27": "[国服] 长弓计划",
+      "cn_android-28": "[国服] 裁决协议",
       "cn_ios-0": "[国服] 夏威夷",
       "cn_ios-1": "[国服] 珊瑚海",
       "cn_ios-2": "[国服] 中途岛",
@@ -702,6 +703,7 @@
       "coalition_20240627": "Welcome to Little Academy",
       "coalition_20250626": "The Neon City Investigator",
       "coalition_20251120": "DATE A LANE",
+      "coalition_20260122": "Light & Shadow Fashion Shoot!",
       "event_20200227_cn": "Northern Overture",
       "event_20200312_cn": "The Solomon Ranger Rerun",
       "event_20200326_cn": "Microlayer Medley",
@@ -782,6 +784,7 @@
       "event_20250912_cn": "A Dance for Amahara Above",
       "event_20251023_cn": "Tempesta and Islas de Libertád",
       "event_20251218_cn": "A Note Through the Firmament",
+      "event_20260226_cn": "Springtide Inn Online",
       "raid_20200624": "Air Raid Drills with Essex Rerun",
       "raid_20210708": "Cross Wave rerun",
       "raid_20220127": "Mystery Investigation",
@@ -790,8 +793,9 @@
       "raid_20230118": "Winter Pathfinder",
       "raid_20230629": "Reflections of the Oasis",
       "raid_20240130": "Spring Festive Fiasco",
-      "raid_20240328": "From Zero to Hero",
+      "raid_20240328": "From Zero to Hero Rerun",
       "raid_20250116": "Spring Fashion Festa",
+      "raid_20260212": "Spring Auction Adventure",
       "war_archives_20180607_cn": "archives Ink Stained Steel Sakura",
       "war_archives_20180726_cn": "archives Iris of Light and Dark",
       "war_archives_20181020_en": "archives Strive Wish and Strategize",
@@ -834,6 +838,7 @@
       "war_archives_20220728_cn": "archives Aquilifers Ballade",
       "war_archives_20220915_cn": "archives Violet Tempest Blooming Lycoris",
       "war_archives_20221222_cn": "archives Parallel Superimposition",
+      "war_archives_20230223_cn": "archives Revelations of Dust",
       "war_archives_20231026_cn": "archives Tempesta and the Fountain of Youth"
     },
     "Mode": {
@@ -1340,10 +1345,10 @@
     "Mode": {
       "name": "Raid Mode",
       "help": "",
-      "easy": "easy",
-      "normal": "normal",
-      "hard": "hard",
-      "ex": "ex"
+      "easy": "Easy",
+      "normal": "Normal",
+      "hard": "Hard",
+      "ex": "EX"
     },
     "UseTicket": {
       "name": "Use Ticket(s)",
@@ -1370,28 +1375,6 @@
       "help": "If turned off, you need to manually prepare fleets of all 15 stages in advance"
     }
   },
-  "HospitalEvent": {
-    "_info": {
-      "name": "Raid Settings",
-      "help": ""
-    },
-    "Mode": {
-      "name": "Raid Mode",
-      "help": "",
-      "easy": "Day",
-      "normal": "Dusk",
-      "hard": "Night"
-    },
-    "Stage": {
-      "name": "Level Name",
-      "help": "",
-      "T1": "T1",
-      "T2": "T2",
-      "T3": "T3",
-      "T4": "T4",
-      "ESP": "ESP"
-    }
-  },
   "MaritimeEscort": {
     "_info": {
       "name": "Maritime Escort",
@@ -1410,18 +1393,10 @@
     "Mode": {
       "name": "Mode",
       "help": "SP needs to use event daily SP to run",
-      "area1-normal": "area1-normal",
-      "area1-hard": "area1-hard",
-      "area2-normal": "area2-normal",
-      "area2-hard": "area2-hard",
-      "area3-normal": "area3-normal",
-      "area3-hard": "area3-hard",
-      "area4-normal": "area4-normal",
-      "area4-hard": "area4-hard",
-      "area5-normal": "area5-normal",
-      "area5-hard": "area5-hard",
-      "area6-normal": "area6-normal",
-      "area6-hard": "area6-hard"
+      "easy": "easy",
+      "normal": "normal",
+      "hard": "hard",
+      "sp": "sp"
     },
     "Fleet": {
       "name": "Fleet",
@@ -3247,7 +3222,8 @@
       "help": "",
       "2": "DR2",
       "3": "DR3",
-      "4": "DR4"
+      "4": "DR4",
+      "5": "DR5"
     },
     "ShipIndex": {
       "name": "Ship Index",
@@ -3281,7 +3257,8 @@
       "2": "PR2",
       "3": "PR3",
       "4": "PR4",
-      "5": "PR5"
+      "5": "PR5",
+      "6": "PR6"
     },
     "ShipIndex": {
       "name": "Ship Index",
@@ -3696,14 +3673,6 @@
       "name": "Repair Threshold",
       "help": "After completion of an OpSi map; if any one ship's HP is below threshold, retreat back to nearest port for repairs\n0.0 ~ 1.0"
     },
-    "UseRepairPack": {
-      "name": "Use Repair Pack",
-      "help": "Ships will be repaired using the repair packs in storage. It is recommended to use this feature in conjunction with CL1 leveling."
-    },
-    "RepairPackThreshold": {
-      "name": "Repair Pack Threshold",
-      "help": "If any one ship's HP is below threshold, use repair packs for repairs.\ncheck only after OpSi Abyssal, Opsi Siren Stronghold and Monthly Boss.\n0.0 ~ 1.0"
-    },
     "DoRandomMapEvent": {
       "name": "Do Random Map Events",
       "help": "Rescan the whole map after auto search, purchase akashi's shop, use siren logging tower, use siren scanning device, unlock mechanism that require 2 fleets,"
@@ -3833,14 +3802,6 @@
       "name": "Use Tuning Samples",
       "help": "Use all tuning samples and quality tuning samples"
     },
-    "SkipSirenResearchMission": {
-      "name": "Skip Siren Research Mission(s)",
-      "help": "When enabled, the \"Siren Research I\" and \"Siren Research II\" missions will be skipped.\nThe Siren Research missions use yellow coins to exchange for purple coins."
-    },
-    "KeepMissionZone": {
-      "name": "Keep Mission Zone Unclear",
-      "help": "After completing the daily mission, exit the mission zone so that it will not consume extra action points for entrance when the mission appears in the same zone newxt time."
-    },
     "MissionZones": {
       "name": "Zones needed to be clear at the end of the month",
       "help": "This value is automatically recorded and generally does not need to be modified."
@@ -3930,10 +3891,6 @@
     "TargetZone": {
       "name": "Target Zone ID",
       "help": "Supports either Zone ID or Name in CN/EN/JP/TW, i.e. \"51\", \"NA Ocean SE Sector E\"\nIf specified, Alas will loop on this same zone after each clear\nUse default value 0 or clear the field to remove the specification\nZone information can be acquired from <./module/os/map_data.py>"
-    },
-    "APPreserveUntilReset": {
-      "name": "Keep AP until OpSi Reset",
-      "help": "The value of \"Keep X Amount of AP\" will not be reduced until OpSi reset. Note: When enabled, these action points will only be consumed in task OpsiCrossMonth. This setting is inactive when OpsiCrossMonth is not enabled, meaning you must manually use these overflow action points to gain more rewards."
     }
   },
   "OpsiHazard1Leveling": {

@@ -83,7 +83,7 @@
       "help": ""
     },
     "Coalition": {
-      "name": "ネオンシティの探索者",
+      "name": "特集写真-撮影進行中",
       "help": ""
     },
     "MaritimeEscort": {
@@ -119,7 +119,7 @@
       "help": ""
     },
     "CoalitionSp": {
-      "name": "ネオンシティの探索者SP",
+      "name": "特集写真-撮影進行中SP",
       "help": ""
     },
     "Commission": {
@@ -386,6 +386,7 @@
       "cn_android-25": "[国服] 水仙行动",
       "cn_android-26": "[国服] 冬月计划",
       "cn_android-27": "[国服] 长弓计划",
+      "cn_android-28": "[国服] 裁决协议",
       "cn_ios-0": "[国服] 夏威夷",
       "cn_ios-1": "[国服] 珊瑚海",
       "cn_ios-2": "[国服] 中途岛",
@@ -702,6 +703,7 @@
       "coalition_20240627": "リトル学園へようこそ",
       "coalition_20250626": "ネオンシティの探索者",
       "coalition_20251120": "DATE A LANE",
+      "coalition_20260122": "特集写真-撮影進行中",
       "event_20200227_cn": "凍絶の北海",
       "event_20200312_cn": "南洋に靡く硝煙（復刻）",
       "event_20200326_cn": "闇靄払う銀翼",
@@ -782,6 +784,7 @@
       "event_20250912_cn": "アマハラに舞い奉れ",
       "event_20251023_cn": "テンペスタと自由群島",
       "event_20251218_cn": "天穹に響く音謡",
+      "event_20260226_cn": "春色旅籠Online",
       "raid_20200624": "特別演習超空強襲波（復刻）",
       "raid_20210708": "交錯する新たな波 (復刻)",
       "raid_20220127": "秘密事件調査",
@@ -790,8 +793,9 @@
       "raid_20230118": "冬の案内人",
       "raid_20230629": "緑地伽話",
       "raid_20240130": "新春宴会狂騒曲",
-      "raid_20240328": "ゼロから頑張る魔王討伐",
+      "raid_20240328": "ゼロから頑張る魔王討伐（復刻）",
       "raid_20250116": "新春華裳協奏曲",
+      "raid_20260212": "新春玉逸品会",
       "war_archives_20180607_cn": "檔案 墨染まりし鋼の桜",
       "war_archives_20180726_cn": "檔案 光と影のアイリス",
       "war_archives_20181020_en": "檔案 努力希望と計画",
@@ -834,6 +838,7 @@
       "war_archives_20220728_cn": "檔案 鋼鷲の冒険譚",
       "war_archives_20220915_cn": "檔案 赫の涙月 菫の暁風",
       "war_archives_20221222_cn": "檔案 積重なる事象の幻界",
+      "war_archives_20230223_cn": "檔案 黙示の遺構",
       "war_archives_20231026_cn": "檔案 テンペスタと若返りの泉"
     },
     "Mode": {
@@ -1370,28 +1375,6 @@
       "help": "Hospital.UseRecommendFleet.help"
     }
   },
-  "HospitalEvent": {
-    "_info": {
-      "name": "HospitalEvent._info.name",
-      "help": "HospitalEvent._info.help"
-    },
-    "Mode": {
-      "name": "HospitalEvent.Mode.name",
-      "help": "HospitalEvent.Mode.help",
-      "easy": "easy",
-      "normal": "normal",
-      "hard": "hard"
-    },
-    "Stage": {
-      "name": "HospitalEvent.Stage.name",
-      "help": "HospitalEvent.Stage.help",
-      "T1": "T1",
-      "T2": "T2",
-      "T3": "T3",
-      "T4": "T4",
-      "ESP": "ESP"
-    }
-  },
   "MaritimeEscort": {
     "_info": {
       "name": "MaritimeEscort._info.name",
@@ -1410,18 +1393,10 @@
     "Mode": {
       "name": "Coalition.Mode.name",
       "help": "Coalition.Mode.help",
-      "area1-normal": "area1-normal",
-      "area1-hard": "area1-hard",
-      "area2-normal": "area2-normal",
-      "area2-hard": "area2-hard",
-      "area3-normal": "area3-normal",
-      "area3-hard": "area3-hard",
-      "area4-normal": "area4-normal",
-      "area4-hard": "area4-hard",
-      "area5-normal": "area5-normal",
-      "area5-hard": "area5-hard",
-      "area6-normal": "area6-normal",
-      "area6-hard": "area6-hard"
+      "easy": "easy",
+      "normal": "normal",
+      "hard": "hard",
+      "sp": "sp"
     },
     "Fleet": {
       "name": "Coalition.Fleet.name",
@@ -3247,7 +3222,8 @@
       "help": "ShipyardDr.ResearchSeries.help",
       "2": "2",
       "3": "3",
-      "4": "4"
+      "4": "4",
+      "5": "5"
     },
     "ShipIndex": {
       "name": "ShipyardDr.ShipIndex.name",
@@ -3281,7 +3257,8 @@
       "2": "2",
       "3": "3",
       "4": "4",
-      "5": "5"
+      "5": "5",
+      "6": "6"
     },
     "ShipIndex": {
       "name": "Shipyard.ShipIndex.name",
@@ -3696,14 +3673,6 @@
       "name": "OpsiGeneral.RepairThreshold.name",
       "help": "OpsiGeneral.RepairThreshold.help"
     },
-    "UseRepairPack": {
-      "name": "OpsiGeneral.UseRepairPack.name",
-      "help": "OpsiGeneral.UseRepairPack.help"
-    },
-    "RepairPackThreshold": {
-      "name": "OpsiGeneral.RepairPackThreshold.name",
-      "help": "OpsiGeneral.RepairPackThreshold.help"
-    },
     "DoRandomMapEvent": {
       "name": "OpsiGeneral.DoRandomMapEvent.name",
       "help": "OpsiGeneral.DoRandomMapEvent.help"
@@ -3833,14 +3802,6 @@
       "name": "OpsiDaily.UseTuningSample.name",
       "help": "OpsiDaily.UseTuningSample.help"
     },
-    "SkipSirenResearchMission": {
-      "name": "OpsiDaily.SkipSirenResearchMission.name",
-      "help": "OpsiDaily.SkipSirenResearchMission.help"
-    },
-    "KeepMissionZone": {
-      "name": "OpsiDaily.KeepMissionZone.name",
-      "help": "OpsiDaily.KeepMissionZone.help"
-    },
     "MissionZones": {
       "name": "OpsiDaily.MissionZones.name",
       "help": "OpsiDaily.MissionZones.help"
@@ -3930,10 +3891,6 @@
     "TargetZone": {
       "name": "OpsiMeowfficerFarming.TargetZone.name",
       "help": "OpsiMeowfficerFarming.TargetZone.help"
-    },
-    "APPreserveUntilReset": {
-      "name": "OpsiMeowfficerFarming.APPreserveUntilReset.name",
-      "help": "OpsiMeowfficerFarming.APPreserveUntilReset.help"
     }
   },
   "OpsiHazard1Leveling": {
