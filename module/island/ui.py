@@ -8,13 +8,49 @@ from module.ui.ui import UI
 
 
 class IslandUI(UI):
-    def island_in_management(self, interval=0):
+    def ui_additional(self, get_ship=True):
+        return super().ui_additional(get_ship=False)
+
+    @cached_property
+    def _island_season_bottom_navbar(self):
+        """
+        6 options:
+            homepage,
+            pt_reward,
+            season_task,
+            season_shop,
+            season_rank,
+            season_history
+        """
+        island_season_bottom_navbar = ButtonGrid(
+            origin=(14, 677), delta=(213, 0),
+            button_shape=(186, 33), grid_shape=(6, 1),
+            name='ISLAND_SEASON_BOTTOM_NAVBAR'
+        )
+        return Navbar(grids=island_season_bottom_navbar,
+                      active_color=(237, 237, 237),
+                      inactive_color=(65, 78, 96),
+                      active_count=500,
+                      inactive_count=500)
+
+    def island_season_bottom_navbar_ensure(self, left=None, right=None):
         """
         Args:
-            interval (int):
+            left (int):
+                1 for homepage,
+                2 for pt_reward,
+                3 for season_task,
+                4 for season_shop,
+                5 for season_rank,
+                6 for season_history
+            right (int):
+                1 for season_history,
+                2 for season_rank,
+                3 for season_shop,
+                4 for season_task,
+                5 for pt_reward,
+                6 for homepage
 
-        Returns:
-            bool: if in page ISLAND_MANAGEMENT_CHECK
         """
         return self.appear(ISLAND_MANAGEMENT_CHECK, offset=(20, 20), interval=interval)
 
