@@ -328,19 +328,12 @@ RaidDaily:
     hard > normal > easy
 Hospital:
   UseRecommendFleet: true
-HospitalEvent:
-  Mode:
-    value: hard
-    option: [ easy, normal, hard ]
-  Stage:
-    value: T1
-    option: [ T1, T2, T3, T4, ESP ]
 MaritimeEscort:
   Enable: true
 Coalition:
   Mode:
-    value: area1-normal
-    option: [ area1-normal, area1-hard, area2-normal, area2-hard, area3-normal, area3-hard, area4-normal, area4-hard, area5-normal, area5-hard, area6-normal, area6-hard ]
+    value: hard
+    option: [ easy, normal, hard, sp ]
   Fleet:
     value: single
     option: [ single, multi ]
@@ -736,7 +729,7 @@ CoreShop:
 ShipyardDr:
   ResearchSeries:
     value: 2
-    option: [ 2, 3, 4 ]
+    option: [ 2, 3, 4, 5 ]
   ShipIndex:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6 ]
@@ -745,7 +738,7 @@ ShipyardDr:
 Shipyard:
   ResearchSeries:
     value: 1
-    option: [ 1, 2, 3, 4, 5 ]
+    option: [ 1, 2, 3, 4, 5, 6 ]
   ShipIndex:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6 ]
@@ -863,8 +856,6 @@ OpsiGeneral:
     option: [ 0, 1, 2, 3, 4, 5 ]
   OilLimit: 1000
   RepairThreshold: 0.4
-  UseRepairPack: false
-  RepairPackThreshold: 0.9
   DoRandomMapEvent: true
   AkashiShopFilter: |-
     ActionPoint > PurpleCoins
@@ -909,8 +900,6 @@ OpsiVoucher:
 OpsiDaily:
   DoMission: true
   UseTuningSample: true
-  SkipSirenResearchMission: false
-  KeepMissionZone: false
   MissionZones:
     type: stored
     value: null
@@ -940,7 +929,6 @@ OpsiMeowfficerFarming:
     option: [ 2, 3, 4, 5, 6, 10 ]
   TargetZone:
     value: 0
-  APPreserveUntilReset: false
 OpsiHazard1Leveling:
   TargetZone:
     value: 0

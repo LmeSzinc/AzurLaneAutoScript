@@ -52,6 +52,10 @@ class CoalitionUI(Combat):
         elif event == 'coalition_20251120':
             logger.info('Coalition event coalition_20251120 has no mode switch')
             return
+        elif event == 'coalition_20260122':
+            mode_switch = Switch('CoalitionMode', offset=(20, 20))
+            mode_switch.add_state('story', FASHION_MODE_STORY)
+            mode_switch.add_state('battle', FASHION_MODE_BATTLE)
         else:
             logger.error(f'MODE_SWITCH is not defined in event {event}')
             raise ScriptError
@@ -63,11 +67,14 @@ class CoalitionUI(Combat):
         else:
             logger.warning(f'Unknown coalition campaign mode: {mode}')
 
-    def coalition_ensure_fleet(self, event, mode):
+    def coalition_set_fleet(self, event, mode):
         """
         Args:
             event (str): Event name.
             mode (str): 'single' or 'multi'
+
+        Returns:
+            bool: If clicked
 
         Pages:
             in: FLEET_PREPARATION
@@ -85,16 +92,24 @@ class CoalitionUI(Combat):
         elif event == 'coalition_20251120':
             fleet_switch.add_state('single', DAL_SWITCH_SINGLE)
             fleet_switch.add_state('multi', DAL_SWITCH_MULTI)
+        elif event == 'coalition_20260122':
+            fleet_switch.add_state('single', FASHION_SWITCH_SINGLE)
+            fleet_switch.add_state('multi', FASHION_SWITCH_MULTI)
         else:
             logger.error(f'FLEET_SWITCH is not defined in event {event}')
             raise ScriptError
 
+        if fleet_switch.get(main=self) == mode:
+            return False
         if mode == 'single':
             fleet_switch.set('single', main=self)
+            return True
         elif mode == 'multi':
             fleet_switch.set('multi', main=self)
+            return True
         else:
             logger.warning(f'Unknown coalition fleet mode: {mode}')
+            return False
 
     @staticmethod
     def coalition_get_entrance(event, stage):
@@ -107,24 +122,25 @@ class CoalitionUI(Combat):
             Button: Entrance button
         """
         dic = {
+            # FROSTFALL
             ('coalition_20230323', 'tc1'): FROSTFALL_TC1,
             ('coalition_20230323', 'tc2'): FROSTFALL_TC2,
             ('coalition_20230323', 'tc3'): FROSTFALL_TC3,
             ('coalition_20230323', 'sp'): FROSTFALL_SP,
             ('coalition_20230323', 'ex'): FROSTFALL_EX,
-
+            # ACADEMY
             ('coalition_20240627', 'easy'): ACADEMY_EASY,
             ('coalition_20240627', 'normal'): ACADEMY_NORMAL,
             ('coalition_20240627', 'hard'): ACADEMY_HARD,
             ('coalition_20240627', 'sp'): ACADEMY_SP,
             ('coalition_20240627', 'ex'): ACADEMY_EX,
-
+            # NEONCITY
             ('coalition_20250626', 'easy'): NEONCITY_EASY,
             ('coalition_20250626', 'normal'): NEONCITY_NORMAL,
             ('coalition_20250626', 'hard'): NEONCITY_HARD,
             ('coalition_20250626', 'sp'): NEONCITY_SP,
             ('coalition_20250626', 'ex'): NEONCITY_EX,
-
+            # DAL
             ('coalition_20251120', 'area1-normal'): DAL_AREA1,
             ('coalition_20251120', 'area2-normal'): DAL_AREA2,
             ('coalition_20251120', 'area3-normal'): DAL_AREA3,
@@ -137,6 +153,12 @@ class CoalitionUI(Combat):
             ('coalition_20251120', 'area4-hard'): DAL_AREA4,
             ('coalition_20251120', 'area5-hard'): DAL_AREA5,
             ('coalition_20251120', 'area6-hard'): DAL_AREA6,
+            # FASHION
+            ('coalition_20260122', 'easy'): FASHION_EASY,
+            ('coalition_20260122', 'normal'): FASHION_NORMAL,
+            ('coalition_20260122', 'hard'): FASHION_HARD,
+            ('coalition_20260122', 'sp'): FASHION_SP,
+            ('coalition_20260122', 'ex'): FASHION_EX,
         }
         stage = stage.lower()
         try:
@@ -149,12 +171,14 @@ class CoalitionUI(Combat):
     def coalition_20251120_get_entrance_difficulty(event, stage):
         """
         Args:
+            event (str): Event name.
             stage (str): Stage name.
 
         Returns:
             Button: Entrance difficulty button
         """
         dic = {
+            # DAL
             ('coalition_20251120', 'area1-normal'): DAL_NORMAL,
             ('coalition_20251120', 'area2-normal'): DAL_NORMAL,
             ('coalition_20251120', 'area3-normal'): DAL_NORMAL,
@@ -186,24 +210,25 @@ class CoalitionUI(Combat):
             int: Number of battles
         """
         dic = {
+            # FROSTFALL
             ('coalition_20230323', 'tc1'): 1,
             ('coalition_20230323', 'tc2'): 2,
             ('coalition_20230323', 'tc3'): 3,
             ('coalition_20230323', 'sp'): 1,
             ('coalition_20230323', 'ex'): 1,
-
+            # ACADEMY
             ('coalition_20240627', 'easy'): 1,
             ('coalition_20240627', 'normal'): 2,
             ('coalition_20240627', 'hard'): 3,
             ('coalition_20240627', 'sp'): 4,
             ('coalition_20240627', 'ex'): 5,
-
+            # NEONCITY
             ('coalition_20250626', 'easy'): 1,
             ('coalition_20250626', 'normal'): 2,
             ('coalition_20250626', 'hard'): 3,
             ('coalition_20250626', 'sp'): 4,
             ('coalition_20250626', 'ex'): 5,
-
+            # DAL
             ('coalition_20251120', 'area1-normal'): 2,
             ('coalition_20251120', 'area2-normal'): 3,
             ('coalition_20251120', 'area3-normal'): 3,
@@ -216,6 +241,12 @@ class CoalitionUI(Combat):
             ('coalition_20251120', 'area4-hard'): 3,
             ('coalition_20251120', 'area5-hard'): 3,
             ('coalition_20251120', 'area6-hard'): 4,
+            # FASHION
+            ('coalition_20260122', 'easy'): 1,
+            ('coalition_20260122', 'normal'): 2,
+            ('coalition_20260122', 'hard'): 3,
+            ('coalition_20260122', 'sp'): 4,
+            ('coalition_20260122', 'ex'): 5,
         }
         stage = stage.lower()
         try:
@@ -241,6 +272,9 @@ class CoalitionUI(Combat):
             return NEONCITY_FLEET_PREPARATION
         elif event == 'coalition_20251120':
             return DAL_FLEET_PREPARATION
+        elif event == 'coalition_20260122':
+            # FASHION reuses NEONCITY, just (-12, -12) shifted
+            return NEONCITY_FLEET_PREPARATION
         else:
             logger.error(f'FLEET_PREPARATION is not defined in event {event}')
             raise ScriptError
@@ -253,7 +287,7 @@ class CoalitionUI(Combat):
             mode (str): 'single' or 'multi'
 
         Returns:
-            bool: If success
+            bool: If clicked
         """
         stage = stage.lower()
 
@@ -261,15 +295,29 @@ class CoalitionUI(Combat):
             # No fleet switch in TC1
             if stage in ['tc1', 'sp']:
                 return False
-        if event == 'coalition_20240627':
-            if stage in ['easy', 'sp', 'ex']:
-                return False
-        if event == 'coalition_20250626':
+        if event in [
+            'coalition_20240627',
+            'coalition_20250626',
+            'coalition_20260122',
+        ]:
+            # easy is single fleet, SP and EX must must multiple fleets
             if stage in ['easy', 'sp', 'ex']:
                 return False
 
-        self.coalition_ensure_fleet(event, mode)
-        return True
+        clicked = self.coalition_set_fleet(event, mode)
+
+        if self.appear(FLEET_NOT_PREPARED, offset=(20, 20)):
+            logger.critical('FLEET_NOT_PREPARED')
+            logger.critical('Please prepare you fleets before running coalition battles')
+            raise RequestHumanTakeover
+        if self.appear(EMPTY_FLAGSHIP, offset=(20, 20)):
+            logger.critical('EMPTY_FLAGSHIP, Please prepare you fleets before running coalition battles')
+            raise RequestHumanTakeover
+        if self.appear(EMPTY_VANGUARD, offset=(20, 20)):
+            logger.critical('EMPTY_VANGUARD, Please prepare you fleets before running coalition battles')
+            raise RequestHumanTakeover
+
+        return clicked
 
     def coalition_map_exit(self, event):
         """
@@ -297,13 +345,12 @@ class CoalitionUI(Combat):
                 logger.info(f'{DAL_DIFFICULTY_EXIT} -> {DAL_DIFFICULTY_EXIT}')
                 continue
 
-    def enter_map(self, event, stage, mode, skip_first_screenshot=True):
+    def enter_map(self, event, stage, mode):
         """
         Args:
             event (str): Event name such as 'coalition_20230323'
             stage (str): Stage name such as 'TC3'
             mode (str): 'single' or 'multi'
-            skip_first_screenshot:
 
         Pages:
             in: in_coalition
@@ -321,12 +368,8 @@ class CoalitionUI(Combat):
         campaign_click = 0
         campaign_difficulty_click = 0
         fleet_click = 0
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
 
+        for _ in self.loop():
             # Check errors
             if campaign_click > 5:
                 logger.critical(f"Failed to enter {button}, too many click on {button}")
@@ -343,16 +386,6 @@ class CoalitionUI(Combat):
                 logger.critical("Possible reason #2: "
                                 "This stage can only be farmed once a day, "
                                 "but it's the second time that you are entering")
-                raise RequestHumanTakeover
-            if self.appear(FLEET_NOT_PREPARED, offset=(20, 20)):
-                logger.critical('FLEET_NOT_PREPARED')
-                logger.critical('Please prepare you fleets before running coalition battles')
-                raise RequestHumanTakeover
-            if self.appear(EMPTY_FLAGSHIP, offset=(20, 20)):
-                logger.critical('EMPTY_FLAGSHIP, Please prepare you fleets before running coalition battles')
-                raise RequestHumanTakeover
-            if self.appear(EMPTY_VANGUARD, offset=(20, 20)):
-                logger.critical('EMPTY_VANGUARD, Please prepare you fleets before running coalition battles')
                 raise RequestHumanTakeover
 
             # End
@@ -408,4 +441,9 @@ class CoalitionUI(Combat):
 
             # Auto confirm
             if self.handle_combat_automation_confirm():
+                continue
+
+            # 2026.01.22 coalition FASHION adds popup to load fleet from previous fleet
+            # coalition does not allow low emotion battle, so clicking any popup confirm should be safe
+            if self.handle_popup_confirm('COALITION'):
                 continue
