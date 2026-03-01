@@ -96,30 +96,21 @@ class OSShop(PortShop, AkashiShop):
             else:
                 self.os_shop_buy_execute(button)
                 try:
-                    name = str(getattr(button, 'name', '') or '')
-                    name_l = name.lower()
-                    if 'actionpoint' in name_l or ('action' in name_l and 'point' in name_l):
-                        import re, json
-                        from datetime import datetime
-                        from pathlib import Path
+                    if not (getattr(self, 'is_in_task_cl1_leveling', False) and getattr(self, 'is_cl1_enabled', False)):
+                        logger.debug('Skipping akashi AP record because CL1 leveling is not active and/or cl1 mode not enabled')
+                    else:
+                        name = str(getattr(button, 'name', '') or '')
+                        name_l = name.lower()
+                        if 'actionpoint' in name_l or ('action' in name_l and 'point' in name_l):
+                            import re
+                            from datetime import datetime
 
-                        m = re.search(r"(\d+)", name)
-                        base = int(m.group(1)) if m else 0
-                        amount = int(getattr(button, 'amount', 1) or 1)
-                        bought_ap = base * amount
+                            m = re.search(r"(\d+)", name)
+                            base = int(m.group(1)) if m else 0
+                            amount = int(getattr(button, 'amount', 1) or 1)
+                            bought_ap = base * amount
 
-                        # 判断是否为CL1任务中的明石
-                        is_cl1 = getattr(self, 'is_in_task_cl1_leveling', False) and getattr(self, 'is_cl1_enabled', False)
-                        
-                        # 检查配置是否允许记录非CL1来源的体力
-                        record_non_cl1 = True
-                        if hasattr(self, 'config') and hasattr(self.config, 'OpsiHazard1Leveling_RecordNonCL1AP'):
-                            record_non_cl1 = self.config.OpsiHazard1Leveling_RecordNonCL1AP
-
-                        if is_cl1 or record_non_cl1:
-                            source = 'cl1_akashi' if is_cl1 else 'akashi'
                             instance_name = getattr(self.config, 'config_name', 'default')
-                            
                             try:
                                 from module.statistics.cl1_database import db as cl1_db
                                 cl1_db.add_akashi_ap_entry(
@@ -127,13 +118,11 @@ class OSShop(PortShop, AkashiShop):
                                     amount=int(bought_ap),
                                     base=int(base),
                                     count=int(amount),
-                                    source=source
+                                    source='akashi'
                                 )
-                                logger.info(f'Successfully recorded Akashi AP purchase to DB for instance: {instance_name}')
+                                logger.info(f'Successfully recorded Akashi AP purchase to DB')
                             except Exception:
-                                logger.exception('Failed to record akashi purchase to DB')
-                        else:
-                             logger.info('Skipping akashi AP record because not in CL1 task and RecordNonCL1AP is disabled')
+                                logger.exception('Failed to persist akashi ap purchase')
                 except Exception:
                     logger.exception('Error while recording akashi purchase')
 

@@ -216,9 +216,11 @@ class OpsiHazard1Leveling(CoinTaskMixin, OSMap):
                 from module.statistics.cl1_database import db as cl1_db
                 instance_name = getattr(self.config, 'config_name', 'default')
                 cl1_db.increment_akashi_encounter(instance_name)
-                logger.info('已成功在数据库中增加侵蚀 1 明石遭遇次数')
+                month_key = datetime.now().strftime('%Y-%m')
+                data = cl1_db.get_stats(instance_name, month_key)
+                logger.attr('cl1_akashi_monthly', data.get('akashi_encounters', 0))
             except Exception:
-                logger.exception('无法将侵蚀 1 明石遭遇数据存入数据库')
+                logger.exception('Failed to persist CL1 akashi monthly count')
 
     def _cl1_handle_telemetry(self):
         """处理遥测数据提交"""

@@ -660,39 +660,32 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
     def on_auto_search_battle_count_add(self):
         self._auto_search_battle_count += 1
         logger.attr('battle_count', self._auto_search_battle_count)
-        
-        # Check if CL1 tracking should be enabled
-        try:
-            is_cl1_task = self.config.task.command == 'OpsiHazard1Leveling'
-            is_cl1_enabled = self.config.is_task_enabled('OpsiHazard1Leveling')
-        except Exception:
-            is_cl1_task = False
-            is_cl1_enabled = False
-        
-        if is_cl1_task and is_cl1_enabled:
+        if getattr(self, 'is_in_task_cl1_leveling', False) and getattr(self, 'is_cl1_enabled', False):
             try:
-                self._cl1_auto_search_battle_count += 1
+                try:
+                    self._cl1_auto_search_battle_count += 1
+                except Exception:
+                    self._cl1_auto_search_battle_count = 1
                 logger.attr('cl1_battle_count', self._cl1_auto_search_battle_count)
-                # 使用数据库增加计数
-                from module.statistics.cl1_database import db as cl1_db
-                instance_name = getattr(self.config, 'config_name', 'default')
-                cl1_db.increment_battle_count(instance_name)
-                logger.info('Successfully incremented CL1 battle count in DB')
+                try:
+                    from module.statistics.cl1_database import db as cl1_db
+                    instance_name = getattr(self.config, 'config_name', 'default')
+                    cl1_db.increment_battle_count(instance_name)
+                except Exception:
+                    logger.debug('Failed to persist monthly CL1 battle increment', exc_info=True)
             except Exception:
-                logger.exception('Failed to update cl1 battle counter')
+                logger.debug('Failed to update cl1 battle counter', exc_info=True)
 
             if self._auto_search_battle_count % 2 == 1:
                 if self._auto_search_round_timer:
                     cost = round(time.time() - self._auto_search_round_timer, 2)
                     logger.attr('CL1 time cost', f'{cost}s/round')
-                    
-                    if is_cl1_task and is_cl1_enabled:
-                        try:
-                            from module.statistics.ship_exp_stats import get_ship_exp_stats
-                            get_ship_exp_stats(instance_name=instance_name).record_round_time(cost)
-                        except Exception:
-                            logger.exception('Failed to record cl1 round time')
-                            
+                    try:
+                        from module.statistics.ship_exp_stats import get_ship_exp_stats
+                        instance_name = getattr(self.config, 'config_name', 'default')
+                        get_ship_exp_stats(instance_name=instance_name).record_round_time(cost)
+                    except Exception:
+                        logger.exception('Failed to record cl1 round time')
                 self._auto_search_round_timer = time.time()
 
     def get_current_cl1_battle_count(self):
