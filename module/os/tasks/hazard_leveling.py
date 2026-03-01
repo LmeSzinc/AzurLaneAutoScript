@@ -192,7 +192,35 @@ class OpsiHazard1Leveling(CoinTaskMixin, OSMap):
         search_completed = self.run_strategic_search()
 
         if not search_completed and search_completed is not None:
-             logger.warning("战略搜索返回 False，可能已被提前中断")
+            logger.warning("战略搜索返回 False，可能已被提前中断")
+
+        # 第一次重扫：检查是否还有事件
+        self._solved_map_event = set()
+        self._solved_fleet_mechanism = False
+        self.map_rescan()
+
+        # 强制移动逻辑
+        if self.config.OpsiHazard1Leveling_ExecuteFixedPatrolScan:
+            if not self._solved_map_event:
+                self._execute_fixed_patrol_scan(ExecuteFixedPatrolScan=True)
+                # 第二次重扫：舰队移动后再次重扫
+                self._solved_map_event = set()
+                self.map_rescan()
+
+        self.handle_after_auto_search()
+
+        # 明石遭遇记录
+        solved_events = getattr(self, '_solved_map_event', set())
+        if 'is_akashi' in solved_events:
+            try:
+                from module.statistics.cl1_database import db as cl1_db
+                instance_name = getattr(self.config, 'config_name', 'default')
+                cl1_db.increment_akashi_encounter(instance_name)
+                month_key = datetime.now().strftime('%Y-%m')
+                data = cl1_db.get_stats(instance_name, month_key)
+                logger.attr('cl1_akashi_monthly', data.get('akashi_encounters', 0))
+            except Exception:
+                logger.exception('Failed to persist CL1 akashi monthly count')
 
 
     def _cl1_handle_telemetry(self):
