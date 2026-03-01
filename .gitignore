@@ -254,4 +254,5 @@ console.bat
 .vscode/*
 
 # Pylance configuration file
-pyrightconfig.json
+pyrightconfig.json# Local reference copy (not tracked)
+suifeng-AzurLaneAutoScript/
