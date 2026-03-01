@@ -345,6 +345,57 @@ class IslandProjectRun(IslandUI):
                                   for button in TEMPLATE_PROJECT.match_multi(image_gray)])
         return projects.select(valid=True)
 
+    def ensure_project(self, name, trial=7, skip_first_screenshot=True):
+        """
+        Ensure the specific project is in the current page.
+
+        Args:
+            name (str|IslandProject): the project name to ensure
+            trial (int): retry times
+            skip_first_screenshot (bool):
+        """
+        logger.hr('Project ensure')
+        if isinstance(name, IslandProject):
+            name = name.name
+        for _ in range(trial):
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            projects = self.project_detect(self.device.image)
+            if not projects:
+                continue
+            if name in projects.get('name'):
+                logger.info(f'Ensured project: {name}')
+                break
+
+            keys = list(name_to_slot.keys())
+            if name in keys:
+                project_id = keys.index(name) + 1
+                projects_id = projects.get('id')
+                if project_id > projects_id[0]:
+                    self.drag_page((0, -500), ISLAND_PROJECT_SWIPE.area, 0.6)
+                else:
+                    self.drag_page((0, 500), ISLAND_PROJECT_SWIPE.area, 0.6)
+                continue
+            else:
+                logger.warning(f'Wrong project name {name}, skip ensuring')
+                break
+
+    def drag_page(self, vector, box, sleep=0.5):
+        """
+        Drag the management page.
+
+        Args:
+            vector (tuple):
+            box (tuple):
+            sleep (float):
+        """
+        p1, p2 = random_rectangle_vector(vector, box=box, random_range=(0, -5, 0, 5))
+        self.device.drag(p1, p2, segments=2, shake=(0, 25), point_random=(0, 0, 0, 0), shake_random=(0, -5, 0, 5))
+        self.device.sleep(sleep)
+
     def is_in_enter_page(self):
         return self.image_color_count(ROLE_SELECT_TITLE_AREA, color=(57, 189, 255), threshold=221, count=8000)
 
@@ -571,7 +622,7 @@ class IslandProjectRun(IslandUI):
                 last_item = current
                 bottom_item = current.items[-1]
                 self.device.click(bottom_item.button)
-                self.island_drag_next_page((0, -300), ISLAND_PRODUCT_ITEMS.area, 0.5)
+                self.drag_page((0, -300), ISLAND_PRODUCT_ITEMS.area, 0.5)
 
     def product_select_confirm(self):
         """
@@ -624,45 +675,6 @@ class IslandProjectRun(IslandUI):
                     return True
                 if self.island_in_management():
                     return True
-
-    def island_drag_next_page(self, vector, box, sleep=0.5):
-        """
-        Drag to the next page.
-
-        Args:
-            vector (tuple):
-            box (tuple):
-            sleep (float):
-        """
-        logger.info('Island drag to next page')
-        p1, p2 = random_rectangle_vector(vector, box=box, random_range=(0, -5, 0, 5))
-        self.device.drag(p1, p2, segments=2, shake=(0, 25), point_random=(0, 0, 0, 0), shake_random=(0, -5, 0, 5))
-        self.device.sleep(sleep)
-
-    def ensure_project(self, project, trial=7, skip_first_screenshot=True):
-        """
-        Ensure the specific project is in the current page.
-
-        Args:
-            project (IslandProject): the project to ensure
-            trial (int): retry times
-            skip_first_screenshot (bool):
-        """
-        logger.hr('Project ensure')
-        for _ in range(trial):
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            projects = self.project_detect(self.device.image)
-            if not projects:
-                continue
-            if project.name in projects.get('name'):
-                logger.info(f'Ensured project: {project}')
-                break
-
-            self.island_drag_next_page((0, -500), ISLAND_PROJECT_SWIPE.area, 0.6)
 
     def project_receive_and_start(self, proj, button, character, option, project_id, ensure=True):
         """
@@ -733,6 +745,7 @@ class IslandProjectRun(IslandUI):
             list[timedelta]: future finish timedelta
         """
         logger.hr('Island Project Run', level=1)
+        self.ensure_project(names[0])
         end = False
         timeout = Timer(3, count=3).start()
         for _ in self.loop():
@@ -770,7 +783,7 @@ class IslandProjectRun(IslandUI):
 
             if end:
                 break
-            self.island_drag_next_page((0, -500), ISLAND_PROJECT_SWIPE.area, 0.6)
+            self.drag_page((0, -500), ISLAND_PROJECT_SWIPE.area, 0.6)
 
         # task delay
         future_finish = sorted([f for f in self.total.get('finish_time') if f is not None])

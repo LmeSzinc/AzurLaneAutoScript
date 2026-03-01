@@ -11,7 +11,17 @@ class IslandUI(UI):
     def ui_additional(self, get_ship=True):
         return super().ui_additional(get_ship=False)
 
-    @cached_property
+    def island_in_management(self, interval=0):
+        """
+        Args:
+            interval (int):
+
+        Returns:
+            bool: if in page ISLAND_MANAGEMENT_CHECK
+        """
+        return self.appear(ISLAND_MANAGEMENT_CHECK, offset=(20, 20), interval=interval)
+
+    #@cached_property
     def _island_season_bottom_navbar(self):
         """
         6 options:
