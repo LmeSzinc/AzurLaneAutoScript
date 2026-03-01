@@ -190,36 +190,7 @@ class FleetSelector:
         logger.warning('Unknown OpSi fleet, use current fleet instead')
         return False
 
-class StorageFleetSelector(FleetSelector):
-    FLEET_LIST = [STORAGE_FLEET_1, STORAGE_FLEET_2, STORAGE_FLEET_3, STORAGE_FLEET_4, STORAGE_FLEET_5]
-    SUBMARINE_FLEET = 5
-
-    def __init__(self, main):
-        """
-        Args:
-            main (OSFleetSelector): Alas module
-        """
-        self._choose = STORAGE_FLEET_CHOOSE
-        self._bar = STORAGE_FLEET_BAR
-        self.main = main
-
-    def bar_opened(self):
-        # Check the 3-13 column
-        area = self._bar.area
-        area = (area[0] + 3, area[1], area[0] + 13, area[3])
-        # Should have at least 2 gray option and 1 orange option.
-        return self.main.image_color_count(area, color=(200, 207, 231), threshold=221, count=400) \
-               and self.main.image_color_count(area, color=(214, 150, 96), threshold=221, count=150)
-
-    def get_button(self, index):
-        return super().get_button(index, 6)
-
-
 class OSFleetSelector(MapEventHandler):
     @cached_property
     def fleet_selector(self):
         return FleetSelector(main=self)
-
-    @cached_property
-    def storage_fleet_selector(self):
-        return StorageFleetSelector(main=self)

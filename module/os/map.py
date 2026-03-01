@@ -1,4 +1,5 @@
 import time
+from sys import maxsize
 
 import inflection
 
@@ -391,35 +392,45 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
 
         return True
 
-    def get_action_point_limit(self):
+    def get_action_point_limit(self, preserve=False):
         """
         Override user config at the end of every month.
         To consume all action points without manual configuration.
 
+        Args:
+            preserve (bool): if preserve action points until OpSi reset
+
         Returns:
             int: ActionPointPreserve
         """
+        if preserve:
+            if self.config.is_task_enabled('OpsiCrossMonth'):
+                logger.info('Preserve action points until OpsiCrossMonth')
+                return maxsize
+            else:
+                logger.info('OpsiCrossMonth is not enabled, skip OpsiMeowfficerFarming.APPreserveUntilReset')
+
         remain = get_os_reset_remain()
         if remain <= 0:
             if self.config.is_task_enabled('OpsiCrossMonth'):
-                logger.info('Just less than 1 day to OpSi reset, OpsiCrossMonth is enabled'
-                            'set OpsiMeowfficerFarming.ActionPointPreserve to 300 temporarily')
-                return 300
+                logger.info('Just less than 1 day to OpSi reset, OpsiCrossMonth is enabled, '
+                            'set OpsiMeowfficerFarming.ActionPointPreserve to 500 temporarily')
+                return 500
             else:
                 logger.info('Just less than 1 day to OpSi reset, '
                             'set ActionPointPreserve to 0 temporarily')
                 return 0
         elif self.is_cl1_enabled and remain <= 2:
             logger.info('Just less than 3 days to OpSi reset, '
-                        'set ActionPointPreserve to 1000 temporarily for hazard 1 leveling')
-            return 1000
+                        'set ActionPointPreserve to 2000 temporarily for hazard 1 leveling')
+            return 2000
         elif remain <= 2:
             logger.info('Just less than 3 days to OpSi reset, '
-                        'set ActionPointPreserve to 300 temporarily')
-            return 300
+                        'set ActionPointPreserve to 500 temporarily')
+            return 500
         else:
             logger.info('Not close to OpSi reset')
-            return 2000
+            return maxsize
 
     def handle_after_auto_search(self):
         logger.hr('After auto search', level=2)

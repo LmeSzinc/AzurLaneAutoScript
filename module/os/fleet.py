@@ -549,18 +549,6 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         else:
             return False
 
-    def storage_fleet_set(self, index=1, skip_first_screenshot=True):
-        """
-        Args:
-            index (int): Target fleet_current_index
-            skip_first_screenshot (bool):
-
-        Returns:
-            bool: If switched.
-        """
-        logger.hr(f'Fleet set to {index}')
-        return self.storage_fleet_selector.ensure_to_be(index)
-
     def parse_fleet_filter(self):
         """
         Returns:
