@@ -141,6 +141,21 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
                     self.map_rescan()
 
             self.handle_after_auto_search()
+            
+            # [Antigravity Fix] 原版的明石遭遇记录就是在这里处理的
+            solved_events = getattr(self, '_solved_map_event', set())
+            if 'is_akashi' in solved_events:
+                try:
+                    from module.statistics.cl1_database import db as cl1_db
+                    from datetime import datetime
+                    instance_name = getattr(self.config, 'config_name', 'default')
+                    cl1_db.increment_akashi_encounter(instance_name)
+                    month_key = datetime.now().strftime('%Y-%m')
+                    data = cl1_db.get_stats(instance_name, month_key)
+                    logger.attr('cl1_akashi_monthly', data.get('akashi_encounters', 0))
+                except Exception:
+                    logger.exception('Failed to persist CL1 akashi monthly count')
+
             self.config.override(OpsiFleet_Fleet=OpsiFleet_Fleet)
         elif self.zone.zone_id == 154:
             logger.info('In zone 154, skip running first auto search')
@@ -1007,6 +1022,21 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
                 logger.info('OS auto search finished')
             finally:
                 backup.recover()
+
+            self.handle_after_auto_search()
+            
+            solved_events = getattr(self, '_solved_map_event', set())
+            if 'is_akashi' in solved_events:
+                try:
+                    from module.statistics.cl1_database import db as cl1_db
+                    from datetime import datetime
+                    instance_name = getattr(self.config, 'config_name', 'default')
+                    cl1_db.increment_akashi_encounter(instance_name)
+                    month_key = datetime.now().strftime('%Y-%m')
+                    data = cl1_db.get_stats(instance_name, month_key)
+                    logger.attr('cl1_akashi_monthly', data.get('akashi_encounters', 0))
+                except Exception:
+                    logger.exception('Failed to persist CL1 akashi monthly count')
 
             # Continue if was Auto search interrupted by ash popup
             # Break if zone cleared
