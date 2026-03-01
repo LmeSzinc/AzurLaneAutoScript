@@ -935,7 +935,6 @@ OpsiHazard1Leveling:
     value: 0
     option: [ 0, 44, 22 ]
   OperationCoinsPreserve: 100000
-  DoScanningDevice: false
 
 # ==================== Tools ====================
 

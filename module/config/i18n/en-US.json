@@ -3912,10 +3912,6 @@
     "OperationCoinsPreserve": {
       "name": "Keep X Amount of Operation Coins",
       "help": "Stops task if total operation coins is below this number, and then starts task Meowfficer Farming"
-    },
-    "DoScanningDevice": {
-      "name": "Do Siren Scanning Device",
-      "help": "Exchange purple coins to operation coins, which may cause a shortage of purple coins"
     }
   },
   "Daemon": {
