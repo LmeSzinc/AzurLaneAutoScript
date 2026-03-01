@@ -771,3 +771,13 @@ class GeneratedConfig:
 
     # Group `Storage`
     Storage_Storage = {}
+
+    # Group `PublicEmotion`
+    PublicEmotion_Enable = False
+    PublicEmotion_Tasks = None
+    PublicEmotion_FleetValue = 119
+    PublicEmotion_FleetRecord = datetime.datetime(2020, 1, 1, 0, 0)
+    PublicEmotion_FleetControl = 'prevent_yellow_face'  # keep_exp_bonus, prevent_green_face, prevent_yellow_face, prevent_red_face
+    PublicEmotion_FleetRecover = 'not_in_dormitory'  # not_in_dormitory, dormitory_floor_1, dormitory_floor_2
+    PublicEmotion_FleetOath = False
+    PublicEmotion_FleetOnsen = False

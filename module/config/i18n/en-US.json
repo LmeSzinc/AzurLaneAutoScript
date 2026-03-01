@@ -705,6 +705,51 @@
       "old_retire": "Old Retire"
     }
   },
+  "PublicEmotion": {
+    "_info": {
+      "name": "PublicEmotion._info.name",
+      "help": "PublicEmotion._info.help"
+    },
+    "Enable": {
+      "name": "PublicEmotion.Enable.name",
+      "help": "PublicEmotion.Enable.help"
+    },
+    "Tasks": {
+      "name": "PublicEmotion.Tasks.name",
+      "help": "PublicEmotion.Tasks.help"
+    },
+    "FleetValue": {
+      "name": "PublicEmotion.FleetValue.name",
+      "help": "PublicEmotion.FleetValue.help"
+    },
+    "FleetRecord": {
+      "name": "PublicEmotion.FleetRecord.name",
+      "help": "PublicEmotion.FleetRecord.help"
+    },
+    "FleetControl": {
+      "name": "PublicEmotion.FleetControl.name",
+      "help": "PublicEmotion.FleetControl.help",
+      "keep_exp_bonus": "PublicEmotion.FleetControl.keep_exp_bonus",
+      "prevent_green_face": "PublicEmotion.FleetControl.prevent_green_face",
+      "prevent_yellow_face": "PublicEmotion.FleetControl.prevent_yellow_face",
+      "prevent_red_face": "PublicEmotion.FleetControl.prevent_red_face"
+    },
+    "FleetRecover": {
+      "name": "PublicEmotion.FleetRecover.name",
+      "help": "PublicEmotion.FleetRecover.help",
+      "not_in_dormitory": "PublicEmotion.FleetRecover.not_in_dormitory",
+      "dormitory_floor_1": "PublicEmotion.FleetRecover.dormitory_floor_1",
+      "dormitory_floor_2": "PublicEmotion.FleetRecover.dormitory_floor_2"
+    },
+    "FleetOath": {
+      "name": "PublicEmotion.FleetOath.name",
+      "help": "PublicEmotion.FleetOath.help"
+    },
+    "FleetOnsen": {
+      "name": "PublicEmotion.FleetOnsen.name",
+      "help": "PublicEmotion.FleetOnsen.help"
+    }
+  },
   "YukikazeTaskManager": {
     "_info": {
       "name": "雪风大人的任务管理",

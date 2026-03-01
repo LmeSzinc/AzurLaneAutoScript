@@ -705,6 +705,51 @@
       "old_retire": "传统退役"
     }
   },
+  "PublicEmotion": {
+    "_info": {
+      "name": "共用心情",
+      "help": "可使用同一队伍完成多项任务\n使用该功能时请确保相应任务的舰队职能为单队全清，且队伍为共用队伍"
+    },
+    "Enable": {
+      "name": "启用共用心情功能",
+      "help": "启用后将使用共用心情，以下心情配置将代替原配置"
+    },
+    "Tasks": {
+      "name": "共用心情任务",
+      "help": "选择使用共用心情的任务，用半角逗号隔开，如\"Main, Event, EventA\"\n主线图-1: Main, 主线图-2: Main2, 主线图-3: Main3\n活动图-1: Event, 活动图-2: Event2, 作战档案: WarArchives\n每日A图: EventA, 每日B图: EventB, 每日C图: EventC, 每日D图: EventD, 每日SP图: EventSp"
+    },
+    "FleetValue": {
+      "name": "心情值",
+      "help": ""
+    },
+    "FleetRecord": {
+      "name": "心情记录时间",
+      "help": ""
+    },
+    "FleetControl": {
+      "name": "心情控制",
+      "help": "",
+      "keep_exp_bonus": "保持经验加成 (>120)",
+      "prevent_green_face": "防止绿脸 (>40)",
+      "prevent_yellow_face": "防止黄脸 (>30)",
+      "prevent_red_face": "防止红脸 (>0)"
+    },
+    "FleetRecover": {
+      "name": "心情回复",
+      "help": "",
+      "not_in_dormitory": "未放置于后宅 (20/h)",
+      "dormitory_floor_1": "后宅一层 (40/h)",
+      "dormitory_floor_2": "后宅二层 (50/h)"
+    },
+    "FleetOath": {
+      "name": "全员已婚 (+10/h)",
+      "help": ""
+    },
+    "FleetOnsen": {
+      "name": "全员已放置温泉 (+10/h)",
+      "help": ""
+    }
+  },
   "YukikazeTaskManager": {
     "_info": {
       "name": "雪风大人的任务管理",

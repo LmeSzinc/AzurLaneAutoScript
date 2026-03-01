@@ -34,11 +34,17 @@ class FleetEmotion:
         """
         Args:
             config (AzurLaneConfig):
-            fleet (int): Fleet index
+            fleet (str): Fleet index
         """
         self.config = config
         self.fleet = fleet
         self.current = 0
+
+    @property
+    def _key_prefix(self):
+        if self.fleet == 'Public':
+            return 'PublicEmotion_Fleet'
+        return f'Emotion_Fleet{self.fleet}'
 
     @property
     def value(self):
@@ -46,7 +52,7 @@ class FleetEmotion:
         Returns:
             int: 0 to 150
         """
-        return getattr(self.config, f'Emotion_Fleet{self.fleet}Value')
+        return getattr(self.config, f'{self._key_prefix}Value')
 
     @property
     def value_name(self):
@@ -54,7 +60,7 @@ class FleetEmotion:
         Returns:
             str:
         """
-        return f'Emotion_Fleet{self.fleet}Value'
+        return f'{self._key_prefix}Value'
 
     @property
     def record(self):
@@ -62,7 +68,7 @@ class FleetEmotion:
         Returns:
             datetime.datetime:
         """
-        return getattr(self.config, f'Emotion_Fleet{self.fleet}Record')
+        return getattr(self.config, f'{self._key_prefix}Record')
 
     @property
     def recover(self):
@@ -70,7 +76,7 @@ class FleetEmotion:
         Returns:
             str: not_in_dormitory, dormitory_floor_1, dormitory_floor_2
         """
-        return getattr(self.config, f'Emotion_Fleet{self.fleet}Recover')
+        return getattr(self.config, f'{self._key_prefix}Recover')
 
     @property
     def control(self):
@@ -78,7 +84,7 @@ class FleetEmotion:
         Returns:
             str: keep_exp_bonus, prevent_green_face, prevent_yellow_face, prevent_red_face
         """
-        return getattr(self.config, f'Emotion_Fleet{self.fleet}Control')
+        return getattr(self.config, f'{self._key_prefix}Control')
 
     @property
     def oath(self):
@@ -86,7 +92,7 @@ class FleetEmotion:
         Returns:
             bool: If all ships oath.
         """
-        return getattr(self.config, f'Emotion_Fleet{self.fleet}Oath')
+        return getattr(self.config, f'{self._key_prefix}Oath')
 
     @property
     def onsen(self):
@@ -94,7 +100,7 @@ class FleetEmotion:
         Returns:
             bool: If all ships onsen.
         """
-        return getattr(self.config, f'Emotion_Fleet{self.fleet}Onsen')
+        return getattr(self.config, f'{self._key_prefix}Onsen')
 
     @property
     def speed(self):
@@ -155,7 +161,6 @@ class FleetEmotion:
         recovered = (int(datetime.now().timestamp()) // 360 + recover_count + 1) * 360
         return datetime.fromtimestamp(recovered)
 
-
 class Emotion:
     total_reduced = 0
     map_is_2x_book = False
@@ -169,6 +174,24 @@ class Emotion:
         self.fleet_1 = FleetEmotion(self.config, fleet=1)
         self.fleet_2 = FleetEmotion(self.config, fleet=2)
         self.fleets = [self.fleet_1, self.fleet_2]
+        self.using_public = self._handle_public()
+    
+    def _handle_public(self):
+        if not getattr(self.config, 'PublicEmotion_Enable'):
+            return False
+        
+        tasks = getattr(self.config, 'PublicEmotion_Tasks')
+
+        if not tasks:
+            return False
+
+        tasks = [task.strip() for task in tasks.split(',')]
+
+        if self.config.task.command not in tasks:
+            return False
+
+        self.public_fleet = FleetEmotion(self.config, fleet='Public')
+        return True
 
     @property
     def is_calculate(self):
@@ -182,6 +205,10 @@ class Emotion:
         """
         Update emotion value. This should be called before doing anything.
         """
+        if self.using_public:
+            self.public_fleet.update()
+            return
+        
         for fleet in self.fleets:
             fleet.update()
 
@@ -189,6 +216,11 @@ class Emotion:
         """
         Save current emotion value to config.
         """
+        if self.using_public:
+            value = {self.public_fleet.value_name: self.public_fleet.current}
+            self.config.set_record(**value)
+            return
+        
         value = {}
         for fleet in self.fleets:
             value[fleet.value_name] = fleet.current
@@ -196,6 +228,10 @@ class Emotion:
         self.config.set_record(**value)
 
     def show(self):
+        if self.using_public:
+            logger.attr(f'Emotion PublicFleet', self.public_fleet.value)
+            return
+        
         for fleet in self.fleets:
             logger.attr(f'Emotion fleet_{fleet.fleet}', fleet.value)
 
@@ -221,6 +257,17 @@ class Emotion:
             recovered (datetime): expected recover time
             delay (bool): if should delay or not
         """
+        if self.using_public:
+            reduce = battle * self.reduce_per_battle_before_entering
+            logger.info(f'Expect emotion reduce: {reduce}')
+
+            self.update()
+            self.record()
+            self.show()
+            recovered = self.public_fleet.get_recovered(reduce)
+            delay = recovered > datetime.now()
+            return recovered, delay
+
         method = self.config.Fleet_FleetOrder
 
         if method == 'fleet1_mob_fleet2_boss':
@@ -274,11 +321,18 @@ class Emotion:
         self.update()
         self.record()
         self.show()
-        fleet = self.fleets[fleet_index - 1]
+        if self.using_public:
+            fleet = self.public_fleet
+        else:
+            fleet = self.fleets[fleet_index - 1]
+
         recovered = fleet.get_recovered(expected_reduce=self.reduce_per_battle)
         if recovered > datetime.now():
             logger.hr('Emotion wait')
-            logger.info(f'Emotion of fleet {fleet_index} will recover to {fleet.limit} at {recovered}')
+            if self.using_public:
+                logger.info(f'Emotion of PublicFleet will recover to {fleet.limit} at {recovered}')
+            else:
+                logger.info(f'Emotion of fleet {fleet_index} will recover to {fleet.limit} at {recovered}')
 
             while 1:
                 if datetime.now() > recovered:
@@ -299,7 +353,11 @@ class Emotion:
         logger.hr('Emotion reduce')
         self.update()
 
-        fleet = self.fleets[fleet_index - 1]
+        if self.using_public:
+            fleet = self.public_fleet
+        else:
+            fleet = self.fleets[fleet_index - 1]
+
         fleet.current -= self.reduce_per_battle
         self.total_reduced += self.reduce_per_battle
         self.record()

@@ -145,6 +145,16 @@
       "SSR": false,
       "RetireAmount": "retire_all"
     },
+    "PublicEmotion": {
+      "Enable": false,
+      "Tasks": null,
+      "FleetValue": 119,
+      "FleetRecord": "2020-01-01 00:00:00",
+      "FleetControl": "prevent_yellow_face",
+      "FleetRecover": "not_in_dormitory",
+      "FleetOath": false,
+      "FleetOnsen": false
+    },
     "YukikazeTaskManager": {
       "TaskPriorityAdjustment": "Restart\n> OpsiCrossMonth > OpsiDailyDelay\n> Commission > Tactical > Research\n> Exercise\n> Dorm > Meowfficer > Guild > Gacha\n> Reward\n> ShopFrequent > ShopOnce > Shipyard > Freebies > Island\n> PrivateQuarters\n> OpsiExplore\n> Minigame > Awaken\n> OpsiAshBeacon\n> OpsiDaily > OpsiShop > OpsiVoucher\n> OpsiAbyssal > OpsiStronghold > OpsiObscure > OpsiArchive\n> Daily > Hard > OpsiAshBeacon > OpsiAshAssist > OpsiMonthBoss\n> Sos > EventSp > EventA > EventB > EventC > EventD\n> RaidDaily > CoalitionSp > WarArchives > MaritimeEscort\n> Event > Event2 > Raid > Hospital > HospitalEvent > Coalition > RaidScuttle > Main > Main2 > Main3\n> OpsiMeowfficerFarming\n> GemsFarming\n> OpsiHazard1Leveling\n> ThreeOilLowCost"
     },
