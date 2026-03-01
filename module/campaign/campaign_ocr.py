@@ -41,11 +41,21 @@ class CampaignOcr(ModuleBase):
     @staticmethod
     def _campaign_ocr_result_process(result):
         # The result will be like '7--2', because tha dash in game is '–' not '-'
-        result = result.lower().replace('--', '-').replace('--', '-')
-        if result.startswith('-'):
-            result = result[1:]
+        result = result.replace('--', '-').replace('--', '-').lstrip('-')
+
+        # Replace wrong 'I' from results like 'I1-1', '1I-1', 'I-I', '11-I', 'I4-4', to '1'
+        # while keeping results like 'isp-2', 'sp1'
+        def replace_func(match):
+            segment = match.group(0)
+            return segment.replace('I', '1')
+
+        result = re.sub(r'[0-9I]+-[0-9I]+', replace_func, result, count=1)
+
+        # Convert '72' to '7-2'
         if len(result) == 2 and result[0].isdigit():
             result = '-'.join(result)
+
+        result = result.lower()
         return result
 
     @staticmethod

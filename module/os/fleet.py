@@ -322,6 +322,13 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         clicked_story_count = 0
 
         confirm_timer.reset()
+
+        def abyssal_expected_end():
+            # add handle_map_event() because OSCombat.combat_status() removes get_items
+            if self.handle_map_event(drop=drop):
+                return False
+            return self.is_in_map()
+
         for _ in self.loop(skip_first=skip_first_screenshot):
             # Map event
             event = self.handle_map_event(drop=drop)
@@ -390,7 +397,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             if self.combat_appear():
                 # Use ui_back() for testing, because there are too few abyssal loggers every month.
                 # self.ui_back(check_button=self.is_in_map)
-                self.combat(expected_end=self.is_in_map, fleet_index=self.fleet_show_index, save_get_items=drop)
+                self.combat(expected_end=abyssal_expected_end, fleet_index=self.fleet_show_index, save_get_items=drop)
                 confirm_timer.reset()
                 result.add('event')
                 continue
@@ -726,6 +733,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         logger.hr('BOSS leave')
         # Update local view
         self.update_os()
+        self.predict()
 
         click_timer = Timer(3)
         pause_interval = Timer(0.5, count=1)
@@ -739,8 +747,13 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
 
             # Re-enter boss accidentally
             if pause_interval.reached():
-                if self.combat_appear():
-                    logger.info(f'combat_appear -> {BACK_ARROW}')
+                if self.appear(BATTLE_PREPARATION):
+                    logger.info(f'{BATTLE_PREPARATION} -> {BACK_ARROW}')
+                    self.device.click(BACK_ARROW)
+                    pause_interval.reset()
+                    continue
+                if self.appear(SIREN_PREPARATION, offset=(20, 20)):
+                    logger.info(f'{SIREN_PREPARATION} -> {BACK_ARROW}')
                     self.device.click(BACK_ARROW)
                     pause_interval.reset()
                     continue
