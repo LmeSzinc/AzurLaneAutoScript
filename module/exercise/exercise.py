@@ -171,18 +171,6 @@ class Exercise(ExerciseCombat):
             self.config.set_record(Exercise_OpponentRefreshValue=0)
             return 0
 
-    def _get_thursday_strategy(self, remain_time):
-        """
-        Args:
-            remain_time(datetime.timedelta):
-
-        Returns:
-            bool: if use Thursday strategy
-        """
-        if 96 > remain_time >= 84 or 264 > remain_time >= 252:
-            return True
-        return False
-
     def server_support_ocr_reset_remain(self) -> bool:
         return self.config.SERVER in ['cn', 'en', 'jp']
 
@@ -226,26 +214,21 @@ class Exercise(ExerciseCombat):
             remain_time = OCR_PERIOD_REMAIN.ocr(self.device.image)
         logger.info(f'Exercise period remain: {remain_time}')
 
+        forced_run = False
         if admiral_interval is not None and remain_time:
             admiral_start, admiral_end = admiral_interval
+            remain_hours = int(remain_time.total_seconds() // 3600)
 
-            if self._get_thursday_strategy(int(remain_time.total_seconds() // 3600)):
-                logger.info('Reach Thursday for admiral trial, using all attempts.')
+            if remain_hours < 6:
+                # Final window: clear all attempts but still respect delay setting
+                logger.info('Exercise period remain less than 6 hours, will clear all attempts in delay window.')
                 self.preserve = 0
-                forced_run = True
-            elif admiral_start > int(remain_time.total_seconds() // 3600) >= admiral_end:  # set time for getting admiral
+            elif admiral_start > remain_hours >= admiral_end:  # set time for getting admiral
                 logger.info('Reach set time for admiral trial, using all attempts.')
-                self.preserve = 0
-                forced_run = True
-            elif int(remain_time.total_seconds() // 3600) < 6:  # if not set to "sun18", still depleting at sunday 18pm.
-                logger.info('Exercise period remain less than 6 hours, using all attempts.')
                 self.preserve = 0
                 forced_run = True
             else:
                 logger.info(f'Preserve {self.preserve} exercise')
-                forced_run = False
-        else:
-            forced_run = False
 
         # Delay task to the configured time
         if ((get_server_next_update(server_update) - datetime.datetime.now()).seconds >

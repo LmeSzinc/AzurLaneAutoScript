@@ -258,6 +258,7 @@ class AzurLaneAutoScript:
 
     def exercise(self):
         from module.exercise.exercise import Exercise
+        self.restart()
         Exercise(config=self.config, device=self.device).run()
 
     def sos(self):
