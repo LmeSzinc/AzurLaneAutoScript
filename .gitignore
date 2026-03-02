@@ -256,3 +256,5 @@ console.bat
 # Pylance configuration file
 pyrightconfig.json# Local reference copy (not tracked)
 suifeng-AzurLaneAutoScript/
+lme-AzurlaneAutoScript/
+sync_local.bat
