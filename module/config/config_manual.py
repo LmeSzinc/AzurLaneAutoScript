@@ -340,6 +340,23 @@ class ManualConfig:
     OS_NORMAL_PURPLE_COINS_PRESERVE = 100
     OS_MISSION_COMPLETE = False
 
+    @property
+    def OS_CL1_YELLOW_COINS_PRESERVE(self):
+        """
+        Backward compatibility:
+        Prefer new UI config OpsiHazard1Leveling.OperationCoinsPreserve.
+        """
+        return getattr(self, 'OpsiHazard1Leveling_OperationCoinsPreserve', 100000)
+
+    @OS_CL1_YELLOW_COINS_PRESERVE.setter
+    def OS_CL1_YELLOW_COINS_PRESERVE(self, value):
+        # Map old field writes to new config if available.
+        if hasattr(self, 'OpsiHazard1Leveling_OperationCoinsPreserve'):
+            self.OpsiHazard1Leveling_OperationCoinsPreserve = value
+        else:
+            # Fallback to direct attribute to avoid crashes in edge cases.
+            self.__dict__['OS_CL1_YELLOW_COINS_PRESERVE'] = value
+
     """
     module.os.globe_detection
     """
