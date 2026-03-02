@@ -1769,12 +1769,16 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
                                 # 寻路中断，重新寻路
                                 find_device_timer.reset()
                                 time.sleep(1.0)
+                                self.device.screenshot()
+                                self.update()
                                 
-                                self.focus_to(target_loc, swipe_limit=(6, 5))
+                                self.focus_to(focus_loc, swipe_limit=(6, 5))
                                 self.focus_to_grid_center(0.3)
                                 self.device.screenshot()
                                 self.update()
                                 grid = self.convert_global_to_local(target_loc)
+
+                                time.sleep(0.5)
                         else:
                             logger.warning(f'目标 {target_grid} 不在地图中')
 
@@ -1817,6 +1821,8 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
                             find_device_timer.reset()
                             camera_queue = self.map.camera_data
                             time.sleep(1.0)
+                            self.device.screenshot()
+                            self.update()
 
                         time.sleep(0.5)
 
