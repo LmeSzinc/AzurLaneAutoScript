@@ -92,7 +92,7 @@ class ShipExpStats:
         self._battle_start_time = None
         
         # 过滤异常值 (太短或太长的战斗)
-        if duration < 10 or duration > 300:
+        if duration < 1 or duration > 300:
             logger.debug(f'Battle duration {duration:.1f}s out of range, not recorded')
             return duration
         
