@@ -114,38 +114,8 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
                     return
 
         # Clear current zone
-        if self.zone.zone_id in [22, 44]:
-            logger.info('In zone 22, 44, run first auto search')
-            is_hazard1_task = self.config.task.command == 'OpsiHazard1Leveling'
-            if is_hazard1_task:
-                OpsiFleet_Fleet = self.config.OpsiFleet_Fleet
-                self.config.override(OpsiFleet_Fleet=self.config.cross_get('OpsiHazard1Leveling.OpsiFleet.Fleet'))
-                self.fleet_set(self.config.OpsiFleet_Fleet)
-                # [Antigravity Fix] 改用计划作战 -> 扫描全图 -> 没怪则强制移动 -> 再扫图
-                self.run_strategic_search()
-    
-                # 第一次重扫：检查是否还有事件
-                self._solved_map_event = set()
-                self._solved_fleet_mechanism = False
-                self.map_rescan()
-    
-                # 强制移动逻辑：仅在 OpsiHazard1Leveling 且配置开启时生效
-                if self.config.OpsiHazard1Leveling_ExecuteFixedPatrolScan:
-                    # 只有在第一次重扫没有发现事件时才执行舰队移动
-                    if not self._solved_map_event:
-                        # _execute_fixed_patrol_scan 内部会再次检查 ExecuteFixedPatrolScan 的配置
-                        # 这里强制传入 True 以确保逻辑被调用（只要外层配置开启了）
-                        self._execute_fixed_patrol_scan(ExecuteFixedPatrolScan=True)
-                        
-                        # 第二次重扫：舰队移动后再次重扫
-                        self._solved_map_event = set()
-                        self.map_rescan()
-    
-                self.handle_after_auto_search()
-                self.config.override(OpsiFleet_Fleet=OpsiFleet_Fleet)
-            else:
-                self.run_auto_search(rescan=False)
-                self.handle_after_auto_search()
+        if self.zone.zone_id in [22, 44] and self.config.task.command == 'OpsiHazard1Leveling':
+            pass
         elif self.zone.zone_id == 154:
             logger.info('In zone 154, skip running first auto search')
             self.handle_ash_beacon_attack()
