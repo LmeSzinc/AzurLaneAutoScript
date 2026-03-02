@@ -535,6 +535,7 @@ class AlasGUI(Frame):
 
             put_scope("opsi_stats", [])
             _render_opsi_stats()
+            self.task_handler.add(_render_opsi_stats, 60, True)
 
             # ========== 体力变化曲线图 ==========
             def _render_ap_chart():
@@ -794,6 +795,7 @@ class AlasGUI(Frame):
 
             put_scope("ap_chart", [])
             _render_ap_chart()
+            self.task_handler.add(_render_ap_chart, 60, True)
 
             # ========== 舰船经验检测表格 ==========
             def _render_ship_exp():
@@ -872,6 +874,7 @@ class AlasGUI(Frame):
 
             put_scope("ship_exp_table", [])
             _render_ship_exp()
+            self.task_handler.add(_render_ship_exp, 60, True)
 
         put_scope("_groups", [put_none(), put_scope("groups"), put_scope("navigator")])
 
