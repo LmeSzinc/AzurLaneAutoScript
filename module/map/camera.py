@@ -278,6 +278,8 @@ class Camera(MapOperation):
 
         def is_still_prev():
             # Still the same as prev view
+            if prev_center_offset is None:
+                return False
             return np.linalg.norm(self.view.center_offset - prev_center_offset) < 0.001
 
         while 1:
