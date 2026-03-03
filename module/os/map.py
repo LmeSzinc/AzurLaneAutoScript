@@ -1724,16 +1724,14 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
                     logger.info(f'Siren bug usage count: {SirenBug_DailyCount}, sleep {SirenBug_DailyCount}s before auto search')
                     time.sleep(SirenBug_DailyCount)
 
-                self.map_init(map_=None)
-
                 target_grid = self.config.cross_get(keys="OpsiHazard1Leveling.OpsiSirenBug.SirenBug_Grid", default=None)
-                
                 device_handled = False
 
                 if target_grid:
                     try:
                         target_grid = target_grid.upper()
                         target_loc = location_ensure(target_grid)
+                        self.map_init(map_=None)
                         
                         # 避免目标在地图边缘导致 focus_to 死循环
                         # 如果目标在边缘，则聚焦到向内一格的位置
@@ -1753,9 +1751,6 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
 
                         # 滑动到目标视角
                         self.focus_to(focus_loc, swipe_limit=(6, 5))
-                        self.focus_to_grid_center(0.3)
-                        self.device.screenshot()
-                        self.update()
 
                         if target_loc in self.map:
                             grid = self.convert_global_to_local(target_loc)
@@ -1769,13 +1764,9 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
                                 # 寻路中断，重新寻路
                                 find_device_timer.reset()
                                 time.sleep(1.0)
-                                self.device.screenshot()
-                                self.update()
                                 
+                                self.map_init(map_=None)
                                 self.focus_to(focus_loc, swipe_limit=(6, 5))
-                                self.focus_to_grid_center(0.3)
-                                self.device.screenshot()
-                                self.update()
                                 grid = self.convert_global_to_local(target_loc)
 
                                 time.sleep(0.5)
@@ -1787,6 +1778,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
                         logger.warning('将回退到全图扫描模式')
 
                 if not device_handled:
+                    self.map_init(map_=None)
                     camera_queue = self.map.camera_data
                     find_device_timer = Timer(30, count=1).start()
                     self._solved_map_event = set()
@@ -1801,9 +1793,6 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
 
                         # 滑动到目标视角
                         self.focus_to(target_camera, swipe_limit=(6, 5))
-                        self.focus_to_grid_center(0.3)
-                        self.device.screenshot()
-                        self.update()
 
                         # 寻找塞壬研究装置
                         grids = self.view.select(is_scanning_device=True)
@@ -1821,8 +1810,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
                             find_device_timer.reset()
                             camera_queue = self.map.camera_data
                             time.sleep(1.0)
-                            self.device.screenshot()
-                            self.update()
+                            self.map_init(map_=None)
 
                         time.sleep(0.5)
 
