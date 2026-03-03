@@ -47,11 +47,13 @@ class AzurLaneAutoScript:
         Try to restart the emulator if AdbOfflineRestart is enabled and threshold not reached.
         
         Uses the existing self.device object if available, as it has emulator_instance cached.
-        If not available, falls back to a fresh PlatformWindows instance.
+        If not available, falls back to a fresh PlatformWindows (Windows) or PlatformMac (macOS) instance.
         
         Returns:
             bool: True if emulator was restarted, False if restart not possible.
         """
+        import sys
+        
         if not self.config.Error_AdbOfflineRestart:
             logger.warning('AdbOfflineRestart is disabled, cannot auto-restart emulator')
             return False
@@ -69,10 +71,14 @@ class AzurLaneAutoScript:
             # Try to get existing device object
             device = self.__dict__.get('device', None)
             if device is None:
-                # Fallback: create a PlatformWindows object
+                # Fallback: create a PlatformWindows or PlatformMac object based on OS
                 # Note: This might still trigger some detection but is the best fallback if device is missing
-                from module.device.platform.platform_windows import PlatformWindows
-                device = PlatformWindows(self.config)
+                if sys.platform == 'darwin':
+                    from module.device.platform.platform_mac import PlatformMac
+                    device = PlatformMac(self.config)
+                else:
+                    from module.device.platform.platform_windows import PlatformWindows
+                    device = PlatformWindows(self.config)
             
             logger.info('Stopping emulator...')
             device.emulator_stop()

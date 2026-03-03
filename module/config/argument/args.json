@@ -378,7 +378,9 @@
           "MuMuPlayer",
           "MuMuPlayerX",
           "MuMuPlayer12",
-          "MEmuPlayer"
+          "MEmuPlayer",
+          "BlueStacksAir",
+          "MuMuPro"
         ]
       },
       "name": {
@@ -666,7 +668,7 @@
         "value": false
       },
       "Tasks": {
-        "type": "textarea",
+        "type": "input",
         "value": null
       },
       "FleetValue": {

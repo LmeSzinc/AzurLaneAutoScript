@@ -513,7 +513,9 @@
       "MuMuPlayer": "MuMuPlayer",
       "MuMuPlayerX": "MuMuPlayerX",
       "MuMuPlayer12": "MuMuPlayer12",
-      "MEmuPlayer": "MEmuPlayer"
+      "MEmuPlayer": "MEmuPlayer",
+      "BlueStacksAir": "BlueStacksAir",
+      "MuMuPro": "MuMuPro"
     },
     "name": {
       "name": "EmulatorInfo.name.name",

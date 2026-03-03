@@ -122,6 +122,8 @@ EmulatorInfo:
         MuMuPlayerX,
         MuMuPlayer12,
         MEmuPlayer,
+        BlueStacksAir,
+        MuMuPro,
       ]
   name:
     value: null

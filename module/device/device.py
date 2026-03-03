@@ -1,11 +1,12 @@
 # 此文件定义了 Device 类，是脚本与设备交互的综合管理入口。
 # 负责整合截图、点击、输入功能，并由于内置了防卡死检测和点击频率控制，能有效提高脚本自动化运行的稳定性。
 import collections
+import sys
 from datetime import datetime
 
 from lxml import etree
 
-from module.device.env import IS_WINDOWS
+from module.device.env import IS_WINDOWS, IS_MACINTOSH
 # Patch pkg_resources before importing adbutils and uiautomator2
 from module.device.pkg_resources import get_distribution
 
@@ -17,6 +18,7 @@ from module.config.utils import get_server_next_update
 from module.device.app_control import AppControl
 from module.device.control import Control
 from module.device.input import Input
+from module.device.platform import Platform
 from module.device.screenshot import Screenshot
 from module.exception import (EmulatorNotRunningError, GameNotRunningError, GameStuckError, GameTooManyClickError,
                               RequestHumanTakeover)
@@ -65,6 +67,10 @@ def show_function_call():
 
 
 class Device(Screenshot, Control, AppControl, Input):
+    """
+    Device class for interacting with emulators/devices.
+    Uses composition to delegate emulator control to Platform.
+    """
     _screen_size_checked = False
     detect_record = set()
     click_record = collections.deque(maxlen=15)
@@ -73,6 +79,9 @@ class Device(Screenshot, Control, AppControl, Input):
     stuck_long_wait_list = ['BATTLE_STATUS_S', 'PAUSE', 'LOGIN_CHECK', 'TEMPLATE_MANJUU']
 
     def __init__(self, *args, **kwargs):
+        # Initialize platform attribute for emulator control
+        self._platform = None
+
         for trial in range(4):
             try:
                 super().__init__(*args, **kwargs)
@@ -91,9 +100,22 @@ class Device(Screenshot, Control, AppControl, Input):
                     )
                     raise RequestHumanTakeover
 
+        # Ensure `package` attribute exists (some connection modes might not set it)
+        # Used by AppControl.app_is_running()
+        if not hasattr(self, 'package'):
+            # Fallback to config value; if it's 'auto', later detection will update it
+            self.package = getattr(self.config, 'Emulator_PackageName', 'auto')
+
         # Auto-fill emulator info
         if IS_WINDOWS and self.config.EmulatorInfo_Emulator == 'auto':
             _ = self.emulator_instance
+
+        # Boost running emulator priority on Mac
+        if IS_MACINTOSH:
+            try:
+                self.platform.boost_running_emulator_priority()
+            except Exception as e:
+                logger.warning(f'Failed to boost emulator priority: {e}')
 
         self.screenshot_interval_set()
         self.method_check()
@@ -108,6 +130,35 @@ class Device(Screenshot, Control, AppControl, Input):
                 self.early_maatouch_init()
             if self.config.Emulator_ControlMethod == 'minitouch':
                 self.early_minitouch_init()
+
+    @property
+    def platform(self):
+        """
+        Get the platform handler for emulator control.
+        Creates a new Platform instance if needed.
+        """
+        if self._platform is None:
+            self._platform = Platform(self.config)
+        return self._platform
+
+    @property
+    def emulator_instance(self):
+        """
+        Get the emulator instance through platform.
+        """
+        return self.platform.emulator_instance
+
+    def emulator_start(self):
+        """
+        Start the emulator using platform-specific implementation.
+        """
+        return self.platform.emulator_start()
+
+    def emulator_stop(self):
+        """
+        Stop the emulator using platform-specific implementation.
+        """
+        return self.platform.emulator_stop()
 
     def run_simple_screenshot_benchmark(self):
         """

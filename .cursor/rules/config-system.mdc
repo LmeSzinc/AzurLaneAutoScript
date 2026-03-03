@@ -1,0 +1,134 @@
+---
+alwaysApply: true
+---
+
+### 配置系统与 GUI 选项映射规则（task / group / argument）
+
+- **核心概念**
+  - **任务（task）层**: 映射到 `args.json` 的第一层键，例如 `Main`、`OpsiScheduling` 等，对应侧边栏中的“任务卡片”。
+  - **选项组（group）层**: 映射到 `args.json` 的第二层键，例如 `Scheduler`、`Campaign`、`OpsiHazard1Leveling` 等，用于将一组相关的 GUI 选项归类。
+  - **选项（argument）层**: 映射到 `args.json` 的第三层键，每个选项是一个带属性的对象，属性包括:
+    - `type`: 控件类型，例如 `checkbox` / `select` / `textarea` / `input` / `datetime` / `storage` / `stored` / `state` / `lock` 等
+    - `value`: 实际的配置值（可以是标量、字符串、时间、列表等）
+    - `option`（可选）: 下拉/单选列表的可选值数组
+    - `validate`（可选）: 校验信息，例如 `[min, max]` 或 `'datetime'`
+    - `display`（可选）: 显示控制，例如 `hide` / `disabled` / 省略（正常）
+    - 其他辅助属性如 `valuetype`、`mode` 等也可以在 `argument.yaml` 中直接声明
+
+- **手动维护的配置文件**
+  - **`module/config/argument/task.yaml`**:
+    - 定义“任务分组”与“任务列表”，以及每个任务对应的“选项组列表”。
+    - 结构为三层: `<task_group> -> tasks -> <task> -> [<group>, ...]`。
+    - 这些映射最终控制:
+      - GUI 侧边栏卡组（任务列表、所属分组）
+      - 每个任务页中出现哪些 `group`（对应哪些配置分段）。
+  - **`module/config/argument/argument.yaml`**:
+    - 定义每个“选项组”包含的“选项”以及其属性。
+    - 结构为两层: `<group> -> <argument> -> {type/value/option/validate/display/...}`。
+    - 若某个 `<argument>` 直接写标量值，会在 `config_updater.py` 中转换为:
+      - `type`: 自动推断（例如 bool -> `checkbox`，有 `option` 时 -> `select`，时间类型 -> `datetime`）
+      - `value`: 使用原始值
+    - 若 `<argument>` 已显式写成字典，则该字典内容（包括 `type`、`value`、`option`、`validate`、`display` 等）优先级最高，会直接覆盖自动推断。
+    - 以 `_` 开头的 group 会在加载时被过滤（不会进入 GUI/args）。
+  - **`module/config/argument/override.yaml`**:
+    - 按 `task/group/argument` 路径，覆盖某些特殊选项的值或属性，常用于:
+      - 硬编码服务器刷新时间等不应在 GUI 中修改的项
+      - 将某些字段设置为隐藏 (`display: hide`) 或只读
+      - 特殊 `type`（如 `state` / `lock`）的覆盖逻辑
+    - 覆盖逻辑（见 `ConfigGenerator.args` 中 `check_override` 与 override 合并逻辑）:
+      - 只对已存在的 argument 生效（不存在会打印警告）
+      - 默认要求新旧值类型一致（除 `SuccessInterval` / `FailureInterval`）
+      - 若原 argument 有 `option`，覆盖的值必须在其 `option` 列表内
+      - 若 `override.yaml` 中该项是字典:
+        - 对其中的每个键逐一写入（包括 `value` / `display` / `type` 等）
+        - 若提供了非 `state` / `lock` 类型且存在非空 `value`，通常会附带 `display: hide`（使其在 GUI 中隐藏但生效）
+      - 若 `override.yaml` 中该项不是字典:
+        - 直接写入 `value`
+        - 同时将 `display` 设为 `hide`
+  - **`module/config/argument/gui.yaml`**:
+    - 定义 GUI 上出现的其他文本（例如按钮、标题、提示），用于 i18n。
+    - 结构: `<i18n_group> -> <i18n_key>: value or null`。
+    - 在 `generate_i18n` 中会被合并到 `i18n/<lang>.json` 的 `Gui` 节点下。
+
+- **自动生成的配置文件与数据流**
+  - **`module/config/config_updater.py`** 中 `ConfigGenerator` 负责读入上述 YAML，生成多种产物:
+    - **`args.json`**（GUI 选项树的主数据源，三层结构: task -> group -> argument）:
+      - 由 `ConfigGenerator.args` 构造:
+        - 从 `task.yaml` 与 `dashboard.yaml` 读取每个 task 下的 group 列表（并为所有 task 自动附加 `Storage` 组）。
+        - 对每个 group，从 `argument` 属性中复制整组 argument 定义（包含 type/value/option/validate/display 等）。
+        - 再依次合入 `default.yaml` 与 `override.yaml` 的值:
+          - `default.yaml` 仅设置初始 `value`。
+          - `override.yaml` 会根据规则修改 `value` / `display` / `type` 等，使某些字段隐藏或锁定。
+        - 对每个有 `Scheduler.Command` 的 task，自动将其 `.value` 设为该 task 名，并将 `.display` 设为 `hide`，避免用户在 GUI 中误改。
+      - 最终写入 `config/argument/args.json`（具体路径由 `filepath_args()` 决定）。
+    - **`menu.json`**（侧边栏任务卡组）:
+      - 由 `ConfigGenerator.menu` 从 `task.yaml` 生成，结构约为:
+        - `<task_group> -> {menu, page, tasks: [<task>, ...]}`。
+      - 控制 GUI 左侧菜单（折叠/列表模式、是“设置页”还是“工具页”等）。
+    - **`config_generated.py`**:
+      - 由 `ConfigGenerator.generate_code` 基于 `argument` 结构与 `args.json` 的默认 `value` 生成。
+      - 提供 IDE 代码自动补全/静态引用（`GeneratedConfig` 类中为每个 `<group>.<argument>` 生成属性）。
+    - **`template.json`**:
+      - 由 `ConfigUpdater().update_file('template', is_template=True)` 生成。
+      - 基于 `args.json` 填充默认用户配置，并额外处理:
+        - 初始化 `Alas.DropRecord.AzurStatsID` 等字段
+        - 为事件、战役等任务注入最新活动的默认关卡/事件 ID
+        - 针对云手机环境等进行默认值 override。
+    - **`i18n/{lang}.json`**:
+      - 由 `ConfigGenerator.generate_i18n(lang)` 生成。
+      - 依赖:
+        - `args.json` 中的 task / group / argument 结构
+        - 旧 `i18n/<lang>.json`（保留和更新已有翻译）
+        - `gui.yaml`（补充 GUI 相关文案）
+        - 活动/服务器信息等动态内容。
+    - **部署模板相关 YAML**:
+      - `ConfigGenerator.generate_deploy_template()` 会基于 `deploy.template*.yaml` 模板生成多个平台的部署配置文件。
+
+- **开发与修改流程（如何让 GUI 选项落到 `args.json`）**
+  - **新增或修改一个 GUI 选项的大致步骤**:
+    1. **在 `argument.yaml` 中定义或修改一个选项**:
+       - 确定放在哪个 group 下: 例如在 `OpsiScheduling` 组中新增 `OperationCoinsReturnThreshold`。
+       - 写出其属性，例如:
+         - `type`: 控制 GUI 控件类型（若省略，`config_updater.py` 会按 value 类型自动推断）。
+         - `value`: 默认值。
+         - `option`: 若为下拉或单选，给出所有可选值列表。
+         - `validate`: 若需要范围校验或时间格式校验，填入对应内容。
+         - `display`: 若需要在 GUI 中隐藏或只读，使用 `hide` / `disabled` 等标记。
+    2. **确保该 group 已在 `task.yaml` 中挂到正确的 task**:
+       - 在相应 `task_group` 下的 `tasks` 中，为对应的 `<task>` 添加该 group。
+       - 例如 `OpsiScheduling` 任务下应包含 `OpsiScheduling` 这个 group，才能在 GUI 中显示这组选项，并最终出现在 `args.json` 的 `OpsiScheduling.OpsiScheduling.*` 路径下。
+    3. **如需强制覆盖/隐藏某些值（比如服务器刷新时间）**:
+       - 在 `override.yaml` 中为对应路径添加条目，例如:
+         - `<task> -> <group> -> <argument>: <value>`
+         - 或写成字典并设置 `display: hide`，防止 GUI 修改。
+    4. **如需新增界面文本或翻译 key**:
+       - 在 `gui.yaml` 中定义对应的 GUI 文案键值。
+    5. **运行 `config_updater.py` 完整生成**:
+       - 在项目根目录执行:
+         - `python -m module.config.config_updater`
+       - 或直接运行 `module/config/config_updater.py`（脚本自身会 `chdir` 到 Alas 根目录），它将:
+         - 重新生成 `args.json`
+         - 重新生成 `menu.json`
+         - 重新生成 `config_generated.py`
+         - 合并/生成所有语言的 `i18n/{lang}.json`
+         - 生成/更新 `template.json` 与部署模板。
+  - **重要约束**:
+    - **不要手动编辑 `args.json`**、`menu.json`、`config_generated.py`、`template.json`、`i18n/{lang}.json`:
+      - 这些文件都是由 `config_updater.py` 自动生成的，任何手动修改都会在下次生成时被覆盖。
+    - 所有关于 GUI 结构和默认值的设计，应通过 `task.yaml` / `argument.yaml` / `override.yaml` / `gui.yaml` 等源文件来控制。
+
+- **如何在代码中理解一个 GUI 选项的三层路径**
+  - **在 GUI / 配置 JSON 中**:
+    - 完整键路径形式为: `<Task>.<Group>.<Argument>`，例如:
+      - `OpsiScheduling.OpsiScheduling.OperationCoinsPreserve`
+      - `OpsiHazard1Leveling.OpsiHazard1Leveling.OperationCoinsPreserve`
+  - **在 `config_updater.py` 中**:
+    - 各种辅助函数使用相同的“点分路径”访问配置，例如:
+      - `deep_get(self.args, 'Main.Campaign.Name')`
+      - `deep_set(self.args, 'OpsiScheduling.OpsiScheduling.ActionPointPreserve', value)`
+    - `ConfigUpdater.save_callback` 会对某些关键路径做联动更新，如:
+      - 当 GUI 修改 `OpsiScheduling.OpsiScheduling.OperationCoinsPreserve`，自动同步到 `OpsiHazard1Leveling.OpsiHazard1Leveling.OperationCoinsPreserve`（反之亦然）。
+      - 当修改智能调度/短猫的 `ActionPointPreserve` 时，根据值是否大于 0 决定是否双向同步。
+
+本规则用于指导开发者和 AI: **所有 GUI 选项的源定义都应在 `argument.yaml` / `task.yaml` / `override.yaml` / `gui.yaml` 中维护，并通过 `config_updater.py` 生成 `args.json` 等文件；任何涉及 GUI 配置结构或默认值的修改，都应遵循上述数据流与三层结构（task / group / argument）。**
+
