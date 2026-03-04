@@ -12,7 +12,7 @@ import module.config.server as server_
 from deploy.atomic import atomic_read_text, atomic_read_bytes, atomic_write
 from module.submodule.utils import *
 
-LANGUAGES = ['zh-CN', 'zh-HW', 'en-US', 'ja-JP', 'zh-TW']
+LANGUAGES = ['zh-CN', 'zh-MIAO', 'en-US', 'ja-JP', 'zh-TW']
 SERVER_TO_LANG = {
     'cn': 'zh-CN',
     'en': 'en-US',

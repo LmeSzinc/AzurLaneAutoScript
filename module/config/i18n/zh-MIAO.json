@@ -1,0 +1,5049 @@
+{
+  "Menu": {
+    "Alas": {
+      "name": "✨ 智慧港区指挥部",
+      "help": "这里是 Alas 的大脑中心哦，指挥官~"
+    },
+    "Farm": {
+      "name": "⚔️ 出击！全军准备",
+      "help": "目标是星辰大海，还有指挥官想要的战果喵！"
+    },
+    "Event": {
+      "name": "🎁 限时庆典活动",
+      "help": "热闹的活动开始啦，指挥官不去看看吗喵？"
+    },
+    "EventDaily": {
+      "name": "📅 活动每日小目标",
+      "help": "每天都要记得完成活动任务，积少成多喵！"
+    },
+    "Reward": {
+      "name": "💰 资源自动收割",
+      "help": "金币和物资都在向指挥官招手哦~"
+    },
+    "DailyMission": {
+      "name": "📝 港区日常事务",
+      "help": "虽然平凡，但也是成为强大指挥官的必经之路nanoda！"
+    },
+    "Opsi": {
+      "name": "🌊 远征大型作战",
+      "help": "为了夺回海权，向着大海深处进发nanoda！"
+    },
+    "Island": {
+      "name": "🏝️ 岛屿建设大计划",
+      "help": "要把这里建设成指挥官最喜欢的乐园喵！"
+    },
+    "Tool": {
+      "name": "🛠️ 港区辅助工具箱",
+      "help": "各种奇奇怪怪的小发明都在这里喵~"
+    }
+  },
+  "Task": {
+    "Alas": {
+      "name": "✨ 智慧港区总控设置",
+      "help": "在这里调教（？）Alas 酱吧，指挥官~"
+    },
+    "General": {
+      "name": "⚙️ 通用常规设置",
+      "help": "一些基础的小事就交给人家吧！"
+    },
+    "Restart": {
+      "name": "🔄 休息后重新启航",
+      "help": "累了就稍微歇一歇，重启之后又是精神满满喵！"
+    },
+    "Main": {
+      "name": "🚩 主线征途-1",
+      "help": "指挥官最初的梦想，就从这里开始喵！"
+    },
+    "Main2": {
+      "name": "🚩 主线征途-2",
+      "help": "继续向更远的海域前进吧！"
+    },
+    "Main3": {
+      "name": "🚩 主线征途-3",
+      "help": "前方发现高能反应，指挥官请小心指挥nanoda！"
+    },
+    "GemsFarming": {
+      "name": "💎 紧急委托(捞钻大队)",
+      "help": "亮晶晶的小石头！谁会不喜欢钻石呢喵？"
+    },
+    "ThreeOilLowCost": {
+      "name": "⛽ 三油低耗极限挑战",
+      "help": "勤俭持家喵！使用三油低耗阵容战斗，旗舰达到32级时会自动更换并送她退役休息哦喵~"
+    },
+    "EventGeneral": {
+      "name": "🏮 活动通用配置",
+      "help": "不管什么活动，照着这个准没错喵！"
+    },
+    "Event": {
+      "name": "🚩 活动图-1",
+      "help": "庆典的第一阶段，冲呀！"
+    },
+    "Event2": {
+      "name": "🚩 活动图-2",
+      "help": "更大的挑战正在后面等着指挥官哦~"
+    },
+    "Raid": {
+      "name": "🤝 全服共斗作战",
+      "help": "大家齐心协力，塞壬什么的根本不在话下nanoda！"
+    },
+    "RaidScuttle": {
+      "name": "💀 共斗沉船特攻",
+      "help": "这...这是什么危险的战术喵？！"
+    },
+    "Hospital": {
+      "name": "💌 深谷来的悄悄话",
+      "help": "指挥官，有你的信件喵，要现在拆开看吗？"
+    },
+    "Coalition": {
+      "name": "📷 聚光灯下的拍摄",
+      "help": "指挥官，要拍出大家最漂亮的一面哦喵~"
+    },
+    "MaritimeEscort": {
+      "name": "🛡️ 商船护航任务",
+      "help": "保护大家的物资补给，可是很重要的工作nanoda！"
+    },
+    "EventShop": {
+      "name": "🛒 活动限定商店",
+      "help": "明石已经准备好要把指挥官的代币全部榨干了喵！"
+    },
+    "WarArchives": {
+      "name": "📚 作战档案室",
+      "help": "⚠️明石的陈年老旧警告：因为这些档案很久没翻新了，开荒功能可能不太灵光喵。要是 Alas 晕头转向了，请指挥官手动开荒后再交给自律寻敌喵！"
+    },
+    "EventA": {
+      "name": "🌤️ 每日A图特辑",
+      "help": "轻松的晨间热身~"
+    },
+    "EventB": {
+      "name": "🌤️ 每日B图特辑",
+      "help": "稍微活动一下筋骨喵。"
+    },
+    "EventC": {
+      "name": "🌙 每日C图特辑",
+      "help": "月色下的激烈战斗！"
+    },
+    "EventD": {
+      "name": "🌙 每日D图特辑",
+      "help": "真正的战场就在这里nanoda！"
+    },
+    "EventSp": {
+      "name": "⭐ 每日SP特别舞台",
+      "help": "每天只有一次的机会，一定要赢哦喵！"
+    },
+    "RaidDaily": {
+      "name": "⚔️ 共斗每日挑战",
+      "help": "今天的共斗任务也要圆满完成nanoda！"
+    },
+    "CoalitionSp": {
+      "name": "📸 拍摄进行时SP",
+      "help": "最完美的快门瞬间！"
+    },
+    "Commission": {
+      "name": "📻 远征委托任务",
+      "help": "大家带回来的礼物，指挥官快拆开看看喵！"
+    },
+    "Tactical": {
+      "name": "📖 战术学院特训",
+      "help": "好好学习，天天向上！技能书不够了记得找明石买喵~"
+    },
+    "Research": {
+      "name": "🧪 科研实验室",
+      "help": "向着更强的黑科技迈进，这就是科学的力量nanoda！"
+    },
+    "Dorm": {
+      "name": "🏠 温馨后宅生活",
+      "help": "大家正在休息呢，指挥官要进去一起摸摸头吗喵？"
+    },
+    "Meowfficer": {
+      "name": "🐾 指挥喵养成日记",
+      "help": "这些可爱的小家伙，其实蕴含着巨大的力量喵！"
+    },
+    "Guild": {
+      "name": "🚩 大舰队集体活动",
+      "help": "和伙伴们一起努力，建设最强的大舰队nanoda！"
+    },
+    "Reward": {
+      "name": "📦 每日收获总结",
+      "help": "今天也是收获满满的一天喵！"
+    },
+    "Awaken": {
+      "name": "💎 舰船认知觉醒",
+      "help": "突破极限，这就是觉醒的光芒喵！"
+    },
+    "Island": {
+      "name": "🏝️ 岛屿集成管理",
+      "help": "需要岛屿等级达到18级并解锁面板才能开启哦喵~"
+    },
+    "Daily": {
+      "name": "📅 港区每日挑战",
+      "help": "今天的日常还没做完，指挥官不能偷懒哦！"
+    },
+    "Hard": {
+      "name": "🔥 主线困难图挑战",
+      "help": "收集图纸的核心地带，指挥官准备好接受洗礼了吗喵？"
+    },
+    "Exercise": {
+      "name": "🏆 演习场竞技",
+      "help": "让其他指挥官见识一下雪风大人的幸运值nanoda！"
+    },
+    "ShopFrequent": {
+      "name": "💸 军火商黑店",
+      "help": "来看看今天有什么打折的好货喵？"
+    },
+    "ShopOnce": {
+      "name": "🛍️ 其他各类商店",
+      "help": "总会有你需要的东西喵~"
+    },
+    "Shipyard": {
+      "name": "🏗️ 方案舰开发进度",
+      "help": "新的同伴正在孕育中，指挥官请耐心等待喵~"
+    },
+    "Gacha": {
+      "name": "🍀 每日一发建造",
+      "help": "这就是赌上欧气的时刻喵！"
+    },
+    "Freebies": {
+      "name": "🎁 各种白嫖奖励",
+      "help": "免费的才是最香的，全都给我拿过来喵！"
+    },
+    "Minigame": {
+      "name": "🎮 港区小游戏中心",
+      "help": "放松心情的时间到啦！钱币快溢出或者奖励没拿满时，人会帮指挥官自动通关喵！"
+    },
+    "PrivateQuarters": {
+      "name": "💕 宿舍秘密计划",
+      "help": "嘘——这是和指挥官的私密空间喵~"
+    },
+    "OpsiGeneral": {
+      "name": "⚙️ 大世界通用配置",
+      "help": "大世界的规矩，人家都已经帮指挥官理清楚啦！"
+    },
+    "OpsiAshBeacon": {
+      "name": "👾 META作战挑战",
+      "help": "面对镜面的另一面，展现真正的实力吧nanoda！"
+    },
+    "OpsiAshAssist": {
+      "name": "🆘 META支援请求",
+      "help": "有人需要帮助喵？助人为乐也是雪风大人的美德nanoda！"
+    },
+    "OpsiExplore": {
+      "name": "🗺️ 大世界每月开荒",
+      "help": "每个月的探险都是新鲜的，出发nanoda！"
+    },
+    "OpsiShop": {
+      "name": "🏪 大世界补给站",
+      "help": "即便是在这种地方，明石的商店也无处不在喵！"
+    },
+    "OpsiVoucher": {
+      "name": "🎫 白票兑换商店",
+      "help": "把积累的凭证都换成宝贝吧喵！"
+    },
+    "OpsiDaily": {
+      "name": "📅 大世界每日委托",
+      "help": "哪怕是大世界，也要认真完成日常任务喵！"
+    },
+    "OpsiObscure": {
+      "name": "🌫️ 隐秘海域调查",
+      "help": "迷雾中隐藏着什么宝藏呢喵？"
+    },
+    "OpsiAbyssal": {
+      "name": "🧿 深渊海域决战",
+      "help": "这可是大世界里最危险的敌人，指挥官要全神贯注nanoda！"
+    },
+    "OpsiArchive": {
+      "name": "🧭 档案坐标追踪",
+      "help": "从白票商店买下坐标，开启不消耗行动力的宝库喵！\n⚠️明石的开启条件喵：要通关主线并搞定模拟战，还得启用开荒任务或者拿5000油买那个记录仪喵！"
+    },
+    "OpsiStronghold": {
+      "name": "🏰 塞壬要塞拔除",
+      "help": "这就是塞壬的老窝吗？雪风大人要把它炸个稀巴烂nanoda！"
+    },
+    "OpsiMonthBoss": {
+      "name": "👹 月度终极BOSS",
+      "help": "每个月的试金石，准备好迎接最大的挑战了吗？"
+    },
+    "OpsiMeowfficerFarming": {
+      "name": "🐾 大世界短猫相接",
+      "help": "带着指挥喵在海域里四处探寻吧喵~"
+    },
+    "OpsiHazard1Leveling": {
+      "name": "⚔️ 侵蚀1级刷刷刷",
+      "help": "最效率的经验获取方案，冲呀指挥官！"
+    },
+    "OpsiScheduling": {
+      "name": "🧠 大世界智能管家",
+      "help": "雪风大人的天才大脑启动！会自动帮指挥官在“练级”和“补黄币”任务之间横跳哦喵，还会发通知提醒指挥官nanoda！"
+    },
+    "OpsiCrossMonth": {
+      "name": "🌓 跨月午夜行动",
+      "help": "    Alas 会在大世界重置前10分钟悄悄潜入，守株待兔等重置喵！这样就能多拿一倍的金菜奖励啦喵！\n    ⚠️重要提醒喵：Alas 在午夜跨月期间，指挥官千万不要偷偷上号抢人家键盘喵！"
+    },
+    "OpsiDailyDelay": {
+      "name": "💤 零点避风港计划",
+      "help": "    在服务器零点重启前的几分钟（默认23:55），人会把正在进行的侵蚀一和短猫任务按暂停，等重启完了再继续，真是个聪明的决策喵！"
+    },
+    "IslandInfo": {
+      "name": "📊 岛屿情报板(未完工)",
+      "help": "装修中，指挥官请稍后再来喵~"
+    },
+    "IslandSeasonTask": {
+      "name": "📅 赛季任务进度(未完工)",
+      "help": "还在咕咕咕中喵..."
+    },
+    "Daemon": {
+      "name": "🤖 港区半自动协助",
+      "help": "人家帮指挥官点点鼠标，指挥官去喝杯咖啡吧喵~"
+    },
+    "OpsiDaemon": {
+      "name": "🤖 大世界半自动协助",
+      "help": "大型作战的杂活就交给人家来办喵！"
+    },
+    "EventStory": {
+      "name": "📖 欣赏活动剧情",
+      "help": "静下心来，看看大家发生的故事吧喵~"
+    },
+    "BoxDisassemble": {
+      "name": "📦 自动开箱拆解",
+      "help": "把没用的箱子通通拆掉，变成明石喜欢的零件喵！"
+    },
+    "Benchmark": {
+      "name": "🏎️ 港区运行性能测试",
+      "help": "看看 Alas 的跑鞋够不够快喵！"
+    },
+    "AzurLaneUncensored": {
+      "name": "💕 港区秘密美化",
+      "help": "嘘——这就是不可言说的魔法效果喵~"
+    },
+    "GameManager": {
+      "name": "🎮 游戏管家(未完工)",
+      "help": "敬请期待喵！"
+    }
+  },
+  "Scheduler": {
+    "_info": {
+      "name": "⏰ 任务调度中心",
+      "help": "这里是港区的时刻表，一定要遵守哦喵！"
+    },
+    "Enable": {
+      "name": "✅ 启动该任务",
+      "help": "把这个任务加入 Alas 的待办清单喵！\n像委托、科研这些重要的事情，人家可是强制帮你打开的喵！",
+      "True": "已经全速运转啦！",
+      "False": "暂时在休息喵。"
+    },
+    "NextRun": {
+      "name": "⏳ 下次出航时间",
+      "help": "人家的计划表喵。如果想让它现在就去干活，就把这里清空掉喵！"
+    },
+    "Command": {
+      "name": "🆔 内部代号",
+      "help": "这是给代码看的神秘咒语喵~"
+    },
+    "SuccessInterval": {
+      "name": "🎉 成功后休息 X 分钟",
+      "help": "干得漂亮！任务成功后让人家稍微歇歇气吧喵~"
+    },
+    "FailureInterval": {
+      "name": "💢 失败后重试等待 X 分钟",
+      "help": "出师不利喵...让人家重新准备一下再去挑战喵！"
+    },
+    "ServerUpdate": {
+      "name": "🌅 服务器刷新点",
+      "help": "有些任务要等港区的太阳升起（刷新时间）才会重新开始哦，时区什么的已经帮你算好啦喵！"
+    }
+  },
+  "Emulator": {
+    "_info": {
+      "name": "🖥️ 模拟器通信中心",
+      "help": "指挥官，这里是和异世界（模拟器）保持联络的秘密通道喵！"
+    },
+    "Serial": {
+      "name": "🆔 模拟器联络暗号 (Serial)",
+      "help": "在这里填入模拟器的秘密代号喵！\n填 \"auto\" 让雪风大人帮指挥官自动寻踪喵，但如果是多开党的话，一定要手动写清楚暗号喵！\n\n常见的模拟器暗号表喵：\n- 蓝叠系列：127.0.0.1:5555 或者专用的 \"bluestacks\" 咒语喵\n- 夜神、MuMu、雷电、逍遥：各有各的秘密频率喵！\n如果指挥官迷路了，可以在终端执行 `adb devices` 看看大家都在哪个频道喵！"
+    },
+    "PackageName": {
+      "name": "📦 游戏服务终端",
+      "help": "指挥官，你要去哪个港区微服私访喵？",
+      "auto": "自动识别喵！",
+      "com.bilibili.azurlane": "哔哩哔哩官服 (B站喵！)",
+      "com.YoStarEN.AzurLane": "国际服 (EN 战线喵！)",
+      "com.YoStarJP.AzurLane": "日服 (霓虹战线喵！)",
+      "com.hkmanjuu.azurlane.gp": "台服 (宝岛战线喵！)",
+      "com.bilibili.blhx.huawei": "华为分部喵",
+      "com.bilibili.blhx.honor": "荣耀分部喵",
+      "com.bilibili.blhx.mi": "小米分部喵",
+      "com.tencent.tmgp.bilibili.blhx": "腾讯应用宝分部喵",
+      "com.bilibili.blhx.baidu": "百度分部喵",
+      "com.bilibili.blhx.qihoo": "360分部喵",
+      "com.bilibili.blhx.nearme.gamecenter": "OPPO分部喵",
+      "com.bilibili.blhx.vivo": "VIVO分部喵",
+      "com.bilibili.blhx.mz": "魅族分部喵",
+      "com.bilibili.blhx.dl": "当乐分部喵",
+      "com.bilibili.blhx.lenovo": "联想分部喵",
+      "com.bilibili.blhx.uc": "UC九游分部喵",
+      "com.bilibili.blhx.mzw": "拇指玩分部喵",
+      "com.yiwu.blhx.yx15": "一五分部喵",
+      "com.bilibili.blhx.m4399": "4399分部喵",
+      "com.bilibili.blhx.bilibiliMove": "官服迁移端喵",
+      "com.hkmanjuu.azurlane.gp.mc": "台服特殊端喵"
+    },
+    "ServerName": {
+      "name": "🚩 具体港口编号",
+      "help": "告诉人家你在哪个具体的港口休息喵，这样维护的时候人家才不会傻傻地去敲门喵！",
+      "disabled": "暂不启用监测喵",
+      "cn_android-0": "[安卓] 莱茵演习",
+      "cn_android-1": "[安卓] 巴巴罗萨",
+      "cn_android-2": "[安卓] 霸王行动",
+      "cn_android-3": "[安卓] 冰山行动",
+      "cn_android-4": "[安卓] 彩虹计划",
+      "cn_android-5": "[安卓] 发电机计划",
+      "cn_android-6": "[安卓] 瞭望台行动",
+      "cn_android-7": "[安卓] 十字路口行动",
+      "cn_android-8": "[安卓] 朱诺行动",
+      "cn_android-9": "[安卓] 杜立特空袭",
+      "cn_android-10": "[安卓] 地狱犬行动",
+      "cn_android-11": "[安卓] 开罗宣言",
+      "cn_android-12": "[安卓] 奥林匹克行动",
+      "cn_android-13": "[安卓] 小王冠行动",
+      "cn_android-14": "[安卓] 波茨坦公告",
+      "cn_android-15": "[安卓] 白色方案",
+      "cn_android-16": "[安卓] 瓦尔基里行动",
+      "cn_android-17": "[安卓] 曼哈顿计划",
+      "cn_android-18": "[安卓] 八月风暴",
+      "cn_android-19": "[安卓] 秋季旅行",
+      "cn_android-20": "[安卓] 水星行动",
+      "cn_android-21": "[安卓] 莱茵河卫兵",
+      "cn_android-22": "[安卓] 北极光计划",
+      "cn_android-23": "[安卓] 长戟计划",
+      "cn_android-24": "[安卓] 暴雨行动",
+      "cn_android-25": "[安卓] 水仙行动",
+      "cn_android-26": "[安卓] 冬月计划",
+      "cn_android-27": "[安卓] 长弓计划",
+      "cn_android-28": "[安卓] 裁决协议",
+      "cn_ios-0": "[iOS] 夏威夷",
+      "cn_ios-1": "[iOS] 珊瑚海",
+      "cn_ios-2": "[iOS] 中途岛",
+      "cn_ios-3": "[iOS] 铁底湾",
+      "cn_ios-4": "[iOS] 所罗门",
+      "cn_ios-5": "[iOS] 马里亚纳",
+      "cn_ios-6": "[iOS] 莱特湾",
+      "cn_ios-7": "[iOS] 硫磺岛",
+      "cn_ios-8": "[iOS] 冲绳岛",
+      "cn_ios-9": "[iOS] 阿留申群岛",
+      "cn_ios-10": "[iOS] 马耳他",
+      "cn_channel-0": "[渠道] 皇家巡游",
+      "cn_channel-1": "[渠道] 大西洋宪章",
+      "cn_channel-2": "[渠道] 十字军行动",
+      "cn_channel-3": "[渠道] 龙骑兵行动",
+      "cn_channel-4": "[渠道] 冥王星行动",
+      "en-0": "[EN] Avrora",
+      "en-1": "[EN] Lexington",
+      "en-2": "[EN] Sandy",
+      "en-3": "[EN] Washington",
+      "en-4": "[EN] Amagi",
+      "en-5": "[EN] Little Enterprise",
+      "jp-0": "[JP] ブレスト",
+      "jp-1": "[JP] 横須賀",
+      "jp-2": "[JP] 佐世保",
+      "jp-3": "[JP] 呉",
+      "jp-4": "[JP] 舞鶴",
+      "jp-5": "[JP] ルルイエ",
+      "jp-6": "[JP] サモア",
+      "jp-7": "[JP] 大湊",
+      "jp-8": "[JP] トラック",
+      "jp-9": "[JP] ラバウル",
+      "jp-10": "[JP] 鹿児島",
+      "jp-11": "[JP] マドラス",
+      "jp-12": "[JP] サンディエゴ",
+      "jp-13": "[JP] 竹敷",
+      "jp-14": "[JP] キール",
+      "jp-15": "[JP] 若松",
+      "jp-16": "[JP] オデッサ",
+      "jp-17": "[JP] スイートバン"
+    },
+    "ScreenshotMethod": {
+      "name": "📸 模拟器瞳术 (截图方案)",
+      "help": "指挥官，这是让人家看清屏幕的“眼睛”喵！\n选择『自动选择』的话，人家会偷偷跑一次体能测试，选个最灵敏的方案哦~\n一般情况下的速度：DroidCast_raw >> aScreenCap_nc > ADB_nc >>> aScreenCap > uiautomator2 ~= ADB\n快去运行『工具 - 性能测试』，帮人家寻找最强的瞳术吧喵！",
+      "auto": "帮我选最灵敏的喵！",
+      "ADB": "常规 ADB 瞳术",
+      "ADB_nc": "ADB 极速版 (无损)",
+      "uiautomator2": "uiautomator2 瞳术",
+      "aScreenCap": "aScreenCap 瞳术",
+      "aScreenCap_nc": "aScreenCap 极速版",
+      "DroidCast": "DroidCast 魔法截图",
+      "DroidCast_raw": "DroidCast 终极魔法(推荐)",
+      "nemu_ipc": "Nemu 专属瞳术喵",
+      "ldopengl": "雷电 3D 瞳术"
+    },
+    "ControlMethod": {
+      "name": "🎮 模拟器指法 (控制方案)",
+      "help": "这是指挥舰队的手法喵！\n指尖速度：minitouch > Hermit >>> uiautomator2 ~= ADB\n强烈建议选『minitouch』，操作像抹了润滑油一样丝滑喵！\n除非是在VMOS环境下，不然人家才不建议用 Hermit 呢喵~",
+      "ADB": "笨拙的 ADB 指法",
+      "uiautomator2": "uiautomator2 指法",
+      "minitouch": "丝滑 minitouch (推荐喵！)",
+      "Hermit": "隐士 Hermit 指法",
+      "MaaTouch": "MaaTouch 降维打击喵"
+    },
+    "ScreenshotDedithering": {
+      "name": "✨ 画面去噪美颜 (去色彩抖动)",
+      "help": "如果指挥官是在手机上运行的话，就把这个滤镜打开喵！会让画面更清晰、不花屏哦喵~"
+    },
+    "AdbRestart": {
+      "name": "⚡️ ADB 强心电击 (断连重启)",
+      "help": "找不到连接的设备了喵？开启后，人家会尝试给不听话的 ADB 来一记电击重启，让它赶紧清醒过来为指挥官效力喵！"
+    }
+  },
+  "EmulatorInfo": {
+    "_info": {
+      "name": "🖥️ 模拟器身份档案",
+      "help": "雪风大人的情报网喵！这些数值是根据暗号自动搜集的，指挥官一般不用管喵~"
+    },
+    "Emulator": {
+      "name": "📟 模拟器本体类型",
+      "help": "",
+      "auto": "智能侦察喵 (自动检测)",
+      "NoxPlayer": "夜神模拟器 (Nox)",
+      "NoxPlayer64": "夜神 64 位喵",
+      "BlueStacks4": "蓝叠 4 号喵",
+      "BlueStacks5": "蓝叠 5 号喵",
+      "BlueStacks4HyperV": "蓝叠 4 Hyper-V",
+      "BlueStacks5HyperV": "蓝叠 5 Hyper-V",
+      "LDPlayer3": "雷电 3 号喵",
+      "LDPlayer4": "雷电 4 号喵",
+      "LDPlayer9": "雷电 9 号喵",
+      "MuMuPlayer": "MuMu 模拟器",
+      "MuMuPlayerX": "MuMu 模拟器 X",
+      "MuMuPlayer12": "MuMu 模拟器 12",
+      "MEmuPlayer": "逍遥模拟器",
+      "BlueStacksAir": "BlueStacksAir 喵",
+      "MuMuPro": "MuMu Pro 专业版喵"
+    },
+    "name": {
+      "name": "🏷️ 实例专属代号",
+      "help": ""
+    },
+    "path": {
+      "name": "📂 模拟器躲藏路径",
+      "help": ""
+    }
+  },
+  "Error": {
+    "_info": {
+      "name": "🛠️ 医疗救护站 (调试/异常处理)",
+      "help": "万一出问题了喵，这里就是最后的防线喵！"
+    },
+    "HandleError": {
+      "name": "🛡️ 开启自动急救模式",
+      "help": "开启后，遇到小状况人家会尝试撤退来保护大家喵！"
+    },
+    "SaveError": {
+      "name": "📸 出错时光速留影",
+      "help": "把犯罪现场（出错时刻）的截图和日志都存下来给指挥官看喵！"
+    },
+    "StrictRestart": {
+      "name": "⛔ 严禁在关键时刻乱动",
+      "help": "隐秘海域、深渊、跨月任务要是挂了，人家会乖乖停下来等你，绝不乱重启喵！"
+    },
+    "SaveErrorCount": {
+      "name": "🗄️ 出错记录册上限",
+      "help": "小本本里最多记多少次错误喵？超过了人家就会把旧的撕掉喵~"
+    },
+    "OnePushConfig": {
+      "name": "📡 错误小纸条推送 (Onepush)",
+      "help": "发生解决不了的大事时，人家会发消息到指挥官手机上喵！"
+    },
+    "ScreenshotLength": {
+      "name": "🎞️ 回溯最后 X 张记忆",
+      "help": "出错时多留几张截图，好让指挥官看清是怎么回事喵！"
+    },
+    "GameStuckRestart": {
+      "name": "🔄 游戏卡死就电击重启",
+      "help": "如果游戏赖着不动弹了，雪风大人会尝试直接重启模拟器喵！"
+    },
+    "GameStuckThreshold": {
+      "name": "⚡ 电击触发阈值",
+      "help": "重复卡死多少次后开始“电击治疗”喵？"
+    },
+    "AdbOfflineRestart": {
+      "name": "🔌 连接断开就重启模拟器",
+      "help": "如果那个叫 ADB 的联络员跑丢了，就重整旗鼓（重启模拟器）喵！"
+    },
+    "AdbOfflineThreshold": {
+      "name": "⏳ 找回联络员等待期限",
+      "help": "连续找不见多少次后就放弃并重启喵？"
+    }
+  },
+  "Optimization": {
+    "_info": {
+      "name": "🚀 动力室管理 (优化设置)",
+      "help": "帮指挥官节省电脑体力和脑力喵！"
+    },
+    "ScreenshotInterval": {
+      "name": "🐢 寻路截图放慢步子",
+      "help": "别让眼睛看太快了喵，稍微歇歇对 CPU 有好处喵~"
+    },
+    "CombatScreenshotInterval": {
+      "name": "⚔️ 战斗截图眨眼频率",
+      "help": "打架的时候眼睛也不用一直盯着，省点力气喵！"
+    },
+    "TaskHoardingDuration": {
+      "name": "🧺 任务囤积小箩筐",
+      "help": "把琐事攒起来一起办，免得一直进进出出折腾游戏，雪风大人最聪明了喵！"
+    },
+    "WhenTaskQueueEmpty": {
+      "name": "💤 任务做完后的午休",
+      "help": "所有的活儿都干完了，指挥官想让人家在哪儿眯一会儿喵？",
+      "stay_there": "原地待命喵",
+      "goto_main": "回主界面发呆喵",
+      "close_game": "关掉游戏睡个好觉喵"
+    }
+  },
+  "DropRecord": {
+    "_info": {
+      "name": "掉落记录",
+      "help": ""
+    },
+    "SaveFolder": {
+      "name": "掉落保存目录",
+      "help": ""
+    },
+    "AzurStatsID": {
+      "name": "AzurStat ID",
+      "help": "上传至 https://azur-stats.lyoko.io 时，声明的客户端 ID\n由随机字符组成，可随意修改"
+    },
+    "API": {
+      "name": "上传线路",
+      "help": "如果国内用户无法连接到 AzurStat，可以使用\"国内反向代理\"",
+      "default": "默认 (Cloudflare)",
+      "cn_gz_reverse_proxy": "国内反向代理 (广州)"
+    },
+    "ResearchRecord": {
+      "name": "科研截图",
+      "help": "",
+      "do_not": "无操作",
+      "save": "保存",
+      "upload": "上传",
+      "save_and_upload": "保存并上传"
+    },
+    "CommissionRecord": {
+      "name": "委托截图",
+      "help": "",
+      "do_not": "无操作",
+      "save": "保存",
+      "upload": "上传",
+      "save_and_upload": "保存并上传"
+    },
+    "CombatRecord": {
+      "name": "战斗掉落截图",
+      "help": "启用后会放缓结算时的点击速度\n在自律寻敌下不生效",
+      "do_not": "无操作",
+      "save": "保存"
+    },
+    "OpsiRecord": {
+      "name": "大世界掉落截图",
+      "help": "",
+      "do_not": "无操作",
+      "save": "保存",
+      "upload": "上传",
+      "save_and_upload": "保存并上传"
+    },
+    "MeowfficerBuy": {
+      "name": "指挥喵购买截图",
+      "help": "",
+      "do_not": "无操作",
+      "save": "保存"
+    },
+    "MeowfficerTalent": {
+      "name": "指挥喵天赋截图",
+      "help": "",
+      "do_not": "无操作",
+      "save": "保存",
+      "upload": "上传",
+      "save_and_upload": "保存并上传"
+    },
+    "TelemetryReport": {
+      "name": "遥测数据上报",
+      "help": "启用后将定期向服务器匿名上报 CL1 统计数据（战斗次数、明石遇见概率等匿名数据）ID生成详见源码，统计信息 https://alas.nanoda.work/"
+    },
+    "BugReport": {
+      "name": "Bug 日志上报",
+      "help": "启用后将在遇到异常时向服务器匿名上报 Bug 日志以帮助改进ID生成详见源码"
+    }
+  },
+  "Log": {
+    "_info": {
+      "name": "日志",
+      "help": "调度器重启后生效"
+    },
+    "LogKeepCount": {
+      "name": "Log保留数量",
+      "help": "Log过期时间(天)"
+    },
+    "LogBackUpMethod": {
+      "name": "过期Log处理方式",
+      "help": "备份目录为./log/bak",
+      "delete": "删除",
+      "zip": "压缩备份",
+      "copy": "拷贝备份"
+    },
+    "ZipMethod": {
+      "name": "压缩格式",
+      "help": "",
+      "bz2": "bz2",
+      "gzip": "gzip",
+      "xz": "xz",
+      "zip": "zip"
+    }
+  },
+  "Retirement": {
+    "_info": {
+      "name": "退役设置",
+      "help": ""
+    },
+    "RetireMode": {
+      "name": "退役模式",
+      "help": "若选择强化，强化材料不足时回退到一键退役",
+      "one_click_retire": "一键退役",
+      "enhance": "强化",
+      "old_retire": "传统退役"
+    }
+  },
+  "PublicEmotion": {
+    "_info": {
+      "name": "共用心情",
+      "help": "可使用同一队伍完成多项任务\n使用该功能时请确保相应任务的舰队职能为单队全清，且队伍为共用队伍"
+    },
+    "Enable": {
+      "name": "启用共用心情功能",
+      "help": "启用后将使用共用心情，以下心情配置将代替原配置"
+    },
+    "Tasks": {
+      "name": "共用心情任务",
+      "help": "选择使用共用心情的任务，用半角逗号隔开，如\"Main, Event, EventA\"\n主线图-1: Main, 主线图-2: Main2, 主线图-3: Main3\n活动图-1: Event, 活动图-2: Event2, 作战档案: WarArchives\n每日A图: EventA, 每日B图: EventB, 每日C图: EventC, 每日D图: EventD, 每日SP图: EventSp"
+    },
+    "FleetValue": {
+      "name": "心情值",
+      "help": ""
+    },
+    "FleetRecord": {
+      "name": "心情记录时间",
+      "help": ""
+    },
+    "FleetControl": {
+      "name": "心情控制",
+      "help": "",
+      "keep_exp_bonus": "保持经验加成 (>120)",
+      "prevent_green_face": "防止绿脸 (>40)",
+      "prevent_yellow_face": "防止黄脸 (>30)",
+      "prevent_red_face": "防止红脸 (>0)"
+    },
+    "FleetRecover": {
+      "name": "心情回复",
+      "help": "",
+      "not_in_dormitory": "未放置于后宅 (20/h)",
+      "dormitory_floor_1": "后宅一层 (40/h)",
+      "dormitory_floor_2": "后宅二层 (50/h)"
+    },
+    "FleetOath": {
+      "name": "全员已婚 (+10/h)",
+      "help": ""
+    },
+    "FleetOnsen": {
+      "name": "全员已放置温泉 (+10/h)",
+      "help": ""
+    }
+  },
+  "YukikazeTaskManager": {
+    "_info": {
+      "name": "雪风大人的任务管理",
+      "help": "任务相关的优先级与调度设置。"
+    },
+    "TaskPriorityAdjustment": {
+      "name": "任务优先级调整",
+      "help": "Restart    # 重启游戏\n> OpsiCrossMonth > OpsiDailyDelay    # 大世界跨月每日 > 大世界任务延后\n> Commission > Tactical > Research    # 委托 > 战术学院 > 科研\n> Exercise    # 演习\n> Dorm > Meowfficer > Guild > Gacha    # 后宅 > 指挥喵 > 大舰队 > 每日抽卡\n> Reward    # 收获\n> ShopFrequent > ShopOnce > Shipyard > Freebies > Island    # 通用商店 > 其他商店 > 开发船坞 > 白嫖奖励 > 岛屿计划\n> PrivateQuarters    # 宿舍计划\n> OpsiExplore    # 每月开荒\n> Minigame > Awaken    # 小游戏 > 认知觉醒\n> OpsiAshBeacon    # meta作战\n> OpsiDaily > OpsiShop > OpsiVoucher    # 大世界日常 > 港口商店 > 兑换商店\n> OpsiAbyssal > OpsiStronghold > OpsiObscure > OpsiArchive    # 深渊海域 > 塞壬要塞 > 隐秘海域 > 档案坐标\n> Daily > Hard > OpsiAshBeacon > OpsiAshAssist > OpsiMonthBoss     # 每日挑战 > 困难图 > meta作战 > meta支援 > 月度boss\n> Sos > EventSp > EventA > EventB > EventC > EventD    # Sos > 活动每日SP > 活动每日A > 活动每日B > 活动每日C > 活动每日D\n> RaidDaily > CoalitionSp > WarArchives > MaritimeEscort    # 共斗活动每日 > 共斗活动sp > 作战档案 > 商船护航\n> Event > Event2 > Raid > Hospital > HospitalEvent > Coalition > RaidScuttle > Main > Main2 > Main3    # 活动图 > 活动图2 > 共斗活动 > 医院活动 > 共斗活动 > 共斗沉船 > 主线 > 主线2 > 主线3\n> OpsiMeowfficerFarming    # 短猫相接\n> GemsFarming    # 刷紧急委托\n> OpsiHazard1Leveling    # 侵蚀一练级\n> ThreeOilLowCost    # 三油低耗"
+    }
+  },
+  "OneClickRetire": {
+    "_info": {
+      "name": "一键退役设置",
+      "help": "仅在 \"退役模式\" 设置为 \"一键退役\" 时生效"
+    },
+    "KeepLimitBreak": {
+      "name": "保留满星同名舰船",
+      "help": "没有满星的同名舰船时，保留几艘符合退役条件的同名舰船\n如果一键退役无法退役，请设置为 \"不保留\"",
+      "keep_limit_break": "保留满星所需",
+      "do_not_keep": "不保留"
+    }
+  },
+  "Enhance": {
+    "_info": {
+      "name": "强化设置",
+      "help": "仅在 \"退役模式\" 设置为 \"强化\" 时生效"
+    },
+    "ShipToEnhance": {
+      "name": "需要强化的舰船",
+      "help": "",
+      "all": "强化全部舰船",
+      "favourite": "仅强化常用舰船"
+    },
+    "Filter": {
+      "name": "强化过滤字符串",
+      "help": "格式: \"cv > bb > ...\"，\n留空则使用默认强化方式"
+    },
+    "CheckPerCategory": {
+      "name": "每分类强化数量",
+      "help": "每个舰船分类最多强化多少舰船，\n在战斗中的舰船会被跳过且不计入，\n优先判断是否有强化材料"
+    }
+  },
+  "OldRetire": {
+    "_info": {
+      "name": "传统退役设置",
+      "help": "仅在 \"退役模式\" 设置为 \"传统退役\" 时生效\n注意：传统退役基于角色稀有度，可能退役布里"
+    },
+    "N": {
+      "name": "退役白皮 ( N )",
+      "help": ""
+    },
+    "R": {
+      "name": "退役蓝皮 ( R )",
+      "help": ""
+    },
+    "SR": {
+      "name": "退役紫皮 ( SR )",
+      "help": ""
+    },
+    "SSR": {
+      "name": "退役金皮 ( SSR )",
+      "help": ""
+    },
+    "RetireAmount": {
+      "name": "退役数量",
+      "help": "",
+      "retire_all": "退役全部",
+      "retire_10": "退役10个"
+    }
+  },
+  "Campaign": {
+    "_info": {
+      "name": "关卡设置",
+      "help": ""
+    },
+    "Name": {
+      "name": "关卡名称（输入7-2-3可使用7-2三战撤退）",
+      "help": "例如 7-2, 12-4, D3, SP4，不区分大小写\n若关卡缺失，请等待更新"
+    },
+    "Event": {
+      "name": "活动名称",
+      "help": "自动选择至最新的活动",
+      "campaign_main": "主线图",
+      "coalition_20230323": "极地风暴",
+      "coalition_20240627": "欢迎来到童心学院",
+      "coalition_20250626": "迷彩都市的寻踪者",
+      "coalition_20251120": "DATE A LANE",
+      "coalition_20260122": "光影风尚-拍摄进行时",
+      "event_20200227_cn": "北境序曲",
+      "event_20200312_cn": "复刻斯图尔特的硝烟",
+      "event_20200326_cn": "微层混合",
+      "event_20200423_cn": "复刻苍红的回响",
+      "event_20200507_cn": "夜幕下的归途",
+      "event_20200521_cn": "穹顶下的圣咏曲",
+      "event_20200521_en": "Iris of Light and Dark Rerun",
+      "event_20200603_cn": "复刻峡湾间的反击",
+      "event_20200603_en": "Prelude under the Moon Rerun",
+      "event_20200611_en": "Skybound Oratorio",
+      "event_20200716_en": "Ink Stained Steel Sakura Rerun",
+      "event_20200723_cn": "永夜幻光",
+      "event_20200806_cn": "复刻最重要的宝物",
+      "event_20200820_cn": "复刻铁血音符誓言",
+      "event_20200903_en": "复刻峡湾间的星辰",
+      "event_20200917_cn": "复刻蝶海梦花",
+      "event_20201002_en": "Counterattack Within the Fjord",
+      "event_20201012_cn": "复刻划破海空之翼",
+      "event_20201029_cn": "激唱的UNIVERSE",
+      "event_20201126_cn": "假日航线",
+      "event_20201229_cn": "复刻负象限作战",
+      "event_20210121_cn": "复刻神圣的悲喜剧",
+      "event_20210225_cn": "复刻破晓冰华",
+      "event_20210225_tw": "北境序曲",
+      "event_20210325_cn": "复刻箱庭疗法",
+      "event_20210415_tw": "復刻圍剿施佩伯爵",
+      "event_20210422_cn": "复刻复兴的赞美诗",
+      "event_20210429_tw": "復刻墨染的鋼鐵之花",
+      "event_20210527_cn": "复刻镜位螺旋",
+      "event_20210527_tw": "微層混合",
+      "event_20210610_tw": "復刻夜幕下的歸途",
+      "event_20210624_cn": "复刻浮樱影华",
+      "event_20210624_tw": "穹頂下的聖詠曲",
+      "event_20210722_cn": "响彻碧海的偶像歌",
+      "event_20210819_cn": "复刻微层混合",
+      "event_20210916_cn": "复刻碧海光粼",
+      "event_20211028_cn": "复刻穹顶下的圣咏曲",
+      "event_20211028_tw": "復刻光與影的鳶尾之華",
+      "event_20211111_cn": "复刻杰诺瓦的焰火",
+      "event_20211125_cn": "复刻交汇世界的弧光",
+      "event_20211229_cn": "复刻逆转彩虹之塔",
+      "event_20220210_cn": "复刻北境序曲",
+      "event_20220224_cn": "复刻深度回音",
+      "event_20220310_tw": "復刻斯圖爾特的硝煙",
+      "event_20220324_cn": "复刻虚像构筑之塔",
+      "event_20220407_tw": "蒼紅的迴響(復刻)",
+      "event_20220414_cn": "复刻永夜幻光",
+      "event_20220428_cn": "复刻虹彩的终幕曲",
+      "event_20220526_cn": "复刻泠誓光庭",
+      "event_20220728_cn": "复刻雄鹰的叙事歌",
+      "event_20220818_cn": "复刻远汇点作战",
+      "event_20220915_cn": "复刻紫绛槿岚",
+      "event_20221124_cn": "复刻炼金术士与秘密遗迹群岛",
+      "event_20221222_cn": "复刻定向折叠",
+      "event_20230223_cn": "复刻湮烬尘墟",
+      "event_20230525_cn": "复刻空相交汇点",
+      "event_20230803_cn": "复刻奏响鸢尾之歌",
+      "event_20230817_cn": "复刻愚者的天平",
+      "event_20230914_cn": "复刻须臾望月抄",
+      "event_20231026_cn": "飓风与青春之泉",
+      "event_20231123_cn": "苍闪忍法帖",
+      "event_20231221_cn": "复刻星海逐光",
+      "event_20240229_cn": "雪境迷踪",
+      "event_20240425_cn": "共鸣的PASSION",
+      "event_20240521_cn": "绽放于辉光之城",
+      "event_20240725_cn": "幻梦间奏曲",
+      "event_20240815_cn": "铁翼擎风",
+      "event_20240829_cn": "埋葬于彼岸之花",
+      "event_20240912_cn": "唤醒苍红之炎",
+      "event_20241024_cn": "飓风与沉眠之海",
+      "event_20241121_cn": "危险发明迫近中",
+      "event_20241219_cn": "星光下的余晖",
+      "event_20250227_cn": "樊笼内的神光",
+      "event_20250424_cn": "扬起郁金之旗",
+      "event_20250520_cn": "高塔上的蔷薇",
+      "event_20250724_cn": "优米雅的炼金工房",
+      "event_20250814_cn": "奇渊下的秘密",
+      "event_20250912_cn": "起舞于天原之上",
+      "event_20251023_cn": "飓风与自由群岛",
+      "event_20251218_cn": "响彻于天穹之音",
+      "event_20260226_cn": "春满客栈Online",
+      "raid_20200624": "复刻特别演习埃塞克斯级",
+      "raid_20210708": "复刻穿越彼方的水线",
+      "raid_20220127": "演习神秘事件调查",
+      "raid_20220630": "来自鸢尾的天使",
+      "raid_20221027": "战斗！皇家女仆队3rd",
+      "raid_20230118": "冬日的寻路人",
+      "raid_20230629": "绿洲往事",
+      "raid_20240130": "寰昌宇定家事忙",
+      "raid_20240328": "复刻从零开始的魔王讨伐之旅",
+      "raid_20250116": "华裳巧展喜事长",
+      "raid_20260212": "春宴怀玉香满庭",
+      "war_archives_20180607_cn": "档案 墨染的钢铁之花",
+      "war_archives_20180726_cn": "档案 光与影的鸢尾之华",
+      "war_archives_20181020_en": "档案 努力希望和计划",
+      "war_archives_20181026_en": "档案 坠落之翼",
+      "war_archives_20181227_cn": "档案 苍红的回响",
+      "war_archives_20190221_en": "档案 凛冬王冠",
+      "war_archives_20190314_en": "档案 月光下的序曲",
+      "war_archives_20190321_en": "档案 红染的参访者",
+      "war_archives_20190620_en": "档案 光荣的一战",
+      "war_archives_20190911_cn": "档案 神圣的悲喜剧",
+      "war_archives_20191010_en": "档案 围剿斯佩伯爵",
+      "war_archives_20191031_en": "档案 异色格",
+      "war_archives_20200312_cn": "档案 斯图尔特的硝烟",
+      "war_archives_20200507_cn": "档案 夜幕下的归途",
+      "war_archives_20200603_cn": "档案 峡湾间的反击",
+      "war_archives_20200806_cn": "档案 最重要的宝物",
+      "war_archives_20200820_cn": "档案 铁血音符誓言",
+      "war_archives_20200903_cn": "档案 峡湾间的星辰",
+      "war_archives_20200917_cn": "档案 蝶海梦花",
+      "war_archives_20201012_cn": "档案 划破海空之翼",
+      "war_archives_20201029_cn": "档案 激唱的UNIVERSE",
+      "war_archives_20201229_cn": "档案 负象限作战",
+      "war_archives_20210225_cn": "档案 破晓冰华",
+      "war_archives_20210325_cn": "档案 箱庭疗法",
+      "war_archives_20210422_cn": "档案 复兴的赞美诗",
+      "war_archives_20210527_cn": "档案 镜位螺旋",
+      "war_archives_20210624_cn": "档案 浮樱影华",
+      "war_archives_20210819_cn": "档案 微层混合",
+      "war_archives_20210916_cn": "档案 碧海光粼",
+      "war_archives_20211014_cn": "档案 激奏的Polaris",
+      "war_archives_20211028_cn": "档案 穹顶下的圣咏曲",
+      "war_archives_20211111_cn": "档案 杰诺瓦的焰火",
+      "war_archives_20211229_cn": "档案 逆转彩虹之塔",
+      "war_archives_20220210_cn": "档案 北境序曲",
+      "war_archives_20220224_cn": "档案 深度回音",
+      "war_archives_20220324_cn": "档案 虚像构筑之塔",
+      "war_archives_20220414_cn": "档案 永夜幻光",
+      "war_archives_20220428_cn": "档案 虹彩的终幕曲",
+      "war_archives_20220526_cn": "档案 泠誓光庭",
+      "war_archives_20220728_cn": "档案 雄鹰的叙事歌",
+      "war_archives_20220915_cn": "档案 紫绛槿岚",
+      "war_archives_20221222_cn": "档案 定向折叠",
+      "war_archives_20230223_cn": "档案 湮烬尘墟",
+      "war_archives_20231026_cn": "档案 飓风与青春之泉"
+    },
+    "Mode": {
+      "name": "⚔️ 战区难度选择 (关卡模式)",
+      "help": "只对主线海域有效哦，指挥官打算去散步还是硬核战斗呢？",
+      "normal": "轻松的普通图~",
+      "hard": "刺激的困难图！"
+    },
+    "UseClearMode": {
+      "name": "🔄 开启周回模式喵！",
+      "help": ""
+    },
+    "UseFleetLock": {
+      "name": "🔒 锁定出击阵容",
+      "help": ""
+    },
+    "UseAutoSearch": {
+      "name": "🤖 开启自律寻敌 (解放双手)",
+      "help": ""
+    },
+    "Use2xBook": {
+      "name": "🎫 氪金...啊不，双倍快乐书！",
+      "help": "使用高效作战指令书喵！双倍的石油消耗，换来双倍的掉落结算，老板大气喵！"
+    },
+    "AmbushEvade": {
+      "name": "💨 闪避伏击点！",
+      "help": ""
+    },
+    "UseRecommendFleet": {
+      "name": "💡 系统一键配队 (摸鱼必备)",
+      "help": "在困难图里，直接使用游戏系统推荐的阵容自动配队，省心省力喵~"
+    }
+  },
+  "StopCondition": {
+    "_info": {
+      "name": "🛑 休息时间到啦！(停止条件)",
+      "help": "触发下面任何一个条件，人家就会拉住指挥官的手，让舰队停止出击哦！"
+    },
+    "OilLimit": {
+      "name": "🛢️ 石油红线警告 (< X 后推迟)",
+      "help": "指挥官，地主家也没有余粮啦！石油跌破 X 时就会暂停任务，等油管涨起来再继续出击喵！"
+    },
+    "RunCount": {
+      "name": "🏁 劳逸结合 (出击 X 次后下班)",
+      "help": "跑完一次次数减一，归零了大家就下班休息啦~\n设为 0 的话，那就是万恶的无休止加班模式喵！"
+    },
+    "MapAchievement": {
+      "name": "🏆 强迫症福音 (达成成就后停止)",
+      "help": "达成100%踏破、三星全亮、或者压制成安全海域后，咱们就收手！",
+      "non_stop": "一直打下去喵！",
+      "non_stop_clear_all": "一直打 + 强迫症全清敌人！",
+      "100_percent_clear": "达成 100% 通关喵！",
+      "map_3_stars": "通关 + 三星毕业喵！",
+      "threat_safe": "通关 + 三星 + 绿海安全喵！",
+      "threat_safe_without_3_stars": "通关 + 绿海安全喵 (不要星星了)！"
+    },
+    "StageIncrease": {
+      "name": "🚀 勇敢向前冲！(自动开荒下一关)",
+      "help": "自动推图神器！但要保证大家的练度足够，而且满足关卡限制哦。\n⚠️记得配合上面的“达成关卡成就后停止”一起用！比如选了“通关”，打满100%后就会自动前往下一关啦！\n目前支持的主线和活动图超多哦 (1-1到15-4及各类活动海域)！"
+    },
+    "GetNewShip": {
+      "name": "🎉 捞到新老婆就收手！",
+      "help": ""
+    },
+    "ReachLevel": {
+      "name": "🎓 毕业啦！(升至 X 级后停止)",
+      "help": "队伍里只要有谁升到了指定的 X 级，就停止刷图回家办庆祝派对~\n设为 0 就是不限制等级啦。"
+    }
+  },
+  "Fleet": {
+    "_info": {
+      "name": "🚢 出击舰队编成",
+      "help": ""
+    },
+    "Fleet1": {
+      "name": "第一舰队编号",
+      "help": "",
+      "1": "第1编队喵！",
+      "2": "第2编队喵！",
+      "3": "第3编队喵！",
+      "4": "第4编队喵！",
+      "5": "第5编队喵！",
+      "6": "第6编队喵！"
+    },
+    "Fleet1Formation": {
+      "name": "第一舰队阵型",
+      "help": "",
+      "line_ahead": "单纵阵 (冲锋！)",
+      "double_line": "复纵阵 (稳妥！)",
+      "diamond": "轮形阵 (防空伞！)"
+    },
+    "Fleet1Mode": {
+      "name": "第一舰队战斗风格",
+      "help": "",
+      "combat_auto": "自律战斗喵",
+      "combat_manual": "指挥官手操喵",
+      "stand_still_in_the_middle": "中路发呆站桩喵",
+      "hide_in_bottom_left": "瑟瑟发抖躲左下角喵"
+    },
+    "Fleet1Step": {
+      "name": "一队步长 (腿多长)",
+      "help": "活动图里被限制的移动距离哦",
+      "2": "2步",
+      "3": "3步",
+      "4": "4步",
+      "5": "5步"
+    },
+    "Fleet2": {
+      "name": "第二舰队编号",
+      "help": "",
+      "0": "让他休息 (不使用)",
+      "1": "第1编队喵！",
+      "2": "第2编队喵！",
+      "3": "第3编队喵！",
+      "4": "第4编队喵！",
+      "5": "第5编队喵！",
+      "6": "第6编队喵！"
+    },
+    "Fleet2Formation": {
+      "name": "第二舰队阵型",
+      "help": "",
+      "line_ahead": "单纵阵 (冲锋！)",
+      "double_line": "复纵阵 (稳妥！)",
+      "diamond": "轮形阵 (防空伞！)"
+    },
+    "Fleet2Mode": {
+      "name": "第二舰队战斗风格",
+      "help": "",
+      "combat_auto": "自律战斗喵",
+      "combat_manual": "指挥官手操喵",
+      "stand_still_in_the_middle": "中路发呆站桩喵",
+      "hide_in_bottom_left": "瑟瑟发抖躲左下角喵"
+    },
+    "Fleet2Step": {
+      "name": "二队步长 (腿多长)",
+      "help": "活动图里被限制的移动距离哦",
+      "2": "2步",
+      "3": "3步",
+      "4": "4步",
+      "5": "5步"
+    },
+    "FleetOrder": {
+      "name": "⚔️ 舰队分工安排",
+      "help": "关掉自律寻敌时，她们会去捡问号和弹药哦~\n如果只打4战以下，人家会强制安排“一队全清，二队看戏”喵！",
+      "fleet1_mob_fleet2_boss": "一队清杂鱼，二队斩Boss！",
+      "fleet1_boss_fleet2_mob": "一队斩Boss，二队清杂鱼！",
+      "fleet1_all_fleet2_standby": "一队全包了，二队摸鱼！",
+      "fleet1_standby_fleet2_all": "一队摸鱼，二队全包了！"
+    }
+  },
+  "Submarine": {
+    "_info": {
+      "name": "🦈 潜艇小队待命！",
+      "help": ""
+    },
+    "Fleet": {
+      "name": "潜艇舰队呼叫编号",
+      "help": "",
+      "0": "潜水摸鱼 (不使用)",
+      "1": "第1小队！",
+      "2": "第2小队！"
+    },
+    "Mode": {
+      "name": "🎯 潜艇捕猎计划",
+      "help": "在关掉自律寻敌时才有用哦！\n注意：'狩猎及BOSS战' 是个缝合怪，会在道中砸小怪，打BOSS时还会尝试浮出水面丢鱼雷喵！",
+      "do_not_use": "不使用潜艇喵",
+      "hunt_only": "只在道中狩猎喵！",
+      "boss_only": "专门留给BOSS喵！",
+      "hunt_and_boss": "道中BOSS我全都要喵！",
+      "every_combat": "每一把都出来玩喵！"
+    },
+    "AutoSearchMode": {
+      "name": "🤖 潜艇自律方案",
+      "help": "开启了游戏里的自律寻敌后才生效哦！",
+      "sub_standby": "乖乖待机喵",
+      "sub_auto_call": "自动呼叫潜艇支援喵！"
+    },
+    "DistanceToBoss": {
+      "name": "🗺️ 悄悄靠近Boss... (移动潜艇)",
+      "help": "打BOSS前，把水下的小可爱们挪过去！\n选择距离需要保证她们的狩猎圈能摸到BOSS（按曼哈顿距离算哦）。\n如果是'远洋支援'，那得带上达芬奇或者U-522这种作弊大姐姐喵！",
+      "to_boss_position": "贴脸！(移动至BOSS所在位置)",
+      "1_grid_to_boss": "保持1格安全距离",
+      "2_grid_to_boss": "保持2格狙击距离",
+      "use_open_ocean_support": "呼叫超时空远洋支援！"
+    }
+  },
+  "Emotion": {
+    "_info": {
+      "name": "💖 舰娘心情呵护 (心情设置)",
+      "help": ""
+    },
+    "Mode": {
+      "name": "💕 心情管理策略",
+      "help": "",
+      "calculate": "精打细算心情值喵",
+      "ignore": "万恶的资本家模式！(无视红脸出击)",
+      "calculate_ignore": "算着心情但依然强行出击！(黑心猫猫)"
+    },
+    "Fleet1Value": {
+      "name": "一队心情值",
+      "help": ""
+    },
+    "Fleet1Record": {
+      "name": "一队心情记录时间",
+      "help": ""
+    },
+    "Fleet1Control": {
+      "name": "一队心情红线控制",
+      "help": "",
+      "keep_exp_bonus": "为了经验加成！(>120)",
+      "prevent_green_face": "拒绝绿脸打工！(>40)",
+      "prevent_yellow_face": "拒绝黄脸疲劳！(>30)",
+      "prevent_red_face": "底线！绝不红脸！(>0)"
+    },
+    "Fleet1Recover": {
+      "name": "一队心情回复场地",
+      "help": "",
+      "not_in_dormitory": "睡在大马路 (未放后宅 20/h)",
+      "dormitory_floor_1": "后宅一楼吃零食 (40/h)",
+      "dormitory_floor_2": "后宅二楼睡大觉 (50/h)"
+    },
+    "Fleet1Oath": {
+      "name": "💍 一队全员已婚 (+10/h)",
+      "help": ""
+    },
+    "Fleet1Onsen": {
+      "name": "♨️ 一队全员在泡温泉 (+10/h)",
+      "help": ""
+    },
+    "Fleet2Value": {
+      "name": "二队心情值",
+      "help": ""
+    },
+    "Fleet2Record": {
+      "name": "二队心情记录时间",
+      "help": ""
+    },
+    "Fleet2Control": {
+      "name": "二队心情红线控制",
+      "help": "",
+      "keep_exp_bonus": "为了经验加成！(>120)",
+      "prevent_green_face": "拒绝绿脸打工！(>40)",
+      "prevent_yellow_face": "拒绝黄脸疲劳！(>30)",
+      "prevent_red_face": "底线！绝不红脸！(>0)"
+    },
+    "Fleet2Recover": {
+      "name": "二队心情回复场地",
+      "help": "",
+      "not_in_dormitory": "睡在大马路 (未放后宅 20/h)",
+      "dormitory_floor_1": "后宅一楼吃零食 (40/h)",
+      "dormitory_floor_2": "后宅二楼睡大觉 (50/h)"
+    },
+    "Fleet2Oath": {
+      "name": "💍 二队全员已婚 (+10/h)",
+      "help": ""
+    },
+    "Fleet2Onsen": {
+      "name": "♨️ 二队全员在泡温泉 (+10/h)",
+      "help": ""
+    }
+  },
+  "HpControl": {
+    "_info": {
+      "name": "🩹 损管与医疗 (血量控制)",
+      "help": "在“阵容锁定”关掉的时候才能大显身手哦！"
+    },
+    "UseHpBalance": {
+      "name": "⚖️ 伤痛均摊保护 (启用血量平衡)",
+      "help": "超级贴心的功能！把残血的妹妹拉到后方保护位，满血的姐姐顶上去抗伤喵！"
+    },
+    "UseEmergencyRepair": {
+      "name": "🧰 呼叫女灶神 (使用维修工具)",
+      "help": ""
+    },
+    "UseLowHpRetreat": {
+      "name": "🏃‍♀️ 留得青山在 (启用低血量撤退)",
+      "help": ""
+    },
+    "HpBalanceThreshold": {
+      "name": "前排血量差距 > X 时触发换位",
+      "help": ""
+    },
+    "HpBalanceWeight": {
+      "name": "🛡️ 先锋肉度权重",
+      "help": "如果大家皮厚程度不一样要在这里改哦，格式就像：1000, 1000, 1000"
+    },
+    "RepairUseSingleThreshold": {
+      "name": "任何一人血量跌破 X 后，赶紧吃修理箱！",
+      "help": ""
+    },
+    "RepairUseMultiThreshold": {
+      "name": "大家血量都跌破 X 后，集体吃修理箱！",
+      "help": ""
+    },
+    "LowHpRetreatThreshold": {
+      "name": "任何人血量跌破 X 后，马上脚底抹油撤退！",
+      "help": ""
+    }
+  },
+  "EnemyPriority": {
+    "_info": {
+      "name": "🎯 索敌逻辑与偏好",
+      "help": "指挥官想先捏软柿子还是啃硬骨头呢？"
+    },
+    "EnemyScaleBalanceWeight": {
+      "name": "敌人优先级",
+      "help": "会优先扫清通往BOSS大门的路，然后再按照指挥官的喜好去打架喵！",
+      "default_mode": "按地图规矩来喵",
+      "S3_enemy_first": "头铁！优先打大型敌人！",
+      "S1_enemy_first": "摸鱼！优先欺负小型敌人！"
+    }
+  },
+  "C11AffinityFarming": {
+    "_info": {
+      "name": "💌 1-1 散步约会 (伏击刷好感)",
+      "help": "带着新老婆进1-1，在C1附近反复横跳踩伏击，增进感情喵~"
+    },
+    "RunCount": {
+      "name": "约会次数",
+      "help": ""
+    }
+  },
+  "C72MysteryFarming": {
+    "_info": {
+      "name": "💰 7-2 炼金术 (三站捡垃圾)",
+      "help": "打三战，把发光的问号全部捡走然后直接开溜！"
+    },
+    "StepOnA3": {
+      "name": "让二队去踩 A3 点",
+      "help": "机智！这样能防止 A2 的宝藏问号点被敌船堵住喵！"
+    }
+  },
+  "C122MediumLeveling": {
+    "_info": {
+      "name": "🎓 12-2 轻量进修班 (中型练级)",
+      "help": "带低强度队伍来这里蹭经验，打完非三星的软柿子就跑！性价比超高喵~"
+    },
+    "LargeEnemyTolerance": {
+      "name": "最多只碰 X 战三星强敌",
+      "help": "",
+      "0": "绝对不碰三星！",
+      "1": "只打1个",
+      "2": "只打2个",
+      "10": "全清我也不怕！"
+    }
+  },
+  "C124LargeLeveling": {
+    "_info": {
+      "name": "🔥 12-4 斯巴达特训班 (大型练级)",
+      "help": "满配大佬带队！专门盯着三星大怪揍，经验哗哗涨喵！"
+    },
+    "NonLargeEnterTolerance": {
+      "name": "进图发现 X 战都没三星，直接撤退！",
+      "help": "",
+      "0": "0",
+      "1": "1",
+      "2": "2"
+    },
+    "NonLargeRetreatTolerance": {
+      "name": "最多顺手打 X 战非三星小怪",
+      "help": "",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "10": "10"
+    },
+    "PickupAmmo": {
+      "name": "打完 X 战去捡个弹药箱",
+      "help": "",
+      "3": "3",
+      "4": "4",
+      "5": "5"
+    }
+  },
+  "GemsFarming": {
+    "_info": {
+      "name": "💎 资本家压榨...啊不，刷紧急委托！",
+      "help": "⚠️明石的严重警告喵！这个魔法能刷出几颗零星的钻石，但绝对不是发家致富的好路子喵！\n萌新指挥官要是迷信零破低耗，导致主力练度拉跨，那可是捡了芝麻丢了西瓜喵！帐号毫无提升可是要挨骂的！\n这功能主要是给大佬们刷额外魔方用的，钻石只是缘分副产物喵~\n\n*设置很复杂喵：打工旗舰到了32级会自动换人，前排要满级0破白鹰驱逐，后排要33级以下白皮轻航。二队还要提供跨队支援！\n设置不对的话可是会狂吃石油的！如果没弄好报警推送，Alas就会直接罢工保护你的油库喵！"
+    },
+    "ChangeFlagship": {
+      "name": "🔄 更换打工旗舰",
+      "help": "旗舰到了32级或者累红脸了就换人！会在1-31级白皮航母里抓壮丁，换下来的可能会被送去退役喵（一定要锁好重要的船！）\n换人的时候还会把旧工作服（装备）扒下来给新人穿上喵！",
+      "ship": "只换人",
+      "ship_equip": "换人 + 扒装备穿！"
+    },
+    "CommonCV": {
+      "name": "指定打工航母类别",
+      "help": "",
+      "custom": "自定义名单",
+      "any": "抓到谁算谁",
+      "eagle": "只要白鹰的",
+      "langley": "兰利老师！",
+      "bogue": "博格！",
+      "ranger": "突击者！",
+      "hermes": "竞技神！"
+    },
+    "CommonCVFilter": {
+      "name": "📝 自定义打工航母过滤名单",
+      "help": "写好名字，按顺序优先抓壮丁喵：bogue(博格) ranger(突击者) langley(兰利) hermes(竞技神)"
+    },
+    "ChangeVanguard": {
+      "name": "🔄 更换打工前排",
+      "help": "前排累红脸了就换！找个心情没崩、满级的白皮驱逐顶上。选不更换的话就是黑心包工头，红脸硬上喵！",
+      "disabled": "不换！接着打！",
+      "ship": "只换人",
+      "ship_equip": "换人 + 扒装备穿！"
+    },
+    "CommonDD": {
+      "name": "指定打工前排类别",
+      "help": "",
+      "custom": "自定义名单",
+      "any": "抓到谁算谁",
+      "favourite": "只从喜欢里挑",
+      "aulick_or_foote": "奥利克或富特",
+      "cassin_or_downes": "卡辛或唐斯",
+      "z20_or_z21": "Z20或Z21",
+      "DDG": "导弹驱逐舰！"
+    },
+    "CommonDDFilter": {
+      "name": "📝 自定义前排过滤名单",
+      "help": "写好名字，按顺序优先抓壮丁喵：z20, z21, aulick(奥利克), foote(富特), cassin(卡辛), downes(唐斯)"
+    },
+    "EquipmentCode": {
+      "name": "👕 工作服(装备)代码",
+      "help": "给打工人穿的祖传装备代码！\n蓝叠模拟器要开虚拟键盘哦，不然敲不进代码喵！DD代表驱逐，其他是航母名字喵~"
+    },
+    "ALLowHighFlagshipLevel": {
+      "name": "🌟 只要满级后排大佬！",
+      "help": "打开后，只抓100级的白皮轻航来带队。记得检查船坞里有没有这样的大佬喵！"
+    },
+    "ALLowLowVanguardLevel": {
+      "name": "🍼 允许童工前排去打工",
+      "help": "前排只要30级以上就能上了！(困难图得70级喵)"
+    },
+    "DelayTaskIFNoFlagship": {
+      "name": "😴 没船打工就睡大觉 (推迟任务)",
+      "help": "要是实在抓不到符合条件的白皮航母了，那就把任务推迟，大家都休息喵~"
+    },
+    "CommissionLimit": {
+      "name": "🚫 防爆仓 (控制委托数量)",
+      "help": "一直刷的话，紧急委托会把日常委托挤爆的！开这个防止做不完日常喵~"
+    }
+  },
+  "EventGeneral": {
+    "_info": {
+      "name": "🎪 活动通用设置",
+      "help": ""
+    },
+    "PtLimit": {
+      "name": "🛑 PT 点数防沉迷",
+      "help": "当 PT 刷够了设定的数值，就强行关掉所有活动任务回家！\n指挥官只要填好数字，剩下的交给人计算就行啦喵！填 0 就是无期徒刑(不限制)喵！"
+    },
+    "TimeLimit": {
+      "name": "⏳ 活动关服闹钟 (时间限制)",
+      "help": "过了设定的时间就不打啦！防止活动结束了还傻乎乎地往里冲喵~\n填 '2020-01-01 00:00:00' 就等于把闹钟砸了不限制时间！"
+    }
+  },
+  "TaskBalancer": {
+    "_info": {
+      "name": "⚖️ 破产保护机制 (任务平衡)",
+      "help": "打活动图可是很费钱的！防止指挥官把买明石零食的钱花光喵！"
+    },
+    "Enable": {
+      "name": "启用破产保护",
+      "help": "每次出击后，明石都要来查一下账本（物资量）喵！"
+    },
+    "CoinLimit": {
+      "name": "💰 账本底线 (保持物资大于 X)",
+      "help": ""
+    },
+    "TaskCall": {
+      "name": "📞 没钱了呼叫救援 (转去打 X 任务)",
+      "help": "快没钱的时候转去别的图捞钱！注意：指挥官要先把对应的任务设置好，不然电话打不通喵！",
+      "Main": "去打主线图！",
+      "Main2": "主线图-2编队！",
+      "Main3": "主线图-3编队！",
+      "GemsFarming": "去刷紧急委托榨干钱包！",
+      "ThreeOilLowCost": "去打三油低耗捡垃圾！"
+    }
+  },
+  "EventDaily": {
+    "_info": {
+      "name": "📅 活动每日首胜打卡",
+      "help": ""
+    },
+    "StageFilter": {
+      "name": "📝 打卡关卡名单",
+      "help": "按顺序去拿首胜奖励喵！"
+    },
+    "LastStage": {
+      "name": "✅ 刚才打完的关卡",
+      "help": "小本本自动记账的，会跳过打完的图，过了0点自动擦除重来喵~"
+    }
+  },
+  "Raid": {
+    "_info": {
+      "name": "⚔️ 共斗讨伐战",
+      "help": ""
+    },
+    "Mode": {
+      "name": "讨伐难度",
+      "help": "",
+      "easy": "轻松捏爆 (简单)",
+      "normal": "有点棘手 (普通)",
+      "hard": "重拳出击 (困难)",
+      "ex": "神仙打架 (EX)"
+    },
+    "UseTicket": {
+      "name": "🎟️ 烧演习券！",
+      "help": ""
+    }
+  },
+  "RaidScuttle": {
+    "_info": {
+      "name": "💥 共斗战术献祭 (沉船)",
+      "help": "为了大局...只能委屈一下了喵！"
+    },
+    "Sacrifice": {
+      "name": "让谁去当诱饵？(牺牲船位置)",
+      "help": "",
+      "vanguard": "前排小分队！",
+      "flagship": "后排大将！",
+      "vanguard_flagship": "大家一起玉碎！(前排+旗舰)"
+    }
+  },
+  "RaidDaily": {
+    "_info": {
+      "name": "⚔️ 每日共斗讨伐",
+      "help": "每天都要去痛扁Boss喵！自动帮指挥官搞定共斗的简单、普通和困难难度哦~"
+    },
+    "StageFilter": {
+      "name": "🎯 难度挑选器",
+      "help": "想揍哪个难度的Boss，在这里告诉明石喵~"
+    }
+  },
+  "Hospital": {
+    "_info": {
+      "name": "🎪 特别活动作战",
+      "help": "用来处理一些特殊的连战活动喵~"
+    },
+    "UseRecommendFleet": {
+      "name": "✅ 听从舰队推荐 (抄作业)",
+      "help": "如果不打开这个开关的话，指挥官就得自己手动给15个关卡配队哦，会累坏的喵！建议开着喵！"
+    }
+  },
+  "HospitalEvent": {
+    "_info": {
+      "name": "🎇 盛大共斗活动",
+      "help": "大型共斗活动的专项设置喵！"
+    },
+    "Mode": {
+      "name": "🕰️ 作战时间 (难度)",
+      "help": "不同时间对应不同难度喵，天越黑越刺激哦！",
+      "easy": "☀️ 正午 (简单)",
+      "normal": "🌇 黄昏 (普通)",
+      "hard": "🌙 夜晚 (困难)"
+    },
+    "Stage": {
+      "name": "🗺️ 目标地 (关卡名称)",
+      "help": "指挥官想去哪个区段大显身手喵？",
+      "T1": "T1",
+      "T2": "T2",
+      "T3": "T3",
+      "T4": "T4",
+      "ESP": "ESP"
+    }
+  },
+  "MaritimeEscort": {
+    "_info": {
+      "name": "🚢 商船护航 (摸鱼版)",
+      "help": "喵哈哈！明石的独门绝技：进去摸一下就立刻撤退，照样能白嫖约70%的奖励喵！是不是很天才？"
+    },
+    "Enable": {
+      "name": "✅ 开启护航白嫖计划",
+      "help": "打开的话，明石每天就去帮你摸鱼领奖励啦喵！"
+    }
+  },
+  "Coalition": {
+    "_info": {
+      "name": "🤝 联合特别行动",
+      "help": "注意注意喵！出击前指挥官必须必须要在游戏里自己配好队哦！人家帮不了这个啦~"
+    },
+    "Mode": {
+      "name": "🔥 作战烈度 (难度)",
+      "help": "如果想打SP图，记得去用【活动每日SP】功能来运行哦喵！",
+      "easy": "轻松 (easy)",
+      "normal": "适中 (normal)",
+      "hard": "刺激 (hard)",
+      "sp": "地狱 (sp)"
+    },
+    "Fleet": {
+      "name": "⚔️ 出击阵型",
+      "help": "指挥官喜欢一队打穿，还是多队轮换喵？",
+      "single": "单队连战到底！",
+      "multi": "多队接力出击！"
+    }
+  },
+  "EventShop": {
+    "_info": {
+      "name": "🏪 活动商店大扫除",
+      "help": "买买买！把商店搬空喵！"
+    },
+    "UnlockSSRShip": {
+      "name": "✨ 迎娶 SSR 大姐姐",
+      "help": "攒够了点数，就自动帮你把店里的SSR买回家喵！"
+    },
+    "BuyURShip": {
+      "name": "🌈 迎娶 UR 海神大人",
+      "help": "商店里有UR卖？买买买！要买几只呢喵？",
+      "0": "不买 (省钱喵)",
+      "1": "买 1 只！",
+      "2": "买 2 只！"
+    },
+    "PresetFilter": {
+      "name": "🛒 扫货清单 (预设)",
+      "help": "一般选『全包了』就行，明石最喜欢全买的客人了喵！",
+      "all": "全包了喵！(全部)",
+      "custom": "挑挑拣拣 (自定义)"
+    },
+    "CustomFilter": {
+      "name": "📝 私房采购单 (自定义)",
+      "help": "如果选了『挑挑拣拣』，就要在这里写你的采购代码喵~ 记得先去 Github 补习一下语法哦喵！"
+    }
+  },
+  "Commission": {
+    "_info": {
+      "name": "📜 后勤跑腿委托",
+      "help": "让闲着的妹妹们去赚外快喵！"
+    },
+    "PresetFilter": {
+      "name": "📦 跑腿目标清单",
+      "help": "如果指挥官不懂算账，用明石预设的清单就好啦！\n如果要 24小时 挂机刷紧急委托，记得选带 (7x24) 的哦喵！\n强烈不推荐在刷紧急委托时选石油优先，会亏死的喵！",
+      "cube": "💎钻石 > 🧊魔方 > 🛢️石油",
+      "cube_24h": "💎钻石 > 🧊魔方 > 🛢️石油（7x24 肝帝专供）",
+      "chip": "💎钻石 > 💿心智 > 🧊魔方",
+      "chip_24h": "💎钻石 > 💿心智 > 🧊魔方（7x24 肝帝专供）",
+      "oil": "💎钻石 > 🛢️石油 > 🧊魔方",
+      "custom": "我自己定！(自定义)"
+    },
+    "CustomFilter": {
+      "name": "📝 神秘代码委托单 (自定义)",
+      "help": "选了自定义的话，就在这里写你的跑腿优先级喵~"
+    },
+    "DoMajorCommission": {
+      "name": "💰 做冤大头委托 (1200油/1000油)",
+      "help": "大警告喵！花1200油的委托早就过时啦，血亏买卖！明石强烈建议关掉它喵！"
+    }
+  },
+  "Tactical": {
+    "_info": {
+      "name": "🏫 战术学院补习班",
+      "help": "好好学习，天天向上喵！"
+    },
+    "TacticalFilter": {
+      "name": "📚 选课课表 (过滤器)",
+      "help": "默认的就很聪明啦，一般不需要指挥官操心喵~"
+    },
+    "RapidTrainingSlot": {
+      "name": "⚡ 闪电记忆面包 (快速学习)",
+      "help": "活动期间每天有10次瞬间学完的机会哦！要把面包塞给谁呢喵？",
+      "do_not_use": "先屯着不用",
+      "slot_1": "塞给 1号桌",
+      "slot_2": "塞给 2号桌",
+      "slot_3": "塞给 3号桌",
+      "slot_4": "塞给 4号桌"
+    }
+  },
+  "ControlExpOverflow": {
+    "_info": {
+      "name": "📉 拒绝铺张浪费 (经验溢出控制)",
+      "help": "明石的算盘打得噼啪响喵！\n技能快满的时候，再用大金书就太浪费啦！比如设定T3容忍溢出100点，差1100经验满级时，明石就不会用T4大书，而是用T3去凑喵！"
+    },
+    "Enable": {
+      "name": "✅ 开启勤俭持家模式",
+      "help": "一定要开！省下来的书都是钱啊喵！"
+    },
+    "T4Allow": {
+      "name": "🌈 允许 T4 彩书浪费 X 点",
+      "help": ""
+    },
+    "T3Allow": {
+      "name": "💛 允许 T3 金书浪费 X 点",
+      "help": ""
+    },
+    "T2Allow": {
+      "name": "💜 允许 T2 紫书浪费 X 点",
+      "help": ""
+    },
+    "T1Allow": {
+      "name": "💙 允许 T1 蓝书浪费 X 点",
+      "help": ""
+    }
+  },
+  "AddNewStudent": {
+    "_info": {
+      "name": "👩‍🎓 抓人去上课 (自动指派)",
+      "help": "教室有空位啦！明石会自动去抓一个闲着的舰船妹妹，把她塞进教室学第一个没满级的技能喵！"
+    },
+    "Enable": {
+      "name": "✅ 允许明石抓人",
+      "help": ""
+    },
+    "Favorite": {
+      "name": "❤️ 优先抓眼熟的 (常用船)",
+      "help": "先让指挥官最喜欢的常用主力去补习喵！"
+    }
+  },
+  "Research": {
+    "_info": {
+      "name": "🧪 科研室大发明",
+      "help": "底线拦截系统喵！\n就算指挥官的『科研清单』里写了要接魔方项目，但只要下面【使用魔方】选了【不使用】，明石就会死死捂住魔方绝对不花出去！\n想花的时候直接改这里的开关就好啦，不用去改复杂的清单，是不是很贴心喵？"
+    },
+    "UseCube": {
+      "name": "🧊 碎魔方做实验",
+      "help": "这可是造船的命根子喵！",
+      "always_use": "有就做！(土豪)",
+      "only_05_hour": "半小时小项目+没别的选才用",
+      "only_no_project": "实在没别的选才用",
+      "do_not_use": "绝对不给！(守财奴)"
+    },
+    "UseCoin": {
+      "name": "🪙 烧物资做实验",
+      "help": "哗啦啦的金币没有啦喵~",
+      "always_use": "有就做！",
+      "only_05_hour": "半小时小项目+没别的选才用",
+      "only_no_project": "实在没别的选才用",
+      "do_not_use": "绝对不给！"
+    },
+    "UsePart": {
+      "name": "⚙️ 拆部件做实验",
+      "help": "强化的部件也要省着用喵~",
+      "always_use": "有就做！",
+      "only_05_hour": "半小时小项目+没别的选才用",
+      "only_no_project": "实在没别的选才用",
+      "do_not_use": "绝对不给！"
+    },
+    "AllowDelay": {
+      "name": "⏳ 穷了就先缓缓 (资源不足延迟)",
+      "help": "口袋空空的时候，明石会先让科研室停一下，等资源够了或者队伍空了再开工，不会彻底死机喵！\n如果指挥官一直很穷，或者挂机时间不长，可以关掉这个，强行塞满便宜项目喵！"
+    },
+    "PresetFilter": {
+      "name": "科研过滤器",
+      "help": "科研掉落和项目刷新见 https://azur-stats.lyoko.io/，对这些没有基本了解的人不建议编写自定义过滤器，建议使用预优化科研过滤器",
+      "custom": "自定义",
+      "series_8_blueprint_305": "八期 蓝图+305",
+      "series_8_blueprint_only": "八期 仅蓝图",
+      "series_8_305_only": "八期 仅305",
+      "series_7_blueprint_la9": "七期 蓝图+La9",
+      "series_7_blueprint_only": "七期 仅蓝图",
+      "series_7_la9_only": "七期 仅La9",
+      "series_6_blueprint_203": "六期 蓝图+203",
+      "series_6_blueprint_only": "六期 仅蓝图",
+      "series_6_203_only": "六期 仅203",
+      "series_5_blueprint_152": "五期 蓝图+152",
+      "series_5_blueprint_only": "五期 仅蓝图",
+      "series_5_152_only": "五期 仅152",
+      "series_4_blueprint_tenrai": "四期 蓝图+天雷",
+      "series_4_blueprint_only": "四期 仅蓝图",
+      "series_4_tenrai_only": "四期 仅天雷",
+      "series_3_blueprint_234": "三期 蓝图+234",
+      "series_3_blueprint_only": "三期 仅蓝图",
+      "series_3_234_only": "三期 仅234",
+      "series_2_than_3_457_234": "二期兼顾三期 457+234",
+      "series_2_blueprint_457": "二期 蓝图+457",
+      "series_2_blueprint_only": "二期 仅蓝图",
+      "series_2_457_only": "二期 仅457"
+    },
+    "CustomFilter": {
+      "name": "自定义科研过滤器",
+      "help": "使用自定义过滤器需将 \"科研过滤器\" 设置为 \"自定义\"，并阅读 https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn"
+    }
+  },
+  "Dorm": {
+    "_info": {
+      "name": "🏠温馨后宅",
+      "help": "舰船们的休息小天地喵~"
+    },
+    "Collect": {
+      "name": "💖收集爱心与家具币",
+      "help": "把大家头顶冒出的小爱心和家具币统统扫进明石的钱袋...啊不，指挥官的口袋喵！"
+    },
+    "Feed": {
+      "name": "🍱投喂饿肚子的小可爱",
+      "help": "大家肚子饿了，快给后宅补充香喷喷的食物喵！"
+    },
+    "FeedFilter": {
+      "name": "🍽️美食挑选器(过滤)",
+      "help": "舰船们可是很不挑食的，一般不需要修改这个哦喵~"
+    },
+    "BuyFood": {
+      "name": "🛒明石的零食铺(自动买补给)",
+      "help": "没吃的了？只要指挥官掏出一点点物资，明石随时为您自动进货喵！"
+    }
+  },
+  "BuyFurniture": {
+    "_info": {
+      "name": "🛋️限定活动家具大采购",
+      "help": "买买买！把后宅家具商城的限时家具全部搬回家喵！"
+    },
+    "Enable": {
+      "name": "✨开启买买买模式",
+      "help": "把限定家具统统买下，给后宅焕然一新喵！"
+    },
+    "BuyOption": {
+      "name": "🛍️扫货方案",
+      "help": "『买一套』就是每样只抠门地买一件喵；『买全部』就是塞满仓库直到上限喵！\n不管哪种都会把家具从商店前面拿走。两种花销其实差不多，明石强烈推荐大老板选择『买全部』喵！\n（放心好啦，要花红钻石的家具明石是绝对不会偷偷动用的喵！）",
+      "set": "精打细算买一套喵",
+      "all": "财大气粗全包了喵！"
+    },
+    "LastRun": {
+      "name": "🕒上次查房时间",
+      "help": "明石记账用的小本本，每6天去商店查一次房。这个是自动记录的，指挥官不用操心喵~"
+    }
+  },
+  "Meowfficer": {
+    "_info": {
+      "name": "🐱可爱指挥喵",
+      "help": "喵喵喵~指挥官要来看看新来的猫猫吗？"
+    },
+    "BuyAmount": {
+      "name": "📦每天领养 X 个盲盒猫箱",
+      "help": "每天买几个猫箱呢？明石提醒您：每天第一个猫箱是免费白送的喵！不拿白不拿！"
+    },
+    "FortChoreMeowfficer": {
+      "name": "🧹喵窝大扫除与玩耍",
+      "help": "帮小猫们铲铲屎、喂喂食、顺便逗猫玩耍喵~"
+    }
+  },
+  "MeowfficerTrain": {
+    "_info": {
+      "name": "🏋️‍♀️指挥喵魔鬼训练营",
+      "help": "为了让猫猫们更强，快把它们送进训练营吧喵！"
+    },
+    "Enable": {
+      "name": "🔥开启猫猫特训",
+      "help": "让猫猫们跑起来喵！"
+    },
+    "Mode": {
+      "name": "⏱️特训作息表",
+      "help": "『无缝练猫』就是每隔两三个小时就去查岗收猫喵；\n『每天收一只』就是字面意思啦，为了应付明石的每周任务，周日会加班把全部收掉并重新塞满的喵！",
+      "seamlessly": "无缝疯狂练猫",
+      "once_a_day": "每天佛系收一只"
+    },
+    "RetainTalentedGold": {
+      "name": "🔒保护极品天赋金猫",
+      "help": "把带有稀有天赋的天才金猫死死锁住！绝对不会被当成狗粮吃掉喵！指挥官记得自己去看看要不要解锁喵~"
+    },
+    "RetainTalentedPurple": {
+      "name": "🔒保护极品天赋紫猫",
+      "help": "紫猫里也有天才哦！带有特殊天赋的紫猫也会被锁住保护起来喵！"
+    },
+    "EnhanceIndex": {
+      "name": "🍗拿废柴猫去喂第 X 只大佬猫",
+      "help": "猫猫仓库的第 X 只猫（限制在1~12，排排坐从左上到右下喵），会让它吃掉没有特殊天赋的猫猫来变强喵！"
+    },
+    "MaxFeedLevel": {
+      "name": "🛡️不吃大于 X 级的猫猫",
+      "help": "等级太高的猫猫不好吃（划掉）太可惜啦！超过这个等级的猫猫就不会被当成狗粮喵（X值在1~30之间）~"
+    }
+  },
+  "GuildLogistics": {
+    "_info": {
+      "name": "🏢大舰队打工日常",
+      "help": "为了大舰队的荣耀（和奖励）！"
+    },
+    "Enable": {
+      "name": "💼开启舰队跑腿",
+      "help": "领任务、交保护费(筹备物资)、领工资一气呵成喵！"
+    },
+    "SelectNewMission": {
+      "name": "📌帮司令挑个新任务",
+      "help": "这个需要指挥官有官衔（司令或者副司令）才能指手画脚哦！\n默认会挑最好欺负的『塞壬歼灭Ⅲ』（揍300艘敌舰）喵！"
+    },
+    "ExchangeFilter": {
+      "name": "抠门交货法(筹备过滤)",
+      "help": "肯定是挑最便宜的破烂交上去喵！明石的省钱秘籍，一般不需要改喵！"
+    }
+  },
+  "GuildOperation": {
+    "_info": {
+      "name": "⚔️大舰队热血讨伐",
+      "help": "大家一起上，把大舰队的BOSS揍飞喵！"
+    },
+    "Enable": {
+      "name": "🚀开启大舰队出击",
+      "help": "集结部队，准备出击！"
+    },
+    "SelectNewOperation": {
+      "name": "🚩发起新的讨伐战",
+      "help": "同样需要司令/副司令大人的权限哦！\n默认选奖励最丰厚的『达古康纳尔岛海空战』喵，赚翻啦！"
+    },
+    "NewOperationMaxDate": {
+      "name": "📅月末摸鱼期( X号后不开新战役)",
+      "help": "只有打开了上面的『发起新讨伐』才有用喵！\n强烈建议开启月末摸鱼！因为每人每月只能打两次，开第三次的话大家都去不了，评价变差奖励就会缩水喵！"
+    },
+    "JoinThreshold": {
+      "name": "⏳摸鱼参战时机(进度 > X 时加入)",
+      "help": "0.0 到 1.0 之间喵。比如填 '0.5' 就是等别人把BOSS打掉一半血才去混助攻，填 '1' 就是不管三七二十一无脑冲喵！"
+    },
+    "AttackBoss": {
+      "name": "💥痛殴大舰队BOSS",
+      "help": "趁它病要它命喵！"
+    },
+    "BossFleetRecommend": {
+      "name": "🤡听信系统的瞎指挥配队",
+      "help": "明石强烈建议关掉！指挥官自己配的老婆队伍才是最强最合理的喵！"
+    }
+  },
+  "Reward": {
+    "_info": {
+      "name": "🎁盆满钵满(收菜啦)",
+      "help": "最开心的丰收时刻喵！"
+    },
+    "CollectOil": {
+      "name": "🛢️榨取小食堂的石油",
+      "help": "咕噜咕噜~石油满啦！"
+    },
+    "CollectCoin": {
+      "name": "🪙搜刮小卖部的物资",
+      "help": "金灿灿的物资，全都是明石...啊不，全都是指挥官的喵！"
+    },
+    "CollectExp": {
+      "name": "📚拿走大讲堂的经验书",
+      "help": "知识就是力量喵！"
+    },
+    "CollectMission": {
+      "name": "📜收割日常任务奖励",
+      "help": "今天的砖搬完啦，领工资喵！"
+    },
+    "CollectWeeklyMission": {
+      "name": "📅收割周常大礼包",
+      "help": "一周的辛苦就为了这一刻喵！"
+    }
+  },
+  "Awaken": {
+    "_info": {
+      "name": "💡心智觉醒大突破",
+      "help": "把船坞里所有的舰船大姐姐都觉醒一遍，直到心智单元被榨干为止喵！"
+    },
+    "LevelCap": {
+      "name": "🌟要突破到多少级呢喵？",
+      "help": "让大家变得更强吧！",
+      "level120": "突破120级！",
+      "level125": "巅峰125级！"
+    },
+    "Favourite": {
+      "name": "❤️只给打上红心的老婆觉醒",
+      "help": "把宝贵的心智单元留给指挥官最宠爱的人喵~"
+    }
+  },
+  "Island1": {
+    "_info": {
+      "name": "🌾啾啾丰壤农田",
+      "help": "种豆得豆，种瓜得瓜喵！"
+    },
+    "Receive": {
+      "name": "🧺挥舞锄头收菜啦",
+      "help": "收割饱满的农作物喵！"
+    },
+    "Option1": {
+      "name": "🌱第 1 块地种点啥喵？",
+      "help": "",
+      "0": "让地荒着 (不生产)",
+      "1": "🌾小麦",
+      "2": "🌽玉米",
+      "3": "🌿牧草",
+      "4": "☕咖啡豆",
+      "5": "🍚大米",
+      "6": "🥬白菜",
+      "7": "🥔土豆",
+      "8": "大豆"
+    },
+    "Character1": {
+      "name": "👷‍♀️第 1 块地抓谁来打工喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自下地?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来种地?!)👑"
+    },
+    "Option2": {
+      "name": "🌱第 2 块地种点啥喵？",
+      "help": "",
+      "0": "让地荒着 (不生产)",
+      "1": "🌾小麦",
+      "2": "🌽玉米",
+      "3": "🌿牧草",
+      "4": "☕咖啡豆",
+      "5": "🍚大米",
+      "6": "🥬白菜",
+      "7": "🥔土豆",
+      "8": "大豆"
+    },
+    "Character2": {
+      "name": "👷‍♀️第 2 块地抓谁来打工喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自下地?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来种地?!)👑"
+    },
+    "Option3": {
+      "name": "🌱第 3 块地种点啥喵？",
+      "help": "",
+      "0": "让地荒着 (不生产)",
+      "1": "🌾小麦",
+      "2": "🌽玉米",
+      "3": "🌿牧草",
+      "4": "☕咖啡豆",
+      "5": "🍚大米",
+      "6": "🥬白菜",
+      "7": "🥔土豆",
+      "8": "大豆"
+    },
+    "Character3": {
+      "name": "👷‍♀️第 3 块地抓谁来打工喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自下地?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来种地?!)👑"
+    },
+    "Option4": {
+      "name": "🌱第 4 块地种点啥喵？",
+      "help": "",
+      "0": "让地荒着 (不生产)",
+      "1": "🌾小麦",
+      "2": "🌽玉米",
+      "3": "🌿牧草",
+      "4": "☕咖啡豆",
+      "5": "🍚大米",
+      "6": "🥬白菜",
+      "7": "🥔土豆",
+      "8": "大豆"
+    },
+    "Character4": {
+      "name": "👷‍♀️第 4 块地抓谁来打工喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自下地?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来种地?!)👑"
+    }
+  },
+  "Island2": {
+    "_info": {
+      "name": "🐄悠然牧场",
+      "help": "毛茸茸的动物们都在这里喵！"
+    },
+    "Receive": {
+      "name": "🧺去牧场挤奶剪毛啦",
+      "help": "收获满满的蛋白质和羊毛喵！"
+    },
+    "Option1": {
+      "name": "🐑第 1 栏养点啥喵？",
+      "help": "",
+      "0": "空着 (不生产)",
+      "1": "🥚鸡蛋（禽肉）"
+    },
+    "Character1": {
+      "name": "👩‍🌾第 1 栏抓谁来当铲屎官喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自下地?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来种地?!)👑"
+    },
+    "Option2": {
+      "name": "🐑第 2 栏养点啥喵？",
+      "help": "",
+      "0": "空着 (不生产)",
+      "2": "🥩鲜肉"
+    },
+    "Character2": {
+      "name": "👩‍🌾第 2 栏抓谁来当铲屎官喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自下地?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来种地?!)👑"
+    },
+    "Option3": {
+      "name": "🐑第 3 栏养点啥喵？",
+      "help": "",
+      "0": "空着 (不生产)",
+      "3": "🥛牛奶（皮料）"
+    },
+    "Character3": {
+      "name": "👩‍🌾第 3 栏抓谁来当铲屎官喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自下地?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来种地?!)👑"
+    },
+    "Option4": {
+      "name": "🐑第 4 栏养点啥喵？",
+      "help": "",
+      "0": "空着 (不生产)",
+      "4": "🧶羊毛"
+    },
+    "Character4": {
+      "name": "👩‍🌾第 4 栏抓谁来当铲屎官喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自下地?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来种地?!)👑"
+    }
+  },
+  "Island3": {
+    "_info": {
+      "name": "🎣啾啾渔场",
+      "help": "钓鱼佬永不空军喵！"
+    },
+    "Receive": {
+      "name": "🧺收网捞大鱼啦",
+      "help": "看看今天有没有捞到蓝鳍金枪鱼喵！"
+    },
+    "Option1": {
+      "name": "🐟第 1 个网箱养点啥喵？",
+      "help": "",
+      "0": "空着网 (不捞鱼)",
+      "1": "🦪贝类",
+      "2": "🐟鲶鱼",
+      "3": "🐟鲤鱼",
+      "4": "🐟鲫鱼",
+      "5": "🦐小河虾",
+      "6": "🦞小龙虾",
+      "7": "🐟鲈鱼",
+      "8": "🦀螃蟹",
+      "9": "🦑鱿鱼",
+      "10": "🐟马鲛鱼",
+      "11": "🐟金枪鱼",
+      "12": "🐟三文鱼",
+      "13": "🐟红鲷鱼",
+      "14": "🐟黑鲷鱼",
+      "15": "🐟黄鳍金枪鱼",
+      "16": "🥒海参"
+    },
+    "Character1": {
+      "name": "🎣第 1 个网箱抓谁来钓鱼喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自下地?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来种地?!)👑"
+    },
+    "Option2": {
+      "name": "🐟第 2 个网箱养点啥喵？",
+      "help": "",
+      "0": "空着网 (不捞鱼)",
+      "1": "🦪贝类",
+      "2": "🐟鲶鱼",
+      "3": "🐟鲤鱼",
+      "4": "🐟鲫鱼",
+      "5": "🦐小河虾",
+      "6": "🦞小龙虾",
+      "7": "🐟鲈鱼",
+      "8": "🦀螃蟹",
+      "9": "🦑鱿鱼",
+      "10": "🐟马鲛鱼",
+      "11": "🐟金枪鱼",
+      "12": "🐟三文鱼",
+      "13": "🐟红鲷鱼",
+      "14": "🐟黑鲷鱼",
+      "15": "🐟黄鳍金枪鱼",
+      "16": "🥒海参"
+    },
+    "Character2": {
+      "name": "🎣第 2 个网箱抓谁来钓鱼喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自下地?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来种地?!)👑"
+    },
+    "Option3": {
+      "name": "🐟第 3 个网箱养点啥喵？",
+      "help": "",
+      "0": "空着网 (不捞鱼)",
+      "1": "🦪贝类",
+      "2": "🐟鲶鱼",
+      "3": "🐟鲤鱼",
+      "4": "🐟鲫鱼",
+      "5": "🦐小河虾",
+      "6": "🦞小龙虾",
+      "7": "🐟鲈鱼",
+      "8": "🦀螃蟹",
+      "9": "🦑鱿鱼",
+      "10": "🐟马鲛鱼",
+      "11": "🐟金枪鱼",
+      "12": "🐟三文鱼",
+      "13": "🐟红鲷鱼",
+      "14": "🐟黑鲷鱼",
+      "15": "🐟黄鳍金枪鱼",
+      "16": "🥒海参"
+    },
+    "Character3": {
+      "name": "🎣第 3 个网箱抓谁来钓鱼喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自下地?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来种地?!)👑"
+    },
+    "Option4": {
+      "name": "🐟第 4 个网箱养点啥喵？",
+      "help": "",
+      "0": "空着网 (不捞鱼)",
+      "1": "🦪贝类",
+      "2": "🐟鲶鱼",
+      "3": "🐟鲤鱼",
+      "4": "🐟鲫鱼",
+      "5": "🦐小河虾",
+      "6": "🦞小龙虾",
+      "7": "🐟鲈鱼",
+      "8": "🦀螃蟹",
+      "9": "🦑鱿鱼",
+      "10": "🐟马鲛鱼",
+      "11": "🐟金枪鱼",
+      "12": "🐟三文鱼",
+      "13": "🐟红鲷鱼",
+      "14": "🐟黑鲷鱼",
+      "15": "🐟黄鳍金枪鱼",
+      "16": "🥒海参"
+    },
+    "Character4": {
+      "name": "🎣第 4 个网箱抓谁来钓鱼喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自下海下地?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕(大姐姐教你钓鱼喵)🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来钓鱼?!)👑"
+    }
+  },
+  "Island4": {
+    "_info": {
+      "name": "⛰️ 沉石矿山",
+      "help": "这里的矿石亮晶晶的喵！快派小伙伴们去挖宝喵！"
+    },
+    "Receive": {
+      "name": "📥 收获矿石宝贝喵",
+      "help": "把沉甸甸的矿石都搬回家喵！"
+    },
+    "Option1": {
+      "name": "⛏️ 第 1 个矿洞产点啥喵？",
+      "help": "",
+      "0": "暂时封矿 (不生产)",
+      "1": "🌑煤炭",
+      "2": "🧱铜矿",
+      "3": "🪙铝矿",
+      "4": "🔩铁矿",
+      "5": "🌋硫矿",
+      "6": "🥈银矿"
+    },
+    "Character1": {
+      "name": "👷‍♂️ 第 1 个矿洞抓谁去挖矿喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自下地?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕(大姐姐陪你挖矿)🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来挖矿?!)👑"
+    },
+    "Option2": {
+      "name": "⛏️ 第 2 个矿洞产点啥喵？",
+      "help": "",
+      "0": "暂时封矿 (不生产)",
+      "1": "🌑煤炭",
+      "2": "🧱铜矿",
+      "3": "🪙铝矿",
+      "4": "🔩铁矿",
+      "5": "🌋硫矿",
+      "6": "🥈银矿"
+    },
+    "Character2": {
+      "name": "👷‍♂️ 第 2 个矿洞抓谁去挖矿喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自下地?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕(大姐姐陪你挖矿)🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来挖矿?!)👑"
+    },
+    "Option3": {
+      "name": "⛏️ 第 3 个矿洞产点啥喵？",
+      "help": "",
+      "0": "暂时封矿 (不生产)",
+      "1": "🌑煤炭",
+      "2": "🧱铜矿",
+      "3": "🪙铝矿",
+      "4": "🔩铁矿",
+      "5": "🌋硫矿",
+      "6": "🥈银矿"
+    },
+    "Character3": {
+      "name": "👷‍♂️ 第 3 个矿洞抓谁去挖矿喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自下地?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕(大姐姐陪你挖矿)🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来挖矿?!)👑"
+    },
+    "Option4": {
+      "name": "⛏️ 第 4 个矿洞产点啥喵？",
+      "help": "",
+      "0": "暂时封矿 (不生产)",
+      "1": "🌑煤炭",
+      "2": "🧱铜矿",
+      "3": "🪙铝矿",
+      "4": "🔩铁矿",
+      "5": "🌋硫矿",
+      "6": "🥈银矿"
+    },
+    "Character4": {
+      "name": "👷‍♂️ 第 4 个矿洞抓谁去挖矿喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自下地?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕(大姐姐陪你挖矿)🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来挖矿?!)👑"
+    }
+  },
+  "Island5": {
+    "_info": {
+      "name": "🌲 翠土林场",
+      "help": "这里的木头闻起来香喷喷的喵！快去伐木喵！"
+    },
+    "Receive": {
+      "name": "📥 搬运木材宝贝喵",
+      "help": "把优质的木材都运回营地喵！"
+    },
+    "Option1": {
+      "name": "🪵 第 1 个林区砍点啥喵？",
+      "help": "",
+      "0": "暂时停工 (不生产)",
+      "1": "🪵自然之木",
+      "2": "🌳实用之木",
+      "3": "🌲精选之木",
+      "4": "✨典雅之木"
+    },
+    "Character1": {
+      "name": "🪓 第 1 个林区抓谁去伐木喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自下地?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕(大姐姐陪你砍树)🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来砍树?!)👑"
+    },
+    "Option2": {
+      "name": "🪵 第 2 个林区砍点啥喵？",
+      "help": "",
+      "0": "暂时停工 (不生产)",
+      "1": "🪵自然之木",
+      "2": "🌳实用之木",
+      "3": "🌲精选之木",
+      "4": "✨典雅之木"
+    },
+    "Character2": {
+      "name": "🪓 第 2 个林区抓谁去伐木喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自下地?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕(大姐姐陪你砍树)🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来砍树?!)👑"
+    },
+    "Option3": {
+      "name": "🪵 第 3 个林区砍点啥喵？",
+      "help": "",
+      "0": "暂时停工 (不生产)",
+      "1": "🪵自然之木",
+      "2": "🌳实用之木",
+      "3": "🌲精选之木",
+      "4": "✨典雅之木"
+    },
+    "Character3": {
+      "name": "🪓 第 3 个林区抓谁去伐木喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自下地?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕(大姐姐陪你砍树)🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来砍树?!)👑"
+    },
+    "Option4": {
+      "name": "🪵 第 4 个林区砍点啥喵？",
+      "help": "",
+      "0": "暂时停工 (不生产)",
+      "1": "🪵自然之木",
+      "2": "🌳实用之木",
+      "3": "🌲精选之木",
+      "4": "✨典雅之木"
+    },
+    "Character4": {
+      "name": "🪓 第 4 个林区抓谁去伐木喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自下地?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕(大姐姐陪你砍树)🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来砍树?!)👑"
+    }
+  },
+  "Island6": {
+    "_info": {
+      "name": "🍎 坠香果园",
+      "help": "这里的果子甜滋滋的喵！快派大家去采摘喵！"
+    },
+    "Receive": {
+      "name": "📥 把甜滋滋的果子收回家喵",
+      "help": "采摘满满一箩筐的惊喜喵！"
+    },
+    "Option1": {
+      "name": "🧺 第 1 个筐里摘点啥喵？",
+      "help": "",
+      "0": "暂时留着 (不采摘)",
+      "1": "🍎苹果",
+      "2": "🍊柑橘",
+      "3": "🍌香蕉",
+      "4": "🥭芒果",
+      "5": "🍋柠檬",
+      "6": "🥑牛油果",
+      "7": "🪴橡胶"
+    },
+    "Character1": {
+      "name": "🧺 第 1 个筐抓谁去采摘喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自下地?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕(大姐姐陪你摘果子)🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来摘果子?!)👑"
+    },
+    "Option2": {
+      "name": "🧺 第 2 个筐里摘点啥喵？",
+      "help": "",
+      "0": "暂时留着 (不采摘)",
+      "1": "🍎苹果",
+      "2": "🍊柑橘",
+      "3": "🍌香蕉",
+      "4": "🥭芒果",
+      "5": "🍋柠檬",
+      "6": "🥑牛油果",
+      "7": "🪴橡胶"
+    },
+    "Character2": {
+      "name": "🧺 第 2 个筐抓谁去采摘喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风",
+      "akashi": "明石(老板娘亲自下地?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕(大姐姐陪你摘果子)🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来摘果子?!)👑"
+    },
+    "Option3": {
+      "name": "🧺 第 3 个筐里摘点啥喵？",
+      "help": "",
+      "0": "暂时留着 (不采摘)",
+      "1": "🍎苹果",
+      "2": "🍊柑橘",
+      "3": "🍌香蕉",
+      "4": "🥭芒果",
+      "5": "🍋柠檬",
+      "6": "🥑牛油果",
+      "7": "🪴橡胶"
+    },
+    "Character3": {
+      "name": "🧺 第 3 个筐抓谁去采摘喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风",
+      "akashi": "明石(老板娘亲自下地?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕(大姐姐陪你摘果子)🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来摘果子?!)👑"
+    },
+    "Option4": {
+      "name": "🧺 第 4 个筐里摘点啥喵？",
+      "help": "",
+      "0": "暂时留着 (不采摘)",
+      "1": "🍎苹果",
+      "2": "🍊柑橘",
+      "3": "🍌香蕉",
+      "4": "🥭芒果",
+      "5": "🍋柠檬",
+      "6": "🥑牛油果",
+      "7": "🪴橡胶"
+    },
+    "Character4": {
+      "name": "🧺 第 4 个筐抓谁去采摘喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自下地?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕(大姐姐陪你摘果子)🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来摘果子?!)👑"
+    }
+  },
+  "Island7": {
+    "_info": {
+      "name": "🌿 青芽苗圃",
+      "help": "这里的苗苗都在努力长大喵！快来照顾它们喵！"
+    },
+    "Receive": {
+      "name": "📥 收获绿油油的宝贝喵",
+      "help": "把新鲜的蔬菜和花朵都抱回家喵！"
+    },
+    "Option1": {
+      "name": "🌱 第 1 块田里种点啥喵？",
+      "help": "",
+      "0": "暂时荒着 (不产生)",
+      "1": "🥗芦笋",
+      "2": "🍍凤梨",
+      "3": "🧵亚麻",
+      "4": "🍓草莓",
+      "5": "☁️棉花",
+      "6": "🍃茶叶",
+      "7": "💜薰衣草",
+      "8": "🥕胡萝卜",
+      "9": "🧅洋葱"
+    },
+    "Character1": {
+      "name": "🌱 第 1 块田抓谁去种地喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自下地?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕(大姐姐陪你种地)🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来种地?!)👑"
+    },
+    "Option2": {
+      "name": "🌱 第 2 块田里种点啥喵？",
+      "help": "",
+      "0": "暂时荒着 (不产生)",
+      "1": "🥗芦笋",
+      "2": "🍍凤梨",
+      "3": "🧵亚麻",
+      "4": "🍓草莓",
+      "5": "☁️棉花",
+      "6": "🍃茶叶",
+      "7": "💜薰衣草",
+      "8": "🥕胡萝卜",
+      "9": "🧅洋葱"
+    },
+    "Character2": {
+      "name": "🌱 第 2 块田抓谁去种地喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自下地?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕(大姐姐陪你种地)🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来种地?!)👑"
+    }
+  },
+  "Island8": {
+    "_info": {
+      "name": "🐟 有鱼餐馆",
+      "help": "这里的料理香气扑鼻喵！快让大家来大显身手喵！"
+    },
+    "Receive": {
+      "name": "📥 收获美味料理喵",
+      "help": "香喷喷的饭菜都出锅啦，快去端走喵！"
+    },
+    "Option1": {
+      "name": "🍳 第 1 格灶台产点啥喵？",
+      "help": "",
+      "0": "熄火 (不产出)",
+      "1": "🥗凉拌双笋",
+      "2": "🦐芦笋炒虾仁",
+      "3": "🧊豆腐",
+      "4": "🥩肉末烧豆腐",
+      "5": "🍳蛋包饭",
+      "6": "🥬白菜豆腐汤",
+      "7": "🥗蔬菜沙拉",
+      "8": "🍟炸鱼薯条",
+      "9": " Onion 🧅洋葱蒸鱼",
+      "10": "🍲佛跳墙",
+      "11": "🍱经典豆腐套餐",
+      "12": "🍛绵玉定食"
+    },
+    "Character1": {
+      "name": "👩‍🍳 第 1 格灶台抓谁来做饭喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自下厨?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕(大姐姐教你做饭)🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来做饭?!)👑"
+    },
+    "Option2": {
+      "name": "🍳 第 2 格灶台产点啥喵？",
+      "help": "",
+      "0": "熄火 (不产出)",
+      "1": "🥗凉拌双笋",
+      "2": "🦐芦笋炒虾仁",
+      "3": "🧊豆腐",
+      "4": "🥩肉末烧豆腐",
+      "5": "🍳蛋包饭",
+      "6": "🥬白菜豆腐汤",
+      "7": "🥗蔬菜沙拉",
+      "8": "🍟炸鱼薯条",
+      "9": "🧅洋葱蒸鱼",
+      "10": "🍲佛跳墙",
+      "11": "🍱经典豆腐套餐",
+      "12": "🍛绵玉定食"
+    },
+    "Character2": {
+      "name": "👩‍🍳 第 2 格灶台抓谁来做饭喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自下厨?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕(大姐姐教你做饭)🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来做饭?!)👑"
+    }
+  },
+  "Island9": {
+    "_info": {
+      "name": "🐻‍❄️ 白熊饮品",
+      "help": "咕嘟咕嘟喵！大家都在调配好喝的饮料喵！"
+    },
+    "Receive": {
+      "name": "📥 收获清爽饮品喵",
+      "help": "凉飕飕的特饮都已经装罐啦喵！"
+    },
+    "Option1": {
+      "name": "🥤 第 1 个杯里倒点啥喵？",
+      "help": "",
+      "0": "先不喝 (不产出)",
+      "1": "🍍鲜榨菠萝汁",
+      "2": "🌼迎春花茶",
+      "3": "🍎苹果汁",
+      "4": "🥭香蕉芒果汁",
+      "5": "🍯蜂蜜柠檬水",
+      "6": "🍓草莓蜜沁",
+      "7": "💜薰衣草茶",
+      "8": "🍧草莓蜂蜜冰沙",
+      "9": "🍯阳光蜜水",
+      "10": "🍹花香果韵",
+      "11": "🎡缤纷果乐园"
+    },
+    "Character1": {
+      "name": "🍹 第 1 个饮品位抓谁来摇摇喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自摇摇喵?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕(大姐姐教你调酒)🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来调酒?!)👑"
+    },
+    "Option2": {
+      "name": "🥤 第 2 个杯里倒点啥喵？",
+      "help": "",
+      "0": "先不喝 (不产出)",
+      "1": "🍍鲜榨菠萝汁",
+      "2": "🌼迎春花茶",
+      "3": "🍎苹果汁",
+      "4": "🥭香蕉芒果汁",
+      "5": "🍯蜂蜜柠檬水",
+      "6": "🍓草莓蜜沁",
+      "7": "💜薰衣草茶",
+      "8": "🍧草莓蜂蜜冰沙",
+      "9": "🍯阳光蜜水",
+      "10": "🍹花香果韵",
+      "11": "🎡缤纷果乐园"
+    },
+    "Character2": {
+      "name": "🍹 第 2 个饮品位抓谁来摇摇喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自摇摇喵?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕(大姐姐教你调酒)🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来调酒?!)👑"
+    }
+  },
+  "Island10": {
+    "_info": {
+      "name": "🍮 啾啾简餐",
+      "help": "甜食赛高喵！快点把盘子装满喵！"
+    },
+    "Receive": {
+      "name": "📥 获取甜点补给喵",
+      "help": "甜甜的点心都在排队啦瞄！"
+    },
+    "Option1": {
+      "name": "🧁 第 1 个盘子装点啥喵？",
+      "help": "",
+      "0": "先不吃喵 (不产出)",
+      "1": "🌽玉米杯",
+      "2": "🥧苹果派",
+      "3": "🥧香橙派",
+      "4": "🍛芒果糯米饭",
+      "5": "🥞香蕉可丽饼",
+      "6": "🍰草莓夏洛特",
+      "7": "🥘海鲜饭",
+      "8": "🍰香甜组合",
+      "9": "🍐果园二重奏",
+      "10": "🍮莓果香橙甜点组"
+    },
+    "Character1": {
+      "name": "🍩 第 1 个盘子位抓谁去分发喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自端盘子?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕(大姐姐陪你分点心)🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来分点心?!)👑"
+    },
+    "Option2": {
+      "name": "🧁 第 2 个盘子装点啥喵？",
+      "help": "",
+      "0": "先不吃喵 (不产出)",
+      "1": "🌽玉米杯",
+      "2": "🥧苹果派",
+      "3": "🥧香橙派",
+      "4": "🍛芒果糯米饭",
+      "5": "🥞香蕉可丽饼",
+      "6": "🍰草莓夏洛特",
+      "7": "🥘海鲜饭",
+      "8": "🍰香甜组合",
+      "9": "🍐果园二重奏",
+      "10": "🍮莓果香橙甜点组"
+    },
+    "Character2": {
+      "name": "🍩 第 2 个盘子位抓谁去分发喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自端盘子?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕(大姐姐陪你分点心)🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来分点心?!)👑"
+    }
+  },
+  "Island11": {
+    "_info": {
+      "name": "🐙 乌鱼烤肉",
+      "help": "滋滋冒油的烤肉喵！指挥官肚子饿了吗喵？"
+    },
+    "Receive": {
+      "name": "📥 获取硬核能量包喵",
+      "help": "烤肉串的香味飘得好远喵！"
+    },
+    "Option1": {
+      "name": "🔥 第 1 个烤炉烤点啥喵？",
+      "help": "",
+      "0": "撤掉炭火 (不产出)",
+      "1": "🍢炭烤肉串",
+      "2": "🥘禽肉土豆拼盘",
+      "3": "🥘爆炒禽肉",
+      "4": "🍳胡萝卜厚蛋烧",
+      "5": "🍛汉堡肉饭",
+      "6": "🦐柠檬虾",
+      "7": "🦞爆炒小龙虾",
+      "8": "🍖烤肉狂欢",
+      "9": "能量双拼套餐 🍱"
+    },
+    "Character1": {
+      "name": "👨‍🍳 第 1 个烤炉位抓谁来烤肉喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自烧烤?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕(大姐姐陪你烤肉)🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来烤肉?!)👑"
+    },
+    "Option2": {
+      "name": "🔥 第 2 个烤炉烤点啥喵？",
+      "help": "",
+      "0": "撤掉炭火 (不产出)",
+      "1": "🍢炭烤肉串",
+      "2": "🥘禽肉土豆拼盘",
+      "3": "🥘爆炒禽肉",
+      "4": "🍳胡萝卜厚蛋烧",
+      "5": "🍛汉堡肉饭",
+      "6": "🦐柠檬虾",
+      "7": "🦞爆炒小龙虾",
+      "8": "🍖烤肉狂欢",
+      "9": "🍱能量双拼套餐"
+    },
+    "Character2": {
+      "name": "👨‍🍳 第 2 个烤炉位抓谁来烤肉喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自烧烤?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕(大姐姐陪你烤肉)🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来烤肉?!)👑"
+    }
+  },
+  "Island12": {
+    "_info": {
+      "name": "🪵 木料加工设备",
+      "help": "把木头变成精致的家具喵！看大家灵巧的手指喵！"
+    },
+    "Receive": {
+      "name": "📥 获取木工杰作喵",
+      "help": "亮闪闪的新家具做好啦喵！"
+    },
+    "Option1": {
+      "name": "🪑 第 1 号加工位产点啥喵？",
+      "help": "",
+      "0": "停工休息 (不产出)",
+      "1": "📄纸张",
+      "2": "📓记事本",
+      "3": "🪑桌椅",
+      "4": "🛢️精选木桶",
+      "5": "🗄️文件柜",
+      "6": "🖼️装饰画"
+    },
+    "Character1": {
+      "name": "🛠️ 第 1 号加工位抓谁来手工喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自做工?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕(大姐姐陪你做工)🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来做工?!)👑"
+    },
+    "Option2": {
+      "name": "🪑 第 2 号加工位产点啥喵？",
+      "help": "",
+      "0": "停工休息 (不产出)",
+      "1": "📄纸张",
+      "2": "📓记事本",
+      "3": "🪑桌椅",
+      "4": "🛢️精选木桶",
+      "5": "🗄️文件柜",
+      "6": "🖼️装饰画"
+    },
+    "Character2": {
+      "name": "🛠️ 第 2 号加工位抓谁来手工喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自做工?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕(大姐姐陪你做工)🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来做工?!)👑"
+    }
+  },
+  "Island13": {
+    "_info": {
+      "name": "🏭 工业生产设备",
+      "help": "这就是工业的力量喵！亮闪闪的零件都在排队喵！"
+    },
+    "Receive": {
+      "name": "📥 接收重工业物资喵",
+      "help": "这些硬核物资已经准备好支援前线啦喵！"
+    },
+    "Option1": {
+      "name": "🔩 第 1 条流水线产点啥喵？",
+      "help": "",
+      "0": "拉闸断电 (不产出)",
+      "1": "✏️炭笔",
+      "2": "🔌电缆",
+      "3": "🔩铁钉",
+      "4": "🧪硫酸",
+      "5": "🧨火药",
+      "6": "🍴刀叉餐具"
+    },
+    "Character1": {
+      "name": "🛠️ 第 1 条线抓谁来监控喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自监控?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕(大姐姐陪你监控)🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来监控?!)👑"
+    },
+    "Option2": {
+      "name": "🔩 第 2 条流水线产点啥喵？",
+      "help": "",
+      "0": "拉闸断电 (不产出)",
+      "1": "✏️炭笔",
+      "2": "🔌电缆",
+      "3": "🔩铁钉",
+      "4": "🧪硫酸",
+      "5": "🧨火药",
+      "6": "🍴刀叉餐具"
+    },
+    "Character2": {
+      "name": "🛠️ 第 2 条线抓谁来监控喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自监控?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕(大姐姐陪你监控)🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来监控?!)👑"
+    }
+  },
+  "Island14": {
+    "_info": {
+      "name": "📡 电子加工设备",
+      "help": "高科技的结晶喵！每个零件都在闪闪发光喵！"
+    },
+    "Receive": {
+      "name": "📥 收获高精尖零件喵",
+      "help": "科技点已加满，可以升级装备啦喵！"
+    },
+    "Option1": {
+      "name": "⚡ 第 1 号加工位产点啥喵？",
+      "help": "",
+      "0": "保存能量 (不产出)",
+      "1": "🖨️墨盒",
+      "2": "⌚钟表",
+      "3": "🔋蓄电池",
+      "4": "💧净水滤芯"
+    },
+    "Character1": {
+      "name": "💻 第 1 号加工位抓谁来维护喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自维护喵?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕(大姐姐陪你修理)🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来修理?!)👑"
+    },
+    "Option2": {
+      "name": "⚡ 第 2 号加工位产点啥喵？",
+      "help": "",
+      "0": "保存能量 (不产出)",
+      "1": "🖨️墨盒",
+      "2": "⌚钟表",
+      "3": "🔋蓄电池",
+      "4": "💧净水滤芯"
+    },
+    "Character2": {
+      "name": "💻 第 2 号加工位抓谁来维护喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自维护喵?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕(大姐姐陪你修理)🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来修理?!)👑"
+    }
+  },
+  "Island15": {
+    "_info": {
+      "name": "🧶 手工制作设备",
+      "help": "暖洋洋的布料和皮革喵！大家正在织毛衣喵？"
+    },
+    "Receive": {
+      "name": "📥 收获手工精品喵",
+      "help": "软绵绵的成品都已经出炉啦瞄！"
+    },
+    "Option1": {
+      "name": "🧤 第 1 号制作台产点啥喵？",
+      "help": "",
+      "0": "收起针线 (不产出)",
+      "1": "🥬袋装荠菜干",
+      "2": "💐春季花束",
+      "3": "🧶布料",
+      "4": "👞皮革",
+      "5": "🧶绳索",
+      "6": "🧤手套",
+      "7": "🧧香囊",
+      "8": "👢鞋靴",
+      "9": "🩹绷带"
+    },
+    "Character1": {
+      "name": "🧵 第 1 号制作台抓谁来干活喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自缝纫喵?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕(大姐姐陪你做工)🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来做工?!)👑"
+    },
+    "Option2": {
+      "name": "🧤 第 2 号制作台产点啥喵？",
+      "help": "",
+      "0": "收起针线 (不产出)",
+      "1": "🥬袋装荠菜干",
+      "2": "💐春季花束",
+      "3": "🧶布料",
+      "4": "👞皮革",
+      "5": "🧶绳索",
+      "6": "🧤手套",
+      "7": "🧧香囊",
+      "8": "👢鞋靴",
+      "9": "🩹绷带"
+    },
+    "Character2": {
+      "name": "🧵 第 2 号制作台抓谁来干活喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自缝纫喵?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕(大姐姐陪你做工)🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈来做工?!)👑"
+    }
+  },
+  "Island16": {
+    "_info": {
+      "name": "☕ 啾咖啡",
+      "help": "在这里享受悠闲的午后时光喵... 闻到咖啡香味了吗喵？"
+    },
+    "Receive": {
+      "name": "📥 获取下午茶补给喵",
+      "help": "精神饱满地再次出发啦喵！"
+    },
+    "Option1": {
+      "name": "☕ 第 1 号座产点啥喵？",
+      "help": "",
+      "0": "空位休息 (不产出)",
+      "1": "🍳欧姆蛋",
+      "2": "🧊冰咖啡",
+      "3": "🧀芝士",
+      "4": "☕拿铁",
+      "5": "🍊柑橘咖啡",
+      "6": "草莓奶绿 ✨",
+      "7": "☀️晨光活力组合",
+      "8": "☕醒神套餐",
+      "9": "🍹果香双杯乐"
+    },
+    "Character1": {
+      "name": "👩‍🍳 第 1 号座抓谁来当看板娘喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自服务?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕(大姐姐陪你喝咖啡)🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈陪你喝咖啡?!)👑"
+    },
+    "Option2": {
+      "name": "☕ 第 2 号座产点啥喵？",
+      "help": "",
+      "0": "空位休息 (不产出)",
+      "1": "🍳欧姆蛋",
+      "2": "🧊冰咖啡",
+      "3": "🧀芝士",
+      "4": "☕拿铁",
+      "5": "🍊柑橘咖啡",
+      "6": "🍓草莓奶绿",
+      "7": "☀️晨光活力组合",
+      "8": "☕醒神套餐",
+      "9": "果香双杯乐 🍹"
+    },
+    "Character2": {
+      "name": "👩‍🍳 第 2 号座抓谁来当看板娘喵？",
+      "help": "",
+      "manjuu": "勤劳的工作啾🐥",
+      "saratoga": "萨拉托加酱✨",
+      "new_jersey": "新泽西🐰",
+      "tashkent": "塔什干❄️",
+      "lemalin": "恶毒🥱",
+      "shimakaze": "岛风🌪️",
+      "akashi": "明石(老板娘亲自服务?!)🐱",
+      "ying_swei": "应瑞🌸",
+      "chao_ho": "肇和🌸",
+      "william_d_porter": "威廉·D·波特🥔",
+      "chen_hai": "镇海♟️",
+      "unicorn": "独角兽🦄",
+      "cheshire": "柴郡🐱",
+      "amagi_chan": "小天城🦊",
+      "helena": "海伦娜📡",
+      "atago": "爱宕(大姐姐陪你喝咖啡)🐶",
+      "friedrich_der_grobe": "腓特烈大帝(妈妈陪你喝咖啡?!)👑"
+    }
+  },
+  "GeneralShop": {
+    "_info": {
+      "name": "💰 喵喵杂货铺 (军火商)",
+      "help": "不知火的黑店喵！指挥官要把物资都花光光吗喵？"
+    },
+    "UseGems": {
+      "name": "💎 使用闪亮钻石",
+      "help": "指挥官，要用钻石换取幸福吗喵？"
+    },
+    "Refresh": {
+      "name": "🔄 刷新店铺货架",
+      "help": "刷新一次要 50 钻喵！不知火在偷偷笑喵..."
+    },
+    "BuySkinBox": {
+      "name": "👗 抢购外观装备箱",
+      "help": "为了美貌喵！雪风大人会把只要 7000 物资的未知箱子全部抱走喵！"
+    },
+    "ConsumeCoins": {
+      "name": "🪙 清空溢出的小钱钱",
+      "help": "物资超过 550000 就会触发报复性消费喵！"
+    },
+    "Filter": {
+      "name": "🛒 杂货铺过滤指南",
+      "help": "在这里设定你想买的宝贝喵！"
+    }
+  },
+  "GuildShop": {
+    "_info": {
+      "name": "🤝 舰队补给站 (舰队商店)",
+      "help": "大家一起攒的钱，就是要用来花在刀刃上喵！"
+    },
+    "Refresh": {
+      "name": "🔄 刷新补给名单",
+      "help": "消耗 50 舰队币喵，这点小钱对大舰队来说完全不是事儿喵！"
+    },
+    "Filter": {
+      "name": "🛒 补给站购买清单",
+      "help": "选好指挥官需要的科研和强化材料喵！"
+    },
+    "BOX_T3": {
+      "name": "📦 紫色装备箱盲盒",
+      "help": "白鹰、皇家、重樱、铁血...指挥官想要哪个颜色的喵？",
+      "eagle": "🦅白鹰 (白鹰科技世界第一喵！)",
+      "royal": "🎩皇家 (优雅的下午茶喵)",
+      "sakura": "🌸重樱 (这就是长门喵？)",
+      "ironblood": "🍺铁血 (看起来好硬喵...)"
+    },
+    "BOX_T4": {
+      "name": "✨ 金色装备箱大礼包",
+      "help": "闪瞎猫眼的金箱子喵！",
+      "eagle": "🦅白鹰金箱",
+      "royal": "🎩皇家金箱",
+      "sakura": "🌸重樱金箱",
+      "ironblood": "🍺铁血金箱"
+    },
+    "BOOK_T2": {
+      "name": "📘 紫色技能书借阅",
+      "help": "",
+      "red": "🔥 攻击书 (大家冲鸭喵！)",
+      "blue": "🛡️ 防御书 (保护好雪风大人喵)",
+      "yellow": "✨ 辅助书 (全能小助手喵)"
+    },
+    "BOOK_T3": {
+      "name": "📒 金色技能书典藏",
+      "help": "",
+      "red": "🔥 猛攻金书",
+      "blue": "🛡️ 铁壁金书",
+      "yellow": "✨ 神思金书"
+    },
+    "RETROFIT_T2": {
+      "name": "📐 紫色改造设计图",
+      "help": "",
+      "dd": "驱逐 (这就是雪风大人的进化喵？)",
+      "cl": "巡洋",
+      "bb": "战列",
+      "cv": "航母"
+    },
+    "RETROFIT_T3": {
+      "name": "📜 金色改造核心图",
+      "help": "",
+      "dd": "驱逐金图",
+      "cl": "巡洋金图",
+      "bb": "战列金图",
+      "cv": "航母金图"
+    },
+    "PLATE_T2": {
+      "name": "🔹 蓝色装备强化板",
+      "help": "",
+      "general": "⚙️ 通用部件",
+      "gun": "💥 舰炮部件",
+      "torpedo": "🐟 鱼雷部件",
+      "antiair": "🌩️ 防空部件",
+      "plane": "✈️ 舰载机部件"
+    },
+    "PLATE_T3": {
+      "name": "🔸 紫色装备强化板",
+      "help": "",
+      "general": "⚙️ 通用紫色",
+      "gun": "💥 舰炮紫色",
+      "torpedo": "🐟 鱼雷紫色",
+      "antiair": "🌩️ 防空紫色",
+      "plane": "✈️ 舰载机紫色"
+    },
+    "PLATE_T4": {
+      "name": "✨ 金色装备强化板",
+      "help": "超级珍贵的金色部件喵！",
+      "general": "⚙️ 通用金件",
+      "gun": "💥 舰炮金件",
+      "torpedo": "🐟 鱼雷金件",
+      "antiair": "🌩️ 防空金件",
+      "plane": "✈️ 舰载机金件"
+    },
+    "PR1": {
+      "name": "🔬 一期科研蓝图特惠",
+      "help": "",
+      "neptune": "海王星 (喵喵喵？)",
+      "monarch": "君主",
+      "ibuki": "伊吹",
+      "izumo": "出云",
+      "roon": "罗恩 (不要过来喵...)",
+      "saintlouis": "路易九世"
+    },
+    "PR2": {
+      "name": "🔬 二期科研蓝图特惠",
+      "help": "",
+      "seattle": "西雅图",
+      "georgia": "佐治亚",
+      "kitakaze": "北风",
+      "gascogne": "加斯科涅"
+    },
+    "PR3": {
+      "name": "🔬 三期科研蓝图特惠",
+      "help": "",
+      "cheshire": "柴郡 (喵喵教之光喵！)",
+      "mainz": "美因茨",
+      "odin": "奥丁",
+      "champagne": "香槟"
+    }
+  },
+  "MedalShop2": {
+    "_info": {
+      "name": "🏅 荣誉勋章陈列馆",
+      "help": "那些退役的英雄们留下的勋章喵，要好好珍惜喵！"
+    },
+    "Filter": {
+      "name": "🛒 勋章兑换准则",
+      "help": "在勋章商店里精准搜集你需要的物资喵！"
+    },
+    "RETROFIT_T1": {
+      "name": "📐 蓝色入门设计图",
+      "help": "",
+      "dd": "驱逐设计图",
+      "cl": "巡洋设计图",
+      "bb": "战列设计图",
+      "cv": "航母设计图"
+    },
+    "RETROFIT_T2": {
+      "name": "📐 紫色进阶设计图",
+      "help": "",
+      "dd": "驱逐紫图",
+      "cl": "巡洋紫图",
+      "bb": "战列紫图",
+      "cv": "航母紫图"
+    },
+    "RETROFIT_T3": {
+      "name": "📜 金色传奇设计图",
+      "help": "",
+      "dd": "驱逐金图喵！",
+      "cl": "巡洋金图",
+      "bb": "战列金图",
+      "cv": "航母金图"
+    },
+    "PLATE_T1": {
+      "name": "▫️ 基础装备增幅件",
+      "help": "",
+      "general": "基础通用",
+      "gun": "基础主炮",
+      "torpedo": "基础鱼雷",
+      "antiair": "基础防空",
+      "plane": "基础飞机"
+    },
+    "PLATE_T2": {
+      "name": "🔹 蓝色装备增幅件",
+      "help": "",
+      "general": "蓝色通用",
+      "gun": "蓝色主炮",
+      "torpedo": "蓝色鱼雷",
+      "antiair": "蓝色防空",
+      "plane": "蓝色飞机"
+    },
+    "PLATE_T3": {
+      "name": "🔸 紫色装备增幅件",
+      "help": "",
+      "general": "紫色通用喵！",
+      "gun": "紫色主炮",
+      "torpedo": "紫色鱼雷",
+      "antiair": "紫色防空",
+      "plane": "紫色飞机"
+    }
+  },
+  "MeritShop": {
+    "_info": {
+      "name": "⚔️ 演习军械库 (军需商店)",
+      "help": "在演习场挥洒汗水换来的点数，一定要买最硬核的装备喵！"
+    },
+    "Refresh": {
+      "name": "🔄 刷新军事补给",
+      "help": "这里的刷新也要 20 钻喵...指挥官要三思喵！"
+    },
+    "Filter": {
+      "name": "🛒 演习购买准则",
+      "help": "埃尔德里奇、南达科他...指挥官要把谁接回家喵？"
+    }
+  },
+  "CoreShop": {
+    "_info": {
+      "name": "💎 核心圣殿 (核心兑换)",
+      "help": "最顶尖的装备和材料都在这里了喵！"
+    },
+    "Filter": {
+      "name": "🛒 核心选购指南",
+      "help": "那个白弹、黑弹、潜艇 snorkel...统统都要喵！"
+    }
+  },
+  "ShipyardDr": {
+    "_info": {
+      "name": "🏗️ 彩色科研蓝图采购",
+      "help": "每天准时采购 DR 级别的顶级蓝图喵！每天可以白嫖前两张哦喵~！"
+    },
+    "ResearchSeries": {
+      "name": "🔬 决定采购第几期喵？",
+      "help": "",
+      "2": "二期科研 (吾妻/腓特烈大帝喵？)",
+      "3": "三期科研 (德雷克喵？)",
+      "4": "四期科研",
+      "5": "五期科研",
+      "6": "六期科研"
+    },
+    "ShipIndex": {
+      "name": "🛳️ 采购哪位大姐姐的图纸喵？",
+      "help": "从左往右数喵！不要数错啦！",
+      "0": "暂时先不买喵",
+      "1": "第 1 位大姐姐",
+      "2": "第 2 位大姐姐",
+      "3": "第 3 位大姐姐",
+      "4": "第 4 位大姐姐",
+      "5": "第 5 位大姐姐",
+      "6": "第 6 位大姐姐"
+    },
+    "BuyAmount": {
+      "name": "📦 每日采购总数",
+      "help": "前两张不花钱，剩下的要自费喵！不要破产喵！"
+    },
+    "LastRun": {
+      "name": "🕒 采购日志记录",
+      "help": "为了不让不知火重复收钱，雪风大人会默默记下日期的喵！"
+    }
+  },
+  "Shipyard": {
+    "_info": {
+      "name": "🏗️ 金色科研蓝图采购",
+      "help": "金 PR 计划的基石喵！哪怕是平凡的石头也能闪闪发光喵！"
+    },
+    "ResearchSeries": {
+      "name": "🔬 科研世代选择",
+      "help": "",
+      "1": "一期 (元老们喵)",
+      "2": "二期",
+      "3": "三期",
+      "4": "四期",
+      "5": "五期",
+      "6": "六期"
+    },
+    "ShipIndex": {
+      "name": "🛳️ 对应舰位序号",
+      "help": "从左往右数，不知火正在数钱喵！",
+      "0": "先攒钱喵",
+      "1": "1号舰",
+      "2": "2号舰",
+      "3": "3号舰",
+      "4": "4号舰",
+      "5": "5号舰",
+      "6": "6号舰"
+    },
+    "BuyAmount": {
+      "name": "🛍️ 每日购买计划",
+      "help": "别忘了白嫖两张喵！"
+    },
+    "LastRun": {
+      "name": "📝 自动记账簿",
+      "help": "又是辛苦采购的一天喵！"
+    }
+  },
+  "Gacha": {
+    "_info": {
+      "name": "🎰 每日搏命关头 (抽卡任务)",
+      "help": "每天一发轻型池，物资魔方两不误喵！玄学能救港吗喵？"
+    },
+    "Pool": {
+      "name": "🔮 祈愿哪个池子喵？",
+      "help": "",
+      "light": "轻型池 (省钱第一喵！)",
+      "heavy": "重型池 (大舰巨炮喵！)",
+      "special": "特型池 (想看航母酱喵？)",
+      "event": "活动限定池 (指挥官，冲鸭喵！)",
+      "wishing_well": "祈愿之井 (愿望能成真吗喵？)"
+    },
+    "Amount": {
+      "name": "🏗️ 连抽次数设置",
+      "help": "量力而行喵！",
+      "1": "单抽入魂喵！",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9",
+      "10": "十连达成喵！"
+    },
+    "UseTicket": {
+      "name": "🎫 优先消耗单次建造券",
+      "help": "有券当然先用券喵！魔方要省着点花喵~"
+    },
+    "UseDrill": {
+      "name": "🔨 掏出快速建造钻头",
+      "help": "选“否”的话，就要等明天才能看到新成员了喵...能省一个钻头喵！"
+    }
+  },
+  "BattlePass": {
+    "_info": {
+      "name": "📓 战斗凭证 (大月卡计划)",
+      "help": "努力工作就能拿报酬喵！奖励全都要喵！"
+    },
+    "Collect": {
+      "name": "📥 一键清空奖励喵",
+      "help": "看着奖励槽变空，雪风大人最开心啦喵喵~！"
+    }
+  },
+  "DataKey": {
+    "_info": {
+      "name": "🔑 档案秘钥托管",
+      "help": "每天准时领钥匙喵！绝对不能让它烂在箱子里喵！"
+    },
+    "Collect": {
+      "name": "📅 每日领取准入门票",
+      "help": ""
+    },
+    "ForceCollect": {
+      "name": "🔥 暴力清理红点",
+      "help": "哪怕口袋装满了也要尝试领取喵！红点必须消失喵！！"
+    }
+  },
+  "Mail": {
+    "_info": {
+      "name": "📧 喵喵收信处 (邮件管理)",
+      "help": "指挥官，有你的信件喵！会不会是情书喵？"
+    },
+    "ClaimMerit": {
+      "name": "🏅 领取功勋嘉奖邮件",
+      "help": ""
+    },
+    "ClaimMaintenance": {
+      "name": "🔧 领取维护补偿喵 (最期待了喵！)",
+      "help": ""
+    },
+    "ClaimTradeLicense": {
+      "name": "💎 领取月卡工资喵",
+      "help": ""
+    },
+    "DeleteCollected": {
+      "name": "🗑️ 焚毁已读废纸喵",
+      "help": "看完就丢掉，保持收件箱干干净净喵！"
+    }
+  },
+  "SupplyPack": {
+    "_info": {
+      "name": "🎁 补给大搜刮 (每周礼包)",
+      "help": "虽然不要钱，但也是很宝贵的资源喵！"
+    },
+    "Collect": {
+      "name": "🆓 零元购！领取免费礼包",
+      "help": "只要是白给的，雪风大人一律都要喵！"
+    },
+    "DayOfWeek": {
+      "name": "🗓️ 拖延症发作至周几？",
+      "help": "指挥官想在哪天去扫货喵？建议工作日完成喵喵！",
+      "0": "周一 (新的一周开始喵！)",
+      "1": "周二",
+      "2": "周三",
+      "3": "周四",
+      "4": "周五 (马上休息啦喵！)",
+      "5": "周六",
+      "6": "周日"
+    }
+  },
+  "Minigame": {
+    "_info": {
+      "name": "🎮 摸鱼时光 (小游戏)",
+      "help": "指挥官，我们来玩游戏喵！"
+    },
+    "Collect": {
+      "name": "✨ 注入摸鱼能量 (开启)",
+      "help": ""
+    }
+  },
+  "PrivateQuarters": {
+    "_info": {
+      "name": "👩‍🍳 秘密基地建设计划",
+      "help": "这就是所谓的“宿舍计划”喵？空气中充满了粉红色的气息喵..."
+    },
+    "BuyRoses": {
+      "name": "🌹 采购浪漫满分喵",
+      "help": "每周都要让房间香喷喷的喵！如果没钱就不买了喵喵~"
+    },
+    "BuyCake": {
+      "name": "🎂 采购美味蛋糕礼盒",
+      "help": "虽然有点费钻，但甜点是女孩子的正义喵！"
+    },
+    "TargetInteract": {
+      "name": "💓 耗尽今日的爱意喵 (精气神)",
+      "help": "去和选中的女孩子增进感情喵！不要想歪喵！"
+    },
+    "TargetShip": {
+      "name": "👗 指派今天的幸运儿喵",
+      "help": "选一个你最想见的大姐姐喵！",
+      "anchorage": "安克雷奇 (要抱抱喵？)",
+      "noshiro": "能代",
+      "sirius": "天狼星",
+      "new_jersey": "新泽西",
+      "taihou": "鹩 (总感觉她眼神怪怪的喵...)",
+      "aegir": "埃吉尔"
+    }
+  },
+  "Daily": {
+    "_info": {
+      "name": "📅 每日打卡勤务 (每日副本)",
+      "help": "每天都要做的好学生计划喵！材料多多，惊喜多多喵！"
+    },
+    "UseDailySkip": {
+      "name": "⏩ 瞬间移动！使用扫荡功能",
+      "help": "拿到 S 胜后就能开启传送门喵！还没解锁就老老实实跑路喵~"
+    },
+    "EscortMission": {
+      "name": "🚢 护送商船队 (部件/鱼雷本)",
+      "help": "塞壬又在打商船的主意喵！",
+      "skip": "今天人家想偷懒喵",
+      "first": "揍第 1 个难度的喵！",
+      "second": "揍第 2 个难度的喵！",
+      "third": "挑战最强难度的喵！！"
+    },
+    "EscortMissionFleet": {
+      "name": "🤜 护送任务出击小组",
+      "help": "选哪一队女孩子去打架喵？",
+      "1": "1号队",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
+    },
+    "AdvanceMission": {
+      "name": "💥 海域冲锋！(教材/自爆本)",
+      "help": "小心那些冒火的自爆船喵！",
+      "skip": "跳过本次冲锋喵",
+      "first": "战术 1 层",
+      "second": "战术 2 层",
+      "third": "突破 3 层顶端喵！"
+    },
+    "AdvanceMissionFleet": {
+      "name": "🤜 冲锋任务出击小组",
+      "help": "",
+      "1": "1号队",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
+    },
+    "FierceAssault": {
+      "name": "📦 斩首行动喵！(箱子本)",
+      "help": "打爆敌人的旗舰，把财宝都抢回来喵！",
+      "skip": "不斩首，和平万岁喵",
+      "first": "难度一级的喵",
+      "second": "难度二级的喵",
+      "third": "最高难度决战喵！"
+    },
+    "FierceAssaultFleet": {
+      "name": "🤜 斩首行动出击小组",
+      "help": "",
+      "1": "1号队",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
+    },
+    "TacticalTraining": {
+      "name": "🔬 战术研修进修班 (心智本)",
+      "help": "为了变得更聪明，指挥官一定要刷这个喵！",
+      "skip": "今天大脑放空喵",
+      "first": "研修一课",
+      "second": "研修二课",
+      "third": "博导级研修喵！"
+    },
+    "TacticalTrainingFleet": {
+      "name": "🤜 研修任务出击小组",
+      "help": "",
+      "1": "1号队",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
+    },
+    "SupplyLineDisruption": {
+      "name": "🌑 潜入！破交作战 (潜艇本)",
+      "help": "在深海里悄悄搞破坏喵！必须要扫荡才行喵~",
+      "skip": "水底太冷了不去了喵",
+      "first": "浅水难度",
+      "second": "中等水深",
+      "third": "最深海深处喵！"
+    },
+    "ModuleDevelopment": {
+      "name": "🔧 兵装实验室训练 (常驻)",
+      "help": "让武器变得更顺手喵！",
+      "skip": "不练习了喵",
+      "first": "入门实验室",
+      "second": "高级实验室"
+    },
+    "ModuleDevelopmentFleet": {
+      "name": "🤜 实验室任务出击小组",
+      "help": "",
+      "1": "1号队",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
+    },
+    "EmergencyModuleDevelopment": {
+      "name": "⏰ 限时兵装特训 (限时本)",
+      "help": "抓紧时间喵！材料过期就没啦喵！",
+      "skip": "来不及了先跑了喵",
+      "first": "特训 1",
+      "second": "特训 2"
+    },
+    "EmergencyModuleDevelopmentFleet": {
+      "name": "🤜 紧急任务出击小组",
+      "help": "",
+      "1": "1号队",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
+    }
+  },
+  "Hard": {
+    "_info": {
+      "name": "💀 极限挑战 (困难模式地图)",
+      "help": "没拿到周回模式前，雪风大人绝不让你在这种鬼地方乱跑喵！"
+    },
+    "HardStage": {
+      "name": "🚩 指定死斗海域",
+      "help": "比如 11-2, 12-4 什么的喵！指挥官想去哪喵？"
+    },
+    "HardFleet": {
+      "name": "🤜 指定派遣分队",
+      "help": "困难图只能选 1 队或 2 队喵！",
+      "1": "1号先锋队",
+      "2": "2号精锐队"
+    }
+  },
+  "Exercise": {
+    "_info": {
+      "name": "🥊 皇家演习场 (PvP 演习)",
+      "help": "和同伴们切磋技艺喵！雪风大人的运气可是天下第一喵！"
+    },
+    "DelayUntilHoursBeforeNextUpdate": {
+      "name": "⏳ 推迟演习直至更新前 X 小时",
+      "help": "为了冲击更好的排名，我们要学会战术性等待喵！",
+      "1": "倒计时 1 小时",
+      "2": "倒计时 2 小时",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "12": "不等了喵，直接冲喵！"
+    },
+    "OpponentChooseMode": {
+      "name": "🔍 对手挑选策略",
+      "help": "指挥官想找什么样的倒霉蛋喵？",
+      "max_exp": "🌟 选经验值最丰厚的喵！",
+      "easiest": "🍬 找最好欺负的喵喵~",
+      "leftmost": "🏆 指望排名最高的喵！",
+      "easiest_else_exp": "先捏软柿子，再看经验值喵！"
+    },
+    "OpponentTrial": {
+      "name": "🔄 每个倒霉蛋尝试 X 回",
+      "help": "一次不行就两次，总能打赢的喵！"
+    },
+    "ExerciseStrategy": {
+      "name": "📊 元帅级战略规划",
+      "help": "想要称号的话，就要学会攒次数直到周日决战喵！",
+      "aggressive": "狂暴清空模式 (有多少打多少喵！)",
+      "fri18": "为了元帅！保留 5 次到周五晚 18 点喵！",
+      "sat0": "保留至周六 0 点喵",
+      "sat12": "保留至周六 12 点喵",
+      "sat18": "保留至周六 18 点喵",
+      "sun0": "保留至周日 0 点喵",
+      "sun12": "保留至周日 12 点喵",
+      "sun18": "保留至周日最终决战前 18 点喵！！"
+    },
+    "LowHpThreshold": {
+      "name": "🆘 红血逃生红线 (血量 < X)",
+      "help": "雪风大人的直觉告诉人家，血条低于这个值就要战略撤退喵！"
+    },
+    "LowHpConfirmWait": {
+      "name": "🕒 撤退前的深呼吸 (确认延迟)",
+      "help": "为了不被立绘挡住视线，雪风大人会多观察几秒再带你逃跑喵~"
+    },
+    "OpponentRefreshValue": {
+      "name": "🔄 今日刷新品种记录",
+      "help": "雪风大人默默记得刷新了几次名单喵！"
+    },
+    "OpponentRefreshRecord": {
+      "name": "📅 刷新记录时间戳",
+      "help": ""
+    }
+  },
+  "Sos": {
+    "_info": {
+      "name": "🦈 寻找深海小猫咪 (SOS 潜艇图)",
+      "help": "指挥官，潜艇妹妹们在求救喵！快去救她们出来喵！"
+    },
+    "Chapter": {
+      "name": "🌊 指定救援海域章节",
+      "help": "越深的地方奖励越丰厚，但也越危险喵！",
+      "3": "3 章节",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9",
+      "10": "传说中的第 10 章节喵！"
+    }
+  },
+  "OpsiAshAssist": {
+    "_info": {
+      "name": "🤝 META信标支援援护",
+      "help": "每天帮好朋友们打三次小怪兽喵！指挥官也要做一个热心肠的人呢喵~"
+    },
+    "Tier": {
+      "name": "🔍 寻找等级大于 X 的强力信标",
+      "help": "太弱的对手人家提不起劲喵！如果刷了好几次都找不到强力对手，人家就随缘找个目标出手啦~"
+    }
+  },
+  "OpsiGeneral": {
+    "_info": {
+      "name": "⚙️ 大世界通用勤务设置",
+      "help": "这里是管家婆模式喵！所有大世界的功能都会听从这里的指挥哦~"
+    },
+    "UseLogger": {
+      "name": "📖 坐标记录仪全自动开启",
+      "help": "每次翻开小书包（仓库）的时候，人家会顺手把所有的坐标记录仪都用掉喵！"
+    },
+    "BuyActionPointLimit": {
+      "name": "🔋 购买体力水上限",
+      "help": "指挥官，要来一瓶秘制体力药水吗喵？价格公道，童叟无欺喵！",
+      "0": "一滴都不买喵！",
+      "1": "买1次 (1000油 = 100体力)",
+      "2": "买2次 (2000油 = 200体力)",
+      "3": "买3次 (4000油 = 400体力)",
+      "4": "买4次 (6000油 = 600体力)",
+      "5": "豪爽买5次 (10000油 = 1000体力喵！)"
+    },
+    "OilLimit": {
+      "name": "⛽ 石油储备红线",
+      "help": "买体力的时候也要给人家留点底火喵！石油低于 X 点就不会再乱花钱啦。"
+    },
+    "RepairThreshold": {
+      "name": "🏥 紧急回港修理红线",
+      "help": "要是哪位女孩子血量低于 X（0~1.0），雪风大人就会强制带她回港口包扎nanoda！绝对不能让大家勉强作战喵！"
+    },
+    "UseRepairPack": {
+      "name": "🩹 掏出维修小宝箱",
+      "help": "开启后，人家会从仓库里翻出维修箱来给大家治疗喵！配合侵蚀1练级使用最棒了喵！"
+    },
+    "RepairPackThreshold": {
+      "name": "🧰 现场急救红线",
+      "help": "血量低于 X 后就现场打补丁喵！\n（注意：只在打完深渊、要塞、月度Boss后才会偷偷检查要不要修船哦喵~）"
+    },
+    "DoRandomMapEvent": {
+      "name": "🌟 地图随机事件全清",
+      "help": "打完架再仔细扫一遍地喵！明石的小摊位、塞壬的奇怪装置、两舰队的机关...一个都别想跑喵！"
+    },
+    "AkashiShopFilter": {
+      "name": "🛒 明石野店购物指南",
+      "help": "默认只买体力水喵。如果要连紫币一起带走，请把代码改成 'ActionPoint > PurpleCoins' 喵！"
+    },
+    "NotifyOpsiMail": {
+      "name": "🔔 侵蚀/短猫小纸条推送",
+      "help": "人家会把侵蚀1和短猫的战报通通发给指挥官喵！不过信息很多，嫌吵的话就把人家关进小黑屋吧(╥﹏╥)..."
+    }
+  },
+  "OpsiAshBeacon": {
+    "_info": {
+      "name": "💥 META作战中心",
+      "help": "对抗那些神秘的大姐姐们喵！准备好迎接挑战了吗？"
+    },
+    "AttackMode": {
+      "name": "⚔️ 作战模式选择",
+      "help": "指挥官想找谁练手喵？",
+      "current": "只打当期最火的！",
+      "current_dossier": "当期的和档案里的我全都要！"
+    },
+    "OneHitMode": {
+      "name": "🏃‍♀️ 摸一下就跑 (一击即走)",
+      "help": "每个信标只打一次，剩下的交给支援大佬们喵！\n（档案信标里这个魔法是不灵的喵~）"
+    },
+    "DossierAutoAttackMode": {
+      "name": "🤖 档案信标自动挂机",
+      "help": "档案信标打过一次后就能开启自动作战啦，目前是国服指挥官的专属福利喵！"
+    },
+    "RequestAssist": {
+      "name": "📢 呼叫全服支援",
+      "help": "开打前先在大喇叭里喊人喵！好友、舰队、世界频道的大佬们快来救驾喵！"
+    },
+    "EnsureFullyCollected": {
+      "name": "📈 保证攒满每日200数据",
+      "help": "任务还没达标前，雪风大人会无视保留体力的命令勇往直前nanoda！记得要开启短猫功能配合哦！"
+    },
+    "AutoCollectShip": {
+      "name": "🎁 自动邀请新META舰船",
+      "help": "奖励攒够了就自动点击同步，让新的大姐姐加入港区喵！关掉的话就得指挥官亲手去接她们啦喵~"
+    }
+  },
+  "OpsiFleetFilter": {
+    "_info": {
+      "name": "🛡️ 舰队战术调度",
+      "help": "指挥官的排兵布阵就在这里喵！"
+    },
+    "Filter": {
+      "name": "🔄 车轮战出击序列",
+      "help": "打大BOSS专用喵！一号队倒下了二号队上，直到把敌人打趴下为止！\n加入 \"CallSubmarine\" 可以呼叫潜艇妹妹，但为了让她们换气，运行间隔会变长喵~"
+    }
+  },
+  "OpsiFleet": {
+    "_info": {
+      "name": "🚢 舰队编成设置",
+      "help": "指挥官，快选好要出击的女儿们，我们要出发去征服大海了喵！"
+    },
+    "Fleet": {
+      "name": "⚔️ 主力出击舰队",
+      "help": "选哪一队去教训塞壬呢？交给指挥官决定啦！",
+      "1": "第一舰队",
+      "2": "第二舰队",
+      "3": "第三舰队",
+      "4": "第四舰队"
+    },
+    "Submarine": {
+      "name": "🦈 呼叫潜艇支援",
+      "help": "开启后，潜艇妹妹们也想来帮帮忙喵！不过因为她们游得比较慢，运行间隔会增加到60分钟哦~"
+    }
+  },
+  "OpsiExplore": {
+    "_info": {
+      "name": "🗺️ 大世界开荒计划",
+      "help": "每月月初的大冒险！就算不买那个5000油的笨重记录仪，雪风大人也能带你起飞nanoda！\n为了等空域搜索冷却，每27分钟才会清理一个海域，指挥官要耐心一点喵~"
+    },
+    "SpecialRadar": {
+      "name": "📡 已购买战役记录仪 (5000油道具)",
+      "help": "指挥官如果已经财大气粗地买了那个道具，就把这里勾选上喵~！\n没买的话千万别乱点哦，人家会迷路的喵！"
+    },
+    "ForceRun": {
+      "name": "🔥 赶路模式 (无视间隔)",
+      "help": "开启后会消耗额外的体力加速前进！不急的话，还是慢慢推比较省体力喵~"
+    },
+    "IfSkipSirenResearch": {
+      "name": "⏩ 暂时绕开塞壬研究装置",
+      "help": "为了卡Bug大业，我们要战术性跳过一些装置喵！\n（悄悄话：这个功能还在实验中，可能会有神秘小状况发生喵...）",
+      "0": "一个都不放过喵！",
+      "6": "只跳过6级装置",
+      "65": "跳过5级和6级",
+      "654": "4/5/6级全部绕道"
+    },
+    "SkipedSirenResearch": {
+      "name": "📔 已经绕过的装置清单",
+      "help": "这是人家的小本本自动记的，指挥官不用管它喵~ 重置进度的时候它也会跟着清空的喵！"
+    },
+    "LastZone": {
+      "name": "🏁 上一次完成的海域",
+      "help": "自动更新的进度条喵！如果想重新开始，填个0就好啦~\n支持海域ID或者名字，比如 \"51\" 或者 \"NA海域东南E\" 都可以哒！"
+    }
+  },
+  "OpsiShop": {
+    "_info": {
+      "name": "🏪 港口杂货铺",
+      "help": "欢迎光临喵！主线通关后，港口商店就会刷新成超棒的新版商店啦，快来看看有什么想买的喵！"
+    },
+    "PresetFilter": {
+      "name": "🧺 购物清单筛选",
+      "help": "默认买买买就好喵！白票多得没处花就选『高价值+META』，萌新建议选『不买META材料』来省钱喵！",
+      "max_benefit": "只要值钱的宝贝",
+      "max_benefit_meta": "宝贝和META材料全都要！",
+      "no_meta": "META材料好贵，先不买喵",
+      "all": "我全都要！(豪气)",
+      "custom": "自定义购物清单"
+    },
+    "CustomFilter": {
+      "name": "📝 自定义购物清单",
+      "help": "如果指挥官有特殊的癖好，请先去Wiki学习一下怎么写神秘代码喵！"
+    },
+    "DisableBeforeDate": {
+      "name": "📅 每月 X 号前忍住不剁手",
+      "help": "攒着钱到指定日子后再开买！设为 0 的话就是每天都要买买买喵~"
+    }
+  },
+  "OpsiVoucher": {
+    "_info": {
+      "name": "🎫 特别兑换商店 (月度白票商店)",
+      "help": "每月一次的白嫖时间喵！把攒下来的白票通通换成亮晶晶的物资吧！"
+    },
+    "Filter": {
+      "name": "🛒 兑换清单筛选",
+      "help": "请参考说明文档写下指挥官的愿望清单喵~"
+    }
+  },
+  "OpsiDaily": {
+    "_info": {
+      "name": "📅 大世界每日勤务",
+      "help": "每天都要乖乖完成任务，才能成为优秀的指挥官喵！"
+    },
+    "DoMission": {
+      "name": "📝 执行每日任务",
+      "help": "在港口接好委托，然后把它们全部搞定喵！"
+    },
+    "UseTuningSample": {
+      "name": "🧪 使用效能样本",
+      "help": "把那些花花绿绿的药水都喝掉，让大家变得更强喵！"
+    },
+    "SkipSirenResearchMission": {
+      "name": "🙅‍♀️ 拒绝塞壬研究任务",
+      "help": "开启后，那些要用黄币换紫币的任务人家就不理它们了喵！"
+    },
+    "KeepMissionZone": {
+      "name": "📌 保留任务海域",
+      "help": "打完任务先别撤退喵！这样下次刷在同一个地方就不用多花体力进场了，勤俭持家喵！"
+    },
+    "MissionZones": {
+      "name": "🧹 月底大扫除清单",
+      "help": "这是人家留着月底一次性清理的海域，它是自动记录的喵~"
+    }
+  },
+  "OpsiObscure": {
+    "_info": {
+      "name": "🌫️ 隐秘海域扫荡",
+      "help": "那些藏在雾里的坐标宝贝，一个都别想跑喵！每27分钟清理一个，防止雷达过热喵！"
+    },
+    "SkipHazard2Obscure": {
+      "name": "🙈 嫌弃2级小坐标",
+      "help": "开启后，那些奖励少少的2级隐秘海域人家就不去啦，哼~"
+    },
+    "ForceRun": {
+      "name": "🔥 强制扫荡",
+      "help": "人家不管什么冷却啦，就是要冲过去打架！(会多花一点体力哦喵)"
+    }
+  },
+  "OpsiAbyssal": {
+    "_info": {
+      "name": "🐙 深渊海域讨伐",
+      "help": "仓库里的深渊坐标快要发霉了喵！快去清理掉那些深海大怪兽！"
+    },
+    "ForceRun": {
+      "name": "🔥 强制出击",
+      "help": "急着拿奖励的指挥官可以点这个喵！"
+    }
+  },
+  "OpsiStronghold": {
+    "_info": {
+      "name": "🏰 塞壬要塞强袭",
+      "help": "每周一次的攻坚战，把敌人的老家拆个精光吧nanoda！"
+    },
+    "SubmarineEveryCombat": {
+      "name": "🦈 潜艇全勤出击",
+      "help": "潜艇妹妹们每战必达！如果她们弹药打光了，人家会先撤退等一等喵~"
+    },
+    "ForceRun": {
+      "name": "🔥 强制拆迁",
+      "help": "要塞什么的，一口气推平最爽了喵！"
+    },
+    "HasStronghold": {
+      "name": "🚩 要塞是否存在",
+      "help": "人家在地图上侦查的结果喵~"
+    }
+  },
+  "OpsiMonthBoss": {
+    "_info": {
+      "name": "😈 月度大BOSS战",
+      "help": "最终大决战！不管是简单的还是困难的，都要让她们见识下雪风大人的厉害nanoda！"
+    },
+    "Mode": {
+      "name": "⚔️ BOSS挑战难度",
+      "help": "指挥官想挑战到什么程度呢？",
+      "normal": "只打简单的喵",
+      "normal_hard": "简单和困难我全都要拿下！"
+    },
+    "CheckAdaptability": {
+      "name": "🛡️ 战前评估 (适应性检查)",
+      "help": "只有变强了（适应性达到203/203/156）才去挑战，不然会被打得哭鼻子喵！"
+    },
+    "ForceRun": {
+      "name": "🔥 强制开战",
+      "help": "不管打不打得过，先打了再说喵！"
+    }
+  },
+  "OpsiMeowfficerFarming": {
+    "_info": {
+      "name": "🐾 短猫相接",
+      "help": "带着可爱的喵喵去海域散步捡垃圾吧！顺时针转圈圈，惊喜连连喵！"
+    },
+    "ActionPointPreserve": {
+      "name": "🔋 行动力底线小金库",
+      "help": "雪风大人特意帮指挥官存下的应急体力nanoda！如果行动力低于这个数值，人家就不会乱花体力带喵喵去散步了喵！"
+    },
+    "HazardLevel": {
+      "name": "🗺️ 目标侵蚀等级",
+      "help": "指挥官想带喵喵去多危险的海域玩耍呢？等级越高，掉落的宝贝可能就越厉害喵！当然，也要小心被打疼哦喵~",
+      "2": "2级 | 小菜一碟喵",
+      "3": "3级 | 轻松搞定喵",
+      "4": "4级 | 稍微认真点喵",
+      "5": "5级 | 全力以赴nanoda！",
+      "6": "6级 | 终极挑战喵！",
+      "10": "10级 | 甚至是地狱模式喵！？"
+    },
+    "TargetZone": {
+      "name": "📍指定出击海域",
+      "help": "指挥官，想要全收集大世界的星星的话，就指定一个人家去的目标吧！\n支持海域ID和各服的海域名称哦，比如填入 \"51\", \"NA海域东南E\" 都可以哒~\n如果填入0，或者把字删掉，人家就会取消指定自由行动啦！"
+    },
+    "StayInZone": {
+      "name": "⚓指定海域计划作战",
+      "help": "雪风大人的天才战略温馨提示nanoda：打开这个功能并指定海域后，就会乖乖待在指定的海域不停刷刷刷，绝对不会乱跑回港口nanoda！\n想要打侵蚀三的话推荐『NA海域东南B』，侵蚀五推荐『卡利比安海B或者C』nanoda！快夸奖雪风大人！"
+    },
+    "APPreserveUntilReset": {
+      "name": "🔋保留行动力直到月底",
+      "help": "喵~要把体力存到月底大决战吗喵？'保留 X 点行动力' 的设置，在大世界重置前几天是不会减少的哦~\n⚠️注意喵：开启后，这些宝贵的体力只会在『跨月每日任务』里花掉。如果不打开跨月任务，这个设置就没用啦，这意味着指挥官得亲自手动花掉它们才能赚得盆满钵满喵！"
+    },
+    "SirenDetectorSearch_Enable": {
+      "name": "📡自动寻找塞壬探测装置",
+      "help": "喵喵雷达启动！在短猫相接任务中，自动帮忙寻找闪闪发光的塞壬探测装置，并把坐标写进小本本里！\n（探头）人家只会在中心海域（region 5）寻找哦，其他偏僻的地方才不去呢~"
+    },
+    "SirenDetectorSearch_HazardLevel": {
+      "name": "☣️塞壬探测装置侵蚀等级",
+      "help": "要在多危险的海域寻找呢？人家会顺时针去中心海域探险哦~\n中心海域只有5级和6级两种危险度啦，选错的话人家可找不到哦！\n⚠️注意：依然只在中心海域（region 5）里转悠，不会去其他区域的！",
+      "5": "5级海域喵！",
+      "6": "6级海域喵！"
+    },
+    "SirenDetectorSearch_FleetForBlock": {
+      "name": "🛡️挡路卡位舰队",
+      "help": "出击！用一队舰船去死死拖住塞壬坏女人，这样搜索小队就不会被打断啦！\n请务必选择和短猫任务不一样的舰队哦，不然就乱套啦(*/ω＼*)",
+      "1": "第一舰队！",
+      "2": "第二舰队！",
+      "3": "第三舰队！",
+      "4": "第四舰队！"
+    },
+    "SirenDetectorSearch_StopAfterFound": {
+      "name": "🛑寻找 X 个探测器后乖乖回家",
+      "help": "见好就收喵！找到指定数量的宝贝塞壬装置后，就不找啦，回去继续做正常的短猫日常~\n（其实数量是看下面的记录表哦，如果记录里有y个，那人家就再找x-y个就停手啦！）\n如果设为 0 的话...那就是贪心鬼模式，会一直找到体力被榨干为止哦(///▽///)！"
+    },
+    "SirenDetectorSearch_FoundZones": {
+      "name": "📖已找到的探测器小本本",
+      "help": "这里记录了所有找到的塞壬探测装置海域坐标哦~\n如果指挥官偷偷把某个海域的装置用掉了，记得手动在这里把记录擦掉呀(づ￣ 3￣)づ"
+    }
+  },
+  "OpsiHazard1Leveling": {
+    "_info": {
+      "name": "⚔️侵蚀1海域肝帝练级",
+      "help": "肝帝养成计划开启(ง •_•)ง！消耗作战补给凭证，换取超多经验和一丢丢体力！\n推荐带上1-2艘有预装填技能的航母大姐姐，这样效率最高啦~\n\n为了不被明石老板娘拉黑（买不了港口商店的东西），Alas会偷偷给你留出 100,000 的补给凭证底线哦！\n因为神秘商店买体力好贵好贵，打开这个功能后，体力溢出的话人家会跑去『短猫相接』消耗掉哒！"
+    },
+    "TargetZone": {
+      "name": "📍指定练级海域",
+      "help": "要去哪里打怪升级呢？只去指挥官指定的地方哦！这也是个躲避游戏系统Bug的好办法~",
+      "0": "随便去哪都可以~",
+      "44": "44 | 西大陆架D",
+      "22": "22 | NA海域西南B"
+    },
+    "OperationCoinsPreserve": {
+      "name": "💰保留 X 个作战补给凭证",
+      "help": "明石的小金库底线喵！凭证跌破 X 的时候就要去捡垃圾（跑短猫相接）啦，这可是重要底线，不建议指挥官乱改哦喵！"
+    },
+    "MinimumActionPointReserve": {
+      "name": "🔋保留 X 点行动力",
+      "help": "雪风大人已经把无敌的幸运分给指挥官了nanoda！搏一搏，单车变摩托，上吧指挥官nanoda！"
+    },
+    "ExecuteFixedPatrolScan": {
+      "name": "🏃‍♀️舰队强制移动",
+      "help": "雪风大人的强力指挥nanoda：开启后，将强制让舰队走起来！绝对不允许因为找不到明石而导致坠机这种丢人的事发生nanoda！\n打开这个功能，轻轻松松每月50万海里不是梦！指挥官还在等什么nanoda！"
+    },
+    "Cl1Filter": {
+      "name": "🛒明石黑店扫货筛选",
+      "help": "默认只买体力水哦nanoda~如果要贪心连紫币一起买，就把神秘代码改成 'ActionPoint > PurpleCoins' 吧！"
+    },
+    "RecordNonCL1AP": {
+      "name": "📊偷看非侵蚀1来源的体力",
+      "help": "开启的话，连明石商店买的、或者其他地方薅来的体力都要算进统计报表里哦！\n关掉的话，人家就只认认真真统计侵蚀1练级里赚到的体力，忽略其他的啦~"
+    }
+  },
+  "OpsiSirenBug": {
+    "_info": {
+      "name": "😈塞壬研究装置禁忌魔法(Bug利用)",
+      "help": "嘘——这是禁忌的魔法哦！专门用来设置塞壬研究装置，以及如何薅它羊毛的神秘选项(✧◡✧)"
+    },
+    "SirenResearch_Enable": {
+      "name": "🔍塞壬研究装置",
+      "help": "雪风大人的严重警告：用紫币换黄币的败家玩法！如果指挥官每个月没有肝到几十万海里的话，千万千万慎用nanoda！"
+    },
+    "SirenBug_Enable": {
+      "name": "💥无限薅羊毛(Bug利用-实验性)",
+      "help": "利用塞壬装置的小漏洞，无限刷取高侵蚀区的宝贝资源~！\n⚠️要先打开上面的『塞壬研究装置』开关，这个魔法才会生效哦！"
+    },
+    "SirenBug_Type": {
+      "name": "🌊海域类型切换",
+      "help": "指挥官想去哪里薅羊毛呢？是安全的后花园还是危险的荒野？",
+      "dangerous": "刺激的普通海域！",
+      "safe": "稳妥的安全海域！"
+    },
+    "SirenBug_Zone": {
+      "name": "📍指定薅羊毛区域(实验性)",
+      "help": "告诉人家羊毛出在哪个海域吧！输入神秘的区域ID或名字就可以啦（比如\"51\"）~\n填入0，或者删掉内容，就会解除绑定哦。"
+    },
+    "SirenBug_Grid": {
+      "name": "🎯指定吊机格子(实验性)",
+      "help": "精准打击定位！告诉人家塞壬吊机在哪个格子上，不填的话人家只能全图慢慢找啦(╥﹏╥)\n格式是一个大写字母（列）加数字（行），比如 \"B10\" 就是第2列第10行！地图左上角是 \"A1\" 哦！"
+    },
+    "DisableTaskSwitchDuringBug": {
+      "name": "🚫薅羊毛期间请勿打扰(实验性)",
+      "help": "专注薅羊毛模式！临时屏蔽其他任务的打扰，什么委托、日常都等人家薅完再说！\n如果总是被其他任务打断施法，就把这个打开吧~",
+      "True": "打开！谁也不许烦我！",
+      "False": "关闭~随缘啦。"
+    },
+    "SirenBug_DailyCount": {
+      "name": "📅今日薅羊毛次数(实验性)",
+      "help": "今日战绩统计！刷的次数越多，每次扫图前人家就会多发呆（Sleep）几秒钟哦，不要催人家嘛！"
+    },
+    "SirenBug_DailyCountRecord": {
+      "name": "⏱️Bug次数记录时间戳(实验性)",
+      "help": "系统自己记的小本本时间，指挥官不用管它啦~"
+    },
+    "SirenBug_CountLimit": {
+      "name": "🚨自动处理极限阈值(实验性)",
+      "help": "极度危险的警戒线！可能会把塞壬吊机玩没哦，玩脱了指挥官自己负责(哼)！\n达到这个次数后，就会用一队去卡住敌人，另一队强行收菜。填 0 就是乖乖不作死，不启用它~"
+    },
+    "SirenBug_CrossDay": {
+      "name": "💤跨日灰姑娘休息时间",
+      "help": "每天晚上 23:55 到次日凌晨 00:05 暂停施法哦！不然跨天的网络波动把吊机吞掉的话，指挥官可就要哭啦！"
+    },
+    "SirenBug_AutoDisable": {
+      "name": "🥀没找到吊机自动关停",
+      "help": "呜呜，万一吊机消失了，人家会自动把开关关掉的！才不要傻傻地反复进海域浪费宝贵的体力呢！"
+    }
+  },
+  "OpsiCheckLeveling": {
+    "_info": {
+      "name": "📈每日经验体检报告",
+      "help": "每日体检~检查出击舰队的大家是不是都拿到满满的经验啦！如果是的话，会给指挥官发小纸条（推送消息）哦！\n（要在系统里先设置好“错误推送设置”才能收到啦~）"
+    },
+    "TargetLevel": {
+      "name": "⭐全员攒够 X 级经验后呼叫",
+      "help": "大家都攒够升到指定 X 级的经验后，就呼叫指挥官！填 0 就是无底洞模式，不限制等级哦~"
+    },
+    "LastRun": {
+      "name": "🕒上次体检时间",
+      "help": "记录上次检查的时间，防止人家重复工作累坏啦！一天只查一次哦，这个数值是自动记的，一般不需要改哒~"
+    },
+    "DelayAfterFull": {
+      "name": "😴满级后推迟任务",
+      "help": "大家经验都满了，好累哦！到达目标后把这个任务往后推迟休息一下吧~"
+    }
+  },
+  "OpsiScheduling": {
+    "_info": {
+      "name": "🧠天才大世界智能调度",
+      "help": "雪风大人的天才指挥艺术nanoda！全自动帮指挥官在『侵蚀1练级』和『打工赚黄币』之间丝滑切换~\n开启后，人家会紧紧盯着黄币和体力余额，自动安排舰队去干活，还会给指挥官发小纸条汇报工作进度哦！"
+    },
+    "UseSmartSchedulingOperationCoinsPreserve": {
+      "name": "🎯目标：赚取 X 个作战凭证喵！",
+      "help": "要用什么来当切换任务的信号呢？\n打开这个开关喵，人家就会盯着下方设置的『赚了多少黄币』来决定要不要回家；\n关掉的话喵，就会根据『体力还剩多少』来判断啦！\n（简单来说：打开看黄币，关掉看体力喵！）",
+      "True": "打开喵！看黄币！",
+      "False": "关掉喵！看体力！"
+    },
+    "OperationCoinsPreserve": {
+      "name": "💰侵蚀1底线：保留 X 个作战凭证",
+      "help": "明石老板娘的底线警告喵！如果小金库里的凭证跌破 X 个，人家就会立刻停下练级，跑去打工赚黄币啦！这是重要的安全线，不建议指挥官乱改哦喵~"
+    },
+    "ActionPointPreserve": {
+      "name": "🔋短猫打工：保留 X 点行动力",
+      "help": "短猫相接也是很累的喵！当体力低于 X 的时候就会停下来，人家还会乖乖帮指挥官开体力箱子哦（X 的计算是包含箱子里的体力的）~\n强烈建议留出 1000 点体力给『侵蚀1练级』用，好钢要用在刀刃上nanoda！"
+    },
+    "OperationCoinsReturnThreshold": {
+      "name": "📈打工目标：赚够 X 个凭证就回家",
+      "help": "定个小目标喵！在出门辛辛苦苦赚黄币的任务里，只要一共捞到了 X 个作战凭证，人家就会开开心心地跑回『侵蚀1』继续带大家练级啦~"
+    },
+    "EnableMeowfficerFarming": {
+      "name": "🐾猫猫小队：短猫相接",
+      "help": "智能调度缺黄币的时候，要不要派指挥喵们去『短猫相接』里捡垃圾赚外快喵？",
+      "True": "让猫猫去干活喵！",
+      "False": "猫猫要休息喵！"
+    },
+    "EnableObscure": {
+      "name": "🗺️神秘探险：隐秘海域",
+      "help": "智能调度缺黄币的时候，要不要打开坐标去『隐秘海域』里寻宝呢nanoda？",
+      "True": "去寻宝nanoda！",
+      "False": "不去不去！"
+    },
+    "EnableAbyssal": {
+      "name": "🌌危险海域：深渊讨伐",
+      "help": "智能调度缺黄币的时候，要不要去挑战可怕的『深渊海域』拿大奖喵？要注意安全哦！",
+      "True": "出击讨伐喵！",
+      "False": "太可怕了不要！"
+    },
+    "EnableStronghold": {
+      "name": "🏰攻城拔寨：塞壬要塞",
+      "help": "智能调度缺黄币的时候，要不要去端掉坏女人们的『塞壬要塞』把小钱钱抢过来nanoda？",
+      "True": "开炮开炮nanoda！",
+      "False": "今天先放过她们！"
+    }
+  },
+  "OpsiDailyDelay": {
+    "_info": {
+      "name": "💤 大世界任务懒觉计划",
+      "help": "在服务器重新打起精神（0点重启）之前，让人家先把侵蚀一和短猫任务推迟一下喵！等到次日天亮了再开工，效率才更高喵~"
+    },
+    "TriggerMinutesBeforeReset": {
+      "name": "⏰ 提前预约闹钟（分钟）",
+      "help": "在 0 点钟响之前多久开始准备睡觉（任务延后）喵？范围是 1~60 分钟，默认 5 分钟刚刚好喵！",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9",
+      "10": "10",
+      "15": "15",
+      "20": "20",
+      "30": "30",
+      "45": "45",
+      "60": "60"
+    }
+  },
+  "IslandSeasonTask": {
+    "_info": {
+      "name": "🌟 岛屿赛季大冒险",
+      "help": ""
+    },
+    "TaskDict": {
+      "name": "✨ 冒险委托书",
+      "help": "雪风大人会自动把要做的任务都写在上面喵！"
+    }
+  },
+  "IslandTechnology": {
+    "_info": {
+      "name": "🔧 岛屿黑科技中心",
+      "help": ""
+    },
+    "TechnologyStatus": {
+      "name": "📊 科技树进度表",
+      "help": "这一串串的代码都是指挥官变强的证明喵！"
+    }
+  },
+  "Daemon": {
+    "_info": {
+      "name": "👆 茗的小帮手 (半自动模式)",
+      "help": "当指挥官想去一些奇怪的地方探险时，人家会帮忙点准备、跳剧情、收战利品喵！指挥官只要负责选好倒霉的对手就行啦喵~"
+    },
+    "EnterMap": {
+      "name": "🚀 自动点击出击准备",
+      "help": "指挥官，先把女孩子们集合好，不然人家可不敢乱点喵！"
+    }
+  },
+  "OpsiDaemon": {
+    "_info": {
+      "name": "🌍 大世界探险帮手",
+      "help": "去红宝箱海域探险或者过主线剧情时的好伴侣喵！人家会负责那些重复的操作，指挥官只要负责在这个广阔的大世界里带路和挑海域就好啦喵~"
+    },
+    "RepairShip": {
+      "name": "🏥 靠港自动包扎",
+      "help": "把受伤的女孩子们带回港口后，人家会马上开始修复喵！修理完记得要在 30 秒内把她们带走哦，不然人家会以为又要再修一次喵！"
+    },
+    "SelectEnemy": {
+      "name": "🧹 大世界大扫除",
+      "help": "这附近看起来有很多碍眼的家伙和闪闪发光的宝贝喵！人家会顺手全都搞定，如果有漏网之鱼，就拜托指挥官指挥一下啦喵！"
+    }
+  },
+  "EventStory": {
+    "_info": {
+      "name": "🎬 活动精彩时刻",
+      "help": "帮指挥官看最新的活动小电影喵！因为文件很大，请给人家大约 3 分钟的时间消化一下喵~（仅支持 20241219 后的新活动喵）"
+    },
+    "SkipBattle": {
+      "name": "⚡ 闪击战模式 (强制跳过)",
+      "help": "用神秘的魔法（杀游戏）直接瞬移到下一段剧情喵！",
+      "True": "已启用",
+      "False": "False"
+    }
+  },
+  "BoxDisassemble": {
+    "_info": {
+      "name": "📦 仓库大搬运 (装备箱拆解)",
+      "help": "仓库里那些落了灰的箱子，人家帮指挥官一个一个都拆掉喵！配置好就等着拿零件吧喵~"
+    },
+    "UsePurpleBox": {
+      "name": "💜 处理紫色箱子",
+      "help": ""
+    },
+    "PurpleBoxLimit": {
+      "name": "🔒 紫箱保险线：保留 X 个",
+      "help": ""
+    },
+    "UseBlueBox": {
+      "name": "💙 处理蓝色箱子",
+      "help": ""
+    },
+    "BlueBoxLimit": {
+      "name": "🔒 蓝箱保险线：保留 X 个",
+      "help": ""
+    },
+    "UseWhiteBox": {
+      "name": "🤍 处理白色箱子",
+      "help": ""
+    },
+    "WhiteBoxLimit": {
+      "name": "🔒 白箱保险线：保留 X 个",
+      "help": ""
+    }
+  },
+  "Benchmark": {
+    "_info": {
+      "name": "🏎️ 速度大比拼 (性能测试)",
+      "help": "来看看哪个方案能让雪风大人跑得飞快喵！测完记得去“模拟器设置”里给人家换上最快的引擎喵！"
+    },
+    "DeviceType": {
+      "name": "📱 终端设备鉴别",
+      "help": "",
+      "emulator": "模拟器",
+      "plone_cloud_with_adb": "云手机 有公网ADB",
+      "phone_cloud_without_adb": "云手机 无公网ADB",
+      "android_phone": "安卓真机",
+      "android_phone_vmos": "安卓真机VMOS虚拟机"
+    },
+    "TestScene": {
+      "name": "🎬 测试小剧场",
+      "help": "",
+      "screenshot_click": "截图+点击速度测试",
+      "screenshot": "截图速度测试",
+      "click": "点击速度测试"
+    }
+  },
+  "AzurLaneUncensored": {
+    "_info": {
+      "name": "🛡️ 守护笑容 (反和谐工具)",
+      "help": "这是给国服指挥官的特别福利喵！人家会下载神秘文件并塞进模拟器，最后再重启游戏让大姐姐们恢复原样喵~"
+    },
+    "Repository": {
+      "name": "📦 神秘补给站",
+      "help": "这是存放神秘代码的地方喵，指挥官看着办就好喵~"
+    }
+  },
+  "GameManager": {
+    "_info": {
+      "name": "🎮 港区行政中心",
+      "help": "虽然还是个半成品喵，但强制关游戏和自动登录这种小事还是能搞定的喵！"
+    },
+    "AutoRestart": {
+      "name": "🔑 自动刷脸进港",
+      "help": "万一游戏闹脾气崩掉了，人家会自动帮指挥官重新敲门的喵！"
+    }
+  },
+  "EmulatorManagement": {
+    "_info": {
+      "name": "🖥️ 模拟器大管家",
+      "help": ""
+    },
+    "ScheduledEmulatorRestart": {
+      "name": "⏰ 模拟器养生觉 (定时重启)",
+      "help": "让辛苦工作了很久的模拟器睡个午觉喵！这样可以防止它因为太累而产生幻觉（内存泄漏）或者走路慢吞吞（卡顿）喵~ 重启会等手头工作做完再开始喵！"
+    },
+    "RestartIntervalHours": {
+      "name": "⏳ 午睡时间表 (小时)",
+      "help": "每隔几个小时让模拟器去充电（重启）一次喵？"
+    }
+  },
+  "Storage": {
+    "_info": {
+      "name": "📋 任务记事本",
+      "help": "存放那些羞涩的任务状态文件喵，如果任务坏掉了，指挥官可以亲手把它们擦干净喵！"
+    },
+    "Storage": {
+      "name": "🏷️ 存储项标题",
+      "help": "❓ 存储项提示"
+    }
+  },
+  "Gui": {
+    "Aside": {
+      "Install": "🚢 登船",
+      "Home": "🏠 旗舰室",
+      "Develop": "🧪 实验室",
+      "Performance": "⚡ 动力炉",
+      "Setting": "⚙️ 备忘录",
+      "AddAlas": "➕ 扩充编制"
+    },
+    "Button": {
+      "Start": "🚩 出击！",
+      "Stop": "❌ 撤退！",
+      "ScrollON": "📜 滚动开启喵",
+      "ScrollOFF": "📜 滚动关闭喵",
+      "DashboardON": "📦 收起来喵",
+      "DashboardOFF": "🗺️ 拉开喵",
+      "ClearLog": "🧹 毁尸灭迹",
+      "Setting": "⚙️ 调整手札",
+      "CheckUpdate": "🔍 寻找新伙伴",
+      "ClickToUpdate": "🚀 马上登场",
+      "RetryUpdate": "🔄 再试一次喵",
+      "CancelUpdate": "🛑 先别更新"
+    },
+    "Toast": {
+      "DisableTranslateMode": "点击这里关闭翻译模式喵",
+      "ConfigSaved": "✨ 记忆已储存",
+      "AlasIsRunning": "秘书舰已经在忙了喵！",
+      "ClickToUpdate": "有新版本的秘密通知喵！"
+    },
+    "Status": {
+      "Running": "🏃‍♀️ 秘书舰正在拼命喵",
+      "Inactive": "🐱 茗在偷偷拿箱子",
+      "Warning": "🏮 信号灯闪红了喵",
+      "Updating": "🍹 稍等，指挥官"
+    },
+    "MenuAlas": {
+      "Overview": "📊 港区简报",
+      "Log": "📜 航海日志"
+    },
+    "MenuDevelop": {
+      "HomePage": "🏰 总台本部",
+      "Translate": "🗣️ 异界翻译官",
+      "Announcement": "📢 港区广播",
+      "Update": "🎁 惊喜更新",
+      "Remote": "📞 远程联络",
+      "Utils": "🛠️ 百宝箱"
+    },
+    "Overview": {
+      "Scheduler": "🧠 战术大脑",
+      "Dashboard": "🏠 旗舰室",
+      "SecondsAgo": "刚才喵",
+      "MinutesAgo": "分钟前喵",
+      "HoursAgo": "小时前喵",
+      "DaysAgo": "天前喵",
+      "MonthsAgo": "月前喵",
+      "YearsAgo": "年前喵",
+      "NoData": "什么都没有喵",
+      "Oil": "⛽ 石油",
+      "Coin": "💰 物资",
+      "Gem": "💎 钻石",
+      "Cube": "🧊 魔方",
+      "Pt": "🎖️ 活动点",
+      "YellowCoin": "🟡 黄币",
+      "PurpleCoin": "🟣 紫币",
+      "ActionPoint": "🔋 体力",
+      "Merit": "🏅 功勋",
+      "Medal": "🥈 勋章",
+      "Core": "🧿 核心",
+      "GuildCoin": "🛡️ 舰队币",
+      "Log": "📜 日志喵",
+      "Running": "🏃‍♀️ 在忙喵",
+      "Pending": "⏳ 等一下喵",
+      "Waiting": "💤 待命中",
+      "NoTask": "🕊️ 没事喵"
+    },
+    "Dashboard": {
+      "TimeError": "❓ 时空错乱",
+      "JustNow": "刚刚喵",
+      "SecondsAgo": "秒前喵",
+      "MinutesAgo": "分钟前喵",
+      "HoursAgo": "小时前喵",
+      "DaysAgo": "天前喵",
+      "MonthsAgo": "月前喵",
+      "YearsAgo": "年前喵",
+      "LongTimeAgo": "很久很久以前喵",
+      "NoData": "还是空白喵",
+      "Oil": "⛽ 石油",
+      "Coin": "💰 物资",
+      "Gem": "💎 钻石",
+      "Cube": "🧊 魔方",
+      "Pt": "🎖️ 活动点",
+      "YellowCoin": "🟡 黄币",
+      "PurpleCoin": "🟣 紫币",
+      "ActionPoint": "🔋 行动力",
+      "Merit": "🏅 功勋",
+      "Medal": "🥈 勋章",
+      "Core": "🧿 核心",
+      "GuildCoin": "🛡️ 舰队币"
+    },
+    "AddAlas": {
+      "PopupTitle": "📝 招募新同伴",
+      "NewName": "新伙伴的名字喵",
+      "CopyFrom": "从老航线里抄一份喵",
+      "Confirm": "确认加入编制喵",
+      "FileExist": "已经有叫这个的女孩子了喵，换一个吧喵！",
+      "InvalidChar": "名字里不能包含这些奇怪的符号哦喵：.\\/:*?\"<>|",
+      "InvalidPrefixTemplate": "名字不能以 template 开头喵，那可是禁区喵！",
+      "Manage": "💼 档案管理"
+    },
+    "AppManage": {
+      "PageTitle": "📂 配置文件办公室",
+      "TitleNew": "➕ 建立新航线",
+      "NewName": "新航线的名字喵",
+      "CopyFrom": "参考现有的航线喵",
+      "NameExist": "名字重叠了喵，请给人家一个新的喵！",
+      "InvalidChar": "名字里不能有这些调皮的符号喵：.\\/:*?\"<>|",
+      "InvalidPrefixTemplate": "名字不能以 template 开头喵！",
+      "Back": "🔙 返回喵",
+      "New": "➕ 加入喵",
+      "Import": "📥 接入航线",
+      "Export": "📤 备份数据",
+      "Delete": "🗑️ 肃清",
+      "OverrideWarning": "这会把现有的女孩子顶掉哦，确定喵？",
+      "ImportSuccess": "接收讯号成功喵！",
+      "NewSuccess": "新成员报到成功喵！",
+      "Name": "称号喵",
+      "Mod": "插件喵",
+      "Actions": "指令喵"
+    },
+    "Update": {
+      "UpToDate": "已经是最新形态啦喵！",
+      "HaveUpdate": "有新的补给到了喵！",
+      "UpdateStart": "开始补给喵！",
+      "UpdateWait": "等大家忙完最后一点活喵...",
+      "UpdateRun": "📦 补给搬运中",
+      "UpdateSuccess": "补给接收完毕喵，正在重新整队喵！",
+      "UpdateFailed": "补给箱坏掉了喵，快去日志里看看怎么回事喵！",
+      "UpdateChecking": "正在雷达扫描补给...",
+      "UpdateCancel": "不要补给啦喵，原地解散喵！",
+      "UpdateFinish": "补给成功喵，请指挥官亲手拍拍重启按钮喵！",
+      "Local": "本地喵",
+      "Upstream": "后勤部",
+      "Author": "策划喵",
+      "Time": "时间戳喵",
+      "Message": "悄悄话",
+      "DisabledWarn": "补给站关门了喵，需要指挥官手动去更新啦喵！",
+      "DetailedHistory": "详细的历史小本本"
+    },
+    "Remote": {
+      "Running": "📡 联络在线",
+      "NotRunning": "📵 联络中断喵",
+      "NotEnable": "尚未开启喵，快去 deploy.yaml 里设置密码开启远程魔法喵！",
+      "EntryPoint": "接头暗号 URL 地址喵：",
+      "ConfigureHint": "学习魔法请点这里喵：",
+      "SSHNotInstall": "哎呀，没找到 SSH 魔法棒，指挥官快去下载一个喵！"
+    },
+    "Text": {
+      "InvalidFeedBack": "口令格式不对哟，看看例子喵：{0}",
+      "Clear": "🛀 洗白白 (清除)",
+      "EnterPassword": "输入秘密口令喵",
+      "ChooseFile": "挑选档案喵"
+    },
+    "OpsiScheduling": {
+      "UseSmartSchedulingOperationCoinsPreserve": "🧠 天才智能切换开关",
+      "OperationCoinsPreserve": "💰 黄币工资保底线",
+      "ActionPointPreserve": "🔋 行动力应急底线",
+      "OperationCoinsReturnThreshold": "📈 攒够多少钱就回家",
+      "EnableMeowfficerFarming": "🐾 猫猫干活啦",
+      "EnableObscure": "🌫️ 带路去探险",
+      "EnableAbyssal": "🐙 挑战大怪兽",
+      "EnableStronghold": "🏰 目标：塞壬要塞"
+    }
+  }
+}
