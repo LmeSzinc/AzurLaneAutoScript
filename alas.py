@@ -113,10 +113,6 @@ class AzurLaneAutoScript:
             from module.device.device import Device
             device = Device(config=self.config)
             return device
-        except EmulatorNotRunningError:
-            logger.critical('Emulator is not running during device initialization')
-            logger.critical('Please start the emulator and try again')
-            exit(1)
         except RequestHumanTakeover:
             logger.critical('Request human takeover')
             exit(1)

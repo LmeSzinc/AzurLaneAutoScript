@@ -8,6 +8,7 @@ from deploy.Windows.utils import DataProcessInfo
 from module.base.decorator import run_once
 from module.base.timer import Timer
 from module.device.connection import AdbDeviceWithStatus
+from module.device.connection_attr import ConnectionAttr
 from module.device.platform.platform_base import PlatformBase
 from module.device.platform.emulator_windows import Emulator, EmulatorInstance, EmulatorManager
 from module.logger import logger
@@ -43,6 +44,28 @@ def flash_window(hwnd, flash=True):
 
 
 class PlatformWindows(PlatformBase, EmulatorManager):
+    def __init__(self, config, *, connect: bool = True):
+        """
+        Windows platform wrapper.
+
+        Args:
+            config: AzurLaneConfig or config name
+            connect: Whether to immediately establish ADB connection.
+                     AlasPlus uses connect=False when we only need
+                     emulator discovery / start-stop control while the
+                     emulator is currently offline, to avoid raising
+                     EmulatorNotRunningError too early.
+        """
+        if connect:
+            # Original behaviour: go through full Connection.__init__,
+            # including detect_device() and adb_connect().
+            super().__init__(config)
+        else:
+            # Lightweight init: only prepare config/adb_client/serial
+            # without calling adb_connect(), so we can safely use
+            # emulator_instance/emulator_start() even when the emulator
+            # is not yet running.
+            ConnectionAttr.__init__(self, config)
     @classmethod
     def execute(cls, command):
         """
