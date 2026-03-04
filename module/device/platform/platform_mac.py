@@ -19,15 +19,17 @@ class PlatformMac(PlatformBase, EmulatorManagerMac):
     Supports BlueStacks Air and MuMu Pro on macOS.
     """
 
-    def __init__(self, config):
+    def __init__(self, config, *, connect: bool = True):
         """
         Initialize PlatformMac with config.
         
         Args:
             config: Configuration object with Emulator_Serial
+            connect: Whether to immediately establish ADB connection.
         """
         self.config = config
         self.serial = str(config.Emulator_Serial) if config else ''
+        super().__init__(config, connect=connect)
 
     @classmethod
     def execute(cls, command, wait=True):

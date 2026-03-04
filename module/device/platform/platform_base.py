@@ -54,6 +54,18 @@ class PlatformBase(Connection, EmulatorManagerBase):
     - emulator_stop()
     """
 
+    def __init__(self, config, *, connect: bool = True):
+        """
+        Args:
+            config: AzurLaneConfig or config name
+            connect: Whether to immediately establish ADB connection.
+        """
+        if connect:
+            super().__init__(config)
+        else:
+            from module.device.connection_attr import ConnectionAttr
+            ConnectionAttr.__init__(self, config)
+
     def emulator_start(self):
         """
         Start a emulator, until startup completed.
