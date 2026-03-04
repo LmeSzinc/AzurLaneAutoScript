@@ -196,7 +196,9 @@ Retirement:
     option: [one_click_retire, enhance, old_retire]
 PublicEmotion:
   Enable: false
-  Tasks: null
+  Tasks:
+    type: textarea
+    value: null
   FleetValue: 119
   FleetRecord:
     value: 2020-01-01 00:00:00

@@ -256,3 +256,6 @@ console.bat
 
 # Pylance configuration file
 pyrightconfig.json
+
+### macOS template
+.DS_Store
