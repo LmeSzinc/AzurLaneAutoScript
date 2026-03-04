@@ -24,6 +24,7 @@ class ApiClient:
     BUG_LOG_PATH = '/api/post/bug'
     CL1_DATA_PATH = '/api/telemetry'
     ANNOUNCEMENT_PATH = '/api/get/announcement'
+    STAMINA_REPORT_PATH = '/api/stamina/report'
     
     @classmethod
     def _get_endpoints(cls, path: str) -> List[str]:
@@ -221,6 +222,51 @@ class ApiClient:
         threading.Thread(
             target=cls._submit_cl1_data,
             args=(data, timeout),
+            daemon=True
+        ).start()
+    
+    @staticmethod
+    def _report_stamina(stamina: float, timeout: int):
+        """
+        内部方法：上报体力到大盘
+        
+        Args:
+            stamina: 当前体力值
+            timeout: 超时时间（秒）
+        """
+        try:
+            device_id = get_device_id()
+            data = {
+                'device_id': device_id,
+                'stamina': stamina,
+            }
+            
+            success, status_code, response_text = ApiClient._post_with_fallback(
+                ApiClient.STAMINA_REPORT_PATH,
+                data,
+                timeout=timeout
+            )
+            
+            if success:
+                logger.info(f'✓ Stamina reported: {stamina}')
+            else:
+                logger.warning(f'✗ Stamina report failed: {response_text}')
+        
+        except Exception as e:
+            logger.exception(f'Unexpected error during stamina report: {e}')
+    
+    @classmethod
+    def report_stamina(cls, stamina: float, timeout: int = 5):
+        """
+        上报当前体力到大盘（异步）
+        
+        Args:
+            stamina: 当前体力值
+            timeout: 请求超时时间（秒），默认5秒
+        """
+        threading.Thread(
+            target=cls._report_stamina,
+            args=(stamina, timeout),
             daemon=True
         ).start()
     
