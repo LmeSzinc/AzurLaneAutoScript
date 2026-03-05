@@ -201,6 +201,14 @@ class EventStory(CampaignUI, Combat, LoginHandler):
         return 'unknown'
 
     def run(self):
+        event = self.config.cross_get('Event.Campaign.Event', '')
+        if event in [
+            # event story is in event minigame
+            'event_20260226_cn',
+        ]:
+            logger.info(f'Current event ({event}) does not have event story, stopped')
+            return
+
         if not self.device.app_is_running():
             logger.warning('Game is not running, start it')
             self.app_start()
