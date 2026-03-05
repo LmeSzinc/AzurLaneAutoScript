@@ -406,6 +406,10 @@ class ManualConfig:
     # On minitouch, Screen swipe (200, 200) = Map swipe (382, 442)
     OS_GLOBE_SWIPE_MULTIPLY = (1.91, 2.21)
 
+    # 塞壬装置处理方法
+    # 'never', 'use_until_destroyed', 'use_twice', 'use_once'
+    OS_SIREN_DEVICE_USAGE = 'never'
+
     """
     module.retire
     """

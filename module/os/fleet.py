@@ -371,6 +371,9 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             if self.handle_popup_confirm('WALK_UNTIL_STABLE'):
                 confirm_timer.reset()
                 continue
+            if self.handle_manjuu():
+                confirm_timer.reset()
+                continue
 
             # Accident click
             if self.is_in_globe():

@@ -1,4 +1,6 @@
 from scipy import signal
+import difflib
+import re
 
 from module.base.base import ModuleBase
 from module.base.button import Button
@@ -9,6 +11,7 @@ from module.handler.assets import *
 from module.logger import logger
 from module.os_handler.assets import CLICK_SAFE_AREA as OS_CLICK_SAFE_AREA
 from module.ui_white.assets import POPUP_CANCEL_WHITE, POPUP_CONFIRM_WHITE, POPUP_SINGLE_WHITE
+from module.ocr.ocr import Ocr
 
 
 def info_letter_preprocess(image):
@@ -385,6 +388,29 @@ class InfoHandler(ModuleBase):
             return True
 
         return False
+    
+    def _is_siren_device(self, options):
+        templates = ['消耗1个塞壬能源存储器尝试探测隐藏的敌人', '消耗2个特别兑换凭证尝试探测隐藏的资源']
+
+        # 第三个选项过短，不做判断
+        for i in range(2):
+            option = options[i]
+            template = templates[i]
+
+            text = Ocr(option, lang='cnocr').ocr(self.device.image)
+
+            # 删除特殊字符
+            text = re.sub(r'[^\u4e00-\u9fa5a-zA-Z0-9]', '', text)
+
+            similarity = difflib.SequenceMatcher(None, text, template).ratio()
+            if similarity < 0.7:
+                logger.info(f'[Story] 相似度: {similarity}，不认为是塞壬研究装置')
+                return False
+            logger.info(f'[Story] 相似度: {similarity}，选项{i}验证通过')
+        
+        logger.info('[Story] 通过所有验证，认为是塞壬研究装置')
+        return True
+
 
     def story_skip(self, drop=None):
         """
@@ -411,55 +437,26 @@ class InfoHandler(ModuleBase):
             elif options_count == self._story_option_record:
                 if self._story_option_confirm.reached():
                     # 检查是否是塞壬研究装置(3个选项时才检查)
-                    is_siren_device = False
-                    if options_count == 3:
-                        logger.info('[Story] 检测到3个选项,检查是否为塞壬研究装置')
-                        try:
-                            try:
-                                # 模板匹配失效，改用OCR识别
-                                from module.ocr.ocr import Ocr
-                                
-                                keywords = ['探测', '隐藏', '离开', '取消']
-                                match_count = 0
-                                
-                                for i, option in enumerate(options):
-                                    # 对每个选项按钮进行OCR
-                                    # 注意：这里临时实例化OCR可能会有轻微性能开销，但在剧情对话中是可以接受的
-                                    text = Ocr(option, lang='cnocr').ocr(self.device.image)
-                                    logger.info(f'[Story] 选项{i+1} OCR结果: "{text}"')
-                                    
-                                    # 检查关键字
-                                    if any(k in text for k in keywords):
-                                        match_count += 1
-                                
-                                logger.info(f'[Story] 塞壬研究装置OCR匹配结果: {match_count}/3 个选项包含关键字')
-                                
-                                # 3个选项中至少2个包含关键字
-                                if match_count >= 2:
-                                    is_siren_device = True
-                                    logger.info('[Story] ✓ 确认为塞壬研究装置 (OCR验证通过)')
-                                else:
-                                    logger.info('[Story] ✗ 不是塞壬研究装置 (OCR验证不通过)')
-                                    
-                            except Exception as e:
-                                logger.warning(f'[Story] 塞壬研究装置检测异常: {e}')
-                                is_siren_device = False
-                        except Exception as e:
-                            logger.warning(f'[Story] 塞壬研究装置检测异常: {e}')
-                            is_siren_device = False
+                    is_siren_device = options_count == 3 and self._is_siren_device(options)
                     
                     # 设置标志位供外部检查 (map.py)
                     self.is_siren_device_confirmed = is_siren_device
                     
                     # 根据检测结果选择点击哪个选项
                     if is_siren_device:
-                        if hasattr(self.config, '_disable_siren_research') and self.config._disable_siren_research:
+                        usage = self.config.OS_SIREN_DEVICE_USAGE
+                        logger.attr('OS_SIREN_DEVICE_USAGE', usage)
+                        if usage == 'never':
                             select = options[2]
-                            logger.info(f'[Story] 塞壬研究装置处理被禁用，点击第3个选项: {select.name}')
+                            logger.info('[Story] 点击第3个选项')
                         else:
-                            # 塞壬研究装置:点击第2个选项(索引1)
                             select = options[1]
-                            logger.info(f'[Story] 点击塞壬研究装置第2个选项: {select.name}')
+                            logger.info('[Story] 点击第2个选项')
+                            
+                            if usage == 'use_twice':
+                                self.config.OS_SIREN_DEVICE_USAGE = 'use_once'
+                            elif usage == 'use_once':
+                                self.config.OS_SIREN_DEVICE_USAGE = 'never'
                     else:
                         # 普通剧情:按配置的索引点击
                         try:
