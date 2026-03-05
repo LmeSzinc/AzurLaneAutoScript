@@ -4,97 +4,159 @@ Modern Apple Style Theme for Alas - Refined v2
 ========================================== */
 /* 引入 Google Fonts 字体：Inter，包含常规、中等和半粗字重 */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
 :root {
-/* === 色彩系统 === */
---alas-apple-bg: #f5f5f7; /* 应用主背景色：Apple 标志性浅灰 */
---alas-apple-sidebar-translucent: rgba(245, 245, 247, 0.75); /* 侧边栏半透明底色 */
---alas-apple-card-bg: #ffffff; /* 卡片背景色：纯白 */
---alas-apple-text: #1d1d1f; /* 主文本颜色：深黑灰 */
---alas-apple-text-secondary: #86868b; /* 次要文本颜色：中灰 */
---alas-apple-accent: #007aff; /* 主题强调色：Apple 蓝 */
---alas-apple-accent-hover: #0071eb; /* 强调色悬停态：略深蓝 */
---alas-apple-border: rgba(0, 0, 0, 0.06); /* 边框颜色：极淡灰 */
---alas-apple-border-color: #d2d2d7; /* 标准边框色：淡紫灰 */
-/* === 阴影系统 === */
-/* 模拟 macOS 的柔和投影，层次分明 */
---alas-apple-shadow-xs: 0 1px 3px rgba(0, 0, 0, 0.04); /* 极小阴影 */
---alas-apple-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);      /* 标准阴影 */
---alas-apple-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06);  /* 中等阴影 */
---alas-apple-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.08);  /* 大阴影 */
---alas-apple-shadow-xl: 0 12px 48px rgba(0, 0, 0, 0.12); /* 超大阴影 */
-/* === 字体栈 === */
-/* 优先使用等宽字体 Maple Mono，回退到常用中文字体 */
-/* 全局界面字体（只需要修改这里即可全局调整） */
---alas-font-stack: "Maple Mono NF CN ExtraBold", "Noto Sans SC", "Microsoft YaHei", "SimHei", sans-serif;
-/* === 间距系统 === */
-/* 统一管理内外边距，保持视觉一致性 */
---spacing-xs: 4px;
---spacing-sm: 8px;
---spacing-md: 16px;
---spacing-lg: 24px;
---spacing-xl: 32px;
---spacing-2xl: 40px;
-/* === 圆角系统 === */
-/* 从微小圆角到大圆角，适配不同组件 */
---radius-xs: 6px;
---radius-sm: 8px;
---radius-md: 12px;
---radius-lg: 16px;
---radius-xl: 20px;
---radius-2xl: 24px;
-/* === 导航胶囊颜色 === */
---alas-nav-active-bg: rgba(0, 122, 255, 0.1); /* 激活态背景 */
---alas-nav-active-text: #007aff;              /* 激活态文字 */
-/* === 滚动条样式 === */
---scrollbar-width: 8px;
---scrollbar-thumb: rgba(0, 0, 0, 0.2);      /* 滚动条滑块颜色 */
---scrollbar-thumb-hover: rgba(0, 0, 0, 0.3);/* 悬停时加深 */
---scrollbar-track: transparent;             /* 滚动条轨道透明 */
---scrollbar-radius: 4px;
-/* === 过渡动画 === */
-/* 性能优化：时长短且流畅 */
---transition-fast: 0.1s ease;
---transition-normal: 0.15s ease;
+	/* === 色彩系统 === */
+	--alas-apple-bg: #f5f5f7;
+	/* 应用主背景色：Apple 标志性浅灰 */
+	--alas-apple-sidebar-translucent: rgba(245, 245, 247, 0.75);
+	/* 侧边栏半透明底色 */
+	--alas-apple-card-bg: #ffffff;
+	/* 卡片背景色：纯白 */
+	--alas-apple-text: #1d1d1f;
+	/* 主文本颜色：深黑灰 */
+	--alas-apple-text-secondary: #86868b;
+	/* 次要文本颜色：中灰 */
+	--alas-apple-accent: #007aff;
+	/* 主题强调色：Apple 蓝 */
+	--alas-apple-accent-hover: #0071eb;
+	/* 强调色悬停态：略深蓝 */
+	--alas-apple-border: rgba(0, 0, 0, 0.06);
+	/* 边框颜色：极淡灰 */
+	--alas-apple-border-color: #d2d2d7;
+	/* 标准边框色：淡紫灰 */
+	/* === 阴影系统 === */
+	/* 模拟 macOS 的柔和投影，层次分明 */
+	--alas-apple-shadow-xs: 0 1px 3px rgba(0, 0, 0, 0.04);
+	/* 极小阴影 */
+	--alas-apple-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+	/* 标准阴影 */
+	--alas-apple-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06);
+	/* 中等阴影 */
+	--alas-apple-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.08);
+	/* 大阴影 */
+	--alas-apple-shadow-xl: 0 12px 48px rgba(0, 0, 0, 0.12);
+	/* 超大阴影 */
+	/* === 字体栈 === */
+	/* 优先使用等宽字体 Maple Mono，回退到常用中文字体 */
+	/* 全局界面字体（只需要修改这里即可全局调整） */
+	--alas-font-stack: "Maple Mono NF CN ExtraBold", "Noto Sans SC", "Microsoft YaHei", "SimHei", sans-serif;
+	/* === 间距系统 === */
+	/* 统一管理内外边距，保持视觉一致性 */
+	--spacing-xs: 4px;
+	--spacing-sm: 8px;
+	--spacing-md: 16px;
+	--spacing-lg: 24px;
+	--spacing-xl: 32px;
+	--spacing-2xl: 40px;
+	/* === 圆角系统 === */
+	/* 从微小圆角到大圆角，适配不同组件 */
+	--radius-xs: 6px;
+	--radius-sm: 8px;
+	--radius-md: 12px;
+	--radius-lg: 16px;
+	--radius-xl: 20px;
+	--radius-2xl: 24px;
+	/* === 导航胶囊颜色 === */
+	--alas-nav-active-bg: rgba(0, 122, 255, 0.1);
+	/* 激活态背景 */
+	--alas-nav-active-text: #007aff;
+	/* 激活态文字 */
+	/* === 滚动条样式 === */
+	--scrollbar-width: 8px;
+	--scrollbar-thumb: rgba(0, 0, 0, 0.2);
+	/* 滚动条滑块颜色 */
+	--scrollbar-thumb-hover: rgba(0, 0, 0, 0.3);
+	/* 悬停时加深 */
+	--scrollbar-track: transparent;
+	/* 滚动条轨道透明 */
+	--scrollbar-radius: 4px;
+	/* === 过渡动画系统 (iOS Spring Physics) === */
+	/* 基础过渡 */
+	--transition-fast: 0.15s ease;
+	--transition-normal: 0.25s ease;
+	--transition-slow: 0.35s ease;
+	/* iOS 弹性动画曲线 */
+	--ease-ios-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+	--ease-ios-bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+	--ease-ios-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
+	--ease-ios-out: cubic-bezier(0.0, 0.0, 0.2, 1);
+	--ease-ios-in-out: cubic-bezier(0.4, 0.0, 0.2, 1);
+	/* 弹性动画时长 */
+	--spring-duration-fast: 0.25s;
+	--spring-duration-normal: 0.4s;
+	--spring-duration-slow: 0.6s;
 }
+
 /* === 全局基础样式 === */
 body {
 	background-color: var(--alas-apple-bg) !important;
 	font-family: var(--alas-font-stack) !important;
 	color: var(--alas-apple-text) !important;
-	-webkit-font-smoothing: antialiased; /* 字体抗锯齿 */
+	-webkit-font-smoothing: antialiased;
+	/* 字体抗锯齿 */
 	-moz-osx-font-smoothing: grayscale;
-	letter-spacing: -0.01em; /* 微调字间距使其更紧凑 */
+	letter-spacing: -0.01em;
+	/* 微调字间距使其更紧凑 */
 }
 
 /* 最强字体覆盖：确保所有元素（除了日志区域）都使用全局字体 */
 body *:not(#pywebio-scope-log):not(#pywebio-scope-log *) {
 	font-family: var(--alas-font-stack) !important;
 }
+
 /* ================= Apple Style Scrollbar ================= */
 /* 自定义 Webkit 内核浏览器滚动条 */
 ::-webkit-scrollbar {
 	width: var(--scrollbar-width);
 	height: var(--scrollbar-width);
 }
+
 ::-webkit-scrollbar-track {
 	background: var(--scrollbar-track);
 }
+
 ::-webkit-scrollbar-thumb {
 	background: var(--scrollbar-thumb);
 	border-radius: var(--scrollbar-radius);
-	transition: background 0.2s ease;
+	transition: background 0.2s ease, transform 0.2s ease;
+	border: 2px solid transparent;
+	background-clip: padding-box;
 }
+
 ::-webkit-scrollbar-thumb:hover {
 	background: var(--scrollbar-thumb-hover);
+	border: 1px solid transparent;
+	background-clip: padding-box;
 }
+
 ::-webkit-scrollbar-corner {
 	background: transparent;
 }
+
+/* 平滑滚动效果 */
+html {
+	scroll-behavior: smooth;
+}
+
 /* Firefox 滚动条适配 */
 * {
 	scrollbar-width: thin;
 	scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 }
+
+/* 优化内容区域滚动体验 */
+#pywebio-scope-groups {
+	scroll-behavior: smooth;
+}
+
+/* 优化侧边栏和导航器滚动 */
+#pywebio-scope-aside,
+#pywebio-scope-menu {
+	scroll-behavior: smooth;
+	overflow-y: auto;
+}
+
 /* ================= Sidebar (Glassmorphism) ================= */
 /* 侧边栏：磨砂玻璃拟态效果 */
 #pywebio-scope-aside {
@@ -102,18 +164,20 @@ body *:not(#pywebio-scope-log):not(#pywebio-scope-log *) {
 	/* 关键：模糊滤镜，创造毛玻璃质感 */
 	backdrop-filter: blur(30px) saturate(180%);
 	-webkit-backdrop-filter: blur(30px) saturate(180%);
-	border-right: 1px solid rgba(0,0,0,0.06) !important;
+	border-right: 1px solid rgba(0, 0, 0, 0.06) !important;
 	padding-top: 20px !important;
 }
+
 /* 菜单容器：重置为透明，避免遮挡侧边栏效果 */
 #pywebio-scope-menu {
-	background-color: transparent !important;
+	background-color: var(--alas-apple-card-bg) !important;
 	border-right: none !important;
 	border: none !important;
 	box-shadow: none !important;
 	padding-top: 20px !important;
 	border-radius: 0 !important;
 }
+
 /* 确保菜单内部元素不继承卡片样式 */
 #pywebio-scope-menu * {
 	background-color: transparent !important;
@@ -121,6 +185,7 @@ body *:not(#pywebio-scope-log):not(#pywebio-scope-log *) {
 	box-shadow: none !important;
 	border-radius: 0 !important;
 }
+
 /* 恢复菜单内按钮样式 */
 #pywebio-scope-menu .btn-menu {
 	background-color: transparent !important;
@@ -128,13 +193,16 @@ body *:not(#pywebio-scope-log):not(#pywebio-scope-log *) {
 	border: none !important;
 	box-shadow: none !important;
 }
+
 #pywebio-scope-menu .btn-menu:hover {
 	background-color: rgba(0, 0, 0, 0.05) !important;
 }
+
 #pywebio-scope-menu .btn-menu-active {
 	background: linear-gradient(180deg, #007aff 0%, #0071eb 100%) !important;
 	box-shadow: 0 2px 8px rgba(0, 122, 255, 0.2) !important;
 }
+
 /* 确保菜单内的分组容器也不受卡片样式影响 */
 #pywebio-scope-menu [id^="pywebio-scope-"] {
 	background-color: transparent !important;
@@ -144,40 +212,21 @@ body *:not(#pywebio-scope-log):not(#pywebio-scope-log *) {
 	padding: 0 !important;
 	margin: 0 !important;
 }
+
 /* ================= Header ================= */
 /* 顶部导航栏：悬浮磨砂质感 */
 #pywebio-scope-header {
 	background-color: rgba(255, 255, 255, 0.72) !important;
 	backdrop-filter: blur(30px) saturate(180%);
 	-webkit-backdrop-filter: blur(30px) saturate(180%);
-	border-bottom: 1px solid rgba(0,0,0,0.06);
-	box-shadow: 0 1px 0 rgba(255,255,255,0.8), 0 1px 8px rgba(0,0,0,0.04) !important;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8), 0 1px 8px rgba(0, 0, 0, 0.04) !important;
 	height: 56px !important;
-	z-index: 1000; /* 置顶显示 */
-}
-/* ================= Content Area ================= */
-/* 内容主区域 */
-#pywebio-scope-content {
-	background-color: transparent !important;
-	padding: var(--spacing-md) var(--spacing-lg) !important;
-}
-/* 优化多列布局：响应式三栏网格系统 */
-#pywebio-scope-groups {
-	grid-template-columns: minmax(0.1rem, 0.1fr) minmax(20rem, 5fr) minmax(15rem, 1fr) !important;
-	grid-auto-flow: column !important;
-	gap: var(--spacing-lg) !important;
-	padding: var(--spacing-lg) !important;
-	height: calc(100vh - 56px) !important;
-	overflow: hidden !important;
+	z-index: 1000;
+	/* 置顶显示 */
 }
 
-/* Groups 容器滚动样式 */
-#pywebio-scope-groups {
-	overflow-y: auto !important;
-	height: 100% !important;
-}
-
-/* 统计板块容器样式 - 与_groups同级 */
+/* 统计板块容器样式 */
 #pywebio-scope-opsi_stats,
 #pywebio-scope-ap_chart,
 #pywebio-scope-ship_exp_table {
@@ -186,7 +235,7 @@ body *:not(#pywebio-scope-log):not(#pywebio-scope-log *) {
 	border: 1px solid rgba(0, 0, 0, 0.04) !important;
 	box-shadow: var(--alas-apple-shadow) !important;
 	padding: var(--spacing-md) !important;
-	margin: var(--spacing-md) var(--spacing-lg) !important;
+	margin: 0 0 var(--spacing-md) 0 !important;
 	transition: box-shadow var(--transition-normal);
 }
 
@@ -250,8 +299,8 @@ body *:not(#pywebio-scope-log):not(#pywebio-scope-log *) {
 }
 
 /* 统计板块内文本样式优化 */
-#pywebio-scope-opsi_stats > div:first-child,
-#pywebio-scope-ship_exp_table > div:first-child {
+#pywebio-scope-opsi_stats>div:first-child,
+#pywebio-scope-ship_exp_table>div:first-child {
 	font-size: 16px !important;
 	font-weight: 600 !important;
 	color: var(--alas-apple-text) !important;
@@ -267,14 +316,14 @@ body *:not(#pywebio-scope-log):not(#pywebio-scope-log *) {
 
 /* ================= Cards / Groups ================= */
 /* 通用卡片样式：圆角、白底、柔和阴影 */
-[id^="pywebio-scope-group_"]:not(#pywebio-scope-menu):not(#pywebio-scope-aside):not(#pywebio-scope-navigator), 
-#pywebio-scope-running, 
-#pywebio-scope-pending, 
-#pywebio-scope-waiting, 
-#pywebio-scope-log-bar, 
+[id^="pywebio-scope-group_"]:not(#pywebio-scope-menu):not(#pywebio-scope-aside):not(#pywebio-scope-navigator),
+#pywebio-scope-running,
+#pywebio-scope-pending,
+#pywebio-scope-waiting,
+#pywebio-scope-log-bar,
 #pywebio-scope-log,
 .container-log,
-#pywebio-scope-groups > *:not(#pywebio-scope-navigator) {
+#pywebio-scope-groups>*:not(#pywebio-scope-navigator) {
 	background-color: var(--alas-apple-card-bg) !important;
 	border-radius: var(--radius-lg) !important;
 	border: 1px solid rgba(0, 0, 0, 0.04) !important;
@@ -283,11 +332,12 @@ body *:not(#pywebio-scope-log):not(#pywebio-scope-log *) {
 	margin-bottom: var(--spacing-md) !important;
 	transition: box-shadow var(--transition-normal);
 }
+
 /* 导航器容器样式 */
 #pywebio-scope-navigator {
 	margin: .5rem 1rem .5rem !important;
 	height: min-content !important;
-	max-width: 15rem !important;
+	max-width: 12rem !important;
 	background-color: transparent !important;
 	border: none !important;
 	box-shadow: none !important;
@@ -295,6 +345,7 @@ body *:not(#pywebio-scope-log):not(#pywebio-scope-log *) {
 	padding: 0 !important;
 	margin-bottom: 0 !important;
 }
+
 /* 导航器内按钮样式 */
 #pywebio-scope-navigator .btn {
 	background-color: var(--alas-apple-card-bg) !important;
@@ -302,31 +353,41 @@ body *:not(#pywebio-scope-log):not(#pywebio-scope-log *) {
 	border-radius: var(--radius-md) !important;
 	box-shadow: var(--alas-apple-shadow-xs) !important;
 	margin: 6px 0 !important;
-	padding: 10px 16px !important;
+	padding: 8px 12px !important;
 	text-align: left !important;
 	font-weight: 500 !important;
 	color: var(--alas-apple-text) !important;
 	transition: all var(--transition-normal) !important;
+	white-space: normal !important;
+	word-wrap: break-word !important;
+	word-break: break-word !important;
+	line-height: 1.4 !important;
+	font-size: 13px !important;
+	width: 100% !important;
 }
+
 #pywebio-scope-navigator .btn:hover {
 	background-color: var(--alas-apple-bg) !important;
 	border-color: rgba(0, 0, 0, 0.12) !important;
 	box-shadow: var(--alas-apple-shadow) !important;
 }
+
 #pywebio-scope-navigator .btn:active {
 	background-color: #e5e5ea !important;
 }
+
 /* 卡片悬停交互：阴影加深，模拟浮起 */
-[id^="pywebio-scope-group_"]:not(#pywebio-scope-menu):not(#pywebio-scope-aside):not(#pywebio-scope-navigator):hover, 
-#pywebio-scope-running:hover, 
-#pywebio-scope-pending:hover, 
-#pywebio-scope-waiting:hover, 
-#pywebio-scope-log-bar:hover, 
+[id^="pywebio-scope-group_"]:not(#pywebio-scope-menu):not(#pywebio-scope-aside):not(#pywebio-scope-navigator):hover,
+#pywebio-scope-running:hover,
+#pywebio-scope-pending:hover,
+#pywebio-scope-waiting:hover,
+#pywebio-scope-log-bar:hover,
 #pywebio-scope-log:hover,
 .container-log:hover,
-#pywebio-scope-groups > *:not(#pywebio-scope-navigator):hover {
+#pywebio-scope-groups>*:not(#pywebio-scope-navigator):hover {
 	box-shadow: var(--alas-apple-shadow-md) !important;
 }
+
 /* ================= Buttons ================= */
 /* 通用按钮样式 */
 .btn:not(.btn-aside):not(.btn-menu) {
@@ -339,16 +400,18 @@ body *:not(#pywebio-scope-log):not(#pywebio-scope-log *) {
 	white-space: nowrap;
 	margin: 4px 0 !important;
 }
+
 /* 调度器启动按钮样式 */
 .btn-on {
-    background: linear-gradient(180deg, #007aff 0%, #0071eb 100%) !important;
-    color: white !important;
-    box-shadow: var(--alas-apple-shadow) !important;
-    border: none !important;
+	background: linear-gradient(180deg, #007aff 0%, #0071eb 100%) !important;
+	color: white !important;
+	box-shadow: var(--alas-apple-shadow) !important;
+	border: none !important;
 }
+
 .btn-on:hover {
-    background: linear-gradient(180deg, #0077ed 0%, #0066cc 100%) !important;
-    box-shadow: var(--alas-apple-shadow-md) !important;
+	background: linear-gradient(180deg, #0077ed 0%, #0066cc 100%) !important;
+	box-shadow: var(--alas-apple-shadow-md) !important;
 }
 
 /* 主要按钮：Apple 蓝渐变 */
@@ -358,30 +421,39 @@ body *:not(#pywebio-scope-log):not(#pywebio-scope-log *) {
 	box-shadow: var(--alas-apple-shadow) !important;
 	border: none !important;
 }
+
 .btn-primary:active {
 	opacity: 0.85;
 	box-shadow: var(--alas-apple-shadow-xs) !important;
 }
+
 .btn-primary:hover {
 	background: linear-gradient(180deg, #0077ed 0%, #0066cc 100%) !important;
 	box-shadow: var(--alas-apple-shadow-md) !important;
 }
+
 /* 次要按钮：白底灰边 */
-.btn-secondary, .btn-light {
+.btn-secondary,
+.btn-light {
 	background-color: var(--alas-apple-card-bg) !important;
 	color: var(--alas-apple-text) !important;
 	box-shadow: var(--alas-apple-shadow-xs) !important;
 	border: 1px solid rgba(0, 0, 0, 0.12) !important;
 }
-.btn-secondary:hover, .btn-light:hover {
+
+.btn-secondary:hover,
+.btn-light:hover {
 	background-color: #f5f5f7 !important;
 	box-shadow: var(--alas-apple-shadow) !important;
 	border-color: rgba(0, 0, 0, 0.2) !important;
 }
-.btn-secondary:active, .btn-light:active {
+
+.btn-secondary:active,
+.btn-light:active {
 	opacity: 0.85;
 	background-color: #e5e5ea !important;
-	}
+}
+
 /* ================= Navigation Pills (Sidebar Icons) ================= */
 /* 侧边栏图标按钮：极简覆盖 */
 .btn-aside:hover,
@@ -389,13 +461,14 @@ body *:not(#pywebio-scope-log):not(#pywebio-scope-log *) {
 	border-color: var(--alas-apple-accent) !important;
 	color: var(--alas-apple-accent) !important;
 }
+
 /* Category Headers (Summary) */
 /* 折叠菜单标题 */
-details > summary {
-	color: #6e6e73 !important; 
-	font-size: 13px !important; 
+details>summary {
+	color: #6e6e73 !important;
+	font-size: 13px !important;
 	font-weight: 600 !important;
-	text-transform: none !important; 
+	text-transform: none !important;
 	letter-spacing: normal !important;
 	padding: 14px 16px 6px 16px !important;
 	margin: 0 !important;
@@ -404,12 +477,12 @@ details > summary {
 	user-select: none;
 }
 
-details > summary:hover {
+details>summary:hover {
 	color: var(--alas-apple-text) !important;
 }
 
 /* 隐藏默认的三角标记 */
-details > summary::-webkit-details-marker {
+details>summary::-webkit-details-marker {
 	display: none !important;
 }
 
@@ -430,17 +503,20 @@ details > summary::-webkit-details-marker {
 	letter-spacing: -0.01em !important;
 	transition: background-color var(--transition-fast), color var(--transition-fast) !important;
 }
+
 /* 子菜单项缩进 */
 details .btn-menu {
-	margin-left: 16px !important; 
+	margin-left: 16px !important;
 	width: calc(100% - 24px) !important;
 	font-size: 13px !important;
 	color: #6e6e73 !important;
 }
+
 .btn-menu:hover {
 	background-color: rgba(0, 0, 0, 0.05) !important;
 	color: #1d1d1f !important;
-	}
+}
+
 /* 激活菜单项：实心蓝底白字 */
 .btn-menu-active {
 	background: linear-gradient(180deg, #007aff 0%, #0071eb 100%) !important;
@@ -449,34 +525,46 @@ details .btn-menu {
 	box-shadow: 0 2px 8px rgba(0, 122, 255, 0.2) !important;
 	border-left: none !important;
 }
+
 .btn-menu-active:hover {
 	background: linear-gradient(180deg, #007aff 0%, #0071eb 100%) !important;
 	color: white !important;
 }
+
 details .btn-menu-active {
 	color: white !important;
 }
+
 /* ================= Typography & Headers ================= */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
 	font-weight: 600 !important;
 	color: var(--alas-apple-text);
 	margin-bottom: var(--spacing-md) !important;
 }
+
 .hr-task-group-text {
 	font-size: 11px !important;
 	font-weight: 600 !important;
 	color: var(--alas-apple-text-secondary) !important;
-	text-transform: uppercase;  
+	text-transform: uppercase;
 	letter-spacing: 0.02em;
 	margin-top: var(--spacing-lg) !important;
 	margin-bottom: var(--spacing-sm) !important;
 }
+
 .hr-task-group-line {
 	border-top: 1px solid var(--alas-apple-border) !important;
 }
+
 /* ================= Inputs ================= */
 /* 输入框样式 */
-.form-control, input:not([type="checkbox"]):not([type="radio"]) {
+.form-control,
+input:not([type="checkbox"]):not([type="radio"]) {
 	border-radius: var(--radius-md) !important;
 	border: 1px solid rgba(0, 0, 0, 0.15) !important;
 	background-color: var(--alas-apple-card-bg) !important;
@@ -488,8 +576,10 @@ h1, h2, h3, h4, h5, h6 {
 	transition: all var(--transition-normal) !important;
 	margin: 6px 0 !important;
 }
+
 /* 下拉选择框样式 */
-select.form-control, select {
+select.form-control,
+select {
 	border-radius: var(--radius-md) !important;
 	border: 1px solid rgba(0, 0, 0, 0.15) !important;
 	background-color: var(--alas-apple-card-bg) !important;
@@ -505,21 +595,14 @@ select.form-control, select {
 	transition: all var(--transition-normal) !important;
 	margin: 6px 0 !important;
 }
-/* 输入框聚焦态：蓝色边框与光晕 */
-.form-control:focus, select:focus, input:not([type="checkbox"]):not([type="radio"]):focus {
-	border-color: var(--alas-apple-accent) !important;
-	box-shadow: 0 0 0 5px rgba(0, 122, 255, 0.12), var(--alas-apple-shadow-md) !important;
-	outline: none !important;
-}
-select.form-control:focus, select:focus {
-	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23007aff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e") !important;
-}
+
 /* 修复 Bootstrap-select 插件样式冲突 */
 .bootstrap-select {
 	border: none !important;
 	padding: 0 !important;
 	background: transparent !important;
 }
+
 .bootstrap-select>select {
 	position: unset !important;
 	bottom: unset !important;
@@ -545,31 +628,542 @@ select.form-control:focus, select:focus {
 	-moz-appearance: none !important;
 	transition: all var(--transition-normal) !important;
 }
+
 .bootstrap-select>select:focus {
 	border-color: var(--alas-apple-accent) !important;
 	box-shadow: 0 0 0 5px rgba(0, 122, 255, 0.12), var(--alas-apple-shadow-md) !important;
 	outline: none !important;
 	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23007aff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e") !important;
 }
+
 /* 隐藏 Bootstrap-select 生成的多余 UI 元素 */
 .bootstrap-select .btn.dropdown-toggle,
 .bootstrap-select .filter-option,
 .bootstrap-select .dropdown-toggle {
 	display: none !important;
 }
+
 /* ================= Logs ================= */
 /* 日志区域：等宽字体，淡背景 */
 #pywebio-scope-log {
 	font-family: var(--alas-font-stack) !important;
 	font-size: 13px !important;
 	background-color: #fbfbfd !important;
-	border: 1px solid rgba(0,0,0,0.05) !important;
+}
+
+/* ================= iOS Style Animations ================= */
+/* === 关键帧动画定义 === */
+
+/* 弹性缩放动画 */
+@keyframes ios-spring-scale {
+	0% {
+		transform: scale(0.95);
+		opacity: 0;
+	}
+
+	50% {
+		transform: scale(1.02);
+	}
+
+	100% {
+		transform: scale(1);
+		opacity: 1;
+	}
+}
+
+/* 弹性弹入动画 */
+@keyframes ios-bounce-in {
+	0% {
+		transform: scale(0.3);
+		opacity: 0;
+	}
+
+	20% {
+		transform: scale(1.1);
+	}
+
+	40% {
+		transform: scale(0.9);
+	}
+
+	60% {
+		transform: scale(1.03);
+	}
+
+	80% {
+		transform: scale(0.97);
+	}
+
+	100% {
+		transform: scale(1);
+		opacity: 1;
+	}
+}
+
+/* 淡入上滑动画 */
+@keyframes ios-slide-up {
+	0% {
+		transform: translateY(20px);
+		opacity: 0;
+	}
+
+	100% {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+
+/* 淡入缩放动画 */
+@keyframes ios-fade-scale {
+	0% {
+		transform: scale(0.9);
+		opacity: 0;
+	}
+
+	100% {
+		transform: scale(1);
+		opacity: 1;
+	}
+}
+
+/* 脉冲动画 */
+@keyframes ios-pulse {
+
+	0%,
+	100% {
+		transform: scale(1);
+	}
+
+	50% {
+		transform: scale(1.05);
+	}
+}
+
+/* 微妙呼吸动画 */
+@keyframes ios-breathe {
+
+	0%,
+	100% {
+		opacity: 1;
+	}
+
+	50% {
+		opacity: 0.85;
+	}
+}
+
+/* 渐变流动动画 */
+@keyframes gradient-flow {
+	0% {
+		background-position: 0% 50%;
+	}
+
+	50% {
+		background-position: 100% 50%;
+	}
+
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+/* 渐变脉冲动画 */
+@keyframes gradient-pulse {
+
+	0%,
+	100% {
+		background-size: 200% 200%;
+		background-position: left center;
+	}
+
+	50% {
+		background-size: 200% 200%;
+		background-position: right center;
+	}
+}
+
+/* 光泽扫过动画 */
+@keyframes shimmer {
+	0% {
+		background-position: -200% 0;
+	}
+
+	100% {
+		background-position: 200% 0;
+	}
+}
+
+/* 涟漪扩散动画 */
+@keyframes ripple {
+	0% {
+		transform: scale(0);
+		opacity: 0.6;
+	}
+
+	100% {
+		transform: scale(2.5);
+		opacity: 0;
+	}
+}
+
+/* 旋转加载动画 */
+@keyframes ios-spin {
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+/* === 按钮弹性交互增强 === */
+.btn:not(.btn-aside):not(.btn-menu) {
+	transition:
+		all var(--spring-duration-fast) var(--ease-ios-spring),
+		transform var(--spring-duration-fast) var(--ease-ios-spring),
+		box-shadow var(--transition-normal) var(--ease-ios-smooth) !important;
+	transform-origin: center;
+}
+
+/* 按钮按下弹性效果 */
+.btn:not(.btn-aside):not(.btn-menu):active {
+	transform: scale(0.96) !important;
+	transition: transform 0.08s var(--ease-ios-out) !important;
+}
+
+/* 主要按钮悬停弹性 */
+.btn-primary:hover {
+	transform: scale(1.02) translateY(-1px);
+	box-shadow:
+		var(--alas-apple-shadow-md),
+		0 4px 16px rgba(0, 122, 255, 0.25) !important;
+}
+
+/* 次要按钮悬停效果 */
+.btn-secondary:hover,
+.btn-light:hover {
+	transform: scale(1.01) translateY(-1px);
+}
+
+/* 启动按钮特殊动画 */
+.btn-on {
+	position: relative;
+	overflow: hidden;
+	transition:
+		all var(--spring-duration-normal) var(--ease-ios-spring),
+		transform var(--spring-duration-fast) var(--ease-ios-spring) !important;
+}
+
+.btn-on::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: -100%;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(90deg,
+			transparent,
+			rgba(255, 255, 255, 0.25),
+			transparent);
+	transition: left 0.6s var(--ease-ios-smooth);
+}
+
+.btn-on:hover::before {
+	left: 100%;
+}
+
+.btn-on:active {
+	transform: scale(0.96) !important;
+}
+
+/* === 卡片入场动画 === */
+[id^="pywebio-scope-group_"]:not(#pywebio-scope-menu):not(#pywebio-scope-aside):not(#pywebio-scope-navigator),
+#pywebio-scope-running,
+#pywebio-scope-pending,
+#pywebio-scope-waiting,
+#pywebio-scope-log-bar,
+#pywebio-scope-log,
+.container-log,
+#pywebio-scope-groups>*:not(#pywebio-scope-navigator) {
+	animation: ios-slide-up var(--spring-duration-normal) var(--ease-ios-spring) both;
+	transition:
+		box-shadow var(--transition-normal) var(--ease-ios-smooth),
+		transform var(--spring-duration-fast) var(--ease-ios-spring) !important;
+}
+
+/* === 卡片依次延迟入场 (Staggered Animation) === */
+#pywebio-scope-groups>*:nth-child(1) {
+	animation-delay: 0.04s;
+}
+
+#pywebio-scope-groups>*:nth-child(2) {
+	animation-delay: 0.08s;
+}
+
+#pywebio-scope-groups>*:nth-child(3) {
+	animation-delay: 0.12s;
+}
+
+#pywebio-scope-groups>*:nth-child(4) {
+	animation-delay: 0.16s;
+}
+
+#pywebio-scope-groups>*:nth-child(5) {
+	animation-delay: 0.20s;
+}
+
+#pywebio-scope-groups>*:nth-child(6) {
+	animation-delay: 0.24s;
+}
+
+#pywebio-scope-groups>*:nth-child(7) {
+	animation-delay: 0.28s;
+}
+
+#pywebio-scope-groups>*:nth-child(8) {
+	animation-delay: 0.32s;
+}
+
+#pywebio-scope-groups>*:nth-child(9) {
+	animation-delay: 0.36s;
+}
+
+#pywebio-scope-groups>*:nth-child(10) {
+	animation-delay: 0.40s;
+}
+
+#pywebio-scope-groups>*:nth-child(11) {
+	animation-delay: 0.44s;
+}
+
+#pywebio-scope-groups>*:nth-child(12) {
+	animation-delay: 0.48s;
+}
+
+#pywebio-scope-groups>*:nth-child(13) {
+	animation-delay: 0.52s;
+}
+
+#pywebio-scope-groups>*:nth-child(14) {
+	animation-delay: 0.56s;
+}
+
+#pywebio-scope-groups>*:nth-child(n+15) {
+	animation-delay: 0.60s;
+}
+
+/* 侧边栏/主页面的其他卡片稍微延迟 */
+#pywebio-scope-running {
+	animation-delay: 0.05s;
+}
+
+#pywebio-scope-pending {
+	animation-delay: 0.10s;
+}
+
+#pywebio-scope-waiting {
+	animation-delay: 0.15s;
+}
+
+#pywebio-scope-log-bar {
+	animation-delay: 0.20s;
+}
+
+#pywebio-scope-log,
+.container-log {
+	animation-delay: 0.25s;
+}
+
+/* 卡片悬停弹性上浮 */
+[id^="pywebio-scope-group_"]:not(#pywebio-scope-menu):not(#pywebio-scope-aside):not(#pywebio-scope-navigator):hover,
+#pywebio-scope-running:hover,
+#pywebio-scope-pending:hover,
+#pywebio-scope-waiting:hover,
+#pywebio-scope-log-bar:hover,
+#pywebio-scope-log:hover,
+.container-log:hover,
+#pywebio-scope-groups>*:not(#pywebio-scope-navigator):hover {
+	transform: translateY(-2px) scale(1.005) !important;
+	box-shadow: var(--alas-apple-shadow-lg) !important;
+}
+
+/* === 统计板块动画增强 === */
+#pywebio-scope-opsi_stats,
+#pywebio-scope-ap_chart,
+#pywebio-scope-ship_exp_table {
+	animation: ios-slide-up var(--spring-duration-normal) var(--ease-ios-spring) both;
+	transition:
+		box-shadow var(--transition-normal) var(--ease-ios-smooth),
+		transform var(--spring-duration-fast) var(--ease-ios-spring) !important;
+}
+
+#pywebio-scope-opsi_stats {
+	animation-delay: 0.05s;
+}
+
+#pywebio-scope-ap_chart {
+	animation-delay: 0.10s;
+}
+
+#pywebio-scope-ship_exp_table {
+	animation-delay: 0.15s;
+}
+
+#pywebio-scope-opsi_stats:hover,
+#pywebio-scope-ap_chart:hover,
+#pywebio-scope-ship_exp_table:hover {
+	transform: translateY(-3px) !important;
+}
+
+/* === 导航器按钮弹性动画 === */
+#pywebio-scope-navigator .btn {
+	transition:
+		all var(--spring-duration-fast) var(--ease-ios-spring),
+		transform var(--spring-duration-fast) var(--ease-ios-spring) !important;
+}
+
+#pywebio-scope-navigator .btn:hover {
+	transform: translateX(4px) scale(1.01);
+}
+
+#pywebio-scope-navigator .btn:active {
+	transform: scale(0.97) translateX(2px);
+	transition: transform 0.08s var(--ease-ios-out) !important;
+}
+
+/* === 菜单项弹性动画 === */
+.btn-menu {
+	transition:
+		background-color var(--transition-fast),
+		color var(--transition-fast),
+		transform var(--spring-duration-fast) var(--ease-ios-spring),
+		box-shadow var(--transition-normal) var(--ease-ios-smooth) !important;
+	position: relative;
+	overflow: hidden;
+}
+
+.btn-menu:hover {
+	transform: translateX(3px);
+}
+
+.btn-menu:active {
+	transform: scale(0.98) translateX(2px);
+	transition: transform 0.08s var(--ease-ios-out) !important;
+}
+
+/* 激活菜单项动画 */
+.btn-menu-active {
+	animation: ios-spring-scale var(--spring-duration-normal) var(--ease-ios-spring);
+	background-size: 200% 200% !important;
+}
+
+.btn-menu-active:hover {
+	transform: scale(1.02);
+}
+
+
+/* === 折叠菜单动画 === */
+details {
+	transition: all var(--transition-normal) var(--ease-ios-smooth);
+}
+
+details>summary {
+	transition: color var(--transition-fast) var(--ease-ios-smooth);
+	position: relative;
+}
+
+details>summary::after {
+	content: '';
+	position: absolute;
+	right: 16px;
+	top: 50%;
+	transform: translateY(-50%) rotate(0deg);
+	width: 8px;
+	height: 8px;
+	border-right: 2px solid var(--alas-apple-text-secondary);
+	border-bottom: 2px solid var(--alas-apple-text-secondary);
+	transition: transform var(--spring-duration-fast) var(--ease-ios-spring);
+	opacity: 0.6;
+}
+
+details[open]>summary::after {
+	transform: translateY(-50%) rotate(45deg);
+}
+
+/* === 滚动条动画增强 === */
+::-webkit-scrollbar-thumb {
+	transition:
+		background 0.2s var(--ease-ios-smooth),
+		transform var(--spring-duration-fast) var(--ease-ios-spring) !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	transform: scaleX(1.1);
+}
+
+/* === 侧边栏动画 === */
+#pywebio-scope-aside {
+	transition:
+		background-color var(--transition-slow) var(--ease-ios-smooth),
+		backdrop-filter var(--transition-slow) var(--ease-ios-smooth) !important;
+}
+
+/* === 头部导航栏动画 === */
+#pywebio-scope-header {
+	transition:
+		all var(--transition-normal) var(--ease-ios-smooth),
+		box-shadow var(--transition-normal) var(--ease-ios-smooth) !important;
+}
+
+
+/* === 表格行动画 === */
+#pywebio-scope-opsi_stats tr,
+#pywebio-scope-ship_exp_table tr {
+	transition: background-color var(--transition-fast) var(--ease-ios-smooth);
+}
+
+#pywebio-scope-opsi_stats tr:hover td,
+#pywebio-scope-ship_exp_table tr:hover td {
+	background-color: rgba(0, 122, 255, 0.06) !important;
+}
+
+/* === 加载状态动画 === */
+.loading,
+.spinner {
+	animation: ios-spin 1s linear infinite;
+}
+
+/* === 禁用状态平滑过渡 === */
+.btn:disabled,
+.btn[disabled] {
+	opacity: 0.5;
+	cursor: not-allowed;
+	transition: opacity var(--transition-fast) var(--ease-ios-smooth);
+}
+
+/* === 减少动画偏好支持 === */
+@media (prefers-reduced-motion: reduce) {
+
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+}
+
+/* 日志区域详细样式 */
+#pywebio-scope-log {
+	border: 1px solid rgba(0, 0, 0, 0.05) !important;
 	border-radius: 16px !important;
 	padding: 20px !important;
 	color: var(--alas-apple-text) !important;
 	line-height: 1.6;
 	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03) !important;
 }
+
 /* ================= Scheduler Bar ================= */
 /* 调度栏：重置为透明 */
 #pywebio-scope-scheduler-bar {
@@ -578,43 +1172,82 @@ select.form-control:focus, select:focus {
 	box-shadow: none !important;
 	padding: 0 !important;
 }
+
 /* 修复特定按钮的颜色样式 */
 button[style*="--menu-Overview--"] {
 	border-left: none !important;
 }
 
-/* ========================================== 复选框样式 ========================================== */
+/* ========================================== 复选框样式 (iOS Toggle Switch) ========================================== */
 input[type="checkbox"] {
 	width: 50px;
 	height: 25px;
 	appearance: none;
-	background-color: #bfbfbf;
-	border-radius: 40px;
-	border: 2px solid rgba(0, 0, 0, 0.15);
+	background-color: #e9e9eb;
+	border-radius: 25px;
+	border: none;
 	position: relative;
 	cursor: pointer;
-	transition: all 0.15s ease-in-out;
+	transition: background-color 0.2s ease, transform 0.15s ease;
+	will-change: background-color;
+}
+
+input[type="checkbox"]:hover {
+	transform: scale(1.05);
+}
+
+input[type="checkbox"]:active {
+	transform: scale(0.98);
 }
 
 input[type="checkbox"]::before {
 	content: "";
 	position: absolute;
-	top: 1px;
-	left: 1px;
-	height: 20px;
-	width: 20px;
+	top: 2px;
+	left: 2px;
+	height: 21px;
+	width: 21px;
 	background-color: #fff;
 	border-radius: 50%;
-	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-	transition: all 0.15s ease-in-out;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+	transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+	will-change: transform;
 }
 
 input[type="checkbox"]:checked {
-	background-color: #6fcb74;
-	border-color: rgba(111, 203, 116, 0.3);
+	background-color: #34c759;
 }
 
 input[type="checkbox"]:checked::before {
-	left: calc(100% - 22px);
-	box-shadow: 0 1px 3px rgba(111, 203, 116, 0.3);
+	transform: translateX(25px);
+}
+
+/* 修复参数容器中文本和选择器的对齐问题 */
+[id^="pywebio-scope-arg_container-"] {
+	align-items: center !important;
+	margin: 0;
+}
+
+/* 调整左侧文本列布局，让说明性文本在主要选项下方 */
+[id^="pywebio-scope-arg_container-"]>*:first-child {
+	display: grid !important;
+	grid-auto-flow: row !important;
+	gap: 4px !important;
+}
+
+/* 主要选项文本样式 */
+[id^="pywebio-scope-arg_container-"]>*:first-child>*[style*="--arg-title--"] {
+	margin: 0 !important;
+}
+
+/* 说明性文本样式，放在主要选项下方 */
+[id^="pywebio-scope-arg_container-"]>*:first-child>*[style*="--arg-help--"] {
+	margin: 0 !important;
+	font-size: 0.8rem !important;
+	color: var(--alas-apple-text-secondary) !important;
+}
+
+/* 确保选择器/输入框垂直居中 */
+[id^="pywebio-scope-arg_container-"]>*:last-child {
+	align-self: center !important;
 }
