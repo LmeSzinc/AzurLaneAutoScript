@@ -1945,7 +1945,8 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
             
         if self.is_siren_device_confirmed:
             logger.info('已成功到达并处理塞壬研究装置')
-        else:
-            logger.info('未成功到达塞壬研究装置，需要重新寻路')
-            
-        return self.is_siren_device_confirmed
+            self._solved_map_event.add('is_scanning_device')
+            return True
+        
+        logger.info('未成功到达塞壬研究装置，需要重新寻路')
+        return False
