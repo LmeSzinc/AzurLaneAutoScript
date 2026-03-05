@@ -290,8 +290,8 @@
                     <div class="stat-value" id="battle-rounds">--</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-label">净赚体力</div>
-                    <div class="stat-value success" id="net-ap">--</div>
+                    <div class="stat-label">平均体力</div>
+                    <div class="stat-value highlight" id="avg-ap">--</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-label">遇见明石次数</div>
@@ -338,7 +338,7 @@
 
         // DOM Elements
         const elBattleRounds = document.getElementById('battle-rounds');
-        const elNetAp = document.getElementById('net-ap');
+        const elAvgAp = document.getElementById('avg-ap');
         const elAkashiEncounters = document.getElementById('akashi-encounters');
         const elAkashiProb = document.getElementById('akashi-prob');
         const elCurrentAp = document.getElementById('current-ap');
@@ -404,7 +404,7 @@
 
         let prevData = {
             rounds: 0,
-            netAp: 0,
+            avgAp: 0,
             akashi: 0,
             prob: 0
         };
@@ -439,19 +439,18 @@
 
         function updateStatsUI(stats) {
             const rounds = parseInt(stats.battle_rounds) || 0;
-            const netAp = parseInt(stats.net_stamina_gain) || 0;
+            const avgAp = parseFloat(stats.average_stamina) || 0;
             const akashi = parseInt(stats.akashi_encounters) || 0;
             const prob = (parseFloat(stats.akashi_probability) * 100) || 0;
 
             if (prevData.rounds !== rounds) animateValue(elBattleRounds, prevData.rounds, rounds, 1000);
-            if (prevData.netAp !== netAp) {
-                animateValue(elNetAp, prevData.netAp, netAp, 1000);
-                elNetAp.className = netAp < 0 ? "stat-value warning" : "stat-value success";
+            if (prevData.avgAp !== avgAp) {
+                animateValue(elAvgAp, prevData.avgAp, avgAp, 1000);
             }
             if (prevData.akashi !== akashi) animateValue(elAkashiEncounters, prevData.akashi, akashi, 1000);
             if (prevData.prob !== prob) animateValue(elAkashiProb, prevData.prob, prob, 1000);
 
-            prevData = { rounds, netAp, akashi, prob };
+            prevData = { rounds, avgAp, akashi, prob };
 
             const now = new Date();
             elUpdateTime.innerHTML = `最后更新: ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
