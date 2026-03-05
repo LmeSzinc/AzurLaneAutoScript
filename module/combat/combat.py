@@ -126,6 +126,8 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             return PAUSE_MaidCafe
         if PAUSE_Ancient.match_template_color(self.device.image, offset=(10, 10)):
             return PAUSE_Ancient
+        if PAUSE_SpringInn.match_template_color(self.device.image, offset=(10, 10)):
+            return PAUSE_SpringInn
         return False
 
     def handle_combat_quit(self, offset=(20, 20), interval=3):
@@ -175,6 +177,10 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             return True
         if QUIT_MaidCafe.match_luma(self.device.image, offset=offset):
             self.device.click(QUIT_MaidCafe)
+            timer.reset()
+            return True
+        if QUIT_SpringInn.match_luma(self.device.image, offset=offset):
+            self.device.click(QUIT_SpringInn)
             timer.reset()
             return True
         return False
