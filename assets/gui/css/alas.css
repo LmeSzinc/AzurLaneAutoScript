@@ -356,8 +356,7 @@ pre.rich-traceback-code {
     height: 100%;
     display: grid;
     grid-auto-flow: column;
-
-    grid-template-columns: 1fr minmax(25rem, 5fr) 2fr;
+    grid-template-columns: 0 minmax(25rem, 5fr) 1fr;
 }
 
 #pywebio-scope-group__info>p {
