@@ -1,290 +1,620 @@
-/* Modern Apple Style Theme for Alas - Refined v2 */
-
+/* ==========================================
+Modern Apple Style Theme for Alas - Refined v2
+现代 Apple 风格主题 - 优化版 v2
+========================================== */
+/* 引入 Google Fonts 字体：Inter，包含常规、中等和半粗字重 */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
-
 :root {
-    --alas-apple-bg: #f5f5f7;
-    --alas-apple-sidebar-translucent: rgba(245, 245, 247, 0.75);
-    --alas-apple-card-bg: #ffffff;
-    --alas-apple-text: #1d1d1f;
-    --alas-apple-text-secondary: #86868b;
-    --alas-apple-accent: #007aff; 
-    --alas-apple-accent-hover: #0071eb;
-    --alas-apple-border: rgba(0, 0, 0, 0.06); 
-    --alas-apple-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-    --alas-apple-shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.06);
-    --alas-font-stack: "SF Pro Text", "SF Pro Icons", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
-    
-    /* Navigation Pill Colors */
-    --alas-nav-active-bg: rgba(0, 122, 255, 0.1);
-    --alas-nav-active-text: #007aff;
+/* === 色彩系统 === */
+--alas-apple-bg: #f5f5f7; /* 应用主背景色：Apple 标志性浅灰 */
+--alas-apple-sidebar-translucent: rgba(245, 245, 247, 0.75); /* 侧边栏半透明底色 */
+--alas-apple-card-bg: #ffffff; /* 卡片背景色：纯白 */
+--alas-apple-text: #1d1d1f; /* 主文本颜色：深黑灰 */
+--alas-apple-text-secondary: #86868b; /* 次要文本颜色：中灰 */
+--alas-apple-accent: #007aff; /* 主题强调色：Apple 蓝 */
+--alas-apple-accent-hover: #0071eb; /* 强调色悬停态：略深蓝 */
+--alas-apple-border: rgba(0, 0, 0, 0.06); /* 边框颜色：极淡灰 */
+--alas-apple-border-color: #d2d2d7; /* 标准边框色：淡紫灰 */
+/* === 阴影系统 === */
+/* 模拟 macOS 的柔和投影，层次分明 */
+--alas-apple-shadow-xs: 0 1px 3px rgba(0, 0, 0, 0.04); /* 极小阴影 */
+--alas-apple-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);      /* 标准阴影 */
+--alas-apple-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06);  /* 中等阴影 */
+--alas-apple-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.08);  /* 大阴影 */
+--alas-apple-shadow-xl: 0 12px 48px rgba(0, 0, 0, 0.12); /* 超大阴影 */
+/* === 字体栈 === */
+/* 优先使用等宽字体 Maple Mono，回退到常用中文字体 */
+/* 全局界面字体（只需要修改这里即可全局调整） */
+--alas-font-stack: "Maple Mono NF CN ExtraBold", "Noto Sans SC", "Microsoft YaHei", "SimHei", sans-serif;
+/* === 间距系统 === */
+/* 统一管理内外边距，保持视觉一致性 */
+--spacing-xs: 4px;
+--spacing-sm: 8px;
+--spacing-md: 16px;
+--spacing-lg: 24px;
+--spacing-xl: 32px;
+--spacing-2xl: 40px;
+/* === 圆角系统 === */
+/* 从微小圆角到大圆角，适配不同组件 */
+--radius-xs: 6px;
+--radius-sm: 8px;
+--radius-md: 12px;
+--radius-lg: 16px;
+--radius-xl: 20px;
+--radius-2xl: 24px;
+/* === 导航胶囊颜色 === */
+--alas-nav-active-bg: rgba(0, 122, 255, 0.1); /* 激活态背景 */
+--alas-nav-active-text: #007aff;              /* 激活态文字 */
+/* === 滚动条样式 === */
+--scrollbar-width: 8px;
+--scrollbar-thumb: rgba(0, 0, 0, 0.2);      /* 滚动条滑块颜色 */
+--scrollbar-thumb-hover: rgba(0, 0, 0, 0.3);/* 悬停时加深 */
+--scrollbar-track: transparent;             /* 滚动条轨道透明 */
+--scrollbar-radius: 4px;
+/* === 过渡动画 === */
+/* 性能优化：时长短且流畅 */
+--transition-fast: 0.1s ease;
+--transition-normal: 0.15s ease;
 }
-
+/* === 全局基础样式 === */
 body {
-    background-color: var(--alas-apple-bg) !important;
-    font-family: var(--alas-font-stack) !important;
-    color: var(--alas-apple-text) !important;
-    -webkit-font-smoothing: antialiased;
-    letter-spacing: -0.01em;
+	background-color: var(--alas-apple-bg) !important;
+	font-family: var(--alas-font-stack) !important;
+	color: var(--alas-apple-text) !important;
+	-webkit-font-smoothing: antialiased; /* 字体抗锯齿 */
+	-moz-osx-font-smoothing: grayscale;
+	letter-spacing: -0.01em; /* 微调字间距使其更紧凑 */
 }
 
+/* 最强字体覆盖：确保所有元素（除了日志区域）都使用全局字体 */
+body *:not(#pywebio-scope-log):not(#pywebio-scope-log *) {
+	font-family: var(--alas-font-stack) !important;
+}
+/* ================= Apple Style Scrollbar ================= */
+/* 自定义 Webkit 内核浏览器滚动条 */
+::-webkit-scrollbar {
+	width: var(--scrollbar-width);
+	height: var(--scrollbar-width);
+}
+::-webkit-scrollbar-track {
+	background: var(--scrollbar-track);
+}
+::-webkit-scrollbar-thumb {
+	background: var(--scrollbar-thumb);
+	border-radius: var(--scrollbar-radius);
+	transition: background 0.2s ease;
+}
+::-webkit-scrollbar-thumb:hover {
+	background: var(--scrollbar-thumb-hover);
+}
+::-webkit-scrollbar-corner {
+	background: transparent;
+}
+/* Firefox 滚动条适配 */
+* {
+	scrollbar-width: thin;
+	scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
 /* ================= Sidebar (Glassmorphism) ================= */
+/* 侧边栏：磨砂玻璃拟态效果 */
 #pywebio-scope-aside {
-    background-color: var(--alas-apple-sidebar-translucent) !important;
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border-right: 1px solid rgba(0,0,0,0.05) !important;
-    padding-top: 16px !important;
-    /* Removed fixed width - let original CSS handle it */
+	background-color: rgba(245, 245, 247, 0.65) !important;
+	/* 关键：模糊滤镜，创造毛玻璃质感 */
+	backdrop-filter: blur(30px) saturate(180%);
+	-webkit-backdrop-filter: blur(30px) saturate(180%);
+	border-right: 1px solid rgba(0,0,0,0.06) !important;
+	padding-top: 20px !important;
 }
-
+/* 菜单容器：重置为透明，避免遮挡侧边栏效果 */
 #pywebio-scope-menu {
-    background-color: transparent !important; /* Merge visually with aside */
-    border-right: 1px solid rgba(0,0,0,0.05);
-    box-shadow: none !important;
-    padding-top: 16px !important;
+	background-color: transparent !important;
+	border-right: none !important;
+	border: none !important;
+	box-shadow: none !important;
+	padding-top: 20px !important;
+	border-radius: 0 !important;
 }
-
+/* 确保菜单内部元素不继承卡片样式 */
+#pywebio-scope-menu * {
+	background-color: transparent !important;
+	border: none !important;
+	box-shadow: none !important;
+	border-radius: 0 !important;
+}
+/* 恢复菜单内按钮样式 */
+#pywebio-scope-menu .btn-menu {
+	background-color: transparent !important;
+	border-radius: 8px !important;
+	border: none !important;
+	box-shadow: none !important;
+}
+#pywebio-scope-menu .btn-menu:hover {
+	background-color: rgba(0, 0, 0, 0.05) !important;
+}
+#pywebio-scope-menu .btn-menu-active {
+	background: linear-gradient(180deg, #007aff 0%, #0071eb 100%) !important;
+	box-shadow: 0 2px 8px rgba(0, 122, 255, 0.2) !important;
+}
+/* 确保菜单内的分组容器也不受卡片样式影响 */
+#pywebio-scope-menu [id^="pywebio-scope-"] {
+	background-color: transparent !important;
+	border: none !important;
+	box-shadow: none !important;
+	border-radius: 0 !important;
+	padding: 0 !important;
+	margin: 0 !important;
+}
 /* ================= Header ================= */
+/* 顶部导航栏：悬浮磨砂质感 */
 #pywebio-scope-header {
-    background-color: rgba(255, 255, 255, 0.8) !important;
-    backdrop-filter: blur(20px) saturate(180%);
-    border-bottom: 1px solid rgba(0,0,0,0.05);
-    box-shadow: none !important;
-    height: 52px !important; /* Slimmer header */
-    z-index: 1000; 
+	background-color: rgba(255, 255, 255, 0.72) !important;
+	backdrop-filter: blur(30px) saturate(180%);
+	-webkit-backdrop-filter: blur(30px) saturate(180%);
+	border-bottom: 1px solid rgba(0,0,0,0.06);
+	box-shadow: 0 1px 0 rgba(255,255,255,0.8), 0 1px 8px rgba(0,0,0,0.04) !important;
+	height: 56px !important;
+	z-index: 1000; /* 置顶显示 */
+}
+/* ================= Content Area ================= */
+/* 内容主区域 */
+#pywebio-scope-content {
+	background-color: transparent !important;
+	padding: var(--spacing-md) var(--spacing-lg) !important;
+}
+/* 优化多列布局：响应式三栏网格系统 */
+#pywebio-scope-groups {
+	grid-template-columns: minmax(0.1rem, 0.1fr) minmax(20rem, 5fr) minmax(15rem, 1fr) !important;
+	grid-auto-flow: column !important;
+	gap: var(--spacing-lg) !important;
+	padding: var(--spacing-lg) !important;
+	height: calc(100vh - 56px) !important;
+	overflow: hidden !important;
 }
 
-/* ================= Content Area ================= */
-#pywebio-scope-content {
-    background-color: transparent !important;
-    padding: 32px 40px !important; /* More breathing room */
+/* Groups 容器滚动样式 */
+#pywebio-scope-groups {
+	overflow-y: auto !important;
+	height: 100% !important;
+}
+
+/* 统计板块容器样式 - 与_groups同级 */
+#pywebio-scope-opsi_stats,
+#pywebio-scope-ap_chart,
+#pywebio-scope-ship_exp_table {
+	background-color: var(--alas-apple-card-bg) !important;
+	border-radius: var(--radius-lg) !important;
+	border: 1px solid rgba(0, 0, 0, 0.04) !important;
+	box-shadow: var(--alas-apple-shadow) !important;
+	padding: var(--spacing-md) !important;
+	margin: var(--spacing-md) var(--spacing-lg) !important;
+	transition: box-shadow var(--transition-normal);
+}
+
+#pywebio-scope-opsi_stats:hover,
+#pywebio-scope-ap_chart:hover,
+#pywebio-scope-ship_exp_table:hover {
+	box-shadow: var(--alas-apple-shadow-md) !important;
+}
+
+/* 统计板块内表格样式优化 */
+#pywebio-scope-opsi_stats table,
+#pywebio-scope-ship_exp_table table {
+	width: 100% !important;
+	border-collapse: separate !important;
+	border-spacing: 0 !important;
+	margin: var(--spacing-md) 0 !important;
+}
+
+#pywebio-scope-opsi_stats th,
+#pywebio-scope-ship_exp_table th {
+	background-color: var(--alas-apple-bg) !important;
+	color: var(--alas-apple-text-secondary) !important;
+	font-weight: 600 !important;
+	font-size: 12px !important;
+	text-transform: uppercase !important;
+	letter-spacing: 0.05em !important;
+	padding: var(--spacing-sm) var(--spacing-md) !important;
+	text-align: left !important;
+	border: none !important;
+	border-bottom: 2px solid var(--alas-apple-border) !important;
+}
+
+#pywebio-scope-opsi_stats th:first-child,
+#pywebio-scope-ship_exp_table th:first-child {
+	border-top-left-radius: var(--radius-sm) !important;
+}
+
+#pywebio-scope-opsi_stats th:last-child,
+#pywebio-scope-ship_exp_table th:last-child {
+	border-top-right-radius: var(--radius-sm) !important;
+}
+
+#pywebio-scope-opsi_stats td,
+#pywebio-scope-ship_exp_table td {
+	padding: var(--spacing-md) !important;
+	color: var(--alas-apple-text) !important;
+	font-size: 14px !important;
+	border: none !important;
+	border-bottom: 1px solid var(--alas-apple-border) !important;
+	background-color: transparent !important;
+}
+
+#pywebio-scope-opsi_stats tr:last-child td,
+#pywebio-scope-ship_exp_table tr:last-child td {
+	border-bottom: none !important;
+}
+
+#pywebio-scope-opsi_stats tr:hover td,
+#pywebio-scope-ship_exp_table tr:hover td {
+	background-color: rgba(0, 122, 255, 0.04) !important;
+}
+
+/* 统计板块内文本样式优化 */
+#pywebio-scope-opsi_stats > div:first-child,
+#pywebio-scope-ship_exp_table > div:first-child {
+	font-size: 16px !important;
+	font-weight: 600 !important;
+	color: var(--alas-apple-text) !important;
+	margin-bottom: var(--spacing-md) !important;
+}
+
+/* 统计板块内按钮行间距优化 */
+#pywebio-scope-opsi_stats .pywebio-row,
+#pywebio-scope-ship_exp_table .pywebio-row {
+	margin: var(--spacing-md) 0 !important;
+	gap: var(--spacing-sm) !important;
 }
 
 /* ================= Cards / Groups ================= */
-[id^="pywebio-scope-group_"], 
+/* 通用卡片样式：圆角、白底、柔和阴影 */
+[id^="pywebio-scope-group_"]:not(#pywebio-scope-menu):not(#pywebio-scope-aside):not(#pywebio-scope-navigator), 
 #pywebio-scope-running, 
 #pywebio-scope-pending, 
 #pywebio-scope-waiting, 
 #pywebio-scope-log-bar, 
 #pywebio-scope-log,
-.container-log {
-    background-color: var(--alas-apple-card-bg) !important;
-    border-radius: 16px !important; /* Larger radius */
-    border: 1px solid var(--alas-apple-border) !important;
-    box-shadow: var(--alas-apple-shadow);
-    padding: 24px !important;
-    margin-bottom: 24px !important;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+.container-log,
+#pywebio-scope-groups > *:not(#pywebio-scope-navigator) {
+	background-color: var(--alas-apple-card-bg) !important;
+	border-radius: var(--radius-lg) !important;
+	border: 1px solid rgba(0, 0, 0, 0.04) !important;
+	box-shadow: var(--alas-apple-shadow) !important;
+	padding: var(--spacing-md) !important;
+	margin-bottom: var(--spacing-md) !important;
+	transition: box-shadow var(--transition-normal);
 }
-
+/* 导航器容器样式 */
+#pywebio-scope-navigator {
+	margin: .5rem 1rem .5rem !important;
+	height: min-content !important;
+	max-width: 15rem !important;
+	background-color: transparent !important;
+	border: none !important;
+	box-shadow: none !important;
+	border-radius: 0 !important;
+	padding: 0 !important;
+	margin-bottom: 0 !important;
+}
+/* 导航器内按钮样式 */
+#pywebio-scope-navigator .btn {
+	background-color: var(--alas-apple-card-bg) !important;
+	border: 1px solid rgba(0, 0, 0, 0.06) !important;
+	border-radius: var(--radius-md) !important;
+	box-shadow: var(--alas-apple-shadow-xs) !important;
+	margin: 6px 0 !important;
+	padding: 10px 16px !important;
+	text-align: left !important;
+	font-weight: 500 !important;
+	color: var(--alas-apple-text) !important;
+	transition: all var(--transition-normal) !important;
+}
+#pywebio-scope-navigator .btn:hover {
+	background-color: var(--alas-apple-bg) !important;
+	border-color: rgba(0, 0, 0, 0.12) !important;
+	box-shadow: var(--alas-apple-shadow) !important;
+}
+#pywebio-scope-navigator .btn:active {
+	background-color: #e5e5ea !important;
+}
+/* 卡片悬停交互：阴影加深，模拟浮起 */
+[id^="pywebio-scope-group_"]:not(#pywebio-scope-menu):not(#pywebio-scope-aside):not(#pywebio-scope-navigator):hover, 
+#pywebio-scope-running:hover, 
+#pywebio-scope-pending:hover, 
+#pywebio-scope-waiting:hover, 
+#pywebio-scope-log-bar:hover, 
+#pywebio-scope-log:hover,
+.container-log:hover,
+#pywebio-scope-groups > *:not(#pywebio-scope-navigator):hover {
+	box-shadow: var(--alas-apple-shadow-md) !important;
+}
 /* ================= Buttons ================= */
-/* Exclude .btn-aside and .btn-menu to preserve sidebar layout */
+/* 通用按钮样式 */
 .btn:not(.btn-aside):not(.btn-menu) {
-    border-radius: 8px !important;
-    font-weight: 500 !important;
-    font-size: 13px !important;
-    transition: all 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
-    border: none !important;
-    box-shadow: none !important;
-    padding: 6px 14px !important;
+	border-radius: var(--radius-md) !important;
+	font-weight: 500 !important;
+	font-size: 14px !important;
+	letter-spacing: -0.01em !important;
+	transition: all var(--transition-normal);
+	padding: 8px 16px !important;
+	white-space: nowrap;
+	margin: 4px 0 !important;
 }
-
-/* Primary Button (Apple Blue) */
-.btn-primary {
-    background-color: var(--alas-apple-accent) !important;
+/* 调度器启动按钮样式 */
+.btn-on {
+    background: linear-gradient(180deg, #007aff 0%, #0071eb 100%) !important;
     color: white !important;
+    box-shadow: var(--alas-apple-shadow) !important;
+    border: none !important;
+}
+.btn-on:hover {
+    background: linear-gradient(180deg, #0077ed 0%, #0066cc 100%) !important;
+    box-shadow: var(--alas-apple-shadow-md) !important;
 }
 
+/* 主要按钮：Apple 蓝渐变 */
+.btn-primary {
+	background: linear-gradient(180deg, #007aff 0%, #0071eb 100%) !important;
+	color: white !important;
+	box-shadow: var(--alas-apple-shadow) !important;
+	border: none !important;
+}
 .btn-primary:active {
-    transform: scale(0.96);
-    opacity: 0.9;
+	opacity: 0.85;
+	box-shadow: var(--alas-apple-shadow-xs) !important;
 }
-
 .btn-primary:hover {
-    background-color: var(--alas-apple-accent-hover) !important;
-    box-shadow: 0 4px 10px rgba(0, 122, 255, 0.25) !important;
+	background: linear-gradient(180deg, #0077ed 0%, #0066cc 100%) !important;
+	box-shadow: var(--alas-apple-shadow-md) !important;
 }
-
-/* Secondary Button (Standard Gray) */
+/* 次要按钮：白底灰边 */
 .btn-secondary, .btn-light {
-    background-color: rgba(0, 0, 0, 0.05) !important;
-    color: var(--alas-apple-text) !important;
+	background-color: var(--alas-apple-card-bg) !important;
+	color: var(--alas-apple-text) !important;
+	box-shadow: var(--alas-apple-shadow-xs) !important;
+	border: 1px solid rgba(0, 0, 0, 0.12) !important;
 }
-
 .btn-secondary:hover, .btn-light:hover {
-    background-color: rgba(0, 0, 0, 0.08) !important;
+	background-color: #f5f5f7 !important;
+	box-shadow: var(--alas-apple-shadow) !important;
+	border-color: rgba(0, 0, 0, 0.2) !important;
 }
-
+.btn-secondary:active, .btn-light:active {
+	opacity: 0.85;
+	background-color: #e5e5ea !important;
+	}
 /* ================= Navigation Pills (Sidebar Icons) ================= */
-/* Aside Icon Buttons - MINIMAL OVERRIDES (preserve original layout) */
+/* 侧边栏图标按钮：极简覆盖 */
 .btn-aside:hover,
 .btn-aside-active {
-    border-color: var(--alas-apple-accent) !important;
-    color: var(--alas-apple-accent) !important;
+	border-color: var(--alas-apple-accent) !important;
+	color: var(--alas-apple-accent) !important;
 }
-
-/* ================= Menu List (Secondary Sidebar) ================= */
-.btn-menu {
-    border-radius: 8px !important;
-    margin: 2px 12px !important;
-    padding: 8px 12px !important;
-    color: var(--alas-apple-text) !important;
-    border: none !important;
-    background-color: transparent !important;
-    text-align: left !important;
-    width: calc(100% - 24px) !important; /* Adjust for margins */
-    display: block !important;
-    font-size: 13px !important;
-    font-weight: 500 !important;
-}
-
-.btn-menu:hover {
-    background-color: rgba(0, 0, 0, 0.04) !important;
-}
-
-/* Active Menu Item */
-.btn-menu-active {
-    background-color: var(--alas-apple-accent) !important;
-    color: white !important;
-    font-weight: 600 !important;
-    box-shadow: 0 2px 5px rgba(0, 122, 255, 0.2) !important;
-    border-left: none !important;
-}
-
-.btn-menu-active:hover {
-    background-color: var(--alas-apple-accent) !important;
-}
-
 /* Category Headers (Summary) */
+/* 折叠菜单标题 */
 details > summary {
-    color: #6e6e73 !important; /* Darker grey */
-    font-size: 13px !important; /* Increased from 11px */
-    font-weight: 600 !important;
-    text-transform: none !important; /* Remove uppercase for better readability */
-    letter-spacing: normal !important;
-    padding: 14px 16px 6px 16px !important;
-    margin: 0 !important;
-    list-style: none !important;
-    cursor: default;
-    user-select: none;
+	color: #6e6e73 !important; 
+	font-size: 13px !important; 
+	font-weight: 600 !important;
+	text-transform: none !important; 
+	letter-spacing: normal !important;
+	padding: 14px 16px 6px 16px !important;
+	margin: 0 !important;
+	list-style: none !important;
+	cursor: default;
+	user-select: none;
 }
 
 details > summary:hover {
-    color: #1d1d1f !important;
+	color: var(--alas-apple-text) !important;
 }
 
+/* 隐藏默认的三角标记 */
 details > summary::-webkit-details-marker {
-    display: none !important;
+	display: none !important;
 }
 
 /* ================= Menu List Items ================= */
+/* 菜单列表项样式 */
 .btn-menu {
-    border-radius: 8px !important;
-    margin: 2px 8px !important;
-    padding: 8px 12px !important;
-    color: #1d1d1f !important; /* Darker black for better contrast */
-    border: none !important;
-    background-color: transparent !important;
-    text-align: left !important;
-    width: calc(100% - 16px) !important;
-    display: block !important;
-    font-size: 14px !important; /* Increased from 13px */
-    font-weight: 500 !important;
-    transition: all 0.1s ease;
+	border-radius: 8px !important;
+	margin: 2px 8px !important;
+	padding: 8px 12px !important;
+	color: #424245 !important;
+	border: none !important;
+	background-color: transparent !important;
+	text-align: left !important;
+	width: calc(100% - 16px) !important;
+	display: block !important;
+	font-size: 14px !important;
+	font-weight: 500 !important;
+	letter-spacing: -0.01em !important;
+	transition: background-color var(--transition-fast), color var(--transition-fast) !important;
 }
-
-/* Indent items inside expanded details */
+/* 子菜单项缩进 */
 details .btn-menu {
-    margin-left: 16px !important; 
-    width: calc(100% - 24px) !important;
-    font-size: 14px !important;
-    color: #424245 !important; /* Slightly softer for sub-items */
+	margin-left: 16px !important; 
+	width: calc(100% - 24px) !important;
+	font-size: 13px !important;
+	color: #6e6e73 !important;
 }
-
-/* Hover State */
 .btn-menu:hover {
-    background-color: rgba(0, 0, 0, 0.05) !important;
-}
-
-/* Active Menu Item (Solid Blue Pill) */
+	background-color: rgba(0, 0, 0, 0.05) !important;
+	color: #1d1d1f !important;
+	}
+/* 激活菜单项：实心蓝底白字 */
 .btn-menu-active {
-    background-color: #007aff !important; /* Solid vibrant blue */
-    color: white !important; /* White text */
-    font-weight: 600 !important;
-    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3) !important;
+	background: linear-gradient(180deg, #007aff 0%, #0071eb 100%) !important;
+	color: white !important;
+	font-weight: 600 !important;
+	box-shadow: 0 2px 8px rgba(0, 122, 255, 0.2) !important;
+	border-left: none !important;
 }
-
 .btn-menu-active:hover {
-    background-color: #007aff !important;
-    color: white !important;
+	background: linear-gradient(180deg, #007aff 0%, #0071eb 100%) !important;
+	color: white !important;
 }
-
-/* Fix for sub-items inheriting active text color if needed */
 details .btn-menu-active {
-    color: white !important;
+	color: white !important;
 }
-
 /* ================= Typography & Headers ================= */
 h1, h2, h3, h4, h5, h6 {
-    font-weight: 600 !important;
-    color: var(--alas-apple-text);
-    margin-bottom: 16px !important;
+	font-weight: 600 !important;
+	color: var(--alas-apple-text);
+	margin-bottom: var(--spacing-md) !important;
 }
-
 .hr-task-group-text {
-    font-size: 11px !important;
-    font-weight: 600 !important;
-    color: #86868b !important;
-    text-transform: uppercase;  
-    letter-spacing: 0.02em;
-    margin-top: 24px !important;
-    margin-bottom: 8px !important;
+	font-size: 11px !important;
+	font-weight: 600 !important;
+	color: var(--alas-apple-text-secondary) !important;
+	text-transform: uppercase;  
+	letter-spacing: 0.02em;
+	margin-top: var(--spacing-lg) !important;
+	margin-bottom: var(--spacing-sm) !important;
 }
-
 .hr-task-group-line {
-    border-top: 1px solid rgba(0,0,0,0.08) !important;
+	border-top: 1px solid var(--alas-apple-border) !important;
 }
-
 /* ================= Inputs ================= */
-.form-control, select, input {
-    border-radius: 8px !important;
-    border: 1px solid #d1d1d6 !important;
-    background-color: #ffffff !important;
-    padding: 6px 10px !important;
-    font-size: 13px !important;
-    color: var(--alas-apple-text) !important;
-    box-shadow: none !important;
+/* 输入框样式 */
+.form-control, input:not([type="checkbox"]):not([type="radio"]) {
+	border-radius: var(--radius-md) !important;
+	border: 1px solid rgba(0, 0, 0, 0.15) !important;
+	background-color: var(--alas-apple-card-bg) !important;
+	padding: 8px 12px !important;
+	font-size: 15px !important;
+	letter-spacing: -0.01em !important;
+	color: var(--alas-apple-text) !important;
+	box-shadow: var(--alas-apple-shadow-xs) !important;
+	transition: all var(--transition-normal) !important;
+	margin: 6px 0 !important;
 }
-
-.form-control:focus, select:focus, input:focus {
-    border-color: var(--alas-apple-accent) !important;
-    box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.15) !important;
-    outline: none !important;
+/* 下拉选择框样式 */
+select.form-control, select {
+	border-radius: var(--radius-md) !important;
+	border: 1px solid rgba(0, 0, 0, 0.15) !important;
+	background-color: var(--alas-apple-card-bg) !important;
+	padding: 8px 32px 8px 12px !important;
+	/* 自定义下拉箭头 SVG */
+	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236e6e73' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e") !important;
+	background-position: right 10px center !important;
+	background-repeat: no-repeat !important;
+	background-size: 16px 16px !important;
+	appearance: none !important;
+	-webkit-appearance: none !important;
+	-moz-appearance: none !important;
+	transition: all var(--transition-normal) !important;
+	margin: 6px 0 !important;
 }
-
+/* 输入框聚焦态：蓝色边框与光晕 */
+.form-control:focus, select:focus, input:not([type="checkbox"]):not([type="radio"]):focus {
+	border-color: var(--alas-apple-accent) !important;
+	box-shadow: 0 0 0 5px rgba(0, 122, 255, 0.12), var(--alas-apple-shadow-md) !important;
+	outline: none !important;
+}
+select.form-control:focus, select:focus {
+	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23007aff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e") !important;
+}
+/* 修复 Bootstrap-select 插件样式冲突 */
+.bootstrap-select {
+	border: none !important;
+	padding: 0 !important;
+	background: transparent !important;
+}
+.bootstrap-select>select {
+	position: unset !important;
+	bottom: unset !important;
+	left: unset !important;
+	width: 100% !important;
+	height: unset !important;
+	padding: 8px 32px 8px 12px !important;
+	opacity: 1 !important;
+	z-index: auto !important;
+	border-radius: var(--radius-md) !important;
+	border: 1px solid var(--alas-apple-border-color) !important;
+	background-color: var(--alas-apple-card-bg) !important;
+	font-size: 15px !important;
+	letter-spacing: -0.01em !important;
+	color: var(--alas-apple-text) !important;
+	box-shadow: var(--alas-apple-shadow-xs) !important;
+	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236e6e73' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e") !important;
+	background-position: right 10px center !important;
+	background-repeat: no-repeat !important;
+	background-size: 16px 16px !important;
+	appearance: none !important;
+	-webkit-appearance: none !important;
+	-moz-appearance: none !important;
+	transition: all var(--transition-normal) !important;
+}
+.bootstrap-select>select:focus {
+	border-color: var(--alas-apple-accent) !important;
+	box-shadow: 0 0 0 5px rgba(0, 122, 255, 0.12), var(--alas-apple-shadow-md) !important;
+	outline: none !important;
+	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23007aff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e") !important;
+}
+/* 隐藏 Bootstrap-select 生成的多余 UI 元素 */
+.bootstrap-select .btn.dropdown-toggle,
+.bootstrap-select .filter-option,
+.bootstrap-select .dropdown-toggle {
+	display: none !important;
+}
 /* ================= Logs ================= */
+/* 日志区域：等宽字体，淡背景 */
 #pywebio-scope-log {
-    font-family: "SF Mono", "Menlo", "Monaco", "Courier New", monospace !important;
-    font-size: 12px !important;
-    background-color: #fafafa !important;
-    border: 1px solid rgba(0,0,0,0.06) !important;
-    border-radius: 12px !important;
-    padding: 16px !important;
-    color: #424245 !important;
-    line-height: 1.5;
+	font-family: var(--alas-font-stack) !important;
+	font-size: 13px !important;
+	background-color: #fbfbfd !important;
+	border: 1px solid rgba(0,0,0,0.05) !important;
+	border-radius: 16px !important;
+	padding: 20px !important;
+	color: var(--alas-apple-text) !important;
+	line-height: 1.6;
+	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03) !important;
 }
-
 /* ================= Scheduler Bar ================= */
+/* 调度栏：重置为透明 */
 #pywebio-scope-scheduler-bar {
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    padding: 0 !important;
+	background: transparent !important;
+	border: none !important;
+	box-shadow: none !important;
+	padding: 0 !important;
+}
+/* 修复特定按钮的颜色样式 */
+button[style*="--menu-Overview--"] {
+	border-left: none !important;
 }
 
-/* Fix "Overview" button color in menu if it uses bespoke coloring */
-button[style*="--menu-Overview--"] {
-    /* Target via attribute selector if class isn't sufficient */
-    border-left: none !important;
+/* ========================================== 复选框样式 ========================================== */
+input[type="checkbox"] {
+	width: 50px;
+	height: 25px;
+	appearance: none;
+	background-color: #bfbfbf;
+	border-radius: 40px;
+	border: 2px solid rgba(0, 0, 0, 0.15);
+	position: relative;
+	cursor: pointer;
+	transition: all 0.15s ease-in-out;
+}
+
+input[type="checkbox"]::before {
+	content: "";
+	position: absolute;
+	top: 1px;
+	left: 1px;
+	height: 20px;
+	width: 20px;
+	background-color: #fff;
+	border-radius: 50%;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+	transition: all 0.15s ease-in-out;
+}
+
+input[type="checkbox"]:checked {
+	background-color: #6fcb74;
+	border-color: rgba(111, 203, 116, 0.3);
+}
+
+input[type="checkbox"]:checked::before {
+	left: calc(100% - 22px);
+	box-shadow: 0 1px 3px rgba(111, 203, 116, 0.3);
 }
