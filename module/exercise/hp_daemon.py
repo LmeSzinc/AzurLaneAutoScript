@@ -77,6 +77,7 @@ class HpDaemon(ModuleBase):
             PAUSE_ShadowPuppetry,
             PAUSE_MaidCafe,
             PAUSE_Ancient,
+            PAUSE_SpringInn,
         ]:
             self.attacker_hp = self._calculate_hp(image, area=ATTACKER_HP_AREA_New.area, reverse=True)
             self.defender_hp = self._calculate_hp(image, area=DEFENDER_HP_AREA_New.area, reverse=True)
