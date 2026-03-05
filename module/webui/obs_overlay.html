@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alas 侵蚀一实况监控 (实况宽排版)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: transparent;
+            color: #ffffff;
+            font-family: 'Noto Sans SC', sans-serif;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 860px;
+            /* 宽屏适配 */
+            padding: 18px;
+            margin: 16px;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #38bdf8, #818cf8);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            background: linear-gradient(90deg, #e0f2fe, #38bdf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-left: 8px;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Chart View Toggles */
+        .chart-toggles {
+            display: flex;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .toggle-btn {
+            background: transparent;
+            border: none;
+            color: #888;
+            font-size: 0.70rem;
+            padding: 4px 10px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .toggle-btn.active {
+            background: rgba(56, 189, 248, 0.2);
+            color: #38bdf8;
+        }
+
+        .toggle-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ddd;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #10b981;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #10b981;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+            }
+
+            70% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+            }
+
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+            }
+        }
+
+        /* 左右分栏 */
+        .content-row {
+            display: flex;
+            gap: 16px;
+            align-items: stretch;
+            height: 180px;
+            /* 控制图表和卡片的高度一致且足够展现 */
+        }
+
+        .stats-grid {
+            flex: 0 0 320px;
+            /* 左侧固定宽度 */
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 10px 12px;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .stat-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px);
+            border-color: rgba(56, 189, 248, 0.3);
+        }
+
+        .stat-label {
+            font-size: 0.70rem;
+            color: #94a3b8;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #f8fafc;
+        }
+
+        .stat-value.highlight {
+            color: #38bdf8;
+            text-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
+        }
+
+        .stat-value.success {
+            color: #34d399;
+            text-shadow: 0 0 8px rgba(52, 211, 153, 0.4);
+        }
+
+        .stat-value.warning {
+            color: #fbbf24;
+            text-shadow: 0 0 8px rgba(251, 191, 36, 0.4);
+        }
+
+        .ap-chart-wrapper {
+            flex: 1;
+            /* 图表填满右边空位 */
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .ap-chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: #cbd5e1;
+            margin-bottom: 2px;
+        }
+
+        .ap-chart-header .current-ap-text {
+            font-family: "Orbitron", sans-serif;
+            font-weight: bold;
+            color: #38bdf8;
+            font-size: 0.95rem;
+        }
+
+        .ap-chart-meta {
+            display: flex;
+            gap: 12px;
+            font-size: 0.70rem;
+            color: #64748b;
+            align-items: center;
+        }
+
+        .chart-container {
+            width: 100%;
+            flex: 1;
+            min-height: 0;
+            /* 关键：允许flex子元素缩小 */
+            position: relative;
+            margin-top: 4px;
+            overflow: hidden;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .footer {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            height: 14px;
+        }
+
+        .update-time {
+            font-size: 0.65rem;
+            color: #64748b;
+        }
+
+        .error-msg {
+            display: none;
+            color: #f87171;
+            font-size: 0.85rem;
+            text-align: center;
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 8px 16px;
+            background: rgba(239, 68, 68, 0.1);
+            border-radius: 6px;
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            z-index: 100;
+            backdrop-filter: blur(8px);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="title">侵蚀一监控系统</div>
+            <div class="header-controls">
+                <div class="chart-toggles">
+                    <button class="toggle-btn" id="btn-line" onclick="setChartView('line')">分时</button>
+                    <button class="toggle-btn active" id="btn-day" onclick="setChartView('day')">时K</button>
+                    <button class="toggle-btn" id="btn-month" onclick="setChartView('month')">日K</button>
+                </div>
+                <div class="status-dot" id="status-dot" title="数据实时更新中"></div>
+            </div>
+        </div>
+
+        <div class="content-row">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">当月战斗轮次</div>
+                    <div class="stat-value" id="battle-rounds">--</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">净赚体力</div>
+                    <div class="stat-value success" id="net-ap">--</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">遇见明石次数</div>
+                    <div class="stat-value" id="akashi-encounters">--</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">明石出现概率</div>
+                    <div class="stat-value highlight" id="akashi-prob">--%</div>
+                </div>
+            </div>
+
+            <div class="ap-chart-wrapper">
+                <div class="ap-chart-header">
+                    <span class="view-title" id="chart-title">体力变化 (时K线)</span>
+                    <div class="ap-chart-meta">
+                        <span id="ap-change">变化: --</span>
+                        <span>体力:</span>
+                        <span id="current-ap" class="current-ap-text">--</span>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="ap-canvas"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="update-time" id="update-time">最后更新: --:--:--</div>
+        </div>
+
+        <div class="error-msg" id="error-msg">无法连接到数据源...</div>
+    </div>
+
+    <script>
+        // 配置
+        const UPDATE_INTERVAL = 10000; // 每 10 秒刷新一次
+        let currentInstance = 'alas';
+        let chartView = 'day'; // 'line', 'day', 'month'
+
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('instance')) {
+            currentInstance = urlParams.get('instance');
+        }
+
+        // DOM Elements
+        const elBattleRounds = document.getElementById('battle-rounds');
+        const elNetAp = document.getElementById('net-ap');
+        const elAkashiEncounters = document.getElementById('akashi-encounters');
+        const elAkashiProb = document.getElementById('akashi-prob');
+        const elCurrentAp = document.getElementById('current-ap');
+        const elApChange = document.getElementById('ap-change');
+        const elChartTitle = document.getElementById('chart-title');
+        const elUpdateTime = document.getElementById('update-time');
+        const elStatusDot = document.getElementById('status-dot');
+        const elErrorMsg = document.getElementById('error-msg');
+
+        const canvas = document.getElementById('ap-canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Resize observer to handle canvas resolution
+        function resizeCanvas() {
+            const rect = canvas.parentElement.getBoundingClientRect();
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+            canvas.style.width = `${rect.width}px`;
+            canvas.style.height = `${rect.height}px`;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        let timelineData = []; // Cache timeline data
+
+        // 切换图表视图
+        function setChartView(view) {
+            chartView = view;
+            document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`btn-${view}`).classList.add('active');
+
+            if (view === 'line') elChartTitle.textContent = "体力变化 (详细波动)";
+            else if (view === 'day') elChartTitle.textContent = "体力变化 (今日时K)";
+            else if (view === 'month') elChartTitle.textContent = "体力变化 (本月日K)";
+
+            drawChart(timelineData);
+        }
+
+        // 数字动画插值函数
+        function animateValue(obj, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const easeOut = 1 - Math.pow(1 - progress, 4);
+                let current = start + (end - start) * easeOut;
+
+                if (end % 1 !== 0) {
+                    obj.innerHTML = current.toFixed(2);
+                    if (obj.id === 'akashi-prob') obj.innerHTML += '%';
+                } else {
+                    obj.innerHTML = Math.round(current);
+                }
+
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        let prevData = {
+            rounds: 0,
+            netAp: 0,
+            akashi: 0,
+            prob: 0
+        };
+
+        async function fetchData() {
+            try {
+                const statsRes = await fetch(`/api/cl1_stats?instance=${currentInstance}`);
+                const statsData = await statsRes.json();
+
+                const tlRes = await fetch(`/api/ap_timeline?instance=${currentInstance}`);
+                const tlData = await tlRes.json();
+
+                if (statsData.success) {
+                    timelineData = tlData.success ? tlData.data : [];
+                    updateStatsUI(statsData.data);
+                    drawChart(timelineData);
+
+                    elErrorMsg.style.display = 'none';
+                    elStatusDot.style.backgroundColor = '#10b981';
+                    elStatusDot.style.boxShadow = '0 0 10px #10b981';
+                } else {
+                    throw new Error(statsData.error || "未知服务器错误");
+                }
+            } catch (err) {
+                console.error("API获取失败:", err);
+                elErrorMsg.textContent = `连接至 Alas 失败: ${err.message}`;
+                elErrorMsg.style.display = 'block';
+                elStatusDot.style.backgroundColor = '#ef4444';
+                elStatusDot.style.boxShadow = '0 0 10px #ef4444';
+            }
+        }
+
+        function updateStatsUI(stats) {
+            const rounds = parseInt(stats.battle_rounds) || 0;
+            const netAp = parseInt(stats.net_stamina_gain) || 0;
+            const akashi = parseInt(stats.akashi_encounters) || 0;
+            const prob = (parseFloat(stats.akashi_probability) * 100) || 0;
+
+            if (prevData.rounds !== rounds) animateValue(elBattleRounds, prevData.rounds, rounds, 1000);
+            if (prevData.netAp !== netAp) {
+                animateValue(elNetAp, prevData.netAp, netAp, 1000);
+                elNetAp.className = netAp < 0 ? "stat-value warning" : "stat-value success";
+            }
+            if (prevData.akashi !== akashi) animateValue(elAkashiEncounters, prevData.akashi, akashi, 1000);
+            if (prevData.prob !== prob) animateValue(elAkashiProb, prevData.prob, prob, 1000);
+
+            prevData = { rounds, netAp, akashi, prob };
+
+            const now = new Date();
+            elUpdateTime.innerHTML = `最后更新: ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
+        }
+
+        // ==========================================
+        // 图表绘制逻辑
+        // ==========================================
+        function drawChart(timeline) {
+            // 需要刷新 Canvas 的内部分辨率
+            resizeCanvas();
+
+            const W = canvas.clientWidth;
+            const H = canvas.clientHeight;
+
+            ctx.clearRect(0, 0, W, H);
+
+            if (!timeline || timeline.length === 0) {
+                ctx.fillStyle = "#888";
+                ctx.font = "12px sans-serif";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillText("暂无体力数据流", W / 2, H / 2);
+                elCurrentAp.innerHTML = "--";
+                elApChange.innerHTML = "变化: --";
+                return;
+            }
+
+            // 1. 解析原始时间线
+            const rawPoints = [];
+            timeline.forEach(pt => {
+                if (pt.ts) {
+                    rawPoints.push({ dt: new Date(pt.ts), ap: parseInt(pt.ap, 10) });
+                }
+            });
+            rawPoints.sort((a, b) => a.dt - b.dt);
+            if (rawPoints.length === 0) return;
+
+            const currentAp = rawPoints[rawPoints.length - 1].ap;
+            elCurrentAp.innerHTML = currentAp;
+
+            // 2. 聚合数据 (同后端逻辑)
+            const labels = [];
+            const opens = [];
+            const highs = [];
+            const lows = [];
+            const closes = [];
+            const apList = [];
+
+            if (chartView === 'line') {
+                rawPoints.forEach(p => {
+                    apList.push(p.ap);
+                });
+                const apChange = apList.length >= 2 ? apList[apList.length - 1] - apList[0] : 0;
+                updateHeaderChange(apChange);
+            } else {
+                const candles = {};
+                if (chartView === 'day') {
+                    // 今日时K
+                    const todayStr = new Date().toLocaleDateString();
+                    let points = rawPoints.filter(p => p.dt.toLocaleDateString() === todayStr);
+                    if (points.length === 0) {
+                        const lastDateStr = rawPoints[rawPoints.length - 1].dt.toLocaleDateString();
+                        points = rawPoints.filter(p => p.dt.toLocaleDateString() === lastDateStr);
+                    }
+                    points.forEach(p => {
+                        const hourKey = p.dt.getHours().toString().padStart(2, '0') + ':00';
+                        if (!candles[hourKey]) {
+                            candles[hourKey] = { o: p.ap, h: p.ap, l: p.ap, c: p.ap };
+                        } else {
+                            const c = candles[hourKey];
+                            c.h = Math.max(c.h, p.ap);
+                            c.l = Math.min(c.l, p.ap);
+                            c.c = p.ap;
+                        }
+                    });
+                } else if (chartView === 'month') {
+                    // 本月日K
+                    rawPoints.forEach(p => {
+                        const dayKey = (p.dt.getMonth() + 1).toString().padStart(2, '0') + '-' + p.dt.getDate().toString().padStart(2, '0');
+                        if (!candles[dayKey]) {
+                            candles[dayKey] = { o: p.ap, h: p.ap, l: p.ap, c: p.ap };
+                        } else {
+                            const c = candles[dayKey];
+                            c.h = Math.max(c.h, p.ap);
+                            c.l = Math.min(c.l, p.ap);
+                            c.c = p.ap;
+                        }
+                    });
+                }
+
+                for (const [k, v] of Object.entries(candles)) {
+                    labels.push(k);
+                    opens.push(v.o);
+                    highs.push(v.h);
+                    lows.push(v.l);
+                    closes.push(v.c);
+                }
+
+                const apChange = closes.length > 0 ? closes[closes.length - 1] - opens[0] : 0;
+                updateHeaderChange(apChange);
+            }
+
+            function updateHeaderChange(chg) {
+                const isUp = chg >= 0;
+                const sign = isUp ? "+" : "";
+                const color = isUp ? "#ef4444" : "#10b981"; // 红涨绿跌 (A股)
+                elApChange.innerHTML = `变化: <span style="color:${color}">${sign}${chg}</span>`;
+            }
+
+            // 3. 准备渲染参数
+            const nn = chartView === 'line' ? apList.length : labels.length;
+            if (nn === 0) return;
+
+            const pad = { t: 12, r: 10, b: 20, l: 36 };
+            const gW = W - pad.l - pad.r;
+            const gH = H - pad.t - pad.b;
+
+            let allMin = Infinity, allMax = -Infinity;
+            if (chartView === 'line') {
+                for (let i = 0; i < nn; i++) {
+                    if (apList[i] < allMin) allMin = apList[i];
+                    if (apList[i] > allMax) allMax = apList[i];
+                }
+            } else {
+                for (let i = 0; i < nn; i++) {
+                    if (lows[i] < allMin) allMin = lows[i];
+                    if (highs[i] > allMax) allMax = highs[i];
+                }
+            }
+            if (allMin === Infinity) allMin = 0;
+            if (allMax === -Infinity) allMax = 100;
+            const rng = Math.max(allMax - allMin, 1);
+            allMin -= rng * 0.08;
+            allMax += rng * 0.08;
+
+            const xOfLine = (i) => pad.l + (i / Math.max(nn - 1, 1)) * gW;
+            const yOf = (v) => pad.t + gH - ((v - allMin) / (allMax - allMin)) * gH;
+
+            const candleSpace = gW / nn;
+            const candleW = Math.max(3, Math.min(candleSpace * 0.7, 18));
+            const xCenter = (i) => pad.l + candleSpace * (i + 0.5);
+
+            // 绘制网格线
+            ctx.strokeStyle = "rgba(255, 255, 255, 0.05)";
+            ctx.lineWidth = 1;
+            ctx.fillStyle = "#64748b";
+            ctx.font = "9px 'Orbitron', sans-serif";
+            ctx.textAlign = "right";
+            ctx.textBaseline = "middle";
+
+            for (let i = 0; i <= 3; i++) {
+                const v = allMin + (allMax - allMin) * (i / 3);
+                const y = yOf(v);
+                ctx.beginPath();
+                ctx.moveTo(pad.l, y);
+                ctx.lineTo(W - pad.r, y);
+                ctx.stroke();
+                ctx.fillText(Math.round(v), pad.l - 4, y);
+            }
+
+            // 4. 绘制图形系列
+            if (chartView === 'line') {
+                // 折线渐变填充
+                const grad = ctx.createLinearGradient(0, pad.t, 0, pad.t + gH);
+                grad.addColorStop(0, "rgba(56, 189, 248, 0.2)");
+                grad.addColorStop(1, "rgba(56, 189, 248, 0.0)");
+
+                ctx.beginPath();
+                ctx.moveTo(xOfLine(0), yOf(apList[0]));
+                for (let i = 1; i < nn; i++) {
+                    if (nn < 50) {
+                        const cpx = (xOfLine(i - 1) + xOfLine(i)) / 2;
+                        ctx.bezierCurveTo(cpx, yOf(apList[i - 1]), cpx, yOf(apList[i]), xOfLine(i), yOf(apList[i]));
+                    } else {
+                        ctx.lineTo(xOfLine(i), yOf(apList[i]));
+                    }
+                }
+                ctx.lineTo(xOfLine(nn - 1), pad.t + gH);
+                ctx.lineTo(xOfLine(0), pad.t + gH);
+                ctx.closePath();
+                ctx.fillStyle = grad;
+                ctx.fill();
+
+                // 折线线条段 (红涨绿跌片段)
+                ctx.lineWidth = 1.5;
+                ctx.lineJoin = "round";
+                for (let i = 1; i < nn; i++) {
+                    ctx.beginPath();
+                    ctx.moveTo(xOfLine(i - 1), yOf(apList[i - 1]));
+                    ctx.strokeStyle = apList[i] >= apList[i - 1] ? "#ef4444" : "#10b981"; // 红色增加, 绿色减少
+                    if (nn < 50) {
+                        const cpx = (xOfLine(i - 1) + xOfLine(i)) / 2;
+                        ctx.bezierCurveTo(cpx, yOf(apList[i - 1]), cpx, yOf(apList[i]), xOfLine(i), yOf(apList[i]));
+                    } else {
+                        ctx.lineTo(xOfLine(i), yOf(apList[i]));
+                    }
+                    ctx.stroke();
+                }
+
+                // 节点圆圈
+                if (nn < 40) {
+                    for (let i = 0; i < nn; i++) {
+                        ctx.beginPath();
+                        ctx.arc(xOfLine(i), yOf(apList[i]), 3, 0, Math.PI * 2);
+                        ctx.fillStyle = (i > 0 && apList[i] < apList[i - 1]) ? "#10b981" : "#ef4444";
+                        ctx.fill();
+                    }
+                }
+            } else {
+                // K线图
+                for (let i = 0; i < nn; i++) {
+                    const cx = xCenter(i);
+                    const o = opens[i], h = highs[i], l = lows[i], c = closes[i];
+
+                    const isUp = c > o;
+                    const isDown = c < o;
+                    const isFlat = c === o;
+                    const color = isFlat ? "#94a3b8" : (isUp ? "#ef4444" : "#10b981");
+
+                    ctx.strokeStyle = color;
+                    ctx.lineWidth = 1;
+
+                    // Shadow line
+                    ctx.beginPath();
+                    ctx.moveTo(cx, yOf(h));
+                    ctx.lineTo(cx, yOf(l));
+                    ctx.stroke();
+
+                    // Body
+                    const bodyTop = yOf(Math.max(o, c));
+                    const bodyBot = yOf(Math.min(o, c));
+                    const bodyH = Math.max(bodyBot - bodyTop, 1.5);
+
+                    if (isUp || isDown) {
+                        ctx.fillStyle = color;
+                        ctx.fillRect(cx - candleW / 2, bodyTop, candleW, bodyH);
+                    } else {
+                        ctx.beginPath();
+                        ctx.moveTo(cx - candleW / 2, yOf(o));
+                        ctx.lineTo(cx + candleW / 2, yOf(o));
+                        ctx.stroke();
+                    }
+
+                    // 时间标签 (绘制在 pad.b 内部，不超出 canvas)
+                    if (nn <= 24 && chartView === 'day') {
+                        ctx.fillStyle = "#64748b";
+                        ctx.font = "8px sans-serif";
+                        ctx.textAlign = "center";
+                        ctx.textBaseline = "top";
+                        if (i % 2 === 0) {
+                            ctx.fillText(labels[i].split(":")[0], cx, pad.t + gH + 4);
+                        }
+                    } else if (nn <= 31 && chartView === 'month') {
+                        ctx.fillStyle = "#64748b";
+                        ctx.font = "8px sans-serif";
+                        ctx.textAlign = "center";
+                        ctx.textBaseline = "top";
+                        if (i % 3 === 0) {
+                            ctx.fillText(labels[i].split("-")[1], cx, pad.t + gH + 4);
+                        }
+                    }
+                }
+
+                // MA5 (Yellow) & MA10 (Purple)
+                const drawMA = (days, color) => {
+                    if (nn < days) return;
+                    ctx.beginPath();
+                    ctx.lineWidth = 1.2;
+                    ctx.strokeStyle = color;
+                    let started = false;
+                    for (let i = days - 1; i < nn; i++) {
+                        let sum = 0;
+                        for (let j = 0; j < days; j++) sum += closes[i - j];
+                        const maVal = sum / days;
+                        const x = xCenter(i), y = yOf(maVal);
+                        if (!started) { ctx.moveTo(x, y); started = true; }
+                        else { ctx.lineTo(x, y); }
+                    }
+                    ctx.stroke();
+                };
+                drawMA(5, "rgba(250, 204, 21, 0.9)"); // Yellow
+                drawMA(10, "rgba(192, 132, 252, 0.9)"); // Purple
+            }
+        }
+
+        // 初始化
+        fetchData();
+        setInterval(fetchData, UPDATE_INTERVAL);
+    </script>
+</body>
+
+</html>

@@ -54,6 +54,14 @@ def asgi_app(
             name="pywebio_static",
         )
     )
+    
+    try:
+        from module.webui.api import api_routes
+        routes.extend(api_routes)
+    except Exception as e:
+        import logging
+        logging.getLogger(__name__).error(f"Failed to load api routes: {e}")
+
     middleware = [Middleware(HeaderMiddleware)]
     return Starlette(
         routes=routes, middleware=middleware, debug=debug, **starlette_settings
