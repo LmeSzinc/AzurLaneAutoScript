@@ -1216,7 +1216,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
             logger.warning(f'Strategic search interrupted: {e}')
             return False  # 被中断
 
-    def map_rescan_current(self, drop=None):
+    def map_rescan_current(self, drop=None, clicked_grids=None):
         """
 
         Args:
