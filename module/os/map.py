@@ -274,25 +274,38 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
         Returns:
             bool: If repaired.
         """
-        if self.config.OpsiGeneral_RepairThreshold < 0:
+        use_repair_pack = bool(self.config.OpsiGeneral_UseRepairPack) and self.config.SERVER in ['cn']
+        repair_threshold = float(self.config.OpsiGeneral_RepairThreshold)
+        repair_pack_threshold = float(self.config.OpsiGeneral_RepairPackThreshold)
+        if use_repair_pack:
+            # When repair packs are enabled, use the stricter trigger threshold so
+            # low HP repair-pack flow can be entered before port-repair threshold.
+            if repair_threshold < 0:
+                trigger_threshold = repair_pack_threshold
+            else:
+                trigger_threshold = max(repair_threshold, repair_pack_threshold)
+        else:
+            trigger_threshold = repair_threshold
+
+        if trigger_threshold < 0:
             return False
         if self.is_in_special_zone():
             logger.info('OS is in a special zone type, skip fleet repair')
             return False
 
         self.hp_get()
-        check = [round(data, 2) <= self.config.OpsiGeneral_RepairThreshold if use else False
+        check = [round(data, 2) <= trigger_threshold if use else False
                  for data, use in zip(self.hp, self.hp_has_ship)]
         if any(check):
             logger.info('At least one ship is below threshold '
-                        f'{str(int(self.config.OpsiGeneral_RepairThreshold * 100))}%, '
-                        'retreating to nearest azur port for repairs')
+                        f'{str(int(trigger_threshold * 100))}%, '
+                        'start fleet repair by current config')
             self.handle_fleet_repair_by_config(revert=revert)
             self.hp_reset()
             return True
         else:
             logger.info('No ship found to be below threshold '
-                        f'{str(int(self.config.OpsiGeneral_RepairThreshold * 100))}%, '
+                        f'{str(int(trigger_threshold * 100))}%, '
                         'continue OS exploration')
             self.hp_reset()
             return False
