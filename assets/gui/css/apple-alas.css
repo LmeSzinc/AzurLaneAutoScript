@@ -984,7 +984,6 @@ select {
 #pywebio-scope-log:hover,
 .container-log:hover,
 #pywebio-scope-groups>*:not(#pywebio-scope-navigator):hover {
-	transform: translateY(-2px) scale(1.005) !important;
 	box-shadow: var(--alas-apple-shadow-lg) !important;
 }
 
