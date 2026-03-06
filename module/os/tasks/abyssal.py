@@ -150,12 +150,9 @@ class OpsiAbyssal(CoinTaskMixin, OSMap):
                 raise RequestHumanTakeover
 
             self.handle_fleet_repair_by_config(revert=False)
-            
-            # 检查是否还有更多深渊记录器
-            with self.config.temporary(STORY_ALLOW_SKIP=False):
-                has_more = self.storage_get_next_item('ABYSSAL', use_logger=False) is not None
-        
-        self.delay_abyssal(result=has_more)
+
+        # 不在这里预取/结算下一张深渊坐标，避免在后续检查失败时浪费坐标。
+        self.delay_abyssal(result=True)
 
     def os_abyssal(self):
         # ===== 任务开始前黄币检查 =====
