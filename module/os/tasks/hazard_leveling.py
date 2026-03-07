@@ -135,37 +135,20 @@ class OpsiHazard1Leveling(CoinTaskMixin, OSMap):
                     self.config.OpsiHazard1_PreviousCoinsApInsufficient = _previous_coins_ap_insufficient
                     return
 
-                runnable_tasks, cooling_tasks = self._split_coin_tasks_by_cooldown(available_tasks)
-                if cooling_tasks:
-                    for task, next_run in cooling_tasks.items():
-                        logger.info(f'[智能调度] 任务冷却中，暂不唤起: {task_names.get(task, task)} -> {next_run}')
-
-                if not runnable_tasks:
-                    nearest_cd_end = min(cooling_tasks.values()) if cooling_tasks else None
-                    if nearest_cd_end is not None:
-                        logger.info(f'[智能调度] 可用补充任务均在冷却中，延迟侵蚀1至 {nearest_cd_end}')
-                        self.config.task_delay(target=nearest_cd_end)
-                    else:
-                        logger.error('[智能调度] 没有可唤起的补充任务（非冷却）')
-                        self.config.task_delay(minute=60)
-                    self.config.task_stop()
-                    self.config.OpsiHazard1_PreviousCoinsApInsufficient = _previous_coins_ap_insufficient
-                    return
-
-                task_names_str = '、'.join([task_names.get(task, task) for task in runnable_tasks])
+                task_names_str = '、'.join([task_names.get(task, task) for task in available_tasks])
                 self.notify_push(
                     title="[Alas info] 智能调度 - 切换至凭证补充任务",
                     content=f"作战补给凭证 {yellow_coins} 低于保留值 {cl1_preserve}\n行动力: {self._action_point_total} (需要 {meow_ap_preserve})\n切换至 {task_names_str} 获取凭证"
                 )
 
                 with self.config.multi_set():
-                    for task in runnable_tasks:
+                    for task in available_tasks:
                         self.config.task_call(task)
 
-                    if cooling_tasks:
-                        nearest_cd_end = min(cooling_tasks.values())
-                        logger.info(f'[智能调度] 存在冷却中的补充任务，延迟侵蚀1任务至 {nearest_cd_end}')
-                        self.config.task_delay(target=nearest_cd_end)
+                    cd = self.nearest_task_cooling_down
+                    if cd is not None:
+                        logger.info(f'[智能调度] 检测到冷却中的任务 {cd.command}，延迟侵蚀 1 任务至 {cd.next_run}')
+                        self.config.task_delay(target=cd.next_run)
                 self.config.task_stop()
             self.config.OpsiHazard1_PreviousCoinsApInsufficient = _previous_coins_ap_insufficient
 
