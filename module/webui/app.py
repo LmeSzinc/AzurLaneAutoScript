@@ -2362,17 +2362,16 @@ cv.addEventListener("mousemove", function(e) {
             th = yield  # 获取任务处理器引用
             # 首次检查：触发异步获取
             self._start_announcement_fetch(force=False)
-            next_periodic_check = time.time() + 30
-            th._task.delay = 2  # 始终保持短间隔轮询
+            next_periodic_check = time.time() + 5
+            th._task.delay = 0.1   # 始终保持短间隔轮询
             yield
             while True:
                 # 处理已有结果（来自定期检查或手动点击）
                 self._process_announcement_result()
                 # 定期触发新的异步获取
                 if not self._announcement_fetching and time.time() >= next_periodic_check:
-                    logger.info("执行定期公告检查")
                     self._start_announcement_fetch(force=False)
-                    next_periodic_check = time.time() + 30
+                    next_periodic_check = time.time() + 5
                 yield
 
         # 添加公告检查任务（初始延迟5秒）

@@ -288,10 +288,7 @@ class ApiClient:
             timestamp = int(time.time())
             params = {'t': timestamp}
             if current_id is not None:
-                params['id'] = current_id
-            
-            logger.info(f'正在获取公告, params={params}')
-            
+                params['id'] = current_id            
             # 允许 200 (OK) 和 304 (Not Modified)
             success, status_code, response_text = cls._request_with_fallback(
                 'GET',
@@ -299,10 +296,7 @@ class ApiClient:
                 params=params,
                 timeout=timeout,
                 success_codes=[200, 304]
-            )
-            
-            logger.info(f'公告请求结果: success={success}, status={status_code}, response={response_text[:200] if response_text else "empty"}')
-            
+            )            
             if success:
                 # 304 或空内容表示无更新
                 if status_code == 304 or not response_text.strip():
@@ -312,7 +306,6 @@ class ApiClient:
                 import json
                 try:
                     data = json.loads(response_text)
-                    logger.info(f'解析公告数据: {data}')
                     
                     # 如果返回空字典或无ID，也视为无更新
                     if not data or not data.get('announcementId'):
@@ -321,10 +314,8 @@ class ApiClient:
                         
                     # 只要有标题，且有内容 OR 链接，就是有效公告
                     if data.get('title') and (data.get('content') or data.get('url')):
-                        logger.info(f'获取到有效公告: id={data.get("announcementId")}, title={data.get("title")}')
                         return data
                     else:
-                        logger.info(f'公告数据不完整: title={data.get("title")}, content={bool(data.get("content"))}, url={bool(data.get("url"))}')
                         return None
                 except json.JSONDecodeError as e:
                     logger.warning(f'解析公告JSON失败: {e}, response={response_text[:100]}')
