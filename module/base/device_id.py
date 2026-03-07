@@ -13,53 +13,13 @@ from module.logger import logger
 
 def generate_device_id() -> str:
     """
-    基于设备信息生成唯一标识符
+    基于UUID生成唯一标识符
     
     Returns:
         str: 32位十六进制字符串作为设备唯一标识
     """
-    try:
-        # 收集设备信息
-        info_parts = [
-            platform.node(),  # 计算机名
-            platform.machine(),  # 机器类型
-            platform.processor(),  # 处理器信息
-            platform.system(),  # 操作系统
-        ]
-        
-        # 尝试获取MAC地址
-        try:
-            import uuid
-            mac = uuid.getnode()
-            info_parts.append(str(mac))
-        except Exception:
-            pass
-        
-        # 尝试获取磁盘序列号 (Windows)
-        if platform.system() == 'Windows':
-            try:
-                import subprocess
-                result = subprocess.check_output(
-                    'wmic diskdrive get serialnumber',
-                    shell=True,
-                    stderr=subprocess.DEVNULL
-                ).decode('utf-8', errors='ignore')
-                serial = result.split('\n')[1].strip()
-                if serial:
-                    info_parts.append(serial)
-            except Exception:
-                pass
-        
-        # 组合所有信息并生成哈希
-        combined = '|'.join(filter(None, info_parts))
-        device_hash = hashlib.md5(combined.encode('utf-8')).hexdigest()
-        
-        return device_hash
-    except Exception as e:
-        logger.warning(f'Failed to generate device ID: {e}')
-        # 降级方案: 使用随机UUID
-        import uuid
-        return uuid.uuid4().hex
+    import uuid
+    return uuid.uuid1().hex
 
 
 _device_id: Optional[str] = None
