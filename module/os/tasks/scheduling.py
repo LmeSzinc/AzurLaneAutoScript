@@ -181,10 +181,19 @@ class CoinTaskMixin:
         except Exception:
             logger.exception('Failed to report stamina')
 
-        self.notify_push(
-            title="[Alas] 行动力出现变化！",
-            content=f"当前行动力: {current_ap}"
-        )
+
+        # 30-minute interval check for notifications
+        now = datetime.now()
+        last_notify = getattr(self.config, '_last_ap_notification_time', None)
+        if last_notify and now - last_notify < timedelta(minutes=30):
+            logger.info(f"Skip AP notification (Last notified at {last_notify}, wait 30m)")
+        else:
+            self.notify_push(
+                title="[Alas] 行动力出现变化！",
+                content=f"当前行动力: {current_ap}"
+            )
+            self.config._last_ap_notification_time = now
+
     
     # ==================== 黄币阈值相关方法 ====================
     
