@@ -271,7 +271,7 @@ class ApiClient:
         ).start()
     
     @classmethod
-    def get_announcement(cls, timeout: int = 10, current_id: int = None) -> Optional[Dict[str, Any]]:
+    def get_announcement(cls, timeout: int = 1, current_id: int = None) -> Optional[Dict[str, Any]]:
         """
         获取公告信息（同步）
         
