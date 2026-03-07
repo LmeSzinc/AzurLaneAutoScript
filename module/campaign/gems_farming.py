@@ -141,6 +141,8 @@ class GemsEquipmentHandler(EquipmentCodeHandler):
 
 
 class GemsFarming(CampaignRun, FleetEquipment, GemsEquipmentHandler, Retirement):
+    _initial_flagship_check_done = False
+
     def hard_mode_override(self):
         if self.campaign.config.Campaign_Mode == 'hard':
             logger.info('Is in hard mode, switch ship changing method.')
@@ -732,7 +734,12 @@ class GemsFarming(CampaignRun, FleetEquipment, GemsEquipmentHandler, Retirement)
         # Initial check for flagship level.
         # Force a flagship change at the beginning if flagship change is enabled.
         # This solves the problem that the script starts with a level 32 flagship but doesn't retire it.
-        initial_check = self.change_flagship and not self.config.GemsFarming_ALLowHighFlagshipLevel
+        initial_check = (
+            self.change_flagship
+            and not self.config.GemsFarming_ALLowHighFlagshipLevel
+            and not self._initial_flagship_check_done
+        )
+        self._initial_flagship_check_done = True
         while 1:
             self._trigger_lv32 = initial_check
             initial_check = False
