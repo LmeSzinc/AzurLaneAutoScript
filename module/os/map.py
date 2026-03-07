@@ -287,7 +287,12 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
         else:
             trigger_threshold = repair_threshold
 
-        if trigger_threshold < 0:
+        # Threshold <= 0 means disable repair entirely
+        # This is because when a ship dies (shows wrench icon), its HP is set to 0
+        # So threshold=0 would still trigger repair for dead ships, which may not be intended
+        if trigger_threshold <= 0:
+            logger.info(f'Repair threshold: {repair_threshold}, Repair pack threshold: {repair_pack_threshold}, '
+                        f'Trigger threshold: {trigger_threshold}, skip fleet repair')
             return False
         if self.is_in_special_zone():
             logger.info('OS is in a special zone type, skip fleet repair')
@@ -300,7 +305,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
             logger.info('At least one ship is below threshold '
                         f'{str(int(trigger_threshold * 100))}%, '
                         'start fleet repair by current config')
-            self.handle_fleet_repair_by_config(revert=revert)
+            self.handle_fleet_repair_by_config(revert=revert, trigger_threshold=trigger_threshold)
             self.hp_reset()
             return True
         else:
@@ -386,7 +391,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
 
         return success
 
-    def handle_fleet_repair_by_config(self, fleet_index=None, revert=True):
+    def handle_fleet_repair_by_config(self, fleet_index=None, revert=True, trigger_threshold=None):
         """
         Args:
             fleet_index (None|int|list[int]): fleet index
@@ -398,6 +403,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
                 If int, the number of fleet index
                 If list, a list of numbers of fleet index
             revert (bool): If go back to previous zone.
+            trigger_threshold (float): Pre-calculated trigger threshold. If None, will be calculated internally.
 
         Returns:
             bool: If repaired.
@@ -410,7 +416,32 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
             logger.warning(f'OpsiDaily.SkipSirenResearchMission is not supported in {self.config.SERVER}')
             self.config.OpsiGeneral_UseRepairPack = False
 
-        if self.config.OpsiGeneral_UseRepairPack:
+        # Get threshold values
+        repair_threshold = float(self.config.OpsiGeneral_RepairThreshold)
+        repair_pack_threshold = float(self.config.OpsiGeneral_RepairPackThreshold)
+        use_repair_pack = bool(self.config.OpsiGeneral_UseRepairPack) and self.config.SERVER in ['cn']
+
+        # Use provided trigger_threshold or calculate if not provided
+        if trigger_threshold is None:
+            if use_repair_pack:
+                # When repair packs are enabled, use the stricter trigger threshold
+                if repair_threshold < 0:
+                    trigger_threshold = repair_pack_threshold
+                else:
+                    trigger_threshold = max(repair_threshold, repair_pack_threshold)
+            else:
+                trigger_threshold = repair_threshold
+
+            # Check if threshold disables repair
+            # Threshold <= 0 means disable repair entirely
+            # This is because when a ship dies (shows wrench icon), its HP is set to 0
+            # So threshold=0 would still trigger repair for dead ships, which may not be intended
+            if trigger_threshold <= 0:
+                logger.info(f'Repair threshold: {repair_threshold}, Repair pack threshold: {repair_pack_threshold}, '
+                            f'Trigger threshold: {trigger_threshold}, skip fleet repair')
+                return False
+
+        if use_repair_pack:
             if fleet_index is None:
                 fleet_current_index = self.fleet_selector.get()
                 submarine_fleet = self.storage_fleet_selector.SUBMARINE_FLEET
