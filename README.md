@@ -16,8 +16,8 @@
 4. Lme没合的一些陈旧PR等
 5. 自动卡吊机BUG
 6. 舰娘等级识别
-7. 侵蚀1的一些统计啥的
-
+7. 侵蚀1的一些统计
+8. 模拟器管理+
 
 *侵蚀1功能：大部分来自下面
 ## 部分功能（大部分）来自[Zuosizhu(仪表盘等)](https://github.com/Zuosizhu/Alas-with-Dashboard)，[guoh064(大世界等)](https://github.com/guoh064/AzurLaneAutoScript)，[sui-feng-cb(岛屿等)](https://github.com/sui-feng-cb/AzurLaneAutoScript), [雪风源](https://gitee.com/wqeaxc/AzurLaneAutoScriptyukikaze21)
