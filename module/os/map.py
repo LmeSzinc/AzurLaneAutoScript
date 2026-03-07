@@ -1255,17 +1255,23 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
         self.handle_ash_beacon_attack()
 
         logger.hr('Run strategy search', level=2)
-        try:
-            self.os_auto_search_run(strategic=True)
-            self.hp_reset()
-            self.hp_get()
-            return True  # 正常完成
-        except TaskEnd:
-            # 任务切换，让异常继续向上传播
-            raise
-        except Exception as e:
-            logger.warning(f'Strategic search interrupted: {e}')
-            return False  # 被中断
+
+        with self.stat.new(
+                genre=inflection.underscore(self.config.task.command),
+                method=self.config.DropRecord_OpsiRecord
+        ) as drop:
+            try:
+                self.os_auto_search_run(drop, strategic=True)
+                drop.add(self.device.image)
+                self.hp_reset()
+                self.hp_get()
+                return True  # 正常完成
+            except TaskEnd:
+                # 任务切换，让异常继续向上传播
+                raise
+            except Exception as e:
+                logger.warning(f'Strategic search interrupted: {e}')
+                return False  # 被中断
 
     def map_rescan_current(self, drop=None, clicked_grids=None):
         """
