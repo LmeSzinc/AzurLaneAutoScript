@@ -75,6 +75,7 @@ class CoinTaskMixin:
     
     # 短猫相接任务名称
     TASK_NAME_MEOWFFICER_FARMING = 'OpsiMeowfficerFarming'
+    AP_NOTIFY_MIN_INTERVAL_MINUTES = 30
     
     # ==================== 推送通知相关方法 ====================
     
@@ -154,6 +155,21 @@ class CoinTaskMixin:
                     return False
         
         return True
+
+    def _can_send_ap_notification(self, key):
+        """
+        限制体力相关推送的最小发送间隔，避免高频通知。
+        """
+        now = datetime.now()
+        last_notify = getattr(self.config, key, None)
+        min_interval = timedelta(minutes=self.AP_NOTIFY_MIN_INTERVAL_MINUTES)
+        if last_notify and now - last_notify < min_interval:
+            logger.info(
+                f"Skip AP notification ({key}, last: {last_notify}, wait {self.AP_NOTIFY_MIN_INTERVAL_MINUTES}m)"
+            )
+            return False
+        setattr(self.config, key, now)
+        return True
     
     def check_and_notify_action_point_threshold(self):
         """
@@ -182,17 +198,11 @@ class CoinTaskMixin:
             logger.exception('Failed to report stamina')
 
 
-        # 30-minute interval check for notifications
-        now = datetime.now()
-        last_notify = getattr(self.config, '_last_ap_notification_time', None)
-        if last_notify and now - last_notify < timedelta(minutes=30):
-            logger.info(f"Skip AP notification (Last notified at {last_notify}, wait 30m)")
-        else:
+        if self._can_send_ap_notification('_last_ap_notification_time'):
             self.notify_push(
                 title="[Alas] 行动力出现变化！",
                 content=f"当前行动力: {current_ap}"
             )
-            self.config._last_ap_notification_time = now
 
     
     # ==================== 黄币阈值相关方法 ====================
@@ -650,6 +660,9 @@ class OpsiScheduling(CoinTaskMixin, OSMap):
         
         if not self.config.OpsiGeneral_NotifyOpsiMail:
             return
+
+        if not self._can_send_ap_notification('_last_ap_coins_insufficient_notification_time'):
+            return
         
         push_config = self.config.Error_OnePushConfig
         if not self._is_push_config_valid(push_config):
@@ -676,6 +689,9 @@ class OpsiScheduling(CoinTaskMixin, OSMap):
             return
         
         if not self.config.OpsiGeneral_NotifyOpsiMail:
+            return
+
+        if not self._can_send_ap_notification('_last_ap_insufficient_notification_time'):
             return
         
         push_config = self.config.Error_OnePushConfig
@@ -813,6 +829,9 @@ class OpsiScheduling(CoinTaskMixin, OSMap):
             return
         
         if not self.config.OpsiGeneral_NotifyOpsiMail:
+            return
+
+        if not self._can_send_ap_notification('_last_ap_threshold_notification_time'):
             return
         
         push_config = self.config.Error_OnePushConfig
