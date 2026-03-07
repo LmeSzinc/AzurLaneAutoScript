@@ -248,9 +248,9 @@ class ApiClient:
             )
             
             if success:
-                logger.info(f'✓ Stamina reported: {stamina}')
+                logger.info(f'CL1Data Updata Pass: {stamina}')
             else:
-                logger.warning(f'✗ Stamina report failed: {response_text}')
+                logger.warning(f'CL1Data Updata Failed: {response_text}')
         
         except Exception as e:
             logger.exception(f'Unexpected error during stamina report: {e}')
@@ -300,7 +300,6 @@ class ApiClient:
             if success:
                 # 304 或空内容表示无更新
                 if status_code == 304 or not response_text.strip():
-                    logger.info('公告无更新 (304 或空响应)')
                     return None
                     
                 import json

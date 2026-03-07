@@ -2168,7 +2168,6 @@ cv.addEventListener("mousemove", function(e) {
         self._announcement_fetching = True
         self._announcement_force = force
         self._announcement_result = None
-        logger.info(f"Start async announcement fetch (force={force})...")
         threading.Thread(
             target=self._fetch_announcement_thread,
             args=(force,),
