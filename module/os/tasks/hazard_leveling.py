@@ -243,6 +243,7 @@ class OpsiHazard1Leveling(CoinTaskMixin, OSMap):
     def os_hazard1_leveling(self):
         """执行大世界侵蚀 1 练级任务。"""
         logger.hr('OS hazard 1 leveling', level=1)
+
         # 启用随机事件以获得收益
         self.config.override(
             OpsiGeneral_DoRandomMapEvent=True,
