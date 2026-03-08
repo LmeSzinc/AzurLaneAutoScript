@@ -406,6 +406,9 @@ class RewardDorm(UI):
     def buy_food(self):
         """
         Buy 11 navy curries, should only be here when fuel is maxed.
+
+        Returns:
+            bool: If food purchase was confirmed.
         """
         while 1:
             self.device.screenshot()
@@ -413,12 +416,12 @@ class RewardDorm(UI):
             logger.info(f'Current dorm food fuel cost: {cost}')
             if self.appear(FOOD_BUY_COST) and cost > 100:
                 self.appear_then_click(FOOD_BUY_CONFIRM)
-                break
+                return True
             elif self.appear(FOOD_BUY_ADD_10) and cost < 100:
                 self.device.click(FOOD_BUY_ADD_10)
             elif cost > 1000:
                 logger.warning('Incorrect cost for dorm food, abort')
-                break
+                return False
             else:
                 self.device.click(BTN_BUY_CURRY)
 
@@ -529,8 +532,10 @@ class RewardDorm(UI):
             self.dorm_feed_enter()
             if buy_food:
                 logger.hr('Dorm buy food', level=2)
-                self.buy_food()
-                self.config.Dorm_BuyFood = False
+                if self.buy_food():
+                    self.config.Dorm_BuyFood = False
+                else:
+                    logger.warning('Dorm food purchase failed, keep Dorm_BuyFood=True for retry')
             if feed:
                 self.dorm_feed()
             self.dorm_feed_quit()
@@ -632,10 +637,13 @@ class RewardDorm(UI):
             self.config.Scheduler_Enable = False
             self.config.task_stop()
 
+        buy_food = bool(self.config.cross_get(keys='Dorm.Dorm.BuyFood', default=self.config.Dorm_BuyFood))
+        if buy_food != bool(self.config.Dorm_BuyFood):
+            logger.warning(f'Dorm_BuyFood attr/data mismatch: attr={self.config.Dorm_BuyFood}, data={buy_food}')
         self.dorm_run(feed=self.config.Dorm_Feed,
                       collect=self.config.Dorm_Collect,
                       buy_furniture=self.config.BuyFurniture_Enable,
-                      buy_food=self.config.Dorm_BuyFood)
+                      buy_food=buy_food)
 
         # Scheduler
         ships = self.get_dorm_ship_amount()

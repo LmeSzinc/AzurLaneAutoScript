@@ -2510,7 +2510,6 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
-          "event_20220526_cn",
           "event_20260226_cn"
         ],
         "display": "hide",
@@ -2524,10 +2523,9 @@
           "event_20260226_cn"
         ],
         "option_tw": [
-          "event_20220526_cn"
+          "event_20260226_cn"
         ],
         "option_bold": [
-          "event_20220526_cn",
           "event_20260226_cn"
         ]
       },
@@ -8535,7 +8533,7 @@
       "BuyFood": {
         "type": "checkbox",
         "value": false,
-        "display": "hide"
+        "display": "disabled"
       }
     },
     "BuyFurniture": {
@@ -12155,8 +12153,7 @@
       },
       "MissionZones": {
         "type": "stored",
-        "value": null,
-        "display": "hide"
+        "value": null
       }
     },
     "OpsiFleet": {

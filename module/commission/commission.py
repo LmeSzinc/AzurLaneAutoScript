@@ -547,9 +547,16 @@ class RewardCommission(UI, InfoHandler):
                     ocr = Ocr(OCR_FUEL_MAXED, lang='cnocr', letter=(255, 255, 255), threshold=128)
                     text = ocr.ocr(self.device.image)
                     logger.info(f"FUEL_MAXED OCR text: {text}")
-                    if '石油' in text:
+                    normalized_text = str(text).strip().lower()
+                    # Use unicode escapes to avoid source-file encoding issues.
+                    fuel_maxed_keywords = [
+                        '\u77f3\u6cb9',  # \u77f3\u6cb9
+                        '\u71c3\u6cb9',  # \u71c3\u6cb9
+                        'oil',
+                    ]
+                    if any(keyword in normalized_text for keyword in fuel_maxed_keywords):
                         logger.info("Fuel maxed confirmed by OCR, skip reward receive")
-                        
+                    
                         import os
                         import time
                         from PIL import Image
@@ -557,10 +564,19 @@ class RewardCommission(UI, InfoHandler):
                         debug_image_path = f"log/error/FUEL_MAXED_debug_{int(time.time())}.png"
                         Image.fromarray(self.device.image).save(debug_image_path)
                         logger.info(f"Saved OCR-confirmed triggering frame to {debug_image_path}")
-                        
-                        self.config.cross_set('Dorm.Dorm.BuyFood', True)
+                    
+                        # Force-write buy-food flag to config file.
+                        # This avoids losing the flag when multiple config updates happen in one loop.
+                        self.config.modified['Dorm.Dorm.BuyFood'] = True
+                        self.config.save()
                         self.config.task_call('Dorm')
                         self.config.task_delay(minute=1)
+                        # Write again after task_delay(), because it triggers an immediate update().
+                        self.config.modified['Dorm.Dorm.BuyFood'] = True
+                        self.config.save()
+                        logger.info(
+                            f"Dorm buy-food flag set to: {self.config.cross_get('Dorm.Dorm.BuyFood')}"
+                        )
                         self.config.task_stop()
                         break
 
