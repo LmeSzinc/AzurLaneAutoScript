@@ -44,55 +44,55 @@ class AzurLaneAutoScript:
 
     def _try_restart_emulator(self):
         """
-        Try to restart the emulator if AdbOfflineRestart is enabled and threshold not reached.
-        
-        Uses the existing self.device object if available, as it has emulator_instance cached.
-        If not available, falls back to a fresh PlatformWindows (Windows) or PlatformMac (macOS) instance.
-        
+        尝试重启模拟器（如果启用了AdbOfflineRestart且未达到重试上限）。
+
+        如果可用，使用现有的self.device对象（包含emulator_instance缓存）。
+        否则，回退到创建新的PlatformWindows（Windows）或PlatformMac（macOS）实例。
+
         Returns:
-            bool: True if emulator was restarted, False if restart not possible.
+            bool: True如果模拟器重启成功，False如果无法重启。
         """
         import sys
-        
+
         if not self.config.Error_AdbOfflineRestart:
-            logger.warning('AdbOfflineRestart is disabled, cannot auto-restart emulator')
+            logger.warning('AdbOfflineRestart 已禁用，无法自动重启模拟器')
             return False
-        
+
         self.consecutive_adb_offline += 1
         limit = int(self.config.Error_AdbOfflineThreshold)
-        logger.warning(f'EmulatorNotRunningError: consecutive count {self.consecutive_adb_offline}/{limit}')
-        
+        logger.warning(f'EmulatorNotRunningError: 连续次数 {self.consecutive_adb_offline}/{limit}')
+
         if self.consecutive_adb_offline > limit:
-            logger.critical(f'EmulatorNotRunningError: Restart limit ({limit}) reached')
+            logger.critical(f'EmulatorNotRunningError: 已达到重启限制 ({limit})')
             return False
-        
-        logger.hr('Restarting Emulator', level=1)
+
+        logger.hr('正在重启模拟器', level=1)
         try:
-            # Try to get existing device object
+            # 尝试获取现有的设备对象
             device = self.__dict__.get('device', None)
             if device is None:
-                # Fallback: create a PlatformWindows or PlatformMac object based on OS
-                # Note: This might still trigger some detection but is the best fallback if device is missing
+                # 回退：根据操作系统创建PlatformWindows或PlatformMac对象
+                # 注意：这可能会触发一些检测，但这是device缺失时的最佳回退方案
                 if sys.platform == 'darwin':
                     from module.device.platform.platform_mac import PlatformMac
                     device = PlatformMac(self.config)
                 else:
                     from module.device.platform.platform_windows import PlatformWindows
                     device = PlatformWindows(self.config)
-            
-            logger.info('Stopping emulator...')
+
+            logger.info('正在停止模拟器...')
             device.emulator_stop()
             time.sleep(5)
-            logger.info('Starting emulator...')
+            logger.info('正在启动模拟器...')
             device.emulator_start()
-            logger.info('Emulator restart complete')
-            
-            # Clear cached device so next access creates a fresh connection
+            logger.info('模拟器重启完成')
+
+            # 清除缓存的device，以便下次访问时创建新的连接
             if 'device' in self.__dict__:
                 del_cached_property(self, 'device')
             return True
         except Exception as e:
-            logger.error(f'Failed to restart emulator: {e}')
+            logger.error(f'重启模拟器失败: {e}')
             return False
 
     @cached_property
@@ -130,84 +130,18 @@ class AzurLaneAutoScript:
             logger.exception(e)
             exit(1)
 
+    # 原始的run方法已注释，保留作为参考
     # def run(self, command, skip_first_screenshot=False):
-    #     try:
-    #         if not skip_first_screenshot:
-    #             self.device.screenshot()
-    #         self.__getattribute__(command)()
-    #         return True
-    #     except TaskEnd:
-    #         return True
-    #     except GameNotRunningError as e:
-    #         logger.warning(e)
-    #         self.config.task_call('Restart')
-    #         return False
-    #     except (GameStuckError, GameTooManyClickError) as e:
-    #         logger.error(e)
-    #         self.save_error_log()
-    #         logger.warning(f'Game stuck, {self.device.package} will be restarted in 10 seconds')
-    #         logger.warning('If you are playing by hand, please stop Alas')
-    #         self.config.task_call('Restart')
-    #         self.device.sleep(10)
-    #         return False
-    #     except GameBugError as e:
-    #         logger.warning(e)
-    #         self.save_error_log()
-    #         logger.warning('An error has occurred in Azur Lane game client, Alas is unable to handle')
-    #         logger.warning(f'Restarting {self.device.package} to fix it')
-    #         self.config.task_call('Restart')
-    #         self.device.sleep(10)
-    #         return False
-    #     except GamePageUnknownError:
-    #         logger.info('Game server may be under maintenance or network may be broken, check server status now')
-    #         self.checker.check_now()
-    #         if self.checker.is_available():
-    #             logger.critical('Game page unknown')
-    #             self.save_error_log()
-    #             handle_notify(
-    #                 self.config.Error_OnePushConfig,
-    #                 title=f"Alas <{self.config_name}> crashed",
-    #                 content=f"<{self.config_name}> GamePageUnknownError",
-    #             )
-    #             exit(1)
-    #         else:
-    #             self.checker.wait_until_available()
-    #             return False
-    #     except ScriptError as e:
-    #         logger.exception(e)
-    #         logger.critical('This is likely to be a mistake of developers, but sometimes just random issues')
-    #         handle_notify(
-    #             self.config.Error_OnePushConfig,
-    #             title=f"Alas <{self.config_name}> crashed",
-    #             content=f"<{self.config_name}> ScriptError",
-    #         )
-    #         exit(1)
-    #     except RequestHumanTakeover:
-    #         logger.critical('Request human takeover')
-    #         handle_notify(
-    #             self.config.Error_OnePushConfig,
-    #             title=f"Alas <{self.config_name}> crashed",
-    #             content=f"<{self.config_name}> RequestHumanTakeover",
-    #         )
-    #         exit(1)
-    #     except Exception as e:
-    #         logger.exception(e)
-    #         self.save_error_log()
-    #         handle_notify(
-    #             self.config.Error_OnePushConfig,
-    #             title=f"Alas <{self.config_name}> crashed",
-    #             content=f"<{self.config_name}> Exception occured",
-    #         )
-    #         exit(1)
+    #     ...
 
     def run(self, command, skip_first_screenshot=False):
         """
-        Run a task command.
-        
+        运行任务命令。
+
         Returns:
-            True: Task completed successfully
-            False: Task failed with unrecoverable error (counts toward failure limit)
-            'recoverable': Task failed with recoverable error (does NOT count toward failure limit)
+            True: 任务成功完成
+            False: 任务失败且不可恢复（计入失败限制）
+            'recoverable': 任务失败但可恢复（不计入失败限制）
         """
         try:
             if not skip_first_screenshot:
@@ -236,14 +170,14 @@ class AzurLaneAutoScript:
                 limit = int(self.config.Error_GameStuckThreshold)
                 logger.warning(f'GameStuckError: {self.consecutive_game_stuck}/{limit}')
                 if self.consecutive_game_stuck >= limit:
-                    logger.warning('Game stuck too many times, restarting emulator...')
+                    logger.warning('游戏卡住次数过多，正在重启模拟器...')
                     if self._try_restart_emulator():
                         self.consecutive_game_stuck = 0
                         self.config.task_call('Restart')
                         return 'recoverable'
 
-            logger.warning(f'Game stuck, {self.device.package} will be restarted in 10 seconds')
-            logger.warning('If you are playing by hand, please stop Alas')
+            logger.warning(f'游戏卡住，{self.device.package} 将在10秒后重启')
+            logger.warning('如果您正在手动操作，请停止 Alas')
             handle_notify(
                 self.config.Error_OnePushConfig,
                 title=f"Alas <{self.config_name}> 警告",
@@ -256,8 +190,8 @@ class AzurLaneAutoScript:
             # 可恢复错误：游戏客户端 bug，重启即可
             logger.warning(e)
             self.save_error_log()
-            logger.warning('An error has occurred in Azur Lane game client, Alas is unable to handle')
-            logger.warning(f'Restarting {self.device.package} to fix it')
+            logger.warning('碧蓝航线游戏客户端发生错误，Alas 无法处理')
+            logger.warning(f'正在重启 {self.device.package} 以修复问题')
             handle_notify(
                 self.config.Error_OnePushConfig,
                 title=f"Alas <{self.config_name}> 警告",
@@ -267,14 +201,14 @@ class AzurLaneAutoScript:
             self.device.sleep(10)
             return 'recoverable'
         except GamePageUnknownError:
-            logger.info('Game server may be under maintenance or network may be broken, check server status now')
+            logger.info('游戏服务器可能正在维护或网络连接中断，正在检查服务器状态')
             self.checker.check_now()
             if self.checker.is_available():
-                logger.critical('Game page unknown')
+                logger.critical('游戏页面未知')
                 self.save_error_log()
                 handle_notify(
                     self.config.Error_OnePushConfig,
-                    title=f"Alas <{self.config_name}> crashed",
+                    title=f"Alas <{self.config_name}> 崩溃",
                     content=f"<{self.config_name}> GamePageUnknownError",
                 )
                 exit(1)
@@ -283,17 +217,17 @@ class AzurLaneAutoScript:
                 return False
         except ScriptError as e:
             logger.exception(e)
-            logger.critical('This is likely to be a mistake of developers, but sometimes just random issues')
+            logger.critical('这可能是开发者的错误，但有时只是随机问题')
             handle_notify(
                 self.config.Error_OnePushConfig,
-                title=f"Alas <{self.config_name}> crashed",
+                title=f"Alas <{self.config_name}> 崩溃",
                 content=f"<{self.config_name}> ScriptError",
             )
             # exit(1)
             raise
         except EmulatorNotRunningError:
             # 模拟器离线/死机，尝试自动重启模拟器
-            logger.error('EmulatorNotRunningError during task execution')
+            logger.error('任务执行期间模拟器未运行')
             self.save_error_log()
             if self._try_restart_emulator():
                 # 重启成功，调度 Restart 任务重新启动游戏
@@ -306,45 +240,44 @@ class AzurLaneAutoScript:
                 return 'recoverable'
             else:
                 # 重启失败或未启用，终止程序
-                logger.critical('Emulator not running and auto-restart failed or disabled')
+                logger.critical('模拟器未运行且自动重启失败或已禁用')
                 handle_notify(
                     self.config.Error_OnePushConfig,
-                    title=f"Alas <{self.config_name}> crashed",
+                    title=f"Alas <{self.config_name}> 崩溃",
                     content=f"<{self.config_name}> EmulatorNotRunningError",
                 )
                 exit(1)
         except RequestHumanTakeover:
-            logger.critical('Request human takeover')
+            logger.critical('请求人工接管')
             handle_notify(
                 self.config.Error_OnePushConfig,
-                title=f"Alas <{self.config_name}> crashed",
+                title=f"Alas <{self.config_name}> 崩溃",
                 content=f"<{self.config_name}> RequestHumanTakeover",
             )
             exit(1)
         except AutoSearchSetError:
-            logger.critical('Auto search could not be set correctly. Maybe your ships in hard mode are changed.')
-            logger.critical('Request human takeover.')
+            logger.critical('自动搜索无法正确设置。可能是困难模式下的舰船发生了变化。')
+            logger.critical('请求人工接管。')
             exit(1)
         except Exception as e:
             logger.exception(e)
             self.save_error_log()
             handle_notify(
                 self.config.Error_OnePushConfig,
-                title=f"Alas <{self.config_name}> crashed",
-                content=f"<{self.config_name}> Exception occured",
+                title=f"Alas <{self.config_name}> 崩溃",
+                content=f"<{self.config_name}> 发生异常",
             )
             # exit(1)
             raise
 
     def keep_last_errlog(self, folder_path, n: int = 30):
         """
-
-        Keep last n folders in folder_path, delete others.
-        If n is negative or 0, do nothing.(Keep all errlog folders)
+        保留folder_path中的最后n个文件夹，删除其他文件夹。
+        如果n为负数或0，则不执行任何操作（保留所有errlog文件夹）。
 
         Args:
-            folder_path (str): Path to folder.\n
-            n (int): Number of folders to keep.
+            folder_path (str): 文件夹路径。
+            n (int): 要保留的文件夹数量。
         """
         if n <= 0:
             return
@@ -358,8 +291,8 @@ class AzurLaneAutoScript:
 
     def save_error_log(self):
         """
-        Save last 60 screenshots in ./log/error/<config-name>/<timestamp>
-        Save logs to ./log/error/<config-name>/<timestamp>/log.txt
+        保存最后60张截图到 ./log/error/<config-name>/<timestamp>
+        保存日志到 ./log/error/<config-name>/<timestamp>/log.txt
         """
         import pathlib
         from module.base.utils import save_image
@@ -369,7 +302,7 @@ class AzurLaneAutoScript:
             config_folder = pathlib.Path(f"./log/error/{self.config_name}")
             folder = config_folder.joinpath(str(int(time.time() * 1000)))
             folder.mkdir(parents=True, exist_ok=True)
-            logger.warning(f'Saving error: {folder}')
+            logger.warning(f'保存错误日志: {folder}')
 
             for data in self.device.screenshot_deque:
                 image_time = datetime.strftime(data['time'], '%Y-%m-%d_%H-%M-%S-%f')
@@ -401,10 +334,10 @@ class AzurLaneAutoScript:
         from module.handler.login import LoginHandler
         from module.ui.ui import UI
         if self.device.app_is_running():
-            logger.info('App is already running, goto main page')
+            logger.info('应用已在运行，前往主页面')
             UI(self.config, device=self.device).ui_goto_main()
         else:
-            logger.info('App is not running, start app and goto main page')
+            logger.info('应用未运行，启动应用并前往主页面')
             LoginHandler(self.config, device=self.device).app_start()
             UI(self.config, device=self.device).ui_goto_main()
 
@@ -693,13 +626,13 @@ class AzurLaneAutoScript:
 
     def wait_until(self, future):
         """
-        Wait until a specific time.
+        等待直到特定时间。
 
         Args:
             future (datetime):
 
         Returns:
-            bool: True if wait finished, False if config changed.
+            bool: True如果等待完成，False如果配置更改。
         """
         future = future + timedelta(seconds=1)
         self.config.start_watching()
@@ -708,8 +641,8 @@ class AzurLaneAutoScript:
                 return True
             if self.stop_event is not None:
                 if self.stop_event.is_set():
-                    logger.info("Update event detected")
-                    logger.info(f"[{self.config_name}] exited. Reason: Update")
+                    logger.info("检测到更新事件")
+                    logger.info(f"[{self.config_name}] 已退出。原因: 更新")
                     exit(0)
 
             time.sleep(5)
@@ -720,7 +653,7 @@ class AzurLaneAutoScript:
     def get_next_task(self):
         """
         Returns:
-            str: Name of the next task.
+            str: 下一个任务的名称。
         """
         while 1:
             task = self.config.get_next()
@@ -732,11 +665,11 @@ class AzurLaneAutoScript:
                 release_resources(next_task=task.command)
 
             if task.next_run > datetime.now():
-                logger.info(f'Wait until {task.next_run} for task `{task.command}`')
+                logger.info(f'等待直到 {task.next_run} 执行任务 `{task.command}`')
                 self.is_first_task = False
                 method = self.config.Optimization_WhenTaskQueueEmpty
                 if method == 'close_game':
-                    logger.info('Close game during wait')
+                    logger.info('等待期间关闭游戏')
                     self.device.app_stop()
                     release_resources()
                     self.device.release_during_wait()
@@ -748,7 +681,7 @@ class AzurLaneAutoScript:
                         del_cached_property(self, 'config')
                         continue
                 elif method == 'goto_main':
-                    logger.info('Goto main page during wait')
+                    logger.info('等待期间前往主页面')
                     self.run('goto_main')
                     release_resources()
                     self.device.release_during_wait()
@@ -756,14 +689,14 @@ class AzurLaneAutoScript:
                         del_cached_property(self, 'config')
                         continue
                 elif method == 'stay_there':
-                    logger.info('Stay there during wait')
+                    logger.info('等待期间停留在原地')
                     release_resources()
                     self.device.release_during_wait()
                     if not self.wait_until(task.next_run):
                         del_cached_property(self, 'config')
                         continue
                 else:
-                    logger.warning(f'Invalid Optimization_WhenTaskQueueEmpty: {method}, fallback to stay_there')
+                    logger.warning(f'无效的 Optimization_WhenTaskQueueEmpty: {method}, 回退到 stay_there')
                     release_resources()
                     self.device.release_during_wait()
                     if not self.wait_until(task.next_run):
@@ -776,71 +709,71 @@ class AzurLaneAutoScript:
 
     def loop(self):
         logger.set_file_logger(self.config_name)
-        logger.info(f'Start scheduler loop: {self.config_name}')
+        logger.info(f'启动调度器循环: {self.config_name}')
 
-        # --- 初始化计数器 ---
+        # 初始化计数器
         consecutive_global_failures = 0
-        MAX_GLOBAL_FAILURES = 3     # 3 or more，4次及以上会执行长达5分钟的防网络波动等待
-        RESTART_DELAY = 20     # 重启尝试间隔
+        MAX_GLOBAL_FAILURES = 3     # 3次及以上，4次及以上会执行长达5分钟的防网络波动等待
+        RESTART_DELAY = 20          # 重启尝试间隔
         LONG_WAIT = 300
 
         while 1:
             try:
-                # Check update event from GUI
+                # 检查来自GUI的更新事件
                 if self.stop_event is not None:
                     if self.stop_event.is_set():
-                        logger.info("Update event detected")
-                        logger.info(f"Alas [{self.config_name}] exited.")
+                        logger.info("检测到更新事件")
+                        logger.info(f"Alas [{self.config_name}] 已退出。")
                         break
-                # Check game server maintenance
+                # 检查游戏服务器维护
                 self.checker.wait_until_available()
                 if self.checker.is_recovered():
-                    # There is an accidental bug hard to reproduce
-                    # Sometimes, config won't be updated due to blocking
-                    # even though it has been changed
-                    # So update it once recovered
+                    # 有一个难以复现的意外bug
+                    # 有时，由于阻塞，配置不会被更新
+                    # 即使它已经被更改
+                    # 所以在恢复后更新一次
                     del_cached_property(self, 'config')
-                    logger.info('Server or network is recovered. Restart game client')
+                    logger.info('服务器或网络已恢复。重启游戏客户端')
                     self.config.task_call('Restart')
-                # Check scheduled emulator restart (between tasks, won't interrupt running task)
+                # 检查计划的模拟器重启（在任务之间，不会中断正在运行的任务）
                 if self.config.EmulatorManagement_ScheduledEmulatorRestart:
                     elapsed_hours = (time.time() - self.last_emulator_restart_time) / 3600
                     interval = self.config.EmulatorManagement_RestartIntervalHours
                     if elapsed_hours >= interval:
-                        logger.hr('Scheduled Emulator Restart', level=1)
-                        logger.info(f'Emulator has been running for {elapsed_hours:.1f} hours, '
-                                    f'scheduled restart interval is {interval} hours')
+                        logger.hr('计划的模拟器重启', level=1)
+                        logger.info(f'模拟器已运行 {elapsed_hours:.1f} 小时, '
+                                    f'计划重启间隔为 {interval} 小时')
                         if self._try_restart_emulator():
                             self.last_emulator_restart_time = time.time()
                             self.config.task_call('Restart')
                             del_cached_property(self, 'config')
                             continue
                         else:
-                            logger.warning('Scheduled emulator restart failed, continuing normally')
+                            logger.warning('计划的模拟器重启失败，继续正常运行')
 
-                # Get task
+                # 获取任务
                 task = self.get_next_task()
-                # Init device and change server
+                # 初始化设备并更改服务器
                 _ = self.device
                 self.device.config = self.config
-                # Skip first restart
+                # 跳过第一次重启
                 if self.is_first_task and task == 'Restart':
-                    logger.info('Skip task `Restart` at scheduler start')
+                    logger.info('调度器启动时跳过任务 `Restart`')
                     self.config.task_delay(server_update=True)
                     del_cached_property(self, 'config')
                     continue
 
-                # Run
-                logger.info(f'Scheduler: Start task `{task}`')
+                # 运行
+                logger.info(f'调度器: 开始任务 `{task}`')
                 self.device.stuck_record_clear()
                 self.device.click_record_clear()
                 logger.hr(task, level=0)
                 success = self.run(inflection.underscore(task))
-                logger.info(f'Scheduler: End task `{task}`')
+                logger.info(f'调度器: 结束任务 `{task}`')
                 self.is_first_task = False
 
-                # Check failures
-                # @ 单个任务连续失败三次终止程序
+                # 检查失败
+                # 单个任务连续失败三次终止程序
                 # 注意：可恢复错误 (success == 'recoverable') 不计入失败次数
                 failed = deep_get(self.failure_record, keys=task, default=0)
                 if success == True:
@@ -848,22 +781,19 @@ class AzurLaneAutoScript:
                 elif success == 'recoverable':
                     # 可恢复错误（如 GameStuckError），不增加失败计数
                     # 但也不重置，保持之前的计数
-                    logger.info(f'Task `{task}` encountered a recoverable error, not counting toward failure limit')
+                    logger.info(f'任务 `{task}` 遇到可恢复错误，不计入失败限制')
                 else:
                     failed = failed + 1  # 不可恢复错误，增加计数
                 deep_set(self.failure_record, keys=task, value=failed)
-                
+
                 strict_restart = self.config.Error_StrictRestart and failed >= 1 and task in RESTART_SENSITIVE_TASKS
                 if failed >= 3 or strict_restart:
-                    logger.critical(f"Task `{task}` failed {failed} or more times.")
-                    logger.critical("Possible reason #1: You haven't used it correctly. "
-                                    "Please read the help text of the options.")
-                    logger.critical("Possible reason #2: There is a problem with this task. "
-                                    "Please contact developers or try to fix it yourself.")
+                    logger.critical(f"任务 `{task}` 失败 {failed} 次或更多。")
+                    logger.critical("可能原因 #1: 您未正确使用。请阅读选项的帮助文本。")
+                    logger.critical("可能原因 #2: 此任务存在问题。请联系开发者或尝试自行修复。")
                     if strict_restart:
-                        logger.critical("Possible reason #3: This is a restart sensitive task. "
-                                        "Please take over the game manually or turn off 'StrictRestart' option.")
-                    logger.critical('Request human takeover')
+                        logger.critical("可能原因 #3: 这是重启敏感任务。请手动接管游戏或关闭 'StrictRestart' 选项。")
+                    logger.critical('请求人工接管')
                     handle_notify(
                         self.config.Error_OnePushConfig,
                         title=f"Alas <{self.config_name}> crashed",
@@ -875,7 +805,7 @@ class AzurLaneAutoScript:
 
                 if success == True:
                     del_cached_property(self, 'config')
-                    consecutive_global_failures = 0 # Reset global failure counter on successful task
+                    consecutive_global_failures = 0 # 任务成功时重置全局失败计数器
                     self.consecutive_game_stuck = 0
                     self.consecutive_adb_offline = 0
                     continue
@@ -887,46 +817,46 @@ class AzurLaneAutoScript:
                     continue
                 else:
                     break
-            
-            # --- 新增代码：捕获全局异常并执行重启 ---
+
+            # 捕获全局异常并执行重启
             except Exception as e:
                 consecutive_global_failures += 1
                 self.is_first_task = False
-                logger.error("An unexpected global exception occurred in the scheduler loop!")
+                logger.error("调度器循环中发生意外的全局异常！")
                 import traceback
                 logger.error(traceback.format_exc()) # 打印完整的错误堆栈
                 logger.warning(
-                    f">>> This is consecutive global failure #{consecutive_global_failures} of {MAX_GLOBAL_FAILURES}."
+                    f">>> 这是第 {consecutive_global_failures} 次连续全局失败，共 {MAX_GLOBAL_FAILURES} 次。"
                 )
 
-                # --- 检查是否达到重试上限 ---
+                # 检查是否达到重试上限
                 if consecutive_global_failures >= MAX_GLOBAL_FAILURES:
                     logger.critical(
-                        f"Maximum number of consecutive global failures ({MAX_GLOBAL_FAILURES}) reached."
+                        f"已达到最大连续全局失败次数 ({MAX_GLOBAL_FAILURES})。"
                     )
-                    logger.critical("The error appears to be fatal and unrecoverable by restarting.")
+                    logger.critical("错误似乎是致命的，无法通过重启恢复。")
                     self.save_error_log()
-                    logger.critical("Scheduler is now terminating. Manual intervention is required.")
+                    logger.critical("调度器正在终止。需要人工干预。")
                     logger.warning("遇到无法恢复的致命错误，正在上报错误日志...")
-                    ApiClient.submit_bug_log(f"Alas <{self.config_name}> Scheduler terminating.\nMaximum global failures ({MAX_GLOBAL_FAILURES}) reached.\n{traceback.format_exc()}")
+                    ApiClient.submit_bug_log(f"Alas <{self.config_name}> 调度器终止。\n已达到最大全局失败次数 ({MAX_GLOBAL_FAILURES})。\n{traceback.format_exc()}")
                     exit(1)   # 达到上限，强制终止程序
 
-                 # --- 尝试重启 ---
-                logger.warning("Attempting to recover by forcing a RESTART task...")
+                # 尝试重启
+                logger.warning("尝试通过强制执行 RESTART 任务来恢复...")
                 try:
                     # 注入 Restart 任务
                     self.config.task_call('Restart')
                     # 重新加载配置
                     del_cached_property(self, 'config')
-                    logger.info("A `Restart` task has been scheduled for the next loop.")
+                    logger.info("已为下一个循环安排了 `Restart` 任务。")
                 except Exception as restart_e:
-                    logger.error("Failed to even schedule a restart task!")
-                    logger.error(f"Scheduling Error: {restart_e}")
+                    logger.error("甚至无法安排重启任务！")
+                    logger.error(f"安排错误: {restart_e}")
 
-                # --- 等待一段时间后开始下一次循环 ---
+                # 等待一段时间后开始下一次循环
                 wait_seconds = RESTART_DELAY if consecutive_global_failures < 4 else LONG_WAIT
                 logger.info(
-                    f"Scheduler will retry from the beginning in {wait_seconds} seconds."
+                    f"调度器将在 {wait_seconds} 秒后从头重试。"
                 )
                 time.sleep(wait_seconds)
 

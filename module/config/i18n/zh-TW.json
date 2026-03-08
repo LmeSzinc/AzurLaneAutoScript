@@ -29,8 +29,8 @@
       "help": ""
     },
     "Island": {
-      "name": "Menu.Island.name",
-      "help": "Menu.Island.help"
+      "name": "島嶼計劃",
+      "help": ""
     },
     "Tool": {
       "name": "工具",
@@ -47,8 +47,8 @@
       "help": ""
     },
     "Restart": {
-      "name": "Task.Restart.name",
-      "help": "Task.Restart.help"
+      "name": "重啟設置",
+      "help": ""
     },
     "Main": {
       "name": "主線圖",
@@ -87,8 +87,8 @@
       "help": ""
     },
     "RaidScuttle": {
-      "name": "Task.RaidScuttle.name",
-      "help": "Task.RaidScuttle.help"
+      "name": "共鬥沉船",
+      "help": ""
     },
     "Hospital": {
       "name": "深谷来信劇情",
@@ -171,8 +171,8 @@
       "help": ""
     },
     "Island": {
-      "name": "Island",
-      "help": "Task.Island.help"
+      "name": "島嶼計劃",
+      "help": "需要島嶼等級18級並解鎖集成管理面板後使用"
     },
     "Daily": {
       "name": "每日任務",
@@ -211,7 +211,7 @@
       "help": "遊戲幣不會溢出時自動領取遊戲幣，有遊戲幣且獎勵沒滿時自動進行小遊戲"
     },
     "PrivateQuarters": {
-      "name": "宿舍計劃",
+      "name": "私人房間",
       "help": ""
     },
     "OpsiGeneral": {
@@ -279,16 +279,16 @@
       "help": "    Alas將在大世界跨月重置之前10分鐘進入大世界，等待大世界重置但不退出大世界，然後完成新一天的大世界每日、隱秘海域、深淵海域和短貓相接，以獲得額外的金菜。運行大世界每日時，按\"大世界每日\"任務設定運行，其餘同理。\n    重要：Alas等待跨月期間，請不要操作遊戲。"
     },
     "OpsiDailyDelay": {
-      "name": "Task.OpsiDailyDelay.name",
-      "help": "Task.OpsiDailyDelay.help"
+      "name": "大世界每日延遲",
+      "help": ""
     },
     "IslandInfo": {
-      "name": "Task.IslandInfo.name",
-      "help": "Task.IslandInfo.help"
+      "name": "島嶼資訊",
+      "help": ""
     },
     "IslandSeasonTask": {
-      "name": "Task.IslandSeasonTask.name",
-      "help": "Task.IslandSeasonTask.help"
+      "name": "島嶼季節任務",
+      "help": ""
     },
     "Daemon": {
       "name": "半自動點擊",
@@ -303,7 +303,7 @@
       "help": ""
     },
     "BoxDisassemble": {
-      "name": "拆裝備箱",
+      "name": "箱子分解",
       "help": ""
     },
     "Benchmark": {
@@ -4681,12 +4681,12 @@
   },
   "IslandSeasonTask": {
     "_info": {
-      "name": "IslandSeasonTask._info.name",
-      "help": "IslandSeasonTask._info.help"
+      "name": "島嶼季節任務資訊",
+      "help": ""
     },
     "TaskDict": {
-      "name": "IslandSeasonTask.TaskDict.name",
-      "help": "IslandSeasonTask.TaskDict.help"
+      "name": "島嶼季節任務字典",
+      "help": ""
     }
   },
   "IslandTechnology": {

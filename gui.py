@@ -1,5 +1,5 @@
 import os
-import sys  # 核心修复：新增sys模块导入
+import sys
 import threading
 from multiprocessing import Event, Process, set_start_method
 from typing import Optional
@@ -8,60 +8,66 @@ from module.logger import logger
 from module.webui.setting import State
 
 
-def func(ev: Optional[Event]):  # 修正：改为multiprocessing.Event（Optional适配None传参）
+def func(ev: Optional[Event]):
+    """
+    主函数：运行Web服务。
+
+    Args:
+        ev: 可选的重启事件，用于热重载功能
+    """
     import argparse
     import asyncio
-
     import uvicorn
 
-    # 修复：macOS下asyncio兼容配置（补充）
+    # 平台特定的asyncio配置
     if sys.platform == "darwin":
-        # 禁用fork安全检查，解决Mach端口冲突
+        # macOS: 禁用fork安全检查以避免Mach端口冲突
         os.environ["OBJC_DISABLE_INITIALIZE_FORK_SAFETY"] = "YES"
-        # macOS下asyncio事件循环兼容
         asyncio.set_event_loop_policy(asyncio.DefaultEventLoopPolicy())
     elif sys.platform.startswith("win"):
         asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
 
     State.restart_event = ev
 
+    # 解析命令行参数
     parser = argparse.ArgumentParser(description="Alas web service")
     parser.add_argument(
         "--host",
         type=str,
-        help="Host to listen. Default to WebuiHost in deploy setting",
+        help="监听主机。默认使用部署设置中的WebuiHost",
     )
     parser.add_argument(
         "-p",
         "--port",
         type=int,
-        help="Port to listen. Default to WebuiPort in deploy setting",
+        help="监听端口。默认使用部署设置中的WebuiPort",
     )
     parser.add_argument(
-        "-k", "--key", type=str, help="Password of alas. No password by default"
+        "-k", "--key", type=str, help="Alas密码。默认无密码"
     )
     parser.add_argument(
         "--cdn",
         action="store_true",
-        help="Use jsdelivr cdn for pywebio static files (css, js). Self host cdn by default.",
+        help="使用jsdelivr CDN获取pywebio静态文件（css, js）。默认使用自托管CDN",
     )
     parser.add_argument(
-        "--electron", action="store_true", help="Runs by electron client."
+        "--electron", action="store_true", help="由Electron客户端运行"
     )
     parser.add_argument(
-        "--ssl-key", dest="ssl_key", type=str, help="SSL key file path for HTTPS support"
+        "--ssl-key", dest="ssl_key", type=str, help="SSL密钥文件路径，用于HTTPS支持"
     )
     parser.add_argument(
-        "--ssl-cert", type=str, help="SSL certificate file path for HTTPS support"
+        "--ssl-cert", type=str, help="SSL证书文件路径，用于HTTPS支持"
     )
     parser.add_argument(
         "--run",
         nargs="+",
         type=str,
-        help="Run alas by config names on startup",
+        help="启动时运行指定配置的Alas",
     )
     args, _ = parser.parse_known_args()
 
+    # 配置服务器设置
     host = args.host or State.deploy_config.WebuiHost or "0.0.0.0"
     port = args.port or int(State.deploy_config.WebuiPort) or 22267
     ssl_key = args.ssl_key or State.deploy_config.WebuiSSLKey
@@ -69,6 +75,7 @@ def func(ev: Optional[Event]):  # 修正：改为multiprocessing.Event（Optiona
     ssl = ssl_key is not None and ssl_cert is not None
     State.electron = args.electron
 
+    # 记录启动器配置
     logger.hr("Launcher config")
     logger.attr("Host", host)
     logger.attr("Port", port)
@@ -76,18 +83,21 @@ def func(ev: Optional[Event]):  # 修正：改为multiprocessing.Event（Optiona
     logger.attr("Electron", args.electron)
     logger.attr("Reload", ev is not None)
 
+    # Electron客户端特定处理
     if State.electron:
         # https://github.com/LmeSzinc/AzurLaneAutoScript/issues/2051
         logger.info("Electron detected, remove log output to stdout")
         from module.logger import console_hdlr
         logger.removeHandler(console_hdlr)
 
+    # 验证SSL配置
     if ssl_cert is None and ssl_key is not None:
-        logger.error("SSL key provided without certificate. Please provide both SSL key and certificate.")
+        logger.error("提供了SSL密钥但未提供证书。请同时提供SSL密钥和证书。")
     elif ssl_key is None and ssl_cert is not None:
-        logger.error("SSL certificate provided without key. Please provide both SSL key and certificate.")
+        logger.error("提供了SSL证书但未提供密钥。请同时提供SSL密钥和证书。")
 
-    try:  # 新增：捕获uvicorn运行时异常，避免子进程崩溃无日志
+    # 启动uvicorn服务器
+    try:
         if ssl:
             uvicorn.run(
                 "module.webui.app:app",
@@ -100,63 +110,63 @@ def func(ev: Optional[Event]):  # 修正：改为multiprocessing.Event（Optiona
         else:
             uvicorn.run("module.webui.app:app", host=host, port=port, factory=True)
     except Exception as e:
-        logger.error(f"Uvicorn service crashed: {str(e)}")
-        raise  # 抛出异常让父进程感知
+        logger.error(f"Uvicorn服务崩溃: {str(e)}")
+        raise
+
 
 if __name__ == "__main__":
-    # 核心修复：强制设置multiprocessing启动方式为spawn（解决macOS fork导致的Mach端口崩溃）
+    # 设置multiprocessing启动方式为spawn（macOS兼容性要求）
     try:
-        # 优先设置spawn，兼容多平台
         set_start_method("spawn", force=True)
-        # macOS下额外添加环境变量，禁用fork安全检查
+        # 额外的macOS环境配置
         if os.name == "posix" and sys.platform == "darwin":
             os.environ["OBJC_DISABLE_INITIALIZE_FORK_SAFETY"] = "YES"
     except RuntimeError:
-        logger.warning("Failed to set spawn start method, may use fork (not recommended on macOS)")
+        logger.warning("无法设置spawn启动方式，可能使用fork（macOS上不推荐）")
 
+    # 启用热重载模式
     if State.deploy_config.EnableReload:
         should_exit = False
         while not should_exit:
             event = Event()
             process = Process(target=func, args=(event,), name="gui")
             process.start()
-            logger.info(f"Started Alas web service (PID: {process.pid})")
-            
+            logger.info(f"启动Alas Web服务 (PID: {process.pid})")
+
             while not should_exit:
                 try:
-                    # 等待重启事件（1秒超时，避免阻塞）
+                    # 等待重启事件，超时1秒
                     restart_triggered = event.wait(1)
                 except KeyboardInterrupt:
-                    logger.info("Received KeyboardInterrupt, exiting...")
+                    logger.info("收到KeyboardInterrupt，退出中...")
                     should_exit = True
                     break
                 except Exception as e:
-                    logger.error(f"Error waiting for restart event: {str(e)}")
+                    logger.error(f"等待重启事件时出错: {str(e)}")
                     should_exit = True
                     break
 
                 if restart_triggered:
-                    logger.info("Restart event triggered, killing current service...")
+                    logger.info("重启事件触发，终止当前服务...")
                     process.kill()
-                    process.join(timeout=5)  # 新增：等待子进程退出，避免僵尸进程
+                    process.join(timeout=5)
                     if process.is_alive():
-                        logger.warning("Failed to kill service process, force exit")
+                        logger.warning("无法终止服务进程，强制退出")
                     break
                 elif not process.is_alive():
-                    logger.error("Alas web service exited unexpectedly")
+                    logger.error("Alas Web服务意外退出")
                     should_exit = True
-                # 进程仍存活则继续循环
 
             # 确保子进程完全退出
             if process.is_alive():
                 process.terminate()
                 process.join(timeout=3)
-        
-        # 最终清理：确保子进程退出
+
+        # 最终清理
         if process.is_alive():
             process.kill()
             process.join()
-        logger.info("Alas web service exited successfully")
+        logger.info("Alas Web服务已成功退出")
     else:
-        # 非重启模式直接运行
+        # 非重载模式：直接运行
         func(None)

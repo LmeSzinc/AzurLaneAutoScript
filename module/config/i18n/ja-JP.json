@@ -13,8 +13,8 @@
       "help": ""
     },
     "EventDaily": {
-      "name": "Menu.EventDaily.name",
-      "help": "Menu.EventDaily.help"
+      "name": "イベント-日課",
+      "help": ""
     },
     "Reward": {
       "name": "収穫",
@@ -29,8 +29,8 @@
       "help": ""
     },
     "Island": {
-      "name": "Menu.Island.name",
-      "help": "Menu.Island.help"
+      "name": "島計画",
+      "help": ""
     },
     "Tool": {
       "name": "ツール",
@@ -47,8 +47,8 @@
       "help": ""
     },
     "Restart": {
-      "name": "Task.Restart.name",
-      "help": "Task.Restart.help"
+      "name": "再起動設定",
+      "help": ""
     },
     "Main": {
       "name": "メイン海域",
@@ -87,8 +87,8 @@
       "help": ""
     },
     "RaidScuttle": {
-      "name": "Task.RaidScuttle.name",
-      "help": "Task.RaidScuttle.help"
+      "name": "Raid Scuttle",
+      "help": ""
     },
     "Hospital": {
       "name": "病院探訪ストーリー",
@@ -167,12 +167,12 @@
       "help": ""
     },
     "Awaken": {
-      "name": "Task.Awaken.name",
+      "name": "認知覚醒",
       "help": ""
     },
     "Island": {
-      "name": "Island",
-      "help": "Task.Island.help"
+      "name": "島計画",
+      "help": "島嶼レベル18に到達し、統合管理パネルを解放した後に使用してください。"
     },
     "Daily": {
       "name": "デイリー",
@@ -207,12 +207,12 @@
       "help": ""
     },
     "Minigame": {
-      "name": "Task.Minigame.name",
+      "name": "ミニゲーム",
       "help": ""
     },
     "PrivateQuarters": {
-      "name": "Task.PrivateQuarters.name",
-      "help": "Task.PrivateQuarters.help"
+      "name": "寮舎計画",
+      "help": ""
     },
     "OpsiGeneral": {
       "name": "一般設定",
@@ -279,16 +279,16 @@
       "help": "    ALAS will enter OpSi 10min before OpSi reset, wait until OpSi reset but not exit OpSi. Then do the daily, obscure, abyssal and meowfficer farming to get extra gold plates. When running dailies, settings in task \"OpSiDaily\" are used, the rest function are the same.\n    IMPORTANT: Please do not touch the game while ALAS is waiting for OpSi reset."
     },
     "OpsiDailyDelay": {
-      "name": "Task.OpsiDailyDelay.name",
-      "help": "Task.OpsiDailyDelay.help"
+      "name": "セイレーン作戦任務延後+",
+      "help": ""
     },
     "IslandInfo": {
-      "name": "Task.IslandInfo.name",
-      "help": "Task.IslandInfo.help"
+      "name": "島嶼情報(未完成)",
+      "help": ""
     },
     "IslandSeasonTask": {
-      "name": "Task.IslandSeasonTask.name",
-      "help": "Task.IslandSeasonTask.help"
+      "name": "シーズン任務(未完成)",
+      "help": ""
     },
     "Daemon": {
       "name": "半自動クリック",
@@ -303,8 +303,8 @@
       "help": ""
     },
     "BoxDisassemble": {
-      "name": "Task.BoxDisassemble.name",
-      "help": "Task.BoxDisassemble.help"
+      "name": "装備箱分解",
+      "help": ""
     },
     "Benchmark": {
       "name": "機能テスト",
@@ -4681,12 +4681,12 @@
   },
   "IslandSeasonTask": {
     "_info": {
-      "name": "IslandSeasonTask._info.name",
-      "help": "IslandSeasonTask._info.help"
+      "name": "シーズン任務",
+      "help": ""
     },
     "TaskDict": {
-      "name": "IslandSeasonTask.TaskDict.name",
-      "help": "IslandSeasonTask.TaskDict.help"
+      "name": "タスクリスト",
+      "help": ""
     }
   },
   "IslandTechnology": {

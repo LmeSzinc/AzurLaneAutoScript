@@ -29,8 +29,8 @@
       "help": ""
     },
     "Island": {
-      "name": "Menu.Island.name",
-      "help": "Menu.Island.help"
+      "name": "Island Plan",
+      "help": ""
     },
     "Tool": {
       "name": "Tools",
@@ -47,8 +47,8 @@
       "help": ""
     },
     "Restart": {
-      "name": "Task.Restart.name",
-      "help": "Task.Restart.help"
+      "name": "Restart Settings",
+      "help": ""
     },
     "Main": {
       "name": "Main",
@@ -87,7 +87,7 @@
       "help": ""
     },
     "RaidScuttle": {
-      "name": "RaidScuttle",
+      "name": "Raid Scuttle",
       "help": ""
     },
     "Hospital": {
@@ -171,8 +171,8 @@
       "help": ""
     },
     "Island": {
-      "name": "Island",
-      "help": "Task.Island.help"
+      "name": "Island Plan",
+      "help": "Requires Island Level 18 and unlocked Integrated Management Panel"
     },
     "Daily": {
       "name": "Daily",
@@ -279,16 +279,16 @@
       "help": "    ALAS will enter OpSi 10min before OpSi reset, wait until OpSi reset but not exit OpSi. Then do the daily, obscure, abyssal and meowfficer farming to get extra gold plates. When running dailies, settings in task \"OpSiDaily\" are used, the rest function are the same.\n    IMPORTANT: Please do not touch the game while ALAS is waiting for OpSi reset."
     },
     "OpsiDailyDelay": {
-      "name": "Task.OpsiDailyDelay.name",
-      "help": "Task.OpsiDailyDelay.help"
+      "name": "OpSi Daily Delay",
+      "help": ""
     },
     "IslandInfo": {
-      "name": "Task.IslandInfo.name",
-      "help": "Task.IslandInfo.help"
+      "name": "Island Info",
+      "help": ""
     },
     "IslandSeasonTask": {
-      "name": "Task.IslandSeasonTask.name",
-      "help": "Task.IslandSeasonTask.help"
+      "name": "Island Season Task",
+      "help": ""
     },
     "Daemon": {
       "name": "Normal Semi-auto",
@@ -303,8 +303,8 @@
       "help": ""
     },
     "BoxDisassemble": {
-      "name": "Task.BoxDisassemble.name",
-      "help": "Task.BoxDisassemble.help"
+      "name": "Box Disassemble",
+      "help": ""
     },
     "Benchmark": {
       "name": "Performance Test",
@@ -4681,12 +4681,12 @@
   },
   "IslandSeasonTask": {
     "_info": {
-      "name": "IslandSeasonTask._info.name",
-      "help": "IslandSeasonTask._info.help"
+      "name": "Island Season Task Info",
+      "help": ""
     },
     "TaskDict": {
-      "name": "IslandSeasonTask.TaskDict.name",
-      "help": "IslandSeasonTask.TaskDict.help"
+      "name": "Island Season Task Dict",
+      "help": ""
     }
   },
   "IslandTechnology": {
