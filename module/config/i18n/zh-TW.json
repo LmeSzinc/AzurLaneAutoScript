@@ -556,20 +556,20 @@
       "help": ""
     },
     "GameStuckRestart": {
-      "name": "Error.GameStuckRestart.name",
-      "help": "Error.GameStuckRestart.help"
+      "name": "遊戲卡死時重啟模擬器",
+      "help": "在遊戲連續卡死（觸發GameStuckError）達到指定次數後，嘗試重啟模擬器。可能有助於解決模擬器假死或顯存溢出等問題。"
     },
     "GameStuckThreshold": {
-      "name": "Error.GameStuckThreshold.name",
-      "help": "Error.GameStuckThreshold.help"
+      "name": "遊戲卡死重啟閾值",
+      "help": "連續卡死多少次後觸發重啟。"
     },
     "AdbOfflineRestart": {
-      "name": "Error.AdbOfflineRestart.name",
-      "help": "Error.AdbOfflineRestart.help"
+      "name": "檢測不到設備時重啟模擬器",
+      "help": "在連續檢測不到設備（ADB離線或連接失敗）達到指定次數後，嘗試重啟模擬器。"
     },
     "AdbOfflineThreshold": {
-      "name": "Error.AdbOfflineThreshold.name",
-      "help": "Error.AdbOfflineThreshold.help"
+      "name": "檢測不到設備重啟閾值",
+      "help": "連續檢測不到設備多少次後觸發重啟。"
     }
   },
   "Optimization": {
@@ -661,12 +661,12 @@
       "save_and_upload": "保存並上傳"
     },
     "TelemetryReport": {
-      "name": "DropRecord.TelemetryReport.name",
-      "help": "DropRecord.TelemetryReport.help"
+      "name": "遙測數據上報",
+      "help": "啟用後將定期向伺服器匿名上報 CL1 統計數據（戰鬥次數、明石遇見機率等匿名數據）ID生成詳見源碼，統計資訊 https://alas.nanoda.work/"
     },
     "BugReport": {
-      "name": "DropRecord.BugReport.name",
-      "help": "DropRecord.BugReport.help"
+      "name": "Bug 日誌上報",
+      "help": "啟用後將在遇到異常時向伺服器匿名上報 Bug 日誌以幫助改進ID生成詳見源碼"
     }
   },
   "Log": {
@@ -709,47 +709,47 @@
   },
   "PublicEmotion": {
     "_info": {
-      "name": "PublicEmotion._info.name",
-      "help": "PublicEmotion._info.help"
+      "name": "共用心情",
+      "help": "可使用同一隊伍完成多項任務\\n使用該功能時請確保相應任務的艦隊職能為單隊全清，且隊伍為共用隊伍"
     },
     "Enable": {
-      "name": "PublicEmotion.Enable.name",
-      "help": "PublicEmotion.Enable.help"
+      "name": "啟用共用心情功能",
+      "help": "啟用後將使用共用心情，以下心情配置將代替原配置"
     },
     "Tasks": {
-      "name": "PublicEmotion.Tasks.name",
-      "help": "PublicEmotion.Tasks.help"
+      "name": "共用心情任務",
+      "help": "選擇哪些任務使用共用心情"
     },
     "FleetValue": {
-      "name": "PublicEmotion.FleetValue.name",
-      "help": "PublicEmotion.FleetValue.help"
+      "name": "心情值",
+      "help": "隊伍當前的心情值"
     },
     "FleetRecord": {
-      "name": "PublicEmotion.FleetRecord.name",
-      "help": "PublicEmotion.FleetRecord.help"
+      "name": "記錄心情",
+      "help": "記錄隊伍的心情變化"
     },
     "FleetControl": {
-      "name": "PublicEmotion.FleetControl.name",
-      "help": "PublicEmotion.FleetControl.help",
-      "keep_exp_bonus": "PublicEmotion.FleetControl.keep_exp_bonus",
-      "prevent_green_face": "PublicEmotion.FleetControl.prevent_green_face",
-      "prevent_yellow_face": "PublicEmotion.FleetControl.prevent_yellow_face",
-      "prevent_red_face": "PublicEmotion.FleetControl.prevent_red_face"
+      "name": "心情控制",
+      "help": "控制心情的消耗與恢復",
+      "keep_exp_bonus": "保持經驗加成",
+      "prevent_green_face": "避免綠臉",
+      "prevent_yellow_face": "避免黃臉",
+      "prevent_red_face": "避免紅臉"
     },
     "FleetRecover": {
-      "name": "PublicEmotion.FleetRecover.name",
-      "help": "PublicEmotion.FleetRecover.help",
-      "not_in_dormitory": "PublicEmotion.FleetRecover.not_in_dormitory",
-      "dormitory_floor_1": "PublicEmotion.FleetRecover.dormitory_floor_1",
-      "dormitory_floor_2": "PublicEmotion.FleetRecover.dormitory_floor_2"
+      "name": "心情恢復",
+      "help": "選擇心情恢復方式",
+      "not_in_dormitory": "不在宿舍",
+      "dormitory_floor_1": "宿舍一樓",
+      "dormitory_floor_2": "宿舍二樓"
     },
     "FleetOath": {
-      "name": "PublicEmotion.FleetOath.name",
-      "help": "PublicEmotion.FleetOath.help"
+      "name": "誓約",
+      "help": "選擇誓約的艦船"
     },
     "FleetOnsen": {
-      "name": "PublicEmotion.FleetOnsen.name",
-      "help": "PublicEmotion.FleetOnsen.help"
+      "name": "溫泉",
+      "help": "選擇溫泉的艦船"
     }
   },
   "YukikazeTaskManager": {
@@ -1004,8 +1004,8 @@
       "help": ""
     },
     "UseRecommendFleet": {
-      "name": "Campaign.UseRecommendFleet.name",
-      "help": "Campaign.UseRecommendFleet.help"
+      "name": "自動配隊",
+      "help": "使用遊戲內置的推薦陣容自動完成困難圖配隊"
     }
   },
   "StopCondition": {
@@ -1489,15 +1489,15 @@
   },
   "RaidScuttle": {
     "_info": {
-      "name": "RaidScuttle._info.name",
-      "help": "RaidScuttle._info.help"
+      "name": "共鬥沉船",
+      "help": ""
     },
     "Sacrifice": {
-      "name": "RaidScuttle.Sacrifice.name",
-      "help": "RaidScuttle.Sacrifice.help",
-      "vanguard": "vanguard",
-      "flagship": "flagship",
-      "vanguard_flagship": "vanguard_flagship"
+      "name": "犧牲船位置",
+      "help": "",
+      "vanguard": "前排",
+      "flagship": "旗艦",
+      "vanguard_flagship": "前排旗艦"
     }
   },
   "RaidDaily": {
@@ -1765,8 +1765,8 @@
       "help": "一般不需要修改"
     },
     "BuyFood": {
-      "name": "Dorm.BuyFood.name",
-      "help": "Dorm.BuyFood.help"
+      "name": "自動購買食物",
+      "help": "僅作狀態顯示 禁止設置 不要詢問此開關的任何事情"
     }
   },
   "BuyFurniture": {
@@ -1927,12 +1927,12 @@
   },
   "Island1": {
     "_info": {
-      "name": "Island1._info.name",
-      "help": "Island1._info.help"
+      "name": "豐壤農田",
+      "help": ""
     },
     "Receive": {
-      "name": "Island1.Receive.name",
-      "help": "Island1.Receive.help"
+      "name": "收穫豐壤農田",
+      "help": ""
     },
     "Option1": {
       "name": "Island1.Option1.name",
@@ -2073,12 +2073,12 @@
   },
   "Island2": {
     "_info": {
-      "name": "Island2._info.name",
-      "help": "Island2._info.help"
+      "name": "悠然牧場",
+      "help": ""
     },
     "Receive": {
-      "name": "Island2.Receive.name",
-      "help": "Island2.Receive.help"
+      "name": "收穫悠然牧場",
+      "help": ""
     },
     "Option1": {
       "name": "Island2.Option1.name",
@@ -2191,12 +2191,12 @@
   },
   "Island3": {
     "_info": {
-      "name": "Island3._info.name",
-      "help": "Island3._info.help"
+      "name": "啾啾漁場",
+      "help": ""
     },
     "Receive": {
-      "name": "Island3.Receive.name",
-      "help": "Island3.Receive.help"
+      "name": "收穫啾啾漁場",
+      "help": ""
     },
     "Option1": {
       "name": "Island3.Option1.name",
@@ -2327,12 +2327,12 @@
   },
   "Island4": {
     "_info": {
-      "name": "Island4._info.name",
-      "help": "Island4._info.help"
+      "name": "沉石礦山",
+      "help": ""
     },
     "Receive": {
-      "name": "Island4.Receive.name",
-      "help": "Island4.Receive.help"
+      "name": "收穫沉石礦山",
+      "help": ""
     },
     "Option1": {
       "name": "Island4.Option1.name",
@@ -2465,12 +2465,12 @@
   },
   "Island5": {
     "_info": {
-      "name": "Island5._info.name",
-      "help": "Island5._info.help"
+      "name": "翠土林場",
+      "help": ""
     },
     "Receive": {
-      "name": "Island5.Receive.name",
-      "help": "Island5.Receive.help"
+      "name": "收穫翠土林場",
+      "help": ""
     },
     "Option1": {
       "name": "Island5.Option1.name",
@@ -2595,12 +2595,12 @@
   },
   "Island6": {
     "_info": {
-      "name": "Island6._info.name",
-      "help": "Island6._info.help"
+      "name": "墜香果園",
+      "help": ""
     },
     "Receive": {
-      "name": "Island6.Receive.name",
-      "help": "Island6.Receive.help"
+      "name": "收穫墜香果園",
+      "help": ""
     },
     "Option1": {
       "name": "Island6.Option1.name",
@@ -2737,12 +2737,12 @@
   },
   "Island7": {
     "_info": {
-      "name": "Island7._info.name",
-      "help": "Island7._info.help"
+      "name": "青芽苗圃",
+      "help": ""
     },
     "Receive": {
-      "name": "Island7.Receive.name",
-      "help": "Island7.Receive.help"
+      "name": "收穫青芽苗圃",
+      "help": ""
     },
     "Option1": {
       "name": "Island7.Option1.name",
@@ -2817,12 +2817,12 @@
   },
   "Island8": {
     "_info": {
-      "name": "Island8._info.name",
-      "help": "Island8._info.help"
+      "name": "有魚餐館",
+      "help": ""
     },
     "Receive": {
-      "name": "Island8.Receive.name",
-      "help": "Island8.Receive.help"
+      "name": "收穫有魚餐館",
+      "help": ""
     },
     "Option1": {
       "name": "Island8.Option1.name",
@@ -2903,12 +2903,12 @@
   },
   "Island9": {
     "_info": {
-      "name": "Island9._info.name",
-      "help": "Island9._info.help"
+      "name": "白熊飲品",
+      "help": ""
     },
     "Receive": {
-      "name": "Island9.Receive.name",
-      "help": "Island9.Receive.help"
+      "name": "收穫白熊飲品",
+      "help": ""
     },
     "Option1": {
       "name": "Island9.Option1.name",
@@ -2987,12 +2987,12 @@
   },
   "Island10": {
     "_info": {
-      "name": "Island10._info.name",
-      "help": "Island10._info.help"
+      "name": "啾啾簡餐",
+      "help": ""
     },
     "Receive": {
-      "name": "Island10.Receive.name",
-      "help": "Island10.Receive.help"
+      "name": "收穫啾啾簡餐",
+      "help": ""
     },
     "Option1": {
       "name": "Island10.Option1.name",
@@ -3069,12 +3069,12 @@
   },
   "Island11": {
     "_info": {
-      "name": "Island11._info.name",
-      "help": "Island11._info.help"
+      "name": "烏魚烤肉",
+      "help": ""
     },
     "Receive": {
-      "name": "Island11.Receive.name",
-      "help": "Island11.Receive.help"
+      "name": "收穫烏魚烤肉",
+      "help": ""
     },
     "Option1": {
       "name": "Island11.Option1.name",
@@ -3149,12 +3149,12 @@
   },
   "Island12": {
     "_info": {
-      "name": "Island12._info.name",
-      "help": "Island12._info.help"
+      "name": "木料加工設備",
+      "help": ""
     },
     "Receive": {
-      "name": "Island12.Receive.name",
-      "help": "Island12.Receive.help"
+      "name": "收穫木料加工設備",
+      "help": ""
     },
     "Option1": {
       "name": "Island12.Option1.name",
@@ -3223,12 +3223,12 @@
   },
   "Island13": {
     "_info": {
-      "name": "Island13._info.name",
-      "help": "Island13._info.help"
+      "name": "工業生產設備",
+      "help": ""
     },
     "Receive": {
-      "name": "Island13.Receive.name",
-      "help": "Island13.Receive.help"
+      "name": "收穫工業生產設備",
+      "help": ""
     },
     "Option1": {
       "name": "Island13.Option1.name",
@@ -3297,12 +3297,12 @@
   },
   "Island14": {
     "_info": {
-      "name": "Island14._info.name",
-      "help": "Island14._info.help"
+      "name": "電子加工設備",
+      "help": ""
     },
     "Receive": {
-      "name": "Island14.Receive.name",
-      "help": "Island14.Receive.help"
+      "name": "收穫電子加工設備",
+      "help": ""
     },
     "Option1": {
       "name": "Island14.Option1.name",
@@ -3367,12 +3367,12 @@
   },
   "Island15": {
     "_info": {
-      "name": "Island15._info.name",
-      "help": "Island15._info.help"
+      "name": "手工製作設備",
+      "help": ""
     },
     "Receive": {
-      "name": "Island15.Receive.name",
-      "help": "Island15.Receive.help"
+      "name": "收穫手工製作設備",
+      "help": ""
     },
     "Option1": {
       "name": "Island15.Option1.name",
@@ -3447,12 +3447,12 @@
   },
   "Island16": {
     "_info": {
-      "name": "Island16._info.name",
-      "help": "Island16._info.help"
+      "name": "啾咖啡",
+      "help": ""
     },
     "Receive": {
-      "name": "Island16.Receive.name",
-      "help": "Island16.Receive.help"
+      "name": "收穫啾咖啡",
+      "help": ""
     },
     "Option1": {
       "name": "Island16.Option1.name",
@@ -4228,8 +4228,8 @@
       "help": "一般不需要修改，只買行動力和紫幣即可"
     },
     "NotifyOpsiMail": {
-      "name": "OpsiGeneral.NotifyOpsiMail.name",
-      "help": "OpsiGeneral.NotifyOpsiMail.help"
+      "name": "推送大世界相關資訊",
+      "help": "推送關於侵蝕1和短貓的資訊，需要同時開啟「錯誤推送」功能，由於資訊較多，可能會比較吵"
     }
   },
   "OpsiAshBeacon": {
@@ -4260,8 +4260,8 @@
       "help": "在收集滿為前，暫時無視保留行動力設定，需要同時開啟 \"短貓相接\""
     },
     "AutoCollectShip": {
-      "name": "OpsiAshBeacon.AutoCollectShip.name",
-      "help": "OpsiAshBeacon.AutoCollectShip.help"
+      "name": "自動獲取新META艦船",
+      "help": "領取獎勵時自動獲取新META艦船。關閉後將不會點擊「點擊同步」按鈕，需要手動領取"
     }
   },
   "OpsiFleetFilter": {
@@ -4306,16 +4306,16 @@
       "help": "開啟後將帶來額外的行動力消耗，一般不用打開，慢慢打就好"
     },
     "IfSkipSirenResearch": {
-      "name": "OpsiExplore.IfSkipSirenResearch.name",
-      "help": "OpsiExplore.IfSkipSirenResearch.help",
-      "0": "0",
-      "6": "6",
-      "65": "65",
-      "654": "654"
+      "name": "跳過塞壬研究裝置",
+      "help": "開啟後，將跳過對應座標等級的塞壬研究裝置,以方便卡bug\\n經過了幾個海域的初步測試，但未完成一次完整的月度開荒，可能存在未知問題",
+      "0": "不跳過",
+      "6": "跳過6級",
+      "65": "跳過6級和5級",
+      "654": "跳過6級、5級和4級"
     },
     "SkipedSirenResearch": {
-      "name": "OpsiExplore.SkipedSirenResearch.name",
-      "help": "OpsiExplore.SkipedSirenResearch.help"
+      "name": "已經跳過塞壬研究裝置的海域",
+      "help": "這個數值是自動記錄的，不需要手動修改。\\n月初重新開荒時會重置，或者修改「上一次完成的區域」為0並重新運行月度開荒來重置"
     },
     "LastZone": {
       "name": "上一次完成的區域",
@@ -4471,8 +4471,8 @@
       "help": "雪风大人温馨提示:打开这个功能并指定海域后，将会在指定海域进行计划作战，不会再回到港口nanoda!侵蚀三推荐NA海域东南B，侵蚀五推荐卡利比安海B或者C nanoda!"
     },
     "APPreserveUntilReset": {
-      "name": "OpsiMeowfficerFarming.APPreserveUntilReset.name",
-      "help": "OpsiMeowfficerFarming.APPreserveUntilReset.help"
+      "name": "保留行動力直到月底",
+      "help": "'保留 X 點行動力' 設定不會在大世界重置前幾天減少\\n注意：開啟後只會在跨月每日任務中消耗這些行動力，未啟用跨月每日任務時該設定無效，這意味著你需要手動使用這些行動力以獲得更高的收益"
     },
     "SirenDetectorSearch_Enable": {
       "name": "OpsiMeowfficerFarming.SirenDetectorSearch_Enable.name",
@@ -4514,8 +4514,8 @@
       "22": "22 | NA海域西南B"
     },
     "OperationCoinsPreserve": {
-      "name": "OpsiHazard1Leveling.OperationCoinsPreserve.name",
-      "help": "OpsiHazard1Leveling.OperationCoinsPreserve.help"
+      "name": "保留 X 個作戰補給憑證",
+      "help": "作戰補給憑證低於 X 時運行短貓相接，不建議修改"
     },
     "MinimumActionPointReserve": {
       "name": "保留 X 点行动力",
@@ -4562,10 +4562,10 @@
       "help": "OpsiSirenBug.SirenBug_Grid.help"
     },
     "DisableTaskSwitchDuringBug": {
-      "name": "OpsiSirenBug.DisableTaskSwitchDuringBug.name",
-      "help": "OpsiSirenBug.DisableTaskSwitchDuringBug.help",
-      "True": "True",
-      "False": "False"
+      "name": "塞壬研究裝置 Bug 利用期間禁止調度器切換任務",
+      "help": "Bug 利用期間臨時禁用調度器的任務切換檢查，避免被委託、日常等任務打斷\\n如果 Bug 利用過程中經常被其他到時任務中斷，可以啟用此選項",
+      "True": "是",
+      "False": "否"
     },
     "SirenBug_DailyCount": {
       "name": "OpsiSirenBug.SirenBug_DailyCount.name",
@@ -4608,60 +4608,60 @@
   },
   "OpsiScheduling": {
     "_info": {
-      "name": "OpsiScheduling._info.name",
-      "help": "OpsiScheduling._info.help"
+      "name": "智能調度",
+      "help": "大世界智能調度功能，用於協調侵蝕1練級與黃幣補充任務之間的切換\\n啟用後將根據黃幣和行動力自動在不同任務之間切換並發送推送通知\\n\\n原版 Alas 的一些防呆限制已被解除，請謹慎設定參數"
     },
     "UseSmartSchedulingOperationCoinsPreserve": {
-      "name": "OpsiScheduling.UseSmartSchedulingOperationCoinsPreserve.name",
-      "help": "OpsiScheduling.UseSmartSchedulingOperationCoinsPreserve.help",
+      "name": "獲取 X 個作戰補給憑證",
+      "help": "啟用後將使用下方設定的 獲取 X 個作戰補給憑證 的配置，禁用則使用侵蝕1練級 黃幣保留配置\\n關閉後將使用行動力控制\\n打開後使用黃幣控制",
       "True": "True",
       "False": "False"
     },
     "OperationCoinsPreserve": {
-      "name": "OpsiScheduling.OperationCoinsPreserve.name",
-      "help": "OpsiScheduling.OperationCoinsPreserve.help"
+      "name": "侵蝕1練級 保留 X 個作戰補給憑證",
+      "help": "作戰補給憑證低於 X 時運行黃幣補充任務，不建議修改"
     },
     "ActionPointPreserve": {
-      "name": "OpsiScheduling.ActionPointPreserve.name",
-      "help": "OpsiScheduling.ActionPointPreserve.help"
+      "name": "短貓相接 保留 X 點行動力",
+      "help": "行動力低於 X 後停止，自動打開行動力箱子，X 包含箱子中的行動力，建議保留1000行動力給侵蝕1練級"
     },
     "OperationCoinsReturnThreshold": {
-      "name": "OpsiScheduling.OperationCoinsReturnThreshold.name",
-      "help": "OpsiScheduling.OperationCoinsReturnThreshold.help"
+      "name": "獲取 X 個作戰補給憑證",
+      "help": "在黃幣獲取任務時 共獲取(增加) X 個作戰補給憑證後返回侵蝕1練級"
     },
     "EnableMeowfficerFarming": {
-      "name": "OpsiScheduling.EnableMeowfficerFarming.name",
-      "help": "OpsiScheduling.EnableMeowfficerFarming.help",
-      "True": "True",
-      "False": "False"
+      "name": "啟用短貓相接",
+      "help": "智能調度中是否啟用短貓相接任務來補充黃幣",
+      "True": "已啟用",
+      "False": "未啟用"
     },
     "EnableObscure": {
-      "name": "OpsiScheduling.EnableObscure.name",
-      "help": "OpsiScheduling.EnableObscure.help",
-      "True": "True",
-      "False": "False"
+      "name": "啟用隱秘海域",
+      "help": "智能調度中是否啟用隱秘海域任務來補充黃幣",
+      "True": "已啟用",
+      "False": "未啟用"
     },
     "EnableAbyssal": {
-      "name": "OpsiScheduling.EnableAbyssal.name",
-      "help": "OpsiScheduling.EnableAbyssal.help",
-      "True": "True",
-      "False": "False"
+      "name": "啟用深淵海域",
+      "help": "智能調度中是否啟用深淵海域任務來補充黃幣",
+      "True": "已啟用",
+      "False": "未啟用"
     },
     "EnableStronghold": {
-      "name": "OpsiScheduling.EnableStronghold.name",
-      "help": "OpsiScheduling.EnableStronghold.help",
-      "True": "True",
-      "False": "False"
+      "name": "啟用塞壬要塞",
+      "help": "智能調度中是否啟用塞壬要塞任務來補充黃幣",
+      "True": "已啟用",
+      "False": "未啟用"
     }
   },
   "OpsiDailyDelay": {
     "_info": {
-      "name": "OpsiDailyDelay._info.name",
-      "help": "OpsiDailyDelay._info.help"
+      "name": "大世界任務延後",
+      "help": "在每日0點伺服器重啟前的可設定時間段內，將侵蝕一和短貓任務自動延後至次日0點重啟完成後再執行"
     },
     "TriggerMinutesBeforeReset": {
-      "name": "OpsiDailyDelay.TriggerMinutesBeforeReset.name",
-      "help": "OpsiDailyDelay.TriggerMinutesBeforeReset.help",
+      "name": "提前觸發時間（分鐘）",
+      "help": "在每日0點前多少分鐘觸發任務延後，範圍1-60分鐘，預設5分鐘",
       "1": "1",
       "2": "2",
       "3": "3",
@@ -4691,12 +4691,12 @@
   },
   "IslandTechnology": {
     "_info": {
-      "name": "IslandTechnology._info.name",
-      "help": "IslandTechnology._info.help"
+      "name": "島嶼科技",
+      "help": ""
     },
     "TechnologyStatus": {
-      "name": "IslandTechnology.TechnologyStatus.name",
-      "help": "IslandTechnology.TechnologyStatus.help"
+      "name": "科技列表",
+      "help": "Alas會自動導出列表"
     }
   },
   "Daemon": {
@@ -4809,16 +4809,16 @@
   },
   "EmulatorManagement": {
     "_info": {
-      "name": "EmulatorManagement._info.name",
-      "help": "EmulatorManagement._info.help"
+      "name": "模擬器管理",
+      "help": ""
     },
     "ScheduledEmulatorRestart": {
-      "name": "EmulatorManagement.ScheduledEmulatorRestart.name",
-      "help": "EmulatorManagement.ScheduledEmulatorRestart.help"
+      "name": "定時重啟模擬器",
+      "help": "啟用後，每隔指定時間自動重啟模擬器，避免長時間運行導致的記憶體洩漏或卡頓問題。重啟會等當前任務完成後再執行。"
     },
     "RestartIntervalHours": {
-      "name": "EmulatorManagement.RestartIntervalHours.name",
-      "help": "EmulatorManagement.RestartIntervalHours.help"
+      "name": "重啟間隔（小時）",
+      "help": "每隔多少小時自動重啟一次模擬器。"
     }
   },
   "Storage": {
@@ -4827,8 +4827,8 @@
       "help": "存放任務內部狀態，任務異常時可以手動清除"
     },
     "Storage": {
-      "name": "Storage.Storage.name",
-      "help": "Storage.Storage.help"
+      "name": "任務狀態",
+      "help": "存放任務內部狀態，任務異常時可以手動清除"
     }
   },
   "Gui": {

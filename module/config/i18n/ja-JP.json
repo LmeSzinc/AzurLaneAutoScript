@@ -321,126 +321,126 @@
   },
   "Scheduler": {
     "_info": {
-      "name": "Scheduler._info.name",
-      "help": "Scheduler._info.help"
+      "name": "タスク設定",
+      "help": ""
     },
     "Enable": {
-      "name": "Scheduler.Enable.name",
-      "help": "Scheduler.Enable.help",
-      "True": "True",
-      "False": "False"
+      "name": "この機能を有効化",
+      "help": "このタスクをスケジューラーに追加します。\n委託、研究、収穫タスクは強制的に有効になります。",
+      "True": "有効",
+      "False": "無効"
     },
     "NextRun": {
-      "name": "Scheduler.NextRun.name",
-      "help": "Scheduler.NextRun.help"
+      "name": "次回実行時刻",
+      "help": "自動計算された数値です。手動で変更する必要はありません。空にすると即座に実行されます。"
     },
     "Command": {
-      "name": "Scheduler.Command.name",
-      "help": "Scheduler.Command.help"
+      "name": "内部タスク名",
+      "help": ""
     },
     "SuccessInterval": {
-      "name": "Scheduler.SuccessInterval.name",
-      "help": "Scheduler.SuccessInterval.help"
+      "name": "実行成功後、次回実行を X 分遅らせる",
+      "help": ""
     },
     "FailureInterval": {
-      "name": "Scheduler.FailureInterval.name",
-      "help": "Scheduler.FailureInterval.help"
+      "name": "実行失敗後、次回実行を X 分遅らせる",
+      "help": ""
     },
     "ServerUpdate": {
-      "name": "Scheduler.ServerUpdate.name",
-      "help": "Scheduler.ServerUpdate.help"
+      "name": "サーバー更新時刻",
+      "help": "一部のタスク実行成功後、次回実行をサーバー更新時刻に遅らせます。\n自動でタイムゾーンを変換します。通常は変更する必要はありません。"
     }
   },
   "Emulator": {
     "_info": {
-      "name": "Emulator._info.name",
-      "help": "Emulator._info.help"
+      "name": "エミュレーター設定",
+      "help": ""
     },
     "Serial": {
-      "name": "Emulator.Serial.name",
-      "help": "Emulator.Serial.help"
+      "name": "エミュレーター Serial",
+      "help": "一般的なエミュレーターの Serial は下記リストで確認できます。\n\"auto\" を入力するとエミュレーターを自動検出します。複数のエミュレーターが実行中、または自動検出をサポートしていないエミュレーターを使用している場合は \"auto\" は使用できません。手動で入力する必要があります。\n\nエミュレーターのデフォルト Serial:\n- ブルースタック 127.0.0.1:5555\n- ブルースタック4 Hyper-v版、\"bluestacks4-hyperv\" で自動接続、複数起動は \"bluestacks4-hyperv-2\" 以此類推\n- ブルースタック5 Hyper-v版、\"bluestacks5-hyperv\" で自動接続、複数起動は \"bluestacks5-hyperv-1\" 以此類推\n- 夜神模拟器 127.0.0.1:62001\n- 夜神模拟器64位 127.0.0.1:59865\n- MuMu模拟器/MuMu模拟器X 127.0.0.1:7555\n- MuMu模拟器12 127.0.0.1:16384\n- MuMu Pro (macOS) 127.0.0.1:16384、複数起動は順番に 127.0.0.1:16416, 127.0.0.1:16448 ...\n- 逍遥模拟器 127.0.0.1:21503\n- 電神模拟器 emulator-5554 または 127.0.0.1:5555\nエミュレーターの複数起動機能を使用している場合、Serial はデフォルトではありません。console.bat で `adb devices` を実行して確認するか、エミュレーター公式のチュートリアルに従って入力してください。"
     },
     "PackageName": {
-      "name": "Emulator.PackageName.name",
-      "help": "Emulator.PackageName.help",
-      "auto": "auto",
-      "com.bilibili.azurlane": "CN",
-      "com.YoStarEN.AzurLane": "EN",
-      "com.YoStarJP.AzurLane": "JP",
-      "com.hkmanjuu.azurlane.gp": "TW",
-      "com.bilibili.blhx.huawei": "CN com.bilibili.blhx.huawei",
-      "com.bilibili.blhx.honor": "CN com.bilibili.blhx.honor",
-      "com.bilibili.blhx.mi": "CN com.bilibili.blhx.mi",
-      "com.tencent.tmgp.bilibili.blhx": "CN com.tencent.tmgp.bilibili.blhx",
-      "com.bilibili.blhx.baidu": "CN com.bilibili.blhx.baidu",
-      "com.bilibili.blhx.qihoo": "CN com.bilibili.blhx.qihoo",
-      "com.bilibili.blhx.nearme.gamecenter": "CN com.bilibili.blhx.nearme.gamecenter",
-      "com.bilibili.blhx.vivo": "CN com.bilibili.blhx.vivo",
-      "com.bilibili.blhx.mz": "CN com.bilibili.blhx.mz",
-      "com.bilibili.blhx.dl": "CN com.bilibili.blhx.dl",
-      "com.bilibili.blhx.lenovo": "CN com.bilibili.blhx.lenovo",
-      "com.bilibili.blhx.uc": "CN com.bilibili.blhx.uc",
-      "com.bilibili.blhx.mzw": "CN com.bilibili.blhx.mzw",
-      "com.yiwu.blhx.yx15": "CN com.yiwu.blhx.yx15",
-      "com.bilibili.blhx.m4399": "CN com.bilibili.blhx.m4399",
-      "com.bilibili.blhx.bilibiliMove": "CN com.bilibili.blhx.bilibiliMove",
-      "com.hkmanjuu.azurlane.gp.mc": "TW com.hkmanjuu.azurlane.gp.mc"
+      "name": "ゲームサーバー",
+      "help": "エミュレーターに複数のゲームクライアントがインストールされている場合、手動でサーバーを選択する必要があります。",
+      "auto": "自動検出",
+      "com.bilibili.azurlane": "国服",
+      "com.YoStarEN.AzurLane": "国際服",
+      "com.YoStarJP.AzurLane": "日服",
+      "com.hkmanjuu.azurlane.gp": "台服",
+      "com.bilibili.blhx.huawei": "国服 Huaweiチャネル com.bilibili.blhx.huawei",
+      "com.bilibili.blhx.honor": "国服 Honorチャネル com.bilibili.blhx.honor",
+      "com.bilibili.blhx.mi": "国服 Xiaomiチャネル com.bilibili.blhx.mi",
+      "com.tencent.tmgp.bilibili.blhx": "国服 Tencent応用宝チャネル com.tencent.tmgp.bilibili.blhx",
+      "com.bilibili.blhx.baidu": "国服 Baiduチャネル com.bilibili.blhx.baidu",
+      "com.bilibili.blhx.qihoo": "国服 360チャネル com.bilibili.blhx.qihoo",
+      "com.bilibili.blhx.nearme.gamecenter": "国服 oppoチャネル com.bilibili.blhx.nearme.gamecenter",
+      "com.bilibili.blhx.vivo": "国服 vivoチャネル com.bilibili.blhx.vivo",
+      "com.bilibili.blhx.mz": "国服 魅族チャネル com.bilibili.blhx.mz",
+      "com.bilibili.blhx.dl": "国服 当楽チャネル com.bilibili.blhx.dl",
+      "com.bilibili.blhx.lenovo": "国服 Lenovoチャネル com.bilibili.blhx.lenovo",
+      "com.bilibili.blhx.uc": "国服 UC九游チャネル com.bilibili.blhx.uc",
+      "com.bilibili.blhx.mzw": "国服 拇指玩チャネル com.bilibili.blhx.mzw",
+      "com.yiwu.blhx.yx15": "国服 一五ゲームチャネル com.yiwu.blhx.yx15",
+      "com.bilibili.blhx.m4399": "国服 4399チャネル com.bilibili.blhx.m4399",
+      "com.bilibili.blhx.bilibiliMove": "国服 移行チャネル com.bilibili.blhx.bilibiliMove",
+      "com.hkmanjuu.azurlane.gp.mc": "台服 com.hkmanjuu.azurlane.gp.mc"
     },
     "ServerName": {
-      "name": "Emulator.ServerName.name",
-      "help": "Emulator.ServerName.help",
-      "disabled": "disabled",
-      "cn_android-0": "[国服] 莱茵演习",
-      "cn_android-1": "[国服] 巴巴罗萨",
-      "cn_android-2": "[国服] 霸王行动",
-      "cn_android-3": "[国服] 冰山行动",
-      "cn_android-4": "[国服] 彩虹计划",
-      "cn_android-5": "[国服] 发电机计划",
-      "cn_android-6": "[国服] 瞭望台行动",
-      "cn_android-7": "[国服] 十字路口行动",
-      "cn_android-8": "[国服] 朱诺行动",
-      "cn_android-9": "[国服] 杜立特空袭",
-      "cn_android-10": "[国服] 地狱犬行动",
-      "cn_android-11": "[国服] 开罗宣言",
-      "cn_android-12": "[国服] 奥林匹克行动",
-      "cn_android-13": "[国服] 小王冠行动",
-      "cn_android-14": "[国服] 波茨坦公告",
-      "cn_android-15": "[国服] 白色方案",
-      "cn_android-16": "[国服] 瓦尔基里行动",
-      "cn_android-17": "[国服] 曼哈顿计划",
-      "cn_android-18": "[国服] 八月风暴",
-      "cn_android-19": "[国服] 秋季旅行",
-      "cn_android-20": "[国服] 水星行动",
-      "cn_android-21": "[国服] 莱茵河卫兵",
-      "cn_android-22": "[国服] 北极光计划",
-      "cn_android-23": "[国服] 长戟计划",
-      "cn_android-24": "[国服] 暴雨行动",
-      "cn_android-25": "[国服] 水仙行动",
-      "cn_android-26": "[国服] 冬月计划",
-      "cn_android-27": "[国服] 长弓计划",
-      "cn_android-28": "[国服] 裁决协议",
-      "cn_ios-0": "[国服] 夏威夷",
-      "cn_ios-1": "[国服] 珊瑚海",
-      "cn_ios-2": "[国服] 中途岛",
-      "cn_ios-3": "[国服] 铁底湾",
-      "cn_ios-4": "[国服] 所罗门",
-      "cn_ios-5": "[国服] 马里亚纳",
-      "cn_ios-6": "[国服] 莱特湾",
-      "cn_ios-7": "[国服] 硫磺岛",
-      "cn_ios-8": "[国服] 冲绳岛",
-      "cn_ios-9": "[国服] 阿留申群岛",
-      "cn_ios-10": "[国服] 马耳他",
-      "cn_channel-0": "[国服] 皇家巡游",
-      "cn_channel-1": "[国服] 大西洋宪章",
-      "cn_channel-2": "[国服] 十字军行动",
-      "cn_channel-3": "[国服] 龙骑兵行动",
-      "cn_channel-4": "[国服] 冥王星行动",
-      "en-0": "[EN] Avrora",
-      "en-1": "[EN] Lexington",
-      "en-2": "[EN] Sandy",
-      "en-3": "[EN] Washington",
-      "en-4": "[EN] Amagi",
-      "en-5": "[EN] Little Enterprise",
+      "name": "ゲーム内サーバー",
+      "help": "ゲーム内所在的服务器を選択してサーバー状態検出を有効にします。\nサーバーのメンテナンスやネットワークが利用できない場合、回復するまで一時停止します。",
+      "disabled": "検出を使用しない",
+      "cn_android-0": "[国服] ライン演習",
+      "cn_android-1": "[国服] バルバロッサ",
+      "cn_android-2": "[国服] バトル・オブ・ザ・ビスマルク",
+      "cn_android-3": "[国服] アイスバーグ作戦",
+      "cn_android-4": "[国服] レインボープラン",
+      "cn_android-5": "[国服] ダイナモ作戦",
+      "cn_android-6": "[国服] ロックアウト作戦",
+      "cn_android-7": "[国服] クロスロード作戦",
+      "cn_android-8": "[国服] ジュノ作戦",
+      "cn_android-9": "[国服] ドーリットル空襲",
+      "cn_android-10": "[国服] ケルベロス作戦",
+      "cn_android-11": "[国服] カイロ宣言",
+      "cn_android-12": "[国服] オリンピック作戦",
+      "cn_android-13": "[国服] リトル・クラウン作戦",
+      "cn_android-14": "[国服] ポツダム宣言",
+      "cn_android-15": "[国服] ホワイトプラン",
+      "cn_android-16": "[国服] ワルキューレ作戦",
+      "cn_android-17": "[国服] マンハッタンプロジェクト",
+      "cn_android-18": "[国服] オーガストストーム",
+      "cn_android-19": "[国服] オータムトラベル",
+      "cn_android-20": "[国服] マーキュリー作戦",
+      "cn_android-21": "[国服] ラインの守護者",
+      "cn_android-22": "[国服] オーロラプロジェクト",
+      "cn_android-23": "[国服] ハルバードプロジェクト",
+      "cn_android-24": "[国服] レイン作戦",
+      "cn_android-25": "[国服] ナルシス作戦",
+      "cn_android-26": "[国服] ウィンタープラン",
+      "cn_android-27": "[国服] ロングボウプロジェクト",
+      "cn_android-28": "[国服] バーディクト協定",
+      "cn_ios-0": "[国服] ハワイ",
+      "cn_ios-1": "[国服] コーラルシー",
+      "cn_ios-2": "[国服] ミッドウェー",
+      "cn_ios-3": "[国服] アイアンボトムサウンド",
+      "cn_ios-4": "[国服] ソロモン",
+      "cn_ios-5": "[国服] マリアナ",
+      "cn_ios-6": "[国服] レイテ湾",
+      "cn_ios-7": "[国服] イオウジマ",
+      "cn_ios-8": "[国服] オキナワ",
+      "cn_ios-9": "[国服] アリューシャン諸島",
+      "cn_ios-10": "[国服] マルタ",
+      "cn_channel-0": "[国服] ロイヤルクルーズ",
+      "cn_channel-1": "[国服] 大西洋憲章",
+      "cn_channel-2": "[国服] クルセイダー作戦",
+      "cn_channel-3": "[国服] ドラグーン作戦",
+      "cn_channel-4": "[国服] プルート作戦",
+      "en-0": "[EN] アヴロラ",
+      "en-1": "[EN] レキシントン",
+      "en-2": "[EN] サンディー",
+      "en-3": "[EN] ワシントン",
+      "en-4": "[EN] アマギ",
+      "en-5": "[EN] リトルエンタープライズ",
       "jp-0": "[JP] ブレスト",
       "jp-1": "[JP] 横須賀",
       "jp-2": "[JP] 佐世保",
@@ -461,9 +461,9 @@
       "jp-17": "[JP] スイートバン"
     },
     "ScreenshotMethod": {
-      "name": "Emulator.ScreenshotMethod.name",
-      "help": "Emulator.ScreenshotMethod.help",
-      "auto": "auto",
+      "name": "エミュレーター スクリーンショット方式",
+      "help": "自動選択を使用すると、パフォーマンステストを実行し、最速のスクリーンショット方式に自動的に変更します。\n一般的な速度: DroidCast_raw >> aScreenCap_nc > ADB_nc >>> aScreenCap > uiautomator2 ~= ADB\n最速の方式を見つけるには、ツール - パフォーマンステスト を実行してください。",
+      "auto": "最速のものを自動選択",
       "ADB": "ADB",
       "ADB_nc": "ADB_nc",
       "uiautomator2": "uiautomator2",
@@ -475,8 +475,8 @@
       "ldopengl": "ldopengl"
     },
     "ControlMethod": {
-      "name": "Emulator.ControlMethod.name",
-      "help": "Emulator.ControlMethod.help",
+      "name": "エミュレーター制御方式",
+      "help": "速度: minitouch > Hermit >>> uiautomator2 ~= ADB\nminitouchを選択することをお勧めします。vmos下でない限りHermitは選択しないでください。",
       "ADB": "ADB",
       "uiautomator2": "uiautomator2",
       "minitouch": "minitouch",
@@ -484,210 +484,210 @@
       "MaaTouch": "MaaTouch"
     },
     "ScreenshotDedithering": {
-      "name": "Emulator.ScreenshotDedithering.name",
-      "help": "Emulator.ScreenshotDedithering.help"
+      "name": "画像の色の抖動を除去",
+      "help": "スマホで実行する場合に有効化してください。"
     },
     "AdbRestart": {
-      "name": "Emulator.AdbRestart.name",
-      "help": "Emulator.AdbRestart.help"
+      "name": "デバイスが検出できない場合にadbを再起動",
+      "help": ""
     }
   },
   "EmulatorInfo": {
     "_info": {
-      "name": "EmulatorInfo._info.name",
-      "help": "EmulatorInfo._info.help"
+      "name": "エミュレーター設定",
+      "help": "以下の数値はSerialに基づいて自動入力されます。分からなければ随意修改しないでください。ポートを変更すると、対応するインスタンスを自動起動できます。"
     },
     "Emulator": {
-      "name": "EmulatorInfo.Emulator.name",
-      "help": "EmulatorInfo.Emulator.help",
-      "auto": "auto",
-      "NoxPlayer": "NoxPlayer",
-      "NoxPlayer64": "NoxPlayer64",
-      "BlueStacks4": "BlueStacks4",
-      "BlueStacks5": "BlueStacks5",
-      "BlueStacks4HyperV": "BlueStacks4HyperV",
-      "BlueStacks5HyperV": "BlueStacks5HyperV",
-      "LDPlayer3": "LDPlayer3",
-      "LDPlayer4": "LDPlayer4",
-      "LDPlayer9": "LDPlayer9",
-      "MuMuPlayer": "MuMuPlayer",
-      "MuMuPlayerX": "MuMuPlayerX",
-      "MuMuPlayer12": "MuMuPlayer12",
-      "MEmuPlayer": "MEmuPlayer",
+      "name": "エミュレーター種類",
+      "help": "",
+      "auto": "自動検出",
+      "NoxPlayer": "夜神模拟器",
+      "NoxPlayer64": "夜神模拟器64位",
+      "BlueStacks4": "ブルースタック4",
+      "BlueStacks5": "ブルースタック5",
+      "BlueStacks4HyperV": "ブルースタック4 Hyper-V",
+      "BlueStacks5HyperV": "ブルースタック5 Hyper-V",
+      "LDPlayer3": "電神模拟器3",
+      "LDPlayer4": "電神模拟器4",
+      "LDPlayer9": "電神模拟器9",
+      "MuMuPlayer": "MuMu模拟器",
+      "MuMuPlayerX": "MuMu模拟器X",
+      "MuMuPlayer12": "MuMu模拟器12",
+      "MEmuPlayer": "逍遥模拟器",
       "BlueStacksAir": "BlueStacksAir",
       "MuMuPro": "MuMuPro"
     },
     "name": {
-      "name": "EmulatorInfo.name.name",
-      "help": "EmulatorInfo.name.help"
+      "name": "エミュレーターインスタンス名",
+      "help": ""
     },
     "path": {
-      "name": "EmulatorInfo.path.name",
-      "help": "EmulatorInfo.path.help"
+      "name": "エミュレーターインストールパス",
+      "help": ""
     }
   },
   "Error": {
     "_info": {
-      "name": "Error._info.name",
-      "help": "Error._info.help"
+      "name": "デバッグ設定",
+      "help": ""
     },
     "HandleError": {
-      "name": "Error.HandleError.name",
-      "help": "Error.HandleError.help"
+      "name": "例外処理を有効化",
+      "help": "一部の例外を処理し、実行エラー時に撤退します。"
     },
     "SaveError": {
-      "name": "Error.SaveError.name",
-      "help": "Error.SaveError.help"
+      "name": "エラー発生時、ログとスクリーンショットを保存",
+      "help": ""
     },
     "StrictRestart": {
-      "name": "Error.StrictRestart.name",
-      "help": "Error.StrictRestart.help"
+      "name": "重要タスクエラー時の再起動を禁止",
+      "help": "重要タスク実行中にエラーが発生した場合、Alasを停止し、ゲームを再起動しません。\n重要タスクには、隠秘海域、深淵海域、跨月每日が含まれます。"
     },
     "SaveErrorCount": {
-      "name": "Error.SaveErrorCount.name",
-      "help": "Error.SaveErrorCount.help"
+      "name": "エラーログ保存上限",
+      "help": "上限を超えたエラーログは削除されます。0または負の値にすると制限はありません。"
     },
     "OnePushConfig": {
-      "name": "Error.OnePushConfig.name",
-      "help": "Error.OnePushConfig.help"
+      "name": "エラー通知設定",
+      "help": "処理できない例外が発生した後、Onepushを使用してエラー情報を1件推送します。設定方法はドキュメントを参照してください：https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Onepush-configuration-%5BCN%5D"
     },
     "ScreenshotLength": {
-      "name": "Error.ScreenshotLength.name",
-      "help": "Error.ScreenshotLength.help"
+      "name": "エラー発生時、最後の X 枚のスクリーンショットを保持",
+      "help": ""
     },
     "GameStuckRestart": {
-      "name": "Error.GameStuckRestart.name",
-      "help": "Error.GameStuckRestart.help"
+      "name": "ゲームフリーズ時にエミュレータを再起動",
+      "help": "ゲームが連続でフリーズ（GameStuckErrorが発生）して指定回数に達した後、エミュレータの再起動を試みます。エミュレータの仮死状態やメモリオーバーフローなどの問題を解決するのに役立つ可能性があります。"
     },
     "GameStuckThreshold": {
-      "name": "Error.GameStuckThreshold.name",
-      "help": "Error.GameStuckThreshold.help"
+      "name": "ゲームフリーズ再起動閾値",
+      "help": "連続でフリーズした回数が指定値に達すると再起動をトリガーします。"
     },
     "AdbOfflineRestart": {
-      "name": "Error.AdbOfflineRestart.name",
-      "help": "Error.AdbOfflineRestart.help"
+      "name": "デバイスが検出できない場合にエミュレータを再起動",
+      "help": "デバイスが連続で検出できない（ADBオフラインまたは接続失敗）して指定回数に達した後、エミュレータの再起動を試みます。"
     },
     "AdbOfflineThreshold": {
-      "name": "Error.AdbOfflineThreshold.name",
-      "help": "Error.AdbOfflineThreshold.help"
+      "name": "デバイスが検出できない再起動閾値",
+      "help": "デバイスが連続で検出できない回数が指定値に達すると再起動をトリガーします。"
     }
   },
   "Optimization": {
     "_info": {
-      "name": "Optimization._info.name",
-      "help": "Optimization._info.help"
+      "name": "最適化設定",
+      "help": ""
     },
     "ScreenshotInterval": {
-      "name": "Optimization.ScreenshotInterval.name",
-      "help": "Optimization.ScreenshotInterval.help"
+      "name": "スクリーンショット速度を X 秒に落とす",
+      "help": "スクリーンショット実行間の最小間隔。0.1 ~ 0.3 に制限され、高スペックPCでCPU使用率を低減できます。"
     },
     "CombatScreenshotInterval": {
-      "name": "Optimization.CombatScreenshotInterval.name",
-      "help": "Optimization.CombatScreenshotInterval.help"
+      "name": "戦闘中、スクリーンショット速度を X 秒に落とす",
+      "help": "スクリーンショット実行間の最小間隔。0.3 ~ 1.0 に制限され、戦闘時のCPU使用率を低減できます。"
     },
     "TaskHoardingDuration": {
-      "name": "Optimization.TaskHoardingDuration.name",
-      "help": "Optimization.TaskHoardingDuration.help"
+      "name": "タスクを X 分間蓄積",
+      "help": "収穫期間中、ゲーム操作の頻度を下げることができます。\nタスクがトリガーされた後、X 分間待機し、蓄積されたタスクを一度に実行します。"
     },
     "WhenTaskQueueEmpty": {
-      "name": "Optimization.WhenTaskQueueEmpty.name",
-      "help": "Optimization.WhenTaskQueueEmpty.help",
-      "stay_there": "stay_there",
-      "goto_main": "goto_main",
-      "close_game": "close_game"
+      "name": "タスクキューが空になった後",
+      "help": "タスクがない場合にゲームを終了し、収穫期間中のCPU使用率を低減できます。",
+      "stay_there": "その場に留まる",
+      "goto_main": "メイン画面へ移動",
+      "close_game": "ゲームを終了"
     }
   },
   "DropRecord": {
     "_info": {
-      "name": "DropRecord._info.name",
-      "help": "DropRecord._info.help"
+      "name": "ドロップ記録",
+      "help": ""
     },
     "SaveFolder": {
-      "name": "DropRecord.SaveFolder.name",
-      "help": "DropRecord.SaveFolder.help"
+      "name": "ドロップ保存ディレクトリ",
+      "help": ""
     },
     "AzurStatsID": {
-      "name": "DropRecord.AzurStatsID.name",
-      "help": "DropRecord.AzurStatsID.help"
+      "name": "AzurStat ID",
+      "help": "https://azur-stats.lyoko.io にアップロードする際、宣言するクライアントIDです。\nランダムな文字で構成されており、自由に変更できます。"
     },
     "API": {
-      "name": "DropRecord.API.name",
-      "help": "DropRecord.API.help",
-      "default": "default",
-      "cn_gz_reverse_proxy": "cn_gz_reverse_proxy"
+      "name": "アップロード回線",
+      "help": "国内ユーザーがAzurStatに接続できない場合、\"国内リバースプロキシ\"を使用できます。",
+      "default": "デフォルト (Cloudflare)",
+      "cn_gz_reverse_proxy": "国内リバースプロキシ (広州)"
     },
     "ResearchRecord": {
-      "name": "DropRecord.ResearchRecord.name",
-      "help": "DropRecord.ResearchRecord.help",
-      "do_not": "do_not",
-      "save": "save",
-      "upload": "upload",
-      "save_and_upload": "save_and_upload"
+      "name": "研究スクリーンショット",
+      "help": "",
+      "do_not": "操作なし",
+      "save": "保存",
+      "upload": "アップロード",
+      "save_and_upload": "保存してアップロード"
     },
     "CommissionRecord": {
-      "name": "DropRecord.CommissionRecord.name",
-      "help": "DropRecord.CommissionRecord.help",
-      "do_not": "do_not",
-      "save": "save",
-      "upload": "upload",
-      "save_and_upload": "save_and_upload"
+      "name": "委託スクリーンショット",
+      "help": "",
+      "do_not": "操作なし",
+      "save": "保存",
+      "upload": "アップロード",
+      "save_and_upload": "保存してアップロード"
     },
     "CombatRecord": {
-      "name": "DropRecord.CombatRecord.name",
-      "help": "DropRecord.CombatRecord.help",
-      "do_not": "do_not",
-      "save": "save"
+      "name": "戦闘ドロップスクリーンショット",
+      "help": "有効にすると、清算時のクリック速度が遅くなります。\n自律捜索では動作しません。",
+      "do_not": "操作なし",
+      "save": "保存"
     },
     "OpsiRecord": {
-      "name": "DropRecord.OpsiRecord.name",
-      "help": "DropRecord.OpsiRecord.help",
-      "do_not": "do_not",
-      "save": "save",
-      "upload": "upload",
-      "save_and_upload": "save_and_upload"
+      "name": "大世界ドロップスクリーンショット",
+      "help": "",
+      "do_not": "操作なし",
+      "save": "保存",
+      "upload": "アップロード",
+      "save_and_upload": "保存してアップロード"
     },
     "MeowfficerBuy": {
-      "name": "DropRecord.MeowfficerBuy.name",
-      "help": "DropRecord.MeowfficerBuy.help",
-      "do_not": "do_not",
-      "save": "save"
+      "name": "指揮喵購入スクリーンショット",
+      "help": "",
+      "do_not": "操作なし",
+      "save": "保存"
     },
     "MeowfficerTalent": {
-      "name": "DropRecord.MeowfficerTalent.name",
-      "help": "DropRecord.MeowfficerTalent.help",
-      "do_not": "do_not",
-      "save": "save",
-      "upload": "upload",
-      "save_and_upload": "save_and_upload"
+      "name": "指揮喵天赋スクリーンショット",
+      "help": "",
+      "do_not": "操作なし",
+      "save": "保存",
+      "upload": "アップロード",
+      "save_and_upload": "保存してアップロード"
     },
     "TelemetryReport": {
-      "name": "DropRecord.TelemetryReport.name",
-      "help": "DropRecord.TelemetryReport.help"
+      "name": "テレメトリーデータ報告",
+      "help": "有効にすると、定期的にサーバーに匿名でCL1統計データ（戦闘回数、明石遭遇確率など）を報告します。ID生成はソースコードを参照、統計情報は https://alas.nanoda.work/"
     },
     "BugReport": {
-      "name": "DropRecord.BugReport.name",
-      "help": "DropRecord.BugReport.help"
+      "name": "Bugログ報告",
+      "help": "有効にすると、例外が発生した際にサーバーに匿名でBugログを報告し、改善に役立てます。ID生成はソースコードを参照。"
     }
   },
   "Log": {
     "_info": {
-      "name": "Log._info.name",
-      "help": "Log._info.help"
+      "name": "ログ",
+      "help": "スケジューラー再起動後に有効になります。"
     },
     "LogKeepCount": {
-      "name": "Log.LogKeepCount.name",
-      "help": "Log.LogKeepCount.help"
+      "name": "ログ保持数",
+      "help": "ログの有効期限（日）"
     },
     "LogBackUpMethod": {
-      "name": "Log.LogBackUpMethod.name",
-      "help": "Log.LogBackUpMethod.help",
-      "delete": "delete",
-      "zip": "zip",
-      "copy": "copy"
+      "name": "期限切れログ処理方式",
+      "help": "バックアップディレクトリは ./log/bak です。",
+      "delete": "削除",
+      "zip": "圧縮バックアップ",
+      "copy": "コピー backup"
     },
     "ZipMethod": {
-      "name": "Log.ZipMethod.name",
-      "help": "Log.ZipMethod.help",
+      "name": "圧縮形式",
+      "help": "",
       "bz2": "bz2",
       "gzip": "gzip",
       "xz": "xz",
@@ -696,60 +696,60 @@
   },
   "Retirement": {
     "_info": {
-      "name": "Retirement._info.name",
-      "help": "Retirement._info.help"
+      "name": "退役設定",
+      "help": ""
     },
     "RetireMode": {
-      "name": "Retirement.RetireMode.name",
-      "help": "Retirement.RetireMode.help",
-      "one_click_retire": "one_click_retire",
-      "enhance": "enhance",
-      "old_retire": "old_retire"
+      "name": "退役モード",
+      "help": "強化を選択した場合、強化素材不足時に一键退役に戻ります。",
+      "one_click_retire": "一键退役",
+      "enhance": "強化",
+      "old_retire": "伝統退役"
     }
   },
   "PublicEmotion": {
     "_info": {
-      "name": "PublicEmotion._info.name",
-      "help": "PublicEmotion._info.help"
+      "name": "共用感情",
+      "help": "同じ艦隊で複数のタスクを完了できます。\nこの機能を使用する場合、対応するタスクの艦隊機能が単一艦隊全クリアで、かつ艦隊が共用艦隊であることを確認してください。"
     },
     "Enable": {
-      "name": "PublicEmotion.Enable.name",
-      "help": "PublicEmotion.Enable.help"
+      "name": "共用感情機能を有効化",
+      "help": "有効にすると共用感情を使用し、以下の感情設定が元の設定に代わります。"
     },
     "Tasks": {
-      "name": "PublicEmotion.Tasks.name",
-      "help": "PublicEmotion.Tasks.help"
+      "name": "共用感情タスク",
+      "help": "共用感情を使用するタスクを選択し、カンマで区切ります。例: \"Main, Event, EventA\"\n主线图-1: Main, 主线图-2: Main2, 主线图-3: Main3\n活动图-1: Event, 活动图-2: Event2, 作战档案: WarArchives\n每日A图: EventA, 每日B图: EventB, 每日C图: EventC, 每日D图: EventD, 每日SP图: EventSp"
     },
     "FleetValue": {
-      "name": "PublicEmotion.FleetValue.name",
-      "help": "PublicEmotion.FleetValue.help"
+      "name": "感情値",
+      "help": ""
     },
     "FleetRecord": {
-      "name": "PublicEmotion.FleetRecord.name",
-      "help": "PublicEmotion.FleetRecord.help"
+      "name": "感情記録時間",
+      "help": ""
     },
     "FleetControl": {
-      "name": "PublicEmotion.FleetControl.name",
-      "help": "PublicEmotion.FleetControl.help",
-      "keep_exp_bonus": "PublicEmotion.FleetControl.keep_exp_bonus",
-      "prevent_green_face": "PublicEmotion.FleetControl.prevent_green_face",
-      "prevent_yellow_face": "PublicEmotion.FleetControl.prevent_yellow_face",
-      "prevent_red_face": "PublicEmotion.FleetControl.prevent_red_face"
+      "name": "感情制御",
+      "help": "",
+      "keep_exp_bonus": "経験値ボーナスを維持 (>120)",
+      "prevent_green_face": "緑顔を防止 (>40)",
+      "prevent_yellow_face": "黄顔を防止 (>30)",
+      "prevent_red_face": "赤顔を防止 (>0)"
     },
     "FleetRecover": {
-      "name": "PublicEmotion.FleetRecover.name",
-      "help": "PublicEmotion.FleetRecover.help",
-      "not_in_dormitory": "PublicEmotion.FleetRecover.not_in_dormitory",
-      "dormitory_floor_1": "PublicEmotion.FleetRecover.dormitory_floor_1",
-      "dormitory_floor_2": "PublicEmotion.FleetRecover.dormitory_floor_2"
+      "name": "感情回復",
+      "help": "",
+      "not_in_dormitory": "後宅に配置されていない (20/h)",
+      "dormitory_floor_1": "後宅一階 (40/h)",
+      "dormitory_floor_2": "後宅二階 (50/h)"
     },
     "FleetOath": {
-      "name": "PublicEmotion.FleetOath.name",
-      "help": "PublicEmotion.FleetOath.help"
+      "name": "全員結婚済み (+10/h)",
+      "help": ""
     },
     "FleetOnsen": {
-      "name": "PublicEmotion.FleetOnsen.name",
-      "help": "PublicEmotion.FleetOnsen.help"
+      "name": "全員温泉に配置済み (+10/h)",
+      "help": ""
     }
   },
   "YukikazeTaskManager": {
@@ -764,8 +764,8 @@
   },
   "OneClickRetire": {
     "_info": {
-      "name": "OneClickRetire._info.name",
-      "help": "OneClickRetire._info.help"
+      "name": "一键退役設定",
+      "help": "「退役モード」が「一键退役」に設定されている場合のみ有効です。"
     },
     "KeepLimitBreak": {
       "name": "OneClickRetire.KeepLimitBreak.name",
@@ -776,64 +776,64 @@
   },
   "Enhance": {
     "_info": {
-      "name": "Enhance._info.name",
-      "help": "Enhance._info.help"
+      "name": "強化設定",
+      "help": "「退役モード」が「強化」に設定されている場合のみ有効です。"
     },
     "ShipToEnhance": {
-      "name": "Enhance.ShipToEnhance.name",
-      "help": "Enhance.ShipToEnhance.help",
-      "all": "all",
-      "favourite": "favourite"
+      "name": "強化する艦船",
+      "help": "",
+      "all": "全艦船を強化",
+      "favourite": "常用艦船のみ強化"
     },
     "Filter": {
-      "name": "Enhance.Filter.name",
-      "help": "Enhance.Filter.help"
+      "name": "強化フィルター文字列",
+      "help": "形式: \"cv > bb > ...\"、\n空白の場合はデフォルトの強化方式を使用します。"
     },
     "CheckPerCategory": {
-      "name": "Enhance.CheckPerCategory.name",
-      "help": "Enhance.CheckPerCategory.help"
+      "name": "分類ごとの強化数",
+      "help": "各艦船分類で強化する最大艦船数。\n戦闘中の艦船はスキップされ、カウントされません。\n強化素材があるかを優先的に判断します。"
     }
   },
   "OldRetire": {
     "_info": {
-      "name": "OldRetire._info.name",
-      "help": "OldRetire._info.help"
+      "name": "伝統退役設定",
+      "help": "「退役モード」が「伝統退役」に設定されている場合のみ有効です。\n注意：伝統退役はキャラのレアリティに基づいており、ブリを退役する可能性があります。"
     },
     "N": {
-      "name": "OldRetire.N.name",
-      "help": "OldRetire.N.help"
+      "name": "退役白皮 ( N )",
+      "help": ""
     },
     "R": {
-      "name": "OldRetire.R.name",
-      "help": "OldRetire.R.help"
+      "name": "退役青皮 ( R )",
+      "help": ""
     },
     "SR": {
-      "name": "OldRetire.SR.name",
-      "help": "OldRetire.SR.help"
+      "name": "退役紫皮 ( SR )",
+      "help": ""
     },
     "SSR": {
-      "name": "OldRetire.SSR.name",
-      "help": "OldRetire.SSR.help"
+      "name": "退役金皮 ( SSR )",
+      "help": ""
     },
     "RetireAmount": {
-      "name": "OldRetire.RetireAmount.name",
-      "help": "OldRetire.RetireAmount.help",
-      "retire_all": "retire_all",
-      "retire_10": "retire_10"
+      "name": "退役数",
+      "help": "",
+      "retire_all": "全退役",
+      "retire_10": "10個退役"
     }
   },
   "Campaign": {
     "_info": {
-      "name": "Campaign._info.name",
-      "help": "Campaign._info.help"
-    },
-    "Name": {
-      "name": "Campaign.Name.name",
+      "name": "ステージ設定",
       "help": ""
     },
+    "Name": {
+      "name": "ステージ名（7-2-3と入力すると7-2三戦撤退を使用）",
+      "help": "例: 7-2, 12-4, D3, SP4（大文字小文字を区別しない）\nステージがない場合は更新をお待ちください。"
+    },
     "Event": {
-      "name": "Campaign.Event.name",
-      "help": "Campaign.Event.help",
+      "name": "イベント名",
+      "help": "最新のイベントを自動選択",
       "campaign_main": "campaign_main",
       "coalition_20230323": "星霜海嵐",
       "coalition_20240627": "リトル学園へようこそ",
@@ -978,80 +978,80 @@
       "war_archives_20231026_cn": "檔案 テンペスタと若返りの泉"
     },
     "Mode": {
-      "name": "Campaign.Mode.name",
-      "help": "Campaign.Mode.help",
-      "normal": "normal",
-      "hard": "hard"
+      "name": "関卡モード",
+      "help": "主线图にのみ適用",
+      "normal": "普通",
+      "hard": "困難"
     },
     "UseClearMode": {
-      "name": "Campaign.UseClearMode.name",
-      "help": "Campaign.UseClearMode.help"
+      "name": "周回モードを使用",
+      "help": ""
     },
     "UseFleetLock": {
-      "name": "Campaign.UseFleetLock.name",
-      "help": "Campaign.UseFleetLock.help"
+      "name": "陣形ロックを使用",
+      "help": ""
     },
     "UseAutoSearch": {
-      "name": "Campaign.UseAutoSearch.name",
-      "help": "Campaign.UseAutoSearch.help"
+      "name": "自律捜索を使用",
+      "help": ""
     },
     "Use2xBook": {
-      "name": "Campaign.Use2xBook.name",
-      "help": "Campaign.Use2xBook.help"
+      "name": "高效作戦指令書を使用",
+      "help": "石油消費が2倍、ドロップ報酬が2回"
     },
     "AmbushEvade": {
-      "name": "Campaign.AmbushEvade.name",
-      "help": "Campaign.AmbushEvade.help"
+      "name": "伏撃回避",
+      "help": ""
     },
     "UseRecommendFleet": {
-      "name": "Campaign.UseRecommendFleet.name",
-      "help": "Campaign.UseRecommendFleet.help"
+      "name": "自動編成",
+      "help": "ゲーム内推奨編成を使用して困難海域を自動で編成"
     }
   },
   "StopCondition": {
     "_info": {
-      "name": "StopCondition._info.name",
-      "help": "StopCondition._info.help"
+      "name": "停止条件",
+      "help": "以下のいずれかの条件を満たした後、タスクを停止"
     },
     "OilLimit": {
-      "name": "StopCondition.OilLimit.name",
-      "help": "StopCondition.OilLimit.help"
+      "name": "石油がXを下回ったら延期",
+      "help": "石油が不足している場合、タスクを延期し、石油が十分になったら再開"
     },
     "RunCount": {
-      "name": "StopCondition.RunCount.name",
-      "help": "StopCondition.RunCount.help"
+      "name": "出撃回数がXを超えたら停止",
+      "help": "実行ごとに回数が減り、0になるとタスク停止\n0は制限なし"
     },
     "MapAchievement": {
-      "name": "StopCondition.MapAchievement.name",
-      "help": "StopCondition.MapAchievement.help",
-      "non_stop": "non_stop",
-      "non_stop_clear_all": "non_stop_clear_all",
-      "100_percent_clear": "100_percent_clear",
-      "map_3_stars": "map_3_stars",
-      "threat_safe": "threat_safe",
-      "threat_safe_without_3_stars": "threat_safe_without_3_stars"
+      "name": "関卡達成後に停止",
+      "help": "マップ100%クリア、三星クリア、安全海域達成、\nまたは安全海域達成後に停止",
+      "non_stop": "いいえ",
+      "non_stop_clear_all": "停止しない + 毎回全クリア",
+      "100_percent_clear": "100%クリア",
+      "map_3_stars": "100%クリア + 三星",
+      "threat_safe": "100%クリア + 三星 + 安全海域",
+      "threat_safe_without_3_stars": "100%クリア + 安全海域"
     },
     "StageIncrease": {
-      "name": "StopCondition.StageIncrease.name",
-      "help": "StopCondition.StageIncrease.help"
+      "name": "関卡達成後に前進",
+      "help": "自動前進、チーム強度と関卡属性制限を満たし、\n「関卡達成後に停止」を設定する必要があります\n例: このオプションを有効にし、「マップクリア」を選択すると、\n関卡100%クリア後に次の関卡へ移動\n対応マップ: 1-1〜15-4、A1〜A3、B1〜B3、C1〜C3、D1〜D3、T1〜T6、SP1〜SP4"
     },
     "GetNewShip": {
-      "name": "StopCondition.GetNewShip.name",
-      "help": "StopCondition.GetNewShip.help"
+      "name": "新艦船獲得後に停止",
+      "help": ""
     },
     "ReachLevel": {
-      "name": "StopCondition.ReachLevel.name",
-      "help": "StopCondition.ReachLevel.help"
+      "name": "レベル到達後に停止",
+      "help": ""
     }
   },
   "Fleet": {
     "_info": {
-      "name": "Fleet._info.name",
-      "help": "Fleet._info.help"
+      "name": "艦隊設定",
+      "help": ""
     },
     "Fleet1": {
-      "name": "Fleet.Fleet1.name",
-      "help": "Fleet.Fleet1.help",
+      "name": "第一艦隊番号",
+      "help": "",
       "1": "1",
       "2": "2",
       "3": "3",
@@ -1060,32 +1060,32 @@
       "6": "6"
     },
     "Fleet1Formation": {
-      "name": "Fleet.Fleet1Formation.name",
-      "help": "Fleet.Fleet1Formation.help",
-      "line_ahead": "line_ahead",
-      "double_line": "double_line",
-      "diamond": "diamond"
+      "name": "第一艦隊陣形",
+      "help": "",
+      "line_ahead": "単縦陣",
+      "double_line": "複縦陣",
+      "diamond": "輪形陣"
     },
     "Fleet1Mode": {
-      "name": "Fleet.Fleet1Mode.name",
-      "help": "Fleet.Fleet1Mode.help",
-      "combat_auto": "combat_auto",
-      "combat_manual": "combat_manual",
-      "stand_still_in_the_middle": "stand_still_in_the_middle",
-      "hide_in_bottom_left": "hide_in_bottom_left"
+      "name": "第一艦隊自律モード",
+      "help": "",
+      "combat_auto": "自律戦闘",
+      "combat_manual": "手動操作",
+      "stand_still_in_the_middle": "中路待機",
+      "hide_in_bottom_left": "左下隠れ"
     },
     "Fleet1Step": {
-      "name": "Fleet.Fleet1Step.name",
-      "help": "Fleet.Fleet1Step.help",
+      "name": "第一艦隊歩長",
+      "help": "活動マップで制限された移動距離",
       "2": "2",
       "3": "3",
       "4": "4",
       "5": "5"
     },
     "Fleet2": {
-      "name": "Fleet.Fleet2.name",
-      "help": "Fleet.Fleet2.help",
-      "0": "0",
+      "name": "第二艦隊番号",
+      "help": "",
+      "0": "不使用",
       "1": "1",
       "2": "2",
       "3": "3",
@@ -1094,227 +1094,227 @@
       "6": "6"
     },
     "Fleet2Formation": {
-      "name": "Fleet.Fleet2Formation.name",
-      "help": "Fleet.Fleet2Formation.help",
-      "line_ahead": "line_ahead",
-      "double_line": "double_line",
-      "diamond": "diamond"
+      "name": "第二艦隊陣形",
+      "help": "",
+      "line_ahead": "単縦陣",
+      "double_line": "複縦陣",
+      "diamond": "輪形陣"
     },
     "Fleet2Mode": {
-      "name": "Fleet.Fleet2Mode.name",
-      "help": "Fleet.Fleet2Mode.help",
-      "combat_auto": "combat_auto",
-      "combat_manual": "combat_manual",
-      "stand_still_in_the_middle": "stand_still_in_the_middle",
-      "hide_in_bottom_left": "hide_in_bottom_left"
+      "name": "第二艦隊自律モード",
+      "help": "",
+      "combat_auto": "自律戦闘",
+      "combat_manual": "手動操作",
+      "stand_still_in_the_middle": "中路待機",
+      "hide_in_bottom_left": "左下隠れ"
     },
     "Fleet2Step": {
-      "name": "Fleet.Fleet2Step.name",
-      "help": "Fleet.Fleet2Step.help",
+      "name": "第二艦隊歩長",
+      "help": "活動マップで制限された移動距離",
       "2": "2",
       "3": "3",
       "4": "4",
       "5": "5"
     },
     "FleetOrder": {
-      "name": "Fleet.FleetOrder.name",
-      "help": "Fleet.FleetOrder.help",
-      "fleet1_mob_fleet2_boss": "fleet1_mob_fleet2_boss",
-      "fleet1_boss_fleet2_mob": "fleet1_boss_fleet2_mob",
-      "fleet1_all_fleet2_standby": "fleet1_all_fleet2_standby",
-      "fleet1_standby_fleet2_all": "fleet1_standby_fleet2_all"
+      "name": "艦隊順序",
+      "help": "",
+      "fleet1_mob_fleet2_boss": "第一艦隊通常戦、第二艦隊ボス戦",
+      "fleet1_boss_fleet2_mob": "第一艦隊ボス戦、第二艦隊通常戦",
+      "fleet1_all_fleet2_standby": "第一艦隊全出撃、第二艦隊待機",
+      "fleet1_standby_fleet2_all": "第一艦隊待機、第二艦隊全出撃"
     }
   },
   "Submarine": {
     "_info": {
-      "name": "Submarine._info.name",
-      "help": "Submarine._info.help"
+      "name": "潜水艦設定",
+      "help": ""
     },
     "Fleet": {
-      "name": "Submarine.Fleet.name",
-      "help": "Submarine.Fleet.help",
-      "0": "0",
+      "name": "潜水艦艦隊番号",
+      "help": "",
+      "0": "不使用",
       "1": "1",
       "2": "2"
     },
     "Mode": {
-      "name": "Submarine.Mode.name",
-      "help": "Submarine.Mode.help",
-      "do_not_use": "do_not_use",
-      "hunt_only": "hunt_only",
-      "boss_only": "boss_only",
-      "hunt_and_boss": "hunt_and_boss",
-      "every_combat": "every_combat"
+      "name": "潜水艦出撃方案",
+      "help": "自律捜索がオフの場合のみ有効。注意: '狩猟及びBOSS戦'は'僅狩猟'と'僅BOSS戦'の混合で、道中で狩猟攻撃を行い、BOSS戦で潜水艦を召喚しようとします。",
+      "do_not_use": "不使用",
+      "hunt_only": "僅狩猟",
+      "boss_only": "僅BOSS戦",
+      "hunt_and_boss": "狩猟及びBOSS戦",
+      "every_combat": "毎戦出撃"
     },
     "AutoSearchMode": {
-      "name": "Submarine.AutoSearchMode.name",
-      "help": "Submarine.AutoSearchMode.help",
-      "sub_standby": "sub_standby",
-      "sub_auto_call": "sub_auto_call"
+      "name": "潜水艦自律方案",
+      "help": "自律捜索の場合のみ有効",
+      "sub_standby": "待機",
+      "sub_auto_call": "自動召喚潜水艦"
     },
     "DistanceToBoss": {
-      "name": "Submarine.DistanceToBoss.name",
-      "help": "Submarine.DistanceToBoss.help",
-      "to_boss_position": "to_boss_position",
-      "1_grid_to_boss": "1_grid_to_boss",
-      "2_grid_to_boss": "2_grid_to_boss",
-      "use_open_ocean_support": "use_open_ocean_support"
+      "name": "BOSS戦前に潜水艦をBOSS付近へ移動",
+      "help": "「潜水艦出撃方案」が「僅BOSS戦」または「狩猟及びBOSS戦」の場合のみ有効\n「距離BOSS Xマス」を選択する場合、潜水艦の狩猟範囲がBOSSをカバーする必要があります。距離はマンハッタン距離で計算されます。「远洋支援を使用」を選択する場合、潜水艦隊にU522/ダ・ヴィンチが必要です",
+      "to_boss_position": "BOSS位置へ",
+      "1_grid_to_boss": "BOSSから1マス",
+      "2_grid_to_boss": "BOSSから2マス",
+      "use_open_ocean_support": "远洋支援を使用"
     }
   },
   "Emotion": {
     "_info": {
-      "name": "Emotion._info.name",
-      "help": "Emotion._info.help"
+      "name": "気分設定",
+      "help": ""
     },
     "Mode": {
-      "name": "Emotion.Mode.name",
-      "help": "Emotion.Mode.help",
-      "calculate": "calculate",
-      "ignore": "ignore",
-      "calculate_ignore": "calculate_ignore"
+      "name": "気分設定",
+      "help": "",
+      "calculate": "気分消費を計算",
+      "ignore": "赤顔出撃警告を無視",
+      "calculate_ignore": "気分消費を計算 + 赤顔出撃警告を無視"
     },
     "Fleet1Value": {
-      "name": "Emotion.Fleet1Value.name",
-      "help": "Emotion.Fleet1Value.help"
+      "name": "第一艦隊気分値",
+      "help": ""
     },
     "Fleet1Record": {
-      "name": "Emotion.Fleet1Record.name",
-      "help": "Emotion.Fleet1Record.help"
+      "name": "第一艦隊気分記録時間",
+      "help": ""
     },
     "Fleet1Control": {
-      "name": "Emotion.Fleet1Control.name",
-      "help": "Emotion.Fleet1Control.help",
-      "keep_exp_bonus": "keep_exp_bonus",
-      "prevent_green_face": "prevent_green_face",
-      "prevent_yellow_face": "prevent_yellow_face",
-      "prevent_red_face": "prevent_red_face"
+      "name": "第一艦隊気分制御",
+      "help": "",
+      "keep_exp_bonus": "経験値ボーナスを維持 (>120)",
+      "prevent_green_face": "緑顔を防止 (>40)",
+      "prevent_yellow_face": "黄顔を防止 (>30)",
+      "prevent_red_face": "赤顔を防止 (>0)"
     },
     "Fleet1Recover": {
-      "name": "Emotion.Fleet1Recover.name",
-      "help": "Emotion.Fleet1Recover.help",
-      "not_in_dormitory": "not_in_dormitory",
-      "dormitory_floor_1": "dormitory_floor_1",
-      "dormitory_floor_2": "dormitory_floor_2"
+      "name": "第一艦隊気分回復",
+      "help": "",
+      "not_in_dormitory": "後宮に配置なし (20/h)",
+      "dormitory_floor_1": "後宮一階 (40/h)",
+      "dormitory_floor_2": "後宮二階 (50/h)"
     },
     "Fleet1Oath": {
-      "name": "Emotion.Fleet1Oath.name",
-      "help": "Emotion.Fleet1Oath.help"
+      "name": "第一艦隊全員結婚 (+10/h)",
+      "help": ""
     },
     "Fleet1Onsen": {
-      "name": "Emotion.Fleet1Onsen.name",
-      "help": "Emotion.Fleet1Onsen.help"
+      "name": "第一艦隊全員温泉配置 (+10/h)",
+      "help": ""
     },
     "Fleet2Value": {
-      "name": "Emotion.Fleet2Value.name",
-      "help": "Emotion.Fleet2Value.help"
+      "name": "第二艦隊気分値",
+      "help": ""
     },
     "Fleet2Record": {
-      "name": "Emotion.Fleet2Record.name",
-      "help": "Emotion.Fleet2Record.help"
+      "name": "第二艦隊気分記録時間",
+      "help": ""
     },
     "Fleet2Control": {
-      "name": "Emotion.Fleet2Control.name",
-      "help": "Emotion.Fleet2Control.help",
-      "keep_exp_bonus": "keep_exp_bonus",
-      "prevent_green_face": "prevent_green_face",
-      "prevent_yellow_face": "prevent_yellow_face",
-      "prevent_red_face": "prevent_red_face"
+      "name": "第二艦隊気分制御",
+      "help": "",
+      "keep_exp_bonus": "経験値ボーナスを維持 (>120)",
+      "prevent_green_face": "緑顔を防止 (>40)",
+      "prevent_yellow_face": "黄顔を防止 (>30)",
+      "prevent_red_face": "赤顔を防止 (>0)"
     },
     "Fleet2Recover": {
-      "name": "Emotion.Fleet2Recover.name",
-      "help": "Emotion.Fleet2Recover.help",
-      "not_in_dormitory": "not_in_dormitory",
-      "dormitory_floor_1": "dormitory_floor_1",
-      "dormitory_floor_2": "dormitory_floor_2"
+      "name": "第二艦隊気分回復",
+      "help": "",
+      "not_in_dormitory": "後宮に配置なし (20/h)",
+      "dormitory_floor_1": "後宮一階 (40/h)",
+      "dormitory_floor_2": "後宮二階 (50/h)"
     },
     "Fleet2Oath": {
-      "name": "Emotion.Fleet2Oath.name",
-      "help": "Emotion.Fleet2Oath.help"
+      "name": "第二艦隊全員結婚 (+10/h)",
+      "help": ""
     },
     "Fleet2Onsen": {
-      "name": "Emotion.Fleet2Onsen.name",
-      "help": "Emotion.Fleet2Onsen.help"
+      "name": "第二艦隊全員温泉配置 (+10/h)",
+      "help": ""
     }
   },
   "HpControl": {
     "_info": {
-      "name": "HpControl._info.name",
-      "help": "HpControl._info.help"
+      "name": "HP制御",
+      "help": "陣形ロックがオフの場合のみ有効"
     },
     "UseHpBalance": {
-      "name": "HpControl.UseHpBalance.name",
-      "help": "HpControl.UseHpBalance.help"
+      "name": "HPバランスを有効化",
+      "help": "低HPの艦を保護位置に移動し、高HPの艦をダメージ受ける位置に移動"
     },
     "UseEmergencyRepair": {
-      "name": "HpControl.UseEmergencyRepair.name",
-      "help": "HpControl.UseEmergencyRepair.help"
+      "name": "修理ツールを使用",
+      "help": ""
     },
     "UseLowHpRetreat": {
-      "name": "HpControl.UseLowHpRetreat.name",
-      "help": "HpControl.UseLowHpRetreat.help"
+      "name": "低HP撤退を有効化",
+      "help": ""
     },
     "HpBalanceThreshold": {
-      "name": "HpControl.HpBalanceThreshold.name",
-      "help": "HpControl.HpBalanceThreshold.help"
+      "name": "前衛HP差がXを超えたら配置換え",
+      "help": ""
     },
     "HpBalanceWeight": {
-      "name": "HpControl.HpBalanceWeight.name",
-      "help": "HpControl.HpBalanceWeight.help"
+      "name": "先鋒HP重み",
+      "help": "先鋒の耐久に差がある場合に変更、形式\n1000, 1000, 1000"
     },
     "RepairUseSingleThreshold": {
-      "name": "HpControl.RepairUseSingleThreshold.name",
-      "help": "HpControl.RepairUseSingleThreshold.help"
+      "name": "任意艦船HPがXを下回ったら緊急修理",
+      "help": ""
     },
     "RepairUseMultiThreshold": {
-      "name": "HpControl.RepairUseMultiThreshold.name",
-      "help": "HpControl.RepairUseMultiThreshold.help"
+      "name": "全艦船HPがXを下回ったら緊急修理",
+      "help": ""
     },
     "LowHpRetreatThreshold": {
-      "name": "HpControl.LowHpRetreatThreshold.name",
-      "help": "HpControl.LowHpRetreatThreshold.help"
+      "name": "任意艦船HPがXを下回ったら撤退",
+      "help": ""
     }
   },
   "EnemyPriority": {
     "_info": {
-      "name": "EnemyPriority._info.name",
-      "help": "EnemyPriority._info.help"
+      "name": "索敵ロジック",
+      "help": "カスタムしたい敵の優先順位"
     },
     "EnemyScaleBalanceWeight": {
-      "name": "EnemyPriority.EnemyScaleBalanceWeight.name",
-      "help": "EnemyPriority.EnemyScaleBalanceWeight.help",
-      "default_mode": "default_mode",
-      "S3_enemy_first": "S3_enemy_first",
-      "S1_enemy_first": "S1_enemy_first"
+      "name": "敵優先順位",
+      "help": "BOSSへの主要経路の敵を先に掃討し、その後優先順位に従って他の敵を掃討",
+      "default_mode": "マップファイルに従う",
+      "S3_enemy_first": "大型敵を優先",
+      "S1_enemy_first": "小型敵を優先"
     }
   },
   "C11AffinityFarming": {
     "_info": {
-      "name": "C11AffinityFarming._info.name",
-      "help": "C11AffinityFarming._info.help"
+      "name": "1-1 伏擊刷好感",
+      "help": "1-1に入り、C1付近で繰り返し移動"
     },
     "RunCount": {
-      "name": "C11AffinityFarming.RunCount.name",
-      "help": "C11AffinityFarming.RunCount.help"
+      "name": "実行回数",
+      "help": ""
     }
   },
   "C72MysteryFarming": {
     "_info": {
-      "name": "C72MysteryFarming._info.name",
-      "help": "C72MysteryFarming._info.help"
+      "name": "7-2 三戦ゴミ拾い",
+      "help": "三戦し、ゴミを拾った後撤退"
     },
     "StepOnA3": {
-      "name": "C72MysteryFarming.StepOnA3.name",
-      "help": "C72MysteryFarming.StepOnA3.help"
+      "name": "第二艦隊でA3を踏む",
+      "help": "A2のゴミポイントが詰まるのを効果的に回避"
     }
   },
   "C122MediumLeveling": {
     "_info": {
-      "name": "C122MediumLeveling._info.name",
-      "help": "C122MediumLeveling._info.help"
+      "name": "12-2 中型練級",
+      "help": "強度の高いチームで12-2で練級、三星敵を倒した後撤退"
     },
     "LargeEnemyTolerance": {
-      "name": "C122MediumLeveling.LargeEnemyTolerance.name",
-      "help": "C122MediumLeveling.LargeEnemyTolerance.help",
+      "name": "最大X戦三星敵",
+      "help": "",
       "0": "0",
       "1": "1",
       "2": "2",
@@ -1323,27 +1323,27 @@
   },
   "C124LargeLeveling": {
     "_info": {
-      "name": "C124LargeLeveling._info.name",
-      "help": "C124LargeLeveling._info.help"
+      "name": "12-4 大型練級",
+      "help": "強度の高いチームで12-4で練級、三星敵を倒した後撤退\n三星敵を多めに倒して 経験値/燃料 の比率を向上"
     },
     "NonLargeEnterTolerance": {
-      "name": "C124LargeLeveling.NonLargeEnterTolerance.name",
-      "help": "C124LargeLeveling.NonLargeEnterTolerance.help",
+      "name": "入図後X戦三星敵なし、撤退",
+      "help": "",
       "0": "0",
       "1": "1",
       "2": "2"
     },
     "NonLargeRetreatTolerance": {
-      "name": "C124LargeLeveling.NonLargeRetreatTolerance.name",
-      "help": "C124LargeLeveling.NonLargeRetreatTolerance.help",
+      "name": "最大X戦非三星敵",
+      "help": "",
       "0": "0",
       "1": "1",
       "2": "2",
       "10": "10"
     },
     "PickupAmmo": {
-      "name": "C124LargeLeveling.PickupAmmo.name",
-      "help": "C124LargeLeveling.PickupAmmo.help",
+      "name": "弾薬拾い",
+      "help": "",
       "3": "3",
       "4": "4",
       "5": "5"
@@ -1351,190 +1351,190 @@
   },
   "GemsFarming": {
     "_info": {
-      "name": "GemsFarming._info.name",
-      "help": "GemsFarming._info.help"
+      "name": "ダイヤ farming",
+      "help": "警告: この機能はプレイヤーに少量のダイヤを獲得させることができますが、効率的なダイヤ獲得方法ではありません\n碧蓝航线を始めたばかりのプレイヤーは、零破や低消耗に夢中になりがちで、キャラ育成を忘れがちです\nこの機能を実行すると、自分自身が充実していると感じるだけで、アカウントは実質的に何も成長しません\nこの機能の主な用途は、編成が整ったプレイヤーが追加の魔方を獲得することであり、ダイヤを副産物として理性的に扱ってください\n\nこの機能は旗艦32級以降に旗艦を交換します\n緊急委託リフレッシュメカニズムについては、https://bbs.nga.cn/read.php?tid=27134956 を参照してください\n委託燃料比: A3 > A1 > 2-4 > 2-1、イベントマップがある場合はイベントマップを選択することをお勧めします。2-1はゴミを拾うことでより多くの物資を獲得できます\n第一艦隊がすべての戦闘を完了し、前衛は百級零破駆逐艦で出撃装備、後衛は33級以下の白皮零破空母である必要があります\n第二艦隊はクロスチーム支援（クロスチーム弾幕、クロスチーム補助）を提供する必要があります\n\n艦隊職能を設定できない場合、クロスチーム艦隊が出撃し、燃料が大量に消費されるのを防ぐために、以下の方法でタスクを停止します:\nエラー通知を設定している場合、タスク停止メッセージを送信し、タスクを停止します。\nエラー通知を設定していない場合、Alasを直接停止します。"
     },
     "ChangeFlagship": {
-      "name": "GemsFarming.ChangeFlagship.name",
-      "help": "GemsFarming.ChangeFlagship.help",
-      "ship": "ship",
-      "ship_equip": "ship_equip"
+      "name": "旗艦交換",
+      "help": "旗艦レベルが32以上または赤顔の場合に旗艦を交換\n1-31レベルの白皮空母を探し、退役時に交換した旗艦を選択します。1レベル以上の白皮空母はすべて退役対象と見なされるため、対象でない船は必ずロックしてください。船を交換するときは、旗艦装備も交換します。これは以前の装備を記録して行います。\n\n装備交換は装備中のスロットのみを交換し、白装備でも交換します。旗艦を指定した場合、すべての5つの装備を交換し、旗艦を指定しない場合は装備のみを交換します。",
+      "ship": "艦船交換",
+      "ship_equip": "艦船 + 装備交換"
     },
     "CommonCV": {
-      "name": "GemsFarming.CommonCV.name",
-      "help": "GemsFarming.CommonCV.help",
-      "custom": "custom",
-      "any": "any",
-      "eagle": "eagle only",
-      "langley": "langley",
-      "bogue": "bogue",
-      "ranger": "ranger",
-      "hermes": "hermes"
+      "name": "指定旗艦空母",
+      "help": "",
+      "custom": "カスタム",
+      "any": "任意",
+      "eagle": "鷹のみ",
+      "langley": "ラングリー",
+      "bogue": "ボーグ",
+      "ranger": "レンジャー",
+      "hermes": "ハーミーズ"
     },
     "CommonCVFilter": {
-      "name": "GemsFarming.CommonCVFilter.name",
-      "help": "GemsFarming.CommonCVFilter.help"
+      "name": "カスタム旗艦空母フィルター",
+      "help": "カスタムフィルターを使用するには、「指定旗艦空母」を「カスタム」に設定し、フィルターの順序に従って優先的に旗艦空母を交換します\nボーグ：ボーグ レンジャー：レンジャー ラングリー：ラングリー ハーミーズ：ハーミーズ"
     },
     "ChangeVanguard": {
-      "name": "GemsFarming.ChangeVanguard.name",
-      "help": "GemsFarming.ChangeVanguard.help",
-      "disabled": "disabled",
-      "ship": "ship",
-      "ship_equip": "ship_equip"
+      "name": "前衛交換",
+      "help": "前衛が赤顔になった場合に前衛を交換、交換しないを選択すると強制的に赤顔で出撃します\n前衛交換は、気分10以上、レベル100の鷹または鉄血の白皮駆逐艦を見つけることで行われるため、できるだけ多くの駆逐艦を用意してください。国服以外ではレベル70の鷹白船駆逐艦です。",
+      "disabled": "交換なし",
+      "ship": "艦船交換",
+      "ship_equip": "艦船 + 装備交換"
     },
     "CommonDD": {
-      "name": "GemsFarming.CommonDD.name",
-      "help": "GemsFarming.CommonDD.help",
-      "custom": "custom",
-      "any": "GemsFarming.CommonDD.any",
-      "favourite": "GemsFarming.CommonDD.favourite",
-      "aulick_or_foote": "GemsFarming.CommonDD.aulick_or_foote",
-      "cassin_or_downes": "GemsFarming.CommonDD.cassin_or_downes",
-      "z20_or_z21": "GemsFarming.CommonDD.z20_or_z21",
-      "DDG": "GemsFarming.CommonDD.DDG"
+      "name": "指定前衛",
+      "help": "",
+      "custom": "カスタム",
+      "any": "任意",
+      "favourite": "常用のみ",
+      "aulick_or_foote": "オーリックまたはフート",
+      "cassin_or_downes": "カシンまたはダウンズ",
+      "z20_or_z21": "Z20またはZ21",
+      "DDG": "ミサイル駆逐艦"
     },
     "CommonDDFilter": {
-      "name": "GemsFarming.CommonDDFilter.name",
-      "help": "GemsFarming.CommonDDFilter.help"
+      "name": "カスタム前衛フィルター",
+      "help": "カスタムフィルターを使用するには、「指定前衛」を「カスタム」に設定し、フィルターの順序に従って優先的に前衛を交換します\nz20：Z20 z21：Z21 aulick：オーリック foote：フート cassin：カシン downes：ダウンズ"
     },
     "EquipmentCode": {
-      "name": "GemsFarming.EquipmentCode.name",
-      "help": "GemsFarming.EquipmentCode.help"
+      "name": "装備コード",
+      "help": "「艦船 + 装備交換」を選択した場合のみ有効。\n艦船を交換する場合、設定で現在の艦船装備コードがnullの場合はエクスポートされます。艦船を交換する場合、設定で現在の艦船装備コードがnullの場合は、前の艦船からエクスポートされた装備コードを使用し、それ以外の場合は設定の装備コードを使用します。\nBlueStacksユーザーは仮想キーボードを有効にする必要があります。詳細は https://support.bluestacks.com/hc/zh-tw/articles/360061968892-%E5%A6%82%E4%BD%95%E5%9C%A8-BlueStacks-5-%E4%B8%8A%E4%BD%BF%E7%94%A8%E5%B0%8F%E9%8D%B5%E7%9B%A4-%E8%99%9B%E6%93%AC%E9%8D%B5%E7%9B%A4 を参照してください。\nDD：前衛駆逐艦 ボーグ：ボーグ ハーミーズ：ハーミーズ ラングリー：ラングリー レンジャー：レンジャー"
     },
     "ALLowHighFlagshipLevel": {
-      "name": "GemsFarming.ALLowHighFlagshipLevel.name",
-      "help": "GemsFarming.ALLowHighFlagshipLevel.help"
+      "name": "満級後衛のみ交換",
+      "help": "有効にすると、旗艦交換時に100級の白皮軽空母のみを選択します。\n使用する場合、船坞に条件を満たす艦船があることを確認してください。"
     },
     "ALLowLowVanguardLevel": {
-      "name": "GemsFarming.ALLowLowVanguardLevel.name",
-      "help": "GemsFarming.ALLowLowVanguardLevel.help"
+      "name": "低レベル前衛を交換可能",
+      "help": "有効にすると、前衛のレベル制限を30级以上に変更します。困難モード（CDマップなど）の場合は70級に変更します。"
     },
     "DelayTaskIFNoFlagship": {
-      "name": "GemsFarming.DelayTaskIFNoFlagship.name",
-      "help": "GemsFarming.DelayTaskIFNoFlagship.help"
+      "name": "交換可能な旗艦がない場合はタスクを延期",
+      "help": "旗艦を交換する場合、条件を満たす白皮空母が見つからない場合はタスクを延期"
     },
     "CommissionLimit": {
-      "name": "GemsFarming.CommissionLimit.name",
-      "help": "GemsFarming.CommissionLimit.help"
+      "name": "委託制限",
+      "help": "緊急委託のリフレッシュメカニズムを有効化"
     }
   },
   "EventGeneral": {
     "_info": {
-      "name": "EventGeneral._info.name",
-      "help": "EventGeneral._info.help"
+      "name": "イベント共通設定",
+      "help": ""
     },
     "PtLimit": {
-      "name": "EventGeneral.PtLimit.name",
-      "help": "EventGeneral.PtLimit.help"
+      "name": "イベントPT制限",
+      "help": "累積PTが指定値に達したら、すべてのイベントタスクを無効化。0は制限なし。自律捜索使用時は即座にトリガーされません。\n有効にすると、すべてのイベントタスクを開くだけで、合計回数を計算する必要がありません。"
     },
     "TimeLimit": {
-      "name": "EventGeneral.TimeLimit.name",
-      "help": "EventGeneral.TimeLimit.help"
+      "name": "イベント時間制限",
+      "help": "ローカル時間が指定値を超えたら、すべてのイベントタスクを無効化。'2020-01-01 00:00:00'は制限なし。一度トリガーされると時間がリセットされます。\n設定すると、イベント終了後にタスクを閉じ忘れるのを防ぎます。"
     }
   },
   "TaskBalancer": {
     "_info": {
-      "name": "TaskBalancer._info.name",
-      "help": "TaskBalancer._info.help"
+      "name": "タスクバランス設定",
+      "help": "イベントマップ実行中の物資不足を防止"
     },
     "Enable": {
-      "name": "TaskBalancer.Enable.name",
-      "help": "TaskBalancer.Enable.help"
+      "name": "有効化",
+      "help": ""
     },
     "CoinLimit": {
-      "name": "TaskBalancer.CoinLimit.name",
-      "help": "TaskBalancer.CoinLimit.help"
+      "name": "コイン制限",
+      "help": ""
     },
     "TaskCall": {
-      "name": "TaskBalancer.TaskCall.name",
-      "help": "TaskBalancer.TaskCall.help",
-      "Main": "Main",
-      "Main2": "Main2",
-      "Main3": "Main3",
-      "GemsFarming": "GemsFarming",
-      "ThreeOilLowCost": "ThreeOilLowCost"
+      "name": "タスク呼び出し",
+      "help": "",
+      "Main": "メイン",
+      "Main2": "メイン2",
+      "Main3": "メイン3",
+      "GemsFarming": "ダイヤ farming",
+      "ThreeOilLowCost": "三油低コスト"
     }
   },
   "EventDaily": {
     "_info": {
-      "name": "EventDaily._info.name",
-      "help": "EventDaily._info.help"
+      "name": "イベントデイリー",
+      "help": ""
     },
     "StageFilter": {
-      "name": "EventDaily.StageFilter.name",
-      "help": "EventDaily.StageFilter.help"
+      "name": "ステージフィルター",
+      "help": ""
     },
     "LastStage": {
-      "name": "EventDaily.LastStage.name",
-      "help": "EventDaily.LastStage.help"
+      "name": "最終ステージ",
+      "help": ""
     }
   },
   "Raid": {
     "_info": {
-      "name": "Raid._info.name",
-      "help": "Raid._info.help"
+      "name": "レイド",
+      "help": ""
     },
     "Mode": {
-      "name": "Raid.Mode.name",
-      "help": "Raid.Mode.help",
-      "easy": "easy",
-      "normal": "normal",
-      "hard": "hard",
-      "ex": "ex"
+      "name": "モード",
+      "help": "",
+      "easy": "易",
+      "normal": "普通",
+      "hard": "難",
+      "ex": "EX"
     },
     "UseTicket": {
-      "name": "Raid.UseTicket.name",
-      "help": "Raid.UseTicket.help"
+      "name": "チケットを使用",
+      "help": ""
     }
   },
   "RaidScuttle": {
     "_info": {
-      "name": "RaidScuttle._info.name",
-      "help": "RaidScuttle._info.help"
+      "name": "犠牲船位置",
+      "help": ""
     },
     "Sacrifice": {
-      "name": "RaidScuttle.Sacrifice.name",
-      "help": "RaidScuttle.Sacrifice.help",
-      "vanguard": "vanguard",
-      "flagship": "flagship",
-      "vanguard_flagship": "vanguard_flagship"
+      "name": "犠牲船位置",
+      "help": "",
+      "vanguard": "前衛",
+      "flagship": "旗艦",
+      "vanguard_flagship": "前衛+旗艦"
     }
   },
   "RaidDaily": {
     "_info": {
-      "name": "RaidDaily._info.name",
-      "help": "RaidDaily._info.help"
+      "name": "共闘デイリー",
+      "help": "毎日の共闘を簡単、普通、困難でクリア"
     },
     "StageFilter": {
-      "name": "RaidDaily.StageFilter.name",
-      "help": "RaidDaily.StageFilter.help"
+      "name": "難易度フィルター",
+      "help": ""
     }
   },
   "Hospital": {
     "_info": {
-      "name": "Hospital._info.name",
-      "help": "Hospital._info.help"
+      "name": "病院",
+      "help": ""
     },
     "UseRecommendFleet": {
-      "name": "Hospital.UseRecommendFleet.name",
-      "help": "Hospital.UseRecommendFleet.help"
+      "name": "推奨艦隊を使用",
+      "help": ""
     }
   },
   "HospitalEvent": {
     "_info": {
-      "name": "HospitalEvent._info.name",
-      "help": "HospitalEvent._info.help"
+      "name": "病院イベント",
+      "help": ""
     },
     "Mode": {
-      "name": "HospitalEvent.Mode.name",
-      "help": "HospitalEvent.Mode.help",
-      "easy": "easy",
-      "normal": "normal",
-      "hard": "hard"
+      "name": "モード",
+      "help": "",
+      "easy": "易",
+      "normal": "普通",
+      "hard": "難"
     },
     "Stage": {
-      "name": "HospitalEvent.Stage.name",
-      "help": "HospitalEvent.Stage.help",
+      "name": "ステージ",
+      "help": "",
       "T1": "T1",
       "T2": "T2",
       "T3": "T3",
@@ -1544,128 +1544,128 @@
   },
   "MaritimeEscort": {
     "_info": {
-      "name": "MaritimeEscort._info.name",
-      "help": "MaritimeEscort._info.help"
+      "name": "海上護衛",
+      "help": ""
     },
     "Enable": {
-      "name": "MaritimeEscort.Enable.name",
-      "help": "MaritimeEscort.Enable.help"
+      "name": "有効化",
+      "help": ""
     }
   },
   "Coalition": {
     "_info": {
-      "name": "Coalition._info.name",
-      "help": "Coalition._info.help"
+      "name": "連合",
+      "help": ""
     },
     "Mode": {
-      "name": "Coalition.Mode.name",
-      "help": "Coalition.Mode.help",
-      "easy": "easy",
-      "normal": "normal",
-      "hard": "hard",
-      "sp": "sp"
+      "name": "モード",
+      "help": "",
+      "easy": "易",
+      "normal": "普通",
+      "hard": "難",
+      "sp": "SP"
     },
     "Fleet": {
-      "name": "Coalition.Fleet.name",
-      "help": "Coalition.Fleet.help",
-      "single": "single",
-      "multi": "multi"
+      "name": "艦隊",
+      "help": "",
+      "single": "単艦隊",
+      "multi": "多艦隊"
     }
   },
   "EventShop": {
     "_info": {
-      "name": "EventShop._info.name",
-      "help": "EventShop._info.help"
+      "name": "イベントショップ",
+      "help": ""
     },
     "UnlockSSRShip": {
-      "name": "EventShop.UnlockSSRShip.name",
-      "help": "EventShop.UnlockSSRShip.help"
+      "name": "SSR艦船のロック解除",
+      "help": ""
     },
     "BuyURShip": {
-      "name": "EventShop.BuyURShip.name",
-      "help": "EventShop.BuyURShip.help",
+      "name": "X隻のUR艦船を購入",
+      "help": "",
       "0": "0",
       "1": "1",
       "2": "2"
     },
     "PresetFilter": {
-      "name": "EventShop.PresetFilter.name",
-      "help": "EventShop.PresetFilter.help",
-      "all": "all",
-      "custom": "custom"
+      "name": "イベントショップフィルター",
+      "help": "通常デフォルトで全購入で問題ありません",
+      "all": "全て",
+      "custom": "カスタム"
     },
     "CustomFilter": {
-      "name": "EventShop.CustomFilter.name",
-      "help": "EventShop.CustomFilter.help"
+      "name": "カスタムフィルター",
+      "help": "カスタムフィルターを使用するには、「イベントショップフィルター」を「カスタム」に設定し、https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn を参照してください"
     }
   },
   "Commission": {
     "_info": {
-      "name": "Commission._info.name",
-      "help": "Commission._info.help"
+      "name": "委託",
+      "help": ""
     },
     "PresetFilter": {
-      "name": "Commission.PresetFilter.name",
-      "help": "Commission.PresetFilter.help",
-      "cube": "cube",
-      "cube_24h": "cube_24h",
-      "chip": "chip",
-      "chip_24h": "chip_24h",
-      "oil": "oil",
-      "custom": "custom"
+      "name": "委託フィルター",
+      "help": "委託の产出と收益について十分な知識がない場合は、カスタムフィルターの作成はお勧めしません。事前最適化委託フィルターをお勧めします。\n24時間緊急委託刷り機能を実行する場合、（7x24刷り委託）フィルターを使用してください。\n緊急委託刷り機能を実行しながら石油優先フィルターを使用することはお勧めしません。",
+      "cube": "ダイヤ>魔方>石油",
+      "cube_24h": "ダイヤ>魔方>石油（7x24刷り委託）",
+      "chip": "ダイヤ>チップ>魔方",
+      "chip_24h": "ダイヤ>チップ>魔方（7x24刷り委託）",
+      "oil": "ダイヤ>石油>魔方",
+      "custom": "カスタム"
     },
     "CustomFilter": {
-      "name": "Commission.CustomFilter.name",
-      "help": "Commission.CustomFilter.help"
+      "name": "カスタム委託フィルター",
+      "help": "カスタムフィルターを使用するには、「委託フィルター」を「カスタム」に設定し、https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn を参照してください"
     },
     "DoMajorCommission": {
-      "name": "Commission.DoMajorCommission.name",
-      "help": "Commission.DoMajorCommission.help"
+      "name": "主要委託を行う（1200油/1000油委託）",
+      "help": "1200油委託は現在時代遅れで収益が低いので、無効にすることをお勧めします"
     }
   },
   "Tactical": {
     "_info": {
-      "name": "Tactical._info.name",
-      "help": "Tactical._info.help"
+      "name": "戦術学院",
+      "help": ""
     },
     "TacticalFilter": {
-      "name": "Tactical.TacticalFilter.name",
-      "help": "Tactical.TacticalFilter.help"
+      "name": "戦術学院フィルター",
+      "help": "通常変更する必要はありません"
     },
     "RapidTrainingSlot": {
-      "name": "Tactical.RapidTrainingSlot.name",
-      "help": "Tactical.RapidTrainingSlot.help",
-      "do_not_use": "do_not_use",
-      "slot_1": "slot_1",
-      "slot_2": "slot_2",
-      "slot_3": "slot_3",
-      "slot_4": "slot_4"
+      "name": "高速訓練スロット",
+      "help": "",
+      "do_not_use": "使用しない",
+      "slot_1": "スロット1",
+      "slot_2": "スロット2",
+      "slot_3": "スロット3",
+      "slot_4": "スロット4"
     }
   },
   "ControlExpOverflow": {
     "_info": {
-      "name": "ControlExpOverflow._info.name",
-      "help": "ControlExpOverflow._info.help"
+      "name": "経験値溢れ制御",
+      "help": ""
     },
     "Enable": {
-      "name": "ControlExpOverflow.Enable.name",
-      "help": "ControlExpOverflow.Enable.help"
+      "name": "経験値溢れ制御を有効化",
+      "help": ""
     },
     "T4Allow": {
-      "name": "ControlExpOverflow.T4Allow.name",
-      "help": "ControlExpOverflow.T4Allow.help"
+      "name": "T4技能書の経験値溢れをX点許可",
+      "help": ""
     },
     "T3Allow": {
-      "name": "ControlExpOverflow.T3Allow.name",
-      "help": "ControlExpOverflow.T3Allow.help"
+      "name": "T3技能書の経験値溢れをX点許可",
+      "help": ""
     },
     "T2Allow": {
-      "name": "ControlExpOverflow.T2Allow.name",
-      "help": "ControlExpOverflow.T2Allow.help"
+      "name": "T2技能書の経験値溢れをX点許可",
+      "help": ""
     },
     "T1Allow": {
-      "name": "ControlExpOverflow.T1Allow.name",
-      "help": "ControlExpOverflow.T1Allow.help"
+      "name": "T1技能書の経験値溢れをX点許可",
+      "help": ""
     }
   },
   "AddNewStudent": {
@@ -1684,151 +1684,151 @@
   },
   "Research": {
     "_info": {
-      "name": "Research._info.name",
-      "help": "Research._info.help"
+      "name": "研究",
+      "help": "フィルターと他の設定が連携する場合、Alasはすべてのユーザー設定を満たす項目を探します。\n例えば、研究フィルターを `H1 > D2.5 > shortest` （魔方消費を含む）に設定し、魔方消費を許可しないように設定すると、最終的にAlasは魔方消費の研究を選択しません。突然魔方を切り替えたい場合は、フィルターを変更せずに魔方消費をオンにするだけで済みます。これは便利です。"
     },
     "UseCube": {
-      "name": "Research.UseCube.name",
-      "help": "Research.UseCube.help",
-      "always_use": "always_use",
-      "only_05_hour": "only_05_hour",
-      "only_no_project": "only_no_project",
-      "do_not_use": "do_not_use"
+      "name": "魔方を使用",
+      "help": "",
+      "always_use": "常に使用",
+      "only_05_hour": "0.5時間+プロジェクトがない場合",
+      "only_no_project": "プロジェクトがない場合",
+      "do_not_use": "使用しない"
     },
     "UseCoin": {
-      "name": "Research.UseCoin.name",
-      "help": "Research.UseCoin.help",
-      "always_use": "always_use",
-      "only_05_hour": "only_05_hour",
-      "only_no_project": "only_no_project",
-      "do_not_use": "do_not_use"
+      "name": "物資を使用",
+      "help": "",
+      "always_use": "常に使用",
+      "only_05_hour": "0.5時間+プロジェクトがない場合",
+      "only_no_project": "プロジェクトがない場合",
+      "do_not_use": "使用しない"
     },
     "UsePart": {
-      "name": "Research.UsePart.name",
-      "help": "Research.UsePart.help",
-      "always_use": "always_use",
-      "only_05_hour": "only_05_hour",
-      "only_no_project": "only_no_project",
-      "do_not_use": "do_not_use"
+      "name": "部品を使用",
+      "help": "",
+      "always_use": "常に使用",
+      "only_05_hour": "0.5時間+プロジェクトがない場合",
+      "only_no_project": "プロジェクトがない場合",
+      "do_not_use": "使用しない"
     },
     "AllowDelay": {
-      "name": "Research.AllowDelay.name",
-      "help": "Research.AllowDelay.help"
+      "name": "資源不足時に研究を遅延",
+      "help": "資源不足の場合、Alasは条件が満たされるか研究キューが空になるまで研究を遅延させ、研究を停止させません。\n長期的に資源不足が続くか、Alasの実行時間が短い場合は、本オプションをオフにして研究キューを満たしたままにできます。"
     },
     "PresetFilter": {
-      "name": "Research.PresetFilter.name",
-      "help": "Research.PresetFilter.help",
-      "custom": "custom",
-      "series_8_blueprint_305": "Series 8 Blueprints+305",
-      "series_8_blueprint_only": "Series 8 Blueprints Only",
-      "series_8_305_only": "Series 8 305 Only",
-      "series_7_blueprint_la9": "Series 7 Blueprints+La9",
-      "series_7_blueprint_only": "Series 7 Blueprints Only",
-      "series_7_la9_only": "Series 7 La9 Only",
-      "series_6_blueprint_203": "Series 6 Blueprints+203",
-      "series_6_blueprint_only": "Series 6 Blueprints Only",
-      "series_6_203_only": "Series 6 203 Only",
-      "series_5_blueprint_152": "Series 5 Blueprints+152",
-      "series_5_blueprint_only": "Series 5 Blueprints Only",
-      "series_5_152_only": "Series 5 152 Only",
-      "series_4_blueprint_tenrai": "Series 4 Blueprints+Tenrai",
-      "series_4_blueprint_only": "Series 4 Blueprints Only",
-      "series_4_tenrai_only": "Series 4 Tenrai Only",
-      "series_3_blueprint_234": "Series 3 Blueprints+234",
-      "series_3_blueprint_only": "Series 3 Blueprints Only",
-      "series_3_234_only": "Series 3 234 Only",
-      "series_2_than_3_457_234": "Series 2+3 457+234",
-      "series_2_blueprint_457": "Series 2 Blueprints+457",
-      "series_2_blueprint_only": "Series 2 Blueprints Only",
-      "series_2_457_only": "Series 2 457 Only"
+      "name": "研究フィルター",
+      "help": "研究ドロップとプロジェクトのリフレッシュについては https://azur-stats.lyoko.io/ を参照してください。基本的な知識がない人はカスタムフィルターを作成せず、事前最適化された研究フィルターを使用することをお勧めします。",
+      "custom": "カスタム",
+      "series_8_blueprint_305": "八期 ブループリント+305",
+      "series_8_blueprint_only": "八期 ブループリントのみ",
+      "series_8_305_only": "八期 305のみ",
+      "series_7_blueprint_la9": "七期 ブループリント+La9",
+      "series_7_blueprint_only": "七期 ブループリントのみ",
+      "series_7_la9_only": "七期 La9のみ",
+      "series_6_blueprint_203": "六期 ブループリント+203",
+      "series_6_blueprint_only": "六期 ブループリントのみ",
+      "series_6_203_only": "六期 203のみ",
+      "series_5_blueprint_152": "五期 ブループリント+152",
+      "series_5_blueprint_only": "五期 ブループリントのみ",
+      "series_5_152_only": "五期 152のみ",
+      "series_4_blueprint_tenrai": "四期 ブループリント+天雷",
+      "series_4_blueprint_only": "四期 ブループリントのみ",
+      "series_4_tenrai_only": "四期 天雷のみ",
+      "series_3_blueprint_234": "三期 ブループリント+234",
+      "series_3_blueprint_only": "三期 ブループリントのみ",
+      "series_3_234_only": "三期 234のみ",
+      "series_2_than_3_457_234": "二期兼顾三期 457+234",
+      "series_2_blueprint_457": "二期 ブループリント+457",
+      "series_2_blueprint_only": "二期 ブループリントのみ",
+      "series_2_457_only": "二期 457のみ"
     },
     "CustomFilter": {
-      "name": "Research.CustomFilter.name",
-      "help": "Research.CustomFilter.help"
+      "name": "カスタム研究フィルター",
+      "help": "カスタムフィルターを使用するには、\"研究フィルター\"を\"カスタム\"に設定し、https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_jp を読む必要があります"
     }
   },
   "Dorm": {
     "_info": {
-      "name": "Dorm._info.name",
-      "help": "Dorm._info.help"
+      "name": "後宅",
+      "help": ""
     },
     "Collect": {
-      "name": "Dorm.Collect.name",
-      "help": "Dorm.Collect.help"
+      "name": "ハートと家具コインを収集",
+      "help": ""
     },
     "Feed": {
-      "name": "Dorm.Feed.name",
-      "help": "Dorm.Feed.help"
+      "name": "餌付け",
+      "help": ""
     },
     "FeedFilter": {
-      "name": "Dorm.FeedFilter.name",
-      "help": "Dorm.FeedFilter.help"
+      "name": "餌付けフィルター",
+      "help": "通常は変更不要"
     },
     "BuyFood": {
-      "name": "Dorm.BuyFood.name",
-      "help": "Dorm.BuyFood.help"
+      "name": "自動で食料を購入",
+      "help": "状態表示のみ 設定禁止 このスイッチについて尋ねないでください"
     }
   },
   "BuyFurniture": {
     "_info": {
-      "name": "BuyFurniture._info.name",
-      "help": "BuyFurniture._info.help"
+      "name": "活動家具設定",
+      "help": "活动中後宅家具ショップの期間限定家具を購入"
     },
     "Enable": {
-      "name": "BuyFurniture.Enable.name",
-      "help": "BuyFurniture.Enable.help"
+      "name": "活動家具を購入",
+      "help": ""
     },
     "BuyOption": {
-      "name": "BuyFurniture.BuyOption.name",
-      "help": "BuyFurniture.BuyOption.help",
-      "set": "set",
-      "all": "all"
+      "name": "購入プラン",
+      "help": "購入一套：各家具を1つずつ購入；購入全部：すべての家具を上限まで購入。どちらの購入プランでも、そのセットの家具は家具ショップの最前面から削除されます。購入一套を使用すると、残りの家具は手動で購入する必要があります。\n両方のプランで家具の消費差は不大で、購入全部を使用することをお勧めします。ダイヤモンド家具は購入しません。",
+      "set": "購入一套",
+      "all": "購入全部"
     },
     "LastRun": {
-      "name": "BuyFurniture.LastRun.name",
-      "help": "BuyFurniture.LastRun.help"
+      "name": "前回チェック時間",
+      "help": "タスクの重複実行を防ぐために前回チェック時間を記録します。チェック間隔は6日で、この数値は自動的に記録され、通常は変更不要です。"
     }
   },
   "Meowfficer": {
     "_info": {
-      "name": "Meowfficer._info.name",
-      "help": "Meowfficer._info.help"
+      "name": "指揮官猫",
+      "help": ""
     },
     "BuyAmount": {
-      "name": "Meowfficer.BuyAmount.name",
-      "help": "Meowfficer.BuyAmount.help"
+      "name": "毎日 X 個の猫箱を購入",
+      "help": "毎日最初の猫箱は無料です"
     },
     "FortChoreMeowfficer": {
-      "name": "Meowfficer.FortChoreMeowfficer.name",
-      "help": "Meowfficer.FortChoreMeowfficer.help"
+      "name": "猫窝互动",
+      "help": "掃除、餌付け、そして猫と遊ぶ"
     }
   },
   "MeowfficerTrain": {
     "_info": {
-      "name": "MeowfficerTrain._info.name",
-      "help": "MeowfficerTrain._info.help"
+      "name": "指揮官猫訓練",
+      "help": ""
     },
     "Enable": {
-      "name": "MeowfficerTrain.Enable.name",
-      "help": "MeowfficerTrain.Enable.help"
+      "name": "指揮官猫訓練を開始",
+      "help": ""
     },
     "Mode": {
-      "name": "MeowfficerTrain.Mode.name",
-      "help": "MeowfficerTrain.Mode.help",
-      "seamlessly": "seamlessly",
-      "once_a_day": "once_a_day"
+      "name": "訓練モード",
+      "help": "シームレス練猫は2.5〜3.5時間ごとに指揮猫を収集します。\n毎日1匹収集：毎日1匹収集し、日曜日にすべてを収集、強化し、キューを再填充して毎週のタスクを完了します。",
+      "seamlessly": "シームレス練猫",
+      "once_a_day": "毎日1匹収集"
     },
     "RetainTalentedGold": {
-      "name": "MeowfficerTrain.RetainTalentedGold.name",
-      "help": "MeowfficerTrain.RetainTalentedGold.help"
+      "name": "特殊天赋を持つ金猫をロック",
+      "help": "指揮猫を収集する際に特殊天赋を持つ猫をロックします。ロックされた猫は強化に使用されず、ユーザーは不要な猫を手動でチェックしてロック解除する必要があります。"
     },
     "RetainTalentedPurple": {
-      "name": "MeowfficerTrain.RetainTalentedPurple.name",
-      "help": "MeowfficerTrain.RetainTalentedPurple.help"
+      "name": "特殊天赋を持つ紫猫をロック",
+      "help": "指揮猫を収集する際に特殊天赋を持つ猫をロックします。ロックされた猫は強化に使用されず、ユーザーは不要な猫を手動でチェックしてロック解除する必要があります。"
     },
     "EnhanceIndex": {
-      "name": "MeowfficerTrain.EnhanceIndex.name",
-      "help": "MeowfficerTrain.EnhanceIndex.help"
+      "name": "特殊天赋のない猫で第 X 只の猫を強化",
+      "help": "猫倉庫の第 X 只の猫、1〜12に制限、左上から右下の順序"
     },
     "MaxFeedLevel": {
       "name": "レベル X 以上の猫を強化材料にしない",
@@ -1837,848 +1837,848 @@
   },
   "GuildLogistics": {
     "_info": {
-      "name": "GuildLogistics._info.name",
-      "help": "GuildLogistics._info.help"
+      "name": "大艦隊後勤",
+      "help": ""
     },
     "Enable": {
-      "name": "GuildLogistics.Enable.name",
-      "help": "GuildLogistics.Enable.help"
+      "name": "大艦隊後勤を有効",
+      "help": "大艦隊タスクを受領、準備物資を提出、艦隊報酬を受領"
     },
     "SelectNewMission": {
-      "name": "GuildLogistics.SelectNewMission.name",
-      "help": "GuildLogistics.SelectNewMission.help"
+      "name": "新しい毎週の艦隊タスクを選択",
+      "help": "このアカウントは艦隊司令または副司令である必要があります。\nデフォルトで最も簡単なセイレーン殲滅Ⅲを選択し、タスクは任意の敵を300隻撃沈します。"
     },
     "ExchangeFilter": {
-      "name": "GuildLogistics.ExchangeFilter.name",
-      "help": "GuildLogistics.ExchangeFilter.help"
+      "name": "準備物品フィルター",
+      "help": "通常は変更不要、消費が最も少ないものを優先選択"
     }
   },
   "GuildOperation": {
     "_info": {
-      "name": "GuildOperation._info.name",
-      "help": "GuildOperation._info.help"
+      "name": "大艦隊作戦",
+      "help": ""
     },
     "Enable": {
-      "name": "GuildOperation.Enable.name",
-      "help": "GuildOperation.Enable.help"
+      "name": "大艦隊作戦を有効",
+      "help": ""
     },
     "SelectNewOperation": {
-      "name": "GuildOperation.SelectNewOperation.name",
-      "help": "GuildOperation.SelectNewOperation.help"
+      "name": "新しい大艦隊作戦を開始",
+      "help": "このアカウントは艦隊司令または副司令である必要があります。\nデフォルトで報酬最多的ダグ・コナル島海空戦を選択します。"
     },
     "NewOperationMaxDate": {
-      "name": "GuildOperation.NewOperationMaxDate.name",
-      "help": "GuildOperation.NewOperationMaxDate.help"
+      "name": "毎月 X 日以降、新しい大艦隊作戦を開始しない",
+      "help": "\"新しい大艦隊作戦を開始\" が有効な場合のみ有効です。\n毎月3回の大艦隊作戦を開始することはお勧めしません。ほとんどのメンバーは3回目の作戦に参加できません。これにより派遣時間の評価に影響し、最終報酬が減少します。"
     },
     "JoinThreshold": {
-      "name": "GuildOperation.JoinThreshold.name",
-      "help": "GuildOperation.JoinThreshold.help"
+      "name": "作戦進行度 > X の場合のみ大艦隊作戦に参加",
+      "help": "0.0 ~ 1.0。例: '0.5' は進行度が半分に達していない場合のみ参加、'1' は進行度に関係なく参加"
     },
     "AttackBoss": {
-      "name": "GuildOperation.AttackBoss.name",
-      "help": "GuildOperation.AttackBoss.help"
+      "name": "大艦隊BOSSを攻撃",
+      "help": ""
     },
     "BossFleetRecommend": {
-      "name": "GuildOperation.BossFleetRecommend.name",
-      "help": "GuildOperation.BossFleetRecommend.help"
+      "name": "推奨艦隊を使用してBOSSを攻撃",
+      "help": "推奨はオフにし、自分で隊を編成してください"
     }
   },
   "Reward": {
     "_info": {
-      "name": "Reward._info.name",
-      "help": "Reward._info.help"
+      "name": "収穫",
+      "help": ""
     },
     "CollectOil": {
-      "name": "Reward.CollectOil.name",
-      "help": "Reward.CollectOil.help"
+      "name": "石油を収穫",
+      "help": ""
     },
     "CollectCoin": {
-      "name": "Reward.CollectCoin.name",
-      "help": "Reward.CollectCoin.help"
+      "name": "物資を収穫",
+      "help": ""
     },
     "CollectExp": {
-      "name": "Reward.CollectExp.name",
-      "help": "Reward.CollectExp.help"
+      "name": "経験値書を収穫",
+      "help": ""
     },
     "CollectMission": {
-      "name": "Reward.CollectMission.name",
-      "help": "Reward.CollectMission.help"
+      "name": "タスク報酬を受領",
+      "help": ""
     },
     "CollectWeeklyMission": {
-      "name": "Reward.CollectWeeklyMission.name",
-      "help": "Reward.CollectWeeklyMission.help"
+      "name": "週タスク報酬を受領",
+      "help": ""
     }
   },
   "Awaken": {
     "_info": {
-      "name": "Awaken._info.name",
-      "help": "Awaken._info.help"
+      "name": "認知覚醒",
+      "help": "ドック内のすべての船を認知ユニットが尽きるまで覚醒します"
     },
     "LevelCap": {
-      "name": "Awaken.LevelCap.name",
-      "help": "Awaken.LevelCap.help",
-      "level120": "level120",
-      "level125": "level125"
+      "name": "レベル上限まで覚醒",
+      "help": "",
+      "level120": "120級",
+      "level125": "125級"
     },
     "Favourite": {
-      "name": "Awaken.Favourite.name",
-      "help": "Awaken.Favourite.help"
+      "name": "常用艦船のみ覚醒",
+      "help": ""
     }
   },
   "Island1": {
     "_info": {
-      "name": "Island1._info.name",
-      "help": "Island1._info.help"
+      "name": "豊饒農田",
+      "help": ""
     },
     "Receive": {
-      "name": "Island1.Receive.name",
-      "help": "Island1.Receive.help"
+      "name": "豊饒農田を収穫",
+      "help": ""
     },
     "Option1": {
-      "name": "Island1.Option1.name",
-      "help": "Island1.Option1.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7",
-      "8": "8"
+      "name": "第 1 格生産物",
+      "help": "",
+      "0": "生産なし",
+      "1": "小麦",
+      "2": "トウモロコシ",
+      "3": "牧草",
+      "4": "コーヒー豆",
+      "5": "米",
+      "6": "白菜",
+      "7": "じゃがいも",
+      "8": "大豆"
     },
     "Character1": {
-      "name": "Island1.Character1.name",
-      "help": "Island1.Character1.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 1 格使用キャラ",
+      "help": "",
+      "manjuu": "作業ジュ",
+      "saratoga": "サラトガ",
+      "new_jersey": "ニュージャージー",
+      "tashkent": "タシュケント",
+      "lemalin": "ルマラン",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "ウィリアム・D・ポーター",
+      "chen_hai": "鎮海",
+      "unicorn": "ユニコーン",
+      "cheshire": "チェシャー",
+      "amagi_chan": "天城ちゃん",
+      "helena": "ヘレナ",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "フリードリヒ・デア・グローセ"
     },
     "Option2": {
-      "name": "Island1.Option2.name",
-      "help": "Island1.Option2.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7",
-      "8": "8"
+      "name": "第 2 格生産物",
+      "help": "",
+      "0": "生産なし",
+      "1": "小麦",
+      "2": "トウモロコシ",
+      "3": "牧草",
+      "4": "コーヒー豆",
+      "5": "米",
+      "6": "白菜",
+      "7": "じゃがいも",
+      "8": "大豆"
     },
     "Character2": {
-      "name": "Island1.Character2.name",
-      "help": "Island1.Character2.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 2 格使用キャラ",
+      "help": "",
+      "manjuu": "作業ジュ",
+      "saratoga": "サラトガ",
+      "new_jersey": "ニュージャージー",
+      "tashkent": "タシュケント",
+      "lemalin": "ルマラン",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "ウィリアム・D・ポーター",
+      "chen_hai": "鎮海",
+      "unicorn": "ユニコーン",
+      "cheshire": "チェシャー",
+      "amagi_chan": "天城ちゃん",
+      "helena": "ヘレナ",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "フリードリヒ・デア・グローセ"
     },
     "Option3": {
-      "name": "Island1.Option3.name",
-      "help": "Island1.Option3.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7",
-      "8": "8"
+      "name": "第 3 格生産物",
+      "help": "",
+      "0": "生産なし",
+      "1": "小麦",
+      "2": "トウモロコシ",
+      "3": "牧草",
+      "4": "コーヒー豆",
+      "5": "米",
+      "6": "白菜",
+      "7": "じゃがいも",
+      "8": "大豆"
     },
     "Character3": {
-      "name": "Island1.Character3.name",
-      "help": "Island1.Character3.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 3 格使用キャラ",
+      "help": "",
+      "manjuu": "作業ジュ",
+      "saratoga": "サラトガ",
+      "new_jersey": "ニュージャージー",
+      "tashkent": "タシュケント",
+      "lemalin": "ルマラン",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "ウィリアム・D・ポーター",
+      "chen_hai": "鎮海",
+      "unicorn": "ユニコーン",
+      "cheshire": "チェシャー",
+      "amagi_chan": "天城ちゃん",
+      "helena": "ヘレナ",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "フリードリヒ・デア・グローセ"
     },
     "Option4": {
-      "name": "Island1.Option4.name",
-      "help": "Island1.Option4.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7",
-      "8": "8"
+      "name": "第 4 格生産物",
+      "help": "",
+      "0": "生産なし",
+      "1": "小麦",
+      "2": "トウモロコシ",
+      "3": "牧草",
+      "4": "コーヒー豆",
+      "5": "米",
+      "6": "白菜",
+      "7": "じゃがいも",
+      "8": "大豆"
     },
     "Character4": {
-      "name": "Island1.Character4.name",
-      "help": "Island1.Character4.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 4 格使用キャラ",
+      "help": "",
+      "manjuu": "作業ジュ",
+      "saratoga": "サラトガ",
+      "new_jersey": "ニュージャージー",
+      "tashkent": "タシュケント",
+      "lemalin": "ルマラン",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "ウィリアム・D・ポーター",
+      "chen_hai": "鎮海",
+      "unicorn": "ユニコーン",
+      "cheshire": "チェシャー",
+      "amagi_chan": "天城ちゃん",
+      "helena": "ヘレナ",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "フリードリヒ・デア・グローセ"
     }
   },
   "Island2": {
     "_info": {
-      "name": "Island2._info.name",
-      "help": "Island2._info.help"
+      "name": "悠然牧場",
+      "help": ""
     },
     "Receive": {
-      "name": "Island2.Receive.name",
-      "help": "Island2.Receive.help"
+      "name": "悠然牧場を収穫",
+      "help": ""
     },
     "Option1": {
-      "name": "Island2.Option1.name",
-      "help": "Island2.Option1.help",
-      "0": "0",
-      "1": "1"
+      "name": "第 1 格生産物",
+      "help": "",
+      "0": "生産なし",
+      "1": "卵（禽肉）"
     },
     "Character1": {
-      "name": "Island2.Character1.name",
-      "help": "Island2.Character1.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 1 格使用キャラ",
+      "help": "",
+      "manjuu": "作業ジュ",
+      "saratoga": "サラトガ",
+      "new_jersey": "ニュージャージー",
+      "tashkent": "タシュケント",
+      "lemalin": "ルマラン",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "ウィリアム・D・ポーター",
+      "chen_hai": "鎮海",
+      "unicorn": "ユニコーン",
+      "cheshire": "チェシャー",
+      "amagi_chan": "天城ちゃん",
+      "helena": "ヘレナ",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "フリードリヒ・デア・グローセ"
     },
     "Option2": {
-      "name": "Island2.Option2.name",
-      "help": "Island2.Option2.help",
-      "0": "0",
-      "2": "2"
+      "name": "第 2 格生産物",
+      "help": "",
+      "0": "生産なし",
+      "2": "生肉"
     },
     "Character2": {
-      "name": "Island2.Character2.name",
-      "help": "Island2.Character2.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 2 格使用キャラ",
+      "help": "",
+      "manjuu": "作業ジュ",
+      "saratoga": "サラトガ",
+      "new_jersey": "ニュージャージー",
+      "tashkent": "タシュケント",
+      "lemalin": "ルマラン",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "ウィリアム・D・ポーター",
+      "chen_hai": "鎮海",
+      "unicorn": "ユニコーン",
+      "cheshire": "チェシャー",
+      "amagi_chan": "天城ちゃん",
+      "helena": "ヘレナ",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "フリードリヒ・デア・グローセ"
     },
     "Option3": {
-      "name": "Island2.Option3.name",
-      "help": "Island2.Option3.help",
-      "0": "0",
-      "3": "3"
+      "name": "第 3 格生産物",
+      "help": "",
+      "0": "生産なし",
+      "3": "牛乳（皮素材）"
     },
     "Character3": {
-      "name": "Island2.Character3.name",
-      "help": "Island2.Character3.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 3 格使用キャラ",
+      "help": "",
+      "manjuu": "作業ジュ",
+      "saratoga": "サラトガ",
+      "new_jersey": "ニュージャージー",
+      "tashkent": "タシュケント",
+      "lemalin": "ルマラン",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "ウィリアム・D・ポーター",
+      "chen_hai": "鎮海",
+      "unicorn": "ユニコーン",
+      "cheshire": "チェシャー",
+      "amagi_chan": "天城ちゃん",
+      "helena": "ヘレナ",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "フリードリヒ・デア・グローセ"
     },
     "Option4": {
-      "name": "Island2.Option4.name",
-      "help": "Island2.Option4.help",
-      "0": "0",
-      "4": "4"
+      "name": "第 4 格生産物",
+      "help": "",
+      "0": "生産なし",
+      "4": "羊毛"
     },
     "Character4": {
-      "name": "Island2.Character4.name",
-      "help": "Island2.Character4.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 4 格使用キャラ",
+      "help": "",
+      "manjuu": "作業ジュ",
+      "saratoga": "サラトガ",
+      "new_jersey": "ニュージャージー",
+      "tashkent": "タシュケント",
+      "lemalin": "ルマラン",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "ウィリアム・D・ポーター",
+      "chen_hai": "鎮海",
+      "unicorn": "ユニコーン",
+      "cheshire": "チェシャー",
+      "amagi_chan": "天城ちゃん",
+      "helena": "ヘレナ",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "フリードリヒ・デア・グローセ"
     }
   },
   "Island3": {
     "_info": {
-      "name": "Island3._info.name",
-      "help": "Island3._info.help"
+      "name": "ジュジュ漁場",
+      "help": ""
     },
     "Receive": {
-      "name": "Island3.Receive.name",
-      "help": "Island3.Receive.help"
+      "name": "ジュジュ漁場を収穫",
+      "help": ""
     },
     "Option1": {
-      "name": "Island3.Option1.name",
-      "help": "Island3.Option1.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7",
-      "8": "8",
-      "9": "9",
-      "10": "10",
-      "11": "11",
-      "12": "12",
-      "13": "13",
-      "14": "14",
-      "15": "15",
-      "16": "16"
+      "name": "第 1 格生産物",
+      "help": "",
+      "0": "生産なし",
+      "1": "貝類",
+      "2": "ナマズ",
+      "3": "コイ",
+      "4": "フナ",
+      "5": "小エビ",
+      "6": "ザリガニ",
+      "7": "スズキ",
+      "8": "カニ",
+      "9": "イカ",
+      "10": "サワラ",
+      "11": "マグロ",
+      "12": "サーモン",
+      "13": "タイ",
+      "14": "クロダイ",
+      "15": "キハダマグロ",
+      "16": "ナマコ"
     },
     "Character1": {
-      "name": "Island3.Character1.name",
-      "help": "Island3.Character1.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 1 格使用キャラ",
+      "help": "",
+      "manjuu": "作業ジュ",
+      "saratoga": "サラトガ",
+      "new_jersey": "ニュージャージー",
+      "tashkent": "タシュケント",
+      "lemalin": "ルマラン",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "ウィリアム・D・ポーター",
+      "chen_hai": "鎮海",
+      "unicorn": "ユニコーン",
+      "cheshire": "チェシャー",
+      "amagi_chan": "天城ちゃん",
+      "helena": "ヘレナ",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "フリードリヒ・デア・グローセ"
     },
     "Option2": {
-      "name": "Island3.Option2.name",
-      "help": "Island3.Option2.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7",
-      "8": "8",
-      "9": "9",
-      "10": "10",
-      "11": "11",
-      "12": "12",
-      "13": "13",
-      "14": "14",
-      "15": "15",
-      "16": "16"
+      "name": "第 2 格生産物",
+      "help": "",
+      "0": "生産なし",
+      "1": "貝類",
+      "2": "ナマズ",
+      "3": "コイ",
+      "4": "フナ",
+      "5": "小エビ",
+      "6": "ザリガニ",
+      "7": "スズキ",
+      "8": "カニ",
+      "9": "イカ",
+      "10": "サワラ",
+      "11": "マグロ",
+      "12": "サーモン",
+      "13": "タイ",
+      "14": "クロダイ",
+      "15": "キハダマグロ",
+      "16": "ナマコ"
     },
     "Character2": {
-      "name": "Island3.Character2.name",
-      "help": "Island3.Character2.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 2 格使用キャラ",
+      "help": "",
+      "manjuu": "作業ジュ",
+      "saratoga": "サラトガ",
+      "new_jersey": "ニュージャージー",
+      "tashkent": "タシュケント",
+      "lemalin": "ルマラン",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "ウィリアム・D・ポーター",
+      "chen_hai": "鎮海",
+      "unicorn": "ユニコーン",
+      "cheshire": "チェシャー",
+      "amagi_chan": "天城ちゃん",
+      "helena": "ヘレナ",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "フリードリヒ・デア・グローセ"
     },
     "Option3": {
-      "name": "Island3.Option3.name",
-      "help": "Island3.Option3.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7",
-      "8": "8",
-      "9": "9",
-      "10": "10",
-      "11": "11",
-      "12": "12",
-      "13": "13",
-      "14": "14",
-      "15": "15",
-      "16": "16"
+      "name": "第 3 格生産物",
+      "help": "",
+      "0": "生産なし",
+      "1": "貝類",
+      "2": "ナマズ",
+      "3": "コイ",
+      "4": "フナ",
+      "5": "小エビ",
+      "6": "ザリガニ",
+      "7": "スズキ",
+      "8": "カニ",
+      "9": "イカ",
+      "10": "サワラ",
+      "11": "マグロ",
+      "12": "サーモン",
+      "13": "タイ",
+      "14": "クロダイ",
+      "15": "キハダマグロ",
+      "16": "ナマコ"
     },
     "Character3": {
-      "name": "Island3.Character3.name",
-      "help": "Island3.Character3.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 3 格使用キャラ",
+      "help": "",
+      "manjuu": "作業ジュ",
+      "saratoga": "サラトガ",
+      "new_jersey": "ニュージャージー",
+      "tashkent": "タシュケント",
+      "lemalin": "ルマラン",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "ウィリアム・D・ポーター",
+      "chen_hai": "鎮海",
+      "unicorn": "ユニコーン",
+      "cheshire": "チェシャー",
+      "amagi_chan": "天城ちゃん",
+      "helena": "ヘレナ",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "フリードリヒ・デア・グローセ"
     }
   },
   "Island4": {
     "_info": {
-      "name": "Island4._info.name",
-      "help": "Island4._info.help"
+      "name": "沈石鉱山",
+      "help": ""
     },
     "Receive": {
-      "name": "Island4.Receive.name",
-      "help": "Island4.Receive.help"
+      "name": "沈石鉱山を収穫",
+      "help": ""
     },
     "Option1": {
-      "name": "Island4.Option1.name",
-      "help": "Island4.Option1.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6"
+      "name": "第 1 格生産物",
+      "help": "",
+      "0": "生産なし",
+      "1": "石炭",
+      "2": "銅鉱",
+      "3": "アルミ鉱",
+      "4": "鉄鉱",
+      "5": "硫黄鉱",
+      "6": "銀鉱"
     },
     "Character1": {
-      "name": "Island4.Character1.name",
-      "help": "Island4.Character1.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 1 格使用キャラ",
+      "help": "",
+      "manjuu": "作業ジュ",
+      "saratoga": "サラトガ",
+      "new_jersey": "ニュージャージー",
+      "tashkent": "タシュケント",
+      "lemalin": "ルマラン",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "ウィリアム・D・ポーター",
+      "chen_hai": "鎮海",
+      "unicorn": "ユニコーン",
+      "cheshire": "チェシャー",
+      "amagi_chan": "天城ちゃん",
+      "helena": "ヘレナ",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "フリードリヒ・デア・グローセ"
     },
     "Option2": {
-      "name": "Island4.Option2.name",
-      "help": "Island4.Option2.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6"
+      "name": "第 2 格生産物",
+      "help": "",
+      "0": "生産なし",
+      "1": "石炭",
+      "2": "銅鉱",
+      "3": "アルミ鉱",
+      "4": "鉄鉱",
+      "5": "硫黄鉱",
+      "6": "銀鉱"
     },
     "Character2": {
-      "name": "Island4.Character2.name",
-      "help": "Island4.Character2.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 2 格使用キャラ",
+      "help": "",
+      "manjuu": "作業ジュ",
+      "saratoga": "サラトガ",
+      "new_jersey": "ニュージャージー",
+      "tashkent": "タシュケント",
+      "lemalin": "ルマラン",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "ウィリアム・D・ポーター",
+      "chen_hai": "鎮海",
+      "unicorn": "ユニコーン",
+      "cheshire": "チェシャー",
+      "amagi_chan": "天城ちゃん",
+      "helena": "ヘレナ",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "フリードリヒ・デア・グローセ"
     },
     "Option3": {
-      "name": "Island4.Option3.name",
-      "help": "Island4.Option3.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6"
+      "name": "第 3 格生産物",
+      "help": "",
+      "0": "生産なし",
+      "1": "石炭",
+      "2": "銅鉱",
+      "3": "アルミ鉱",
+      "4": "鉄鉱",
+      "5": "硫黄鉱",
+      "6": "銀鉱"
     },
     "Character3": {
-      "name": "Island4.Character3.name",
-      "help": "Island4.Character3.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 3 格使用キャラ",
+      "help": "",
+      "manjuu": "作業ジュ",
+      "saratoga": "サラトガ",
+      "new_jersey": "ニュージャージー",
+      "tashkent": "タシュケント",
+      "lemalin": "ルマラン",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "ウィリアム・D・ポーター",
+      "chen_hai": "鎮海",
+      "unicorn": "ユニコーン",
+      "cheshire": "チェシャー",
+      "amagi_chan": "天城ちゃん",
+      "helena": "ヘレナ",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "フリードリヒ・デア・グローセ"
     },
     "Option4": {
-      "name": "Island4.Option4.name",
-      "help": "Island4.Option4.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6"
+      "name": "第 4 格生産物",
+      "help": "",
+      "0": "生産なし",
+      "1": "石炭",
+      "2": "銅鉱",
+      "3": "アルミ鉱",
+      "4": "鉄鉱",
+      "5": "硫黄鉱",
+      "6": "銀鉱"
     },
     "Character4": {
-      "name": "Island4.Character4.name",
-      "help": "Island4.Character4.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 4 格使用キャラ",
+      "help": "",
+      "manjuu": "作業ジュ",
+      "saratoga": "サラトガ",
+      "new_jersey": "ニュージャージー",
+      "tashkent": "タシュケント",
+      "lemalin": "ルマラン",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "ウィリアム・D・ポーター",
+      "chen_hai": "鎮海",
+      "unicorn": "ユニコーン",
+      "cheshire": "チェシャー",
+      "amagi_chan": "天城ちゃん",
+      "helena": "ヘレナ",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "フリードリヒ・デア・グローセ"
     }
   },
   "Island5": {
     "_info": {
-      "name": "Island5._info.name",
-      "help": "Island5._info.help"
+      "name": "翠土林場",
+      "help": ""
     },
     "Receive": {
-      "name": "Island5.Receive.name",
-      "help": "Island5.Receive.help"
+      "name": "翠土林場を収穫",
+      "help": ""
     },
     "Option1": {
-      "name": "Island5.Option1.name",
-      "help": "Island5.Option1.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4"
+      "name": "第 1 格生産物",
+      "help": "",
+      "0": "生産なし",
+      "1": "自然の木",
+      "2": "実用の木",
+      "3": "精選の木",
+      "4": "典雅の木"
     },
     "Character1": {
-      "name": "Island5.Character1.name",
-      "help": "Island5.Character1.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 1 格使用キャラ",
+      "help": "",
+      "manjuu": "作業ジュ",
+      "saratoga": "サラトガ",
+      "new_jersey": "ニュージャージー",
+      "tashkent": "タシュケント",
+      "lemalin": "ルマラン",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "ウィリアム・D・ポーター",
+      "chen_hai": "鎮海",
+      "unicorn": "ユニコーン",
+      "cheshire": "チェシャー",
+      "amagi_chan": "天城ちゃん",
+      "helena": "ヘレナ",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "フリードリヒ・デア・グローセ"
     },
     "Option2": {
-      "name": "Island5.Option2.name",
-      "help": "Island5.Option2.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4"
+      "name": "第 2 格生産物",
+      "help": "",
+      "0": "生産なし",
+      "1": "自然の木",
+      "2": "実用の木",
+      "3": "精選の木",
+      "4": "典雅の木"
     },
     "Character2": {
-      "name": "Island5.Character2.name",
-      "help": "Island5.Character2.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 2 格使用キャラ",
+      "help": "",
+      "manjuu": "作業ジュ",
+      "saratoga": "サラトガ",
+      "new_jersey": "ニュージャージー",
+      "tashkent": "タシュケント",
+      "lemalin": "ルマラン",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "ウィリアム・D・ポーター",
+      "chen_hai": "鎮海",
+      "unicorn": "ユニコーン",
+      "cheshire": "チェシャー",
+      "amagi_chan": "天城ちゃん",
+      "helena": "ヘレナ",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "フリードリヒ・デア・グローセ"
     },
     "Option3": {
-      "name": "Island5.Option3.name",
-      "help": "Island5.Option3.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4"
+      "name": "第 3 格生産物",
+      "help": "",
+      "0": "生産なし",
+      "1": "自然の木",
+      "2": "実用の木",
+      "3": "精選の木",
+      "4": "典雅の木"
     },
     "Character3": {
-      "name": "Island5.Character3.name",
-      "help": "Island5.Character3.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 3 格使用キャラ",
+      "help": "",
+      "manjuu": "作業ジュ",
+      "saratoga": "サラトガ",
+      "new_jersey": "ニュージャージー",
+      "tashkent": "タシュケント",
+      "lemalin": "ルマラン",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "ウィリアム・D・ポーター",
+      "chen_hai": "鎮海",
+      "unicorn": "ユニコーン",
+      "cheshire": "チェシャー",
+      "amagi_chan": "天城ちゃん",
+      "helena": "ヘレナ",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "フリードリヒ・デア・グローセ"
     },
     "Option4": {
-      "name": "Island5.Option4.name",
-      "help": "Island5.Option4.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4"
+      "name": "第 4 格生産物",
+      "help": "",
+      "0": "生産なし",
+      "1": "自然の木",
+      "2": "実用の木",
+      "3": "精選の木",
+      "4": "典雅の木"
     },
     "Character4": {
-      "name": "Island5.Character4.name",
-      "help": "Island5.Character4.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 4 格使用キャラ",
+      "help": "",
+      "manjuu": "作業ジュ",
+      "saratoga": "サラトガ",
+      "new_jersey": "ニュージャージー",
+      "tashkent": "タシュケント",
+      "lemalin": "ルマラン",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "ウィリアム・D・ポーター",
+      "chen_hai": "鎮海",
+      "unicorn": "ユニコーン",
+      "cheshire": "チェシャー",
+      "amagi_chan": "天城ちゃん",
+      "helena": "ヘレナ",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "フリードリヒ・デア・グローセ"
     }
   },
   "Island6": {
     "_info": {
-      "name": "Island6._info.name",
-      "help": "Island6._info.help"
+      "name": "墜香果樹園",
+      "help": ""
     },
     "Receive": {
-      "name": "Island6.Receive.name",
-      "help": "Island6.Receive.help"
+      "name": "墜香果樹園を収穫",
+      "help": ""
     },
     "Option1": {
-      "name": "Island6.Option1.name",
-      "help": "Island6.Option1.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7"
+      "name": "第 1 格生産物",
+      "help": "",
+      "0": "生産なし",
+      "1": "リンゴ",
+      "2": "柑橘",
+      "3": "バナナ",
+      "4": "マンゴー",
+      "5": "レモン",
+      "6": "アボカド",
+      "7": "ゴム"
     },
     "Character1": {
-      "name": "Island6.Character1.name",
-      "help": "Island6.Character1.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 1 格使用キャラ",
+      "help": "",
+      "manjuu": "作業ジュ",
+      "saratoga": "サラトガ",
+      "new_jersey": "ニュージャージー",
+      "tashkent": "タシュケント",
+      "lemalin": "ルマラン",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "ウィリアム・D・ポーター",
+      "chen_hai": "鎮海",
+      "unicorn": "ユニコーン",
+      "cheshire": "チェシャー",
+      "amagi_chan": "天城ちゃん",
+      "helena": "ヘレナ",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "フリードリヒ・デア・グローセ"
     },
     "Option2": {
-      "name": "Island6.Option2.name",
-      "help": "Island6.Option2.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7"
+      "name": "第 2 格生産物",
+      "help": "",
+      "0": "生産なし",
+      "1": "リンゴ",
+      "2": "柑橘",
+      "3": "バナナ",
+      "4": "マンゴー",
+      "5": "レモン",
+      "6": "アボカド",
+      "7": "ゴム"
     },
     "Character2": {
-      "name": "Island6.Character2.name",
-      "help": "Island6.Character2.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 2 格使用キャラ",
+      "help": "",
+      "manjuu": "作業ジュ",
+      "saratoga": "サラトガ",
+      "new_jersey": "ニュージャージー",
+      "tashkent": "タシュケント",
+      "lemalin": "ルマラン",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "ウィリアム・D・ポーター",
+      "chen_hai": "鎮海",
+      "unicorn": "ユニコーン",
+      "cheshire": "チェシャー",
+      "amagi_chan": "天城ちゃん",
+      "helena": "ヘレナ",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "フリードリヒ・デア・グローセ"
     },
     "Option3": {
-      "name": "Island6.Option3.name",
-      "help": "Island6.Option3.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7"
+      "name": "第 3 格生産物",
+      "help": "",
+      "0": "生産なし",
+      "1": "リンゴ",
+      "2": "柑橘",
+      "3": "バナナ",
+      "4": "マンゴー",
+      "5": "レモン",
+      "6": "アボカド",
+      "7": "ゴム"
     },
     "Character3": {
       "name": "Island6.Character3.name",
