@@ -39,15 +39,15 @@
   },
   "Task": {
     "Alas": {
-      "name": "智慧港區設置",
+      "name": "智慧港區設定",
       "help": ""
     },
     "General": {
-      "name": "通用設置",
+      "name": "通用設定",
       "help": ""
     },
     "Restart": {
-      "name": "重啓設置",
+      "name": "重啟設定",
       "help": ""
     },
     "Main": {
@@ -215,7 +215,7 @@
       "help": ""
     },
     "OpsiGeneral": {
-      "name": "通用設置",
+      "name": "通用設定",
       "help": ""
     },
     "OpsiAshBeacon": {
@@ -252,7 +252,7 @@
     },
     "OpsiArchive": {
       "name": "檔案坐標",
-      "help": "從白票商店購買檔案坐標並運行，檔案海域不消耗行動力\n使用此功能前必須滿足以下條件：\n- 通關大世界主線並完成模擬戰+塞壬試驗場\n- 啓用大世界開荒任務或使用戰役信息記錄儀（5000油道具）"
+      "help": "從白票商店購買檔案坐標並運行，檔案海域不消耗行動力\n使用此功能前必須滿足以下條件：\n- 通關大世界主線並完成模擬戰+塞壬試驗場\n- 啟用大世界開荒任務或使用戰役信息記錄儀（5000油道具）"
     },
     "OpsiStronghold": {
       "name": "塞壬要塞",
@@ -272,15 +272,15 @@
     },
     "OpsiScheduling": {
       "name": "智能調度+",
-      "help": "大世界智能調度功能，用於協調侵蝕1練級與黃幣補充任務之間的切換\n啓用後將根據黃幣和行動力自動在不同任務之間切換並發送推送通知"
+      "help": "大世界智能調度功能，用於協調侵蝕1練級與黃幣補充任務之間的切換\n啟用後將根據黃幣和行動力自動在不同任務之間切換並發送推送通知"
     },
     "OpsiCrossMonth": {
       "name": "跨月每日",
-      "help": "    Alas將在大世界跨月重置之前10分鍾進入大世界，等待大世界重置但不退出大世界，然後完成新一天的大世界每日、隱祕海域、深淵海域和短貓相接，以獲得額外的金菜。運行大世界每日時，按\"大世界每日\"任務設置運行，其餘同理。\n    重要：Alas等待跨月期間，請不要操作遊戲。"
+      "help": "    Alas將在大世界跨月重置之前10分鍾進入大世界，等待大世界重置但不退出大世界，然後完成新一天的大世界每日、隱祕海域、深淵海域和短貓相接，以獲得額外的金菜。運行大世界每日時，按\"大世界每日\"任務設定運行，其餘同理。\n    重要：Alas等待跨月期間，請不要操作遊戲。"
     },
     "OpsiDailyDelay": {
       "name": "大世界任務延後+",
-      "help": "    在每日0點服務器重啓前的可配置時間段內（默認爲5分鍾，即23:55觸發），將當前進行中的侵蝕一和短貓任務自動延後至次日0點重啓完成後再執行   "
+      "help": "    在每日0點伺服器重啟前的可配置時間段內（默認爲5分鍾，即23:55觸發），將當前進行中的侵蝕一和短貓任務自動延後至次日0點重啟完成後再執行   "
     },
     "IslandInfo": {
       "name": "島嶼信息(未完成)",
@@ -321,13 +321,13 @@
   },
   "Scheduler": {
     "_info": {
-      "name": "任務設置",
+      "name": "任務設定",
       "help": ""
     },
     "Enable": {
-      "name": "啓用該功能",
+      "name": "啟用該功能",
       "help": "將這個任務加入調度器\n委託、科研、收獲任務是強制打開的",
-      "True": "已啓用",
+      "True": "已啟用",
       "False": "False"
     },
     "NextRun": {
@@ -347,94 +347,94 @@
       "help": ""
     },
     "ServerUpdate": {
-      "name": "服務器刷新時間",
-      "help": "一些任務運行成功後，將推遲下一次運行至服務器刷新時間\n自動換算時區，一般不需要修改"
+      "name": "伺服器刷新時間",
+      "help": "一些任務運行成功後，將推遲下一次運行至伺服器刷新時間\n自動換算時區，一般不需要修改"
     }
   },
   "Emulator": {
     "_info": {
-      "name": "模擬器設置",
+      "name": "模擬器設定",
       "help": ""
     },
     "Serial": {
       "name": "模擬器 Serial",
-      "help": "常見的模擬器 Serial 可以查詢下方列表\n填 \"auto\" 自動檢測模擬器，多個模擬器正在運行或使用不支持自動檢測的模擬器時無法使用 \"auto\"，必須手動填寫\n\n模擬器默認 Serial：\n- 藍疊模擬器 127.0.0.1:5555\n- 藍疊模擬器4 Hyper-v版，填\"bluestacks4-hyperv\"自動連接，多開填\"bluestacks4-hyperv-2\"以此類推\n- 藍疊模擬器5 Hyper-v版，填\"bluestacks5-hyperv\"自動連接，多開填\"bluestacks5-hyperv-1\"以此類推\n- 夜神模擬器 127.0.0.1:62001\n- 夜神模擬器64位 127.0.0.1:59865\n- MuMu模擬器/MuMu模擬器X 127.0.0.1:7555\n- MuMu模擬器12 127.0.0.1:16384\n- MuMu Pro (macOS) 127.0.0.1:16384，多開依次爲 127.0.0.1:16416, 127.0.0.1:16448 ...\n- 逍遙模擬器 127.0.0.1:21503\n- 雷電模擬器 emulator-5554 或 127.0.0.1:5555\n如果你使用了模擬器的多開功能，它們的 Serial 將不是默認的，可以在 console.bat 中執行 `adb devices` 查詢，或根據模擬器官方的教程填寫"
+      "help": "常見的模擬器 Serial 可以查詢下方列表\n填 \"auto\" 自動檢測模擬器，多個模擬器正在運行或使用不支援自動檢測的模擬器時無法使用 \"auto\"，必須手動填寫\n\n模擬器默認 Serial：\n- 藍疊模擬器 127.0.0.1:5555\n- 藍疊模擬器4 Hyper-v版，填\"bluestacks4-hyperv\"自動連接，多開填\"bluestacks4-hyperv-2\"以此類推\n- 藍疊模擬器5 Hyper-v版，填\"bluestacks5-hyperv\"自動連接，多開填\"bluestacks5-hyperv-1\"以此類推\n- 夜神模擬器 127.0.0.1:62001\n- 夜神模擬器64位 127.0.0.1:59865\n- MuMu模擬器/MuMu模擬器X 127.0.0.1:7555\n- MuMu模擬器12 127.0.0.1:16384\n- MuMu Pro (macOS) 127.0.0.1:16384，多開依次爲 127.0.0.1:16416, 127.0.0.1:16448 ...\n- 逍遙模擬器 127.0.0.1:21503\n- 雷電模擬器 emulator-5554 或 127.0.0.1:5555\n如果你使用了模擬器的多開功能，它們的 Serial 將不是默認的，可以在 console.bat 中執行 `adb devices` 查詢，或根據模擬器官方的教程填寫"
     },
     "PackageName": {
-      "name": "遊戲服務器",
-      "help": "模擬器上裝有多個遊戲客戶端時，需要手動選擇服務器",
+      "name": "遊戲伺服器",
+      "help": "模擬器上裝有多個遊戲客戶端時，需要手動選擇伺服器",
       "auto": "自動檢測",
       "com.bilibili.azurlane": "國服",
       "com.YoStarEN.AzurLane": "國際服",
       "com.YoStarJP.AzurLane": "日服",
       "com.hkmanjuu.azurlane.gp": "臺服",
-      "com.bilibili.blhx.huawei": "國服 華爲渠道服 com.bilibili.blhx.huawei",
-      "com.bilibili.blhx.honor": "國服 榮耀渠道服 com.bilibili.blhx.honor",
-      "com.bilibili.blhx.mi": "國服 小米渠道服 com.bilibili.blhx.mi",
-      "com.tencent.tmgp.bilibili.blhx": "國服 騰訊應用寶渠道服 com.tencent.tmgp.bilibili.blhx",
-      "com.bilibili.blhx.baidu": "國服 百度渠道服 com.bilibili.blhx.baidu",
-      "com.bilibili.blhx.qihoo": "國服 360渠道服 com.bilibili.blhx.qihoo",
-      "com.bilibili.blhx.nearme.gamecenter": "國服 oppo渠道服 com.bilibili.blhx.nearme.gamecenter",
-      "com.bilibili.blhx.vivo": "國服 vivo渠道服 com.bilibili.blhx.vivo",
-      "com.bilibili.blhx.mz": "國服 魅族渠道服 com.bilibili.blhx.mz",
-      "com.bilibili.blhx.dl": "國服 當樂渠道服 com.bilibili.blhx.dl",
-      "com.bilibili.blhx.lenovo": "國服 聯想渠道服 com.bilibili.blhx.lenovo",
-      "com.bilibili.blhx.uc": "國服 UC九遊渠道服 com.bilibili.blhx.uc",
-      "com.bilibili.blhx.mzw": "國服 拇指玩渠道服 com.bilibili.blhx.mzw",
-      "com.yiwu.blhx.yx15": "國服 一五遊戲渠道服 com.yiwu.blhx.yx15",
-      "com.bilibili.blhx.m4399": "國服 4399渠道服 com.bilibili.blhx.m4399",
-      "com.bilibili.blhx.bilibiliMove": "國服 遷移渠道服 com.bilibili.blhx.bilibiliMove",
-      "com.hkmanjuu.azurlane.gp.mc": "臺服 com.hkmanjuu.azurlane.gp.mc"
+      "com.bilibili.blhx.huawei": "國服 com.bilibili.blhx.huawei",
+      "com.bilibili.blhx.honor": "國服 com.bilibili.blhx.honor",
+      "com.bilibili.blhx.mi": "國服 com.bilibili.blhx.mi",
+      "com.tencent.tmgp.bilibili.blhx": "國服 com.tencent.tmgp.bilibili.blhx",
+      "com.bilibili.blhx.baidu": "國服 com.bilibili.blhx.baidu",
+      "com.bilibili.blhx.qihoo": "國服 com.bilibili.blhx.qihoo",
+      "com.bilibili.blhx.nearme.gamecenter": "國服 com.bilibili.blhx.nearme.gamecenter",
+      "com.bilibili.blhx.vivo": "國服 com.bilibili.blhx.vivo",
+      "com.bilibili.blhx.mz": "國服 com.bilibili.blhx.mz",
+      "com.bilibili.blhx.dl": "國服 com.bilibili.blhx.dl",
+      "com.bilibili.blhx.lenovo": "國服 com.bilibili.blhx.lenovo",
+      "com.bilibili.blhx.uc": "國服 com.bilibili.blhx.uc",
+      "com.bilibili.blhx.mzw": "國服 com.bilibili.blhx.mzw",
+      "com.yiwu.blhx.yx15": "國服 com.yiwu.blhx.yx15",
+      "com.bilibili.blhx.m4399": "國服 com.bilibili.blhx.m4399",
+      "com.bilibili.blhx.bilibiliMove": "國服 com.bilibili.blhx.bilibiliMove",
+      "com.hkmanjuu.azurlane.gp.mc": "臺服 MyCard渠道服 com.hkmanjuu.azurlane.gp.mc"
     },
     "ServerName": {
-      "name": "遊戲內服務器",
-      "help": "選擇遊戲內所在的服務器以啓用服務器狀態檢測\n當服務器維護或網絡不可用時掛起直到恢復",
+      "name": "遊戲內伺服器",
+      "help": "選擇遊戲內所在的伺服器以啟用伺服器狀態檢測\n當伺服器維護或網絡不可用時掛起直到恢復",
       "disabled": "不使用檢測",
-      "cn_android-0": "[國服] 萊茵演習",
-      "cn_android-1": "[國服] 巴巴羅薩",
-      "cn_android-2": "[國服] 霸王行動",
-      "cn_android-3": "[國服] 冰山行動",
-      "cn_android-4": "[國服] 彩虹計劃",
-      "cn_android-5": "[國服] 發電機計劃",
-      "cn_android-6": "[國服] 瞭望臺行動",
-      "cn_android-7": "[國服] 十字路口行動",
-      "cn_android-8": "[國服] 朱諾行動",
-      "cn_android-9": "[國服] 杜立特空襲",
-      "cn_android-10": "[國服] 地獄犬行動",
-      "cn_android-11": "[國服] 開羅宣言",
-      "cn_android-12": "[國服] 奧林匹克行動",
-      "cn_android-13": "[國服] 小王冠行動",
-      "cn_android-14": "[國服] 波茨坦公告",
-      "cn_android-15": "[國服] 白色方案",
-      "cn_android-16": "[國服] 瓦爾基裏行動",
-      "cn_android-17": "[國服] 曼哈頓計劃",
-      "cn_android-18": "[國服] 八月風暴",
-      "cn_android-19": "[國服] 秋季旅行",
-      "cn_android-20": "[國服] 水星行動",
-      "cn_android-21": "[國服] 萊茵河衛兵",
-      "cn_android-22": "[國服] 北極光計劃",
-      "cn_android-23": "[國服] 長戟計劃",
-      "cn_android-24": "[國服] 暴雨行動",
-      "cn_android-25": "[國服] 水仙行動",
-      "cn_android-26": "[國服] 冬月計劃",
-      "cn_android-27": "[國服] 長弓計劃",
-      "cn_android-28": "[國服] 裁決協議",
-      "cn_ios-0": "[國服] 夏威夷",
-      "cn_ios-1": "[國服] 珊瑚海",
-      "cn_ios-2": "[國服] 中途島",
-      "cn_ios-3": "[國服] 鐵底灣",
-      "cn_ios-4": "[國服] 所羅門",
-      "cn_ios-5": "[國服] 馬裏亞納",
-      "cn_ios-6": "[國服] 萊特灣",
-      "cn_ios-7": "[國服] 硫磺島",
-      "cn_ios-8": "[國服] 衝繩島",
-      "cn_ios-9": "[國服] 阿留申羣島",
-      "cn_ios-10": "[國服] 馬耳他",
-      "cn_channel-0": "[國服] 皇家巡遊",
-      "cn_channel-1": "[國服] 大西洋憲章",
-      "cn_channel-2": "[國服] 十字軍行動",
-      "cn_channel-3": "[國服] 龍騎兵行動",
-      "cn_channel-4": "[國服] 冥王星行動",
+      "cn_android-0": "[国服] 莱茵演习",
+      "cn_android-1": "[国服] 巴巴罗萨",
+      "cn_android-2": "[国服] 霸王行动",
+      "cn_android-3": "[国服] 冰山行动",
+      "cn_android-4": "[国服] 彩虹计划",
+      "cn_android-5": "[国服] 发电机计划",
+      "cn_android-6": "[国服] 瞭望台行动",
+      "cn_android-7": "[国服] 十字路口行动",
+      "cn_android-8": "[国服] 朱诺行动",
+      "cn_android-9": "[国服] 杜立特空袭",
+      "cn_android-10": "[国服] 地狱犬行动",
+      "cn_android-11": "[国服] 开罗宣言",
+      "cn_android-12": "[国服] 奥林匹克行动",
+      "cn_android-13": "[国服] 小王冠行动",
+      "cn_android-14": "[国服] 波茨坦公告",
+      "cn_android-15": "[国服] 白色方案",
+      "cn_android-16": "[国服] 瓦尔基里行动",
+      "cn_android-17": "[国服] 曼哈顿计划",
+      "cn_android-18": "[国服] 八月风暴",
+      "cn_android-19": "[国服] 秋季旅行",
+      "cn_android-20": "[国服] 水星行动",
+      "cn_android-21": "[国服] 莱茵河卫兵",
+      "cn_android-22": "[国服] 北极光计划",
+      "cn_android-23": "[国服] 长戟计划",
+      "cn_android-24": "[国服] 暴雨行动",
+      "cn_android-25": "[国服] 水仙行动",
+      "cn_android-26": "[国服] 冬月计划",
+      "cn_android-27": "[国服] 长弓计划",
+      "cn_android-28": "[国服] 裁决协议",
+      "cn_ios-0": "[国服] 夏威夷",
+      "cn_ios-1": "[国服] 珊瑚海",
+      "cn_ios-2": "[国服] 中途岛",
+      "cn_ios-3": "[国服] 铁底湾",
+      "cn_ios-4": "[国服] 所罗门",
+      "cn_ios-5": "[国服] 马里亚纳",
+      "cn_ios-6": "[国服] 莱特湾",
+      "cn_ios-7": "[国服] 硫磺岛",
+      "cn_ios-8": "[国服] 冲绳岛",
+      "cn_ios-9": "[国服] 阿留申群岛",
+      "cn_ios-10": "[国服] 马耳他",
+      "cn_channel-0": "[国服] 皇家巡游",
+      "cn_channel-1": "[国服] 大西洋宪章",
+      "cn_channel-2": "[国服] 十字军行动",
+      "cn_channel-3": "[国服] 龙骑兵行动",
+      "cn_channel-4": "[国服] 冥王星行动",
       "en-0": "[EN] Avrora",
       "en-1": "[EN] Lexington",
       "en-2": "[EN] Sandy",
@@ -442,7 +442,7 @@
       "en-4": "[EN] Amagi",
       "en-5": "[EN] Little Enterprise",
       "jp-0": "[JP] ブレスト",
-      "jp-1": "[JP] 橫須賀",
+      "jp-1": "[JP] 横須賀",
       "jp-2": "[JP] 佐世保",
       "jp-3": "[JP] 呉",
       "jp-4": "[JP] 舞鶴",
@@ -485,17 +485,17 @@
     },
     "ScreenshotDedithering": {
       "name": "去除圖片色彩抖動",
-      "help": "在手機上運行時開啓"
+      "help": "在手機上運行時開啟"
     },
     "AdbRestart": {
-      "name": "在檢測不到設備的時候嘗試重啓adb",
+      "name": "在檢測不到設備的時候嘗試重啟adb",
       "help": ""
     }
   },
   "EmulatorInfo": {
     "_info": {
-      "name": "模擬器設置",
-      "help": "下列數值是根據Serial自動填充的，如果不懂請不要隨意修改，修改端口即可自動啓動對應實例"
+      "name": "模擬器設定",
+      "help": "下列數值是根據Serial自動填充的，如果不懂請不要隨意修改，修改端口即可自動啟動對應實例"
     },
     "Emulator": {
       "name": "模擬器類型",
@@ -528,11 +528,11 @@
   },
   "Error": {
     "_info": {
-      "name": "調試設置",
+      "name": "調試設定",
       "help": ""
     },
     "HandleError": {
-      "name": "啓用異常處理",
+      "name": "啟用異常處理",
       "help": "處理部分異常，運行出錯時撤退"
     },
     "SaveError": {
@@ -540,15 +540,15 @@
       "help": ""
     },
     "StrictRestart": {
-      "name": "敏感任務出錯時禁止重啓",
-      "help": "運行敏感任務出錯時停止Alas，而不是重啓遊戲\n敏感任務包含隱祕海域、深淵海域、跨月每日"
+      "name": "敏感任務出錯時禁止重啟",
+      "help": "運行敏感任務出錯時停止Alas，而不是重啟遊戲\n敏感任務包含隱祕海域、深淵海域、跨月每日"
     },
     "SaveErrorCount": {
       "name": "Error Log 保存上限",
       "help": "超出上限的錯誤日誌將被刪除，若爲0或負值則沒有限制"
     },
     "OnePushConfig": {
-      "name": "錯誤推送設置",
+      "name": "錯誤推送設定",
       "help": "發生無法處理的異常後，使用 Onepush 推送一條錯誤信息。配置方法見文檔：https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Onepush-configuration-%5BCN%5D"
     },
     "ScreenshotLength": {
@@ -556,25 +556,25 @@
       "help": ""
     },
     "GameStuckRestart": {
-      "name": "遊戲卡死時重啓模擬器",
-      "help": "在遊戲連續卡死（觸發GameStuckError）達到指定次數後，嘗試重啓模擬器。可能有助於解決模擬器假死或顯存溢出等問題。"
+      "name": "遊戲卡死時重啟模擬器",
+      "help": "在遊戲連續卡死（觸發GameStuckError）達到指定次數後，嘗試重啟模擬器。可能有助於解決模擬器假死或顯存溢出等問題。"
     },
     "GameStuckThreshold": {
-      "name": "遊戲卡死重啓閾值",
-      "help": "連續卡死多少次後觸發重啓。"
+      "name": "遊戲卡死重啟閾值",
+      "help": "連續卡死多少次後觸發重啟。"
     },
     "AdbOfflineRestart": {
-      "name": "檢測不到設備時重啓模擬器",
-      "help": "在連續檢測不到設備（ADB離線或連接失敗）達到指定次數後，嘗試重啓模擬器。"
+      "name": "檢測不到設備時重啟模擬器",
+      "help": "在連續檢測不到設備（ADB離線或連接失敗）達到指定次數後，嘗試重啟模擬器。"
     },
     "AdbOfflineThreshold": {
-      "name": "檢測不到設備重啓閾值",
-      "help": "連續檢測不到設備多少次後觸發重啓。"
+      "name": "檢測不到設備重啟閾值",
+      "help": "連續檢測不到設備多少次後觸發重啟。"
     }
   },
   "Optimization": {
     "_info": {
-      "name": "優化設置",
+      "name": "優化設定",
       "help": ""
     },
     "ScreenshotInterval": {
@@ -634,7 +634,7 @@
     },
     "CombatRecord": {
       "name": "戰鬥掉落截圖",
-      "help": "啓用後會放緩結算時的點擊速度\n在自律尋敵下不生效",
+      "help": "啟用後會放緩結算時的點擊速度\n在自律尋敵下不生效",
       "do_not": "無操作",
       "save": "保存"
     },
@@ -662,17 +662,17 @@
     },
     "TelemetryReport": {
       "name": "遙測數據上報",
-      "help": "啓用後將定期向服務器匿名上報 CL1 統計數據（戰鬥次數、明石遇見概率等匿名數據）ID生成詳見源碼，統計信息 https://alas.nanoda.work/"
+      "help": "啟用後將定期向伺服器匿名上報 CL1 統計數據（戰鬥次數、明石遇見概率等匿名數據）ID生成詳見源碼，統計信息 https://alas.nanoda.work/"
     },
     "BugReport": {
       "name": "Bug 日誌上報",
-      "help": "啓用後將在遇到異常時向服務器匿名上報 Bug 日誌以幫助改進ID生成詳見源碼"
+      "help": "啟用後將在遇到異常時向伺服器匿名上報 Bug 日誌以幫助改進ID生成詳見源碼"
     }
   },
   "Log": {
     "_info": {
       "name": "日誌",
-      "help": "調度器重啓後生效"
+      "help": "調度器重啟後生效"
     },
     "LogKeepCount": {
       "name": "Log保留數量",
@@ -696,7 +696,7 @@
   },
   "Retirement": {
     "_info": {
-      "name": "退役設置",
+      "name": "退役設定",
       "help": ""
     },
     "RetireMode": {
@@ -713,8 +713,8 @@
       "help": "可使用同一隊伍完成多項任務\n使用該功能時請確保相應任務的艦隊職能爲單隊全清，且隊伍爲共用隊伍"
     },
     "Enable": {
-      "name": "啓用共用心情功能",
-      "help": "啓用後將使用共用心情，以下心情配置將代替原配置"
+      "name": "啟用共用心情功能",
+      "help": "啟用後將使用共用心情，以下心情配置將代替原配置"
     },
     "Tasks": {
       "name": "共用心情任務",
@@ -755,29 +755,29 @@
   "YukikazeTaskManager": {
     "_info": {
       "name": "雪風大人的任務管理",
-      "help": "任務相關的優先級與調度設置。"
+      "help": "任務相關的優先級與調度設定。"
     },
     "TaskPriorityAdjustment": {
       "name": "任務優先級調整",
-      "help": "Restart    # 重啓遊戲\n> OpsiCrossMonth > OpsiDailyDelay    # 大世界跨月每日 > 大世界任務延後\n> Commission > Tactical > Research    # 委託 > 戰術學院 > 科研\n> Exercise    # 演習\n> Dorm > Meowfficer > Guild > Gacha    # 後宅 > 指揮喵 > 大艦隊 > 每日抽卡\n> Reward    # 收獲\n> ShopFrequent > ShopOnce > Shipyard > Freebies > Island    # 通用商店 > 其他商店 > 開發船塢 > 白嫖獎勵 > 島嶼計劃\n> PrivateQuarters    # 宿舍計劃\n> OpsiExplore    # 每月開荒\n> Minigame > Awaken    # 小遊戲 > 認知覺醒\n> OpsiAshBeacon    # meta作戰\n> OpsiDaily > OpsiShop > OpsiVoucher    # 大世界日常 > 港口商店 > 兌換商店\n> OpsiAbyssal > OpsiStronghold > OpsiObscure > OpsiArchive    # 深淵海域 > 塞壬要塞 > 隱祕海域 > 檔案坐標\n> Daily > Hard > OpsiAshBeacon > OpsiAshAssist > OpsiMonthBoss     # 每日挑戰 > 困難圖 > meta作戰 > meta支援 > 月度boss\n> Sos > EventSp > EventA > EventB > EventC > EventD    # Sos > 活動每日SP > 活動每日A > 活動每日B > 活動每日C > 活動每日D\n> RaidDaily > CoalitionSp > WarArchives > MaritimeEscort    # 共鬥活動每日 > 共鬥活動sp > 作戰檔案 > 商船護航\n> Event > Event2 > Raid > Hospital > HospitalEvent > Coalition > RaidScuttle > Main > Main2 > Main3    # 活動圖 > 活動圖2 > 共鬥活動 > 醫院活動 > 共鬥活動 > 共鬥沉船 > 主線 > 主線2 > 主線3\n> OpsiMeowfficerFarming    # 短貓相接\n> GemsFarming    # 刷緊急委託\n> OpsiHazard1Leveling    # 侵蝕一練級\n> ThreeOilLowCost    # 三油低耗"
+      "help": "Restart    # 重啟遊戲\n> OpsiCrossMonth > OpsiDailyDelay    # 大世界跨月每日 > 大世界任務延後\n> Commission > Tactical > Research    # 委託 > 戰術學院 > 科研\n> Exercise    # 演習\n> Dorm > Meowfficer > Guild > Gacha    # 後宅 > 指揮喵 > 大艦隊 > 每日抽卡\n> Reward    # 收獲\n> ShopFrequent > ShopOnce > Shipyard > Freebies > Island    # 通用商店 > 其他商店 > 開發船塢 > 白嫖獎勵 > 島嶼計劃\n> PrivateQuarters    # 宿舍計劃\n> OpsiExplore    # 每月開荒\n> Minigame > Awaken    # 小遊戲 > 認知覺醒\n> OpsiAshBeacon    # meta作戰\n> OpsiDaily > OpsiShop > OpsiVoucher    # 大世界日常 > 港口商店 > 兌換商店\n> OpsiAbyssal > OpsiStronghold > OpsiObscure > OpsiArchive    # 深淵海域 > 塞壬要塞 > 隱祕海域 > 檔案坐標\n> Daily > Hard > OpsiAshBeacon > OpsiAshAssist > OpsiMonthBoss     # 每日挑戰 > 困難圖 > meta作戰 > meta支援 > 月度boss\n> Sos > EventSp > EventA > EventB > EventC > EventD    # Sos > 活動每日SP > 活動每日A > 活動每日B > 活動每日C > 活動每日D\n> RaidDaily > CoalitionSp > WarArchives > MaritimeEscort    # 共鬥活動每日 > 共鬥活動sp > 作戰檔案 > 商船護航\n> Event > Event2 > Raid > Hospital > HospitalEvent > Coalition > RaidScuttle > Main > Main2 > Main3    # 活動圖 > 活動圖2 > 共鬥活動 > 醫院活動 > 共鬥活動 > 共鬥沉船 > 主線 > 主線2 > 主線3\n> OpsiMeowfficerFarming    # 短貓相接\n> GemsFarming    # 刷緊急委託\n> OpsiHazard1Leveling    # 侵蝕一練級\n> ThreeOilLowCost    # 三油低耗"
     }
   },
   "OneClickRetire": {
     "_info": {
-      "name": "一鍵退役設置",
-      "help": "僅在 \"退役模式\" 設置爲 \"一鍵退役\" 時生效"
+      "name": "一鍵退役設定",
+      "help": "僅在 \"退役模式\" 設定爲 \"一鍵退役\" 時生效"
     },
     "KeepLimitBreak": {
       "name": "保留滿星同名艦船",
-      "help": "沒有滿星的同名艦船時，保留幾艘符合退役條件的同名艦船\n如果一鍵退役無法退役，請設置爲 \"不保留\"",
+      "help": "沒有滿星的同名艦船時，保留幾艘符合退役條件的同名艦船\n如果一鍵退役無法退役，請設定爲 \"不保留\"",
       "keep_limit_break": "保留滿星所需",
       "do_not_keep": "不保留"
     }
   },
   "Enhance": {
     "_info": {
-      "name": "強化設置",
-      "help": "僅在 \"退役模式\" 設置爲 \"強化\" 時生效"
+      "name": "強化設定",
+      "help": "僅在 \"退役模式\" 設定爲 \"強化\" 時生效"
     },
     "ShipToEnhance": {
       "name": "需要強化的艦船",
@@ -796,8 +796,8 @@
   },
   "OldRetire": {
     "_info": {
-      "name": "傳統退役設置",
-      "help": "僅在 \"退役模式\" 設置爲 \"傳統退役\" 時生效\n注意：傳統退役基於角色稀有度，可能退役布裏"
+      "name": "傳統退役設定",
+      "help": "僅在 \"退役模式\" 設定爲 \"傳統退役\" 時生效\n注意：傳統退役基於角色稀有度，可能退役布裏"
     },
     "N": {
       "name": "退役白皮 ( N )",
@@ -824,7 +824,7 @@
   },
   "Campaign": {
     "_info": {
-      "name": "關卡設置",
+      "name": "關卡設定",
       "help": ""
     },
     "Name": {
@@ -840,12 +840,12 @@
       "coalition_20250626": "迷彩都市的尋蹤者",
       "coalition_20251120": "DATE A LANE",
       "coalition_20260122": "光影風尚-拍攝進行時",
-      "event_20200227_cn": "北境序曲",
-      "event_20200312_cn": "復刻斯圖爾特的硝煙",
-      "event_20200326_cn": "微層混合",
-      "event_20200423_cn": "復刻蒼紅的回響",
-      "event_20200507_cn": "夜幕下的歸途",
-      "event_20200521_cn": "穹頂下的聖詠曲",
+      "event_20200227_cn": "Northern Overture",
+      "event_20200312_cn": "斯圖爾特的硝煙",
+      "event_20200326_cn": "Microlayer Medley",
+      "event_20200423_cn": "Crimson Echoes Rerun",
+      "event_20200507_cn": "The Way Home in the Night",
+      "event_20200521_cn": "穹顶下的圣咏曲",
       "event_20200521_en": "Iris of Light and Dark Rerun",
       "event_20200603_cn": "復刻峽灣間的反擊",
       "event_20200603_en": "Prelude under the Moon Rerun",
@@ -855,53 +855,53 @@
       "event_20200806_cn": "復刻最重要的寶物",
       "event_20200820_cn": "復刻鐵血音符誓言",
       "event_20200903_en": "復刻峽灣間的星辰",
-      "event_20200917_cn": "復刻蝶海夢花",
+      "event_20200917_cn": "復刻-蝶海夢花",
       "event_20201002_en": "Counterattack Within the Fjord",
       "event_20201012_cn": "復刻劃破海空之翼",
       "event_20201029_cn": "激唱的UNIVERSE",
       "event_20201126_cn": "假日航線",
-      "event_20201229_cn": "復刻負象限作戰",
+      "event_20201229_cn": "復刻-負象限作戰",
       "event_20210121_cn": "復刻神聖的悲喜劇",
       "event_20210225_cn": "復刻破曉冰華",
       "event_20210225_tw": "北境序曲",
       "event_20210325_cn": "復刻箱庭療法",
       "event_20210415_tw": "復刻圍剿施佩伯爵",
-      "event_20210422_cn": "復刻復興的贊美詩",
+      "event_20210422_cn": "復刻復興的讚美詩",
       "event_20210429_tw": "復刻墨染的鋼鐵之花",
       "event_20210527_cn": "復刻鏡位螺旋",
       "event_20210527_tw": "微層混合",
       "event_20210610_tw": "復刻夜幕下的歸途",
-      "event_20210624_cn": "復刻浮櫻影華",
+      "event_20210624_cn": "復刻-浮櫻影華",
       "event_20210624_tw": "穹頂下的聖詠曲",
       "event_20210722_cn": "響徹碧海的偶像歌",
-      "event_20210819_cn": "復刻微層混合",
+      "event_20210819_cn": "復刻-微層混合",
       "event_20210916_cn": "復刻碧海光粼",
       "event_20211028_cn": "復刻穹頂下的聖詠曲",
       "event_20211028_tw": "復刻光與影的鳶尾之華",
-      "event_20211111_cn": "復刻傑諾瓦的焰火",
-      "event_20211125_cn": "復刻交匯世界的弧光",
+      "event_20211111_cn": "復刻杰諾瓦的焰火",
+      "event_20211125_cn": "復刻-交匯世界的弧光",
       "event_20211229_cn": "復刻逆轉彩虹之塔",
       "event_20220210_cn": "復刻北境序曲",
-      "event_20220224_cn": "復刻深度迴音",
+      "event_20220224_cn": "復刻深度回音",
       "event_20220310_tw": "復刻斯圖爾特的硝煙",
       "event_20220324_cn": "復刻虛像構築之塔",
       "event_20220407_tw": "蒼紅的迴響(復刻)",
-      "event_20220414_cn": "復刻永夜幻光",
+      "event_20220414_cn": "復刻-永夜幻光",
       "event_20220428_cn": "復刻虹彩的終幕曲",
-      "event_20220526_cn": "復刻泠誓光庭",
-      "event_20220728_cn": "復刻雄鷹的敘事歌",
-      "event_20220818_cn": "復刻遠匯點作戰",
-      "event_20220915_cn": "復刻紫絳槿嵐",
-      "event_20221124_cn": "復刻煉金術士與祕密遺跡羣島",
-      "event_20221222_cn": "復刻定向折疊",
-      "event_20230223_cn": "復刻湮燼塵墟",
-      "event_20230525_cn": "復刻空相交匯點",
-      "event_20230803_cn": "復刻奏響鳶尾之歌",
-      "event_20230817_cn": "復刻愚者的天平",
-      "event_20230914_cn": "復刻須臾望月抄",
-      "event_20231026_cn": "颶風與青春之泉",
+      "event_20220526_cn": "泠誓光庭",
+      "event_20220728_cn": "雄鷹的敘事歌",
+      "event_20220818_cn": "遠匯點作戰",
+      "event_20220915_cn": "紫絳槿嵐",
+      "event_20221124_cn": "復刻鍊金術士與秘密遺跡群島",
+      "event_20221222_cn": "定向折疊",
+      "event_20230223_cn": "湮燼塵墟",
+      "event_20230525_cn": "空相交會點",
+      "event_20230803_cn": "奏響鳶尾之歌",
+      "event_20230817_cn": "愚者的天平",
+      "event_20230914_cn": "須臾望月抄",
+      "event_20231026_cn": "飓風與青春之泉",
       "event_20231123_cn": "蒼閃忍法帖",
-      "event_20231221_cn": "復刻星海逐光",
+      "event_20231221_cn": "星海逐光",
       "event_20240229_cn": "雪境迷蹤",
       "event_20240425_cn": "共鳴的PASSION",
       "event_20240521_cn": "綻放於輝光之城",
@@ -910,33 +910,33 @@
       "event_20240829_cn": "埋葬於彼岸之花",
       "event_20240912_cn": "喚醒蒼紅之炎",
       "event_20241024_cn": "颶風與沉眠之海",
-      "event_20241121_cn": "危險發明迫近中",
+      "event_20241121_cn": "危險發明逼近中",
       "event_20241219_cn": "星光下的餘暉",
       "event_20250227_cn": "樊籠內的神光",
       "event_20250424_cn": "揚起鬱金之旗",
       "event_20250520_cn": "高塔上的薔薇",
-      "event_20250724_cn": "優米雅的煉金工房",
-      "event_20250814_cn": "奇淵下的祕密",
+      "event_20250724_cn": "鍊金術士與天際交會之塔",
+      "event_20250814_cn": "奇淵下的秘密",
       "event_20250912_cn": "起舞於天原之上",
-      "event_20251023_cn": "颶風與自由羣島",
+      "event_20251023_cn": "颶風與自由群島",
       "event_20251218_cn": "響徹於天穹之音",
       "event_20260226_cn": "春滿客棧Online",
-      "raid_20200624": "復刻特別演習埃塞克斯級",
+      "raid_20200624": "特別演習埃塞克斯級(復刻)",
       "raid_20210708": "復刻穿越彼方的水線",
-      "raid_20220127": "演習神祕事件調查",
+      "raid_20220127": "演習神秘事件調查",
       "raid_20220630": "來自鳶尾的天使",
       "raid_20221027": "戰鬥！皇家女僕隊3rd",
       "raid_20230118": "冬日的尋路人",
       "raid_20230629": "綠洲往事",
       "raid_20240130": "寰昌宇定家事忙",
-      "raid_20240328": "復刻從零開始的魔王討伐之旅",
+      "raid_20240328": "從零開始的魔王討伐之旅",
       "raid_20250116": "華裳巧展喜事長",
       "raid_20260212": "春宴懷玉香滿庭",
       "war_archives_20180607_cn": "檔案 墨染的鋼鐵之花",
       "war_archives_20180726_cn": "檔案 光與影的鳶尾之華",
       "war_archives_20181020_en": "檔案 努力希望和計劃",
       "war_archives_20181026_en": "檔案 墜落之翼",
-      "war_archives_20181227_cn": "檔案 蒼紅的回響",
+      "war_archives_20181227_cn": "檔案 蒼紅的迴響",
       "war_archives_20190221_en": "檔案 凜冬王冠",
       "war_archives_20190314_en": "檔案 月光下的序曲",
       "war_archives_20190321_en": "檔案 紅染的參訪者",
@@ -956,17 +956,17 @@
       "war_archives_20201229_cn": "檔案 負象限作戰",
       "war_archives_20210225_cn": "檔案 破曉冰華",
       "war_archives_20210325_cn": "檔案 箱庭療法",
-      "war_archives_20210422_cn": "檔案 復興的贊美詩",
+      "war_archives_20210422_cn": "檔案 復興的讚美詩",
       "war_archives_20210527_cn": "檔案 鏡位螺旋",
       "war_archives_20210624_cn": "檔案 浮櫻影華",
       "war_archives_20210819_cn": "檔案 微層混合",
       "war_archives_20210916_cn": "檔案 碧海光粼",
       "war_archives_20211014_cn": "檔案 激奏的Polaris",
       "war_archives_20211028_cn": "檔案 穹頂下的聖詠曲",
-      "war_archives_20211111_cn": "檔案 傑諾瓦的焰火",
+      "war_archives_20211111_cn": "檔案 杰諾瓦的焰火",
       "war_archives_20211229_cn": "檔案 逆轉彩虹之塔",
       "war_archives_20220210_cn": "檔案 北境序曲",
-      "war_archives_20220224_cn": "檔案 深度迴音",
+      "war_archives_20220224_cn": "檔案 深度回音",
       "war_archives_20220324_cn": "檔案 虛像構築之塔",
       "war_archives_20220414_cn": "檔案 永夜幻光",
       "war_archives_20220428_cn": "檔案 虹彩的終幕曲",
@@ -975,7 +975,7 @@
       "war_archives_20220915_cn": "檔案 紫絳槿嵐",
       "war_archives_20221222_cn": "檔案 定向折疊",
       "war_archives_20230223_cn": "檔案 湮燼塵墟",
-      "war_archives_20231026_cn": "檔案 颶風與青春之泉"
+      "war_archives_20231026_cn": "檔案 飓風與青春之泉"
     },
     "Mode": {
       "name": "關卡模式",
@@ -1033,7 +1033,7 @@
     },
     "StageIncrease": {
       "name": "達成關卡成就後向前開荒",
-      "help": "自動開荒，需要保證隊伍有足夠的強度，需要保證隊伍滿足關卡屬性限制，並設置\"達成關卡成就後停止\"\n例如，打開本選項，並選擇\"地圖通關\"，將在關卡100%通關後前往下一關卡\n支持自動開荒的地圖：1-1至15-4，A1至A3，B1至B3，C1至C3，D1至D3，T1至T6，SP1至SP4"
+      "help": "自動開荒，需要保證隊伍有足夠的強度，需要保證隊伍滿足關卡屬性限制，並設定\"達成關卡成就後停止\"\n例如，打開本選項，並選擇\"地圖通關\"，將在關卡100%通關後前往下一關卡\n支援自動開荒的地圖：1-1至15-4，A1至A3，B1至B3，C1至C3，D1至D3，T1至T6，SP1至SP4"
     },
     "GetNewShip": {
       "name": "獲得新船後停止",
@@ -1127,7 +1127,7 @@
   },
   "Submarine": {
     "_info": {
-      "name": "潛艇設置",
+      "name": "潛艇設定",
       "help": ""
     },
     "Fleet": {
@@ -1163,11 +1163,11 @@
   },
   "Emotion": {
     "_info": {
-      "name": "心情設置",
+      "name": "心情設定",
       "help": ""
     },
     "Mode": {
-      "name": "心情設置",
+      "name": "心情設定",
       "help": "",
       "calculate": "計算心情消耗",
       "ignore": "無視紅臉出擊警告",
@@ -1242,7 +1242,7 @@
       "help": "僅在關閉陣容鎖定時生效"
     },
     "UseHpBalance": {
-      "name": "啓用血量平衡",
+      "name": "啟用血量平衡",
       "help": "把低血量的移動到保護位，把高血量的移動到承傷位"
     },
     "UseEmergencyRepair": {
@@ -1250,7 +1250,7 @@
       "help": ""
     },
     "UseLowHpRetreat": {
-      "name": "啓用低血量撤退",
+      "name": "啟用低血量撤退",
       "help": ""
     },
     "HpBalanceThreshold": {
@@ -1282,7 +1282,7 @@
     "EnemyScaleBalanceWeight": {
       "name": "敵人優先級",
       "help": "先清理通往BOSS的主要途徑上的敵人，再根據優先級清理其他敵人",
-      "default_mode": "依照地圖文件",
+      "default_mode": "依照地圖檔案",
       "S3_enemy_first": "優先打大型敵人",
       "S1_enemy_first": "優先打小型敵人"
     }
@@ -1352,7 +1352,7 @@
   "GemsFarming": {
     "_info": {
       "name": "刷緊急委託",
-      "help": "警告: 這個功能可以讓玩家獲取少量的鑽石，但不是一個能高效獲取鑽石的方法\n玩碧藍航線不久的玩家, 很容易迷信零破和低耗等, 而忽視了角色養成\n運行這個功能只會讓你自己感覺很充實, 而你的帳號實際零提升\n這個功能的主要用途，是讓陣容成型的玩家獲取額外的魔方，請理性地把鑽石當作副產物\n\n這個功能將在旗艦32級之後更換旗艦\n關於緊急委託刷新機制, 可閱讀 https://bbs.nga.cn/read.php?tid=27134956\n委託油耗比: A3 > A1 > 2-4 > 2-1, 有活動圖時建議選活動圖, 2-1會揀問號有更多物資\n一隊會完成所有的戰鬥, 前排應當爲百級零破驅逐帶輸出裝, 後排應該爲33級及以下白皮零破航母\n二隊應提供跨隊支援（跨隊彈幕、跨隊輔助）\n\n無法設置艦隊職能時，以以下方式停止任務以免跨隊隊伍出擊，石油被大量消耗：\n若設置了錯誤推送則推送任務停止的消息並停止該任務。\n若沒有設置錯誤推送，則直接停止Alas。"
+      "help": "警告: 這個功能可以讓玩家獲取少量的鑽石，但不是一個能高效獲取鑽石的方法\n玩碧藍航線不久的玩家, 很容易迷信零破和低耗等, 而忽視了角色養成\n運行這個功能只會讓你自己感覺很充實, 而你的帳號實際零提升\n這個功能的主要用途，是讓陣容成型的玩家獲取額外的魔方，請理性地把鑽石當作副產物\n\n這個功能將在旗艦32級之後更換旗艦\n關於緊急委託刷新機制, 可閱讀 https://bbs.nga.cn/read.php?tid=27134956\n委託油耗比: A3 > A1 > 2-4 > 2-1, 有活動圖時建議選活動圖, 2-1會揀問號有更多物資\n一隊會完成所有的戰鬥, 前排應當爲百級零破驅逐帶輸出裝, 後排應該爲33級及以下白皮零破航母\n二隊應提供跨隊支援（跨隊彈幕、跨隊輔助）\n\n無法設定艦隊職能時，以以下方式停止任務以免跨隊隊伍出擊，石油被大量消耗：\n若設定了錯誤推送則推送任務停止的消息並停止該任務。\n若沒有設定錯誤推送，則直接停止Alas。"
     },
     "ChangeFlagship": {
       "name": "更換旗艦",
@@ -1373,7 +1373,7 @@
     },
     "CommonCVFilter": {
       "name": "自定義旗艦航母過濾器",
-      "help": "使用自定義過濾器需將 \"指定旗艦航母\" 設置爲 \"自定義\"，將按照過濾器順序優先選擇旗艦航母更換\nbogue：博格    ranger：突擊者    langley：蘭利    hermes：競技神"
+      "help": "使用自定義過濾器需將 \"指定旗艦航母\" 設定爲 \"自定義\"，將按照過濾器順序優先選擇旗艦航母更換\nbogue：博格    ranger：突擊者    langley：蘭利    hermes：競技神"
     },
     "ChangeVanguard": {
       "name": "更換前排",
@@ -1395,11 +1395,11 @@
     },
     "CommonDDFilter": {
       "name": "自定義前排過濾器",
-      "help": "使用自定義過濾器需將 \"指定前排\" 設置爲 \"自定義\"，將按照過濾器順序優先選擇前排更換\nz20：Z20    z21：Z21    aulick：奧利克    foote：富特    cassin：卡辛    downes：唐斯"
+      "help": "使用自定義過濾器需將 \"指定前排\" 設定爲 \"自定義\"，將按照過濾器順序優先選擇前排更換\nz20：Z20    z21：Z21    aulick：奧利克    foote：富特    cassin：卡辛    downes：唐斯"
     },
     "EquipmentCode": {
       "name": "裝備碼",
-      "help": "僅當選擇“更換艦船 + 裝備”時生效。\n在換下艦船時，若設置裏當前艦船裝備碼爲null則會導出；在換上艦船時，若設置裏當前艦船裝備碼爲null則會使用上一艘艦船導出的裝備碼，否則使用設置裏的裝備碼\n藍疊模擬器用戶需要先開啓虛擬鍵盤，詳見https://support.bluestacks.com/hc/zh-tw/articles/360061968892-%E5%A6%82%E4%BD%95%E5%9C%A8-BlueStacks-5-%E4%B8%8A%E4%BD%BF%E7%94%A8%E5%B0%8F%E9%8D%B5%E7%9B%A4-%E8%99%9B%E6%93%AC%E9%8D%B5%E7%9B%A4\nDD：前排驅逐    bogue：博格    hermes：競技神    langley：蘭利    ranger：突擊者"
+      "help": "僅當選擇“更換艦船 + 裝備”時生效。\n在換下艦船時，若設定裏當前艦船裝備碼爲null則會導出；在換上艦船時，若設定裏當前艦船裝備碼爲null則會使用上一艘艦船導出的裝備碼，否則使用設定裏的裝備碼\n藍疊模擬器用戶需要先開啟虛擬鍵盤，詳見https://support.bluestacks.com/hc/zh-tw/articles/360061968892-%E5%A6%82%E4%BD%95%E5%9C%A8-BlueStacks-5-%E4%B8%8A%E4%BD%BF%E7%94%A8%E5%B0%8F%E9%8D%B5%E7%9B%A4-%E8%99%9B%E6%93%AC%E9%8D%B5%E7%9B%A4\nDD：前排驅逐    bogue：博格    hermes：競技神    langley：蘭利    ranger：突擊者"
     },
     "ALLowHighFlagshipLevel": {
       "name": "僅更換滿級後排",
@@ -1420,26 +1420,26 @@
   },
   "EventGeneral": {
     "_info": {
-      "name": "活動通用設置",
+      "name": "活動通用設定",
       "help": ""
     },
     "PtLimit": {
       "name": "活動 PT 限制",
-      "help": "當累計 PT 達到給定數值時，禁用所有活動任務，0 表示不限制，使用自律尋敵時不能即時觸發\n開啓後，你只需要打開所有活動任務，而不需要計算一共打多少次"
+      "help": "當累計 PT 達到給定數值時，禁用所有活動任務，0 表示不限制，使用自律尋敵時不能即時觸發\n開啟後，你只需要打開所有活動任務，而不需要計算一共打多少次"
     },
     "TimeLimit": {
       "name": "活動時間限制",
-      "help": "當本地時間超過給定數值後，禁用所有活動任務，'2020-01-01 00:00:00' 表示不限制，觸發一次後時間將被重置\n設置後能防止活動結束後忘記關閉任務的事情發生"
+      "help": "當本地時間超過給定數值後，禁用所有活動任務，'2020-01-01 00:00:00' 表示不限制，觸發一次後時間將被重置\n設定後能防止活動結束後忘記關閉任務的事情發生"
     }
   },
   "TaskBalancer": {
     "_info": {
-      "name": "任務平衡設置",
+      "name": "任務平衡設定",
       "help": "防止運行活動圖時物資過低"
     },
     "Enable": {
-      "name": "啓用任務平衡",
-      "help": "啓用後，將於每次出擊後檢查物資量"
+      "name": "啟用任務平衡",
+      "help": "啟用後，將於每次出擊後檢查物資量"
     },
     "CoinLimit": {
       "name": "保持物資大於X",
@@ -1447,7 +1447,7 @@
     },
     "TaskCall": {
       "name": "物資過低時呼叫任務X",
-      "help": "提醒: 玩家需提前設置好被調用的任務，否則將不會作用",
+      "help": "提醒: 玩家需提前設定好被調用的任務，否則將不會作用",
       "Main": "主線圖",
       "Main2": "主線圖-2",
       "Main3": "主線圖-3",
@@ -1471,7 +1471,7 @@
   },
   "Raid": {
     "_info": {
-      "name": "共鬥活動設置",
+      "name": "共鬥活動設定",
       "help": ""
     },
     "Mode": {
@@ -1512,7 +1512,7 @@
   },
   "Hospital": {
     "_info": {
-      "name": "活動設置",
+      "name": "活動設定",
       "help": ""
     },
     "UseRecommendFleet": {
@@ -1522,7 +1522,7 @@
   },
   "HospitalEvent": {
     "_info": {
-      "name": "共鬥活動設置",
+      "name": "共鬥活動設定",
       "help": ""
     },
     "Mode": {
@@ -1548,13 +1548,13 @@
       "help": "進一下就撤退，能拿約70%的獎勵"
     },
     "Enable": {
-      "name": "啓用商船護航",
+      "name": "啟用商船護航",
       "help": ""
     }
   },
   "Coalition": {
     "_info": {
-      "name": "活動設置",
+      "name": "活動設定",
       "help": "出擊前必須在遊戲內手動配隊"
     },
     "Mode": {
@@ -1596,7 +1596,7 @@
     },
     "CustomFilter": {
       "name": "自定義過濾器",
-      "help": "使用自定義過濾器需將“活動商店過濾器”設置爲“自定義”，並閱讀 https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn"
+      "help": "使用自定義過濾器需將“活動商店過濾器”設定爲“自定義”，並閱讀 https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn"
     }
   },
   "Commission": {
@@ -1616,7 +1616,7 @@
     },
     "CustomFilter": {
       "name": "自定義委託過濾器",
-      "help": "使用自定義過濾器需將 \"委託過濾器\" 設置爲 \"自定義\"，並閱讀 https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn"
+      "help": "使用自定義過濾器需將 \"委託過濾器\" 設定爲 \"自定義\"，並閱讀 https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn"
     },
     "DoMajorCommission": {
       "name": "做主要委託（1200油/1000油委託）",
@@ -1645,10 +1645,10 @@
   "ControlExpOverflow": {
     "_info": {
       "name": "溢出經驗控制",
-      "help": "防止技能快滿級的時候，使用高級技能書溢出大量經驗\n例如設置T3書溢出100點，T4書溢出100點，在剩餘1100點經驗時，將不使用T4書，轉而使用T3書"
+      "help": "防止技能快滿級的時候，使用高級技能書溢出大量經驗\n例如設定T3書溢出100點，T4書溢出100點，在剩餘1100點經驗時，將不使用T4書，轉而使用T3書"
     },
     "Enable": {
-      "name": "啓用溢出經驗控制",
+      "name": "啟用溢出經驗控制",
       "help": ""
     },
     "T4Allow": {
@@ -1674,7 +1674,7 @@
       "help": "當戰術學院有空餘的位置時，將自動指派一個艦娘，並學習第一個未滿級的技能"
     },
     "Enable": {
-      "name": "啓用該功能",
+      "name": "啟用該功能",
       "help": ""
     },
     "Favorite": {
@@ -1685,7 +1685,7 @@
   "Research": {
     "_info": {
       "name": "科研",
-      "help": "當過濾器和其他設置一起工作時，Alas 會尋找同時滿足所有用戶設置的項目。\n例如，你設置科研過濾器是 `H1 > D2.5 > shortest` （包含消耗魔方的科研），但又設置了不允許消耗魔方，最終的結果是 Alas 不會選擇消耗魔方的科研。當你突然想切魔方的時候，只需打開消耗魔方，而不需要修改過濾器，這是比較方便的。"
+      "help": "當過濾器和其他設定一起工作時，Alas 會尋找同時滿足所有用戶設定的項目。\n例如，你設定科研過濾器是 `H1 > D2.5 > shortest` （包含消耗魔方的科研），但又設定了不允許消耗魔方，最終的結果是 Alas 不會選擇消耗魔方的科研。當你突然想切魔方的時候，只需打開消耗魔方，而不需要修改過濾器，這是比較方便的。"
     },
     "UseCube": {
       "name": "使用魔方",
@@ -1744,7 +1744,7 @@
     },
     "CustomFilter": {
       "name": "自定義科研過濾器",
-      "help": "使用自定義過濾器需將 \"科研過濾器\" 設置爲 \"自定義\"，並閱讀 https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn"
+      "help": "使用自定義過濾器需將 \"科研過濾器\" 設定爲 \"自定義\"，並閱讀 https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn"
     }
   },
   "Dorm": {
@@ -1766,12 +1766,12 @@
     },
     "BuyFood": {
       "name": "自動購買食物",
-      "help": "僅作狀態顯示 禁止設置 不要詢問此開關的任何事情"
+      "help": "僅作狀態顯示 禁止設定 不要詢問此開關的任何事情"
     }
   },
   "BuyFurniture": {
     "_info": {
-      "name": "活動傢俱設置",
+      "name": "活動傢俱設定",
       "help": "購買活動中後宅傢俱商城的限時傢俱"
     },
     "Enable": {
@@ -1809,7 +1809,7 @@
       "help": ""
     },
     "Enable": {
-      "name": "開啓指揮喵訓練",
+      "name": "開啟指揮喵訓練",
       "help": ""
     },
     "Mode": {
@@ -1841,12 +1841,12 @@
       "help": ""
     },
     "Enable": {
-      "name": "啓用大艦隊後勤",
+      "name": "啟用大艦隊後勤",
       "help": "領取大艦隊任務, 提交籌備物資, 領取艦隊獎勵"
     },
     "SelectNewMission": {
       "name": "選擇新的每週艦隊任務",
-      "help": "這個帳號需要是艦隊司令或者副司令，才能開啓\n默認選擇最容易完成的塞壬殲滅Ⅲ，任務是擊沉任意敵人300艘"
+      "help": "這個帳號需要是艦隊司令或者副司令，才能開啟\n默認選擇最容易完成的塞壬殲滅Ⅲ，任務是擊沉任意敵人300艘"
     },
     "ExchangeFilter": {
       "name": "籌備物品過濾器",
@@ -1859,16 +1859,16 @@
       "help": ""
     },
     "Enable": {
-      "name": "啓用大艦隊作戰",
+      "name": "啟用大艦隊作戰",
       "help": ""
     },
     "SelectNewOperation": {
-      "name": "開啓新的大艦隊作戰",
-      "help": "這個帳號需要是艦隊司令或者副司令，才能開啓\n默認選擇獎勵最多的達古康納爾島海空戰"
+      "name": "開啟新的大艦隊作戰",
+      "help": "這個帳號需要是艦隊司令或者副司令，才能開啟\n默認選擇獎勵最多的達古康納爾島海空戰"
     },
     "NewOperationMaxDate": {
-      "name": "每月 X 號後，不再開啓新的大艦隊作戰",
-      "help": "僅在 \"開啓新的大艦隊作戰\" 啓用時生效\n不建議開啓每月的三次大艦隊作戰，因爲每位玩家一個月只能參與兩次，大部分成員無法參與第三次作戰的派遣。這會影響派遣事件的評價，導致最終獎勵減少"
+      "name": "每月 X 號後，不再開啟新的大艦隊作戰",
+      "help": "僅在 \"開啟新的大艦隊作戰\" 啟用時生效\n不建議開啟每月的三次大艦隊作戰，因爲每位玩家一個月只能參與兩次，大部分成員無法參與第三次作戰的派遣。這會影響派遣事件的評價，導致最終獎勵減少"
     },
     "JoinThreshold": {
       "name": "僅在作戰進度 > X 時參加大艦隊作戰",
@@ -3164,7 +3164,7 @@
       "2": "記事本",
       "3": "桌椅",
       "4": "精選木桶",
-      "5": "文件櫃",
+      "5": "檔案櫃",
       "6": "裝飾畫"
     },
     "Character1": {
@@ -3196,7 +3196,7 @@
       "2": "記事本",
       "3": "桌椅",
       "4": "精選木桶",
-      "5": "文件櫃",
+      "5": "檔案櫃",
       "6": "裝飾畫"
     },
     "Character2": {
@@ -3751,7 +3751,7 @@
   },
   "ShipyardDr": {
     "_info": {
-      "name": "彩科研圖紙購買設置",
+      "name": "彩科研圖紙購買設定",
       "help": "每天買彩科研圖紙，彩科研和金科研圖紙折扣獨立計數，每天可以各白嫖 2 張"
     },
     "ResearchSeries": {
@@ -3785,7 +3785,7 @@
   },
   "Shipyard": {
     "_info": {
-      "name": "金科研圖紙購買設置",
+      "name": "金科研圖紙購買設定",
       "help": ""
     },
     "ResearchSeries": {
@@ -3848,7 +3848,7 @@
     },
     "UseTicket": {
       "name": "使用單次建造券",
-      "help": "開啓後支持建造券的池將優先使用建造券建造，無建造券及建造一般池時仍使用魔方建造"
+      "help": "開啟後支援建造券的池將優先使用建造券建造，無建造券及建造一般池時仍使用魔方建造"
     },
     "UseDrill": {
       "name": "使用鑽頭完成建造",
@@ -3912,7 +3912,7 @@
     },
     "DayOfWeek": {
       "name": "延長至周幾",
-      "help": "建議設置爲平日(週一至週五)以免錯過購買",
+      "help": "建議設定爲平日(週一至週五)以免錯過購買",
       "0": "週一",
       "1": "週二",
       "2": "週三",
@@ -3928,13 +3928,13 @@
       "help": ""
     },
     "Collect": {
-      "name": "啓用",
+      "name": "啟用",
       "help": ""
     }
   },
   "PrivateQuarters": {
     "_info": {
-      "name": "宿舍計劃設置",
+      "name": "宿舍計劃設定",
       "help": ""
     },
     "BuyRoses": {
@@ -4186,8 +4186,8 @@
   },
   "OpsiGeneral": {
     "_info": {
-      "name": "大世界通用設置",
-      "help": "所有大世界功能都會使用這些設置"
+      "name": "大世界通用設定",
+      "help": "所有大世界功能都會使用這些設定"
     },
     "UseLogger": {
       "name": "使用坐標記錄儀",
@@ -4213,11 +4213,11 @@
     },
     "UseRepairPack": {
       "name": "使用維修箱修船",
-      "help": "開啓後，將使用倉庫內的維修箱修船，建議配合侵蝕1練級功能使用"
+      "help": "開啟後，將使用倉庫內的維修箱修船，建議配合侵蝕1練級功能使用"
     },
     "RepairPackThreshold": {
       "name": "任意艦船血量低於 X 後，使用維修箱修理",
-      "help": "僅在開啓“使用維修箱修船”時生效\n僅在打完深淵海域、塞壬要塞、月度Boss後嘗試維修\n0.0 ~ 1.0"
+      "help": "僅在開啟“使用維修箱修船”時生效\n僅在打完深淵海域、塞壬要塞、月度Boss後嘗試維修\n0.0 ~ 1.0"
     },
     "DoRandomMapEvent": {
       "name": "完成地圖隨機事件",
@@ -4225,11 +4225,11 @@
     },
     "AkashiShopFilter": {
       "name": "商店過濾器",
-      "help": "默認只購買體力nanoda。如果要購買紫幣，設置爲 'ActionPoint > PurpleCoins'"
+      "help": "默認只購買體力nanoda。如果要購買紫幣，設定爲 'ActionPoint > PurpleCoins'"
     },
     "NotifyOpsiMail": {
       "name": "推送大世界相關信息",
-      "help": "推送關於侵蝕1和短貓的信息，需要同時開啓“錯誤推送”功能，由於信息較多，可能會比較吵"
+      "help": "推送關於侵蝕1和短貓的信息，需要同時開啟“錯誤推送”功能，由於信息較多，可能會比較吵"
     }
   },
   "OpsiAshBeacon": {
@@ -4257,7 +4257,7 @@
     },
     "EnsureFullyCollected": {
       "name": "保證收集滿每日200信標數據",
-      "help": "在收集滿爲前，暫時無視保留行動力設置，需要同時開啓 \"短貓相接\""
+      "help": "在收集滿爲前，暫時無視保留行動力設定，需要同時開啟 \"短貓相接\""
     },
     "AutoCollectShip": {
       "name": "自動獲取新META艦船",
@@ -4266,7 +4266,7 @@
   },
   "OpsiFleetFilter": {
     "_info": {
-      "name": "艦隊設置",
+      "name": "艦隊設定",
       "help": ""
     },
     "Filter": {
@@ -4276,7 +4276,7 @@
   },
   "OpsiFleet": {
     "_info": {
-      "name": "艦隊設置",
+      "name": "艦隊設定",
       "help": ""
     },
     "Fleet": {
@@ -4289,7 +4289,7 @@
     },
     "Submarine": {
       "name": "呼叫潛艇",
-      "help": "開啓後，運行間隔將增加至60分鍾"
+      "help": "開啟後，運行間隔將增加至60分鍾"
     }
   },
   "OpsiExplore": {
@@ -4303,11 +4303,11 @@
     },
     "ForceRun": {
       "name": "無視運行間隔強制運行",
-      "help": "開啓後將帶來額外的行動力消耗，一般不用打開，慢慢打就好"
+      "help": "開啟後將帶來額外的行動力消耗，一般不用打開，慢慢打就好"
     },
     "IfSkipSirenResearch": {
       "name": "跳過塞壬研究裝置",
-      "help": "開啓後，將跳過對應坐標等級的塞壬研究裝置,以方便卡bug\n經過了幾個海域的初步測試，但未完成一次完整的月度開荒，可能存在未知問題",
+      "help": "開啟後，將跳過對應坐標等級的塞壬研究裝置,以方便卡bug\n經過了幾個海域的初步測試，但未完成一次完整的月度開荒，可能存在未知問題",
       "0": "不跳過",
       "6": "僅跳過6級",
       "65": "跳過6級和5級",
@@ -4319,13 +4319,13 @@
     },
     "LastZone": {
       "name": "上一次完成的區域",
-      "help": "自動更新的數值，填0可重置進度，重置後自動跳過已開荒的海域\n支持海域ID、國服/國際服/日服/臺服海域名稱，例如 \"51\", \"NA海域東南E\", \"NA Ocean SE Sector E\""
+      "help": "自動更新的數值，填0可重置進度，重置後自動跳過已開荒的海域\n支援海域ID、國服/國際服/日服/臺服海域名稱，例如 \"51\", \"NA海域東南E\", \"NA Ocean SE Sector E\""
     }
   },
   "OpsiShop": {
     "_info": {
       "name": "大世界商店",
-      "help": "使用此功能前必須滿足以下條件：\n- 通關大世界主線並完成模擬戰+塞壬試驗場\n- 啓用大世界開荒任務或使用戰役信息記錄儀（5000油道具）\n- 通關大世界主線後的下一個月，即港口商店變爲新版商店後纔可使用"
+      "help": "使用此功能前必須滿足以下條件：\n- 通關大世界主線並完成模擬戰+塞壬試驗場\n- 啟用大世界開荒任務或使用戰役信息記錄儀（5000油道具）\n- 通關大世界主線後的下一個月，即港口商店變爲新版商店後纔可使用"
     },
     "PresetFilter": {
       "name": "港口商店過濾器",
@@ -4338,7 +4338,7 @@
     },
     "CustomFilter": {
       "name": "自定義過濾器",
-      "help": "使用自定義過濾器需將 \"港口商店過濾器\" 設置爲 \"自定義\"，並閱讀 https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn"
+      "help": "使用自定義過濾器需將 \"港口商店過濾器\" 設定爲 \"自定義\"，並閱讀 https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn"
     },
     "DisableBeforeDate": {
       "name": "每月 X 號前，不購買大世界商店",
@@ -4358,7 +4358,7 @@
   "OpsiDaily": {
     "_info": {
       "name": "大世界每日",
-      "help": "使用此功能前必須滿足以下條件：\n- 通關大世界主線並完成模擬戰+塞壬試驗場\n- 啓用大世界開荒任務或使用戰役信息記錄儀（5000油道具）"
+      "help": "使用此功能前必須滿足以下條件：\n- 通關大世界主線並完成模擬戰+塞壬試驗場\n- 啟用大世界開荒任務或使用戰役信息記錄儀（5000油道具）"
     },
     "DoMission": {
       "name": "做大世界每日",
@@ -4370,7 +4370,7 @@
     },
     "SkipSirenResearchMission": {
       "name": "不做塞壬研究任務",
-      "help": "開啓後，將跳過“塞壬研究·I”與“塞壬研究·II”兩個任務\n塞壬研究任務使用黃幣兌換紫幣"
+      "help": "開啟後，將跳過“塞壬研究·I”與“塞壬研究·II”兩個任務\n塞壬研究任務使用黃幣兌換紫幣"
     },
     "KeepMissionZone": {
       "name": "保留海域不清理",
@@ -4384,39 +4384,39 @@
   "OpsiObscure": {
     "_info": {
       "name": "隱祕海域",
-      "help": "每隔27分鍾清理一個隱祕海域，以保證空域搜索冷卻\n使用此功能前必須滿足以下條件：\n- 通關大世界主線並完成模擬戰+塞壬試驗場\n- 啓用大世界開荒任務或使用戰役信息記錄儀（5000油道具）"
+      "help": "每隔27分鍾清理一個隱祕海域，以保證空域搜索冷卻\n使用此功能前必須滿足以下條件：\n- 通關大世界主線並完成模擬戰+塞壬試驗場\n- 啟用大世界開荒任務或使用戰役信息記錄儀（5000油道具）"
     },
     "SkipHazard2Obscure": {
       "name": "不清理2級坐標",
-      "help": "開啓後，將不會打侵蝕等級爲2的隱祕海域"
+      "help": "開啟後，將不會打侵蝕等級爲2的隱祕海域"
     },
     "ForceRun": {
       "name": "無視運行間隔強制運行",
-      "help": "開啓後將帶來額外的行動力消耗，一般不用打開，慢慢打就好"
+      "help": "開啟後將帶來額外的行動力消耗，一般不用打開，慢慢打就好"
     }
   },
   "OpsiAbyssal": {
     "_info": {
       "name": "深淵海域",
-      "help": "清理倉庫中的深淵海域坐標\n使用此功能前必須滿足以下條件：\n- 通關大世界主線並完成模擬戰+塞壬試驗場\n- 啓用大世界開荒任務或使用戰役信息記錄儀（5000油道具）"
+      "help": "清理倉庫中的深淵海域坐標\n使用此功能前必須滿足以下條件：\n- 通關大世界主線並完成模擬戰+塞壬試驗場\n- 啟用大世界開荒任務或使用戰役信息記錄儀（5000油道具）"
     },
     "ForceRun": {
       "name": "無視運行間隔強制運行",
-      "help": "開啓後將帶來額外的行動力消耗，一般不用打開，慢慢打就好"
+      "help": "開啟後將帶來額外的行動力消耗，一般不用打開，慢慢打就好"
     }
   },
   "OpsiStronghold": {
     "_info": {
       "name": "塞壬要塞",
-      "help": "清理每週的塞壬要塞\n使用此功能前必須滿足以下條件：\n- 通關大世界主線並完成模擬戰+塞壬試驗場\n- 啓用大世界開荒任務或使用戰役信息記錄儀（5000油道具）"
+      "help": "清理每週的塞壬要塞\n使用此功能前必須滿足以下條件：\n- 通關大世界主線並完成模擬戰+塞壬試驗場\n- 啟用大世界開荒任務或使用戰役信息記錄儀（5000油道具）"
     },
     "SubmarineEveryCombat": {
       "name": "潛艇每戰出擊",
-      "help": "開啓後，如果出擊艦隊過濾器中存在潛艇編隊，則當潛艇編隊彈藥耗盡時，退出塞壬要塞並推遲任務"
+      "help": "開啟後，如果出擊艦隊過濾器中存在潛艇編隊，則當潛艇編隊彈藥耗盡時，退出塞壬要塞並推遲任務"
     },
     "ForceRun": {
       "name": "無視運行間隔強制運行",
-      "help": "開啓後將帶來額外的行動力消耗，一般不用打開，慢慢打就好"
+      "help": "開啟後將帶來額外的行動力消耗，一般不用打開，慢慢打就好"
     },
     "HasStronghold": {
       "name": "OpsiStronghold.HasStronghold.name",
@@ -4426,7 +4426,7 @@
   "OpsiMonthBoss": {
     "_info": {
       "name": "月度Boss",
-      "help": "清理（簡單/困難）月度boss，簡單難度失敗會繼續出擊直到擊破，困難難度失敗則直接終止任務\n使用此功能需要滿足以下條件：\n- 通關大世界主線並完成模擬戰+塞壬試驗場\n- 啓用大世界開荒任務或使用戰役信息記錄儀（5000油道具）"
+      "help": "清理（簡單/困難）月度boss，簡單難度失敗會繼續出擊直到擊破，困難難度失敗則直接終止任務\n使用此功能需要滿足以下條件：\n- 通關大世界主線並完成模擬戰+塞壬試驗場\n- 啟用大世界開荒任務或使用戰役信息記錄儀（5000油道具）"
     },
     "Mode": {
       "name": "清理月度Boss的難度",
@@ -4440,17 +4440,17 @@
     },
     "ForceRun": {
       "name": "無視運行間隔強制運行",
-      "help": "開啓後將帶來額外的行動力消耗，一般不用打開，慢慢打就好"
+      "help": "開啟後將帶來額外的行動力消耗，一般不用打開，慢慢打就好"
     }
   },
   "OpsiMeowfficerFarming": {
     "_info": {
       "name": "短貓相接",
-      "help": "按順時針出擊指定侵蝕等級的海域\n使用此功能前必須滿足以下條件：\n- 通關大世界主線並完成模擬戰+塞壬試驗場\n- 啓用大世界開荒任務或使用戰役信息記錄儀（5000油道具）"
+      "help": "按順時針出擊指定侵蝕等級的海域\n使用此功能前必須滿足以下條件：\n- 通關大世界主線並完成模擬戰+塞壬試驗場\n- 啟用大世界開荒任務或使用戰役信息記錄儀（5000油道具）"
     },
     "ActionPointPreserve": {
       "name": "保留 X 點行動力",
-      "help": "行動力低於 X 後停止，自動打開行動力箱子，X 包含箱子中的行動力，建議保留3000行動力給侵蝕1練級\n這個值將在大世界重置前3天自動減少至200點，如果啓用侵蝕1練級則改爲1000點，並在最後一天自動減少至0點"
+      "help": "行動力低於 X 後停止，自動打開行動力箱子，X 包含箱子中的行動力，建議保留3000行動力給侵蝕1練級\n這個值將在大世界重置前3天自動減少至200點，如果啟用侵蝕1練級則改爲1000點，並在最後一天自動減少至0點"
     },
     "HazardLevel": {
       "name": "侵蝕等級",
@@ -4464,7 +4464,7 @@
     },
     "TargetZone": {
       "name": "指定海域",
-      "help": "僅出擊指定的海域，可以用來獲取大世界成就星星\n支持海域ID、國服/國際服/日服/臺服海域名稱，例如 \"51\", \"NA海域東南E\", \"NA Ocean SE Sector E\"\n填入默認值0，或者刪除數值即可取消指定"
+      "help": "僅出擊指定的海域，可以用來獲取大世界成就星星\n支援海域ID、國服/國際服/日服/臺服海域名稱，例如 \"51\", \"NA海域東南E\", \"NA Ocean SE Sector E\"\n填入默認值0，或者刪除數值即可取消指定"
     },
     "StayInZone": {
       "name": "指定海域計劃作戰",
@@ -4472,7 +4472,7 @@
     },
     "APPreserveUntilReset": {
       "name": "保留行動力直到月底",
-      "help": "'保留 X 點行動力' 設置不會在大世界重置前幾天減少\n注意：開啓後只會在跨月每日任務中消耗這些行動力，未啓用跨月每日任務時該設置無效，這意味着你需要手動使用這些行動力以獲得更高的收益"
+      "help": "'保留 X 點行動力' 設定不會在大世界重置前幾天減少\n注意：開啟後只會在跨月每日任務中消耗這些行動力，未啟用跨月每日任務時該設定無效，這意味着你需要手動使用這些行動力以獲得更高的收益"
     },
     "SirenDetectorSearch_Enable": {
       "name": "自動尋找塞壬探測裝置",
@@ -4494,7 +4494,7 @@
     },
     "SirenDetectorSearch_StopAfterFound": {
       "name": "尋找 X 個塞壬探測裝置後停止",
-      "help": "尋找並記錄到指定數量的塞壬探測裝置後，停止搜索並回到正常短貓流程（ 實際上找了x個裝置的數量是由下面的記錄表決定的，如果記錄表爲空，則找x個裝置後停止）記錄中有y個裝置，則找x-y個裝置後停止\n設置爲 0 表示不限制，會一直搜索直到行動力不足"
+      "help": "尋找並記錄到指定數量的塞壬探測裝置後，停止搜索並回到正常短貓流程（ 實際上找了x個裝置的數量是由下面的記錄表決定的，如果記錄表爲空，則找x個裝置後停止）記錄中有y個裝置，則找x-y個裝置後停止\n設定爲 0 表示不限制，會一直搜索直到行動力不足"
     },
     "SirenDetectorSearch_FoundZones": {
       "name": "已找到的塞壬探測裝置海域",
@@ -4504,7 +4504,7 @@
   "OpsiHazard1Leveling": {
     "_info": {
       "name": "侵蝕1練級",
-      "help": "消耗作戰補給憑證以獲取大量經驗和少量行動力\n推薦攜帶1-2艘預裝填航母以獲取最高的時均收益\n\n原版 Alas 的一些防呆限制已被解除，請謹慎設置參數"
+      "help": "消耗作戰補給憑證以獲取大量經驗和少量行動力\n推薦攜帶1-2艘預裝填航母以獲取最高的時均收益\n\n原版 Alas 的一些防呆限制已被解除，請謹慎設定參數"
     },
     "TargetZone": {
       "name": "指定海域",
@@ -4523,15 +4523,15 @@
     },
     "ExecuteFixedPatrolScan": {
       "name": "艦隊強制移動",
-      "help": "雪風大人溫馨提示：開啓後，將強制移動艦隊以免找不到明石，指揮官你也不想因爲找不到明石導致墜機nanoda？打開這個功能輕輕鬆鬆達到50萬海裏每月nanoda，指揮官還在等什麼nanoda!"
+      "help": "雪風大人溫馨提示：開啟後，將強制移動艦隊以免找不到明石，指揮官你也不想因爲找不到明石導致墜機nanoda？打開這個功能輕輕鬆鬆達到50萬海裏每月nanoda，指揮官還在等什麼nanoda!"
     },
     "Cl1Filter": {
       "name": "明石購買篩選",
-      "help": "默認只購買體力nanoda。如果要同時購買紫幣，設置爲 'ActionPoint > PurpleCoins'"
+      "help": "默認只購買體力nanoda。如果要同時購買紫幣，設定爲 'ActionPoint > PurpleCoins'"
     },
     "RecordNonCL1AP": {
       "name": "統計非侵蝕1來源體力",
-      "help": "開啓後，將統計所有來源的體力獲取數據（如明石商店購買）。關閉後，僅在侵蝕1練級任務中統計體力數據，忽略其他任務或手動操作時的體力獲取。"
+      "help": "開啟後，將統計所有來源的體力獲取數據（如明石商店購買）。關閉後，僅在侵蝕1練級任務中統計體力數據，忽略其他任務或手動操作時的體力獲取。"
     }
   },
   "OpsiSirenBug": {
@@ -4540,12 +4540,12 @@
       "help": "專門用於配置塞壬研究裝置及其 Bug 利用的相關選項"
     },
     "SirenResearch_Enable": {
-      "name": "啓用塞壬研究裝置",
-      "help": "啓用後使用紫幣通過塞壬研究裝置轉換爲黃幣\n需要足夠的海裏數支撐紫幣消耗"
+      "name": "啟用塞壬研究裝置",
+      "help": "啟用後使用紫幣通過塞壬研究裝置轉換爲黃幣\n需要足夠的海裏數支撐紫幣消耗"
     },
     "SirenBug_Enable": {
-      "name": "啓用塞壬研究裝置 Bug 利用",
-      "help": "利用塞壬研究裝置 Bug，無限刷取高侵蝕區域塞壬研究裝置資源\n啓用該功能前需啓用“塞壬研究裝置”功能，否則該功能將不生效"
+      "name": "啟用塞壬研究裝置 Bug 利用",
+      "help": "利用塞壬研究裝置 Bug，無限刷取高侵蝕區域塞壬研究裝置資源\n啟用該功能前需啟用“塞壬研究裝置”功能，否則該功能將不生效"
     },
     "SirenBug_Type": {
       "name": "前往的海域類型爲",
@@ -4555,7 +4555,7 @@
     },
     "SirenBug_Zone": {
       "name": "利用 Bug 的海域名稱或 ID",
-      "help": "指定已刷出塞壬研究裝置的高侵蝕區域\n支持海域ID、國服/國際服/日服/臺服海域名稱，例如 \"51\", \"NA海域東南E\", \"NA Ocean SE Sector E\"\n填入默認值 0，或者清空數值即可取消指定"
+      "help": "指定已刷出塞壬研究裝置的高侵蝕區域\n支援海域ID、國服/國際服/日服/臺服海域名稱，例如 \"51\", \"NA海域東南E\", \"NA Ocean SE Sector E\"\n填入默認值 0，或者清空數值即可取消指定"
     },
     "SirenBug_Grid": {
       "name": "裝置所在的地圖坐標",
@@ -4563,7 +4563,7 @@
     },
     "DisableTaskSwitchDuringBug": {
       "name": "塞壬研究裝置 Bug 利用期間禁止調度器切換任務",
-      "help": "Bug 利用期間臨時禁用調度器的任務切換檢查，避免被委託、日常等任務打斷\n如果 Bug 利用過程中經常被其他到時任務中斷，可以啓用此選項",
+      "help": "Bug 利用期間臨時禁用調度器的任務切換檢查，避免被委託、日常等任務打斷\n如果 Bug 利用過程中經常被其他到時任務中斷，可以啟用此選項",
       "True": "是",
       "False": "否"
     },
@@ -4576,8 +4576,8 @@
       "help": ""
     },
     "SirenBug_CountLimit": {
-      "name": "當利用 Bug 次數達到此數值時自動收菜 (0爲不啓用)",
-      "help": "注意：可能導致把塞壬研究裝置刷沒，刷沒後果自負\n當利用 Bug 次數達到設置的數值時，使用當前艦隊卡住敵艦並使用另一艦隊收菜"
+      "name": "當利用 Bug 次數達到此數值時自動收菜 (0爲不啟用)",
+      "help": "注意：可能導致把塞壬研究裝置刷沒，刷沒後果自負\n當利用 Bug 次數達到設定的數值時，使用當前艦隊卡住敵艦並使用另一艦隊收菜"
     },
     "SirenBug_CrossDay": {
       "name": "跨日期間 (23:55-00:05) 暫停 Bug 利用",
@@ -4591,7 +4591,7 @@
   "OpsiCheckLeveling": {
     "_info": {
       "name": "大世界艦隊經驗檢測",
-      "help": "檢測出擊艦隊所有船是否已經獲取滿經驗，是的話則發送一條推送消息\n需要先在 Alas 設置中配置好“錯誤推送設置”"
+      "help": "檢測出擊艦隊所有船是否已經獲取滿經驗，是的話則發送一條推送消息\n需要先在 Alas 設定中配置好“錯誤推送設定”"
     },
     "TargetLevel": {
       "name": "當所有艦船經驗可升至此等級時推送 (0爲不限制)",
@@ -4609,11 +4609,11 @@
   "OpsiScheduling": {
     "_info": {
       "name": "智能調度",
-      "help": "大世界智能調度功能，用於協調侵蝕1練級與黃幣補充任務之間的切換\n啓用後將根據黃幣和行動力自動在不同任務之間切換並發送推送通知\n\n原版 Alas 的一些防呆限制已被解除，請謹慎設置參數"
+      "help": "大世界智能調度功能，用於協調侵蝕1練級與黃幣補充任務之間的切換\n啟用後將根據黃幣和行動力自動在不同任務之間切換並發送推送通知\n\n原版 Alas 的一些防呆限制已被解除，請謹慎設定參數"
     },
     "UseSmartSchedulingOperationCoinsPreserve": {
       "name": "獲取 X 個作戰補給憑證",
-      "help": "啓用後將使用下方設置的 獲取 X 個作戰補給憑證 的配置，禁用則使用侵蝕1練級 黃幣保留配置\n關閉後將使用行動力控制\n打開後使用黃幣控制",
+      "help": "啟用後將使用下方設定的 獲取 X 個作戰補給憑證 的配置，禁用則使用侵蝕1練級 黃幣保留配置\n關閉後將使用行動力控制\n打開後使用黃幣控制",
       "True": "True",
       "False": "False"
     },
@@ -4630,34 +4630,34 @@
       "help": "在黃幣獲取任務時 共獲取(增加) X 個作戰補給憑證後返回侵蝕1練級"
     },
     "EnableMeowfficerFarming": {
-      "name": "啓用短貓相接",
-      "help": "智能調度中是否啓用短貓相接任務來補充黃幣",
-      "True": "已啓用",
-      "False": "未啓用"
+      "name": "啟用短貓相接",
+      "help": "智能調度中是否啟用短貓相接任務來補充黃幣",
+      "True": "已啟用",
+      "False": "未啟用"
     },
     "EnableObscure": {
-      "name": "啓用隱祕海域",
-      "help": "智能調度中是否啓用隱祕海域任務來補充黃幣",
-      "True": "已啓用",
-      "False": "未啓用"
+      "name": "啟用隱祕海域",
+      "help": "智能調度中是否啟用隱祕海域任務來補充黃幣",
+      "True": "已啟用",
+      "False": "未啟用"
     },
     "EnableAbyssal": {
-      "name": "啓用深淵海域",
-      "help": "智能調度中是否啓用深淵海域任務來補充黃幣",
-      "True": "已啓用",
-      "False": "未啓用"
+      "name": "啟用深淵海域",
+      "help": "智能調度中是否啟用深淵海域任務來補充黃幣",
+      "True": "已啟用",
+      "False": "未啟用"
     },
     "EnableStronghold": {
-      "name": "啓用塞壬要塞",
-      "help": "智能調度中是否啓用塞壬要塞任務來補充黃幣",
-      "True": "已啓用",
-      "False": "未啓用"
+      "name": "啟用塞壬要塞",
+      "help": "智能調度中是否啟用塞壬要塞任務來補充黃幣",
+      "True": "已啟用",
+      "False": "未啟用"
     }
   },
   "OpsiDailyDelay": {
     "_info": {
       "name": "大世界任務延後",
-      "help": "在每日0點服務器重啓前的可配置時間段內，將侵蝕一和短貓任務自動延後至次日0點重啓完成後再執行"
+      "help": "在每日0點伺服器重啟前的可配置時間段內，將侵蝕一和短貓任務自動延後至次日0點重啟完成後再執行"
     },
     "TriggerMinutesBeforeReset": {
       "name": "提前觸發時間（分鍾）",
@@ -4731,14 +4731,14 @@
     "SkipBattle": {
       "name": "殺遊戲跳過戰鬥",
       "help": "",
-      "True": "已啓用",
+      "True": "已啟用",
       "False": "False"
     }
   },
   "BoxDisassemble": {
     "_info": {
       "name": "拆解裝備箱",
-      "help": "拆解倉庫中的裝備箱子，配置完成後啓動並等待即可"
+      "help": "拆解倉庫中的裝備箱子，配置完成後啟動並等待即可"
     },
     "UsePurpleBox": {
       "name": "拆解紫色裝備箱",
@@ -4768,7 +4768,7 @@
   "Benchmark": {
     "_info": {
       "name": "性能測試",
-      "help": "測試哪個截圖方案和控制方案速度更快，速度因模擬器和電腦配置而異\n測試完成後，在 \"Alas\" - \"模擬器設置\" 內選擇最快的截圖和控制方案"
+      "help": "測試哪個截圖方案和控制方案速度更快，速度因模擬器和電腦配置而異\n測試完成後，在 \"Alas\" - \"模擬器設定\" 內選擇最快的截圖和控制方案"
     },
     "DeviceType": {
       "name": "設備類型",
@@ -4790,7 +4790,7 @@
   "AzurLaneUncensored": {
     "_info": {
       "name": "反和諧",
-      "help": "僅國服使用。這個工具將執行：\n- 下載反和諧文件\n- 將文件推送至模擬器內\n- 重啓遊戲客戶端"
+      "help": "僅國服使用。這個工具將執行：\n- 下載反和諧檔案\n- 將檔案推送至模擬器內\n- 重啟遊戲客戶端"
     },
     "Repository": {
       "name": "反和諧倉庫",
@@ -4813,12 +4813,12 @@
       "help": ""
     },
     "ScheduledEmulatorRestart": {
-      "name": "定時重啓模擬器",
-      "help": "啓用後，每隔指定時間自動重啓模擬器，避免長時間運行導致的內存泄漏或卡頓問題。重啓會等當前任務完成後再執行。"
+      "name": "定時重啟模擬器",
+      "help": "啟用後，每隔指定時間自動重啟模擬器，避免長時間運行導致的內存泄漏或卡頓問題。重啟會等當前任務完成後再執行。"
     },
     "RestartIntervalHours": {
-      "name": "重啓間隔（小時）",
-      "help": "每隔多少小時自動重啓一次模擬器。"
+      "name": "重啟間隔（小時）",
+      "help": "每隔多少小時自動重啟一次模擬器。"
     }
   },
   "Storage": {
@@ -4837,18 +4837,18 @@
       "Home": "主頁",
       "Develop": "開發",
       "Performance": "性能",
-      "Setting": "設置",
+      "Setting": "設定",
       "AddAlas": "新增"
     },
     "Button": {
-      "Start": "啓動",
+      "Start": "啟動",
       "Stop": "停止",
       "ScrollON": "自動滾動 開",
       "ScrollOFF": "自動滾動 關",
       "DashboardON": "折疊",
       "DashboardOFF": "展開",
       "ClearLog": "清空日誌",
-      "Setting": "設置",
+      "Setting": "設定",
       "CheckUpdate": "檢查更新",
       "ClickToUpdate": "進行更新",
       "RetryUpdate": "重試更新",
@@ -4856,7 +4856,7 @@
     },
     "Toast": {
       "DisableTranslateMode": "點擊這裏關閉翻譯模式",
-      "ConfigSaved": "設置已保存",
+      "ConfigSaved": "設定已保存",
       "AlasIsRunning": "調度器已在運行中",
       "ClickToUpdate": "有可用更新nanoda!"
     },
@@ -4932,28 +4932,28 @@
     },
     "AddAlas": {
       "PopupTitle": "添加新配置",
-      "NewName": "新的配置文件名",
+      "NewName": "新的配置檔案名",
       "CopyFrom": "從現有的配置中復制",
       "Confirm": "添加",
-      "FileExist": "存在同名的配置文件，請重新輸入一個",
-      "InvalidChar": "配置文件名不能包含下列任何字符：.\\/:*?\"<>|",
-      "InvalidPrefixTemplate": "配置文件名不能以 template 開頭",
+      "FileExist": "存在同名的配置檔案，請重新輸入一個",
+      "InvalidChar": "配置檔案名不能包含下列任何字符：.\\/:*?\"<>|",
+      "InvalidPrefixTemplate": "配置檔案名不能以 template 開頭",
       "Manage": "管理"
     },
     "AppManage": {
-      "PageTitle": "管理配置文件",
+      "PageTitle": "管理配置檔案",
       "TitleNew": "添加新配置",
-      "NewName": "新的配置文件名",
+      "NewName": "新的配置檔案名",
       "CopyFrom": "從現有的配置中復制",
-      "NameExist": "存在同名的配置文件，請重新輸入一個",
-      "InvalidChar": "配置文件名不能包含下列任何字符：.\\/:*?\"<>|",
-      "InvalidPrefixTemplate": "配置文件名不能以 template 開頭",
+      "NameExist": "存在同名的配置檔案，請重新輸入一個",
+      "InvalidChar": "配置檔案名不能包含下列任何字符：.\\/:*?\"<>|",
+      "InvalidPrefixTemplate": "配置檔案名不能以 template 開頭",
       "Back": "返回",
       "New": "添加",
       "Import": "導入",
       "Export": "導出",
       "Delete": "刪除",
-      "OverrideWarning": "將會覆蓋現有的配置文件",
+      "OverrideWarning": "將會覆蓋現有的配置檔案",
       "ImportSuccess": "導入成功",
       "NewSuccess": "添加成功",
       "Name": "配置名稱",
@@ -4966,23 +4966,23 @@
       "UpdateStart": "開始更新",
       "UpdateWait": "等待所有 Alas 完成當前任務",
       "UpdateRun": "更新中",
-      "UpdateSuccess": "更新成功，正在重啓",
+      "UpdateSuccess": "更新成功，正在重啟",
       "UpdateFailed": "更新失敗，可在./log/*_gui.txt中找到錯誤日誌",
       "UpdateChecking": "檢查更新中",
-      "UpdateCancel": "取消更新，重啓 Alas 中",
-      "UpdateFinish": "更新成功，請手動重啓",
+      "UpdateCancel": "取消更新，重啟 Alas 中",
+      "UpdateFinish": "更新成功，請手動重啟",
       "Local": "本地",
       "Upstream": "上遊倉庫",
       "Author": "作者",
       "Time": "提交時間",
       "Message": "提交信息",
-      "DisabledWarn": "更新模塊未啓用，你需要手動重啓 Alas 進行更新",
+      "DisabledWarn": "更新模塊未啟用，你需要手動重啟 Alas 進行更新",
       "DetailedHistory": "詳細提交歷史"
     },
     "Remote": {
       "Running": "運行中",
-      "NotRunning": "未運行，與服務器的連接斷開或服務器離線",
-      "NotEnable": "未啓用，在 deploy.yaml 中設置 webui 密碼並啓用遠程控制",
+      "NotRunning": "未運行，與伺服器的連接斷開或伺服器離線",
+      "NotEnable": "未啟用，在 deploy.yaml 中設定 webui 密碼並啟用遠程控制",
       "EntryPoint": "遠程訪問 url 地址:",
       "ConfigureHint": "配置教程：",
       "SSHNotInstall": "系統中沒有 ssh 工具，請參考教程下載或安裝 ssh"
@@ -4991,7 +4991,7 @@
       "InvalidFeedBack": "格式錯誤。 示例：{0}",
       "Clear": "清除",
       "EnterPassword": "輸入密碼",
-      "ChooseFile": "選擇文件"
+      "ChooseFile": "選擇檔案"
     },
     "OpsiScheduling": {
       "UseSmartSchedulingOperationCoinsPreserve": "Gui.OpsiScheduling.UseSmartSchedulingOperationCoinsPreserve",

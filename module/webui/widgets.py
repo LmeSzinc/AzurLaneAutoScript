@@ -376,6 +376,8 @@ def put_arg_stored(kwargs: T_Output_Kwargs) -> Output:
     kwargs["disabled"] = True
 
     values = kwargs.pop("value", {})
+    if not isinstance(values, dict):
+        values = {}
     time_ = values.pop("time", "")
 
     rows = [product_stored_row(kwargs, key, value) for key, value in values.items() if value]

@@ -368,73 +368,73 @@
       "com.YoStarEN.AzurLane": "International server",
       "com.YoStarJP.AzurLane": "Japanese server",
       "com.hkmanjuu.azurlane.gp": "Taiwan server",
-      "com.bilibili.blhx.huawei": "National service Huawei channel service com.bilibili.blhx.huawei",
-      "com.bilibili.blhx.honor": "National server Honor channel server com.bilibili.blhx.honor",
-      "com.bilibili.blhx.mi": "National server Xiaomi channel server com.bilibili.blhx.mi",
-      "com.tencent.tmgp.bilibili.blhx": "National server Tencent App Store channel server com.tencent.tmgp.bilibili.blhx",
-      "com.bilibili.blhx.baidu": "National server Baidu channel server com.bilibili.blhx.baidu",
-      "com.bilibili.blhx.qihoo": "National server 360 channel server com.bilibili.blhx.qihoo",
-      "com.bilibili.blhx.nearme.gamecenter": "National server oppo channel server com.bilibili.blhx.nearme.gamecenter",
-      "com.bilibili.blhx.vivo": "National server vivo channel server com.bilibili.blhx.vivo",
-      "com.bilibili.blhx.mz": "National server Meizu channel server com.bilibili.blhx.mz",
-      "com.bilibili.blhx.dl": "National server Dangle channel server com.bilibili.blhx.dl",
-      "com.bilibili.blhx.lenovo": "National server Lenovo channel server com.bilibili.blhx.lenovo",
-      "com.bilibili.blhx.uc": "National server UC nine games channel server com.bilibili.blhx.uc",
-      "com.bilibili.blhx.mzw": "National server thumb play channel server com.bilibili.blhx.mzw",
-      "com.yiwu.blhx.yx15": "National server 15 game channel server com.yiwu.blhx.yx15",
-      "com.bilibili.blhx.m4399": "National server 4399 channel server com.bilibili.blhx.m4399",
-      "com.bilibili.blhx.bilibiliMove": "National server migration channel server com.bilibili.blhx.bilibiliMove",
+      "com.bilibili.blhx.huawei": "National service com.bilibili.blhx.huawei",
+      "com.bilibili.blhx.honor": "National service com.bilibili.blhx.honor",
+      "com.bilibili.blhx.mi": "National service com.bilibili.blhx.mi",
+      "com.tencent.tmgp.bilibili.blhx": "National service com.tencent.tmgp.bilibili.blhx",
+      "com.bilibili.blhx.baidu": "National service com.bilibili.blhx.baidu",
+      "com.bilibili.blhx.qihoo": "National service com.bilibili.blhx.qihoo",
+      "com.bilibili.blhx.nearme.gamecenter": "National service com.bilibili.blhx.nearme.gamecenter",
+      "com.bilibili.blhx.vivo": "National service com.bilibili.blhx.vivo",
+      "com.bilibili.blhx.mz": "National service com.bilibili.blhx.mz",
+      "com.bilibili.blhx.dl": "National service com.bilibili.blhx.dl",
+      "com.bilibili.blhx.lenovo": "National service com.bilibili.blhx.lenovo",
+      "com.bilibili.blhx.uc": "National service com.bilibili.blhx.uc",
+      "com.bilibili.blhx.mzw": "National service com.bilibili.blhx.mzw",
+      "com.yiwu.blhx.yx15": "National service com.yiwu.blhx.yx15",
+      "com.bilibili.blhx.m4399": "National service com.bilibili.blhx.m4399",
+      "com.bilibili.blhx.bilibiliMove": "National service com.bilibili.blhx.bilibiliMove",
       "com.hkmanjuu.azurlane.gp.mc": "Taiwan server com.hkmanjuu.azurlane.gp.mc"
     },
     "ServerName": {
       "name": "In-game server",
       "help": "Select the server where the game is located to enable server status detection\nSuspend until resumed during server maintenance or network unavailability",
       "disabled": "Don't use detection",
-      "cn_android-0": "[National Server] Rhine Exercise",
-      "cn_android-1": "[National Server] Barbarossa",
-      "cn_android-2": "[National Server] Operation Overlord",
-      "cn_android-3": "[National Server] Operation Iceberg",
-      "cn_android-4": "[National Server] Rainbow Project",
-      "cn_android-5": "[National Server] Generator Plan",
-      "cn_android-6": "[National Server] Operation Observation Tower",
-      "cn_android-7": "[National Server] Operation Crossroads",
-      "cn_android-8": "[National Server] Operation Juno",
-      "cn_android-9": "[National Server] Doolittle Raid",
-      "cn_android-10": "[National Server] Operation Cerberus",
-      "cn_android-11": "[National Server] Cairo Declaration",
-      "cn_android-12": "[National Server] Olympic Action",
-      "cn_android-13": "[National Server] Operation Little Crown",
-      "cn_android-14": "[National Server] Potsdam Announcement",
-      "cn_android-15": "[National Server] White Scheme",
-      "cn_android-16": "[National Server] Operation Valkyrie",
-      "cn_android-17": "[National Server] Manhattan Project",
-      "cn_android-18": "[National Server] August Storm",
-      "cn_android-19": "[National Server] Autumn Travel",
-      "cn_android-20": "[National Server] Operation Mercury",
-      "cn_android-21": "[National Server] Rhine Guards",
-      "cn_android-22": "[National Server] Northern Lights Project",
-      "cn_android-23": "[National Server] Halberd Project",
-      "cn_android-24": "[National Server] Operation Heavy Rain",
-      "cn_android-25": "[National Server] Operation Narcissus",
-      "cn_android-26": "[National Server] Winter Moon Project",
-      "cn_android-27": "[National Server] Longbow Project",
-      "cn_android-28": "[National Server] Judgment Agreement",
-      "cn_ios-0": "[National Server] Hawaii",
-      "cn_ios-1": "[National Server] Coral Sea",
-      "cn_ios-2": "[National Server] Midway Island",
-      "cn_ios-3": "[National Server] Tiedi Bay",
-      "cn_ios-4": "[National Server] Solomon",
-      "cn_ios-5": "[National Server] Mariana",
-      "cn_ios-6": "[National Server] Leyte Gulf",
-      "cn_ios-7": "[National Server] Iwo Jima",
-      "cn_ios-8": "[National Server] Okinawa",
-      "cn_ios-9": "[National Server] Aleutian Islands",
-      "cn_ios-10": "[National Server] Malta",
-      "cn_channel-0": "[National Server] Royal Parade",
-      "cn_channel-1": "[National Server] Atlantic Charter",
-      "cn_channel-2": "[National Server] Crusade Operation",
-      "cn_channel-3": "[National Server] Operation Dragoon",
-      "cn_channel-4": "[National Server] Operation Pluto",
+      "cn_android-0": "[国服] 莱茵演习",
+      "cn_android-1": "[国服] 巴巴罗萨",
+      "cn_android-2": "[国服] 霸王行动",
+      "cn_android-3": "[国服] 冰山行动",
+      "cn_android-4": "[国服] 彩虹计划",
+      "cn_android-5": "[国服] 发电机计划",
+      "cn_android-6": "[国服] 瞭望台行动",
+      "cn_android-7": "[国服] 十字路口行动",
+      "cn_android-8": "[国服] 朱诺行动",
+      "cn_android-9": "[国服] 杜立特空袭",
+      "cn_android-10": "[国服] 地狱犬行动",
+      "cn_android-11": "[国服] 开罗宣言",
+      "cn_android-12": "[国服] 奥林匹克行动",
+      "cn_android-13": "[国服] 小王冠行动",
+      "cn_android-14": "[国服] 波茨坦公告",
+      "cn_android-15": "[国服] 白色方案",
+      "cn_android-16": "[国服] 瓦尔基里行动",
+      "cn_android-17": "[国服] 曼哈顿计划",
+      "cn_android-18": "[国服] 八月风暴",
+      "cn_android-19": "[国服] 秋季旅行",
+      "cn_android-20": "[国服] 水星行动",
+      "cn_android-21": "[国服] 莱茵河卫兵",
+      "cn_android-22": "[国服] 北极光计划",
+      "cn_android-23": "[国服] 长戟计划",
+      "cn_android-24": "[国服] 暴雨行动",
+      "cn_android-25": "[国服] 水仙行动",
+      "cn_android-26": "[国服] 冬月计划",
+      "cn_android-27": "[国服] 长弓计划",
+      "cn_android-28": "[国服] 裁决协议",
+      "cn_ios-0": "[国服] 夏威夷",
+      "cn_ios-1": "[国服] 珊瑚海",
+      "cn_ios-2": "[国服] 中途岛",
+      "cn_ios-3": "[国服] 铁底湾",
+      "cn_ios-4": "[国服] 所罗门",
+      "cn_ios-5": "[国服] 马里亚纳",
+      "cn_ios-6": "[国服] 莱特湾",
+      "cn_ios-7": "[国服] 硫磺岛",
+      "cn_ios-8": "[国服] 冲绳岛",
+      "cn_ios-9": "[国服] 阿留申群岛",
+      "cn_ios-10": "[国服] 马耳他",
+      "cn_channel-0": "[国服] 皇家巡游",
+      "cn_channel-1": "[国服] 大西洋宪章",
+      "cn_channel-2": "[国服] 十字军行动",
+      "cn_channel-3": "[国服] 龙骑兵行动",
+      "cn_channel-4": "[国服] 冥王星行动",
       "en-0": "[EN] Avrora",
       "en-1": "[EN] Lexington",
       "en-2": "[EN] Sandy",
@@ -442,21 +442,21 @@
       "en-4": "[EN] Amagi",
       "en-5": "[EN] Little Enterprise",
       "jp-0": "[JP] ブレスト",
-      "jp-1": "[JP] Yokosuka",
-      "jp-2": "[JP] Sasebo",
-      "jp-3": "[JP] Damn",
-      "jp-4": "[JP] Maizuru",
+      "jp-1": "[JP] 横須賀",
+      "jp-2": "[JP] 佐世保",
+      "jp-3": "[JP] 呉",
+      "jp-4": "[JP] 舞鶴",
       "jp-5": "[JP] ルルイエ",
       "jp-6": "[JP] サモア",
-      "jp-7": "[JP] Ominato",
+      "jp-7": "[JP] 大湊",
       "jp-8": "[JP] トラック",
       "jp-9": "[JP] ラバウル",
-      "jp-10": "[JP] Kagoshima",
-      "jp-11": "[JP] Malus",
+      "jp-10": "[JP] 鹿児島",
+      "jp-11": "[JP] マドラス",
       "jp-12": "[JP] サンディエゴ",
-      "jp-13": "[JP] Takeshiki",
+      "jp-13": "[JP] 竹敷",
       "jp-14": "[JP] キール",
-      "jp-15": "[JP] Wakamatsu",
+      "jp-15": "[JP] 若松",
       "jp-16": "[JP] オデッサ",
       "jp-17": "[JP] スイートバン"
     },
@@ -835,147 +835,147 @@
       "name": "Activity name",
       "help": "Automatically select the latest activity",
       "campaign_main": "main line diagram",
-      "coalition_20230323": "polar storm",
-      "coalition_20240627": "Welcome to Childlike Heart Academy",
-      "coalition_20250626": "The seeker of the camouflage city",
+      "coalition_20230323": "Frostfall",
+      "coalition_20240627": "Welcome to Little Academy",
+      "coalition_20250626": "The Neon City Investigator",
       "coalition_20251120": "DATE A LANE",
-      "coalition_20260122": "Light and Shadow Fashion-While Shooting in Progress",
+      "coalition_20260122": "Light & Shadow Fashion Shoot!",
       "event_20200227_cn": "Northern Overture",
-      "event_20200312_cn": "Replica of Stewart's Gunsmoke",
-      "event_20200326_cn": "microlayer mixing",
-      "event_20200423_cn": "Re-engraving the echo of pale red",
-      "event_20200507_cn": "The journey home under night",
-      "event_20200521_cn": "Chant under the dome",
+      "event_20200312_cn": "The Solomon Ranger Rerun",
+      "event_20200326_cn": "Microlayer Medley",
+      "event_20200423_cn": "Crimson Echoes Rerun",
+      "event_20200507_cn": "The Way Home in the Night",
+      "event_20200521_cn": "穹顶下的圣咏曲",
       "event_20200521_en": "Iris of Light and Dark Rerun",
-      "event_20200603_cn": "Re-enacting the counterattack among the fjords",
+      "event_20200603_cn": "Counterattack Within the Fjord Rerun",
       "event_20200603_en": "Prelude under the Moon Rerun",
       "event_20200611_en": "Skybound Oratorio",
       "event_20200716_en": "Ink Stained Steel Sakura Rerun",
-      "event_20200723_cn": "Eternal Night Phantom Light",
-      "event_20200806_cn": "Recreate the most important treasure",
-      "event_20200820_cn": "Re-engraved iron-blooded note oath",
-      "event_20200903_en": "Recreate the stars among the fjords",
-      "event_20200917_cn": "Replica of Butterfly Sea Dream Flower",
+      "event_20200723_cn": "Aurora Noctis",
+      "event_20200806_cn": "The Enigma and the Shark Rerun",
+      "event_20200820_cn": "Scherzo of Iron and Blood Rerun",
+      "event_20200903_en": "Stars of the Shimmering Fjord",
+      "event_20200917_cn": "Dreamwakers Butterfly Rerun",
       "event_20201002_en": "Counterattack Within the Fjord",
-      "event_20201012_cn": "Re-engrave the wings that cut through the sea and air",
-      "event_20201029_cn": "Singing UNIVERSE",
-      "event_20201126_cn": "holiday routes",
-      "event_20201229_cn": "Replicate the Negative Quadrant Operation",
-      "event_20210121_cn": "Recreate the sacred tragedy and comedy",
-      "event_20210225_cn": "Replica of Dawn Ice Brilliance",
-      "event_20210225_tw": "Northern Overture",
-      "event_20210325_cn": "Replica Hakoniwa Therapy",
-      "event_20210415_tw": "Reenactment of the Siege and Suppression of Count Spee",
-      "event_20210422_cn": "Restoration Hymns",
-      "event_20210429_tw": "Re-engraved ink-stained flower of steel",
-      "event_20210527_cn": "Replica mirror position spiral",
-      "event_20210527_tw": "microlayer mixing",
-      "event_20210610_tw": "Re-enacting the journey home under night",
-      "event_20210624_cn": "Replica of floating cherry blossoms",
-      "event_20210624_tw": "Chant under the dome",
-      "event_20210722_cn": "Idol songs that resound across the blue sea",
-      "event_20210819_cn": "Replica Microlayer Mixing",
-      "event_20210916_cn": "Re-engraving the sparkling blue sea",
-      "event_20211028_cn": "Replica of the Psalm under the Dome",
-      "event_20211028_tw": "The flower of iris that reproduces light and shadow",
-      "event_20211111_cn": "Replicate Jenova's fireworks",
-      "event_20211125_cn": "Recreating the arc of intersecting worlds",
-      "event_20211229_cn": "Reproduction of the Tower of Reversal Rainbow",
-      "event_20220210_cn": "Re-engraving the Northern Overture",
-      "event_20220224_cn": "Replica Deep Echo",
-      "event_20220310_tw": "Replica of Stewart's Gunsmoke",
-      "event_20220324_cn": "Replicate the Tower of Virtual Image Construction",
-      "event_20220407_tw": "Echoes of Crimson (re-engraved)",
-      "event_20220414_cn": "Re-engraving the illusion of eternal night",
-      "event_20220428_cn": "The iridescent finale",
-      "event_20220526_cn": "Re-engraving of Lingshu Guangting",
-      "event_20220728_cn": "The eagle's narrative song",
-      "event_20220818_cn": "Re-enactment of Operation Far Junction",
-      "event_20220915_cn": "Replica of Zijiang Jinlan",
-      "event_20221124_cn": "The Alchemist and the Secret Islands of Ruins Remastered",
-      "event_20221222_cn": "Replicate directional folding",
-      "event_20230223_cn": "Re-engraving the ruins of the ruins",
-      "event_20230525_cn": "Replicate empty phase intersection point",
-      "event_20230803_cn": "Re-enactment plays the song of iris",
-      "event_20230817_cn": "Replica of the Fool's Scale",
-      "event_20230914_cn": "Re-engrave and look at the moon for a moment",
-      "event_20231026_cn": "Hurricane and Fountain of Youth",
-      "event_20231123_cn": "Blue Flash Ninja Technique",
-      "event_20231221_cn": "Replica of Starry Sea Chasing Light",
-      "event_20240229_cn": "Lost in the snow",
-      "event_20240425_cn": "Resonant PASSION",
-      "event_20240521_cn": "Blooming in the city of radiance",
-      "event_20240725_cn": "Dream Intermezzo",
-      "event_20240815_cn": "Iron Wings Qingfeng",
-      "event_20240829_cn": "Buried in flowers on the other side",
-      "event_20240912_cn": "Awakening the Crimson Flame",
-      "event_20241024_cn": "Hurricanes and Sea of ​​Sleep",
-      "event_20241121_cn": "Dangerous inventions loom",
-      "event_20241219_cn": "Afterglow under the stars",
-      "event_20250227_cn": "The divine light in the cage",
-      "event_20250424_cn": "Raise the tulip flag",
-      "event_20250520_cn": "Rose on the tower",
-      "event_20250724_cn": "Umia's Alchemy Workshop",
-      "event_20250814_cn": "The secret under the abyss",
-      "event_20250912_cn": "Dancing in the sky",
-      "event_20251023_cn": "Hurricanes and Liberty Islands",
-      "event_20251218_cn": "Sound that resounds in the sky",
-      "event_20260226_cn": "Chunman Inn Online",
-      "raid_20200624": "Reproduction of Special Exercise Essex Class",
-      "raid_20210708": "Recreate the waterline crossing the other side",
-      "raid_20220127": "exercise mystery investigation",
-      "raid_20220630": "angel from iris",
-      "raid_20221027": "fighting! Royal Maid Team 3rd",
-      "raid_20230118": "wayfinder in winter",
-      "raid_20230629": "Oasis Past",
-      "raid_20240130": "Huanchang Yuding is busy with family matters",
-      "raid_20240328": "Recreate the journey of defeating the Demon King from scratch",
-      "raid_20250116": "Hua Shang cleverly displays happy events",
-      "raid_20260212": "Spring banquet fills the garden with fragrant jade",
-      "war_archives_20180607_cn": "Archives The Ink-Stained Flower of Steel",
-      "war_archives_20180726_cn": "Archives The Flower of Iris of Light and Shadow",
-      "war_archives_20181020_en": "Archives Endeavor Hopes and Plans",
-      "war_archives_20181026_en": "Archives Fallen Wings",
-      "war_archives_20181227_cn": "Archives Red Echo",
-      "war_archives_20190221_en": "Archives Winter's Crown",
-      "war_archives_20190314_en": "Archives Overture Under the Moonlight",
-      "war_archives_20190321_en": "Archives Hongran Visitor",
-      "war_archives_20190620_en": "Archives The Glorious Battle",
-      "war_archives_20190911_cn": "Archives Divine Tragicomedy",
-      "war_archives_20191010_en": "Archives Siege of Earl of Spey",
-      "war_archives_20191031_en": "File heterochromatic grid",
-      "war_archives_20200312_cn": "Archives Stewart's Gunsmoke",
-      "war_archives_20200507_cn": "Archives The journey home under night",
-      "war_archives_20200603_cn": "Archives Fiordland Counterattack",
-      "war_archives_20200806_cn": "Archives the most important treasure",
-      "war_archives_20200820_cn": "Archives Iron-Blooded Note Oath",
-      "war_archives_20200903_cn": "Archives Stars among the Fjords",
-      "war_archives_20200917_cn": "Archives butterfly sea dream flower",
-      "war_archives_20201012_cn": "Archives Wings Cutting Through Sea and Sky",
-      "war_archives_20201029_cn": "Archives Singing UNIVERSE",
-      "war_archives_20201229_cn": "Archives Negative Quadrant Operations",
-      "war_archives_20210225_cn": "Archives Dawn Ice Flower",
-      "war_archives_20210325_cn": "Archives Hakoniwa Therapy",
-      "war_archives_20210422_cn": "Archives Hymns of Restoration",
-      "war_archives_20210527_cn": "Archives Mirror Spiral",
-      "war_archives_20210624_cn": "Archives Ukikage Kageka",
-      "war_archives_20210819_cn": "Archives Microlayer Mixing",
-      "war_archives_20210916_cn": "Archives sparkling blue sea",
-      "war_archives_20211014_cn": "Archives Exciting Polaris",
-      "war_archives_20211028_cn": "Archives Chant Under the Dome",
-      "war_archives_20211111_cn": "Archives Jenova's Fireworks",
-      "war_archives_20211229_cn": "Archives Tower of Reverse Rainbow",
-      "war_archives_20220210_cn": "Archives Northern Overture",
-      "war_archives_20220224_cn": "Archives Deep Echo",
-      "war_archives_20220324_cn": "Archives Tower of Virtual Image Construction",
-      "war_archives_20220414_cn": "Archives Evernight Phantom Light",
-      "war_archives_20220428_cn": "Archives Rainbow Finale",
-      "war_archives_20220526_cn": "Archives Lingshi Guangting",
-      "war_archives_20220728_cn": "Archives The Eagle's Ballad",
-      "war_archives_20220915_cn": "Archives Zijiang Jinlan",
-      "war_archives_20221222_cn": "Archives Directional Folding",
-      "war_archives_20230223_cn": "Archives Annihilation Dust Ruins",
-      "war_archives_20231026_cn": "Archives Hurricanes and Fountains of Youth"
+      "event_20201012_cn": "Sundered Blue Rerun",
+      "event_20201029_cn": "Universe in Unison",
+      "event_20201126_cn": "Vacation Lane",
+      "event_20201229_cn": "Inverted Orthant Rerun",
+      "event_20210121_cn": "Empyreal Tragicomedy Rerun",
+      "event_20210225_cn": "Khorovod of Dawns Rime Rerun",
+      "event_20210225_tw": "北境序曲",
+      "event_20210325_cn": "Ashen Simulacrum Rerun",
+      "event_20210415_tw": "復刻圍剿施佩伯爵",
+      "event_20210422_cn": "Daedalian Hymn Rerun",
+      "event_20210429_tw": "復刻墨染的鋼鐵之花",
+      "event_20210527_cn": "Mirror Involution Rerun",
+      "event_20210527_tw": "微層混合",
+      "event_20210610_tw": "復刻夜幕下的歸途",
+      "event_20210624_cn": "Swirling Cherry Blossoms Rerun",
+      "event_20210624_tw": "穹頂下的聖詠曲",
+      "event_20210722_cn": "Azur Anthem",
+      "event_20210819_cn": "Microlayer Medley Rerun",
+      "event_20210916_cn": "Upon the Shimmering Blue Rerun",
+      "event_20211028_cn": "Skybound Oratorio Rerun",
+      "event_20211028_tw": "復刻光與影的鳶尾之華",
+      "event_20211111_cn": "The Flame-Touched Dagger Rerun",
+      "event_20211125_cn": "World-spanning Arclight Rerun",
+      "event_20211229_cn": "Tower of Transcendence Rerun",
+      "event_20220210_cn": "Northern Overture Rerun",
+      "event_20220224_cn": "Abyssal Refrain Rerun",
+      "event_20220310_tw": "復刻斯圖爾特的硝煙",
+      "event_20220324_cn": "Virtual Tower Rerun",
+      "event_20220407_tw": "蒼紅的迴響(復刻)",
+      "event_20220414_cn": "Aurora Noctis Rerun",
+      "event_20220428_cn": "Rondo at Rainbows End Rerun",
+      "event_20220526_cn": "Pledge of the Radiant Court Rerun",
+      "event_20220728_cn": "Aquilifers Ballade Rerun",
+      "event_20220818_cn": "Operation Convergence Return",
+      "event_20220915_cn": "Violet Tempest Blooming Lycoris Rerun",
+      "event_20221124_cn": "The Alchemist and the Archipelago of Secrets Rerun",
+      "event_20221222_cn": "Parallel Superimposition Rerun",
+      "event_20230223_cn": "Revelations of Dust Rerun",
+      "event_20230525_cn": "Confluence of Nothingness Rerun",
+      "event_20230803_cn": "Anthem of Remembrance Rerun",
+      "event_20230817_cn": "The Fools Scales Rerun",
+      "event_20230914_cn": "Effulgence Before Eclipse Rerun",
+      "event_20231026_cn": "Tempesta and the Fountain of Youth",
+      "event_20231123_cn": "The Ninja Scrolls: Azur Flash",
+      "event_20231221_cn": "Light-Chasing Sea of Stars Rerun",
+      "event_20240229_cn": "Snowrealm Peregrination",
+      "event_20240425_cn": "Heart-Linking Harmony",
+      "event_20240521_cn": "Light of the Martyrium",
+      "event_20240725_cn": "Interlude of Illusions",
+      "event_20240815_cn": "Windborne Steel Wings",
+      "event_20240829_cn": "Whence Flowers Bear No Fruit",
+      "event_20240912_cn": "Ode of Everblooming Crimson",
+      "event_20241024_cn": "Tempesta and the Sleeping Sea",
+      "event_20241121_cn": "Dangerous Inventions Incoming",
+      "event_20241219_cn": "Substellar Crepuscule",
+      "event_20250227_cn": "Paradiso of Shackled Light",
+      "event_20250424_cn": "Toward Tulipa’s Seas",
+      "event_20250520_cn": "A Rose on the High Tower",
+      "event_20250724_cn": "The Alchemist and the Tower of Horizons",
+      "event_20250814_cn": "Secrets of the Abyss",
+      "event_20250912_cn": "A Dance for Amahara Above",
+      "event_20251023_cn": "Tempesta and Islas de Libertád",
+      "event_20251218_cn": "A Note Through the Firmament",
+      "event_20260226_cn": "Springtide Inn Online",
+      "raid_20200624": "Air Raid Drills with Essex Rerun",
+      "raid_20210708": "Cross Wave rerun",
+      "raid_20220127": "Mystery Investigation",
+      "raid_20220630": "Angel of Iris",
+      "raid_20221027": "Fight On Royal Maids!(Part 3)",
+      "raid_20230118": "Winter Pathfinder",
+      "raid_20230629": "Reflections of the Oasis",
+      "raid_20240130": "Spring Festive Fiasco",
+      "raid_20240328": "From Zero to Hero Rerun",
+      "raid_20250116": "Spring Fashion Festa",
+      "raid_20260212": "Spring Auction Adventure",
+      "war_archives_20180607_cn": "archives Ink Stained Steel Sakura",
+      "war_archives_20180726_cn": "archives Iris of Light and Dark",
+      "war_archives_20181020_en": "archives Strive Wish and Strategize",
+      "war_archives_20181026_en": "archives Fallen Wings",
+      "war_archives_20181227_cn": "archives Crimson Echoes",
+      "war_archives_20190221_en": "archives Winters Crown",
+      "war_archives_20190314_en": "archives Prelude under the Moon",
+      "war_archives_20190321_en": "archives Visitors Dyed in Red",
+      "war_archives_20190620_en": "archives Glorious Battle",
+      "war_archives_20190911_cn": "archives Empyreal Tragicomedy",
+      "war_archives_20191010_en": "archives Encircling Graf Spee",
+      "war_archives_20191031_en": "archives Divergent Chessboard",
+      "war_archives_20200312_cn": "archives The Solomon Ranger",
+      "war_archives_20200507_cn": "archives The Way Home in the Night",
+      "war_archives_20200603_cn": "archives Counterattack Within the Fjord",
+      "war_archives_20200806_cn": "archives The Enigma and the Shark",
+      "war_archives_20200820_cn": "archives Scherzo of Iron and Blood",
+      "war_archives_20200903_cn": "archives Stars of the Shimmering Fjord",
+      "war_archives_20200917_cn": "archives Dreamwakers Butterfly",
+      "war_archives_20201012_cn": "archives Sundered Blue",
+      "war_archives_20201029_cn": "archives Universe in Unison",
+      "war_archives_20201229_cn": "archives Inverted Orthant",
+      "war_archives_20210225_cn": "archives Khorovod of Dawns Rime",
+      "war_archives_20210325_cn": "archives Ashen Simulacrum",
+      "war_archives_20210422_cn": "archives Daedalian Hymn",
+      "war_archives_20210527_cn": "archives Mirror Involution",
+      "war_archives_20210624_cn": "archives Swirling Cherry Blossoms",
+      "war_archives_20210819_cn": "archives Microlayer Medley",
+      "war_archives_20210916_cn": "archives Upon the Shimmering Blue",
+      "war_archives_20211014_cn": "archives Crescendo of Polaris",
+      "war_archives_20211028_cn": "archives Skybound Oratorio",
+      "war_archives_20211111_cn": "archives The Flame-Touched Dagger",
+      "war_archives_20211229_cn": "archives Tower of Transcendence",
+      "war_archives_20220210_cn": "archives Northern Overture",
+      "war_archives_20220224_cn": "archives Abyssal Refrain",
+      "war_archives_20220324_cn": "archives Virtual Tower",
+      "war_archives_20220414_cn": "archives Aurora Noctis",
+      "war_archives_20220428_cn": "archives Rondo at Rainbows End",
+      "war_archives_20220526_cn": "archives Pledge of the Radiant Court",
+      "war_archives_20220728_cn": "archives Aquilifers Ballade",
+      "war_archives_20220915_cn": "archives Violet Tempest Blooming Lycoris",
+      "war_archives_20221222_cn": "archives Parallel Superimposition",
+      "war_archives_20230223_cn": "archives Revelations of Dust",
+      "war_archives_20231026_cn": "archives Tempesta and the Fountain of Youth"
     },
     "Mode": {
       "name": "Level mode",
@@ -1050,14 +1050,14 @@
       "help": ""
     },
     "Fleet1": {
+      "name": "team number",
+      "help": "",
       "1": "1 ",
       "2": "2 ",
       "3": "3 ",
       "4": "4 ",
       "5": "5 ",
-      "6": "6 ",
-      "name": "team number",
-      "help": ""
+      "6": "6 "
     },
     "Fleet1Formation": {
       "name": "First team formation",
@@ -1075,23 +1075,23 @@
       "hide_in_bottom_left": "Hide in the lower left corner"
     },
     "Fleet1Step": {
+      "name": "A team of steps",
+      "help": "Limit movement distance in activity diagram",
       "2": "2 ",
       "3": "3 ",
       "4": "4 ",
-      "5": "5 ",
-      "name": "A team of steps",
-      "help": "Limit movement distance in activity diagram"
+      "5": "5 "
     },
     "Fleet2": {
+      "name": "Second team number",
+      "help": "",
       "0": "Not used",
       "1": "1 ",
       "2": "2 ",
       "3": "3 ",
       "4": "4 ",
       "5": "5 ",
-      "6": "6 ",
-      "name": "Second team number",
-      "help": ""
+      "6": "6 "
     },
     "Fleet2Formation": {
       "name": "Second team formation",
@@ -1109,12 +1109,12 @@
       "hide_in_bottom_left": "Hide in the lower left corner"
     },
     "Fleet2Step": {
+      "name": "Second team step length",
+      "help": "Limit movement distance in activity diagram",
       "2": "2 ",
       "3": "3 ",
       "4": "4 ",
-      "5": "5 ",
-      "name": "Second team step length",
-      "help": "Limit movement distance in activity diagram"
+      "5": "5 "
     },
     "FleetOrder": {
       "name": "fleet functions",
@@ -1131,11 +1131,11 @@
       "help": ""
     },
     "Fleet": {
+      "name": "submarine fleet number",
+      "help": "",
       "0": "Not used",
       "1": "1 ",
-      "2": "2 ",
-      "name": "submarine fleet number",
-      "help": ""
+      "2": "2 "
     },
     "Mode": {
       "name": "submarine attack plan",
@@ -1313,12 +1313,12 @@
       "help": "Use a low-strength team to level up at 12-2, and retreat after defeating non-three-star enemies.\nIncrease the experience/fuel consumption ratio by reducing team strength"
     },
     "LargeEnemyTolerance": {
+      "name": "Fight up to X-star enemies",
+      "help": "",
       "0": "0",
       "1": "1",
       "2": "2",
-      "10": "10",
-      "name": "Fight up to X-star enemies",
-      "help": ""
+      "10": "10"
     }
   },
   "C124LargeLeveling": {
@@ -1327,26 +1327,26 @@
       "help": "Use a strong team to level up at 12-4, and retreat after defeating three-star enemies.\nIncrease the experience/fuel consumption ratio by defeating more three-star enemies"
     },
     "NonLargeEnterTolerance": {
+      "name": "After entering the map, X fights no three-star enemies and retreats.",
+      "help": "",
       "0": "0",
       "1": "1",
-      "2": "2",
-      "name": "After entering the map, X fights no three-star enemies and retreats.",
-      "help": ""
+      "2": "2"
     },
     "NonLargeRetreatTolerance": {
+      "name": "Fight up to X non-three-star enemies",
+      "help": "",
       "0": "0",
       "1": "1",
       "2": "2",
-      "10": "10",
-      "name": "Fight up to X non-three-star enemies",
-      "help": ""
+      "10": "10"
     },
     "PickupAmmo": {
+      "name": "X Pick up ammo after battle",
+      "help": "",
       "3": "3",
       "4": "4",
-      "5": "5",
-      "name": "X Pick up ammo after battle",
-      "help": ""
+      "5": "5"
     }
   },
   "GemsFarming": {
@@ -1582,11 +1582,11 @@
       "help": ""
     },
     "BuyURShip": {
+      "name": "Purchase X UR ships",
+      "help": "",
       "0": "0",
       "1": "1",
-      "2": "2",
-      "name": "Purchase X UR ships",
-      "help": ""
+      "2": "2"
     },
     "PresetFilter": {
       "name": "Active store filter",
@@ -1935,6 +1935,8 @@
       "help": ""
     },
     "Option1": {
+      "name": "Cell 1 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "wheat",
       "2": "corn",
@@ -1943,9 +1945,7 @@
       "5": "Rice",
       "6": "Chinese cabbage",
       "7": "Potato",
-      "8": "soybeans",
-      "name": "Cell 1 produces items",
-      "help": ""
+      "8": "soybeans"
     },
     "Character1": {
       "name": "Use character in box 1",
@@ -1969,6 +1969,8 @@
       "friedrich_der_grobe": "frederick the great"
     },
     "Option2": {
+      "name": "Cell 2 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "wheat",
       "2": "corn",
@@ -1977,9 +1979,7 @@
       "5": "Rice",
       "6": "Chinese cabbage",
       "7": "Potato",
-      "8": "soybeans",
-      "name": "Cell 2 produces items",
-      "help": ""
+      "8": "soybeans"
     },
     "Character2": {
       "name": "Use character in box 2",
@@ -2003,6 +2003,8 @@
       "friedrich_der_grobe": "frederick the great"
     },
     "Option3": {
+      "name": "Cell 3 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "wheat",
       "2": "corn",
@@ -2011,9 +2013,7 @@
       "5": "Rice",
       "6": "Chinese cabbage",
       "7": "Potato",
-      "8": "soybeans",
-      "name": "Cell 3 produces items",
-      "help": ""
+      "8": "soybeans"
     },
     "Character3": {
       "name": "Use character in box 3",
@@ -2037,6 +2037,8 @@
       "friedrich_der_grobe": "frederick the great"
     },
     "Option4": {
+      "name": "Cell 4 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "wheat",
       "2": "corn",
@@ -2045,9 +2047,7 @@
       "5": "Rice",
       "6": "Chinese cabbage",
       "7": "Potato",
-      "8": "soybeans",
-      "name": "Cell 4 produces items",
-      "help": ""
+      "8": "soybeans"
     },
     "Character4": {
       "name": "Use character in box 4",
@@ -2081,10 +2081,10 @@
       "help": ""
     },
     "Option1": {
-      "0": "Not producing",
-      "1": "Eggs (poultry)",
       "name": "Cell 1 produces items",
-      "help": ""
+      "help": "",
+      "0": "Not producing",
+      "1": "Eggs (poultry)"
     },
     "Character1": {
       "name": "Use character in box 1",
@@ -2108,10 +2108,10 @@
       "friedrich_der_grobe": "frederick the great"
     },
     "Option2": {
-      "0": "Not producing",
-      "2": "fresh meat",
       "name": "Cell 2 produces items",
-      "help": ""
+      "help": "",
+      "0": "Not producing",
+      "2": "fresh meat"
     },
     "Character2": {
       "name": "Use character in box 2",
@@ -2135,10 +2135,10 @@
       "friedrich_der_grobe": "frederick the great"
     },
     "Option3": {
-      "0": "Not producing",
-      "3": "Milk (leather)",
       "name": "Cell 3 produces items",
-      "help": ""
+      "help": "",
+      "0": "Not producing",
+      "3": "Milk (leather)"
     },
     "Character3": {
       "name": "Use character in box 3",
@@ -2162,10 +2162,10 @@
       "friedrich_der_grobe": "frederick the great"
     },
     "Option4": {
-      "0": "Not producing",
-      "4": "wool",
       "name": "Cell 4 produces items",
-      "help": ""
+      "help": "",
+      "0": "Not producing",
+      "4": "wool"
     },
     "Character4": {
       "name": "Use character in box 4",
@@ -2199,6 +2199,8 @@
       "help": ""
     },
     "Option1": {
+      "name": "Cell 1 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "shellfish",
       "2": "catfish",
@@ -2215,9 +2217,7 @@
       "13": "red snapper",
       "14": "black snapper",
       "15": "yellowfin tuna",
-      "16": "sea ​​cucumber",
-      "name": "Cell 1 produces items",
-      "help": ""
+      "16": "sea ​​cucumber"
     },
     "Character1": {
       "name": "Use character in box 1",
@@ -2241,6 +2241,8 @@
       "friedrich_der_grobe": "frederick the great"
     },
     "Option2": {
+      "name": "Cell 2 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "shellfish",
       "2": "catfish",
@@ -2257,9 +2259,7 @@
       "13": "red snapper",
       "14": "black snapper",
       "15": "yellowfin tuna",
-      "16": "sea ​​cucumber",
-      "name": "Cell 2 produces items",
-      "help": ""
+      "16": "sea ​​cucumber"
     },
     "Character2": {
       "name": "Use character in box 2",
@@ -2283,6 +2283,8 @@
       "friedrich_der_grobe": "frederick the great"
     },
     "Option3": {
+      "name": "Cell 3 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "shellfish",
       "2": "catfish",
@@ -2299,9 +2301,7 @@
       "13": "red snapper",
       "14": "black snapper",
       "15": "yellowfin tuna",
-      "16": "sea ​​cucumber",
-      "name": "Cell 3 produces items",
-      "help": ""
+      "16": "sea ​​cucumber"
     },
     "Character3": {
       "name": "Use character in box 3",
@@ -2335,15 +2335,15 @@
       "help": ""
     },
     "Option1": {
+      "name": "Cell 1 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "coal",
       "2": "copper mine",
       "3": "aluminum ore",
       "4": "iron ore",
       "5": "Sulfur ore",
-      "6": "silver mine",
-      "name": "Cell 1 produces items",
-      "help": ""
+      "6": "silver mine"
     },
     "Character1": {
       "name": "Use character in box 1",
@@ -2367,15 +2367,15 @@
       "friedrich_der_grobe": "frederick the great"
     },
     "Option2": {
+      "name": "Cell 2 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "coal",
       "2": "copper mine",
       "3": "aluminum ore",
       "4": "iron ore",
       "5": "Sulfur ore",
-      "6": "silver mine",
-      "name": "Cell 2 produces items",
-      "help": ""
+      "6": "silver mine"
     },
     "Character2": {
       "name": "Use character in box 2",
@@ -2399,15 +2399,15 @@
       "friedrich_der_grobe": "frederick the great"
     },
     "Option3": {
+      "name": "Cell 3 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "coal",
       "2": "copper mine",
       "3": "aluminum ore",
       "4": "iron ore",
       "5": "Sulfur ore",
-      "6": "silver mine",
-      "name": "Cell 3 produces items",
-      "help": ""
+      "6": "silver mine"
     },
     "Character3": {
       "name": "Use character in box 3",
@@ -2431,15 +2431,15 @@
       "friedrich_der_grobe": "frederick the great"
     },
     "Option4": {
+      "name": "Cell 4 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "coal",
       "2": "copper mine",
       "3": "aluminum ore",
       "4": "iron ore",
       "5": "Sulfur ore",
-      "6": "silver mine",
-      "name": "Cell 4 produces items",
-      "help": ""
+      "6": "silver mine"
     },
     "Character4": {
       "name": "Use character in box 4",
@@ -2473,13 +2473,13 @@
       "help": ""
     },
     "Option1": {
+      "name": "Cell 1 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "natural wood",
       "2": "Practical wood",
       "3": "Selected wood",
-      "4": "elegant wood",
-      "name": "Cell 1 produces items",
-      "help": ""
+      "4": "elegant wood"
     },
     "Character1": {
       "name": "Use character in box 1",
@@ -2503,13 +2503,13 @@
       "friedrich_der_grobe": "frederick the great"
     },
     "Option2": {
+      "name": "Cell 2 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "natural wood",
       "2": "Practical wood",
       "3": "Selected wood",
-      "4": "elegant wood",
-      "name": "Cell 2 produces items",
-      "help": ""
+      "4": "elegant wood"
     },
     "Character2": {
       "name": "Use character in box 2",
@@ -2533,13 +2533,13 @@
       "friedrich_der_grobe": "frederick the great"
     },
     "Option3": {
+      "name": "Cell 3 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "natural wood",
       "2": "Practical wood",
       "3": "Selected wood",
-      "4": "elegant wood",
-      "name": "Cell 3 produces items",
-      "help": ""
+      "4": "elegant wood"
     },
     "Character3": {
       "name": "Use character in box 3",
@@ -2563,13 +2563,13 @@
       "friedrich_der_grobe": "frederick the great"
     },
     "Option4": {
+      "name": "Cell 4 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "natural wood",
       "2": "Practical wood",
       "3": "Selected wood",
-      "4": "elegant wood",
-      "name": "Cell 4 produces items",
-      "help": ""
+      "4": "elegant wood"
     },
     "Character4": {
       "name": "Use character in box 4",
@@ -2603,6 +2603,8 @@
       "help": ""
     },
     "Option1": {
+      "name": "Cell 1 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "apple",
       "2": "Tangerine",
@@ -2610,9 +2612,7 @@
       "4": "mango",
       "5": "lemon",
       "6": "avocado",
-      "7": "rubber",
-      "name": "Cell 1 produces items",
-      "help": ""
+      "7": "rubber"
     },
     "Character1": {
       "name": "Use character in box 1",
@@ -2636,6 +2636,8 @@
       "friedrich_der_grobe": "frederick the great"
     },
     "Option2": {
+      "name": "Cell 2 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "apple",
       "2": "Tangerine",
@@ -2643,9 +2645,7 @@
       "4": "mango",
       "5": "lemon",
       "6": "avocado",
-      "7": "rubber",
-      "name": "Cell 2 produces items",
-      "help": ""
+      "7": "rubber"
     },
     "Character2": {
       "name": "Use character in box 2",
@@ -2669,6 +2669,8 @@
       "friedrich_der_grobe": "frederick the great"
     },
     "Option3": {
+      "name": "Cell 3 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "apple",
       "2": "Tangerine",
@@ -2676,9 +2678,7 @@
       "4": "mango",
       "5": "lemon",
       "6": "avocado",
-      "7": "rubber",
-      "name": "Cell 3 produces items",
-      "help": ""
+      "7": "rubber"
     },
     "Character3": {
       "name": "Use character in box 3",
@@ -2702,6 +2702,8 @@
       "friedrich_der_grobe": "frederick the great"
     },
     "Option4": {
+      "name": "Cell 4 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "apple",
       "2": "Tangerine",
@@ -2709,9 +2711,7 @@
       "4": "mango",
       "5": "lemon",
       "6": "avocado",
-      "7": "rubber",
-      "name": "Cell 4 produces items",
-      "help": ""
+      "7": "rubber"
     },
     "Character4": {
       "name": "Use character in box 4",
@@ -2745,6 +2745,8 @@
       "help": ""
     },
     "Option1": {
+      "name": "Cell 1 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "asparagus",
       "2": "pineapple",
@@ -2754,9 +2756,7 @@
       "6": "tea",
       "7": "Lavender",
       "8": "carrot",
-      "9": "onion",
-      "name": "Cell 1 produces items",
-      "help": ""
+      "9": "onion"
     },
     "Character1": {
       "name": "Use character in box 1",
@@ -2780,6 +2780,8 @@
       "friedrich_der_grobe": "frederick the great"
     },
     "Option2": {
+      "name": "Cell 2 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "asparagus",
       "2": "pineapple",
@@ -2789,9 +2791,7 @@
       "6": "tea",
       "7": "Lavender",
       "8": "carrot",
-      "9": "onion",
-      "name": "Cell 2 produces items",
-      "help": ""
+      "9": "onion"
     },
     "Character2": {
       "name": "Use character in box 2",
@@ -2825,6 +2825,8 @@
       "help": ""
     },
     "Option1": {
+      "name": "Cell 1 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "Cold double bamboo shoots",
       "2": "Stir-fried Asparagus and Shrimp",
@@ -2837,9 +2839,7 @@
       "9": "Steamed fish with onions",
       "10": "Buddha jumps over the wall",
       "11": "Classic Tofu Set",
-      "12": "Mianyu set meal",
-      "name": "Cell 1 produces items",
-      "help": ""
+      "12": "Mianyu set meal"
     },
     "Character1": {
       "name": "Use character in box 1",
@@ -2863,6 +2863,8 @@
       "friedrich_der_grobe": "frederick the great"
     },
     "Option2": {
+      "name": "Cell 2 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "Cold double bamboo shoots",
       "2": "Stir-fried Asparagus and Shrimp",
@@ -2875,9 +2877,7 @@
       "9": "Steamed fish with onions",
       "10": "Buddha jumps over the wall",
       "11": "Classic Tofu Set",
-      "12": "Mianyu set meal",
-      "name": "Cell 2 produces items",
-      "help": ""
+      "12": "Mianyu set meal"
     },
     "Character2": {
       "name": "Use character in box 2",
@@ -2911,6 +2911,8 @@
       "help": ""
     },
     "Option1": {
+      "name": "Cell 1 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "Freshly squeezed pineapple juice",
       "2": "Winter jasmine tea",
@@ -2922,9 +2924,7 @@
       "8": "Strawberry Honey Smoothie",
       "9": "Sunshine honey water",
       "10": "Floral and fruity",
-      "11": "Colorful Fruit Paradise",
-      "name": "Cell 1 produces items",
-      "help": ""
+      "11": "Colorful Fruit Paradise"
     },
     "Character1": {
       "name": "Use character in box 1",
@@ -2948,6 +2948,8 @@
       "friedrich_der_grobe": "frederick the great"
     },
     "Option2": {
+      "name": "Cell 2 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "Freshly squeezed pineapple juice",
       "2": "Winter jasmine tea",
@@ -2959,9 +2961,7 @@
       "8": "Strawberry Honey Smoothie",
       "9": "Sunshine honey water",
       "10": "Floral and fruity",
-      "11": "Colorful Fruit Paradise",
-      "name": "Cell 2 produces items",
-      "help": ""
+      "11": "Colorful Fruit Paradise"
     },
     "Character2": {
       "name": "Use character in box 2",
@@ -2995,6 +2995,8 @@
       "help": ""
     },
     "Option1": {
+      "name": "Cell 1 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "corn cup",
       "2": "apple pie",
@@ -3005,9 +3007,7 @@
       "7": "paella",
       "8": "Sweet and savory combination",
       "9": "Orchard Duo",
-      "10": "Berry Orange Dessert Set",
-      "name": "Cell 1 produces items",
-      "help": ""
+      "10": "Berry Orange Dessert Set"
     },
     "Character1": {
       "name": "Use character in box 1",
@@ -3031,6 +3031,8 @@
       "friedrich_der_grobe": "frederick the great"
     },
     "Option2": {
+      "name": "Cell 2 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "corn cup",
       "2": "apple pie",
@@ -3041,9 +3043,7 @@
       "7": "paella",
       "8": "Sweet and savory combination",
       "9": "Orchard Duo",
-      "10": "Berry Orange Dessert Set",
-      "name": "Cell 2 produces items",
-      "help": ""
+      "10": "Berry Orange Dessert Set"
     },
     "Character2": {
       "name": "Use character in box 2",
@@ -3077,6 +3077,8 @@
       "help": ""
     },
     "Option1": {
+      "name": "Cell 1 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "Charcoal grilled skewers",
       "2": "Poultry and potato platter",
@@ -3086,9 +3088,7 @@
       "6": "Lemon Shrimp",
       "7": "Stir-fried crayfish",
       "8": "BBQ carnival",
-      "9": "Energy Double Package",
-      "name": "Cell 1 produces items",
-      "help": ""
+      "9": "Energy Double Package"
     },
     "Character1": {
       "name": "Use character in box 1",
@@ -3112,6 +3112,8 @@
       "friedrich_der_grobe": "frederick the great"
     },
     "Option2": {
+      "name": "Cell 2 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "Charcoal grilled skewers",
       "2": "Poultry and potato platter",
@@ -3121,9 +3123,7 @@
       "6": "Lemon Shrimp",
       "7": "Stir-fried crayfish",
       "8": "BBQ carnival",
-      "9": "Energy Double Package",
-      "name": "Cell 2 produces items",
-      "help": ""
+      "9": "Energy Double Package"
     },
     "Character2": {
       "name": "Use character in box 2",
@@ -3157,15 +3157,15 @@
       "help": ""
     },
     "Option1": {
+      "name": "Cell 1 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "paper",
       "2": "Notepad",
       "3": "tables and chairs",
       "4": "Selected barrels",
       "5": "filing cabinet",
-      "6": "decorative painting",
-      "name": "Cell 1 produces items",
-      "help": ""
+      "6": "decorative painting"
     },
     "Character1": {
       "name": "Use character in box 1",
@@ -3189,15 +3189,15 @@
       "friedrich_der_grobe": "frederick the great"
     },
     "Option2": {
+      "name": "Cell 2 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "paper",
       "2": "Notepad",
       "3": "tables and chairs",
       "4": "Selected barrels",
       "5": "filing cabinet",
-      "6": "decorative painting",
-      "name": "Cell 2 produces items",
-      "help": ""
+      "6": "decorative painting"
     },
     "Character2": {
       "name": "Use character in box 2",
@@ -3231,15 +3231,15 @@
       "help": ""
     },
     "Option1": {
+      "name": "Cell 1 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "charcoal",
       "2": "cable",
       "3": "nails",
       "4": "sulfuric acid",
       "5": "gunpowder",
-      "6": "cutlery",
-      "name": "Cell 1 produces items",
-      "help": ""
+      "6": "cutlery"
     },
     "Character1": {
       "name": "Use character in box 1",
@@ -3263,15 +3263,15 @@
       "friedrich_der_grobe": "frederick the great"
     },
     "Option2": {
+      "name": "Cell 2 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "charcoal",
       "2": "cable",
       "3": "nails",
       "4": "sulfuric acid",
       "5": "gunpowder",
-      "6": "cutlery",
-      "name": "Cell 2 produces items",
-      "help": ""
+      "6": "cutlery"
     },
     "Character2": {
       "name": "Use character in box 2",
@@ -3305,13 +3305,13 @@
       "help": ""
     },
     "Option1": {
+      "name": "Cell 1 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "ink cartridge",
       "2": "clock",
       "3": "battery",
-      "4": "water purification filter element",
-      "name": "Cell 1 produces items",
-      "help": ""
+      "4": "water purification filter element"
     },
     "Character1": {
       "name": "Use character in box 1",
@@ -3335,13 +3335,13 @@
       "friedrich_der_grobe": "frederick the great"
     },
     "Option2": {
+      "name": "Cell 2 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "ink cartridge",
       "2": "clock",
       "3": "battery",
-      "4": "water purification filter element",
-      "name": "Cell 2 produces items",
-      "help": ""
+      "4": "water purification filter element"
     },
     "Character2": {
       "name": "Use character in box 2",
@@ -3375,6 +3375,8 @@
       "help": ""
     },
     "Option1": {
+      "name": "Cell 1 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "Dried shepherd's purse in bags",
       "2": "spring bouquet",
@@ -3384,9 +3386,7 @@
       "6": "Gloves",
       "7": "sachet",
       "8": "shoes",
-      "9": "bandage",
-      "name": "Cell 1 produces items",
-      "help": ""
+      "9": "bandage"
     },
     "Character1": {
       "name": "Use character in box 1",
@@ -3410,6 +3410,8 @@
       "friedrich_der_grobe": "frederick the great"
     },
     "Option2": {
+      "name": "Cell 2 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "Dried shepherd's purse in bags",
       "2": "spring bouquet",
@@ -3419,9 +3421,7 @@
       "6": "Gloves",
       "7": "sachet",
       "8": "shoes",
-      "9": "bandage",
-      "name": "Cell 2 produces items",
-      "help": ""
+      "9": "bandage"
     },
     "Character2": {
       "name": "Use character in box 2",
@@ -3455,6 +3455,8 @@
       "help": ""
     },
     "Option1": {
+      "name": "Cell 1 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "Omelet",
       "2": "iced coffee",
@@ -3464,9 +3466,7 @@
       "6": "Strawberry milk green",
       "7": "Morning vitality combination",
       "8": "Wake up package",
-      "9": "Fruity Double Cup",
-      "name": "Cell 1 produces items",
-      "help": ""
+      "9": "Fruity Double Cup"
     },
     "Character1": {
       "name": "Use character in box 2",
@@ -3490,6 +3490,8 @@
       "friedrich_der_grobe": "frederick the great"
     },
     "Option2": {
+      "name": "Cell 2 produces items",
+      "help": "",
       "0": "Not producing",
       "1": "Omelet",
       "2": "iced coffee",
@@ -3499,9 +3501,7 @@
       "6": "Strawberry milk green",
       "7": "Morning vitality combination",
       "8": "Wake up package",
-      "9": "Fruity Double Cup",
-      "name": "Cell 2 produces items",
-      "help": ""
+      "9": "Fruity Double Cup"
     },
     "Character2": {
       "name": "Use character in box 2",
@@ -3755,24 +3755,24 @@
       "help": "Buy color science drawings every day, the discounts for color science drawings and gold science drawings are counted independently, and you can buy 2 pieces of each for free every day"
     },
     "ResearchSeries": {
+      "name": "Scientific research period",
+      "help": "",
       "2": "Phase II scientific research",
       "3": "Phase III scientific research",
       "4": "The fourth phase of scientific research",
       "5": "The fifth phase of scientific research",
-      "6": "Sixth period of scientific research",
-      "name": "Scientific research period",
-      "help": ""
+      "6": "Sixth period of scientific research"
     },
     "ShipIndex": {
+      "name": "Ship serial number",
+      "help": "Counting from left to right, starting from 1",
       "0": "Don't buy",
       "1": "1",
       "2": "2",
       "3": "3",
       "4": "4",
       "5": "5",
-      "6": "6",
-      "name": "Ship serial number",
-      "help": "Counting from left to right, starting from 1"
+      "6": "6"
     },
     "BuyAmount": {
       "name": "Purchase quantity",
@@ -3789,25 +3789,25 @@
       "help": ""
     },
     "ResearchSeries": {
+      "name": "Scientific research period",
+      "help": "",
       "1": "First phase of scientific research",
       "2": "Phase II scientific research",
       "3": "Phase III scientific research",
       "4": "The fourth phase of scientific research",
       "5": "The fifth phase of scientific research",
-      "6": "Sixth period of scientific research",
-      "name": "Scientific research period",
-      "help": ""
+      "6": "Sixth period of scientific research"
     },
     "ShipIndex": {
+      "name": "Ship serial number",
+      "help": "Counting from left to right, starting from 1",
       "0": "Don't buy",
       "1": "1",
       "2": "2",
       "3": "3",
       "4": "4",
       "5": "5",
-      "6": "6",
-      "name": "Ship serial number",
-      "help": "Counting from left to right, starting from 1"
+      "6": "6"
     },
     "BuyAmount": {
       "name": "Purchase quantity",
@@ -3833,6 +3833,8 @@
       "wishing_well": "prayer pool"
     },
     "Amount": {
+      "name": "Number of drawn cards",
+      "help": "",
       "1": "1",
       "2": "2",
       "3": "3",
@@ -3842,9 +3844,7 @@
       "7": "7",
       "8": "8",
       "9": "9",
-      "10": "10",
-      "name": "Number of drawn cards",
-      "help": ""
+      "10": "10"
     },
     "UseTicket": {
       "name": "Use a single construction ticket",
@@ -3911,15 +3911,15 @@
       "help": ""
     },
     "DayOfWeek": {
+      "name": "Extend to day of the week",
+      "help": "It is recommended to set it to weekdays (Monday to Friday) to avoid missing purchases",
       "0": "on Monday",
       "1": "Tuesday",
       "2": "Wednesday",
       "3": "Thursday",
       "4": "Friday",
       "5": "Saturday",
-      "6": "Sunday",
-      "name": "Extend to day of the week",
-      "help": "It is recommended to set it to weekdays (Monday to Friday) to avoid missing purchases"
+      "6": "Sunday"
     }
   },
   "Minigame": {
@@ -3978,14 +3978,14 @@
       "third": "third"
     },
     "EscortMissionFleet": {
+      "name": "Merchant ships escort the sortie fleet",
+      "help": "",
       "1": "1",
       "2": "2",
       "3": "3",
       "4": "4",
       "5": "5",
-      "6": "6",
-      "name": "Merchant ships escort the sortie fleet",
-      "help": ""
+      "6": "6"
     },
     "AdvanceMission": {
       "name": "Sea Rush (Textbook, Self-Destruction)",
@@ -3996,14 +3996,14 @@
       "third": "third"
     },
     "AdvanceMissionFleet": {
+      "name": "sea ​​area assault fleet",
+      "help": "",
       "1": "1",
       "2": "2",
       "3": "3",
       "4": "4",
       "5": "5",
-      "6": "6",
-      "name": "sea ​​area assault fleet",
-      "help": ""
+      "6": "6"
     },
     "FierceAssault": {
       "name": "Operation Beheading (box version)",
@@ -4014,14 +4014,14 @@
       "third": "third"
     },
     "FierceAssaultFleet": {
+      "name": "Operation decapitation attack fleet",
+      "help": "",
       "1": "1",
       "2": "2",
       "3": "3",
       "4": "4",
       "5": "5",
-      "6": "6",
-      "name": "Operation decapitation attack fleet",
-      "help": ""
+      "6": "6"
     },
     "TacticalTraining": {
       "name": "Tactical Training (Mind Book)",
@@ -4032,14 +4032,14 @@
       "third": "third"
     },
     "TacticalTrainingFleet": {
+      "name": "Tactical Training Sortie Fleet",
+      "help": "",
       "1": "1",
       "2": "2",
       "3": "3",
       "4": "4",
       "5": "5",
-      "6": "6",
-      "name": "Tactical Training Sortie Fleet",
-      "help": ""
+      "6": "6"
     },
     "SupplyLineDisruption": {
       "name": "Breaking Diplomacy (Submarine Edition)",
@@ -4057,14 +4057,14 @@
       "second": "second"
     },
     "ModuleDevelopmentFleet": {
+      "name": "Weapons training and sortie fleet",
+      "help": "",
       "1": "1",
       "2": "2",
       "3": "3",
       "4": "4",
       "5": "5",
-      "6": "6",
-      "name": "Weapons training and sortie fleet",
-      "help": ""
+      "6": "6"
     },
     "EmergencyModuleDevelopment": {
       "name": "Limited-time military equipment training (limited-time military equipment book)",
@@ -4074,14 +4074,14 @@
       "second": "second"
     },
     "EmergencyModuleDevelopmentFleet": {
+      "name": "Weapons training and sortie fleet",
+      "help": "",
       "1": "1",
       "2": "2",
       "3": "3",
       "4": "4",
       "5": "5",
-      "6": "6",
-      "name": "Weapons training and sortie fleet",
-      "help": ""
+      "6": "6"
     }
   },
   "Hard": {
@@ -4094,10 +4094,10 @@
       "help": "For example 11-2, 12-2, 12-4"
     },
     "HardFleet": {
-      "1": "1",
-      "2": "2",
       "name": "sortie fleet",
-      "help": ""
+      "help": "",
+      "1": "1",
+      "2": "2"
     }
   },
   "Exercise": {
@@ -4106,14 +4106,14 @@
       "help": "Play drills and retreat automatically when the blood volume is too low"
     },
     "DelayUntilHoursBeforeNextUpdate": {
+      "name": "Postpone exercise until X hours before next update",
+      "help": "",
       "1": "1",
       "2": "2",
       "3": "3",
       "4": "4",
       "5": "5",
-      "12": "don't postpone",
-      "name": "Postpone exercise until X hours before next update",
-      "help": ""
+      "12": "don't postpone"
     },
     "OpponentChooseMode": {
       "name": "Opponent selection mode",
@@ -4162,6 +4162,8 @@
       "help": ""
     },
     "Chapter": {
+      "name": "Submarine attack chapter",
+      "help": "",
       "3": "3",
       "4": "4",
       "5": "5",
@@ -4169,9 +4171,7 @@
       "7": "7",
       "8": "8",
       "9": "9",
-      "10": "10",
-      "name": "Submarine attack chapter",
-      "help": ""
+      "10": "10"
     }
   },
   "OpsiAshAssist": {
@@ -4194,14 +4194,14 @@
       "help": "Every time you enter the warehouse, use all coordinate recorders"
     },
     "BuyActionPointLimit": {
+      "name": "Buying power X times",
+      "help": "Maximum number of times to buy power",
       "0": "Don't buy",
       "1": "1 time (1000 oil, 100 action)",
       "2": "2 times (2000 oil, 200 action)",
       "3": "3 times (4000 oil, 400 action)",
       "4": "4 times (6000 oil, 600 action)",
-      "5": "5 times (10000 oil, 1000 action)",
-      "name": "Buying power X times",
-      "help": "Maximum number of times to buy power"
+      "5": "5 times (10000 oil, 1000 action)"
     },
     "OilLimit": {
       "name": "When buying momentum, keep X points of oil",
@@ -4280,12 +4280,12 @@
       "help": ""
     },
     "Fleet": {
+      "name": "sortie fleet",
+      "help": "",
       "1": "1",
       "2": "2",
       "3": "3",
-      "4": "4",
-      "name": "sortie fleet",
-      "help": ""
+      "4": "4"
     },
     "Submarine": {
       "name": "call submarine",
@@ -4306,12 +4306,12 @@
       "help": "Once turned on, it will consume additional mobility. Generally, there is no need to turn it on, just play it slowly."
     },
     "IfSkipSirenResearch": {
+      "name": "Skip Siren Research Device",
+      "help": "When turned on, the Siren research device corresponding to the coordinate level will be skipped to facilitate bug fixes.\nAfter preliminary testing in several sea areas, a complete monthly land reclamation has not been completed, and there may be unknown problems.",
       "0": "don't skip",
       "6": "Skip level 6 only",
       "65": "Skip level 6 and level 5",
-      "654": "Skip Level 6, Level 5 and Level 4",
-      "name": "Skip Siren Research Device",
-      "help": "When turned on, the Siren research device corresponding to the coordinate level will be skipped to facilitate bug fixes.\nAfter preliminary testing in several sea areas, a complete monthly land reclamation has not been completed, and there may be unknown problems."
+      "654": "Skip Level 6, Level 5 and Level 4"
     },
     "SkipedSirenResearch": {
       "name": "Have jumped over the sea area of ​​​​the Siren Research Device",
@@ -4453,14 +4453,14 @@
       "help": "Stop when the mobility is lower than X, and automatically open the mobility box.\nThis value will be automatically reduced to 200 points 3 days before the big world is reset. If erosion 1 leveling is enabled, it will be changed to 1000 points, and will be automatically reduced to 0 points on the last day."
     },
     "HazardLevel": {
+      "name": "erosion level",
+      "help": "Attack sea areas with specific erosion levels clockwise\nIt is recommended to choose 5 or 3, which has a higher cat point/action ratio.",
       "2": "2",
       "3": "3",
       "4": "4",
       "5": "5",
       "6": "6",
-      "10": "central sea area",
-      "name": "erosion level",
-      "help": "Attack sea areas with specific erosion levels clockwise\nIt is recommended to choose 5 or 3, which has a higher cat point/action ratio."
+      "10": "central sea area"
     },
     "TargetZone": {
       "name": "designated sea areas",
@@ -4479,18 +4479,18 @@
       "help": "Automatically search for the Siren detection device during the short cat connection mission and record the found sea area\nOnly search in the central sea area (region 5), not in other areas"
     },
     "SirenDetectorSearch_HazardLevel": {
-      "5": "5",
-      "6": "6",
       "name": "Siren Detection Device Erosion Level",
-      "help": "In the central sea area, sort out sea areas with specific erosion levels in a clockwise direction to find siren detection devices.\nThere are only Level 5 and Level 6 sea areas in the central sea area.\nNote: Only the central sea area (region 5) is selected, sea areas in other regions will not be selected."
+      "help": "In the central sea area, sort out sea areas with specific erosion levels in a clockwise direction to find siren detection devices.\nThere are only Level 5 and Level 6 sea areas in the central sea area.\nNote: Only the central sea area (region 5) is selected, sea areas in other regions will not be selected.",
+      "5": "5",
+      "6": "6"
     },
     "SirenDetectorSearch_FleetForBlock": {
+      "name": "Card fleet",
+      "help": "Used to block the enemy's fleet to avoid being interrupted by the enemy during the search. Please choose a different fleet from the Short Cat mission.",
       "1": "1",
       "2": "2",
       "3": "3",
-      "4": "4",
-      "name": "Card fleet",
-      "help": "Used to block the enemy's fleet to avoid being interrupted by the enemy during the search. Please choose a different fleet from the Short Cat mission."
+      "4": "4"
     },
     "SirenDetectorSearch_StopAfterFound": {
       "name": "Stop after finding X Siren Detection Devices",
@@ -4507,11 +4507,11 @@
       "help": "Consume combat supply tokens to gain large amounts of experience and small amounts of action power\nIt is recommended to bring 1-2 preloaded aircraft carriers to obtain the highest average hourly income.\n\nSome fool-proof restrictions of the original Alas have been lifted, please set parameters carefully"
     },
     "TargetZone": {
-      "0": "Not specified",
-      "22": "22 | Southwest B of NA sea area",
-      "44": "44 | Western Continental Shelf D",
       "name": "designated sea areas",
-      "help": "Only attack the designated sea area, which can be used to avoid the inability to refresh the sea area caused by game bugs"
+      "help": "Only attack the designated sea area, which can be used to avoid the inability to refresh the sea area caused by game bugs",
+      "0": "Not specified",
+      "44": "44 | Western Continental Shelf D",
+      "22": "22 | Southwest B of NA sea area"
     },
     "OperationCoinsPreserve": {
       "name": "Keep X combat supply vouchers",
@@ -4660,6 +4660,8 @@
       "help": "Within the configurable time period before the server restarts at 0:00 every day, the Erosion One and Short Cat tasks will be automatically postponed until the restart is completed at 0:00 the next day."
     },
     "TriggerMinutesBeforeReset": {
+      "name": "Advance trigger time (minutes)",
+      "help": "How many minutes before 0 o'clock every day the task is triggered to be delayed, the range is 1-60 minutes, the default is 5 minutes",
       "1": "1",
       "2": "2",
       "3": "3",
@@ -4674,9 +4676,7 @@
       "20": "20",
       "30": "30",
       "45": "45",
-      "60": "60",
-      "name": "Advance trigger time (minutes)",
-      "help": "How many minutes before 0 o'clock every day the task is triggered to be delayed, the range is 1-60 minutes, the default is 5 minutes"
+      "60": "60"
     }
   },
   "IslandSeasonTask": {
