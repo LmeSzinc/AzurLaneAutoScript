@@ -357,10 +357,8 @@ class OpsiMeowfficerFarming(CoinTaskMixin, OSMap):
         self.os_order_execute(recon_scan=False, submarine_call=self.config.OpsiFleet_Submarine)
         
         # 步骤 1. 临时配置：禁用塞壬研究
-        self._original_siren_research_enable = self.config.cross_get(
-            keys="OpsiHazard1Leveling.OpsiSirenBug.SirenResearch_Enable", default=False)
-        self.config.cross_set(
-            keys="OpsiHazard1Leveling.OpsiSirenBug.SirenResearch_Enable", value=False)
+        self._original_siren_research_enable = self.config.OpsiSirenBug_SirenResearch_Enable
+        self.config.OpsiSirenBug_SirenResearch_Enable = False
         logger.info('探测装置搜索：临时禁用塞壬研究')
         
         self.config._disable_siren_research = True
@@ -380,9 +378,7 @@ class OpsiMeowfficerFarming(CoinTaskMixin, OSMap):
         # 步骤 3. 主队自律：换回主队执行短猫逻辑
         self.fleet_set(self.config.OpsiFleet_Fleet)
         if hasattr(self, '_original_siren_research_enable'):
-            self.config.cross_set(
-                keys="OpsiHazard1Leveling.OpsiSirenBug.SirenResearch_Enable",
-                value=self._original_siren_research_enable)
+            self.config.OpsiSirenBug_SirenResearch_Enable = self._original_siren_research_enable
         
         logger.info('探测装置搜索：换回主队执行自律')
         # 开始短猫搜索计时
@@ -432,9 +428,7 @@ class OpsiMeowfficerFarming(CoinTaskMixin, OSMap):
                 self.config.OpsiMeowfficerFarming_SirenDetectorSearch_Enable = False
                 
                 if hasattr(self, '_original_siren_research_enable'):
-                    self.config.cross_set(
-                        keys="OpsiHazard1Leveling.OpsiSirenBug.SirenResearch_Enable",
-                        value=self._original_siren_research_enable)
+                    self.config.OpsiSirenBug_SirenResearch_Enable = self._original_siren_research_enable
                 
                 if hasattr(self.config, '_disable_siren_research'):
                     delattr(self.config, '_disable_siren_research')
@@ -458,9 +452,7 @@ class OpsiMeowfficerFarming(CoinTaskMixin, OSMap):
         
         # 状态清理
         if hasattr(self, '_original_siren_research_enable'):
-            self.config.cross_set(
-                keys="OpsiHazard1Leveling.OpsiSirenBug.SirenResearch_Enable",
-                value=self._original_siren_research_enable)
+            self.config.OpsiSirenBug_SirenResearch_Enable = self._original_siren_research_enable
         
         if hasattr(self.config, '_disable_siren_research'):
             delattr(self.config, '_disable_siren_research')

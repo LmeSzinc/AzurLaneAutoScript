@@ -12602,6 +12602,61 @@
         "value": ""
       }
     },
+    "OpsiSirenBug": {
+      "SirenResearch_Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "SirenBug_Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "SirenBug_Type": {
+        "type": "select",
+        "value": "dangerous",
+        "option": [
+          "dangerous",
+          "safe"
+        ]
+      },
+      "SirenBug_Zone": {
+        "type": "input",
+        "value": 0
+      },
+      "SirenBug_Grid": {
+        "type": "input",
+        "value": null
+      },
+      "DisableTaskSwitchDuringBug": {
+        "type": "checkbox",
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
+      },
+      "SirenBug_DailyCount": {
+        "type": "input",
+        "value": 0
+      },
+      "SirenBug_DailyCountRecord": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "SirenBug_CountLimit": {
+        "type": "input",
+        "value": 0
+      },
+      "SirenBug_CrossDay": {
+        "type": "checkbox",
+        "value": false
+      },
+      "SirenBug_AutoDisable": {
+        "type": "checkbox",
+        "value": false
+      }
+    },
     "OpsiFleet": {
       "Fleet": {
         "type": "select",

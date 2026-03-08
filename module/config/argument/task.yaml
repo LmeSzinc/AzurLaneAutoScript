@@ -341,6 +341,7 @@ Opsi:
     OpsiMeowfficerFarming:
       - Scheduler
       - OpsiMeowfficerFarming
+      - OpsiSirenBug
       - OpsiFleet
     OpsiHazard1Leveling:
       - Scheduler

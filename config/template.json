@@ -2375,6 +2375,19 @@
       "SirenDetectorSearch_StopAfterFound": 0,
       "SirenDetectorSearch_FoundZones": null
     },
+    "OpsiSirenBug": {
+      "SirenResearch_Enable": false,
+      "SirenBug_Enable": false,
+      "SirenBug_Type": "dangerous",
+      "SirenBug_Zone": 0,
+      "SirenBug_Grid": null,
+      "DisableTaskSwitchDuringBug": false,
+      "SirenBug_DailyCount": 0,
+      "SirenBug_DailyCountRecord": "2020-01-01 00:00:00",
+      "SirenBug_CountLimit": 0,
+      "SirenBug_CrossDay": false,
+      "SirenBug_AutoDisable": false
+    },
     "OpsiFleet": {
       "Fleet": 1,
       "Submarine": false
