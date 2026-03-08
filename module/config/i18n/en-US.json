@@ -4648,21 +4648,21 @@
       "False": "Not enabled"
     },
     "EnableStronghold": {
-      "name": "OpsiScheduling.EnableStronghold.name",
-      "help": "OpsiScheduling.EnableStronghold.help",
-      "True": "True",
-      "False": "False"
+      "name": "Enable Siren Fortress",
+      "help": "Whether to enable the Siren Fortress task in intelligent scheduling to replenish yellow coins",
+      "True": "Enabled",
+      "False": "Not enabled"
     },
     "MeowStartEarlyMode": {
-      "name": "OpsiScheduling.MeowStartEarlyMode.name",
-      "help": "OpsiScheduling.MeowStartEarlyMode.help",
-      "aggressive": "aggressive",
-      "balanced": "balanced",
-      "conservative": "conservative"
+      "name": "Month-end mobility automatic cleaning mode",
+      "help": "Aggressive mode (×0.8): less advance, saves action power but may miss the refresh; Balanced mode (×1.2): normal advance, balances safety and efficiency; Conservative mode (×1.5): more advance, prioritizes safety but may waste action power",
+      "aggressive": "Aggressive mode",
+      "balanced": "equilibrium mode",
+      "conservative": "conservative mode"
     },
     "MeowStartEarlyEnable": {
-      "name": "OpsiScheduling.MeowStartEarlyEnable.name",
-      "help": "OpsiScheduling.MeowStartEarlyEnable.help"
+      "name": "Enable automatic cleanup of mobility at the end of the month",
+      "help": "Based on the historical AP consumption rate, automatically determine whether it is necessary to start the short cat task in advance to clean up excess mobility at the end of the month."
     }
   },
   "OpsiDailyDelay": {
@@ -5013,8 +5013,7 @@
       "EnableObscure": "Gui.OpsiScheduling.EnableObscure",
       "EnableAbyssal": "Gui.OpsiScheduling.EnableAbyssal",
       "EnableStronghold": "Gui.OpsiScheduling.EnableStronghold",
-      "MeowStartEarlyMode": "Gui.OpsiScheduling.MeowStartEarlyMode",
-      "MeowStartEarlyEnable": "Gui.OpsiScheduling.MeowStartEarlyEnable"
+      "MeowStartEarlyMode": "Gui.OpsiScheduling.MeowStartEarlyMode"
     }
   }
 }

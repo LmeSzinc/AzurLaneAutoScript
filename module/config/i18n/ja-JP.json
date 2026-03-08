@@ -4648,21 +4648,21 @@
       "False": "有効になっていません"
     },
     "EnableStronghold": {
-      "name": "OpsiScheduling.EnableStronghold.name",
-      "help": "OpsiScheduling.EnableStronghold.help",
-      "True": "True",
-      "False": "False"
+      "name": "セイレン要塞を有効にする",
+      "help": "黄色のコインを補充するためにインテリジェント スケジューリングで Siren Fortress タスクを有効にするかどうか",
+      "True": "有効",
+      "False": "有効になっていません"
     },
     "MeowStartEarlyMode": {
-      "name": "OpsiScheduling.MeowStartEarlyMode.name",
-      "help": "OpsiScheduling.MeowStartEarlyMode.help",
-      "aggressive": "aggressive",
-      "balanced": "balanced",
-      "conservative": "conservative"
+      "name": "月末モビリティ自動掃除モード",
+      "help": "アグレッシブモード (×0.8): 前進が少なく、アクションパワーを節約しますが、リフレッシュを逃す可能性があります。バランスモード (×1.2): 通常前進、安全性と効率のバランス。保守モード（×1.5）：より前進、安全を優先しますが、行動力を無駄にする可能性があります",
+      "aggressive": "アグレッシブモード",
+      "balanced": "平衡モード",
+      "conservative": "保守的モード"
     },
     "MeowStartEarlyEnable": {
-      "name": "OpsiScheduling.MeowStartEarlyEnable.name",
-      "help": "OpsiScheduling.MeowStartEarlyEnable.help"
+      "name": "月末にモビリティの自動クリーンアップを有効にする",
+      "help": "過去の AP 消費率に基づいて、月末に過剰なモビリティをクリーンアップするためにショート キャット タスクを事前に開始する必要があるかどうかを自動的に判断します。"
     }
   },
   "OpsiDailyDelay": {
@@ -5013,8 +5013,7 @@
       "EnableObscure": "Gui.OpsiScheduling.EnableObscure",
       "EnableAbyssal": "Gui.OpsiScheduling.EnableAbyssal",
       "EnableStronghold": "Gui.OpsiScheduling.EnableStronghold",
-      "MeowStartEarlyMode": "Gui.OpsiScheduling.MeowStartEarlyMode",
-      "MeowStartEarlyEnable": "Gui.OpsiScheduling.MeowStartEarlyEnable"
+      "MeowStartEarlyMode": "Gui.OpsiScheduling.MeowStartEarlyMode"
     }
   }
 }
