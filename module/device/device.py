@@ -135,21 +135,20 @@ class Device(Screenshot, Control, AppControl, Input):
     def platform(self):
         """
         Get the platform handler for emulator control.
-
-        Notes:
-            When the emulator is currently offline (the typical case
-            when we want to auto-start it), we must avoid triggering a
-            full ADB connection here, otherwise `Platform` will raise
-            `EmulatorNotRunningError` again while we're already handling
-            that error in `Device.__init__`.
-
-            Therefore we construct `Platform` with `connect=False` to
-            run a lightweight init (only config/adb_client/serial),
-            which is sufficient for `emulator_instance` discovery and
-            `emulator_start()`; the real ADB connection is still done
-            later by `Connection` when `Device` finishes initialization.
+        Creates a new Platform instance if needed.
         """
         if self._platform is None:
+            # When the emulator is currently offline (the typical case
+            # when we want to auto-start it), we must avoid triggering a
+            # full ADB connection here, otherwise `Platform` will raise
+            # `EmulatorNotRunningError` again while we're already handling
+            # that error in `Device.__init__`.
+            #
+            # Therefore we construct `Platform` with `connect=False` to
+            # run a lightweight init (only config/adb_client/serial),
+            # which is sufficient for `emulator_instance` discovery and
+            # `emulator_start()`; the real ADB connection is still done
+            # later by `Connection` when `Device` finishes initialization.
             self._platform = Platform(self.config, connect=False)
         return self._platform
 

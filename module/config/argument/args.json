@@ -668,7 +668,7 @@
         "value": false
       },
       "Tasks": {
-        "type": "textarea",
+        "type": "input",
         "value": null
       },
       "FleetValue": {

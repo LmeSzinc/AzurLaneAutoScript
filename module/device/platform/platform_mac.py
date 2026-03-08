@@ -9,7 +9,11 @@ from module.base.decorator import run_once
 from module.base.timer import Timer
 from module.device.connection import AdbDeviceWithStatus
 from module.device.platform.platform_base import PlatformBase
-from module.device.platform.emulator_mac import EmulatorMac, EmulatorInstanceMac, EmulatorManagerMac
+from module.device.platform.emulator_mac import (
+    EmulatorMac,
+    EmulatorInstanceMac,
+    EmulatorManagerMac,
+)
 from module.logger import logger
 
 
@@ -18,18 +22,6 @@ class PlatformMac(PlatformBase, EmulatorManagerMac):
     Mac platform emulator control.
     Supports BlueStacks Air and MuMu Pro on macOS.
     """
-
-    def __init__(self, config, *, connect: bool = True):
-        """
-        Initialize PlatformMac with config.
-        
-        Args:
-            config: Configuration object with Emulator_Serial
-            connect: Whether to immediately establish ADB connection.
-        """
-        self.config = config
-        self.serial = str(config.Emulator_Serial) if config else ''
-        super().__init__(config, connect=connect)
 
     @classmethod
     def execute(cls, command, wait=True):
