@@ -113,7 +113,11 @@ class Cl1Database:
             'battle_count': 0,
             'akashi_encounters': 0,
             'akashi_ap': 0,
-            'akashi_ap_entries': []
+            'akashi_ap_entries': [],
+            # 短猫数据
+            'meow_battle_count': 0,
+            'meow_round_times': [],
+            'meow_battle_times': [],  # 短猫单场战斗时间
         }
 
     def save_stats(self, instance: str, month: str, data: Dict[str, Any]):
@@ -264,6 +268,104 @@ class Cl1Database:
                         self.migrate_from_json(json_file, instance_dir.name)
         except Exception as e:
             logger.error(f"Error during auto migration scan: {e}")
+
+    # ========== 短猫数据记录方法 ==========
+
+    def increment_meow_battle_count(self, instance: str, delta: int = 1):
+        """增加短猫战斗次数"""
+        month = datetime.now().strftime('%Y-%m')
+        data = self.get_stats(instance, month)
+        data['meow_battle_count'] = data.get('meow_battle_count', 0) + delta
+        self.save_stats(instance, month, data)
+
+    def add_meow_round_time(self, instance: str, duration: float):
+        """记录短猫单轮战斗时间
+
+        Args:
+            instance: 实例名称
+            duration: 战斗耗时（秒）
+        """
+        month = datetime.now().strftime('%Y-%m')
+        data = self.get_stats(instance, month)
+
+        if 'meow_round_times' not in data:
+            data['meow_round_times'] = []
+
+        times = data['meow_round_times']
+        times.append(round(duration, 2))
+
+        # 只保留最近100个样本
+        if len(times) > 100:
+            times = times[-100:]
+
+        data['meow_round_times'] = times
+        self.save_stats(instance, month, data)
+
+    def add_meow_battle_time(self, instance: str, duration: float):
+        """记录短猫单场战斗时间
+
+        Args:
+            instance: 实例名称
+            duration: 战斗耗时（秒）
+        """
+        month = datetime.now().strftime('%Y-%m')
+        data = self.get_stats(instance, month)
+
+        if 'meow_battle_times' not in data:
+            data['meow_battle_times'] = []
+
+        times = data['meow_battle_times']
+        times.append(round(duration, 2))
+
+        # 只保留最近100个样本
+        if len(times) > 100:
+            times = times[-100:]
+
+        data['meow_battle_times'] = times
+        self.save_stats(instance, month, data)
+
+    def get_meow_stats(self, instance: str, year: int = None, month: int = None) -> Dict[str, Any]:
+        """获取短猫统计数据
+
+        Args:
+            instance: 实例名称
+            year: 年份，默认当前年
+            month: 月份，默认当前月
+
+        Returns:
+            短猫统计数据字典
+        """
+        if year is None or month is None:
+            now = datetime.now()
+            year = now.year
+            month = now.month
+        key = f"{year:04d}-{month:02d}"
+
+        data = self.get_stats(instance, key)
+
+        battle_count = int(data.get('meow_battle_count', 0))
+        round_times = data.get('meow_round_times', [])
+        battle_times = data.get('meow_battle_times', [])
+
+        # 计算平均每轮时间
+        avg_round_time = 0.0
+        if round_times:
+            avg_round_time = round(sum(round_times) / len(round_times), 2)
+
+        # 计算平均单场战斗时间
+        avg_battle_time = 0.0
+        if battle_times:
+            avg_battle_time = round(sum(battle_times) / len(battle_times), 2)
+
+        return {
+            'month': key,
+            'battle_count': battle_count,
+            'round_times': round_times,
+            'avg_round_time': avg_round_time,
+            'battle_times': battle_times,
+            'avg_battle_time': avg_battle_time,
+        }
+
 
 # 单例实例
 db = Cl1Database()

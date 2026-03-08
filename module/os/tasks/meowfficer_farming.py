@@ -242,12 +242,20 @@ class OpsiMeowfficerFarming(CoinTaskMixin, OSMap):
             logger.hr(f'OS meowfficer farming, zone_id={zone.zone_id}', level=1)
             self.globe_goto(zone, types='SAFE', refresh=True)
             self.fleet_set(self.config.OpsiFleet_Fleet)
+            # 开始短猫搜索计时
+            self._meow_searching_active = True
+            self._meow_time_recording_enabled = True
+            import time as time_module
+            self._meow_battle_timer = time_module.time()
+            self.on_meow_search_start()
             if self.run_strategic_search():
                 self._solved_map_event = set()
                 self._solved_fleet_mechanism = False
                 self.clear_question()
                 self.map_rescan()
             self.handle_after_auto_search()
+            # 结束短猫搜索计时
+            self.on_meow_search_end()
             self.config.check_task_switch()
 
     def _meow_handle_stay_in_zone(self):
@@ -274,7 +282,14 @@ class OpsiMeowfficerFarming(CoinTaskMixin, OSMap):
         self.action_point_set(cost=120, keep_current_ap=keep_current_ap, check_rest_ap=True)
         self.fleet_set(self.config.OpsiFleet_Fleet)
         self.os_order_execute(recon_scan=False, submarine_call=self.config.OpsiFleet_Submarine)
-        
+
+        # 开始短猫搜索计时
+        self._meow_searching_active = True
+        self._meow_time_recording_enabled = True
+        import time as time_module
+        self._meow_battle_timer = time_module.time()
+        self.on_meow_search_start()
+
         search_completed = False
         try:
             search_completed = self.run_strategic_search()
@@ -293,6 +308,9 @@ class OpsiMeowfficerFarming(CoinTaskMixin, OSMap):
             self.handle_after_auto_search()
         except Exception:
             logger.exception('handle_after_auto_search 发生异常')
+
+        # 结束短猫搜索计时
+        self.on_meow_search_end()
 
         self.config.check_task_switch()
         
@@ -329,6 +347,7 @@ class OpsiMeowfficerFarming(CoinTaskMixin, OSMap):
         if not zones:
             logger.warning(f'探测装置搜索模式：未找到符合条件的海域 (侵蚀等级 {hazard_level})')
             return False
+            
         logger.hr(f'OS meowfficer farming, zone_id={zones[0].zone_id}', level=1)
         current_zone_id = zones[0].zone_id
         
@@ -366,6 +385,12 @@ class OpsiMeowfficerFarming(CoinTaskMixin, OSMap):
                 value=self._original_siren_research_enable)
         
         logger.info('探测装置搜索：换回主队执行自律')
+        # 开始短猫搜索计时
+        self._meow_searching_active = True
+        self._meow_time_recording_enabled = True
+        import time as time_module
+        self._meow_battle_timer = time_module.time()
+        self.on_meow_search_start()
         self.run_auto_search()
         logger.info(f'探测装置搜索：自律完成，标记事件: {self._solved_map_event}')
         
@@ -418,6 +443,8 @@ class OpsiMeowfficerFarming(CoinTaskMixin, OSMap):
                     self.config.OpsiMeowfficerFarming_StayInZone = self._original_stay_in_zone
                 
                 self.handle_after_auto_search()
+                # 结束短猫搜索计时
+                self.on_meow_search_end()
                 self.config.check_task_switch()
                 return True
         
@@ -440,7 +467,10 @@ class OpsiMeowfficerFarming(CoinTaskMixin, OSMap):
         
         if hasattr(self, '_original_stay_in_zone'):
             self.config.OpsiMeowfficerFarming_StayInZone = self._original_stay_in_zone
-            
+
+        # 结束短猫搜索计时
+        self.on_meow_search_end()
+
         return False
         
     def _meow_handle_normal_search(self):
@@ -455,15 +485,26 @@ class OpsiMeowfficerFarming(CoinTaskMixin, OSMap):
             return
 
         logger.hr(f'OS meowfficer farming, zone_id={zones[0].zone_id}', level=1)
-        
+
         self.globe_goto(zones[0])
-            
+
         self.fleet_set(self.config.OpsiFleet_Fleet)
         self.os_order_execute(recon_scan=False, submarine_call=self.config.OpsiFleet_Submarine)
-        
+
+        # 开始短猫搜索计时
+        self._meow_searching_active = True
+        self._meow_time_recording_enabled = True
+        import time as time_module
+        self._meow_battle_timer = time_module.time()
+        self.on_meow_search_start()
+
         self.run_auto_search()
-        
+
         self.handle_after_auto_search()
+
+        # 结束短猫搜索计时
+        self.on_meow_search_end()
+
         self.config.check_task_switch()
         
     def os_meowfficer_farming(self):

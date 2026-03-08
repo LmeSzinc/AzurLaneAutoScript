@@ -4648,10 +4648,21 @@
       "False": "有効になっていません"
     },
     "EnableStronghold": {
-      "name": "セイレン要塞を有効にする",
-      "help": "黄色のコインを補充するためにインテリジェント スケジューリングで Siren Fortress タスクを有効にするかどうか",
-      "True": "有効",
-      "False": "有効になっていません"
+      "name": "OpsiScheduling.EnableStronghold.name",
+      "help": "OpsiScheduling.EnableStronghold.help",
+      "True": "True",
+      "False": "False"
+    },
+    "MeowStartEarlyMode": {
+      "name": "OpsiScheduling.MeowStartEarlyMode.name",
+      "help": "OpsiScheduling.MeowStartEarlyMode.help",
+      "aggressive": "aggressive",
+      "balanced": "balanced",
+      "conservative": "conservative"
+    },
+    "MeowStartEarlyEnable": {
+      "name": "OpsiScheduling.MeowStartEarlyEnable.name",
+      "help": "OpsiScheduling.MeowStartEarlyEnable.help"
     }
   },
   "OpsiDailyDelay": {
@@ -5001,7 +5012,9 @@
       "EnableMeowfficerFarming": "Gui.OpsiScheduling.EnableMeowfficerFarming",
       "EnableObscure": "Gui.OpsiScheduling.EnableObscure",
       "EnableAbyssal": "Gui.OpsiScheduling.EnableAbyssal",
-      "EnableStronghold": "Gui.OpsiScheduling.EnableStronghold"
+      "EnableStronghold": "Gui.OpsiScheduling.EnableStronghold",
+      "MeowStartEarlyMode": "Gui.OpsiScheduling.MeowStartEarlyMode",
+      "MeowStartEarlyEnable": "Gui.OpsiScheduling.MeowStartEarlyEnable"
     }
   }
 }

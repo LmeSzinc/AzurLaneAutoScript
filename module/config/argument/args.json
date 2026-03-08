@@ -12879,6 +12879,19 @@
           true,
           false
         ]
+      },
+      "MeowStartEarlyMode": {
+        "type": "select",
+        "value": "balanced",
+        "option": [
+          "aggressive",
+          "balanced",
+          "conservative"
+        ]
+      },
+      "MeowStartEarlyEnable": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Storage": {

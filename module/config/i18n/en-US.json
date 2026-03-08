@@ -4648,10 +4648,21 @@
       "False": "Not enabled"
     },
     "EnableStronghold": {
-      "name": "Enable Siren Fortress",
-      "help": "Whether to enable the Siren Fortress task in intelligent scheduling to replenish yellow coins",
-      "True": "Enabled",
-      "False": "Not enabled"
+      "name": "OpsiScheduling.EnableStronghold.name",
+      "help": "OpsiScheduling.EnableStronghold.help",
+      "True": "True",
+      "False": "False"
+    },
+    "MeowStartEarlyMode": {
+      "name": "OpsiScheduling.MeowStartEarlyMode.name",
+      "help": "OpsiScheduling.MeowStartEarlyMode.help",
+      "aggressive": "aggressive",
+      "balanced": "balanced",
+      "conservative": "conservative"
+    },
+    "MeowStartEarlyEnable": {
+      "name": "OpsiScheduling.MeowStartEarlyEnable.name",
+      "help": "OpsiScheduling.MeowStartEarlyEnable.help"
     }
   },
   "OpsiDailyDelay": {
@@ -5001,7 +5012,9 @@
       "EnableMeowfficerFarming": "Gui.OpsiScheduling.EnableMeowfficerFarming",
       "EnableObscure": "Gui.OpsiScheduling.EnableObscure",
       "EnableAbyssal": "Gui.OpsiScheduling.EnableAbyssal",
-      "EnableStronghold": "Gui.OpsiScheduling.EnableStronghold"
+      "EnableStronghold": "Gui.OpsiScheduling.EnableStronghold",
+      "MeowStartEarlyMode": "Gui.OpsiScheduling.MeowStartEarlyMode",
+      "MeowStartEarlyEnable": "Gui.OpsiScheduling.MeowStartEarlyEnable"
     }
   }
 }

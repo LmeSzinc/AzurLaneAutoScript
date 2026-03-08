@@ -4652,6 +4652,17 @@
       "help": "智能调度中是否启用塞壬要塞任务来补充黄币",
       "True": "已启用",
       "False": "未启用"
+    },
+    "MeowStartEarlyMode": {
+      "name": "月末行动力自动清理模式",
+      "help": "激进模式(×0.8)：少提前，节省行动力但可能错过刷新；均衡模式(×1.2)：正常提前，平衡安全与效率；保守模式(×1.5)：多提前，安全优先但可能浪费行动力",
+      "aggressive": "激进模式",
+      "balanced": "均衡模式",
+      "conservative": "保守模式"
+    },
+    "MeowStartEarlyEnable": {
+      "name": "启用月末行动力自动清理",
+      "help": "根据历史AP消耗速率，自动判断是否需要提前开始短猫任务来清理月末过剩的行动力"
     }
   },
   "OpsiDailyDelay": {
@@ -5001,7 +5012,9 @@
       "EnableMeowfficerFarming": "Gui.OpsiScheduling.EnableMeowfficerFarming",
       "EnableObscure": "Gui.OpsiScheduling.EnableObscure",
       "EnableAbyssal": "Gui.OpsiScheduling.EnableAbyssal",
-      "EnableStronghold": "Gui.OpsiScheduling.EnableStronghold"
+      "EnableStronghold": "Gui.OpsiScheduling.EnableStronghold",
+      "MeowStartEarlyMode": "Gui.OpsiScheduling.MeowStartEarlyMode",
+      "MeowStartEarlyEnable": "Gui.OpsiScheduling.MeowStartEarlyEnable"
     }
   }
 }

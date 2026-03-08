@@ -72,15 +72,19 @@ class ShipExpStats:
     # ========== 战斗时间记录 ==========
     
     def on_battle_start(self) -> None:
-        """战斗开始时调用"""
+        """战斗开始时调用（侵蚀1 / 短猫等统一入口）"""
         self._battle_start_time = time.time()
     
-    def on_battle_end(self, fleet_index: int = 1) -> Optional[float]:
+    def on_battle_end(self, fleet_index: int = 1, source: str = "cl1") -> Optional[float]:
         """
         战斗结束时调用
         
         Args:
             fleet_index: 舰队索引 (1-6), 用于确定经验值
+            source: 战斗来源:
+                - "cl1": 侵蚀1练级
+                - "meow": 短猫
+                - 其他值默认按 "cl1" 处理
         
         Returns:
             本场战斗耗时(秒), 如果未记录开始时间则返回None
@@ -96,8 +100,8 @@ class ShipExpStats:
             logger.debug(f'Battle duration {duration:.1f}s out of range, not recorded')
             return duration
         
-        # 记录战斗时间
-        self._record_battle_time(duration)
+        # 记录战斗时间（根据来源分别统计）
+        self._record_battle_time(duration, source=source)
         
         # 计算本场经验 (使用平均值，因为每个位置经验不同)
         # 旗舰 431 + 其他位置 288*5 = 1871, 平均 312
@@ -109,22 +113,35 @@ class ShipExpStats:
         logger.info(f'Battle recorded: {duration:.1f}s, exp: {avg_exp}')
         return duration
     
-    def _record_battle_time(self, duration: float) -> None:
-        """记录单场战斗时间到样本"""
-        if 'battle_times' not in self.data:
-            self.data['battle_times'] = {'samples': [], 'average': 52.0}
+    def _record_battle_time(self, duration: float, source: str = "cl1") -> None:
+        """记录单场战斗时间到样本
         
-        samples = self.data['battle_times']['samples']
+        Args:
+            duration: 本场战斗时长（秒）
+            source: 战斗来源 ("cl1" / "meow")
+        """
+        # 不同来源使用不同的键，避免侵蚀1与短猫混合统计
+        if source == "meow":
+            key = 'meow_battle_times'
+            default_avg = 52.0  # 默认值，后续会被真实样本覆盖
+        else:
+            key = 'battle_times'
+            default_avg = 52.0
+        
+        if key not in self.data:
+            self.data[key] = {'samples': [], 'average': default_avg}
+        
+        samples = self.data[key]['samples']
         samples.append(round(duration, 2))
         
         # 只保留最近N个样本
         if len(samples) > self.MAX_BATTLE_TIME_SAMPLES:
-            self.data['battle_times']['samples'] = samples[-self.MAX_BATTLE_TIME_SAMPLES:]
-            samples = self.data['battle_times']['samples']
+            self.data[key]['samples'] = samples[-self.MAX_BATTLE_TIME_SAMPLES:]
+            samples = self.data[key]['samples']
         
         # 更新平均值
         if samples:
-            self.data['battle_times']['average'] = round(sum(samples) / len(samples), 2)
+            self.data[key]['average'] = round(sum(samples) / len(samples), 2)
         
         self._save()
     
@@ -195,6 +212,10 @@ class ShipExpStats:
     def get_average_battle_time(self) -> float:
         """获取平均每场战斗时间(秒)"""
         return self.data.get('battle_times', {}).get('average', 52.0)
+    
+    def get_average_meow_battle_time(self) -> float:
+        """获取短猫平均每场战斗时间(秒)"""
+        return self.data.get('meow_battle_times', {}).get('average', self.get_average_battle_time())
     
     def get_average_round_time(self) -> float:
         """获取平均每轮侵蚀1时间(秒)"""

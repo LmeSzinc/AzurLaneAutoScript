@@ -2443,7 +2443,9 @@
       "EnableMeowfficerFarming": true,
       "EnableObscure": false,
       "EnableAbyssal": false,
-      "EnableStronghold": false
+      "EnableStronghold": false,
+      "MeowStartEarlyMode": "balanced",
+      "MeowStartEarlyEnable": false
     },
     "Storage": {
       "Storage": {}

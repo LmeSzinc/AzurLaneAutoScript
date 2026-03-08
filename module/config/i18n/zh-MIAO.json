@@ -4652,6 +4652,17 @@
       "help": "智能调度缺黄币的时候，要不要去端掉坏女人们的『塞壬要塞』把小钱钱抢过来nanoda？",
       "True": "开炮开炮nanoda！",
       "False": "今天先放过她们！"
+    },
+    "MeowStartEarlyMode": {
+      "name": "OpsiScheduling.MeowStartEarlyMode.name",
+      "help": "OpsiScheduling.MeowStartEarlyMode.help",
+      "aggressive": "aggressive",
+      "balanced": "balanced",
+      "conservative": "conservative"
+    },
+    "MeowStartEarlyEnable": {
+      "name": "OpsiScheduling.MeowStartEarlyEnable.name",
+      "help": "OpsiScheduling.MeowStartEarlyEnable.help"
     }
   },
   "OpsiDailyDelay": {
@@ -5001,7 +5012,9 @@
       "EnableMeowfficerFarming": "🐾 猫猫干活啦",
       "EnableObscure": "🌫️ 带路去探险",
       "EnableAbyssal": "🐙 挑战大怪兽",
-      "EnableStronghold": "🏰 目标：塞壬要塞"
+      "EnableStronghold": "🏰 目标：塞壬要塞",
+      "MeowStartEarlyMode": "Gui.OpsiScheduling.MeowStartEarlyMode",
+      "MeowStartEarlyEnable": "Gui.OpsiScheduling.MeowStartEarlyEnable"
     }
   }
 }

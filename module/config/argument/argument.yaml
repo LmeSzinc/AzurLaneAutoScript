@@ -1208,6 +1208,19 @@ OpsiScheduling:
     value: false
     option: [true, false]
 
+  # 短猫提前开始模式
+  MeowStartEarlyMode:
+    # 激进模式: 0.8倍提前时间, 均衡模式: 1.2倍, 保守模式: 1.5倍
+    value: balanced
+    option:
+      - aggressive
+      - balanced
+      - conservative
+  MeowStartEarlyEnable:
+    # 是否启用短猫提前开始功能
+    value: false
+    type: checkbox
+
 OpsiDailyDelay:
   TriggerMinutesBeforeReset:
     value: 5

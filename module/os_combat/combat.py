@@ -236,15 +236,23 @@ class Combat(Combat_, MapEventHandler):
             in: is_combat_loading()
             out: combat status
         """
-        # 记录战斗开始时间用于统计 (仅侵蚀1任务)
+        # 记录战斗开始时间用于统计 (侵蚀1 / 短猫任务)
         _is_cl1_battle = False
+        _is_meow_battle = False
         _instance_name = None
         try:
             if hasattr(self, 'config') and hasattr(self.config, 'task'):
-                if self.config.task.command == 'OpsiHazard1Leveling':
+                task_cmd = self.config.task.command
+                if task_cmd == 'OpsiHazard1Leveling':
                     _is_cl1_battle = True
                     _instance_name = self.config.config_name if hasattr(self.config, 'config_name') else None
                     from module.statistics.ship_exp_stats import get_ship_exp_stats
+                    get_ship_exp_stats(instance_name=_instance_name).on_battle_start()
+                elif task_cmd == 'OpsiMeowfficerFarming':
+                    _is_meow_battle = True
+                    _instance_name = self.config.config_name if hasattr(self.config, 'config_name') else None
+                    from module.statistics.ship_exp_stats import get_ship_exp_stats
+                    # 短猫战斗开始计时
                     get_ship_exp_stats(instance_name=_instance_name).on_battle_start()
         except Exception:
             pass
@@ -314,12 +322,13 @@ class Combat(Combat_, MapEventHandler):
             
         logger.info('Combat end.')
         
-        # 记录战斗结束，统计耗时 (仅侵蚀1任务)
-        if _is_cl1_battle:
-            try:
+        # 记录战斗结束，统计耗时 (侵蚀1 / 短猫)
+        try:
+            if _is_cl1_battle or _is_meow_battle:
                 from module.statistics.ship_exp_stats import get_ship_exp_stats
-                get_ship_exp_stats(instance_name=_instance_name).on_battle_end()
-            except Exception:
-                pass
+                source = "cl1" if _is_cl1_battle else "meow"
+                get_ship_exp_stats(instance_name=_instance_name).on_battle_end(source=source)
+        except Exception:
+            pass
         
         return success

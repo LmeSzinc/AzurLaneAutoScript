@@ -737,6 +737,8 @@ class GeneratedConfig:
     OpsiScheduling_EnableObscure = False  # True, False
     OpsiScheduling_EnableAbyssal = False  # True, False
     OpsiScheduling_EnableStronghold = False  # True, False
+    OpsiScheduling_MeowStartEarlyMode = 'balanced'  # aggressive, balanced, conservative
+    OpsiScheduling_MeowStartEarlyEnable = False
 
     # Group `OpsiDailyDelay`
     OpsiDailyDelay_TriggerMinutesBeforeReset = 5  # 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 30, 45, 60
