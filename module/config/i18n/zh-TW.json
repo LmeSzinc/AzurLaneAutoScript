@@ -1,23 +1,23 @@
 {
   "Menu": {
     "Alas": {
-      "name": "Alas",
+      "name": "智慧港區+",
       "help": ""
     },
     "Farm": {
-      "name": "出擊",
+      "name": "出擊+",
       "help": ""
     },
     "Event": {
-      "name": "活動",
+      "name": "活動+",
       "help": ""
     },
     "EventDaily": {
-      "name": "活動每日",
+      "name": "活動-每日任務",
       "help": ""
     },
     "Reward": {
-      "name": "收穫",
+      "name": "自動收獲",
       "help": ""
     },
     "DailyMission": {
@@ -25,7 +25,7 @@
       "help": ""
     },
     "Opsi": {
-      "name": "大世界",
+      "name": "大世界+",
       "help": ""
     },
     "Island": {
@@ -33,41 +33,41 @@
       "help": ""
     },
     "Tool": {
-      "name": "工具",
+      "name": "工具+",
       "help": ""
     }
   },
   "Task": {
     "Alas": {
-      "name": "Alas設定",
+      "name": "智慧港區設置",
       "help": ""
     },
     "General": {
-      "name": "通用設定",
+      "name": "通用設置",
       "help": ""
     },
     "Restart": {
-      "name": "重啟設置",
+      "name": "重啓設置",
       "help": ""
     },
     "Main": {
-      "name": "主線圖",
+      "name": "主線圖-1+",
       "help": ""
     },
     "Main2": {
-      "name": "主線圖-2",
+      "name": "主線圖-2+",
       "help": ""
     },
     "Main3": {
-      "name": "主線圖-3",
+      "name": "主線圖+",
       "help": ""
     },
     "GemsFarming": {
-      "name": "刷緊急委託",
+      "name": "緊急委託+",
       "help": ""
     },
     "ThreeOilLowCost": {
-      "name": "三油低耗",
+      "name": "三油低耗+",
       "help": "使用三油低耗陣容進行戰鬥，在旗艦達到32級時自動更換旗艦並退役。"
     },
     "EventGeneral": {
@@ -75,23 +75,23 @@
       "help": ""
     },
     "Event": {
-      "name": "活動圖",
+      "name": "活動圖-1+",
       "help": ""
     },
     "Event2": {
-      "name": "活動圖-2",
+      "name": "活動圖-2+",
       "help": ""
     },
     "Raid": {
-      "name": "共鬥活動",
+      "name": "共鬥活動+",
       "help": ""
     },
     "RaidScuttle": {
-      "name": "共鬥沉船",
+      "name": "共鬥沉船+",
       "help": ""
     },
     "Hospital": {
-      "name": "深谷来信劇情",
+      "name": "深谷來信",
       "help": ""
     },
     "Coalition": {
@@ -111,23 +111,23 @@
       "help": "由於作戰檔案缺少維護，開荒功能不一定能正常使用，如果發現Alas運行異常，請手動完成開荒後使用自律尋敵功能"
     },
     "EventA": {
-      "name": "活動每日A圖",
+      "name": "每日A圖",
       "help": ""
     },
     "EventB": {
-      "name": "活動每日B圖",
+      "name": "每日B圖",
       "help": ""
     },
     "EventC": {
-      "name": "活動每日C圖",
+      "name": "每日C圖",
       "help": ""
     },
     "EventD": {
-      "name": "活動每日D圖",
+      "name": "每日D圖",
       "help": ""
     },
     "EventSp": {
-      "name": "活動每日SP圖",
+      "name": "每日SP圖",
       "help": ""
     },
     "RaidDaily": {
@@ -163,7 +163,7 @@
       "help": ""
     },
     "Reward": {
-      "name": "收穫",
+      "name": "收獲",
       "help": ""
     },
     "Awaken": {
@@ -179,7 +179,7 @@
       "help": ""
     },
     "Hard": {
-      "name": "困難圖",
+      "name": "主線-困難圖",
       "help": ""
     },
     "Exercise": {
@@ -187,11 +187,11 @@
       "help": ""
     },
     "ShopFrequent": {
-      "name": "通用商店",
+      "name": "軍火商商店",
       "help": ""
     },
     "ShopOnce": {
-      "name": "其餘商店",
+      "name": "其他商店",
       "help": ""
     },
     "Shipyard": {
@@ -199,11 +199,11 @@
       "help": ""
     },
     "Gacha": {
-      "name": "每日建造",
+      "name": "每日抽卡",
       "help": ""
     },
     "Freebies": {
-      "name": "免費獎勵",
+      "name": "白嫖獎勵",
       "help": ""
     },
     "Minigame": {
@@ -211,11 +211,11 @@
       "help": "遊戲幣不會溢出時自動領取遊戲幣，有遊戲幣且獎勵沒滿時自動進行小遊戲"
     },
     "PrivateQuarters": {
-      "name": "私人房間",
+      "name": "宿舍計劃",
       "help": ""
     },
     "OpsiGeneral": {
-      "name": "通用設定",
+      "name": "通用設置",
       "help": ""
     },
     "OpsiAshBeacon": {
@@ -227,23 +227,23 @@
       "help": ""
     },
     "OpsiExplore": {
-      "name": "每月開荒",
+      "name": "每月開荒+",
       "help": ""
     },
     "OpsiShop": {
-      "name": "大世界商店",
+      "name": "大世界商店+",
       "help": ""
     },
     "OpsiVoucher": {
-      "name": "兌換商店",
+      "name": "白票商店",
       "help": ""
     },
     "OpsiDaily": {
-      "name": "大世界每日",
+      "name": "大世界-每日+",
       "help": ""
     },
     "OpsiObscure": {
-      "name": "隱秘海域",
+      "name": "隱祕海域",
       "help": ""
     },
     "OpsiAbyssal": {
@@ -252,7 +252,7 @@
     },
     "OpsiArchive": {
       "name": "檔案坐標",
-      "help": "從白票商店購買檔案坐標並運行，檔案海域不消耗行動力\n使用此功能前必須滿足以下條件：\n- 通關大世界主線任務並完成模擬戰+塞壬試驗場\n- 啟用大世界開荒任務或使用戰役信息記錄儀（5000油道具）"
+      "help": "從白票商店購買檔案坐標並運行，檔案海域不消耗行動力\n使用此功能前必須滿足以下條件：\n- 通關大世界主線並完成模擬戰+塞壬試驗場\n- 啓用大世界開荒任務或使用戰役信息記錄儀（5000油道具）"
     },
     "OpsiStronghold": {
       "name": "塞壬要塞",
@@ -263,31 +263,31 @@
       "help": ""
     },
     "OpsiMeowfficerFarming": {
-      "name": "短貓相接",
+      "name": "短貓相接+",
       "help": ""
     },
     "OpsiHazard1Leveling": {
-      "name": "侵蝕1練級",
+      "name": "侵蝕1練級+",
       "help": ""
     },
     "OpsiScheduling": {
-      "name": "OpsiScheduling._info.name",
-      "help": "OpsiScheduling._info.help"
+      "name": "智能調度+",
+      "help": "大世界智能調度功能，用於協調侵蝕1練級與黃幣補充任務之間的切換\n啓用後將根據黃幣和行動力自動在不同任務之間切換並發送推送通知"
     },
     "OpsiCrossMonth": {
       "name": "跨月每日",
-      "help": "    Alas將在大世界跨月重置之前10分鐘進入大世界，等待大世界重置但不退出大世界，然後完成新一天的大世界每日、隱秘海域、深淵海域和短貓相接，以獲得額外的金菜。運行大世界每日時，按\"大世界每日\"任務設定運行，其餘同理。\n    重要：Alas等待跨月期間，請不要操作遊戲。"
+      "help": "    Alas將在大世界跨月重置之前10分鍾進入大世界，等待大世界重置但不退出大世界，然後完成新一天的大世界每日、隱祕海域、深淵海域和短貓相接，以獲得額外的金菜。運行大世界每日時，按\"大世界每日\"任務設置運行，其餘同理。\n    重要：Alas等待跨月期間，請不要操作遊戲。"
     },
     "OpsiDailyDelay": {
-      "name": "大世界每日延遲",
-      "help": ""
+      "name": "大世界任務延後+",
+      "help": "    在每日0點服務器重啓前的可配置時間段內（默認爲5分鍾，即23:55觸發），將當前進行中的侵蝕一和短貓任務自動延後至次日0點重啓完成後再執行   "
     },
     "IslandInfo": {
-      "name": "島嶼資訊",
-      "help": ""
+      "name": "島嶼信息(未完成)",
+      "help": "島嶼儀表盤(未完成)"
     },
     "IslandSeasonTask": {
-      "name": "島嶼季節任務",
+      "name": "賽季任務(未完成)",
       "help": ""
     },
     "Daemon": {
@@ -303,7 +303,7 @@
       "help": ""
     },
     "BoxDisassemble": {
-      "name": "箱子分解",
+      "name": "拆裝備箱",
       "help": ""
     },
     "Benchmark": {
@@ -321,120 +321,120 @@
   },
   "Scheduler": {
     "_info": {
-      "name": "任務設定",
+      "name": "任務設置",
       "help": ""
     },
     "Enable": {
-      "name": "啟用該功能",
-      "help": "將這個任務加入調度器\n委託、科研、收穫任務是強制打開的",
-      "True": "已啟用",
+      "name": "啓用該功能",
+      "help": "將這個任務加入調度器\n委託、科研、收獲任務是強制打開的",
+      "True": "已啓用",
       "False": "False"
     },
     "NextRun": {
-      "name": "下一次執行時間",
-      "help": "自動計算的數值，不需要手動修改。清空後將立刻執行"
+      "name": "下一次運行時間",
+      "help": "自動計算的數值，不需要手動修改。清空後將立即運行"
     },
     "Command": {
       "name": "內部任務名稱",
       "help": ""
     },
     "SuccessInterval": {
-      "name": "執行成功後，推遲下一次執行 X 分鐘",
+      "name": "運行成功後，推遲下一次運行 X 分鍾",
       "help": ""
     },
     "FailureInterval": {
-      "name": "執行失敗後，推遲下一次執行 X 分鐘",
+      "name": "運行失敗後，推遲下一次運行 X 分鍾",
       "help": ""
     },
     "ServerUpdate": {
-      "name": "伺服器更新時間",
-      "help": "一些任務執行成功後，將推遲下一次執行伺服器更新的時間\n自動換算時區，一般不需要修改"
+      "name": "服務器刷新時間",
+      "help": "一些任務運行成功後，將推遲下一次運行至服務器刷新時間\n自動換算時區，一般不需要修改"
     }
   },
   "Emulator": {
     "_info": {
-      "name": "模擬器設定",
+      "name": "模擬器設置",
       "help": ""
     },
     "Serial": {
       "name": "模擬器 Serial",
-      "help": "常見的模擬器 Serial 可以查詢下方列表\n填 \"auto\" 自動檢測模擬器，多個模擬器正在運行或使用不支援自動檢測的模擬器時無法使用 \"auto\"，必須手動填寫\n模擬器預設 Serial：\n- 藍疊模擬器 127.0.0.1:5555\n- 藍疊模擬器4 Hyper-v版，填\"bluestacks4-hyperv\"自動連接，多開填\"bluestacks4-hyperv-2\"以此類推\n- 藍疊模擬器5 Hyper-v版，填\"bluestacks5-hyperv\"自動連接，多開填\"bluestacks5-hyperv-1\"以此類推\n- 夜神模擬器 127.0.0.1:62001\n- 夜神模擬器64位元 127.0.0.1:59865\n- MuMu模擬器/MuMu模擬器X 127.0.0.1:7555\n- MuMu模擬器12 127.0.0.1:16384\n- MuMu Pro (macOS) 127.0.0.1:16384，多開依次為 127.0.0.1:16416, 127.0.0.1:16448 ...\n- 逍遙模擬器 127.0.0.1:21503\n- 雷電模擬器 emulator-5554 或 127.0.0.1:5555\n如果你使用了模擬器的多開功能，他們的 Serial 將不是預設的，可以在 console.bat 中執行 `adb devices` 查詢，或根據模擬器官方的教程填寫"
+      "help": "常見的模擬器 Serial 可以查詢下方列表\n填 \"auto\" 自動檢測模擬器，多個模擬器正在運行或使用不支持自動檢測的模擬器時無法使用 \"auto\"，必須手動填寫\n\n模擬器默認 Serial：\n- 藍疊模擬器 127.0.0.1:5555\n- 藍疊模擬器4 Hyper-v版，填\"bluestacks4-hyperv\"自動連接，多開填\"bluestacks4-hyperv-2\"以此類推\n- 藍疊模擬器5 Hyper-v版，填\"bluestacks5-hyperv\"自動連接，多開填\"bluestacks5-hyperv-1\"以此類推\n- 夜神模擬器 127.0.0.1:62001\n- 夜神模擬器64位 127.0.0.1:59865\n- MuMu模擬器/MuMu模擬器X 127.0.0.1:7555\n- MuMu模擬器12 127.0.0.1:16384\n- MuMu Pro (macOS) 127.0.0.1:16384，多開依次爲 127.0.0.1:16416, 127.0.0.1:16448 ...\n- 逍遙模擬器 127.0.0.1:21503\n- 雷電模擬器 emulator-5554 或 127.0.0.1:5555\n如果你使用了模擬器的多開功能，它們的 Serial 將不是默認的，可以在 console.bat 中執行 `adb devices` 查詢，或根據模擬器官方的教程填寫"
     },
     "PackageName": {
-      "name": "遊戲伺服器",
-      "help": "模擬器上裝有多個遊戲客戶端時，需要手動選擇伺服器",
+      "name": "遊戲服務器",
+      "help": "模擬器上裝有多個遊戲客戶端時，需要手動選擇服務器",
       "auto": "自動檢測",
       "com.bilibili.azurlane": "國服",
       "com.YoStarEN.AzurLane": "國際服",
       "com.YoStarJP.AzurLane": "日服",
-      "com.hkmanjuu.azurlane.gp": "台服",
-      "com.bilibili.blhx.huawei": "國服 com.bilibili.blhx.huawei",
-      "com.bilibili.blhx.honor": "國服 com.bilibili.blhx.honor",
-      "com.bilibili.blhx.mi": "國服 com.bilibili.blhx.mi",
-      "com.tencent.tmgp.bilibili.blhx": "國服 com.tencent.tmgp.bilibili.blhx",
-      "com.bilibili.blhx.baidu": "國服 com.bilibili.blhx.baidu",
-      "com.bilibili.blhx.qihoo": "國服 com.bilibili.blhx.qihoo",
-      "com.bilibili.blhx.nearme.gamecenter": "國服 com.bilibili.blhx.nearme.gamecenter",
-      "com.bilibili.blhx.vivo": "國服 com.bilibili.blhx.vivo",
-      "com.bilibili.blhx.mz": "國服 com.bilibili.blhx.mz",
-      "com.bilibili.blhx.dl": "國服 com.bilibili.blhx.dl",
-      "com.bilibili.blhx.lenovo": "國服 com.bilibili.blhx.lenovo",
-      "com.bilibili.blhx.uc": "國服 com.bilibili.blhx.uc",
-      "com.bilibili.blhx.mzw": "國服 com.bilibili.blhx.mzw",
-      "com.yiwu.blhx.yx15": "國服 com.yiwu.blhx.yx15",
-      "com.bilibili.blhx.m4399": "國服 com.bilibili.blhx.m4399",
-      "com.bilibili.blhx.bilibiliMove": "國服 com.bilibili.blhx.bilibiliMove",
-      "com.hkmanjuu.azurlane.gp.mc": "台服 MyCard渠道服 com.hkmanjuu.azurlane.gp.mc"
+      "com.hkmanjuu.azurlane.gp": "臺服",
+      "com.bilibili.blhx.huawei": "國服 華爲渠道服 com.bilibili.blhx.huawei",
+      "com.bilibili.blhx.honor": "國服 榮耀渠道服 com.bilibili.blhx.honor",
+      "com.bilibili.blhx.mi": "國服 小米渠道服 com.bilibili.blhx.mi",
+      "com.tencent.tmgp.bilibili.blhx": "國服 騰訊應用寶渠道服 com.tencent.tmgp.bilibili.blhx",
+      "com.bilibili.blhx.baidu": "國服 百度渠道服 com.bilibili.blhx.baidu",
+      "com.bilibili.blhx.qihoo": "國服 360渠道服 com.bilibili.blhx.qihoo",
+      "com.bilibili.blhx.nearme.gamecenter": "國服 oppo渠道服 com.bilibili.blhx.nearme.gamecenter",
+      "com.bilibili.blhx.vivo": "國服 vivo渠道服 com.bilibili.blhx.vivo",
+      "com.bilibili.blhx.mz": "國服 魅族渠道服 com.bilibili.blhx.mz",
+      "com.bilibili.blhx.dl": "國服 當樂渠道服 com.bilibili.blhx.dl",
+      "com.bilibili.blhx.lenovo": "國服 聯想渠道服 com.bilibili.blhx.lenovo",
+      "com.bilibili.blhx.uc": "國服 UC九遊渠道服 com.bilibili.blhx.uc",
+      "com.bilibili.blhx.mzw": "國服 拇指玩渠道服 com.bilibili.blhx.mzw",
+      "com.yiwu.blhx.yx15": "國服 一五遊戲渠道服 com.yiwu.blhx.yx15",
+      "com.bilibili.blhx.m4399": "國服 4399渠道服 com.bilibili.blhx.m4399",
+      "com.bilibili.blhx.bilibiliMove": "國服 遷移渠道服 com.bilibili.blhx.bilibiliMove",
+      "com.hkmanjuu.azurlane.gp.mc": "臺服 com.hkmanjuu.azurlane.gp.mc"
     },
     "ServerName": {
-      "name": "遊戲內伺服器",
-      "help": "選擇遊戲內所在的伺服器以啟用伺服器狀態檢測\n當伺服器維護或網絡不可用時掛起直到恢復",
+      "name": "遊戲內服務器",
+      "help": "選擇遊戲內所在的服務器以啓用服務器狀態檢測\n當服務器維護或網絡不可用時掛起直到恢復",
       "disabled": "不使用檢測",
-      "cn_android-0": "[国服] 莱茵演习",
-      "cn_android-1": "[国服] 巴巴罗萨",
-      "cn_android-2": "[国服] 霸王行动",
-      "cn_android-3": "[国服] 冰山行动",
-      "cn_android-4": "[国服] 彩虹计划",
-      "cn_android-5": "[国服] 发电机计划",
-      "cn_android-6": "[国服] 瞭望台行动",
-      "cn_android-7": "[国服] 十字路口行动",
-      "cn_android-8": "[国服] 朱诺行动",
-      "cn_android-9": "[国服] 杜立特空袭",
-      "cn_android-10": "[国服] 地狱犬行动",
-      "cn_android-11": "[国服] 开罗宣言",
-      "cn_android-12": "[国服] 奥林匹克行动",
-      "cn_android-13": "[国服] 小王冠行动",
-      "cn_android-14": "[国服] 波茨坦公告",
-      "cn_android-15": "[国服] 白色方案",
-      "cn_android-16": "[国服] 瓦尔基里行动",
-      "cn_android-17": "[国服] 曼哈顿计划",
-      "cn_android-18": "[国服] 八月风暴",
-      "cn_android-19": "[国服] 秋季旅行",
-      "cn_android-20": "[国服] 水星行动",
-      "cn_android-21": "[国服] 莱茵河卫兵",
-      "cn_android-22": "[国服] 北极光计划",
-      "cn_android-23": "[国服] 长戟计划",
-      "cn_android-24": "[国服] 暴雨行动",
-      "cn_android-25": "[国服] 水仙行动",
-      "cn_android-26": "[国服] 冬月计划",
-      "cn_android-27": "[国服] 长弓计划",
-      "cn_android-28": "[国服] 裁决协议",
-      "cn_ios-0": "[国服] 夏威夷",
-      "cn_ios-1": "[国服] 珊瑚海",
-      "cn_ios-2": "[国服] 中途岛",
-      "cn_ios-3": "[国服] 铁底湾",
-      "cn_ios-4": "[国服] 所罗门",
-      "cn_ios-5": "[国服] 马里亚纳",
-      "cn_ios-6": "[国服] 莱特湾",
-      "cn_ios-7": "[国服] 硫磺岛",
-      "cn_ios-8": "[国服] 冲绳岛",
-      "cn_ios-9": "[国服] 阿留申群岛",
-      "cn_ios-10": "[国服] 马耳他",
-      "cn_channel-0": "[国服] 皇家巡游",
-      "cn_channel-1": "[国服] 大西洋宪章",
-      "cn_channel-2": "[国服] 十字军行动",
-      "cn_channel-3": "[国服] 龙骑兵行动",
-      "cn_channel-4": "[国服] 冥王星行动",
+      "cn_android-0": "[國服] 萊茵演習",
+      "cn_android-1": "[國服] 巴巴羅薩",
+      "cn_android-2": "[國服] 霸王行動",
+      "cn_android-3": "[國服] 冰山行動",
+      "cn_android-4": "[國服] 彩虹計劃",
+      "cn_android-5": "[國服] 發電機計劃",
+      "cn_android-6": "[國服] 瞭望臺行動",
+      "cn_android-7": "[國服] 十字路口行動",
+      "cn_android-8": "[國服] 朱諾行動",
+      "cn_android-9": "[國服] 杜立特空襲",
+      "cn_android-10": "[國服] 地獄犬行動",
+      "cn_android-11": "[國服] 開羅宣言",
+      "cn_android-12": "[國服] 奧林匹克行動",
+      "cn_android-13": "[國服] 小王冠行動",
+      "cn_android-14": "[國服] 波茨坦公告",
+      "cn_android-15": "[國服] 白色方案",
+      "cn_android-16": "[國服] 瓦爾基裏行動",
+      "cn_android-17": "[國服] 曼哈頓計劃",
+      "cn_android-18": "[國服] 八月風暴",
+      "cn_android-19": "[國服] 秋季旅行",
+      "cn_android-20": "[國服] 水星行動",
+      "cn_android-21": "[國服] 萊茵河衛兵",
+      "cn_android-22": "[國服] 北極光計劃",
+      "cn_android-23": "[國服] 長戟計劃",
+      "cn_android-24": "[國服] 暴雨行動",
+      "cn_android-25": "[國服] 水仙行動",
+      "cn_android-26": "[國服] 冬月計劃",
+      "cn_android-27": "[國服] 長弓計劃",
+      "cn_android-28": "[國服] 裁決協議",
+      "cn_ios-0": "[國服] 夏威夷",
+      "cn_ios-1": "[國服] 珊瑚海",
+      "cn_ios-2": "[國服] 中途島",
+      "cn_ios-3": "[國服] 鐵底灣",
+      "cn_ios-4": "[國服] 所羅門",
+      "cn_ios-5": "[國服] 馬裏亞納",
+      "cn_ios-6": "[國服] 萊特灣",
+      "cn_ios-7": "[國服] 硫磺島",
+      "cn_ios-8": "[國服] 衝繩島",
+      "cn_ios-9": "[國服] 阿留申羣島",
+      "cn_ios-10": "[國服] 馬耳他",
+      "cn_channel-0": "[國服] 皇家巡遊",
+      "cn_channel-1": "[國服] 大西洋憲章",
+      "cn_channel-2": "[國服] 十字軍行動",
+      "cn_channel-3": "[國服] 龍騎兵行動",
+      "cn_channel-4": "[國服] 冥王星行動",
       "en-0": "[EN] Avrora",
       "en-1": "[EN] Lexington",
       "en-2": "[EN] Sandy",
@@ -442,7 +442,7 @@
       "en-4": "[EN] Amagi",
       "en-5": "[EN] Little Enterprise",
       "jp-0": "[JP] ブレスト",
-      "jp-1": "[JP] 横須賀",
+      "jp-1": "[JP] 橫須賀",
       "jp-2": "[JP] 佐世保",
       "jp-3": "[JP] 呉",
       "jp-4": "[JP] 舞鶴",
@@ -462,7 +462,7 @@
     },
     "ScreenshotMethod": {
       "name": "模擬器截圖方案",
-      "help": "使用自動選擇時，將執行一次性能測試並自動更改為最快的截圖方案\n一般情況下的速度: DroidCast_raw >> aScreenCap_nc > ADB_nc >>> aScreenCap > uiautomator2 ~= ADB\n運行 工具 - 性能測試 以尋找最快的方案",
+      "help": "使用自動選擇時，將執行一次性能測試並自動更改爲最快的截圖方案\n一般情況下的速度: DroidCast_raw >> aScreenCap_nc > ADB_nc >>> aScreenCap > uiautomator2 ~= ADB\n運行 工具 - 性能測試 以尋找最快的方案",
       "auto": "自動選擇最快的",
       "ADB": "ADB",
       "ADB_nc": "ADB_nc",
@@ -485,17 +485,17 @@
     },
     "ScreenshotDedithering": {
       "name": "去除圖片色彩抖動",
-      "help": "在手機上運行時開啟"
+      "help": "在手機上運行時開啓"
     },
     "AdbRestart": {
-      "name": "在檢測不到設備的時候嘗試重啟adb",
+      "name": "在檢測不到設備的時候嘗試重啓adb",
       "help": ""
     }
   },
   "EmulatorInfo": {
     "_info": {
-      "name": "模擬器設定",
-      "help": "下列數值是根據Serial自動填充的，如果不懂請不要隨意修改"
+      "name": "模擬器設置",
+      "help": "下列數值是根據Serial自動填充的，如果不懂請不要隨意修改，修改端口即可自動啓動對應實例"
     },
     "Emulator": {
       "name": "模擬器類型",
@@ -528,53 +528,53 @@
   },
   "Error": {
     "_info": {
-      "name": "除錯設定",
+      "name": "調試設置",
       "help": ""
     },
     "HandleError": {
-      "name": "啟用異常處理",
-      "help": "處理部分異常，執行出錯時撤退"
+      "name": "啓用異常處理",
+      "help": "處理部分異常，運行出錯時撤退"
     },
     "SaveError": {
       "name": "出錯時，保存 Log 和截圖",
       "help": ""
     },
     "StrictRestart": {
-      "name": "敏感任務出錯時禁止重啟",
-      "help": "運行敏感任務出錯時停止Alas，而不是重啟遊戲\n敏感任務包含隱秘海域、深淵海域、跨月每日"
+      "name": "敏感任務出錯時禁止重啓",
+      "help": "運行敏感任務出錯時停止Alas，而不是重啓遊戲\n敏感任務包含隱祕海域、深淵海域、跨月每日"
     },
     "SaveErrorCount": {
       "name": "Error Log 保存上限",
-      "help": "超出上限的錯誤日志將被刪除, 若爲0或負數則沒有限制"
+      "help": "超出上限的錯誤日誌將被刪除，若爲0或負值則沒有限制"
     },
     "OnePushConfig": {
-      "name": "錯誤推送設定",
-      "help": "發生無法處理的異常後，使用 Onepush 推送错误消息。設定參考文檔：https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Onepush-configuration-%5BCN%5D"
+      "name": "錯誤推送設置",
+      "help": "發生無法處理的異常後，使用 Onepush 推送一條錯誤信息。配置方法見文檔：https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Onepush-configuration-%5BCN%5D"
     },
     "ScreenshotLength": {
       "name": "出錯時，保留最後 X 張截圖",
       "help": ""
     },
     "GameStuckRestart": {
-      "name": "遊戲卡死時重啟模擬器",
-      "help": "在遊戲連續卡死（觸發GameStuckError）達到指定次數後，嘗試重啟模擬器。可能有助於解決模擬器假死或顯存溢出等問題。"
+      "name": "遊戲卡死時重啓模擬器",
+      "help": "在遊戲連續卡死（觸發GameStuckError）達到指定次數後，嘗試重啓模擬器。可能有助於解決模擬器假死或顯存溢出等問題。"
     },
     "GameStuckThreshold": {
-      "name": "遊戲卡死重啟閾值",
-      "help": "連續卡死多少次後觸發重啟。"
+      "name": "遊戲卡死重啓閾值",
+      "help": "連續卡死多少次後觸發重啓。"
     },
     "AdbOfflineRestart": {
-      "name": "檢測不到設備時重啟模擬器",
-      "help": "在連續檢測不到設備（ADB離線或連接失敗）達到指定次數後，嘗試重啟模擬器。"
+      "name": "檢測不到設備時重啓模擬器",
+      "help": "在連續檢測不到設備（ADB離線或連接失敗）達到指定次數後，嘗試重啓模擬器。"
     },
     "AdbOfflineThreshold": {
-      "name": "檢測不到設備重啟閾值",
-      "help": "連續檢測不到設備多少次後觸發重啟。"
+      "name": "檢測不到設備重啓閾值",
+      "help": "連續檢測不到設備多少次後觸發重啓。"
     }
   },
   "Optimization": {
     "_info": {
-      "name": "優化設定",
+      "name": "優化設置",
       "help": ""
     },
     "ScreenshotInterval": {
@@ -586,8 +586,8 @@
       "help": "執行兩次截圖之間的最小間隔，限制在 0.3 ~ 1.0，能降低戰鬥時的 CPU 佔用"
     },
     "TaskHoardingDuration": {
-      "name": "囤積任務 X 分鐘",
-      "help": "能在收穫期間降低操作遊戲的頻率\n任務觸發後，等待 X 分鐘後，一次性執行佇列中的任務"
+      "name": "囤積任務 X 分鍾",
+      "help": "能在收菜期間降低操作遊戲的頻率\n任務觸發後，等待 X 分鍾，再一次性執行囤積的任務"
     },
     "WhenTaskQueueEmpty": {
       "name": "當任務隊列清空後",
@@ -599,20 +599,20 @@
   },
   "DropRecord": {
     "_info": {
-      "name": "掉落紀錄",
+      "name": "掉落記錄",
       "help": ""
     },
     "SaveFolder": {
-      "name": "掉落紀錄儲存的資料夾",
+      "name": "掉落保存目錄",
       "help": ""
     },
     "AzurStatsID": {
-      "name": "AzurStats ID",
-      "help": "上傳至 https://azur-stats.lyoko.io 時，用來識別的用戶端 ID\n由隨機字元組成，可隨意修改"
+      "name": "AzurStat ID",
+      "help": "上傳至 https://azur-stats.lyoko.io 時，聲明的客戶端 ID\n由隨機字符組成，可隨意修改"
     },
     "API": {
       "name": "上傳線路",
-      "help": "如果大陸用戶無法連接到AzurStat，可以使用\"國內反向代理\"",
+      "help": "如果國內用戶無法連接到 AzurStat，可以使用\"國內反向代理\"",
       "default": "默認 (Cloudflare)",
       "cn_gz_reverse_proxy": "國內反向代理 (廣州)"
     },
@@ -625,7 +625,7 @@
       "save_and_upload": "保存並上傳"
     },
     "CommissionRecord": {
-      "name": "委托截圖",
+      "name": "委託截圖",
       "help": "",
       "do_not": "無操作",
       "save": "保存",
@@ -634,7 +634,7 @@
     },
     "CombatRecord": {
       "name": "戰鬥掉落截圖",
-      "help": "啟用後會放緩結算時的點擊速度\n在自律尋敵下不生效",
+      "help": "啓用後會放緩結算時的點擊速度\n在自律尋敵下不生效",
       "do_not": "無操作",
       "save": "保存"
     },
@@ -662,28 +662,28 @@
     },
     "TelemetryReport": {
       "name": "遙測數據上報",
-      "help": "啟用後將定期向伺服器匿名上報 CL1 統計數據（戰鬥次數、明石遇見機率等匿名數據）ID生成詳見源碼，統計資訊 https://alas.nanoda.work/"
+      "help": "啓用後將定期向服務器匿名上報 CL1 統計數據（戰鬥次數、明石遇見概率等匿名數據）ID生成詳見源碼，統計信息 https://alas.nanoda.work/"
     },
     "BugReport": {
       "name": "Bug 日誌上報",
-      "help": "啟用後將在遇到異常時向伺服器匿名上報 Bug 日誌以幫助改進ID生成詳見源碼"
+      "help": "啓用後將在遇到異常時向服務器匿名上報 Bug 日誌以幫助改進ID生成詳見源碼"
     }
   },
   "Log": {
     "_info": {
-      "name": "Log",
-      "help": "調度器重啟後生效"
+      "name": "日誌",
+      "help": "調度器重啓後生效"
     },
     "LogKeepCount": {
       "name": "Log保留數量",
       "help": "Log過期時間(天)"
     },
     "LogBackUpMethod": {
-      "name": "Log處理方式",
-      "help": "備份目錄為./log/bak",
+      "name": "過期Log處理方式",
+      "help": "備份目錄爲./log/bak",
       "delete": "刪除",
       "zip": "壓縮備份",
-      "copy": "copy"
+      "copy": "拷貝備份"
     },
     "ZipMethod": {
       "name": "壓縮格式",
@@ -696,12 +696,12 @@
   },
   "Retirement": {
     "_info": {
-      "name": "退役設定",
+      "name": "退役設置",
       "help": ""
     },
     "RetireMode": {
       "name": "退役模式",
-      "help": "若選擇強化，強化材料不足時，退回到一鍵退役",
+      "help": "若選擇強化，強化材料不足時回退到一鍵退役",
       "one_click_retire": "一鍵退役",
       "enhance": "強化",
       "old_retire": "傳統退役"
@@ -710,74 +710,74 @@
   "PublicEmotion": {
     "_info": {
       "name": "共用心情",
-      "help": "可使用同一隊伍完成多項任務\\n使用該功能時請確保相應任務的艦隊職能為單隊全清，且隊伍為共用隊伍"
+      "help": "可使用同一隊伍完成多項任務\n使用該功能時請確保相應任務的艦隊職能爲單隊全清，且隊伍爲共用隊伍"
     },
     "Enable": {
-      "name": "啟用共用心情功能",
-      "help": "啟用後將使用共用心情，以下心情配置將代替原配置"
+      "name": "啓用共用心情功能",
+      "help": "啓用後將使用共用心情，以下心情配置將代替原配置"
     },
     "Tasks": {
       "name": "共用心情任務",
-      "help": "選擇哪些任務使用共用心情"
+      "help": "選擇使用共用心情的任務，用半角逗號隔開，如\"Main, Event, EventA\"\n主線圖-1: Main, 主線圖-2: Main2, 主線圖-3: Main3\n活動圖-1: Event, 活動圖-2: Event2, 作戰檔案: WarArchives\n每日A圖: EventA, 每日B圖: EventB, 每日C圖: EventC, 每日D圖: EventD, 每日SP圖: EventSp"
     },
     "FleetValue": {
       "name": "心情值",
-      "help": "隊伍當前的心情值"
+      "help": ""
     },
     "FleetRecord": {
-      "name": "記錄心情",
-      "help": "記錄隊伍的心情變化"
+      "name": "心情記錄時間",
+      "help": ""
     },
     "FleetControl": {
       "name": "心情控制",
-      "help": "控制心情的消耗與恢復",
-      "keep_exp_bonus": "保持經驗加成",
-      "prevent_green_face": "避免綠臉",
-      "prevent_yellow_face": "避免黃臉",
-      "prevent_red_face": "避免紅臉"
+      "help": "",
+      "keep_exp_bonus": "保持經驗加成 (>120)",
+      "prevent_green_face": "防止綠臉 (>40)",
+      "prevent_yellow_face": "防止黃臉 (>30)",
+      "prevent_red_face": "防止紅臉 (>0)"
     },
     "FleetRecover": {
-      "name": "心情恢復",
-      "help": "選擇心情恢復方式",
-      "not_in_dormitory": "不在宿舍",
-      "dormitory_floor_1": "宿舍一樓",
-      "dormitory_floor_2": "宿舍二樓"
+      "name": "心情回復",
+      "help": "",
+      "not_in_dormitory": "未放置於後宅 (20/h)",
+      "dormitory_floor_1": "後宅一層 (40/h)",
+      "dormitory_floor_2": "後宅二層 (50/h)"
     },
     "FleetOath": {
-      "name": "誓約",
-      "help": "選擇誓約的艦船"
+      "name": "全員已婚 (+10/h)",
+      "help": ""
     },
     "FleetOnsen": {
-      "name": "溫泉",
-      "help": "選擇溫泉的艦船"
+      "name": "全員已放置溫泉 (+10/h)",
+      "help": ""
     }
   },
   "YukikazeTaskManager": {
     "_info": {
-      "name": "雪风大人的任务管理",
-      "help": "任务相关的优先级与调度设置。"
+      "name": "雪風大人的任務管理",
+      "help": "任務相關的優先級與調度設置。"
     },
     "TaskPriorityAdjustment": {
-      "name": "任务优先级调整",
-      "help": "Restart    # 重启游戏\n> OpsiCrossMonth    # 大世界跨月每日\n> Commission > Tactical > Research    # 委托 > 战术学院 > 科研\n> Exercise    # 演习\n> Dorm > Meowfficer > Guild > Gacha    # 后宅 > 指挥喵 > 大舰队 > 每日抽卡\n> Reward    # 收获\n> ShopFrequent > ShopOnce > Shipyard > Freebies > Island    # 通用商店 > 其他商店 > 开发船坞 > 白嫖奖励 > 岛屿计划\n> PrivateQuarters    # 宿舍计划\n> OpsiExplore    # 每月开荒\n> Minigame > Awaken    # 小游戏 > 认知觉醒\n> OpsiAshBeacon    # meta作战\n> OpsiDaily > OpsiShop > OpsiVoucher    # 大世界日常 > 港口商店 > 兑换商店\n> OpsiAbyssal > OpsiStronghold > OpsiObscure > OpsiArchive    # 深渊海域 > 塞壬要塞 > 隐秘海域 > 档案坐标\n> Daily > Hard > OpsiAshBeacon > OpsiAshAssist > OpsiMonthBoss    # 每日挑战 > 困难图 > meta作战 > meta支援 > 月度boss\n> Sos > EventSp > EventA > EventB > EventC > EventD    # Sos > 活动每日SP > 活动每日A > 活动每日B > 活动每日C > 活动每日D\n> RaidDaily > CoalitionSp > WarArchives > MaritimeEscort    # 共斗活动每日 > 共斗活动sp > 作战档案 > 商船护航\n> Event > Event2 > Raid > Hospital > Coalition > Main > Main2 > Main3    # 活动图 > 活动图2 > 共斗活动 > Hospital > 共斗活动 > 主线 > 主线2 > 主线3\n> OpsiMeowfficerFarming    # 短猫相接\n> GemsFarming    # 刷紧急委托\n> OpsiHazard1Leveling    # 侵蚀一练级"
+      "name": "任務優先級調整",
+      "help": "Restart    # 重啓遊戲\n> OpsiCrossMonth > OpsiDailyDelay    # 大世界跨月每日 > 大世界任務延後\n> Commission > Tactical > Research    # 委託 > 戰術學院 > 科研\n> Exercise    # 演習\n> Dorm > Meowfficer > Guild > Gacha    # 後宅 > 指揮喵 > 大艦隊 > 每日抽卡\n> Reward    # 收獲\n> ShopFrequent > ShopOnce > Shipyard > Freebies > Island    # 通用商店 > 其他商店 > 開發船塢 > 白嫖獎勵 > 島嶼計劃\n> PrivateQuarters    # 宿舍計劃\n> OpsiExplore    # 每月開荒\n> Minigame > Awaken    # 小遊戲 > 認知覺醒\n> OpsiAshBeacon    # meta作戰\n> OpsiDaily > OpsiShop > OpsiVoucher    # 大世界日常 > 港口商店 > 兌換商店\n> OpsiAbyssal > OpsiStronghold > OpsiObscure > OpsiArchive    # 深淵海域 > 塞壬要塞 > 隱祕海域 > 檔案坐標\n> Daily > Hard > OpsiAshBeacon > OpsiAshAssist > OpsiMonthBoss     # 每日挑戰 > 困難圖 > meta作戰 > meta支援 > 月度boss\n> Sos > EventSp > EventA > EventB > EventC > EventD    # Sos > 活動每日SP > 活動每日A > 活動每日B > 活動每日C > 活動每日D\n> RaidDaily > CoalitionSp > WarArchives > MaritimeEscort    # 共鬥活動每日 > 共鬥活動sp > 作戰檔案 > 商船護航\n> Event > Event2 > Raid > Hospital > HospitalEvent > Coalition > RaidScuttle > Main > Main2 > Main3    # 活動圖 > 活動圖2 > 共鬥活動 > 醫院活動 > 共鬥活動 > 共鬥沉船 > 主線 > 主線2 > 主線3\n> OpsiMeowfficerFarming    # 短貓相接\n> GemsFarming    # 刷緊急委託\n> OpsiHazard1Leveling    # 侵蝕一練級\n> ThreeOilLowCost    # 三油低耗"
     }
   },
   "OneClickRetire": {
     "_info": {
-      "name": "一鍵退役設定",
-      "help": "僅在 \"退役模式\" 設定為 \"一鍵退役\" 時生效"
+      "name": "一鍵退役設置",
+      "help": "僅在 \"退役模式\" 設置爲 \"一鍵退役\" 時生效"
     },
     "KeepLimitBreak": {
       "name": "保留滿星同名艦船",
-      "help": "沒有滿星的同名艦船時，保留幾艘符合退役條件的同名艦船\n如果一鍵退役無法退役，請設定為 \"不保留\"",
+      "help": "沒有滿星的同名艦船時，保留幾艘符合退役條件的同名艦船\n如果一鍵退役無法退役，請設置爲 \"不保留\"",
       "keep_limit_break": "保留滿星所需",
       "do_not_keep": "不保留"
     }
   },
   "Enhance": {
     "_info": {
-      "name": "強化設定",
-      "help": "僅在 \"退役模式\" 設定為 \"強化\" 時生效"
+      "name": "強化設置",
+      "help": "僅在 \"退役模式\" 設置爲 \"強化\" 時生效"
     },
     "ShipToEnhance": {
       "name": "需要強化的艦船",
@@ -796,23 +796,23 @@
   },
   "OldRetire": {
     "_info": {
-      "name": "傳統退役設定",
-      "help": "僅在 \"退役模式\" 設定為 \"傳統退役\" 時生效\n注意：傳統退役基於角色稀有度，可能退役布里"
+      "name": "傳統退役設置",
+      "help": "僅在 \"退役模式\" 設置爲 \"傳統退役\" 時生效\n注意：傳統退役基於角色稀有度，可能退役布裏"
     },
     "N": {
-      "name": "退役白船 ( N )",
+      "name": "退役白皮 ( N )",
       "help": ""
     },
     "R": {
-      "name": "退役藍船 ( R )",
+      "name": "退役藍皮 ( R )",
       "help": ""
     },
     "SR": {
-      "name": "退役紫船 ( SR )",
+      "name": "退役紫皮 ( SR )",
       "help": ""
     },
     "SSR": {
-      "name": "退役金船 ( SSR )",
+      "name": "退役金皮 ( SSR )",
       "help": ""
     },
     "RetireAmount": {
@@ -824,28 +824,28 @@
   },
   "Campaign": {
     "_info": {
-      "name": "地圖設定",
+      "name": "關卡設置",
       "help": ""
     },
     "Name": {
-      "name": "地圖名稱",
-      "help": "例如 7-2, 12-4, D3, SP4，不區分大小寫\n若地圖缺失，請等待更新"
+      "name": "關卡名稱（輸入7-2-3可使用7-2三戰撤退）",
+      "help": "例如 7-2, 12-4, D3, SP4，不區分大小寫\n若關卡缺失，請等待更新"
     },
     "Event": {
       "name": "活動名稱",
-      "help": "自動選擇至最新的活動圖",
+      "help": "自動選擇至最新的活動",
       "campaign_main": "主線圖",
       "coalition_20230323": "極地風暴",
       "coalition_20240627": "歡迎來到童心學院",
       "coalition_20250626": "迷彩都市的尋蹤者",
       "coalition_20251120": "DATE A LANE",
       "coalition_20260122": "光影風尚-拍攝進行時",
-      "event_20200227_cn": "Northern Overture",
-      "event_20200312_cn": "斯圖爾特的硝煙",
-      "event_20200326_cn": "Microlayer Medley",
-      "event_20200423_cn": "Crimson Echoes Rerun",
-      "event_20200507_cn": "The Way Home in the Night",
-      "event_20200521_cn": "穹顶下的圣咏曲",
+      "event_20200227_cn": "北境序曲",
+      "event_20200312_cn": "復刻斯圖爾特的硝煙",
+      "event_20200326_cn": "微層混合",
+      "event_20200423_cn": "復刻蒼紅的回響",
+      "event_20200507_cn": "夜幕下的歸途",
+      "event_20200521_cn": "穹頂下的聖詠曲",
       "event_20200521_en": "Iris of Light and Dark Rerun",
       "event_20200603_cn": "復刻峽灣間的反擊",
       "event_20200603_en": "Prelude under the Moon Rerun",
@@ -855,53 +855,53 @@
       "event_20200806_cn": "復刻最重要的寶物",
       "event_20200820_cn": "復刻鐵血音符誓言",
       "event_20200903_en": "復刻峽灣間的星辰",
-      "event_20200917_cn": "復刻-蝶海夢花",
+      "event_20200917_cn": "復刻蝶海夢花",
       "event_20201002_en": "Counterattack Within the Fjord",
       "event_20201012_cn": "復刻劃破海空之翼",
       "event_20201029_cn": "激唱的UNIVERSE",
       "event_20201126_cn": "假日航線",
-      "event_20201229_cn": "復刻-負象限作戰",
+      "event_20201229_cn": "復刻負象限作戰",
       "event_20210121_cn": "復刻神聖的悲喜劇",
       "event_20210225_cn": "復刻破曉冰華",
       "event_20210225_tw": "北境序曲",
       "event_20210325_cn": "復刻箱庭療法",
       "event_20210415_tw": "復刻圍剿施佩伯爵",
-      "event_20210422_cn": "復刻復興的讚美詩",
+      "event_20210422_cn": "復刻復興的贊美詩",
       "event_20210429_tw": "復刻墨染的鋼鐵之花",
       "event_20210527_cn": "復刻鏡位螺旋",
       "event_20210527_tw": "微層混合",
       "event_20210610_tw": "復刻夜幕下的歸途",
-      "event_20210624_cn": "復刻-浮櫻影華",
+      "event_20210624_cn": "復刻浮櫻影華",
       "event_20210624_tw": "穹頂下的聖詠曲",
       "event_20210722_cn": "響徹碧海的偶像歌",
-      "event_20210819_cn": "復刻-微層混合",
+      "event_20210819_cn": "復刻微層混合",
       "event_20210916_cn": "復刻碧海光粼",
       "event_20211028_cn": "復刻穹頂下的聖詠曲",
       "event_20211028_tw": "復刻光與影的鳶尾之華",
-      "event_20211111_cn": "復刻杰諾瓦的焰火",
-      "event_20211125_cn": "復刻-交匯世界的弧光",
+      "event_20211111_cn": "復刻傑諾瓦的焰火",
+      "event_20211125_cn": "復刻交匯世界的弧光",
       "event_20211229_cn": "復刻逆轉彩虹之塔",
       "event_20220210_cn": "復刻北境序曲",
-      "event_20220224_cn": "復刻深度回音",
+      "event_20220224_cn": "復刻深度迴音",
       "event_20220310_tw": "復刻斯圖爾特的硝煙",
       "event_20220324_cn": "復刻虛像構築之塔",
       "event_20220407_tw": "蒼紅的迴響(復刻)",
-      "event_20220414_cn": "復刻-永夜幻光",
+      "event_20220414_cn": "復刻永夜幻光",
       "event_20220428_cn": "復刻虹彩的終幕曲",
-      "event_20220526_cn": "泠誓光庭",
-      "event_20220728_cn": "雄鷹的敘事歌",
-      "event_20220818_cn": "遠匯點作戰",
-      "event_20220915_cn": "紫絳槿嵐",
-      "event_20221124_cn": "復刻鍊金術士與秘密遺跡群島",
-      "event_20221222_cn": "定向折疊",
-      "event_20230223_cn": "湮燼塵墟",
-      "event_20230525_cn": "空相交會點",
-      "event_20230803_cn": "奏響鳶尾之歌",
-      "event_20230817_cn": "愚者的天平",
-      "event_20230914_cn": "須臾望月抄",
-      "event_20231026_cn": "飓風與青春之泉",
+      "event_20220526_cn": "復刻泠誓光庭",
+      "event_20220728_cn": "復刻雄鷹的敘事歌",
+      "event_20220818_cn": "復刻遠匯點作戰",
+      "event_20220915_cn": "復刻紫絳槿嵐",
+      "event_20221124_cn": "復刻煉金術士與祕密遺跡羣島",
+      "event_20221222_cn": "復刻定向折疊",
+      "event_20230223_cn": "復刻湮燼塵墟",
+      "event_20230525_cn": "復刻空相交匯點",
+      "event_20230803_cn": "復刻奏響鳶尾之歌",
+      "event_20230817_cn": "復刻愚者的天平",
+      "event_20230914_cn": "復刻須臾望月抄",
+      "event_20231026_cn": "颶風與青春之泉",
       "event_20231123_cn": "蒼閃忍法帖",
-      "event_20231221_cn": "星海逐光",
+      "event_20231221_cn": "復刻星海逐光",
       "event_20240229_cn": "雪境迷蹤",
       "event_20240425_cn": "共鳴的PASSION",
       "event_20240521_cn": "綻放於輝光之城",
@@ -910,33 +910,33 @@
       "event_20240829_cn": "埋葬於彼岸之花",
       "event_20240912_cn": "喚醒蒼紅之炎",
       "event_20241024_cn": "颶風與沉眠之海",
-      "event_20241121_cn": "危險發明逼近中",
+      "event_20241121_cn": "危險發明迫近中",
       "event_20241219_cn": "星光下的餘暉",
       "event_20250227_cn": "樊籠內的神光",
       "event_20250424_cn": "揚起鬱金之旗",
       "event_20250520_cn": "高塔上的薔薇",
-      "event_20250724_cn": "鍊金術士與天際交會之塔",
-      "event_20250814_cn": "奇淵下的秘密",
+      "event_20250724_cn": "優米雅的煉金工房",
+      "event_20250814_cn": "奇淵下的祕密",
       "event_20250912_cn": "起舞於天原之上",
-      "event_20251023_cn": "颶風與自由群島",
+      "event_20251023_cn": "颶風與自由羣島",
       "event_20251218_cn": "響徹於天穹之音",
       "event_20260226_cn": "春滿客棧Online",
-      "raid_20200624": "特別演習埃塞克斯級(復刻)",
+      "raid_20200624": "復刻特別演習埃塞克斯級",
       "raid_20210708": "復刻穿越彼方的水線",
-      "raid_20220127": "演習神秘事件調查",
+      "raid_20220127": "演習神祕事件調查",
       "raid_20220630": "來自鳶尾的天使",
       "raid_20221027": "戰鬥！皇家女僕隊3rd",
       "raid_20230118": "冬日的尋路人",
       "raid_20230629": "綠洲往事",
       "raid_20240130": "寰昌宇定家事忙",
-      "raid_20240328": "從零開始的魔王討伐之旅",
+      "raid_20240328": "復刻從零開始的魔王討伐之旅",
       "raid_20250116": "華裳巧展喜事長",
       "raid_20260212": "春宴懷玉香滿庭",
       "war_archives_20180607_cn": "檔案 墨染的鋼鐵之花",
       "war_archives_20180726_cn": "檔案 光與影的鳶尾之華",
       "war_archives_20181020_en": "檔案 努力希望和計劃",
       "war_archives_20181026_en": "檔案 墜落之翼",
-      "war_archives_20181227_cn": "檔案 蒼紅的迴響",
+      "war_archives_20181227_cn": "檔案 蒼紅的回響",
       "war_archives_20190221_en": "檔案 凜冬王冠",
       "war_archives_20190314_en": "檔案 月光下的序曲",
       "war_archives_20190321_en": "檔案 紅染的參訪者",
@@ -956,17 +956,17 @@
       "war_archives_20201229_cn": "檔案 負象限作戰",
       "war_archives_20210225_cn": "檔案 破曉冰華",
       "war_archives_20210325_cn": "檔案 箱庭療法",
-      "war_archives_20210422_cn": "檔案 復興的讚美詩",
+      "war_archives_20210422_cn": "檔案 復興的贊美詩",
       "war_archives_20210527_cn": "檔案 鏡位螺旋",
       "war_archives_20210624_cn": "檔案 浮櫻影華",
       "war_archives_20210819_cn": "檔案 微層混合",
       "war_archives_20210916_cn": "檔案 碧海光粼",
       "war_archives_20211014_cn": "檔案 激奏的Polaris",
       "war_archives_20211028_cn": "檔案 穹頂下的聖詠曲",
-      "war_archives_20211111_cn": "檔案 杰諾瓦的焰火",
+      "war_archives_20211111_cn": "檔案 傑諾瓦的焰火",
       "war_archives_20211229_cn": "檔案 逆轉彩虹之塔",
       "war_archives_20220210_cn": "檔案 北境序曲",
-      "war_archives_20220224_cn": "檔案 深度回音",
+      "war_archives_20220224_cn": "檔案 深度迴音",
       "war_archives_20220324_cn": "檔案 虛像構築之塔",
       "war_archives_20220414_cn": "檔案 永夜幻光",
       "war_archives_20220428_cn": "檔案 虹彩的終幕曲",
@@ -975,16 +975,16 @@
       "war_archives_20220915_cn": "檔案 紫絳槿嵐",
       "war_archives_20221222_cn": "檔案 定向折疊",
       "war_archives_20230223_cn": "檔案 湮燼塵墟",
-      "war_archives_20231026_cn": "檔案 飓風與青春之泉"
+      "war_archives_20231026_cn": "檔案 颶風與青春之泉"
     },
     "Mode": {
-      "name": "地圖模式",
+      "name": "關卡模式",
       "help": "僅適用於主線圖",
       "normal": "普通",
       "hard": "困難"
     },
     "UseClearMode": {
-      "name": "使用周回模式",
+      "name": "使用週迴模式",
       "help": ""
     },
     "UseFleetLock": {
@@ -1019,11 +1019,11 @@
     },
     "RunCount": {
       "name": "出擊次數大於 X 後停止",
-      "help": "每執行一次，次數減一，歸零後停止任務\n0 表示不限制次數"
+      "help": "每運行一次，次數減一，歸零後停止任務\n0 表示不限制次數"
     },
     "MapAchievement": {
-      "name": "達成地圖成就後停止",
-      "help": "達成地圖 100% 通關、達成三星通關、達成安全海域\n或達成安全海域但不打三星後停止",
+      "name": "達成關卡成就後停止",
+      "help": "達成地圖 100% 通關，達成三星通關，達成安全海域，\n或達成安全海域但不打三星後停止",
       "non_stop": "否",
       "non_stop_clear_all": "不停止 + 每把都全清",
       "100_percent_clear": "100%通關",
@@ -1032,8 +1032,8 @@
       "threat_safe_without_3_stars": "100%通關 + 安全海域"
     },
     "StageIncrease": {
-      "name": "達成地圖成就後前往下一關卡，不停止",
-      "help": "自動開荒，需要保證隊伍有足夠的強度，及地圖屬性限制，並設定\"達成地圖成就後停止\"\n例如，打開本功能，並選擇\"地圖 100% 通關\"，將在地圖100%通關後前往下一關卡\n支援自動開荒的地圖：1-1至14-4、A1至A3、B1至B3、C1至C3、D1至D3、T1至T6、SP1至SP4"
+      "name": "達成關卡成就後向前開荒",
+      "help": "自動開荒，需要保證隊伍有足夠的強度，需要保證隊伍滿足關卡屬性限制，並設置\"達成關卡成就後停止\"\n例如，打開本選項，並選擇\"地圖通關\"，將在關卡100%通關後前往下一關卡\n支持自動開荒的地圖：1-1至15-4，A1至A3，B1至B3，C1至C3，D1至D3，T1至T6，SP1至SP4"
     },
     "GetNewShip": {
       "name": "獲得新船後停止",
@@ -1052,109 +1052,109 @@
     "Fleet1": {
       "name": "一隊編號",
       "help": "",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6"
+      "1": "1 ",
+      "2": "2 ",
+      "3": "3 ",
+      "4": "4 ",
+      "5": "5 ",
+      "6": "6 "
     },
     "Fleet1Formation": {
       "name": "一隊陣型",
       "help": "",
       "line_ahead": "單縱陣",
-      "double_line": "複縱陣",
-      "diamond": "輪型陣"
+      "double_line": "復縱陣",
+      "diamond": "輪形陣"
     },
     "Fleet1Mode": {
       "name": "一隊自律模式",
       "help": "",
       "combat_auto": "自律戰鬥",
-      "combat_manual": "手動",
+      "combat_manual": "手操",
       "stand_still_in_the_middle": "中路站樁",
       "hide_in_bottom_left": "躲左下角"
     },
     "Fleet1Step": {
-      "name": "一隊步幅",
-      "help": "活動圖中受限制的移動距離",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5"
+      "name": "一隊步長",
+      "help": "活動圖中限制的移動距離",
+      "2": "2 ",
+      "3": "3 ",
+      "4": "4 ",
+      "5": "5 "
     },
     "Fleet2": {
       "name": "二隊編號",
       "help": "",
       "0": "不使用",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6"
+      "1": "1 ",
+      "2": "2 ",
+      "3": "3 ",
+      "4": "4 ",
+      "5": "5 ",
+      "6": "6 "
     },
     "Fleet2Formation": {
       "name": "二隊陣型",
       "help": "",
       "line_ahead": "單縱陣",
-      "double_line": "複縱陣",
-      "diamond": "輪型陣"
+      "double_line": "復縱陣",
+      "diamond": "輪形陣"
     },
     "Fleet2Mode": {
       "name": "二隊自律模式",
       "help": "",
       "combat_auto": "自律戰鬥",
-      "combat_manual": "手動",
+      "combat_manual": "手操",
       "stand_still_in_the_middle": "中路站樁",
       "hide_in_bottom_left": "躲左下角"
     },
     "Fleet2Step": {
-      "name": "二隊步幅",
-      "help": "活動圖中受限制的移動距離",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5"
+      "name": "二隊步長",
+      "help": "活動圖中限制的移動距離",
+      "2": "2 ",
+      "3": "3 ",
+      "4": "4 ",
+      "5": "5 "
     },
     "FleetOrder": {
       "name": "艦隊職能",
       "help": "非自律尋敵下會撿問號和彈藥\n非自律尋敵下進行4戰及以下的作戰時，會強制使用\"一隊全清二隊待機\"",
-      "fleet1_mob_fleet2_boss": "一隊道中二隊Boss",
-      "fleet1_boss_fleet2_mob": "一隊Boss二隊道中",
+      "fleet1_mob_fleet2_boss": "一隊道中二隊boss",
+      "fleet1_boss_fleet2_mob": "一隊boss二隊道中",
       "fleet1_all_fleet2_standby": "一隊全清二隊待機",
       "fleet1_standby_fleet2_all": "一隊待機二隊全清"
     }
   },
   "Submarine": {
     "_info": {
-      "name": "潛艇設定",
+      "name": "潛艇設置",
       "help": ""
     },
     "Fleet": {
       "name": "潛艇艦隊編號",
       "help": "",
       "0": "不使用",
-      "1": "1",
-      "2": "2"
+      "1": "1 ",
+      "2": "2 "
     },
     "Mode": {
       "name": "潛艇出擊方案",
-      "help": "僅在自律尋敵關閉的情況下生效，提醒: '狩獵及BOSS戰'為'僅狩獵'與'僅BOSS戰'的混合，它會在道中進行狩獵打擊，並在BOSS戰嘗試召喚潛艇。",
+      "help": "僅在自律尋敵關閉的情況下生效，提醒: '狩獵及BOSS戰'爲'僅狩獵'與'僅BOSS戰'的混合，它會在道中進行狩獵打擊，並在BOSS戰嘗試召喚潛艇。",
       "do_not_use": "不使用",
       "hunt_only": "僅狩獵",
-      "boss_only": "僅BOSS",
+      "boss_only": "僅BOSS戰",
       "hunt_and_boss": "狩獵及BOSS戰",
       "every_combat": "每戰出擊"
     },
     "AutoSearchMode": {
-      "name": "潛艇自律尋敵方案",
+      "name": "潛艇自律方案",
       "help": "僅在自律尋敵下生效",
       "sub_standby": "待機",
-      "sub_auto_call": "自動出擊"
+      "sub_auto_call": "自動召喚潛艇"
     },
     "DistanceToBoss": {
       "name": "BOSS戰前將潛艇移動到BOSS附近",
-      "help": "僅在\"潛艇出擊方案\"為\"僅BOSS戰\"及\"狩獵及BOSS戰\"時生效\n選擇\"距離BOSS X格\"需要保證潛艇狩獵範圍能覆蓋到BOSS，距離使用曼哈頓距離計算，選擇\"使用遠洋支援\"需要潛艇隊伍裡有U522或是達芬奇",
+      "help": "僅在\"潛艇出擊方案\"爲\"僅BOSS戰\"及\"狩獵及BOSS戰\",時生效\n選擇\"距離BOSS X格\"需要保證潛艇狩獵範圍能覆蓋到BOSS，距離使用曼哈頓距離計算，選擇\"使用遠洋支援\"需要潛艇隊伍裏有U522/達芬奇",
       "to_boss_position": "至 BOSS 所在位置",
       "1_grid_to_boss": "距離 BOSS 1 格",
       "2_grid_to_boss": "距離 BOSS 2 格",
@@ -1163,11 +1163,11 @@
   },
   "Emotion": {
     "_info": {
-      "name": "心情設定",
+      "name": "心情設置",
       "help": ""
     },
     "Mode": {
-      "name": "心情設定",
+      "name": "心情設置",
       "help": "",
       "calculate": "計算心情消耗",
       "ignore": "無視紅臉出擊警告",
@@ -1178,7 +1178,7 @@
       "help": ""
     },
     "Fleet1Record": {
-      "name": "一隊心情紀錄時間",
+      "name": "一隊心情記錄時間",
       "help": ""
     },
     "Fleet1Control": {
@@ -1193,8 +1193,8 @@
       "name": "一隊心情回復",
       "help": "",
       "not_in_dormitory": "未放置於後宅 (20/h)",
-      "dormitory_floor_1": "後宅一樓 (40/h)",
-      "dormitory_floor_2": "後宅二樓 (50/h)"
+      "dormitory_floor_1": "後宅一層 (40/h)",
+      "dormitory_floor_2": "後宅二層 (50/h)"
     },
     "Fleet1Oath": {
       "name": "一隊全員已婚 (+10/h)",
@@ -1209,7 +1209,7 @@
       "help": ""
     },
     "Fleet2Record": {
-      "name": "二隊心情紀錄時間",
+      "name": "二隊心情記錄時間",
       "help": ""
     },
     "Fleet2Control": {
@@ -1224,8 +1224,8 @@
       "name": "二隊心情回復",
       "help": "",
       "not_in_dormitory": "未放置於後宅 (20/h)",
-      "dormitory_floor_1": "後宅一樓 (40/h)",
-      "dormitory_floor_2": "後宅二樓 (50/h)"
+      "dormitory_floor_1": "後宅一層 (40/h)",
+      "dormitory_floor_2": "後宅二層 (50/h)"
     },
     "Fleet2Oath": {
       "name": "二隊全員已婚 (+10/h)",
@@ -1242,15 +1242,15 @@
       "help": "僅在關閉陣容鎖定時生效"
     },
     "UseHpBalance": {
-      "name": "啟用血量平衡",
-      "help": "將低血量的移動到保護位，高血量的移動到承傷位"
+      "name": "啓用血量平衡",
+      "help": "把低血量的移動到保護位，把高血量的移動到承傷位"
     },
     "UseEmergencyRepair": {
       "name": "使用維修工具",
       "help": ""
     },
     "UseLowHpRetreat": {
-      "name": "啟用低血量撤退",
+      "name": "啓用低血量撤退",
       "help": ""
     },
     "HpBalanceThreshold": {
@@ -1282,25 +1282,25 @@
     "EnemyScaleBalanceWeight": {
       "name": "敵人優先級",
       "help": "先清理通往BOSS的主要途徑上的敵人，再根據優先級清理其他敵人",
-      "default_mode": "依照地圖檔案",
-      "S3_enemy_first": "優先攻擊大型敵人",
-      "S1_enemy_first": "優先攻擊小型敵人"
+      "default_mode": "依照地圖文件",
+      "S3_enemy_first": "優先打大型敵人",
+      "S1_enemy_first": "優先打小型敵人"
     }
   },
   "C11AffinityFarming": {
     "_info": {
       "name": "1-1 伏擊刷好感",
-      "help": "進入 1-1 後，在 C1 附近反復移動"
+      "help": "進入 1-1 後，在 C1 附近反復橫跳"
     },
     "RunCount": {
-      "name": "執行次數",
+      "name": "運行次數",
       "help": ""
     }
   },
   "C72MysteryFarming": {
     "_info": {
-      "name": "7-2 三戰撿垃圾",
-      "help": "打三戰，撿完問號後撤退"
+      "name": "7-2 三站揀垃圾",
+      "help": "打三戰，揀完問號後撤退"
     },
     "StepOnA3": {
       "name": "用二隊踩 A3",
@@ -1342,7 +1342,7 @@
       "10": "10"
     },
     "PickupAmmo": {
-      "name": "X 戰後撿彈藥",
+      "name": "X 戰後揀彈藥",
       "help": "",
       "3": "3",
       "4": "4",
@@ -1352,11 +1352,11 @@
   "GemsFarming": {
     "_info": {
       "name": "刷緊急委託",
-      "help": "警告：這個功能可以讓玩家獲取少量的鑽石，但不是一個能高效獲取鑽石的方法\n玩碧藍航線不久的玩家，很容易迷信零破和低耗等，而忽視了角色養成\n執行這個功能只會讓你自己感覺很充實，而你的帳號實際零提升\n這個功能的主要用途，是讓陣容成型的玩家獲取額外的魔方，請理性地把鑽石當作副產物\n\n這個功能將在旗艦32級之後更換旗艦\n關於緊急委託刷新機制，可閱讀 https://bbs.nga.cn/read.php?tid=27134956\n委託油耗比: A3 > A1 > 2-4 > 2-1，有活動圖時建議選活動圖，2-1會撿問號有更多物資\n一隊會完成所有的戰鬥，前排應當為百級零破驅逐帶輸出裝，後排應該為33級及以下白船零破航母\n二隊應提供跨隊支援（跨隊彈幕、跨隊輔助）無法設定艦隊職能時，以以下管道停止任務以免跨隊隊伍出擊，石油被大量消耗：\n若設定了錯誤推送則推送任務停止的消息並停止該任務。 \n若沒有設定錯誤推送，則直接停止Alas。"
+      "help": "警告: 這個功能可以讓玩家獲取少量的鑽石，但不是一個能高效獲取鑽石的方法\n玩碧藍航線不久的玩家, 很容易迷信零破和低耗等, 而忽視了角色養成\n運行這個功能只會讓你自己感覺很充實, 而你的帳號實際零提升\n這個功能的主要用途，是讓陣容成型的玩家獲取額外的魔方，請理性地把鑽石當作副產物\n\n這個功能將在旗艦32級之後更換旗艦\n關於緊急委託刷新機制, 可閱讀 https://bbs.nga.cn/read.php?tid=27134956\n委託油耗比: A3 > A1 > 2-4 > 2-1, 有活動圖時建議選活動圖, 2-1會揀問號有更多物資\n一隊會完成所有的戰鬥, 前排應當爲百級零破驅逐帶輸出裝, 後排應該爲33級及以下白皮零破航母\n二隊應提供跨隊支援（跨隊彈幕、跨隊輔助）\n\n無法設置艦隊職能時，以以下方式停止任務以免跨隊隊伍出擊，石油被大量消耗：\n若設置了錯誤推送則推送任務停止的消息並停止該任務。\n若沒有設置錯誤推送，則直接停止Alas。"
     },
     "ChangeFlagship": {
       "name": "更換旗艦",
-      "help": "當旗艦等級>=32或紅臉時更換旗艦\n尋找等級在1-31之間的白皮航母，同時會在退役時選擇更換下來的旗艦。所有等級大於1級的白船航母均會被視為退役目標，請務必鎖定不是目標的船。換船時更換旗艦裝備，這通過記錄之前的裝備完成。\n\n換裝備只會更換正在裝備中的欄位，即使是白裝也會更換。如果指定了旗艦，則會更換全部5個裝備，未指定旗艦隻會更換設備。",
+      "help": "當旗艦等級>=32或紅臉時更換旗艦\n尋找等級在1-31之間的白皮航母，同時會在退役時選擇更換下來的旗艦。所有等級大於1級的白皮航母均會被視爲退役目標，請務必鎖定不是目標的船。換船時更換旗艦裝備，這通過記錄之前的裝備完成。\n\n換裝備只會更換正在裝備中的欄位，即使是白裝也會更換。如果指定了旗艦，則會更換全部5個裝備，未指定旗艦只會更換設備。",
       "ship": "更換艦船",
       "ship_equip": "更換艦船 + 裝備"
     },
@@ -1373,12 +1373,12 @@
     },
     "CommonCVFilter": {
       "name": "自定義旗艦航母過濾器",
-      "help": "使用自定義過濾器需將 \"指定旗艦航母\" 設定為 \"自定義\"，將按照過濾器順序優先選擇旗艦航母更換\nbogue：博格    ranger：突擊者    langley：蘭利    hermes：競技神"
+      "help": "使用自定義過濾器需將 \"指定旗艦航母\" 設置爲 \"自定義\"，將按照過濾器順序優先選擇旗艦航母更換\nbogue：博格    ranger：突擊者    langley：蘭利    hermes：競技神"
     },
     "ChangeVanguard": {
       "name": "更換前排",
-      "help": "當前排紅臉時更換前排，選擇不更換則會強制紅臉出擊\n換前排通過找一艘心情不低於10、等級70的白鷹或鐵血的白船驅逐完成，所以盡量保證有足夠多的驅逐。國服則為等級100的白鷹白船驅逐。",
-      "disabled": "不更换",
+      "help": "當前排紅臉時更換前排，選擇不更換則會強制紅臉出擊\n換前排通過找一艘心情不低於10、等級100的白鷹或鐵血的白皮驅逐完成，所以盡量保證有足夠多的驅逐。國服以外則爲等級70的白鷹白船驅逐。",
+      "disabled": "不更換",
       "ship": "更換艦船",
       "ship_equip": "更換艦船 + 裝備"
     },
@@ -1395,23 +1395,23 @@
     },
     "CommonDDFilter": {
       "name": "自定義前排過濾器",
-      "help": "使用自定義過濾器需將 \"指定前排\" 設定為 \"自定義\"，將按照過濾器順序優先選擇前排更換\nz20：Z20    z21：Z21    aulick：奥利克    foote：富特    cassin：卡辛    downes：唐斯"
+      "help": "使用自定義過濾器需將 \"指定前排\" 設置爲 \"自定義\"，將按照過濾器順序優先選擇前排更換\nz20：Z20    z21：Z21    aulick：奧利克    foote：富特    cassin：卡辛    downes：唐斯"
     },
     "EquipmentCode": {
       "name": "裝備碼",
-      "help": "僅當選擇「更換艦船 + 裝備」時生效。\n在換下艦船時，若設定裏當前艦船裝備碼為null則會導出；在換上艦船時，若設定裏當前艦船裝備碼為null則會使用上一艘艦船導出的裝備碼，否則使用設定裏的裝備碼\n藍疊模擬器用戶需要先開啟虛擬鍵盤，詳見https://support.bluestacks.com/hc/zh-tw/articles/360061968892-%E5%A6%82%E4%BD%95%E5%9C%A8-BlueStacks-5-%E4%B8%8A%E4%BD%BF%E7%94%A8%E5%B0%8F%E9%8D%B5%E7%9B%A4-%E8%99%9B%E6%93%AC%E9%8D%B5%E7%9B%A4"
+      "help": "僅當選擇“更換艦船 + 裝備”時生效。\n在換下艦船時，若設置裏當前艦船裝備碼爲null則會導出；在換上艦船時，若設置裏當前艦船裝備碼爲null則會使用上一艘艦船導出的裝備碼，否則使用設置裏的裝備碼\n藍疊模擬器用戶需要先開啓虛擬鍵盤，詳見https://support.bluestacks.com/hc/zh-tw/articles/360061968892-%E5%A6%82%E4%BD%95%E5%9C%A8-BlueStacks-5-%E4%B8%8A%E4%BD%BF%E7%94%A8%E5%B0%8F%E9%8D%B5%E7%9B%A4-%E8%99%9B%E6%93%AC%E9%8D%B5%E7%9B%A4\nDD：前排驅逐    bogue：博格    hermes：競技神    langley：蘭利    ranger：突擊者"
     },
     "ALLowHighFlagshipLevel": {
-      "name": "仅更换满级后排",
-      "help": "打開後，更換旗艦時僅會選擇70級的白皮輕航。 \n使用時請保證船塢中有符合條件的艦船。"
+      "name": "僅更換滿級後排",
+      "help": "打開後，更換旗艦時僅會選擇100級的白皮輕航。\n使用時請保證船塢中有符合條件的艦船。"
     },
     "ALLowLowVanguardLevel": {
       "name": "可更換低等級前排",
-      "help": "打開後，前排等級限制改為30级以上。 若為困難模式（如CD圖）則改為70級。"
+      "help": "打開後，前排等級限制改爲30級以上。若爲困難模式（如CD圖）則改爲70級。"
     },
     "DelayTaskIFNoFlagship": {
-      "name": "沒有可更換的旗艦時延后任務",
-      "help": "更換旗艦時，若找不到滿足條件的白皮航母，則延后任務"
+      "name": "沒有可更換的旗艦時推遲任務",
+      "help": "更換旗艦時，若找不到滿足條件的白皮航母，則推遲任務"
     },
     "CommissionLimit": {
       "name": "防止緊急委託數量過多",
@@ -1420,26 +1420,26 @@
   },
   "EventGeneral": {
     "_info": {
-      "name": "活動通用設定",
+      "name": "活動通用設置",
       "help": ""
     },
     "PtLimit": {
       "name": "活動 PT 限制",
-      "help": "當累計 PT 達到給定數值時，禁用所有活動任務，0 表示不限制，使用自律尋敵時不能即時觸發\n開啟後，你只需要打開所有活動任務，而不需要計算一共打多少次"
+      "help": "當累計 PT 達到給定數值時，禁用所有活動任務，0 表示不限制，使用自律尋敵時不能即時觸發\n開啓後，你只需要打開所有活動任務，而不需要計算一共打多少次"
     },
     "TimeLimit": {
       "name": "活動時間限制",
-      "help": "當本地時間超過給定數值後，禁用所有活動任務，'2020-01-01 00:00:00' 表示不限制，觸發一次後時間將被重置\n設定後能防止活動結束後忘記關閉任務的事情發生"
+      "help": "當本地時間超過給定數值後，禁用所有活動任務，'2020-01-01 00:00:00' 表示不限制，觸發一次後時間將被重置\n設置後能防止活動結束後忘記關閉任務的事情發生"
     }
   },
   "TaskBalancer": {
     "_info": {
-      "name": "任務平衡設定",
+      "name": "任務平衡設置",
       "help": "防止運行活動圖時物資過低"
     },
     "Enable": {
-      "name": "啟用任務平衡",
-      "help": "啟用後，將於每次出擊後檢查物資量"
+      "name": "啓用任務平衡",
+      "help": "啓用後，將於每次出擊後檢查物資量"
     },
     "CoinLimit": {
       "name": "保持物資大於X",
@@ -1447,12 +1447,12 @@
     },
     "TaskCall": {
       "name": "物資過低時呼叫任務X",
-      "help": "提醒: 玩家需提前設定好被調用的任務，否則將不會作用",
+      "help": "提醒: 玩家需提前設置好被調用的任務，否則將不會作用",
       "Main": "主線圖",
       "Main2": "主線圖-2",
       "Main3": "主線圖-3",
-      "GemsFarming": "GemsFarming",
-      "ThreeOilLowCost": "ThreeOilLowCost"
+      "GemsFarming": "刷緊急委託",
+      "ThreeOilLowCost": "三油低耗"
     }
   },
   "EventDaily": {
@@ -1462,16 +1462,16 @@
     },
     "StageFilter": {
       "name": "活動每日過濾器",
-      "help": "按活動過濾器順序出擊"
+      "help": "按過濾器順序出擊"
     },
     "LastStage": {
-      "name": "上一個完成的地圖",
-      "help": "自動更新的數值，將跳過過濾器中已完成的地圖，過0點重置"
+      "name": "上一個完成的關卡",
+      "help": "自動更新的數值，將跳過過濾器中已完成的關卡，過0點重置"
     }
   },
   "Raid": {
     "_info": {
-      "name": "共鬥活動設定",
+      "name": "共鬥活動設置",
       "help": ""
     },
     "Mode": {
@@ -1497,7 +1497,7 @@
       "help": "",
       "vanguard": "前排",
       "flagship": "旗艦",
-      "vanguard_flagship": "前排旗艦"
+      "vanguard_flagship": "前排+旗艦"
     }
   },
   "RaidDaily": {
@@ -1506,23 +1506,23 @@
       "help": "完成每日共鬥簡單普通困難"
     },
     "StageFilter": {
-      "name": "共鬥難度過濾器",
+      "name": "難度過濾器",
       "help": ""
     }
   },
   "Hospital": {
     "_info": {
-      "name": "活動設定",
+      "name": "活動設置",
       "help": ""
     },
     "UseRecommendFleet": {
       "name": "使用艦隊推薦",
-      "help": "如果關閉，需要事先手動為所有15個關卡配隊"
+      "help": "如果關閉，需要事先手動爲所有15個關卡配隊"
     }
   },
   "HospitalEvent": {
     "_info": {
-      "name": "共鬥活動設定",
+      "name": "共鬥活動設置",
       "help": ""
     },
     "Mode": {
@@ -1533,7 +1533,7 @@
       "hard": "夜晚"
     },
     "Stage": {
-      "name": "地圖名稱",
+      "name": "關卡名稱",
       "help": "",
       "T1": "T1",
       "T2": "T2",
@@ -1548,13 +1548,13 @@
       "help": "進一下就撤退，能拿約70%的獎勵"
     },
     "Enable": {
-      "name": "啟用商船護航",
+      "name": "啓用商船護航",
       "help": ""
     }
   },
   "Coalition": {
     "_info": {
-      "name": "活動設定",
+      "name": "活動設置",
       "help": "出擊前必須在遊戲內手動配隊"
     },
     "Mode": {
@@ -1582,7 +1582,7 @@
       "help": ""
     },
     "BuyURShip": {
-      "name": "購買X艘UR艦船",
+      "name": "購買X只UR艦船",
       "help": "",
       "0": "0",
       "1": "1",
@@ -1590,13 +1590,13 @@
     },
     "PresetFilter": {
       "name": "活動商店過濾器",
-      "help": "一般不需要修改",
+      "help": "一般默認全買即可",
       "all": "全部",
       "custom": "自定義"
     },
     "CustomFilter": {
-      "name": "自定義活動商店過濾器",
-      "help": "使用自定義過濾器需將 \"活動商店過濾器\" 設定為 \"自定義過濾器\"，並閱讀 https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn"
+      "name": "自定義過濾器",
+      "help": "使用自定義過濾器需將“活動商店過濾器”設置爲“自定義”，並閱讀 https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn"
     }
   },
   "Commission": {
@@ -1605,8 +1605,8 @@
       "help": ""
     },
     "PresetFilter": {
-      "name": "委托過濾器",
-      "help": "如果對委托的產出和收益沒有足夠的了解，不建議編寫自定義過濾器，建議使用預優化委托過濾器\n如果24小時運行刷緊急委託功能，應當使用24小時版的過濾器\n不推薦在運行刷緊急委託功能的同時使用石油優先過濾器",
+      "name": "委託過濾器",
+      "help": "如果對委託的產出和收益沒有足夠的瞭解，不建議編寫自定義過濾器，建議使用預優化委託過濾器\n如果24小時運行刷緊急委託功能，應當使用（7x24刷委託）的過濾器\n不推薦在運行刷緊急委託功能的同時使用石油優先過濾器",
       "cube": "鑽石>魔方>石油",
       "cube_24h": "鑽石>魔方>石油（7x24刷委託）",
       "chip": "鑽石>心智>魔方",
@@ -1615,11 +1615,11 @@
       "custom": "自定義"
     },
     "CustomFilter": {
-      "name": "自定義委托過濾器",
-      "help": "使用自定義過濾器需將 \"委托過濾器\" 設定為 \"自定義\"，並閱讀 https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn"
+      "name": "自定義委託過濾器",
+      "help": "使用自定義過濾器需將 \"委託過濾器\" 設置爲 \"自定義\"，並閱讀 https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn"
     },
     "DoMajorCommission": {
-      "name": "做主要委託 (1200油/1000油委託)",
+      "name": "做主要委託（1200油/1000油委託）",
       "help": "1200油委託現在已經過時，收益很低，建議關閉"
     }
   },
@@ -1645,10 +1645,10 @@
   "ControlExpOverflow": {
     "_info": {
       "name": "溢出經驗控制",
-      "help": "防止技能快滿級的時候，使用高級技能書溢出大量經驗\n例如設定T3書溢出100點，T4書溢出100點，在剩餘1100點經驗時，將不使用T4書，轉而使用T3書"
+      "help": "防止技能快滿級的時候，使用高級技能書溢出大量經驗\n例如設置T3書溢出100點，T4書溢出100點，在剩餘1100點經驗時，將不使用T4書，轉而使用T3書"
     },
     "Enable": {
-      "name": "啟用溢出經驗控制",
+      "name": "啓用溢出經驗控制",
       "help": ""
     },
     "T4Allow": {
@@ -1674,7 +1674,7 @@
       "help": "當戰術學院有空餘的位置時，將自動指派一個艦娘，並學習第一個未滿級的技能"
     },
     "Enable": {
-      "name": "啟用該功能",
+      "name": "啓用該功能",
       "help": ""
     },
     "Favorite": {
@@ -1685,7 +1685,7 @@
   "Research": {
     "_info": {
       "name": "科研",
-      "help": "當過濾器和其他設定一起工作時，Alas 會尋找同時滿足所有用戶設定的項目。 \n例如，你設定科研過濾器是 `H1 > D2.5 > shortest` （包含消耗魔方的科研），但又設定了不允許消耗魔方，最終的結果是 Alas 不會選擇消耗魔方的科研。當你突然想切魔方的時候，只需打開消耗魔方，而不需要修改過濾器，這是比較方便的。"
+      "help": "當過濾器和其他設置一起工作時，Alas 會尋找同時滿足所有用戶設置的項目。\n例如，你設置科研過濾器是 `H1 > D2.5 > shortest` （包含消耗魔方的科研），但又設置了不允許消耗魔方，最終的結果是 Alas 不會選擇消耗魔方的科研。當你突然想切魔方的時候，只需打開消耗魔方，而不需要修改過濾器，這是比較方便的。"
     },
     "UseCube": {
       "name": "使用魔方",
@@ -1713,11 +1713,11 @@
     },
     "AllowDelay": {
       "name": "資源不足時延遲科研",
-      "help": "資源不足時Alas會延遲科研直到滿足條件或科研隊列即將清空，不會導致科研停轉\n如果長期保持資源不足或運行Alas的時間不够長，可以取消本選項以保持科研隊列裝滿"
+      "help": "資源不足時Alas會延遲科研直到滿足條件或科研隊列即將清空，不會導致科研停轉\n如果長期保持資源不足或運行Alas的時間不夠長，可以取消本選項以保持科研隊列裝滿"
     },
     "PresetFilter": {
       "name": "科研過濾器",
-      "help": "科研掉落和項目刷新見 https://azur-stats.lyoko.io/，對這些沒有基本了解的人不建議編寫自定義過濾器，建議使用預優化科研過濾器",
+      "help": "科研掉落和項目刷新見 https://azur-stats.lyoko.io/，對這些沒有基本瞭解的人不建議編寫自定義過濾器，建議使用預優化科研過濾器",
       "custom": "自定義",
       "series_8_blueprint_305": "八期 藍圖+305",
       "series_8_blueprint_only": "八期 僅藍圖",
@@ -1744,7 +1744,7 @@
     },
     "CustomFilter": {
       "name": "自定義科研過濾器",
-      "help": "使用自定義過濾器需將 \"科研過濾器\" 設定為 \"自定義\"，並閱讀 https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn"
+      "help": "使用自定義過濾器需將 \"科研過濾器\" 設置爲 \"自定義\"，並閱讀 https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn"
     }
   },
   "Dorm": {
@@ -1753,7 +1753,7 @@
       "help": ""
     },
     "Collect": {
-      "name": "收集愛心和家具幣",
+      "name": "收集愛心和傢俱幣",
       "help": ""
     },
     "Feed": {
@@ -1771,7 +1771,7 @@
   },
   "BuyFurniture": {
     "_info": {
-      "name": "活動傢俱設定",
+      "name": "活動傢俱設置",
       "help": "購買活動中後宅傢俱商城的限時傢俱"
     },
     "Enable": {
@@ -1780,13 +1780,13 @@
     },
     "BuyOption": {
       "name": "購買方案",
-      "help": "購買一套：為每個傢俱買一件；購買全部：所有傢俱買到上限。兩種購買方案都會將該套傢俱從傢俱商店最前端移除，若使用購買一套則剩餘傢俱需手動購買，\n兩種方案傢俱消耗差別不大，建議使用購買全部，不會購買鑽石傢俱",
+      "help": "購買一套：爲每個傢俱買一件；購買全部：所有傢俱買到上限。兩種購買方案都會將該套傢俱從傢俱商店最前端移除，若使用購買一套則剩餘傢俱需手動購買，\n兩種方案傢俱消耗差別不大，建議使用購買全部。不會購買鑽石傢俱",
       "set": "購買一套",
       "all": "購買全部"
     },
     "LastRun": {
       "name": "上次檢查時間",
-      "help": "記錄上一次檢查的時間以防止任務重複執行，檢查間隔為6天，這個數值是自動記錄的，一般不需要修改"
+      "help": "記錄上一次檢查的時間以防止任務重復運行，檢查間隔爲6天，這個數值是自動記錄的，一般不需要修改"
     }
   },
   "Meowfficer": {
@@ -1809,7 +1809,7 @@
       "help": ""
     },
     "Enable": {
-      "name": "開啟指揮喵訓練",
+      "name": "開啓指揮喵訓練",
       "help": ""
     },
     "Mode": {
@@ -1827,11 +1827,11 @@
       "help": "收取指揮貓時鎖定特殊天賦的貓，被鎖定的貓將不會被用於強化，用戶需要手動檢查並解鎖不需要的貓"
     },
     "EnhanceIndex": {
-      "name": "用無特殊天賦的貓給第 X 隻貓強化",
-      "help": "貓倉庫的第 X 隻貓，限制在 1 ~ 12，順序從左上到右下"
+      "name": "用無特殊天賦的貓給第 X 只貓強化",
+      "help": "貓倉庫的第 X 只貓，限制在 1 ~ 12，順序從左上到右下"
     },
     "MaxFeedLevel": {
-      "name": "不使用大於 X 級的貓作為強化材料",
+      "name": "不使用大於 X 級的貓作爲強化材料",
       "help": "X 值限制在 1 ~ 30"
     }
   },
@@ -1841,16 +1841,16 @@
       "help": ""
     },
     "Enable": {
-      "name": "啟用大艦隊後勤",
-      "help": "領取大艦隊任務，提交籌備物資，領取艦隊獎勵"
+      "name": "啓用大艦隊後勤",
+      "help": "領取大艦隊任務, 提交籌備物資, 領取艦隊獎勵"
     },
     "SelectNewMission": {
       "name": "選擇新的每週艦隊任務",
-      "help": "這個帳號需要是艦隊司令或者副司令，才能開啟\n默認選擇最容易完成的塞壬殲滅Ⅲ，任務是擊沉任意敵人300艘"
+      "help": "這個帳號需要是艦隊司令或者副司令，才能開啓\n默認選擇最容易完成的塞壬殲滅Ⅲ，任務是擊沉任意敵人300艘"
     },
     "ExchangeFilter": {
-      "name": "籌備物資過濾器",
-      "help": "一般不需要修改，優先選擇消耗最少的"
+      "name": "籌備物品過濾器",
+      "help": "一般不需要修改，優先選消耗最少的"
     }
   },
   "GuildOperation": {
@@ -1859,45 +1859,45 @@
       "help": ""
     },
     "Enable": {
-      "name": "啟用大艦隊作戰",
+      "name": "啓用大艦隊作戰",
       "help": ""
     },
     "SelectNewOperation": {
-      "name": "開啟新的大艦隊作戰",
-      "help": "這個帳號需要是艦隊司令或者副司令，才能開啟\n默認選擇獎勵最多的瓜達康納爾島海空戰"
+      "name": "開啓新的大艦隊作戰",
+      "help": "這個帳號需要是艦隊司令或者副司令，才能開啓\n默認選擇獎勵最多的達古康納爾島海空戰"
     },
     "NewOperationMaxDate": {
-      "name": "每月 X 號後，不再開啟新的大艦隊作戰",
-      "help": "僅在 \"開啟新的大艦隊作戰\" 啟用時生效\n不建議開啟每月的三次大艦隊作戰，因為每位玩家一個月只能參與兩次，大部分成員無法參與第三次作戰的派遣。這會影響派遣事件的評價，導致最終獎勵減少"
+      "name": "每月 X 號後，不再開啓新的大艦隊作戰",
+      "help": "僅在 \"開啓新的大艦隊作戰\" 啓用時生效\n不建議開啓每月的三次大艦隊作戰，因爲每位玩家一個月只能參與兩次，大部分成員無法參與第三次作戰的派遣。這會影響派遣事件的評價，導致最終獎勵減少"
     },
     "JoinThreshold": {
       "name": "僅在作戰進度 > X 時參加大艦隊作戰",
       "help": "0.0 ~ 1.0。比如 '0.5' 表示只在作戰進度 未達到一半時加入, '1' 表示 不管進度直接加入"
     },
     "AttackBoss": {
-      "name": "打大艦隊Boss",
+      "name": "打大艦隊BOSS",
       "help": ""
     },
     "BossFleetRecommend": {
-      "name": "僅用推薦的艦隊打Boss",
-      "help": "建議關閉，並自己配好隊伍"
+      "name": "使用推薦的艦隊打BOSS",
+      "help": "建議關閉，並自己配好隊"
     }
   },
   "Reward": {
     "_info": {
-      "name": "收穫",
+      "name": "收獲",
       "help": ""
     },
     "CollectOil": {
-      "name": "收穫石油",
+      "name": "收獲石油",
       "help": ""
     },
     "CollectCoin": {
-      "name": "收穫物資",
+      "name": "收獲物資",
       "help": ""
     },
     "CollectExp": {
-      "name": "收穫經驗書",
+      "name": "收獲經驗書",
       "help": ""
     },
     "CollectMission": {
@@ -1912,7 +1912,7 @@
   "Awaken": {
     "_info": {
       "name": "認知覺醒",
-      "help": "認知覺醒船塢內所有的船隻直到心智單元耗盡"
+      "help": "認知覺醒船塢內所有的船直到心智單元耗盡"
     },
     "LevelCap": {
       "name": "覺醒至等級上限",
@@ -1931,144 +1931,144 @@
       "help": ""
     },
     "Receive": {
-      "name": "收穫豐壤農田",
+      "name": "收獲豐壤農田",
       "help": ""
     },
     "Option1": {
-      "name": "Island1.Option1.name",
-      "help": "Island1.Option1.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7",
-      "8": "8"
+      "name": "第 1 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "小麥",
+      "2": "玉米",
+      "3": "牧草",
+      "4": "咖啡豆",
+      "5": "大米",
+      "6": "白菜",
+      "7": "土豆",
+      "8": "大豆"
     },
     "Character1": {
-      "name": "Island1.Character1.name",
-      "help": "Island1.Character1.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 1 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     },
     "Option2": {
-      "name": "Island1.Option2.name",
-      "help": "Island1.Option2.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7",
-      "8": "8"
+      "name": "第 2 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "小麥",
+      "2": "玉米",
+      "3": "牧草",
+      "4": "咖啡豆",
+      "5": "大米",
+      "6": "白菜",
+      "7": "土豆",
+      "8": "大豆"
     },
     "Character2": {
-      "name": "Island1.Character2.name",
-      "help": "Island1.Character2.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 2 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     },
     "Option3": {
-      "name": "Island1.Option3.name",
-      "help": "Island1.Option3.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7",
-      "8": "8"
+      "name": "第 3 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "小麥",
+      "2": "玉米",
+      "3": "牧草",
+      "4": "咖啡豆",
+      "5": "大米",
+      "6": "白菜",
+      "7": "土豆",
+      "8": "大豆"
     },
     "Character3": {
-      "name": "Island1.Character3.name",
-      "help": "Island1.Character3.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 3 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     },
     "Option4": {
-      "name": "Island1.Option4.name",
-      "help": "Island1.Option4.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7",
-      "8": "8"
+      "name": "第 4 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "小麥",
+      "2": "玉米",
+      "3": "牧草",
+      "4": "咖啡豆",
+      "5": "大米",
+      "6": "白菜",
+      "7": "土豆",
+      "8": "大豆"
     },
     "Character4": {
-      "name": "Island1.Character4.name",
-      "help": "Island1.Character4.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 4 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     }
   },
   "Island2": {
@@ -2077,116 +2077,116 @@
       "help": ""
     },
     "Receive": {
-      "name": "收穫悠然牧場",
+      "name": "收獲悠然牧場",
       "help": ""
     },
     "Option1": {
-      "name": "Island2.Option1.name",
-      "help": "Island2.Option1.help",
-      "0": "0",
-      "1": "1"
+      "name": "第 1 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "雞蛋（禽肉）"
     },
     "Character1": {
-      "name": "Island2.Character1.name",
-      "help": "Island2.Character1.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 1 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     },
     "Option2": {
-      "name": "Island2.Option2.name",
-      "help": "Island2.Option2.help",
-      "0": "0",
-      "2": "2"
+      "name": "第 2 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "2": "鮮肉"
     },
     "Character2": {
-      "name": "Island2.Character2.name",
-      "help": "Island2.Character2.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 2 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     },
     "Option3": {
-      "name": "Island2.Option3.name",
-      "help": "Island2.Option3.help",
-      "0": "0",
-      "3": "3"
+      "name": "第 3 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "3": "牛奶（皮料）"
     },
     "Character3": {
-      "name": "Island2.Character3.name",
-      "help": "Island2.Character3.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 3 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     },
     "Option4": {
-      "name": "Island2.Option4.name",
-      "help": "Island2.Option4.help",
-      "0": "0",
-      "4": "4"
+      "name": "第 4 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "4": "羊毛"
     },
     "Character4": {
-      "name": "Island2.Character4.name",
-      "help": "Island2.Character4.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 4 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     }
   },
   "Island3": {
@@ -2195,134 +2195,134 @@
       "help": ""
     },
     "Receive": {
-      "name": "收穫啾啾漁場",
+      "name": "收獲啾啾漁場",
       "help": ""
     },
     "Option1": {
-      "name": "Island3.Option1.name",
-      "help": "Island3.Option1.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7",
-      "8": "8",
-      "9": "9",
-      "10": "10",
-      "11": "11",
-      "12": "12",
-      "13": "13",
-      "14": "14",
-      "15": "15",
-      "16": "16"
+      "name": "第 1 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "貝類",
+      "2": "鯰魚",
+      "3": "鯉魚",
+      "4": "鯽魚",
+      "5": "小河蝦",
+      "6": "小龍蝦",
+      "7": "鱸魚",
+      "8": "螃蟹",
+      "9": "魷魚",
+      "10": "馬鮫魚",
+      "11": "金槍魚",
+      "12": "三文魚",
+      "13": "紅鯛魚",
+      "14": "黑鯛魚",
+      "15": "黃鰭金槍魚",
+      "16": "海參"
     },
     "Character1": {
-      "name": "Island3.Character1.name",
-      "help": "Island3.Character1.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 1 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     },
     "Option2": {
-      "name": "Island3.Option2.name",
-      "help": "Island3.Option2.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7",
-      "8": "8",
-      "9": "9",
-      "10": "10",
-      "11": "11",
-      "12": "12",
-      "13": "13",
-      "14": "14",
-      "15": "15",
-      "16": "16"
+      "name": "第 2 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "貝類",
+      "2": "鯰魚",
+      "3": "鯉魚",
+      "4": "鯽魚",
+      "5": "小河蝦",
+      "6": "小龍蝦",
+      "7": "鱸魚",
+      "8": "螃蟹",
+      "9": "魷魚",
+      "10": "馬鮫魚",
+      "11": "金槍魚",
+      "12": "三文魚",
+      "13": "紅鯛魚",
+      "14": "黑鯛魚",
+      "15": "黃鰭金槍魚",
+      "16": "海參"
     },
     "Character2": {
-      "name": "Island3.Character2.name",
-      "help": "Island3.Character2.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 2 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     },
     "Option3": {
-      "name": "Island3.Option3.name",
-      "help": "Island3.Option3.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7",
-      "8": "8",
-      "9": "9",
-      "10": "10",
-      "11": "11",
-      "12": "12",
-      "13": "13",
-      "14": "14",
-      "15": "15",
-      "16": "16"
+      "name": "第 3 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "貝類",
+      "2": "鯰魚",
+      "3": "鯉魚",
+      "4": "鯽魚",
+      "5": "小河蝦",
+      "6": "小龍蝦",
+      "7": "鱸魚",
+      "8": "螃蟹",
+      "9": "魷魚",
+      "10": "馬鮫魚",
+      "11": "金槍魚",
+      "12": "三文魚",
+      "13": "紅鯛魚",
+      "14": "黑鯛魚",
+      "15": "黃鰭金槍魚",
+      "16": "海參"
     },
     "Character3": {
-      "name": "Island3.Character3.name",
-      "help": "Island3.Character3.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 3 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     }
   },
   "Island4": {
@@ -2331,136 +2331,136 @@
       "help": ""
     },
     "Receive": {
-      "name": "收穫沉石礦山",
+      "name": "收獲沉石礦山",
       "help": ""
     },
     "Option1": {
-      "name": "Island4.Option1.name",
-      "help": "Island4.Option1.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6"
+      "name": "第 1 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "煤炭",
+      "2": "銅礦",
+      "3": "鋁礦",
+      "4": "鐵礦",
+      "5": "硫礦",
+      "6": "銀礦"
     },
     "Character1": {
-      "name": "Island4.Character1.name",
-      "help": "Island4.Character1.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 1 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     },
     "Option2": {
-      "name": "Island4.Option2.name",
-      "help": "Island4.Option2.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6"
+      "name": "第 2 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "煤炭",
+      "2": "銅礦",
+      "3": "鋁礦",
+      "4": "鐵礦",
+      "5": "硫礦",
+      "6": "銀礦"
     },
     "Character2": {
-      "name": "Island4.Character2.name",
-      "help": "Island4.Character2.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 2 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     },
     "Option3": {
-      "name": "Island4.Option3.name",
-      "help": "Island4.Option3.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6"
+      "name": "第 3 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "煤炭",
+      "2": "銅礦",
+      "3": "鋁礦",
+      "4": "鐵礦",
+      "5": "硫礦",
+      "6": "銀礦"
     },
     "Character3": {
-      "name": "Island4.Character3.name",
-      "help": "Island4.Character3.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 3 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     },
     "Option4": {
-      "name": "Island4.Option4.name",
-      "help": "Island4.Option4.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6"
+      "name": "第 4 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "煤炭",
+      "2": "銅礦",
+      "3": "鋁礦",
+      "4": "鐵礦",
+      "5": "硫礦",
+      "6": "銀礦"
     },
     "Character4": {
-      "name": "Island4.Character4.name",
-      "help": "Island4.Character4.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 4 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     }
   },
   "Island5": {
@@ -2469,128 +2469,128 @@
       "help": ""
     },
     "Receive": {
-      "name": "收穫翠土林場",
+      "name": "收獲翠土林場",
       "help": ""
     },
     "Option1": {
-      "name": "Island5.Option1.name",
-      "help": "Island5.Option1.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4"
+      "name": "第 1 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "自然之木",
+      "2": "實用之木",
+      "3": "精選之木",
+      "4": "典雅之木"
     },
     "Character1": {
-      "name": "Island5.Character1.name",
-      "help": "Island5.Character1.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 1 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     },
     "Option2": {
-      "name": "Island5.Option2.name",
-      "help": "Island5.Option2.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4"
+      "name": "第 2 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "自然之木",
+      "2": "實用之木",
+      "3": "精選之木",
+      "4": "典雅之木"
     },
     "Character2": {
-      "name": "Island5.Character2.name",
-      "help": "Island5.Character2.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 2 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     },
     "Option3": {
-      "name": "Island5.Option3.name",
-      "help": "Island5.Option3.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4"
+      "name": "第 3 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "自然之木",
+      "2": "實用之木",
+      "3": "精選之木",
+      "4": "典雅之木"
     },
     "Character3": {
-      "name": "Island5.Character3.name",
-      "help": "Island5.Character3.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 3 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     },
     "Option4": {
-      "name": "Island5.Option4.name",
-      "help": "Island5.Option4.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4"
+      "name": "第 4 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "自然之木",
+      "2": "實用之木",
+      "3": "精選之木",
+      "4": "典雅之木"
     },
     "Character4": {
-      "name": "Island5.Character4.name",
-      "help": "Island5.Character4.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 4 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     }
   },
   "Island6": {
@@ -2599,140 +2599,140 @@
       "help": ""
     },
     "Receive": {
-      "name": "收穫墜香果園",
+      "name": "收獲墜香果園",
       "help": ""
     },
     "Option1": {
-      "name": "Island6.Option1.name",
-      "help": "Island6.Option1.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7"
+      "name": "第 1 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "蘋果",
+      "2": "柑橘",
+      "3": "香蕉",
+      "4": "芒果",
+      "5": "檸檬",
+      "6": "牛油果",
+      "7": "橡膠"
     },
     "Character1": {
-      "name": "Island6.Character1.name",
-      "help": "Island6.Character1.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 1 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     },
     "Option2": {
-      "name": "Island6.Option2.name",
-      "help": "Island6.Option2.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7"
+      "name": "第 2 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "蘋果",
+      "2": "柑橘",
+      "3": "香蕉",
+      "4": "芒果",
+      "5": "檸檬",
+      "6": "牛油果",
+      "7": "橡膠"
     },
     "Character2": {
-      "name": "Island6.Character2.name",
-      "help": "Island6.Character2.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 2 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     },
     "Option3": {
-      "name": "Island6.Option3.name",
-      "help": "Island6.Option3.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7"
+      "name": "第 3 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "蘋果",
+      "2": "柑橘",
+      "3": "香蕉",
+      "4": "芒果",
+      "5": "檸檬",
+      "6": "牛油果",
+      "7": "橡膠"
     },
     "Character3": {
-      "name": "Island6.Character3.name",
-      "help": "Island6.Character3.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 3 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     },
     "Option4": {
-      "name": "Island6.Option4.name",
-      "help": "Island6.Option4.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7"
+      "name": "第 4 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "蘋果",
+      "2": "柑橘",
+      "3": "香蕉",
+      "4": "芒果",
+      "5": "檸檬",
+      "6": "牛油果",
+      "7": "橡膠"
     },
     "Character4": {
-      "name": "Island6.Character4.name",
-      "help": "Island6.Character4.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 4 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     }
   },
   "Island7": {
@@ -2741,78 +2741,78 @@
       "help": ""
     },
     "Receive": {
-      "name": "收穫青芽苗圃",
+      "name": "收獲青芽苗圃",
       "help": ""
     },
     "Option1": {
-      "name": "Island7.Option1.name",
-      "help": "Island7.Option1.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7",
-      "8": "8",
-      "9": "9"
+      "name": "第 1 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "蘆筍",
+      "2": "鳳梨",
+      "3": "亞麻",
+      "4": "草莓",
+      "5": "棉花",
+      "6": "茶葉",
+      "7": "薰衣草",
+      "8": "胡蘿卜",
+      "9": "洋蔥"
     },
     "Character1": {
-      "name": "Island7.Character1.name",
-      "help": "Island7.Character1.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 1 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     },
     "Option2": {
-      "name": "Island7.Option2.name",
-      "help": "Island7.Option2.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7",
-      "8": "8",
-      "9": "9"
+      "name": "第 2 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "蘆筍",
+      "2": "鳳梨",
+      "3": "亞麻",
+      "4": "草莓",
+      "5": "棉花",
+      "6": "茶葉",
+      "7": "薰衣草",
+      "8": "胡蘿卜",
+      "9": "洋蔥"
     },
     "Character2": {
-      "name": "Island7.Character2.name",
-      "help": "Island7.Character2.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 2 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     }
   },
   "Island8": {
@@ -2821,84 +2821,84 @@
       "help": ""
     },
     "Receive": {
-      "name": "收穫有魚餐館",
+      "name": "收獲有魚餐館",
       "help": ""
     },
     "Option1": {
-      "name": "Island8.Option1.name",
-      "help": "Island8.Option1.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7",
-      "8": "8",
-      "9": "9",
-      "10": "10",
-      "11": "11",
-      "12": "12"
+      "name": "第 1 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "涼拌雙筍",
+      "2": "蘆筍炒蝦仁",
+      "3": "豆腐",
+      "4": "肉末燒豆腐",
+      "5": "蛋包飯",
+      "6": "白菜豆腐湯",
+      "7": "蔬菜沙拉",
+      "8": "炸魚薯條",
+      "9": "洋蔥蒸魚",
+      "10": "佛跳牆",
+      "11": "經典豆腐套餐",
+      "12": "綿玉定食"
     },
     "Character1": {
-      "name": "Island8.Character1.name",
-      "help": "Island8.Character1.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 1 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     },
     "Option2": {
-      "name": "Island8.Option2.name",
-      "help": "Island8.Option2.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7",
-      "8": "8",
-      "9": "9",
-      "10": "10",
-      "11": "11",
-      "12": "12"
+      "name": "第 2 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "涼拌雙筍",
+      "2": "蘆筍炒蝦仁",
+      "3": "豆腐",
+      "4": "肉末燒豆腐",
+      "5": "蛋包飯",
+      "6": "白菜豆腐湯",
+      "7": "蔬菜沙拉",
+      "8": "炸魚薯條",
+      "9": "洋蔥蒸魚",
+      "10": "佛跳牆",
+      "11": "經典豆腐套餐",
+      "12": "綿玉定食"
     },
     "Character2": {
-      "name": "Island8.Character2.name",
-      "help": "Island8.Character2.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 2 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     }
   },
   "Island9": {
@@ -2907,82 +2907,82 @@
       "help": ""
     },
     "Receive": {
-      "name": "收穫白熊飲品",
+      "name": "收獲白熊飲品",
       "help": ""
     },
     "Option1": {
-      "name": "Island9.Option1.name",
-      "help": "Island9.Option1.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7",
-      "8": "8",
-      "9": "9",
-      "10": "10",
-      "11": "11"
+      "name": "第 1 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "鮮榨菠蘿汁",
+      "2": "迎春花茶",
+      "3": "蘋果汁",
+      "4": "香蕉芒果汁",
+      "5": "蜂蜜檸檬水",
+      "6": "草莓蜜沁",
+      "7": "薰衣草茶",
+      "8": "草莓蜂蜜冰沙",
+      "9": "陽光蜜水",
+      "10": "花香果韻",
+      "11": "繽紛果樂園"
     },
     "Character1": {
-      "name": "Island9.Character1.name",
-      "help": "Island9.Character1.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 1 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     },
     "Option2": {
-      "name": "Island9.Option2.name",
-      "help": "Island9.Option2.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7",
-      "8": "8",
-      "9": "9",
-      "10": "10",
-      "11": "11"
+      "name": "第 2 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "鮮榨菠蘿汁",
+      "2": "迎春花茶",
+      "3": "蘋果汁",
+      "4": "香蕉芒果汁",
+      "5": "蜂蜜檸檬水",
+      "6": "草莓蜜沁",
+      "7": "薰衣草茶",
+      "8": "草莓蜂蜜冰沙",
+      "9": "陽光蜜水",
+      "10": "花香果韻",
+      "11": "繽紛果樂園"
     },
     "Character2": {
-      "name": "Island9.Character2.name",
-      "help": "Island9.Character2.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 2 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     }
   },
   "Island10": {
@@ -2991,80 +2991,80 @@
       "help": ""
     },
     "Receive": {
-      "name": "收穫啾啾簡餐",
+      "name": "收獲啾啾簡餐",
       "help": ""
     },
     "Option1": {
-      "name": "Island10.Option1.name",
-      "help": "Island10.Option1.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7",
-      "8": "8",
-      "9": "9",
-      "10": "10"
+      "name": "第 1 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "玉米杯",
+      "2": "蘋果派",
+      "3": "香橙派",
+      "4": "芒果糯米飯",
+      "5": "香蕉可麗餅",
+      "6": "草莓夏洛特",
+      "7": "海鮮飯",
+      "8": "香甜組合",
+      "9": "果園二重奏",
+      "10": "莓果香橙甜點組"
     },
     "Character1": {
-      "name": "Island10.Character1.name",
-      "help": "Island10.Character1.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 1 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     },
     "Option2": {
-      "name": "Island10.Option2.name",
-      "help": "Island10.Option2.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7",
-      "8": "8",
-      "9": "9",
-      "10": "10"
+      "name": "第 2 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "玉米杯",
+      "2": "蘋果派",
+      "3": "香橙派",
+      "4": "芒果糯米飯",
+      "5": "香蕉可麗餅",
+      "6": "草莓夏洛特",
+      "7": "海鮮飯",
+      "8": "香甜組合",
+      "9": "果園二重奏",
+      "10": "莓果香橙甜點組"
     },
     "Character2": {
-      "name": "Island10.Character2.name",
-      "help": "Island10.Character2.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 2 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     }
   },
   "Island11": {
@@ -3073,78 +3073,78 @@
       "help": ""
     },
     "Receive": {
-      "name": "收穫烏魚烤肉",
+      "name": "收獲烏魚烤肉",
       "help": ""
     },
     "Option1": {
-      "name": "Island11.Option1.name",
-      "help": "Island11.Option1.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7",
-      "8": "8",
-      "9": "9"
+      "name": "第 1 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "炭烤肉串",
+      "2": "禽肉土豆拼盤",
+      "3": "爆炒禽肉",
+      "4": "胡蘿卜厚蛋燒",
+      "5": "漢堡肉飯",
+      "6": "檸檬蝦",
+      "7": "爆炒小龍蝦",
+      "8": "烤肉狂歡",
+      "9": "能量雙拼套餐"
     },
     "Character1": {
-      "name": "Island11.Character1.name",
-      "help": "Island11.Character1.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 1 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     },
     "Option2": {
-      "name": "Island11.Option2.name",
-      "help": "Island11.Option2.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7",
-      "8": "8",
-      "9": "9"
+      "name": "第 2 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "炭烤肉串",
+      "2": "禽肉土豆拼盤",
+      "3": "爆炒禽肉",
+      "4": "胡蘿卜厚蛋燒",
+      "5": "漢堡肉飯",
+      "6": "檸檬蝦",
+      "7": "爆炒小龍蝦",
+      "8": "烤肉狂歡",
+      "9": "能量雙拼套餐"
     },
     "Character2": {
-      "name": "Island11.Character2.name",
-      "help": "Island11.Character2.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 2 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     }
   },
   "Island12": {
@@ -3153,72 +3153,72 @@
       "help": ""
     },
     "Receive": {
-      "name": "收穫木料加工設備",
+      "name": "收獲木料加工設備",
       "help": ""
     },
     "Option1": {
-      "name": "Island12.Option1.name",
-      "help": "Island12.Option1.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6"
+      "name": "第 1 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "紙張",
+      "2": "記事本",
+      "3": "桌椅",
+      "4": "精選木桶",
+      "5": "文件櫃",
+      "6": "裝飾畫"
     },
     "Character1": {
-      "name": "Island12.Character1.name",
-      "help": "Island12.Character1.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 1 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     },
     "Option2": {
-      "name": "Island12.Option2.name",
-      "help": "Island12.Option2.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6"
+      "name": "第 2 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "紙張",
+      "2": "記事本",
+      "3": "桌椅",
+      "4": "精選木桶",
+      "5": "文件櫃",
+      "6": "裝飾畫"
     },
     "Character2": {
-      "name": "Island12.Character2.name",
-      "help": "Island12.Character2.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 2 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     }
   },
   "Island13": {
@@ -3227,72 +3227,72 @@
       "help": ""
     },
     "Receive": {
-      "name": "收穫工業生產設備",
+      "name": "收獲工業生產設備",
       "help": ""
     },
     "Option1": {
-      "name": "Island13.Option1.name",
-      "help": "Island13.Option1.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6"
+      "name": "第 1 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "炭筆",
+      "2": "電纜",
+      "3": "鐵釘",
+      "4": "硫酸",
+      "5": "火藥",
+      "6": "刀叉餐具"
     },
     "Character1": {
-      "name": "Island13.Character1.name",
-      "help": "Island13.Character1.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 1 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     },
     "Option2": {
-      "name": "Island13.Option2.name",
-      "help": "Island13.Option2.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6"
+      "name": "第 2 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "炭筆",
+      "2": "電纜",
+      "3": "鐵釘",
+      "4": "硫酸",
+      "5": "火藥",
+      "6": "刀叉餐具"
     },
     "Character2": {
-      "name": "Island13.Character2.name",
-      "help": "Island13.Character2.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 2 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     }
   },
   "Island14": {
@@ -3301,68 +3301,68 @@
       "help": ""
     },
     "Receive": {
-      "name": "收穫電子加工設備",
+      "name": "收獲電子加工設備",
       "help": ""
     },
     "Option1": {
-      "name": "Island14.Option1.name",
-      "help": "Island14.Option1.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4"
+      "name": "第 1 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "墨盒",
+      "2": "鍾表",
+      "3": "蓄電池",
+      "4": "淨水濾芯"
     },
     "Character1": {
-      "name": "Island14.Character1.name",
-      "help": "Island14.Character1.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 1 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     },
     "Option2": {
-      "name": "Island14.Option2.name",
-      "help": "Island14.Option2.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4"
+      "name": "第 2 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "墨盒",
+      "2": "鍾表",
+      "3": "蓄電池",
+      "4": "淨水濾芯"
     },
     "Character2": {
-      "name": "Island14.Character2.name",
-      "help": "Island14.Character2.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 2 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     }
   },
   "Island15": {
@@ -3371,78 +3371,78 @@
       "help": ""
     },
     "Receive": {
-      "name": "收穫手工製作設備",
+      "name": "收獲手工製作設備",
       "help": ""
     },
     "Option1": {
-      "name": "Island15.Option1.name",
-      "help": "Island15.Option1.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7",
-      "8": "8",
-      "9": "9"
+      "name": "第 1 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "袋裝薺菜幹",
+      "2": "春季花束",
+      "3": "布料",
+      "4": "皮革",
+      "5": "繩索",
+      "6": "手套",
+      "7": "香囊",
+      "8": "鞋靴",
+      "9": "繃帶"
     },
     "Character1": {
-      "name": "Island15.Character1.name",
-      "help": "Island15.Character1.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 1 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     },
     "Option2": {
-      "name": "Island15.Option2.name",
-      "help": "Island15.Option2.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7",
-      "8": "8",
-      "9": "9"
+      "name": "第 2 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "袋裝薺菜幹",
+      "2": "春季花束",
+      "3": "布料",
+      "4": "皮革",
+      "5": "繩索",
+      "6": "手套",
+      "7": "香囊",
+      "8": "鞋靴",
+      "9": "繃帶"
     },
     "Character2": {
-      "name": "Island15.Character2.name",
-      "help": "Island15.Character2.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 2 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     }
   },
   "Island16": {
@@ -3451,83 +3451,83 @@
       "help": ""
     },
     "Receive": {
-      "name": "收穫啾咖啡",
+      "name": "收獲啾咖啡",
       "help": ""
     },
     "Option1": {
-      "name": "Island16.Option1.name",
-      "help": "Island16.Option1.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7",
-      "8": "8",
-      "9": "9"
+      "name": "第 1 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "歐姆蛋",
+      "2": "冰咖啡",
+      "3": "芝士",
+      "4": "拿鐵",
+      "5": "柑橘咖啡",
+      "6": "草莓奶綠",
+      "7": "晨光活力組合",
+      "8": "醒神套餐",
+      "9": "果香雙杯樂"
     },
     "Character1": {
-      "name": "Island16.Character1.name",
-      "help": "Island16.Character1.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 2 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     },
     "Option2": {
-      "name": "Island16.Option2.name",
-      "help": "Island16.Option2.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7",
-      "8": "8",
-      "9": "9"
+      "name": "第 2 格生產物品",
+      "help": "",
+      "0": "不生產",
+      "1": "歐姆蛋",
+      "2": "冰咖啡",
+      "3": "芝士",
+      "4": "拿鐵",
+      "5": "柑橘咖啡",
+      "6": "草莓奶綠",
+      "7": "晨光活力組合",
+      "8": "醒神套餐",
+      "9": "果香雙杯樂"
     },
     "Character2": {
-      "name": "Island16.Character2.name",
-      "help": "Island16.Character2.help",
-      "manjuu": "manjuu",
-      "saratoga": "saratoga",
-      "new_jersey": "new_jersey",
-      "tashkent": "tashkent",
-      "lemalin": "lemalin",
-      "shimakaze": "shimakaze",
-      "akashi": "akashi",
-      "ying_swei": "ying_swei",
-      "chao_ho": "chao_ho",
-      "william_d_porter": "william_d_porter",
-      "chen_hai": "chen_hai",
-      "unicorn": "unicorn",
-      "cheshire": "cheshire",
-      "amagi_chan": "amagi_chan",
-      "helena": "helena",
-      "atago": "atago",
-      "friedrich_der_grobe": "friedrich_der_grobe"
+      "name": "第 2 格使用角色",
+      "help": "",
+      "manjuu": "工作啾",
+      "saratoga": "薩拉託加",
+      "new_jersey": "新澤西",
+      "tashkent": "塔什幹",
+      "lemalin": "惡毒",
+      "shimakaze": "島風",
+      "akashi": "明石",
+      "ying_swei": "應瑞",
+      "chao_ho": "肇和",
+      "william_d_porter": "威廉·D·波特",
+      "chen_hai": "鎮海",
+      "unicorn": "獨角獸",
+      "cheshire": "柴郡",
+      "amagi_chan": "小天城",
+      "helena": "海倫娜",
+      "atago": "愛宕",
+      "friedrich_der_grobe": "腓特烈大帝"
     }
   },
   "GeneralShop": {
     "_info": {
-      "name": "軍火商 (通用商店)",
+      "name": "軍火商（通用商店）",
       "help": ""
     },
     "UseGems": {
@@ -3535,12 +3535,12 @@
       "help": ""
     },
     "Refresh": {
-      "name": "刷新軍火商商店",
-      "help": "需要消耗50鑽石"
+      "name": "刷新商店",
+      "help": "刷新需要消耗50鑽石"
     },
     "BuySkinBox": {
       "name": "買外觀裝備箱",
-      "help": "為降低維護成本，過濾器中的外觀箱選擇器不會隨遊戲更新，但Alas會將任何未知的，數量為1的，消耗7000物資的物品視為外觀箱，併購買"
+      "help": "爲降低維護成本，過濾器中的外觀箱選擇器不會隨遊戲更新，但Alas會將任何未知的，數量爲1的，消耗7000物資的物品視爲外觀箱，並購買"
     },
     "ConsumeCoins": {
       "name": "消耗溢出物資",
@@ -3557,8 +3557,8 @@
       "help": ""
     },
     "Refresh": {
-      "name": "刷新艦隊商店",
-      "help": "需要消耗50艦隊幣，艦隊幣不值錢，建議打開"
+      "name": "刷新商店",
+      "help": "刷新需要消耗50艦隊幣，艦隊幣不值錢，建議打開"
     },
     "Filter": {
       "name": "商店過濾器",
@@ -3583,19 +3583,19 @@
     "BOOK_T2": {
       "name": "紫書選擇",
       "help": "",
-      "red": "紅",
-      "blue": "藍",
-      "yellow": "黃"
+      "red": "攻擊",
+      "blue": "防禦",
+      "yellow": "輔助"
     },
     "BOOK_T3": {
       "name": "金書選擇",
       "help": "",
-      "red": "紅",
-      "blue": "藍",
-      "yellow": "黃"
+      "red": "攻擊",
+      "blue": "防禦",
+      "yellow": "輔助"
     },
     "RETROFIT_T2": {
-      "name": "紫改造圖選擇",
+      "name": "紫改造圖紙選擇",
       "help": "",
       "dd": "驅逐",
       "cl": "巡洋",
@@ -3603,7 +3603,7 @@
       "cv": "航母"
     },
     "RETROFIT_T3": {
-      "name": "金改造圖選擇",
+      "name": "金改造圖紙選擇",
       "help": "",
       "dd": "驅逐",
       "cl": "巡洋",
@@ -3651,7 +3651,7 @@
       "name": "二期科研圖紙選擇",
       "help": "",
       "seattle": "西雅圖",
-      "georgia": "喬治亞",
+      "georgia": "佐治亞",
       "kitakaze": "北風",
       "gascogne": "加斯科涅"
     },
@@ -3659,7 +3659,7 @@
       "name": "三期科研圖紙選擇",
       "help": "",
       "cheshire": "柴郡",
-      "mainz": "美因茲",
+      "mainz": "美因茨",
       "odin": "奧丁",
       "champagne": "香檳"
     }
@@ -3701,7 +3701,7 @@
       "name": "白色部件選擇",
       "help": "",
       "general": "通用",
-      "gun": "主砲",
+      "gun": "主炮",
       "torpedo": "魚雷",
       "antiair": "防空",
       "plane": "艦載機"
@@ -3710,7 +3710,7 @@
       "name": "藍色部件選擇",
       "help": "",
       "general": "通用",
-      "gun": "主砲",
+      "gun": "主炮",
       "torpedo": "魚雷",
       "antiair": "防空",
       "plane": "艦載機"
@@ -3719,7 +3719,7 @@
       "name": "紫色部件選擇",
       "help": "",
       "general": "通用",
-      "gun": "主砲",
+      "gun": "主炮",
       "torpedo": "魚雷",
       "antiair": "防空",
       "plane": "艦載機"
@@ -3727,15 +3727,15 @@
   },
   "MeritShop": {
     "_info": {
-      "name": "軍需商店 (演習商店)",
+      "name": "軍需商店（演習商店）",
       "help": ""
     },
     "Refresh": {
-      "name": "刷新軍需商店",
-      "help": "需要消耗20鑽石"
+      "name": "刷新商店",
+      "help": "刷新需要消耗20鑽石"
     },
     "Filter": {
-      "name": "軍需商店過濾器",
+      "name": "商店過濾器",
       "help": ""
     }
   },
@@ -3751,8 +3751,8 @@
   },
   "ShipyardDr": {
     "_info": {
-      "name": "彩科研圖紙購買設定",
-      "help": "每天買彩科研圖紙，彩科研和金科研圖紙折扣獨立計數，每天可以各免费买 2 張"
+      "name": "彩科研圖紙購買設置",
+      "help": "每天買彩科研圖紙，彩科研和金科研圖紙折扣獨立計數，每天可以各白嫖 2 張"
     },
     "ResearchSeries": {
       "name": "科研期數",
@@ -3760,8 +3760,8 @@
       "2": "二期科研",
       "3": "三期科研",
       "4": "四期科研",
-      "5": "5",
-      "6": "6"
+      "5": "五期科研",
+      "6": "六期科研"
     },
     "ShipIndex": {
       "name": "艦船序號",
@@ -3780,12 +3780,12 @@
     },
     "LastRun": {
       "name": "上一次購買時間",
-      "help": "因為遊戲不顯示今天已經購買了幾張，所以這裡記錄上一次購買的時間以防止任務重複運行，這個數值是自動記錄的，一般不需要修改"
+      "help": "因爲遊戲不顯示今天已經購買了幾張，所以這裏記錄上一次購買的時間以防止任務重復運行，這個數值是自動記錄的，一般不需要修改"
     }
   },
   "Shipyard": {
     "_info": {
-      "name": "金科研圖紙購買設定",
+      "name": "金科研圖紙購買設置",
       "help": ""
     },
     "ResearchSeries": {
@@ -3815,16 +3815,16 @@
     },
     "LastRun": {
       "name": "上一次購買時間",
-      "help": "因為遊戲不顯示今天已經購買了幾張，所以這裡記錄上一次購買的時間以防止任務重複運行，這個數值是自動記錄的，一般不需要修改"
+      "help": "因爲遊戲不顯示今天已經購買了幾張，所以這裏記錄上一次購買的時間以防止任務重復運行，這個數值是自動記錄的，一般不需要修改"
     }
   },
   "Gacha": {
     "_info": {
-      "name": "每日建造",
-      "help": "建造完成每日任務，每天建造一次輕型池可貪200物資"
+      "name": "每日抽卡",
+      "help": "抽卡完成每日任務，每天抽一發輕型池可以貪200物資"
     },
     "Pool": {
-      "name": "船池",
+      "name": "卡池",
       "help": "",
       "light": "輕型池",
       "heavy": "重型池",
@@ -3833,7 +3833,7 @@
       "wishing_well": "祈願池"
     },
     "Amount": {
-      "name": "建造數量",
+      "name": "抽卡數量",
       "help": "",
       "1": "1",
       "2": "2",
@@ -3848,11 +3848,11 @@
     },
     "UseTicket": {
       "name": "使用單次建造券",
-      "help": "開啟後支援建造券的池將優先使用建造券建造，無建造券及建造一般池時仍使用魔方建造"
+      "help": "開啓後支持建造券的池將優先使用建造券建造，無建造券及建造一般池時仍使用魔方建造"
     },
     "UseDrill": {
       "name": "使用鑽頭完成建造",
-      "help": ""
+      "help": "選否會等到明天再下水，能貪一個鑽頭"
     }
   },
   "BattlePass": {
@@ -3867,16 +3867,16 @@
   },
   "DataKey": {
     "_info": {
-      "name": "檔案秘鑰",
+      "name": "檔案祕鑰",
       "help": ""
     },
     "Collect": {
-      "name": "領取檔案秘鑰",
+      "name": "領取檔案祕鑰",
       "help": ""
     },
     "ForceCollect": {
-      "name": "強制領取檔案秘鑰",
-      "help": "檔案秘鑰已滿時，強制領取（消除紅點）"
+      "name": "強制領取檔案祕鑰",
+      "help": "檔案祕鑰已滿時，強制領取（消除紅點）"
     }
   },
   "Mail": {
@@ -3889,7 +3889,7 @@
       "help": ""
     },
     "ClaimMaintenance": {
-      "name": "領取維护郵件",
+      "name": "領取維護郵件",
       "help": ""
     },
     "ClaimTradeLicense": {
@@ -3911,15 +3911,15 @@
       "help": ""
     },
     "DayOfWeek": {
-      "name": "延長至星期幾",
-      "help": "建議設定為平日(星期一至星期五)以免錯過購買",
-      "0": "星期一",
-      "1": "星期二",
-      "2": "星期三",
-      "3": "星期四",
-      "4": "星期五",
-      "5": "星期六",
-      "6": "星期日"
+      "name": "延長至周幾",
+      "help": "建議設置爲平日(週一至週五)以免錯過購買",
+      "0": "週一",
+      "1": "週二",
+      "2": "週三",
+      "3": "週四",
+      "4": "週五",
+      "5": "週六",
+      "6": "週日"
     }
   },
   "Minigame": {
@@ -3928,22 +3928,22 @@
       "help": ""
     },
     "Collect": {
-      "name": "啟用",
+      "name": "啓用",
       "help": ""
     }
   },
   "PrivateQuarters": {
     "_info": {
-      "name": "宿舍計劃設定",
+      "name": "宿舍計劃設置",
       "help": ""
     },
     "BuyRoses": {
       "name": "購買每週浪漫滿分",
-      "help": "此功能未於台服實現\n浪漫滿分購買數量每週一刷新\n每次執行會嘗試一次性全部購買，若物資不夠（24K物資）則取消購買並延後至明日執行"
+      "help": "浪漫滿分購買次數每週一重置\n每次運行會嘗試一次性全部購買，如果物資不夠（不足24K）則取消購買並推遲至次日運行"
     },
     "BuyCake": {
       "name": "購買每週蛋糕禮盒",
-      "help": "此功能未於台服實現\n蛋糕禮盒購買數量每週一刷新\n每次執行會嘗試一次性全部購買，若鑽石不夠（210鑽石）則取消購買並延後至明日執行"
+      "help": "蛋糕禮盒購買次數每週一重置\n每次運行會嘗試一次性全部購買，如果鑽石不夠（不足210鑽石）則取消購買並推遲至次日運行"
     },
     "TargetInteract": {
       "name": "清空每日精力",
@@ -3951,12 +3951,12 @@
     },
     "TargetShip": {
       "name": "選擇每日互動的艦娘",
-      "help": "選擇需要與之每日互動的艦娘\n台服將跳過大鳳",
-      "anchorage": "安克拉治",
+      "help": "選擇需要與之每日互動的艦娘",
+      "anchorage": "安克雷奇",
       "noshiro": "能代",
       "sirius": "天狼星",
-      "new_jersey": "紐澤西",
-      "taihou": "大鳳",
+      "new_jersey": "新澤西",
+      "taihou": "鷯",
       "aegir": "埃吉爾"
     }
   },
@@ -3967,10 +3967,10 @@
     },
     "UseDailySkip": {
       "name": "使用快速挑戰",
-      "help": "每日關卡S勝後，解鎖掃蕩，未解鎖時，自動退回至傳統出擊"
+      "help": "每日關卡S勝後，解鎖掃蕩，未解鎖時，自動回退至傳統出擊"
     },
     "EscortMission": {
-      "name": "商船護送 (部件)",
+      "name": "商船護送（部件本，魚雷本）",
       "help": "",
       "skip": "不打",
       "first": "第一個",
@@ -3988,7 +3988,7 @@
       "6": "6"
     },
     "AdvanceMission": {
-      "name": "海域突進 (教材)",
+      "name": "海域突進（教材本，自爆本）",
       "help": "",
       "skip": "不打",
       "first": "第一個",
@@ -4006,7 +4006,7 @@
       "6": "6"
     },
     "FierceAssault": {
-      "name": "斬首行動 (裝備箱)",
+      "name": "斬首行動（箱子本）",
       "help": "",
       "skip": "不打",
       "first": "第一個",
@@ -4024,7 +4024,7 @@
       "6": "6"
     },
     "TacticalTraining": {
-      "name": "戰術研修 (心智)",
+      "name": "戰術研修（心智本）",
       "help": "",
       "skip": "不打",
       "first": "第一個",
@@ -4042,7 +4042,7 @@
       "6": "6"
     },
     "SupplyLineDisruption": {
-      "name": "破交作戰 (潛艇)",
+      "name": "破交作戰（潛艇本）",
       "help": "需要解鎖快速挑戰，否則將跳過",
       "skip": "不打",
       "first": "第一個",
@@ -4050,7 +4050,7 @@
       "third": "第三個"
     },
     "ModuleDevelopment": {
-      "name": "兵裝訓練（兵裝）",
+      "name": "兵裝訓練（兵裝本）",
       "help": "",
       "skip": "不打",
       "first": "第一個",
@@ -4087,11 +4087,11 @@
   "Hard": {
     "_info": {
       "name": "困難圖",
-      "help": "執行每日困難圖需要解鎖周回模式，未解鎖前則使用主線圖功能"
+      "help": "運行每日困難圖需要解鎖週迴模式，未解鎖前應使用主線圖功能"
     },
     "HardStage": {
-      "name": "困難地圖",
-      "help": "例如 11-2、12-2、12-4"
+      "name": "困難關卡",
+      "help": "例如 11-2, 12-2, 12-4"
     },
     "HardFleet": {
       "name": "出擊艦隊",
@@ -4106,14 +4106,14 @@
       "help": "打演習，血量過低時自動撤退"
     },
     "DelayUntilHoursBeforeNextUpdate": {
-      "name": "延後演習至下次更新次數前 X 小時",
+      "name": "推遲演習至下次更新次數前 X 小時",
       "help": "",
       "1": "1",
       "2": "2",
       "3": "3",
       "4": "4",
       "5": "5",
-      "12": "不延後"
+      "12": "不推遲"
     },
     "OpponentChooseMode": {
       "name": "對手選擇模式",
@@ -4129,7 +4129,7 @@
     },
     "ExerciseStrategy": {
       "name": "演習策略",
-      "help": "若保留 5 次，則會在設定時間嘗試衝擊元帥，並在周日18點刷新后清空所有次數",
+      "help": "若保留 5 次，則會在設定時間嘗試衝擊元帥，並在週日 18 點刷新後清空所有次數",
       "aggressive": "清空演習次數",
       "fri18": "保留5次直到星期五18點",
       "sat0": "保留5次直到星期六0點",
@@ -4144,15 +4144,15 @@
       "help": "0.0 ~ 1.0，檢測最上方的血條"
     },
     "LowHpConfirmWait": {
-      "name": "血量低於閾值後，過 X 秒再撤退",
-      "help": "推薦 1.0 ~ 3.0，因為人物立繪會遮擋血條，所以需要一定的時間確認血量是否真的低於閾值"
+      "name": "血量低於閾值後, 過 X 秒再撤退",
+      "help": "推薦 1.0 ~ 3.0，因爲人物立繪會遮擋血條，所以需要一定的時間確認血量是否真的低於閾值"
     },
     "OpponentRefreshValue": {
       "name": "今日演習對手已刷新 X 次",
-      "help": "自動更新的數值，過0點重置\n如果你有手動刷新對手，應該修改這個數值"
+      "help": "自動更新的數值，過0點重置\n如果你手動刷新的對手，應該修改這個數值"
     },
     "OpponentRefreshRecord": {
-      "name": "演習對手刷新紀錄時間",
+      "name": "演習對手刷新記錄時間",
       "help": ""
     }
   },
@@ -4177,17 +4177,17 @@
   "OpsiAshAssist": {
     "_info": {
       "name": "META支援",
-      "help": "打每日三次的信標支援"
+      "help": "打每天三次的信標支援"
     },
     "Tier": {
       "name": "尋找等級大於 X 的信標",
-      "help": "如果嘗試若干次仍找不到符合條件的信標，則隨緣打"
+      "help": "如果嘗試若幹次仍找不到符合條件的信標，隨緣打"
     }
   },
   "OpsiGeneral": {
     "_info": {
-      "name": "大世界通用設定",
-      "help": "所有大世界功能都會使用這些設定"
+      "name": "大世界通用設置",
+      "help": "所有大世界功能都會使用這些設置"
     },
     "UseLogger": {
       "name": "使用坐標記錄儀",
@@ -4200,7 +4200,7 @@
       "1": "1次 (1000油, 100行動力)",
       "2": "2次 (2000油, 200行動力)",
       "3": "3次 (4000油, 400行動力)",
-      "4": "4次 (6000油, 400行動力)",
+      "4": "4次 (6000油, 600行動力)",
       "5": "5次 (10000油, 1000行動力)"
     },
     "OilLimit": {
@@ -4213,23 +4213,23 @@
     },
     "UseRepairPack": {
       "name": "使用維修箱修船",
-      "help": "開啟後，將使用倉庫內的維修箱修船，建議配合侵蝕1練級功能使用"
+      "help": "開啓後，將使用倉庫內的維修箱修船，建議配合侵蝕1練級功能使用"
     },
     "RepairPackThreshold": {
       "name": "任意艦船血量低於 X 後，使用維修箱修理",
-      "help": "僅在開啟“使用維修箱修船”時生效\n僅在打完深淵海域、塞壬要塞、月度Boss後嘗試維修\n0.0 ~ 1.0"
+      "help": "僅在開啓“使用維修箱修船”時生效\n僅在打完深淵海域、塞壬要塞、月度Boss後嘗試維修\n0.0 ~ 1.0"
     },
     "DoRandomMapEvent": {
       "name": "完成地圖隨機事件",
-      "help": "在自律尋敵完成後重新掃描一遍地圖，購買明石商店、使用塞壬信息收集裝置、使用塞壬探測裝置、解鎖兩艦隊機關"
+      "help": "在自律尋敵完成後重新掃描一遍地圖，購買明石商店，使用塞壬信息收集裝置、使用塞壬探測裝置、解鎖兩艦隊機關"
     },
     "AkashiShopFilter": {
-      "name": "明石商店過濾器",
-      "help": "一般不需要修改，只買行動力和紫幣即可"
+      "name": "商店過濾器",
+      "help": "默認只購買體力nanoda。如果要購買紫幣，設置爲 'ActionPoint > PurpleCoins'"
     },
     "NotifyOpsiMail": {
-      "name": "推送大世界相關資訊",
-      "help": "推送關於侵蝕1和短貓的資訊，需要同時開啟「錯誤推送」功能，由於資訊較多，可能會比較吵"
+      "name": "推送大世界相關信息",
+      "help": "推送關於侵蝕1和短貓的信息，需要同時開啓“錯誤推送”功能，由於信息較多，可能會比較吵"
     }
   },
   "OpsiAshBeacon": {
@@ -4249,7 +4249,7 @@
     },
     "DossierAutoAttackMode": {
       "name": "檔案信標自動作戰",
-      "help": "在檔案信標首次戰鬥後進行自動作戰"
+      "help": "在檔案信標首次戰鬥後進行自動作戰，目前僅國服可用"
     },
     "RequestAssist": {
       "name": "呼叫支援",
@@ -4257,26 +4257,26 @@
     },
     "EnsureFullyCollected": {
       "name": "保證收集滿每日200信標數據",
-      "help": "在收集滿為前，暫時無視保留行動力設定，需要同時開啟 \"短貓相接\""
+      "help": "在收集滿爲前，暫時無視保留行動力設置，需要同時開啓 \"短貓相接\""
     },
     "AutoCollectShip": {
       "name": "自動獲取新META艦船",
-      "help": "領取獎勵時自動獲取新META艦船。關閉後將不會點擊「點擊同步」按鈕，需要手動領取"
+      "help": "領取獎勵時自動獲取新META艦船。關閉後將不會點擊\"點擊同步\"按鈕，需要手動領取"
     }
   },
   "OpsiFleetFilter": {
     "_info": {
-      "name": "艦隊設定",
+      "name": "艦隊設置",
       "help": ""
     },
     "Filter": {
       "name": "出擊艦隊過濾器",
-      "help": "所有艦隊輪流攻擊boss，一個艦隊死了就換另一個。\n請確保艦隊有足夠強度，最終能打死BOSS。\n使用 \"CallSubmarine\" 以在戰鬥前呼叫潛艇，但運行間隔將增加至60分鐘"
+      "help": "車輪戰打BOSS，一個艦隊死了就換另一個。\n請確保艦隊有足夠強度，最終能打死BOSS。\n使用 \"CallSubmarine\" 以在戰鬥前呼叫潛艇，但運行間隔將增加至60分鍾"
     }
   },
   "OpsiFleet": {
     "_info": {
-      "name": "艦隊設定",
+      "name": "艦隊設置",
       "help": ""
     },
     "Fleet": {
@@ -4289,13 +4289,13 @@
     },
     "Submarine": {
       "name": "呼叫潛艇",
-      "help": "開啟後，運行間隔將增加至60分鐘"
+      "help": "開啓後，運行間隔將增加至60分鍾"
     }
   },
   "OpsiExplore": {
     "_info": {
       "name": "大世界開荒",
-      "help": "每月月初開荒大世界的所有海域，不需要買戰役信息記錄儀（5000油道具）\n這個功能將每隔27分鍾清理一個海域，以保證空域搜索冷卻\n使用此功能前必須滿足以下條件：\n- 通關大世界主線任務並完成模擬戰+塞壬試驗場"
+      "help": "每月月初開荒大世界的所有海域，不需要買戰役信息記錄儀（5000油道具）\n這個功能將每隔27分鍾清理一個海域，以保證空域搜索冷卻\n使用此功能前必須滿足以下條件：\n- 通關大世界主線並完成模擬戰+塞壬試驗場"
     },
     "SpecialRadar": {
       "name": "已購買戰役信息記錄儀（5000油道具）",
@@ -4303,42 +4303,42 @@
     },
     "ForceRun": {
       "name": "無視運行間隔強制運行",
-      "help": "開啟後將帶來額外的行動力消耗，一般不用打開，慢慢打就好"
+      "help": "開啓後將帶來額外的行動力消耗，一般不用打開，慢慢打就好"
     },
     "IfSkipSirenResearch": {
       "name": "跳過塞壬研究裝置",
-      "help": "開啟後，將跳過對應座標等級的塞壬研究裝置,以方便卡bug\\n經過了幾個海域的初步測試，但未完成一次完整的月度開荒，可能存在未知問題",
+      "help": "開啓後，將跳過對應坐標等級的塞壬研究裝置,以方便卡bug\n經過了幾個海域的初步測試，但未完成一次完整的月度開荒，可能存在未知問題",
       "0": "不跳過",
-      "6": "跳過6級",
+      "6": "僅跳過6級",
       "65": "跳過6級和5級",
       "654": "跳過6級、5級和4級"
     },
     "SkipedSirenResearch": {
       "name": "已經跳過塞壬研究裝置的海域",
-      "help": "這個數值是自動記錄的，不需要手動修改。\\n月初重新開荒時會重置，或者修改「上一次完成的區域」為0並重新運行月度開荒來重置"
+      "help": "這個數值是自動記錄的，不需要手動修改。\n月初重新開荒時會重置，或者修改\"上一次完成的區域\"爲0並重新運行月度開荒來重置"
     },
     "LastZone": {
       "name": "上一次完成的區域",
-      "help": "自動更新的數值，填0可重置進度，重置後自動跳過已開荒的海域\n支援海域ID、國服/國際服/日服/台服海域名稱，例如 \"51\", \"NA海域東南E\", \"NA Ocean SE Sector E\""
+      "help": "自動更新的數值，填0可重置進度，重置後自動跳過已開荒的海域\n支持海域ID、國服/國際服/日服/臺服海域名稱，例如 \"51\", \"NA海域東南E\", \"NA Ocean SE Sector E\""
     }
   },
   "OpsiShop": {
     "_info": {
       "name": "大世界商店",
-      "help": "使用此功能前必須滿足以下條件：\n- 通關大世界主線任務+模擬戰\n- 開啟大世界開荒任務或使用戰役信息記錄儀（5000油道具）\n- 通關大世界主線後的下個月，也就是港口商店變成新版商店後才可使用"
+      "help": "使用此功能前必須滿足以下條件：\n- 通關大世界主線並完成模擬戰+塞壬試驗場\n- 啓用大世界開荒任務或使用戰役信息記錄儀（5000油道具）\n- 通關大世界主線後的下一個月，即港口商店變爲新版商店後纔可使用"
     },
     "PresetFilter": {
       "name": "港口商店過濾器",
-      "help": "一般用預設即可，白票溢出建議選 \"高價值物品與META材料\"，新手建議選 \"不購買META材料\"，這會買除了META材料以外的所有東西。\n高價值物品為行動點、坐標和金或者更高級別的物品；META材料為META通用戰術教材和4種強化材料。",
+      "help": "一般默認即可，白票溢出建議選 \"高價值物品與META材料\"，萌新建議選 \"不購買META材料\"，這會買除了META材料以外的所有東西。\n高價值物品爲行動力、坐標和金或者更高級別的商品；META材料爲META通用戰術教材和4種強化材料。",
       "max_benefit": "高價值物品",
       "max_benefit_meta": "高價值物品與META材料",
       "no_meta": "不購買META材料",
       "all": "全部",
-      "custom": "自定義過濾器"
+      "custom": "自定義"
     },
     "CustomFilter": {
       "name": "自定義過濾器",
-      "help": "使用自定義過濾器需將 \"港口商店過濾器\" 設定為 \"自定義\"，並閱讀 https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn"
+      "help": "使用自定義過濾器需將 \"港口商店過濾器\" 設置爲 \"自定義\"，並閱讀 https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn"
     },
     "DisableBeforeDate": {
       "name": "每月 X 號前，不購買大世界商店",
@@ -4347,8 +4347,8 @@
   },
   "OpsiVoucher": {
     "_info": {
-      "name": "兌換商店（每月白票商店）",
-      "help": "購買每月白票商店\n使用此功能前必須滿足以下條件：\n- 通關大世界主線任務並完成模擬戰+塞壬試驗場"
+      "name": "特別兌換商店（每月白票商店）",
+      "help": "購買每月白票商店\n使用此功能前必須滿足以下條件：\n- 通關大世界主線並完成模擬戰+塞壬試驗場"
     },
     "Filter": {
       "name": "商店過濾器",
@@ -4358,7 +4358,7 @@
   "OpsiDaily": {
     "_info": {
       "name": "大世界每日",
-      "help": "使用此功能前必須滿足以下條件：\n- 通關大世界主線任務並完成模擬戰+塞壬試驗場\n- 開啟大世界開荒任務或使用戰役信息記錄儀（5000油道具）"
+      "help": "使用此功能前必須滿足以下條件：\n- 通關大世界主線並完成模擬戰+塞壬試驗場\n- 啓用大世界開荒任務或使用戰役信息記錄儀（5000油道具）"
     },
     "DoMission": {
       "name": "做大世界每日",
@@ -4370,7 +4370,7 @@
     },
     "SkipSirenResearchMission": {
       "name": "不做塞壬研究任務",
-      "help": "開啟後，將跳過“塞壬研究·I”與“塞壬研究·II”兩個任務\n塞壬研究任務使用黃幣兌換紫幣"
+      "help": "開啓後，將跳過“塞壬研究·I”與“塞壬研究·II”兩個任務\n塞壬研究任務使用黃幣兌換紫幣"
     },
     "KeepMissionZone": {
       "name": "保留海域不清理",
@@ -4383,50 +4383,50 @@
   },
   "OpsiObscure": {
     "_info": {
-      "name": "隱秘海域",
-      "help": "每隔27分鍾清理一個隱秘海域，以保證空域搜索冷卻\n使用此功能前必須滿足以下條件：\n- 通關大世界主線任務並完成模擬戰+塞壬試驗場\n- 開啟大世界開荒任務或使用戰役信息記錄儀（5000油道具）"
+      "name": "隱祕海域",
+      "help": "每隔27分鍾清理一個隱祕海域，以保證空域搜索冷卻\n使用此功能前必須滿足以下條件：\n- 通關大世界主線並完成模擬戰+塞壬試驗場\n- 啓用大世界開荒任務或使用戰役信息記錄儀（5000油道具）"
     },
     "SkipHazard2Obscure": {
-      "name": "不清理2級座標",
-      "help": "開啟後，將不會打侵蝕等級為2的隱秘海域"
+      "name": "不清理2級坐標",
+      "help": "開啓後，將不會打侵蝕等級爲2的隱祕海域"
     },
     "ForceRun": {
-      "name": "無視執行間隔強制執行",
-      "help": "啟用後將帶來額外的行動力消耗，一般不用打開，慢慢打就好"
+      "name": "無視運行間隔強制運行",
+      "help": "開啓後將帶來額外的行動力消耗，一般不用打開，慢慢打就好"
     }
   },
   "OpsiAbyssal": {
     "_info": {
       "name": "深淵海域",
-      "help": "清理倉庫中的深淵海域坐標\n使用此功能前必須滿足以下條件：\n- 通關大世界主線任務並完成模擬戰+塞壬試驗場\n- 開啟大世界開荒任務或使用戰役信息記錄儀（5000油道具）"
+      "help": "清理倉庫中的深淵海域坐標\n使用此功能前必須滿足以下條件：\n- 通關大世界主線並完成模擬戰+塞壬試驗場\n- 啓用大世界開荒任務或使用戰役信息記錄儀（5000油道具）"
     },
     "ForceRun": {
       "name": "無視運行間隔強制運行",
-      "help": "開啟後將帶來額外的行動力消耗，一般不用打開，慢慢打就好"
+      "help": "開啓後將帶來額外的行動力消耗，一般不用打開，慢慢打就好"
     }
   },
   "OpsiStronghold": {
     "_info": {
       "name": "塞壬要塞",
-      "help": "清理每週的塞壬要塞\n使用此功能前必須滿足以下條件：\n- 通關大世界主線任務並完成模擬戰+塞壬試驗場\n- 開啟大世界開荒任務或使用戰役信息記錄儀（5000油道具）"
+      "help": "清理每週的塞壬要塞\n使用此功能前必須滿足以下條件：\n- 通關大世界主線並完成模擬戰+塞壬試驗場\n- 啓用大世界開荒任務或使用戰役信息記錄儀（5000油道具）"
     },
     "SubmarineEveryCombat": {
-      "name": "潜艇每戰出擊",
-      "help": "開啟後，如果出擊艦隊篩檢程式中存在潜艇編隊，則當潜艇編隊彈藥耗盡時，退出塞壬要塞並延后任務"
+      "name": "潛艇每戰出擊",
+      "help": "開啓後，如果出擊艦隊過濾器中存在潛艇編隊，則當潛艇編隊彈藥耗盡時，退出塞壬要塞並推遲任務"
     },
     "ForceRun": {
       "name": "無視運行間隔強制運行",
-      "help": "開啟後將帶來額外的行動力消耗，一般不用打開，慢慢打就好"
+      "help": "開啓後將帶來額外的行動力消耗，一般不用打開，慢慢打就好"
     },
     "HasStronghold": {
-      "name": "上次運行任務時是否找到塞壬要塞",
-      "help": "這個數值是自動記錄的，一般不需要修改"
+      "name": "OpsiStronghold.HasStronghold.name",
+      "help": "OpsiStronghold.HasStronghold.help"
     }
   },
   "OpsiMonthBoss": {
     "_info": {
       "name": "月度Boss",
-      "help": "清理（簡單/困難）月度boss，簡單難度失敗會繼續出擊直到擊破，困難難度失敗則直接終止任務\n使用此功能需要滿足以下條件：\n- 通關大世界主線任務並完成模擬戰+塞壬試驗場\n- 啟用大世界開荒任務或使用戰役信息記錄儀（5000油道具）"
+      "help": "清理（簡單/困難）月度boss，簡單難度失敗會繼續出擊直到擊破，困難難度失敗則直接終止任務\n使用此功能需要滿足以下條件：\n- 通關大世界主線並完成模擬戰+塞壬試驗場\n- 啓用大世界開荒任務或使用戰役信息記錄儀（5000油道具）"
     },
     "Mode": {
       "name": "清理月度Boss的難度",
@@ -4435,26 +4435,26 @@
       "normal_hard": "簡單 + 困難"
     },
     "CheckAdaptability": {
-      "name": "適應性在203/203/156以上才打BOSS",
+      "name": "適應性在203/203/156以上纔打BOSS",
       "help": ""
     },
     "ForceRun": {
       "name": "無視運行間隔強制運行",
-      "help": "開啟後將帶來額外的行動力消耗，一般不用打開，慢慢打就好"
+      "help": "開啓後將帶來額外的行動力消耗，一般不用打開，慢慢打就好"
     }
   },
   "OpsiMeowfficerFarming": {
     "_info": {
       "name": "短貓相接",
-      "help": "按順時針出擊指定侵蝕等級的海域\n使用此功能前必須滿足以下條件：\n- 通關大世界主線任務並完成模擬戰+塞壬試驗場\n- 開啟大世界開荒任務或使用戰役信息記錄儀（5000油道具）"
+      "help": "按順時針出擊指定侵蝕等級的海域\n使用此功能前必須滿足以下條件：\n- 通關大世界主線並完成模擬戰+塞壬試驗場\n- 啓用大世界開荒任務或使用戰役信息記錄儀（5000油道具）"
     },
     "ActionPointPreserve": {
       "name": "保留 X 點行動力",
-      "help": "行動力低於 X 後停止，自動打開行動力箱子，X 包含箱子中的行動力，建議保留 1000 點行動力给侵蝕1練級\n這個值將在大世界重置前3天自動減少至300點，如果啟用侵蝕1練級則改為1000點，並在最後一天自動減少至0點"
+      "help": "行動力低於 X 後停止，自動打開行動力箱子，X 包含箱子中的行動力，建議保留3000行動力給侵蝕1練級\n這個值將在大世界重置前3天自動減少至200點，如果啓用侵蝕1練級則改爲1000點，並在最後一天自動減少至0點"
     },
     "HazardLevel": {
       "name": "侵蝕等級",
-      "help": "按順時針出擊特定侵蝕等級的海域\n建議選 5 或 3 ，有更高的 貓點/行動力 比",
+      "help": "按順時針出擊特定侵蝕等級的海域\n建議選 5 或 3，有更高的 貓點/行動力 比",
       "2": "2",
       "3": "3",
       "4": "4",
@@ -4464,53 +4464,53 @@
     },
     "TargetZone": {
       "name": "指定海域",
-      "help": "僅出擊指定的海域，可以用來獲取大世界成就星星\n自動更新的數值，填0可重置進度，重置後自動跳過已開荒的海域\n支援海域ID、國服/國際服/日服/台服海域名稱，例如 \"51\", \"NA海域東南E\", \"NA Ocean SE Sector E\"\n填入默認值0，或者刪除數值即可取消指定"
+      "help": "僅出擊指定的海域，可以用來獲取大世界成就星星\n支持海域ID、國服/國際服/日服/臺服海域名稱，例如 \"51\", \"NA海域東南E\", \"NA Ocean SE Sector E\"\n填入默認值0，或者刪除數值即可取消指定"
     },
     "StayInZone": {
-      "name": "指定海域计划作战",
-      "help": "雪风大人温馨提示:打开这个功能并指定海域后，将会在指定海域进行计划作战，不会再回到港口nanoda!侵蚀三推荐NA海域东南B，侵蚀五推荐卡利比安海B或者C nanoda!"
+      "name": "指定海域計劃作戰",
+      "help": "雪風大人溫馨提示:打開這個功能並指定海域後，將會在指定海域進行計劃作戰，不會再回到港口nanoda!侵蝕三推薦NA海域東南B，侵蝕五推薦卡利比安海B或者C nanoda!"
     },
     "APPreserveUntilReset": {
       "name": "保留行動力直到月底",
-      "help": "'保留 X 點行動力' 設定不會在大世界重置前幾天減少\\n注意：開啟後只會在跨月每日任務中消耗這些行動力，未啟用跨月每日任務時該設定無效，這意味著你需要手動使用這些行動力以獲得更高的收益"
+      "help": "'保留 X 點行動力' 設置不會在大世界重置前幾天減少\n注意：開啓後只會在跨月每日任務中消耗這些行動力，未啓用跨月每日任務時該設置無效，這意味着你需要手動使用這些行動力以獲得更高的收益"
     },
     "SirenDetectorSearch_Enable": {
-      "name": "OpsiMeowfficerFarming.SirenDetectorSearch_Enable.name",
-      "help": "OpsiMeowfficerFarming.SirenDetectorSearch_Enable.help"
+      "name": "自動尋找塞壬探測裝置",
+      "help": "在短貓相接任務中自動尋找塞壬探測裝置，並記錄找到的海域\n僅在中心海域（region 5）中尋找，不會在其他區域尋找"
     },
     "SirenDetectorSearch_HazardLevel": {
-      "name": "OpsiMeowfficerFarming.SirenDetectorSearch_HazardLevel.name",
-      "help": "OpsiMeowfficerFarming.SirenDetectorSearch_HazardLevel.help",
+      "name": "塞壬探測裝置侵蝕等級",
+      "help": "在中心海域中按順時針出擊特定侵蝕等級的海域來尋找塞壬探測裝置\n中心海域只有五和六級海域\n注意：只在中心海域（region 5）中選擇，不會選擇其他區域的海域",
       "5": "5",
       "6": "6"
     },
     "SirenDetectorSearch_FleetForBlock": {
-      "name": "OpsiMeowfficerFarming.SirenDetectorSearch_FleetForBlock.name",
-      "help": "OpsiMeowfficerFarming.SirenDetectorSearch_FleetForBlock.help",
+      "name": "卡位艦隊",
+      "help": "用於卡住敵人的艦隊，以免搜索時被敵人打斷，請選擇和短貓任務不同的艦隊",
       "1": "1",
       "2": "2",
       "3": "3",
       "4": "4"
     },
     "SirenDetectorSearch_StopAfterFound": {
-      "name": "OpsiMeowfficerFarming.SirenDetectorSearch_StopAfterFound.name",
-      "help": "OpsiMeowfficerFarming.SirenDetectorSearch_StopAfterFound.help"
+      "name": "尋找 X 個塞壬探測裝置後停止",
+      "help": "尋找並記錄到指定數量的塞壬探測裝置後，停止搜索並回到正常短貓流程（ 實際上找了x個裝置的數量是由下面的記錄表決定的，如果記錄表爲空，則找x個裝置後停止）記錄中有y個裝置，則找x-y個裝置後停止\n設置爲 0 表示不限制，會一直搜索直到行動力不足"
     },
     "SirenDetectorSearch_FoundZones": {
-      "name": "OpsiMeowfficerFarming.SirenDetectorSearch_FoundZones.name",
-      "help": "OpsiMeowfficerFarming.SirenDetectorSearch_FoundZones.help"
+      "name": "已找到的塞壬探測裝置海域",
+      "help": "已找到的塞壬探測裝置海域，如果對應海域的塞壬探測裝置已經被使用，則可以手動刪除對應海域的記錄"
     }
   },
   "OpsiHazard1Leveling": {
     "_info": {
       "name": "侵蝕1練級",
-      "help": "消耗作戰補給憑證以獲取大量經驗和少量行動力\n推薦攜帶1-2艘預裝填航母以獲取最高的時均收益\n\n為了避免無法購買港口商店的商品，Alas會默認保留100000作戰補給憑證\n由於在神秘商店購買行動力需要大量作戰補給憑證，啟用本功能後會使用溢出行動力運行短猫相接來補充"
+      "help": "消耗作戰補給憑證以獲取大量經驗和少量行動力\n推薦攜帶1-2艘預裝填航母以獲取最高的時均收益\n\n原版 Alas 的一些防呆限制已被解除，請謹慎設置參數"
     },
     "TargetZone": {
       "name": "指定海域",
-      "help": "僅出擊指定的海域，可以用來規避遊戲BUG導致的無法重繪海域",
+      "help": "僅出擊指定的海域，可以用來規避遊戲BUG導致的無法刷新海域",
       "0": "不指定",
-      "44": "44 | 西大陸棚D",
+      "44": "44 | 西大陸架D",
       "22": "22 | NA海域西南B"
     },
     "OperationCoinsPreserve": {
@@ -4518,102 +4518,102 @@
       "help": "作戰補給憑證低於 X 時運行短貓相接，不建議修改"
     },
     "MinimumActionPointReserve": {
-      "name": "保留 X 点行动力",
-      "help": "搏一搏，单车变摩托，雪风大人已经把幸运分给指挥官了nanoda，上吧nanoda！"
+      "name": "保留 X 點行動力",
+      "help": "搏一搏，單車變摩託，雪風大人已經把幸運分給指揮官了nanoda，上吧nanoda！"
     },
     "ExecuteFixedPatrolScan": {
-      "name": "舰队强制移动",
-      "help": "雪风大人温馨提示：开启后，将强制移动舰队以免找不到明石，指挥官你也不想因为找不到明石导致坠机nanoda？打开这个功能轻轻松松达到50万+海里每月nanoda，指挥官还在等什么nanoda!"
+      "name": "艦隊強制移動",
+      "help": "雪風大人溫馨提示：開啓後，將強制移動艦隊以免找不到明石，指揮官你也不想因爲找不到明石導致墜機nanoda？打開這個功能輕輕鬆鬆達到50萬海裏每月nanoda，指揮官還在等什麼nanoda!"
     },
     "Cl1Filter": {
-      "name": "明石购买筛选",
-      "help": "侵蚀一明石一般只购买体力nanoda"
+      "name": "明石購買篩選",
+      "help": "默認只購買體力nanoda。如果要同時購買紫幣，設置爲 'ActionPoint > PurpleCoins'"
     },
     "RecordNonCL1AP": {
-      "name": "OpsiHazard1Leveling.RecordNonCL1AP.name",
-      "help": "OpsiHazard1Leveling.RecordNonCL1AP.help"
+      "name": "統計非侵蝕1來源體力",
+      "help": "開啓後，將統計所有來源的體力獲取數據（如明石商店購買）。關閉後，僅在侵蝕1練級任務中統計體力數據，忽略其他任務或手動操作時的體力獲取。"
     }
   },
   "OpsiSirenBug": {
     "_info": {
-      "name": "OpsiSirenBug._info.name",
-      "help": "OpsiSirenBug._info.help"
+      "name": "塞壬研究裝置 Bug 利用 Beta",
+      "help": "專門用於配置塞壬研究裝置及其 Bug 利用的相關選項"
     },
     "SirenResearch_Enable": {
-      "name": "OpsiSirenBug.SirenResearch_Enable.name",
-      "help": "OpsiSirenBug.SirenResearch_Enable.help"
+      "name": "啓用塞壬研究裝置",
+      "help": "啓用後使用紫幣通過塞壬研究裝置轉換爲黃幣\n需要足夠的海裏數支撐紫幣消耗"
     },
     "SirenBug_Enable": {
-      "name": "OpsiSirenBug.SirenBug_Enable.name",
-      "help": "OpsiSirenBug.SirenBug_Enable.help"
+      "name": "啓用塞壬研究裝置 Bug 利用",
+      "help": "利用塞壬研究裝置 Bug，無限刷取高侵蝕區域塞壬研究裝置資源\n啓用該功能前需啓用“塞壬研究裝置”功能，否則該功能將不生效"
     },
     "SirenBug_Type": {
-      "name": "OpsiSirenBug.SirenBug_Type.name",
-      "help": "OpsiSirenBug.SirenBug_Type.help",
-      "dangerous": "dangerous",
-      "safe": "safe"
+      "name": "前往的海域類型爲",
+      "help": "選擇前往的海域是安全海域還是普通海域",
+      "dangerous": "普通海域",
+      "safe": "安全海域"
     },
     "SirenBug_Zone": {
-      "name": "OpsiSirenBug.SirenBug_Zone.name",
-      "help": "OpsiSirenBug.SirenBug_Zone.help"
+      "name": "利用 Bug 的海域名稱或 ID",
+      "help": "指定已刷出塞壬研究裝置的高侵蝕區域\n支持海域ID、國服/國際服/日服/臺服海域名稱，例如 \"51\", \"NA海域東南E\", \"NA Ocean SE Sector E\"\n填入默認值 0，或者清空數值即可取消指定"
     },
     "SirenBug_Grid": {
-      "name": "OpsiSirenBug.SirenBug_Grid.name",
-      "help": "OpsiSirenBug.SirenBug_Grid.help"
+      "name": "裝置所在的地圖坐標",
+      "help": "指定塞壬研究裝置在地圖中的坐標，若爲空則執行掃圖尋找\n坐標格式爲一個大寫字母代表列號加一個阿拉伯數字代表行號，如 \"B10\" 代表第二列第十行\n地圖左上角格子爲第一列第一行，即 \"A1\"，每往右一格列數加一，往下一格行數加一\n簡單來說，從左上角開始，先往右數字母，再往下數數字"
     },
     "DisableTaskSwitchDuringBug": {
       "name": "塞壬研究裝置 Bug 利用期間禁止調度器切換任務",
-      "help": "Bug 利用期間臨時禁用調度器的任務切換檢查，避免被委託、日常等任務打斷\\n如果 Bug 利用過程中經常被其他到時任務中斷，可以啟用此選項",
+      "help": "Bug 利用期間臨時禁用調度器的任務切換檢查，避免被委託、日常等任務打斷\n如果 Bug 利用過程中經常被其他到時任務中斷，可以啓用此選項",
       "True": "是",
       "False": "否"
     },
     "SirenBug_DailyCount": {
-      "name": "OpsiSirenBug.SirenBug_DailyCount.name",
-      "help": "OpsiSirenBug.SirenBug_DailyCount.help"
+      "name": "已利用 塞壬研究裝置 Bug 利用 次數",
+      "help": "已經利用塞壬研究裝置 Bug 利用的次數，每次掃圖前會根據此數值等待對應的秒數"
     },
     "SirenBug_DailyCountRecord": {
-      "name": "OpsiSirenBug.SirenBug_DailyCountRecord.name",
-      "help": "OpsiSirenBug.SirenBug_DailyCountRecord.help"
+      "name": "上次塞壬研究裝置 Bug 利用的時間",
+      "help": ""
     },
     "SirenBug_CountLimit": {
-      "name": "OpsiSirenBug.SirenBug_CountLimit.name",
-      "help": "OpsiSirenBug.SirenBug_CountLimit.help"
+      "name": "當利用 Bug 次數達到此數值時自動收菜 (0爲不啓用)",
+      "help": "注意：可能導致把塞壬研究裝置刷沒，刷沒後果自負\n當利用 Bug 次數達到設置的數值時，使用當前艦隊卡住敵艦並使用另一艦隊收菜"
     },
     "SirenBug_CrossDay": {
-      "name": "OpsiSirenBug.SirenBug_CrossDay.name",
-      "help": "OpsiSirenBug.SirenBug_CrossDay.help"
+      "name": "跨日期間 (23:55-00:05) 暫停 Bug 利用",
+      "help": "每天 23:55 至次日 00:05 暫停 Bug 利用，避免跨日重置/斷網導致的刷沒吊機"
     },
     "SirenBug_AutoDisable": {
-      "name": "OpsiSirenBug.SirenBug_AutoDisable.name",
-      "help": "OpsiSirenBug.SirenBug_AutoDisable.help"
+      "name": "未找到研究裝置時自動關閉 Bug 利用功能",
+      "help": "萬一吊機消失，自動關閉功能以避免反復進入吊機海域浪費行動力"
     }
   },
   "OpsiCheckLeveling": {
     "_info": {
-      "name": "每日經驗檢測",
-      "help": "檢測出擊艦隊所有艦是否已經獲得滿經驗，若是則發送一條推送消息\n需要先設定「錯誤推送設定」"
+      "name": "大世界艦隊經驗檢測",
+      "help": "檢測出擊艦隊所有船是否已經獲取滿經驗，是的話則發送一條推送消息\n需要先在 Alas 設置中配置好“錯誤推送設置”"
     },
     "TargetLevel": {
-      "name": "所有艦船獲得到可升級至 X 級的經驗後推送",
-      "help": "0 表示不限制等級"
+      "name": "當所有艦船經驗可升至此等級時推送 (0爲不限制)",
+      "help": "當所有艦船積攢的經驗足以升到填寫的等級時，觸發消息推送"
     },
     "LastRun": {
-      "name": "上次檢查時間",
-      "help": "記錄上一次檢查的時間以防止任務重複運行，檢查間隔為1天，該數值是自動記錄的，一般不需要修改"
+      "name": "上次檢查經驗的時間 (自動記錄)",
+      "help": "記錄上一次檢查的時間以防止任務重復運行，檢查間隔爲 1 天。這個數值是自動記錄的，一般不需要手動修改"
     },
     "DelayAfterFull": {
-      "name": "達到目標等級後延遲任務",
-      "help": ""
+      "name": "到達目標等級後將推遲該任務",
+      "help": "當檢測到滿經驗後，將本任務推遲指定的時間"
     }
   },
   "OpsiScheduling": {
     "_info": {
       "name": "智能調度",
-      "help": "大世界智能調度功能，用於協調侵蝕1練級與黃幣補充任務之間的切換\\n啟用後將根據黃幣和行動力自動在不同任務之間切換並發送推送通知\\n\\n原版 Alas 的一些防呆限制已被解除，請謹慎設定參數"
+      "help": "大世界智能調度功能，用於協調侵蝕1練級與黃幣補充任務之間的切換\n啓用後將根據黃幣和行動力自動在不同任務之間切換並發送推送通知\n\n原版 Alas 的一些防呆限制已被解除，請謹慎設置參數"
     },
     "UseSmartSchedulingOperationCoinsPreserve": {
       "name": "獲取 X 個作戰補給憑證",
-      "help": "啟用後將使用下方設定的 獲取 X 個作戰補給憑證 的配置，禁用則使用侵蝕1練級 黃幣保留配置\\n關閉後將使用行動力控制\\n打開後使用黃幣控制",
+      "help": "啓用後將使用下方設置的 獲取 X 個作戰補給憑證 的配置，禁用則使用侵蝕1練級 黃幣保留配置\n關閉後將使用行動力控制\n打開後使用黃幣控制",
       "True": "True",
       "False": "False"
     },
@@ -4630,38 +4630,38 @@
       "help": "在黃幣獲取任務時 共獲取(增加) X 個作戰補給憑證後返回侵蝕1練級"
     },
     "EnableMeowfficerFarming": {
-      "name": "啟用短貓相接",
-      "help": "智能調度中是否啟用短貓相接任務來補充黃幣",
-      "True": "已啟用",
-      "False": "未啟用"
+      "name": "啓用短貓相接",
+      "help": "智能調度中是否啓用短貓相接任務來補充黃幣",
+      "True": "已啓用",
+      "False": "未啓用"
     },
     "EnableObscure": {
-      "name": "啟用隱秘海域",
-      "help": "智能調度中是否啟用隱秘海域任務來補充黃幣",
-      "True": "已啟用",
-      "False": "未啟用"
+      "name": "啓用隱祕海域",
+      "help": "智能調度中是否啓用隱祕海域任務來補充黃幣",
+      "True": "已啓用",
+      "False": "未啓用"
     },
     "EnableAbyssal": {
-      "name": "啟用深淵海域",
-      "help": "智能調度中是否啟用深淵海域任務來補充黃幣",
-      "True": "已啟用",
-      "False": "未啟用"
+      "name": "啓用深淵海域",
+      "help": "智能調度中是否啓用深淵海域任務來補充黃幣",
+      "True": "已啓用",
+      "False": "未啓用"
     },
     "EnableStronghold": {
-      "name": "啟用塞壬要塞",
-      "help": "智能調度中是否啟用塞壬要塞任務來補充黃幣",
-      "True": "已啟用",
-      "False": "未啟用"
+      "name": "啓用塞壬要塞",
+      "help": "智能調度中是否啓用塞壬要塞任務來補充黃幣",
+      "True": "已啓用",
+      "False": "未啓用"
     }
   },
   "OpsiDailyDelay": {
     "_info": {
       "name": "大世界任務延後",
-      "help": "在每日0點伺服器重啟前的可設定時間段內，將侵蝕一和短貓任務自動延後至次日0點重啟完成後再執行"
+      "help": "在每日0點服務器重啓前的可配置時間段內，將侵蝕一和短貓任務自動延後至次日0點重啓完成後再執行"
     },
     "TriggerMinutesBeforeReset": {
-      "name": "提前觸發時間（分鐘）",
-      "help": "在每日0點前多少分鐘觸發任務延後，範圍1-60分鐘，預設5分鐘",
+      "name": "提前觸發時間（分鍾）",
+      "help": "在每日0點前多少分鍾觸發任務延後，範圍1-60分鍾，默認5分鍾",
       "1": "1",
       "2": "2",
       "3": "3",
@@ -4681,12 +4681,12 @@
   },
   "IslandSeasonTask": {
     "_info": {
-      "name": "島嶼季節任務資訊",
+      "name": "賽季任務",
       "help": ""
     },
     "TaskDict": {
-      "name": "島嶼季節任務字典",
-      "help": ""
+      "name": "任務列表",
+      "help": "Alas會自動導出列表"
     }
   },
   "IslandTechnology": {
@@ -4702,7 +4702,7 @@
   "Daemon": {
     "_info": {
       "name": "半自動點擊",
-      "help": "在出擊未適配的地圖時有用，能減少大量人工操作\nAlas 將幫助點擊戰鬥準備，點擊戰鬥結算，跳過劇情，自動退役，關閉各種彈窗。你只需要手動選擇敵人。"
+      "help": "在出擊未適配的關卡時有用，能減少大量人工操作\nAlas 將幫助點擊戰鬥準備，點擊戰鬥結算，跳過劇情，自動退役，關閉各種彈窗。你只需要手動選擇敵人。"
     },
     "EnterMap": {
       "name": "自動點擊進圖準備",
@@ -4712,7 +4712,7 @@
   "OpsiDaemon": {
     "_info": {
       "name": "大世界半自動",
-      "help": "在出擊大世界深淵海域(紅寶箱圖)或完成大世界主線時有用，能減少大量人工操作\nAlas 將幫助點擊戰鬥準備，點擊戰鬥結算，跳過劇情，關閉各種彈窗。你只需要手動選擇敵人和手動切換海域。"
+      "help": "在出擊大世界深淵海域（紅寶箱圖）或完成大世界主線時有用，能減少大量人工操作\nAlas 將幫助點擊戰鬥準備，點擊戰鬥結算，跳過劇情，關閉各種彈窗。你只需要手動選擇敵人和手動切換海域。"
     },
     "RepairShip": {
       "name": "靠近港口時自動修船",
@@ -4726,22 +4726,22 @@
   "EventStory": {
     "_info": {
       "name": "活動劇情",
-      "help": "完成活動劇情，僅適用於上線時間20241219及以後的活動，請等待約3分鐘"
+      "help": "完成活動劇情，僅適用於上線時間20241219及之後的活動，請等待約3分鍾"
     },
     "SkipBattle": {
-      "name": "關遊戲跳過戰鬥",
+      "name": "殺遊戲跳過戰鬥",
       "help": "",
-      "True": "已启用",
+      "True": "已啓用",
       "False": "False"
     }
   },
   "BoxDisassemble": {
     "_info": {
-      "name": "折開裝備箱",
-      "help": "折開倉庫中的裝備箱子，配寘完成後啟動並等待即可"
+      "name": "拆解裝備箱",
+      "help": "拆解倉庫中的裝備箱子，配置完成後啓動並等待即可"
     },
     "UsePurpleBox": {
-      "name": "折開紫色裝備箱",
+      "name": "拆解紫色裝備箱",
       "help": ""
     },
     "PurpleBoxLimit": {
@@ -4749,7 +4749,7 @@
       "help": ""
     },
     "UseBlueBox": {
-      "name": "折開藍色裝備箱",
+      "name": "拆解藍色裝備箱",
       "help": ""
     },
     "BlueBoxLimit": {
@@ -4757,7 +4757,7 @@
       "help": ""
     },
     "UseWhiteBox": {
-      "name": "折開白色裝備箱",
+      "name": "拆解白色裝備箱",
       "help": ""
     },
     "WhiteBoxLimit": {
@@ -4768,7 +4768,7 @@
   "Benchmark": {
     "_info": {
       "name": "性能測試",
-      "help": "測試哪個截圖方案和控制方案速度更快，速度因模擬器和電腦配置而異\n測試完成後，在 \"Alas\" - \"模擬器設定\" 內選擇最快的截圖和控制方案"
+      "help": "測試哪個截圖方案和控制方案速度更快，速度因模擬器和電腦配置而異\n測試完成後，在 \"Alas\" - \"模擬器設置\" 內選擇最快的截圖和控制方案"
     },
     "DeviceType": {
       "name": "設備類型",
@@ -4790,11 +4790,11 @@
   "AzurLaneUncensored": {
     "_info": {
       "name": "反和諧",
-      "help": "僅國服使用。這個工具將執行：\n- 下載反和諧档案\n- 將档案推送至模擬器內\n- 重啟遊戲客戶端"
+      "help": "僅國服使用。這個工具將執行：\n- 下載反和諧文件\n- 將文件推送至模擬器內\n- 重啓遊戲客戶端"
     },
     "Repository": {
       "name": "反和諧倉庫",
-      "help": "一般不需要修改\n倉庫 https://github.com/LmeSzinc/AzurLaneUncensored\n國內鏡像(預設) https://e.coding.net/llop18870/alas/AzurLaneUncensored.git"
+      "help": "一般不需要修改\n倉庫 https://github.com/LmeSzinc/AzurLaneUncensored\n國內鏡像（默認） https://e.coding.net/llop18870/alas/AzurLaneUncensored.git"
     }
   },
   "GameManager": {
@@ -4813,12 +4813,12 @@
       "help": ""
     },
     "ScheduledEmulatorRestart": {
-      "name": "定時重啟模擬器",
-      "help": "啟用後，每隔指定時間自動重啟模擬器，避免長時間運行導致的記憶體洩漏或卡頓問題。重啟會等當前任務完成後再執行。"
+      "name": "定時重啓模擬器",
+      "help": "啓用後，每隔指定時間自動重啓模擬器，避免長時間運行導致的內存泄漏或卡頓問題。重啓會等當前任務完成後再執行。"
     },
     "RestartIntervalHours": {
-      "name": "重啟間隔（小時）",
-      "help": "每隔多少小時自動重啟一次模擬器。"
+      "name": "重啓間隔（小時）",
+      "help": "每隔多少小時自動重啓一次模擬器。"
     }
   },
   "Storage": {
@@ -4827,8 +4827,8 @@
       "help": "存放任務內部狀態，任務異常時可以手動清除"
     },
     "Storage": {
-      "name": "任務狀態",
-      "help": "存放任務內部狀態，任務異常時可以手動清除"
+      "name": "Storage.Storage.name",
+      "help": "Storage.Storage.help"
     }
   },
   "Gui": {
@@ -4837,43 +4837,43 @@
       "Home": "主頁",
       "Develop": "開發",
       "Performance": "性能",
-      "Setting": "設定",
+      "Setting": "設置",
       "AddAlas": "新增"
     },
     "Button": {
-      "Start": "啟動",
+      "Start": "啓動",
       "Stop": "停止",
       "ScrollON": "自動滾動 開",
       "ScrollOFF": "自動滾動 關",
-      "DashboardON": "摺叠",
+      "DashboardON": "折疊",
       "DashboardOFF": "展開",
       "ClearLog": "清空日誌",
-      "Setting": "設定",
+      "Setting": "設置",
       "CheckUpdate": "檢查更新",
       "ClickToUpdate": "進行更新",
       "RetryUpdate": "重試更新",
       "CancelUpdate": "取消更新"
     },
     "Toast": {
-      "DisableTranslateMode": "點擊這裡關閉翻譯模式",
-      "ConfigSaved": "設定已儲存",
-      "AlasIsRunning": "調度器已在執行中",
-      "ClickToUpdate": "有更新可用，點擊這裡進行更新"
+      "DisableTranslateMode": "點擊這裏關閉翻譯模式",
+      "ConfigSaved": "設置已保存",
+      "AlasIsRunning": "調度器已在運行中",
+      "ClickToUpdate": "有可用更新nanoda!"
     },
     "Status": {
-      "Running": "執行中",
-      "Inactive": "閒置",
+      "Running": "祕書艦正在處理",
+      "Inactive": "茗正在偷走你的箱子",
       "Warning": "發生錯誤",
       "Updating": "等待更新"
     },
     "MenuAlas": {
       "Overview": "總覽",
-      "Log": "執行日誌"
+      "Log": "運行日誌"
     },
     "MenuDevelop": {
       "HomePage": "主頁",
       "Translate": "翻譯",
-      "Announcement": "Gui.MenuDevelop.Announcement",
+      "Announcement": "公告",
       "Update": "更新器",
       "Remote": "遠程控制",
       "Utils": "工具"
@@ -4901,8 +4901,8 @@
       "Core": "Gui.Overview.Core",
       "GuildCoin": "Gui.Overview.GuildCoin",
       "Log": "日誌",
-      "Running": "執行中",
-      "Pending": "佇列中",
+      "Running": "運行中",
+      "Pending": "隊列中",
       "Waiting": "等待中",
       "NoTask": "無任務"
     },
@@ -4910,7 +4910,7 @@
       "TimeError": "時間錯誤",
       "JustNow": "剛剛",
       "SecondsAgo": "秒前",
-      "MinutesAgo": "分鐘前",
+      "MinutesAgo": "分鍾前",
       "HoursAgo": "小時前",
       "DaysAgo": "天前",
       "MonthsAgo": "月前",
@@ -4927,36 +4927,36 @@
       "ActionPoint": "行動力",
       "Merit": "功勳",
       "Medal": "勳章",
-      "Core": "覈心數據",
+      "Core": "核心數據",
       "GuildCoin": "艦隊幣"
     },
     "AddAlas": {
-      "PopupTitle": "添加新的設定",
-      "NewName": "新設定的檔案名",
-      "CopyFrom": "從現有的設定中複製",
+      "PopupTitle": "添加新配置",
+      "NewName": "新的配置文件名",
+      "CopyFrom": "從現有的配置中復制",
       "Confirm": "添加",
-      "FileExist": "存在同名的設定檔案，請重新命名",
-      "InvalidChar": "設定檔案名不可以包含下列任意字元：.\\/:*?\"<>|",
-      "InvalidPrefixTemplate": "設定檔案名不能以 template 開頭",
+      "FileExist": "存在同名的配置文件，請重新輸入一個",
+      "InvalidChar": "配置文件名不能包含下列任何字符：.\\/:*?\"<>|",
+      "InvalidPrefixTemplate": "配置文件名不能以 template 開頭",
       "Manage": "管理"
     },
     "AppManage": {
-      "PageTitle": "設定檔案管理",
-      "TitleNew": "添加新的設定檔案",
-      "NewName": "新設定的檔案名",
-      "CopyFrom": "從現有的設定中複製",
-      "NameExist": "存在同名的設定檔案，請重新命名",
-      "InvalidChar": "設定檔案名不可以包含下列任意字元：.\\/:*?\"<>|",
-      "InvalidPrefixTemplate": "設定檔案名不能以 template 開頭",
+      "PageTitle": "管理配置文件",
+      "TitleNew": "添加新配置",
+      "NewName": "新的配置文件名",
+      "CopyFrom": "從現有的配置中復制",
+      "NameExist": "存在同名的配置文件，請重新輸入一個",
+      "InvalidChar": "配置文件名不能包含下列任何字符：.\\/:*?\"<>|",
+      "InvalidPrefixTemplate": "配置文件名不能以 template 開頭",
       "Back": "返回",
-      "New": "新增",
+      "New": "添加",
       "Import": "導入",
-      "Export": "匯出",
-      "Delete": "删除",
-      "OverrideWarning": "将会覆蓋现有的設定檔案",
-      "ImportSuccess": "設定檔案已導入",
-      "NewSuccess": "設定檔案已新增",
-      "Name": "檔案名",
+      "Export": "導出",
+      "Delete": "刪除",
+      "OverrideWarning": "將會覆蓋現有的配置文件",
+      "ImportSuccess": "導入成功",
+      "NewSuccess": "添加成功",
+      "Name": "配置名稱",
       "Mod": "插件",
       "Actions": "操作"
     },
@@ -4966,32 +4966,32 @@
       "UpdateStart": "開始更新",
       "UpdateWait": "等待所有 Alas 完成當前任務",
       "UpdateRun": "更新中",
-      "UpdateSuccess": "更新成功，正在重啟",
+      "UpdateSuccess": "更新成功，正在重啓",
       "UpdateFailed": "更新失敗，可在./log/*_gui.txt中找到錯誤日誌",
       "UpdateChecking": "檢查更新中",
-      "UpdateCancel": "取消更新，重啟 Alas 中",
-      "UpdateFinish": "更新成功，請手動重啟",
+      "UpdateCancel": "取消更新，重啓 Alas 中",
+      "UpdateFinish": "更新成功，請手動重啓",
       "Local": "本地",
-      "Upstream": "上游倉庫",
+      "Upstream": "上遊倉庫",
       "Author": "作者",
       "Time": "提交時間",
-      "Message": "提交資訊",
-      "DisabledWarn": "更新模塊未啟用，你需要手動重啟 Alas 進行更新",
+      "Message": "提交信息",
+      "DisabledWarn": "更新模塊未啓用，你需要手動重啓 Alas 進行更新",
       "DetailedHistory": "詳細提交歷史"
     },
     "Remote": {
       "Running": "運行中",
-      "NotRunning": "未運行，与伺服器的連接斷開或伺服器離線",
-      "NotEnable": "未啟用，在 deploy.yaml 中設定 webui 密碼並啟用遠程控制",
-      "EntryPoint": "遠程控制 url 連結:",
-      "ConfigureHint": "配寘教程：",
-      "SSHNotInstall": "系統中沒有 ssh 工具，請參閱教程下載安裝 ssh"
+      "NotRunning": "未運行，與服務器的連接斷開或服務器離線",
+      "NotEnable": "未啓用，在 deploy.yaml 中設置 webui 密碼並啓用遠程控制",
+      "EntryPoint": "遠程訪問 url 地址:",
+      "ConfigureHint": "配置教程：",
+      "SSHNotInstall": "系統中沒有 ssh 工具，請參考教程下載或安裝 ssh"
     },
     "Text": {
       "InvalidFeedBack": "格式錯誤。 示例：{0}",
       "Clear": "清除",
       "EnterPassword": "輸入密碼",
-      "ChooseFile": "選擇檔案"
+      "ChooseFile": "選擇文件"
     },
     "OpsiScheduling": {
       "UseSmartSchedulingOperationCoinsPreserve": "Gui.OpsiScheduling.UseSmartSchedulingOperationCoinsPreserve",
