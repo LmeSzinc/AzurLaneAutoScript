@@ -133,6 +133,56 @@ def timedelta_to_text(delta=None):
     return time_delta_display + t(time_delta_name)
 
 
+def read_webapp_template(filename: str) -> str:
+    template_path = Path(os.getcwd()) / 'webapp' / filename
+    with open(template_path, 'r', encoding='utf-8') as f:
+        return f.read()
+
+
+def build_title_block(title: str, margin_top: int = 12, margin_bottom: int = 8, font_weight: int = 600) -> str:
+    tpl = read_webapp_template('title_block.html')
+    return tpl.format(
+        title=title,
+        margin_top=margin_top,
+        margin_bottom=margin_bottom,
+        font_weight=font_weight,
+    )
+
+
+def build_muted_notice(text: str) -> str:
+    tpl = read_webapp_template('muted_notice.html')
+    return tpl.format(text=text)
+
+
+def build_simple_table(headers, rows, extra_style: str = '') -> str:
+    tpl = read_webapp_template('simple_table.html')
+    thead_cells = ''.join([f'<th style="text-align:left;padding:6px">{h}</th>' for h in headers])
+    tbody_rows = ''.join([
+        '<tr>' + ''.join([f'<td style="text-align:center;padding:6px">{v}</td>' for v in row]) + '</tr>'
+        for row in rows
+    ])
+    return tpl.format(
+        thead_cells=thead_cells,
+        tbody_rows=tbody_rows,
+        extra_style=extra_style,
+    )
+
+
+def build_recommendation_box(text: str) -> str:
+    tpl = read_webapp_template('recommendation_box.html')
+    return tpl.format(text=text)
+
+
+def build_copyable_device_id(device_id: str) -> str:
+    tpl = read_webapp_template('copyable_device_id.html')
+    return tpl.format(device_id=device_id)
+
+
+def build_app_manage_title(title: str) -> str:
+    tpl = read_webapp_template('app_manage_title.html')
+    return tpl.format(title=title)
+
+
 class AlasGUI(Frame):
     ALAS_MENU: Dict[str, Dict[str, List[str]]]
     ALAS_ARGS: Dict[str, Dict[str, Dict[str, Dict[str, str]]]]
@@ -386,7 +436,7 @@ class AlasGUI(Frame):
                         return
 
                     with use_scope("opsi_stats", clear=True):
-                        put_html('<div style="margin-top:12px; margin-bottom:8px; font-weight:600">每日经验检测</div>')
+                        put_html(build_title_block('每日经验检测'))
                         put_row([put_text(f"检测时间: {last_check_time}"), put_text(f"目标等级: {target_level}")])
                         if ships_data:
                             exp_labels = ["舰位", "等级", "当前经验", "总经验", "距目标经验", "还需出击", "预计时间"]
@@ -416,15 +466,9 @@ class AlasGUI(Frame):
                                     time_str
                                 ])
 
-                            html = '<table style="width:100%; border-collapse:collapse;">'
-                            html += '<thead><tr>' + ''.join([f'<th style="text-align:left;padding:6px">{l}</th>' for l in exp_labels]) + '</tr></thead>'
-                            html += '<tbody>'
-                            for row in exp_rows:
-                                html += '<tr>' + ''.join([f'<td style="text-align:center;padding:6px">{v}</td>' for v in row]) + '</tr>'
-                            html += '</tbody></table>'
-                            put_html(html)
+                            put_html(build_simple_table(exp_labels, exp_rows))
                         else:
-                            put_html('<div style="color:#888; margin:12px 0">暂无经验数据，运行侵蚀1练级后将自动记录</div>')
+                            put_html(build_muted_notice('暂无经验数据，运行侵蚀1练级后将自动记录'))
                     return
 
                 # 智能调度显示所有统计
@@ -524,13 +568,9 @@ class AlasGUI(Frame):
                 table = [labels, values]
 
                 with use_scope("opsi_stats", clear=True):
-                    put_html('<div style="margin-top:12px; margin-bottom:8px; font-weight:600">雪风大人的侵蚀一数据收集</div>')
+                    put_html(build_title_block('雪风大人的侵蚀一数据收集'))
                     put_row([put_text(f"当月购买体力: {ap_bought}")])
-                    html = '<table style="width:100%; border-collapse:collapse;">'
-                    html += '<thead><tr>' + ''.join([f'<th style="text-align:left;padding:6px">{l}</th>' for l in labels]) + '</tr></thead>'
-                    html += '<tbody><tr>' + ''.join([f'<td style="text-align:center;padding:6px">{v}</td>' for v in values]) + '</tr></tbody>'
-                    html += '</table>'
-                    put_html(html)
+                    put_html(build_simple_table(labels, [values]))
 
                     # ========== 短猫统计数据 ==========
                     try:
@@ -569,12 +609,8 @@ class AlasGUI(Frame):
                     ]
                     meow_labels = ["月份", "战斗场次", "出击轮次", "平均战斗时间", "平均一轮短猫时长"]
 
-                    put_html('<div style="margin-top:20px; margin-bottom:8px; font-weight:600">短猫相接数据收集</div>')
-                    html_meow = '<table style="width:100%; border-collapse:collapse;">'
-                    html_meow += '<thead><tr>' + ''.join([f'<th style="text-align:left;padding:6px">{l}</th>' for l in meow_labels]) + '</tr></thead>'
-                    html_meow += '<tbody><tr>' + ''.join([f'<td style="text-align:center;padding:6px">{v}</td>' for v in meow_values]) + '</tr></tbody>'
-                    html_meow += '</table>'
-                    put_html(html_meow)
+                    put_html(build_title_block('短猫相接数据收集', margin_top=20, margin_bottom=8))
+                    put_html(build_simple_table(meow_labels, [meow_values]))
 
                     # ========== 短猫提前开始建议 ==========
                     try:
@@ -594,7 +630,7 @@ class AlasGUI(Frame):
                         hours_ahead = advance_calc.get('hours_ahead', 0)
                         recommendation = advance_calc.get('recommendation', '-')
 
-                        put_html('<div style="margin-top:20px; margin-bottom:8px; font-weight:600">短猫提前开始建议</div>')
+                        put_html(build_title_block('短猫提前开始建议', margin_top=20, margin_bottom=8))
                         put_row([
                             put_text(f"当前AP: {current_ap}"),
                             put_text(f"每轮消耗: {meow_round_ap} AP"),
@@ -605,7 +641,7 @@ class AlasGUI(Frame):
                             put_text(f"当前模式: {mode_name}"),
                             put_text(f"建议提前: {hours_ahead:.1f}小时"),
                         ])
-                        put_html(f'<div style="margin-top:8px; padding:8px; background:#f5f5f5; border-radius:4px;">{recommendation}</div>')
+                        put_html(build_recommendation_box(recommendation))
 
                     def export_opsi_csv(save_to_desktop: bool = True):
                         import io
@@ -731,7 +767,7 @@ class AlasGUI(Frame):
 
                 if not timeline:
                     with use_scope("ap_chart", clear=True):
-                        put_html('<div style="color:#888; margin:12px 0">暂无体力变化数据，运行侵蚀1任务后将自动记录</div>')
+                        put_html(build_muted_notice('暂无体力变化数据，运行侵蚀1任务后将自动记录'))
                         put_button("刷新", onclick=_render_ap_chart, color="off")
                     return
 
@@ -749,7 +785,7 @@ class AlasGUI(Frame):
 
                 if not raw_points:
                     with use_scope("ap_chart", clear=True):
-                        put_html('<div style="color:#888; margin:12px 0">暂无有效体力数据</div>')
+                        put_html(build_muted_notice('暂无有效体力数据'))
                     return
 
                 raw_points.sort(key=lambda p: p['dt'])
@@ -804,7 +840,7 @@ class AlasGUI(Frame):
                         
                     if not candles:
                         with use_scope("ap_chart", clear=True):
-                            put_html('<div style="color:#888; margin:12px 0">无法聚合K线数据</div>')
+                            put_html(build_muted_notice('无法聚合K线数据'))
                             put_button("分时", onclick=lambda: (setattr(self, '_ap_chart_view', 'line'), _render_ap_chart()), color="off")
                         return
                     for k, v in candles.items():
@@ -831,343 +867,33 @@ class AlasGUI(Frame):
 
                 chart_id = f"ap_cv_{id(self)}"
 
-                html = '<div style="margin-top:16px; margin-bottom:8px;">'
-                html += f'<div style="font-weight:600; font-size:14px; margin-bottom:8px;">体力变化 - {view_title}</div>'
-                html += '<div style="display:flex; flex-wrap:wrap; gap:16px; margin-bottom:8px; font-size:13px; color:#aaa;">'
-                html += f'<span>当前: <b style="color:#e0e0e0">{ap_cur}</b></span>'
-                html += f'<span>变化: <b style="color:{change_color}">{change_sign}{ap_change}</b></span>'
-                html += f'<span>最高: <b style="color:#ef5350">{ap_max}</b></span>'
-                html += f'<span>最低: <b style="color:#26a69a">{ap_min}</b></span>'
-                html += f'<span>均值: <b style="color:#e0e0e0">{ap_avg}</b></span>'
-                html += f'<span style="color:#666">{data_points_text}</span>'
-                html += '</div></div>'
-                html += f'<div style="position:relative;background:#1a1a2e;border-radius:8px;border:1px solid #333;padding:4px;">'
-                html += f'<canvas id="{chart_id}" style="width:100%;height:360px;display:block;cursor:crosshair;"></canvas>'
-                html += f'<canvas id="{chart_id}_ov" style="position:absolute;top:4px;left:4px;width:100%;height:360px;pointer-events:none;"></canvas>'
-                html += f'<div id="{chart_id}_tip" style="display:none;position:absolute;pointer-events:none;'
-                html += 'background:rgba(22,22,40,0.95);border:1px solid #555;border-radius:6px;padding:8px 12px;'
-                html += 'font-size:12px;color:#ddd;z-index:10;white-space:nowrap;"></div>'
-                html += '</div>'
+                html_tpl = read_webapp_template('ap_chart_panel.html')
+                html = html_tpl.format(
+                    chart_id=chart_id,
+                    view_title=view_title,
+                    ap_cur=ap_cur,
+                    change_color=change_color,
+                    change_sign=change_sign,
+                    ap_change=ap_change,
+                    ap_max=ap_max,
+                    ap_min=ap_min,
+                    ap_avg=ap_avg,
+                    data_points_text=data_points_text,
+                )
 
-                js_code = '''
-(function() {
-    var chartType = "''' + current_view + '''";
-    var labels = ''' + _json.dumps(labels, ensure_ascii=False) + ''';
-    var opens  = ''' + _json.dumps(opens) + ''';
-    var highs  = ''' + _json.dumps(highs) + ''';
-    var lows   = ''' + _json.dumps(lows) + ''';
-    var closes = ''' + _json.dumps(closes) + ''';
-    var counts = ''' + _json.dumps(counts) + ''';
-    var ap = ''' + _json.dumps(ap_list) + ''';
-    var avg = ''' + str(ap_avg) + ''';
-    var nn = chartType === 'line' ? ap.length : labels.length;
-    if (nn < 1) return;
-
-    var cv = document.getElementById("''' + chart_id + '''");
-    if (!cv) return;
-    var tipEl = document.getElementById("''' + chart_id + '''_tip");
-    var ovCv = document.getElementById("''' + chart_id + '''_ov");
-
-    var dpr = window.devicePixelRatio || 1;
-    var W = cv.clientWidth, H = cv.clientHeight;
-    cv.width = W * dpr; cv.height = H * dpr;
-    ovCv.width = W * dpr; ovCv.height = H * dpr;
-    ovCv.style.width = W + "px"; ovCv.style.height = H + "px";
-
-    var ctx = cv.getContext("2d");
-    ctx.scale(dpr, dpr);
-    var oc = ovCv.getContext("2d");
-
-    var pad = {t: 20, r: 20, b: 52, l: 52};
-    var gW = W - pad.l - pad.r, gH = H - pad.t - pad.b;
-
-    var allMin = Infinity, allMax = -Infinity;
-    if (chartType === 'line') {
-        for (var i = 0; i < nn; i++) {
-            if (ap[i] < allMin) allMin = ap[i];
-            if (ap[i] > allMax) allMax = ap[i];
-        }
-    } else {
-        for (var i = 0; i < nn; i++) {
-            if (lows[i] < allMin) allMin = lows[i];
-            if (highs[i] > allMax) allMax = highs[i];
-        }
-    }
-    var rng = allMax - allMin || 1;
-    allMin -= rng * 0.08;
-    allMax += rng * 0.08;
-
-    function xOfLine(i) { return pad.l + (i / Math.max(nn - 1, 1)) * gW; }
-    function yOf(v) { return pad.t + gH - (v - allMin) / (allMax - allMin) * gH; }
-
-    var candleSpace = gW / nn;
-    var candleW = Math.max(3, Math.min(candleSpace * 0.6, 30));
-    function xCenter(i) { return pad.l + candleSpace * (i + 0.5); }
-
-    ctx.fillStyle = "#1a1a2e";
-    ctx.fillRect(0, 0, W, H);
-
-    ctx.strokeStyle = "#2a2a3e";
-    ctx.lineWidth = 1;
-    ctx.fillStyle = "#666";
-    ctx.font = "11px -apple-system, sans-serif";
-    ctx.textAlign = "right";
-    ctx.textBaseline = "middle";
-    for (var i = 0; i <= 5; i++) {
-        var v = allMin + (allMax - allMin) * (i / 5);
-        var y = yOf(v);
-        ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(W - pad.r, y); ctx.stroke();
-        ctx.fillText(Math.round(v), pad.l - 8, y);
-    }
-
-    var avgY = yOf(avg);
-    ctx.save();
-    ctx.strokeStyle = "#ff9800";
-    ctx.lineWidth = 1;
-    ctx.setLineDash([6, 4]);
-    ctx.beginPath(); ctx.moveTo(pad.l, avgY); ctx.lineTo(W - pad.r, avgY); ctx.stroke();
-    ctx.restore();
-    ctx.fillStyle = "#ff9800";
-    ctx.font = "10px -apple-system, sans-serif";
-    ctx.textAlign = "right";
-    ctx.fillText("均值:" + avg, W - pad.r - 4, avgY - 8);
-
-    ctx.fillStyle = "#666";
-    ctx.font = "10px -apple-system, sans-serif";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "top";
-    if (chartType === 'line') {
-        var labelStep = Math.max(1, Math.floor(nn / 8));
-        for (var i = 0; i < nn; i += labelStep) {
-            ctx.save();
-            ctx.translate(xOfLine(i), H - pad.b + 8);
-            ctx.rotate(0.4);
-            ctx.fillText(labels[i], 0, 0);
-            ctx.restore();
-        }
-    } else {
-        var labelStep = Math.max(1, Math.floor(nn / 12));
-        for (var i = 0; i < nn; i += labelStep) {
-            ctx.fillText(labels[i], xCenter(i), H - pad.b + 8);
-        }
-    }
-
-    if (chartType === 'line') {
-        var grad = ctx.createLinearGradient(0, pad.t, 0, pad.t + gH);
-        grad.addColorStop(0, "rgba(100,120,160,0.18)");
-        grad.addColorStop(1, "rgba(100,120,160,0.02)");
-        ctx.beginPath();
-        ctx.moveTo(xOfLine(0), yOf(ap[0]));
-        for (var i = 1; i < nn; i++) {
-            if (nn < 30) {
-                var x0 = xOfLine(i-1), y0 = yOf(ap[i-1]), x1 = xOfLine(i), y1 = yOf(ap[i]);
-                var cpx = (x0 + x1) / 2;
-                ctx.bezierCurveTo(cpx, y0, cpx, y1, x1, y1);
-            } else {
-                ctx.lineTo(xOfLine(i), yOf(ap[i]));
-            }
-        }
-        ctx.lineTo(xOfLine(nn-1), pad.t + gH);
-        ctx.lineTo(xOfLine(0), pad.t + gH);
-        ctx.closePath();
-        ctx.fillStyle = grad;
-        ctx.fill();
-
-        ctx.lineWidth = 2;
-        ctx.lineJoin = "round";
-        for (var i = 1; i < nn; i++) {
-            ctx.beginPath();
-            ctx.moveTo(xOfLine(i-1), yOf(ap[i-1]));
-            var segmentColor = ap[i] >= ap[i-1] ? "#ef5350" : "#26a69a";
-            ctx.strokeStyle = segmentColor;
-            if (nn < 30) {
-                var x0 = xOfLine(i-1), y0 = yOf(ap[i-1]), x1 = xOfLine(i), y1 = yOf(ap[i]);
-                var cpx = (x0 + x1) / 2;
-                ctx.bezierCurveTo(cpx, y0, cpx, y1, x1, y1);
-            } else {
-                ctx.lineTo(xOfLine(i), yOf(ap[i]));
-            }
-            ctx.stroke();
-        }
-        if (nn < 60) {
-            for (var i = 0; i < nn; i++) {
-                ctx.beginPath();
-                ctx.arc(xOfLine(i), yOf(ap[i]), 3.5, 0, Math.PI * 2);
-                var dotColor = (i > 0 && ap[i] < ap[i-1]) ? "#26a69a" : "#ef5350";
-                ctx.fillStyle = dotColor;
-                ctx.fill();
-                ctx.strokeStyle = "#1a1a2e";
-                ctx.lineWidth = 1.5;
-                ctx.stroke();
-            }
-        }
-    } else {
-        // 绘制K线
-        for (var i = 0; i < nn; i++) {
-        var cx = xCenter(i);
-        var o = opens[i], h = highs[i], l = lows[i], c = closes[i];
-        
-        // A股红绿规则：收盘价 > 开盘价 为涨(红)，收盘价 < 开盘价 为跌(绿)
-        var isUp = c > o;
-        var isDown = c < o;
-        var isFlat = c === o;
-        var color = isFlat ? "#888" : (isUp ? "#ef5350" : "#26a69a");
-        
-        ctx.strokeStyle = color;
-        ctx.lineWidth = 1.5;
-        // 上下影线
-        ctx.beginPath();
-        ctx.moveTo(cx, yOf(h));
-        ctx.lineTo(cx, yOf(l));
-        ctx.stroke();
-
-        var bodyTop = yOf(Math.max(o, c));
-        var bodyBot = yOf(Math.min(o, c));
-        var bodyH = Math.max(bodyBot - bodyTop, 1);
-
-        if (isUp) {
-            // 实心红柱
-            ctx.fillStyle = color;
-            ctx.fillRect(cx - candleW / 2, bodyTop, candleW, bodyH);
-        } else if (isDown) {
-            // 实体为实心绿柱
-            ctx.fillStyle = color;
-            ctx.fillRect(cx - candleW / 2, bodyTop, candleW, bodyH);
-        } else {
-            // 十字星
-            ctx.beginPath();
-            ctx.moveTo(cx - candleW / 2, yOf(o));
-            ctx.lineTo(cx + candleW / 2, yOf(o));
-            ctx.stroke();
-        }
-    }
-        
-    // MA Lines (移动平均线)
-    function drawMA(days, maColor) {
-        if (nn < days) return;
-        ctx.beginPath();
-        ctx.lineWidth = 1.5;
-        ctx.strokeStyle = maColor;
-        var started = false;
-        for (var i = days - 1; i < nn; i++) {
-            var sum = 0;
-            for (var j = 0; j < days; j++) sum += closes[i - j];
-            var maVal = sum / days;
-            var x = xCenter(i), y = yOf(maVal);
-            if (!started) { ctx.moveTo(x, y); started = true; }
-            else { ctx.lineTo(x, y); }
-        }
-        ctx.stroke();
-    }
-    drawMA(5, "#ffeb3b"); // MA5 Yellow
-    drawMA(10, "#e91e63"); // MA10 Pink
-}
-
-cv.addEventListener("mousemove", function(e) {
-    var rect = cv.getBoundingClientRect();
-    var mx_ = e.clientX - rect.left;
-    var my_ = e.clientY - rect.top;
-
-    oc.setTransform(1, 0, 0, 1, 0, 0);
-    oc.clearRect(0, 0, ovCv.width, ovCv.height);
-
-    if (mx_ < pad.l || mx_ > W - pad.r || my_ < pad.t || my_ > pad.t + gH) {
-        tipEl.style.display = "none";
-        return;
-    }
-
-    oc.scale(dpr, dpr);
-
-    if (chartType === 'line') {
-        var ratio = (mx_ - pad.l) / gW;
-        var idx = Math.round(ratio * (nn - 1));
-        idx = Math.max(0, Math.min(nn - 1, idx));
-        var px = xOfLine(idx), py = yOf(ap[idx]);
-
-        oc.strokeStyle = "rgba(255,255,255,0.18)";
-        oc.lineWidth = 1;
-        oc.setLineDash([4, 3]);
-        oc.beginPath(); oc.moveTo(px, pad.t); oc.lineTo(px, pad.t + gH); oc.stroke();
-        oc.beginPath(); oc.moveTo(pad.l, py); oc.lineTo(W - pad.r, py); oc.stroke();
-        oc.setLineDash([]);
-        
-        oc.beginPath(); oc.arc(px, py, 6, 0, Math.PI * 2);
-        oc.fillStyle = "rgba(100,181,246,0.3)"; oc.fill();
-        oc.beginPath(); oc.arc(px, py, 4, 0, Math.PI * 2);
-        oc.fillStyle = "#64b5f6"; oc.fill();
-        oc.strokeStyle = "#fff"; oc.lineWidth = 2; oc.stroke();
-        oc.setTransform(1, 0, 0, 1, 0, 0);
-
-        var diff = idx > 0 ? (ap[idx] - ap[idx - 1]) : 0;
-        var isUp = diff >= 0;
-        var dc = isUp ? "#ef5350" : "#26a69a";
-        var ds = (isUp ? "+" : "") + diff;
-        tipEl.innerHTML = '<div style="color:#888;margin-bottom:4px;font-weight:600">' + labels[idx] + '</div>'
-            + '<div>体力: <b style="color:#64b5f6">' + ap[idx] + '</b></div>'
-            + '<div>单次变化: <b style="color:' + dc + '">' + ds + '</b></div>';
-    } else {
-        var idx = Math.floor((mx_ - pad.l) / candleSpace);
-        idx = Math.max(0, Math.min(nn - 1, idx));
-        var cx = xCenter(idx);
-
-        oc.strokeStyle = "rgba(255,255,255,0.18)";
-        oc.lineWidth = 1;
-        oc.setLineDash([4, 3]);
-        oc.beginPath(); oc.moveTo(cx, pad.t); oc.lineTo(cx, pad.t + gH); oc.stroke();
-        oc.beginPath(); oc.moveTo(pad.l, my_); oc.lineTo(W - pad.r, my_); oc.stroke();
-        oc.setLineDash([]);
-
-        oc.strokeStyle = "#fff";
-        oc.lineWidth = 1;
-        oc.globalAlpha = 0.15;
-        oc.fillStyle = "#fff";
-        oc.fillRect(cx - candleW / 2 - 2, pad.t, candleW + 4, gH);
-        oc.globalAlpha = 1.0;
-        oc.setTransform(1, 0, 0, 1, 0, 0);
-
-        var o = opens[idx], h = highs[idx], l = lows[idx], c_ = closes[idx];
-        var chg = c_ - o;
-        var chgPct = o !== 0 ? ((chg / o) * 100).toFixed(1) : "0.0";
-        var isUp = c_ >= o;
-        var dc = isUp ? "#ef5350" : "#26a69a";
-        var chgSign = chg >= 0 ? "+" : "";
-        
-        var ma5Val = "-";
-        if (idx >= 4) {
-            var sum5 = 0; for(var j=0; j<5; j++) sum5+=closes[idx-j];
-            ma5Val = (sum5/5).toFixed(1);
-        }
-        var ma10Val = "-";
-        if (idx >= 9) {
-            var sum10 = 0; for(var j=0; j<10; j++) sum10+=closes[idx-j];
-            ma10Val = (sum10/10).toFixed(1);
-        }
-        
-        tipEl.innerHTML = '<div style="color:#888;margin-bottom:4px;font-weight:600">' + labels[idx] + '</div>'
-            + '<div>开盘: <b>' + o + '</b> <span style="margin-left:8px;color:#ffeb3b">MA5(5期平均): ' + ma5Val + '</span></div>'
-            + '<div>收盘: <b style="color:' + dc + '">' + c_ + '</b> <span style="margin-left:8px;color:#e91e63">MA10(10期平均): ' + ma10Val + '</span></div>'
-            + '<div>最高: <b style="color:#ef5350">' + h + '</b></div>'
-            + '<div>最低: <b style="color:#26a69a">' + l + '</b></div>'
-            + '<div>涨跌: <b style="color:' + dc + '">' + chgSign + chg + ' (' + chgSign + chgPct + '%)</b></div>'
-            + '<div style="color:#666;margin-top:4px">数据点密度: ' + counts[idx] + '</div>';
-    }
-    
-    tipEl.style.display = "block";
-    var tx = (chartType === 'line' ? px : cx) + 18;  
-    var ty = my_ - 60;
-    if (tx + 180 > W) tx = (chartType === 'line' ? px : cx) - 200;
-    if (ty < 8) ty = my_ + 18;
-    tipEl.style.left = tx + "px";
-    tipEl.style.top = ty + "px";
-});
-
-    cv.addEventListener("mouseleave", function() {
-        tipEl.style.display = "none";
-        oc.setTransform(1, 0, 0, 1, 0, 0);
-        oc.clearRect(0, 0, ovCv.width, ovCv.height);
-    });
-})();
-'''
+                js_tpl = read_webapp_template('ap_chart.js')
+                js_code = (js_tpl
+                    .replace('__CHART_TYPE__', current_view)
+                    .replace('__LABELS__', _json.dumps(labels, ensure_ascii=False))
+                    .replace('__OPENS__', _json.dumps(opens))
+                    .replace('__HIGHS__', _json.dumps(highs))
+                    .replace('__LOWS__', _json.dumps(lows))
+                    .replace('__CLOSES__', _json.dumps(closes))
+                    .replace('__COUNTS__', _json.dumps(counts))
+                    .replace('__AP__', _json.dumps(ap_list))
+                    .replace('__AVG__', str(ap_avg))
+                    .replace('__CHART_ID__', chart_id)
+                )
                 from pywebio.session import run_js
                 with use_scope("ap_chart", clear=True):
                     put_html(html)
@@ -1203,7 +929,7 @@ cv.addEventListener("mousemove", function(e) {
                     stats = get_ship_exp_stats(instance_name=instance_name)
                     if not stats.data or not stats.data.get('ships'):
                         with use_scope("ship_exp_table", clear=True):
-                            put_html('<div style="color:#888; margin:12px 0">暂无舰船经验数据，请先运行"每日经验检测"任务</div>')
+                            put_html(build_muted_notice('暂无舰船经验数据，请先运行"每日经验检测"任务'))
                         return
                     
                     current_battles = get_opsi_stats_func(instance_name=instance_name).summary().get('total_battles', 0)
@@ -1236,7 +962,7 @@ cv.addEventListener("mousemove", function(e) {
                         ])
                     
                     with use_scope("ship_exp_table", clear=True):
-                        put_html('<div style="margin-top:16px; margin-bottom:8px; font-weight:600">每日经验检测：识别到的舰娘等级与升级进度</div>')
+                        put_html(build_title_block('每日经验检测：识别到的舰娘等级与升级进度', margin_top=16, margin_bottom=8))
                         put_text(f"上次检查时间: {stats.data.get('last_check_time', '-')}")
                         
                         # 显示效率统计
@@ -1257,13 +983,7 @@ cv.addEventListener("mousemove", function(e) {
                         else:
                             put_text("暂无今日战斗数据，运行战斗后将自动更新")
                         
-                        html = '<table style="width:100%; border-collapse:collapse; margin-top:8px;">'
-                        html += '<thead><tr>' + ''.join([f'<th style="text-align:left;padding:6px;border-bottom:1px solid #ddd">{l}</th>' for l in labels]) + '</tr></thead>'
-                        html += '<tbody>'
-                        for row in rows:
-                            html += '<tr>' + ''.join([f'<td style="text-align:center;padding:6px;border-bottom:1px solid #eee">{v}</td>' for v in row]) + '</tr>'
-                        html += '</tbody></table>'
-                        put_html(html)
+                        put_html(build_simple_table(labels, rows, extra_style=' margin-top:8px;'))
                         
                         put_button("刷新", onclick=_render_ship_exp, color="off")
                 except Exception as e:
@@ -1364,19 +1084,7 @@ cv.addEventListener("mousemove", function(e) {
             # 在掉落记录组中显示可复制的设备ID
             if group_name == "DropRecord":
                 device_id = get_device_id()
-                put_html(
-                    f'<div style="display:grid; margin:.125rem 0;">'
-                    f'<span style="font-size:1rem; font-weight:500; margin:0 .25rem;">设备ID (Device ID)</span>'
-                    f'<input type="text" value="{device_id}" readonly '
-                    f'style="font-family:monospace; font-size:0.9rem; padding:0.25rem 0.5rem; '
-                    f'margin-top:0.25rem; border:1px solid #ccc; border-radius:4px; '
-                    f'background:transparent; cursor:pointer; width:100%;" '
-                    f'onclick="this.select(); document.execCommand(\'copy\'); '
-                    f'this.style.borderColor=\'#28a745\'; '
-                    f'setTimeout(()=>this.style.borderColor=\'#ccc\', 1000);" '
-                    f'title="点击复制">'
-                    f'</div>'
-                )
+                put_html(build_copyable_device_id(device_id))
 
         return len(output_list)
 
@@ -2727,7 +2435,7 @@ def app_manage():
     set_env(title="Alas", output_animation=False)
     run_js("$('head').append('<style>.footer{display:none}</style>')")
 
-    put_html(f"<h2>{t('Gui.AppManage.PageTitle')}</h2>")
+    put_html(build_app_manage_title(t('Gui.AppManage.PageTitle')))
     put_scope("config_table")
     put_buttons(
         buttons=[

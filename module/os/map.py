@@ -1610,10 +1610,19 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
         return False
 
     def safe_swipe(self, start, end, duration=0.5, retries=2):
-        """
-        在多次滑动/重试场景下的安全滑动：
-         - 清理设备的卡住/点击历史记录
-         - 使用较长时长与间隔，减少被识别为无效滑动的概率
+        """执行带重试的安全滑动。
+
+        在多次滑动场景中，先尝试清理设备卡住记录，再执行滑动，
+        通过重试提升滑动成功率。
+
+        Args:
+            start (tuple[int, int]): 滑动起点坐标。
+            end (tuple[int, int]): 滑动终点坐标。
+            duration (float, optional): 单次滑动时长（秒）。默认值为 0.5。
+            retries (int, optional): 最大重试次数。默认值为 2。
+
+        Returns:
+            bool: 任一重试成功返回 True；全部失败返回 False。
         """
         for attempt in range(1, retries + 1):
             try:
@@ -1625,22 +1634,30 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
                 time.sleep(0.45)
                 return True
             except Exception as e:
-                logger.warning(f'safe_swipe attempt {attempt} failed: {e}')
+                logger.warning(f'安全滑动第 {attempt} 次尝试失败: {e}')
                 time.sleep(0.4)
                 continue
         return False
 
     # 基于ShaddockNH3极致侵蚀一的个人修改
     def _execute_fixed_patrol_scan(self, ExecuteFixedPatrolScan: bool = False, **kwargs):
-        """
-        该函数在指挥每支舰队移动前，都会先执行一次强制的视角复位，
-        然后精确指挥1-4号舰队前往预设的网格坐标，并在所有舰队
-        移动到位后，执行一次清除了残留状态的全图扫描。
+        """执行定点巡逻扫描并触发全图重扫。
+
+        在每支舰队移动前执行视角复位，按预设坐标依次移动 1~4 号舰队，
+        全部移动后执行全图重扫，并补一次自律寻敌以清理残留装置。
+
+        Args:
+            ExecuteFixedPatrolScan (bool, optional): 是否启用定点巡逻扫描。
+                为 False 时直接跳过。默认值为 False。
+            **kwargs: 预留参数，当前未使用。
+
+        Returns:
+            None
         """
         logger.hr('执行定点巡逻扫描')
 
         if not ExecuteFixedPatrolScan:
-            logger.info('ExecuteFixedPatrolScan 未启用，跳过定点巡逻。')
+            logger.info('ExecuteFixedPatrolScan 未启用，跳过定点巡逻扫描。')
             return
         logger.attr('ExecuteFixedPatrolScan', True)
 
@@ -1801,7 +1818,18 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
             logger.warning(f'自律寻敌过程出现异常: {e}')
 
     def _select_story_option_by_index(self, target_index, options_count=3):
-        # 手动选择剧情选项
+        """按索引点击剧情选项按钮。
+
+        在限定时间内识别剧情选项并尝试点击目标索引；当目标索引越界时，
+        回退点击第一个选项。
+
+        Args:
+            target_index (int): 目标选项索引（从 0 开始）。
+            options_count (int, optional): 期望识别到的选项数量。默认值为 3。
+
+        Returns:
+            bool: 点击目标索引成功返回 True；回退点击或超时返回 False。
+        """
         option_confirm_timer = Timer(1.5, count=3).start()
         while option_confirm_timer.reached() is False:
             self.device.screenshot()
@@ -1822,7 +1850,13 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
         return False
 
     def _click_story_confirm_button(self):
-        # 点击剧情确认按钮POPUP_CONFIRM
+        """点击剧情确认按钮。
+
+        在限定时间内轮询确认弹窗，出现后点击确认。
+
+        Returns:
+            bool: 成功点击确认返回 True；超时未出现返回 False。
+        """
         confirm_timer = Timer(3, count=6).start()
         while confirm_timer.reached() is False:
             self.device.screenshot()
@@ -1833,9 +1867,18 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
             time.sleep(0.3)
         return False
 
-
-
     def _handle_siren_bug_reinteract(self, drop=None):
+        """执行塞壬研究装置二次交互流程。
+
+        在满足配置与区域前置条件时，跳转到目标海域处理塞壬研究装置，
+        成功后统计次数并返回原海域；失败时执行回退与恢复处理。
+
+        Args:
+            drop: 掉落统计对象，透传给下游移动/事件处理逻辑。
+
+        Returns:
+            None
+        """
         # 23:55 - 00:05 跳过处理
         task = self.config.task.command if self.config.task.command in ['OpsiHazard1Leveling', 'OpsiMeowfficerFarming'] else 'OpsiHazard1Leveling'
         if self.config.cross_get(keys=f"{task}.OpsiSirenBug.SirenBug_CrossDay", default=False):
@@ -1868,9 +1911,11 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
             return
 
         # 如果启用了禁用任务切换选项，设置标志
+        # 设计说明：这里有意直接覆盖为 True，不保存旧值。
+        # 该流程视为“独占执行段”，退出时统一恢复 False，确保本次 Bug 利用期间不被切任务打断。
         if disable_task_switch:
             self.config._disable_task_switch = True
-            logger.info('【塞壬Bug利用】禁用任务切换')
+            logger.info('【塞壬Bug利用】禁用任务切换（设计为独占执行段，退出时统一恢复）')
 
         if not siren_bug_zone:
             logger.info('SirenBug功能前置条件不满足（SirenBug_Zone 未设置），跳过塞壬研究装置BUG利用')
@@ -1887,9 +1932,11 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
                 self.config._disable_task_switch = False
             return
         
+        # 设计说明：source_zone 在主流程前解析，若失败视为不可恢复前置条件失败，
+        # 由上层任务循环重新拉起，不在此处继续兜底推进。
         source_zone = self.name_to_zone(current_zone_id)
         
-        logger.hr(f'RUN SIREN BUG EXPLOITATION')
+        logger.hr('塞壬研究装置 BUG 利用流程')
         
         try:
             # 解析目标区域
@@ -1913,7 +1960,8 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
                 # Siren bug count sleep
                 SirenBug_DailyCount = self.config.cross_get(keys=f"{task}.OpsiSirenBug.SirenBug_DailyCount", default=0)
                 if SirenBug_DailyCount > 0:
-                    logger.info(f'Siren bug usage count: {SirenBug_DailyCount}, sleep {SirenBug_DailyCount}s before auto search')
+                    logger.info(f'塞壬 Bug 今日已使用 {SirenBug_DailyCount} 次，自律前等待 {SirenBug_DailyCount} 秒')
+                    logger.info('【设计说明】等待秒数与当日计数绑定，用于节奏控制与行为可观测性')
                     time.sleep(SirenBug_DailyCount)
 
                 target_grid = self.config.cross_get(keys=f"{task}.OpsiSirenBug.SirenBug_Grid", default=None)
@@ -1954,6 +2002,8 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
                                     break
                                 
                                 # 寻路中断，重新寻路
+                                # 设计说明：这里有意重置计时器，允许在路径持续可恢复时长期尝试，
+                                # 避免因固定超时提前放弃。
                                 find_device_timer.reset()
                                 time.sleep(1.0)
                                 
@@ -1996,6 +2046,8 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
                                 device_handled = True
                                 break
 
+                            # 设计说明：命中装置但处理未完成时重置计时器，
+                            # 该流程按“可恢复优先”策略持续重试。
                             find_device_timer.reset()
                             time.sleep(1.0)
                             
@@ -2018,7 +2070,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
             count += 1
             self.config.cross_set(keys=f"{task}.OpsiSirenBug.SirenBug_DailyCount", value=count)
             self.config.cross_set(keys=f"{task}.OpsiSirenBug.SirenBug_DailyCountRecord", value=datetime.now())
-            logger.info(f'Siren bug exploitation successful, daily count: {count}')
+            logger.info(f'塞壬 Bug 利用成功，今日累计次数: {count}')
 
             # 发送成功通知
             try:
@@ -2059,6 +2111,9 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
             if disable_task_switch and hasattr(self.config, '_disable_task_switch'):
                 self.config._disable_task_switch = False
                 logger.info('【塞壬Bug利用】核心操作完成，恢复任务切换')
+            logger.info(f'【塞壬Bug利用】状态快照: disable_task_switch={getattr(self.config, "_disable_task_switch", None)}, '
+                        f'disable_siren_research={getattr(self.config, "_disable_siren_research", None)}, '
+                        f'daily_count={self.config.cross_get(keys=f"{task}.OpsiSirenBug.SirenBug_DailyCount", default=0)}')
 
             # 返回原区域
             logger.info(f'【塞壬Bug利用】返回原区域: {source_zone}')
@@ -2068,6 +2123,9 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
 
         except (RuntimeError, Exception) as e:
             logger.error(f'塞壬研究装置BUG利用失败: {e}', exc_info=True)
+            logger.info(f'【塞壬Bug利用】异常前状态: disable_task_switch={getattr(self.config, "_disable_task_switch", None)}, '
+                        f'disable_siren_research={getattr(self.config, "_disable_siren_research", None)}, '
+                        f'daily_count={self.config.cross_get(keys=f"{task}.OpsiSirenBug.SirenBug_DailyCount", default=0)}')
             
             # 异常时清除标志
             if disable_task_switch and hasattr(self.config, '_disable_task_switch'):
@@ -2099,13 +2157,19 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
             pass
 
     def _handle_siren_bug_device(self, grid, drop=None):
-        """
+        """处理单个塞壬研究装置交互。
+
+        点击目标格后等待行走与事件触发，依据是否确认处理成功返回结果。
+
         Args:
-            grid:
+            grid: 目标装置所在的可点击网格对象。
+            drop: 掉落统计对象，透传给 ``wait_until_walk_stable``。
 
         Returns:
-            bool: True if handled successfully.
-                  False if pathfinding interrupted and needs to be restarted.
+            bool: 处理成功返回 True；需要重新寻路返回 False。
+
+        Raises:
+            RuntimeError: 未触发事件时抛出。
         """
         self.is_siren_device_confirmed = False
         

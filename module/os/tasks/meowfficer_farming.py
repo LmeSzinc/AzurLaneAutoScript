@@ -357,6 +357,7 @@ class OpsiMeowfficerFarming(CoinTaskMixin, OSMap):
         self.os_order_execute(recon_scan=False, submarine_call=self.config.OpsiFleet_Submarine)
         
         # 步骤 1. 临时配置：禁用塞壬研究
+        # 设计说明：这里按“覆盖式临时状态”处理，后续会显式恢复原值。
         self._original_siren_research_enable = self.config.OpsiSirenBug_SirenResearch_Enable
         self.config.OpsiSirenBug_SirenResearch_Enable = False
         logger.info('探测装置搜索：临时禁用塞壬研究')
@@ -453,12 +454,15 @@ class OpsiMeowfficerFarming(CoinTaskMixin, OSMap):
         # 状态清理
         if hasattr(self, '_original_siren_research_enable'):
             self.config.OpsiSirenBug_SirenResearch_Enable = self._original_siren_research_enable
-        
+            logger.info(f'探测装置搜索：恢复塞壬研究开关为 {self._original_siren_research_enable}')
+
         if hasattr(self.config, '_disable_siren_research'):
             delattr(self.config, '_disable_siren_research')
-        
+            logger.info('探测装置搜索：已清理 _disable_siren_research 标志')
+
         if hasattr(self, '_original_stay_in_zone'):
             self.config.OpsiMeowfficerFarming_StayInZone = self._original_stay_in_zone
+            logger.info(f'探测装置搜索：恢复 StayInZone={self._original_stay_in_zone}')
 
         # 结束短猫搜索计时
         self.on_meow_search_end()

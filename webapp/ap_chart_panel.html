@@ -1,0 +1,19 @@
+<div style="margin-top:16px; margin-bottom:8px;">
+  <div style="font-weight:600; font-size:14px; margin-bottom:8px;">体力变化 - {view_title}</div>
+  <div style="display:flex; flex-wrap:wrap; gap:16px; margin-bottom:8px; font-size:13px; color:#aaa;">
+    <span>当前: <b style="color:#e0e0e0">{ap_cur}</b></span>
+    <span>变化: <b style="color:{change_color}">{change_sign}{ap_change}</b></span>
+    <span>最高: <b style="color:#ef5350">{ap_max}</b></span>
+    <span>最低: <b style="color:#26a69a">{ap_min}</b></span>
+    <span>均值: <b style="color:#e0e0e0">{ap_avg}</b></span>
+    <span style="color:#666">{data_points_text}</span>
+  </div>
+</div>
+<div style="position:relative;background:#1a1a2e;border-radius:8px;border:1px solid #333;padding:4px;">
+  <canvas id="{chart_id}" style="width:100%;height:360px;display:block;cursor:crosshair;"></canvas>
+  <canvas id="{chart_id}_ov"
+    style="position:absolute;top:4px;left:4px;width:100%;height:360px;pointer-events:none;"></canvas>
+  <div id="{chart_id}_tip"
+    style="display:none;position:absolute;pointer-events:none;background:rgba(22,22,40,0.95);border:1px solid #555;border-radius:6px;padding:8px 12px;font-size:12px;color:#ddd;z-index:10;white-space:nowrap;">
+  </div>
+</div>
