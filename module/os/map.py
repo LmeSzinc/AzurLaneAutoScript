@@ -2060,11 +2060,11 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
                 self.config._disable_task_switch = False
                 logger.info('【塞壬Bug利用】核心操作完成，恢复任务切换')
 
-            # 返回侵蚀一区域
-            logger.info('【塞壬Bug利用】返回侵蚀一区域')
+            # 返回原区域
+            logger.info(f'【塞壬Bug利用】返回原区域: {source_zone}')
             self.os_map_goto_globe(unpin=False)
-            self.globe_goto(erosion_one_zone, types=('SAFE', 'DANGEROUS'), refresh=True)
-            logger.info('【塞壬Bug利用】返回侵蚀一区域完成')
+            self.globe_goto(source_zone, types=('SAFE', 'DANGEROUS'), refresh=True)
+            logger.info('【塞壬Bug利用】返回原区域完成')
 
         except (RuntimeError, Exception) as e:
             logger.error(f'塞壬研究装置BUG利用失败: {e}', exc_info=True)
@@ -2088,13 +2088,13 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
             if self._select_story_option_by_index(target_index=2, options_count=3):
                 logger.info('异常处理：已尝试选择最后一个选项退出剧情')
 
-            # 尝试返回侵蚀一
+            # 尝试返回原海域
             try:
                 self.os_map_goto_globe(unpin=False)
-                self.globe_goto(erosion_one_zone, types=('SAFE', 'DANGEROUS'), refresh=True)
-                logger.info('异常处理：返回侵蚀一区域')
+                self.globe_goto(source_zone, types=('SAFE', 'DANGEROUS'), refresh=True)
+                logger.info(f'异常处理：返回原区域: {source_zone}')
             except Exception as return_err:
-                logger.error(f'返回侵蚀一失败: {return_err}')
+                logger.error(f'返回原海域失败: {return_err}')
         finally:
             pass
 
