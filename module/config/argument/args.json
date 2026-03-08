@@ -12153,7 +12153,8 @@
       },
       "MissionZones": {
         "type": "stored",
-        "value": null
+        "value": null,
+        "display": "hide"
       }
     },
     "OpsiFleet": {

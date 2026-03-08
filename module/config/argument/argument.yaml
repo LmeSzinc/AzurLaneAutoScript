@@ -1107,6 +1107,7 @@ OpsiDaily:
   MissionZones:
     type: stored
     value: null
+    display: hide
 OpsiObscure:
   SkipHazard2Obscure: false
   ForceRun: false
