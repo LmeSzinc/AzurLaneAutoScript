@@ -836,6 +836,7 @@ Island16:
   Option2: *IslandOption9
   Character2: *IslandCharacter
 GeneralShop:
+  Enable: true
   UseGems: false
   Refresh: false
   BuySkinBox: false
@@ -845,6 +846,7 @@ GeneralShop:
     > Cube
     > FoodT6 > FoodT5
 GuildShop:
+  Enable: true
   Refresh: true
   Filter: |-
     PlateT4 > BookT3 > PR > CatT3 > Chip > BookT2 > Retrofit > FoodT6 > FoodT5 > CatT2 > BoxT4
@@ -885,6 +887,7 @@ GuildShop:
     value: cheshire
     option: [cheshire, mainz, odin, champagne]
 MedalShop2:
+  Enable: true
   Filter: |-
     DR > PR
     > BookRedT3 > BookYellowT3 > BookBlueT3
@@ -911,10 +914,12 @@ MedalShop2:
     value: general
     option: [general, gun, torpedo, antiair, plane]
 MeritShop:
+  Enable: true
   Refresh: false
   Filter: |-
     Cube
 CoreShop:
+  Enable: true
   Filter: |-
     Array
 ShipyardDr:

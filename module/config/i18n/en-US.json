@@ -3530,6 +3530,10 @@
       "name": "General Shop",
       "help": ""
     },
+    "Enable": {
+      "name": "Shop Toggle",
+      "help": "Enable this to run the shop. Disable it to skip this shop during the task."
+    },
     "UseGems": {
       "name": "Use Gems",
       "help": ""
@@ -3555,6 +3559,10 @@
     "_info": {
       "name": "Guild Shop",
       "help": ""
+    },
+    "Enable": {
+      "name": "Shop Toggle",
+      "help": "Enable this to run the shop. Disable it to skip this shop during the task."
     },
     "Refresh": {
       "name": "Refresh Shop",
@@ -3669,6 +3677,10 @@
       "name": "Medal Shop (Retire Exchange)",
       "help": ""
     },
+    "Enable": {
+      "name": "Shop Toggle",
+      "help": "Enable this to run the shop. Disable it to skip this shop during the task."
+    },
     "Filter": {
       "name": "Shop Filter",
       "help": ""
@@ -3730,6 +3742,10 @@
       "name": "Merit Shop (Exercise Shop)",
       "help": ""
     },
+    "Enable": {
+      "name": "Shop Toggle",
+      "help": "Enable this to run the shop. Disable it to skip this shop during the task."
+    },
     "Refresh": {
       "name": "Refresh Shop",
       "help": "Refreshing costs 20 gems"
@@ -3743,6 +3759,10 @@
     "_info": {
       "name": "Core Data Exchange",
       "help": ""
+    },
+    "Enable": {
+      "name": "Shop Toggle",
+      "help": "Enable this to run the shop. Disable it to skip this shop during the task."
     },
     "Filter": {
       "name": "Shop Filter",

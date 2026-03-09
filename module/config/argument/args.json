@@ -11004,6 +11004,10 @@
       }
     },
     "GeneralShop": {
+      "Enable": {
+        "type": "checkbox",
+        "value": true
+      },
       "UseGems": {
         "type": "checkbox",
         "value": false
@@ -11071,6 +11075,10 @@
       }
     },
     "GuildShop": {
+      "Enable": {
+        "type": "checkbox",
+        "value": true
+      },
       "Refresh": {
         "type": "checkbox",
         "value": true
@@ -11204,6 +11212,10 @@
       }
     },
     "MedalShop2": {
+      "Enable": {
+        "type": "checkbox",
+        "value": true
+      },
       "Filter": {
         "type": "textarea",
         "value": "DR > PR\n> BookRedT3 > BookYellowT3 > BookBlueT3\n> BookRedT2 > BookYellowT2 > BookBlueT2\n> RetrofitT3\n> FoodT6 > FoodT5\n> PlateGeneralT3 > PlateWildT3"
@@ -11273,6 +11285,10 @@
       }
     },
     "MeritShop": {
+      "Enable": {
+        "type": "checkbox",
+        "value": true
+      },
       "Refresh": {
         "type": "checkbox",
         "value": false
@@ -11283,6 +11299,10 @@
       }
     },
     "CoreShop": {
+      "Enable": {
+        "type": "checkbox",
+        "value": true
+      },
       "Filter": {
         "type": "textarea",
         "value": "Array"

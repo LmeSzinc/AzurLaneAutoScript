@@ -507,6 +507,7 @@ class GeneratedConfig:
     Island16_Character2 = 'manjuu'  # manjuu, saratoga, new_jersey, tashkent, lemalin, shimakaze, akashi, ying_swei, chao_ho, william_d_porter, chen_hai, unicorn, cheshire, amagi_chan, helena, atago, friedrich_der_grobe
 
     # Group `GeneralShop`
+    GeneralShop_Enable = True
     GeneralShop_UseGems = False
     GeneralShop_Refresh = False
     GeneralShop_BuySkinBox = False
@@ -514,6 +515,7 @@ class GeneratedConfig:
     GeneralShop_Filter = 'BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2\n> Cube\n> FoodT6 > FoodT5'
 
     # Group `GuildShop`
+    GuildShop_Enable = True
     GuildShop_Refresh = True
     GuildShop_Filter = 'PlateT4 > BookT3 > PR > CatT3 > Chip > BookT2 > Retrofit > FoodT6 > FoodT5 > CatT2 > BoxT4'
     GuildShop_BOX_T3 = 'ironblood'  # eagle, royal, sakura, ironblood
@@ -530,6 +532,7 @@ class GeneratedConfig:
     GuildShop_PR3 = 'cheshire'  # cheshire, mainz, odin, champagne
 
     # Group `MedalShop2`
+    MedalShop2_Enable = True
     MedalShop2_Filter = 'DR > PR\n> BookRedT3 > BookYellowT3 > BookBlueT3\n> BookRedT2 > BookYellowT2 > BookBlueT2\n> RetrofitT3\n> FoodT6 > FoodT5\n> PlateGeneralT3 > PlateWildT3'
     MedalShop2_RETROFIT_T1 = 'cl'  # dd, cl, bb, cv
     MedalShop2_RETROFIT_T2 = 'cl'  # dd, cl, bb, cv
@@ -539,10 +542,12 @@ class GeneratedConfig:
     MedalShop2_PLATE_T3 = 'general'  # general, gun, torpedo, antiair, plane
 
     # Group `MeritShop`
+    MeritShop_Enable = True
     MeritShop_Refresh = False
     MeritShop_Filter = 'Cube'
 
     # Group `CoreShop`
+    CoreShop_Enable = True
     CoreShop_Filter = 'Array'
 
     # Group `ShipyardDr`

@@ -1959,6 +1959,7 @@
       "ServerUpdate": "00:00, 12:00, 18:00"
     },
     "GeneralShop": {
+      "Enable": true,
       "UseGems": false,
       "Refresh": false,
       "BuySkinBox": false,
@@ -1979,6 +1980,7 @@
       "ServerUpdate": "00:00"
     },
     "GuildShop": {
+      "Enable": true,
       "Refresh": true,
       "Filter": "PlateT4 > BookT3 > PR > CatT3 > Chip > BookT2 > Retrofit > FoodT6 > FoodT5 > CatT2 > BoxT4",
       "BOX_T3": "ironblood",
@@ -1995,6 +1997,7 @@
       "PR3": "cheshire"
     },
     "MedalShop2": {
+      "Enable": true,
       "Filter": "DR > PR\n> BookRedT3 > BookYellowT3 > BookBlueT3\n> BookRedT2 > BookYellowT2 > BookBlueT2\n> RetrofitT3\n> FoodT6 > FoodT5\n> PlateGeneralT3 > PlateWildT3",
       "RETROFIT_T1": "cl",
       "RETROFIT_T2": "cl",
@@ -2004,10 +2007,12 @@
       "PLATE_T3": "general"
     },
     "MeritShop": {
+      "Enable": true,
       "Refresh": false,
       "Filter": "Cube"
     },
     "CoreShop": {
+      "Enable": true,
       "Filter": "Array"
     },
     "Storage": {
