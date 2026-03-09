@@ -5,15 +5,15 @@
       "help": ""
     },
     "Farm": {
-      "name": "攻撃+",
+      "name": "出撃+",
       "help": ""
     },
     "Event": {
-      "name": "アクティビティ+",
+      "name": "イベント+",
       "help": ""
     },
     "EventDaily": {
-      "name": "アクティビティ - 日々のタスク",
+      "name": "イベント-デイリー任務",
       "help": ""
     },
     "Reward": {
@@ -21,15 +21,15 @@
       "help": ""
     },
     "DailyMission": {
-      "name": "日々のタスク",
+      "name": "デイリー任務",
       "help": ""
     },
     "Opsi": {
-      "name": "ビッグワールド+",
+      "name": "セイレーン作戦+",
       "help": ""
     },
     "Island": {
-      "name": "アイランドプラン",
+      "name": "島嶼計画",
       "help": ""
     },
     "Tool": {
@@ -39,7 +39,7 @@
   },
   "Task": {
     "Alas": {
-      "name": "スマートポートエリア設定",
+      "name": "Alas設定",
       "help": ""
     },
     "General": {
@@ -51,51 +51,51 @@
       "help": ""
     },
     "Main": {
-      "name": "メインプロット-1+",
+      "name": "メインステージ-1+",
       "help": ""
     },
     "Main2": {
-      "name": "メインプロット-2+",
+      "name": "メインステージ-2+",
       "help": ""
     },
     "Main3": {
-      "name": "幹線地図+",
+      "name": "メインステージ+",
       "help": ""
     },
     "GemsFarming": {
-      "name": "緊急委員会+",
+      "name": "緊急委託+",
       "help": ""
     },
     "ThreeOilLowCost": {
-      "name": "3つの燃費+",
-      "help": "3 つの燃料の低消費ラインナップを使用して戦い、旗艦がレベル 32 に達すると旗艦を自動的に交換して退却します。"
+      "name": "3燃料低コスト+",
+      "help": "3燃料低コスト編成で戦闘し、旗艦がレベル32に達すると自動的に旗艦を交換して退役させます。"
     },
     "EventGeneral": {
-      "name": "活動共通",
+      "name": "イベント共通",
       "help": ""
     },
     "Event": {
-      "name": "アクティビティ図-1+",
+      "name": "イベントマップ-1+",
       "help": ""
     },
     "Event2": {
-      "name": "アクティビティ図-2+",
+      "name": "イベントマップ-2+",
       "help": ""
     },
     "Raid": {
-      "name": "共に戦うアクティビティ+",
+      "name": "レイドイベント+",
       "help": ""
     },
     "RaidScuttle": {
-      "name": "一緒に戦って船を沈めよう+",
+      "name": "レイド沈船+",
       "help": ""
     },
     "Hospital": {
-      "name": "深い谷からの手紙",
+      "name": "深谷からの手紙",
       "help": ""
     },
     "Coalition": {
-      "name": "光と影のファッション - 撮影中",
+      "name": "光影風尚-撮影進行中",
       "help": ""
     },
     "MaritimeEscort": {
@@ -107,43 +107,43 @@
       "help": ""
     },
     "WarArchives": {
-      "name": "戦闘ファイル",
-      "help": "戦闘ファイルのメンテナンス不足により、回収機能が正常に動作しない可能性があります。 Alas の動作が異常であることに気付いた場合は、手動で開拓を完了してから自主索敵機能を使用してください。"
+      "name": "作戦アーカイブ",
+      "help": "作戦アーカイブのメンテナンス不足により、開拓機能が正常に動作しない場合があります。Alasの動作が異常な場合は、手動で開拓を完了してから自律索敵機能を使用してください。"
     },
     "EventA": {
-      "name": "デイリーAチャート",
+      "name": "デイリーAマップ",
       "help": ""
     },
     "EventB": {
-      "name": "日次Bチャート",
+      "name": "デイリーBマップ",
       "help": ""
     },
     "EventC": {
-      "name": "日次 C チャート",
+      "name": "デイリーCマップ",
       "help": ""
     },
     "EventD": {
-      "name": "デイリーDチャート",
+      "name": "デイリーDマップ",
       "help": ""
     },
     "EventSp": {
-      "name": "デイリーSPチャート",
+      "name": "デイリーSPマップ",
       "help": ""
     },
     "RaidDaily": {
-      "name": "日々の戦闘活動",
+      "name": "レイドイベントデイリー",
       "help": ""
     },
     "CoalitionSp": {
-      "name": "光と影のスタイル ～撮影中SP～",
+      "name": "光影風尚-撮影進行中SP",
       "help": ""
     },
     "Commission": {
-      "name": "任せる",
+      "name": "委託",
       "help": ""
     },
     "Tactical": {
-      "name": "タクティクスアカデミー",
+      "name": "戦術学院",
       "help": ""
     },
     "Research": {
@@ -151,11 +151,11 @@
       "help": ""
     },
     "Dorm": {
-      "name": "裏の家",
+      "name": "後宅",
       "help": ""
     },
     "Meowfficer": {
-      "name": "コマンドニャー",
+      "name": "指揮ニャ",
       "help": ""
     },
     "Guild": {
@@ -167,31 +167,31 @@
       "help": ""
     },
     "Awaken": {
-      "name": "認知的覚醒",
+      "name": "認知覚醒",
       "help": ""
     },
     "Island": {
-      "name": "アイランドプラン",
-      "help": "島レベル 18 と統合管理パネルのロックを解除する必要があります。"
+      "name": "島嶼計画",
+      "help": "島嶼レベル18に達し、統合管理パネルを解放してから使用してください。"
     },
     "Daily": {
-      "name": "日々のタスク",
+      "name": "デイリー任務",
       "help": ""
     },
     "Hard": {
-      "name": "メインライン - 難易度マップ",
+      "name": "メインステージ-困難マップ",
       "help": ""
     },
     "Exercise": {
-      "name": "エクササイズ",
+      "name": "演習",
       "help": ""
     },
     "ShopFrequent": {
-      "name": "武器商人の店",
+      "name": "軍火商ショップ",
       "help": ""
     },
     "ShopOnce": {
-      "name": "他の店舗",
+      "name": "その他のショップ",
       "help": ""
     },
     "Shipyard": {
@@ -199,19 +199,19 @@
       "help": ""
     },
     "Gacha": {
-      "name": "毎日のカード抽選",
+      "name": "デイリーガチャ",
       "help": ""
     },
     "Freebies": {
-      "name": "無料売春報酬",
+      "name": "無料報酬",
       "help": ""
     },
     "Minigame": {
       "name": "ミニゲーム",
-      "help": "ゲームコインがオーバーしない場合は、自動的にゲームコインを受け取ります。ゲームコインがあり、報酬がいっぱいでない場合は、自動的にミニゲームをプレイします。"
+      "help": "ゲームコインがオーバーフローしない場合に自動的にゲームコインを受け取り、ゲームコインがあり報酬が満杯でない場合に自動的にミニゲームをプレイします。"
     },
     "PrivateQuarters": {
-      "name": "寮プラン",
+      "name": "寮計画",
       "help": ""
     },
     "OpsiGeneral": {
@@ -219,40 +219,40 @@
       "help": ""
     },
     "OpsiAshBeacon": {
-      "name": "メタ戦闘",
+      "name": "META作戦",
       "help": ""
     },
     "OpsiAshAssist": {
-      "name": "メタサポート",
+      "name": "META支援",
       "help": ""
     },
     "OpsiExplore": {
-      "name": "毎月の開墾 +",
+      "name": "月間開拓+",
       "help": ""
     },
     "OpsiShop": {
-      "name": "ビッグワールドストア+",
+      "name": "セイレーン作戦ショップ+",
       "help": ""
     },
     "OpsiVoucher": {
-      "name": "ホワイトチケットストア",
+      "name": "バウチャーショップ",
       "help": ""
     },
     "OpsiDaily": {
-      "name": "ビッグワールド-デイリー+",
+      "name": "セイレーン作戦-デイリー+",
       "help": ""
     },
     "OpsiObscure": {
-      "name": "隠された海",
+      "name": "隠秘海域",
       "help": ""
     },
     "OpsiAbyssal": {
-      "name": "深海",
+      "name": "深淵海域",
       "help": ""
     },
     "OpsiArchive": {
-      "name": "ファイル座標",
-      "help": "ホワイトチケットショップからファイル座標を購入して実行します。ファイル海域は行動力を消費しない。\nこの機能を使用する前に、次の条件を満たす必要があります。\n- 大きな世界のメインストーリーをクリアし、模擬戦闘 + セイレーン試験場を完了\n- 大規模な世界開拓ミッションを有効にするか、キャンペーン情報レコーダー (5000 個の石油小道具) を使用します"
+      "name": "アーカイブ座標",
+      "help": "バウチャーショップからアーカイブ座標を購入して実行します。アーカイブ海域は行動力を消費しません。\nこの機能を使用する前に、以下の条件を満たす必要があります：\n- セイレーン作戦メインストーリーをクリアし、模擬戦+セイレーン試験場を完了\n- セイレーン作戦開拓ミッションを有効にするか、戦役情報記録装置（5000燃料アイテム）を使用"
     },
     "OpsiStronghold": {
       "name": "セイレーン要塞",
@@ -263,31 +263,31 @@
       "help": ""
     },
     "OpsiMeowfficerFarming": {
-      "name": "ショートキャットコネクション+",
+      "name": "指揮ニャファーム+",
       "help": ""
     },
     "OpsiHazard1Leveling": {
-      "name": "腐食 1 レベリング +",
+      "name": "侵蝕1レベリング+",
       "help": ""
     },
     "OpsiScheduling": {
-      "name": "インテリジェントなスケジューリング+",
-      "help": "ビッグワールドのインテリジェントなスケジューリング機能は、侵食 1 のレベリングとイエロー コインの補充タスク間の切り替えを調整するために使用されます。\n有効にすると、さまざまなタスクが自動的に切り替わり、ゴールド コインとモビリティに基づいてプッシュ通知が送信されます。"
+      "name": "スマートスケジューリング+",
+      "help": "セイレーン作戦スマートスケジューリング機能。侵蝕1レベリングとゴールドコイン補充タスク間の切り替えを調整します。\n有効にすると、ゴールドコインと行動力に基づいて異なるタスク間を自動的に切り替え、プッシュ通知を送信します。"
     },
     "OpsiCrossMonth": {
-      "name": "月を通して毎日",
-      "help": "悲しいかな、ビッグワールドのクロス月リセットの10分前にビッグワールドに入り、ビッグワールドがリセットされるのを待ちますが、ビッグワールドから出ません。その後、新しい日のビッグワールドデイリー、隠された海、深海、短い猫の接続を完了して、追加の黄金の皿を入手します。 Big World Daily を実行する場合は、「Big World Daily」タスク設定に従って実行し、残りは同じです。\n    重要: 月を待っている間はゲームを操作しないでください。"
+      "name": "月跨ぎデイリー",
+      "help": "    Alasはセイレーン作戦の月跨ぎリセットの10分前にセイレーン作戦に入り、リセットを待ちますが退出しません。その後、新しい日のセイレーン作戦デイリー、隠秘海域、深淵海域と指揮ニャファームを完了して、追加の報酬を獲得します。セイレーン作戦デイリーを実行する場合は「セイレーン作戦-デイリー」タスク設定に従い、その他も同様です。\n    重要：Alasが月跨ぎを待っている間は、ゲームを操作しないでください。"
     },
     "OpsiDailyDelay": {
-      "name": "大きな世界ミッションは延期される +",
-      "help": "サーバーが毎日 0:00 に再起動するまでの構成可能な時間内 (デフォルトは 5 分で、23:55 にトリガーされます)、現在進行中の Erasion 1 および Short Cat タスクは、翌日の 0:00 に再起動が完了するまで自動的に延期されます。"
+      "name": "セイレーン作戦タスク延期+",
+      "help": "    毎日0時のサーバー再起動前の設定可能な時間帯（デフォルトは5分、23:55にトリガー）に、現在進行中の侵蝕1と指揮ニャファームタスクを翌日0時の再起動完了後まで自動的に延期します。"
     },
     "IslandInfo": {
-      "name": "島情報（未完）",
-      "help": "アイランドダッシュボード（未完成）"
+      "name": "島嶼情報（未完成）",
+      "help": "島嶼ダッシュボード（未完成）"
     },
     "IslandSeasonTask": {
-      "name": "シーズンミッション（未完了）",
+      "name": "シーズンミッション（未完成）",
       "help": ""
     },
     "Daemon": {
@@ -295,7 +295,7 @@
       "help": ""
     },
     "OpsiDaemon": {
-      "name": "ビッグワールドセミオートマチック",
+      "name": "セイレーン作戦半自動",
       "help": ""
     },
     "EventStory": {
@@ -303,7 +303,7 @@
       "help": ""
     },
     "BoxDisassemble": {
-      "name": "機器ボックスを分解する",
+      "name": "装備箱分解",
       "help": ""
     },
     "Benchmark": {
@@ -311,7 +311,7 @@
       "help": ""
     },
     "AzurLaneUncensored": {
-      "name": "反調和",
+      "name": "検閲解除",
       "help": ""
     },
     "GameManager": {
@@ -326,34 +326,34 @@
     },
     "Enable": {
       "name": "この機能を有効にする",
-      "help": "このタスクをスケジューラに追加します\n試運転、科学研究、収穫のタスクは必須です。",
+      "help": "このタスクをスケジューラに追加します\n委託、科研、収穫タスクは強制的にオンになっています",
       "True": "有効",
-      "False": "間違い"
+      "False": "False"
     },
     "NextRun": {
-      "name": "次回の実行時間",
-      "help": "値は自動的に計算されるため、手動で変更する必要はありません。クリア後​​すぐに実行されます"
+      "name": "次回実行時間",
+      "help": "自動計算された値です。手動で変更する必要はありません。クリアすると即座に実行されます"
     },
     "Command": {
       "name": "内部タスク名",
       "help": ""
     },
     "SuccessInterval": {
-      "name": "実行が成功した後、次の実行を X 分間延期します",
+      "name": "実行成功後、次回実行をX分延期する",
       "help": ""
     },
     "FailureInterval": {
-      "name": "実行が失敗した場合、次の実行を X 分間延期します",
+      "name": "実行失敗後、次回実行をX分延期する",
       "help": ""
     },
     "ServerUpdate": {
-      "name": "サーバーのリフレッシュ時間",
-      "help": "いくつかのタスクが正常に実行された後、次の実行はサーバーの更新時間まで延期されます。\nタイムゾーンを自動的に変換します。通常は変更する必要はありません。"
+      "name": "サーバーリフレッシュ時間",
+      "help": "一部のタスク実行成功後、次回実行をサーバーリフレッシュ時間まで延期します\nタイムゾーンは自動変換されるため、通常は変更不要です"
     }
   },
   "Emulator": {
     "_info": {
-      "name": "シミュレータの設定",
+      "name": "エミュレータ設定",
       "help": ""
     },
     "Serial": {
@@ -364,26 +364,26 @@
       "name": "ゲームサーバー",
       "help": "複数のゲームクライアントがエミュレータにインストールされている場合、サーバーを手動で選択する必要があります",
       "auto": "自動検出",
-      "com.bilibili.azurlane": "国家奉仕",
-      "com.YoStarEN.AzurLane": "国際サーバー",
+      "com.bilibili.azurlane": "中国サーバー",
+      "com.YoStarEN.AzurLane": "グローバルサーバー",
       "com.YoStarJP.AzurLane": "日本サーバー",
       "com.hkmanjuu.azurlane.gp": "台湾サーバー",
-      "com.bilibili.blhx.huawei": "国家奉仕 com.bilibili.blhx.huawei",
-      "com.bilibili.blhx.honor": "国家奉仕 com.bilibili.blhx.honor",
-      "com.bilibili.blhx.mi": "国家奉仕 com.bilibili.blhx.mi",
-      "com.tencent.tmgp.bilibili.blhx": "国家奉仕 com.tencent.tmgp.bilibili.blhx",
-      "com.bilibili.blhx.baidu": "国家奉仕 com.bilibili.blhx.baidu",
-      "com.bilibili.blhx.qihoo": "国家奉仕 com.bilibili.blhx.qihoo",
-      "com.bilibili.blhx.nearme.gamecenter": "国家奉仕 com.bilibili.blhx.nearme.gamecenter",
-      "com.bilibili.blhx.vivo": "国家奉仕 com.bilibili.blhx.vivo",
-      "com.bilibili.blhx.mz": "国家奉仕 com.bilibili.blhx.mz",
-      "com.bilibili.blhx.dl": "国家奉仕 com.bilibili.blhx.dl",
-      "com.bilibili.blhx.lenovo": "国家奉仕 com.bilibili.blhx.lenovo",
-      "com.bilibili.blhx.uc": "国家奉仕 com.bilibili.blhx.uc",
-      "com.bilibili.blhx.mzw": "国家奉仕 com.bilibili.blhx.mzw",
-      "com.yiwu.blhx.yx15": "国家奉仕 com.yiwu.blhx.yx15",
-      "com.bilibili.blhx.m4399": "国家奉仕 com.bilibili.blhx.m4399",
-      "com.bilibili.blhx.bilibiliMove": "国家奉仕 com.bilibili.blhx.bilibiliMove",
+      "com.bilibili.blhx.huawei": "中国サーバー com.bilibili.blhx.huawei",
+      "com.bilibili.blhx.honor": "中国サーバー com.bilibili.blhx.honor",
+      "com.bilibili.blhx.mi": "中国サーバー com.bilibili.blhx.mi",
+      "com.tencent.tmgp.bilibili.blhx": "中国サーバー com.tencent.tmgp.bilibili.blhx",
+      "com.bilibili.blhx.baidu": "中国サーバー com.bilibili.blhx.baidu",
+      "com.bilibili.blhx.qihoo": "中国サーバー com.bilibili.blhx.qihoo",
+      "com.bilibili.blhx.nearme.gamecenter": "中国サーバー com.bilibili.blhx.nearme.gamecenter",
+      "com.bilibili.blhx.vivo": "中国サーバー com.bilibili.blhx.vivo",
+      "com.bilibili.blhx.mz": "中国サーバー com.bilibili.blhx.mz",
+      "com.bilibili.blhx.dl": "中国サーバー com.bilibili.blhx.dl",
+      "com.bilibili.blhx.lenovo": "中国サーバー com.bilibili.blhx.lenovo",
+      "com.bilibili.blhx.uc": "中国サーバー com.bilibili.blhx.uc",
+      "com.bilibili.blhx.mzw": "中国サーバー com.bilibili.blhx.mzw",
+      "com.yiwu.blhx.yx15": "中国サーバー com.yiwu.blhx.yx15",
+      "com.bilibili.blhx.m4399": "中国サーバー com.bilibili.blhx.m4399",
+      "com.bilibili.blhx.bilibiliMove": "中国サーバー com.bilibili.blhx.bilibiliMove",
       "com.hkmanjuu.azurlane.gp.mc": "台湾サーバー com.hkmanjuu.azurlane.gp.mc"
     },
     "ServerName": {
@@ -461,68 +461,68 @@
       "jp-17": "[JP] スイートバン"
     },
     "ScreenshotMethod": {
-      "name": "シミュレーターのスクリーンショット ソリューション",
-      "help": "自動選択を使用する場合、パフォーマンス テストが実行され、最速のスクリーンショット スキームに自動的に変更されます。\n通常の状況での速度: DroidCast_raw >> aScreenCap_nc > ADB_nc >>> aScreenCap > uiauTomator2 ~= ADB\nツール - パフォーマンス テストを実行して最速の解決策を見つける",
-      "auto": "最速のものを自動的に選択する",
+      "name": "エミュレータスクリーンショット方式",
+      "help": "自動選択を使用すると、パフォーマンステストを実行し、最速のスクリーンショット方式に自動変更します\n通常の速度: DroidCast_raw >> aScreenCap_nc > ADB_nc >>> aScreenCap > uiautomator2 ~= ADB\nツール - パフォーマンステストを実行して最速の方式を見つけてください",
+      "auto": "最速を自動選択",
       "ADB": "ADB",
       "ADB_nc": "ADB_nc",
       "uiautomator2": "uiautomator2",
-      "aScreenCap": "aスクリーンキャップ",
+      "aScreenCap": "aScreenCap",
       "aScreenCap_nc": "aScreenCap_nc",
-      "DroidCast": "ドロイドキャスト",
+      "DroidCast": "DroidCast",
       "DroidCast_raw": "DroidCast_raw",
       "nemu_ipc": "nemu_ipc",
-      "ldopengl": "ルドペングル"
+      "ldopengl": "ldopengl"
     },
     "ControlMethod": {
-      "name": "シミュレータ制御方式",
-      "help": "速度: minitouch > Hermit >>> uiauTomator2 ~= ADB\nミニタッチを選択することをお勧めします。 vmos の下にない限り、Hermit を選択することはお勧めできません。",
+      "name": "エミュレータ制御方式",
+      "help": "速度: minitouch > Hermit >>> uiautomator2 ~= ADB\nminitouchを推奨。vmos下を除き、Hermitは非推奨。",
       "ADB": "ADB",
       "uiautomator2": "uiautomator2",
-      "minitouch": "ミニタッチ",
-      "Hermit": "隠者",
-      "MaaTouch": "まあタッチ"
+      "minitouch": "minitouch",
+      "Hermit": "Hermit",
+      "MaaTouch": "MaaTouch"
     },
     "ScreenshotDedithering": {
-      "name": "画像の色のディザリングを除去する",
-      "help": "モバイルで実行するときに有効にする"
+      "name": "画像色ディザリング除去",
+      "help": "実機で実行する場合に有効にしてください"
     },
     "AdbRestart": {
-      "name": "デバイスが検出できない場合は、adb を再起動してみてください",
+      "name": "デバイスが検出できない場合にadbの再起動を試みる",
       "help": ""
     }
   },
   "EmulatorInfo": {
     "_info": {
-      "name": "シミュレータの設定",
-      "help": "以下の値はシリアルに基づいて自動的に入力されます。理解できない場合は、勝手に改変しないでください。ポートを変更すると、対応するインスタンスが自動的に起動します。"
+      "name": "エミュレータ設定",
+      "help": "以下の値はSerialに基づいて自動入力されます。理解できない場合は変更しないでください。ポートを変更すると、対応するインスタンスが自動的に起動します。"
     },
     "Emulator": {
       "name": "エミュレータの種類",
       "help": "",
       "auto": "自動検出",
-      "NoxPlayer": "夜神シミュレーター",
-      "NoxPlayer64": "夜神シミュレーター 64 ビット",
-      "BlueStacks4": "BlueStacks シミュレーター 4",
-      "BlueStacks5": "BlueStacks シミュレータ 5",
-      "BlueStacks4HyperV": "BlueStacks エミュレータ 4 Hyper-V",
-      "BlueStacks5HyperV": "Bluestack エミュレータ 5 Hyper-V",
-      "LDPlayer3": "サンダーシミュレーター3",
-      "LDPlayer4": "サンダーシミュレーター4",
-      "LDPlayer9": "ライトニングシミュレーター9",
-      "MuMuPlayer": "MuMu エミュレータ",
-      "MuMuPlayerX": "MuMu エミュレータ X",
-      "MuMuPlayer12": "MuMu エミュレータ 12",
+      "NoxPlayer": "NoxPlayer",
+      "NoxPlayer64": "NoxPlayer 64ビット",
+      "BlueStacks4": "BlueStacks 4",
+      "BlueStacks5": "BlueStacks 5",
+      "BlueStacks4HyperV": "BlueStacks 4 Hyper-V",
+      "BlueStacks5HyperV": "BlueStacks 5 Hyper-V",
+      "LDPlayer3": "LDPlayer 3",
+      "LDPlayer4": "LDPlayer 4",
+      "LDPlayer9": "LDPlayer 9",
+      "MuMuPlayer": "MuMuエミュレータ",
+      "MuMuPlayerX": "MuMuエミュレータX",
+      "MuMuPlayer12": "MuMuエミュレータ12",
       "MEmuPlayer": "MEmuエミュレータ",
-      "BlueStacksAir": "ブルースタックスエア",
-      "MuMuPro": "ムムプロ"
+      "BlueStacksAir": "BlueStacks Air",
+      "MuMuPro": "MuMu Pro"
     },
     "name": {
-      "name": "シミュレータのインスタンス名",
+      "name": "エミュレータインスタンス名",
       "help": ""
     },
     "path": {
-      "name": "シミュレータのインストールパス",
+      "name": "エミュレータインストールパス",
       "help": ""
     }
   },
@@ -533,31 +533,31 @@
     },
     "HandleError": {
       "name": "例外処理を有効にする",
-      "help": "いくつかの例外を処理し、エラーが発生した場合は撤退します。"
+      "help": "一部の例外を処理し、エラー発生時に撤退します"
     },
     "SaveError": {
       "name": "エラーが発生した場合は、ログとスクリーンショットを保存します",
       "help": ""
     },
     "StrictRestart": {
-      "name": "機密性の高いタスクでエラーが発生した場合の再起動を禁止する",
-      "help": "機密性の高いタスクの実行中にエラーが発生した場合、ゲームを再起動するのではなく、悲しいことに停止します\n機密任務には、秘境海域、深海海域、月をまたぐ日常任務などが含まれます。"
+      "name": "機密タスクでエラー発生時の再起動を禁止する",
+      "help": "機密タスク実行中にエラーが発生した場合、ゲームを再起動せずにAlasを停止します\n機密タスクには隠秘海域、深淵海域、月跨ぎデイリーなどが含まれます"
     },
     "SaveErrorCount": {
       "name": "エラーログ保存上限",
-      "help": "上限を超えたエラーログは削除されます。 0 または負の値の場合、制限はありません。"
+      "help": "上限を超えたエラーログは削除されます。0または負の値の場合、制限はありません。"
     },
     "OnePushConfig": {
-      "name": "プッシュ設定が間違っている",
-      "help": "未処理の例外が発生した後、Onepush を使用してエラー メッセージをプッシュします。構成方法についてはドキュメントを参照してください: https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Onepush-configuration-%5BCN%5D"
+      "name": "プッシュ通知設定",
+      "help": "未処理の例外が発生した後、Onepushを使用してエラーメッセージをプッシュします。設定方法についてはドキュメントを参照してください: https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Onepush-configuration-%5BCN%5D"
     },
     "ScreenshotLength": {
-      "name": "エラーが発生した場合は、最後の X 枚のスクリーンショットを保存します",
+      "name": "エラー発生時に最後のX枚のスクリーンショットを保存する",
       "help": ""
     },
     "GameStuckRestart": {
-      "name": "ゲームがフリーズしたらエミュレータを再起動します",
-      "help": "After the game freezes (triggers GameStuckError) for the specified number of times, try restarting the emulator.エミュレータのフリーズやメモリ オーバーフローなどの問題の解決に役立つ場合があります。"
+      "name": "ゲームフリーズ時にエミュレータを再起動する",
+      "help": "ゲームフリーズ（GameStuckError発生）が指定回数に達した後、エミュレータの再起動を試みます。エミュレータのフリーズやメモリオーバーフローなどの問題の解決に役立つ場合があります。"
     },
     "GameStuckThreshold": {
       "name": "ゲームがスタックした再起動のしきい値",
@@ -574,27 +574,27 @@
   },
   "Optimization": {
     "_info": {
-      "name": "設定を最適化する",
+      "name": "最適化設定",
       "help": ""
     },
     "ScreenshotInterval": {
-      "name": "スクリーンショットの速度を X 秒に遅くします",
-      "help": "2 つのスクリーンショット間の最小間隔は 0.1 ～ 0.3 に制限されており、高構成のコンピューターの CPU 使用率を削減できます。"
+      "name": "スクリーンショット速度をX秒に1枚に減速",
+      "help": "2回のスクリーンショット間の最小間隔。0.1～0.3に制限。高スペックPCでCPU使用率を低減できます。"
     },
     "CombatScreenshotInterval": {
-      "name": "戦闘中はスクリーンショットの速度が X 秒に遅くなります",
-      "help": "2 つのスクリーンショットを取得する間の最小間隔は 0.3 ～ 1.0 に制限されており、戦闘中の CPU 使用率を削減できます。"
+      "name": "戦闘中スクリーンショット速度をX秒に1枚に減速",
+      "help": "2回のスクリーンショット間の最小間隔。0.3～1.0に制限。戦闘時のCPU使用率を低減できます。"
     },
     "TaskHoardingDuration": {
-      "name": "タスクを溜め込む X 分",
-      "help": "収集期間中のゲーム操作頻度を軽減できる\nタスクがトリガーされた後、X 分間待機してから、保存されているタスクを一度に実行します"
+      "name": "タスクをX分間蓄積する",
+      "help": "報酬回収期間中のゲーム操作頻度を低減できます\nタスクがトリガーされた後、X分間待機してから蓄積されたタスクを一括実行します"
     },
     "WhenTaskQueueEmpty": {
-      "name": "タスクキューがクリアされたとき",
-      "help": "タスクがないときにゲームを閉じると、食料収集中の CPU 使用率が削減されます。",
-      "stay_there": "あなたがいる場所にいてください",
-      "goto_main": "メインインターフェイスに移動",
-      "close_game": "試合終了"
+      "name": "タスクキューが空になった時",
+      "help": "タスクがない時にゲームを閉じると、報酬回収期間中のCPU使用率を低減できます",
+      "stay_there": "その場で待機",
+      "goto_main": "メイン画面に移動",
+      "close_game": "ゲームを閉じる"
     }
   },
   "DropRecord": {
@@ -603,7 +603,7 @@
       "help": ""
     },
     "SaveFolder": {
-      "name": "保存ディレクトリをドロップする",
+      "name": "ドロップ保存ディレクトリ",
       "help": ""
     },
     "AzurStatsID": {
@@ -617,7 +617,7 @@
       "cn_gz_reverse_proxy": "国内リバースプロキシ（広州）"
     },
     "ResearchRecord": {
-      "name": "科学研究のスクリーンショット",
+      "name": "科研スクリーンショット",
       "help": "",
       "do_not": "アクションなし",
       "save": "保存",
@@ -625,7 +625,7 @@
       "save_and_upload": "保存してアップロードする"
     },
     "CommissionRecord": {
-      "name": "委託されたスクリーンショット",
+      "name": "委託スクリーンショット",
       "help": "",
       "do_not": "アクションなし",
       "save": "保存",
@@ -633,13 +633,13 @@
       "save_and_upload": "保存してアップロードする"
     },
     "CombatRecord": {
-      "name": "バトルドロップのスクリーンショット",
-      "help": "有効にすると、チェックアウト中のクリックが遅くなります。\n敵を探すという自制心のもとでは効果がありません。",
+      "name": "戦闘ドロップスクリーンショット",
+      "help": "有効にすると結算時のクリック速度が遅くなります\n自律索敵では効果がありません",
       "do_not": "アクションなし",
       "save": "保存"
     },
     "OpsiRecord": {
-      "name": "ビッグワールドドロップのスクリーンショット",
+      "name": "セイレーン作戦ドロップスクリーンショット",
       "help": "",
       "do_not": "アクションなし",
       "save": "保存",
@@ -647,13 +647,13 @@
       "save_and_upload": "保存してアップロードする"
     },
     "MeowfficerBuy": {
-      "name": "コマンドニャーの購入スクリーンショット",
+      "name": "指揮ニャ購入スクリーンショット",
       "help": "",
       "do_not": "アクションなし",
       "save": "保存"
     },
     "MeowfficerTalent": {
-      "name": "コマンドキャットタレントのスクリーンショット",
+      "name": "指揮ニャ天賦スクリーンショット",
       "help": "",
       "do_not": "アクションなし",
       "save": "保存",
@@ -691,64 +691,64 @@
       "bz2": "BZ2",
       "gzip": "gzip",
       "xz": "xz",
-      "zip": "ジップ"
+      "zip": "ZIP"
     }
   },
   "Retirement": {
     "_info": {
-      "name": "退職の設定",
+      "name": "退役設定",
       "help": ""
     },
     "RetireMode": {
-      "name": "退職モード",
-      "help": "強化を選択した場合、強化素材が不足するとワンクリックリタイアに戻ります。",
-      "one_click_retire": "ワンクリックで終了",
-      "enhance": "強化する",
-      "old_retire": "伝統的な退職"
+      "name": "退役モード",
+      "help": "強化を選択した場合、強化素材が不足するとワンクリック退役に戻ります。",
+      "one_click_retire": "ワンクリック退役",
+      "enhance": "強化",
+      "old_retire": "従来の退役"
     }
   },
   "PublicEmotion": {
     "_info": {
-      "name": "気分を共有する",
-      "help": "同じチームを使用して複数のタスクを完了できます\nこの機能を使用する場合は、対応するタスクのフリート機能がすべての単一チームをクリアすることであり、そのチームが共有チームであることを確認してください。"
+      "name": "コンディション共有",
+      "help": "同じ艦隊を使用して複数のタスクを完了できます\nこの機能を使用する場合は、対応するタスクの艦隊設定がすべての単独チームであり、その艦隊が共有艦隊であることを確認してください。"
     },
     "Enable": {
-      "name": "ムードの共有を可能にする",
-      "help": "有効にすると、共有ムードが使用され、次のムード設定が元の設定を置き換えます。"
+      "name": "コンディション共有を有効にする",
+      "help": "有効にすると共有コンディションが使用され、以下のコンディション設定が元の設定を上書きします。"
     },
     "Tasks": {
-      "name": "気分を共有するタスク",
-      "help": "「Main、Event、EventA」のように、共有ムードを使用するタスクを半角カンマで区切って選択します。\n幹線図-1：幹線、幹線図-2：幹線2、幹線図-3：幹線3\nアクティビティ図-1: イベント、アクティビティ図-2: イベント 2、戦争アーカイブ: WarArchives\n日次Aチャート：EventA、日次Bチャート：EventB、日次Cチャート：EventC、日次Dチャート：EventD、日次SPチャート：EventSp"
+      "name": "コンディションを共有するタスク",
+      "help": "コンディションを共有するタスクを半角カンマ区切りで選択します。例：「Main、Event、EventA」\nメインステージ-1: Main、メインステージ-2: Main2、メインステージ: Main3\nイベントマップ-1: Event、イベントマップ-2: Event2、作戦アーカイブ: WarArchives\nデイリーAマップ: EventA、デイリーBマップ: EventB、デイリーCマップ: EventC、デイリーDマップ: EventD、デイリーSPマップ: EventSp"
     },
     "FleetValue": {
-      "name": "気分値",
+      "name": "コンディション値",
       "help": ""
     },
     "FleetRecord": {
-      "name": "気分の記録時間",
+      "name": "コンディション記録時間",
       "help": ""
     },
     "FleetControl": {
-      "name": "気分のコントロール",
+      "name": "コンディション制御",
       "help": "",
       "keep_exp_bonus": "経験値ボーナスを維持 (>120)",
-      "prevent_green_face": "グリーンフェイスを防ぐ (>40)",
-      "prevent_yellow_face": "顔の黄ばみを防ぐ (>30)",
-      "prevent_red_face": "赤ら顔を防ぐ (>0)"
+      "prevent_green_face": "緑顔を防ぐ (>40)",
+      "prevent_yellow_face": "黄顔を防ぐ (>30)",
+      "prevent_red_face": "赤顔を防ぐ (>0)"
     },
     "FleetRecover": {
-      "name": "気分の返信",
+      "name": "コンディション回復",
       "help": "",
-      "not_in_dormitory": "バックハウスには配置されていません（20/h）",
-      "dormitory_floor_1": "奥の家の1階（40/h）",
-      "dormitory_floor_2": "奥の家の2階（50/h）"
+      "not_in_dormitory": "後宅に配置していない（20/h）",
+      "dormitory_floor_1": "後宅1階（40/h）",
+      "dormitory_floor_2": "後宅2階（50/h）"
     },
     "FleetOath": {
-      "name": "メンバー全員が既婚者 (+10/h)",
+      "name": "全メンバーがケッコン済み (+10/h)",
       "help": ""
     },
     "FleetOnsen": {
-      "name": "メンバー全員が温泉を配置しました（+10/h）",
+      "name": "全メンバーが温泉を配置済み (+10/h)",
       "help": ""
     }
   },
@@ -759,82 +759,82 @@
     },
     "TaskPriorityAdjustment": {
       "name": "タスクの優先度の調整",
-      "help": "再起動 # ゲームを再起動します\n> OpsiCrossMonth > OpsiDailyDelay #大世界cross月日 > 大きな世界ミッションは延期されました\n> 委員会 > 戦術 > 研究 # 委員会 > 戦術アカデミー > 研究\n> エクササイズ # エクササイズ\n> 寮 > ニャーフィサー > ギルド > ガチャ # 後住居 > コマンドニャー > 大艦隊 > デイリーカード抽選\n> 報酬 # 収穫\n> ShopFrequent > ShopOnce > 造船所 > 景品 > アイランド # 雑貨店 > その他の店舗 > 開発造船所 > 景品特典 > アイランドプラン\n> PrivateQuarters # クォーター プラン\n> OpsiExplore # 毎月の探索\n> ミニゲーム > 覚醒 # ミニゲーム > 認知の覚醒\n>OpsiAshBeacon #メタ戦闘\n> OpsiDaily > OpsiShop > OpsiVoucher #大世界デイリー > ポート ストア > エクスチェンジ ストア\n> OpsiAbyssal > OpsiStronghold > OpsiObscure > OpsiArchive # 深海 > セイレーン要塞 > 隠された海 > アーカイブ座標\n> デイリー > ハード > OpsiAshBeacon > OpsiAshAssist > OpsiMonthBoss #デイリー チャレンジ > 難易度マップ > メタ コンバット > メタ サポート > マンスリー ボス\n> Sos > EventSp > EventA > EventB > EventC > EventD # Sos > Event Daily SP > Event Daily A > Event Daily B > Event Daily C > Event Daily D\n> RaidDaily > CoalitionSp > WarArchives > MaritimeEscort # 一般的な戦闘活動デイリー > 一般的な戦闘活動 sp > Combat Archives > Merchant Ship Escort\n> イベント > イベント 2 > 襲撃 > 病院 > 病院イベント > 連合 > レイドスカットル > メイン > メイン 2 > メイン 3 # アクティビティ図 > アクティビティ図 2 > 一緒に戦う > 病院イベント > 一緒に戦う > 一緒に難破する > メインライン > メインライン 2 > メインライン 3\n> OpsiMeowfficerFarming # 背の低い猫との出会い\n> GemsFarming # 緊急コミッションを更新\n> OpsiHazard1Leveling # 1 つのレベリングを侵食する\n> ThreeOilLowCost # スリーオイルの低消費量"
+      "help": "再起動 # ゲームを再起動します\n> OpsiCrossMonth > OpsiDailyDelay # セイレーン作戦月跨ぎ > セイレーン作戦タスク延期\n> 委託 > 戦術 > 研究 # 委託 > 戦術学院 > 研究\n> 演習 # 演習\n> 後宅 > 指揮ニャ > 大艦隊 > ガチャ # 後宅 > 指揮ニャ > 大艦隊 > デイリー建造\n> 報酬 # 収穫\n> ShopFrequent > ShopOnce > 造船所 > 景品 > アイランド # よく使うショップ > その他のショップ > 開発ドック > 景品特典 > アイランドプラン\n> PrivateQuarters # ルームプラン\n> OpsiExplore # 毎月の探索\n> ミニゲーム > 覚醒 # ミニゲーム > 認知覚醒\n> OpsiAshBeacon # META戦闘\n> OpsiDaily > OpsiShop > OpsiVoucher # セイレーン作戦デイリー > 港湾ショップ > 引換ショップ\n> OpsiAbyssal > OpsiStronghold > OpsiObscure > OpsiArchive # 深淵 > セイレーン要塞 > 隠された海域 > アーカイブ座標\n> デイリー > ハード > OpsiAshBeacon > OpsiAshAssist > OpsiMonthBoss # デイリー > ハードマップ > META戦闘 > METAサポート > マンスリーボス\n> Sos > EventSp > EventA > EventB > EventC > EventD # Sos > イベントデイリーSP > イベントデイリーA > イベントデイリーB > イベントデイリーC > イベントデイリーD\n> RaidDaily > CoalitionSp > WarArchives > MaritimeEscort # 共闘デイリー > 共闘SP > 作戦アーカイブ > 商船護衛\n> イベント > イベント2 > 共闘 > Hospital > HospitalEvent > Coalition > RaidScuttle > メイン > メイン2 > メイン3 # イベントマップ > イベントマップ2 > 共闘 > 病院イベント > 共闘イベント > 連合 > 共闘沈船 > メインステージ > メインステージ2 > メインステージ3\n> OpsiMeowfficerFarming # 指揮ニャ収集\n> GemsFarming # 緊急委託周回\n> OpsiHazard1Leveling # 侵蝕1レベリング\n> ThreeOilLowCost # 3燃料低コスト"
     }
   },
   "OneClickRetire": {
     "_info": {
-      "name": "ワンクリックでの退職設定",
-      "help": "「退職モード」が「ワンクリック退職」に設定されている場合にのみ有効です。"
+      "name": "ワンクリック退役設定",
+      "help": "「退役モード」が「ワンクリック退役」に設定されている場合のみ有効です。"
     },
     "KeepLimitBreak": {
-      "name": "星がいっぱいの船を同じ名前のままにしておきます",
-      "help": "星が揃った同名艦が存在しない場合は、退役条件を満たす同名艦を数隻残すことになります。\nワンクリック退職ができない場合は「保持なし」に設定してください。",
-      "keep_limit_break": "完全な星を維持するために必要です",
-      "do_not_keep": "予約されていません"
+      "name": "満星の同名艦を保持する",
+      "help": "満星の同名艦が存在しない場合、退役条件を満たす同名艦を数隻保持します。\nワンクリック退役ができない場合は「保持しない」に設定してください。",
+      "keep_limit_break": "満星を保持する必要あり",
+      "do_not_keep": "保持しない"
     }
   },
   "Enhance": {
     "_info": {
-      "name": "設定を強化する",
-      "help": "「リタイアメントモード」が「強化」に設定されている場合にのみ有効です。"
+      "name": "強化設定",
+      "help": "「退役モード」が「強化」に設定されている場合のみ有効です。"
     },
     "ShipToEnhance": {
-      "name": "補強が必要な艦艇",
+      "name": "強化する艦船",
       "help": "",
-      "all": "すべての船を強化する",
-      "favourite": "よく使われる艦船のみ強化される"
+      "all": "すべての艦船を強化する",
+      "favourite": "よく使う艦船のみ強化する"
     },
     "Filter": {
-      "name": "フィルタ文字列を強化する",
-      "help": "形式: \"cv > bb > ...\",\nデフォルトの拡張方法を使用するには、空白のままにします"
+      "name": "強化フィルタ文字列",
+      "help": "形式: \"cv > bb > ...\"\nデフォルトの強化方法を使用する場合は空白のままにしてください"
     },
     "CheckPerCategory": {
-      "name": "カテゴリごとの増援の数",
-      "help": "各艦種ごとに最大何隻まで強化できますか?\n戦闘中の船はスキップされ、カウントされません。\n強化素材があるか優先"
+      "name": "艦種ごとの強化チェック数",
+      "help": "各艦種ごとに最大何隻まで強化チェックしますか？\n戦闘中の艦船はスキップされ、カウントされません。\n強化素材がある艦船を優先します"
     }
   },
   "OldRetire": {
     "_info": {
-      "name": "従来の廃止措置セットアップ",
-      "help": "「退職モード」が「レガシー退職」に設定されている場合にのみ有効です。\n注: 従来の引退はキャラクターのレアリティに基づいており、ブリーは引退する可能性があります"
+      "name": "従来の退役設定",
+      "help": "「退役モード」が「従来の退役」に設定されている場合のみ有効です。\n注意：従来の退役はキャラクターのレアリティに基づいており、ブリが退役される可能性があります"
     },
     "N": {
-      "name": "引退した白い肌 ( N )",
+      "name": "白レア ( N ) を退役",
       "help": ""
     },
     "R": {
-      "name": "引退したブルースキン ( R )",
+      "name": "青レア ( R ) を退役",
       "help": ""
     },
     "SR": {
-      "name": "引退したパープルスキン ( SR )",
+      "name": "紫レア ( SR ) を退役",
       "help": ""
     },
     "SSR": {
-      "name": "引退したジンピー ( SSR )",
+      "name": "金レア ( SSR ) を退役",
       "help": ""
     },
     "RetireAmount": {
-      "name": "廃棄量",
+      "name": "退役数量",
       "help": "",
-      "retire_all": "全員引退",
-      "retire_10": "退職 10"
+      "retire_all": "全員退役",
+      "retire_10": "10隻退役"
     }
   },
   "Campaign": {
     "_info": {
-      "name": "レベル設定",
+      "name": "ステージ設定",
       "help": ""
     },
     "Name": {
-      "name": "レベル名 (7-2 の 3 つの戦闘を使用して撤退するには、7-2-3 と入力します)",
-      "help": "例: 7-2、12-4、D3、SP4、大文字と小文字は区別されません。\nレベルが不足している場合は、アップデートをお待ちください"
+      "name": "ステージ名 (7-2で3戦して撤退する場合は7-2-3と入力)",
+      "help": "例: 7-2、12-4、D3、SP4、大文字小文字区別なし。\nステージが不足している場合はアップデートをお待ちください"
     },
     "Event": {
-      "name": "アクティビティ名",
-      "help": "最新のアクティビティを自動的に選択します",
-      "campaign_main": "主線図",
+      "name": "イベント名",
+      "help": "最新のイベントを自動的に選択します",
+      "campaign_main": "メインステージ",
       "coalition_20230323": "星霜海嵐",
       "coalition_20240627": "リトル学園へようこそ",
       "coalition_20250626": "ネオンシティの探索者",
@@ -978,70 +978,70 @@
       "war_archives_20231026_cn": "檔案 テンペスタと若返りの泉"
     },
     "Mode": {
-      "name": "レベルモード",
-      "help": "主線グラフのみに適用されます",
+      "name": "ステージモード",
+      "help": "メインステージのみに適用されます",
       "normal": "普通",
-      "hard": "困難"
+      "hard": "ハード"
     },
     "UseClearMode": {
-      "name": "サイクルモードを使用する",
+      "name": "周回モードを使用する",
       "help": ""
     },
     "UseFleetLock": {
-      "name": "ラインナップロックを使用する",
+      "name": "編成ロックを使用する",
       "help": ""
     },
     "UseAutoSearch": {
-      "name": "自制心を働かせて敵を見つける",
+      "name": "自律索敵を使用する",
       "help": ""
     },
     "Use2xBook": {
-      "name": "効率的な戦闘指示を使用する",
-      "help": "石油消費量が 2 倍、ドロップ決済が 2 倍"
+      "name": "高効率作戦指令書を使用する",
+      "help": "燃料消費2倍、ドロップ2回分決算"
     },
     "AmbushEvade": {
       "name": "待ち伏せを避ける",
       "help": ""
     },
     "UseRecommendFleet": {
-      "name": "自動チーミング",
-      "help": "ゲームに組み込まれた推奨ラインナップを使用して、難しいマップのチーム編成を自動的に完了します"
+      "name": "自動編成",
+      "help": "ゲーム内蔵の推奨編成を使用してハードステージの編成を自動的に完了します"
     }
   },
   "StopCondition": {
     "_info": {
-      "name": "ストップコンディション",
-      "help": "次の条件のいずれかがトリガーされた後、タスクを停止します。"
+      "name": "停止条件",
+      "help": "以下のいずれかの条件がトリガーされた後、タスクを停止します。"
     },
     "OilLimit": {
-      "name": "延期後、原油価格がXを下回る",
-      "help": "オイルが少なすぎる場合はミッションを遅らせ、オイルが十分な場合は攻撃を続行します"
+      "name": "燃料がX以下になったら延期",
+      "help": "燃料が少なすぎる場合はタスクを延期し、燃料が十分になったら出撃を続行します"
     },
     "RunCount": {
-      "name": "攻撃回数が X を超えると停止する",
-      "help": "実行するたびに回数が 1 つ減り、0 に戻ってからタスクが停止します。\n0は回数制限なしを意味します"
+      "name": "出撃回数がXを超えると停止する",
+      "help": "実行するたびに回数が1つ減り、0になったらタスクが停止します。\n0は回数制限なしを意味します"
     },
     "MapAchievement": {
-      "name": "レベル達成後に停止",
-      "help": "マップクリアランス100%達成、三ツ星クリア達成、安全海域達成。\nもしくは星3に当たらずに安全な海域に到達したらやめましょう。",
+      "name": "ステージ達成後に停止",
+      "help": "マップ100%クリア達成、三ツ星クリア達成、安全海域達成。\nもしくは三ツ星を取らずに安全海域に到達したら停止します。",
       "non_stop": "いいえ",
-      "non_stop_clear_all": "止まらない + すべてのハンドをクリアする",
+      "non_stop_clear_all": "停止しない + 毎回全滅させる",
       "100_percent_clear": "100%クリア",
-      "map_3_stars": "100% クリア + サムスン",
-      "threat_safe": "クリアランス100% + 三つ星 + 安全海域",
-      "threat_safe_without_3_stars": "100%通関+安全海域"
+      "map_3_stars": "100%クリア + 三ツ星",
+      "threat_safe": "100%クリア + 三ツ星 + 安全海域",
+      "threat_safe_without_3_stars": "100%クリア + 安全海域"
     },
     "StageIncrease": {
-      "name": "レベルに到達したら、荒地を開拓していきましょう。",
-      "help": "ウェイストランドを自動で開放するには、チームの戦力が十分であること、チームがレベル属性の制限を満たしていることを確認し、「レベル達成後に停止」を設定する必要があります。\nたとえば、このオプションをオンにして「マップパス」を選択すると、レベルが 100% クリアされた後に次のレベルに進みます。\n自動埋め立て対応マップ：1-1～15-4、A1～A3、B1～B3、C1～C3、D1～D3、T1～T6、SP1～SP4"
+      "name": "ステージ達成後にステージを進行する",
+      "help": "自動ステージ進行するには、艦隊の戦力が十分であること、艦隊がステージの属性制限を満たしていること、「ステージ達成後に停止」を設定する必要があります。\n例えば、このオプションをオンにして「マップクリア」を選択すると、ステージが100%クリアされた後に次のステージに進みます。\n自動ステージ進行対応マップ：1-1～15-4、A1～A3、B1～B3、C1～C3、D1～D3、T1～T6、SP1～SP4"
     },
     "GetNewShip": {
       "name": "新しい船を入手したら停止する",
       "help": ""
     },
     "ReachLevel": {
-      "name": "船がレベル X に達すると停止します",
-      "help": "レベル X 未満の船は、レベル X にアップグレードすると停止します。\n0はレベル制限がないことを意味します"
+      "name": "艦船がレベルXに達すると停止します",
+      "help": "レベルX未満の艦船がレベルXに達すると停止します。\n0はレベル制限なしを意味します"
     }
   },
   "Fleet": {
@@ -1050,7 +1050,7 @@
       "help": ""
     },
     "Fleet1": {
-      "name": "チーム番号",
+      "name": "第一艦隊番号",
       "help": "",
       "1": "1 ",
       "2": "2 ",
@@ -1060,30 +1060,30 @@
       "6": "6 "
     },
     "Fleet1Formation": {
-      "name": "最初のチーム編成",
+      "name": "第一艦隊陣形",
       "help": "",
-      "line_ahead": "単一の垂直配列",
-      "double_line": "傅宗鎮",
-      "diamond": "ホイールアレイ"
+      "line_ahead": "単縦陣",
+      "double_line": "複縦陣",
+      "diamond": "輪形陣"
     },
     "Fleet1Mode": {
-      "name": "1チーム自主規制モード",
+      "name": "第一艦隊自律モード",
       "help": "",
-      "combat_auto": "自制心の戦い",
-      "combat_manual": "手コキ",
-      "stand_still_in_the_middle": "Zhonglu Zhanzhuang",
-      "hide_in_bottom_left": "左下隅に隠れます"
+      "combat_auto": "自動戦闘",
+      "combat_manual": "手動操作",
+      "stand_still_in_the_middle": "中央で待機",
+      "hide_in_bottom_left": "左下隅に隠れる"
     },
     "Fleet1Step": {
-      "name": "ステップのチーム",
-      "help": "アクティビティ図の移動距離を制限する",
+      "name": "第一艦隊ステップ",
+      "help": "イベントマップの移動距離を制限する",
       "2": "2 ",
       "3": "3 ",
       "4": "4 ",
       "5": "5 "
     },
     "Fleet2": {
-      "name": "2番目のチーム番号",
+      "name": "第二艦隊番号",
       "help": "",
       "0": "未使用",
       "1": "1 ",
@@ -1094,35 +1094,35 @@
       "6": "6 "
     },
     "Fleet2Formation": {
-      "name": "第二チーム編成",
+      "name": "第二艦隊陣形",
       "help": "",
-      "line_ahead": "単一の垂直配列",
-      "double_line": "傅宗鎮",
-      "diamond": "ホイールアレイ"
+      "line_ahead": "単縦陣",
+      "double_line": "複縦陣",
+      "diamond": "輪形陣"
     },
     "Fleet2Mode": {
-      "name": "セカンドチーム自主規制モード",
+      "name": "第二艦隊自律モード",
       "help": "",
-      "combat_auto": "自制心の戦い",
-      "combat_manual": "手コキ",
-      "stand_still_in_the_middle": "Zhonglu Zhanzhuang",
-      "hide_in_bottom_left": "左下隅に隠れます"
+      "combat_auto": "自動戦闘",
+      "combat_manual": "手動操作",
+      "stand_still_in_the_middle": "中央で待機",
+      "hide_in_bottom_left": "左下隅に隠れる"
     },
     "Fleet2Step": {
-      "name": "2番目のチームのステップの長さ",
-      "help": "アクティビティ図の移動距離を制限する",
+      "name": "第二艦隊ステップ",
+      "help": "イベントマップの移動距離を制限する",
       "2": "2 ",
       "3": "3 ",
       "4": "4 ",
       "5": "5 "
     },
     "FleetOrder": {
-      "name": "フリート機能",
-      "help": "敵を探す自制心がなければ、疑問符や弾薬を拾うことになります。\n索敵の自主性を持たずに4戦以下の戦闘を行った場合、「一方のチームはクリア、もう一方のチームは待機」となります。",
-      "fleet1_mob_fleet2_boss": "第一チームの第二チームのボス",
-      "fleet1_boss_fleet2_mob": "第一チームと第二チームのボスが真ん中にいる",
-      "fleet1_all_fleet2_standby": "最初のチームはクリアされ、2番目のチームはスタンバイします。",
-      "fleet1_standby_fleet2_all": "最初のチームはスタンバイし、2番目のチームはクリアされます"
+      "name": "艦隊職能",
+      "help": "自律索敵でない場合、疑問符や弾薬を拾います。\n自律索敵でない場合に4戦以下の戦闘を行う時、「第一艦隊全滅第二艦隊待機」が強制されます。",
+      "fleet1_mob_fleet2_boss": "第一艦隊道中 第二艦隊BOSS",
+      "fleet1_boss_fleet2_mob": "第一艦隊BOSS 第二艦隊道中",
+      "fleet1_all_fleet2_standby": "第一艦隊全滅 第二艦隊待機",
+      "fleet1_standby_fleet2_all": "第一艦隊待機 第二艦隊全滅"
     }
   },
   "Submarine": {
@@ -1138,115 +1138,115 @@
       "2": "2 "
     },
     "Mode": {
-      "name": "潜水艦攻撃計画",
-      "help": "これは、自主的な敵狩りがオフになっている場合にのみ有効です。注意: 「狩猟とBOSS戦闘」は、「狩猟のみ」と「BOSS戦闘のみ」を組み合わせたものです。道路で狩猟攻撃を実行し、BOSS 戦闘で潜水艦を召喚しようとします。",
+      "name": "潜水艦出撃方案",
+      "help": "自律索敵がオフの場合にのみ有効です。注意：「狩猟及びBOSS戦」は「狩猟のみ」と「BOSS戦のみ」の組み合わせです。道中で狩猟攻撃を実行し、BOSS戦で潜水艦を召喚しようとします。",
       "do_not_use": "未使用",
       "hunt_only": "狩猟のみ",
       "boss_only": "BOSS戦のみ",
-      "hunt_and_boss": "狩猟とBOSSの戦い",
-      "every_combat": "戦闘ごとに攻撃する"
+      "hunt_and_boss": "狩猟及びBOSS戦",
+      "every_combat": "毎戦出撃"
     },
     "AutoSearchMode": {
-      "name": "潜水艦自主規律計画",
-      "help": "自制心を持って敵を探す場合にのみ効果的",
-      "sub_standby": "待機する",
+      "name": "潜水艦自律方案",
+      "help": "自律索敵の場合にのみ有効",
+      "sub_standby": "待機",
       "sub_auto_call": "潜水艦を自動的に召喚する"
     },
     "DistanceToBoss": {
-      "name": "BOSSと戦う前に潜水艦をBOSSの近くに移動させてください",
-      "help": "「潜水艦攻撃計画」が「BOSS戦のみ」または「狩猟とBOSS戦」の場合のみ有効です。\n「BOSS から X グリッド」を選択するには、潜水艦の狩猟範囲が BOSS をカバーできることを確認する必要があります。距離はマンハッタン距離を使用して計算されます。 「海洋支援を使用する」を選択するには、潜水艦チームに U522/ダ ヴィンチが必要です。",
-      "to_boss_position": "BOSSの場所へ",
-      "1_grid_to_boss": "BOSSから1ブロック離れたところ",
-      "2_grid_to_boss": "BOSSから2ブロック離れたところ",
-      "use_open_ocean_support": "海洋サポートを使用する"
+      "name": "BOSS戦前に潜水艦をBOSS付近に移動させる",
+      "help": "「潜水艦出撃方案」が「BOSS戦のみ」または「狩猟及びBOSS戦」の場合のみ有効です。\n「BOSSからXマス」を選択するには、潜水艦の狩猟範囲がBOSSをカバーできることを確認する必要があります。距離はマンハッタン距離で計算されます。「遠洋支援を使用する」を選択するには、潜水艦艦隊にU522/ダ・ヴィンチが必要です。",
+      "to_boss_position": "BOSSの位置まで",
+      "1_grid_to_boss": "BOSSから1マス",
+      "2_grid_to_boss": "BOSSから2マス",
+      "use_open_ocean_support": "遠洋支援を使用する"
     }
   },
   "Emotion": {
     "_info": {
-      "name": "ムード設定",
+      "name": "コンディション設定",
       "help": ""
     },
     "Mode": {
-      "name": "ムード設定",
+      "name": "コンディション設定",
       "help": "",
-      "calculate": "気分消費を計算する",
-      "ignore": "赤面攻撃警告を無視する",
-      "calculate_ignore": "気分消費を計算 + 赤面攻撃警告を無視"
+      "calculate": "コンディション消費を計算する",
+      "ignore": "赤顔出撃警告を無視する",
+      "calculate_ignore": "コンディション消費を計算 + 赤顔出撃警告を無視"
     },
     "Fleet1Value": {
-      "name": "チームの気分値",
+      "name": "第一艦隊コンディション値",
       "help": ""
     },
     "Fleet1Record": {
-      "name": "チームの気分記録タイム",
+      "name": "第一艦隊コンディション記録時間",
       "help": ""
     },
     "Fleet1Control": {
-      "name": "気分をコントロールするチーム",
+      "name": "第一艦隊コンディション管理",
       "help": "",
       "keep_exp_bonus": "経験値ボーナスを維持 (>120)",
-      "prevent_green_face": "グリーンフェイスを防ぐ (>40)",
-      "prevent_yellow_face": "顔の黄ばみを防ぐ (>30)",
-      "prevent_red_face": "赤ら顔を防ぐ (>0)"
+      "prevent_green_face": "緑顔を防ぐ (>40)",
+      "prevent_yellow_face": "黄顔を防ぐ (>30)",
+      "prevent_red_face": "赤顔を防ぐ (>0)"
     },
     "Fleet1Recover": {
-      "name": "チームの気分の返答",
+      "name": "第一艦隊コンディション回復",
       "help": "",
-      "not_in_dormitory": "バックハウスには配置されていません（20/h）",
-      "dormitory_floor_1": "奥の家の1階（40/h）",
-      "dormitory_floor_2": "奥の家の2階（50/h）"
+      "not_in_dormitory": "後宅に配置していない（20/h）",
+      "dormitory_floor_1": "後宅1階（40/h）",
+      "dormitory_floor_2": "後宅2階（50/h）"
     },
     "Fleet1Oath": {
-      "name": "最初のチームのメンバーは全員結婚しています (+10/h)",
+      "name": "第一艦隊全員ケッコン済み (+10/h)",
       "help": ""
     },
     "Fleet1Onsen": {
-      "name": "チームのメンバー全員が温泉を配置しました (+10/h)",
+      "name": "第一艦隊全員温泉配置済み (+10/h)",
       "help": ""
     },
     "Fleet2Value": {
-      "name": "セカンドチームの気分値",
+      "name": "第二艦隊コンディション値",
       "help": ""
     },
     "Fleet2Record": {
-      "name": "セカンドチームの気分記録時間",
+      "name": "第二艦隊コンディション記録時間",
       "help": ""
     },
     "Fleet2Control": {
-      "name": "セカンドチームの気分コントロール",
+      "name": "第二艦隊コンディション管理",
       "help": "",
       "keep_exp_bonus": "経験値ボーナスを維持 (>120)",
-      "prevent_green_face": "グリーンフェイスを防ぐ (>40)",
-      "prevent_yellow_face": "顔の黄ばみを防ぐ (>30)",
-      "prevent_red_face": "赤ら顔を防ぐ (>0)"
+      "prevent_green_face": "緑顔を防ぐ (>40)",
+      "prevent_yellow_face": "黄顔を防ぐ (>30)",
+      "prevent_red_face": "赤顔を防ぐ (>0)"
     },
     "Fleet2Recover": {
-      "name": "セカンドチームの気分の返答",
+      "name": "第二艦隊コンディション回復",
       "help": "",
-      "not_in_dormitory": "バックハウスには配置されていません（20/h）",
-      "dormitory_floor_1": "奥の家の1階（40/h）",
-      "dormitory_floor_2": "奥の家の2階（50/h）"
+      "not_in_dormitory": "後宅に配置していない（20/h）",
+      "dormitory_floor_1": "後宅1階（40/h）",
+      "dormitory_floor_2": "後宅2階（50/h）"
     },
     "Fleet2Oath": {
-      "name": "2 番目のチームのメンバーは全員結婚しています (+10/h)",
+      "name": "第二艦隊全員ケッコン済み (+10/h)",
       "help": ""
     },
     "Fleet2Onsen": {
-      "name": "2 番目のチームのメンバー全員が温泉を配置しました (+10/h)",
+      "name": "第二艦隊全員温泉配置済み (+10/h)",
       "help": ""
     }
   },
   "HpControl": {
     "_info": {
-      "name": "血液量のコントロール",
-      "help": "ラインナップロックがオフになっている場合にのみ有効です"
+      "name": "HP管理",
+      "help": "編成ロックがオフの場合にのみ有効です"
     },
     "UseHpBalance": {
-      "name": "健康バランスを有効にする",
-      "help": "ヘルスボリュームが低いものを保護位置に移動し、ヘルスボリュームが大きいものを負傷位置に移動します。"
+      "name": "HP均衡を有効にする",
+      "help": "HPが低い艦船を保護位置に移動し、HPが高い艦船を被弾位置に移動します。"
     },
     "UseEmergencyRepair": {
-      "name": "修復ツールを使用する",
+      "name": "応急修理を使用する",
       "help": ""
     },
     "UseLowHpRetreat": {
@@ -1254,43 +1254,43 @@
       "help": ""
     },
     "HpBalanceThreshold": {
-      "name": "最前列の血液量の差が X より大きい場合は位置を変更します。",
+      "name": "前衛HP差がXより大きい場合は位置を交換する",
       "help": ""
     },
     "HpBalanceWeight": {
-      "name": "ヴァンガードの健康体重",
-      "help": "パイオニアの肉厚に違いがある場合は修正する必要があり、フォーマットは\n1000、1000、1000"
+      "name": "前衛HP重量",
+      "help": "前衛の耐久に差がある場合は修正が必要です。フォーマットは\n1000, 1000, 1000"
     },
     "RepairUseSingleThreshold": {
-      "name": "船の体力が X を下回った場合は、緊急修理を使用してください",
+      "name": "任意の艦船HPがX以下になったら応急修理を使用する",
       "help": ""
     },
     "RepairUseMultiThreshold": {
-      "name": "すべての船の体力が X を下回ったら、緊急修理を使用してください",
+      "name": "すべての艦船HPがX以下になったら応急修理を使用する",
       "help": ""
     },
     "LowHpRetreatThreshold": {
-      "name": "いずれかの船のHPがX以下になったら撤退する",
+      "name": "任意の艦船HPがX以下になったら撤退する",
       "help": ""
     }
   },
   "EnemyPriority": {
     "_info": {
-      "name": "敵狩りロジック",
+      "name": "索敵ロジック",
       "help": "戦いたい敵の優先順位をカスタマイズする"
     },
     "EnemyScaleBalanceWeight": {
       "name": "敵の優先順位",
-      "help": "まずはBOSSまでのメインルートの敵を排除し、その後優先的に他の敵を排除していきます。",
-      "default_mode": "マップファイルによると",
+      "help": "まずBOSSまでのメインルート上の敵を排除し、その後優先順位に従って他の敵を排除します。",
+      "default_mode": "マップファイルに従う",
       "S3_enemy_first": "大型の敵を優先する",
       "S1_enemy_first": "小型敵を優先する"
     }
   },
   "C11AffinityFarming": {
     "_info": {
-      "name": "1-1 好意を得るために待ち伏せする",
-      "help": "1-1に入ったらC1付近でジャンプを繰り返す"
+      "name": "1-1 伏撃で好感度稼ぎ",
+      "help": "1-1に入ったらC1付近で繰り返し横跳びする"
     },
     "RunCount": {
       "name": "実行数",
@@ -1299,21 +1299,21 @@
   },
   "C72MysteryFarming": {
     "_info": {
-      "name": "7-2 ゴミ収集ステーション3ヶ所",
-      "help": "3 回戦い、疑問符を見つけたら撤退する"
+      "name": "7-2 3駅ゴミ拾い",
+      "help": "3戦して疑問符を拾ったら撤退する"
     },
     "StepOnA3": {
-      "name": "2 番目のチームを使用して A3 を踏む",
-      "help": "A2 の疑問符ポイントがブロックされるのを効果的に防ぐことができます。"
+      "name": "第二艦隊でA3を踏む",
+      "help": "A2の疑問符ポイントがブロックされるのを効果的に防ぐことができます。"
     }
   },
   "C122MediumLeveling": {
     "_info": {
-      "name": "12-2 中程度のレベリング",
-      "help": "戦力の低いチームで12-2でレベルアップし、星3以外の敵を倒したら撤退しましょう。\nチーム力を減らして経験値/燃料消費率を向上させる"
+      "name": "12-2 中型レベリング",
+      "help": "戦力の低い艦隊で12-2でレベリングし、三ツ星以外の敵を倒したら撤退します。\n艦隊戦力を下げて経験値/燃料消費比を向上させる"
     },
     "LargeEnemyTolerance": {
-      "name": "X スターの敵と戦いましょう",
+      "name": "最大X戦三ツ星敵と戦う",
       "help": "",
       "0": "0",
       "1": "1",
@@ -1323,18 +1323,18 @@
   },
   "C124LargeLeveling": {
     "_info": {
-      "name": "12-4 大規模レベリング",
-      "help": "強いチームを使って12-4でレベルアップし、3つ星の敵を倒したら撤退します。\nより多くの 3 つ星の敵を倒すことで経験値/燃料消費率が増加します"
+      "name": "12-4 大型レベリング",
+      "help": "戦力の高い艦隊で12-4でレベリングし、三ツ星敵を倒したら撤退します。\nより多くの三ツ星敵を倒すことで経験値/燃料消費比を向上させる"
     },
     "NonLargeEnterTolerance": {
-      "name": "マップに入った後、X は 3 つ星の敵と戦うことなく撤退します。",
+      "name": "入場後X戦三ツ星敵がいなければ撤退",
       "help": "",
       "0": "0",
       "1": "1",
       "2": "2"
     },
     "NonLargeRetreatTolerance": {
-      "name": "最大 X 人の非 3 つ星敵と戦う",
+      "name": "最大X戦非三ツ星敵と戦う",
       "help": "",
       "0": "0",
       "1": "1",
@@ -1342,7 +1342,7 @@
       "10": "10"
     },
     "PickupAmmo": {
-      "name": "X 戦闘後に弾薬を拾う",
+      "name": "X戦後に弾薬を拾う",
       "help": "",
       "3": "3",
       "4": "4",
@@ -1351,159 +1351,159 @@
   },
   "GemsFarming": {
     "_info": {
-      "name": "リフレッシュ緊急コミッション",
-      "help": "警告: この機能により、プレイヤーは少量のダイヤモンドを入手できますが、ダイヤモンドを入手する効率的な方法ではありません。\nアズール レーンを短期間プレイしているプレイヤーは、キャラクターの育成を無視して、破損ゼロや消費量の少なさについて迷信を抱きやすいです。\nこの機能を実行すると、非常に充実感を感じるだけですが、実際にはアカウントの改善はゼロです。\nこの機能の主な目的は、編成されたラインナップを持つプレイヤーが追加のルービック キューブを取得できるようにすることです。ダイヤモンドは副産物として合理的に扱ってください。\n\nこの機能は旗艦レベル 32 以降の旗艦を置き換えます。\n緊急コミッション更新メカニズムについては、https://bbs.nga.cn/read.php?tid=27134956 をご覧ください。\n試運転燃料消費率：A3＞A1＞2-4＞2-1。アクティビティ図がある場合は、アクティビティ図を選択することをお勧めします。 2-1 は、より多くの物資を得るために疑問符を選択します。\n1 つのチームがすべての戦闘を完了します。前列は出力装備を備えたレベル100のゼロブレイク駆逐艦、後列はレベル33以下の白肌ゼロブレイク空母を配置する必要があります。\n2 番目のチームはチーム間サポート (チーム間集中砲火、チーム間支援) を提供する必要があります。\n\nフリート機能を設定できない場合は、チーム間攻撃や大量のオイルの消費を避けるために、次の方法でミッションを停止する必要があります。\nエラープッシュが設定されている場合、タスク停止メッセージがプッシュされ、タスクが停止されます。\nエラープッシュが設定されていない場合、Alas は直接停止されます。"
+      "name": "緊急委託周回",
+      "help": "警告：この機能により、プレイヤーは少量のダイヤを入手できますが、ダイヤを効率的に入手する方法ではありません。\nアズールレーンを始めたばかりのプレイヤーは、キャラクターの育成を無視して、無凸や低燃費に迷信を抱きやすいです。\nこの機能を実行すると充実感があるだけで、実際にはアカウントの向上はゼロです。\nこの機能の主な目的は、編成が整ったプレイヤーが追加のキューブを取得できるようにすることです。ダイヤは副産物として合理的に扱ってください。\n\nこの機能は旗艦レベル32以降に旗艦を交換します。\n緊急委託更新メカニズムについては、https://bbs.nga.cn/read.php?tid=27134956 を参照してください。\n委託燃料消費比：A3＞A1＞2-4＞2-1。イベントマップがある場合はイベントマップを選択することをお勧めします。2-1は疑問符を拾うためより多くの資金が得られます。\n第一艦隊がすべての戦闘を完了します。前衛は出力装備を備えたレベル100の無凸駆逐艦、後列はレベル33以下の白レア無凸空母を配置する必要があります。\n第二艦隊はクロスフリートサポート（クロスフリート弾幕、クロスフリート支援）を提供する必要があります。\n\n艦隊職能を設定できない場合は、クロスフリート出撃や大量の燃料消費を避けるために、以下の方法でタスクを停止する必要があります。\nエラープッシュが設定されている場合、タスク停止メッセージがプッシュされ、タスクが停止されます。\nエラープッシュが設定されていない場合、Alasは直接停止されます。"
     },
     "ChangeFlagship": {
-      "name": "旗艦を変更する",
-      "help": "旗艦レベルが 32 以上または顔が赤くなった場合、旗艦を変更します\nレベル 1 ～ 31 の白い肌の航空母艦を探し、退役時の代わりの旗艦を選択します。レベル 1 より大きいすべての白い肌の空母は退役目標とみなされます。対象外の艦船も必ず狙ってください。艦艇を変更する際の主力装備の変更は、以前の装備を記録することで行われます。\n\n装備を変更すると装備のスロットが変更されるだけで、白い装備も変更されます。旗艦を指定した場合は装備5つ全てが交換されます。旗艦の指定がない場合は装備のみの交換となります。",
-      "ship": "船を変更する",
-      "ship_equip": "船+装備の変更"
+      "name": "旗艦を交換する",
+      "help": "旗艦レベルが32以上または赤顔になった場合、旗艦を交換します\nレベル1～31の白レア空母を探し、退役時に交換された旗艦を選択します。レベル1より大きいすべての白レア空母は退役対象とみなされます。対象外の艦船は必ずロックしてください。艦船交換時の主力装備の交換は、以前の装備を記録することで行われます。\n\n装備交換は装備中のスロットのみ交換し、白装備も交換されます。旗艦を指定した場合は装備5つすべてが交換されます。旗艦を指定しない場合は装備のみ交換されます。",
+      "ship": "艦船を交換する",
+      "ship_equip": "艦船+装備を交換する"
     },
     "CommonCV": {
-      "name": "指定旗艦航空母艦",
+      "name": "指定旗艦空母",
       "help": "",
-      "custom": "カスタマイズ",
+      "custom": "カスタム",
       "any": "任意",
-      "eagle": "ホワイトイーグルのみ",
+      "eagle": "ユニオンのみ",
       "langley": "ラングレー",
       "bogue": "ボーグ",
-      "ranger": "レイダー",
-      "hermes": "アスレチックの神様"
+      "ranger": "レンジャー",
+      "hermes": "ハーミーズ"
     },
     "CommonCVFilter": {
-      "name": "カスタムフラッグシップキャリアフィルター",
-      "help": "カスタムフィルターを使用するには、「フラッグシップキャリアの指定」を「カスタム」に設定する必要があります。フィルターの順序に従って、フラッグシップキャリアが最初に選択されて置換されます。\nボーグ: ボーグレンジャー: レイダー ラングレー: ラングレー ヘルメス: アスレチックゴッド"
+      "name": "カスタム旗艦空母フィルター",
+      "help": "カスタムフィルターを使用するには、「指定旗艦空母」を「カスタム」に設定する必要があります。フィルターの順序に従って旗艦空母が優先的に選択・交換されます。\nbogue：ボーグ    ranger：レンジャー    langley：ラングレー    hermes：ハーミーズ"
     },
     "ChangeVanguard": {
-      "name": "最前列を入れ替える",
-      "help": "前列が赤になったら前列を変更します。変化しないことを選択すると、赤い顔が強制的に攻撃されます。\n最前列を変更するには、気分 10 以上、追い払うレベル 100 の白鷲または鉄血の白い船を見つける必要があるため、追い払うのに十分な数を確保するようにしてください。全国サーバー外ではレベル70の白鷲白船追放です。",
-      "disabled": "交換しないでください",
-      "ship": "船を変更する",
-      "ship_equip": "船+装備の変更"
+      "name": "前衛を交換する",
+      "help": "前衛が赤顔になったら前衛を交換します。交換しないを選択すると赤顔出撃が強制されます。\n前衛交換はコンディション10以上のレベル100のユニオンまたは鉄血の白レア駆逐艦を探して行われるため、十分な数の駆逐艦を確保してください。中国サーバー以外ではレベル70のユニオン白レア駆逐艦になります。",
+      "disabled": "交換しない",
+      "ship": "艦船を交換する",
+      "ship_equip": "艦船+装備を交換する"
     },
     "CommonDD": {
-      "name": "最前列を指定する",
+      "name": "指定前衛",
       "help": "",
-      "custom": "カスタマイズ",
+      "custom": "カスタム",
       "any": "任意",
-      "favourite": "一般的に使用されるもののみ",
-      "aulick_or_foote": "オリックまたはフット",
-      "cassin_or_downes": "カシンまたはダウン",
+      "favourite": "常用のみ",
+      "aulick_or_foote": "オーリックまたはフート",
+      "cassin_or_downes": "カッシンまたはダウンズ",
       "z20_or_z21": "Z20またはZ21",
-      "DDG": "ガイドドライブ"
+      "DDG": "誘導駆逐"
     },
     "CommonDDFilter": {
-      "name": "カスタム最前列フィルター",
-      "help": "カスタムフィルターを使用するには、「最前列の指定」を「カスタム」に設定する必要があります。フィルターの順序に従って最前列が最初に置き換えられます。\nz20：Z20 z21：Z21 aulick：オーリック foote：フット cassin：カシン downes：ダウンズ"
+      "name": "カスタム前衛フィルター",
+      "help": "カスタムフィルターを使用するには、「指定前衛」を「カスタム」に設定する必要があります。フィルターの順序に従って前衛が優先的に交換されます。\nz20：Z20    z21：Z21    aulick：オーリック    foote：フート    cassin：カッシン    downes：ダウンズ"
     },
     "EquipmentCode": {
-      "name": "機器コード",
-      "help": "「船+装備変更」を選択した場合のみ有効です。\n船舶を変更する場合、設定内の現在の船舶機器コードが null の場合、そのコードはエクスポートされます。船を変更する場合、設定の現在の船の機器コードが null の場合は、前の船からエクスポートされた機器コードが使用されます。それ以外の場合は、設定の機器コードが使用されます。\nBluestacks シミュレーターのユーザーは、最初に仮想キーボードを有効にする必要があります。詳細については、https://support.bluestacks.com/hc/zh-tw/articles/360061968892-%E5%A6%82%E4%BD%95%E5%9C%を参照してください。 A8-BlueStacks-5-%E4%B8%8A%E4%BD%BF%E7%94%A8%E5%B0%8F%E9%8D%B5%E7%9B%A4-%E8%99%9B%E6%93%AC%E9%8D%B5%E7%9B%A4\nDD：最前列追放ボーグ：ボーグヘルメス：アスレチックゴッドラングレー：ラングレーレンジャー：レイダー"
+      "name": "装備コード",
+      "help": "「艦船+装備を交換する」を選択した場合のみ有効です。\n艦船を交換する際、設定内の現在の艦船装備コードがnullの場合、コードがエクスポートされます。艦船を交換する際、設定の現在の艦船装備コードがnullの場合は、前の艦船からエクスポートされた装備コードが使用されます。それ以外の場合は、設定の装備コードが使用されます。\nBlueStacksエミュレータのユーザーは、最初に仮想キーボードを有効にする必要があります。\nDD：前衛駆逐    bogue：ボーグ    hermes：ハーミーズ    langley：ラングレー    ranger：レンジャー"
     },
     "ALLowHighFlagshipLevel": {
-      "name": "フルレベルの後列のみを交換してください",
-      "help": "オープン後は旗艦変更時にレベル100の白肌軽機のみ選択されるようになります。\n使用する場合は、ドックに資格のある船舶がいることを確認してください。"
+      "name": "満レベル後列のみ交換する",
+      "help": "有効にすると、旗艦交換時にレベル100の白レア軽空母のみ選択されます。\n使用時はドックに条件を満たす艦船がいることを確認してください。"
     },
     "ALLowLowVanguardLevel": {
-      "name": "交換可能な低段前列",
-      "help": "オープン後は前列のレベル制限がレベル30以上に変更されます。難しいモード（CDピクチャーなど）の場合はレベル70に変更されます。"
+      "name": "低レベル前衛の交換を許可する",
+      "help": "有効にすると、前衛のレベル制限がレベル30以上に変更されます。ハードモード（CDマップなど）の場合はレベル70に変更されます。"
     },
     "DelayTaskIFNoFlagship": {
-      "name": "代わりの旗艦がない場合は任務を延期する",
-      "help": "旗艦を変更する際、条件を満たす白い空母が見つからない場合は任務が延期される。"
+      "name": "交換可能な旗艦がない場合はタスクを延期する",
+      "help": "旗艦を交換する際、条件を満たす白レア空母が見つからない場合はタスクが延期されます。"
     },
     "CommissionLimit": {
-      "name": "緊急コミッションの数が多すぎるのを防ぐ",
-      "help": "緊急注文の数が多すぎて、年中無休で毎日の注文を完了できないことを防ぐために、注文フィルターでは短期の高利回り注文のみを選択することをお勧めします。"
+      "name": "緊急委託数の過多を防ぐ",
+      "help": "7x24運行時に緊急委託数が多すぎてデイリー委託を完了できないことを防ぐため、委託フィルターでは短時間高収益の委託のみを選択することをお勧めします。"
     }
   },
   "EventGeneral": {
     "_info": {
-      "name": "アクティビティの一般設定",
+      "name": "イベント通用設定",
       "help": ""
     },
     "PtLimit": {
-      "name": "アクティブな PT 制限",
-      "help": "累積 PT が特定の値に達すると、すべてのアクティブなタスクが無効になります。 0 は制限がないことを意味します。自制心を使って敵を探す場合、すぐに発動することはできません。\nオンにした後は、合計で何回再生したかをカウントせずに、すべてのアクティブなタスクを開くだけで済みます。"
+      "name": "イベントPT制限",
+      "help": "累積PTが指定値に達すると、すべてのイベントタスクが無効になります。0は制限なしを意味します。自律索敵使用時は即時発動できません。\n有効にすると、すべてのイベントタスクを開くだけで、合計何回出撃するかを計算する必要がありません。"
     },
     "TimeLimit": {
-      "name": "アクティビティ制限時間",
-      "help": "ローカル時間が指定された値を超えると、すべてのアクティブなタスクが無効になります。 「2020-01-01 00:00:00」は制限なしを意味します。一度トリガーすると時間はリセットされます。\n設定するとアクティビティ終了後のタスクの閉じ忘れを防ぐことができます。"
+      "name": "イベント時間制限",
+      "help": "ローカル時間が指定値を超えると、すべてのイベントタスクが無効になります。「2020-01-01 00:00:00」は制限なしを意味します。一度トリガーすると時間はリセットされます。\n設定するとイベント終了後のタスクの閉じ忘れを防ぐことができます。"
     }
   },
   "TaskBalancer": {
     "_info": {
-      "name": "タスクバランシング設定",
-      "help": "アクティビティ図の実行時に供給量が減りすぎないようにする"
+      "name": "タスクバランス設定",
+      "help": "イベントマップ実行時に資金が減りすぎないようにする"
     },
     "Enable": {
-      "name": "タスクバランシングを有効にする",
-      "help": "有効にすると、出撃ごとに補給量がチェックされます。"
+      "name": "タスクバランスを有効にする",
+      "help": "有効にすると、出撃ごとに資金量がチェックされます。"
     },
     "CoinLimit": {
-      "name": "供給量を X より多く保つ",
+      "name": "資金をXより多く保つ",
       "help": ""
     },
     "TaskCall": {
-      "name": "供給が少なすぎる場合はタスク X を呼び出します",
-      "help": "リマインダー: プレイヤーは呼び出されるタスクを事前に設定する必要があります。そうしないと機能しません。",
-      "Main": "主線図",
-      "Main2": "本線図-2",
-      "Main3": "本線図-3",
-      "GemsFarming": "リフレッシュ緊急コミッション",
-      "ThreeOilLowCost": "3つの低燃費"
+      "name": "資金不足時にタスクXを呼び出す",
+      "help": "注意：プレイヤーは呼び出されるタスクを事前に設定する必要があります。そうしないと機能しません。",
+      "Main": "メインステージ",
+      "Main2": "メインステージ-2",
+      "Main3": "メインステージ-3",
+      "GemsFarming": "緊急委託周回",
+      "ThreeOilLowCost": "3燃料低コスト"
     }
   },
   "EventDaily": {
     "_info": {
-      "name": "毎日のアクティビティ",
+      "name": "イベントデイリー",
       "help": ""
     },
     "StageFilter": {
-      "name": "アクティブな日次フィルター",
-      "help": "フィルターで並べ替える"
+      "name": "イベントデイリーフィルター",
+      "help": "フィルター順で出撃する"
     },
     "LastStage": {
-      "name": "最後に完了したレベル",
-      "help": "自動的に更新される値は、フィルター内の完了したレベルをスキップし、0 ポイント後にリセットされます。"
+      "name": "前回完了したステージ",
+      "help": "自動更新される値で、フィルター内の完了済みステージをスキップし、0時にリセットされます。"
     }
   },
   "Raid": {
     "_info": {
-      "name": "共闘アクティビティの設定",
+      "name": "共闘イベントの設定",
       "help": ""
     },
     "Mode": {
-      "name": "困難",
+      "name": "難易度",
       "help": "",
-      "easy": "単純",
+      "easy": "簡単",
       "normal": "普通",
-      "hard": "困難",
-      "ex": "元"
+      "hard": "ハード",
+      "ex": "EX"
     },
     "UseTicket": {
-      "name": "練習チケットを利用する",
+      "name": "演習チケットを使用する",
       "help": ""
     }
   },
   "RaidScuttle": {
     "_info": {
-      "name": "一緒に戦って船を沈めましょう",
+      "name": "共闘沈船",
       "help": ""
     },
     "Sacrifice": {
       "name": "犠牲船の位置",
       "help": "",
-      "vanguard": "前列",
+      "vanguard": "前衛",
       "flagship": "旗艦",
-      "vanguard_flagship": "最前列 + 旗艦"
+      "vanguard_flagship": "前衛+旗艦"
     }
   },
   "RaidDaily": {
     "_info": {
-      "name": "毎日一緒に戦ってます",
-      "help": "イージーおよびノー​​マルの難易度で毎日の戦闘を完了する"
+      "name": "共闘デイリー",
+      "help": "共闘デイリーのイージー・ノーマル・ハードを完了する"
     },
     "StageFilter": {
       "name": "難易度フィルター",
@@ -1512,34 +1512,34 @@
   },
   "Hospital": {
     "_info": {
-      "name": "アクティビティ設定",
+      "name": "イベント設定",
       "help": ""
     },
     "UseRecommendFleet": {
-      "name": "フリートの推奨事項を使用する",
-      "help": "オフにした場合は、事前に 15 レベルすべてを手動でチームアップする必要があります"
+      "name": "艦隊推薦を使用する",
+      "help": "オフにした場合は、事前に15ステージすべてを手動で編成する必要があります"
     }
   },
   "HospitalEvent": {
     "_info": {
-      "name": "共闘アクティビティの設定",
+      "name": "共闘イベントの設定",
       "help": ""
     },
     "Mode": {
-      "name": "困難",
+      "name": "難易度",
       "help": "",
       "easy": "正午",
-      "normal": "夕暮れ",
-      "hard": "夜"
+      "normal": "黄昏",
+      "hard": "夜晚"
     },
     "Stage": {
-      "name": "レベル名",
+      "name": "ステージ名",
       "help": "",
       "T1": "T1",
       "T2": "T2",
       "T3": "T3",
       "T4": "T4",
-      "ESP": "超能力者"
+      "ESP": "ESP"
     }
   },
   "MaritimeEscort": {
@@ -1554,225 +1554,225 @@
   },
   "Coalition": {
     "_info": {
-      "name": "アクティビティ設定",
-      "help": "チームはゲームに参加する前に手動で割り当てる必要があります。"
+      "name": "イベント設定",
+      "help": "出撃前にゲーム内で手動で編成する必要があります。"
     },
     "Mode": {
-      "name": "困難",
-      "help": "SP グラフはアクティブな日次 SP を使用して実行する必要があります",
-      "easy": "簡単",
-      "normal": "普通",
-      "hard": "難しい",
+      "name": "難易度",
+      "help": "SPステージはイベントデイリーSPで実行する必要があります",
+      "easy": "easy",
+      "normal": "normal",
+      "hard": "hard",
       "sp": "sp"
     },
     "Fleet": {
-      "name": "攻撃チーム",
+      "name": "出撃艦隊",
       "help": "",
-      "single": "シングルチームバトル",
-      "multi": "複数のチームが攻撃する"
+      "single": "単艦隊連戦",
+      "multi": "複数艦隊出撃"
     }
   },
   "EventShop": {
     "_info": {
-      "name": "イベントストア",
+      "name": "イベントショップ",
       "help": ""
     },
     "UnlockSSRShip": {
-      "name": "SSR船のロックを解除する",
+      "name": "SSR艦船をアンロックする",
       "help": ""
     },
     "BuyURShip": {
-      "name": "X UR 船を購入する",
+      "name": "UR艦船をX隻購入する",
       "help": "",
       "0": "0",
       "1": "1",
       "2": "2"
     },
     "PresetFilter": {
-      "name": "アクティブストアフィルター",
-      "help": "通常、デフォルトではすべて購入します。",
-      "all": "全て",
-      "custom": "カスタマイズ"
+      "name": "イベントショップフィルター",
+      "help": "通常、デフォルトですべて購入します。",
+      "all": "全部",
+      "custom": "カスタム"
     },
     "CustomFilter": {
       "name": "カスタムフィルター",
-      "help": "カスタム フィルターを使用するには、「アクティビティ ストア フィルター」を「カスタム」に設定し、https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn を読む必要があります。"
+      "help": "カスタムフィルターを使用するには、「イベントショップフィルター」を「カスタム」に設定し、https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn を読む必要があります。"
     }
   },
   "Commission": {
     "_info": {
-      "name": "任せる",
+      "name": "委託",
       "help": ""
     },
     "PresetFilter": {
-      "name": "デリゲートフィルター",
-      "help": "コミッションの出力と利点を十分に理解していない場合は、カスタム フィルターを作成することはお勧めできません。事前に最適化された手数料フィルターを使用することをお勧めします。\nブラシ緊急コミッション機能を 24 時間実行する場合は、フィルター (7x24 ブラシ コミッション) を使用する必要があります。\n緊急コミッション機能の実行中にオイル優先フィルターを使用することはお勧めできません。",
-      "cube": "ダイヤモンド＞ルービックキューブ＞オイル",
-      "cube_24h": "ダイヤモンド > ルービック キューブ > オイル (7x24 ブラシ コミッション)",
-      "chip": "ダイヤモンド＞マインド＞ルービックキューブ",
-      "chip_24h": "ダイヤモンド > マインド > ルービック キューブ (7x24 ブラシ コミッション)",
-      "oil": "ダイヤモンド＞オイル＞ルービックキューブ",
-      "custom": "カスタマイズ"
+      "name": "委託フィルター",
+      "help": "委託の産出と収益を十分に理解していない場合は、カスタムフィルターを作成することはお勧めしません。プリセット委託フィルターの使用をお勧めします。\n24時間緊急委託周回機能を実行する場合は、（7x24委託周回）のフィルターを使用してください。\n緊急委託周回機能の実行中に燃料優先フィルターを使用することはお勧めしません。",
+      "cube": "ダイヤ>キューブ>燃料",
+      "cube_24h": "ダイヤ>キューブ>燃料（7x24委託周回）",
+      "chip": "ダイヤ>メンタルユニット>キューブ",
+      "chip_24h": "ダイヤ>メンタルユニット>キューブ（7x24委託周回）",
+      "oil": "ダイヤ>燃料>キューブ",
+      "custom": "カスタム"
     },
     "CustomFilter": {
-      "name": "カスタムデリゲートフィルター",
-      "help": "カスタム フィルターを使用するには、「委任されたフィルター」を「カスタム」に設定し、https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn を読む必要があります。"
+      "name": "カスタム委託フィルター",
+      "help": "カスタムフィルターを使用するには、「委託フィルター」を「カスタム」に設定し、https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn を読む必要があります。"
     },
     "DoMajorCommission": {
-      "name": "メインコミッションを作成します（1200オイル/1000オイルコミッション）",
-      "help": "1200 石油コミッションは現在では廃止されており、収量は非常に低いです。閉めることをお勧めします。"
+      "name": "主要委託を実行する（1200燃料/1000燃料委託）",
+      "help": "1200燃料委託は現在では廃止されており、収益が非常に低いです。オフにすることをお勧めします。"
     }
   },
   "Tactical": {
     "_info": {
-      "name": "タクティクスアカデミー",
+      "name": "戦術学院",
       "help": ""
     },
     "TacticalFilter": {
-      "name": "タクティクスアカデミーフィルター",
+      "name": "戦術学院フィルター",
       "help": "通常、変更は必要ありません"
     },
     "RapidTrainingSlot": {
       "name": "クイックラーニングを使用する",
-      "help": "イベント期間中は、1 日あたり 10 回の簡単なスキル学習セッションが開催されます",
-      "do_not_use": "未使用",
-      "slot_1": "位置 1 で使用",
-      "slot_2": "位置 2 で使用",
-      "slot_3": "位置 3 で使用",
-      "slot_4": "位置 4 で使用"
+      "help": "イベント期間中は毎日10回の高速スキル学習が利用できます",
+      "do_not_use": "使用しない",
+      "slot_1": "1番目で使用",
+      "slot_2": "2番目で使用",
+      "slot_3": "3番目で使用",
+      "slot_4": "4番目で使用"
     }
   },
   "ControlExpOverflow": {
     "_info": {
-      "name": "オーバーフロー エクスペリエンス コントロール",
-      "help": "スキルがほぼフルレベルになったときに、上級スキルブックを使用すると大量の経験値がオーバーフローするのを防ぎます。\nたとえば、T3 本が 100 ポイントオーバーフローし、T4 本が 100 ポイントオーバーフローした場合、経験値が 1100 残っている場合、T4 本は使用されず、代わりに T3 本が使用されます。"
+      "name": "溢出経験値コントロール",
+      "help": "スキルがほぼ最大レベルの時に、上級スキルブックを使用して大量の経験値が溢出するのを防ぎます。\n例えばT3書の溢出を100ポイント、T4書の溢出を100ポイントに設定した場合、残り経験値が1100の時にT4書は使用されず、代わりにT3書が使用されます。"
     },
     "Enable": {
-      "name": "オーバーフロー エクスペリエンス コントロールを有効にする",
+      "name": "溢出経験値コントロールを有効にする",
       "help": ""
     },
     "T4Allow": {
-      "name": "T4スキルブックがX経験値をオーバーフローすることを許可する",
+      "name": "T4スキルブックのX経験値溢出を許可する",
       "help": ""
     },
     "T3Allow": {
-      "name": "T3 スキルブックが X 経験値をオーバーフローすることを許可する",
+      "name": "T3スキルブックのX経験値溢出を許可する",
       "help": ""
     },
     "T2Allow": {
-      "name": "T2 スキルブックが X 経験値をオーバーフローすることを許可する",
+      "name": "T2スキルブックのX経験値溢出を許可する",
       "help": ""
     },
     "T1Allow": {
-      "name": "T1 スキルブックが X 経験値をオーバーフローすることを許可する",
+      "name": "T1スキルブックのX経験値溢出を許可する",
       "help": ""
     }
   },
   "AddNewStudent": {
     "_info": {
-      "name": "新しいスキルを学ぶ",
-      "help": "戦術アカデミーに空きが出ると自動的に艦娘が配属され、フルレベルに達していない最初のスキルを習得します。"
+      "name": "新しいスキルを学習する",
+      "help": "戦術学院に空きがある時、自動的に艦船を配属し、最初の未習得スキルを学習します。"
     },
     "Enable": {
       "name": "この機能を有効にする",
       "help": ""
     },
     "Favorite": {
-      "name": "共通を優先する",
+      "name": "常用を優先する",
       "help": ""
     }
   },
   "Research": {
     "_info": {
-      "name": "研究",
-      "help": "フィルターが他の設定と連動する場合、残念なことに、すべてのユーザー設定を同時に満たす項目が検索されます。\nたとえば、科学研究フィルターを「H1 > D2.5 > 最短」(ルービック キューブを使用する科学研究を含む) に設定し、同時にルービック キューブの使用を許可しないように設定した場合、最終結果は、Alas がルービック キューブを使用する科学研究を選択しないことになります。急にルービックキューブを切りたい場合、フィルターを変更せずにルービックキューブを開くだけで済むので便利です。"
+      "name": "科研",
+      "help": "フィルターが他の設定と連動する場合、Alasはすべてのユーザー設定を同時に満たす項目を検索します。\n例えば、科研フィルターを `H1 > D2.5 > shortest`（キューブを消費する科研を含む）に設定し、同時にキューブの使用を許可しないように設定した場合、最終結果はAlasがキューブを消費する科研を選択しないことになります。急にキューブの使用を切り替えたい場合、フィルターを変更せずにキューブの使用を有効にするだけで済むので便利です。"
     },
     "UseCube": {
-      "name": "ルービックキューブを使う",
+      "name": "キューブを使用する",
       "help": "",
-      "always_use": "いつも使う",
-      "only_05_hour": "0.5 時間 + 行うプロジェクトがない場合",
-      "only_no_project": "やるべきプロジェクトがないとき",
-      "do_not_use": "未使用"
+      "always_use": "常に使用",
+      "only_05_hour": "0.5時間＋実行可能なプロジェクトがない場合",
+      "only_no_project": "実行可能なプロジェクトがない場合",
+      "do_not_use": "使用しない"
     },
     "UseCoin": {
-      "name": "消耗品を使用する",
+      "name": "資金を使用する",
       "help": "",
-      "always_use": "いつも使う",
-      "only_05_hour": "0.5 時間 + 行うプロジェクトがない場合",
-      "only_no_project": "やるべきプロジェクトがないとき",
-      "do_not_use": "未使用"
+      "always_use": "常に使用",
+      "only_05_hour": "0.5時間＋実行可能なプロジェクトがない場合",
+      "only_no_project": "実行可能なプロジェクトがない場合",
+      "do_not_use": "使用しない"
     },
     "UsePart": {
-      "name": "ウィジェットを使用する",
+      "name": "パーツを使用する",
       "help": "",
-      "always_use": "いつも使う",
-      "only_05_hour": "0.5 時間 + 行うプロジェクトがない場合",
-      "only_no_project": "やるべきプロジェクトがないとき",
-      "do_not_use": "未使用"
+      "always_use": "常に使用",
+      "only_05_hour": "0.5時間＋実行可能なプロジェクトがない場合",
+      "only_no_project": "実行可能なプロジェクトがない場合",
+      "do_not_use": "使用しない"
     },
     "AllowDelay": {
-      "name": "資源が不足すると科学研究が遅れる",
-      "help": "資源が不足している場合、悲しいかな、条件が満たされるか、科学研究のキューがクリアされそうになるまで、科学研究は延期されますが、それでも科学研究は停止しません。\nリソースが長期間にわたって不十分なままである場合、または悲しいことに、十分な時間実行されていない場合は、このオプションをキャンセルして、リサーチ キューをフル状態に保つことができます。"
+      "name": "資源不足時に科研を遅延させる",
+      "help": "資源が不足している場合、Alasは条件が満たされるか科研キューが空になりそうになるまで科研を遅延させますが、科研が停止することはありません。\n長期間資源が不足している場合やAlasの実行時間が十分でない場合は、このオプションをオフにして科研キューを常に満杯に保つことができます。"
     },
     "PresetFilter": {
-      "name": "リサーチフィルター",
-      "help": "科学研究のドロップとプロジェクトの更新については、https://azur-stats.lyko.io/ をご覧ください。これらの基本を理解していない人は、カスタム フィルターを作成することはお勧めできません。事前に最適化された科学研究フィルターを使用することをお勧めします。",
-      "custom": "カスタマイズ",
-      "series_8_blueprint_305": "第 8 号ブループリント +305",
-      "series_8_blueprint_only": "第 8 号ブループリントのみ",
-      "series_8_305_only": "8号のみ305",
-      "series_7_blueprint_la9": "第 7 号ブループリント + La9",
-      "series_7_blueprint_only": "第 7 号ブループリントのみ",
-      "series_7_la9_only": "7号のみLa9",
-      "series_6_blueprint_203": "第 6 号ブループリント +203",
-      "series_6_blueprint_only": "第 6 号ブループリントのみ",
-      "series_6_203_only": "6号のみ203",
-      "series_5_blueprint_152": "フェーズ 5 ブループリント +152",
-      "series_5_blueprint_only": "第 5 号ブループリントのみ",
-      "series_5_152_only": "5 号のみ 152",
-      "series_4_blueprint_tenrai": "フェーズ 4 ブループリント + スカイサンダー",
-      "series_4_blueprint_only": "フェーズ 4 ブループリントのみ",
-      "series_4_tenrai_only": "フェーズ 4 ティアンレイのみ",
-      "series_3_blueprint_234": "フェーズ III ブループリント +234",
-      "series_3_blueprint_only": "フェーズ 3 ブループリントのみ",
-      "series_3_234_only": "フェーズ 3 のみ 234",
-      "series_2_than_3_457_234": "第 2 フェーズは第 3 フェーズ 457+234 を考慮します。",
-      "series_2_blueprint_457": "フェーズ II ブループリント +457",
-      "series_2_blueprint_only": "フェーズ 2 ブループリントのみ",
-      "series_2_457_only": "フェーズ II のみ 457"
+      "name": "科研フィルター",
+      "help": "科研ドロップとプロジェクト更新については https://azur-stats.lyoko.io/ を参照してください。これらの基本を理解していない方はカスタムフィルターの作成をお勧めしません。プリセット科研フィルターの使用をお勧めします。",
+      "custom": "カスタム",
+      "series_8_blueprint_305": "8期 図面+305",
+      "series_8_blueprint_only": "8期 図面のみ",
+      "series_8_305_only": "8期 305のみ",
+      "series_7_blueprint_la9": "7期 図面+La9",
+      "series_7_blueprint_only": "7期 図面のみ",
+      "series_7_la9_only": "7期 La9のみ",
+      "series_6_blueprint_203": "6期 図面+203",
+      "series_6_blueprint_only": "6期 図面のみ",
+      "series_6_203_only": "6期 203のみ",
+      "series_5_blueprint_152": "5期 図面+152",
+      "series_5_blueprint_only": "5期 図面のみ",
+      "series_5_152_only": "5期 152のみ",
+      "series_4_blueprint_tenrai": "4期 図面+天雷",
+      "series_4_blueprint_only": "4期 図面のみ",
+      "series_4_tenrai_only": "4期 天雷のみ",
+      "series_3_blueprint_234": "3期 図面+234",
+      "series_3_blueprint_only": "3期 図面のみ",
+      "series_3_234_only": "3期 234のみ",
+      "series_2_than_3_457_234": "2期兼3期 457+234",
+      "series_2_blueprint_457": "2期 図面+457",
+      "series_2_blueprint_only": "2期 図面のみ",
+      "series_2_457_only": "2期 457のみ"
     },
     "CustomFilter": {
-      "name": "カスタムリサーチフィルター",
-      "help": "カスタム フィルターを使用するには、「リサーチ フィルター」を「カスタム」に設定し、https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn を読む必要があります。"
+      "name": "カスタム科研フィルター",
+      "help": "カスタムフィルターを使用するには、「科研フィルター」を「カスタム」に設定し、https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn を読む必要があります。"
     }
   },
   "Dorm": {
     "_info": {
-      "name": "裏の家",
+      "name": "後宅",
       "help": ""
     },
     "Collect": {
-      "name": "ハートと家具コインを集める",
+      "name": "ハートと家具コインを収集する",
       "help": ""
     },
     "Feed": {
-      "name": "餌やり",
+      "name": "給食",
       "help": ""
     },
     "FeedFilter": {
-      "name": "フィードフィルター",
+      "name": "給食フィルター",
       "help": "通常、変更は必要ありません"
     },
     "BuyFood": {
-      "name": "食品を自動的に購入する",
-      "help": "ステータス表示のみ。設定を無効にします。このスイッチについては何も質問しないでください。"
+      "name": "食料を自動購入する",
+      "help": "ステータス表示のみ。設定禁止。このスイッチについて質問しないでください。"
     }
   },
   "BuyFurniture": {
     "_info": {
-      "name": "イベント家具のセットアップ",
-      "help": "イベント中に後寨家具モールから期間限定家具を購入する"
+      "name": "イベント家具設定",
+      "help": "イベント中に後宅家具ショップから期間限定家具を購入する"
     },
     "Enable": {
       "name": "イベント家具を購入する",
@@ -1780,82 +1780,82 @@
     },
     "BuyOption": {
       "name": "購入プラン",
-      "help": "セットを購入する: 各家具を 1 つずつ購入します。すべて購入: 家具を上限まですべて購入します。どちらの購入オプションでも、家具セットは家具店の前から削除されます。 1 セットを購入した場合、残りの家具は手動で購入する必要があります。\nどちらのオプションでも家具の消費量に大きな差はないので、すべて購入することをお勧めします。ダイヤモンド家具は買わない",
-      "set": "セットを購入する",
-      "all": "全部買う"
+      "help": "セットを購入：各家具を1つずつ購入します。全部購入：家具を上限まですべて購入します。どちらの購入オプションでも、家具セットは家具ショップの先頭から削除されます。セットを購入した場合、残りの家具は手動で購入する必要があります。\nどちらの購入方法でも家具の消費量に大きな差はないので、全部購入をお勧めします。ダイヤ家具は購入しません。",
+      "set": "セットを購入",
+      "all": "全部購入"
     },
     "LastRun": {
       "name": "最終チェック時間",
-      "help": "タスクが繰り返し実行されるのを防ぐために、最後のチェックの時刻を記録します。チェック間隔は6日です。この値は自動的に記録されるため、通常は変更する必要はありません。"
+      "help": "タスクの繰り返し実行を防止するために、前回のチェック時刻を記録します。チェック間隔は6日です。この値は自動的に記録されるため、通常は変更する必要はありません。"
     }
   },
   "Meowfficer": {
     "_info": {
-      "name": "コマンドニャー",
+      "name": "指揮ニャ",
       "help": ""
     },
     "BuyAmount": {
-      "name": "毎日 X 個の猫箱を購入する",
-      "help": "その日の最初の猫ボックスは無料です"
+      "name": "毎日X個のネコハコを購入する",
+      "help": "毎日最初のネコハコは無料です"
     },
     "FortChoreMeowfficer": {
-      "name": "ニャー ネスト インタラクティブ",
-      "help": "猫を掃除し、餌を与え、楽しませる"
+      "name": "ニャ窩インタラクション",
+      "help": "掃除、給食、ネコじゃらし"
     }
   },
   "MeowfficerTrain": {
     "_info": {
-      "name": "コマンドキャットのトレーニング",
+      "name": "指揮ニャ訓練",
       "help": ""
     },
     "Enable": {
-      "name": "コマンドキャットトレーニングを開始する",
+      "name": "指揮ニャ訓練を開始する",
       "help": ""
     },
     "Mode": {
-      "name": "トレーニングモード",
-      "help": "シームレスキャットトレーニングでは2.5～3.5時間ごとにコマンドキャットを収集します\n毎日 1 つ集めるとは、毎日 1 つ集め、日曜日にすべて集め、キューを強化して補充し、毎週のタスクを完了することを意味します。",
-      "seamlessly": "シームレスな猫のトレーニング",
-      "once_a_day": "毎日1つずつ受け取れます"
+      "name": "訓練モード",
+      "help": "連続訓練は2.5～3.5時間ごとに指揮ニャを受け取ります\n毎日1匹受け取りは毎日1匹受け取り、日曜日に全部受け取り、強化してキューを補充し、週間任務を完了します。",
+      "seamlessly": "連続訓練",
+      "once_a_day": "毎日1匹受け取り"
     },
     "RetainTalentedGold": {
-      "name": "特殊な才能を持つ金色の猫を狙う",
-      "help": "コマンドネコを集めると特殊な才能を持つネコがロックされます。ロックされた猫は強化には使用されません。ユーザーは不要な猫を手動でチェックしてロックを解除する必要があります。"
+      "name": "特殊天賦持ちの金ネコをロックする",
+      "help": "指揮ニャ受け取り時に特殊天賦のネコをロックします。ロックされたネコは強化に使用されません。ユーザーは手動で確認し不要なネコのロックを解除する必要があります。"
     },
     "RetainTalentedPurple": {
-      "name": "特別な才能を持つ紫色の猫をターゲットにします",
-      "help": "コマンドネコを集めると特殊な才能を持つネコがロックされます。ロックされた猫は強化には使用されません。ユーザーは不要な猫を手動でチェックしてロックを解除する必要があります。"
+      "name": "特殊天賦持ちの紫ネコをロックする",
+      "help": "指揮ニャ受け取り時に特殊天賦のネコをロックします。ロックされたネコは強化に使用されません。ユーザーは手動で確認し不要なネコのロックを解除する必要があります。"
     },
     "EnhanceIndex": {
-      "name": "特別な才能のない猫を使用して X 番目の猫を強化する",
-      "help": "猫倉庫のX番目の猫、左上から右下の順に1～12まで限定"
+      "name": "特殊天賦なしのネコでX番目のネコを強化する",
+      "help": "ネコ倉庫のX番目のネコ、1～12に限定、順序は左上から右下"
     },
     "MaxFeedLevel": {
-      "name": "レベルXより大きい猫を強化素材として使用しないでください",
-      "help": "X 値は 1 ～ 30 に制限されます"
+      "name": "Xレベルより大きいネコを強化素材として使用しない",
+      "help": "X値は1～30に限定されます"
     }
   },
   "GuildLogistics": {
     "_info": {
-      "name": "グランドフリートロジスティクス",
+      "name": "大艦隊後方支援",
       "help": ""
     },
     "Enable": {
-      "name": "グランドフリートの兵站を活性化する",
-      "help": "大艦隊ミッションを受け取り、準備資料を提出し、艦隊報酬を受け取ります"
+      "name": "大艦隊後方支援を有効にする",
+      "help": "大艦隊任務を受領し、準備物資を提出し、艦隊報酬を受け取ります"
     },
     "SelectNewMission": {
-      "name": "新しい毎週の艦隊ミッションを選択してください",
-      "help": "このアカウントを開くには、艦隊司令官または副司令官である必要があります。\nデフォルトでは、最も簡単に完了できる Siren Annihilation III が選択されています。任務は敵の船を 300 隻沈めることです。"
+      "name": "新しい週間艦隊任務を選択する",
+      "help": "このアカウントは艦隊司令官または副司令官である必要があります。\nデフォルトでは最も簡単に完了できるセイレーン殲滅IIIが選択されます。任務は敵を300隻撃沈することです。"
     },
     "ExchangeFilter": {
-      "name": "アイテムフィルターの準備",
-      "help": "通常、変更は必要ありません。消費量が最も少ないものが優先されます。"
+      "name": "準備物品フィルター",
+      "help": "通常、変更は必要ありません。消費が最も少ないものを優先します。"
     }
   },
   "GuildOperation": {
     "_info": {
-      "name": "大艦隊決戦",
+      "name": "大艦隊作戦",
       "help": ""
     },
     "Enable": {
@@ -1863,24 +1863,24 @@
       "help": ""
     },
     "SelectNewOperation": {
-      "name": "新たな大艦隊戦を開始",
-      "help": "このアカウントを開くには、艦隊司令官または副司令官である必要があります。\nデフォルトでは、最も多くの報酬が得られるダグカナル島の海空戦が選択されています。"
+      "name": "新しい大艦隊作戦を開始する",
+      "help": "このアカウントは艦隊司令官または副司令官である必要があります。\nデフォルトでは最も報酬が多いダグカナル島の海空戦が選択されます。"
     },
     "NewOperationMaxDate": {
-      "name": "毎月 X 日以降、新たなグランド フリートの戦いは開始されません。",
-      "help": "「新しい大艦隊戦闘の開始」が有効な場合にのみ有効です\n各プレイヤーは月に 2 回しか参加できず、ほとんどのメンバーは 3 回目の戦闘の派遣に参加できないため、月に 3 回の大艦隊戦闘を開始することはお勧めできません。これは派遣イベントの評価に影響し、最終的な報酬が減少する可能性があります。"
+      "name": "毎月X日以降、新しい大艦隊作戦を開始しない",
+      "help": "「新しい大艦隊作戦を開始する」が有効な場合にのみ有効です\n毎月3回の大艦隊作戦を開始することはお勧めしません。各プレイヤーは月に2回しか参加できず、大部分のメンバーは3回目の作戦の派遣に参加できません。これは派遣イベントの評価に影響し、最終報酬が減少する可能性があります。"
     },
     "JoinThreshold": {
-      "name": "戦闘が進行している場合にのみグランドフリート戦闘に参加する >",
-      "help": "0.0～1.0。たとえば、「0.5」は戦闘の進行状況が半分未満の場合にのみ参加することを意味し、「1」は進行状況に関係なく直接参加することを意味します。"
+      "name": "作戦進捗 > X の場合のみ大艦隊作戦に参加する",
+      "help": "0.0～1.0。例えば「0.5」は作戦進捗が半分未満の場合のみ参加、「1」は進捗に関係なく直接参加を意味します。"
     },
     "AttackBoss": {
-      "name": "大艦隊BOSSを倒す",
+      "name": "大艦隊BOSSを攻撃する",
       "help": ""
     },
     "BossFleetRecommend": {
-      "name": "おすすめの艦隊を使ってボスを撃破しましょう",
-      "help": "閉じて自分のチームを編成することをお勧めします"
+      "name": "推薦艦隊でBOSSを攻撃する",
+      "help": "オフにして自分で編成することをお勧めします"
     }
   },
   "Reward": {
@@ -1889,58 +1889,58 @@
       "help": ""
     },
     "CollectOil": {
-      "name": "収穫油",
+      "name": "燃料を収穫する",
       "help": ""
     },
     "CollectCoin": {
-      "name": "収穫物資",
+      "name": "資金を収穫する",
       "help": ""
     },
     "CollectExp": {
-      "name": "収穫体験本",
+      "name": "経験値本を収穫する",
       "help": ""
     },
     "CollectMission": {
-      "name": "ミッション報酬を受け取る",
+      "name": "任務報酬を受け取る",
       "help": ""
     },
     "CollectWeeklyMission": {
-      "name": "毎週のタスク報酬を受け取る",
+      "name": "週間任務報酬を受け取る",
       "help": ""
     }
   },
   "Awaken": {
     "_info": {
-      "name": "認知的覚醒",
-      "help": "認知の覚醒精神ユニットが使い果たされるまでドック内のすべての船"
+      "name": "認知覚醒",
+      "help": "認知覚醒でドック内の全艦船をメンタルユニットが尽きるまで覚醒させます"
     },
     "LevelCap": {
-      "name": "レベルキャップへの覚醒",
+      "name": "レベル上限まで覚醒する",
       "help": "",
-      "level120": "レベル120",
-      "level125": "レベル125"
+      "level120": "120レベル",
+      "level125": "125レベル"
     },
     "Favourite": {
-      "name": "一般的に使用される船のみが覚醒されます",
+      "name": "常用艦船のみ覚醒する",
       "help": ""
     }
   },
   "Island1": {
     "_info": {
-      "name": "豊かな農地",
+      "name": "豊壌農田",
       "help": ""
     },
     "Receive": {
-      "name": "肥沃な農地を収穫する",
+      "name": "豊壌農田を収穫する",
       "help": ""
     },
     "Option1": {
-      "name": "セル 1 はアイテムを生成します",
+      "name": "第1マスの生産品",
       "help": "",
-      "0": "生産していない",
+      "0": "生産しない",
       "1": "小麦",
       "2": "トウモロコシ",
-      "3": "草",
+      "3": "牧草",
       "4": "コーヒー豆",
       "5": "米",
       "6": "白菜",
@@ -1948,33 +1948,33 @@
       "8": "大豆"
     },
     "Character1": {
-      "name": "ボックス 1 の文字を使用",
+      "name": "第1マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
     },
     "Option2": {
-      "name": "セル 2 はアイテムを生成します",
+      "name": "第2マスの生産品",
       "help": "",
-      "0": "生産していない",
+      "0": "生産しない",
       "1": "小麦",
       "2": "トウモロコシ",
-      "3": "草",
+      "3": "牧草",
       "4": "コーヒー豆",
       "5": "米",
       "6": "白菜",
@@ -1982,33 +1982,33 @@
       "8": "大豆"
     },
     "Character2": {
-      "name": "ボックス 2 の文字を使用",
+      "name": "第2マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
     },
     "Option3": {
-      "name": "セル 3 はアイテムを生成します",
+      "name": "第3マスの生産品",
       "help": "",
-      "0": "生産していない",
+      "0": "生産しない",
       "1": "小麦",
       "2": "トウモロコシ",
-      "3": "草",
+      "3": "牧草",
       "4": "コーヒー豆",
       "5": "米",
       "6": "白菜",
@@ -2016,33 +2016,33 @@
       "8": "大豆"
     },
     "Character3": {
-      "name": "ボックス 3 の文字を使用",
+      "name": "第3マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
     },
     "Option4": {
-      "name": "セル 4 はアイテムを生成します",
+      "name": "第4マスの生産品",
       "help": "",
-      "0": "生産していない",
+      "0": "生産しない",
       "1": "小麦",
       "2": "トウモロコシ",
-      "3": "草",
+      "3": "牧草",
       "4": "コーヒー豆",
       "5": "米",
       "6": "白菜",
@@ -2050,22 +2050,22 @@
       "8": "大豆"
     },
     "Character4": {
-      "name": "ボックス 4 の文字を使用",
+      "name": "第4マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
@@ -2073,117 +2073,117 @@
   },
   "Island2": {
     "_info": {
-      "name": "ようらん牧場",
+      "name": "悠然牧場",
       "help": ""
     },
     "Receive": {
-      "name": "収穫のんびり牧場",
+      "name": "悠然牧場を収穫する",
       "help": ""
     },
     "Option1": {
-      "name": "セル 1 はアイテムを生成します",
+      "name": "第1マスの生産品",
       "help": "",
-      "0": "生産していない",
-      "1": "卵（家禽）"
+      "0": "生産しない",
+      "1": "卵（鶏肉）"
     },
     "Character1": {
-      "name": "ボックス 1 の文字を使用",
+      "name": "第1マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
     },
     "Option2": {
-      "name": "セル 2 はアイテムを生成します",
+      "name": "第2マスの生産品",
       "help": "",
-      "0": "生産していない",
-      "2": "新鮮な肉"
+      "0": "生産しない",
+      "2": "鮮肉"
     },
     "Character2": {
-      "name": "ボックス 2 の文字を使用",
+      "name": "第2マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
     },
     "Option3": {
-      "name": "セル 3 はアイテムを生成します",
+      "name": "第3マスの生産品",
       "help": "",
-      "0": "生産していない",
-      "3": "ミルク(革)"
+      "0": "生産しない",
+      "3": "ミルク（皮革）"
     },
     "Character3": {
-      "name": "ボックス 3 の文字を使用",
+      "name": "第3マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
     },
     "Option4": {
-      "name": "セル 4 はアイテムを生成します",
+      "name": "第4マスの生産品",
       "help": "",
-      "0": "生産していない",
+      "0": "生産しない",
       "4": "ウール"
     },
     "Character4": {
-      "name": "ボックス 4 の文字を使用",
+      "name": "第4マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
@@ -2191,135 +2191,135 @@
   },
   "Island3": {
     "_info": {
-      "name": "九九漁場",
+      "name": "ぴよぴよ漁場",
       "help": ""
     },
     "Receive": {
-      "name": "ハーベストチエウ釣り場",
+      "name": "ぴよぴよ漁場を収穫する",
       "help": ""
     },
     "Option1": {
-      "name": "セル 1 はアイテムを生成します",
+      "name": "第1マスの生産品",
       "help": "",
-      "0": "生産していない",
-      "1": "貝",
+      "0": "生産しない",
+      "1": "貝類",
       "2": "ナマズ",
       "3": "鯉",
       "4": "フナ",
-      "5": "小さな川エビ",
+      "5": "小エビ",
       "6": "ザリガニ",
-      "7": "シーバス",
+      "7": "スズキ",
       "8": "カニ",
       "9": "イカ",
       "10": "サワラ",
       "11": "マグロ",
-      "12": "鮭",
-      "13": "鯛",
+      "12": "サーモン",
+      "13": "真鯛",
       "14": "黒鯛",
       "15": "キハダマグロ",
       "16": "ナマコ"
     },
     "Character1": {
-      "name": "ボックス 1 の文字を使用",
+      "name": "第1マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
     },
     "Option2": {
-      "name": "セル 2 はアイテムを生成します",
+      "name": "第2マスの生産品",
       "help": "",
-      "0": "生産していない",
-      "1": "貝",
+      "0": "生産しない",
+      "1": "貝類",
       "2": "ナマズ",
       "3": "鯉",
       "4": "フナ",
-      "5": "小さな川エビ",
+      "5": "小エビ",
       "6": "ザリガニ",
-      "7": "シーバス",
+      "7": "スズキ",
       "8": "カニ",
       "9": "イカ",
       "10": "サワラ",
       "11": "マグロ",
-      "12": "鮭",
-      "13": "鯛",
+      "12": "サーモン",
+      "13": "真鯛",
       "14": "黒鯛",
       "15": "キハダマグロ",
       "16": "ナマコ"
     },
     "Character2": {
-      "name": "ボックス 2 の文字を使用",
+      "name": "第2マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
     },
     "Option3": {
-      "name": "セル 3 はアイテムを生成します",
+      "name": "第3マスの生産品",
       "help": "",
-      "0": "生産していない",
-      "1": "貝",
+      "0": "生産しない",
+      "1": "貝類",
       "2": "ナマズ",
       "3": "鯉",
       "4": "フナ",
-      "5": "小さな川エビ",
+      "5": "小エビ",
       "6": "ザリガニ",
-      "7": "シーバス",
+      "7": "スズキ",
       "8": "カニ",
       "9": "イカ",
       "10": "サワラ",
       "11": "マグロ",
-      "12": "鮭",
-      "13": "鯛",
+      "12": "サーモン",
+      "13": "真鯛",
       "14": "黒鯛",
       "15": "キハダマグロ",
       "16": "ナマコ"
     },
     "Character3": {
-      "name": "ボックス 3 の文字を使用",
+      "name": "第3マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
@@ -2327,137 +2327,137 @@
   },
   "Island4": {
     "_info": {
-      "name": "シンクストーン鉱山",
+      "name": "沈石鉱山",
       "help": ""
     },
     "Receive": {
-      "name": "沈んだ石鉱山を収穫する",
+      "name": "沈石鉱山を収穫する",
       "help": ""
     },
     "Option1": {
-      "name": "セル 1 はアイテムを生成します",
+      "name": "第1マスの生産品",
       "help": "",
-      "0": "生産していない",
+      "0": "生産しない",
       "1": "石炭",
-      "2": "銅鉱山",
-      "3": "アルミニウム鉱石",
-      "4": "鉄鉱石",
-      "5": "硫黄鉱石",
-      "6": "銀鉱山"
+      "2": "銅鉱",
+      "3": "アルミ鉱",
+      "4": "鉄鉱",
+      "5": "硫鉱",
+      "6": "銀鉱"
     },
     "Character1": {
-      "name": "ボックス 1 の文字を使用",
+      "name": "第1マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
     },
     "Option2": {
-      "name": "セル 2 はアイテムを生成します",
+      "name": "第2マスの生産品",
       "help": "",
-      "0": "生産していない",
+      "0": "生産しない",
       "1": "石炭",
-      "2": "銅鉱山",
-      "3": "アルミニウム鉱石",
-      "4": "鉄鉱石",
-      "5": "硫黄鉱石",
-      "6": "銀鉱山"
+      "2": "銅鉱",
+      "3": "アルミ鉱",
+      "4": "鉄鉱",
+      "5": "硫鉱",
+      "6": "銀鉱"
     },
     "Character2": {
-      "name": "ボックス 2 の文字を使用",
+      "name": "第2マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
     },
     "Option3": {
-      "name": "セル 3 はアイテムを生成します",
+      "name": "第3マスの生産品",
       "help": "",
-      "0": "生産していない",
+      "0": "生産しない",
       "1": "石炭",
-      "2": "銅鉱山",
-      "3": "アルミニウム鉱石",
-      "4": "鉄鉱石",
-      "5": "硫黄鉱石",
-      "6": "銀鉱山"
+      "2": "銅鉱",
+      "3": "アルミ鉱",
+      "4": "鉄鉱",
+      "5": "硫鉱",
+      "6": "銀鉱"
     },
     "Character3": {
-      "name": "ボックス 3 の文字を使用",
+      "name": "第3マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
     },
     "Option4": {
-      "name": "セル 4 はアイテムを生成します",
+      "name": "第4マスの生産品",
       "help": "",
-      "0": "生産していない",
+      "0": "生産しない",
       "1": "石炭",
-      "2": "銅鉱山",
-      "3": "アルミニウム鉱石",
-      "4": "鉄鉱石",
-      "5": "硫黄鉱石",
-      "6": "銀鉱山"
+      "2": "銅鉱",
+      "3": "アルミ鉱",
+      "4": "鉄鉱",
+      "5": "硫鉱",
+      "6": "銀鉱"
     },
     "Character4": {
-      "name": "ボックス 4 の文字を使用",
+      "name": "第4マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
@@ -2465,129 +2465,129 @@
   },
   "Island5": {
     "_info": {
-      "name": "クイトゥ森林農場",
+      "name": "翠土林場",
       "help": ""
     },
     "Receive": {
-      "name": "緑の土を収穫する森林農場",
+      "name": "翠土林場を収穫する",
       "help": ""
     },
     "Option1": {
-      "name": "セル 1 はアイテムを生成します",
+      "name": "第1マスの生産品",
       "help": "",
-      "0": "生産していない",
-      "1": "天然木",
-      "2": "実用的な木材",
-      "3": "厳選された木材",
-      "4": "エレガントな木材"
+      "0": "生産しない",
+      "1": "自然の木",
+      "2": "実用の木",
+      "3": "精選の木",
+      "4": "典雅の木"
     },
     "Character1": {
-      "name": "ボックス 1 の文字を使用",
+      "name": "第1マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
     },
     "Option2": {
-      "name": "セル 2 はアイテムを生成します",
+      "name": "第2マスの生産品",
       "help": "",
-      "0": "生産していない",
-      "1": "天然木",
-      "2": "実用的な木材",
-      "3": "厳選された木材",
-      "4": "エレガントな木材"
+      "0": "生産しない",
+      "1": "自然の木",
+      "2": "実用の木",
+      "3": "精選の木",
+      "4": "典雅の木"
     },
     "Character2": {
-      "name": "ボックス 2 の文字を使用",
+      "name": "第2マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
     },
     "Option3": {
-      "name": "セル 3 はアイテムを生成します",
+      "name": "第3マスの生産品",
       "help": "",
-      "0": "生産していない",
-      "1": "天然木",
-      "2": "実用的な木材",
-      "3": "厳選された木材",
-      "4": "エレガントな木材"
+      "0": "生産しない",
+      "1": "自然の木",
+      "2": "実用の木",
+      "3": "精選の木",
+      "4": "典雅の木"
     },
     "Character3": {
-      "name": "ボックス 3 の文字を使用",
+      "name": "第3マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
     },
     "Option4": {
-      "name": "セル 4 はアイテムを生成します",
+      "name": "第4マスの生産品",
       "help": "",
-      "0": "生産していない",
-      "1": "天然木",
-      "2": "実用的な木材",
-      "3": "厳選された木材",
-      "4": "エレガントな木材"
+      "0": "生産しない",
+      "1": "自然の木",
+      "2": "実用の木",
+      "3": "精選の木",
+      "4": "典雅の木"
     },
     "Character4": {
-      "name": "ボックス 4 の文字を使用",
+      "name": "第4マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
@@ -2599,13 +2599,13 @@
       "help": ""
     },
     "Receive": {
-      "name": "ハーベスト・フォール・フレグランス・オーチャード",
+      "name": "落ちる香りの果樹園を収穫",
       "help": ""
     },
     "Option1": {
-      "name": "セル 1 はアイテムを生成します",
+      "name": "第1マスの生産品",
       "help": "",
-      "0": "生産していない",
+      "0": "生産しない",
       "1": "りんご",
       "2": "タンジェリン",
       "3": "バナナ",
@@ -2615,30 +2615,30 @@
       "7": "ゴム"
     },
     "Character1": {
-      "name": "ボックス 1 の文字を使用",
+      "name": "第1マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
     },
     "Option2": {
-      "name": "セル 2 はアイテムを生成します",
+      "name": "第2マスの生産品",
       "help": "",
-      "0": "生産していない",
+      "0": "生産しない",
       "1": "りんご",
       "2": "タンジェリン",
       "3": "バナナ",
@@ -2648,30 +2648,30 @@
       "7": "ゴム"
     },
     "Character2": {
-      "name": "ボックス 2 の文字を使用",
+      "name": "第2マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
     },
     "Option3": {
-      "name": "セル 3 はアイテムを生成します",
+      "name": "第3マスの生産品",
       "help": "",
-      "0": "生産していない",
+      "0": "生産しない",
       "1": "りんご",
       "2": "タンジェリン",
       "3": "バナナ",
@@ -2681,30 +2681,30 @@
       "7": "ゴム"
     },
     "Character3": {
-      "name": "ボックス 3 の文字を使用",
+      "name": "第3マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
     },
     "Option4": {
-      "name": "セル 4 はアイテムを生成します",
+      "name": "第4マスの生産品",
       "help": "",
-      "0": "生産していない",
+      "0": "生産しない",
       "1": "りんご",
       "2": "タンジェリン",
       "3": "バナナ",
@@ -2714,22 +2714,22 @@
       "7": "ゴム"
     },
     "Character4": {
-      "name": "ボックス 4 の文字を使用",
+      "name": "第4マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
@@ -2745,9 +2745,9 @@
       "help": ""
     },
     "Option1": {
-      "name": "セル 1 はアイテムを生成します",
+      "name": "第1マスの生産品",
       "help": "",
-      "0": "生産していない",
+      "0": "生産しない",
       "1": "アスパラガス",
       "2": "パイナップル",
       "3": "亜麻",
@@ -2759,30 +2759,30 @@
       "9": "タマネギ"
     },
     "Character1": {
-      "name": "ボックス 1 の文字を使用",
+      "name": "第1マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
     },
     "Option2": {
-      "name": "セル 2 はアイテムを生成します",
+      "name": "第2マスの生産品",
       "help": "",
-      "0": "生産していない",
+      "0": "生産しない",
       "1": "アスパラガス",
       "2": "パイナップル",
       "3": "亜麻",
@@ -2794,22 +2794,22 @@
       "9": "タマネギ"
     },
     "Character2": {
-      "name": "ボックス 2 の文字を使用",
+      "name": "第2マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
@@ -2825,9 +2825,9 @@
       "help": ""
     },
     "Option1": {
-      "name": "セル 1 はアイテムを生成します",
+      "name": "第1マスの生産品",
       "help": "",
-      "0": "生産していない",
+      "0": "生産しない",
       "1": "冷やし二重たけのこ",
       "2": "アスパラガスとエビの炒め物",
       "3": "豆腐",
@@ -2842,30 +2842,30 @@
       "12": "綿魚定食"
     },
     "Character1": {
-      "name": "ボックス 1 の文字を使用",
+      "name": "第1マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
     },
     "Option2": {
-      "name": "セル 2 はアイテムを生成します",
+      "name": "第2マスの生産品",
       "help": "",
-      "0": "生産していない",
+      "0": "生産しない",
       "1": "冷やし二重たけのこ",
       "2": "アスパラガスとエビの炒め物",
       "3": "豆腐",
@@ -2880,22 +2880,22 @@
       "12": "綿魚定食"
     },
     "Character2": {
-      "name": "ボックス 2 の文字を使用",
+      "name": "第2マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
@@ -2911,9 +2911,9 @@
       "help": ""
     },
     "Option1": {
-      "name": "セル 1 はアイテムを生成します",
+      "name": "第1マスの生産品",
       "help": "",
-      "0": "生産していない",
+      "0": "生産しない",
       "1": "絞りたてのパイナップルジュース",
       "2": "冬のジャスミン茶",
       "3": "リンゴジュース",
@@ -2927,30 +2927,30 @@
       "11": "カラフルフルーツパラダイス"
     },
     "Character1": {
-      "name": "ボックス 1 の文字を使用",
+      "name": "第1マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
     },
     "Option2": {
-      "name": "セル 2 はアイテムを生成します",
+      "name": "第2マスの生産品",
       "help": "",
-      "0": "生産していない",
+      "0": "生産しない",
       "1": "絞りたてのパイナップルジュース",
       "2": "冬のジャスミン茶",
       "3": "リンゴジュース",
@@ -2964,22 +2964,22 @@
       "11": "カラフルフルーツパラダイス"
     },
     "Character2": {
-      "name": "ボックス 2 の文字を使用",
+      "name": "第2マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
@@ -2995,9 +2995,9 @@
       "help": ""
     },
     "Option1": {
-      "name": "セル 1 はアイテムを生成します",
+      "name": "第1マスの生産品",
       "help": "",
-      "0": "生産していない",
+      "0": "生産しない",
       "1": "コーンカップ",
       "2": "アップルパイ",
       "3": "オレンジパイ",
@@ -3010,30 +3010,30 @@
       "10": "ベリーオレンジデザートセット"
     },
     "Character1": {
-      "name": "ボックス 1 の文字を使用",
+      "name": "第1マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
     },
     "Option2": {
-      "name": "セル 2 はアイテムを生成します",
+      "name": "第2マスの生産品",
       "help": "",
-      "0": "生産していない",
+      "0": "生産しない",
       "1": "コーンカップ",
       "2": "アップルパイ",
       "3": "オレンジパイ",
@@ -3046,22 +3046,22 @@
       "10": "ベリーオレンジデザートセット"
     },
     "Character2": {
-      "name": "ボックス 2 の文字を使用",
+      "name": "第2マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
@@ -3077,9 +3077,9 @@
       "help": ""
     },
     "Option1": {
-      "name": "セル 1 はアイテムを生成します",
+      "name": "第1マスの生産品",
       "help": "",
-      "0": "生産していない",
+      "0": "生産しない",
       "1": "炭火串焼き",
       "2": "鶏肉とポテトの盛り合わせ",
       "3": "鶏肉の炒め物",
@@ -3091,30 +3091,30 @@
       "9": "エネルギーダブルパッケージ"
     },
     "Character1": {
-      "name": "ボックス 1 の文字を使用",
+      "name": "第1マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
     },
     "Option2": {
-      "name": "セル 2 はアイテムを生成します",
+      "name": "第2マスの生産品",
       "help": "",
-      "0": "生産していない",
+      "0": "生産しない",
       "1": "炭火串焼き",
       "2": "鶏肉とポテトの盛り合わせ",
       "3": "鶏肉の炒め物",
@@ -3126,22 +3126,22 @@
       "9": "エネルギーダブルパッケージ"
     },
     "Character2": {
-      "name": "ボックス 2 の文字を使用",
+      "name": "第2マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
@@ -3157,9 +3157,9 @@
       "help": ""
     },
     "Option1": {
-      "name": "セル 1 はアイテムを生成します",
+      "name": "第1マスの生産品",
       "help": "",
-      "0": "生産していない",
+      "0": "生産しない",
       "1": "紙",
       "2": "メモ帳",
       "3": "テーブルと椅子",
@@ -3168,30 +3168,30 @@
       "6": "装飾画"
     },
     "Character1": {
-      "name": "ボックス 1 の文字を使用",
+      "name": "第1マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
     },
     "Option2": {
-      "name": "セル 2 はアイテムを生成します",
+      "name": "第2マスの生産品",
       "help": "",
-      "0": "生産していない",
+      "0": "生産しない",
       "1": "紙",
       "2": "メモ帳",
       "3": "テーブルと椅子",
@@ -3200,22 +3200,22 @@
       "6": "装飾画"
     },
     "Character2": {
-      "name": "ボックス 2 の文字を使用",
+      "name": "第2マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
@@ -3231,9 +3231,9 @@
       "help": ""
     },
     "Option1": {
-      "name": "セル 1 はアイテムを生成します",
+      "name": "第1マスの生産品",
       "help": "",
-      "0": "生産していない",
+      "0": "生産しない",
       "1": "木炭",
       "2": "ケーブル",
       "3": "爪",
@@ -3242,30 +3242,30 @@
       "6": "カトラリー"
     },
     "Character1": {
-      "name": "ボックス 1 の文字を使用",
+      "name": "第1マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
     },
     "Option2": {
-      "name": "セル 2 はアイテムを生成します",
+      "name": "第2マスの生産品",
       "help": "",
-      "0": "生産していない",
+      "0": "生産しない",
       "1": "木炭",
       "2": "ケーブル",
       "3": "爪",
@@ -3274,22 +3274,22 @@
       "6": "カトラリー"
     },
     "Character2": {
-      "name": "ボックス 2 の文字を使用",
+      "name": "第2マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
@@ -3305,61 +3305,61 @@
       "help": ""
     },
     "Option1": {
-      "name": "セル 1 はアイテムを生成します",
+      "name": "第1マスの生産品",
       "help": "",
-      "0": "生産していない",
+      "0": "生産しない",
       "1": "インクカートリッジ",
       "2": "クロック",
       "3": "バッテリー",
       "4": "浄水フィルターエレメント"
     },
     "Character1": {
-      "name": "ボックス 1 の文字を使用",
+      "name": "第1マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
     },
     "Option2": {
-      "name": "セル 2 はアイテムを生成します",
+      "name": "第2マスの生産品",
       "help": "",
-      "0": "生産していない",
+      "0": "生産しない",
       "1": "インクカートリッジ",
       "2": "クロック",
       "3": "バッテリー",
       "4": "浄水フィルターエレメント"
     },
     "Character2": {
-      "name": "ボックス 2 の文字を使用",
+      "name": "第2マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
@@ -3375,9 +3375,9 @@
       "help": ""
     },
     "Option1": {
-      "name": "セル 1 はアイテムを生成します",
+      "name": "第1マスの生産品",
       "help": "",
-      "0": "生産していない",
+      "0": "生産しない",
       "1": "袋に入った乾燥ナズナ",
       "2": "春の花束",
       "3": "布",
@@ -3389,30 +3389,30 @@
       "9": "包帯"
     },
     "Character1": {
-      "name": "ボックス 1 の文字を使用",
+      "name": "第1マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
     },
     "Option2": {
-      "name": "セル 2 はアイテムを生成します",
+      "name": "第2マスの生産品",
       "help": "",
-      "0": "生産していない",
+      "0": "生産しない",
       "1": "袋に入った乾燥ナズナ",
       "2": "春の花束",
       "3": "布",
@@ -3424,22 +3424,22 @@
       "9": "包帯"
     },
     "Character2": {
-      "name": "ボックス 2 の文字を使用",
+      "name": "第2マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
@@ -3455,9 +3455,9 @@
       "help": ""
     },
     "Option1": {
-      "name": "セル 1 はアイテムを生成します",
+      "name": "第1マスの生産品",
       "help": "",
-      "0": "生産していない",
+      "0": "生産しない",
       "1": "オムレツ",
       "2": "アイスコーヒー",
       "3": "チーズ",
@@ -3469,30 +3469,30 @@
       "9": "フルーティーダブルカップ"
     },
     "Character1": {
-      "name": "ボックス 2 の文字を使用",
+      "name": "第2マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
     },
     "Option2": {
-      "name": "セル 2 はアイテムを生成します",
+      "name": "第2マスの生産品",
       "help": "",
-      "0": "生産していない",
+      "0": "生産しない",
       "1": "オムレツ",
       "2": "アイスコーヒー",
       "3": "チーズ",
@@ -3504,22 +3504,22 @@
       "9": "フルーティーダブルカップ"
     },
     "Character2": {
-      "name": "ボックス 2 の文字を使用",
+      "name": "第2マスのキャラクター",
       "help": "",
-      "manjuu": "お仕事ツイート",
+      "manjuu": "饅頭仕事中",
       "saratoga": "サラトガ",
       "new_jersey": "ニュージャージー",
       "tashkent": "タシケント",
-      "lemalin": "悪質な",
+      "lemalin": "ル・マラン",
       "shimakaze": "島風",
       "akashi": "明石",
-      "ying_swei": "イン・ルイ",
-      "chao_ho": "肇河",
+      "ying_swei": "応瑞",
+      "chao_ho": "肇和",
       "william_d_porter": "ウィリアム・D・ポーター",
       "chen_hai": "鎮海",
       "unicorn": "ユニコーン",
       "cheshire": "チェシャー",
-      "amagi_chan": "小天城",
+      "amagi_chan": "天城ちゃん",
       "helena": "ヘレナ",
       "atago": "愛宕",
       "friedrich_der_grobe": "フリードリヒ大王"
@@ -3531,12 +3531,12 @@
       "help": ""
     },
     "UseGems": {
-      "name": "ダイヤモンドを使用する",
+      "name": "ダイヤを使用する",
       "help": ""
     },
     "Refresh": {
-      "name": "ストアを更新する",
-      "help": "リフレッシュにはダイヤモンド50個が必要です"
+      "name": "ショップ更新",
+      "help": "リフレッシュにはダイヤ50個が必要です"
     },
     "BuySkinBox": {
       "name": "外観装備ボックスを購入する",
@@ -3547,7 +3547,7 @@
       "help": "物資が550,000を超えたら、物資を消費するアイテムをすべて購入します。"
     },
     "Filter": {
-      "name": "ストアフィルター",
+      "name": "ショップフィルター",
       "help": ""
     }
   },
@@ -3557,98 +3557,98 @@
       "help": ""
     },
     "Refresh": {
-      "name": "ストアを更新する",
+      "name": "ショップ更新",
       "help": "リフレッシュには50フリートコインが必要です。フリートコインは価値がありません。開くことをお勧めします。"
     },
     "Filter": {
-      "name": "ストアフィルター",
+      "name": "ショップフィルター",
       "help": ""
     },
     "BOX_T3": {
-      "name": "紫色のボックスの選択",
+      "name": "紫箱選択",
       "help": "",
-      "eagle": "白いワシ",
+      "eagle": "ユニオン",
       "royal": "ロイヤル",
-      "sakura": "重そうな桜",
+      "sakura": "重桜",
       "ironblood": "鉄血"
     },
     "BOX_T4": {
-      "name": "ゴールドボックスセレクション",
+      "name": "金箱選択",
       "help": "",
-      "eagle": "白いワシ",
+      "eagle": "ユニオン",
       "royal": "ロイヤル",
-      "sakura": "重そうな桜",
+      "sakura": "重桜",
       "ironblood": "鉄血"
     },
     "BOOK_T2": {
-      "name": "紫色の本の選択",
+      "name": "紫教科書選択",
       "help": "",
       "red": "攻撃",
-      "blue": "防衛",
-      "yellow": "補助"
+      "blue": "防御",
+      "yellow": "支援"
     },
     "BOOK_T3": {
-      "name": "ゴールデンブックセレクション",
+      "name": "金教科書選択",
       "help": "",
       "red": "攻撃",
-      "blue": "防衛",
-      "yellow": "補助"
+      "blue": "防御",
+      "yellow": "支援"
     },
     "RETROFIT_T2": {
-      "name": "紫色のリノベーション図面セレクション",
+      "name": "紫改造図面選択",
       "help": "",
-      "dd": "追放する",
-      "cl": "クルージング",
-      "bb": "戦闘配列",
+      "dd": "駆逐",
+      "cl": "巡洋",
+      "bb": "戦艦",
       "cv": "空母"
     },
     "RETROFIT_T3": {
-      "name": "金変身描画選択",
+      "name": "金改造図面選択",
       "help": "",
-      "dd": "追放する",
-      "cl": "クルージング",
-      "bb": "戦闘配列",
+      "dd": "駆逐",
+      "cl": "巡洋",
+      "bb": "戦艦",
       "cv": "空母"
     },
     "PLATE_T2": {
-      "name": "青いパーツの選択",
+      "name": "青パーツ選択",
       "help": "",
-      "general": "ユニバーサル",
+      "general": "汎用",
       "gun": "主砲",
       "torpedo": "魚雷",
-      "antiair": "防空",
+      "antiair": "対空",
       "plane": "艦載機"
     },
     "PLATE_T3": {
-      "name": "紫色のパーツ選択",
+      "name": "紫パーツ選択",
       "help": "",
-      "general": "ユニバーサル",
+      "general": "汎用",
       "gun": "主砲",
       "torpedo": "魚雷",
-      "antiair": "防空",
+      "antiair": "対空",
       "plane": "艦載機"
     },
     "PLATE_T4": {
-      "name": "ゴールドパーツの選択",
+      "name": "金パーツ選択",
       "help": "",
-      "general": "ユニバーサル",
+      "general": "汎用",
       "gun": "主砲",
       "torpedo": "魚雷",
-      "antiair": "防空",
+      "antiair": "対空",
       "plane": "艦載機"
     },
     "PR1": {
-      "name": "第一段階の科学研究図面の選択",
+      "name": "一期研究設計図選択",
       "help": "",
       "neptune": "ネプチューン",
       "monarch": "君主",
       "ibuki": "いぶき",
       "izumo": "出雲",
-      "roon": "ロン",
-      "saintlouis": "ルイ9世"
+      "roon": "ローン",
+      "saintlouis": "サン・ルイ"
     },
     "PR2": {
-      "name": "第二段階の科学研究図面の選定",
+      "name": "二期研究設計図選択",
       "help": "",
       "seattle": "シアトル",
       "georgia": "ジョージア",
@@ -3656,86 +3656,86 @@
       "gascogne": "ガスコーニュ"
     },
     "PR3": {
-      "name": "第3段階の科学研究図面の選定",
+      "name": "三期研究設計図選択",
       "help": "",
       "cheshire": "チェシャー",
       "mainz": "マインツ",
       "odin": "オーディン",
-      "champagne": "シャンパン"
+      "champagne": "シャンパーニュ"
     }
   },
   "MedalShop2": {
     "_info": {
-      "name": "メリットストア（退職金交換所）",
+      "name": "功勲ショップ（退役交換）",
       "help": ""
     },
     "Filter": {
-      "name": "ストアフィルター",
+      "name": "ショップフィルター",
       "help": ""
     },
     "RETROFIT_T1": {
-      "name": "ブルーリノベーション図面選択",
+      "name": "青改造図面選択",
       "help": "",
-      "dd": "追放する",
-      "cl": "クルージング",
-      "bb": "戦闘配列",
+      "dd": "駆逐",
+      "cl": "巡洋",
+      "bb": "戦艦",
       "cv": "空母"
     },
     "RETROFIT_T2": {
-      "name": "紫色の改修図面選択",
+      "name": "紫改造図面選択",
       "help": "",
-      "dd": "追放する",
-      "cl": "クルージング",
-      "bb": "戦闘配列",
+      "dd": "駆逐",
+      "cl": "巡洋",
+      "bb": "戦艦",
       "cv": "空母"
     },
     "RETROFIT_T3": {
-      "name": "金色変身描画セレクション",
+      "name": "金改造図面選択",
       "help": "",
-      "dd": "追放する",
-      "cl": "クルージング",
-      "bb": "戦闘配列",
+      "dd": "駆逐",
+      "cl": "巡洋",
+      "bb": "戦艦",
       "cv": "空母"
     },
     "PLATE_T1": {
-      "name": "ホワイトパーツ選択",
+      "name": "白パーツ選択",
       "help": "",
-      "general": "ユニバーサル",
+      "general": "汎用",
       "gun": "主砲",
       "torpedo": "魚雷",
-      "antiair": "防空",
+      "antiair": "対空",
       "plane": "艦載機"
     },
     "PLATE_T2": {
       "name": "青いパーツの選択",
       "help": "",
-      "general": "ユニバーサル",
+      "general": "汎用",
       "gun": "主砲",
       "torpedo": "魚雷",
-      "antiair": "防空",
+      "antiair": "対空",
       "plane": "艦載機"
     },
     "PLATE_T3": {
       "name": "紫色のパーツ選択",
       "help": "",
-      "general": "ユニバーサル",
+      "general": "汎用",
       "gun": "主砲",
       "torpedo": "魚雷",
-      "antiair": "防空",
+      "antiair": "対空",
       "plane": "艦載機"
     }
   },
   "MeritShop": {
     "_info": {
-      "name": "軍需品店（運動店）",
+      "name": "軍需ショップ（演習ショップ）",
       "help": ""
     },
     "Refresh": {
-      "name": "ストアを更新する",
-      "help": "リフレッシュにはダイヤモンド20個が必要です"
+      "name": "ショップ更新",
+      "help": "リフレッシュにはダイヤ20個が必要です"
     },
     "Filter": {
-      "name": "ストアフィルター",
+      "name": "ショップフィルター",
       "help": ""
     }
   },
@@ -3745,7 +3745,7 @@
       "help": ""
     },
     "Filter": {
-      "name": "ストアフィルター",
+      "name": "ショップフィルター",
       "help": ""
     }
   },
@@ -3766,7 +3766,7 @@
     "ShipIndex": {
       "name": "出荷シリアル番号",
       "help": "左から右に1から数えます",
-      "0": "買わないでください",
+      "0": "購入しない",
       "1": "1",
       "2": "2",
       "3": "3",
@@ -3801,7 +3801,7 @@
     "ShipIndex": {
       "name": "出荷シリアル番号",
       "help": "左から右に1から数えます",
-      "0": "買わないでください",
+      "0": "購入しない",
       "1": "1",
       "2": "2",
       "3": "3",
@@ -3829,7 +3829,7 @@
       "light": "ライトプール",
       "heavy": "頑丈なプール",
       "special": "特別なプール",
-      "event": "アクティビティプール",
+      "event": "イベントプール",
       "wishing_well": "祈りのプール"
     },
     "Amount": {
@@ -3943,7 +3943,7 @@
     },
     "BuyCake": {
       "name": "毎週ケーキのギフトボックスを購入する",
-      "help": "ケーキギフトボックスの購入数は毎週月曜日にリセットされます\n実行するたびに、それらをすべて一度に購入しようとします。ダイヤモンドが不足している場合（ダイヤモンドが 210 個未満）、購入はキャンセルされ、翌日に延期されます。"
+      "help": "ケーキギフトボックスの購入数は毎週月曜日にリセットされます\n実行するたびに、すべて一度に購入しようとします。ダイヤが不足している場合（ダイヤが210個未満）、購入はキャンセルされ、翌日に延期されます。"
     },
     "TargetInteract": {
       "name": "日々のエネルギーをクリアに",
@@ -3952,17 +3952,17 @@
     "TargetShip": {
       "name": "毎日対話する艦娘を選択してください",
       "help": "毎日交流したい艦娘を選択してください",
-      "anchorage": "停泊地",
+      "anchorage": "アンカレッジ",
       "noshiro": "能代",
       "sirius": "シリウス",
       "new_jersey": "ニュージャージー",
-      "taihou": "ミソサザイ",
-      "aegir": "エギル"
+      "taihou": "大鳳",
+      "aegir": "エーギル"
     }
   },
   "Daily": {
     "_info": {
-      "name": "日々のタスク",
+      "name": "デイリー任務",
       "help": ""
     },
     "UseDailySkip": {
@@ -3970,15 +3970,15 @@
       "help": "デイリーレベルSに勝利すると、スイープがロック解除されます。ロックが解除されていない場合は、自動的に従来の攻撃に戻ります。"
     },
     "EscortMission": {
-      "name": "商船護衛（パーツブック、魚雷ブック）",
+      "name": "商船護衛（パーツ本、魚雷本）",
       "help": "",
-      "skip": "殴るなよ",
-      "first": "最初のもの",
-      "second": "2番",
-      "third": "三番目"
+      "skip": "スキップ",
+      "first": "1番目",
+      "second": "2番目",
+      "third": "3番目"
     },
     "EscortMissionFleet": {
-      "name": "出撃艦隊を護衛する商船",
+      "name": "商船護衛出撃艦隊",
       "help": "",
       "1": "1",
       "2": "2",
@@ -3988,15 +3988,15 @@
       "6": "6"
     },
     "AdvanceMission": {
-      "name": "シーラッシュ（教科書、自滅）",
+      "name": "海域突進（教材本、自爆本）",
       "help": "",
-      "skip": "殴るなよ",
-      "first": "最初のもの",
-      "second": "2番",
-      "third": "三番目"
+      "skip": "スキップ",
+      "first": "1番目",
+      "second": "2番目",
+      "third": "3番目"
     },
     "AdvanceMissionFleet": {
-      "name": "海域攻撃艦隊",
+      "name": "海域突進出撃艦隊",
       "help": "",
       "1": "1",
       "2": "2",
@@ -4006,15 +4006,15 @@
       "6": "6"
     },
     "FierceAssault": {
-      "name": "斬首作戦 (パッケージ版)",
+      "name": "斬首作戦（装備箱本）",
       "help": "",
-      "skip": "殴るなよ",
-      "first": "最初のもの",
-      "second": "2番",
-      "third": "三番目"
+      "skip": "スキップ",
+      "first": "1番目",
+      "second": "2番目",
+      "third": "3番目"
     },
     "FierceAssaultFleet": {
-      "name": "斬首攻撃艦隊作戦",
+      "name": "斬首作戦出撃艦隊",
       "help": "",
       "1": "1",
       "2": "2",
@@ -4024,12 +4024,12 @@
       "6": "6"
     },
     "TacticalTraining": {
-      "name": "戦術トレーニング (マインドブック)",
+      "name": "戦術研修（精神ユニット本）",
       "help": "",
-      "skip": "殴るなよ",
-      "first": "最初のもの",
-      "second": "2番",
-      "third": "三番目"
+      "skip": "スキップ",
+      "first": "1番目",
+      "second": "2番目",
+      "third": "3番目"
     },
     "TacticalTrainingFleet": {
       "name": "戦術訓練出撃艦隊",
@@ -4042,22 +4042,22 @@
       "6": "6"
     },
     "SupplyLineDisruption": {
-      "name": "外交打破（潜水艦編）",
+      "name": "破交作戦（潜水艦本）",
       "help": "クイックチャレンジはロックを解除する必要があります。ロックを解除しないとスキップされます",
-      "skip": "殴るなよ",
-      "first": "最初のもの",
-      "second": "2番",
-      "third": "三番目"
+      "skip": "スキップ",
+      "first": "1番目",
+      "second": "2番目",
+      "third": "3番目"
     },
     "ModuleDevelopment": {
-      "name": "軍事訓練（軍事訓練）",
+      "name": "兵装訓練（兵装本）",
       "help": "",
-      "skip": "殴るなよ",
-      "first": "最初のもの",
-      "second": "2番"
+      "skip": "スキップ",
+      "first": "1番目",
+      "second": "2番目"
     },
     "ModuleDevelopmentFleet": {
-      "name": "兵器訓練と出撃艦隊",
+      "name": "兵装訓練出撃艦隊",
       "help": "",
       "1": "1",
       "2": "2",
@@ -4067,14 +4067,14 @@
       "6": "6"
     },
     "EmergencyModuleDevelopment": {
-      "name": "期間限定武具訓練（期間限定武具書）",
+      "name": "限定兵装訓練（限定兵装本）",
       "help": "",
-      "skip": "殴るなよ",
-      "first": "最初のもの",
-      "second": "2番"
+      "skip": "スキップ",
+      "first": "1番目",
+      "second": "2番目"
     },
     "EmergencyModuleDevelopmentFleet": {
-      "name": "兵器訓練と出撃艦隊",
+      "name": "兵装訓練出撃艦隊",
       "help": "",
       "1": "1",
       "2": "2",
@@ -4086,11 +4086,11 @@
   },
   "Hard": {
     "_info": {
-      "name": "難易度図",
+      "name": "ハードマップ",
       "help": "日次難易度マップを実行するには、週次モードのロックを解除する必要があります。ロックを解除する前に、メインマップ機能を使用する必要があります。"
     },
     "HardStage": {
-      "name": "難しいレベル",
+      "name": "ハードステージ",
       "help": "例: 11-2、12-2、12-4"
     },
     "HardFleet": {
@@ -4102,18 +4102,18 @@
   },
   "Exercise": {
     "_info": {
-      "name": "エクササイズ",
-      "help": "ドリルをプレイし、血液量が少なすぎる場合は自動的に撤退します"
+      "name": "演習",
+      "help": "演習を実行し、HPが低すぎる場合は自動的に撤退します"
     },
     "DelayUntilHoursBeforeNextUpdate": {
-      "name": "次の更新の X 時間前までエクササイズを延期します",
+      "name": "次の更新のX時間前まで演習を延期する",
       "help": "",
       "1": "1",
       "2": "2",
       "3": "3",
       "4": "4",
       "5": "5",
-      "12": "延期しないでください"
+      "12": "延期しない"
     },
     "OpponentChooseMode": {
       "name": "対戦相手選択モード",
@@ -4121,38 +4121,38 @@
       "max_exp": "経験値が一番多い",
       "easiest": "最低の戦闘力",
       "leftmost": "最高ランク",
-      "easiest_else_exp": "最初は最も単純なもの、次に最も経験豊富なもの"
+      "easiest_else_exp": "最も簡単な相手優先、次に経験値最多"
     },
     "OpponentTrial": {
-      "name": "対戦相手ごとに X 回の試行",
+      "name": "対戦相手ごとにX回試行",
       "help": ""
     },
     "ExerciseStrategy": {
-      "name": "運動戦略",
-      "help": "5回キープすると設定時間にマーシャルに攻撃を挑み、日曜18時のリフレッシュで全回クリアとなります。",
-      "aggressive": "練習回数をクリアする",
-      "fri18": "金曜18時まで5回予約",
-      "sat0": "土曜0時まで5回予約",
-      "sat12": "土曜12時まで5回予約",
-      "sat18": "土曜は18時まで5回予約",
-      "sun0": "日曜0時まで5回予約",
-      "sun12": "日曜12時まで5回予約",
-      "sun18": "日曜18時まで5回貸切"
+      "name": "演習戦略",
+      "help": "5回保留すると設定時間に演習を開始し、日曜18時のリフレッシュで全回クリアとなります。",
+      "aggressive": "演習回数をクリアする",
+      "fri18": "金曜18時まで5回保留",
+      "sat0": "土曜0時まで5回保留",
+      "sat12": "土曜12時まで5回保留",
+      "sat18": "土曜18時まで5回保留",
+      "sun0": "日曜0時まで5回保留",
+      "sun12": "日曜12時まで5回保留",
+      "sun18": "日曜18時まで5回保留"
     },
     "LowHpThreshold": {
-      "name": "血液量が X を下回ったら撤退する",
-      "help": "0.0 ～ 1.0、上部の血液バーを検出"
+      "name": "HPがX以下になったら撤退する",
+      "help": "0.0～1.0、上部のHPバーを検出"
     },
     "LowHpConfirmWait": {
-      "name": "血液量が閾値を下回った後、X 秒後に撤退します",
-      "help": "キャラクターのポートレートが体力バーを覆うため、血液量が本当にしきい値を下回っているかどうかを確認するのにある程度の時間がかかるため、1.0〜3.0を推奨します。"
+      "name": "HPが閾値を下回った後、X秒後に撤退する",
+      "help": "キャラクターの立ち絵がHPバーを覆うため、HPが本当に閾値を下回っているか確認するのに時間がかかります。1.0～3.0を推奨します。"
     },
     "OpponentRefreshValue": {
-      "name": "今日の演習の対戦相手は X 回リフレッシュされました",
+      "name": "本日の演習対戦相手はX回リフレッシュされました",
       "help": "値は自動的に更新され、0時以降にリセットされます\n対戦相手を手動で更新する場合は、この値を変更する必要があります"
     },
     "OpponentRefreshRecord": {
-      "name": "練習の相手が記録時間を更新",
+      "name": "演習対戦相手リフレッシュ記録時間",
       "help": ""
     }
   },
@@ -4186,25 +4186,25 @@
   },
   "OpsiGeneral": {
     "_info": {
-      "name": "大きな世界の一般設定",
-      "help": "すべての大きな世界の機能はこれらの設定を使用します"
+      "name": "セイレーン作戦共通設定",
+      "help": "すべてのセイレーン作戦機能はこれらの設定を使用します"
     },
     "UseLogger": {
-      "name": "座標レコーダーの使用",
+      "name": "座標記録器を使用",
       "help": "倉庫に入るたびにすべての座標レコーダーを使用する"
     },
     "BuyActionPointLimit": {
-      "name": "購買力 X 倍",
-      "help": "電力購入の最大回数",
-      "0": "買わないでください",
-      "1": "1回（オイル1000、アクション100）",
-      "2": "2回（オイル2000、アクション200）",
-      "3": "3回（オイル4000、アクション400）",
-      "4": "4回（オイル6000、アクション600）",
-      "5": "5回（オイル10000、アクション1000）"
+      "name": "作戦記録をX回購入",
+      "help": "作戦記録の購入最大回数",
+      "0": "購入しない",
+      "1": "1回（燃料1000、作戦記録100）",
+      "2": "2回（燃料2000、作戦記録200）",
+      "3": "3回（燃料4000、作戦記録400）",
+      "4": "4回（燃料6000、作戦記録600）",
+      "5": "5回（燃料10000、作戦記録1000）"
     },
     "OilLimit": {
-      "name": "勢いを買うときは、X ポイントのオイルを保持してください",
+      "name": "作戦記録購入時、燃料Xを保留",
       "help": ""
     },
     "RepairThreshold": {
@@ -4224,11 +4224,11 @@
       "help": "自主索敵完了後、再度マップをスキャンし、明石ストアを購入し、サイレン情報収集装置を使用し、サイレン探知装置を使用し、2つの艦隊のメカニズムをアンロックします。"
     },
     "AkashiShopFilter": {
-      "name": "ストアフィルター",
+      "name": "ショップフィルター",
       "help": "デフォルトでは体力ナノダのみ購入されます。紫色のコインを購入したい場合は、「ActionPoint > PurpleCoins」に設定します。"
     },
     "NotifyOpsiMail": {
-      "name": "大きな世界に関連した情報をプッシュします",
+      "name": "セイレーン作戦関連情報をプッシュ",
       "help": "侵食1とショートキャットの情報をプッシュするには、同時に「エラープッシュ」機能をオンにする必要があります。情報量が多いので騒がしいかもしれません。"
     }
   },
@@ -4241,27 +4241,27 @@
       "name": "メタ戦闘",
       "help": "",
       "current": "今期",
-      "current_dossier": "最新号 + ファイル"
+      "current_dossier": "今期 + アーカイブ"
     },
     "OneHitMode": {
-      "name": "ワンクリックですぐに使える",
-      "help": "各ビーコンを 1 回だけ攻撃し、その後は 30 分ごとに支援を求めます。\nプロファイルビーコンでは機能しません"
+      "name": "一撃離脱",
+      "help": "各ビーコンに1回だけ出撃し、その後30分ごとに支援を呼びます。\nアーカイブビーコンでは機能しません"
     },
     "DossierAutoAttackMode": {
       "name": "アーカイブビーコン自動戦闘",
       "help": "アーカイブビーコンでの最初の戦闘の後、自動的に戦闘します。現在は中国サーバーでのみ利用可能です。"
     },
     "RequestAssist": {
-      "name": "サポートを求める",
-      "help": "ビーコンを設置する前に、友人、艦隊、世界に支援を求めてください\nプロファイルビーコンでは機能しません"
+      "name": "支援呼び出し",
+      "help": "ビーコンを攻撃する前に、フレンド・艦隊・全体から支援を呼びます\nアーカイブビーコンでは機能しません"
     },
     "EnsureFullyCollected": {
-      "name": "1 日あたり 200 個のビーコン データを収集することを保証",
-      "help": "コレクションがいっぱいになる前に、モビリティ保持設定は一時的に無視され、同時に「ショートキャット接続」をオンにする必要があります。"
+      "name": "毎日200ビーコンデータの収集を保証",
+      "help": "収集が満了するまで、行動力保留設定を一時的に無視します。同時に「ショートカット接続」をオンにする必要があります。"
     },
     "AutoCollectShip": {
-      "name": "新しいMETA船を自動的に取得します",
-      "help": "報酬を受け取ると、新しい META 船が自動的に取得されます。閉じると「クリックして同期」ボタンはクリックされなくなるため、手動で収集する必要があります。"
+      "name": "新META艦船を自動取得",
+      "help": "報酬受取時に新META艦船を自動取得します。オフにすると「クリックして同期」ボタンを押さなくなるため、手動で取得する必要があります。"
     }
   },
   "OpsiFleetFilter": {
@@ -4294,74 +4294,74 @@
   },
   "OpsiExplore": {
     "_info": {
-      "name": "大きな世界を開いてください",
-      "help": "毎月初めに、戦闘情報レコーダー（オイルプロップ5000個）を購入せずに、世界中のすべての海域を解放できます。\nこの機能は、空域探索を確実に冷却するために、27 分ごとに海域をクリアします。\nこの機能を使用する前に、次の条件を満たす必要があります。\n- 大きな世界のメインストーリーをクリアし、模擬戦闘 + セイレーン試験場を完了"
+      "name": "セイレーン作戦開拓",
+      "help": "毎月初めにセイレーン作戦の全海域を開拓します。作戦情報記録装置（燃料5000の道具）の購入は不要です。\nこの機能は空域探索のクールダウンを確保するため、27分ごとに海域をクリアします。\nこの機能を使用する前に以下の条件を満たす必要があります：\n- セイレーン作戦のメインストーリーをクリアし、模擬戦闘＋セイレーン試験場を完了"
     },
     "SpecialRadar": {
-      "name": "戦闘情報レコーダーを購入しました（石油小道具5000個）",
-      "help": "戦闘情報レコーダーを購入する必要はありません\n購入して使用しないと確認できません"
+      "name": "作戦情報記録装置を購入済み（燃料5000の道具）",
+      "help": "作戦情報記録装置を購入する必要はありません。\n購入済みでも未使用だと確認できません。"
     },
     "ForceRun": {
       "name": "実行間隔に関係なく強制実行",
-      "help": "オンにすると、追加の機動性が消費されます。通常、電源を入れる必要はなく、ゆっくり再生してください。"
+      "help": "オンにすると、追加の行動力が消費されます。通常はオンにする必要はなく、のんびりプレイしてください。"
     },
     "IfSkipSirenResearch": {
-      "name": "スキップサイレン研究装置",
-      "help": "オンにすると、バグ修正を容易にするために、座標レベルに対応するサイレン研究装置がスキップされます。\nいくつかの海域で予備的なテストが行​​われたが、毎月の完全な埋め立ては完了しておらず、未知の問題が存在する可能性がある。",
-      "0": "スキップしないでください",
+      "name": "セイレーン研究装置をスキップ",
+      "help": "オンにすると、座標レベルに対応するセイレーン研究装置をスキップし、バグ回避を容易にします。\n一部の海域でテスト済みですが、毎月の完全開拓は未完了のため、未知の問題が存在する可能性があります。",
+      "0": "スキップしない",
       "6": "レベル6のみスキップ",
-      "65": "レベル6とレベル5をスキップします",
-      "654": "レベル 6、レベル 5、およびレベル 4 をスキップします"
+      "65": "レベル6とレベル5をスキップ",
+      "654": "レベル6、レベル5、レベル4をスキップ"
     },
     "SkipedSirenResearch": {
-      "name": "サイレン研究装置の海域を飛び越えた",
-      "help": "この値は自動的に記録されるため、手動で変更する必要はありません。\n月初めに開墾を行うか、「最後に完了した面積」を0にして再度月次開墾を実行するとリセットされます。"
+      "name": "セイレーン研究装置をスキップした海域",
+      "help": "この値は自動的に記録されるため、手動で変更する必要はありません。\n月初めに開拓を行うか、「最後に完了した海域」を0にして再度月次開拓を実行するとリセットされます。"
     },
     "LastZone": {
-      "name": "最後に完成したエリア",
-      "help": "自動的に更新される値。進行状況をリセットするには、0 を入力します。リセット後は開放海域は自動でスキップされます。\n海域ID、国内サーバー/国際サーバー/日本サーバー/台湾サーバー海域名（「51」、「NA Ocean SE Sector E」、「NA Ocean SE Sector E」など）をサポート"
+      "name": "最後に完了した海域",
+      "help": "自動的に更新される値。進行状況をリセットするには0を入力します。リセット後は開放済み海域は自動でスキップされます。\n海域ID、中国サーバー/グローバルサーバー/日本サーバー/台湾サーバーの海域名をサポート（例：「51」「NA Ocean SE Sector E」など）"
     }
   },
   "OpsiShop": {
     "_info": {
-      "name": "大きな世界の店",
-      "help": "この機能を使用する前に、次の条件を満たす必要があります。\n- 大きな世界のメインストーリーをクリアし、模擬戦闘 + セイレーン試験場を完了\n- 大規模な世界開拓ミッションを有効にするか、キャンペーン情報レコーダー (5000 個の石油小道具) を使用します\n・大世界の本線、つまり港の商店をクリアした翌月からは、新バージョンの商店となり利用できるようになります。"
+      "name": "セイレーン作戦ショップ",
+      "help": "この機能を使用する前に以下の条件を満たす必要があります：\n- セイレーン作戦のメインストーリーをクリアし、模擬戦＋セイレーン試験場を完了\n- セイレーン作戦開拓ミッションを有効にするか、作戦情報記録装置（燃料5000の道具）を使用します\n- セイレーン作戦メインストーリークリア翌月、港ショップが新バージョンになってから利用可能"
     },
     "PresetFilter": {
-      "name": "ポートストアフィルター",
-      "help": "一般的には、デフォルトで十分です。無料チケットが溢れている場合は「高額アイテムとメタ素材」を選択するのがおすすめです。初心者の場合は、「META マテリアルを購入しない」を選択することをお勧めします。これにより、METAマテリアルを除くすべてが購入されます。\n高価値アイテムは機動性、コーディネート、ゴールド以上の製品です。 METAマテリアルにはMETA一般戦術書と4種類の強化素材が含まれます。",
-      "max_benefit": "価値の高いアイテム",
-      "max_benefit_meta": "高価値品とMETA素材",
-      "no_meta": "META素材を購入しないでください",
+      "name": "港ショップフィルター",
+      "help": "通常はデフォルトで十分です。白チケットが溢れている場合は「高価値アイテムとMETA素材」がおすすめです。初心者は「META素材を購入しない」を選択すると、META素材以外の全てが購入されます。\n高価値アイテムは行動力、座標、金以上の商品です。META素材にはMETA汎用教材と4種類の強化素材が含まれます。",
+      "max_benefit": "高価値アイテム",
+      "max_benefit_meta": "高価値アイテムとMETA素材",
+      "no_meta": "META素材を購入しない",
       "all": "全て",
-      "custom": "カスタマイズ"
+      "custom": "カスタム"
     },
     "CustomFilter": {
       "name": "カスタムフィルター",
-      "help": "カスタム フィルターを使用するには、「ポート ストア フィルター」を「カスタム」に設定し、https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn を読む必要があります。"
+      "help": "カスタムフィルターを使用するには「港ショップフィルター」を「カスタム」に設定し、https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn を参照してください。"
     },
     "DisableBeforeDate": {
-      "name": "毎月 X 日より前に Big World Store から購入しないでください",
-      "help": "指定日の翌日から1日1回ビッグワールドストアを購入する\n0 は制限なし、毎日購入することを意味します"
+      "name": "毎月X日以前にセイレーン作戦ショップで購入しない",
+      "help": "指定日の翌日から1日1回セイレーン作戦ショップで購入する\n0は制限なし、毎日購入することを意味します"
     }
   },
   "OpsiVoucher": {
     "_info": {
       "name": "特別引換店舗（月額ホワイトチケットストア）",
-      "help": "月刊ホワイトチケットストアを購入する\nこの機能を使用する前に、次の条件を満たす必要があります。\n- 大きな世界のメインストーリーをクリアし、模擬戦闘 + セイレーン試験場を完了"
+      "help": "月額ホワイトチケットストアを購入する\nこの機能を使用する前に、次の条件を満たす必要があります。\n- セイレーン作戦のメインストーリーをクリアし、模擬戦闘 + セイレーン試験場を完了"
     },
     "Filter": {
-      "name": "ストアフィルター",
+      "name": "ショップフィルター",
       "help": "参考ドキュメント https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string"
     }
   },
   "OpsiDaily": {
     "_info": {
-      "name": "大きな世界の毎日",
-      "help": "この機能を使用する前に、次の条件を満たす必要があります。\n- 大きな世界のメインストーリーをクリアし、模擬戦闘 + セイレーン試験場を完了\n- 大規模な世界開拓ミッションを有効にするか、キャンペーン情報レコーダー (5000 個の石油小道具) を使用します"
+      "name": "セイレーン作戦デイリー",
+      "help": "この機能を使用する前に、次の条件を満たす必要があります。\n- 大きな世界のメインストーリーをクリアし、模擬戦＋セイレーン試験場を完了\n- セイレーン作戦開拓ミッションを有効にするか、作戦情報記録装置（燃料5000の道具）を使用します"
     },
     "DoMission": {
-      "name": "世界を毎日大きくする",
+      "name": "セイレーン作戦デイリーを実行",
       "help": "毎日港で受け取り、毎日すべて完了します"
     },
     "UseTuningSample": {
@@ -4383,32 +4383,32 @@
   },
   "OpsiObscure": {
     "_info": {
-      "name": "隠された海",
-      "help": "空域探索のクールダウンを確保するために、27 分ごとに隠された海域をクリアします\nこの機能を使用する前に、次の条件を満たす必要があります。\n- 大きな世界のメインストーリーをクリアし、模擬戦闘 + セイレーン試験場を完了\n- 大規模な世界開拓ミッションを有効にするか、キャンペーン情報レコーダー (5000 個の石油小道具) を使用します"
+      "name": "隠秘海域",
+      "help": "空域探索のクールダウンを確保するために、27 分ごとに隠された海域をクリアします\nこの機能を使用する前に、次の条件を満たす必要があります。\n- 大きな世界のメインストーリーをクリアし、模擬戦＋セイレーン試験場を完了\n- セイレーン作戦開拓ミッションを有効にするか、作戦情報記録装置（燃料5000の道具）を使用します"
     },
     "SkipHazard2Obscure": {
-      "name": "レベル 2 座標をクリーンアップしないでください",
-      "help": "オンにすると浸食レベル2の秘海域は影響を受けなくなります。"
+      "name": "レベル2座標をクリアしない",
+      "help": "オンにすると、侵食レベル2の隠秘海域を攻撃しません。"
     },
     "ForceRun": {
       "name": "実行間隔に関係なく強制実行",
-      "help": "オンにすると、追加の機動性が消費されます。通常、電源を入れる必要はなく、ゆっくり再生してください。"
+      "help": "オンにすると、追加の行動力が消費されます。通常はオンにする必要はなく、のんびりプレイしてください。"
     }
   },
   "OpsiAbyssal": {
     "_info": {
-      "name": "深海",
-      "help": "倉庫内の深海座標をクリアする\nこの機能を使用する前に、次の条件を満たす必要があります。\n- 大きな世界のメインストーリーをクリアし、模擬戦闘 + セイレーン試験場を完了\n- 大規模な世界開拓ミッションを有効にするか、キャンペーン情報レコーダー (5000 個の石油小道具) を使用します"
+      "name": "深淵海域",
+      "help": "倉庫内の深海座標をクリアする\nこの機能を使用する前に、次の条件を満たす必要があります。\n- 大きな世界のメインストーリーをクリアし、模擬戦＋セイレーン試験場を完了\n- セイレーン作戦開拓ミッションを有効にするか、作戦情報記録装置（燃料5000の道具）を使用します"
     },
     "ForceRun": {
       "name": "実行間隔に関係なく強制実行",
-      "help": "オンにすると、追加の機動性が消費されます。通常、電源を入れる必要はなく、ゆっくり再生してください。"
+      "help": "オンにすると、追加の行動力が消費されます。通常はオンにする必要はなく、のんびりプレイしてください。"
     }
   },
   "OpsiStronghold": {
     "_info": {
       "name": "セイレーン要塞",
-      "help": "毎週のセイレーン要塞を掃除する\nこの機能を使用する前に、次の条件を満たす必要があります。\n- 大きな世界のメインストーリーをクリアし、模擬戦闘 + セイレーン試験場を完了\n- 大規模な世界開拓ミッションを有効にするか、キャンペーン情報レコーダー (5000 個の石油小道具) を使用します"
+      "help": "毎週のセイレーン要塞を掃除する\nこの機能を使用する前に、次の条件を満たす必要があります。\n- 大きな世界のメインストーリーをクリアし、模擬戦＋セイレーン試験場を完了\n- セイレーン作戦開拓ミッションを有効にするか、作戦情報記録装置（燃料5000の道具）を使用します"
     },
     "SubmarineEveryCombat": {
       "name": "潜水艦は戦闘ごとに攻撃する",
@@ -4416,7 +4416,7 @@
     },
     "ForceRun": {
       "name": "実行間隔に関係なく強制実行",
-      "help": "オンにすると、追加の機動性が消費されます。通常、電源を入れる必要はなく、ゆっくり再生してください。"
+      "help": "オンにすると、追加の行動力が消費されます。通常はオンにする必要はなく、のんびりプレイしてください。"
     },
     "HasStronghold": {
       "name": "OpsiStronghold.HasStronghold.name",
@@ -4426,35 +4426,35 @@
   "OpsiMonthBoss": {
     "_info": {
       "name": "マンスリーボス",
-      "help": "(簡単/難しい) マンスリーボスを掃除します。難易度イージーで失敗しても倒すまで攻撃し続けることになる。難易度ハードで失敗すると、ミッションは直接終了します。\nこの機能を使用するには、次の条件が必要です。\n- 大きな世界のメインストーリーをクリアし、模擬戦闘 + セイレーン試験場を完了\n- 大規模な世界開拓ミッションを有効にするか、キャンペーン情報レコーダー (5000 個の石油小道具) を使用します"
+      "help": "（簡単/ハード）マンスリーボスをクリアします。簡単難易度で失敗しても倒すまで出撃し続けます。ハード難易度で失敗するとミッションは直接終了します。\nこの機能を使用するには以下の条件が必要です：\n- セイレーン作戦のメインストーリーをクリアし、模擬戦＋セイレーン試験場を完了\n- セイレーン作戦開拓ミッションを有効にするか、作戦情報記録装置（燃料5000の道具）を使用します"
     },
     "Mode": {
-      "name": "マンスリーボスの難易度をクリアする",
+      "name": "マンスリーボスのクリア難易度",
       "help": "",
-      "normal": "単純",
-      "normal_hard": "簡単 + 難しい"
+      "normal": "簡単",
+      "normal_hard": "簡単 + ハード"
     },
     "CheckAdaptability": {
-      "name": "適応力が 203/203/156 を超えている場合にのみ BOSS と戦ってください。",
+      "name": "適応性が203/203/156以上の場合のみBOSS戦",
       "help": ""
     },
     "ForceRun": {
       "name": "実行間隔に関係なく強制実行",
-      "help": "オンにすると、追加の機動性が消費されます。通常、電源を入れる必要はなく、ゆっくり再生してください。"
+      "help": "オンにすると、追加の行動力が消費されます。通常はオンにする必要はなく、のんびりプレイしてください。"
     }
   },
   "OpsiMeowfficerFarming": {
     "_info": {
-      "name": "背の低い猫の出会い",
-      "help": "指定された侵食レベルの海域を時計回りに攻撃する\nこの機能を使用する前に、次の条件を満たす必要があります。\n- 大きな世界のメインストーリーをクリアし、模擬戦闘 + セイレーン試験場を完了\n- 大規模な世界開拓ミッションを有効にするか、キャンペーン情報レコーダー (5000 個の石油小道具) を使用します"
+      "name": "ショートカット接続",
+      "help": "指定された侵食レベルの海域を時計回りに攻撃する\nこの機能を使用する前に以下の条件を満たす必要があります：\n- セイレーン作戦のメインストーリーをクリアし、模擬戦＋セイレーン試験場を完了\n- セイレーン作戦開拓ミッションを有効にするか、作戦情報記録装置（燃料5000の道具）を使用します"
     },
     "ActionPointPreserve": {
-      "name": "X ポイントのアクションを保持する",
-      "help": "モビリティがX以下になると停止し、モビリティボックスが自動的に開きます。\nこの値は、大きな世界がリセットされる 3 日前に自動的に 200 ポイントに減ります。浸食1レベリングが有効な場合は1000ポイントに変更され、最終日には自動的に0ポイントに減ります。"
+      "name": "行動力をXポイント保留",
+      "help": "行動力がX以下になると停止し、行動力ボックスを自動で開きます。\nこの値はセイレーン作戦リセット3日前に自動的に200ポイントに減ります。侵食1レベリングが有効な場合は1000ポイントに変更され、最終日には自動的に0ポイントに減ります。"
     },
     "HazardLevel": {
-      "name": "浸食レベル",
-      "help": "特定の浸食レベルの海域を時計回りに攻撃する\n猫のポイント/アクションの比率が高い 5 または 3 を選択することをお勧めします。",
+      "name": "侵食レベル",
+      "help": "指定した侵食レベルの海域を時計回りに攻撃します。\n指揮ニャポイント/行動力の比率が高い5または3を選択するのがおすすめです。",
       "2": "2",
       "3": "3",
       "4": "4",
@@ -4608,8 +4608,8 @@
   },
   "OpsiScheduling": {
     "_info": {
-      "name": "インテリジェントなスケジューリング",
-      "help": "ビッグワールドのインテリジェントなスケジューリング機能は、侵食 1 のレベリングとイエロー コインの補充タスク間の切り替えを調整するために使用されます。\n有効にすると、さまざまなタスクが自動的に切り替わり、ゴールド コインとモビリティに基づいてプッシュ通知が送信されます。\n\n悲しいかな、オリジナルのいくつかの絶対確実な制限が解除されました。パラメータを慎重に設定してください。"
+      "name": "インテリジェントスケジューリング",
+      "help": "セイレーン作戦のインテリジェントスケジューリング機能は、侵蝕1レベリングとイエローコイン補充タスク間の切り替えを調整します。\n有効にすると、さまざまなタスクが自動的に切り替わり、ゴールド コインとモビリティに基づいてプッシュ通知が送信されます。\n\n悲しいかな、オリジナルのいくつかの絶対確実な制限が解除されました。パラメータを慎重に設定してください。"
     },
     "UseSmartSchedulingOperationCoinsPreserve": {
       "name": "X 個の戦闘物資引換券を入手する",
@@ -4722,8 +4722,8 @@
   },
   "OpsiDaemon": {
     "_info": {
-      "name": "ビッグワールドセミオートマチック",
-      "help": "大世界の深淵（赤宝箱マップ）を攻略するときや、大世界の本線をクリアするときに役立ち、手動操作を大幅に軽減できる。\n悲しいことに、クリックして戦闘の準備をしたり、クリックして戦闘を解決したり、プロットをスキップしたり、さまざまなポップアップ ウィンドウを閉じたりするのに役立ちます。敵を手動で選択し、海域を手動で切り替えるだけです。"
+      "name": "セイレーン作戦セミオート",
+      "help": "セイレーン作戦の深淵（赤宝箱マップ）を攻略する時や、セイレーン作戦のメインストーリーをクリアする時に役立ち、手動操作を大幅に軽減できます。\n戦闘準備のクリック、戦闘解決のクリック、ストーリーのスキップ、各種ポップアップウィンドウを閉じる操作を行います。敵の選択と海域の切り替えのみ手動で行う必要があります。"
     },
     "RepairShip": {
       "name": "港に近づくと自動的に船を修理します",
@@ -4737,7 +4737,7 @@
   "EventStory": {
     "_info": {
       "name": "イベントストーリー",
-      "help": "イベントプロットを完成させます。起動時刻20241219以降のアクティビティにのみ適用されます。3分ほどお待ちください。"
+      "help": "イベントストーリーを完了させます。開始時刻20241219以降のイベントにのみ適用されます。3分ほどお待ちください。"
     },
     "SkipBattle": {
       "name": "ゲームをキルし、戦闘をスキップする",
@@ -4928,18 +4928,18 @@
       "YearsAgo": "数年前",
       "LongTimeAgo": "ずっと前に",
       "NoData": "データなし",
-      "Oil": "油",
-      "Coin": "用品",
-      "Gem": "ダイヤモンド",
-      "Cube": "ルービックキューブ",
-      "Pt": "アクティビティPT",
-      "YellowCoin": "ビッグワールドイエローコイン",
-      "PurpleCoin": "ビッグワールド紫コイン",
-      "ActionPoint": "モビリティ",
-      "Merit": "功績のある行為",
-      "Medal": "メダル",
+      "Oil": "燃料",
+      "Coin": "資金",
+      "Gem": "ダイヤ",
+      "Cube": "キューブ",
+      "Pt": "イベントPT",
+      "YellowCoin": "セイレーン作戦イエローコイン",
+      "PurpleCoin": "セイレーン作戦パープルコイン",
+      "ActionPoint": "行動力",
+      "Merit": "戦果",
+      "Medal": "勲章",
       "Core": "コアデータ",
-      "GuildCoin": "フリートコイン"
+      "GuildCoin": "大艦隊コイン"
     },
     "AddAlas": {
       "PopupTitle": "新しい構成を追加する",

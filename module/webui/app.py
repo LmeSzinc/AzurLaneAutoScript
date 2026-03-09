@@ -439,31 +439,20 @@ class AlasGUI(Frame):
                         put_html(build_title_block('每日经验检测'))
                         put_row([put_text(f"检测时间: {last_check_time}"), put_text(f"目标等级: {target_level}")])
                         if ships_data:
-                            exp_labels = ["舰位", "等级", "当前经验", "总经验", "距目标经验", "还需出击", "预计时间"]
+                            exp_labels = ["舰位", "等级", "当前经验(本级)", "总经验", "距目标经验", "还需出击", "预计时间"]
                             exp_rows = []
-                            from module.statistics.ship_exp_stats import LIST_SHIP_EXP
+                            from module.statistics.opsi_month import get_opsi_stats as get_opsi_stats_inner
+                            current_battles = get_opsi_stats_inner(instance_name=instance_name).summary().get('total_battles', 0)
                             for ship in ships_data:
-                                position = ship.get("position", "-")
-                                level = ship.get("level", "-")
-                                current_exp = ship.get("current_exp", "-")
-                                total_exp = ship.get("total_exp", "-")
-                                exp_needed = ship.get("exp_needed", 0)
-                                battles_needed = ship.get("battles_needed", 0)
-                                time_needed = ship.get("time_needed", 0)
-
-                                if exp_needed > 0:
-                                    if time_needed < 60:
-                                        time_str = f"{time_needed:.0f}分钟"
-                                    else:
-                                        time_str = f"{time_needed/60:.1f}小时"
-                                else:
-                                    time_str = "已满"
-
+                                progress = exp_stats.calculate_progress(ship, target_level, current_battles)
                                 exp_rows.append([
-                                    position, level, current_exp, total_exp,
-                                    exp_needed if exp_needed > 0 else "-",
-                                    battles_needed if battles_needed > 0 else "-",
-                                    time_str
+                                    progress['position'],
+                                    progress['level'],
+                                    progress['current_exp'],
+                                    progress['total_exp'],
+                                    progress['exp_needed'] if progress['exp_needed'] > 0 else "-",
+                                    progress['battles_needed'] if progress['battles_needed'] > 0 else "-",
+                                    progress['time_needed']
                                 ])
 
                             put_html(build_simple_table(exp_labels, exp_rows))
