@@ -4561,6 +4561,12 @@
       "name": "Map Coordinates of the Device",
       "help": "Specify the coordinates of the Siren Research Device on the map. If empty, will scan the map to find it.\nCoordinate format is an uppercase letter for column + Arabic numeral for row, e.g. \"B10\" means column 2, row 10.\nThe top-left grid is \"A1\". Column increases by one moving right, row increases by one moving down."
     },
+    "SirenBug_SyncDailyCount": {
+      "name": "同步每日利用次数",
+      "help": "同步每日已利用塞壬研究装置 Bug 的次数",
+      "True": "是",
+      "False": "否"
+    },
     "DisableTaskSwitchDuringBug": {
       "name": "Disable Scheduler Task Switching During Bug Exploit",
       "help": "Temporarily disable the scheduler's task switching check during bug exploitation to avoid being interrupted by commission, daily and other tasks.\nEnable this option if the bug exploit process is often interrupted by other due tasks.",

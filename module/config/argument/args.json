@@ -12627,6 +12627,14 @@
         "type": "input",
         "value": null
       },
+      "SirenBug_SyncDailyCount": {
+        "type": "checkbox",
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
+      },
       "DisableTaskSwitchDuringBug": {
         "type": "checkbox",
         "value": false,
@@ -12773,6 +12781,14 @@
       "SirenBug_Grid": {
         "type": "input",
         "value": null
+      },
+      "SirenBug_SyncDailyCount": {
+        "type": "checkbox",
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
       },
       "DisableTaskSwitchDuringBug": {
         "type": "checkbox",

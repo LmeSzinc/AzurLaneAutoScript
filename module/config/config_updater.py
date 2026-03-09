@@ -803,6 +803,12 @@ class ConfigUpdater:
         elif key == 'OpsiMeowfficerFarming.OpsiMeowfficerFarming.ActionPointPreserve':
             if value and int(value) > 0:
                 yield 'OpsiScheduling.OpsiScheduling.ActionPointPreserve', value
+
+        # 短猫卡吊机与塞壬bug利用的共享计数开关双向同步
+        if key == 'OpsiHazard1Leveling.OpsiSirenBug.SirenBug_SyncDailyCount':
+            yield 'OpsiMeowfficerFarming.OpsiSirenBug.SirenBug_SyncDailyCount', value
+        elif key == 'OpsiMeowfficerFarming.OpsiSirenBug.SirenBug_SyncDailyCount':
+            yield 'OpsiHazard1Leveling.OpsiSirenBug.SirenBug_SyncDailyCount', value
         # Oh no, dynamic dropdown update can only be used on pywebio > 1.8.0
         # elif key == 'Alas.Emulator.ScreenshotMethod' and value == 'nemu_ipc':
         #     yield 'Alas.Emulator.ControlMethod', 'nemu_ipc'

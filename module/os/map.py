@@ -30,6 +30,97 @@ from module.ui.page import page_os
 
 
 class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
+    SIREN_BUG_TASKS = ('OpsiHazard1Leveling', 'OpsiMeowfficerFarming')
+
+    def _get_siren_bug_task_pair(self):
+        task = self.config.task.command if self.config.task.command in self.SIREN_BUG_TASKS else 'OpsiHazard1Leveling'
+        peer_task = 'OpsiMeowfficerFarming' if task == 'OpsiHazard1Leveling' else 'OpsiHazard1Leveling'
+        return task, peer_task
+
+    def _get_siren_bug_zone(self, task):
+        return self.config.cross_get(keys=f"{task}.OpsiSirenBug.SirenBug_Zone", default=0)
+
+    def _normalize_siren_bug_zone(self, task, zone=None, log_invalid=False):
+        zone = self._get_siren_bug_zone(task) if zone is None else zone
+        if not zone:
+            return None
+        try:
+            return self.name_to_zone(zone)
+        except Exception:
+            if log_invalid:
+                logger.warning(f'SirenBug海域配置无法解析，跳过同步: task={task}, zone={zone}')
+            return None
+
+    def _get_siren_bug_sync_state(self):
+        task, peer_task = self._get_siren_bug_task_pair()
+        task_sync_enabled = bool(self.config.cross_get(keys=f"{task}.OpsiSirenBug.SirenBug_SyncDailyCount", default=False))
+        peer_sync_enabled = bool(self.config.cross_get(keys=f"{peer_task}.OpsiSirenBug.SirenBug_SyncDailyCount", default=False))
+        if not (task_sync_enabled and peer_sync_enabled):
+            return {
+                'task': task,
+                'peer_task': peer_task,
+                'enabled': False,
+                'zone': None,
+                'peer_zone': None,
+            }
+
+        zone = self._normalize_siren_bug_zone(task, log_invalid=True)
+        peer_zone = self._normalize_siren_bug_zone(peer_task, log_invalid=True)
+        if zone is None or peer_zone is None:
+            return {
+                'task': task,
+                'peer_task': peer_task,
+                'enabled': False,
+                'zone': zone,
+                'peer_zone': peer_zone,
+            }
+
+        if zone.zone_id != peer_zone.zone_id:
+            logger.info(f'SirenBug共享次数已启用但海域不同，跳过同步: {task}={zone}, {peer_task}={peer_zone}')
+            return {
+                'task': task,
+                'peer_task': peer_task,
+                'enabled': False,
+                'zone': zone,
+                'peer_zone': peer_zone,
+            }
+
+        logger.info(f'SirenBug共享次数已启用且海域一致，使用共享次数: zone={zone}, tasks={task}/{peer_task}')
+        return {
+            'task': task,
+            'peer_task': peer_task,
+            'enabled': True,
+            'zone': zone,
+            'peer_zone': peer_zone,
+        }
+
+    def _get_siren_bug_effective_daily_count(self):
+        sync_state = self._get_siren_bug_sync_state()
+        task = sync_state['task']
+        count = self.config.cross_get(keys=f"{task}.OpsiSirenBug.SirenBug_DailyCount", default=0)
+        if sync_state['enabled']:
+            peer_task = sync_state['peer_task']
+            peer_count = self.config.cross_get(keys=f"{peer_task}.OpsiSirenBug.SirenBug_DailyCount", default=0)
+            if count != peer_count:
+                logger.info(f'SirenBug共享次数发现不一致，自动归一: {task}={count}, {peer_task}={peer_count}')
+            count = max(count, peer_count)
+            self._set_siren_bug_daily_count(count, sync_state=sync_state)
+        return count, sync_state
+
+    def _set_siren_bug_daily_count(self, count, record=None, sync_state=None):
+        sync_state = self._get_siren_bug_sync_state() if sync_state is None else sync_state
+        task = sync_state['task']
+        record = datetime.now() if record is None else record
+        self.config.cross_set(keys=f"{task}.OpsiSirenBug.SirenBug_DailyCount", value=count)
+        self.config.cross_set(keys=f"{task}.OpsiSirenBug.SirenBug_DailyCountRecord", value=record)
+        if sync_state['enabled']:
+            peer_task = sync_state['peer_task']
+            self.config.cross_set(keys=f"{peer_task}.OpsiSirenBug.SirenBug_DailyCount", value=count)
+            self.config.cross_set(keys=f"{peer_task}.OpsiSirenBug.SirenBug_DailyCountRecord", value=record)
+
+    def _reset_siren_bug_daily_count(self, sync_state=None):
+        self._set_siren_bug_daily_count(0, sync_state=sync_state)
+
     def os_init(self):
         """
         Call this method before doing any Operation functions.
@@ -101,7 +192,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
             self.map_exit()
 
         # 如果当前海域是塞壬Bug利用海域，回到最近港口
-        task = self.config.task.command if self.config.task.command in ['OpsiHazard1Leveling', 'OpsiMeowfficerFarming'] else 'OpsiHazard1Leveling'
+        task, _ = self._get_siren_bug_task_pair()
         siren_bug_zone = self.config.cross_get(keys=f"{task}.OpsiSirenBug.SirenBug_Zone", default=0)
         if siren_bug_zone:
             try:
@@ -1184,7 +1275,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
         Returns:
             bool: True if enabled, False otherwise
         """
-        task = self.config.task.command if self.config.task.command in ['OpsiHazard1Leveling', 'OpsiMeowfficerFarming'] else 'OpsiHazard1Leveling'
+        task, _ = self._get_siren_bug_task_pair()
         return self.config.cross_get(keys=f"{task}.OpsiSirenBug.SirenResearch_Enable")
 
     def _should_skip_siren_research(self, grid):
@@ -1280,7 +1371,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
                 logger.info(f'[地图检测] 移动结果: {result}')
 
                 # ========== 配置检查 ==========
-                task = self.config.task.command if self.config.task.command in ['OpsiHazard1Leveling', 'OpsiMeowfficerFarming'] else 'OpsiHazard1Leveling'
+                task, _ = self._get_siren_bug_task_pair()
                 siren_research_enabled = self.config.cross_get(keys=f"{task}.OpsiSirenBug.SirenResearch_Enable")
                 if not siren_research_enabled:
                     logger.warning('[配置检查] 塞壬研究装置功能已禁用,标记但不处理')
@@ -1880,7 +1971,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
             None
         """
         # 23:55 - 00:05 跳过处理
-        task = self.config.task.command if self.config.task.command in ['OpsiHazard1Leveling', 'OpsiMeowfficerFarming'] else 'OpsiHazard1Leveling'
+        task, _ = self._get_siren_bug_task_pair()
         if self.config.cross_get(keys=f"{task}.OpsiSirenBug.SirenBug_CrossDay", default=False):
             from datetime import time as dt_time
             now = datetime.now()
@@ -1950,19 +2041,19 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
                 return
             
             logger.info(f'当前区域: {source_zone}, 目标区域: {target_zone}')
-            
+            count, sync_state = self._get_siren_bug_effective_daily_count()
+
             # 跳转至指定高侵蚀区域
             with self.config.temporary(STORY_ALLOW_SKIP=False):
                 self.os_map_goto_globe(unpin=False)
                 self.globe_goto(target_zone, types=(siren_bug_type.upper(),), refresh=True)
                 self.zone_init()
-                
+
                 # Siren bug count sleep
-                SirenBug_DailyCount = self.config.cross_get(keys=f"{task}.OpsiSirenBug.SirenBug_DailyCount", default=0)
-                if SirenBug_DailyCount > 0:
-                    logger.info(f'塞壬 Bug 今日已使用 {SirenBug_DailyCount} 次，自律前等待 {SirenBug_DailyCount} 秒')
+                if count > 0:
+                    logger.info(f'塞壬 Bug 今日已使用 {count} 次，自律前等待 {count} 秒')
                     logger.info('【设计说明】等待秒数与当日计数绑定，用于节奏控制与行为可观测性')
-                    time.sleep(SirenBug_DailyCount)
+                    time.sleep(count)
 
                 target_grid = self.config.cross_get(keys=f"{task}.OpsiSirenBug.SirenBug_Grid", default=None)
                 device_handled = False
@@ -2066,10 +2157,9 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
                         raise RuntimeError('未找到塞壬研究装置')
 
             # Increase bug count
-            count = self.config.cross_get(keys=f"{task}.OpsiSirenBug.SirenBug_DailyCount", default=0)
             count += 1
-            self.config.cross_set(keys=f"{task}.OpsiSirenBug.SirenBug_DailyCount", value=count)
-            self.config.cross_set(keys=f"{task}.OpsiSirenBug.SirenBug_DailyCountRecord", value=datetime.now())
+            record_time = datetime.now()
+            self._set_siren_bug_daily_count(count, record=record_time, sync_state=sync_state)
             logger.info(f'塞壬 Bug 利用成功，今日累计次数: {count}')
 
             # 发送成功通知
@@ -2094,7 +2184,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
                     self.fleet_set(1 if self.config.OpsiFleet_Fleet != 1 else 2)
                 self.os_auto_search_run()
                 self.fleet_set(self.config.OpsiFleet_Fleet)
-                self.config.cross_set(keys=f"{task}.OpsiSirenBug.SirenBug_DailyCount", value=0)
+                self._reset_siren_bug_daily_count(sync_state=sync_state)
                 # 恢复塞壬研究装置的处理
                 self.config._disable_siren_research = False
                 logger.info('自动收菜完成，返回正常任务流程')
@@ -2113,7 +2203,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
                 logger.info('【塞壬Bug利用】核心操作完成，恢复任务切换')
             logger.info(f'【塞壬Bug利用】状态快照: disable_task_switch={getattr(self.config, "_disable_task_switch", None)}, '
                         f'disable_siren_research={getattr(self.config, "_disable_siren_research", None)}, '
-                        f'daily_count={self.config.cross_get(keys=f"{task}.OpsiSirenBug.SirenBug_DailyCount", default=0)}')
+                        f'daily_count={count}')
 
             # 返回原区域
             logger.info(f'【塞壬Bug利用】返回原区域: {source_zone}')
@@ -2123,9 +2213,10 @@ class OSMap(OSFleet, Map, GlobeCamera, StorageHandler, StrategicSearchHandler):
 
         except (RuntimeError, Exception) as e:
             logger.error(f'塞壬研究装置BUG利用失败: {e}', exc_info=True)
+            failed_count, _ = self._get_siren_bug_effective_daily_count()
             logger.info(f'【塞壬Bug利用】异常前状态: disable_task_switch={getattr(self.config, "_disable_task_switch", None)}, '
                         f'disable_siren_research={getattr(self.config, "_disable_siren_research", None)}, '
-                        f'daily_count={self.config.cross_get(keys=f"{task}.OpsiSirenBug.SirenBug_DailyCount", default=0)}')
+                        f'daily_count={failed_count}')
             
             # 异常时清除标志
             if disable_task_switch and hasattr(self.config, '_disable_task_switch'):
