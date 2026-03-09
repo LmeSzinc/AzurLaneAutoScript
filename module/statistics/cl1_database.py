@@ -278,12 +278,13 @@ class Cl1Database:
         data['meow_battle_count'] = data.get('meow_battle_count', 0) + delta
         self.save_stats(instance, month, data)
 
-    def add_meow_round_time(self, instance: str, duration: float):
+    def add_meow_round_time(self, instance: str, duration: float, hazard_level: int = None):
         """记录短猫单轮战斗时间
 
         Args:
             instance: 实例名称
             duration: 战斗耗时（秒）
+            hazard_level: 侵蚀等级，用于计算出击轮次
         """
         month = datetime.now().strftime('%Y-%m')
         data = self.get_stats(instance, month)
@@ -292,7 +293,12 @@ class Cl1Database:
             data['meow_round_times'] = []
 
         times = data['meow_round_times']
-        times.append(round(duration, 2))
+        # 保存为字典，包含时长和侵蚀等级
+        entry = {
+            'duration': round(duration, 2),
+            'hazard_level': hazard_level
+        }
+        times.append(entry)
 
         # 只保留最近100个样本
         if len(times) > 100:
