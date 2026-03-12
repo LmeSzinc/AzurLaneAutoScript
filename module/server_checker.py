@@ -77,7 +77,9 @@ class ServerChecker:
                 raise ScriptError(f'Server "{self._server}" does not exist!')
             else:
                 raise ScriptError(f'Get status_code {resp.status_code}. Response is {resp.text}')
-        except (requests.exceptions.ConnectionError, requests.exceptions.ConnectTimeout) as e:
+        # Read timeout means the API accepted the connection but did not answer in time.
+        # Treat it like other transient network failures and let the checker retry/back off.
+        except (requests.exceptions.ConnectionError, requests.exceptions.Timeout) as e:
             logger.error(e)
             logger.error('Timeout while connecting to server checker API.')
             if self._retry:
