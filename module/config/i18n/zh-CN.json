@@ -748,7 +748,7 @@
       "event_20231026_cn": "飓风与青春之泉",
       "event_20231123_cn": "苍闪忍法帖",
       "event_20231221_cn": "复刻星海逐光",
-      "event_20240229_cn": "雪境迷踪",
+      "event_20240229_cn": "复刻雪境迷踪",
       "event_20240425_cn": "共鸣的PASSION",
       "event_20240521_cn": "绽放于辉光之城",
       "event_20240725_cn": "幻梦间奏曲",
@@ -913,7 +913,8 @@
       "combat_auto": "自律战斗",
       "combat_manual": "手操",
       "stand_still_in_the_middle": "中路站桩",
-      "hide_in_bottom_left": "躲左下角"
+      "hide_in_bottom_left": "躲左下角",
+      "hide_in_upper_left": "躲左上角"
     },
     "Fleet1Step": {
       "name": "一队步长",
@@ -947,7 +948,8 @@
       "combat_auto": "自律战斗",
       "combat_manual": "手操",
       "stand_still_in_the_middle": "中路站桩",
-      "hide_in_bottom_left": "躲左下角"
+      "hide_in_bottom_left": "躲左下角",
+      "hide_in_upper_left": "躲左上角"
     },
     "Fleet2Step": {
       "name": "二队步长",

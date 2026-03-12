@@ -93,11 +93,11 @@ class GeneratedConfig:
     # Group `Fleet`
     Fleet_Fleet1 = 1  # 1, 2, 3, 4, 5, 6
     Fleet_Fleet1Formation = 'double_line'  # line_ahead, double_line, diamond
-    Fleet_Fleet1Mode = 'combat_auto'  # combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left
+    Fleet_Fleet1Mode = 'combat_auto'  # combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left, hide_in_upper_left
     Fleet_Fleet1Step = 3  # 2, 3, 4, 5
     Fleet_Fleet2 = 2  # 0, 1, 2, 3, 4, 5, 6
     Fleet_Fleet2Formation = 'double_line'  # line_ahead, double_line, diamond
-    Fleet_Fleet2Mode = 'combat_auto'  # combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left
+    Fleet_Fleet2Mode = 'combat_auto'  # combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left, hide_in_upper_left
     Fleet_Fleet2Step = 2  # 2, 3, 4, 5
     Fleet_FleetOrder = 'fleet1_mob_fleet2_boss'  # fleet1_mob_fleet2_boss, fleet1_boss_fleet2_mob, fleet1_all_fleet2_standby, fleet1_standby_fleet2_all
 
