@@ -497,6 +497,10 @@
       "name": "Error.SaveError.name",
       "help": "Error.SaveError.help"
     },
+    "SaveErrorCount": {
+      "name": "Error.SaveErrorCount.name",
+      "help": "Error.SaveErrorCount.help"
+    },
     "OnePushConfig": {
       "name": "Error.OnePushConfig.name",
       "help": "Error.OnePushConfig.help"
@@ -593,6 +597,31 @@
       "save": "save",
       "upload": "upload",
       "save_and_upload": "save_and_upload"
+    }
+  },
+  "Log": {
+    "_info": {
+      "name": "Log._info.name",
+      "help": "Log._info.help"
+    },
+    "LogKeepCount": {
+      "name": "Log.LogKeepCount.name",
+      "help": "Log.LogKeepCount.help"
+    },
+    "LogBackUpMethod": {
+      "name": "Log.LogBackUpMethod.name",
+      "help": "Log.LogBackUpMethod.help",
+      "delete": "delete",
+      "zip": "zip",
+      "copy": "copy"
+    },
+    "ZipMethod": {
+      "name": "Log.ZipMethod.name",
+      "help": "Log.ZipMethod.help",
+      "bz2": "bz2",
+      "gzip": "gzip",
+      "xz": "xz",
+      "zip": "zip"
     }
   },
   "Retirement": {
