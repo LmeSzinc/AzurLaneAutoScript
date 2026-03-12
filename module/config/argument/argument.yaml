@@ -181,7 +181,7 @@ Fleet:
     option: [ line_ahead, double_line, diamond ]
   Fleet1Mode:
     value: combat_auto
-    option: [ combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left ]
+    option: [ combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left, hide_in_upper_left ]
   Fleet1Step:
     value: 3
     option: [ 2, 3, 4, 5 ]
@@ -193,7 +193,7 @@ Fleet:
     option: [ line_ahead, double_line, diamond ]
   Fleet2Mode:
     value: combat_auto
-    option: [ combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left ]
+    option: [ combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left, hide_in_upper_left ]
   Fleet2Step:
     value: 2
     option: [ 2, 3, 4, 5 ]

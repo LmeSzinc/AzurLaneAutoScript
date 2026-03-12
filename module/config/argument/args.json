@@ -790,7 +790,8 @@
           "combat_auto",
           "combat_manual",
           "stand_still_in_the_middle",
-          "hide_in_bottom_left"
+          "hide_in_bottom_left",
+          "hide_in_upper_left"
         ]
       },
       "Fleet1Step": {
@@ -832,7 +833,8 @@
           "combat_auto",
           "combat_manual",
           "stand_still_in_the_middle",
-          "hide_in_bottom_left"
+          "hide_in_bottom_left",
+          "hide_in_upper_left"
         ]
       },
       "Fleet2Step": {
@@ -1176,7 +1178,8 @@
           "combat_auto",
           "combat_manual",
           "stand_still_in_the_middle",
-          "hide_in_bottom_left"
+          "hide_in_bottom_left",
+          "hide_in_upper_left"
         ]
       },
       "Fleet1Step": {
@@ -1218,7 +1221,8 @@
           "combat_auto",
           "combat_manual",
           "stand_still_in_the_middle",
-          "hide_in_bottom_left"
+          "hide_in_bottom_left",
+          "hide_in_upper_left"
         ]
       },
       "Fleet2Step": {
@@ -1562,7 +1566,8 @@
           "combat_auto",
           "combat_manual",
           "stand_still_in_the_middle",
-          "hide_in_bottom_left"
+          "hide_in_bottom_left",
+          "hide_in_upper_left"
         ]
       },
       "Fleet1Step": {
@@ -1604,7 +1609,8 @@
           "combat_auto",
           "combat_manual",
           "stand_still_in_the_middle",
-          "hide_in_bottom_left"
+          "hide_in_bottom_left",
+          "hide_in_upper_left"
         ]
       },
       "Fleet2Step": {
@@ -1926,22 +1932,24 @@
         "type": "select",
         "value": "campaign_main",
         "option": [
+          "event_20240229_cn",
           "event_20260226_cn"
         ],
         "display": "hide",
         "option_cn": [
-          "event_20260226_cn"
+          "event_20240229_cn"
         ],
         "option_en": [
-          "event_20260226_cn"
+          "event_20240229_cn"
         ],
         "option_jp": [
-          "event_20260226_cn"
+          "event_20240229_cn"
         ],
         "option_tw": [
           "event_20260226_cn"
         ],
         "option_bold": [
+          "event_20240229_cn",
           "event_20260226_cn"
         ]
       },
@@ -2047,7 +2055,8 @@
           "combat_auto",
           "combat_manual",
           "stand_still_in_the_middle",
-          "hide_in_bottom_left"
+          "hide_in_bottom_left",
+          "hide_in_upper_left"
         ]
       },
       "Fleet1Step": {
@@ -2089,7 +2098,8 @@
           "combat_auto",
           "combat_manual",
           "stand_still_in_the_middle",
-          "hide_in_bottom_left"
+          "hide_in_bottom_left",
+          "hide_in_upper_left"
         ]
       },
       "Fleet2Step": {
@@ -2334,21 +2344,23 @@
         "type": "state",
         "value": "campaign_main",
         "option": [
+          "event_20240229_cn",
           "event_20260226_cn"
         ],
         "option_cn": [
-          "event_20260226_cn"
+          "event_20240229_cn"
         ],
         "option_en": [
-          "event_20260226_cn"
+          "event_20240229_cn"
         ],
         "option_jp": [
-          "event_20260226_cn"
+          "event_20240229_cn"
         ],
         "option_tw": [
           "event_20260226_cn"
         ],
         "option_bold": [
+          "event_20240229_cn",
           "event_20260226_cn"
         ]
       },
@@ -2446,7 +2458,8 @@
           "combat_auto",
           "combat_manual",
           "stand_still_in_the_middle",
-          "hide_in_bottom_left"
+          "hide_in_bottom_left",
+          "hide_in_upper_left"
         ]
       },
       "Fleet1Step": {
@@ -2488,7 +2501,8 @@
           "combat_auto",
           "combat_manual",
           "stand_still_in_the_middle",
-          "hide_in_bottom_left"
+          "hide_in_bottom_left",
+          "hide_in_upper_left"
         ]
       },
       "Fleet2Step": {
@@ -2736,21 +2750,23 @@
         "type": "state",
         "value": "campaign_main",
         "option": [
+          "event_20240229_cn",
           "event_20260226_cn"
         ],
         "option_cn": [
-          "event_20260226_cn"
+          "event_20240229_cn"
         ],
         "option_en": [
-          "event_20260226_cn"
+          "event_20240229_cn"
         ],
         "option_jp": [
-          "event_20260226_cn"
+          "event_20240229_cn"
         ],
         "option_tw": [
           "event_20260226_cn"
         ],
         "option_bold": [
+          "event_20240229_cn",
           "event_20260226_cn"
         ]
       },
@@ -2848,7 +2864,8 @@
           "combat_auto",
           "combat_manual",
           "stand_still_in_the_middle",
-          "hide_in_bottom_left"
+          "hide_in_bottom_left",
+          "hide_in_upper_left"
         ]
       },
       "Fleet1Step": {
@@ -2890,7 +2907,8 @@
           "combat_auto",
           "combat_manual",
           "stand_still_in_the_middle",
-          "hide_in_bottom_left"
+          "hide_in_bottom_left",
+          "hide_in_upper_left"
         ]
       },
       "Fleet2Step": {
@@ -4211,7 +4229,8 @@
           "combat_auto",
           "combat_manual",
           "stand_still_in_the_middle",
-          "hide_in_bottom_left"
+          "hide_in_bottom_left",
+          "hide_in_upper_left"
         ]
       },
       "Fleet1Step": {
@@ -4253,7 +4272,8 @@
           "combat_auto",
           "combat_manual",
           "stand_still_in_the_middle",
-          "hide_in_bottom_left"
+          "hide_in_bottom_left",
+          "hide_in_upper_left"
         ]
       },
       "Fleet2Step": {
@@ -4512,21 +4532,23 @@
         "type": "state",
         "value": "campaign_main",
         "option": [
+          "event_20240229_cn",
           "event_20260226_cn"
         ],
         "option_cn": [
-          "event_20260226_cn"
+          "event_20240229_cn"
         ],
         "option_en": [
-          "event_20260226_cn"
+          "event_20240229_cn"
         ],
         "option_jp": [
-          "event_20260226_cn"
+          "event_20240229_cn"
         ],
         "option_tw": [
           "event_20260226_cn"
         ],
         "option_bold": [
+          "event_20240229_cn",
           "event_20260226_cn"
         ]
       },
@@ -4630,7 +4652,8 @@
           "combat_auto",
           "combat_manual",
           "stand_still_in_the_middle",
-          "hide_in_bottom_left"
+          "hide_in_bottom_left",
+          "hide_in_upper_left"
         ]
       },
       "Fleet1Step": {
@@ -4672,7 +4695,8 @@
           "combat_auto",
           "combat_manual",
           "stand_still_in_the_middle",
-          "hide_in_bottom_left"
+          "hide_in_bottom_left",
+          "hide_in_upper_left"
         ]
       },
       "Fleet2Step": {
@@ -4931,21 +4955,23 @@
         "type": "state",
         "value": "campaign_main",
         "option": [
+          "event_20240229_cn",
           "event_20260226_cn"
         ],
         "option_cn": [
-          "event_20260226_cn"
+          "event_20240229_cn"
         ],
         "option_en": [
-          "event_20260226_cn"
+          "event_20240229_cn"
         ],
         "option_jp": [
-          "event_20260226_cn"
+          "event_20240229_cn"
         ],
         "option_tw": [
           "event_20260226_cn"
         ],
         "option_bold": [
+          "event_20240229_cn",
           "event_20260226_cn"
         ]
       },
@@ -5049,7 +5075,8 @@
           "combat_auto",
           "combat_manual",
           "stand_still_in_the_middle",
-          "hide_in_bottom_left"
+          "hide_in_bottom_left",
+          "hide_in_upper_left"
         ]
       },
       "Fleet1Step": {
@@ -5091,7 +5118,8 @@
           "combat_auto",
           "combat_manual",
           "stand_still_in_the_middle",
-          "hide_in_bottom_left"
+          "hide_in_bottom_left",
+          "hide_in_upper_left"
         ]
       },
       "Fleet2Step": {
@@ -5350,21 +5378,23 @@
         "type": "state",
         "value": "campaign_main",
         "option": [
+          "event_20240229_cn",
           "event_20260226_cn"
         ],
         "option_cn": [
-          "event_20260226_cn"
+          "event_20240229_cn"
         ],
         "option_en": [
-          "event_20260226_cn"
+          "event_20240229_cn"
         ],
         "option_jp": [
-          "event_20260226_cn"
+          "event_20240229_cn"
         ],
         "option_tw": [
           "event_20260226_cn"
         ],
         "option_bold": [
+          "event_20240229_cn",
           "event_20260226_cn"
         ]
       },
@@ -5468,7 +5498,8 @@
           "combat_auto",
           "combat_manual",
           "stand_still_in_the_middle",
-          "hide_in_bottom_left"
+          "hide_in_bottom_left",
+          "hide_in_upper_left"
         ]
       },
       "Fleet1Step": {
@@ -5510,7 +5541,8 @@
           "combat_auto",
           "combat_manual",
           "stand_still_in_the_middle",
-          "hide_in_bottom_left"
+          "hide_in_bottom_left",
+          "hide_in_upper_left"
         ]
       },
       "Fleet2Step": {
@@ -5769,21 +5801,23 @@
         "type": "state",
         "value": "campaign_main",
         "option": [
+          "event_20240229_cn",
           "event_20260226_cn"
         ],
         "option_cn": [
-          "event_20260226_cn"
+          "event_20240229_cn"
         ],
         "option_en": [
-          "event_20260226_cn"
+          "event_20240229_cn"
         ],
         "option_jp": [
-          "event_20260226_cn"
+          "event_20240229_cn"
         ],
         "option_tw": [
           "event_20260226_cn"
         ],
         "option_bold": [
+          "event_20240229_cn",
           "event_20260226_cn"
         ]
       },
@@ -5887,7 +5921,8 @@
           "combat_auto",
           "combat_manual",
           "stand_still_in_the_middle",
-          "hide_in_bottom_left"
+          "hide_in_bottom_left",
+          "hide_in_upper_left"
         ]
       },
       "Fleet1Step": {
@@ -5929,7 +5964,8 @@
           "combat_auto",
           "combat_manual",
           "stand_still_in_the_middle",
-          "hide_in_bottom_left"
+          "hide_in_bottom_left",
+          "hide_in_upper_left"
         ]
       },
       "Fleet2Step": {
@@ -6178,21 +6214,23 @@
         "type": "state",
         "value": "campaign_main",
         "option": [
+          "event_20240229_cn",
           "event_20260226_cn"
         ],
         "option_cn": [
-          "event_20260226_cn"
+          "event_20240229_cn"
         ],
         "option_en": [
-          "event_20260226_cn"
+          "event_20240229_cn"
         ],
         "option_jp": [
-          "event_20260226_cn"
+          "event_20240229_cn"
         ],
         "option_tw": [
           "event_20260226_cn"
         ],
         "option_bold": [
+          "event_20240229_cn",
           "event_20260226_cn"
         ]
       },
@@ -6296,7 +6334,8 @@
           "combat_auto",
           "combat_manual",
           "stand_still_in_the_middle",
-          "hide_in_bottom_left"
+          "hide_in_bottom_left",
+          "hide_in_upper_left"
         ]
       },
       "Fleet1Step": {
@@ -6338,7 +6377,8 @@
           "combat_auto",
           "combat_manual",
           "stand_still_in_the_middle",
-          "hide_in_bottom_left"
+          "hide_in_bottom_left",
+          "hide_in_upper_left"
         ]
       },
       "Fleet2Step": {
