@@ -1,15 +1,13 @@
 from module.base.mask import Mask
 from module.base.timer import Timer
-from module.campaign.campaign_base import CampaignBase as CampaignBase_
 from module.handler.assets import STRATEGY_OPENED
 from module.handler.strategy import MOB_MOVE_OFFSET
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
 from module.map.utils import location_ensure
 from module.map_detection.grid import GridInfo
-from module.map_detection.utils_assets import ASSETS
 
-MASK_MAP_UI_W15 = Mask(file='./assets/mask/MASK_MAP_UI_W15.png')
+from .campaign_support_fleet import CampaignBase as CampaignBase_
 
 
 class Config:
@@ -45,12 +43,6 @@ class W15GridInfo(GridInfo):
 class CampaignBase(CampaignBase_):
     ENEMY_FILTER = '1L > 1M > 1E > 2L > 3L > 2M > 2E > 1C > 2C > 3M > 3E > 3C'
 
-    def map_data_init(self, map_):
-        super().map_data_init(map_)
-        # Patch ui_mask, get rid of supporting fleet
-        _ = ASSETS.ui_mask
-        ASSETS.ui_mask = MASK_MAP_UI_W15.image
-
     map_has_mob_move = True
 
     def strategy_set_execute(self, formation=None, sub_view=None, sub_hunt=None):
@@ -60,10 +52,6 @@ class CampaignBase(CampaignBase_):
             sub_hunt=sub_hunt,
         )
         logger.attr("Map has mob move", self.strategy_has_mob_move())
-
-    def _map_swipe(self, vector, box=(239, 159, 1175, 628)):
-        # Left border to 239, avoid swiping on support fleet
-        return super()._map_swipe(vector, box=box)
 
     def mob_movable(self, location, target):
         """
