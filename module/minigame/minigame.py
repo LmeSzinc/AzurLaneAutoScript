@@ -196,6 +196,10 @@ class Minigame(UI):
             if self.ui_page_appear(page_academy, interval=5):
                 self.device.click(ACADEMY_GOTO_GAME_ROOM)
                 continue
+            # You've reached your monthly limit of Game Tickets, and will not be able to earn any more.
+            # Continue playing the minigame?
+            if self.handle_popup_confirm('MINIGAME_ENTER'):
+                continue
 
         # game room and choose game have same header, go to game room first
         self.go_to_main_page()
