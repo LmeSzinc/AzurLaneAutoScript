@@ -504,6 +504,10 @@
     "ScreenshotLength": {
       "name": "出錯時，保留最後 X 張截圖",
       "help": ""
+    },
+    "RestartDelay": {
+      "name": "重啟等待時間（秒）",
+      "help": "遊戲當機或崩潰後，等待多少秒再重啟"
     }
   },
   "Optimization": {

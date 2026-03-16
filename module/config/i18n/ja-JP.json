@@ -504,6 +504,10 @@
     "ScreenshotLength": {
       "name": "Error.ScreenshotLength.name",
       "help": "Error.ScreenshotLength.help"
+    },
+    "RestartDelay": {
+      "name": "Error.RestartDelay.name",
+      "help": "Error.RestartDelay.help"
     }
   },
   "Optimization": {

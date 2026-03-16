@@ -504,6 +504,10 @@
     "ScreenshotLength": {
       "name": "Record Screenshot(s)",
       "help": "Number of screenshots saved when exception occurs"
+    },
+    "RestartDelay": {
+      "name": "Restart Delay (seconds)",
+      "help": "How long to wait before restarting after a crash or stuck"
     }
   },
   "Optimization": {

@@ -193,6 +193,10 @@
       "ScreenshotLength": {
         "type": "input",
         "value": 1
+      },
+      "RestartDelay": {
+        "type": "input",
+        "value": 10
       }
     },
     "Optimization": {

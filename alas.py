@@ -77,10 +77,10 @@ class AzurLaneAutoScript:
         except (GameStuckError, GameTooManyClickError) as e:
             logger.error(e)
             self.save_error_log()
-            logger.warning(f'Game stuck, {self.device.package} will be restarted in 10 seconds')
+            logger.warning(f'Game stuck, {self.device.package} will be restarted in {self.config.Error_RestartDelay} seconds')
             logger.warning('If you are playing by hand, please stop Alas')
             self.config.task_call('Restart')
-            self.device.sleep(10)
+            self.device.sleep(self.config.Error_RestartDelay)
             return False
         except GameBugError as e:
             logger.warning(e)
@@ -88,7 +88,7 @@ class AzurLaneAutoScript:
             logger.warning('An error has occurred in Azur Lane game client, Alas is unable to handle')
             logger.warning(f'Restarting {self.device.package} to fix it')
             self.config.task_call('Restart')
-            self.device.sleep(10)
+            self.device.sleep(self.config.Error_RestartDelay)
             return False
         except GamePageUnknownError:
             logger.info('Game server may be under maintenance or network may be broken, check server status now')
