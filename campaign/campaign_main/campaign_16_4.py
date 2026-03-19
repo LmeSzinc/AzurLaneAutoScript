@@ -15,24 +15,24 @@ MAP.map_data = """
     ME ++ ++ ++ -- -- ME ++ -- -- --
     -- -- ME -- -- ++ ++ ME -- -- --
     -- -- -- ME ++ -- ME -- ++ ++ --
-    -- -- ME -- -- ME ++ -- ME ++ --
+    -- -- -- ME -- ME ++ -- ME ++ --
     -- __ -- ++ ++ -- ++ ME ME -- --
-    SP -- -- ME -- -- ME ++ -- ++ ++
+    SP -- -- ME -- -- -- ++ -- ++ ++
     SP -- -- -- ++ -- ++ ++ -- -- ++
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 40 50 50 50
-    50 50 50 40 50 40 40 40 50 50 50
-    50 50 50 40 40 40 50 50 50 50 50
+    50 50 50 50 50 40 40 40 50 50 50
+    50 50 50 50 50 40 50 50 50 50 50
     50 50 50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50 50 50
     50 50 50 50 50 50 50 50 50 50 50
 """
 MAP.spawn_data = [
     {'battle': 0, 'enemy': 5},
-    {'battle': 1, 'enemy': 4},
+    {'battle': 1, 'enemy': 3},
     {'battle': 2, 'enemy': 5},
     {'battle': 3},
     {'battle': 4, 'boss': 1},
@@ -47,7 +47,7 @@ A7, B7, C7, D7, E7, F7, G7, H7, I7, J7, K7, \
 A8, B8, C8, D8, E8, F8, G8, H8, I8, J8, K8, \
     = MAP.flatten()
 
-road_main = RoadGrids([D4, F5, G4, H3])
+road_main = RoadGrids([D5, F5, G4, H3])
 
 class Config(ConfigBase):
     MAP_HAS_MAP_STORY = False
@@ -59,17 +59,27 @@ class Campaign(CampaignBase):
     MAP = MAP
 
     def battle_0(self):
-        self.clear_chosen_enemy(D4)
-        return True
-
-    def battle_1(self):
-        if self.use_support_fleet:
-            self.goto(D1)
-            self.air_strike(B1)
-        self.clear_chosen_enemy(F5)
-        return True
+        if self.clear_roadblocks([road_main]):
+            return True
+        if self.clear_potential_roadblocks([road_main]):
+            return True
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
+            return True
+        return self.battle_default()
 
     def battle_2(self):
+        if self.use_support_fleet and not self.map_is_clear_mode:
+            self.goto(B3)
+            self.air_strike(B1)
+        if self.clear_roadblocks([road_main]):
+            return True
+        if self.clear_potential_roadblocks([road_main]):
+            return True
+        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
+            return True
+        return self.battle_default()
+
+    def battle_3(self):
         if self.clear_roadblocks([road_main]):
             return True
         if self.clear_potential_roadblocks([road_main]):
@@ -83,7 +93,7 @@ class Campaign(CampaignBase):
         if boss:
             if not self.check_accessibility(boss[0], fleet='boss'):
                 return self.clear_roadblocks([road_main])
-            if self.use_support_fleet:
+            if self.use_support_fleet and not self.map_is_clear_mode:
                 # at this stage the most right zone should be accessible
                 self.goto(J6)
                 self.air_strike(I8)

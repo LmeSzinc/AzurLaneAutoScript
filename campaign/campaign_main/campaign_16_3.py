@@ -32,6 +32,14 @@ MAP.spawn_data = [
     {'battle': 2, 'enemy': 3},
     {'battle': 3, 'boss': 1},
 ]
+MAP.spawn_data_loop = [
+    {'battle': 0, 'enemy': 3},
+    {'battle': 1, 'enemy': 6},
+    {'battle': 2, 'enemy': 3},
+    {'battle': 3},
+    {'battle': 4},
+    {'battle': 5, 'boss': 1},
+]
 A1, B1, C1, D1, E1, F1, G1, H1, I1, J1, K1, \
 A2, B2, C2, D2, E2, F2, G2, H2, I2, J2, K2, \
 A3, B3, C3, D3, E3, F3, G3, H3, I3, J3, K3, \
@@ -57,7 +65,7 @@ class Campaign(CampaignBase):
         return True
 
     def battle_1(self):
-        if self.use_support_fleet:
+        if self.use_support_fleet and not self.map_is_clear_mode:
             self.air_strike(E3)
         self.clear_chosen_enemy(D3)
         return True
@@ -76,7 +84,7 @@ class Campaign(CampaignBase):
         if boss:
             if not self.check_accessibility(boss[0], fleet='boss'):
                 return self.clear_roadblocks([road_main])
-            if self.use_support_fleet:
+            if self.use_support_fleet and not self.map_is_clear_mode:
                 # at this stage the most right zone should be accessible
                 self.goto(K5)
                 self.air_strike(J6)
