@@ -6,7 +6,7 @@ from module.handler.strategy import AIR_STRIKE_OFFSET
 from module.logger import logger
 from module.map.utils import location_ensure
 
-from .campaign_support_fleet import CampaignBase as CampaignBase_
+from .campaign_15_base import CampaignBase as CampaignBase_
 
 
 class Config:

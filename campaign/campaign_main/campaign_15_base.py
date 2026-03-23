@@ -205,3 +205,4 @@ class CampaignBase(CampaignBase_):
         self._mob_move_info_change(location, target)
         self.find_path_initial()
         self.map.show()
+        return True
