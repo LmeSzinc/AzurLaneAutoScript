@@ -56,6 +56,10 @@ class Config(ConfigBase):
     MAP_HAS_FLEET_STEP = False
     MAP_HAS_AMBUSH = True
 
+    MAP_SWIPE_MULTIPLY = (1.180, 1.202)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.141, 1.162)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.108, 1.128)
+
 
 class Campaign(CampaignBase):
     MAP = MAP
