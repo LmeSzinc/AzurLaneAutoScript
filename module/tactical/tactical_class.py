@@ -373,7 +373,7 @@ class RewardTacticalClass(Dock):
         if self.appear(RAPID_TRAINING, offset=offset, interval=1):
             self.device.click(RAPID_TRAINING)
             # Clear interval to enter _tactical_books_choose fast
-            self.interval_clear(TACTICAL_CLASS_CANCEL, interval=2)
+            self.interval_clear(TACTICAL_CLASS_START, interval=2)
             return True
 
         return False
@@ -444,7 +444,7 @@ class RewardTacticalClass(Dock):
             # Get finish time
             # sometimes you have TACTICAL_CHECK without black-blurred background
             # TACTICAL_CLASS_CANCEL and TACTICAL_CHECK appears
-            if not self.appear(TACTICAL_CLASS_CANCEL, offset=(20, 20)) \
+            if not self.appear(TACTICAL_CLASS_START, offset=(20, 20)) \
                     and self.appear(TACTICAL_CHECK, offset=(20, 20), interval=2):
                 self.interval_clear([POPUP_CONFIRM, POPUP_CANCEL, GET_MISSION])
                 if book_empty:
@@ -495,11 +495,10 @@ class RewardTacticalClass(Dock):
             if self.appear(MISSION_POPUP_GO, offset=self._popup_offset, interval=2):
                 self.device.click(MISSION_POPUP_ACK)
                 continue
-            if self.appear(TACTICAL_CLASS_CANCEL, offset=(30, 30), interval=2) \
-                    and self.appear(TACTICAL_CLASS_START, offset=(30, 30)):
+            if self.appear(TACTICAL_CLASS_START, offset=(30, 30), interval=2):
                 if self._tactical_books_choose():
                     self.dock_select_index = 0
-                    self.interval_reset([TACTICAL_CLASS_CANCEL, BOOK_EMPTY_POPUP])
+                    self.interval_reset([TACTICAL_CLASS_START, BOOK_EMPTY_POPUP])
                     self.interval_clear([POPUP_CONFIRM, POPUP_CANCEL, GET_MISSION])
                 else:
                     study_finished = True
