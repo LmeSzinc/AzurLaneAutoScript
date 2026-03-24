@@ -6860,11 +6860,6 @@
       "FeedFilter": {
         "type": "textarea",
         "value": "20000 > 10000 > 5000 > 3000 > 2000 > 1000"
-      },
-      "BuyFood": {
-        "type": "checkbox",
-        "value": false,
-        "display": "disabled"
       }
     },
     "BuyFurniture": {

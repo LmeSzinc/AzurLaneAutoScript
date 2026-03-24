@@ -1499,10 +1499,6 @@
     "FeedFilter": {
       "name": "Dorm.FeedFilter.name",
       "help": "Dorm.FeedFilter.help"
-    },
-    "BuyFood": {
-      "name": "Dorm.BuyFood.name",
-      "help": "Dorm.BuyFood.help"
     }
   },
   "BuyFurniture": {
