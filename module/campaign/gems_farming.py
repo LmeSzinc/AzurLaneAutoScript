@@ -102,7 +102,8 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
         self.fleet_enter(self.fleet_to_attack)
 
         logger.hr('Change flagship', level=2)
-        success = self.flagship_change_execute()
+        success = self.flagship_change_execute(click_button=FLEET_ENTER_FLAGSHIP,
+                                               appear_button=page_fleet.check_button)
 
         return success
 
@@ -119,7 +120,8 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
         self.fleet_enter(self.fleet_to_attack)
 
         logger.hr('Change vanguard', level=2)
-        success = self.vanguard_change_execute()
+        success = self.vanguard_change_execute(click_button=FLEET_ENTER,
+                                               appear_button=page_fleet.check_button)
 
         return success
 
@@ -280,24 +282,21 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
             logger.error(f'Invalid CommonDD setting: {common_dd}')
             raise ScriptError(f'Invalid CommonDD setting: {common_dd}')
 
-    def flagship_change_execute(self):
+    def flagship_change_execute(self, click_button, appear_button):
         """
+        Args:
+            click_button (Button): button to click to change ship
+            appear_button (Button, callable): button for ui check
+
         Returns:
             bool: If success.
 
         Pages:
-            in: page_fleet
-            out: page_fleet
+            in: appear_button
+            out: appear_button
         """
-        for _ in self.loop():
-            if self.appear(DOCK_CHECK, offset=(20, 20)):
-                break
-            if self.ui_page_appear(page_fleet, interval=5):
-                self.device.click(FLEET_ENTER_FLAGSHIP)
-                continue
-            # 2025.05.29 game tips that infos skin feature when you enter dock
-            if self.handle_game_tips():
-                return True
+        self.ui_click(click_button, check_button=DOCK_CHECK, appear_button=appear_button,
+                      additional=self.handle_game_tips, offset=(20, 20), retry_wait=5)
 
         ship = self.get_common_rarity_cv()
         if ship:
@@ -308,27 +307,24 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
         else:
             logger.info('Change flagship failed, no CV in common rarity.')
             self._dock_reset()
-            self.ui_back(check_button=page_fleet.check_button)
+            self.ui_back(check_button=appear_button)
             return False
 
-    def vanguard_change_execute(self):
+    def vanguard_change_execute(self, click_button, appear_button):
         """
+        Args:
+            click_button (Button): button to click to change ship
+            appear_button (Button, callable): button for ui check
+
         Returns:
             bool: If success.
 
         Pages:
-            in: page_fleet
-            out: page_fleet
+            in: appear_button
+            out: appear_button
         """
-        for _ in self.loop():
-            if self.appear(DOCK_CHECK, offset=(20, 20)):
-                break
-            if self.ui_page_appear(page_fleet, interval=5):
-                self.device.click(FLEET_ENTER)
-                continue
-            # 2025.05.29 game tips that infos skin feature when you enter dock
-            if self.handle_game_tips():
-                return True
+        self.ui_click(click_button, check_button=DOCK_CHECK, appear_button=appear_button,
+                      additional=self.handle_game_tips, offset=(20, 20), retry_wait=5)
 
         ship = self.get_common_rarity_dd()
         if ship:
@@ -339,7 +335,7 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
         else:
             logger.info('Change vanguard ship failed, no DD in common rarity.')
             self._dock_reset()
-            self.ui_back(check_button=page_fleet.check_button)
+            self.ui_back(check_button=appear_button)
             return False
 
     _trigger_lv32 = False
