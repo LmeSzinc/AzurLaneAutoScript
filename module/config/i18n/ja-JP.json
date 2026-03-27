@@ -1218,6 +1218,20 @@
       "help": "GemsFarming.CommissionLimit.help"
     }
   },
+  "EquipmentCode": {
+    "_info": {
+      "name": "EquipmentCode._info.name",
+      "help": "EquipmentCode._info.help"
+    },
+    "ExportToConfig": {
+      "name": "EquipmentCode.ExportToConfig.name",
+      "help": "EquipmentCode.ExportToConfig.help"
+    },
+    "Config": {
+      "name": "EquipmentCode.Config.name",
+      "help": "EquipmentCode.Config.help"
+    }
+  },
   "EventGeneral": {
     "_info": {
       "name": "EventGeneral._info.name",

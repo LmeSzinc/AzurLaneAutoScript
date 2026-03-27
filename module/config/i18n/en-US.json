@@ -1218,6 +1218,20 @@
       "help": "When running 7x24, prevent having a lot of urgent commissions and not being able to complete daily commissions. It is recommended to select only short-terms and high-yields in the commission filter"
     }
   },
+  "EquipmentCode": {
+    "_info": {
+      "name": "Gear Code",
+      "help": ""
+    },
+    "ExportToConfig": {
+      "name": "Export to config",
+      "help": "Only exports if corresponding key has no value. Delete specific row to trigger later update."
+    },
+    "Config": {
+      "name": "Gear code config",
+      "help": "Format is yaml"
+    }
+  },
   "EventGeneral": {
     "_info": {
       "name": "Event General Settings",
