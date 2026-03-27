@@ -1004,6 +1004,41 @@ class Connection(ConnectionAttr):
         return o
 
     @retry
+    def get_interactive(self):
+        """
+        Makes sure device is interactive before starting tasks
+        """
+        _INTERACTIVE_RE = re.compile(
+            r'mInteractive=(?P<interactive>.+)'
+        )
+        output = self.adb_shell(['dumpsys', 'input_method'])
+
+        interactive = _INTERACTIVE_RE.search(output, 0)
+
+        result = True
+        if interactive:
+            o = interactive.group('interactive')
+            if o == "true":
+                pass
+            elif o == "false":
+                result = False
+            else:
+                logger.warning(f'Invalid device interactivity: {o}, assume it is normal')
+        else:
+            logger.warning('Unable to get device interactivity, assume it is normal')
+
+        logger.attr('Device interactive', {result})
+        return result
+
+    @retry
+    def wake(self):
+        """
+        Attempts to wake device by pressing power button
+        """
+        logger.info('Attempting to wake device')
+        self.adb_shell(['input', 'keyevent', 'KEYCODE_POWER'])
+
+    @retry
     def list_device(self):
         """
         Returns:
