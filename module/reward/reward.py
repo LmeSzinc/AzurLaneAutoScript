@@ -89,6 +89,8 @@ class Reward(UI):
                     click_interval.reset()
                     clicked = True
                     continue
+                if self.appear(MISSION_UNFINISH, offset=(20, 20)):
+                    return clicked
 
     def _reward_mission_claim_receive(self):
         """

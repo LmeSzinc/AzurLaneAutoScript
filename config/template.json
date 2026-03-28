@@ -1386,7 +1386,8 @@
     },
     "AddNewStudent": {
       "Enable": false,
-      "Favorite": true
+      "Favorite": true,
+      "MinLevel": 50
     },
     "Storage": {
       "Storage": {}

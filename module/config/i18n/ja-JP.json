@@ -478,6 +478,7 @@
       "LDPlayer3": "LDPlayer3",
       "LDPlayer4": "LDPlayer4",
       "LDPlayer9": "LDPlayer9",
+      "LDPlayer14": "LDPlayer14",
       "MuMuPlayer": "MuMuPlayer",
       "MuMuPlayerX": "MuMuPlayerX",
       "MuMuPlayer12": "MuMuPlayer12",
@@ -1488,6 +1489,10 @@
     },
     "Favorite": {
       "name": "好ましい選択",
+      "help": ""
+    },
+    "MinLevel": {
+      "name": "レベルがX以上のキャラクターのみを追加してください。",
       "help": ""
     }
   },
