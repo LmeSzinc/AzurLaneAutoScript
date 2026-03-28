@@ -6685,6 +6685,10 @@
       "Favorite": {
         "type": "checkbox",
         "value": true
+      },
+      "MinLevel": {
+        "type": "input",
+        "value": 50
       }
     },
     "Storage": {

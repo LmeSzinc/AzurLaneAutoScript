@@ -1417,6 +1417,10 @@
     "Favorite": {
       "name": "优先选择常用",
       "help": ""
+    },
+    "MinLevel": {
+      "name": "仅添加等级 >= X 的角色",
+      "help": ""
     }
   },
   "Research": {

@@ -362,6 +362,7 @@ ControlExpOverflow:
 AddNewStudent:
   Enable: false
   Favorite: true
+  MinLevel: 50
 Research:
   UseCube:
     value: only_05_hour
