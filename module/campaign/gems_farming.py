@@ -2,7 +2,7 @@ from module.campaign.campaign_base import CampaignBase
 from module.campaign.run import CampaignRun
 from module.combat.assets import BATTLE_PREPARATION
 from module.equipment.assets import *
-from module.equipment.fleet_equipment import FleetEquipment
+from module.equipment.fleet_page import NormalFleetPage
 from module.exception import CampaignEnd, ScriptError
 from module.handler.assets import AUTO_SEARCH_MAP_OPTION_OFF
 from module.logger import logger
@@ -67,7 +67,7 @@ class GemsCampaignOverride(CampaignBase):
             raise CampaignEnd('Emotion withdraw')
 
 
-class GemsFarming(CampaignRun, FleetEquipment, Dock):
+class GemsFarming(CampaignRun, Dock):
 
     def load_campaign(self, name, folder='campaign_main'):
         super().load_campaign(name, folder)
@@ -99,7 +99,8 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
             bool: True if flagship changed.
         """
         logger.hr('Change flagship', level=1)
-        self.fleet_enter(self.fleet_to_attack)
+        fleet_page = NormalFleetPage(main=self, fleet_index=self.fleet_to_attack)
+        fleet_page.ensure_fleet_page()
 
         logger.hr('Change flagship', level=2)
         success = self.flagship_change_execute(click_button=FLEET_ENTER_FLAGSHIP,
@@ -117,7 +118,8 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
 
         logger.hr('Change vanguard', level=1)
         logger.attr('ChangeVanguard', self.config.GemsFarming_ChangeVanguard)
-        self.fleet_enter(self.fleet_to_attack)
+        fleet_page = NormalFleetPage(main=self, fleet_index=self.fleet_to_attack)
+        fleet_page.ensure_fleet_page()
 
         logger.hr('Change vanguard', level=2)
         success = self.vanguard_change_execute(click_button=FLEET_ENTER,

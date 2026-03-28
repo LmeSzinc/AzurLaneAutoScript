@@ -19,7 +19,7 @@ else:
 OCR_DAILY_FLEET_INDEX = Digit(OCR_DAILY_FLEET_INDEX, letter=(90, 154, 255), threshold=128, alphabet='123456')
 
 
-class Daily(Combat, DailyEquipment):
+class Daily(Combat):
     daily_current: int
     daily_checked: list
     emergency_module_development = False
@@ -337,9 +337,7 @@ class Daily(Combat, DailyEquipment):
             in: Any page
             out: page_daily
         """
-        # self.equipment_take_on()
         self.daily_run()
-        # self.equipment_take_off()
 
         # Cannot stay in page_daily, because order is disordered.
         self.config.task_delay(server_update=True)
