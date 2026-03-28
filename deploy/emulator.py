@@ -137,16 +137,19 @@ class VirtualBoxEmulator:
         """
         for ori, bak in zip(self.adb_binary, self.adb_backup):
             logger.info(f'Replacing {ori}')
-            if os.path.exists(ori):
-                if filecmp.cmp(adb, ori, shallow=True):
-                    logger.info(f'{adb} is same as {ori}, skip')
+            try:
+                if os.path.exists(ori):
+                    if filecmp.cmp(adb, ori, shallow=True):
+                        logger.info(f'{adb} is same as {ori}, skip')
+                    else:
+                        logger.info(f'{ori} -----> {bak}')
+                        shutil.move(ori, bak)
+                        logger.info(f'{adb} -----> {ori}')
+                        shutil.copy(adb, ori)
                 else:
-                    logger.info(f'{ori} -----> {bak}')
-                    shutil.move(ori, bak)
-                    logger.info(f'{adb} -----> {ori}')
-                    shutil.copy(adb, ori)
-            else:
-                logger.info(f'{ori} not exists, skip')
+                    logger.info(f'{ori} not exists, skip')
+            except OSError as e:
+                logger.warning(f'Failed to replace {ori}, {e}')
 
     def adb_recover(self):
         """ Revert adb replacement """
