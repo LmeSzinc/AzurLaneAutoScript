@@ -470,6 +470,7 @@
       "LDPlayer3": "雷电模拟器3",
       "LDPlayer4": "雷电模拟器4",
       "LDPlayer9": "雷电模拟器9",
+      "LDPlayer14": "雷电模拟器14",
       "MuMuPlayer": "MuMu模拟器",
       "MuMuPlayerX": "MuMu模拟器X",
       "MuMuPlayer12": "MuMu模拟器12",
@@ -1416,6 +1417,10 @@
     },
     "Favorite": {
       "name": "优先选择常用",
+      "help": ""
+    },
+    "MinLevel": {
+      "name": "仅添加等级 >= X 的角色",
       "help": ""
     }
   },

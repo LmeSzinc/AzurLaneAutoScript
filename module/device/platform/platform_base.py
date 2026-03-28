@@ -181,6 +181,20 @@ class PlatformBase(Connection, EmulatorManagerBase):
                 logger.info(f'Found emulator instance: {instance}')
                 return instance
 
+        # search by emulator type first, which is the easiest setting for user to setup, so more trustworthy
+        # Multiple instances in given serial, name and path, search by emulator
+        if emulator:
+            search_args['type'] = emulator
+            select = instances.select(**search_args)
+            if select.count == 0:
+                logger.warning(f'No emulator instances with {search_args}, type invalid')
+                search_args.pop('type')
+            elif select.count == 1:
+                instance = select[0]
+                logger.hr('Emulator instance', level=2)
+                logger.info(f'Found emulator instance: {instance}')
+                return instance
+
         # Multiple instances in given serial, search by name
         if name:
             search_args['name'] = name
@@ -201,19 +215,6 @@ class PlatformBase(Connection, EmulatorManagerBase):
             if select.count == 0:
                 logger.warning(f'No emulator instances with {search_args}, path invalid')
                 search_args.pop('path')
-            elif select.count == 1:
-                instance = select[0]
-                logger.hr('Emulator instance', level=2)
-                logger.info(f'Found emulator instance: {instance}')
-                return instance
-
-        # Multiple instances in given serial, name and path, search by emulator
-        if emulator:
-            search_args['type'] = emulator
-            select = instances.select(**search_args)
-            if select.count == 0:
-                logger.warning(f'No emulator instances with {search_args}, type invalid')
-                search_args.pop('type')
             elif select.count == 1:
                 instance = select[0]
                 logger.hr('Emulator instance', level=2)

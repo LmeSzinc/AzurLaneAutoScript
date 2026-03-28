@@ -155,7 +155,8 @@ class EmulatorBase:
     LDPlayer3 = 'LDPlayer3'
     LDPlayer4 = 'LDPlayer4'
     LDPlayer9 = 'LDPlayer9'
-    LDPlayerFamily = [LDPlayer3, LDPlayer4, LDPlayer9]
+    LDPlayer14 = 'LDPlayer14'
+    LDPlayerFamily = [LDPlayer3, LDPlayer4, LDPlayer9, LDPlayer14]
     MuMuPlayer = 'MuMuPlayer'
     MuMuPlayerX = 'MuMuPlayerX'
     MuMuPlayer12 = 'MuMuPlayer12'

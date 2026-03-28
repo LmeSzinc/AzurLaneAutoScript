@@ -332,7 +332,7 @@ class LDOpenGL(Platform):
         if not self.is_ldplayer_bluestacks_family:
             return False
         logger.attr('EmulatorInfo_Emulator', self.config.EmulatorInfo_Emulator)
-        if self.config.EmulatorInfo_Emulator not in ['LDPlayer9']:
+        if self.config.EmulatorInfo_Emulator not in ['LDPlayer9', 'LDPlayer14']:
             return False
 
         try:

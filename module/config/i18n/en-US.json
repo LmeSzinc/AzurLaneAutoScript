@@ -470,6 +470,7 @@
       "LDPlayer3": "LD Player 3",
       "LDPlayer4": "LD Player 4",
       "LDPlayer9": "LD Player 9",
+      "LDPlayer14": "LDPlayer 14",
       "MuMuPlayer": "MuMu Player",
       "MuMuPlayerX": "MuMu Player X",
       "MuMuPlayer12": "MuMu Player 12",
@@ -1417,6 +1418,10 @@
     "Favorite": {
       "name": "Use Favorite Filter",
       "help": "During student selection apply the favorite filter\nThereby, giving priority to certain ship girls\nApply the favorite status to a ship girl in-game"
+    },
+    "MinLevel": {
+      "name": "Add Students with Level >= X Only",
+      "help": ""
     }
   },
   "Research": {
