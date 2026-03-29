@@ -314,6 +314,13 @@ class GridPredictor:
         image = rgb2gray(self.relative_crop(area=(-0.5, -0.5, 0.5, 0.5), shape=(60, 60)))
         return TEMPLATE_MOB_MOVE_ICON.match(image)
 
+    def predict_air_strike_icon(self):
+        # area = area_pad((0, 0, 140, 140), pad=5)
+        # image = color_similarity_2d(crop(self.image_trans, area=area, copy=False), color=(255, 255, 160))
+        image = color_similarity_2d(self.image_trans, color=(255, 255, 160))
+        cv2.threshold(image, 175, 255, cv2.THRESH_BINARY, dst=image)
+        return TEMPLATE_AIR_STRIKE_ICON.match(image, similarity=0.7)
+
     @cached_property
     def _image_similar_piece(self):
         return rgb2gray(self.relative_crop(area=(-0.5, -0.5, 0.5, 0.5), shape=(60, 60)))
