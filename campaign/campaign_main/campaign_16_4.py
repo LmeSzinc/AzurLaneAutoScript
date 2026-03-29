@@ -7,7 +7,7 @@ from .campaign_16_base_aircraft import Config as ConfigBase
 
 MAP = CampaignMap('16-4')
 MAP.shape = 'K8'
-MAP.camera_data = ['C2', 'C6', 'F2', 'F6', 'H2', 'H6']
+MAP.camera_data = ['C2', 'F5', 'F2', 'H2', 'H5']
 MAP.camera_data_spawn_point = ['C6']
 MAP.camera_sight = (-2, -1, 3, 2)
 MAP.map_data = """
@@ -35,6 +35,17 @@ MAP.spawn_data = [
     {'battle': 1, 'enemy': 3},
     {'battle': 2, 'enemy': 5},
     {'battle': 3},
+    {'battle': 4},
+    {'battle': 5},
+    {'battle': 6},
+    {'battle': 7},
+    {'battle': 8, 'boss': 1},
+]
+MAP.spawn_data_loop = [
+    {'battle': 0, 'enemy': 5},
+    {'battle': 1, 'enemy': 3},
+    {'battle': 2, 'enemy': 5},
+    {'battle': 3},
     {'battle': 4, 'boss': 1},
 ]
 A1, B1, C1, D1, E1, F1, G1, H1, I1, J1, K1, \
@@ -54,6 +65,7 @@ class Config(ConfigBase):
     MAP_HAS_FLEET_STEP = False
     MAP_HAS_AMBUSH = True
 
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom-left'
     MAP_SWIPE_MULTIPLY = (1.003, 1.022)
     MAP_SWIPE_MULTIPLY_MINITOUCH = (0.970, 0.988)
     MAP_SWIPE_MULTIPLY_MAATOUCH = (0.942, 0.959)

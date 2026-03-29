@@ -17,7 +17,9 @@ class Config:
         'prominence': 10,
         'distance': 35,
     }
-    HOMO_CANNY_THRESHOLD = (50, 100)
+    # Handle fog on map, static homography parameters and lower canny threshold
+    HOMO_STORAGE = ((8, 6), [(137.405, 104.804), (1046.044, 104.804), (-12.171, 652.093), (1166.717, 652.093)])
+    HOMO_CANNY_THRESHOLD = (50, 80)
 
 
 class CampaignBase(CampaignBase_):
