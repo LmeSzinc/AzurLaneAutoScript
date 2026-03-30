@@ -1,4 +1,4 @@
-name: Upstream Sync
+name: Upstream Mirror
 
 permissions:
     contents: write
@@ -8,27 +8,57 @@ on:
         - cron: "0 * * * *"
     workflow_dispatch:
 
+concurrency:
+    group: upstream-mirror
+    cancel-in-progress: false
+
+env:
+    UPSTREAM_REPO: LmeSzinc/AzurLaneAutoScript
+    UPSTREAM_BRANCH: master
+    MIRROR_BRANCH: upstream-sync
+
 jobs:
-    sync_with_upstream:
-        name: Sync with Upstream
+    mirror_upstream:
+        name: Mirror upstream/master to upstream-sync
         runs-on: ubuntu-latest
         if: ${{ github.event.repository.fork }}
 
         steps:
             - name: Checkout target repo
-              uses: actions/checkout@v3
-
-            - name: Sync Upstream
-              uses: aormsby/Fork-Sync-With-Upstream-action@v3.4
+              uses: actions/checkout@v6
               with:
-                  target_repo_token: ${{ secrets.GITHUB_TOKEN }}
-                  upstream_sync_repo: LmeSzinc/AzurLaneAutoScript
-                  upstream_sync_branch: master
-                  target_sync_branch: master
-                  test_mode: false
+                  fetch-depth: 0
 
-            - name: Check for Failure
-              if: failure()
+            - name: Configure git
               run: |
-                  echo "[Error] Due to a change in the workflow file of the upstream repository, GitHub has automatically suspended the scheduled automatic update. You need to manually sync your fork."
-                  exit 1
+                  git config user.name "github-actions[bot]"
+                  git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+            - name: Fetch upstream branch
+              run: |
+                  git remote add upstream "https://github.com/${UPSTREAM_REPO}.git"
+                  git fetch --no-tags upstream "${UPSTREAM_BRANCH}"
+
+            - name: Mirror upstream branch
+              shell: bash
+              run: |
+                  set -euo pipefail
+
+                  upstream_sha="$(git rev-parse "upstream/${UPSTREAM_BRANCH}")"
+                  remote_sha="$(git ls-remote origin "refs/heads/${MIRROR_BRANCH}" | awk '{print $1}')"
+
+                  if [[ "${remote_sha}" == "${upstream_sha}" ]]; then
+                      echo "No update needed: ${MIRROR_BRANCH} already points to ${upstream_sha}" | tee -a "${GITHUB_STEP_SUMMARY}"
+                      exit 0
+                  fi
+
+                  git checkout -B "${MIRROR_BRANCH}" "upstream/${UPSTREAM_BRANCH}"
+                  git push --force origin "${MIRROR_BRANCH}:${MIRROR_BRANCH}"
+
+                  {
+                      echo "Updated ${MIRROR_BRANCH}"
+                      echo
+                      echo "- upstream repo: ${UPSTREAM_REPO}"
+                      echo "- upstream branch: ${UPSTREAM_BRANCH}"
+                      echo "- mirrored commit: ${upstream_sha}"
+                  } | tee -a "${GITHUB_STEP_SUMMARY}"
