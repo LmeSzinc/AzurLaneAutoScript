@@ -343,9 +343,18 @@ class MapData:
         self.map_id = data['id']
 
         try:
-            self.spawn_data = self.parse_spawn_data(data)
+            self.event_enemy_data = None
+            self.event_enemy_data_loop = None
+            if self.map_id in MAP_EVENT_LIST:
+                self.event_enemy_data = self.extract_event_enemy_data(MAP_EVENT_LIST[self.map_id]['event_list'])
+                if data_loop is not None:
+                    self.event_enemy_data_loop = self.extract_event_enemy_data(MAP_EVENT_LIST[self.map_id]['event_list_loop'])
+                else:
+                    self.event_enemy_data_loop = None
+
+            self.spawn_data = self.parse_spawn_data(data, self.event_enemy_data)
             if data_loop is not None:
-                self.spawn_data_loop = self.parse_spawn_data(data_loop)
+                self.spawn_data_loop = self.parse_spawn_data(data_loop, self.event_enemy_data_loop)
                 if len(self.spawn_data) == len(self.spawn_data_loop) \
                         and all([s1 == s2 for s1, s2 in zip(self.spawn_data, self.spawn_data_loop)]):
                     self.spawn_data_loop = None
@@ -354,10 +363,10 @@ class MapData:
 
             # map_data
             # {0: {0: 6, 1: 8, 2: False, 3: 0}, ...}
-            self.map_data = self.parse_map_data(data['grids'])
+            self.map_data = self.parse_map_data(data['grids'], self.event_enemy_data)
             self.shape = tuple(np.max(list(self.map_data.keys()), axis=0))
             if self.data_loop is not None:
-                self.map_data_loop = self.parse_map_data(data_loop['grids'])
+                self.map_data_loop = self.parse_map_data(data_loop['grids'], self.event_enemy_data_loop)
                 if all([d1 == d2 for d1, d2 in zip(self.map_data.values(), self.map_data_loop.values())]):
                     self.map_data_loop = None
             else:
@@ -422,7 +431,7 @@ class MapData:
 
     __repr__ = __str__
 
-    def parse_map_data(self, grids):
+    def parse_map_data(self, grids, event_enemy_data=None):
         map_data = {}
         offset_y = min([grid[0] for grid in grids.values()])
         offset_x = min([grid[1] for grid in grids.values()])
@@ -435,11 +444,16 @@ class MapData:
             if info == '??':
                 print(f'Unknown grid info. grid={location2node(loca)}, info={grid[3]}')
             map_data[loca] = info
+        if isinstance(event_enemy_data, list):
+            for wave in event_enemy_data:
+                for enemy in wave.values():
+                    loca = (enemy[1][1] - offset_x, enemy[1][0] - offset_y)
+                    map_data[loca] = 'ME'
 
         return map_data
 
     @staticmethod
-    def parse_spawn_data(data):
+    def parse_spawn_data(data, event_enemy_data=None):
         try:
             battle_count = max(data['boss_refresh'], max(data['enemy_refresh'].keys()))
         except ValueError:
@@ -450,6 +464,11 @@ class MapData:
             if count:
                 spawn = spawn_data[index]
                 spawn['enemy'] = spawn.get('enemy', 0) + count
+        if isinstance(event_enemy_data, list):
+            for index, wave in enumerate(event_enemy_data):
+                if len(wave):
+                    spawn = spawn_data[index]
+                    spawn['enemy'] = spawn.get('enemy', 0) + len(wave)
         if ''.join([str(item) for item in data['elite_refresh'].values()]) != '100':  # Some data is incorrect
             for index, count in data['elite_refresh'].items():
                 if count:
@@ -469,6 +488,15 @@ class MapData:
             pass
 
         return spawn_data
+
+    def extract_event_enemy_data(self, data):
+        extracted_data = []
+        for event_id in data.values():
+            event = MAP_EVENT_TEMPLATE[event_id]
+            for effect in event['effect'].values():
+                if effect[0] == 'enemy':
+                    extracted_data.append(effect[1])
+        return extracted_data
 
     def map_file_name(self):
         name = self.chapter_name.replace('-', '_').lower()
@@ -751,8 +779,8 @@ ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
 LOADER = LuaLoader(FILE, server='CN')
 DATA = LOADER.load('./sharecfgdata/chapter_template.lua')
 DATA_LOOP = LOADER.load('./sharecfgdata/chapter_template_loop.lua')
-# MAP_EVENT_LIST = LOADER.load('./sharecfg/map_event_list.lua')
-# MAP_EVENT_TEMPLATE = LOADER.load('./sharecfg/map_event_template.lua')
+MAP_EVENT_LIST = LOADER.load('./sharecfg/map_event_list.lua')
+MAP_EVENT_TEMPLATE = LOADER.load('./sharecfg/map_event_template.lua')
 EXPECTATION_DATA = LOADER.load('./sharecfgdata/expedition_data_template.lua')
 
 ct = ChapterTemplate()

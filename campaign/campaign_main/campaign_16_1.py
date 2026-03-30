@@ -7,8 +7,8 @@ from .campaign_16_base_submarine import Config as ConfigBase
 
 MAP = CampaignMap('16-1')
 MAP.shape = 'I9'
-MAP.camera_data = ['C2', 'C6', 'F2', 'F6']
-MAP.camera_data_spawn_point = ['F6']
+MAP.camera_data = ['C2', 'C6', 'F2', 'F5']
+MAP.camera_data_spawn_point = ['F7']
 MAP.camera_sight = (-2, -1, 3, 2)
 MAP.map_data = """
     ++ ME -- -- ME -- -- ME --
@@ -56,6 +56,11 @@ class Config(ConfigBase):
     MAP_HAS_MAP_STORY = False
     MAP_HAS_FLEET_STEP = False
     MAP_HAS_AMBUSH = True
+
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom-right'
+    MAP_SWIPE_MULTIPLY = (1.050, 1.069)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.015, 1.034)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (0.985, 1.003)
 
 
 class Campaign(CampaignBase):

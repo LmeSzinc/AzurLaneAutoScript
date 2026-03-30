@@ -54,6 +54,11 @@ class Config(ConfigBase):
     MAP_HAS_FLEET_STEP = False
     MAP_HAS_AMBUSH = True
 
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom-left'
+    MAP_SWIPE_MULTIPLY = (1.093, 1.113)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.057, 1.077)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.026, 1.045)
+
 
 class Campaign(CampaignBase):
     MAP = MAP
