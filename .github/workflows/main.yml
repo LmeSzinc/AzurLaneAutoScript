@@ -2,6 +2,7 @@ name: Upstream Mirror
 
 permissions:
     contents: write
+    pull-requests: write
 
 on:
     schedule:
@@ -40,6 +41,7 @@ jobs:
                   git fetch --no-tags upstream "${UPSTREAM_BRANCH}"
 
             - name: Mirror upstream branch
+              id: mirror
               shell: bash
               run: |
                   set -euo pipefail
@@ -47,13 +49,17 @@ jobs:
                   upstream_sha="$(git rev-parse "upstream/${UPSTREAM_BRANCH}")"
                   remote_sha="$(git ls-remote origin "refs/heads/${MIRROR_BRANCH}" | awk '{print $1}')"
 
+                  echo "upstream_sha=${upstream_sha}" >> "${GITHUB_OUTPUT}"
+
                   if [[ "${remote_sha}" == "${upstream_sha}" ]]; then
                       echo "No update needed: ${MIRROR_BRANCH} already points to ${upstream_sha}" | tee -a "${GITHUB_STEP_SUMMARY}"
+                      echo "updated=false" >> "${GITHUB_OUTPUT}"
                       exit 0
                   fi
 
                   git checkout -B "${MIRROR_BRANCH}" "upstream/${UPSTREAM_BRANCH}"
                   git push --force origin "${MIRROR_BRANCH}:${MIRROR_BRANCH}"
+                  echo "updated=true" >> "${GITHUB_OUTPUT}"
 
                   {
                       echo "Updated ${MIRROR_BRANCH}"
@@ -62,3 +68,75 @@ jobs:
                       echo "- upstream branch: ${UPSTREAM_BRANCH}"
                       echo "- mirrored commit: ${upstream_sha}"
                   } | tee -a "${GITHUB_STEP_SUMMARY}"
+
+            - name: Create or reuse pull request
+              uses: actions/github-script@v8
+              env:
+                  BASE_BRANCH: master
+                  HEAD_BRANCH: upstream-sync
+                  MIRRORED_SHA: ${{ steps.mirror.outputs.upstream_sha }}
+              with:
+                  script: |
+                      const owner = context.repo.owner;
+                      const repo = context.repo.repo;
+                      const base = process.env.BASE_BRANCH;
+                      const head = process.env.HEAD_BRANCH;
+                      const mirroredSha = process.env.MIRRORED_SHA;
+
+                      const compare = await github.rest.repos.compareCommitsWithBasehead({
+                        owner,
+                        repo,
+                        basehead: `${base}...${head}`,
+                      });
+
+                      if ((compare.data.ahead_by ?? 0) === 0) {
+                        await core.summary
+                          .addRaw(`No pull request needed: \`${head}\` has no commits to merge into \`${base}\`.`)
+                          .write();
+                        return;
+                      }
+
+                      const existing = await github.rest.pulls.list({
+                        owner,
+                        repo,
+                        state: 'open',
+                        base,
+                        head: `${owner}:${head}`,
+                      });
+
+                      const title = `Sync upstream/master into ${base}`;
+                      const body = [
+                        'Automated upstream sync PR.',
+                        '',
+                        `- source branch: \`${head}\``,
+                        `- target branch: \`${base}\``,
+                        `- mirrored upstream commit: \`${mirroredSha}\``,
+                      ].join('\n');
+
+                      if (existing.data.length > 0) {
+                        const pr = existing.data[0];
+                        await github.rest.pulls.update({
+                          owner,
+                          repo,
+                          pull_number: pr.number,
+                          title,
+                          body,
+                        });
+                        await core.summary
+                          .addRaw(`Reused existing PR: #${pr.number}`)
+                          .write();
+                        return;
+                      }
+
+                      const created = await github.rest.pulls.create({
+                        owner,
+                        repo,
+                        title,
+                        head,
+                        base,
+                        body,
+                      });
+
+                      await core.summary
+                        .addRaw(`Created PR: #${created.data.number}`)
+                        .write();
