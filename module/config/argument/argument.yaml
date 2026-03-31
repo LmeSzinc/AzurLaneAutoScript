@@ -217,7 +217,7 @@ Emotion:
     value: 2020-01-01 00:00:00
     display: disabled
   Fleet1Control:
-    value: prevent_yellow_face
+    value: prevent_green_face
     option: [ keep_exp_bonus, prevent_green_face, prevent_yellow_face, prevent_red_face ]
   Fleet1Recover:
     value: not_in_dormitory
@@ -228,7 +228,7 @@ Emotion:
     value: 2020-01-01 00:00:00
     display: disabled
   Fleet2Control:
-    value: prevent_yellow_face
+    value: prevent_green_face
     option: [ keep_exp_bonus, prevent_green_face, prevent_yellow_face, prevent_red_face ]
   Fleet2Recover:
     value: not_in_dormitory
@@ -362,7 +362,7 @@ ControlExpOverflow:
   T1Allow: 200
 AddNewStudent:
   Enable: false
-  Favorite: true
+  Favorite: false
   MinLevel: 50
 Research:
   UseCube:
