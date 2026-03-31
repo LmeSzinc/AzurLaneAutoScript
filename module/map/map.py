@@ -377,12 +377,17 @@ class Map(Fleet):
         grids = self.map.select(may_boss=True, is_accessible=True).sort('weight', 'cost')
         logger.info('May boss: %s' % grids)
         battle_count = self.battle_count
+        is_single_boss = self.map.select(may_boss=True).count == 1
+        if is_single_boss:
+            expected = 'boss'
+        else:
+            expected = ''
 
         for grid in grids:
             logger.hr('Clear potential BOSS')
             grids = grids.sort('weight', 'cost')
             logger.info('Grid: %s' % str(grid))
-            self.fleet_boss.clear_chosen_enemy(grid)
+            self.fleet_boss.clear_chosen_enemy(grid, expected=expected)
             if self.battle_count > battle_count:
                 logger.info('Boss guessing correct.')
                 return True
@@ -397,7 +402,7 @@ class Map(Fleet):
             roadblocks = self.brute_find_roadblocks(grid, fleet=self.fleet_boss_index)
             roadblocks = roadblocks.sort('weight', 'cost')
             logger.info('Grids: %s' % str(roadblocks))
-            self.fleet_1.clear_chosen_enemy(roadblocks[0])
+            self.fleet_1.clear_chosen_enemy(roadblocks[0], expected=expected)
             return True
 
         return False
