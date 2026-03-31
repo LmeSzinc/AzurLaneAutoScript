@@ -526,6 +526,8 @@ class RewardTacticalClass(Dock):
                     logger.info('Not going to learn skill but in dock, close it')
                     study_finished = True
                     self.device.click(BACK_ARROW)
+                # reset DOCK_CHECK to Timer(3)
+                self.interval_timer.pop(DOCK_CHECK.name, None)
                 self.interval_reset([BOOK_EMPTY_POPUP, DOCK_CHECK], interval=3)
                 continue
             if self.appear(SKILL_CONFIRM, offset=(20, 20), interval=3):
