@@ -6685,7 +6685,7 @@
       },
       "Favorite": {
         "type": "checkbox",
-        "value": true
+        "value": false
       },
       "MinLevel": {
         "type": "input",

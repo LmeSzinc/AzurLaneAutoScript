@@ -201,7 +201,7 @@ class GeneratedConfig:
 
     # Group `AddNewStudent`
     AddNewStudent_Enable = False
-    AddNewStudent_Favorite = True
+    AddNewStudent_Favorite = False
     AddNewStudent_MinLevel = 50
 
     # Group `Research`

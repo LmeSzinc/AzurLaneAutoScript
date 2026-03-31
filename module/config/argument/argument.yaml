@@ -362,7 +362,7 @@ ControlExpOverflow:
   T1Allow: 200
 AddNewStudent:
   Enable: false
-  Favorite: true
+  Favorite: false
   MinLevel: 50
 Research:
   UseCube:
