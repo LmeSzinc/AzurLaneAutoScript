@@ -3,14 +3,15 @@ from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.equipment.assets import *
 from module.logger import logger
-from module.retire.assets import DOCK_CHECK
-from module.retire.assets import EQUIP_CONFIRM as RETIRE_EQUIP_CONFIRM
+from module.retire.assets import DOCK_CHECK, EQUIP_CONFIRM as RETIRE_EQUIP_CONFIRM
 from module.storage.storage import StorageHandler
 from module.ui.assets import BACK_ARROW
 from module.ui.navbar import Navbar
 
 SWIPE_DISTANCE = 250
 SWIPE_RANDOM_RANGE = (-40, -20, 40, 20)
+# patch to handle both blue (folded) and orange (expanded) button
+EQUIPMENT_OPEN.match = EQUIPMENT_OPEN.match_luma
 
 
 class Equipment(StorageHandler):
@@ -40,6 +41,9 @@ class Equipment(StorageHandler):
                     if self.appear(RETIRE_EQUIP_CONFIRM, offset=(30, 30)):
                         logger.info('RETIRE_EQUIP_CONFIRM popup in _ship_view_swipe()')
                         return False
+                    # Popup when enhancing a NPC ship
+                    if self.handle_popup_confirm('SHIP_VIEW_SWIPE'):
+                        continue
                 swipe_count += 1
 
             self.device.screenshot()

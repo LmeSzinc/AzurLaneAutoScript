@@ -5,12 +5,15 @@ from module.config.redirect_utils.shop_filter import voucher_redirect
 from module.handler.assets import POPUP_CANCEL, POPUP_CONFIRM
 from module.logger import logger
 from module.map_detection.utils import Points
+from module.ocr.ocr import DigitYuv
 from module.shop.assets import *
 from module.shop.base import ShopItemGrid
 from module.shop.clerk import ShopClerk
 from module.shop.shop_status import ShopStatus
+from module.ui.assets import BACK_ARROW
 from module.ui.scroll import Scroll
 
+PRICE_OCR = DigitYuv([], letter=(255, 223, 57), threshold=128, name='Price_ocr')
 VOUCHER_SHOP_SCROLL = Scroll(VOUCHER_SHOP_SCROLL_AREA, color=(255, 255, 255))
 TEMPLATE_VOUCHER_ICON = Template('./assets/shop/cost/Voucher.png')
 
@@ -118,6 +121,7 @@ class VoucherShop(ShopClerk, ShopStatus):
         shop_voucher_items.load_cost_template_folder('./assets/shop/cost')
         shop_voucher_items.similarity = 0.85
         shop_voucher_items.cost_similarity = 0.5
+        shop_voucher_items.price_ocr = PRICE_OCR
         return shop_voucher_items
 
     def shop_items(self):
@@ -148,7 +152,8 @@ class VoucherShop(ShopClerk, ShopStatus):
         Clear interval on select assets for
         shop_buy_handle
         """
-        super().shop_interval_clear()
+        self.interval_clear(BACK_ARROW)
+        self.interval_clear(SHOP_BUY_CONFIRM)
         self.interval_clear([
             SHOP_BUY_CONFIRM_SELECT,
             SHOP_BUY_CONFIRM_AMOUNT,
@@ -182,6 +187,48 @@ class VoucherShop(ShopClerk, ShopStatus):
                 return True
 
         return False
+
+    def shop_buy_execute(self, item, skip_first_screenshot=True):
+        """
+        Args:
+            item: Item to check
+            skip_first_screenshot: bool
+        Returns:
+            None: exits appropriately therefore successful
+        """
+        success = False
+        self.shop_interval_clear()
+
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            if self.appear(BACK_ARROW, offset=(30, 30), interval=3):
+                self.device.click(item)
+                continue
+            if self.appear_then_click(SHOP_BUY_CONFIRM, offset=(20, 20), interval=3):
+                self.interval_reset(BACK_ARROW)
+                continue
+            if self.shop_buy_handle(item):
+                self.interval_reset(BACK_ARROW)
+                continue
+            if self.handle_retirement():
+                self.interval_reset(BACK_ARROW)
+                continue
+            if self.shop_obstruct_handle():
+                self.interval_reset(BACK_ARROW)
+                success = True
+                continue
+            if self.info_bar_count():
+                self.interval_reset(BACK_ARROW)
+                success = True
+                continue
+
+            # End
+            if success and self.appear(BACK_ARROW, offset=(30, 30)):
+                break
 
     def run(self):
         """

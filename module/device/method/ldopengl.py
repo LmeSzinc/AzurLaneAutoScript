@@ -2,7 +2,6 @@ import ctypes
 import os
 import subprocess
 import time
-import typing as t
 from dataclasses import dataclass
 from functools import wraps
 
@@ -102,17 +101,31 @@ class LDConsole:
             logger.warning(f'TimeoutExpired when calling {cmd}, stdout={stdout}, stderr={stderr}')
         return stdout
 
-    def list2(self) -> t.List[DataLDPlayerInfo]:
+    def list2(self):
         """
         > ldconsole.exe list2
         0,雷电模拟器,28053900,42935798,1,59776,36816,1280,720,240
         1,雷电模拟器-1,0,0,0,-1,-1,1280,720,240
+
+        Returns:
+            list[DataLDPlayerInfo]:
         """
         out = []
         data = self.subprocess_run(['list2'])
         for row in data.strip().split(b'\n'):
-            info = row.strip().split(b',')
-            info = DataLDPlayerInfo(*info)
+            row = row.strip()
+            if not row:
+                continue
+            info = row.split(b',')
+            # check parts
+            if len(info) != 10:
+                logger.warning(f'ldplayer info does not have 10 parts: "{row}"')
+                continue
+            # build info
+            try:
+                info = DataLDPlayerInfo(*info)
+            except Exception as e:
+                logger.warning(f'Failed to build ldplayer info from "{row}", {e}')
             out.append(info)
         return out
 
@@ -319,7 +332,7 @@ class LDOpenGL(Platform):
         if not self.is_ldplayer_bluestacks_family:
             return False
         logger.attr('EmulatorInfo_Emulator', self.config.EmulatorInfo_Emulator)
-        if self.config.EmulatorInfo_Emulator not in ['LDPlayer9']:
+        if self.config.EmulatorInfo_Emulator not in ['LDPlayer9', 'LDPlayer14']:
             return False
 
         try:
@@ -331,6 +344,16 @@ class LDOpenGL(Platform):
     def screenshot_ldopengl(self):
         image = self.ldopengl.screenshot()
 
-        image = cv2.flip(image, 0)
+        # flip image, also copy image array (no dst=image)
+        if self.orientation == 2:
+            # You may randomly get orientation=2 on ldplayer, but emulators can't be upside-down
+            # If device is upside-down, image is 180 degree rotated (flipped both vertically and horizontally)
+            # plus the different pixel order, we only need to flip it horizontally
+            image = cv2.flip(image, 1)
+        else:
+            # Normal case
+            # Pointer data has different pixel order (positive y-axis upwards)
+            # we need to flip it vertically to the image pixel order (positive y-axis downwards)
+            image = cv2.flip(image, 0)
         cv2.cvtColor(image, cv2.COLOR_BGR2RGB, dst=image)
         return image

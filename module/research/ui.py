@@ -5,16 +5,16 @@ from module.logger import logger
 from module.research.assets import *
 from module.research.project import RESEARCH_STATUS
 from module.research.series import RESEARCH_SCALING
-from module.ui.assets import RESEARCH_CHECK
+from module.ui.assets import BACK_ARROW, RESEARCH_CHECK
 from module.ui.ui import UI
 
 
 class ResearchUI(UI):
-    def is_in_research(self):
-        return self.appear(RESEARCH_CHECK, offset=(20, 20))
+    def is_in_research(self, interval=0):
+        return self.appear(RESEARCH_CHECK, offset=(20, 20), interval=interval)
 
-    def is_in_queue(self):
-        return self.appear(QUEUE_CHECK, offset=(20, 20))
+    def is_in_queue(self, interval=0):
+        return self.appear(QUEUE_CHECK, offset=(20, 20), interval=interval)
 
     def ensure_research_stable(self):
         self.wait_until_stable(STABLE_CHECKER)
@@ -31,14 +31,30 @@ class ResearchUI(UI):
         self.ui_click(RESEARCH_GOTO_QUEUE, check_button=self.is_in_queue, appear_button=self.is_in_research,
                       retry_wait=1, skip_first_screenshot=skip_first_screenshot)
 
-    def queue_quit(self, skip_first_screenshot=True):
+    def queue_quit(self):
         """
         Pages:
             in: is_in_queue
             out: is_in_research, project stabled
         """
-        self.ui_back(check_button=self.is_in_research, appear_button=self.is_in_queue,
-                     retry_wait=3, skip_first_screenshot=skip_first_screenshot)
+        logger.info('Queue quit')
+        for _ in self.loop():
+            if self.is_in_research():
+                break
+            if self.is_in_queue(interval=3):
+                self.device.click(BACK_ARROW)
+                continue
+            # handle get_items
+            # get_items should be handled when receiving, but sometimes just slow network
+            if self.appear(GET_ITEMS_1, offset=(20, 20), interval=3):
+                logger.info(f'{GET_ITEMS_1} -> {GET_ITEMS_RESEARCH_SAVE}')
+                self.device.click(GET_ITEMS_RESEARCH_SAVE)
+                continue
+            if self.appear(GET_ITEMS_2, offset=(20, 20), interval=3):
+                logger.info(f'{GET_ITEMS_1} -> {GET_ITEMS_RESEARCH_SAVE}')
+                self.device.click(GET_ITEMS_RESEARCH_SAVE)
+                continue
+
         self.ensure_research_center_stable()
 
     def get_items(self):

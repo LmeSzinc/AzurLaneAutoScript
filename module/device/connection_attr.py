@@ -71,22 +71,39 @@ class ConnectionAttr:
         self.config.DEVICE_OVER_HTTP = self.is_over_http
 
     @staticmethod
-    def revise_serial(serial):
-        serial = serial.replace(' ', '')
+    def revise_serial(serial: str):
+        """
+        Tons of fool-proof fixes to handle manual serial input
+        To load a serial:
+            serial = SerialStr.revise_serial(serial)
+        """
+        serial = serial.strip().replace(' ', '')
         # 127。0。0。1：5555
         serial = serial.replace('。', '.').replace('，', '.').replace(',', '.').replace('：', ':')
         # 127.0.0.1.5555
         serial = serial.replace('127.0.0.1.', '127.0.0.1:')
+        # 5555,16384 (actually "5555.16384" because replace(',', '.'))
+        if '.' in serial:
+            left, _, right = serial.partition('.')
+            try:
+                left = int(left)
+                right = int(right)
+                if 5500 < left < 6000 and 16300 < right < 20000:
+                    serial = str(right)
+            except ValueError:
+                pass
         # 16384
-        try:
-            port = int(serial)
-            if 1000 < port < 65536:
-                serial = f'127.0.0.1:{port}'
-        except ValueError:
-            pass
+        if serial.isdigit():
+            try:
+                port = int(serial)
+                if 1000 < port < 65536:
+                    serial = f'127.0.0.1:{port}'
+            except ValueError:
+                pass
         # 夜神模拟器 127.0.0.1:62001
         # MuMu模拟器12127.0.0.1:16384
         if '模拟' in serial:
+            import re
             res = re.search(r'(127\.\d+\.\d+\.\d+:\d+)', serial)
             if res:
                 serial = res.group(1)
@@ -159,7 +176,7 @@ class ConnectionAttr:
 
     @cached_property
     def is_mumu12_family(self):
-        # 127.0.0.1:16XXX
+        # 127.0.0.1:16384 + 32*n, assume 32 instances at max
         return 16384 <= self.port <= 17408
 
     @cached_property
@@ -171,7 +188,8 @@ class ConnectionAttr:
     @cached_property
     def is_ldplayer_bluestacks_family(self):
         # Note that LDPlayer and BlueStacks have the same serial range
-        return self.serial.startswith('emulator-') or 5555 <= self.port <= 5587
+        # 127.0.0.1:5555 + 2*n, assume 32 instances at max
+        return self.serial.startswith('emulator-') or 5555 <= self.port <= 5619
 
     @cached_property
     def is_nox_family(self):

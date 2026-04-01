@@ -83,7 +83,7 @@
       "help": ""
     },
     "Coalition": {
-      "name": "Little Academy",
+      "name": "Light & Shadow Fashion Shoot",
       "help": ""
     },
     "MaritimeEscort": {
@@ -119,7 +119,7 @@
       "help": ""
     },
     "CoalitionSp": {
-      "name": "Little Academy SP",
+      "name": "Light & Shadow Fashion Shoot SP",
       "help": ""
     },
     "Commission": {
@@ -190,9 +190,13 @@
       "name": "Minigame",
       "help": "Receive credits and spend them"
     },
+    "PrivateQuarters": {
+      "name": "Private Quarters",
+      "help": ""
+    },
     "OpsiGeneral": {
       "name": "OpSi General",
-      "help": ""
+      "help": "Ensure the following settings in Azur Lane:\nReduce TB Guidance: On\nAuto use items during Auto Search: On\nAuto Mode in secured zones: Off\nStory Autoplay: Enabled\nText Auto-Scroll Speed: Very Fast"
     },
     "OpsiAshBeacon": {
       "name": "META Battles",
@@ -325,6 +329,7 @@
       "com.YoStarJP.AzurLane": "JP",
       "com.hkmanjuu.azurlane.gp": "TW",
       "com.bilibili.blhx.huawei": "CN com.bilibili.blhx.huawei",
+      "com.bilibili.blhx.honor": "CN com.bilibili.blhx.honor",
       "com.bilibili.blhx.mi": "CN com.bilibili.blhx.mi",
       "com.tencent.tmgp.bilibili.blhx": "CN com.tencent.tmgp.bilibili.blhx",
       "com.bilibili.blhx.baidu": "CN com.bilibili.blhx.baidu",
@@ -371,6 +376,9 @@
       "cn_android-23": "[国服] 长戟计划",
       "cn_android-24": "[国服] 暴雨行动",
       "cn_android-25": "[国服] 水仙行动",
+      "cn_android-26": "[国服] 冬月计划",
+      "cn_android-27": "[国服] 长弓计划",
+      "cn_android-28": "[国服] 裁决协议",
       "cn_ios-0": "[国服] 夏威夷",
       "cn_ios-1": "[国服] 珊瑚海",
       "cn_ios-2": "[国服] 中途岛",
@@ -462,6 +470,7 @@
       "LDPlayer3": "LD Player 3",
       "LDPlayer4": "LD Player 4",
       "LDPlayer9": "LD Player 9",
+      "LDPlayer14": "LDPlayer 14",
       "MuMuPlayer": "MuMu Player",
       "MuMuPlayerX": "MuMu Player X",
       "MuMuPlayer12": "MuMu Player 12",
@@ -675,6 +684,9 @@
       "campaign_main": "campaign_main",
       "coalition_20230323": "Frostfall",
       "coalition_20240627": "Welcome to Little Academy",
+      "coalition_20250626": "The Neon City Investigator",
+      "coalition_20251120": "DATE A LANE",
+      "coalition_20260122": "Light & Shadow Fashion Shoot!",
       "event_20200227_cn": "Northern Overture",
       "event_20200312_cn": "The Solomon Ranger Rerun",
       "event_20200326_cn": "Microlayer Medley",
@@ -727,17 +739,17 @@
       "event_20220728_cn": "Aquilifers Ballade Rerun",
       "event_20220818_cn": "Operation Convergence Return",
       "event_20220915_cn": "Violet Tempest Blooming Lycoris Rerun",
-      "event_20221124_cn": "The Alchemist and the Archipelago of Secrets",
+      "event_20221124_cn": "The Alchemist and the Archipelago of Secrets Rerun",
       "event_20221222_cn": "Parallel Superimposition Rerun",
       "event_20230223_cn": "Revelations of Dust Rerun",
-      "event_20230525_cn": "Confluence of Nothingness",
-      "event_20230803_cn": "Anthem of Remembrance",
-      "event_20230817_cn": "The Fools Scales",
-      "event_20230914_cn": "Effulgence Before Eclipse",
+      "event_20230525_cn": "Confluence of Nothingness Rerun",
+      "event_20230803_cn": "Anthem of Remembrance Rerun",
+      "event_20230817_cn": "The Fools Scales Rerun",
+      "event_20230914_cn": "Effulgence Before Eclipse Rerun",
       "event_20231026_cn": "Tempesta and the Fountain of Youth",
       "event_20231123_cn": "The Ninja Scrolls: Azur Flash",
-      "event_20231221_cn": "Light-Chasing Sea of Stars",
-      "event_20240229_cn": "Snowrealm Peregrination",
+      "event_20231221_cn": "Light-Chasing Sea of Stars Rerun",
+      "event_20240229_cn": "Snowrealm Peregrination Rerun",
       "event_20240425_cn": "Heart-Linking Harmony",
       "event_20240521_cn": "Light of the Martyrium",
       "event_20240725_cn": "Interlude of Illusions",
@@ -748,6 +760,15 @@
       "event_20241121_cn": "Dangerous Inventions Incoming",
       "event_20241219_cn": "Substellar Crepuscule",
       "event_20250227_cn": "Paradiso of Shackled Light",
+      "event_20250424_cn": "Toward Tulipa’s Seas",
+      "event_20250520_cn": "A Rose on the High Tower",
+      "event_20250724_cn": "The Alchemist and the Tower of Horizons",
+      "event_20250814_cn": "Secrets of the Abyss",
+      "event_20250912_cn": "A Dance for Amahara Above",
+      "event_20251023_cn": "Tempesta and Islas de Libertád",
+      "event_20251218_cn": "A Note Through the Firmament",
+      "event_20260226_cn": "Springtide Inn Online",
+      "event_20260326_cn": "The Vagabond’s Recruitment Plan",
       "raid_20200624": "Air Raid Drills with Essex Rerun",
       "raid_20210708": "Cross Wave rerun",
       "raid_20220127": "Mystery Investigation",
@@ -756,8 +777,9 @@
       "raid_20230118": "Winter Pathfinder",
       "raid_20230629": "Reflections of the Oasis",
       "raid_20240130": "Spring Festive Fiasco",
-      "raid_20240328": "From Zero to Hero",
+      "raid_20240328": "From Zero to Hero Rerun",
       "raid_20250116": "Spring Fashion Festa",
+      "raid_20260212": "Spring Auction Adventure",
       "war_archives_20180607_cn": "archives Ink Stained Steel Sakura",
       "war_archives_20180726_cn": "archives Iris of Light and Dark",
       "war_archives_20181020_en": "archives Strive Wish and Strategize",
@@ -794,7 +816,14 @@
       "war_archives_20220210_cn": "archives Northern Overture",
       "war_archives_20220224_cn": "archives Abyssal Refrain",
       "war_archives_20220324_cn": "archives Virtual Tower",
-      "war_archives_20220414_cn": "archives Aurora Noctis"
+      "war_archives_20220414_cn": "archives Aurora Noctis",
+      "war_archives_20220428_cn": "archives Rondo at Rainbows End",
+      "war_archives_20220526_cn": "archives Pledge of the Radiant Court",
+      "war_archives_20220728_cn": "archives Aquilifers Ballade",
+      "war_archives_20220915_cn": "archives Violet Tempest Blooming Lycoris",
+      "war_archives_20221222_cn": "archives Parallel Superimposition",
+      "war_archives_20230223_cn": "archives Revelations of Dust",
+      "war_archives_20231026_cn": "archives Tempesta and the Fountain of Youth"
     },
     "Mode": {
       "name": "Level Mode",
@@ -886,7 +915,8 @@
       "combat_auto": "combat_auto",
       "combat_manual": "combat_manual",
       "stand_still_in_the_middle": "stand_still_in_the_middle",
-      "hide_in_bottom_left": "hide_in_bottom_left"
+      "hide_in_bottom_left": "hide_in_bottom_left",
+      "hide_in_upper_left": "hide_in_upper_left"
     },
     "Fleet1Step": {
       "name": "Fleet 1 Step Number",
@@ -920,7 +950,8 @@
       "combat_auto": "combat_auto",
       "combat_manual": "combat_manual",
       "stand_still_in_the_middle": "stand_still_in_the_middle",
-      "hide_in_bottom_left": "hide_in_bottom_left"
+      "hide_in_bottom_left": "hide_in_bottom_left",
+      "hide_in_upper_left": "hide_in_upper_left"
     },
     "Fleet2Step": {
       "name": "Fleet 2 Step Number",
@@ -968,7 +999,7 @@
     },
     "DistanceToBoss": {
       "name": "Before BOSS battle move the submarine near BOSS",
-      "help": "Effective only if \"Submarine Mode\" is \"BOSS Only\" or \"Hunt and BOSS\"\nSelecting \"X Grids To BOSS\" needs to ensure that the submarine hunting range can cover the BOSS. Distance is calculated using the Manhattan Distance. Selecting \"Use Open Ocean Support\" requires U522/Leonardo da Vinci in the submarine fleet.",
+      "help": "Effective only if \"Submarine Mode\" is \"BOSS Only\" or \"Hunt and BOSS\"\nSelecting \"X Grids To BOSS\" needs to ensure that the submarine hunting range can cover the BOSS. Distance is calculated using the Manhattan Distance. Selecting \"Use Open Ocean Support\" requires submarine with aforementioned skill",
       "to_boss_position": "To BOSS Location",
       "1_grid_to_boss": "1 Grid To BOSS",
       "2_grid_to_boss": "2 Grids To BOSS",
@@ -1160,12 +1191,6 @@
       "name": "Commission Farming Settings",
       "help": "Warning: This task allows players to get a small amount of gems, but not an efficient way to farm.\nPlayers who have recently started Azur Lane are easily superstitious about 0LB and low oil consumption, while being ignorant about character leveling.\nRunning this function will only make you feel fulfilled however in reality your account will not actually progress very much.\nThe main purpose of this task is to get extra cubes for players with a formed lineup. Please rationally treat gems as a by-product.\n\nFleet 1 is expected to consist of 1 0LB CV/CVL and 1 0LB Vanguard, Fleet 2 is expected to consist of support ships such as New Jersey or Shinano to provide external battle assistance.\nFor information about the drop mechanism/rate of urgent commissions, you can refer to <https://bbs.nga.cn/read.php?tid=27134956> (in Chinese Simplified)"
     },
-    "ChangeFlagship": {
-      "name": "Change Flagship",
-      "help": "Change flagship if flagship level >= 32 or either flagship or vanguard are emotion exhausted (if Change Vanguard is enabled). If you choose not to change, your fleet will ignore the low emotion warning and continue combat.\nSwitch out to new common CV/CVL whose level is in range of 1 to 31, after current has reached level 32+. Meanwhile, abandoned flagships will be retired. Any common CV/CVL whose level is 2+ will be regarded as targets. Do confirm that your own ships which is not a target has been locked\n\nThe flagship's equipment is replaced when being switched out by first recording the current setup\nOnly populated equipment slots will be replaced. If the CV/CVL preference has been configured, all 5 slots will be populated otherwise only the auxiliary slots will be populated.",
-      "ship": "Change Ship",
-      "ship_equip": "Change Ship + Gears"
-    },
     "CommonCV": {
       "name": "Flagship Common CV/CVL Preference",
       "help": "",
@@ -1179,8 +1204,7 @@
       "name": "Change Vanguard",
       "help": "Change vanguard if flagship or vanguard are emotion exhausted. If you choose not to change, your fleet will ignore the low emotion warning and continue combat.\nSwitch out to new level 100(70) common vanguard from eagle or ironblood after current flagship has reached level 32+ (Only CN players'0 limit break ship can reach level 100)\n\nThe vanguard's equipment is replaced when being switched out by first recording the current setup. Only populated equipment slots will be replaced.",
       "disabled": "Don't Change",
-      "ship": "Change Ship",
-      "ship_equip": "Change Ship + Gears"
+      "ship": "Change Ship"
     },
     "CommonDD": {
       "name": "Flagship Common DD Preference",
@@ -1253,10 +1277,10 @@
     "Mode": {
       "name": "Raid Mode",
       "help": "",
-      "easy": "easy",
-      "normal": "normal",
-      "hard": "hard",
-      "ex": "ex"
+      "easy": "Easy",
+      "normal": "Normal",
+      "hard": "Hard",
+      "ex": "EX"
     },
     "UseTicket": {
       "name": "Use Ticket(s)",
@@ -1301,10 +1325,10 @@
     "Mode": {
       "name": "Mode",
       "help": "SP needs to use event daily SP to run",
-      "easy": "Easy",
-      "normal": "Normal",
-      "hard": "Hard",
-      "ex": "EX"
+      "easy": "easy",
+      "normal": "normal",
+      "hard": "hard",
+      "sp": "sp"
     },
     "Fleet": {
       "name": "Fleet",
@@ -1394,6 +1418,10 @@
     "Favorite": {
       "name": "Use Favorite Filter",
       "help": "During student selection apply the favorite filter\nThereby, giving priority to certain ship girls\nApply the favorite status to a ship girl in-game"
+    },
+    "MinLevel": {
+      "name": "Add Students with Level >= X Only",
+      "help": ""
     }
   },
   "Research": {
@@ -1433,6 +1461,9 @@
       "name": "Preset Filter Select",
       "help": "See research drops rates and spawn rates in https://azur-stats.lyoko.io/. People without a basic knowledge of these are recommended to use pre-optimized presets instead of writing custom filters",
       "custom": "custom",
+      "series_8_blueprint_305": "Series 8 Blueprints+305",
+      "series_8_blueprint_only": "Series 8 Blueprints Only",
+      "series_8_305_only": "Series 8 305 Only",
       "series_7_blueprint_la9": "Series 7 Blueprints+La9",
       "series_7_blueprint_only": "Series 7 Blueprints Only",
       "series_7_la9_only": "Series 7 La9 Only",
@@ -1626,6 +1657,10 @@
       "help": "",
       "level120": "Lv.120",
       "level125": "Lv.125"
+    },
+    "Favourite": {
+      "name": "Awaken Favourite Ships Only",
+      "help": ""
     }
   },
   "GeneralShop": {
@@ -1862,7 +1897,8 @@
       "help": "",
       "2": "DR2",
       "3": "DR3",
-      "4": "DR4"
+      "4": "DR4",
+      "5": "DR5"
     },
     "ShipIndex": {
       "name": "Ship Index",
@@ -1896,7 +1932,8 @@
       "2": "PR2",
       "3": "PR3",
       "4": "PR4",
-      "5": "PR5"
+      "5": "PR5",
+      "6": "PR6"
     },
     "ShipIndex": {
       "name": "Ship Index",
@@ -2030,6 +2067,34 @@
     "Collect": {
       "name": "Enable",
       "help": ""
+    }
+  },
+  "PrivateQuarters": {
+    "_info": {
+      "name": "Private Quarters Settings",
+      "help": "Execute the automated task relating to the private quarters feature\nToggle desired subtasks, can enable just 1 or both"
+    },
+    "BuyRoses": {
+      "name": "Buy Weekly Roses",
+      "help": "On week reset, roses will be available for purchase\nThe purchase is made in bulk wholsesale or none at all\nMinimum of 24K coin is required, if not enough subtask will be delayed to the next day and try again then"
+    },
+    "BuyCake": {
+      "name": "Buy Weekly Cake",
+      "help": "Ditto, minimum of 210 gems is required however"
+    },
+    "TargetInteract": {
+      "name": "Enable Daily Interact",
+      "help": "Enables execution of the interation sequence with target ship girl"
+    },
+    "TargetShip": {
+      "name": "Choose Ship Girl",
+      "help": "Select the target ship girl for interaction sequence",
+      "anchorage": "Anchorage",
+      "noshiro": "Noshiro",
+      "sirius": "Sirius",
+      "new_jersey": "New Jersey",
+      "taihou": "Taihou",
+      "aegir": "Aegir"
     }
   },
   "Daily": {

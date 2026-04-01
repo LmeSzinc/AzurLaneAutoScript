@@ -1,5 +1,4 @@
 from module.combat.combat import *
-from module.combat.combat import QUIT
 from module.exercise.assets import *
 from module.exercise.equipment import ExerciseEquipment
 from module.exercise.hp_daemon import HpDaemon
@@ -49,10 +48,15 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment, Combat):
         pause = None
         success = True
         end = False
-
+        battle_status_detected = False  # Track if in post battle screen
         while 1:
             self.device.screenshot()
-
+            # End
+            if self._in_exercise() or self.appear(BATTLE_PREPARATION, offset=(20, 20)):
+                logger.hr('Combat end')
+                if not end:
+                    logger.warning('Combat ended without end conditions detected')
+                break
             p = self.is_combat_executing()
             if p:
                 if end:
@@ -62,21 +66,33 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment, Combat):
             else:
                 self.low_hp_confirm_timer.reset()
                 # Finish - S or D rank
-                if self.appear_then_click(BATTLE_STATUS_S, interval=1):
+                if self.appear(BATTLE_STATUS_S, interval=1):
+                    logger.info(f'{BATTLE_STATUS_S} -> {CLICK_SAFE_AREA}')
+                    self.device.click(CLICK_SAFE_AREA)
                     success = True
                     end = True
+                    battle_status_detected = True
                     continue
-                if self.appear_then_click(BATTLE_STATUS_D, interval=1):
+                if self.appear(BATTLE_STATUS_D, interval=1):
+                    logger.info(f'{BATTLE_STATUS_D} -> {CLICK_SAFE_AREA}')
+                    self.device.click(CLICK_SAFE_AREA)
                     success = True
                     end = True
+                    battle_status_detected = True
                     logger.info("Exercise LOST")
                     continue
-            if self.appear_then_click(GET_ITEMS_1, interval=1):
+
+            # Only handle GET_ITEMS_1 after battle status
+            if battle_status_detected and self.appear(GET_ITEMS_1, offset=(30, 30), interval=1):
+                logger.info(f'{GET_ITEMS_1} -> {CLICK_SAFE_AREA}')
+                self.device.click(CLICK_SAFE_AREA)
                 continue
             if self.appear(EXP_INFO_S, interval=1):
+                logger.info(f'{EXP_INFO_S} -> {CLICK_SAFE_AREA}')
                 self.device.click(CLICK_SAFE_AREA)
                 continue
             if self.appear(EXP_INFO_D, interval=1):
+                logger.info(f'{EXP_INFO_D} -> {CLICK_SAFE_AREA}')
                 self.device.click(CLICK_SAFE_AREA)
                 continue
             # Last D rank screen
@@ -85,15 +101,13 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment, Combat):
                 end = True
                 logger.info("Exercise LOST")
                 continue
-
             # Quit
             if self.handle_combat_quit():
                 pause_interval.reset()
                 success = False
                 end = True
                 continue
-            if self.appear_then_click(QUIT_RECONFIRM, offset=(20, 20), interval=5):
-                self.interval_reset(QUIT)
+            if self.handle_combat_quit_reconfirm():
                 pause_interval.reset()
                 continue
             if not end:
@@ -107,14 +121,17 @@ class ExerciseCombat(HpDaemon, OpponentChoose, ExerciseEquipment, Combat):
                     if show_hp_timer.reached():
                         show_hp_timer.reset()
                         self._show_hp()
-
-            # End
-            if self._in_exercise() or self.appear(BATTLE_PREPARATION, offset=(20, 20)):
-                logger.hr('Combat end')
-                if not end:
-                    logger.warning('Combat ended without end conditions detected')
-                break
-
+            # bunch of popup handlers
+            if self.handle_popup_confirm('EXERCISE_COMBAT_EXECUTE'):
+                continue
+            if self.handle_urgent_commission():
+                continue
+            if self.handle_guild_popup_cancel():
+                continue
+            if self.handle_vote_popup():
+                continue
+            if self.handle_mission_popup_ack():
+                continue
         return success
 
     def _choose_opponent(self, index, skip_first_screenshot=True):

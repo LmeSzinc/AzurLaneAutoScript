@@ -49,11 +49,7 @@ class Combat(Combat_, MapEventHandler):
         # if balance_hp:
         #     self.hp_balance()
 
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
+        for _ in self.loop():
 
             if self.appear(BATTLE_PREPARATION):
                 if self.handle_combat_automation_set(auto=auto == 'combat_auto'):
@@ -118,6 +114,8 @@ class Combat(Combat_, MapEventHandler):
         Returns:
             bool:
         """
+        if getattr(self, '_disable_handle_get_items', False):
+            return False
         if self.appear(GET_ITEMS_1, offset=5, interval=self.battle_status_click_interval):
             if drop:
                 drop.handle_add(self, before=2)
@@ -157,7 +155,14 @@ class Combat(Combat_, MapEventHandler):
 
     def combat_status(self, drop=None, expected_end=None):
         self.__os_combat_drop = drop
-        super().combat_status(drop=drop, expected_end=self._os_combat_expected_end)
+        if expected_end is None:
+            expected_end = self._os_combat_expected_end
+        # disable handle_get_items and use only handle_map_get_items
+        self._disable_handle_get_items = True
+        try:
+            super().combat_status(drop=drop, expected_end=expected_end)
+        finally:
+            self._disable_handle_get_items = False
 
     def combat(self, *args, save_get_items=False, **kwargs):
         """

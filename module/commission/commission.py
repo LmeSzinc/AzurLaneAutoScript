@@ -17,7 +17,7 @@ from module.logger import logger
 from module.map.map_grids import SelectedGrids
 from module.retire.assets import DOCK_CHECK
 from module.ui.assets import BACK_ARROW, COMMISSION_CHECK, REWARD_GOTO_COMMISSION
-from module.ui.page import page_reward
+from module.ui.page import page_reward, page_commission
 from module.ui.scroll import Scroll
 from module.ui.switch import Switch
 from module.ui.ui import UI
@@ -157,7 +157,7 @@ class RewardCommission(UI, InfoHandler):
         # Add shortest
         no_shortest = run.delete(SelectedGrids(['shortest']))
         if no_shortest.count + running_count < self.max_commission:
-            if no_shortest.count < run.count:
+            if daily.count:
                 logger.info('Not enough commissions to run, add shortest daily commissions')
                 COMMISSION_FILTER.load(SHORTEST_FILTER)
                 shortest = COMMISSION_FILTER.apply(daily[::-1], func=self._commission_check)
@@ -518,7 +518,7 @@ class RewardCommission(UI, InfoHandler):
                     self.device.screenshot()
 
                 # End
-                if self.appear(COMMISSION_CHECK, offset=(20, 20)):
+                if self.ui_page_appear(page_commission, offset=(20, 20)):
                     # Leaving at page_commission
                     # Commission rewards may appear too slow, causing stuck in UI switching
                     break
@@ -553,11 +553,12 @@ class RewardCommission(UI, InfoHandler):
                     continue
                 if self.ui_main_appear_then_click(page_reward, interval=3):
                     self.interval_reset(GET_SHIP)
-                    click_timer.reset()
+                    # no need to reset click_timer, just instant click REWARD_1
+                    # click_timer.reset()
                     continue
                 # Check GET_SHIP at last to handle random white background at page_main
                 for button in [GET_SHIP]:
-                    if self.appear(button, interval=1):
+                    if click_timer.reached() and self.appear(button, interval=1):
                         self.ensure_no_info_bar(timeout=1)
                         drop.add(self.device.image)
 

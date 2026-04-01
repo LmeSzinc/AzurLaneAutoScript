@@ -3,9 +3,10 @@ import re
 from module.campaign.campaign_event import CampaignEvent
 from module.coalition.assets import *
 from module.coalition.combat import CoalitionCombat
-from module.exception import ScriptError, ScriptEnd
+from module.exception import ScriptEnd, ScriptError
 from module.logger import logger
 from module.ocr.ocr import Digit
+from module.ui.page import page_campaign_menu
 
 
 class AcademyPtOcr(Digit):
@@ -18,6 +19,21 @@ class AcademyPtOcr(Digit):
         try:
             # 累计: 840
             result = result.rsplit(':')[1]
+        except IndexError:
+            pass
+        return super().after_process(result)
+
+
+class DALPtOcr(Digit):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.alphabet += 'X'
+
+    def after_process(self, result):
+        logger.attr(self.name, result)
+        try:
+            # X9100
+            result = result.rsplit('X')[1]
         except IndexError:
             pass
         return super().after_process(result)
@@ -37,12 +53,37 @@ class Coalition(CoalitionCombat, CampaignEvent):
             ocr = Digit(FROSTFALL_OCR_PT, name='OCR_PT', letter=(198, 158, 82), threshold=128)
         elif event == 'coalition_20240627':
             ocr = AcademyPtOcr(ACADEMY_PT_OCR, name='OCR_PT', letter=(255, 255, 255), threshold=128)
+        elif event == 'coalition_20250626':
+            # use generic ocr model
+            ocr = Digit(NEONCITY_PT_OCR, name='OCR_PT', lang='cnocr', letter=(208, 208, 208), threshold=128)
+        elif event == 'coalition_20251120':
+            ocr = DALPtOcr(DAL_PT_OCR, name='OCR_PT', letter=(255, 213, 69), threshold=128)
+        elif event == 'coalition_20260122':
+            ocr = Digit(FASHION_PT_OCR, name='OCR_PT', letter=(41, 40, 40), threshold=128)
         else:
             logger.error(f'ocr object is not defined in event {event}')
             raise ScriptError
 
-        pt = ocr.ocr(self.device.image)
+        pt = 0
+        for _ in self.loop(timeout=1.5):
+            pt = ocr.ocr(self.device.image)
+            # 999999 seems to be a default value, wait
+            if pt not in [999999]:
+                break
+        else:
+            logger.warning('Wait PT timeout, assume it is')
+
         return pt
+
+    @property
+    def _coalition_has_oil_icon(self):
+        """
+        Game devs are too asshole to drop oil display for UI design
+        https://github.com/LmeSzinc/AzurLaneAutoScript/issues/5214
+        """
+        if self.config.Campaign_Event == 'coalition_20260122':
+            return False
+        return True
 
     def triggered_stop_condition(self, oil_check=False, pt_check=False):
         """
@@ -55,7 +96,7 @@ class Coalition(CoalitionCombat, CampaignEvent):
             self.config.StopCondition_RunCount = 0
             self.config.Scheduler_Enable = False
             return True
-        # Oil limit
+        # Oil limit in current page
         if oil_check:
             if self.get_oil() < max(500, self.config.StopCondition_OilLimit):
                 logger.hr('Triggered stop condition: Oil limit')
@@ -100,11 +141,17 @@ class Coalition(CoalitionCombat, CampaignEvent):
             self.config.override(
                 Coalition_Fleet='multi',
             )
-        self.emotion.check_reduce(battle=self.coalition_get_battles(event, stage))
+        try:
+            self.emotion.check_reduce(battle=self.coalition_get_battles(event, stage))
+        except ScriptEnd:
+            self.coalition_map_exit(event)
+            raise
+
+        if self._coalition_has_oil_icon and self.triggered_stop_condition(oil_check=True):
+            self.coalition_map_exit(event)
+            raise ScriptEnd
 
         self.enter_map(event=event, stage=stage, mode=fleet)
-        if self.triggered_stop_condition(oil_check=True):
-            raise ScriptEnd
         self.coalition_combat()
 
     @staticmethod
@@ -140,9 +187,14 @@ class Coalition(CoalitionCombat, CampaignEvent):
                 logger.info(f'Count: {self.run_count}')
 
             # UI switches
+            if not self._coalition_has_oil_icon:
+                self.ui_goto(page_campaign_menu)
+                if self.triggered_stop_condition(oil_check=True):
+                    break
             self.device.stuck_record_clear()
             self.device.click_record_clear()
             self.ui_goto_coalition()
+            self.disable_event_on_raid()
             self.coalition_ensure_mode(event, 'battle')
 
             # End
@@ -169,3 +221,9 @@ class Coalition(CoalitionCombat, CampaignEvent):
             # Scheduler
             if self.config.task_switched():
                 self.config.task_stop()
+
+
+if __name__ == '__main__':
+    self = Coalition('alas5', task='Coalition')
+    self.device.screenshot()
+    self.get_event_pt()

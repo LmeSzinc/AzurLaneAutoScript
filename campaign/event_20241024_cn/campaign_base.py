@@ -43,5 +43,6 @@ class CampaignBase(CampaignBase_):
             else:
                 logger.warning(f'Stage {chapter}{stage} is not in event_20241024')
             self.campaign_ensure_chapter(chapter)
+            return True
 
         return super().campaign_set_chapter_20241219(chapter, stage, mode)

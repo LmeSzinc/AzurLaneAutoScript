@@ -83,7 +83,7 @@
       "help": ""
     },
     "Coalition": {
-      "name": "童心学院",
+      "name": "光影风尚-拍摄进行时",
       "help": ""
     },
     "MaritimeEscort": {
@@ -119,7 +119,7 @@
       "help": ""
     },
     "CoalitionSp": {
-      "name": "童心学院每日SP",
+      "name": "光影风尚-拍摄进行时SP",
       "help": ""
     },
     "Commission": {
@@ -189,6 +189,10 @@
     "Minigame": {
       "name": "小游戏",
       "help": "游戏币不会溢出时自动领取游戏币，有游戏币且奖励没满时自动进行小游戏"
+    },
+    "PrivateQuarters": {
+      "name": "宿舍计划",
+      "help": ""
     },
     "OpsiGeneral": {
       "name": "通用设置",
@@ -325,6 +329,7 @@
       "com.YoStarJP.AzurLane": "日服",
       "com.hkmanjuu.azurlane.gp": "台服",
       "com.bilibili.blhx.huawei": "国服 华为渠道服 com.bilibili.blhx.huawei",
+      "com.bilibili.blhx.honor": "国服 荣耀渠道服 com.bilibili.blhx.honor",
       "com.bilibili.blhx.mi": "国服 小米渠道服 com.bilibili.blhx.mi",
       "com.tencent.tmgp.bilibili.blhx": "国服 腾讯应用宝渠道服 com.tencent.tmgp.bilibili.blhx",
       "com.bilibili.blhx.baidu": "国服 百度渠道服 com.bilibili.blhx.baidu",
@@ -371,6 +376,9 @@
       "cn_android-23": "[国服] 长戟计划",
       "cn_android-24": "[国服] 暴雨行动",
       "cn_android-25": "[国服] 水仙行动",
+      "cn_android-26": "[国服] 冬月计划",
+      "cn_android-27": "[国服] 长弓计划",
+      "cn_android-28": "[国服] 裁决协议",
       "cn_ios-0": "[国服] 夏威夷",
       "cn_ios-1": "[国服] 珊瑚海",
       "cn_ios-2": "[国服] 中途岛",
@@ -462,6 +470,7 @@
       "LDPlayer3": "雷电模拟器3",
       "LDPlayer4": "雷电模拟器4",
       "LDPlayer9": "雷电模拟器9",
+      "LDPlayer14": "雷电模拟器14",
       "MuMuPlayer": "MuMu模拟器",
       "MuMuPlayerX": "MuMu模拟器X",
       "MuMuPlayer12": "MuMu模拟器12",
@@ -675,6 +684,9 @@
       "campaign_main": "主线图",
       "coalition_20230323": "极地风暴",
       "coalition_20240627": "欢迎来到童心学院",
+      "coalition_20250626": "迷彩都市的寻踪者",
+      "coalition_20251120": "DATE A LANE",
+      "coalition_20260122": "光影风尚-拍摄进行时",
       "event_20200227_cn": "北境序曲",
       "event_20200312_cn": "复刻斯图尔特的硝烟",
       "event_20200326_cn": "微层混合",
@@ -727,17 +739,17 @@
       "event_20220728_cn": "复刻雄鹰的叙事歌",
       "event_20220818_cn": "复刻远汇点作战",
       "event_20220915_cn": "复刻紫绛槿岚",
-      "event_20221124_cn": "炼金术士与秘密遗迹群岛",
+      "event_20221124_cn": "复刻炼金术士与秘密遗迹群岛",
       "event_20221222_cn": "复刻定向折叠",
       "event_20230223_cn": "复刻湮烬尘墟",
-      "event_20230525_cn": "空相交汇点",
-      "event_20230803_cn": "奏响鸢尾之歌",
-      "event_20230817_cn": "愚者的天平",
-      "event_20230914_cn": "须臾望月抄",
+      "event_20230525_cn": "复刻空相交汇点",
+      "event_20230803_cn": "复刻奏响鸢尾之歌",
+      "event_20230817_cn": "复刻愚者的天平",
+      "event_20230914_cn": "复刻须臾望月抄",
       "event_20231026_cn": "飓风与青春之泉",
       "event_20231123_cn": "苍闪忍法帖",
-      "event_20231221_cn": "星海逐光",
-      "event_20240229_cn": "雪境迷踪",
+      "event_20231221_cn": "复刻星海逐光",
+      "event_20240229_cn": "复刻雪境迷踪",
       "event_20240425_cn": "共鸣的PASSION",
       "event_20240521_cn": "绽放于辉光之城",
       "event_20240725_cn": "幻梦间奏曲",
@@ -748,6 +760,15 @@
       "event_20241121_cn": "危险发明迫近中",
       "event_20241219_cn": "星光下的余晖",
       "event_20250227_cn": "樊笼内的神光",
+      "event_20250424_cn": "扬起郁金之旗",
+      "event_20250520_cn": "高塔上的蔷薇",
+      "event_20250724_cn": "优米雅的炼金工房",
+      "event_20250814_cn": "奇渊下的秘密",
+      "event_20250912_cn": "起舞于天原之上",
+      "event_20251023_cn": "飓风与自由群岛",
+      "event_20251218_cn": "响彻于天穹之音",
+      "event_20260226_cn": "春满客栈Online",
+      "event_20260326_cn": "漫游者招募计划",
       "raid_20200624": "复刻特别演习埃塞克斯级",
       "raid_20210708": "复刻穿越彼方的水线",
       "raid_20220127": "演习神秘事件调查",
@@ -756,8 +777,9 @@
       "raid_20230118": "冬日的寻路人",
       "raid_20230629": "绿洲往事",
       "raid_20240130": "寰昌宇定家事忙",
-      "raid_20240328": "从零开始的魔王讨伐之旅",
+      "raid_20240328": "复刻从零开始的魔王讨伐之旅",
       "raid_20250116": "华裳巧展喜事长",
+      "raid_20260212": "春宴怀玉香满庭",
       "war_archives_20180607_cn": "档案 墨染的钢铁之花",
       "war_archives_20180726_cn": "档案 光与影的鸢尾之华",
       "war_archives_20181020_en": "档案 努力希望和计划",
@@ -794,7 +816,14 @@
       "war_archives_20220210_cn": "档案 北境序曲",
       "war_archives_20220224_cn": "档案 深度回音",
       "war_archives_20220324_cn": "档案 虚像构筑之塔",
-      "war_archives_20220414_cn": "档案 永夜幻光"
+      "war_archives_20220414_cn": "档案 永夜幻光",
+      "war_archives_20220428_cn": "档案 虹彩的终幕曲",
+      "war_archives_20220526_cn": "档案 泠誓光庭",
+      "war_archives_20220728_cn": "档案 雄鹰的叙事歌",
+      "war_archives_20220915_cn": "档案 紫绛槿岚",
+      "war_archives_20221222_cn": "档案 定向折叠",
+      "war_archives_20230223_cn": "档案 湮烬尘墟",
+      "war_archives_20231026_cn": "档案 飓风与青春之泉"
     },
     "Mode": {
       "name": "关卡模式",
@@ -886,7 +915,8 @@
       "combat_auto": "自律战斗",
       "combat_manual": "手操",
       "stand_still_in_the_middle": "中路站桩",
-      "hide_in_bottom_left": "躲左下角"
+      "hide_in_bottom_left": "躲左下角",
+      "hide_in_upper_left": "躲左上角"
     },
     "Fleet1Step": {
       "name": "一队步长",
@@ -920,7 +950,8 @@
       "combat_auto": "自律战斗",
       "combat_manual": "手操",
       "stand_still_in_the_middle": "中路站桩",
-      "hide_in_bottom_left": "躲左下角"
+      "hide_in_bottom_left": "躲左下角",
+      "hide_in_upper_left": "躲左上角"
     },
     "Fleet2Step": {
       "name": "二队步长",
@@ -1160,12 +1191,6 @@
       "name": "刷紧急委托",
       "help": "警告: 这个功能可以让玩家获取少量的钻石，但不是一个能高效获取钻石的方法\n玩碧蓝航线不久的玩家, 很容易迷信零破和低耗等, 而忽视了角色养成\n运行这个功能只会让你自己感觉很充实, 而你的帐号实际零提升\n这个功能的主要用途，是让阵容成型的玩家获取额外的魔方，请理性地把钻石当作副产物\n\n这个功能将在旗舰32级之后更换旗舰\n关于紧急委托刷新机制, 可阅读 https://bbs.nga.cn/read.php?tid=27134956\n委托油耗比: A3 > A1 > 2-4 > 2-1, 有活动图时建议选活动图, 2-1会拣问号有更多物资\n一队会完成所有的战斗, 前排应当为百级零破驱逐带输出装, 后排应该为33级及以下白皮零破航母\n二队应提供跨队支援（跨队弹幕、跨队辅助）"
     },
-    "ChangeFlagship": {
-      "name": "更换旗舰",
-      "help": "当旗舰等级>=32或红脸时更换旗舰，选择不更换则会强制红脸出击\n寻找等级在1-31之间的白皮航母，同时会在退役时选择更换下来的旗舰。所有等级大于1级的白皮航母均会被视为退役目标，请务必锁定不是目标的船。换船时更换旗舰装备，这通过记录之前的装备完成。\n\n换装备只会更换正在装备中的栏位，即使是白装也会更换。如果指定了旗舰，则会更换全部5个装备，未指定旗舰只会更换设备。",
-      "ship": "更换舰船",
-      "ship_equip": "更换舰船 + 装备"
-    },
     "CommonCV": {
       "name": "指定旗舰航母",
       "help": "",
@@ -1179,8 +1204,7 @@
       "name": "更换前排",
       "help": "当前排红脸时更换前排，选择不更换则会强制红脸出击\n换前排通过找一艘心情不低于10、等级100的白鹰或铁血的白皮驱逐完成，所以尽量保证有足够多的驱逐。国服以外则为等级70的白鹰白船驱逐。\n\n换装备只会更换正在装备中的栏位，即使是白装也会更换。前排会更换全部5个装备。",
       "disabled": "不更换",
-      "ship": "更换舰船",
-      "ship_equip": "更换舰船 + 装备"
+      "ship": "更换舰船"
     },
     "CommonDD": {
       "name": "指定前排",
@@ -1256,7 +1280,7 @@
       "easy": "简单",
       "normal": "普通",
       "hard": "困难",
-      "ex": "ex"
+      "ex": "EX"
     },
     "UseTicket": {
       "name": "使用演习券",
@@ -1301,10 +1325,10 @@
     "Mode": {
       "name": "难度",
       "help": "SP图需要使用活动每日SP运行",
-      "easy": "简单",
-      "normal": "普通",
-      "hard": "困难",
-      "ex": "EX"
+      "easy": "easy",
+      "normal": "normal",
+      "hard": "hard",
+      "sp": "sp"
     },
     "Fleet": {
       "name": "出击队伍",
@@ -1394,6 +1418,10 @@
     "Favorite": {
       "name": "优先选择常用",
       "help": ""
+    },
+    "MinLevel": {
+      "name": "仅添加等级 >= X 的角色",
+      "help": ""
     }
   },
   "Research": {
@@ -1433,6 +1461,9 @@
       "name": "科研过滤器",
       "help": "科研掉落和项目刷新见 https://azur-stats.lyoko.io/，对这些没有基本了解的人不建议编写自定义过滤器，建议使用预优化科研过滤器",
       "custom": "自定义",
+      "series_8_blueprint_305": "八期 蓝图+305",
+      "series_8_blueprint_only": "八期 仅蓝图",
+      "series_8_305_only": "八期 仅305",
       "series_7_blueprint_la9": "七期 蓝图+La9",
       "series_7_blueprint_only": "七期 仅蓝图",
       "series_7_la9_only": "七期 仅La9",
@@ -1626,6 +1657,10 @@
       "help": "",
       "level120": "120级",
       "level125": "125级"
+    },
+    "Favourite": {
+      "name": "仅觉醒常用舰船",
+      "help": ""
     }
   },
   "GeneralShop": {
@@ -1862,7 +1897,8 @@
       "help": "",
       "2": "二期科研",
       "3": "三期科研",
-      "4": "四期科研"
+      "4": "四期科研",
+      "5": "五期科研"
     },
     "ShipIndex": {
       "name": "舰船序号",
@@ -1896,7 +1932,8 @@
       "2": "二期科研",
       "3": "三期科研",
       "4": "四期科研",
-      "5": "五期科研"
+      "5": "五期科研",
+      "6": "六期科研"
     },
     "ShipIndex": {
       "name": "舰船序号",
@@ -2030,6 +2067,34 @@
     "Collect": {
       "name": "启用",
       "help": ""
+    }
+  },
+  "PrivateQuarters": {
+    "_info": {
+      "name": "宿舍计划设置",
+      "help": ""
+    },
+    "BuyRoses": {
+      "name": "购买每周浪漫满分",
+      "help": "浪漫满分购买次数每周一重置\n每次运行会尝试一次性全部购买，如果物资不够（不足24K）则取消购买并推迟至次日运行"
+    },
+    "BuyCake": {
+      "name": "购买每周蛋糕礼盒",
+      "help": "蛋糕礼盒购买次数每周一重置\n每次运行会尝试一次性全部购买，如果钻石不够（不足210钻石）则取消购买并推迟至次日运行"
+    },
+    "TargetInteract": {
+      "name": "清空每日精力",
+      "help": "与选择的舰娘互动清空今日精力"
+    },
+    "TargetShip": {
+      "name": "选择每日互动的舰娘",
+      "help": "选择需要与之每日互动的舰娘",
+      "anchorage": "安克雷奇",
+      "noshiro": "能代",
+      "sirius": "天狼星",
+      "new_jersey": "新泽西",
+      "taihou": "鹩",
+      "aegir": "埃吉尔"
     }
   },
   "Daily": {

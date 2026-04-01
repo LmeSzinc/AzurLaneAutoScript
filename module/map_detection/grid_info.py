@@ -106,8 +106,19 @@ class GridInfo:
                 return key
 
         if self.is_siren:
-            name = self.enemy_genre[6:8].upper() if self.enemy_genre else 'SU'
-            return name if name else 'SU'
+            if not self.enemy_genre:
+                return 'SU'
+            # enemy_genre is like "Siren_xxx"
+            name = self.enemy_genre[6:]
+            if '_' in name:
+                _, _, name = name.partition('_')
+            name = name[:2]
+            length = len(name)
+            if length == 2:
+                return name.upper()
+            if length == 1:
+                return f'{name.upper()} '
+            return 'SU'
 
         if self.is_enemy:
             return '%s%s' % (
@@ -175,7 +186,7 @@ class GridInfo:
         """
         Args:
             info (GridInfo):
-            mode (str): Scan mode, such as 'normal', 'carrier', 'movable'
+            mode (str): Scan mode, such as 'init', 'normal', 'carrier', 'movable'
 
         Returns:
             bool: If success.
@@ -198,7 +209,12 @@ class GridInfo:
                 self.is_fleet = True
                 if info.is_current_fleet:
                     self.is_current_fleet = True
-                return True
+                if mode == 'init' and info.is_enemy:
+                    # on init scan, we allow a grid to be both is_fleet and is_enemy
+                    # so fixup_submarine_fleet can info
+                    pass
+                else:
+                    return True
             else:
                 return False
         if info.is_boss:

@@ -18,6 +18,10 @@ class HospitalUI(UI):
         """
         if self.appear_then_click(GET_CLUE, offset=(20, 20), interval=1):
             return True
+        if self.appear(GET_CLUE_TEXT, offset=(20, 20), interval=1):
+            logger.info(f'{GET_CLUE_TEXT} -> {GET_CLUE}')
+            self.device.click(GET_CLUE)
+            return True
         return False
 
     def handle_clue_exit(self):

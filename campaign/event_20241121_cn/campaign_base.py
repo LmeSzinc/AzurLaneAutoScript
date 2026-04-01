@@ -27,10 +27,12 @@ class CampaignBase(CampaignBase_):
             MODE_SWITCH_20241219.set('combat', main=self)
             ASIDE_SWITCH_20241219.set('part1', main=self)
             self.campaign_ensure_chapter(chapter)
+            return True
         if chapter == 'ttl':
             self.ui_goto_event()
             MODE_SWITCH_20241219.set('combat', main=self)
             ASIDE_SWITCH_20241219.set('part2', main=self)
             self.campaign_ensure_chapter(chapter)
+            return True
 
         return super().campaign_set_chapter_20241219(chapter, stage, mode)

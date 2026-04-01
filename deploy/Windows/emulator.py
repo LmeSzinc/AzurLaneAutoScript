@@ -142,10 +142,13 @@ class EmulatorManager(AlasManager):
         for adb in replace:
             logger.info(f'Replacing {adb}')
             bak = self.adb_path_to_backup(adb, new_backup=True)
-            logger.info(f'{adb} -----> {bak}')
-            shutil.move(adb, bak)
-            logger.info(f'{self.adb} -----> {adb}')
-            shutil.copy(self.adb, adb)
+            try:
+                logger.info(f'{adb} -----> {bak}')
+                shutil.move(adb, bak)
+                logger.info(f'{self.adb} -----> {adb}')
+                shutil.copy(self.adb, adb)
+            except OSError as e:
+                logger.warning(f'Failed to replace {adb}, {e}')
 
     def adb_recover(self):
         """

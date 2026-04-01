@@ -21,6 +21,29 @@ class EmulatorInfo(BaseModel):
     # secret: SecretStr = ''
 
 
+def serial_to_id(serial: str):
+    """
+    Predict instance ID from serial
+    E.g.
+        "127.0.0.1:16384" -> 0
+        "127.0.0.1:16416" -> 1
+        Port from 16414 to 16418 -> 1
+
+    Returns:
+        int: instance_id, or None if failed to predict
+    """
+    try:
+        port = int(serial.split(':')[1])
+    except (IndexError, ValueError):
+        return None
+    index, offset = divmod(port - 16384 + 16, 32)
+    offset -= 16
+    if 0 <= index < 32 and offset in [-2, -1, 0, 1, 2]:
+        return index
+    else:
+        return None
+
+
 class PlatformBase(Connection, EmulatorManagerBase):
     """
     Base interface of a platform, platform can be various operating system or phone clouds.
@@ -144,6 +167,34 @@ class PlatformBase(Connection, EmulatorManagerBase):
             logger.info(f'Found emulator instance: {instance}')
             return instance
 
+        # Additional fixup for MuMu12
+        # MuMu12 may have 127.0.0.1:7555 in vbox config but user setting serial=127.0.0.1:16xxx
+        # If that happens, we check if serial pairs with instance_id
+        instance_id = serial_to_id(self.serial)
+        if instance_id is not None:
+            select = instances.select(MuMuPlayer12_id=instance_id)
+            # No logs for if select.count == 1:
+            # because this is just a trial
+            if select.count == 1:
+                instance = select[0]
+                logger.hr('Emulator instance', level=2)
+                logger.info(f'Found emulator instance: {instance}')
+                return instance
+
+        # search by emulator type first, which is the easiest setting for user to setup, so more trustworthy
+        # Multiple instances in given serial, name and path, search by emulator
+        if emulator:
+            search_args['type'] = emulator
+            select = instances.select(**search_args)
+            if select.count == 0:
+                logger.warning(f'No emulator instances with {search_args}, type invalid')
+                search_args.pop('type')
+            elif select.count == 1:
+                instance = select[0]
+                logger.hr('Emulator instance', level=2)
+                logger.info(f'Found emulator instance: {instance}')
+                return instance
+
         # Multiple instances in given serial, search by name
         if name:
             search_args['name'] = name
@@ -164,19 +215,6 @@ class PlatformBase(Connection, EmulatorManagerBase):
             if select.count == 0:
                 logger.warning(f'No emulator instances with {search_args}, path invalid')
                 search_args.pop('path')
-            elif select.count == 1:
-                instance = select[0]
-                logger.hr('Emulator instance', level=2)
-                logger.info(f'Found emulator instance: {instance}')
-                return instance
-
-        # Multiple instances in given serial, name and path, search by emulator
-        if emulator:
-            search_args['type'] = emulator
-            select = instances.select(**search_args)
-            if select.count == 0:
-                logger.warning(f'No emulator instances with {search_args}, type invalid')
-                search_args.pop('type')
             elif select.count == 1:
                 instance = select[0]
                 logger.hr('Emulator instance', level=2)

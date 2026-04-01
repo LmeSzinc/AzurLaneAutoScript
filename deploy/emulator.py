@@ -50,10 +50,11 @@ class VirtualBoxEmulator:
                 return root
 
         try:
-            reg = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, f'{self.UNINSTALL_REG}\\{self.name}', 0)
+            with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, f'{self.UNINSTALL_REG}\\{self.name}', 0) as reg:
+                res = winreg.QueryValueEx(reg, 'UninstallString')[0]
         except FileNotFoundError:
-            reg = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, f'{self.UNINSTALL_REG_2}\\{self.name}', 0)
-        res = winreg.QueryValueEx(reg, 'UninstallString')[0]
+            with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, f'{self.UNINSTALL_REG_2}\\{self.name}', 0) as reg:
+                res = winreg.QueryValueEx(reg, 'UninstallString')[0]
 
         file = re.search('"(.*?)"', res)
         file = file.group(1) if file else res
@@ -70,17 +71,17 @@ class VirtualBoxEmulator:
             str: Installation dir or None
         """
         try:
-            reg = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, path, 0)
-            root = winreg.QueryValueEx(reg, key)[0]
-            if os.path.exists(root):
-                return root
+            with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, path, 0) as reg:
+                root = winreg.QueryValueEx(reg, key)[0]
+                if os.path.exists(root):
+                    return root
         except FileNotFoundError:
             pass
         try:
-            reg = winreg.OpenKey(winreg.HKEY_CURRENT_USER, path, 0)
-            root = winreg.QueryValueEx(reg, key)[0]
-            if os.path.exists(root):
-                return root
+            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, path, 0) as reg:
+                root = winreg.QueryValueEx(reg, key)[0]
+                if os.path.exists(root):
+                    return root
         except FileNotFoundError:
             pass
 
@@ -137,16 +138,19 @@ class VirtualBoxEmulator:
         """
         for ori, bak in zip(self.adb_binary, self.adb_backup):
             logger.info(f'Replacing {ori}')
-            if os.path.exists(ori):
-                if filecmp.cmp(adb, ori, shallow=True):
-                    logger.info(f'{adb} is same as {ori}, skip')
+            try:
+                if os.path.exists(ori):
+                    if filecmp.cmp(adb, ori, shallow=True):
+                        logger.info(f'{adb} is same as {ori}, skip')
+                    else:
+                        logger.info(f'{ori} -----> {bak}')
+                        shutil.move(ori, bak)
+                        logger.info(f'{adb} -----> {ori}')
+                        shutil.copy(adb, ori)
                 else:
-                    logger.info(f'{ori} -----> {bak}')
-                    shutil.move(ori, bak)
-                    logger.info(f'{adb} -----> {ori}')
-                    shutil.copy(adb, ori)
-            else:
-                logger.info(f'{ori} not exists, skip')
+                    logger.info(f'{ori} not exists, skip')
+            except OSError as e:
+                logger.warning(f'Failed to replace {ori}, {e}')
 
     def adb_recover(self):
         """ Revert adb replacement """

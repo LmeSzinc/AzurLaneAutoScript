@@ -69,6 +69,7 @@ EmulatorInfo:
       LDPlayer3,
       LDPlayer4,
       LDPlayer9,
+      LDPlayer14,
       MuMuPlayer,
       MuMuPlayerX,
       MuMuPlayer12,
@@ -175,7 +176,7 @@ Fleet:
     option: [ line_ahead, double_line, diamond ]
   Fleet1Mode:
     value: combat_auto
-    option: [ combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left ]
+    option: [ combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left, hide_in_upper_left ]
   Fleet1Step:
     value: 3
     option: [ 2, 3, 4, 5 ]
@@ -187,7 +188,7 @@ Fleet:
     option: [ line_ahead, double_line, diamond ]
   Fleet2Mode:
     value: combat_auto
-    option: [ combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left ]
+    option: [ combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left, hide_in_upper_left ]
   Fleet2Step:
     value: 2
     option: [ 2, 3, 4, 5 ]
@@ -216,7 +217,7 @@ Emotion:
     value: 2020-01-01 00:00:00
     display: disabled
   Fleet1Control:
-    value: prevent_yellow_face
+    value: prevent_green_face
     option: [ keep_exp_bonus, prevent_green_face, prevent_yellow_face, prevent_red_face ]
   Fleet1Recover:
     value: not_in_dormitory
@@ -227,7 +228,7 @@ Emotion:
     value: 2020-01-01 00:00:00
     display: disabled
   Fleet2Control:
-    value: prevent_yellow_face
+    value: prevent_green_face
     option: [ keep_exp_bonus, prevent_green_face, prevent_yellow_face, prevent_red_face ]
   Fleet2Recover:
     value: not_in_dormitory
@@ -265,15 +266,12 @@ C124LargeLeveling:
     value: 3
     option: [ 3, 4, 5 ]
 GemsFarming:
-  ChangeFlagship:
-    value: ship
-    option: [ ship, ship_equip ]
   CommonCV:
     value: any
     option: [ any, langley, bogue, ranger, hermes ]
   ChangeVanguard:
     value: ship
-    option: [ disabled, ship, ship_equip ]
+    option: [ disabled, ship ]
   CommonDD:
     value: any
     option: [ any, favourite, aulick_or_foote , cassin_or_downes, z20_or_z21 ]
@@ -309,7 +307,7 @@ MaritimeEscort:
 Coalition:
   Mode:
     value: hard
-    option: [ easy, normal, hard, ex ]
+    option: [ easy, normal, hard, sp ]
   Fleet:
     value: single
     option: [ single, multi ]
@@ -364,7 +362,8 @@ ControlExpOverflow:
   T1Allow: 200
 AddNewStudent:
   Enable: false
-  Favorite: true
+  Favorite: false
+  MinLevel: 50
 Research:
   UseCube:
     value: only_05_hour
@@ -377,9 +376,12 @@ Research:
     option: [ always_use, only_05_hour, only_no_project, do_not_use ]
   AllowDelay: true
   PresetFilter:
-    value: series_7_blueprint_la9
+    value: series_8_blueprint_305
     option:
       - custom
+      - series_8_blueprint_305
+      - series_8_blueprint_only
+      - series_8_305_only
       - series_7_blueprint_la9
       - series_7_blueprint_only
       - series_7_la9_only
@@ -400,12 +402,12 @@ Research:
       - series_2_blueprint_only
       - series_2_457_only
   CustomFilter: |-
-    S7-DR0.5 > S7-PRY0.5 > S7-Q0.5 > S7-H0.5 > Q0.5 > S7-DR2.5
-    > S7-G1.5 > S7-Q1 > S7-DR5 > 0.5 > S7-G4 > S7-Q2 > S7-PRY2.5 > reset
-    > S7-DR8 > Q1 > 1 > S7-E-315 > S7-G2.5 > G1.5 > 1.5 > S7-E-031
-    > S7-Q4 > Q2 > E2 > 2 > DR2.5 > PRY2.5 > G2.5 > 2.5 > S7-PRY5
-    > S7-PRY8 > Q4 > G4 > 4 > S7-C6 > DR5 > PRY5 > 5 > C6 > 6 > S7-C8
-    > S7-C12 > DR8 > PRY8 > C8 > 8 > C12 > 12
+    S8-DR0.5 > S8-PRY0.5 > S8-Q0.5 > S8-H0.5 > Q0.5 > S8-DR2.5
+    > S8-G1.5 > S8-Q1 > S8-DR5 > 0.5 > S8-G4 > S8-Q2 > S8-PRY2.5 > reset
+    > S8-DR8 > Q1 > 1 > S8-E-315 > S8-G2.5 > G1.5 > 1.5 > S8-E-031
+    > S8-Q4 > Q2 > E2 > 2 > DR2.5 > PRY2.5 > G2.5 > 2.5 > S8-PRY5
+    > S8-PRY8 > Q4 > G4 > 4 > S8-C6 > DR5 > PRY5 > 5 > C6 > 6 > S8-C8
+    > S8-C12 > DR8 > PRY8 > C8 > 8 > C12 > 12
 Dorm:
   Collect: true
   Feed: true
@@ -454,6 +456,8 @@ Awaken:
   LevelCap:
     value: level120
     option: [ level120, level125 ]
+  Favourite:
+    value: false
 GeneralShop:
   UseGems: false
   Refresh: false
@@ -539,7 +543,7 @@ CoreShop:
 ShipyardDr:
   ResearchSeries:
     value: 2
-    option: [ 2, 3, 4 ]
+    option: [ 2, 3, 4, 5 ]
   ShipIndex:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6 ]
@@ -548,7 +552,7 @@ ShipyardDr:
 Shipyard:
   ResearchSeries:
     value: 1
-    option: [ 1, 2, 3, 4, 5 ]
+    option: [ 1, 2, 3, 4, 5, 6 ]
   ShipIndex:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6 ]
@@ -580,6 +584,13 @@ SupplyPack:
     option: [ 0, 1, 2, 3, 4, 5, 6 ]
 Minigame:
   Collect: false
+PrivateQuarters:
+    BuyRoses: true
+    BuyCake: false
+    TargetInteract: true
+    TargetShip:
+      value: anchorage
+      option: [ anchorage, noshiro, sirius, new_jersey, taihou, aegir ]
 # ==================== Daily ====================
 
 Daily:

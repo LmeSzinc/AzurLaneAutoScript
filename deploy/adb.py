@@ -46,7 +46,7 @@ class AdbManager(DeployConfig):
             logger.hr('ADB Connect', 1)
             emulator.brute_force_connect()
 
-        if self.InstallUiautomator2:
+        if False:
             logger.hr('Uiautomator2 Init', 1)
             try:
                 import adbutils

@@ -17,7 +17,6 @@ class ConfigModel:
     GitProxy: Optional[str] = None
     SSLVerify: bool = False
     AutoUpdate: bool = True
-    KeepLocalChanges: bool = False
 
     # Python
     PythonExecutable: str = "./toolkit/python.exe"
@@ -54,6 +53,8 @@ class ConfigModel:
     # Webui
     WebuiHost: str = "0.0.0.0"
     WebuiPort: int = 22267
+    WebuiSSLKey: Optional[str] = None
+    WebuiSSLCert: Optional[str] = None
     Language: str = "en-US"
     Theme: str = "default"
     DpiScaling: bool = True

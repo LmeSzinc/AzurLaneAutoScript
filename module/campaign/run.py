@@ -193,6 +193,9 @@ class CampaignRun(CampaignEvent):
             name = name.replace('lsp', 'isp').replace('1sp', 'isp')
             if name == 'isp':
                 name = 'isp1'
+        if folder == 'event_20240724_cn':
+            if name in ['ysp', 'y.sp']:
+                name = 'sp'
         # Convert to chapter T
         convert = {
             'a1': 't1',
@@ -212,6 +215,12 @@ class CampaignRun(CampaignEvent):
             'event_20211125_cn',
             'event_20231026_cn',
             'event_20241024_cn',
+            'event_20250424_cn',
+            'event_20250724_cn',
+            'event_20250814_cn',
+            'event_20251023_cn',
+            'event_20260326_cn',
+            'war_archives_20231026_cn',
         ]:
             name = convert.get(name, name)
         # Convert between A/B/C/D and T/HT
@@ -242,6 +251,12 @@ class CampaignRun(CampaignEvent):
             'event_20240829_cn',
             'event_20241024_cn',
             'event_20241121_cn',
+            'event_20250424_cn',
+            'event_20250724_cn',
+            'event_20250814_cn',
+            'event_20251023_cn',
+            'event_20260326_cn',
+            'war_archives_20231026_cn',
         ]:
             name = convert.get(name, name)
         else:
@@ -255,6 +270,11 @@ class CampaignRun(CampaignEvent):
         if folder == 'event_20221124_cn' and name.startswith('th'):
             if self.config.StopCondition_MapAchievement != 'non_stop':
                 logger.info(f'When running chapter TH of event_20221124_cn, '
+                            f'StopCondition.MapAchievement is forced set to threat_safe')
+                self.config.override(StopCondition_MapAchievement='threat_safe')
+        if folder == 'event_20250724_cn' and name.startswith('ts'):
+            if self.config.StopCondition_MapAchievement != 'non_stop':
+                logger.info(f'When running chapter TS of event_20250724_cn, '
                             f'StopCondition.MapAchievement is forced set to threat_safe')
                 self.config.override(StopCondition_MapAchievement='threat_safe')
         # event_20211125_cn, TSS maps are on time maps
@@ -293,10 +313,23 @@ class CampaignRun(CampaignEvent):
                                 f'run ordered stage: {stage}')
                 name = stage.lower()
                 self.is_stage_loop = True
+                # disable continuous clear
+                logger.info('disable continuous clear')
+                self.config.override(StopCondition_MapAchievement='non_stop')
+                self.config.override(StopCondition_StageIncrease=False)
         # Convert campaign_main to campaign hard if mode is hard and file exists
         if mode == 'hard' and folder == 'campaign_main' and name in map_files('campaign_hard'):
             folder = 'campaign_hard'
-
+        # event_20240912_cn does not have "Threat: Safe" indicator, fallback MapAchievement
+        if folder == 'event_20240912_cn':
+            if self.config.StopCondition_MapAchievement == 'threat_safe':
+                logger.info(
+                    'In event_20240912_cn, MapAchievement=threat_safe fallback to map_3_stars')
+                self.config.override(StopCondition_MapAchievement='map_3_stars')
+            if self.config.StopCondition_MapAchievement == 'threat_safe_without_3_stars':
+                logger.info(
+                    'In event_20240912_cn, MapAchievement=threat_safe_without_3_stars fallback to 100_percent_clear')
+                self.config.override(StopCondition_MapAchievement='100_percent_clear')
         return name, folder
 
     def can_use_auto_search_continue(self):

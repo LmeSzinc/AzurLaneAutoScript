@@ -47,6 +47,7 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
         name = ocr.ocr(self.device.image)
         name = "".join(name.split())
         name = name.lower()
+        name = name.strip('\\/-—–－')
         if '-' in name:
             name = name.split('-')[0]
         if 'é' in name:  # Méditerranée name maps
@@ -79,6 +80,7 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
         # For JP only
         ocr = Ocr(MAP_NAME, lang='jp', letter=(157, 173, 192), threshold=127, name='OCR_OS_MAP_NAME')
         name = ocr.ocr(self.device.image)
+        name = name.strip('\\/-—–－')
         self.is_zone_name_hidden = '安全' in name
         # Remove punctuations
         for char in '・':
@@ -95,6 +97,11 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
         name = name.replace('一', 'ー').replace('力', 'カ').replace('卜', 'ト').replace('ぺ', 'ペ')
         name = name.replace('ジブフルタル', 'ジブラルタル')
         name = name.replace('タント', 'タラント').replace('タフント', 'タラント')
+        name = name.replace('N海域', 'NA海域')
+        # リバープル -> リバープール
+        name = name.replace('リバプル', 'リバープール')
+        name = name.replace('リバープル', 'リバープール')
+        name = name.replace('リバプール', 'リバープール')
         return name
 
     @Config.when(SERVER='tw')
@@ -102,6 +109,7 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
         # For TW only
         ocr = Ocr(MAP_NAME, lang='tw', letter=(198, 215, 239), threshold=127, name='OCR_OS_MAP_NAME')
         name = ocr.ocr(self.device.image)
+        name = name.strip('\\/-—–－')
         self.is_zone_name_hidden = '安全' in name
         # Remove '塞壬要塞海域'
         if '塞' in name:
@@ -115,6 +123,7 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
         # For CN only
         ocr = Ocr(MAP_NAME, lang='cnocr', letter=(214, 231, 255), threshold=127, name='OCR_OS_MAP_NAME')
         name = ocr.ocr(self.device.image)
+        name = name.strip('\\/-—–－')
         self.is_zone_name_hidden = '安全' in name
         if '-' in name:
             name = name.split('-')[0]
@@ -149,7 +158,7 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
             self.config.HOMO_EDGE_COLOR_RANGE = (0, 33)
             self.config.MAP_ENSURE_EDGE_INSIGHT_CORNER = ''
 
-    def zone_init(self, fallback_init=True, skip_first_screenshot=True):
+    def zone_init(self, fallback_init=True):
         """
         Wrap get_current_zone(), set self.zone to the current zone.
         This method must be called after entering a new zone.
@@ -157,7 +166,6 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
 
         Args:
             fallback_init (bool): Whether to get zone from globe map when unable to parse zone name.
-            skip_first_screenshot (bool):
 
         Returns:
             Zone: Current zone.
@@ -169,12 +177,7 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
         self.wait_os_map_buttons()
         logger.info('Get zone name')
         timeout = Timer(1.5, count=5).start()
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
+        for _ in self.loop():
             # Handle popups
             if self.handle_map_event():
                 timeout.reset()
@@ -227,12 +230,9 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
         """
         return self.appear(MAP_EXIT, offset=(20, 20))
 
-    def map_exit(self, skip_first_screenshot=True):
+    def map_exit(self):
         """
         Exit from an obscure zone, abyssal zone, or stronghold.
-
-        Args:
-            skip_first_screenshot:
 
         Pages:
             in: is_in_map
@@ -241,20 +241,19 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
         logger.hr('Map exit')
         confirm_timer = Timer(1, count=2)
         changed = False
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
+        for _ in self.loop():
             # End
             if changed and self.is_in_map():
                 if confirm_timer.reached():
                     break
             else:
                 confirm_timer.reset()
+            # If MAP_EXIT still appears, we haven't exit this zone yet
+            if self.appear(MAP_EXIT, offset=(20, 20)):
+                confirm_timer.reset()
 
-            if self.appear_then_click(MAP_EXIT, offset=(20, 20), interval=5):
+            # Click
+            if self.appear_then_click(MAP_EXIT, offset=(20, 20), interval=3):
                 continue
             if self.handle_popup_confirm('MAP_EXIT'):
                 self.interval_reset(MAP_EXIT)

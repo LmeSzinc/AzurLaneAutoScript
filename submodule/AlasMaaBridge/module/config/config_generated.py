@@ -46,7 +46,7 @@ class GeneratedConfig:
     MaaFight_Medicine = None
     MaaFight_Stone = None
     MaaFight_Times = None
-    MaaFight_Series = 1  # 1, 2, 3, 4, 5, 6
+    MaaFight_Series = 0  # -1, 0, 1, 2, 3, 4, 5, 6
     MaaFight_Drops = None
     MaaFight_DrGrandet = False
 

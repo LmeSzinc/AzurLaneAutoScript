@@ -43,9 +43,32 @@ class CounterOcr(Ocr):
         """
         result_list = super().ocr(image, direct_ocr=direct_ocr)
         if isinstance(result_list, list):
-            return [[int(j)for j in i.split('/')]for i in result_list]
+            parsed = []
+            for i in result_list:
+                if not i or '/' not in i:
+                    logger.warning(f'Invalid OCR result format: {i}')
+                    parsed.append([0, 0])
+                    continue
+
+                parts = i.split('/')
+                if len(parts) != 2:
+                    logger.warning(f'Invalid counter format: {i}')
+                    parsed.append([0, 0])
+                    continue
+                parsed.append([int(j) for j in parts])
+
+            return parsed
         else:
-            return [int(i) for i in result_list.split('/')]
+            if not result_list or '/' not in result_list:
+                logger.warning(f'Invalid OCR result: {result_list}')
+                return [0, 0]
+
+            parts = result_list.split('/')
+            if len(parts) != 2:
+                logger.warning(f'Invalid counter format: {result_list}')
+                return [0, 0]
+
+            return [int(i) for i in parts]
 
 
 COUNTER_OCR = CounterOcr([], threshold=96, name='Counter_ocr')
@@ -60,8 +83,8 @@ class OSShopItem(Item):
         super().__init__(*args, **kwargs)
         self._shop_index = None
         self._scroll_pos = None
-        self.total_count = 1
-        self.count = 1
+        self.total_count = -1
+        self.count = -1
 
     @property
     def shop_index(self):

@@ -53,6 +53,9 @@ class Config:
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
+
+    MAP_CHAPTER_SWITCH_20241219 = True
+    MAP_HAS_MODE_SWITCH = True
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (120, 255 - 49),
         'width': (1.5, 10),

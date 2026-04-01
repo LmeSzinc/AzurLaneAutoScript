@@ -145,14 +145,16 @@ class FleetOperator:
             if self.main.handle_popup_confirm(str(self._clear)):
                 continue
 
-            # End
-            if not self.in_use():
-                break
+            # check CLEAR button to avoid early stopped at popup showing animation
+            if self.allow():
+                # End
+                if not self.in_use():
+                    break
 
-            # Click
-            if click_timer.reached():
-                main.device.click(self._clear)
-                click_timer.reset()
+                # Click
+                if click_timer.reached():
+                    main.device.click(self._clear)
+                    click_timer.reset()
 
     def recommend(self, skip_first_screenshot=True):
         """
@@ -306,12 +308,27 @@ class FleetPreparation(InfoHandler):
         if self.map_fleet_checked:
             return False
 
+        if self.appear(FLEET_1_CLEAR, offset=FleetOperator.OFFSET):
+            AUTO_SEARCH_SET_MOB.load_offset(FLEET_1_CLEAR)
+            AUTO_SEARCH_SET_BOSS.load_offset(FLEET_1_CLEAR)
+            AUTO_SEARCH_SET_ALL.load_offset(FLEET_1_CLEAR)
+            AUTO_SEARCH_SET_STANDBY.load_offset(FLEET_1_CLEAR)
+        if self.appear(SUBMARINE_CLEAR, offset=FleetOperator.OFFSET):
+            AUTO_SEARCH_SET_SUB_AUTO.load_offset(SUBMARINE_CLEAR)
+            AUTO_SEARCH_SET_SUB_STANDBY.load_offset(SUBMARINE_CLEAR)
+
         fleet_1 = FleetOperator(
             choose=FLEET_1_CHOOSE, advice=FLEET_1_ADVICE, bar=FLEET_1_BAR, clear=FLEET_1_CLEAR,
             in_use=FLEET_1_IN_USE, hard_satisfied=FLEET_1_HARD_SATIESFIED, main=self)
+        y = FLEET_1_CLEAR.button[1] - FLEET_1_CLEAR.area[1]
+        if y < -10:
+            logger.info('FLEET_1_CLEAR moves up, load W15 assets')
+            in_use = FLEET_2_IN_USE_W15
+        else:
+            in_use = FLEET_2_IN_USE
         fleet_2 = FleetOperator(
             choose=FLEET_2_CHOOSE, advice=FLEET_2_ADVICE, bar=FLEET_2_BAR, clear=FLEET_2_CLEAR,
-            in_use=FLEET_2_IN_USE, hard_satisfied=FLEET_2_HARD_SATIESFIED, main=self)
+            in_use=in_use, hard_satisfied=FLEET_2_HARD_SATIESFIED, main=self)
         submarine = FleetOperator(
             choose=SUBMARINE_CHOOSE, advice=SUBMARINE_ADVICE, bar=SUBMARINE_BAR, clear=SUBMARINE_CLEAR,
             in_use=SUBMARINE_IN_USE, hard_satisfied=SUBMARINE_HARD_SATIESFIED, main=self)
@@ -337,14 +354,34 @@ class FleetPreparation(InfoHandler):
                     pass
                 else:
                     submarine.clear()
+            else:
+                self.config.SUBMARINE = 0
             return False
 
         # Submarine.
-        if submarine.allow():
+        # cache submarine.allow() to avoid inconsistency after setting fleet_2
+        # because the expanded fleet_2 may cover submarine buttons
+        map_allow_submarine = submarine.allow()
+        logger.attr('map_allow_submarine', map_allow_submarine)
+        if map_allow_submarine:
             if self.config.Submarine_Fleet:
+                if fleet_2.allow():
+                    self.device.click(fleet_2._clear)
+                    # no need to take new screenshot, because submarine check does not need the fleet 2 part
                 submarine.ensure_to_be(self.config.Submarine_Fleet)
             else:
-                submarine.clear()
+                # clear submarine and fleet2 together using simple click
+                # this is faster because no need to wait clicking animation to disappear
+                # click success can be guaranteed by later calls of clear()
+                op = False
+                if fleet_2.allow():
+                    self.device.click(fleet_2._clear)
+                    op = True
+                if submarine.allow():
+                    self.device.click(submarine._clear)
+                    op = True
+                if op:
+                    self.device.screenshot()
 
         # No need, this may clear FLEET_2 by mistake, clear FLEET_2 in map config.
         # if not fleet_2.allow():
@@ -364,23 +401,12 @@ class FleetPreparation(InfoHandler):
             fleet_1.ensure_to_be(self.config.Fleet_Fleet1)
 
         # Check if submarine is empty again.
-        if submarine.allow():
-            logger.attr('map_allow_submarine', True)
+        if map_allow_submarine:
             if self.config.Submarine_Fleet:
                 pass
             else:
                 submarine.clear()
         else:
-            logger.attr('map_allow_submarine', False)
             self.config.SUBMARINE = 0
-
-        if self.appear(FLEET_1_CLEAR, offset=(-20, -80, 20, 5)):
-            AUTO_SEARCH_SET_MOB.load_offset(FLEET_1_CLEAR)
-            AUTO_SEARCH_SET_BOSS.load_offset(FLEET_1_CLEAR)
-            AUTO_SEARCH_SET_ALL.load_offset(FLEET_1_CLEAR)
-            AUTO_SEARCH_SET_STANDBY.load_offset(FLEET_1_CLEAR)
-        if self.appear(SUBMARINE_CLEAR, offset=(-20, -80, 20, 5)):
-            AUTO_SEARCH_SET_SUB_AUTO.load_offset(SUBMARINE_CLEAR)
-            AUTO_SEARCH_SET_SUB_STANDBY.load_offset(SUBMARINE_CLEAR)
 
         return True

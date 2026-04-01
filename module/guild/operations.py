@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from module.base.button import ButtonGrid
 from module.base.timer import Timer
 from module.base.utils import *
@@ -19,6 +17,10 @@ class GuildOperations(GuildBase):
         """
         Ensure guild operation is loaded
         After entering guild operation, background loaded first, then dispatch/boss
+
+        Returns:
+            bool: True if success to enter operation
+                False if fund insufficient
         """
         logger.attr('Guild master/official', self.config.GuildOperation_SelectNewOperation)
         confirm_timer = Timer(1.5, count=3).start()
@@ -39,6 +41,8 @@ class GuildOperations(GuildBase):
                     'probably because guild operation has been started by another guild officer already')
                 raise GameBugError('Unable to start/join guild operation')
 
+            if self._guild_operation_fund_insufficient():
+                return False
             if self._handle_guild_operations_start():
                 confirm_timer.reset()
                 continue
@@ -73,7 +77,7 @@ class GuildOperations(GuildBase):
             # End
             if self.appear(GUILD_BOSS_ENTER) or self.appear(GUILD_OPERATIONS_ACTIVE_CHECK, offset=(20, 20)):
                 if not self.info_bar_count() and confirm_timer.reached():
-                    break
+                    return True
 
     def _handle_guild_operations_start(self):
         """
@@ -111,6 +115,21 @@ class GuildOperations(GuildBase):
 
         return False
 
+    def _guild_operation_fund_insufficient(self):
+        """
+        Returns:
+            bool: True if insufficient
+
+        Pages:
+            in: GUILD_OPERATIONS_NEW
+        """
+        if not self.appear(GUILD_OPERATIONS_NEW, offset=(20, 20)):
+            return False
+        if self.image_color_count(GUILD_OPERATION_FUND_CHECK, color=(255, 93, 91), threshold=180, count=30):
+            logger.warning('Insufficient guild fund to start new operation')
+            return True
+        return False
+
     def _guild_operations_get_mode(self):
         """
         Returns:
@@ -133,7 +152,10 @@ class GuildOperations(GuildBase):
             logger.info('Mode: Operations Active, may proceed to scan and dispatch fleets')
             return 1
         elif self.appear(GUILD_BOSS_ENTER):
-            logger.info('Mode: Guild Raid Boss')
+            logger.info('Mode: Guild Raid Boss (GUILD_BOSS_ENTER)')
+            return 2
+        elif self.appear(GUILD_OPERATIONS_NEW, offset=(20, 20)):
+            logger.info('Mode: Guild Raid Boss (GUILD_OPERATIONS_NEW)')
             return 2
         else:
             logger.warning('Operations interface is unrecognized')
@@ -342,15 +364,21 @@ class GuildOperations(GuildBase):
             else:
                 self.device.screenshot()
 
-            if self.appear(GUILD_DISPATCH_FLEET_UNFILLED, threshold=20, interval=5):
+            if self.appear(GUILD_DISPATCH_FLEET_UNFILLED, offset=(20, 20), interval=3):
                 # Don't use offset here, because GUILD_DISPATCH_FLEET_UNFILLED only has a difference in colors
                 # Use long interval because the game needs a few seconds to choose the ships
                 self.device.click(GUILD_DISPATCH_RECOMMEND)
                 continue
-            if not dispatched and self.appear_then_click(GUILD_DISPATCH_FLEET, threshold=20, interval=5):
-                # Don't use offset here, because GUILD_DISPATCH_FLEET only has a difference in colors
+            if not dispatched and self.appear(GUILD_DISPATCH_FLEET, offset=(20, 20), interval=3):
+                # GUILD_DISPATCH_FLEET and GUILD_DISPATCH_FLEET_UNFILLED has same feature but different colors
+                # check background blue for double check
+                if self.image_color_count(GUILD_DISPATCH_FLEET, color=(82, 93, 221), threshold=235, count=500):
+                    self.device.click(GUILD_DISPATCH_FLEET)
+                else:
+                    self.interval_clear(GUILD_DISPATCH_FLEET)
                 continue
             if self.handle_popup_confirm('GUILD_DISPATCH'):
+                self.interval_clear(GUILD_DISPATCH_FLEET)
                 dispatched = True
                 continue
 
@@ -359,13 +387,16 @@ class GuildOperations(GuildBase):
                 # In first dispatch, it will show GUILD_DISPATCH_IN_PROGRESS
                 logger.info('Fleet dispatched, dispatch in progress')
                 break
-            if dispatched and self.appear(GUILD_DISPATCH_FLEET, threshold=20, interval=0):
-                # In the rest of the dispatch, it will show GUILD_DISPATCH_FLEET
-                # We can't ensure that fleet has dispatched,
-                # because GUILD_DISPATCH_FLEET also shows after clicking recommend before dispatching
-                # _guild_operations_dispatch() will retry it if haven't dispatched
-                logger.info('Fleet dispatched')
-                break
+            if dispatched and self.appear(GUILD_DISPATCH_FLEET, offset=(20, 20), interval=3):
+                # GUILD_DISPATCH_FLEET and GUILD_DISPATCH_FLEET_UNFILLED has same feature but different colors
+                # check background blue for double check
+                if self.image_color_count(GUILD_DISPATCH_FLEET, color=(82, 93, 221), threshold=235, count=500):
+                    # In the rest of the dispatch, it will show GUILD_DISPATCH_FLEET
+                    # We can't ensure that fleet has dispatched,
+                    # because GUILD_DISPATCH_FLEET still shows after clicking recommend before dispatching
+                    # _guild_operations_dispatch() will retry it if haven't dispatched
+                    logger.info('Fleet dispatched')
+                    break
 
     def _guild_operations_dispatch_exit(self, skip_first_screenshot=True):
         """
@@ -451,9 +482,8 @@ class GuildOperations(GuildBase):
             if self.appear_then_click(GUILD_BOSS_ENTER, interval=3):
                 continue
 
-            if self.appear(GUILD_DISPATCH_FLEET, threshold=20, interval=3):
-                # Button does not appear greyed out even
-                # when empty fleet composition
+            if self.appear(GUILD_DISPATCH_FLEET, offset=(20, 20), interval=3):
+                # Button does not appear greyed out even when empty fleet composition
                 if dispatch_count < 5:
                     self.device.click(GUILD_DISPATCH_FLEET)
                     dispatch_count += 1
@@ -517,7 +547,10 @@ class GuildOperations(GuildBase):
     def guild_operations(self):
         logger.hr('Guild operations', level=1)
         self.guild_side_navbar_ensure(bottom=1)
-        self._guild_operations_ensure()
+        entered = self._guild_operations_ensure()
+        if not entered:
+            logger.info(f'Guild operation run success: {entered}')
+            return False
         # Determine the mode of operations, currently 3 are available
         operations_mode = self._guild_operations_get_mode()
 

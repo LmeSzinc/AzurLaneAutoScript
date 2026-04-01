@@ -45,7 +45,7 @@ class LuaLoader:
     def filepath(self, path):
         return os.path.join(self.folder, self.server, path)
 
-    def _load_file(self, file):
+    def _load_file(self, file, keyword=None):
         """
         Args:
             file (str):
@@ -57,56 +57,21 @@ class LuaLoader:
             text = f.read()
 
         result = {}
-        matched = re.findall('function \(\)(.*?)end[()]', text, re.S)
-        if matched:
-            # Most files are in this format
-            """
-            pg = pg or {}
-            slot0 = pg
-            slot0.chapter_template = {}
-
-            (function ()
-                ...
-            end)()
-            """
-            for func in matched:
-                add = slpp.decode('{' + func + '}')
-                result.update(add)
-        elif text.startswith('pg'):
-            # Old format
-            """
-            pg = pg or {}
-            pg.item_data_statistics = {
-                ...
-            }
-            """
-            # or
-            """
-            pg = pg or {}
-
-            rawset(pg, "item_data_statistics", rawget(pg, "item_data_statistics") or {
-                ...
-            }
-            """
-            text = '{' + text.split('{', 2)[2]
-            result = slpp.decode(text)
-        else:
-            # Another format, just bare data
-            """
-            _G.pg.expedition_data_template[...] = {
-                ...
-            }
-            _G.pg.expedition_data_template[...] = {
-                ...
-            }
-            ...
-            """
+        if text.startswith('_G'):
             text = '{' + text + '}'
             result = slpp.decode(text)
-
+        else:
+            if keyword:
+                print(f'Finding keyword: {keyword}')
+                pattern = rf"^{re.escape(keyword)}.*?\{{\s*\n(.*?)^\}}"
+            else:
+                pattern = r"\{\s*\n(.*?)^\}"
+            m = re.search(pattern, text, re.S | re.M)
+            if m:
+                result = slpp.decode('{' + m.group(1) + '}')
         return result
 
-    def load(self, path):
+    def load(self, path, keyword=None):
         """
         Load a lua file to python dictionary, handling the differences
 
@@ -123,7 +88,7 @@ class LuaLoader:
             for file in tqdm(os.listdir(self.filepath(path))):
                 result.update(self._load_file(f'./{path}/{file}'))
         else:
-            result = self._load_file(path)
+            result = self._load_file(path, keyword=keyword)
 
         print(f'{len(result.keys())} items loaded')
         return result

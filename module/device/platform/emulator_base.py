@@ -114,6 +114,16 @@ class EmulatorInstanceBase:
 
         return None
 
+    def mumu_vms_config(self, file):
+        """
+        Args:
+            file (str): Such as customer_config.json
+
+        Returns:
+            str: Absolute filepath to the file
+        """
+        return self.emulator.abspath(f'../vms/{self.name}/configs/{file}')
+
     @cached_property
     def LDPlayer_id(self):
         """
@@ -124,12 +134,13 @@ class EmulatorInstanceBase:
 
         Returns:
             int: Instance ID, or None if this is not a LDPlayer instance
-        """        
+        """
         res = re.search(r'leidian(\d+)', self.name)
         if res:
             return int(res.group(1))
-        
+
         return None
+
 
 class EmulatorBase:
     # Values here must match those in argument.yaml EmulatorInfo.Emulator.option
@@ -144,7 +155,8 @@ class EmulatorBase:
     LDPlayer3 = 'LDPlayer3'
     LDPlayer4 = 'LDPlayer4'
     LDPlayer9 = 'LDPlayer9'
-    LDPlayerFamily = [LDPlayer3, LDPlayer4, LDPlayer9]
+    LDPlayer14 = 'LDPlayer14'
+    LDPlayerFamily = [LDPlayer3, LDPlayer4, LDPlayer9, LDPlayer14]
     MuMuPlayer = 'MuMuPlayer'
     MuMuPlayerX = 'MuMuPlayerX'
     MuMuPlayer12 = 'MuMuPlayer12'

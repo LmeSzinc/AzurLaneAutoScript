@@ -104,7 +104,9 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                 # Handled with dirty timeout, a better fix is required
                 logger.warning('Wait _retirement_confirm timeout, assume finished')
                 break
-            if self.appear(IN_RETIREMENT_CHECK, offset=(20, 20)):
+            # sometimes you have EQUIP_CONFIRM without black-blurred background
+            # EQUIP_CONFIRM and IN_RETIREMENT_CHECK appears
+            if self.appear(IN_RETIREMENT_CHECK, offset=(20, 20)) and not self.appear(EQUIP_CONFIRM, offset=(30, 30)):
                 if executed:
                     break
             else:
@@ -117,11 +119,17 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                     or self.config.OldRetire_SSR \
                     or self.config.Retirement_RetireMode == 'one_click_retire':
                 if self.handle_popup_confirm(name='RETIRE_SR_SSR', offset=(20, 50)):
+                    # Avoid clicking the undelying SHIP_CONFIRM again
                     self.interval_reset([SHIP_CONFIRM, SHIP_CONFIRM_2])
+                    # EQUIP_CONFIRM_2 may be detected as popup confirm
+                    self.interval_reset([EQUIP_CONFIRM, EQUIP_CONFIRM_2])
                     continue
                 if self.config.SERVER in ['cn', 'jp', 'tw'] and \
                         self.appear_then_click(SR_SSR_CONFIRM, offset=(20, 50), interval=2):
+                    # Avoid clicking the undelying SHIP_CONFIRM again
                     self.interval_reset([SHIP_CONFIRM, SHIP_CONFIRM_2])
+                    # EQUIP_CONFIRM_2 may be detected as popup confirm
+                    self.interval_reset([EQUIP_CONFIRM, EQUIP_CONFIRM_2])
                     continue
             if self.match_template_color(SHIP_CONFIRM_2, offset=(30, 30), interval=2):
                 if self.retire_keep_common_cv and not self._have_kept_cv:
@@ -136,15 +144,17 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                 continue
             # Equip confirm
             if self.appear_then_click(EQUIP_CONFIRM, offset=(30, 30), interval=2):
-                executed = True
                 continue
             if self.appear_then_click(EQUIP_CONFIRM_2, offset=(30, 30), interval=2):
                 self.interval_clear(GET_ITEMS_1)
+                executed = True
                 continue
             # Get items
             if self.appear(GET_ITEMS_1, offset=(30, 30), interval=2):
                 self.device.click(GET_ITEMS_1_RETIREMENT_SAVE)
                 self.interval_reset(SHIP_CONFIRM)
+                # equipment confirms are the next to appear
+                self.interval_clear([EQUIP_CONFIRM, EQUIP_CONFIRM_2])
                 continue
 
     def retirement_appear(self):
@@ -171,6 +181,27 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
         if self.config.OldRetire_SSR:
             rarity.add('SSR')
         return rarity
+
+    def _retire_wait_slow_retire(self, skip_first_screenshot=True):
+        """
+        SHIP_CONFIRM_2 may slow to appear on slow devices or large dock, wait it
+        If SHIP_CONFIRM_2 can't be waited within 60s, GameStuckError will be raised
+
+        Returns:
+            bool: If SHIP_CONFIRM_2 appears
+        """
+        logger.info('Wait slow retire')
+        self.device.click_record_clear()
+        self.device.stuck_record_clear()
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            # End
+            if self.appear(SHIP_CONFIRM_2, offset=(30, 30)):
+                return True
 
     def retire_ships_one_click(self):
         logger.hr('Retirement')
@@ -204,14 +235,19 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                     break
 
                 # Click
-                if click_count >= 7:
-                    logger.warning('Failed to select ships using ONE_CLICK_RETIREMENT after 7 trial, '
-                                   'probably because game bugged, a re-enter should fix it')
-                    # Mark as retire finished, higher level will call retires
-                    end = True
-                    total = 10
-                    break
-                elif self.appear_then_click(ONE_CLICK_RETIREMENT, offset=(20, 20), interval=2):
+                if click_count >= 5:
+                    logger.warning('Failed to select ships using ONE_CLICK_RETIREMENT after 5 trial')
+                    if self._retire_wait_slow_retire():
+                        # Waited, all good
+                        # Use pass to trigger ONE_CLICK_RETIREMENT on the same screenshot
+                        pass
+                    else:
+                        # probably because game bugged, a re-enter should fix it
+                        # Mark as retire finished, higher level will call retires
+                        end = True
+                        total = 10
+                        break
+                if self.appear_then_click(ONE_CLICK_RETIREMENT, offset=(20, 20), interval=2):
                     click_count += 1
                     continue
 
@@ -355,6 +391,9 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
         Returns:
             bool: If retired.
         """
+        # 2025.05.29 game tips that infos skin feature when you enter dock
+        if self.handle_game_tips():
+            return True
         if self._unable_to_enhance:
             if self.appear_then_click(RETIRE_APPEAR_1, offset=(20, 20), interval=3):
                 self.interval_clear(IN_RETIREMENT_CHECK)
@@ -554,7 +593,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                     break
                 else:
                     continue
-            
+
             if not top_checked:
                 top_checked = True
                 logger.info('Find common CV from bottom to top')

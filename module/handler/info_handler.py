@@ -169,7 +169,7 @@ class InfoHandler(ModuleBase):
         # Hot fixes will kill AL if you clicked the confirm button
         if self._hot_fix_check_wait.reached():
             self._hot_fix_check_wait.clear()
-        if self._hot_fix_check_wait.started() and 3 <= self._hot_fix_check_wait.current() <= 6:
+        if self._hot_fix_check_wait.started() and 3 <= self._hot_fix_check_wait.current_time() <= 6:
             if not self.device.app_is_running():
                 logger.error('Detected hot fixes from game server, game died')
                 raise GameNotRunningError
@@ -245,6 +245,7 @@ class InfoHandler(ModuleBase):
     """
     Guild popup info
     """
+
     def handle_guild_popup_confirm(self):
         if self.appear(GUILD_POPUP_CANCEL, offset=self._popup_offset) \
                 and self.appear(GUILD_POPUP_CONFIRM, offset=self._popup_offset, interval=2):
@@ -264,6 +265,7 @@ class InfoHandler(ModuleBase):
     """
     Mission popup info
     """
+
     def handle_mission_popup_go(self):
         if self.appear(MISSION_POPUP_ACK, offset=self._popup_offset) \
                 and self.appear(MISSION_POPUP_GO, offset=self._popup_offset, interval=2):
@@ -435,8 +437,10 @@ class InfoHandler(ModuleBase):
                 if drop:
                     drop.handle_add(self, before=2)
                 if self.config.STORY_ALLOW_SKIP:
+                    logger.info(f'{STORY_SKIP_3} -> {STORY_SKIP}')
                     self.device.click(STORY_SKIP)
                 else:
+                    logger.info(f'{STORY_SKIP_3} -> {OS_CLICK_SAFE_AREA}')
                     self.device.click(OS_CLICK_SAFE_AREA)
                 self._story_confirm.reset()
                 self.story_popup_timeout.reset()
@@ -445,9 +449,6 @@ class InfoHandler(ModuleBase):
                 self.interval_clear(STORY_SKIP_3)
         else:
             self._story_confirm.reset()
-        if self.appear_then_click(GAME_TIPS, offset=(20, 20), interval=2):
-            self.story_popup_timeout.reset()
-            return True
         if self.appear_then_click(STORY_CLOSE, offset=(10, 10), interval=2):
             self.story_popup_timeout.reset()
             return True
@@ -492,19 +493,63 @@ class InfoHandler(ModuleBase):
     """
     Game tips
     """
+
     def handle_game_tips(self):
         """
         Returns:
             bool: If handled
         """
-        if self.appear(GAME_TIPS, offset=(20, 20), interval=2):
+        if self.appear(GAME_TIPS, offset=(20, 20), interval=2) and self.image_color_count(
+                GAME_TIPS.button, color=(40, 40, 40), threshold=240, count=50):
             self.device.click(GAME_TIPS)
             return True
-        if self.appear(GAME_TIPS3, offset=(20, 20), interval=2):
+        if self.appear(GAME_TIPS3, offset=(20, 20), interval=2) and self.image_color_count(
+                GAME_TIPS3.button, color=(40, 40, 40), threshold=240, count=50):
             self.device.click(GAME_TIPS)
             return True
-        if self.appear(GAME_TIPS4, offset=(20, 20), interval=2):
+        if self.appear(GAME_TIPS4, offset=(20, 20), interval=2) and self.image_color_count(
+                GAME_TIPS4.button, color=(40, 40, 40), threshold=240, count=50):
             self.device.click(GAME_TIPS)
             return True
 
         return False
+
+    """
+    Manjuu loading
+    """
+
+    def manjuu_count(self):
+        """
+        detect manjuu count by template matching
+        Returns:
+            int: Number of manjuu
+        """
+        image = self.image_crop(MANJUU_AREA, copy=False)
+        # Default 0.85 will not work for manjuu, because the face will be stretched
+        # and shrinked, so the template will not match.
+        # Use 0.8 to match the deformed face.
+        buttons = TEMPLATE_MANJUU.match_multi(image, similarity=0.8, name='INFO_MANJUU')
+        return len(buttons)
+
+    def wait_until_manjuu_disappear(self):
+        """
+        Wait until manjuu loading disappear.
+        """
+        while 1:
+            self.device.screenshot()
+            if not self.manjuu_count():
+                break
+
+    def handle_manjuu(self):
+        """
+        Handle manjuu loading.
+        Returns:
+            bool: If handled
+        """
+        count = self.manjuu_count()
+        if count > 2:
+            logger.info(f'Manjuu count: {count}, waiting for manjuu to disappear')
+            self.wait_until_manjuu_disappear()
+            return True
+        else:
+            return False
