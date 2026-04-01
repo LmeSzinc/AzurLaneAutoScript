@@ -124,6 +124,11 @@ class AlasGUI(Frame):
     @use_scope("aside", clear=True)
     def set_aside(self) -> None:
         # TODO: update put_icon_buttons()
+
+        current_date = datetime.now().date()
+        if current_date.month == 4 and current_date.day == 1:
+            self.af_flag = True
+
         put_icon_buttons(
             Icon.DEVELOP,
             buttons=[{"label": t("Gui.Aside.Home"), "value": "Home", "color": "aside"}],
@@ -146,9 +151,6 @@ class AlasGUI(Frame):
             onclick=[lambda: go_app("manage", new_window=False)],
         )
 
-        current_date = datetime.now().date()
-        if current_date.month == 4 and current_date.day == 1:
-            self.af_flag = True
 
     @use_scope("aside_instance")
     def set_aside_status(self) -> None:
