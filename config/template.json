@@ -309,10 +309,15 @@
       "ServerUpdate": "00:00"
     },
     "GemsFarming": {
+      "ChangeFlagship": "ship",
       "CommonCV": "any",
       "ChangeVanguard": "ship",
       "CommonDD": "any",
       "CommissionLimit": true
+    },
+    "EquipmentCode": {
+      "ExportToConfig": true,
+      "Config": "DD: null\nbogue: null\nhermes: null\nlangley: null\nranger: null"
     },
     "Campaign": {
       "Name": "12-4",

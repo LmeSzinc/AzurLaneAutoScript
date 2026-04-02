@@ -6,6 +6,15 @@
 
 # ==================== Farm ====================
 
+GemsFarming:
+  EquipmentCode:
+    Config: |-
+      DD: null
+      bogue: null
+      hermes: null
+      langley: null
+      ranger: null
+
 # ==================== Event ====================
 
 EventA:
