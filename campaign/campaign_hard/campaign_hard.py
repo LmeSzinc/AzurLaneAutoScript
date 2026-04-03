@@ -1,7 +1,6 @@
 from module.base.timer import Timer
 from module.campaign.campaign_base import CampaignBase
 from module.exception import CampaignEnd
-from module.hard.equipment import HardEquipment
 from module.logger import logger
 from module.map.assets import FLEET_PREPARATION, MAP_PREPARATION
 from module.ui.assets import CAMPAIGN_CHECK
@@ -13,7 +12,7 @@ class Config:
     ENABLE_HP_BALANCE = False
 
 
-class Campaign(CampaignBase, HardEquipment):
+class Campaign(CampaignBase):
     # def run(self):
     #     logger.hr(self.ENTRANCE, level=2)
     #     self.enter_map(self.ENTRANCE, mode='hard')
@@ -36,9 +35,6 @@ class Campaign(CampaignBase, HardEquipment):
     #     except CampaignEnd:
     #         logger.hr('Campaign end')
 
-    # def fleet_preparation(self):
-    #     self.equipment_take_on()
-
     def _expected_end(self, expected):
         return 'in_stage'
 
@@ -60,45 +56,3 @@ class Campaign(CampaignBase, HardEquipment):
         self.clear_potential_boss()
 
         return False
-
-    def equipment_take_off_when_finished(self):
-        if self.config.FLEET_HARD_EQUIPMENT is None:
-            return False
-        if not self.equipment_has_take_on:
-            return False
-
-        logger.info('equipment_take_off_when_finished')
-        campaign_timer = Timer(2)
-        map_timer = Timer(1)
-        fleet_timer = Timer(1)
-
-        while 1:
-            self.device.screenshot()
-
-            # Enter campaign
-            if campaign_timer.reached() and self.is_in_stage():
-                self.device.click(self.ENTRANCE)
-                campaign_timer.reset()
-                continue
-
-            # Map preparation
-            if map_timer.reached() and self.appear(MAP_PREPARATION, offset=(20, 20)):
-                self.device.click(MAP_PREPARATION)
-                map_timer.reset()
-                campaign_timer.reset()
-                continue
-
-            # Fleet preparation
-            if fleet_timer.reached() and self.appear(FLEET_PREPARATION, offset=(20, 50)):
-                self.equipment_take_off()
-                self.ui_back(check_button=CAMPAIGN_CHECK, appear_button=FLEET_PREPARATION)
-                break
-
-            # Retire
-            if self.handle_retirement():
-                continue
-
-            # Emotion
-            pass
-
-        return True

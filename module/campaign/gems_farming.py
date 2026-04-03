@@ -2,11 +2,12 @@ from module.campaign.campaign_base import CampaignBase
 from module.campaign.run import CampaignRun
 from module.combat.assets import BATTLE_PREPARATION
 from module.equipment.assets import *
-from module.equipment.fleet_equipment import FleetEquipment
+from module.equipment.equipment import Equipment
 from module.exception import CampaignEnd, ScriptError
 from module.handler.assets import AUTO_SEARCH_MAP_OPTION_OFF
 from module.logger import logger
 from module.map.assets import FLEET_PREPARATION, MAP_PREPARATION
+from module.ocr.ocr import Digit
 from module.retire.assets import (
     DOCK_CHECK,
     TEMPLATE_BOGUE, TEMPLATE_HERMES, TEMPLATE_LANGLEY, TEMPLATE_RANGER,
@@ -19,6 +20,8 @@ from module.retire.scanner import ShipScanner
 from module.ui.assets import BACK_ARROW
 from module.ui.page import page_fleet
 
+
+FLEET_INDEX = Digit(OCR_FLEET_INDEX, letter=(90, 154, 255), threshold=128, alphabet='123456')
 SIM_VALUE = 0.92
 
 
@@ -67,7 +70,7 @@ class GemsCampaignOverride(CampaignBase):
             raise CampaignEnd('Emotion withdraw')
 
 
-class GemsFarming(CampaignRun, FleetEquipment, Dock):
+class GemsFarming(CampaignRun, Equipment, Dock):
 
     def load_campaign(self, name, folder='campaign_main'):
         super().load_campaign(name, folder)
@@ -89,6 +92,14 @@ class GemsFarming(CampaignRun, FleetEquipment, Dock):
             return self.config.Fleet_Fleet2
         else:
             return self.config.Fleet_Fleet1
+
+    def fleet_enter(self, fleet_index):
+        self.ui_ensure(page_fleet)
+        self.ui_ensure_index(fleet_index,
+                             letter=FLEET_INDEX,
+                             next_button=FLEET_NEXT, 
+                             prev_button=FLEET_PREV,
+                             skip_first_screenshot=True)
 
     def flagship_change(self):
         """
