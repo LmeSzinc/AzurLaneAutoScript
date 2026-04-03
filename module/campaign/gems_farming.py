@@ -75,8 +75,16 @@ class GemsFarming(CampaignRun, Dock):
         self.campaign.config.override(EnemyPriority_EnemyScaleBalanceWeight='S1_enemy_first')
 
     @property
+    def change_flagship_equip(self):
+        return 'equip' in self.config.GemsFarming_ChangeFlagship
+
+    @property
     def change_vanguard(self):
         return 'ship' in self.config.GemsFarming_ChangeVanguard
+
+    @property
+    def change_vanguard_equip(self):
+        return 'equip' in self.config.GemsFarming_ChangeVanguard
 
     @property
     def max_level(self):
@@ -219,10 +227,23 @@ class GemsFarming(CampaignRun, Dock):
             bool: True if flagship changed.
         """
         logger.hr('Change flagship', level=1)
+        logger.attr('ChangeFlagship', self.config.GemsFarming_ChangeFlagship)
         self.ui_goto_fleet()
+
+        if self.change_flagship_equip:
+            logger.hr('Unmount flagship equipments', level=2)
+            self.ui_enter_ship(FLEET_ENTER_FLAGSHIP, long_click=True)
+            self.ship_equipment_take_off()
+            self.ui_leave_ship()
 
         logger.hr('Change flagship', level=2)
         success = self.flagship_change_execute()
+
+        if self.change_flagship_equip:
+            logger.hr('Mount flagship equipments', level=2)
+            self.ui_enter_ship(FLEET_ENTER_FLAGSHIP, long_click=True)
+            self.ship_equipment_take_on()
+            self.ui_leave_ship()
 
         return success
 
@@ -315,8 +336,20 @@ class GemsFarming(CampaignRun, Dock):
         logger.attr('ChangeVanguard', self.config.GemsFarming_ChangeVanguard)
         self.ui_goto_fleet()
 
+        if self.change_vanguard_equip:
+            logger.hr('Unmount vanguard equipments', level=2)
+            self.ui_enter_ship(FLEET_ENTER, long_click=True)
+            self.ship_equipment_take_off()
+            self.ui_leave_ship()
+
         logger.hr('Change vanguard', level=2)
         success = self.vanguard_change_execute()
+
+        if self.change_vanguard_equip:
+            logger.hr('Mount vanguard equipments', level=2)
+            self.ui_enter_ship(FLEET_ENTER, long_click=True)
+            self.ship_equipment_take_on()
+            self.ui_leave_ship()
 
         return success
 
