@@ -205,6 +205,11 @@ class Dock(Equipment):
         self.dock_filter.set(sort=sort, index=index, faction=faction, rarity=rarity, extra=extra)
         self.dock_filter_confirm(wait_loading=wait_loading)
 
+    def dock_reset(self):
+        self.dock_favourite_set(False, wait_loading=False)
+        self.dock_sort_method_dsc_set(False, wait_loading=False)
+        self.dock_filter_set()
+
     def dock_select_one(self, button, skip_first_screenshot=True):
         """
         Args:
