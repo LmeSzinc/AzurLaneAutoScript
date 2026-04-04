@@ -109,6 +109,9 @@ Event:
       - Coalition
       - StopCondition
       - Emotion
+    EventShop:
+      - Scheduler
+      - EventShop
     WarArchives:
       - Scheduler
       - Campaign
