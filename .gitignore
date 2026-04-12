@@ -258,3 +258,4 @@ pyrightconfig.json# Local reference copy (not tracked)
 suifeng-AzurLaneAutoScript/
 lme-AzurlaneAutoScript/
 sync_local.bat
+convert_png_names.bat
