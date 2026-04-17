@@ -1,4 +1,5 @@
 from module.base.timer import Timer
+from module.base.utils import area_offset
 from module.campaign.assets import *
 from module.campaign.campaign_event import CampaignEvent
 from module.campaign.campaign_ocr import CampaignOcr
@@ -29,7 +30,7 @@ MODE_SWITCH_2.add_state('ex', SWITCH_2_EX)
 MODE_SWITCH_20241219 = ModeSwitch('Mode_switch_20241219', is_selector=True, offset=(30, 30))
 MODE_SWITCH_20241219.add_state('combat', SWITCH_20241219_COMBAT)
 MODE_SWITCH_20241219.add_state('story', SWITCH_20241219_STORY)
-ASIDE_SWITCH_20241219 = ModeSwitch('Aside_switch_20241219', is_selector=True, offset=(30, 30))
+ASIDE_SWITCH_20241219 = ModeSwitch('Aside_switch_20241219', is_selector=True, offset=(20, 20))
 ASIDE_SWITCH_20241219.add_state('part1', CHAPTER_20241219_PART1)
 ASIDE_SWITCH_20241219.add_state('part2', CHAPTER_20241219_PART2)
 ASIDE_SWITCH_20241219.add_state('sp', CHAPTER_20241219_SP)
@@ -321,6 +322,33 @@ class CampaignUI(MapOperation, CampaignEvent, CampaignOcr):
                 self.campaign_ensure_aside_20241219('sp')
                 self.campaign_ensure_chapter(chapter)
                 return True
+        if self.config.MAP_CHAPTER_SWITCH_20241219_SPEX:
+            if self._campaign_name_is_hard(f'{chapter}{stage}'):
+                self.config.override(Campaign_Mode='hard')
+            # normal, sp, ex
+            try:
+                ASIDE_SWITCH_20241219.offset = area_offset((-20, -20, 20, 20), (0, -37))
+                if chapter in ['sp', 't', 'ht']:
+                    self.ui_goto_event()
+                    self.campaign_ensure_mode_20241219('combat')
+                    # normal is on the position of part2
+                    self.campaign_ensure_aside_20241219('part2')
+                    self.campaign_ensure_chapter(chapter)
+                    return True
+                if chapter in ['ex_sp']:
+                    self.ui_goto_event()
+                    self.campaign_ensure_mode_20241219('combat')
+                    self.campaign_ensure_aside_20241219('sp')
+                    self.campaign_ensure_chapter(chapter)
+                    return True
+                if chapter in ['ex_sp']:
+                    self.ui_goto_event()
+                    self.campaign_ensure_mode_20241219('combat')
+                    self.campaign_ensure_aside_20241219('sp')
+                    self.campaign_ensure_chapter(chapter)
+                    return True
+            finally:
+                ASIDE_SWITCH_20241219.offset = (20, 20)
         return False
 
     def campaign_set_chapter(self, name, mode='normal'):
