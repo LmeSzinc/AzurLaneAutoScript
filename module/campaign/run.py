@@ -330,6 +330,9 @@ class CampaignRun(CampaignEvent):
                 logger.info(
                     'In event_20240912_cn, MapAchievement=threat_safe_without_3_stars fallback to 100_percent_clear')
                 self.config.override(StopCondition_MapAchievement='100_percent_clear')
+        if folder == 'event_20260417_cn':
+            if name in ['vsp', ]:
+                name = 'sp'
         return name, folder
 
     def can_use_auto_search_continue(self):

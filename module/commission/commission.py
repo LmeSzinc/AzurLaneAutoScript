@@ -16,8 +16,8 @@ from module.handler.info_handler import InfoHandler
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
 from module.retire.assets import DOCK_CHECK
-from module.ui.assets import BACK_ARROW, COMMISSION_CHECK, REWARD_GOTO_COMMISSION
-from module.ui.page import page_reward, page_commission
+from module.ui.assets import BACK_ARROW, REWARD_GOTO_COMMISSION
+from module.ui.page import page_commission, page_reward
 from module.ui.scroll import Scroll
 from module.ui.switch import Switch
 from module.ui.ui import UI
@@ -525,8 +525,9 @@ class RewardCommission(UI, InfoHandler):
 
                 for button in [EXP_INFO_S_REWARD, GET_ITEMS_1, GET_ITEMS_2, GET_ITEMS_3]:
                     if self.appear(button, interval=1):
-                        self.ensure_no_info_bar(timeout=1)
-                        drop.add(self.device.image)
+                        if drop:
+                            self.ensure_no_info_bar(timeout=1)
+                            drop.add(self.device.image)
 
                         REWARD_SAVE_CLICK.name = button.name
                         self.device.click(REWARD_SAVE_CLICK)
