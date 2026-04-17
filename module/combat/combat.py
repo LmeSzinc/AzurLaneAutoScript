@@ -128,6 +128,8 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             return PAUSE_Ancient
         if PAUSE_SpringInn.match_template_color(self.device.image, offset=(10, 10)):
             return PAUSE_SpringInn
+        if PAUSE_ElvenVine.match_template_color(self.device.image, offset=(10, 10)):
+            return PAUSE_ElvenVine
         return False
 
     def handle_combat_quit(self, offset=(20, 20), interval=3):

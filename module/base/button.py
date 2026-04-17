@@ -1,13 +1,13 @@
 import os
 import traceback
 
-import imageio
 from PIL import ImageDraw
 
 from module.base.decorator import cached_property
 from module.base.resource import Resource
 from module.base.utils import *
 from module.config.server import VALID_SERVER
+from module.logger import logger
 
 
 class Button(Resource):
@@ -153,6 +153,7 @@ class Button(Resource):
         if not self._match_init:
             if self.is_gif:
                 self.image = []
+                import imageio
                 for image in imageio.mimread(self.file):
                     image = image[:, :, :3].copy() if len(image.shape) == 3 else image
                     image = crop(image, self.area)

@@ -358,12 +358,13 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
         total = 0
         with self.stat.new(
                 genre='research', method=self.config.DropRecord_ResearchRecord
-        ) as record:
+        ) as drop:
             # Take screenshots of project list
-            record.add(self.device.image)
+            drop.add(self.device.image)
 
             end_confirm = Timer(1, count=3)
             item_confirm = Timer(1.5, count=5)
+            item_interval = Timer(0.2, count=0)
             record_button = None
             while 1:
                 if skip_first_screenshot:
@@ -380,31 +381,42 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
                     end_confirm.reset()
 
                 # Get items
-                appear_button = self.get_items()
-                if appear_button is not None:
-                    if appear_button == record_button:
-                        if item_confirm.reached():
-                            # Record drops and close get items
-                            self.drop_record(drop=record)
-                            self.device.click(GET_ITEMS_RESEARCH_SAVE)
+                if drop:
+                    # record item drop
+                    appear_button = self.get_items()
+                    if appear_button is not None:
+                        if appear_button == record_button:
+                            if item_confirm.reached():
+                                # Record drops and close get items
+                                self.drop_record(drop=drop)
+                                self.device.click(GET_ITEMS_RESEARCH_SAVE)
+                                item_confirm.reset()
+                                record_button = None
+                                total += 1
+                                continue
+                        else:
+                            logger.info(f'{appear_button} appeared')
+                            record_button = appear_button
                             item_confirm.reset()
-                            record_button = None
+                    else:
+                        item_confirm.reset()
+                        record_button = None
+                else:
+                    # no drop saving, just click it
+                    if item_interval.reached():
+                        appear_button = self.get_items()
+                        if appear_button is not None:
+                            self.device.click(GET_ITEMS_RESEARCH_SAVE)
+                            item_interval.reset()
                             total += 1
                             continue
-                    else:
-                        logger.info(f'{appear_button} appeared')
-                        record_button = appear_button
-                        item_confirm.reset()
-                else:
-                    item_confirm.reset()
-                    record_button = None
 
                 # Claim rewards
                 if self.appear_then_click(QUEUE_CLAIM_REWARD, offset=None, interval=5):
                     continue
 
             if total <= 0:
-                record.clear()
+                drop.clear()
 
         logger.info(f'Received rewards from {total} projects')
         return total

@@ -6,7 +6,7 @@ from module.map.assets import SWITCH_OVER
 
 class CampaignBase(CampaignBase_):
     def enemy_searching_appear(self):
-        if not self.appear(SWITCH_OVER, offset=(20, 20)):
+        if not self.is_in_map():
             return False
 
         return red_overlay_transparency(

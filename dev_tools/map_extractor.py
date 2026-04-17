@@ -317,6 +317,16 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     'unknownV_boss_hermit': 'Vboss_Hermit',
     'unknownV_boss_lovers': 'Vboss_Lovers',
     'unknownV_boss_chariot': 'Vboss_Chariot',
+
+    # Vacation Lane – Beachside Brilliance (event_20260417_cn)
+    'bulaimodun': 'Bremerton',
+    'fushun_g': 'FuShunG',
+    'lafeier': 'Raffaello',
+    'huangjiafangzhou_g': 'ArkRoyal',
+    'chaijun': 'Cheshire',
+    'naximofu': 'Nakhimov',
+    'liekexingdunII': 'Lexington2',
+    'yuekechengII': 'Yorktown2',
 }
 
 
@@ -769,8 +779,8 @@ Arguments:
                      adapted for war_archives usage
 """
 FILE = '../AzurLaneLuaScripts'
-FOLDER = './campaign/test'
-KEYWORD = ''
+FOLDER = './campaign/event_20260417_cn'
+KEYWORD = '2020001'
 SELECT = True
 OVERWRITE = True
 IS_WAR_ARCHIVES = False

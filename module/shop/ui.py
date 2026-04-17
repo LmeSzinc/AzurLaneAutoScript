@@ -83,7 +83,9 @@ class ShopUI(UI):
         for _ in self.loop():
             if self.appear(POPUP_CONFIRM, offset=(30, 30)):
                 break
-            if self.appear(SHOP_REFRESH, offset=(30, 30), interval=3):
+            # SHOP_REFRESH_CHECK is the refresh icon
+            # SHOP_REFRESH is refresh icon with surrounded background
+            if self.appear(SHOP_REFRESH_CHECK, offset=(30, 30), interval=3):
                 # SHOP_REFRESH has two kinds of color when active
                 if self.image_color_count(SHOP_REFRESH.button, color=(49, 142, 207), threshold=221, count=50):
                     self.device.click(SHOP_REFRESH)
