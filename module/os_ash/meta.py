@@ -41,6 +41,13 @@ class MetaDigitCounter(DigitCounter):
         if re.match(r'^[0123]3$', result):
             result = f'{result[0]}/{result[1]}'
 
+        # 1/40/1400 -> 140/1400
+        for suffix in ['/1400', '/200']:
+            if result.endswith(suffix):
+                point = result[:-len(suffix)]
+                point = point.replace('/', '')
+                result = point + suffix
+
         return result
 
 
