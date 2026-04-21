@@ -71,7 +71,10 @@ class GitManager(DeployConfig):
     @property
     def goc_client(self):
         client = GitOverCdnClient(
-            url='https://vip.123pan.cn/1818706573/pack/LmeSzinc_AzurLaneAutoScript_master',
+            url=[
+                'https://vip.123pan.cn/1818706573/pack/LmeSzinc_AzurLaneAutoScript_master',
+                'https://1818706573.v.123yx.com/1818706573/pack/LmeSzinc_AzurLaneAutoScript_master',
+            ],
             folder=self.root_filepath,
             source='origin',
             branch='master',
