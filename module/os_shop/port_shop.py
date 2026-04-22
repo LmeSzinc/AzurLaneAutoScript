@@ -1,4 +1,5 @@
 from typing import List
+
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.base.template import Template
@@ -6,9 +7,9 @@ from module.logger import logger
 from module.map_detection.utils import Points
 from module.os_handler.map_event import MapEventHandler
 from module.os_handler.os_status import OSStatus
+from module.os_shop.item import OSShopItem as Item, OSShopItemGrid as ItemGrid
 from module.os_shop.selector import Selector
 from module.os_shop.ui import OSShopUI, OS_SHOP_SCROLL
-from module.os_shop.item import OSShopItem as Item, OSShopItemGrid as ItemGrid
 from module.statistics.utils import load_folder
 
 
@@ -133,19 +134,21 @@ class PortShop(OSStatus, OSShopUI, Selector, MapEventHandler):
 
             while True:
                 pre_pos = self.pre_scroll(pre_pos, cur_pos)
-                _items = self.os_shop_get_items(i, cur_pos)
 
-                for _ in range(2):
+                _items = []
+                for _ in range(3):
+                    _items = self.os_shop_get_items(i, cur_pos)
                     if not len(_items) or any(not item.is_known_item() for item in _items):
                         logger.warning('Empty OS shop or empty items, confirming')
                         self.device.sleep((0.3, 0.5))
                         self.device.screenshot()
-                        _items = self.os_shop_get_items(i, cur_pos)
                         continue
                     else:
-                        items += _items
                         logger.info(f'Found {len(_items)} items in shop {i + 1} at pos {cur_pos:.2f}')
                         break
+                # always add items, even if last item list contains unknown items
+                # so any known items can be scanned
+                items += _items
 
                 if OS_SHOP_SCROLL.at_bottom(main=self):
                     logger.info('OS shop reach bottom, stop')
