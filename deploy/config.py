@@ -62,9 +62,6 @@ class ConfigModel:
     CDN: Union[str, bool] = False
     Run: Optional[str] = None
 
-    # Dynamic
-    GitOverCdn: bool = False
-
 
 class DeployConfig(ConfigModel):
     def __init__(self, file=DEPLOY_CONFIG):
@@ -129,13 +126,6 @@ class DeployConfig(ConfigModel):
         ]:
             self.PypiMirror = 'https://mirrors.aliyun.com/pypi/simple'
             self.config['PypiMirror'] = 'https://mirrors.aliyun.com/pypi/simple'
-
-        # Bypass webui.config.DeployConfig.__setattr__()
-        # Don't write these into deploy.yaml
-        super().__setattr__(
-            'GitOverCdn',
-            self.Repository == 'git://git.lyoko.io/AzurLaneAutoScript' and self.Branch == 'master'
-        )
         if self.Repository in ['global']:
             super().__setattr__('Repository', 'https://github.com/LmeSzinc/AzurLaneAutoScript')
         if self.Repository in ['cn']:
