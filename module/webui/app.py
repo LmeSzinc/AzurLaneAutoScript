@@ -349,6 +349,14 @@ class AlasGUI(Frame):
             if output_kwargs["widget_type"] == "select" and isinstance(server_options, list) and server_options:
                 options = server_options
             output_kwargs["options"] = options
+            if (
+                task == "GemsFarming"
+                and group_name == "Campaign"
+                and arg_name == "Event"
+                and output_kwargs["widget_type"] == "select"
+                and len(options) == 1
+            ):
+                continue
             if output_kwargs["widget_type"] == "select" and len(options) == 1:
                 only_option = options[0]
                 if only_option in output_kwargs.get("option_bold", []):
