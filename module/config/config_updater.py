@@ -647,22 +647,24 @@ class ConfigUpdater:
         if not is_template:
             for task in EVENTS + RAIDS + COALITIONS:
                 opts = deep_get(self.args, keys=f'{task}.Campaign.Event.option_{server}', default=[])
-                if not deep_get(new, keys=f'{task}.Campaign.Event', default='campaign_main') in opts:
+                if opts and not deep_get(new, keys=f'{task}.Campaign.Event', default='campaign_main') in opts:
                     deep_set(new,
                              keys=f'{task}.Campaign.Event',
                              value=opts[0])
 
             for task in ['GemsFarming']:
-                if deep_get(new, keys=f'{task}.Campaign.Event', default='campaign_main') != 'campaign_main':
+                opts = deep_get(self.args, keys=f'{task}.Campaign.Event.option_{server}', default=[])
+                if opts and deep_get(new, keys=f'{task}.Campaign.Event', default='campaign_main') not in opts:
                     deep_set(new,
                              keys=f'{task}.Campaign.Event',
-                             value=deep_get(self.args, f'{task}.Campaign.Event.option_{server}')[0])
+                             value=opts[0])
         # War archive does not allow campaign_main
         for task in WAR_ARCHIVES:
-            if deep_get(new, keys=f'{task}.Campaign.Event', default='campaign_main') == 'campaign_main':
+            opts = deep_get(self.args, keys=f'{task}.Campaign.Event.option_{server}', default=[])
+            if opts and deep_get(new, keys=f'{task}.Campaign.Event', default='campaign_main') == 'campaign_main':
                 deep_set(new,
                          keys=f'{task}.Campaign.Event',
-                         value=deep_get(self.args, f'{task}.Campaign.Event.option_{server}')[0])
+                         value=opts[0])
 
         # Events does not allow default stage 12-4
         def default_stage(t, stage):

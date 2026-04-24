@@ -1,7 +1,9 @@
 from module.base.button import Button
+from module.campaign.assets import EVENT_20201126_ENTRANCE_TEMP, EVENT_20201126_PT_ICON
 from module.campaign.campaign_base import CampaignBase as CampaignBase_
 from module.exception import CampaignNameError
 from module.logger import logger
+from module.ui.page import page_campaign_menu, page_event, page_main
 
 EVENT_ANIMATION = Button(area=(49, 229, 119, 400), color=(118, 215, 240), button=(49, 229, 119, 400),
                          name='EVENT_ANIMATION')
@@ -15,6 +17,19 @@ class CampaignBase(CampaignBase_):
     Chapter 3: EX.
     Mode switch is meaningless.
     """
+
+    def ui_goto_event(self):
+        if self.appear(EVENT_20201126_PT_ICON, offset=(20, 20)) and self.ui_page_appear(page_event):
+            logger.info('Already at EVENT_20201126')
+            return True
+        self.ui_ensure(page_campaign_menu)
+        if self.is_event_entrance_available():
+            self.ui_ensure(page_main)
+            self.ui_click(EVENT_20201126_ENTRANCE_TEMP,
+                      check_button=EVENT_20201126_PT_ICON,
+                      appear_button=EVENT_20201126_ENTRANCE_TEMP)
+            return True
+
 
     @staticmethod
     def _campaign_separate_name(name):
