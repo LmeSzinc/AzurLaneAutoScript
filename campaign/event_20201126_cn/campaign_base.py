@@ -28,7 +28,7 @@ class CampaignBase(CampaignBase_):
             self.ui_click(EVENT_20201126_ENTRANCE_TEMP,
                       check_button=EVENT_20201126_PT_ICON,
                       appear_button=EVENT_20201126_ENTRANCE_TEMP,
-                      offset=(40, 0))
+                      offset=(40, 20))
             return True
 
 
