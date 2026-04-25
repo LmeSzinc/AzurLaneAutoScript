@@ -2551,6 +2551,24 @@
       "22": "22"
     }
   },
+  "OpsiCheckLeveling": {
+    "_info": {
+      "name": "OpsiCheckLeveling._info.name",
+      "help": "OpsiCheckLeveling._info.help"
+    },
+    "TargetLevel": {
+      "name": "OpsiCheckLeveling.TargetLevel.name",
+      "help": "OpsiCheckLeveling.TargetLevel.help"
+    },
+    "LastRun": {
+      "name": "OpsiCheckLeveling.LastRun.name",
+      "help": "OpsiCheckLeveling.LastRun.help"
+    },
+    "DelayAfterFull": {
+      "name": "OpsiCheckLeveling.DelayAfterFull.name",
+      "help": "OpsiCheckLeveling.DelayAfterFull.help"
+    }
+  },
   "Daemon": {
     "_info": {
       "name": "Daemon._info.name",

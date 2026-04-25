@@ -9124,6 +9124,21 @@
         "value": false
       }
     },
+    "OpsiCheckLeveling": {
+      "TargetLevel": {
+        "type": "input",
+        "value": 0
+      },
+      "LastRun": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "DelayAfterFull": {
+        "type": "checkbox",
+        "value": false
+      }
+    },
     "Storage": {
       "Storage": {
         "type": "storage",
@@ -9195,6 +9210,21 @@
         "type": "checkbox",
         "value": false,
         "display": "hide"
+      }
+    },
+    "OpsiCheckLeveling": {
+      "TargetLevel": {
+        "type": "input",
+        "value": 0
+      },
+      "LastRun": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "DelayAfterFull": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Storage": {

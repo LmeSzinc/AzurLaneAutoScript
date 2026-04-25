@@ -2551,6 +2551,24 @@
       "22": "22 | NA Ocean SW Sector B"
     }
   },
+  "OpsiCheckLeveling": {
+    "_info": {
+      "name": "Daily Leveling Check",
+      "help": "Check if all ships in current fleet have received enough experience to reach the target level\nIf yes, then Alas will push a message.\n'Error notify config' should be set first."
+    },
+    "TargetLevel": {
+      "name": "Push when all ships received enough experience to reach target level X",
+      "help": "0 means no limit"
+    },
+    "LastRun": {
+      "name": "Last Check Time",
+      "help": "Automatically updated with the last check time, generally does not need to be modified"
+    },
+    "DelayAfterFull": {
+      "name": "Delay task when target level reached",
+      "help": ""
+    }
+  },
   "Daemon": {
     "_info": {
       "name": "Semi-auto Clicking",
