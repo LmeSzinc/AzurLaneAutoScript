@@ -14,3 +14,7 @@ MaaMaterial:
 MaaFight:
   Scheduler:
     SuccessInterval: 240
+
+MaaAftercareOperation:
+  Scheduler:
+    Enable: true
