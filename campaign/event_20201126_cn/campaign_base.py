@@ -19,7 +19,7 @@ class CampaignBase(CampaignBase_):
     """
 
     def ui_goto_event(self):
-        if self.appear(EVENT_20201126_PT_ICON, offset=(20, 20)) and self.ui_page_appear(page_event):
+        if self.appear(EVENT_20201126_PT_ICON, offset=(40, 20)) and self.ui_page_appear(page_event):
             logger.info('Already at EVENT_20201126')
             return True
         self.ui_ensure(page_campaign_menu)
@@ -27,7 +27,8 @@ class CampaignBase(CampaignBase_):
             self.ui_ensure(page_main)
             self.ui_click(EVENT_20201126_ENTRANCE_TEMP,
                       check_button=EVENT_20201126_PT_ICON,
-                      appear_button=EVENT_20201126_ENTRANCE_TEMP)
+                      appear_button=EVENT_20201126_ENTRANCE_TEMP,
+                      offset=(40, 0))
             return True
 
 
