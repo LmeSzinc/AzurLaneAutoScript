@@ -221,6 +221,10 @@ class AzurLaneAutoScript:
         from module.shop.shop_reward import RewardShop
         RewardShop(config=self.config, device=self.device).run_once()
 
+    def event_shop(self):
+        from module.shop_event.shop_event import EventShop
+        EventShop(config=self.config, device=self.device).run()
+
     def shipyard(self):
         from module.shipyard.shipyard_reward import RewardShipyard
         RewardShipyard(config=self.config, device=self.device).run()
