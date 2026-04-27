@@ -84,6 +84,7 @@ EmulatorInfo:
 Error:
   HandleError: true
   SaveError: true
+  SaveErrorCount: 30
   OnePushConfig:
     type: textarea
     mode: yaml
@@ -120,6 +121,14 @@ DropRecord:
   MeowfficerTalent:
     value: do_not
     option: [ do_not, save, upload, save_and_upload ]
+Log:
+  LogKeepCount: 7
+  LogBackUpMethod:
+    value: delete
+    option: [ delete, zip, copy ]
+  ZipMethod:
+    value: bz2
+    option: [ bz2, gzip, xz, zip ]
 Retirement:
   RetireMode:
     value: one_click_retire
