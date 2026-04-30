@@ -1,9 +1,9 @@
 from module.base.button import Button
-from module.campaign.assets import EVENT_20201126_ENTRANCE_TEMP, EVENT_20201126_PT_ICON
+from module.campaign.assets import EVENT_20201126_PT_ICON, EVENT_20201126_DETAIL, EVENT_20201126_DETAIL_CHECK, EVENT_20201126_DETAIL_WHITE, EVENT_20201126_ENTRANCE
 from module.campaign.campaign_base import CampaignBase as CampaignBase_
 from module.exception import CampaignNameError
 from module.logger import logger
-from module.ui.page import page_campaign_menu, page_event, page_main
+from module.ui.page import page_campaign_menu, page_event, page_main_white
 
 EVENT_ANIMATION = Button(area=(49, 229, 119, 400), color=(118, 215, 240), button=(49, 229, 119, 400),
                          name='EVENT_ANIMATION')
@@ -24,11 +24,13 @@ class CampaignBase(CampaignBase_):
             return True
         self.ui_ensure(page_campaign_menu)
         if self.is_event_entrance_available():
-            self.ui_ensure(page_main)
-            self.ui_click(EVENT_20201126_ENTRANCE_TEMP,
-                      check_button=EVENT_20201126_PT_ICON,
-                      appear_button=EVENT_20201126_ENTRANCE_TEMP,
-                      offset=(40, 20))
+            self.ui_goto_main()
+            if self.ui_page_appear(page_main_white):
+                self.ui_click(EVENT_20201126_DETAIL_WHITE, check_button=EVENT_20201126_DETAIL_CHECK)
+            else:
+                self.ui_click(EVENT_20201126_DETAIL, check_button=EVENT_20201126_DETAIL_CHECK)
+            self.ui_click(EVENT_20201126_ENTRANCE, check_button=EVENT_20201126_PT_ICON,
+                          appear_button=EVENT_20201126_DETAIL_CHECK, offset=(40, 20))
             return True
 
 
