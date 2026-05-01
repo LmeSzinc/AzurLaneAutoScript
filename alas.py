@@ -407,6 +407,10 @@ class AzurLaneAutoScript:
         GemsFarming(config=self.config, device=self.device).run(
             name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
 
+    def island_season_task(self):
+        from module.island.season_task import IslandSeasonTaskHandler
+        IslandSeasonTaskHandler(config=self.config, device=self.device).run()
+
     def daemon(self):
         from module.daemon.daemon import AzurLaneDaemon
         AzurLaneDaemon(config=self.config, device=self.device, task="Daemon").run()
