@@ -5,6 +5,7 @@ from module.campaign.campaign_status import CampaignStatus
 from module.config.config_updater import COALITIONS, EVENTS, GEMS_FARMINGS, HOSPITAL, MARITIME_ESCORTS, RAIDS
 from module.config.utils import DEFAULT_TIME
 from module.logger import logger
+from module.notify import handle_notify
 from module.ui.assets import CAMPAIGN_MENU_NO_EVENT
 from module.ui.page import page_campaign_menu, page_coalition, page_event, page_sp
 from module.war_archives.assets import WAR_ARCHIVES_CAMPAIGN_CHECK
@@ -71,6 +72,36 @@ class CampaignEvent(CampaignStatus):
         if pt >= limit:
             logger.hr(f'Reach event PT limit: {limit}')
             self._disable_tasks(tasks)
+            return True
+        else:
+            return False
+
+    def coin_limit_triggered(self):
+        """
+        Returns:
+            bool: If coin amount is greater than StopCondition.CoinLimit
+        """
+        limit = int(
+            re.sub(r'[,.\'"，。]', '', str(self.config.StopCondition_CoinLimit))
+        )
+        if limit <= 0:
+            return False
+
+        coin = self.get_coin()
+        if coin == 0:
+            # Avoid wrong/zero OCR result
+            logger.warning('Coin not found')
+            return False
+
+        logger.attr('Coin_limit', f'{coin}/{limit}')
+        if coin > limit:
+            logger.hr(f'Reach coin limit: {limit}')
+            self.config.Scheduler_Enable = False
+            handle_notify(
+                self.config.Error_OnePushConfig,
+                title=f"Alas <{self.config.config_name}> campaign finished",
+                content=f"<{self.config.config_name}> {self.config.Campaign_Name} reached coin limit"
+            )
             return True
         else:
             return False
