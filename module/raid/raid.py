@@ -231,6 +231,10 @@ class Raid(MapOperation, RaidCombat, CampaignEvent):
             if self.event_pt_limit_triggered():
                 logger.hr('Triggered stop condition: Event PT limit')
                 return True
+        # Coin limit
+        if coin_check and self.coin_limit_triggered():
+            logger.hr('Triggered stop condition: Coin limit')
+            return True
         # TaskBalancer
         if coin_check:
             if self.config.TaskBalancer_Enable and self.triggered_task_balancer():
