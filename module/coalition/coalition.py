@@ -85,7 +85,7 @@ class Coalition(CoalitionCombat, CampaignEvent):
             return False
         return True
 
-    def triggered_stop_condition(self, oil_check=False, pt_check=False):
+    def triggered_stop_condition(self, oil_check=False, pt_check=False, coin_check=False):
         """
         Returns:
             bool: If triggered a stop condition.
@@ -107,6 +107,10 @@ class Coalition(CoalitionCombat, CampaignEvent):
             if self.event_pt_limit_triggered():
                 logger.hr('Triggered stop condition: Event PT limit')
                 return True
+        # Coin limit
+        if coin_check and self.coin_limit_triggered():
+            logger.hr('Triggered stop condition: Coin limit')
+            return True
         # TaskBalancer
         if self.run_count >= 1:
             if self.config.TaskBalancer_Enable and self.triggered_task_balancer():
@@ -147,7 +151,7 @@ class Coalition(CoalitionCombat, CampaignEvent):
             self.coalition_map_exit(event)
             raise
 
-        if self._coalition_has_oil_icon and self.triggered_stop_condition(oil_check=True):
+        if self._coalition_has_oil_icon and self.triggered_stop_condition(oil_check=True, coin_check=True):
             self.coalition_map_exit(event)
             raise ScriptEnd
 
@@ -189,7 +193,7 @@ class Coalition(CoalitionCombat, CampaignEvent):
             # UI switches
             if not self._coalition_has_oil_icon:
                 self.ui_goto(page_campaign_menu)
-                if self.triggered_stop_condition(oil_check=True):
+                if self.triggered_stop_condition(oil_check=True, coin_check=True):
                     break
             self.device.stuck_record_clear()
             self.device.click_record_clear()
@@ -198,7 +202,7 @@ class Coalition(CoalitionCombat, CampaignEvent):
             self.coalition_ensure_mode(event, 'battle')
 
             # End
-            if self.triggered_stop_condition(pt_check=True):
+            if self.triggered_stop_condition(pt_check=True, coin_check=True):
                 break
 
             # Run
@@ -216,7 +220,7 @@ class Coalition(CoalitionCombat, CampaignEvent):
             if self.config.StopCondition_RunCount:
                 self.config.StopCondition_RunCount -= 1
             # End
-            if self.triggered_stop_condition(pt_check=True):
+            if self.triggered_stop_condition(pt_check=True, coin_check=True):
                 break
             # Scheduler
             if self.config.task_switched():

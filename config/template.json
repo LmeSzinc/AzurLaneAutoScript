@@ -98,6 +98,7 @@
     },
     "StopCondition": {
       "OilLimit": 1000,
+      "CoinLimit": 0,
       "RunCount": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
@@ -172,6 +173,7 @@
     },
     "StopCondition": {
       "OilLimit": 1000,
+      "CoinLimit": 0,
       "RunCount": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
@@ -246,6 +248,7 @@
     },
     "StopCondition": {
       "OilLimit": 1000,
+      "CoinLimit": 0,
       "RunCount": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
@@ -326,6 +329,7 @@
     },
     "StopCondition": {
       "OilLimit": 1000,
+      "CoinLimit": 0,
       "RunCount": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
@@ -382,6 +386,7 @@
     },
     "StopCondition": {
       "OilLimit": 1000,
+      "CoinLimit": 0,
       "RunCount": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
@@ -456,6 +461,7 @@
     },
     "StopCondition": {
       "OilLimit": 1000,
+      "CoinLimit": 0,
       "RunCount": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
@@ -534,6 +540,7 @@
     },
     "StopCondition": {
       "OilLimit": 1000,
+      "CoinLimit": 0,
       "RunCount": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
@@ -571,6 +578,7 @@
     },
     "StopCondition": {
       "OilLimit": 1000,
+      "CoinLimit": 0,
       "RunCount": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
@@ -619,6 +627,7 @@
     },
     "StopCondition": {
       "OilLimit": 1000,
+      "CoinLimit": 0,
       "RunCount": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
@@ -679,6 +688,7 @@
     },
     "StopCondition": {
       "OilLimit": 1000,
+      "CoinLimit": 0,
       "RunCount": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
@@ -757,6 +767,7 @@
     },
     "StopCondition": {
       "OilLimit": 1000,
+      "CoinLimit": 0,
       "RunCount": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
@@ -835,6 +846,7 @@
     },
     "StopCondition": {
       "OilLimit": 1000,
+      "CoinLimit": 0,
       "RunCount": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
@@ -913,6 +925,7 @@
     },
     "StopCondition": {
       "OilLimit": 1000,
+      "CoinLimit": 0,
       "RunCount": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
@@ -991,6 +1004,7 @@
     },
     "StopCondition": {
       "OilLimit": 1000,
+      "CoinLimit": 0,
       "RunCount": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
@@ -1065,6 +1079,7 @@
     },
     "StopCondition": {
       "OilLimit": 1000,
+      "CoinLimit": 0,
       "RunCount": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
@@ -1142,6 +1157,7 @@
     },
     "StopCondition": {
       "OilLimit": 1000,
+      "CoinLimit": 0,
       "RunCount": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
@@ -1190,6 +1206,7 @@
     },
     "StopCondition": {
       "OilLimit": 1000,
+      "CoinLimit": 0,
       "RunCount": 0,
       "MapAchievement": "non_stop",
       "StageIncrease": false,
