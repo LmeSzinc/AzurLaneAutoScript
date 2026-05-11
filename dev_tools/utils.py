@@ -45,6 +45,52 @@ class LuaLoader:
     def filepath(self, path):
         return os.path.join(self.folder, self.server, path)
 
+    def _find_matching_brace(self, text, start_index):
+        depth = 0
+        in_string = None
+        escape = False
+        for i in range(start_index, len(text)):
+            ch = text[i]
+            if in_string:
+                if escape:
+                    escape = False
+                elif ch == '\\':
+                    escape = True
+                elif ch == in_string:
+                    in_string = None
+            else:
+                if ch in ('"', "'"):
+                    in_string = ch
+                elif ch == '{':
+                    depth += 1
+                elif ch == '}':
+                    depth -= 1
+                    if depth == 0:
+                        return i
+        return -1
+
+    def _infer_base_name(self, file, keyword):
+        if keyword:
+            keyword = keyword.strip()
+            if keyword.startswith('pg.base.'):
+                return keyword[len('pg.base.') :]
+            if keyword.startswith('pg.'):
+                return keyword[len('pg.') :]
+            return keyword
+        return os.path.splitext(os.path.basename(file))[0]
+
+    def _load_pg_base_entries(self, text, base_name):
+        pattern = rf"pg\.base\.{re.escape(base_name)}\[(\d+)\]\s*=\s*\{{"
+        result = {}
+        for m in re.finditer(pattern, text):
+            start = m.end() - 1
+            end = self._find_matching_brace(text, start)
+            if end == -1:
+                continue
+            table_text = text[start:end + 1]
+            result[int(m.group(1))] = slpp.decode(table_text)
+        return result
+
     def _load_file(self, file, keyword=None):
         """
         Args:
@@ -55,6 +101,16 @@ class LuaLoader:
         """
         with open(self.filepath(file), 'r', encoding='utf-8') as f:
             text = f.read()
+
+        if 'pg.base.' in text:
+            base_name = self._infer_base_name(file, keyword)
+            if not base_name:
+                m = re.search(r"pg\.base\.([A-Za-z0-9_]+)\[", text)
+                base_name = m.group(1) if m else None
+            if base_name:
+                result = self._load_pg_base_entries(text, base_name)
+                if result:
+                    return result
 
         result = {}
         if text.startswith('_G'):
@@ -86,7 +142,7 @@ class LuaLoader:
         if os.path.isdir(self.filepath(path)):
             result = {}
             for file in tqdm(os.listdir(self.filepath(path))):
-                result.update(self._load_file(f'./{path}/{file}'))
+                result.update(self._load_file(f'./{path}/{file}', keyword=keyword))
         else:
             result = self._load_file(path, keyword=keyword)
 
