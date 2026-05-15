@@ -500,6 +500,10 @@
       "AmbushEvade": {
         "type": "checkbox",
         "value": true
+      },
+      "UseRecommendFleet": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "StopCondition": {
@@ -879,6 +883,10 @@
       "AmbushEvade": {
         "type": "checkbox",
         "value": true
+      },
+      "UseRecommendFleet": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "StopCondition": {
@@ -1258,6 +1266,10 @@
       "AmbushEvade": {
         "type": "checkbox",
         "value": true
+      },
+      "UseRecommendFleet": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "StopCondition": {
@@ -1703,6 +1715,10 @@
         "type": "checkbox",
         "value": true,
         "display": "hide"
+      },
+      "UseRecommendFleet": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "StopCondition": {
@@ -1991,6 +2007,10 @@
         "type": "checkbox",
         "value": true,
         "display": "hide"
+      },
+      "UseRecommendFleet": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "StopCondition": {
@@ -2397,6 +2417,10 @@
         "type": "checkbox",
         "value": true,
         "display": "hide"
+      },
+      "UseRecommendFleet": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "StopCondition": {
@@ -2813,6 +2837,10 @@
         "type": "checkbox",
         "value": true,
         "display": "hide"
+      },
+      "UseRecommendFleet": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "StopCondition": {
@@ -3212,6 +3240,10 @@
         "type": "checkbox",
         "value": true,
         "display": "hide"
+      },
+      "UseRecommendFleet": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Coalition": {
@@ -3726,6 +3758,10 @@
         "type": "checkbox",
         "value": true,
         "display": "hide"
+      },
+      "UseRecommendFleet": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "StopCondition": {
@@ -4144,6 +4180,10 @@
         "type": "checkbox",
         "value": true,
         "display": "hide"
+      },
+      "UseRecommendFleet": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "StopCondition": {
@@ -4567,6 +4607,10 @@
         "type": "checkbox",
         "value": true,
         "display": "hide"
+      },
+      "UseRecommendFleet": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "StopCondition": {
@@ -4990,6 +5034,10 @@
         "type": "checkbox",
         "value": true,
         "display": "hide"
+      },
+      "UseRecommendFleet": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "StopCondition": {
@@ -5413,6 +5461,10 @@
         "type": "checkbox",
         "value": true,
         "display": "hide"
+      },
+      "UseRecommendFleet": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "StopCondition": {
@@ -5826,6 +5878,10 @@
         "type": "checkbox",
         "value": true,
         "display": "hide"
+      },
+      "UseRecommendFleet": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "StopCondition": {
@@ -6238,6 +6294,10 @@
         "type": "checkbox",
         "value": true,
         "display": "hide"
+      },
+      "UseRecommendFleet": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "StopCondition": {
@@ -6465,6 +6525,10 @@
         "type": "checkbox",
         "value": true,
         "display": "hide"
+      },
+      "UseRecommendFleet": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Coalition": {

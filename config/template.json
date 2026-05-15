@@ -94,7 +94,8 @@
       "UseFleetLock": true,
       "UseAutoSearch": true,
       "Use2xBook": false,
-      "AmbushEvade": true
+      "AmbushEvade": true,
+      "UseRecommendFleet": false
     },
     "StopCondition": {
       "OilLimit": 1000,
@@ -168,7 +169,8 @@
       "UseFleetLock": true,
       "UseAutoSearch": true,
       "Use2xBook": false,
-      "AmbushEvade": true
+      "AmbushEvade": true,
+      "UseRecommendFleet": false
     },
     "StopCondition": {
       "OilLimit": 1000,
@@ -242,7 +244,8 @@
       "UseFleetLock": true,
       "UseAutoSearch": true,
       "Use2xBook": false,
-      "AmbushEvade": true
+      "AmbushEvade": true,
+      "UseRecommendFleet": false
     },
     "StopCondition": {
       "OilLimit": 1000,
@@ -322,7 +325,8 @@
       "UseFleetLock": true,
       "UseAutoSearch": true,
       "Use2xBook": false,
-      "AmbushEvade": true
+      "AmbushEvade": true,
+      "UseRecommendFleet": false
     },
     "StopCondition": {
       "OilLimit": 1000,
@@ -378,7 +382,8 @@
       "UseFleetLock": true,
       "UseAutoSearch": true,
       "Use2xBook": false,
-      "AmbushEvade": true
+      "AmbushEvade": true,
+      "UseRecommendFleet": false
     },
     "StopCondition": {
       "OilLimit": 1000,
@@ -452,7 +457,8 @@
       "UseFleetLock": true,
       "UseAutoSearch": true,
       "Use2xBook": false,
-      "AmbushEvade": true
+      "AmbushEvade": true,
+      "UseRecommendFleet": false
     },
     "StopCondition": {
       "OilLimit": 1000,
@@ -530,7 +536,8 @@
       "UseFleetLock": true,
       "UseAutoSearch": false,
       "Use2xBook": false,
-      "AmbushEvade": true
+      "AmbushEvade": true,
+      "UseRecommendFleet": false
     },
     "StopCondition": {
       "OilLimit": 1000,
@@ -611,7 +618,8 @@
       "UseFleetLock": true,
       "UseAutoSearch": false,
       "Use2xBook": false,
-      "AmbushEvade": true
+      "AmbushEvade": true,
+      "UseRecommendFleet": false
     },
     "Coalition": {
       "Mode": "hard",
@@ -675,7 +683,8 @@
       "UseFleetLock": true,
       "UseAutoSearch": true,
       "Use2xBook": false,
-      "AmbushEvade": true
+      "AmbushEvade": true,
+      "UseRecommendFleet": false
     },
     "StopCondition": {
       "OilLimit": 1000,
@@ -753,7 +762,8 @@
       "UseFleetLock": true,
       "UseAutoSearch": true,
       "Use2xBook": false,
-      "AmbushEvade": true
+      "AmbushEvade": true,
+      "UseRecommendFleet": false
     },
     "StopCondition": {
       "OilLimit": 1000,
@@ -831,7 +841,8 @@
       "UseFleetLock": true,
       "UseAutoSearch": true,
       "Use2xBook": false,
-      "AmbushEvade": true
+      "AmbushEvade": true,
+      "UseRecommendFleet": false
     },
     "StopCondition": {
       "OilLimit": 1000,
@@ -909,7 +920,8 @@
       "UseFleetLock": true,
       "UseAutoSearch": true,
       "Use2xBook": false,
-      "AmbushEvade": true
+      "AmbushEvade": true,
+      "UseRecommendFleet": false
     },
     "StopCondition": {
       "OilLimit": 1000,
@@ -987,7 +999,8 @@
       "UseFleetLock": true,
       "UseAutoSearch": true,
       "Use2xBook": false,
-      "AmbushEvade": true
+      "AmbushEvade": true,
+      "UseRecommendFleet": false
     },
     "StopCondition": {
       "OilLimit": 1000,
@@ -1061,7 +1074,8 @@
       "UseFleetLock": true,
       "UseAutoSearch": true,
       "Use2xBook": false,
-      "AmbushEvade": true
+      "AmbushEvade": true,
+      "UseRecommendFleet": false
     },
     "StopCondition": {
       "OilLimit": 1000,
@@ -1138,7 +1152,8 @@
       "UseFleetLock": true,
       "UseAutoSearch": false,
       "Use2xBook": false,
-      "AmbushEvade": true
+      "AmbushEvade": true,
+      "UseRecommendFleet": false
     },
     "StopCondition": {
       "OilLimit": 1000,
@@ -1182,7 +1197,8 @@
       "UseFleetLock": true,
       "UseAutoSearch": false,
       "Use2xBook": false,
-      "AmbushEvade": true
+      "AmbushEvade": true,
+      "UseRecommendFleet": false
     },
     "Coalition": {
       "Mode": "sp",

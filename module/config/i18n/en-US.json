@@ -853,6 +853,10 @@
     "AmbushEvade": {
       "name": "Evade Ambush(es)",
       "help": ""
+    },
+    "UseRecommendFleet": {
+      "name": "Recommended fleet",
+      "help": "Use the game's recommended lineup in Hard Mode."
     }
   },
   "StopCondition": {

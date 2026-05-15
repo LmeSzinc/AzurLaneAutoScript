@@ -853,6 +853,10 @@
     "AmbushEvade": {
       "name": "規避伏擊",
       "help": ""
+    },
+    "UseRecommendFleet": {
+      "name": "推薦艦隊",
+      "help": "在困難模式下使用遊戲的推薦陣容"
     }
   },
   "StopCondition": {
