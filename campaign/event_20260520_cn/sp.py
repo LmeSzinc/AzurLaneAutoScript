@@ -7,11 +7,12 @@ MAP = CampaignMap('SP')
 MAP.shape = 'I10'
 MAP.camera_data = ['D6', 'D8']
 MAP.camera_data_spawn_point = ['D6']
+# Big pillar at E4, block D4 F4 to block the upper part of map
 MAP.map_data = """
     -- -- -- ++ ++ ++ -- -- --
     -- ++ -- -- -- -- -- ++ --
     -- -- -- -- -- -- -- -- --
-    ++ ++ ++ -- ++ -- ++ ++ ++
+    ++ ++ ++ ++ ++ ++ ++ ++ ++
     -- -- ME SP -- SP ME -- --
     -- -- -- -- __ -- -- -- --
     -- -- ME -- MS -- ME -- --
@@ -76,6 +77,9 @@ class Config:
 
     MAP_IS_ONE_TIME_STAGE = True
     MAP_SIREN_HAS_BOSS_ICON_SMALL = True
+    HOMO_STORAGE = ((8, 6), [(137.405, 104.804), (1046.044, 104.804), (-12.171, 652.093), (1166.717, 652.093)])
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 210
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
     MAP_SWIPE_MULTIPLY = (1.071, 1.091)
     MAP_SWIPE_MULTIPLY_MINITOUCH = (1.036, 1.055)
     MAP_SWIPE_MULTIPLY_MAATOUCH = (1.006, 1.024)
