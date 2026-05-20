@@ -1,17 +1,21 @@
+from module.base.utils import location2node
 from module.campaign.campaign_base import CampaignBase
-from module.map.map_base import CampaignMap
+from module.map.map_base import CampaignMap, location_ensure
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
 from .b1 import Config as ConfigBase
+from .d3 import GridCurrentFleet
 
 MAP = CampaignMap('B3')
 MAP.shape = 'I9'
 MAP.camera_data = ['D3', 'D5', 'D7', 'F3', 'F5', 'F7']
 MAP.camera_data_spawn_point = ['D7']
+# Big pillar at E4 covering D1:F2
+# mark covering grids as land, since we won't go there anyway
 MAP.map_data = """
-    ++ ++ ++ -- -- -- ++ ++ ++
-    -- -- ME -- -- -- ME -- --
-    -- ME -- ME -- ME -- ME --
+    ++ ++ ++ ++ ++ ++ ++ ++ ++
+    -- -- ME ++ ++ ++ ME -- --
+    -- ME -- ME ++ ME -- ME --
     -- ++ -- -- ++ -- -- ++ --
     ME ++ Me -- -- -- Me ++ ME
     -- Me -- -- MB -- -- Me --
@@ -71,6 +75,15 @@ class Config(ConfigBase):
 class Campaign(CampaignBase):
     MAP = MAP
     ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
+    grid_class = GridCurrentFleet
+
+    def in_sight(self, location, sight=None):
+        # Focus E3 when insight E3, to avoid ammo icon covered by pillar
+        location = location_ensure(location)
+        node = location2node(location)
+        if node == 'E3':
+            return self.focus_to('E3')
+        return super().in_sight(location, sight=sight)
 
     def battle_0(self):
         if self.clear_siren():

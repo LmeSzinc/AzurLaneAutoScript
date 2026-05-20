@@ -1,17 +1,22 @@
+from module.base.utils import color_similarity_2d, location2node
 from module.campaign.campaign_base import CampaignBase
-from module.map.map_base import CampaignMap
+from module.map.map_base import CampaignMap, location_ensure
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
+from module.map_detection.grid import Grid
+from module.template.assets import TEMPLATE_FLEET_CURRENT
 from .d1 import Config as ConfigBase
 
 MAP = CampaignMap('D3')
 MAP.shape = 'I9'
 MAP.camera_data = ['D3', 'D5', 'D7', 'F3', 'F5', 'F7']
 MAP.camera_data_spawn_point = ['D7']
+# Big pillar at E4 covering D1:F2
+# mark covering grids as land, since we won't go there anyway
 MAP.map_data = """
-    ++ ++ ++ -- -- -- ++ ++ ++
-    -- -- ME -- -- -- ME -- --
-    -- ME -- ME -- ME -- ME --
+    ++ ++ ++ ++ ++ ++ ++ ++ ++
+    -- -- ME ++ ++ ++ ME -- --
+    -- ME -- ME ++ ME -- ME --
     -- ++ -- -- ++ -- -- ++ --
     ME ++ Me -- -- -- Me ++ ME
     -- Me -- -- MB -- -- Me --
@@ -69,9 +74,33 @@ class Config(ConfigBase):
     # ===== End of generated config =====
 
 
+class GridCurrentFleet(Grid):
+    def predict_current_fleet(self):
+        # lower count threshold for D3
+        count = self.relative_hsv_count(area=(-0.5, -3.5, 0.5, -2.5), h=(141 - 3, 141 + 10), shape=(50, 50))
+        if count < 150:
+            return False
+
+        image = self.relative_crop((-0.5, -3.5, 0.5, -2.5), shape=(60, 60))
+        image = color_similarity_2d(image, color=(24, 255, 107))
+        if not TEMPLATE_FLEET_CURRENT.match(image):
+            return False
+
+        return True
+
+
 class Campaign(CampaignBase):
     MAP = MAP
     ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
+    grid_class = GridCurrentFleet
+
+    def in_sight(self, location, sight=None):
+        # Focus E3 when insight E3, to avoid ammo icon covered by pillar
+        location = location_ensure(location)
+        node = location2node(location)
+        if node == 'E3':
+            return self.focus_to('E3')
+        return super().in_sight(location, sight=sight)
 
     def battle_0(self):
         if self.clear_siren():

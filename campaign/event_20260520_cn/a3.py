@@ -8,12 +8,15 @@ MAP = CampaignMap('A3')
 MAP.shape = 'H9'
 MAP.camera_data = ['E3', 'E5', 'E7']
 MAP.camera_data_spawn_point = ['D6']
+# Big pillar at G5 covering G1:H4
+# Smoke covering fleet ammo icon and current fleet indicator if fleet is at F4
+# mark covering grids as land, since we won't go there anyway
 MAP.map_data = """
-    -- -- ++ -- -- ME -- --
-    -- -- ++ Me Me -- -- --
-    ++ ++ ++ -- -- ME -- --
-    SP -- -- MS -- -- -- --
-    -- -- MS -- __ Me ++ --
+    -- -- ++ -- -- ME ++ ++
+    -- -- ++ Me Me -- ++ ++
+    ++ ++ ++ -- -- ME ++ ++
+    SP -- -- MS -- ++ ++ ++
+    -- -- MS -- __ Me ++ ++
     SP -- -- MS -- -- MB --
     ++ ++ ++ -- -- -- -- ME
     -- -- ++ -- Me -- ME --
