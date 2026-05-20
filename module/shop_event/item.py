@@ -135,7 +135,7 @@ class EventShopItem(Item):
 
     def predict_valid(self):
         luma = rgb2luma(self.image)
-        return np.mean(luma > 127) >= 0.3
+        return np.mean(luma > 127) >= 0.2
 
     @property
     def scroll_pos(self):
