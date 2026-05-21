@@ -267,8 +267,17 @@ class FleetOperator:
 
         # Cropping FLEET_*_IN_USE to avoid detecting info_bar, also do the trick.
         # It also avoids wasting time on handling the info_bar.
-        image = rgb2gray(self.main.image_crop(self._in_use.button, copy=False))
-        return np.std(image.flatten(), ddof=1) > self.FLEET_IN_USE_STD
+        image = self.main.image_crop(self._in_use.button, copy=False)
+
+        # special fix for Perseus skin, which color is so flat
+        # https://github.com/LmeSzinc/AzurLaneAutoScript/issues/5678
+        # no ship is in color (71, 70, 63)
+        color = cv2.mean(image)[:3]
+        if color_similar(color, (224, 154, 114), threshold=30):
+            return True
+
+        gray = rgb2gray(image)
+        return np.std(gray.flatten(), ddof=1) > self.FLEET_IN_USE_STD
 
     def bar_opened(self):
         """
