@@ -64,6 +64,9 @@ class Config(ConfigBase):
     MAP_WALK_USE_CURRENT_FLEET = True
     # ===== End of generated config =====
 
+    HOMO_STORAGE = ((8, 6), [(137.405, 104.804), (1046.044, 104.804), (-12.171, 652.093), (1166.717, 652.093)])
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom-right'
+
 
 class Campaign(CampaignBase):
     MAP = MAP
