@@ -49,8 +49,8 @@ EVENT_SHOP_SCROLL = EventShopScroll(
     color=(44, 48, 56),
     name="EVENT_SHOP_SCROLL"
 )
-EVENT_SHOP_SCROLL.drag_threshold = 0.1
-EVENT_SHOP_SCROLL.edge_threshold = 0.12
+EVENT_SHOP_SCROLL.drag_threshold = 0.08
+EVENT_SHOP_SCROLL.edge_threshold = 0.1
 
 
 if server.server == 'tw':
