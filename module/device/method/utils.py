@@ -301,32 +301,53 @@ def get_serial_pair(serial):
     return None, None
 
 
-def remove_prefix(s, prefix):
+@t.overload
+def removeprefix(s: str, prefix: str) -> str: ...
+
+
+@t.overload
+def removeprefix(s: bytes, prefix: bytes) -> bytes: ...
+
+
+@t.overload
+def removesuffix(s: str, suffix: str) -> str: ...
+
+
+@t.overload
+def removesuffix(s: bytes, suffix: bytes) -> bytes: ...
+
+
+def removeprefix(s, prefix):
     """
-    Remove prefix of a string or bytes like `string.removeprefix(prefix)`, which is on Python3.9+
+    Backport `string.removeprefix(prefix)`, which is on Python>=3.9
 
     Args:
-        s (str, bytes):
-        prefix (str, bytes):
+        s (str | bytes):
+        prefix (str | bytes):
 
     Returns:
-        str, bytes:
+        str | bytes:
     """
-    return s[len(prefix):] if s.startswith(prefix) else s
+    if s.startswith(prefix):
+        return s[len(prefix):]
+    return s
 
 
-def remove_suffix(s, suffix):
+def removesuffix(s, suffix):
     """
-    Remove suffix of a string or bytes like `string.removesuffix(suffix)`, which is on Python3.9+
+    Backport `string.removesuffix(suffix)`, which is on Python>=3.9
 
     Args:
-        s (str, bytes):
-        suffix (str, bytes):
+        s (str | bytes):
+        suffix (str | bytes):
 
     Returns:
-        str, bytes:
+        str | bytes:
     """
-    return s[:-len(suffix)] if s.endswith(suffix) else s
+    # s[:-0] is empty string, so we need to check if suffix is empty
+    if suffix and s.endswith(suffix):
+        return s[:-len(suffix)]
+    return s
 
 
 class IniterNoMinicap(u2.init.Initer):
