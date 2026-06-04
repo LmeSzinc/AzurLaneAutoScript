@@ -62,7 +62,7 @@ class PercentageOcr(Ocr):
 
 
 FLEET_LOW_RESOLVE = Button(
-    area=(144, 148, 170, 175), color=(255, 44, 33), button=(144, 148, 170, 175),
+    area=(294, 76, 339, 121), color=(255, 44, 33), button=(294, 76, 339, 121),
     name='FLEET_LOW_RESOLVE')
 
 
