@@ -675,7 +675,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
 
             # Wait until arrived
             # Having new screenshots
-            self.wait_until_walk_stable(confirm_timer=Timer(1.5, count=4), walk_out_of_step=False, drop=drop)
+            self.wait_until_walk_stable(confirm_timer=Timer(4, count=6), walk_out_of_step=False, drop=drop)
 
     def get_boss_leave_button(self):
         for grid in self.view:
