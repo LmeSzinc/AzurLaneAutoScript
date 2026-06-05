@@ -262,13 +262,26 @@ class Template(Resource):
         raw = image
         if self.is_gif:
             result = []
+            # Check if image is grayscale
+            is_gray = len(image.shape) == 2
             for template in self.image:
-                res = cv2.matchTemplate(image, template, cv2.TM_CCOEFF_NORMED)
+                # Convert template to grayscale if image is grayscale
+                if is_gray and len(template.shape) == 3:
+                    template_gray = cv2.cvtColor(template, cv2.COLOR_BGR2GRAY)
+                    res = cv2.matchTemplate(image, template_gray, cv2.TM_CCOEFF_NORMED)
+                else:
+                    res = cv2.matchTemplate(image, template, cv2.TM_CCOEFF_NORMED)
                 res = np.array(np.where(res > similarity)).T[:, ::-1].tolist()
                 result += res
             result = np.array(result)
         else:
-            result = cv2.matchTemplate(image, self.image, cv2.TM_CCOEFF_NORMED)
+            # Check if image is grayscale and template is RGB
+            is_gray = len(image.shape) == 2
+            if is_gray and len(self.image.shape) == 3:
+                template_gray = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
+                result = cv2.matchTemplate(image, template_gray, cv2.TM_CCOEFF_NORMED)
+            else:
+                result = cv2.matchTemplate(image, self.image, cv2.TM_CCOEFF_NORMED)
             result = np.array(np.where(result > similarity)).T[:, ::-1]
 
         # result: np.array([[x0, y0], [x1, y1], ...)
