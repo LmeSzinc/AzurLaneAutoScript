@@ -66,6 +66,7 @@ def remove_screenshot_warning(s):
     https://github.com/LmeSzinc/AzurLaneAutoScript/issues/4760
 
     Failed to create //.cache for shader cache (Read-only file system)---disabling.\n
+    \x89PNG...
 
     2. Warning when taking screenshot from multiscreen device
 
@@ -87,7 +88,15 @@ def remove_screenshot_warning(s):
     4. Unknown header on VMOS PRO screenshot
     https://github.com/LmeSzinc/AzurLaneAutoScript/pull/940
 
-    long long=8 fun*=10\n\x89PNG...
+    long long=8 fun*=10\n
+    \x89PNG...
+
+    5. Warning from AMD GPU driver when running redroid on minimal linux system (typically a NAS)
+    https://github.com/LmeSzinc/AzurLaneAutoScript/issues/5697
+
+    amdgpu: os_same_file_description couldn't determine if two DRM fds reference the same file description.\n
+    If they do, bad things may happen!\n
+    \x89PNG...
 
     Args:
         s (str | bytes): bytes or str
@@ -106,6 +115,10 @@ def remove_screenshot_warning(s):
                     _, _, s = s.partition(b'\n')
         if s.startswith(b'long long=8'):
             _, _, s = s.partition(b'\n')
+        if s.startswith(b'amdgpu:'):
+            _, _, s = s.partition(b'\n')
+            if s.startswith(b'If they do'):
+                _, _, s = s.partition(b'\n')
 
     elif isinstance(s, str):
         if s.startswith('Failed to create'):
@@ -118,5 +131,9 @@ def remove_screenshot_warning(s):
                     _, _, s = s.partition('\n')
         if s.startswith('long long=8'):
             _, _, s = s.partition('\n')
+        if s.startswith('amdgpu:'):
+            _, _, s = s.partition('\n')
+            if s.startswith('If they do'):
+                _, _, s = s.partition('\n')
 
     return s
