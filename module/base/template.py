@@ -52,6 +52,13 @@ class Template(Resource):
                         # Follow the first frame
                         image = image[:, :, 0].copy()
 
+                    # Convert pseudo-grayscale (RGB with all channels equal) to true grayscale
+                    if len(image.shape) == 3 and image.shape[2] >= 3:
+                        if np.array_equal(image[:, :, 0], image[:, :, 1]) and \
+                           np.array_equal(image[:, :, 1], image[:, :, 2]):
+                            # All channels are identical, convert to grayscale
+                            image = image[:, :, 0].copy()
+
                     image = self.pre_process(image)
                     self._image += [image, cv2.flip(image, 1)]
             else:
