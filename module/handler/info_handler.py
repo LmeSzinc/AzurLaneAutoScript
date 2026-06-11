@@ -248,15 +248,6 @@ class InfoHandler(ModuleBase):
         """
         return self.appear_then_click(GET_SKIN, offset=(20, 20), interval=2)
 
-    def handle_get_items_small(self):
-        if self.appear(GET_ITEMS_SMALL1, offset=(-45, -5, 5, 5)):
-            return GET_ITEMS_SMALL1
-        if self.appear(GET_ITEMS_SMALL2, offset=(-45, -5, 5, 5)):
-            return GET_ITEMS_SMALL2
-        if self.appear(GET_ITEMS_SMALL3, offset=(-45, -5, 5, 5)):
-            return GET_ITEMS_SMALL3
-        return False
-
     """
     Guild popup info
     """
@@ -569,10 +560,3 @@ class InfoHandler(ModuleBase):
             return True
         else:
             return False
-
-
-if __name__ == '__main__':
-    self = InfoHandler('alas')
-    self.image_file = r'D:\Downloads\589909030-c7431879-3b7d-4b75-972e-c449ad410885.png'
-    for row in self._story_option_buttons_2():
-        print(row)
