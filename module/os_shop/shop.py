@@ -210,11 +210,19 @@ class OSShop(PortShop, AkashiShop):
         items = self.scan_all()
         if not len(items):
             logger.warning('Empty OS shop.')
+            self.config.cross_set("OpsiShop.Storage.Storage.BoughtAllYellowCoinItems", True)
             return False
         items = self.items_filter_in_os_shop(items)
         if not len(items):
             logger.warning('Nothing to buy.')
+            self.config.cross_set("OpsiShop.Storage.Storage.BoughtAllYellowCoinItems", True)
             return False
+        if all(item.cost == 'PurpleCoins' for item in items):
+            logger.info("All yellow coin items are bought.")
+            self.config.cross_set("OpsiShop.Storage.Storage.BoughtAllYellowCoinItems", True)
+        else:
+            logger.info("There are still yellow coin items to buy.")
+            self.config.cross_set("OpsiShop.Storage.Storage.BoughtAllYellowCoinItems", False)
         self.os_shop_get_coins()
         skip_get_coins = True
         items.reverse()
