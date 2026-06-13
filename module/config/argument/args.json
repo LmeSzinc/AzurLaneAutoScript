@@ -9743,6 +9743,57 @@
       }
     }
   },
+  "IslandProductionPlanner": {
+    "IslandProductionPlanner": {
+      "RescanIslandTechnology": {
+        "type": "checkbox",
+        "value": false
+      },
+      "DailyProfitLowerLimit": {
+        "type": "input",
+        "value": 50000
+      },
+      "DailyBufferSafetyMargin": {
+        "type": "input",
+        "value": 0
+      },
+      "FieldsEfficiency": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          0.04,
+          0.12
+        ]
+      },
+      "OrchardEfficiency": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          0.04,
+          0.12
+        ]
+      },
+      "NurseryEfficiency": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          0.04,
+          0.12
+        ]
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
+    }
+  },
   "Benchmark": {
     "Benchmark": {
       "DeviceType": {

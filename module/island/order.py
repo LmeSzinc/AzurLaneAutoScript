@@ -267,6 +267,7 @@ class IslandOrder(IslandUI):
         return cooldown_remain_time
 
     next_runtime = []
+    update_production_plan = False
 
     def update_stuck_season_order(self, order_id):
         order_id = order_id or EMPTY_SEASON_ORDER_ID
@@ -274,6 +275,7 @@ class IslandOrder(IslandUI):
         if order_id != previous_id:
             logger.info(f'Updating stuck season order id from {previous_id} to {order_id}')
             self.config.cross_set("IslandOrder.IslandOrder.StuckSeasonOrderId", order_id)
+            self.update_production_plan = True
 
     def execute_order(self, order_button, is_urgent=False, is_season=False):
         """
@@ -359,6 +361,7 @@ class IslandOrder(IslandUI):
     def run(self):
         self.ui_ensure(page_island_order)
         self.next_runtime = []
+        self.update_production_plan = False
         for _ in self.loop():
             self.detect_all_orders()
             if self.run_any_order():
@@ -368,6 +371,11 @@ class IslandOrder(IslandUI):
                 break
         if not self.season_orders:
             self.update_stuck_season_order(EMPTY_SEASON_ORDER_ID)
+        if self.update_production_plan:
+            logger.info('Production plan needs to be updated due to stuck season order change')
+            from module.island_handler.production_planner import IslandProductionPlanner
+            IslandProductionPlanner(self.config, self.device).run()
+            self.update_production_plan = False
         for order in self.regular_cooldown_orders:
             remain_time = self.get_order_remain_time(order)
             if remain_time == timedelta(0):

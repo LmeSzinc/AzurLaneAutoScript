@@ -294,6 +294,10 @@
       "name": "Event Story",
       "help": ""
     },
+    "IslandProductionPlanner": {
+      "name": "Island Production Planner",
+      "help": "Planner for optimizing island production plan to earn pt subject to given daily profit.\nWill export bootstrap inventory stock quantities and accumulating item quantities to config after running, which can be used for production planning in the future without scanning technology again.\nNote: The production plan is optimized based on the technology status at the time of scanning, if there are changes in technology status, it is recommended to run the planner again to get an updated production plan."
+    },
     "Benchmark": {
       "name": "Performance Test",
       "help": ""
@@ -2799,6 +2803,45 @@
       "help": "",
       "True": "Enabled",
       "False": "False"
+    }
+  },
+  "IslandProductionPlanner": {
+    "_info": {
+      "name": "Island Production Planner",
+      "help": "Will use linear programming to optimize the production plan for the island based on the parameters you set and generate the config for Island Production module.\nPlease set Island Restaurant config and Island Production Preserved Items first.\nClear Task status to rerun Island Technology Scanner."
+    },
+    "RescanIslandTechnology": {
+      "name": "Rescan Island Technology this time",
+      "help": "Alas will rescan the island technology and update the config for Island Production module with the new technology levels\nThis is useful when you have just upgraded your island technology and want to update the production plan accordingly."
+    },
+    "DailyProfitLowerLimit": {
+      "name": "Daily Profit Lower Limit",
+      "help": "Negative value means accepting a daily loss, 0 means breaking even, and positive value means profit."
+    },
+    "DailyBufferSafetyMargin": {
+      "name": "Daily Buffer Safety Margin",
+      "help": "Multiplier margin applied to planner-generated daily buffer. 0.2 means exporting 120% of the calculated daily demand."
+    },
+    "FieldsEfficiency": {
+      "name": "Faircrop Fields Efficiency",
+      "help": "See character collecting reward for your value",
+      "0": "0",
+      "0.04": "0.04",
+      "0.12": "0.12"
+    },
+    "OrchardEfficiency": {
+      "name": "Sweetscent Orchard Efficiency",
+      "help": "See character collecting reward for your value",
+      "0": "0",
+      "0.04": "0.04",
+      "0.12": "0.12"
+    },
+    "NurseryEfficiency": {
+      "name": "Newsprout Nursery Efficiency",
+      "help": "See character collecting reward for your value",
+      "0": "0",
+      "0.04": "0.04",
+      "0.12": "0.12"
     }
   },
   "Benchmark": {

@@ -831,6 +831,19 @@ EventStory:
     type: checkbox
     value: false
     option: [ true, false ]
+IslandProductionPlanner:
+  RescanIslandTechnology: false
+  DailyProfitLowerLimit: 50000
+  DailyBufferSafetyMargin: 0
+  FieldsEfficiency:
+    value: 0
+    option: [ 0, 0.04, 0.12 ]
+  OrchardEfficiency:
+    value: 0
+    option: [ 0, 0.04, 0.12 ]
+  NurseryEfficiency:
+    value: 0
+    option: [ 0, 0.04, 0.12 ]
 Benchmark:
   DeviceType:
     value: emulator

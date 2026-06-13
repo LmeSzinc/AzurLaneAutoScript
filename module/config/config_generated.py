@@ -480,6 +480,14 @@ class GeneratedConfig:
     # Group `EventStory`
     EventStory_SkipBattle = False  # True, False
 
+    # Group `IslandProductionPlanner`
+    IslandProductionPlanner_RescanIslandTechnology = False
+    IslandProductionPlanner_DailyProfitLowerLimit = 50000
+    IslandProductionPlanner_DailyBufferSafetyMargin = 0
+    IslandProductionPlanner_FieldsEfficiency = 0  # 0, 0.04, 0.12
+    IslandProductionPlanner_OrchardEfficiency = 0  # 0, 0.04, 0.12
+    IslandProductionPlanner_NurseryEfficiency = 0  # 0, 0.04, 0.12
+
     # Group `Benchmark`
     Benchmark_DeviceType = 'emulator'  # emulator, plone_cloud_with_adb, phone_cloud_without_adb, android_phone, android_phone_vmos
     Benchmark_TestScene = 'screenshot_click'  # screenshot_click, screenshot, click

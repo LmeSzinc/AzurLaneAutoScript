@@ -223,4 +223,6 @@ class IslandSeasonTask(IslandUI):
         if new_target != old_target:
             yaml_text = item_mapping_to_yaml(new_target, use_item_name=True)
             self.config.cross_set("IslandSeasonTask.IslandSeasonTask.TaskTarget", yaml_text)
+            from module.island_handler.production_planner import IslandProductionPlanner
+            IslandProductionPlanner(self.config, self.device).run()
         self.config.task_delay(server_update=True)
