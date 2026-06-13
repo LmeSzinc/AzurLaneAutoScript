@@ -338,6 +338,9 @@ Island:
     IslandSeasonTask:
       - Scheduler
       - IslandSeasonTask
+    IslandBusiness:
+      - Scheduler
+      - IslandRestaurant
 
 # ==================== Tool ====================
 
