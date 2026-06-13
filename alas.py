@@ -411,6 +411,10 @@ class AzurLaneAutoScript:
         from module.island.freebie import IslandFreebie
         IslandFreebie(config=self.config, device=self.device).run()
 
+    def island_collect(self):
+        from module.island.collect import IslandCollect
+        IslandCollect(config=self.config, device=self.device).run()
+
     def daemon(self):
         from module.daemon.daemon import AzurLaneDaemon
         AzurLaneDaemon(config=self.config, device=self.device, task="Daemon").run()
