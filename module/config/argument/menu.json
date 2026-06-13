@@ -101,7 +101,8 @@
     "tasks": [
       "IslandFreebie",
       "IslandCollect",
-      "IslandSeasonTask"
+      "IslandSeasonTask",
+      "IslandBusiness"
     ]
   },
   "Tool": {
