@@ -306,6 +306,10 @@ class IslandProduction(IslandRecipe, IslandDock):
         slot_finish_time = self.config.cross_get("IslandProduction.Storage.Storage.SlotFinishTime", default={})
         self.slot_finish_time = {int(k): datetime.fromisoformat(v) for k, v in slot_finish_time.items()}
         self.claim_all_rewards()
+        yaml_text = self.config.cross_get("IslandProduction.IslandProduction.DailyBufferItems", "")
+        if not yaml_text or yaml_text == "{}":
+            logger.critical('No daily buffer items found in config, please run Island Production Planner first')
+            raise RequestHumanTakeover('No daily buffer items found in config, please run Island Production Planner first')
         self.dispatch_all()
         next_run_time = list(self.slot_finish_time.values())
         with self.config.multi_set():
