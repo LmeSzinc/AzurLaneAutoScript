@@ -9466,6 +9466,229 @@
       }
     }
   },
+  "IslandBusiness": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
+      },
+      "NextRun": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "input",
+        "value": "IslandBusiness",
+        "display": "hide"
+      },
+      "SuccessInterval": {
+        "type": "input",
+        "value": 0,
+        "display": "hide"
+      },
+      "FailureInterval": {
+        "type": "input",
+        "value": 120,
+        "display": "hide"
+      },
+      "ServerUpdate": {
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
+      }
+    },
+    "IslandRestaurant": {
+      "KoiGrade": {
+        "type": "select",
+        "value": "bronze",
+        "option": [
+          "bronze",
+          "silver",
+          "gold",
+          "diamond"
+        ]
+      },
+      "KoiWaitress1": {
+        "type": "select",
+        "value": "any",
+        "option": [
+          "none",
+          "any",
+          "Chao_Ho",
+          "Chang_Feng"
+        ]
+      },
+      "KoiWaitress2": {
+        "type": "select",
+        "value": "none",
+        "option": [
+          "none",
+          "any",
+          "Chao_Ho",
+          "Chang_Feng"
+        ]
+      },
+      "KoiMenu": {
+        "type": "textarea",
+        "value": "{}"
+      },
+      "BearGrade": {
+        "type": "select",
+        "value": "bronze",
+        "option": [
+          "bronze",
+          "silver",
+          "gold",
+          "diamond"
+        ]
+      },
+      "BearWaitress1": {
+        "type": "select",
+        "value": "any",
+        "option": [
+          "none",
+          "any",
+          "Cheshire",
+          "Chang_Feng"
+        ]
+      },
+      "BearWaitress2": {
+        "type": "select",
+        "value": "none",
+        "option": [
+          "none",
+          "any",
+          "Cheshire",
+          "Chang_Feng"
+        ]
+      },
+      "BearMenu": {
+        "type": "textarea",
+        "value": "{}"
+      },
+      "EateryGrade": {
+        "type": "select",
+        "value": "bronze",
+        "option": [
+          "bronze",
+          "silver",
+          "gold",
+          "diamond"
+        ]
+      },
+      "EateryWaitress1": {
+        "type": "select",
+        "value": "any",
+        "option": [
+          "none",
+          "any",
+          "Helena",
+          "Prinz_Eugen",
+          "Chang_Feng"
+        ]
+      },
+      "EateryWaitress2": {
+        "type": "select",
+        "value": "none",
+        "option": [
+          "none",
+          "any",
+          "Helena",
+          "Prinz_Eugen",
+          "Chang_Feng"
+        ]
+      },
+      "EateryMenu": {
+        "type": "textarea",
+        "value": "{}"
+      },
+      "GrillGrade": {
+        "type": "select",
+        "value": "bronze",
+        "option": [
+          "bronze",
+          "silver",
+          "gold",
+          "diamond"
+        ]
+      },
+      "GrillWaitress1": {
+        "type": "select",
+        "value": "any",
+        "option": [
+          "none",
+          "any",
+          "August_von_Parseval",
+          "Prinz_Eugen",
+          "Chang_Feng"
+        ]
+      },
+      "GrillWaitress2": {
+        "type": "select",
+        "value": "none",
+        "option": [
+          "none",
+          "any",
+          "August_von_Parseval",
+          "Prinz_Eugen",
+          "Chang_Feng"
+        ]
+      },
+      "GrillMenu": {
+        "type": "textarea",
+        "value": "{}"
+      },
+      "CafeGrade": {
+        "type": "select",
+        "value": "bronze",
+        "option": [
+          "bronze",
+          "silver",
+          "gold",
+          "diamond"
+        ]
+      },
+      "CafeWaitress1": {
+        "type": "select",
+        "value": "any",
+        "option": [
+          "none",
+          "any",
+          "Cheshire",
+          "Belfast",
+          "Chang_Feng"
+        ]
+      },
+      "CafeWaitress2": {
+        "type": "select",
+        "value": "none",
+        "option": [
+          "none",
+          "any",
+          "Cheshire",
+          "Belfast",
+          "Chang_Feng"
+        ]
+      },
+      "CafeMenu": {
+        "type": "textarea",
+        "value": "{}"
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
+    }
+  },
   "Daemon": {
     "Daemon": {
       "EnterMap": {
