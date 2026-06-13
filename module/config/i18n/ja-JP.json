@@ -270,6 +270,10 @@
       "name": "開発計画",
       "help": ""
     },
+    "IslandBusiness": {
+      "name": "店舗経営",
+      "help": ""
+    },
     "Daemon": {
       "name": "半自動クリック",
       "help": ""
@@ -2579,6 +2583,123 @@
     "Share": {
       "name": "補給を友達とシェアする",
       "help": ""
+    }
+  },
+  "IslandRestaurant": {
+    "_info": {
+      "name": "グルメ運営",
+      "help": ""
+    },
+    "KoiGrade": {
+      "name": "有魚飯店のランク",
+      "help": "",
+      "bronze": "ブロンズ",
+      "silver": "シルバー",
+      "gold": "ゴールド",
+      "diamond": "ダイヤモンド"
+    },
+    "KoiWaitress": {
+      "name": "有魚飯店のウェイトレス",
+      "help": "任意の場合、最も管理レベルが高い艦船が選択される",
+      "none": "なし",
+      "any": "任意",
+      "Chao_Ho": "肇和",
+      "any+any": "任意 + 任意",
+      "Chao_Ho+any": "肇和 + 任意"
+    },
+    "KoiMenu": {
+      "name": "有魚飯店のメニュー",
+      "help": "メニュー以外のものは販売されません。\nツールの離島生産ソルバーで自動生成されます。"
+    },
+    "BearGrade": {
+      "name": "白クマ茶房のランク",
+      "help": "",
+      "bronze": "ブロンズ",
+      "silver": "シルバー",
+      "gold": "ゴールド",
+      "diamond": "ダイヤモンド"
+    },
+    "BearWaitress": {
+      "name": "白クマ茶房のウェイトレス",
+      "help": "任意の場合、最も管理レベルが高い艦船が選択される",
+      "none": "なし",
+      "any": "任意",
+      "Cheshire": "チェシャー",
+      "any+any": "任意 + 任意",
+      "Cheshire+any": "チェシャー + 任意"
+    },
+    "BearMenu": {
+      "name": "白クマ茶房のメニュー",
+      "help": "メニュー以外のものは販売されません。\nツールの離島生産ソルバーで自動生成されます。"
+    },
+    "EateryGrade": {
+      "name": "饅頭軽食のランク",
+      "help": "",
+      "bronze": "ブロンズ",
+      "silver": "シルバー",
+      "gold": "ゴールド",
+      "diamond": "ダイヤモンド"
+    },
+    "EateryWaitress": {
+      "name": "饅頭軽食のウェイトレス",
+      "help": "任意の場合、最も管理レベルが高い艦船が選択される",
+      "none": "なし",
+      "any": "任意",
+      "Helena": "ヘレナ",
+      "Prinz_Eugen": "プリンツ・オイゲン",
+      "any+any": "任意 + 任意",
+      "Helena+any": "ヘレナ + 任意",
+      "Prinz_Eugen+any": "プリンツ・オイゲン + 任意",
+      "Helena+Prinz_Eugen": "ヘレナ + プリンツ・オイゲン"
+    },
+    "EateryMenu": {
+      "name": "饅頭軽食のメニュー",
+      "help": "メニュー以外のものは販売されません。\nツールの離島生産ソルバーで自動生成されます。"
+    },
+    "GrillGrade": {
+      "name": "烏魚焼肉のランク",
+      "help": "",
+      "bronze": "ブロンズ",
+      "silver": "シルバー",
+      "gold": "ゴールド",
+      "diamond": "ダイヤモンド"
+    },
+    "GrillWaitress": {
+      "name": "烏魚焼肉のウェイトレス",
+      "help": "任意の場合、最も管理レベルが高い艦船が選択される",
+      "none": "なし",
+      "any": "任意",
+      "August_von_Parseval": "アウグスト·フォン·パーセヴァル",
+      "Prinz_Eugen": "プリンツ・オイゲン",
+      "any+any": "任意 + 任意",
+      "August_von_Parseval+any": "アウグスト·フォン·パーセヴァル + 任意",
+      "Prinz_Eugen+any": "プリンツ・オイゲン + 任意",
+      "August_von_Parseval+Prinz_Eugen": "アウグスト·フォン·パーセヴァル + プリンツ・オイゲン"
+    },
+    "GrillMenu": {
+      "name": "烏魚焼肉のメニュー",
+      "help": "メニュー以外のものは販売されません。\nツールの離島生産ソルバーで自動生成されます。"
+    },
+    "CafeGrade": {
+      "name": "饅頭カフェのランク",
+      "help": "",
+      "bronze": "ブロンズ",
+      "silver": "シルバー",
+      "gold": "ゴールド",
+      "diamond": "ダイヤモンド"
+    },
+    "CafeWaitress": {
+      "name": "饅頭カフェのウェイトレス",
+      "help": "任意の場合、最も管理レベルが高い艦船が選択される",
+      "none": "なし",
+      "any": "任意",
+      "Cheshire": "チェシャー",
+      "any+any": "任意 + 任意",
+      "Cheshire+any": "チェシャー + 任意"
+    },
+    "CafeMenu": {
+      "name": "饅頭カフェのメニュー",
+      "help": "メニュー以外のものは販売されません。\nツールの離島生産ソルバーで自動生成されます。"
     }
   },
   "IslandSeasonTask": {
