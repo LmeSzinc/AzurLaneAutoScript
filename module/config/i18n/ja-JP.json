@@ -28,6 +28,10 @@
       "name": "セイレーン作戦",
       "help": ""
     },
+    "Island": {
+      "name": "離島開発",
+      "help": ""
+    },
     "Tool": {
       "name": "ツール",
       "help": ""
@@ -253,6 +257,10 @@
     "OpsiCrossMonth": {
       "name": "Cross Month Daily",
       "help": "    ALAS will enter OpSi 10min before OpSi reset, wait until OpSi reset but not exit OpSi. Then do the daily, obscure, abyssal and meowfficer farming to get extra gold plates. When running dailies, settings in task \"OpSiDaily\" are used, the rest function are the same.\n    IMPORTANT: Please do not touch the game while ALAS is waiting for OpSi reset."
+    },
+    "IslandFreebie": {
+      "name": "デイリー補給",
+      "help": ""
     },
     "Daemon": {
       "name": "半自動クリック",
@@ -2553,6 +2561,16 @@
       "0": "0",
       "44": "44",
       "22": "22"
+    }
+  },
+  "IslandFreebie": {
+    "_info": {
+      "name": "デイリー補給",
+      "help": ""
+    },
+    "Share": {
+      "name": "補給を友達とシェアする",
+      "help": ""
     }
   },
   "Daemon": {

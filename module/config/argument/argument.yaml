@@ -734,6 +734,10 @@ OpsiHazard1Leveling:
     value: 0
     option: [ 0, 44, 22 ]
 
+# =================== Island ====================
+IslandFreebie:
+  Share: true
+
 # ==================== Tools ====================
 
 Daemon:
