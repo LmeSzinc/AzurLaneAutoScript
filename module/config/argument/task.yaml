@@ -360,6 +360,8 @@ Tool:
       - OpsiDaemon
     EventStory:
       - EventStory
+    IslandProductionPlanner:
+      - IslandProductionPlanner
     Benchmark:
       - Benchmark
     AzurLaneUncensored:
