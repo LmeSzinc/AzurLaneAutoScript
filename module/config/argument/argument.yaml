@@ -738,6 +738,57 @@ OpsiHazard1Leveling:
 # =================== Island ====================
 IslandFreebie:
   Share: true
+IslandRestaurant:
+  KoiGrade:
+    value: bronze
+    option: [ bronze, silver, gold, diamond ]
+  KoiWaitress:
+    value: any
+    option: [ none, any, Chao_Ho, any+any, Chao_Ho+any ]
+  KoiMenu:
+    type: textarea
+    value: |-
+      {}
+  BearGrade:
+    value: bronze
+    option: [ bronze, silver, gold, diamond ]
+  BearWaitress:
+    value: any
+    option: [ none, any, Cheshire, any+any, Cheshire+any ]
+  BearMenu:
+    type: textarea
+    value: |-
+      {}
+  EateryGrade:  
+    value: bronze
+    option: [ bronze, silver, gold, diamond ]
+  EateryWaitress:
+    value: any
+    option: [ none, any, Helena, Prinz_Eugen, any+any, Helena+any, Prinz_Eugen+any, Helena+Prinz_Eugen ]
+  EateryMenu:
+    type: textarea
+    value: |-
+      {}
+  GrillGrade:
+    value: bronze
+    option: [ bronze, silver, gold, diamond ]
+  GrillWaitress:
+    value: any
+    option: [ none, any, August_von_Parseval, Prinz_Eugen, any+any, August_von_Parseval+any, Prinz_Eugen+any, August_von_Parseval+Prinz_Eugen ]
+  GrillMenu:
+    type: textarea
+    value: |-
+      {}
+  CafeGrade:
+    value: bronze
+    option: [ bronze, silver, gold, diamond ]
+  CafeWaitress:
+    value: any
+    option: [ none, any, Cheshire, any+any, Cheshire+any ]
+  CafeMenu:
+    type: textarea
+    value: |-
+      {}
 IslandSeasonTask:
   TaskTarget:
     type: textarea

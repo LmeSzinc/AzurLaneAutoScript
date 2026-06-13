@@ -270,6 +270,10 @@
       "name": "開發計劃",
       "help": ""
     },
+    "IslandBusiness": {
+      "name": "店鋪經營",
+      "help": ""
+    },
     "Daemon": {
       "name": "半自動點擊",
       "help": ""
@@ -2588,6 +2592,123 @@
     "Share": {
       "name": "將補給分享給好友",
       "help": ""
+    }
+  },
+  "IslandRestaurant": {
+    "_info": {
+      "name": "餐廳管理",
+      "help": ""
+    },
+    "KoiGrade": {
+      "name": "有魚餐館等級",
+      "help": "",
+      "bronze": "青銅",
+      "silver": "白銀",
+      "gold": "黃金",
+      "diamond": "鑽石"
+    },
+    "KoiWaitress": {
+      "name": "有魚餐館服務員",
+      "help": "無表示不運營此餐廳，任意表示不限制服務員的選擇，此時將選擇管理等級最高的角色\n如果選擇的特定角色不可用，餐廳將回退到任意而不是跳過此餐廳",
+      "none": "無",
+      "any": "任意",
+      "Chao_Ho": "肇和",
+      "any+any": "任意 + 任意",
+      "Chao_Ho+any": "肇和 + 任意"
+    },
+    "KoiMenu": {
+      "name": "有魚餐館菜單",
+      "help": "只銷售菜單裡指定的菜品。\n通過工具中的離島生產規劃器自動生成"
+    },
+    "BearGrade": {
+      "name": "白熊飲品等級",
+      "help": "",
+      "bronze": "青銅",
+      "silver": "白銀",
+      "gold": "黃金",
+      "diamond": "鑽石"
+    },
+    "BearWaitress": {
+      "name": "白熊飲品服務員",
+      "help": "無表示不運營此餐廳，任意表示不限制服務員的選擇，此時將選擇管理等級最高的角色\n如果選擇的特定角色不可用，餐廳將回退到任意而不是跳過此餐廳",
+      "none": "無",
+      "any": "任意",
+      "Cheshire": "柴郡",
+      "any+any": "任意 + 任意",
+      "Cheshire+any": "柴郡 + 任意"
+    },
+    "BearMenu": {
+      "name": "白熊飲品菜單",
+      "help": "只銷售菜單裡指定的饮品。\n通過工具中的離島生產規劃器自動生成"
+    },
+    "EateryGrade": {
+      "name": "啾啾簡餐等級",
+      "help": "",
+      "bronze": "青銅",
+      "silver": "白銀",
+      "gold": "黃金",
+      "diamond": "鑽石"
+    },
+    "EateryWaitress": {
+      "name": "啾啾簡餐服務員",
+      "help": "無表示不運營此餐廳，任意表示不限制服務員的選擇，此時將選擇管理等級最高的角色\n如果選擇的特定角色不可用，餐廳將回退到任意而不是跳過此餐廳",
+      "none": "無",
+      "any": "任意",
+      "Helena": "海倫娜",
+      "Prinz_Eugen": "歐根親王",
+      "any+any": "任意 + 任意",
+      "Helena+any": "海倫娜 + 任意",
+      "Prinz_Eugen+any": "歐根親王 + 任意",
+      "Helena+Prinz_Eugen": "海倫娜 + 歐根親王"
+    },
+    "EateryMenu": {
+      "name": "啾啾簡餐菜單",
+      "help": "只銷售菜單裡指定的菜品。\n通過工具中的離島生產規劃器自動生成"
+    },
+    "GrillGrade": {
+      "name": "烏魚烤肉等級",
+      "help": "",
+      "bronze": "青銅",
+      "silver": "白銀",
+      "gold": "黃金",
+      "diamond": "鑽石"
+    },
+    "GrillWaitress": {
+      "name": "烏魚烤肉服務員",
+      "help": "無表示不運營此餐廳，任意表示不限制服務員的選擇，此時將選擇管理等級最高的角色\n如果選擇的特定角色不可用，餐廳將回退到任意而不是跳過此餐廳",
+      "none": "無",
+      "any": "任意",
+      "August_von_Parseval": "奧古斯特·馮·帕塞瓦爾",
+      "Prinz_Eugen": "歐根親王",
+      "any+any": "任意 + 任意",
+      "August_von_Parseval+any": "奧古斯特·馮·帕塞瓦爾 + 任意",
+      "Prinz_Eugen+any": "歐根親王 + 任意",
+      "August_von_Parseval+Prinz_Eugen": "奧古斯特·馮·帕塞瓦爾 + 歐根親王"
+    },
+    "GrillMenu": {
+      "name": "烏魚烤肉菜單",
+      "help": "只銷售菜單裡指定的菜品。\n通過工具中的離島生產規劃器自動生成"
+    },
+    "CafeGrade": {
+      "name": "啾咖啡等級",
+      "help": "",
+      "bronze": "青銅",
+      "silver": "白銀",
+      "gold": "黃金",
+      "diamond": "鑽石"
+    },
+    "CafeWaitress": {
+      "name": "啾咖啡服務員",
+      "help": "無表示不運營此餐廳，任意表示不限制服務員的選擇，此時將選擇管理等級最高的角色\n如果選擇的特定角色不可用，餐廳將回退到任意而不是跳過此餐廳",
+      "none": "無",
+      "any": "任意",
+      "Cheshire": "柴郡",
+      "any+any": "任意 + 任意",
+      "Cheshire+any": "柴郡 + 任意"
+    },
+    "CafeMenu": {
+      "name": "啾咖啡菜單",
+      "help": "只銷售菜單裡指定的菜品。\n通過工具中的離島生產規劃器自動生成"
     }
   },
   "IslandSeasonTask": {
