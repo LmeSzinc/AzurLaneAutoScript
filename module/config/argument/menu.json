@@ -100,7 +100,8 @@
     "menu": "collapse",
     "page": "setting",
     "tasks": [
-      "IslandFreebie"
+      "IslandFreebie",
+      "IslandCollect"
     ]
   },
   "Tool": {
