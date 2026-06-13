@@ -407,6 +407,10 @@ class AzurLaneAutoScript:
         GemsFarming(config=self.config, device=self.device).run(
             name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
 
+    def island_production(self):
+        from module.island.production import IslandProduction
+        IslandProduction(config=self.config, device=self.device).run()
+
     def island_freebie(self):
         from module.island.freebie import IslandFreebie
         IslandFreebie(config=self.config, device=self.device).run()
