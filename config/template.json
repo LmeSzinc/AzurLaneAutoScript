@@ -1961,6 +1961,41 @@
       "Storage": {}
     }
   },
+  "IslandBusiness": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "IslandBusiness",
+      "SuccessInterval": 0,
+      "FailureInterval": 120,
+      "ServerUpdate": "00:00"
+    },
+    "IslandRestaurant": {
+      "KoiGrade": "bronze",
+      "KoiWaitress1": "any",
+      "KoiWaitress2": "none",
+      "KoiMenu": "{}",
+      "BearGrade": "bronze",
+      "BearWaitress1": "any",
+      "BearWaitress2": "none",
+      "BearMenu": "{}",
+      "EateryGrade": "bronze",
+      "EateryWaitress1": "any",
+      "EateryWaitress2": "none",
+      "EateryMenu": "{}",
+      "GrillGrade": "bronze",
+      "GrillWaitress1": "any",
+      "GrillWaitress2": "none",
+      "GrillMenu": "{}",
+      "CafeGrade": "bronze",
+      "CafeWaitress1": "any",
+      "CafeWaitress2": "none",
+      "CafeMenu": "{}"
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
   "Daemon": {
     "Daemon": {
       "EnterMap": true
