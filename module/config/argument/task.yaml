@@ -333,6 +333,8 @@ Island:
     IslandFreebie:
       - Scheduler
       - IslandFreebie
+    IslandCollect:
+      - Scheduler
 
 # ==================== Tool ====================
 
