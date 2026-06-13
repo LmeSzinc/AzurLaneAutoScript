@@ -101,7 +101,8 @@
     "page": "setting",
     "tasks": [
       "IslandFreebie",
-      "IslandCollect"
+      "IslandCollect",
+      "IslandSeasonTask"
     ]
   },
   "Tool": {

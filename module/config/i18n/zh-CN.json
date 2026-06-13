@@ -266,6 +266,10 @@
       "name": "每日采集",
       "help": "使用管理面板采集季节特产和煤炭/自然之木。\n将使用多个等级最低的角色直到满足体力要求。"
     },
+    "IslandSeasonTask": {
+      "name": "开发计划",
+      "help": ""
+    },
     "Daemon": {
       "name": "半自动点击",
       "help": ""
@@ -2574,6 +2578,16 @@
     },
     "Share": {
       "name": "将补给分享给好友",
+      "help": ""
+    }
+  },
+  "IslandSeasonTask": {
+    "_info": {
+      "name": "开发计划",
+      "help": ""
+    },
+    "TaskTarget": {
+      "name": "需求物品",
       "help": ""
     }
   },

@@ -415,6 +415,10 @@ class AzurLaneAutoScript:
         from module.island.collect import IslandCollect
         IslandCollect(config=self.config, device=self.device).run()
 
+    def island_season_task(self):
+        from module.island.season_task import IslandSeasonTask
+        IslandSeasonTask(config=self.config, device=self.device).run()
+
     def daemon(self):
         from module.daemon.daemon import AzurLaneDaemon
         AzurLaneDaemon(config=self.config, device=self.device, task="Daemon").run()

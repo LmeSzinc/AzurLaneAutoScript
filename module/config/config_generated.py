@@ -439,6 +439,9 @@ class GeneratedConfig:
     # Group `IslandFreebie`
     IslandFreebie_Share = True
 
+    # Group `IslandSeasonTask`
+    IslandSeasonTask_TaskTarget = '{}'
+
     # Group `Daemon`
     Daemon_EnterMap = True
 
