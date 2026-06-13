@@ -437,6 +437,9 @@ class GeneratedConfig:
     # Group `OpsiHazard1Leveling`
     OpsiHazard1Leveling_TargetZone = 0  # 0, 44, 22
 
+    # Group `IslandFreebie`
+    IslandFreebie_Share = True
+
     # Group `Daemon`
     Daemon_EnterMap = True
 
