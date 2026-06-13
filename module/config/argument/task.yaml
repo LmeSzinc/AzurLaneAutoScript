@@ -335,6 +335,9 @@ Island:
       - IslandFreebie
     IslandCollect:
       - Scheduler
+    IslandSeasonTask:
+      - Scheduler
+      - IslandSeasonTask
 
 # ==================== Tool ====================
 

@@ -738,6 +738,11 @@ OpsiHazard1Leveling:
 # =================== Island ====================
 IslandFreebie:
   Share: true
+IslandSeasonTask:
+  TaskTarget:
+    type: textarea
+    value: |-
+      {}
 
 # ==================== Tools ====================
 
