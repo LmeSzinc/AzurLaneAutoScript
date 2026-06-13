@@ -262,6 +262,10 @@
       "name": "Daily Supplies",
       "help": ""
     },
+    "IslandCollect": {
+      "name": "Daily Gathering",
+      "help": "Use management panel to gather season specialities and coal/wood.\nWill use multiple characters with least levels until stamina requirement is fulfilled."
+    },
     "Daemon": {
       "name": "Normal Semi-auto",
       "help": ""
