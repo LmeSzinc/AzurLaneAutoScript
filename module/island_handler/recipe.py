@@ -80,7 +80,7 @@ class IslandReversedDigitCounter(Ocr):
         if self.sub_letter is not None and isinstance(self.sub_letter, tuple):
             mask = color_similarity_2d(image, self.sub_letter)
             mask[mask < self.sub_threshold] = 0
-            if np.count_nonzero(mask) > 50:
+            if np.count_nonzero(mask) > 30:
                 sub_image = extract_letters(image, letter=self.sub_letter, threshold=self.sub_threshold)
                 cv2.bitwise_and(main_image, sub_image, dst=main_image)
 
