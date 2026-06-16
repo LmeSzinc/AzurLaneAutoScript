@@ -99,6 +99,7 @@
     "menu": "collapse",
     "page": "setting",
     "tasks": [
+      "IslandProduction",
       "IslandFreebie",
       "IslandCollect",
       "IslandSeasonTask",
