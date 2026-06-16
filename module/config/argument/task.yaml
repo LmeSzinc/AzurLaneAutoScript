@@ -330,6 +330,9 @@ Island:
   menu: 'collapse'
   page: 'setting'
   tasks:
+    IslandProduction:
+      - Scheduler
+      - IslandProduction
     IslandFreebie:
       - Scheduler
       - IslandFreebie
