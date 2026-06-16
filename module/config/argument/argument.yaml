@@ -746,6 +746,24 @@ OpsiHazard1Leveling:
     option: [ 0, 44, 22 ]
 
 # =================== Island ====================
+
+IslandProduction:
+  HardFloorItems:
+    type: textarea
+    value: |-
+      {}
+  ReserveItems:
+    type: textarea
+    value: |-
+      {}
+  DailyBufferItems:
+    type: textarea
+    value: |-
+      {}
+  IdleAccumulatingItems:
+    type: textarea
+    value: |-
+      {}
 IslandFreebie:
   Share: true
 IslandRestaurant:
@@ -832,6 +850,19 @@ EventStory:
     type: checkbox
     value: false
     option: [ true, false ]
+IslandProductionPlanner:
+  RescanIslandTechnology: false
+  DailyProfitLowerLimit: 50000
+  DailyBufferSafetyMargin: 0
+  FieldsEfficiency:
+    value: 0
+    option: [ 0, 0.04, 0.12 ]
+  OrchardEfficiency:
+    value: 0
+    option: [ 0, 0.04, 0.12 ]
+  NurseryEfficiency:
+    value: 0
+    option: [ 0, 0.04, 0.12 ]
 Benchmark:
   DeviceType:
     value: emulator

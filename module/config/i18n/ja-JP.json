@@ -254,6 +254,10 @@
       "name": "Cross Month Daily",
       "help": "    ALAS will enter OpSi 10min before OpSi reset, wait until OpSi reset but not exit OpSi. Then do the daily, obscure, abyssal and meowfficer farming to get extra gold plates. When running dailies, settings in task \"OpSiDaily\" are used, the rest function are the same.\n    IMPORTANT: Please do not touch the game while ALAS is waiting for OpSi reset."
     },
+    "IslandProduction": {
+      "name": "離島生産",
+      "help": ""
+    },
     "IslandFreebie": {
       "name": "デイリー補給",
       "help": ""
@@ -281,6 +285,10 @@
     "EventStory": {
       "name": "Event Story",
       "help": ""
+    },
+    "IslandProductionPlanner": {
+      "name": "離島生産ソルバー",
+      "help": "線形計画法を使用して、指定した日次利益を満たしつつ ポイントを獲得します。\n実行後、ブートストラップの在庫数量と累積アイテム数量をコンフィグに出力します。これは、再度技術をスキャンしなくても将来の生産計画に使用できます。\n注意: 生産計画はスキャン時点の技術状況に基づいて最適化されるため、技術状況に変更がある場合は、更新された生産計画を得るために再度プランナーを実行することを推奨します。"
     },
     "Benchmark": {
       "name": "機能テスト",
@@ -2595,6 +2603,28 @@
       "22": "22"
     }
   },
+  "IslandProduction": {
+    "_info": {
+      "name": "離島生産",
+      "help": ""
+    },
+    "HardFloorItems": {
+      "name": "ハード下限品目",
+      "help": "手動使用のためにユーザーが指定するデッドストックです。\n生産レシピ、レストラン、通常依頼から保護されます。\nLPの生産制約には使用されません。\n形式例：\n(現在のサーバーでの品目名): (数量)"
+    },
+    "ReserveItems": {
+      "name": "ソフト下限品目",
+      "help": "通常の生産と依頼向けにユーザーが指定する最低在庫目標です。\n緊急依頼、シーズン依頼、レストランはこの下限を下回って消費できます。\nプランナーが生成したレストランのメニュー容量もこの下限に加算されます。\n形式例：\n(現在のサーバーでの品目名): (数量)"
+    },
+    "DailyBufferItems": {
+      "name": "日次バッファ品目",
+      "help": "プランナーが生成する想定在庫範囲の幅（最大値－ソフト下限）です。\nレシピ生産はハード下限、ソフト下限、日次バッファの合計を目標にします。\nこれはツール内の島生産プランナーで自動生成できます。"
+    },
+    "IdleAccumulatingItems": {
+      "name": "アイドル累積品目",
+      "help": "生産が空いていて素材が十分なときに累積してよい品目です。\n値はアイドル時のレシピ優先度に使う想定日次累積速度です。\nこれはツール内の島生産プランナーで自動生成できます。"
+    }
+  },
   "IslandFreebie": {
     "_info": {
       "name": "デイリー補給",
@@ -2801,6 +2831,45 @@
       "help": "EventStory.SkipBattle.help",
       "True": "True",
       "False": "False"
+    }
+  },
+  "IslandProductionPlanner": {
+    "_info": {
+      "name": "離島生産ソルバー",
+      "help": "設定したパラメータに基づいて線形計画法で離島の生産計画を最適化し、離島生産モジュール用の設定を生成します。\nグルメ運営と離島生産の要望品目のコンフィグ設定を先に行ってください。\n任務状態を初期化すれば、離島技術を再度スキャンできます。"
+    },
+    "RescanIslandTechnology": {
+      "name": "離島技術を再スキャン",
+      "help": "離島技術のスキャンをやり直し、離島生産プランナーの設定を更新します。"
+    },
+    "DailyProfitLowerLimit": {
+      "name": "日次利益下限",
+      "help": "負の値は日次損失を許容、0は収支トントン、正の値は利益を意味します。"
+    },
+    "DailyBufferSafetyMargin": {
+      "name": "日次バッファ安全マージン",
+      "help": "生産プランナーが生成する日次バッファに適用する倍率マージンです。0.2 は計算された日次需要の 120% を出力します。"
+    },
+    "FieldsEfficiency": {
+      "name": "豊穣の畑の効率",
+      "help": "キャラの収集報酬を参照してください",
+      "0": "0",
+      "0.04": "0.04",
+      "0.12": "0.12"
+    },
+    "OrchardEfficiency": {
+      "name": "薫る果樹園の効率",
+      "help": "キャラの収集報酬を参照してください",
+      "0": "0",
+      "0.04": "0.04",
+      "0.12": "0.12"
+    },
+    "NurseryEfficiency": {
+      "name": "青々苗場の効率",
+      "help": "キャラの収集報酬を参照してください",
+      "0": "0",
+      "0.04": "0.04",
+      "0.12": "0.12"
     }
   },
   "Benchmark": {
