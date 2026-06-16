@@ -436,6 +436,13 @@ class GeneratedConfig:
     # Group `OpsiHazard1Leveling`
     OpsiHazard1Leveling_TargetZone = 0  # 0, 44, 22
 
+    # Group `IslandProduction`
+    IslandProduction_HardFloorItems = '{}'
+    IslandProduction_ReserveItems = '{}'
+    IslandProduction_RequestBufferItems = '{}'
+    IslandProduction_DailyBufferItems = '{}'
+    IslandProduction_IdleAccumulatingItems = '{}'
+
     # Group `IslandFreebie`
     IslandFreebie_Share = True
 

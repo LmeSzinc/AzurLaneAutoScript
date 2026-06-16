@@ -735,6 +735,28 @@ OpsiHazard1Leveling:
     option: [ 0, 44, 22 ]
 
 # =================== Island ====================
+
+IslandProduction:
+  HardFloorItems:
+    type: textarea
+    value: |-
+      {}
+  ReserveItems:
+    type: textarea
+    value: |-
+      {}
+  RequestBufferItems:
+    type: textarea
+    value: |-
+      {}
+  DailyBufferItems:
+    type: textarea
+    value: |-
+      {}
+  IdleAccumulatingItems:
+    type: textarea
+    value: |-
+      {}
 IslandFreebie:
   Share: true
 IslandRestaurant:

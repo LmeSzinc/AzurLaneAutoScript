@@ -1907,6 +1907,26 @@
       "Storage": {}
     }
   },
+  "IslandProduction": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "IslandProduction",
+      "SuccessInterval": 0,
+      "FailureInterval": 120,
+      "ServerUpdate": "00:00"
+    },
+    "IslandProduction": {
+      "HardFloorItems": "{}",
+      "ReserveItems": "{}",
+      "RequestBufferItems": "{}",
+      "DailyBufferItems": "{}",
+      "IdleAccumulatingItems": "{}"
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
   "IslandFreebie": {
     "Scheduler": {
       "Enable": false,
