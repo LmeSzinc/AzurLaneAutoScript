@@ -1936,6 +1936,9 @@
       "FailureInterval": 120,
       "ServerUpdate": "00:00"
     },
+    "IslandOrder": {
+      "StuckSeasonOrderId": 0
+    },
     "Storage": {
       "Storage": {}
     }

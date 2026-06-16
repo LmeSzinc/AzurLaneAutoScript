@@ -9309,6 +9309,12 @@
         "display": "hide"
       }
     },
+    "IslandOrder": {
+      "StuckSeasonOrderId": {
+        "type": "input",
+        "value": 0
+      }
+    },
     "Storage": {
       "Storage": {
         "type": "storage",

@@ -757,6 +757,8 @@ IslandProduction:
     type: textarea
     value: |-
       {}
+IslandOrder:
+  StuckSeasonOrderId: 0
 IslandFreebie:
   Share: true
 IslandRestaurant:

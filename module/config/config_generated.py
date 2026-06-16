@@ -443,6 +443,9 @@ class GeneratedConfig:
     IslandProduction_DailyBufferItems = '{}'
     IslandProduction_IdleAccumulatingItems = '{}'
 
+    # Group `IslandOrder`
+    IslandOrder_StuckSeasonOrderId = 0
+
     # Group `IslandFreebie`
     IslandFreebie_Share = True
 
