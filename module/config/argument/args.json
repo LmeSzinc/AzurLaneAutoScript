@@ -9319,6 +9319,69 @@
       }
     }
   },
+  "IslandProduction": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
+      },
+      "NextRun": {
+        "type": "datetime",
+        "value": "2020-01-01 00:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "input",
+        "value": "IslandProduction",
+        "display": "hide"
+      },
+      "SuccessInterval": {
+        "type": "input",
+        "value": 0,
+        "display": "hide"
+      },
+      "FailureInterval": {
+        "type": "input",
+        "value": 120,
+        "display": "hide"
+      },
+      "ServerUpdate": {
+        "type": "input",
+        "value": "00:00",
+        "display": "hide"
+      }
+    },
+    "IslandProduction": {
+      "HardFloorItems": {
+        "type": "textarea",
+        "value": "{}"
+      },
+      "ReserveItems": {
+        "type": "textarea",
+        "value": "{}"
+      },
+      "DailyBufferItems": {
+        "type": "textarea",
+        "value": "{}"
+      },
+      "IdleAccumulatingItems": {
+        "type": "textarea",
+        "value": "{}"
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
+    }
+  },
   "IslandFreebie": {
     "Scheduler": {
       "Enable": {
@@ -9735,6 +9798,57 @@
         ],
         "option_bold": [
           true
+        ]
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
+    }
+  },
+  "IslandProductionPlanner": {
+    "IslandProductionPlanner": {
+      "RescanIslandTechnology": {
+        "type": "checkbox",
+        "value": false
+      },
+      "DailyProfitLowerLimit": {
+        "type": "input",
+        "value": 50000
+      },
+      "DailyBufferSafetyMargin": {
+        "type": "input",
+        "value": 0
+      },
+      "FieldsEfficiency": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          0.04,
+          0.12
+        ]
+      },
+      "OrchardEfficiency": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          0.04,
+          0.12
+        ]
+      },
+      "NurseryEfficiency": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          0.04,
+          0.12
         ]
       }
     },
