@@ -411,6 +411,10 @@ class AzurLaneAutoScript:
         from module.island.production import IslandProduction
         IslandProduction(config=self.config, device=self.device).run()
 
+    def island_order(self):
+        from module.island.order import IslandOrder
+        IslandOrder(config=self.config, device=self.device).run()
+
     def island_freebie(self):
         from module.island.freebie import IslandFreebie
         IslandFreebie(config=self.config, device=self.device).run()
