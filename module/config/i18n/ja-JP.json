@@ -258,6 +258,10 @@
       "name": "Cross Month Daily",
       "help": "    ALAS will enter OpSi 10min before OpSi reset, wait until OpSi reset but not exit OpSi. Then do the daily, obscure, abyssal and meowfficer farming to get extra gold plates. When running dailies, settings in task \"OpSiDaily\" are used, the rest function are the same.\n    IMPORTANT: Please do not touch the game while ALAS is waiting for OpSi reset."
     },
+    "IslandProduction": {
+      "name": "離島生産",
+      "help": ""
+    },
     "IslandFreebie": {
       "name": "デイリー補給",
       "help": ""
@@ -2582,6 +2586,32 @@
       "0": "0",
       "44": "44",
       "22": "22"
+    }
+  },
+  "IslandProduction": {
+    "_info": {
+      "name": "離島生産",
+      "help": ""
+    },
+    "HardFloorItems": {
+      "name": "ハード下限品目",
+      "help": "依頼、輸送、生産レシピから保護される在庫です。\n事業モジュールはこの在庫を消費できます。\n事業モジュール用に確保したい料理や素材に使用します。\nプランナーが出力する事業用アイテムはここで少なくとも対応する事業容量分を保持します。\n形式例：\n(現在のサーバーでの品目名): (数量)"
+    },
+    "ReserveItems": {
+      "name": "予約品目",
+      "help": "離島依頼や輸送などの外部消費から予約する在庫です。\n生産レシピと事業モジュールは予約在庫を消費でき、レシピはそれを補充します。\n形式例：\n(現在のサーバーでの品目名): (数量)"
+    },
+    "RequestBufferItems": {
+      "name": "依頼バッファ品目",
+      "help": "離島依頼用にユーザーが指定する消費可能なバッファです。\nレシピ生産はハード下限と予約数量に、依頼バッファと日次バッファの大きい方を加えた数量を目標にします。\nプランナーが在庫を維持しない依頼品目に使用します。"
+    },
+    "DailyBufferItems": {
+      "name": "日次バッファ品目",
+      "help": "想定日次消費からプランナーが生成する作業用バッファです。\nレシピ生産はハード下限と予約数量に、依頼バッファと日次バッファの大きい方を加えた数量を目標にします。\nこれはツール内の島生産プランナーで自動生成できます。"
+    },
+    "IdleAccumulatingItems": {
+      "name": "アイドル累積品目",
+      "help": "生産が空いていて素材が十分なときに累積してよい品目です。\n値はアイドル時のレシピ優先度に使う想定日次累積速度です。\nこれはツール内の島生産プランナーで自動生成できます。"
     }
   },
   "IslandFreebie": {
