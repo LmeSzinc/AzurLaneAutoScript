@@ -262,6 +262,10 @@
       "name": "Island Production",
       "help": ""
     },
+    "IslandOrder": {
+      "name": "Island Request",
+      "help": "For normal requests, will submit only if current stock minus hard floor and reserved quantity is sufficient.\nFor urgent requests, will submit as long as current stock is sufficient"
+    },
     "IslandFreebie": {
       "name": "Daily Supplies",
       "help": ""

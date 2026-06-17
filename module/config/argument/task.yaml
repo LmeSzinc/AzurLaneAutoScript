@@ -333,6 +333,8 @@ Island:
     IslandProduction:
       - Scheduler
       - IslandProduction
+    IslandOrder:
+      - Scheduler
     IslandFreebie:
       - Scheduler
       - IslandFreebie

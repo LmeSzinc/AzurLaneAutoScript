@@ -101,6 +101,7 @@
     "page": "setting",
     "tasks": [
       "IslandProduction",
+      "IslandOrder",
       "IslandFreebie",
       "IslandCollect",
       "IslandSeasonTask",
