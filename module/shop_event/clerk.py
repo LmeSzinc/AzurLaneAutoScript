@@ -66,6 +66,7 @@ class EventShopClerk(EventShopUI):
         return event_shop_items
 
     def event_shop_get_items(self, scroll_pos=None):
+        self.ensure_no_info_bar()
         self.event_shop_items.grids = self._get_event_shop_grid()
         if self.config.SHOP_EXTRACT_TEMPLATE:
             self.event_shop_items.extract_template(self.device.image, './assets/shop/event')
