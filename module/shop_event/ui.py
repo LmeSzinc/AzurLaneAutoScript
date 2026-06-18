@@ -88,7 +88,7 @@ class EventShopUI(UI):
 
     @cached_property
     def event_shop_has_urpt(self):
-        if self.image_color_count(SHOP_OCR_BALANCE_SECOND, OCR_EVENT_SHOP_URPT.letter, count=15):
+        if self.image_color_count(SHOP_OCR_BALANCE_SECOND, OCR_EVENT_SHOP_URPT.letter, threshold=160, count=30):
             logger.info("Event shop has urpt.")
             return True
         else:
@@ -113,7 +113,7 @@ class EventShopUI(UI):
     def event_shop_load_ensure(self):
         ensure_timeout = Timer(3, count=6).start()
         for _ in self.loop():
-            if self.image_color_count(SHOP_OCR_BALANCE, OCR_EVENT_SHOP_PT.letter, count=15):
+            if self.image_color_count(SHOP_OCR_BALANCE, OCR_EVENT_SHOP_PT.letter, threshold=160, count=30):
                 logger.info("Event shop loaded.")
                 break
             if ensure_timeout.reached():
