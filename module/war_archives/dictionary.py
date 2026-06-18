@@ -47,4 +47,6 @@ dic_archives_template = {
     'war_archives_20230223_cn': TEMPLATE_REVELATIONS_OF_DUST,
     'war_archives_20220818_cn': TEMPLATE_OPERATION_CONVERGENCE,
     'war_archives_20230803_cn': TEMPLATE_ANTHEM_OF_REMEMBRANCE,
+    'war_archives_20230525_cn': TEMPLATE_CONFLUENCE_OF_NOTHINGNESS,
+    'war_archives_20240725_cn': TEMPLATE_INTERLUDE_OF_ILLUSIONS,
 }
