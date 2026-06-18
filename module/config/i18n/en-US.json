@@ -752,7 +752,7 @@
       "event_20231221_cn": "Light-Chasing Sea of Stars Rerun",
       "event_20240229_cn": "Snowrealm Peregrination Rerun",
       "event_20240425_cn": "Heart-Linking Harmony",
-      "event_20240521_cn": "Light of the Martyrium",
+      "event_20240521_cn": "Light of the Martyrium Rerun",
       "event_20240725_cn": "Interlude of Illusions",
       "event_20240815_cn": "Windborne Steel Wings",
       "event_20240829_cn": "Whence Flowers Bear No Fruit",
@@ -827,8 +827,10 @@
       "war_archives_20220915_cn": "archives Violet Tempest Blooming Lycoris",
       "war_archives_20221222_cn": "archives Parallel Superimposition",
       "war_archives_20230223_cn": "archives Revelations of Dust",
+      "war_archives_20230525_cn": "archives Confluence of Nothingness",
       "war_archives_20230803_cn": "archives Anthem of Remembrance",
-      "war_archives_20231026_cn": "archives Tempesta and the Fountain of Youth"
+      "war_archives_20231026_cn": "archives Tempesta and the Fountain of Youth",
+      "war_archives_20240725_cn": "archives Interlude of Illusions"
     },
     "Mode": {
       "name": "Level Mode",
