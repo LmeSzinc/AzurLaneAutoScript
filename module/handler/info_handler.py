@@ -248,6 +248,24 @@ class InfoHandler(ModuleBase):
         """
         return self.appear_then_click(GET_SKIN, offset=(20, 20), interval=2)
 
+    def handle_get_items_ship(self, drop=None):
+        """
+        2026.06.12 added different GET_ITEMS popup when getting ship
+
+        Args:
+            drop (DropImage):
+
+        Returns:
+            bool:
+        """
+        if self.appear(GET_ITEMS_SHIP_1, offset=5, interval=2):
+            if drop:
+                drop.handle_add(self)
+            self.device.click(GET_ITEMS_SHIP_1)
+            return True
+
+        return False
+
     """
     Guild popup info
     """
