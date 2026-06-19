@@ -1,3 +1,5 @@
+import random
+from datetime import datetime
 from typing import Union
 
 import numpy as np
@@ -161,6 +163,17 @@ class LoginHandler(UI):
 
     def app_restart(self):
         logger.hr('App restart')
+        # Random delay when triggered at midnight to avoid server load spikes
+        # During this delay, other tasks are naturally blocked because
+        # Restart is the currently running task (highest priority at 0:00)
+        if self.config.SCHEDULER_RESTART_RANDOM_DELAY > 0:
+            now = datetime.now()
+            if now.hour == 0 and now.minute < 5:
+                delay = random.randint(0, self.config.SCHEDULER_RESTART_RANDOM_DELAY)
+                if delay > 0:
+                    logger.info(f'Restart at midnight: random delay {delay}s'
+                                f' (all tasks blocked)')
+                    self.device.sleep(delay)
         self.device.app_stop()
         self.device.app_start()
         self.handle_app_login()
