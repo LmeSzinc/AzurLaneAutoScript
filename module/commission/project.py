@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+import hashlib
 
 from module.base.decorator import Config
 from module.base.filter import Filter
@@ -31,22 +32,30 @@ def crop_suffix_image(image, area):
     Returns:
         np.ndarray | None: Cropped suffix image, black letters on white background.
     """
-    image = crop(image, area)
-    image = extract_letters(image, letter=(255, 255, 255), threshold=128).astype(np.uint8)
+    name_image = crop(image, area)
+    name_image = extract_letters(name_image, letter=(255, 255, 255), threshold=128).astype(np.uint8)
 
-    columns = np.where(np.min(image[5:-5, :], axis=0) < 85)[0]
+    line = cv2.reduce(name_image[5:-5, :], 0, cv2.REDUCE_AVG).flatten()
+    columns = np.where(line < 250)[0]
     if not len(columns):
         return None
 
     # Look back several pixels from the rightmost letter to include Roman numerals.
-    threshold = 220
+    threshold = 250
     look_back = 10
     for i in range(columns[-1], 0, -1):
-        if np.min(image[:, i]) > threshold:
+        if line[i] > threshold:
             if columns[-1] - i > look_back:
                 look_back = columns[-1] - i
                 break
-    return image[:, max(columns[-1] - look_back, 0):]
+
+    left = columns[-1] - look_back
+    right = columns[-1] + 1
+    x1, y1 = area[0:2]
+    suffix_area = area_offset((left - 3, -3, right + 3, name_image.shape[0] + 3), (x1, y1))
+    image = crop(image, suffix_area)
+    image = extract_letters(image, letter=(255, 255, 255), threshold=128).astype(np.uint8)
+    return image
 
 
 def image_hash(image):
@@ -60,27 +69,7 @@ def image_hash(image):
     if image is None:
         return ''
 
-    image = cv2.resize(image, (32, 32), interpolation=cv2.INTER_AREA).astype(np.float32)
-    dct = cv2.dct(image)
-    low_freq = dct[:8, :8]
-    median = np.median(low_freq.flatten()[1:])
-    bits = (low_freq > median).flatten()
-    value = 0
-    for bit in bits:
-        value = (value << 1) | int(bit)
-    return f'{value:016x}'
-
-
-def hash_distance(hash1, hash2):
-    """
-    Args:
-        hash1 (str):
-        hash2 (str):
-
-    Returns:
-        int:
-    """
-    return bin(int(hash1, 16) ^ int(hash2, 16)).count('1')
+    return hashlib.md5(image.tobytes()).hexdigest()
 
 
 class Commission:
@@ -92,7 +81,7 @@ class Commission:
     valid: bool
     # Cropped suffix image, black letters on white background, or None
     suffix_image: np.ndarray
-    # Perceptual hash of suffix image, used for quick comparison, or empty string if suffix_image is None
+    # Hash of suffix image, used only for logging, or empty string if suffix_image is None
     suffix_hash: str
     # Genre name in project_data.py
     # Value: major_comm, daily_resource, urgent_cube, ...
@@ -384,12 +373,11 @@ class Commission:
     def __hash__(self):
         return hash(f'{self.genre}_{self.name}')
 
-    def suffix_match(self, other, similarity=0.75, hash_threshold=8):
+    def suffix_match(self, other, similarity=0.75):
         """
         Args:
             other (Commission):
             similarity (float): 0-1. Similarity.
-            hash_threshold (int): Max Hamming distance between suffix pHashes.
 
         Returns:
             bool:
@@ -399,18 +387,19 @@ class Commission:
         if self.suffix_image is None or other.suffix_image is None:
             return False
 
-        if not self.suffix_hash or not other.suffix_hash:
-            return False
-        if hash_distance(self.suffix_hash, other.suffix_hash) > hash_threshold:
-            return False
+        def match(image, template):
+            template = crop(template, (3, 3, template.shape[1] - 3, template.shape[0] - 3), copy=False)
+            if image.shape[0] < template.shape[0] or image.shape[1] < template.shape[1]:
+                return 0.0
 
-        image = self.suffix_image
-        template = other.suffix_image
-        if image.shape[0] < template.shape[0] or image.shape[1] < template.shape[1]:
-            image, template = template, image
+            res = cv2.matchTemplate(image, template, cv2.TM_CCOEFF_NORMED)
+            _, sim, _, _ = cv2.minMaxLoc(res)
+            return sim
 
-        res = cv2.matchTemplate(image, template, cv2.TM_CCOEFF_NORMED)
-        _, sim, _, _ = cv2.minMaxLoc(res)
+        sim = max(
+            match(self.suffix_image, other.suffix_image),
+            match(other.suffix_image, self.suffix_image)
+        )
         return sim >= similarity
 
     def parse_time(self, string):
