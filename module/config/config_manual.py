@@ -31,6 +31,8 @@ class ManualConfig:
     > OpsiHazard1Leveling
     """
 
+    SCHEDULER_RESTART_RANDOM_DELAY = 300
+
     """
     module.assets
     """

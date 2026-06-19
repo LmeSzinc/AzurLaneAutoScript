@@ -1,4 +1,5 @@
 import os
+import random
 import re
 import threading
 import time
@@ -163,6 +164,17 @@ class AzurLaneAutoScript:
                 f.writelines(lines)
 
     def restart(self):
+        # Random delay when triggered at midnight to avoid server load spikes
+        # During this delay, other tasks are naturally blocked because
+        # Restart is the currently running task (highest priority at 0:00)
+        if self.config.SCHEDULER_RESTART_RANDOM_DELAY > 0:
+            now = datetime.now()
+            if now.hour == 0 and now.minute < 5:
+                delay = random.randint(0, self.config.SCHEDULER_RESTART_RANDOM_DELAY)
+                if delay > 0:
+                    logger.info(f'Restart at midnight: random delay {delay}s'
+                                f' (all tasks blocked)')
+                    self.device.sleep(delay)
         from module.handler.login import LoginHandler
         LoginHandler(self.config, device=self.device).app_restart()
 
