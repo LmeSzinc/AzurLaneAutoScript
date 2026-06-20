@@ -1344,6 +1344,28 @@
       "multi": "multi"
     }
   },
+  "Restart": {
+    "_info": {
+      "name": "再起動設定",
+      "help": ""
+    }
+  },
+  "MidnightRandomDelay": {
+    "_info": {
+      "name": "深夜ランダム遅延",
+      "help": ""
+    },
+    "Enable": {
+      "name": "深夜ランダム遅延",
+      "help": "深夜0:00付近の再起動時にランダムな遅延を追加し、ネットワーク負荷を軽減します",
+      "True": "有効",
+      "False": "無効"
+    },
+    "MaxSeconds": {
+      "name": "最大遅延（秒）",
+      "help": "ランダム遅延の最大値（秒）、0からこの値の間でランダムに決定されます"
+    }
+  },
   "Commission": {
     "_info": {
       "name": "Commission._info.name",

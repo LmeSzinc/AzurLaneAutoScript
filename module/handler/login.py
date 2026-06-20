@@ -166,10 +166,11 @@ class LoginHandler(UI):
         # Random delay when triggered at midnight to avoid server load spikes
         # During this delay, other tasks are naturally blocked because
         # Restart is the currently running task (highest priority at 0:00)
-        if self.config.SCHEDULER_RESTART_RANDOM_DELAY > 0:
+        if self.config.Restart_MidnightRandomDelay_Enable:
+            max_delay = self.config.Restart_MidnightRandomDelay_MaxSeconds
             now = datetime.now()
-            if now.hour == 0 and now.minute < 5:
-                delay = random.randint(0, self.config.SCHEDULER_RESTART_RANDOM_DELAY)
+            if now.hour == 0 and now.minute < 5 and max_delay > 0:
+                delay = random.randint(0, max_delay)
                 if delay > 0:
                     logger.info(f'Restart at midnight: random delay {delay}s'
                                 f' (all tasks blocked)')
