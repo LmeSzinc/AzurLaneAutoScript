@@ -120,6 +120,10 @@ class EnemySearchingHandler(InfoHandler):
             # although here expects an enemy searching animation.
             if self.handle_in_stage():
                 return True
+            # immediately enter submarine combat in W16
+            if hasattr(self, 'is_combat_loading') and self.is_combat_loading():
+                logger.warning('Entered map with is_combat_loading appeared')
+                break
             if self.handle_auto_search_exit(drop=drop):
                 timeout.limit = 10
                 timeout.reset()
