@@ -102,7 +102,7 @@ class Fleet(Camera, AmbushHandler):
             self.show_fleet()
             self.hp_get()
             self.lv_get()
-            self.handle_strategy(index=self.fleet_current_index)
+            self.handle_strategy(index=self.fleet_show_index)
             return True
         else:
             return False
