@@ -34,6 +34,7 @@ class GeneratedConfig:
     # Group `Error`
     Error_HandleError = True
     Error_SaveError = True
+    Error_SaveErrorCount = 30
     Error_OnePushConfig = 'provider: null'
     Error_ScreenshotLength = 1
 
@@ -53,6 +54,11 @@ class GeneratedConfig:
     DropRecord_OpsiRecord = 'do_not'  # do_not, save, upload, save_and_upload
     DropRecord_MeowfficerBuy = 'do_not'  # do_not, save
     DropRecord_MeowfficerTalent = 'do_not'  # do_not, save, upload, save_and_upload
+
+    # Group `Log`
+    Log_LogKeepCount = 7
+    Log_LogBackUpMethod = 'delete'  # delete, zip, copy
+    Log_ZipMethod = 'bz2'  # bz2, gzip, xz, zip
 
     # Group `Retirement`
     Retirement_RetireMode = 'one_click_retire'  # one_click_retire, enhance, old_retire

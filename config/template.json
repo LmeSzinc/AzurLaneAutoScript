@@ -17,6 +17,7 @@
     "Error": {
       "HandleError": true,
       "SaveError": true,
+      "SaveErrorCount": 30,
       "OnePushConfig": "provider: null",
       "ScreenshotLength": 1
     },
@@ -42,6 +43,11 @@
     }
   },
   "General": {
+    "Log": {
+      "LogKeepCount": 7,
+      "LogBackUpMethod": "delete",
+      "ZipMethod": "bz2"
+    },
     "Retirement": {
       "RetireMode": "one_click_retire"
     },
