@@ -1,5 +1,4 @@
 from datetime import datetime, timedelta
-import hashlib
 
 from module.base.decorator import Config
 from module.base.filter import Filter
@@ -69,6 +68,7 @@ def image_hash(image):
     if image is None:
         return ''
 
+    import hashlib
     return hashlib.md5(image.tobytes()).hexdigest()
 
 
