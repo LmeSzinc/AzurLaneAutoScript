@@ -327,6 +327,11 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     'naximofu': 'Nakhimov',
     'liekexingdunII': 'Lexington2',
     'yuekechengII': 'Yorktown2',
+
+    # Miracle by Midnight
+    'youeryuan_boss03': 'MeowfficerBustPlaytime',
+    'youeryuan_boss04': 'MeowfficerBustHobbies',
+    'youeryuan_boss05': 'MeowfficerBustStudying',
 }
 
 
@@ -779,8 +784,8 @@ Arguments:
                      adapted for war_archives usage
 """
 FILE = '../AzurLaneLuaScripts'
-FOLDER = './campaign/event_20260417_cn'
-KEYWORD = '2020001'
+FOLDER = './campaign/event_20260625_cn'
+KEYWORD = '2040001'
 SELECT = True
 OVERWRITE = True
 IS_WAR_ARCHIVES = False
