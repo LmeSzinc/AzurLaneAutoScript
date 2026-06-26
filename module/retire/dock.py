@@ -205,6 +205,83 @@ class Dock(Equipment):
         self.dock_filter.set(sort=sort, index=index, faction=faction, rarity=rarity, extra=extra)
         self.dock_filter_confirm(wait_loading=wait_loading)
 
+    def scan_fleet_emotion(self, fleets, max_pages=80):
+        """
+        Scan whole dock and return minimum emotion for specified normal fleets.
+
+        Args:
+            fleets (iterable[int]): Normal in-game fleet indexes, 1 to 6.
+            max_pages (int): Safety guard against endless scroll loops.
+
+        Returns:
+            dict[int, int]: {normal_fleet_index: minimum_emotion}
+
+        Pages:
+            in: any page
+            out: page_dock
+        """
+        from module.retire.scanner import ShipScanner
+        from module.ui.page import page_dock
+
+        normalized = set()
+        for fleet in fleets:
+            try:
+                fleet = int(fleet)
+            except (TypeError, ValueError):
+                continue
+            if 1 <= fleet <= 6:
+                normalized.add(fleet)
+        fleets = sorted(normalized)
+        if not fleets:
+            return {}
+
+        logger.hr('Dock fleet emotion scan')
+        logger.info(f'Scan normal fleets: {fleets}')
+        self.ui_goto(page_dock)
+        self.dock_favourite_set(False)
+        self.dock_sort_method_dsc_set(False)
+        self.dock_filter_set(sort='level', index='all', faction='all', rarity='all', extra='no_limit')
+
+        if DOCK_SCROLL.appear(self):
+            DOCK_SCROLL.set_top(main=self)
+            self.handle_dock_cards_loading(skip_first_screenshot=False)
+
+        scanner = ShipScanner(level=None, emotion=(0, 150), rarity=None, fleet=fleets, status=None)
+        scanner.disable('level', 'rarity', 'status')
+
+        result = {}
+        count = {fleet: 0 for fleet in fleets}
+        for page in range(1, max_pages + 1):
+            ships = scanner.scan(self.device.image, output=False)
+            page_count = 0
+            for ship in ships:
+                if ship.fleet not in count or ship.emotion is None:
+                    continue
+                count[ship.fleet] += 1
+                page_count += 1
+                previous = result.get(ship.fleet)
+                result[ship.fleet] = ship.emotion if previous is None else min(previous, ship.emotion)
+            logger.info(f'Dock scan page {page}: {page_count} target ships')
+
+            if not DOCK_SCROLL.appear(self):
+                break
+            if DOCK_SCROLL.at_bottom(self):
+                break
+            if not DOCK_SCROLL.next_page(main=self):
+                logger.warning('Dock scroll did not move, stop fleet emotion scan')
+                break
+            self.handle_dock_cards_loading(skip_first_screenshot=False)
+        else:
+            logger.warning(f'Dock fleet emotion scan reached max pages: {max_pages}')
+
+        for fleet in fleets:
+            if count[fleet]:
+                logger.attr(f'Dock emotion fleet_{fleet}', f'{result[fleet]} ({count[fleet]} ships)')
+            else:
+                logger.warning(f'No ship found in normal fleet {fleet} during dock emotion scan')
+
+        return result
+
     def dock_select_one(self, button, skip_first_screenshot=True):
         """
         Args:

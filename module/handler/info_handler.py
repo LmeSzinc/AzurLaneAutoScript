@@ -118,7 +118,7 @@ class InfoHandler(ModuleBase):
             return True
         if self.appear(POPUP_CANCEL_WHITE, offset=offset, interval=interval):
             POPUP_CANCEL_WHITE.name = POPUP_CANCEL_WHITE.name + '_' + name
-            self.device.click(POPUP_CONFIRM_WHITE)
+            self.device.click(POPUP_CANCEL_WHITE)
             POPUP_CANCEL_WHITE.name = POPUP_CANCEL_WHITE.name[:-len(name) - 1]
             return True
         return False
@@ -184,14 +184,22 @@ class InfoHandler(ModuleBase):
 
         return appear
 
-    def handle_combat_low_emotion(self):
-        if not self.emotion.is_ignore:
+    def handle_combat_low_emotion(self, fleet_index=None):
+        if self.emotion.is_ignore:
+            result = self.handle_popup_confirm('IGNORE_LOW_EMOTION')
+            if result:
+                # Avoid clicking AUTO_SEARCH_MAP_OPTION_OFF
+                self.interval_reset(AUTO_SEARCH_MAP_OPTION_OFF)
+            return result
+
+        if not self.emotion.is_calculate:
             return False
 
-        result = self.handle_popup_confirm('IGNORE_LOW_EMOTION')
+        result = self.handle_popup_cancel('LOW_EMOTION_CONTROL')
         if result:
             # Avoid clicking AUTO_SEARCH_MAP_OPTION_OFF
             self.interval_reset(AUTO_SEARCH_MAP_OPTION_OFF)
+            self.emotion.delay_after_low_emotion(fleet_index=fleet_index)
         return result
 
     def handle_use_data_key(self):

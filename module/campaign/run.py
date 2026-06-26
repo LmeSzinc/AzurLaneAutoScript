@@ -15,6 +15,9 @@ from module.ui.page import page_campaign
 
 
 class CampaignRun(CampaignEvent):
+    EMOTION_DOCK_CHECK_TASKS = {'Main', 'Main2', 'Main3', 'Event', 'Event2', 'WarArchives'}
+    EMOTION_POPUP_ONLY_STAGE_PREFIX = ('ht', 'c', 'd')
+
     folder: str
     name: str
     stage: str
@@ -365,6 +368,112 @@ class CampaignRun(CampaignEvent):
             self.config.task_call('Commission', force_call=True)
             self.config.task_stop('Commission notice found')
 
+    @classmethod
+    def is_event_hard_stage(cls, name, folder):
+        if not str(folder).startswith('event_'):
+            return False
+        name = str(name).lower()
+        return name.startswith(cls.EMOTION_POPUP_ONLY_STAGE_PREFIX)
+
+    def emotion_popup_only_set(self, name, folder, log=True):
+        popup_only = self.is_event_hard_stage(name=name, folder=folder)
+        self.config.Emotion_PopupOnly = popup_only
+        if hasattr(self, 'campaign'):
+            self.campaign.config.Emotion_PopupOnly = popup_only
+        if popup_only and log:
+            logger.info('Event hard stage uses popup-only emotion control')
+
+    def emotion_dock_calibrate(self):
+        """
+        Sync current task emotion ledger from normal fleet ships in dock.
+
+        Returns:
+            bool: If dock UI might have been entered and campaign UI should be restored.
+
+        Pages:
+            in: page_campaign
+            out: page_campaign or page_dock
+        """
+        command = self.config.Scheduler_Command
+        if command not in self.EMOTION_DOCK_CHECK_TASKS:
+            return False
+        if self.campaign.emotion.is_popup_only:
+            return False
+        if not self.campaign.emotion.is_calculate:
+            return False
+
+        fleet_mapping = {}
+        for task_fleet in [1, 2]:
+            normal_fleet = getattr(self.config, f'Fleet_Fleet{task_fleet}', None)
+            try:
+                normal_fleet = int(normal_fleet)
+            except (TypeError, ValueError):
+                logger.warning(f'Invalid Fleet_Fleet{task_fleet}: {normal_fleet}')
+                continue
+            if 1 <= normal_fleet <= 6:
+                fleet_mapping[task_fleet] = normal_fleet
+            else:
+                logger.warning(f'Invalid Fleet_Fleet{task_fleet}: {normal_fleet}')
+
+        if not fleet_mapping:
+            logger.warning('No normal fleet configured for emotion dock calibration')
+            return False
+
+        logger.hr('Emotion dock calibration')
+        logger.info(f'Task `{command}` fleet mapping: {fleet_mapping}')
+
+        try:
+            from module.retire.dock import Dock
+            dock = Dock(config=self.config, device=self.device)
+            scanned = dock.scan_fleet_emotion(fleet_mapping.values())
+        except Exception as e:
+            logger.warning(f'Emotion dock calibration failed, keep current ledger: {e}')
+            return True
+
+        records = {}
+        for task_fleet, normal_fleet in fleet_mapping.items():
+            value = scanned.get(normal_fleet)
+            if value is None:
+                logger.warning(
+                    f'No dock emotion result for task fleet {task_fleet} '
+                    f'(normal fleet {normal_fleet}), keep current ledger'
+                )
+                continue
+            records[f'Emotion_Fleet{task_fleet}Value'] = value
+
+        if records:
+            logger.info(f'Sync emotion ledger from dock: {records}')
+            self.config.set_record(**records)
+            campaign_records = {}
+            for arg in records:
+                record = arg.replace('Value', 'Record')
+                campaign_records[arg] = getattr(self.config, arg)
+                campaign_records[record] = getattr(self.config, record)
+            self.campaign.config.override(**campaign_records)
+            self.campaign.emotion.update()
+            self.campaign.emotion.show()
+        else:
+            logger.warning('Emotion dock calibration produced no usable records')
+
+        return True
+
+    def emotion_preflight_check(self):
+        """
+        Delay current task immediately if emotion is below threshold.
+
+        Returns:
+            bool: If current task was delayed and should leave the run loop.
+        """
+        if self.campaign.emotion.is_popup_only:
+            return False
+        try:
+            self.campaign.emotion.check_reduce(self.campaign._map_battle)
+        except ScriptEnd as e:
+            logger.hr('Script end')
+            logger.info(str(e))
+            return True
+        return False
+
     def run(self, name, folder='campaign_main', mode='normal', total=0):
         """
         Args:
@@ -375,9 +484,12 @@ class CampaignRun(CampaignEvent):
         """
         name, folder = self.handle_stage_name(name, folder, mode=mode)
         self.config.override(Campaign_Name=name, Campaign_Event=folder)
+        self.emotion_popup_only_set(name=name, folder=folder, log=False)
         self.load_campaign(name, folder=folder)
+        self.emotion_popup_only_set(name=name, folder=folder)
         self.run_count = 0
         self.run_limit = self.config.StopCondition_RunCount
+        emotion_dock_calibration_checked = False
         while 1:
             # End
             if total and self.run_count >= total:
@@ -416,6 +528,12 @@ class CampaignRun(CampaignEvent):
                 self.campaign.ensure_campaign_ui(name=self.stage, mode=mode)
             self.disable_raid_on_event()
             self.handle_commission_notice()
+            if not emotion_dock_calibration_checked:
+                emotion_dock_calibration_checked = True
+                if self.emotion_dock_calibrate():
+                    self.campaign.ensure_campaign_ui(name=self.stage, mode=mode)
+                    if self.emotion_preflight_check():
+                        break
 
             # if in hard mode, check remain times
             if self.ui_page_appear(page_campaign) and MODE_SWITCH_1.get(main=self) == 'normal':

@@ -167,6 +167,14 @@ class Emotion:
     def is_ignore(self):
         return 'ignore' in self.config.Emotion_Mode
 
+    @property
+    def is_popup_only(self):
+        return getattr(self.config, 'Emotion_PopupOnly', False)
+
+    @property
+    def should_track(self):
+        return self.is_calculate and not self.is_popup_only
+
     def update(self):
         """
         Update emotion value. This should be called before doing anything.
@@ -204,6 +212,54 @@ class Emotion:
         else:
             return 2
 
+    def _fleet_indexes(self, fleet_index=None):
+        try:
+            fleet_index = int(fleet_index)
+        except (TypeError, ValueError):
+            return [1, 2]
+
+        if fleet_index in [1, 2]:
+            return [fleet_index]
+        return [1, 2]
+
+    def reset_low_emotion(self, fleet_index=None):
+        """
+        Reset emotion ledger after the game client reports low emotion.
+
+        Args:
+            fleet_index (int, None): 1 or 2. Unknown fleets reset both ledgers.
+
+        Returns:
+            list[FleetEmotion]: Fleets whose values were reset.
+        """
+        indexes = self._fleet_indexes(fleet_index=fleet_index)
+        if len(indexes) > 1:
+            logger.warning('Unable to identify low-emotion fleet, reset both fleet ledgers')
+
+        logger.hr('Emotion control')
+        self.update()
+        fleets = [self.fleets[index - 1] for index in indexes]
+        for fleet in fleets:
+            fleet.current = max(fleet.limit - 1, 0)
+            logger.info(f'Reset emotion fleet {fleet.fleet} to {fleet.current}')
+
+        self.record()
+        self.show()
+        return fleets
+
+    def delay_after_low_emotion(self, fleet_index=None):
+        """
+        Delay current task after backing out of the low-emotion sortie popup.
+
+        Raise:
+            ScriptEnd: Stop current task normally so scheduler can continue.
+        """
+        fleets = self.reset_low_emotion(fleet_index=fleet_index)
+        recovered = max([fleet.get_recovered(expected_reduce=self.reduce_per_battle) for fleet in fleets])
+        logger.info(f'Delay current task until emotion recovers at {recovered}')
+        self.config.task_delay(target=recovered)
+        raise ScriptEnd('Emotion control')
+
     def check_reduce(self, battle):
         """
         Check emotion before entering a campaign.
@@ -214,7 +270,7 @@ class Emotion:
         Raise:
             ScriptEnd: Delay current task to prevent emotion control in the future.
         """
-        if not self.is_calculate:
+        if not self.should_track:
             return
 
         method = self.config.Fleet_FleetOrder
@@ -250,6 +306,9 @@ class Emotion:
         Args:
             fleet_index (int): 1 or 2.
         """
+        if not self.should_track:
+            return
+
         self.update()
         self.record()
         self.show()
@@ -275,6 +334,9 @@ class Emotion:
         Args:
             fleet_index (int): 1 or 2.
         """
+        if not self.should_track:
+            return
+
         logger.hr('Emotion reduce')
         self.update()
 
