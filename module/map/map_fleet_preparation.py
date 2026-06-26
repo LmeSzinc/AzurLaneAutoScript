@@ -175,6 +175,63 @@ class FleetOperator:
                 main.device.click(self._choose)
                 click_timer.reset()
 
+    def recommend_popup_only(self, click_count=2, confirm_attempts=3, skip_first_screenshot=True):
+        """
+        Recommend hard-mode fleet with confirmation handling.
+
+        Args:
+            click_count (int): Number of recommend clicks.
+            confirm_attempts (int): Screenshots to wait for popup confirm after each click.
+            skip_first_screenshot (bool):
+
+        Returns:
+            bool: If clicked or confirmed.
+
+        Pages:
+            in: FLEET_PREPARATION
+            out: FLEET_PREPARATION
+        """
+        main = self.main
+        clicked = False
+
+        def handle_confirm(name):
+            handled = False
+            for _ in range(confirm_attempts):
+                main.device.screenshot()
+                if main.handle_popup_confirm(name, interval=0):
+                    logger.info(f'{self}: recommend confirm handled')
+                    handled = True
+                    continue
+                if handled:
+                    break
+            return handled
+
+        for index in range(click_count):
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                main.device.screenshot()
+
+            if main.handle_popup_confirm(f'{self}_RECOMMEND_BEFORE_{index + 1}', interval=0):
+                logger.info(f'{self}: recommend confirm handled before click')
+                clicked = True
+                main.device.screenshot()
+
+            if not self.is_hard():
+                logger.info(f'{self}: recommend button not found')
+                break
+
+            logger.info(f'{self}: click recommend {index + 1}/{click_count}')
+            main.device.click(self._advice)
+            clicked = True
+            if handle_confirm(f'{self}_RECOMMEND_{index + 1}'):
+                clicked = True
+
+        if handle_confirm(f'{self}_RECOMMEND_AFTER'):
+            clicked = True
+
+        return clicked
+
     def open(self, skip_first_screenshot=True):
         """
         Activate dropdown menu for fleet selection.
@@ -319,6 +376,19 @@ class FleetPreparation(InfoHandler):
         # Check if ship is prepared in hard mode
         h1, h2, h3 = fleet_1.is_hard_satisfied(), fleet_2.is_hard_satisfied(), submarine.is_hard_satisfied()
         logger.info(f'Hard satisfied: Fleet_1: {h1}, Fleet_2: {h2}, Submarine: {h3}')
+
+        if getattr(self.config, 'Emotion_PopupOnly', False) and any(status is not None for status in [h1, h2, h3]):
+            logger.info('HT popup-only fleet recommend')
+            if self.config.Fleet_Fleet1:
+                fleet_1.recommend_popup_only()
+            if self.config.Fleet_Fleet2:
+                fleet_2.recommend_popup_only()
+            if self.config.Submarine_Fleet:
+                submarine.recommend_popup_only()
+            self.device.screenshot()
+            h1, h2, h3 = fleet_1.is_hard_satisfied(), fleet_2.is_hard_satisfied(), submarine.is_hard_satisfied()
+            logger.info(f'Hard satisfied after recommend: Fleet_1: {h1}, Fleet_2: {h2}, Submarine: {h3}')
+
         if self.config.SERVER in ['cn', 'en', 'jp']:
             if self.config.Fleet_Fleet1:
                 fleet_1.raise_hard_not_satisfied()

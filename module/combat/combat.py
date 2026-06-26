@@ -202,7 +202,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                     continue
             if self.handle_retirement():
                 continue
-            if self.handle_combat_low_emotion():
+            if self.handle_combat_low_emotion(fleet_index=fleet_index):
                 continue
             if balance_hp and self.handle_emergency_repair_use():
                 continue
@@ -596,7 +596,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             fleet_index (int): 1 or 2
         """
         balance_hp = balance_hp if balance_hp is not None else self.config.HpControl_UseHpBalance
-        emotion_reduce = emotion_reduce if emotion_reduce is not None else self.emotion.is_calculate
+        emotion_reduce = emotion_reduce if emotion_reduce is not None else self.emotion.should_track
         if auto_mode is None:
             auto_mode = self.config.Fleet_Fleet1Mode if fleet_index == 1 else self.config.Fleet_Fleet2Mode
         if submarine_mode is None:

@@ -76,7 +76,7 @@ class HospitalCombat(Combat, HospitalUI, CampaignEvent):
                 check_coin()
             if self.handle_retirement():
                 continue
-            if self.handle_combat_low_emotion():
+            if self.handle_combat_low_emotion(fleet_index=fleet_index):
                 continue
             if self.appear_then_click(BATTLE_PREPARATION, offset=(30, 20), interval=2):
                 continue

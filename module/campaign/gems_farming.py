@@ -24,7 +24,7 @@ SIM_VALUE = 0.92
 
 class GemsCampaignOverride(CampaignBase):
 
-    def handle_combat_low_emotion(self):
+    def handle_combat_low_emotion(self, fleet_index=None):
         """
         Overwrite info_handler.handle_combat_low_emotion()
         If change vanguard is enabled, withdraw combat and change flagship and vanguard
