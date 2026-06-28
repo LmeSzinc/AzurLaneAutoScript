@@ -167,14 +167,6 @@ class Emotion:
     def is_ignore(self):
         return 'ignore' in self.config.Emotion_Mode
 
-    @property
-    def is_popup_only(self):
-        return getattr(self.config, 'Emotion_PopupOnly', False)
-
-    @property
-    def should_track(self):
-        return self.is_calculate and not self.is_popup_only
-
     def update(self):
         """
         Update emotion value. This should be called before doing anything.
@@ -270,7 +262,7 @@ class Emotion:
         Raise:
             ScriptEnd: Delay current task to prevent emotion control in the future.
         """
-        if not self.should_track:
+        if not self.is_calculate:
             return
 
         method = self.config.Fleet_FleetOrder
@@ -306,9 +298,6 @@ class Emotion:
         Args:
             fleet_index (int): 1 or 2.
         """
-        if not self.should_track:
-            return
-
         self.update()
         self.record()
         self.show()
@@ -334,9 +323,6 @@ class Emotion:
         Args:
             fleet_index (int): 1 or 2.
         """
-        if not self.should_track:
-            return
-
         logger.hr('Emotion reduce')
         self.update()
 
