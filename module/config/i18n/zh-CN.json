@@ -1424,7 +1424,7 @@
       "help": ""
     },
     "Favorite": {
-      "name": "优先选择常用",
+      "name": "仅选择常用角色",
       "help": ""
     },
     "MinLevel": {
@@ -2102,7 +2102,8 @@
       "sirius": "天狼星",
       "new_jersey": "新泽西",
       "taihou": "鹩",
-      "aegir": "埃吉尔"
+      "aegir": "埃吉尔",
+      "nakhimov": "纳希莫夫"
     }
   },
   "Daily": {

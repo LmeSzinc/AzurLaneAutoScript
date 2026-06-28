@@ -1424,7 +1424,7 @@
       "help": ""
     },
     "Favorite": {
-      "name": "Use Favorite Filter",
+      "name": "Only Favorite Ships",
       "help": "During student selection apply the favorite filter\nThereby, giving priority to certain ship girls\nApply the favorite status to a ship girl in-game"
     },
     "MinLevel": {
@@ -2102,7 +2102,8 @@
       "sirius": "Sirius",
       "new_jersey": "New Jersey",
       "taihou": "Taihou",
-      "aegir": "Aegir"
+      "aegir": "Aegir",
+      "nakhimov": "Nakhimov"
     }
   },
   "Daily": {
