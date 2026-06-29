@@ -51,6 +51,12 @@ class MeowfficerBuy(MeowfficerBase):
             logger.info(f'Current coins only enough to buy {count}')
 
         self.meow_enter(MEOWFFICER_BUY_ENTER, check_button=MEOWFFICER_BUY)
+
+        # info_bar may covers OCR_MEOWFFICER_CHOOSE,
+        # and OCR_MEOWFFICER_CHOOSE may detected as 0 causing extra clickings
+        # info_bar is usually from the previous Dorm task or meowfficer fort
+        self.handle_info_bar()
+
         self.ui_ensure_index(count, letter=MEOWFFICER_CHOOSE, prev_button=MEOWFFICER_BUY_PREV,
                              next_button=MEOWFFICER_BUY_NEXT, skip_first_screenshot=True)
         return True
