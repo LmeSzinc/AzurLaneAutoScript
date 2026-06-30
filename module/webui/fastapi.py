@@ -13,8 +13,20 @@ from pywebio.platform.fastapi import (STATIC_PATH, Session, cdn_validation,
 from starlette.applications import Starlette
 from starlette.middleware import Middleware
 from starlette.middleware.base import BaseHTTPMiddleware
-from starlette.routing import Mount
+from starlette.responses import JSONResponse
+from starlette.routing import Mount, Route
 from starlette.staticfiles import StaticFiles
+
+from module.config.utils import alas_instance
+from module.webui.process_manager import ProcessManager
+
+
+STATE_MAP = {
+    1: "running",
+    2: "stopped",
+    3: "crashed",
+    4: "updating",
+}
 
 
 class HeaderMiddleware(BaseHTTPMiddleware):
@@ -22,6 +34,90 @@ class HeaderMiddleware(BaseHTTPMiddleware):
         response = await call_next(request)
         response.headers["Cache-Control"] = "no-cache"
         return response
+
+
+async def api_scheduler_list(request):
+    """
+    GET /api/scheduler/list
+    Return all created config instances with their current status.
+    """
+    instances = []
+    for name in alas_instance():
+        pm = ProcessManager.get_manager(name)
+        instances.append({
+            "config_name": name,
+            "alive": pm.alive,
+            "state": STATE_MAP.get(pm.state, "unknown"),
+        })
+    return JSONResponse({"instances": instances})
+
+
+async def api_scheduler_start(request):
+    """
+    POST /api/scheduler/start
+    Start the scheduler for the given config_name.
+
+    Request body (JSON):
+        {"config_name": "alas"}  (optional, defaults to "alas")
+    """
+    body = await request.json()
+    config_name = body.get("config_name", "alas")
+    pm = ProcessManager.get_manager(config_name)
+    if pm.alive:
+        return JSONResponse({
+            "config_name": config_name,
+            "status": "already_running",
+        })
+    pm.start(func=None)
+    return JSONResponse({
+        "config_name": config_name,
+        "status": "started",
+    })
+
+
+async def api_scheduler_stop(request):
+    """
+    POST /api/scheduler/stop
+    Stop the scheduler for the given config_name.
+
+    Request body (JSON):
+        {"config_name": "alas"}  (optional, defaults to "alas")
+    """
+    body = await request.json()
+    config_name = body.get("config_name", "alas")
+    pm = ProcessManager.get_manager(config_name)
+    if not pm.alive:
+        return JSONResponse({
+            "config_name": config_name,
+            "status": "already_stopped",
+        })
+    pm.stop()
+    return JSONResponse({
+        "config_name": config_name,
+        "status": "stopped",
+    })
+
+
+async def api_scheduler_status(request):
+    """
+    GET /api/scheduler/status?config_name=alas
+    Query detailed status of the specified instance.
+    """
+    config_name = request.query_params.get("config_name", "alas")
+    pm = ProcessManager.get_manager(config_name)
+    return JSONResponse({
+        "config_name": config_name,
+        "alive": pm.alive,
+        "state": STATE_MAP.get(pm.state, "unknown"),
+    })
+
+
+API_ROUTES = [
+    Route("/api/scheduler/list", endpoint=api_scheduler_list, methods=["GET"]),
+    Route("/api/scheduler/start", endpoint=api_scheduler_start, methods=["POST"]),
+    Route("/api/scheduler/stop", endpoint=api_scheduler_stop, methods=["POST"]),
+    Route("/api/scheduler/status", endpoint=api_scheduler_status, methods=["GET"]),
+]
 
 
 def asgi_app(
@@ -54,6 +150,7 @@ def asgi_app(
             name="pywebio_static",
         )
     )
+    routes.extend(API_ROUTES)
     middleware = [Middleware(HeaderMiddleware)]
     return Starlette(
         routes=routes, middleware=middleware, debug=debug, **starlette_settings
