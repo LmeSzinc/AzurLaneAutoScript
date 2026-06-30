@@ -1,3 +1,5 @@
+import re
+
 import cv2
 
 from module.base.timer import Timer
@@ -8,7 +10,7 @@ from module.retire.retirement import Retirement
 from module.shop.assets import *
 from module.shop.base import ShopBase
 from module.shop.shop_select_globals import *
-from module.ui.assets import BACK_ARROW
+from module.ui.assets import SHOP_BACK_ARROW
 
 
 class StockCounter(DigitCounter):
@@ -18,6 +20,22 @@ class StockCounter(DigitCounter):
         image = cv2.max(cv2.max(r, g), b)
 
         return 255 - image
+
+    def after_process(self, result):
+        result = super().after_process(result)
+
+        if re.match(r'^\d\d$', result):
+            # 55 -> 5/5
+            new = f'{result[0]}/{result[1]}'
+            logger.info(f'StockCounter result {result} is revised to {new}')
+            result = new
+        if re.match(r'^\d{4,}$', result):
+            # 1515 -> 15/15
+            new = f'{result[0:2]}/{result[2:4]}'
+            logger.info(f'StockCounter result {result} is revised to {new}')
+            result = new
+
+        return result
 
 
 SHOP_SELECT_PR = [SHOP_SELECT_PR1, SHOP_SELECT_PR2, SHOP_SELECT_PR3]
@@ -63,7 +81,9 @@ class ShopClerk(ShopBase, Retirement):
             postfix = f'_{item.tier.upper()}'
 
         ugroup = group.upper()
-        class_name = self.__class__.__name__
+        # 2025-08-14 new shop UI: when buy PlateT4, if is new ui class,
+        #  class_name will be XXXShop_250814, need get the classname before "_"
+        class_name = self.__class__.__name__.split("_")[0]
         try:
             return getattr(self.config, f'{class_name}_{ugroup}{postfix}')
         except Exception:
@@ -124,7 +144,20 @@ class ShopClerk(ShopBase, Retirement):
 
         # Get displayed stock limit; varies between shops
         # If read 0, then warn and exit as cannot safely buy
-        _, _, limit = OCR_SHOP_SELECT_STOCK.ocr(self.device.image)
+        timeout = Timer(5, count=10).start()
+        skip_first_screenshot = True
+        limit = 0
+        while 1:
+            if timeout.reached():
+                break
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+            _, _, limit = OCR_SHOP_SELECT_STOCK.ocr(self.device.image)
+            if limit:
+                break
+
         if not limit:
             logger.critical(f'{item.name}\'s stock count cannot be '
                             'extracted. Advised to re-cut the asset '
@@ -196,8 +229,16 @@ class ShopClerk(ShopBase, Retirement):
         # Needs small delay for stable image
         self.appear_then_click(AMOUNT_MAX, offset=(50, 50))
         self.device.sleep((0.3, 0.5))
-        self.device.screenshot()
-        limit = OCR_SHOP_AMOUNT.ocr(self.device.image)
+        timeout = Timer(5, count=10).start()
+        limit = 0
+        while 1:
+            if timeout.reached():
+                break
+            self.device.screenshot()
+            limit = OCR_SHOP_AMOUNT.ocr(self.device.image)
+            if limit:
+                break
+
         if not limit:
             logger.critical('OCR_SHOP_AMOUNT resulted in zero (0); '
                             'asset may be compromised')
@@ -220,7 +261,7 @@ class ShopClerk(ShopBase, Retirement):
         if need to clear particular
         asset intervals
         """
-        self.interval_clear(BACK_ARROW)
+        self.interval_clear(SHOP_BACK_ARROW)
         self.interval_clear(SHOP_BUY_CONFIRM)
 
     def shop_buy_handle(self, item):
@@ -255,29 +296,29 @@ class ShopClerk(ShopBase, Retirement):
             else:
                 self.device.screenshot()
 
-            if self.appear(BACK_ARROW, offset=(30, 30), interval=3):
+            if self.appear(SHOP_BACK_ARROW, offset=(30, 30), interval=3):
                 self.device.click(item)
                 continue
             if self.appear_then_click(SHOP_BUY_CONFIRM, offset=(20, 20), interval=3):
-                self.interval_reset(BACK_ARROW)
+                self.interval_reset(SHOP_BACK_ARROW)
                 continue
             if self.shop_buy_handle(item):
-                self.interval_reset(BACK_ARROW)
+                self.interval_reset(SHOP_BACK_ARROW)
                 continue
             if self.handle_retirement():
-                self.interval_reset(BACK_ARROW)
-                continue
-            if self.handle_info_bar():
-                self.interval_reset(BACK_ARROW)
-                success = True
+                self.interval_reset(SHOP_BACK_ARROW)
                 continue
             if self.shop_obstruct_handle():
-                self.interval_reset(BACK_ARROW)
+                self.interval_reset(SHOP_BACK_ARROW)
+                success = True
+                continue
+            if self.info_bar_count():
+                self.interval_reset(SHOP_BACK_ARROW)
                 success = True
                 continue
 
             # End
-            if success and self.appear(BACK_ARROW, offset=(30, 30)):
+            if success and self.appear(SHOP_BACK_ARROW, offset=(30, 30)):
                 break
 
     def shop_buy(self):

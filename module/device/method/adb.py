@@ -1,16 +1,18 @@
 import re
+import time
 from functools import wraps
 
 import cv2
 import numpy as np
-import time
 from adbutils.errors import AdbError
 from lxml import etree
 
 from module.base.decorator import Config
+from module.config.server import DICT_PACKAGE_TO_ACTIVITY
 from module.device.connection import Connection
-from module.device.method.utils import (RETRY_TRIES, retry_sleep, remove_prefix, handle_adb_error,
-                                        ImageTruncated, PackageNotInstalled)
+from module.device.method.remove_warning import remove_screenshot_warning
+from module.device.method.utils import (ImageTruncated, PackageNotInstalled, RETRY_TRIES, handle_adb_error,
+                                        handle_unknown_host_service, retry_sleep)
 from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 
@@ -26,7 +28,7 @@ def retry(func):
         for _ in range(RETRY_TRIES):
             try:
                 if callable(init):
-                    retry_sleep(_)
+                    time.sleep(retry_sleep(_))
                     init()
                 return func(self, *args, **kwargs)
             # Can't handle
@@ -42,6 +44,10 @@ def retry(func):
             except AdbError as e:
                 if handle_adb_error(e):
                     def init():
+                        self.adb_reconnect()
+                elif handle_unknown_host_service(e):
+                    def init():
+                        self.adb_start_server()
                         self.adb_reconnect()
                 else:
                     break
@@ -115,10 +121,7 @@ class Adb(Connection):
         else:
             raise ScriptError(f'Unknown method to load screenshots: {method}')
 
-        # fix compatibility issues for adb screencap decode problem when the data is from vmos pro
-        # When use adb screencap for a screenshot from vmos pro, there would be a header more than that from emulator
-        # which would cause image decode problem. So i check and remove the header there.
-        screenshot = remove_prefix(screenshot, b'long long=8 fun*=10\n')
+        screenshot = remove_screenshot_warning(screenshot)
 
         image = np.frombuffer(screenshot, np.uint8)
         if image is None:
@@ -128,7 +131,7 @@ class Adb(Connection):
         if image is None:
             raise ImageTruncated('Empty image after cv2.imdecode')
 
-        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        cv2.cvtColor(image, cv2.COLOR_BGR2RGB, dst=image)
         if image is None:
             raise ImageTruncated('Empty image after cv2.cvtColor')
 
@@ -161,6 +164,7 @@ class Adb(Connection):
     @Config.when(DEVICE_OVER_HTTP=True)
     def screenshot_adb(self):
         data = self.adb_shell(['screencap'], stream=True)
+        data = remove_screenshot_warning(data)
         if len(data) < 500:
             logger.warning(f'Unexpected screenshot: {data}')
 
@@ -169,6 +173,7 @@ class Adb(Connection):
     @retry
     def screenshot_adb_nc(self):
         data = self.adb_shell_nc(['screencap'])
+        data = remove_screenshot_warning(data)
         if len(data) < 500:
             logger.warning(f'Unexpected screenshot: {data}')
 
@@ -229,7 +234,7 @@ class Adb(Connection):
         raise OSError("Couldn't get focused app")
 
     @retry
-    def app_start_adb(self, package_name=None, allow_failure=False):
+    def _app_start_adb_monkey(self, package_name=None, allow_failure=False):
         """
         Args:
             package_name (str):
@@ -237,6 +242,9 @@ class Adb(Connection):
 
         Returns:
             bool: If success to start
+
+        Raises:
+            PackageNotInstalled:
         """
         if not package_name:
             package_name = self.package
@@ -253,26 +261,125 @@ class Adb(Connection):
                 raise PackageNotInstalled(package_name)
         elif 'inaccessible' in result:
             # /system/bin/sh: monkey: inaccessible or not found
-            pass
+            return False
         else:
             # Events injected: 1
             # ## Network stats: elapsed time=4ms (0ms mobile, 0ms wifi, 4ms not connected)
             return True
 
-        result = self.adb_shell(['dumpsys', 'package', package_name])
-        res = re.search(r'android.intent.action.MAIN:\s+\w+ ([\w.\/]+) filter \w+\s+'
-                        r'.*\s+Category: "android.intent.category.LAUNCHER"',
-                        result)
-        if res:
-            activity_name = res.group(1)
-        else:
+    @retry
+    def _app_start_adb_am(self, package_name=None, activity_name=None, allow_failure=False):
+        """
+        Args:
+            package_name (str):
+            activity_name (str):
+            allow_failure (bool):
+
+        Returns:
+            bool: If success to start
+
+        Raises:
+            PackageNotInstalled:
+        """
+        if not package_name:
+            package_name = self.package
+        if not activity_name:
+            result = self.adb_shell(['dumpsys', 'package', package_name])
+            res = re.search(r'android.intent.action.MAIN:\s+\w+ ([\w.\/]+) filter \w+\s+'
+                            r'.*\s+Category: "android.intent.category.LAUNCHER"',
+                            result)
+            if res:
+                # com.bilibili.azurlane/com.manjuu.azurlane.MainActivity
+                activity_name = res.group(1)
+                try:
+                    activity_name = activity_name.split('/')[-1]
+                except IndexError:
+                    logger.error(f'No activity name from {activity_name}')
+                    return False
+            else:
+                if allow_failure:
+                    return False
+                else:
+                    logger.error(result)
+                    raise PackageNotInstalled(package_name)
+
+        cmd = ['am', 'start', '-a', 'android.intent.action.MAIN', '-c',
+               'android.intent.category.LAUNCHER', '-n', f'{package_name}/{activity_name}']
+        if self.is_local_network_device and self.is_waydroid:
+            cmd += ['--windowingMode', '4']
+        ret = self.adb_shell(cmd)
+        # Invalid activity
+        # Starting: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=... }
+        # Error type 3
+        # Error: Activity class {.../...} does not exist.
+        if 'Error: Activity class' in ret:
             if allow_failure:
                 return False
             else:
-                logger.error(result)
-                raise PackageNotInstalled(package_name)
-        self.adb_shell(['am', 'start', '-a', 'android.intent.action.MAIN', '-c',
-                        'android.intent.category.LAUNCHER', '-n', activity_name])
+                logger.error(ret)
+                return False
+        # Already running
+        # Warning: Activity not started, intent has been delivered to currently running top-most instance.
+        if 'Warning: Activity not started' in ret:
+            logger.info('App activity is already started')
+            return True
+        # Starting: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.YoStarEN.AzurLane/com.manjuu.azurlane.MainActivity }
+        # java.lang.SecurityException: Permission Denial: starting Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.YoStarEN.AzurLane/com.manjuu.azurlane.MainActivity } from null (pid=5140, uid=2000) not exported from uid 10064
+        #         at android.os.Parcel.readException(Parcel.java:1692)
+        #         at android.os.Parcel.readException(Parcel.java:1645)
+        #         at android.app.ActivityManagerProxy.startActivityAsUser(ActivityManagerNative.java:3152)
+        #         at com.android.commands.am.Am.runStart(Am.java:643)
+        #         at com.android.commands.am.Am.onRun(Am.java:394)
+        #         at com.android.internal.os.BaseCommand.run(BaseCommand.java:51)
+        #         at com.android.commands.am.Am.main(Am.java:124)
+        #         at com.android.internal.os.RuntimeInit.nativeFinishInit(Native Method)
+        #         at com.android.internal.os.RuntimeInit.main(RuntimeInit.java:290)
+        if 'Permission Denial' in ret:
+            if allow_failure:
+                return False
+            else:
+                logger.error(ret)
+                logger.error('Permission Denial while starting app, probably because activity invalid')
+                return False
+        # Success
+        # Starting: Intent...
+        return True
+
+    # No @retry decorator since _app_start_adb_am and _app_start_adb_monkey have @retry already
+    # @retry
+    def app_start_adb(self, package_name=None, activity_name=None, allow_failure=False):
+        """
+        Args:
+            package_name (str):
+                If None, to get from config
+            activity_name (str):
+                If None, to get from DICT_PACKAGE_TO_ACTIVITY
+                If still None, launch from monkey
+                If monkey failed, fetch activity name and launch from am
+            allow_failure (bool):
+                True for no PackageNotInstalled raising, just return False
+
+        Returns:
+            bool: If success to start
+
+        Raises:
+            PackageNotInstalled:
+        """
+        if not package_name:
+            package_name = self.package
+        if not activity_name:
+            activity_name = DICT_PACKAGE_TO_ACTIVITY.get(package_name)
+
+        if activity_name:
+            if self._app_start_adb_am(package_name, activity_name, allow_failure):
+                return True
+        if self._app_start_adb_monkey(package_name, allow_failure):
+            return True
+        if self._app_start_adb_am(package_name, activity_name, allow_failure):
+            return True
+
+        logger.error('app_start_adb: All trials failed')
+        return False
 
     @retry
     def app_stop_adb(self, package_name=None):

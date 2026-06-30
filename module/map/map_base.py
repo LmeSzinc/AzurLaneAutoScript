@@ -10,6 +10,7 @@ from module.map_detection.grid_info import GridInfo
 class CampaignMap:
     def __init__(self, name=None):
         self.name = name
+        self.grid_class = GridInfo
         self.grids = {}
         self._shape = (0, 0)
         self._map_data = ''
@@ -68,7 +69,7 @@ class CampaignMap:
         self._shape = node2location(scale.upper())
         for y in range(self._shape[1] + 1):
             for x in range(self._shape[0] + 1):
-                grid = GridInfo()
+                grid = self.grid_class()
                 grid.location = (x, y)
                 self.grids[(x, y)] = grid
 
@@ -301,6 +302,24 @@ class CampaignMap:
 
         return True
 
+    def fixup_submarine_fleet(self):
+        # fixup submarine spawn point
+        # If a grid is_submarine, the lower grid may detected as is_fleet, because they have the same ammo icon
+        for grid in self.select(is_fleet=True):
+            if grid.is_spawn_point:
+                continue
+            for upper in self.grid_covered(grid, location=[(0, -1)]):
+                if upper.is_submarine_spawn_point:
+                    logger.info(f'Fixup submarine spawn point, fleet={grid} -> submarine={upper}')
+                    grid.is_fleet = False
+                    grid.is_current_fleet = False
+                    upper.is_submarine = True
+        # and we don't allow a grid to be both is_enemy and is_fleet at init
+        # which might be an submarine above
+        for grid in self.select(is_enemy=True, is_fleet=True):
+            grid.is_fleet = False
+            grid.is_current_fleet = False
+
     def show(self):
         # logger.info('Showing grids:')
         logger.info('   ' + ' '.join([' ' + chr(x + 64 + 1) for x in range(self.shape[0] + 1)]))
@@ -314,7 +333,7 @@ class CampaignMap:
         Args:
             grids:
             camera (tuple):
-            mode (str): Scan mode, such as 'normal', 'carrier', 'movable'
+            mode (str): Scan mode, such as 'init', 'normal', 'carrier', 'movable'
         """
         offset = np.array(camera) - np.array(grids.center_loca)
         # grids.show()
@@ -336,6 +355,8 @@ class CampaignMap:
                     if self.ignore_prediction_match(globe=loca, local=grid):
                         continue
                     self.grids[loca].merge(grid, mode=mode)
+            if mode == 'init':
+                self.fixup_submarine_fleet()
             return True
         else:
             logger.warning('Too many wrong prediction')
@@ -603,11 +624,12 @@ class CampaignMap:
 
         return res
 
-    def _find_route_node(self, route, step=0):
+    def _find_route_node(self, route, step=0, turning_optimize=False):
         """
         Args:
             route (list[tuple]): list of grids.
             step (int): Fleet step in event map. Default to 0.
+            turning_optimize: (bool): True to optimize route to reduce ambushes
 
         Returns:
             list[tuple]: list of walking node.
@@ -616,23 +638,30 @@ class CampaignMap:
             MAP_7_2._find_route_node([(2, 2), (3, 2), (4, 2), (5, 2), (6, 2), (6, 1), (7, 1)])
             [(6, 2), (7, 1)]
         """
-        res = []
-        diff = np.abs(np.diff(route, axis=0))
-        turning = np.diff(diff, axis=0)[:, 0]
-        indexes = np.where(turning == -1)[0] + 1
-        for index in indexes:
-            if not self[route[index]].is_fleet:
-                res.append(index)
-            else:
-                logger.info(f'Path_node_avoid: {self[route[index]]}')
-                if (index > 1) and (index - 1 not in indexes):
-                    res.append(index - 1)
-                if (index < len(route) - 2) and (index + 1 not in indexes):
-                    res.append(index + 1)
-        res.append(len(route) - 1)
-        # res = [6, 8]
-        if step == 0:
-            return [route[index] for index in res]
+        if turning_optimize:
+            res = []
+            diff = np.abs(np.diff(route, axis=0))
+            turning = np.diff(diff, axis=0)[:, 0]
+            indexes = np.where(turning == -1)[0] + 1
+            for index in indexes:
+                if not self[route[index]].is_fleet:
+                    res.append(index)
+                else:
+                    logger.info(f'Path_node_avoid: {self[route[index]]}')
+                    if (index > 1) and (index - 1 not in indexes):
+                        res.append(index - 1)
+                    if (index < len(route) - 2) and (index + 1 not in indexes):
+                        res.append(index + 1)
+            res.append(len(route) - 1)
+            # res = [4, 6]
+            if step == 0:
+                return [route[index] for index in res]
+        else:
+            if step == 0:
+                return [route[-1]]
+            # Index of the last node
+            # res = [6]
+            res = [max(len(route) - 1, 0)]
 
         res.insert(0, 0)
         inserted = []
@@ -652,7 +681,7 @@ class CampaignMap:
         # res = [3, 6, 8]
         return [route[index] for index in res]
 
-    def find_path(self, location, step=0):
+    def find_path(self, location, step=0, turning_optimize=False):
         location = location_ensure(location)
 
         path = self._find_path(location)
@@ -675,7 +704,7 @@ class CampaignMap:
             if end - start == 1 and self[path[start]].is_portal and self[path[start]].portal_link == path[end]:
                 continue
             local_path = path[start:end + 1]
-            local_path = self._find_route_node(local_path, step=step)
+            local_path = self._find_route_node(local_path, step=step, turning_optimize=turning_optimize)
             portal_path += local_path
             logger.info('Path: %s' % '[' + ', ' .join([location2node(grid) for grid in local_path]) + ']')
         path = portal_path

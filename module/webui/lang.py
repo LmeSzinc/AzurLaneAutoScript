@@ -1,8 +1,9 @@
 from typing import Dict
 
-from module.config.utils import *
-from module.webui.setting import State
+from module.config.deep import deep_iter
+from module.config.utils import LANGUAGES, filepath_i18n, read_file
 from module.submodule.utils import list_mod_dir
+from module.webui.setting import State
 
 LANG = "zh-CN"
 TRANSLATE_MODE = False

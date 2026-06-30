@@ -19,6 +19,7 @@ class Template(Resource):
         self.raw_file = file
         self._image = None
         self._image_binary = None
+        self._image_luma = None
 
         self.resource_add(self.file)
 
@@ -73,6 +74,19 @@ class Template(Resource):
 
         return self._image_binary
 
+    @property
+    def image_luma(self):
+        if self._image_luma is None:
+            if self.is_gif:
+                self._image_luma = []
+                for image in self.image:
+                    luma = rgb2luma(image)
+                    self.image_luma.append(luma)
+            else:
+                self._image_luma = rgb2luma(self.image)
+
+        return self._image_luma
+
     @image.setter
     def image(self, value):
         self._image = value
@@ -80,6 +94,8 @@ class Template(Resource):
     def resource_release(self):
         super().resource_release()
         self._image = None
+        self._image_binary = None
+        self._image_luma = None
 
     def pre_process(self, image):
         """
@@ -140,13 +156,13 @@ class Template(Resource):
             bool: If matches.
         """
         if self.is_gif:
+            # graying
+            image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+            # binarization
+            _, image_binary = cv2.threshold(image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
             for template in self.image_binary:
-                # graying
-                image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-                # binarization
-                _, image_binary = cv2.threshold(image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
                 # template matching
-                res = cv2.matchTemplate(image_binary, template, cv2.TM_CCOEFF_NORMED)
+                res = cv2.matchTemplate(template, image_binary, cv2.TM_CCOEFF_NORMED)
                 _, sim, _, _ = cv2.minMaxLoc(res)
                 # print(self.file, sim)
                 if sim > similarity:
@@ -160,7 +176,25 @@ class Template(Resource):
             # binarization
             _, image_binary = cv2.threshold(image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
             # template matching
-            res = cv2.matchTemplate(image_binary, self.image_binary, cv2.TM_CCOEFF_NORMED)
+            res = cv2.matchTemplate(self.image_binary, image_binary, cv2.TM_CCOEFF_NORMED)
+            _, sim, _, _ = cv2.minMaxLoc(res)
+            # print(self.file, sim)
+            return sim > similarity
+
+    def match_luma(self, image, similarity=0.85):
+        if self.is_gif:
+            image = rgb2luma(image)
+            for template in self.image_luma:
+                res = cv2.matchTemplate(image, template, cv2.TM_CCOEFF_NORMED)
+                _, sim, _, _ = cv2.minMaxLoc(res)
+                # print(self.file, sim)
+                if sim > similarity:
+                    return True
+
+            return False
+
+        else:
+            res = cv2.matchTemplate(image, self.image, cv2.TM_CCOEFF_NORMED)
             _, sim, _, _ = cv2.minMaxLoc(res)
             # print(self.file, sim)
             return sim > similarity
@@ -194,6 +228,15 @@ class Template(Resource):
             Button:
         """
         res = cv2.matchTemplate(image, self.image, cv2.TM_CCOEFF_NORMED)
+        _, sim, _, point = cv2.minMaxLoc(res)
+        # print(self.file, sim)
+
+        button = self._point_to_button(point, image=image, name=name)
+        return sim, button
+
+    def match_luma_result(self, image, name=None):
+        image = rgb2luma(image)
+        res = cv2.matchTemplate(image, self.image_luma, cv2.TM_CCOEFF_NORMED)
         _, sim, _, point = cv2.minMaxLoc(res)
         # print(self.file, sim)
 

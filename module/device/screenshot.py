@@ -13,13 +13,15 @@ from module.base.utils import get_color, image_size, limit_in, save_image
 from module.device.method.adb import Adb
 from module.device.method.ascreencap import AScreenCap
 from module.device.method.droidcast import DroidCast
+from module.device.method.ldopengl import LDOpenGL
+from module.device.method.nemu_ipc import NemuIpc
 from module.device.method.scrcpy import Scrcpy
 from module.device.method.wsa import WSA
 from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 
 
-class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy):
+class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy, NemuIpc, LDOpenGL):
     _screen_size_checked = False
     _screen_black_checked = False
     _minicap_uninstalled = False
@@ -38,7 +40,13 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy):
             'DroidCast': self.screenshot_droidcast,
             'DroidCast_raw': self.screenshot_droidcast_raw,
             'scrcpy': self.screenshot_scrcpy,
+            'nemu_ipc': self.screenshot_nemu_ipc,
+            'ldopengl': self.screenshot_ldopengl,
         }
+
+    @cached_property
+    def screenshot_method_override(self) -> str:
+        return ''
 
     def screenshot(self):
         """
@@ -49,10 +57,11 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy):
         self._screenshot_interval.reset()
 
         for _ in range(2):
-            method = self.screenshot_methods.get(
-                self.config.Emulator_ScreenshotMethod,
-                self.screenshot_adb
-            )
+            if self.screenshot_method_override:
+                method = self.screenshot_method_override
+            else:
+                method = self.config.Emulator_ScreenshotMethod
+            method = self.screenshot_methods.get(method, self.screenshot_adb)
             self.image = method()
 
             if self.config.Emulator_ScreenshotDedithering:
@@ -69,6 +78,10 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy):
                 continue
 
         return self.image
+
+    @property
+    def has_cached_image(self):
+        return hasattr(self, 'image') and self.image is not None
 
     def _handle_orientated_image(self, image):
         """
@@ -98,7 +111,14 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy):
 
     @cached_property
     def screenshot_deque(self):
-        return deque(maxlen=int(self.config.Error_ScreenshotLength))
+        try:
+            length = int(self.config.Error_ScreenshotLength)
+        except ValueError:
+            logger.error(f'Error_ScreenshotLength={self.config.Error_ScreenshotLength} is not an integer')
+            raise RequestHumanTakeover
+        # Limit in 1~300
+        length = max(1, min(length, 300))
+        return deque(maxlen=length)
 
     def save_screenshot(self, genre='items', interval=None, to_base_folder=False):
         """Save a screenshot. Use millisecond timestamp as file name.
@@ -148,6 +168,9 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy):
             if interval != origin:
                 logger.warning(f'Optimization.ScreenshotInterval {origin} is revised to {interval}')
                 self.config.Optimization_ScreenshotInterval = interval
+            # Allow nemu_ipc to have a lower default
+            if self.config.Emulator_ScreenshotMethod in ['nemu_ipc', 'ldopengl']:
+                interval = limit_in(origin, 0.1, 0.2)
         elif interval == 'combat':
             origin = self.config.Optimization_CombatScreenshotInterval
             interval = limit_in(origin, 0.3, 1.0)
@@ -174,7 +197,9 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy):
             image = self.image
         Image.fromarray(image).show()
 
-    def image_save(self, file):
+    def image_save(self, file=None):
+        if file is None:
+            file = f'{int(time.time() * 1000)}.png'
         save_image(self.image, file)
 
     def check_screen_size(self):

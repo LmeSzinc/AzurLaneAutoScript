@@ -10,7 +10,14 @@ class InstanceOptionType(IntEnum):
     # 自动战斗、肉鸽、保全 是否使用 暂停下干员， "0" | "1"
     deployment_with_pause = 3
     # 是否使用 AdbLite， "0" | "1"
-    adb_lite_enabled = 4
+    adblite_enabled = 4
+    kill_on_adb_exit = 5
+
+
+class StaticOptionType(IntEnum):
+    invalid = 0
+    cpu_ocr = 1
+    gpu_ocr = 2
 
 
 @unique
@@ -27,6 +34,10 @@ class Message(Enum):
     ConnectionInfo = auto()
 
     AllTasksCompleted = auto()
+
+    AsyncCallInfo = auto()
+
+    Destroyed = auto()
 
     TaskChainError = 10000
 

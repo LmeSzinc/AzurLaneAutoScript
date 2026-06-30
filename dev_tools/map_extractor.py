@@ -237,7 +237,101 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     # Effulgence Before Eclipse
     'chuyue': 'Hatsuzuki',
     'zhaozhi': 'Asanagi',
-    'ruifeng': 'Zuiho'
+    'ruifeng': 'Zuiho',
+
+    'shanluan_sairenquzhu': 'SK_DD',
+    'shanluan_sairenqingxun': 'SK_CL',
+    'shanluan_sairenzhongxun': 'SK_CA',
+    'shanluan_sairenzhanlie': 'SK_BB',
+    'shanluan_sairenhangmu': 'SK_CV',
+
+    # Light-Chasing Sea of Stars
+    'sairenboss10': 'Sirenboss10',
+    'UDFsairen_baolei_2': 'UDFFortress2',
+
+    # Heart-Linking Harmony
+    'lafei_6': 'Laffey6',
+    'tashigan_idol': 'TashkentIdol',
+    'xiefeierde_idol': 'SheffieldIdol',
+    'yilishabai_3': 'Elizabeth3',
+    'jiasikenie_idol': 'GascogneIdol',
+    'dafeng_idol': 'TaihouIdol',
+
+    # Interlude of Illusions
+    'tianlangxing': 'Sirius',
+    'daiduo': 'Dido',
+    'z23_g': 'Z23_g',
+    'laibixi_g': 'Leipzig_g',
+    'pangpeimagenuo': 'PompeoMagno',
+    'aerfuleiduo': 'AlfredoOriani',
+    'guogan': 'LAudacieux',
+    'dipulaikesi': 'Dupleix',
+
+    # Windborne Steel Wings
+    'qinraozhe_IV': 'Intruder',
+    'tiancheng_m_quzhu': 'AmagiMasked',
+    'tiancheng_m_qingxun': 'AmagiMasked',
+    'tiancheng_m_zhongxun': 'AmagiMasked',
+    'tiancheng_m_zhanlie': 'AmagiMasked',
+    'tiancheng_m_hangmu': 'AmagiMasked',
+
+    # Tempesta and the Sleeping Sea
+    'hemuhao': 'Amity',
+    'pucimaosi': 'Portsmouth',
+    'mali': 'MaryCeleste',
+    'fengfan_haigu03': 'fengfanhaigu03',
+
+    # Dangerous Inventions Incoming
+    'tolove_renxing01': 'ToLoveNana01',
+    'tolove_renxing02': 'ToLoveYui02',
+    'tolove_renxing03': 'ToLoveNana03',
+    'tolove_renxing04': 'ToLoveHaruna04',
+    'tolove_renxing05': 'ToLoveGoldenDarkness05',
+
+    # Paradiso of Shackled Light
+    'boerzhanuo_alter': 'BolzanoAlter',
+    'kaisa_alter': 'CesareAlter',
+    'teluntuo_alter': 'TrentoAlter',
+    'sairenboss26': 'SirenBoss26',
+    'sairenboss25': 'SirenBoss25',
+
+    # A Rose on the High Tower
+    'shengli': 'Victorious',
+    'huangjiaxiangshu': 'RoyalOak',
+
+    # The Alchemist and the Tower of Horizons
+    'lianjin_II_sairenquzhu': 'DDalchemist2',
+    'lianjin_II_sairenqingxun': 'CLalchemist2',
+    'lianjin_II_sairenzhongxun': 'CAalchemist2',
+    'lianjin_II_sairenzhanlie': 'BBalchemist2',
+    'lianjin_II_sairenhangmu': 'CValchemist2',
+
+    # Secrets of the Abyss
+    'jiulaimu_ruanniguai': 'Jiulaimu_Mud',
+    'jiulaimu_shixianggui': 'Jiulaimu_Statue',
+    'jiulaimu_emo': 'Jiulaimu_Demon',
+    'youlin_ylsb': 'Jiulaimu_Ghost',
+
+    # A Note Through the Firmament
+    'unknownV_boss_star': 'Vboss_Star',
+    'unknownV_boss_hermit': 'Vboss_Hermit',
+    'unknownV_boss_lovers': 'Vboss_Lovers',
+    'unknownV_boss_chariot': 'Vboss_Chariot',
+
+    # Vacation Lane – Beachside Brilliance (event_20260417_cn)
+    'bulaimodun': 'Bremerton',
+    'fushun_g': 'FuShunG',
+    'lafeier': 'Raffaello',
+    'huangjiafangzhou_g': 'ArkRoyalG',
+    'chaijun': 'Cheshire',
+    'naximofu': 'Nakhimov',
+    'liekexingdunII': 'Lexington2',
+    'yuekechengII': 'Yorktown2',
+
+    # Miracle by Midnight
+    'youeryuan_boss03': 'MeowfficerBust_Playtime',
+    'youeryuan_boss04': 'MeowfficerBust_Hobbies',
+    'youeryuan_boss05': 'MeowfficerBust_Studying',
 }
 
 
@@ -264,9 +358,18 @@ class MapData:
         self.map_id = data['id']
 
         try:
-            self.spawn_data = self.parse_spawn_data(data)
+            self.event_enemy_data = None
+            self.event_enemy_data_loop = None
+            if self.map_id in MAP_EVENT_LIST:
+                self.event_enemy_data = self.extract_event_enemy_data(MAP_EVENT_LIST[self.map_id]['event_list'])
+                if data_loop is not None:
+                    self.event_enemy_data_loop = self.extract_event_enemy_data(MAP_EVENT_LIST[self.map_id]['event_list_loop'])
+                else:
+                    self.event_enemy_data_loop = None
+
+            self.spawn_data = self.parse_spawn_data(data, self.event_enemy_data)
             if data_loop is not None:
-                self.spawn_data_loop = self.parse_spawn_data(data_loop)
+                self.spawn_data_loop = self.parse_spawn_data(data_loop, self.event_enemy_data_loop)
                 if len(self.spawn_data) == len(self.spawn_data_loop) \
                         and all([s1 == s2 for s1, s2 in zip(self.spawn_data, self.spawn_data_loop)]):
                     self.spawn_data_loop = None
@@ -275,10 +378,10 @@ class MapData:
 
             # map_data
             # {0: {0: 6, 1: 8, 2: False, 3: 0}, ...}
-            self.map_data = self.parse_map_data(data['grids'])
+            self.map_data = self.parse_map_data(data['grids'], self.event_enemy_data)
             self.shape = tuple(np.max(list(self.map_data.keys()), axis=0))
             if self.data_loop is not None:
-                self.map_data_loop = self.parse_map_data(data_loop['grids'])
+                self.map_data_loop = self.parse_map_data(data_loop['grids'], self.event_enemy_data_loop)
                 if all([d1 == d2 for d1, d2 in zip(self.map_data.values(), self.map_data_loop.values())]):
                     self.map_data_loop = None
             else:
@@ -286,15 +389,15 @@ class MapData:
 
             # portal
             self.portal = []
-            if self.map_id in MAP_EVENT_LIST:
-                for event_id in MAP_EVENT_LIST[self.map_id]['event_list'].values():
-                    event = MAP_EVENT_TEMPLATE[event_id]
-                    for effect in event['effect'].values():
-                        if effect[0] == 'jump':
-                            address = event['address']
-                            address = location2node((address[1], address[0]))
-                            target = location2node((effect[2], effect[1]))
-                            self.portal.append((address, target))
+            # if self.map_id in MAP_EVENT_LIST:
+            #     for event_id in MAP_EVENT_LIST[self.map_id]['event_list'].values():
+            #         event = MAP_EVENT_TEMPLATE[event_id]
+            #         for effect in event['effect'].values():
+            #             if effect[0] == 'jump':
+            #                 address = event['address']
+            #                 address = location2node((address[1], address[0]))
+            #                 target = location2node((effect[2], effect[1]))
+            #                 self.portal.append((address, target))
 
             # land_based
             # land_based = {{6, 7, 1}, ...}
@@ -343,7 +446,7 @@ class MapData:
 
     __repr__ = __str__
 
-    def parse_map_data(self, grids):
+    def parse_map_data(self, grids, event_enemy_data=None):
         map_data = {}
         offset_y = min([grid[0] for grid in grids.values()])
         offset_x = min([grid[1] for grid in grids.values()])
@@ -356,11 +459,16 @@ class MapData:
             if info == '??':
                 print(f'Unknown grid info. grid={location2node(loca)}, info={grid[3]}')
             map_data[loca] = info
+        if isinstance(event_enemy_data, list):
+            for wave in event_enemy_data:
+                for enemy in wave.values():
+                    loca = (enemy[1][1] - offset_x, enemy[1][0] - offset_y)
+                    map_data[loca] = 'ME'
 
         return map_data
 
     @staticmethod
-    def parse_spawn_data(data):
+    def parse_spawn_data(data, event_enemy_data=None):
         try:
             battle_count = max(data['boss_refresh'], max(data['enemy_refresh'].keys()))
         except ValueError:
@@ -371,6 +479,11 @@ class MapData:
             if count:
                 spawn = spawn_data[index]
                 spawn['enemy'] = spawn.get('enemy', 0) + count
+        if isinstance(event_enemy_data, list):
+            for index, wave in enumerate(event_enemy_data):
+                if len(wave):
+                    spawn = spawn_data[index]
+                    spawn['enemy'] = spawn.get('enemy', 0) + len(wave)
         if ''.join([str(item) for item in data['elite_refresh'].values()]) != '100':  # Some data is incorrect
             for index, count in data['elite_refresh'].items():
                 if count:
@@ -390,6 +503,15 @@ class MapData:
             pass
 
         return spawn_data
+
+    def extract_event_enemy_data(self, data):
+        extracted_data = []
+        for event_id in data.values():
+            event = MAP_EVENT_TEMPLATE[event_id]
+            for effect in event['effect'].values():
+                if effect[0] == 'enemy':
+                    extracted_data.append(effect[1])
+        return extracted_data
 
     def map_file_name(self):
         name = self.chapter_name.replace('-', '_').lower()
@@ -441,7 +563,7 @@ class MapData:
             lines.append(f'MAP.portal_data = {self.portal}')
         lines.append('MAP.map_data = \"\"\"')
         for y in range(self.shape[1] + 1):
-            lines.append('    ' + ' '.join([self.map_data[(x, y)] for x in range(self.shape[0] + 1)]))
+            lines.append('    ' + ' '.join([self.map_data.get((x, y), '??') for x in range(self.shape[0] + 1)]))
         lines.append('\"\"\"')
         if self.map_data_loop is not None:
             lines.append('MAP.map_data_loop = \"\"\"')
@@ -578,6 +700,10 @@ class ChapterTemplate:
         Returns:
             list(MapData):
         """
+        def is_extra(name):
+            name = name.lower().replace('.', '')
+            return name in ['extra', 'ex']
+
         print('<<< SEARCH MAP >>>')
         name = name.strip()
         name = int(name) if name.isdigit() else name
@@ -585,7 +711,7 @@ class ChapterTemplate:
         if isinstance(name, str):
             maps = []
             for map_id, data in DATA.items():
-                if not isinstance(map_id, int) or data['chapter_name'] == 'EXTRA':
+                if not isinstance(map_id, int) or is_extra(data['chapter_name']):
                     continue
                 if not re.search(name, data['name']):
                     continue
@@ -611,7 +737,7 @@ class ChapterTemplate:
             event_id = get_event_id(maps[0].map_id)
             new = []
             for map_id, data in DATA.items():
-                if not isinstance(map_id, int) or data['chapter_name'] == 'EXTRA':
+                if not isinstance(map_id, int) or is_extra(data['chapter_name']):
                     continue
                 if get_event_id(data['id']) == event_id:
                     data = MapData(data, DATA_LOOP.get(map_id, None))
@@ -657,10 +783,10 @@ Arguments:
     IS_WAR_ARCHIVES: True if retrieved map is to be
                      adapted for war_archives usage
 """
-FILE = ''
-FOLDER = './campaign/test'
-KEYWORD = ''
-SELECT = False
+FILE = '../AzurLaneLuaScripts'
+FOLDER = './campaign/event_20260417_cn'
+KEYWORD = '2020001'
+SELECT = True
 OVERWRITE = True
 IS_WAR_ARCHIVES = False
 ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'

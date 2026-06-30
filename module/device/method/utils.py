@@ -1,3 +1,4 @@
+import os
 import random
 import re
 import socket
@@ -5,8 +6,11 @@ import time
 import typing as t
 
 import uiautomator2 as u2
+import uiautomator2cache
 from adbutils import AdbTimeout
 from lxml import etree
+
+from module.device.method.remove_warning import remove_shell_warning
 
 try:
     # adbutils 0.x
@@ -18,8 +22,10 @@ except ImportError:
     # We expect `screencap | nc 192.168.0.1 20298` instead of `screencap '|' nc 192.168.80.1 20298`
     import adbutils
     import subprocess
+
     adbutils._utils.list2cmdline = subprocess.list2cmdline
     adbutils._device.list2cmdline = subprocess.list2cmdline
+
 
     # BaseDevice.shell() is missing a check_okay() call before reading output,
     # resulting in an `OKAY` prefix in output.
@@ -40,6 +46,7 @@ except ImportError:
         output = c.read_until_close()
         return output.rstrip() if rstrip else output
 
+
     adbutils._device.BaseDevice.shell = shell
 
 from module.base.decorator import cached_property
@@ -47,6 +54,57 @@ from module.logger import logger
 
 RETRY_TRIES = 5
 RETRY_DELAY = 3
+
+# Patch uiautomator2 appdir
+u2.init.appdir = os.path.dirname(uiautomator2cache.__file__)
+
+# Patch uiautomator2 logger
+u2_logger = u2.logger
+u2_logger.debug = logger.info
+u2_logger.info = logger.info
+u2_logger.warning = logger.warning
+u2_logger.error = logger.error
+u2_logger.critical = logger.critical
+
+
+def setup_logger(*args, **kwargs):
+    return u2_logger
+
+
+u2.setup_logger = setup_logger
+u2.init.setup_logger = setup_logger
+
+
+# Patch Initer
+class PatchedIniter(u2.init.Initer):
+    @property
+    def atx_agent_url(self):
+        files = {
+            'armeabi-v7a': 'atx-agent_{v}_linux_armv7.tar.gz',
+            # 'arm64-v8a': 'atx-agent_{v}_linux_armv7.tar.gz',
+            'arm64-v8a': 'atx-agent_{v}_linux_arm64.tar.gz',
+            'armeabi': 'atx-agent_{v}_linux_armv6.tar.gz',
+            'x86': 'atx-agent_{v}_linux_386.tar.gz',
+            'x86_64': 'atx-agent_{v}_linux_386.tar.gz',
+        }
+        name = None
+        for abi in self.abis:
+            name = files.get(abi)
+            if name:
+                break
+        if not name:
+            raise Exception(
+                "arch(%s) need to be supported yet, please report an issue in github"
+                % self.abis)
+        return u2.init.GITHUB_BASEURL + '/atx-agent/releases/download/%s/%s' % (
+            u2.version.__atx_agent_version__, name.format(v=u2.version.__atx_agent_version__))
+
+    @property
+    def minicap_urls(self):
+        return []
+
+
+u2.init.Initer = PatchedIniter
 
 
 def is_port_using(port_num):
@@ -130,16 +188,16 @@ class ImageTruncated(Exception):
 def retry_sleep(trial):
     # First trial
     if trial == 0:
-        pass
+        return 0
     # Failed once, fast retry
     elif trial == 1:
-        pass
+        return 0
     # Failed twice
     elif trial == 2:
-        time.sleep(1)
+        return 1
     # Failed more
     else:
-        time.sleep(RETRY_DELAY)
+        return RETRY_DELAY
 
 
 def handle_adb_error(e):
@@ -182,10 +240,9 @@ def handle_adb_error(e):
         # Raised by uiautomator2 when current adb service is killed by another version of adb service.
         logger.error(e)
         return True
-    elif 'unknown host service' in text:
-        # AdbError(unknown host service)
-        # Another version of ADB service started, current ADB service has been killed.
-        # Usually because user opened a Chinese emulator, which uses ADB from the Stone Age.
+    elif text == 'rest':
+        # AdbError(rest)
+        # Response telling adbd service has reset, client should reconnect
         logger.error(e)
         return True
     else:
@@ -199,25 +256,44 @@ def handle_adb_error(e):
         return False
 
 
+def handle_unknown_host_service(e):
+    """
+    Args:
+        e (Exception):
+
+    Returns:
+        bool: If should retry
+    """
+    text = str(e)
+    if 'unknown host service' in text:
+        # AdbError(unknown host service)
+        # Another version of ADB service started, current ADB service has been killed.
+        # Usually because user opened a Chinese emulator, which uses ADB from the Stone Age.
+        logger.error(e)
+        return True
+    else:
+        return False
+
+
 def get_serial_pair(serial):
     """
     Args:
         serial (str):
 
     Returns:
-        str, str: `127.0.0.1:5555+{X}` and `emulator-5554+{X}`, 0 <= X <= 32
+        tuple[Optional[str], Optional[str]]: `127.0.0.1:5555+{X}` and `emulator-5554+{X}`, 0 <= X <= 32
     """
     if serial.startswith('127.0.0.1:'):
         try:
             port = int(serial[10:])
-            if 5555 <= port <= 5555 + 32:
+            if 5555 <= port <= 5555 + 64:
                 return f'127.0.0.1:{port}', f'emulator-{port - 1}'
         except (ValueError, IndexError):
             pass
     if serial.startswith('emulator-'):
         try:
             port = int(serial[9:])
-            if 5554 <= port <= 5554 + 32:
+            if 5554 <= port <= 5554 + 64:
                 return f'127.0.0.1:{port + 1}', f'emulator-{port}'
         except (ValueError, IndexError):
             pass
@@ -225,45 +301,52 @@ def get_serial_pair(serial):
     return None, None
 
 
-def remove_prefix(s, prefix):
+@t.overload
+def removeprefix(s: str, prefix: str) -> str: ...
+
+
+@t.overload
+def removeprefix(s: bytes, prefix: bytes) -> bytes: ...
+
+
+@t.overload
+def removesuffix(s: str, suffix: str) -> str: ...
+
+
+@t.overload
+def removesuffix(s: bytes, suffix: bytes) -> bytes: ...
+
+
+def removeprefix(s, prefix):
     """
-    Remove prefix of a string or bytes like `string.removeprefix(prefix)`, which is on Python3.9+
+    Backport `string.removeprefix(prefix)`, which is on Python>=3.9
 
     Args:
-        s (str, bytes):
-        prefix (str, bytes):
+        s (str | bytes):
+        prefix (str | bytes):
 
     Returns:
-        str, bytes:
+        str | bytes:
     """
-    return s[len(prefix):] if s.startswith(prefix) else s
+    if s.startswith(prefix):
+        return s[len(prefix):]
+    return s
 
 
-def remove_shell_warning(s):
+def removesuffix(s, suffix):
     """
-    Remove warnings from shell
+    Backport `string.removesuffix(suffix)`, which is on Python>=3.9
 
     Args:
-        s (str, bytes):
+        s (str | bytes):
+        suffix (str | bytes):
 
     Returns:
-        str, bytes:
+        str | bytes:
     """
-    # WARNING: linker: [vdso]: unused DT entry: type 0x70000001 arg 0x0\n\x89PNG\r\n\x1a\n\x00\x00\x00\rIH
-    if isinstance(s, bytes):
-        if s.startswith(b'WARNING'):
-            try:
-                s = s.split(b'\n', maxsplit=1)[1]
-            except IndexError:
-                pass
-        return s
-        # return re.sub(b'^WARNING.+\n', b'', s)
-    elif isinstance(s, str):
-        if s.startswith('WARNING'):
-            try:
-                s = s.split('\n', maxsplit=1)[1]
-            except IndexError:
-                pass
+    # s[:-0] is empty string, so we need to check if suffix is empty
+    if suffix and s.endswith(suffix):
+        return s[:-len(suffix)]
     return s
 
 
@@ -309,7 +392,7 @@ class HierarchyButton:
         if res:
             return res[0]
         else:
-            return 'HierarchyButton'
+            return self.xpath
 
     @cached_property
     def count(self):
@@ -320,11 +403,26 @@ class HierarchyButton:
         return self.count == 1
 
     @cached_property
+    def attrib(self):
+        if self.exist:
+            return self.nodes[0].attrib
+        else:
+            return {}
+
+    @cached_property
     def area(self):
         if self.exist:
-            bounds = self.nodes[0].attrib.get("bounds")
+            bounds = self.attrib.get("bounds")
             lx, ly, rx, ry = map(int, re.findall(r"\d+", bounds))
             return lx, ly, rx, ry
+        else:
+            return None
+
+    @cached_property
+    def size(self):
+        if self.area is not None:
+            lx, ly, rx, ry = self.area
+            return rx - lx, ry - ly
         else:
             return None
 
@@ -338,9 +436,68 @@ class HierarchyButton:
     def __str__(self):
         return self.name
 
+    """
+    Element props
+    """
+
+    def _get_bool_prop(self, prop: str) -> bool:
+        return self.attrib.get(prop, "").lower() == 'true'
+
     @cached_property
-    def focused(self):
-        if self.exist:
-            return self.nodes[0].attrib.get("focused").lower() == 'true'
-        else:
-            return False
+    def index(self) -> int:
+        try:
+            return int(self.attrib.get("index", 0))
+        except IndexError:
+            return 0
+
+    @cached_property
+    def text(self) -> str:
+        return self.attrib.get("text", "").strip()
+
+    @cached_property
+    def resourceId(self) -> str:
+        return self.attrib.get("resourceId", "").strip()
+
+    @cached_property
+    def package(self) -> str:
+        return self.attrib.get("resourceId", "").strip()
+
+    @cached_property
+    def description(self) -> str:
+        return self.attrib.get("resourceId", "").strip()
+
+    @cached_property
+    def checkable(self) -> bool:
+        return self._get_bool_prop('checkable')
+
+    @cached_property
+    def clickable(self) -> bool:
+        return self._get_bool_prop('clickable')
+
+    @cached_property
+    def enabled(self) -> bool:
+        return self._get_bool_prop('enabled')
+
+    @cached_property
+    def fucusable(self) -> bool:
+        return self._get_bool_prop('fucusable')
+
+    @cached_property
+    def focused(self) -> bool:
+        return self._get_bool_prop('focused')
+
+    @cached_property
+    def scrollable(self) -> bool:
+        return self._get_bool_prop('scrollable')
+
+    @cached_property
+    def longClickable(self) -> bool:
+        return self._get_bool_prop('longClickable')
+
+    @cached_property
+    def password(self) -> bool:
+        return self._get_bool_prop('password')
+
+    @cached_property
+    def selected(self) -> bool:
+        return self._get_bool_prop('selected')

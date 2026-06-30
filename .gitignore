@@ -71,6 +71,9 @@ cmake-build-*/
 # IntelliJ
 out/
 
+# Visual Studio
+.vs
+
 # mpeltonen/sbt-idea plugin
 .idea_modules/
 
@@ -249,3 +252,6 @@ adb_port.ini
 *.zip
 console.bat
 .vscode/*
+
+# Pylance configuration file
+pyrightconfig.json

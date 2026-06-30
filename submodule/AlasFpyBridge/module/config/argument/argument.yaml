@@ -44,7 +44,7 @@ FpyEmulator:
 FpyInterval:
   Interval:
     value: 07:00
-    validate: "\\d+:\\d"
+    validate: "\\d+:\\d+"
 
 FpyTeam:
   Index:

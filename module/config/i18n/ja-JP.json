@@ -78,9 +78,13 @@
       "name": "Raid",
       "help": ""
     },
+    "Hospital": {
+      "name": "病院探訪",
+      "help": ""
+    },
     "Coalition": {
-      "name": "Task.Coalition.name",
-      "help": "Task.Coalition.help"
+      "name": "特集写真-撮影進行中",
+      "help": ""
     },
     "MaritimeEscort": {
       "name": "Maritime Escort",
@@ -115,8 +119,8 @@
       "help": ""
     },
     "CoalitionSp": {
-      "name": "Task.CoalitionSp.name",
-      "help": "Task.CoalitionSp.help"
+      "name": "特集写真-撮影進行中SP",
+      "help": ""
     },
     "Commission": {
       "name": "委託",
@@ -144,6 +148,10 @@
     },
     "Reward": {
       "name": "収穫",
+      "help": ""
+    },
+    "Awaken": {
+      "name": "Task.Awaken.name",
       "help": ""
     },
     "Daily": {
@@ -180,18 +188,22 @@
     },
     "Minigame": {
       "name": "Task.Minigame.name",
-      "help": "Task.Minigame.help"
+      "help": ""
+    },
+    "PrivateQuarters": {
+      "name": "Task.PrivateQuarters.name",
+      "help": "Task.PrivateQuarters.help"
     },
     "OpsiGeneral": {
       "name": "一般設定",
       "help": ""
     },
     "OpsiAshBeacon": {
-      "name": "Ash Beacon",
+      "name": "META Battles",
       "help": ""
     },
     "OpsiAshAssist": {
-      "name": "OpSi Ash Assist",
+      "name": "META Assists",
       "help": ""
     },
     "OpsiExplore": {
@@ -248,6 +260,10 @@
     },
     "OpsiDaemon": {
       "name": "セイレーン作戦半自動",
+      "help": ""
+    },
+    "EventStory": {
+      "name": "Event Story",
       "help": ""
     },
     "Benchmark": {
@@ -313,6 +329,7 @@
       "com.YoStarJP.AzurLane": "JP",
       "com.hkmanjuu.azurlane.gp": "TW",
       "com.bilibili.blhx.huawei": "CN com.bilibili.blhx.huawei",
+      "com.bilibili.blhx.honor": "CN com.bilibili.blhx.honor",
       "com.bilibili.blhx.mi": "CN com.bilibili.blhx.mi",
       "com.tencent.tmgp.bilibili.blhx": "CN com.tencent.tmgp.bilibili.blhx",
       "com.bilibili.blhx.baidu": "CN com.bilibili.blhx.baidu",
@@ -357,6 +374,11 @@
       "cn_android-21": "[国服] 莱茵河卫兵",
       "cn_android-22": "[国服] 北极光计划",
       "cn_android-23": "[国服] 长戟计划",
+      "cn_android-24": "[国服] 暴雨行动",
+      "cn_android-25": "[国服] 水仙行动",
+      "cn_android-26": "[国服] 冬月计划",
+      "cn_android-27": "[国服] 长弓计划",
+      "cn_android-28": "[国服] 裁决协议",
       "cn_ios-0": "[国服] 夏威夷",
       "cn_ios-1": "[国服] 珊瑚海",
       "cn_ios-2": "[国服] 中途岛",
@@ -373,6 +395,7 @@
       "cn_channel-2": "[国服] 十字军行动",
       "cn_channel-3": "[国服] 龙骑兵行动",
       "cn_channel-4": "[国服] 冥王星行动",
+      "cn_channel-5": "[国服] 群岛计划",
       "en-0": "[EN] Avrora",
       "en-1": "[EN] Lexington",
       "en-2": "[EN] Sandy",
@@ -409,7 +432,8 @@
       "aScreenCap_nc": "aScreenCap_nc",
       "DroidCast": "DroidCast",
       "DroidCast_raw": "DroidCast_raw",
-      "scrcpy": "scrcpy"
+      "nemu_ipc": "nemu_ipc",
+      "ldopengl": "ldopengl"
     },
     "ControlMethod": {
       "name": "Emulator.ControlMethod.name",
@@ -429,26 +453,37 @@
       "help": "Emulator.AdbRestart.help"
     }
   },
-  "RestartEmulator": {
+  "EmulatorInfo": {
     "_info": {
-      "name": "RestartEmulator._info.name",
-      "help": "RestartEmulator._info.help"
+      "name": "EmulatorInfo._info.name",
+      "help": "EmulatorInfo._info.help"
     },
-    "Enable": {
-      "name": "RestartEmulator.Enable.name",
-      "help": "RestartEmulator.Enable.help"
+    "Emulator": {
+      "name": "EmulatorInfo.Emulator.name",
+      "help": "EmulatorInfo.Emulator.help",
+      "auto": "auto",
+      "NoxPlayer": "NoxPlayer",
+      "NoxPlayer64": "NoxPlayer64",
+      "BlueStacks4": "BlueStacks4",
+      "BlueStacks5": "BlueStacks5",
+      "BlueStacks4HyperV": "BlueStacks4HyperV",
+      "BlueStacks5HyperV": "BlueStacks5HyperV",
+      "LDPlayer3": "LDPlayer3",
+      "LDPlayer4": "LDPlayer4",
+      "LDPlayer9": "LDPlayer9",
+      "LDPlayer14": "LDPlayer14",
+      "MuMuPlayer": "MuMuPlayer",
+      "MuMuPlayerX": "MuMuPlayerX",
+      "MuMuPlayer12": "MuMuPlayer12",
+      "MEmuPlayer": "MEmuPlayer"
     },
-    "EmulatorData": {
-      "name": "RestartEmulator.EmulatorData.name",
-      "help": "RestartEmulator.EmulatorData.help"
+    "name": {
+      "name": "EmulatorInfo.name.name",
+      "help": "EmulatorInfo.name.help"
     },
-    "ErrorRestart": {
-      "name": "RestartEmulator.ErrorRestart.name",
-      "help": "RestartEmulator.ErrorRestart.help"
-    },
-    "DailyRestart": {
-      "name": "RestartEmulator.DailyRestart.name",
-      "help": "RestartEmulator.DailyRestart.help"
+    "path": {
+      "name": "EmulatorInfo.path.name",
+      "help": "EmulatorInfo.path.help"
     }
   },
   "Error": {
@@ -642,13 +677,17 @@
     },
     "Name": {
       "name": "Campaign.Name.name",
-      "help": "Campaign.Name.help"
+      "help": ""
     },
     "Event": {
       "name": "Campaign.Event.name",
       "help": "Campaign.Event.help",
       "campaign_main": "campaign_main",
       "coalition_20230323": "星霜海嵐",
+      "coalition_20240627": "リトル学園へようこそ",
+      "coalition_20250626": "ネオンシティの探索者",
+      "coalition_20251120": "DATE A LANE",
+      "coalition_20260122": "特集写真-撮影進行中",
       "event_20200227_cn": "凍絶の北海",
       "event_20200312_cn": "南洋に靡く硝煙（復刻）",
       "event_20200326_cn": "闇靄払う銀翼",
@@ -668,7 +707,7 @@
       "event_20201002_en": "Counterattack Within the Fjord",
       "event_20201012_cn": "奔る彩帆の青（復刻）",
       "event_20201029_cn": "激唱のユニバース",
-      "event_20201126_cn": "バケーションレーン",
+      "event_20201126_cn": "バケーションレーン（復刻）",
       "event_20201229_cn": "虚畳なりし限象（復刻）",
       "event_20210121_cn": "悲歎せし焔海の詩（復刻）",
       "event_20210225_cn": "暁射す氷華の嵐（復刻）",
@@ -689,27 +728,51 @@
       "event_20211028_tw": "復刻光與影的鳶尾之華",
       "event_20211111_cn": "復刻-燈火のシニエ",
       "event_20211125_cn": "弧光は交わる世界にて（復刻）",
-      "event_20211229_cn": "遡望せし虹彩の塔",
+      "event_20211229_cn": "遡望せし虹彩の塔（復刻）",
       "event_20220210_cn": "凍絶の北海（復刻）",
-      "event_20220224_cn": "鳴動せし星霜の淵",
+      "event_20220224_cn": "鳴動せし星霜の淵（復刻）",
       "event_20220310_tw": "復刻斯圖爾特的硝煙",
-      "event_20220324_cn": "幻像の塔",
+      "event_20220324_cn": "幻像の塔（復刻）",
       "event_20220407_tw": "蒼紅的迴響(復刻)",
       "event_20220414_cn": "極夜照らす幻光（復刻）",
-      "event_20220428_cn": "吟ずる瑠璃の楽章",
-      "event_20220526_cn": "诚閃の剣 搖光の城",
-      "event_20220728_cn": "鋼鷲の冒険譚",
-      "event_20220818_cn": "結像点作戦",
-      "event_20220915_cn": "赫の涙月 菫の暁風",
-      "event_20221124_cn": "錬金術士と謎の遺跡群島",
-      "event_20221222_cn": "積重なる事象の幻界",
-      "event_20230223_cn": "黙示の遺構",
-      "event_20230525_cn": "覆天せし万象の塵",
-      "event_20230803_cn": "燃ゆる聖都の回想曲",
-      "event_20230817_cn": "愚者の天秤",
-      "event_20230914_cn": "須臾望月抄",
+      "event_20220428_cn": "吟ずる瑠璃の楽章（復刻）",
+      "event_20220526_cn": "復刻诚閃の剣 搖光の城",
+      "event_20220728_cn": "鋼鷲の冒険譚（復刻）",
+      "event_20220818_cn": "結像点作戦（復刻）",
+      "event_20220915_cn": "赫の涙月 菫の暁風（復刻）",
+      "event_20221124_cn": "錬金術士と謎の遺跡群島（復刻）",
+      "event_20221222_cn": "積重なる事象の幻界（復刻）",
+      "event_20230223_cn": "黙示の遺構（復刻）",
+      "event_20230525_cn": "覆天せし万象の塵（復刻）",
+      "event_20230803_cn": "燃ゆる聖都の回想曲（復刻）",
+      "event_20230817_cn": "愚者の天秤（復刻）",
+      "event_20230914_cn": "須臾望月抄（復刻）",
       "event_20231026_cn": "テンペスタと若返りの泉",
       "event_20231123_cn": "蒼閃忍法帖",
+      "event_20231221_cn": "光追う星の海（復刻）",
+      "event_20240229_cn": "銀界遊廻（復刻）",
+      "event_20240425_cn": "共鳴のパッション",
+      "event_20240521_cn": "赫輝のマルティリウム（復刻）",
+      "event_20240725_cn": "夢幻の間奏曲",
+      "event_20240815_cn": "錬翼空翔",
+      "event_20240829_cn": "徒花咲かす彼岸",
+      "event_20240912_cn": "絳染む丹華の詠歌",
+      "event_20241024_cn": "テンペスタと眠りし海",
+      "event_20241121_cn": "危険発明接近中",
+      "event_20241219_cn": "星降る夕影の残光",
+      "event_20250227_cn": "籠檻に囚われし神光",
+      "event_20250424_cn": "チュリッパの海へ（復刻）",
+      "event_20250520_cn": "高い塔の薔薇",
+      "event_20250724_cn": "錬金術士と天空邂逅の塔",
+      "event_20250814_cn": "淵層界の秘密",
+      "event_20250912_cn": "アマハラに舞い奉れ",
+      "event_20251023_cn": "テンペスタと自由群島",
+      "event_20251218_cn": "天穹に響く音謡",
+      "event_20260226_cn": "春色旅籠Online",
+      "event_20260326_cn": "ワンダラー募集計画",
+      "event_20260417_cn": "バケーションレーン・きらめく砂浜",
+      "event_20260520_cn": "聖印前の同盟",
+      "event_20260625_cn": "幻夢のカヴァルカード",
       "raid_20200624": "特別演習超空強襲波（復刻）",
       "raid_20210708": "交錯する新たな波 (復刻)",
       "raid_20220127": "秘密事件調査",
@@ -717,29 +780,58 @@
       "raid_20221027": "戦え！ロイヤルメイド隊3rd",
       "raid_20230118": "冬の案内人",
       "raid_20230629": "緑地伽話",
+      "raid_20240130": "新春宴会狂騒曲",
+      "raid_20240328": "ゼロから頑張る魔王討伐（復刻）",
+      "raid_20250116": "新春華裳協奏曲",
+      "raid_20260212": "新春玉逸品会",
       "war_archives_20180607_cn": "檔案 墨染まりし鋼の桜",
       "war_archives_20180726_cn": "檔案 光と影のアイリス",
       "war_archives_20181020_en": "檔案 努力希望と計画",
       "war_archives_20181026_en": "檔案 闇に堕ちた青き翼",
       "war_archives_20181227_cn": "檔案 縹映る深緋の残響",
       "war_archives_20190221_en": "檔案 凛冽なりし冬の王冠",
+      "war_archives_20190314_en": "檔案 月夜の開幕曲",
       "war_archives_20190321_en": "檔案 紅染の来訪者",
       "war_archives_20190620_en": "檔案 栄光なる最終戦",
       "war_archives_20190911_cn": "檔案 悲歎せし焔海の詩",
       "war_archives_20191010_en": "檔案 アドミラル・グラーフ・シュペー追撃戦",
       "war_archives_20191031_en": "檔案 鏡写されし異色",
+      "war_archives_20200312_cn": "檔案 南洋に靡く硝煙",
+      "war_archives_20200507_cn": "檔案 帰路は海色の陰りへと",
+      "war_archives_20200603_cn": "檔案 峡湾間の反撃",
       "war_archives_20200806_cn": "檔案 鉄血鮫とエニグマ",
       "war_archives_20200820_cn": "檔案 黒鉄の楽章 誓いの海",
       "war_archives_20200903_cn": "檔案 輝ける峡湾の星",
+      "war_archives_20200917_cn": "檔案 刹那觀る胡蝶の夢",
+      "war_archives_20201012_cn": "檔案 奔る彩帆の青",
       "war_archives_20201029_cn": "檔案 激唱のユニバース",
       "war_archives_20201229_cn": "檔案 虚畳なりし限象",
+      "war_archives_20210225_cn": "檔案 暁射す氷華の嵐",
       "war_archives_20210325_cn": "檔案 開かれし紺碧の砂箱",
+      "war_archives_20210422_cn": "檔案 讃える復興の迷路",
+      "war_archives_20210527_cn": "檔案 照らす螺旋の鏡海",
       "war_archives_20210624_cn": "檔案 翳りし満ちる影の華",
       "war_archives_20210819_cn": "檔案 闇靄払う銀翼",
+      "war_archives_20210916_cn": "檔案 駆けよ 碧海の吹き風",
       "war_archives_20211014_cn": "檔案 激奏のポラリス",
       "war_archives_20211028_cn": "檔案 神穹を衝く聖歌",
+      "war_archives_20211111_cn": "檔案 燈火のシニエ",
+      "war_archives_20211229_cn": "檔案 遡望せし虹彩の塔",
       "war_archives_20220210_cn": "檔案 凍絶の北海",
-      "war_archives_20220414_cn": "檔案 極夜照らす幻光"
+      "war_archives_20220224_cn": "檔案 鳴動せし星霜の淵",
+      "war_archives_20220324_cn": "檔案 幻像の塔",
+      "war_archives_20220414_cn": "檔案 極夜照らす幻光",
+      "war_archives_20220428_cn": "檔案 吟ずる瑠璃の楽章",
+      "war_archives_20220526_cn": "檔案 诚閃の剣 搖光の城",
+      "war_archives_20220728_cn": "檔案 鋼鷲の冒険譚",
+      "war_archives_20220818_cn": "檔案 結像点作戦",
+      "war_archives_20220915_cn": "檔案 赫の涙月 菫の暁風",
+      "war_archives_20221222_cn": "檔案 積重なる事象の幻界",
+      "war_archives_20230223_cn": "檔案 黙示の遺構",
+      "war_archives_20230525_cn": "檔案 覆天せし万象の塵",
+      "war_archives_20230803_cn": "檔案 燃ゆる聖都の回想曲",
+      "war_archives_20231026_cn": "檔案 テンペスタと若返りの泉",
+      "war_archives_20240725_cn": "檔案 夢幻の間奏曲"
     },
     "Mode": {
       "name": "Campaign.Mode.name",
@@ -773,13 +865,13 @@
       "name": "StopCondition._info.name",
       "help": "StopCondition._info.help"
     },
-    "RunCount": {
-      "name": "StopCondition.RunCount.name",
-      "help": "StopCondition.RunCount.help"
-    },
     "OilLimit": {
       "name": "StopCondition.OilLimit.name",
       "help": "StopCondition.OilLimit.help"
+    },
+    "RunCount": {
+      "name": "StopCondition.RunCount.name",
+      "help": "StopCondition.RunCount.help"
     },
     "MapAchievement": {
       "name": "StopCondition.MapAchievement.name",
@@ -831,7 +923,8 @@
       "combat_auto": "combat_auto",
       "combat_manual": "combat_manual",
       "stand_still_in_the_middle": "stand_still_in_the_middle",
-      "hide_in_bottom_left": "hide_in_bottom_left"
+      "hide_in_bottom_left": "hide_in_bottom_left",
+      "hide_in_upper_left": "hide_in_upper_left"
     },
     "Fleet1Step": {
       "name": "Fleet.Fleet1Step.name",
@@ -865,7 +958,8 @@
       "combat_auto": "combat_auto",
       "combat_manual": "combat_manual",
       "stand_still_in_the_middle": "stand_still_in_the_middle",
-      "hide_in_bottom_left": "hide_in_bottom_left"
+      "hide_in_bottom_left": "hide_in_bottom_left",
+      "hide_in_upper_left": "hide_in_upper_left"
     },
     "Fleet2Step": {
       "name": "Fleet.Fleet2Step.name",
@@ -1105,19 +1199,6 @@
       "name": "GemsFarming._info.name",
       "help": "GemsFarming._info.help"
     },
-    "ChangeFlagship": {
-      "name": "GemsFarming.ChangeFlagship.name",
-      "help": "GemsFarming.ChangeFlagship.help",
-      "ship": "ship",
-      "ship_equip": "ship_equip"
-    },
-    "ChangeVanguard": {
-      "name": "GemsFarming.ChangeVanguard.name",
-      "help": "GemsFarming.ChangeVanguard.help",
-      "disabled": "disabled",
-      "ship": "ship",
-      "ship_equip": "ship_equip"
-    },
     "CommonCV": {
       "name": "GemsFarming.CommonCV.name",
       "help": "GemsFarming.CommonCV.help",
@@ -1126,6 +1207,21 @@
       "bogue": "bogue",
       "ranger": "ranger",
       "hermes": "hermes"
+    },
+    "ChangeVanguard": {
+      "name": "GemsFarming.ChangeVanguard.name",
+      "help": "GemsFarming.ChangeVanguard.help",
+      "disabled": "disabled",
+      "ship": "ship"
+    },
+    "CommonDD": {
+      "name": "GemsFarming.CommonDD.name",
+      "help": "GemsFarming.CommonDD.help",
+      "any": "GemsFarming.CommonDD.any",
+      "favourite": "GemsFarming.CommonDD.favourite",
+      "aulick_or_foote": "GemsFarming.CommonDD.aulick_or_foote",
+      "cassin_or_downes": "GemsFarming.CommonDD.cassin_or_downes",
+      "z20_or_z21": "GemsFarming.CommonDD.z20_or_z21"
     },
     "CommissionLimit": {
       "name": "GemsFarming.CommissionLimit.name",
@@ -1209,6 +1305,16 @@
       "help": "RaidDaily.StageFilter.help"
     }
   },
+  "Hospital": {
+    "_info": {
+      "name": "Hospital._info.name",
+      "help": "Hospital._info.help"
+    },
+    "UseRecommendFleet": {
+      "name": "Hospital.UseRecommendFleet.name",
+      "help": "Hospital.UseRecommendFleet.help"
+    }
+  },
   "MaritimeEscort": {
     "_info": {
       "name": "MaritimeEscort._info.name",
@@ -1223,6 +1329,14 @@
     "_info": {
       "name": "Coalition._info.name",
       "help": "Coalition._info.help"
+    },
+    "Mode": {
+      "name": "Coalition.Mode.name",
+      "help": "Coalition.Mode.help",
+      "easy": "easy",
+      "normal": "normal",
+      "hard": "hard",
+      "sp": "sp"
     },
     "Fleet": {
       "name": "Coalition.Fleet.name",
@@ -1310,7 +1424,11 @@
       "help": ""
     },
     "Favorite": {
-      "name": "好ましい選択",
+      "name": "お気に入りのみ選択",
+      "help": ""
+    },
+    "MinLevel": {
+      "name": "レベルがX以上のキャラクターのみを追加してください。",
       "help": ""
     }
   },
@@ -1351,12 +1469,18 @@
       "name": "Research.PresetFilter.name",
       "help": "Research.PresetFilter.help",
       "custom": "custom",
-      "series_6_blueprint_203": "series_6_blueprint_203",
-      "series_6_blueprint_only": "series_6_blueprint_only",
-      "series_6_203_only": "series_6_203_only",
-      "series_5_blueprint_152": "series_5_blueprint_152",
-      "series_5_blueprint_only": "series_5_blueprint_only",
-      "series_5_152_only": "series_5_152_only",
+      "series_8_blueprint_305": "Series 8 Blueprints+305",
+      "series_8_blueprint_only": "Series 8 Blueprints Only",
+      "series_8_305_only": "Series 8 305 Only",
+      "series_7_blueprint_la9": "Series 7 Blueprints+La9",
+      "series_7_blueprint_only": "Series 7 Blueprints Only",
+      "series_7_la9_only": "Series 7 La9 Only",
+      "series_6_blueprint_203": "Series 6 Blueprints+203",
+      "series_6_blueprint_only": "Series 6 Blueprints Only",
+      "series_6_203_only": "Series 6 203 Only",
+      "series_5_blueprint_152": "Series 5 Blueprints+152",
+      "series_5_blueprint_only": "Series 5 Blueprints Only",
+      "series_5_152_only": "Series 5 152 Only",
       "series_4_blueprint_tenrai": "Series 4 Blueprints+Tenrai",
       "series_4_blueprint_only": "Series 4 Blueprints Only",
       "series_4_tenrai_only": "Series 4 Tenrai Only",
@@ -1389,6 +1513,26 @@
     "FeedFilter": {
       "name": "Dorm.FeedFilter.name",
       "help": "Dorm.FeedFilter.help"
+    }
+  },
+  "BuyFurniture": {
+    "_info": {
+      "name": "BuyFurniture._info.name",
+      "help": "BuyFurniture._info.help"
+    },
+    "Enable": {
+      "name": "BuyFurniture.Enable.name",
+      "help": "BuyFurniture.Enable.help"
+    },
+    "BuyOption": {
+      "name": "BuyFurniture.BuyOption.name",
+      "help": "BuyFurniture.BuyOption.help",
+      "set": "set",
+      "all": "all"
+    },
+    "LastRun": {
+      "name": "BuyFurniture.LastRun.name",
+      "help": "BuyFurniture.LastRun.help"
     }
   },
   "Meowfficer": {
@@ -1431,6 +1575,10 @@
     "EnhanceIndex": {
       "name": "MeowfficerTrain.EnhanceIndex.name",
       "help": "MeowfficerTrain.EnhanceIndex.help"
+    },
+    "MaxFeedLevel": {
+      "name": "レベル X 以上の猫を強化材料にしない",
+      "help": "X 値は1~30に制限します"
     }
   },
   "GuildLogistics": {
@@ -1505,6 +1653,22 @@
     "CollectWeeklyMission": {
       "name": "Reward.CollectWeeklyMission.name",
       "help": "Reward.CollectWeeklyMission.help"
+    }
+  },
+  "Awaken": {
+    "_info": {
+      "name": "Awaken._info.name",
+      "help": "Awaken._info.help"
+    },
+    "LevelCap": {
+      "name": "Awaken.LevelCap.name",
+      "help": "Awaken.LevelCap.help",
+      "level120": "level120",
+      "level125": "level125"
+    },
+    "Favourite": {
+      "name": "Awaken.Favourite.name",
+      "help": "Awaken.Favourite.help"
     }
   },
   "GeneralShop": {
@@ -1739,7 +1903,10 @@
     "ResearchSeries": {
       "name": "ShipyardDr.ResearchSeries.name",
       "help": "ShipyardDr.ResearchSeries.help",
-      "2": "2"
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5"
     },
     "ShipIndex": {
       "name": "ShipyardDr.ShipIndex.name",
@@ -1771,7 +1938,10 @@
       "help": "Shipyard.ResearchSeries.help",
       "1": "1",
       "2": "2",
-      "3": "3"
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
     },
     "ShipIndex": {
       "name": "Shipyard.ShipIndex.name",
@@ -1859,17 +2029,21 @@
       "name": "Mail._info.name",
       "help": "Mail._info.help"
     },
-    "Collect": {
-      "name": "Mail.Collect.name",
-      "help": "Mail.Collect.help"
+    "ClaimMerit": {
+      "name": "Mail.ClaimMerit.name",
+      "help": "Mail.ClaimMerit.help"
     },
-    "Filter": {
-      "name": "Mail.Filter.name",
-      "help": "Mail.Filter.help"
+    "ClaimMaintenance": {
+      "name": "Mail.ClaimMaintenance.name",
+      "help": "Mail.ClaimMaintenance.help"
     },
-    "Delete": {
-      "name": "Mail.Delete.name",
-      "help": "Mail.Delete.help"
+    "ClaimTradeLicense": {
+      "name": "Mail.ClaimTradeLicense.name",
+      "help": "Mail.ClaimTradeLicense.help"
+    },
+    "DeleteCollected": {
+      "name": "Mail.DeleteCollected.name",
+      "help": "Mail.DeleteCollected.help"
     }
   },
   "SupplyPack": {
@@ -1901,6 +2075,35 @@
     "Collect": {
       "name": "Minigame.Collect.name",
       "help": "Minigame.Collect.help"
+    }
+  },
+  "PrivateQuarters": {
+    "_info": {
+      "name": "PrivateQuarters._info.name",
+      "help": "PrivateQuarters._info.help"
+    },
+    "BuyRoses": {
+      "name": "PrivateQuarters.BuyRoses.name",
+      "help": "PrivateQuarters.BuyRoses.help"
+    },
+    "BuyCake": {
+      "name": "PrivateQuarters.BuyCake.name",
+      "help": "PrivateQuarters.BuyCake.help"
+    },
+    "TargetInteract": {
+      "name": "PrivateQuarters.TargetInteract.name",
+      "help": "PrivateQuarters.TargetInteract.help"
+    },
+    "TargetShip": {
+      "name": "PrivateQuarters.TargetShip.name",
+      "help": "PrivateQuarters.TargetShip.help",
+      "anchorage": "anchorage",
+      "noshiro": "noshiro",
+      "sirius": "sirius",
+      "new_jersey": "new_jersey",
+      "taihou": "taihou",
+      "aegir": "aegir",
+      "nakhimov": "nakhimov"
     }
   },
   "Daily": {
@@ -2232,9 +2435,18 @@
       "name": "OpsiShop._info.name",
       "help": "OpsiShop._info.help"
     },
-    "BuySupply": {
-      "name": "OpsiShop.BuySupply.name",
-      "help": "OpsiShop.BuySupply.help"
+    "PresetFilter": {
+      "name": "OpsiShop.PresetFilter.name",
+      "help": "OpsiShop.PresetFilter.help",
+      "max_benefit": "max_benefit",
+      "max_benefit_meta": "max_benefit_meta",
+      "no_meta": "no_meta",
+      "all": "all",
+      "custom": "custom"
+    },
+    "CustomFilter": {
+      "name": "OpsiShop.CustomFilter.name",
+      "help": "OpsiShop.CustomFilter.help"
     }
   },
   "OpsiVoucher": {
@@ -2371,6 +2583,18 @@
       "help": "OpsiDaemon.SelectEnemy.help"
     }
   },
+  "EventStory": {
+    "_info": {
+      "name": "EventStory._info.name",
+      "help": "EventStory._info.help"
+    },
+    "SkipBattle": {
+      "name": "EventStory.SkipBattle.name",
+      "help": "EventStory.SkipBattle.help",
+      "True": "True",
+      "False": "False"
+    }
+  },
   "Benchmark": {
     "_info": {
       "name": "Benchmark._info.name",
@@ -2380,11 +2604,9 @@
       "name": "Benchmark.DeviceType.name",
       "help": "Benchmark.DeviceType.help",
       "emulator": "emulator",
-      "emulator_android_12": "emulator_android_12",
       "plone_cloud_with_adb": "plone_cloud_with_adb",
       "phone_cloud_without_adb": "phone_cloud_without_adb",
       "android_phone": "android_phone",
-      "android_phone_12": "android_phone_12",
       "android_phone_vmos": "android_phone_vmos"
     },
     "TestScene": {

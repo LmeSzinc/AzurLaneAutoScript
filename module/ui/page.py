@@ -1,8 +1,12 @@
 import traceback
 
+from module.coalition.assets import *
+from module.event_hospital.assets import HOSIPITAL_CHECK
+from module.freebies.assets import MAIL_ENTER
+from module.raid.assets import *
+from module.retire.assets import DOCK_CHECK
 from module.ui.assets import *
-
-MAIN_CHECK = MAIN_GOTO_CAMPAIGN
+from module.ui_white.assets import *
 
 
 class Page:
@@ -70,8 +74,13 @@ class Page:
         self.links[destination] = button
 
 
+"""
+Define UI pages
+"""
+
 # Main
-page_main = Page(MAIN_CHECK)
+# Use MAIN_GOTO_FLEET instead of MAIN_GOTO_CAMPAIGN for faster switches with info_bar
+page_main = Page(MAIN_GOTO_FLEET)
 page_campaign_menu = Page(CAMPAIGN_MENU_CHECK)
 page_campaign = Page(CAMPAIGN_CHECK)
 page_fleet = Page(FLEET_CHECK)
@@ -82,6 +91,12 @@ page_campaign_menu.link(button=GOTO_MAIN, destination=page_main)
 page_campaign.link(button=GOTO_MAIN, destination=page_main)
 page_campaign.link(button=BACK_ARROW, destination=page_campaign_menu)
 page_fleet.link(button=GOTO_MAIN, destination=page_main)
+
+# Main
+# 2024.05.22, in new UI, MAIN_GOTO_CAMPAIGN_WHITE is the last shown button in page main
+page_main_white = Page(MAIN_GOTO_CAMPAIGN_WHITE)
+page_main_white.link(button=MAIN_GOTO_CAMPAIGN_WHITE, destination=page_campaign_menu)
+page_main_white.link(button=MAIN_GOTO_FLEET_WHITE, destination=page_fleet)
 
 # Unknown
 page_unknown = Page(None)
@@ -115,9 +130,34 @@ page_sp.link(button=BACK_ARROW, destination=page_campaign)
 page_campaign_menu.link(button=CAMPAIGN_MENU_GOTO_EVENT, destination=page_sp)
 page_campaign.link(button=CAMPAIGN_GOTO_EVENT, destination=page_sp)
 
-page_coalition = Page(COALITION_CHECK)
+# Coalition
+# FROSTFALL
+# page_coalition = Page(FROSTFALL_COALITION_CHECK)
+# page_coalition.link(button=GOTO_MAIN, destination=page_main)
+# page_coalition.link(button=BACK_ARROW, destination=page_campaign_menu)
+# page_campaign_menu.link(button=CAMPAIGN_MENU_GOTO_EVENT, destination=page_coalition)
+# ACADEMY
+# page_coalition_menu = Page(COALITION_ACADEMY_MAIN_CHECK)
+# page_coalition_menu.link(button=COALITION_ACADEMY_HOME, destination=page_main)
+# page_coalition = Page(COALITION_ACADEMY_CAMPAIGN_CHECK)
+# page_coalition.link(button=COALITION_ACADEMY_HOME, destination=page_main)
+# page_coalition.link(button=COALITION_ACADEMY_BACK, destination=page_coalition_menu)
+# page_campaign_menu.link(button=CAMPAIGN_MENU_GOTO_EVENT, destination=page_coalition)
+# page_coalition_menu.link(button=COALITION_ACADEMY_GOTO_CAMPAIGN, destination=page_coalition)
+# NEONCITY
+# page_coalition = Page(NEONCITY_COALITION_CHECK)
+# page_coalition.link(button=NEONCITY_UI_HOME, destination=page_main)
+# page_coalition.link(button=NEONCITY_UI_BACK, destination=page_campaign_menu)
+# page_campaign_menu.link(button=CAMPAIGN_MENU_GOTO_EVENT, destination=page_coalition)
+# DAL
+# page_coalition = Page(FROSTFALL_COALITION_CHECK)
+# page_coalition.link(button=GOTO_MAIN, destination=page_main)
+# page_coalition.link(button=BACK_ARROW, destination=page_campaign_menu)
+# page_campaign_menu.link(button=CAMPAIGN_MENU_GOTO_EVENT, destination=page_coalition)
+# FASHION
+page_coalition = Page(FASHION_COALITION_CHECK)
 page_coalition.link(button=GOTO_MAIN, destination=page_main)
-page_coalition.link(button=BACK_ARROW, destination=page_campaign)
+page_coalition.link(button=BACK_ARROW, destination=page_campaign_menu)
 page_campaign_menu.link(button=CAMPAIGN_MENU_GOTO_EVENT, destination=page_coalition)
 
 # Operation Siren
@@ -135,16 +175,19 @@ page_campaign_menu.link(button=CAMPAIGN_MENU_GOTO_WAR_ARCHIVES, destination=page
 page_reward = Page(REWARD_CHECK)
 page_reward.link(button=REWARD_GOTO_MAIN, destination=page_main)
 page_main.link(button=MAIN_GOTO_REWARD, destination=page_reward)
+page_main_white.link(button=MAIN_GOTO_REWARD_WHITE, destination=page_reward)
 
 # Mission
 page_mission = Page(MISSION_CHECK)
 page_mission.link(button=GOTO_MAIN, destination=page_main)
 page_main.link(button=MAIN_GOTO_MISSION, destination=page_mission)
+page_main_white.link(button=MAIN_GOTO_MISSION_WHITE, destination=page_mission)
 
 # Guild
 page_guild = Page(GUILD_CHECK)
 page_guild.link(button=GOTO_MAIN, destination=page_main)
 page_main.link(button=MAIN_GOTO_GUILD, destination=page_guild)
+page_main_white.link(button=MAIN_GOTO_GUILD_WHITE, destination=page_guild)
 
 # Commission
 # Please don't goto commission from campaign.
@@ -169,11 +212,25 @@ page_reward.link(button=REWARD_GOTO_BATTLE_PASS, destination=page_battle_pass)
 page_event_list = Page(EVENT_LIST_CHECK)
 page_event_list.link(button=GOTO_MAIN, destination=page_main)
 page_main.link(button=MAIN_GOTO_EVENT_LIST, destination=page_event_list)
+page_main_white.link(button=MAIN_GOTO_EVENT_LIST_WHITE, destination=page_event_list)
 
 # Raid
+# before
+# page_raid = Page(RAID_CHECK)
+# page_raid.link(button=GOTO_MAIN, destination=page_main)
+# page_main.link(button=MAIN_GOTO_RAID, destination=page_raid)
+# page_main_white.link(button=MAIN_GOTO_RAID_WHITE, destination=page_raid)
+# after 2026.02.12
 page_raid = Page(RAID_CHECK)
 page_raid.link(button=GOTO_MAIN, destination=page_main)
-page_main.link(button=MAIN_GOTO_RAID, destination=page_raid)
+page_raid.link(button=BACK_ARROW, destination=page_campaign_menu)
+page_campaign_menu.link(button=CAMPAIGN_MENU_GOTO_EVENT, destination=page_raid)
+
+# Dock
+page_dock = Page(DOCK_CHECK)
+page_dock.link(button=GOTO_MAIN, destination=page_main)
+page_main.link(button=MAIN_GOTO_DOCK, destination=page_dock)
+page_main_white.link(button=MAIN_GOTO_DOCK_WHITE, destination=page_dock)
 
 # Research
 # Please don't goto page_research from page_reward.
@@ -192,6 +249,7 @@ page_meta.link(button=GOTO_MAIN, destination=page_main)
 page_storage = Page(STORAGE_CHECK)
 page_storage.link(button=GOTO_MAIN, destination=page_main)
 page_main.link(button=MAIN_GOTO_STORAGE, destination=page_storage)
+page_main_white.link(button=MAIN_GOTO_STORAGE_WHITE, destination=page_storage)
 
 # Research menu
 page_reshmenu = Page(RESHMENU_CHECK)
@@ -200,11 +258,13 @@ page_reshmenu.link(button=RESHMENU_GOTO_SHIPYARD, destination=page_shipyard)
 page_reshmenu.link(button=RESHMENU_GOTO_META, destination=page_meta)
 page_reshmenu.link(button=GOTO_MAIN, destination=page_main)
 page_main.link(button=MAIN_GOTO_RESHMENU, destination=page_reshmenu)
+page_main_white.link(button=MAIN_GOTO_RESHMENU, destination=page_reshmenu)
 
 # Dorm menu
 page_dormmenu = Page(DORMMENU_CHECK)
-page_main.link(button=MAIN_GOTO_DORMMENU, destination=page_dormmenu)
 page_dormmenu.link(button=DORMMENU_GOTO_MAIN, destination=page_main)
+page_main.link(button=MAIN_GOTO_DORMMENU, destination=page_dormmenu)
+page_main_white.link(button=MAIN_GOTO_DORMMENU_WHITE, destination=page_dormmenu)
 
 # Dorm
 # DORM_CHECK is the `manage` button (the third from the right), because it's the last button to load.
@@ -222,6 +282,11 @@ page_academy = Page(ACADEMY_CHECK)
 page_dormmenu.link(button=DORMMENU_GOTO_ACADEMY, destination=page_academy)
 page_academy.link(button=GOTO_MAIN, destination=page_main)
 
+# Private Quarters
+page_private_quarters = Page(PRIVATE_QUARTERS_CHECK)
+page_dormmenu.link(button=DORMMENU_GOTO_PRIVATE_QUARTERS, destination=page_private_quarters)
+page_private_quarters.link(button=PQ_GOTO_MAIN, destination=page_main)
+
 # Game room & choose game
 page_game_room = Page(GAME_ROOM_CHECK)
 page_academy.link(button=ACADEMY_GOTO_GAME_ROOM, destination=page_game_room)
@@ -229,8 +294,9 @@ page_game_room.link(button=GAME_ROOM_GOTO_MAIN, destination=page_main)
 
 # Shop
 page_shop = Page(SHOP_CHECK)
-page_main.link(button=MAIN_GOTO_SHOP, destination=page_shop)
 page_shop.link(button=GOTO_MAIN, destination=page_main)
+page_main.link(button=MAIN_GOTO_SHOP, destination=page_shop)
+page_main_white.link(button=MAIN_GOTO_SHOP_WHITE, destination=page_shop)
 
 # Munitions
 page_munitions = Page(MUNITIONS_CHECK)
@@ -246,5 +312,45 @@ page_supply_pack.link(button=GOTO_MAIN, destination=page_main)
 
 # Build / Construct
 page_build = Page(BUILD_CHECK)
-page_main.link(button=MAIN_GOTO_BUILD, destination=page_build)
 page_build.link(button=GOTO_MAIN, destination=page_main)
+page_main.link(button=MAIN_GOTO_BUILD, destination=page_build)
+page_main_white.link(button=MAIN_GOTO_BUILD_WHITE, destination=page_build)
+
+# Mail
+page_mail = Page(MAIL_CHECK)
+page_mail.link(button=GOTO_MAIN_WHITE, destination=page_main)
+# Mail enter varies from different UI
+page_main_white.link(button=MAIL_ENTER_WHITE, destination=page_mail)
+page_main.link(button=MAIL_ENTER, destination=page_mail)
+
+# World channel
+# Both old and new UI have CHANNEL_CHECK
+# Click somewhere left to leave
+page_channel = Page(CHANNEL_CHECK)
+page_channel.link(button=CAMPAIGN_MENU_GOTO_CAMPAIGN, destination=page_main)
+
+# RPG event (raid_20240328)
+page_rpg_stage = Page(RPG_GOTO_STORY)
+page_rpg_story = Page(RPG_GOTO_STAGE)
+page_rpg_stage.link(button=RPG_GOTO_STORY, destination=page_rpg_story)
+page_rpg_stage.link(button=RPG_HOME, destination=page_main)
+page_rpg_stage.link(button=RPG_BACK, destination=page_campaign_menu)
+page_rpg_story.link(button=RPG_GOTO_STAGE, destination=page_rpg_stage)
+page_rpg_story.link(button=RPG_HOME, destination=page_main)
+page_rpg_story.link(button=RPG_BACK, destination=page_campaign_menu)
+
+page_campaign_menu.link(button=CAMPAIGN_MENU_GOTO_EVENT, destination=page_rpg_stage)
+# page_main.link(button=MAIN_GOTO_RAID, destination=page_rpg_stage)
+# page_main_white.link(button=MAIN_GOTO_RAID_WHITE, destination=page_rpg_stage)
+
+page_rpg_city = Page(RPG_LEAVE_CITY)
+page_rpg_city.link(button=RPG_LEAVE_CITY, destination=page_rpg_stage)
+page_rpg_city.link(button=RPG_HOME, destination=page_main)
+
+# Keep page_rpg_stage, so Raid can import
+# page_rpg_stage = page_raid
+
+# Hospital event (20250327)
+page_hospital = Page(HOSIPITAL_CHECK)
+page_hospital.link(button=GOTO_MAIN_WHITE, destination=page_main)
+page_campaign_menu.link(button=CAMPAIGN_MENU_GOTO_EVENT, destination=page_hospital)

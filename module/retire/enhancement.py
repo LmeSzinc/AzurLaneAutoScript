@@ -1,5 +1,6 @@
 from random import choice
 
+import module.config.server as server
 from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1
 from module.exception import GameStuckError, ScriptError
@@ -9,8 +10,12 @@ from module.retire.assets import *
 from module.retire.dock import CARD_GRIDS, Dock
 
 VALID_SHIP_TYPES = ['dd', 'ss', 'cl', 'ca', 'bb', 'cv', 'repair', 'others']
-OCR_DOCK_AMOUNT = DigitCounter(
-    DOCK_AMOUNT, letter=(255, 255, 255), threshold=192)
+if server.server != 'jp':
+    OCR_DOCK_AMOUNT = DigitCounter(
+        DOCK_AMOUNT, letter=(255, 255, 255), threshold=192)
+else:
+    OCR_DOCK_AMOUNT = DigitCounter(
+        DOCK_AMOUNT, letter=(201, 201, 201), threshold=192)
 
 
 class Enhancement(Dock):
@@ -38,7 +43,7 @@ class Enhancement(Dock):
                   available to be picked.
         """
         if favourite:
-            self.dock_favourite_set(enable=True)
+            self.dock_favourite_set(enable=True, wait_loading=False)
 
         if ship_type is not None:
             ship_type = str(ship_type)
@@ -49,9 +54,7 @@ class Enhancement(Dock):
         if self.appear(DOCK_EMPTY, offset=(30, 30)):
             return False
 
-        self.equip_enter(
-            CARD_GRIDS[(0, 0)], check_button=SHIP_DETAIL_CHECK, long_click=False)
-        return True
+        return self.dock_enter_first()
 
     def _enhance_quit(self):
         """
@@ -60,7 +63,7 @@ class Enhancement(Dock):
             out: page_dock
         """
         self.ui_back(DOCK_CHECK)
-        self.dock_favourite_set(enable=False)
+        self.dock_favourite_set(enable=False, wait_loading=False)
         self.dock_filter_set()
 
     def _enhance_confirm(self, skip_first_screenshot=True):
@@ -127,7 +130,7 @@ class Enhancement(Dock):
                 logger.info(
                     'Reached maximum number to check, exiting current category')
                 return "state_enhance_exit"
-            if not self.equip_side_navbar_ensure(bottom=4):
+            if not self.ship_side_navbar_ensure(bottom=4):
                 return "state_enhance_check"
 
             self.wait_until_appear(ENHANCE_RECOMMEND, offset=(
@@ -189,7 +192,7 @@ class Enhancement(Dock):
                 return "state_enhance_confirm"
 
             # Try to swipe to next
-            if self.equip_view_next(check_button=ENHANCE_RECOMMEND):
+            if self.ship_view_next(check_button=ENHANCE_RECOMMEND):
                 if not need_to_skip:
                     nonlocal ship_count
                     ship_count -= 1
@@ -220,9 +223,12 @@ class Enhancement(Dock):
             if state == "state_enhance_check":
                 # Avoid too_many_click exception caused by multiple tries without material
                 if state_list[-2:] == ["state_enhance_recommend", "state_enhance_fail"]:
-                    if len(self.device.click_record):
-                        while self.device.click_record[-1] in ['ENHANCE_RECOMMEND', 'EQUIP_SWIPE']:
-                            self.device.click_record.pop()
+                    while self.device.click_record and (self.device.click_record[-1] in ['ENHANCE_RECOMMEND', 'SHIP_SWIPE']):
+                        self.device.click_record.pop()
+                # Avoid too_many_click exception caused by enhancement failure on in-battle ships
+                elif state_list[-3:] == ["state_enhance_attempt", "state_enhance_confirm", "state_enhance_fail"]:
+                    while self.device.click_record and (self.device.click_record[-1] in ['ENHANCE_RECOMMEND', 'SHIP_SWIPE', 'ENHANCE_CONFIRM']):
+                        self.device.click_record.pop()
                 state_list.clear()
             state_list.append(state)
             if len(state_list) > 30:

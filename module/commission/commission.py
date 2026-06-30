@@ -11,20 +11,22 @@ from module.commission.preset import DICT_FILTER_PRESET, SHORTEST_FILTER
 from module.commission.project import COMMISSION_FILTER, Commission
 from module.config.config_generated import GeneratedConfig
 from module.config.utils import get_server_last_update, get_server_next_update
-from module.exception import GameStuckError
+from module.dorm.dorm import RewardDorm
+from module.exception import GameStuckError, OilMaxed, RequestHumanTakeover
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
 from module.retire.assets import DOCK_CHECK
-from module.ui.assets import BACK_ARROW, COMMISSION_CHECK, REWARD_GOTO_COMMISSION, MAIN_GOTO_REWARD
-from module.ui.page import page_reward, MAIN_CHECK
+from module.ui.assets import BACK_ARROW, REWARD_GOTO_COMMISSION
+from module.ui.page import page_commission, page_reward
 from module.ui.scroll import Scroll
 from module.ui.switch import Switch
 from module.ui.ui import UI
+from module.ui_white.assets import REWARD_1_WHITE, REWARD_GOTO_COMMISSION_WHITE
 
 COMMISSION_SWITCH = Switch('Commission_switch', is_selector=True)
-COMMISSION_SWITCH.add_status('daily', COMMISSION_DAILY)
-COMMISSION_SWITCH.add_status('urgent', COMMISSION_URGENT)
+COMMISSION_SWITCH.add_state('daily', COMMISSION_DAILY)
+COMMISSION_SWITCH.add_state('urgent', COMMISSION_URGENT)
 COMMISSION_SCROLL = Scroll(COMMISSION_SCROLL_AREA, color=(247, 211, 66), name='COMMISSION_SCROLL')
 
 
@@ -38,7 +40,7 @@ def lines_detect(image):
     """
     # Find white lines under each commission to locate them.
     # (597, 0, 619, 720) is somewhere with white lines only.
-    color_height = np.mean(rgb2gray(crop(image, (597, 0, 619, 720))), axis=1)
+    color_height = np.mean(rgb2gray(crop(image, (597, 0, 619, 720), copy=False)), axis=1)
     parameters = {'height': 200, 'distance': 100}
     peaks, _ = signal.find_peaks(color_height, **parameters)
     # 67 is the height of commission list header
@@ -96,7 +98,7 @@ class RewardCommission(UI, InfoHandler):
 
             image = self.device.image
             if area is not None:
-                image = crop(image, area)
+                image = crop(image, area, copy=False)
             commissions = self._commission_detect(image)
 
             if commissions.count >= 2 and commissions.select(valid=False).count == 1:
@@ -156,7 +158,7 @@ class RewardCommission(UI, InfoHandler):
         # Add shortest
         no_shortest = run.delete(SelectedGrids(['shortest']))
         if no_shortest.count + running_count < self.max_commission:
-            if no_shortest.count < run.count:
+            if daily.count:
                 logger.info('Not enough commissions to run, add shortest daily commissions')
                 COMMISSION_FILTER.load(SHORTEST_FILTER)
                 shortest = COMMISSION_FILTER.apply(daily[::-1], func=self._commission_check)
@@ -324,13 +326,14 @@ class RewardCommission(UI, InfoHandler):
         self.daily_choose, self.urgent_choose = self._commission_choose(self.daily, self.urgent)
         return daily, urgent
 
-    def _commission_start_click(self, comm, is_urgent=False):
+    def _commission_start_click(self, comm, is_urgent=False, skip_first_screenshot=True):
         """
         Start a commission.
 
         Args:
             comm (Commission):
             is_urgent (bool):
+            skip_first_screenshot:
 
         Returns:
             bool: If success
@@ -345,14 +348,38 @@ class RewardCommission(UI, InfoHandler):
         comm_timer = Timer(7)
         count = 0
         while 1:
-            if comm_timer.reached():
-                self.device.click(comm.button)
-                self.device.sleep(0.3)
-                comm_timer.reset()
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
 
-            if self.handle_popup_confirm('COMMISSION_START'):
+            # End
+            if self.info_bar_count():
+                break
+            if count >= 3:
+                # Restart game and handle commission recommend bug.
+                # After you click "Recommend", your ships appear and then suddenly disappear.
+                # At the same time, the icon of commission is flashing.
+                logger.warning('Triggered commission list flashing bug')
+                raise GameStuckError('Triggered commission list flashing bug')
+
+            # Click
+            if self.match_template_color(COMMISSION_START, offset=(5, 20), interval=7):
+                self.device.click(COMMISSION_START)
+                self.interval_reset(COMMISSION_ADVICE)
                 comm_timer.reset()
-                pass
+                continue
+            if self.handle_popup_confirm('COMMISSION_START'):
+                self.interval_reset(COMMISSION_ADVICE)
+                comm_timer.reset()
+                continue
+            # Accidentally entered dock
+            if self.appear(DOCK_CHECK, offset=(20, 20), interval=3):
+                logger.info(f'equip_enter {DOCK_CHECK} -> {BACK_ARROW}')
+                self.device.click(BACK_ARROW)
+                comm_timer.reset()
+                continue
+            # Check if is the right commission
             if self.appear(COMMISSION_ADVICE, offset=(5, 20), interval=7):
                 area = (0, 0, image_size(self.device.image)[0], COMMISSION_ADVICE.button[1])
                 current = self.commission_detect(area=area)
@@ -369,28 +396,15 @@ class RewardCommission(UI, InfoHandler):
                     logger.warning('No selected commission detected, assuming correct')
                 self.device.click(COMMISSION_ADVICE)
                 count += 1
+                self.interval_reset(COMMISSION_ADVICE)
+                self.interval_clear(COMMISSION_START)
                 comm_timer.reset()
-                pass
-            if self.appear_then_click(COMMISSION_START, offset=(5, 20), interval=7):
-                comm_timer.reset()
-                pass
-            # Accidentally entered dock
-            if self.appear(DOCK_CHECK, offset=(20, 20), interval=3):
-                logger.info(f'equip_enter {DOCK_CHECK} -> {BACK_ARROW}')
-                self.device.click(BACK_ARROW)
                 continue
-
-            # End
-            if self.info_bar_count():
-                break
-            if count >= 3:
-                # Restart game and handle commission recommend bug.
-                # After you click "Recommend", your ships appear and then suddenly disappear.
-                # At the same time, the icon of commission is flashing.
-                logger.warning('Triggered commission list flashing bug')
-                raise GameStuckError('Triggered commission list flashing bug')
-
-            self.device.screenshot()
+            # Enter
+            if comm_timer.reached():
+                self.device.click(comm.button)
+                self.device.sleep(0.3)
+                comm_timer.reset()
 
         return True
 
@@ -479,7 +493,7 @@ class RewardCommission(UI, InfoHandler):
         if not self.daily_choose and not self.urgent_choose:
             logger.info('No commission chose')
 
-    def commission_receive(self, skip_first_screenshot=True):
+    def _commission_receive(self, skip_first_screenshot=True):
         """
         Args:
             skip_first_screenshot:
@@ -504,8 +518,53 @@ class RewardCommission(UI, InfoHandler):
                 else:
                     self.device.screenshot()
 
-                for button in [EXP_INFO_S_REWARD, GET_ITEMS_1, GET_ITEMS_2, GET_ITEMS_3, GET_SHIP]:
+                # End
+                if self.ui_page_appear(page_commission, offset=(20, 20)):
+                    # Leaving at page_commission
+                    # Commission rewards may appear too slow, causing stuck in UI switching
+                    break
+
+                for button in [EXP_INFO_S_REWARD, GET_ITEMS_1, GET_ITEMS_2, GET_ITEMS_3]:
                     if self.appear(button, interval=1):
+                        if drop:
+                            self.ensure_no_info_bar(timeout=1)
+                            drop.add(self.device.image)
+
+                        REWARD_SAVE_CLICK.name = button.name
+                        self.device.click(REWARD_SAVE_CLICK)
+                        click_timer.reset()
+                        reward = True
+                        continue
+                if click_timer.reached() and self.appear_then_click(REWARD_1, offset=(20, 20), interval=1):
+                    self.interval_reset(GET_SHIP)
+                    click_timer.reset()
+                    reward = True
+                    continue
+                if click_timer.reached() and self.appear_then_click(REWARD_1_WHITE, offset=(20, 20), interval=1):
+                    self.interval_reset(GET_SHIP)
+                    click_timer.reset()
+                    reward = True
+                    continue
+                if click_timer.reached() and self.appear_then_click(REWARD_GOTO_COMMISSION, offset=(20, 20)):
+                    self.interval_reset(GET_SHIP)
+                    click_timer.reset()
+                    continue
+                if click_timer.reached() and self.appear_then_click(REWARD_GOTO_COMMISSION_WHITE, offset=(20, 20)):
+                    self.interval_reset(GET_SHIP)
+                    click_timer.reset()
+                    continue
+                if self.ui_main_appear_then_click(page_reward, interval=3):
+                    self.interval_reset(GET_SHIP)
+                    # no need to reset click_timer, just instant click REWARD_1
+                    # click_timer.reset()
+                    continue
+                # handle oil maxed
+                if self.config.SERVER in ['cn']:
+                    if self.appear(OIL_MAXED, offset=(20, 20), interval=3):
+                        raise OilMaxed
+                # Check GET_SHIP at last to handle random white background at page_main
+                for button in [GET_SHIP]:
+                    if click_timer.reached() and self.appear(button, interval=1):
                         self.ensure_no_info_bar(timeout=1)
                         drop.add(self.device.image)
 
@@ -514,28 +573,32 @@ class RewardCommission(UI, InfoHandler):
                         click_timer.reset()
                         reward = True
                         continue
-                if click_timer.reached() and self.appear_then_click(REWARD_1, offset=(20, 20), interval=1):
-                    click_timer.reset()
-                    reward = True
-                    continue
-                if click_timer.reached() and self.appear_then_click(REWARD_GOTO_COMMISSION, offset=(20, 20)):
-                    click_timer.reset()
-                    continue
                 if click_timer.reached() and self.ui_additional():
                     click_timer.reset()
                     continue
-                if self.appear(MAIN_CHECK, offset=(30, 30), interval=5):
-                    self.device.click(MAIN_GOTO_REWARD)
-                    click_timer.reset()
-                    continue
-
-                # End
-                if self.appear(COMMISSION_CHECK, offset=(20, 20)):
-                    # Leaving at page_commission
-                    # Commission rewards may appear too slow, causing stuck in UI switching
-                    break
 
         return reward
+
+    def commission_receive(self):
+        """
+        Returns:
+            bool: If rewarded.
+
+        Pages:
+            in: page_reward
+            out: page_commission
+        """
+        for _ in range(3):
+            try:
+                reward = self._commission_receive()
+                return reward
+            except OilMaxed:
+                logger.info("Oil maxed, buy food to consume oil")
+                RewardDorm(self.config, self.device).dorm_food_run(amount=10)
+                self.ui_ensure(page_reward)
+
+        logger.critical(f'Failed to handle oil maxed after 3 trial')
+        raise RequestHumanTakeover
 
     def run(self):
         """

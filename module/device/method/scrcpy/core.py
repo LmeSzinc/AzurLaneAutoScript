@@ -65,6 +65,8 @@ class ScrcpyCore(Connection):
 
         Raises:
             ScrcpyError:
+            adbutils.AdbTimeout:
+            socket.timeout:
         """
         logger.hr('Scrcpy server start')
         commands = ScrcpyOptions.command_v120(jar_path=self.config.SCRCPY_FILEPATH_REMOTE)
@@ -72,6 +74,7 @@ class ScrcpyCore(Connection):
             commands,
             stream=True,
         )
+        self._scrcpy_server_stream.conn.settimeout(3)
 
         logger.info('Create server stream')
         ret = self._scrcpy_server_stream.read(10)
@@ -104,6 +107,7 @@ class ScrcpyCore(Connection):
                 self._scrcpy_video_socket = self.adb.create_connection(
                     Network.LOCAL_ABSTRACT, "scrcpy"
                 )
+                self._scrcpy_video_socket.settimeout(3)
                 break
             except AdbError:
                 sleep(0.1)
@@ -115,6 +119,7 @@ class ScrcpyCore(Connection):
         self._scrcpy_control_socket = self.adb.create_connection(
             Network.LOCAL_ABSTRACT, "scrcpy"
         )
+        self._scrcpy_control_socket.settimeout(3)
 
         logger.info('Fetch device info')
         device_name = self._scrcpy_video_socket.recv(64).decode("utf-8").rstrip("\x00")
@@ -151,23 +156,35 @@ class ScrcpyCore(Connection):
         #     logger.error(err)
 
         self._scrcpy_alive = False
-        if self._scrcpy_server_stream is not None:
-            try:
-                self._scrcpy_server_stream.close()
-            except Exception:
-                pass
+
+        if self._scrcpy_stream_loop_thread is not None:
+            self._scrcpy_stream_loop_thread.join(1)
+            del self._scrcpy_stream_loop_thread
+            self._scrcpy_stream_loop_thread = None
 
         if self._scrcpy_control_socket is not None:
             try:
                 self._scrcpy_control_socket.close()
-            except Exception:
-                pass
+            except Exception as e:
+                logger.error(e)
+            del self._scrcpy_control_socket
+            self._scrcpy_control_socket = None
 
         if self._scrcpy_video_socket is not None:
             try:
                 self._scrcpy_video_socket.close()
-            except Exception:
-                pass
+            except Exception as e:
+                logger.error(e)
+            del self._scrcpy_video_socket
+            self._scrcpy_video_socket = None
+
+        if self._scrcpy_server_stream is not None:
+            try:
+                self._scrcpy_server_stream.close()
+            except Exception as e:
+                logger.error(e)
+            del self._scrcpy_server_stream
+            self._scrcpy_server_stream = None
 
         logger.info('Scrcpy server stopped')
 
@@ -195,7 +212,8 @@ class ScrcpyCore(Connection):
             try:
                 raw_h264 = self._scrcpy_video_socket.recv(0x10000)
                 if raw_h264 == b"":
-                    raise ScrcpyError("Video stream is disconnected")
+                    if self._scrcpy_alive:
+                        raise ScrcpyError("_scrcpy_stream_loop_thread: Video stream disconnected")
                 packets = codec.parse(raw_h264)
                 for packet in packets:
                     frames = codec.decode(packet)
@@ -212,5 +230,8 @@ class ScrcpyCore(Connection):
                 if self._scrcpy_alive:
                     logger.error(f'_scrcpy_stream_loop_thread: {repr(e)}')
                     raise
+            except Exception as e:
+                logger.error(f'_scrcpy_stream_loop_thread exception: {repr(e)}')
+                raise
 
         raise ScrcpyError('_scrcpy_stream_loop stopped')

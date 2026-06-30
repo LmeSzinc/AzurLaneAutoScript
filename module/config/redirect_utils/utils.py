@@ -83,7 +83,7 @@ def emotion_mode_redirect(value):
 
 def change_ship_redirect(value):
     """
-      FlagshipChange + FlagshipEquipChange -> ChangeFlagship
+    FlagshipChange + FlagshipEquipChange -> ChangeFlagship
     """
     ship, equip = value
     if not ship:
@@ -93,11 +93,40 @@ def change_ship_redirect(value):
     else:
         return 'ship'
 
+
 def api_redirect2(value):
     """
     remove shanghai proxy, use guangzhou
     """
     if value == 'cn_sh_reverse_proxy':
         return 'cn_gz_reverse_proxy'
+    else:
+        return value
+
+
+def coalition_to_frostfall(value):
+    """
+    Redirect Little Academy stage names to Frostfall
+    """
+    if value == 'easy':
+        return 'tc1'
+    elif value == 'normal':
+        return 'tc2'
+    elif value == 'hard':
+        return 'tc3'
+    else:
+        return value
+
+
+def coalition_to_little_academy(value):
+    """
+    Redirect Little Academy stage names to Frostfall
+    """
+    if value == 'tc1':
+        return 'easy'
+    elif value == 'tc2':
+        return 'normal'
+    elif value == 'tc3':
+        return 'hard'
     else:
         return value

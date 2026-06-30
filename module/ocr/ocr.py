@@ -2,6 +2,7 @@ import time
 from datetime import timedelta
 from typing import TYPE_CHECKING
 
+import module.config.server as server
 from module.base.button import Button
 from module.base.decorator import cached_property
 from module.base.utils import *
@@ -38,6 +39,8 @@ class Ocr:
         self.threshold = threshold
         self.alphabet = alphabet
         self.lang = lang
+        if lang == 'azur_lane' and server.server in ['jp']:
+            self.lang = 'azur_lane_' + server.server
 
     @property
     def cnocr(self) -> "AlOcr":
@@ -87,7 +90,6 @@ class Ocr:
         """
         start_time = time.time()
 
-        self.cnocr.set_cand_alphabet(self.alphabet)
         if direct_ocr:
             image_list = [self.pre_process(i) for i in image]
         else:
@@ -96,7 +98,7 @@ class Ocr:
         # This will show the images feed to OCR model
         # self.cnocr.debug(image_list)
 
-        result_list = self.cnocr.ocr_for_single_lines(image_list)
+        result_list = self.cnocr.atomic_ocr_for_single_lines(image_list, self.alphabet)
         result_list = [''.join(result) for result in result_list]
         result_list = [self.after_process(result) for result in result_list]
 
@@ -254,4 +256,3 @@ class Duration(Ocr):
 
 class DurationYuv(Duration, OcrYuv):
     pass
-

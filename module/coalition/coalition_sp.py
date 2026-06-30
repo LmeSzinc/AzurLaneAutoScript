@@ -5,7 +5,7 @@ from module.config.config import TaskEnd
 class CoalitionSP(Coalition):
     def run(self, *args, **kwargs):
         try:
-            super().run(stage='sp', total=1)
+            super().run(mode='sp', total=1)
         except TaskEnd:
             # Catch task switch
             pass

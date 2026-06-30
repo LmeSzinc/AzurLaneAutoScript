@@ -10,11 +10,14 @@ from module.device.method.utils import HierarchyButton
 from module.logger import logger
 from module.map_detection.utils import fit_points
 from module.statistics.azurstats import AzurStats
+from module.webui.setting import cached_class_property
 
 
 class ModuleBase:
     config: AzurLaneConfig
     device: Device
+
+    EARLY_OCR_IMPORT = False
 
     def __init__(self, config, device=None, task=None):
         """
@@ -31,6 +34,8 @@ class ModuleBase:
         """
         if isinstance(config, AzurLaneConfig):
             self.config = config
+            if task is not None:
+                self.config.init_task(task)
         elif isinstance(config, str):
             self.config = AzurLaneConfig(config, task=task)
         else:
@@ -49,6 +54,7 @@ class ModuleBase:
             self.device = device
 
         self.interval_timer = {}
+        self.early_ocr_import()
 
     @cached_property
     def stat(self) -> AzurStats:
@@ -58,20 +64,159 @@ class ModuleBase:
     def emotion(self) -> Emotion:
         return Emotion(config=self.config)
 
+    def early_ocr_import(self):
+        """
+        Start a thread to import cnocr and mxnet while the Alas instance just starting to take screenshots
+        The import is paralleled since taking screenshot is I/O-bound while importing is CPU-bound,
+        thus would speed up the startup 0.5 ~ 1.0s and even 5s on slow PCs.
+        """
+        if ModuleBase.EARLY_OCR_IMPORT:
+            return
+        if not self.config.is_actual_task:
+            logger.info('No actual task bound, skip early_ocr_import')
+            return
+        if self.config.task.command in ['Daemon', 'OpsiDaemon']:
+            logger.info('No ocr in daemon task, skip early_ocr_import')
+            return
+
+        def do_ocr_import():
+            # Wait first image
+            import time
+            while 1:
+                if self.device.has_cached_image:
+                    break
+                time.sleep(0.01)
+
+            logger.info('early_ocr_import start')
+            from module.ocr.al_ocr import AlOcr
+            _ = AlOcr
+            logger.info('early_ocr_import finish')
+
+        logger.info('early_ocr_import call')
+        import threading
+        thread = threading.Thread(target=do_ocr_import, daemon=True)
+        thread.start()
+        ModuleBase.EARLY_OCR_IMPORT = True
+
+    @cached_class_property
+    def worker(self):
+        """
+        A thread pool to run things at background
+
+        Examples:
+        ```
+        def func(image):
+            logger.info('Update thread start')
+            with self.config.multi_set():
+                self.dungeon_get_simuni_point(image)
+                self.dungeon_update_stamina(image)
+        ModuleBase.worker.submit(func, self.device.image)
+        ```
+        """
+        logger.hr('Creating worker')
+        from concurrent.futures import ThreadPoolExecutor
+        pool = ThreadPoolExecutor(1)
+        return pool
+
     def ensure_button(self, button):
         if isinstance(button, str):
             button = HierarchyButton(self.device.hierarchy, button)
 
         return button
 
-    def appear(self, button, offset=0, interval=0, threshold=None):
+    def loop(self, skip_first=True, timeout=None):
+        """
+        A syntactic sugar to start a state loop
+
+        Args:
+            skip_first (bool): Usually to be True to reuse the previous screenshot
+            timeout (int | float | Timer): Seconds of timeout or a Timer object
+
+        Yields:
+            np.ndarray: screenshot
+
+        Examples:
+            # state machine that handle clicking until destination
+            for _ in self.loop():
+                if self.appear(...):
+                    break
+                if self.appear_then_click(...):
+                    continue
+
+        Examples:
+            # state machine with timeout
+            for _ in self.loop(timeout=2):
+                if self.appear(...):
+                    logger.info('Wait success')
+                    break
+            else:
+                logger.warning('Wait timeout')
+        """
+        if timeout is not None:
+            if isinstance(timeout, Timer):
+                timeout.reset()
+            else:
+                timeout = Timer.from_seconds(timeout).start()
+
+        while 1:
+            if timeout is not None:
+                if timeout.reached():
+                    return
+
+            if skip_first:
+                skip_first = False
+            else:
+                self.device.screenshot()
+
+            try:
+                yield self.device.image
+            except AttributeError:
+                self.device.screenshot()
+                yield self.device.image
+
+    def loop_hierarchy(self, skip_first=True):
+        """
+        A syntactic sugar to start a hierarchy state loop
+
+        Args:
+            skip_first (bool): Usually to be True to reuse the previous hierarchy
+
+        Yields:
+            etree._Element: hierarchy
+        """
+        while 1:
+            if skip_first:
+                skip_first = False
+            else:
+                self.device.dump_hierarchy()
+            yield self.device.hierarchy
+
+    def loop_screenshot_hierarchy(self, skip_first=True):
+        """
+        A syntactic sugar to start a state loop that takes screenshots and dump hierarchy
+
+        Args:
+            skip_first (bool): Usually to be True to reuse the previous screenshot
+
+        Yields:
+            tuple[np.ndarray, etree._Element]: screenshot, hierarchy
+        """
+        while 1:
+            if skip_first:
+                skip_first = False
+            else:
+                self.device.screenshot()
+                self.device.dump_hierarchy()
+            yield self.device.image, self.device.hierarchy
+
+    def appear(self, button, offset=0, interval=0, similarity=0.85, threshold=10):
         """
         Args:
             button (Button, Template, HierarchyButton, str):
             offset (bool, int):
             interval (int, float): interval between two active events.
-            threshold (int, float): 0 to 1 if use offset, bigger means more similar,
-                0 to 255 if not use offset, smaller means more similar
+            similarity (int, float): 0 to 1.
+            threshold (int, float): 0 to 255 if not use offset, smaller means more similar
 
         Returns:
             bool:
@@ -107,20 +252,51 @@ class ModuleBase:
         elif offset:
             if isinstance(offset, bool):
                 offset = self.config.BUTTON_OFFSET
-            appear = button.match(self.device.image, offset=offset,
-                                  threshold=self.config.BUTTON_MATCH_SIMILARITY if threshold is None else threshold)
+            appear = button.match(self.device.image, offset=offset, similarity=similarity)
         else:
-            appear = button.appear_on(self.device.image,
-                                      threshold=self.config.COLOR_SIMILAR_THRESHOLD if threshold is None else threshold)
+            appear = button.appear_on(self.device.image, threshold=threshold)
 
         if appear and interval:
             self.interval_timer[button.name].reset()
 
         return appear
 
-    def appear_then_click(self, button, screenshot=False, genre='items', offset=0, interval=0, threshold=None):
+    def match_template_color(self, button, offset=(20, 20), interval=0, similarity=0.85, threshold=30):
+        """
+        Args:
+            button (Button):
+            offset (bool, int):
+            interval (int, float): interval between two active events.
+            similarity (int, float): 0 to 1.
+            threshold (int, float): 0 to 255 if not use offset, smaller means more similar
+
+        Returns:
+            bool:
+        """
         button = self.ensure_button(button)
-        appear = self.appear(button, offset=offset, interval=interval, threshold=threshold)
+        self.device.stuck_record_add(button)
+
+        if interval:
+            if button.name in self.interval_timer:
+                if self.interval_timer[button.name].limit != interval:
+                    self.interval_timer[button.name] = Timer(interval)
+            else:
+                self.interval_timer[button.name] = Timer(interval)
+            if not self.interval_timer[button.name].reached():
+                return False
+
+        appear = button.match_template_color(
+            self.device.image, offset=offset, similarity=similarity, threshold=threshold)
+
+        if appear and interval:
+            self.interval_timer[button.name].reset()
+
+        return appear
+
+    def appear_then_click(self, button, screenshot=False, genre='items', offset=0, interval=0, similarity=0.85,
+                          threshold=30):
+        button = self.ensure_button(button)
+        appear = self.appear(button, offset=offset, interval=interval, similarity=similarity, threshold=threshold)
         if appear:
             if screenshot:
                 self.device.sleep(self.config.WAIT_BEFORE_SAVING_SCREEN_SHOT)
@@ -220,7 +396,7 @@ class ModuleBase:
         Returns:
             Button: Or None if nothing matched.
         """
-        image = color_similarity_2d(self.image_crop(area), color=color)
+        image = color_similarity_2d(self.image_crop(area, copy=False), color=color)
         points = np.array(np.where(image > color_threshold)).T[:, ::-1]
         if points.shape[0] < encourage ** 2:
             # Not having enough pixels to match
@@ -231,6 +407,25 @@ class ModuleBase:
         button_area = area_offset((-encourage, -encourage, encourage, encourage), offset=point)
         color = get_color(self.device.image, button_area)
         return Button(area=button_area, color=color, button=button_area, name=name)
+
+    def get_interval_timer(self, button, interval=5, renew=False) -> Timer:
+        if hasattr(button, 'name'):
+            name = button.name
+        elif callable(button):
+            name = button.__name__
+        else:
+            name = str(button)
+
+        try:
+            timer = self.interval_timer[name]
+            if renew and timer.limit != interval:
+                timer = Timer(interval)
+                self.interval_timer[name] = timer
+            return timer
+        except KeyError:
+            timer = Timer(interval)
+            self.interval_timer[name] = timer
+            return timer
 
     def interval_reset(self, button, interval=3):
         if isinstance(button, (list, tuple)):

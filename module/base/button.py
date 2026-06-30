@@ -1,13 +1,13 @@
 import os
 import traceback
 
-import imageio
 from PIL import ImageDraw
 
 from module.base.decorator import cached_property
 from module.base.resource import Resource
 from module.base.utils import *
 from module.config.server import VALID_SERVER
+from module.logger import logger
 
 
 class Button(Resource):
@@ -153,6 +153,7 @@ class Button(Resource):
         if not self._match_init:
             if self.is_gif:
                 self.image = []
+                import imageio
                 for image in imageio.mimread(self.file):
                     image = image[:, :, :3].copy() if len(image.shape) == 3 else image
                     image = crop(image, self.area)
@@ -198,13 +199,13 @@ class Button(Resource):
         self._match_binary_init = False
         self._match_luma_init = False
 
-    def match(self, image, offset=30, threshold=0.85):
+    def match(self, image, offset=30, similarity=0.85):
         """Detects button by template matching. To Some button, its location may not be static.
 
         Args:
             image: Screenshot.
             offset (int, tuple): Detection area offset.
-            threshold (float): 0-1. Similarity.
+            similarity (float): 0-1. Similarity.
 
         Returns:
             bool.
@@ -223,25 +224,25 @@ class Button(Resource):
         if self.is_gif:
             for template in self.image:
                 res = cv2.matchTemplate(template, image, cv2.TM_CCOEFF_NORMED)
-                _, similarity, _, point = cv2.minMaxLoc(res)
+                _, sim, _, point = cv2.minMaxLoc(res)
                 self._button_offset = area_offset(self._button, offset[:2] + np.array(point))
-                if similarity > threshold:
+                if sim > similarity:
                     return True
             return False
         else:
             res = cv2.matchTemplate(self.image, image, cv2.TM_CCOEFF_NORMED)
-            _, similarity, _, point = cv2.minMaxLoc(res)
+            _, sim, _, point = cv2.minMaxLoc(res)
             self._button_offset = area_offset(self._button, offset[:2] + np.array(point))
-            return similarity > threshold
+            return sim > similarity
 
-    def match_binary(self, image, offset=30, threshold=0.85):
+    def match_binary(self, image, offset=30, similarity=0.85):
         """Detects button by template matching. To Some button, its location may not be static.
            This method will apply template matching under binarization.
 
         Args:
             image: Screenshot.
             offset (int, tuple): Detection area offset.
-            threshold (float): 0-1. Similarity.
+            similarity (float): 0-1. Similarity.
 
         Returns:
             bool.
@@ -266,9 +267,9 @@ class Button(Resource):
                 _, image_binary = cv2.threshold(image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
                 # template matching
                 res = cv2.matchTemplate(template, image_binary, cv2.TM_CCOEFF_NORMED)
-                _, similarity, _, point = cv2.minMaxLoc(res)
+                _, sim, _, point = cv2.minMaxLoc(res)
                 self._button_offset = area_offset(self._button, offset[:2] + np.array(point))
-                if similarity > threshold:
+                if sim > similarity:
                     return True
             return False
         else:
@@ -278,18 +279,18 @@ class Button(Resource):
             _, image_binary = cv2.threshold(image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
             # template matching
             res = cv2.matchTemplate(self.image_binary, image_binary, cv2.TM_CCOEFF_NORMED)
-            _, similarity, _, point = cv2.minMaxLoc(res)
+            _, sim, _, point = cv2.minMaxLoc(res)
             self._button_offset = area_offset(self._button, offset[:2] + np.array(point))
-            return similarity > threshold
+            return sim > similarity
 
-    def match_luma(self, image, offset=30, threshold=0.85):
+    def match_luma(self, image, offset=30, similarity=0.85):
         """
         Detects button by template matching under Y channel (Luminance)
 
         Args:
             image: Screenshot.
             offset (int, tuple): Detection area offset.
-            threshold (float): 0-1. Similarity.
+            similarity (float): 0-1. Similarity.
 
         Returns:
             bool.
@@ -310,29 +311,37 @@ class Button(Resource):
             image_luma = rgb2luma(image)
             for template in self.image_luma:
                 res = cv2.matchTemplate(template, image_luma, cv2.TM_CCOEFF_NORMED)
-                _, similarity, _, point = cv2.minMaxLoc(res)
+                _, sim, _, point = cv2.minMaxLoc(res)
                 self._button_offset = area_offset(self._button, offset[:2] + np.array(point))
-                if similarity > threshold:
+                if sim > similarity:
                     return True
         else:
             image_luma = rgb2luma(image)
             res = cv2.matchTemplate(self.image_luma, image_luma, cv2.TM_CCOEFF_NORMED)
-            _, similarity, _, point = cv2.minMaxLoc(res)
+            _, sim, _, point = cv2.minMaxLoc(res)
             self._button_offset = area_offset(self._button, offset[:2] + np.array(point))
-            return similarity > threshold
+            return sim > similarity
 
-    def match_appear_on(self, image, threshold=30):
+    def match_template_color(self, image, offset=(20, 20), similarity=0.85, threshold=30):
         """
+        Template match first, color match then
+
         Args:
             image: Screenshot.
-            threshold: Default to 10.
+            offset (int, tuple): Detection area offset.
+            similarity (float): 0-1.
+            threshold (int): Default to 30.
 
         Returns:
-            bool:
+            bool.
         """
-        diff = np.subtract(self.button, self._button)[:2]
-        area = area_offset(self.area, offset=diff)
-        return color_similar(color1=get_color(image, area), color2=self.color, threshold=threshold)
+        if self.match_luma(image, offset=offset, similarity=similarity):
+            diff = np.subtract(self.button, self._button)[:2]
+            area = area_offset(self.area, offset=diff)
+            color = get_color(image, area)
+            return color_similar(color1=color, color2=self.color, threshold=threshold)
+        else:
+            return False
 
     def crop(self, area, image=None, name=None):
         """

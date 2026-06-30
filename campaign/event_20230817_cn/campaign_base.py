@@ -31,12 +31,12 @@ class CampaignBase(CampaignBase_):
             Button:
         """
         # Story before A1, E0-1 ~ E0-3
-        if self.appear(EVENT_20230817_STORY, offset=(20, 20)):
+        if self.appear(EVENT_20230817_STORY, offset=(20, 100)):
             return EVENT_20230817_STORY
 
         # Smaller image to run faster
         area = (73, 135, 1223, 583)
-        image = rgb2gray(crop(self.device.image, area=area))
+        image = rgb2gray(crop(self.device.image, area=area, copy=False))
 
         # E1-1 ~ E1-2
         sim, button = TEMPLATE_EVENT_20230817_STORY_E1.match_result(image)
@@ -69,6 +69,8 @@ class CampaignBase(CampaignBase_):
                 confirm.reset()
 
             if self.handle_story_skip():
+                continue
+            if self.handle_get_items():
                 continue
 
             button = self.get_story_button()

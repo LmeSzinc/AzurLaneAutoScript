@@ -10,7 +10,7 @@ Alas:
   tasks:
     Alas:
       - Emulator
-      - RestartEmulator
+      - EmulatorInfo
       - Error
       - Optimization
       - DropRecord
@@ -93,6 +93,11 @@ Event:
       - Scheduler
       - Raid
       - Campaign
+      - StopCondition
+      - Emotion
+    Hospital:
+      - Scheduler
+      - Hospital
       - StopCondition
       - Emotion
     Coalition:
@@ -203,6 +208,7 @@ Reward:
     Dorm:
       - Scheduler
       - Dorm
+      - BuyFurniture
     Meowfficer:
       - Scheduler
       - Meowfficer
@@ -214,6 +220,9 @@ Reward:
     Reward:
       - Scheduler
       - Reward
+    Awaken:
+      - Scheduler
+      - Awaken
 
 # ==================== DailyMission ====================
 
@@ -254,6 +263,9 @@ DailyMission:
       - SupplyPack
     Minigame:
       - Scheduler
+    PrivateQuarters:
+      - Scheduler
+      - PrivateQuarters
 
 # ==================== Opsi ====================
 
@@ -323,6 +335,8 @@ Tool:
       - Daemon
     OpsiDaemon:
       - OpsiDaemon
+    EventStory:
+      - EventStory
     Benchmark:
       - Benchmark
     AzurLaneUncensored:

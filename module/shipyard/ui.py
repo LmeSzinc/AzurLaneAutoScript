@@ -1,11 +1,13 @@
 from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.base.utils import area_pad
+from module.campaign.campaign_status import OCR_COIN
 from module.handler.assets import LOGIN_ANNOUNCE
 from module.logger import logger
 from module.shipyard.ui_globals import *
 from module.ui.assets import SHIPYARD_CHECK
 from module.ui.navbar import Navbar
+from module.ui.page import page_main_white
 from module.ui.ui import UI
 
 
@@ -371,3 +373,13 @@ class ShipyardUI(UI):
             self.wait_until_appear(SHIPYARD_IN_FATE, offset=(20, 20))
 
         return True
+
+    def _shipyard_get_coin(self):
+        """
+        Returns:
+            int: Coin amount
+        """
+        if self.ui_page_appear(page_main_white):
+            return MAIN_OCR_COIN.ocr(self.device.image)
+        else:
+            return OCR_COIN.ocr(self.device.image)

@@ -9,7 +9,7 @@ from cached_property import cached_property
 
 from module.base.decorator import del_cached_property
 from module.config.config import AzurLaneConfig, TaskEnd
-from module.config.utils import deep_get, deep_set
+from module.config.deep import deep_get, deep_set
 from module.exception import *
 from module.logger import logger
 from module.notify import handle_notify
@@ -62,9 +62,10 @@ class AzurLaneAutoScript:
             logger.exception(e)
             exit(1)
 
-    def run(self, command):
+    def run(self, command, skip_first_screenshot=False):
         try:
-            self.device.screenshot()
+            if not skip_first_screenshot:
+                self.device.screenshot()
             self.__getattribute__(command)()
             return True
         except TaskEnd:
@@ -72,7 +73,7 @@ class AzurLaneAutoScript:
         except GameNotRunningError as e:
             logger.warning(e)
             self.config.task_call('Restart')
-            return True
+            return False
         except (GameStuckError, GameTooManyClickError) as e:
             logger.error(e)
             self.save_error_log()
@@ -105,7 +106,7 @@ class AzurLaneAutoScript:
                 self.checker.wait_until_available()
                 return False
         except ScriptError as e:
-            logger.critical(e)
+            logger.exception(e)
             logger.critical('This is likely to be a mistake of developers, but sometimes just random issues')
             handle_notify(
                 self.config.Error_OnePushConfig,
@@ -208,6 +209,10 @@ class AzurLaneAutoScript:
         from module.reward.reward import Reward
         Reward(config=self.config, device=self.device).run()
 
+    def awaken(self):
+        from module.awaken.awaken import Awaken
+        Awaken(config=self.config, device=self.device).run()
+
     def shop_frequent(self):
         from module.shop.shop_reward import RewardShop
         RewardShop(config=self.config, device=self.device).run_frequent()
@@ -231,6 +236,10 @@ class AzurLaneAutoScript:
     def minigame(self):
         from module.minigame.minigame import Minigame
         Minigame(config=self.config, device=self.device).run()
+
+    def private_quarters(self):
+        from module.private_quarters.private_quarters import PrivateQuarters
+        PrivateQuarters(config=self.config, device=self.device).run()
 
     def daily(self):
         from module.daily.daily import Daily
@@ -366,6 +375,10 @@ class AzurLaneAutoScript:
         from module.raid.run import RaidRun
         RaidRun(config=self.config, device=self.device).run()
 
+    def hospital(self):
+        from module.event_hospital.hospital import Hospital
+        Hospital(config=self.config, device=self.device).run()
+
     def coalition(self):
         from module.coalition.coalition import Coalition
         Coalition(config=self.config, device=self.device).run()
@@ -393,6 +406,30 @@ class AzurLaneAutoScript:
         from module.campaign.gems_farming import GemsFarming
         GemsFarming(config=self.config, device=self.device).run(
             name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
+
+    def daemon(self):
+        from module.daemon.daemon import AzurLaneDaemon
+        AzurLaneDaemon(config=self.config, device=self.device, task="Daemon").run()
+
+    def opsi_daemon(self):
+        from module.daemon.os_daemon import AzurLaneDaemon
+        AzurLaneDaemon(config=self.config, device=self.device, task="OpsiDaemon").run()
+
+    def event_story(self):
+        from module.eventstory.eventstory import EventStory
+        EventStory(config=self.config, device=self.device, task="EventStory").run()
+
+    def azur_lane_uncensored(self):
+        from module.daemon.uncensored import AzurLaneUncensored
+        AzurLaneUncensored(config=self.config, device=self.device, task="AzurLaneUncensored").run()
+
+    def benchmark(self):
+        from module.daemon.benchmark import run_benchmark
+        run_benchmark(config=self.config)
+
+    def game_manager(self):
+        from module.daemon.game_manager import GameManager
+        GameManager(config=self.config, device=self.device, task="GameManager").run()
 
     def wait_until(self, future):
         """
@@ -446,7 +483,10 @@ class AzurLaneAutoScript:
                     if not self.wait_until(task.next_run):
                         del_cached_property(self, 'config')
                         continue
-                    self.run('start')
+                    if task.command != 'Restart':
+                        self.config.task_call('Restart')
+                        del_cached_property(self, 'config')
+                        continue
                 elif method == 'goto_main':
                     logger.info('Goto main page during wait')
                     self.run('goto_main')
@@ -499,6 +539,7 @@ class AzurLaneAutoScript:
             task = self.get_next_task()
             # Init device and change server
             _ = self.device
+            self.device.config = self.config
             # Skip first restart
             if self.is_first_task and task == 'Restart':
                 logger.info('Skip task `Restart` at scheduler start')

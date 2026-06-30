@@ -6,13 +6,19 @@ from multiprocessing import Process
 from typing import Dict, List, Union
 
 import inflection
-from filelock import FileLock
 from rich.console import Console, ConsoleRenderable
 
-from module.config.utils import filepath_config
+# Since this file does not run under the same process or subprocess of app.py
+# the following code needs to be repeated
+# Import fake module before import pywebio to avoid importing unnecessary module PIL
+from module.webui.fake_pil_module import *
+
+import_fake_pil_module()
+
 from module.logger import logger, set_file_logger, set_func_logger
 from module.submodule.submodule import load_mod
-from module.submodule.utils import get_available_mod, get_available_mod_func, get_config_mod, get_func_mod, list_mod_instance
+from module.submodule.utils import get_available_func, get_available_mod, get_available_mod_func, get_config_mod, \
+    get_func_mod, list_mod_instance
 from module.webui.setting import State
 
 
@@ -26,6 +32,7 @@ class ProcessManager:
         self.renderables_max_length = 400
         self.renderables_reduce_length = 80
         self._process: Process = None
+        self._process_locks: Dict[str, threading.Lock] = {}
         self.thd_log_queue_handler: threading.Thread = None
 
     def start(self, func, ev: threading.Event = None) -> None:
@@ -56,7 +63,12 @@ class ProcessManager:
         self.thd_log_queue_handler.start()
 
     def stop(self) -> None:
-        lock = FileLock(f"{filepath_config(self.config_name)}.lock")
+        try:
+            lock = self._process_locks[self.config_name]
+        except KeyError:
+            lock = threading.Lock()
+            self._process_locks[self.config_name] = lock
+
         with lock:
             if self.alive:
                 self._process.kill()
@@ -140,6 +152,9 @@ class ProcessManager:
 
         from module.config.config import AzurLaneConfig
 
+        # Remove fake PIL module, because subprocess will use it
+        remove_fake_pil_module()
+
         AzurLaneConfig.stop_event = e
         try:
             # Run alas
@@ -149,26 +164,10 @@ class ProcessManager:
                 if e is not None:
                     AzurLaneAutoScript.stop_event = e
                 AzurLaneAutoScript(config_name=config_name).loop()
-            elif func == "Daemon":
-                from module.daemon.daemon import AzurLaneDaemon
+            elif func in get_available_func():
+                from alas import AzurLaneAutoScript
 
-                AzurLaneDaemon(config=config_name, task="Daemon").run()
-            elif func == "OpsiDaemon":
-                from module.daemon.os_daemon import AzurLaneDaemon
-
-                AzurLaneDaemon(config=config_name, task="OpsiDaemon").run()
-            elif func == "AzurLaneUncensored":
-                from module.daemon.uncensored import AzurLaneUncensored
-
-                AzurLaneUncensored(config=config_name, task="AzurLaneUncensored").run()
-            elif func == "Benchmark":
-                from module.daemon.benchmark import run_benchmark
-
-                run_benchmark(config=config_name)
-            elif func == "GameManager":
-                from module.daemon.game_manager import GameManager
-
-                GameManager(config=config_name, task="GameManager").run()
+                AzurLaneAutoScript(config_name=config_name).run(inflection.underscore(func), skip_first_screenshot=True)
             elif func in get_available_mod():
                 mod = load_mod(func)
 

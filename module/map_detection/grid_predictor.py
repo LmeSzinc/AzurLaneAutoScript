@@ -74,9 +74,10 @@ class GridPredictor:
 
     @cached_property
     def image_homo(self):
-        image_edge = cv2.Canny(rgb2gray(self.image_trans), 100, 150)
+        image_edge = rgb2gray(self.image_trans)
+        cv2.Canny(image_edge, 100, 150, dst=image_edge)
         kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))
-        image_edge = cv2.morphologyEx(image_edge, cv2.MORPH_CLOSE, kernel)
+        cv2.morphologyEx(image_edge, cv2.MORPH_CLOSE, kernel, dst=image_edge)
         return image_edge
 
     def predict(self):
@@ -120,7 +121,7 @@ class GridPredictor:
             np.ndarray: Shape (height, width, channel).
         """
         area = self._image_center + np.array(area) * self._image_a
-        image = crop(self.image, area=np.rint(area).astype(int))
+        image = crop(self.image, area=np.rint(area).astype(int), copy=False)
         if shape is not None:
             # Follow the default re-sampling filter in pillow, which is BICUBIC.
             image = cv2.resize(image, shape, interpolation=cv2.INTER_CUBIC)
@@ -137,8 +138,9 @@ class GridPredictor:
         Returns:
             int: Number of matched pixels.
         """
-        image = color_similarity_2d(self.relative_crop(area, shape=shape), color=color)
-        count = image[image > threshold].shape[0]
+        mask = color_similarity_2d(self.relative_crop(area, shape=shape), color=color)
+        cv2.inRange(mask, threshold, 255, dst=mask)
+        count = cv2.countNonZero(mask)
         return count
 
     def relative_hsv_count(self, area, h=(0, 360), s=(0, 100), v=(0, 100), shape=(50, 50)):
@@ -153,11 +155,13 @@ class GridPredictor:
         Returns:
             int: Number of matched pixels.
         """
-        image = cv2.cvtColor(self.relative_crop(area, shape=shape), cv2.COLOR_RGB2HSV)
+        image = self.relative_crop(area, shape=shape)
+        cv2.cvtColor(image, cv2.COLOR_RGB2HSV, dst=image)
         lower = (h[0] / 2, s[0] * 2.55, v[0] * 2.55)
         upper = (h[1] / 2 + 1, s[1] * 2.55 + 1, v[1] * 2.55 + 1)
+        # Don't set `dst`, output image is (50, 50) but `image` is (50, 50, 3)
         image = cv2.inRange(image, lower, upper)
-        count = image[image > 0].shape[0]
+        count = cv2.countNonZero(image)
         return count
 
     def predict_enemy_scale(self):
@@ -183,6 +187,21 @@ class GridPredictor:
         return scale
 
     def predict_enemy_genre(self):
+        if self.config.MAP_SIREN_HAS_BOSS_ICON:
+            if self.enemy_scale:
+                return ''
+            image = self.relative_crop((-0.55, -0.2, 0.45, 0.2), shape=(50, 20))
+            image = color_similarity_2d(image, color=(255, 150, 24))
+            if image[image > 221].shape[0] > 200:
+                if TEMPLATE_ENEMY_BOSS.match(image, similarity=0.6):
+                    return 'Siren_Siren'
+        if self.config.MAP_SIREN_HAS_BOSS_ICON_SMALL:
+            if self.relative_hsv_count(area=(0.03, -0.15, 0.63, 0.15), h=(32 - 3, 32 + 3), shape=(50, 20)) > 100:
+                image = self.relative_crop((0.03, -0.15, 0.63, 0.15), shape=(50, 20))
+                image = color_similarity_2d(image, color=(255, 150, 33))
+                if TEMPLATE_ENEMY_BOSS.match(image, similarity=0.7):
+                    return 'Siren_Siren'
+
         image_dic = {}
         scaling_dic = self.config.MAP_ENEMY_GENRE_DETECTION_SCALING
         for name, template in self.template_enemy_genre.items():
@@ -206,6 +225,9 @@ class GridPredictor:
         return None
 
     def predict_boss(self):
+        if self.enemy_genre == 'Siren_Siren':
+            return False
+
         image = self.relative_crop((-0.55, -0.2, 0.45, 0.2), shape=(50, 20))
         image = color_similarity_2d(image, color=(255, 77, 82))
         if TEMPLATE_ENEMY_BOSS.match(image, similarity=0.75):
@@ -267,7 +289,7 @@ class GridPredictor:
 
     def predict_sea(self):
         area = area_pad((48, 48, 48 + 46, 48 + 46), pad=5)
-        res = cv2.matchTemplate(ASSETS.tile_center_image, crop(self.image_homo, area=area), cv2.TM_CCOEFF_NORMED)
+        res = cv2.matchTemplate(ASSETS.tile_center_image, crop(self.image_homo, area=area, copy=False), cv2.TM_CCOEFF_NORMED)
         _, sim, _, _ = cv2.minMaxLoc(res)
         if sim > 0.8:
             return True
@@ -277,7 +299,7 @@ class GridPredictor:
         corner = [(5, 5, corner, corner), (tile - corner, 5, tile, corner), (5, tile - corner, corner, tile),
                   (tile - corner, tile - corner, tile, tile)]
         for area, template in zip(corner[::-1], ASSETS.tile_corner_image_list[::-1]):
-            res = cv2.matchTemplate(template, crop(self.image_homo, area=area), cv2.TM_CCOEFF_NORMED)
+            res = cv2.matchTemplate(template, crop(self.image_homo, area=area, copy=False), cv2.TM_CCOEFF_NORMED)
             _, sim, _, _ = cv2.minMaxLoc(res)
             if sim > 0.8:
                 return True
@@ -287,6 +309,17 @@ class GridPredictor:
     def predict_submarine_move(self):
         # Detect the orange arrow in submarine movement mode.
         return self.relative_rgb_count((-0.5, -1, 0.5, 0), color=(231, 138, 49), shape=(60, 60)) > 200
+
+    def predict_mob_move_icon(self):
+        image = rgb2gray(self.relative_crop(area=(-0.5, -0.5, 0.5, 0.5), shape=(60, 60)))
+        return TEMPLATE_MOB_MOVE_ICON.match(image)
+
+    def predict_air_strike_icon(self):
+        # area = area_pad((0, 0, 140, 140), pad=5)
+        # image = color_similarity_2d(crop(self.image_trans, area=area, copy=False), color=(255, 255, 160))
+        image = color_similarity_2d(self.image_trans, color=(255, 255, 160))
+        cv2.threshold(image, 175, 255, cv2.THRESH_BINARY, dst=image)
+        return TEMPLATE_AIR_STRIKE_ICON.match(image, similarity=0.7)
 
     @cached_property
     def _image_similar_piece(self):
@@ -303,14 +336,14 @@ class GridPredictor:
         area = self._image_center + np.array(area) * self._image_a
         area = area_offset(area, offset=DETECTING_AREA[:2])
         mask = UI_MASK_OS if self.is_os else UI_MASK
-        color = cv2.mean(crop(mask.image, area=np.rint(area).astype(int)))
+        color = cv2.mean(crop(mask.image, area=np.rint(area).astype(int), copy=False))
         return color[0] > 235
 
-    def is_similar_to(self, grid, threshold=0.9):
+    def is_similar_to(self, grid, similarity=0.9):
         """
         Args:
             grid (GridPredictor): Another Grid instance.
-            threshold (float): 0 to 1.
+            similarity (float): 0 to 1.
 
         Returns:
             bool: If current grid is similar to another.
@@ -320,5 +353,5 @@ class GridPredictor:
         piece_1 = self._image_similar_piece
         piece_2 = grid._image_similar_full
         res = cv2.matchTemplate(piece_2, piece_1, cv2.TM_CCOEFF_NORMED)
-        _, similarity, _, point = cv2.minMaxLoc(res)
-        return similarity > threshold
+        _, sim, _, point = cv2.minMaxLoc(res)
+        return sim > similarity

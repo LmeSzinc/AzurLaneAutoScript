@@ -17,10 +17,14 @@ class Map(Fleet):
         Args:
             grid (GridInfo):
             expected (str):
+
+        Returns:
+            int: If cleared an enemy.
         """
         logger.info('targetEnemyScale:%s' % (self.config.EnemyPriority_EnemyScaleBalanceWeight))
         logger.info('Clear enemy: %s' % grid)
         expected = f'combat_{expected}' if expected else 'combat'
+        battle_count = self.battle_count
         self.show_fleet()
         if self.emotion.is_calculate and self.config.Campaign_UseFleetLock:
             self.emotion.wait(fleet_index=self.fleet_current_index)
@@ -29,6 +33,7 @@ class Map(Fleet):
         self.full_scan()
         self.find_path_initial()
         self.map.show_cost()
+        return self.battle_count >= battle_count
 
     def clear_chosen_mystery(self, grid):
         """
@@ -372,12 +377,17 @@ class Map(Fleet):
         grids = self.map.select(may_boss=True, is_accessible=True).sort('weight', 'cost')
         logger.info('May boss: %s' % grids)
         battle_count = self.battle_count
+        is_single_boss = self.map.select(may_boss=True).count == 1
+        if is_single_boss:
+            expected = 'boss'
+        else:
+            expected = ''
 
         for grid in grids:
             logger.hr('Clear potential BOSS')
             grids = grids.sort('weight', 'cost')
             logger.info('Grid: %s' % str(grid))
-            self.fleet_boss.clear_chosen_enemy(grid)
+            self.fleet_boss.clear_chosen_enemy(grid, expected=expected)
             if self.battle_count > battle_count:
                 logger.info('Boss guessing correct.')
                 return True
@@ -392,7 +402,7 @@ class Map(Fleet):
             roadblocks = self.brute_find_roadblocks(grid, fleet=self.fleet_boss_index)
             roadblocks = roadblocks.sort('weight', 'cost')
             logger.info('Grids: %s' % str(roadblocks))
-            self.fleet_1.clear_chosen_enemy(roadblocks[0])
+            self.fleet_1.clear_chosen_enemy(roadblocks[0], expected=expected)
             return True
 
         return False
@@ -632,7 +642,11 @@ class Map(Fleet):
                 return False
 
             nearby = self.map.select(cost_2=1).add(self.map.select(cost_2=2))
-            approaching = nearby.select(is_siren=True)
+            approaching = SelectedGrids([])
+            if self.config.MAP_HAS_MOVABLE_ENEMY:
+                approaching = approaching.add(nearby.select(is_siren=True))
+            if self.config.MAP_HAS_MOVABLE_NORMAL_ENEMY:
+                approaching = approaching.add(nearby.select(is_enemy=True))
             if approaching:
                 grids = self.select_grids(approaching, sort=('cost_2', 'cost_1'))
                 self.clear_chosen_enemy(grids[0], expected='siren')
@@ -648,8 +662,8 @@ class Map(Fleet):
 
     def clear_filter_enemy(self, string, preserve=0):
         """
-        if EnemyPriority_EnemyScaleBalanceWeight != default_mode
-        Filter will be covered
+        If EnemyPriority_EnemyScaleBalanceWeight != default_mode, enemy filter is ignored
+        If MAP_HAS_MOVABLE_NORMAL_ENEMY, enemy filter is ignored
 
         Args:
             string (str): Filter to select enemies, from easy to hard
@@ -659,6 +673,11 @@ class Map(Fleet):
         Returns:
             bool: If clear an enemy.
         """
+        if self.config.MAP_HAS_MOVABLE_NORMAL_ENEMY:
+            if self.clear_any_enemy(sort=('cost_2',)):
+                return True
+            return False
+
         if self.config.EnemyPriority_EnemyScaleBalanceWeight == 'S3_enemy_first':
             string = '3L > 3M > 3E > 3C > 2L > 2M > 2E > 2C > 1L > 1M > 1E > 1C'
             preserve = 0

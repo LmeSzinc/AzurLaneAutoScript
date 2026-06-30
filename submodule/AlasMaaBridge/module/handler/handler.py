@@ -10,7 +10,8 @@ from cached_property import cached_property
 
 from deploy.config import DeployConfig
 from module.base.timer import Timer
-from module.config.utils import read_file, deep_get, get_server_last_update
+from module.config.deep import deep_get
+from module.config.utils import read_file, get_server_last_update
 from module.device.connection_attr import ConnectionAttr
 from module.exception import RequestHumanTakeover
 from module.logger import logger
@@ -31,7 +32,12 @@ class AssistantHandler:
         AssistantHandler.Asst = asst.Asst
         AssistantHandler.Message = utils.Message
         AssistantHandler.InstanceOptionType = utils.InstanceOptionType
-        AssistantHandler.Asst.load(path, user_dir=path, incremental_path=incremental_path)
+        try:
+            AssistantHandler.Asst.load(path, user_dir=path, incremental_path=incremental_path)
+        except OSError as e:
+            logger.critical(e)
+            logger.critical("MAA加载失败，请检查MAA本体能否正常打开")
+            raise RequestHumanTakeover
 
         AssistantHandler.ASST_HANDLER = None
 
@@ -106,7 +112,7 @@ class AssistantHandler:
         所有其他回调处理函数应遵循同样格式，
         在需要使用的时候加入callback_list，
         可以被随时移除，或在任务结束时自动清空。
-        参数的详细说明见https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/3.2-回调信息协议.md
+        参数的详细说明见https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/docs/zh-cn/protocol/callback-schema.md
 
         Args:
             m (Message): 消息类型
@@ -129,8 +135,12 @@ class AssistantHandler:
             self.callback_list.remove(self.penguin_id_callback)
 
     def annihilation_callback(self, m, d):
-        if m == self.Message.SubTaskError:
-            self.signal = m
+        # Skip annihilation error task callback temporary
+        # https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/10623
+        ignoreErrorKeywords = ["FightSeries-Indicator","FightSeries-Icon"]
+        if m == self.Message.SubTaskError \
+                and deep_get(d, keys='first') != ignoreErrorKeywords:
+            self.signal = m 
 
     def fight_stop_count_callback(self, m, d):
         if m == self.Message.SubTaskCompleted:
@@ -207,7 +217,9 @@ class AssistantHandler:
     def startup(self):
         self.connect()
         if self.config.Scheduler_NextRun.strftime('%H:%M') == self.config.Scheduler_ServerUpdate:
-            self.maa_start('CloseDown', {})
+            self.maa_start('CloseDown', {
+                "client_type": self.config.MaaEmulator_PackageName
+            })
 
         self.maa_start('StartUp', {
             "client_type": self.config.MaaEmulator_PackageName,
@@ -218,8 +230,10 @@ class AssistantHandler:
     def fight(self):
         args = {
             "report_to_penguin": self.config.MaaRecord_ReportToPenguin,
+            "report_to_yituliu": self.config.MaaRecord_ReportToYiTuLiu,
             "client_type": self.config.MaaEmulator_PackageName,
             "DrGrandet": self.config.MaaFight_DrGrandet,
+            "series": int(self.config.MaaFight_Series)
         }
         # Set stage
         if self.config.MaaFight_Stage == 'last':
@@ -307,7 +321,8 @@ class AssistantHandler:
             "confirm": confirm,
             "times": self.config.MaaRecruit_Times,
             "expedite": self.config.MaaRecruit_Expedite,
-            "skip_robot": self.config.MaaRecruit_SkipRobot
+            "skip_robot": self.config.MaaRecruit_SkipRobot,
+            "extra_tags_mode": self.config.MaaRecruit_ExtraTagsMode
         }
 
         if self.config.MaaRecruit_Level3ShortTime:
@@ -317,6 +332,9 @@ class AssistantHandler:
             args["penguin_id"] = self.config.MaaRecord_PenguinID
         elif self.config.MaaRecord_ReportToPenguin and not self.config.MaaRecord_PenguinID:
             self.callback_list.append(self.penguin_id_callback)
+
+        if self.config.MaaRecruit_FirstTags:
+            args["first_tags"] = self.config.MaaRecruit_FirstTags.split(';')
 
         self.maa_start('Recruit', args)
         self.config.task_delay(success=True)
@@ -328,7 +346,8 @@ class AssistantHandler:
             "threshold": self.config.MaaInfrast_WorkThreshold / 24,
             "replenish": self.config.MaaInfrast_Replenish,
             "dorm_notstationed_enabled": self.config.MaaInfrast_Notstationed,
-            "dorm_trust_enabled": self.config.MaaInfrast_Trust
+            "dorm_trust_enabled": self.config.MaaInfrast_Trust,
+            "continue_training": self.config.MaaInfrast_ContinueTraining
         }
 
         if self.config.MaaCustomInfrast_Enable:
@@ -417,14 +436,22 @@ class AssistantHandler:
             "shopping": self.config.MaaMall_Shopping,
             "buy_first": buy_first,
             "blacklist": blacklist,
-            "force_shopping_if_credit_full": self.config.MaaMall_ForceShoppingIfCreditFull
+            "force_shopping_if_credit_full": self.config.MaaMall_ForceShoppingIfCreditFull,
+            "only_buy_discount": self.config.MaaMall_OnlyBuyDiscount,
+            "reserve_max_credit": self.config.MaaMall_ReserveMaxCredit,
         })
         self.config.task_delay(server_update=True)
 
     def award(self):
-        self.maa_start('Award', {
-            "enable": True
-        })
+        args = {
+            "enable": True,
+            "award": True,
+            "mail": self.config.MaaAward_Mail,
+            "recruit": self.config.MaaAward_Recruit,
+            "orundum": self.config.MaaAward_Orundum,
+            "specialaccess": self.config.MaaAward_Specialaccess,
+        }
+        self.maa_start('Award', args)
         self.config.task_delay(server_update=True)
 
     def roguelike(self):
@@ -435,14 +462,33 @@ class AssistantHandler:
             "investments_count": self.config.MaaRoguelike_InvestmentsCount,
             "stop_when_investment_full": self.config.MaaRoguelike_StopWhenInvestmentFull,
             "squad": self.config.MaaRoguelike_Squad,
-            "roles": self.config.MaaRoguelike_Roles
+            "roles": self.config.MaaRoguelike_Roles,
         }
+        if (self.config.MaaRoguelike_Theme != "Mizuki" and self.config.MaaRoguelike_Squad in ["心胜于物分队",
+                                                                                              "物尽其用分队",
+                                                                                              "以人为本分队"]) or (
+                self.config.MaaRoguelike_Theme != "Sami" and self.config.MaaRoguelike_Squad in ["永恒狩猎分队",
+                                                                                                "生活至上分队",
+                                                                                                "科学主义分队",
+                                                                                                "特训分队"]) or (
+                self.config.MaaRoguelike_Theme != "Sarkaz" and self.config.MaaRoguelike_Squad in ["魂灵护送分队",
+                                                                                                "博闻广记分队",
+                                                                                                "蓝图测绘分队",
+                                                                                                "因地制宜分队"]):
+
+            args["squad"] = "指挥分队"
         if self.config.MaaRoguelike_CoreChar:
             args["core_char"] = self.config.MaaRoguelike_CoreChar
         if self.config.MaaRoguelike_Support != 'no_use':
             args["use_support"] = True
         if self.config.MaaRoguelike_Support == 'nonfriend_support':
             args["use_nonfriend_support"] = True
+        if self.config.MaaRoguelike_Squad in ["突击战术分队", "堡垒战术分队", "远程战术分队",
+                                              "破坏战术分队"] and self.config.MaaRoguelike_Mode == 4 and self.config.MaaRoguelike_startWithEliteTwo != "no_use":
+            args["start_with_elite_two"] = True
+            args[self.config.MaaRoguelike_startWithEliteTwo] = True
+        if self.config.MaaRoguelike_Theme == "Mizuki":
+            args["refresh_trader_with_dice"] = self.config.MaaRoguelike_refreshTraderWithDice
 
         self.task_switch_timer = Timer(30).start()
         self.callback_list.append(self.roguelike_callback)
@@ -504,10 +550,10 @@ class AssistantHandler:
             return
 
         args = {
-                "stage_name": stage,
-                "filename": filename,
-                "formation": self.config.MaaCopilot_Formation
-            }
+            "stage_name": stage,
+            "filename": filename,
+            "formation": self.config.MaaCopilot_Formation
+        }
         for i in range(self.config.MaaCopilot_Cycle):
             if deep_get(homework, keys='type') == 'SSS':
                 self.maa_start('SSSCopilot', args)

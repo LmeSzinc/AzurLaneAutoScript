@@ -13,6 +13,17 @@ MOD_FUNC_DICT = {
 MOD_CONFIG_DICT = {}
 
 
+def get_available_func():
+    return (
+        'Daemon',
+        'OpsiDaemon',
+        'EventStory',
+        'AzurLaneUncensored',
+        'Benchmark',
+        'GameManager',
+    )
+
+
 def get_available_mod():
     return set(MOD_DICT)
 

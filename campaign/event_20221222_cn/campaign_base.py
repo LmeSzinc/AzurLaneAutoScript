@@ -1,27 +1,14 @@
-from module.base.utils import color_similarity_2d
 from module.campaign.campaign_base import CampaignBase as CampaignBase_
-from module.map_detection.grid import Grid
-from module.template.assets import TEMPLATE_ENEMY_BOSS
-
-
-class EventGrid(Grid):
-    def predict_enemy_genre(self):
-        if self.enemy_scale:
-            return ''
-
-        image = self.relative_crop((-0.55, -0.2, 0.45, 0.2), shape=(50, 20))
-        image = color_similarity_2d(image, color=(255, 150, 24))
-        if image[image > 221].shape[0] > 200:
-            if TEMPLATE_ENEMY_BOSS.match(image, similarity=0.6):
-                return 'Siren_Siren'
-
-        return super().predict_enemy_genre()
-
-    def predict_boss(self):
-        if self.enemy_genre == 'Siren_Siren':
-            return False
-        return super().predict_boss()
+from module.ui.page import page_event
 
 
 class CampaignBase(CampaignBase_):
-    grid_class = EventGrid
+    def handle_exp_info(self):
+        # Random background of hits EXP_INFO_B
+        if self.ui_page_appear(page_event):
+            return False
+        return super().handle_exp_info()
+
+    def map_data_init(self, map_):
+        super().map_data_init(map_)
+        self.config.override(EnemyPriority_EnemyScaleBalanceWeight='default_mode')

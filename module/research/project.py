@@ -4,6 +4,7 @@ from scipy import signal
 
 from module.base.decorator import cached_property
 from module.base.utils import *
+from module.device.method.utils import removesuffix
 from module.logger import logger
 from module.ocr.ocr import Duration, Ocr
 from module.research.assets import *
@@ -45,7 +46,7 @@ def get_research_series_old(image, series_button=RESEARCH_SERIES):
     parameters = {'height': 160, 'prominence': 50, 'width': 1}
 
     for button in series_button:
-        im = color_similarity_2d(resize(crop(image, button.area), (46, 25)), color=(255, 255, 255))
+        im = color_similarity_2d(resize(crop(image, button.area, copy=False), (46, 25)), color=(255, 255, 255))
         peaks = [len(signal.find_peaks(row, **parameters)[0]) for row in im[5:-5]]
         upper, lower = max(peaks), min(peaks)
         # print(peaks)
@@ -116,7 +117,7 @@ def get_research_series(image, series_button=RESEARCH_SERIES):
     result = []
     for button in series_button:
         # img = resize(crop(image, button.area), (46, 25))
-        img = crop(image, button.area)
+        img = crop(image, button.area, copy=False)
         img = cv2.resize(img, (46, 25), interpolation=cv2.INTER_AREA)
         series = _get_research_series(img)
         result.append(series)
@@ -180,14 +181,14 @@ def parse_time(string):
         return timedelta(hours=result[0], minutes=result[1], seconds=result[2])
 
 
-def match_template(image, template, area, offset=30, threshold=0.85):
+def match_template(image, template, area, offset=30, similarity=0.85):
     """
     Args:
         image (np.ndarray): Screenshot
         template (np.ndarray):
         area (tuple): Crop area of image.
         offset (int, tuple): Detection area offset.
-        threshold (float): 0-1. Similarity. Lower than this value will return float(0).
+        similarity (float): 0-1. Similarity. Lower than this value will return float(0).
     Returns:
         similarity (float):
     """
@@ -195,11 +196,12 @@ def match_template(image, template, area, offset=30, threshold=0.85):
         offset = np.array((-offset[0], -offset[1], offset[0], offset[1]))
     else:
         offset = np.array((0, -offset, 0, offset))
-    image = crop(image, offset + area)
+    image = crop(image, offset + area, copy=False)
     res = cv2.matchTemplate(image, template, cv2.TM_CCOEFF_NORMED)
     _, sim, _, point = cv2.minMaxLoc(res)
-    similarity = sim if sim >= threshold else 0.0
-    return similarity
+    if sim < similarity:
+        sim = 0.0
+    return sim
 
 
 def get_research_series_jp_old(image):
@@ -217,7 +219,7 @@ def get_research_series_jp_old(image):
 
     area = SERIES_DETAIL.area
     # Resize is not needed because only one area will be checked in JP server.
-    im = color_similarity_2d(crop(image, area), color=(255, 255, 255))
+    im = color_similarity_2d(crop(image, area, copy=False), color=(255, 255, 255))
     peaks = [len(signal.find_peaks(row, **parameters)[0]) for row in im[5:-5]]
     upper, lower = max(peaks), min(peaks)
     # print(upper, lower)
@@ -274,7 +276,7 @@ def get_research_genre_jp(image):
     """
     genre = ''
     for button in RESEARCH_DETAIL_GENRE:
-        if button.match(image, offset=(30, 20), threshold=0.9):
+        if button.match(image, offset=(30, 20), similarity=0.9):
             # DETAIL_GENRE_H_0.name.split("_")[2] == 'H'
             genre = button.name.split("_")[2]
             break
@@ -303,12 +305,12 @@ def get_research_cost_jp(image):
     costs = {'coin': False, 'cube': False, 'plate': False}
     for name, template in templates.items():
         template = load_image(template)
-        template = crop(resize(template, size_template), area_template)
+        template = crop(resize(template, size_template), area_template, copy=False)
         sim = match_template(image=image,
                              template=template,
                              area=DETAIL_COST.area,
                              offset=(10, 10),
-                             threshold=0.8)
+                             similarity=0.8)
         if not sim:
             continue
         for cost in costs:
@@ -343,7 +345,7 @@ def get_research_ship_jp(image):
                              template=load_image(template),
                              area=DETAIL_BLUEPRINT.area,
                              offset=(10, 10),
-                             threshold=0.9)
+                             similarity=0.9)
         if sim > similarity:
             similarity = sim
             ship = name
@@ -362,7 +364,9 @@ def research_jp_detect(image):
     """
     project = ResearchProjectJp()
     project.series = get_research_series_jp(image)
-    project.duration = str(get_research_duration_jp(image) / 3600).rstrip('.0')
+    project.duration = removesuffix(str(get_research_duration_jp(image) / 3600), '.0')
+    if project.duration == '':
+        project.duration = '0'
     project.genre = get_research_genre_jp(image)
     costs = get_research_cost_jp(image)
     for cost in costs:
@@ -395,14 +399,26 @@ def research_detect(image):
 
 class ResearchProject:
     REGEX_SHIP = re.compile(
-        '(neptune|monarch|ibuki|izumo|roon|saintlouis'
+        '('
+        'neptune|monarch|ibuki|izumo|roon|saintlouis'
         '|seattle|georgia|kitakaze|azuma|friedrich'
         '|gascogne|champagne|cheshire|drake|mainz|odin'
         '|anchorage|hakuryu|agir|august|marcopolo'
         '|plymouth|rupprecht|harbin|chkalov|brest'
-        '|kearsarge|hindenburg|shimanto|schultz|flandre)')
+        '|kearsarge|hindenburg|shimanto|schultz|flandre'
+        '|napoli|nakhimov|halford|bayard|daisen'
+        '|goudenleeuw|mecklenburg|dmitri|kansas|vittorio'
+        ')')
     REGEX_INPUT = re.compile('(coin|cube|part)')
-    REGEX_DR_SHIP = re.compile('azuma|friedrich|drake|hakuryu|agir|plymouth|brest|kearsarge|hindenburg')
+    REGEX_DR_SHIP = re.compile(
+        'azuma|friedrich'
+        '|drake'
+        '|hakuryu|agir'
+        '|plymouth|brest'
+        '|kearsarge|hindenburg'
+        '|napoli|nakhimov'
+        '|goudenleeuw|mecklenburg'
+    )
     # Generate with:
     """
     out = []
@@ -419,10 +435,13 @@ class ResearchProject:
         '779', '794', '305', '312', '346', '357', '379', '394', '721', '722', '772', '777', '795', '321', '322', '372',
         '377', '395', '708', '763', '775', '782', '768', '308', '363', '375', '382', '368', '719', '778', '786', '788',
         '793', '319', '378', '386', '388', '393', '783', '713', '739', '771', '796', '383', '313', '339', '371', '396',
-        '418', '431', '444', '459', '474', '492', '018', '031', '044', '059', '074', '092', '405', '412', '446', '457',
-        '479', '494', '005', '012', '046', '057', '079', '094', '421', '422', '472', '477', '495', '021', '022', '072',
-        '077', '095', '408', '463', '475', '482', '468', '008', '063', '075', '082', '068', '419', '478', '486', '488',
-        '493', '019', '078', '086', '088', '093', '483', '413', '439', '471', '496', '083', '013', '039', '071', '096']
+        '703', '758', '766', '790', '797', '303', '358', '366', '390', '397', '780', '736', '787', '711', '764', '380',
+        '336', '387', '311', '364', '418', '431', '444', '459', '474', '492', '018', '031', '044', '059', '074', '092',
+        '405', '412', '446', '457', '479', '494', '005', '012', '046', '057', '079', '094', '421', '422', '472', '477',
+        '495', '021', '022', '072', '077', '095', '408', '463', '475', '482', '468', '008', '063', '075', '082', '068',
+        '419', '478', '486', '488', '493', '019', '078', '086', '088', '093', '483', '413', '439', '471', '496', '083',
+        '013', '039', '071', '096', '403', '458', '466', '490', '497', '003', '058', '066', '090', '097', '480', '436',
+        '487', '411', '464', '080', '036', '087', '011', '064']
 
     def __init__(self, name, series):
         """
@@ -537,7 +556,11 @@ class ResearchProject:
                 suffix = 'UL'
             # TW ocr errors, convert B to D
             if prefix == 'B' and number in ResearchProject.D_PROJECT_NUMBERS:
-                prefix = 'D'
+                # Keep B-397-RF, S7 D-397-MI and S* B-397-RF shares 397
+                if number == '397' and suffix == 'RF':
+                    pass
+                else:
+                    prefix = 'D'
             # I-483-RF revised to -483-RF -> D-483-RF
             if prefix == '' and number in ResearchProject.D_PROJECT_NUMBERS:
                 prefix = 'D'
@@ -608,8 +631,18 @@ class ResearchProjectJp:
     SHIP_S4 = ['anchorage', 'hakuryu', 'agir', 'august', 'marcopolo']
     SHIP_S5 = ['plymouth', 'rupprecht', 'harbin', 'chkalov', 'brest']
     SHIP_S6 = ['kearsarge', 'hindenburg', 'shimanto', 'schultz', 'flandre']
-    SHIP_ALL = SHIP_S1 + SHIP_S2 + SHIP_S3 + SHIP_S4 + SHIP_S5 + SHIP_S6
-    DR_SHIP = ['azuma', 'friedrich', 'drake', 'hakuryu', 'agir', 'plymouth', 'brest', 'kearsarge', 'hindenburg']
+    SHIP_S7 = ['napoli', 'nakhimov', 'halford', 'bayard', 'daisen']
+    SHIP_S8 = ['goudenleeuw', 'mecklenburg', 'dmitri', 'kansas', 'vittorio']
+    SHIP_ALL = SHIP_S1 + SHIP_S2 + SHIP_S3 + SHIP_S4 + SHIP_S5 + SHIP_S6 + SHIP_S7 + SHIP_S8
+    DR_SHIP = [
+        'azuma', 'friedrich',
+        'drake',
+        'hakuryu', 'agir',
+        'plymouth', 'brest',
+        'kearsarge', 'hindenburg',
+        'napoli', 'nakhimov',
+        'goudenleeuw', 'mecklenburg',
+    ]
 
     def __init__(self):
         self.valid = True

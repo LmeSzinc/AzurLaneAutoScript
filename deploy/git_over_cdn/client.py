@@ -52,10 +52,14 @@ class GitOverCdnClient:
     def __init__(self, url, folder, source='origin', branch='master', git='git'):
         """
         Args:
-            url: http://127.0.0.1:22251/pack/LmeSzinc_AzurLaneAutoScript_master/
+            url (str | list[str]): http://127.0.0.1:22251/pack/LmeSzinc_AzurLaneAutoScript_master/
             folder: D:/AzurLaneAutoScript
         """
-        self.url = url.strip('/')
+        if isinstance(url, str):
+            self.urls = [url.strip('/')]
+        else:
+            self.urls = [u.strip('/') for u in url]
+        self.url = self.urls[0]
         self.folder = folder.replace('\\', '/')
         self.source = source
         self.branch = branch
@@ -100,29 +104,31 @@ class GitOverCdnClient:
 
     @cached_property
     def latest_commit(self) -> str:
-        try:
+        for url_base in self.urls:
+            self.url = url_base
             url = self.urlpath('/latest.json')
             self.logger.info(f'Fetch url: {url}')
-            resp = self.session.get(url, timeout=3)
-        except Exception as e:
-            self.logger.error(f'Failed to get remote commit: {e}')
-            return ''
-
-        if resp.status_code == 200:
             try:
-                info = json.loads(resp.text)
-                commit = info['commit']
-                self.logger.attr('LatestCommit', commit)
-                return commit
-            except json.JSONDecodeError:
-                self.logger.error(f'Failed to get remote commit, response is not a json: {resp.text}')
-                return ''
-            except KeyError:
-                self.logger.error(f'Failed to get remote commit, key "commit" is not found: {resp.text}')
-                return ''
-        else:
-            self.logger.error(f'Failed to get remote commit, status={resp.status_code}, text={resp.text}')
-            return ''
+                resp = self.session.get(url, timeout=3)
+            except Exception as e:
+                self.logger.error(f'Failed to get remote commit: {e}')
+                continue
+
+            if resp.status_code == 200:
+                try:
+                    info = json.loads(resp.text)
+                    commit = info['commit']
+                    self.logger.attr('LatestCommit', commit)
+                    return commit
+                except json.JSONDecodeError:
+                    self.logger.error(f'Failed to get remote commit, response is not a json: {resp.text}')
+                except KeyError:
+                    self.logger.error(f'Failed to get remote commit, key "commit" is not found: {resp.text}')
+            else:
+                self.logger.error(f'Failed to get remote commit, status={resp.status_code}, text={resp.text}')
+
+        self.url = self.urls[0]
+        return ''
 
     def download_pack(self):
         try:
@@ -204,7 +210,7 @@ class GitOverCdnClient:
             self.logger.warning(f'TimeoutExpired when calling {cmd}, stdout={stdout}, stderr={stderr}')
         return stdout.decode()
 
-    def git_reset(self, keep_changes=False):
+    def git_reset(self):
         """
         git reset --hard <commit>
         """
@@ -217,12 +223,7 @@ class GitOverCdnClient:
             if os.path.exists(lock_file):
                 self.logger.info(f'Lock file {lock_file} exists, removing')
                 os.remove(lock_file)
-        if keep_changes:
-            self.git_command('stash')
-            self.git_command('reset', '--hard', f'{self.source}/{self.branch}')
-            self.git_command('stash', 'pop')
-        else:
-            self.git_command('reset', '--hard', f'{self.source}/{self.branch}')
+        self.git_command('reset', '--hard', f'{self.source}/{self.branch}')
 
     def get_status(self):
         """
@@ -245,11 +246,8 @@ class GitOverCdnClient:
         self.logger.info('Current repo is behind remote')
         return 'behind'
 
-    def update(self, keep_changes=False):
+    def update(self):
         """
-        Args:
-            keep_changes:
-
         Returns:
             bool: If repo is up-to-date
         """
@@ -263,13 +261,13 @@ class GitOverCdnClient:
             return False
         if self.current_commit == self.latest_commit:
             self.logger.info('Already up to date')
-            self.git_reset(keep_changes=keep_changes)
+            self.git_reset()
             return True
 
         if not self.download_pack():
             return False
         if not self.update_refs():
             return False
-        self.git_reset(keep_changes=keep_changes)
+        self.git_reset()
         self.logger.info('Update success')
         return True

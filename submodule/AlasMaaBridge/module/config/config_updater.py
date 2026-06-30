@@ -1,10 +1,8 @@
-import sys
-sys.path.append('i:/AzurLaneAutoScript')
-
 from cached_property import cached_property
 
 from module.base.timer import timer
 from module.config import config_updater
+from module.config.deep import deep_get, deep_iter, deep_set
 from module.config.utils import *
 
 
@@ -52,7 +50,7 @@ class ConfigGenerator(config_updater.ConfigGenerator):
             deep_load(path)
             if 'option' in data:
                 deep_load(path, words=data['option'], default=False)
-        
+
         # GUI i18n
         for path, _ in deep_iter(self.gui, depth=2):
             group, key = path
@@ -96,16 +94,12 @@ class ConfigUpdater(config_updater.ConfigUpdater):
         """
         new = {}
 
-        def deep_load(keys):
-            data = deep_get(self.args, keys=keys, default={})
+        for keys, data in deep_iter(self.args, depth=3):
             value = deep_get(old, keys=keys, default=data['value'])
             if is_template or value is None or value == '' or data['type'] == 'lock' or data.get('display') == 'hide':
                 value = data['value']
             value = parse_value(value, data=data)
             deep_set(new, keys=keys, value=value)
-
-        for path, _ in deep_iter(self.args, depth=3):
-            deep_load(path)
 
         if not is_template:
             new = self.config_redirect(old, new)
@@ -127,6 +121,7 @@ if __name__ == '__main__':
     """
     # Ensure running in mod root folder
     import os
+
     os.chdir(os.path.join(os.path.dirname(__file__), "../../"))
     ConfigGenerator().generate()
     os.chdir('../../')

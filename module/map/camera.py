@@ -6,7 +6,7 @@ from module.base.timer import Timer
 from module.base.utils import area_offset
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_1_RYZA
 from module.exception import CampaignEnd, GameNotRunningError, MapDetectionError
-from module.handler.assets import AUTO_SEARCH_MENU_CONTINUE, GAME_TIPS
+from module.handler.assets import AUTO_SEARCH_MENU_CONTINUE, GAME_TIPS, GET_MISSION
 from module.logger import logger
 from module.map.assets import MAP_PREPARATION
 from module.map.map_base import CampaignMap, location2node
@@ -16,8 +16,8 @@ from module.map_detection.grid import Grid
 from module.map_detection.utils import area2corner, trapezoid2area
 from module.map_detection.view import View
 from module.os.assets import GLOBE_GOTO_MAP
-from module.os_handler.assets import AUTO_SEARCH_REWARD, GET_ADAPTABILITY, MISSION_CHECK as OPSI_MISSION_CHECK, \
-    PORT_SUPPLY_CHECK
+from module.os_handler.assets import AUTO_SEARCH_REWARD, GET_ADAPTABILITY, MISSION_CHECK as OPSI_MISSION_CHECK
+from module.os_shop.assets import PORT_SUPPLY_CHECK
 from module.ui.assets import BACK_ARROW
 
 
@@ -57,8 +57,9 @@ class Camera(MapOperation):
             vector = distance * vector
             vector = -vector
             self.device.swipe_vector(vector, name=name, box=box, whitelist_area=whitelist, blacklist_area=blacklist)
-            self.device.sleep(0.3)
-            self.update()
+            # Donno why initial commit have a sleep here
+            # self.device.sleep(0.3)
+            self.update(wait_swipe=True)
             return True
         else:
             # Drop swipe
@@ -105,21 +106,16 @@ class Camera(MapOperation):
         if not hasattr(self, 'view'):
             self.view = View(self.config, grid_class=self.grid_class)
 
-    def _update(self, camera=True):
-        """Update map image
-
-        Args:
-            camera: True to update camera position and perspective data.
+    def _update_view(self):
         """
-        self.device.screenshot()
-        if not camera:
-            self.view.update(image=self.device.image)
-            return True
-
+        Update map view
+        """
         self._view_init()
         try:
             if not self.is_in_map() \
-                    and not self.is_in_strategy_submarine_move():
+                    and not self.is_in_strategy_submarine_move() \
+                    and not self.is_in_strategy_mob_move() \
+                    and not self.is_in_strategy_air_strike():
                 logger.warning('Image to detect is not in_map')
                 raise MapDetectionError('Image to detect is not in_map')
             self.view.load(self.device.image)
@@ -133,7 +129,7 @@ class Camera(MapOperation):
                 # Don't use handle_mystery() here since OpSi overrides it.
                 self.device.click(GET_ITEMS_1)
                 return False
-            elif self.appear(GET_ITEMS_1_RYZA, offset=(20, 20)):
+            elif self.appear(GET_ITEMS_1_RYZA, offset=(-20, -100, 20, 20)):
                 logger.warning('Perspective error caused by GET_ITEMS_1_RYZA')
                 self.device.click(GET_ITEMS_1_RYZA)
                 return False
@@ -144,6 +140,10 @@ class Camera(MapOperation):
             elif self.handle_story_skip():
                 logger.warning('Perspective error caused by story')
                 self.ensure_no_story(skip_first_screenshot=False)
+                return False
+            elif self.appear(GET_MISSION, offset=(20, 20)):
+                logger.warning('Perspective error caused by GET_MISSION')
+                self.device.click(GET_MISSION)
                 return False
             elif self.is_in_stage():
                 logger.warning('Image is in stage')
@@ -189,14 +189,10 @@ class Camera(MapOperation):
                 logger.warning('Perspective error caused by akashi shop')
                 self.device.click(BACK_ARROW)
                 return False
-            elif not self.is_in_map() \
-                    and not self.is_in_strategy_submarine_move():
-                if self.appear(GAME_TIPS, offset=(20, 20)):
-                    logger.warning('Perspective error caused by game tips')
-                    self.device.click(GAME_TIPS)
-                    return False
-                else:
-                    raise e
+            elif self.appear(GAME_TIPS, offset=(20, 20)):
+                logger.warning('Perspective error caused by game tips')
+                self.device.click(GAME_TIPS)
+                return False
             elif 'Camera outside map' in str(e):
                 string = str(e)
                 logger.warning(string)
@@ -209,6 +205,9 @@ class Camera(MapOperation):
             else:
                 raise e
 
+        return True
+
+    def _update_view_data(self):
         if self._prev_view is not None and np.linalg.norm(self._prev_swipe) > 0:
             if self.config.MAP_SWIPE_PREDICT:
                 swipe = self._prev_view.predict_swipe(
@@ -245,7 +244,7 @@ class Camera(MapOperation):
         self.predict()
         return True
 
-    def update(self, camera=True, allow_error=False):
+    def update(self, camera=True, wait_swipe=False, allow_error=False):
         """
         Update map image.
         Wraps the original `update()` method to handle random MapDetectionError
@@ -253,24 +252,82 @@ class Camera(MapOperation):
 
         Args:
             camera: True to update camera position and perspective data.
+            wait_swipe: True to wait camera reaching grid center
             allow_error: True to exit when encountered detection error
         """
-        confirm_timer = Timer(5, count=10).start()
-        while 1:
+        error_confirm = Timer(5, count=10).start()
+        swipe_wait_timeout = Timer(0.35, count=1).start()
+        # Assume swiped first
+        swiped = True
+        if wait_swipe:
             try:
-                success = self._update(camera=camera)
-                if success:
-                    break
-                else:
-                    confirm_timer.reset()
+                prev_center_offset = self._prev_view.center_offset
+            except AttributeError:
+                logger.warning('Camera.update(wait_swipe=True) but camera has no _prev_view')
+                prev_center_offset = None
+            logger.attr('prev.center_offset', prev_center_offset)
+        else:
+            prev_center_offset = None
+
+        def is_grid_center():
+            # Is focusing on grid center
+            # From focus_to_grid_center
+            if np.any(np.abs(self.view.center_offset - 0.5) > self.config.MAP_GRID_CENTER_TOLERANCE):
+                return False
+            return True
+
+        def is_still_prev():
+            # Still the same as prev view
+            return np.linalg.norm(self.view.center_offset - prev_center_offset) < 0.001
+
+        while 1:
+            # Camera.update() has no skip_first_screenshot
+            # No screenshot interval while waiting swipe_wait_timeout
+            if not swipe_wait_timeout.reached():
+                self.device._screenshot_interval.clear()
+            self.device.screenshot()
+
+            # Update image in view only
+            if not camera:
+                self.view.update(image=self.device.image)
+                return True
+
+            # _update_view()
+            try:
+                success = self._update_view()
+                if not success:
                     continue
+                logger.attr('view.center_offset', self.view.center_offset)
+                if wait_swipe and not swipe_wait_timeout.reached() and success:
+                    # If first screenshot is still prev view
+                    # must getting out of grid center once and re-focusing center
+                    if is_still_prev():
+                        swiped = False
+                    if is_grid_center():
+                        if swiped:
+                            break
+                    else:
+                        swiped = True
+                    # No error
+                    error_confirm.reset()
+                    continue
+                else:
+                    if success:
+                        break
+                    else:
+                        # MapDetectionError handled inside _update_view(), update again
+                        error_confirm.reset()
+                        continue
             except MapDetectionError:
                 if allow_error:
                     break
-                elif confirm_timer.reached():
+                elif error_confirm.reached():
                     raise
                 else:
                     continue
+
+        # Calculate view data
+        self._update_view_data()
 
     def predict(self):
         self.view.predict()
@@ -355,7 +412,7 @@ class Camera(MapOperation):
             mystery_count:
             siren_count:
             carrier_count:
-            mode (str): Scan mode, such as 'normal', 'carrier', 'movable'
+            mode (str): Scan mode, such as 'init', 'normal', 'carrier', 'movable'
 
         """
         logger.info(f'Full scan start, mode={mode}')

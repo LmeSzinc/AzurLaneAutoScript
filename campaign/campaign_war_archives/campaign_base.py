@@ -12,8 +12,8 @@ from module.war_archives.assets import (WAR_ARCHIVES_CAMPAIGN_CHECK,
 from module.war_archives.dictionary import dic_archives_template
 
 WAR_ARCHIVES_SWITCH = Switch('War_Archives_switch', is_selector=True)
-WAR_ARCHIVES_SWITCH.add_status('ex', WAR_ARCHIVES_EX_ON)
-WAR_ARCHIVES_SWITCH.add_status('sp', WAR_ARCHIVES_SP_ON)
+WAR_ARCHIVES_SWITCH.add_state('ex', WAR_ARCHIVES_EX_ON)
+WAR_ARCHIVES_SWITCH.add_state('sp', WAR_ARCHIVES_SP_ON)
 WAR_ARCHIVES_SCROLL = Scroll(WAR_ARCHIVES_SCROLL, color=(247, 211, 66), name='WAR_ARCHIVES_SCROLL')
 
 
@@ -58,29 +58,44 @@ class CampaignBase(CampaignBase_):
         Fixed number of scrolls until give up, may need to
         increase as more war archives campaigns are added
         """
-        for _ in range(10):
+        loading_checked = False
+        for _ in range(20):
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
 
+            while self.device.click_record and self.device.click_record[-1] == 'WAR_ARCHIVES_SCROLL':
+                self.device.click_record.pop()
+
             # Drag may result in accidental exit, recover
             # before starting next search attempt
             while not self.appear(WAR_ARCHIVES_CHECK):
                 self.ui_ensure(destination=page_archives)
+                loading_checked = False
 
-            while not self._archives_loading_complete():
-                self.device.screenshot()
-
+            # check entrance first, because game can remember last scrolling position
+            # if you stays at page_campaign_menu
+            # and bypass _archives_loading_complete if reached entrance
             entrance = self._get_archives_entrance(name)
             if entrance is not None:
                 return entrance
+
+            if not loading_checked:
+                # _archives_loading_complete might take 1~2s if archive list is not at top
+                while not self._archives_loading_complete():
+                    self.device.screenshot()
+                loading_checked = True
+
+                entrance = self._get_archives_entrance(name)
+                if entrance is not None:
+                    return entrance
 
             if WAR_ARCHIVES_SCROLL.appear(main=self):
                 if WAR_ARCHIVES_SCROLL.at_bottom(main=self):
                     WAR_ARCHIVES_SCROLL.set_top(main=self)
                 else:
-                    WAR_ARCHIVES_SCROLL.next_page(main=self)
+                    WAR_ARCHIVES_SCROLL.next_page(main=self, page=0.66)
                 continue
             else:
                 break

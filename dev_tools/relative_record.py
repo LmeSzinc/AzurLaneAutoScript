@@ -17,7 +17,19 @@ class Config:
     """
     Paste the config of map file here
     """
-    pass
+    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (80, 255 - 17),
+        'width': (0.9, 10),
+        'prominence': 10,
+        'distance': 35,
+    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
+        'height': (255 - 17, 255),
+        'prominence': 10,
+        'distance': 50,
+        'wlen': 1000
+    }
+    HOMO_EDGE_COLOR_RANGE = (0, 17)
 
 
 """
@@ -54,6 +66,7 @@ if __name__ == '__main__':
     cfg = AzurLaneConfig(CONFIG).merge(Config())
     al = ModuleBase(cfg)
     al.device.disable_stuck_detection()
+    al.device.screenshot_interval_set(0.11)
     view = View(cfg)
     al.device.screenshot()
     view.load(al.device.image)

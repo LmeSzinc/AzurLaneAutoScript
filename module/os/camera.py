@@ -137,8 +137,8 @@ class OSCamera(OSMapOperation, Camera):
             center = fleets[0].location
         elif fleets.count > 1:
             logger.warning(f'Convert radar to local, but found multiple current fleets: {fleets}')
-            distance = np.linalg.norm(np.subtract(fleets.location, self.view.center_loca))
-            center = fleets.grids[np.argmin(distance)].location
+            fleets = fleets.sort_by_camera_distance(self.view.center_loca)
+            center = fleets[0].location
             logger.warning(
                 f'Assuming the nearest fleet to camera canter is current fleet: {location2node(center)}')
         else:

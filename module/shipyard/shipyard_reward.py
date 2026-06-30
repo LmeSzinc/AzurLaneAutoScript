@@ -1,11 +1,11 @@
 from datetime import datetime
 
+from module.base.timer import Timer
+from module.config.utils import get_server_last_update
 from module.exception import ScriptError
 from module.logger import logger
 from module.shipyard.ui import ShipyardUI
-from module.shop.shop_general import GeneralShop
 from module.ui.page import page_main, page_shipyard
-from module.config.utils import get_server_last_update
 
 PRBP_BUY_PRIZE = {
     (1, 2):               0,
@@ -22,8 +22,9 @@ DRBP_BUY_PRIZE = {
 }
 
 
-class RewardShipyard(ShipyardUI, GeneralShop):
+class RewardShipyard(ShipyardUI):
     _shipyard_bp_rarity = 'PR'
+    _coin_count = 0
 
     def _shipyard_get_cost(self, amount, rarity=None):
         """
@@ -56,14 +57,14 @@ class RewardShipyard(ShipyardUI, GeneralShop):
         """
         Calculates the maximum number
         of BPs based on current parameters
-        and _shop_gold_coins amount
+        and _coin_count amount
 
         Submits payment if 'pay' set to True
 
         Args:
             start (int): BUY_PRIZE key to resume at
             count (int): Total remaining to buy
-            pay (bool): Finalize payment to _shop_gold_coins
+            pay (bool): Finalize payment to _coin_count
 
         Returns:
             int, int
@@ -79,9 +80,9 @@ class RewardShipyard(ShipyardUI, GeneralShop):
         for i in range(start, (start + count)):
             cost = self._shipyard_get_cost(i)
 
-            if (total + cost) > self._currency:
+            if (total + cost) > self._coin_count:
                 if pay:
-                    self._currency -= total
+                    self._coin_count -= total
                 else:
                     logger.info(f'Can only buy up to {(i - start)} '
                                 f'of the {count} BPs')
@@ -89,7 +90,7 @@ class RewardShipyard(ShipyardUI, GeneralShop):
             total += cost
 
         if pay:
-            self._currency -= total
+            self._coin_count -= total
         else:
             logger.info(f'Can buy all {count} BPs')
         return i + 1, count
@@ -105,7 +106,7 @@ class RewardShipyard(ShipyardUI, GeneralShop):
         """
         Shorthand for _shipyard_calculate partial
         information is relevant but most importantly
-        finalize payment to _shop_gold_coins
+        finalize payment to _coin_count
         """
         return self._shipyard_calculate(start, count, pay=True)
 
@@ -187,7 +188,21 @@ class RewardShipyard(ShipyardUI, GeneralShop):
         # right-aligned together
         # Retrieve information from page_main instead
         self.ui_ensure(page_main)
-        self.shop_currency()
+        timeout = Timer(1, count=1).start()
+        skip_first_screenshot = True
+        while True:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            self._coin_count = self._shipyard_get_coin()
+
+            if self._coin_count > 0:
+                break
+            if timeout.reached():
+                logger.warning('Assumes that OCR_COIN is in the right place')
+                break
 
         self.ui_goto(page_shipyard)
         if not self.shipyard_set_focus(series=series, index=index) \

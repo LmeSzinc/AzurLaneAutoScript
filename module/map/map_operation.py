@@ -1,3 +1,5 @@
+import cv2
+
 from module.base.timer import Timer
 from module.exception import CampaignEnd, RequestHumanTakeover, ScriptEnd
 from module.handler.fast_forward import FastForwardHandler
@@ -103,7 +105,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
 
         Args:
             button: Campaign to enter.
-            mode (str): 'normal' or 'hard' or 'cd'
+            mode (str): 'normal' or 'hard'
             skip_first_screenshot (bool):
         """
         logger.hr('Enter map')
@@ -115,6 +117,8 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
         fleet_click = 0
         checked_in_map = False
         self.stage_entrance = button
+        self.map_clear_percentage_prev = -1
+        self.map_clear_percentage_timer.reset()
 
         with self.stat.new(
                 genre=self.config.campaign_name, method=self.config.DropRecord_CombatRecord
@@ -153,7 +157,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                     continue
 
                 # Map preparation
-                if map_timer.reached() and self.handle_map_preparation():
+                if map_timer.reached() and self.handle_map_mode_switch(mode) and self.handle_map_preparation():
                     self.map_get_info()
                     self.handle_map_walk_speedup()
                     self.handle_fast_forward()
@@ -195,6 +199,10 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                 if self.handle_use_data_key():
                     continue
 
+                # 16-1/16-2 submarine support popup
+                if self.handle_submarine_support_popup():
+                    continue
+
                 # Emotion
                 if self.handle_combat_low_emotion():
                     continue
@@ -221,6 +229,10 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                 # End
                 if self.map_is_auto_search:
                     if self.is_auto_search_running():
+                        logger.info('is_auto_search_running appeared')
+                        break
+                    if hasattr(self, 'is_combat_loading') and self.is_combat_loading():
+                        logger.warning('Entered map with is_combat_loading appeared')
                         break
                 else:
                     if self.handle_in_map_with_enemy_searching():
@@ -250,6 +262,75 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
 
         return True
 
+    def handle_map_mode_switch(self, mode):
+        """
+        Args:
+            mode (str): 'normal' or 'hard'
+
+        Returns:
+            bool: If map mode satisfied
+                Always True if map doesn't have mode switch in map preparation
+        """
+        if not self.config.MAP_HAS_MODE_SWITCH:
+            return True
+
+        if mode == 'normal':
+            if self.match_template_color(MAP_MODE_SWITCH_NORMAL, offset=(20, 20)):
+                logger.attr('MAP_MODE_SWITCH', 'normal')
+                return True
+            if self._is_mod_switch_hard_appear(active=False, interval=2):
+                logger.attr('MAP_MODE_SWITCH', 'hard')
+                MAP_MODE_SWITCH_NORMAL.clear_offset()
+                self.device.click(MAP_MODE_SWITCH_NORMAL)
+                self.interval_reset(MAP_MODE_SWITCH_HARD)
+            return False
+        elif mode == 'hard':
+            if self._is_mod_switch_hard_appear(active=True):
+                logger.attr('MAP_MODE_SWITCH', 'hard')
+                return True
+            if self.match_template_color(MAP_MODE_SWITCH_NORMAL, offset=(20, 20), interval=2):
+                logger.attr('MAP_MODE_SWITCH', 'normal')
+                MAP_MODE_SWITCH_HARD.clear_offset()
+                self.device.click(MAP_MODE_SWITCH_HARD)
+                return False
+            return False
+        else:
+            logger.attr('MAP_MODE_SWITCH', 'unknown')
+            return False
+
+    def _is_mod_switch_hard_appear(self, active=True, interval=0):
+        if interval:
+            interval = self.get_interval_timer(MAP_MODE_SWITCH_HARD, interval=interval)
+            if not interval.reached():
+                return False
+
+        for button in [
+            MAP_MODE_SWITCH_HARD,
+            MAP_MODE_SWITCH_HARD2,
+            MAP_MODE_SWITCH_HARD3,
+            MAP_MODE_SWITCH_HARD4,
+            MAP_MODE_SWITCH_HARD5,
+            MAP_MODE_SWITCH_HARD6,
+        ]:
+            if self.appear(button, offset=(20, 20), threshold=0.7):
+                if active:
+                    return self._is_mod_switch_hard_active(button)
+                else:
+                    return True
+        return False
+
+    def _is_mod_switch_hard_active(self, button):
+        image = self.image_crop(button.button)
+        # rgbmax
+        r, g, b = cv2.split(image)
+        cv2.max(r, g, dst=r)
+        cv2.max(r, b, dst=r)
+        # active button has white icon, check if count any color > 235
+        cv2.inRange(r, 235, 255, dst=r)
+        sum_ = cv2.countNonZero(r)
+        total = r.shape[0] * r.shape[1]
+        return sum_ / total > 0.5
+
     def handle_map_preparation(self):
         """
         Returns:
@@ -262,9 +343,15 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
         if not self.config.MAP_HAS_CLEAR_PERCENTAGE:
             logger.attr('MAP_HAS_CLEAR_PERCENTAGE', self.config.MAP_HAS_CLEAR_PERCENTAGE)
             return True
+        if self.config.MAP_IS_ONE_TIME_STAGE:
+            logger.attr('MAP_IS_ONE_TIME_STAGE', self.config.MAP_IS_ONE_TIME_STAGE)
+            return True
+        # info_bar covers percentage and MAP_GREEN
+        if self.info_bar_count():
+            return False
 
         percent = self.get_map_clear_percentage()
-        logger.attr('Map_clear_percentage', percent)
+        logger.attr('Map_clear_percentage', f'{int(percent * 100)}%')
         # Comment this because percentage starts from 100% and increase from 0% to actual value
         # 2022.08.21 Still enable this when `percent` was raised from 0.
         if percent > 0.95 and 0 <= self.map_clear_percentage_prev < 0.95:

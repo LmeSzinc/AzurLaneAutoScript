@@ -12,7 +12,7 @@ class Config:
     # Disabled because having errors
     MAP_SWIPE_PREDICT_WITH_SEA_GRIDS = False
     # Ambushes can be avoid by having more DDs.
-    MAP_WALK_OPTIMIZE = False
+    MAP_WALK_TURNING_OPTIMIZE = False
 
 
 class CampaignBase(CampaignBase_):

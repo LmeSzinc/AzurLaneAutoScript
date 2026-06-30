@@ -3,15 +3,15 @@ from module.campaign.campaign_event import CampaignEvent
 from module.exception import ScriptEnd, ScriptError
 from module.logger import logger
 from module.raid.assets import RAID_REWARDS
-from module.raid.raid import OilExhausted, Raid, raid_ocr
-from module.ui.page import page_raid
+from module.raid.raid import Raid, raid_ocr
+from module.ui.page import page_campaign_menu, page_raid, page_rpg_stage
 
 
 class RaidRun(Raid, CampaignEvent):
     run_count: int
     run_limit: int
 
-    def triggered_stop_condition(self):
+    def triggered_stop_condition(self, oil_check=False, pt_check=False, coin_check=False):
         """
         Returns:
             bool: If triggered a stop condition.
@@ -23,7 +23,7 @@ class RaidRun(Raid, CampaignEvent):
             self.config.Scheduler_Enable = False
             return True
 
-        return False
+        return super().triggered_stop_condition(oil_check=oil_check, pt_check=pt_check, coin_check=coin_check)
 
     def get_remain(self, mode, skip_first_screenshot=True):
         """
@@ -93,17 +93,24 @@ class RaidRun(Raid, CampaignEvent):
             else:
                 logger.info(f'Count: {self.run_count}')
 
-            # End
-            if self.triggered_stop_condition():
-                break
+            # UI switches
+            if not self._raid_has_oil_icon:
+                self.ui_ensure(page_campaign_menu)
+                if self.triggered_stop_condition(oil_check=True, coin_check=True):
+                    break
 
             # UI ensure
             self.device.stuck_record_clear()
             self.device.click_record_clear()
-            self.ui_ensure(page_raid)
+            if not self.is_raid_rpg():
+                self.ui_ensure(page_raid)
+            else:
+                self.ui_ensure(page_rpg_stage)
+                self.raid_rpg_swipe()
+            self.disable_event_on_raid()
 
             # End for mode EX
-            if mode == 'ex':
+            if mode == 'ex' and not self.is_raid_rpg():
                 if not self.get_remain(mode):
                     logger.info('Triggered stop condition: Zero '
                                 'raid tickets to do EX mode')
@@ -118,10 +125,6 @@ class RaidRun(Raid, CampaignEvent):
             self.device.click_record_clear()
             try:
                 self.raid_execute_once(mode=mode, raid=name)
-            except OilExhausted:
-                logger.hr('Triggered stop condition: Oil limit')
-                self.config.task_delay(minute=(120, 240))
-                break
             except ScriptEnd as e:
                 logger.hr('Script end')
                 logger.info(str(e))

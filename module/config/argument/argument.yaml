@@ -32,23 +32,55 @@ Emulator:
     option: [ disabled, ]
   ScreenshotMethod:
     value: auto
-    option: [ auto, ADB, ADB_nc, uiautomator2, aScreenCap, aScreenCap_nc, DroidCast, DroidCast_raw, scrcpy ]
+    option: [
+      auto,
+      ADB,
+      ADB_nc,
+      uiautomator2,
+      aScreenCap,
+      aScreenCap_nc,
+      DroidCast,
+      DroidCast_raw,
+      nemu_ipc,
+      ldopengl,
+    ]
   ControlMethod:
-    value: minitouch
-    option: [ ADB, uiautomator2, minitouch, Hermit, MaaTouch ]
+    value: MaaTouch
+    option: [
+      ADB,
+      uiautomator2,
+      minitouch,
+      Hermit,
+      MaaTouch,
+    ]
   ScreenshotDedithering: false
   AdbRestart: false
-RestartEmulator:
-  Enable: false
-  EmulatorData:
+EmulatorInfo:
+  Emulator:
+    value: auto
+    option: [
+      auto,
+      NoxPlayer,
+      NoxPlayer64,
+      BlueStacks4,
+      BlueStacks5,
+      BlueStacks4HyperV,
+      BlueStacks5HyperV,
+      LDPlayer3,
+      LDPlayer4,
+      LDPlayer9,
+      LDPlayer14,
+      MuMuPlayer,
+      MuMuPlayerX,
+      MuMuPlayer12,
+      MEmuPlayer,
+    ]
+  name:
+    value: null
     type: textarea
-    mode: yaml
-    value: |-
-      emulator:
-      name:
-      path:
-  ErrorRestart: False
-  DailyRestart: False
+  path:
+    value: null
+    type: textarea
 Error:
   HandleError: true
   SaveError: true
@@ -127,8 +159,8 @@ Campaign:
   Use2xBook: false
   AmbushEvade: true
 StopCondition:
-  RunCount: 0
   OilLimit: 1000
+  RunCount: 0
   MapAchievement:
     value: non_stop
     option: [ non_stop, 100_percent_clear, map_3_stars, threat_safe, threat_safe_without_3_stars ]
@@ -144,7 +176,7 @@ Fleet:
     option: [ line_ahead, double_line, diamond ]
   Fleet1Mode:
     value: combat_auto
-    option: [ combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left ]
+    option: [ combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left, hide_in_upper_left ]
   Fleet1Step:
     value: 3
     option: [ 2, 3, 4, 5 ]
@@ -156,7 +188,7 @@ Fleet:
     option: [ line_ahead, double_line, diamond ]
   Fleet2Mode:
     value: combat_auto
-    option: [ combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left ]
+    option: [ combat_auto, combat_manual, stand_still_in_the_middle, hide_in_bottom_left, hide_in_upper_left ]
   Fleet2Step:
     value: 2
     option: [ 2, 3, 4, 5 ]
@@ -185,7 +217,7 @@ Emotion:
     value: 2020-01-01 00:00:00
     display: disabled
   Fleet1Control:
-    value: prevent_yellow_face
+    value: prevent_green_face
     option: [ keep_exp_bonus, prevent_green_face, prevent_yellow_face, prevent_red_face ]
   Fleet1Recover:
     value: not_in_dormitory
@@ -196,7 +228,7 @@ Emotion:
     value: 2020-01-01 00:00:00
     display: disabled
   Fleet2Control:
-    value: prevent_yellow_face
+    value: prevent_green_face
     option: [ keep_exp_bonus, prevent_green_face, prevent_yellow_face, prevent_red_face ]
   Fleet2Recover:
     value: not_in_dormitory
@@ -234,15 +266,15 @@ C124LargeLeveling:
     value: 3
     option: [ 3, 4, 5 ]
 GemsFarming:
-  ChangeFlagship:
-    value: ship
-    option: [ ship, ship_equip ]
-  ChangeVanguard:
-    value: ship
-    option: [ disabled, ship, ship_equip ]
   CommonCV:
     value: any
     option: [ any, langley, bogue, ranger, hermes ]
+  ChangeVanguard:
+    value: ship
+    option: [ disabled, ship ]
+  CommonDD:
+    value: any
+    option: [ any, favourite, aulick_or_foote , cassin_or_downes, z20_or_z21 ]
   CommissionLimit: true
 
 # ==================== Event ====================
@@ -268,9 +300,14 @@ Raid:
 RaidDaily:
   StageFilter: |-
     hard > normal > easy
+Hospital:
+  UseRecommendFleet: true
 MaritimeEscort:
   Enable: true
 Coalition:
+  Mode:
+    value: hard
+    option: [ easy, normal, hard, sp ]
   Fleet:
     value: single
     option: [ single, multi ]
@@ -325,7 +362,8 @@ ControlExpOverflow:
   T1Allow: 200
 AddNewStudent:
   Enable: false
-  Favorite: true
+  Favorite: false
+  MinLevel: 50
 Research:
   UseCube:
     value: only_05_hour
@@ -338,9 +376,15 @@ Research:
     option: [ always_use, only_05_hour, only_no_project, do_not_use ]
   AllowDelay: true
   PresetFilter:
-    value: series_6_blueprint_203
+    value: series_8_blueprint_305
     option:
       - custom
+      - series_8_blueprint_305
+      - series_8_blueprint_only
+      - series_8_305_only
+      - series_7_blueprint_la9
+      - series_7_blueprint_only
+      - series_7_la9_only
       - series_6_blueprint_203
       - series_6_blueprint_only
       - series_6_203_only
@@ -358,15 +402,23 @@ Research:
       - series_2_blueprint_only
       - series_2_457_only
   CustomFilter: |-
-    S5-DR0.5 > S5-PRY0.5 > S5-H0.5 > S5-Q0.5 > S5-DR2.5 > 0.5 > S5-G1.5
-    > S5-Q1 > S5-DR5 > S5-DR8 > S5-G4 > S5-PRY2.5 > 1 > S5-Q2 > reset
-    > S5-G2.5 > S5-PRY5 > S5-PRY8 > 1.5 > 2 > S5-Q4 > 2.5 > 3
-    > Q4 > G4 > 4 > 5 > S5-C6 > C6 > 6 > S5-C8 > 8
-    > S5-C12 > 12
+    S8-DR0.5 > S8-PRY0.5 > S8-Q0.5 > S8-H0.5 > Q0.5 > S8-DR2.5
+    > S8-G1.5 > S8-Q1 > S8-DR5 > 0.5 > S8-G4 > S8-Q2 > S8-PRY2.5 > reset
+    > S8-DR8 > Q1 > 1 > S8-E-315 > S8-G2.5 > G1.5 > 1.5 > S8-E-031
+    > S8-Q4 > Q2 > E2 > 2 > DR2.5 > PRY2.5 > G2.5 > 2.5 > S8-PRY5
+    > S8-PRY8 > Q4 > G4 > 4 > S8-C6 > DR5 > PRY5 > 5 > C6 > 6 > S8-C8
+    > S8-C12 > DR8 > PRY8 > C8 > 8 > C12 > 12
 Dorm:
   Collect: true
   Feed: true
   FeedFilter: 20000 > 10000 > 5000 > 3000 > 2000 > 1000
+BuyFurniture:
+  Enable: false
+  BuyOption:
+    type: select
+    value: all
+    option: [ set, all ]
+  LastRun: 2020-01-01 00:00:00
 Meowfficer:
   BuyAmount: 1
   FortChoreMeowfficer: true
@@ -378,6 +430,7 @@ MeowfficerTrain:
   RetainTalentedGold: true
   RetainTalentedPurple: true
   EnhanceIndex: 1
+  MaxFeedLevel: 5
 GuildLogistics:
   Enable: true
   SelectNewMission: false
@@ -399,6 +452,12 @@ Reward:
   CollectExp: true
   CollectMission: true
   CollectWeeklyMission: true
+Awaken:
+  LevelCap:
+    value: level120
+    option: [ level120, level125 ]
+  Favourite:
+    value: false
 GeneralShop:
   UseGems: false
   Refresh: false
@@ -484,7 +543,7 @@ CoreShop:
 ShipyardDr:
   ResearchSeries:
     value: 2
-    option: [ 2 ]
+    option: [ 2, 3, 4, 5 ]
   ShipIndex:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6 ]
@@ -493,7 +552,7 @@ ShipyardDr:
 Shipyard:
   ResearchSeries:
     value: 1
-    option: [ 1, 2, 3 ]
+    option: [ 1, 2, 3, 4, 5, 6 ]
   ShipIndex:
     value: 0
     option: [ 0, 1, 2, 3, 4, 5, 6 ]
@@ -514,10 +573,10 @@ DataKey:
   Collect: true
   ForceCollect: false
 Mail:
-  Collect: true
-  Filter: |-
-    Merit > Coolant
-  Delete: false
+  ClaimMerit: true
+  ClaimMaintenance: false
+  ClaimTradeLicense: false
+  DeleteCollected: true
 SupplyPack:
   Collect: true
   DayOfWeek:
@@ -525,6 +584,13 @@ SupplyPack:
     option: [ 0, 1, 2, 3, 4, 5, 6 ]
 Minigame:
   Collect: false
+PrivateQuarters:
+    BuyRoses: true
+    BuyCake: false
+    TargetInteract: true
+    TargetShip:
+      value: anchorage
+      option: [ anchorage, noshiro, sirius, new_jersey, taihou, aegir, nakhimov ]
 # ==================== Daily ====================
 
 Daily:
@@ -625,7 +691,19 @@ OpsiExplore:
   ForceRun: false
   LastZone: 0
 OpsiShop:
-  BuySupply: true
+  PresetFilter:
+    value: max_benefit_meta
+    option:
+      - max_benefit
+      - max_benefit_meta
+      - no_meta
+      - all
+      - custom
+  CustomFilter: |-
+    LoggerAbyssalT6 > LoggerAbyssalT5 > LoggerObscure > LoggerAbyssalT4 > ActionPoint > PurpleCoins
+    > GearDesignPlanT3 > PlateRandomT4 > DevelopmentMaterialT3 > GearDesignPlanT2 > GearPart
+    > OrdnanceTestingReportT3 > OrdnanceTestingReportT2 > DevelopmentMaterialT2 > OrdnanceTestingReportT1
+    > METARedBook > CrystallizedHeatResistantSteel > NanoceramicAlloy > NeuroplasticProstheticArm > SupercavitationGenerator
 OpsiVoucher:
   Filter: |-
     LoggerAbyssal > LoggerObscure > Book > Coin > Fragment
@@ -663,13 +741,20 @@ Daemon:
 OpsiDaemon:
   RepairShip: true
   SelectEnemy: true
+EventStory:
+  SkipBattle:
+    type: checkbox
+    value: false
+    option: [ true, false ]
 Benchmark:
   DeviceType:
     value: emulator
     option: [
-      emulator, emulator_android_12,
-      plone_cloud_with_adb, phone_cloud_without_adb,
-      android_phone, android_phone_12, android_phone_vmos
+      emulator,
+      plone_cloud_with_adb,
+      phone_cloud_without_adb,
+      android_phone,
+      android_phone_vmos,
     ]
   TestScene:
     value: screenshot_click

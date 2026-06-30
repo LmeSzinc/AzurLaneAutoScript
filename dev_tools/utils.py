@@ -45,7 +45,53 @@ class LuaLoader:
     def filepath(self, path):
         return os.path.join(self.folder, self.server, path)
 
-    def _load_file(self, file):
+    def _find_matching_brace(self, text, start_index):
+        depth = 0
+        in_string = None
+        escape = False
+        for i in range(start_index, len(text)):
+            ch = text[i]
+            if in_string:
+                if escape:
+                    escape = False
+                elif ch == '\\':
+                    escape = True
+                elif ch == in_string:
+                    in_string = None
+            else:
+                if ch in ('"', "'"):
+                    in_string = ch
+                elif ch == '{':
+                    depth += 1
+                elif ch == '}':
+                    depth -= 1
+                    if depth == 0:
+                        return i
+        return -1
+
+    def _infer_base_name(self, file, keyword):
+        if keyword:
+            keyword = keyword.strip()
+            if keyword.startswith('pg.base.'):
+                return keyword[len('pg.base.') :]
+            if keyword.startswith('pg.'):
+                return keyword[len('pg.') :]
+            return keyword
+        return os.path.splitext(os.path.basename(file))[0]
+
+    def _load_pg_base_entries(self, text, base_name):
+        pattern = rf"pg\.base\.{re.escape(base_name)}\[(\d+)\]\s*=\s*\{{"
+        result = {}
+        for m in re.finditer(pattern, text):
+            start = m.end() - 1
+            end = self._find_matching_brace(text, start)
+            if end == -1:
+                continue
+            table_text = text[start:end + 1]
+            result[int(m.group(1))] = slpp.decode(table_text)
+        return result
+
+    def _load_file(self, file, keyword=None):
         """
         Args:
             file (str):
@@ -56,57 +102,32 @@ class LuaLoader:
         with open(self.filepath(file), 'r', encoding='utf-8') as f:
             text = f.read()
 
+        if 'pg.base.' in text:
+            base_name = self._infer_base_name(file, keyword)
+            if not base_name:
+                m = re.search(r"pg\.base\.([A-Za-z0-9_]+)\[", text)
+                base_name = m.group(1) if m else None
+            if base_name:
+                result = self._load_pg_base_entries(text, base_name)
+                if result:
+                    return result
+
         result = {}
-        matched = re.findall('function \(\)(.*?)end[()]', text, re.S)
-        if matched:
-            # Most files are in this format
-            """
-            pg = pg or {}
-            slot0 = pg
-            slot0.chapter_template = {}
-
-            (function ()
-                ...
-            end)()
-            """
-            for func in matched:
-                add = slpp.decode('{' + func + '}')
-                result.update(add)
-        elif text.startswith('pg'):
-            # Old format
-            """
-            pg = pg or {}
-            pg.item_data_statistics = {
-                ...
-            }
-            """
-            # or
-            """
-            pg = pg or {}
-
-            rawset(pg, "item_data_statistics", rawget(pg, "item_data_statistics") or {
-                ...
-            }
-            """
-            text = '{' + text.split('{', 2)[2]
-            result = slpp.decode(text)
-        else:
-            # Another format, just bare data
-            """
-            _G.pg.expedition_data_template[...] = {
-                ...
-            }
-            _G.pg.expedition_data_template[...] = {
-                ...
-            }
-            ...
-            """
+        if text.startswith('_G'):
             text = '{' + text + '}'
             result = slpp.decode(text)
-
+        else:
+            if keyword:
+                print(f'Finding keyword: {keyword}')
+                pattern = rf"^{re.escape(keyword)}.*?\{{\s*\n(.*?)^\}}"
+            else:
+                pattern = r"\{\s*\n(.*?)^\}"
+            m = re.search(pattern, text, re.S | re.M)
+            if m:
+                result = slpp.decode('{' + m.group(1) + '}')
         return result
 
-    def load(self, path):
+    def load(self, path, keyword=None):
         """
         Load a lua file to python dictionary, handling the differences
 
@@ -121,9 +142,9 @@ class LuaLoader:
         if os.path.isdir(self.filepath(path)):
             result = {}
             for file in tqdm(os.listdir(self.filepath(path))):
-                result.update(self._load_file(f'./{path}/{file}'))
+                result.update(self._load_file(f'./{path}/{file}', keyword=keyword))
         else:
-            result = self._load_file(path)
+            result = self._load_file(path, keyword=keyword)
 
         print(f'{len(result.keys())} items loaded')
         return result

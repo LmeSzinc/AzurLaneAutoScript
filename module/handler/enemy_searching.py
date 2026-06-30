@@ -120,7 +120,13 @@ class EnemySearchingHandler(InfoHandler):
             # although here expects an enemy searching animation.
             if self.handle_in_stage():
                 return True
+            # immediately enter submarine combat in W16
+            if hasattr(self, 'is_combat_loading') and self.is_combat_loading():
+                logger.warning('Entered map with is_combat_loading appeared')
+                break
             if self.handle_auto_search_exit(drop=drop):
+                timeout.limit = 10
+                timeout.reset()
                 continue
 
             # Popups
@@ -148,6 +154,7 @@ class EnemySearchingHandler(InfoHandler):
                 if appeared:
                     self.handle_enemy_flashing()
                     self.device.sleep(0.3)
+                    self.device.screenshot()
                     logger.info('Enemy searching appeared.')
                     break
                 self.enemy_searching_color_initial()
@@ -155,7 +162,6 @@ class EnemySearchingHandler(InfoHandler):
                 logger.info('Enemy searching timeout.')
                 break
 
-        self.device.screenshot()
         return True
 
     def handle_in_map_no_enemy_searching(self, drop=None):
@@ -173,15 +179,15 @@ class EnemySearchingHandler(InfoHandler):
         while 1:
             self.device.screenshot()
 
-            # End
-            if timeout.reached():
-                break
+            if not self.is_in_map():
+                timeout.reset()
 
             # Stage might ends,
             # although here expects an enemy searching animation.
             if self.handle_in_stage():
                 return True
             if self.handle_auto_search_exit(drop=drop):
+                timeout.reset()
                 continue
 
             # Popups
@@ -197,5 +203,10 @@ class EnemySearchingHandler(InfoHandler):
             if self.handle_urgent_commission(drop=drop):
                 timeout.reset()
                 continue
+
+            # End
+            if timeout.reached():
+                logger.info('No enemy searching in map.')
+                break
 
         return True

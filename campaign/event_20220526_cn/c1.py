@@ -1,4 +1,4 @@
-from .campaign_base import CampaignBase, EventGrid
+from module.campaign.campaign_base import CampaignBase
 from module.map.map_base import CampaignMap
 from module.map.map_grids import SelectedGrids, RoadGrids
 from module.logger import logger
@@ -54,6 +54,8 @@ class Config:
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
+    MAP_SIREN_HAS_BOSS_ICON = True
+    MAP_SIREN_HAS_BOSS_ICON_SMALL = True
     MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
     MAP_SWIPE_MULTIPLY = (1.084, 1.104)
     MAP_SWIPE_MULTIPLY_MINITOUCH = (1.048, 1.067)
@@ -61,7 +63,6 @@ class Config:
 
 
 class Campaign(CampaignBase):
-    grid_class = EventGrid
     MAP = MAP
     ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
 

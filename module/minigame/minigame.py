@@ -1,16 +1,23 @@
+import module.config.server as server
 from module.combat.assets import GET_ITEMS_1
 from module.logger import logger
 from module.minigame.assets import *
 from module.ocr.ocr import Digit
-from module.ui.assets import GAME_ROOM_CHECK
-from module.ui.page import page_game_room
+from module.ui.assets import ACADEMY_GOTO_GAME_ROOM, GAME_ROOM_CHECK
+from module.ui.page import page_academy, page_game_room
 from module.ui.scroll import Scroll
 from module.ui.ui import UI
 
-OCR_COIN = Digit(COIN_HOLDER,
-                 name='OCR_COIN',
-                 letter=(255, 235, 115),
-                 threshold=128)
+if server.server != 'jp':
+    OCR_COIN = Digit(COIN_HOLDER,
+                    name='OCR_COIN',
+                    letter=(255, 235, 115),
+                    threshold=128)
+else:
+    OCR_COIN = Digit(COIN_HOLDER,
+                    name='OCR_COIN',
+                    letter=(211, 196, 95),
+                    threshold=128)
 MINIGAME_SCROLL = Scroll(MINIGAME_SCROLL_AREA, color=(247, 247, 247), name='MINIGAME_SCROLL')
 
 class MinigameRun(UI):
@@ -25,20 +32,26 @@ class MinigameRun(UI):
         """
         logger.hr('Minigame run', level=1)
 
+        # page_game_room main_page -> MINIGAME_SCROLL
         logger.info("Enter minigame")
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
+            # End
+            # both minigame main and minigame list has GOTO_CHOOSE_GAME
+            if self.appear(GAME_ROOM_CHECK, offset=(5, 5)) and not self.appear(GOTO_CHOOSE_GAME, offset=(20, 20)):
+                if MINIGAME_SCROLL.appear(main=self):
+                    break
             # unable to get more ticket popup
             if self.deal_popup():
                 continue
             if self.appear_then_click(GOTO_CHOOSE_GAME, offset=(5, 5), interval=3):
+                # note: GOTO_CHOOSE_GAME is some where safe to click
+                # that won't enter any minigame on the minigame list page
                 continue
-            if self.appear(GAME_ROOM_CHECK, offset=(5, 5)) \
-                    and MINIGAME_SCROLL.appear(main=self):
-                break
+
         logger.info("Choose minigame")
         self.choose_game()
         # try to add coins, if failed, skip play
@@ -57,6 +70,9 @@ class MinigameRun(UI):
         """
         # specific
         if self.deal_specific_popup():
+            return True
+        if self.handle_popup_confirm('TICKETS_FULL'):
+            self.interval_reset(COIN_POPUP, interval=3)
             return True
         # coins more than 31, deal popup
         if self.appear_then_click(COIN_POPUP, offset=(5, 5), interval=3):
@@ -115,6 +131,7 @@ class Minigame(UI):
             in: page_game_room main_page/choose_game_page
             out: page_game_room main_page
         """
+        logger.info('minigame go_to_main_page')
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -167,8 +184,23 @@ class Minigame(UI):
             in: Any page
             out: page_game_room
         """
+        # TEMP: 2026.02.18 separate self.ui_ensure(page_game_room) into 2 steps
+        # EN has different page_academy detection, to use ui_ensure(page_game_room),
+        # ui_goto must use `if self.ui_page_appear(page)` instead of `if self.appear(page.check_button)`
+        # But that would cause page_main/page_main_white clicking a static switch button
+        self.ui_ensure(page_academy)
+        # page_academy -> page_game_room
+        for _ in self.loop():
+            if self.ui_page_appear(page_game_room):
+                break
+            if self.ui_page_appear(page_academy, interval=5):
+                self.device.click(ACADEMY_GOTO_GAME_ROOM)
+                continue
+            # You've reached your monthly limit of Game Tickets, and will not be able to earn any more.
+            # Continue playing the minigame?
+            if self.handle_popup_confirm('MINIGAME_ENTER'):
+                continue
 
-        self.ui_ensure(page_game_room)
         # game room and choose game have same header, go to game room first
         self.go_to_main_page()
         coin_collected = False

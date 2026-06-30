@@ -123,6 +123,18 @@ def has_cached_property(obj, name):
     return name in obj.__dict__
 
 
+def set_cached_property(obj, name, value):
+    """
+    Set a cached property.
+
+    Args:
+        obj:
+        name (str):
+        value:
+    """
+    obj.__dict__[name] = value
+
+
 def function_drop(rate=0.5, default=None):
     """
     Drop function calls to simulate random emulator stuck, for testing purpose.

@@ -8,7 +8,7 @@ class CampaignBase(CampaignBase_):
         logger.info('Set chapter SP')
         if chapter in ['sp', 'sp_sp']:
             self.ui_goto_event()
-            self.campaign_ensure_chapter(index=chapter)
+            self.campaign_ensure_chapter(chapter)
             return True
         else:
             return False

@@ -11,10 +11,10 @@ MAP.map_data = """
     -- ++ ++ ++ -- MB MB MB
     ME -- -- MS -- Me -- ++
     -- ME ++ -- __ -- ME ++
-    -- -- -- -- ME ME -- --
+    -- -- -- Me ME ME -- --
     ++ SP -- ME -- ++ -- --
     ++ SP -- -- Me -- MS ME
-    ++ ++ -- -- ME -- Me --
+    ++ ++ Me -- ME -- Me --
 """
 MAP.weight_data = """
     50 50 50 50 50 50 50 50
@@ -75,6 +75,7 @@ class Config:
         # 'width': (0, 7),
         'wlen': 1000
     }
+    HOMO_CANNY_THRESHOLD = (50, 75)
     HOMO_EDGE_COLOR_RANGE = (0, 33)
     HOMO_EDGE_HOUGHLINES_THRESHOLD = 300
     MAP_SWIPE_MULTIPLY = (1.131, 1.152)

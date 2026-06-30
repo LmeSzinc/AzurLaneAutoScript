@@ -2,7 +2,6 @@ import copy
 import importlib
 import os
 import random
-import re
 
 from module.campaign.campaign_base import CampaignBase
 from module.campaign.campaign_event import CampaignEvent
@@ -164,7 +163,6 @@ class CampaignRun(CampaignEvent):
         Returns:
             str, str: name, folder
         """
-        name = re.sub('[ \t\n]', '', str(name)).lower()
         name = to_map_file_name(name)
         # For GemsFarming, auto choose events or main chapters
         if self.config.task.command == 'GemsFarming':
@@ -172,7 +170,7 @@ class CampaignRun(CampaignEvent):
                 logger.info(f'Stage name {name} is from campaign_main')
                 folder = 'campaign_main'
             else:
-                folder = self.config.cross_get('Event.Campaign.Event')
+                folder = self.config.cross_get('GemsFarming.Campaign.Event')
                 if folder is not None:
                     logger.info(f'Stage name {name} is from event {folder}')
                 else:
@@ -189,6 +187,15 @@ class CampaignRun(CampaignEvent):
             name = 'sp'
         if folder == 'event_20221124_cn' and name in ['asp', 'a.sp']:
             name = 'sp'
+        if folder == 'event_20240425_cn':
+            if name in ['μsp', 'usp', 'iisp']:
+                name = 'sp'
+            name = name.replace('lsp', 'isp').replace('1sp', 'isp')
+            if name == 'isp':
+                name = 'isp1'
+        if folder == 'event_20240724_cn':
+            if name in ['ysp', 'y.sp']:
+                name = 'sp'
         # Convert to chapter T
         convert = {
             'a1': 't1',
@@ -207,6 +214,16 @@ class CampaignRun(CampaignEvent):
         if folder in [
             'event_20211125_cn',
             'event_20231026_cn',
+            'event_20241024_cn',
+            'event_20250424_cn',
+            'event_20250724_cn',
+            'event_20250814_cn',
+            'event_20251023_cn',
+            'event_20260326_cn',
+            'event_20260625_cn',
+            'war_archives_20230525_cn',
+            'war_archives_20231026_cn',
+            'war_archives_20240725_cn',
         ]:
             name = convert.get(name, name)
         # Convert between A/B/C/D and T/HT
@@ -228,10 +245,24 @@ class CampaignRun(CampaignEvent):
             'event_20200917_cn',
             'event_20221124_cn',
             'event_20230525_cn',
+            'war_archives_20200917_cn',
             # chapter T
             'event_20211125_cn',
             'event_20231026_cn',
             'event_20231123_cn',
+            'event_20240725_cn',
+            'event_20240829_cn',
+            'event_20241024_cn',
+            'event_20241121_cn',
+            'event_20250424_cn',
+            'event_20250724_cn',
+            'event_20250814_cn',
+            'event_20251023_cn',
+            'event_20260326_cn',
+            'event_20260625_cn',
+            'war_archives_20230525_cn',
+            'war_archives_20231026_cn',
+            'war_archives_20240725_cn',
         ]:
             name = convert.get(name, name)
         else:
@@ -245,6 +276,11 @@ class CampaignRun(CampaignEvent):
         if folder == 'event_20221124_cn' and name.startswith('th'):
             if self.config.StopCondition_MapAchievement != 'non_stop':
                 logger.info(f'When running chapter TH of event_20221124_cn, '
+                            f'StopCondition.MapAchievement is forced set to threat_safe')
+                self.config.override(StopCondition_MapAchievement='threat_safe')
+        if folder == 'event_20250724_cn' and name.startswith('ts'):
+            if self.config.StopCondition_MapAchievement != 'non_stop':
+                logger.info(f'When running chapter TS of event_20250724_cn, '
                             f'StopCondition.MapAchievement is forced set to threat_safe')
                 self.config.override(StopCondition_MapAchievement='threat_safe')
         # event_20211125_cn, TSS maps are on time maps
@@ -261,6 +297,10 @@ class CampaignRun(CampaignEvent):
         if folder == 'event_20230817_cn':
             if name.startswith('e0'):
                 name = 'a1'
+        # event_20240829_cn, TP -> SP
+        if folder == 'event_20240829_cn':
+            if name == 'tp':
+                name = 'sp'
         # Stage loop
         for alias, stages in self.config.STAGE_LOOP_ALIAS.items():
             alias_folder, alias = alias
@@ -279,10 +319,26 @@ class CampaignRun(CampaignEvent):
                                 f'run ordered stage: {stage}')
                 name = stage.lower()
                 self.is_stage_loop = True
+                # disable continuous clear
+                logger.info('disable continuous clear')
+                self.config.override(StopCondition_MapAchievement='non_stop')
+                self.config.override(StopCondition_StageIncrease=False)
         # Convert campaign_main to campaign hard if mode is hard and file exists
         if mode == 'hard' and folder == 'campaign_main' and name in map_files('campaign_hard'):
             folder = 'campaign_hard'
-
+        # event_20240912_cn does not have "Threat: Safe" indicator, fallback MapAchievement
+        if folder == 'event_20240912_cn':
+            if self.config.StopCondition_MapAchievement == 'threat_safe':
+                logger.info(
+                    'In event_20240912_cn, MapAchievement=threat_safe fallback to map_3_stars')
+                self.config.override(StopCondition_MapAchievement='map_3_stars')
+            if self.config.StopCondition_MapAchievement == 'threat_safe_without_3_stars':
+                logger.info(
+                    'In event_20240912_cn, MapAchievement=threat_safe_without_3_stars fallback to 100_percent_clear')
+                self.config.override(StopCondition_MapAchievement='100_percent_clear')
+        if folder == 'event_20260417_cn':
+            if name in ['vsp', ]:
+                name = 'sp'
         return name, folder
 
     def can_use_auto_search_continue(self):
@@ -339,7 +395,7 @@ class CampaignRun(CampaignEvent):
             # UI ensure
             self.device.stuck_record_clear()
             self.device.click_record_clear()
-            if not hasattr(self.device, 'image') or self.device.image is None:
+            if not self.device.has_cached_image:
                 self.device.screenshot()
             self.campaign.device.image = self.device.image
             if self.campaign.is_in_map():
@@ -354,10 +410,11 @@ class CampaignRun(CampaignEvent):
                     logger.info('In auto search menu, skip ensure_campaign_ui.')
                 else:
                     logger.info('In auto search menu, closing.')
-                    self.campaign.ensure_auto_search_exit()
+                    # Because event_20240725 task balancer delete self.campaign.ensure_auto_search_exit()
                     self.campaign.ensure_campaign_ui(name=self.stage, mode=mode)
             else:
                 self.campaign.ensure_campaign_ui(name=self.stage, mode=mode)
+            self.disable_raid_on_event()
             self.handle_commission_notice()
 
             # if in hard mode, check remain times

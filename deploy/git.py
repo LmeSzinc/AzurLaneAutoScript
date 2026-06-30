@@ -7,7 +7,12 @@ from deploy.utils import *
 class GitManager(DeployConfig):
     @cached_property
     def git(self):
-        return self.filepath('GitExecutable')
+        exe = self.filepath('GitExecutable')
+        if os.path.exists(exe):
+            return exe
+
+        logger.warning(f'GitExecutable: {exe} does not exist, use `git` instead')
+        return 'git'
 
     @staticmethod
     def remove(file):
@@ -18,8 +23,7 @@ class GitManager(DeployConfig):
             logger.info(f'File not found: {file}')
 
     def git_repository_init(
-            self, repo, source='origin', branch='master',
-            proxy='', ssl_verify=True, keep_changes=False
+            self, repo, source='origin', branch='master', proxy='', ssl_verify=True
     ):
         logger.hr('Git Init', 1)
         if not self.execute(f'"{self.git}" init', allow_failure=True):
@@ -58,21 +62,8 @@ class GitManager(DeployConfig):
             if os.path.exists(lock_file):
                 logger.info(f'Lock file {lock_file} exists, removing')
                 os.remove(lock_file)
-        if keep_changes:
-            if self.execute(f'"{self.git}" stash', allow_failure=True):
-                self.execute(f'"{self.git}" pull --ff-only {source} {branch}')
-                if self.execute(f'"{self.git}" stash pop', allow_failure=True):
-                    pass
-                else:
-                    # No local changes to existing files, untracked files not included
-                    logger.info('Stash pop failed, there seems to be no local changes, skip instead')
-            else:
-                logger.info('Stash failed, this may be the first installation, drop changes instead')
-                self.execute(f'"{self.git}" reset --hard {source}/{branch}')
-                self.execute(f'"{self.git}" pull --ff-only {source} {branch}')
-        else:
-            self.execute(f'"{self.git}" reset --hard {source}/{branch}')
-            self.execute(f'"{self.git}" pull --ff-only {source} {branch}')
+        self.execute(f'"{self.git}" reset --hard {source}/{branch}')
+        self.execute(f'"{self.git}" pull --ff-only {source} {branch}')
 
         logger.hr('Show Version', 1)
         self.execute(f'"{self.git}" --no-pager log --no-merges -1')
@@ -80,7 +71,10 @@ class GitManager(DeployConfig):
     @property
     def goc_client(self):
         client = GitOverCdnClient(
-            url='https://vip.123pan.cn/1818706573/pack/LmeSzinc_AzurLaneAutoScript_master',
+            url=[
+                'https://vip.123pan.cn/1818706573/pack/LmeSzinc_AzurLaneAutoScript_master',
+                'https://1818706573.v.123yx.com/1818706573/pack/LmeSzinc_AzurLaneAutoScript_master',
+            ],
             folder=self.root_filepath,
             source='origin',
             branch='master',
@@ -97,7 +91,7 @@ class GitManager(DeployConfig):
             return
 
         if self.GitOverCdn:
-            if self.goc_client.update(keep_changes=self.KeepLocalChanges):
+            if self.goc_client.update():
                 return
 
         self.git_repository_init(
@@ -106,5 +100,9 @@ class GitManager(DeployConfig):
             branch=self.Branch,
             proxy=self.GitProxy,
             ssl_verify=self.SSLVerify,
-            keep_changes=self.KeepLocalChanges,
         )
+
+
+if __name__ == '__main__':
+    self = GitManager()
+    self.goc_client.get_status()

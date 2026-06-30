@@ -4,20 +4,19 @@ from module.base.timer import Timer
 from module.combat.assets import *
 from module.logger import logger
 from module.reward.assets import *
-from module.ui.assets import MISSION_CHECK
 from module.ui.navbar import Navbar
 from module.ui.page import page_main, page_mission, page_reward
 from module.ui.ui import UI
+from module.ui_white.assets import MISSION_NOTICE_WHITE
 
 
 class Reward(UI):
-    def reward_receive(self, oil, coin, exp, skip_first_screenshot=True):
+    def reward_receive(self, oil, coin, exp):
         """
         Args:
             oil (bool):
             coin (bool):
             exp (bool):
-            skip_first_screenshot (bool):
 
         Returns:
             bool: If rewarded.
@@ -34,21 +33,16 @@ class Reward(UI):
         confirm_timer = Timer(1, count=3).start()
         # Set click interval to 0.3, because game can't respond that fast.
         click_timer = Timer(0.3)
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            if oil and click_timer.reached() and self.appear_then_click(OIL, interval=60):
+        for _ in self.loop():
+            if oil and click_timer.reached() and self.appear_then_click(OIL, offset=(20, 50), interval=60):
                 confirm_timer.reset()
                 click_timer.reset()
                 continue
-            if coin and click_timer.reached() and self.appear_then_click(COIN, interval=60):
+            if coin and click_timer.reached() and self.appear_then_click(COIN, offset=(25, 50), interval=60):
                 confirm_timer.reset()
                 click_timer.reset()
                 continue
-            if exp and click_timer.reached() and self.appear_then_click(EXP, interval=60):
+            if exp and click_timer.reached() and self.appear_then_click(EXP, offset=(30, 50), interval=60):
                 confirm_timer.reset()
                 click_timer.reset()
                 continue
@@ -60,91 +54,127 @@ class Reward(UI):
         logger.info('Reward receive end')
         return True
 
-    def _reward_mission_collect(self, interval=1):
+    def _reward_get_state(self):
+        if self.appear(MISSION_MULTI, offset=(20, 20)):
+            return MISSION_MULTI
+        if self.match_template_color(MISSION_SINGLE, offset=(50, 200)):
+            return MISSION_SINGLE
+        if self.appear(MISSION_EMPTY, offset=(20, 20)):
+            return MISSION_EMPTY
+        if self.appear(MISSION_UNFINISH, offset=(50, 200)):
+            return MISSION_UNFINISH
+        return None
+
+    def _reward_mission_claim_click(self):
+        """
+        Returns:
+            bool: If claimed
+
+        Pages:
+            in: page_mission, MISSION_MULTI or MISSION_SINGLE
+            out: unknown popup
+        """
+        clicked = False
+        click_interval = Timer(1, count=2)
+        for _ in self.loop():
+            if clicked and not self.ui_page_appear(page_mission):
+                return clicked
+            if click_interval.reached():
+                if self.appear_then_click(MISSION_MULTI, offset=(20, 20)):
+                    click_interval.reset()
+                    clicked = True
+                    continue
+                if self.match_template_color(MISSION_SINGLE, offset=(50, 200)):
+                    self.device.click(MISSION_SINGLE)
+                    click_interval.reset()
+                    clicked = True
+                    continue
+                if self.appear(MISSION_UNFINISH, offset=(50, 200)):
+                    return clicked
+
+    def _reward_mission_claim_receive(self):
+        """
+        Returns:
+            Button | str: Button object or state string
+
+        Pages:
+            in: unknown popup
+            out: page_mission
+        """
+        logger.info('Mission claim receive')
+        timeout = Timer(2, count=6).start()
+        for _ in self.loop():
+            if self.ui_page_appear(page_mission):
+                state = self._reward_get_state()
+                if state:
+                    return state
+                if timeout.reached():
+                    logger.warning('Wait mission receive timeout')
+                    return 'timeout'
+            else:
+                timeout.reset()
+
+            # click
+            if self.appear_then_click(GET_ITEMS_1, offset=(30, 30), interval=1):
+                continue
+            if self.appear_then_click(GET_ITEMS_2, offset=(30, 30), interval=1):
+                continue
+            if self.appear_then_click(GET_SHIP, interval=1):
+                continue
+            if self.handle_mission_popup_ack():
+                continue
+            if self.handle_vote_popup():
+                continue
+            if self.handle_story_skip():
+                continue
+            if self.handle_popup_confirm('MISSION_REWARD'):
+                continue
+
+    def _reward_wait_mission_list(self):
+        """
+        Wait until mission list fully loaded
+
+        Pages:
+            in: page_mission
+            out: page_mission, any mission state, or timeout
+        """
+        timeout = Timer(1, count=2).start()
+        for _ in self.loop():
+            state = self._reward_get_state()
+            if state:
+                return state
+            if timeout.reached():
+                return 'timeout'
+
+    def _reward_mission_collect(self):
         """
         Streamline handling of mission rewards for
         both 'all' and 'weekly' pages
 
-        Args:
-            interval (int): Configure the interval for
-                            assets involved
-
         Returns:
-            bool, if encountered at least 1 GET_ITEMS_*
+            Button | str: Last state, Button object or state string
         """
-        # Reset any existing interval for the following assets
-        self.interval_clear([GET_ITEMS_1, GET_ITEMS_2,
-                             MISSION_MULTI, MISSION_SINGLE,
-                             GET_SHIP])
-
-        # Basic timers for certain scenarios
-        exit_timer = Timer(2)
-        click_timer = Timer(1)
-        timeout = Timer(10)
-        exit_timer.start()
-        timeout.start()
-
-        reward = False
+        state = self._reward_wait_mission_list()
         while 1:
-            self.device.screenshot()
-
-            for button in [GET_ITEMS_1, GET_ITEMS_2]:
-                if self.appear_then_click(button, offset=(30, 30), interval=interval):
-                    exit_timer.reset()
-                    timeout.reset()
-                    reward = True
-                    continue
-
-            for button in [MISSION_MULTI, MISSION_SINGLE]:
-                if not click_timer.reached():
-                    continue
-                if self.appear(button, offset=(0, 200), interval=interval) \
-                        and button.match_appear_on(self.device.image):
-                    self.device.click(button)
-                    exit_timer.reset()
-                    click_timer.reset()
-                    timeout.reset()
-                    continue
-
-            if not self.appear(MISSION_CHECK):
-                if self.appear_then_click(GET_SHIP, interval=interval):
-                    exit_timer.reset()
-                    click_timer.reset()
-                    timeout.reset()
-                    continue
-
-            if self.handle_mission_popup_ack():
-                exit_timer.reset()
-                click_timer.reset()
-                timeout.reset()
-                continue
-
-            # Story
-            if self.handle_vote_popup():
-                exit_timer.reset()
-                click_timer.reset()
-                timeout.reset()
-                continue
-            if self.story_skip():
-                exit_timer.reset()
-                click_timer.reset()
-                timeout.reset()
-                continue
-
-            if self.handle_popup_confirm('MISSION_REWARD'):
-                exit_timer.reset()
-                click_timer.reset()
-                timeout.reset()
-                continue
-
-            # End
-            if reward and exit_timer.reached():
+            logger.attr('MissionState', state)
+            self.device.stuck_record_clear()
+            self.device.click_record_clear()
+            if state == 'timeout':
+                logger.warning('Reward wait mission list timeout')
+                return state
+            if state in [MISSION_EMPTY, MISSION_UNFINISH]:
+                logger.info('Mission collect finished')
                 break
-            if timeout.reached():
-                logger.warning('Wait get items timeout.')
-                break
+            elif state in [MISSION_MULTI, MISSION_SINGLE]:
+                # Clear any existing interval for the following assets
+                self.interval_clear([GET_ITEMS_1, GET_ITEMS_2, MISSION_MULTI, MISSION_SINGLE, GET_SHIP])
+                self._reward_mission_claim_click()
+                state = self._reward_mission_claim_receive()
+                continue
+            else:
+                logger.warning('Empty mission state, mission collect finished')
 
-        return reward
+        return state
 
     def _reward_mission_all(self):
         """
@@ -154,14 +184,6 @@ class Reward(UI):
             bool, if handled
         """
         self.reward_side_navbar_ensure(upper=1)
-
-        if not self.appear(MISSION_MULTI) and \
-                not self.appear(MISSION_SINGLE):
-            return False
-
-        # Uses default interval to account for
-        # behavior differences and avoid
-        # premature exit
         return self._reward_mission_collect()
 
     def _reward_mission_weekly(self):
@@ -171,15 +193,29 @@ class Reward(UI):
         Returns:
             bool, if handled
         """
-        if not self.appear(MISSION_WEEKLY_RED_DOT):
+        if not self.image_color_count(MISSION_WEEKLY_RED_DOT, color=(206, 81, 66), threshold=221, count=20):
+            logger.info('No MISSION_WEEKLY_RED_DOT')
             return False
 
         self.reward_side_navbar_ensure(upper=5)
+        return self._reward_mission_collect()
 
-        # Uses no interval to account for
-        # behavior differences and avoid
-        # premature exit
-        return self._reward_mission_collect(interval=0)
+    def reward_mission_notice(self):
+        """
+        Returns:
+            bool: If notice appear
+
+        Pages:
+            in: page_main
+        """
+        if self.appear(MISSION_NOTICE):
+            logger.info('Found mission notice MISSION_NOTICE')
+            return True
+        if self.image_color_count(MISSION_NOTICE_WHITE, color=(214, 117, 99), threshold=221, count=20):
+            logger.info('Found mission notice MISSION_NOTICE_WHITE')
+            return True
+
+        return False
 
     def reward_mission(self, daily=True, weekly=True):
         """
@@ -199,21 +235,15 @@ class Reward(UI):
         if not daily and not weekly:
             return False
         logger.hr('Mission reward')
-        if not self.appear(MISSION_NOTICE):
-            logger.info('No mission reward')
+        if not self.reward_mission_notice():
             return False
-        else:
-            logger.info('Found mission reward notice')
 
         self.ui_goto(page_mission, skip_first_screenshot=True)
 
-        reward = False
         if daily:
-            reward |= self._reward_mission_all()
+            self._reward_mission_all()
         if weekly:
-            reward |= self._reward_mission_weekly()
-
-        return reward
+            self._reward_mission_weekly()
 
     @cached_property
     def _reward_side_navbar(self):

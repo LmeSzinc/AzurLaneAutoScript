@@ -1,12 +1,13 @@
 from module.base.timer import Timer
 from module.combat.assets import *
 from module.exception import CampaignEnd
-from module.handler.assets import *
+from module.handler.assets import POPUP_CANCEL, POPUP_CONFIRM
 from module.logger import logger
 from module.os.assets import GLOBE_GOTO_MAP
 from module.os_handler.assets import *
 from module.os_handler.enemy_searching import EnemySearchingHandler
 from module.statistics.azurstats import DropImage
+from module.ui.assets import BACK_ARROW
 from module.ui.switch import Switch
 
 
@@ -19,8 +20,8 @@ class FleetLockSwitch(Switch):
 
 
 fleet_lock = FleetLockSwitch('Fleet_Lock', offset=(10, 120))
-fleet_lock.add_status('on', check_button=OS_FLEET_LOCKED)
-fleet_lock.add_status('off', check_button=OS_FLEET_UNLOCKED)
+fleet_lock.add_state('on', check_button=OS_FLEET_LOCKED)
+fleet_lock.add_state('off', check_button=OS_FLEET_UNLOCKED)
 
 
 class MapEventHandler(EnemySearchingHandler):
@@ -30,26 +31,40 @@ class MapEventHandler(EnemySearchingHandler):
         if self.is_in_map():
             return False
 
-        if self.appear(GET_ITEMS_1, interval=interval) \
-                or self.appear(GET_ITEMS_2, interval=interval) \
-                or self.appear(GET_ITEMS_3, interval=interval):
+        if self.appear(GET_ITEMS_1, interval=interval):
             if drop:
                 drop.handle_add(main=self, before=2)
+            logger.info(f'{GET_ITEMS_1} -> {CLICK_SAFE_AREA}')
+            self.device.click(CLICK_SAFE_AREA)
+            return True
+        if self.appear(GET_ITEMS_2, interval=interval):
+            if drop:
+                drop.handle_add(main=self, before=2)
+            logger.info(f'{GET_ITEMS_2} -> {CLICK_SAFE_AREA}')
+            self.device.click(CLICK_SAFE_AREA)
+            return True
+        if self.appear(GET_ITEMS_3, interval=interval):
+            if drop:
+                drop.handle_add(main=self, before=2)
+            logger.info(f'{GET_ITEMS_3} -> {CLICK_SAFE_AREA}')
             self.device.click(CLICK_SAFE_AREA)
             return True
         if self.appear(GET_ADAPTABILITY, interval=interval):
             if drop:
                 drop.handle_add(main=self, before=2)
+            logger.info(f'{GET_ADAPTABILITY} -> {CLICK_SAFE_AREA}')
             self.device.click(CLICK_SAFE_AREA)
             return True
         if self.appear(GET_MEOWFFICER_ITEMS_1, interval=interval):
             if drop:
                 drop.handle_add(main=self, before=2)
+            logger.info(f'{GET_MEOWFFICER_ITEMS_1} -> {CLICK_SAFE_AREA}')
             self.device.click(CLICK_SAFE_AREA)
             return True
         if self.appear(GET_MEOWFFICER_ITEMS_2, interval=interval):
             if drop:
                 drop.handle_add(main=self, before=2)
+            logger.info(f'{GET_MEOWFFICER_ITEMS_2} -> {CLICK_SAFE_AREA}')
             self.device.click(CLICK_SAFE_AREA)
             return True
 
@@ -59,6 +74,7 @@ class MapEventHandler(EnemySearchingHandler):
         if self.appear(MAP_ARCHIVES, interval=5):
             if drop:
                 drop.add(self.device.image)
+            logger.info(f'{MAP_ARCHIVES} -> {CLICK_SAFE_AREA}')
             self.device.click(CLICK_SAFE_AREA)
             return True
         if self.appear_then_click(MAP_WORLD, offset=(20, 20), interval=5):
@@ -88,70 +104,30 @@ class MapEventHandler(EnemySearchingHandler):
         else:
             return False
 
-    def handle_siren_platform(self):
-        """
-        Handle siren platform notice after entering map
-
-        Returns:
-            bool: If handled
-        """
-        if not self.handle_story_skip():
-            return False
-
-        logger.info('Handle siren platform')
-        timeout = Timer(self.MAP_ENEMY_SEARCHING_TIMEOUT_SECOND).start()
-        appeared = False
-        while 1:
-            self.device.screenshot()
-            if self.is_in_map():
-                timeout.start()
-            else:
-                timeout.reset()
-
-            if self.handle_story_skip():
-                timeout.reset()
-                continue
-
-            # End
-            if self.enemy_searching_appear():
-                appeared = True
-            else:
-                if appeared:
-                    self.handle_enemy_flashing()
-                    self.device.sleep(1)
-                    logger.info('Enemy searching appeared.')
-                    break
-                self.enemy_searching_color_initial()
-            if timeout.reached():
-                logger.info('Enemy searching timeout.')
-                break
-
-        return True
-
     def handle_map_event(self, drop=None):
         """
         Args:
             drop (DropImage):
 
         Returns:
-            bool: If clicked to handle any map event.
+            str: Event that handled
         """
         if self.handle_map_get_items(drop=drop):
-            return True
+            return 'map_get_items'
         if self.handle_os_game_tips():
-            return True
+            return 'os_game_tips'
         if self.handle_map_archives(drop=drop):
-            return True
+            return 'map_archives'
         if self.handle_guild_popup_cancel():
-            return True
+            return 'guild_popup_cancel'
         if self.handle_ash_popup():
-            return True
+            return 'ash_popup'
         if self.handle_urgent_commission(drop=drop):
-            return True
+            return 'urgent_commission'
         if self.handle_story_skip():
-            return True
+            return 'story_skip'
 
-        return False
+        return ''
 
     _os_in_map_confirm_timer = Timer(1.5, count=3)
 
@@ -169,50 +145,38 @@ class MapEventHandler(EnemySearchingHandler):
             self._os_in_map_confirm_timer.reset()
             return False
 
-    def ensure_no_map_event(self, skip_first_screenshot=True):
+    def ensure_no_map_event(self):
         self._os_in_map_confirm_timer.reset()
 
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
+        for _ in self.loop():
             if self.handle_map_event():
                 continue
-
             # End
             if self.handle_os_in_map():
                 break
 
-    def os_auto_search_quit(self, drop=None, skip_first_screenshot=True):
+    def os_auto_search_quit(self, drop=None):
         """
         Args:
             drop (DropImage):
-            skip_first_screenshot (bool):
 
         Returns:
             bool: True if current map cleared
         """
         confirm_timer = Timer(1.2, count=3).start()
         cleared = False
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
+        for _ in self.loop():
             if self.appear(AUTO_SEARCH_REWARD, offset=(50, 50), interval=2):
                 if self.ensure_no_info_bar():
                     cleared = True
                 if drop:
                     drop.handle_add(main=self, before=4)
                 self.device.click(AUTO_SEARCH_REWARD)
-                self.clicked = True
                 self.interval_reset([
                     AUTO_SEARCH_REWARD,
                     AUTO_SEARCH_OS_MAP_OPTION_ON,
                     AUTO_SEARCH_OS_MAP_OPTION_OFF,
+                    AUTO_SEARCH_OS_MAP_OPTION_OFF_DISABLED,
                 ])
                 confirm_timer.reset()
                 continue
@@ -222,6 +186,14 @@ class MapEventHandler(EnemySearchingHandler):
             if self.appear_then_click(GLOBE_GOTO_MAP, offset=(20, 20), interval=2):
                 # Sometimes entered globe map after clicking AUTO_SEARCH_REWARD
                 # because of duplicated clicks and clicks to places outside the map
+                confirm_timer.reset()
+                continue
+            # Donno why but it just entered storage, exit it anyway
+            # Equivalent to is_in_storage, but can't inherit StorageHandler here
+            # STORAGE_CHECK is a duplicate name, this is the os_handler/STORAGE_CHECK, not handler/STORAGE_CHECK
+            if self.appear(STORAGE_CHECK, offset=(20, 20), interval=5):
+                logger.info(f'{STORAGE_CHECK} -> {BACK_ARROW}')
+                self.device.click(BACK_ARROW)
                 confirm_timer.reset()
                 continue
 
@@ -243,12 +215,16 @@ class MapEventHandler(EnemySearchingHandler):
         Returns:
             bool: If clicked.
         """
-        if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 120)) \
-                and AUTO_SEARCH_OS_MAP_OPTION_OFF.match_appear_on(self.device.image) \
-                and self.info_bar_count() >= 2:
-            self.device.screenshot_interval_set()
-            self.os_auto_search_quit(drop=drop)
-            raise CampaignEnd
+        if self.match_template_color(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 120)):
+            if self.info_bar_count() >= 2:
+                self.device.screenshot_interval_set()
+                self.os_auto_search_quit(drop=drop)
+                raise CampaignEnd
+        if self.match_template_color(AUTO_SEARCH_OS_MAP_OPTION_OFF_DISABLED, offset=(5, 120)):
+            if self.info_bar_count() >= 2:
+                self.device.screenshot_interval_set()
+                self.os_auto_search_quit(drop=drop)
+                raise CampaignEnd
         if self.appear(AUTO_SEARCH_REWARD, offset=(50, 50)):
             self.device.screenshot_interval_set()
             if self.os_auto_search_quit(drop=drop):
@@ -261,13 +237,17 @@ class MapEventHandler(EnemySearchingHandler):
         if enable is None:
             pass
         elif enable:
-            if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 120), interval=3) \
-                    and AUTO_SEARCH_OS_MAP_OPTION_OFF.match_appear_on(self.device.image):
+            if self.match_template_color(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 120), interval=3):
                 self.device.click(AUTO_SEARCH_OS_MAP_OPTION_OFF)
+                self.interval_reset(AUTO_SEARCH_OS_MAP_OPTION_OFF_DISABLED)
+                return True
+            # Game client bugged sometimes, AUTO_SEARCH_OS_MAP_OPTION_OFF grayed out but still functional
+            if self.match_template_color(AUTO_SEARCH_OS_MAP_OPTION_OFF_DISABLED, offset=(5, 120), interval=3):
+                self.device.click(AUTO_SEARCH_OS_MAP_OPTION_OFF_DISABLED)
+                self.interval_reset(AUTO_SEARCH_OS_MAP_OPTION_OFF)
                 return True
         else:
-            if self.appear(AUTO_SEARCH_OS_MAP_OPTION_ON, offset=(5, 120), interval=3) \
-                    and AUTO_SEARCH_OS_MAP_OPTION_ON.match_appear_on(self.device.image):
+            if self.match_template_color(AUTO_SEARCH_OS_MAP_OPTION_ON, offset=(5, 120), interval=3):
                 self.device.click(AUTO_SEARCH_OS_MAP_OPTION_ON)
                 return True
 
@@ -289,7 +269,7 @@ class MapEventHandler(EnemySearchingHandler):
 
         if enable is None:
             enable = self.config.Campaign_UseFleetLock
-        status = 'on' if enable else 'off'
-        changed = fleet_lock.set(status=status, main=self)
+        state = 'on' if enable else 'off'
+        changed = fleet_lock.set(state, main=self)
 
         return changed

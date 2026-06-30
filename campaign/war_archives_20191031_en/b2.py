@@ -54,6 +54,13 @@ class Config(ConfigBase):
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = True
     # ===== End of generated config =====
+    HOMO_EDGE_COLOR_RANGE = (0, 12)
+    HOMO_EDGE_HOUGHLINES_THRESHOLD = 210
+    MAP_SWIPE_MULTIPLY = (1.101, 1.122)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.065, 1.085)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.034, 1.053)
+    HOMO_STORAGE = ((6, 5), [(211, 175), (782, 175), (158, 569), (800, 569)])
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'top'
 
 
 class Campaign(CampaignBase):

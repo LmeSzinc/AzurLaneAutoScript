@@ -1,8 +1,9 @@
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
+from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2
 from module.logger import logger
-from module.storage.assets import MATERIAL_ENTER, DISASSEMBLE_CANCEL, MATERIAL_CHECK, MATERIAL_STABLE_CHECK, \
-    EQUIPMENT_ENTER, DISASSEMBLE, EQUIPMENT_FILTER, EQUIPMENT_FILTER_CONFIRM
+from module.storage.assets import DISASSEMBLE, DISASSEMBLE_CANCEL, DISASSEMBLE_CONFIRM, EQUIPMENT_ENTER, \
+    EQUIPMENT_FILTER, EQUIPMENT_FILTER_CONFIRM, MATERIAL_CHECK, MATERIAL_ENTER, MATERIAL_STABLE_CHECK
 from module.ui.assets import STORAGE_CHECK
 from module.ui.page import page_storage
 from module.ui.setting import Setting
@@ -40,8 +41,7 @@ class StorageUI(UI):
         Returns:
             bool, if in MATERIAL_CHECK, appear and match_appear_on
         """
-        return self.appear(MATERIAL_CHECK, offset=(20, 20), interval=interval) \
-               and MATERIAL_CHECK.match_appear_on(self.device.image)
+        return self.match_template_color(MATERIAL_CHECK, offset=(20, 20), interval=interval)
 
     def _storage_enter_material(self, skip_first_screenshot=True):
         """
@@ -148,11 +148,25 @@ class StorageUI(UI):
         self.interval_clear(STORAGE_CHECK)
 
     def _equipment_filter_enter(self):
-        self.interval_clear(EQUIPMENT_FILTER)
-        self.ui_click(EQUIPMENT_FILTER, appear_button=STORAGE_CHECK, check_button=EQUIPMENT_FILTER_CONFIRM,
-                      skip_first_screenshot=True)
+        logger.info('Equipment filter enter')
+        self.interval_clear(STORAGE_CHECK)
+        for _ in self.loop():
+            if self.appear(EQUIPMENT_FILTER_CONFIRM, offset=(20, 20)):
+                break
+            if self.appear(STORAGE_CHECK, offset=(20, 20), interval=3):
+                self.device.click(EQUIPMENT_FILTER)
+                continue
+            if self.appear(GET_ITEMS_1, offset=(5, 5), interval=3):
+                logger.info(f'{GET_ITEMS_1} -> {DISASSEMBLE_CONFIRM}')
+                self.device.click(DISASSEMBLE_CONFIRM)
+                continue
+            if self.appear(GET_ITEMS_2, offset=(5, 5), interval=3):
+                logger.info(f'{GET_ITEMS_2} -> {DISASSEMBLE_CONFIRM}')
+                self.device.click(DISASSEMBLE_CONFIRM)
+                continue
 
     def _equipment_filter_confirm(self):
+        logger.info('Equipment filter confirm')
         self.interval_clear(EQUIPMENT_FILTER_CONFIRM)
         self.ui_click(EQUIPMENT_FILTER_CONFIRM, check_button=STORAGE_CHECK, skip_first_screenshot=True)
         self._wait_until_storage_stable()

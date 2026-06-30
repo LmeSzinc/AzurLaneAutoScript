@@ -9,17 +9,15 @@ from queue import Queue
 from typing import Callable, Generator, List
 
 import pywebio
-from module.config.utils import deep_iter
-from module.logger import logger
-from module.webui.setting import State
 from pywebio.input import PASSWORD, input
 from pywebio.output import PopupSize, popup, put_html, toast
-from pywebio.session import eval_js
-from pywebio.session import info as session_info
-from pywebio.session import register_thread, run_js
-from rich.console import Console, ConsoleOptions
+from pywebio.session import eval_js, info as session_info, register_thread, run_js
+from rich.console import Console
 from rich.terminal_theme import TerminalTheme
 
+from module.config.deep import deep_iter
+from module.logger import logger
+from module.webui.setting import State
 
 RE_DATETIME = (
     r"\d{4}\-(0\d|1[0-2])\-([0-2]\d|[3][0-1]) "
@@ -428,6 +426,18 @@ def parse_pin_value(val, valuetype: str = None):
             return int(v)
         else:
             return v
+
+
+def to_pin_value(val):
+    """
+    Convert bool to checkbox
+    """
+    if val is True:
+        return [True]
+    elif val is False:
+        return []
+    else:
+        return val
 
 
 def login(password):

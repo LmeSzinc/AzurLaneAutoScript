@@ -1,7 +1,28 @@
 import os
 import json
-
+import ctypes
 from cached_property import cached_property
+
+# In order for MAA submodule to exexute,
+# it is necessary to load runtime before module PIL
+if os.name == 'nt':
+    # This DLL is the dependency for next DLL
+    # Try loading to avoid mix different versions of runtime
+    try:
+        ctypes.WinDLL(os.path.join(os.environ['SystemRoot'], 'System32/vcruntime140_1.dll'))
+    except Exception as e:
+        print(e)
+
+    # This DLL must be loaded due to conflict issues
+    ctypes.WinDLL(os.path.join(os.environ['SystemRoot'], 'System32/msvcp140.dll'))
+
+    # These DLLS are other DLLS that MAA depends on
+    # Try loading to avoid mix different versions of runtime
+    try:
+        ctypes.WinDLL(os.path.join(os.environ['SystemRoot'], 'System32/msvcp140_1.dll'))
+        ctypes.WinDLL(os.path.join(os.environ['SystemRoot'], 'System32/concrt140.dll'))
+    except Exception as e:
+        print(e)
 
 from alas import AzurLaneAutoScript
 from module.exception import RequestHumanTakeover
@@ -107,7 +128,7 @@ class ArknightsAutoScript(AzurLaneAutoScript):
         asst = AssistantHandler.Asst(callback)
 
         asst.set_instance_option(AssistantHandler.InstanceOptionType.touch_type, self.config.MaaEmulator_TouchMethod)
-        asst.set_instance_option(AssistantHandler.InstanceOptionType.adb_lite_enabled, '0')
+        asst.set_instance_option(AssistantHandler.InstanceOptionType.adblite_enabled, '0')
         if self.config.MaaEmulator_DeploymentWithPause:
             if self.config.MaaEmulator_TouchMethod == 'maatouch':
                 asst.set_instance_option(AssistantHandler.InstanceOptionType.deployment_with_pause, '1')

@@ -116,7 +116,7 @@ class RadarGrid:
         Returns:
             bool:
         """
-        image = crop(self.image, area_offset(area, self.center))
+        image = crop(self.image, area_offset(area, self.center), copy=False)
         mask = color_similarity_2d(image, color=color) > threshold
         return np.sum(mask) >= count
 
@@ -205,6 +205,13 @@ class Radar:
             grid.image = image
             grid.reset()
             grid.predict()
+        # Fixup is_question near is_port
+        for port in self.select(is_port=True):
+            for grid in self.select(is_question=True):
+                if np.sum(np.abs(np.subtract(port.location, grid.location))) == 1:
+                    logger.warning(f'Wrong radar prediction is_question {grid.location} {grid.encode()} '
+                                   f'near {port.location} {port.encode()}')
+                    grid.is_question = False
 
     def select(self, **kwargs):
         """
@@ -236,7 +243,7 @@ class Radar:
                 Or None if port not found.
         """
         radius = (15, 82)
-        image = crop(image, area_offset((-radius[1], -radius[1], radius[1], radius[1]), self.center))
+        image = crop(image, area_offset((-radius[1], -radius[1], radius[1], radius[1]), self.center), copy=False)
         # image.show()
         points = np.where(color_similarity_2d(image, color=(255, 255, 255)) > 250)
         points = np.array(points).T[:, ::-1] - (radius[1], radius[1])

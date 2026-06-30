@@ -55,20 +55,6 @@ class Config:
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
-    INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (150, 255 - 17),
-        'width': (0.9, 10),
-        'prominence': 10,
-        'distance': 35,
-    }
-    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (255 - 17, 255),
-        'prominence': 10,
-        'distance': 50,
-        # 'width': (0, 7),
-        'wlen': 1000
-    }
-    HOMO_EDGE_COLOR_RANGE = (0, 17)
     MAP_ENEMY_GENRE_DETECTION_SCALING = {
         'DD': 1.111,
         'CL': 1.111,
@@ -76,6 +62,7 @@ class Config:
         'BBred': 1.111,
         'CV': 1.111,
     }
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
     MAP_SWIPE_MULTIPLY = (0.974, 0.992)
     MAP_SWIPE_MULTIPLY_MINITOUCH = (0.942, 0.959)
     MAP_SWIPE_MULTIPLY_MAATOUCH = (0.914, 0.931)

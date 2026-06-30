@@ -17,7 +17,6 @@ class ConfigModel:
     GitProxy: Optional[str] = None
     SSLVerify: bool = False
     AutoUpdate: bool = True
-    KeepLocalChanges: bool = False
 
     # Python
     PythonExecutable: str = "./toolkit/python.exe"
@@ -54,6 +53,8 @@ class ConfigModel:
     # Webui
     WebuiHost: str = "0.0.0.0"
     WebuiPort: int = 22267
+    WebuiSSLKey: Optional[str] = None
+    WebuiSSLCert: Optional[str] = None
     Language: str = "en-US"
     Theme: str = "default"
     DpiScaling: bool = True
@@ -73,28 +74,9 @@ class DeployConfig(ConfigModel):
         """
         self.file = file
         self.config = {}
+        self.config_template = {}
         self.read()
-        if self.Repository in [
-            'https://gitee.com/LmeSzinc/AzurLaneAutoScript',
-            'https://gitee.com/lmeszinc/azur-lane-auto-script-mirror',
-            'https://e.coding.net/llop18870/alas/AzurLaneAutoScript.git',
-            'https://e.coding.net/saarcenter/alas/AzurLaneAutoScript.git',
-            'https://git.saarcenter.com/LmeSzinc/AzurLaneAutoScript.git',
-        ]:
-            self.Repository = 'git://git.lyoko.io/AzurLaneAutoScript'
 
-        # Bypass webui.config.DeployConfig.__setattr__()
-        # Don't write these into deploy.yaml
-        super().__setattr__(
-            'GitOverCdn',
-            self.Repository == 'git://git.lyoko.io/AzurLaneAutoScript' and self.Branch == 'master'
-        )
-        if self.Repository in ['global']:
-            super().__setattr__('Repository', 'https://github.com/LmeSzinc/AzurLaneAutoScript')
-        if self.Repository in ['cn']:
-            super().__setattr__('Repository', 'git://git.lyoko.io/AzurLaneAutoScript')
-
-        self.write()
         self.show_config()
 
     def show_config(self):
@@ -109,16 +91,55 @@ class DeployConfig(ConfigModel):
         logger.info(f"Rest of the configs are the same as default")
 
     def read(self):
+        """
+        Read and update deploy config, copy `self.configs` to properties.
+        """
         self.config = poor_yaml_read(DEPLOY_TEMPLATE)
         self.config_template = copy.deepcopy(self.config)
-        self.config.update(poor_yaml_read(self.file))
+        origin = poor_yaml_read(self.file)
+        self.config.update(origin)
 
         for key, value in self.config.items():
             if hasattr(self, key):
                 super().__setattr__(key, value)
 
+        self.config_redirect()
+
+        if self.config != origin:
+            self.write()
+
     def write(self):
         poor_yaml_write(self.config, self.file)
+
+    def config_redirect(self):
+        """
+        Redirect deploy config, must be called after each `read()`
+        """
+        if self.Repository in [
+            'https://gitee.com/LmeSzinc/AzurLaneAutoScript',
+            'https://gitee.com/lmeszinc/azur-lane-auto-script-mirror',
+            'https://e.coding.net/llop18870/alas/AzurLaneAutoScript.git',
+            'https://e.coding.net/saarcenter/alas/AzurLaneAutoScript.git',
+            'https://git.saarcenter.com/LmeSzinc/AzurLaneAutoScript.git',
+        ]:
+            self.Repository = 'git://git.lyoko.io/AzurLaneAutoScript'
+            self.config['Repository'] = 'git://git.lyoko.io/AzurLaneAutoScript'
+        if self.PypiMirror in [
+            'https://pypi.tuna.tsinghua.edu.cn/simple'
+        ]:
+            self.PypiMirror = 'https://mirrors.aliyun.com/pypi/simple'
+            self.config['PypiMirror'] = 'https://mirrors.aliyun.com/pypi/simple'
+
+        # Bypass webui.config.DeployConfig.__setattr__()
+        # Don't write these into deploy.yaml
+        super().__setattr__(
+            'GitOverCdn',
+            self.Repository == 'git://git.lyoko.io/AzurLaneAutoScript' and self.Branch == 'master'
+        )
+        if self.Repository in ['global']:
+            super().__setattr__('Repository', 'https://github.com/LmeSzinc/AzurLaneAutoScript')
+        if self.Repository in ['cn']:
+            super().__setattr__('Repository', 'git://git.lyoko.io/AzurLaneAutoScript')
 
     def filepath(self, key):
         """

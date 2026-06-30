@@ -16,6 +16,8 @@ class Setting:
         self.main: ModuleBase = main
         # Reset options before setting any options
         self.reset_first = True
+        # Deselect active options
+        self.need_deselect = False
         # (setting, opiton_name): option_button
         # {
         #     ('sort', 'rarity'): Button(),
@@ -108,6 +110,9 @@ class Setting:
             active = self.is_option_active(option_button)
             if enable and not active:
                 click.append(option_button)
+            if self.need_deselect:
+                if not enable and active:
+                    click.append(option_button)
         return click
 
     def _set_execute(self, **kwargs):
@@ -122,7 +127,7 @@ class Setting:
         """
         status = self._product_setting_status(**kwargs)
 
-        logger.info(f'Setting {self.name} options, {dict_to_kv(kwargs)}')
+        logger.info(f'Setting options {self.name}, {dict_to_kv(kwargs)}')
         skip_first_screenshot = True
         retry = Timer(1, count=2)
         timeout = Timer(10, count=20).start()

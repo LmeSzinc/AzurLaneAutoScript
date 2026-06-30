@@ -71,7 +71,7 @@ class AmbushHandler(Combat):
                 continue
 
         # Handle evade success and failures
-        image = info_letter_preprocess(self.image_crop(INFO_BAR_DETECT))
+        image = info_letter_preprocess(self.image_crop(INFO_BAR_DETECT, copy=False))
         if TEMPLATE_AMBUSH_EVADE_SUCCESS.match(image):
             logger.attr('Ambush_evade', 'success')
         elif TEMPLATE_AMBUSH_EVADE_FAILED.match(image):
@@ -140,7 +140,7 @@ class AmbushHandler(Combat):
         if not self.info_bar_count():
             return False
 
-        image = info_letter_preprocess(self.image_crop(INFO_BAR_DETECT))
+        image = info_letter_preprocess(self.image_crop(INFO_BAR_DETECT, copy=False))
         if TEMPLATE_MAP_WALK_OUT_OF_STEP.match(image):
             logger.warning('Map walk out of step.')
             self.handle_info_bar()
