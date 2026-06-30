@@ -869,6 +869,10 @@
       "name": "Keep Oil Above X",
       "help": "Delay current task if oil is found to be below this number"
     },
+    "CoinLimit": {
+      "name": "Delay When Coins Reach X",
+      "help": "Delay the current task when coins are found to be at or above this number. The task will resume after coins drop below the limit.\n0 means no coin limit"
+    },
     "RunCount": {
       "name": "Run Level X Time(s)",
       "help": "Automatically decreases by 1 for every completion and stops the current task upon reaching zero; saving as 0 implies unlimited runs until a different stop condition is met"
