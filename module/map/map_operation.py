@@ -312,7 +312,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
             MAP_MODE_SWITCH_HARD5,
             MAP_MODE_SWITCH_HARD6,
         ]:
-            if self.appear(button, offset=(20, 20), threshold=0.7):
+            if self.appear(button, offset=(20, 20), similarity=0.7):
                 if active:
                     return self._is_mod_switch_hard_active(button)
                 else:
