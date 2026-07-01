@@ -90,6 +90,10 @@
       "name": "Maritime Escort",
       "help": ""
     },
+    "EventShop": {
+      "name": "イベント商店",
+      "help": ""
+    },
     "WarArchives": {
       "name": "作戦履歴",
       "help": ""
@@ -1343,6 +1347,33 @@
       "help": "Coalition.Fleet.help",
       "single": "single",
       "multi": "multi"
+    }
+  },
+  "EventShop": {
+    "_info": {
+      "name": "EventShop._info.name",
+      "help": "EventShop._info.help"
+    },
+    "UnlockSSRShip": {
+      "name": "EventShop.UnlockSSRShip.name",
+      "help": "EventShop.UnlockSSRShip.help"
+    },
+    "BuyURShip": {
+      "name": "EventShop.BuyURShip.name",
+      "help": "EventShop.BuyURShip.help",
+      "0": "0",
+      "1": "1",
+      "2": "2"
+    },
+    "PresetFilter": {
+      "name": "EventShop.PresetFilter.name",
+      "help": "EventShop.PresetFilter.help",
+      "all": "all",
+      "custom": "custom"
+    },
+    "CustomFilter": {
+      "name": "EventShop.CustomFilter.name",
+      "help": "EventShop.CustomFilter.help"
     }
   },
   "Commission": {

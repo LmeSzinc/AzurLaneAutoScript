@@ -90,6 +90,10 @@
       "name": "Maritime Escort",
       "help": ""
     },
+    "EventShop": {
+      "name": "Event Shop",
+      "help": ""
+    },
     "WarArchives": {
       "name": "War Archives",
       "help": "Due to the lack of maintenance of war archives, continuous clear may not work normally, if Alas runs abnormally, Please manually finish clearing and use auto search"
@@ -1343,6 +1347,33 @@
       "help": "",
       "single": "Solo Challenge",
       "multi": "Coalition Battle"
+    }
+  },
+  "EventShop": {
+    "_info": {
+      "name": "Event Shop Settings",
+      "help": ""
+    },
+    "UnlockSSRShip": {
+      "name": "Unlock SSR Ship",
+      "help": ""
+    },
+    "BuyURShip": {
+      "name": "Buy X UR Ship(s)",
+      "help": "",
+      "0": "0",
+      "1": "1",
+      "2": "2"
+    },
+    "PresetFilter": {
+      "name": "Event Shop Filter",
+      "help": "Generally does not need to be modified.",
+      "all": "All",
+      "custom": "Custom"
+    },
+    "CustomFilter": {
+      "name": "Custom Filter",
+      "help": "To use your own filter, set \"Event Shop Filter\" to \"Custom\". All options have been defined at <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_en>"
     }
   },
   "Commission": {

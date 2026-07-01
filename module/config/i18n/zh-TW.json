@@ -90,6 +90,10 @@
       "name": "商船護航",
       "help": ""
     },
+    "EventShop": {
+      "name": "活動商店",
+      "help": ""
+    },
     "WarArchives": {
       "name": "作戰檔案",
       "help": "由於作戰檔案缺少維護，開荒功能不一定能正常使用，如果發現Alas運行異常，請手動完成開荒後使用自律尋敵功能"
@@ -1343,6 +1347,33 @@
       "help": "",
       "single": "單隊連戰",
       "multi": "多隊出擊"
+    }
+  },
+  "EventShop": {
+    "_info": {
+      "name": "活動商店",
+      "help": ""
+    },
+    "UnlockSSRShip": {
+      "name": "解鎖SSR艦船",
+      "help": ""
+    },
+    "BuyURShip": {
+      "name": "購買X艘UR艦船",
+      "help": "",
+      "0": "0",
+      "1": "1",
+      "2": "2"
+    },
+    "PresetFilter": {
+      "name": "活動商店過濾器",
+      "help": "一般不需要修改",
+      "all": "全部",
+      "custom": "自定義"
+    },
+    "CustomFilter": {
+      "name": "自定義活動商店過濾器",
+      "help": "使用自定義過濾器需將 \"活動商店過濾器\" 設定為 \"自定義過濾器\"，並閱讀 https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_cn"
     }
   },
   "Commission": {
