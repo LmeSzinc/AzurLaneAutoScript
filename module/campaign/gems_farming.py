@@ -1,7 +1,5 @@
 from datetime import datetime
 
-import numpy as np
-
 from module.base.decorator import Config, cached_property
 from module.base.timer import Timer
 from module.campaign.campaign_base import CampaignBase
@@ -71,6 +69,28 @@ class GemsCampaignOverride(CampaignBase):
 
 
 class GemsEmotion(Emotion):
+    @property
+    def fleet(self):
+        """
+        GemsFarming only tracks the attacking fleet. Support fleet emotion is ignored.
+        """
+        return self.fleet_1
+
+    def update(self):
+        """
+        Update attacking fleet emotion only.
+        """
+        self.fleet.update()
+
+    def record(self):
+        """
+        Save current emotion value to config.
+        """
+        self.config.set_record(**{self.fleet.value_name: self.fleet.current})
+
+    def show(self):
+        logger.attr('Emotion fleet_attack', self.fleet.value)
+
     def check_reduce(self, battle):
         """
         Override Emotion.check_reduce to trigger stop condition when emotion is too low before battle.
@@ -78,19 +98,13 @@ class GemsEmotion(Emotion):
         if not self.is_calculate:
             return
 
-        method = self.config.Fleet_FleetOrder
-        if method == 'fleet1_all_fleet2_standby':
-            battle = (battle, 0)
-        elif method == 'fleet1_standby_fleet2_all':
-            battle = (0, battle)
-
-        battle = tuple(np.array(battle) * self.reduce_per_battle_before_entering)
-        logger.info(f'Expect emotion reduce: {battle}')
+        expected_reduce = battle * self.reduce_per_battle_before_entering
+        logger.info(f'Expect emotion reduce: {expected_reduce}')
 
         self.update()
         self.record()
         self.show()
-        recovered = max([f.get_recovered(b) for f, b in zip(self.fleets, battle)])
+        recovered = self.fleet.get_recovered(expected_reduce)
         if recovered > datetime.now():
             self.config.GEMS_EMOTION_TRIGGERED = True
             raise CampaignEnd('Emotion control')
@@ -102,10 +116,20 @@ class GemsEmotion(Emotion):
         self.update()
         self.record()
         self.show()
-        fleet = self.fleets[fleet_index - 1]
-        recovered = fleet.get_recovered(expected_reduce=self.reduce_per_battle)
+        recovered = self.fleet.get_recovered(expected_reduce=self.reduce_per_battle)
         if recovered > datetime.now():
             self.config.GEMS_EMOTION_TRIGGERED = True
+
+    def reduce(self, fleet_index):
+        """
+        Override Emotion.reduce to always reduce attacking fleet emotion.
+        """
+        logger.hr('Emotion reduce')
+        self.update()
+        self.fleet.current -= self.reduce_per_battle
+        self.total_reduced += self.reduce_per_battle
+        self.record()
+        self.show()
 
 
 class GemsFarming(CampaignRun, Dock):
@@ -618,10 +642,7 @@ class GemsFarming(CampaignRun, Dock):
                 if self.change_vanguard:
                     success = success and self.vanguard_change()
 
-                if self.fleet_to_attack == 2:
-                    self.campaign.config.set_record(Emotion_Fleet2Value=self._new_fleet_emotion)
-                else:
-                    self.campaign.config.set_record(Emotion_Fleet1Value=self._new_fleet_emotion)
+                self.campaign.config.set_record(Emotion_Fleet1Value=self._new_fleet_emotion)
 
                 if is_limit and self.config.StopCondition_RunCount <= 0:
                     logger.hr('Triggered stop condition: Run count')
