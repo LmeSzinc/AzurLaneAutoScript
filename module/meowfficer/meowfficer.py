@@ -34,7 +34,7 @@ class RewardMeowfficer(MeowfficerBuy, MeowfficerFort, MeowfficerTrain):
             out: page_meowfficer
         """
         if self.config.Meowfficer_BuyAmount <= 0 \
-                and self.config.Meowfficer_OverflowCoins == -1 \
+                and self.config.Meowfficer_OverflowCoins < 0 \
                 and not self.config.Meowfficer_FortChoreMeowfficer \
                 and not self.config.MeowfficerTrain_Enable:
             self.config.Scheduler_Enable = False
@@ -44,7 +44,7 @@ class RewardMeowfficer(MeowfficerBuy, MeowfficerFort, MeowfficerTrain):
         self.wait_meowfficer_buttons()  # Wait for the ui to load fully
 
         if self.config.Meowfficer_BuyAmount > 0 \
-                or self.config.Meowfficer_OverflowCoins != -1:
+                or self.config.Meowfficer_OverflowCoins >= 0:
             self.meow_buy()
         if self.config.Meowfficer_FortChoreMeowfficer:
             self.meow_fort()
