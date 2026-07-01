@@ -1,7 +1,6 @@
 import yaml
 
 from module.base.timer import Timer
-from module.base.utils import random_rectangle_point, point2str
 from module.device.method.utils import HierarchyButton
 from module.equipment.assets import *
 from module.logger import logger
@@ -142,9 +141,7 @@ class EquipmentCodeHandler(StorageHandler):
             def appear_then_click(xpath):
                 b = HierarchyButton(h, xpath)
                 if b:
-                    point = random_rectangle_point(b.button)
-                    logger.info(f'Click {point2str(*point)} @ {b}')
-                    self.device.click_adb(*point)
+                    self.device.click(b)
                     return True
                 else:
                     return False
