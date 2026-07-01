@@ -18,12 +18,6 @@ class GeneratedConfig:
     Scheduler_ServerUpdate = '00:00'
 
     # Group `Restart`
-    Restart_Scheduler_Enable = False
-    Restart_Scheduler_NextRun = datetime.datetime(2020, 1, 1, 0, 0)
-    Restart_Scheduler_Command = 'Restart'
-    Restart_Scheduler_SuccessInterval = 0
-    Restart_Scheduler_FailureInterval = 120
-    Restart_Scheduler_ServerUpdate = '00:00'
     Restart_MidnightRandomDelay_Enable = False  # True, False
     Restart_MidnightRandomDelay_MaxSeconds = 300
 

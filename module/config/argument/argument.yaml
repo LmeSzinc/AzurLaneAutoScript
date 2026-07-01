@@ -21,22 +21,6 @@ Scheduler:
     value: 00:00
     display: hide
 Restart:
-  Scheduler:
-    Enable:
-      type: checkbox
-      value: false
-      option: [ true, false ]
-    NextRun: 2020-01-01 00:00:00
-    Command: Restart
-    SuccessInterval:
-      value: 0
-      display: hide
-    FailureInterval:
-      value: 120
-      display: hide
-    ServerUpdate:
-      value: 00:00
-      display: hide
   MidnightRandomDelay:
     Enable:
       type: checkbox
