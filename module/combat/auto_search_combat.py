@@ -51,7 +51,12 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
             if self.appear(AUTO_SEARCH_MAP_OPTION_ON, offset=self._auto_search_offset, interval=3) \
                     and self.appear_then_click(AUTO_SEARCH_MAP_OPTION_ON):
                 continue
-            if self.handle_combat_low_emotion():
+            result = self.handle_combat_low_emotion()
+            if result == 'control':
+                self.emotion.wait_after_low_emotion(
+                    fleet_index=self.combat_low_emotion_fleet_index()
+                )
+            if result:
                 continue
             if self.handle_retirement():
                 continue
@@ -180,7 +185,12 @@ class AutoSearchCombat(MapOperation, Combat, CampaignStatus):
                 break
             if self.handle_auto_search_map_option():
                 continue
-            if self.handle_combat_low_emotion():
+            result = self.handle_combat_low_emotion()
+            if result == 'control':
+                self.emotion.wait_after_low_emotion(
+                    fleet_index=self.combat_low_emotion_fleet_index()
+                )
+            if result:
                 self._auto_search_status_confirm = True
                 continue
             if self.handle_story_skip():

@@ -311,7 +311,12 @@ class Fleet(Camera, AmbushHandler):
                     if self.handle_retirement():
                         self.map_offensive()
                         walk_timeout.reset()
-                    if self.handle_combat_low_emotion():
+                    result = self.handle_combat_low_emotion()
+                    if result == 'control':
+                        self.emotion.wait_after_low_emotion(
+                            fleet_index=self.combat_low_emotion_fleet_index()
+                        )
+                    if result:
                         walk_timeout.reset()
                 if self.combat_appear():
                     self.combat(

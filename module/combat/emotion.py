@@ -119,28 +119,30 @@ class FleetEmotion:
         recover_count = max(recover_count, 0)
         self.current = min(max(self.value, 0) + self.speed * recover_count, self.max)
 
-    def get_recovered(self, expected_reduce=0):
+    def get_recovered(self, expected_reduce=0, control_limit=None):
         """
         Args:
             expected_reduce (int):
+            control_limit (int, None): Use configured control limit if None.
 
         Returns:
-            datetime.datetime: When will emotion >= control limit.
+            datetime.datetime: When will emotion >= control limit + expected reduce.
                 If already recovered, return time in the past.
         """
-        if self.control == 'keep_exp_bonus' and self.recover == 'not_in_dormitory':
+        limit = self.limit if control_limit is None else control_limit
+        if control_limit is None and self.control == 'keep_exp_bonus' and self.recover == 'not_in_dormitory':
             logger.critical(f'Fleet {self.fleet} Emotion Control=\"Keep Happy Bonus\" and '
                             f'Fleet {self.fleet} Recover Location=\"Docks\" can not be used together, '
                             'please check your emotion settings')
             raise RequestHumanTakeover
         # In 14-4 with 2X book, expected emotion reduce is 32, can't keep happy bonus (>120),
         # otherwise will infinite task delay
-        if self.control == 'keep_exp_bonus' and expected_reduce >= 29:
+        if control_limit is None and self.control == 'keep_exp_bonus' and expected_reduce >= 29:
             expected_reduce = 29
             logger.info(f'Fleet {self.fleet} expected_reduce is limited to 29 '
                         f'when Emotion Control=\"Keep Happy Bonus\"')
 
-        recover_count = (self.limit + expected_reduce - self.current) // self.speed
+        recover_count = (limit + expected_reduce - self.current) // self.speed
         recovered = (int(datetime.now().timestamp()) // 360 + recover_count + 1) * 360
         return datetime.fromtimestamp(recovered)
 
@@ -158,6 +160,7 @@ class Emotion:
         self.fleet_1 = FleetEmotion(self.config, fleet=1)
         self.fleet_2 = FleetEmotion(self.config, fleet=2)
         self.fleets = [self.fleet_1, self.fleet_2]
+        self.reset_campaign()
 
     @property
     def is_calculate(self):
@@ -204,67 +207,35 @@ class Emotion:
         else:
             return 2
 
-    def _fleet_indexes(self, fleet_index=None):
+    def reset_campaign(self):
+        self.low_emotion_triggered = False
+        self.fleets_used_in_campaign = set()
+
+    @staticmethod
+    def _valid_fleet_index(fleet_index):
         try:
             fleet_index = int(fleet_index)
         except (TypeError, ValueError):
-            return [1, 2]
+            return None
 
         if fleet_index in [1, 2]:
-            return [fleet_index]
+            return fleet_index
+        return None
+
+    def _fleet_indexes(self, fleet_index=None):
+        if isinstance(fleet_index, (list, tuple, set)):
+            indexes = [
+                index for index in [self._valid_fleet_index(index) for index in fleet_index]
+                if index is not None
+            ]
+            return sorted(set(indexes)) if indexes else [1, 2]
+
+        index = self._valid_fleet_index(fleet_index)
+        if index is not None:
+            return [index]
         return [1, 2]
 
-    def reset_low_emotion(self, fleet_index=None):
-        """
-        Reset emotion ledger after the game client reports low emotion.
-
-        Args:
-            fleet_index (int, None): 1 or 2. Unknown fleets reset both ledgers.
-
-        Returns:
-            list[FleetEmotion]: Fleets whose values were reset.
-        """
-        indexes = self._fleet_indexes(fleet_index=fleet_index)
-        if len(indexes) > 1:
-            logger.warning('Unable to identify low-emotion fleet, reset both fleet ledgers')
-
-        logger.hr('Emotion control')
-        self.update()
-        fleets = [self.fleets[index - 1] for index in indexes]
-        for fleet in fleets:
-            fleet.current = max(fleet.limit - 1, 0)
-            logger.info(f'Reset emotion fleet {fleet.fleet} to {fleet.current}')
-
-        self.record()
-        self.show()
-        return fleets
-
-    def delay_after_low_emotion(self, fleet_index=None):
-        """
-        Delay current task after backing out of the low-emotion sortie popup.
-
-        Raise:
-            ScriptEnd: Stop current task normally so scheduler can continue.
-        """
-        fleets = self.reset_low_emotion(fleet_index=fleet_index)
-        recovered = max([fleet.get_recovered(expected_reduce=self.reduce_per_battle) for fleet in fleets])
-        logger.info(f'Delay current task until emotion recovers at {recovered}')
-        self.config.task_delay(target=recovered)
-        raise ScriptEnd('Emotion control')
-
-    def check_reduce(self, battle):
-        """
-        Check emotion before entering a campaign.
-
-        Args:
-            battle (int): Battles in this campaign
-
-        Raise:
-            ScriptEnd: Delay current task to prevent emotion control in the future.
-        """
-        if not self.is_calculate:
-            return
-
+    def _expected_reduce(self, battle):
         method = self.config.Fleet_FleetOrder
 
         if method == 'fleet1_mob_fleet2_boss':
@@ -280,39 +251,161 @@ class Emotion:
 
         battle = tuple(np.array(battle) * self.reduce_per_battle_before_entering)
         logger.info(f'Expect emotion reduce: {battle}')
+        return battle
 
+    def _get_recovered(self, battle):
+        battle = self._expected_reduce(battle)
         self.update()
         self.record()
         self.show()
-        recovered = max([f.get_recovered(b) for f, b in zip(self.fleets, battle)])
+        return max([f.get_recovered(b) for f, b in zip(self.fleets, battle)])
+
+    def delay_before_entering_map(self, battle, fleet_index=None):
+        """
+        Delay current task when low emotion is reported before the map is entered.
+
+        Args:
+            battle (int): Battles in this campaign.
+            fleet_index (int, None): 1 or 2. Unknown fleets reset both ledgers.
+
+        Raise:
+            ScriptEnd: Stop current task normally so scheduler can continue.
+        """
+        logger.hr('Emotion control')
+        self.reset_low_emotion(fleet_index=fleet_index)
+        recovered = self._get_recovered(battle)
+        logger.info(f'Delay current task until emotion recovers at {recovered}')
+        self.config.task_delay(target=recovered)
+        raise ScriptEnd('Emotion control')
+
+    def delay_after_campaign(self, battle):
+        """
+        Delay current task after a map ended if low emotion control happened in this map.
+
+        Args:
+            battle (int): Battles in this campaign.
+
+        Returns:
+            bool: If delayed.
+        """
+        if not self.is_calculate or not self.low_emotion_triggered:
+            self.reset_campaign()
+            return False
+
+        indexes = sorted(self.fleets_used_in_campaign)
+        if not indexes:
+            logger.warning('Low emotion triggered but no battle fleet was recorded')
+            self.reset_campaign()
+            return False
+
+        logger.hr('Emotion control after campaign')
+        recovered = self._get_recovered(battle)
+        self.reset_campaign()
+        if recovered > datetime.now():
+            logger.info(f'Delay current task until next run emotion recovers at {recovered}')
+            self.config.task_delay(target=recovered)
+            return True
+        return False
+
+    def register_battle_fleet(self, fleet_index):
+        try:
+            fleet_index = int(fleet_index)
+        except (TypeError, ValueError):
+            return
+
+        if fleet_index in [1, 2]:
+            self.fleets_used_in_campaign.add(fleet_index)
+
+    def reset_low_emotion(self, fleet_index=None):
+        """
+        Reset emotion ledger after the game client reports low emotion.
+
+        Args:
+            fleet_index (int, None): 1 or 2. Unknown fleets reset both ledgers.
+
+        Returns:
+            list[FleetEmotion]: Fleets whose values were reset.
+        """
+        indexes = self._fleet_indexes(fleet_index=fleet_index)
+        if len(indexes) > 1 and not isinstance(fleet_index, (list, tuple, set)):
+            logger.warning('Unable to identify low-emotion fleet, reset both fleet ledgers')
+
+        logger.hr('Emotion control')
+        self.update()
+        fleets = [self.fleets[index - 1] for index in indexes]
+        for fleet in fleets:
+            fleet.current = 0
+            logger.info(f'Reset emotion fleet {fleet.fleet} to {fleet.current}')
+
+        self.record()
+        self.show()
+        return fleets
+
+    def wait_after_low_emotion(self, fleet_index=None):
+        """
+        Wait in map after backing out of the low-emotion sortie popup.
+        """
+        self.low_emotion_triggered = True
+        fleets = self.reset_low_emotion(fleet_index=fleet_index)
+        for fleet in fleets:
+            self.wait(fleet_index=fleet.fleet, control_limit=0, check_task_switch=True)
+
+    def check_reduce(self, battle):
+        """
+        Check emotion before entering a campaign.
+
+        Args:
+            battle (int): Battles in this campaign
+
+        Raise:
+            ScriptEnd: Delay current task to prevent emotion control in the future.
+        """
+        if not self.is_calculate:
+            return
+
+        recovered = self._get_recovered(battle)
         if recovered > datetime.now():
             logger.info('Delay current task to prevent emotion control in the future')
             self.config.task_delay(target=recovered)
             raise ScriptEnd('Emotion control')
 
-    def wait(self, fleet_index):
+    def wait(self, fleet_index, control_limit=None, check_task_switch=False):
         """
         Wait emotion of specific fleet.
         Should be called before entering any battles.
 
         Args:
             fleet_index (int): 1 or 2.
+            control_limit (int, None): Use configured control limit if None.
+            check_task_switch (bool): If check scheduler switch while waiting.
         """
         self.update()
         self.record()
         self.show()
         fleet = self.fleets[fleet_index - 1]
-        recovered = fleet.get_recovered(expected_reduce=self.reduce_per_battle)
+        expected_reduce = self.reduce_per_battle
+        recovered = fleet.get_recovered(expected_reduce=expected_reduce, control_limit=control_limit)
         if recovered > datetime.now():
             logger.hr('Emotion wait')
-            logger.info(f'Emotion of fleet {fleet_index} will recover to {fleet.limit} at {recovered}')
+            limit = fleet.limit if control_limit is None else control_limit
+            logger.info(
+                f'Emotion of fleet {fleet_index} will recover to {limit + expected_reduce} at {recovered}'
+            )
 
+            wait_interval = 5 if check_task_switch else 60
+            log_count = 0
             while 1:
                 if datetime.now() > recovered:
                     break
+                if check_task_switch and self.config.task_switched():
+                    logger.info('Task switched during emotion wait')
+                    raise ScriptEnd('Emotion control')
 
-                logger.attr('Wait until', recovered)
-                sleep(60)
+                if log_count <= 0:
+                    logger.attr('Wait until', recovered)
+                    log_count = 12 if check_task_switch else 1
+                log_count -= 1
+                sleep(wait_interval)
 
     def reduce(self, fleet_index):
         """
@@ -326,6 +419,8 @@ class Emotion:
         logger.hr('Emotion reduce')
         self.update()
 
+        fleet_index = int(fleet_index)
+        self.register_battle_fleet(fleet_index)
         fleet = self.fleets[fleet_index - 1]
         fleet.current -= self.reduce_per_battle
         self.total_reduced += self.reduce_per_battle

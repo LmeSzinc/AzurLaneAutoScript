@@ -190,7 +190,7 @@ class InfoHandler(ModuleBase):
             if result:
                 # Avoid clicking AUTO_SEARCH_MAP_OPTION_OFF
                 self.interval_reset(AUTO_SEARCH_MAP_OPTION_OFF)
-            return result
+            return 'ignore' if result else False
 
         if not self.emotion.is_calculate:
             return False
@@ -199,8 +199,30 @@ class InfoHandler(ModuleBase):
         if result:
             # Avoid clicking AUTO_SEARCH_MAP_OPTION_OFF
             self.interval_reset(AUTO_SEARCH_MAP_OPTION_OFF)
-            self.emotion.delay_after_low_emotion(fleet_index=fleet_index)
-        return result
+            return 'control'
+        return False
+
+    def combat_low_emotion_fleet_index(self, fleet_index=None):
+        def valid(index):
+            try:
+                index = int(index)
+            except (TypeError, ValueError):
+                return None
+
+            if index in [1, 2]:
+                return index
+            return None
+
+        for index in [
+                fleet_index,
+                getattr(self, 'fleet_current_index', None),
+                getattr(self, 'fleet_show_index', None),
+        ]:
+            index = valid(index)
+            if index is not None:
+                return index
+
+        return None
 
     def handle_use_data_key(self):
         if not self.config.USE_DATA_KEY:

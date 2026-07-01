@@ -267,7 +267,12 @@ class Raid(MapOperation, RaidCombat, CampaignEvent):
                 continue
             if self.handle_retirement():
                 continue
-            if self.handle_combat_low_emotion(fleet_index=fleet_index):
+            result = self.handle_combat_low_emotion(fleet_index=fleet_index)
+            if result == 'control':
+                self.emotion.wait_after_low_emotion(
+                    fleet_index=self.combat_low_emotion_fleet_index(fleet_index=fleet_index)
+                )
+            if result:
                 continue
             if self.appear_then_click(BATTLE_PREPARATION, offset=(30, 20), interval=2):
                 continue
