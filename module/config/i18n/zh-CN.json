@@ -1547,6 +1547,10 @@
     "FortChoreMeowfficer": {
       "name": "喵窝互动",
       "help": "清扫、喂食和逗猫"
+    },
+    "OverflowCoins": {
+      "name": "金币溢出时购买猫箱",
+      "help": "当金币高于此值时，继续购买猫箱直至金币降至此值或猫箱售罄；-1 关闭"
     }
   },
   "MeowfficerTrain": {

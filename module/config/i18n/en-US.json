@@ -1547,6 +1547,10 @@
     "FortChoreMeowfficer": {
       "name": "Do Fort Chores",
       "help": "Completes all 3 chores; clean, feed, and play with meowfficer to get fort exp"
+    },
+    "OverflowCoins": {
+      "name": "Buy Boxes On Coin Overflow",
+      "help": "When coins are above this value, keep buying boxes until coins drop to it or boxes run out; -1 to disable"
     }
   },
   "MeowfficerTrain": {
