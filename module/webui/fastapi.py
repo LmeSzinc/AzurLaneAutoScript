@@ -17,6 +17,7 @@ from starlette.responses import JSONResponse
 from starlette.routing import Mount, Route
 from starlette.staticfiles import StaticFiles
 
+from module.config.config import AzurLaneConfig
 from module.config.utils import alas_instance
 from module.webui.process_manager import ProcessManager
 
@@ -112,11 +113,48 @@ async def api_scheduler_status(request):
     })
 
 
+async def api_scheduler_tasks(request):
+    """
+    GET /api/scheduler/tasks?config_name=alas
+    Return the task queue of the specified instance.
+
+    Scheduler process status is reported via the `alive` field separately;
+    the caller may interpret pending[0] as "running" when alive is true.
+    """
+    config_name = request.query_params.get("config_name", "alas")
+    config = AzurLaneConfig(config_name=config_name)
+    config.load()
+    config.get_next_task()
+    pm = ProcessManager.get_manager(config_name)
+
+    # pending = tasks past their scheduled time (ready to run)
+    # waiting = tasks not yet due (scheduled in the future)
+    pending = config.pending_task
+    waiting = config.waiting_task
+
+    def serialize(func):
+        return {
+            "command": func.command,
+            "enable": func.enable,
+            "next_run": func.next_run.isoformat() if func.next_run else None,
+        }
+
+    return JSONResponse({
+        "config_name": config_name,
+        "alive": pm.alive,
+        "tasks": {
+            "pending": [serialize(t) for t in pending],
+            "waiting": [serialize(t) for t in waiting],
+        },
+    })
+
+
 API_ROUTES = [
     Route("/api/scheduler/list", endpoint=api_scheduler_list, methods=["GET"]),
     Route("/api/scheduler/start", endpoint=api_scheduler_start, methods=["POST"]),
     Route("/api/scheduler/stop", endpoint=api_scheduler_stop, methods=["POST"]),
     Route("/api/scheduler/status", endpoint=api_scheduler_status, methods=["GET"]),
+    Route("/api/scheduler/tasks", endpoint=api_scheduler_tasks, methods=["GET"]),
 ]
 
 
