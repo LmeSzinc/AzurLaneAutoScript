@@ -10,6 +10,7 @@ from module.storage.assets import EQUIPMENT_FULL
 from module.storage.storage import StorageHandler
 
 EMPTY_CODE = "MC8wLzAvMC8wXDA="
+U2_CONTROL_METHODS = {'uiautomator2', 'minitouch', 'MaaTouch'}
 EQUIPMENT_PREVIEW = list([
     EQUIPMENT_CODE_EQUIP_0,
     EQUIPMENT_CODE_EQUIP_1,
@@ -21,6 +22,17 @@ EQUIPMENT_PREVIEW = list([
 
 class EquipmentCodeHandler(StorageHandler):
     last_code: str = None
+
+    def equipment_code_supported(self):
+        method = self.config.Emulator_ControlMethod
+        if method in U2_CONTROL_METHODS:
+            return True
+
+        logger.warning(
+            f"Equipment code requires uiautomator2 based control method, "
+            f"current control method is {method}, skip equipment change"
+        )
+        return False
 
     def get_code(self, name):
         try:
@@ -229,19 +241,25 @@ class EquipmentCodeHandler(StorageHandler):
         return code
 
     def code_clear(self, name=None):
+        if not self.equipment_code_supported():
+            return False
+
         self._code_enter()
         if name is None:
             name = self.current_ship()
         if self.config.EquipmentCode_ExportToConfig and self.get_code(name=name) is None:
             self.last_code = self._code_export()
             self.set_code(name=name, code=self.last_code)
-        self._code_apply(code=None)
+        return self._code_apply(code=None)
 
     def code_apply(self, name=None):
+        if not self.equipment_code_supported():
+            return False
+
         self._code_enter()
         if name is None:
             name = self.current_ship()
         code = self.get_code(name=name)
         if code is None:
             code = self.last_code
-        self._code_apply(code=code)
+        return self._code_apply(code=code)
