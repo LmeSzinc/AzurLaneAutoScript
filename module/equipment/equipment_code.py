@@ -159,6 +159,14 @@ class EquipmentCodeHandler(StorageHandler):
 
         self.device.adb_shell(['input', 'keyevent', '4'])
 
+    def set_fastinput_ime(self):
+        d = self.device.u2
+        try:
+            d.set_fastinput_ime(True)
+        except Exception:
+            logger.warning("FastInputIME not enabled, trying to enable it")
+            self.fastinput_ime_enable()
+
     def _code_input(self, code):
         logger.info(f"Code input: {code}")
         d = self.device.u2
@@ -167,12 +175,7 @@ class EquipmentCodeHandler(StorageHandler):
             name, shown = d.current_ime()
             if shown:
                 if name != 'com.github.uiautomator/.FastInputIME':
-                    try:
-                        d.set_fastinput_ime(True)
-                        continue
-                    except Exception:
-                        logger.warning("FastInputIME not enabled, trying to enable it")
-                    self.fastinput_ime_enable()
+                    self.set_fastinput_ime()
                     continue
                 else:
                     break
