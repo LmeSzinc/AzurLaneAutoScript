@@ -11,6 +11,7 @@ from uiautomator2.xpath import XPath, XPathSelector
 import module.config.server as server
 from module.base.timer import Timer
 from module.base.utils import color_similarity_2d, crop
+from module.config.utils import server_time_offset
 from module.handler.assets import *
 from module.logger import logger
 from module.map.assets import *
@@ -165,16 +166,14 @@ class LoginHandler(UI):
 
     def app_restart(self):
         logger.hr('App restart')
-        # Random delay when triggered at midnight to avoid server load spikes
-        # During this delay, other tasks are naturally blocked because
-        # Restart is the currently running task (highest priority at 0:00)
+        # Random delay when triggered at server midnight to avoid load spikes
         if self.config.Restart_MidnightRandomDelay_Enable:
             max_delay = self.config.Restart_MidnightRandomDelay_MaxSeconds
-            now = datetime.now()
-            if now.hour == 0 and now.minute < 5 and max_delay > 0:
+            server_now = datetime.now() + server_time_offset()
+            if server_now.hour == 0 and server_now.minute < 5 and max_delay > 0:
                 delay = random.randint(0, max_delay)
                 if delay > 0:
-                    logger.info(f'Restart at midnight: random delay {delay}s'
+                    logger.info(f'Restart at server midnight: random delay {delay}s'
                                 f' (all tasks blocked)')
                     self.device.sleep(delay)
         self.device.app_stop()
