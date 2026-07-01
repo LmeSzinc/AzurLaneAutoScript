@@ -444,6 +444,8 @@ class CampaignRun(CampaignEvent):
             self.run_count += 1
             if self.config.StopCondition_RunCount:
                 self.config.StopCondition_RunCount -= 1
+            if total and self.run_count >= total:
+                break
             # End
             if self.triggered_stop_condition(oil_check=False):
                 break
@@ -462,5 +464,9 @@ class CampaignRun(CampaignEvent):
             if self.config.task_switched():
                 self.campaign.ensure_auto_search_exit()
                 self.config.task_stop()
+                break
+            # Emotion
+            if self.campaign.emotion.delay_after_campaign(self.campaign._map_battle):
+                break
 
         self.campaign.ensure_auto_search_exit()

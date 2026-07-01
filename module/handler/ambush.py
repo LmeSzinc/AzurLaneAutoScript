@@ -102,7 +102,12 @@ class AmbushHandler(Combat):
 
             if self.appear_then_click(MAP_AMBUSH_ATTACK, offset=(30, 30), interval=3):
                 continue
-            if self.handle_combat_low_emotion():
+            result = self.handle_combat_low_emotion(fleet_index=self.fleet_show_index)
+            if result == 'control':
+                self.emotion.wait_after_low_emotion(
+                    fleet_index=self.combat_low_emotion_fleet_index(fleet_index=self.fleet_show_index)
+                )
+            if result:
                 continue
             if self.handle_retirement():
                 continue
