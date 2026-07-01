@@ -6,7 +6,7 @@ import numpy as np
 from adbutils.errors import AdbError, AdbTimeout
 
 import module.device.method.scrcpy.const as const
-from module.base.utils import random_rectangle_point
+from module.base.utils import ensure_time, random_rectangle_point
 from module.device.method.minitouch import insert_swipe
 from module.device.method.scrcpy.core import ScrcpyCore, ScrcpyError
 from module.device.method.uiautomator_2 import Uiautomator2
@@ -143,7 +143,7 @@ class Scrcpy(ScrcpyCore, Uiautomator2):
             self.sleep(0.05)
 
     @retry
-    def drag_scrcpy(self, p1, p2, point_random=(-10, -10, 10, 10)):
+    def drag_scrcpy(self, p1, p2, point_random=(-10, -10, 10, 10), hold_duration=0.0):
         self.scrcpy_ensure_running()
 
         with self._scrcpy_control_socket_lock:
@@ -161,6 +161,18 @@ class Scrcpy(ScrcpyCore, Uiautomator2):
             for _ in range(int(0.14 // 0.002) * 2):
                 self._scrcpy_control.touch(*p2, const.ACTION_MOVE)
                 self.sleep(0.002)
+
+            hold_duration = ensure_time(hold_duration) - 0.28
+            if hold_duration > 0:
+                step = 0.002
+                repeats = int(hold_duration // step)
+                for _ in range(repeats):
+                    self._scrcpy_control.touch(*p2, const.ACTION_MOVE)
+                    self.sleep(step)
+                remainder = hold_duration - (repeats * step)
+                if remainder > 0:
+                    self._scrcpy_control.touch(*p2, const.ACTION_MOVE)
+                    self.sleep(remainder)
 
             self._scrcpy_control.touch(*p2, const.ACTION_UP)
             self.sleep(0.05)

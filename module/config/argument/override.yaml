@@ -432,6 +432,12 @@ OpsiHazard1Leveling:
   OpsiFleet:
     Submarine: false
 
+# =================== Island ===================
+
+IslandCollect:
+  Scheduler:
+    ServerUpdate: 03:00, 18:00
+
 # ==================== Tool ====================
 
 EventStory:

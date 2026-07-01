@@ -734,6 +734,90 @@ OpsiHazard1Leveling:
     value: 0
     option: [ 0, 44, 22 ]
 
+# =================== Island ====================
+
+IslandProduction:
+  HardFloorItems:
+    type: textarea
+    value: |-
+      {}
+  ReserveItems:
+    type: textarea
+    value: |-
+      {}
+  RequestBufferItems:
+    type: textarea
+    value: |-
+      {}
+  DailyBufferItems:
+    type: textarea
+    value: |-
+      {}
+  IdleAccumulatingItems:
+    type: textarea
+    value: |-
+      {}
+IslandOrder:
+  StuckSeasonOrderId: 0
+IslandFreebie:
+  Share: true
+IslandRestaurant:
+  KoiGrade:
+    value: bronze
+    option: [ bronze, silver, gold, diamond ]
+  KoiWaitress:
+    value: any
+    option: [ none, any, Chao_Ho, any+any, Chao_Ho+any ]
+  KoiMenu:
+    type: textarea
+    value: |-
+      {}
+  BearGrade:
+    value: bronze
+    option: [ bronze, silver, gold, diamond ]
+  BearWaitress:
+    value: any
+    option: [ none, any, Cheshire, any+any, Cheshire+any ]
+  BearMenu:
+    type: textarea
+    value: |-
+      {}
+  EateryGrade:  
+    value: bronze
+    option: [ bronze, silver, gold, diamond ]
+  EateryWaitress:
+    value: any
+    option: [ none, any, Helena, Prinz_Eugen, any+any, Helena+any, Prinz_Eugen+any, Helena+Prinz_Eugen ]
+  EateryMenu:
+    type: textarea
+    value: |-
+      {}
+  GrillGrade:
+    value: bronze
+    option: [ bronze, silver, gold, diamond ]
+  GrillWaitress:
+    value: any
+    option: [ none, any, August_von_Parseval, Prinz_Eugen, any+any, August_von_Parseval+any, Prinz_Eugen+any, August_von_Parseval+Prinz_Eugen ]
+  GrillMenu:
+    type: textarea
+    value: |-
+      {}
+  CafeGrade:
+    value: bronze
+    option: [ bronze, silver, gold, diamond ]
+  CafeWaitress:
+    value: any
+    option: [ none, any, Cheshire, any+any, Cheshire+any ]
+  CafeMenu:
+    type: textarea
+    value: |-
+      {}
+IslandSeasonTask:
+  TaskTarget:
+    type: textarea
+    value: |-
+      {}
+
 # ==================== Tools ====================
 
 Daemon:
@@ -746,6 +830,19 @@ EventStory:
     type: checkbox
     value: false
     option: [ true, false ]
+IslandProductionPlanner:
+  RescanIslandTechnology: false
+  DailyProfitLowerLimit: 50000
+  DailyBufferSafetyMargin: 0
+  FieldsEfficiency:
+    value: 0
+    option: [ 0, 0.04, 0.12 ]
+  OrchardEfficiency:
+    value: 0
+    option: [ 0, 0.04, 0.12 ]
+  NurseryEfficiency:
+    value: 0
+    option: [ 0, 0.04, 0.12 ]
 Benchmark:
   DeviceType:
     value: emulator
