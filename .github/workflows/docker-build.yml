@@ -1,0 +1,95 @@
+name: actions云构建docker镜像
+
+on:
+  workflow_dispatch:
+    inputs:
+      image_name:
+        description: '目标 Docker 镜像名称 (系统会自动将其转换为纯小写格式)'
+        required: true
+        default: 'alas'
+        type: string
+        
+      custom_tag:
+        description: 'Docker 镜像标签 (Tag)'
+        required: true
+        default: 'latest'
+        type: string
+
+      context_path:
+        description: 'Docker 构建上下文路径 (包含 Dockerfile 的目录)'
+        required: true
+        default: './deploy/docker'
+        type: string
+
+      dockerfile_path:
+        description: 'Dockerfile 文件的具体路径 (相对于构建上下文路径)'
+        required: true
+        default: 'Dockerfile'
+        type: string
+
+      output_type:
+        description: '发布与导出方式 (ghcr: 推送到 GitHub 容器注册表, local-tar: 导出为离线产物包)'
+        required: true
+        default: 'ghcr'
+        type: choice
+        options:
+          - ghcr
+          - local-tar
+
+jobs:
+  build-process:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Initialize Environment Variables
+        id: prep
+        run: |
+          IMAGE_NAME=$(echo "${{ github.event.inputs.image_name }}" | tr '[:upper:]' '[:lower:]')
+          OWNER_LOWER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          echo "ghcr_tag=ghcr.io/${OWNER_LOWER}/${IMAGE_NAME}:${{ github.event.inputs.custom_tag }}" >> $GITHUB_ENV
+          echo "tar_name=${IMAGE_NAME}-${{ github.event.inputs.custom_tag }}.tar" >> $GITHUB_ENV
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        if: ${{ github.event.inputs.output_type == 'ghcr' }}
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and Push to GHCR
+        if: ${{ github.event.inputs.output_type == 'ghcr' }}
+        uses: docker/build-push-action@v6
+        with:
+          context: ${{ github.event.inputs.context_path }}
+          file: ${{ github.event.inputs.context_path }}/${{ github.event.inputs.dockerfile_path }}
+          platforms: linux/amd64
+          push: true
+          tags: ${{ env.ghcr_tag }}
+
+      - name: Build and Export OCI Tarball
+        if: ${{ github.event.inputs.output_type == 'local-tar' }}
+        uses: docker/build-push-action@v6
+        with:
+          context: ${{ github.event.inputs.context_path }}
+          file: ${{ github.event.inputs.context_path }}/${{ github.event.inputs.dockerfile_path }}
+          platforms: linux/amd64
+          outputs: type=docker,dest=/tmp/${{ env.tar_name }},name=${{ env.ghcr_tag }}
+          push: false
+
+      - name: Upload Tarball Artifact
+        if: ${{ github.event.inputs.output_type == 'local-tar' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-tar-${{ env.tar_name }}
+          path: /tmp/${{ env.tar_name }}
+          retention-days: 5
