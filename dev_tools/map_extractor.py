@@ -322,11 +322,16 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     'bulaimodun': 'Bremerton',
     'fushun_g': 'FuShunG',
     'lafeier': 'Raffaello',
-    'huangjiafangzhou_g': 'ArkRoyal',
+    'huangjiafangzhou_g': 'ArkRoyalG',
     'chaijun': 'Cheshire',
     'naximofu': 'Nakhimov',
     'liekexingdunII': 'Lexington2',
     'yuekechengII': 'Yorktown2',
+
+    # Miracle by Midnight
+    'youeryuan_boss03': 'MeowfficerBust_Playtime',
+    'youeryuan_boss04': 'MeowfficerBust_Hobbies',
+    'youeryuan_boss05': 'MeowfficerBust_Studying',
 }
 
 

@@ -168,26 +168,7 @@ os.chdir(os.path.join(os.path.dirname(__file__), '../'))
 pyw_name = os.path.splitext(os.path.basename(sys.argv[0]))[0]
 
 
-def _set_file_logger(name=pyw_name):
-    if '_' in name:
-        name = name.split('_', 1)[0]
-    log_file = f'./log/{datetime.date.today()}_{name}.txt'
-    try:
-        file = logging.FileHandler(log_file, encoding='utf-8')
-    except FileNotFoundError:
-        os.mkdir('./log')
-        file = logging.FileHandler(log_file, encoding='utf-8')
-    file.setFormatter(file_formatter)
-
-    logger.handlers = [h for h in logger.handlers if not isinstance(
-        h, (logging.FileHandler, RichFileHandler))]
-    logger.addHandler(file)
-    logger.log_file = log_file
-
-
 def set_file_logger(name=pyw_name):
-    if '_' in name:
-        name = name.split('_', 1)[0]
     log_file = f'./log/{datetime.date.today()}_{name}.txt'
     try:
         file = open(log_file, mode='a', encoding='utf-8')

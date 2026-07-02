@@ -1,3 +1,5 @@
+from module.logger import logger
+from module.base.timer import Timer
 from module.equipment.assets import *
 from module.equipment.equipment_change import EquipmentChange
 from module.ocr.ocr import Digit
@@ -10,8 +12,31 @@ OCR_FLEET_INDEX = Digit(OCR_FLEET_INDEX, letter=(90, 154, 255), threshold=128, a
 class FleetEquipment(EquipmentChange):
     def fleet_enter(self, fleet):
         self.ui_ensure(page_fleet)
-        self.ui_ensure_index(fleet, letter=OCR_FLEET_INDEX,
-                             next_button=FLEET_NEXT, prev_button=FLEET_PREV, skip_first_screenshot=True)
+
+        # ui_ensure_index, set fleet
+        letter = OCR_FLEET_INDEX
+        next_button = FLEET_NEXT
+        prev_button = FLEET_PREV
+        interval = (0.2, 0.3)
+
+        retry = Timer(1, count=2)
+        for _ in self.loop():
+            current = letter.ocr(self.device.image)
+            logger.attr("Index", current)
+
+            # ui_ensure_index but ignore default value 0
+            # otherwise we would have 1 extra click switching from 1 to 4
+            if current == 0:
+                continue
+
+            diff = fleet - current
+            if diff == 0:
+                break
+
+            if retry.reached():
+                button = next_button if diff > 0 else prev_button
+                self.device.multi_click(button, n=abs(diff), interval=interval)
+                retry.reset()
 
     def fleet_equipment_take_on_preset(self, preset_record, enter=FLEET_DETAIL_ENTER_FLAGSHIP,
                                        long_click=False, out=FLEET_DETAIL_CHECK):

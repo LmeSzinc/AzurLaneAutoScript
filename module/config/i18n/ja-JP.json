@@ -772,6 +772,7 @@
       "event_20260326_cn": "ワンダラー募集計画",
       "event_20260417_cn": "バケーションレーン・きらめく砂浜",
       "event_20260520_cn": "聖印前の同盟",
+      "event_20260625_cn": "幻夢のカヴァルカード",
       "raid_20200624": "特別演習超空強襲波（復刻）",
       "raid_20210708": "交錯する新たな波 (復刻)",
       "raid_20220127": "秘密事件調査",
@@ -1423,7 +1424,7 @@
       "help": ""
     },
     "Favorite": {
-      "name": "好ましい選択",
+      "name": "お気に入りのみ選択",
       "help": ""
     },
     "MinLevel": {
@@ -1546,6 +1547,10 @@
     "FortChoreMeowfficer": {
       "name": "Meowfficer.FortChoreMeowfficer.name",
       "help": "Meowfficer.FortChoreMeowfficer.help"
+    },
+    "OverflowCoins": {
+      "name": "Meowfficer.OverflowCoins.name",
+      "help": "Meowfficer.OverflowCoins.help"
     }
   },
   "MeowfficerTrain": {
@@ -2101,7 +2106,8 @@
       "sirius": "sirius",
       "new_jersey": "new_jersey",
       "taihou": "taihou",
-      "aegir": "aegir"
+      "aegir": "aegir",
+      "nakhimov": "nakhimov"
     }
   },
   "Daily": {

@@ -8,6 +8,15 @@ from module.ui.page import page_private_quarters, page_dormmenu
 
 
 class PrivateQuarters(PQInteract, PQShop):
+    # Key: str, server name
+    # Value: list[str]
+    not_supported_filter = {
+        'cn': ('nakhimov'),
+        'en': (),
+        'jp': ('nakhimov'),
+        'tw': ('taihou', 'nakhimov'),
+    }
+
     def _pq_get_daily_count(self, retry=3):
         """
         Wrapper func for status_get_daily_count
@@ -144,14 +153,18 @@ class PrivateQuarters(PQInteract, PQShop):
 
         # Interact with target if enabled
         if target_interact:
+            # Ensure target is supported for server
+            # Update `not_supported_filter` to enable a target
+            if target_ship in self.not_supported_filter[server.server]:
+                logger.info(f'Target ship:{target_ship} not supported for {server.server} server.')
+                return
+
             # Pull count here, exit run if = 0
             count = self._pq_get_daily_count(retry=3)
             if count == 0:
                 logger.info('Daily intimacy count exhausted, exit subtask')
                 return
-            if server.server in ['tw'] and target_ship in ['taihou']:
-                logger.info(f'Target ship:{target_ship} not supported for {server.server} server.')
-                return
+
             # Able to interact with target, execute
             self.pq_execute_interact(target_ship)
 
@@ -161,7 +174,6 @@ class PrivateQuarters(PQInteract, PQShop):
             in: Any page
             out: page_main, may have info_bar
         """
-        
         self.ui_ensure(page_dormmenu)
         self.ui_goto(page_private_quarters, get_ship=False)
         self.handle_info_bar()
@@ -171,8 +183,5 @@ class PrivateQuarters(PQInteract, PQShop):
             target_interact=self.config.PrivateQuarters_TargetInteract,
             target_ship=self.config.PrivateQuarters_TargetShip
         )
-        if server.server in ['tw']:
-            logger.info(f'Private Quarters task not presently supported for {server.server} server.')
-            logger.info('If want to address, review necessary assets, replace, update above condition, and test')
 
         self.config.task_delay(server_update=True)
