@@ -4,7 +4,7 @@ from scipy import signal
 from module.base.button import Button
 from module.base.timer import Timer
 from module.base.utils import *
-from module.exception import RequestHumanTakeover
+from module.exception import HardNotSatisfied
 from module.handler.assets import AUTO_SEARCH_SET_MOB, AUTO_SEARCH_SET_BOSS, \
     AUTO_SEARCH_SET_ALL, AUTO_SEARCH_SET_STANDBY, \
     AUTO_SEARCH_SET_SUB_AUTO, AUTO_SEARCH_SET_SUB_STANDBY
@@ -127,7 +127,7 @@ class FleetOperator:
             stage = self.main.config.Campaign_Name
             logger.critical(f'Stage "{stage}" is a hard mode, '
                             f'please prepare your fleet "{str(self)}" in game before running Alas')
-            raise RequestHumanTakeover('Hard not satisfied')
+            raise HardNotSatisfied
 
     def clear(self, skip_first_screenshot=True):
         """

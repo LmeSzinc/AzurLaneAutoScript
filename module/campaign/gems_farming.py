@@ -7,8 +7,7 @@ from module.campaign.run import CampaignRun
 from module.combat.assets import BATTLE_PREPARATION
 from module.combat.emotion import Emotion
 from module.equipment.assets import *
-from module.equipment.equipment import Equipment
-from module.exception import CampaignEnd, RequestHumanTakeover
+from module.exception import CampaignEnd, HardNotSatisfied
 from module.handler.assets import AUTO_SEARCH_MAP_OPTION_OFF
 from module.logger import logger
 from module.map.assets import FLEET_PREPARATION, MAP_PREPARATION
@@ -135,11 +134,31 @@ class GemsEmotion(Emotion):
 class GemsFarming(CampaignRun, Dock):
     def load_campaign(self, name, folder='campaign_main'):
         super().load_campaign(name, folder)
+        gems = self
 
         class GemsCampaign(GemsCampaignOverride, self.module.Campaign):
             @cached_property
             def emotion(self):
                 return GemsEmotion(config=self.config)
+
+            def fleet_preparation(self):
+                try:
+                    return super().fleet_preparation()
+                except HardNotSatisfied:
+                    pass
+
+                prepared = gems.hard_fleet_prepare()
+
+                if prepared:
+                    try:
+                        return super().fleet_preparation()
+                    except HardNotSatisfied:
+                        logger.warning('Hard fleet still not satisfied after preparation, delay GemsFarming')
+                else:
+                    logger.warning('No ship available for hard fleet preparation, delay GemsFarming')
+                gems.config.task_delay(minute=30)
+                gems.config.task_stop()
+                return False
 
         self.campaign = GemsCampaign(device=self.campaign.device, config=self.campaign.config)
         if not self.change_vanguard:
@@ -398,10 +417,12 @@ class GemsFarming(CampaignRun, Dock):
             self.dock_reset()
             self.dock_select_confirm(check_button=FLEET_PREPARATION)
             return False
-        else:
-            # This should not happen in general since the ship unmounted is also a candidate, 
-            # but just in case, we raise human takeover instead of leaving the flagship empty.
-            raise RequestHumanTakeover('No CV was found, please change flagship manually.')
+
+        logger.info('Change flagship failed, no CV was found.')
+        self._new_fleet_emotion = 0
+        self.dock_reset()
+        self.ui_leave_ship()
+        return False
 
     def flagship_change(self):
         """
@@ -545,10 +566,12 @@ class GemsFarming(CampaignRun, Dock):
             self.dock_reset()
             self.dock_select_confirm(check_button=FLEET_PREPARATION)
             return False
-        else:
-            # This should not happen in general since the ship unmounted is also a candidate, 
-            # but just in case, we raise human takeover instead of leaving the vanguard slot empty.
-            raise RequestHumanTakeover('No DD was found, please change vanguard manually.')
+
+        logger.info('Change vanguard failed, no DD was found.')
+        self._new_fleet_emotion = 0
+        self.dock_reset()
+        self.ui_leave_ship()
+        return False
 
     def vanguard_change(self):
         """
@@ -578,6 +601,24 @@ class GemsFarming(CampaignRun, Dock):
             self.ui_leave_ship()
 
         return success
+
+    def hard_fleet_prepare(self):
+        """
+        Fill empty hard-mode fleet slots after ships used for hard requirements were retired.
+
+        Returns:
+            bool: True if any slot has been filled.
+        """
+        prepared = False
+        if self.appear(self.fleet_backline_1_button, offset=(20, 20)):
+            logger.info('Backline is empty, change flagship')
+            self.flagship_change()
+            prepared = True
+        if self.appear(self.fleet_vanguard_1_button, offset=(20, 20)):
+            logger.info('Vanguard is empty, change vanguard')
+            self.vanguard_change()
+            prepared = True
+        return prepared
 
     _trigger_lv32: bool = False
     _trigger_emotion: bool = False
@@ -616,24 +657,7 @@ class GemsFarming(CampaignRun, Dock):
                 if "Emotion" in e.args[0]:
                     self._trigger_emotion = True
                 else:
-                    raise e
-            except RequestHumanTakeover as e:
-                if 'Hard not satisfied' in e.args[0]:
-                    prepared = False
-                    if self.appear(self.fleet_backline_1_button, offset=(20, 20)):
-                        logger.info('Backline is empty, change flagship')
-                        self.flagship_change()
-                        prepared = True
-                    if self.appear(self.fleet_vanguard_1_button, offset=(20, 20)):
-                        logger.info('Vanguard is empty, change vanguard')
-                        self.vanguard_change()
-                        prepared = True
-                    if prepared:
-                        continue
-                    else:
-                        raise e
-                else:
-                    raise e
+                    raise
 
             # End
             if self._trigger_lv32 or self._trigger_emotion:
