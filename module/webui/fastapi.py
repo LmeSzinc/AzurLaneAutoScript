@@ -20,6 +20,7 @@ from starlette.staticfiles import StaticFiles
 from module.config.config import AzurLaneConfig
 from module.config.utils import alas_instance
 from module.webui.process_manager import ProcessManager
+from module.webui.setting import State
 
 
 STATE_MAP = {
@@ -28,6 +29,22 @@ STATE_MAP = {
     3: "crashed",
     4: "updating",
 }
+
+def _check_auth(request) -> JSONResponse:
+    """
+    Returns a 401 JSONResponse if authentication fails, or None if authorised.
+    Password is read live from deploy config so runtime changes take effect.
+    """
+    password = State.deploy_config.Password
+    if not password:
+        return None
+    auth = request.headers.get("Authorization", "")
+    if auth.startswith("Bearer ") and auth[7:] == password:
+        return None
+    return JSONResponse(
+        {"error": "Unauthorized", "message": "Invalid or missing password"},
+        status_code=401,
+    )
 
 
 class HeaderMiddleware(BaseHTTPMiddleware):
@@ -42,6 +59,9 @@ async def api_scheduler_list(request):
     GET /api/scheduler/list
     Return all created config instances with their current status.
     """
+    resp = _check_auth(request)
+    if resp:
+        return resp
     instances = []
     for name in alas_instance():
         pm = ProcessManager.get_manager(name)
@@ -61,6 +81,9 @@ async def api_scheduler_start(request):
     Request body (JSON):
         {"config_name": "alas"}  (optional, defaults to "alas")
     """
+    resp = _check_auth(request)
+    if resp:
+        return resp
     body = await request.json()
     config_name = body.get("config_name", "alas")
     pm = ProcessManager.get_manager(config_name)
@@ -84,6 +107,9 @@ async def api_scheduler_stop(request):
     Request body (JSON):
         {"config_name": "alas"}  (optional, defaults to "alas")
     """
+    resp = _check_auth(request)
+    if resp:
+        return resp
     body = await request.json()
     config_name = body.get("config_name", "alas")
     pm = ProcessManager.get_manager(config_name)
@@ -104,6 +130,9 @@ async def api_scheduler_status(request):
     GET /api/scheduler/status?config_name=alas
     Query detailed status of the specified instance.
     """
+    resp = _check_auth(request)
+    if resp:
+        return resp
     config_name = request.query_params.get("config_name", "alas")
     pm = ProcessManager.get_manager(config_name)
     return JSONResponse({
@@ -121,6 +150,9 @@ async def api_scheduler_tasks(request):
     Scheduler process status is reported via the `alive` field separately;
     the caller may interpret pending[0] as "running" when alive is true.
     """
+    resp = _check_auth(request)
+    if resp:
+        return resp
     config_name = request.query_params.get("config_name", "alas")
     config = AzurLaneConfig(config_name=config_name)
     config.load()
@@ -191,7 +223,7 @@ def asgi_app(
     routes.extend(API_ROUTES)
     middleware = [Middleware(HeaderMiddleware)]
     return Starlette(
-        routes=routes, middleware=middleware, debug=debug, **starlette_settings
+        routes=routes, middleware=middleware, debug=debug, **starlette_settings,
     )
 
 
