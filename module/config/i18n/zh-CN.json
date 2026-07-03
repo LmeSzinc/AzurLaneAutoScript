@@ -83,7 +83,7 @@
       "help": ""
     },
     "Coalition": {
-      "name": "光影风尚-拍摄进行时",
+      "name": "极地风暴",
       "help": ""
     },
     "MaritimeEscort": {
@@ -119,7 +119,7 @@
       "help": ""
     },
     "CoalitionSp": {
-      "name": "光影风尚-拍摄进行时SP",
+      "name": "极地风暴每日SP",
       "help": ""
     },
     "Commission": {
@@ -1333,10 +1333,11 @@
     "Mode": {
       "name": "难度",
       "help": "SP图需要使用活动每日SP运行",
-      "easy": "easy",
-      "normal": "normal",
-      "hard": "hard",
-      "sp": "sp"
+      "tc1": "tc1",
+      "tc2": "tc2",
+      "tc3": "tc3",
+      "sp": "sp",
+      "ex": "ex"
     },
     "Fleet": {
       "name": "出击队伍",

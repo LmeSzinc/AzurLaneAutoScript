@@ -216,9 +216,9 @@ Coalition:
     UseAutoSearch: false
     Use2xBook: false
     AmbushEvade: true
-#  Coalition:
-#    Mode:
-#      option: [ easy, normal, hard, ex ]
+  Coalition:
+    Mode:
+      option: [ tc1, tc2, tc3, ex ]
   StopCondition:
     MapAchievement: non_stop
     StageIncrease: false

@@ -83,7 +83,7 @@
       "help": ""
     },
     "Coalition": {
-      "name": "Light & Shadow Fashion Shoot",
+      "name": "Frostfall",
       "help": ""
     },
     "MaritimeEscort": {
@@ -119,7 +119,7 @@
       "help": ""
     },
     "CoalitionSp": {
-      "name": "Light & Shadow Fashion Shoot SP",
+      "name": "Frostfall SP",
       "help": ""
     },
     "Commission": {
@@ -1333,10 +1333,11 @@
     "Mode": {
       "name": "Mode",
       "help": "SP needs to use event daily SP to run",
-      "easy": "easy",
-      "normal": "normal",
-      "hard": "hard",
-      "sp": "sp"
+      "tc1": "tc1",
+      "tc2": "tc2",
+      "tc3": "tc3",
+      "sp": "sp",
+      "ex": "ex"
     },
     "Fleet": {
       "name": "Fleet",
