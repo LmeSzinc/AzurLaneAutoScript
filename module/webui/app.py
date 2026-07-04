@@ -496,7 +496,9 @@ class AlasGUI(Frame):
         self.task_handler.add(switch_scheduler.g(), 1, True)
         self.task_handler.add(switch_log_scroll.g(), 1, True)
         self.task_handler.add(self.alas_update_overview_task, 10, True)
-        self.task_handler.add(log.put_log(self.alas), 0.25, True)
+        self.task_handler.add(
+            log.put_log(self.alas, get_visible=lambda: self.visible), 0.25, True
+        )
 
     def _init_alas_config_watcher(self) -> None:
         def put_queue(path, value):
@@ -740,7 +742,9 @@ class AlasGUI(Frame):
 
         self.task_handler.add(switch_scheduler.g(), 1, True)
         self.task_handler.add(switch_log_scroll.g(), 1, True)
-        self.task_handler.add(log.put_log(self.alas), 0.25, True)
+        self.task_handler.add(
+            log.put_log(self.alas, get_visible=lambda: self.visible), 0.25, True
+        )
 
     @use_scope("menu", clear=True)
     def dev_set_menu(self) -> None:
