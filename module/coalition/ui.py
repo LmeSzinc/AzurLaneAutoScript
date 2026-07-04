@@ -39,8 +39,8 @@ class CoalitionUI(Combat):
         if event == 'coalition_20230323':
             mode_switch = Switch('CoalitionMode', offset=(20, 20))
             # Note that switch button are reversed
-            mode_switch.add_state('story', FROSTFALL_MODE_STORY)
-            mode_switch.add_state('battle', FROSTFALL_MODE_BATTLE)
+            mode_switch.add_state('story', FROSTFALL_MODE_BATTLE)
+            mode_switch.add_state('battle', FROSTFALL_MODE_STORY)
         elif event == 'coalition_20240627':
             mode_switch = Switch('CoalitionMode', offset=(20, 20))
             mode_switch.add_state('story', ACADEMY_MODE_BATTLE)
