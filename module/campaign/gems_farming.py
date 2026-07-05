@@ -24,7 +24,7 @@ SIM_VALUE = 0.92
 
 class GemsCampaignOverride(CampaignBase):
 
-    def handle_combat_low_emotion(self):
+    def handle_combat_low_emotion(self, fleet_index=None):
         """
         Overwrite info_handler.handle_combat_low_emotion()
         If change vanguard is enabled, withdraw combat and change flagship and vanguard
@@ -34,7 +34,7 @@ class GemsCampaignOverride(CampaignBase):
             if result:
                 # Avoid clicking AUTO_SEARCH_MAP_OPTION_OFF
                 self.interval_reset(AUTO_SEARCH_MAP_OPTION_OFF)
-            return result
+            return 'ignore' if result else False
 
         if self.handle_popup_cancel('IGNORE_LOW_EMOTION'):
             self.config.GEMS_EMOTION_TRIGGERED = True

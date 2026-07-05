@@ -432,7 +432,12 @@ class CoalitionUI(Combat):
                 continue
 
             # Emotion
-            if self.handle_combat_low_emotion():
+            result = self.handle_combat_low_emotion(fleet_index=1)
+            if result == 'control':
+                self.emotion.delay_before_entering_map(
+                    battle=self.coalition_get_battles(event, stage),
+                    fleet_index=1)
+            if result:
                 continue
 
             # Urgent commission

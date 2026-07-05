@@ -118,6 +118,7 @@ class CampaignBase(CampaignUI, Map, AutoSearchCombat):
 
     def run(self):
         logger.hr(self.ENTRANCE, level=2)
+        self.emotion.reset_campaign()
 
         # Enter map
         self.emotion.check_reduce(self._map_battle)

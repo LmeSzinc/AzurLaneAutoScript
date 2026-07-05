@@ -52,7 +52,12 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
 
             if self.appear_then_click(MAP_OFFENSIVE, interval=1):
                 continue
-            if self.handle_combat_low_emotion():
+            result = self.handle_combat_low_emotion()
+            if result == 'control':
+                self.emotion.wait_after_low_emotion(
+                    fleet_index=self.combat_low_emotion_fleet_index()
+                )
+            if result:
                 self.interval_reset(MAP_OFFENSIVE)
                 continue
             if self.handle_retirement():
@@ -240,7 +245,12 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                     continue
             if self.handle_retirement():
                 continue
-            if self.handle_combat_low_emotion():
+            result = self.handle_combat_low_emotion(fleet_index=fleet_index)
+            if result == 'control':
+                self.emotion.wait_after_low_emotion(
+                    fleet_index=self.combat_low_emotion_fleet_index(fleet_index=fleet_index)
+                )
+            if result:
                 continue
             if balance_hp and self.handle_emergency_repair_use():
                 continue

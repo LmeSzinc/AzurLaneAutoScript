@@ -204,7 +204,10 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                     continue
 
                 # Emotion
-                if self.handle_combat_low_emotion():
+                result = self.handle_combat_low_emotion()
+                if result == 'control':
+                    self.emotion.delay_before_entering_map(battle=getattr(self, '_map_battle', 1))
+                if result:
                     continue
 
                 # Urgent commission
