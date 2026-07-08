@@ -25,6 +25,13 @@ class Daily(Combat, DailyEquipment):
     emergency_module_development = False
 
     def is_active(self):
+        # Inactive daily entries can still have bright/red text around
+        # DAILY_ACTIVE. Detect the lock overlay first to avoid clicking an
+        # unavailable card repeatedly.
+        if self.appear(DAILY_LOCKED, threshold=30):
+            logger.attr(f'Daily_{self.daily_current}', 'inactive')
+            return False
+
         color = get_color(image=self.device.image, area=DAILY_ACTIVE.area)
         color = np.array(color).astype(float)
         color = (np.max(color) + np.min(color)) / 2
