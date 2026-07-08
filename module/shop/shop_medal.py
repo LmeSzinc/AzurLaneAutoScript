@@ -274,6 +274,13 @@ class MedalShop2_250814(ShopClerk, ShopStatus):
 
             self.shop_buy()
 
+            # Some emulator renderers can draw the medal-shop scrollbar as a
+            # solid/undetectable bar. In that case cal_position() stays at the
+            # default top position and next_page() would keep swiping forever.
+            if not MEDAL_SHOP_SCROLL_250814.appear(main=self):
+                logger.warning('Medal shop scroll not detected, stop')
+                break
+
             if MEDAL_SHOP_SCROLL_250814.at_bottom(main=self):
                 logger.info('Medal shop reach bottom, stop')
                 break
