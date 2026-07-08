@@ -72,26 +72,77 @@ class GitOverCdnClient:
     def urlpath(self, path):
         return f'{self.url}{path}'
 
+    @staticmethod
+    def _extract_commit(text):
+        res = re.search(r'([0-9a-f]{40})', text)
+        if res:
+            return res.group(1)
+        return ''
+
+    def _read_commit_file(self, file):
+        try:
+            with open(file, 'r', encoding='utf-8') as f:
+                return self._extract_commit(f.read())
+        except FileNotFoundError:
+            return ''
+        except Exception as e:
+            self.logger.error(f'Failed to read local commit from {file}: {e}')
+            return ''
+
+    def _read_packed_ref(self, ref):
+        """
+        Read a ref from .git/packed-refs.
+
+        Git may pack refs/remotes/origin/master, so the loose ref file under
+        .git/refs/remotes/ may not exist after maintenance or some installers.
+        """
+        file = self.filepath('packed-refs')
+        try:
+            with open(file, 'r', encoding='utf-8') as f:
+                for line in f:
+                    line = line.strip()
+                    if not line or line.startswith('#') or line.startswith('^'):
+                        continue
+                    try:
+                        commit, name = line.split(' ', 1)
+                    except ValueError:
+                        continue
+                    if name == ref:
+                        return self._extract_commit(commit)
+        except FileNotFoundError:
+            return ''
+        except Exception as e:
+            self.logger.error(f'Failed to read local commit from {file}: {e}')
+        return ''
+
     @cached_property
     def current_commit(self) -> str:
+        refs = [
+            f'refs/remotes/{self.source}/{self.branch}',
+            f'refs/heads/{self.branch}',
+        ]
+
+        for ref in refs:
+            commit = self._read_commit_file(self.filepath(ref))
+            if commit:
+                self.logger.attr('CurrentCommit', commit)
+                return commit
+
+        for ref in refs:
+            commit = self._read_packed_ref(ref)
+            if commit:
+                self.logger.attr('CurrentCommit', commit)
+                return commit
+
         for file in [
-            f'./refs/remotes/{self.source}/{self.branch}',
-            f'./refs/heads/{self.branch}',
             'ORIG_HEAD',
         ]:
-            file = self.filepath(file)
-            try:
-                with open(file, 'r', encoding='utf-8') as f:
-                    commit = f.read()
-                res = re.search(r'([0-9a-f]{40})', commit)
-                if res:
-                    commit = res.group(1)
-                    self.logger.attr('CurrentCommit', commit)
-                    return commit
-            except FileNotFoundError as e:
-                self.logger.error(f'Failed to get local commit: {e}')
-            except Exception as e:
-                self.logger.error(f'Failed to get local commit: {e}')
+            commit = self._read_commit_file(self.filepath(file))
+            if commit:
+                self.logger.attr('CurrentCommit', commit)
+                return commit
+
+        self.logger.error('Failed to get local commit')
         return ''
 
     @property
