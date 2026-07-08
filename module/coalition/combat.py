@@ -54,6 +54,11 @@ class CoalitionCombat(CoalitionUI, CampaignBase):
                     self.device.click(BATTLE_STATUS)
                     click_timer.reset()
 
+    def auto_search_combat_end(self):
+        if self.appear(BATTLE_STATUS, offset=(80, 20)):
+            return True
+        return False
+
     def coalition_combat(self):
         """
         Pages:
