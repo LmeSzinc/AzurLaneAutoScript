@@ -5,6 +5,9 @@ FROM python:3.7-slim-bullseye
 
 WORKDIR /app/AzurLaneAutoScript
 
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONFAULTHANDLER=1
+
 COPY requirements.txt /tmp/requirements.txt
 
 # Initial download of UiAutomator2 is slow outside of China using appetizer mirror, switch to GitHub

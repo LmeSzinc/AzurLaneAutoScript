@@ -80,17 +80,20 @@ class ModuleBase:
             return
 
         def do_ocr_import():
-            # Wait first image
-            import time
-            while 1:
-                if self.device.has_cached_image:
-                    break
-                time.sleep(0.01)
+            try:
+                # Wait first image
+                import time
+                while 1:
+                    if self.device.has_cached_image:
+                        break
+                    time.sleep(0.01)
 
-            logger.info('early_ocr_import start')
-            from module.ocr.al_ocr import AlOcr
-            _ = AlOcr
-            logger.info('early_ocr_import finish')
+                logger.info('early_ocr_import start')
+                from module.ocr.al_ocr import AlOcr
+                _ = AlOcr
+                logger.info('early_ocr_import finish')
+            except Exception:
+                logger.exception('early_ocr_import failed')
 
         logger.info('early_ocr_import call')
         import threading
