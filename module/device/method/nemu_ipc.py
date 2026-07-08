@@ -572,10 +572,17 @@ class NemuIpc(Platform):
         if self.config.EmulatorInfo_path:
             index = NemuIpcImpl.serial_to_id(self.serial)
             if index is not None:
-                file = os.path.abspath(os.path.join(
-                    self.config.EmulatorInfo_path, f'../../vms/MuMuPlayer-12.0-{index}/configs/customer_config.json'))
-                if self.check_mumu_app_keep_alive_400(file):
-                    return True
+                vms = os.path.abspath(os.path.join(self.config.EmulatorInfo_path, '../../vms'))
+                for name in [
+                    f'MuMuPlayer-15.0-{index}',
+                    f'MuMuPlayerGlobal-15.0-{index}',
+                    f'MuMuPlayer-12.0-{index}',
+                    f'MuMuPlayerGlobal-12.0-{index}',
+                    f'YXArkNights-12.0-{index}',
+                ]:
+                    file = os.path.join(vms, name, 'configs/customer_config.json')
+                    if os.path.exists(file) and self.check_mumu_app_keep_alive_400(file):
+                        return True
 
         # Search emulator instance
         if self.emulator_instance is None:
