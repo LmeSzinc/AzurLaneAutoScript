@@ -29,6 +29,8 @@ class CoalitionCombat(CoalitionUI, CampaignBase):
             # End
             if self.is_combat_loading():
                 break
+            if self.is_combat_executing():
+                break
             if self.in_coalition():
                 raise CampaignEnd
 
