@@ -91,11 +91,38 @@ class InfoHandler(ModuleBase):
     """
     _popup_offset = (3, 30)
 
+    def handle_popup_cancel_gems(self, name='', offset=None, interval=2):
+        """
+        Cancel popups that would spend gems.
+
+        This is a safety guard for globally handled popups. If the player opens
+        a gem purchase dialog by hand while Alas is running, handle_popup_confirm
+        should not press the confirm button and spend gems accidentally.
+        """
+        if offset is None:
+            offset = self._popup_offset
+        # Keep the import local to avoid making the generic handler depend on
+        # shop assets at module import time.
+        from module.shop.assets import SHOP_BUY_CONFIRM_MISTAKE
+
+        if self.appear(SHOP_BUY_CONFIRM_MISTAKE, offset=(200, 200)) \
+                and self.appear(POPUP_CONFIRM, offset=offset) \
+                and self.appear(POPUP_CANCEL, offset=offset):
+            logger.warning('Avoid confirming gem purchase popup')
+            prev_name = POPUP_CANCEL.name
+            POPUP_CANCEL.name = f'{POPUP_CANCEL.name}_{name}'
+            self.device.click(POPUP_CANCEL)
+            POPUP_CANCEL.name = prev_name
+            return True
+        return False
+
     def handle_popup_confirm(self, name='', offset=None, interval=2):
         if offset is None:
             offset = self._popup_offset
         if self.appear(POPUP_CANCEL, offset=offset) \
                 and self.appear(POPUP_CONFIRM, offset=offset, interval=interval):
+            if self.handle_popup_cancel_gems(name=name, offset=offset, interval=interval):
+                return True
             POPUP_CONFIRM.name = POPUP_CONFIRM.name + '_' + name
             self.device.click(POPUP_CONFIRM)
             POPUP_CONFIRM.name = POPUP_CONFIRM.name[:-len(name) - 1]
