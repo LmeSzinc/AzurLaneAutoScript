@@ -2,9 +2,9 @@ from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.equipment.assets import *
+from module.equipment.equipment_code import EquipmentCodeHandler
 from module.logger import logger
 from module.retire.assets import DOCK_CHECK, EQUIP_CONFIRM as RETIRE_EQUIP_CONFIRM
-from module.storage.storage import StorageHandler
 from module.ui.assets import BACK_ARROW
 from module.ui.navbar import Navbar
 
@@ -14,7 +14,7 @@ SWIPE_RANDOM_RANGE = (-40, -20, 40, 20)
 EQUIPMENT_OPEN.match = EQUIPMENT_OPEN.match_luma
 
 
-class Equipment(StorageHandler):
+class Equipment(EquipmentCodeHandler):
     equipment_has_take_on = False
 
     def _ship_view_swipe(self, distance, check_button=EQUIPMENT_OPEN):
@@ -159,121 +159,127 @@ class Equipment(StorageHandler):
             return True
         return False
 
-    def ship_equipment_take_off(self, skip_first_screenshot=True):
-        logger.info('Equipment take off')
-        bar_timer = Timer(5)
-        off_timer = Timer(5)
-        confirm_timer = Timer(5)
+    def ship_equipment_take_off(self, name=None):
+        self.code_clear(name=name)
 
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
+    def ship_equipment_take_on(self, name=None):
+        self.code_apply(name=name)
 
-            # End
-            # if self.handle_info_bar():
-            #     break
-            if off_timer.started() and self.info_bar_count():
-                break
+    # def ship_equipment_take_off(self, skip_first_screenshot=True):
+    #     logger.info('Equipment take off')
+    #     bar_timer = Timer(5)
+    #     off_timer = Timer(5)
+    #     confirm_timer = Timer(5)
 
-            if self.handle_storage_full():
-                continue
+    #     while 1:
+    #         if skip_first_screenshot:
+    #             skip_first_screenshot = False
+    #         else:
+    #             self.device.screenshot()
 
-            if confirm_timer.reached() and self.handle_popup_confirm('EQUIPMENT_TAKE_OFF'):
-                confirm_timer.reset()
-                off_timer.reset()
-                bar_timer.reset()
-                continue
+    #         # End
+    #         # if self.handle_info_bar():
+    #         #     break
+    #         if off_timer.started() and self.info_bar_count():
+    #             break
 
-            if off_timer.reached():
-                if not self.info_bar_count() and self.appear_then_click(EQUIP_OFF, offset=(20, 20)):
-                    off_timer.reset()
-                    bar_timer.reset()
-                    continue
+    #         if self.handle_storage_full():
+    #             continue
 
-            if bar_timer.reached():
-                if self.appear(EQUIPMENT_OPEN, offset=(20, 20)) and not self.appear(EQUIP_OFF, offset=(20, 20)):
-                    self.device.click(EQUIPMENT_OPEN)
-                    bar_timer.reset()
-                    continue
+    #         if confirm_timer.reached() and self.handle_popup_confirm('EQUIPMENT_TAKE_OFF'):
+    #             confirm_timer.reset()
+    #             off_timer.reset()
+    #             bar_timer.reset()
+    #             continue
 
-        logger.info('Equipment take off ended')
+    #         if off_timer.reached():
+    #             if not self.info_bar_count() and self.appear_then_click(EQUIP_OFF, offset=(20, 20)):
+    #                 off_timer.reset()
+    #                 bar_timer.reset()
+    #                 continue
 
-    def fleet_equipment_take_off(self, enter, long_click, out):
-        """
-        Args:
-            enter (Button): Button to edit equipment.
-            long_click (bool): How to click enter
-            out (Button): Button to confirm exit success.
-        """
-        logger.hr('Equipment take off')
-        self.ship_info_enter(enter, long_click=long_click)
+    #         if bar_timer.reached():
+    #             if self.appear(EQUIPMENT_OPEN, offset=(20, 20)) and not self.appear(EQUIP_OFF, offset=(20, 20)):
+    #                 self.device.click(EQUIPMENT_OPEN)
+    #                 bar_timer.reset()
+    #                 continue
 
-        while True:
-            self.ship_equipment_take_off()
-            self.ui_click(EQUIPMENT_CLOSE, check_button=EQUIPMENT_OPEN, skip_first_screenshot=True)
-            if not self.ship_view_next():
-                break
+    #     logger.info('Equipment take off ended')
 
-        self.ui_back(out)
-        self.equipment_has_take_on = False
+    # def fleet_equipment_take_off(self, enter, long_click, out):
+    #     """
+    #     Args:
+    #         enter (Button): Button to edit equipment.
+    #         long_click (bool): How to click enter
+    #         out (Button): Button to confirm exit success.
+    #     """
+    #     logger.hr('Equipment take off')
+    #     self.ship_info_enter(enter, long_click=long_click)
 
-    def ship_equipment_take_on_preset(self, index, skip_first_screenshot=True):
-        logger.info('Equipment take on preset')
-        bar_timer = Timer(5)
-        on_timer = Timer(5)
+    #     while True:
+    #         self.ship_equipment_take_off()
+    #         self.ui_click(EQUIPMENT_CLOSE, check_button=EQUIPMENT_OPEN, skip_first_screenshot=True)
+    #         if not self.ship_view_next():
+    #             break
 
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
+    #     self.ui_back(out)
+    #     self.equipment_has_take_on = False
 
-            # End
-            # if self.handle_info_bar():
-            #     break
-            if on_timer.started() and self.info_bar_count():
-                break
+    # def ship_equipment_take_on_preset(self, index, skip_first_screenshot=True):
+    #     logger.info('Equipment take on preset')
+    #     bar_timer = Timer(5)
+    #     on_timer = Timer(5)
 
-            if bar_timer.reached() and not self.appear(EQUIP_1, offset=10):
-                self.device.click(EQUIPMENT_OPEN)
-                # self.device.sleep(0.3)
-                bar_timer.reset()
-                continue
+    #     while 1:
+    #         if skip_first_screenshot:
+    #             skip_first_screenshot = False
+    #         else:
+    #             self.device.screenshot()
 
-            if on_timer.reached() and self.appear(EQUIP_1, offset=10) and not self.info_bar_count():
-                if index == 1:
-                    self.device.click(EQUIP_1)
-                elif index == 2:
-                    self.device.click(EQUIP_2)
-                elif index == 3:
-                    self.device.click(EQUIP_3)
+    #         # End
+    #         # if self.handle_info_bar():
+    #         #     break
+    #         if on_timer.started() and self.info_bar_count():
+    #             break
 
-                on_timer.reset()
-                bar_timer.reset()
-                continue
+    #         if bar_timer.reached() and not self.appear(EQUIP_1, offset=10):
+    #             self.device.click(EQUIPMENT_OPEN)
+    #             # self.device.sleep(0.3)
+    #             bar_timer.reset()
+    #             continue
 
-        logger.info('Equipment take on ended')
+    #         if on_timer.reached() and self.appear(EQUIP_1, offset=10) and not self.info_bar_count():
+    #             if index == 1:
+    #                 self.device.click(EQUIP_1)
+    #             elif index == 2:
+    #                 self.device.click(EQUIP_2)
+    #             elif index == 3:
+    #                 self.device.click(EQUIP_3)
 
-    def fleet_equipment_take_on_preset(self, preset_record, enter, long_click, out):
-        """
-        Args:
-            preset_record (list[int]): list of equipment record. [3, 1, 1, 1, 1, 1]
-            enter (Button): Button to edit equipment.
-            long_click (bool): How to click enter
-            out (Button): Button to confirm exit success.
-        """
-        logger.hr('Equipment take on')
-        self.ship_info_enter(enter, long_click=long_click)
+    #             on_timer.reset()
+    #             bar_timer.reset()
+    #             continue
 
-        for index in '9'.join([str(x) for x in preset_record if x > 0]):
-            index = int(index)
-            if index == 9:
-                self.ship_view_next()
-            else:
-                self.ship_equipment_take_on_preset(index=index)
-                self.ui_click(EQUIPMENT_CLOSE, check_button=EQUIPMENT_OPEN, skip_first_screenshot=True)
+    #     logger.info('Equipment take on ended')
 
-        self.ui_back(out)
-        self.equipment_has_take_on = True
+    # def fleet_equipment_take_on_preset(self, preset_record, enter, long_click, out):
+    #     """
+    #     Args:
+    #         preset_record (list[int]): list of equipment record. [3, 1, 1, 1, 1, 1]
+    #         enter (Button): Button to edit equipment.
+    #         long_click (bool): How to click enter
+    #         out (Button): Button to confirm exit success.
+    #     """
+    #     logger.hr('Equipment take on')
+    #     self.ship_info_enter(enter, long_click=long_click)
+
+    #     for index in '9'.join([str(x) for x in preset_record if x > 0]):
+    #         index = int(index)
+    #         if index == 9:
+    #             self.ship_view_next()
+    #         else:
+    #             self.ship_equipment_take_on_preset(index=index)
+    #             self.ui_click(EQUIPMENT_CLOSE, check_button=EQUIPMENT_OPEN, skip_first_screenshot=True)
+
+    #     self.ui_back(out)
+    #     self.equipment_has_take_on = True
