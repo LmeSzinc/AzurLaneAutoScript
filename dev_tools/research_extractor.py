@@ -87,10 +87,10 @@ class TechnologyTemplate:
         for project in self.projects.values():
             project.task.name = DIC_TRANSLATION.get(project.task.name, project.task.name)
             for item in project.input:
-                # Change Ägir to Agir
-                item.name = DIC_TRANSLATION.get(item.name, item.name).replace('Ä', 'A')
+                # Change Ägir to Agir, Valparaíso to Valparaiso
+                item.name = DIC_TRANSLATION.get(item.name, item.name).replace('Ä', 'A').replace('í', 'i')
             for item in project.output:
-                item.name = DIC_TRANSLATION.get(item.name, item.name).replace('Ä', 'A')
+                item.name = DIC_TRANSLATION.get(item.name, item.name).replace('Ä', 'A').replace('í', 'i')
 
     def load_projects(self, loader):
         tech = loader.load('sharecfg/technology_data_template.lua')
