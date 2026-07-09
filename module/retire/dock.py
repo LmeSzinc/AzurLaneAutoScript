@@ -1,7 +1,7 @@
 import module.config.server as server
 
 from module.base.button import ButtonGrid, get_color, color_similar
-from module.base.decorator import cached_property
+from module.base.decorator import Config, cached_property
 from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1
 from module.equipment.equipment import Equipment
@@ -126,6 +126,7 @@ class Dock(Equipment):
             self.handle_dock_cards_loading()
 
     @cached_property
+    @Config.when(SERVER='tw')
     def dock_filter(self) -> Setting:
         delta = (147 + 1 / 3, 57)
         button_shape = (139, 42)
@@ -171,6 +172,54 @@ class Dock(Equipment):
         )
         return setting
 
+    @cached_property
+    @Config.when(SERVER=None)
+    def dock_filter(self) -> Setting:
+        delta = (147 + 1 / 3, 57)
+        button_shape = (139, 42)
+        setting = Setting(name='DOCK', main=self)
+        setting.add_setting(
+            setting='sort',
+            option_buttons=ButtonGrid(
+                origin=(218, 36), delta=delta, button_shape=button_shape, grid_shape=(7, 1), name='FILTER_SORT'),
+            # stat has extra grid, not worth pursuing
+            option_names=['rarity', 'level', 'total', 'join', 'intimacy', 'mood', 'stat'],
+            option_default='level'
+        )
+        setting.add_setting(
+            setting='index',
+            option_buttons=ButtonGrid(
+                origin=(218, 109), delta=delta, button_shape=button_shape, grid_shape=(7, 2), name='FILTER_INDEX'),
+            option_names=['all', 'vanguard', 'main', 'dd', 'cl', 'ca', 'bb',
+                          'cv', 'repair', 'ss', 'others', 'not_available', 'not_available', 'not_available'],
+            option_default='all'
+        )
+        setting.add_setting(
+            setting='faction',
+            option_buttons=ButtonGrid(
+                origin=(218, 239), delta=delta, button_shape=button_shape, grid_shape=(7, 3), name='FILTER_FACTION'),
+            option_names=['all', 'eagle', 'royal', 'sakura', 'iron', 'dragon', 'sardegna',
+                          'northern', 'iris', 'vichya', 'tulipa', 'pedreria', 'meta', 'tempesta',
+                          'other', 'not_available', 'not_available', 'not_available', 'not_available', 'not_available', 'not_available'],
+            option_default='all'
+        )
+        setting.add_setting(
+            setting='rarity',
+            option_buttons=ButtonGrid(
+                origin=(218, 427), delta=delta, button_shape=button_shape, grid_shape=(7, 1), name='FILTER_RARITY'),
+            option_names=['all', 'common', 'rare', 'elite', 'super_rare', 'ultra', 'not_available'],
+            option_default='all'
+        )
+        setting.add_setting(
+            setting='extra',
+            option_buttons=ButtonGrid(
+                origin=(218, 499), delta=delta, button_shape=button_shape, grid_shape=(7, 2), name='FILTER_EXTRA'),
+            option_names=['no_limit', 'has_skin', 'can_retrofit', 'enhanceable', 'can_limit_break', 'not_level_max', 'can_awaken',
+                          'can_awaken_plus', 'special', 'oath_skin', 'unique_augment_module', 'wear_skin', 'oathed', 'not_available'],
+            option_default='no_limit'
+        )
+        return setting
+
     def dock_filter_set(
             self,
             sort='level',
@@ -191,12 +240,13 @@ class Dock(Equipment):
                  'cv', 'repair', 'ss', 'others', 'not_available', 'not_available', 'not_available']
             faction (str, list):
                 ['all', 'eagle', 'royal', 'sakura', 'iron', 'dragon', 'sardegna',
-                 'northern', 'iris', 'vichya', 'other', 'not_available', 'not_available', 'not_available']
+                 'northern', 'iris', 'vichya', 'tulipa', 'pedreria', 'meta', 'tempesta',
+                 'other', 'not_available', 'not_available', 'not_available', 'not_available', 'not_available', 'not_available']
             rarity (str, list):
                 ['all', 'common', 'rare', 'elite', 'super_rare', 'ultra', 'not_available']
             extra (str, list):
                 ['no_limit', 'has_skin', 'can_retrofit', 'enhanceable', 'can_limit_break', 'not_level_max', 'can_awaken',
-                 'can_awaken_plus', 'special', 'oath_skin', 'unique_augment_module', 'not_available', 'not_available', 'not_available'],
+                 'can_awaken_plus', 'special', 'oath_skin', 'unique_augment_module', 'wear_skin', 'oathed', 'not_available'],
 
         Pages:
             in: page_dock
