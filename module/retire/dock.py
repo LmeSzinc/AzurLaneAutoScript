@@ -84,7 +84,7 @@ class Dock(Equipment):
         logger.info('Dock filter enter')
         self.interval_clear(DOCK_CHECK)
         for _ in self.loop():
-            if self.appear(DOCK_FILTER_CONFIRM, offset=(20, 20)):
+            if self.appear(DOCK_FILTER_CONFIRM, offset=(20, 60)):
                 break
             if self.appear(DOCK_CHECK, offset=(20, 20), interval=5):
                 self.device.click(DOCK_FILTER)
@@ -116,10 +116,10 @@ class Dock(Equipment):
             # End
             # sometimes you have dock filter without black-blurred background
             # DOCK_FILTER_CONFIRM and DOCK_CHECK appears
-            if not self.appear(DOCK_FILTER_CONFIRM, offset=(20, 20)):
+            if not self.appear(DOCK_FILTER_CONFIRM, offset=(20, 60)):
                 if self.appear(DOCK_CHECK, offset=(20, 20)):
                     break
-            if self.appear_then_click(DOCK_FILTER_CONFIRM, offset=(20, 20), interval=3):
+            if self.appear_then_click(DOCK_FILTER_CONFIRM, offset=(20, 60), interval=3):
                 continue
 
         if wait_loading:
