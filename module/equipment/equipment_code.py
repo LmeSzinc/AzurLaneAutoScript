@@ -21,6 +21,7 @@ EQUIPMENT_PREVIEW = list([
 
 class EquipmentCodeHandler(StorageHandler):
     last_code: str = None
+    FASTINPUT_IME = 'com.github.uiautomator/.FastInputIME'
 
     def equipment_code_supported(self):
         method = self.config.Emulator_ControlMethod
@@ -161,10 +162,21 @@ class EquipmentCodeHandler(StorageHandler):
 
     def set_fastinput_ime(self):
         d = self.device.u2
+        failed = False
         try:
-            d.set_fastinput_ime(True)
-        except Exception:
-            logger.warning("FastInputIME not enabled, trying to enable it")
+            for command in ('enable', 'set'):
+                result = d.shell(['ime', command, self.FASTINPUT_IME])
+                exit_code = getattr(result, 'exit_code', 0)
+                output = getattr(result, 'output', result)
+                if exit_code:
+                    failed = True
+                    logger.warning(f"Unable to {command} FastInputIME: {output.strip()}")
+        except Exception as e:
+            failed = True
+            logger.warning(f"Unable to set FastInputIME: {e}")
+
+        if failed:
+            logger.warning("FastInputIME not enabled by adb shell, trying to enable it in settings")
             self.fastinput_ime_enable()
 
     def _code_input(self, code):
@@ -174,7 +186,7 @@ class EquipmentCodeHandler(StorageHandler):
         for _ in self.loop():
             name, shown = d.current_ime()
             if shown:
-                if name != 'com.github.uiautomator/.FastInputIME':
+                if name != self.FASTINPUT_IME:
                     self.set_fastinput_ime()
                     continue
                 else:
