@@ -6,7 +6,7 @@ DICT_FILTER_PRESET = {
     # Average rewards: [238.69016631 238.37881965 529.71190834 528.92520834 528.39586667 150.07973333]
     'series_9_ta152_only_cube': """
         S9-Q0.5 > S9-DR0.5 > S9-PRY0.5 > Q0.5 > S9-Q4 > S9-Q2 > S9-Q1 > 0.5
-        > S9-E-315 > S9-G1.5 > S9-G4 > Q1 > reset > S9-H1 > H1 > 1 > S9-E-031
+        > S9-E-315 > S9-G1.5 > S9-G4 > Q1 > S8-E-880 > S8-E-180 > reset > S9-H1 > H1 > 1 > S9-E-031
         > S9-DR2.5 > S9-PRY2.5 > S9-G2.5 > G1.5 > 1.5 > Q2 > E2 > S9-H2 > H2
         > 2 > DR2.5 > PRY2.5 > G2.5 > 2.5 > S9-DR5 > S9-PRY5 > Q4 > G4
         > S9-H4 > H4 > 4 > S9-C6 > DR5 > PRY5 > 5 > S9-DR8 > S9-PRY8 > S9-C8
@@ -17,7 +17,7 @@ DICT_FILTER_PRESET = {
     # Average rewards: [241.92774575 241.13046242 421.82134358 421.04494941 420.46893024 150.07799978]
     'series_9_ta152_only': """
         S9-Q0.5 > S9-PRY0.5 > S9-DR0.5 > Q0.5 > S9-Q4 > S9-Q2 > S9-Q1 > 0.5
-        > S9-E-315 > S9-G4 > S9-G1.5 > Q1 > 1 > S9-E-031 > S9-DR2.5 > reset
+        > S9-E-315 > S9-G4 > S9-G1.5 > Q1 > 1 > S9-E-031 > S9-DR2.5 > S8-E-880 > S8-E-180 > reset
         > S9-G2.5 > S9-PRY2.5 > G1.5 > 1.5 > Q2 > E2 > 2 > DR2.5 > PRY2.5
         > G2.5 > 2.5 > S9-DR5 > S9-PRY5 > Q4 > G4 > 4 > S9-C6 > DR5 > PRY5
         > 5 > S9-DR8 > S9-PRY8 > S9-C8 > C6 > 6 > DR8 > PRY8 > C8 > 8
@@ -28,7 +28,7 @@ DICT_FILTER_PRESET = {
     # Average rewards: [531.93022864 529.81919864 510.27473326 510.18530159 510.11215826 100.8088164]
     'series_9_blueprint_ta152_cube': """
         S9-DR0.5 > S9-Q0.5 > S9-PRY0.5 > 0.5 > S9-DR2.5 > S9-Q1 > S9-Q2
-        > S9-H1 > S9-E-315 > S9-G1.5 > reset > S9-Q4 > S9-G4 > S9-H2 > Q1
+        > S9-H1 > S9-E-315 > S9-G1.5 > S8-E-880 > S8-E-180 > reset > S9-Q4 > S9-G4 > S9-H2 > Q1
         > H1 > 1 > S9-G2.5 > S9-DR5 > S9-PRY2.5 > G1.5 > 1.5 > S9-E-031
         > S9-DR8 > Q2 > E2 > H2 > 2 > DR2.5 > PRY2.5 > G2.5 > 2.5 > S9-H4
         > S9-PRY5 > Q4 > G4 > H4 > 4 > S9-C6 > S9-PRY8 > DR5 > PRY5 > 5 > C6
@@ -39,7 +39,7 @@ DICT_FILTER_PRESET = {
     # Average rewards: [520.06195858 519.19883191 392.86544828 392.64870495 392.49383995 102.2368499]
     'series_9_blueprint_ta152': """
         S9-DR0.5 > S9-PRY0.5 > S9-Q0.5 > S9-H0.5 > Q0.5 > S9-DR2.5
-        > S9-G1.5 > S9-Q1 > S9-DR5 > 0.5 > S9-G4 > S9-Q2 > S9-PRY2.5 > reset
+        > S9-G1.5 > S9-Q1 > S9-DR5 > 0.5 > S9-G4 > S9-Q2 > S9-PRY2.5 > S8-E-880 > S8-E-180 > reset
         > S9-DR8 > Q1 > 1 > S9-E-315 > S9-G2.5 > G1.5 > 1.5 > S9-E-031
         > S9-Q4 > Q2 > E2 > 2 > DR2.5 > PRY2.5 > G2.5 > 2.5 > S9-PRY5
         > S9-PRY8 > Q4 > G4 > 4 > S9-C6 > DR5 > PRY5 > 5 > C6 > 6 > S9-C8
@@ -50,7 +50,7 @@ DICT_FILTER_PRESET = {
     # Average rewards: [519.0311752  514.64003687 653.77171198 653.72126532 653.66129615 26.97694791]
     'series_9_blueprint_only_cube': """
         S9-DR0.5 > S9-PRY0.5 > S9-H0.5 > S9-H1 > S9-H2 > S9-DR2.5 > S9-DR5
-        > 0.5 > S9-DR8 > reset > S9-H4 > S9-Q1 > Q1 > H1 > 1 > S9-G1.5 > G1.5
+        > 0.5 > S9-DR8 > S8-E-880 > S8-E-180 > reset > S9-H4 > S9-Q1 > Q1 > H1 > 1 > S9-G1.5 > G1.5
         > 1.5 > S9-G2.5 > S9-Q2 > S9-E-315 > S9-E-031 > Q2 > E2 > H2 > 2
         > S9-PRY2.5 > S9-G4 > DR2.5 > PRY2.5 > G2.5 > 2.5 > S9-Q4 > Q4 > G4
         > H4 > 4 > S9-PRY5 > S9-PRY8 > S9-C6 > DR5 > PRY5 > 5 > C6 > 6
@@ -61,7 +61,7 @@ DICT_FILTER_PRESET = {
     # Average rewards: [514.96354877 514.70099977 355.58865468 354.96831385 354.66888635 56.48432238]
     'series_9_blueprint_only': """
         S9-DR0.5 > S9-H0.5 > S9-PRY0.5 > S9-DR8 > S9-DR5 > S9-DR2.5
-        > S9-G1.5 > S9-PRY2.5 > 0.5 > S9-G2.5 > S9-G4 > reset > S9-Q1 > Q1
+        > S9-G1.5 > S9-PRY2.5 > 0.5 > S9-G2.5 > S9-G4 > S8-E-880 > S8-E-180 > reset > S9-Q1 > Q1
         > 1 > S9-PRY5 > G1.5 > 1.5 > S9-Q2 > S9-E-031 > S9-E-315 > Q2 > E2
         > 2 > S9-PRY8 > DR2.5 > PRY2.5 > G2.5 > 2.5 > S9-Q4 > Q4 > G4 > 4
         > S9-C6 > DR5 > PRY5 > 5 > C6 > 6 > S9-C8 > DR8 > PRY8 > C8 > 8
@@ -72,7 +72,7 @@ DICT_FILTER_PRESET = {
     # Average rewards: [238.69016631 238.37881965 529.71190834 528.92520834 528.39586667 150.07973333]
     'series_8_305_only_cube': """
         S8-Q0.5 > S8-DR0.5 > S8-PRY0.5 > Q0.5 > S8-Q4 > S8-Q2 > S8-Q1 > 0.5
-        > S8-E-315 > S8-G1.5 > S8-G4 > Q1 > reset > S8-H1 > H1 > 1 > S8-E-031
+        > S8-E-880 > S8-E-180 > S8-E-315 > S8-G1.5 > S8-G4 > Q1 > reset > S8-H1 > H1 > 1 > S8-E-031
         > S8-DR2.5 > S8-PRY2.5 > S8-G2.5 > G1.5 > 1.5 > Q2 > E2 > S8-H2 > H2
         > 2 > DR2.5 > PRY2.5 > G2.5 > 2.5 > S8-DR5 > S8-PRY5 > Q4 > G4
         > S8-H4 > H4 > 4 > S8-C6 > DR5 > PRY5 > 5 > S8-DR8 > S8-PRY8 > S8-C8
@@ -83,7 +83,7 @@ DICT_FILTER_PRESET = {
     # Average rewards: [241.92774575 241.13046242 421.82134358 421.04494941 420.46893024 150.07799978]
     'series_8_305_only': """
         S8-Q0.5 > S8-PRY0.5 > S8-DR0.5 > Q0.5 > S8-Q4 > S8-Q2 > S8-Q1 > 0.5
-        > S8-E-315 > S8-G4 > S8-G1.5 > Q1 > 1 > S8-E-031 > S8-DR2.5 > reset
+        > S8-E-880 > S8-E-180 > S8-E-315 > S8-G4 > S8-G1.5 > Q1 > 1 > S8-E-031 > S8-DR2.5 > reset
         > S8-G2.5 > S8-PRY2.5 > G1.5 > 1.5 > Q2 > E2 > 2 > DR2.5 > PRY2.5
         > G2.5 > 2.5 > S8-DR5 > S8-PRY5 > Q4 > G4 > 4 > S8-C6 > DR5 > PRY5
         > 5 > S8-DR8 > S8-PRY8 > S8-C8 > C6 > 6 > DR8 > PRY8 > C8 > 8
@@ -94,7 +94,7 @@ DICT_FILTER_PRESET = {
     # Average rewards: [531.93022864 529.81919864 510.27473326 510.18530159 510.11215826 100.8088164]
     'series_8_blueprint_305_cube': """
         S8-DR0.5 > S8-Q0.5 > S8-PRY0.5 > 0.5 > S8-DR2.5 > S8-Q1 > S8-Q2
-        > S8-H1 > S8-E-315 > S8-G1.5 > reset > S8-Q4 > S8-G4 > S8-H2 > Q1
+        > S8-H1 > S8-E-880 > S8-E-180 > S8-E-315 > S8-G1.5 > reset > S8-Q4 > S8-G4 > S8-H2 > Q1
         > H1 > 1 > S8-G2.5 > S8-DR5 > S8-PRY2.5 > G1.5 > 1.5 > S8-E-031
         > S8-DR8 > Q2 > E2 > H2 > 2 > DR2.5 > PRY2.5 > G2.5 > 2.5 > S8-H4
         > S8-PRY5 > Q4 > G4 > H4 > 4 > S8-C6 > S8-PRY8 > DR5 > PRY5 > 5 > C6
@@ -106,7 +106,7 @@ DICT_FILTER_PRESET = {
     'series_8_blueprint_305': """
         S8-DR0.5 > S8-PRY0.5 > S8-Q0.5 > S8-H0.5 > Q0.5 > S8-DR2.5
         > S8-G1.5 > S8-Q1 > S8-DR5 > 0.5 > S8-G4 > S8-Q2 > S8-PRY2.5 > reset
-        > S8-DR8 > Q1 > 1 > S8-E-315 > S8-G2.5 > G1.5 > 1.5 > S8-E-031
+        > S8-DR8 > Q1 > 1 > S8-E-880 > S8-E-180 > S8-E-315 > S8-G2.5 > G1.5 > 1.5 > S8-E-031
         > S8-Q4 > Q2 > E2 > 2 > DR2.5 > PRY2.5 > G2.5 > 2.5 > S8-PRY5
         > S8-PRY8 > Q4 > G4 > 4 > S8-C6 > DR5 > PRY5 > 5 > C6 > 6 > S8-C8
         > S8-C12 > DR8 > PRY8 > C8 > 8 > C12 > 12
@@ -117,7 +117,7 @@ DICT_FILTER_PRESET = {
     'series_8_blueprint_only_cube': """
         S8-DR0.5 > S8-PRY0.5 > S8-H0.5 > S8-H1 > S8-H2 > S8-DR2.5 > S8-DR5
         > 0.5 > S8-DR8 > reset > S8-H4 > S8-Q1 > Q1 > H1 > 1 > S8-G1.5 > G1.5
-        > 1.5 > S8-G2.5 > S8-Q2 > S8-E-315 > S8-E-031 > Q2 > E2 > H2 > 2
+        > 1.5 > S8-G2.5 > S8-Q2 > S8-E-880 > S8-E-180 > S8-E-315 > S8-E-031 > Q2 > E2 > H2 > 2
         > S8-PRY2.5 > S8-G4 > DR2.5 > PRY2.5 > G2.5 > 2.5 > S8-Q4 > Q4 > G4
         > H4 > 4 > S8-PRY5 > S8-PRY8 > S8-C6 > DR5 > PRY5 > 5 > C6 > 6
         > S8-C8 > S8-C12 > DR8 > PRY8 > C8 > 8 > C12 > 12
@@ -128,7 +128,7 @@ DICT_FILTER_PRESET = {
     'series_8_blueprint_only': """
         S8-DR0.5 > S8-H0.5 > S8-PRY0.5 > S8-DR8 > S8-DR5 > S8-DR2.5
         > S8-G1.5 > S8-PRY2.5 > 0.5 > S8-G2.5 > S8-G4 > reset > S8-Q1 > Q1
-        > 1 > S8-PRY5 > G1.5 > 1.5 > S8-Q2 > S8-E-031 > S8-E-315 > Q2 > E2
+        > 1 > S8-PRY5 > G1.5 > 1.5 > S8-Q2 > S8-E-880 > S8-E-180 > S8-E-031 > S8-E-315 > Q2 > E2
         > 2 > S8-PRY8 > DR2.5 > PRY2.5 > G2.5 > 2.5 > S8-Q4 > Q4 > G4 > 4
         > S8-C6 > DR5 > PRY5 > 5 > C6 > 6 > S8-C8 > DR8 > PRY8 > C8 > 8
         > S8-C12 > C12 > 12
