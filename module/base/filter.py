@@ -32,10 +32,25 @@ class Filter:
         ˃ \u02c3
         ᐳ \u1433
         ❯ \u276F
+
+        And tons of unicode characters similar to "-"
+        - \u002D correct
+        ‐ \u2010
+        ‑ \u2011
+        ‒ \u2012
+        – \u2013
+        — \u2014
+        ― \u2015
+        − \u2212
+        － \uFF0D
+        ﹣ \uFE63
+        ﹘ \uFE58
+        ⁃ \u2043
         """
         string = str(string)
         string = re.sub(r'[ \t\r\n]', '', string)
         string = re.sub(r'[＞﹥›˃ᐳ❯]', '>', string)
+        string = re.sub(r'[‐‑‒–—―−－﹣﹘⁃]', '-', string)
         self.filter_raw = string.split('>')
         self.filter = [self.parse_filter(f) for f in self.filter_raw]
 
