@@ -333,6 +333,40 @@ class Connection(ConnectionAttr):
 
     @cached_property
     @retry
+    def is_mumu_emulator_serial(self):
+        """
+        MuMu Pro on macOS may expose itself as `emulator-5554` instead of a
+        MuMu-style localhost port. Detect it from MuMu-specific Android props
+        so the screenshot/control pipeline can use MuMu-specific handling.
+        """
+        if not IS_MACINTOSH:
+            return False
+        if not self.serial.startswith('emulator-'):
+            return False
+
+        engine = self.adb_getprop('nemud.player_engine')
+        self.__dict__['nemud_player_engine'] = engine
+        logger.attr('nemud.player_engine', engine)
+        if 'MACPRO' in engine.upper():
+            logger.attr('is_mumu_emulator_serial', True)
+            return True
+
+        return False
+
+    @cached_property
+    def is_mumu_family(self):
+        if ConnectionAttr.is_mumu_family.__get__(self, Connection):
+            return True
+        return self.is_mumu_emulator_serial
+
+    @cached_property
+    def is_ldplayer_bluestacks_family(self):
+        if self.is_mumu_family:
+            return False
+        return ConnectionAttr.is_ldplayer_bluestacks_family.__get__(self, Connection)
+
+    @cached_property
+    @retry
     def is_mumu_pro(self):
         # MuMU Pro is the Mac version of MuMu
         if not IS_MACINTOSH:
