@@ -344,7 +344,7 @@ class GemsFarming(CampaignRun, Dock):
             list[Ship]: Common rarity CVs that meet the level, emotion and fleet requirements.
         """
         self.dock_favourite_set(False, wait_loading=False)
-        self.dock_sort_method_dsc_set(True, wait_loading=False)
+        self.dock_sort_method_dsc_set(False, wait_loading=False)
         self.dock_filter_set(index='cv', rarity='common', extra='enhanceable', sort='total')
 
         logger.hr('FINDING FLAGSHIP')
