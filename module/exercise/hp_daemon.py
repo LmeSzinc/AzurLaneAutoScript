@@ -81,6 +81,7 @@ class HpDaemon(ModuleBase):
             PAUSE_ElvenVine,
             PAUSE_GildedReverie,
             PAUSE_AzureCore,
+            PAUSE_Nier,
         ]:
             self.attacker_hp = self._calculate_hp(image, area=ATTACKER_HP_AREA_New.area, reverse=True)
             self.defender_hp = self._calculate_hp(image, area=DEFENDER_HP_AREA_New.area, reverse=True)
