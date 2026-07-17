@@ -273,7 +273,13 @@ class FleetOperator:
         # https://github.com/LmeSzinc/AzurLaneAutoScript/issues/5678
         # no ship is in color (71, 70, 63)
         color = cv2.mean(image)[:3]
+        # Perseus skin
         if color_similar(color, (224, 154, 114), threshold=30):
+            return True
+
+        # Akane Shinjo skin: Room of Secrets
+        # special fix for fleet card bottom area having a bluish background color
+        if color_similar(color, (124, 141, 171), threshold=30):
             return True
 
         gray = rgb2gray(image)
