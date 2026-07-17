@@ -337,13 +337,14 @@ class Connection(ConnectionAttr):
         # MuMU Pro is the Mac version of MuMu
         if not IS_MACINTOSH:
             return False
-        if not self.is_mumu_family:
-            if not self.serial.startswith('emulator-'):
-                return False
-            if 'MACPRO' not in self.nemud_player_engine.upper():
-                return False
-        logger.attr('is_mumu_pro', True)
-        return True
+        if self.is_mumu_family:
+            logger.attr('is_mumu_pro', True)
+            return True
+        if self.serial.startswith('emulator-'):
+            if 'MACPRO' in self.nemud_player_engine.upper():
+                logger.attr('is_mumu_pro', True)
+                return True
+        return False
 
     @cached_property
     @retry
