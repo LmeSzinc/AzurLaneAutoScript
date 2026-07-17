@@ -333,46 +333,15 @@ class Connection(ConnectionAttr):
 
     @cached_property
     @retry
-    def is_mumu_emulator_serial(self):
-        """
-        MuMu Pro on macOS may expose itself as `emulator-5554` instead of a
-        MuMu-style localhost port. Detect it from MuMu-specific Android props
-        so the screenshot/control pipeline can use MuMu-specific handling.
-        """
-        if not IS_MACINTOSH:
-            return False
-        if not self.serial.startswith('emulator-'):
-            return False
-
-        engine = self.adb_getprop('nemud.player_engine')
-        self.__dict__['nemud_player_engine'] = engine
-        logger.attr('nemud.player_engine', engine)
-        if 'MACPRO' in engine.upper():
-            logger.attr('is_mumu_emulator_serial', True)
-            return True
-
-        return False
-
-    @cached_property
-    def is_mumu_family(self):
-        if ConnectionAttr.is_mumu_family.__get__(self, Connection):
-            return True
-        return self.is_mumu_emulator_serial
-
-    @cached_property
-    def is_ldplayer_bluestacks_family(self):
-        if self.is_mumu_family:
-            return False
-        return ConnectionAttr.is_ldplayer_bluestacks_family.__get__(self, Connection)
-
-    @cached_property
-    @retry
     def is_mumu_pro(self):
         # MuMU Pro is the Mac version of MuMu
         if not IS_MACINTOSH:
             return False
         if not self.is_mumu_family:
-            return False
+            if not self.serial.startswith('emulator-'):
+                return False
+            if 'MACPRO' not in self.nemud_player_engine.upper():
+                return False
         logger.attr('is_mumu_pro', True)
         return True
 
@@ -400,7 +369,7 @@ class Connection(ConnectionAttr):
         return res
 
     def check_mumu_app_keep_alive(self):
-        if not self.is_mumu_family:
+        if not (self.is_mumu_family or self.is_mumu_pro):
             return False
 
         res = self.nemud_app_keep_alive
@@ -435,15 +404,14 @@ class Connection(ConnectionAttr):
                 which has nemud.app_keep_alive and always be a vertical device
                 MuMu PRO on mac has the same feature
         """
+        if self.is_mumu_pro:
+            return True
         if not self.is_mumu_family:
             return False
         if self.is_mumu_over_version_400:
             return True
         if self.nemud_app_keep_alive != '':
             return True
-        if IS_MACINTOSH:
-            if 'MACPRO' in self.nemud_player_engine:
-                return True
         return False
 
     @cached_property
