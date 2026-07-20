@@ -125,7 +125,8 @@
           "DroidCast",
           "DroidCast_raw",
           "nemu_ipc",
-          "ldopengl"
+          "ldopengl",
+          "MacPlayTools"
         ]
       },
       "ControlMethod": {
@@ -136,7 +137,8 @@
           "uiautomator2",
           "minitouch",
           "Hermit",
-          "MaaTouch"
+          "MaaTouch",
+          "MacPlayTools"
         ]
       },
       "ScreenshotDedithering": {

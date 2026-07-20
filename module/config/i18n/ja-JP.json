@@ -434,7 +434,8 @@
       "DroidCast": "DroidCast",
       "DroidCast_raw": "DroidCast_raw",
       "nemu_ipc": "nemu_ipc",
-      "ldopengl": "ldopengl"
+      "ldopengl": "ldopengl",
+      "MacPlayTools": "MacPlayTools"
     },
     "ControlMethod": {
       "name": "Emulator.ControlMethod.name",
@@ -443,7 +444,8 @@
       "uiautomator2": "uiautomator2",
       "minitouch": "minitouch",
       "Hermit": "Hermit",
-      "MaaTouch": "MaaTouch"
+      "MaaTouch": "MaaTouch",
+      "MacPlayTools": "MacPlayTools"
     },
     "ScreenshotDedithering": {
       "name": "Emulator.ScreenshotDedithering.name",

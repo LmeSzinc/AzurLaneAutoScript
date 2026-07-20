@@ -17,11 +17,12 @@ from module.device.method.ldopengl import LDOpenGL
 from module.device.method.nemu_ipc import NemuIpc
 from module.device.method.scrcpy import Scrcpy
 from module.device.method.wsa import WSA
+from module.device.method.macplaytools import MacPlayTools
 from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 
 
-class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy, NemuIpc, LDOpenGL):
+class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy, NemuIpc, LDOpenGL, MacPlayTools):
     _screen_size_checked = False
     _screen_black_checked = False
     _minicap_uninstalled = False
@@ -42,6 +43,7 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy, NemuIpc, LDOpenGL):
             'scrcpy': self.screenshot_scrcpy,
             'nemu_ipc': self.screenshot_nemu_ipc,
             'ldopengl': self.screenshot_ldopengl,
+            'MacPlayTools': self.screenshot_macplaytools
         }
 
     @cached_property

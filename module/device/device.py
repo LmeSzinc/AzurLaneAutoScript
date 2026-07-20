@@ -105,6 +105,8 @@ class Device(Screenshot, Control, AppControl):
                 self.early_maatouch_init()
             if self.config.Emulator_ControlMethod == 'minitouch':
                 self.early_minitouch_init()
+            if self.config.Emulator_ControlMethod == 'MacPlayTools':
+                self.early_macplaytools_init()
 
     def run_simple_screenshot_benchmark(self):
         """

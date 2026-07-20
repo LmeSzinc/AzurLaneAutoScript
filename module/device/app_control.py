@@ -26,9 +26,13 @@ class AppControl(Adb, WSA, Uiautomator2):
         return package
 
     def app_is_running(self) -> bool:
-        package = self.app_current()
-        logger.attr('Package_name', package)
-        return package == self.package
+        if self.config.Emulator_ControlMethod == "MacPlayTools":
+            # Impossible to connect while not running in macos.
+            return True
+        else:
+            package = self.app_current()
+            logger.attr('Package_name', package)
+            return package == self.package
 
     def app_start(self):
         method = self.config.Emulator_ControlMethod

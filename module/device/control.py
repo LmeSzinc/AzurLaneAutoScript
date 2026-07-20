@@ -7,10 +7,11 @@ from module.device.method.maatouch import MaaTouch
 from module.device.method.minitouch import Minitouch
 from module.device.method.nemu_ipc import NemuIpc
 from module.device.method.scrcpy import Scrcpy
+from module.device.method.macplaytools import MacPlayTools
 from module.logger import logger
 
 
-class Control(Hermit, Minitouch, Scrcpy, MaaTouch, NemuIpc):
+class Control(Hermit, Minitouch, Scrcpy, MaaTouch, NemuIpc, MacPlayTools):
     def handle_control_check(self, button):
         # Will be overridden in Device
         pass
@@ -24,6 +25,7 @@ class Control(Hermit, Minitouch, Scrcpy, MaaTouch, NemuIpc):
             'Hermit': self.click_hermit,
             'MaaTouch': self.click_maatouch,
             'nemu_ipc': self.click_nemu_ipc,
+            'MacPlayTools': self.click_macplaytools,
         }
 
     def click(self, button, control_check=True):
@@ -82,6 +84,8 @@ class Control(Hermit, Minitouch, Scrcpy, MaaTouch, NemuIpc):
             self.long_click_maatouch(x, y, duration)
         elif method == 'nemu_ipc':
             self.long_click_nemu_ipc(x, y, duration)
+        elif method == 'MacPlayTools':
+            self.long_click_macplaytools(x, y, duration)
         else:
             self.swipe_adb((x, y), (x, y), duration)
 
@@ -92,7 +96,7 @@ class Control(Hermit, Minitouch, Scrcpy, MaaTouch, NemuIpc):
         method = self.config.Emulator_ControlMethod
         if method == 'uiautomator2':
             logger.info('Swipe %s -> %s, %s' % (point2str(*p1), point2str(*p2), duration))
-        elif method in ['minitouch', 'MaaTouch', 'scrcpy', 'nemu_ipc']:
+        elif method in ['minitouch', 'MaaTouch', 'scrcpy', 'nemu_ipc','MacPlayTools']:
             logger.info('Swipe %s -> %s' % (point2str(*p1), point2str(*p2)))
         else:
             # ADB needs to be slow, or swipe doesn't work
@@ -116,6 +120,8 @@ class Control(Hermit, Minitouch, Scrcpy, MaaTouch, NemuIpc):
             self.swipe_maatouch(p1, p2)
         elif method == 'nemu_ipc':
             self.swipe_nemu_ipc(p1, p2)
+        elif method == 'MacPlayTools':
+            self.swipe_macplaytools(p1, p2)
         else:
             self.swipe_adb(p1, p2, duration=duration)
 
@@ -167,6 +173,8 @@ class Control(Hermit, Minitouch, Scrcpy, MaaTouch, NemuIpc):
             self.drag_maatouch(p1, p2, point_random=point_random)
         elif method == 'nemu_ipc':
             self.drag_nemu_ipc(p1, p2, point_random=point_random)
+        elif method == 'MacPlayTools':
+            self.drag_macplaytools(p1, p2, point_random=point_random)
         else:
             logger.warning(f'Control method {method} does not support drag well, '
                            f'falling back to ADB swipe may cause unexpected behaviour')
