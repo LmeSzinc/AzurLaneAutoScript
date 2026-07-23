@@ -229,5 +229,6 @@ class Coalition(CoalitionCombat, CampaignEvent):
 
 if __name__ == '__main__':
     self = Coalition('alas5', task='Coalition')
-    self.device.screenshot()
+    self.image_file = r''
+    # self.device.screenshot()
     self.get_event_pt()
