@@ -28,6 +28,10 @@
       "name": "セイレーン作戦",
       "help": ""
     },
+    "Island": {
+      "name": "離島開発",
+      "help": ""
+    },
     "Tool": {
       "name": "ツール",
       "help": ""
@@ -254,6 +258,30 @@
       "name": "Cross Month Daily",
       "help": "    ALAS will enter OpSi 10min before OpSi reset, wait until OpSi reset but not exit OpSi. Then do the daily, obscure, abyssal and meowfficer farming to get extra gold plates. When running dailies, settings in task \"OpSiDaily\" are used, the rest function are the same.\n    IMPORTANT: Please do not touch the game while ALAS is waiting for OpSi reset."
     },
+    "IslandProduction": {
+      "name": "離島生産",
+      "help": ""
+    },
+    "IslandOrder": {
+      "name": "離島依頼",
+      "help": ""
+    },
+    "IslandFreebie": {
+      "name": "デイリー補給",
+      "help": ""
+    },
+    "IslandCollect": {
+      "name": "デイリー採集",
+      "help": "管理パネルを使用して、季節の特産品や石炭/木材を収集します。\nスタミナ要件が満たされるまで、レベルの最も低い複数のキャラクターを使用します。"
+    },
+    "IslandSeasonTask": {
+      "name": "開発計画",
+      "help": ""
+    },
+    "IslandBusiness": {
+      "name": "店舗経営",
+      "help": ""
+    },
     "Daemon": {
       "name": "半自動クリック",
       "help": ""
@@ -265,6 +293,10 @@
     "EventStory": {
       "name": "Event Story",
       "help": ""
+    },
+    "IslandProductionPlanner": {
+      "name": "離島生産ソルバー",
+      "help": "線形計画法を使用して、指定した日次利益を満たしつつ ポイントを獲得します。\n実行後、ブートストラップの在庫数量と累積アイテム数量をコンフィグに出力します。これは、再度技術をスキャンしなくても将来の生産計画に使用できます。\n注意: 生産計画はスキャン時点の技術状況に基づいて最適化されるため、技術状況に変更がある場合は、更新された生産計画を得るために再度プランナーを実行することを推奨します。"
     },
     "Benchmark": {
       "name": "機能テスト",
@@ -2589,6 +2621,179 @@
       "22": "22"
     }
   },
+  "IslandProduction": {
+    "_info": {
+      "name": "離島生産",
+      "help": ""
+    },
+    "HardFloorItems": {
+      "name": "ハード下限品目",
+      "help": "依頼、輸送、生産レシピから保護される在庫です。\n事業モジュールはこの在庫を消費できます。\n事業モジュール用に確保したい料理や素材に使用します。\nプランナーが出力する事業用アイテムはここで少なくとも対応する事業容量分を保持します。\n形式例：\n(現在のサーバーでの品目名): (数量)"
+    },
+    "ReserveItems": {
+      "name": "予約品目",
+      "help": "離島依頼や輸送などの外部消費から予約する在庫です。\n生産レシピと事業モジュールは予約在庫を消費でき、レシピはそれを補充します。\n形式例：\n(現在のサーバーでの品目名): (数量)"
+    },
+    "RequestBufferItems": {
+      "name": "依頼バッファ品目",
+      "help": "離島依頼用にユーザーが指定する消費可能なバッファです。\nレシピ生産はハード下限と予約数量に、依頼バッファと日次バッファの大きい方を加えた数量を目標にします。\nプランナーが在庫を維持しない依頼品目に使用します。"
+    },
+    "DailyBufferItems": {
+      "name": "日次バッファ品目",
+      "help": "想定日次消費からプランナーが生成する作業用バッファです。\nレシピ生産はハード下限と予約数量に、依頼バッファと日次バッファの大きい方を加えた数量を目標にします。\nこれはツール内の島生産プランナーで自動生成できます。"
+    },
+    "IdleAccumulatingItems": {
+      "name": "アイドル累積品目",
+      "help": "生産が空いていて素材が十分なときに累積してよい品目です。\n値はアイドル時のレシピ優先度に使う想定日次累積速度です。\nこれはツール内の島生産プランナーで自動生成できます。"
+    }
+  },
+  "IslandOrder": {
+    "_info": {
+      "name": "離島依頼",
+      "help": "通常の依頼の場合、現在の在庫からハード下限と予約数量を引いた数量が十分である場合にのみ提出されます。\n緊急の依頼の場合、現在の在庫が十分である限り提出されます。"
+    },
+    "StuckSeasonOrderId": {
+      "name": "未完了シーズン依頼ID",
+      "help": "0は未完了の依頼がないことを意味します\n通常は変更する必要はありません"
+    }
+  },
+  "IslandFreebie": {
+    "_info": {
+      "name": "デイリー補給",
+      "help": ""
+    },
+    "Share": {
+      "name": "補給を友達とシェアする",
+      "help": ""
+    }
+  },
+  "IslandRestaurant": {
+    "_info": {
+      "name": "グルメ運営",
+      "help": ""
+    },
+    "KoiGrade": {
+      "name": "有魚飯店のランク",
+      "help": "",
+      "bronze": "ブロンズ",
+      "silver": "シルバー",
+      "gold": "ゴールド",
+      "diamond": "ダイヤモンド"
+    },
+    "KoiWaitress": {
+      "name": "有魚飯店のウェイトレス",
+      "help": "任意の場合、最も管理レベルが高い艦船が選択される",
+      "none": "なし",
+      "any": "任意",
+      "Chao_Ho": "肇和",
+      "any+any": "任意 + 任意",
+      "Chao_Ho+any": "肇和 + 任意"
+    },
+    "KoiMenu": {
+      "name": "有魚飯店のメニュー",
+      "help": "メニュー以外のものは販売されません。\nツールの離島生産ソルバーで自動生成されます。"
+    },
+    "BearGrade": {
+      "name": "白クマ茶房のランク",
+      "help": "",
+      "bronze": "ブロンズ",
+      "silver": "シルバー",
+      "gold": "ゴールド",
+      "diamond": "ダイヤモンド"
+    },
+    "BearWaitress": {
+      "name": "白クマ茶房のウェイトレス",
+      "help": "任意の場合、最も管理レベルが高い艦船が選択される",
+      "none": "なし",
+      "any": "任意",
+      "Cheshire": "チェシャー",
+      "any+any": "任意 + 任意",
+      "Cheshire+any": "チェシャー + 任意"
+    },
+    "BearMenu": {
+      "name": "白クマ茶房のメニュー",
+      "help": "メニュー以外のものは販売されません。\nツールの離島生産ソルバーで自動生成されます。"
+    },
+    "EateryGrade": {
+      "name": "饅頭軽食のランク",
+      "help": "",
+      "bronze": "ブロンズ",
+      "silver": "シルバー",
+      "gold": "ゴールド",
+      "diamond": "ダイヤモンド"
+    },
+    "EateryWaitress": {
+      "name": "饅頭軽食のウェイトレス",
+      "help": "任意の場合、最も管理レベルが高い艦船が選択される",
+      "none": "なし",
+      "any": "任意",
+      "Helena": "ヘレナ",
+      "Prinz_Eugen": "プリンツ・オイゲン",
+      "any+any": "任意 + 任意",
+      "Helena+any": "ヘレナ + 任意",
+      "Prinz_Eugen+any": "プリンツ・オイゲン + 任意",
+      "Helena+Prinz_Eugen": "ヘレナ + プリンツ・オイゲン"
+    },
+    "EateryMenu": {
+      "name": "饅頭軽食のメニュー",
+      "help": "メニュー以外のものは販売されません。\nツールの離島生産ソルバーで自動生成されます。"
+    },
+    "GrillGrade": {
+      "name": "烏魚焼肉のランク",
+      "help": "",
+      "bronze": "ブロンズ",
+      "silver": "シルバー",
+      "gold": "ゴールド",
+      "diamond": "ダイヤモンド"
+    },
+    "GrillWaitress": {
+      "name": "烏魚焼肉のウェイトレス",
+      "help": "任意の場合、最も管理レベルが高い艦船が選択される",
+      "none": "なし",
+      "any": "任意",
+      "August_von_Parseval": "アウグスト·フォン·パーセヴァル",
+      "Prinz_Eugen": "プリンツ・オイゲン",
+      "any+any": "任意 + 任意",
+      "August_von_Parseval+any": "アウグスト·フォン·パーセヴァル + 任意",
+      "Prinz_Eugen+any": "プリンツ・オイゲン + 任意",
+      "August_von_Parseval+Prinz_Eugen": "アウグスト·フォン·パーセヴァル + プリンツ・オイゲン"
+    },
+    "GrillMenu": {
+      "name": "烏魚焼肉のメニュー",
+      "help": "メニュー以外のものは販売されません。\nツールの離島生産ソルバーで自動生成されます。"
+    },
+    "CafeGrade": {
+      "name": "饅頭カフェのランク",
+      "help": "",
+      "bronze": "ブロンズ",
+      "silver": "シルバー",
+      "gold": "ゴールド",
+      "diamond": "ダイヤモンド"
+    },
+    "CafeWaitress": {
+      "name": "饅頭カフェのウェイトレス",
+      "help": "任意の場合、最も管理レベルが高い艦船が選択される",
+      "none": "なし",
+      "any": "任意",
+      "Cheshire": "チェシャー",
+      "any+any": "任意 + 任意",
+      "Cheshire+any": "チェシャー + 任意"
+    },
+    "CafeMenu": {
+      "name": "饅頭カフェのメニュー",
+      "help": "メニュー以外のものは販売されません。\nツールの離島生産ソルバーで自動生成されます。"
+    }
+  },
+  "IslandSeasonTask": {
+    "_info": {
+      "name": "開発計画",
+      "help": ""
+    },
+    "TaskTarget": {
+      "name": "要望品目",
+      "help": ""
+    }
+  },
   "Daemon": {
     "_info": {
       "name": "Daemon._info.name",
@@ -2623,6 +2828,45 @@
       "help": "EventStory.SkipBattle.help",
       "True": "True",
       "False": "False"
+    }
+  },
+  "IslandProductionPlanner": {
+    "_info": {
+      "name": "離島生産ソルバー",
+      "help": "設定したパラメータに基づいて線形計画法で離島の生産計画を最適化し、離島生産モジュール用の設定を生成します。\nグルメ運営と離島生産の要望品目のコンフィグ設定を先に行ってください。\n任務状態を初期化すれば、離島技術を再度スキャンできます。"
+    },
+    "RescanIslandTechnology": {
+      "name": "離島技術を再スキャン",
+      "help": "離島技術のスキャンをやり直し、離島生産プランナーの設定を更新します。"
+    },
+    "DailyProfitLowerLimit": {
+      "name": "日次利益下限",
+      "help": "負の値は日次損失を許容、0は収支トントン、正の値は利益を意味します。"
+    },
+    "DailyBufferSafetyMargin": {
+      "name": "日次バッファ安全マージン",
+      "help": "生産プランナーが生成する日次バッファに適用する倍率マージンです。0.2 は計算された日次需要の 120% を出力します。"
+    },
+    "FieldsEfficiency": {
+      "name": "豊穣の畑の効率",
+      "help": "キャラの収集報酬を参照してください",
+      "0": "0",
+      "0.04": "0.04",
+      "0.12": "0.12"
+    },
+    "OrchardEfficiency": {
+      "name": "薫る果樹園の効率",
+      "help": "キャラの収集報酬を参照してください",
+      "0": "0",
+      "0.04": "0.04",
+      "0.12": "0.12"
+    },
+    "NurseryEfficiency": {
+      "name": "青々苗場の効率",
+      "help": "キャラの収集報酬を参照してください",
+      "0": "0",
+      "0.04": "0.04",
+      "0.12": "0.12"
     }
   },
   "Benchmark": {

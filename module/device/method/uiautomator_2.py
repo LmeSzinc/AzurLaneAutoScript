@@ -187,7 +187,8 @@ class Uiautomator2(Connection):
             self.sleep(second)
 
     def drag_uiautomator2(self, p1, p2, segments=1, shake=(0, 15), point_random=(-10, -10, 10, 10),
-                          shake_random=(-5, -5, 5, 5), swipe_duration=0.25, shake_duration=0.1):
+                          shake_random=(-5, -5, 5, 5), swipe_duration=0.25, shake_duration=0.1,
+                          hold_duration=0.0):
         """Drag and shake, like:
                      /\
         +-----------+  +  +
@@ -204,6 +205,7 @@ class Uiautomator2(Connection):
             shake_random: Add random to shake array.
             swipe_duration: Duration between way points.
             shake_duration: Duration between shake points.
+            hold_duration: Hold time before release.
         """
         p1 = np.array(p1) - random_rectangle_point(point_random)
         p2 = np.array(p2) - random_rectangle_point(point_random)
@@ -213,6 +215,13 @@ class Uiautomator2(Connection):
             (*p2 - shake - random_rectangle_point(shake_random), shake_duration),
             (*p2, shake_duration)
         ]
+        internal_hold = ensure_time(shake_duration) * 3
+        hold_duration = ensure_time(hold_duration) - internal_hold
+        if hold_duration > 0:
+            path += [
+                (*p2, hold_duration),
+                (*p2, 0),
+            ]
         path = [(int(x), int(y), d) for x, y, d in path]
         self._drag_along(path)
 

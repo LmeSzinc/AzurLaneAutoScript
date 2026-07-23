@@ -442,6 +442,39 @@ class GeneratedConfig:
     # Group `OpsiHazard1Leveling`
     OpsiHazard1Leveling_TargetZone = 0  # 0, 44, 22
 
+    # Group `IslandProduction`
+    IslandProduction_HardFloorItems = '{}'
+    IslandProduction_ReserveItems = '{}'
+    IslandProduction_RequestBufferItems = '{}'
+    IslandProduction_DailyBufferItems = '{}'
+    IslandProduction_IdleAccumulatingItems = '{}'
+
+    # Group `IslandOrder`
+    IslandOrder_StuckSeasonOrderId = 0
+
+    # Group `IslandFreebie`
+    IslandFreebie_Share = True
+
+    # Group `IslandRestaurant`
+    IslandRestaurant_KoiGrade = 'bronze'  # bronze, silver, gold, diamond
+    IslandRestaurant_KoiWaitress = 'any'  # none, any, Chao_Ho, any+any, Chao_Ho+any
+    IslandRestaurant_KoiMenu = '{}'
+    IslandRestaurant_BearGrade = 'bronze'  # bronze, silver, gold, diamond
+    IslandRestaurant_BearWaitress = 'any'  # none, any, Cheshire, any+any, Cheshire+any
+    IslandRestaurant_BearMenu = '{}'
+    IslandRestaurant_EateryGrade = 'bronze'  # bronze, silver, gold, diamond
+    IslandRestaurant_EateryWaitress = 'any'  # none, any, Helena, Prinz_Eugen, any+any, Helena+any, Prinz_Eugen+any, Helena+Prinz_Eugen
+    IslandRestaurant_EateryMenu = '{}'
+    IslandRestaurant_GrillGrade = 'bronze'  # bronze, silver, gold, diamond
+    IslandRestaurant_GrillWaitress = 'any'  # none, any, August_von_Parseval, Prinz_Eugen, any+any, August_von_Parseval+any, Prinz_Eugen+any, August_von_Parseval+Prinz_Eugen
+    IslandRestaurant_GrillMenu = '{}'
+    IslandRestaurant_CafeGrade = 'bronze'  # bronze, silver, gold, diamond
+    IslandRestaurant_CafeWaitress = 'any'  # none, any, Cheshire, any+any, Cheshire+any
+    IslandRestaurant_CafeMenu = '{}'
+
+    # Group `IslandSeasonTask`
+    IslandSeasonTask_TaskTarget = '{}'
+
     # Group `Daemon`
     Daemon_EnterMap = True
 
@@ -451,6 +484,14 @@ class GeneratedConfig:
 
     # Group `EventStory`
     EventStory_SkipBattle = False  # True, False
+
+    # Group `IslandProductionPlanner`
+    IslandProductionPlanner_RescanIslandTechnology = False
+    IslandProductionPlanner_DailyProfitLowerLimit = 50000
+    IslandProductionPlanner_DailyBufferSafetyMargin = 0
+    IslandProductionPlanner_FieldsEfficiency = 0  # 0, 0.04, 0.12
+    IslandProductionPlanner_OrchardEfficiency = 0  # 0, 0.04, 0.12
+    IslandProductionPlanner_NurseryEfficiency = 0  # 0, 0.04, 0.12
 
     # Group `Benchmark`
     Benchmark_DeviceType = 'emulator'  # emulator, plone_cloud_with_adb, phone_cloud_without_adb, android_phone, android_phone_vmos

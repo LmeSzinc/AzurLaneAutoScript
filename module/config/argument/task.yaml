@@ -328,6 +328,29 @@ Opsi:
     OpsiCrossMonth:
       - Scheduler
 
+# =================== Island ===================
+Island:
+  menu: 'collapse'
+  page: 'setting'
+  tasks:
+    IslandProduction:
+      - Scheduler
+      - IslandProduction
+    IslandOrder:
+      - Scheduler
+      - IslandOrder
+    IslandFreebie:
+      - Scheduler
+      - IslandFreebie
+    IslandCollect:
+      - Scheduler
+    IslandSeasonTask:
+      - Scheduler
+      - IslandSeasonTask
+    IslandBusiness:
+      - Scheduler
+      - IslandRestaurant
+
 # ==================== Tool ====================
 
 Tool:
@@ -340,6 +363,8 @@ Tool:
       - OpsiDaemon
     EventStory:
       - EventStory
+    IslandProductionPlanner:
+      - IslandProductionPlanner
     Benchmark:
       - Benchmark
     AzurLaneUncensored:
