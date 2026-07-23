@@ -1368,6 +1368,28 @@
       "multi": "多队出击"
     }
   },
+  "Restart": {
+    "_info": {
+      "name": "重启设置",
+      "help": ""
+    }
+  },
+  "MidnightRandomDelay": {
+    "_info": {
+      "name": "午夜随机延迟",
+      "help": ""
+    },
+    "Enable": {
+      "name": "午夜随机延迟",
+      "help": "如遇半夜重启时卡网络可以尝试打开此开关，降低0:00附近的网络压力",
+      "True": "启用",
+      "False": "关闭"
+    },
+    "MaxSeconds": {
+      "name": "随机延迟上限",
+      "help": "延迟时间的最大值（秒），将在0到此值之间随机"
+    }
+  },
   "Commission": {
     "_info": {
       "name": "委托",

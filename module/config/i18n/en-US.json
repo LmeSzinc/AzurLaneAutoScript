@@ -1368,6 +1368,28 @@
       "multi": "Coalition Battle"
     }
   },
+  "Restart": {
+    "_info": {
+      "name": "Restart Settings",
+      "help": ""
+    }
+  },
+  "MidnightRandomDelay": {
+    "_info": {
+      "name": "Midnight Random Delay",
+      "help": ""
+    },
+    "Enable": {
+      "name": "Midnight Random Delay",
+      "help": "Enable to add a random delay before restart at midnight, reducing network load near 00:00",
+      "True": "Enable",
+      "False": "Disable"
+    },
+    "MaxSeconds": {
+      "name": "Max Delay (seconds)",
+      "help": "Maximum random delay in seconds, a random value between 0 and this will be used"
+    }
+  },
   "Commission": {
     "_info": {
       "name": "Commission Settings",

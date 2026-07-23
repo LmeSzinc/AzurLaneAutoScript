@@ -417,6 +417,20 @@
         "display": "hide"
       }
     },
+    "MidnightRandomDelay": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
+      },
+      "MaxSeconds": {
+        "type": "input",
+        "value": 300
+      }
+    },
     "Storage": {
       "Storage": {
         "type": "storage",
