@@ -19,6 +19,13 @@ class NeoncitySwitch(Switch):
         return 'unknown'
 
 
+class HorrorSwitch(Switch):
+    def handle_additional(self, main):
+        if main.handle_story_skip():
+            return True
+        return super().handle_additional(main)
+
+
 class CoalitionUI(Combat):
     def in_coalition(self):
         # The same as raid
@@ -61,6 +68,11 @@ class CoalitionUI(Combat):
             mode_switch = Switch('CoalitionMode', offset=(20, 20))
             mode_switch.add_state('story', FASHION_MODE_STORY)
             mode_switch.add_state('battle', FASHION_MODE_BATTLE)
+        elif event == 'coalition_20260723':
+            # HORROR mode has appear animation so enlarge search area
+            mode_switch = HorrorSwitch('CoalitionMode', offset=(50, 20))
+            mode_switch.add_state('story', HORROR_MODE_STORY)
+            mode_switch.add_state('battle', HORROR_MODE_BATTLE)
         else:
             logger.error(f'MODE_SWITCH is not defined in event {event}')
             raise ScriptError
@@ -100,6 +112,9 @@ class CoalitionUI(Combat):
         elif event == 'coalition_20260122':
             fleet_switch.add_state('single', FASHION_SWITCH_SINGLE)
             fleet_switch.add_state('multi', FASHION_SWITCH_MULTI)
+        elif event == 'coalition_20260723':
+            fleet_switch.add_state('single', HORROR_SWITCH_SINGLE)
+            fleet_switch.add_state('multi', HORROR_SWITCH_MULTI)
         else:
             logger.error(f'FLEET_SWITCH is not defined in event {event}')
             raise ScriptError
@@ -164,6 +179,12 @@ class CoalitionUI(Combat):
             ('coalition_20260122', 'hard'): FASHION_HARD,
             ('coalition_20260122', 'sp'): FASHION_SP,
             ('coalition_20260122', 'ex'): FASHION_EX,
+            # HORROR
+            ('coalition_20260723', 'easy'): HORROR_EASY,
+            ('coalition_20260723', 'normal'): HORROR_NORMAL,
+            ('coalition_20260723', 'hard'): HORROR_HARD,
+            ('coalition_20260723', 'sp'): HORROR_SP,
+            ('coalition_20260723', 'ex'): HORROR_EX,
         }
         stage = stage.lower()
         try:
@@ -252,6 +273,12 @@ class CoalitionUI(Combat):
             ('coalition_20260122', 'hard'): 3,
             ('coalition_20260122', 'sp'): 4,
             ('coalition_20260122', 'ex'): 5,
+            # HORROR
+            ('coalition_20260723', 'easy'): 1,
+            ('coalition_20260723', 'normal'): 2,
+            ('coalition_20260723', 'hard'): 3,
+            ('coalition_20260723', 'sp'): 4,
+            ('coalition_20260723', 'ex'): 5,
         }
         stage = stage.lower()
         try:
@@ -280,6 +307,8 @@ class CoalitionUI(Combat):
         elif event == 'coalition_20260122':
             # FASHION reuses NEONCITY, just (-12, -12) shifted
             return NEONCITY_FLEET_PREPARATION
+        elif event == 'coalition_20260723':
+            return HORROR_FLEET_PREPARATION
         else:
             logger.error(f'FLEET_PREPARATION is not defined in event {event}')
             raise ScriptError
@@ -304,6 +333,7 @@ class CoalitionUI(Combat):
             'coalition_20240627',
             'coalition_20250626',
             'coalition_20260122',
+            'coalition_20260723',
         ]:
             # easy is single fleet, SP and EX must must multiple fleets
             if stage in ['easy', 'sp', 'ex']:
@@ -346,9 +376,10 @@ class CoalitionUI(Combat):
                 logger.info(f'{fleet_preparation} -> {NEONCITY_PREPARATION_EXIT}')
                 self.device.click(NEONCITY_PREPARATION_EXIT)
                 continue
-            if self.appear_then_click(DAL_DIFFICULTY_EXIT, offset=(20, 20), interval=3):
-                logger.info(f'{DAL_DIFFICULTY_EXIT} -> {DAL_DIFFICULTY_EXIT}')
-                continue
+            if event == 'coalition_20251120':
+                if self.appear_then_click(DAL_DIFFICULTY_EXIT, offset=(20, 20), interval=3):
+                    logger.info(f'{DAL_DIFFICULTY_EXIT} -> {DAL_DIFFICULTY_EXIT}')
+                    continue
 
     def enter_map(self, event, stage, mode):
         """

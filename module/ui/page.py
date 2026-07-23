@@ -132,10 +132,10 @@ page_campaign.link(button=CAMPAIGN_GOTO_EVENT, destination=page_sp)
 
 # Coalition
 # FROSTFALL
-page_coalition = Page(FROSTFALL_COALITION_CHECK)
-page_coalition.link(button=GOTO_MAIN, destination=page_main)
-page_coalition.link(button=BACK_ARROW, destination=page_campaign_menu)
-page_campaign_menu.link(button=CAMPAIGN_MENU_GOTO_EVENT, destination=page_coalition)
+# page_coalition = Page(FROSTFALL_COALITION_CHECK)
+# page_coalition.link(button=GOTO_MAIN, destination=page_main)
+# page_coalition.link(button=BACK_ARROW, destination=page_campaign_menu)
+# page_campaign_menu.link(button=CAMPAIGN_MENU_GOTO_EVENT, destination=page_coalition)
 # ACADEMY
 # page_coalition_menu = Page(COALITION_ACADEMY_MAIN_CHECK)
 # page_coalition_menu.link(button=COALITION_ACADEMY_HOME, destination=page_main)
@@ -159,6 +159,11 @@ page_campaign_menu.link(button=CAMPAIGN_MENU_GOTO_EVENT, destination=page_coalit
 # page_coalition.link(button=GOTO_MAIN, destination=page_main)
 # page_coalition.link(button=BACK_ARROW, destination=page_campaign_menu)
 # page_campaign_menu.link(button=CAMPAIGN_MENU_GOTO_EVENT, destination=page_coalition)
+# HORROR
+page_coalition = Page(HORROR_COALITION_CHECK)
+page_coalition.link(button=GOTO_MAIN, destination=page_main)
+page_coalition.link(button=BACK_ARROW, destination=page_campaign_menu)
+page_campaign_menu.link(button=CAMPAIGN_MENU_GOTO_EVENT, destination=page_coalition)
 
 # Operation Siren
 page_os = Page(OS_CHECK)
