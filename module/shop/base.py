@@ -19,6 +19,7 @@ FILTER_REGEX = re.compile(
     '|chip|coin|cube|drill|food'
     '|plate|retrofit|pr|dr|specializedcore'
     '|logger|tuning'
+    '|type93pureoxygentorpedo|type1armorpiercingshell|superheavyshell'
     '|hecombatplan|fragment|hiddenzonedatalogger'
     '|albacore|bataan|bearn|bluegill|carabiniere|casablanca|contedicavour|dukeofyork'
     '|echo|eldridge|gangut|glorious|grenville|hibiki|hunter|icarus'
