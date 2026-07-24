@@ -1,4 +1,4 @@
-import {app, Menu, Tray, BrowserWindow, ipcMain, globalShortcut} from 'electron';
+import {app, Menu, Tray, BrowserWindow, ipcMain, globalShortcut, powerMonitor} from 'electron';
 import {URL} from 'url';
 import {PyShell} from '/@/pyshell';
 import {webuiArgs, webuiPath, dpiScaling} from '/@/config';
@@ -36,6 +36,34 @@ alas.end(function (err: string) {
 
 
 let mainWindow: BrowserWindow | null = null;
+
+/**
+ * 【问题】电脑睡眠/休眠后再唤醒，Alas 桌面端经常白屏，只能重启或手动 Ctrl+R。
+ *
+ * 【原因】桌面端是 Electron 壳 + iframe 嵌入本机 PyWebIO（127.0.0.1:端口）。
+ * 睡眠时 WebSocket/会话会断开，唤醒后壳层不会自动重连，窗口仍在但内容空白。
+ * 实测：唤醒后 gui.py 与端口仍正常，浏览器也能打开 WebUI；Ctrl+R 即可恢复。
+ * 这是常见场景，与「启动就白屏」（依赖/端口/证书等）不是同一类问题。
+ *
+ * 【方案】监听系统 resume，防抖后执行 mainWindow.reload()（与现有 Ctrl+R 相同路径），
+ * 重建 iframe 与 PyWebIO 会话。延迟用于：Windows 上 resume 可能连发；给本机网络栈一点恢复时间。
+ * 若 reload 后仍白屏且浏览器也打不开，则是 Python/webui 进程已挂，需另做探测重启，不在本修复范围。
+ * 咕咕嘎嘎
+ */
+let resumeReloadTimer: ReturnType<typeof setTimeout> | null = null;
+
+function reloadAfterSystemResume() {
+  if (resumeReloadTimer) {
+    clearTimeout(resumeReloadTimer);
+  }
+  // 1 秒防抖：合并短时间内多次 resume，并等待本机栈大致就绪
+  resumeReloadTimer = setTimeout(() => {
+    resumeReloadTimer = null;
+    if (mainWindow && !mainWindow.isDestroyed()) {
+      mainWindow.reload();
+    }
+  }, 1000);
+}
 
 const createWindow = async () => {
   mainWindow = new BrowserWindow({
@@ -197,6 +225,10 @@ app.on('window-all-closed', () => {
 
 app.whenReady()
   .then(createWindow)
+  .then(() => {
+    // 系统从睡眠/休眠恢复时自动刷新界面，避免常见白屏（见上方 reloadAfterSystemResume 注释）
+    powerMonitor.on('resume', reloadAfterSystemResume);
+  })
   .catch((e) => console.error('Failed create window:', e));
 
 
