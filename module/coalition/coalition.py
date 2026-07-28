@@ -192,7 +192,7 @@ class Coalition(CoalitionCombat, CampaignEvent):
 
             # UI switches
             if not self._coalition_has_oil_icon:
-                self.ui_goto(page_campaign_menu)
+                self.ui_ensure(page_campaign_menu)
                 if self.triggered_stop_condition(oil_check=True):
                     break
             self.device.stuck_record_clear()
