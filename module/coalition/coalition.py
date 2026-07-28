@@ -61,7 +61,11 @@ class Coalition(CoalitionCombat, CampaignEvent):
         elif event == 'coalition_20260122':
             ocr = Digit(FASHION_PT_OCR, name='OCR_PT', letter=(41, 40, 40), threshold=128)
         elif event == 'coalition_20260723':
-            ocr = Digit(HORROR_PT_OCR, name='OCR_PT', lang='cnocr', letter=(228, 230, 237), threshold=256)
+            if self.config.SERVER == 'en':
+                ocr = Digit(HORROR_PT_OCR, name='OCR_PT', lang='cnocr', letter=(228, 230, 237), threshold=256)
+            else:
+                # thin font
+                ocr = Digit(HORROR_PT_OCR, name='OCR_PT', lang='cnocr', letter=(228, 230, 237), threshold=221)
         else:
             logger.error(f'ocr object is not defined in event {event}')
             raise ScriptError
