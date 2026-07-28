@@ -1356,10 +1356,10 @@
     "Mode": {
       "name": "难度",
       "help": "SP图需要使用活动每日SP运行",
-      "easy": "easy",
-      "normal": "normal",
-      "hard": "hard",
-      "sp": "sp"
+      "easy": "简单",
+      "normal": "普通",
+      "hard": "困难",
+      "sp": "SP"
     },
     "Fleet": {
       "name": "出击队伍",
