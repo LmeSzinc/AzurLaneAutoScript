@@ -116,6 +116,7 @@ class MeowfficerBuy(MeowfficerBase):
         Args:
             count (int): 1 to BUY_MAX.
         """
+        logger.hr('Meow buy choose', level=2)
         self.meow_enter(MEOWFFICER_BUY_ENTER, check_button=MEOWFFICER_BUY)
 
         # info_bar may covers OCR_MEOWFFICER_CHOOSE,
@@ -133,7 +134,7 @@ class MeowfficerBuy(MeowfficerBase):
             out: page_meowfficer
         """
         # Here uses a simple click, to avoid clicking MEOWFFICER_BUY multiple times.
-        logger.hr('Meow confirm')
+        logger.hr('Meow buy confirm', level=2)
         executed = False
         with self.stat.new(
                 genre="meowfficer_buy",
@@ -186,10 +187,11 @@ class MeowfficerBuy(MeowfficerBase):
         buy_amount = max(min(buy_amount, 15), 1)
         overflow_th = self.config.Meowfficer_OverflowCoins
 
-        count = self.meow_get_buy_count(buy_amount, overflow_th)
-        if count <= 0:
-            return
-        self.meow_choose(count)
-        self.meow_confirm()
+        for _ in range(3):
+            count = self.meow_get_buy_count(buy_amount, overflow_th)
+            if count <= 0:
+                return
+            self.meow_choose(count)
+            self.meow_confirm()
 
         logger.warning('Too many trial in meowfficer buy, stopped.')
