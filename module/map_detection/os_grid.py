@@ -19,6 +19,7 @@ class OSGridInfo(GridInfo):
     is_scanning_device = False
     is_logging_tower = False
     is_exploration_reward = False
+    is_exploration_container = False
     is_fleet_mechanism = False
 
     is_fleet = False
@@ -37,6 +38,7 @@ class OSGridInfo(GridInfo):
             'SD': 'is_scanning_device',
             'LT': 'is_logging_tower',
             'ER': 'is_exploration_reward',
+            'EC': 'is_exploration_container',
             'FM': 'is_fleet_mechanism',
         }
         for key, value in dic.items():
@@ -93,6 +95,9 @@ class OSGridInfo(GridInfo):
         if info.is_exploration_reward:
             self.is_exploration_reward = True
             return True
+        if info.is_exploration_container:
+            self.is_exploration_container = True
+            return True
         if info.is_fleet_mechanism:
             self.is_fleet_mechanism = True
             return True
@@ -137,6 +142,7 @@ class OSGridInfo(GridInfo):
         self.is_scanning_device = False
         self.is_logging_tower = False
         self.is_exploration_reward = False
+        self.is_exploration_container = False
         self.is_fleet_mechanism = False
 
     def reset(self):
@@ -161,6 +167,7 @@ class OSGridPredictor(GridPredictor):
         self.is_scanning_device = self.enemy_genre == 'ScanningDevice'
         self.is_logging_tower = self.enemy_genre == 'LoggingTower'
         self.is_exploration_reward = self.enemy_genre == 'ExplorationReward'
+        self.is_exploration_container = self.enemy_genre == 'ExplorationContainer'
         self.is_current_fleet = self.predict_current_fleet()
         self.is_fleet = self.is_current_fleet
         self.is_fleet_mechanism = self.predict_fleet_mechanism()
@@ -210,6 +217,7 @@ class OSGridPredictor(GridPredictor):
         'ScanningDevice': TEMPLATE_ScanningDevice,
         'LoggingTower': TEMPLATE_LoggingTower,
         'ExplorationReward': TEMPLATE_ExplorationReward,
+        'ExplorationContainer': TEMPLATE_ExplorationContainer,
     }
     _os_template_enemy_upper = {
         'ScanningDevice': TEMPLATE_ScanningDeviceUpper,
