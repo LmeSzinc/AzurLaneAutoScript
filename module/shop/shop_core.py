@@ -16,6 +16,7 @@ TEMPLATE_CORE_ICON = Template('./assets/shop/cost/Core_4.png')
 CORE_SHOP_ITEM_AREA = (220, 195, 1050, 640)
 # About 1.7 rows, small enough not to skip a row, large enough to make progress
 CORE_SHOP_SWIPE_DISTANCE = 380
+CORE_SHOP_SWIPE_LIMIT = 20
 
 
 class CoreShop_250814(ShopClerk, ShopStatus):
@@ -194,11 +195,15 @@ class CoreShop_250814(ShopClerk, ShopStatus):
         """
         Swipe item list back to top, so no item is missed no matter where the
         list was left at.
+
+        Returns:
+            bool: True if item list reached top, False if swipe limit was reached.
         """
-        for _ in range(10):
+        for _ in range(CORE_SHOP_SWIPE_LIMIT):
             if not self.shop_swipe(CORE_SHOP_SWIPE_DISTANCE, name='CORE_SHOP_SWIPE_TOP'):
-                return
+                return True
         logger.warning('Failed to swipe core shop to top')
+        return False
 
     def run(self):
         """
@@ -214,8 +219,9 @@ class CoreShop_250814(ShopClerk, ShopStatus):
 
         # Core monthly shop holds about 20 rows of items while only 2 rows are
         # visible, items must be scrolled through page by page
-        self.shop_swipe_top()
-        for _ in range(20):
+        if not self.shop_swipe_top():
+            return
+        for _ in range(CORE_SHOP_SWIPE_LIMIT):
             # Execute buy operations
             if not self.shop_buy():
                 break
