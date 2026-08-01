@@ -14,36 +14,35 @@ from module.shop.assets import *
 from module.shop.base import ShopItemGrid_250814
 from module.shop.clerk import ShopClerk
 from module.shop.shop_status import ShopStatus
-from module.ui.scroll import AdaptiveScroll
+from module.ui.scroll import Scroll
 
 
-class ShopAdaptiveScroll(AdaptiveScroll):
+class ShopScroll(Scroll):
     def match_color(self, main):
-        area = (self.area[0] - self.background, self.area[1], self.area[2] + self.background, self.area[3])
-        image = main.image_crop(area, copy=False)
-
-        image = rgb2gray(image)
-        cv2.bitwise_not(image, dst=image)
-        image = image.flatten()
-        wlen = area[2] - area[0]
-        parameters = {
-            'height': (100, 200),
-            'prominence': 35,
-            'width': 1
-        }
-        parameters.update(self.parameters)
-        peaks, _ = signal.find_peaks(image, **parameters)
-        peaks = peaks[15: 123]
-        peaks //= wlen
-        self.length = 123
-        mask = np.zeros((self.total,), dtype=np.bool_)
-        mask[peaks] = 1
+        background_transparency = 0.2
+        button_transparency = 0.5
+        delta_x = 3
+        area = (
+            self.area[0] - delta_x,
+            self.area[1],
+            self.area[2] + delta_x,
+            self.area[3]
+        )
+        image = main.image_crop(area, copy=False).astype(np.float)
+        baseline_color = np.mean(image[:, [0, -1], :], axis=1)
+        masked_color = image[:, image.shape[1] // 2, :]
+        background_mask = background_transparency * np.array(self.color) + (1 - background_transparency) * baseline_color
+        button_mask = button_transparency * np.array(self.color) + (1 - button_transparency) * baseline_color
+        err_background = np.sum((masked_color - background_mask) ** 2, axis=1)
+        err_button = np.sum((masked_color - button_mask) ** 2, axis=1)
+        mask = err_button < err_background
+        self.length = np.sum(mask)
         return mask
 
 
-MEDAL_SHOP_SCROLL_250814 = ShopAdaptiveScroll(
+MEDAL_SHOP_SCROLL_250814 = ShopScroll(
     MEDAL_SHOP_SCROLL_AREA_250814.button,
-    background=1,
+    color=(44, 48, 56),
     name="MEDAL_SHOP_SCROLL_250814"
 )
 MEDAL_SHOP_SCROLL_250814.drag_threshold = 0.1
