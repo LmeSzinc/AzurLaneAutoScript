@@ -132,7 +132,7 @@ class OSShopItem(Item):
 class OSShopItemGrid(ItemGrid):
     item_class = OSShopItem
 
-    def __init__(self, grids, templates, template_area=(40, 21, 89, 70), amount_area=(60, 71, 91, 92),
+    def __init__(self, grids, templates, template_area=(25, 16, 89, 70), amount_area=(60, 71, 91, 92),
                  cost_area=(6, 123, 84, 166), price_area=(52, 132, 132, 156), tag_area=(81, 4, 91, 8),
                  counter_area=(85, 170, 134, 186)):
         super().__init__(grids, templates, template_area, amount_area, cost_area, price_area, tag_area)
