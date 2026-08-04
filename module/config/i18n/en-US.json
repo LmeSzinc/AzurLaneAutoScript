@@ -86,10 +86,6 @@
       "name": "Valley Hospital",
       "help": ""
     },
-    "MaritimeEscort": {
-      "name": "Maritime Escort",
-      "help": ""
-    },
     "WarArchives": {
       "name": "War Archives",
       "help": "Due to the lack of maintenance of war archives, continuous clear may not work normally, if Alas runs abnormally, Please manually finish clearing and use auto search"
@@ -1336,16 +1332,6 @@
     "UseRecommendFleet": {
       "name": "Use Fleet Recommendation",
       "help": "If turned off, you need to manually prepare fleets of all 15 stages in advance"
-    }
-  },
-  "MaritimeEscort": {
-    "_info": {
-      "name": "Maritime Escort",
-      "help": "Enter then retreat, get about 70% of maximum rewards"
-    },
-    "Enable": {
-      "name": "Enable maritime Escort",
-      "help": ""
     }
   },
   "Coalition": {

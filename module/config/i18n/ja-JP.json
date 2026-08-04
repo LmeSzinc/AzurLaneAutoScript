@@ -86,10 +86,6 @@
       "name": "病院探訪",
       "help": ""
     },
-    "MaritimeEscort": {
-      "name": "Maritime Escort",
-      "help": ""
-    },
     "WarArchives": {
       "name": "作戦履歴",
       "help": ""
@@ -1336,16 +1332,6 @@
     "UseRecommendFleet": {
       "name": "Hospital.UseRecommendFleet.name",
       "help": "Hospital.UseRecommendFleet.help"
-    }
-  },
-  "MaritimeEscort": {
-    "_info": {
-      "name": "MaritimeEscort._info.name",
-      "help": "MaritimeEscort._info.help"
-    },
-    "Enable": {
-      "name": "MaritimeEscort.Enable.name",
-      "help": "MaritimeEscort.Enable.help"
     }
   },
   "Coalition": {
