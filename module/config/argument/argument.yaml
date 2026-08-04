@@ -311,8 +311,6 @@ RaidDaily:
     hard > normal > easy
 Hospital:
   UseRecommendFleet: true
-MaritimeEscort:
-  Enable: true
 Coalition:
   Mode:
     value: hard

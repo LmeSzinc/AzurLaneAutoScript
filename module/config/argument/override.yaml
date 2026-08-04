@@ -215,11 +215,6 @@ RaidDaily:
     Fleet2Control: prevent_yellow_face
     Fleet2Recover: not_in_dormitory
     Fleet2Oath: false
-MaritimeEscort:
-  Scheduler:
-    SuccessInterval: 30
-    FailureInterval: 30
-    ServerUpdate: 00:00
 Coalition:
   Scheduler:
     SuccessInterval: 30

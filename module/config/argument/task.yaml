@@ -109,9 +109,6 @@ Event:
       - Hospital
       - StopCondition
       - Emotion
-    MaritimeEscort:
-      - Scheduler
-      - MaritimeEscort
     WarArchives:
       - Scheduler
       - Campaign

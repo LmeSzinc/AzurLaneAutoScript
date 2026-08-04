@@ -666,22 +666,6 @@
       "Storage": {}
     }
   },
-  "MaritimeEscort": {
-    "Scheduler": {
-      "Enable": false,
-      "NextRun": "2020-01-01 00:00:00",
-      "Command": "MaritimeEscort",
-      "SuccessInterval": 30,
-      "FailureInterval": 30,
-      "ServerUpdate": "00:00"
-    },
-    "MaritimeEscort": {
-      "Enable": true
-    },
-    "Storage": {
-      "Storage": {}
-    }
-  },
   "WarArchives": {
     "Scheduler": {
       "Enable": false,

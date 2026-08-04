@@ -86,10 +86,6 @@
       "name": "深谷来信",
       "help": ""
     },
-    "MaritimeEscort": {
-      "name": "商船护航",
-      "help": ""
-    },
     "WarArchives": {
       "name": "作战档案",
       "help": "由于作战档案缺少维护，开荒功能不一定能正常使用，如果发现Alas运行异常，请手动完成开荒后使用自律寻敌功能"
@@ -1336,16 +1332,6 @@
     "UseRecommendFleet": {
       "name": "使用舰队推荐",
       "help": "如果关闭，需要事先手动为所有15个关卡配队"
-    }
-  },
-  "MaritimeEscort": {
-    "_info": {
-      "name": "商船护航",
-      "help": "进一下就撤退，能拿约70%的奖励"
-    },
-    "Enable": {
-      "name": "启用商船护航",
-      "help": ""
     }
   },
   "Coalition": {
