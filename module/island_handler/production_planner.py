@@ -34,7 +34,8 @@ from module.logger import logger
 
 class IslandProductionPlanner(DaemonBase):
     NET_ACCUMULATING_EPSILON = 1e-3
-    EXCHANGE_REQUIRES_MANUAL_OPERATION = True
+    # Fish-meat exchange is executed by IslandRecipe when an ingredient is short.
+    EXCHANGE_REQUIRES_MANUAL_OPERATION = False
     SLOT_TO_GROUP = {
         9001: 'field', 9002: 'field', 9003: 'field', 9004: 'field',
         9011: 'mine', 9012: 'mine', 9013: 'mine', 9014: 'mine',
@@ -868,9 +869,7 @@ class IslandProductionPlanner(DaemonBase):
             if amount <= self.NET_ACCUMULATING_EPSILON:
                 continue
             for item_id, input_amount in activity['inputs'].items():
-                if item_id in self.RECIPE_PRODUCT_IDS or (
-                    self.EXCHANGE_REQUIRES_MANUAL_OPERATION and item_id in self.EXCHANGE_PRODUCT_IDS
-                ):
+                if item_id in self.RECIPE_PRODUCT_IDS or item_id in self.EXCHANGE_PRODUCT_IDS:
                     daily_product_demand[item_id] += input_amount * amount
 
         for idx, (slot, item_id) in enumerate(sale_entries, start=activity_count):
