@@ -29,16 +29,16 @@ class IslandShopUI(IslandUI):
     def _island_shop_side_navbar(self):
         if not self.has_shop_banner:
             return NestedNavbar(
-                grids=ButtonGrid(origin=(12, 80), delta=(0, 70), button_shape=(127, 70), grid_shape=(1, 6), name='ISLAND_SHOP_NAVBAR'),
+                grids=ButtonGrid(origin=(12, 80), delta=(0, 70), button_shape=(127, 70), grid_shape=(1, 7), name='ISLAND_SHOP_NAVBAR'),
                 subgrid_delta=(0, 58), subgrid_button_shape=(127, 58),
-                subgrid_shapes=[(1, 1), (1, 2), (1, 1), (1, 1), (1, 2), (1, 0)],
+                subgrid_shapes=[(1, 1), (1, 2), (1, 1), (1, 1), (1, 2), (1, 0), (1, 2)],
                 direction='vertical',
             )
         else:
             return NestedNavbar(
-                grids=ButtonGrid(origin=(12, 80), delta=(0, 70), button_shape=(127, 70), grid_shape=(1, 7), name='ISLAND_SHOP_NAVBAR'),
+                grids=ButtonGrid(origin=(12, 80), delta=(0, 70), button_shape=(127, 70), grid_shape=(1, 8), name='ISLAND_SHOP_NAVBAR'),
                 subgrid_delta=(0, 58), subgrid_button_shape=(127, 58),
-                subgrid_shapes=[(1, 0), (1, 1), (1, 2), (1, 1), (1, 1), (1, 2), (1, 0)],
+                subgrid_shapes=[(1, 0), (1, 1), (1, 2), (1, 1), (1, 1), (1, 2), (1, 0), (1, 2)],
                 direction='vertical',
             )
 
