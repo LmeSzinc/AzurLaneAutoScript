@@ -22,6 +22,16 @@ from module.island.utils import (
 from module.island_handler.assets import *
 from module.island_handler.dock import IslandDock
 from module.island_handler.dock_scanner import CharacterScanner
+from module.island_handler.restaurant_config import (
+    RESTAURANT_IDS,
+    WAITRESS_ANY,
+    WAITRESS_NONE,
+    get_config_key,
+    get_restaurant_config,
+    get_selected_named_waitresses,
+    get_waitress_effect,
+    get_waitress_slots,
+)
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.statistics.item import Item, ItemGrid
@@ -113,31 +123,17 @@ class IslandRestaurant(IslandDock):
         else:
             raise ValueError(f"Invalid grade: {grade}")
 
-    def has_waitress(self, config_key, waitress_name):
-        value = self.config.cross_get(config_key)
-        if not isinstance(value, str):
-            return False
-        return waitress_name in value.split('+')
-
     @cached_property
     def restaurant_capacity(self):
-        capacity = {
-            601: self.get_initial_capacity_from_grade(self.config.cross_get("IslandBusiness.IslandRestaurant.KoiGrade")),
-            602: self.get_initial_capacity_from_grade(self.config.cross_get("IslandBusiness.IslandRestaurant.BearGrade")),
-            603: self.get_initial_capacity_from_grade(self.config.cross_get("IslandBusiness.IslandRestaurant.EateryGrade")),
-            604: self.get_initial_capacity_from_grade(self.config.cross_get("IslandBusiness.IslandRestaurant.GrillGrade")),
-            901: self.get_initial_capacity_from_grade(self.config.cross_get("IslandBusiness.IslandRestaurant.CafeGrade")),
-        }
-        if self.has_waitress("IslandBusiness.IslandRestaurant.KoiWaitress", 'Chao_Ho'):
-            capacity[601] += 1
-        if self.has_waitress("IslandBusiness.IslandRestaurant.BearWaitress", 'Cheshire'):
-            capacity[602] += 1
-        if self.has_waitress("IslandBusiness.IslandRestaurant.EateryWaitress", 'Helena'):
-            capacity[603] += 1
-        if self.has_waitress("IslandBusiness.IslandRestaurant.GrillWaitress", 'August_von_Parseval'):
-            capacity[604] += 1
-        if self.has_waitress("IslandBusiness.IslandRestaurant.CafeWaitress", 'Cheshire'):
-            capacity[901] += 1
+        capacity = {}
+        for restaurant_id in RESTAURANT_IDS:
+            config_data = get_restaurant_config(restaurant_id)
+            grade = self.config.cross_get(
+                get_config_key(restaurant_id, config_data['grade_key'])
+            )
+            slots = get_waitress_slots(self.config, restaurant_id)
+            capacity_delta, _ = get_waitress_effect(restaurant_id, slots)
+            capacity[restaurant_id] = self.get_initial_capacity_from_grade(grade) + capacity_delta
         return capacity
 
     @staticmethod
@@ -153,13 +149,13 @@ class IslandRestaurant(IslandDock):
 
     @cached_property
     def restaurant_quantity(self):
-        quantity = {
-            601: self.get_quantity_from_grade(self.config.cross_get("IslandBusiness.IslandRestaurant.KoiGrade")),
-            602: self.get_quantity_from_grade(self.config.cross_get("IslandBusiness.IslandRestaurant.BearGrade")),
-            603: self.get_quantity_from_grade(self.config.cross_get("IslandBusiness.IslandRestaurant.EateryGrade")),
-            604: self.get_quantity_from_grade(self.config.cross_get("IslandBusiness.IslandRestaurant.GrillGrade")),
-            901: self.get_quantity_from_grade(self.config.cross_get("IslandBusiness.IslandRestaurant.CafeGrade")),
-        }
+        quantity = {}
+        for restaurant_id in RESTAURANT_IDS:
+            config_data = get_restaurant_config(restaurant_id)
+            grade = self.config.cross_get(
+                get_config_key(restaurant_id, config_data['grade_key'])
+            )
+            quantity[restaurant_id] = self.get_quantity_from_grade(grade)
         return quantity
 
     def is_in_island_restaurant(self):
@@ -264,13 +260,11 @@ class IslandRestaurant(IslandDock):
 
     def get_sell_plan(self):
         capacity = self.restaurant_capacity[self.working_restaurant_id]
-        menu_text = {
-            601: self.config.cross_get("IslandBusiness.IslandRestaurant.KoiMenu", default="{}"),
-            602: self.config.cross_get("IslandBusiness.IslandRestaurant.BearMenu", default="{}"),
-            603: self.config.cross_get("IslandBusiness.IslandRestaurant.EateryMenu", default="{}"),
-            604: self.config.cross_get("IslandBusiness.IslandRestaurant.GrillMenu", default="{}"),
-            901: self.config.cross_get("IslandBusiness.IslandRestaurant.CafeMenu", default="{}"),
-        }[self.working_restaurant_id]
+        menu_key = get_restaurant_config(self.working_restaurant_id)['menu_key']
+        menu_text = self.config.cross_get(
+            get_config_key(self.working_restaurant_id, menu_key),
+            default="{}",
+        )
         menu = normalize_item_keys(safe_load(menu_text))
         protected_items = self.restaurant_protected_items
         def total_revenue_estimate(item):
@@ -333,29 +327,25 @@ class IslandRestaurant(IslandDock):
 
     @cached_property
     def waitress_lists(self):
-        waitress_lists = {
-            601: self.config.cross_get("IslandBusiness.IslandRestaurant.KoiWaitress").split("+") if isinstance(self.config.cross_get("IslandBusiness.IslandRestaurant.KoiWaitress"), str) else [],
-            602: self.config.cross_get("IslandBusiness.IslandRestaurant.BearWaitress").split("+") if isinstance(self.config.cross_get("IslandBusiness.IslandRestaurant.BearWaitress"), str) else [],
-            603: self.config.cross_get("IslandBusiness.IslandRestaurant.EateryWaitress").split("+") if isinstance(self.config.cross_get("IslandBusiness.IslandRestaurant.EateryWaitress"), str) else [],
-            604: self.config.cross_get("IslandBusiness.IslandRestaurant.GrillWaitress").split("+") if isinstance(self.config.cross_get("IslandBusiness.IslandRestaurant.GrillWaitress"), str) else [],
-            901: self.config.cross_get("IslandBusiness.IslandRestaurant.CafeWaitress").split("+") if isinstance(self.config.cross_get("IslandBusiness.IslandRestaurant.CafeWaitress"), str) else [],
+        return {
+            restaurant_id: list(get_waitress_slots(self.config, restaurant_id))
+            for restaurant_id in RESTAURANT_IDS
         }
-        return waitress_lists
 
     def unavailable_waitress_list(self):
+        current_waitresses = get_selected_named_waitresses(
+            get_waitress_slots(self.config, self.working_restaurant_id)
+        )
         lst = set()
-        for restaurant_id, waitress_list in self.waitress_lists.items():
+        for restaurant_id in RESTAURANT_IDS:
             if restaurant_id == self.working_restaurant_id:
                 continue
-            for waitress in waitress_list:
-                if waitress == 'none':
-                    break
-                elif waitress == 'any':
-                    continue
-                else:
-                    lst.add(waitress)
-        lst = list(lst)
-        return lst
+            lst.update(
+                get_selected_named_waitresses(
+                    get_waitress_slots(self.config, restaurant_id)
+                )
+            )
+        return sorted(lst - current_waitresses)
 
     def restaurant_running(self):
         return self.appear(ISLAND_RESTAURANT_RUNNING, offset=self._restaurant_offset)
@@ -364,40 +354,74 @@ class IslandRestaurant(IslandDock):
         return self.appear(ISLAND_RESTAURANT_RESTING, offset=self._restaurant_offset)
 
     def choose_waitress(self):
-        waitress_list = self.waitress_lists[self.working_restaurant_id]
-        if waitress_list == ['none']:
+        waitress_list = list(get_waitress_slots(self.config, self.working_restaurant_id))
+        active_waitresses = [
+            waitress for waitress in waitress_list
+            if waitress != WAITRESS_NONE
+        ]
+        if not active_waitresses:
             return False
-        unavailable_waitress_list = self.unavailable_waitress_list()
-        for waitress in waitress_list:
-            if waitress in unavailable_waitress_list:
-                unavailable_waitress_list.remove(waitress)
+        unavailable_waitress_list = set(self.unavailable_waitress_list())
+        named_waitresses = [
+            waitress for waitress in active_waitresses
+            if waitress not in (WAITRESS_ANY, WAITRESS_NONE)
+        ]
+        all_named_waitresses = set(named_waitresses)
+        selected_waitresses = set()
         if unavailable_waitress_list:
-            logger.warning(f"Unavailable waitress list: {unavailable_waitress_list}")
+            logger.warning(f"Unavailable waitress list: {sorted(unavailable_waitress_list)}")
         for _ in self.loop():
             if self.appear_then_click(ISLAND_RESTAURANT_SELECT_CHARACTER, offset=self._restaurant_offset, interval=2):
                 continue
             if self.is_in_island_dock():
                 break
         success = True
-        for waitress in waitress_list:
-            if waitress != 'any':
-                candidate = self.island_dock_find_character(waitress)
-                if candidate is None:
-                    self.ensure_dock_page_at_top()
-                    success = self.island_dock_select_character_with_blacklist(unavailable_waitress_list) and success
-                elif candidate.status == 'free':
-                    self.island_dock_select_one(candidate.button)
-                else:
-                    time_until_update = get_server_next_update("00:00") - datetime.now()
-                    if time_until_update < timedelta(hours=8):
-                        self.ensure_dock_page_at_top()
-                        success = self.island_dock_select_character_with_blacklist(unavailable_waitress_list) and success
-                    else:
-                        logger.warning(f"Waitress {waitress} not available, delaying restaurant {self.working_restaurant_id} for 8 hours")
-                        self.ui_back(check_button=self.is_in_island_restaurant)
-                        raise WaitressOccupied(f"Waitress {waitress} is occupied, delaying restaurant {self.working_restaurant_id} for 8 hours")
+        for waitress in named_waitresses:
+            if waitress in unavailable_waitress_list:
+                logger.warning(
+                    f"Waitress {waitress} is already assigned to another restaurant, "
+                    f"skip it for restaurant {self.working_restaurant_id}"
+                )
+                unavailable_waitress_list.remove(waitress)
+                continue
+            candidate = self.island_dock_find_character(waitress)
+            if candidate is not None and candidate.status == 'free':
+                self.island_dock_select_one(candidate.button)
+                selected_waitresses.add(candidate.identity)
+                continue
+
+            if candidate is not None:
+                time_until_update = get_server_next_update("00:00") - datetime.now()
+                if time_until_update >= timedelta(hours=8):
+                    logger.warning(
+                        f"Waitress {waitress} not available, delaying restaurant "
+                        f"{self.working_restaurant_id} for 8 hours"
+                    )
+                    self.ui_back(check_button=self.is_in_island_restaurant)
+                    raise WaitressOccupied(
+                        f"Waitress {waitress} is occupied, delaying restaurant "
+                        f"{self.working_restaurant_id} for 8 hours"
+                    )
+
+            self.ensure_dock_page_at_top()
+            fallback_blacklist = (
+                unavailable_waitress_list
+                | selected_waitresses
+                | all_named_waitresses
+            )
+            selected = self.island_dock_select_character_with_blacklist(fallback_blacklist)
+            if selected is None:
+                success = False
             else:
-                success = self.island_dock_select_character_with_blacklist(unavailable_waitress_list) and success
+                selected_waitresses.add(selected)
+
+        for _ in range(active_waitresses.count(WAITRESS_ANY)):
+            blacklist = unavailable_waitress_list | selected_waitresses | all_named_waitresses
+            selected = self.island_dock_select_character_with_blacklist(blacklist)
+            if selected is None:
+                success = False
+            else:
+                selected_waitresses.add(selected)
         if not success:
             logger.warning("Failed to choose waitress")
             self.ui_back(check_button=self.is_in_island_restaurant)

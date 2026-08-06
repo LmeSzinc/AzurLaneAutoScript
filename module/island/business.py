@@ -5,6 +5,11 @@ from module.base.decorator import cached_property, del_cached_property
 from module.config.utils import get_server_next_update
 from module.island.assets import *
 from module.island_handler.restaurant import IslandRestaurant, WaitressOccupied
+from module.island_handler.restaurant_config import (
+    RESTAURANT_IDS,
+    get_waitress_slots,
+    is_restaurant_enabled,
+)
 from module.logger import logger
 from module.ocr.ocr import Duration
 from module.ui.page import page_island_manage
@@ -17,14 +22,12 @@ BUSINESS_ENTRANCE_AREA = (794, 84, 950, 120)
 class IslandBusiness(IslandRestaurant):
     @cached_property
     def skip_restaurant(self):
-        open = {
-            601: self.has_waitress("IslandBusiness.IslandRestaurant.KoiWaitress", 'none'),
-            602: self.has_waitress("IslandBusiness.IslandRestaurant.BearWaitress", 'none'),
-            603: self.has_waitress("IslandBusiness.IslandRestaurant.EateryWaitress", 'none'),
-            604: self.has_waitress("IslandBusiness.IslandRestaurant.GrillWaitress", 'none'),
-            901: self.has_waitress("IslandBusiness.IslandRestaurant.CafeWaitress", 'none')
+        return {
+            restaurant_id: not is_restaurant_enabled(
+                get_waitress_slots(self.config, restaurant_id)
+            )
+            for restaurant_id in RESTAURANT_IDS
         }
-        return open
 
     @property
     def business_grid(self):
@@ -129,7 +132,7 @@ class IslandBusiness(IslandRestaurant):
         self.island_manage_side_navbar_ensure(upper=2)
         self.handle_restaurant_popup()
         self.restaurant_swipe_to_top()
-        unchecked_restaurants = [601, 602, 603, 604, 901]
+        unchecked_restaurants = list(RESTAURANT_IDS)
         next_run_time = {
             601: get_server_next_update('00:00') if not self.skip_restaurant[601] else datetime.now() + timedelta(days=3),
             602: get_server_next_update('00:00') if not self.skip_restaurant[602] else datetime.now() + timedelta(days=3),

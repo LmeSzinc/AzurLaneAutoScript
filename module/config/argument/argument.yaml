@@ -776,9 +776,12 @@ IslandRestaurant:
   KoiGrade:
     value: bronze
     option: [ bronze, silver, gold, diamond ]
-  KoiWaitress:
+  KoiWaitress1: &KoiWaitressSlot
     value: any
-    option: [ none, any, Chao_Ho, any+any, Chao_Ho+any ]
+    option: &KoiWaitressOptions [ none, any, Chao_Ho ]
+  KoiWaitress2:
+    <<: *KoiWaitressSlot
+    value: none
   KoiMenu:
     type: textarea
     value: |-
@@ -786,9 +789,12 @@ IslandRestaurant:
   BearGrade:
     value: bronze
     option: [ bronze, silver, gold, diamond ]
-  BearWaitress:
+  BearWaitress1: &BearWaitressSlot
     value: any
-    option: [ none, any, Cheshire, any+any, Cheshire+any ]
+    option: &BearWaitressOptions [ none, any, Cheshire ]
+  BearWaitress2:
+    <<: *BearWaitressSlot
+    value: none
   BearMenu:
     type: textarea
     value: |-
@@ -796,9 +802,12 @@ IslandRestaurant:
   EateryGrade:  
     value: bronze
     option: [ bronze, silver, gold, diamond ]
-  EateryWaitress:
+  EateryWaitress1: &EateryWaitressSlot
     value: any
-    option: [ none, any, Helena, Prinz_Eugen, any+any, Helena+any, Prinz_Eugen+any, Helena+Prinz_Eugen ]
+    option: &EateryWaitressOptions [ none, any, Helena, Prinz_Eugen ]
+  EateryWaitress2:
+    <<: *EateryWaitressSlot
+    value: none
   EateryMenu:
     type: textarea
     value: |-
@@ -806,9 +815,12 @@ IslandRestaurant:
   GrillGrade:
     value: bronze
     option: [ bronze, silver, gold, diamond ]
-  GrillWaitress:
+  GrillWaitress1: &GrillWaitressSlot
     value: any
-    option: [ none, any, August_von_Parseval, Prinz_Eugen, any+any, August_von_Parseval+any, Prinz_Eugen+any, August_von_Parseval+Prinz_Eugen ]
+    option: &GrillWaitressOptions [ none, any, August_von_Parseval, Prinz_Eugen ]
+  GrillWaitress2:
+    <<: *GrillWaitressSlot
+    value: none
   GrillMenu:
     type: textarea
     value: |-
@@ -816,9 +828,12 @@ IslandRestaurant:
   CafeGrade:
     value: bronze
     option: [ bronze, silver, gold, diamond ]
-  CafeWaitress:
+  CafeWaitress1: &CafeWaitressSlot
     value: any
-    option: [ none, any, Cheshire, any+any, Cheshire+any ]
+    option: &CafeWaitressOptions [ none, any, Cheshire ]
+  CafeWaitress2:
+    <<: *CafeWaitressSlot
+    value: none
   CafeMenu:
     type: textarea
     value: |-

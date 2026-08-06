@@ -10,6 +10,15 @@ from module.base.decorator import cached_property
 from module.config.utils import server_time_offset
 from module.daemon.daemon_base import DaemonBase
 from module.island.data import *
+from module.island_handler.restaurant_config import (
+    RESTAURANT_CONFIG,
+    RESTAURANT_IDS,
+    get_config_key,
+    get_restaurant_config,
+    get_waitress_effect,
+    get_waitress_slots,
+    is_restaurant_enabled,
+)
 from module.island.utils import (
     ceil_with_epsilon,
     count_level,
@@ -97,11 +106,8 @@ class IslandProductionPlanner(DaemonBase):
         'fishery': [9211, 9212, 9213],
     }
     RESTAURANT_MENU_CONFIG = {
-        601: "IslandBusiness.IslandRestaurant.KoiMenu",
-        602: "IslandBusiness.IslandRestaurant.BearMenu",
-        603: "IslandBusiness.IslandRestaurant.EateryMenu",
-        604: "IslandBusiness.IslandRestaurant.GrillMenu",
-        901: "IslandBusiness.IslandRestaurant.CafeMenu",
+        restaurant_id: get_config_key(restaurant_id, data['menu_key'])
+        for restaurant_id, data in RESTAURANT_CONFIG.items()
     }
     RECIPE_PRODUCT_IDS = {
         next(iter(recipe['commission_product']))
@@ -356,31 +362,17 @@ class IslandProductionPlanner(DaemonBase):
         else:
             raise ValueError(f"Invalid grade: {grade}")
 
-    def has_waitress(self, config_key, waitress_name):
-        value = self.config.cross_get(config_key)
-        if not isinstance(value, str):
-            return False
-        return waitress_name in value.split('+')
-
     @cached_property
     def restaurant_capacity(self):
-        capacity = {
-            601: self.get_initial_capacity_from_grade(self.config.cross_get("IslandBusiness.IslandRestaurant.KoiGrade")),
-            602: self.get_initial_capacity_from_grade(self.config.cross_get("IslandBusiness.IslandRestaurant.BearGrade")),
-            603: self.get_initial_capacity_from_grade(self.config.cross_get("IslandBusiness.IslandRestaurant.EateryGrade")),
-            604: self.get_initial_capacity_from_grade(self.config.cross_get("IslandBusiness.IslandRestaurant.GrillGrade")),
-            901: self.get_initial_capacity_from_grade(self.config.cross_get("IslandBusiness.IslandRestaurant.CafeGrade")),
-        }
-        if self.has_waitress("IslandBusiness.IslandRestaurant.KoiWaitress", 'Chao_Ho'):
-            capacity[601] += 1
-        if self.has_waitress("IslandBusiness.IslandRestaurant.BearWaitress", 'Cheshire'):
-            capacity[602] += 1
-        if self.has_waitress("IslandBusiness.IslandRestaurant.EateryWaitress", 'Helena'):
-            capacity[603] += 1
-        if self.has_waitress("IslandBusiness.IslandRestaurant.GrillWaitress", 'August_von_Parseval'):
-            capacity[604] += 1
-        if self.has_waitress("IslandBusiness.IslandRestaurant.CafeWaitress", 'Cheshire'):
-            capacity[901] += 1
+        capacity = {}
+        for restaurant_id in RESTAURANT_IDS:
+            config_data = get_restaurant_config(restaurant_id)
+            grade = self.config.cross_get(
+                get_config_key(restaurant_id, config_data['grade_key'])
+            )
+            slots = get_waitress_slots(self.config, restaurant_id)
+            capacity_delta, _ = get_waitress_effect(restaurant_id, slots)
+            capacity[restaurant_id] = self.get_initial_capacity_from_grade(grade) + capacity_delta
         return capacity
 
     @staticmethod
@@ -396,32 +388,22 @@ class IslandProductionPlanner(DaemonBase):
 
     @cached_property
     def restaurant_quantity(self):
-        quantity = {
-            601: self.get_quantity_from_grade(self.config.cross_get("IslandBusiness.IslandRestaurant.KoiGrade")),
-            602: self.get_quantity_from_grade(self.config.cross_get("IslandBusiness.IslandRestaurant.BearGrade")),
-            603: self.get_quantity_from_grade(self.config.cross_get("IslandBusiness.IslandRestaurant.EateryGrade")),
-            604: self.get_quantity_from_grade(self.config.cross_get("IslandBusiness.IslandRestaurant.GrillGrade")),
-            901: self.get_quantity_from_grade(self.config.cross_get("IslandBusiness.IslandRestaurant.CafeGrade")),
-        }
+        quantity = {}
+        for restaurant_id in RESTAURANT_IDS:
+            config_data = get_restaurant_config(restaurant_id)
+            grade = self.config.cross_get(
+                get_config_key(restaurant_id, config_data['grade_key'])
+            )
+            quantity[restaurant_id] = self.get_quantity_from_grade(grade)
         return quantity
 
     @cached_property
     def restaurant_sales_bonus(self):
-        bonus = {key: 0 for key in [601, 602, 603, 604, 901]}
-        if self.has_waitress("IslandBusiness.IslandRestaurant.KoiWaitress", 'Chao_Ho'):
-            bonus[601] += 0.1
-        if self.has_waitress("IslandBusiness.IslandRestaurant.BearWaitress", 'Cheshire'):
-            bonus[602] += 0.05
-        if self.has_waitress("IslandBusiness.IslandRestaurant.EateryWaitress", 'Helena'):
-            bonus[603] += 0.1
-        if self.has_waitress("IslandBusiness.IslandRestaurant.EateryWaitress", 'Prinz_Eugen'):
-            bonus[603] += 0.1
-        if self.has_waitress("IslandBusiness.IslandRestaurant.GrillWaitress", 'Prinz_Eugen'):
-            bonus[604] += 0.1
-        if self.has_waitress("IslandBusiness.IslandRestaurant.GrillWaitress", 'August_von_Parseval'):
-            bonus[604] += 0.1
-        if self.has_waitress("IslandBusiness.IslandRestaurant.CafeWaitress", 'Cheshire'):
-            bonus[901] += 0.05
+        bonus = {}
+        for restaurant_id in RESTAURANT_IDS:
+            slots = get_waitress_slots(self.config, restaurant_id)
+            _, sales_bonus = get_waitress_effect(restaurant_id, slots)
+            bonus[restaurant_id] = sales_bonus
         return bonus
 
     def _reset_lp_result(self):
@@ -653,11 +635,9 @@ class IslandProductionPlanner(DaemonBase):
                 initial_supply[item_id] += amount * wood_multiplier
 
         sell_slots = {
-            601: DIC_ISLAND_RESTAURANT_MENU_TO_RECIPE[601],
-            602: DIC_ISLAND_RESTAURANT_MENU_TO_RECIPE[602],
-            603: DIC_ISLAND_RESTAURANT_MENU_TO_RECIPE[603],
-            604: DIC_ISLAND_RESTAURANT_MENU_TO_RECIPE[604],
-            901: DIC_ISLAND_RESTAURANT_MENU_TO_RECIPE[901],
+            restaurant_id: DIC_ISLAND_RESTAURANT_MENU_TO_RECIPE[restaurant_id]
+            for restaurant_id in RESTAURANT_IDS
+            if is_restaurant_enabled(get_waitress_slots(self.config, restaurant_id))
         }
         sale_entries = []
         for slot, menu in sell_slots.items():
