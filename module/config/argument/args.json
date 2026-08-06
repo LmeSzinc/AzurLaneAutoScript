@@ -9635,15 +9635,22 @@
           "diamond"
         ]
       },
-      "KoiWaitress": {
+      "KoiWaitress1": {
         "type": "select",
         "value": "any",
         "option": [
           "none",
           "any",
-          "Chao_Ho",
-          "any+any",
-          "Chao_Ho+any"
+          "Chao_Ho"
+        ]
+      },
+      "KoiWaitress2": {
+        "type": "select",
+        "value": "none",
+        "option": [
+          "none",
+          "any",
+          "Chao_Ho"
         ]
       },
       "KoiMenu": {
@@ -9660,15 +9667,22 @@
           "diamond"
         ]
       },
-      "BearWaitress": {
+      "BearWaitress1": {
         "type": "select",
         "value": "any",
         "option": [
           "none",
           "any",
-          "Cheshire",
-          "any+any",
-          "Cheshire+any"
+          "Cheshire"
+        ]
+      },
+      "BearWaitress2": {
+        "type": "select",
+        "value": "none",
+        "option": [
+          "none",
+          "any",
+          "Cheshire"
         ]
       },
       "BearMenu": {
@@ -9685,18 +9699,24 @@
           "diamond"
         ]
       },
-      "EateryWaitress": {
+      "EateryWaitress1": {
         "type": "select",
         "value": "any",
         "option": [
           "none",
           "any",
           "Helena",
-          "Prinz_Eugen",
-          "any+any",
-          "Helena+any",
-          "Prinz_Eugen+any",
-          "Helena+Prinz_Eugen"
+          "Prinz_Eugen"
+        ]
+      },
+      "EateryWaitress2": {
+        "type": "select",
+        "value": "none",
+        "option": [
+          "none",
+          "any",
+          "Helena",
+          "Prinz_Eugen"
         ]
       },
       "EateryMenu": {
@@ -9713,18 +9733,24 @@
           "diamond"
         ]
       },
-      "GrillWaitress": {
+      "GrillWaitress1": {
         "type": "select",
         "value": "any",
         "option": [
           "none",
           "any",
           "August_von_Parseval",
-          "Prinz_Eugen",
-          "any+any",
-          "August_von_Parseval+any",
-          "Prinz_Eugen+any",
-          "August_von_Parseval+Prinz_Eugen"
+          "Prinz_Eugen"
+        ]
+      },
+      "GrillWaitress2": {
+        "type": "select",
+        "value": "none",
+        "option": [
+          "none",
+          "any",
+          "August_von_Parseval",
+          "Prinz_Eugen"
         ]
       },
       "GrillMenu": {
@@ -9741,15 +9767,22 @@
           "diamond"
         ]
       },
-      "CafeWaitress": {
+      "CafeWaitress1": {
         "type": "select",
         "value": "any",
         "option": [
           "none",
           "any",
-          "Cheshire",
-          "any+any",
-          "Cheshire+any"
+          "Cheshire"
+        ]
+      },
+      "CafeWaitress2": {
+        "type": "select",
+        "value": "none",
+        "option": [
+          "none",
+          "any",
+          "Cheshire"
         ]
       },
       "CafeMenu": {

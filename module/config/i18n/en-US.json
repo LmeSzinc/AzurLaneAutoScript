@@ -2666,14 +2666,19 @@
       "gold": "Gold",
       "diamond": "Diamond"
     },
-    "KoiWaitress": {
-      "name": "Golden Koi Restaurant Waitress",
-      "help": "None means not running this restaurant and Any means not restricting the choice of waitress, in which case the character with the highest manage level will be chosen\nIf a specific character is chosen but not available, the restaurant will fallback to Any instead of skipping the restaurant",
+    "KoiWaitress1": {
+      "name": "Golden Koi Restaurant Waitress 1",
+      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
       "none": "None",
       "any": "Any",
-      "Chao_Ho": "Chao Ho",
-      "any+any": "Any + Any",
-      "Chao_Ho+any": "Chao Ho + Any"
+      "Chao_Ho": "Chao Ho"
+    },
+    "KoiWaitress2": {
+      "name": "Golden Koi Restaurant Waitress 2",
+      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
+      "none": "None",
+      "any": "Any",
+      "Chao_Ho": "Chao Ho"
     },
     "KoiMenu": {
       "name": "Golden Koi Restaurant Menu",
@@ -2687,14 +2692,19 @@
       "gold": "Gold",
       "diamond": "Diamond"
     },
-    "BearWaitress": {
-      "name": "Polar Bear Teahouse Waitress",
-      "help": "None means not running this restaurant and Any means not restricting the choice of waitress, in which case the character with the highest manage level will be chosen\nIf a specific character is chosen but not available, the restaurant will fallback to Any instead of skipping the restaurant",
+    "BearWaitress1": {
+      "name": "Polar Bear Teahouse Waitress 1",
+      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
       "none": "None",
       "any": "Any",
-      "Cheshire": "HMS Cheshire",
-      "any+any": "Any + Any",
-      "Cheshire+any": "HMS Cheshire + Any"
+      "Cheshire": "HMS Cheshire"
+    },
+    "BearWaitress2": {
+      "name": "Polar Bear Teahouse Waitress 2",
+      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
+      "none": "None",
+      "any": "Any",
+      "Cheshire": "HMS Cheshire"
     },
     "BearMenu": {
       "name": "Polar Bear Teahouse Menu",
@@ -2708,17 +2718,21 @@
       "gold": "Gold",
       "diamond": "Diamond"
     },
-    "EateryWaitress": {
-      "name": "Manjuu Eatery Waitress",
-      "help": "None means not running this restaurant and Any means not restricting the choice of waitress, in which case the character with the highest manage level will be chosen\nIf a specific character is chosen but not available, the restaurant will fallback to Any instead of skipping the restaurant",
+    "EateryWaitress1": {
+      "name": "Manjuu Eatery Waitress 1",
+      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
       "none": "None",
       "any": "Any",
       "Helena": "USS Helena",
-      "Prinz_Eugen": "KMS Prinz Eugen",
-      "any+any": "Any + Any",
-      "Helena+any": "USS Helena + Any",
-      "Prinz_Eugen+any": "KMS Prinz Eugen + Any",
-      "Helena+Prinz_Eugen": "USS Helena + KMS Prinz Eugen"
+      "Prinz_Eugen": "KMS Prinz Eugen"
+    },
+    "EateryWaitress2": {
+      "name": "Manjuu Eatery Waitress 2",
+      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
+      "none": "None",
+      "any": "Any",
+      "Helena": "USS Helena",
+      "Prinz_Eugen": "KMS Prinz Eugen"
     },
     "EateryMenu": {
       "name": "Manjuu Eatery Menu",
@@ -2732,17 +2746,21 @@
       "gold": "Gold",
       "diamond": "Diamond"
     },
-    "GrillWaitress": {
-      "name": "Fin-'n'-Feather Grill Waitress",
-      "help": "",
+    "GrillWaitress1": {
+      "name": "Fin-'n'-Feather Grill Waitress 1",
+      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
       "none": "None",
       "any": "Any",
       "August_von_Parseval": "KMS August von Parseval",
-      "Prinz_Eugen": "KMS Prinz Eugen",
-      "any+any": "Any + Any",
-      "August_von_Parseval+any": "KMS August von Parseval + Any",
-      "Prinz_Eugen+any": "KMS Prinz Eugen + Any",
-      "August_von_Parseval+Prinz_Eugen": "KMS August von Parseval + KMS Prinz Eugen"
+      "Prinz_Eugen": "KMS Prinz Eugen"
+    },
+    "GrillWaitress2": {
+      "name": "Fin-'n'-Feather Grill Waitress 2",
+      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
+      "none": "None",
+      "any": "Any",
+      "August_von_Parseval": "KMS August von Parseval",
+      "Prinz_Eugen": "KMS Prinz Eugen"
     },
     "GrillMenu": {
       "name": "Fin-'n'-Feather Grill Menu",
@@ -2756,14 +2774,19 @@
       "gold": "Gold",
       "diamond": "Diamond"
     },
-    "CafeWaitress": {
-      "name": "Café Manjuu Waitress",
-      "help": "",
+    "CafeWaitress1": {
+      "name": "Café Manjuu Waitress 1",
+      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
       "none": "None",
       "any": "Any",
-      "Cheshire": "HMS Cheshire",
-      "any+any": "Any + Any",
-      "Cheshire+any": "HMS Cheshire + Any"
+      "Cheshire": "HMS Cheshire"
+    },
+    "CafeWaitress2": {
+      "name": "Café Manjuu Waitress 2",
+      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
+      "none": "None",
+      "any": "Any",
+      "Cheshire": "HMS Cheshire"
     },
     "CafeMenu": {
       "name": "Café Manjuu Menu",
