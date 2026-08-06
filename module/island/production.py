@@ -267,6 +267,7 @@ class IslandProduction(IslandRecipe, IslandDock):
     def dispatch_all(self):
         logger.hr("Dispatch Production", level=2)
         self.ensure_top_page()
+        self.failed_buy_items = set()
         dispatched_places = set()
         while 1:
             try:
@@ -276,7 +277,9 @@ class IslandProduction(IslandRecipe, IslandDock):
                         dispatched_places.add(place_id)
                 if not self.next_page():
                     break
-            except IslandProductionRestart:
+            except IslandProductionRestart as e:
+                if not e.success:
+                    self.failed_buy_items.add(e.item_id)
                 logger.info('Production restarted, continue from current page')
                 del_cached_property(self, 'production_grid')
                 del_cached_property(self, 'production_names')
