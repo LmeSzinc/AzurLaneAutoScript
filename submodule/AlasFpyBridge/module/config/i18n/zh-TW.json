@@ -12,6 +12,10 @@
       "name": "Menu.FpyDaily.name",
       "help": "Menu.FpyDaily.help"
     },
+    "FpyWeekly": {
+      "name": "Menu.FpyWeekly.name",
+      "help": "Menu.FpyWeekly.help"
+    },
     "FpyTool": {
       "name": "Menu.Tool.name",
       "help": "Menu.Tool.help"
@@ -33,6 +37,18 @@
     "FpyDailyFpSummon": {
       "name": "Task.FpyDailyFpSummon.name",
       "help": "Task.FpyDailyFpSummon.help"
+    },
+    "FpyDailyStorySummon": {
+      "name": "Task.FpyDailyStorySummon.name",
+      "help": "Task.FpyDailyStorySummon.help"
+    },
+    "FpyDailyQuest": {
+      "name": "Task.FpyDailyQuest.name",
+      "help": "Task.FpyDailyQuest.help"
+    },
+    "FpyWeeklyMission": {
+      "name": "Task.FpyWeeklyMission.name",
+      "help": "Task.FpyWeeklyMission.help"
     },
     "FpyBattle": {
       "name": "Task.FpyBattle.name",
@@ -190,6 +206,39 @@
       "help": "FpyLimit.SpecialDrop.help"
     }
   },
+  "FpyParam": {
+    "_info": {
+      "name": "FpyParam._info.name",
+      "help": "FpyParam._info.help"
+    },
+    "Cmd": {
+      "name": "FpyParam.Cmd.name",
+      "help": "FpyParam.Cmd.help"
+    }
+  },
+  "FpyWeeklyMission": {
+    "_info": {
+      "name": "FpyWeeklyMission._info.name",
+      "help": "FpyWeeklyMission._info.help"
+    },
+    "Weekday": {
+      "name": "FpyWeeklyMission.Weekday.name",
+      "help": "FpyWeeklyMission.Weekday.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
+    },
+    "InsufficientAp": {
+      "name": "FpyWeeklyMission.InsufficientAp.name",
+      "help": "FpyWeeklyMission.InsufficientAp.help",
+      "wait": "wait",
+      "apple": "apple"
+    }
+  },
   "FpyBenchmark": {
     "_info": {
       "name": "FpyBenchmark._info.name",
@@ -212,10 +261,12 @@
       "name": "FpyCall.Function.name",
       "help": "FpyCall.Function.help",
       "fpSummon": "fpSummon",
+      "storySummon": "storySummon",
       "lottery": "lottery",
       "mail": "mail",
       "synthesis": "synthesis",
-      "summonHistory": "summonHistory"
+      "summonHistory": "summonHistory",
+      "weeklyMission": "weeklyMission"
     }
   },
   "Storage": {

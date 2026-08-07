@@ -1,5 +1,3 @@
-import json
-import os
 from functools import wraps
 
 import inflection
@@ -67,7 +65,7 @@ class FgoAutoScript(AzurLaneAutoScript):
         assert self.app.run(f"config stopOnKizunaReisou {self.config.FpyLimit_KizunaReisou}")
         assert self.app.run(f"config stopOnSpecialDrop {self.config.FpyLimit_SpecialDrop}")
         assert self.app.run(f"teamup set index {self.config.FpyTeam_Index}")
-        assert self.app.run(f"main {self.config.FpyApple_AppleCount} {self.config.FpyApple_AppleKind}")
+        assert self.app.run(f"main {self.config.FpyApple_AppleCount} {self.config.FpyApple_AppleKind} {self.config.FpyParam_Cmd}")
         with self.config.multi_set():
             if self.app.last_error.startswith("Script Stopped"):
                 self.config.Scheduler_Enable = False
@@ -86,6 +84,13 @@ class FgoAutoScript(AzurLaneAutoScript):
     def fpy_daily_fp_summon(self):
         assert self.app.run("call dailyFpSummon")
         self.config.task_delay(server_update=True)
+
+    def fpy_daily_story_summon(self):
+        assert self.app.run("call dailyStorySummon")
+        self.config.task_delay(server_update=True)
+
+    def fpy_daily_quest(self):
+        ...
 
     def fpy_battle(self):
         assert self.app.run("battle")

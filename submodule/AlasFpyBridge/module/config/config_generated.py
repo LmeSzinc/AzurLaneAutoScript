@@ -48,11 +48,18 @@ class GeneratedConfig:
     FpyLimit_KizunaReisou = True
     FpyLimit_SpecialDrop = 999
 
+    # Group `FpyParam`
+    FpyParam_Cmd = ''
+
+    # Group `FpyWeeklyMission`
+    FpyWeeklyMission_Weekday = 5  # 0, 1, 2, 3, 4, 5, 6
+    FpyWeeklyMission_InsufficientAp = 'wait'  # wait, apple
+
     # Group `FpyBenchmark`
     FpyBenchmark_BenchOption = 'all'  # touch, screen, all
 
     # Group `FpyCall`
-    FpyCall_Function = 'lottery'  # fpSummon, lottery, mail, synthesis, summonHistory
+    FpyCall_Function = 'lottery'  # fpSummon, storySummon, lottery, mail, synthesis, summonHistory, weeklyMission
 
     # Group `Storage`
     Storage_Storage = {}
