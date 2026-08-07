@@ -129,6 +129,7 @@ class Connection(ConnectionAttr):
             return
 
         if not self.is_over_http:
+            self.adb_install_on_demand()
             self.detect_device()
 
         # Connect
@@ -145,6 +146,16 @@ class Connection(ConnectionAttr):
         logger.attr('Server', self.config.SERVER)
 
         self.check_mumu_app_keep_alive()
+
+    def adb_install_on_demand(self):
+        from deploy.adb import AdbManager
+        from module.webui.setting import State
+
+        AdbManager.adb_install_on_demand(
+            adb=self.adb_binary,
+            replace_adb=State.deploy_config.ReplaceAdb,
+            auto_connect=State.deploy_config.AutoConnect,
+        )
 
     @Config.when(DEVICE_OVER_HTTP=False)
     def adb_command(self, cmd, timeout=10):

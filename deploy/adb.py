@@ -1,4 +1,7 @@
+import filecmp
 import logging
+import socket
+import subprocess
 
 from deploy.config import DeployConfig
 from deploy.emulator import EmulatorConnect
@@ -35,16 +38,92 @@ class AdbManager(DeployConfig):
         logger.warning(f'AdbExecutable: {exe} does not exist, use `adb` instead')
         return 'adb'
 
-    def adb_install(self):
+    @staticmethod
+    def _adb_server_version():
+        host = '127.0.0.1'
+        try:
+            port = int(os.environ.get('ANDROID_ADB_SERVER_PORT', 5037))
+        except ValueError:
+            port = 5037
+
+        # AdbClient starts the server on connection refused, so probe the socket first.
+        try:
+            with socket.create_connection((host, port), timeout=0.5):
+                pass
+        except OSError:
+            return None
+
+        try:
+            from adbutils import AdbClient, AdbError
+            return AdbClient(host, port).server_version()
+        except (AdbError, OSError, ValueError):
+            return None
+
+    @staticmethod
+    def _adb_binary_version(adb):
+        try:
+            process = subprocess.run(
+                [adb, 'version'],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                timeout=10,
+                shell=False,
+                creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0),
+            )
+        except (OSError, subprocess.TimeoutExpired):
+            return None
+
+        result = re.search(rb'Android Debug Bridge version 1\.0\.(\d+)', process.stdout)
+        return int(result.group(1)) if result else None
+
+    @classmethod
+    def _adb_server_compatible(cls, adb, check_version):
+        server_version = cls._adb_server_version()
+        if server_version is None:
+            return False
+        if not check_version:
+            return True
+
+        binary_version = cls._adb_binary_version(adb)
+        if binary_version is None:
+            return True
+        if server_version != binary_version:
+            logger.info(
+                f'ADB server version {server_version} differs from binary version {binary_version}'
+            )
+            return False
+        return True
+
+    @staticmethod
+    def _adb_replacement_required(emulator, adb):
+        for instance in emulator.emulators:
+            for binary in instance.adb_binary:
+                try:
+                    if os.path.exists(binary) and not filecmp.cmp(adb, binary, shallow=True):
+                        return True
+                except OSError:
+                    return True
+        return False
+
+    @staticmethod
+    def _adb_install(adb, replace_adb, auto_connect, emulator=None):
         logger.hr('Start ADB service', 0)
 
-        emulator = EmulatorConnect(adb=self.adb)
-        if self.ReplaceAdb:
+        if emulator is None:
+            emulator = EmulatorConnect(adb=adb)
+        if replace_adb:
             logger.hr('Replace ADB', 1)
             emulator.adb_replace()
-        elif self.AutoConnect:
+        elif auto_connect:
             logger.hr('ADB Connect', 1)
             emulator.brute_force_connect()
+
+    def adb_install(self):
+        self._adb_install(
+            adb=self.adb,
+            replace_adb=self.ReplaceAdb,
+            auto_connect=self.AutoConnect,
+        )
 
         if False:
             logger.hr('Uiautomator2 Init', 1)
@@ -96,3 +175,26 @@ class AdbManager(DeployConfig):
 
                 initer._device.shell(["rm", "/data/local/tmp/minicap"])
                 initer._device.shell(["rm", "/data/local/tmp/minicap.so"])
+
+    @classmethod
+    def adb_install_on_demand(cls, adb, replace_adb, auto_connect):
+        """
+        Initialize ADB once it is required by an Android device.
+        A file lock prevents concurrent Alas instances from replacing ADB at the same time.
+        """
+        from filelock import FileLock
+
+        lock = FileLock(os.path.abspath('./config/adb_install.lock'))
+        with lock:
+            emulator = EmulatorConnect(adb=adb)
+            replacement_required = replace_adb and cls._adb_replacement_required(emulator, adb)
+            if not replacement_required and cls._adb_server_compatible(
+                    adb=adb, check_version=replace_adb or auto_connect):
+                logger.info('ADB service is already available, skip startup')
+                return
+            cls._adb_install(
+                adb=adb,
+                replace_adb=replace_adb,
+                auto_connect=auto_connect,
+                emulator=emulator,
+            )
