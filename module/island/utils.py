@@ -92,10 +92,6 @@ def load_hard_floor_items(hard_floor_items_yaml=None):
     return load_item_mapping(hard_floor_items_yaml, config_name='HardFloorItems')
 
 
-def load_request_buffer_items(request_buffer_items_yaml=None):
-    return load_item_mapping(request_buffer_items_yaml, config_name='RequestBufferItems')
-
-
 def normalize_technology_status(technology_status=None):
     if not technology_status:
         return {}
@@ -323,6 +319,18 @@ def get_target_stock_load_rate(stock, reserve, target_deadlines):
     if effective_stock >= target_stock:
         return 0
     return rate_per_day
+
+
+def get_production_target_stock(hard_floor, reserve, daily_buffer):
+    """Return the stock target shared by recipes and restaurant protection."""
+    return max(hard_floor, 0) + max(reserve, 0) + max(daily_buffer, 0)
+
+
+def get_order_effective_stock(stock, hard_floor, priority=False):
+    """Return stock available to an order under the current priority policy."""
+    if priority:
+        return stock
+    return stock - max(hard_floor, 0)
 
 
 def is_integer_value(value):

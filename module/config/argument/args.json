@@ -9356,15 +9356,7 @@
       }
     },
     "IslandProduction": {
-      "HardFloorItems": {
-        "type": "textarea",
-        "value": "{}"
-      },
       "ReserveItems": {
-        "type": "textarea",
-        "value": "{}"
-      },
-      "RequestBufferItems": {
         "type": "textarea",
         "value": "{}"
       },
@@ -9375,6 +9367,11 @@
       "IdleAccumulatingItems": {
         "type": "textarea",
         "value": "{}"
+      },
+      "HardFloorItems": {
+        "type": "textarea",
+        "value": "{}",
+        "display": "disabled"
       }
     },
     "Storage": {
