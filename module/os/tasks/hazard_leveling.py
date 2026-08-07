@@ -27,6 +27,11 @@ class OpsiHazard1Leveling(OSMap):
                 with self.config.multi_set():
                     self.config.task_delay(server_update=True)
                     if not self.is_in_opsi_explore():
+                        cd = self.nearest_task_cooling_down
+                        if cd is None:
+                            for task in ['OpsiAbyssal', 'OpsiStronghold', 'OpsiObscure']:
+                                if self.config.is_task_enabled(task):
+                                    self.config.task_call(task)
                         self.config.task_call('OpsiMeowfficerFarming')
                 self.config.task_stop()
 
@@ -42,6 +47,11 @@ class OpsiHazard1Leveling(OSMap):
                 with self.config.multi_set():
                     self.config.task_delay(server_update=True)
                     if not self.is_in_opsi_explore():
+                        cd = self.nearest_task_cooling_down
+                        if cd is None:
+                            for task in ['OpsiAbyssal', 'OpsiStronghold', 'OpsiObscure']:
+                                if self.config.is_task_enabled(task):
+                                    self.config.task_call(task)
                         self.config.task_call('OpsiMeowfficerFarming')
                 self.config.task_stop()
 
