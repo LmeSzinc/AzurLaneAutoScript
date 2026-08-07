@@ -748,15 +748,7 @@ OpsiHazard1Leveling:
 # =================== Island ====================
 
 IslandProduction:
-  HardFloorItems:
-    type: textarea
-    value: |-
-      {}
   ReserveItems:
-    type: textarea
-    value: |-
-      {}
-  RequestBufferItems:
     type: textarea
     value: |-
       {}
@@ -768,6 +760,11 @@ IslandProduction:
     type: textarea
     value: |-
       {}
+  HardFloorItems:
+    type: textarea
+    value: |-
+      {}
+    display: disabled
 IslandOrder:
   StuckSeasonOrderId: 0
 IslandFreebie:

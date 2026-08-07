@@ -27,9 +27,7 @@ from module.island.utils import (
     get_sub_dict,
     item_mapping_to_yaml,
     item_name,
-    load_hard_floor_items,
     load_item_mapping,
-    load_request_buffer_items,
     load_reserve_items,
     load_technology_status,
     merge_item_needs,
@@ -425,7 +423,6 @@ class IslandProductionPlanner(DaemonBase):
         self.idle_accumulating_items_yaml_text = ''
         self.hard_floor_items_yaml_text = ''
         self.reserve_items_yaml_text = ''
-        self.request_buffer_items_yaml_text = ''
         self.group_usage_summary = {}
         self.total_pt = 0
         self.daily_profit = 0
@@ -437,7 +434,6 @@ class IslandProductionPlanner(DaemonBase):
         self.demand_items = {}
         self.hard_floor_items = {}
         self.reserve_items = {}
-        self.request_buffer_items = {}
         self.task_target_items = {}
         self.stuck_season_order_id = 0
         self.stuck_season_order_items = {}
@@ -728,7 +724,6 @@ class IslandProductionPlanner(DaemonBase):
             'demand_items': demand_items,
             'hard_floor_items': getattr(self, 'hard_floor_items', {}),
             'reserve_items': getattr(self, 'reserve_items', {}),
-            'request_buffer_items': getattr(self, 'request_buffer_items', {}),
             'task_target_items': getattr(self, 'task_target_items', {}),
             'stuck_season_order_id': getattr(self, 'stuck_season_order_id', 0),
             'stuck_season_order_items': getattr(self, 'stuck_season_order_items', {}),
@@ -751,7 +746,6 @@ class IslandProductionPlanner(DaemonBase):
         self.demand_items = problem['demand_items']
         self.hard_floor_items = problem['hard_floor_items']
         self.reserve_items = problem['reserve_items']
-        self.request_buffer_items = problem['request_buffer_items']
         self.task_target_items = problem['task_target_items']
         self.stuck_season_order_id = problem['stuck_season_order_id']
         self.stuck_season_order_items = problem['stuck_season_order_items']
@@ -1032,25 +1026,42 @@ class IslandProductionPlanner(DaemonBase):
     def idle_accumulating_items_to_yaml(self, use_item_name=False):
         return item_mapping_to_yaml(self.idle_accumulating_items_per_day, use_item_name=use_item_name)
 
+    def _build_planner_hard_floor_items(self):
+        """Build protected stock for menu capacity and one-time objectives.
+
+        These values are planner-owned and are regenerated on every run. User
+        reserves live in ``ReserveItems`` and are intentionally kept separate.
+        """
+        hard_floor_items = defaultdict(float)
+        for needs in (self.task_target_items, self.stuck_season_order_items):
+            for item_id, data in needs.items():
+                hard_floor_items[item_id] += data.get('total_need_count', 0)
+        return {
+            item_id: self._round_up_int(amount)
+            for item_id, amount in sorted(hard_floor_items.items())
+            if amount > self.NET_ACCUMULATING_EPSILON
+        }
+
     def _get_hard_floor_export_items(self):
         hard_floor_items = dict(self.hard_floor_items)
         for (slot, item_id), amount in self.sell_plan.items():
             if amount <= self.NET_ACCUMULATING_EPSILON:
                 continue
-            hard_floor_items[item_id] = max(
-                hard_floor_items.get(item_id, 0),
-                self.restaurant_capacity[slot],
+            hard_floor_items[item_id] = (
+                hard_floor_items.get(item_id, 0)
+                + self.restaurant_capacity[slot]
             )
-        return hard_floor_items
+        return {
+            item_id: self._round_up_int(amount)
+            for item_id, amount in sorted(hard_floor_items.items())
+            if amount > self.NET_ACCUMULATING_EPSILON
+        }
 
     def hard_floor_items_to_yaml(self, use_item_name=False):
         return item_mapping_to_yaml(self._get_hard_floor_export_items(), use_item_name=use_item_name)
 
     def reserve_items_to_yaml(self, use_item_name=False):
         return item_mapping_to_yaml(self.reserve_items, use_item_name=use_item_name)
-
-    def request_buffer_items_to_yaml(self, use_item_name=False):
-        return item_mapping_to_yaml(self.request_buffer_items, use_item_name=use_item_name)
 
     def restaurant_menus_to_yaml(self):
         menus = {slot: {} for slot in self.RESTAURANT_MENU_CONFIG}
@@ -1065,9 +1076,7 @@ class IslandProductionPlanner(DaemonBase):
 
     def solve_production_plan(
             self,
-            hard_floor_items=None,
             reserve_items=None,
-            request_buffer_items=None,
             task_target_items=None,
             stuck_season_order_id=None,
     ):
@@ -1076,17 +1085,9 @@ class IslandProductionPlanner(DaemonBase):
             float(self.config.cross_get("IslandProductionPlanner.IslandProductionPlanner.DailyBufferSafetyMargin", 0)),
             0,
         )
-        if hard_floor_items is None:
-            hard_floor_items = load_hard_floor_items(
-                self.config.cross_get("IslandProduction.IslandProduction.HardFloorItems", "")
-            )
         if reserve_items is None:
             reserve_items = load_reserve_items(
                 self.config.cross_get("IslandProduction.IslandProduction.ReserveItems", "")
-            )
-        if request_buffer_items is None:
-            request_buffer_items = load_request_buffer_items(
-                self.config.cross_get("IslandProduction.IslandProduction.RequestBufferItems", "")
             )
         if task_target_items is None:
             task_target_items = load_item_mapping(
@@ -1096,12 +1097,11 @@ class IslandProductionPlanner(DaemonBase):
         if stuck_season_order_id is None:
             stuck_season_order_id = self.config.cross_get("IslandOrder.IslandOrder.StuckSeasonOrderId", 0)
         stuck_season_order_items = get_stuck_season_order_requirements(stuck_season_order_id)
-        self.hard_floor_items = normalize_item_keys(hard_floor_items)
         self.reserve_items = normalize_item_keys(reserve_items)
-        self.request_buffer_items = normalize_item_keys(request_buffer_items)
         self.task_target_items = normalize_item_needs(task_target_items, default_period=10)
         self.stuck_season_order_id = normalize_stuck_season_order_id(stuck_season_order_id)
         self.stuck_season_order_items = normalize_item_needs(stuck_season_order_items, default_period=10)
+        self.hard_floor_items = self._build_planner_hard_floor_items()
         if self.stuck_season_order_items:
             logger.info(
                 f'Adding stuck season order {self.stuck_season_order_id} '
@@ -1133,9 +1133,7 @@ class IslandProductionPlanner(DaemonBase):
     def run(
             self,
             tech_status_yaml=None,
-            hard_floor_items_yaml=None,
             reserve_items_yaml=None,
-            request_buffer_items_yaml=None,
             task_target_items=None,
             stuck_season_order_id=None,
             export=True,
@@ -1148,24 +1146,12 @@ class IslandProductionPlanner(DaemonBase):
             if technology_status is None or self.config.cross_get("IslandProductionPlanner.IslandProductionPlanner.RescanIslandTechnology", False):
                 technology_status = IslandTechnologyScanner(self.config).get_technology_status()
         technology_status = load_technology_status(technology_status)
-        if hard_floor_items_yaml is None:
-            hard_floor_items = load_hard_floor_items(
-                self.config.cross_get("IslandProduction.IslandProduction.HardFloorItems", "")
-            )
-        else:
-            hard_floor_items = load_hard_floor_items(hard_floor_items_yaml)
         if reserve_items_yaml is None:
             reserve_items = load_reserve_items(
                 self.config.cross_get("IslandProduction.IslandProduction.ReserveItems", "")
             )
         else:
             reserve_items = load_reserve_items(reserve_items_yaml)
-        if request_buffer_items_yaml is None:
-            request_buffer_items = load_request_buffer_items(
-                self.config.cross_get("IslandProduction.IslandProduction.RequestBufferItems", "")
-            )
-        else:
-            request_buffer_items = load_request_buffer_items(request_buffer_items_yaml)
         if task_target_items is None:
             task_target_items = load_item_mapping(
                 self.config.cross_get("IslandSeasonTask.IslandSeasonTask.TaskTarget", "{}"),
@@ -1173,9 +1159,7 @@ class IslandProductionPlanner(DaemonBase):
             )
         self.analyze_technology_status(technology_status)
         self.solve_production_plan(
-            hard_floor_items=hard_floor_items,
             reserve_items=reserve_items,
-            request_buffer_items=request_buffer_items,
             task_target_items=task_target_items,
             stuck_season_order_id=stuck_season_order_id,
         )
@@ -1185,20 +1169,17 @@ class IslandProductionPlanner(DaemonBase):
             idle_accumulating_items_yaml_text = self.idle_accumulating_items_to_yaml(use_item_name=use_item_name_in_export)
             hard_floor_items_yaml_text = self.hard_floor_items_to_yaml(use_item_name=use_item_name_in_export)
             reserve_items_yaml_text = self.reserve_items_to_yaml(use_item_name=use_item_name_in_export)
-            request_buffer_items_yaml_text = self.request_buffer_items_to_yaml(use_item_name=use_item_name_in_export)
             restaurant_menu_yaml_texts = self.restaurant_menus_to_yaml()
             self.inventory_levels_yaml_text = inventory_levels_yaml_text
             self.idle_accumulating_items_yaml_text = idle_accumulating_items_yaml_text
             self.hard_floor_items_yaml_text = hard_floor_items_yaml_text
             self.reserve_items_yaml_text = reserve_items_yaml_text
-            self.request_buffer_items_yaml_text = request_buffer_items_yaml_text
             with self.config.multi_set():
                 self.config.cross_set("IslandProductionPlanner.Storage.Storage.IslandTechnologyStatus", technology_status)
                 self.config.cross_set("IslandProduction.IslandProduction.DailyBufferItems", inventory_levels_yaml_text)
                 self.config.cross_set("IslandProduction.IslandProduction.IdleAccumulatingItems", idle_accumulating_items_yaml_text)
                 self.config.cross_set("IslandProduction.IslandProduction.HardFloorItems", hard_floor_items_yaml_text)
                 self.config.cross_set("IslandProduction.IslandProduction.ReserveItems", reserve_items_yaml_text)
-                self.config.cross_set("IslandProduction.IslandProduction.RequestBufferItems", request_buffer_items_yaml_text)
                 for slot, config_key in self.RESTAURANT_MENU_CONFIG.items():
                     self.config.cross_set(config_key, restaurant_menu_yaml_texts[slot])
                 self.config.cross_set("IslandProductionPlanner.IslandProductionPlanner.RescanIslandTechnology", False)

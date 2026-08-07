@@ -1926,11 +1926,10 @@
       "ServerUpdate": "00:00"
     },
     "IslandProduction": {
-      "HardFloorItems": "{}",
       "ReserveItems": "{}",
-      "RequestBufferItems": "{}",
       "DailyBufferItems": "{}",
-      "IdleAccumulatingItems": "{}"
+      "IdleAccumulatingItems": "{}",
+      "HardFloorItems": "{}"
     },
     "Storage": {
       "Storage": {}
