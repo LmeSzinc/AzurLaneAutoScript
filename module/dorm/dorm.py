@@ -194,6 +194,27 @@ class RewardDorm(UI):
 
         self.device.nemu_ipc.up()
 
+    @Config.when(DEVICE_CONTROL_METHOD='playcover')
+    def _dorm_feed_long_tap(self, button, count):
+        timeout = Timer(count // 5 + 5).start()
+        x, y = random_rectangle_point(button.button)
+        self.device.playcover.send_touch(0, x, y)
+
+        while 1:
+            self.device.playcover.send_touch(1, x, y)
+            time.sleep(.01)
+            self.device.screenshot()
+
+            if not self._dorm_has_food(button) \
+                    or self.handle_info_bar() \
+                    or self.appear(POPUP_CONFIRM, offset=self._popup_offset):
+                break
+            if timeout.reached():
+                logger.warning('Wait dorm feed timeout')
+                break
+
+        self.device.playcover.send_touch(3, x, y)
+
     @Config.when(DEVICE_CONTROL_METHOD=None)
     def _dorm_feed_long_tap(self, button, count):
         logger.warning(f'Current control method {self.config.Emulator_ControlMethod} '
