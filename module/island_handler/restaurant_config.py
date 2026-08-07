@@ -24,9 +24,10 @@ RESTAURANT_CONFIG = OrderedDict({
         'waitress_keys': ('KoiWaitress1', 'KoiWaitress2'),
         'legacy_waitress_key': 'KoiWaitress',
         'menu_key': 'KoiMenu',
-        'waitress_options': ('Chao_Ho',),
+        'waitress_options': ('Chao_Ho', 'Chang_Feng'),
         'waitress_effects': {
             'Chao_Ho': (1, 0.10),
+            'Chang_Feng': (1, 0),
         },
     },
     602: {
@@ -35,9 +36,10 @@ RESTAURANT_CONFIG = OrderedDict({
         'waitress_keys': ('BearWaitress1', 'BearWaitress2'),
         'legacy_waitress_key': 'BearWaitress',
         'menu_key': 'BearMenu',
-        'waitress_options': ('Cheshire',),
+        'waitress_options': ('Cheshire', 'Chang_Feng'),
         'waitress_effects': {
             'Cheshire': (1, 0.05),
+            'Chang_Feng': (1, 0),
         },
     },
     603: {
@@ -46,10 +48,11 @@ RESTAURANT_CONFIG = OrderedDict({
         'waitress_keys': ('EateryWaitress1', 'EateryWaitress2'),
         'legacy_waitress_key': 'EateryWaitress',
         'menu_key': 'EateryMenu',
-        'waitress_options': ('Helena', 'Prinz_Eugen'),
+        'waitress_options': ('Helena', 'Prinz_Eugen', 'Chang_Feng'),
         'waitress_effects': {
             'Helena': (1, 0.10),
             'Prinz_Eugen': (0, 0.10),
+            'Chang_Feng': (1, 0),
         },
     },
     604: {
@@ -58,10 +61,11 @@ RESTAURANT_CONFIG = OrderedDict({
         'waitress_keys': ('GrillWaitress1', 'GrillWaitress2'),
         'legacy_waitress_key': 'GrillWaitress',
         'menu_key': 'GrillMenu',
-        'waitress_options': ('August_von_Parseval', 'Prinz_Eugen'),
+        'waitress_options': ('August_von_Parseval', 'Prinz_Eugen', 'Chang_Feng'),
         'waitress_effects': {
             'August_von_Parseval': (1, 0.10),
             'Prinz_Eugen': (0, 0.10),
+            'Chang_Feng': (1, 0),
         },
     },
     901: {
@@ -70,9 +74,11 @@ RESTAURANT_CONFIG = OrderedDict({
         'waitress_keys': ('CafeWaitress1', 'CafeWaitress2'),
         'legacy_waitress_key': 'CafeWaitress',
         'menu_key': 'CafeMenu',
-        'waitress_options': ('Cheshire',),
+        'waitress_options': ('Cheshire', 'Belfast', 'Chang_Feng'),
         'waitress_effects': {
             'Cheshire': (1, 0.05),
+            'Belfast': (0, 0.10),
+            'Chang_Feng': (1, 0),
         },
     },
 })
