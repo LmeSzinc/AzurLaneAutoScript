@@ -74,6 +74,22 @@ FpyLimit:
   SpecialDrop:
     value: 999
 
+FpyParam:
+  Cmd:
+    value: ''
+    valuetype: str
+    type: textarea
+
+FpyWeeklyMission:
+  Weekday:
+    value: 5
+    option: [0, 1, 2, 3, 4, 5, 6]
+  InsufficientAp:
+    value: wait
+    option:
+      - wait
+      - apple
+
 FpyBenchmark:
   BenchOption:
     value: all
@@ -87,7 +103,9 @@ FpyCall:
     value: lottery
     option:
       - fpSummon
+      - storySummon
       - lottery
       - mail
       - synthesis
       - summonHistory
+      - weeklyMission

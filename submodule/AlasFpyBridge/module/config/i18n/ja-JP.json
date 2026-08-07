@@ -12,6 +12,10 @@
       "name": "日課",
       "help": ""
     },
+    "FpyWeekly": {
+      "name": "Menu.FpyWeekly.name",
+      "help": "Menu.FpyWeekly.help"
+    },
     "FpyTool": {
       "name": "ツール",
       "help": ""
@@ -33,6 +37,18 @@
     "FpyDailyFpSummon": {
       "name": "毎日FP召喚",
       "help": ""
+    },
+    "FpyDailyStorySummon": {
+      "name": "Task.FpyDailyStorySummon.name",
+      "help": "Task.FpyDailyStorySummon.help"
+    },
+    "FpyDailyQuest": {
+      "name": "Task.FpyDailyQuest.name",
+      "help": "Task.FpyDailyQuest.help"
+    },
+    "FpyWeeklyMission": {
+      "name": "Task.FpyWeeklyMission.name",
+      "help": "Task.FpyWeeklyMission.help"
     },
     "FpyBattle": {
       "name": "戦闘",
@@ -190,6 +206,39 @@
       "help": "★5礼装ドロップを一定数入手した時にこのタスクを無効にする"
     }
   },
+  "FpyParam": {
+    "_info": {
+      "name": "FpyParam._info.name",
+      "help": "FpyParam._info.help"
+    },
+    "Cmd": {
+      "name": "FpyParam.Cmd.name",
+      "help": "FpyParam.Cmd.help"
+    }
+  },
+  "FpyWeeklyMission": {
+    "_info": {
+      "name": "FpyWeeklyMission._info.name",
+      "help": "FpyWeeklyMission._info.help"
+    },
+    "Weekday": {
+      "name": "FpyWeeklyMission.Weekday.name",
+      "help": "FpyWeeklyMission.Weekday.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
+    },
+    "InsufficientAp": {
+      "name": "FpyWeeklyMission.InsufficientAp.name",
+      "help": "FpyWeeklyMission.InsufficientAp.help",
+      "wait": "wait",
+      "apple": "apple"
+    }
+  },
   "FpyBenchmark": {
     "_info": {
       "name": "性能評価",
@@ -212,10 +261,12 @@
       "name": "機能",
       "help": "スタンドアロン機能名",
       "fpSummon": "FP召喚",
+      "storySummon": "storySummon",
       "lottery": "BOXイベント抽選",
       "mail": "メールボックス",
       "synthesis": "強化",
-      "summonHistory": "召喚履歴"
+      "summonHistory": "召喚履歴",
+      "weeklyMission": "weeklyMission"
     }
   },
   "Storage": {

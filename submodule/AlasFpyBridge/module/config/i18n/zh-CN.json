@@ -12,6 +12,10 @@
       "name": "每日",
       "help": ""
     },
+    "FpyWeekly": {
+      "name": "Menu.FpyWeekly.name",
+      "help": "Menu.FpyWeekly.help"
+    },
     "FpyTool": {
       "name": "工具",
       "help": ""
@@ -33,6 +37,18 @@
     "FpyDailyFpSummon": {
       "name": "抽友情",
       "help": ""
+    },
+    "FpyDailyStorySummon": {
+      "name": "Task.FpyDailyStorySummon.name",
+      "help": "Task.FpyDailyStorySummon.help"
+    },
+    "FpyDailyQuest": {
+      "name": "Task.FpyDailyQuest.name",
+      "help": "Task.FpyDailyQuest.help"
+    },
+    "FpyWeeklyMission": {
+      "name": "Task.FpyWeeklyMission.name",
+      "help": "Task.FpyWeeklyMission.help"
     },
     "FpyBattle": {
       "name": "完成战斗",
@@ -190,6 +206,39 @@
       "help": "当周回关卡累计掉落一定数量的★5礼装后禁用本任务\n这个数值会自动减少"
     }
   },
+  "FpyParam": {
+    "_info": {
+      "name": "FpyParam._info.name",
+      "help": "FpyParam._info.help"
+    },
+    "Cmd": {
+      "name": "FpyParam.Cmd.name",
+      "help": "FpyParam.Cmd.help"
+    }
+  },
+  "FpyWeeklyMission": {
+    "_info": {
+      "name": "FpyWeeklyMission._info.name",
+      "help": "FpyWeeklyMission._info.help"
+    },
+    "Weekday": {
+      "name": "FpyWeeklyMission.Weekday.name",
+      "help": "FpyWeeklyMission.Weekday.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
+    },
+    "InsufficientAp": {
+      "name": "FpyWeeklyMission.InsufficientAp.name",
+      "help": "FpyWeeklyMission.InsufficientAp.help",
+      "wait": "wait",
+      "apple": "apple"
+    }
+  },
   "FpyBenchmark": {
     "_info": {
       "name": "性能测试",
@@ -212,10 +261,12 @@
       "name": "功能",
       "help": "要调用的小组件名称",
       "fpSummon": "抽友情",
+      "storySummon": "storySummon",
       "lottery": "抽奖池",
       "mail": "清理邮箱",
       "synthesis": "强化",
-      "summonHistory": "召唤记录"
+      "summonHistory": "召唤记录",
+      "weeklyMission": "weeklyMission"
     }
   },
   "Storage": {
