@@ -442,7 +442,6 @@ class GeneratedConfig:
     # Group `IslandProduction`
     IslandProduction_HardFloorItems = '{}'
     IslandProduction_ReserveItems = '{}'
-    IslandProduction_RequestBufferItems = '{}'
     IslandProduction_DailyBufferItems = '{}'
     IslandProduction_IdleAccumulatingItems = '{}'
 

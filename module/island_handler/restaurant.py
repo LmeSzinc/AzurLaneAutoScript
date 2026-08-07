@@ -14,9 +14,6 @@ from module.island.assets import ISLAND_CLICK_SAFE_AREA
 from module.island.data import DIC_ISLAND_ITEM, DIC_ISLAND_RESTAURANT_MENU_TO_RECIPE
 from module.island.utils import (
     load_hard_floor_items,
-    load_item_mapping,
-    load_request_buffer_items,
-    load_reserve_items,
     normalize_item_keys,
 )
 from module.island_handler.assets import *
@@ -280,7 +277,10 @@ class IslandRestaurant(IslandDock):
         menu_items = [
             item for item in items
             if item.id in menu
-            and item.amount >= max(capacity, protected_items.get(item.id, 0))
+            # Keep one waitress-capacity tranche available for this sale while
+            # preserving only explicit manual hard floors.  Reserves and daily
+            # buffers are soft and may be consumed by restaurants.
+            and item.amount >= capacity + protected_items.get(item.id, 0)
         ]
         surplus_items = [
             item for item in items
@@ -301,27 +301,10 @@ class IslandRestaurant(IslandDock):
         hard_floor_items = normalize_item_keys(load_hard_floor_items(
             self.config.cross_get("IslandProduction.IslandProduction.HardFloorItems", "")
         ))
-        reserve_items = normalize_item_keys(load_reserve_items(
-            self.config.cross_get("IslandProduction.IslandProduction.ReserveItems", "")
-        ))
-        request_buffer_items = normalize_item_keys(load_request_buffer_items(
-            self.config.cross_get("IslandProduction.IslandProduction.RequestBufferItems", "")
-        ))
-        daily_buffer_items = normalize_item_keys(load_item_mapping(
-            self.config.cross_get("IslandProduction.IslandProduction.DailyBufferItems", ""),
-            config_name='DailyBufferItems',
-        ))
         item_ids = set()
         item_ids.update(hard_floor_items)
-        item_ids.update(reserve_items)
-        item_ids.update(request_buffer_items)
-        item_ids.update(daily_buffer_items)
         return {
-            item_id: (
-                hard_floor_items.get(item_id, 0)
-                + reserve_items.get(item_id, 0)
-                + max(request_buffer_items.get(item_id, 0), daily_buffer_items.get(item_id, 0))
-            )
+            item_id: max(hard_floor_items.get(item_id, 0), 0)
             for item_id in item_ids
         }
 

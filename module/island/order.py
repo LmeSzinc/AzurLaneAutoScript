@@ -12,7 +12,12 @@ from module.base.utils import color_similarity_2d
 from module.island.assets import *
 from module.island.data import DIC_ISLAND_ITEM, DIC_ISLAND_SEASON_ORDER
 from module.island.ui import IslandUI
-from module.island.utils import load_hard_floor_items, load_reserve_items, normalize_item_keys
+from module.island.utils import (
+    get_order_effective_stock,
+    load_hard_floor_items,
+    load_reserve_items,
+    normalize_item_keys,
+)
 from module.island_handler.recipe import IslandReversedDigitCounter
 from module.logger import logger
 from module.map_detection.utils import Points
@@ -174,21 +179,21 @@ class IslandOrder(IslandUI):
         )
         return normalize_item_keys(reserve_items_text)
 
-    def is_order_satisfied(self, order_requirements, is_urgent=False):
+    def is_order_satisfied(self, order_requirements, is_urgent=False, is_season=False):
         for item, counter in order_requirements.items():
             stock, required, _ = counter
-            if not is_urgent:
-                hard_floor = self.hard_floor.get(item, 0)
-                reserve = self.reserve.get(item, 0)
-                effective_stock = stock - hard_floor - reserve
-            else:
-                hard_floor = 0
-                reserve = 0
-                effective_stock = stock
+            hard_floor = self.hard_floor.get(item, 0)
+            priority = is_urgent or is_season
+            effective_stock = get_order_effective_stock(
+                stock,
+                hard_floor,
+                reserve=self.reserve.get(item, 0),
+                priority=priority,
+            )
             if required > effective_stock:
                 logger.warning(
                     f'Item {item} does not meet the requirement: stock {stock}, '
-                    f'hard floor {hard_floor}, reserve {reserve}, '
+                    f'hard floor {hard_floor}, reserve {self.reserve.get(item, 0)}, '
                     f'effective stock {effective_stock}, required {required}'
                 )
                 return False
@@ -301,7 +306,7 @@ class IslandOrder(IslandUI):
             self.next_runtime.append(next_runtime)
             return False
         requirements = self.scan_current_order_requirements()
-        if self.is_order_satisfied(requirements, is_urgent=is_urgent):
+        if self.is_order_satisfied(requirements, is_urgent=is_urgent, is_season=is_season):
             return self.submit_order(is_urgent=is_urgent)
         else:
             logger.warning('Order requirements not satisfied due to low stock')

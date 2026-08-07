@@ -16,9 +16,9 @@ from module.island.data import DIC_ISLAND_ITEM, DIC_ISLAND_RECIPE, DIC_ISLAND_SH
 from module.island.utils import (
     ceil_div_or_ceil,
     get_target_stock_load_rate,
+    get_production_target_stock,
     load_hard_floor_items,
     load_item_mapping,
-    load_request_buffer_items,
     load_reserve_items,
     normalize_item_keys,
     normalize_item_needs,
@@ -344,7 +344,6 @@ class IslandRecipe(IslandExchange, IslandShop):
     def get_recipe_id_sequence_to_run(
             self,
             daily_buffer_items_dict=None,
-            request_buffer_items_dict=None,
             hard_floor_items_dict=None,
             reserve_items_dict=None,
             idle_accumulating_items_dict=None,
@@ -357,10 +356,6 @@ class IslandRecipe(IslandExchange, IslandShop):
                 yaml_text = ""
             daily_buffer_items_dict = safe_load(yaml_text) or {}
         daily_buffer_items_dict = normalize_item_keys(daily_buffer_items_dict)
-        if request_buffer_items_dict is None:
-            yaml_text = self.config.cross_get("IslandProduction.IslandProduction.RequestBufferItems", "")
-            request_buffer_items_dict = load_request_buffer_items(yaml_text)
-        request_buffer_items_dict = normalize_item_keys(request_buffer_items_dict)
         if hard_floor_items_dict is None:
             hard_floor_items_dict = self.hard_floor_items
         else:
@@ -384,11 +379,14 @@ class IslandRecipe(IslandExchange, IslandShop):
             recipe_product = DIC_ISLAND_RECIPE[recipe_id]['commission_product']
             product_id = get_recipe_product_id(recipe_id)
             batch_size = recipe_product[product_id]
-            daily_consumed_stock = daily_buffer_items_dict.get(product_id, 0)
-            request_buffer = request_buffer_items_dict.get(product_id, 0)
+            daily_buffer_width = daily_buffer_items_dict.get(product_id, 0)
             hard_floor = hard_floor_items_dict.get(product_id, 0)
             reserve = reserve_items_dict.get(product_id, 0)
-            target_stock = hard_floor + reserve + max(daily_consumed_stock, request_buffer)
+            target_stock = get_production_target_stock(
+                hard_floor,
+                reserve,
+                daily_buffer_width,
+            )
             demand = task_target_items_dict.get(product_id, {})
             demand = parse_item_need_deadlines(demand)
             demand_text = ', '.join(
@@ -402,8 +400,7 @@ class IslandRecipe(IslandExchange, IslandShop):
             ))
             logger.info(
                 f'Recipe {recipe_id} stock: {stock}, '
-                f'daily_consumed_stock: {daily_consumed_stock}, '
-                f'request_buffer: {request_buffer}, '
+                f'daily_buffer_width: {daily_buffer_width}, '
                 f'hard_floor: {hard_floor}, '
                 f'reserve: {reserve}, '
                 f'target_stock: {target_stock}, '
@@ -548,7 +545,12 @@ class IslandRecipe(IslandExchange, IslandShop):
             for ingredient_key, counter in zip(recipe_cost, counters):
                 if ingredient_key in DIC_ISLAND_SHOP_ITEM_TO_RECIPE or ingredient_key in (2521, 2522):
                     continue
-                available_stock = max(counter[0] - self.hard_floor_items.get(ingredient_key, 0), 0)
+                available_stock = max(
+                    counter[0]
+                    - self.hard_floor_items.get(ingredient_key, 0)
+                    - self.reserve_items.get(ingredient_key, 0),
+                    0,
+                )
                 count = available_stock // counter[1] if counter[1] > 0 else float('inf')
                 if count < max_count:
                     max_count = count
@@ -564,7 +566,8 @@ class IslandRecipe(IslandExchange, IslandShop):
         ingredient_buttons = ingredient_grid.buttons
         for ingredient_key, counter, button in zip(recipe_cost, counters, ingredient_buttons):
             hard_floor = self.hard_floor_items.get(ingredient_key, 0)
-            available_stock = max(counter[0] - hard_floor, 0)
+            reserve = self.reserve_items.get(ingredient_key, 0)
+            available_stock = max(counter[0] - hard_floor - reserve, 0)
             if available_stock < real_count * counter[1]:
                 if ingredient_key in (2521, 2522):
                     if ingredient_key in failed_buy_items:

@@ -1928,7 +1928,6 @@
     "IslandProduction": {
       "HardFloorItems": "{}",
       "ReserveItems": "{}",
-      "RequestBufferItems": "{}",
       "DailyBufferItems": "{}",
       "IdleAccumulatingItems": "{}"
     },

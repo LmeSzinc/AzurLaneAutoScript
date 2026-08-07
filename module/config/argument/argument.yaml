@@ -756,10 +756,6 @@ IslandProduction:
     type: textarea
     value: |-
       {}
-  RequestBufferItems:
-    type: textarea
-    value: |-
-      {}
   DailyBufferItems:
     type: textarea
     value: |-
