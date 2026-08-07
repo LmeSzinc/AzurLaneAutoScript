@@ -9633,7 +9633,8 @@
         "option": [
           "none",
           "any",
-          "Chao_Ho"
+          "Chao_Ho",
+          "Chang_Feng"
         ]
       },
       "KoiWaitress2": {
@@ -9642,7 +9643,8 @@
         "option": [
           "none",
           "any",
-          "Chao_Ho"
+          "Chao_Ho",
+          "Chang_Feng"
         ]
       },
       "KoiMenu": {
@@ -9665,7 +9667,8 @@
         "option": [
           "none",
           "any",
-          "Cheshire"
+          "Cheshire",
+          "Chang_Feng"
         ]
       },
       "BearWaitress2": {
@@ -9674,7 +9677,8 @@
         "option": [
           "none",
           "any",
-          "Cheshire"
+          "Cheshire",
+          "Chang_Feng"
         ]
       },
       "BearMenu": {
@@ -9698,7 +9702,8 @@
           "none",
           "any",
           "Helena",
-          "Prinz_Eugen"
+          "Prinz_Eugen",
+          "Chang_Feng"
         ]
       },
       "EateryWaitress2": {
@@ -9708,7 +9713,8 @@
           "none",
           "any",
           "Helena",
-          "Prinz_Eugen"
+          "Prinz_Eugen",
+          "Chang_Feng"
         ]
       },
       "EateryMenu": {
@@ -9732,7 +9738,8 @@
           "none",
           "any",
           "August_von_Parseval",
-          "Prinz_Eugen"
+          "Prinz_Eugen",
+          "Chang_Feng"
         ]
       },
       "GrillWaitress2": {
@@ -9742,7 +9749,8 @@
           "none",
           "any",
           "August_von_Parseval",
-          "Prinz_Eugen"
+          "Prinz_Eugen",
+          "Chang_Feng"
         ]
       },
       "GrillMenu": {
@@ -9765,7 +9773,9 @@
         "option": [
           "none",
           "any",
-          "Cheshire"
+          "Cheshire",
+          "Belfast",
+          "Chang_Feng"
         ]
       },
       "CafeWaitress2": {
@@ -9774,7 +9784,9 @@
         "option": [
           "none",
           "any",
-          "Cheshire"
+          "Cheshire",
+          "Belfast",
+          "Chang_Feng"
         ]
       },
       "CafeMenu": {
