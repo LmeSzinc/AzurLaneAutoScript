@@ -206,6 +206,10 @@ button.btn.dropdown-toggle {
     height: auto !important;
 }
 
+.CodeMirror-scroll {
+    max-height: 120px;
+}
+
 .CodeMirror-line {
     font-family: SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace !important;
 }
