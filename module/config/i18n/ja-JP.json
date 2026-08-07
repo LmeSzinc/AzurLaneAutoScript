@@ -466,7 +466,8 @@
       "DroidCast": "DroidCast",
       "DroidCast_raw": "DroidCast_raw",
       "nemu_ipc": "nemu_ipc",
-      "ldopengl": "ldopengl"
+      "ldopengl": "ldopengl",
+      "playcover": "PlayCover"
     },
     "ControlMethod": {
       "name": "Emulator.ControlMethod.name",
@@ -475,7 +476,8 @@
       "uiautomator2": "uiautomator2",
       "minitouch": "minitouch",
       "Hermit": "Hermit",
-      "MaaTouch": "MaaTouch"
+      "MaaTouch": "MaaTouch",
+      "playcover": "PlayCover"
     },
     "ScreenshotDedithering": {
       "name": "Emulator.ScreenshotDedithering.name",
@@ -484,6 +486,32 @@
     "AdbRestart": {
       "name": "Emulator.AdbRestart.name",
       "help": "Emulator.AdbRestart.help"
+    }
+  },
+  "PlayCover": {
+    "_info": {
+      "name": "PlayCover",
+      "help": "PlayCover の MaaTools と管理 API の設定です。PlayCover 使用時のみ有効です。Serial には playcover://192.168.1.10:1717 のようなアドレスを指定します。"
+    },
+    "ManagerEnable": {
+      "name": "管理 API を有効化",
+      "help": "ALAS から PlayCover 経由でゲームを起動、終了、再起動できるようにします（既定のポートは 1718）。無効時は、起動済みのゲームにのみ接続できます。"
+    },
+    "ManagerHost": {
+      "name": "管理 API ホスト",
+      "help": "PlayCover 管理 API のホストです。\"auto\" では Serial の MaaTools ホストを使用します。"
+    },
+    "ManagerPort": {
+      "name": "管理 API ポート",
+      "help": "PlayCover 管理 API のポートです。"
+    },
+    "ManagerKey": {
+      "name": "管理 API キー",
+      "help": "PlayCover 管理 API のアクセスキーです。認証を使用しない場合は空欄にします。"
+    },
+    "BundleIdentifier": {
+      "name": "Bundle Identifier",
+      "help": "PlayCover が管理するアプリの Bundle Identifier です。\"auto\" では「エミュレーター > ゲームサーバー」の設定を使用します。CN 以外のクライアントでは、先に該当するサーバーを選択してください。"
     }
   },
   "EmulatorInfo": {

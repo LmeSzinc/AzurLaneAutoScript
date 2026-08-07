@@ -148,6 +148,8 @@ class LoginHandler(UI):
         self.device.screenshot_interval_set(1.0)
         try:
             self._handle_app_login()
+            if self.device.is_playcover:
+                self.device.playcover_clear_need_app_login()
         finally:
             self.device.screenshot_interval_set()
 
@@ -163,8 +165,11 @@ class LoginHandler(UI):
 
     def app_restart(self):
         logger.hr('App restart')
-        self.device.app_stop()
-        self.device.app_start()
+        if self.device.is_playcover and self.device.playcover_manager_configured():
+            self.device.app_restart_playcover()
+        else:
+            self.device.app_stop()
+            self.device.app_start()
         self.handle_app_login()
         # self.ensure_no_unfinished_campaign()
         self.config.task_delay(server_update=True)

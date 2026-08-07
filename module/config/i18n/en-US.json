@@ -466,7 +466,8 @@
       "DroidCast": "DroidCast",
       "DroidCast_raw": "DroidCast_raw",
       "nemu_ipc": "nemu_ipc",
-      "ldopengl": "ldopengl"
+      "ldopengl": "ldopengl",
+      "playcover": "PlayCover"
     },
     "ControlMethod": {
       "name": "Control Method",
@@ -475,7 +476,8 @@
       "uiautomator2": "uiautomator2",
       "minitouch": "minitouch",
       "Hermit": "Hermit",
-      "MaaTouch": "MaaTouch"
+      "MaaTouch": "MaaTouch",
+      "playcover": "PlayCover"
     },
     "ScreenshotDedithering": {
       "name": "Image Color De-dithering",
@@ -484,6 +486,32 @@
     "AdbRestart": {
       "name": "Try to restart adb when no device found",
       "help": ""
+    }
+  },
+  "PlayCover": {
+    "_info": {
+      "name": "PlayCover",
+      "help": "PlayCover MaaTools and management API settings. These options are used only with PlayCover. Set Serial to an address such as playcover://192.168.1.10:1717."
+    },
+    "ManagerEnable": {
+      "name": "Enable Management API",
+      "help": "Allows ALAS to start, stop, and restart the game through PlayCover (default port 1718). When disabled, ALAS can only connect to a game that is already running."
+    },
+    "ManagerHost": {
+      "name": "Management API Host",
+      "help": "Host of the PlayCover management API. Use \"auto\" to use the MaaTools host from Serial."
+    },
+    "ManagerPort": {
+      "name": "Management API Port",
+      "help": "Port of the PlayCover management API."
+    },
+    "ManagerKey": {
+      "name": "Management API Key",
+      "help": "Access key of the PlayCover management API. Leave empty when authentication is disabled."
+    },
+    "BundleIdentifier": {
+      "name": "Bundle Identifier",
+      "help": "Bundle identifier of the app managed by PlayCover. With \"auto\", this follows Emulator > Game Server. Select the correct server there when using a non-CN client."
     }
   },
   "EmulatorInfo": {

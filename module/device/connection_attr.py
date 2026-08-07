@@ -9,6 +9,7 @@ from module.base.decorator import cached_property
 from module.config.config import AzurLaneConfig
 from module.config.env import IS_ON_PHONE_CLOUD
 from module.config.deep import deep_iter
+from module.device.method.playcover import PLAYCOVER_DEFAULT_HOST, PLAYCOVER_DEFAULT_PORT, PLAYCOVER_METHOD
 from module.device.method.utils import get_serial_pair
 from module.exception import RequestHumanTakeover
 from module.logger import logger
@@ -36,6 +37,13 @@ class ConnectionAttr:
             self.config = config
 
         logger.attr('IS_ON_PHONE_CLOUD', IS_ON_PHONE_CLOUD)
+
+        # Parse custom serial
+        self.serial = str(self.config.Emulator_Serial)
+        if self.is_playcover:
+            self.serial_check()
+            self.config.DEVICE_OVER_HTTP = self.is_over_http
+            return
 
         # Init adb client
         logger.attr('AdbBinary', self.adb_binary)
@@ -65,8 +73,6 @@ class ConnectionAttr:
         # Cache adb_client
         _ = self.adb_client
 
-        # Parse custom serial
-        self.serial = str(self.config.Emulator_Serial)
         self.serial_check()
         self.config.DEVICE_OVER_HTTP = self.is_over_http
 
@@ -138,6 +144,16 @@ class ConnectionAttr:
                 with self.config.multi_set():
                     self.config.Emulator_ScreenshotMethod = 'uiautomator2'
                     self.config.Emulator_ControlMethod = 'uiautomator2'
+        if self.is_playcover:
+            if self.serial == 'auto':
+                self.serial = f'playcover://{PLAYCOVER_DEFAULT_HOST}:{PLAYCOVER_DEFAULT_PORT}'
+                self.config.Emulator_Serial = self.serial
+            if self.config.Emulator_ScreenshotMethod != PLAYCOVER_METHOD \
+                    or self.config.Emulator_ControlMethod != PLAYCOVER_METHOD:
+                logger.info('Use PlayCover screenshot/control methods')
+                with self.config.multi_set():
+                    self.config.Emulator_ScreenshotMethod = PLAYCOVER_METHOD
+                    self.config.Emulator_ControlMethod = PLAYCOVER_METHOD
         if self.is_over_http:
             if self.config.Emulator_ScreenshotMethod not in ["ADB", "uiautomator2", "aScreenCap"] \
                     or self.config.Emulator_ControlMethod not in ["ADB", "uiautomator2", "minitouch"]:
@@ -163,6 +179,13 @@ class ConnectionAttr:
     @cached_property
     def is_wsa(self):
         return bool(re.match(r'^wsa', self.serial))
+
+    @cached_property
+    def is_playcover(self):
+        serial = str(self.serial).strip().lower()
+        return serial.startswith(('playcover', 'maatools')) \
+            or self.config.Emulator_ScreenshotMethod == PLAYCOVER_METHOD \
+            or self.config.Emulator_ControlMethod == PLAYCOVER_METHOD
 
     @cached_property
     def port(self) -> int:

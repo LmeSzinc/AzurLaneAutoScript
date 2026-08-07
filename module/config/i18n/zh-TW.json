@@ -466,7 +466,8 @@
       "DroidCast": "DroidCast",
       "DroidCast_raw": "DroidCast_raw",
       "nemu_ipc": "nemu_ipc",
-      "ldopengl": "ldopengl"
+      "ldopengl": "ldopengl",
+      "playcover": "PlayCover"
     },
     "ControlMethod": {
       "name": "模擬器控制方案",
@@ -475,7 +476,8 @@
       "uiautomator2": "uiautomator2",
       "minitouch": "minitouch",
       "Hermit": "Hermit",
-      "MaaTouch": "MaaTouch"
+      "MaaTouch": "MaaTouch",
+      "playcover": "PlayCover"
     },
     "ScreenshotDedithering": {
       "name": "去除圖片色彩抖動",
@@ -484,6 +486,32 @@
     "AdbRestart": {
       "name": "在檢測不到設備的時候嘗試重啟adb",
       "help": ""
+    }
+  },
+  "PlayCover": {
+    "_info": {
+      "name": "PlayCover",
+      "help": "PlayCover 的 MaaTools 與管理 API 設定，僅在 PlayCover 模式下生效。Serial 請填寫類似 playcover://192.168.1.10:1717 的位址。"
+    },
+    "ManagerEnable": {
+      "name": "啟用管理 API",
+      "help": "允許 ALAS 透過 PlayCover 啟動、關閉或重新啟動遊戲（預設連接埠 1718）。關閉後只能連線至已啟動的遊戲。"
+    },
+    "ManagerHost": {
+      "name": "管理主機",
+      "help": "PlayCover 管理 API 的主機。填 \"auto\" 時使用 Serial 中的 MaaTools 主機。"
+    },
+    "ManagerPort": {
+      "name": "管理連接埠",
+      "help": "PlayCover 管理 API 的連接埠。"
+    },
+    "ManagerKey": {
+      "name": "管理金鑰",
+      "help": "PlayCover 管理 API 的存取金鑰。未啟用驗證時留空。"
+    },
+    "BundleIdentifier": {
+      "name": "Bundle Identifier",
+      "help": "PlayCover 管理的應用程式 Bundle Identifier。填 \"auto\" 時沿用「模擬器設定 > 遊戲伺服器」的選擇；使用非國服客戶端時，請先在該處選擇對應伺服器。"
     }
   },
   "EmulatorInfo": {

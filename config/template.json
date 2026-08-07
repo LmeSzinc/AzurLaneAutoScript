@@ -9,6 +9,13 @@
       "ScreenshotDedithering": false,
       "AdbRestart": false
     },
+    "PlayCover": {
+      "ManagerEnable": true,
+      "ManagerHost": "auto",
+      "ManagerPort": 1718,
+      "ManagerKey": null,
+      "BundleIdentifier": "auto"
+    },
     "EmulatorInfo": {
       "Emulator": "auto",
       "name": null,

@@ -16,7 +16,9 @@ class AppControl(Adb, WSA, Uiautomator2):
 
     def app_current(self) -> str:
         method = self.config.Emulator_ControlMethod
-        if self.is_wsa:
+        if self.is_playcover:
+            package = self.app_current_playcover()
+        elif self.is_wsa:
             package = self.app_current_wsa()
         elif method in AppControl._app_u2_family:
             package = self.app_current_uiautomator2()
@@ -26,6 +28,10 @@ class AppControl(Adb, WSA, Uiautomator2):
         return package
 
     def app_is_running(self) -> bool:
+        if self.is_playcover:
+            running = self.app_is_running_playcover()
+            logger.attr('PlayCover_running', running)
+            return running
         package = self.app_current()
         logger.attr('Package_name', package)
         return package == self.package
@@ -33,7 +39,9 @@ class AppControl(Adb, WSA, Uiautomator2):
     def app_start(self):
         method = self.config.Emulator_ControlMethod
         logger.info(f'App start: {self.package}')
-        if self.config.Emulator_Serial == 'wsa-0':
+        if self.is_playcover:
+            self.app_start_playcover()
+        elif self.config.Emulator_Serial == 'wsa-0':
             self.app_start_wsa(display=0)
         elif method in AppControl._app_u2_family:
             self.app_start_uiautomator2()
@@ -43,7 +51,9 @@ class AppControl(Adb, WSA, Uiautomator2):
     def app_stop(self):
         method = self.config.Emulator_ControlMethod
         logger.info(f'App stop: {self.package}')
-        if method in AppControl._app_u2_family:
+        if self.is_playcover:
+            self.app_stop_playcover()
+        elif method in AppControl._app_u2_family:
             self.app_stop_uiautomator2()
         else:
             self.app_stop_adb()
@@ -71,7 +81,9 @@ class AppControl(Adb, WSA, Uiautomator2):
         self._hierarchy_interval.reset()
 
         method = self.config.Emulator_ControlMethod
-        if method in AppControl._app_u2_family:
+        if self.is_playcover:
+            self.hierarchy = self.dump_hierarchy_playcover()
+        elif method in AppControl._app_u2_family:
             self.hierarchy = self.dump_hierarchy_uiautomator2()
         else:
             self.hierarchy = self.dump_hierarchy_adb()
