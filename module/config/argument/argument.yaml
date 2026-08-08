@@ -20,6 +20,14 @@ Scheduler:
   ServerUpdate:
     value: 00:00
     display: hide
+Restart:
+  MidnightRandomDelay:
+    Enable:
+      type: checkbox
+      value: false
+      option: [ true, false ]
+    MaxSeconds:
+      value: 300
 Emulator:
   Serial:
     value: auto
