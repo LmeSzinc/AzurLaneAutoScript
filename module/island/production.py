@@ -114,6 +114,9 @@ class IslandProduction(IslandRecipe, IslandDock):
         slot_grids = {}
         names = self.production_names
         for codename, button in zip(names, self.production_grid.buttons):
+            if codename not in DIC_ISLAND_PRODUCTION_PLACE:
+                logger.warning(f'Codename {codename} not found in DIC_ISLAND_PRODUCTION_PLACE, skip slot grid creation')
+                continue
             slot_length = len(DIC_ISLAND_PRODUCTION_PLACE[codename]['slot'])
             slot_grid = ButtonGrid(
                 origin=(button.area[0] + SLOT_ORIGIN[0], button.area[1] + SLOT_ORIGIN[1]), delta=SLOT_DELTA, button_shape=SLOT_SIZE,

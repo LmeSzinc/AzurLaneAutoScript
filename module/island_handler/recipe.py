@@ -491,11 +491,17 @@ class IslandRecipe(IslandExchange, IslandShop):
                 self.device.click(button)
                 clicked = True
                 continue
+            first_index = None
             for first_recipe_id in self.recipe_ids:
                 if first_recipe_id in all_recipe_ids:
                     # Avoid error due to unscanned recipe_ids outside all_recipe_ids
                     first_index = all_recipe_ids.index(first_recipe_id)
                     break
+            if first_index is None:
+                logger.warning('No recognized recipe id in current page, swipe and retry')
+                self.next_recipe_page()
+                clicked = False
+                continue
             if all_recipe_ids.index(recipe_id) < first_index:
                 self.prev_recipe_page()
             else:
@@ -531,6 +537,9 @@ class IslandRecipe(IslandExchange, IslandShop):
         # since ranch recipes may have boosted ingredient requirement for higher batch production.
         counters = self.get_recipe_ingredient_counters()
         recipe_cost = DIC_ISLAND_RECIPE[recipe_id]['commission_cost']
+        if counters is None:
+            logger.warning(f'Unable to read ingredient counters for recipe {recipe_id}')
+            return False, 0
         if batch_count == float('inf'):
             max_count = DIC_ISLAND_RECIPE[recipe_id]['production_limit']
             for ingredient_key, counter in zip(recipe_cost, counters):
@@ -550,7 +559,11 @@ class IslandRecipe(IslandExchange, IslandShop):
         success = True
         real_count = batch_count
         failed_buy_items = getattr(self, 'failed_buy_items', set())
-        ingredient_buttons = self.get_recipe_ingredient_grids(recipe_id).buttons
+        ingredient_grid = self.get_recipe_ingredient_grids(recipe_id)
+        if ingredient_grid is None:
+            logger.warning(f'Unable to determine ingredient grid for recipe {recipe_id}')
+            return False, 0
+        ingredient_buttons = ingredient_grid.buttons
         for ingredient_key, counter, button in zip(recipe_cost, counters, ingredient_buttons):
             hard_floor = self.hard_floor_items.get(ingredient_key, 0)
             reserve = self.reserve_items.get(ingredient_key, 0)

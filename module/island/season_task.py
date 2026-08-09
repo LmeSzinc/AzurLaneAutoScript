@@ -138,6 +138,8 @@ class IslandSeasonTask(IslandUI):
         return codenames
 
     def task_name_to_codename(self, name):
+        if not isinstance(name, str):
+            return None
         min_distance = float('inf')
         code = None
         corrected_name = None
@@ -194,6 +196,9 @@ class IslandSeasonTask(IslandUI):
                 if TEMPLATE_ISLAND_SEASON_TASK_OBTAINED.match(image):
                     early_stop = True
                     break
+                if task_id is None:
+                    logger.warning('Unable to identify season task, skip it')
+                    continue
                 else:
                     if task_id not in unfinished_tasks:
                         unfinished_tasks.append(task_id)

@@ -234,12 +234,16 @@ def parse_item_need_deadlines(item_need, default_period=1):
     if isinstance(item_need, dict) and item_need.get('deadlines') and (
         'total_need_count' in item_need or 'rate_per_day' in item_need
     ):
+        fallback_period = item_need.get('period', default_period)
         return [
             (
                 int(deadline.get('count', deadline.get('total_need_count', 0))),
-                float(deadline.get('period', deadline.get('days', item_need['period']))),
+                float(deadline.get('period', deadline.get('days', fallback_period))),
             )
-            for deadline in sorted(item_need['deadlines'], key=lambda x: x['period'])
+            for deadline in sorted(
+                item_need['deadlines'],
+                key=lambda x: x.get('period', x.get('days', fallback_period)),
+            )
             if int(deadline.get('count', deadline.get('total_need_count', 0))) > 0
         ]
 

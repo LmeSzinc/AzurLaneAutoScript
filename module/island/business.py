@@ -102,14 +102,14 @@ class IslandBusiness(IslandRestaurant):
         ocr = Duration(time_button, name="RESTAURANT_REMAIN_TIME")
         for _ in self.loop(timeout=3):
             remain_time = ocr.ocr(self.device.image)
-            if remain_time:
+            if isinstance(remain_time, timedelta) and remain_time.total_seconds() > 0:
                 return remain_time
         else:
             logger.warning("Failed to recognize remain time, assuming restaurant is running for 8 hours")
             return timedelta(hours=8)
 
-    index = None
-    shifted = None
+    index = 0
+    shifted = False
 
     def current_restaurant_button(self):
         if self.shifted:

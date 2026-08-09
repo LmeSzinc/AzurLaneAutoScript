@@ -5,7 +5,7 @@ from typing import Any, Dict, List, Tuple, Union
 
 import cv2
 
-from module.base.button import ButtonGrid
+from module.base.button import Button, ButtonGrid
 from module.base.utils import color_similarity_2d, crop, limit_in, load_image
 from module.island_handler.assets import *
 from module.logger import logger
@@ -24,7 +24,7 @@ class Character:
     emotion_limit: int = 0
     grade: str = ''
     status: str = ''
-    button: Any = None
+    button: Button = None
 
     def satisfy_limitation(self, limitation) -> bool:
         for key in self.__dict__:

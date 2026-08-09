@@ -210,6 +210,9 @@ class IslandShop(IslandShopUI):
                 target_shop_id = shop_id
                 logger.info(f"Recipe {recipe_id} is in shop {shop_id}, name {DIC_ISLAND_SHOP[shop_id]['name'][server.server]}")
                 break
+        if target_shop_id is None:
+            logger.warning(f'Recipe {recipe_id} is not available in the searched shops')
+            return False
         order = [0, 0, 0]
         for index in range(3):
             order[2 - index] = DIC_ISLAND_SHOP[target_shop_id]['order']
