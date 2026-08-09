@@ -216,6 +216,10 @@ class IslandSeasonTask(IslandUI):
         return unfinished_tasks
 
     def run(self):
+        if self.config.SERVER in ['en', 'tw']:
+            logger.info(f'IslandSeasonTask is not available on {self.config.SERVER} server, delay until next server update')
+            self.config.task_delay(server_update=True)
+            return
         self.ui_ensure(page_island_season)
         self.island_season_bottom_navbar_ensure(left=3)
         self.receive_all_reward()
