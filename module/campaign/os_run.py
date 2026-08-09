@@ -69,6 +69,9 @@ class OSCampaignRun(OSMapOperation):
             campaign.os_obscure()
         except ActionPointLimit:
             self.config.opsi_task_delay(ap_limit=True)
+            if self.config.is_task_enabled('OpsiHazard1Leveling') \
+                    and self.get_yellow_coins() > self.config.OS_CL1_YELLOW_COINS_PRESERVE:
+                self.config.task_call('OpsiHazard1Leveling')           
 
     def opsi_month_boss(self):
         if self.config.SERVER in ['tw']:
@@ -89,6 +92,9 @@ class OSCampaignRun(OSMapOperation):
             campaign.os_abyssal()
         except ActionPointLimit:
             self.config.opsi_task_delay(ap_limit=True)
+            if self.config.is_task_enabled('OpsiHazard1Leveling') \
+                    and self.get_yellow_coins() > self.config.OS_CL1_YELLOW_COINS_PRESERVE:
+                self.config.task_call('OpsiHazard1Leveling')
 
     def opsi_archive(self):
         try:
@@ -103,6 +109,9 @@ class OSCampaignRun(OSMapOperation):
             campaign.os_stronghold()
         except ActionPointLimit:
             self.config.opsi_task_delay(ap_limit=True)
+            if self.config.is_task_enabled('OpsiHazard1Leveling') \
+                    and self.get_yellow_coins() > self.config.OS_CL1_YELLOW_COINS_PRESERVE:
+                self.config.task_call('OpsiHazard1Leveling')
 
     def opsi_cross_month(self):
         campaign = self.load_campaign()
