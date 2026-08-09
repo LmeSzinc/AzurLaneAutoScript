@@ -1,6 +1,3 @@
-import cv2
-import numpy as np
-
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property, del_cached_property
 from module.base.template import Template
@@ -9,14 +6,26 @@ from module.map_detection.utils import Points
 from module.shop.assets import *
 from module.shop.base import ShopItemGrid, ShopItemGrid_250814
 from module.shop.clerk import ShopClerk
+from module.shop.shop_medal import ShopScroll
 from module.shop.shop_status import ShopStatus
 
 TEMPLATE_CORE_ICON = Template('./assets/shop/cost/Core_4.png')
-# Item list, used to swipe and to tell whether list has moved
-CORE_SHOP_ITEM_AREA = (220, 195, 1050, 640)
-# About 1.7 rows, small enough not to skip a row, large enough to make progress
-CORE_SHOP_SWIPE_DISTANCE = 380
-CORE_SHOP_SWIPE_LIMIT = 20
+
+
+class CoreShopScroll(ShopScroll):
+    def position_to_screen(self, position, random_range=(-0.01, 0.01)):
+        return super().position_to_screen(position, random_range=random_range)
+
+
+CORE_SHOP_SCROLL_250814 = CoreShopScroll(
+    MEDAL_SHOP_SCROLL_AREA_250814.button,
+    color=(44, 48, 56),
+    name='CORE_SHOP_SCROLL_250814'
+)
+# Core shop has a much shorter slider than medal shop, keep the drag accurate
+# enough to leave overlap between pages
+CORE_SHOP_SCROLL_250814.drag_threshold = 0.03
+CORE_SHOP_SCROLL_LIMIT = 20
 
 
 class CoreShop_250814(ShopClerk, ShopStatus):
@@ -153,58 +162,6 @@ class CoreShop_250814(ShopClerk, ShopStatus):
 
         return False
 
-    def shop_swipe(self, distance, name='CORE_SHOP_SWIPE'):
-        """
-        Swipe item list and tell whether it actually moved.
-
-        Swiping the list instead of dragging the scrollbar, because the lower half
-        of the scrollbar overlaps a dark character illustration and loses contrast
-        there, making scroll position unreadable near the bottom.
-
-        Args:
-            distance (int): Pixels to swipe, negative to show following items.
-            name (str):
-
-        Returns:
-            bool: True if item list moved, False if it already reached the end.
-        """
-        before = self.image_crop(CORE_SHOP_ITEM_AREA, copy=True)
-        x = (CORE_SHOP_ITEM_AREA[0] + CORE_SHOP_ITEM_AREA[2]) // 2
-        y = (CORE_SHOP_ITEM_AREA[1] + CORE_SHOP_ITEM_AREA[3]) // 2
-        # drag instead of swipe, so the shake at the end cancels inertia,
-        # otherwise list keeps sliding and skips rows that were never detected
-        self.device.drag((x, y - distance // 2), (x, y + distance // 2), segments=2, shake=(0, 25),
-                         point_random=(0, 0, 0, 0), shake_random=(0, -5, 0, 5), name=name)
-        # Going through the whole list takes more swipes than the too-many-click
-        # guard allows, drop them as they are expected repetitions
-        self.device.click_record_remove(name)
-        self.device.sleep(0.5)
-        self.device.screenshot()
-        after = self.image_crop(CORE_SHOP_ITEM_AREA, copy=True)
-
-        # Item cards are static, moving the list gives a difference of tens
-        difference = float(np.mean(cv2.absdiff(before, after)))
-        moved = difference > 5
-        logger.attr(name, f'{"moved" if moved else "stuck"}, difference={difference:.1f}')
-        if moved:
-            del_cached_property(self, 'shop_grid')
-            del_cached_property(self, 'shop_core_items')
-        return moved
-
-    def shop_swipe_top(self):
-        """
-        Swipe item list back to top, so no item is missed no matter where the
-        list was left at.
-
-        Returns:
-            bool: True if item list reached top, False if swipe limit was reached.
-        """
-        for _ in range(CORE_SHOP_SWIPE_LIMIT):
-            if not self.shop_swipe(CORE_SHOP_SWIPE_DISTANCE, name='CORE_SHOP_SWIPE_TOP'):
-                return True
-        logger.warning('Failed to swipe core shop to top')
-        return False
-
     def run(self):
         """
         Run Core Shop
@@ -219,15 +176,18 @@ class CoreShop_250814(ShopClerk, ShopStatus):
 
         # Core monthly shop holds about 20 rows of items while only 2 rows are
         # visible, items must be scrolled through page by page
-        if not self.shop_swipe_top():
-            return
-        for _ in range(CORE_SHOP_SWIPE_LIMIT):
+        for _ in range(CORE_SHOP_SCROLL_LIMIT):
             # Execute buy operations
             if not self.shop_buy():
                 break
 
-            if not self.shop_swipe(-CORE_SHOP_SWIPE_DISTANCE, name='CORE_SHOP_SWIPE_NEXT'):
+            if CORE_SHOP_SCROLL_250814.at_bottom(main=self):
                 logger.info('Core shop reach bottom, stop')
                 break
+
+            CORE_SHOP_SCROLL_250814.next_page(main=self, page=0.66)
+            self.device.click_record_remove(CORE_SHOP_SCROLL_250814.name)
+            del_cached_property(self, 'shop_grid')
+            del_cached_property(self, 'shop_core_items')
         else:
             logger.warning('Too many pages in core shop, stopped')
