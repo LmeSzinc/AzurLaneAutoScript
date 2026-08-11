@@ -15,11 +15,13 @@ from module.exception import GameTooManyClickError
 from module.island.data import DIC_ISLAND_ITEM, DIC_ISLAND_RECIPE, DIC_ISLAND_SHOP_ITEM_TO_RECIPE, DIC_ISLAND_SLOT
 from module.island.utils import (
     ceil_div_or_ceil,
+    get_stuck_season_order_requirements,
     get_target_stock_load_rate,
     get_production_target_stock,
     load_hard_floor_items,
     load_item_mapping,
     load_reserve_items,
+    merge_item_needs,
     normalize_item_keys,
     normalize_item_needs,
     parse_item_need_deadlines,
@@ -121,18 +123,22 @@ def get_recipe_product_id(recipe_id):
     return next(iter(DIC_ISLAND_RECIPE[recipe_id]['commission_product']))
 
 
-def get_target_stock_weight(stock, target_stock):
+def get_target_stock_weight(stock, target_stock, hard_floor, reserve):
     if stock >= target_stock or target_stock <= 0:
         return 0
-    else:
-        return (target_stock - stock) / target_stock
+    daily_buffer = max(target_stock - max(hard_floor, 0) - max(reserve, 0), 0)
+    # Daily buffer is the consumable range above the floors, so its fill level
+    # represents replenishment urgency. Fall back to the complete target for
+    # manually configured floors that have no planner-generated daily buffer.
+    denominator = daily_buffer if daily_buffer > 0 else target_stock
+    return (target_stock - stock) / denominator
 
 
-def get_target_stock_batch_weight(stock, target_stock, batch_size):
+def get_target_stock_replenish_workload(stock, target_stock, batch_size, workload):
     if stock >= target_stock:
         return 0
-    else:
-        return (target_stock - stock) / batch_size
+    delta_batch = ceil_div_or_ceil(target_stock - stock, batch_size)
+    return delta_batch * workload
 
 
 def get_demand_weight(stock, target_stock, batch_size, demand):
@@ -159,11 +165,14 @@ def get_idle_accumulating_weight(stock, target_stock, demand, idle_accumulating)
 
 
 def get_recipe_entry_weight(entry):
-    _, (stock, target_stock, _hard_floor, _reserve, batch_size, demand, idle_accumulating) = entry
+    recipe_id, (stock, target_stock, hard_floor, reserve, batch_size, demand, idle_accumulating) = entry
+    workload = DIC_ISLAND_RECIPE[recipe_id]['workload']
     return (
         get_demand_weight(stock, target_stock, batch_size, demand),
-        get_target_stock_weight(stock, target_stock),
-        get_target_stock_batch_weight(stock, target_stock, batch_size),
+        get_target_stock_weight(stock, target_stock, hard_floor, reserve),
+        -get_target_stock_replenish_workload(
+            stock, target_stock, batch_size, workload
+        ),
         -get_idle_accumulating_weight(stock, target_stock, demand, idle_accumulating),
         -stock
     )
@@ -368,6 +377,17 @@ class IslandRecipe(IslandExchange, IslandShop):
             yaml_text = self.config.cross_get("IslandSeasonTask.IslandSeasonTask.TaskTarget", "{}")
             task_target_items_dict = load_item_mapping(yaml_text, config_name='TaskTarget')
         task_target_items_dict = normalize_item_needs(task_target_items_dict, default_period=10)
+        stuck_season_order_id = self.config.cross_get(
+            "IslandOrder.IslandOrder.StuckSeasonOrderId", 0
+        )
+        stuck_season_order_items = normalize_item_needs(
+            get_stuck_season_order_requirements(stuck_season_order_id),
+            default_period=10,
+        )
+        task_target_items_dict = merge_item_needs(
+            task_target_items_dict,
+            stuck_season_order_items,
+        )
         if idle_accumulating_items_dict is None:
             yaml_text = self.config.cross_get("IslandProduction.IslandProduction.IdleAccumulatingItems", "")
             if yaml_text is None:
