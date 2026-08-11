@@ -745,6 +745,101 @@ OpsiHazard1Leveling:
     value: 0
     option: [ 0, 44, 22 ]
 
+# =================== Island ====================
+
+IslandProduction:
+  HardFloorItems:
+    type: textarea
+    value: |-
+      {}
+  ReserveItems:
+    type: textarea
+    value: |-
+      {}
+  DailyBufferItems:
+    type: textarea
+    value: |-
+      {}
+  IdleAccumulatingItems:
+    type: textarea
+    value: |-
+      {}
+IslandOrder:
+  StuckSeasonOrderId: 0
+IslandFreebie:
+  Share: true
+IslandRestaurant:
+  KoiGrade:
+    value: bronze
+    option: [ bronze, silver, gold, diamond ]
+  KoiWaitress1: &KoiWaitressSlot
+    value: any
+    option: &KoiWaitressOptions [ none, any, Chao_Ho, Chang_Feng ]
+  KoiWaitress2:
+    <<: *KoiWaitressSlot
+    value: none
+  KoiMenu:
+    type: textarea
+    value: |-
+      {}
+  BearGrade:
+    value: bronze
+    option: [ bronze, silver, gold, diamond ]
+  BearWaitress1: &BearWaitressSlot
+    value: any
+    option: &BearWaitressOptions [ none, any, Cheshire, Chang_Feng ]
+  BearWaitress2:
+    <<: *BearWaitressSlot
+    value: none
+  BearMenu:
+    type: textarea
+    value: |-
+      {}
+  EateryGrade:  
+    value: bronze
+    option: [ bronze, silver, gold, diamond ]
+  EateryWaitress1: &EateryWaitressSlot
+    value: any
+    option: &EateryWaitressOptions [ none, any, Helena, Prinz_Eugen, Chang_Feng ]
+  EateryWaitress2:
+    <<: *EateryWaitressSlot
+    value: none
+  EateryMenu:
+    type: textarea
+    value: |-
+      {}
+  GrillGrade:
+    value: bronze
+    option: [ bronze, silver, gold, diamond ]
+  GrillWaitress1: &GrillWaitressSlot
+    value: any
+    option: &GrillWaitressOptions [ none, any, August_von_Parseval, Prinz_Eugen, Chang_Feng ]
+  GrillWaitress2:
+    <<: *GrillWaitressSlot
+    value: none
+  GrillMenu:
+    type: textarea
+    value: |-
+      {}
+  CafeGrade:
+    value: bronze
+    option: [ bronze, silver, gold, diamond ]
+  CafeWaitress1: &CafeWaitressSlot
+    value: any
+    option: &CafeWaitressOptions [ none, any, Cheshire, Belfast, Chang_Feng ]
+  CafeWaitress2:
+    <<: *CafeWaitressSlot
+    value: none
+  CafeMenu:
+    type: textarea
+    value: |-
+      {}
+IslandSeasonTask:
+  TaskTarget:
+    type: textarea
+    value: |-
+      {}
+
 # ==================== Tools ====================
 
 Daemon:
@@ -757,6 +852,19 @@ EventStory:
     type: checkbox
     value: false
     option: [ true, false ]
+IslandProductionPlanner:
+  RescanIslandTechnology: false
+  DailyProfitLowerLimit: 50000
+  DailyBufferSafetyMargin: 0
+  FieldsEfficiency:
+    value: 0
+    option: [ 0, 0.04, 0.12 ]
+  OrchardEfficiency:
+    value: 0
+    option: [ 0, 0.04, 0.12 ]
+  NurseryEfficiency:
+    value: 0
+    option: [ 0, 0.04, 0.12 ]
 Benchmark:
   DeviceType:
     value: emulator

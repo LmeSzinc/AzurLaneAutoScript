@@ -148,7 +148,7 @@ class Control(Hermit, Minitouch, Scrcpy, MaaTouch, NemuIpc):
         self.swipe(p1, p2, duration=duration, name=name, distance_check=distance_check)
 
     def drag(self, p1, p2, segments=1, shake=(0, 15), point_random=(-10, -10, 10, 10), shake_random=(-5, -5, 5, 5),
-             swipe_duration=0.25, shake_duration=0.1, name='DRAG'):
+             swipe_duration=0.25, shake_duration=0.1, hold_duration=0.0, name='DRAG'):
         self.handle_control_check(name)
         p1, p2 = ensure_int(p1, p2)
         logger.info(
@@ -156,19 +156,22 @@ class Control(Hermit, Minitouch, Scrcpy, MaaTouch, NemuIpc):
         )
         method = self.config.Emulator_ControlMethod
         if method == 'minitouch':
-            self.drag_minitouch(p1, p2, point_random=point_random)
+            self.drag_minitouch(p1, p2, point_random=point_random, hold_duration=hold_duration)
         elif method == 'uiautomator2':
             self.drag_uiautomator2(
                 p1, p2, segments=segments, shake=shake, point_random=point_random, shake_random=shake_random,
-                swipe_duration=swipe_duration, shake_duration=shake_duration)
+                swipe_duration=swipe_duration, shake_duration=shake_duration, hold_duration=hold_duration)
         elif method == 'scrcpy':
-            self.drag_scrcpy(p1, p2, point_random=point_random)
+            self.drag_scrcpy(p1, p2, point_random=point_random, hold_duration=hold_duration)
         elif method == 'MaaTouch':
-            self.drag_maatouch(p1, p2, point_random=point_random)
+            self.drag_maatouch(p1, p2, point_random=point_random, hold_duration=hold_duration)
         elif method == 'nemu_ipc':
-            self.drag_nemu_ipc(p1, p2, point_random=point_random)
+            self.drag_nemu_ipc(p1, p2, point_random=point_random, hold_duration=hold_duration)
         else:
             logger.warning(f'Control method {method} does not support drag well, '
                            f'falling back to ADB swipe may cause unexpected behaviour')
             self.swipe_adb(p1, p2, duration=ensure_time(swipe_duration * 2))
+            hold_duration = ensure_time(hold_duration)
+            if hold_duration > 0:
+                self.sleep(hold_duration)
             self.click(Button(area=(), color=(), button=area_offset(point_random, p2), name=name), False)
