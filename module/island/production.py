@@ -17,7 +17,7 @@ from module.ui.page import page_island, page_island_manage
 
 ANCHOR_AREA = (452, 7, 481, 36)
 DETECT_AREA = (192, 69, 1221, 653)
-NAME_AREA = (0, 0, 240, 39)
+NAME_AREA = (0, 0, 265, 39) #Change here or change en template sizes
 TAB_SIZE = (490, 159)
 TAB_DELTA = (539, 183.5)
 SLOT_ORIGIN = (62, 59)
