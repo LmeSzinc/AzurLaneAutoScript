@@ -21,7 +21,7 @@ DETECT_AREA = (42, 171, 1206, 604)
 ICON_AREA = (21, 133, 225, 195)
 TAB_DELTA = (395, 230)
 TAB_SIZE = (376, 211)
-NAME_AREA = (29, 18, 200, 48)
+NAME_AREA = (29, 18, 270, 48)
 ISLAND_SEASON_TASK_SCROLL = Scroll(
     ISLAND_SEASON_TASK_SCROLL_AREA.button,
     color=(128, 128, 128),
@@ -122,8 +122,6 @@ class IslandSeasonTask(IslandUI):
     def task_name_ocr(self):
         if server.server == 'jp':
             lang = 'jp'
-        elif server.server == 'en':
-            lang = 'azur_lane'
         else:
             lang = 'cnocr'
         ocr = Ocr([], lang=lang, letter=(57, 58, 60), name='task_name_ocr')

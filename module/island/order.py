@@ -100,17 +100,18 @@ class IslandOrder(IslandUI):
 
     @property
     def requirement_counter_grid(self):
-        counter_grid = self.requirement_grid.crop((238, 44, 327, 65))
+        if server.server == 'en':
+            counter_grid = self.requirement_grid.crop((238, 44, 327, 75))
+        else:
+            counter_grid = self.requirement_grid.crop((238, 44, 327, 65))
         return counter_grid
 
     @cached_property
     def requirement_name_ocr(self):
         if server.server == 'jp':
             lang = 'jp'
-        elif server.server == 'cn':
-            lang = 'cnocr'
         else:
-            lang = 'azur_lane'
+            lang = 'cnocr'
         return Ocr(self.requirement_name_grid.buttons, lang=lang, letter=(57, 59, 61), threshold=160, name='REQUIREMENTS_NAME_OCR')
 
     @cached_property

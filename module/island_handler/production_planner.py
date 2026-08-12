@@ -505,6 +505,26 @@ class IslandProductionPlanner(DaemonBase):
                         )
                 idle_output[output_id] = max(idle_output.get(output_id, 0) - idle_amount, 0)
 
+    def _subtract_passive_idle_accumulating_items(self):
+        """Exclude passive collection from exported idle accumulation."""
+        passive_supply = defaultdict(float)
+        for product in self.wild_gather_plan.values():
+            for item_id, amount in product.items():
+                passive_supply[item_id] += amount
+        for supply_plan in (self.mining_supply_plan, self.logging_supply_plan):
+            for item_id, amount in supply_plan.items():
+                passive_supply[item_id] += amount
+        for item_id, amount in passive_supply.items():
+            reserved_rate = self.demand_items.get(item_id, {}).get('rate_per_day', 0)
+            # Natural idle has already excluded reserved_rate. Since passive
+            # supply can satisfy the same reserve, subtract only the remainder.
+            passive_idle = max(amount - reserved_rate, 0)
+            idle_amount = self.net_idle_accumulating_items.get(item_id, 0) - passive_idle
+            if idle_amount > self.NET_ACCUMULATING_EPSILON:
+                self.net_idle_accumulating_items[item_id] = idle_amount
+            else:
+                self.net_idle_accumulating_items.pop(item_id, None)
+
     def _item_name(self, item_id):
         return item_name(item_id)
 
@@ -805,6 +825,7 @@ class IslandProductionPlanner(DaemonBase):
             DIC_ISLAND_ITEM[item_id].get('pt_num', 0) * amount
             for item_id, amount in self.net_idle_accumulating_items.items()
         )
+        self._subtract_passive_idle_accumulating_items()
         self.daily_profit = self.net_items.get(1, 0)
         for col, activity in enumerate(activities):
             amount = solution[col]
