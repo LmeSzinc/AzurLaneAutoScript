@@ -59,7 +59,6 @@ class Config:
     STAGE_ENTRANCE = ['half', '20240725']
     MAP_HAS_MODE_SWITCH = True
     STAGE_INCREASE_AB = True
-    MAP_SIREN_HAS_BOSS_ICON_SMALL = True
     MAP_WALK_USE_CURRENT_FLEET = True
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
         'height': (80, 255 - 17),
