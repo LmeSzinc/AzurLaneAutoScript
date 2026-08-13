@@ -216,14 +216,14 @@
       "help": "FpyParam.Cmd.help"
     }
   },
-  "FpyWeeklyMission": {
+  "FpyWeekday": {
     "_info": {
-      "name": "FpyWeeklyMission._info.name",
-      "help": "FpyWeeklyMission._info.help"
+      "name": "FpyWeekday._info.name",
+      "help": "FpyWeekday._info.help"
     },
     "Weekday": {
-      "name": "FpyWeeklyMission.Weekday.name",
-      "help": "FpyWeeklyMission.Weekday.help",
+      "name": "FpyWeekday.Weekday.name",
+      "help": "FpyWeekday.Weekday.help",
       "0": "0",
       "1": "1",
       "2": "2",
@@ -231,12 +231,6 @@
       "4": "4",
       "5": "5",
       "6": "6"
-    },
-    "InsufficientAp": {
-      "name": "FpyWeeklyMission.InsufficientAp.name",
-      "help": "FpyWeeklyMission.InsufficientAp.help",
-      "wait": "wait",
-      "apple": "apple"
     }
   },
   "FpyBenchmark": {

@@ -51,9 +51,8 @@ class GeneratedConfig:
     # Group `FpyParam`
     FpyParam_Cmd = ''
 
-    # Group `FpyWeeklyMission`
-    FpyWeeklyMission_Weekday = 5  # 0, 1, 2, 3, 4, 5, 6
-    FpyWeeklyMission_InsufficientAp = 'wait'  # wait, apple
+    # Group `FpyWeekday`
+    FpyWeekday_Weekday = 5  # 0, 1, 2, 3, 4, 5, 6
 
     # Group `FpyBenchmark`
     FpyBenchmark_BenchOption = 'all'  # touch, screen, all

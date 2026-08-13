@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from functools import wraps
 
 import inflection
@@ -44,6 +45,8 @@ class FgoAutoScript(AzurLaneAutoScript):
             {
                 "Special Drop": lambda:
                     setattr(self.config, "FpyLimit_SpecialDrop", max(0, getattr(self.config, "FpyLimit_SpecialDrop") - 1)),
+                "Eat Apple": lambda:
+                    self.config.cross_set("FpyMain.FpyApple.AppleTotal", max(0, self.config.cross_get("FpyMain.FpyApple.AppleTotal") - 1))
             },
         )
         assert app.run("ping")
@@ -73,7 +76,6 @@ class FgoAutoScript(AzurLaneAutoScript):
             if self.config.FpyApple_EatOnce:
                 self.config.FpyApple_AppleCount = 0
             else:
-                self.config.FpyApple_AppleTotal -= self.config.FpyApple_AppleCount
                 self.config.FpyApple_AppleCount = min(
                     self.config.FpyApple_AppleCount,
                     self.config.FpyApple_AppleTotal,
@@ -90,7 +92,23 @@ class FgoAutoScript(AzurLaneAutoScript):
         self.config.task_delay(server_update=True)
 
     def fpy_daily_quest(self):
-        ...
+        assert self.app.run("config stopOnDefeated False")
+        assert self.app.run("config stopOnKizunaReisou False")
+        assert self.app.run("config stopOnSpecialDrop 0")
+        assert self.app.run(f"teamup set index {self.config.FpyTeam_Index}")
+        assert self.app.run(f"main {self.config.FpyParam_Cmd}")
+        self.config.task_delay(server_update=True)
+
+    def fpy_weekly_mission(self):
+        assert self.app.run("config stopOnDefeated False")
+        assert self.app.run("config stopOnKizunaReisou False")
+        assert self.app.run("config stopOnSpecialDrop 0")
+        assert self.app.run(f"teamup set index {self.config.FpyTeam_Index}")
+        assert self.app.run("week -w -e")
+        now = datetime.now()
+        self.config.task_delay(target=(now + timedelta(days=7 + self.config.FpyWeekday_Weekday - now.weekday())).replace(
+            hour=0, minute=0, second=0, microsecond=0
+        ))
 
     def fpy_battle(self):
         assert self.app.run("battle")

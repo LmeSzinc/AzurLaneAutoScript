@@ -13,8 +13,8 @@
       "help": ""
     },
     "FpyWeekly": {
-      "name": "Menu.FpyWeekly.name",
-      "help": "Menu.FpyWeekly.help"
+      "name": "Weekly",
+      "help": ""
     },
     "FpyTool": {
       "name": "Tool",
@@ -24,7 +24,7 @@
   "Task": {
     "Fpy": {
       "name": "FGO-py",
-      "help": "Requries FGO-py v20.1.2 or higher"
+      "help": "Requries FGO-py v21.1.0 or higher"
     },
     "FpyHeartbeat": {
       "name": "Heartbeat",
@@ -39,16 +39,16 @@
       "help": ""
     },
     "FpyDailyStorySummon": {
-      "name": "Task.FpyDailyStorySummon.name",
-      "help": "Task.FpyDailyStorySummon.help"
+      "name": "DailyStorySummon",
+      "help": "Get free daily story summon, Skip if no opportunity"
     },
     "FpyDailyQuest": {
-      "name": "Task.FpyDailyQuest.name",
-      "help": "Task.FpyDailyQuest.help"
+      "name": "DailyQuest",
+      "help": ""
     },
     "FpyWeeklyMission": {
-      "name": "Task.FpyWeeklyMission.name",
-      "help": "Task.FpyWeeklyMission.help"
+      "name": "WeeklyMission",
+      "help": "Automatically identifies, solves, and completes weekly missions\nRecognition errors may occur; it is recommended to manually verify that all missions have been completed"
     },
     "FpyBattle": {
       "name": "Battle",
@@ -208,35 +208,29 @@
   },
   "FpyParam": {
     "_info": {
-      "name": "FpyParam._info.name",
-      "help": "FpyParam._info.help"
+      "name": "Extra Parameters",
+      "help": "Append parameters to the FGO-py cli main command to set operations\nIf operations are set for any task, then all tasks that support this parameter must also have operations set"
     },
     "Cmd": {
-      "name": "FpyParam.Cmd.name",
-      "help": "FpyParam.Cmd.help"
+      "name": "Parameters",
+      "help": "Parameters contents"
     }
   },
-  "FpyWeeklyMission": {
+  "FpyWeekday": {
     "_info": {
-      "name": "FpyWeeklyMission._info.name",
-      "help": "FpyWeeklyMission._info.help"
+      "name": "Day of Week",
+      "help": "Some objectives can be completed during the daily farming runs, so it is recommended to schedule them for the weekend to avoid wasting AP"
     },
     "Weekday": {
-      "name": "FpyWeeklyMission.Weekday.name",
-      "help": "FpyWeeklyMission.Weekday.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6"
-    },
-    "InsufficientAp": {
-      "name": "FpyWeeklyMission.InsufficientAp.name",
-      "help": "FpyWeeklyMission.InsufficientAp.help",
-      "wait": "wait",
-      "apple": "apple"
+      "name": "Day of Week",
+      "help": "Day of Week",
+      "0": "Monday",
+      "1": "Tuesday",
+      "2": "Wednesday",
+      "3": "Thursday",
+      "4": "Friday",
+      "5": "Saturday",
+      "6": "Sunday"
     }
   },
   "FpyBenchmark": {

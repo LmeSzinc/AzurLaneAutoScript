@@ -13,8 +13,8 @@
       "help": ""
     },
     "FpyWeekly": {
-      "name": "Menu.FpyWeekly.name",
-      "help": "Menu.FpyWeekly.help"
+      "name": "ウィークリー",
+      "help": ""
     },
     "FpyTool": {
       "name": "ツール",
@@ -24,7 +24,7 @@
   "Task": {
     "Fpy": {
       "name": "FGO-py設定",
-      "help": "FGO-py v20.1.2以降が必要です"
+      "help": "FGO-py v21.1.0以降が必要です"
     },
     "FpyHeartbeat": {
       "name": "心拍",
@@ -39,16 +39,16 @@
       "help": ""
     },
     "FpyDailyStorySummon": {
-      "name": "Task.FpyDailyStorySummon.name",
-      "help": "Task.FpyDailyStorySummon.help"
+      "name": "毎日ストーリー召喚",
+      "help": "毎日1回無料のストーリー召喚を実行します\n引ける回数が残っていない場合はスキップします"
     },
     "FpyDailyQuest": {
-      "name": "Task.FpyDailyQuest.name",
-      "help": "Task.FpyDailyQuest.help"
+      "name": "毎日出撃",
+      "help": ""
     },
     "FpyWeeklyMission": {
-      "name": "Task.FpyWeeklyMission.name",
-      "help": "Task.FpyWeeklyMission.help"
+      "name": "ウィークリーミッション",
+      "help": "ウィークリーミッションを自動的に識別、分析、完了します\n識別結果が不正確な場合があるため、すべてのタスクが完了したかどうかを確認することをお勧めします"
     },
     "FpyBattle": {
       "name": "戦闘",
@@ -208,35 +208,29 @@
   },
   "FpyParam": {
     "_info": {
-      "name": "FpyParam._info.name",
-      "help": "FpyParam._info.help"
+      "name": "追加パラメータ",
+      "help": "FGO-py cli main`コマンドにパラメータを追加することで、いくつのクエストと回数を設定できます\nいずれかのタスクでクエストが設定されている場合、追加パラメータを設定できるすべてのタスクでもクエストと回数を設定してください"
     },
     "Cmd": {
-      "name": "FpyParam.Cmd.name",
-      "help": "FpyParam.Cmd.help"
+      "name": "パラメータの内容",
+      "help": "パラメータの内容"
     }
   },
-  "FpyWeeklyMission": {
+  "FpyWeekday": {
     "_info": {
-      "name": "FpyWeeklyMission._info.name",
-      "help": "FpyWeeklyMission._info.help"
+      "name": "曜日",
+      "help": "一部の任務目標は日課周回で達成できるため、スタミナの無駄遣いを避けるためにも、週末に設定することをおすすめします"
     },
     "Weekday": {
-      "name": "FpyWeeklyMission.Weekday.name",
-      "help": "FpyWeeklyMission.Weekday.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6"
-    },
-    "InsufficientAp": {
-      "name": "FpyWeeklyMission.InsufficientAp.name",
-      "help": "FpyWeeklyMission.InsufficientAp.help",
-      "wait": "wait",
-      "apple": "apple"
+      "name": "曜日",
+      "help": "曜日",
+      "0": "月曜日",
+      "1": "火曜日",
+      "2": "水曜日",
+      "3": "木曜日",
+      "4": "金曜日",
+      "5": "土曜日",
+      "6": "日曜日"
     }
   },
   "FpyBenchmark": {
@@ -261,12 +255,12 @@
       "name": "機能",
       "help": "スタンドアロン機能名",
       "fpSummon": "FP召喚",
-      "storySummon": "storySummon",
+      "storySummon": "ストーリー召喚",
       "lottery": "BOXイベント抽選",
       "mail": "メールボックス",
       "synthesis": "強化",
       "summonHistory": "召喚履歴",
-      "weeklyMission": "weeklyMission"
+      "weeklyMission": "ウィークリーミッションの分析"
     }
   },
   "Storage": {

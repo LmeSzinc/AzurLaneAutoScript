@@ -45,7 +45,6 @@ FpyDaily:
       - Scheduler
       - FpyParam
       - FpyTeam
-      - FpyLimit
 
 # ==================== FpyWeekly ==================
 
@@ -55,7 +54,7 @@ FpyWeekly:
   tasks:
     FpyWeeklyMission:
       - Scheduler
-      - FpyWeeklyMission
+      - FpyWeekday
       - FpyTeam
 
 # ==================== FpyTool ====================

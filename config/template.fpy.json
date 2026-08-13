@@ -108,11 +108,6 @@
     "FpyTeam": {
       "Index": 0
     },
-    "FpyLimit": {
-      "Defeated": true,
-      "KizunaReisou": true,
-      "SpecialDrop": 999
-    },
     "Storage": {
       "Storage": {}
     }
@@ -126,9 +121,8 @@
       "FailureInterval": 120,
       "ServerUpdate": "05:00"
     },
-    "FpyWeeklyMission": {
-      "Weekday": 5,
-      "InsufficientAp": "wait"
+    "FpyWeekday": {
+      "Weekday": 5
     },
     "FpyTeam": {
       "Index": 0

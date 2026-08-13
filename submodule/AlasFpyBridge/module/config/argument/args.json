@@ -322,20 +322,6 @@
         "value": 0
       }
     },
-    "FpyLimit": {
-      "Defeated": {
-        "type": "checkbox",
-        "value": true
-      },
-      "KizunaReisou": {
-        "type": "checkbox",
-        "value": true
-      },
-      "SpecialDrop": {
-        "type": "input",
-        "value": 999
-      }
-    },
     "Storage": {
       "Storage": {
         "type": "storage",
@@ -377,7 +363,7 @@
         "display": "hide"
       }
     },
-    "FpyWeeklyMission": {
+    "FpyWeekday": {
       "Weekday": {
         "type": "select",
         "value": 5,
@@ -389,14 +375,6 @@
           4,
           5,
           6
-        ]
-      },
-      "InsufficientAp": {
-        "type": "select",
-        "value": "wait",
-        "option": [
-          "wait",
-          "apple"
         ]
       }
     },

@@ -13,8 +13,8 @@
       "help": ""
     },
     "FpyWeekly": {
-      "name": "Menu.FpyWeekly.name",
-      "help": "Menu.FpyWeekly.help"
+      "name": "每周",
+      "help": ""
     },
     "FpyTool": {
       "name": "工具",
@@ -24,7 +24,7 @@
   "Task": {
     "Fpy": {
       "name": "FGO-py设置",
-      "help": "需要FGO-py v20.1.2或更高"
+      "help": "需要FGO-py v21.1.0或更高"
     },
     "FpyHeartbeat": {
       "name": "心跳",
@@ -39,16 +39,16 @@
       "help": ""
     },
     "FpyDailyStorySummon": {
-      "name": "Task.FpyDailyStorySummon.name",
-      "help": "Task.FpyDailyStorySummon.help"
+      "name": "抽剧情",
+      "help": "每天抽一发免费剧情单抽，如果没有可用的单抽机会就跳过"
     },
     "FpyDailyQuest": {
-      "name": "Task.FpyDailyQuest.name",
-      "help": "Task.FpyDailyQuest.help"
+      "name": "每日副本",
+      "help": ""
     },
     "FpyWeeklyMission": {
-      "name": "Task.FpyWeeklyMission.name",
-      "help": "Task.FpyWeeklyMission.help"
+      "name": "每周任务",
+      "help": "自动识别求解并完成每周任务\n识别可能出错,建议手动查看任务是否全部完成"
     },
     "FpyBattle": {
       "name": "完成战斗",
@@ -208,35 +208,29 @@
   },
   "FpyParam": {
     "_info": {
-      "name": "FpyParam._info.name",
-      "help": "FpyParam._info.help"
+      "name": "附加参数",
+      "help": "向 FGO-py cli main 指令附加一些参数，可用于设置计划作战\n如果任一任务设置了计划作战，那么所有可填写此附加参数的任务都需要设置计划作战"
     },
     "Cmd": {
-      "name": "FpyParam.Cmd.name",
-      "help": "FpyParam.Cmd.help"
+      "name": "参数内容",
+      "help": "参数内容"
     }
   },
-  "FpyWeeklyMission": {
+  "FpyWeekday": {
     "_info": {
-      "name": "FpyWeeklyMission._info.name",
-      "help": "FpyWeeklyMission._info.help"
+      "name": "星期几",
+      "help": "部分任务目标可在日常周回中完成，建议设置在周末以避免浪费体力"
     },
     "Weekday": {
-      "name": "FpyWeeklyMission.Weekday.name",
-      "help": "FpyWeeklyMission.Weekday.help",
-      "0": "0",
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6"
-    },
-    "InsufficientAp": {
-      "name": "FpyWeeklyMission.InsufficientAp.name",
-      "help": "FpyWeeklyMission.InsufficientAp.help",
-      "wait": "wait",
-      "apple": "apple"
+      "name": "星期几",
+      "help": "星期几",
+      "0": "星期一",
+      "1": "星期二",
+      "2": "星期三",
+      "3": "星期四",
+      "4": "星期五",
+      "5": "星期六",
+      "6": "星期日"
     }
   },
   "FpyBenchmark": {
@@ -261,12 +255,12 @@
       "name": "功能",
       "help": "要调用的小组件名称",
       "fpSummon": "抽友情",
-      "storySummon": "storySummon",
+      "storySummon": "抽剧情",
       "lottery": "抽奖池",
       "mail": "清理邮箱",
       "synthesis": "强化",
       "summonHistory": "召唤记录",
-      "weeklyMission": "weeklyMission"
+      "weeklyMission": "求解每周任务"
     }
   },
   "Storage": {

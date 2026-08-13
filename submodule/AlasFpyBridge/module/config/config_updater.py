@@ -1,6 +1,4 @@
-# docker run -v ${PWD}:/app/AzurLaneAutoScript --name config-updater -it --rm hgjazhgj/alas bash
-# cd /app/AzurLaneAutoScript
-# python -m submodule.AlasFpyBridge.module.config.config_updater
+# docker run -v ${PWD}:/app/AzurLaneAutoScript --rm hgjazhgj/alas python -m submodule.AlasFpyBridge.module.config.config_updater
 
 from cached_property import cached_property
 
