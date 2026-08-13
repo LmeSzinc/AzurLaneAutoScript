@@ -74,12 +74,6 @@ Event:
     EventGeneral:
       - EventGeneral
       - TaskBalancer
-    Coalition:
-      - Scheduler
-      - Campaign
-      - Coalition
-      - StopCondition
-      - Emotion
     Event:
       - Scheduler
       - Campaign
@@ -109,6 +103,12 @@ Event:
       - Hospital
       - StopCondition
       - Emotion
+    Coalition:
+      - Scheduler
+      - Campaign
+      - Coalition
+      - StopCondition
+      - Emotion
     WarArchives:
       - Scheduler
       - Campaign
@@ -126,12 +126,6 @@ EventDaily:
   menu: 'collapse'
   page: 'setting'
   tasks:
-    CoalitionSp:
-      - Scheduler
-      - Campaign
-      - Coalition
-      - StopCondition
-      - Emotion
     EventA:
       - Scheduler
       - EventDaily
@@ -185,6 +179,12 @@ EventDaily:
       - Scheduler
       - RaidDaily
       - Campaign
+      - StopCondition
+      - Emotion
+    CoalitionSp:
+      - Scheduler
+      - Campaign
+      - Coalition
       - StopCondition
       - Emotion
 
@@ -325,6 +325,29 @@ Opsi:
     OpsiCrossMonth:
       - Scheduler
 
+# =================== Island ===================
+Island:
+  menu: 'collapse'
+  page: 'setting'
+  tasks:
+    IslandProduction:
+      - Scheduler
+      - IslandProduction
+    IslandOrder:
+      - Scheduler
+      - IslandOrder
+    IslandFreebie:
+      - Scheduler
+      - IslandFreebie
+    IslandCollect:
+      - Scheduler
+    IslandSeasonTask:
+      - Scheduler
+      - IslandSeasonTask
+    IslandBusiness:
+      - Scheduler
+      - IslandRestaurant
+
 # ==================== Tool ====================
 
 Tool:
@@ -337,6 +360,8 @@ Tool:
       - OpsiDaemon
     EventStory:
       - EventStory
+    IslandProductionPlanner:
+      - IslandProductionPlanner
     Benchmark:
       - Benchmark
     AzurLaneUncensored:
