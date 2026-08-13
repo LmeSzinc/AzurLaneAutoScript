@@ -70,10 +70,6 @@
       "name": "Event General",
       "help": ""
     },
-    "Coalition": {
-      "name": "Authentic Horror Story",
-      "help": ""
-    },
     "Event": {
       "name": "Event",
       "help": ""
@@ -90,13 +86,13 @@
       "name": "Valley Hospital",
       "help": ""
     },
+    "Coalition": {
+      "name": "Authentic Horror Story",
+      "help": ""
+    },
     "WarArchives": {
       "name": "War Archives",
       "help": "Due to the lack of maintenance of war archives, continuous clear may not work normally, if Alas runs abnormally, Please manually finish clearing and use auto search"
-    },
-    "CoalitionSp": {
-      "name": "Authentic Horror Story SP",
-      "help": ""
     },
     "EventA": {
       "name": "Event Daily A",
@@ -120,6 +116,10 @@
     },
     "RaidDaily": {
       "name": "Raid Daily",
+      "help": ""
+    },
+    "CoalitionSp": {
+      "name": "Authentic Horror Story SP",
       "help": ""
     },
     "Commission": {

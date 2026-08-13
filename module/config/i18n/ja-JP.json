@@ -70,10 +70,6 @@
       "name": "イベント共通設定",
       "help": ""
     },
-    "Coalition": {
-      "name": "怪談実録",
-      "help": ""
-    },
     "Event": {
       "name": "イベント海域",
       "help": ""
@@ -90,12 +86,12 @@
       "name": "病院探訪",
       "help": ""
     },
-    "WarArchives": {
-      "name": "作戦履歴",
+    "Coalition": {
+      "name": "怪談実録",
       "help": ""
     },
-    "CoalitionSp": {
-      "name": "怪談実録SP",
+    "WarArchives": {
+      "name": "作戦履歴",
       "help": ""
     },
     "EventA": {
@@ -120,6 +116,10 @@
     },
     "RaidDaily": {
       "name": "Raid Daily",
+      "help": ""
+    },
+    "CoalitionSp": {
+      "name": "怪談実録SP",
       "help": ""
     },
     "Commission": {
