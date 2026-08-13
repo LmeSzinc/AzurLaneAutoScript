@@ -100,6 +100,10 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             if instance.MuMuPlayer12_id is None:
                 logger.warning(f'Cannot get MuMu instance index from name {instance.name}')
             self.execute(f'"{Emulator.single_to_console(exe)}" api -v {instance.MuMuPlayer12_id} launch_player')
+        elif instance == Emulator.LDPlayer14 or instance == Emulator.LDPlayer9:
+            # ldconsole.exe launch --index 0 --mini
+            # LDPlayer above 9 has `--mini` to start as minimized window, `--hide` to start with no frontend window
+            self.execute(f'"{Emulator.single_to_console(exe)}" launch --index {instance.LDPlayer_id} --mini')
         elif instance == Emulator.LDPlayerFamily:
             # ldconsole.exe launch --index 0
             self.execute(f'"{Emulator.single_to_console(exe)}" launch --index {instance.LDPlayer_id}')
