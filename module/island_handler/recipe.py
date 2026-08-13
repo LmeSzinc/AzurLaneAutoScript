@@ -50,8 +50,6 @@ RECIPE_PRODUCT_NAME_AREA = (123, 23, 269, 46)
 RECIPE_PRODUCT_STOCK_AREA = (212, 92, 275, 110)
 if server.server == 'jp':
     lang = 'jp'
-elif server.server == 'en':
-    lang = 'azur_lane'
 else:
     lang = 'cnocr'
 RECIPE_PRODUCT_NAME_OCR = Ocr([], lang=lang, letter=(57, 59, 61), threshold=160, name='product_name_ocr')

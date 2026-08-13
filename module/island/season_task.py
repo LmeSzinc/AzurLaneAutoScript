@@ -214,7 +214,7 @@ class IslandSeasonTask(IslandUI):
         return unfinished_tasks
 
     def run(self):
-        if self.config.SERVER in ['en', 'tw']:
+        if self.config.SERVER in ['tw']:
             logger.info(f'IslandSeasonTask is not available on {self.config.SERVER} server, delay until next server update')
             self.config.task_delay(server_update=True)
             return
