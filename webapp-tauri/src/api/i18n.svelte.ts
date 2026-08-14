@@ -1,8 +1,7 @@
-import { reactive } from 'vue'
 import { api } from './client'
-import { status } from './store'
+import { status } from './store.svelte'
 
-const dicts = reactive<Record<string, Record<string, string>>>({})
+const dicts = $state<Record<string, Record<string, string>>>({})
 
 /**
  * Load the dictionary for the currently active language.
@@ -10,10 +9,8 @@ const dicts = reactive<Record<string, Record<string, string>>>({})
  */
 export async function loadI18n(): Promise<Record<string, string>> {
   const lang = status.language || 'zh-CN'
-  if (!dicts[lang]) {
-    dicts[lang] = await api.i18n(lang)
-  }
-  return dicts[lang]
+  const dict = (dicts[lang] ??= await api.i18n(lang))
+  return dict
 }
 
 /** Translate a dotted key, e.g. "Gui.Overview.Scheduler". */

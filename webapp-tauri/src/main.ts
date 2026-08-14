@@ -1,8 +1,8 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router'
-import { loadI18n } from './api/i18n'
-import { connectWs, refreshStatus } from './api/store'
+import { mount } from 'svelte'
+import App from './App.svelte'
+import { initRouter } from './router.svelte'
+import { loadI18n } from './api/i18n.svelte'
+import { connectWs, refreshStatus } from './api/store.svelte'
 
 async function bootstrap() {
   // Fetch status (theme/language) before mounting so i18n and the theme
@@ -17,9 +17,8 @@ async function bootstrap() {
   } catch {
     // backend not ready yet
   }
-  const app = createApp(App)
-  app.use(router)
-  app.mount('#app')
+  initRouter()
+  mount(App, { target: document.getElementById('app')! })
   connectWs()
 }
 
