@@ -7,6 +7,13 @@
  * themes.
  */
 
+/* ---- base ---- */
+/* Buttons do not inherit body color by default (UA style); inherit the
+   theme text color so bare buttons are visible on dark themes. */
+button {
+  color: inherit;
+}
+
 /* ---- scrollbars ---- */
 ::-webkit-scrollbar {
   width: 8px;
@@ -35,11 +42,7 @@
 }
 
 /* ---- form controls ---- */
-select.form-control,
-input.form-control,
-textarea.form-control {
-  color: inherit;
-}
+/* Native dropdown options keep dark text on a light popup */
 select.form-control option {
   color: initial;
   background: var(--white, #fff);
