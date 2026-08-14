@@ -160,12 +160,16 @@ class IslandDock(IslandUI):
                 return candidate
             self.next_dock_page()
             if self.appear(ISLAND_DOCK_DETECT, offset=(20, 20)):
-                logger.warning('Reached end of dock page')
-                break
+                # go back to top and rescan again to get missed out chars if owning a lot of chars
+                logger.warning(f'Reached end of dock page, going back to top for one more scan for {identity}')
+                self.ensure_dock_page_at_top()
+                ISLAND_DOCK_DETECT.load_color(self.device.image)
+                ISLAND_DOCK_DETECT._match_init = True
+                continue
             else:
                 ISLAND_DOCK_DETECT.load_color(self.device.image)
         else:
-            logger.warning('Failed to find all requested characters')
+            logger.warning(f'Failed to find requested character: {identity}')
             return None
 
     def island_dock_select_character_with_blacklist(self, blacklist):
