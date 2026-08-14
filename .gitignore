@@ -1,4 +1,4 @@
-### AzurLaneAutoScript
+﻿### AzurLaneAutoScript
 log
 config/backup/*
 config/*.ini
@@ -15,6 +15,7 @@ dev_tools/debug_tools
 /campaign/test/
 /toolkit
 *.lock
+!uv.lock
 config/reloadflag
 config/reloadalas
 test.py
@@ -255,3 +256,11 @@ console.bat
 
 # Pylance configuration file
 pyrightconfig.json
+# Python virtual environments created by uv
+.venv*
+
+# Tauri shell
+webapp-tauri/node_modules/
+webapp-tauri/src-tauri/target/
+webapp-tauri/dist/
+webapp-tauri/.env.development
