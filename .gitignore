@@ -264,3 +264,6 @@ webapp-tauri/node_modules/
 webapp-tauri/src-tauri/target/
 webapp-tauri/dist/
 webapp-tauri/.env.development
+
+# MaaFramework submodule checkout (runtime dependency)
+MaaFramework/
