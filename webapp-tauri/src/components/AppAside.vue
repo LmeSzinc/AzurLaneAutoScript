@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { status } from '@/api/store'
+import { t } from '@/api/i18n'
 
 defineProps<{
   active?: string
@@ -25,7 +26,7 @@ function stateClass(state: number): string {
       @click="emit('select', 'Home')"
     >
       <span class="aside-icon icon-develop" />
-      Home
+      {{ t('Gui.Aside.Home') }}
     </button>
     <button
       v-for="inst in status.instances"
@@ -44,7 +45,7 @@ function stateClass(state: number): string {
       @click="emit('select', 'Manage')"
     >
       <span class="aside-icon icon-setting" />
-      Manage
+      {{ t('Gui.AddAlas.Manage') }}
     </button>
   </aside>
 </template>
@@ -70,16 +71,16 @@ function stateClass(state: number): string {
   mask: no-repeat center / contain;
 }
 .icon-develop {
-  -webkit-mask-image: url('/icon/develop.svg');
-  mask-image: url('/icon/develop.svg');
+  -webkit-mask-image: url('icon/develop.svg');
+  mask-image: url('icon/develop.svg');
 }
 .icon-run {
-  -webkit-mask-image: url('/icon/run.svg');
-  mask-image: url('/icon/run.svg');
+  -webkit-mask-image: url('icon/run.svg');
+  mask-image: url('icon/run.svg');
 }
 .icon-setting {
-  -webkit-mask-image: url('/icon/setting.svg');
-  mask-image: url('/icon/setting.svg');
+  -webkit-mask-image: url('icon/setting.svg');
+  mask-image: url('icon/setting.svg');
 }
 .aside-state-dot {
   display: inline-block;

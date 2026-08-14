@@ -32,27 +32,30 @@ summary {
   font-weight: 500;
 }
 
-/* ---- menu buttons ---- */
-.btn-menu {
+/* ---- menu buttons (compound selectors win over bootstrap .btn) ---- */
+.btn.btn-menu {
+  display: block;
+  width: 100%;
   font-weight: 400;
   background-color: transparent;
   padding: 0.0625rem 0.75rem;
   border-radius: 0;
   border: 0 solid;
+  border-left: 3px solid transparent;
   transition: border 0.05s ease-in-out, padding 0.05s ease-in-out;
   white-space: pre-wrap;
   text-align: left;
 }
-.btn-menu:hover,
-.btn-menu-active {
+.btn.btn-menu:hover,
+.btn.btn-menu-active {
   font-weight: bold;
-  border-left: 0.125rem solid;
-  padding-right: 0.625rem;
-  border-left: 3px solid;
+  border-left-color: currentColor;
+  color: inherit;
+  background-color: transparent;
 }
 
 /* ---- aside buttons ---- */
-.btn-aside {
+.btn.btn-aside {
   width: 4rem;
   font-weight: 400;
   font-size: 0.8rem;
@@ -60,14 +63,16 @@ summary {
   padding: 4px 0 6px 7px;
   border-radius: 0;
   border: 0 solid;
+  border-left: 4px solid transparent;
   transition: border 0.1s ease-in-out, padding 0.1s ease-in-out;
   text-align: left;
 }
-.btn-aside:hover,
-.btn-aside-active {
-  border-left: 4px solid;
+.btn.btn-aside:hover,
+.btn.btn-aside-active {
+  border-left: 4px solid currentColor;
   padding-left: 3px;
   font-weight: bold;
+  background-color: transparent;
 }
 
 /* ---- misc buttons ---- */

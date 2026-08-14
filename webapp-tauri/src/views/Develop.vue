@@ -240,7 +240,6 @@ onMounted(async () => {
   width: 12rem;
   padding: 1.2rem 0.5rem;
   overflow-y: auto;
-  background: #20262b;
 }
 .btn-menu {
   display: block;

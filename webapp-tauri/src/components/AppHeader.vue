@@ -1,7 +1,38 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { invoke } from '@tauri-apps/api/core'
+import { useRoute } from 'vue-router'
+import { status } from '@/api/store'
+import { t } from '@/api/i18n'
 
+const route = useRoute()
 const isTauri = '__TAURI_INTERNALS__' in window
+
+const stateText = computed(() => {
+  const state = status.instances[0]?.state ?? 0
+  if (state === 1) return t('Gui.Status.Running')
+  if (state === 3) return t('Gui.Status.Warning')
+  if (state === 4) return t('Gui.Status.Updating')
+  return t('Gui.Status.Inactive')
+})
+
+const stateClass = computed(() => {
+  const state = status.instances[0]?.state ?? 0
+  if (state === 1) return 'header-state-running'
+  if (state === 3) return 'header-state-warning'
+  if (state === 4) return 'header-state-updating'
+  return 'header-state-inactive'
+})
+
+const pageTitle = computed(() => {
+  if (route.path === '/settings') {
+    const task = (route.query.task as string) || ''
+    return task ? t(`Task.${task}.name`) : ''
+  }
+  if (route.path === '/develop') return t('Gui.Aside.Home')
+  if (route.path === '/manage') return t('Gui.AppManage.PageTitle')
+  return t('Gui.MenuAlas.Overview')
+})
 
 function min() {
   void invoke('window_min')
@@ -12,22 +43,18 @@ function max() {
 function close() {
   void invoke('window_close')
 }
-
-function dragRegion(event: MouseEvent) {
-  if (!isTauri) return
-  // Double click toggles maximize, matching the previous Electron behavior
-  if (event.detail === 2) {
-    max()
-  }
-}
 </script>
 
 <template>
-  <header class="app-header" data-tauri-drag-region @dblclick="dragRegion">
-    <div class="app-header-left" data-tauri-drag-region>
-      <img class="header-icon" src="@/assets/icon/alas.svg" alt="Alas" data-tauri-drag-region />
-      <span class="header-text" data-tauri-drag-region>Alas</span>
-      <span class="header-title-text" data-tauri-drag-region></span>
+  <header class="app-header">
+    <img class="header-icon" src="@/assets/icon/alas.svg" alt="Alas" />
+    <span class="header-text">Alas</span>
+    <span class="header-state" :class="stateClass">
+      <span class="header-state-dot" />
+      {{ stateText }}
+    </span>
+    <div class="header-title">
+      <span class="header-title-text">{{ pageTitle }}</span>
     </div>
     <div v-if="isTauri" class="app-header-controls">
       <button class="header-btn" title="Minimize" @click="min">&#x2212;</button>
@@ -39,22 +66,56 @@ function dragRegion(event: MouseEvent) {
 
 <style scoped>
 .app-header {
-  display: flex;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: 4.4rem 4rem auto 1fr auto;
   align-items: center;
-  justify-content: space-between;
   height: 2.5rem;
   user-select: none;
   -webkit-app-region: drag;
 }
-.app-header-left {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding-left: 10px;
-}
 .header-icon {
   width: 42px;
   height: 42px;
+  margin: 0.25rem auto;
+  border-radius: 1.5rem;
+}
+.header-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: auto !important;
+}
+.header-state {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.85rem;
+  margin: auto;
+}
+.header-state-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #8a939c;
+}
+.header-state-running .header-state-dot {
+  background: #4cd07d;
+}
+.header-state-warning .header-state-dot {
+  background: #e6a23c;
+}
+.header-state-updating .header-state-dot {
+  background: #4c9aff;
+}
+.header-title {
+  margin: auto;
+}
+.header-title-text {
+  font-size: 1.2rem;
+  margin: auto;
+  overflow: hidden;
+  text-align: center;
+  white-space: nowrap;
 }
 .app-header-controls {
   display: flex;

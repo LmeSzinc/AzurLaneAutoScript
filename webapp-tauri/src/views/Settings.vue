@@ -120,7 +120,7 @@ watch(
       <h4 v-if="selectedTask">{{ t(`Task.${selectedTask}.name`) }}</h4>
 
       <!-- tool tasks: scheduler bar (top) + form + log (bottom) -->
-      <div v-else-if="isToolTask" class="tool-view">
+      <div v-if="isToolTask" class="tool-view">
         <div class="tool-bar">
           <span class="col-title">{{ t('Gui.Overview.Scheduler') }}</span>
           <button
