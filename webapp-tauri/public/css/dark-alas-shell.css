@@ -3,6 +3,18 @@
  * (pywebio scope ids -> Vue class names).
  */
 
+:root {
+  --alas-accent: #7a77bb;
+}
+
+/* Root page containers: no body color should show through */
+.home,
+.develop-wrap,
+.manage-wrap,
+.settings-wrap {
+  background-color: #36393f;
+}
+
 .app-aside {
   background-color: #202225;
   border-right: 1px solid #21262d;
@@ -52,14 +64,14 @@
 
 .btn-menu:hover,
 .btn-menu-active {
-  border-color: #7a77bb;
-  color: #7a77bb;
+  border-color: var(--alas-accent);
+  color: var(--alas-accent);
 }
 
 .btn-aside:hover,
 .btn-aside-active {
-  border-color: #7a77bb;
-  color: #7a77bb;
+  border-color: var(--alas-accent);
+  color: var(--alas-accent);
 }
 
 .btn-off {
@@ -68,7 +80,7 @@
 }
 
 .btn-on {
-  background-color: #7a77bb;
+  background-color: var(--alas-accent);
   border: 1px solid #202225;
   color: white;
 }
@@ -81,7 +93,7 @@
   background-color: #2f3136;
 }
 .btn-navigator:hover {
-  color: #7a77bb;
+  color: var(--alas-accent);
 }
 .navigator {
   border: 1px solid #21262d;
@@ -102,16 +114,16 @@
 }
 
 .form-control {
-  border-bottom: 0.125rem solid #7a77bb;
+  border-bottom: 0.125rem solid var(--alas-accent);
 }
 .form-control:focus {
   background-color: #2f3136;
-  border-color: #7a77bb;
-  box-shadow: 0 0.06rem 0 #7a77bb;
+  border-color: var(--alas-accent);
+  box-shadow: 0 0.06rem 0 var(--alas-accent);
 }
 
 input[type='checkbox'] {
-  accent-color: #7a77bb;
+  accent-color: var(--alas-accent);
 }
 
 textarea {

@@ -106,6 +106,15 @@
   function optionLabel(field: Field, opt: string): string {
     return t(`${group}.${field.key}.${opt}`)
   }
+
+  /** state/lock values render translated booleans ("已启用" instead of "true") */
+  function stateText(field: Field): string {
+    const v = currentValue(field)
+    if (typeof v === 'boolean') {
+      return t(`${group}.${field.key}.${v ? 'True' : 'False'}`)
+    }
+    return String(v ?? '')
+  }
 </script>
 
 <div class="dynamic-form">
@@ -176,7 +185,7 @@
               emitSave(field, (e.currentTarget as HTMLTextAreaElement).value)}
           ></textarea>
         {:else if field.def.type === 'state' || field.def.type === 'lock'}
-          <div class="state-display">{currentValue(field)}</div>
+          <div class="state-display">{stateText(field)}</div>
         {:else}
           <input
             class="form-control"

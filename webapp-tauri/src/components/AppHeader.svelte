@@ -45,7 +45,7 @@
 </script>
 
 <header class="app-header">
-  <img class="header-icon" src="icon/alas.svg" alt="Alas" />
+  <img class="header-icon" src="icon/alas.png" alt="Alas" />
   <span class="header-text">Alas</span>
   <span class="header-state {stateClass}">
     <span class="header-state-dot"></span>
