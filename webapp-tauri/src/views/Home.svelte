@@ -204,16 +204,19 @@
   /* original schedulers rows: auto 7.75rem minmax(7.75rem,13rem) minmax(7.75rem,1fr) */
   .running-section {
     height: 7.75rem;
+    flex-shrink: 0;
     overflow-y: auto;
   }
   .pending-section {
     min-height: 7.75rem;
     max-height: 13rem;
+    flex-shrink: 0;
     overflow-y: auto;
   }
   .waiting-section {
     min-height: 7.75rem;
     flex-grow: 1;
+    flex-shrink: 0;
     overflow-y: auto;
   }
   .log-col {

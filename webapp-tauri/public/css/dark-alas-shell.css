@@ -62,15 +62,17 @@
   background-color: #c9d1d9;
 }
 
-.btn-menu:hover,
-.btn-menu-active {
-  border-color: var(--alas-accent);
+/* Loaded after alas-shell.css: the compound selectors below win over its
+   currentColor/inherit fallbacks so the accent actually applies. */
+.btn.btn-menu:hover,
+.btn.btn-menu-active {
+  border-left-color: var(--alas-accent);
   color: var(--alas-accent);
 }
 
-.btn-aside:hover,
-.btn-aside-active {
-  border-color: var(--alas-accent);
+.btn.btn-aside:hover,
+.btn.btn-aside-active {
+  border-left-color: var(--alas-accent);
   color: var(--alas-accent);
 }
 

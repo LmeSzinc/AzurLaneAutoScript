@@ -110,6 +110,8 @@
   .app-menu .btn-menu {
     display: block;
     width: 100%;
+    /* original gap between menu buttons */
+    margin-bottom: 8px;
   }
   .menu-collapse-title {
     display: block;

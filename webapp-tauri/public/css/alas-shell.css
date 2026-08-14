@@ -206,6 +206,8 @@ select.form-control {
   font-size: 0.85rem;
   font-family: Menlo, consolas, 'DejaVu Sans Mono', 'Courier New', monospace;
   white-space: pre;
+  /* bootstrap pre defaults to dark text; follow the theme body color */
+  color: inherit;
 }
 .running-section,
 .pending-section,
