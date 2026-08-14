@@ -267,3 +267,7 @@ webapp-tauri/.env.development
 
 # MaaFramework submodule checkout (runtime dependency)
 MaaFramework/
+
+# Runtime checkouts produced by the updater / submodule loading
+Alasio/
+MaaAssistantArknights/
