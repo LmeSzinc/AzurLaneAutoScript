@@ -1,0 +1,120 @@
+/*
+ * Light theme shell styles, translated from the original light-alas.css
+ * (pywebio scope ids -> Vue class names).
+ */
+
+.app-aside {
+  background-color: white;
+  border-right: 1px solid lightgrey;
+}
+
+.app-menu,
+.dev-menu {
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  background-color: white;
+}
+
+.app-header {
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+.content {
+  background-color: #f9f9f9;
+}
+
+.group-card {
+  background-color: white;
+  border: 1px solid lightgrey;
+}
+.tool-view .group-card {
+  border: 0;
+}
+
+.scheduler-bar,
+.log-bar,
+.log-view,
+.running-section,
+.pending-section,
+.waiting-section,
+.tool-bar {
+  background-color: white;
+  border: 1px solid lightgrey;
+}
+
+.btn-menu:hover,
+.btn-menu-active {
+  border-color: #4e4c97;
+  color: #4e4c97;
+}
+
+.btn-aside:hover,
+.btn-aside-active {
+  border-color: #4e4c97;
+  color: #4e4c97;
+}
+
+.btn-off {
+  background-color: white;
+  border: 1px solid lightgrey;
+}
+
+.btn-on {
+  background-color: #4e4c97;
+  border: 1px solid lightgrey;
+  color: white;
+}
+
+.btn-on:hover {
+  color: white;
+}
+
+.btn-navigator {
+  background-color: white;
+}
+.btn-navigator:hover {
+  color: #4e4c97;
+}
+
+.hr-group {
+  background-color: #eaecef !important;
+}
+
+.hr-task-group-line {
+  border-top-color: #d0d0d0;
+}
+
+.hr-task-group-text {
+  color: #777777;
+}
+
+.form-control {
+  border-bottom: 0.125rem solid #4e4c97;
+}
+.form-control:focus {
+  background-color: white;
+  border-color: #4e4c97;
+  box-shadow: 0 0.06rem 0 #4e4c97;
+}
+
+input[type='checkbox'] {
+  accent-color: #7a77bb;
+}
+
+textarea {
+  border: 1px solid lightgrey;
+}
+
+.container-log {
+  background-color: white !important;
+  border: 1px solid lightgrey;
+}
+
+pre.rich-traceback-code {
+  background-color: #ffffff;
+  color: #616161;
+}
+
+.arg-help,
+.group-card-help {
+  color: #777777;
+}

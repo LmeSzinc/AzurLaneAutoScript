@@ -125,7 +125,7 @@ watch(
           <span class="col-title">{{ t('Gui.Overview.Scheduler') }}</span>
           <button
             class="btn btn-sm"
-            :class="toolAlive ? 'btn-danger' : 'btn-success'"
+            :class="toolAlive ? 'btn-off' : 'btn-on'"
             @click="toggleTool"
           >
             {{ toolAlive ? t('Gui.Button.Stop') : t('Gui.Button.Start') }}

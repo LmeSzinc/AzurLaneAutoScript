@@ -104,7 +104,7 @@ onUnmounted(() => {
           <span class="bar-title">{{ t('Gui.Overview.Scheduler') }}</span>
           <button
             class="btn btn-sm"
-            :class="scheduler.alive ? 'btn-danger' : 'btn-success'"
+            :class="scheduler.alive ? 'btn-off' : 'btn-on'"
             @click="toggleScheduler"
           >
             {{ scheduler.alive ? t('Gui.Button.Stop') : t('Gui.Button.Start') }}

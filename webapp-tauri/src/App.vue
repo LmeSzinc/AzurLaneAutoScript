@@ -10,7 +10,7 @@ let alasLink: HTMLLinkElement | null = null
 function applyTheme(theme: string) {
   const name = THEMES.includes(theme) ? theme : 'default'
   const bsTheme = name === 'light' ? 'default' : name
-  const alasTheme = name === 'dark' ? 'dark-alas' : name === 'light' ? 'light-alas' : 'alas'
+  const alasTheme = name === 'dark' ? 'dark-alas-shell' : 'light-alas-shell'
   if (themeLink) {
     themeLink.remove()
   }
