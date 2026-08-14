@@ -1,4 +1,3 @@
-from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1
 from module.config.utils import get_os_reset_remain
@@ -211,11 +210,19 @@ class OSShop(PortShop, AkashiShop):
         items = self.scan_all()
         if not len(items):
             logger.warning('Empty OS shop.')
+            self.config.cross_set("OpsiShop.Storage.Storage.BoughtAllYellowCoinItems", True)
             return False
         items = self.items_filter_in_os_shop(items)
         if not len(items):
             logger.warning('Nothing to buy.')
+            self.config.cross_set("OpsiShop.Storage.Storage.BoughtAllYellowCoinItems", True)
             return False
+        if all(item.cost == 'PurpleCoins' for item in items):
+            logger.info("All yellow coin items are bought.")
+            self.config.cross_set("OpsiShop.Storage.Storage.BoughtAllYellowCoinItems", True)
+        else:
+            logger.info("There are still yellow coin items to buy.")
+            self.config.cross_set("OpsiShop.Storage.Storage.BoughtAllYellowCoinItems", False)
         self.os_shop_get_coins()
         skip_get_coins = True
         items.reverse()
@@ -264,13 +271,6 @@ class OSShop(PortShop, AkashiShop):
                       additional=self.handle_story_skip, skip_first_screenshot=True)
         self.os_shop_buy(select_func=self.os_shop_get_item_to_buy_in_akashi)
         self.ui_back(appear_button=PORT_SUPPLY_CHECK, check_button=self.is_in_map, skip_first_screenshot=True)
-
-    @cached_property
-    def yellow_coins_preserve(self):
-        if self.is_cl1_enabled:
-            return 100000
-        else:
-            return 35000
 
     def get_currency_coins(self, item):
         if item.cost == 'YellowCoins':

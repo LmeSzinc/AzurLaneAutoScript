@@ -85,30 +85,31 @@ class IslandReversedDigitCounter(Ocr):
                 sub_image = extract_letters(image, letter=self.sub_letter, threshold=self.sub_threshold)
                 cv2.bitwise_and(main_image, sub_image, dst=main_image)
 
+        main_image = cv2.copyMakeBorder(main_image, 2, 4, 0, 0, cv2.BORDER_CONSTANT, value=(255, 255, 255))
+                    
         return main_image
 
     def after_process(self, result):
         result = super().after_process(result)
         result = result.replace('I', '1').replace('D', '0').replace('S', '5')
         result = result.replace('B', '8')
-        if re.fullmatch(r'\d+/?', result):
+        if re.fullmatch(r'[0-9]+/?', result):
             normalized = f'{result.rstrip("/")}/0'
             logger.warning(f'Unexpected ocr result: {result}, normalized to {normalized}')
             result = normalized
-        result = re.search(r'(\d+)/([\d+\-\*\(\)]+)', result)
-        if result:
-            numerator = int(result.group(1))
-            denominator_str = result.group(2)
-            try:
-                denominator = eval(denominator_str)
-                current, total = denominator, numerator
-                return total, current, total - current
-            except (ValueError, SyntaxError):
-                logger.warning(f'Unexpected ocr result: {result.group(0)}')
-                return 0, 0, 0
-        else:
+        # Accept only "total/current" or "total/(current+bonus)". The last
+        # capture handles a direct current value; the middle two are summed.
+        match = re.fullmatch(r'([0-9]+)/(?:\(([0-9]+)\+([0-9]+)\)|([0-9]+))', result)
+        if not match:
             logger.warning(f'Unexpected ocr result: {result}')
             return 0, 0, 0
+
+        total = int(match.group(1))
+        if match.group(4) is not None:
+            current = int(match.group(4))
+        else:
+            current = int(match.group(2)) + int(match.group(3))
+        return total, current, total - current
 
 
 RECIPE_INGREDIENT_COUNTER_OCR = IslandReversedDigitCounter(

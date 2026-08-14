@@ -1,6 +1,7 @@
 import typing as t
 from datetime import datetime, timedelta
 
+from module.base.decorator import cached_property
 import module.config.server as server
 from module.base.timer import Timer
 from module.config.config import Function
@@ -59,6 +60,17 @@ class OSStatus(UI):
 
         tasks = SelectedGrids(self.config.pending_task + self.config.waiting_task).filter(func).sort('next_run')
         return tasks.first_or_none()
+
+    @property
+    def bought_all_yellow_coin_items_in_port_shop(self) -> bool:
+        return self.config.cross_get("OpsiShop.Storage.Storage.BoughtAllYellowCoinItems", False)
+
+    @cached_property
+    def yellow_coins_preserve(self):
+        if self.is_cl1_enabled and not self.bought_all_yellow_coin_items_in_port_shop:
+            return 100000
+        else:
+            return 35000
 
     def get_yellow_coins(self) -> int:
         yellow_coins = 0
