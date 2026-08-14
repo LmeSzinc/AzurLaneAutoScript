@@ -69,7 +69,7 @@
     grid-auto-flow: column;
     grid-template-columns: 4.4rem 4rem auto 1fr auto;
     align-items: center;
-    height: 2.5rem;
+    height: 50px;
     user-select: none;
     -webkit-app-region: drag;
   }

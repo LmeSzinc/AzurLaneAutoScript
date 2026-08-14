@@ -77,7 +77,12 @@
   background-color: #2f3136;
 }
 .btn-navigator:hover {
-  color: #7a77bb;
+  color: #4c9aff;
+}
+.navigator {
+  border: 1px solid #21262d;
+  background-color: #2f3136;
+  color: #c9d1d9;
 }
 
 .hr-group {

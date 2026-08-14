@@ -208,7 +208,8 @@
     overflow: hidden;
   }
   .content {
-    flex-grow: 1;
+    flex: 1 1 auto;
+    min-width: 0;
     padding: 1rem;
     overflow-y: auto;
   }
@@ -242,6 +243,7 @@
   .navigator {
     margin: 0.5rem 1rem;
     height: min-content;
+    width: min-content;
     max-width: 15rem;
     flex-shrink: 0;
     overflow-y: auto;

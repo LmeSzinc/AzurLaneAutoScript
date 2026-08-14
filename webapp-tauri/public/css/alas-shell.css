@@ -60,12 +60,13 @@ summary {
   font-weight: 400;
   font-size: 0.8rem;
   background-color: transparent;
-  padding: 4px 0 6px 7px;
+  padding: 0.375rem 0 0.75rem 7px;
   border-radius: 0;
   border: 0 solid;
   border-left: 4px solid transparent;
   transition: border 0.1s ease-in-out, padding 0.1s ease-in-out;
   text-align: left;
+  margin-bottom: 0.375rem;
 }
 .btn.btn-aside:hover,
 .btn.btn-aside-active {
@@ -81,14 +82,15 @@ summary {
   border-radius: 0;
   margin: 0;
 }
-.btn-navigator {
+.btn.btn-navigator {
   border-radius: 0;
   margin: 0 !important;
   width: 100%;
   text-align: left;
   transition: color 0s ease-in-out;
+  background-color: transparent;
 }
-.btn-navigator:hover {
+.btn.btn-navigator:hover {
   font-weight: bold;
 }
 

@@ -59,24 +59,24 @@
 
   {#each groups as group (group.name)}
     {#if group.collapse}
-      <details
-        class="menu-collapse"
-        open={isGroupOpen(group.name)}
-        ontoggle={() => toggleGroup(group.name)}
-      >
-        <summary>{t(`Menu.${group.name}.name`)}</summary>
-        <div>
-          {#each group.tasks as task (task)}
-            <button
-              class="btn btn-menu"
-              class:btn-menu-active={activeTask === task}
-              onclick={() => selectTask(task)}
-            >
-              {t(`Task.${task}.name`)}
-            </button>
-          {/each}
-        </div>
-      </details>
+      <div class="menu-collapse">
+        <button class="menu-collapse-title" onclick={() => toggleGroup(group.name)}>
+          {t(`Menu.${group.name}.name`)}
+        </button>
+        {#if isGroupOpen(group.name)}
+          <div>
+            {#each group.tasks as task (task)}
+              <button
+                class="btn btn-menu"
+                class:btn-menu-active={activeTask === task}
+                onclick={() => selectTask(task)}
+              >
+                {t(`Task.${task}.name`)}
+              </button>
+            {/each}
+          </div>
+        {/if}
+      </div>
     {:else}
       <div class="hr-task-group-box">
         <span class="hr-task-group-line"></span>
@@ -109,5 +109,18 @@
   .app-menu .btn-menu {
     display: block;
     width: 100%;
+  }
+  .menu-collapse-title {
+    display: block;
+    width: 100%;
+    font-weight: 500;
+    background-color: transparent;
+    border: 0;
+    text-align: left;
+    padding: 0.4rem 0.75rem 0.2rem;
+    cursor: pointer;
+  }
+  .menu-collapse-title:hover {
+    font-weight: bold;
   }
 </style>

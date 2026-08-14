@@ -65,12 +65,12 @@
       'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
   }
   .app-main {
-    height: calc(100vh - 2.5rem);
+    height: calc(100vh - 50px);
   }
   /* Mobile: collapse panels to full width below 768px */
   @media (max-width: 767px) {
     .app-main {
-      height: calc(100vh - 2.5rem);
+      height: calc(100vh - 50px);
     }
   }
 </style>
