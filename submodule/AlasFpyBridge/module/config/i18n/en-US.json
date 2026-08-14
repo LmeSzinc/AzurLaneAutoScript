@@ -259,8 +259,7 @@
       "lottery": "lottery",
       "mail": "mail",
       "synthesis": "synthesis",
-      "summonHistory": "summonHistory",
-      "weeklyMission": "weeklyMission"
+      "summonHistory": "summonHistory"
     }
   },
   "Storage": {

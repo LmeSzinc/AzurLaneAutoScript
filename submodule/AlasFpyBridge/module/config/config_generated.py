@@ -58,7 +58,7 @@ class GeneratedConfig:
     FpyBenchmark_BenchOption = 'all'  # touch, screen, all
 
     # Group `FpyCall`
-    FpyCall_Function = 'lottery'  # fpSummon, storySummon, lottery, mail, synthesis, summonHistory, weeklyMission
+    FpyCall_Function = 'lottery'  # fpSummon, storySummon, lottery, mail, synthesis, summonHistory
 
     # Group `Storage`
     Storage_Storage = {}
