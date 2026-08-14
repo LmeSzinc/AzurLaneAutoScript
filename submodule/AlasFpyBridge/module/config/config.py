@@ -43,6 +43,11 @@ class FgoConfig(AzurLaneConfig, ConfigUpdater, GeneratedConfig):
         mtime = datetime.fromtimestamp(timestamp).replace(microsecond=0)
         return mtime
 
+    def override(self, **kwargs):
+        for arg, value in kwargs.items():
+            self.overridden[arg] = value
+            object.__setattr__(self, arg, value)
+
 
 def load_config(config_name, task):
     return FgoConfig(config_name, task)

@@ -5,6 +5,7 @@ import inflection
 from cached_property import cached_property
 
 from alas import AzurLaneAutoScript
+from module.config.utils import get_nearest_weekday_date
 from module.exception import RequestHumanTakeover
 from module.logger import logger
 from submodule.AlasFpyBridge.module.config.config import FgoConfig
@@ -105,10 +106,7 @@ class FgoAutoScript(AzurLaneAutoScript):
         assert self.app.run("config stopOnSpecialDrop 0")
         assert self.app.run(f"teamup set index {self.config.FpyTeam_Index}")
         assert self.app.run("week -w -e")
-        now = datetime.now()
-        self.config.task_delay(target=(now + timedelta(days=7 + self.config.FpyWeekday_Weekday - now.weekday())).replace(
-            hour=0, minute=0, second=0, microsecond=0
-        ))
+        self.config.task_delay(target=get_nearest_weekday_date(0) + timedelta(days=self.config.FpyWeekday_Weekday))
 
     def fpy_battle(self):
         assert self.app.run("battle")
