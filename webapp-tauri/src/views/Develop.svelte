@@ -281,20 +281,4 @@
     justify-content: center;
     flex-wrap: wrap;
   }
-  .update-idle,
-  .update-none {
-    color: #8a939c;
-  }
-  .update-checking {
-    color: #e6a23c;
-  }
-  .update-available {
-    color: #4c9aff;
-  }
-  .update-updating {
-    color: #4cd07d;
-  }
-  .update-failed {
-    color: #e0645c;
-  }
 </style>
