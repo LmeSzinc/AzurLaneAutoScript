@@ -40,7 +40,7 @@
 .running-section,
 .pending-section,
 .waiting-section,
-.tool-bar {
+.tool-upper {
   background-color: white;
   border: 1px solid lightgrey;
 }

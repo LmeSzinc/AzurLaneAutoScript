@@ -118,7 +118,7 @@
     background-color: transparent;
     border: 0;
     text-align: left;
-    padding: 0.4rem 0.75rem 0.2rem;
+    padding: 8px 12px;
     cursor: pointer;
   }
   .menu-collapse-title:hover {

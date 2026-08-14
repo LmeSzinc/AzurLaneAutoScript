@@ -92,7 +92,7 @@
       <div class="scheduler-bar">
         <span class="bar-title">{t('Gui.Overview.Scheduler')}</span>
         <button
-          class="btn btn-sm"
+          class="btn"
           class:btn-off={scheduler.alive}
           class:btn-on={!scheduler.alive}
           onclick={toggleScheduler}
@@ -114,7 +114,7 @@
                 <div class="arg-title">{t(`Task.${task.command}.name`)}</div>
                 <div class="arg-help">{task.next_run}</div>
               </div>
-              <button class="btn btn-sm btn-adaptive" onclick={() => goSettings(task.command)}>
+              <button class="btn btn-off" onclick={() => goSettings(task.command)}>
                 {t('Gui.Button.Setting')}
               </button>
             </div>
@@ -135,7 +135,7 @@
                 <div class="arg-title">{t(`Task.${task.command}.name`)}</div>
                 <div class="arg-help">{task.next_run}</div>
               </div>
-              <button class="btn btn-sm btn-adaptive" onclick={() => goSettings(task.command)}>
+              <button class="btn btn-off" onclick={() => goSettings(task.command)}>
                 {t('Gui.Button.Setting')}
               </button>
             </div>
@@ -156,7 +156,7 @@
                 <div class="arg-title">{t(`Task.${task.command}.name`)}</div>
                 <div class="arg-help">{task.next_run}</div>
               </div>
-              <button class="btn btn-sm btn-adaptive" onclick={() => goSettings(task.command)}>
+              <button class="btn btn-off" onclick={() => goSettings(task.command)}>
                 {t('Gui.Button.Setting')}
               </button>
             </div>
@@ -170,7 +170,7 @@
       <div class="log-bar">
         <span class="bar-title">{t('Gui.Overview.Log')}</span>
         <div class="log-bar-btns">
-          <button class="btn btn-sm" class:btn-on={keepBottom} class:btn-off={!keepBottom} onclick={() => (keepBottom = !keepBottom)}>
+          <button class="btn" class:btn-on={keepBottom} class:btn-off={!keepBottom} onclick={() => (keepBottom = !keepBottom)}>
             {keepBottom ? t('Gui.Button.ScrollON') : t('Gui.Button.ScrollOFF')}
           </button>
         </div>

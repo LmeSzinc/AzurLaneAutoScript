@@ -38,7 +38,7 @@ summary {
   width: 100%;
   font-weight: 400;
   background-color: transparent;
-  padding: 0.0625rem 0.75rem;
+  padding: 0.0625rem 0.625rem 0.0625rem 0.75rem;
   border-radius: 0;
   border: 0 solid;
   border-left: 3px solid transparent;

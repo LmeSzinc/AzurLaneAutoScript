@@ -120,7 +120,7 @@
         <div class="tool-upper">
           <span class="col-title">{t('Gui.Overview.Scheduler')}</span>
           <button
-            class="btn btn-sm"
+            class="btn"
             class:btn-off={toolAlive}
             class:btn-on={!toolAlive}
             onclick={toggleTool}
@@ -129,7 +129,7 @@
           </button>
           <span class="col-title ms-auto">{t('Gui.Overview.Log')}</span>
           <button
-            class="btn btn-sm"
+            class="btn"
             class:btn-on={toolKeepBottom}
             class:btn-off={!toolKeepBottom}
             onclick={() => (toolKeepBottom = !toolKeepBottom)}
@@ -191,7 +191,7 @@
   {#if navigatorGroups.length}
     <nav class="navigator">
       {#each navigatorGroups as name (name)}
-        <button class="btn btn-sm btn-navigator" onclick={() => scrollToGroup(name)}>
+        <button class="btn btn-navigator" onclick={() => scrollToGroup(name)}>
           {t(`${name}._info.name`)}
         </button>
       {/each}
