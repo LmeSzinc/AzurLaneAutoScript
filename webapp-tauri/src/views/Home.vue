@@ -71,7 +71,7 @@ function scrollLog() {
 let timer: number | undefined
 
 onMounted(async () => {
-  void loadI18n('zh-CN')
+  void loadI18n()
   await refreshStatus()
   await refreshScheduler()
   timer = window.setInterval(() => {
@@ -126,7 +126,7 @@ onUnmounted(() => {
               <div class="task-title">{{ t(`Task.${task.command}.name`) }}</div>
               <div class="task-help">{{ task.next_run }}</div>
             </div>
-            <button class="btn btn-sm btn-outline-light" @click="goSettings(task.command)">
+            <button class="btn btn-sm btn-adaptive" @click="goSettings(task.command)">
               {{ t('Gui.Button.Setting') }}
             </button>
           </div>
@@ -137,7 +137,7 @@ onUnmounted(() => {
       <section class="log-col">
         <div class="log-bar">
           <span class="col-title">{{ t('Gui.Overview.Log') }}</span>
-          <button class="btn btn-sm btn-outline-light" @click="keepBottom = !keepBottom">
+          <button class="btn btn-sm btn-adaptive" @click="keepBottom = !keepBottom">
             {{ keepBottom ? t('Gui.Button.ScrollON') : t('Gui.Button.ScrollOFF') }}
           </button>
         </div>
@@ -192,6 +192,7 @@ onUnmounted(() => {
 .hr-group {
   margin-top: 0.25rem;
   margin-bottom: 0.25rem;
+  border-color: #39424a;
 }
 .notask-text {
   text-align: center;
@@ -216,6 +217,7 @@ onUnmounted(() => {
   font-weight: 500;
   margin: 0 0.25rem;
   overflow-wrap: break-word;
+  color: #eaeaea;
 }
 .task-help {
   font-size: 0.8rem;
@@ -228,6 +230,7 @@ onUnmounted(() => {
   margin: 0.3125rem;
   padding: 0.625rem;
   overflow-y: auto;
+  background: #16191d;
   color: #d4d9de;
   font-size: 12px;
   border-radius: 4px;

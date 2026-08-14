@@ -42,7 +42,7 @@ function selectTask(task: string) {
 onMounted(async () => {
   const schema = await api.schema('alas')
   menu.value = schema.menu
-  void loadI18n('zh-CN')
+  void loadI18n()
 })
 </script>
 
@@ -102,6 +102,7 @@ onMounted(async () => {
   padding-right: 0.5rem;
   padding-top: 1.2rem;
   overflow-y: auto;
+  background: #20262b;
 }
 .btn-menu {
   display: block;
@@ -109,6 +110,7 @@ onMounted(async () => {
   font-weight: 400;
   font-size: 0.875rem;
   background-color: transparent;
+  color: #cfd4d9;
   padding: 0.2rem 0.75rem;
   border-radius: 0;
   border: 0 solid;
@@ -122,6 +124,7 @@ onMounted(async () => {
   font-weight: bold;
   border-left-color: #4c9aff;
   padding-right: 0.625rem;
+  color: #eaeaea;
 }
 .btn-menu-indent {
   padding-left: 1.5rem;
@@ -140,6 +143,7 @@ onMounted(async () => {
   margin-top: 0.3rem;
 }
 .menu-collapse-title:hover {
+  color: #cfd4d9;
 }
 .collapse-arrow {
   display: inline-block;

@@ -84,7 +84,7 @@ function onAsideSelect(name: string) {
 }
 
 onMounted(async () => {
-  void loadI18n('zh-CN')
+  void loadI18n()
   await refreshStatus()
   void refreshUpdate()
 })
@@ -133,7 +133,7 @@ onMounted(async () => {
             v-for="lang in LANGS"
             :key="lang.value"
             class="btn btn-sm"
-            :class="status.language === lang.value ? 'btn-primary' : 'btn-outline-light'"
+            :class="status.language === lang.value ? 'btn-primary' : 'btn-adaptive'"
             @click="setLanguage(lang.value)"
           >
             {{ lang.label }}
@@ -145,7 +145,7 @@ onMounted(async () => {
             v-for="theme in THEMES"
             :key="theme.value"
             class="btn btn-sm"
-            :class="status.theme === theme.value ? 'btn-primary' : 'btn-outline-light'"
+            :class="status.theme === theme.value ? 'btn-primary' : 'btn-adaptive'"
             @click="setTheme(theme.value)"
           >
             {{ theme.label }}
@@ -163,7 +163,7 @@ onMounted(async () => {
       <template v-else-if="page === 'Update'">
         <div class="d-flex align-items-center gap-2 mb-3">
           <span class="badge" :class="`update-${updateState}`">{{ updateState }}</span>
-          <button class="btn btn-sm btn-outline-light" :disabled="updateState === 'checking'" @click="checkUpdate">
+          <button class="btn btn-sm btn-adaptive" :disabled="updateState === 'checking'" @click="checkUpdate">
             {{ t('Gui.Button.CheckUpdate') }}
           </button>
           <button
@@ -239,6 +239,7 @@ onMounted(async () => {
   width: 12rem;
   padding: 1.2rem 0.5rem;
   overflow-y: auto;
+  background: #20262b;
 }
 .btn-menu {
   display: block;
@@ -246,6 +247,7 @@ onMounted(async () => {
   font-weight: 400;
   font-size: 0.875rem;
   background-color: transparent;
+  color: #cfd4d9;
   padding: 0.2rem 0.75rem;
   border-radius: 0;
   border: 0 solid;
@@ -257,6 +259,7 @@ onMounted(async () => {
 .btn-menu-active {
   font-weight: bold;
   border-left-color: #4c9aff;
+  color: #eaeaea;
 }
 .content {
   flex-grow: 1;
@@ -275,6 +278,7 @@ onMounted(async () => {
 }
 .compare-table,
 .history-table {
+  color: #eaeaea;
 }
 .compare-table th,
 .history-table th {

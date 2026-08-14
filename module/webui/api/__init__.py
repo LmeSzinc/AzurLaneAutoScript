@@ -83,6 +83,8 @@ def render_log(renderable) -> str:
 
 
 def build_status() -> Dict[str, Any]:
+    from module.webui import lang
+
     instances = []
     for name in alas_instance():
         manager = ProcessManager.get_manager(name)
@@ -94,7 +96,7 @@ def build_status() -> Dict[str, Any]:
     return {
         'instances': instances,
         'theme': State.theme,
-        'language': LANG,
+        'language': lang.LANG,
     }
 
 
@@ -270,8 +272,10 @@ def create_api_app() -> FastAPI:
 
     @app.post('/language')
     def set_language_api(request: LanguageRequest):
+        from module.webui import lang
+
         set_language(request.language)
-        return {'language': LANG}
+        return {'language': lang.LANG}
 
     # ---------- theme ----------
     @app.post('/theme')

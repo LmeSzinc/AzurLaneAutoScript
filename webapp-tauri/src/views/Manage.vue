@@ -81,7 +81,7 @@ function onAsideSelect(name: string) {
 }
 
 onMounted(async () => {
-  void loadI18n('zh-CN')
+  void loadI18n()
   await refreshStatus()
   await refresh()
 })
@@ -107,7 +107,7 @@ onMounted(async () => {
             <td>{{ cfg.name }}</td>
             <td>{{ cfg.modified }}</td>
             <td class="text-end">
-              <button class="btn btn-sm btn-outline-light" @click="exportConfig(cfg.name)">
+              <button class="btn btn-sm btn-adaptive" @click="exportConfig(cfg.name)">
                 {{ t('Gui.AppManage.Export') }}
               </button>
             </td>
@@ -120,7 +120,7 @@ onMounted(async () => {
         <button class="btn btn-sm btn-success" :disabled="!newName" @click="createConfig">
           {{ t('Gui.AppManage.Add') }}
         </button>
-        <button class="btn btn-sm btn-outline-light" @click="pickImportFile">
+        <button class="btn btn-sm btn-adaptive" @click="pickImportFile">
           {{ t('Gui.AppManage.Import') }}
         </button>
         <input ref="fileInput" type="file" accept=".json" style="display: none" @change="importFile" />
@@ -141,6 +141,7 @@ onMounted(async () => {
   overflow-y: auto;
 }
 .config-table {
+  color: #eaeaea;
   max-width: 640px;
 }
 .config-table th {

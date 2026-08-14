@@ -45,12 +45,12 @@ function emitSave(field: Field, value: unknown) {
 }
 
 function label(field: Field): string {
-  return t(`${props.group}.${field.key}.name`, 'zh-CN')
+  return t(`${props.group}.${field.key}.name`)
 }
 
 function helpLabel(field: Field): string | null {
   const key = `${props.group}.${field.key}.help`
-  const text = t(key, 'zh-CN')
+  const text = t(key)
   return text !== key ? text : null
 }
 
@@ -101,7 +101,7 @@ function selectOptions(field: Field): string[] {
 }
 
 function optionLabel(field: Field, opt: string): string {
-  return t(`${props.group}.${field.key}.${opt}`, 'zh-CN')
+  return t(`${props.group}.${field.key}.${opt}`)
 }
 </script>
 
@@ -204,6 +204,7 @@ function optionLabel(field: Field, opt: string): string {
   font-weight: 500;
   margin: 0 0.25rem;
   overflow-wrap: break-word;
+  color: #eaeaea;
 }
 .field-help {
   display: block;
@@ -216,6 +217,9 @@ function optionLabel(field: Field, opt: string): string {
   padding-right: 0.25rem;
 }
 .form-control {
+  background: #1d2226;
+  border-color: #39424a;
+  color: #eaeaea;
 }
 .form-check {
   margin: 0;

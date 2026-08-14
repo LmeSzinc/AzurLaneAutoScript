@@ -83,7 +83,7 @@ function onMenuTask(task: string) {
 }
 
 onMounted(async () => {
-  void loadI18n('zh-CN')
+  void loadI18n()
   await refreshStatus()
   const task = (route.query.task as string) || 'Alas'
   await loadTask(task)
@@ -131,7 +131,7 @@ watch(
             {{ toolAlive ? t('Gui.Button.Stop') : t('Gui.Button.Start') }}
           </button>
           <span class="col-title ms-auto">{{ t('Gui.Overview.Log') }}</span>
-          <button class="btn btn-sm btn-outline-light" @click="toolKeepBottom = !toolKeepBottom">
+          <button class="btn btn-sm btn-adaptive" @click="toolKeepBottom = !toolKeepBottom">
             {{ toolKeepBottom ? t('Gui.Button.ScrollON') : t('Gui.Button.ScrollOFF') }}
           </button>
         </div>
@@ -195,8 +195,12 @@ watch(
 }
 .group-card {
   margin-bottom: 14px;
+  background: #23292e;
+  border-color: #39424a;
 }
 .group-card .card-header {
+  background: #2a3137;
+  color: #eaeaea;
   font-weight: 600;
 }
 .saving-hint {
@@ -222,6 +226,7 @@ watch(
   min-height: 160px;
   max-height: 40vh;
   overflow-y: auto;
+  background: #16191d;
   color: #d4d9de;
   padding: 8px;
   font-size: 12px;

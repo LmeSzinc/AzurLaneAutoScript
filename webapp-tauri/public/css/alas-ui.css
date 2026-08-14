@@ -1,0 +1,46 @@
+/*
+ * Theme-adaptive UI styles.
+ *
+ * Bootstrap theme CSS (css/<theme>.min.css) provides the body background and
+ * text color via CSS variables. These rules fill the gaps: scrollbars, and
+ * neutral button/control colors that stay visible on both light and dark
+ * themes.
+ */
+
+/* ---- scrollbars ---- */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--gray-600, #6c757d);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gray-500, #adb5bd);
+}
+
+/* ---- neutral buttons (visible on light and dark themes) ---- */
+.btn-adaptive {
+  color: inherit;
+  border: 1px solid var(--gray-600, #6c757d);
+  background: transparent;
+}
+.btn-adaptive:hover {
+  border-color: var(--gray-500, #adb5bd);
+  background: var(--gray-800, rgba(0, 0, 0, 0.12));
+}
+
+/* ---- form controls ---- */
+select.form-control,
+input.form-control,
+textarea.form-control {
+  color: inherit;
+}
+select.form-control option {
+  color: initial;
+  background: var(--white, #fff);
+}
