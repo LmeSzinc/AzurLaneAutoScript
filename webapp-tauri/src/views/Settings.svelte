@@ -114,10 +114,6 @@
   <AppMenu onoverview={() => push('/')} ontask={onMenuTask} />
 
   <div class="content">
-    {#if selectedTask}
-      <h4>{t(`Task.${selectedTask}.name`)}</h4>
-    {/if}
-
     {#if isToolTask}
       <!-- tool tasks: scheduler bar (top) + form + log (bottom) -->
       <div class="tool-view">
@@ -243,7 +239,8 @@
   .navigator {
     margin: 0.5rem 1rem;
     height: min-content;
-    width: min-content;
+    width: max-content;
+    min-width: 7rem;
     max-width: 15rem;
     flex-shrink: 0;
     overflow-y: auto;

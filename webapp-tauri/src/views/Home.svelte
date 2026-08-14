@@ -190,8 +190,8 @@
     flex-grow: 1;
     min-width: 0;
     padding: 0.625rem;
-    /* original _groups grid: scheduler minmax(25rem, 5fr) + logs minmax(20rem, 2fr) */
-    grid-template-columns: minmax(25rem, 5fr) minmax(20rem, 2fr);
+    /* original overview ratio: schedulers 2fr, logs 3fr */
+    grid-template-columns: minmax(20rem, 2fr) minmax(20rem, 3fr);
     gap: 0.625rem;
     overflow: auto;
   }

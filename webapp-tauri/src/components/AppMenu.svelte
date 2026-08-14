@@ -61,10 +61,11 @@
     {#if group.collapse}
       <div class="menu-collapse">
         <button class="menu-collapse-title" onclick={() => toggleGroup(group.name)}>
+          <span class="collapse-arrow" class:collapse-arrow-open={isGroupOpen(group.name)}>&#x25B8;</span>
           {t(`Menu.${group.name}.name`)}
         </button>
         {#if isGroupOpen(group.name)}
-          <div>
+          <div class="menu-collapse-body">
             {#each group.tasks as task (task)}
               <button
                 class="btn btn-menu"
@@ -122,5 +123,16 @@
   }
   .menu-collapse-title:hover {
     font-weight: bold;
+  }
+  .collapse-arrow {
+    display: inline-block;
+    transition: transform 0.15s ease;
+    margin-right: 2px;
+  }
+  .collapse-arrow-open {
+    transform: rotate(90deg);
+  }
+  .menu-collapse-body {
+    margin-left: 0.625rem;
   }
 </style>

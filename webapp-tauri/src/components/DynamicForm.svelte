@@ -176,7 +176,7 @@
               emitSave(field, (e.currentTarget as HTMLTextAreaElement).value)}
           ></textarea>
         {:else if field.def.type === 'state' || field.def.type === 'lock'}
-          <div class="form-control-plaintext">{currentValue(field)}</div>
+          <div class="state-display">{currentValue(field)}</div>
         {:else}
           <input
             class="form-control"
@@ -202,5 +202,15 @@
   }
   .field-title-col {
     padding-right: 0.5rem;
+  }
+  /* state/lock: bordered on top/left/right, no bottom line */
+  .state-display {
+    border: 1px solid #6c757d;
+    border-bottom: 0;
+    padding: 0 0.5rem;
+    height: auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 </style>
