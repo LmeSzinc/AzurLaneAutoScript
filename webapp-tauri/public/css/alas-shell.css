@@ -57,10 +57,11 @@ summary {
   font-weight: 400;
   font-size: 0.8rem;
   background-color: transparent;
-  padding: 32px 0 0 7px;
+  padding: 4px 0 6px 7px;
   border-radius: 0;
   border: 0 solid;
   transition: border 0.1s ease-in-out, padding 0.1s ease-in-out;
+  text-align: left;
 }
 .btn-aside:hover,
 .btn-aside-active {
