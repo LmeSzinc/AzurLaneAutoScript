@@ -1,14 +1,27 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { api } from '@/api/client'
 import { loadI18n, t } from '@/api/i18n'
-import { refreshStatus, status } from '@/api/store'
+import { pageTitle, refreshStatus, status } from '@/api/store'
 import AppAside from '@/components/AppAside.vue'
 const router = useRouter()
 
 type SubPage = 'HomePage' | 'Update' | 'Remote' | 'Utils'
 const page = ref<SubPage>('HomePage')
+
+const SUB_TITLES: Record<SubPage, string> = {
+  HomePage: 'Gui.MenuDevelop.HomePage',
+  Update: 'Gui.MenuDevelop.Update',
+  Remote: 'Gui.MenuDevelop.Remote',
+  Utils: 'Gui.MenuDevelop.Utils',
+}
+
+function updatePageTitle() {
+  pageTitle.value = t(SUB_TITLES[page.value])
+}
+
+watch(page, updatePageTitle)
 
 const LANGS = [
   { label: '简体中文', value: 'zh-CN' },
@@ -87,7 +100,12 @@ function onAsideSelect(name: string) {
 onMounted(async () => {
   void loadI18n()
   await refreshStatus()
+  updatePageTitle()
   void refreshUpdate()
+})
+
+onUnmounted(() => {
+  pageTitle.value = ''
 })
 </script>
 
@@ -96,28 +114,28 @@ onMounted(async () => {
     <AppAside active="Home" @select="onAsideSelect" />
     <nav class="dev-menu">
       <button
-        class="btn-menu"
+        class="btn btn-menu"
         :class="{ 'btn-menu-active': page === 'HomePage' }"
         @click="page = 'HomePage'"
       >
         {{ t('Gui.MenuDevelop.HomePage') }}
       </button>
       <button
-        class="btn-menu"
+        class="btn btn-menu"
         :class="{ 'btn-menu-active': page === 'Update' }"
         @click="page = 'Update'"
       >
         {{ t('Gui.MenuDevelop.Update') }}
       </button>
       <button
-        class="btn-menu"
+        class="btn btn-menu"
         :class="{ 'btn-menu-active': page === 'Remote' }"
         @click="page = 'Remote'"
       >
         {{ t('Gui.MenuDevelop.Remote') }}
       </button>
       <button
-        class="btn-menu"
+        class="btn btn-menu"
         :class="{ 'btn-menu-active': page === 'Utils' }"
         @click="page = 'Utils'"
       >
@@ -241,25 +259,9 @@ onMounted(async () => {
   padding: 1.2rem 0.5rem;
   overflow-y: auto;
 }
-.btn-menu {
+.dev-menu .btn-menu {
   display: block;
   width: 100%;
-  font-weight: 400;
-  font-size: 0.875rem;
-  background-color: transparent;
-  color: #cfd4d9;
-  padding: 0.2rem 0.75rem;
-  border-radius: 0;
-  border: 0 solid;
-  border-left: 3px solid transparent;
-  text-align: left;
-  cursor: pointer;
-}
-.btn-menu:hover,
-.btn-menu-active {
-  font-weight: bold;
-  border-left-color: #4c9aff;
-  color: #eaeaea;
 }
 .content {
   flex-grow: 1;
@@ -275,15 +277,6 @@ onMounted(async () => {
   gap: 0.4rem;
   justify-content: center;
   flex-wrap: wrap;
-}
-.compare-table,
-.history-table {
-  color: #eaeaea;
-}
-.compare-table th,
-.history-table th {
-  color: #8a939c;
-  font-weight: 500;
 }
 .update-idle,
 .update-none {

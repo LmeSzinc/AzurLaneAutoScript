@@ -23,6 +23,12 @@ export const connected = ref(false)
 /** Per-instance log buffer, newest entries last. */
 export const logs = reactive<Record<string, string[]>>({})
 
+/** Shared menu collapse state so it survives page navigation. */
+export const collapsedGroups = reactive<Record<string, boolean>>({})
+
+/** Explicit page title set by pages (e.g. the develop sub pages). */
+export const pageTitle = ref('')
+
 export async function refreshStatus() {
   Object.assign(status, await api.status())
 }

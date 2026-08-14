@@ -194,8 +194,9 @@ onUnmounted(() => {
 .content {
   flex-grow: 1;
   padding: 0.625rem;
-  grid-template-columns: minmax(240px, 2fr) minmax(280px, 3fr);
-  gap: 0.4rem;
+  /* original _groups grid: scheduler minmax(25rem, 5fr) + logs 2fr */
+  grid-template-columns: minmax(25rem, 5fr) 2fr;
+  gap: 0.625rem;
   overflow: auto;
 }
 .scheduler-col,

@@ -55,6 +55,15 @@ async function toggleTool() {
   await refreshToolState()
 }
 
+/** Group names shown in the right navigator. */
+const navigatorGroups = computed(() =>
+  Object.keys(schema.value[selectedTask.value] ?? {}).filter((name) => name !== 'Storage'),
+)
+
+function scrollToGroup(name: string) {
+  document.getElementById(`group-${name}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
 async function saveValue(path: string, value: unknown) {
   saving.value = true
   try {
@@ -136,7 +145,7 @@ watch(
           </button>
         </div>
 
-        <div v-for="(groupArgs, groupKey) in schema[selectedTask] ?? {}" :key="groupKey" class="group-card">
+        <div v-for="(groupArgs, groupKey) in schema[selectedTask] ?? {}" :key="groupKey" class="group-card" :id="`group-${groupKey}`">
           <template v-if="groupKey !== 'Storage'">
             <div class="group-card-title">{{ t(`${groupKey}._info.name`) }}</div>
             <div v-if="t(`${groupKey}._info.help`) !== `${groupKey}._info.help`" class="group-card-help">
@@ -160,7 +169,7 @@ watch(
         <p v-if="selectedTask && t(`Task.${selectedTask}.help`) !== `Task.${selectedTask}.help`" class="text-muted">
           {{ t(`Task.${selectedTask}.help`) }}
         </p>
-        <div v-for="(groupArgs, groupKey) in schema[selectedTask] ?? {}" :key="groupKey" class="group-card">
+        <div v-for="(groupArgs, groupKey) in schema[selectedTask] ?? {}" :key="groupKey" class="group-card" :id="`group-${groupKey}`">
           <template v-if="groupKey !== 'Storage'">
             <div class="group-card-title">{{ t(`${groupKey}._info.name`) }}</div>
             <div v-if="t(`${groupKey}._info.help`) !== `${groupKey}._info.help`" class="group-card-help">
@@ -178,6 +187,18 @@ watch(
         </div>
         <span v-if="saving" class="saving-hint">saving...</span>
       </template>
+
+      <!-- right navigator: group anchors -->
+      <nav v-if="navigatorGroups.length" class="navigator">
+        <button
+          v-for="name in navigatorGroups"
+          :key="name"
+          class="btn btn-sm btn-navigator"
+          @click="scrollToGroup(name)"
+        >
+          {{ t(`${name}._info.name`) }}
+        </button>
+      </nav>
     </div>
   </div>
 </template>
@@ -196,6 +217,13 @@ watch(
 .saving-hint {
   font-size: 12px;
   color: #4cd07d;
+}
+.navigator {
+  margin: 0.5rem 1rem;
+  height: min-content;
+  max-width: 15rem;
+  flex-shrink: 0;
+  overflow-y: auto;
 }
 .tool-status-card {
   margin-top: 0.6rem;

@@ -2,6 +2,7 @@
 import { computed, onMounted, ref } from 'vue'
 import { api } from '@/api/client'
 import { loadI18n, t } from '@/api/i18n'
+import { collapsedGroups } from '@/api/store'
 import type { MenuSchema } from '@/api/types'
 
 const emit = defineEmits<{
@@ -11,15 +12,13 @@ const emit = defineEmits<{
 
 const menu = ref<MenuSchema>({})
 const activeTask = ref('')
-/** Collapse groups are folded by default */
-const collapsedGroups = ref<Record<string, boolean>>({})
 
 function toggleGroup(name: string) {
-  collapsedGroups.value[name] = !collapsedGroups.value[name]
+  collapsedGroups[name] = !collapsedGroups[name]
 }
 
 function isGroupOpen(name: string): boolean {
-  return collapsedGroups.value[name] === true
+  return collapsedGroups[name] === true
 }
 
 const groups = computed(() => {

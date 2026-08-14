@@ -2,7 +2,8 @@
 import { computed } from 'vue'
 import { invoke } from '@tauri-apps/api/core'
 import { useRoute } from 'vue-router'
-import { status } from '@/api/store'
+import alasSvg from '@/assets/icon/alas.svg?raw'
+import { status, pageTitle } from '@/api/store'
 import { t } from '@/api/i18n'
 
 const route = useRoute()
@@ -24,7 +25,8 @@ const stateClass = computed(() => {
   return 'header-state-inactive'
 })
 
-const pageTitle = computed(() => {
+const pageTitleText = computed(() => {
+  if (pageTitle.value) return pageTitle.value
   if (route.path === '/settings') {
     const task = (route.query.task as string) || ''
     return task ? t(`Task.${task}.name`) : ''
@@ -47,14 +49,14 @@ function close() {
 
 <template>
   <header class="app-header">
-    <img class="header-icon" src="@/assets/icon/alas.svg" alt="Alas" />
+    <div class="header-icon" v-html="alasSvg" />
     <span class="header-text">Alas</span>
     <span class="header-state" :class="stateClass">
       <span class="header-state-dot" />
       {{ stateText }}
     </span>
     <div class="header-title">
-      <span class="header-title-text">{{ pageTitle }}</span>
+      <span class="header-title-text">{{ pageTitleText }}</span>
     </div>
     <div v-if="isTauri" class="app-header-controls">
       <button class="header-btn" title="Minimize" @click="min">&#x2212;</button>
@@ -75,10 +77,13 @@ function close() {
   -webkit-app-region: drag;
 }
 .header-icon {
+  margin: 0.25rem auto;
+}
+.header-icon :deep(svg),
+.header-icon :deep(image) {
   width: 42px;
   height: 42px;
-  margin: 0.25rem auto;
-  border-radius: 1.5rem;
+  display: block;
 }
 .header-text {
   font-size: 1.5rem;

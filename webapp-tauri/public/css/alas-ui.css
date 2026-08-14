@@ -44,3 +44,11 @@ select.form-control option {
   color: initial;
   background: var(--white, #fff);
 }
+
+/* No blue focus ring; the theme shell styles the focus underline */
+.form-control:focus,
+.form-check-input:focus,
+.btn:focus {
+  box-shadow: none !important;
+  outline: none !important;
+}
