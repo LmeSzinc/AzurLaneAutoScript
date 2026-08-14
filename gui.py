@@ -33,11 +33,6 @@ def func(ev: threading.Event):
         "-k", "--key", type=str, help="Password of alas. No password by default"
     )
     parser.add_argument(
-        "--cdn",
-        action="store_true",
-        help="Use jsdelivr cdn for pywebio static files (css, js). Self host cdn by default.",
-    )
-    parser.add_argument(
         "--electron", action="store_true", help="Runs by electron client."
     )
     parser.add_argument(
@@ -79,10 +74,14 @@ def func(ev: threading.Event):
     elif ssl_key is None and ssl_cert is not None:
         logger.error("SSL certificate provided without key. Please provide both SSL key and certificate.")
 
+    from module.webui.api import create_api_app
+
+    app = create_api_app()
+
     if ssl:
-        uvicorn.run("module.webui.app:app", host=host, port=port, factory=True, ssl_keyfile=ssl_key, ssl_certfile=ssl_cert)
+        uvicorn.run(app, host=host, port=port, ssl_keyfile=ssl_key, ssl_certfile=ssl_cert)
     else:
-        uvicorn.run("module.webui.app:app", host=host, port=port, factory=True)
+        uvicorn.run(app, host=host, port=port)
 
 
 if __name__ == "__main__":
@@ -98,12 +97,10 @@ if __name__ == "__main__":
                 except KeyboardInterrupt:
                     should_exit = True
                     break
-                if b:
-                    process.kill()
-                    break
-                elif process.is_alive():
-                    continue
                 else:
-                    should_exit = True
+                    if b:
+                        process.terminate()
+                        process.join()
+                        break
     else:
-        func(None)
+        func(ev=None)

@@ -1,4 +1,4 @@
-"""
+﻿"""
 Copy from pywebio.platform.remote_access
 
 * Implementation of remote access
@@ -21,7 +21,7 @@ from module.config.utils import random_id
 from module.webui.setting import State
 
 if TYPE_CHECKING:
-    from module.webui.utils import TaskHandler
+    from module.webui.tasks import TaskHandler
 
 _ssh_process: Popen = None
 _ssh_thread: threading.Thread = None

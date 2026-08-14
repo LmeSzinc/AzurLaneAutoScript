@@ -1,4 +1,4 @@
-import datetime
+﻿import datetime
 import subprocess
 import threading
 import time
@@ -14,7 +14,7 @@ from module.logger import logger
 from module.webui.config import DeployConfig
 from module.webui.process_manager import ProcessManager
 from module.webui.setting import State
-from module.webui.utils import TaskHandler, get_next_time
+from module.webui.tasks import TaskHandler, get_next_time
 
 
 class Updater(DeployConfig, GitManager, PipManager):

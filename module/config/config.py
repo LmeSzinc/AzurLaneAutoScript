@@ -3,8 +3,6 @@ import operator
 import threading
 from datetime import datetime, timedelta
 
-import pywebio
-
 from module.base.filter import Filter
 from module.config.config_generated import GeneratedConfig
 from module.config.config_manual import ManualConfig, OutputConfig
@@ -739,8 +737,7 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
         return backup
 
 
-pywebio.output.Output = OutputConfig
-pywebio.pin.Output = OutputConfig
+
 
 
 class ConfigBackup:

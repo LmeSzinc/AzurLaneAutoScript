@@ -1,4 +1,4 @@
-from pywebio.io_ctrl import Output
+from module.config.output import Output
 
 import module.config.server as server
 

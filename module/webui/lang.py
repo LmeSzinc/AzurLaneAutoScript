@@ -1,4 +1,4 @@
-from typing import Dict
+﻿from typing import Dict
 
 from module.config.deep import deep_iter
 from module.config.utils import LANGUAGES, filepath_i18n, read_file
@@ -22,9 +22,8 @@ def set_language(s: str, refresh=False):
     State.deploy_config.Language = LANG
 
     if refresh:
-        from pywebio.session import run_js
-
-        run_js("location.reload();")
+        # Reload is handled by the frontend after the language change.
+        pass
 
 
 def t(s, *args, **kwargs):
