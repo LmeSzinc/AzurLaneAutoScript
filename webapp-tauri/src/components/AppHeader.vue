@@ -25,8 +25,9 @@ function dragRegion(event: MouseEvent) {
 <template>
   <header class="app-header" data-tauri-drag-region @dblclick="dragRegion">
     <div class="app-header-left" data-tauri-drag-region>
-      <img class="app-header-icon" src="@/assets/icon/alas.svg" alt="Alas" data-tauri-drag-region />
-      <span class="app-header-title" data-tauri-drag-region>Alas</span>
+      <img class="header-icon" src="@/assets/icon/alas.svg" alt="Alas" data-tauri-drag-region />
+      <span class="header-text" data-tauri-drag-region>Alas</span>
+      <span class="header-title-text" data-tauri-drag-region></span>
     </div>
     <div v-if="isTauri" class="app-header-controls">
       <button class="header-btn" title="Minimize" @click="min">&#x2212;</button>
@@ -41,23 +42,19 @@ function dragRegion(event: MouseEvent) {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 32px;
+  height: 2.5rem;
   user-select: none;
   -webkit-app-region: drag;
 }
 .app-header-left {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 0.5rem;
   padding-left: 10px;
 }
-.app-header-icon {
-  width: 16px;
-  height: 16px;
-}
-.app-header-title {
-  font-size: 13px;
-  font-weight: 600;
+.header-icon {
+  width: 42px;
+  height: 42px;
 }
 .app-header-controls {
   display: flex;

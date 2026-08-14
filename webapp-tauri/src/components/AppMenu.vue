@@ -49,7 +49,7 @@ onMounted(async () => {
 <template>
   <nav class="app-menu">
     <button
-      class="btn-menu"
+      class="btn btn-menu"
       :class="{ 'btn-menu-active': activeTask === '' }"
       @click="activeTask = ''; emit('overview')"
     >
@@ -57,23 +57,20 @@ onMounted(async () => {
     </button>
 
     <template v-for="group in groups" :key="group.name">
-      <div v-if="group.collapse" class="menu-collapse">
-        <button class="menu-collapse-title" @click="toggleGroup(group.name)">
-          <span class="collapse-arrow" :class="{ 'collapse-arrow-open': isGroupOpen(group.name) }">▸</span>
-          {{ t(`Menu.${group.name}.name`) }}
-        </button>
-        <div v-show="isGroupOpen(group.name)">
+      <details v-if="group.collapse" class="menu-collapse" :open="isGroupOpen(group.name)" @toggle="toggleGroup(group.name)">
+        <summary>{{ t(`Menu.${group.name}.name`) }}</summary>
+        <div>
           <button
             v-for="task in group.tasks"
             :key="task"
-            class="btn-menu"
+            class="btn btn-menu"
             :class="{ 'btn-menu-active': activeTask === task }"
             @click="selectTask(task)"
           >
             {{ t(`Task.${task}.name`) }}
           </button>
         </div>
-      </div>
+      </details>
       <template v-else>
         <div class="hr-task-group-box">
           <span class="hr-task-group-line" />
@@ -83,7 +80,7 @@ onMounted(async () => {
         <button
           v-for="task in group.tasks"
           :key="task"
-          class="btn-menu btn-menu-indent"
+          class="btn btn-menu"
           :class="{ 'btn-menu-active': activeTask === task }"
           @click="selectTask(task)"
         >
@@ -96,75 +93,16 @@ onMounted(async () => {
 
 <style scoped>
 .app-menu {
-  flex-shrink: 0;
-  width: 12rem;
+  z-index: 90;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
   padding-top: 1.2rem;
   overflow-y: auto;
-  background: #20262b;
+  width: 12rem;
+  flex-shrink: 0;
 }
-.btn-menu {
+.app-menu .btn-menu {
   display: block;
   width: 100%;
-  font-weight: 400;
-  font-size: 0.875rem;
-  background-color: transparent;
-  color: #cfd4d9;
-  padding: 0.2rem 0.75rem;
-  border-radius: 0;
-  border: 0 solid;
-  border-left: 3px solid transparent;
-  white-space: pre-wrap;
-  text-align: left;
-  cursor: pointer;
-}
-.btn-menu:hover,
-.btn-menu-active {
-  font-weight: bold;
-  border-left-color: #4c9aff;
-  padding-right: 0.625rem;
-  color: #eaeaea;
-}
-.btn-menu-indent {
-  padding-left: 1.5rem;
-}
-.menu-collapse-title {
-  display: block;
-  width: 100%;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  color: #8a939c;
-  background: transparent;
-  border: none;
-  text-align: left;
-  cursor: pointer;
-  padding: 0.4rem 0.2rem 0.2rem;
-  margin-top: 0.3rem;
-}
-.menu-collapse-title:hover {
-  color: #cfd4d9;
-}
-.collapse-arrow {
-  display: inline-block;
-  transition: transform 0.15s ease;
-  margin-right: 2px;
-}
-.collapse-arrow-open {
-  transform: rotate(90deg);
-}
-.hr-task-group-box {
-  display: flex;
-  align-items: center;
-  margin: 0.6rem 0.2rem 0.2rem;
-}
-.hr-task-group-line {
-  flex: 1;
-  border-top: 1px solid #39424a;
-}
-.hr-task-group-text {
-  font-size: 0.75rem;
-  color: #8a939c;
-  margin: 0 0.5rem;
 }
 </style>

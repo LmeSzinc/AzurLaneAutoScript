@@ -3,7 +3,7 @@ import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { api } from '@/api/client'
 import { loadI18n, t } from '@/api/i18n'
-import { connected, logs, refreshStatus, status } from '@/api/store'
+import { logs, refreshStatus, status } from '@/api/store'
 import AppAside from '@/components/AppAside.vue'
 import AppMenu from '@/components/AppMenu.vue'
 
@@ -71,8 +71,8 @@ function scrollLog() {
 let timer: number | undefined
 
 onMounted(async () => {
-  void loadI18n()
   await refreshStatus()
+  void loadI18n()
   await refreshScheduler()
   timer = window.setInterval(() => {
     void refreshStatus()
@@ -97,11 +97,11 @@ onUnmounted(() => {
     <AppAside :active="activeInstance" @select="onAsideSelect" />
     <AppMenu @overview="router.push('/')" @task="onMenuTask" />
 
-    <div class="content">
+    <div class="content overview">
       <!-- schedulers column -->
       <section class="scheduler-col">
         <div class="scheduler-bar">
-          <span class="col-title">{{ t('Gui.Overview.Scheduler') }}</span>
+          <span class="bar-title">{{ t('Gui.Overview.Scheduler') }}</span>
           <button
             class="btn btn-sm"
             :class="scheduler.alive ? 'btn-danger' : 'btn-success'"
@@ -111,24 +111,60 @@ onUnmounted(() => {
           </button>
         </div>
 
-        <div v-for="(section, key) in [
-          { title: t('Gui.Overview.Running'), tasks: scheduler.running },
-          { title: t('Gui.Overview.Pending'), tasks: scheduler.pending },
-          { title: t('Gui.Overview.Waiting'), tasks: scheduler.waiting },
-        ]" :key="key" class="task-section">
-          <div class="task-section-title">{{ section.title }}</div>
+        <div class="running-section">
+          <div class="running-section-title">{{ t('Gui.Overview.Running') }}</div>
           <hr class="hr-group" />
-          <div v-if="section.tasks.length === 0" class="notask-text">
-            {{ t('Gui.Overview.NoTask') }}
-          </div>
-          <div v-for="task in section.tasks" :key="task.command" class="task-row">
-            <div class="task-info">
-              <div class="task-title">{{ t(`Task.${task.command}.name`) }}</div>
-              <div class="task-help">{{ task.next_run }}</div>
+          <div class="running-tasks">
+            <div v-if="scheduler.running.length === 0" class="overview-notask-text">
+              {{ t('Gui.Overview.NoTask') }}
             </div>
-            <button class="btn btn-sm btn-adaptive" @click="goSettings(task.command)">
-              {{ t('Gui.Button.Setting') }}
-            </button>
+            <div v-for="task in scheduler.running" :key="task.command" class="overview-task">
+              <div>
+                <div class="arg-title">{{ t(`Task.${task.command}.name`) }}</div>
+                <div class="arg-help">{{ task.next_run }}</div>
+              </div>
+              <button class="btn btn-sm btn-adaptive" @click="goSettings(task.command)">
+                {{ t('Gui.Button.Setting') }}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="pending-section">
+          <div class="pending-section-title">{{ t('Gui.Overview.Pending') }}</div>
+          <hr class="hr-group" />
+          <div class="pending-tasks">
+            <div v-if="scheduler.pending.length === 0" class="overview-notask-text">
+              {{ t('Gui.Overview.NoTask') }}
+            </div>
+            <div v-for="task in scheduler.pending" :key="task.command" class="overview-task">
+              <div>
+                <div class="arg-title">{{ t(`Task.${task.command}.name`) }}</div>
+                <div class="arg-help">{{ task.next_run }}</div>
+              </div>
+              <button class="btn btn-sm btn-adaptive" @click="goSettings(task.command)">
+                {{ t('Gui.Button.Setting') }}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="waiting-section">
+          <div class="waiting-section-title">{{ t('Gui.Overview.Waiting') }}</div>
+          <hr class="hr-group" />
+          <div class="waiting-tasks">
+            <div v-if="scheduler.waiting.length === 0" class="overview-notask-text">
+              {{ t('Gui.Overview.NoTask') }}
+            </div>
+            <div v-for="task in scheduler.waiting" :key="task.command" class="overview-task">
+              <div>
+                <div class="arg-title">{{ t(`Task.${task.command}.name`) }}</div>
+                <div class="arg-help">{{ task.next_run }}</div>
+              </div>
+              <button class="btn btn-sm btn-adaptive" @click="goSettings(task.command)">
+                {{ t('Gui.Button.Setting') }}
+              </button>
+            </div>
           </div>
         </div>
       </section>
@@ -136,10 +172,12 @@ onUnmounted(() => {
       <!-- logs column -->
       <section class="log-col">
         <div class="log-bar">
-          <span class="col-title">{{ t('Gui.Overview.Log') }}</span>
-          <button class="btn btn-sm btn-adaptive" @click="keepBottom = !keepBottom">
-            {{ keepBottom ? t('Gui.Button.ScrollON') : t('Gui.Button.ScrollOFF') }}
-          </button>
+          <span class="bar-title">{{ t('Gui.Overview.Log') }}</span>
+          <div class="log-bar-btns">
+            <button class="btn btn-sm btn-adaptive" @click="keepBottom = !keepBottom">
+              {{ keepBottom ? t('Gui.Button.ScrollON') : t('Gui.Button.ScrollOFF') }}
+            </button>
+          </div>
         </div>
         <pre ref="logEl" class="log-view"><code>{{ (logs[activeInstance] ?? []).join('\n') }}</code></pre>
       </section>
@@ -155,11 +193,10 @@ onUnmounted(() => {
 }
 .content {
   flex-grow: 1;
-  display: grid;
+  padding: 0.625rem;
   grid-template-columns: minmax(240px, 2fr) minmax(280px, 3fr);
   gap: 0.4rem;
-  padding: 0.625rem;
-  overflow: hidden;
+  overflow: auto;
 }
 .scheduler-col,
 .log-col {
@@ -167,82 +204,14 @@ onUnmounted(() => {
   flex-direction: column;
   overflow: hidden;
 }
-.scheduler-bar,
-.log-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-weight: 500;
-  margin: 0.3125rem;
-  padding: 0.625rem;
-}
-.col-title {
+.bar-title {
   font-size: 1.25rem;
   margin: auto 0.5rem auto;
 }
-.task-section {
-  font-weight: 500;
-  margin: 0.3125rem;
-  padding: 0.625rem;
-  overflow-y: auto;
-}
-.task-section-title {
-  font-weight: 600;
-}
-.hr-group {
-  margin-top: 0.25rem;
-  margin-bottom: 0.25rem;
-  border-color: #39424a;
-}
-.notask-text {
-  text-align: center;
-  font-size: 0.875rem;
-  color: darkgrey;
-  padding: 0.6rem 0;
-}
-.task-row {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  gap: 0.5rem;
-  margin: 0.125rem 0.625rem 0.125rem 0.375rem;
-  padding: 0.3rem 0.4rem;
-  border-radius: 4px;
-}
-.task-row:hover {
-  background: rgba(255, 255, 255, 0.04);
-}
-.task-title {
-  font-size: 1rem;
-  font-weight: 500;
-  margin: 0 0.25rem;
-  overflow-wrap: break-word;
-  color: #eaeaea;
-}
-.task-help {
-  font-size: 0.8rem;
-  margin: 0.2rem 0.25rem 0.1rem;
-  overflow-wrap: break-word;
-  color: #8a939c;
-}
-.log-view {
+.log-col .log-view {
   flex-grow: 1;
   margin: 0.3125rem;
   padding: 0.625rem;
   overflow-y: auto;
-  background: #16191d;
-  color: #d4d9de;
-  font-size: 12px;
-  border-radius: 4px;
-  white-space: pre-wrap;
-}
-.conn {
-  font-size: 12px;
-}
-.conn-on {
-  color: #4cd07d;
-}
-.conn-off {
-  color: #e0645c;
 }
 </style>

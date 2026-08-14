@@ -5,7 +5,6 @@ import { api } from '@/api/client'
 import { loadI18n, t } from '@/api/i18n'
 import { refreshStatus, status } from '@/api/store'
 import AppAside from '@/components/AppAside.vue'
-
 const router = useRouter()
 
 type SubPage = 'HomePage' | 'Update' | 'Remote' | 'Utils'
@@ -62,7 +61,9 @@ async function runUpdate() {
 
 async function setLanguage(lang: string) {
   await api.setLanguage(lang)
-  window.location.reload()
+  status.language = lang
+  // t() is reactive: once the new dictionary is loaded the UI re-renders.
+  await loadI18n()
 }
 
 async function setTheme(theme: string) {

@@ -136,20 +136,20 @@ watch(
           </button>
         </div>
 
-        <div v-for="(groupArgs, groupKey) in schema[selectedTask] ?? {}" :key="groupKey" class="card group-card">
+        <div v-for="(groupArgs, groupKey) in schema[selectedTask] ?? {}" :key="groupKey" class="group-card">
           <template v-if="groupKey !== 'Storage'">
-            <div class="card-header">
-              {{ t(`${groupKey}._info.name`) }}
+            <div class="group-card-title">{{ t(`${groupKey}._info.name`) }}</div>
+            <div v-if="t(`${groupKey}._info.help`) !== `${groupKey}._info.help`" class="group-card-help">
+              {{ t(`${groupKey}._info.help`) }}
             </div>
-            <div class="card-body">
-              <DynamicForm
-                :args="groupArgs"
-                :group="groupKey"
-                :task="selectedTask"
-                :config="config"
-                @save="saveValue"
-              />
-            </div>
+            <hr class="hr-group" />
+            <DynamicForm
+              :args="groupArgs"
+              :group="groupKey"
+              :task="selectedTask"
+              :config="config"
+              @save="saveValue"
+            />
           </template>
         </div>
 
@@ -160,20 +160,20 @@ watch(
         <p v-if="selectedTask && t(`Task.${selectedTask}.help`) !== `Task.${selectedTask}.help`" class="text-muted">
           {{ t(`Task.${selectedTask}.help`) }}
         </p>
-        <div v-for="(groupArgs, groupKey) in schema[selectedTask] ?? {}" :key="groupKey" class="card group-card">
+        <div v-for="(groupArgs, groupKey) in schema[selectedTask] ?? {}" :key="groupKey" class="group-card">
           <template v-if="groupKey !== 'Storage'">
-            <div class="card-header">
-              {{ t(`${groupKey}._info.name`) }}
+            <div class="group-card-title">{{ t(`${groupKey}._info.name`) }}</div>
+            <div v-if="t(`${groupKey}._info.help`) !== `${groupKey}._info.help`" class="group-card-help">
+              {{ t(`${groupKey}._info.help`) }}
             </div>
-            <div class="card-body">
-              <DynamicForm
-                :args="groupArgs"
-                :group="groupKey"
-                :task="selectedTask"
-                :config="config"
-                @save="saveValue"
-              />
-            </div>
+            <hr class="hr-group" />
+            <DynamicForm
+              :args="groupArgs"
+              :group="groupKey"
+              :task="selectedTask"
+              :config="config"
+              @save="saveValue"
+            />
           </template>
         </div>
         <span v-if="saving" class="saving-hint">saving...</span>
@@ -192,16 +192,6 @@ watch(
   flex-grow: 1;
   padding: 1rem;
   overflow-y: auto;
-}
-.group-card {
-  margin-bottom: 14px;
-  background: #23292e;
-  border-color: #39424a;
-}
-.group-card .card-header {
-  background: #2a3137;
-  color: #eaeaea;
-  font-weight: 600;
 }
 .saving-hint {
   font-size: 12px;

@@ -53,14 +53,16 @@ body,
   overflow: hidden;
   /* Background and text colors follow the active bootstrap theme
      (css/<theme>.min.css loaded dynamically). */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
 }
 .app-main {
-  height: calc(100vh - 32px);
+  height: calc(100vh - 2.5rem);
 }
 /* Mobile: collapse panels to full width below 768px */
 @media (max-width: 767px) {
   .app-main {
-    height: calc(100vh - 32px);
+    height: calc(100vh - 2.5rem);
   }
 }
 </style>

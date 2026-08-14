@@ -107,19 +107,24 @@ function optionLabel(field: Field, opt: string): string {
 
 <template>
   <div class="dynamic-form">
-    <div v-for="field in fields" :key="field.key" class="form-field">
+    <div
+      v-for="field in fields"
+      :key="field.key"
+      class="form-field"
+      :class="field.def.type === 'checkbox' || field.def.type === 'storage' ? 'arg-container-checkbox' : 'arg-container'"
+    >
       <!-- title column: title on top, help below -->
       <div class="field-title-col">
-        <div class="field-title">{{ label(field) }}</div>
-        <small v-if="helpLabel(field)" class="field-help">{{ helpLabel(field) }}</small>
+        <div class="arg-title">{{ label(field) }}</div>
+        <div v-if="helpLabel(field)" class="arg-help">{{ helpLabel(field) }}</div>
       </div>
 
       <!-- control column -->
-      <div class="field-control">
+      <div class="field-control arg-input">
         <!-- select -->
         <select
           v-if="field.def.type === 'select'"
-          class="form-control form-control-sm"
+          class="form-control"
           :value="currentValue(field)"
           :disabled="field.def.display === 'disabled'"
           @change="emitSave(field, ($event.target as HTMLSelectElement).value)"
@@ -143,7 +148,7 @@ function optionLabel(field: Field, opt: string): string {
         <!-- datetime -->
         <input
           v-else-if="field.def.type === 'datetime'"
-          class="form-control form-control-sm"
+          class="form-control"
           type="datetime-local"
           :value="toLocal(currentValue(field))"
           :disabled="field.def.display === 'disabled'"
@@ -153,7 +158,7 @@ function optionLabel(field: Field, opt: string): string {
         <!-- storage: dict edited as JSON -->
         <textarea
           v-else-if="field.def.type === 'storage'"
-          class="form-control form-control-sm"
+          class="form-control"
           rows="4"
           :value="storageText(field)"
           :disabled="field.def.display === 'disabled'"
@@ -163,7 +168,7 @@ function optionLabel(field: Field, opt: string): string {
         <!-- textarea -->
         <textarea
           v-else-if="field.def.type === 'textarea'"
-          class="form-control form-control-sm"
+          class="form-control"
           rows="3"
           :value="String(currentValue(field) ?? '')"
           :disabled="field.def.display === 'disabled'"
@@ -178,7 +183,7 @@ function optionLabel(field: Field, opt: string): string {
         <!-- default: input (number or text) -->
         <input
           v-else
-          class="form-control form-control-sm"
+          class="form-control"
           :type="isNumber(field) ? 'number' : 'text'"
           :value="String(currentValue(field) ?? '')"
           :disabled="field.def.display === 'disabled'"
@@ -190,39 +195,14 @@ function optionLabel(field: Field, opt: string): string {
 </template>
 
 <style scoped>
+/* PC layout from alas-pc.css: title column + 13rem control column */
 .form-field {
   display: grid;
+  grid-auto-flow: column;
   grid-template-columns: 1fr 13rem;
   align-items: center;
-  margin: 0.125rem 0;
 }
 .field-title-col {
   padding-right: 0.5rem;
-}
-.field-title {
-  font-size: 1rem;
-  font-weight: 500;
-  margin: 0 0.25rem;
-  overflow-wrap: break-word;
-  color: #eaeaea;
-}
-.field-help {
-  display: block;
-  font-size: 0.8rem;
-  margin: 0.2rem 0.25rem 0.1rem;
-  overflow-wrap: break-word;
-  color: #8a939c;
-}
-.field-control {
-  padding-right: 0.25rem;
-}
-.form-control {
-  background: #1d2226;
-  border-color: #39424a;
-  color: #eaeaea;
-}
-.form-check {
-  margin: 0;
-  text-align: center;
 }
 </style>
