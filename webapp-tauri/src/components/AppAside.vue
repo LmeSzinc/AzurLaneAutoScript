@@ -78,7 +78,6 @@ function stateClass(state: number): string {
   padding-left: 0.125rem;
   padding-right: 0.325rem;
   overflow-y: auto;
-  background: #20262b;
   display: flex;
   flex-direction: column;
 }
@@ -87,7 +86,6 @@ function stateClass(state: number): string {
   font-weight: 400;
   font-size: 0.8rem;
   background-color: transparent;
-  color: #cfd4d9;
   padding: 8px 0 8px 7px;
   border-radius: 0;
   border: 0 solid;
@@ -102,7 +100,6 @@ function stateClass(state: number): string {
   border-left-color: #4c9aff;
   padding-left: 3px;
   font-weight: bold;
-  color: #eaeaea;
 }
 .aside-state-dot {
   display: inline-block;

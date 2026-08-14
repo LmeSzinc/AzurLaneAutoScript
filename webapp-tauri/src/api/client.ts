@@ -84,6 +84,16 @@ export const api = {
   updateStatus: () =>
     request<{ state: string; current: { sha: string; message: string } | null }>('/update/status'),
 
+  updateHistory: () =>
+    request<{
+      local: string[] | null
+      upstream: string[] | null
+      history: string[][]
+    }>('/update/history'),
+
+  configs: () =>
+    request<{ name: string; modified: string }[]>('/configs'),
+
   updateCheck: () =>
     request<{ ok: boolean }>('/update/check', { method: 'POST' }),
 

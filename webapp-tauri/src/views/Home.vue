@@ -45,11 +45,15 @@ function goSettings(task: string) {
 }
 
 function onAsideSelect(name: string) {
-  if (name === 'Manage') {
-    router.push('/devtools')
+  if (name === 'Home') {
+    router.push('/develop')
     return
   }
-  // Home or an instance: both show the overview page
+  if (name === 'Manage') {
+    router.push('/manage')
+    return
+  }
+  // instance: stay on the overview page
   router.push('/')
 }
 
@@ -188,7 +192,6 @@ onUnmounted(() => {
 .hr-group {
   margin-top: 0.25rem;
   margin-bottom: 0.25rem;
-  border-color: #39424a;
 }
 .notask-text {
   text-align: center;
@@ -213,7 +216,6 @@ onUnmounted(() => {
   font-weight: 500;
   margin: 0 0.25rem;
   overflow-wrap: break-word;
-  color: #eaeaea;
 }
 .task-help {
   font-size: 0.8rem;
@@ -226,7 +228,6 @@ onUnmounted(() => {
   margin: 0.3125rem;
   padding: 0.625rem;
   overflow-y: auto;
-  background: #16191d;
   color: #d4d9de;
   font-size: 12px;
   border-radius: 4px;

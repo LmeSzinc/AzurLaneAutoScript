@@ -20,6 +20,8 @@ const saving = ref(false)
 /** Tasks whose page is 'tool' show a status view instead of the form */
 const toolTasks = ref<Set<string>>(new Set())
 const toolAlive = ref(false)
+const toolKeepBottom = ref(true)
+const toolLogEl = ref<HTMLElement | null>(null)
 
 const isToolTask = computed(() => toolTasks.value.has(selectedTask.value))
 
@@ -64,11 +66,15 @@ async function saveValue(path: string, value: unknown) {
 }
 
 function onAsideSelect(name: string) {
-  if (name === 'Manage') {
-    router.push('/devtools')
+  if (name === 'Home') {
+    router.push('/develop')
     return
   }
-  // Home or an instance: both show the overview page
+  if (name === 'Manage') {
+    router.push('/manage')
+    return
+  }
+  // instance: stay on the overview page
   router.push('/')
 }
 
@@ -93,6 +99,16 @@ watch(
     }
   },
 )
+
+// Auto-scroll the tool log view
+watch(
+  () => logs[activeInstance.value]?.length,
+  () => {
+    if (toolKeepBottom.value && toolLogEl.value) {
+      toolLogEl.value.scrollTop = toolLogEl.value.scrollHeight
+    }
+  },
+)
 </script>
 
 <template>
@@ -103,23 +119,41 @@ watch(
     <div class="content">
       <h4 v-if="selectedTask">{{ t(`Task.${selectedTask}.name`) }}</h4>
 
-      <!-- tool tasks: status + log view -->
-      <div v-if="isToolTask" class="tool-view">
-        <div class="card tool-status-card">
-          <div class="card-header">
-            {{ t(`Task.${selectedTask}.name`) }}
-            <button
-              class="btn btn-sm float-end"
-              :class="toolAlive ? 'btn-danger' : 'btn-success'"
-              @click="toggleTool"
-            >
-              {{ toolAlive ? t('Gui.Button.Stop') : t('Gui.Button.Start') }}
-            </button>
-          </div>
-          <div class="card-body">
-            <pre class="tool-log"><code>{{ (logs[activeInstance] ?? []).join('\n') }}</code></pre>
-          </div>
+      <!-- tool tasks: scheduler bar (top) + form + log (bottom) -->
+      <div v-else-if="isToolTask" class="tool-view">
+        <div class="tool-bar">
+          <span class="col-title">{{ t('Gui.Overview.Scheduler') }}</span>
+          <button
+            class="btn btn-sm"
+            :class="toolAlive ? 'btn-danger' : 'btn-success'"
+            @click="toggleTool"
+          >
+            {{ toolAlive ? t('Gui.Button.Stop') : t('Gui.Button.Start') }}
+          </button>
+          <span class="col-title ms-auto">{{ t('Gui.Overview.Log') }}</span>
+          <button class="btn btn-sm btn-outline-light" @click="toolKeepBottom = !toolKeepBottom">
+            {{ toolKeepBottom ? t('Gui.Button.ScrollON') : t('Gui.Button.ScrollOFF') }}
+          </button>
         </div>
+
+        <div v-for="(groupArgs, groupKey) in schema[selectedTask] ?? {}" :key="groupKey" class="card group-card">
+          <template v-if="groupKey !== 'Storage'">
+            <div class="card-header">
+              {{ t(`${groupKey}._info.name`) }}
+            </div>
+            <div class="card-body">
+              <DynamicForm
+                :args="groupArgs"
+                :group="groupKey"
+                :task="selectedTask"
+                :config="config"
+                @save="saveValue"
+              />
+            </div>
+          </template>
+        </div>
+
+        <pre ref="toolLogEl" class="tool-log"><code>{{ (logs[activeInstance] ?? []).join('\n') }}</code></pre>
       </div>
 
       <template v-else>
@@ -127,18 +161,20 @@ watch(
           {{ t(`Task.${selectedTask}.help`) }}
         </p>
         <div v-for="(groupArgs, groupKey) in schema[selectedTask] ?? {}" :key="groupKey" class="card group-card">
-          <div class="card-header">
-            {{ t(`${groupKey}._info.name`) }}
-          </div>
-          <div class="card-body">
-            <DynamicForm
-              :args="groupArgs"
-              :group="groupKey"
-              :task="selectedTask"
-              :config="config"
-              @save="saveValue"
-            />
-          </div>
+          <template v-if="groupKey !== 'Storage'">
+            <div class="card-header">
+              {{ t(`${groupKey}._info.name`) }}
+            </div>
+            <div class="card-body">
+              <DynamicForm
+                :args="groupArgs"
+                :group="groupKey"
+                :task="selectedTask"
+                :config="config"
+                @save="saveValue"
+              />
+            </div>
+          </template>
         </div>
         <span v-if="saving" class="saving-hint">saving...</span>
       </template>
@@ -159,12 +195,8 @@ watch(
 }
 .group-card {
   margin-bottom: 14px;
-  background: #23292e;
-  border-color: #39424a;
 }
 .group-card .card-header {
-  background: #2a3137;
-  color: #eaeaea;
   font-weight: 600;
 }
 .saving-hint {
@@ -174,11 +206,22 @@ watch(
 .tool-status-card {
   margin-top: 0.6rem;
 }
+.tool-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.3rem 0;
+  padding: 0.6rem;
+}
+.tool-bar .col-title {
+  font-size: 1.25rem;
+}
 .tool-log {
-  margin: 0;
-  max-height: 60vh;
+  flex-grow: 1;
+  margin: 0.3rem 0;
+  min-height: 160px;
+  max-height: 40vh;
   overflow-y: auto;
-  background: #16191d;
   color: #d4d9de;
   padding: 8px;
   font-size: 12px;

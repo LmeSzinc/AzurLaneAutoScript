@@ -42,8 +42,6 @@ function dragRegion(event: MouseEvent) {
   align-items: center;
   justify-content: space-between;
   height: 32px;
-  background: #23292e;
-  color: #eaeaea;
   user-select: none;
   -webkit-app-region: drag;
 }
@@ -71,7 +69,6 @@ function dragRegion(event: MouseEvent) {
   height: 100%;
   border: none;
   background: transparent;
-  color: #cfd4d9;
   font-size: 12px;
   cursor: pointer;
 }

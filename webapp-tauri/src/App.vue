@@ -51,9 +51,8 @@ body,
   padding: 0;
   height: 100vh;
   overflow: hidden;
-  background: #1d2226;
-  color: #eaeaea;
-  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  /* Background and text colors follow the active bootstrap theme
+     (css/<theme>.min.css loaded dynamically). */
 }
 .app-main {
   height: calc(100vh - 32px);

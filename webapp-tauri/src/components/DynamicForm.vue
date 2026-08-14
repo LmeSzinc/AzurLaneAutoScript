@@ -204,7 +204,6 @@ function optionLabel(field: Field, opt: string): string {
   font-weight: 500;
   margin: 0 0.25rem;
   overflow-wrap: break-word;
-  color: #eaeaea;
 }
 .field-help {
   display: block;
@@ -217,9 +216,6 @@ function optionLabel(field: Field, opt: string): string {
   padding-right: 0.25rem;
 }
 .form-control {
-  background: #1d2226;
-  border-color: #39424a;
-  color: #eaeaea;
 }
 .form-check {
   margin: 0;

@@ -343,6 +343,23 @@ def create_api_app() -> FastAPI:
             current = None
         return {'state': state, 'current': current}
 
+    @app.get('/update/history')
+    def update_history():
+        updater = _get_updater()
+        try:
+            local = list(updater.get_commit(short_sha1=True))
+        except Exception:
+            local = None
+        try:
+            upstream = list(updater.get_commit(f'origin/{updater.Branch}', short_sha1=True))
+        except Exception:
+            upstream = None
+        try:
+            history = [list(c) for c in updater.get_commit(f'origin/{updater.Branch}', n=20, short_sha1=True)]
+        except Exception:
+            history = []
+        return {'local': local, 'upstream': upstream, 'history': history}
+
     @app.post('/update/check')
     def update_check():
         updater = _get_updater()
@@ -395,6 +412,34 @@ def create_api_app() -> FastAPI:
 
         RemoteAccess.kill_ssh_process()
         return {'ok': True}
+
+    # ---------- config files ----------
+    @app.get('/configs')
+    def configs_list():
+        import glob
+        import os
+
+        out = []
+        for f in sorted(glob.glob('./config/*.json')):
+            name = os.path.splitext(os.path.basename(f))[0]
+            if name.startswith('template'):
+                continue
+            mtime = datetime.fromtimestamp(os.path.getmtime(f)).strftime('%Y-%m-%d %H:%M:%S')
+            out.append({'name': name, 'modified': mtime})
+        return out
+
+    @app.get('/config/{config_name}/export')
+    def export_config(config_name: str):
+        import json as _json
+        from fastapi.responses import Response
+
+        config = _to_jsonable(State.config_updater.read_file(config_name))
+        content = _json.dumps(config, indent=2, ensure_ascii=False)
+        return Response(
+            content,
+            media_type='application/json',
+            headers={'Content-Disposition': f'attachment; filename="{config_name}.json"'},
+        )
 
     # ---------- scheduler ----------
     @app.get('/scheduler/{config_name}')
