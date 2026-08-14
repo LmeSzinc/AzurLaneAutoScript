@@ -18,6 +18,10 @@
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
 }
 
+.aside-icon {
+  background-color: #2c2c2c;
+}
+
 .content {
   background-color: #f9f9f9;
 }

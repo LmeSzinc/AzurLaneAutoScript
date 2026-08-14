@@ -46,6 +46,10 @@
   background-color: #2f3136;
 }
 
+.aside-icon {
+  background-color: #c9d1d9;
+}
+
 .btn-menu:hover,
 .btn-menu-active {
   border-color: #4c9aff;

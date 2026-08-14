@@ -56,7 +56,6 @@
     width: 2rem;
     height: 2rem;
     margin: 0 auto 6px;
-    background-color: currentColor;
     -webkit-mask: no-repeat center / contain;
     mask: no-repeat center / contain;
   }
