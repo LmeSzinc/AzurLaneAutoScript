@@ -255,7 +255,6 @@
       "name": "Function",
       "help": "Name of the widget to be called",
       "fpSummon": "fpSummon",
-      "storySummon": "storySummon",
       "lottery": "lottery",
       "mail": "mail",
       "synthesis": "synthesis",

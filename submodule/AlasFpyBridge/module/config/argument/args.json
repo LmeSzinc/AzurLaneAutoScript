@@ -431,7 +431,6 @@
         "value": "lottery",
         "option": [
           "fpSummon",
-          "storySummon",
           "lottery",
           "mail",
           "synthesis",

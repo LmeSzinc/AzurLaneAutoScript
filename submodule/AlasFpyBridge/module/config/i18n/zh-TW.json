@@ -255,7 +255,6 @@
       "name": "FpyCall.Function.name",
       "help": "FpyCall.Function.help",
       "fpSummon": "fpSummon",
-      "storySummon": "storySummon",
       "lottery": "lottery",
       "mail": "mail",
       "synthesis": "synthesis",
