@@ -117,7 +117,7 @@
     {#if isToolTask}
       <!-- tool tasks: scheduler bar (top) + form + log (bottom) -->
       <div class="tool-view">
-        <div class="tool-bar">
+        <div class="tool-upper">
           <span class="col-title">{t('Gui.Overview.Scheduler')}</span>
           <button
             class="btn btn-sm"
@@ -129,7 +129,9 @@
           </button>
           <span class="col-title ms-auto">{t('Gui.Overview.Log')}</span>
           <button
-            class="btn btn-sm btn-adaptive"
+            class="btn btn-sm"
+            class:btn-on={toolKeepBottom}
+            class:btn-off={!toolKeepBottom}
             onclick={() => (toolKeepBottom = !toolKeepBottom)}
           >
             {toolKeepBottom ? t('Gui.Button.ScrollON') : t('Gui.Button.ScrollOFF')}
@@ -209,20 +211,28 @@
     padding: 1rem;
     overflow-y: auto;
   }
-  .tool-bar {
+  .tool-view {
+    /* original daemon-overview grid: 1fr minmax(25rem, 6fr) 1fr */
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 1fr minmax(25rem, 6fr) 1fr;
+    gap: 0.4rem;
+  }
+  .tool-upper {
+    grid-column: 2;
     display: flex;
     align-items: center;
     gap: 0.5rem;
     margin: 0.3rem 0;
     padding: 0.6rem;
   }
-  .tool-bar .col-title {
-    font-size: 1.25rem;
+  .tool-view .group-card {
+    grid-column: 2;
   }
   .tool-log {
-    flex-grow: 1;
+    grid-column: 2;
     margin: 0.3rem 0;
-    min-height: 160px;
+    min-height: 15rem;
     max-height: 40vh;
     overflow-y: auto;
     background: #16191d;

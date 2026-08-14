@@ -171,21 +171,25 @@
       </p>
     {:else if page === 'Update'}
       <div class="d-flex align-items-center gap-2 mb-3">
-        <span class="badge update-{updateState}">{updateState}</span>
-        <button
-          class="btn btn-sm btn-adaptive"
-          disabled={updateState === 'checking'}
-          onclick={checkUpdate}
-        >
-          {t('Gui.Button.CheckUpdate')}
-        </button>
-        <button
-          class="btn btn-sm btn-primary"
-          disabled={updateState !== 'available'}
-          onclick={runUpdate}
-        >
-          {t('Gui.Button.Update')}
-        </button>
+        {#if updateState === 'checking'}
+          <span class="spinner-border spinner-border-sm"></span>
+          <span>{t('Gui.Update.UpdateChecking')}</span>
+        {:else if updateState === 'available'}
+          <span class="text-success">{t('Gui.Update.HaveUpdate')}</span>
+          <button class="btn btn-sm btn-success" onclick={runUpdate}>
+            {t('Gui.Button.ClickToUpdate')}
+          </button>
+        {:else if updateState === 'failed'}
+          <span class="text-danger">{t('Gui.Update.UpdateFailed')}</span>
+          <button class="btn btn-sm btn-info" onclick={checkUpdate}>
+            {t('Gui.Button.CheckUpdate')}
+          </button>
+        {:else}
+          <span>{t('Gui.Update.UpToDate')}</span>
+          <button class="btn btn-sm btn-info" onclick={checkUpdate}>
+            {t('Gui.Button.CheckUpdate')}
+          </button>
+        {/if}
       </div>
 
       <table class="table table-sm compare-table">

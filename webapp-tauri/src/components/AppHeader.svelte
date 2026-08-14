@@ -77,6 +77,8 @@
     width: 42px;
     height: 42px;
     margin: 0.25rem auto;
+    border-radius: 1.5rem;
+    overflow: hidden;
   }
   .header-text {
     font-size: 1.5rem;

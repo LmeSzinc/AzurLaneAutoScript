@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Dark theme shell styles, translated from the original dark-alas.css
  * (pywebio scope ids -> Vue class names).
  */
@@ -52,14 +52,14 @@
 
 .btn-menu:hover,
 .btn-menu-active {
-  border-color: #4c9aff;
-  color: #4c9aff;
+  border-color: #7a77bb;
+  color: #7a77bb;
 }
 
 .btn-aside:hover,
 .btn-aside-active {
-  border-color: #4c9aff;
-  color: #4c9aff;
+  border-color: #7a77bb;
+  color: #7a77bb;
 }
 
 .btn-off {
@@ -81,7 +81,7 @@
   background-color: #2f3136;
 }
 .btn-navigator:hover {
-  color: #4c9aff;
+  color: #7a77bb;
 }
 .navigator {
   border: 1px solid #21262d;

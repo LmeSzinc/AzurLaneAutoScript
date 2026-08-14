@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Light theme shell styles, translated from the original light-alas.css
  * (pywebio scope ids -> Vue class names).
  */
@@ -47,14 +47,14 @@
 
 .btn-menu:hover,
 .btn-menu-active {
-  border-color: #4c9aff;
-  color: #4c9aff;
+  border-color: #4e4c97;
+  color: #4e4c97;
 }
 
 .btn-aside:hover,
 .btn-aside-active {
-  border-color: #4c9aff;
-  color: #4c9aff;
+  border-color: #4e4c97;
+  color: #4e4c97;
 }
 
 .btn-off {
@@ -76,7 +76,7 @@
   background-color: white;
 }
 .btn-navigator:hover {
-  color: #4c9aff;
+  color: #4e4c97;
 }
 .navigator {
   border: 1px solid lightgrey;

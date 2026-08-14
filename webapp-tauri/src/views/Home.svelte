@@ -170,7 +170,7 @@
       <div class="log-bar">
         <span class="bar-title">{t('Gui.Overview.Log')}</span>
         <div class="log-bar-btns">
-          <button class="btn btn-sm btn-adaptive" onclick={() => (keepBottom = !keepBottom)}>
+          <button class="btn btn-sm" class:btn-on={keepBottom} class:btn-off={!keepBottom} onclick={() => (keepBottom = !keepBottom)}>
             {keepBottom ? t('Gui.Button.ScrollON') : t('Gui.Button.ScrollOFF')}
           </button>
         </div>
@@ -190,12 +190,32 @@
     flex-grow: 1;
     min-width: 0;
     padding: 0.625rem;
-    /* original overview ratio: schedulers 2fr, logs 3fr */
-    grid-template-columns: minmax(20rem, 2fr) minmax(20rem, 3fr);
+    /* original overview grid: schedulers minmax(16rem,20rem) + logs minmax(24rem,1fr) */
+    grid-template-columns: minmax(16rem, 20rem) minmax(24rem, 1fr);
     gap: 0.625rem;
     overflow: auto;
   }
-  .scheduler-col,
+  .scheduler-col {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 100%;
+  }
+  /* original schedulers rows: auto 7.75rem minmax(7.75rem,13rem) minmax(7.75rem,1fr) */
+  .running-section {
+    height: 7.75rem;
+    overflow-y: auto;
+  }
+  .pending-section {
+    min-height: 7.75rem;
+    max-height: 13rem;
+    overflow-y: auto;
+  }
+  .waiting-section {
+    min-height: 7.75rem;
+    flex-grow: 1;
+    overflow-y: auto;
+  }
   .log-col {
     display: flex;
     flex-direction: column;
