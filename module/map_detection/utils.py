@@ -200,7 +200,8 @@ class Lines:
                 yield np.linalg.solve(a, b)
 
     def cross(self, other):
-        points = np.vstack(self.cross_two_lines(self, other))
+        # np.vstack requires a sequence (numpy>=2 rejects generators)
+        points = np.vstack(list(self.cross_two_lines(self, other)))
         points = Points(points)
         return points
 
