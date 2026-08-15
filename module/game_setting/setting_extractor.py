@@ -1,7 +1,6 @@
 import os
 import re
 from dataclasses import dataclass
-from typing import Any
 
 from tqdm import tqdm
 
@@ -33,7 +32,7 @@ def strip_code(string):
 @dataclass
 class Field:
     formatter: callable
-    default: Any
+    default: ""  # noqa: F722  (original design, kept as-is; upstream is reworking this in the new architecture)
     regex: str
 
 
