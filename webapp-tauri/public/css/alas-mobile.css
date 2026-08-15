@@ -1,0 +1,62 @@
+.container-menu-collapsed {
+    display: none;
+}
+
+.container-content-collapsed {
+    display: none;
+}
+
+#pywebio-scope-log {
+    font-size: .75rem !important;
+}
+
+#pywebio-scope-content {
+    padding: .25rem;
+    margin: 0
+}
+
+#pywebio-scope-navigator {
+    display: none;
+}
+
+[id^="pywebio-scope-arg_container-"] {
+    grid-auto-flow: row;
+    grid-template-rows: auto auto;
+}
+
+[id^="pywebio-scope-arg_container-checkbox-"] {
+    grid-auto-flow: column;
+    grid-template-columns: 1fr 8rem;
+    grid-template-rows: unset;
+}
+
+[id^="pywebio-scope-arg_container-storage-"] {
+    grid-auto-flow: column;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: 1fr auto;
+}
+
+#pywebio-scope-_groups {
+    grid-template-columns: 0fr 1fr;
+}
+
+#pywebio-scope-overview {
+    grid-auto-flow: row;
+    grid-template-rows: 100% 100%;
+}
+
+#pywebio-scope-daemon-overview {
+    grid-auto-flow: row;
+    grid-template-rows: auto auto auto 1fr;
+}
+
+#pywebio-scope-schedulers {
+    grid-auto-flow: row;
+}
+
+#pywebio-scope-running,
+#pywebio-scope-pending,
+#pywebio-scope-waiting,
+#pywebio-scope-log {
+    overflow-y: auto;
+}

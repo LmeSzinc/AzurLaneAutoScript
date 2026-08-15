@@ -1,0 +1,154 @@
+.btn-menu:hover,
+.btn-menu-active {
+    border-color: #4e4c97;
+    color: #4e4c97;
+}
+
+.btn-aside:hover,
+.btn-aside-active {
+    border-color: #4e4c97;
+    color: #4e4c97;
+}
+
+.btn-off {
+    background-color: white;
+    border: 1px solid lightgrey;
+}
+
+.btn-on {
+    background-color: #4e4c97;
+    border: 1px solid lightgrey;
+    color: white;
+}
+
+.btn-on:hover {
+    color: white;
+}
+
+.btn-navigator {
+    background-color: white;
+}
+
+.btn-navigator:hover {
+    color: #4e4c97;
+}
+
+.hr-group {
+    background-color: #eaecef !important;
+}
+
+.hr-task-group-line {
+    border-top-color: #d0d0d0;
+}
+
+.hr-task-group-text {
+    color: #777777;
+}
+
+.form-control,
+.bootstrap-select > select {
+    border-bottom: .125rem solid #4e4c97;
+}
+
+.form-control:focus {
+    background-color: white;
+    border-color: #4e4c97;
+    box-shadow: 0 0.06rem 0 #4e4c97;
+}
+
+input[type="checkbox"] {
+    accent-color: #7a77bb;
+}
+
+select {
+    background-image: url("data:image/png;base64,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");
+}
+
+.state > select {
+    border-bottom: 0;
+    background-image: none;
+    pointer-events: none;
+}
+
+.state-bold > select {
+    font-weight: bold;
+    color: #7a77bb;
+}
+
+.state-light > select {
+    color: #777777;
+}
+
+[id^="pywebio-scope-arg_stored-stored-value-"] > div > input {
+    border-bottom: none;
+    background-color: transparent !important;
+}
+
+textarea {
+    border: 1px solid lightgrey;
+}
+
+.CodeMirror-wrap {
+    border: 1px solid lightgrey;
+}
+
+.aside-icon > path {
+    fill: #2c2c2c;
+}
+
+.container-log {
+    background-color: white !important;
+    border: 1px solid lightgrey;
+}
+
+pre.rich-traceback-code {
+    background-color: #ffffff;
+    color: #616161;
+}
+
+#pywebio-scope-content {
+    background-color: #f9f9f9;
+}
+
+[id^="pywebio-scope-group_"] {
+    background-color: white;
+    border: 1px solid lightgrey;
+}
+
+#pywebio-scope-daemon-overview [id^="pywebio-scope-group_"] {
+    border: 0;
+}
+
+#pywebio-scope-aside {
+    background-color: white;
+    border-right: 1px solid lightgrey;
+}
+
+#pywebio-scope-menu {
+    box-shadow: 0 0 8px rgba(0, 0, 0, .1);
+    background-color: white;
+}
+
+#pywebio-scope-navigator {
+    border: 1px solid lightgrey;
+}
+
+#pywebio-scope-scheduler-bar,
+#pywebio-scope-log-bar,
+#pywebio-scope-log,
+#pywebio-scope-running,
+#pywebio-scope-pending,
+#pywebio-scope-waiting,
+#pywebio-scope-daemon-overview #pywebio-scope-groups {
+    background-color: white;
+    border: 1px solid lightgrey;
+}
+
+#pywebio-scope-header {
+    box-shadow: 0 0 8px rgba(0, 0, 0, .2);
+}
+
+*[style*="--arg-help--"],
+[id^="pywebio-scope-group_"] > p + p {
+    color: #777777;
+}

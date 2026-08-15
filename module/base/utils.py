@@ -1,4 +1,4 @@
-import random
+﻿import random
 import re
 
 import cv2
@@ -565,9 +565,8 @@ def copy_image(src):
         image.copy()      0.743ms
         copy_image(image) 0.639ms
     """
-    dst = np.empty_like(src)
-    cv2.copyTo(src, None, dst)
-    return dst
+    # cv2.copyTo(src, None, dst) 3-arg form was removed in opencv 4.11
+    return cv2.copyTo(src, None)
 
 
 def crop(image, area, copy=True):
@@ -1024,12 +1023,12 @@ def color_similarity_2d(image, color):
     # r, g, b = cv2.split(cv2.subtract((*color, 0), image))
     # negative = cv2.max(cv2.max(r, g), b)
     # return cv2.subtract(255, cv2.add(positive, negative))
-    diff = cv2.subtract(image, (*color, 0))
+    diff = cv2.subtract(image, (*color,))
     r, g, b = cv2.split(diff)
     cv2.max(r, g, dst=r)
     cv2.max(r, b, dst=r)
     positive = r
-    cv2.subtract((*color, 0), image, dst=diff)
+    cv2.subtract((*color,), image, dst=diff)
     r, g, b = cv2.split(diff)
     cv2.max(r, g, dst=r)
     cv2.max(r, b, dst=r)
@@ -1050,17 +1049,17 @@ def extract_letters(image, letter=(255, 255, 255), threshold=128):
     Returns:
         np.ndarray: Shape (height, width)
     """
-    # r, g, b = cv2.split(cv2.subtract(image, (*letter, 0)))
+    # r, g, b = cv2.split(cv2.subtract(image, (*letter,)))
     # positive = cv2.max(cv2.max(r, g), b)
     # r, g, b = cv2.split(cv2.subtract((*letter, 0), image))
     # negative = cv2.max(cv2.max(r, g), b)
     # return cv2.multiply(cv2.add(positive, negative), 255.0 / threshold)
-    diff = cv2.subtract(image, (*letter, 0))
+    diff = cv2.subtract(image, (*letter,))
     r, g, b = cv2.split(diff)
     cv2.max(r, g, dst=r)
     cv2.max(r, b, dst=r)
     positive = r
-    cv2.subtract((*letter, 0), image, dst=diff)
+    cv2.subtract((*letter,), image, dst=diff)
     r, g, b = cv2.split(diff)
     cv2.max(r, g, dst=r)
     cv2.max(r, b, dst=r)
@@ -1085,7 +1084,7 @@ def extract_white_letters(image, threshold=128):
     # minimum = cv2.min(cv2.min(r, g), b)
     # maximum = cv2.max(cv2.max(r, g), b)
     # return cv2.multiply(cv2.add(maximum, cv2.subtract(maximum, minimum)), 255.0 / threshold)
-    r, g, b = cv2.split(cv2.subtract((255, 255, 255, 0), image))
+    r, g, b = cv2.split(cv2.subtract((255, 255, 255), image))
     maximum = cv2.max(r, g)
     cv2.min(r, g, dst=r)
     cv2.max(maximum, b, dst=maximum)
