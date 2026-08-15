@@ -94,16 +94,16 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: #8a939c;
+    background: var(--alas-status-idle);
   }
   .header-state-running .header-state-dot {
-    background: #4cd07d;
+    background: var(--alas-status-running);
   }
   .header-state-warning .header-state-dot {
-    background: #e6a23c;
+    background: var(--alas-status-warning);
   }
   .header-state-updating .header-state-dot {
-    background: #4c9aff;
+    background: var(--alas-status-updating);
   }
   .header-title {
     margin: auto;
@@ -132,7 +132,7 @@
     background: rgba(255, 255, 255, 0.08);
   }
   .header-btn-close:hover {
-    background: #c42b1c;
+    background: var(--alas-danger);
     color: #fff;
   }
 </style>

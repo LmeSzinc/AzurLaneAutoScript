@@ -68,8 +68,8 @@
     min-height: 15rem;
     max-height: 40vh;
     overflow-y: auto;
-    background: #16191d;
-    color: #d4d9de;
+    background: var(--alas-log-bg);
+    color: var(--alas-log-fg);
     padding: 8px;
     font-size: 12px;
     border-radius: 4px;

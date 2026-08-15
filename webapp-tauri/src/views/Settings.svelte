@@ -205,7 +205,7 @@
   }
   .saving-hint {
     font-size: 12px;
-    color: #4cd07d;
+    color: var(--alas-status-running);
   }
   .navigator {
     margin: 0.5rem 1rem;

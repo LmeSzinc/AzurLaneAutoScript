@@ -5,6 +5,23 @@
  * class names used by the Vue components.
  */
 
+/* ---- design tokens ----
+ * Shared semantic tokens. Theme files (dark/light-alas-shell.css) override
+ * --alas-accent; component scoped styles reference these instead of
+ * hard-coding colors. Values match the pre-token visuals exactly.
+ */
+:root {
+  --alas-accent: #7a77bb;
+  --alas-status-idle: #8a939c;
+  --alas-status-running: #4cd07d;
+  --alas-status-warning: #e6a23c;
+  --alas-status-updating: #4c9aff;
+  --alas-danger: #c42b1c;
+  --alas-log-bg: #16191d;
+  --alas-log-fg: #d4d9de;
+  --alas-muted-border: #6c757d;
+}
+
 /* ---- base ---- */
 body {
   margin-top: 0;

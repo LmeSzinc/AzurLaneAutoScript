@@ -206,7 +206,7 @@
   }
   /* state/lock: bordered on top/left/right, no bottom line */
   .state-display {
-    border: 1px solid #6c757d;
+    border: 1px solid var(--alas-muted-border);
     border-bottom: 0;
     padding: 0 0.5rem;
     height: auto;
