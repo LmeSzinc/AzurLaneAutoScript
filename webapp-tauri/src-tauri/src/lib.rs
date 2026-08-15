@@ -134,7 +134,14 @@ fn spawn_backend(app: AppHandle) {
                         {
                             let url = std::env::var("ALAS_WEBUI_URL")
                                 .unwrap_or_else(|_| "http://127.0.0.1:22267".to_string());
-                            let _ = window.navigate(url);
+                            match url::Url::parse(&url) {
+                                Ok(url) => {
+                                    let _ = window.navigate(url);
+                                }
+                                Err(e) => {
+                                    eprintln!("Invalid ALAS_WEBUI_URL: {e}");
+                                }
+                            }
                         }
                         let _ = window.show();
                         let _ = window.set_focus();

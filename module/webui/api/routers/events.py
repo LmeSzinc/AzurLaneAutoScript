@@ -2,7 +2,7 @@ import asyncio
 import json
 from typing import Any
 
-from fastapi import APIRouter, WebSocket, WebSocketDisconnect
+from fastapi import APIRouter
 from fastapi.responses import StreamingResponse
 
 from module.logger import logger
@@ -19,9 +19,8 @@ def _render_logs(renderables) -> list[str]:
 async def _event_updates():
     """Yield (kind, payload) tuples for status changes and new log lines.
 
-    Mirrors the old push loop: status is pushed on change, logs are pushed
-    once per new renderable (per-connection cursor). Shared by /sse and the
-    legacy /ws compatibility shim.
+    Status is pushed on change, logs are pushed once per new renderable
+    (per-connection cursor).
     """
     last_status = None
     log_cursor: dict[str, int] = {}
@@ -79,26 +78,3 @@ async def sse_endpoint():
         media_type="text/event-stream",
         headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
     )
-
-
-# /ws compatibility shim: SPA bundles built before the SSE migration still
-# connect here (the packaged dist predates phase C). Remove once the
-# packaged frontend is rebuilt against /sse (phase D).
-@router.websocket("/ws")
-async def ws_endpoint(websocket: WebSocket):
-    await websocket.accept()
-    try:
-        async for kind, data in _event_updates():
-            if kind == "keepalive":
-                continue
-            # Drain incoming messages (keepalive / commands, ignored for now)
-            try:
-                while True:
-                    await asyncio.wait_for(websocket.receive_text(), timeout=0.05)
-            except TimeoutError:
-                pass
-            await websocket.send_json({"type": kind, "data": data})
-    except WebSocketDisconnect:
-        pass
-    except Exception as e:
-        logger.exception(e)
