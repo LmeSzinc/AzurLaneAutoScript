@@ -2,7 +2,6 @@
   import { api } from '../api/client'
   import { loadI18n, t } from '../api/i18n.svelte'
   import { logs, refreshStatus, status } from '../api/store.svelte'
-  import { ansiToHtml } from '../lib/ansi'
   import { push, replace, route } from '../router.svelte'
   import type { ArgDefinition } from '../api/types'
   import AppAside from '../components/AppAside.svelte'
@@ -158,7 +157,7 @@
           {/if}
         {/each}
 
-        <pre class="tool-log" bind:this={toolLogEl}><code>{@html ansiToHtml((logs[activeInstance] ?? []).join('\n'))}</code></pre>
+        <pre class="tool-log" bind:this={toolLogEl}><code>{(logs[activeInstance] ?? []).join('\n')}</code></pre>
       </div>
     {:else}
       {#if selectedTask && t(`Task.${selectedTask}.help`) !== `Task.${selectedTask}.help`}

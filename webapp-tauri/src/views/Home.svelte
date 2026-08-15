@@ -2,7 +2,6 @@
   import { api } from '../api/client'
   import { t, loadI18n } from '../api/i18n.svelte'
   import { logs, refreshStatus, status } from '../api/store.svelte'
-  import { ansiToHtml } from '../lib/ansi'
   import { push } from '../router.svelte'
   import AppAside from '../components/AppAside.svelte'
   import AppMenu from '../components/AppMenu.svelte'
@@ -176,7 +175,7 @@
           </button>
         </div>
       </div>
-      <pre class="log-view" bind:this={logEl}><code>{@html ansiToHtml((logs[activeInstance] ?? []).join('\n'))}</code></pre>
+      <pre class="log-view" bind:this={logEl}><code>{(logs[activeInstance] ?? []).join('\n')}</code></pre>
     </section>
   </div>
 </div>
