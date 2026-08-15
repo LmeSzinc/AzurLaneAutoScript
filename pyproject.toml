@@ -41,10 +41,12 @@ dependencies = [
     "uvicorn>=0.49",
     "websockets>=12",
     "fastapi>=0.135",
+    "decorator>=5.3.1",
 ]
 
 [dependency-groups]
 dev = [
+    "pyright>=1.1.411",
     "ruff>=0.5",
 ]
 

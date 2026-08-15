@@ -1,0 +1,23 @@
+{
+  "include": ["module", "deploy", "dev_tools", "alas.py", "gui.py"],
+  "exclude": [
+    "**/node_modules",
+    "**/__pycache__",
+    "campaign",
+    "submodule",
+    "config",
+    ".venv",
+    "webapp-tauri",
+    ".qoder",
+    ".ropeproject"
+  ],
+  "typeCheckingMode": "basic",
+  "pythonVersion": "3.13",
+  "useLibraryCodeForTypes": true,
+  "reportMissingImports": "none",
+  "reportMissingTypeStubs": false,
+  "reportUnusedImport": false,
+  "reportUnusedVariable": false,
+  "reportPrivateUsage": false,
+  "reportUnnecessaryTypeIgnoreComment": "none"
+}
