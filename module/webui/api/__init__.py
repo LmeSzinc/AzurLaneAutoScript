@@ -1,4 +1,4 @@
-﻿"""
+"""
 FastAPI-based REST + WebSocket API for the Vue SPA frontend.
 
 This module coexists with the legacy pywebio GUI during the migration
@@ -72,9 +72,14 @@ def _get_updater():
 
 
 def render_log(renderable) -> str:
-    """Render a rich renderable to a plain string."""
+    """Render a rich renderable to an ANSI-colored string for the web UI.
+
+    `no_color=False` + explicit `color_system` bypass the NO_COLOR env var so
+    output is deterministic; the frontend converts the ANSI SGR codes to
+    theme-aware HTML (see webapp-tauri/src/lib/ansi.ts).
+    """
     try:
-        console = Console(no_color=True)
+        console = Console(no_color=False, color_system='standard', force_terminal=True)
         with console.capture() as capture:
             console.print(renderable)
         return capture.get().rstrip('\n')
