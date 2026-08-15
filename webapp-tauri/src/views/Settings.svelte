@@ -2,23 +2,23 @@
   import { api } from '../api/client'
   import { loadI18n, t } from '../api/i18n.svelte'
   import { logs, refreshStatus, status } from '../api/store.svelte'
-  import { ansiToHtml } from '../lib/ansi'
   import { push, replace, route } from '../router.svelte'
   import type { ArgDefinition } from '../api/types'
   import AppAside from '../components/AppAside.svelte'
   import AppMenu from '../components/AppMenu.svelte'
   import DynamicForm from '../components/DynamicForm.svelte'
+  import LogView from '../components/LogView.svelte'
 
   let selectedTask = $state('')
   let schema = $state<Record<string, Record<string, Record<string, ArgDefinition>>>>({})
   let config = $state<Record<string, unknown>>({})
   const activeInstance = $derived(status.instances[0]?.name ?? 'alas')
+  const EMPTY_LOGS: string[] = []
   let saving = $state(false)
   /** Tasks whose page is 'tool' show a status view instead of the form */
   let toolTasks = $state<Set<string>>(new Set())
   let toolAlive = $state(false)
   let toolKeepBottom = $state(true)
-  let toolLogEl = $state<HTMLElement | null>(null)
 
   const isToolTask = $derived(toolTasks.has(selectedTask))
 
@@ -100,14 +100,6 @@
     void loadI18n()
     void refreshStatus()
   })
-
-  // Auto-scroll the tool log view
-  $effect(() => {
-    void logs[activeInstance]?.length
-    if (toolKeepBottom && toolLogEl) {
-      toolLogEl.scrollTop = toolLogEl.scrollHeight
-    }
-  })
 </script>
 
 <div class="settings-wrap">
@@ -158,7 +150,7 @@
           {/if}
         {/each}
 
-        <pre class="tool-log" bind:this={toolLogEl}><code>{@html ansiToHtml((logs[activeInstance] ?? []).join('\n'))}</code></pre>
+        <LogView class="tool-log" lines={logs[activeInstance] ?? EMPTY_LOGS} keepBottom={toolKeepBottom} />
       </div>
     {:else}
       {#if selectedTask && t(`Task.${selectedTask}.help`) !== `Task.${selectedTask}.help`}
@@ -229,19 +221,6 @@
   }
   .tool-view .group-card {
     grid-column: 2;
-  }
-  .tool-log {
-    grid-column: 2;
-    margin: 0.3rem 0;
-    min-height: 15rem;
-    max-height: 40vh;
-    overflow-y: auto;
-    background: #16191d;
-    color: #d4d9de;
-    padding: 8px;
-    font-size: 12px;
-    border-radius: 4px;
-    white-space: pre-wrap;
   }
   .saving-hint {
     font-size: 12px;
