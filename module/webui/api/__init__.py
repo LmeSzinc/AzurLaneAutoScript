@@ -494,7 +494,8 @@ def create_api_app() -> FastAPI:
     async def ws_endpoint(websocket: WebSocket):
         await websocket.accept()
         last_status = None
-        last_log_len: dict[str, int] = {}
+        # Per-instance render cursor: only render and send NEW renderables.
+        log_cursor: dict[str, int] = {}
         try:
             while True:
                 # Drain incoming messages (keepalive / commands, ignored for now)
@@ -508,16 +509,23 @@ def create_api_app() -> FastAPI:
                     await websocket.send_json({"type": "status", "data": status})
                     last_status = status
                 for name, manager in ProcessManager._processes.items():
-                    logs = [render_log(r) for r in manager.renderables]
-                    prev_len = last_log_len.get(name, 0)
-                    if len(logs) > prev_len:
+                    total = len(manager.renderables)
+                    cursor = log_cursor.get(name, 0)
+                    reset = False
+                    if total < cursor:
+                        # renderables buffer was trimmed or replaced; re-send all
+                        cursor = 0
+                        reset = True
+                    new_renderables = manager.renderables[cursor:]
+                    log_cursor[name] = total
+                    if new_renderables:
+                        logs = [render_log(r) for r in new_renderables]
                         await websocket.send_json(
                             {
                                 "type": "log",
-                                "data": {"instance": name, "logs": logs[prev_len:]},
+                                "data": {"instance": name, "logs": logs, "reset": reset},
                             }
                         )
-                    last_log_len[name] = len(logs)
                 await asyncio.sleep(1)
         except WebSocketDisconnect:
             pass
