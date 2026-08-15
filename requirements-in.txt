@@ -37,7 +37,7 @@ pypresence==4.2.1
 onnxruntime>=1.15
 
 # Webui
-pywebio==1.6.2
-starlette==0.14.2
-uvicorn==0.17.6
-alas-webapp==0.3.7
+starlette>=0.40
+uvicorn>=0.30
+websockets>=12
+fastapi>=0.115

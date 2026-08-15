@@ -6,14 +6,14 @@ adbutils==0.11.0
     #   uiautomator2
 aiofiles==25.1.0
     # via alas
-alas-webapp==0.3.7
-    # via alas
+annotated-doc==0.0.5
+    # via fastapi
 anyio==4.14.2
-    # via alas
+    # via
+    #   alas
+    #   starlette
 apkutils2==1.0.0
     # via adbutils
-asgiref==3.12.1
-    # via uvicorn
 av==17.1.0 ; python_full_version < '3.11'
     # via alas
 av==18.1.0 ; python_full_version >= '3.11'
@@ -41,6 +41,8 @@ deprecation==2.1.0
     # via adbutils
 exceptiongroup==1.3.1 ; python_full_version < '3.11'
     # via anyio
+fastapi==0.125.0
+    # via alas
 filelock==3.32.3
     # via uiautomator2
 flatbuffers==25.12.19
@@ -109,7 +111,9 @@ pycryptodome==3.9.9
     #   alas
     #   onepush
 pydantic==1.10.26
-    # via alas
+    # via
+    #   alas
+    #   fastapi
 pyelftools==0.33
     # via apkutils2
 pygments==2.20.0
@@ -117,8 +121,6 @@ pygments==2.20.0
 pyparsing==3.3.2
     # via packaging
 pypresence==4.2.1
-    # via alas
-pywebio==1.6.2
     # via alas
 pyyaml==6.0.3
     # via alas
@@ -143,36 +145,36 @@ six==1.17.0
     # via
     #   adbutils
     #   uiautomator2
-starlette==0.14.2
-    # via alas
+starlette==0.50.0
+    # via
+    #   alas
+    #   fastapi
 sympy==1.14.0 ; python_full_version < '3.11'
     # via onnxruntime
-tornado==6.5.8
-    # via pywebio
 tqdm==4.70.0
     # via alas
 typing-extensions==4.16.0
     # via
     #   anyio
-    #   asgiref
     #   exceptiongroup
+    #   fastapi
     #   pydantic
-ua-parser==1.0.2
-    # via user-agents
-ua-parser-builtins==202606
-    # via ua-parser
+    #   starlette
+    #   uvicorn
 uiautomator2==2.16.17
     # via alas
 uiautomator2cache==0.3.0.1
     # via alas
 urllib3==2.7.0
     # via requests
-user-agents==2.2.0
-    # via pywebio
-uvicorn==0.17.6
+uvicorn==0.52.3
     # via alas
 wcwidth==0.8.2
     # via prettytable
+websockets==16.1.1 ; python_full_version < '3.11'
+    # via alas
+websockets==17.0.1 ; python_full_version >= '3.11'
+    # via alas
 whichcraft==0.6.1
     # via
     #   adbutils
