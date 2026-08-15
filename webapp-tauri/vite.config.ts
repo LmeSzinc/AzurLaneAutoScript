@@ -5,6 +5,7 @@ export default defineConfig({
   plugins: [svelte()],
   clearScreen: false,
   server: {
+    host: true,
     port: 1420,
     strictPort: true,
     watch: {

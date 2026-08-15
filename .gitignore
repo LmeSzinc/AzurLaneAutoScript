@@ -268,9 +268,8 @@ webapp-tauri/src-tauri/target/
 webapp-tauri/dist/
 webapp-tauri/.env.development
 
-# MaaFramework submodule checkout (runtime dependency)
-MaaFramework/
+# Runtime adb copied from adbutils (dev environment)
+/bin/adb/
 
-# Runtime checkouts produced by the updater / submodule loading
-Alasio/
-MaaAssistantArknights/
+# Rope refactoring config
+.ropeproject/
