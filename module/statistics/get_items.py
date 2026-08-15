@@ -2,7 +2,6 @@ from module.combat.assets import *
 from module.handler.assets import *
 from module.statistics.assets import GET_ITEMS_ODD
 from module.statistics.item import *
-from module.statistics.utils import *
 
 ITEM_GROUP = ItemGrid(None, {}, template_area=(40, 21, 89, 70), amount_area=(60, 71, 91, 92))
 ITEM_GRIDS_1_ODD = ButtonGrid(origin=(336, 298), delta=(128, 0), button_shape=(96, 96), grid_shape=(5, 1))

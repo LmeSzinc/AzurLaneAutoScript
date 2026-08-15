@@ -3,7 +3,7 @@ import re
 
 from dev_tools.utils import LuaLoader
 from module.base.utils import location2node
-from module.map.utils import *
+from module.map.utils import camera_2d, camera_spawn_point, get_map_active_area, np
 
 """
 This an auto-tool to extract map files used in Alas.

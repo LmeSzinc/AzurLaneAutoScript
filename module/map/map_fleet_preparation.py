@@ -3,7 +3,7 @@ from scipy import signal
 
 from module.base.button import Button
 from module.base.timer import Timer
-from module.base.utils import *
+from module.base.utils import area_offset, color_similar, color_similarity_2d, cv2, get_color, image_size, rgb2gray
 from module.exception import HardNotSatisfied
 from module.handler.assets import (
     AUTO_SEARCH_SET_ALL,

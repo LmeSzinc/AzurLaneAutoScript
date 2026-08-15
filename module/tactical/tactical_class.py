@@ -4,7 +4,20 @@ import module.config.server as server
 from module.base.button import ButtonGrid
 from module.base.filter import Filter
 from module.base.timer import Timer
-from module.base.utils import *
+from module.base.utils import (
+    color_similar,
+    color_similarity_2d,
+    crop,
+    cv2,
+    get_color,
+    image_left_strip,
+    image_size,
+    np,
+    re,
+    resize,
+    rgb2gray,
+    rgb2hsv,
+)
 from module.combat.level import LevelOcr
 from module.config.utils import get_server_next_update
 from module.exception import ScriptError

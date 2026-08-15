@@ -4,13 +4,12 @@ from PIL import Image
 from tqdm import tqdm
 
 import module.config.server as server
-
-server.server = "cn"  # Don't need to edit, it's used to avoid error.
-
 from module.base.base import ModuleBase
-from module.base.utils import *
+from module.base.utils import node2location, np, rgb2gray
 from module.config.config import AzurLaneConfig
 from module.map_detection.view import View
+
+server.server = "cn"  # Don't need to edit, it's used to avoid error.
 
 
 class Config:

@@ -1,5 +1,5 @@
 from module.base.mask import Mask
-from module.base.utils import *
+from module.base.utils import area_offset, color_similarity_2d, crop, np, point_limit
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
 from module.map_detection.utils import fit_points

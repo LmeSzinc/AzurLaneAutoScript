@@ -3,12 +3,21 @@ import time
 import numpy as np
 from PIL import ImageDraw, ImageOps
 
-from module.base.utils import *
+from module.base.utils import Image, crop, cv2, float2str, load_image, point2str, rgb2gray
 from module.config.config import AzurLaneConfig
 from module.exception import MapDetectionError
 from module.logger import logger
 from module.map_detection.perspective import Perspective
-from module.map_detection.utils import *
+from module.map_detection.utils import (
+    Lines,
+    Points,
+    area2corner,
+    fit_points,
+    get_map_inner,
+    perspective_transform,
+    points_to_area_generator,
+    separate_edges,
+)
 from module.map_detection.utils_assets import *
 
 

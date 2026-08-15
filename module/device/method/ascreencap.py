@@ -4,7 +4,7 @@ from functools import wraps
 
 from adbutils.errors import AdbError
 
-from module.base.utils import *
+from module.base.utils import cv2, np
 from module.device.connection import Connection
 from module.device.method.utils import (
     RETRY_TRIES,

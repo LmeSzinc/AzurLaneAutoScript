@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 
 from module.base.decorator import Config
 from module.base.filter import Filter
-from module.base.utils import *
+from module.base.utils import area_offset, color_similar, crop, cv2, extract_letters, get_color, np, re
 from module.commission.project_data import *
 from module.logger import logger
 from module.ocr.ocr import Duration, Ocr

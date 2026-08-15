@@ -2,13 +2,12 @@ import os
 import time
 
 import module.config.server as server
-from module.base.utils import *
-
-server.server = "cn"  # Don't need to edit, it's used to avoid error.
-
-from module.base.utils import load_image
+from module.base.utils import Image, load_image, np, rgb2gray
 from module.config.config import AzurLaneConfig
 from module.map_detection.view import View
+from module.os.config import OSConfig
+
+server.server = "cn"  # Don't need to edit, it's used to avoid error.
 
 
 class Config:
@@ -18,8 +17,6 @@ class Config:
 
     pass
 
-
-from module.os.config import OSConfig
 
 cfg = AzurLaneConfig("alas").merge(OSConfig())
 

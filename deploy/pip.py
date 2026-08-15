@@ -4,7 +4,7 @@ from urllib.parse import urlparse
 
 from deploy.config import DeployConfig
 from deploy.logger import logger
-from deploy.utils import *
+from deploy.utils import cached_property, os, re
 
 
 @dataclass

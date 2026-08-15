@@ -3,14 +3,24 @@ from datetime import timedelta
 from scipy import signal
 
 from module.base.decorator import cached_property
-from module.base.utils import *
+from module.base.utils import (
+    color_similarity_2d,
+    crop,
+    cv2,
+    extract_white_letters,
+    get_color,
+    load_image,
+    np,
+    re,
+    resize,
+)
 from module.device.method.utils import removesuffix
 from module.logger import logger
 from module.ocr.ocr import Duration, Ocr
 from module.research.assets import *
 from module.research.project_data import LIST_RESEARCH_PROJECT
 from module.research.series import get_detail_series, get_research_series_3
-from module.statistics.utils import *
+from module.statistics.utils import load_folder
 
 RESEARCH_SERIES = (SERIES_1, SERIES_2, SERIES_3, SERIES_4, SERIES_5)
 RESEARCH_STATUS = [STATUS_1, STATUS_2, STATUS_3, STATUS_4, STATUS_5]

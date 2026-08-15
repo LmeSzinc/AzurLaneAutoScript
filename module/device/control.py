@@ -1,7 +1,15 @@
 from module.base.button import Button
 from module.base.decorator import cached_property
 from module.base.timer import Timer
-from module.base.utils import *
+from module.base.utils import (
+    area_offset,
+    ensure_int,
+    ensure_time,
+    np,
+    point2str,
+    random_rectangle_point,
+    random_rectangle_vector_opted,
+)
 from module.device.method.hermit import Hermit
 from module.device.method.maatouch import MaaTouch
 from module.device.method.minitouch import Minitouch

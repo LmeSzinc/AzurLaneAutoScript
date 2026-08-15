@@ -11,7 +11,7 @@ from uiautomator2 import _Service
 
 from module.base.decorator import Config, cached_property, del_cached_property, has_cached_property
 from module.base.timer import Timer
-from module.base.utils import *
+from module.base.utils import ensure_time, np, random_rectangle_point, re
 from module.device.connection import Connection
 from module.device.method.utils import RETRY_TRIES, handle_adb_error, handle_unknown_host_service, retry_sleep
 from module.exception import RequestHumanTakeover, ScriptError

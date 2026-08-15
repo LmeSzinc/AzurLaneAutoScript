@@ -1,10 +1,10 @@
 from module.base.button import ButtonGrid
-from module.base.utils import *
+from module.base.utils import area_offset, np, rgb2gray
 from module.handler.assets import AUTO_SEARCH_MENU_EXIT
 from module.statistics.assets import CAMPAIGN_BONUS
 from module.statistics.get_items import ITEM_GROUP, GetItemsStatistics
 from module.statistics.item import Item
-from module.statistics.utils import *
+from module.statistics.utils import ImageError
 
 
 class BonusItem(Item):

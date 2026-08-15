@@ -1,6 +1,6 @@
 from module.base.button import ButtonGrid
 from module.base.timer import Timer
-from module.base.utils import *
+from module.base.utils import area_limit, area_pad, point_in_area, random_rectangle_vector
 from module.config.utils import get_server_monthday
 from module.exception import GameBugError
 from module.guild.assets import *

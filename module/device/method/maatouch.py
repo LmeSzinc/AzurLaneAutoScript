@@ -7,7 +7,7 @@ from adbutils.errors import AdbError
 
 from module.base.decorator import cached_property, del_cached_property, has_cached_property
 from module.base.timer import Timer
-from module.base.utils import *
+from module.base.utils import ensure_time, np, random_rectangle_point
 from module.device.connection import Connection
 from module.device.method.minitouch import Command, CommandBuilder, insert_swipe
 from module.device.method.utils import RETRY_TRIES, handle_adb_error, retry_sleep

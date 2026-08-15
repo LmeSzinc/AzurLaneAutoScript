@@ -1,7 +1,7 @@
 from deploy.config import DeployConfig
 from deploy.git_over_cdn.client import GitOverCdnClient
 from deploy.logger import logger
-from deploy.utils import *
+from deploy.utils import cached_property, os
 
 
 class GitManager(DeployConfig):

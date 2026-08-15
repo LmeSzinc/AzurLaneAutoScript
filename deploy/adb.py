@@ -3,7 +3,7 @@ import logging
 from deploy.config import DeployConfig
 from deploy.emulator import EmulatorConnect
 from deploy.logger import logger
-from deploy.utils import *
+from deploy.utils import cached_property, os
 
 IGNORE_SERIAL = [
     # Water-cooling display

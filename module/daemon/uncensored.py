@@ -1,7 +1,7 @@
 import shutil
 
 from deploy.git import GitManager
-from deploy.utils import *
+from deploy.utils import os
 from module.handler.login import LoginHandler
 from module.logger import logger
 

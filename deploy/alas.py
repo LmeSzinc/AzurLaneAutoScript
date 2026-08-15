@@ -2,7 +2,7 @@ import pickle
 
 from deploy.config import DeployConfig
 from deploy.logger import logger
-from deploy.utils import *
+from deploy.utils import cached_property, os
 
 
 class AlasManager(DeployConfig):

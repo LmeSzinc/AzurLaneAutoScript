@@ -1,5 +1,5 @@
 from module.base.timer import Timer
-from module.base.utils import *
+from module.base.utils import area_offset, cv2, np, point_in_area, point_limit, rgb2hsv
 from module.exception import GameStuckError
 from module.logger import logger
 from module.os.assets import *

@@ -1,6 +1,6 @@
 from module.base.button import ButtonGrid
 from module.base.decorator import Config
-from module.base.utils import *
+from module.base.utils import cv2, np, random_rectangle_vector
 from module.equipment.assets import *
 from module.equipment.equipment import Equipment
 from module.logger import logger

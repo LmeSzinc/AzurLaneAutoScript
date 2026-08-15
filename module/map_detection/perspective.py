@@ -5,11 +5,11 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageOps
 from scipy import signal
 
-from module.base.utils import *
+from module.base.utils import crop, cv2, float2str, point2str, rgb2gray
 from module.config.config import AzurLaneConfig
 from module.exception import MapDetectionError
 from module.logger import logger
-from module.map_detection.utils import *
+from module.map_detection.utils import Lines, Points, get_map_inner, optimize, points_to_area_generator, separate_edges
 from module.map_detection.utils_assets import *
 
 warnings.filterwarnings("ignore")

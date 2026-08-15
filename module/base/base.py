@@ -1,7 +1,18 @@
 from module.base.button import Button
 from module.base.decorator import cached_property
 from module.base.timer import Timer
-from module.base.utils import *
+from module.base.utils import (
+    Image,
+    area_offset,
+    color_similarity_2d,
+    crop,
+    cv2,
+    ensure_int,
+    get_color,
+    image_size,
+    load_image,
+    np,
+)
 from module.combat.emotion import Emotion
 from module.config.config import AzurLaneConfig
 from module.config.server import set_server, to_package

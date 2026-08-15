@@ -4,12 +4,10 @@ import imageio
 from PIL import Image
 
 import module.config.server as server
+from dev_tools.relative_record import FOLDER, NAME
+from module.base.utils import area_offset, crop, cv2, np
 
 server.server = "cn"  # Don't need to edit, it's used to avoid error.
-
-from dev_tools.relative_record import FOLDER, NAME
-from module.base.utils import *
-from module.map_detection.utils import *
 
 """
 Usage:

@@ -4,7 +4,7 @@ from module.base.button import ButtonGrid
 from module.base.decorator import Config, cached_property
 from module.base.filter import Filter
 from module.base.timer import Timer
-from module.base.utils import *
+from module.base.utils import area_offset, color_mapping, get_color, np, rgb2gray
 from module.combat.assets import GET_ITEMS_1
 from module.exception import GameBugError
 from module.guild.assets import *

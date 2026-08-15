@@ -1,4 +1,4 @@
-from module.base.utils import *
+from module.base.utils import location2node, node2location, np
 from module.map.map_base import CampaignMap, camera_2d
 from module.map_detection.os_grid import OSGridInfo
 

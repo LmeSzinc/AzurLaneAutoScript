@@ -1,5 +1,5 @@
 from module.base.timer import Timer
-from module.base.utils import *
+from module.base.utils import area_pad
 from module.logger import logger
 from module.os.assets import *
 from module.os_handler.action_point import ActionPointHandler

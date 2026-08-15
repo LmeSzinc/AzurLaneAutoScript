@@ -5,7 +5,7 @@ from module.base.decorator import Config, cached_property
 from module.base.filter import Filter
 from module.base.mask import Mask
 from module.base.timer import Timer
-from module.base.utils import *
+from module.base.utils import color_similarity_2d, cv2, np, random_rectangle_point, re, rgb2gray
 from module.dorm.assets import *
 from module.dorm.buy_furniture import BuyFurniture
 from module.handler.assets import POPUP_CONFIRM

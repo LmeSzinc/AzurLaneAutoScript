@@ -3,7 +3,7 @@ from module.campaign.campaign_base import CampaignBase
 from module.config.config import AzurLaneConfig
 from module.logger import logger
 from module.map_detection.homography import Homography
-from module.map_detection.utils import *
+from module.map_detection.utils import np
 
 
 class Config:

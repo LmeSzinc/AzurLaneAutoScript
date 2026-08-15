@@ -1,7 +1,7 @@
-from module.base.utils import *
+from module.base.utils import area_offset, area_pad, color_similarity_2d, crop, cv2, np, rgb2gray
 from module.exception import ScriptError
 from module.logger import logger
-from module.map_detection.utils import *
+from module.map_detection.utils import area2corner, corner2area, perspective_transform
 from module.map_detection.utils_assets import *
 from module.template.assets import *
 

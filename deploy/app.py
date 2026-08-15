@@ -3,7 +3,7 @@ import shutil
 
 from deploy.config import DeployConfig
 from deploy.logger import logger
-from deploy.utils import *
+from deploy.utils import os
 
 
 class AppManager(DeployConfig):
