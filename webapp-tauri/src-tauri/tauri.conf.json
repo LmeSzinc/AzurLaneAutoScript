@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "identifier": "com.alas.autoscript",
   "build": {
-    "beforeDevCommand": "",
-    "devUrl": "http://127.0.0.1:5173",
+    "beforeDevCommand": "pnpm dev",
+    "devUrl": "http://127.0.0.1:1420",
     "beforeBuildCommand": "",
     "frontendDist": "../dist"
   },

@@ -8,6 +8,7 @@ SPA bundles built before the SSE migration.
 """
 
 import os
+import sys
 import threading
 from contextlib import asynccontextmanager
 
@@ -85,10 +86,14 @@ def _add_dev_cors(app: FastAPI):
 def create_api_app() -> FastAPI:
     @asynccontextmanager
     async def lifespan(_app: FastAPI):
-        # State.init must complete before serving requests (WS depends on it).
+        # State.init must complete before serving requests (SSE depends on it).
         State.init()
         thread = threading.Thread(target=_startup, daemon=True)
         thread.start()
+        # The Tauri shell watches stderr for this marker before showing its
+        # window and navigating to this server. Must stay on stderr: logger
+        # output goes to stdout, which the shell does not read.
+        print("Application startup complete", file=sys.stderr, flush=True)
         yield
         _shutdown()
 

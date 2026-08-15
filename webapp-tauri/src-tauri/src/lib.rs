@@ -68,6 +68,12 @@ fn spawn_backend(app: AppHandle) {
         .current_dir(&root)
         .stdout(Stdio::piped())
         .stderr(Stdio::piped());
+    // Dev builds load the SPA from the vite dev server (devUrl), which is
+    // cross-origin to the backend; allow that origin via the backend's
+    // ALAS_CORS_ORIGINS gate. Packaged builds serve the SPA from the
+    // backend itself (same origin) and need no CORS.
+    #[cfg(debug_assertions)]
+    command.env("ALAS_CORS_ORIGINS", "http://127.0.0.1:1420");
     let mut child = match command.spawn() {
         Ok(child) => child,
         Err(e) => {
@@ -78,6 +84,20 @@ fn spawn_backend(app: AppHandle) {
             return;
         }
     };
+
+    // Drain the backend stdout pipe: an unread pipe fills up (64KB) and
+    // blocks the backend once its logs exceed the buffer. Mirror to the
+    // console in debug builds.
+    let stdout = child.stdout.take();
+    std::thread::spawn(move || {
+        if let Some(stdout) = stdout {
+            let reader = BufReader::new(stdout);
+            for line in reader.lines().map_while(Result::ok) {
+                #[cfg(debug_assertions)]
+                println!("[backend] {}", line);
+            }
+        }
+    });
 
     let stderr = child.stderr.take();
     let handle = app.clone();
@@ -90,10 +110,21 @@ fn spawn_backend(app: AppHandle) {
                 println!("[backend] {}", line);
                 if line.contains("Application startup complete") {
                     if let Some(window) = handle.get_webview_window("main") {
+                        // The backend binds its port right after the marker;
+                        // wait briefly so the first navigation lands.
+                        std::thread::sleep(std::time::Duration::from_millis(500));
+                        // Packaged builds navigate to the SPA served by the
+                        // backend itself (same origin). Dev builds stay on
+                        // the vite devUrl, so navigation is skipped there.
+                        #[cfg(not(debug_assertions))]
+                        {
+                            let url = std::env::var("ALAS_WEBUI_URL")
+                                .unwrap_or_else(|_| "http://127.0.0.1:22267".to_string());
+                            let _ = window.navigate(url);
+                        }
                         let _ = window.show();
                         let _ = window.set_focus();
                     }
-                    break;
                 }
             }
         }
