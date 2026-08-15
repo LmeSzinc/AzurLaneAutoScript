@@ -16,6 +16,8 @@ dev_tools/debug_tools
 /toolkit
 *.lock
 !uv.lock
+# The Tauri shell's lockfile is source-controlled (reproducible builds)
+!webapp-tauri/src-tauri/Cargo.lock
 config/reloadflag
 config/reloadalas
 test.py
