@@ -1,9 +1,12 @@
 import os
+import re
 
 from deploy.logger import logger
 
 BASE_FOLDER = os.path.dirname(os.path.abspath(__file__))
 logger.info(BASE_FOLDER)
+
+NAME_RE = re.compile(r'^([A-Za-z0-9_.-]+)')
 
 
 def read_file(file):
@@ -47,12 +50,12 @@ def docker_requirements_generate(requirements_in='requirements-in.txt'):
         # alas-webapp is for windows only
         if name == 'alas-webapp':
             continue
-        if name == 'opencv-python':
+        # Lock by normalized package name (requirements-in entries carry
+        # version constraints, e.g. 'opencv-python>=4.12').
+        match = NAME_RE.match(name)
+        if match and match.group(1) == 'opencv-python':
             name = 'opencv-python-headless'
             version = None
-        if name in lock:
-            version = lock[name] if not isinstance(lock[name], dict) else lock[name]['version']
-            name = name if not isinstance(lock[name], dict) else lock[name]['name']
         new[name] = version
 
     write_file(os.path.join(BASE_FOLDER, f'./requirements.txt'), data=new)

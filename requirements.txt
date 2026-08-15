@@ -8,15 +8,15 @@ aiofiles==25.1.0
     # via alas
 annotated-doc==0.0.5
     # via fastapi
+annotated-types==0.8.0
+    # via pydantic
 anyio==4.14.2
     # via
     #   alas
     #   starlette
 apkutils2==1.0.0
     # via adbutils
-av==17.1.0 ; python_full_version < '3.11'
-    # via alas
-av==18.1.0 ; python_full_version >= '3.11'
+av==18.1.0
     # via alas
 cached-property==1.5.2
     # via uiautomator2
@@ -39,9 +39,7 @@ deprecated==1.2.18
     # via uiautomator2
 deprecation==2.1.0
     # via adbutils
-exceptiongroup==1.3.1 ; python_full_version < '3.11'
-    # via anyio
-fastapi==0.125.0
+fastapi==0.141.1
     # via alas
 filelock==3.32.3
     # via uiautomator2
@@ -57,7 +55,7 @@ imageio==2.37.4
     # via alas
 inflection==0.5.1
     # via alas
-jellyfish==0.11.2
+jellyfish==1.2.1
     # via alas
 logzero==1.7.0
     # via uiautomator2
@@ -69,9 +67,7 @@ markdown-it-py==4.2.0
     # via rich
 mdurl==0.1.2
     # via markdown-it-py
-mpmath==1.3.0 ; python_full_version < '3.11'
-    # via sympy
-numpy==1.26.4
+numpy==2.5.2
     # via
     #   alas
     #   imageio
@@ -80,11 +76,9 @@ numpy==1.26.4
     #   scipy
 onepush==1.4.0
     # via alas
-onnxruntime==1.24.3 ; python_full_version < '3.11'
+onnxruntime==1.28.0
     # via alas
-onnxruntime==1.28.0 ; python_full_version >= '3.11'
-    # via alas
-opencv-python==4.11.0.86
+opencv-python==4.14.0.94
     # via alas
 packaging==20.9
     # via
@@ -106,14 +100,16 @@ psutil==7.2.2
     # via alas
 py==1.11.0
     # via retry
-pycryptodome==3.9.9
+pycryptodome==3.23.0
     # via
     #   alas
     #   onepush
-pydantic==1.10.26
+pydantic==2.13.4
     # via
     #   alas
     #   fastapi
+pydantic-core==2.46.4
+    # via pydantic
 pyelftools==0.33
     # via apkutils2
 pygments==2.20.0
@@ -133,34 +129,32 @@ retry==0.9.2
     # via
     #   adbutils
     #   uiautomator2
-retrying==1.4.2
-    # via alas
 rich==15.0.0
     # via alas
-scipy==1.15.3 ; python_full_version < '3.11'
-    # via alas
-scipy==1.17.1 ; python_full_version >= '3.11'
+scipy==1.18.0
     # via alas
 six==1.17.0
     # via
     #   adbutils
     #   uiautomator2
-starlette==0.50.0
+starlette==1.6.0
     # via
     #   alas
     #   fastapi
-sympy==1.14.0 ; python_full_version < '3.11'
-    # via onnxruntime
 tqdm==4.70.0
     # via alas
 typing-extensions==4.16.0
     # via
     #   anyio
-    #   exceptiongroup
     #   fastapi
     #   pydantic
+    #   pydantic-core
     #   starlette
-    #   uvicorn
+    #   typing-inspection
+typing-inspection==0.4.4
+    # via
+    #   fastapi
+    #   pydantic
 uiautomator2==2.16.17
     # via alas
 uiautomator2cache==0.3.0.1
@@ -171,9 +165,7 @@ uvicorn==0.52.3
     # via alas
 wcwidth==0.8.2
     # via prettytable
-websockets==16.1.1 ; python_full_version < '3.11'
-    # via alas
-websockets==17.0.1 ; python_full_version >= '3.11'
+websockets==17.0.1
     # via alas
 whichcraft==0.6.1
     # via

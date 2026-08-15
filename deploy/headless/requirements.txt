@@ -1,8 +1,8 @@
 # Image processing
-numpy>=1.24,<2
+numpy>=2.4,<3
 scipy>=1.10
 pillow>=9.5
-opencv-python>=4.8
+opencv-python-headless
 imageio
 
 # Device connection
@@ -10,25 +10,24 @@ adbutils==0.11.0
 uiautomator2==2.16.17
 uiautomator2cache==0.3.0.1
 wrapt>=1.14
-retrying==1.3.4
-lz4==4.3.2
+lz4
 av>=10
 psutil>=5.9
 
 # Utils
 rich>=11
-tqdm==4.65.0
-jellyfish==0.11.2
-pyyaml==6.0
-inflection==0.5.1
-pydantic>=1.10,<2
-aiofiles==23.1.0
+tqdm
+jellyfish>=0.11.2
+pyyaml
+inflection
+pydantic>=2.10,<3
+aiofiles
 prettytable>=2.2
 anyio>=1.3
 
 # Pushing
 onepush==1.4.0
-pycryptodome==3.9.9
+pycryptodome>=3.9.9
 pypresence==4.2.1
 
 # Ocr
@@ -36,10 +35,10 @@ pypresence==4.2.1
 # Self-trained models converted from mxnet checkpoints to ONNX,
 
 # see dev_tools/ocr_convert/build_onnx.py
-onnxruntime>=1.15
+onnxruntime>=1.20
 
 # Webui
 starlette>=0.40
-uvicorn>=0.30
+uvicorn>=0.49
 websockets>=12
-fastapi>=0.115
+fastapi>=0.135

@@ -1,9 +1,12 @@
 import os
+import re
 
 from deploy.logger import logger
 
 BASE_FOLDER = os.path.dirname(os.path.abspath(__file__))
 logger.info(BASE_FOLDER)
+
+NAME_RE = re.compile(r'^([A-Za-z0-9_.-]+)')
 
 
 def read_file(file):
@@ -40,31 +43,28 @@ def headless_requirements_generate(requirements_in='requirements-in.txt'):
     requirements = read_file(requirements_in)
 
     logger.info(f'Generate requirements for headless environment')
+    # Lock by normalized package name (requirements-in entries carry
+    # version constraints, e.g. 'opencv-python>=4.12').
     lock = {
-        'aiofiles': '23.1.0',
-        'inflection': '0.5.1',
-        'lz4': '4.3.2',
-        'numpy': '1.17.4',
-        # 'onepush': '1.2.0',
         'opencv-python': {
             'name': 'opencv-python-headless',
-            'version': '4.7.0.72'
+            'version': None
         },
-        'pillow': '9.5.0',
-        'pydantic': '1.10.9',
-        'pyyaml': '6.0',
-        'retrying': '1.3.4',
-        'tqdm': '4.65.0',
-        'wrapt': '1.15.0'
     }
     new = {}
     logger.info(requirements)
     for name, version in requirements.items():
         if name == 'alas-webapp':
             continue
-        if name in lock:
-            version = lock[name] if not isinstance(lock[name], dict) else lock[name]['version']
-            name = name if not isinstance(lock[name], dict) else lock[name]['name']
+        match = NAME_RE.match(name)
+        lock_name = match.group(1) if match else name
+        if lock_name in lock:
+            entry = lock[lock_name]
+            if isinstance(entry, dict):
+                name = entry['name']
+                version = entry['version']
+            else:
+                version = entry
         new[name] = version
 
     write_file(os.path.join(BASE_FOLDER, f'./requirements.txt'), data=new)

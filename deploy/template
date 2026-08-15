@@ -27,7 +27,7 @@ Deploy:
   Python:
     # Filepath of python executable `python.exe`
     # [Easy installer] Use './toolkit/python.exe'
-    # [Other] Use you own python, and its version should be 3.7.6 64bit
+    # [Other] Use you own python, and its version should be 3.13.x 64bit
     PythonExecutable: './toolkit/python.exe'
     # URL of pypi mirror
     # [CN user] Use 'https://mirrors.aliyun.com/pypi/simple' for faster and more stable download
