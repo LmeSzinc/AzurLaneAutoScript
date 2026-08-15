@@ -3,7 +3,8 @@
 Routes live in the `routers` package, split by domain; request/response
 models live in `models.py`; shared helpers in `helpers.py`. The app serves
 the production SPA build from webapp-tauri/dist and streams status/log
-updates over /sse (server-sent events).
+updates over /sse (server-sent events). A /ws compatibility shim serves
+SPA bundles built before the SSE migration.
 """
 
 import os

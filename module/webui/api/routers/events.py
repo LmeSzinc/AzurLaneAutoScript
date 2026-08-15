@@ -2,7 +2,7 @@ import asyncio
 import json
 from typing import Any
 
-from fastapi import APIRouter
+from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 from fastapi.responses import StreamingResponse
 
 from module.logger import logger
@@ -12,20 +12,16 @@ from module.webui.process_manager import ProcessManager
 router = APIRouter(tags=["events"])
 
 
-def _sse_message(event: str, data: Any) -> str:
-    return f"event: {event}\ndata: {json.dumps(data, ensure_ascii=False)}\n\n"
-
-
 def _render_logs(renderables) -> list[str]:
     return [render_log(r) for r in renderables]
 
 
-async def _sse_stream():
-    """Yield status/log updates as server-sent events.
+async def _event_updates():
+    """Yield (kind, payload) tuples for status changes and new log lines.
 
-    Mirrors the old /ws push loop: status is pushed on change, logs are
-    pushed once per new renderable (per-connection cursor), plus a
-    keepalive comment every ~25s so idle proxies don't drop the stream.
+    Mirrors the old push loop: status is pushed on change, logs are pushed
+    once per new renderable (per-connection cursor). Shared by /sse and the
+    legacy /ws compatibility shim.
     """
     last_status = None
     log_cursor: dict[str, int] = {}
@@ -34,7 +30,7 @@ async def _sse_stream():
         while True:
             status = await asyncio.to_thread(build_status)
             if status != last_status:
-                yield _sse_message("status", status)
+                yield "status", status
                 last_status = status
             for name, manager in list(ProcessManager._processes.items()):
                 total = len(manager.renderables)
@@ -48,16 +44,32 @@ async def _sse_stream():
                 log_cursor[name] = total
                 if new_renderables:
                     logs = await asyncio.to_thread(_render_logs, new_renderables)
-                    yield _sse_message("log", {"instance": name, "logs": logs, "reset": reset})
+                    yield "log", {"instance": name, "logs": logs, "reset": reset}
             idle += 1
             if idle >= 25:
                 idle = 0
-                yield ": keepalive\n\n"
+                yield "keepalive", None
             await asyncio.sleep(1)
     except asyncio.CancelledError:
         raise
     except Exception as e:
         logger.exception(e)
+
+
+def _sse_message(event: str, data: Any) -> str:
+    return f"event: {event}\ndata: {json.dumps(data, ensure_ascii=False)}\n\n"
+
+
+async def _sse_stream():
+    """Format _event_updates as a server-sent event stream.
+
+    Keepalive comments keep idle proxies from dropping the stream.
+    """
+    async for kind, data in _event_updates():
+        if kind == "keepalive":
+            yield ": keepalive\n\n"
+        else:
+            yield _sse_message(kind, data)
 
 
 @router.get("/sse")
@@ -67,3 +79,26 @@ async def sse_endpoint():
         media_type="text/event-stream",
         headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
     )
+
+
+# /ws compatibility shim: SPA bundles built before the SSE migration still
+# connect here (the packaged dist predates phase C). Remove once the
+# packaged frontend is rebuilt against /sse (phase D).
+@router.websocket("/ws")
+async def ws_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    try:
+        async for kind, data in _event_updates():
+            if kind == "keepalive":
+                continue
+            # Drain incoming messages (keepalive / commands, ignored for now)
+            try:
+                while True:
+                    await asyncio.wait_for(websocket.receive_text(), timeout=0.05)
+            except TimeoutError:
+                pass
+            await websocket.send_json({"type": kind, "data": data})
+    except WebSocketDisconnect:
+        pass
+    except Exception as e:
+        logger.exception(e)
