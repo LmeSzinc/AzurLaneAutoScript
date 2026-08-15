@@ -1,4 +1,4 @@
-﻿import random
+import random
 import re
 
 import cv2
