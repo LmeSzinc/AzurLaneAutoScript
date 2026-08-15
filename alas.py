@@ -4,7 +4,14 @@ import threading
 import time
 from datetime import datetime, timedelta
 
+import cv2
 import inflection
+
+# The automation loop runs many small image ops (screenshot, template
+# matching, preprocessing). OpenCV's default thread pool (one per core)
+# creates a thread storm on many-core machines and contends with the
+# desktop; a small pool is faster and keeps the system smooth.
+cv2.setNumThreads(2)
 
 from module.base.decorator import cached_property, del_cached_property
 from module.config.config import AzurLaneConfig, TaskEnd

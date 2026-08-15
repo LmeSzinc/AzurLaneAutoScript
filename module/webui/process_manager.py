@@ -122,6 +122,15 @@ class ProcessManager:
 
     @staticmethod
     def run_process(config_name, func: str, q: queue.Queue, e: threading.Event | None = None) -> None:
+        # Keep the automation at below-normal priority so a fully busy bot
+        # can never starve the desktop (mouse/UI/DWM stay responsive).
+        try:
+            import psutil
+
+            psutil.Process().nice(psutil.BELOW_NORMAL_PRIORITY_CLASS)
+        except Exception:
+            pass
+
         parser = argparse.ArgumentParser()
         parser.add_argument("--electron", action="store_true", help="Runs by electron client.")
         args, _ = parser.parse_known_args()

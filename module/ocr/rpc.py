@@ -204,6 +204,15 @@ def _handle_connection(server: OCRServer, conn: socket.socket):
 
 
 def start_ocr_server(port=22268):
+    # The OCR server is CPU-heavy; keep it below normal priority so inference
+    # never starves the desktop while the bot runs 24/7.
+    try:
+        import psutil
+
+        psutil.Process().nice(psutil.BELOW_NORMAL_PRIORITY_CLASS)
+    except Exception:
+        pass
+
     server = OCRServer()
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as listen_sock:
         listen_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
