@@ -15,7 +15,7 @@ def iter_version():
 
 
 def read_file(file):
-    regex = re.compile('^(.+?)[= ]+([0-9.]+)|^([a-zA-Z0-9.]+)$')
+    regex = re.compile('^(.+?)[=<> ]+([0-9.]+)|^([a-zA-Z0-9.]+)$')
     out = {}
     with open(file, 'r', encoding='utf-8') as f:
         for line in f.readlines():
