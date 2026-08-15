@@ -70,22 +70,14 @@
 
 <div class="home">
   <AppAside active={activeInstance} onselect={onAsideSelect} />
-  <AppMenu
-    onoverview={() => push('/')}
-    ontask={(task) => goSettings(task)}
-  />
+  <AppMenu onoverview={() => push('/')} ontask={(task) => goSettings(task)} />
 
   <div class="content overview">
     <!-- schedulers column -->
     <section class="scheduler-col">
       <div class="scheduler-bar">
         <span class="bar-title">{t('Gui.Overview.Scheduler')}</span>
-        <button
-          class="btn"
-          class:btn-off={scheduler.alive}
-          class:btn-on={!scheduler.alive}
-          onclick={toggleScheduler}
-        >
+        <button class="btn" class:btn-off={scheduler.alive} class:btn-on={!scheduler.alive} onclick={toggleScheduler}>
           {scheduler.alive ? t('Gui.Button.Stop') : t('Gui.Button.Start')}
         </button>
       </div>
@@ -159,7 +151,12 @@
       <div class="log-bar">
         <span class="bar-title">{t('Gui.Overview.Log')}</span>
         <div class="log-bar-btns">
-          <button class="btn" class:btn-on={keepBottom} class:btn-off={!keepBottom} onclick={() => (keepBottom = !keepBottom)}>
+          <button
+            class="btn"
+            class:btn-on={keepBottom}
+            class:btn-off={!keepBottom}
+            onclick={() => (keepBottom = !keepBottom)}
+          >
             {keepBottom ? t('Gui.Button.ScrollON') : t('Gui.Button.ScrollOFF')}
           </button>
         </div>

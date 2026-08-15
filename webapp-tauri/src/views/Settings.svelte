@@ -55,9 +55,7 @@
   }
 
   /** Group names shown in the right navigator. */
-  const navigatorGroups = $derived(
-    Object.keys(schema[selectedTask] ?? {}).filter((name) => name !== 'Storage'),
-  )
+  const navigatorGroups = $derived(Object.keys(schema[selectedTask] ?? {}).filter((name) => name !== 'Storage'))
 
   function scrollToGroup(name: string) {
     document.getElementById(`group-${name}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -112,12 +110,7 @@
       <div class="tool-view">
         <div class="tool-upper">
           <span class="col-title">{t('Gui.Overview.Scheduler')}</span>
-          <button
-            class="btn"
-            class:btn-off={toolAlive}
-            class:btn-on={!toolAlive}
-            onclick={toggleTool}
-          >
+          <button class="btn" class:btn-off={toolAlive} class:btn-on={!toolAlive} onclick={toggleTool}>
             {toolAlive ? t('Gui.Button.Stop') : t('Gui.Button.Start')}
           </button>
           <span class="col-title ms-auto">{t('Gui.Overview.Log')}</span>
@@ -139,13 +132,7 @@
                 <div class="group-card-help">{t(`${groupKey}._info.help`)}</div>
               {/if}
               <hr class="hr-group" />
-              <DynamicForm
-                args={groupArgs}
-                group={groupKey}
-                task={selectedTask}
-                config={config}
-                onsave={saveValue}
-              />
+              <DynamicForm args={groupArgs} group={groupKey} task={selectedTask} {config} onsave={saveValue} />
             </div>
           {/if}
         {/each}
@@ -164,13 +151,7 @@
               <div class="group-card-help">{t(`${groupKey}._info.help`)}</div>
             {/if}
             <hr class="hr-group" />
-            <DynamicForm
-              args={groupArgs}
-              group={groupKey}
-              task={selectedTask}
-              config={config}
-              onsave={saveValue}
-            />
+            <DynamicForm args={groupArgs} group={groupKey} task={selectedTask} {config} onsave={saveValue} />
           </div>
         {/if}
       {/each}

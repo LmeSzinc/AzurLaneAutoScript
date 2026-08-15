@@ -4,7 +4,10 @@
   import { collapsedGroups } from '../api/store.svelte'
   import type { MenuSchema } from '../api/types'
 
-  let { onoverview, ontask }: {
+  let {
+    onoverview,
+    ontask,
+  }: {
     onoverview?: () => void
     ontask?: (task: string) => void
   } = $props()
@@ -67,11 +70,7 @@
         {#if isGroupOpen(group.name)}
           <div class="menu-collapse-body">
             {#each group.tasks as task (task)}
-              <button
-                class="btn btn-menu"
-                class:btn-menu-active={activeTask === task}
-                onclick={() => selectTask(task)}
-              >
+              <button class="btn btn-menu" class:btn-menu-active={activeTask === task} onclick={() => selectTask(task)}>
                 {t(`Task.${task}.name`)}
               </button>
             {/each}
@@ -85,11 +84,7 @@
         <span class="hr-task-group-line"></span>
       </div>
       {#each group.tasks as task (task)}
-        <button
-          class="btn btn-menu"
-          class:btn-menu-active={activeTask === task}
-          onclick={() => selectTask(task)}
-        >
+        <button class="btn btn-menu" class:btn-menu-active={activeTask === task} onclick={() => selectTask(task)}>
           {t(`Task.${task}.name`)}
         </button>
       {/each}

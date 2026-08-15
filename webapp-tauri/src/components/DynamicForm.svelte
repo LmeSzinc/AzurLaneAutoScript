@@ -139,8 +139,7 @@
             class="form-control"
             value={String(currentValue(field) ?? '')}
             disabled={field.def.display === 'disabled'}
-            onchange={(e) =>
-              emitSave(field, (e.currentTarget as HTMLSelectElement).value)}
+            onchange={(e) => emitSave(field, (e.currentTarget as HTMLSelectElement).value)}
           >
             {#each selectOptions(field) as opt (opt)}
               <option value={opt}>{optionLabel(field, opt)}</option>
@@ -153,8 +152,7 @@
               type="checkbox"
               checked={asBool(field)}
               disabled={field.def.display === 'disabled'}
-              onchange={(e) =>
-                emitSave(field, (e.currentTarget as HTMLInputElement).checked)}
+              onchange={(e) => emitSave(field, (e.currentTarget as HTMLInputElement).checked)}
             />
           </div>
         {:else if field.def.type === 'datetime'}
@@ -163,8 +161,7 @@
             type="datetime-local"
             value={toLocal(currentValue(field))}
             disabled={field.def.display === 'disabled'}
-            onchange={(e) =>
-              emitSave(field, fromLocal((e.currentTarget as HTMLInputElement).value))}
+            onchange={(e) => emitSave(field, fromLocal((e.currentTarget as HTMLInputElement).value))}
           />
         {:else if field.def.type === 'storage'}
           <textarea
@@ -172,18 +169,14 @@
             rows="4"
             value={storageText(field)}
             disabled={field.def.display === 'disabled'}
-            onchange={(e) =>
-              emitSave(field, parseStorage((e.currentTarget as HTMLTextAreaElement).value))}
-          ></textarea>
+            onchange={(e) => emitSave(field, parseStorage((e.currentTarget as HTMLTextAreaElement).value))}></textarea>
         {:else if field.def.type === 'textarea'}
           <textarea
             class="form-control"
             rows="3"
             value={String(currentValue(field) ?? '')}
             disabled={field.def.display === 'disabled'}
-            onchange={(e) =>
-              emitSave(field, (e.currentTarget as HTMLTextAreaElement).value)}
-          ></textarea>
+            onchange={(e) => emitSave(field, (e.currentTarget as HTMLTextAreaElement).value)}></textarea>
         {:else if field.def.type === 'state' || field.def.type === 'lock'}
           <div class="state-display">{stateText(field)}</div>
         {:else}
@@ -192,8 +185,7 @@
             type={isNumber(field) ? 'number' : 'text'}
             value={String(currentValue(field) ?? '')}
             disabled={field.def.display === 'disabled'}
-            onchange={(e) =>
-              emitSave(field, (e.currentTarget as HTMLInputElement).value)}
+            onchange={(e) => emitSave(field, (e.currentTarget as HTMLInputElement).value)}
           />
         {/if}
       </div>

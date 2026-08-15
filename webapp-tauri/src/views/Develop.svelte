@@ -105,32 +105,16 @@
 <div class="develop-wrap">
   <AppAside active="Home" onselect={onAsideSelect} />
   <nav class="dev-menu">
-    <button
-      class="btn btn-menu"
-      class:btn-menu-active={page === 'HomePage'}
-      onclick={() => (page = 'HomePage')}
-    >
+    <button class="btn btn-menu" class:btn-menu-active={page === 'HomePage'} onclick={() => (page = 'HomePage')}>
       {t('Gui.MenuDevelop.HomePage')}
     </button>
-    <button
-      class="btn btn-menu"
-      class:btn-menu-active={page === 'Update'}
-      onclick={() => (page = 'Update')}
-    >
+    <button class="btn btn-menu" class:btn-menu-active={page === 'Update'} onclick={() => (page = 'Update')}>
       {t('Gui.MenuDevelop.Update')}
     </button>
-    <button
-      class="btn btn-menu"
-      class:btn-menu-active={page === 'Remote'}
-      onclick={() => (page = 'Remote')}
-    >
+    <button class="btn btn-menu" class:btn-menu-active={page === 'Remote'} onclick={() => (page = 'Remote')}>
       {t('Gui.MenuDevelop.Remote')}
     </button>
-    <button
-      class="btn btn-menu"
-      class:btn-menu-active={page === 'Utils'}
-      onclick={() => (page = 'Utils')}
-    >
+    <button class="btn btn-menu" class:btn-menu-active={page === 'Utils'} onclick={() => (page = 'Utils')}>
       {t('Gui.MenuDevelop.Utils')}
     </button>
   </nav>

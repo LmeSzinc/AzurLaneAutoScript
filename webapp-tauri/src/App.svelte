@@ -61,8 +61,8 @@
     overflow: hidden;
     /* Background and text colors follow the active bootstrap theme
        (css/<theme>.min.css loaded dynamically). */
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-      'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+    font-family:
+      -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
   }
   .app-main {
     height: calc(100vh - 50px);

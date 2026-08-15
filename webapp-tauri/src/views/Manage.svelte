@@ -128,13 +128,7 @@
       <button class="btn btn-sm btn-adaptive" onclick={pickImportFile}>
         {t('Gui.AppManage.Import')}
       </button>
-      <input
-        bind:this={fileInput}
-        type="file"
-        accept=".json"
-        style="display: none"
-        onchange={importFile}
-      />
+      <input bind:this={fileInput} type="file" accept=".json" style="display: none" onchange={importFile} />
     </div>
   </div>
 </div>

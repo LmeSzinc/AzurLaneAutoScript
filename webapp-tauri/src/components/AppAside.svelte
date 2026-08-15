@@ -12,29 +12,17 @@
 </script>
 
 <aside class="app-aside">
-  <button
-    class="btn btn-aside"
-    class:btn-aside-active={active === 'Home'}
-    onclick={() => onselect?.('Home')}
-  >
+  <button class="btn btn-aside" class:btn-aside-active={active === 'Home'} onclick={() => onselect?.('Home')}>
     <span class="aside-icon icon-develop"></span>
     {t('Gui.Aside.Home')}
   </button>
   {#each status.instances as inst (inst.name)}
-    <button
-      class="btn btn-aside"
-      class:btn-aside-active={active === inst.name}
-      onclick={() => onselect?.(inst.name)}
-    >
+    <button class="btn btn-aside" class:btn-aside-active={active === inst.name} onclick={() => onselect?.(inst.name)}>
       <span class="aside-icon icon-run"></span>
       {inst.name}
     </button>
   {/each}
-  <button
-    class="btn btn-aside"
-    class:btn-aside-active={active === 'Manage'}
-    onclick={() => onselect?.('Manage')}
-  >
+  <button class="btn btn-aside" class:btn-aside-active={active === 'Manage'} onclick={() => onselect?.('Manage')}>
     <span class="aside-icon icon-setting"></span>
     {t('Gui.AddAlas.Manage')}
   </button>
