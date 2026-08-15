@@ -1,11 +1,10 @@
 import os
 import re
-import typing as t
 from dataclasses import dataclass
 from urllib.parse import urlparse
 
 from deploy.Windows.config import DeployConfig
-from deploy.Windows.logger import logger, Progress
+from deploy.Windows.logger import Progress, logger
 from deploy.Windows.utils import cached_property
 
 
@@ -16,17 +15,17 @@ class DataDependency:
 
     def __post_init__(self):
         # uvicorn[standard] -> uvicorn
-        self.name = re.sub(r'\[.*\]', '', self.name)
+        self.name = re.sub(r"\[.*\]", "", self.name)
         # opencv_python -> opencv-python
-        self.name = self.name.replace('_', '-').strip()
+        self.name = self.name.replace("_", "-").strip()
         # PyYaml -> pyyaml
         self.name = self.name.lower()
         self.version = self.version.strip()
-        self.version = re.sub(r'\.0$', '', self.version)
+        self.version = re.sub(r"\.0$", "", self.version)
 
     @cached_property
     def pretty_name(self):
-        return f'{self.name}=={self.version}'
+        return f"{self.name}=={self.version}"
 
     def __str__(self):
         return self.pretty_name
@@ -47,13 +46,12 @@ class PipManager(DeployConfig):
 
     @cached_property
     def python_site_packages(self):
-        return os.path.abspath(os.path.join(self.python, '../Lib/site-packages')) \
-            .replace(r"\\", "/").replace("\\", "/")
+        return os.path.abspath(os.path.join(self.python, "../Lib/site-packages")).replace(r"\\", "/").replace("\\", "/")
 
     @cached_property
-    def set_installed_dependency(self) -> t.Set[DataDependency]:
+    def set_installed_dependency(self) -> set[DataDependency]:
         data = []
-        regex = re.compile(r'(.*)-(.*).dist-info')
+        regex = re.compile(r"(.*)-(.*).dist-info")
         try:
             for name in os.listdir(self.python_site_packages):
                 res = regex.search(name)
@@ -61,27 +59,27 @@ class PipManager(DeployConfig):
                     dep = DataDependency(name=res.group(1), version=res.group(2))
                     data.append(dep)
         except FileNotFoundError:
-            logger.info(f'Directory not found: {self.python_site_packages}')
+            logger.info(f"Directory not found: {self.python_site_packages}")
         return set(data)
 
     @cached_property
-    def set_required_dependency(self) -> t.Set[DataDependency]:
+    def set_required_dependency(self) -> set[DataDependency]:
         data = []
-        regex = re.compile('(.*)==(.*)[ ]*#')
-        file = self.filepath('./requirements.txt')
+        regex = re.compile("(.*)==(.*)[ ]*#")
+        file = self.filepath("./requirements.txt")
         try:
-            with open(file, 'r', encoding='utf-8') as f:
+            with open(file, encoding="utf-8") as f:
                 for line in f.readlines():
                     res = regex.search(line)
                     if res:
                         dep = DataDependency(name=res.group(1), version=res.group(2))
                         data.append(dep)
         except FileNotFoundError:
-            logger.info(f'File not found: {file}')
+            logger.info(f"File not found: {file}")
         return set(data)
 
     @cached_property
-    def set_dependency_to_install(self) -> t.Set[DataDependency]:
+    def set_dependency_to_install(self) -> set[DataDependency]:
         """
         A poor dependency comparison, but much much faster than `pip install` and `pip list`
         """
@@ -92,41 +90,41 @@ class PipManager(DeployConfig):
         return set(data)
 
     def pip_install(self):
-        logger.hr('Update Dependencies', 0)
+        logger.hr("Update Dependencies", 0)
 
         if not self.InstallDependencies:
-            logger.info('InstallDependencies is disabled, skip')
+            logger.info("InstallDependencies is disabled, skip")
             Progress.UpdateDependency()
             return
 
         if not len(self.set_dependency_to_install):
-            logger.info('All dependencies installed')
+            logger.info("All dependencies installed")
             Progress.UpdateDependency()
             return
         else:
-            logger.info(f'Dependencies to install: {self.set_dependency_to_install}')
+            logger.info(f"Dependencies to install: {self.set_dependency_to_install}")
 
         # Install
-        logger.hr('Check Python', 1)
+        logger.hr("Check Python", 1)
         self.execute(f'"{self.python}" --version')
 
         arg = []
         if self.PypiMirror:
             mirror = self.PypiMirror
-            arg += ['-i', mirror]
+            arg += ["-i", mirror]
             # Trust http mirror or skip ssl verify
-            if 'http:' in mirror or not self.SSLVerify:
-                arg += ['--trusted-host', urlparse(mirror).hostname]
+            if "http:" in mirror or not self.SSLVerify:
+                arg += ["--trusted-host", urlparse(mirror).hostname]
         elif not self.SSLVerify:
-            arg += ['--trusted-host', 'pypi.org']
-            arg += ['--trusted-host', 'files.pythonhosted.org']
+            arg += ["--trusted-host", "pypi.org"]
+            arg += ["--trusted-host", "files.pythonhosted.org"]
 
         # Don't update pip, just leave it.
         # logger.hr('Update pip', 1)
         # self.execute(f'"{self.pip}" install --upgrade pip{arg}')
-        arg += ['--disable-pip-version-check']
+        arg += ["--disable-pip-version-check"]
 
-        logger.hr('Update Dependencies', 1)
-        arg = ' ' + ' '.join(arg) if arg else ''
-        self.execute(f'{self.pip} install -r {self.requirements_file}{arg}')
+        logger.hr("Update Dependencies", 1)
+        arg = " " + " ".join(arg) if arg else ""
+        self.execute(f"{self.pip} install -r {self.requirements_file}{arg}")
         Progress.UpdateDependency()

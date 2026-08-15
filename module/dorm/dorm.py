@@ -1,5 +1,4 @@
 import time
-import typing as t
 
 from module.base.button import ButtonGrid
 from module.base.decorator import Config, cached_property
@@ -17,11 +16,13 @@ from module.ui.assets import DORM_CHECK
 from module.ui.page import page_dorm, page_dormmenu
 from module.ui.ui import UI
 
-MASK_DORM = Mask(file='./assets/mask/MASK_DORM.png')
+MASK_DORM = Mask(file="./assets/mask/MASK_DORM.png")
 DORM_CAMERA_SWIPE = (300, 250)
 DORM_CAMERA_RANDOM = (-20, -20, 20, 20)
-OCR_SLOT = DigitCounter(OCR_DORM_SLOT, letter=(107, 89, 82), threshold=128, name='OCR_DORM_SLOT')
-OCR_BUY_FOOD_AMOUNT = Digit(OCR_DORM_BUY_FOOD_AMOUNT, letter=(96, 96, 100), threshold=128, name='OCR_DORM_BUY_FOOD_AMOUNT')
+OCR_SLOT = DigitCounter(OCR_DORM_SLOT, letter=(107, 89, 82), threshold=128, name="OCR_DORM_SLOT")
+OCR_BUY_FOOD_AMOUNT = Digit(
+    OCR_DORM_BUY_FOOD_AMOUNT, letter=(96, 96, 100), threshold=128, name="OCR_DORM_BUY_FOOD_AMOUNT"
+)
 
 
 class OcrDormFood(DigitCounter):
@@ -35,20 +36,20 @@ class OcrDormFood(DigitCounter):
     def after_process(self, result):
         result = super().after_process(result)
 
-        if '/' not in result:
+        if "/" not in result:
             for exp in range(40000, 90001, 1000):
-                res = re.match(rf'^(\d+){exp}$', result)
+                res = re.match(rf"^(\d+){exp}$", result)
                 if res:
                     # 10005800 -> 1000/5800
-                    new = f'{res.group(1)}/{exp}'
-                    logger.info(f'OcrDormFood result {result} is revised to {new}')
+                    new = f"{res.group(1)}/{exp}"
+                    logger.info(f"OcrDormFood result {result} is revised to {new}")
                     result = new
                     break
 
         return result
 
 
-OCR_FILL = OcrDormFood(OCR_DORM_FILL, name='OCR_DORM_FILL')
+OCR_FILL = OcrDormFood(OCR_DORM_FILL, name="OCR_DORM_FILL")
 
 
 class Food:
@@ -57,14 +58,14 @@ class Food:
         self.amount = amount
 
     def __str__(self):
-        return f'Food_{self.feed}'
+        return f"Food_{self.feed}"
 
     def __eq__(self, other):
         return str(self) == str(other)
 
 
 FOOD_FEED_AMOUNT = [1000, 2000, 3000, 5000, 10000, 20000]
-FOOD_FILTER = Filter(regex=re.compile(r'(\d+)'), attr=['feed'])
+FOOD_FILTER = Filter(regex=re.compile(r"(\d+)"), attr=["feed"])
 
 
 class RewardDorm(UI):
@@ -80,15 +81,15 @@ class RewardDorm(UI):
             out: page_dorm, with info_bar
         """
         image = MASK_DORM.apply(self.device.image)
-        loves = TEMPLATE_DORM_LOVE.match_multi(image, name='DORM_LOVE')
-        coins = TEMPLATE_DORM_COIN.match_multi(image, name='DORM_COIN')
-        logger.info(f'Dorm loves: {len(loves)}, Dorm coins: {len(coins)}')
+        loves = TEMPLATE_DORM_LOVE.match_multi(image, name="DORM_LOVE")
+        coins = TEMPLATE_DORM_COIN.match_multi(image, name="DORM_COIN")
+        logger.info(f"Dorm loves: {len(loves)}, Dorm coins: {len(coins)}")
         # Complicated dorm background
         if len(loves) > 6:
-            logger.warning('Too many dorm loves, limited to 6')
+            logger.warning("Too many dorm loves, limited to 6")
             loves = loves[:6]
         if len(coins) > 6:
-            logger.warning('Too many dorm coins, limited to 6')
+            logger.warning("Too many dorm coins, limited to 6")
             coins = coins[:6]
 
         count = 0
@@ -104,7 +105,7 @@ class RewardDorm(UI):
 
         return count
 
-    @Config.when(DEVICE_CONTROL_METHOD='minitouch')
+    @Config.when(DEVICE_CONTROL_METHOD="minitouch")
     def _dorm_feed_long_tap(self, button, count):
         # Long tap to feed. This requires minitouch.
         timeout = Timer(count // 5 + 5).start()
@@ -118,18 +119,20 @@ class RewardDorm(UI):
             builder.send()
             self.device.screenshot()
 
-            if not self._dorm_has_food(button) \
-                    or self.handle_info_bar() \
-                    or self.appear(POPUP_CONFIRM, offset=self._popup_offset):
+            if (
+                not self._dorm_has_food(button)
+                or self.handle_info_bar()
+                or self.appear(POPUP_CONFIRM, offset=self._popup_offset)
+            ):
                 break
             if timeout.reached():
-                logger.warning('Wait dorm feed timeout')
+                logger.warning("Wait dorm feed timeout")
                 break
 
         builder.up().commit()
         builder.send()
 
-    @Config.when(DEVICE_CONTROL_METHOD='MaaTouch')
+    @Config.when(DEVICE_CONTROL_METHOD="MaaTouch")
     def _dorm_feed_long_tap(self, button, count):
         timeout = Timer(count // 5 + 5).start()
         x, y = random_rectangle_point(button.button)
@@ -142,18 +145,20 @@ class RewardDorm(UI):
             builder.send()
             self.device.screenshot()
 
-            if not self._dorm_has_food(button) \
-                    or self.handle_info_bar() \
-                    or self.appear(POPUP_CONFIRM, offset=self._popup_offset):
+            if (
+                not self._dorm_has_food(button)
+                or self.handle_info_bar()
+                or self.appear(POPUP_CONFIRM, offset=self._popup_offset)
+            ):
                 break
             if timeout.reached():
-                logger.warning('Wait dorm feed timeout')
+                logger.warning("Wait dorm feed timeout")
                 break
 
         builder.up().commit()
         builder.send()
 
-    @Config.when(DEVICE_CONTROL_METHOD='uiautomator2')
+    @Config.when(DEVICE_CONTROL_METHOD="uiautomator2")
     def _dorm_feed_long_tap(self, button, count):
         timeout = Timer(count // 5 + 5).start()
         x, y = random_rectangle_point(button.button)
@@ -161,43 +166,49 @@ class RewardDorm(UI):
 
         while 1:
             self.device.u2.touch.move(x, y)
-            time.sleep(.01)
+            time.sleep(0.01)
             self.device.screenshot()
 
-            if not self._dorm_has_food(button) \
-                    or self.handle_info_bar() \
-                    or self.appear(POPUP_CONFIRM, offset=self._popup_offset):
+            if (
+                not self._dorm_has_food(button)
+                or self.handle_info_bar()
+                or self.appear(POPUP_CONFIRM, offset=self._popup_offset)
+            ):
                 break
             if timeout.reached():
-                logger.warning('Wait dorm feed timeout')
+                logger.warning("Wait dorm feed timeout")
                 break
 
         self.device.u2.touch.up(x, y)
 
-    @Config.when(DEVICE_CONTROL_METHOD='nemu_ipc')
+    @Config.when(DEVICE_CONTROL_METHOD="nemu_ipc")
     def _dorm_feed_long_tap(self, button, count):
         timeout = Timer(count // 5 + 5).start()
         x, y = random_rectangle_point(button.button)
 
         while 1:
             self.device.nemu_ipc.down(x, y)
-            time.sleep(.01)
+            time.sleep(0.01)
             self.device.screenshot()
 
-            if not self._dorm_has_food(button) \
-                    or self.handle_info_bar() \
-                    or self.appear(POPUP_CONFIRM, offset=self._popup_offset):
+            if (
+                not self._dorm_has_food(button)
+                or self.handle_info_bar()
+                or self.appear(POPUP_CONFIRM, offset=self._popup_offset)
+            ):
                 break
             if timeout.reached():
-                logger.warning('Wait dorm feed timeout')
+                logger.warning("Wait dorm feed timeout")
                 break
 
         self.device.nemu_ipc.up()
 
     @Config.when(DEVICE_CONTROL_METHOD=None)
     def _dorm_feed_long_tap(self, button, count):
-        logger.warning(f'Current control method {self.config.Emulator_ControlMethod} '
-                       f'does not support DOWN/UP events, use multi-click instead')
+        logger.warning(
+            f"Current control method {self.config.Emulator_ControlMethod} "
+            f"does not support DOWN/UP events, use multi-click instead"
+        )
         self.device.multi_click(button, count)
 
     def dorm_view_reset(self):
@@ -208,7 +219,7 @@ class RewardDorm(UI):
             in: page_dorm
             out: page_dorm
         """
-        logger.info('Dorm view reset')
+        logger.info("Dorm view reset")
         for _ in self.loop():
             # End
             if self.appear(DORM_MANAGE_CHECK, offset=(20, 20)):
@@ -238,7 +249,7 @@ class RewardDorm(UI):
             in: page_dorm
             out: page_dorm
         """
-        logger.hr('Dorm collect')
+        logger.hr("Dorm collect")
 
         self.ensure_no_info_bar()
 
@@ -260,17 +271,17 @@ class RewardDorm(UI):
 
             # Timeout end
             if timeout.reached():
-                logger.warning('Dorm collect timeout, probably because Alas did not detect the info_bar')
+                logger.warning("Dorm collect timeout, probably because Alas did not detect the info_bar")
                 break
 
     @cached_property
     def _dorm_food(self):
-        return ButtonGrid(origin=(395, 410), delta=(129, 0), button_shape=(105, 70), grid_shape=(6, 1), name='FOOD')
+        return ButtonGrid(origin=(395, 410), delta=(129, 0), button_shape=(105, 70), grid_shape=(6, 1), name="FOOD")
 
     @cached_property
     def _dorm_food_ocr(self):
-        grids = self._dorm_food.crop((54, 41, 101, 66), name='FOOD_AMOUNT')
-        return Digit(grids.buttons, letter=(255, 255, 255), threshold=128, name='OCR_DORM_FOOD')
+        grids = self._dorm_food.crop((54, 41, 101, 66), name="FOOD_AMOUNT")
+        return Digit(grids.buttons, letter=(255, 255, 255), threshold=128, name="OCR_DORM_FOOD")
 
     def _dorm_has_food(self, button):
         return np.min(rgb2gray(self.image_crop(button, copy=False))) < 127
@@ -284,7 +295,7 @@ class RewardDorm(UI):
         Pages:
             in: DORM_FEED_CHECK
         """
-        logger.info(f'Dorm feed {button} x {count}')
+        logger.info(f"Dorm feed {button} x {count}")
         if count <= 3:
             for _ in range(count):
                 self.device.click(button)
@@ -301,7 +312,7 @@ class RewardDorm(UI):
             if self.appear(DORM_FEED_CHECK, offset=(20, 20)):
                 break
             # Click
-            if self.handle_popup_cancel('DORM_FEED'):
+            if self.handle_popup_cancel("DORM_FEED"):
                 continue
 
     def dorm_food_get(self):
@@ -320,7 +331,7 @@ class RewardDorm(UI):
         _, fill, total = OCR_FILL.ocr(self.device.image)
         if total == 0:
             fill = -1
-        logger.info(f'Dorm food: {[f.amount for f in food]}, to fill: {fill}')
+        logger.info(f"Dorm food: {[f.amount for f in food]}, to fill: {fill}")
         return food, fill
 
     def dorm_feed_once(self):
@@ -332,12 +343,12 @@ class RewardDorm(UI):
             in: DORM_FEED_CHECK
         """
         timeout = Timer(1.5, count=3).start()
-        food: t.List[Food] = []
+        food: list[Food] = []
         fill: int = 0
         for _ in self.loop():
             # End
             if timeout.reached():
-                logger.warning('Get dorm food timeout, probably because food is empty')
+                logger.warning("Get dorm food timeout, probably because food is empty")
                 break
 
             if self.handle_info_bar():
@@ -370,14 +381,14 @@ class RewardDorm(UI):
         Pages:
             in: DORM_FEED_CHECK
         """
-        logger.hr('Dorm feed')
+        logger.hr("Dorm feed")
 
         for n in range(10):
             if not self.dorm_feed_once():
-                logger.info('Dorm feed finished')
+                logger.info("Dorm feed finished")
                 return n
 
-        logger.warning('Dorm feed run count reached')
+        logger.warning("Dorm feed run count reached")
         return 10
 
     def dorm_feed_enter(self):
@@ -400,15 +411,15 @@ class RewardDorm(UI):
                 continue
             if self.appear(DORM_MANAGE_CHECK, offset=(20, 20), interval=5):
                 self.device.click(DORM_FURNITURE_SHOP_QUIT)
-                logger.info(f'{DORM_MANAGE_CHECK} -> {DORM_FURNITURE_SHOP_QUIT}')
+                logger.info(f"{DORM_MANAGE_CHECK} -> {DORM_FURNITURE_SHOP_QUIT}")
                 continue
             if self.appear(DORM_FURNITURE_SHOP_FIRST, offset=(20, 20), interval=5):
                 self.device.click(DORM_FURNITURE_SHOP_QUIT)
-                logger.info(f'{DORM_FURNITURE_SHOP_FIRST} -> {DORM_FURNITURE_SHOP_QUIT}')
+                logger.info(f"{DORM_FURNITURE_SHOP_FIRST} -> {DORM_FURNITURE_SHOP_QUIT}")
                 continue
             if self.appear(DORM_FURNITURE_SHOP_FIRST_SELECTED, offset=(20, 20), interval=5):
                 self.device.click(DORM_FURNITURE_SHOP_QUIT)
-                logger.info(f'{DORM_FURNITURE_SHOP_FIRST_SELECTED} -> {DORM_FURNITURE_SHOP_QUIT}')
+                logger.info(f"{DORM_FURNITURE_SHOP_FIRST_SELECTED} -> {DORM_FURNITURE_SHOP_QUIT}")
                 continue
 
     def dorm_feed_quit(self):
@@ -426,7 +437,7 @@ class RewardDorm(UI):
             if self.appear(DORM_FEED_CHECK, offset=(20, 20), interval=5):
                 self.device.click(DORM_FEED_ENTER)
                 continue
-            if self.handle_popup_cancel('DORM_FEED'):
+            if self.handle_popup_cancel("DORM_FEED"):
                 self.interval_clear(DORM_CHECK)
                 continue
             if self.ui_additional(get_ship=False):
@@ -455,15 +466,20 @@ class RewardDorm(UI):
             in: DORM_BUY_FOOD_CHECK
             out: DORM_BUY_FOOD_CHECK
         """
-        logger.hr('Dorm buy food')
+        logger.hr("Dorm buy food")
         index_offset = (20, 20)
         # In case either -/+ shift position, use
         # shipyard ocr trick to accurately parse
         self.appear(FOOD_PLUS, offset=index_offset)
         self.appear(FOOD_MINUS, offset=index_offset)
 
-        self.ui_ensure_index(amount, letter=OCR_BUY_FOOD_AMOUNT, prev_button=FOOD_MINUS, next_button=FOOD_PLUS,
-                             skip_first_screenshot=True)
+        self.ui_ensure_index(
+            amount,
+            letter=OCR_BUY_FOOD_AMOUNT,
+            prev_button=FOOD_MINUS,
+            next_button=FOOD_PLUS,
+            skip_first_screenshot=True,
+        )
         return True
 
     def dorm_buy_food_confirm(self):
@@ -496,7 +512,7 @@ class RewardDorm(UI):
         self.ui_ensure(page_dormmenu)
         self.handle_info_bar()
         self.ui_goto(page_dorm, skip_first_screenshot=True)
-        logger.hr('Dorm buy food', level=1)
+        logger.hr("Dorm buy food", level=1)
         self.dorm_feed_enter()
         self.dorm_buy_food_enter()
         self.dorm_buy_food(amount=amount)
@@ -525,17 +541,17 @@ class RewardDorm(UI):
         # Feed first to handle DORM_INFO
         # DORM_INFO may cover dorm coins and loves
         if feed:
-            logger.hr('Dorm feed', level=1)
+            logger.hr("Dorm feed", level=1)
             self.dorm_feed_enter()
             self.dorm_feed()
             self.dorm_feed_quit()
 
         if collect:
-            logger.hr('Dorm collect', level=1)
+            logger.hr("Dorm collect", level=1)
             self.dorm_collect()
 
         if buy_furniture:
-            logger.hr('Dorm buy furniture', level=1)
+            logger.hr("Dorm buy furniture", level=1)
             BuyFurniture(self.config, self.device).run()
 
     def get_dorm_ship_amount(self):
@@ -560,12 +576,12 @@ class RewardDorm(UI):
             current, _, total = OCR_SLOT.ocr(self.device.image)
 
             if timeout.reached():
-                logger.warning('Get dorm slots timeout')
+                logger.warning("Get dorm slots timeout")
                 break
             if total == 0:
                 continue
             elif current not in [0, 1, 2, 3, 4, 5, 6]:
-                logger.warning(f'Invalid dorm slot amount: {current}')
+                logger.warning(f"Invalid dorm slot amount: {current}")
                 continue
             else:
                 break
@@ -613,17 +629,16 @@ class RewardDorm(UI):
             in: Any page
             out: page_dorm
         """
-        if not self.config.Dorm_Feed and not self.config.Dorm_Collect \
-                and not self.config.BuyFurniture_Enable:
+        if not self.config.Dorm_Feed and not self.config.Dorm_Collect and not self.config.BuyFurniture_Enable:
             self.config.Scheduler_Enable = False
             self.config.task_stop()
 
-        self.dorm_run(feed=self.config.Dorm_Feed,
-                      collect=self.config.Dorm_Collect,
-                      buy_furniture=self.config.BuyFurniture_Enable)
+        self.dorm_run(
+            feed=self.config.Dorm_Feed, collect=self.config.Dorm_Collect, buy_furniture=self.config.BuyFurniture_Enable
+        )
 
         # Scheduler
         ships = self.get_dorm_ship_amount()
         delay = self.cal_dorm_delay(ships)
-        logger.info(f'Ships in dorm: {ships}, task to delay: {delay}')
+        logger.info(f"Ships in dorm: {ships}, task to delay: {delay}")
         self.config.task_delay(minute=delay)

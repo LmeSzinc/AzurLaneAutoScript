@@ -31,11 +31,12 @@ class OperationSiren(
     """
     Operation Siren main class that combines all task modules.
     """
+
     pass
 
 
-if __name__ == '__main__':
-    self = OperationSiren('alas', task='OpsiMonthBoss')
+if __name__ == "__main__":
+    self = OperationSiren("alas", task="OpsiMonthBoss")
 
     self.config = self.config.merge(OSConfig())
 

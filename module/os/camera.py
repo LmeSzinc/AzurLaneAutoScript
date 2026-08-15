@@ -20,10 +20,10 @@ class OSCamera(OSMapOperation, Camera):
         return super()._map_swipe(vector, box=box)
 
     def _view_init(self):
-        if not hasattr(self, 'view'):
+        if not hasattr(self, "view"):
             storage = ((10, 7), [(110.307, 103.657), (1012.311, 103.657), (-32.959, 600.567), (1113.057, 600.567)])
-            view = View(self.config, mode='os', grid_class=OSGrid)
-            view.detector_set_backend('homography')
+            view = View(self.config, mode="os", grid_class=OSGrid)
+            view.detector_set_backend("homography")
             view.backend.load_homography(storage=storage)
             self.view = view
 
@@ -82,11 +82,11 @@ class OSCamera(OSMapOperation, Camera):
                 edge = self.view.backend.right_edge
                 area = (edge.get_x(360), 360, 1280, 560)
             else:
-                logger.info('No left edge or right edge')
+                logger.info("No left edge or right edge")
                 self.ensure_edge_insight()
                 continue
 
-            button = Button(area=area, color=(), button=area, name='MAP_OUTSIDE')
+            button = Button(area=area, color=(), button=area, name="MAP_OUTSIDE")
             return button
 
     def update_os(self):
@@ -100,7 +100,7 @@ class OSCamera(OSMapOperation, Camera):
             self.view.load(self.device.image)
         except (MapDetectionError, AttributeError) as e:
             logger.warning(e)
-            logger.warning('Assuming camera is focused on grid center')
+            logger.warning("Assuming camera is focused on grid center")
 
             def empty(*args, **kwargs):
                 pass
@@ -136,27 +136,28 @@ class OSCamera(OSMapOperation, Camera):
         if fleets.count == 1:
             center = fleets[0].location
         elif fleets.count > 1:
-            logger.warning(f'Convert radar to local, but found multiple current fleets: {fleets}')
+            logger.warning(f"Convert radar to local, but found multiple current fleets: {fleets}")
             fleets = fleets.sort_by_camera_distance(self.view.center_loca)
             center = fleets[0].location
-            logger.warning(
-                f'Assuming the nearest fleet to camera canter is current fleet: {location2node(center)}')
+            logger.warning(f"Assuming the nearest fleet to camera canter is current fleet: {location2node(center)}")
         else:
-            logger.warning(f'Convert radar to local, but current fleet not found. '
-                           f'Assuming camera center is current fleet: {location2node(self.view.center_loca)}')
+            logger.warning(
+                f"Convert radar to local, but current fleet not found. "
+                f"Assuming camera center is current fleet: {location2node(self.view.center_loca)}"
+            )
             center = self.view.center_loca
 
         try:
             local = self.view[np.add(location, center)]
         except KeyError:
-            logger.warning(f'Convert radar to local, but target grid not in local view. '
-                           f'Assuming camera center is current fleet: {location2node(self.view.center_loca)}')
+            logger.warning(
+                f"Convert radar to local, but target grid not in local view. "
+                f"Assuming camera center is current fleet: {location2node(self.view.center_loca)}"
+            )
             center = self.view.center_loca
             local = self.view[np.add(location, center)]
 
-        logger.info('Radar %s -> Local %s (fleet=%s)' % (
-            str(location),
-            location2node(local.location),
-            location2node(center)
-        ))
+        logger.info(
+            "Radar %s -> Local %s (fleet=%s)" % (str(location), location2node(local.location), location2node(center))
+        )
         return local

@@ -1,11 +1,10 @@
 import operator
-import typing as t
 
 
 class SelectedGrids:
     def __init__(self, grids):
         self.grids = grids
-        self.indexes: t.Dict[tuple, SelectedGrids] = {}
+        self.indexes: dict[tuple, SelectedGrids] = {}
 
     def __iter__(self):
         return iter(self.grids)
@@ -21,7 +20,7 @@ class SelectedGrids:
 
     def __str__(self):
         # return str([str(grid) for grid in self])
-        return '[' + ', '.join([str(grid) for grid in self]) + ']'
+        return "[" + ", ".join([str(grid) for grid in self]) + "]"
 
     def __len__(self):
         return len(self.grids)
@@ -72,6 +71,7 @@ class SelectedGrids:
         Returns:
             SelectedGrids:
         """
+
         def matched(obj):
             flag = True
             for k, v in kwargs.items():
@@ -271,6 +271,7 @@ class SelectedGrids:
             SelectedGrids:
         """
         import numpy as np
+
         if not self:
             return self
         location = np.array(self.location)
@@ -290,6 +291,7 @@ class SelectedGrids:
             SelectedGrids:
         """
         import numpy as np
+
         if not self:
             return self
         vector = np.subtract(self.location, center)
@@ -317,7 +319,7 @@ class RoadGrids:
                 self.grids.append(SelectedGrids(grids=[grid]))
 
     def __str__(self):
-        return str(' - '.join([str(grid) for grid in self.grids]))
+        return str(" - ".join([str(grid) for grid in self.grids]))
 
     def roadblocks(self):
         """

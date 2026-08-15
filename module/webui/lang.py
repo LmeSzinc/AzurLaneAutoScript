@@ -1,4 +1,3 @@
-﻿from typing import Dict
 
 from module.config.deep import deep_iter
 from module.config.utils import LANGUAGES, filepath_i18n, read_file
@@ -49,7 +48,7 @@ def _t(s, lang=None):
         return s
 
 
-dic_lang: Dict[str, Dict[str, str]] = {}
+dic_lang: dict[str, dict[str, str]] = {}
 
 
 def reload():

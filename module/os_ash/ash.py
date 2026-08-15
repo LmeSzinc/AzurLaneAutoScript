@@ -93,30 +93,34 @@ class OSAsh(UI, MapEventHandler):
         if self._ash_fully_collected:
             return 0
         if self.image_color_count(ASH_COLLECT_STATUS, color=(235, 235, 235), threshold=221, count=20):
-            logger.info('Ash beacon status: light')
+            logger.info("Ash beacon status: light")
             ocr_collect = DigitCounter(
-                ASH_COLLECT_STATUS, letter=(235, 235, 235), threshold=160, name='OCR_ASH_COLLECT_STATUS')
+                ASH_COLLECT_STATUS, letter=(235, 235, 235), threshold=160, name="OCR_ASH_COLLECT_STATUS"
+            )
             ocr_daily = DailyDigitCounter(
-                ASH_DAILY_STATUS, letter=(235, 235, 235), threshold=160, name='OCR_ASH_DAILY_STATUS')
+                ASH_DAILY_STATUS, letter=(235, 235, 235), threshold=160, name="OCR_ASH_DAILY_STATUS"
+            )
         elif self.image_color_count(ASH_COLLECT_STATUS, color=(140, 142, 140), threshold=221, count=20):
-            logger.info('Ash beacon status: gray')
+            logger.info("Ash beacon status: gray")
             ocr_collect = DigitCounter(
-                ASH_COLLECT_STATUS, letter=(140, 142, 140), threshold=160, name='OCR_ASH_COLLECT_STATUS')
+                ASH_COLLECT_STATUS, letter=(140, 142, 140), threshold=160, name="OCR_ASH_COLLECT_STATUS"
+            )
             ocr_daily = DailyDigitCounter(
-                ASH_DAILY_STATUS, letter=(140, 142, 140), threshold=160, name='OCR_ASH_DAILY_STATUS')
+                ASH_DAILY_STATUS, letter=(140, 142, 140), threshold=160, name="OCR_ASH_DAILY_STATUS"
+            )
         else:
             # If OS daily mission received or finished, the popup will cover beacon status.
-            logger.info('Ash beacon status is covered, will check next time')
+            logger.info("Ash beacon status is covered, will check next time")
             return 0
 
         status, _, _ = ocr_collect.ocr(self.device.image)
         daily, _, _ = ocr_daily.ocr(self.device.image)
 
         if daily >= 200:
-            logger.info('Ash beacon fully collected today')
+            logger.info("Ash beacon fully collected today")
             self._ash_fully_collected = True
         elif status >= 200:
-            logger.info('Ash beacon data reached the holding limit')
+            logger.info("Ash beacon data reached the holding limit")
             self._ash_fully_collected = True
 
         if status < 0:
@@ -140,9 +144,8 @@ class OSAsh(UI, MapEventHandler):
             in: is_in_map
             out: is_in_map
         """
-        if self.ash_collect_status() >= 100 \
-                and self._support_call_ash_beacon_task():
-            self.config.task_call(task='OpsiAshBeacon')
+        if self.ash_collect_status() >= 100 and self._support_call_ash_beacon_task():
+            self.config.task_call(task="OpsiAshBeacon")
             return True
 
         return False

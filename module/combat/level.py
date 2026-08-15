@@ -1,5 +1,4 @@
 import module.config.server as server
-
 from module.base.base import ModuleBase
 from module.base.button import *
 from module.base.decorator import Config
@@ -37,11 +36,11 @@ class Level(ModuleBase):
         self._lv = [-1] * 6
         self._lv_before_battle = [-1] * 6
 
-    @Config.when(SERVER='en')
+    @Config.when(SERVER="en")
     def _lv_grid(self):
         return ButtonGrid(origin=(56, 113), delta=(0, 100), button_shape=(46, 19), grid_shape=(1, 6))
 
-    @Config.when(SERVER='jp')
+    @Config.when(SERVER="jp")
     def _lv_grid(self):
         return ButtonGrid(origin=(34, 128), delta=(0, 100), button_shape=(68, 19), grid_shape=(1, 6))
 
@@ -62,9 +61,9 @@ class Level(ModuleBase):
 
         self._lv_before_battle = self.lv if after_battle else [-1] * 6
 
-        ocr = LevelOcr(self._lv_grid().buttons, name='LevelOcr')
+        ocr = LevelOcr(self._lv_grid().buttons, name="LevelOcr")
         self.lv = ocr.ocr(self.device.image)
-        logger.attr('LEVEL', ', '.join(str(data) for data in self.lv))
+        logger.attr("LEVEL", ", ".join(str(data) for data in self.lv))
 
         if after_battle:
             self.lv_triggered()
@@ -80,15 +79,16 @@ class Level(ModuleBase):
         for i in range(6):
             before, after = self._lv_before_battle[i], self.lv[i]
             if after > before > 0:
-                logger.info(f'Position {i} LV.{before} -> LV.{after}')
+                logger.info(f"Position {i} LV.{before} -> LV.{after}")
             if after >= limit > before > 0:
                 if after - before == 1 or after < 35:
-                    logger.info(f'Position {i} LV.{limit} Reached')
+                    logger.info(f"Position {i} LV.{limit} Reached")
                     self.config.LV_TRIGGERED = True
                     return True
                 else:
-                    logger.warning(f'Level gap between {before} and {after} is too large. '
-                                   f'This will not be considered as a trigger')
+                    logger.warning(
+                        f"Level gap between {before} and {after} is too large. This will not be considered as a trigger"
+                    )
 
         return False
 
@@ -97,7 +97,7 @@ class Level(ModuleBase):
             return False
 
         if self.lv[0] >= 32:
-            logger.info(f'Position 0 LV.32 Reached')
+            logger.info("Position 0 LV.32 Reached")
             self.config.LV32_TRIGGERED = True
             return True
 
@@ -127,7 +127,7 @@ class LevelOcr(Digit):
         image = cv2.subtract(255, cv2.multiply(image, 255 / (255 - luma_bg)))
         # Find 'L' to strip 'LV.'.
         # Return an empty image if 'L' is not found.
-        if server.server != 'jp':
+        if server.server != "jp":
             letter_l = np.nonzero(image[9:15, :].max(axis=0) < 127)[0]
             if len(letter_l):
                 first_digit = letter_l[0] + 17
@@ -144,8 +144,8 @@ class LevelOcr(Digit):
         return np.array([[255]], dtype=np.uint8)
 
     def after_process(self, result):
-        result = result.replace('I', '1').replace('D', '0').replace('S', '5')
-        result = result.replace('B', '8')
+        result = result.replace("I", "1").replace("D", "0").replace("S", "5")
+        result = result.replace("B", "8")
 
         # No correction log, cause levels are usually empty
         # Like: [23, 0, 0, 100, 0, 0]

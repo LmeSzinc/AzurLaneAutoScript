@@ -1,8 +1,8 @@
 from module.base.timer import Timer
 from module.exception import GameStuckError
 from module.handler.assets import STORY_SKIP
-from module.island.ui import IslandUI
 from module.island.assets import *
+from module.island.ui import IslandUI
 from module.logger import logger
 from module.ui.page import page_island, page_island_manage, page_island_phone
 
@@ -34,16 +34,16 @@ class IslandFreebie(IslandUI):
                 continue
 
             if self.ui_page_appear(page_island_phone):
-                logger.info('Moved to location of freebie')
+                logger.info("Moved to location of freebie")
                 self.ui_goto(page_island)
                 break
         else:
-            logger.warning('Failed to move to location of freebie after 30 seconds')
-            raise GameStuckError(f'Failed to move to location of freebie after 30 seconds')
+            logger.warning("Failed to move to location of freebie after 30 seconds")
+            raise GameStuckError("Failed to move to location of freebie after 30 seconds")
 
     def freebie_claim(self):
         if not self.appear(ISLAND_FREEBIE_CLAIM, offset=(20, 20)):
-            logger.warning('No freebie claim button')
+            logger.warning("No freebie claim button")
             return False
         retry_wait = Timer(3, count=5).reset()
         for _ in self.loop(timeout=30):
@@ -51,17 +51,17 @@ class IslandFreebie(IslandUI):
                 continue
 
             if self.appear(ISLAND_FREEBIE_COOLDOWN, offset=(20, 20)):
-                logger.info('Claimed freebie')
+                logger.info("Claimed freebie")
                 return True
             elif self.ui_page_appear(page_island_phone):
-                logger.info('Misclicked into page_island_phone, go back')
+                logger.info("Misclicked into page_island_phone, go back")
                 self.ui_goto(page_island)
                 continue
             elif retry_wait.reached_and_reset():
                 self.device.click(STORY_SKIP)
                 continue
         else:
-            logger.warning('Failed to claim freebie after 30 seconds')
+            logger.warning("Failed to claim freebie after 30 seconds")
             return False
 
     def freebie_receive(self):
@@ -70,7 +70,7 @@ class IslandFreebie(IslandUI):
         self.device.drag(p1, p2, point_random=(0, 0, 0, 0), shake_random=(0, 0, 0, 0), hold_duration=1.05)
         self.device.screenshot()
         if not self.appear(ISLAND_FREEBIE_RECEIVE, offset=(20, 20)):
-            logger.warning('Failed to receive freebie')
+            logger.warning("Failed to receive freebie")
             return False
         confirm_timer = Timer(3, count=5).reset()
         for _ in self.loop(timeout=30, skip_first=False):
@@ -85,15 +85,15 @@ class IslandFreebie(IslandUI):
             # End
             if self.appear(ISLAND_FREEBIE_SHARE, offset=(20, 20)):
                 if confirm_timer.reached():
-                    logger.info('Received freebie')
+                    logger.info("Received freebie")
                     return True
         else:
-            logger.warning('Failed to receive freebie after 30 seconds')
+            logger.warning("Failed to receive freebie after 30 seconds")
             return False
 
     def freebie_share(self):
         if not self.appear(ISLAND_FREEBIE_SHARE, offset=(20, 20)):
-            logger.warning('No freebie share button')
+            logger.warning("No freebie share button")
             return False
 
         for _ in self.loop(timeout=30, skip_first=False):
@@ -102,22 +102,24 @@ class IslandFreebie(IslandUI):
             if self.appear_then_click(ISLAND_FREEBIE_SHARE_ALL, offset=(20, 20), interval=3):
                 break
         else:
-            logger.warning('Failed to open freebie share page after 30 seconds')
+            logger.warning("Failed to open freebie share page after 30 seconds")
             return False
 
         for _ in self.loop(timeout=30, skip_first=False):
             if self.appear_then_click(ISLAND_FREEBIE_SHARE_BACK, offset=(20, 20), interval=3):
                 continue
             if self.ui_page_appear(page_island):
-                logger.info('Shared freebie')
+                logger.info("Shared freebie")
                 return True
         else:
-            logger.warning('Failed to leave freebie share page after 30 seconds')
+            logger.warning("Failed to leave freebie share page after 30 seconds")
             return False
 
     def run(self):
-        if self.config.SERVER in ['tw']:
-            logger.info(f'IslandFreebie is not available on {self.config.SERVER} server, delay until next server update')
+        if self.config.SERVER in ["tw"]:
+            logger.info(
+                f"IslandFreebie is not available on {self.config.SERVER} server, delay until next server update"
+            )
             self.config.task_delay(server_update=True)
             return
         self.ui_ensure(page_island_manage)
@@ -129,6 +131,6 @@ class IslandFreebie(IslandUI):
             if self.config.IslandFreebie_Share:
                 self.freebie_share()
         else:
-            logger.info('No freebie notice')
+            logger.info("No freebie notice")
 
         self.config.task_delay(server_update=True)

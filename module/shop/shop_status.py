@@ -3,25 +3,26 @@ from module.ocr.ocr import Digit
 from module.shop.assets import *
 from module.ui.ui import UI
 
-if server.server != 'jp':
-    OCR_SHOP_GEMS = Digit(SHOP_GEMS, letter=(255, 243, 82), name='OCR_SHOP_GEMS')
+if server.server != "jp":
+    OCR_SHOP_GEMS = Digit(SHOP_GEMS, letter=(255, 243, 82), name="OCR_SHOP_GEMS")
 else:
-    OCR_SHOP_GEMS = Digit(SHOP_GEMS, letter=(190, 180, 82), name='OCR_SHOP_GEMS')
+    OCR_SHOP_GEMS = Digit(SHOP_GEMS, letter=(190, 180, 82), name="OCR_SHOP_GEMS")
 # UI update in 20250814, but server TW is still old UI.
-if server.server == 'jp':
-    OCR_SHOP_GOLD_COINS = Digit(SHOP_OCR_BALANCE, letter=(110, 120, 130), name='OCR_SHOP_GOLD_COINS')
-    OCR_SHOP_MEDAL = Digit(SHOP_OCR_BALANCE, letter=(110, 120, 130), name='OCR_SHOP_MEDAL')
-    OCR_SHOP_MERIT = Digit(SHOP_OCR_BALANCE, letter=(110, 120, 130), name='OCR_SHOP_MERIT')
-    OCR_SHOP_GUILD_COINS = Digit(SHOP_OCR_BALANCE, letter=(110, 120, 130), name='OCR_SHOP_GUILD_COINS')
-    OCR_SHOP_CORE = Digit(SHOP_OCR_BALANCE, letter=(110, 120, 130), name='OCR_SHOP_CORE')
+if server.server == "jp":
+    OCR_SHOP_GOLD_COINS = Digit(SHOP_OCR_BALANCE, letter=(110, 120, 130), name="OCR_SHOP_GOLD_COINS")
+    OCR_SHOP_MEDAL = Digit(SHOP_OCR_BALANCE, letter=(110, 120, 130), name="OCR_SHOP_MEDAL")
+    OCR_SHOP_MERIT = Digit(SHOP_OCR_BALANCE, letter=(110, 120, 130), name="OCR_SHOP_MERIT")
+    OCR_SHOP_GUILD_COINS = Digit(SHOP_OCR_BALANCE, letter=(110, 120, 130), name="OCR_SHOP_GUILD_COINS")
+    OCR_SHOP_CORE = Digit(SHOP_OCR_BALANCE, letter=(110, 120, 130), name="OCR_SHOP_CORE")
 else:
-    OCR_SHOP_GOLD_COINS = Digit(SHOP_OCR_BALANCE, letter=(100, 100, 100), name='OCR_SHOP_GOLD_COINS')
-    OCR_SHOP_MEDAL = Digit(SHOP_OCR_BALANCE, letter=(100, 100, 100), name='OCR_SHOP_MEDAL')
-    OCR_SHOP_MERIT = Digit(SHOP_OCR_BALANCE, letter=(100, 100, 100), name='OCR_SHOP_MERIT')
-    OCR_SHOP_GUILD_COINS = Digit(SHOP_OCR_BALANCE, letter=(100, 100, 100), name='OCR_SHOP_GUILD_COINS')
-    OCR_SHOP_CORE = Digit(SHOP_OCR_BALANCE, letter=(100, 100, 100), name='OCR_SHOP_CORE')
+    OCR_SHOP_GOLD_COINS = Digit(SHOP_OCR_BALANCE, letter=(100, 100, 100), name="OCR_SHOP_GOLD_COINS")
+    OCR_SHOP_MEDAL = Digit(SHOP_OCR_BALANCE, letter=(100, 100, 100), name="OCR_SHOP_MEDAL")
+    OCR_SHOP_MERIT = Digit(SHOP_OCR_BALANCE, letter=(100, 100, 100), name="OCR_SHOP_MERIT")
+    OCR_SHOP_GUILD_COINS = Digit(SHOP_OCR_BALANCE, letter=(100, 100, 100), name="OCR_SHOP_GUILD_COINS")
+    OCR_SHOP_CORE = Digit(SHOP_OCR_BALANCE, letter=(100, 100, 100), name="OCR_SHOP_CORE")
 
-OCR_SHOP_VOUCHER = Digit(SHOP_VOUCHER, letter=(255, 255, 255), name='OCR_SHOP_VOUCHER')
+OCR_SHOP_VOUCHER = Digit(SHOP_VOUCHER, letter=(255, 255, 255), name="OCR_SHOP_VOUCHER")
+
 
 class ShopStatus(UI):
     def status_get_gold_coins(self):

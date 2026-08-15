@@ -4,17 +4,17 @@ from module.logger import logger
 from module.private_quarters.assets import *
 from module.private_quarters.interact import PQInteract
 from module.private_quarters.shop import PQShop
-from module.ui.page import page_private_quarters, page_dormmenu
+from module.ui.page import page_dormmenu, page_private_quarters
 
 
 class PrivateQuarters(PQInteract, PQShop):
     # Key: str, server name
     # Value: list[str]
     not_supported_filter = {
-        'cn': (),
-        'en': (),
-        'jp': ('nakhimov'),
-        'tw': ('taihou', 'nakhimov'),
+        "cn": (),
+        "en": (),
+        "jp": ("nakhimov"),
+        "tw": ("taihou", "nakhimov"),
     }
 
     def _pq_get_daily_count(self, retry=3):
@@ -63,7 +63,7 @@ class PrivateQuarters(PQInteract, PQShop):
             check_button=PRIVATE_QUARTERS_SHOP_CHECK,
             appear_button=page_private_quarters.check_button,
             offset=(20, 20),
-            skip_first_screenshot=True
+            skip_first_screenshot=True,
         )
 
         # Transition to Sirius section
@@ -81,7 +81,7 @@ class PrivateQuarters(PQInteract, PQShop):
             check_button=page_private_quarters.check_button,
             appear_button=PRIVATE_QUARTERS_SHOP_CHECK,
             offset=(20, 20),
-            skip_first_screenshot=True
+            skip_first_screenshot=True,
         )
 
     def pq_shop_weekly_items(self):
@@ -92,7 +92,7 @@ class PrivateQuarters(PQInteract, PQShop):
         All other items do not stack so just compares
         against actual price
         """
-        logger.hr(f'Get Weekly Items', level=2)
+        logger.hr("Get Weekly Items", level=2)
 
         # Enter shop
         self._pq_shop_enter()
@@ -112,9 +112,9 @@ class PrivateQuarters(PQInteract, PQShop):
             target_ship (str):
         """
         # Verify target is a valid selectable
-        target_title = target_ship.title().replace('_', ' ')
+        target_title = target_ship.title().replace("_", " ")
         if target_ship not in self.available_targets:
-            logger.error(f'Unsupported target ship: {target_title}, cannot continue subtask')
+            logger.error(f"Unsupported target ship: {target_title}, cannot continue subtask")
             return
 
         # Handle if target is not in initial load
@@ -137,32 +137,34 @@ class PrivateQuarters(PQInteract, PQShop):
             target_interact (bool):
             target_ship     (str):
         """
-        logger.hr(f'Private Quarters Run', level=1)
-        target_title = target_ship.title().replace('_', ' ')
-        logger.info(f'Task configured for Buy_Roses={buy_roses}, '
-                    f'Buy_Cake={buy_cake}, '
-                    f'Interact_ShipGirl={target_interact}, '
-                    f'Target_ShipGirl={target_title}')
+        logger.hr("Private Quarters Run", level=1)
+        target_title = target_ship.title().replace("_", " ")
+        logger.info(
+            f"Task configured for Buy_Roses={buy_roses}, "
+            f"Buy_Cake={buy_cake}, "
+            f"Interact_ShipGirl={target_interact}, "
+            f"Target_ShipGirl={target_title}"
+        )
 
         # Enter shop and buy weekly items (if any)
         if self.shop_filter:
-            if server.server not in ['tw']:
+            if server.server not in ["tw"]:
                 self.pq_shop_weekly_items()
             else:
-                logger.info(f'Private Quarters shop not supported for {server.server} server.')
+                logger.info(f"Private Quarters shop not supported for {server.server} server.")
 
         # Interact with target if enabled
         if target_interact:
             # Ensure target is supported for server
             # Update `not_supported_filter` to enable a target
             if target_ship in self.not_supported_filter[server.server]:
-                logger.info(f'Target ship:{target_ship} not supported for {server.server} server.')
+                logger.info(f"Target ship:{target_ship} not supported for {server.server} server.")
                 return
 
             # Pull count here, exit run if = 0
             count = self._pq_get_daily_count(retry=3)
             if count == 0:
-                logger.info('Daily intimacy count exhausted, exit subtask')
+                logger.info("Daily intimacy count exhausted, exit subtask")
                 return
 
             # Able to interact with target, execute
@@ -181,7 +183,7 @@ class PrivateQuarters(PQInteract, PQShop):
             buy_roses=self.config.PrivateQuarters_BuyRoses,
             buy_cake=self.config.PrivateQuarters_BuyCake,
             target_interact=self.config.PrivateQuarters_TargetInteract,
-            target_ship=self.config.PrivateQuarters_TargetShip
+            target_ship=self.config.PrivateQuarters_TargetShip,
         )
 
         self.config.task_delay(server_update=True)

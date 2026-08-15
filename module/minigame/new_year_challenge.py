@@ -5,28 +5,30 @@ from module.minigame.minigame import MINIGAME_SCROLL, MinigameRun
 from module.ocr.ocr import Digit
 from module.ui.page import page_game_room
 
-OCR_GAME_NEW_YEAR_COIN_COST = Digit(NEW_YEAR_CHALLENGE_COIN_COST_HOLDER,
-                                    name='OCR_GAME_NEW_YEAR_COIN_COST',
-                                    letter=(33, 28, 49),
-                                    threshold=128)
-OCR_NEW_YEAR_BATTLE_SCORE = Digit(NEW_YEAR_CHALLENGE_SCORE_HOLDER,
-                                  name='OCR_NEW_YEAR_BATTLE_SCORE',
-                                  letter=(231, 215, 82),
-                                  threshold=128)
+OCR_GAME_NEW_YEAR_COIN_COST = Digit(
+    NEW_YEAR_CHALLENGE_COIN_COST_HOLDER, name="OCR_GAME_NEW_YEAR_COIN_COST", letter=(33, 28, 49), threshold=128
+)
+OCR_NEW_YEAR_BATTLE_SCORE = Digit(
+    NEW_YEAR_CHALLENGE_SCORE_HOLDER, name="OCR_NEW_YEAR_BATTLE_SCORE", letter=(231, 215, 82), threshold=128
+)
 
 
 class NewYearChallenge(MinigameRun):
     NEW_YEAR_BATTLE_RED = (255, 150, 123)
     NEW_YEAR_BATTLE_YELLOW = (247, 223, 115)
     NEW_YEAR_BATTLE_BLUE = (82, 134, 239)
-    NEW_YEAR_BATTLE_TMP_BUTTON = [NEW_YEAR_CHALLENGE_TMP_1,
-                                  NEW_YEAR_CHALLENGE_TMP_2,
-                                  NEW_YEAR_CHALLENGE_TMP_3,
-                                  NEW_YEAR_CHALLENGE_TMP_4,
-                                  NEW_YEAR_CHALLENGE_TMP_5]
-    NEW_YEAR_BATTLE_COLOR_BUTTON_DICT = {NEW_YEAR_BATTLE_RED: NEW_YEAR_CHALLENGE_RED_BUTTON,
-                                         NEW_YEAR_BATTLE_YELLOW: NEW_YEAR_CHALLENGE_YELLOW_BUTTON,
-                                         NEW_YEAR_BATTLE_BLUE: NEW_YEAR_CHALLENGE_BLUE_BUTTON}
+    NEW_YEAR_BATTLE_TMP_BUTTON = [
+        NEW_YEAR_CHALLENGE_TMP_1,
+        NEW_YEAR_CHALLENGE_TMP_2,
+        NEW_YEAR_CHALLENGE_TMP_3,
+        NEW_YEAR_CHALLENGE_TMP_4,
+        NEW_YEAR_CHALLENGE_TMP_5,
+    ]
+    NEW_YEAR_BATTLE_COLOR_BUTTON_DICT = {
+        NEW_YEAR_BATTLE_RED: NEW_YEAR_CHALLENGE_RED_BUTTON,
+        NEW_YEAR_BATTLE_YELLOW: NEW_YEAR_CHALLENGE_YELLOW_BUTTON,
+        NEW_YEAR_BATTLE_BLUE: NEW_YEAR_CHALLENGE_BLUE_BUTTON,
+    }
 
     def deal_specific_popup(self):
         # enter NEW_YEAR_BATTLE first time
@@ -56,8 +58,11 @@ class NewYearChallenge(MinigameRun):
                 self.interval_reset(page_game_room.check_button, interval=3)
                 continue
             # swipe down
-            if self.ui_page_appear(page_game_room, interval=3) and MINIGAME_SCROLL.appear(main=self) \
-                    and not MINIGAME_SCROLL.set(main=self, position=0.25, distance_check=False):
+            if (
+                self.ui_page_appear(page_game_room, interval=3)
+                and MINIGAME_SCROLL.appear(main=self)
+                and not MINIGAME_SCROLL.set(main=self, position=0.25, distance_check=False)
+            ):
                 MINIGAME_SCROLL.set_bottom(main=self)
                 continue
 

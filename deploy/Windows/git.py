@@ -1,17 +1,17 @@
 import configparser
 import os
 
+from deploy.git_over_cdn.client import GitOverCdnClient
 from deploy.Windows.config import DeployConfig
 from deploy.Windows.logger import Progress, logger
 from deploy.Windows.utils import cached_property
-from deploy.git_over_cdn.client import GitOverCdnClient
 
 
 class GitConfigParser(configparser.ConfigParser):
     def check(self, section, option, value):
         result = self.get(section, option, fallback=None)
         if result == value:
-            logger.info(f'Git config {section}.{option} = {value}')
+            logger.info(f"Git config {section}.{option} = {value}")
             return True
         else:
             return False
@@ -41,67 +41,65 @@ class GitManager(DeployConfig):
     def remove(file):
         try:
             os.remove(file)
-            logger.info(f'Removed file: {file}')
+            logger.info(f"Removed file: {file}")
         except FileNotFoundError:
-            logger.info(f'File not found: {file}')
+            logger.info(f"File not found: {file}")
 
     @cached_property
     def git_config(self):
         conf = GitConfigParser()
-        conf.read('./.git/config')
+        conf.read("./.git/config")
         return conf
 
-    def git_repository_init(
-            self, repo, source='origin', branch='master', proxy='', ssl_verify=True
-    ):
-        logger.hr('Git Init', 1)
+    def git_repository_init(self, repo, source="origin", branch="master", proxy="", ssl_verify=True):
+        logger.hr("Git Init", 1)
         if not self.execute(f'"{self.git}" init', allow_failure=True):
-            self.remove('./.git/config')
-            self.remove('./.git/index')
-            self.remove('./.git/HEAD')
-            self.remove('./.git/ORIG_HEAD')
+            self.remove("./.git/config")
+            self.remove("./.git/index")
+            self.remove("./.git/HEAD")
+            self.remove("./.git/ORIG_HEAD")
             self.execute(f'"{self.git}" init')
         Progress.GitInit()
 
-        logger.hr('Set Git Proxy', 1)
+        logger.hr("Set Git Proxy", 1)
         if proxy:
-            if not self.git_config.check('http', 'proxy', value=proxy):
+            if not self.git_config.check("http", "proxy", value=proxy):
                 self.execute(f'"{self.git}" config --local http.proxy {proxy}')
-            if not self.git_config.check('https', 'proxy', value=proxy):
+            if not self.git_config.check("https", "proxy", value=proxy):
                 self.execute(f'"{self.git}" config --local https.proxy {proxy}')
         else:
-            if not self.git_config.check('http', 'proxy', value=None):
+            if not self.git_config.check("http", "proxy", value=None):
                 self.execute(f'"{self.git}" config --local --unset http.proxy', allow_failure=True)
-            if not self.git_config.check('https', 'proxy', value=None):
+            if not self.git_config.check("https", "proxy", value=None):
                 self.execute(f'"{self.git}" config --local --unset https.proxy', allow_failure=True)
 
         if ssl_verify:
-            if not self.git_config.check('http', 'sslVerify', value='true'):
+            if not self.git_config.check("http", "sslVerify", value="true"):
                 self.execute(f'"{self.git}" config --local http.sslVerify true', allow_failure=True)
         else:
-            if not self.git_config.check('http', 'sslVerify', value='false'):
+            if not self.git_config.check("http", "sslVerify", value="false"):
                 self.execute(f'"{self.git}" config --local http.sslVerify false', allow_failure=True)
         Progress.GitSetConfig()
 
-        logger.hr('Set Git Repository', 1)
-        if not self.git_config.check(f'remote "{source}"', 'url', value=repo):
+        logger.hr("Set Git Repository", 1)
+        if not self.git_config.check(f'remote "{source}"', "url", value=repo):
             if not self.execute(f'"{self.git}" remote set-url {source} {repo}', allow_failure=True):
                 self.execute(f'"{self.git}" remote add {source} {repo}')
         Progress.GitSetRepo()
 
-        logger.hr('Fetch Repository Branch', 1)
+        logger.hr("Fetch Repository Branch", 1)
         self.execute(f'"{self.git}" fetch {source} {branch}')
         Progress.GitFetch()
 
-        logger.hr('Pull Repository Branch', 1)
+        logger.hr("Pull Repository Branch", 1)
         # Remove git lock
         for lock_file in [
-            './.git/index.lock',
-            './.git/HEAD.lock',
-            './.git/refs/heads/master.lock',
+            "./.git/index.lock",
+            "./.git/HEAD.lock",
+            "./.git/refs/heads/master.lock",
         ]:
             if os.path.exists(lock_file):
-                logger.info(f'Lock file {lock_file} exists, removing')
+                logger.info(f"Lock file {lock_file} exists, removing")
                 os.remove(lock_file)
         self.execute(f'"{self.git}" reset --hard {source}/{branch}')
         Progress.GitReset()
@@ -110,27 +108,27 @@ class GitManager(DeployConfig):
             self.execute(f'"{self.git}" pull --ff-only {source} {branch}')
         Progress.GitCheckout()
 
-        logger.hr('Show Version', 1)
+        logger.hr("Show Version", 1)
         self.execute(f'"{self.git}" --no-pager log --no-merges -1')
         Progress.GitShowVersion()
 
     @property
     def goc_client(self):
         client = GitOverCdnClient(
-            url='https://vip.123pan.cn/1815343254/pack/LmeSzinc_StarRailCopilot_master',
+            url="https://vip.123pan.cn/1815343254/pack/LmeSzinc_StarRailCopilot_master",
             folder=self.root_filepath,
-            source='origin',
-            branch='master',
+            source="origin",
+            branch="master",
             git=self.git,
         )
         client.logger = logger
         return client
 
     def git_install(self):
-        logger.hr('Update Alas', 0)
+        logger.hr("Update Alas", 0)
 
         if not self.AutoUpdate:
-            logger.info('AutoUpdate is disabled, skip')
+            logger.info("AutoUpdate is disabled, skip")
             Progress.GitShowVersion()
             return
 
@@ -140,7 +138,7 @@ class GitManager(DeployConfig):
 
         self.git_repository_init(
             repo=self.Repository,
-            source='origin',
+            source="origin",
             branch=self.Branch,
             proxy=self.GitProxy,
             ssl_verify=self.SSLVerify,

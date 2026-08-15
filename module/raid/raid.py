@@ -18,16 +18,16 @@ from module.ui.page import page_rpg_stage
 class RaidCounterPostMixin(DigitCounter):
     def after_process(self, result):
         # fix result like "915/", "1515"
-        result = result.strip('/')
-        if result.isdigit() and len(result) > 2 and result.endswith('15'):
-            result = f'{result[:-2]}/15'
+        result = result.strip("/")
+        if result.isdigit() and len(result) > 2 and result.endswith("15"):
+            result = f"{result[:-2]}/15"
         return result
 
 
 class RaidCounter(DigitCounter):
     def pre_process(self, image):
         image = super().pre_process(image)
-        image = np.pad(image, ((2, 2), (0, 0)), mode='constant', constant_values=255)
+        image = np.pad(image, ((2, 2), (0, 0)), mode="constant", constant_values=255)
         return image
 
 
@@ -55,10 +55,11 @@ class HuanChangPtOcr(Digit):
         image = cv2.threshold(image, 128, 255, cv2.THRESH_BINARY_INV)[1]
         count, cc = cv2.connectedComponents(image)
         # Calculate connected area, greater than 60 is considered a number,
-        # CN, JP background rightmost is connected but EN is not, 
+        # CN, JP background rightmost is connected but EN is not,
         # EN need judge both [0, -1] and [-1, -1]
-        num_idx = [i for i in range(1, count + 1) if
-                   i != cc[0, -1] and i != cc[-1, -1] and np.count_nonzero(cc == i) > 60]
+        num_idx = [
+            i for i in range(1, count + 1) if i != cc[0, -1] and i != cc[-1, -1] and np.count_nonzero(cc == i) > 60
+        ]
         image = ~(np.isin(cc, num_idx) * 255)  # Numbers are white, need invert
         return image.astype(np.uint8)
 
@@ -71,14 +72,14 @@ def raid_name_shorten(name):
     Returns:
         str: Prefix of button name, such as ESSEX, SURUGA.
     """
-    if name == 'raid_20200624':
-        return 'ESSEX'
-    elif name == 'raid_20210708':
-        return 'SURUGA'
-    elif name == 'raid_20220127':
-        return 'BRISTOL'
-    elif name == 'raid_20220630':
-        return 'IRIS'
+    if name == "raid_20200624":
+        return "ESSEX"
+    elif name == "raid_20210708":
+        return "SURUGA"
+    elif name == "raid_20220127":
+        return "BRISTOL"
+    elif name == "raid_20220630":
+        return "IRIS"
     elif name == "raid_20221027":
         return "ALBION"
     elif name == "raid_20230118":
@@ -89,12 +90,12 @@ def raid_name_shorten(name):
         return "HUANCHANG"
     elif name == "raid_20240328":
         return "RPG"
-    elif name == 'raid_20250116':
-        return 'CHIENWU'
-    elif name == 'raid_20260212':
-        return 'CHANGWU'
+    elif name == "raid_20250116":
+        return "CHIENWU"
+    elif name == "raid_20260212":
+        return "CHANGWU"
     else:
-        raise ScriptError(f'Unknown raid name: {name}')
+        raise ScriptError(f"Unknown raid name: {name}")
 
 
 def raid_entrance(raid, mode):
@@ -106,11 +107,11 @@ def raid_entrance(raid, mode):
     Returns:
         Button:
     """
-    key = f'{raid_name_shorten(raid)}_RAID_{mode.upper()}'
+    key = f"{raid_name_shorten(raid)}_RAID_{mode.upper()}"
     try:
         return globals()[key]
     except KeyError:
-        raise ScriptError(f'Raid entrance asset not exists: {key}')
+        raise ScriptError(f"Raid entrance asset not exists: {key}")
 
 
 def raid_ocr(raid, mode):
@@ -123,56 +124,56 @@ def raid_ocr(raid, mode):
         DigitCounter:
     """
     raid = raid_name_shorten(raid)
-    key = f'{raid}_OCR_REMAIN_{mode.upper()}'
+    key = f"{raid}_OCR_REMAIN_{mode.upper()}"
     try:
         button = globals()[key]
     except KeyError:
-        raise ScriptError(f'Raid entrance asset not exists: {key}')
+        raise ScriptError(f"Raid entrance asset not exists: {key}")
     # Old raids use RaidCounter to compatible with old OCR model and its assets
     # New raids use DigitCounter
-    if raid == 'ESSEX':
+    if raid == "ESSEX":
         return RaidCounter(button, letter=(57, 52, 255), threshold=128)
-    elif raid == 'SURUGA':
+    elif raid == "SURUGA":
         return RaidCounter(button, letter=(49, 48, 49), threshold=128)
-    elif raid == 'BRISTOL':
+    elif raid == "BRISTOL":
         return RaidCounter(button, letter=(214, 231, 219), threshold=128)
-    elif raid == 'IRIS':
+    elif raid == "IRIS":
         # Font is not in model 'azur_lane', so use general ocr model
-        if server.server == 'en':
+        if server.server == "en":
             # Bold in EN
-            return RaidCounter(button, letter=(148, 138, 123), threshold=80, lang='cnocr')
-        if server.server == 'jp':
-            return RaidCounter(button, letter=(148, 138, 123), threshold=128, lang='cnocr')
+            return RaidCounter(button, letter=(148, 138, 123), threshold=80, lang="cnocr")
+        if server.server == "jp":
+            return RaidCounter(button, letter=(148, 138, 123), threshold=128, lang="cnocr")
         else:
-            return DigitCounter(button, letter=(148, 138, 123), threshold=128, lang='cnocr')
+            return DigitCounter(button, letter=(148, 138, 123), threshold=128, lang="cnocr")
     elif raid == "ALBION":
         return DigitCounter(button, letter=(99, 73, 57), threshold=128)
-    elif raid == 'KUYBYSHEY':
-        if mode == 'ex':
+    elif raid == "KUYBYSHEY":
+        if mode == "ex":
             return Digit(button, letter=(189, 203, 214), threshold=128)
         else:
             return DigitCounter(button, letter=(231, 239, 247), threshold=128)
-    elif raid == 'GORIZIA':
-        if mode == 'ex':
+    elif raid == "GORIZIA":
+        if mode == "ex":
             return Digit(button, letter=(198, 223, 140), threshold=128)
         else:
             return DigitCounter(button, letter=(82, 89, 66), threshold=128)
     elif raid == "HUANCHANG":
-        if mode == 'ex':
+        if mode == "ex":
             return Digit(button, letter=(255, 255, 255), threshold=180)
         else:
             # Vertical count
             return HuanChangCounter(button, letter=(255, 255, 255), threshold=80)
-    elif raid == 'CHIENWU':
-        if mode == 'ex':
+    elif raid == "CHIENWU":
+        if mode == "ex":
             return Digit(button, letter=(247, 223, 222), threshold=128)
         else:
             return DigitCounter(button, letter=(0, 0, 0), threshold=128)
-    elif raid == 'CHANGWU':
-        if mode == 'ex':
+    elif raid == "CHANGWU":
+        if mode == "ex":
             return Digit(button, letter=(255, 239, 215), threshold=128)
         else:
-            return RaidCounterPostMixin(button, lang='cnocr', letter=(154, 148, 133), threshold=128)
+            return RaidCounterPostMixin(button, lang="cnocr", letter=(154, 148, 133), threshold=128)
 
 
 def pt_ocr(raid):
@@ -184,25 +185,25 @@ def pt_ocr(raid):
         Digit:
     """
     raid = raid_name_shorten(raid)
-    key = f'{raid}_OCR_PT'
+    key = f"{raid}_OCR_PT"
     try:
         button = globals()[key]
     except KeyError:
         # raise ScriptError(f'Raid pt ocr asset not exists: {key}')
         return None
-    if raid == 'IRIS':
+    if raid == "IRIS":
         return Digit(button, letter=(181, 178, 165), threshold=128)
     elif raid == "ALBION":
         return Digit(button, letter=(23, 20, 9), threshold=128)
-    elif raid == 'KUYBYSHEY':
+    elif raid == "KUYBYSHEY":
         return Digit(button, letter=(16, 24, 33), threshold=64)
-    elif raid == 'GORIZIA':
+    elif raid == "GORIZIA":
         return Digit(button, letter=(255, 255, 255), threshold=64)
     elif raid == "HUANCHANG":
         return HuanChangPtOcr(button, letter=(23, 20, 6), threshold=128)
-    elif raid == 'CHIENWU':
+    elif raid == "CHIENWU":
         return Digit(button, letter=(255, 231, 231), threshold=128)
-    elif raid == 'CHANGWU':
+    elif raid == "CHANGWU":
         return Digit(button, letter=(255, 239, 215), threshold=128)
 
 
@@ -223,24 +224,24 @@ class Raid(MapOperation, RaidCombat, CampaignEvent):
         # Oil limit
         if oil_check:
             if self.get_oil() < max(500, self.config.StopCondition_OilLimit):
-                logger.hr('Triggered stop condition: Oil limit')
+                logger.hr("Triggered stop condition: Oil limit")
                 self.config.task_delay(minute=(120, 240))
                 return True
         # Event limit
         if pt_check:
             if self.event_pt_limit_triggered():
-                logger.hr('Triggered stop condition: Event PT limit')
+                logger.hr("Triggered stop condition: Event PT limit")
                 return True
         # TaskBalancer
         if coin_check:
             if self.config.TaskBalancer_Enable and self.triggered_task_balancer():
-                logger.hr('Triggered stop condition: Coin limit')
+                logger.hr("Triggered stop condition: Coin limit")
                 self.handle_task_balancer()
                 return True
 
         return False
 
-    def combat_preparation(self, balance_hp=False, emotion_reduce=False, auto='combat_auto', fleet_index=1):
+    def combat_preparation(self, balance_hp=False, emotion_reduce=False, auto="combat_auto", fleet_index=1):
         """
         Args:
             balance_hp (bool):
@@ -248,7 +249,7 @@ class Raid(MapOperation, RaidCombat, CampaignEvent):
             auto (bool):
             fleet_index (int):
         """
-        logger.info('Combat preparation.')
+        logger.info("Combat preparation.")
 
         # No need, already waited in `raid_execute_once()`
         # if emotion_reduce:
@@ -257,7 +258,7 @@ class Raid(MapOperation, RaidCombat, CampaignEvent):
         checked = False
         for _ in self.loop():
             if self.appear(BATTLE_PREPARATION, offset=(30, 20)):
-                if self.handle_combat_automation_set(auto=auto == 'combat_auto'):
+                if self.handle_combat_automation_set(auto=auto == "combat_auto"):
                     continue
                 if not checked and self._raid_has_oil_icon:
                     checked = True
@@ -279,7 +280,7 @@ class Raid(MapOperation, RaidCombat, CampaignEvent):
             # End
             pause = self.is_combat_executing()
             if pause:
-                logger.attr('BattleUI', pause)
+                logger.attr("BattleUI", pause)
                 if emotion_reduce:
                     self.emotion.reduce(fleet_index)
                 break
@@ -348,28 +349,23 @@ class Raid(MapOperation, RaidCombat, CampaignEvent):
             in: page_raid
             out: page_raid
         """
-        logger.hr('Raid Execute')
+        logger.hr("Raid Execute")
         self.config.override(
-            Campaign_Name=f'{raid}_{mode}',
-            Campaign_UseAutoSearch=False,
-            Fleet_FleetOrder='fleet1_all_fleet2_standby'
+            Campaign_Name=f"{raid}_{mode}", Campaign_UseAutoSearch=False, Fleet_FleetOrder="fleet1_all_fleet2_standby"
         )
 
-        if mode == 'ex':
-            backup = self.config.temporary(
-                Submarine_Fleet=1,
-                Submarine_Mode='every_combat'
-            )
+        if mode == "ex":
+            backup = self.config.temporary(Submarine_Fleet=1, Submarine_Mode="every_combat")
 
         self.emotion.check_reduce(1)
 
         self.raid_enter(mode=mode, raid=raid)
         self.combat(balance_hp=False, expected_end=self.raid_expected_end)
 
-        if mode == 'ex':
+        if mode == "ex":
             backup.recover()
 
-        logger.hr('Raid End')
+        logger.hr("Raid End")
 
     def get_event_pt(self):
         """
@@ -392,18 +388,18 @@ class Raid(MapOperation, RaidCombat, CampaignEvent):
 
                 pt = ocr.ocr(self.device.image)
                 if timeout.reached():
-                    logger.warning('Wait PT timeout, assume it is')
+                    logger.warning("Wait PT timeout, assume it is")
                     return pt
                 if pt in [70000, 70001]:
                     continue
                 else:
                     return pt
         else:
-            logger.info(f'Raid {self.config.Campaign_Event} does not support PT ocr, skip')
+            logger.info(f"Raid {self.config.Campaign_Event} does not support PT ocr, skip")
             return 0
 
     def is_raid_rpg(self):
-        return self.config.Campaign_Event == 'raid_20240328'
+        return self.config.Campaign_Event == "raid_20240328"
 
     def raid_rpg_swipe(self, skip_first_screenshot=True):
         """
@@ -418,7 +414,7 @@ class Raid(MapOperation, RaidCombat, CampaignEvent):
 
             # End
             if self.appear(RPG_RAID_EASY, offset=(10, 10)):
-                logger.info('RPG raid already at rightmost')
+                logger.info("RPG raid already at rightmost")
                 break
 
             if self.handle_story_skip():

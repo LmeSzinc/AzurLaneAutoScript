@@ -11,8 +11,14 @@ from module.base.decorator import Config
 from module.config.server import DICT_PACKAGE_TO_ACTIVITY
 from module.device.connection import Connection
 from module.device.method.remove_warning import remove_screenshot_warning
-from module.device.method.utils import (ImageTruncated, PackageNotInstalled, RETRY_TRIES, handle_adb_error,
-                                        handle_unknown_host_service, retry_sleep)
+from module.device.method.utils import (
+    RETRY_TRIES,
+    ImageTruncated,
+    PackageNotInstalled,
+    handle_adb_error,
+    handle_unknown_host_service,
+    retry_sleep,
+)
 from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 
@@ -43,9 +49,11 @@ def retry(func):
             # AdbError
             except AdbError as e:
                 if handle_adb_error(e):
+
                     def init():
                         self.adb_reconnect()
                 elif handle_unknown_host_service(e):
+
                     def init():
                         self.adb_start_server()
                         self.adb_reconnect()
@@ -70,7 +78,7 @@ def retry(func):
                 def init():
                     pass
 
-        logger.critical(f'Retry {func.__name__}() failed')
+        logger.critical(f"Retry {func.__name__}() failed")
         raise RequestHumanTakeover
 
     return retry_wrapper
@@ -91,17 +99,17 @@ def load_screencap(data):
 
     image = np.frombuffer(data, dtype=np.uint8)
     if image is None:
-        raise ImageTruncated('Empty image after reading from buffer')
+        raise ImageTruncated("Empty image after reading from buffer")
 
     try:
-        image = image[-int(width * height * channel):].reshape(height, width, channel)
+        image = image[-int(width * height * channel) :].reshape(height, width, channel)
     except ValueError as e:
         # ValueError: cannot reshape array of size 0 into shape (720,1280,4)
         raise ImageTruncated(str(e))
 
     image = cv2.cvtColor(image, cv2.COLOR_BGRA2BGR)
     if image is None:
-        raise ImageTruncated('Empty image after cv2.cvtColor')
+        raise ImageTruncated("Empty image after cv2.cvtColor")
 
     return image
 
@@ -115,25 +123,25 @@ class Adb(Connection):
         if method == 0:
             pass
         elif method == 1:
-            screenshot = screenshot.replace(b'\r\n', b'\n')
+            screenshot = screenshot.replace(b"\r\n", b"\n")
         elif method == 2:
-            screenshot = screenshot.replace(b'\r\r\n', b'\n')
+            screenshot = screenshot.replace(b"\r\r\n", b"\n")
         else:
-            raise ScriptError(f'Unknown method to load screenshots: {method}')
+            raise ScriptError(f"Unknown method to load screenshots: {method}")
 
         screenshot = remove_screenshot_warning(screenshot)
 
         image = np.frombuffer(screenshot, np.uint8)
         if image is None:
-            raise ImageTruncated('Empty image after reading from buffer')
+            raise ImageTruncated("Empty image after reading from buffer")
 
         image = cv2.imdecode(image, cv2.IMREAD_COLOR)
         if image is None:
-            raise ImageTruncated('Empty image after cv2.imdecode')
+            raise ImageTruncated("Empty image after cv2.imdecode")
 
         cv2.cvtColor(image, cv2.COLOR_BGR2RGB, dst=image)
         if image is None:
-            raise ImageTruncated('Empty image after cv2.cvtColor')
+            raise ImageTruncated("Empty image after cv2.cvtColor")
 
         return image
 
@@ -148,48 +156,48 @@ class Adb(Connection):
 
         self.__screenshot_method_fixed = self.__screenshot_method
         if len(screenshot) < 500:
-            logger.warning(f'Unexpected screenshot: {screenshot}')
-        raise OSError(f'cannot load screenshot')
+            logger.warning(f"Unexpected screenshot: {screenshot}")
+        raise OSError("cannot load screenshot")
 
     @retry
     @Config.when(DEVICE_OVER_HTTP=False)
     def screenshot_adb(self):
-        data = self.adb_shell(['screencap', '-p'], stream=True)
+        data = self.adb_shell(["screencap", "-p"], stream=True)
         if len(data) < 500:
-            logger.warning(f'Unexpected screenshot: {data}')
+            logger.warning(f"Unexpected screenshot: {data}")
 
         return self.__process_screenshot(data)
 
     @retry
     @Config.when(DEVICE_OVER_HTTP=True)
     def screenshot_adb(self):
-        data = self.adb_shell(['screencap'], stream=True)
+        data = self.adb_shell(["screencap"], stream=True)
         data = remove_screenshot_warning(data)
         if len(data) < 500:
-            logger.warning(f'Unexpected screenshot: {data}')
+            logger.warning(f"Unexpected screenshot: {data}")
 
         return load_screencap(data)
 
     @retry
     def screenshot_adb_nc(self):
-        data = self.adb_shell_nc(['screencap'])
+        data = self.adb_shell_nc(["screencap"])
         data = remove_screenshot_warning(data)
         if len(data) < 500:
-            logger.warning(f'Unexpected screenshot: {data}')
+            logger.warning(f"Unexpected screenshot: {data}")
 
         return load_screencap(data)
 
     @retry
     def click_adb(self, x, y):
         start = time.time()
-        self.adb_shell(['input', 'tap', x, y])
+        self.adb_shell(["input", "tap", x, y])
         if time.time() - start <= 0.05:
             self.sleep(0.05)
 
     @retry
     def swipe_adb(self, p1, p2, duration=0.1):
         duration = int(duration * 1000)
-        self.adb_shell(['input', 'swipe', *p1, *p2, duration])
+        self.adb_shell(["input", "swipe", *p1, *p2, duration])
 
     @retry
     def app_current_adb(self):
@@ -213,22 +221,18 @@ class Adb(Connection):
         # Regexp
         #   r'mFocusedApp=.*ActivityRecord{\w+ \w+ (?P<package>.*)/(?P<activity>.*) .*'
         #   r'mCurrentFocus=Window{\w+ \w+ (?P<package>.*)/(?P<activity>.*)\}')
-        _focusedRE = re.compile(
-            r'mCurrentFocus=Window{.*\s+(?P<package>[^\s]+)/(?P<activity>[^\s]+)\}'
-        )
-        m = _focusedRE.search(self.adb_shell(['dumpsys', 'window', 'windows']))
+        _focusedRE = re.compile(r"mCurrentFocus=Window{.*\s+(?P<package>[^\s]+)/(?P<activity>[^\s]+)\}")
+        m = _focusedRE.search(self.adb_shell(["dumpsys", "window", "windows"]))
         if m:
-            return m.group('package')
+            return m.group("package")
 
         # try: adb shell dumpsys activity top
-        _activityRE = re.compile(
-            r'ACTIVITY (?P<package>[^\s]+)/(?P<activity>[^/\s]+) \w+ pid=(?P<pid>\d+)'
-        )
-        output = self.adb_shell(['dumpsys', 'activity', 'top'])
+        _activityRE = re.compile(r"ACTIVITY (?P<package>[^\s]+)/(?P<activity>[^/\s]+) \w+ pid=(?P<pid>\d+)")
+        output = self.adb_shell(["dumpsys", "activity", "top"])
         ms = _activityRE.finditer(output)
         ret = None
         for m in ms:
-            ret = m.group('package')
+            ret = m.group("package")
         if ret:  # get last result
             return ret
         raise OSError("Couldn't get focused app")
@@ -248,18 +252,17 @@ class Adb(Connection):
         """
         if not package_name:
             package_name = self.package
-        result = self.adb_shell([
-            'monkey', '-p', package_name, '-c',
-            'android.intent.category.LAUNCHER', '--pct-syskeys', '0', '1'
-        ])
-        if 'No activities found' in result:
+        result = self.adb_shell(
+            ["monkey", "-p", package_name, "-c", "android.intent.category.LAUNCHER", "--pct-syskeys", "0", "1"]
+        )
+        if "No activities found" in result:
             # ** No activities found to run, monkey aborted.
             if allow_failure:
                 return False
             else:
                 logger.error(result)
                 raise PackageNotInstalled(package_name)
-        elif 'inaccessible' in result:
+        elif "inaccessible" in result:
             # /system/bin/sh: monkey: inaccessible or not found
             return False
         else:
@@ -284,17 +287,19 @@ class Adb(Connection):
         if not package_name:
             package_name = self.package
         if not activity_name:
-            result = self.adb_shell(['dumpsys', 'package', package_name])
-            res = re.search(r'android.intent.action.MAIN:\s+\w+ ([\w.\/]+) filter \w+\s+'
-                            r'.*\s+Category: "android.intent.category.LAUNCHER"',
-                            result)
+            result = self.adb_shell(["dumpsys", "package", package_name])
+            res = re.search(
+                r"android.intent.action.MAIN:\s+\w+ ([\w.\/]+) filter \w+\s+"
+                r'.*\s+Category: "android.intent.category.LAUNCHER"',
+                result,
+            )
             if res:
                 # com.bilibili.azurlane/com.manjuu.azurlane.MainActivity
                 activity_name = res.group(1)
                 try:
-                    activity_name = activity_name.split('/')[-1]
+                    activity_name = activity_name.split("/")[-1]
                 except IndexError:
-                    logger.error(f'No activity name from {activity_name}')
+                    logger.error(f"No activity name from {activity_name}")
                     return False
             else:
                 if allow_failure:
@@ -303,16 +308,24 @@ class Adb(Connection):
                     logger.error(result)
                     raise PackageNotInstalled(package_name)
 
-        cmd = ['am', 'start', '-a', 'android.intent.action.MAIN', '-c',
-               'android.intent.category.LAUNCHER', '-n', f'{package_name}/{activity_name}']
+        cmd = [
+            "am",
+            "start",
+            "-a",
+            "android.intent.action.MAIN",
+            "-c",
+            "android.intent.category.LAUNCHER",
+            "-n",
+            f"{package_name}/{activity_name}",
+        ]
         if self.is_local_network_device and self.is_waydroid:
-            cmd += ['--windowingMode', '4']
+            cmd += ["--windowingMode", "4"]
         ret = self.adb_shell(cmd)
         # Invalid activity
         # Starting: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=... }
         # Error type 3
         # Error: Activity class {.../...} does not exist.
-        if 'Error: Activity class' in ret:
+        if "Error: Activity class" in ret:
             if allow_failure:
                 return False
             else:
@@ -320,8 +333,8 @@ class Adb(Connection):
                 return False
         # Already running
         # Warning: Activity not started, intent has been delivered to currently running top-most instance.
-        if 'Warning: Activity not started' in ret:
-            logger.info('App activity is already started')
+        if "Warning: Activity not started" in ret:
+            logger.info("App activity is already started")
             return True
         # Starting: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.YoStarEN.AzurLane/com.manjuu.azurlane.MainActivity }
         # java.lang.SecurityException: Permission Denial: starting Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.YoStarEN.AzurLane/com.manjuu.azurlane.MainActivity } from null (pid=5140, uid=2000) not exported from uid 10064
@@ -334,12 +347,12 @@ class Adb(Connection):
         #         at com.android.commands.am.Am.main(Am.java:124)
         #         at com.android.internal.os.RuntimeInit.nativeFinishInit(Native Method)
         #         at com.android.internal.os.RuntimeInit.main(RuntimeInit.java:290)
-        if 'Permission Denial' in ret:
+        if "Permission Denial" in ret:
             if allow_failure:
                 return False
             else:
                 logger.error(ret)
-                logger.error('Permission Denial while starting app, probably because activity invalid')
+                logger.error("Permission Denial while starting app, probably because activity invalid")
                 return False
         # Success
         # Starting: Intent...
@@ -378,18 +391,18 @@ class Adb(Connection):
         if self._app_start_adb_am(package_name, activity_name, allow_failure):
             return True
 
-        logger.error('app_start_adb: All trials failed')
+        logger.error("app_start_adb: All trials failed")
         return False
 
     @retry
     def app_stop_adb(self, package_name=None):
-        """ Stop one application: am force-stop"""
+        """Stop one application: am force-stop"""
         if not package_name:
             package_name = self.package
-        self.adb_shell(['am', 'force-stop', package_name])
+        self.adb_shell(["am", "force-stop", package_name])
 
     @retry
-    def dump_hierarchy_adb(self, temp: str = '/data/local/tmp/hierarchy.xml') -> etree._Element:
+    def dump_hierarchy_adb(self, temp: str = "/data/local/tmp/hierarchy.xml") -> etree._Element:
         """
         Args:
             temp (str): Temp file store on emulator.
@@ -402,19 +415,19 @@ class Adb(Connection):
 
         # Dump hierarchy
         for _ in range(2):
-            response = self.adb_shell(['uiautomator', 'dump', '--compressed', temp])
-            if 'hierchary' in response:
+            response = self.adb_shell(["uiautomator", "dump", "--compressed", temp])
+            if "hierchary" in response:
                 # UI hierchary dumped to: /data/local/tmp/hierarchy.xml
                 break
             else:
                 # <None>
                 # Must kill uiautomator2
-                self.app_stop_adb('com.github.uiautomator')
-                self.app_stop_adb('com.github.uiautomator.test')
+                self.app_stop_adb("com.github.uiautomator")
+                self.app_stop_adb("com.github.uiautomator.test")
                 continue
 
         # Read from device
-        content = b''
+        content = b""
         for chunk in self.adb.sync.iter_content(temp):
             if chunk:
                 content += chunk

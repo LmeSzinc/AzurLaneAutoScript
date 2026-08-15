@@ -44,7 +44,7 @@ class RewardShop(ShopUI):
         self.config.task_delay(server_update=True)
 
 
-if __name__ == '__main__':
-    self = RewardShop('alas')
+if __name__ == "__main__":
+    self = RewardShop("alas")
     self.device.screenshot()
     self.run_once()

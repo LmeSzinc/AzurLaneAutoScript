@@ -7,16 +7,16 @@ from tqdm import tqdm
 from module.base.decorator import cached_property
 from module.device.method.utils import removeprefix
 
-REGEX_SETTING = re.compile(r'PlayerPrefs.Get(\w{1,10})\((.*)\)')
+REGEX_SETTING = re.compile(r"PlayerPrefs.Get(\w{1,10})\((.*)\)")
 REGEX_SETTING_KEY = re.compile(r'"(.*?)"')
 
 
 def _strip_code(string):
     nested = 0
     for word in string:
-        if word == '(':
+        if word == "(":
             nested += 1
-        if word == ')':
+        if word == ")":
             # End as last )
             if nested == 1:
                 yield word
@@ -26,13 +26,13 @@ def _strip_code(string):
 
 
 def strip_code(string):
-    return ''.join(list(_strip_code(string)))
+    return "".join(list(_strip_code(string)))
 
 
 @dataclass
 class Field:
     formatter: callable
-    default: ''
+    default: ""
     regex: str
 
 
@@ -49,63 +49,63 @@ class LuaSetting:
 
     @cached_property
     def default(self):
-        if ',' in self.code:
-            name, default = self.code.split(',', 1)
+        if "," in self.code:
+            name, default = self.code.split(",", 1)
             default = default.strip(' ",')
-            if self.typ == 'Int':
+            if self.typ == "Int":
                 try:
                     return int(default)
                 except ValueError:
                     return 0
-            if self.typ == 'String':
+            if self.typ == "String":
                 return repr(default)
-            if self.typ == 'Float':
+            if self.typ == "Float":
                 try:
                     return float(default)
                 except ValueError:
-                    return 0.
+                    return 0.0
         else:
-            if self.typ == 'Int':
+            if self.typ == "Int":
                 return 0
-            if self.typ == 'String':
-                return repr('')
-            if self.typ == 'Float':
-                return 0.
+            if self.typ == "String":
+                return repr("")
+            if self.typ == "Float":
+                return 0.0
         return None
 
     @cached_property
     def key(self):
         # "autoBotIsAcitve" .. AutoBotCommand.GetAutoBotMark(slot0)
         # "world_help_progress"
-        if ',' in self.code:
-            code = self.code.rsplit(',', 1)[0].strip(' ')
+        if "," in self.code:
+            code = self.code.rsplit(",", 1)[0].strip(" ")
         else:
-            code = self.code.strip(' ')
+            code = self.code.strip(" ")
 
         res = REGEX_SETTING_KEY.search(code)
         if res:
-            return res.group(1).replace('.', '_').replace('%', '_').replace('-', '_').replace(':', '_').strip('_')
+            return res.group(1).replace(".", "_").replace("%", "_").replace("-", "_").replace(":", "_").strip("_")
         else:
-            return ''
+            return ""
 
     @cached_property
     def formatter(self):
-        if self.typ == 'Int':
-            return 'int'
-        if self.typ == 'String':
-            return 'str'
-        if self.typ == 'Float':
-            return 'float'
-        return 'str'
+        if self.typ == "Int":
+            return "int"
+        if self.typ == "String":
+            return "str"
+        if self.typ == "Float":
+            return "float"
+        return "str"
 
     @cached_property
     def regex(self):
-        if ',' in self.code:
-            code = self.code.rsplit(',', 1)[0].strip(' ')
+        if "," in self.code:
+            code = self.code.rsplit(",", 1)[0].strip(" ")
         else:
-            code = self.code.strip(' ')
+            code = self.code.strip(" ")
 
-        pieces = code.split('..')
+        pieces = code.split("..")
 
         def iter_piece():
             for piece in pieces:
@@ -113,33 +113,27 @@ class LuaSetting:
                 if res:
                     yield res.group(1)
                 else:
-                    yield '(.*)'
+                    yield "(.*)"
 
-        return repr(''.join(list(iter_piece())))
+        return repr("".join(list(iter_piece())))
 
     @cached_property
     def generated(self):
-        if self.key == '':
-            return [
-                f'# {self.raw}',
-                'pass  # Unknown'
-            ]
+        if self.key == "":
+            return [f"# {self.raw}", "pass  # Unknown"]
         if self.duplicate:
-            return [
-                f'# {self.raw}',
-                'pass  # Duplicate'
-            ]
+            return [f"# {self.raw}", "pass  # Duplicate"]
 
         return [
-            f'# {self.raw}',
-            f'{self.key} = Field(formatter={self.formatter}, default={self.default}, regex={self.regex})'
+            f"# {self.raw}",
+            f"{self.key} = Field(formatter={self.formatter}, default={self.default}, regex={self.regex})",
         ]
 
 
 class SettingExtractor:
     @staticmethod
     def iter_setting_from_file(file):
-        with open(file, mode='r', encoding='utf8') as f:
+        with open(file, encoding="utf8") as f:
             data = list(f.readlines())
 
         for row in data:
@@ -155,41 +149,41 @@ class SettingExtractor:
     def iter_file_from_folder(folder):
         for path, folders, files in os.walk(folder):
             for file in files:
-                file = f'{path}/{file}'
+                file = f"{path}/{file}"
                 yield file
 
     def iter_generated_lines(self, folder):
         dic_settings = set()
-        yield 'from module.game_setting.setting_extractor import Field'
-        yield ''
-        yield '# This file was automatically generated by module/game_setting/setting_extractor.py'
+        yield "from module.game_setting.setting_extractor import Field"
+        yield ""
+        yield "# This file was automatically generated by module/game_setting/setting_extractor.py"
         yield "# Don't modify it manually."
-        yield ''
-        yield ''
-        yield 'class GameSettingsGenerated:'
+        yield ""
+        yield ""
+        yield "class GameSettingsGenerated:"
         files = list(self.iter_file_from_folder(folder))
         for file in tqdm(files):
             settings = list(self.iter_setting_from_file(file))
             if not settings:
                 continue
-            yield ''
+            yield ""
             f = removeprefix(file, folder).replace("\\", "/")
-            yield f'    # {f}'
+            yield f"    # {f}"
             for setting in settings:
                 if setting.key in dic_settings:
                     setting.duplicate = True
                 dic_settings.add(setting.key)
                 for line in setting.generated:
-                    yield f'    {line}'
+                    yield f"    {line}"
 
-    def generate(self, folder, output='./module/game_setting/setting_generated.py'):
-        lines = [l + '\n' for l in self.iter_generated_lines(folder)]
-        with open(output, mode='w', encoding='utf8') as f:
+    def generate(self, folder, output="./module/game_setting/setting_generated.py"):
+        lines = [l + "\n" for l in self.iter_generated_lines(folder)]
+        with open(output, mode="w", encoding="utf8") as f:
             f.writelines(lines)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Path to AzurLaneLuaScripts\CN
-    FOLDER = r''
+    FOLDER = r""
     ex = SettingExtractor()
     ex.generate(FOLDER)

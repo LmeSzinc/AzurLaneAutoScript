@@ -14,30 +14,30 @@ AUTO_SEARCH_SETTINGS = [
     AUTO_SEARCH_SET_ALL,
     AUTO_SEARCH_SET_STANDBY,
     AUTO_SEARCH_SET_SUB_AUTO,
-    AUTO_SEARCH_SET_SUB_STANDBY
+    AUTO_SEARCH_SET_SUB_STANDBY,
 ]
 dic_setting_name_to_index = {
-    'fleet1_mob_fleet2_boss': 0,
-    'fleet1_boss_fleet2_mob': 1,
-    'fleet1_all_fleet2_standby': 2,
-    'fleet1_standby_fleet2_all': 3,
-    'sub_auto_call': 4,
-    'sub_standby': 5,
+    "fleet1_mob_fleet2_boss": 0,
+    "fleet1_boss_fleet2_mob": 1,
+    "fleet1_all_fleet2_standby": 2,
+    "fleet1_standby_fleet2_all": 3,
+    "sub_auto_call": 4,
+    "sub_standby": 5,
 }
 dic_setting_index_to_name = {v: k for k, v in dic_setting_name_to_index.items()}
 
 
 class AutoSearchHandler(EnemySearchingHandler):
-    @Config.when(SERVER='en')
+    @Config.when(SERVER="en")
     def _fleet_sidebar(self):
         if FLEET_PREPARATION_CHECK.match(self.device.image, offset=(20, 80)):
             offset = np.subtract(FLEET_PREPARATION_CHECK.button, FLEET_PREPARATION_CHECK._button)[1]
         else:
             offset = 0
-        logger.attr('_fleet_sidebar_offset', offset)
+        logger.attr("_fleet_sidebar_offset", offset)
         return ButtonGrid(
-            origin=(1178, 171 + offset), delta=(0, 53),
-            button_shape=(98, 42), grid_shape=(1, 3), name='FLEET_SIDEBAR')
+            origin=(1178, 171 + offset), delta=(0, 53), button_shape=(98, 42), grid_shape=(1, 3), name="FLEET_SIDEBAR"
+        )
 
     @Config.when(SERVER=None)
     def _fleet_sidebar(self):
@@ -45,10 +45,10 @@ class AutoSearchHandler(EnemySearchingHandler):
             offset = np.subtract(FLEET_PREPARATION_CHECK.button, FLEET_PREPARATION_CHECK._button)[1]
         else:
             offset = 0
-        logger.attr('_fleet_sidebar_offset', offset)
+        logger.attr("_fleet_sidebar_offset", offset)
         return ButtonGrid(
-            origin=(1185, 155 + offset), delta=(0, 111),
-            button_shape=(53, 104), grid_shape=(1, 3), name='FLEET_SIDEBAR')
+            origin=(1185, 155 + offset), delta=(0, 111), button_shape=(53, 104), grid_shape=(1, 3), name="FLEET_SIDEBAR"
+        )
 
     def _fleet_preparation_get(self):
         """
@@ -73,8 +73,8 @@ class AutoSearchHandler(EnemySearchingHandler):
                 break
 
         if not current:
-            logger.warning('No fleet sidebar active.')
-        logger.attr('Fleet_sidebar', f'{current}/{total}')
+            logger.warning("No fleet sidebar active.")
+        logger.attr("Fleet_sidebar", f"{current}/{total}")
         return current
 
     def fleet_preparation_sidebar_ensure(self, index):
@@ -91,7 +91,7 @@ class AutoSearchHandler(EnemySearchingHandler):
                   return False otherwise True
         """
         if index <= 0 or index > 5:
-            logger.warning(f'Sidebar index cannot be ensured, {index}, limit 1 through 5 only')
+            logger.warning(f"Sidebar index cannot be ensured, {index}, limit 1 through 5 only")
             return False
 
         interval = Timer(1, count=2)
@@ -105,7 +105,7 @@ class AutoSearchHandler(EnemySearchingHandler):
                 interval.reset()
                 continue
         else:
-            logger.warning('Sidebar could not be ensured')
+            logger.warning("Sidebar could not be ensured")
             return False
 
     def _auto_search_set_click(self, setting):
@@ -123,17 +123,17 @@ class AutoSearchHandler(EnemySearchingHandler):
                 active.append(index)
 
         if not active:
-            logger.warning('No active auto search setting found')
+            logger.warning("No active auto search setting found")
             return False
 
-        logger.attr('Auto_Search_Setting', ', '.join([dic_setting_index_to_name[index] for index in active]))
+        logger.attr("Auto_Search_Setting", ", ".join([dic_setting_index_to_name[index] for index in active]))
 
         if setting not in dic_setting_name_to_index:
-            logger.warning(f'Unknown auto search setting: {setting}')
+            logger.warning(f"Unknown auto search setting: {setting}")
         target_index = dic_setting_name_to_index[setting]
 
         if target_index in active:
-            logger.info('Selected to the correct auto search setting')
+            logger.info("Selected to the correct auto search setting")
             return True
         else:
             self.device.click(AUTO_SEARCH_SETTINGS[target_index])
@@ -161,7 +161,7 @@ class AutoSearchHandler(EnemySearchingHandler):
                 return True
             else:
                 if counter >= 5:
-                    logger.warning('Auto search setting could not be ensured')
+                    logger.warning("Auto search setting could not be ensured")
                     return False
                 counter += 1
                 self.device.sleep((0.3, 0.5))
@@ -176,8 +176,9 @@ class AutoSearchHandler(EnemySearchingHandler):
         Returns:
             bool:
         """
-        return self.appear(AUTO_SEARCH_MAP_OPTION_ON, offset=self._auto_search_offset) \
-               and self.appear(AUTO_SEARCH_MAP_OPTION_ON)
+        return self.appear(AUTO_SEARCH_MAP_OPTION_ON, offset=self._auto_search_offset) and self.appear(
+            AUTO_SEARCH_MAP_OPTION_ON
+        )
 
     def handle_auto_search_map_option(self):
         """
@@ -186,8 +187,9 @@ class AutoSearchHandler(EnemySearchingHandler):
         Returns:
             bool: If clicked
         """
-        if self.appear(AUTO_SEARCH_MAP_OPTION_OFF, offset=self._auto_search_offset) \
-                and self.appear_then_click(AUTO_SEARCH_MAP_OPTION_OFF, interval=2):
+        if self.appear(AUTO_SEARCH_MAP_OPTION_OFF, offset=self._auto_search_offset) and self.appear_then_click(
+            AUTO_SEARCH_MAP_OPTION_OFF, interval=2
+        ):
             return True
 
         return False

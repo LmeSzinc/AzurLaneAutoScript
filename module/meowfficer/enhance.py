@@ -9,28 +9,29 @@ from module.ui.assets import MEOWFFICER_GOTO_DORMMENU
 from module.ui.page import page_meowfficer
 
 MEOWFFICER_SELECT_GRID = ButtonGrid(
-    origin=(751, 237), delta=(130, 147), button_shape=(70, 20), grid_shape=(4, 3),
-    name='MEOWFFICER_SELECT_GRID')
+    origin=(751, 237), delta=(130, 147), button_shape=(70, 20), grid_shape=(4, 3), name="MEOWFFICER_SELECT_GRID"
+)
 MEOWFFICER_FEED_GRID = ButtonGrid(
-    origin=(783, 189), delta=(130, 148), button_shape=(46, 46), grid_shape=(4, 3),
-    name='MEOWFFICER_FEED_GRID')
+    origin=(783, 189), delta=(130, 148), button_shape=(46, 46), grid_shape=(4, 3), name="MEOWFFICER_FEED_GRID"
+)
 MEOWFICER_FEED_LEVEL_GRID = ButtonGrid(
-    origin=(738, 211), delta=(130, 148), button_shape=(20, 22), grid_shape=(4, 3),
-    name='MEOWFFICER_FEED_LEVEL_GRID')
+    origin=(738, 211), delta=(130, 148), button_shape=(20, 22), grid_shape=(4, 3), name="MEOWFFICER_FEED_LEVEL_GRID"
+)
 MEOWFFICER_FEED = DigitCounter(OCR_MEOWFFICER_FEED, letter=(131, 121, 123), threshold=64)
 
 
 class MeowfficerLevelOcr(Digit):
-    def __init__(self, buttons, lang='azur_lane', letter=(255, 255, 255), threshold=128, alphabet='0123456789IDSLV',
-                 name=None):
+    def __init__(
+        self, buttons, lang="azur_lane", letter=(255, 255, 255), threshold=128, alphabet="0123456789IDSLV", name=None
+    ):
         super().__init__(buttons, lang=lang, letter=letter, threshold=threshold, alphabet=alphabet, name=name)
 
     def after_process(self, result):
-        result = result.replace('L', '').replace('V', '').replace('.', '')
+        result = result.replace("L", "").replace("V", "").replace(".", "")
         return super().after_process(result)
 
 
-OCR_MEOWFFICER_ENHANCE_LEVEL = MeowfficerLevelOcr(OCR_MEOWFFICER_ENHANCE_LEVEL, name='OCR_MEOWFFICER_ENHANCE_LEVEL')
+OCR_MEOWFFICER_ENHANCE_LEVEL = MeowfficerLevelOcr(OCR_MEOWFFICER_ENHANCE_LEVEL, name="OCR_MEOWFFICER_ENHANCE_LEVEL")
 
 
 class MeowfficerEnhance(MeowfficerBase):
@@ -98,14 +99,17 @@ class MeowfficerEnhance(MeowfficerBase):
             reset_max_feed_level = 30
 
         if -1 != reset_max_feed_level:
-            logger.warning(f"Condition '1 <= MeowfficerTrain_MaxFeedLevel <= 30' needs to be satisfied, "
-                           f'now MeowfficerTrain_MaxFeedLevel is {self.config.MeowfficerTrain_MaxFeedLevel}, '
-                           f'reset to {reset_max_feed_level}')
+            logger.warning(
+                f"Condition '1 <= MeowfficerTrain_MaxFeedLevel <= 30' needs to be satisfied, "
+                f"now MeowfficerTrain_MaxFeedLevel is {self.config.MeowfficerTrain_MaxFeedLevel}, "
+                f"reset to {reset_max_feed_level}"
+            )
             self.config.MeowfficerTrain_MaxFeedLevel = reset_max_feed_level
 
         # Get all the cat levels ready for enhance
-        feed_level_list = Digit(MEOWFICER_FEED_LEVEL_GRID.buttons, letter=(49, 48, 49),
-                                name='FEED_MEOWFFICER_LEVEL').ocr(self.device.image)
+        feed_level_list = Digit(
+            MEOWFICER_FEED_LEVEL_GRID.buttons, letter=(49, 48, 49), name="FEED_MEOWFFICER_LEVEL"
+        ).ocr(self.device.image)
 
         for index, (button, level) in enumerate(zip(MEOWFFICER_FEED_GRID.buttons, feed_level_list)):
             # Exit if 11th button; no need to validate as not
@@ -131,7 +135,7 @@ class MeowfficerEnhance(MeowfficerBase):
             # button is clickable
             clickable.append(button)
 
-        logger.info(f'Total feed material found: {len(clickable)}')
+        logger.info(f"Total feed material found: {len(clickable)}")
         return clickable
 
     def meow_feed_select(self):
@@ -148,11 +152,7 @@ class MeowfficerEnhance(MeowfficerBase):
             int: non-zero positive, some selected
                  zero, none selected
         """
-        self.interval_clear([
-            MEOWFFICER_FEED_CONFIRM,
-            MEOWFFICER_FEED_CANCEL,
-            MEOWFFICER_ENHANCE_CONFIRM
-        ])
+        self.interval_clear([MEOWFFICER_FEED_CONFIRM, MEOWFFICER_FEED_CANCEL, MEOWFFICER_ENHANCE_CONFIRM])
         current = 0
         retry = Timer(1, count=2)
         skip_first_screenshot = True
@@ -184,13 +184,21 @@ class MeowfficerEnhance(MeowfficerBase):
         # Use current to pass appropriate button for ui_click
         # route back to MEOWFFICER_ENHANCE
         if current:
-            logger.info(f'Confirm selected feed material, total: {current} / 10')
-            self.ui_click(MEOWFFICER_FEED_CONFIRM, check_button=MEOWFFICER_ENHANCE_CONFIRM,
-                          offset=(20, 20), skip_first_screenshot=True)
+            logger.info(f"Confirm selected feed material, total: {current} / 10")
+            self.ui_click(
+                MEOWFFICER_FEED_CONFIRM,
+                check_button=MEOWFFICER_ENHANCE_CONFIRM,
+                offset=(20, 20),
+                skip_first_screenshot=True,
+            )
         else:
-            logger.info('Lack of feed material to complete enhancement, cancelling')
-            self.ui_click(MEOWFFICER_FEED_CANCEL, check_button=MEOWFFICER_ENHANCE_CONFIRM,
-                          offset=(10, 10), skip_first_screenshot=True)
+            logger.info("Lack of feed material to complete enhancement, cancelling")
+            self.ui_click(
+                MEOWFFICER_FEED_CANCEL,
+                check_button=MEOWFFICER_ENHANCE_CONFIRM,
+                offset=(10, 10),
+                skip_first_screenshot=True,
+            )
         return current
 
     def meow_feed_enter(self, skip_first_screenshot=True):
@@ -225,8 +233,9 @@ class MeowfficerEnhance(MeowfficerBase):
                 if confirm_timer.reached():
                     return True
             if click_count >= 3:
-                logger.warning('Unable to enter meowfficer feed, '
-                               'probably because the meowfficer to enhance has reached LV.30')
+                logger.warning(
+                    "Unable to enter meowfficer feed, probably because the meowfficer to enhance has reached LV.30"
+                )
                 return False
 
     def meow_enhance_confirm(self, skip_first_screenshot=True):
@@ -238,11 +247,13 @@ class MeowfficerEnhance(MeowfficerBase):
             in: MEOWFFICER_ENHANCE
             out: MEOWFFICER_ENHANCE
         """
-        self.interval_clear([
-            MEOWFFICER_FEED_ENTER,
-            MEOWFFICER_ENHANCE_CONFIRM,
-            MEOWFFICER_CONFIRM,
-        ])
+        self.interval_clear(
+            [
+                MEOWFFICER_FEED_ENTER,
+                MEOWFFICER_ENHANCE_CONFIRM,
+                MEOWFFICER_CONFIRM,
+            ]
+        )
         confirm_timer = Timer(3, count=6).start()
         while 1:
             if skip_first_screenshot:
@@ -286,7 +297,7 @@ class MeowfficerEnhance(MeowfficerBase):
             if self.appear(MEOWFFICER_FEED_ENTER, offset=(20, 20)):
                 return True
             if count > 3:
-                logger.warning('Too many click on MEOWFFICER_ENHANCE_ENTER, meowfficer may in battle')
+                logger.warning("Too many click on MEOWFFICER_ENHANCE_ENTER, meowfficer may in battle")
                 return False
 
             if self.appear_then_click(MEOWFFICER_ENHANCE_ENTER, offset=(20, 20), interval=3):
@@ -308,7 +319,7 @@ class MeowfficerEnhance(MeowfficerBase):
         """
         level = OCR_MEOWFFICER_ENHANCE_LEVEL.ocr(self.device.image)
         if level > 30:
-            logger.warning(f'Invalid meowfficer level: {level}')
+            logger.warning(f"Invalid meowfficer level: {level}")
         return level
 
     def _meow_enhance(self):
@@ -324,22 +335,23 @@ class MeowfficerEnhance(MeowfficerBase):
             in: page_meowfficer
             out: page_meowfficer
         """
-        logger.hr('Meowfficer enhance', level=1)
-        logger.attr('MeowfficerTrain_EnhanceIndex', self.config.MeowfficerTrain_EnhanceIndex)
+        logger.hr("Meowfficer enhance", level=1)
+        logger.attr("MeowfficerTrain_EnhanceIndex", self.config.MeowfficerTrain_EnhanceIndex)
 
         # Base Cases
         # - Config at least > 0 but less than or equal to 12
         # - Coins at least > 1000
         if not (1 <= self.config.MeowfficerTrain_EnhanceIndex <= 12):
-            logger.warning(f'Meowfficer_EnhanceIndex={self.config.MeowfficerTrain_EnhanceIndex} '
-                           f'is out of bounds. Please limit to 1~12, skip')
-            return 'invalid'
+            logger.warning(
+                f"Meowfficer_EnhanceIndex={self.config.MeowfficerTrain_EnhanceIndex} "
+                f"is out of bounds. Please limit to 1~12, skip"
+            )
+            return "invalid"
 
         coins = MEOWFFICER_COINS.ocr(self.device.image)
         if coins < 1000:
-            logger.info(f'Coins ({coins}) < 1000. Not enough coins to complete '
-                        f'enhancement, skip')
-            return 'coin_limit'
+            logger.info(f"Coins ({coins}) < 1000. Not enough coins to complete enhancement, skip")
+            return "coin_limit"
 
         for _ in range(2):
             # Select target meowfficer
@@ -347,8 +359,8 @@ class MeowfficerEnhance(MeowfficerBase):
             self._meow_select()
 
             if self._meow_get_level() >= 30:
-                logger.info('Current meowfficer is already leveled max')
-                return 'leveled_max'
+                logger.info("Current meowfficer is already leveled max")
+                return "leveled_max"
 
             # Transition to MEOWFFICER_FEED after
             # selection; broken up due to significant
@@ -367,29 +379,38 @@ class MeowfficerEnhance(MeowfficerBase):
         # - Confirm Enhancement
         # - Check remaining coins after enhancement
         while 1:
-            logger.hr('Enhance once', level=2)
+            logger.hr("Enhance once", level=2)
             if not self.meow_feed_enter():
                 # Exit back into page_meowfficer
-                self.ui_click(MEOWFFICER_GOTO_DORMMENU, check_button=MEOWFFICER_ENHANCE_ENTER,
-                              appear_button=MEOWFFICER_ENHANCE_CONFIRM, offset=None, skip_first_screenshot=True)
+                self.ui_click(
+                    MEOWFFICER_GOTO_DORMMENU,
+                    check_button=MEOWFFICER_ENHANCE_ENTER,
+                    appear_button=MEOWFFICER_ENHANCE_CONFIRM,
+                    offset=None,
+                    skip_first_screenshot=True,
+                )
                 # Re-enter page_meowfficer
                 self.ui_goto_main()
                 self.ui_goto(page_meowfficer)
-                return 'in_battle'
+                return "in_battle"
             if not self.meow_feed_select():
                 break
             self.meow_enhance_confirm()
 
             coins = MEOWFFICER_COINS.ocr(self.device.image)
             if coins < 1000:
-                logger.info(f'Remaining coins ({coins}) < 1000. Not enough coins for next '
-                            f'enhancement, skip')
+                logger.info(f"Remaining coins ({coins}) < 1000. Not enough coins for next enhancement, skip")
                 break
 
         # Exit back into page_meowfficer
-        self.ui_click(MEOWFFICER_GOTO_DORMMENU, check_button=MEOWFFICER_ENHANCE_ENTER,
-                      appear_button=MEOWFFICER_ENHANCE_CONFIRM, offset=None, skip_first_screenshot=True)
-        return 'success'
+        self.ui_click(
+            MEOWFFICER_GOTO_DORMMENU,
+            check_button=MEOWFFICER_ENHANCE_ENTER,
+            appear_button=MEOWFFICER_ENHANCE_CONFIRM,
+            offset=None,
+            skip_first_screenshot=True,
+        )
+        return "success"
 
     def meow_enhance(self):
         """
@@ -399,15 +420,15 @@ class MeowfficerEnhance(MeowfficerBase):
         """
         while 1:
             result = self._meow_enhance()
-            if result not in ['leveled_max']:
+            if result not in ["leveled_max"]:
                 break
 
             # Only for 'leveled_max'
             if self.config.MeowfficerTrain_EnhanceIndex < 12:
                 self.config.MeowfficerTrain_EnhanceIndex += 1
-                logger.info(f'Increase MeowfficerTrain_EnhanceIndex to {self.config.MeowfficerTrain_EnhanceIndex}')
+                logger.info(f"Increase MeowfficerTrain_EnhanceIndex to {self.config.MeowfficerTrain_EnhanceIndex}")
                 continue
             else:
-                logger.warning('The 12th meowfficer reached LV.30, disable MeowfficerTrain')
+                logger.warning("The 12th meowfficer reached LV.30, disable MeowfficerTrain")
                 self.config.MeowfficerTrain_Enable = False
                 break

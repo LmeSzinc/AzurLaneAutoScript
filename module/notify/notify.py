@@ -31,9 +31,7 @@ def handle_notify(_config: str, **kwargs) -> bool:
         # pre check
         for key in required:
             if key not in config:
-                logger.warning(
-                    f"Notifier {notifier.name} require param '{key}' but not provided"
-                )
+                logger.warning(f"Notifier {notifier.name} require param '{key}' but not provided")
 
         if isinstance(notifier, Custom):
             if "method" not in config or config["method"] == "post":
@@ -61,8 +59,7 @@ def handle_notify(_config: str, **kwargs) -> bool:
                     return_data: dict = resp.json()
                     if return_data["status"] == "failed":
                         logger.warning("Push notify failed!")
-                        logger.warning(
-                            f"Return message:{return_data['wording']}")
+                        logger.warning(f"Return message:{return_data['wording']}")
                         return False
     except OnePushException:
         logger.error("Push notify failed")

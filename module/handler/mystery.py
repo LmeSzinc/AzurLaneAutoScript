@@ -17,15 +17,13 @@ class MysteryHandler(StrategyHandler, EnemySearchingHandler):
             button (optional): Button to click when get_items.
                 Can be destination grid which makes the bot more like human.
         """
-        with self.stat.new(
-                genre=self.config.campaign_name, method=self.config.DropRecord_CombatRecord
-        ) as drop:
+        with self.stat.new(genre=self.config.campaign_name, method=self.config.DropRecord_CombatRecord) as drop:
             if self.handle_mystery_items(button=button, drop=drop):
-                return 'get_item'
+                return "get_item"
             if self.handle_mystery_ammo(drop=drop):
-                return 'get_ammo'
+                return "get_ammo"
             if self.handle_mystery_carrier(drop=drop):
-                return 'get_carrier'
+                return "get_carrier"
 
             return False
 
@@ -45,7 +43,7 @@ class MysteryHandler(StrategyHandler, EnemySearchingHandler):
             button = MYSTERY_ITEM
 
         if self.appear(GET_ITEMS_1, offset=5):
-            logger.attr('Mystery', 'Get item')
+            logger.attr("Mystery", "Get item")
             if drop:
                 drop.add(self.device.image)
             self.device.click(button)
@@ -66,7 +64,7 @@ class MysteryHandler(StrategyHandler, EnemySearchingHandler):
         """
         if self.info_bar_count():
             if self._get_ammo_log_timer.reached() and self.appear(GET_AMMO):
-                logger.attr('Mystery', 'Get ammo')
+                logger.attr("Mystery", "Get ammo")
                 self._get_ammo_log_timer.reset()
                 if drop:
                     drop.add(self.device.image)
@@ -84,7 +82,7 @@ class MysteryHandler(StrategyHandler, EnemySearchingHandler):
         """
         if self.config.MAP_MYSTERY_HAS_CARRIER:
             if self.is_in_map() and self.enemy_searching_appear():
-                logger.attr('Mystery', 'Get carrier')
+                logger.attr("Mystery", "Get carrier")
                 self.carrier_count += 1
                 if drop:
                     drop.add(self.device.image)

@@ -12,13 +12,13 @@ class PQInteract(UI):
     # Value: list[Button], button instances
     #        (Room_Entrance, Page_Locale)
     available_targets = {
-        'anchorage': (PRIVATE_QUARTERS_SHIP_ANCHORAGE, PRIVATE_QUARTERS_PAGE_LOCALE_BEACH),
-        'noshiro': (PRIVATE_QUARTERS_SHIP_NOSHIRO, PRIVATE_QUARTERS_PAGE_LOCALE_BEACH),
-        'sirius': (PRIVATE_QUARTERS_SHIP_SIRIUS, PRIVATE_QUARTERS_PAGE_LOCALE_BEACH),
-        'new_jersey': (PRIVATE_QUARTERS_SHIP_NEW_JERSEY, PRIVATE_QUARTERS_PAGE_LOCALE_LOFT),
-        'taihou': (PRIVATE_QUARTERS_SHIP_TAIHOU, PRIVATE_QUARTERS_PAGE_LOCALE_LOFT),
-        'aegir': (PRIVATE_QUARTERS_SHIP_AEGIR, PRIVATE_QUARTERS_PAGE_LOCALE_LOFT),
-        'nakhimov': (PRIVATE_QUARTERS_SHIP_NAKHIMOV, PRIVATE_QUARTERS_PAGE_LOCALE_VILLA),
+        "anchorage": (PRIVATE_QUARTERS_SHIP_ANCHORAGE, PRIVATE_QUARTERS_PAGE_LOCALE_BEACH),
+        "noshiro": (PRIVATE_QUARTERS_SHIP_NOSHIRO, PRIVATE_QUARTERS_PAGE_LOCALE_BEACH),
+        "sirius": (PRIVATE_QUARTERS_SHIP_SIRIUS, PRIVATE_QUARTERS_PAGE_LOCALE_BEACH),
+        "new_jersey": (PRIVATE_QUARTERS_SHIP_NEW_JERSEY, PRIVATE_QUARTERS_PAGE_LOCALE_LOFT),
+        "taihou": (PRIVATE_QUARTERS_SHIP_TAIHOU, PRIVATE_QUARTERS_PAGE_LOCALE_LOFT),
+        "aegir": (PRIVATE_QUARTERS_SHIP_AEGIR, PRIVATE_QUARTERS_PAGE_LOCALE_LOFT),
+        "nakhimov": (PRIVATE_QUARTERS_SHIP_NAKHIMOV, PRIVATE_QUARTERS_PAGE_LOCALE_VILLA),
     }
 
     def _pq_handle_dialogue(self):
@@ -45,7 +45,7 @@ class PQInteract(UI):
             additional=additional,
             confirm_wait=3,
             offset=(20, 20),
-            retry_wait=1.5
+            retry_wait=1.5,
         )
 
     def _pq_target_appear(self):
@@ -82,11 +82,11 @@ class PQInteract(UI):
                 # Factor in couple drag up actions to
                 # counter odd default distance/zoom on target
                 p1, p2 = random_rectangle_vector(
-                    (0, -30), box=PRIVATE_QUARTERS_ROOM_SAFE_CLICK_AREA.area,
-                    random_range=(-10, -10, 10, 10), padding=5)
-                self.device.drag(p1, p2, segments=2,
-                                 shake=(0, 25), point_random=(0, 0, 0, 0),
-                                 shake_random=(0, -5, 0, 5))
+                    (0, -30), box=PRIVATE_QUARTERS_ROOM_SAFE_CLICK_AREA.area, random_range=(-10, -10, 10, 10), padding=5
+                )
+                self.device.drag(
+                    p1, p2, segments=2, shake=(0, 25), point_random=(0, 0, 0, 0), shake_random=(0, -5, 0, 5)
+                )
                 settle_timer.reset()
             else:
                 # Absence of check likely means dialogue is ongoing
@@ -103,19 +103,16 @@ class PQInteract(UI):
         Returns:
             bool
         """
-        target_title = target_ship.title().replace('_', ' ')
+        target_title = target_ship.title().replace("_", " ")
         if target_ship not in self.available_targets:
-            logger.error(f'Unsupported target ship: {target_title}, '
-                         'cannot continue subtask')
+            logger.error(f"Unsupported target ship: {target_title}, cannot continue subtask")
             return False
         elif len(self.available_targets[target_ship]) < 2:
-            logger.error('Missing tuple info page locale for '
-                         f'target ship: {target_title}, cannot '
-                         'continue subtask')
+            logger.error(f"Missing tuple info page locale for target ship: {target_title}, cannot continue subtask")
             return False
 
         page_btn = self.available_targets[target_ship][1]
-        logger.hr(f'Seek {target_title}\'s Page', level=2)
+        logger.hr(f"Seek {target_title}'s Page", level=2)
 
         # Depending on current page position
         # Search left then right or reverse order
@@ -136,7 +133,7 @@ class PQInteract(UI):
 
                 # End, success
                 if self.appear(page_btn, offset=(20, 20)):
-                    logger.info(f'Reached {target_title}\'s page')
+                    logger.info(f"Reached {target_title}'s page")
                     return True
 
                 # Enable interval delay to confirm page after click
@@ -149,7 +146,7 @@ class PQInteract(UI):
                 if settle_timer.reached():
                     break
 
-        logger.warning(f'{target_title}\'s page cannot be found')
+        logger.warning(f"{target_title}'s page cannot be found")
         return False
 
     def _pq_goto_room_check(self):
@@ -175,15 +172,12 @@ class PQInteract(UI):
         # Initiate goto into target's room
         # Ensure either loading or popup
         # prompt appears after click
-        target_title = target_ship.title().replace('_', ' ')
+        target_title = target_ship.title().replace("_", " ")
         if target_ship not in self.available_targets:
-            logger.error(f'Unsupported target ship: {target_title}, '
-                         'cannot continue subtask')
+            logger.error(f"Unsupported target ship: {target_title}, cannot continue subtask")
             return False
         elif len(self.available_targets[target_ship]) < 1:
-            logger.error('Missing tuple info room entrance for '
-                         f'target ship: {target_title}, cannot '
-                         'continue subtask')
+            logger.error(f"Missing tuple info room entrance for target ship: {target_title}, cannot continue subtask")
             return False
 
         target_btn = self.available_targets[target_ship][0]
@@ -192,12 +186,13 @@ class PQInteract(UI):
             check_button=self._pq_goto_room_check,
             appear_button=page_private_quarters.check_button,
             offset=(20, 20),
-            skip_first_screenshot=True)
+            skip_first_screenshot=True,
+        )
 
         # If was download asset popup
         # Terminate the run
-        if self.handle_popup_cancel('PRIVATE_QUARTERS_DOWNLOAD_ASSET', offset=(20, 20)):
-            logger.error(f'Cannot enter {target_title}\'s room, please download the necessary assets first')
+        if self.handle_popup_cancel("PRIVATE_QUARTERS_DOWNLOAD_ASSET", offset=(20, 20)):
+            logger.error(f"Cannot enter {target_title}'s room, please download the necessary assets first")
             return False
 
         # Fully enter into target's room
@@ -208,7 +203,8 @@ class PQInteract(UI):
         # Terminate the run
         if self.appear(PRIVATE_QUARTERS_ROOM_TARGET_INTIMACY_MAX, offset=(20, 20)):
             logger.warning(
-                f'{target_title}\'s intimacy is maxed, configure to new target or turn off subtask altogether')
+                f"{target_title}'s intimacy is maxed, configure to new target or turn off subtask altogether"
+            )
             return False
 
         return True
@@ -219,9 +215,10 @@ class PQInteract(UI):
         """
         # Rare case in the middle of dialogue, so address
         # before initiating room exit
-        if (not self.appear(PRIVATE_QUARTERS_ROOM_CHECK, offset=(20, 20)) and
-            not self.appear(PRIVATE_QUARTERS_INTERACT, offset=(-10, 0, 0, 65))):
-                self._pq_handle_dialogue()
+        if not self.appear(PRIVATE_QUARTERS_ROOM_CHECK, offset=(20, 20)) and not self.appear(
+            PRIVATE_QUARTERS_INTERACT, offset=(-10, 0, 0, 65)
+        ):
+            self._pq_handle_dialogue()
 
         self.interval_clear(PRIVATE_QUARTERS_ROOM_BACK)
         self.ui_click(
@@ -229,7 +226,7 @@ class PQInteract(UI):
             check_button=page_private_quarters.check_button,
             offset=(20, 20),
             retry_wait=3,
-            skip_first_screenshot=True
+            skip_first_screenshot=True,
         )
         self.handle_info_bar()
 
@@ -242,7 +239,7 @@ class PQInteract(UI):
         Parameters identified as stable and server transparent
         """
         # Click target ship girl for 1st stage sequence
-        logger.hr(f'Interact Start', level=2)
+        logger.hr("Interact Start", level=2)
         interact_offset = (-10, 0, 0, 65)
         click_timer = Timer(1.5, count=3).start()
         skip_first_screenshot = True
@@ -262,9 +259,8 @@ class PQInteract(UI):
 
         # Repeat 2nd and 3rd stage sequence 3 times
         for i in range(1, 4):
-            logger.hr(f'Interact Loop {i}/3', level=3)
-            self.interval_clear([PRIVATE_QUARTERS_INTERACT_CHECK,
-                                 PRIVATE_QUARTERS_INTERACT])
+            logger.hr(f"Interact Loop {i}/3", level=3)
+            self.interval_clear([PRIVATE_QUARTERS_INTERACT_CHECK, PRIVATE_QUARTERS_INTERACT])
             skip_first_screenshot = True
             while 1:
                 if skip_first_screenshot:
@@ -294,7 +290,7 @@ class PQInteract(UI):
                     self.device.click(PRIVATE_QUARTERS_ROOM_BACK)
                     continue
 
-        logger.hr(f'Interact End', level=2)
+        logger.hr("Interact End", level=2)
         self._pq_goto_room_exit()
 
     def pq_goto_room(self, target_ship, retry=3):
@@ -311,8 +307,8 @@ class PQInteract(UI):
             bool
         """
         success = False
-        target_title = target_ship.title().replace('_', ' ')
-        logger.hr(f'Enter {target_title}\'s Room', level=1)
+        target_title = target_ship.title().replace("_", " ")
+        logger.hr(f"Enter {target_title}'s Room", level=1)
 
         if not self._pq_goto_room_seek(target_ship):
             return success
@@ -322,10 +318,10 @@ class PQInteract(UI):
                 break
 
             if self._pq_target_appear():
-                logger.info(f'{target_title} is waiting and excited for your arrival!')
+                logger.info(f"{target_title} is waiting and excited for your arrival!")
                 success = True
                 break
-            logger.warning(f'{target_title} is not ready, exit and try again; retry={retry - (_ + 1)}')
+            logger.warning(f"{target_title} is not ready, exit and try again; retry={retry - (_ + 1)}")
 
             self._pq_goto_room_exit()
 

@@ -16,7 +16,8 @@ from module.map_detection.grid import Grid
 from module.map_detection.utils import area2corner, trapezoid2area
 from module.map_detection.view import View
 from module.os.assets import GLOBE_GOTO_MAP
-from module.os_handler.assets import AUTO_SEARCH_REWARD, GET_ADAPTABILITY, MISSION_CHECK as OPSI_MISSION_CHECK
+from module.os_handler.assets import AUTO_SEARCH_REWARD, GET_ADAPTABILITY
+from module.os_handler.assets import MISSION_CHECK as OPSI_MISSION_CHECK
 from module.os_shop.assets import PORT_SUPPLY_CHECK
 from module.ui.assets import BACK_ARROW
 
@@ -39,12 +40,12 @@ class Camera(MapOperation):
             bool: if camera moved.
         """
         vector = np.array(vector)
-        name = 'MAP_SWIPE_' + '_'.join([str(int(round(x))) for x in vector])
+        name = "MAP_SWIPE_" + "_".join([str(int(round(x))) for x in vector])
         if np.any(np.abs(vector) > self.config.MAP_SWIPE_DROP):
             # Map grid fit
-            if self.config.DEVICE_CONTROL_METHOD == 'minitouch':
+            if self.config.DEVICE_CONTROL_METHOD == "minitouch":
                 distance = self.view.swipe_base * self.config.MAP_SWIPE_MULTIPLY_MINITOUCH
-            elif self.config.DEVICE_CONTROL_METHOD == 'MaaTouch':
+            elif self.config.DEVICE_CONTROL_METHOD == "MaaTouch":
                 distance = self.view.swipe_base * self.config.MAP_SWIPE_MULTIPLY_MAATOUCH
             else:
                 distance = self.view.swipe_base * self.config.MAP_SWIPE_MULTIPLY
@@ -77,7 +78,7 @@ class Camera(MapOperation):
         Returns:
             bool: if camera moved.
         """
-        logger.info('Map swipe: %s' % str(vector))
+        logger.info("Map swipe: %s" % str(vector))
         self._prev_view = copy.copy(self.view)
         self._prev_swipe = vector
         vector = np.array(vector)
@@ -97,13 +98,13 @@ class Camera(MapOperation):
         if not tolerance:
             tolerance = self.config.MAP_GRID_CENTER_TOLERANCE
         if np.any(np.abs(self.view.center_offset - 0.5) > tolerance):
-            logger.info('Re-focus to grid center.')
+            logger.info("Re-focus to grid center.")
             return self.map_swipe((0, 0))
 
         return False
 
     def _view_init(self):
-        if not hasattr(self, 'view'):
+        if not hasattr(self, "view"):
             self.view = View(self.config, grid_class=self.grid_class)
 
     def _update_view(self):
@@ -112,95 +113,108 @@ class Camera(MapOperation):
         """
         self._view_init()
         try:
-            if not self.is_in_map() \
-                    and not self.is_in_strategy_submarine_move() \
-                    and not self.is_in_strategy_mob_move() \
-                    and not self.is_in_strategy_air_strike():
-                logger.warning('Image to detect is not in_map')
-                raise MapDetectionError('Image to detect is not in_map')
+            if (
+                not self.is_in_map()
+                and not self.is_in_strategy_submarine_move()
+                and not self.is_in_strategy_mob_move()
+                and not self.is_in_strategy_air_strike()
+            ):
+                logger.warning("Image to detect is not in_map")
+                raise MapDetectionError("Image to detect is not in_map")
             self.view.load(self.device.image)
         except MapDetectionError as e:
             if self.info_bar_count():
-                logger.warning('Perspective error caused by info bar')
+                logger.warning("Perspective error caused by info bar")
                 self.handle_info_bar()
                 return False
             elif self.appear(GET_ITEMS_1, offset=5):
-                logger.warning('Perspective error caused by get_items')
+                logger.warning("Perspective error caused by get_items")
                 # Don't use handle_mystery() here since OpSi overrides it.
                 self.device.click(GET_ITEMS_1)
                 return False
             elif self.appear(GET_ITEMS_1_RYZA, offset=(-20, -100, 20, 20)):
-                logger.warning('Perspective error caused by GET_ITEMS_1_RYZA')
+                logger.warning("Perspective error caused by GET_ITEMS_1_RYZA")
                 self.device.click(GET_ITEMS_1_RYZA)
                 return False
             elif self.appear(GET_ADAPTABILITY, offset=(20, 20)):
-                logger.warning('Perspective error caused by GET_ADAPTABILITY')
+                logger.warning("Perspective error caused by GET_ADAPTABILITY")
                 self.device.click(GET_ADAPTABILITY)
                 return False
             elif self.handle_story_skip():
-                logger.warning('Perspective error caused by story')
+                logger.warning("Perspective error caused by story")
                 self.ensure_no_story(skip_first_screenshot=False)
                 return False
             elif self.appear(GET_MISSION, offset=(20, 20)):
-                logger.warning('Perspective error caused by GET_MISSION')
+                logger.warning("Perspective error caused by GET_MISSION")
                 self.device.click(GET_MISSION)
                 return False
             elif self.is_in_stage():
-                logger.warning('Image is in stage')
-                raise CampaignEnd('Image is in stage')
+                logger.warning("Image is in stage")
+                raise CampaignEnd("Image is in stage")
             elif self.appear(MAP_PREPARATION, offset=(20, 20)):
-                logger.warning('Image is in MAP_PREPARATION')
+                logger.warning("Image is in MAP_PREPARATION")
                 self.enter_map_cancel()
-                raise CampaignEnd('Image is in MAP_PREPARATION')
+                raise CampaignEnd("Image is in MAP_PREPARATION")
             elif self.appear(AUTO_SEARCH_MENU_CONTINUE, offset=self._auto_search_menu_offset):
-                logger.warning('Image is in auto search menu')
+                logger.warning("Image is in auto search menu")
                 self.ensure_auto_search_exit()
-                raise CampaignEnd('Image is in auto search menu')
+                raise CampaignEnd("Image is in auto search menu")
             elif self.appear(GLOBE_GOTO_MAP, offset=(20, 20)):
-                logger.warning('Image is in OS globe map')
-                self.ui_click(GLOBE_GOTO_MAP, check_button=self.is_in_map, offset=(20, 20),
-                              retry_wait=3, skip_first_screenshot=True)
+                logger.warning("Image is in OS globe map")
+                self.ui_click(
+                    GLOBE_GOTO_MAP,
+                    check_button=self.is_in_map,
+                    offset=(20, 20),
+                    retry_wait=3,
+                    skip_first_screenshot=True,
+                )
                 return False
             elif self.appear(AUTO_SEARCH_REWARD, offset=(50, 50)):
-                logger.warning('Perspective error caused by AUTO_SEARCH_REWARD')
-                if hasattr(self, 'os_auto_search_quit'):
+                logger.warning("Perspective error caused by AUTO_SEARCH_REWARD")
+                if hasattr(self, "os_auto_search_quit"):
                     self.os_auto_search_quit()
                     return False
                 else:
-                    logger.warning('Cannot find method os_auto_search_quit(), use ui_click() instead')
-                    self.ui_click(AUTO_SEARCH_REWARD, check_button=self.is_in_map, offset=(50, 50),
-                                  retry_wait=3, skip_first_screenshot=True)
+                    logger.warning("Cannot find method os_auto_search_quit(), use ui_click() instead")
+                    self.ui_click(
+                        AUTO_SEARCH_REWARD,
+                        check_button=self.is_in_map,
+                        offset=(50, 50),
+                        retry_wait=3,
+                        skip_first_screenshot=True,
+                    )
                     return False
             elif self.appear(OPSI_MISSION_CHECK, offset=(20, 20)):
-                logger.warning('Perspective error caused by OPSI_MISSION_CHECK')
-                if hasattr(self, 'os_mission_quit'):
+                logger.warning("Perspective error caused by OPSI_MISSION_CHECK")
+                if hasattr(self, "os_mission_quit"):
                     self.os_mission_quit()
                     return False
                 else:
-                    logger.warning('Cannot find method os_mission_quit(), use ui_click() instead')
-                    self.ui_click(OPSI_MISSION_CHECK, check_button=self.is_in_map, offset=(200, 5),
-                                  skip_first_screenshot=True)
+                    logger.warning("Cannot find method os_mission_quit(), use ui_click() instead")
+                    self.ui_click(
+                        OPSI_MISSION_CHECK, check_button=self.is_in_map, offset=(200, 5), skip_first_screenshot=True
+                    )
                     return False
-            elif 'opsi' in self.config.task.command.lower() and self.handle_popup_confirm('OPSI'):
+            elif "opsi" in self.config.task.command.lower() and self.handle_popup_confirm("OPSI"):
                 # Always confirm popups in OpSi, same popups in os_map_goto_globe()
-                logger.warning('Perspective error caused by popups')
+                logger.warning("Perspective error caused by popups")
                 return False
             elif self.appear(PORT_SUPPLY_CHECK, offset=(20, 20)):
-                logger.warning('Perspective error caused by akashi shop')
+                logger.warning("Perspective error caused by akashi shop")
                 self.device.click(BACK_ARROW)
                 return False
             elif self.appear(GAME_TIPS, offset=(20, 20)):
-                logger.warning('Perspective error caused by game tips')
+                logger.warning("Perspective error caused by game tips")
                 self.device.click(GAME_TIPS)
                 return False
-            elif 'Camera outside map' in str(e):
+            elif "Camera outside map" in str(e):
                 string = str(e)
                 logger.warning(string)
-                x, y = string.split('=')[1].strip('() ').split(',')
+                x, y = string.split("=")[1].strip("() ").split(",")
                 self._map_swipe((-int(x.strip()), -int(y.strip())))
             # Finally check if game is alive
             elif not self.device.app_is_running():
-                logger.error('Trying to update camera but game died')
+                logger.error("Trying to update camera but game died")
                 raise GameNotRunningError
             else:
                 raise e
@@ -213,7 +227,7 @@ class Camera(MapOperation):
                 swipe = self._prev_view.predict_swipe(
                     self.view,
                     with_current_fleet=self.config.MAP_SWIPE_PREDICT_WITH_CURRENT_FLEET,
-                    with_sea_grids=self.config.MAP_SWIPE_PREDICT_WITH_SEA_GRIDS
+                    with_sea_grids=self.config.MAP_SWIPE_PREDICT_WITH_SEA_GRIDS,
                 )
                 if swipe is not None:
                     self._prev_swipe = swipe
@@ -237,7 +251,7 @@ class Camera(MapOperation):
             y = self.camera[1]
 
         if self.camera != (x, y):
-            logger.attr_align('camera_corrected', f'{location2node(self.camera)} -> {location2node((x, y))}')
+            logger.attr_align("camera_corrected", f"{location2node(self.camera)} -> {location2node((x, y))}")
         self.camera = (x, y)
         self.show_camera()
 
@@ -263,9 +277,9 @@ class Camera(MapOperation):
             try:
                 prev_center_offset = self._prev_view.center_offset
             except AttributeError:
-                logger.warning('Camera.update(wait_swipe=True) but camera has no _prev_view')
+                logger.warning("Camera.update(wait_swipe=True) but camera has no _prev_view")
                 prev_center_offset = None
-            logger.attr('prev.center_offset', prev_center_offset)
+            logger.attr("prev.center_offset", prev_center_offset)
         else:
             prev_center_offset = None
 
@@ -297,7 +311,7 @@ class Camera(MapOperation):
                 success = self._update_view()
                 if not success:
                     continue
-                logger.attr('view.center_offset', self.view.center_offset)
+                logger.attr("view.center_offset", self.view.center_offset)
                 if wait_swipe and not swipe_wait_timeout.reached() and success:
                     # If first screenshot is still prev view
                     # must getting out of grid center once and re-focusing center
@@ -334,7 +348,7 @@ class Camera(MapOperation):
         self.view.show()
 
     def show_camera(self):
-        logger.attr_align('Camera', location2node(self.camera))
+        logger.attr_align("Camera", location2node(self.camera))
 
     def ensure_edge_insight(self, reverse=False, preset=None, swipe_limit=(3, 2), skip_first_update=True):
         """
@@ -350,7 +364,7 @@ class Camera(MapOperation):
         Returns:
             list[tuple]: Swipe record.
         """
-        logger.info(f'Ensure edge in sight.')
+        logger.info("Ensure edge in sight.")
         record = []
         x_swipe, y_swipe = np.multiply(swipe_limit, random_direction(self.config.MAP_ENSURE_EDGE_INSIGHT_CORNER))
 
@@ -375,7 +389,7 @@ class Camera(MapOperation):
                 break
 
         if reverse:
-            logger.info('Reverse swipes.')
+            logger.info("Reverse swipes.")
             for vector in record[::-1]:
                 x, y = vector
                 if x != 0 or y != 0:
@@ -391,7 +405,7 @@ class Camera(MapOperation):
             swipe_limit(tuple): (x, y). Limit swipe in (-x, -y, x, y).
         """
         location = location_ensure(location)
-        logger.info('Focus to: %s' % location2node(location))
+        logger.info("Focus to: %s" % location2node(location))
 
         while 1:
             vector = np.array(location) - self.camera
@@ -401,8 +415,9 @@ class Camera(MapOperation):
             if not has_swiped:
                 break
 
-    def full_scan(self, queue=None, must_scan=None, battle_count=0, mystery_count=0, siren_count=0, carrier_count=0,
-                  mode='normal'):
+    def full_scan(
+        self, queue=None, must_scan=None, battle_count=0, mystery_count=0, siren_count=0, carrier_count=0, mode="normal"
+    ):
         """Scan the whole map.
 
         Args:
@@ -415,7 +430,7 @@ class Camera(MapOperation):
             mode (str): Scan mode, such as 'init', 'normal', 'carrier', 'movable'
 
         """
-        logger.info(f'Full scan start, mode={mode}')
+        logger.info(f"Full scan start, mode={mode}")
         self.map.reset_fleet()
 
         queue = queue if queue else self.map.camera_data
@@ -425,10 +440,10 @@ class Camera(MapOperation):
         while len(queue) > 0:
             if self.map.missing_is_none(battle_count, mystery_count, siren_count, carrier_count, mode):
                 if must_scan and queue.count != queue.delete(must_scan).count:
-                    logger.info('Continue scanning.')
+                    logger.info("Continue scanning.")
                     pass
                 else:
-                    logger.info('All spawn found, Early stopped.')
+                    logger.info("All spawn found, Early stopped.")
                     break
 
             queue = queue.sort_by_camera_distance(self.camera)
@@ -452,7 +467,7 @@ class Camera(MapOperation):
             sight (tuple): Such as (-3, -1, 3, 2).
         """
         location = location_ensure(location)
-        logger.info('In sight: %s' % location2node(location))
+        logger.info("In sight: %s" % location2node(location))
         if sight is None:
             sight = self.map.camera_sight
 
@@ -484,16 +499,19 @@ class Camera(MapOperation):
         location = location_ensure(location)
 
         local = np.array(location) - self.camera + self.view.center_loca
-        logger.info('Global %s (camera=%s) -> Local %s (center=%s)' % (
-            location2node(location),
-            location2node(self.camera),
-            location2node(local),
-            location2node(self.view.center_loca)
-        ))
+        logger.info(
+            "Global %s (camera=%s) -> Local %s (center=%s)"
+            % (
+                location2node(location),
+                location2node(self.camera),
+                location2node(local),
+                location2node(self.view.center_loca),
+            )
+        )
         if local in self.view:
             return self.view[local]
         else:
-            logger.warning('Convert global to local Failed.')
+            logger.warning("Convert global to local Failed.")
             self.focus_to(location)
             local = np.array(location) - self.camera + self.view.center_loca
             return self.view[local]
@@ -511,23 +529,26 @@ class Camera(MapOperation):
         location = location_ensure(location)
 
         global_ = np.array(location) + self.camera - self.view.center_loca
-        logger.info('Global %s (camera=%s) <- Local %s (center=%s)' % (
-            location2node(global_),
-            location2node(self.camera),
-            location2node(location),
-            location2node(self.view.center_loca)
-        ))
+        logger.info(
+            "Global %s (camera=%s) <- Local %s (center=%s)"
+            % (
+                location2node(global_),
+                location2node(self.camera),
+                location2node(location),
+                location2node(self.view.center_loca),
+            )
+        )
 
         if global_ in self.map:
             return self.map[global_]
         else:
-            logger.warning('Convert local to global Failed.')
+            logger.warning("Convert local to global Failed.")
             self.ensure_edge_insight(reverse=True)
             global_ = np.array(location) + self.camera - self.view.center_loca
             return self.map[global_]
 
     def full_scan_find_boss(self):
-        logger.info('Full scan find boss.')
+        logger.info("Full scan find boss.")
         self.map.reset_fleet()
 
         queue = self.map.select(may_boss=True)
@@ -540,11 +561,11 @@ class Camera(MapOperation):
             boss = self.map.select(is_boss=True)
             boss = boss.add(self.map.select(may_boss=True, is_enemy=True))
             if boss:
-                logger.info(f'Boss found: {boss}')
+                logger.info(f"Boss found: {boss}")
                 self.map.show()
                 return True
 
-        logger.warning('No boss found.')
+        logger.warning("No boss found.")
         return False
 
     def get_swipe_area_opt(self, map_vector):
@@ -579,14 +600,18 @@ class Camera(MapOperation):
                     result.append(local)
             return result
 
-        whitelist = self.map.select(is_land=True) \
-            .add(self.map.select(is_current_fleet=True)) \
+        whitelist = (
+            self.map.select(is_land=True)
+            .add(self.map.select(is_current_fleet=True))
             .sort_by_camera_distance(self.camera)
-        blacklist = self.view.select(is_enemy=True) \
-            .add(self.view.select(is_siren=True)) \
-            .add(self.view.select(is_boss=True)) \
-            .add(self.view.select(is_mystery=True)) \
+        )
+        blacklist = (
+            self.view.select(is_enemy=True)
+            .add(self.view.select(is_siren=True))
+            .add(self.view.select(is_boss=True))
+            .add(self.view.select(is_mystery=True))
             .add(self.view.select(is_fleet=True, is_current_fleet=False))
+        )
 
         # self.view.show()
         whitelist = local_to_area(globe_to_local(whitelist), pad=25)

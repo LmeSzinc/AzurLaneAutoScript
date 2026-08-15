@@ -355,7 +355,7 @@ def perspective_transform(points, data):
     Returns:
         np.ndarray: 2D array with shape (n, 2)
     """
-    points = np.pad(np.array(points), ((0, 0), (0, 1)), mode='constant', constant_values=1)
+    points = np.pad(np.array(points), ((0, 0), (0, 1)), mode="constant", constant_values=1)
     matrix = data.dot(points.T)
     x, y = matrix[0] / matrix[2], matrix[1] / matrix[2]
     points = np.array([x, y]).T

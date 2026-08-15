@@ -41,20 +41,22 @@ class HpDaemon(ModuleBase):
         #
         # return prev_index / length
         return color_bar_percentage(
-            image, area, prev_color=prev_color, starter=starter, reverse=reverse, threshold=threshold)
+            image, area, prev_color=prev_color, starter=starter, reverse=reverse, threshold=threshold
+        )
 
-    def _show_hp(self, low_hp_time=0.):
+    def _show_hp(self, low_hp_time=0.0):
         """
         Examples:
             [ 80% - 70%]
             [ 80% - 70%]
             [ 80% - 70%] - Low HP: 3.154s
         """
-        text = '[%s - %s]' % (
-            str(int(self.attacker_hp * 100)).rjust(2, '0') + '%',
-            str(int(self.defender_hp * 100)).rjust(2, '0') + '%')
+        text = "[%s - %s]" % (
+            str(int(self.attacker_hp * 100)).rjust(2, "0") + "%",
+            str(int(self.defender_hp * 100)).rjust(2, "0") + "%",
+        )
         if low_hp_time:
-            text += ' - Low HP: %ss' % str(round(low_hp_time, 3)).ljust(5, '0')
+            text += " - Low HP: %ss" % str(round(low_hp_time, 3)).ljust(5, "0")
         logger.info(text)
 
     def _at_low_hp(self, image, pause=PAUSE):
@@ -86,7 +88,7 @@ class HpDaemon(ModuleBase):
             self.attacker_hp = self._calculate_hp(image, area=ATTACKER_HP_AREA_New.area, reverse=True)
             self.defender_hp = self._calculate_hp(image, area=DEFENDER_HP_AREA_New.area, reverse=True)
         else:
-            logger.warning(f'_at_low_hp received unknown pause: {pause}')
+            logger.warning(f"_at_low_hp received unknown pause: {pause}")
             self.attacker_hp = self._calculate_hp(image, area=ATTACKER_HP_AREA.area, reverse=True)
             self.defender_hp = self._calculate_hp(image, area=DEFENDER_HP_AREA.area, reverse=False)
 

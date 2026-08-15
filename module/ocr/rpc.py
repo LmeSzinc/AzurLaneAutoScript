@@ -10,7 +10,7 @@ from module.webui.setting import State
 process: multiprocessing.Process = None
 
 # 4-byte big-endian length prefix + pickle payload
-HEADER = struct.Struct('>I')
+HEADER = struct.Struct(">I")
 
 
 def _recv_all(sock: socket.socket, length: int) -> bytes:
@@ -18,7 +18,7 @@ def _recv_all(sock: socket.socket, length: int) -> bytes:
     while len(buf) < length:
         chunk = sock.recv(length - len(buf))
         if not chunk:
-            raise ConnectionError('Connection closed by peer')
+            raise ConnectionError("Connection closed by peer")
         buf.extend(chunk)
     return bytes(buf)
 
@@ -30,10 +30,10 @@ def _send_payload(sock: socket.socket, payload: bytes):
 class OcrRpcClient:
     """Synchronous RPC client for the OCR server, over plain TCP socket."""
 
-    def __init__(self, address='127.0.0.1:22268', timeout=5):
+    def __init__(self, address="127.0.0.1:22268", timeout=5):
         self.timeout = timeout
-        host, _, port = address.rpartition(':')
-        self.host = host or '127.0.0.1'
+        host, _, port = address.rpartition(":")
+        self.host = host or "127.0.0.1"
         self.port = int(port)
         self.sock = None
 
@@ -55,7 +55,7 @@ class OcrRpcClient:
         (length,) = HEADER.unpack(header)
         payload = _recv_all(self.sock, length)
         status, result = pickle.loads(payload)
-        if status == 'ok':
+        if status == "ok":
             return result
         raise OcrServerError(result)
 
@@ -74,7 +74,7 @@ class ModelProxy:
         cls.client = OcrRpcClient(address=address)
         try:
             cls.client.connect()
-            cls.client.call('hello')
+            cls.client.call("hello")
             logger.info("Successfully connected to OCR server")
         except Exception:
             cls.online = False
@@ -83,9 +83,9 @@ class ModelProxy:
     @classmethod
     def close(cls):
         if cls.client is not None:
-            logger.info('Disconnect to OCR server')
+            logger.info("Disconnect to OCR server")
             cls.client.close()
-            logger.info('Successfully disconnected to OCR server')
+            logger.info("Successfully disconnected to OCR server")
             cls.client = None
 
     def __init__(self, lang) -> None:
@@ -98,31 +98,32 @@ class ModelProxy:
             except Exception:
                 self.online = False
         from module.ocr.models import OCR_MODEL
+
         return getattr(OCR_MODEL.__getattribute__(self.lang), method)(*args)
 
     def ocr(self, img_fp):
-        return self._call('ocr', img_fp)
+        return self._call("ocr", img_fp)
 
     def ocr_for_single_line(self, img_fp):
-        return self._call('ocr_for_single_line', img_fp)
+        return self._call("ocr_for_single_line", img_fp)
 
     def ocr_for_single_lines(self, img_list):
-        return self._call('ocr_for_single_lines', img_list)
+        return self._call("ocr_for_single_lines", img_list)
 
     def set_cand_alphabet(self, cand_alphabet: str):
-        return self._call('set_cand_alphabet', cand_alphabet)
+        return self._call("set_cand_alphabet", cand_alphabet)
 
     def atomic_ocr(self, img_fp, cand_alphabet=None):
-        return self._call('atomic_ocr', img_fp, cand_alphabet)
+        return self._call("atomic_ocr", img_fp, cand_alphabet)
 
     def atomic_ocr_for_single_line(self, img_fp, cand_alphabet=None):
-        return self._call('atomic_ocr_for_single_line', img_fp, cand_alphabet)
+        return self._call("atomic_ocr_for_single_line", img_fp, cand_alphabet)
 
     def atomic_ocr_for_single_lines(self, img_list, cand_alphabet=None):
-        return self._call('atomic_ocr_for_single_lines', img_list, cand_alphabet)
+        return self._call("atomic_ocr_for_single_lines", img_list, cand_alphabet)
 
     def debug(self, img_list):
-        return self._call('debug', img_list)
+        return self._call("debug", img_list)
 
 
 class ModelProxyFactory:
@@ -141,10 +142,12 @@ class ModelProxyFactory:
 class OCRServer:
     def __init__(self):
         from module.ocr.models import OcrModel
+
         self._models = OcrModel()
 
     def _model(self, lang):
         from module.ocr.al_ocr import AlOcr
+
         cnocr: AlOcr = self._models.__getattribute__(lang)
         return cnocr
 
@@ -187,10 +190,10 @@ def _handle_connection(server: OCRServer, conn: socket.socket):
             method, args = pickle.loads(payload)
             try:
                 result = getattr(server, method)(*args)
-                _send_payload(conn, pickle.dumps(('ok', result), protocol=pickle.HIGHEST_PROTOCOL))
+                _send_payload(conn, pickle.dumps(("ok", result), protocol=pickle.HIGHEST_PROTOCOL))
             except Exception as e:
                 logger.exception(e)
-                _send_payload(conn, pickle.dumps(('error', str(e)), protocol=pickle.HIGHEST_PROTOCOL))
+                _send_payload(conn, pickle.dumps(("error", str(e)), protocol=pickle.HIGHEST_PROTOCOL))
     except (ConnectionError, OSError):
         pass
     finally:
@@ -205,7 +208,7 @@ def start_ocr_server(port=22268):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as listen_sock:
         listen_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         try:
-            listen_sock.bind(('0.0.0.0', port))
+            listen_sock.bind(("0.0.0.0", port))
         except OSError:
             logger.error(f"Ocr server cannot bind on port {port}")
             return
@@ -214,6 +217,7 @@ def start_ocr_server(port=22268):
         while True:
             conn, _ = listen_sock.accept()
             import threading
+
             t = threading.Thread(target=_handle_connection, args=(server, conn), daemon=True)
             t.start()
 

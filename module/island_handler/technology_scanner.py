@@ -5,25 +5,25 @@ from yaml import safe_dump
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.base.mask import Mask
-from module.base.utils import color_similarity_2d, rgb2luma, load_image, random_rectangle_vector, area_offset, crop
-from module.island_handler.assets import *
+from module.base.utils import area_offset, color_similarity_2d, crop, load_image, random_rectangle_vector, rgb2luma
 from module.island.data import DIC_ISLAND_TECHNOLOGY
 from module.island.ui import IslandUI
+from module.island_handler.assets import *
 from module.ui.navbar import Navbar
 from module.ui.page import page_island_technology
 
-DELTA_X = 136 + 2/3
+DELTA_X = 136 + 2 / 3
 DELTA_Y = 60
-ORIGIN_X = -5/3
+ORIGIN_X = -5 / 3
 ORIGIN_Y = 46
 LEFT_STRIP = 167
-MASK_ISLAND_TECHNOLOGY = Mask('./assets/mask/MASK_ISLAND_TECHNOLOGY.png')
+MASK_ISLAND_TECHNOLOGY = Mask("./assets/mask/MASK_ISLAND_TECHNOLOGY.png")
 TECHNOLOGY_LENGTH = {
-    '2': 3139 - 1280 + LEFT_STRIP,
-    '3': 4231 - 1280 + LEFT_STRIP,
-    '4': 3003 - 1280 + LEFT_STRIP,
-    '5': 5462 - 1280 + LEFT_STRIP,
-    '6': 4233 - 1280 + LEFT_STRIP,
+    "2": 3139 - 1280 + LEFT_STRIP,
+    "3": 4231 - 1280 + LEFT_STRIP,
+    "4": 3003 - 1280 + LEFT_STRIP,
+    "5": 5462 - 1280 + LEFT_STRIP,
+    "6": 4233 - 1280 + LEFT_STRIP,
 }
 DETECTION_AREA = (167, 54, 1280, 720)
 DETECTION_AREA_MASK = (1098, 646, 1280, 720)
@@ -43,10 +43,11 @@ def extract_flowchart(image):
     filled_mask = filled_mask[:, LEFT_STRIP:]
     return filled_mask
 
+
 def get_technology_tab_and_position(index):
     tech_info = DIC_ISLAND_TECHNOLOGY[index]
-    tab = tech_info['tech_belong']
-    axis_x, axis_y = tech_info['axis']
+    tab = tech_info["tech_belong"]
+    axis_x, axis_y = tech_info["axis"]
     position_x = ORIGIN_X + DELTA_X * axis_x
     position_y = ORIGIN_Y + DELTA_Y * axis_y
     return tab, (position_x, position_y)
@@ -56,17 +57,19 @@ class IslandTechnologyScanner(IslandUI):
     """
     Currently only supports checking tab 2,3,4,5,6.
     """
+
     @cached_property
     def _island_technology_side_navbar(self):
         island_technology_side_navbar = ButtonGrid(
-            origin=(13, 107), delta=(0, 196/3),
-            button_shape=(128, 43), grid_shape=(1, 5)
+            origin=(13, 107), delta=(0, 196 / 3), button_shape=(128, 43), grid_shape=(1, 5)
         )
-        return Navbar(grids=island_technology_side_navbar,
-                      active_color=(30, 143, 255),
-                      inactive_color=(50, 52, 55),
-                      active_count=500,
-                      inactive_count=500)
+        return Navbar(
+            grids=island_technology_side_navbar,
+            active_color=(30, 143, 255),
+            inactive_color=(50, 52, 55),
+            active_count=500,
+            inactive_count=500,
+        )
 
     def _island_technology_side_navbar_get_active(self):
         active, _, _ = self._island_technology_side_navbar.get_info(main=self)
@@ -89,15 +92,15 @@ class IslandTechnologyScanner(IslandUI):
                 continue
             else:
                 if active == 1:
-                    self.device.click(self._island_technology_side_navbar.grids.buttons[tab-2])
+                    self.device.click(self._island_technology_side_navbar.grids.buttons[tab - 2])
                     continue
                 else:
-                    self._island_technology_side_navbar.set(self, upper=tab-1)
+                    self._island_technology_side_navbar.set(self, upper=tab - 1)
                     return True
         return False
 
     def get_technology_view_position(self, tab):
-        globe_view = load_image(f'./assets/island/technology/technology_chart_{tab}.png')
+        globe_view = load_image(f"./assets/island/technology/technology_chart_{tab}.png")
         extracted_flowchart = extract_flowchart(self.device.image)
         result = cv2.matchTemplate(globe_view, extracted_flowchart, cv2.TM_CCOEFF_NORMED)
         _, similarity, _, loca = cv2.minMaxLoc(result)
@@ -123,22 +126,22 @@ class IslandTechnologyScanner(IslandUI):
             if position_x < 3:
                 break
             self._island_technology_swipe(forward=False)
-        self.device.click_record_remove('DRAG')
+        self.device.click_record_remove("DRAG")
 
     def scan_all(self):
         all_technology = {}
         for index in DIC_ISLAND_TECHNOLOGY.keys():
-            if DIC_ISLAND_TECHNOLOGY[index]['tech_belong'] not in [2, 3, 4, 5, 6]:
+            if DIC_ISLAND_TECHNOLOGY[index]["tech_belong"] not in [2, 3, 4, 5, 6]:
                 continue
             tab, position = get_technology_tab_and_position(index)
             all_technology[index] = {
-                'tab': tab,
-                'position': position,
-                'active': False,
+                "tab": tab,
+                "position": position,
+                "active": False,
             }
         technology_by_tab = [{} for _ in range(5)]
         for index, info in all_technology.items():
-            technology_by_tab[info['tab'] - 2][index] = info['position']
+            technology_by_tab[info["tab"] - 2][index] = info["position"]
         for tab in [2, 3, 4, 5, 6]:
             self.island_technology_side_navbar_ensure(tab=tab)
             self.technology_reset_view()
@@ -151,19 +154,23 @@ class IslandTechnologyScanner(IslandUI):
                 position_x_old = position_x
                 for index, (tech_pos_x, tech_pos_y) in technology_by_tab[tab - 2].items():
                     tech_pos_x_in_view = tech_pos_x - position_x
-                    if (DETECTION_AREA[0] - BUTTON_AREA[0] <= LEFT_STRIP + tech_pos_x_in_view <= DETECTION_AREA[2] - BUTTON_AREA[2]
-                        and not (
-                            tech_pos_y > DETECTION_AREA_MASK[1] + BUTTON_AREA[1]
-                            and LEFT_STRIP + tech_pos_x_in_view >= DETECTION_AREA_MASK[0]
-                            )):
-                        tech_button = crop(self.device.image, area=area_offset(BUTTON_AREA, (LEFT_STRIP + tech_pos_x_in_view, tech_pos_y)))
+                    if DETECTION_AREA[0] - BUTTON_AREA[0] <= LEFT_STRIP + tech_pos_x_in_view <= DETECTION_AREA[
+                        2
+                    ] - BUTTON_AREA[2] and not (
+                        tech_pos_y > DETECTION_AREA_MASK[1] + BUTTON_AREA[1]
+                        and LEFT_STRIP + tech_pos_x_in_view >= DETECTION_AREA_MASK[0]
+                    ):
+                        tech_button = crop(
+                            self.device.image,
+                            area=area_offset(BUTTON_AREA, (LEFT_STRIP + tech_pos_x_in_view, tech_pos_y)),
+                        )
                         luma = rgb2luma(tech_button)
                         color = np.mean(luma.flatten())
                         if color > 160:
-                            all_technology[index]['active'] = True
+                            all_technology[index]["active"] = True
                 self._island_technology_swipe(forward=True)
-                self.device.click_record_remove('DRAG')
-        return {index: info['active'] for index, info in all_technology.items()}
+                self.device.click_record_remove("DRAG")
+        return {index: info["active"] for index, info in all_technology.items()}
 
     def get_technology_status(self, dump_key=None):
         self.ui_ensure(page_island_technology)
@@ -172,5 +179,3 @@ class IslandTechnologyScanner(IslandUI):
             value = safe_dump(result)
             self.config.cross_set(keys=dump_key, value=value)
         return result
-
-

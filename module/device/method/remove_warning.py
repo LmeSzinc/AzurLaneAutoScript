@@ -36,14 +36,14 @@ def remove_shell_warning(s):
     """
     if isinstance(s, bytes):
         while 1:
-            if s.startswith(b'WARNING: linker:'):
-                _, _, s = s.partition(b'\n')
+            if s.startswith(b"WARNING: linker:"):
+                _, _, s = s.partition(b"\n")
             else:
                 break
     elif isinstance(s, str):
         while 1:
-            if s.startswith('WARNING: linker:'):
-                _, _, s = s.partition('\n')
+            if s.startswith("WARNING: linker:"):
+                _, _, s = s.partition("\n")
             else:
                 break
 
@@ -105,35 +105,35 @@ def remove_screenshot_warning(s):
         str | bytes: Screenshot data with warnings removed
     """
     if isinstance(s, bytes):
-        if s.startswith(b'Failed to create'):
-            _, _, s = s.partition(b'\n')
-        if s.startswith(b'[Warning] Multiple displays'):
-            _, _, s = s.partition(b'\n')
-            if s.startswith(b'A display id') or s.startswith(b'A display ID'):
-                _, _, s = s.partition(b'\n')
+        if s.startswith(b"Failed to create"):
+            _, _, s = s.partition(b"\n")
+        if s.startswith(b"[Warning] Multiple displays"):
+            _, _, s = s.partition(b"\n")
+            if s.startswith(b"A display id") or s.startswith(b"A display ID"):
+                _, _, s = s.partition(b"\n")
                 if s.startswith(b'See "dumpsys'):
-                    _, _, s = s.partition(b'\n')
-        if s.startswith(b'long long=8'):
-            _, _, s = s.partition(b'\n')
-        if s.startswith(b'amdgpu:'):
-            _, _, s = s.partition(b'\n')
-            if s.startswith(b'If they do'):
-                _, _, s = s.partition(b'\n')
+                    _, _, s = s.partition(b"\n")
+        if s.startswith(b"long long=8"):
+            _, _, s = s.partition(b"\n")
+        if s.startswith(b"amdgpu:"):
+            _, _, s = s.partition(b"\n")
+            if s.startswith(b"If they do"):
+                _, _, s = s.partition(b"\n")
 
     elif isinstance(s, str):
-        if s.startswith('Failed to create'):
-            _, _, s = s.partition('\n')
-        if s.startswith('[Warning] Multiple displays'):
-            _, _, s = s.partition('\n')
-            if s.startswith('A display id') or s.startswith('A display ID'):
-                _, _, s = s.partition('\n')
+        if s.startswith("Failed to create"):
+            _, _, s = s.partition("\n")
+        if s.startswith("[Warning] Multiple displays"):
+            _, _, s = s.partition("\n")
+            if s.startswith("A display id") or s.startswith("A display ID"):
+                _, _, s = s.partition("\n")
                 if s.startswith('See "dumpsys'):
-                    _, _, s = s.partition('\n')
-        if s.startswith('long long=8'):
-            _, _, s = s.partition('\n')
-        if s.startswith('amdgpu:'):
-            _, _, s = s.partition('\n')
-            if s.startswith('If they do'):
-                _, _, s = s.partition('\n')
+                    _, _, s = s.partition("\n")
+        if s.startswith("long long=8"):
+            _, _, s = s.partition("\n")
+        if s.startswith("amdgpu:"):
+            _, _, s = s.partition("\n")
+            if s.startswith("If they do"):
+                _, _, s = s.partition("\n")
 
     return s

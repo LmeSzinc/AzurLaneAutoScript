@@ -1,31 +1,26 @@
 """
 Background task scheduling, extracted from the legacy pywebio utils module.
 """
+
 import datetime
 import operator
 import threading
 import time
-from typing import Callable, Generator, List
+from collections.abc import Callable, Generator
 
 from module.logger import logger
 
 
 def get_next_time(t: datetime.time):
     now = datetime.datetime.today().time()
-    second = (
-        (t.hour - now.hour) * 3600
-        + (t.minute - now.minute) * 60
-        + (t.second - now.second)
-    )
+    second = (t.hour - now.hour) * 3600 + (t.minute - now.minute) * 60 + (t.second - now.second)
     if second < 0:
         second += 86400
     return second
 
 
 class Task:
-    def __init__(
-        self, g: Generator, delay: float, next_run: float = None, name: str = None
-    ) -> None:
+    def __init__(self, g: Generator, delay: float, next_run: float = None, name: str = None) -> None:
         self.g = g
         g.send(None)
         self.delay = delay
@@ -58,9 +53,9 @@ def get_generator(func: Callable):
 class TaskHandler:
     def __init__(self) -> None:
         # List of background running task
-        self.tasks: List[Task] = []
+        self.tasks: list[Task] = []
         # List of task name to be removed
-        self.pending_remove_tasks: List[Task] = []
+        self.pending_remove_tasks: list[Task] = []
         # Running task
         self._task = None
         # Task running thread
@@ -98,9 +93,7 @@ class TaskHandler:
             self.tasks.remove(task)
             logger.info(f"Task {task} removed.")
         else:
-            logger.warning(
-                f"Failed to remove task {task}. Current tasks list: {self.tasks}"
-            )
+            logger.warning(f"Failed to remove task {task}. Current tasks list: {self.tasks}")
 
     def remove_task(self, task: Task, nowait: bool = False) -> None:
         """

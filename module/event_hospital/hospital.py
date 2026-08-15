@@ -6,7 +6,7 @@ from module.event_hospital.clue import HospitalClue
 from module.event_hospital.combat import HospitalCombat
 from module.exception import OilExhausted, ScriptEnd
 from module.logger import logger
-from module.ui.page import page_hospital, page_campaign_menu
+from module.ui.page import page_campaign_menu, page_hospital
 from module.ui.switch import Switch
 
 
@@ -20,15 +20,15 @@ class HospitalSwitch(Switch):
             str: state name or 'unknown'.
         """
         for data in self.state_list:
-            if main.image_color_count(data['check_button'], color=(33, 77, 189), threshold=221, count=100):
-                return data['state']
+            if main.image_color_count(data["check_button"], color=(33, 77, 189), threshold=221, count=100):
+                return data["state"]
 
-        return 'unknown'
+        return "unknown"
 
 
-HOSPITAL_TAB = HospitalSwitch('HOSPITAL_ASIDE', is_selector=True)
-HOSPITAL_TAB.add_state('LOCATION', check_button=TAB_LOCATION)
-HOSPITAL_TAB.add_state('CHARACTER', check_button=TAB_CHARACTER)
+HOSPITAL_TAB = HospitalSwitch("HOSPITAL_ASIDE", is_selector=True)
+HOSPITAL_TAB.add_state("LOCATION", check_button=TAB_LOCATION)
+HOSPITAL_TAB.add_state("CHARACTER", check_button=TAB_CHARACTER)
 
 
 class Hospital(HospitalClue, HospitalCombat):
@@ -42,7 +42,7 @@ class Hospital(HospitalClue, HospitalCombat):
         return self.match_template_color(HOSIPITAL_CLUE_CHECK, offset=(30, 30), interval=interval)
 
     def daily_reward_receive(self):
-        """"
+        """ "
         Returns:
             bool: If received
 
@@ -50,14 +50,14 @@ class Hospital(HospitalClue, HospitalCombat):
             in: page_hospital
         """
         if self.daily_red_dot_appear():
-            logger.info('Daily red dot appear')
+            logger.info("Daily red dot appear")
         else:
-            logger.info('No daily red dot')
+            logger.info("No daily red dot")
             return False
 
-        logger.hr('Daily reward receive', level=2)
+        logger.hr("Daily reward receive", level=2)
         # Enter reward
-        logger.info('Daily reward enter')
+        logger.info("Daily reward enter")
         skip_first_screenshot = True
         self.interval_clear(page_hospital.check_button)
         while 1:
@@ -68,12 +68,12 @@ class Hospital(HospitalClue, HospitalCombat):
             if self.is_in_daily_reward():
                 break
             if self.ui_page_appear(page_hospital, interval=2):
-                logger.info(f'{page_hospital} -> {HOSPITAL_GOTO_DAILY}')
+                logger.info(f"{page_hospital} -> {HOSPITAL_GOTO_DAILY}")
                 self.device.click(HOSPITAL_GOTO_DAILY)
                 continue
 
         # Claim reward
-        logger.info('Daily reward receive')
+        logger.info("Daily reward receive")
         skip_first_screenshot = True
         self.interval_clear(HOSIPITAL_CLUE_CHECK)
         timeout = Timer(1.5, count=6).start()
@@ -84,7 +84,7 @@ class Hospital(HospitalClue, HospitalCombat):
             else:
                 self.device.screenshot()
             if timeout.reached():
-                logger.warning('Daily reward receive timeout')
+                logger.warning("Daily reward receive timeout")
                 break
             if clicked and self.is_in_daily_reward():
                 if not self.daily_reward_receive_appear():
@@ -99,7 +99,7 @@ class Hospital(HospitalClue, HospitalCombat):
                 continue
 
         # Claim reward
-        logger.info('Daily reward exit')
+        logger.info("Daily reward exit")
         skip_first_screenshot = True
         self.interval_clear(HOSIPITAL_CLUE_CHECK)
         while 1:
@@ -112,7 +112,7 @@ class Hospital(HospitalClue, HospitalCombat):
                 break
             if self.is_in_daily_reward(interval=2):
                 self.device.click(HOSIPITAL_CLUE_CHECK)
-                logger.info(f'is_in_daily_reward -> {HOSIPITAL_CLUE_CHECK}')
+                logger.info(f"is_in_daily_reward -> {HOSIPITAL_CLUE_CHECK}")
                 continue
 
         return True
@@ -121,9 +121,9 @@ class Hospital(HospitalClue, HospitalCombat):
         """
         Do all invest in page
         """
-        self.config.override(Fleet_FleetOrder='fleet1_all_fleet2_standby')
+        self.config.override(Fleet_FleetOrder="fleet1_all_fleet2_standby")
         while 1:
-            logger.hr('Loop hospital invest', level=2)
+            logger.hr("Loop hospital invest", level=2)
             # Scheduler
             # May raise ScriptEnd
             self.emotion.check_reduce(battle=1)
@@ -142,16 +142,16 @@ class Hospital(HospitalClue, HospitalCombat):
             break
 
         self.claim_invest_reward()
-        logger.info('Loop hospital invest end')
+        logger.info("Loop hospital invest end")
 
     def invest_reward_appear(self) -> bool:
         return self.image_color_count(INVEST_REWARD_RECEIVE, color=(33, 77, 189), threshold=221, count=100)
 
     def claim_invest_reward(self):
         if self.invest_reward_appear():
-            logger.info('Invest reward appear')
+            logger.info("Invest reward appear")
         else:
-            logger.info('No invest reward')
+            logger.info("No invest reward")
             return False
         # Get reward
         skip_first_screenshot = True
@@ -179,37 +179,37 @@ class Hospital(HospitalClue, HospitalCombat):
         Do all aside in page
         """
         while 1:
-            logger.hr('Loop hospital aside', level=1)
-            HOSPITAL_TAB.set('LOCATION', main=self)
+            logger.hr("Loop hospital aside", level=1)
+            HOSPITAL_TAB.set("LOCATION", main=self)
             selected = self.select_aside()
             if not selected:
                 break
             self.loop_invest()
 
         while 1:
-            logger.hr('Loop hospital aside', level=1)
-            HOSPITAL_TAB.set('CHARACTER', main=self)
+            logger.hr("Loop hospital aside", level=1)
+            HOSPITAL_TAB.set("CHARACTER", main=self)
             selected = self.select_aside()
             if not selected:
                 break
             self.loop_invest()
 
         while 1:
-            logger.hr('Loop hospital aside', level=1)
-            HOSPITAL_TAB.set('CHARACTER', main=self)
+            logger.hr("Loop hospital aside", level=1)
+            HOSPITAL_TAB.set("CHARACTER", main=self)
             self.aside_swipe_down()
             selected = self.select_aside()
             if not selected:
                 break
             self.loop_invest()
 
-        logger.info('Loop hospital aside end')
+        logger.info("Loop hospital aside end")
 
     def aside_swipe_down(self, skip_first_screenshot=True):
         """
         Swipe til no ASIDE_NEXT_PAGE
         """
-        logger.info('Aside swipe down')
+        logger.info("Aside swipe down")
         swiped = False
         interval = Timer(2, count=6)
         while 1:
@@ -219,11 +219,10 @@ class Hospital(HospitalClue, HospitalCombat):
                 self.device.screenshot()
 
             if swiped and not self.appear(ASIDE_NEXT_PAGE, offset=(20, 20)):
-                logger.info('Aside reached end')
+                logger.info("Aside reached end")
                 break
             if interval.reached():
-                p1, p2 = random_rectangle_vector(
-                    vector=(0, -200), box=CLUE_LIST.area, random_range=(-20, -10, 20, 10))
+                p1, p2 = random_rectangle_vector(vector=(0, -200), box=CLUE_LIST.area, random_range=(-20, -10, 20, 10))
                 self.device.swipe(p1, p2)
                 interval.reset()
                 swiped = True
@@ -248,10 +247,10 @@ class Hospital(HospitalClue, HospitalCombat):
             self.config.task_delay(server_update=True)
         except OilExhausted:
             self.clue_exit()
-            logger.hr('Triggered stop condition: Oil limit')
+            logger.hr("Triggered stop condition: Oil limit")
             self.config.task_delay(minute=(120, 240))
         except ScriptEnd as e:
-            logger.hr('Script end')
+            logger.hr("Script end")
             logger.info(str(e))
             self.clue_exit()
         except TaskEnd:
@@ -259,7 +258,7 @@ class Hospital(HospitalClue, HospitalCombat):
             raise
 
 
-if __name__ == '__main__':
-    self = Hospital('alas')
+if __name__ == "__main__":
+    self = Hospital("alas")
     self.device.screenshot()
     self.loop_aside()

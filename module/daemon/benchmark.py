@@ -1,5 +1,4 @@
 import time
-import typing as t
 
 import numpy as np
 from rich.table import Table
@@ -17,7 +16,7 @@ def float2str(n, decimal=3):
     if not isinstance(n, (float, int)):
         return str(n)
     else:
-        return float2str_(n, decimal=decimal) + 's'
+        return float2str_(n, decimal=decimal) + "s"
 
 
 class Benchmark(DaemonBase, CampaignUI):
@@ -34,8 +33,8 @@ class Benchmark(DaemonBase, CampaignUI):
         Returns:
             float: Time cost on average.
         """
-        logger.hr(f'Benchmark test', level=2)
-        logger.info(f'Testing function: {func.__name__}')
+        logger.hr("Benchmark test", level=2)
+        logger.info(f"Testing function: {func.__name__}")
         record = []
 
         for n in range(1, self.TEST_TOTAL + 1):
@@ -44,24 +43,21 @@ class Benchmark(DaemonBase, CampaignUI):
             try:
                 func(*args, **kwargs)
             except RequestHumanTakeover:
-                logger.critical('RequestHumanTakeover')
-                logger.warning(f'Benchmark tests failed on func: {func.__name__}')
-                return 'Failed'
+                logger.critical("RequestHumanTakeover")
+                logger.warning(f"Benchmark tests failed on func: {func.__name__}")
+                return "Failed"
             except Exception as e:
                 logger.exception(e)
-                logger.warning(f'Benchmark tests failed on func: {func.__name__}')
-                return 'Failed'
+                logger.warning(f"Benchmark tests failed on func: {func.__name__}")
+                return "Failed"
 
             cost = time.perf_counter() - start
-            logger.attr(
-                f'{str(n).rjust(2, "0")}/{self.TEST_TOTAL}',
-                f'{float2str(cost)}'
-            )
+            logger.attr(f"{str(n).rjust(2, '0')}/{self.TEST_TOTAL}", f"{float2str(cost)}")
             record.append(cost)
 
-        logger.info('Benchmark tests done')
-        average = float(np.mean(np.sort(record)[:self.TEST_BEST]))
-        logger.info(f'Time cost {float2str(average)} ({self.TEST_BEST} best results out of {self.TEST_TOTAL} tests)')
+        logger.info("Benchmark tests done")
+        average = float(np.mean(np.sort(record)[: self.TEST_BEST]))
+        logger.info(f"Time cost {float2str(average)} ({self.TEST_BEST} best results out of {self.TEST_TOTAL} tests)")
         return average
 
     @staticmethod
@@ -70,20 +66,20 @@ class Benchmark(DaemonBase, CampaignUI):
             return Text(cost, style="bold bright_red")
 
         if cost < 0.025:
-            return Text('Insane Fast', style="bold bright_green")
+            return Text("Insane Fast", style="bold bright_green")
         if cost < 0.100:
-            return Text('Ultra Fast', style="bold bright_green")
+            return Text("Ultra Fast", style="bold bright_green")
         if cost < 0.200:
-            return Text('Very Fast', style="bright_green")
+            return Text("Very Fast", style="bright_green")
         if cost < 0.300:
-            return Text('Fast', style="green")
+            return Text("Fast", style="green")
         if cost < 0.500:
-            return Text('Medium', style="yellow")
+            return Text("Medium", style="yellow")
         if cost < 0.750:
-            return Text('Slow', style="red")
+            return Text("Slow", style="red")
         if cost < 1.000:
-            return Text('Very Slow', style="bright_red")
-        return Text('Ultra Slow', style="bold bright_red")
+            return Text("Very Slow", style="bright_red")
+        return Text("Ultra Slow", style="bold bright_red")
 
     @staticmethod
     def evaluate_click(cost):
@@ -91,12 +87,12 @@ class Benchmark(DaemonBase, CampaignUI):
             return Text(cost, style="bold bright_red")
 
         if cost < 0.100:
-            return Text('Fast', style="bright_green")
+            return Text("Fast", style="bright_green")
         if cost < 0.200:
-            return Text('Medium', style="yellow")
+            return Text("Medium", style="yellow")
         if cost < 0.400:
-            return Text('Slow', style="red")
-        return Text('Very Slow', style="bright_red")
+            return Text("Slow", style="red")
+        return Text("Very Slow", style="bright_red")
 
     @staticmethod
     def show(test, data, evaluate_func):
@@ -117,9 +113,7 @@ class Benchmark(DaemonBase, CampaignUI):
         # for row in table.get_string().split('\n'):
         #     logger.info(row)
         table = Table(show_lines=True)
-        table.add_column(
-            test, header_style="bright_cyan", style="cyan", no_wrap=True
-        )
+        table.add_column(test, header_style="bright_cyan", style="cyan", no_wrap=True)
         table.add_column("Time", style="magenta")
         table.add_column("Speed", style="green")
         for row in data:
@@ -128,12 +122,12 @@ class Benchmark(DaemonBase, CampaignUI):
                 float2str(row[1]),
                 evaluate_func(row[1]),
             )
-        logger.print(table, justify='center')
+        logger.print(table, justify="center")
 
-    def benchmark(self, screenshot: t.Tuple[str] = (), click: t.Tuple[str] = ()):
-        logger.hr('Benchmark', level=1)
-        logger.info(f'Testing screenshot methods: {screenshot}')
-        logger.info(f'Testing click methods: {click}')
+    def benchmark(self, screenshot: tuple[str] = (), click: tuple[str] = ()):
+        logger.hr("Benchmark", level=1)
+        logger.info(f"Testing screenshot methods: {screenshot}")
+        logger.info(f"Testing click methods: {click}")
 
         screenshot_result = []
         for method in screenshot:
@@ -154,72 +148,72 @@ class Benchmark(DaemonBase, CampaignUI):
             else:
                 return res
 
-        logger.hr('Benchmark Results', level=1)
-        fastest_screenshot = 'ADB_nc'
-        fastest_click = 'minitouch'
+        logger.hr("Benchmark Results", level=1)
+        fastest_screenshot = "ADB_nc"
+        fastest_click = "minitouch"
         if screenshot_result:
-            self.show(test='Screenshot', data=screenshot_result, evaluate_func=self.evaluate_screenshot)
+            self.show(test="Screenshot", data=screenshot_result, evaluate_func=self.evaluate_screenshot)
             fastest = sorted(screenshot_result, key=lambda item: compare(item))[0]
-            logger.info(f'Recommend screenshot method: {fastest[0]} ({float2str(fastest[1])})')
+            logger.info(f"Recommend screenshot method: {fastest[0]} ({float2str(fastest[1])})")
             fastest_screenshot = fastest[0]
         if click_result:
-            self.show(test='Control', data=click_result, evaluate_func=self.evaluate_click)
+            self.show(test="Control", data=click_result, evaluate_func=self.evaluate_click)
             fastest = sorted(click_result, key=lambda item: compare(item))[0]
             # Prefer MaaTouch if both minitouch and MaaTouch are fastest
-            if 'MaaTouch' in click and fastest[0] == 'minitouch':
-                fastest[0] = 'MaaTouch'
-            logger.info(f'Recommend control method: {fastest[0]} ({float2str(fastest[1])})')
+            if "MaaTouch" in click and fastest[0] == "minitouch":
+                fastest[0] = "MaaTouch"
+            logger.info(f"Recommend control method: {fastest[0]} ({float2str(fastest[1])})")
             fastest_click = fastest[0]
 
         return fastest_screenshot, fastest_click
 
-    def get_test_methods(self) -> t.Tuple[t.Tuple[str], t.Tuple[str]]:
+    def get_test_methods(self) -> tuple[tuple[str], tuple[str]]:
         device = self.config.Benchmark_DeviceType
         # device == 'emulator'
-        screenshot = ['ADB', 'ADB_nc', 'uiautomator2', 'aScreenCap', 'aScreenCap_nc', 'DroidCast', 'DroidCast_raw']
-        click = ['ADB', 'uiautomator2', 'minitouch', 'MaaTouch']
+        screenshot = ["ADB", "ADB_nc", "uiautomator2", "aScreenCap", "aScreenCap_nc", "DroidCast", "DroidCast_raw"]
+        click = ["ADB", "uiautomator2", "minitouch", "MaaTouch"]
 
         def remove(*args):
             return [l for l in screenshot if l not in args]
 
         # No ascreencap on Android > 9
         sdk = self.device.sdk_ver
-        logger.info(f'sdk_ver: {sdk}')
+        logger.info(f"sdk_ver: {sdk}")
         if not (21 <= sdk <= 28):
-            screenshot = remove('aScreenCap', 'aScreenCap_nc')
+            screenshot = remove("aScreenCap", "aScreenCap_nc")
         # No nc loopback
-        if device in ['plone_cloud_with_adb']:
-            screenshot = remove('ADB_nc', 'aScreenCap_nc')
+        if device in ["plone_cloud_with_adb"]:
+            screenshot = remove("ADB_nc", "aScreenCap_nc")
         # VMOS
-        if device == 'android_phone_vmos':
-            screenshot = ['ADB', 'aScreenCap', 'DroidCast', 'DroidCast_raw']
-            click = ['ADB', 'Hermit', 'MaaTouch']
+        if device == "android_phone_vmos":
+            screenshot = ["ADB", "aScreenCap", "DroidCast", "DroidCast_raw"]
+            click = ["ADB", "Hermit", "MaaTouch"]
         # Droidcast on SDK 23 (Android 6.0) to SDK 32 (Android 12)
         if not (23 <= sdk <= 32):
-            screenshot = remove('DroidCast', 'DroidCast_raw')
+            screenshot = remove("DroidCast", "DroidCast_raw")
 
         if self.device.nemu_ipc_available():
-            screenshot.append('nemu_ipc')
+            screenshot.append("nemu_ipc")
         if self.device.ldopengl_available():
-            screenshot.append('ldopengl')
+            screenshot.append("ldopengl")
         if self.device.is_bluestacks_air:
-            screenshot = [l for l in screenshot if 'DroidCast' not in l]
+            screenshot = [l for l in screenshot if "DroidCast" not in l]
 
         scene = self.config.Benchmark_TestScene
-        if 'screenshot' not in scene:
+        if "screenshot" not in scene:
             screenshot = []
-        if 'click' not in scene:
+        if "click" not in scene:
             click = []
 
         return tuple(screenshot), tuple(click)
 
     def run(self):
-        self.config.override(Emulator_ScreenshotMethod='ADB')
+        self.config.override(Emulator_ScreenshotMethod="ADB")
         self.device.uninstall_minicap()
-        self.ensure_campaign_ui('7-2', mode='normal')
+        self.ensure_campaign_ui("7-2", mode="normal")
 
-        logger.attr('DeviceType', self.config.Benchmark_DeviceType)
-        logger.attr('TestScene', self.config.Benchmark_TestScene)
+        logger.attr("DeviceType", self.config.Benchmark_DeviceType)
+        logger.attr("TestScene", self.config.Benchmark_TestScene)
         screenshot, click = self.get_test_methods()
         self.benchmark(screenshot, click)
 
@@ -228,21 +222,21 @@ class Benchmark(DaemonBase, CampaignUI):
         Returns:
             str: The fastest screenshot method on current device.
         """
-        screenshot = ['ADB', 'ADB_nc', 'uiautomator2', 'aScreenCap', 'aScreenCap_nc', 'DroidCast', 'DroidCast_raw']
+        screenshot = ["ADB", "ADB_nc", "uiautomator2", "aScreenCap", "aScreenCap_nc", "DroidCast", "DroidCast_raw"]
 
         def remove(*args):
             return [l for l in screenshot if l not in args]
 
         sdk = self.device.sdk_ver
-        logger.info(f'sdk_ver: {sdk}')
+        logger.info(f"sdk_ver: {sdk}")
         if not (21 <= sdk <= 28):
-            screenshot = remove('aScreenCap', 'aScreenCap_nc')
+            screenshot = remove("aScreenCap", "aScreenCap_nc")
         if self.device.is_chinac_phone_cloud:
-            screenshot = remove('ADB_nc', 'aScreenCap_nc')
+            screenshot = remove("ADB_nc", "aScreenCap_nc")
         if self.device.nemu_ipc_available():
-            screenshot.append('nemu_ipc')
+            screenshot.append("nemu_ipc")
         if self.device.ldopengl_available():
-            screenshot.append('ldopengl')
+            screenshot.append("ldopengl")
         screenshot = tuple(screenshot)
 
         self.TEST_TOTAL = 3
@@ -254,8 +248,8 @@ class Benchmark(DaemonBase, CampaignUI):
 
 def run_benchmark(config):
     try:
-        Benchmark(config, task='Benchmark').run()
+        Benchmark(config, task="Benchmark").run()
         return True
     except RequestHumanTakeover:
-        logger.critical('Request human takeover')
+        logger.critical("Request human takeover")
         return False

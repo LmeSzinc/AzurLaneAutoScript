@@ -3,22 +3,22 @@ from module.ocr.ocr import Digit, DigitCounter
 from module.private_quarters.assets import *
 from module.shop.shop_status import ShopStatus
 
-if server.server in ['cn', 'jp', 'tw']:
+if server.server in ["cn", "jp", "tw"]:
     OCR_DAILY_COUNT = DigitCounter(PRIVATE_QUARTERS_DAILY_COUNT, letter=(218, 219, 221))
 else:
     OCR_DAILY_COUNT = DigitCounter(PRIVATE_QUARTERS_DAILY_COUNT, letter=(255, 247, 247))
 
-if server.server != 'jp':
-    OCR_SHOP_GOLD_COINS = Digit(PRIVATE_QUARTERS_SHOP_GOLD_COINS, letter=(239, 239, 239), name='OCR_SHOP_GOLD_COINS')
+if server.server != "jp":
+    OCR_SHOP_GOLD_COINS = Digit(PRIVATE_QUARTERS_SHOP_GOLD_COINS, letter=(239, 239, 239), name="OCR_SHOP_GOLD_COINS")
 else:
-    OCR_SHOP_GOLD_COINS = Digit(PRIVATE_QUARTERS_SHOP_GOLD_COINS, letter=(201, 201, 201), name='OCR_SHOP_GOLD_COINS')
+    OCR_SHOP_GOLD_COINS = Digit(PRIVATE_QUARTERS_SHOP_GOLD_COINS, letter=(201, 201, 201), name="OCR_SHOP_GOLD_COINS")
 
-if server.server != 'jp':
-    OCR_SHOP_GEMS = Digit(PRIVATE_QUARTERS_SHOP_GEMS, letter=(255, 243, 82), name='OCR_SHOP_GEMS')
+if server.server != "jp":
+    OCR_SHOP_GEMS = Digit(PRIVATE_QUARTERS_SHOP_GEMS, letter=(255, 243, 82), name="OCR_SHOP_GEMS")
 else:
-    OCR_SHOP_GEMS = Digit(PRIVATE_QUARTERS_SHOP_GEMS, letter=(190, 180, 82), name='OCR_SHOP_GEMS')
+    OCR_SHOP_GEMS = Digit(PRIVATE_QUARTERS_SHOP_GEMS, letter=(190, 180, 82), name="OCR_SHOP_GEMS")
 
-OCR_SHOP_PRICE = Digit([], letter=(64, 72, 77), name='OCR_SHOP_PRICE')
+OCR_SHOP_PRICE = Digit([], letter=(64, 72, 77), name="OCR_SHOP_PRICE")
 
 
 class PQStatus(ShopStatus):

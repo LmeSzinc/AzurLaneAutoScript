@@ -24,21 +24,24 @@ class EmulatorManager(AlasManager):
     @cached_property
     def emulator_manager(self):
         from module.device.platform.emulator_windows import EmulatorManager
+
         return EmulatorManager()
 
     def adb_kill(self):
         # Just kill it, because some adb don't obey.
-        logger.hr('Kill all known ADB', level=2)
-        for proc in self.iter_process_by_names([
-            # Most emulator use this
-            'adb.exe',
-            # NoxPlayer 夜神模拟器
-            'nox_adb.exe',
-            # MumuPlayer MuMu模拟器
-            'adb_server.exe',
-            # Bluestacks 蓝叠模拟器
-            'HD-Adb.exe'
-        ]):
+        logger.hr("Kill all known ADB", level=2)
+        for proc in self.iter_process_by_names(
+            [
+                # Most emulator use this
+                "adb.exe",
+                # NoxPlayer 夜神模拟器
+                "nox_adb.exe",
+                # MumuPlayer MuMu模拟器
+                "adb_server.exe",
+                # Bluestacks 蓝叠模拟器
+                "HD-Adb.exe",
+            ]
+        ):
             logger.info(proc)
             self.kill_process(proc)
 
@@ -47,13 +50,13 @@ class EmulatorManager(AlasManager):
         Returns:
             list[DataAdbDevice]: Connected devices in adb
         """
-        logger.hr('Adb deivces', level=2)
-        result = self.subprocess_execute([self.adb, 'devices'])
+        logger.hr("Adb deivces", level=2)
+        result = self.subprocess_execute([self.adb, "devices"])
         devices = []
-        for line in result.replace('\r\r\n', '\n').replace('\r\n', '\n').split('\n'):
-            if line.startswith('List') or '\t' not in line:
+        for line in result.replace("\r\r\n", "\n").replace("\r\n", "\n").split("\n"):
+            if line.startswith("List") or "\t" not in line:
                 continue
-            serial, status = line.split('\t')
+            serial, status = line.split("\t")
             device = DataAdbDevice(
                 serial=serial,
                 status=status,
@@ -70,24 +73,22 @@ class EmulatorManager(AlasManager):
 
         # Disconnect offline devices
         for device in devices:
-            if device.status == 'offline':
-                self.subprocess_execute([self.adb, 'disconnect', device.serial])
+            if device.status == "offline":
+                self.subprocess_execute([self.adb, "disconnect", device.serial])
 
         # Get serial
         list_serial = self.emulator_manager.all_emulator_serials
 
-        logger.hr('Brute force connect', level=2)
+        logger.hr("Brute force connect", level=2)
 
         async def _connect(serial):
             try:
-                await asyncio.create_subprocess_exec(self.adb, 'connect', serial)
+                await asyncio.create_subprocess_exec(self.adb, "connect", serial)
             except Exception as e:
                 logger.info(e)
 
         async def connect():
-            await asyncio.gather(
-                *[_connect(serial) for serial in list_serial]
-            )
+            await asyncio.gather(*[_connect(serial) for serial in list_serial])
 
         asyncio.run(connect())
 
@@ -105,7 +106,7 @@ class EmulatorManager(AlasManager):
             str: Filepath to its backup file
         """
         for n in range(10):
-            backup = f'{adb}.bak{n}' if n else f'{adb}.bak'
+            backup = f"{adb}.bak{n}" if n else f"{adb}.bak"
             if os.path.exists(backup):
                 if new_backup:
                     continue
@@ -118,12 +119,12 @@ class EmulatorManager(AlasManager):
                     continue
 
         # Too many backups, override the first one
-        return f'{adb}.bak'
+        return f"{adb}.bak"
 
     def iter_adb_to_replace(self) -> t.Iterable[str]:
         for adb in self.emulator_manager.all_adb_binaries:
             if filecmp.cmp(adb, self.adb, shallow=True):
-                logger.info(f'{adb} is same as {self.adb}, skip')
+                logger.info(f"{adb} is same as {self.adb}, skip")
                 continue
             else:
                 yield adb
@@ -135,40 +136,40 @@ class EmulatorManager(AlasManager):
         """
         replace = list(self.iter_adb_to_replace())
         if not replace:
-            logger.info('No need to replace')
+            logger.info("No need to replace")
             return
 
         self.adb_kill()
         for adb in replace:
-            logger.info(f'Replacing {adb}')
+            logger.info(f"Replacing {adb}")
             bak = self.adb_path_to_backup(adb, new_backup=True)
             try:
-                logger.info(f'{adb} -----> {bak}')
+                logger.info(f"{adb} -----> {bak}")
                 shutil.move(adb, bak)
-                logger.info(f'{self.adb} -----> {adb}')
+                logger.info(f"{self.adb} -----> {adb}")
                 shutil.copy(self.adb, adb)
             except OSError as e:
-                logger.warning(f'Failed to replace {adb}, {e}')
+                logger.warning(f"Failed to replace {adb}, {e}")
 
     def adb_recover(self):
         """
         Revert `adb_replace()`
         """
         for adb in self.emulator_manager.all_adb_binaries:
-            logger.info(f'Recovering {adb}')
+            logger.info(f"Recovering {adb}")
             bak = self.adb_path_to_backup(adb, new_backup=False)
             if os.path.exists(bak):
-                logger.info(f'Delete {adb}')
+                logger.info(f"Delete {adb}")
                 if os.path.exists(adb):
                     os.remove(adb)
-                logger.info(f'{bak} -----> {adb}')
+                logger.info(f"{bak} -----> {adb}")
                 shutil.move(bak, adb)
             else:
-                logger.info('No backup available, skip')
+                logger.info("No backup available, skip")
                 continue
 
 
-if __name__ == '__main__':
-    os.chdir(os.path.join(os.path.dirname(__file__), '../../'))
+if __name__ == "__main__":
+    os.chdir(os.path.join(os.path.dirname(__file__), "../../"))
     self = EmulatorManager()
     self.brute_force_connect()

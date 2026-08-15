@@ -20,5 +20,5 @@ def init_discord_rpc():
 
 def close_discord_rpc():
     if RPC:
-        RPC.send_data(2, {'v': 1, 'client_id': RPC.client_id})
+        RPC.send_data(2, {"v": 1, "client_id": RPC.client_id})
         RPC.sock_writer.close()

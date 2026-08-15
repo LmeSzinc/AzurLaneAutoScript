@@ -1,9 +1,9 @@
-﻿import argparse
+import argparse
 import os
 import queue
 import threading
 from multiprocessing import Process
-from typing import Dict, List, Union
+from typing import Union
 
 import inflection
 from rich.console import Console, ConsoleRenderable
@@ -12,22 +12,28 @@ from rich.console import Console, ConsoleRenderable
 # the following code needs to be repeated
 from module.logger import logger, set_file_logger, set_func_logger
 from module.submodule.submodule import load_mod
-from module.submodule.utils import get_available_func, get_available_mod, get_available_mod_func, get_config_mod, \
-    get_func_mod, list_mod_instance
+from module.submodule.utils import (
+    get_available_func,
+    get_available_mod,
+    get_available_mod_func,
+    get_config_mod,
+    get_func_mod,
+    list_mod_instance,
+)
 from module.webui.setting import State
 
 
 class ProcessManager:
-    _processes: Dict[str, "ProcessManager"] = {}
+    _processes: dict[str, "ProcessManager"] = {}
 
     def __init__(self, config_name: str = "alas") -> None:
         self.config_name = config_name
         self._renderable_queue: queue.Queue[ConsoleRenderable] = State.manager.Queue()
-        self.renderables: List[ConsoleRenderable] = []
+        self.renderables: list[ConsoleRenderable] = []
         self.renderables_max_length = 400
         self.renderables_reduce_length = 80
         self._process: Process = None
-        self._process_locks: Dict[str, threading.Lock] = {}
+        self._process_locks: dict[str, threading.Lock] = {}
         self.thd_log_queue_handler: threading.Thread = None
 
     def start(self, func, ev: threading.Event = None) -> None:
@@ -47,14 +53,9 @@ class ProcessManager:
             self.start_log_queue_handler()
 
     def start_log_queue_handler(self):
-        if (
-            self.thd_log_queue_handler is not None
-            and self.thd_log_queue_handler.is_alive()
-        ):
+        if self.thd_log_queue_handler is not None and self.thd_log_queue_handler.is_alive():
             return
-        self.thd_log_queue_handler = threading.Thread(
-            target=self._thread_log_queue_handler
-        )
+        self.thd_log_queue_handler = threading.Thread(target=self._thread_log_queue_handler)
         self.thd_log_queue_handler.start()
 
     def stop(self) -> None:
@@ -67,15 +68,11 @@ class ProcessManager:
         with lock:
             if self.alive:
                 self._process.kill()
-                self.renderables.append(
-                    f"[{self.config_name}] exited. Reason: Manual stop\n"
-                )
+                self.renderables.append(f"[{self.config_name}] exited. Reason: Manual stop\n")
             if self.thd_log_queue_handler is not None:
                 self.thd_log_queue_handler.join(timeout=1)
                 if self.thd_log_queue_handler.is_alive():
-                    logger.warning(
-                        "Log queue handler thread does not stop within 1 seconds"
-                    )
+                    logger.warning("Log queue handler thread does not stop within 1 seconds")
         logger.info(f"[{self.config_name}] exited")
 
     def _thread_log_queue_handler(self) -> None:
@@ -107,9 +104,7 @@ class ProcessManager:
             with console.capture() as capture:
                 console.print(self.renderables[-1])
             s = capture.get().strip()
-            if s.endswith("Reason: Manual stop"):
-                return 2
-            elif s.endswith("Reason: Finish"):
+            if s.endswith("Reason: Manual stop") or s.endswith("Reason: Finish"):
                 return 2
             elif s.endswith("Reason: Update"):
                 return 4
@@ -126,13 +121,9 @@ class ProcessManager:
         return cls._processes[config_name]
 
     @staticmethod
-    def run_process(
-        config_name, func: str, q: queue.Queue, e: threading.Event = None
-    ) -> None:
+    def run_process(config_name, func: str, q: queue.Queue, e: threading.Event = None) -> None:
         parser = argparse.ArgumentParser()
-        parser.add_argument(
-            "--electron", action="store_true", help="Runs by electron client."
-        )
+        parser.add_argument("--electron", action="store_true", help="Runs by electron client.")
         args, _ = parser.parse_known_args()
         State.electron = args.electron
 
@@ -142,6 +133,7 @@ class ProcessManager:
             # https://github.com/LmeSzinc/AzurLaneAutoScript/issues/2051
             logger.info("Electron detected, remove log output to stdout")
             from module.logger import console_hdlr
+
             logger.removeHandler(console_hdlr)
         set_func_logger(func=q.put)
 
@@ -175,7 +167,7 @@ class ProcessManager:
             logger.exception(e)
 
     @classmethod
-    def running_instances(cls) -> List["ProcessManager"]:
+    def running_instances(cls) -> list["ProcessManager"]:
         l = []
         for process in cls._processes.values():
             if process.alive:
@@ -183,9 +175,7 @@ class ProcessManager:
         return l
 
     @staticmethod
-    def restart_processes(
-        instances: List[Union["ProcessManager", str]] = None, ev: threading.Event = None
-    ):
+    def restart_processes(instances: list[Union["ProcessManager", str]] = None, ev: threading.Event = None):
         """
         After update and reload, or failed to perform an update,
         restart all alas that running before update
@@ -207,7 +197,7 @@ class ProcessManager:
                 _instances.add(instance)
 
         try:
-            with open("./config/reloadalas", mode="r") as f:
+            with open("./config/reloadalas") as f:
                 for line in f.readlines():
                     line = line.strip()
                     _instances.add(ProcessManager.get_manager(line))

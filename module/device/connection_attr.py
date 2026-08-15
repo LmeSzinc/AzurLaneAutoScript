@@ -7,8 +7,8 @@ from adbutils import AdbClient, AdbDevice
 
 from module.base.decorator import cached_property
 from module.config.config import AzurLaneConfig
-from module.config.env import IS_ON_PHONE_CLOUD
 from module.config.deep import deep_iter
+from module.config.env import IS_ON_PHONE_CLOUD
 from module.device.method.utils import get_serial_pair
 from module.exception import RequestHumanTakeover
 from module.logger import logger
@@ -18,27 +18,23 @@ class ConnectionAttr:
     config: AzurLaneConfig
     serial: str
 
-    adb_binary_list = [
-        './bin/adb/adb.exe',
-        './toolkit/Lib/site-packages/adbutils/binaries/adb.exe',
-        '/usr/bin/adb'
-    ]
+    adb_binary_list = ["./bin/adb/adb.exe", "./toolkit/Lib/site-packages/adbutils/binaries/adb.exe", "/usr/bin/adb"]
 
     def __init__(self, config):
         """
         Args:
             config (AzurLaneConfig, str): Name of the user config under ./config
         """
-        logger.hr('Device', level=1)
+        logger.hr("Device", level=1)
         if isinstance(config, str):
             self.config = AzurLaneConfig(config, task=None)
         else:
             self.config = config
 
-        logger.attr('IS_ON_PHONE_CLOUD', IS_ON_PHONE_CLOUD)
+        logger.attr("IS_ON_PHONE_CLOUD", IS_ON_PHONE_CLOUD)
 
         # Init adb client
-        logger.attr('AdbBinary', self.adb_binary)
+        logger.attr("AdbBinary", self.adb_binary)
         # Monkey patch to custom adb
         adbutils.adb_path = lambda: self.adb_binary
         # Remove global proxies, or uiautomator2 will go through it
@@ -48,18 +44,18 @@ class ConnectionAttr:
         for _, v in deep_iter(d, depth=3):
             if not isinstance(v, dict):
                 continue
-            if 'oc' in v['type'] and v['value']:
+            if "oc" in v["type"] and v["value"]:
                 count += 1
         if count >= 3:
             for k, _ in deep_iter(d, depth=1):
-                if 'proxy' in k[0].split('_')[-1].lower():
+                if "proxy" in k[0].split("_")[-1].lower():
                     del os.environ[k[0]]
         else:
             su = super(self.config.__class__, self.config)
             for k, v in deep_iter(su.__dict__, depth=1):
                 if not isinstance(v, str):
                     continue
-                if 'eri' in k[0].split('_')[-1]:
+                if "eri" in k[0].split("_")[-1]:
                     print(k, v)
                     su.__setattr__(k[0], chr(8) + v)
         # Cache adb_client
@@ -77,14 +73,14 @@ class ConnectionAttr:
         To load a serial:
             serial = SerialStr.revise_serial(serial)
         """
-        serial = serial.strip().replace(' ', '')
+        serial = serial.strip().replace(" ", "")
         # 127。0。0。1：5555
-        serial = serial.replace('。', '.').replace('，', '.').replace(',', '.').replace('：', ':')
+        serial = serial.replace("。", ".").replace("，", ".").replace(",", ".").replace("：", ":")
         # 127.0.0.1.5555
-        serial = serial.replace('127.0.0.1.', '127.0.0.1:')
+        serial = serial.replace("127.0.0.1.", "127.0.0.1:")
         # 5555,16384 (actually "5555.16384" because replace(',', '.'))
-        if '.' in serial:
-            left, _, right = serial.partition('.')
+        if "." in serial:
+            left, _, right = serial.partition(".")
             try:
                 left = int(left)
                 right = int(right)
@@ -97,20 +93,21 @@ class ConnectionAttr:
             try:
                 port = int(serial)
                 if 1000 < port < 65536:
-                    serial = f'127.0.0.1:{port}'
+                    serial = f"127.0.0.1:{port}"
             except ValueError:
                 pass
         # 夜神模拟器 127.0.0.1:62001
         # MuMu模拟器12127.0.0.1:16384
-        if '模拟' in serial:
+        if "模拟" in serial:
             import re
-            res = re.search(r'(127\.\d+\.\d+\.\d+:\d+)', serial)
+
+            res = re.search(r"(127\.\d+\.\d+\.\d+:\d+)", serial)
             if res:
                 serial = res.group(1)
         # 12127.0.0.1:16384
-        serial = serial.replace('12127.0.0.1', '127.0.0.1')
+        serial = serial.replace("12127.0.0.1", "127.0.0.1")
         # auto127.0.0.1:16384
-        serial = serial.replace('auto127.0.0.1', '127.0.0.1').replace('autoemulator', 'emulator')
+        serial = serial.replace("auto127.0.0.1", "127.0.0.1").replace("autoemulator", "emulator")
         return str(serial)
 
     def serial_check(self):
@@ -128,21 +125,25 @@ class ConnectionAttr:
         if self.is_bluestacks5_hyperv:
             self.serial = self.find_bluestacks5_hyperv(self.serial)
         if "127.0.0.1:58526" in self.serial:
-            logger.warning('Serial 127.0.0.1:58526 seems to be WSA, '
-                           'please use "wsa-0" or others instead')
+            logger.warning('Serial 127.0.0.1:58526 seems to be WSA, please use "wsa-0" or others instead')
             raise RequestHumanTakeover
         if self.is_wsa:
-            self.serial = '127.0.0.1:58526'
-            if self.config.Emulator_ScreenshotMethod != 'uiautomator2' \
-                    or self.config.Emulator_ControlMethod != 'uiautomator2':
+            self.serial = "127.0.0.1:58526"
+            if (
+                self.config.Emulator_ScreenshotMethod != "uiautomator2"
+                or self.config.Emulator_ControlMethod != "uiautomator2"
+            ):
                 with self.config.multi_set():
-                    self.config.Emulator_ScreenshotMethod = 'uiautomator2'
-                    self.config.Emulator_ControlMethod = 'uiautomator2'
+                    self.config.Emulator_ScreenshotMethod = "uiautomator2"
+                    self.config.Emulator_ControlMethod = "uiautomator2"
         if self.is_over_http:
-            if self.config.Emulator_ScreenshotMethod not in ["ADB", "uiautomator2", "aScreenCap"] \
-                    or self.config.Emulator_ControlMethod not in ["ADB", "uiautomator2", "minitouch"]:
+            if self.config.Emulator_ScreenshotMethod not in [
+                "ADB",
+                "uiautomator2",
+                "aScreenCap",
+            ] or self.config.Emulator_ControlMethod not in ["ADB", "uiautomator2", "minitouch"]:
                 logger.warning(
-                    f'When connecting to a device over http: {self.serial} '
+                    f"When connecting to a device over http: {self.serial} "
                     f'ScreenshotMethod can only use ["ADB", "uiautomator2", "aScreenCap"], '
                     f'ControlMethod can only use ["ADB", "uiautomator2", "minitouch"]'
                 )
@@ -162,7 +163,7 @@ class ConnectionAttr:
 
     @cached_property
     def is_wsa(self):
-        return bool(re.match(r'^wsa', self.serial))
+        return bool(re.match(r"^wsa", self.serial))
 
     @cached_property
     def port(self) -> int:
@@ -170,7 +171,7 @@ class ConnectionAttr:
         if port_serial is None:
             port_serial = self.serial
         try:
-            return int(port_serial.split(':')[1])
+            return int(port_serial.split(":")[1])
         except (IndexError, ValueError):
             return 0
 
@@ -183,13 +184,13 @@ class ConnectionAttr:
     def is_mumu_family(self):
         # 127.0.0.1:7555
         # 127.0.0.1:16384 + 32*n
-        return self.serial == '127.0.0.1:7555' or self.is_mumu12_family
+        return self.serial == "127.0.0.1:7555" or self.is_mumu12_family
 
     @cached_property
     def is_ldplayer_bluestacks_family(self):
         # Note that LDPlayer and BlueStacks have the same serial range
         # 127.0.0.1:5555 + 2*n, assume 32 instances at max
-        return self.serial.startswith('emulator-') or 5555 <= self.port <= 5619
+        return self.serial.startswith("emulator-") or 5555 <= self.port <= 5619
 
     @cached_property
     def is_nox_family(self):
@@ -201,15 +202,15 @@ class ConnectionAttr:
 
     @cached_property
     def is_emulator(self):
-        return self.serial.startswith('emulator-') or self.serial.startswith('127.0.0.1:')
+        return self.serial.startswith("emulator-") or self.serial.startswith("127.0.0.1:")
 
     @cached_property
     def is_network_device(self):
-        return bool(re.match(r'\d+\.\d+\.\d+\.\d+:\d+', self.serial))
+        return bool(re.match(r"\d+\.\d+\.\d+\.\d+:\d+", self.serial))
 
     @cached_property
     def is_local_network_device(self):
-        return bool(re.match(r'192\.168\.\d+\.\d+:\d+', self.serial))
+        return bool(re.match(r"192\.168\.\d+\.\d+:\d+", self.serial))
 
     @cached_property
     def is_over_http(self):
@@ -243,15 +244,17 @@ class ConnectionAttr:
             folder_name = f"Android_{serial[19:]}"
 
         try:
-            with OpenKey(HKEY_LOCAL_MACHINE,
-                         rf"SOFTWARE\BlueStacks_bgp64_hyperv\Guests\{folder_name}\Config") as key:
+            with OpenKey(HKEY_LOCAL_MACHINE, rf"SOFTWARE\BlueStacks_bgp64_hyperv\Guests\{folder_name}\Config") as key:
                 port = QueryValueEx(key, "BstAdbPort")[0]
         except FileNotFoundError:
             logger.error(
-                rf'Unable to find registry HKEY_LOCAL_MACHINE\SOFTWARE\BlueStacks_bgp64_hyperv\Guests\{folder_name}\Config')
-            logger.error('Please confirm that your are using BlueStack 4 hyper-v and not regular BlueStacks 4')
-            logger.error(r'Please check if there is any other emulator instances under '
-                         r'registry HKEY_LOCAL_MACHINE\SOFTWARE\BlueStacks_bgp64_hyperv\Guests')
+                rf"Unable to find registry HKEY_LOCAL_MACHINE\SOFTWARE\BlueStacks_bgp64_hyperv\Guests\{folder_name}\Config"
+            )
+            logger.error("Please confirm that your are using BlueStack 4 hyper-v and not regular BlueStacks 4")
+            logger.error(
+                r"Please check if there is any other emulator instances under "
+                r"registry HKEY_LOCAL_MACHINE\SOFTWARE\BlueStacks_bgp64_hyperv\Guests"
+            )
             raise RequestHumanTakeover
         logger.info(f"New adb port: {port}")
         return f"127.0.0.1:{port}"
@@ -279,19 +282,21 @@ class ConnectionAttr:
 
         try:
             with OpenKey(HKEY_LOCAL_MACHINE, r"SOFTWARE\BlueStacks_nxt") as key:
-                directory = QueryValueEx(key, 'UserDefinedDir')[0]
+                directory = QueryValueEx(key, "UserDefinedDir")[0]
         except FileNotFoundError:
             try:
                 with OpenKey(HKEY_LOCAL_MACHINE, r"SOFTWARE\BlueStacks_nxt_cn") as key:
-                    directory = QueryValueEx(key, 'UserDefinedDir')[0]
+                    directory = QueryValueEx(key, "UserDefinedDir")[0]
             except FileNotFoundError:
-                logger.error('Unable to find registry HKEY_LOCAL_MACHINE\SOFTWARE\BlueStacks_nxt '
-                             'or HKEY_LOCAL_MACHINE\SOFTWARE\BlueStacks_nxt_cn')
-                logger.error('Please confirm that you are using BlueStacks 5 hyper-v and not regular BlueStacks 5')
+                logger.error(
+                    r"Unable to find registry HKEY_LOCAL_MACHINE\SOFTWARE\BlueStacks_nxt "
+                    r"or HKEY_LOCAL_MACHINE\SOFTWARE\BlueStacks_nxt_cn"
+                )
+                logger.error("Please confirm that you are using BlueStacks 5 hyper-v and not regular BlueStacks 5")
                 raise RequestHumanTakeover
         logger.info(f"Configuration file directory: {directory}")
 
-        with open(os.path.join(directory, 'bluestacks.conf'), encoding='utf-8') as f:
+        with open(os.path.join(directory, "bluestacks.conf"), encoding="utf-8") as f:
             content = f.read()
         port = re.search(rf'{parameter_name}="(\d+)"', content)
         if port is None:
@@ -305,8 +310,9 @@ class ConnectionAttr:
     def adb_binary(self):
         # Try adb in deploy.yaml
         from module.webui.setting import State
+
         file = State.deploy_config.AdbExecutable
-        file = file.replace('\\', '/')
+        file = file.replace("\\", "/")
         if os.path.exists(file):
             return os.path.abspath(file)
 
@@ -317,29 +323,30 @@ class ConnectionAttr:
 
         # Try adb in python environment
         import sys
-        file = os.path.join(sys.executable, '../Lib/site-packages/adbutils/binaries/adb.exe')
-        file = os.path.abspath(file).replace('\\', '/')
+
+        file = os.path.join(sys.executable, "../Lib/site-packages/adbutils/binaries/adb.exe")
+        file = os.path.abspath(file).replace("\\", "/")
         if os.path.exists(file):
             return file
 
         # Use adb in system PATH
-        file = 'adb'
+        file = "adb"
         return file
 
     @cached_property
     def adb_client(self) -> AdbClient:
-        host = '127.0.0.1'
+        host = "127.0.0.1"
         port = 5037
 
         # Trying to get adb port from env
-        env = os.environ.get('ANDROID_ADB_SERVER_PORT', None)
+        env = os.environ.get("ANDROID_ADB_SERVER_PORT", None)
         if env is not None:
             try:
                 port = int(env)
             except ValueError:
-                logger.warning(f'Invalid environ variable ANDROID_ADB_SERVER_PORT={port}, using default port')
+                logger.warning(f"Invalid environ variable ANDROID_ADB_SERVER_PORT={port}, using default port")
 
-        logger.attr('AdbClient', f'AdbClient({host}, {port})')
+        logger.attr("AdbClient", f"AdbClient({host}, {port})")
         return AdbClient(host, port)
 
     @cached_property
@@ -353,7 +360,7 @@ class ConnectionAttr:
             device = u2.connect(self.serial)
         else:
             # Normal uiautomator2
-            if self.serial.startswith('emulator-') or self.serial.startswith('127.0.0.1:'):
+            if self.serial.startswith("emulator-") or self.serial.startswith("127.0.0.1:"):
                 device = u2.connect_usb(self.serial)
             else:
                 device = u2.connect(self.serial)
@@ -361,5 +368,5 @@ class ConnectionAttr:
         # Stay alive
         device.set_new_command_timeout(604800)
 
-        logger.attr('u2.Device', f'Device(atx_agent_url={device._get_atx_agent_url()})')
+        logger.attr("u2.Device", f"Device(atx_agent_url={device._get_atx_agent_url()})")
         return device

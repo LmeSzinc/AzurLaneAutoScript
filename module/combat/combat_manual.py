@@ -18,7 +18,7 @@ class CombatManual(ModuleBase):
         Returns:
             bool: If executed
         """
-        if auto != 'stand_still_in_the_middle':
+        if auto != "stand_still_in_the_middle":
             return False
         # When switching from auto to manual, fleets are usually in the middle, no need to move down
         # Otherwise fleet will be moved to the bottom
@@ -36,7 +36,7 @@ class CombatManual(ModuleBase):
         Returns:
             bool: If executed
         """
-        if auto != 'hide_in_bottom_left':
+        if auto != "hide_in_bottom_left":
             return False
 
         self.device.long_click(MOVE_LEFT_DOWN, duration=(3.5, 5.5))
@@ -50,7 +50,7 @@ class CombatManual(ModuleBase):
         Returns:
             bool: If executed
         """
-        if auto != 'hide_in_upper_left':
+        if auto != "hide_in_upper_left":
             return False
 
         self.device.long_click(MOVE_LEFT_UP, duration=(1.5, 3.5))

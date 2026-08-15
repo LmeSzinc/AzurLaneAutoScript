@@ -13,10 +13,10 @@ class CampaignMap:
         self.grid_class = GridInfo
         self.grids = {}
         self._shape = (0, 0)
-        self._map_data = ''
-        self._map_data_loop = ''
-        self._weight_data = ''
-        self._wall_data = ''
+        self._map_data = ""
+        self._map_data_loop = ""
+        self._weight_data = ""
+        self._wall_data = ""
         self._portal_data = []
         self._land_based_data = []
         self._maze_data = []
@@ -55,9 +55,9 @@ class CampaignMap:
     @staticmethod
     def _parse_text(text):
         text = text.strip()
-        for y, row in enumerate(text.split('\n')):
+        for y, row in enumerate(text.split("\n")):
             row = row.strip()
-            for x, data in enumerate(row.split(' ')):
+            for x, data in enumerate(row.split(" ")):
                 yield (x, y), data
 
     @property
@@ -78,7 +78,7 @@ class CampaignMap:
         self.camera_data_spawn_point = []
         # weight_data set to 10.
         for grid in self:
-            grid.weight = 10.
+            grid.weight = 10.0
 
     @property
     def map_data(self):
@@ -104,7 +104,7 @@ class CampaignMap:
                              clearing mode (Correct name) == fast forward (in old Alas) == loop (in lua files)
         """
         has_loop = bool(len(self.map_data_loop))
-        logger.info(f'Load map_data, has_loop={has_loop}, use_loop={use_loop}')
+        logger.info(f"Load map_data, has_loop={has_loop}, use_loop={use_loop}")
         if has_loop and use_loop:
             self._load_map_data(self.map_data_loop)
         else:
@@ -157,10 +157,10 @@ class CampaignMap:
             data (list[list[str]]): Such as [['H7', 'up'], ['D5', 'left'], ['G3', 'down'], ['C2', 'right']]
         """
         rotation_dict = {
-            'up': [(0, -1), (0, -2), (0, -3)],
-            'down': [(0, 1), (0, 2), (0, 3)],
-            'left': [(-1, 0), (-2, 0), (-3, 0)],
-            'right': [(1, 0), (2, 0), (3, 0)],
+            "up": [(0, -1), (0, -2), (0, -3)],
+            "down": [(0, 1), (0, 2), (0, 3)],
+            "left": [(-1, 0), (-2, 0), (-3, 0)],
+            "right": [(1, 0), (2, 0), (3, 0)],
         }
         self._land_based_data = data
         for land_based in data:
@@ -235,8 +235,9 @@ class CampaignMap:
             route.set(may_bouncing_enemy=True)
 
     def load_mechanism(self, land_based=False, maze=False, fortress=False, bouncing_enemy=False):
-        logger.info(f'Load mechanism, land_base={land_based}, maze={maze}, fortress={fortress}, '
-                    f'bouncing_enemy={bouncing_enemy}')
+        logger.info(
+            f"Load mechanism, land_base={land_based}, maze={maze}, fortress={fortress}, bouncing_enemy={bouncing_enemy}"
+        )
         if land_based:
             self._load_land_base_data(self.land_based_data)
         if maze:
@@ -255,7 +256,7 @@ class CampaignMap:
         Returns:
             bool: If used wall data.
         """
-        logger.info(f'grid_connection: wall={wall}, portal={portal}')
+        logger.info(f"grid_connection: wall={wall}, portal={portal}")
 
         # Generate grid connection.
         total = set([grid for grid in self.grids.keys()])
@@ -270,9 +271,9 @@ class CampaignMap:
         # Use wall_data to delete connection.
         if wall and self._wall_data:
             wall = []
-            for y, line in enumerate([l for l in self._wall_data.split('\n') if l]):
+            for y, line in enumerate([l for l in self._wall_data.split("\n") if l]):
                 for x, letter in enumerate(line[4:-2]):
-                    if letter != ' ':
+                    if letter != " ":
                         wall.append((x, y))
             wall = np.array(wall)
             vert = wall[np.all([wall[:, 0] % 4 == 2, wall[:, 1] % 2 == 0], axis=0)]
@@ -310,7 +311,7 @@ class CampaignMap:
                 continue
             for upper in self.grid_covered(grid, location=[(0, -1)]):
                 if upper.is_submarine_spawn_point:
-                    logger.info(f'Fixup submarine spawn point, fleet={grid} -> submarine={upper}')
+                    logger.info(f"Fixup submarine spawn point, fleet={grid} -> submarine={upper}")
                     grid.is_fleet = False
                     grid.is_current_fleet = False
                     upper.is_submarine = True
@@ -322,13 +323,16 @@ class CampaignMap:
 
     def show(self):
         # logger.info('Showing grids:')
-        logger.info('   ' + ' '.join([' ' + chr(x + 64 + 1) for x in range(self.shape[0] + 1)]))
+        logger.info("   " + " ".join([" " + chr(x + 64 + 1) for x in range(self.shape[0] + 1)]))
         for y in range(self.shape[1] + 1):
-            text = str(y + 1).rjust(2) + ' ' + ' '.join(
-                [self[(x, y)].str if (x, y) in self else '  ' for x in range(self.shape[0] + 1)])
+            text = (
+                str(y + 1).rjust(2)
+                + " "
+                + " ".join([self[(x, y)].str if (x, y) in self else "  " for x in range(self.shape[0] + 1)])
+            )
             logger.info(text)
 
-    def update(self, grids, camera, mode='normal'):
+    def update(self, grids, camera, mode="normal"):
         """
         Args:
             grids:
@@ -355,11 +359,11 @@ class CampaignMap:
                     if self.ignore_prediction_match(globe=loca, local=grid):
                         continue
                     self.grids[loca].merge(grid, mode=mode)
-            if mode == 'init':
+            if mode == "init":
                 self.fixup_submarine_fleet()
             return True
         else:
-            logger.warning('Too many wrong prediction')
+            logger.warning("Too many wrong prediction")
             return False
 
     def reset(self):
@@ -432,7 +436,7 @@ class CampaignMap:
 
     def load_spawn_data(self, use_loop=False):
         has_loop = bool(len(self._spawn_data_loop))
-        logger.info(f'Load spawn_data, has_loop={has_loop}, use_loop={use_loop}')
+        logger.info(f"Load spawn_data, has_loop={has_loop}, use_loop={use_loop}")
         if has_loop and use_loop:
             self._spawn_data_use_loop = True
             self._load_spawn_data(self._spawn_data_loop)
@@ -441,13 +445,13 @@ class CampaignMap:
             self._load_spawn_data(self._spawn_data)
 
     def _load_spawn_data(self, data_list):
-        spawn = {'battle': 0, 'enemy': 0, 'mystery': 0, 'siren': 0, 'boss': 0}
+        spawn = {"battle": 0, "enemy": 0, "mystery": 0, "siren": 0, "boss": 0}
         for data in data_list:
-            spawn['battle'] = data['battle']
-            spawn['enemy'] += data.get('enemy', 0)
-            spawn['mystery'] += data.get('mystery', 0)
-            spawn['siren'] += data.get('siren', 0)
-            spawn['boss'] += data.get('boss', 0)
+            spawn["battle"] = data["battle"]
+            spawn["enemy"] += data.get("enemy", 0)
+            spawn["mystery"] += data.get("mystery", 0)
+            spawn["siren"] += data.get("siren", 0)
+            spawn["boss"] += data.get("boss", 0)
             self._spawn_data_stack.append(spawn.copy())
 
     @property
@@ -517,18 +521,30 @@ class CampaignMap:
         return True
 
     def show_cost(self):
-        logger.info('   ' + ' '.join(['   ' + chr(x + 64 + 1) for x in range(self.shape[0] + 1)]))
+        logger.info("   " + " ".join(["   " + chr(x + 64 + 1) for x in range(self.shape[0] + 1)]))
         for y in range(self.shape[1] + 1):
-            text = str(y + 1).rjust(2) + ' ' + ' '.join(
-                [str(self[(x, y)].cost).rjust(4) if (x, y) in self else '    ' for x in range(self.shape[0] + 1)])
+            text = (
+                str(y + 1).rjust(2)
+                + " "
+                + " ".join(
+                    [str(self[(x, y)].cost).rjust(4) if (x, y) in self else "    " for x in range(self.shape[0] + 1)]
+                )
+            )
             logger.info(text)
 
     def show_connection(self):
-        logger.info('   ' + ' '.join([' ' + chr(x + 64 + 1) for x in range(self.shape[0] + 1)]))
+        logger.info("   " + " ".join([" " + chr(x + 64 + 1) for x in range(self.shape[0] + 1)]))
         for y in range(self.shape[1] + 1):
-            text = str(y + 1).rjust(2) + ' ' + ' '.join(
-                [location2node(self[(x, y)].connection) if (x, y) in self and self[(x, y)].connection else '  ' for x in
-                 range(self.shape[0] + 1)])
+            text = (
+                str(y + 1).rjust(2)
+                + " "
+                + " ".join(
+                    [
+                        location2node(self[(x, y)].connection) if (x, y) in self and self[(x, y)].connection else "  "
+                        for x in range(self.shape[0] + 1)
+                    ]
+                )
+            )
             logger.info(text)
 
     def find_path_initial(self, location, has_ambush=True, has_enemy=True):
@@ -585,7 +601,7 @@ class CampaignMap:
             if location == ():
                 continue
             self.find_path_initial(location, has_ambush=has_ambush)
-            attr = f'cost_{fleet}'
+            attr = f"cost_{fleet}"
             for grid in self:
                 grid.__setattr__(attr, grid.cost)
 
@@ -609,7 +625,7 @@ class CampaignMap:
         while 1:
             location = self[location].connection
             if len(res) > 30:
-                logger.warning('Route too long')
+                logger.warning("Route too long")
                 logger.warning(res)
                 # exit(1)
             if location is not None:
@@ -619,7 +635,7 @@ class CampaignMap:
         res.reverse()
 
         if len(res) == 0:
-            logger.warning('No path found. Destination: %s' % str(location))
+            logger.warning("No path found. Destination: %s" % str(location))
             return [location, location]
 
         return res
@@ -647,7 +663,7 @@ class CampaignMap:
                 if not self[route[index]].is_fleet:
                     res.append(index)
                 else:
-                    logger.info(f'Path_node_avoid: {self[route[index]]}')
+                    logger.info(f"Path_node_avoid: {self[route[index]]}")
                     if (index > 1) and (index - 1 not in indexes):
                         res.append(index - 1)
                     if (index < len(route) - 2) and (index + 1 not in indexes):
@@ -669,7 +685,7 @@ class CampaignMap:
             for index in list(range(left, right, step))[1:]:
                 way_node = self[route[index]]
                 if way_node.is_fleet or way_node.is_portal or way_node.is_flare:
-                    logger.info(f'Path_node_avoid: {way_node}')
+                    logger.info(f"Path_node_avoid: {way_node}")
                     if (index > 1) and (index - 1 not in res):
                         inserted.append(index - 1)
                     if (index < len(route) - 2) and (index + 1 not in res):
@@ -686,9 +702,9 @@ class CampaignMap:
 
         path = self._find_path(location)
         if path is None or not len(path):
-            logger.warning('No path found. Return destination.')
+            logger.warning("No path found. Return destination.")
             return [location]
-        logger.info('Full path: %s' % '[' + ', ' .join([location2node(grid) for grid in path]) + ']')
+        logger.info("Full path: %s" % "[" + ", ".join([location2node(grid) for grid in path]) + "]")
 
         portal_path = []
         index = [0]
@@ -703,10 +719,10 @@ class CampaignMap:
         for start, end in zip(index[:-1], index[1:]):
             if end - start == 1 and self[path[start]].is_portal and self[path[start]].portal_link == path[end]:
                 continue
-            local_path = path[start:end + 1]
+            local_path = path[start : end + 1]
             local_path = self._find_route_node(local_path, step=step, turning_optimize=turning_optimize)
             portal_path += local_path
-            logger.info('Path: %s' % '[' + ', ' .join([location2node(grid) for grid in local_path]) + ']')
+            logger.info("Path: %s" % "[" + ", ".join([location2node(grid) for grid in local_path]) + "]")
         path = portal_path
 
         return path
@@ -727,46 +743,48 @@ class CampaignMap:
         covered = [self[upper] for upper in covered if upper in self]
         return SelectedGrids(covered)
 
-    def missing_get(self, battle_count, mystery_count=0, siren_count=0, carrier_count=0, mode='normal'):
+    def missing_get(self, battle_count, mystery_count=0, siren_count=0, carrier_count=0, mode="normal"):
         try:
             missing = self.spawn_data_stack[battle_count].copy()
         except IndexError:
             missing = self.spawn_data_stack[-1].copy()
-        may = {'enemy': 0, 'mystery': 0, 'siren': 0, 'boss': 0, 'carrier': 0}
-        missing['enemy'] -= battle_count - siren_count
-        missing['mystery'] -= mystery_count
-        missing['siren'] -= siren_count
-        missing['carrier'] = carrier_count - self.select(is_enemy=True, may_enemy=False).count \
-            if mode == 'carrier' else 0
+        may = {"enemy": 0, "mystery": 0, "siren": 0, "boss": 0, "carrier": 0}
+        missing["enemy"] -= battle_count - siren_count
+        missing["mystery"] -= mystery_count
+        missing["siren"] -= siren_count
+        missing["carrier"] = (
+            carrier_count - self.select(is_enemy=True, may_enemy=False).count if mode == "carrier" else 0
+        )
         for grid in self:
-            for attr in ['enemy', 'mystery', 'siren', 'boss']:
-                if grid.__getattribute__('is_' + attr):
+            for attr in ["enemy", "mystery", "siren", "boss"]:
+                if grid.__getattribute__("is_" + attr):
                     missing[attr] -= 1
-        missing['enemy'] += len(self.fortress_data[0]) - self.select(is_fortress=True).count
+        missing["enemy"] += len(self.fortress_data[0]) - self.select(is_fortress=True).count
         for route in self.bouncing_enemy_data:
             if not route.select(may_bouncing_enemy=True):
                 # bouncing enemy cleared, re-add one enemy
-                missing['enemy'] += 1
+                missing["enemy"] += 1
 
         for upper in self.map_covered:
-            if (upper.may_enemy or mode == 'movable') and not upper.is_enemy:
-                may['enemy'] += 1
+            if (upper.may_enemy or mode == "movable") and not upper.is_enemy:
+                may["enemy"] += 1
             if upper.may_mystery and not upper.is_mystery:
-                may['mystery'] += 1
-            if (upper.may_siren or mode == 'movable') and not upper.is_siren:
-                may['siren'] += 1
+                may["mystery"] += 1
+            if (upper.may_siren or mode == "movable") and not upper.is_siren:
+                may["siren"] += 1
             if upper.may_boss and not upper.is_boss:
-                may['boss'] += 1
+                may["boss"] += 1
             if upper.may_carrier:
-                may['carrier'] += 1
+                may["carrier"] += 1
 
-        logger.attr('enemy_missing',
-                    ', '.join([f'{k[:2].upper()}:{str(v).rjust(2)}' for k, v in missing.items() if k != 'battle']))
-        logger.attr('enemy_may____',
-                    ', '.join([f'{k[:2].upper()}:{str(v).rjust(2)}' for k, v in may.items()]))
+        logger.attr(
+            "enemy_missing",
+            ", ".join([f"{k[:2].upper()}:{str(v).rjust(2)}" for k, v in missing.items() if k != "battle"]),
+        )
+        logger.attr("enemy_may____", ", ".join([f"{k[:2].upper()}:{str(v).rjust(2)}" for k, v in may.items()]))
         return may, missing
 
-    def missing_is_none(self, battle_count, mystery_count=0, siren_count=0, carrier_count=0, mode='normal'):
+    def missing_is_none(self, battle_count, mystery_count=0, siren_count=0, carrier_count=0, mode="normal"):
         if self.poor_map_data:
             return False
 
@@ -778,7 +796,7 @@ class CampaignMap:
 
         return True
 
-    def missing_predict(self, battle_count, mystery_count=0, siren_count=0, carrier_count=0, mode='normal'):
+    def missing_predict(self, battle_count, mystery_count=0, siren_count=0, carrier_count=0, mode="normal"):
         if self.poor_map_data:
             return False
 
@@ -786,14 +804,14 @@ class CampaignMap:
 
         # predict
         for upper in self.map_covered:
-            for attr in ['enemy', 'mystery', 'siren', 'boss']:
-                if upper.__getattribute__('may_' + attr) and missing[attr] > 0 and missing[attr] == may[attr]:
-                    logger.info('Predict %s to be %s' % (location2node(upper.location), attr))
-                    upper.__setattr__('is_' + attr, True)
+            for attr in ["enemy", "mystery", "siren", "boss"]:
+                if upper.__getattribute__("may_" + attr) and missing[attr] > 0 and missing[attr] == may[attr]:
+                    logger.info("Predict %s to be %s" % (location2node(upper.location), attr))
+                    upper.__setattr__("is_" + attr, True)
             if carrier_count:
-                if upper.may_carrier and missing['carrier'] > 0 and missing['carrier'] == may['carrier']:
-                    logger.info('Predict %s to be enemy' % location2node(upper.location))
-                    upper.__setattr__('is_enemy', True)
+                if upper.may_carrier and missing["carrier"] > 0 and missing["carrier"] == may["carrier"]:
+                    logger.info("Predict %s to be enemy" % location2node(upper.location))
+                    upper.__setattr__("is_enemy", True)
 
     def select(self, **kwargs):
         """

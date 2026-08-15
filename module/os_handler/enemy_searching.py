@@ -25,4 +25,4 @@ class EnemySearchingHandler(EnemySearchingHandler_):
             if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50), interval=3):
                 continue
         else:
-            logger.warning('wait_os_map_buttons timeout, assume waited')
+            logger.warning("wait_os_map_buttons timeout, assume waited")

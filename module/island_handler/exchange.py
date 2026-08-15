@@ -1,19 +1,19 @@
-from module.island_handler.shop_ui import IslandShopUI
 from module.island_handler.assets import *
+from module.island_handler.shop_ui import IslandShopUI
 from module.logger import logger
 from module.ocr.ocr import Digit
 
 
 class IslandExchange(IslandShopUI):
     def exchange_fish_meat(self, delta_count):
-        ocr = Digit(ISLAND_EXCHANGE_TOTAL_AMOUNT, lang='cnocr', letter=(60, 60, 60), threshold=160)
+        ocr = Digit(ISLAND_EXCHANGE_TOTAL_AMOUNT, lang="cnocr", letter=(60, 60, 60), threshold=160)
         before_amount = None
         for _ in self.loop(timeout=3):
             before_amount = ocr.ocr(self.device.image)
             if before_amount is not None:
                 break
         else:
-            logger.warning('Unable to read fish amount before exchange')
+            logger.warning("Unable to read fish amount before exchange")
             return False
         for _ in self.loop(timeout=3):
             if self.handle_island_additional():
@@ -23,12 +23,12 @@ class IslandExchange(IslandShopUI):
             if self.appear_then_click(ISLAND_EXCHANGE_SELECT_ALL, offset=(20, 20), interval=1):
                 continue
         else:
-            logger.warning('No fish available for exchange')
+            logger.warning("No fish available for exchange")
             return False
         for _ in self.loop():
             if self.handle_island_additional():
                 continue
-            if self.handle_island_popup_confirm('EXCHANGE'):
+            if self.handle_island_popup_confirm("EXCHANGE"):
                 continue
             if self.appear(ISLAND_EXCHANGE_SELECT_ALL, offset=(20, 20)):
                 break
@@ -47,8 +47,8 @@ class IslandExchange(IslandShopUI):
                 return True
         else:
             logger.warning(
-                f'Exchange failed, expected {delta_count}, '
-                f'but got {exchanged_amount} ({before_amount} -> {after_amount})'
+                f"Exchange failed, expected {delta_count}, "
+                f"but got {exchanged_amount} ({before_amount} -> {after_amount})"
             )
             return False
 

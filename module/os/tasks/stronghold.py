@@ -15,7 +15,7 @@ class OpsiStronghold(OSMap):
             TaskEnd: If no more strongholds.
             RequestHumanTakeover: If unable to clear boss, fleets exhausted.
         """
-        logger.hr('OS clear stronghold', level=1)
+        logger.hr("OS clear stronghold", level=1)
         self.cl1_ap_preserve()
 
         self.os_map_goto_globe()
@@ -47,11 +47,7 @@ class OpsiStronghold(OSMap):
         Returns:
             bool: If all cleared.
         """
-        self.config.override(
-            OpsiGeneral_DoRandomMapEvent=False,
-            HOMO_EDGE_DETECT=False,
-            STORY_OPTION=0
-        )
+        self.config.override(OpsiGeneral_DoRandomMapEvent=False, HOMO_EDGE_DETECT=False, STORY_OPTION=0)
         # Try 3 times, because fleet may stuck in fog.
         for _ in range(3):
             # Attack
@@ -61,24 +57,24 @@ class OpsiStronghold(OSMap):
             self.hp_get()
 
             # End
-            if self.get_stronghold_percentage() == '0':
-                logger.info('BOSS clear')
+            if self.get_stronghold_percentage() == "0":
+                logger.info("BOSS clear")
                 return True
             elif any(self.need_repair):
-                logger.info('Auto search stopped, because fleet died')
+                logger.info("Auto search stopped, because fleet died")
                 # Re-enter to reset fleet position
                 prev = self.zone
                 self.globe_goto(self.zone_nearest_azur_port(self.zone))
                 self.handle_fog_block(repair=True)
-                self.globe_goto(prev, types='STRONGHOLD')
+                self.globe_goto(prev, types="STRONGHOLD")
                 return False
             else:
-                logger.info('Auto search stopped, because fleet stuck')
+                logger.info("Auto search stopped, because fleet stuck")
                 # Re-enter to reset fleet position
                 prev = self.zone
                 self.globe_goto(self.zone_nearest_azur_port(self.zone))
                 self.handle_fog_block(repair=False)
-                self.globe_goto(prev, types='STRONGHOLD')
+                self.globe_goto(prev, types="STRONGHOLD")
                 continue
 
     def run_stronghold(self):
@@ -93,10 +89,10 @@ class OpsiStronghold(OSMap):
             out: If success, dangerous or safe zone.
                 If failed, still in abyssal.
         """
-        logger.hr(f'Stronghold clear', level=1)
+        logger.hr("Stronghold clear", level=1)
         fleets = self.parse_fleet_filter()
         for fleet in fleets:
-            logger.hr(f'Turn: {fleet}', level=2)
+            logger.hr(f"Turn: {fleet}", level=2)
             if not isinstance(fleet, BossFleet):
                 self.os_order_execute(recon_scan=False, submarine_call=True)
                 continue
@@ -107,5 +103,5 @@ class OpsiStronghold(OSMap):
             else:
                 continue
 
-        logger.critical('Unable to clear boss, fleets exhausted')
+        logger.critical("Unable to clear boss, fleets exhausted")
         return False

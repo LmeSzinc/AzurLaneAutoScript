@@ -12,8 +12,9 @@ Copied from `retry`, but modified something.
 try:
     from decorator import decorator
 except ImportError:
+
     def decorator(caller):
-        """ Turns caller into a decorator.
+        """Turns caller into a decorator.
         Unlike decorator module, function signature is not preserved.
 
         :param caller: caller(f, *args, **kwargs)
@@ -29,8 +30,9 @@ except ImportError:
         return decor
 
 
-def __retry_internal(f, exceptions=Exception, tries=-1, delay=0, max_delay=None, backoff=1, jitter=0,
-                     logger=logging_logger):
+def __retry_internal(
+    f, exceptions=Exception, tries=-1, delay=0, max_delay=None, backoff=1, jitter=0, logger=logging_logger
+):
     """
     Executes a function and retries it if it failed.
 
@@ -59,7 +61,7 @@ def __retry_internal(f, exceptions=Exception, tries=-1, delay=0, max_delay=None,
             if logger is not None:
                 # Difference, show exception
                 logger.exception(e)
-                logger.warning(f'{type(e).__name__}({e}), retrying in {_delay} seconds...')
+                logger.warning(f"{type(e).__name__}({e}), retrying in {_delay} seconds...")
 
             time.sleep(_delay)
             _delay *= backoff
@@ -92,15 +94,25 @@ def retry(exceptions=Exception, tries=-1, delay=0, max_delay=None, backoff=1, ji
     def retry_decorator(f, *fargs, **fkwargs):
         args = fargs if fargs else list()
         kwargs = fkwargs if fkwargs else dict()
-        return __retry_internal(partial(f, *args, **kwargs), exceptions, tries, delay, max_delay, backoff, jitter,
-                                logger)
+        return __retry_internal(
+            partial(f, *args, **kwargs), exceptions, tries, delay, max_delay, backoff, jitter, logger
+        )
 
     return retry_decorator
 
 
-def retry_call(f, fargs=None, fkwargs=None, exceptions=Exception, tries=-1, delay=0, max_delay=None, backoff=1,
-               jitter=0,
-               logger=logging_logger):
+def retry_call(
+    f,
+    fargs=None,
+    fkwargs=None,
+    exceptions=Exception,
+    tries=-1,
+    delay=0,
+    max_delay=None,
+    backoff=1,
+    jitter=0,
+    logger=logging_logger,
+):
     """
     Calls a function and re-executes it if it failed.
 

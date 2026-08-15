@@ -12,11 +12,9 @@ class PQShopClerk(ShopClerk, PQShopUI):
         if need to clear particular
         asset intervals
         """
-        self.interval_clear([
-            PRIVATE_QUARTERS_SHOP_CHECK,
-            PRIVATE_QUARTERS_SHOP_AMOUNT_MAX,
-            PRIVATE_QUARTERS_SHOP_CONFIRM_AMOUNT
-        ])
+        self.interval_clear(
+            [PRIVATE_QUARTERS_SHOP_CHECK, PRIVATE_QUARTERS_SHOP_AMOUNT_MAX, PRIVATE_QUARTERS_SHOP_CONFIRM_AMOUNT]
+        )
 
     def shop_buy_execute(self, item, skip_first_screenshot=True):
         """
@@ -31,19 +29,21 @@ class PQShopClerk(ShopClerk, PQShopUI):
         # Helper funcs to ensure the appearance for pre and post
         # conditions for after confirm of purchase
         def after_confirm_state():
-            return (self.appear(PRIVATE_QUARTERS_SHOP_WEEKLY_ROSES_GET, offset=(20, 20)) or
-                    self.appear(PRIVATE_QUARTERS_SHOP_WEEKLY_CAKES_GET, offset=(20, 20)))
+            return self.appear(PRIVATE_QUARTERS_SHOP_WEEKLY_ROSES_GET, offset=(20, 20)) or self.appear(
+                PRIVATE_QUARTERS_SHOP_WEEKLY_CAKES_GET, offset=(20, 20)
+            )
 
         def after_purchase_state():
-            return (not self.appear(PRIVATE_QUARTERS_SHOP_WEEKLY_ROSES_GET, offset=(20, 20)) and
-                    not self.appear(PRIVATE_QUARTERS_SHOP_WEEKLY_CAKES_GET, offset=(20, 20)) and
-                    self.appear(PRIVATE_QUARTERS_SHOP_CHECK))
+            return (
+                not self.appear(PRIVATE_QUARTERS_SHOP_WEEKLY_ROSES_GET, offset=(20, 20))
+                and not self.appear(PRIVATE_QUARTERS_SHOP_WEEKLY_CAKES_GET, offset=(20, 20))
+                and self.appear(PRIVATE_QUARTERS_SHOP_CHECK)
+            )
 
         self.shop_interval_clear()
         PRIVATE_QUARTERS_SHOP_CHECK.clear_offset()
 
         for _ in self.loop():
-
             # End
             if after_confirm_state():
                 break
@@ -73,18 +73,18 @@ class PQShopClerk(ShopClerk, PQShopUI):
             bool: If success, and able to continue.
         """
         for _ in range(12):
-            logger.hr('Shop buy', level=2)
+            logger.hr("Shop buy", level=2)
             # Get first for innate delay to ocr
             # shop currency for accurate parse
             items = self.shop_get_items()
             self.shop_currency()
             if self._currency <= 0:
-                logger.warning(f'Current funds: {self._currency}, stopped')
+                logger.warning(f"Current funds: {self._currency}, stopped")
                 return False
 
             item = self.shop_get_item_to_buy(items)
             if item is None:
-                logger.info('Shop buy finished')
+                logger.info("Shop buy finished")
                 return True
             else:
                 self.shop_buy_execute(item)
@@ -97,5 +97,5 @@ class PQShopClerk(ShopClerk, PQShopUI):
 
                 continue
 
-        logger.warning('Too many items to buy, stopped')
+        logger.warning("Too many items to buy, stopped")
         return True

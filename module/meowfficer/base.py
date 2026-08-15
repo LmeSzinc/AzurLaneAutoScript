@@ -60,7 +60,7 @@ class MeowfficerBase(UI):
             in: MEOWFFICER_FORT_CHECK, MEOWFFICER_BUY, MEOWFFICER_TRAIN_START, etc
             out: page_meowfficer
         """
-        logger.hr('Meowfficer menu close')
+        logger.hr("Meowfficer menu close")
         click_timer = Timer(3)
         while 1:
             if skip_first_screenshot:
@@ -147,10 +147,7 @@ class MeowfficerBase(UI):
         Returns:
             bool:
         """
-        if self.appear(MEOWFFICER_CONFIRM, offset=(40, 20), interval=5):
-            self.device.click(MEOWFFICER_CHECK)
-            return True
-        elif self.appear(MEOWFFICER_CANCEL, offset=(40, 20), interval=5):
+        if self.appear(MEOWFFICER_CONFIRM, offset=(40, 20), interval=5) or self.appear(MEOWFFICER_CANCEL, offset=(40, 20), interval=5):
             self.device.click(MEOWFFICER_CHECK)
             return True
         else:

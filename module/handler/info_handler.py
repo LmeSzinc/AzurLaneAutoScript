@@ -23,7 +23,7 @@ def info_letter_preprocess(image):
     image = (image - 64) / 0.75
     image[image > 255] = 255
     image[image < 0] = 0
-    image = image.astype('uint8')
+    image = image.astype("uint8")
     return image
 
 
@@ -31,6 +31,7 @@ class InfoHandler(ModuleBase):
     """
     Class to handle all kinds of message.
     """
+
     """
     Info bar
     """
@@ -47,10 +48,10 @@ class InfoHandler(ModuleBase):
         line = color_similarity_2d(line, color=(107, 158, 255))[:, 0]
 
         parameters = {
-            'height': 235,
-            'prominence': 50,
+            "height": 235,
+            "prominence": 50,
             # Blue lines are in a interval of 56
-            'distance': 50,
+            "distance": 50,
         }
         peaks, _ = signal.find_peaks(line, **parameters)
         return len(peaks)
@@ -91,44 +92,42 @@ class InfoHandler(ModuleBase):
     """
     _popup_offset = (3, 30)
 
-    def handle_popup_confirm(self, name='', offset=None, interval=2):
+    def handle_popup_confirm(self, name="", offset=None, interval=2):
         if offset is None:
             offset = self._popup_offset
-        if self.appear(POPUP_CANCEL, offset=offset) \
-                and self.appear(POPUP_CONFIRM, offset=offset, interval=interval):
-            POPUP_CONFIRM.name = POPUP_CONFIRM.name + '_' + name
+        if self.appear(POPUP_CANCEL, offset=offset) and self.appear(POPUP_CONFIRM, offset=offset, interval=interval):
+            POPUP_CONFIRM.name = POPUP_CONFIRM.name + "_" + name
             self.device.click(POPUP_CONFIRM)
-            POPUP_CONFIRM.name = POPUP_CONFIRM.name[:-len(name) - 1]
+            POPUP_CONFIRM.name = POPUP_CONFIRM.name[: -len(name) - 1]
             return True
         if self.appear(POPUP_CONFIRM_WHITE, offset=offset, interval=interval):
-            POPUP_CONFIRM_WHITE.name = POPUP_CONFIRM_WHITE.name + '_' + name
+            POPUP_CONFIRM_WHITE.name = POPUP_CONFIRM_WHITE.name + "_" + name
             self.device.click(POPUP_CONFIRM_WHITE)
-            POPUP_CONFIRM_WHITE.name = POPUP_CONFIRM_WHITE.name[:-len(name) - 1]
+            POPUP_CONFIRM_WHITE.name = POPUP_CONFIRM_WHITE.name[: -len(name) - 1]
             return True
         return False
 
-    def handle_popup_cancel(self, name='', offset=None, interval=2):
+    def handle_popup_cancel(self, name="", offset=None, interval=2):
         if offset is None:
             offset = self._popup_offset
-        if self.appear(POPUP_CONFIRM, offset=offset) \
-                and self.appear(POPUP_CANCEL, offset=offset, interval=interval):
-            POPUP_CANCEL.name = POPUP_CANCEL.name + '_' + name
+        if self.appear(POPUP_CONFIRM, offset=offset) and self.appear(POPUP_CANCEL, offset=offset, interval=interval):
+            POPUP_CANCEL.name = POPUP_CANCEL.name + "_" + name
             self.device.click(POPUP_CANCEL)
-            POPUP_CANCEL.name = POPUP_CANCEL.name[:-len(name) - 1]
+            POPUP_CANCEL.name = POPUP_CANCEL.name[: -len(name) - 1]
             return True
         if self.appear(POPUP_CANCEL_WHITE, offset=offset, interval=interval):
-            POPUP_CANCEL_WHITE.name = POPUP_CANCEL_WHITE.name + '_' + name
+            POPUP_CANCEL_WHITE.name = POPUP_CANCEL_WHITE.name + "_" + name
             self.device.click(POPUP_CANCEL_WHITE)
-            POPUP_CANCEL_WHITE.name = POPUP_CANCEL_WHITE.name[:-len(name) - 1]
+            POPUP_CANCEL_WHITE.name = POPUP_CANCEL_WHITE.name[: -len(name) - 1]
             return True
         return False
 
-    def handle_popup_single(self, name='', offset=None, interval=2):
+    def handle_popup_single(self, name="", offset=None, interval=2):
         if offset is None:
             offset = self._popup_offset
         if self.appear(GET_MISSION, offset=offset, interval=interval):
             prev_name = GET_MISSION.name
-            GET_MISSION.name = POPUP_CONFIRM.name + '_' + name
+            GET_MISSION.name = POPUP_CONFIRM.name + "_" + name
             self.device.click(GET_MISSION)
             GET_MISSION.name = prev_name
             return True
@@ -141,10 +140,14 @@ class InfoHandler(ModuleBase):
         return False
 
     def popup_interval_clear(self):
-        self.interval_clear([
-            POPUP_CANCEL, POPUP_CONFIRM,
-            POPUP_CANCEL_WHITE, POPUP_CONFIRM_WHITE,
-        ])
+        self.interval_clear(
+            [
+                POPUP_CANCEL,
+                POPUP_CONFIRM,
+                POPUP_CANCEL_WHITE,
+                POPUP_CONFIRM_WHITE,
+            ]
+        )
 
     _hot_fix_check_wait = Timer(6)
 
@@ -158,7 +161,7 @@ class InfoHandler(ModuleBase):
         """
         appear = self.appear(GET_MISSION, offset=True, interval=2)
         if appear:
-            logger.info('Get urgent commission')
+            logger.info("Get urgent commission")
             if drop:
                 self.handle_info_bar()
                 drop.add(self.device.image)
@@ -171,12 +174,13 @@ class InfoHandler(ModuleBase):
             self._hot_fix_check_wait.clear()
         if self._hot_fix_check_wait.started() and 3 <= self._hot_fix_check_wait.current_time() <= 6:
             if not self.device.app_is_running():
-                logger.error('Detected hot fixes from game server, game died')
+                logger.error("Detected hot fixes from game server, game died")
                 raise GameNotRunningError
             # Use template match without color match due to maintenance popup
             if self.appear(LOGIN_CHECK, offset=(30, 30)):
-                logger.error('Account logged out, '
-                             'probably because account kicked by server maintenance or another log in')
+                logger.error(
+                    "Account logged out, probably because account kicked by server maintenance or another log in"
+                )
                 # Kill game, because game patches after maintenance can only be downloaded at game startup
                 self.device.app_stop()
                 raise GameNotRunningError
@@ -188,7 +192,7 @@ class InfoHandler(ModuleBase):
         if not self.emotion.is_ignore:
             return False
 
-        result = self.handle_popup_confirm('IGNORE_LOW_EMOTION')
+        result = self.handle_popup_confirm("IGNORE_LOW_EMOTION")
         if result:
             # Avoid clicking AUTO_SEARCH_MAP_OPTION_OFF
             self.interval_reset(AUTO_SEARCH_MAP_OPTION_OFF)
@@ -198,15 +202,15 @@ class InfoHandler(ModuleBase):
         if not self.config.USE_DATA_KEY:
             return False
 
-        if not self.appear(POPUP_CONFIRM, offset=self._popup_offset) \
-                and not self.appear(POPUP_CANCEL, offset=self._popup_offset, interval=2):
+        if not self.appear(POPUP_CONFIRM, offset=self._popup_offset) and not self.appear(
+            POPUP_CANCEL, offset=self._popup_offset, interval=2
+        ):
             return False
 
         if self.appear(USE_DATA_KEY, offset=(20, 20)):
             # enable USE_DATA_KEY_NOTIFIED
             for _ in self.loop():
-                enabled = self.image_color_count(
-                    USE_DATA_KEY_NOTIFIED, color=(140, 207, 66), threshold=180, count=10)
+                enabled = self.image_color_count(USE_DATA_KEY_NOTIFIED, color=(140, 207, 66), threshold=180, count=10)
                 if enabled:
                     break
                 if self.appear(USE_DATA_KEY, offset=(20, 20), interval=5):
@@ -271,16 +275,18 @@ class InfoHandler(ModuleBase):
     """
 
     def handle_guild_popup_confirm(self):
-        if self.appear(GUILD_POPUP_CANCEL, offset=self._popup_offset) \
-                and self.appear(GUILD_POPUP_CONFIRM, offset=self._popup_offset, interval=2):
+        if self.appear(GUILD_POPUP_CANCEL, offset=self._popup_offset) and self.appear(
+            GUILD_POPUP_CONFIRM, offset=self._popup_offset, interval=2
+        ):
             self.device.click(GUILD_POPUP_CONFIRM)
             return True
 
         return False
 
     def handle_guild_popup_cancel(self):
-        if self.appear(GUILD_POPUP_CONFIRM, offset=self._popup_offset) \
-                and self.appear(GUILD_POPUP_CANCEL, offset=self._popup_offset, interval=2):
+        if self.appear(GUILD_POPUP_CONFIRM, offset=self._popup_offset) and self.appear(
+            GUILD_POPUP_CANCEL, offset=self._popup_offset, interval=2
+        ):
             self.device.click(GUILD_POPUP_CANCEL)
             return True
 
@@ -291,16 +297,18 @@ class InfoHandler(ModuleBase):
     """
 
     def handle_mission_popup_go(self):
-        if self.appear(MISSION_POPUP_ACK, offset=self._popup_offset) \
-                and self.appear(MISSION_POPUP_GO, offset=self._popup_offset, interval=2):
+        if self.appear(MISSION_POPUP_ACK, offset=self._popup_offset) and self.appear(
+            MISSION_POPUP_GO, offset=self._popup_offset, interval=2
+        ):
             self.device.click(MISSION_POPUP_GO)
             return True
 
         return False
 
     def handle_mission_popup_ack(self):
-        if self.appear(MISSION_POPUP_GO, offset=self._popup_offset) \
-                and self.appear(MISSION_POPUP_ACK, offset=self._popup_offset, interval=2):
+        if self.appear(MISSION_POPUP_GO, offset=self._popup_offset) and self.appear(
+            MISSION_POPUP_ACK, offset=self._popup_offset, interval=2
+        ):
             self.device.click(MISSION_POPUP_ACK)
             return True
 
@@ -335,14 +343,14 @@ class InfoHandler(ModuleBase):
 
         parameters = {
             # Option is 300`320px x 50~52px.
-            'height': 280,
-            'width': 45,
-            'distance': 50,
+            "height": 280,
+            "width": 45,
+            "distance": 50,
             # Chooses the relative height at which the peak width is measured as a percentage of its prominence.
             # 1.0 calculates the width of the peak at its lowest contour line,
             # while 0.5 evaluates at half the prominence height.
             # Must be at least 0.
-            'rel_height': 5,
+            "rel_height": 5,
         }
         y_count = np.sum(image, axis=1)
         peaks, properties = signal.find_peaks(y_count, **parameters)
@@ -350,11 +358,12 @@ class InfoHandler(ModuleBase):
         total = len(peaks)
         if not total:
             return []
-        for n, bases in enumerate(zip(properties['left_bases'], properties['right_bases'])):
+        for n, bases in enumerate(zip(properties["left_bases"], properties["right_bases"])):
             area = (x_min, bases[0], x_max, bases[1])
             area = area_pad(area_offset(area, offset=story_option_area[:2]), pad=5)
             buttons.append(
-                Button(area=area, color=story_option_color, button=area, name=f'STORY_OPTION_{n + 1}_OF_{total}'))
+                Button(area=area, color=story_option_color, button=area, name=f"STORY_OPTION_{n + 1}_OF_{total}")
+            )
 
         return buttons
 
@@ -376,29 +385,32 @@ class InfoHandler(ModuleBase):
 
         parameters = {
             # Option is 300`320px x 50~52px.
-            'height': 200,
-            'width': 40,
-            'distance': 40,
+            "height": 200,
+            "width": 40,
+            "distance": 40,
             # Chooses the relative height at which the peak width is measured as a percentage of its prominence.
             # 1.0 calculates the width of the peak at its lowest contour line,
             # while 0.5 evaluates at half the prominence height.
             # Must be at least 0.
             # rel_height is about 240 / 48
-            'rel_height': 4,
+            "rel_height": 4,
         }
         peaks, properties = signal.find_peaks(line, **parameters)
         buttons = []
         total = len(peaks)
         if not total:
             return []
-        for n, bases in enumerate(zip(properties['left_bases'], properties['right_bases'])):
+        for n, bases in enumerate(zip(properties["left_bases"], properties["right_bases"])):
             area = (
-                story_option_area[0], story_option_area[1] + bases[0],
-                story_option_area[2], story_option_area[1] + bases[1],
+                story_option_area[0],
+                story_option_area[1] + bases[0],
+                story_option_area[2],
+                story_option_area[1] + bases[1],
             )
             area = area_pad(area, pad=5)
             buttons.append(
-                Button(area=area, color=story_option_color, button=area, name=f'STORY_OPTION_{n + 1}_OF_{total}'))
+                Button(area=area, color=story_option_color, button=area, name=f"STORY_OPTION_{n + 1}_OF_{total}")
+            )
 
         return buttons
 
@@ -420,7 +432,7 @@ class InfoHandler(ModuleBase):
             Check STORY_SKIP_3 but click the original STORY_SKIP.
         """
         if self.story_popup_timeout.started() and not self.story_popup_timeout.reached():
-            if self.handle_popup_confirm('STORY_SKIP'):
+            if self.handle_popup_confirm("STORY_SKIP"):
                 self.story_popup_timeout = Timer(10)
                 self.interval_reset(STORY_SKIP_3)
                 self.interval_reset(STORY_LETTERS_ONLY)
@@ -432,7 +444,7 @@ class InfoHandler(ModuleBase):
         if self._story_option_timer.reached() and self.appear(STORY_SKIP_3, offset=(20, 20), interval=0):
             options = self._story_option_buttons_2()
             options_count = len(options)
-            logger.attr('Story_options', options_count)
+            logger.attr("Story_options", options_count)
             if not options_count:
                 self._story_option_record = 0
                 self._story_option_confirm.reset()
@@ -462,10 +474,10 @@ class InfoHandler(ModuleBase):
                 if drop:
                     drop.handle_add(self, before=2)
                 if self.config.STORY_ALLOW_SKIP:
-                    logger.info(f'{STORY_SKIP_3} -> {STORY_SKIP}')
+                    logger.info(f"{STORY_SKIP_3} -> {STORY_SKIP}")
                     self.device.click(STORY_SKIP)
                 else:
-                    logger.info(f'{STORY_SKIP_3} -> {OS_CLICK_SAFE_AREA}')
+                    logger.info(f"{STORY_SKIP_3} -> {OS_CLICK_SAFE_AREA}")
                     self.device.click(OS_CLICK_SAFE_AREA)
                 self._story_confirm.reset()
                 self.story_popup_timeout.reset()
@@ -489,13 +501,13 @@ class InfoHandler(ModuleBase):
         # No stories in clear mode
         # but B3/D3 still have stories til threat safe
         # No more stories at threat safe
-        if self.map_is_threat_safe and self.config.Campaign_Event != 'event_20201012_cn':
+        if self.map_is_threat_safe and self.config.Campaign_Event != "event_20201012_cn":
             return False
 
         return self.story_skip(drop=drop)
 
     def ensure_no_story(self, skip_first_screenshot=True):
-        logger.info('Ensure no story')
+        logger.info("Ensure no story")
         story_timer = Timer(3, count=6).start()
         while 1:
             if skip_first_screenshot:
@@ -525,15 +537,18 @@ class InfoHandler(ModuleBase):
             bool: If handled
         """
         if self.appear(GAME_TIPS, offset=(20, 20), interval=2) and self.image_color_count(
-                GAME_TIPS.button, color=(40, 40, 40), threshold=240, count=50):
+            GAME_TIPS.button, color=(40, 40, 40), threshold=240, count=50
+        ):
             self.device.click(GAME_TIPS)
             return True
         if self.appear(GAME_TIPS3, offset=(20, 20), interval=2) and self.image_color_count(
-                GAME_TIPS3.button, color=(40, 40, 40), threshold=240, count=50):
+            GAME_TIPS3.button, color=(40, 40, 40), threshold=240, count=50
+        ):
             self.device.click(GAME_TIPS)
             return True
         if self.appear(GAME_TIPS4, offset=(20, 20), interval=2) and self.image_color_count(
-                GAME_TIPS4.button, color=(40, 40, 40), threshold=240, count=50):
+            GAME_TIPS4.button, color=(40, 40, 40), threshold=240, count=50
+        ):
             self.device.click(GAME_TIPS)
             return True
 
@@ -553,7 +568,7 @@ class InfoHandler(ModuleBase):
         # Default 0.85 will not work for manjuu, because the face will be stretched
         # and shrinked, so the template will not match.
         # Use 0.8 to match the deformed face.
-        buttons = TEMPLATE_MANJUU.match_multi(image, similarity=0.8, name='INFO_MANJUU')
+        buttons = TEMPLATE_MANJUU.match_multi(image, similarity=0.8, name="INFO_MANJUU")
         return len(buttons)
 
     def wait_until_manjuu_disappear(self):
@@ -561,7 +576,7 @@ class InfoHandler(ModuleBase):
         Wait until manjuu loading disappear.
         """
         # Abuse of notation. Template do not have readable name, so add string here.
-        self.device.stuck_record_add('TEMPLATE_MANJUU')
+        self.device.stuck_record_add("TEMPLATE_MANJUU")
         timer = Timer(1.5, count=3).start()
         while 1:
             self.device.screenshot()
@@ -569,9 +584,9 @@ class InfoHandler(ModuleBase):
                 timer.reset()
             else:
                 if timer.reached():
-                    logger.info(f'Manjuu disappeared')
+                    logger.info("Manjuu disappeared")
                     break
-    
+
     def handle_manjuu(self):
         """
         Handle manjuu loading.
@@ -580,7 +595,7 @@ class InfoHandler(ModuleBase):
         """
         count = self.manjuu_count()
         if count > 2:
-            logger.info(f'Manjuu count: {count}, waiting for manjuu to disappear')
+            logger.info(f"Manjuu count: {count}, waiting for manjuu to disappear")
             self.wait_until_manjuu_disappear()
             return True
         else:

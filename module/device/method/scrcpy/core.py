@@ -28,17 +28,17 @@ class ScrcpyCore(Connection):
     Module from https://github.com/leng-yue/py-scrcpy-client
     """
 
-    _scrcpy_last_frame: t.Optional[np.ndarray] = None
-    _scrcpy_last_frame_time: float = 0.
+    _scrcpy_last_frame: np.ndarray | None = None
+    _scrcpy_last_frame_time: float = 0.0
 
     _scrcpy_alive = False
-    _scrcpy_server_stream: t.Optional[AdbConnection] = None
-    _scrcpy_video_socket: t.Optional[socket.socket] = None
-    _scrcpy_control_socket: t.Optional[socket.socket] = None
+    _scrcpy_server_stream: AdbConnection | None = None
+    _scrcpy_video_socket: socket.socket | None = None
+    _scrcpy_control_socket: socket.socket | None = None
     _scrcpy_control_socket_lock = threading.Lock()
 
     _scrcpy_stream_loop_thread = None
-    _scrcpy_resolution: t.Tuple[int, int] = (1280, 720)
+    _scrcpy_resolution: tuple[int, int] = (1280, 720)
 
     @cached_property
     def _scrcpy_control(self) -> ControlSender:
@@ -47,8 +47,8 @@ class ScrcpyCore(Connection):
     def scrcpy_init(self):
         self._scrcpy_server_stop()
 
-        logger.hr('Scrcpy init')
-        logger.info(f'pushing {self.config.SCRCPY_FILEPATH_LOCAL}')
+        logger.hr("Scrcpy init")
+        logger.info(f"pushing {self.config.SCRCPY_FILEPATH_LOCAL}")
         self.adb_push(self.config.SCRCPY_FILEPATH_LOCAL, self.config.SCRCPY_FILEPATH_REMOTE)
 
         self._scrcpy_alive = False
@@ -68,7 +68,7 @@ class ScrcpyCore(Connection):
             adbutils.AdbTimeout:
             socket.timeout:
         """
-        logger.hr('Scrcpy server start')
+        logger.hr("Scrcpy server start")
         commands = ScrcpyOptions.command_v120(jar_path=self.config.SCRCPY_FILEPATH_REMOTE)
         self._scrcpy_server_stream: AdbConnection = self.adb.shell(
             commands,
@@ -76,81 +76,75 @@ class ScrcpyCore(Connection):
         )
         self._scrcpy_server_stream.conn.settimeout(3)
 
-        logger.info('Create server stream')
+        logger.info("Create server stream")
         ret = self._scrcpy_server_stream.read(10)
         # b'Aborted \r\n'
         # Probably because file not exists
-        if b'Aborted' in ret:
-            raise ScrcpyError('Aborted')
-        if ret == b'[server] E':
+        if b"Aborted" in ret:
+            raise ScrcpyError("Aborted")
+        if ret == b"[server] E":
             # [server] ERROR: ...
             ret += recv_all(self._scrcpy_server_stream)
             logger.error(ret)
             # java.lang.IllegalArgumentException: The server version (1.25) does not match the client (...)
-            if b'does not match the client' in ret:
-                raise ScrcpyError('Server version does not match the client')
+            if b"does not match the client" in ret:
+                raise ScrcpyError("Server version does not match the client")
             else:
-                raise ScrcpyError('Unknown scrcpy error')
+                raise ScrcpyError("Unknown scrcpy error")
         else:
             # [server] INFO: Device: ...
             ret += self._scrcpy_receive_from_server_stream()
             logger.info(ret)
             pass
 
-        logger.info('Create video socket')
+        logger.info("Create video socket")
         timeout = Timer(3).start()
         while 1:
             if timeout.reached():
-                raise ScrcpyError('Connect scrcpy-server timeout')
+                raise ScrcpyError("Connect scrcpy-server timeout")
 
             try:
-                self._scrcpy_video_socket = self.adb.create_connection(
-                    Network.LOCAL_ABSTRACT, "scrcpy"
-                )
+                self._scrcpy_video_socket = self.adb.create_connection(Network.LOCAL_ABSTRACT, "scrcpy")
                 self._scrcpy_video_socket.settimeout(3)
                 break
             except AdbError:
                 sleep(0.1)
         dummy_byte = self._scrcpy_video_socket.recv(1)
         if not len(dummy_byte) or dummy_byte != b"\x00":
-            raise ScrcpyError('Did not receive Dummy Byte from video stream')
+            raise ScrcpyError("Did not receive Dummy Byte from video stream")
 
-        logger.info('Create control socket')
-        self._scrcpy_control_socket = self.adb.create_connection(
-            Network.LOCAL_ABSTRACT, "scrcpy"
-        )
+        logger.info("Create control socket")
+        self._scrcpy_control_socket = self.adb.create_connection(Network.LOCAL_ABSTRACT, "scrcpy")
         self._scrcpy_control_socket.settimeout(3)
 
-        logger.info('Fetch device info')
+        logger.info("Fetch device info")
         device_name = self._scrcpy_video_socket.recv(64).decode("utf-8").rstrip("\x00")
         if len(device_name):
-            logger.attr('Scrcpy Device', device_name)
+            logger.attr("Scrcpy Device", device_name)
         else:
-            raise ScrcpyError('Did not receive Device Name')
+            raise ScrcpyError("Did not receive Device Name")
         ret = self._scrcpy_video_socket.recv(4)
         self._scrcpy_resolution = struct.unpack(">HH", ret)
-        logger.attr('Scrcpy Resolution', self._scrcpy_resolution)
+        logger.attr("Scrcpy Resolution", self._scrcpy_resolution)
 
         self._scrcpy_video_socket.setblocking(False)
         self._scrcpy_alive = True
 
-        logger.info('Start video stream loop thread')
-        self._scrcpy_stream_loop_thread = threading.Thread(
-            target=self._scrcpy_stream_loop, daemon=True
-        )
+        logger.info("Start video stream loop thread")
+        self._scrcpy_stream_loop_thread = threading.Thread(target=self._scrcpy_stream_loop, daemon=True)
         self._scrcpy_stream_loop_thread.start()
         while 1:
             if self._scrcpy_stream_loop_thread is not None and self._scrcpy_stream_loop_thread.is_alive():
                 break
             self.sleep(0.001)
 
-        logger.info('Scrcpy server is up')
+        logger.info("Scrcpy server is up")
 
     def _scrcpy_server_stop(self):
         """
         Stop listening (both threaded and blocked)
         """
-        logger.hr('Scrcpy server stop')
+        logger.hr("Scrcpy server stop")
         # err = self._scrcpy_receive_from_server_stream()
         # if err:
         #     logger.error(err)
@@ -186,7 +180,7 @@ class ScrcpyCore(Connection):
             del self._scrcpy_server_stream
             self._scrcpy_server_stream = None
 
-        logger.info('Scrcpy server stopped')
+        logger.info("Scrcpy server stopped")
 
     def _scrcpy_receive_from_server_stream(self):
         if self._scrcpy_server_stream is not None:
@@ -204,7 +198,7 @@ class ScrcpyCore(Connection):
             from av.error import InvalidDataError
         except ImportError as e:
             logger.error(e)
-            logger.error('You must have `av` installed to use scrcpy screenshot, please update dependencies')
+            logger.error("You must have `av` installed to use scrcpy screenshot, please update dependencies")
             raise RequestHumanTakeover
 
         codec = CodecContext.create("h264", "r")
@@ -228,10 +222,10 @@ class ScrcpyCore(Connection):
                 time.sleep(0.001)
             except (ConnectionError, OSError) as e:  # Socket Closed
                 if self._scrcpy_alive:
-                    logger.error(f'_scrcpy_stream_loop_thread: {repr(e)}')
+                    logger.error(f"_scrcpy_stream_loop_thread: {repr(e)}")
                     raise
             except Exception as e:
-                logger.error(f'_scrcpy_stream_loop_thread exception: {repr(e)}')
+                logger.error(f"_scrcpy_stream_loop_thread exception: {repr(e)}")
                 raise
 
-        raise ScrcpyError('_scrcpy_stream_loop stopped')
+        raise ScrcpyError("_scrcpy_stream_loop stopped")

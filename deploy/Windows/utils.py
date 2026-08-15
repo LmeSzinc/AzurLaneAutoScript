@@ -1,12 +1,13 @@
 import os
 import re
 from dataclasses import dataclass
-from typing import Callable, Generic, Iterable, TypeVar
+from typing import Generic, TypeVar
+from collections.abc import Callable, Iterable
 
 T = TypeVar("T")
 
-DEPLOY_CONFIG = './config/deploy.yaml'
-DEPLOY_TEMPLATE = './deploy/Windows/template.yaml'
+DEPLOY_CONFIG = "./config/deploy.yaml"
+DEPLOY_TEMPLATE = "./deploy/Windows/template.yaml"
 
 
 class cached_property(Generic[T]):
@@ -44,14 +45,14 @@ def iter_folder(folder, is_dir=False, ext=None):
         sub = os.path.join(folder, file)
         if is_dir:
             if os.path.isdir(sub):
-                yield sub.replace('\\\\', '/').replace('\\', '/')
+                yield sub.replace("\\\\", "/").replace("\\", "/")
         elif ext is not None:
             if not os.path.isdir(sub):
                 _, extension = os.path.splitext(file)
                 if extension == ext:
-                    yield os.path.join(folder, file).replace('\\\\', '/').replace('\\', '/')
+                    yield os.path.join(folder, file).replace("\\\\", "/").replace("\\", "/")
         else:
-            yield os.path.join(folder, file).replace('\\\\', '/').replace('\\', '/')
+            yield os.path.join(folder, file).replace("\\\\", "/").replace("\\", "/")
 
 
 def poor_yaml_read(file):
@@ -68,21 +69,21 @@ def poor_yaml_read(file):
         return {}
 
     data = {}
-    regex = re.compile(r'^(.*?):(.*?)$')
-    with open(file, 'r', encoding='utf-8') as f:
+    regex = re.compile(r"^(.*?):(.*?)$")
+    with open(file, encoding="utf-8") as f:
         for line in f.readlines():
-            line = line.strip('\n\r\t ').replace('\\', '/')
-            if line.startswith('#'):
+            line = line.strip("\n\r\t ").replace("\\", "/")
+            if line.startswith("#"):
                 continue
             result = re.match(regex, line)
             if result:
-                k, v = result.group(1), result.group(2).strip('\n\r\t\' ')
+                k, v = result.group(1), result.group(2).strip("\n\r\t' ")
                 if v:
-                    if v.lower() == 'null':
+                    if v.lower() == "null":
                         v = None
-                    elif v.lower() == 'false':
+                    elif v.lower() == "false":
                         v = False
-                    elif v.lower() == 'true':
+                    elif v.lower() == "true":
                         v = True
                     elif v.isdigit():
                         v = int(v)
@@ -98,19 +99,19 @@ def poor_yaml_write(data, file, template_file=DEPLOY_TEMPLATE):
         file (str):
         template_file (str):
     """
-    with open(template_file, 'r', encoding='utf-8') as f:
-        text = f.read().replace('\\', '/')
+    with open(template_file, encoding="utf-8") as f:
+        text = f.read().replace("\\", "/")
 
     for key, value in data.items():
         if value is None:
-            value = 'null'
+            value = "null"
         elif value is True:
             value = "true"
         elif value is False:
             value = "false"
-        text = re.sub(f'{key}:.*?\n', f'{key}: {value}\n', text)
+        text = re.sub(f"{key}:.*?\n", f"{key}: {value}\n", text)
 
-    with open(file, 'w', encoding='utf-8', newline='') as f:
+    with open(file, "w", encoding="utf-8", newline="") as f:
         f.write(text)
 
 
@@ -124,7 +125,7 @@ class DataProcessInfo:
         try:
             name = self.proc.name()
         except:
-            name = ''
+            name = ""
         return name
 
     @cached_property
@@ -135,7 +136,7 @@ class DataProcessInfo:
             # psutil.AccessDenied
             # # NoSuchProcess: process no longer exists (pid=xxx)
             cmdline = []
-        cmdline = ' '.join(cmdline).replace(r'\\', '/').replace('\\', '/')
+        cmdline = " ".join(cmdline).replace(r"\\", "/").replace("\\", "/")
         return cmdline
 
     def __str__(self):

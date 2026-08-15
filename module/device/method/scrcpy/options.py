@@ -1,4 +1,3 @@
-import typing as t
 
 import module.device.method.scrcpy.const as const
 
@@ -37,10 +36,10 @@ class ScrcpyOptions:
             # 20Mbps, the maximum output bitrate of scrcpy
             key_bit_rate=20000000,
         )
-        return ','.join([f'{k}={v}' for k, v in options.items()])
+        return ",".join([f"{k}={v}" for k, v in options.items()])
 
     @classmethod
-    def arguments(cls) -> t.List[str]:
+    def arguments(cls) -> list[str]:
         """
         https://github.com/Genymobile/scrcpy/blob/master/server/src/main/java/com/genymobile/scrcpy/Server.java
         https://github.com/Genymobile/scrcpy/blob/master/server/src/main/java/com/genymobile/scrcpy/Options.java
@@ -49,25 +48,25 @@ class ScrcpyOptions:
             ['log_level=info', 'max_size=1280', ...]
         """
         options = [
-            'log_level=info',
-            'max_size=1280',
+            "log_level=info",
+            "max_size=1280",
             # 20Mbps, the maximum output bitrate of scrcpy
             # If a higher value is set, scrcpy fallback to 8Mbps default.
-            'bit_rate=20000000',
+            "bit_rate=20000000",
             # Screenshot time cost <= 300ms is enough for human speed.
-            f'max_fps={cls.frame_rate}',
+            f"max_fps={cls.frame_rate}",
             # No orientation lock
-            f'lock_video_orientation={const.LOCK_SCREEN_ORIENTATION_UNLOCKED}',
+            f"lock_video_orientation={const.LOCK_SCREEN_ORIENTATION_UNLOCKED}",
             # Always true
-            'tunnel_forward=true',
+            "tunnel_forward=true",
             # Always true for controlling via scrcpy
-            'control=true',
+            "control=true",
             # Default to 0
-            'display_id=0',
+            "display_id=0",
             # Useless, always false
-            'show_touches=false',
+            "show_touches=false",
             # Not determined, leave it as default
-            'stay_awake=false',
+            "stay_awake=false",
             # Encoder name
             # Should in [
             #     "OMX.google.h264.encoder",
@@ -78,31 +77,31 @@ class ScrcpyOptions:
             # Empty value, let scrcpy to decide
             # 'encoder_name=',
             # Codec options
-            f'codec_options={cls.codec_options()}',
+            f"codec_options={cls.codec_options()}",
             # Useless, always false
-            'power_off_on_close=false',
-            'clipboard_autosync=false',
-            'downsize_on_error=false',
+            "power_off_on_close=false",
+            "clipboard_autosync=false",
+            "downsize_on_error=false",
         ]
         return options
 
     @classmethod
-    def command_v125(cls, jar_path='/data/local/tmp/scrcpy-server.jar') -> t.List[str]:
+    def command_v125(cls, jar_path="/data/local/tmp/scrcpy-server.jar") -> list[str]:
         """
         Generate the commands to run scrcpy.
         """
         commands = [
-            f'CLASSPATH={jar_path}',
-            'app_process',
-            '/',
-            'com.genymobile.scrcpy.Server',
-            '1.25',
+            f"CLASSPATH={jar_path}",
+            "app_process",
+            "/",
+            "com.genymobile.scrcpy.Server",
+            "1.25",
         ]
         commands += cls.arguments()
         return commands
 
     @classmethod
-    def command_v120(cls, jar_path='/data/local/tmp/scrcpy-server.jar') -> t.List[str]:
+    def command_v120(cls, jar_path="/data/local/tmp/scrcpy-server.jar") -> list[str]:
         commands = [
             f"CLASSPATH={jar_path}",
             "app_process",
@@ -110,8 +109,8 @@ class ScrcpyOptions:
             "com.genymobile.scrcpy.Server",
             "1.20",  # Scrcpy server version
             "info",  # Log level: info, verbose...
-            f"1280",  # Max screen width (long side)
-            f"20000000",  # Bitrate of video
+            "1280",  # Max screen width (long side)
+            "20000000",  # Bitrate of video
             f"{cls.frame_rate}",  # Max frame per second
             f"{const.LOCK_SCREEN_ORIENTATION_UNLOCKED}",  # Lock screen orientation: LOCK_SCREEN_ORIENTATION
             "true",  # Tunnel forward
@@ -128,5 +127,5 @@ class ScrcpyOptions:
         return commands
 
 
-if __name__ == '__main__':
-    print(' '.join(ScrcpyOptions.command_v120()))
+if __name__ == "__main__":
+    print(" ".join(ScrcpyOptions.command_v120()))

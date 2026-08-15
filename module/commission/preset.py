@@ -8,7 +8,7 @@ SHORTEST_FILTER = """
 """
 
 DICT_FILTER_PRESET = {
-    'chip': """
+    "chip": """
     DailyEvent > Gem-8 > Gem-4 > Gem-2 > ExtraCube-0:30
     > UrgentCube-1:30 > UrgentCube-1:45 > UrgentCube-3 
     > ExtraDrill-5:20 > ExtraDrill-2 > ExtraDrill-3:20 
@@ -26,7 +26,7 @@ DICT_FILTER_PRESET = {
     > Extra-0:20 > Extra-0:30 > Extra-1:00 > Extra-1:30 > Extra-2:00
     > shortest
     """,
-    'chip_night': """
+    "chip_night": """
     DailyEvent > Gem-8 > Gem-4 > Gem-2 
     > Major > DailyChip > DailyResource
     > NightDrill-8 > NightDrill-7 > NightDrill-6
@@ -43,7 +43,7 @@ DICT_FILTER_PRESET = {
     > ExtraOil-1
     > shortest
     """,
-    'chip_24h': """
+    "chip_24h": """
     DailyEvent > Gem-8 > Gem-4 > Gem-2 > ExtraCube-0:30
     > UrgentCube-1:30 > UrgentCube-1:45 > UrgentCube-3 
     > ExtraDrill-5:20 > ExtraDrill-2 > ExtraDrill-3:20 
@@ -59,7 +59,7 @@ DICT_FILTER_PRESET = {
     > Extra-0:20 > Extra-0:30 > Extra-1:00 > Extra-1:30 > Extra-2:00
     > shortest
     """,
-    'cube': """
+    "cube": """
     DailyEvent > Gem-8 > Gem-4 > Gem-2 > ExtraCube-0:30
     > UrgentCube-1:30 > UrgentCube-1:45 > UrgentCube-3 
     > UrgentCube-2:15 > UrgentCube-4 > UrgentCube-6 
@@ -75,7 +75,7 @@ DICT_FILTER_PRESET = {
     > Extra-0:20 > Extra-0:30 > Extra-1:00 > Extra-1:30 > Extra-2:00
     > shortest
     """,
-    'cube_night': """
+    "cube_night": """
     DailyEvent > Gem-8 > Gem-4 > Gem-2  
     > Major > DailyChip > DailyResource
     > UrgentCube-6 > UrgentCube-4 > UrgentCube-3 
@@ -93,7 +93,7 @@ DICT_FILTER_PRESET = {
     > Extra-0:20 > Extra-0:30 > Extra-1:00 > Extra-1:30 > Extra-2:00
     > shortest
     """,
-    'cube_24h': """
+    "cube_24h": """
     DailyEvent > Gem-8 > Gem-4 > Gem-2 > ExtraCube-0:30
     > UrgentCube-1:30 > UrgentCube-1:45 > UrgentCube-3 
     > UrgentCube-2:15 > UrgentCube-4 > UrgentCube-6 
@@ -106,7 +106,7 @@ DICT_FILTER_PRESET = {
     > Extra-0:20 > Extra-0:30 > Extra-1:00 > Extra-1:30 > Extra-2:00
     > shortest
     """,
-    'oil': """
+    "oil": """
     DailyEvent > Gem-8 > Gem-4 > Gem-2 > ExtraCube-0:30
     > UrgentCube-1:30 > UrgentCube-1:45 > UrgentCube-3 
     > UrgentCube-2:15 > UrgentCube-4 
@@ -123,7 +123,7 @@ DICT_FILTER_PRESET = {
     > Extra-0:20 > Extra-0:30 > Extra-1:00 > Extra-1:30 > Extra-2:00
     > shortest
     """,
-    'oil_night': """
+    "oil_night": """
     DailyEvent > Gem-8 > Gem-4 > Gem-2 
     > Major > DailyChip > DailyResource
     > UrgentBox-6 > UrgentCube-6
@@ -140,5 +140,5 @@ DICT_FILTER_PRESET = {
     > ExtraPart-1:30 > ExtraDrill-2       
     > Extra-0:20 > Extra-0:30 > Extra-1:00 > Extra-1:30 > Extra-2:00
     > shortest
-    """
+    """,
 }

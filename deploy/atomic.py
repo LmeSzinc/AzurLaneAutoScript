@@ -2,9 +2,9 @@ import os
 import random
 import string
 import time
-from typing import Iterable, Union
+from collections.abc import Iterable
 
-IS_WINDOWS = os.name == 'nt'
+IS_WINDOWS = os.name == "nt"
 # Max attempt if another process is reading/writing, effective only on Windows
 WINDOWS_MAX_ATTEMPT = 5
 # Base time to wait between retries (seconds)
@@ -17,7 +17,7 @@ def random_id():
         str: Random ID, like "sTD2kF"
     """
     # 6 random letter (62^6 combinations) would be enough
-    return ''.join(random.sample(string.ascii_letters + string.digits, 6))
+    return "".join(random.sample(string.ascii_letters + string.digits, 6))
 
 
 def is_tmp_file(file: str) -> bool:
@@ -25,7 +25,7 @@ def is_tmp_file(file: str) -> bool:
     Check if a filename is tmp file
     """
     # Check suffix first to reduce regex calls
-    if not file.endswith('.tmp'):
+    if not file.endswith(".tmp"):
         return False
     # Check temp file format
     dot = file[-11:-10]
@@ -41,7 +41,7 @@ def to_tmp_file(file: str) -> str:
     filename -> filename.sTD2kF.tmp
     """
     suffix = random_id()
-    return f'{file}.{suffix}.tmp'
+    return f"{file}.{suffix}.tmp"
 
 
 def to_nontmp_file(file: str) -> str:
@@ -65,7 +65,7 @@ def windows_attempt_delay(attempt: int) -> float:
     Returns:
         float: Seconds to wait
     """
-    return 2 ** attempt * WINDOWS_RETRY_DELAY
+    return 2**attempt * WINDOWS_RETRY_DELAY
 
 
 def replace_tmp(tmp: str, file: str):
@@ -154,17 +154,17 @@ def atomic_replace(replace_from: str, replace_to: str):
         os.replace(replace_from, replace_to)
 
 
-def file_write(file: str, data: Union[str, bytes]):
+def file_write(file: str, data: str | bytes):
     """
     Write data into file, auto create directory
     Auto determines write mode based on the type of data.
     """
     if isinstance(data, str):
-        mode = 'w'
-        encoding = 'utf-8'
-        newline = ''
+        mode = "w"
+        encoding = "utf-8"
+        newline = ""
     elif isinstance(data, bytes):
-        mode = 'wb'
+        mode = "wb"
         encoding = None
         newline = None
         # Create memoryview as Pathlib do
@@ -172,13 +172,13 @@ def file_write(file: str, data: Union[str, bytes]):
     else:
         typename = str(type(data))
         if typename == "<class 'numpy.ndarray'>":
-            mode = 'wb'
+            mode = "wb"
             encoding = None
             newline = None
         else:
-            mode = 'w'
-            encoding = 'utf-8'
-            newline = ''
+            mode = "w"
+            encoding = "utf-8"
+            newline = ""
 
     try:
         # Write temp file
@@ -221,18 +221,18 @@ def file_write_stream(file: str, data_generator):
 
     # Determine mode, encoding and newline from first chunk
     if isinstance(first_chunk, str):
-        mode = 'w'
-        encoding = 'utf-8'
-        newline = ''
+        mode = "w"
+        encoding = "utf-8"
+        newline = ""
     elif isinstance(first_chunk, bytes):
-        mode = 'wb'
+        mode = "wb"
         encoding = None
         newline = None
     else:
         # Default to text mode for other types
-        mode = 'w'
-        encoding = 'utf-8'
-        newline = ''
+        mode = "w"
+        encoding = "utf-8"
+        newline = ""
 
     try:
         # Write temp file
@@ -259,8 +259,8 @@ def file_write_stream(file: str, data_generator):
 
 
 def atomic_write(
-        file: str,
-        data: Union[str, bytes],
+    file: str,
+    data: str | bytes,
 ):
     """
     Atomic file write with minimal IO operation
@@ -279,8 +279,8 @@ def atomic_write(
 
 
 def atomic_write_stream(
-        file: str,
-        data_generator,
+    file: str,
+    data_generator,
 ):
     """
     Atomic file write with streaming data support.
@@ -298,11 +298,7 @@ def atomic_write_stream(
     replace_tmp(temp, file)
 
 
-def file_read_text(
-        file: str,
-        encoding: str = 'utf-8',
-        errors: str = 'strict'
-) -> str:
+def file_read_text(file: str, encoding: str = "utf-8", errors: str = "strict") -> str:
     """
     Args:
         file:
@@ -310,17 +306,14 @@ def file_read_text(
         errors: 'strict', 'ignore', 'replace' and any other errors mode in open()
     """
     try:
-        with open(file, mode='r', encoding=encoding, errors=errors) as f:
+        with open(file, encoding=encoding, errors=errors) as f:
             return f.read()
     except FileNotFoundError:
-        return ''
+        return ""
 
 
 def file_read_text_stream(
-        file: str,
-        encoding: str = 'utf-8',
-        errors: str = 'strict',
-        chunk_size: int = 8192
+    file: str, encoding: str = "utf-8", errors: str = "strict", chunk_size: int = 8192
 ) -> Iterable[str]:
     """
     Args:
@@ -330,7 +323,7 @@ def file_read_text_stream(
         chunk_size:
     """
     try:
-        with open(file, mode='r', encoding=encoding, errors=errors) as f:
+        with open(file, encoding=encoding, errors=errors) as f:
             while 1:
                 chunk = f.read(chunk_size)
                 if not chunk:
@@ -348,10 +341,10 @@ def file_read_bytes(file: str) -> bytes:
     try:
         # No python-side buffering when reading the entire file to speedup reading
         # https://github.com/python/cpython/pull/122111
-        with open(file, mode='rb', buffering=0) as f:
+        with open(file, mode="rb", buffering=0) as f:
             return f.read()
     except FileNotFoundError:
-        return b''
+        return b""
 
 
 def file_read_bytes_stream(file: str, chunk_size: int = 8192) -> Iterable[bytes]:
@@ -361,7 +354,7 @@ def file_read_bytes_stream(file: str, chunk_size: int = 8192) -> Iterable[bytes]
         chunk_size:
     """
     try:
-        with open(file, mode='rb') as f:
+        with open(file, mode="rb") as f:
             while 1:
                 chunk = f.read(chunk_size)
                 if not chunk:
@@ -371,11 +364,7 @@ def file_read_bytes_stream(file: str, chunk_size: int = 8192) -> Iterable[bytes]
         return
 
 
-def atomic_read_text(
-        file: str,
-        encoding: str = 'utf-8',
-        errors: str = 'strict'
-) -> str:
+def atomic_read_text(file: str, encoding: str = "utf-8", errors: str = "strict") -> str:
     """
     Atomic file read with minimal IO operation
 
@@ -403,10 +392,7 @@ def atomic_read_text(
 
 
 def atomic_read_text_stream(
-        file: str,
-        encoding: str = 'utf-8',
-        errors: str = 'strict',
-        chunk_size: int = 8192
+    file: str, encoding: str = "utf-8", errors: str = "strict", chunk_size: int = 8192
 ) -> Iterable[str]:
     """
     Args:

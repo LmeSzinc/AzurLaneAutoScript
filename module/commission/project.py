@@ -10,15 +10,15 @@ from module.reward.assets import *
 
 COMMISSION_FILTER = Filter(
     regex=re.compile(
-        '(major|daily|extra|urgent|night)?'
-        '-?'
-        '(resource|chip|event|drill|part|cube|oil|book|retrofit|box|gem|ship)?'
-        '-?'
-        '(\d\d?:\d\d)?'
-        '(\d\d?.\d\d?|\d\d?)?'
+        "(major|daily|extra|urgent|night)?"
+        "-?"
+        "(resource|chip|event|drill|part|cube|oil|book|retrofit|box|gem|ship)?"
+        "-?"
+        r"(\d\d?:\d\d)?"
+        r"(\d\d?.\d\d?|\d\d?)?"
     ),
-    attr=('category_str', 'genre_str', 'duration_hm', 'duration_hour'),
-    preset=('shortest',)
+    attr=("category_str", "genre_str", "duration_hm", "duration_hour"),
+    preset=("shortest",),
 )
 
 
@@ -66,9 +66,10 @@ def image_hash(image):
         str:
     """
     if image is None:
-        return ''
+        return ""
 
     import hashlib
+
     return hashlib.md5(image.tobytes()).hexdigest()
 
 
@@ -119,29 +120,29 @@ class Commission:
 
         self.create_time = datetime.now()
         self.repeat_count = 1
-        self.category_str = 'unknown'
-        self.genre_str = 'unknown'
-        self.duration_hour = 'unknown'
-        self.duration_hm = 'unknown'
+        self.category_str = "unknown"
+        self.genre_str = "unknown"
+        self.duration_hour = "unknown"
+        self.duration_hm = "unknown"
         if self.valid:
-            self.category_str, self.genre_str = self.genre.split('_', 1)
-            self.duration_hour = str(int(self.duration.total_seconds() / 36) / 100).strip('.0')
-            self.duration_hm = str(self.duration).rsplit(':', 1)[0]
+            self.category_str, self.genre_str = self.genre.split("_", 1)
+            self.duration_hour = str(int(self.duration.total_seconds() / 36) / 100).strip(".0")
+            self.duration_hm = str(self.duration).rsplit(":", 1)[0]
 
-    @Config.when(SERVER='en')
+    @Config.when(SERVER="en")
     def commission_parse(self):
         # Name
         # This is different from CN, EN has longer names
         area = area_offset((131, 23, 409, 53), self.area[0:2])
-        button = Button(area=area, color=(), button=area, name='COMMISSION')
-        ocr = Ocr(button, lang='cnocr')
+        button = Button(area=area, color=(), button=area, name="COMMISSION")
+        ocr = Ocr(button, lang="cnocr")
         self.button = button
         result = ocr.ocr(self.image).upper()
         # DALY RESOURCE EXTRACTION -> DAILY RESOURCE EXTRACTION
-        result = result.replace('DALY', 'DAILY')
-        result = result.replace('NVB', 'NYB')
+        result = result.replace("DALY", "DAILY")
+        result = result.replace("NVB", "NYB")
         # PYEIN PROTECTION COMMISSION I
-        result = result.replace('PYEIN', 'VEIN').replace('YEIN', 'VEIN')
+        result = result.replace("PYEIN", "VEIN").replace("YEIN", "VEIN")
         self.name = result
         self.genre = self.commission_name_parse(self.name)
 
@@ -151,17 +152,16 @@ class Commission:
 
         # Duration time
         area = area_offset((290, 68, 390, 95), self.area[0:2])
-        button = Button(area=area, color=(), button=area, name='DURATION')
+        button = Button(area=area, color=(), button=area, name="DURATION")
         ocr = Duration(button)
         self.duration = ocr.ocr(self.image)
 
         # Expire time
         area = area_offset((-49, 68, -45, 84), self.area[0:2])
-        button = Button(area=area, color=(189, 65, 66),
-                        button=area, name='IS_URGENT')
+        button = Button(area=area, color=(189, 65, 66), button=area, name="IS_URGENT")
         if button.appear_on(self.image, threshold=30):
             area = area_offset((-49, 67, 45, 94), self.area[0:2])
-            button = Button(area=area, color=(), button=area, name='EXPIRE')
+            button = Button(area=area, color=(), button=area, name="EXPIRE")
             ocr = Duration(button)
             self.expire = ocr.ocr(self.image)
         else:
@@ -169,26 +169,22 @@ class Commission:
 
         # Status
         area = area_offset((179, 71, 187, 93), self.area[0:2])
-        dic = {
-            0: 'finished',
-            1: 'running',
-            2: 'pending'
-        }
+        dic = {0: "finished", 1: "running", 2: "pending"}
         color = np.array(get_color(self.image, area))
-        if self.genre == 'daily_event':
+        if self.genre == "daily_event":
             color -= [50, 30, 20]
         self.status = dic[int(np.argmax(color))]
 
-    @Config.when(SERVER='jp')
+    @Config.when(SERVER="jp")
     def commission_parse(self):
         # Name
         area = area_offset((176, 23, 420, 53), self.area[0:2])
-        button = Button(area=area, color=(), button=area, name='COMMISSION')
-        ocr = Ocr(button, letter=(201, 201, 201), lang='jp')
+        button = Button(area=area, color=(), button=area, name="COMMISSION")
+        ocr = Ocr(button, letter=(201, 201, 201), lang="jp")
         self.button = button
         result = ocr.ocr(self.image).upper()
         # NB装備輸送 -> NYB装備輸送
-        result = result.replace('NB', 'BYB').replace('BW', 'BIW')
+        result = result.replace("NB", "BYB").replace("BW", "BIW")
         self.name = result
         self.genre = self.commission_name_parse(self.name)
 
@@ -198,17 +194,16 @@ class Commission:
 
         # Duration time
         area = area_offset((290, 68, 390, 95), self.area[0:2])
-        button = Button(area=area, color=(), button=area, name='DURATION')
+        button = Button(area=area, color=(), button=area, name="DURATION")
         ocr = Duration(button)
         self.duration = ocr.ocr(self.image)
 
         # Expire time
         area = area_offset((-49, 68, -45, 84), self.area[0:2])
-        button = Button(area=area, color=(189, 65, 66),
-                        button=area, name='IS_URGENT')
+        button = Button(area=area, color=(189, 65, 66), button=area, name="IS_URGENT")
         if button.appear_on(self.image, threshold=30):
             area = area_offset((-49, 67, 45, 94), self.area[0:2])
-            button = Button(area=area, color=(), button=area, name='EXPIRE')
+            button = Button(area=area, color=(), button=area, name="EXPIRE")
             ocr = Duration(button)
             self.expire = ocr.ocr(self.image)
         else:
@@ -216,28 +211,24 @@ class Commission:
 
         # Status
         area = area_offset((179, 71, 187, 93), self.area[0:2])
-        dic = {
-            0: 'finished',
-            1: 'running',
-            2: 'pending'
-        }
+        dic = {0: "finished", 1: "running", 2: "pending"}
         color = np.array(get_color(self.image, area))
-        if self.genre == 'daily_event':
+        if self.genre == "daily_event":
             color -= [50, 30, 20]
         self.status = dic[int(np.argmax(color))]
 
-    @Config.when(SERVER='tw')
+    @Config.when(SERVER="tw")
     def commission_parse(self):
         # Name
         area = area_offset((176, 23, 420, 53), self.area[0:2])
-        button = Button(area=area, color=(), button=area, name='COMMISSION')
-        ocr = Ocr(button, lang='tw', threshold=256)
+        button = Button(area=area, color=(), button=area, name="COMMISSION")
+        ocr = Ocr(button, lang="tw", threshold=256)
         self.button = button
         result = ocr.ocr(self.image).upper()
         # There no letter `艦` in training dataset
-        result = result.replace('鑑', '艦').replace('盤', '艦')
+        result = result.replace("鑑", "艦").replace("盤", "艦")
         # 支援土蒙爾島
-        result = result.replace('土蒙爾', '土豪爾')
+        result = result.replace("土蒙爾", "土豪爾")
         self.name = result
         self.genre = self.commission_name_parse(self.name)
 
@@ -247,17 +238,16 @@ class Commission:
 
         # Duration time
         area = area_offset((290, 68, 390, 95), self.area[0:2])
-        button = Button(area=area, color=(), button=area, name='DURATION')
+        button = Button(area=area, color=(), button=area, name="DURATION")
         ocr = Duration(button)
         self.duration = ocr.ocr(self.image)
 
         # Expire time
         area = area_offset((-49, 68, -45, 84), self.area[0:2])
-        button = Button(area=area, color=(189, 65, 66),
-                        button=area, name='IS_URGENT')
+        button = Button(area=area, color=(189, 65, 66), button=area, name="IS_URGENT")
         if button.appear_on(self.image, threshold=30):
             area = area_offset((-49, 67, 45, 94), self.area[0:2])
-            button = Button(area=area, color=(), button=area, name='EXPIRE')
+            button = Button(area=area, color=(), button=area, name="EXPIRE")
             ocr = Duration(button)
             self.expire = ocr.ocr(self.image)
         else:
@@ -265,13 +255,9 @@ class Commission:
 
         # Status
         area = area_offset((179, 71, 187, 93), self.area[0:2])
-        dic = {
-            0: 'finished',
-            1: 'running',
-            2: 'pending'
-        }
+        dic = {0: "finished", 1: "running", 2: "pending"}
         color = np.array(get_color(self.image, area))
-        if self.genre == 'daily_event':
+        if self.genre == "daily_event":
             color -= [50, 30, 20]
         self.status = dic[int(np.argmax(color))]
 
@@ -279,8 +265,8 @@ class Commission:
     def commission_parse(self):
         # Name
         area = area_offset((176, 23, 420, 53), self.area[0:2])
-        button = Button(area=area, color=(), button=area, name='COMMISSION')
-        ocr = Ocr(button, lang='cnocr', threshold=256)
+        button = Button(area=area, color=(), button=area, name="COMMISSION")
+        ocr = Ocr(button, lang="cnocr", threshold=256)
         self.button = button
         result = ocr.ocr(self.image).upper()
         self.name = result
@@ -292,17 +278,16 @@ class Commission:
 
         # Duration time
         area = area_offset((290, 68, 390, 95), self.area[0:2])
-        button = Button(area=area, color=(), button=area, name='DURATION')
+        button = Button(area=area, color=(), button=area, name="DURATION")
         ocr = Duration(button)
         self.duration = ocr.ocr(self.image)
 
         # Expire time
         area = area_offset((-49, 68, -45, 84), self.area[0:2])
-        button = Button(area=area, color=(189, 65, 66),
-                        button=area, name='IS_URGENT')
+        button = Button(area=area, color=(189, 65, 66), button=area, name="IS_URGENT")
         if button.appear_on(self.image, threshold=30):
             area = area_offset((-49, 67, 45, 94), self.area[0:2])
-            button = Button(area=area, color=(), button=area, name='EXPIRE')
+            button = Button(area=area, color=(), button=area, name="EXPIRE")
             ocr = Duration(button)
             self.expire = ocr.ocr(self.image)
         else:
@@ -310,27 +295,23 @@ class Commission:
 
         # Status
         area = area_offset((179, 71, 187, 93), self.area[0:2])
-        dic = {
-            0: 'finished',
-            1: 'running',
-            2: 'pending'
-        }
+        dic = {0: "finished", 1: "running", 2: "pending"}
         color = np.array(get_color(self.image, area))
-        if self.genre == 'daily_event':
+        if self.genre == "daily_event":
             color -= [50, 30, 20]
         self.status = dic[int(np.argmax(color))]
 
     def __str__(self):
-        name = f'{self.name} | {self.suffix_hash}' if self.suffix_hash else self.name
+        name = f"{self.name} | {self.suffix_hash}" if self.suffix_hash else self.name
         if not self.valid:
-            return f'{name} (Invalid)'
-        info = {'Genre': self.genre, 'Status': self.status, 'Duration': self.duration}
+            return f"{name} (Invalid)"
+        info = {"Genre": self.genre, "Status": self.status, "Duration": self.duration}
         if self.expire:
-            info['Expire'] = self.expire
+            info["Expire"] = self.expire
         if self.repeat_count > 1:
-            info['Repeat'] = self.repeat_count
-        info = ', '.join([f'{k}: {v}' for k, v in info.items()])
-        return f'{name} ({info})'
+            info["Repeat"] = self.repeat_count
+        info = ", ".join([f"{k}: {v}" for k, v in info.items()])
+        return f"{name} ({info})"
 
     def __eq__(self, other):
         """
@@ -347,11 +328,11 @@ class Commission:
             return False
         if self.genre != other.genre or self.status != other.status:
             return False
-        if self.category_str == 'daily':
+        if self.category_str == "daily":
             if not self.suffix_match(other):
                 return False
-        if self.genre == 'urgent_box':
-            for tag in ['NYB', 'BIW']:
+        if self.genre == "urgent_box":
+            for tag in ["NYB", "BIW"]:
                 if tag in self.name.upper() and tag not in other.name.upper():
                     return False
                 if tag not in self.name.upper() and tag in other.name.upper():
@@ -365,13 +346,13 @@ class Commission:
                 return False
         if self.repeat_count != other.repeat_count:
             return False
-        if self.genre in ['extra_oil', 'night_oil'] and not self.suffix_match(other):
+        if self.genre in ["extra_oil", "night_oil"] and not self.suffix_match(other):
             return False
 
         return True
 
     def __hash__(self):
-        return hash(f'{self.genre}_{self.name}')
+        return hash(f"{self.genre}_{self.name}")
 
     def suffix_match(self, other, similarity=0.75):
         """
@@ -396,10 +377,7 @@ class Commission:
             _, sim, _, _ = cv2.minMaxLoc(res)
             return sim
 
-        sim = max(
-            match(self.suffix_image, other.suffix_image),
-            match(other.suffix_image, self.suffix_image)
-        )
+        sim = max(match(self.suffix_image, other.suffix_image), match(other.suffix_image, self.suffix_image))
         return sim >= similarity
 
     def parse_time(self, string):
@@ -410,17 +388,17 @@ class Commission:
         Returns:
             timedelta: datetime.timedelta instance.
         """
-        string = string.replace('D', '0')  # Poor OCR
-        result = re.search('(\d+):(\d+):(\d+)', string)
+        string = string.replace("D", "0")  # Poor OCR
+        result = re.search(r"(\d+):(\d+):(\d+)", string)
         if not result:
-            logger.warning(f'Invalid time string: {string}')
+            logger.warning(f"Invalid time string: {string}")
             self.valid = False
             return None
         else:
             result = [int(s) for s in result.groups()]
             return timedelta(hours=result[0], minutes=result[1], seconds=result[2])
 
-    @Config.when(SERVER='en')
+    @Config.when(SERVER="en")
     def commission_name_parse(self, string):
         """
         Args:
@@ -431,17 +409,17 @@ class Commission:
         """
         # string = string.replace(' ', '').replace('-', '')
         if self.is_event_commission():
-            return 'daily_event'
+            return "daily_event"
         for key, value in dictionary_en.items():
             for keyword in value:
                 if keyword in string:
                     return key
 
-        logger.warning(f'Name with unknown genre: {string}')
+        logger.warning(f"Name with unknown genre: {string}")
         self.valid = False
-        return ''
+        return ""
 
-    @Config.when(SERVER='jp')
+    @Config.when(SERVER="jp")
     def commission_name_parse(self, string):
         """
         Args:
@@ -451,11 +429,12 @@ class Commission:
             str: Commission genre, such as 'urgent_gem'.
         """
         if self.is_event_commission():
-            return 'daily_event'
+            return "daily_event"
         import jellyfish
-        min_key = ''
+
+        min_key = ""
         min_distance = 100
-        string = re.sub(r'[\x00-\x7F]', '', string)
+        string = re.sub(r"[\x00-\x7F]", "", string)
         for key, value in dictionary_jp.items():
             for keyword in value:
                 distance = jellyfish.levenshtein_distance(keyword, string)
@@ -465,11 +444,11 @@ class Commission:
         if min_distance < 3:
             return min_key
 
-        logger.warning(f'Name with unknown genre: {string}')
+        logger.warning(f"Name with unknown genre: {string}")
         self.valid = False
-        return ''
+        return ""
 
-    @Config.when(SERVER='tw')
+    @Config.when(SERVER="tw")
     def commission_name_parse(self, string):
         """
         Args:
@@ -479,15 +458,15 @@ class Commission:
             str: Commission genre, such as 'urgent_gem'.
         """
         if self.is_event_commission():
-            return 'daily_event'
+            return "daily_event"
         for key, value in dictionary_tw.items():
             for keyword in value:
                 if keyword in string:
                     return key
 
-        logger.warning(f'Name with unknown genre: {string}')
+        logger.warning(f"Name with unknown genre: {string}")
         self.valid = False
-        return ''
+        return ""
 
     @Config.when(SERVER=None)
     def commission_name_parse(self, string):
@@ -499,15 +478,15 @@ class Commission:
             str: Commission genre, such as 'urgent_gem'.
         """
         if self.is_event_commission():
-            return 'daily_event'
+            return "daily_event"
         for key, value in dictionary_cn.items():
             for keyword in value:
                 if keyword in string:
                     return key
 
-        logger.warning(f'Name with unknown genre: {string}')
+        logger.warning(f"Name with unknown genre: {string}")
         self.valid = False
-        return ''
+        return ""
 
     def is_event_commission(self):
         """
@@ -530,18 +509,18 @@ class Commission:
         return False
 
     def convert_to_night(self):
-        if self.valid and self.category_str == 'extra':
-            self.category_str = 'night'
-            self.genre = f'{self.category_str}_{self.genre_str}'
+        if self.valid and self.category_str == "extra":
+            self.category_str = "night"
+            self.genre = f"{self.category_str}_{self.genre_str}"
 
     def convert_to_running(self):
         if self.valid:
-            self.status = 'running'
+            self.status = "running"
             self.create_time = datetime.now()
 
     @property
     def finish_time(self):
-        if self.valid and self.status == 'running':
+        if self.valid and self.status == "running":
             return (self.create_time + self.duration).replace(microsecond=0)
         else:
             return None
@@ -549,10 +528,10 @@ class Commission:
     @staticmethod
     def beautify_name(name):
         name = name.strip()
-        name = re.sub(r'VI$', 'Ⅵ', name)
-        name = re.sub(r'IV$', 'Ⅳ', name)
-        name = re.sub(r'V$', 'Ⅴ', name)
-        name = re.sub(r'III$', 'Ⅲ', name)
-        name = re.sub(r'II$', 'Ⅱ', name)
-        name = re.sub(r'I$', 'Ⅰ', name)
+        name = re.sub(r"VI$", "Ⅵ", name)
+        name = re.sub(r"IV$", "Ⅳ", name)
+        name = re.sub(r"V$", "Ⅴ", name)
+        name = re.sub(r"III$", "Ⅲ", name)
+        name = re.sub(r"II$", "Ⅱ", name)
+        name = re.sub(r"I$", "Ⅰ", name)
         return name

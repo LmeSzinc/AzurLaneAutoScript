@@ -1,6 +1,6 @@
+
 import cv2
 import numpy as np
-from typing import List
 
 from module.base.base import ModuleBase
 from module.base.button import ButtonGrid
@@ -33,15 +33,27 @@ class NestedNavbar:
     # 4
     # 5
     # Since the level 1 buttons will move, before clicking the level 1 button we will need to check the current acvive level 1 button and the number of active submenu options to calculate the position of the level 1 button to click.
-    def __init__(self, grids: ButtonGrid,
-                 subgrid_delta: tuple = None, subgrid_button_shape: tuple = None,
-                 subgrid_shapes: List[tuple] = None, direction: str = 'vertical',
-                 main_active_color=(57, 189, 255), main_inactive_color=(38, 39, 40),
-                 main_active_threshold=221, main_inactive_threshold=221,
-                 main_active_count=2000, main_inactive_count=2000,
-                 sub_active_color=(125, 126, 126), sub_inactive_color=(38, 39, 40),
-                 sub_active_threshold=221, sub_inactive_threshold=221,
-                 sub_active_count=500, sub_inactive_count=500, name: str = None):
+    def __init__(
+        self,
+        grids: ButtonGrid,
+        subgrid_delta: tuple = None,
+        subgrid_button_shape: tuple = None,
+        subgrid_shapes: list[tuple] = None,
+        direction: str = "vertical",
+        main_active_color=(57, 189, 255),
+        main_inactive_color=(38, 39, 40),
+        main_active_threshold=221,
+        main_inactive_threshold=221,
+        main_active_count=2000,
+        main_inactive_count=2000,
+        sub_active_color=(125, 126, 126),
+        sub_inactive_color=(38, 39, 40),
+        sub_active_threshold=221,
+        sub_inactive_threshold=221,
+        sub_active_count=500,
+        sub_inactive_count=500,
+        name: str = None,
+    ):
         """
         Parameters:
             grids (ButtonGrid): The ButtonGrid instance for the main level buttons.
@@ -83,30 +95,41 @@ class NestedNavbar:
     def _construct_subgrids(self):
         self.subgrids = []
         for idx, (main_button, subgrid_shape) in enumerate(zip(self.grids.buttons, self.subgrid_shapes)):
-            if self.direction == 'vertical':
+            if self.direction == "vertical":
                 subgrid_origin = (main_button.area[0], main_button.area[1] + self.grids.delta[1])
             else:
                 subgrid_origin = (main_button.area[0] + self.grids.delta[0], main_button.area[1])
-            subgrid = ButtonGrid(origin=subgrid_origin, delta=self.subgrid_delta,
-                                 button_shape=self.subgrid_button_shape, grid_shape=subgrid_shape,
-                                 name=f'{self.name}_SUB_GRID_{idx}')
+            subgrid = ButtonGrid(
+                origin=subgrid_origin,
+                delta=self.subgrid_delta,
+                button_shape=self.subgrid_button_shape,
+                grid_shape=subgrid_shape,
+                name=f"{self.name}_SUB_GRID_{idx}",
+            )
             self.subgrids.append(subgrid)
 
     def is_main_button_active(self, button, main):
         return main.image_color_count(
-                    button, color=self.main_active_color, threshold=self.main_active_threshold, count=self.main_active_count)
+            button, color=self.main_active_color, threshold=self.main_active_threshold, count=self.main_active_count
+        )
 
     def is_main_button_inactive(self, button, main):
         return main.image_color_count(
-                    button, color=self.main_inactive_color, threshold=self.main_inactive_threshold, count=self.main_inactive_count)
+            button,
+            color=self.main_inactive_color,
+            threshold=self.main_inactive_threshold,
+            count=self.main_inactive_count,
+        )
 
     def is_subbutton_active(self, button, main):
         return main.image_color_count(
-                    button, color=self.sub_active_color, threshold=self.sub_active_threshold, count=self.sub_active_count)
+            button, color=self.sub_active_color, threshold=self.sub_active_threshold, count=self.sub_active_count
+        )
 
     def is_subbutton_inactive(self, button, main):
         return main.image_color_count(
-                    button, color=self.sub_inactive_color, threshold=self.sub_inactive_threshold, count=self.sub_inactive_count)
+            button, color=self.sub_inactive_color, threshold=self.sub_inactive_threshold, count=self.sub_inactive_count
+        )
 
     def get_info(self, main):
         """
@@ -133,7 +156,7 @@ class NestedNavbar:
                         active_sub.append((index, sub_index))
                     elif self.is_subbutton_inactive(sub_button, main=main):
                         total_sub.append((index, sub_index))
-                if self.direction == 'vertical':
+                if self.direction == "vertical":
                     current_offset = (
                         current_offset[0],
                         current_offset[1] + self.subgrid_button_shape[1] * subgrid.grid_shape[1],
@@ -151,7 +174,7 @@ class NestedNavbar:
         elif len(active_main) == 1:
             active_main_index = active_main[0]
         else:
-            logger.warning(f'Too many active nav items found in {self.name}, items: {active_main}')
+            logger.warning(f"Too many active nav items found in {self.name}, items: {active_main}")
             active_main_index = active_main[0]
 
         active_sub_index = None
@@ -162,11 +185,13 @@ class NestedNavbar:
             elif len(active_subs_for_active_main) == 1:
                 active_sub_index = active_subs_for_active_main[0][1]
             else:
-                logger.warning(f'Too many active sub nav items found in {self.name} for main index {active_main_index}, items: {active_subs_for_active_main}')
+                logger.warning(
+                    f"Too many active sub nav items found in {self.name} for main index {active_main_index}, items: {active_subs_for_active_main}"
+                )
                 active_sub_index = active_subs_for_active_main[0][1]
 
         if len(total_main) < 2:
-            logger.warning(f'Too few nav items found in {self.name}, items: {total_main}')
+            logger.warning(f"Too few nav items found in {self.name}, items: {total_main}")
         if len(total_main) == 0:
             main_begin, main_end = None, None
         else:
@@ -184,21 +209,23 @@ class NestedNavbar:
             sub_index (int, optional): The index of the submenu option to click. If None, no submenu option will be clicked. Starts from 0.
             skip_first_screenshot (bool):
         """
-        logger.info(f'Setting {self.name} to main index {main_index} and sub index {sub_index}')
+        logger.info(f"Setting {self.name} to main index {main_index} and sub index {sub_index}")
         click_timer = Timer(2, count=4).reset()
         confirm_timer = Timer(2, count=4).reset()
         for _ in main.loop(skip_first=skip_first_screenshot, timeout=10):
             active_main_index, active_sub_index, main_begin, main_end = self.get_info(main)
             if active_main_index == main_index and (sub_index is None or active_sub_index == sub_index):
                 if confirm_timer.reached():
-                    logger.info(f'Successfully set {self.name} to main index {main_index} and sub index {sub_index}')
+                    logger.info(f"Successfully set {self.name} to main index {main_index} and sub index {sub_index}")
                     return True
                 continue
             if active_main_index is None or main_begin is None or main_end is None:
                 confirm_timer.reset()
                 continue
             if not (main_begin <= main_index <= main_end):
-                logger.warning(f'Main index {main_index} out of range for {self.name}, appears ({main_begin}, {main_end})')
+                logger.warning(
+                    f"Main index {main_index} out of range for {self.name}, appears ({main_begin}, {main_end})"
+                )
                 continue
             if click_timer.reached_and_reset():
                 if active_main_index != main_index:
@@ -210,7 +237,7 @@ class NestedNavbar:
                         main.device.click(subgrid.buttons[sub_index])
                         confirm_timer.reset()
         else:
-            logger.warning(f'Failed to set {self.name} to main index {main_index} and sub index {sub_index}')
+            logger.warning(f"Failed to set {self.name} to main index {main_index} and sub index {sub_index}")
             return False
 
 
@@ -261,13 +288,13 @@ class IslandUI(UI):
             return True
         return False
 
-    def handle_island_popup_confirm(self, name='', offset=None, interval=2):
+    def handle_island_popup_confirm(self, name="", offset=None, interval=2):
         if offset is None:
             offset = self._popup_offset
         if self.appear(POPUP_CONFIRM_WHITE_ISLAND, offset=offset, interval=interval):
-            POPUP_CONFIRM_WHITE_ISLAND.name = POPUP_CONFIRM_WHITE_ISLAND.name + '_' + name
+            POPUP_CONFIRM_WHITE_ISLAND.name = POPUP_CONFIRM_WHITE_ISLAND.name + "_" + name
             self.device.click(POPUP_CONFIRM_WHITE_ISLAND)
-            POPUP_CONFIRM_WHITE_ISLAND.name = POPUP_CONFIRM_WHITE_ISLAND.name[:-len(name) - 1]
+            POPUP_CONFIRM_WHITE_ISLAND.name = POPUP_CONFIRM_WHITE_ISLAND.name[: -len(name) - 1]
             return True
         return False
 
@@ -302,14 +329,15 @@ class IslandUI(UI):
     @cached_property
     def _island_manage_side_navbar(self):
         island_manage_side_navbar = ButtonGrid(
-            origin=(13, 107), delta=(0, 196/3),
-            button_shape=(128, 43), grid_shape=(1, 3)
+            origin=(13, 107), delta=(0, 196 / 3), button_shape=(128, 43), grid_shape=(1, 3)
         )
-        return Navbar(grids=island_manage_side_navbar,
-                      active_color=(57, 189, 255),
-                      inactive_color=(50, 52, 55),
-                      active_count=500,
-                      inactive_count=500)
+        return Navbar(
+            grids=island_manage_side_navbar,
+            active_color=(57, 189, 255),
+            inactive_color=(50, 52, 55),
+            active_count=500,
+            inactive_count=500,
+        )
 
     def island_manage_side_navbar_ensure(self, upper=1, skip_first_screenshot=True):
         """

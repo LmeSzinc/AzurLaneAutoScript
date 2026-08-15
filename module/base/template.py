@@ -23,7 +23,7 @@ class Template(Resource):
 
         self.resource_add(self.file)
 
-    cached = ['file', 'name', 'is_gif']
+    cached = ["file", "name", "is_gif"]
 
     @cached_property
     def file(self):
@@ -35,7 +35,7 @@ class Template(Resource):
 
     @cached_property
     def is_gif(self):
-        return os.path.splitext(self.file)[1] == '.gif'
+        return os.path.splitext(self.file)[1] == ".gif"
 
     @property
     def image(self):
@@ -50,7 +50,9 @@ class Template(Resource):
                         image = image[:, :, :3].copy()
                         # imageio >= 2.28 wraps grayscale palette GIFs as RGB (R=G=B),
                         # restore them to single channel to match grayscale inputs
-                        if np.array_equal(image[:, :, 0], image[:, :, 1]) and np.array_equal(image[:, :, 1], image[:, :, 2]):
+                        if np.array_equal(image[:, :, 0], image[:, :, 1]) and np.array_equal(
+                            image[:, :, 1], image[:, :, 2]
+                        ):
                             image = image[:, :, 0]
                     elif len(image.shape) == 3:
                         # Follow the first frame

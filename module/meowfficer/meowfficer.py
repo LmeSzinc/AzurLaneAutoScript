@@ -1,14 +1,14 @@
+from module.meowfficer.assets import MEOWFFICER_BUY_ENTER
 from module.meowfficer.buy import MeowfficerBuy
 from module.meowfficer.fort import MeowfficerFort
 from module.meowfficer.train import MeowfficerTrain
 from module.ui.page import page_meowfficer
-from module.meowfficer.assets import MEOWFFICER_BUY_ENTER
 
 
 class RewardMeowfficer(MeowfficerBuy, MeowfficerFort, MeowfficerTrain):
     def wait_meowfficer_buttons(self, skip_first_screenshot=True):
         """
-        MEOWFFICER_INFO and MEOWFFICER_BUY_ENTER 
+        MEOWFFICER_INFO and MEOWFFICER_BUY_ENTER
         loads slowly than MEOWFFICER_CHECK
         """
         while 1:
@@ -33,18 +33,19 @@ class RewardMeowfficer(MeowfficerBuy, MeowfficerFort, MeowfficerTrain):
             in: Any page
             out: page_meowfficer
         """
-        if self.config.Meowfficer_BuyAmount <= 0 \
-                and self.config.Meowfficer_OverflowCoins < 0 \
-                and not self.config.Meowfficer_FortChoreMeowfficer \
-                and not self.config.MeowfficerTrain_Enable:
+        if (
+            self.config.Meowfficer_BuyAmount <= 0
+            and self.config.Meowfficer_OverflowCoins < 0
+            and not self.config.Meowfficer_FortChoreMeowfficer
+            and not self.config.MeowfficerTrain_Enable
+        ):
             self.config.Scheduler_Enable = False
             self.config.task_stop()
 
         self.ui_ensure(page_meowfficer)
         self.wait_meowfficer_buttons()  # Wait for the ui to load fully
 
-        if self.config.Meowfficer_BuyAmount > 0 \
-                or self.config.Meowfficer_OverflowCoins >= 0:
+        if self.config.Meowfficer_BuyAmount > 0 or self.config.Meowfficer_OverflowCoins >= 0:
             self.meow_buy()
         if self.config.Meowfficer_FortChoreMeowfficer:
             self.meow_fort()
@@ -52,9 +53,7 @@ class RewardMeowfficer(MeowfficerBuy, MeowfficerFort, MeowfficerTrain):
         # Train
         if self.config.MeowfficerTrain_Enable:
             self.meow_train()
-            if self.config.MeowfficerTrain_Mode == 'seamlessly':
-                self.meow_enhance()
-            elif self.meow_is_sunday():
+            if self.config.MeowfficerTrain_Mode == "seamlessly" or self.meow_is_sunday():
                 self.meow_enhance()
             else:
                 pass

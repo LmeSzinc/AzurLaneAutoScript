@@ -13,7 +13,8 @@ from deploy.pip import PipManager
 class Installer(GitManager, PipManager, AdbManager, AppManager, AlasManager):
     def install(self):
         from deploy.atomic import atomic_failure_cleanup
-        atomic_failure_cleanup('./config')
+
+        atomic_failure_cleanup("./config")
         try:
             self.git_install()
             self.alas_kill()
@@ -24,5 +25,5 @@ class Installer(GitManager, PipManager, AdbManager, AppManager, AlasManager):
             exit(1)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     Installer().install()

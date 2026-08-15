@@ -31,7 +31,7 @@ class Combat(Combat_, MapEventHandler):
 
         return False
 
-    def combat_preparation(self, balance_hp=False, emotion_reduce=False, auto='combat_auto', fleet_index=1):
+    def combat_preparation(self, balance_hp=False, emotion_reduce=False, auto="combat_auto", fleet_index=1):
         """
         Args:
             balance_hp (bool):
@@ -39,7 +39,7 @@ class Combat(Combat_, MapEventHandler):
             auto (str):
             fleet_index (int):
         """
-        logger.info('Combat preparation.')
+        logger.info("Combat preparation.")
         self.device.stuck_record_clear()
         self.device.click_record_clear()
         skip_first_screenshot = True
@@ -50,9 +50,8 @@ class Combat(Combat_, MapEventHandler):
         #     self.hp_balance()
 
         for _ in self.loop():
-
             if self.appear(BATTLE_PREPARATION):
-                if self.handle_combat_automation_set(auto=auto == 'combat_auto'):
+                if self.handle_combat_automation_set(auto=auto == "combat_auto"):
                     continue
             if self.handle_retirement():
                 continue
@@ -64,7 +63,7 @@ class Combat(Combat_, MapEventHandler):
                 continue
             if self.appear_then_click(SIREN_PREPARATION, offset=(20, 20), interval=2):
                 continue
-            if self.handle_popup_confirm('ENHANCED_ENEMY'):
+            if self.handle_popup_confirm("ENHANCED_ENEMY"):
                 continue
             if self.handle_combat_automation_confirm():
                 continue
@@ -74,7 +73,7 @@ class Combat(Combat_, MapEventHandler):
             # End
             pause = self.is_combat_executing()
             if pause:
-                logger.attr('BattleUI', pause)
+                logger.attr("BattleUI", pause)
                 # if emotion_reduce:
                 #     self.emotion.reduce(fleet_index)
                 break
@@ -114,7 +113,7 @@ class Combat(Combat_, MapEventHandler):
         Returns:
             bool:
         """
-        if getattr(self, '_disable_handle_get_items', False):
+        if getattr(self, "_disable_handle_get_items", False):
             return False
         if self.appear(GET_ITEMS_1, offset=5, interval=self.battle_status_click_interval):
             if drop:
@@ -176,18 +175,18 @@ class Combat(Combat_, MapEventHandler):
         """
         for count in range(3):
             if count >= 2:
-                logger.warning('Too many continuous combat')
+                logger.warning("Too many continuous combat")
 
             try:
                 super().combat(*args, save_get_items=save_get_items, **kwargs)
                 break
             except ContinuousCombat:
-                logger.info('Continuous combat detected')
+                logger.info("Continuous combat detected")
                 continue
 
     def handle_auto_search_battle_status(self, drop=None):
         if self.appear(BATTLE_STATUS_C, interval=self.battle_status_click_interval):
-            logger.warning('Battle Status C')
+            logger.warning("Battle Status C")
             # raise GameStuckError('Battle status C')
             if drop:
                 drop.handle_add(self)
@@ -196,7 +195,7 @@ class Combat(Combat_, MapEventHandler):
             self.device.click(BATTLE_STATUS_C)
             return True
         if self.appear(BATTLE_STATUS_D, interval=self.battle_status_click_interval):
-            logger.warning('Battle Status D')
+            logger.warning("Battle Status D")
             # raise GameStuckError('Battle Status D')
             if drop:
                 drop.handle_add(self)
@@ -229,10 +228,10 @@ class Combat(Combat_, MapEventHandler):
             in: is_combat_loading()
             out: combat status
         """
-        logger.info('Auto search combat loading')
+        logger.info("Auto search combat loading")
         self.device.stuck_record_clear()
         self.device.click_record_clear()
-        self.device.screenshot_interval_set('combat')
+        self.device.screenshot_interval_set("combat")
         while 1:
             self.device.screenshot()
 
@@ -244,16 +243,16 @@ class Combat(Combat_, MapEventHandler):
                 break
             pause = self.is_combat_executing()
             if pause:
-                logger.attr('BattleUI', pause)
+                logger.attr("BattleUI", pause)
                 break
             if self.is_in_map():
                 break
 
-        logger.info('Auto Search combat execute')
+        logger.info("Auto Search combat execute")
         self.submarine_call_reset()
         self.device.stuck_record_clear()
         self.device.click_record_clear()
-        submarine_mode = 'do_not_use'
+        submarine_mode = "do_not_use"
         if self.config.Submarine_Fleet:
             submarine_mode = self.config.Submarine_Mode
 
@@ -282,6 +281,6 @@ class Combat(Combat_, MapEventHandler):
                 continue
             if self.handle_map_event():
                 continue
-            
-        logger.info('Combat end.')
+
+        logger.info("Combat end.")
         return success

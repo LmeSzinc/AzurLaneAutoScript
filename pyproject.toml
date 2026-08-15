@@ -53,13 +53,13 @@ target-version = "py313"
 line-length = 120
 extend-exclude = [
     "config",
-    "deploy",
-    "dev_tools",
+    "campaign",   # generated map configs (F401-dominated, cleaned by generator later)
+    "submodule",  # vendored third-party bridges (AlasFpyBridge, Maa runtime checkouts)
     "webapp",
 ]
 
 [tool.ruff.lint]
-select = ["E", "F", "W", "B"]
+select = ["E", "F", "W", "B", "UP", "I", "ASYNC", "SIM", "PT", "C4", "RUF"]
 ignore = [
     "E501",  # line too long, handled by line-length convention in legacy code
     "E402",  # module level import not at top of file
@@ -69,4 +69,7 @@ ignore = [
     "F405",  # name may be undefined from star import
     "B008",  # function call in default argument
     "B905",  # zip without strict, py<3.10 compatibility in legacy code
+    "RUF001",  # ambiguous unicode in strings: game text/names are intentional
+    "RUF002",  # ambiguous unicode in docstrings: game text/names are intentional
+    "RUF003",  # ambiguous unicode in comments: game text/names are intentional
 ]

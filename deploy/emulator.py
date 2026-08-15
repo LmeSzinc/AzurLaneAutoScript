@@ -40,21 +40,21 @@ class VirtualBoxEmulator:
         Raises:
             FileNotFoundError: If emulator not installed.
         """
-        if self.name == 'LDPlayer4':
-            root = self.get_install_dir_from_reg('SOFTWARE\\leidian\\ldplayer', 'InstallDir')
+        if self.name == "LDPlayer4":
+            root = self.get_install_dir_from_reg("SOFTWARE\\leidian\\ldplayer", "InstallDir")
             if root is not None:
                 return root
-        if self.name == 'LDPlayer9':
-            root = self.get_install_dir_from_reg('SOFTWARE\\leidian\\ldplayer9', 'InstallDir')
+        if self.name == "LDPlayer9":
+            root = self.get_install_dir_from_reg("SOFTWARE\\leidian\\ldplayer9", "InstallDir")
             if root is not None:
                 return root
 
         try:
-            with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, f'{self.UNINSTALL_REG}\\{self.name}', 0) as reg:
-                res = winreg.QueryValueEx(reg, 'UninstallString')[0]
+            with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, f"{self.UNINSTALL_REG}\\{self.name}", 0) as reg:
+                res = winreg.QueryValueEx(reg, "UninstallString")[0]
         except FileNotFoundError:
-            with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, f'{self.UNINSTALL_REG_2}\\{self.name}', 0) as reg:
-                res = winreg.QueryValueEx(reg, 'UninstallString')[0]
+            with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, f"{self.UNINSTALL_REG_2}\\{self.name}", 0) as reg:
+                res = winreg.QueryValueEx(reg, "UninstallString")[0]
 
         file = re.search('"(.*?)"', res)
         file = file.group(1) if file else res
@@ -96,7 +96,7 @@ class VirtualBoxEmulator:
         files = []
         for adb in self.adb_binary:
             for n in range(10):
-                backup = f'{adb}.bak{n}' if n else f'{adb}.bak'
+                backup = f"{adb}.bak{n}" if n else f"{adb}.bak"
                 if os.path.exists(backup):
                     continue
                 else:
@@ -119,12 +119,12 @@ class VirtualBoxEmulator:
 
         serial = []
         for file in vbox:
-            with open(file, 'r', encoding='utf-8', errors='ignore') as f:
+            with open(file, encoding="utf-8", errors="ignore") as f:
                 for line in f.readlines():
                     # <Forwarding name="port2" proto="1" hostip="127.0.0.1" hostport="62026" guestport="5555"/>
                     res = re.search('<*?hostport="(.*?)".*?guestport="5555"/>', line)
                     if res:
-                        serial.append(f'127.0.0.1:{res.group(1)}')
+                        serial.append(f"127.0.0.1:{res.group(1)}")
 
         return serial
 
@@ -137,103 +137,67 @@ class VirtualBoxEmulator:
             adb (str): Absolute path to adb.exe
         """
         for ori, bak in zip(self.adb_binary, self.adb_backup):
-            logger.info(f'Replacing {ori}')
+            logger.info(f"Replacing {ori}")
             try:
                 if os.path.exists(ori):
                     if filecmp.cmp(adb, ori, shallow=True):
-                        logger.info(f'{adb} is same as {ori}, skip')
+                        logger.info(f"{adb} is same as {ori}, skip")
                     else:
-                        logger.info(f'{ori} -----> {bak}')
+                        logger.info(f"{ori} -----> {bak}")
                         shutil.move(ori, bak)
-                        logger.info(f'{adb} -----> {ori}')
+                        logger.info(f"{adb} -----> {ori}")
                         shutil.copy(adb, ori)
                 else:
-                    logger.info(f'{ori} not exists, skip')
+                    logger.info(f"{ori} not exists, skip")
             except OSError as e:
-                logger.warning(f'Failed to replace {ori}, {e}')
+                logger.warning(f"Failed to replace {ori}, {e}")
 
     def adb_recover(self):
-        """ Revert adb replacement """
+        """Revert adb replacement"""
         for ori in self.adb_binary:
-            logger.info(f'Recovering {ori}')
-            bak = f'{ori}.bak'
+            logger.info(f"Recovering {ori}")
+            bak = f"{ori}.bak"
             if os.path.exists(bak):
-                logger.info(f'Delete {ori}')
+                logger.info(f"Delete {ori}")
                 if os.path.exists(ori):
                     os.remove(ori)
-                logger.info(f'{bak} -----> {ori}')
+                logger.info(f"{bak} -----> {ori}")
                 shutil.move(bak, ori)
             else:
-                logger.info(f'Not exists {bak}, skip')
+                logger.info(f"Not exists {bak}, skip")
 
 
 # NoxPlayer 夜神模拟器
 nox_player = VirtualBoxEmulator(
-    name="Nox",
-    root_path=".",
-    adb_path=["./adb.exe", "./nox_adb.exe"],
-    vbox_path="./BignoxVMS",
-    vbox_name='.*.vbox$'
+    name="Nox", root_path=".", adb_path=["./adb.exe", "./nox_adb.exe"], vbox_path="./BignoxVMS", vbox_name=".*.vbox$"
 )
 nox_player_64 = VirtualBoxEmulator(
-    name="Nox64",
-    root_path=".",
-    adb_path=["./adb.exe", "./nox_adb.exe"],
-    vbox_path="./BignoxVMS",
-    vbox_name='.*.vbox$'
+    name="Nox64", root_path=".", adb_path=["./adb.exe", "./nox_adb.exe"], vbox_path="./BignoxVMS", vbox_name=".*.vbox$"
 )
 # LDPlayer 雷电模拟器
 ld_player = VirtualBoxEmulator(
-    name="LDPlayer",
-    root_path=".",
-    adb_path="./adb.exe",
-    vbox_path="./vms",
-    vbox_name='.*.vbox$'
+    name="LDPlayer", root_path=".", adb_path="./adb.exe", vbox_path="./vms", vbox_name=".*.vbox$"
 )
 ld_player_4 = VirtualBoxEmulator(
-    name="LDPlayer4",
-    root_path=".",
-    adb_path="./adb.exe",
-    vbox_path="./vms",
-    vbox_name='.*.vbox$'
+    name="LDPlayer4", root_path=".", adb_path="./adb.exe", vbox_path="./vms", vbox_name=".*.vbox$"
 )
 ld_player_9 = VirtualBoxEmulator(
-    name="LDPlayer9",
-    root_path=".",
-    adb_path="./adb.exe",
-    vbox_path="./vms",
-    vbox_name='.*.vbox$'
+    name="LDPlayer9", root_path=".", adb_path="./adb.exe", vbox_path="./vms", vbox_name=".*.vbox$"
 )
 # MemuPlayer 逍遥模拟器
 memu_player = VirtualBoxEmulator(
-    name="MEmu",
-    root_path="../",
-    adb_path="./adb.exe",
-    vbox_path="./MemuHyperv VMs",
-    vbox_name='.*.memu$'
+    name="MEmu", root_path="../", adb_path="./adb.exe", vbox_path="./MemuHyperv VMs", vbox_name=".*.memu$"
 )
 # MumuPlayer MuMu模拟器
 mumu_player = VirtualBoxEmulator(
-    name="Nemu",
-    root_path=".",
-    adb_path="./vmonitor/bin/adb_server.exe",
-    vbox_path="./vms",
-    vbox_name='.*.nemu$'
+    name="Nemu", root_path=".", adb_path="./vmonitor/bin/adb_server.exe", vbox_path="./vms", vbox_name=".*.nemu$"
 )
 
 
 class EmulatorConnect:
-    SUPPORTED_EMULATORS = [
-        nox_player,
-        nox_player_64,
-        ld_player,
-        ld_player_4,
-        ld_player_9,
-        memu_player,
-        mumu_player
-    ]
+    SUPPORTED_EMULATORS = [nox_player, nox_player_64, ld_player, ld_player_4, ld_player_9, memu_player, mumu_player]
 
-    def __init__(self, adb='adb.exe'):
+    def __init__(self, adb="adb.exe"):
         self.adb_binary = adb
 
     def _execute(self, cmd, timeout=10, output=True):
@@ -243,8 +207,8 @@ class EmulatorConnect:
                     return code(int) of cmd if not output.
         """
         if not output:
-            cmd.extend(['>nul', '2>nul'])
-        logger.info(' '.join(cmd))
+            cmd.extend([">nul", "2>nul"])
+        logger.info(" ".join(cmd))
         process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
         try:
             stdout, stderr = process.communicate(timeout=timeout)
@@ -253,7 +217,7 @@ class EmulatorConnect:
             process.kill()
             stdout, stderr = process.communicate()
             ret_code = 1
-            logger.info(f'TimeoutExpired, stdout={stdout}, stderr={stderr}')
+            logger.info(f"TimeoutExpired, stdout={stdout}, stderr={stderr}")
         if output:
             return stdout
         else:
@@ -273,7 +237,7 @@ class EmulatorConnect:
             except FileNotFoundError:
                 continue
             if len(serial):
-                logger.info(f'Emulator {emulator.name} found, instances: {serial}')
+                logger.info(f"Emulator {emulator.name} found, instances: {serial}")
 
         return emulators
 
@@ -282,16 +246,16 @@ class EmulatorConnect:
         Returns:
             list[str]: Connected devices in adb
         """
-        result = self._execute([self.adb_binary, 'devices']).decode()
+        result = self._execute([self.adb_binary, "devices"]).decode()
         devices = []
-        for line in result.replace('\r\r\n', '\n').replace('\r\n', '\n').split('\n'):
-            if line.startswith('List') or '\t' not in line:
+        for line in result.replace("\r\r\n", "\n").replace("\r\n", "\n").split("\n"):
+            if line.startswith("List") or "\t" not in line:
                 continue
-            serial, status = line.split('\t')
-            if status == 'device':
+            serial, status = line.split("\t")
+            if status == "device":
                 devices.append(serial)
 
-        logger.info(f'Devices: {devices}')
+        logger.info(f"Devices: {devices}")
         return devices
 
     def adb_kill(self):
@@ -299,24 +263,24 @@ class EmulatorConnect:
         # self._execute([self.adb_binary, 'kill-server'])
 
         # Just kill it, because some adb don't obey.
-        logger.info('Kill all known ADB')
+        logger.info("Kill all known ADB")
         for exe in [
             # Most emulator use this
-            'adb.exe',
+            "adb.exe",
             # NoxPlayer 夜神模拟器
-            'nox_adb.exe',
+            "nox_adb.exe",
             # MumuPlayer MuMu模拟器
-            'adb_server.exe',
+            "adb_server.exe",
             # Bluestacks 蓝叠模拟器
-            'HD-Adb.exe'
+            "HD-Adb.exe",
         ]:
-            ret_code = self._execute(['taskkill', '/f', '/im', exe], output=False)
+            ret_code = self._execute(["taskkill", "/f", "/im", exe], output=False)
             if ret_code == 0:
-                logger.info(f'Task {exe} killed')
+                logger.info(f"Task {exe} killed")
             elif ret_code == 128:
-                logger.info(f'Task {exe} not found')
+                logger.info(f"Task {exe} not found")
             else:
-                logger.info(f'Error occurred when killing task {exe}, return code {ret_code}')
+                logger.info(f"Error occurred when killing task {exe}, return code {ret_code}")
 
     @cached_property
     def serial(self):
@@ -324,24 +288,24 @@ class EmulatorConnect:
         Returns:
             list[str]: All available emulator serial on current computer.
         """
-        serial = ['127.0.0.1:7555']
+        serial = ["127.0.0.1:7555"]
         for emulator in self.emulators:
             serial += emulator.serial
             for s in emulator.serial:
-                ip, port = s.split(':')
+                ip, port = s.split(":")
                 port = int(port) - 1
                 if 5554 <= int(port) < 5600:
-                    serial.append(f'emulator-{port}')
+                    serial.append(f"emulator-{port}")
 
         return serial
 
     def brute_force_connect(self):
-        """ Brute-force connect all available emulator instances """
+        """Brute-force connect all available emulator instances"""
         self.devices()
 
         async def connect():
             await asyncio.gather(
-                *[asyncio.create_subprocess_exec(self.adb_binary, 'connect', serial) for serial in self.serial]
+                *[asyncio.create_subprocess_exec(self.adb_binary, "connect", serial) for serial in self.serial]
             )
 
         asyncio.run(connect())
@@ -364,13 +328,13 @@ class EmulatorConnect:
         self.brute_force_connect()
 
     def adb_recover(self):
-        """ Revert adb replacement """
+        """Revert adb replacement"""
         self.adb_kill()
         for emulator in self.emulators:
             emulator.adb_recover()
         self.brute_force_connect()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     emu = EmulatorConnect()
     logger.info(emu.brute_force_connect())

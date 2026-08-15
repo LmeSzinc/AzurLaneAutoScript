@@ -72,7 +72,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         similarity, button = TEMPLATE_COMBAT_LOADING.match_luma_result(image)
         if similarity > 0.85:
             loading = (button.area[0] + 38 - LOADING_BAR.area[0]) / (LOADING_BAR.area[2] - LOADING_BAR.area[0])
-            logger.attr('Loading', f'{int(loading * 100)}%')
+            logger.attr("Loading", f"{int(loading * 100)}%")
             return True
         else:
             return False
@@ -83,7 +83,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             Button: PAUSE button that appears
         """
         self.device.stuck_record_add(PAUSE)
-        if self.config.SERVER in ['cn', 'en']:
+        if self.config.SERVER in ["cn", "en"]:
             if PAUSE.match_luma(self.device.image, offset=(10, 10)):
                 return PAUSE
         else:
@@ -220,7 +220,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
 
         return False
 
-    def combat_preparation(self, balance_hp=False, emotion_reduce=False, auto='combat_auto', fleet_index=1):
+    def combat_preparation(self, balance_hp=False, emotion_reduce=False, auto="combat_auto", fleet_index=1):
         """
         Args:
             balance_hp (bool):
@@ -228,7 +228,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             auto (str):
             fleet_index (int):
         """
-        logger.info('Combat preparation.')
+        logger.info("Combat preparation.")
         self.device.stuck_record_clear()
         self.device.click_record_clear()
         skip_first_screenshot = True
@@ -240,9 +240,8 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             self.hp_balance()
 
         for _ in self.loop():
-
             if self.appear(BATTLE_PREPARATION, offset=(20, 20)):
-                if self.handle_combat_automation_set(auto=auto == 'combat_auto'):
+                if self.handle_combat_automation_set(auto=auto == "combat_auto"):
                     continue
             if self.handle_retirement():
                 continue
@@ -259,18 +258,18 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             # slow down the screenshot interval earlier
             if not interval_set:
                 if self.is_combat_loading():
-                    self.device.screenshot_interval_set('combat')
+                    self.device.screenshot_interval_set("combat")
                     interval_set = True
 
             # End
             pause = self.is_combat_executing()
             if pause:
-                logger.attr('BattleUI', pause)
+                logger.attr("BattleUI", pause)
                 if emotion_reduce:
                     self.emotion.reduce(fleet_index)
                 # fallback slow down if is_combat_loading() not detected
                 if not interval_set:
-                    self.device.screenshot_interval_set('combat')
+                    self.device.screenshot_interval_set("combat")
                 break
 
     def handle_battle_preparation(self):
@@ -295,7 +294,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             return False
 
         if self.appear(AUTOMATION_ON):
-            logger.info('[Automation] ON')
+            logger.info("[Automation] ON")
             if not auto:
                 self.device.click(AUTOMATION_SWITCH)
                 self.device.sleep(1)
@@ -303,7 +302,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                 return True
 
         if self.appear(AUTOMATION_OFF):
-            logger.info('[Automation] OFF')
+            logger.info("[Automation] OFF")
             if auto:
                 self.device.click(AUTOMATION_SWITCH)
                 self.device.sleep(1)
@@ -330,38 +329,41 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             # First wait for it to be non-zero, then wait for it to be stable.
             self.wait_until_disappear(MAIN_FLEET_POWER_ZERO, offset=(20, 20))
             stable_checker = Button(
-                area=MAIN_FLEET_POWER_ZERO.area, color=(), button=MAIN_FLEET_POWER_ZERO.button, name='STABLE_CHECKER')
+                area=MAIN_FLEET_POWER_ZERO.area, color=(), button=MAIN_FLEET_POWER_ZERO.button, name="STABLE_CHECKER"
+            )
             self.wait_until_stable(stable_checker)
             if not self.appear(EMERGENCY_REPAIR_AVAILABLE):
                 return False
 
-            logger.info('EMERGENCY_REPAIR_AVAILABLE')
+            logger.info("EMERGENCY_REPAIR_AVAILABLE")
             if not len(self.hp):
                 return False
             if max(self.hp[:3]) <= 0.001 or max(self.hp[3:]) <= 0.001:
-                logger.warning(f'Invalid HP to use emergency repair: {self.hp}')
+                logger.warning(f"Invalid HP to use emergency repair: {self.hp}")
                 return False
 
             hp = np.array(self.hp)
             hp = hp[hp > 0.001]
-            if (len(hp) and np.min(hp) < self.config.HpControl_RepairUseSingleThreshold) \
-                    or max(self.hp[:3]) < self.config.HpControl_RepairUseMultiThreshold \
-                    or max(self.hp[3:]) < self.config.HpControl_RepairUseMultiThreshold:
-                logger.info('Use emergency repair')
+            if (
+                (len(hp) and np.min(hp) < self.config.HpControl_RepairUseSingleThreshold)
+                or max(self.hp[:3]) < self.config.HpControl_RepairUseMultiThreshold
+                or max(self.hp[3:]) < self.config.HpControl_RepairUseMultiThreshold
+            ):
+                logger.info("Use emergency repair")
                 self.device.click(EMERGENCY_REPAIR_AVAILABLE)
                 self.interval_clear(EMERGENCY_REPAIR_CONFIRM)
                 return True
 
         return False
 
-    def combat_execute(self, auto='combat_auto', submarine='do_not_use', drop=None):
+    def combat_execute(self, auto="combat_auto", submarine="do_not_use", drop=None):
         """
         Args:
             auto (str): ['combat_auto', 'combat_manual', 'stand_still_in_the_middle', 'hide_in_bottom_left']
             submarine (str): ['do_not_use', 'hunt_only', 'every_combat']
             drop (DropImage):
         """
-        logger.info('Combat execute')
+        logger.info("Combat execute")
         self.submarine_call_reset()
         self.combat_auto_reset()
         self.combat_manual_reset()
@@ -371,7 +373,6 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         confirm_timer.start()
 
         for _ in self.loop():
-
             if not confirm_timer.reached():
                 if self.handle_combat_automation_confirm():
                     continue
@@ -382,13 +383,13 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                 continue
             if self.handle_combat_manual(auto):
                 continue
-            if auto != 'combat_auto' and self.auto_mode_checked and self.is_combat_executing():
+            if auto != "combat_auto" and self.auto_mode_checked and self.is_combat_executing():
                 if self.handle_combat_weapon_release():
                     continue
             if self.handle_submarine_call(submarine):
                 continue
             # bunch of popup handlers
-            if self.handle_popup_confirm('COMBAT_EXECUTE'):
+            if self.handle_popup_confirm("COMBAT_EXECUTE"):
                 continue
             if self.handle_urgent_commission():
                 continue
@@ -400,8 +401,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                 continue
 
             # End
-            if self.handle_battle_status(drop=drop) \
-                    or self.handle_get_items(drop=drop):
+            if self.handle_battle_status(drop=drop) or self.handle_get_items(drop=drop):
                 break
 
     def handle_battle_status(self, drop=None):
@@ -422,7 +422,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             self.device.click(BATTLE_STATUS_S)
             return True
         if self.appear(BATTLE_STATUS_A, interval=self.battle_status_click_interval):
-            logger.warning('Battle status A')
+            logger.warning("Battle status A")
             if drop:
                 drop.handle_add(self)
             else:
@@ -430,7 +430,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             self.device.click(BATTLE_STATUS_A)
             return True
         if self.appear(BATTLE_STATUS_B, interval=self.battle_status_click_interval):
-            logger.warning('Battle Status B')
+            logger.warning("Battle Status B")
             if drop:
                 drop.handle_add(self)
             else:
@@ -438,7 +438,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             self.device.click(BATTLE_STATUS_B)
             return True
         if self.appear(BATTLE_STATUS_C, interval=self.battle_status_click_interval):
-            logger.warning('Battle Status C')
+            logger.warning("Battle Status C")
             # raise GameStuckError('Battle status C')
             if drop:
                 drop.handle_add(self)
@@ -447,7 +447,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             self.device.click(BATTLE_STATUS_C)
             return True
         if self.appear(BATTLE_STATUS_D, interval=self.battle_status_click_interval):
-            logger.warning('Battle Status D')
+            logger.warning("Battle Status D")
             # raise GameStuckError('Battle Status D')
             if drop:
                 drop.handle_add(self)
@@ -522,7 +522,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         """
         if self.appear_then_click(GET_SHIP, interval=1):
             if self.appear(NEW_SHIP):
-                logger.info('Get a new SHIP')
+                logger.info("Get a new SHIP")
                 if drop:
                     drop.handle_add(self)
                 self.config.GET_SHIP_TRIGGERED = True
@@ -536,11 +536,11 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             bool:
         """
         if self.appear(MUNITIONS_CHECK, offset=(20, 20), interval=5):
-            logger.info(f'{MUNITIONS_CHECK} -> {BACK_ARROW}')
+            logger.info(f"{MUNITIONS_CHECK} -> {BACK_ARROW}")
             self.device.click(BACK_ARROW)
             return True
         if self.appear(EXERCISE_CHECK, offset=(20, 20), interval=5):
-            logger.info(f'{EXERCISE_CHECK} -> {BACK_ARROW}')
+            logger.info(f"{EXERCISE_CHECK} -> {BACK_ARROW}")
             self.device.click(BACK_ARROW)
             return True
 
@@ -552,24 +552,23 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             drop (DropImage):
             expected_end (str, callable): with_searching, no_searching, in_stage.
         """
-        logger.info('Combat status')
-        logger.attr('expected_end', expected_end.__name__ if callable(expected_end) else expected_end)
+        logger.info("Combat status")
+        logger.attr("expected_end", expected_end.__name__ if callable(expected_end) else expected_end)
         self.device.screenshot_interval_set()
         self.device.stuck_record_clear()
         self.device.click_record_clear()
         battle_status = False
         exp_info = False  # This is for the white screen bug in game
         for _ in self.loop():
-
             # Expected end
             if isinstance(expected_end, str):
-                if expected_end == 'in_stage' and self.handle_in_stage():
+                if expected_end == "in_stage" and self.handle_in_stage():
                     break
-                if expected_end == 'with_searching' and self.handle_in_map_with_enemy_searching(drop=drop):
+                if expected_end == "with_searching" and self.handle_in_map_with_enemy_searching(drop=drop):
                     break
-                if expected_end == 'no_searching' and self.handle_in_map_no_enemy_searching(drop=drop):
+                if expected_end == "no_searching" and self.handle_in_map_no_enemy_searching(drop=drop):
                     break
-                if expected_end == 'in_ui' and self.appear(BACK_ARROW, offset=(30, 30)):
+                if expected_end == "in_ui" and self.appear(BACK_ARROW, offset=(30, 30)):
                     break
             if callable(expected_end):
                 if expected_end():
@@ -582,9 +581,9 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                 continue
             if self.handle_get_items(drop=drop):
                 continue
-            if self.handle_popup_confirm('COMBAT_STATUS'):
+            if self.handle_popup_confirm("COMBAT_STATUS"):
                 if battle_status and not exp_info:
-                    logger.info('Locking a new ship')
+                    logger.info("Locking a new ship")
                     self.config.GET_SHIP_TRIGGERED = True
                 continue
             if not battle_status:
@@ -603,7 +602,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                     battle_status = True
                     continue
             # bunch of popup handlers
-            if self.handle_popup_confirm('COMBAT_STATUS'):
+            if self.handle_popup_confirm("COMBAT_STATUS"):
                 continue
             if self.handle_urgent_commission(drop=drop):
                 continue
@@ -626,8 +625,16 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
                 if self.handle_in_map_with_enemy_searching(drop=drop):
                     break
 
-    def combat(self, balance_hp=None, emotion_reduce=None, auto_mode=None, submarine_mode=None,
-               save_get_items=None, expected_end=None, fleet_index=1):
+    def combat(
+        self,
+        balance_hp=None,
+        emotion_reduce=None,
+        auto_mode=None,
+        submarine_mode=None,
+        save_get_items=None,
+        expected_end=None,
+        fleet_index=1,
+    ):
         """
         Execute a combat.
         Will use user config if argument is None.
@@ -646,7 +653,7 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         if auto_mode is None:
             auto_mode = self.config.Fleet_Fleet1Mode if fleet_index == 1 else self.config.Fleet_Fleet2Mode
         if submarine_mode is None:
-            submarine_mode = 'do_not_use'
+            submarine_mode = "do_not_use"
             if self.config.Submarine_Fleet:
                 submarine_mode = self.config.Submarine_Mode
         self.battle_status_click_interval = 7 if save_get_items else 0
@@ -654,19 +661,16 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         # if not hasattr(self, 'emotion'):
         #     self.emotion = Emotion(config=self.config)
 
-        with self.stat.new(
-                genre=self.config.campaign_name, method=self.config.DropRecord_CombatRecord
-        ) as drop:
+        with self.stat.new(genre=self.config.campaign_name, method=self.config.DropRecord_CombatRecord) as drop:
             if save_get_items is False:
                 drop = None
             elif isinstance(save_get_items, DropImage):
                 drop = save_get_items
             self.combat_preparation(
-                balance_hp=balance_hp, emotion_reduce=emotion_reduce, auto=auto_mode, fleet_index=fleet_index)
-            self.combat_execute(
-                auto=auto_mode, submarine=submarine_mode, drop=drop)
-            self.combat_status(
-                drop=drop, expected_end=expected_end)
+                balance_hp=balance_hp, emotion_reduce=emotion_reduce, auto=auto_mode, fleet_index=fleet_index
+            )
+            self.combat_execute(auto=auto_mode, submarine=submarine_mode, drop=drop)
+            self.combat_status(drop=drop, expected_end=expected_end)
             # self.handle_map_after_combat_story()
 
-        logger.info('Combat end.')
+        logger.info("Combat end.")

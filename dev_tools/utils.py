@@ -12,16 +12,16 @@ class LuaLoader:
     """
 
     server_alias = [
-        ['zh-CN', 'zh-cn', 'cn', 'CN'],
-        ['en-US', 'en-us', 'en', 'EN'],
-        ['ja-JP', 'ja-jp', 'jp', 'JP'],
-        ['zh-TW', 'zh-tw', 'tw', 'TW'],
-        ['ko-KR', 'ko-kr', 'kr', 'KR'],
+        ["zh-CN", "zh-cn", "cn", "CN"],
+        ["en-US", "en-us", "en", "EN"],
+        ["ja-JP", "ja-jp", "jp", "JP"],
+        ["zh-TW", "zh-tw", "tw", "TW"],
+        ["ko-KR", "ko-kr", "kr", "KR"],
     ]
 
-    def __init__(self, folder, server='zh-CN'):
+    def __init__(self, folder, server="zh-CN"):
         self.folder = folder
-        self._server = ''
+        self._server = ""
         self.server = server
 
     @property
@@ -54,16 +54,16 @@ class LuaLoader:
             if in_string:
                 if escape:
                     escape = False
-                elif ch == '\\':
+                elif ch == "\\":
                     escape = True
                 elif ch == in_string:
                     in_string = None
             else:
                 if ch in ('"', "'"):
                     in_string = ch
-                elif ch == '{':
+                elif ch == "{":
                     depth += 1
-                elif ch == '}':
+                elif ch == "}":
                     depth -= 1
                     if depth == 0:
                         return i
@@ -72,10 +72,10 @@ class LuaLoader:
     def _infer_base_name(self, file, keyword):
         if keyword:
             keyword = keyword.strip()
-            if keyword.startswith('pg.base.'):
-                return keyword[len('pg.base.') :]
-            if keyword.startswith('pg.'):
-                return keyword[len('pg.') :]
+            if keyword.startswith("pg.base."):
+                return keyword[len("pg.base.") :]
+            if keyword.startswith("pg."):
+                return keyword[len("pg.") :]
             return keyword
         return os.path.splitext(os.path.basename(file))[0]
 
@@ -87,7 +87,7 @@ class LuaLoader:
             end = self._find_matching_brace(text, start)
             if end == -1:
                 continue
-            table_text = text[start:end + 1]
+            table_text = text[start : end + 1]
             result[int(m.group(1))] = slpp.decode(table_text)
         return result
 
@@ -99,10 +99,10 @@ class LuaLoader:
         Returns:
             dict:
         """
-        with open(self.filepath(file), 'r', encoding='utf-8') as f:
+        with open(self.filepath(file), encoding="utf-8") as f:
             text = f.read()
 
-        if 'pg.base.' in text:
+        if "pg.base." in text:
             base_name = self._infer_base_name(file, keyword)
             if not base_name:
                 m = re.search(r"pg\.base\.([A-Za-z0-9_]+)\[", text)
@@ -113,18 +113,18 @@ class LuaLoader:
                     return result
 
         result = {}
-        if text.startswith('_G'):
-            text = '{' + text + '}'
+        if text.startswith("_G"):
+            text = "{" + text + "}"
             result = slpp.decode(text)
         else:
             if keyword:
-                print(f'Finding keyword: {keyword}')
+                print(f"Finding keyword: {keyword}")
                 pattern = rf"^{re.escape(keyword)}.*?\{{\s*\n(.*?)^\}}"
             else:
                 pattern = r"\{\s*\n(.*?)^\}"
             m = re.search(pattern, text, re.S | re.M)
             if m:
-                result = slpp.decode('{' + m.group(1) + '}')
+                result = slpp.decode("{" + m.group(1) + "}")
         return result
 
     def load(self, path, keyword=None):
@@ -138,19 +138,19 @@ class LuaLoader:
         Returns:
             dict:
         """
-        print(f'Loading {path}')
+        print(f"Loading {path}")
         if os.path.isdir(self.filepath(path)):
             result = {}
             for file in tqdm(os.listdir(self.filepath(path))):
-                result.update(self._load_file(f'./{path}/{file}', keyword=keyword))
+                result.update(self._load_file(f"./{path}/{file}", keyword=keyword))
         else:
             result = self._load_file(path, keyword=keyword)
 
-        print(f'{len(result.keys())} items loaded')
+        print(f"{len(result.keys())} items loaded")
         return result
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Use example
-    lua = LuaLoader(r'xxx/AzurLaneData', server='en-US')
-    res = lua.load('./sharecfg/item_data_statistics.lua')
+    lua = LuaLoader(r"xxx/AzurLaneData", server="en-US")
+    res = lua.load("./sharecfg/item_data_statistics.lua")

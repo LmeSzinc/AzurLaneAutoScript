@@ -5,11 +5,9 @@ from module.island.assets import *
 from module.island_handler.dock import IslandDock
 from module.island_handler.dock_scanner import CharacterScanner
 from module.logger import logger
-from module.ui.page import page_island_manage, page_island_phone
+from module.ui.page import page_island_manage
 
-ISLAND_COLLECT_WORKSLOT_GRID = ButtonGrid(
-    origin=(832, 227), delta=(95, 0), button_shape=(74, 74), grid_shape=(3, 1)
-)
+ISLAND_COLLECT_WORKSLOT_GRID = ButtonGrid(origin=(832, 227), delta=(95, 0), button_shape=(74, 74), grid_shape=(3, 1))
 
 
 class IslandCollect(IslandDock):
@@ -29,18 +27,18 @@ class IslandCollect(IslandDock):
             if self.appear(ISLAND_COLLECT_SELECT_CONFIRM, offset=(20, 20)):
                 break
         else:
-            logger.warning('Cannot find collect enter button, collect may not be available')
+            logger.warning("Cannot find collect enter button, collect may not be available")
             return False
 
         available = None
         for _ in self.loop(skip_first=False, timeout=20):
             # End
             if self.handle_info_bar():
-                logger.warning('Info bar appears, nothing more to collect')
+                logger.warning("Info bar appears, nothing more to collect")
                 available = False
                 break
             if self.match_template_color(ISLAND_COLLECT_START_UNAVAILABLE, offset=(20, 20)):
-                logger.info('has something to collect, continue')
+                logger.info("has something to collect, continue")
                 available = True
                 break
 
@@ -53,7 +51,7 @@ class IslandCollect(IslandDock):
                     self.device.click(button)
                 continue
         else:
-            logger.warning('Cannot determine collect availability, possibly due to network issues')
+            logger.warning("Cannot determine collect availability, possibly due to network issues")
             available = False
 
         if available:
@@ -65,8 +63,8 @@ class IslandCollect(IslandDock):
             if self.ui_page_appear(page_island_manage, offset=(20, 20)):
                 break
         else:
-            logger.warning('Cannot return to island manage page, something may be wrong')
-            raise GameStuckError('Cannot return to island manage page, something may be wrong')
+            logger.warning("Cannot return to island manage page, something may be wrong")
+            raise GameStuckError("Cannot return to island manage page, something may be wrong")
         return False
 
     def collect_execute(self):
@@ -80,15 +78,15 @@ class IslandCollect(IslandDock):
                     self.device.click(button)
                     click_timer.reset()
             else:
-                logger.warning(f'Failed to click workslot button for workslot {workslot}')
+                logger.warning(f"Failed to click workslot button for workslot {workslot}")
                 return False
             self.island_dock_sort_method_dsc_set(enable=False)
             dock_grid = super().dock_grid
-            scanner = CharacterScanner(dock_grid, emotion=(80, 150), status='free')
-            scanner.disable('emotion_limit')
+            scanner = CharacterScanner(dock_grid, emotion=(80, 150), status="free")
+            scanner.disable("emotion_limit")
             candidates = scanner.scan(self.device.image)
             if not candidates:
-                logger.warning(f'No candidate found for workslot {workslot}, canceling collect')
+                logger.warning(f"No candidate found for workslot {workslot}, canceling collect")
                 self.island_dock_quit()
                 return False
             button = candidates[0].button
@@ -97,7 +95,7 @@ class IslandCollect(IslandDock):
             if self.match_template_color(ISLAND_COLLECT_START, offset=(20, 20)):
                 break
         if not self.match_template_color(ISLAND_COLLECT_START, offset=(20, 20)):
-            logger.warning('Failed to start collect, something may be wrong')
+            logger.warning("Failed to start collect, something may be wrong")
             return False
         confirm_timer = Timer(3, count=5).start()
         for _ in self.loop(timeout=10):
@@ -114,12 +112,14 @@ class IslandCollect(IslandDock):
                 if confirm_timer.reached():
                     return True
         else:
-            logger.warning('Failed to start collect, something may be wrong')
+            logger.warning("Failed to start collect, something may be wrong")
             return False
 
     def run(self):
-        if self.config.SERVER in ['tw']:
-            logger.info(f'IslandCollect is not available on {self.config.SERVER} server, delay until next server update')
+        if self.config.SERVER in ["tw"]:
+            logger.info(
+                f"IslandCollect is not available on {self.config.SERVER} server, delay until next server update"
+            )
             self.config.task_delay(server_update=True)
             return
         self.ui_ensure(page_island_manage)
@@ -128,13 +128,13 @@ class IslandCollect(IslandDock):
         if self.collect_available():
             success = self.collect_execute()
             if success:
-                logger.info('Collect successfully')
+                logger.info("Collect successfully")
                 self.config.task_delay(server_update=True)
             else:
-                logger.warning('Failed to collect, will retry later')
+                logger.warning("Failed to collect, will retry later")
                 self.config.task_delay(success=False)
         else:
-            logger.info('Collect not available, possibly due to cooldown')
+            logger.info("Collect not available, possibly due to cooldown")
             for _ in self.loop():
                 if self.appear_then_click(ISLAND_COLLECT_SELECT_CANCEL, offset=(20, 20), interval=3):
                     continue

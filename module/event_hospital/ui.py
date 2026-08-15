@@ -19,7 +19,7 @@ class HospitalUI(UI):
         if self.appear_then_click(GET_CLUE, offset=(20, 20), interval=1):
             return True
         if self.appear(GET_CLUE_TEXT, offset=(20, 20), interval=1):
-            logger.info(f'{GET_CLUE_TEXT} -> {GET_CLUE}')
+            logger.info(f"{GET_CLUE_TEXT} -> {GET_CLUE}")
             self.device.click(GET_CLUE)
             return True
         return False
@@ -32,15 +32,15 @@ class HospitalUI(UI):
         if self.appear_then_click(HOSPITAL_BATTLE_EXIT, offset=(20, 20), interval=2):
             return True
         if self.ui_page_appear(page_hospital, interval=2):
-            logger.info(f'{page_hospital} -> {HOSIPITAL_GOTO_CLUE}')
+            logger.info(f"{page_hospital} -> {HOSIPITAL_GOTO_CLUE}")
             self.device.click(HOSIPITAL_GOTO_CLUE)
             return True
         if self.appear(BATTLE_PREPARATION, offset=(30, 20), interval=2):
-            logger.info(f'{BATTLE_PREPARATION} -> {BACK}')
+            logger.info(f"{BATTLE_PREPARATION} -> {BACK}")
             self.device.click(BACK)
             return True
         if self.appear(RAID_FLEET_PREPARATION, offset=(30, 30), interval=2):
-            logger.info(f'{RAID_FLEET_PREPARATION} -> {BACK}')
+            logger.info(f"{RAID_FLEET_PREPARATION} -> {BACK}")
             self.device.click(BACK)
             return True
         if self.handle_get_clue():

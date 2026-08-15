@@ -29,18 +29,10 @@ def func(ev: threading.Event):
         type=int,
         help="Port to listen. Default to WebuiPort in deploy setting",
     )
-    parser.add_argument(
-        "-k", "--key", type=str, help="Password of alas. No password by default"
-    )
-    parser.add_argument(
-        "--electron", action="store_true", help="Runs by electron client."
-    )
-    parser.add_argument(
-        "--ssl-key", dest="ssl_key", type=str, help="SSL key file path for HTTPS support"
-    )
-    parser.add_argument(
-        "--ssl-cert", type=str, help="SSL certificate file path for HTTPS support"
-    )
+    parser.add_argument("-k", "--key", type=str, help="Password of alas. No password by default")
+    parser.add_argument("--electron", action="store_true", help="Runs by electron client.")
+    parser.add_argument("--ssl-key", dest="ssl_key", type=str, help="SSL key file path for HTTPS support")
+    parser.add_argument("--ssl-cert", type=str, help="SSL certificate file path for HTTPS support")
     parser.add_argument(
         "--run",
         nargs="+",
@@ -67,6 +59,7 @@ def func(ev: threading.Event):
         # https://github.com/LmeSzinc/AzurLaneAutoScript/issues/2051
         logger.info("Electron detected, remove log output to stdout")
         from module.logger import console_hdlr
+
         logger.removeHandler(console_hdlr)
 
     if ssl_cert is None and ssl_key is not None:

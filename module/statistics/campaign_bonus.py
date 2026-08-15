@@ -14,8 +14,7 @@ class BonusItem(Item):
 
 class CampaignBonusStatistics(GetItemsStatistics):
     def appear_on(self, image):
-        if AUTO_SEARCH_MENU_EXIT.match(image, offset=(200, 20)) \
-                and CAMPAIGN_BONUS.match(image, offset=(20, 500)):
+        if AUTO_SEARCH_MENU_EXIT.match(image, offset=(200, 20)) and CAMPAIGN_BONUS.match(image, offset=(20, 500)):
             return True
 
         return False
@@ -42,12 +41,12 @@ class CampaignBonusStatistics(GetItemsStatistics):
         result = super().stats_get_items(image, **kwargs)
         valid = False
         for item in result:
-            if item.name == 'Coin':
+            if item.name == "Coin":
                 valid = True
         if valid:
             return [self.revise_item(item) for item in result]
         else:
-            raise ImageError('Campaign bonus image does not have coins, dropped')
+            raise ImageError("Campaign bonus image does not have coins, dropped")
 
     def revise_item(self, item):
         """
@@ -58,7 +57,7 @@ class CampaignBonusStatistics(GetItemsStatistics):
             Item:
         """
         # Campaign bonus drop 9 to 30+ chips, but sometimes 10 is detected as 1.
-        if item.name == 'Chip' and 0 < item.amount < 4:
+        if item.name == "Chip" and 0 < item.amount < 4:
             item.amount *= 10
 
         return item

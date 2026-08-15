@@ -23,7 +23,7 @@ class Ocr:
     SHOW_LOG = True
     SHOW_REVISE_WARNING = False
 
-    def __init__(self, buttons, lang='azur_lane', letter=(255, 255, 255), threshold=128, alphabet=None, name=None):
+    def __init__(self, buttons, lang="azur_lane", letter=(255, 255, 255), threshold=128, alphabet=None, name=None):
         """
         Args:
             buttons (Button, tuple, list[Button], list[tuple]): OCR area.
@@ -39,8 +39,8 @@ class Ocr:
         self.threshold = threshold
         self.alphabet = alphabet
         self.lang = lang
-        if lang == 'azur_lane' and server.server in ['jp']:
-            self.lang = 'azur_lane_' + server.server
+        if lang == "azur_lane" and server.server in ["jp"]:
+            self.lang = "azur_lane_" + server.server
 
     @property
     def cnocr(self) -> "AlOcr":
@@ -99,14 +99,13 @@ class Ocr:
         # self.cnocr.debug(image_list)
 
         result_list = self.cnocr.atomic_ocr_for_single_lines(image_list, self.alphabet)
-        result_list = [''.join(result) for result in result_list]
+        result_list = ["".join(result) for result in result_list]
         result_list = [self.after_process(result) for result in result_list]
 
         if len(self.buttons) == 1:
             result_list = result_list[0]
         if self.SHOW_LOG:
-            logger.attr(name='%s %ss' % (self.name, float2str(time.time() - start_time)),
-                        text=str(result_list))
+            logger.attr(name="%s %ss" % (self.name, float2str(time.time() - start_time)), text=str(result_list))
 
         return result_list
 
@@ -143,14 +142,15 @@ class Digit(Ocr):
     Method ocr() returns int, or a list of int.
     """
 
-    def __init__(self, buttons, lang='azur_lane', letter=(255, 255, 255), threshold=128, alphabet='0123456789IDSB',
-                 name=None):
+    def __init__(
+        self, buttons, lang="azur_lane", letter=(255, 255, 255), threshold=128, alphabet="0123456789IDSB", name=None
+    ):
         super().__init__(buttons, lang=lang, letter=letter, threshold=threshold, alphabet=alphabet, name=name)
 
     def after_process(self, result):
         result = super().after_process(result)
-        result = result.replace('I', '1').replace('D', '0').replace('S', '5')
-        result = result.replace('B', '8')
+        result = result.replace("I", "1").replace("D", "0").replace("S", "5")
+        result = result.replace("B", "8")
 
         prev = result
         result = int(result) if result else 0
@@ -166,14 +166,15 @@ class DigitYuv(Digit, OcrYuv):
 
 
 class DigitCounter(Ocr):
-    def __init__(self, buttons, lang='azur_lane', letter=(255, 255, 255), threshold=128, alphabet='0123456789/IDSB',
-                 name=None):
+    def __init__(
+        self, buttons, lang="azur_lane", letter=(255, 255, 255), threshold=128, alphabet="0123456789/IDSB", name=None
+    ):
         super().__init__(buttons, lang=lang, letter=letter, threshold=threshold, alphabet=alphabet, name=name)
 
     def after_process(self, result):
         result = super().after_process(result)
-        result = result.replace('I', '1').replace('D', '0').replace('S', '5')
-        result = result.replace('B', '8')
+        result = result.replace("I", "1").replace("D", "0").replace("S", "5")
+        result = result.replace("B", "8")
         return result
 
     def ocr(self, image, direct_ocr=False):
@@ -191,14 +192,14 @@ class DigitCounter(Ocr):
         result_list = super().ocr(image, direct_ocr=direct_ocr)
         result = result_list[0] if isinstance(result_list, list) else result_list
 
-        result = re.search(r'(\d+)/(\d+)', result)
+        result = re.search(r"(\d+)/(\d+)", result)
         if result:
             result = [int(s) for s in result.groups()]
             current, total = int(result[0]), int(result[1])
             current = min(current, total)
             return current, total - current, total
         else:
-            logger.warning(f'Unexpected ocr result: {result_list}')
+            logger.warning(f"Unexpected ocr result: {result_list}")
             return 0, 0, 0
 
 
@@ -207,14 +208,15 @@ class DigitCounterYuv(DigitCounter, OcrYuv):
 
 
 class Duration(Ocr):
-    def __init__(self, buttons, lang='azur_lane', letter=(255, 255, 255), threshold=128, alphabet='0123456789:IDSB',
-                 name=None):
+    def __init__(
+        self, buttons, lang="azur_lane", letter=(255, 255, 255), threshold=128, alphabet="0123456789:IDSB", name=None
+    ):
         super().__init__(buttons, lang=lang, letter=letter, threshold=threshold, alphabet=alphabet, name=name)
 
     def after_process(self, result):
         result = super().after_process(result)
-        result = result.replace('I', '1').replace('D', '0').replace('S', '5')
-        result = result.replace('B', '8')
+        result = result.replace("I", "1").replace("D", "0").replace("S", "5")
+        result = result.replace("B", "8")
         return result
 
     def ocr(self, image, direct_ocr=False):
@@ -245,12 +247,12 @@ class Duration(Ocr):
         Returns:
             datetime.timedelta:
         """
-        result = re.search(r'(\d{1,2}):?(\d{2}):?(\d{2})', string)
+        result = re.search(r"(\d{1,2}):?(\d{2}):?(\d{2})", string)
         if result:
             result = [int(s) for s in result.groups()]
             return timedelta(hours=result[0], minutes=result[1], seconds=result[2])
         else:
-            logger.warning(f'Invalid duration: {string}')
+            logger.warning(f"Invalid duration: {string}")
             return timedelta(hours=0, minutes=0, seconds=0)
 
 

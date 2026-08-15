@@ -1,13 +1,14 @@
 import os
 import re
-from typing import Callable, Generic, TypeVar
+from typing import Generic, TypeVar
+from collections.abc import Callable
 
 from deploy.atomic import atomic_read_text, atomic_write
 
 T = TypeVar("T")
 
-DEPLOY_CONFIG = './config/deploy.yaml'
-DEPLOY_TEMPLATE = './deploy/template'
+DEPLOY_CONFIG = "./config/deploy.yaml"
+DEPLOY_TEMPLATE = "./deploy/template"
 
 
 class cached_property(Generic[T]):
@@ -45,14 +46,14 @@ def iter_folder(folder, is_dir=False, ext=None):
         sub = os.path.join(folder, file)
         if is_dir:
             if os.path.isdir(sub):
-                yield sub.replace('\\\\', '/').replace('\\', '/')
+                yield sub.replace("\\\\", "/").replace("\\", "/")
         elif ext is not None:
             if not os.path.isdir(sub):
                 _, extension = os.path.splitext(file)
                 if extension == ext:
-                    yield os.path.join(folder, file).replace('\\\\', '/').replace('\\', '/')
+                    yield os.path.join(folder, file).replace("\\\\", "/").replace("\\", "/")
         else:
-            yield os.path.join(folder, file).replace('\\\\', '/').replace('\\', '/')
+            yield os.path.join(folder, file).replace("\\\\", "/").replace("\\", "/")
 
 
 def poor_yaml_read(file):
@@ -67,20 +68,20 @@ def poor_yaml_read(file):
     """
     content = atomic_read_text(file)
     data = {}
-    regex = re.compile(r'^(.*?):(.*?)$')
+    regex = re.compile(r"^(.*?):(.*?)$")
     for line in content.splitlines():
-        line = line.strip('\n\r\t ').replace('\\', '/')
-        if line.startswith('#'):
+        line = line.strip("\n\r\t ").replace("\\", "/")
+        if line.startswith("#"):
             continue
         result = re.match(regex, line)
         if result:
-            k, v = result.group(1), result.group(2).strip('\n\r\t\' ')
+            k, v = result.group(1), result.group(2).strip("\n\r\t' ")
             if v:
-                if v.lower() == 'null':
+                if v.lower() == "null":
                     v = None
-                elif v.lower() == 'false':
+                elif v.lower() == "false":
                     v = False
-                elif v.lower() == 'true':
+                elif v.lower() == "true":
                     v = True
                 elif v.isdigit():
                     v = int(v)
@@ -97,15 +98,15 @@ def poor_yaml_write(data, file, template_file=DEPLOY_TEMPLATE):
         template_file (str):
     """
     text = atomic_read_text(template_file)
-    text = text.replace('\\', '/')
+    text = text.replace("\\", "/")
 
     for key, value in data.items():
         if value is None:
-            value = 'null'
+            value = "null"
         elif value is True:
             value = "true"
         elif value is False:
             value = "false"
-        text = re.sub(f'{key}:.*?\n', f'{key}: {value}\n', text)
+        text = re.sub(f"{key}:.*?\n", f"{key}: {value}\n", text)
 
     atomic_write(file, text)

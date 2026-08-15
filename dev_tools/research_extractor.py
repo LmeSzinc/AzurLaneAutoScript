@@ -1,4 +1,3 @@
-from module.logger import logger  # Change folder automatically
 from dev_tools.utils import LuaLoader
 
 
@@ -8,18 +7,18 @@ class Item:
         Args:
             data (dict): Such as {0: 2, 1: 20001, 2: 5}
         """
-        self.name = ''
+        self.name = ""
         _, self.id, self.amount = data.values()
         if self.id == 1:
             self.id = 59001  # The id of coins is 1 in technology_data_template, but 59001 in item_data_statistics
 
     def __str__(self):
-        return f'{self.name}({self.id}) x {self.amount}'
+        return f"{self.name}({self.id}) x {self.amount}"
 
 
 class Task:
     def __init__(self, data):
-        self.name = ''
+        self.name = ""
         self.id = data
 
 
@@ -29,37 +28,37 @@ class Project:
         Args:
             data (dict):
         """
-        self.name = data['name']
-        self.series = int(data['blueprint_version'])
-        self.time = int(data['time'])
-        self.input = [Item(item) for item in data['consume'].values()]
-        self.output = [Item(item) for item in data['drop_client'].values()]
-        self.task = Task(int(data['condition']))
+        self.name = data["name"]
+        self.series = int(data["blueprint_version"])
+        self.time = int(data["time"])
+        self.input = [Item(item) for item in data["consume"].values()]
+        self.output = [Item(item) for item in data["drop_client"].values()]
+        self.task = Task(int(data["condition"]))
 
     def encode(self):
         data = {
-            'name': self.name,
-            'series': self.series,
-            'time': self.time,
-            'task': self.task.name,
-            'input': [{'name': item.name, 'amount': item.amount} for item in self.input],
-            'output': [{'name': item.name} for item in self.output],
+            "name": self.name,
+            "series": self.series,
+            "time": self.time,
+            "task": self.task.name,
+            "input": [{"name": item.name, "amount": item.amount} for item in self.input],
+            "output": [{"name": item.name} for item in self.output],
         }
         return str(data)
 
 
 # Key: chinese, value: english
 DIC_TRANSLATION = {
-    '蓝图：安克雷奇': 'Blueprint - Anchorage',
-    '蓝图：{namecode:204}': 'Blueprint - Hakuryuu',
-    '蓝图：埃吉尔': 'Blueprint - Ägir',
-    '蓝图：奥古斯特·冯·帕塞瓦尔': 'Blueprint - August von Parseval',
-    '蓝图：马可波罗': 'Blueprint - Marco Polo',
-    '蓝图：瓦尔帕莱索': 'Blueprint - Valparaíso',
-    '蓝图：{namecode:565}': 'Blueprint - Max Immelmann',
-    '蓝图：邓肯': 'Blueprint - Duncan',
-    '蓝图：{namecode:313}': 'Blueprint - Takahashi',
-    '蓝图：暴风雨': 'Blueprint - Orage',
+    "蓝图：安克雷奇": "Blueprint - Anchorage",
+    "蓝图：{namecode:204}": "Blueprint - Hakuryuu",
+    "蓝图：埃吉尔": "Blueprint - Ägir",
+    "蓝图：奥古斯特·冯·帕塞瓦尔": "Blueprint - August von Parseval",
+    "蓝图：马可波罗": "Blueprint - Marco Polo",
+    "蓝图：瓦尔帕莱索": "Blueprint - Valparaíso",
+    "蓝图：{namecode:565}": "Blueprint - Max Immelmann",
+    "蓝图：邓肯": "Blueprint - Duncan",
+    "蓝图：{namecode:313}": "Blueprint - Takahashi",
+    "蓝图：暴风雨": "Blueprint - Orage",
 }
 
 
@@ -71,8 +70,8 @@ def set_translation(cn, en):
 
 class TechnologyTemplate:
     def __init__(self):
-        self.projects = self.load_projects(LuaLoader(FOLDER, server='zh-CN'))
-        en_projects = self.load_projects(LuaLoader(FOLDER, server='en-US'))
+        self.projects = self.load_projects(LuaLoader(FOLDER, server="zh-CN"))
+        en_projects = self.load_projects(LuaLoader(FOLDER, server="en-US"))
 
         for key, project in self.projects.items():
             if key not in en_projects:
@@ -88,28 +87,28 @@ class TechnologyTemplate:
             project.task.name = DIC_TRANSLATION.get(project.task.name, project.task.name)
             for item in project.input:
                 # Change Ägir to Agir, Valparaíso to Valparaiso
-                item.name = DIC_TRANSLATION.get(item.name, item.name).replace('Ä', 'A').replace('í', 'i')
+                item.name = DIC_TRANSLATION.get(item.name, item.name).replace("Ä", "A").replace("í", "i")
             for item in project.output:
-                item.name = DIC_TRANSLATION.get(item.name, item.name).replace('Ä', 'A').replace('í', 'i')
+                item.name = DIC_TRANSLATION.get(item.name, item.name).replace("Ä", "A").replace("í", "i")
 
     def load_projects(self, loader):
-        tech = loader.load('sharecfg/technology_data_template.lua')
-        item = loader.load('sharecfgdata/item_data_statistics.lua')
-        virtual_item = loader.load('sharecfgdata/item_virtual_data_statistics.lua')
+        tech = loader.load("sharecfg/technology_data_template.lua")
+        item = loader.load("sharecfgdata/item_data_statistics.lua")
+        virtual_item = loader.load("sharecfgdata/item_virtual_data_statistics.lua")
         item.update(virtual_item)
-        task = loader.load('sharecfgdata/task_data_template.lua')
+        task = loader.load("sharecfgdata/task_data_template.lua")
 
         projects = {}
         for key, value in tech.items():
-            if key == 'all':
+            if key == "all":
                 continue
             project = Project(value)
             if project.task.id:
-                project.task.name = task[project.task.id]['desc'].replace('\\n', '')
+                project.task.name = task[project.task.id]["desc"].replace("\\n", "")
             for i in project.input:
-                i.name = item[i.id]['name'].strip()
+                i.name = item[i.id]["name"].strip()
             for i in project.output:
-                i.name = item[i.id]['name'].strip()
+                i.name = item[i.id]["name"].strip()
 
             key = (project.series, project.name)
             if key not in projects:
@@ -119,21 +118,21 @@ class TechnologyTemplate:
 
     def encode(self):
         lines = []
-        lines.append('# This file was automatically generated by dev_tools/research_extractor.py.')
+        lines.append("# This file was automatically generated by dev_tools/research_extractor.py.")
         lines.append("# Don't modify it manually.")
-        lines.append('')
-        lines.append('LIST_RESEARCH_PROJECT = [')
+        lines.append("")
+        lines.append("LIST_RESEARCH_PROJECT = [")
         for project in self.projects.values():
-            lines.append('    ' + project.encode() + ',')
-        lines.append(']')
+            lines.append("    " + project.encode() + ",")
+        lines.append("]")
 
         return lines
 
     def write(self, file):
-        print(f'writing {file}')
-        with open(file, 'w', encoding='utf-8') as f:
+        print(f"writing {file}")
+        with open(file, "w", encoding="utf-8") as f:
             for text in self.encode():
-                f.write(text + '\n')
+                f.write(text + "\n")
 
 
 """
@@ -144,7 +143,7 @@ Arguments:
     FILE:  Path to AzurLaneData, '<your_folder>/AzurLaneData'
     SAVE:  File to save, 'module/research/project_data.py'
 """
-FOLDER = '../AzurLaneLuaScripts'
-SAVE = 'module/research/project_data.py'
+FOLDER = "../AzurLaneLuaScripts"
+SAVE = "module/research/project_data.py"
 
 TechnologyTemplate().write(SAVE)

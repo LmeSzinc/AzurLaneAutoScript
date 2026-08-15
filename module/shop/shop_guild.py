@@ -1,14 +1,14 @@
 from module.base.decorator import cached_property
 from module.logger import logger
 from module.shop.assets import *
-from module.shop.base import ShopItemGrid, ShopItemGrid_250814
+from module.shop.base import ShopItemGrid_250814
 from module.shop.clerk import ShopClerk
 from module.shop.shop_status import ShopStatus
 from module.shop.ui import ShopUI
 
 
 class GuildShop_250814(ShopClerk, ShopUI, ShopStatus):
-    shop_template_folder = './assets/shop/guild'
+    shop_template_folder = "./assets/shop/guild"
 
     @cached_property
     def shop_filter(self):
@@ -34,9 +34,9 @@ class GuildShop_250814(ShopClerk, ShopUI, ShopStatus):
             cost_area=(-12, 115, 60, 155),
             price_area=(14, 121, 85, 150),
         )
-        self.shop_template_folder = './assets/shop/guild'
+        self.shop_template_folder = "./assets/shop/guild"
         shop_guild_items.load_template_folder(self.shop_template_folder)
-        shop_guild_items.load_cost_template_folder('./assets/shop/cost')
+        shop_guild_items.load_cost_template_folder("./assets/shop/cost")
         return shop_guild_items
 
     def shop_items(self):
@@ -59,7 +59,7 @@ class GuildShop_250814(ShopClerk, ShopUI, ShopStatus):
             int: guild coin amount
         """
         self._currency = self.status_get_guild_coins()
-        logger.info(f'Guild coins: {self._currency}')
+        logger.info(f"Guild coins: {self._currency}")
         return self._currency
 
     def shop_interval_clear(self):
@@ -97,7 +97,7 @@ class GuildShop_250814(ShopClerk, ShopUI, ShopStatus):
 
         # When called, expected to be in
         # correct Guild Shop interface
-        logger.hr('Guild Shop', level=1)
+        logger.hr("Guild Shop", level=1)
 
         # Execute buy operations
         # Refresh if enabled and available
@@ -112,5 +112,5 @@ class GuildShop_250814(ShopClerk, ShopUI, ShopStatus):
                     if self.shop_refresh():
                         continue
                 else:
-                    logger.info('Guild coins < 110, skip refreshing')
+                    logger.info("Guild coins < 110, skip refreshing")
             break

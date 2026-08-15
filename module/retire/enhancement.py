@@ -7,26 +7,24 @@ from module.exception import GameStuckError, ScriptError
 from module.logger import logger
 from module.ocr.ocr import DigitCounter
 from module.retire.assets import *
-from module.retire.dock import CARD_GRIDS, Dock
+from module.retire.dock import Dock
 
-VALID_SHIP_TYPES = ['dd', 'ss', 'cl', 'ca', 'bb', 'cv', 'repair', 'others']
-if server.server != 'jp':
-    OCR_DOCK_AMOUNT = DigitCounter(
-        DOCK_AMOUNT, letter=(255, 255, 255), threshold=192)
+VALID_SHIP_TYPES = ["dd", "ss", "cl", "ca", "bb", "cv", "repair", "others"]
+if server.server != "jp":
+    OCR_DOCK_AMOUNT = DigitCounter(DOCK_AMOUNT, letter=(255, 255, 255), threshold=192)
 else:
-    OCR_DOCK_AMOUNT = DigitCounter(
-        DOCK_AMOUNT, letter=(201, 201, 201), threshold=192)
+    OCR_DOCK_AMOUNT = DigitCounter(DOCK_AMOUNT, letter=(201, 201, 201), threshold=192)
 
 
 class Enhancement(Dock):
     @property
     def _retire_amount(self):
-        if self.config.Retirement_RetireMode == 'one_click_retire':
+        if self.config.Retirement_RetireMode == "one_click_retire":
             return 3000
-        if self.config.Retirement_RetireMode == 'old_retire':
-            if self.config.OldRetire_RetireAmount == 'retire_all':
+        if self.config.Retirement_RetireMode == "old_retire":
+            if self.config.OldRetire_RetireAmount == "retire_all":
                 return 3000
-            if self.config.OldRetire_RetireAmount == 'retire_10':
+            if self.config.OldRetire_RetireAmount == "retire_10":
                 return 10
         return 3000
 
@@ -47,9 +45,9 @@ class Enhancement(Dock):
 
         if ship_type is not None:
             ship_type = str(ship_type)
-            self.dock_filter_set(extra='enhanceable', index=ship_type)
+            self.dock_filter_set(extra="enhanceable", index=ship_type)
         else:
-            self.dock_filter_set(extra='enhanceable')
+            self.dock_filter_set(extra="enhanceable")
 
         if self.appear(DOCK_EMPTY, offset=(30, 30)):
             return False
@@ -127,20 +125,18 @@ class Enhancement(Dock):
             nonlocal need_to_skip
             need_to_skip = False
             if ship_count <= 0:
-                logger.info(
-                    'Reached maximum number to check, exiting current category')
+                logger.info("Reached maximum number to check, exiting current category")
                 return "state_enhance_exit"
             if not self.ship_side_navbar_ensure(bottom=4):
                 return "state_enhance_check"
 
-            self.wait_until_appear(ENHANCE_RECOMMEND, offset=(
-                5, 5), skip_first_screenshot=True)
+            self.wait_until_appear(ENHANCE_RECOMMEND, offset=(5, 5), skip_first_screenshot=True)
             return "state_enhance_ready"
 
         def state_enhance_ready():
             # Wait until ENHANCE_RECOMMEND appears
             if self.appear_then_click(ENHANCE_RECOMMEND, offset=(5, 5), interval=0.3):
-                logger.info('Set enhancement material by recommendation.')
+                logger.info("Set enhancement material by recommendation.")
                 return "state_enhance_recommend"
 
             return "state_enhance_ready"
@@ -148,22 +144,23 @@ class Enhancement(Dock):
         def state_enhance_recommend():
             # Judge if enhance material appeared
             if not EMPTY_ENHANCE_SLOT_PLUS.match(self.device.image):
-                logger.info('Material found. Try enhancing...')
+                logger.info("Material found. Try enhancing...")
                 return "state_enhance_attempt"
             elif self.info_bar_count():
-                logger.info('No material found for enhancement.')
-                logger.info(
-                    'Enhancement failed. Swiping to next ship if feasible')
+                logger.info("No material found for enhancement.")
+                logger.info("Enhancement failed. Swiping to next ship if feasible")
                 return "state_enhance_fail"
 
             return "state_enhance_ready"
 
         def state_enhance_attempt():
             # Wait until ENHANCE_CONFIRM appears
-            if (self.appear_then_click(ENHANCE_CONFIRM, offset=(5, 5), interval=0.3)
-                    or self.appear(EQUIP_CONFIRM, offset=(30, 30))
-                    or self.info_bar_count()
-                    or self.handle_popup_confirm('ENHANCE')):
+            if (
+                self.appear_then_click(ENHANCE_CONFIRM, offset=(5, 5), interval=0.3)
+                or self.appear(EQUIP_CONFIRM, offset=(30, 30))
+                or self.info_bar_count()
+                or self.handle_popup_confirm("ENHANCE")
+            ):
                 return "state_enhance_confirm"
 
             return "state_enhance_attempt"
@@ -171,17 +168,16 @@ class Enhancement(Dock):
         def state_enhance_confirm():
             # Succeeded if EQUIP_CONFIRM appeared, otherwise failed
             if self.appear(EQUIP_CONFIRM, offset=(30, 30)):
-                logger.info('Enhancement Successful')
+                logger.info("Enhancement Successful")
                 self._enhance_confirm()
                 return "state_enhance_success"
             elif self.info_bar_count():
-                logger.info(
-                    'Enhancement impossible, ship currently in battle. Swiping to next ship if feasible')
+                logger.info("Enhancement impossible, ship currently in battle. Swiping to next ship if feasible")
                 nonlocal need_to_skip
                 need_to_skip = True
                 return "state_enhance_fail"
-            elif self.handle_popup_confirm('ENHANCE'):
-                logger.info('Trying a temporary ship')
+            elif self.handle_popup_confirm("ENHANCE"):
+                logger.info("Trying a temporary ship")
                 return "state_enhance_confirm"
 
             return "state_enhance_attempt"
@@ -202,7 +198,7 @@ class Enhancement(Dock):
                 if self.appear(EQUIP_CONFIRM, offset=(30, 30)):
                     return "state_enhance_confirm"
                 else:
-                    logger.info('Swiped failed, exiting current category')
+                    logger.info("Swiped failed, exiting current category")
                     return "state_enhance_exit"
 
         def state_enhance_success():
@@ -218,28 +214,32 @@ class Enhancement(Dock):
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
-            logger.info(f'Call state function: {state}')
+            logger.info(f"Call state function: {state}")
 
             if state == "state_enhance_check":
                 # Avoid too_many_click exception caused by multiple tries without material
                 if state_list[-2:] == ["state_enhance_recommend", "state_enhance_fail"]:
-                    while self.device.click_record and (self.device.click_record[-1] in ['ENHANCE_RECOMMEND', 'SHIP_SWIPE']):
+                    while self.device.click_record and (
+                        self.device.click_record[-1] in ["ENHANCE_RECOMMEND", "SHIP_SWIPE"]
+                    ):
                         self.device.click_record.pop()
                 # Avoid too_many_click exception caused by enhancement failure on in-battle ships
                 elif state_list[-3:] == ["state_enhance_attempt", "state_enhance_confirm", "state_enhance_fail"]:
-                    while self.device.click_record and (self.device.click_record[-1] in ['ENHANCE_RECOMMEND', 'SHIP_SWIPE', 'ENHANCE_CONFIRM']):
+                    while self.device.click_record and (
+                        self.device.click_record[-1] in ["ENHANCE_RECOMMEND", "SHIP_SWIPE", "ENHANCE_CONFIRM"]
+                    ):
                         self.device.click_record.pop()
                 state_list.clear()
             state_list.append(state)
             if len(state_list) > 30:
-                logger.critical(f'Too many state transitions: {state_list}')
-                raise GameStuckError('Too many state transitions')
+                logger.critical(f"Too many state transitions: {state_list}")
+                raise GameStuckError("Too many state transitions")
 
             try:
                 state = locals()[state]()
             except KeyError as e:
-                logger.warning(f'Unknown state function: {state}')
-                raise ScriptError(f'Unknown state function: {state}')
+                logger.warning(f"Unknown state function: {state}")
+                raise ScriptError(f"Unknown state function: {state}")
 
         return state, ship_count
 
@@ -262,28 +262,26 @@ class Enhancement(Dock):
             int: total enhanced
         """
         if favourite is None:
-            favourite = self.config.Enhance_ShipToEnhance == 'favourite'
+            favourite = self.config.Enhance_ShipToEnhance == "favourite"
 
-        logger.hr('Enhancement by type')
+        logger.hr("Enhancement by type")
         total = 0
 
         # Process ENHANCE_ORDER_STRING if any into ship_types
         if self.config.Enhance_Filter is not None:
-            ship_types = [s.strip().lower()
-                          for s in self.config.Enhance_Filter.split('>')]
-            ship_types = list(filter(''.__ne__, ship_types))
+            ship_types = [s.strip().lower() for s in self.config.Enhance_Filter.split(">")]
+            ship_types = list(filter("".__ne__, ship_types))
             if len(ship_types) == 0:
                 ship_types = [None]
         else:
             ship_types = [None]
-        logger.attr('Enhance Order', ship_types)
+        logger.attr("Enhance Order", ship_types)
 
         # Process available ship types for choice randomization
         # Removing types that have already been specified by
         # ENHANCE_ORDER_STRING
         available_ship_types = VALID_SHIP_TYPES.copy()
-        [available_ship_types.remove(s)
-         for s in ship_types if s in available_ship_types]
+        [available_ship_types.remove(s) for s in ship_types if s in available_ship_types]
 
         for ship_type in ship_types:
             # None check, do not execute if is None
@@ -291,24 +289,22 @@ class Enhancement(Dock):
             # user has specified an unrecognized type
             if ship_type is not None and ship_type not in VALID_SHIP_TYPES:
                 if len(available_ship_types) == 0:
-                    logger.info(
-                        'No more ship types for ALAS to choose from, skipping iteration')
+                    logger.info("No more ship types for ALAS to choose from, skipping iteration")
                     continue
                 ship_type = choice(available_ship_types)
                 available_ship_types.remove(ship_type)
 
-            logger.info(f'Favourite={favourite}, Ship Type={ship_type}')
+            logger.info(f"Favourite={favourite}, Ship Type={ship_type}")
 
             # Continue if at least 1 CARD_GRID is selectable
             # otherwise skip to next ship type
             if not self._enhance_enter(favourite=favourite, ship_type=ship_type):
-                logger.hr(f'Dock Empty by ship type {ship_type}')
+                logger.hr(f"Dock Empty by ship type {ship_type}")
                 continue
 
             current_count = self.config.Enhance_CheckPerCategory
             while 1:
-                choose_result, current_count = self._enhance_choose(
-                    ship_count=current_count)
+                choose_result, current_count = self._enhance_choose(ship_count=current_count)
                 if not choose_result:
                     break
                 total += 10

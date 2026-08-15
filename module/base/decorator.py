@@ -1,7 +1,8 @@
 import random
 import re
 from functools import wraps
-from typing import Callable, Generic, TypeVar
+from typing import Generic, TypeVar
+from collections.abc import Callable
 
 T = TypeVar("T")
 
@@ -18,6 +19,7 @@ class Config:
         ]
     }
     """
+
     func_list = {}
 
     @classmethod
@@ -36,18 +38,19 @@ class Config:
                 pass
         """
         from module.logger import logger
+
         options = kwargs
 
         def decorate(func):
             name = func.__name__
-            data = {'options': options, 'func': func}
+            data = {"options": options, "func": func}
             if name not in cls.func_list:
                 cls.func_list[name] = [data]
             else:
                 override = False
                 for record in cls.func_list[name]:
-                    if record['options'] == data['options']:
-                        record['func'] = data['func']
+                    if record["options"] == data["options"]:
+                        record["func"] = data["func"]
                         override = True
                 if not override:
                     cls.func_list[name].append(data)
@@ -61,15 +64,16 @@ class Config:
                     **kwargs:
                 """
                 for record in cls.func_list[name]:
-
-                    flag = [value is None or self.config.__getattribute__(key) == value
-                            for key, value in record['options'].items()]
+                    flag = [
+                        value is None or self.config.__getattribute__(key) == value
+                        for key, value in record["options"].items()
+                    ]
                     if not all(flag):
                         continue
 
-                    return record['func'](self, *args, **kwargs)
+                    return record["func"](self, *args, **kwargs)
 
-                logger.warning(f'No option fits for {name}, using the last define func.')
+                logger.warning(f"No option fits for {name}, using the last define func.")
                 return func(self, *args, **kwargs)
 
             return wrapper
@@ -161,16 +165,16 @@ def function_drop(rate=0.5, default=None):
             if random.uniform(0, 1) > rate:
                 return func(*args, **kwargs)
             else:
-                cls = ''
+                cls = ""
                 arguments = [str(arg) for arg in args]
                 if len(arguments):
-                    matched = re.search('<(.*?) object at', arguments[0])
+                    matched = re.search("<(.*?) object at", arguments[0])
                     if matched:
-                        cls = matched.group(1) + '.'
+                        cls = matched.group(1) + "."
                         arguments.pop(0)
-                arguments += [f'{k}={v}' for k, v in kwargs.items()]
-                arguments = ', '.join(arguments)
-                logger.info(f'Dropped: {cls}{func.__name__}({arguments})')
+                arguments += [f"{k}={v}" for k, v in kwargs.items()]
+                arguments = ", ".join(arguments)
+                logger.info(f"Dropped: {cls}{func.__name__}({arguments})")
                 return default
 
         return wrapper

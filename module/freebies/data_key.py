@@ -6,7 +6,6 @@ from module.ui.assets import CAMPAIGN_MENU_GOTO_WAR_ARCHIVES, WAR_ARCHIVES_CHECK
 from module.ui.page import page_archives, page_campaign_menu
 from module.ui.ui import UI
 
-
 DATA_KEY = DigitCounter(OCR_DATA_KEY, letter=(255, 247, 247), threshold=64)
 
 
@@ -17,7 +16,7 @@ class DataKey(UI):
             in: page_archives
             out: page_archives, DATA_KEY_COLLECTED
         """
-        logger.hr('Data Key Collect')
+        logger.hr("Data Key Collect")
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -29,7 +28,7 @@ class DataKey(UI):
             if self.appear(GET_ITEMS_1, offset=20, interval=3):
                 self.device.click(DATA_KEY_COLLECT)
                 continue
-            if self.handle_popup_confirm('DATA_KEY_LIMIT'):
+            if self.handle_popup_confirm("DATA_KEY_LIMIT"):
                 # If it's in 29/30 means user is not doing war achieves frequently,
                 # no need to bother losing one key, just make it fulfilled.
                 continue
@@ -39,7 +38,7 @@ class DataKey(UI):
 
             # End
             if self.appear(WAR_ARCHIVES_CHECK, offset=(20, 20)) and self.appear(DATA_KEY_COLLECTED, offset=(20, 20)):
-                logger.info('Data key collect finished')
+                logger.info("Data key collect finished")
                 break
 
     def data_key_collect(self):
@@ -53,13 +52,13 @@ class DataKey(UI):
             in: page_archives
         """
         if self.appear(DATA_KEY_COLLECTED, offset=(20, 20)):
-            logger.info('Data key has been collected')
+            logger.info("Data key has been collected")
             return False
 
         current, remain, total = DATA_KEY.ocr(self.device.image)
-        logger.info(f'Inventory: {current} / {total}, Remain: {remain}')
+        logger.info(f"Inventory: {current} / {total}, Remain: {remain}")
         if not self.config.DataKey_ForceCollect and remain <= 0:
-            logger.info('No more room for additional data key')
+            logger.info("No more room for additional data key")
             return False
 
         self._data_key_collect()

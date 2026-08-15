@@ -38,97 +38,98 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
             in: IN_MAP, is_meowfficer_searching == True
         """
         return color_bar_percentage(
-            self.device.image, area=MEOWFFICER_SEARCHING_PERCENTAGE.area, prev_color=(74, 223, 255))
+            self.device.image, area=MEOWFFICER_SEARCHING_PERCENTAGE.area, prev_color=(74, 223, 255)
+        )
 
-    @Config.when(SERVER='en')
+    @Config.when(SERVER="en")
     def get_zone_name(self):
         # For EN only
-        ocr = Ocr(MAP_NAME, lang='cnocr', letter=(206, 223, 247), threshold=96, name='OCR_OS_MAP_NAME')
+        ocr = Ocr(MAP_NAME, lang="cnocr", letter=(206, 223, 247), threshold=96, name="OCR_OS_MAP_NAME")
         name = ocr.ocr(self.device.image)
         name = "".join(name.split())
         name = name.lower()
-        name = name.strip('\\/-—–－')
-        if '-' in name:
-            name = name.split('-')[0]
-        if 'é' in name:  # Méditerranée name maps
-            name = name.replace('é', 'e')
-        if 'nvcity' in name:  # NY City Port read as 'V' rather than 'Y'
-            name = 'nycity'
-        if 'cibraltar' in name:
-            name = 'gibraltar'
+        name = name.strip("\\/-—–－")
+        if "-" in name:
+            name = name.split("-")[0]
+        if "é" in name:  # Méditerranée name maps
+            name = name.replace("é", "e")
+        if "nvcity" in name:  # NY City Port read as 'V' rather than 'Y'
+            name = "nycity"
+        if "cibraltar" in name:
+            name = "gibraltar"
         # Sate Zone
-        name = name.replace('sate', 'safe')
-        self.is_zone_name_hidden = 'safe' in name
+        name = name.replace("sate", "safe")
+        self.is_zone_name_hidden = "safe" in name
 
         # Occasional mis-read by OCR, hotfix
-        name = name.replace('pasage', 'passage')
-        name = name.replace('shef', 'shelf')
-        name = name.replace('nnocean', 'naocean')
+        name = name.replace("pasage", "passage")
+        name = name.replace("shef", "shelf")
+        name = name.replace("nnocean", "naocean")
         # A OceanwsectorB-Safe zone
-        name = re.sub('^aocean', 'naocean',  name)
+        name = re.sub("^aocean", "naocean", name)
 
         # `-` is missing or read as '.'
         # due to font size
-        name = name.replace('safe', '')
-        name = name.replace('zone', '')
-        if name.endswith('.'):
+        name = name.replace("safe", "")
+        name = name.replace("zone", "")
+        if name.endswith("."):
             name = name[0:-1]
         return name
 
-    @Config.when(SERVER='jp')
+    @Config.when(SERVER="jp")
     def get_zone_name(self):
         # For JP only
-        ocr = Ocr(MAP_NAME, lang='jp', letter=(157, 173, 192), threshold=127, name='OCR_OS_MAP_NAME')
+        ocr = Ocr(MAP_NAME, lang="jp", letter=(157, 173, 192), threshold=127, name="OCR_OS_MAP_NAME")
         name = ocr.ocr(self.device.image)
-        name = name.strip('\\/-—–－')
-        self.is_zone_name_hidden = '安全' in name
+        name = name.strip("\\/-—–－")
+        self.is_zone_name_hidden = "安全" in name
         # Remove punctuations
-        for char in '・':
-            name = name.replace(char, '')
+        for char in "・":
+            name = name.replace(char, "")
         # Remove '異常海域' and 'セイレーン要塞海域'
-        if '異' in name:
-            name = name.split('異')[0]
-        if 'セ' in name:
-            name = name.split('セ')[0]
+        if "異" in name:
+            name = name.split("異")[0]
+        if "セ" in name:
+            name = name.split("セ")[0]
         # Remove '安全海域' or '秘密海域' at the end of jp ocr.
-        name = name.rstrip('安全秘密異常要塞海域')
+        name = name.rstrip("安全秘密異常要塞海域")
         # Kanji '一', '力' and '卜' are not used, while Katakana 'ー', 'カ' and 'ト' are misread as Kanji sometimes.
         # Katakana 'ペ' may be misread as Hiragana 'ぺ'.
-        name = name.replace('一', 'ー').replace('力', 'カ').replace('卜', 'ト').replace('ぺ', 'ペ')
-        name = name.replace('ジブフルタル', 'ジブラルタル')
-        name = name.replace('タント', 'タラント').replace('タフント', 'タラント')
-        name = name.replace('N海域', 'NA海域')
+        name = name.replace("一", "ー").replace("力", "カ").replace("卜", "ト").replace("ぺ", "ペ")
+        name = name.replace("ジブフルタル", "ジブラルタル")
+        name = name.replace("タント", "タラント").replace("タフント", "タラント")
+        name = name.replace("N海域", "NA海域")
         # リバープル -> リバープール
-        name = name.replace('リバプル', 'リバープール')
-        name = name.replace('リバープル', 'リバープール')
-        name = name.replace('リバプール', 'リバープール')
+        name = name.replace("リバプル", "リバープール")
+        name = name.replace("リバープル", "リバープール")
+        name = name.replace("リバプール", "リバープール")
         return name
 
-    @Config.when(SERVER='tw')
+    @Config.when(SERVER="tw")
     def get_zone_name(self):
         # For TW only
-        ocr = Ocr(MAP_NAME, lang='tw', letter=(198, 215, 239), threshold=127, name='OCR_OS_MAP_NAME')
+        ocr = Ocr(MAP_NAME, lang="tw", letter=(198, 215, 239), threshold=127, name="OCR_OS_MAP_NAME")
         name = ocr.ocr(self.device.image)
-        name = name.strip('\\/-—–－')
-        self.is_zone_name_hidden = '安全' in name
+        name = name.strip("\\/-—–－")
+        self.is_zone_name_hidden = "安全" in name
         # Remove '塞壬要塞海域'
-        if '塞' in name:
-            name = name.split('塞')[0]
+        if "塞" in name:
+            name = name.split("塞")[0]
         # Remove '安全海域', '隱秘海域', '深淵海域' at the end of tw ocr.
-        name = name.rstrip('安全隱秘塞壬要塞深淵海域一')
+        name = name.rstrip("安全隱秘塞壬要塞深淵海域一")
         return name
 
     @Config.when(SERVER=None)
     def get_zone_name(self):
         # For CN only
-        ocr = Ocr(MAP_NAME, lang='cnocr', letter=(214, 231, 255), threshold=127, name='OCR_OS_MAP_NAME')
+        ocr = Ocr(MAP_NAME, lang="cnocr", letter=(214, 231, 255), threshold=127, name="OCR_OS_MAP_NAME")
         name = ocr.ocr(self.device.image)
-        name = name.strip('\\/-—–－')
-        self.is_zone_name_hidden = '安全' in name
-        if '-' in name:
-            name = name.split('-')[0]
+        name = name.strip("\\/-—–－")
+        self.is_zone_name_hidden = "安全" in name
+        if "-" in name:
+            name = name.split("-")[0]
         else:
-            name = name.rstrip('安全隐秘塞壬要塞深渊海域-')
+            name = name.rstrip("安全隐秘塞壬要塞深渊海域-")
         return name
 
     def get_current_zone(self):
@@ -141,22 +142,22 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
             ScriptError:
         """
         name = self.get_zone_name()
-        logger.info(f'Map name processed: {name}')
+        logger.info(f"Map name processed: {name}")
         try:
             self.zone = self.name_to_zone(name)
         except ScriptError as e:
             raise MapDetectionError(*e.args)
-        logger.attr('Zone', self.zone)
+        logger.attr("Zone", self.zone)
         self.zone_config_set()
         return self.zone
 
     def zone_config_set(self):
         if self.zone.region == 5:
             self.config.HOMO_EDGE_COLOR_RANGE = (0, 8)
-            self.config.MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
+            self.config.MAP_ENSURE_EDGE_INSIGHT_CORNER = "bottom"
         else:
             self.config.HOMO_EDGE_COLOR_RANGE = (0, 33)
-            self.config.MAP_ENSURE_EDGE_INSIGHT_CORNER = ''
+            self.config.MAP_ENSURE_EDGE_INSIGHT_CORNER = ""
 
     def zone_init(self, fallback_init=True):
         """
@@ -173,9 +174,9 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
         Raises:
             MapDetectionError: If failed to parse zone name.
         """
-        logger.hr('Zone init')
+        logger.hr("Zone init")
         self.wait_os_map_buttons()
-        logger.info('Get zone name')
+        logger.info("Get zone name")
         timeout = Timer(1.5, count=5).start()
         for _ in self.loop():
             # Handle popups
@@ -196,14 +197,13 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
                 continue
             # Handle mission complete header, can block
             # map name or mis-read OCR due to extra text
-            if self.is_in_map() and \
-                    not self.appear(OS_CHECK, offset=(20, 20)):
+            if self.is_in_map() and not self.appear(OS_CHECK, offset=(20, 20)):
                 self.wait_until_appear(OS_CHECK)
                 timeout.reset()
                 continue
 
             if timeout.reached():
-                logger.warning('Zone init timeout')
+                logger.warning("Zone init timeout")
                 break
             if self.is_in_map():
                 try:
@@ -214,13 +214,13 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
                 timeout.reset()
 
         if fallback_init:
-            logger.warning('Unable to get zone name, get current zone from globe map instead')
-            if hasattr(self, 'get_current_zone_from_globe'):
+            logger.warning("Unable to get zone name, get current zone from globe map instead")
+            if hasattr(self, "get_current_zone_from_globe"):
                 return self.get_current_zone_from_globe()
             else:
-                logger.warning('OperationSiren.get_current_zone_from_globe() not exists')
+                logger.warning("OperationSiren.get_current_zone_from_globe() not exists")
                 if not self.is_in_map():
-                    logger.warning('Trying to get zone name, but not in OS map')
+                    logger.warning("Trying to get zone name, but not in OS map")
                 return self.get_current_zone()
 
     def is_in_special_zone(self):
@@ -238,7 +238,7 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
             in: is_in_map
             out: is_in_map, zone that you came from
         """
-        logger.hr('Map exit')
+        logger.hr("Map exit")
         confirm_timer = Timer(1, count=2)
         changed = False
         for _ in self.loop():
@@ -255,7 +255,7 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
             # Click
             if self.appear_then_click(MAP_EXIT, offset=(20, 20), interval=3):
                 continue
-            if self.handle_popup_confirm('MAP_EXIT'):
+            if self.handle_popup_confirm("MAP_EXIT"):
                 self.interval_reset(MAP_EXIT)
                 continue
             if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50)):

@@ -1,21 +1,21 @@
-from typing import List, Tuple
 
 from module.base.decorator import del_cached_property
 from module.base.timer import Timer
 from module.logger import logger
-from module.shop.assets import NAV_GENERAL, NAV_EVENT
+from module.shop.assets import NAV_EVENT, NAV_GENERAL
 from module.shop_event.assets import NO_NAV_EVENT_CHECK
 from module.shop_event.clerk import EventShopClerk, ItemNotFoundError
-from module.shop_event.item import EventShopItem, UR_SHIP_PRICES_IN_URPT, COIN_PRICE_IN_URPT, URPT_PRICE_IN_PT
+from module.shop_event.item import COIN_PRICE_IN_URPT, UR_SHIP_PRICES_IN_URPT, URPT_PRICE_IN_PT, EventShopItem
 from module.shop_event.selector import EVENT_SHOP_PRESET_FILTER, FILTER
 from module.ui.assets import SHOP_GOTO_MUNITIONS
-from module.ui.page import page_shop, page_munitions
+from module.ui.page import page_munitions, page_shop
 
 
 class EventShop(EventShopClerk):
     """
     Class for Event Shop operations with backend operations.
     """
+
     pt = 0
     urpt = 0
     pt_preserved = 0
@@ -32,8 +32,9 @@ class EventShop(EventShopClerk):
         self.pt_preserved += amount
         logger.info(f"Preserved {amount} pt for future use. Total preserved pt: {self.pt_preserved}")
 
-    def handle_items_related_with_urpt(self, items: List[EventShopItem], num_of_ships_to_buy: int = 2) \
-            -> Tuple[List[EventShopItem], List[EventShopItem]]:
+    def handle_items_related_with_urpt(
+        self, items: list[EventShopItem], num_of_ships_to_buy: int = 2
+    ) -> tuple[list[EventShopItem], list[EventShopItem]]:
         """
         Buy items (currently only ships) with URpt and buy URpt if necessary.
 
@@ -88,7 +89,7 @@ class EventShop(EventShopClerk):
                             if current_urpt + urpt_in_stock >= urpt_needed:
                                 if urpt_in_stock > 0:
                                     self.event_shop_buy_item(urpt_items[0], amount=urpt_needed - current_urpt)
-                                    urpt_items[0].count -= (urpt_needed - current_urpt)
+                                    urpt_items[0].count -= urpt_needed - current_urpt
                                 for item in ships_to_buy:
                                     self.event_shop_buy_item(item)
                                 logger.info(f"Successfully bought ship items: {[str(item) for item in ships_to_buy]}")
@@ -96,7 +97,8 @@ class EventShop(EventShopClerk):
                             else:
                                 logger.warning(
                                     f"Insufficient URpt to buy ships: {[str(item) for item in ships_to_buy]}. "
-                                    f"Skipping the most expensive one and retrying.")
+                                    f"Skipping the most expensive one and retrying."
+                                )
                                 ships_to_buy.pop()
                         else:
                             urpt_in_stock = urpt_items[0].count if urpt_items else 0
@@ -111,14 +113,17 @@ class EventShop(EventShopClerk):
                                     for item in ships_to_buy:
                                         self.event_shop_buy_item(item)
                                     logger.info(
-                                        f"Successfully bought ship items: {[str(item) for item in ships_to_buy]}")
+                                        f"Successfully bought ship items: {[str(item) for item in ships_to_buy]}"
+                                    )
                                     break
                                 else:
                                     logger.warning("No ships can be bought with current URpt. Skipping buying ships.")
                                     break
                             else:
-                                logger.warning("Insufficient URpt to buy ships even after buying all URpt in stock. "
-                                               "Skipping buying the most expensive ship.")
+                                logger.warning(
+                                    "Insufficient URpt to buy ships even after buying all URpt in stock. "
+                                    "Skipping buying the most expensive ship."
+                                )
                                 ships_to_buy.pop()
 
         if urpt_preserve:
@@ -128,8 +133,9 @@ class EventShop(EventShopClerk):
             logger.info("Buy URpt and URpt-priced coins last.")
             return other_items, urpt_items + coin_items
 
-    def handle_unobtained_items(self, items: List[EventShopItem], buy_unobtained_items=False) \
-            -> Tuple[List[EventShopItem], List[EventShopItem]]:
+    def handle_unobtained_items(
+        self, items: list[EventShopItem], buy_unobtained_items=False
+    ) -> tuple[list[EventShopItem], list[EventShopItem]]:
         """
         Buy all items (ships) with tag "unobtained" in the event shop.
         This should be done after handling URpt-related items but before buying other items.
@@ -176,9 +182,9 @@ class EventShop(EventShopClerk):
         if item.name == "Oil":
             current_oil = self.get_oil()
             return min(item.count, (self.pt - self.pt_preserved) // item.price, (25000 - current_oil) // 1000)
-        if item.cost == 'URpt':
+        if item.cost == "URpt":
             return min(item.count, self.urpt // item.price)
-        elif item.cost == 'pt':
+        elif item.cost == "pt":
             return min(item.count, (self.pt - self.pt_preserved) // item.price)
         else:
             logger.error(f"Unknown cost type: {item.cost} for item: {str(item)}")
@@ -198,10 +204,12 @@ class EventShop(EventShopClerk):
         self.get_current_pts()
         items, urpt_related_items = self.handle_items_related_with_urpt(items, self.config.EventShop_BuyURShip)
         self.get_current_pts()
-        items, unobtained_multiple_stock_items = self.handle_unobtained_items(items, self.config.EventShop_UnlockSSRShip)
+        items, unobtained_multiple_stock_items = self.handle_unobtained_items(
+            items, self.config.EventShop_UnlockSSRShip
+        )
         items += unobtained_multiple_stock_items
 
-        if self.config.EventShop_PresetFilter == 'custom':
+        if self.config.EventShop_PresetFilter == "custom":
             filter = self.config.EventShop_CustomFilter
         else:
             filter = EVENT_SHOP_PRESET_FILTER[self.config.EventShop_PresetFilter]
@@ -211,7 +219,7 @@ class EventShop(EventShopClerk):
         if not len(items):
             logger.info("No items to buy after filtering.")
             return True
-        logger.attr('Item_sort', ' > '.join([str(item) for item in items]))
+        logger.attr("Item_sort", " > ".join([str(item) for item in items]))
         self.get_current_pts()
         logger.attr("Pt_preserved", self.pt_preserved)
         for item in items:
@@ -281,8 +289,8 @@ class EventShop(EventShopClerk):
                         self.ui_click(NAV_GENERAL, check_button=NAV_GENERAL, appear_button=NAV_EVENT)
                         self.ui_click(NAV_EVENT, check_button=NAV_EVENT, appear_button=NAV_GENERAL)
                     continue
-            del_cached_property(self, 'is_event_ended')
-            del_cached_property(self, 'event_shop_has_urpt')
-            del_cached_property(self, 'is_pt_reversed')
+            del_cached_property(self, "is_event_ended")
+            del_cached_property(self, "event_shop_has_urpt")
+            del_cached_property(self, "is_pt_reversed")
         self.config.task_delay(server_update=True)
         return True

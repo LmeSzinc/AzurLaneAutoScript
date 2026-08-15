@@ -66,13 +66,13 @@ class Homography:
 
     @cached_property
     def ui_mask_homo_stroke(self):
-        if self.config.Scheduler_Command.startswith('Opsi'):
+        if self.config.Scheduler_Command.startswith("Opsi"):
             mask = ASSETS.ui_mask_os
         else:
             mask = ASSETS.ui_mask
         image = cv2.warpPerspective(mask, self.homo_data, self.homo_size)
         kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
-        image = cv2.erode(image, kernel).astype('uint8')
+        image = cv2.erode(image, kernel).astype("uint8")
         # Remove edges, perspective transform may produce aliasing
         pad = 2
         image[:pad, :] = 0
@@ -118,7 +118,7 @@ class Homography:
             perspective_.load(image_)
             self.load_homography(perspective=perspective_)
         else:
-            raise MapDetectionError('No data feed to load_homography, please input at least one.')
+            raise MapDetectionError("No data feed to load_homography, please input at least one.")
 
     def find_homography(self, size, src_pts, overflow=True):
         """
@@ -128,7 +128,7 @@ class Homography:
             overflow (bool): True if get full transformed image, false if get valid area only.
         """
         self.homo_storage = (size, [(x, y) for x, y in np.round(src_pts, 3)])
-        logger.attr('homo_storage', self.homo_storage)
+        logger.attr("homo_storage", self.homo_storage)
 
         # Generate perspective data
         src_pts = np.array(src_pts) - self.config.DETECTING_AREA[:2]
@@ -178,15 +178,14 @@ class Homography:
         # Image.fromarray(image_edge, mode='L').show()
 
         # Find free tile
-        if self.search_tile_center(image_edge, threshold_good=self.config.HOMO_CENTER_GOOD_THRESHOLD,
-                                   threshold=self.config.HOMO_CENTER_THRESHOLD):
-            pass
-        elif self.search_tile_corner(image_edge, threshold=self.config.HOMO_CORNER_THRESHOLD):
-            pass
-        elif self.search_tile_rectangle(image_edge, threshold=self.config.HOMO_RECTANGLE_THRESHOLD):
+        if self.search_tile_center(
+            image_edge,
+            threshold_good=self.config.HOMO_CENTER_GOOD_THRESHOLD,
+            threshold=self.config.HOMO_CENTER_THRESHOLD,
+        ) or self.search_tile_corner(image_edge, threshold=self.config.HOMO_CORNER_THRESHOLD) or self.search_tile_rectangle(image_edge, threshold=self.config.HOMO_RECTANGLE_THRESHOLD):
             pass
         else:
-            raise MapDetectionError('Failed to find a free tile')
+            raise MapDetectionError("Failed to find a free tile")
 
         self.homo_loca %= self.config.HOMO_TILE
 
@@ -205,14 +204,19 @@ class Homography:
 
         # Log
         time_cost = round(time.time() - start_time, 3)
-        logger.info('%ss  %s   edge_lines: %s hori, %s vert' % (
-            float2str(time_cost), '_' if self.lower_edge else ' ',
-            self._map_edge_count[1], self._map_edge_count[0])
-                    )
-        logger.info('Edges: %s%s%s   homo_loca: %s' % (
-            '/' if self.left_edge else ' ', '_' if self.upper_edge else ' ', '\\' if self.right_edge else ' ',
-            point2str(*self.homo_loca, length=3))
-                    )
+        logger.info(
+            "%ss  %s   edge_lines: %s hori, %s vert"
+            % (float2str(time_cost), "_" if self.lower_edge else " ", self._map_edge_count[1], self._map_edge_count[0])
+        )
+        logger.info(
+            "Edges: %s%s%s   homo_loca: %s"
+            % (
+                "/" if self.left_edge else " ",
+                "_" if self.upper_edge else " ",
+                "\\" if self.right_edge else " ",
+                point2str(*self.homo_loca, length=3),
+            )
+        )
 
     def search_tile_center(self, image, threshold_good=0.9, threshold=0.8, encourage=1.0):
         """
@@ -234,19 +238,20 @@ class Homography:
         if similarity > threshold_good:
             self.homo_loca = np.array(loca) - self.config.HOMO_CENTER_OFFSET
             self.map_inner = np.array(loca)
-            message = 'good match'
+            message = "good match"
         elif similarity > threshold:
             location = np.argwhere(result > threshold)[:, ::-1]
-            self.homo_loca = fit_points(
-                location, mod=self.config.HOMO_TILE, encourage=encourage) - self.config.HOMO_CENTER_OFFSET
+            self.homo_loca = (
+                fit_points(location, mod=self.config.HOMO_TILE, encourage=encourage) - self.config.HOMO_CENTER_OFFSET
+            )
             self.map_inner = get_map_inner(location)
-            message = f'{len(location)} matches'
+            message = f"{len(location)} matches"
         else:
-            message = 'bad match'
+            message = "bad match"
 
         # print(self.homo_loca % self.config.HOMO_TILE)
-        logger.attr_align('tile_center', f'{float2str(similarity)} ({message})')
-        return message != 'bad match'
+        logger.attr_align("tile_center", f"{float2str(similarity)} ({message})")
+        return message != "bad match"
 
     def search_tile_corner(self, image, threshold=0.8, encourage=1.0):
         """
@@ -272,16 +277,17 @@ class Homography:
             location = np.append(location, loca, axis=0) if len(location) else loca
 
         if similarity > threshold:
-            self.homo_loca = fit_points(
-                location, mod=self.config.HOMO_TILE, encourage=encourage) - self.config.HOMO_CENTER_OFFSET
+            self.homo_loca = (
+                fit_points(location, mod=self.config.HOMO_TILE, encourage=encourage) - self.config.HOMO_CENTER_OFFSET
+            )
             self.map_inner = get_map_inner(location)
-            message = f'{len(location)} matches'
+            message = f"{len(location)} matches"
         else:
-            message = 'bad match'
+            message = "bad match"
 
         # print(self.homo_loca % self.config.HOMO_TILE)
-        logger.attr_align('tile_corner', f'{float2str(similarity)} ({message})')
-        return message != 'bad match'
+        logger.attr_align("tile_corner", f"{float2str(similarity)} ({message})")
+        return message != "bad match"
 
     def search_tile_rectangle(self, image, threshold=10, encourage=5.1, close_kernel=(5, 10, 15, 20, 25)):
         """
@@ -320,13 +326,13 @@ class Homography:
         if len(location) > threshold:
             self.homo_loca = fit_points(location, mod=self.config.HOMO_TILE, encourage=encourage)
             self.map_inner = get_map_inner(location)
-            message = 'good match'
+            message = "good match"
         else:
-            message = 'bad match'
+            message = "bad match"
 
         # print(self.homo_loca % self.config.HOMO_TILE)
-        logger.attr_align('tile_rectangle', f'{len(location)} rectangles ({message})')
-        return message != 'bad match'
+        logger.attr_align("tile_rectangle", f"{len(location)} rectangles ({message})")
+        return message != "bad match"
 
     def detect_edges(self, image, hough_th=120, theta_th=0.005, edge_th=9):
         """
@@ -382,7 +388,7 @@ class Homography:
             self.left_edge - edge_th if self.left_edge else 0,
             self.lower_edge - edge_th if self.lower_edge else 0,
             self.right_edge + edge_th if self.right_edge else self.homo_size[0],
-            self.upper_edge + edge_th if self.upper_edge else self.homo_size[1]
+            self.upper_edge + edge_th if self.upper_edge else self.homo_size[1],
         ]
         x = np.arange(-25, 25) * self.config.HOMO_TILE[0] + self.homo_loca[0]
         x = x[(x > area[0]) & (x < area[2])]
@@ -434,6 +440,6 @@ class Homography:
             y1 = int(y0 + 10000 * a) + expend
             x2 = int(x0 - 10000 * (-b)) + expend
             y2 = int(y0 - 10000 * a) + expend
-            draw.line([x1, y1, x2, y2], 'white')
+            draw.line([x1, y1, x2, y2], "white")
 
         image.show()

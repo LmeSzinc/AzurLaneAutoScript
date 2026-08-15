@@ -57,7 +57,7 @@ class Page:
         self.check_button = check_button
         self.links = {}
         (filename, line_number, function_name, text) = traceback.extract_stack()[-2]
-        self.name = text[:text.find('=')].strip()
+        self.name = text[: text.find("=")].strip()
         self.parent = None
         Page.all_pages[self.name] = self
 
@@ -71,7 +71,7 @@ class Page:
         return self.name
 
     def is_island(self):
-        return self.name == 'page_island' or self.name.startswith('page_island_')
+        return self.name == "page_island" or self.name.startswith("page_island_")
 
     def link(self, button, destination):
         self.links[destination] = button

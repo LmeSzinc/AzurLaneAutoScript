@@ -26,9 +26,9 @@ class OSCampaignMap(CampaignMap):
         self.camera_data_spawn_point = []
         # weight_data set to 10.
         for grid in self:
-            grid.weight = 10.
+            grid.weight = 10.0
 
-    def update(self, grids, camera, mode='normal'):
+    def update(self, grids, camera, mode="normal"):
         """
         Args:
             grids:

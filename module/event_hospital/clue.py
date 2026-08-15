@@ -1,5 +1,5 @@
 from functools import reduce
-from typing import List, Optional, Tuple
+from typing import Optional
 
 import cv2
 import numpy as np
@@ -13,15 +13,12 @@ from module.ui.page import page_hospital
 from module.ui.scroll import Scroll
 
 
-def merge_two_rects(
-        r1: Tuple[int, int, int, int],
-        r2: Tuple[int, int, int, int]
-) -> Tuple[int, int, int, int]:
+def merge_two_rects(r1: tuple[int, int, int, int], r2: tuple[int, int, int, int]) -> tuple[int, int, int, int]:
     return (
         min(r1[0], r2[0]),  # left
         min(r1[1], r2[1]),  # top
         max(r1[2], r2[2]),  # right
-        max(r1[3], r2[3])  # bottom
+        max(r1[3], r2[3]),  # bottom
     )
 
 
@@ -51,7 +48,7 @@ def merge_rows(list_word, merge):
 
 
 class HospitalClue(HospitalUI):
-    def get_clue_list(self) -> List[Button]:
+    def get_clue_list(self) -> list[Button]:
         """
         Get list of aside buttons
         """
@@ -96,12 +93,11 @@ class HospitalClue(HospitalUI):
         list_row = merge_rows(list_word, merge=5)
         list_row = [area_offset(r, offset=area[:2]) for r in list_row]
         list_button = [
-            Button(area=rect, color=(), button=rect, name=f'CLUE_LIST_{i}')
-            for i, rect in enumerate(list_row)
+            Button(area=rect, color=(), button=rect, name=f"CLUE_LIST_{i}") for i, rect in enumerate(list_row)
         ]
         return list_button
 
-    def get_invest_button(self) -> Optional[Button]:
+    def get_invest_button(self) -> Button | None:
         """
         Get unfinished INVEST button from current image
         """
@@ -147,7 +143,7 @@ class HospitalClue(HospitalUI):
             in: Any sub page of hospital event
             out: is_in_clue
         """
-        logger.info('Hospital clue enter')
+        logger.info("Hospital clue enter")
         self.interval_clear(page_hospital.check_button)
         while 1:
             if skip_first_screenshot:
@@ -165,7 +161,7 @@ class HospitalClue(HospitalUI):
             in: Any sub page of hospital event
             out: page_hospital
         """
-        logger.info('Hospital clue exit')
+        logger.info("Hospital clue exit")
         self.interval_clear(HOSIPITAL_CLUE_CHECK)
         while 1:
             if skip_first_screenshot:
@@ -191,7 +187,7 @@ class HospitalClue(HospitalUI):
             in: is_in_clue
             out: FLEET_PREPARATION
         """
-        logger.info('Clue invest')
+        logger.info("Clue invest")
         self.interval_clear(HOSIPITAL_CLUE_CHECK)
         while 1:
             if skip_first_screenshot:
@@ -204,9 +200,9 @@ class HospitalClue(HospitalUI):
             if self.is_in_clue(interval=2):
                 invest = next(self.iter_invest(), None)
                 if invest is None:
-                    logger.info('No more invest')
+                    logger.info("No more invest")
                     return False
-                logger.info(f'is_in_clue -> {invest}')
+                logger.info(f"is_in_clue -> {invest}")
                 self.device.click(invest)
                 self.interval_reset(HOSIPITAL_CLUE_CHECK, interval=2)
                 continue
@@ -220,11 +216,11 @@ class HospitalClue(HospitalUI):
         Yields:
             Button:
         """
-        logger.hr('Iter invest')
-        scroll = Scroll(INVEST_SCROLL, color=(107, 97, 107), name='INVEST_SCROLL')
+        logger.hr("Iter invest")
+        scroll = Scroll(INVEST_SCROLL, color=(107, 97, 107), name="INVEST_SCROLL")
         # No scroll, yield one button only
         if not scroll.appear(main=self):
-            logger.info('No scroll')
+            logger.info("No scroll")
             button = self.get_invest_button()
             if button:
                 yield button
@@ -244,7 +240,7 @@ class HospitalClue(HospitalUI):
         # Iter page
         while 1:
             if scroll.at_bottom(main=self):
-                logger.info(f'{scroll.name} reached end')
+                logger.info(f"{scroll.name} reached end")
                 return
             scroll.next_page(main=self, page=0.5)
             button = self.get_invest_button()
@@ -289,7 +285,7 @@ class HospitalClue(HospitalUI):
         Pages:
             in: is_in_clue
         """
-        logger.info(f'Select aside')
+        logger.info("Select aside")
         aside = None
         self.interval_clear(HOSIPITAL_CLUE_CHECK)
         while 1:
@@ -303,9 +299,9 @@ class HospitalClue(HospitalUI):
             if self.is_in_clue(interval=2):
                 aside = next(self.iter_aside(), None)
                 if aside is None:
-                    logger.info('No more aside')
+                    logger.info("No more aside")
                     return False
-                logger.info(f'is_in_clue -> {aside}')
+                logger.info(f"is_in_clue -> {aside}")
                 self.device.click(aside)
                 self.interval_reset(HOSIPITAL_CLUE_CHECK, interval=2)
                 continue

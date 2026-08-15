@@ -2,7 +2,7 @@ import logging
 import os
 import sys
 
-os.chdir(os.path.join(os.path.dirname(__file__), '../'))
+os.chdir(os.path.join(os.path.dirname(__file__), "../"))
 
 logger = logging.getLogger("deploy")
 _logger = logger
@@ -34,7 +34,7 @@ def hr(title, level=3):
 
 
 def attr(name, text):
-    print(f'[{name}] {text}')
+    print(f"[{name}] {text}")
 
 
 logger.hr = hr

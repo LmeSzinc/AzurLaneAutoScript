@@ -31,13 +31,13 @@ class AlOcr:
     """
 
     def __init__(
-            self,
-            model_name='densenet-lite-gru',
-            model_epoch=None,
-            cand_alphabet=None,
-            root='./bin/cnocr_models/azur_lane',
-            context='cpu',
-            name=None,
+        self,
+        model_name="densenet-lite-gru",
+        model_epoch=None,
+        cand_alphabet=None,
+        root="./bin/cnocr_models/azur_lane",
+        context="cpu",
+        name=None,
     ):
         self._args = (model_name, model_epoch, cand_alphabet, root, context, name)
         self._model_loaded = False
@@ -45,16 +45,17 @@ class AlOcr:
         self._alphabet = None
         self._inv_alph_dict = None
         self._cand_alph_idx = None
-        self._net_prefix = None if name == '' else name
+        self._net_prefix = None if name == "" else name
 
-    def init(self,
-             model_name='densenet-lite-gru',
-             model_epoch=None,
-             cand_alphabet=None,
-             root='./bin/cnocr_models/azur_lane',
-             context='cpu',
-             name=None,
-             ):
+    def init(
+        self,
+        model_name="densenet-lite-gru",
+        model_epoch=None,
+        cand_alphabet=None,
+        root="./bin/cnocr_models/azur_lane",
+        context="cpu",
+        name=None,
+    ):
         """
         :param model_name: model file name without extension
         :param model_epoch: kept for API compatibility, unused
@@ -65,8 +66,8 @@ class AlOcr:
         """
         model_name = name or model_name
         model_dir = root
-        onnx_path = os.path.join(model_dir, f'{model_name}.onnx')
-        label_path = os.path.join(model_dir, 'label_cn.txt')
+        onnx_path = os.path.join(model_dir, f"{model_name}.onnx")
+        label_path = os.path.join(model_dir, "label_cn.txt")
         self._assert_and_prepare_model_files(onnx_path, label_path)
 
         self._alphabet, self._inv_alph_dict = self._read_charset(label_path)
@@ -74,22 +75,22 @@ class AlOcr:
         # Alphabet will be set before calling ocr via atomic_ocr_* methods.
         # self.set_cand_alphabet(cand_alphabet)
 
-        providers = ['CPUExecutionProvider']
-        if context == 'gpu' and 'CUDAExecutionProvider' in onnxruntime.get_available_providers():
-            providers = ['CUDAExecutionProvider', 'CPUExecutionProvider']
-        logger.info(f'Loading OCR model: {model_dir}')
+        providers = ["CPUExecutionProvider"]
+        if context == "gpu" and "CUDAExecutionProvider" in onnxruntime.get_available_providers():
+            providers = ["CUDAExecutionProvider", "CPUExecutionProvider"]
+        logger.info(f"Loading OCR model: {model_dir}")
         self._session = onnxruntime.InferenceSession(onnx_path, providers=providers)
 
     @staticmethod
     def _read_charset(charset_fp):
         alphabet = [None]
         # The 0-th element is reserved for the CTC blank.
-        with open(charset_fp, encoding='utf-8') as fp:
+        with open(charset_fp, encoding="utf-8") as fp:
             for line in fp:
-                alphabet.append(line.rstrip('\n'))
+                alphabet.append(line.rstrip("\n"))
         try:
-            space_idx = alphabet.index('<space>')
-            alphabet[space_idx] = ' '
+            space_idx = alphabet.index("<space>")
+            alphabet[space_idx] = " "
         except ValueError:
             pass
         inv_alph_dict = {_char: idx for idx, _char in enumerate(alphabet)}
@@ -99,8 +100,8 @@ class AlOcr:
     def _assert_and_prepare_model_files(onnx_path, label_path):
         missing = [f for f in (onnx_path, label_path) if not os.path.exists(f)]
         if missing:
-            logger.warning(f'Ocr model not prepared: {missing}')
-            logger.critical('Please check if required files of pre-trained OCR model exist')
+            logger.warning(f"Ocr model not prepared: {missing}")
+            logger.critical("Please check if required files of pre-trained OCR model exist")
             raise RequestHumanTakeover
 
     def set_cand_alphabet(self, cand_alphabet):
@@ -137,9 +138,9 @@ class AlOcr:
         elif isinstance(img_fp, np.ndarray):
             img = img_fp
         else:
-            raise TypeError('Inappropriate argument type.')
+            raise TypeError("Inappropriate argument type.")
         if min(img.shape[0], img.shape[1]) < 2:
-            return ''
+            return ""
         if img.mean() < 145:  # Invert dark-background images to white background
             img = 255 - img
         line_imgs = self._line_split(img)
@@ -161,8 +162,8 @@ class AlOcr:
         if not isinstance(image, Image.Image):
             image = Image.fromarray(image)
 
-        image_ = image.convert('L')
-        bn = image_.point(table, '1')
+        image_ = image.convert("L")
+        bn = image_.point(table, "1")
         bn_mat = np.array(bn)
         h, pic_len = bn_mat.shape
         project = np.sum(bn_mat, 1)
@@ -243,7 +244,7 @@ class AlOcr:
         elif isinstance(img_fp, np.ndarray):
             img = img_fp
         else:
-            raise TypeError('Inappropriate argument type.')
+            raise TypeError("Inappropriate argument type.")
         res = self.ocr_for_single_lines([img])
         return res[0]
 
@@ -263,7 +264,7 @@ class AlOcr:
         batch_size = len(img_list)
         img_list, img_widths = self._pad_arrays(img_list)
 
-        prob = self._predict(np.ascontiguousarray(np.array(img_list, dtype='float32')))
+        prob = self._predict(np.ascontiguousarray(np.array(img_list, dtype="float32")))
         # [T*batch_size, num_classes] -> [T, batch_size, num_classes]
         prob = np.reshape(prob, (-1, batch_size, prob.shape[1]))
 
@@ -277,12 +278,12 @@ class AlOcr:
         return res
 
     def _predict(self, batch):
-        return self._session.run(['probs'], {'data': batch})[0]
+        return self._session.run(["probs"], {"data": batch})[0]
 
     def _gen_mask(self, prob_shape):
         mask_shape = list(prob_shape)
         mask_shape[1] = 1
-        mask = np.zeros(mask_shape, dtype='int8')
+        mask = np.zeros(mask_shape, dtype="int8")
         mask[:, :, self._cand_alph_idx] = 1
         return mask
 
@@ -293,14 +294,14 @@ class AlOcr:
         :return: np.ndarray with shape (1, height, width), float32 in [0, 1]
         """
         if len(img.shape) == 3 and img.shape[2] == 3:
-            if img.dtype != np.dtype('uint8'):
-                img = img.astype('uint8')
+            if img.dtype != np.dtype("uint8"):
+                img = img.astype("uint8")
             # color to gray
-            img = np.array(Image.fromarray(img).convert('L'))
+            img = np.array(Image.fromarray(img).convert("L"))
         # Resize image using cv2.resize (same as the previous implementation)
         new_width = int(round(IMG_HEIGHT / img.shape[0] * img.shape[1]))
         img = cv2.resize(img, (new_width, IMG_HEIGHT))
-        img = np.expand_dims(img, 0).astype('float32') / 255.0
+        img = np.expand_dims(img, 0).astype("float32") / 255.0
         return img
 
     @staticmethod
@@ -315,7 +316,7 @@ class AlOcr:
         for img in img_list:
             if img.shape[2] < max_width:
                 pad_width[2] = (0, max_width - img.shape[2])
-                img = np.pad(img, pad_width, 'constant', constant_values=0.0)
+                img = np.pad(img, pad_width, "constant", constant_values=0.0)
             padded_img_list.append(img)
         return padded_img_list, img_widths
 
@@ -338,7 +339,7 @@ class AlOcr:
                 class_ids[end_idx:] = 0
         prediction, _ = self._ctc_label(class_ids.tolist())
         alphabet = self._alphabet
-        res = [alphabet[p] if alphabet[p] != '<space>' else ' ' for p in prediction]
+        res = [alphabet[p] if alphabet[p] != "<space>" else " " for p in prediction]
 
         return res
 

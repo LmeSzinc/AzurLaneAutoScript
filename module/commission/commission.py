@@ -24,10 +24,10 @@ from module.ui.switch import Switch
 from module.ui.ui import UI
 from module.ui_white.assets import REWARD_1_WHITE, REWARD_GOTO_COMMISSION_WHITE
 
-COMMISSION_SWITCH = Switch('Commission_switch', is_selector=True)
-COMMISSION_SWITCH.add_state('daily', COMMISSION_DAILY)
-COMMISSION_SWITCH.add_state('urgent', COMMISSION_URGENT)
-COMMISSION_SCROLL = Scroll(COMMISSION_SCROLL_AREA, color=(247, 211, 66), name='COMMISSION_SCROLL')
+COMMISSION_SWITCH = Switch("Commission_switch", is_selector=True)
+COMMISSION_SWITCH.add_state("daily", COMMISSION_DAILY)
+COMMISSION_SWITCH.add_state("urgent", COMMISSION_URGENT)
+COMMISSION_SCROLL = Scroll(COMMISSION_SCROLL_AREA, color=(247, 211, 66), name="COMMISSION_SCROLL")
 
 
 def lines_detect(image):
@@ -41,7 +41,7 @@ def lines_detect(image):
     # Find white lines under each commission to locate them.
     # (597, 0, 619, 720) is somewhere with white lines only.
     color_height = np.mean(rgb2gray(crop(image, (597, 0, 619, 720), copy=False)), axis=1)
-    parameters = {'height': 200, 'distance': 100}
+    parameters = {"height": 200, "distance": 100}
     peaks, _ = signal.find_peaks(color_height, **parameters)
     # 67 is the height of commission list header
     # 117 is the height of one commission card.
@@ -67,11 +67,11 @@ class RewardCommission(UI, InfoHandler):
         Returns:
             SelectedGrids:
         """
-        logger.hr('Commission detect')
+        logger.hr("Commission detect")
         commission = []
         for y in lines_detect(image):
             comm = Commission(image, y=y, config=self.config)
-            logger.attr('Commission', comm)
+            logger.attr("Commission", comm)
             repeat = len([c for c in commission if c == comm])
             comm.repeat_count += repeat
             commission.append(comm)
@@ -102,12 +102,12 @@ class RewardCommission(UI, InfoHandler):
             commissions = self._commission_detect(image)
 
             if commissions.count >= 2 and commissions.select(valid=False).count == 1:
-                logger.warning('Found 1 invalid commission, retry commission detect')
+                logger.warning("Found 1 invalid commission, retry commission detect")
                 continue
             else:
                 return commissions
 
-        logger.info('trials of commission detect exhausted, stop')
+        logger.info("trials of commission detect exhausted, stop")
         return commissions
 
     def _commission_choose(self, daily, urgent):
@@ -127,61 +127,60 @@ class RewardCommission(UI, InfoHandler):
         total = total[::-1]
         self.max_commission = 4
         for comm in total:
-            if comm.genre == 'daily_event':
+            if comm.genre == "daily_event":
                 self.max_commission = 5
-        running_count = int(
-            np.sum([1 for c in total if c.status == 'running']))
-        logger.attr('Running', f'{running_count}/{self.max_commission}')
+        running_count = int(np.sum([1 for c in total if c.status == "running"]))
+        logger.attr("Running", f"{running_count}/{self.max_commission}")
 
         # Load filter string
         preset = self.config.Commission_PresetFilter
-        if preset == 'custom':
+        if preset == "custom":
             string = self.config.Commission_CustomFilter
         else:
-            if f'{preset}_night' in DICT_FILTER_PRESET:
-                start_time = get_server_last_update('02:00')
-                end_time = get_server_last_update('21:00')
+            if f"{preset}_night" in DICT_FILTER_PRESET:
+                start_time = get_server_last_update("02:00")
+                end_time = get_server_last_update("21:00")
                 if start_time < end_time:
-                    preset = f'{preset}_night'
+                    preset = f"{preset}_night"
             if preset not in DICT_FILTER_PRESET:
-                logger.warning(f'Preset not found: {preset}, use default preset')
+                logger.warning(f"Preset not found: {preset}, use default preset")
                 preset = GeneratedConfig.Commission_PresetFilter
             string = DICT_FILTER_PRESET[preset]
-        logger.attr('Commission Filter', preset)
+        logger.attr("Commission Filter", preset)
 
         # Filter
         COMMISSION_FILTER.load(string)
         run = COMMISSION_FILTER.apply(total.grids, func=self._commission_check)
-        logger.attr('Filter_sort', ' > '.join([str(c) for c in run]))
+        logger.attr("Filter_sort", " > ".join([str(c) for c in run]))
         run = SelectedGrids(run)
 
         # Add shortest
-        no_shortest = run.delete(SelectedGrids(['shortest']))
+        no_shortest = run.delete(SelectedGrids(["shortest"]))
         if no_shortest.count + running_count < self.max_commission:
             if daily.count:
-                logger.info('Not enough commissions to run, add shortest daily commissions')
+                logger.info("Not enough commissions to run, add shortest daily commissions")
                 COMMISSION_FILTER.load(SHORTEST_FILTER)
                 shortest = COMMISSION_FILTER.apply(daily[::-1], func=self._commission_check)
                 # Reverse the daily list to choose better commissions
                 run = no_shortest.add_by_eq(SelectedGrids(shortest))
-                logger.attr('Filter_sort', ' > '.join([str(c) for c in run]))
+                logger.attr("Filter_sort", " > ".join([str(c) for c in run]))
             else:
-                logger.info('Not enough commissions to run')
+                logger.info("Not enough commissions to run")
 
         self.comm_choose = run
         if running_count >= self.max_commission:
             return SelectedGrids([]), SelectedGrids([])
 
         # Separate daily and urgent
-        run = run[:self.max_commission - running_count]
+        run = run[: self.max_commission - running_count]
         daily_choose = run.intersect_by_eq(daily)
         urgent_choose = run.intersect_by_eq(urgent)
         if daily_choose:
-            logger.info('Choose daily commission')
+            logger.info("Choose daily commission")
             for comm in daily_choose:
                 logger.info(comm)
         if urgent_choose:
-            logger.info('Choose urgent commission')
+            logger.info("Choose urgent commission")
             for comm in urgent_choose:
                 logger.info(comm)
 
@@ -195,9 +194,9 @@ class RewardCommission(UI, InfoHandler):
         Returns:
             bool:
         """
-        if not commission.valid or commission.status != 'pending':
+        if not commission.valid or commission.status != "pending":
             return False
-        if not self.config.Commission_DoMajorCommission and commission.category_str == 'major':
+        if not self.config.Commission_DoMajorCommission and commission.category_str == "major":
             return False
 
         return True
@@ -207,14 +206,20 @@ class RewardCommission(UI, InfoHandler):
             # If daily list has commissions > 4, usually to be 5, and 1 <= urgent <= 4
             # commission list will have an animation to scroll,
             # which causes the topmost one undetected.
-            if not COMMISSION_SCROLL.appear(main=self) or COMMISSION_SCROLL.cal_position(main=self) < 0.05 or COMMISSION_SCROLL.length / COMMISSION_SCROLL.total > 0.98:
+            if (
+                not COMMISSION_SCROLL.appear(main=self)
+                or COMMISSION_SCROLL.cal_position(main=self) < 0.05
+                or COMMISSION_SCROLL.length / COMMISSION_SCROLL.total > 0.98
+            ):
                 pre_peaks = lines_detect(self.device.image)
                 if not len(pre_peaks):
                     return True
                 self.device.screenshot()
                 while 1:
                     peaks = lines_detect(self.device.image)
-                    if (not len(peaks) or peaks[0] > 67 + 117) and (not len(pre_peaks) or not len(peaks) or abs(peaks[0] - pre_peaks[0]) < 3):
+                    if (not len(peaks) or peaks[0] > 67 + 117) and (
+                        not len(pre_peaks) or not len(peaks) or abs(peaks[0] - pre_peaks[0]) < 3
+                    ):
                         break
                     pre_peaks = peaks
                     self.device.screenshot()
@@ -224,13 +229,13 @@ class RewardCommission(UI, InfoHandler):
             return False
 
     def _commission_mode_reset(self):
-        logger.hr('Commission mode reset')
+        logger.hr("Commission mode reset")
         if self.appear(COMMISSION_DAILY):
-            current, another = 'daily', 'urgent'
+            current, another = "daily", "urgent"
         elif self.appear(COMMISSION_URGENT):
-            current, another = 'urgent', 'daily'
+            current, another = "urgent", "daily"
         else:
-            logger.warning('Unknown Commission mode')
+            logger.warning("Unknown Commission mode")
             return False
 
         self._commission_ensure_mode(another)
@@ -278,48 +283,48 @@ class RewardCommission(UI, InfoHandler):
             in: page_commission
             out: page_commission
         """
-        logger.hr('Commission scan', level=1)
+        logger.hr("Commission scan", level=1)
         # Urgent list is lazy loaded. Check it first for a force update.
-        self._commission_ensure_mode('urgent')
+        self._commission_ensure_mode("urgent")
 
-        logger.hr('Scan daily', level=2)
-        self._commission_ensure_mode('daily')
+        logger.hr("Scan daily", level=2)
+        self._commission_ensure_mode("daily")
         self._commission_swipe_to_top()
         daily = self._commission_scan_list()
 
         urgent = SelectedGrids([])
         for _ in range(2):
-            logger.hr('Scan urgent', level=2)
-            self._commission_ensure_mode('urgent')
+            logger.hr("Scan urgent", level=2)
+            self._commission_ensure_mode("urgent")
             self._commission_swipe_to_top()
             urgent = self._commission_scan_list()
             # Convert extra commission to night
-            urgent.call('convert_to_night')
+            urgent.call("convert_to_night")
 
             # Not in 21:00~03:00, but scanned night commissions
             # Probably some outdated commissions, a refresh should solve it
-            if datetime.now() - get_server_next_update('21:00') > timedelta(hours=6):
-                night = urgent.select(category_str='night')
+            if datetime.now() - get_server_next_update("21:00") > timedelta(hours=6):
+                night = urgent.select(category_str="night")
                 if night:
-                    logger.warning('Not in 21:00~03:00, but scanned night commissions')
+                    logger.warning("Not in 21:00~03:00, but scanned night commissions")
                     for comm in night:
-                        logger.attr('Commission', comm)
-                    logger.info('Re-scan urgent commission list')
+                        logger.attr("Commission", comm)
+                    logger.info("Re-scan urgent commission list")
                     # Poor sleep but acceptable in rare cases
                     self.device.sleep(2)
-                    self._commission_ensure_mode('daily')
+                    self._commission_ensure_mode("daily")
                     continue
 
             break
 
-        logger.hr('Showing commission', level=2)
-        logger.info('Daily commission')
-        for comm in daily.sort('status', 'genre'):
-            logger.attr('Commission', comm)
+        logger.hr("Showing commission", level=2)
+        logger.info("Daily commission")
+        for comm in daily.sort("status", "genre"):
+            logger.attr("Commission", comm)
         if urgent.count:
-            logger.info('Urgent commission')
-            for comm in urgent.sort('status', 'genre'):
-                logger.attr('Commission', comm)
+            logger.info("Urgent commission")
+            for comm in urgent.sort("status", "genre"):
+                logger.attr("Commission", comm)
 
         self.daily = daily
         self.urgent = urgent
@@ -342,7 +347,7 @@ class RewardCommission(UI, InfoHandler):
             in: page_commission
             out: page_commission, info_bar, commission details unfold
         """
-        logger.hr('Commission start')
+        logger.hr("Commission start")
         self.interval_clear(COMMISSION_ADVICE)
         self.interval_clear(COMMISSION_START)
         comm_timer = Timer(7)
@@ -360,8 +365,8 @@ class RewardCommission(UI, InfoHandler):
                 # Restart game and handle commission recommend bug.
                 # After you click "Recommend", your ships appear and then suddenly disappear.
                 # At the same time, the icon of commission is flashing.
-                logger.warning('Triggered commission list flashing bug')
-                raise GameStuckError('Triggered commission list flashing bug')
+                logger.warning("Triggered commission list flashing bug")
+                raise GameStuckError("Triggered commission list flashing bug")
 
             # Click
             if self.match_template_color(COMMISSION_START, offset=(5, 20), interval=7):
@@ -369,13 +374,13 @@ class RewardCommission(UI, InfoHandler):
                 self.interval_reset(COMMISSION_ADVICE)
                 comm_timer.reset()
                 continue
-            if self.handle_popup_confirm('COMMISSION_START'):
+            if self.handle_popup_confirm("COMMISSION_START"):
                 self.interval_reset(COMMISSION_ADVICE)
                 comm_timer.reset()
                 continue
             # Accidentally entered dock
             if self.appear(DOCK_CHECK, offset=(20, 20), interval=3):
-                logger.info(f'equip_enter {DOCK_CHECK} -> {BACK_ARROW}')
+                logger.info(f"equip_enter {DOCK_CHECK} -> {BACK_ARROW}")
                 self.device.click(BACK_ARROW)
                 comm_timer.reset()
                 continue
@@ -384,16 +389,16 @@ class RewardCommission(UI, InfoHandler):
                 area = (0, 0, image_size(self.device.image)[0], COMMISSION_ADVICE.button[1])
                 current = self.commission_detect(area=area)
                 if is_urgent:
-                    current.call('convert_to_night')  # Convert extra commission to night
+                    current.call("convert_to_night")  # Convert extra commission to night
                 if current.count >= 1:
                     current = current[0]
                     if current == comm:
-                        logger.info('Selected to the correct commission')
+                        logger.info("Selected to the correct commission")
                     else:
-                        logger.warning('Selected to the wrong commission')
+                        logger.warning("Selected to the wrong commission")
                         return False
                 else:
-                    logger.warning('No selected commission detected, assuming correct')
+                    logger.warning("No selected commission detected, assuming correct")
                 self.device.click(COMMISSION_ADVICE)
                 count += 1
                 self.interval_reset(COMMISSION_ADVICE)
@@ -418,15 +423,15 @@ class RewardCommission(UI, InfoHandler):
         comm = copy.deepcopy(comm)
         comm.repeat_count = 1
         for _ in range(3):
-            logger.hr('Commission find and start', level=2)
-            logger.info(f'Finding commission {comm}')
+            logger.hr("Commission find and start", level=2)
+            logger.info(f"Finding commission {comm}")
 
             failed = True
 
             for _ in range(15):
                 new = self.commission_detect(trial=2)
                 if is_urgent:
-                    new.call('convert_to_night')  # Convert extra commission to night
+                    new.call("convert_to_night")  # Convert extra commission to night
 
                 # Update commission position.
                 # In different scans, they have the same information, but have different locations.
@@ -449,17 +454,17 @@ class RewardCommission(UI, InfoHandler):
                     break
 
             if failed:
-                logger.warning(f'Failed to select commission: {comm}')
+                logger.warning(f"Failed to select commission: {comm}")
                 self._commission_mode_reset()
                 self._commission_swipe_to_top()
                 self.device.click_record_clear()
                 continue
             else:
-                logger.warning(f'Commission not found: {comm}')
+                logger.warning(f"Commission not found: {comm}")
                 self.device.click_record_clear()
                 return False
 
-        logger.warning(f'Failed to select commission after 3 trial')
+        logger.warning("Failed to select commission after 3 trial")
         self.device.click_record_clear()
         return False
 
@@ -473,10 +478,10 @@ class RewardCommission(UI, InfoHandler):
         """
         self._commission_scan_all()
 
-        logger.hr('Commission run', level=1)
+        logger.hr("Commission run", level=1)
         if self.daily_choose:
             for comm in self.daily_choose:
-                self._commission_ensure_mode('daily')
+                self._commission_ensure_mode("daily")
                 self._commission_swipe_to_top()
                 self.handle_info_bar()
                 if self._commission_find_and_start(comm, is_urgent=False):
@@ -484,14 +489,14 @@ class RewardCommission(UI, InfoHandler):
                 self._commission_mode_reset()
         if self.urgent_choose:
             for comm in self.urgent_choose:
-                self._commission_ensure_mode('urgent')
+                self._commission_ensure_mode("urgent")
                 self._commission_swipe_to_top()
                 self.handle_info_bar()
                 if self._commission_find_and_start(comm, is_urgent=True):
                     comm.convert_to_running()
                 self._commission_mode_reset()
         if not self.daily_choose and not self.urgent_choose:
-            logger.info('No commission chose')
+            logger.info("No commission chose")
 
     def _commission_receive(self, skip_first_screenshot=True):
         """
@@ -505,13 +510,11 @@ class RewardCommission(UI, InfoHandler):
             in: page_reward
             out: page_commission
         """
-        logger.hr('Reward receive')
+        logger.hr("Reward receive")
 
         reward = False
         click_timer = Timer(1)
-        with self.stat.new(
-                'commission', method=self.config.DropRecord_CommissionRecord
-        ) as drop:
+        with self.stat.new("commission", method=self.config.DropRecord_CommissionRecord) as drop:
             while 1:
                 if skip_first_screenshot:
                     skip_first_screenshot = False
@@ -559,7 +562,7 @@ class RewardCommission(UI, InfoHandler):
                     # click_timer.reset()
                     continue
                 # handle oil maxed
-                if self.config.SERVER in ['cn']:
+                if self.config.SERVER in ["cn"]:
                     if self.appear(OIL_MAXED, offset=(20, 20), interval=3):
                         raise OilMaxed
                 # Check GET_SHIP at last to handle random white background at page_main
@@ -597,7 +600,7 @@ class RewardCommission(UI, InfoHandler):
                 RewardDorm(self.config, self.device).dorm_food_run(amount=10)
                 self.ui_ensure(page_reward)
 
-        logger.critical(f'Failed to handle oil maxed after 3 trial')
+        logger.critical("Failed to handle oil maxed after 3 trial")
         raise RequestHumanTakeover
 
     def run(self):
@@ -616,24 +619,26 @@ class RewardCommission(UI, InfoHandler):
 
         # Scheduler
         total = self.daily.add_by_eq(self.urgent)
-        future_finish = sorted([f for f in total.get('finish_time') if f is not None])
-        logger.info(f'Commission finish: {[str(f) for f in future_finish]}')
+        future_finish = sorted([f for f in total.get("finish_time") if f is not None])
+        logger.info(f"Commission finish: {[str(f) for f in future_finish]}")
         if len(future_finish):
             self.config.task_delay(target=future_finish)
         else:
-            logger.info('No commission running')
+            logger.info("No commission running")
             self.config.task_delay(success=False)
 
         # Delay GemsFarming
-        if self.config.cross_get(keys='GemsFarming.GemsFarming.CommissionLimit', default=False):
-            daily = self.daily.select(category_str='daily', status='pending').count
-            filtered_urgent = self.comm_choose.intersect_by_eq(self.urgent.select(status='pending')).count
-            logger.info(f'Daily commission: {daily}, filtered_urgent: {filtered_urgent}')
+        if self.config.cross_get(keys="GemsFarming.GemsFarming.CommissionLimit", default=False):
+            daily = self.daily.select(category_str="daily", status="pending").count
+            filtered_urgent = self.comm_choose.intersect_by_eq(self.urgent.select(status="pending")).count
+            logger.info(f"Daily commission: {daily}, filtered_urgent: {filtered_urgent}")
             if daily > 0 and filtered_urgent >= 1:
-                logger.info('Having daily commissions to do, delay task `GemsFarming`')
+                logger.info("Having daily commissions to do, delay task `GemsFarming`")
                 self.config.task_delay(
-                    minute=120, target=future_finish if len(future_finish) else None, task='GemsFarming')
+                    minute=120, target=future_finish if len(future_finish) else None, task="GemsFarming"
+                )
             elif filtered_urgent >= 4:
-                logger.info('Having too many urgent commissions, delay task `GemsFarming`')
+                logger.info("Having too many urgent commissions, delay task `GemsFarming`")
                 self.config.task_delay(
-                    minute=120, target=future_finish if len(future_finish) else None, task='GemsFarming')
+                    minute=120, target=future_finish if len(future_finish) else None, task="GemsFarming"
+                )

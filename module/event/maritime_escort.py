@@ -30,14 +30,14 @@ class MaritimeEscort(MapOperation, CampaignEvent):
             in: ESCORT_CHECK
             out: ESCORT_CHECK
         """
-        logger.hr('Maritime escort', level=1)
+        logger.hr("Maritime escort", level=1)
         try:
-            self.enter_map(ESCORT_HARD_ENTRANCE, mode='escort')
+            self.enter_map(ESCORT_HARD_ENTRANCE, mode="escort")
             self.withdraw()
         except CampaignEnd:
             pass
 
-        logger.info('Maritime escort finished')
+        logger.info("Maritime escort finished")
 
     def run(self):
         if self.event_time_limit_triggered():
@@ -50,6 +50,6 @@ class MaritimeEscort(MapOperation, CampaignEvent):
         if current > 0:
             self.run_escort()
         else:
-            logger.info('Maritime escort already finished')
+            logger.info("Maritime escort already finished")
 
         self.config.task_delay(server_update=True)

@@ -1,11 +1,10 @@
 from module.base.mask import Mask
 from module.base.utils import *
-from module.config.config import AzurLaneConfig
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
 from module.map_detection.utils import fit_points
 
-MASK_RADAR = Mask('./assets/mask/MASK_OS_RADAR.png')
+MASK_RADAR = Mask("./assets/mask/MASK_OS_RADAR.png")
 
 
 class RadarGrid:
@@ -25,14 +24,14 @@ class RadarGrid:
     is_fleet = False
 
     dic_encode = {
-        'EN': 'is_enemy',
-        'RE': 'is_resource',
-        'AR': 'is_archive',
-        'EX': 'is_exclamation',
-        'ME': 'is_meowfficer',
-        'PO': 'is_port',
-        'QU': 'is_question',
-        'FL': 'is_fleet',
+        "EN": "is_enemy",
+        "RE": "is_resource",
+        "AR": "is_archive",
+        "EX": "is_exclamation",
+        "ME": "is_meowfficer",
+        "PO": "is_port",
+        "QU": "is_question",
+        "FL": "is_fleet",
     }
 
     def __init__(self, location, image, center, config):
@@ -58,7 +57,7 @@ class RadarGrid:
             if self.__getattribute__(value):
                 return key
 
-        return '--'
+        return "--"
 
     @property
     def str(self):
@@ -99,9 +98,9 @@ class RadarGrid:
         # if not self.is_enemy:
         #     self.is_enemy = self.predict_static_red_border()
         if self.is_enemy and not self.enemy_genre:
-            self.enemy_genre = 'Enemy'
+            self.enemy_genre = "Enemy"
         if self.config.MAP_HAS_SIREN:
-            if self.enemy_genre is not None and self.enemy_genre.startswith('Siren'):
+            if self.enemy_genre is not None and self.enemy_genre.startswith("Siren"):
                 self.is_siren = True
                 self.enemy_scale = 0
 
@@ -189,7 +188,7 @@ class Radar:
 
     def show(self):
         for y in range(*self.shape[1]):
-            text = ' '.join([self[(x, y)].str if (x, y) in self else '  ' for x in range(*self.shape[0])])
+            text = " ".join([self[(x, y)].str if (x, y) in self else "  " for x in range(*self.shape[0])])
             logger.info(text)
 
     def predict(self, image):
@@ -209,8 +208,10 @@ class Radar:
         for port in self.select(is_port=True):
             for grid in self.select(is_question=True):
                 if np.sum(np.abs(np.subtract(port.location, grid.location))) == 1:
-                    logger.warning(f'Wrong radar prediction is_question {grid.location} {grid.encode()} '
-                                   f'near {port.location} {port.encode()}')
+                    logger.warning(
+                        f"Wrong radar prediction is_question {grid.location} {grid.encode()} "
+                        f"near {port.location} {port.encode()}"
+                    )
                     grid.is_question = False
 
     def select(self, **kwargs):
@@ -287,8 +288,9 @@ class Radar:
             np.ndarray: Grid location of port on radar.
         """
         sight = (-4, -2, 3, 2)
-        grids = [(x, y) for x in range(sight[0], sight[2] + 1) for y in [sight[1], sight[3]]] \
-                + [(x, y) for x in [sight[0], sight[2]] for y in range(sight[1] + 1, sight[3])]
+        grids = [(x, y) for x in range(sight[0], sight[2] + 1) for y in [sight[1], sight[3]]] + [
+            (x, y) for x in [sight[0], sight[2]] for y in range(sight[1] + 1, sight[3])
+        ]
         grids = np.array([loca for loca in grids])
         distance = np.linalg.norm(grids, axis=1)
         degree = np.sum(grids * point, axis=1) / distance / np.linalg.norm(point)
@@ -366,8 +368,14 @@ class Radar:
         for grid in self:
             if grid.is_port:
                 continue
-            if grid.is_enemy or grid.is_resource or grid.is_meowfficer \
-                    or grid.is_exclamation or grid.is_question or grid.is_archive:
+            if (
+                grid.is_enemy
+                or grid.is_resource
+                or grid.is_meowfficer
+                or grid.is_exclamation
+                or grid.is_question
+                or grid.is_archive
+            ):
                 objects.append(grid)
         objects = SelectedGrids(objects).sort_by_camera_distance((0, 0))
         if not objects:
