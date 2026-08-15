@@ -59,6 +59,28 @@ def _shutdown():
     State.clearup()
 
 
+def _add_dev_cors(app: FastAPI):
+    """Allow cross-origin requests from the vite dev server (dev only).
+
+    Production serves the SPA from this same process (same origin), so CORS
+    is off by default. Set ALAS_CORS_ORIGINS to a comma-separated origin
+    list (e.g. "http://localhost:1420") when running the webapp-tauri vite
+    dev server against this backend.
+    """
+    origins = [o.strip() for o in os.environ.get("ALAS_CORS_ORIGINS", "").split(",") if o.strip()]
+    if not origins:
+        return
+    from fastapi.middleware.cors import CORSMiddleware
+
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=origins,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
+
 def create_api_app() -> FastAPI:
     @asynccontextmanager
     async def lifespan(_app: FastAPI):
@@ -70,6 +92,8 @@ def create_api_app() -> FastAPI:
         _shutdown()
 
     app = FastAPI(title="Alas API", lifespan=lifespan)
+
+    _add_dev_cors(app)
 
     app.include_router(status.router)
     app.include_router(schema.router)
