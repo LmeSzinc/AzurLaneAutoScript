@@ -1,6 +1,9 @@
 import asyncio
+import json
+from typing import Any
 
-from fastapi import APIRouter, WebSocket, WebSocketDisconnect
+from fastapi import APIRouter
+from fastapi.responses import StreamingResponse
 
 from module.logger import logger
 from module.webui.api.helpers import build_status, render_log
@@ -9,25 +12,31 @@ from module.webui.process_manager import ProcessManager
 router = APIRouter(tags=["events"])
 
 
-@router.websocket("/ws")
-async def ws_endpoint(websocket: WebSocket):
-    await websocket.accept()
+def _sse_message(event: str, data: Any) -> str:
+    return f"event: {event}\ndata: {json.dumps(data, ensure_ascii=False)}\n\n"
+
+
+def _render_logs(renderables) -> list[str]:
+    return [render_log(r) for r in renderables]
+
+
+async def _sse_stream():
+    """Yield status/log updates as server-sent events.
+
+    Mirrors the old /ws push loop: status is pushed on change, logs are
+    pushed once per new renderable (per-connection cursor), plus a
+    keepalive comment every ~25s so idle proxies don't drop the stream.
+    """
     last_status = None
-    # Per-instance render cursor: only render and send NEW renderables.
     log_cursor: dict[str, int] = {}
+    idle = 0
     try:
         while True:
-            # Drain incoming messages (keepalive / commands, ignored for now)
-            try:
-                while True:
-                    await asyncio.wait_for(websocket.receive_text(), timeout=0.05)
-            except TimeoutError:
-                pass
-            status = build_status()
+            status = await asyncio.to_thread(build_status)
             if status != last_status:
-                await websocket.send_json({"type": "status", "data": status})
+                yield _sse_message("status", status)
                 last_status = status
-            for name, manager in ProcessManager._processes.items():
+            for name, manager in list(ProcessManager._processes.items()):
                 total = len(manager.renderables)
                 cursor = log_cursor.get(name, 0)
                 reset = False
@@ -38,15 +47,23 @@ async def ws_endpoint(websocket: WebSocket):
                 new_renderables = manager.renderables[cursor:]
                 log_cursor[name] = total
                 if new_renderables:
-                    logs = [render_log(r) for r in new_renderables]
-                    await websocket.send_json(
-                        {
-                            "type": "log",
-                            "data": {"instance": name, "logs": logs, "reset": reset},
-                        }
-                    )
+                    logs = await asyncio.to_thread(_render_logs, new_renderables)
+                    yield _sse_message("log", {"instance": name, "logs": logs, "reset": reset})
+            idle += 1
+            if idle >= 25:
+                idle = 0
+                yield ": keepalive\n\n"
             await asyncio.sleep(1)
-    except WebSocketDisconnect:
-        pass
+    except asyncio.CancelledError:
+        raise
     except Exception as e:
         logger.exception(e)
+
+
+@router.get("/sse")
+async def sse_endpoint():
+    return StreamingResponse(
+        _sse_stream(),
+        media_type="text/event-stream",
+        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+    )

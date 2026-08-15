@@ -1,4 +1,4 @@
-import type { ArgSchema, MenuSchema, Status, WsEvent } from './types'
+import type { ArgSchema, MenuSchema, Status } from './types'
 
 /**
  * Base URL of the python backend.
@@ -118,4 +118,4 @@ export const api = {
     }>(`/scheduler/${name}`),
 }
 
-export type { Status, WsEvent }
+export type { Status }

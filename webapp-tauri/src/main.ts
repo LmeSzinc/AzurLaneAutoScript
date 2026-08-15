@@ -2,7 +2,7 @@ import { mount } from 'svelte'
 import App from './App.svelte'
 import { initRouter } from './router.svelte'
 import { loadI18n } from './api/i18n.svelte'
-import { connectWs, refreshStatus } from './api/store.svelte'
+import { connectEvents, refreshStatus } from './api/store.svelte'
 
 async function bootstrap() {
   // Fetch status (theme/language) before mounting so i18n and the theme
@@ -10,7 +10,7 @@ async function bootstrap() {
   try {
     await refreshStatus()
   } catch {
-    // backend not ready yet; the WS reconnection will refresh later
+    // backend not ready yet; the SSE reconnection will refresh later
   }
   try {
     await loadI18n()
@@ -19,7 +19,7 @@ async function bootstrap() {
   }
   initRouter()
   mount(App, { target: document.getElementById('app')! })
-  connectWs()
+  connectEvents()
 }
 
 void bootstrap()

@@ -13,20 +13,12 @@ export interface Status {
   language: string
 }
 
-export interface LogEvent {
-  type: 'log'
-  data: {
-    instance: string
-    logs: string[]
-  }
+/** Payload of the `log` server-sent event. */
+export interface SseLog {
+  instance: string
+  logs: string[]
+  reset?: boolean
 }
-
-export interface StatusEvent {
-  type: 'status'
-  data: Status
-}
-
-export type WsEvent = StatusEvent | LogEvent
 
 /** Config schema: task -> group -> arg -> definition */
 export interface ArgDefinition {

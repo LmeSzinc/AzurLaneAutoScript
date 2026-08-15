@@ -1,9 +1,9 @@
-"""FastAPI-based REST + WebSocket API for the Svelte SPA frontend.
+"""FastAPI-based REST + SSE API for the Svelte SPA frontend.
 
 Routes live in the `routers` package, split by domain; request/response
 models live in `models.py`; shared helpers in `helpers.py`. The app serves
 the production SPA build from webapp-tauri/dist and streams status/log
-updates over /ws.
+updates over /sse (server-sent events).
 """
 
 import os

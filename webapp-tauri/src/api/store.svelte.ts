@@ -1,15 +1,7 @@
 import { api } from './client'
-import type { Status } from './types'
+import type { Status, SseLog } from './types'
 
 const BASE = import.meta.env.VITE_API_BASE ?? ''
-
-function wsUrl(): string {
-  if (BASE) {
-    return BASE.replace(/^http/, 'ws')
-  }
-  const scheme = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
-  return `${scheme}//${window.location.host}`
-}
 
 export const status = $state<Status>({
   instances: [],
@@ -33,51 +25,47 @@ export async function refreshStatus() {
   Object.assign(status, await api.status())
 }
 
-let ws: WebSocket | null = null
+let es: EventSource | null = null
 let reconnectTimer: number | undefined
 
-export function connectWs() {
-  if (ws) {
+export function connectEvents() {
+  if (es) {
     return
   }
-  const url = wsUrl() + '/ws'
-  ws = new WebSocket(url)
-  ws.onopen = () => {
+  const url = `${BASE}/sse`
+  es = new EventSource(url)
+  es.onopen = () => {
     connState.connected = true
   }
-  ws.onmessage = (event) => {
-    const msg = JSON.parse(event.data as string)
-    if (msg.type === 'status') {
-      Object.assign(status, msg.data)
-    } else if (msg.type === 'log') {
-      const { instance, logs: newLogs, reset } = msg.data as { instance: string; logs: string[]; reset?: boolean }
-      if (reset) {
-        // Backend re-sent the whole buffer (initial connect / backend trim).
-        // Replace the array identity so LogView rebuilds.
-        logs[instance] = [...newLogs]
-      } else {
-        const buf = (logs[instance] ??= [])
-        buf.push(...newLogs)
-        if (buf.length > 800) {
-          // Trim in chunks with identity replacement so LogView rebuilds
-          // rarely (every ~300 lines) instead of re-rendering every second.
-          logs[instance] = buf.slice(-500)
-        }
+  es.addEventListener('status', (event) => {
+    Object.assign(status, JSON.parse((event as MessageEvent<string>).data) as Status)
+  })
+  es.addEventListener('log', (event) => {
+    const { instance, logs: newLogs, reset } = JSON.parse((event as MessageEvent<string>).data) as SseLog
+    if (reset) {
+      // Backend re-sent the whole buffer (initial connect / backend trim).
+      // Replace the array identity so LogView rebuilds.
+      logs[instance] = [...newLogs]
+    } else {
+      const buf = (logs[instance] ??= [])
+      buf.push(...newLogs)
+      if (buf.length > 800) {
+        // Trim in chunks with identity replacement so LogView rebuilds
+        // rarely (every ~300 lines) instead of re-rendering every second.
+        logs[instance] = buf.slice(-500)
       }
     }
-  }
-  ws.onclose = () => {
+  })
+  es.onerror = () => {
     connState.connected = false
-    ws = null
-    reconnectTimer = window.setTimeout(connectWs, 2000)
-  }
-  ws.onerror = () => {
-    ws?.close()
+    es?.close()
+    es = null
+    reconnectTimer = window.setTimeout(connectEvents, 2000)
   }
 }
 
-export function disconnectWs() {
+export function disconnectEvents() {
   window.clearTimeout(reconnectTimer)
-  ws?.close()
-  ws = null
+  es?.close()
+  es = null
 }
