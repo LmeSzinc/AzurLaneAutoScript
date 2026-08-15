@@ -2,10 +2,10 @@
   import { api } from '../api/client'
   import { t, loadI18n } from '../api/i18n.svelte'
   import { logs, refreshStatus, status } from '../api/store.svelte'
+  import { ansiToHtml } from '../lib/ansi'
   import { push } from '../router.svelte'
   import AppAside from '../components/AppAside.svelte'
   import AppMenu from '../components/AppMenu.svelte'
-  import LogView from '../components/LogView.svelte'
 
   interface SchedulerTask {
     command: string
@@ -21,7 +21,7 @@
 
   const activeInstance = $derived(status.instances[0]?.name ?? 'alas')
   let keepBottom = $state(true)
-  const EMPTY_LOGS: string[] = []
+  let logEl = $state<HTMLElement | null>(null)
 
   async function refreshScheduler() {
     if (!activeInstance) return
@@ -55,7 +55,12 @@
     push('/')
   }
 
-  // Auto-scroll is handled inside LogView.
+  // Auto-scroll the log view when keepBottom is on
+  function scrollLog() {
+    if (keepBottom && logEl) {
+      logEl.scrollTop = logEl.scrollHeight
+    }
+  }
 
   $effect(() => {
     void loadI18n()
@@ -63,8 +68,15 @@
     const timer = window.setInterval(() => {
       void refreshStatus()
       void refreshScheduler()
+      scrollLog()
     }, 5000)
     return () => window.clearInterval(timer)
+  })
+
+  // Scroll as soon as new logs arrive over the websocket
+  $effect(() => {
+    void logs[activeInstance]?.length
+    scrollLog()
   })
 </script>
 
@@ -164,7 +176,7 @@
           </button>
         </div>
       </div>
-      <LogView class="log-view" lines={logs[activeInstance] ?? EMPTY_LOGS} {keepBottom} />
+      <pre class="log-view" bind:this={logEl}><code>{@html ansiToHtml((logs[activeInstance] ?? []).join('\n'))}</code></pre>
     </section>
   </div>
 </div>
@@ -216,5 +228,11 @@
   .bar-title {
     font-size: 1.25rem;
     margin: auto 0.5rem auto;
+  }
+  .log-col .log-view {
+    flex-grow: 1;
+    margin: 0.3125rem;
+    padding: 0.625rem;
+    overflow-y: auto;
   }
 </style>
