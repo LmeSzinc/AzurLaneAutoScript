@@ -71,7 +71,7 @@ class PackageCache:
         """
         dic = {}
         for file in os.listdir(self.site_packages):
-            # mxnet_cu101-1.6.0.dist-info
+            # numpy-2.5.2.dist-info
             # adbutils-0.11.0-py3.7.egg-info
             res = re.match(r"^([a-zA-Z0-9._]+)-([a-zA-Z0-9._]+)-", file)
             if res:

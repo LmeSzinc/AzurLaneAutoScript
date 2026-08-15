@@ -1,4 +1,3 @@
-import argparse
 import os
 import queue
 import threading
@@ -131,19 +130,8 @@ class ProcessManager:
         except Exception:
             pass
 
-        parser = argparse.ArgumentParser()
-        parser.add_argument("--electron", action="store_true", help="Runs by electron client.")
-        args, _ = parser.parse_known_args()
-        State.electron = args.electron
-
         # Setup logger
         set_file_logger(name=config_name)
-        if State.electron:
-            # https://github.com/LmeSzinc/AzurLaneAutoScript/issues/2051
-            logger.info("Electron detected, remove log output to stdout")
-            from module.logger import console_hdlr
-
-            logger.removeHandler(console_hdlr)
         set_func_logger(func=q.put)
 
         from module.config.config import AzurLaneConfig

@@ -20,7 +20,7 @@ SEQ_LEN_CMPR_RATIO = 4  # densenet-lite downsamples width by 4x
 class AlOcr:
     """
     OCR engine backed by onnxruntime, API-compatible with the previous
-    cnocr (mxnet) implementation.
+    cnocr 1.2.2 (mxnet replaced by onnxruntime).
 
     Models are converted from the original self-trained mxnet checkpoints,
     see dev_tools/ocr_convert/build_onnx.py. The model directory must

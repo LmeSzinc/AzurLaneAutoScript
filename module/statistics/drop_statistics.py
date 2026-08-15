@@ -147,7 +147,7 @@ if __name__ == "__main__":
     # If folder doesn't exist, auto copy from './assets/stats_basic'
     DropStatistics.TEMPLATE_FOLDER = "campaign_13_1_template"
     # 'cpu' or 'gpu', default to 'cpu'.
-    # Use 'gpu' for faster prediction, but you must have the gpu version of mxnet installed.
+    # Use 'gpu' for faster prediction (requires an onnxruntime GPU build with CUDAExecutionProvider).
     DropStatistics.CNOCR_CONTEXT = "cpu"
     # Name of the output csv file.
     # This will write to {DROP_FOLDER}/{CSV_FILE}.

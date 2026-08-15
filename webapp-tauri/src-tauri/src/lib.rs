@@ -65,7 +65,6 @@ fn spawn_backend(app: AppHandle) {
     let mut command = Command::new(&python);
     command
         .arg("gui.py")
-        .arg("--electron")
         .current_dir(&root)
         .stdout(Stdio::piped())
         .stderr(Stdio::piped());

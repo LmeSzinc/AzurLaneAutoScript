@@ -77,7 +77,7 @@ class ModuleBase:
 
     def early_ocr_import(self):
         """
-        Start a thread to import cnocr and mxnet while the Alas instance just starting to take screenshots
+        Start a thread to import the OCR model (onnxruntime) while the Alas instance just starting to take screenshots
         The import is paralleled since taking screenshot is I/O-bound while importing is CPU-bound,
         thus would speed up the startup 0.5 ~ 1.0s and even 5s on slow PCs.
         """
