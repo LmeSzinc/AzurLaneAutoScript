@@ -48,6 +48,10 @@ class Template(Resource):
                         channel = len(image.shape)
                     if channel == 3:
                         image = image[:, :, :3].copy()
+                        # imageio >= 2.28 wraps grayscale palette GIFs as RGB (R=G=B),
+                        # restore them to single channel to match grayscale inputs
+                        if np.array_equal(image[:, :, 0], image[:, :, 1]) and np.array_equal(image[:, :, 1], image[:, :, 2]):
+                            image = image[:, :, 0]
                     elif len(image.shape) == 3:
                         # Follow the first frame
                         image = image[:, :, 0].copy()
