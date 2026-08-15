@@ -1,6 +1,7 @@
 import numpy as np
 
 import module.config.server as server
+from module.base.button import ButtonGrid  # noqa: F401  (re-exported via star import)
 from module.base.utils import (
     area_offset,
     color_similar,
