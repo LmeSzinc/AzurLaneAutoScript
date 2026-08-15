@@ -255,3 +255,6 @@ console.bat
 
 # Pylance configuration file
 pyrightconfig.json
+
+# Qoder files
+.qoder/
