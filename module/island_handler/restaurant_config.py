@@ -97,7 +97,7 @@ def get_config_key(restaurant_id, key):
 
 
 def get_waitress_options(restaurant_id):
-    return (WAITRESS_NONE, WAITRESS_ANY) + tuple(get_restaurant_config(restaurant_id)["waitress_options"])
+    return (WAITRESS_NONE, WAITRESS_ANY, *tuple(get_restaurant_config(restaurant_id)["waitress_options"]))
 
 
 def _waitress_sort_key(restaurant_id, value):

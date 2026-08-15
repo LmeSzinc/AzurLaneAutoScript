@@ -1,4 +1,3 @@
-
 from module.base.decorator import del_cached_property
 from module.base.timer import Timer
 from module.logger import logger
@@ -168,7 +167,7 @@ class EventShop(EventShopClerk):
         logger.info(f"Attempting to buy unobtained items: {[str(item) for item in unobtained_items]}")
         for item in unobtained_items:
             self.event_shop_buy_item(item)
-            logger.info(f"Successfully bought unobtained item: {str(item)}")
+            logger.info(f"Successfully bought unobtained item: {item!s}")
             if item.count > 1:
                 item.count -= 1
                 multiple_items.append(item)
@@ -187,7 +186,7 @@ class EventShop(EventShopClerk):
         elif item.cost == "pt":
             return min(item.count, (self.pt - self.pt_preserved) // item.price)
         else:
-            logger.error(f"Unknown cost type: {item.cost} for item: {str(item)}")
+            logger.error(f"Unknown cost type: {item.cost} for item: {item!s}")
             return 0
 
     def _run(self):
@@ -223,10 +222,10 @@ class EventShop(EventShopClerk):
         self.get_current_pts()
         logger.attr("Pt_preserved", self.pt_preserved)
         for item in items:
-            logger.hr(f"Attempting to buy item: {str(item)}", level=3)
+            logger.hr(f"Attempting to buy item: {item!s}", level=3)
             affordable_amount = self.calculate_affordable_amount(item)
             if affordable_amount <= 0:
-                logger.warning(f"Cannot afford to buy any of item: {str(item)}.")
+                logger.warning(f"Cannot afford to buy any of item: {item!s}.")
                 if self.is_event_ended:
                     logger.info("Event is ended, skip this item and continue to try buying other items.")
                     continue
@@ -234,7 +233,7 @@ class EventShop(EventShopClerk):
                     logger.info("Event is not ended, stopping further purchases to avoid overspending.")
                     break
             elif affordable_amount < item.count:
-                logger.warning(f"Can only afford to buy {affordable_amount} of item: {str(item)}.")
+                logger.warning(f"Can only afford to buy {affordable_amount} of item: {item!s}.")
                 self.event_shop_buy_item(item, amount=affordable_amount)
                 if self.is_event_ended:
                     logger.info("Event is ended, continue to try buying other items.")
@@ -245,7 +244,7 @@ class EventShop(EventShopClerk):
                     break
             else:
                 self.event_shop_buy_item(item)
-                logger.info(f"Successfully bought item: {str(item)}")
+                logger.info(f"Successfully bought item: {item!s}")
                 self.get_current_pts()
         return True
 

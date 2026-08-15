@@ -36,7 +36,6 @@ class AzurLaneUncensored(LoginHandler):
         if self.config.AzurLaneUncensored_Repository == "https://gitee.com/LmeSzinc/AzurLaneUncensored":
             self.config.AzurLaneUncensored_Repository = "https://e.coding.net/llop18870/alas/AzurLaneUncensored.git"
 
-        repo = self.config.AzurLaneUncensored_Repository
         folder = "./toolkit/AzurLaneUncensored"
 
         logger.hr("Update AzurLaneUncensored", level=1)

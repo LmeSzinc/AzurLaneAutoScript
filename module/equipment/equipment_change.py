@@ -93,7 +93,7 @@ class EquipmentChange(Equipment):
         for index in index_list:
             if index in self.equipment_list:
                 logger.info(f"Take on {index}")
-                enter_button = globals()["EQUIP_TAKE_ON_{index}".format(index=index)]
+                enter_button = globals()[f"EQUIP_TAKE_ON_{index}"]
 
                 self.ui_click(
                     enter_button, check_button=EQUIPPING_ON, skip_first_screenshot=skip_first_screenshot, offset=(5, 5)

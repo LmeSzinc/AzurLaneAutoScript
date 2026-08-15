@@ -419,7 +419,9 @@ class Perspective:
         # Cleansing edge
         edge = edge.mid
         inner = inner.mid
-        inner_clean = [l for l in inner if np.any(np.abs(l - clean) < 5)]  # Use correct inner to delete wrong edge.
+        inner_clean = [
+            point for point in inner if np.any(np.abs(point - clean) < 5)
+        ]  # Use correct inner to delete wrong edge.
         if len(inner_clean) > 0:
             edge = edge[(edge > np.max(inner_clean) - threshold) | (edge < np.min(inner_clean) + threshold)]
         edge = [c for c in clean if np.any(np.abs(c - edge) < 5)]

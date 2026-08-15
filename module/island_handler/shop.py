@@ -252,13 +252,14 @@ class IslandShop(IslandShopUI):
                     return True
         return success
 
-    def island_shop_buy(self, shopping_dict={}, isolated=True):
+    def island_shop_buy(self, shopping_dict=None, isolated=True):
         """
         Parameters:
             shopping_dict (dict): {item_id: amount} of items to buy. item_id is the id of the item in DIC_ISLAND_SHOP_RECIPE. amount is the amount to buy.
             isolated (bool): whether to only buy from isolated shop. If False, will buy from general shop.
                             notice that the behaviour of multiple items to buy and isolated=True is undefined.
         """
+        shopping_dict = shopping_dict or {}
         self.wait_island_shop_loading()
         success = True
         for item_id, amount in shopping_dict.items():

@@ -217,7 +217,9 @@ class MeowfficerCollect(MeowfficerBase):
             if self.appear(MEOWFFICER_APPLY_UNLOCK, offset=(40, 40), interval=3):
                 self.device.click(MEOWFFICER_TRAIN_CLICK_SAFE_AREA)
                 continue
-            if self.appear(MEOWFFICER_CONFIRM, offset=(40, 20), interval=3) or self.appear(MEOWFFICER_CANCEL, offset=(40, 20), interval=3):
+            if self.appear(MEOWFFICER_CONFIRM, offset=(40, 20), interval=3) or self.appear(
+                MEOWFFICER_CANCEL, offset=(40, 20), interval=3
+            ):
                 self.device.click(MEOWFFICER_CONFIRM)
                 continue
             if self.appear(MEOWFFICER_TRAIN_EVALUATE, offset=(20, 20), interval=3):

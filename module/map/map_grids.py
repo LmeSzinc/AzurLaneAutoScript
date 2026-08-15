@@ -76,7 +76,7 @@ class SelectedGrids:
             flag = True
             for k, v in kwargs.items():
                 obj_v = obj.__getattribute__(k)
-                if type(obj_v) != type(v) or obj_v != v:
+                if type(obj_v) is not type(v) or obj_v != v:
                     flag = False
             return flag
 
@@ -339,9 +339,9 @@ class RoadGrids:
         """
         grids = []
         for block in self.grids:
-            if any([grid.is_fleet for grid in block]):
+            if any(grid.is_fleet for grid in block):
                 continue
-            if any([grid.is_cleared for grid in block]):
+            if any(grid.is_cleared for grid in block):
                 continue
             if block.count - block.select(is_enemy=True).count == 1:
                 grids += block.select(is_enemy=True).grids
@@ -354,9 +354,9 @@ class RoadGrids:
         """
         grids = []
         for block in self.grids:
-            if any([grid.is_fleet for grid in block]):
+            if any(grid.is_fleet for grid in block):
                 continue
-            if any([grid.is_cleared for grid in block]):
+            if any(grid.is_cleared for grid in block):
                 continue
             if block.select(is_enemy=True).count >= 1:
                 grids += block.select(is_enemy=True).grids

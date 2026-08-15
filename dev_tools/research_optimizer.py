@@ -367,7 +367,7 @@ class Filter:
                 if raw not in out:
                     out.append(raw)
             else:
-                for index, obj in enumerate(objs):
+                for _index, obj in enumerate(objs):
                     if self.apply_filter_to_obj(obj=obj, filter=filter) and obj not in out:
                         out.append(obj)
 
@@ -496,7 +496,7 @@ class SelectedGrids:
             flag = True
             for k, v in kwargs.items():
                 grid_v = grid.__getattribute__(k)
-                if type(grid_v) != type(v) or grid_v != v:
+                if type(grid_v) is not type(v) or grid_v != v:
                     flag = False
             if flag:
                 result.append(grid)
@@ -1051,7 +1051,7 @@ def position_insert(string, insert, position):
 
 
 def epoch_worker(data):
-    index, total, sample_count, select_index, forward_index, string = data
+    index, total, sample_count, _select_index, _forward_index, string = data
     hr3(f"Start Testing: {index}/{total}")
     return FilterSimulator(string).run(sample_count)
 

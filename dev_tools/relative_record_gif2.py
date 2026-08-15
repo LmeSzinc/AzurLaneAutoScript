@@ -71,7 +71,7 @@ class RelativeRecord:
 
         while np.sum(mask) < self.images_amount and count < MAX_FRAME:
             count += 1
-            mask_inv = mask == False
+            mask_inv = np.logical_not(mask)
             m = [
                 np.max(cv2.matchTemplate(image, template, cv2.TM_CCOEFF_NORMED)) > THRESHOLD
                 for image in self.images[mask_inv]
@@ -81,7 +81,7 @@ class RelativeRecord:
 
             image = self.images[np.argmin(mask)]
             res = cv2.matchTemplate(image, template_0, cv2.TM_CCOEFF_NORMED)
-            _, sim, _, loca = cv2.minMaxLoc(res)
+            _, _sim, _, loca = cv2.minMaxLoc(res)
             template = crop(image, area=area_offset(area, np.subtract(loca, area[:2])))
 
         return count
@@ -118,7 +118,7 @@ class RelativeRecord:
     def get_gif(self, area):
         templates = [crop(self.images[0], area=area)]
         sim_list = []
-        for n, image in enumerate(self.images):
+        for _n, image in enumerate(self.images):
             max_sim = 0
             max_loca = (0, 0)
             for template in templates:

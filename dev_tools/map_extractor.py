@@ -332,7 +332,7 @@ class MapData:
             if data_loop is not None:
                 self.spawn_data_loop = self.parse_spawn_data(data_loop, self.event_enemy_data_loop)
                 if len(self.spawn_data) == len(self.spawn_data_loop) and all(
-                    [s1 == s2 for s1, s2 in zip(self.spawn_data, self.spawn_data_loop)]
+                    s1 == s2 for s1, s2 in zip(self.spawn_data, self.spawn_data_loop)
                 ):
                     self.spawn_data_loop = None
             else:
@@ -344,7 +344,7 @@ class MapData:
             self.shape = tuple(np.max(list(self.map_data.keys()), axis=0))
             if self.data_loop is not None:
                 self.map_data_loop = self.parse_map_data(data_loop["grids"], self.event_enemy_data_loop)
-                if all([d1 == d2 for d1, d2 in zip(self.map_data.values(), self.map_data_loop.values())]):
+                if all(d1 == d2 for d1, d2 in zip(self.map_data.values(), self.map_data_loop.values())):
                     self.map_data_loop = None
             else:
                 self.map_data_loop = None
@@ -532,7 +532,7 @@ class MapData:
                 lines.append("    " + " ".join([self.map_data_loop[(x, y)] for x in range(self.shape[0] + 1)]))
             lines.append('"""')
         lines.append('MAP.weight_data = """')
-        for y in range(self.shape[1] + 1):
+        for _y in range(self.shape[1] + 1):
             lines.append("    " + " ".join(["50"] * (self.shape[0] + 1)))
         lines.append('"""')
         if self.MAP_HAS_LAND_BASED:

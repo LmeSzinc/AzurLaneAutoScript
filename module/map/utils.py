@@ -114,7 +114,7 @@ def combine(before, after, limit):
     after += [limit]
     for b in before:
         for a in after:
-            index = b + [a]
+            index = [*b, a]
             match = [m for m in index if m < limit]
             if len(set(match)) == len(match):
                 yield index

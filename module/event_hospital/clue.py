@@ -1,5 +1,4 @@
 from functools import reduce
-from typing import Optional
 
 import cv2
 import numpy as np
@@ -126,7 +125,7 @@ class HospitalClue(HospitalUI):
         image = rgb2gray(image)
 
         # Check image size
-        x, y = image_size(image)
+        _x, y = image_size(image)
         if y < 50:
             return None
 

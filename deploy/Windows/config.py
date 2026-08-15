@@ -2,7 +2,6 @@ import copy
 import os
 import subprocess
 import sys
-from typing import Optional
 
 from deploy.Windows.logger import logger
 from deploy.Windows.utils import DEPLOY_CONFIG, DEPLOY_TEMPLATE, cached_property, poor_yaml_read, poor_yaml_write

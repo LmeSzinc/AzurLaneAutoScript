@@ -174,7 +174,7 @@ class Benchmark(DaemonBase, CampaignUI):
         click = ["ADB", "uiautomator2", "minitouch", "MaaTouch"]
 
         def remove(*args):
-            return [l for l in screenshot if l not in args]
+            return [line for line in screenshot if line not in args]
 
         # No ascreencap on Android > 9
         sdk = self.device.sdk_ver
@@ -197,7 +197,7 @@ class Benchmark(DaemonBase, CampaignUI):
         if self.device.ldopengl_available():
             screenshot.append("ldopengl")
         if self.device.is_bluestacks_air:
-            screenshot = [l for l in screenshot if "DroidCast" not in l]
+            screenshot = [line for line in screenshot if "DroidCast" not in line]
 
         scene = self.config.Benchmark_TestScene
         if "screenshot" not in scene:
@@ -225,7 +225,7 @@ class Benchmark(DaemonBase, CampaignUI):
         screenshot = ["ADB", "ADB_nc", "uiautomator2", "aScreenCap", "aScreenCap_nc", "DroidCast", "DroidCast_raw"]
 
         def remove(*args):
-            return [l for l in screenshot if l not in args]
+            return [line for line in screenshot if line not in args]
 
         sdk = self.device.sdk_ver
         logger.info(f"sdk_ver: {sdk}")
@@ -241,7 +241,7 @@ class Benchmark(DaemonBase, CampaignUI):
 
         self.TEST_TOTAL = 3
         self.TEST_BEST = 1
-        method, _ = self.benchmark(screenshot, tuple())
+        method, _ = self.benchmark(screenshot, ())
 
         return method
 

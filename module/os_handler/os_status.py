@@ -1,4 +1,3 @@
-import typing as t
 from datetime import datetime, timedelta
 
 import module.config.server as server

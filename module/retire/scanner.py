@@ -419,7 +419,7 @@ class ShipScanner(Scanner):
             fleet (int): 0 means not in any fleet. Will be limited in range [0, 6]
             status (str, list): ['any', 'commission', 'battle']
         """
-        for attr in self.limitaion.keys():
+        for attr in self.limitaion:
             value = kwargs.get(attr, self.limitaion[attr])
             self.limit_value(key=attr, value=value)
 
@@ -472,13 +472,13 @@ class DockScanner(ShipScanner):
             bound = []
             image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
             std = np.std(image, axis=1)
-            gap_seq = [720] + list(np.nonzero(std < 10)[0])
+            gap_seq = [720, *list(np.nonzero(std < 10)[0])]
             logger.info(f"{gap_seq}")
             for pos in range(len(gap_seq) - 1, 0, -1):
                 if abs(gap_seq[pos - 1] - gap_seq[pos]) > 50:
                     bound.append(gap_seq[pos])
             if len(bound) < 3:
-                bound = [0] + bound
+                bound = [0, *bound]
             return bound
 
         bounds = [find_bound(crop(scan_image, button.area, copy=False)) for button in self.scan_grids.buttons]
@@ -501,7 +501,7 @@ class DockScanner(ShipScanner):
         offset = offset_rough
         self.move(offset)
 
-    def scan_one_fleet(self, fleet: int = None) -> list[Ship]:
+    def scan_one_fleet(self, fleet: int | None = None) -> list[Ship]:
         """
         Scan all ships in a certain fleet.
         It fleet is not specified, use self.fleet.

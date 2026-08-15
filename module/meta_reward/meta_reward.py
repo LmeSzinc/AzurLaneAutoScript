@@ -81,7 +81,9 @@ class BeaconReward(Combat, UI):
         Page:
             in: page_meta
         """
-        if self.appear(SYNC_REWARD_NOTICE, threshold=30, interval=interval) or self.appear(SYNC_TAP, threshold=30, interval=interval):
+        if self.appear(SYNC_REWARD_NOTICE, threshold=30, interval=interval) or self.appear(
+            SYNC_TAP, threshold=30, interval=interval
+        ):
             return True
         else:
             return False

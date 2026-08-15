@@ -79,7 +79,7 @@ class IslandOrder(IslandUI):
         outer_radius = 52
         circles = get_circles(self.device.image, color, inner_radius, outer_radius)
         button_list = []
-        for index, circle in enumerate(circles):
+        for _index, circle in enumerate(circles):
             x, y, _ = circle
             x = int(x)
             y = int(y)

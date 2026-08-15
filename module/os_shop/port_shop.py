@@ -1,4 +1,3 @@
-
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.base.template import Template
@@ -33,7 +32,7 @@ class PortShop(OSStatus, OSShopUI, Selector, MapEventHandler):
             list:
         """
         image = self.image_crop((360, 320, 410, 700))
-        result = sum([template.match_multi(image) for template in self.TEMPLATES], [])
+        result = [m for template in self.TEMPLATES for m in template.match_multi(image)]
         logger.attr("Costs", f"{result}")
         return Points([(0.0, m.area[1]) for m in result]).group(threshold=5)
 

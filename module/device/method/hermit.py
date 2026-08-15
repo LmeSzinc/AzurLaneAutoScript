@@ -167,10 +167,10 @@ class Hermit(Adb):
             interval.wait()
             interval.reset()
 
-            def appear(xpath):
+            def appear(xpath, h=h):
                 return bool(HierarchyButton(h, xpath))
 
-            def appear_then_click(xpath):
+            def appear_then_click(xpath, h=h):
                 b = HierarchyButton(h, xpath)
                 if b:
                     point = random_rectangle_point(b.button)

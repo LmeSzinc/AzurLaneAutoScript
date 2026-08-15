@@ -139,10 +139,10 @@ class EquipmentCodeHandler(StorageHandler):
         while 1:
             h = self.device.dump_hierarchy_adb()
 
-            def appear(xpath):
+            def appear(xpath, h=h):
                 return bool(HierarchyButton(h, xpath))
 
-            def appear_then_click(xpath):
+            def appear_then_click(xpath, h=h):
                 b = HierarchyButton(h, xpath)
                 if b:
                     self.device.click(b)

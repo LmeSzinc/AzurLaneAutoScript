@@ -32,7 +32,7 @@ def strip_code(string):
 @dataclass
 class Field:
     formatter: callable
-    default: ""
+    default: str = ""
     regex: str
 
 
@@ -50,7 +50,7 @@ class LuaSetting:
     @cached_property
     def default(self):
         if "," in self.code:
-            name, default = self.code.split(",", 1)
+            _name, default = self.code.split(",", 1)
             default = default.strip(' ",')
             if self.typ == "Int":
                 try:
@@ -147,7 +147,7 @@ class SettingExtractor:
 
     @staticmethod
     def iter_file_from_folder(folder):
-        for path, folders, files in os.walk(folder):
+        for path, _folders, files in os.walk(folder):
             for file in files:
                 file = f"{path}/{file}"
                 yield file
@@ -177,7 +177,7 @@ class SettingExtractor:
                     yield f"    {line}"
 
     def generate(self, folder, output="./module/game_setting/setting_generated.py"):
-        lines = [l + "\n" for l in self.iter_generated_lines(folder)]
+        lines = [line + "\n" for line in self.iter_generated_lines(folder)]
         with open(output, mode="w", encoding="utf8") as f:
             f.writelines(lines)
 

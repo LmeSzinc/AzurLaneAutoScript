@@ -112,7 +112,7 @@ def random_rectangle_vector_opted(
     if whitelist_area:
         for area in whitelist_area:
             area = area_limit(area, box_pad)
-            if all([x > 0 for x in area_size(area)]):
+            if all(x > 0 for x in area_size(area)):
                 end_point = random_rectangle_point(area)
                 for _ in range(10):
                     if in_blacklist(end_point):
@@ -426,14 +426,12 @@ def name2col(col_str):
         row, col: Zero indexed cell row and column indices.
     """
     # Convert base26 column string to number.
-    expn = 0
     col = 0
     col_neg = col_str.startswith("-")
     col_str = col_str.strip("-").upper()
 
-    for char in reversed(col_str):
+    for expn, char in enumerate(reversed(col_str)):
         col += (ord(char) - 64) * (26**expn)
-        expn += 1
 
     if col_neg:
         return -col

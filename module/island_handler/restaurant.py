@@ -40,7 +40,7 @@ ISLAND_RESTAURANT_ITEM_ORDER_PRICE = {
         "order_price": DIC_ISLAND_ITEM[item_id]["order_price"],
     }
     for menu in DIC_ISLAND_RESTAURANT_MENU_TO_RECIPE.values()
-    for item_id in menu.keys()
+    for item_id in menu
 }
 
 
@@ -252,7 +252,7 @@ class IslandRestaurant(IslandDock):
             return 0
         ocr = Digit(ISLAND_RESTAURANT_EVENT_BUFF, lang="cnocr", letter=(67, 71, 23), threshold=160, alphabet="0123IDB")
         result = ocr.ocr(self.device.image)
-        if not result in [10, 20, 30]:
+        if result not in [10, 20, 30]:
             logger.warning(f"Unexpected event buff OCR result: {result}, default to 10")
             result = 10
         return result

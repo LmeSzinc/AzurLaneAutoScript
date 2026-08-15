@@ -1,4 +1,3 @@
-
 import numpy as np
 from scipy.signal import find_peaks
 from uiautomator2 import UiObject

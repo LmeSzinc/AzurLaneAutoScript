@@ -162,7 +162,7 @@ class GridInfo:
 
     @property
     def is_sea(self):
-        return False if self.is_land or self.is_enemy or self.is_siren or self.is_fortress or self.is_boss else True
+        return not (self.is_land or self.is_enemy or self.is_siren or self.is_fortress or self.is_boss)
 
     @property
     def may_carrier(self):
@@ -226,7 +226,7 @@ class GridInfo:
             else:
                 return False
         if info.is_siren:
-            if not self.is_land and self.may_siren or (mode == "movable" or self.is_movable) and not self.is_land:
+            if (not self.is_land and self.may_siren) or ((mode == "movable" or self.is_movable) and not self.is_land):
                 self.is_siren = True
                 self.enemy_scale = 0
                 self.enemy_genre = info.enemy_genre

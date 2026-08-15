@@ -1,4 +1,3 @@
-
 import cv2
 import numpy as np
 
@@ -36,9 +35,9 @@ class NestedNavbar:
     def __init__(
         self,
         grids: ButtonGrid,
-        subgrid_delta: tuple = None,
-        subgrid_button_shape: tuple = None,
-        subgrid_shapes: list[tuple] = None,
+        subgrid_delta: tuple | None = None,
+        subgrid_button_shape: tuple | None = None,
+        subgrid_shapes: list[tuple] | None = None,
         direction: str = "vertical",
         main_active_color=(57, 189, 255),
         main_inactive_color=(38, 39, 40),
@@ -52,7 +51,7 @@ class NestedNavbar:
         sub_inactive_threshold=221,
         sub_active_count=500,
         sub_inactive_count=500,
-        name: str = None,
+        name: str | None = None,
     ):
         """
         Parameters:
@@ -199,7 +198,7 @@ class NestedNavbar:
 
         return active_main_index, active_sub_index, main_begin, main_end
 
-    def set(self, main: ModuleBase, main_index: int, sub_index: int = None, skip_first_screenshot: bool = False):
+    def set(self, main: ModuleBase, main_index: int, sub_index: int | None = None, skip_first_screenshot: bool = False):
         """
         Click the main button and submenu option based on the provided indices.
         Should be used after calling get_info to get the current active main and submenu indices to calculate the position to click.

@@ -101,7 +101,7 @@ class AzurStats:
 
     @property
     def _user_agent(self):
-        return f"Alas ({str(self.config.DropRecord_AzurStatsID)})"
+        return f"Alas ({self.config.DropRecord_AzurStatsID!s})"
 
     def _upload(self, image, genre, filename):
         """

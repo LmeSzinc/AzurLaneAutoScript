@@ -56,7 +56,7 @@ class Page:
     def __init__(self, check_button):
         self.check_button = check_button
         self.links = {}
-        (filename, line_number, function_name, text) = traceback.extract_stack()[-2]
+        (_filename, _line_number, _function_name, text) = traceback.extract_stack()[-2]
         self.name = text[: text.find("=")].strip()
         self.parent = None
         Page.all_pages[self.name] = self

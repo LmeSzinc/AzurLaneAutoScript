@@ -1,5 +1,4 @@
 import copy
-from typing import Optional
 
 from deploy.logger import logger
 from deploy.utils import *

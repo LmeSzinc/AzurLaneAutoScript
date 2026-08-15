@@ -145,7 +145,7 @@ class IslandProductionPlanner(DaemonBase):
     @cached_property
     def current_activity_list(self):
         time = datetime.now() + server_time_offset()
-        for season, content in DIC_ISLAND_SEASON.items():
+        for _season, content in DIC_ISLAND_SEASON.items():
             start_time = datetime.strptime(content["start_time"][server.server], "%Y-%m-%d %H:%M:%S")
             end_time = datetime.strptime(content["end_time"][server.server], "%Y-%m-%d %H:%M:%S")
             if start_time <= time < end_time:
@@ -360,7 +360,7 @@ class IslandProductionPlanner(DaemonBase):
                 6: technology_status.get(450302, False),
             }
         )
-        for id, item in DIC_ISLAND_WILD_GATHER.items():
+        for id, _item in DIC_ISLAND_WILD_GATHER.items():
             if id < 10:
                 self.wild_gather_available.setdefault(id, True)
             else:
@@ -749,7 +749,7 @@ class IslandProductionPlanner(DaemonBase):
                 a_ub.append(row)
                 b_ub.append(capacity)
 
-        for slot, menu in sell_slots.items():
+        for slot, _menu in sell_slots.items():
             slot_sales = [idx for idx, entry in enumerate(sale_entries) if entry[0] == slot]
             if slot_sales:
                 row = np.zeros(total_vars)
@@ -820,7 +820,6 @@ class IslandProductionPlanner(DaemonBase):
         item_index = problem["item_index"]
         end_offset = problem["end_offset"]
         group_slots = problem["group_slots"]
-        daily_workload = problem["daily_workload"]
         activity_count = len(activities)
         solution = result.x
 
@@ -912,7 +911,7 @@ class IslandProductionPlanner(DaemonBase):
                 if item_id in self.RECIPE_PRODUCT_IDS or item_id in self.EXCHANGE_PRODUCT_IDS:
                     daily_product_demand[item_id] += input_amount * amount
 
-        for idx, (slot, item_id) in enumerate(sale_entries, start=activity_count):
+        for idx, (_slot, item_id) in enumerate(sale_entries, start=activity_count):
             amount = solution[idx]
             if amount <= self.NET_ACCUMULATING_EPSILON:
                 continue

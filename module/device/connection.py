@@ -156,7 +156,7 @@ class Connection(ConnectionAttr):
             str:
         """
         cmd = list(map(str, cmd))
-        cmd = [self.adb_binary, "-s", self.serial] + cmd
+        cmd = [self.adb_binary, "-s", self.serial, *cmd]
         return self.subprocess_run(cmd, timeout=timeout)
 
     def subprocess_run(self, cmd, timeout=10):
@@ -556,8 +556,8 @@ class Connection(ConnectionAttr):
         stream = self.adb_shell(cmd, stream=True, recvall=False)
         try:
             # Server accept connection
-            conn, conn_port = server.accept()
-        except socket.timeout:
+            conn, _conn_port = server.accept()
+        except TimeoutError:
             output = recv_all(stream, chunk_size=chunk_size)
             logger.warning(str(output))
             raise AdbTimeout("reverse server accept timeout")

@@ -147,7 +147,9 @@ class MeowfficerBase(UI):
         Returns:
             bool:
         """
-        if self.appear(MEOWFFICER_CONFIRM, offset=(40, 20), interval=5) or self.appear(MEOWFFICER_CANCEL, offset=(40, 20), interval=5):
+        if self.appear(MEOWFFICER_CONFIRM, offset=(40, 20), interval=5) or self.appear(
+            MEOWFFICER_CANCEL, offset=(40, 20), interval=5
+        ):
             self.device.click(MEOWFFICER_CHECK)
             return True
         else:

@@ -22,7 +22,7 @@ FILTER = Filter(FILTER_REGEX, FILTER_ATTR)
 EVENT_SHOP_PRESET_FILTER = {
     "all": """
         EquipUR > EquipSSR > Cube > GachaTicket
-        > Array > Chip > CatT3 
+        > Array > Chip > CatT3
         > Meta > SkinBox
         > Oil > Coin > Medal > ExpBookT1 > FoodT1
         > DR > PR

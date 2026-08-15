@@ -199,7 +199,7 @@ class Scroll:
 
 
 class AdaptiveScroll(Scroll):
-    def __init__(self, area, parameters: dict = None, background=5, is_vertical=True, name="Scroll"):
+    def __init__(self, area, parameters: dict | None = None, background=5, is_vertical=True, name="Scroll"):
         """
         Args:
             area (Button, tuple): A button or area of the whole scroll.

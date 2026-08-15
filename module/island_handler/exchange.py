@@ -52,13 +52,14 @@ class IslandExchange(IslandShopUI):
             )
             return False
 
-    def island_shop_exchange(self, require_dict={}):
+    def island_shop_exchange(self, require_dict=None):
+        require_dict = require_dict or {}
         success = True
-        if 2521 in require_dict.keys():
+        if 2521 in require_dict:
             # 2521 means Freshwater Fish Meat
             self.island_shop_side_navbar_ensure(main_index=6, sub_index=0)
             success = self.exchange_fish_meat(delta_count=require_dict[2521]) and success
-        if 2522 in require_dict.keys():
+        if 2522 in require_dict:
             # 2522 means Saltwater Fish Meat
             self.island_shop_side_navbar_ensure(main_index=6, sub_index=1)
             success = self.exchange_fish_meat(delta_count=require_dict[2522]) and success

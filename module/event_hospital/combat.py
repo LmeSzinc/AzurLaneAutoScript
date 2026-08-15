@@ -51,7 +51,6 @@ class HospitalCombat(Combat, HospitalUI, CampaignEvent):
             fleet_index (int):
         """
         logger.info("Combat preparation.")
-        skip_first_screenshot = True
 
         # No need, already waited in `raid_execute_once()`
         # if emotion_reduce:

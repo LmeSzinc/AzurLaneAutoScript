@@ -35,7 +35,7 @@ class Opponent:
         # [OPPONENT_1] ( 8256) 120 120 120 | (12356) 100  80  80
         level = [str(x).rjust(3, " ") for x in self.level]
         power = ["(" + str(x).rjust(5, " ") + ")" for x in self.power]
-        logger.attr("OPPONENT_%s" % index, " ".join([power[0]] + level[:3] + ["|"] + [power[1]] + level[3:]))
+        logger.attr("OPPONENT_%s" % index, " ".join([power[0], *level[:3], "|", power[1], *level[3:]]))
 
     @staticmethod
     def get_level(image):

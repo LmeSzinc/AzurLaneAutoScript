@@ -135,7 +135,7 @@ class MedalShop2_250814(ShopClerk, ShopStatus):
             delta_y = abs(y1 - y2)
             row = 2
         else:
-            logger.warning(f"Unexpected medal icon match result: {[m for m in medals]}")
+            logger.warning(f"Unexpected medal icon match result: {list(medals)}")
             origin_y = 228
             delta_y = 223
             row = 2

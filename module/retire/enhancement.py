@@ -237,7 +237,7 @@ class Enhancement(Dock):
 
             try:
                 state = locals()[state]()
-            except KeyError as e:
+            except KeyError:
                 logger.warning(f"Unknown state function: {state}")
                 raise ScriptError(f"Unknown state function: {state}")
 

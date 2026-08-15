@@ -1,4 +1,3 @@
-
 import module.device.method.scrcpy.const as const
 
 
@@ -14,28 +13,28 @@ class ScrcpyOptions:
         Returns:
             key_profile=1,key_level=4096,...
         """
-        options = dict(
+        options = {
             # H.264 profile and level
             # https://developer.android.com/reference/android/media/MediaCodecInfo.CodecProfileLevel
             # Baseline, which only has I/P frames
-            key_profile=1,
+            "key_profile": 1,
             # Level 4.1, for 1280x720@30fps
-            key_level=4096,
+            "key_level": 4096,
             # Max quality
-            key_quality=100,
+            "key_quality": 100,
             # https://developer.android.com/reference/android/media/MediaCodecInfo.EncoderCapabilities
             # Constant quality
-            key_bitrate_mode=0,
+            "key_bitrate_mode": 0,
             # A zero value means a stream containing all key frames is requested.
-            key_i_frame_interval=0,
+            "key_i_frame_interval": 0,
             # https://developer.android.com/reference/android/media/MediaCodecInfo.CodecCapabilities
             # COLOR_Format24bitBGR888
-            key_color_format=12,
+            "key_color_format": 12,
             # The same as output frame rate to lower CPU consumption
-            key_capture_rate=cls.frame_rate,
+            "key_capture_rate": cls.frame_rate,
             # 20Mbps, the maximum output bitrate of scrcpy
-            key_bit_rate=20000000,
-        )
+            "key_bit_rate": 20000000,
+        }
         return ",".join([f"{k}={v}" for k, v in options.items()])
 
     @classmethod

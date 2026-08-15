@@ -42,7 +42,6 @@ class Combat(Combat_, MapEventHandler):
         logger.info("Combat preparation.")
         self.device.stuck_record_clear()
         self.device.click_record_clear()
-        skip_first_screenshot = True
 
         # if emotion_reduce:
         #     self.emotion.wait(fleet=fleet_index)

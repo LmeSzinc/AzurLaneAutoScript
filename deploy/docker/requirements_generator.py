@@ -43,7 +43,6 @@ def docker_requirements_generate(requirements_in="requirements-in.txt"):
     requirements = read_file(requirements_in)
 
     logger.info("Generate requirements for Docker image")
-    lock = {}
     new = {}
     logger.info(requirements)
     for name, version in requirements.items():

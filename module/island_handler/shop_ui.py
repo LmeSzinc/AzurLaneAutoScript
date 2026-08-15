@@ -14,7 +14,9 @@ class IslandShopUI(IslandUI):
     def ui_goto_island_shop(self):
         self.ui_goto(page_island)
         for _ in self.loop():
-            if self.ui_page_appear(page_island_shop, offset=(0, 20)) or self.appear(ISLAND_SHOP_MILL_CHECK, offset=(20, 20)):
+            if self.ui_page_appear(page_island_shop, offset=(0, 20)) or self.appear(
+                ISLAND_SHOP_MILL_CHECK, offset=(20, 20)
+            ):
                 return True
             elif self.appear(ISLAND_SHOP_RECOMMEND, offset=(0, 20)):
                 self.has_shop_banner = True

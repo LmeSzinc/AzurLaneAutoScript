@@ -75,7 +75,7 @@ if __name__ == "__main__":
     image = Image.fromarray(image, mode="L").show()
 
     images = []
-    for n in tqdm(range(300)):
+    for _n in tqdm(range(300)):
         images.append(al.device.screenshot())
     for n, image in enumerate(images):
         grid.image = np.array(image)

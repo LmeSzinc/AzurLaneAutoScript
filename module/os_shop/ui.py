@@ -1,4 +1,3 @@
-
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.base.timer import Timer

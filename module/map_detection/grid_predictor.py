@@ -21,7 +21,7 @@ class GridPredictor:
         self.config = config
 
         # Calculate directly is faster than calling existing functions.
-        x0, y0, x1, y1, x2, y2, x3, y3 = corner.flatten()
+        x0, y0, x1, _y1, x2, y2, x3, _y3 = corner.flatten()
         divisor = x0 - x1 + x2 - x3
         x = (x0 * x2 - x1 * x3) / divisor
         y = (x0 * y2 - x1 * y2 + x2 * y0 - x3 * y0) / divisor
@@ -359,5 +359,5 @@ class GridPredictor:
         piece_1 = self._image_similar_piece
         piece_2 = grid._image_similar_full
         res = cv2.matchTemplate(piece_2, piece_1, cv2.TM_CCOEFF_NORMED)
-        _, sim, _, point = cv2.minMaxLoc(res)
+        _, sim, _, _point = cv2.minMaxLoc(res)
         return sim > similarity

@@ -110,27 +110,27 @@ class OpsiAshBeacon(Meta):
                 continue
             state = self._get_state()
             logger.info("Meta state:" + state.name)
-            if MetaState.UNDEFINED == state:
+            if state == MetaState.UNDEFINED:
                 continue
-            if MetaState.INIT == state:
+            if state == MetaState.INIT:
                 if self._begin_meta():
                     continue
                 else:
                     # Normal finish
                     break
-            if MetaState.ATTACKING == state:
+            if state == MetaState.ATTACKING:
                 if not self._pre_attack():
                     continue
                 if self._satisfy_attack_condition():
                     self._make_an_attack()
                     continue
-            if MetaState.COMPLETE == state:
+            if state == MetaState.COMPLETE:
                 if self.appear(BEACON_LIST, offset=(20, 20)):
                     self._meta_category = "beacon"
                 elif self.appear(DOSSIER_LIST, offset=(20, 20)):
                     self._meta_category = "dossier"
                 self._handle_ash_beacon_reward()
-                if not self._meta_category in self._meta_receive:
+                if self._meta_category not in self._meta_receive:
                     self._meta_receive.append(self._meta_category)
                 # Check other tasks after kill a meta
                 self.config.check_task_switch()

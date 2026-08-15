@@ -149,7 +149,7 @@ class Adb(Connection):
         for method in self.__screenshot_method_fixed:
             try:
                 result = self.__load_screenshot(screenshot, method=method)
-                self.__screenshot_method_fixed = [method] + self.__screenshot_method
+                self.__screenshot_method_fixed = [method, *self.__screenshot_method]
                 return result
             except (OSError, ImageTruncated):
                 continue

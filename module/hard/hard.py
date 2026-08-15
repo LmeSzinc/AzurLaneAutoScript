@@ -42,7 +42,7 @@ class CampaignHard(CampaignRun):
         # Run
         remain = OCR_HARD_REMAIN.ocr(self.device.image)
         logger.attr("Remain", remain)
-        for n in range(remain):
+        for _n in range(remain):
             self.campaign.run()
 
         self.campaign.ensure_auto_search_exit()

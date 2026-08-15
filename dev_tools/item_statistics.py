@@ -76,7 +76,7 @@ class DropStatistics(BattleStatusStatistics, GetItemsStatistics):
         Yields:
             list: Drop data.
         """
-        for ts, file in tqdm(self.get_items.items()):
+        for ts, _file in tqdm(self.get_items.items()):
             try:
                 data = self.stat_drop(ts)
                 yield data

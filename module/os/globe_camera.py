@@ -113,7 +113,7 @@ class GlobeCamera(GlobeOperation, ZoneManager):
         prev = self.globe_camera
         interval = Timer(1)
         confirm = Timer(0.5, count=1).start()
-        for n in range(10):
+        for _n in range(10):
             if not interval.reached():
                 interval.wait()
             interval.reset()
@@ -252,9 +252,9 @@ class GlobeCamera(GlobeOperation, ZoneManager):
         """
         zone = self.name_to_zone(zone)
         # The center of red whirlpool, on 2D map.
-        location = zone.location + (-9.5, -12.5)
+        location = (*zone.location, -9.5, -12.5)
         # Area around the center, on 2D map.
-        location = [location - (4, 4), location + (4, 4)]
+        location = [location - (4, 4), (*location, 4, 4)]
         # Area around the center, on screen.
         screen = self.globe2screen(location).flatten().round()
         screen = np.round(screen).astype(int).tolist()

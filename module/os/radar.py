@@ -291,7 +291,7 @@ class Radar:
         grids = [(x, y) for x in range(sight[0], sight[2] + 1) for y in [sight[1], sight[3]]] + [
             (x, y) for x in [sight[0], sight[2]] for y in range(sight[1] + 1, sight[3])
         ]
-        grids = np.array([loca for loca in grids])
+        grids = np.array(list(grids))
         distance = np.linalg.norm(grids, axis=1)
         degree = np.sum(grids * point, axis=1) / distance / np.linalg.norm(point)
         grid = grids[np.argmax(degree)]

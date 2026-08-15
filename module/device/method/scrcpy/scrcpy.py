@@ -1,4 +1,3 @@
-import socket
 import time
 from functools import wraps
 
@@ -52,7 +51,7 @@ def retry(func):
                     self.scrcpy_init()
             # AdbTimeout
             # socket.timeout
-            except (AdbTimeout, socket.timeout) as e:
+            except (TimeoutError, AdbTimeout) as e:
                 logger.error(e)
 
                 def init():

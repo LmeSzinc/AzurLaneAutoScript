@@ -36,7 +36,7 @@ class ProcessManager:
         self._process_locks: dict[str, threading.Lock] = {}
         self.thd_log_queue_handler: threading.Thread = None
 
-    def start(self, func, ev: threading.Event = None) -> None:
+    def start(self, func, ev: threading.Event | None = None) -> None:
         if not self.alive:
             if func is None:
                 func = get_config_mod(self.config_name)
@@ -121,7 +121,7 @@ class ProcessManager:
         return cls._processes[config_name]
 
     @staticmethod
-    def run_process(config_name, func: str, q: queue.Queue, e: threading.Event = None) -> None:
+    def run_process(config_name, func: str, q: queue.Queue, e: threading.Event | None = None) -> None:
         parser = argparse.ArgumentParser()
         parser.add_argument("--electron", action="store_true", help="Runs by electron client.")
         args, _ = parser.parse_known_args()
@@ -168,14 +168,16 @@ class ProcessManager:
 
     @classmethod
     def running_instances(cls) -> list["ProcessManager"]:
-        l = []
+        result = []
         for process in cls._processes.values():
             if process.alive:
-                l.append(process)
-        return l
+                result.append(process)
+        return result
 
     @staticmethod
-    def restart_processes(instances: list[Union["ProcessManager", str]] = None, ev: threading.Event = None):
+    def restart_processes(
+        instances: list[Union["ProcessManager", str]] | None = None, ev: threading.Event | None = None
+    ):
         """
         After update and reload, or failed to perform an update,
         restart all alas that running before update

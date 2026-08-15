@@ -168,9 +168,7 @@ class ResearchSelector(ResearchUI):
 
         logger.attr("Research preset", preset)
         logger.info(
-            "Use cube: {} Use coin: {} Use part: {}".format(
-                self.config.Research_UseCube, self.config.Research_UseCoin, self.config.Research_UsePart
-            )
+            f"Use cube: {self.config.Research_UseCube} Use coin: {self.config.Research_UseCoin} Use part: {self.config.Research_UsePart}"
         )
         logger.attr("Allow delay", self.config.Research_AllowDelay)
 

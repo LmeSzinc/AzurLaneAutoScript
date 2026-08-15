@@ -208,7 +208,7 @@ class MaaTouch(Connection):
             del self._maatouch_stream_storage
 
         # MaaTouch caches devices orientation at its startup
-        super(MaaTouch, self).get_orientation()
+        super().get_orientation()
         self._maatouch_orientation = self.orientation
 
         # CLASSPATH=/data/local/tmp/maatouch app_process / com.shxyke.MaaTouch.App
@@ -266,9 +266,7 @@ class MaaTouch(Connection):
         # Timeout 2s for sync
         stream.settimeout(2)
         logger.info("MaaTouch stream connected")
-        logger.info(
-            "max_contact: {}; max_x: {}; max_y: {}; max_pressure: {}".format(max_contacts, max_x, max_y, max_pressure)
-        )
+        logger.info(f"max_contact: {max_contacts}; max_x: {max_x}; max_y: {max_y}; max_pressure: {max_pressure}")
 
     def maatouch_send(self, builder: MaatouchBuilder):
         content = builder.to_minitouch()
@@ -304,7 +302,7 @@ class MaaTouch(Connection):
         for n in range(3):
             try:
                 out = socket_out.readline()
-            except socket.timeout as e:
+            except TimeoutError as e:
                 raise MaaTouchSyncTimeout(str(e))
             out = out.strip()
             # logger.info(out)

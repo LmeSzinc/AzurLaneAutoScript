@@ -36,7 +36,6 @@ def main():
     for i, w in enumerate(widths):
         img = (rng.random((32, w)) * 255).astype(np.uint8)
         batch[i, 0, :, :w] = img / 255.0
-    img_widths = widths
 
     prob_mx = mod.predict(mx.nd.array(batch)).asnumpy()  # (T*N, C)
     prob_mx = np.reshape(prob_mx, (-1, 3, prob_mx.shape[1]))

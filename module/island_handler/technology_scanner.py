@@ -103,7 +103,7 @@ class IslandTechnologyScanner(IslandUI):
         globe_view = load_image(f"./assets/island/technology/technology_chart_{tab}.png")
         extracted_flowchart = extract_flowchart(self.device.image)
         result = cv2.matchTemplate(globe_view, extracted_flowchart, cv2.TM_CCOEFF_NORMED)
-        _, similarity, _, loca = cv2.minMaxLoc(result)
+        _, _similarity, _, loca = cv2.minMaxLoc(result)
         # print(similarity)
         return loca[0]
 
@@ -130,7 +130,7 @@ class IslandTechnologyScanner(IslandUI):
 
     def scan_all(self):
         all_technology = {}
-        for index in DIC_ISLAND_TECHNOLOGY.keys():
+        for index in DIC_ISLAND_TECHNOLOGY:
             if DIC_ISLAND_TECHNOLOGY[index]["tech_belong"] not in [2, 3, 4, 5, 6]:
                 continue
             tab, position = get_technology_tab_and_position(index)

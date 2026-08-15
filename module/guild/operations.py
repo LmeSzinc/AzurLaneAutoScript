@@ -52,7 +52,7 @@ class GuildOperations(GuildBase):
                     logger.info("Unable to join operation, no more monthly attempts left")
                     self.device.click(GUILD_OPERATIONS_CLICK_SAFE_AREA)
                 else:
-                    current, remain, total = GUILD_OPERATIONS_PROGRESS.ocr(self.device.image)
+                    current, _remain, total = GUILD_OPERATIONS_PROGRESS.ocr(self.device.image)
                     threshold = total * self.config.GuildOperation_JoinThreshold
                     if current <= threshold:
                         logger.info(f"Joining Operation, current progress less than threshold ({threshold:.2f})")
@@ -222,7 +222,7 @@ class GuildOperations(GuildBase):
             else:
                 self.device.screenshot()
 
-            entrance_1, entrance_2 = self._guild_operations_get_entrance()
+            entrance_1, _entrance_2 = self._guild_operations_get_entrance()
             if len(entrance_1):
                 return True
 

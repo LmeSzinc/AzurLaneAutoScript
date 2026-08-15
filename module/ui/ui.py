@@ -75,7 +75,7 @@ class UI(InfoHandler):
         return False
 
     def ensure_button_execute(self, button, offset=0):
-        if isinstance(button, Button) and self.appear(button, offset=offset) or callable(button) and button():
+        if (isinstance(button, Button) and self.appear(button, offset=offset)) or (callable(button) and button()):
             return True
         else:
             return False

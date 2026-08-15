@@ -186,7 +186,7 @@ class View(MapDetector):
             counter = collections.Counter(swipes)
             diff = counter.most_common()
             # print(diff)
-            if len(diff) == 1 or len(diff) >= 2 and diff[0][1] > diff[1][1]:
+            if len(diff) == 1 or (len(diff) >= 2 and diff[0][1] > diff[1][1]):
                 logger.info(
                     f"Map swipe predict: {diff[0][0]} "
                     f"({float2str(time.time() - start_time) + 's'}, {diff[0][1]} matches)"

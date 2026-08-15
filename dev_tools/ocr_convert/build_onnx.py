@@ -253,8 +253,6 @@ class Builder:
 
         body_nodes = []
         # body inputs: h_fwd, h_bwd, x_fwd_t, x_bwd_t
-        state_names = ["h_fwd", "h_bwd"]
-        scan_in_names = ["x_fwd_t", "x_bwd_t"]
         # body outputs: h_fwd', h_bwd', y_fwd, y_bwd
         # NOTE: scan outputs must have names distinct from the state outputs,
         # otherwise onnxruntime fails to propagate the loop state.
@@ -262,7 +260,7 @@ class Builder:
         y_fwd_out, y_bwd_out = "y_fwd_out", "y_bwd_out"
 
         for tag, x_t, h_t, h_new in (("f", "x_fwd_t", "h_fwd", h_fwd_new), ("b", "x_bwd_t", "h_bwd", h_bwd_new)):
-            w = lambda k: weight_names[(tag, k)]
+            w = lambda k, tag=tag: weight_names[(tag, k)]
             out = f"{name}_{tag}_{{}}"
             xr, xi, xn = out.format("xr"), out.format("xi"), out.format("xn")
             body_nodes += [
@@ -463,7 +461,7 @@ def main():
         model_dir = os.path.join(BIN_ROOT, name)
         prefix = os.path.join(model_dir, MODEL_PREFIX)
         sym, arg_params, aux_params = mx.model.load_checkpoint(prefix, MODEL_EPOCHS[name])
-        params = {k: v for k, v in arg_params.items()}
+        params = dict(arg_params.items())
         params.update(aux_params)
         builder = Builder(sym, params)
         builder.run(os.path.join(model_dir, f"{name}.onnx"))

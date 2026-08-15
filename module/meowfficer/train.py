@@ -116,7 +116,7 @@ class MeowfficerTrain(MeowfficerCollect, MeowfficerEnhance):
         buttons = MEOWFFICER_BOX_GRID.buttons
         while 1:
             # Number that can be queued
-            current, remain, total = MEOWFFICER_QUEUE.ocr(self.device.image)
+            _current, remain, _total = MEOWFFICER_QUEUE.ocr(self.device.image)
             if not remain:
                 break
 
@@ -198,7 +198,7 @@ class MeowfficerTrain(MeowfficerCollect, MeowfficerEnhance):
         logger.hr("Meowfficer train", level=1)
 
         # Retrieve capacity to determine whether able to collect
-        current, remain, total = MEOWFFICER_CAPACITY.ocr(self.device.image)
+        _current, remain, _total = MEOWFFICER_CAPACITY.ocr(self.device.image)
         logger.attr("Meowfficer_capacity_remain", remain)
 
         # Read box count, utilized in other helper funcs

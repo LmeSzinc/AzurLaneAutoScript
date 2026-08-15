@@ -161,14 +161,14 @@ class Fleet(Camera, AmbushHandler):
         """
         if self.config.MAP_HAS_MOVABLE_ENEMY:
             if self.config.MAP_HAS_MOVABLE_NORMAL_ENEMY:
-                return tuple(set((list(self.config.MOVABLE_ENEMY_TURN) + list(self.config.MOVABLE_NORMAL_ENEMY_TURN))))
+                return tuple(set(list(self.config.MOVABLE_ENEMY_TURN) + list(self.config.MOVABLE_NORMAL_ENEMY_TURN)))
             else:
                 return self.config.MOVABLE_ENEMY_TURN
         else:
             if self.config.MAP_HAS_MOVABLE_NORMAL_ENEMY:
                 return self.config.MOVABLE_NORMAL_ENEMY_TURN
             else:
-                return tuple()
+                return ()
 
     @property
     def round_is_new(self):
@@ -185,7 +185,7 @@ class Fleet(Camera, AmbushHandler):
         """
         if not self.config.MAP_HAS_MOVABLE_ENEMY:
             return False
-        for enemy in self.enemy_round.keys():
+        for enemy in self.enemy_round:
             for turn in self.round_enemy_turn:
                 if self.round - enemy > 0 and (self.round - enemy) % turn == 0:
                     return True

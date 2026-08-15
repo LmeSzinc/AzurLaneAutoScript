@@ -192,7 +192,7 @@ def match_template(image, template, area, offset=30, similarity=0.85):
         offset = np.array((0, -offset, 0, offset))
     image = crop(image, offset + area, copy=False)
     res = cv2.matchTemplate(image, template, cv2.TM_CCOEFF_NORMED)
-    _, sim, _, point = cv2.minMaxLoc(res)
+    _, sim, _, _point = cv2.minMaxLoc(res)
     if sim < similarity:
         sim = 0.0
     return sim

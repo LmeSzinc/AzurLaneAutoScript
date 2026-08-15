@@ -1,4 +1,3 @@
-
 import module.config.server as server
 from module.logger import logger
 from module.ocr.ocr import DigitYuv, Ocr

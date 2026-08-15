@@ -1,4 +1,3 @@
-
 from module.base.button import ButtonGrid
 from module.base.decorator import Config, cached_property
 from module.logger import logger

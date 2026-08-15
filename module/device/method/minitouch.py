@@ -174,15 +174,15 @@ class Command:
         """
         x, y = self.x / max_x, self.y / max_y
         if self.operation == "c" or self.operation == "r":
-            out = dict(operation=self.operation)
+            out = {"operation": self.operation}
         elif self.operation == "d" or self.operation == "m":
-            out = dict(operation=self.operation, index=self.contact, pressure=self.pressure, xP=x, yP=y)
+            out = {"operation": self.operation, "index": self.contact, "pressure": self.pressure, "xP": x, "yP": y}
         elif self.operation == "u":
-            out = dict(operation=self.operation, index=self.contact)
+            out = {"operation": self.operation, "index": self.contact}
         elif self.operation == "w":
-            out = dict(operation=self.operation, milliseconds=self.ms)
+            out = {"operation": self.operation, "milliseconds": self.ms}
         else:
-            out = dict()
+            out = {}
         return json.dumps(out)
 
 
@@ -513,7 +513,7 @@ class Minitouch(Connection):
             # protocol version, usually it is 1. needn't use this
             try:
                 out = socket_out.readline().replace("\n", "").replace("\r", "")
-            except socket.timeout:
+            except TimeoutError:
                 client.close()
                 raise MinitouchOccupiedError(
                     "Timeout when connecting to minitouch, probably because another connection has been established"
@@ -548,10 +548,8 @@ class Minitouch(Connection):
         _, pid = out.split(" ")
         self._minitouch_pid = pid
 
-        logger.info("minitouch running on port: {}, pid: {}".format(self._minitouch_port, self._minitouch_pid))
-        logger.info(
-            "max_contact: {}; max_x: {}; max_y: {}; max_pressure: {}".format(max_contacts, max_x, max_y, max_pressure)
-        )
+        logger.info(f"minitouch running on port: {self._minitouch_port}, pid: {self._minitouch_pid}")
+        logger.info(f"max_contact: {max_contacts}; max_x: {max_x}; max_y: {max_y}; max_pressure: {max_pressure}")
 
     @Config.when(DEVICE_OVER_HTTP=False)
     def minitouch_send(self, builder: CommandBuilder):

@@ -85,13 +85,13 @@ class LDConsole:
         Returns:
             bytes:
         """
-        cmd = [self.ld_console] + cmd
+        cmd = [self.ld_console, *cmd]
         logger.info(f"Execute: {cmd}")
 
         try:
             process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=False)
         except FileNotFoundError as e:
-            logger.warning(f"warning when calling {cmd}, {str(e)}")
+            logger.warning(f"warning when calling {cmd}, {e!s}")
             raise LDOpenGLIncompatible("ld_folder does not have ldconsole.exe")
         try:
             stdout, stderr = process.communicate(timeout=timeout)

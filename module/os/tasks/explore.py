@@ -1,4 +1,3 @@
-
 from module.config.utils import DEFAULT_TIME, get_os_next_reset
 from module.exception import GameStuckError, ScriptError
 from module.logger import logger

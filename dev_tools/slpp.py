@@ -44,7 +44,7 @@ class ParseError(Exception):
     pass
 
 
-class SLPP(object):
+class SLPP:
     def __init__(self):
         self.text = ""
         self.ch = ""
@@ -82,10 +82,8 @@ class SLPP(object):
 
         if isinstance(obj, str):
             s += '"%s"' % obj.replace(r'"', r"\"")
-        elif six.PY2 and isinstance(obj, unicode):
-            s += '"%s"' % obj.encode("utf-8").replace(r'"', r"\"")
-        elif six.PY3 and isinstance(obj, bytes):
-            s += '"{}"'.format("".join(r"\x{:02x}".format(c) for c in obj))
+        elif isinstance(obj, bytes):
+            s += '"{}"'.format("".join(rf"\x{c:02x}" for c in obj))
         elif isinstance(obj, bool):
             s += str(obj).lower()
         elif obj is None:
@@ -103,7 +101,7 @@ class SLPP(object):
             dp = tab * self.depth
             s += "%s{%s" % (tab * (self.depth - 2), newline)
             if isinstance(obj, dict):
-                key = "[%s]" if all(isinstance(k, int) for k in obj.keys()) else "%s"
+                key = "[%s]" if all(isinstance(k, int) for k in obj) else "%s"
                 contents = [dp + (key + " = %s") % (k, self.__encode(v)) for k, v in obj.items()]
                 s += (",%s" % newline).join(contents)
             else:
@@ -182,8 +180,8 @@ class SLPP(object):
                     self.next_chr()
                     if k is not None:
                         o[idx] = k
-                    if len([key for key in o if isinstance(key, six.string_types + (int, float, bool, tuple))]) == 0:
-                        so = sorted([key for key in o])
+                    if len([key for key in o if isinstance(key, (*six.string_types, int, float, bool, tuple))]) == 0:
+                        so = sorted(list(o))
                         if sequential(so):
                             ar = []
                             for key in o:
@@ -252,7 +250,7 @@ class SLPP(object):
                     n += next_digit(ERRORS["mfnumber_sci"])
                     n += self.digit()
         except ParseError:
-            t, e = sys.exc_info()[:2]
+            _t, e = sys.exc_info()[:2]
             print(e)
             return 0
         try:

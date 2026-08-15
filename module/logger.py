@@ -36,7 +36,7 @@ class RichRenderableHandler(RichHandler):
     Pass renderable into a function
     """
 
-    def __init__(self, *args, func: Callable[[ConsoleRenderable], None] = None, **kwargs):
+    def __init__(self, *args, func: Callable[[ConsoleRenderable], None] | None = None, **kwargs):
         super().__init__(*args, **kwargs)
         self._func = func
 
@@ -168,10 +168,10 @@ pyw_name = os.path.splitext(os.path.basename(sys.argv[0]))[0]
 def set_file_logger(name=pyw_name):
     log_file = f"./log/{datetime.date.today()}_{name}.txt"
     try:
-        file = open(log_file, mode="a", encoding="utf-8")
+        file = open(log_file, mode="a", encoding="utf-8")  # noqa: SIM115  (handle kept for the process lifetime)
     except FileNotFoundError:
         os.mkdir("./log")
-        file = open(log_file, mode="a", encoding="utf-8")
+        file = open(log_file, mode="a", encoding="utf-8")  # noqa: SIM115  (handle kept for the process lifetime)
 
     file_console = Console(
         file=file,
@@ -310,7 +310,7 @@ def show():
     logger.info(r"Brace { [ ( ) ] }")
     logger.info(r"True, False, None")
     logger.info(r"E:/path\\to/alas/alas.exe, /root/alas/, ./relative/path/log.txt")
-    local_var1 = "This is local variable"
+    local_var1 = "This is local variable"  # noqa: F841  (deliberate demo variable)
     # Line before exception
     raise Exception("Exception")
     # Line below exception
@@ -333,7 +333,7 @@ logger.set_file_logger = set_file_logger
 logger.set_func_logger = set_func_logger
 logger.rule = rule
 logger.print = print
-logger.log_file: str
+logger.log_file: str  # noqa: B032  (attribute type declaration, value assigned in set_file_logger)
 
 logger.set_file_logger()
 logger.hr("Start", level=0)

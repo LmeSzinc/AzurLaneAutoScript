@@ -13,9 +13,9 @@ async def run():
 
 
 def init_discord_rpc():
-    global RPC
+    global RPC, _rpc_task
     RPC = AioPresence("929437173764223057")
-    asyncio.create_task(run())
+    _rpc_task = asyncio.create_task(run())
 
 
 def close_discord_rpc():

@@ -201,7 +201,7 @@ class AScreenCap(Connection):
             try:
                 result = self.__load_screenshot(screenshot, method=method)
                 result = self.__uncompress(result)
-                self.__screenshot_method_fixed = [method] + self.__screenshot_method
+                self.__screenshot_method_fixed = [method, *self.__screenshot_method]
                 return result
             except LZ4BlockError:
                 self.__bytepointer = 0

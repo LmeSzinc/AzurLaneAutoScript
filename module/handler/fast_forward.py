@@ -180,7 +180,7 @@ class FastForwardHandler(AutoSearchHandler):
         ]
         strip = ["map", "achieved", "is", "has"]
         log_names = ["_".join([x for x in name.split("_") if x not in strip]) for name in names]
-        text = ", ".join([l for l, n in zip(log_names, names) if self.__getattribute__(n)])
+        text = ", ".join([log for log, name in zip(log_names, names) if self.__getattribute__(name)])
         text = f"{int(self.map_clear_percentage * 100)}%, " + text
         logger.attr("Map_info", text)
         logger.attr("StopCondition_MapAchievement", self.config.StopCondition_MapAchievement)
@@ -377,12 +377,10 @@ class FastForwardHandler(AutoSearchHandler):
                 or origin name if unable to increase.
         """
         # Copy STAGE_INCREASE to avoid potential duplicate inserting
-        stage_increase = [r for r in self.STAGE_INCREASE]
+        stage_increase = list(self.STAGE_INCREASE)
         # Insert custom increase logic
         if self.config.STAGE_INCREASE_AB:
-            stage_increase = [
-                "A1 > A2 > A3 > B1 > B2 > B3",
-            ] + stage_increase
+            stage_increase = ["A1 > A2 > A3 > B1 > B2 > B3", *stage_increase]
         custom = self.config.STAGE_INCREASE_CUSTOM
         if custom:
             if isinstance(custom, str):

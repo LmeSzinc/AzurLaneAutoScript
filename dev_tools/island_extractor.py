@@ -323,13 +323,14 @@ class IslandActivityExtractor:
     def __init__(self):
         self.activity = {}
         data = LOADER.load("sharecfg/island_activity_template.lua")
-        for index, item in data.items():
+        for index, _item in data.items():
             if not isinstance(index, int) or index < 990000:
                 continue
             self.activity[index] = None
+
         data = LOADER.load("sharecfg/activity_template.lua")
         for index, item in data.items():
-            if not isinstance(index, int) or not index in self.activity:
+            if not isinstance(index, int) or index not in self.activity:
                 continue
             self.activity[index] = Activity(item).encode()
         for index, item in self.extract_item_name("zh-CN").items():
@@ -370,7 +371,7 @@ class IslandActivityExtractor:
         data = LOADER.load("sharecfg/activity_template.lua")
         out = {}
         for index, item in data.items():
-            if not isinstance(index, int) or not index in self.activity:
+            if not isinstance(index, int) or index not in self.activity:
                 continue
             out[item["id"]] = item
         return out
@@ -494,7 +495,7 @@ class IslandSeasonExtractor:
         if activity_dict is None:
             print("activity_dict is None, skipping season-activity matching")
             return
-        for index, season in self.season.items():
+        for _index, season in self.season.items():
             for activity_id, activity in activity_dict.items():
                 if (
                     season["start_time"]["cn"] is not None
@@ -608,7 +609,7 @@ class IslandTaskExtractor:
 
         data = LOADER.load("sharecfg/island_task_target.lua")
         for index, item in data.items():
-            if not isinstance(index, int) or not item["id"] in target_id_to_task_id:
+            if not isinstance(index, int) or item["id"] not in target_id_to_task_id:
                 continue
             task_id = target_id_to_task_id[item["id"]]
             if isinstance(item["target_param"], dict):
@@ -619,7 +620,7 @@ class IslandTaskExtractor:
         data = LOADER.load("sharecfg/island_task.lua")
         out = {}
         for index, item in data.items():
-            if not isinstance(index, int) or not item["id"] in self.task.keys():
+            if not isinstance(index, int) or item["id"] not in self.task:
                 continue
             out[item["id"]] = item
 

@@ -134,7 +134,7 @@ class FleetOperator:
         if self.is_hard_satisfied() is False:
             stage = self.main.config.Campaign_Name
             logger.critical(
-                f'Stage "{stage}" is a hard mode, please prepare your fleet "{str(self)}" in game before running Alas'
+                f'Stage "{stage}" is a hard mode, please prepare your fleet "{self!s}" in game before running Alas'
             )
             raise HardNotSatisfied
 

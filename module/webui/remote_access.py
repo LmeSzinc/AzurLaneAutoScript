@@ -32,7 +32,7 @@ address: str = None
 def am_i_the_only_thread() -> bool:
     """Whether the current thread is the only non-Daemon threads in the process"""
     alive_none_daemonic_thread_cnt = sum(
-        1 for t in threading.enumerate() if t.is_alive() and not t.isDaemon() or t is threading.current_thread()
+        1 for t in threading.enumerate() if (t.is_alive() and not t.isDaemon()) or t is threading.current_thread()
     )
     return alive_none_daemonic_thread_cnt == 1
 
@@ -66,7 +66,7 @@ def remote_access_service(
         _ssh_process.kill()
     try:
         _ssh_process = Popen(args, stdout=PIPE, stderr=PIPE)
-    except FileNotFoundError as e:
+    except FileNotFoundError:
         logger.critical(
             f"Cannot find SSH executable {bin}, please install OpenSSH or specify SSHExecutable in deploy.yaml"
         )
@@ -81,7 +81,7 @@ def remote_access_service(
             logger.info("Connection timeout, kill ssh process")
             _ssh_process.kill()
 
-    threading.Thread(target=timeout_killer, kwargs=dict(wait_sec=setup_timeout), daemon=True).start()
+    threading.Thread(target=timeout_killer, kwargs={"wait_sec": setup_timeout}, daemon=True).start()
 
     stdout = _ssh_process.stdout.readline().decode("utf8")
     logger.debug(f"ssh server stdout: {stdout}")

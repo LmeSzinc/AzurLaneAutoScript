@@ -141,7 +141,7 @@ class NewYearChallenge(MinigameRun):
             if self.appear(NEW_YEAR_CHALLENGE_ADD_COIN, offset=(5, 5)):
                 # add coins
                 if count > 1:
-                    for i in range(count - 1):
+                    for _i in range(count - 1):
                         self.device.click(NEW_YEAR_CHALLENGE_ADD_COIN)
                     self.device.screenshot()
                 # spend no coins for test

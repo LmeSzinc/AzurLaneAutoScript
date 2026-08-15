@@ -5,7 +5,7 @@ from collections import deque
 from functools import wraps
 from itertools import count
 from threading import Lock, Thread
-from typing import Generic, NoReturn, TypeVar
+from typing import NoReturn, TypeVar
 
 from module.logger import logger
 
@@ -29,7 +29,7 @@ def remove_tb_frames(exc, n: int):
     return exc.with_traceback(tb)
 
 
-class Outcome(abc.ABC, Generic[ValueT]):
+class Outcome[ValueT](abc.ABC):
     @abc.abstractmethod
     def unwrap(self) -> ValueT:
         """Return or raise the contained value or exception.
@@ -43,7 +43,7 @@ class Outcome(abc.ABC, Generic[ValueT]):
         pass
 
 
-class Value(Outcome[ValueT], Generic[ValueT]):
+class Value[ValueT](Outcome[ValueT]):
     """Concrete :class:`Outcome` subclass representing a regular value."""
 
     __slots__ = ("value",)
@@ -120,7 +120,7 @@ class _JobKill(Exception):
     pass
 
 
-class Job(Generic[ResultT]):
+class Job[ResultT]:
     """
     A simple queue, copied from queue.Queue()
     Faster but can only put() once and get() once.
@@ -134,7 +134,7 @@ class Job(Generic[ResultT]):
         self.worker = worker
         self.func_args_kwargs = func_args_kwargs
 
-        self.queue: "deque[Outcome[ResultT]]" = deque()
+        self.queue: deque[Outcome[ResultT]] = deque()
         self.put_lock = Lock()
         self.notify_get = Lock()
         self.notify_get.acquire()
@@ -188,7 +188,7 @@ class WorkerThread:
         Args:
             thread_pool (WorkerPool):
         """
-        self.job: "Job | None" = None
+        self.job: Job | None = None
         self.thread_pool = thread_pool
         # This Lock is used in an unconventional way.
         #
@@ -300,8 +300,8 @@ class WorkerPool:
         # Alasio is for local low-frequency access so default pool size is small
         self.pool_size = pool_size
 
-        self.idle_workers: "dict[WorkerThread, None]" = {}
-        self.all_workers: "dict[WorkerThread, None]" = {}
+        self.idle_workers: dict[WorkerThread, None] = {}
+        self.all_workers: dict[WorkerThread, None] = {}
 
         self.notify_worker = Lock()
         self.notify_worker.acquire()
@@ -519,8 +519,8 @@ class WaitJobsWrapper:
     """
 
     def __init__(self, pool: "WorkerPool"):
-        self.pool: "WorkerPool" = pool
-        self.jobs: "list[Job[ResultT]]" = []
+        self.pool: WorkerPool = pool
+        self.jobs: list[Job[ResultT]] = []
 
     def get(self):
         for job in self.jobs:
@@ -559,7 +559,7 @@ class GatherJobsWrapper(WaitJobsWrapper):
 
     def __init__(self, pool: "WorkerPool"):
         super().__init__(pool)
-        self.results: "list[ResultT]" = []
+        self.results: list[ResultT] = []
 
     def get(self):
         for job in self.jobs:

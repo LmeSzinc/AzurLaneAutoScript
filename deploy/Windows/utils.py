@@ -1,8 +1,8 @@
 import os
 import re
-from dataclasses import dataclass
-from typing import Generic, TypeVar
 from collections.abc import Callable, Iterable
+from dataclasses import dataclass
+from typing import TypeVar
 
 T = TypeVar("T")
 
@@ -10,7 +10,7 @@ DEPLOY_CONFIG = "./config/deploy.yaml"
 DEPLOY_TEMPLATE = "./deploy/Windows/template.yaml"
 
 
-class cached_property(Generic[T]):
+class cached_property[T]:
     """
     cached-property from https://github.com/pydanny/cached-property
     Add typing support

@@ -33,9 +33,9 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
             out: IN_MAP
         """
         logger.hr("OS init", level=1)
-        kwargs = dict()
+        kwargs = {}
         if self.config.task.command.__contains__("iM"):
-            for key in self.config.bound.keys():
+            for key in self.config.bound:
                 value = self.config.__getattribute__(key)
                 if key.__contains__("dL") and value.__le__(2):
                     logger.info([key, value])
@@ -237,7 +237,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         if any(check):
             logger.info(
                 "At least one ship is below threshold "
-                f"{str(int(self.config.OpsiGeneral_RepairThreshold * 100))}%, "
+                f"{int(self.config.OpsiGeneral_RepairThreshold * 100)!s}%, "
                 "retreating to nearest azur port for repairs"
             )
             self.fleet_repair(revert=revert)
@@ -246,7 +246,7 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
         else:
             logger.info(
                 "No ship found to be below threshold "
-                f"{str(int(self.config.OpsiGeneral_RepairThreshold * 100))}%, "
+                f"{int(self.config.OpsiGeneral_RepairThreshold * 100)!s}%, "
                 "continue OS exploration"
             )
             self.hp_reset()
@@ -504,7 +504,11 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
                 died_timer.reset()
 
             if not unlock_checked:
-                if self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 120)) or self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF_DISABLED, offset=(5, 120)) or self.appear(AUTO_SEARCH_OS_MAP_OPTION_ON, offset=(5, 120)):
+                if (
+                    self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF, offset=(5, 120))
+                    or self.appear(AUTO_SEARCH_OS_MAP_OPTION_OFF_DISABLED, offset=(5, 120))
+                    or self.appear(AUTO_SEARCH_OS_MAP_OPTION_ON, offset=(5, 120))
+                ):
                     unlock_checked = True
 
             if self.handle_os_auto_search_map_option(drop=drop, enable=success):

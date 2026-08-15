@@ -5,8 +5,8 @@ import re
 import shutil
 import subprocess
 import zipfile
-from typing import Generic, TypeVar
 from collections.abc import Callable
+from typing import TypeVar
 
 import requests
 from requests.adapters import HTTPAdapter
@@ -16,7 +16,7 @@ T = TypeVar("T")
 TEMPLATE_FILE = "./config/template.yaml"
 
 
-class cached_property(Generic[T]):
+class cached_property[T]:
     """
     cached-property from https://github.com/pydanny/cached-property
     Add typing support
@@ -199,7 +199,7 @@ class GitOverCdnClient:
         """
         os.chdir(self.folder)
         cmd = list(map(str, args))
-        cmd = [self.git] + cmd
+        cmd = [self.git, *cmd]
         self.logger.info(f"Execute: {cmd}")
 
         process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=False)

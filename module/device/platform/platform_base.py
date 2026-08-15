@@ -1,5 +1,4 @@
 import sys
-import typing as t
 
 from pydantic import BaseModel
 
@@ -99,11 +98,11 @@ class PlatformBase(Connection, EmulatorManagerBase):
             EmulatorInstanceBase: Emulator instance or None
         """
         data = self.emulator_info
-        old_info = dict(
-            emulator=data.emulator,
-            path=data.path,
-            name=data.name,
-        )
+        old_info = {
+            "emulator": data.emulator,
+            "path": data.path,
+            "name": data.name,
+        }
         # Redirect emulator-5554 to 127.0.0.1:5555
         serial = self.serial
         port_serial, _ = get_serial_pair(self.serial)
@@ -119,11 +118,11 @@ class PlatformBase(Connection, EmulatorManagerBase):
 
         # Write complete emulator data
         if instance is not None:
-            new_info = dict(
-                emulator=instance.type,
-                path=instance.path,
-                name=instance.name,
-            )
+            new_info = {
+                "emulator": instance.type,
+                "path": instance.path,
+                "name": instance.name,
+            }
             if new_info != old_info:
                 with self.config.multi_set():
                     self.config.EmulatorInfo_Emulator = instance.type
@@ -134,7 +133,7 @@ class PlatformBase(Connection, EmulatorManagerBase):
         return instance
 
     def find_emulator_instance(
-        self, serial: str, name: str = None, path: str = None, emulator: str = None
+        self, serial: str, name: str | None = None, path: str | None = None, emulator: str | None = None
     ) -> EmulatorInstanceBase | None:
         """
         Args:
@@ -150,7 +149,7 @@ class PlatformBase(Connection, EmulatorManagerBase):
         instances = SelectedGrids(self.all_emulator_instances)
         for instance in instances:
             logger.info(instance)
-        search_args = dict(serial=serial)
+        search_args = {"serial": serial}
 
         # Search by serial
         select = instances.select(**search_args)

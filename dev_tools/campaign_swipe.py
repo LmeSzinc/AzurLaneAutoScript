@@ -58,7 +58,7 @@ class SwipeSimulate:
 
     def cal_swipe_base(self):
         swipe_base = None
-        for loca, grid in az.view.grids.items():
+        for _loca, grid in az.view.grids.items():
             offset = grid.screen2grid([az.config.SCREEN_CENTER])[0].astype(int)
             points = grid.grid2screen(np.add([[0.5, 0], [-0.5, 0], [0, 0.5], [0, -0.5]], offset))
             swipe_base = np.array([np.linalg.norm(points[0] - points[1]), np.linalg.norm(points[2] - points[3])])
@@ -155,7 +155,7 @@ def get_multiplier(minitouch_x):
 if __name__ == "__main__":
     """
     To fit MAP_SWIPE_MULTIPLY.
-    
+
     Before running this, move your fleet on map to be like this:
     FL is current fleet, Fl is another fleet.
     Camera should focus on current fleet (Double click switch over to refocus)

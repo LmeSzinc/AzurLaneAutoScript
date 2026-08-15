@@ -231,7 +231,6 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
         logger.info("Combat preparation.")
         self.device.stuck_record_clear()
         self.device.click_record_clear()
-        skip_first_screenshot = True
         interval_set = False
 
         if emotion_reduce:

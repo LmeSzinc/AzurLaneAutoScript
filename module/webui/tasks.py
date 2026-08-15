@@ -20,7 +20,7 @@ def get_next_time(t: datetime.time):
 
 
 class Task:
-    def __init__(self, g: Generator, delay: float, next_run: float = None, name: str = None) -> None:
+    def __init__(self, g: Generator, delay: float, next_run: float | None = None, name: str | None = None) -> None:
         self.g = g
         g.send(None)
         self.delay = delay

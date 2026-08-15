@@ -353,7 +353,7 @@ class AlOcr:
         :return: list of int, list of (start_idx, end_idx)
         """
         ret = []  # each element consists of [label_id, start_idx, end_idx]
-        p1 = [0] + p
+        p1 = [0, *p]
         for i, _ in enumerate(p):
             c1 = p1[i]
             c2 = p1[i + 1]
@@ -400,6 +400,6 @@ class AlOcr:
         """
         self._ensure_loaded()
         img_list = [(self._preprocess_img_array(img) * 255.0).astype(np.uint8) for img in img_list]
-        img_list, img_widths = self._pad_arrays(img_list)
+        img_list, _img_widths = self._pad_arrays(img_list)
         image = cv2.hconcat(img_list)[0, :, :]
         Image.fromarray(image).show()

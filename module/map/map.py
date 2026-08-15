@@ -645,7 +645,7 @@ class Map(Fleet):
             return False
 
         # When having 2 fleet
-        for n in range(20):
+        for _n in range(20):
             if not self.map.select(is_siren=True):
                 return False
 

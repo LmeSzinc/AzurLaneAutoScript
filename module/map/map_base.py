@@ -259,7 +259,7 @@ class CampaignMap:
         logger.info(f"grid_connection: wall={wall}, portal={portal}")
 
         # Generate grid connection.
-        total = set([grid for grid in self.grids.keys()])
+        total = set(list(self.grids))
         for grid in self:
             connection = set()
             for arr in np.array([(0, -1), (0, 1), (-1, 0), (1, 0)]):
@@ -271,7 +271,7 @@ class CampaignMap:
         # Use wall_data to delete connection.
         if wall and self._wall_data:
             wall = []
-            for y, line in enumerate([l for l in self._wall_data.split("\n") if l]):
+            for y, line in enumerate([row for row in self._wall_data.split("\n") if row]):
                 for x, letter in enumerate(line[4:-2]):
                     if letter != " ":
                         wall.append((x, y))
@@ -280,9 +280,9 @@ class CampaignMap:
             hori = wall[np.all([wall[:, 0] % 4 == 0, wall[:, 1] % 2 == 1], axis=0)]
             disconnect = []
             for loca in (vert - (2, 0)) // (4, 2):
-                disconnect.append([loca, loca + (1, 0)])
+                disconnect.append([loca, (*loca, 1, 0)])
             for loca in (hori - (0, 1)) // (4, 2):
-                disconnect.append([loca, loca + (0, 1)])
+                disconnect.append([loca, (*loca, 0, 1)])
             for g1, g2 in disconnect:
                 g1 = tuple(g1.tolist())
                 g2 = tuple(g2.tolist())
@@ -507,7 +507,7 @@ class CampaignMap:
         """
         for wrong_globe, wrong_local in self._ignore_prediction:
             if wrong_globe == globe:
-                if all([local.__getattribute__(k) == v for k, v in wrong_local.items()]):
+                if all(local.__getattribute__(k) == v for k, v in wrong_local.items()):
                     return True
 
         return False
@@ -790,7 +790,7 @@ class CampaignMap:
 
         may, missing = self.missing_get(battle_count, mystery_count, siren_count, carrier_count, mode)
 
-        for key in may.keys():
+        for key in may:
             if missing[key] != 0:
                 return False
 

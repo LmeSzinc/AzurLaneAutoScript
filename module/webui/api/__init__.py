@@ -11,7 +11,7 @@ import re
 import threading
 from contextlib import asynccontextmanager
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from pydantic import BaseModel
@@ -20,7 +20,7 @@ from rich.console import Console
 from module.config.deep import deep_get, deep_iter, deep_set
 from module.config.utils import alas_instance, filepath_args, filepath_config, read_file, write_file
 from module.logger import logger
-from module.webui.lang import LANG, dic_lang, set_language
+from module.webui.lang import dic_lang, set_language
 from module.webui.process_manager import ProcessManager
 from module.webui.setting import State
 
@@ -243,9 +243,9 @@ def create_api_app() -> FastAPI:
         # Resolve server-specific select options, mirroring the legacy
         # AlasGUI.set_group() behavior.
         server = to_server("cn")
-        for task, groups in args.items():
-            for group_name, argv in groups.items():
-                for arg_name, arg_dict in argv.items():
+        for _task, groups in args.items():
+            for _group_name, argv in groups.items():
+                for _arg_name, arg_dict in argv.items():
                     if arg_dict.get("type") != "select":
                         continue
                     options = arg_dict.get("option", [])
@@ -309,7 +309,7 @@ def create_api_app() -> FastAPI:
     # ---------- instances management ----------
     @app.post("/instance/new")
     def new_instance(request: NewInstanceRequest):
-        from module.config.utils import deep_get, filepath_config
+        from module.config.utils import filepath_config
 
         name = request.name.strip()
         if not name:
@@ -347,7 +347,16 @@ def create_api_app() -> FastAPI:
     def update_status():
         updater = _get_updater()
         raw = getattr(updater, "state", 0)
-        state = {0: "idle", True: "available", False: "none"}.get(raw, str(raw))
+        # NOTE: False hashes to 0, so {0: "idle", False: "none"} collides;
+        # map the three real states explicitly instead.
+        if raw is False:
+            state = "none"
+        elif raw is True:
+            state = "available"
+        elif raw == 0:
+            state = "idle"
+        else:
+            state = str(raw)
         try:
             sha, _author, _isotime, message = updater.get_commit(short_sha1=True)
             current = {"sha": sha, "message": message}
@@ -492,7 +501,7 @@ def create_api_app() -> FastAPI:
                 try:
                     while True:
                         await asyncio.wait_for(websocket.receive_text(), timeout=0.05)
-                except asyncio.TimeoutError:
+                except TimeoutError:
                     pass
                 status = build_status()
                 if status != last_status:

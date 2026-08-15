@@ -155,7 +155,7 @@ class IdentityScanner(Scanner):
         return [self._match(image) for image in image_list]
 
     def limit_value(self, value) -> str:
-        return value if value in self.templates.keys() else "any"
+        return value if value in self.templates else "any"
 
 
 class EmotionCounterScanner(Scanner):
@@ -270,7 +270,7 @@ class CharacterScanner(Scanner):
         super().__init__()
         self._results = []
         self.grids = grids
-        self.limitation: dict[str, None | tuple[int, int] | list[str] | str] = {
+        self.limitation: dict[str, tuple[int, int] | list[str] | str | None] = {
             "identity": "any",
             "emotion": (0, 999),
             "emotion_limit": (100, 999),
@@ -372,7 +372,7 @@ class CharacterScanner(Scanner):
             grade (str): ['any', 'S', 'A', 'B', 'C', 'D', 'E']
             status (str): ['any', 'free', 'occupied']
         """
-        for attr in self.limitation.keys():
+        for attr in self.limitation:
             value = kwargs.get(attr, self.limitation[attr])
             self.limit_value(attr, value)
 

@@ -2,7 +2,6 @@ import socket
 import struct
 import threading
 import time
-import typing as t
 from time import sleep
 
 import numpy as np
@@ -222,10 +221,10 @@ class ScrcpyCore(Connection):
                 time.sleep(0.001)
             except (ConnectionError, OSError) as e:  # Socket Closed
                 if self._scrcpy_alive:
-                    logger.error(f"_scrcpy_stream_loop_thread: {repr(e)}")
+                    logger.error(f"_scrcpy_stream_loop_thread: {e!r}")
                     raise
             except Exception as e:
-                logger.error(f"_scrcpy_stream_loop_thread exception: {repr(e)}")
+                logger.error(f"_scrcpy_stream_loop_thread exception: {e!r}")
                 raise
 
         raise ScrcpyError("_scrcpy_stream_loop stopped")

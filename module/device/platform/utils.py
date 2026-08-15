@@ -1,11 +1,11 @@
 import os
-from typing import Generic, TypeVar
 from collections.abc import Callable
+from typing import TypeVar
 
 T = TypeVar("T")
 
 
-class cached_property(Generic[T]):
+class cached_property[T]:
     """
     cached-property from https://github.com/pydanny/cached-property
     Add typing support

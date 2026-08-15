@@ -260,7 +260,7 @@ class IslandRecipe(IslandExchange, IslandShop):
     def recipe_grid(self):
         for _ in self.loop(timeout=2):
             grid = self.get_recipe_grid()
-            if len(grid.buttons) >= 3 or len(grid.buttons) == 1 and self.working_slot_id in [9031, 9032, 9033, 9034]:
+            if len(grid.buttons) >= 3 or (len(grid.buttons) == 1 and self.working_slot_id in [9031, 9032, 9033, 9034]):
                 return grid
         return grid
 
@@ -799,7 +799,7 @@ class IslandRecipe(IslandExchange, IslandShop):
         new_recipe_entry_sequence = sorted(new_list, key=lambda x: get_recipe_entry_weight(x), reverse=True)
         self.recipe_id_sequence = new_recipe_entry_sequence
         self.all_recipe_stocks[recipe_id] += batch_size * batch_count
-        for old_recipe_id, info in old_list:
+        for old_recipe_id, _info in old_list:
             product_id = get_recipe_product_id(old_recipe_id)
             if product_id in consumed_items:
                 self.all_recipe_stocks[old_recipe_id] -= consumed_items[product_id]

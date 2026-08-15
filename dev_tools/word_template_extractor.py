@@ -25,12 +25,12 @@ def extract(dic, word_list):
     for word, data in dic.items():
         word = str(word)
         if data.get("this", False):
-            new = word_list + [word]
+            new = [*word_list, word]
             new = "".join(new)
             count += 1
             print(new)
         else:
-            new = word_list + [word]
+            new = [*word_list, word]
             extract(data, word_list=new)
 
 
