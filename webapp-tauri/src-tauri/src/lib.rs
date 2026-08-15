@@ -36,12 +36,26 @@ fn resolve_root(app: &AppHandle) -> PathBuf {
 ///
 /// Search order:
 ///   1. ALAS_PYTHON environment variable
-///   2. <root>/.venv/Scripts/python.exe (development)
-///   3. <root>/toolkit/python/python.exe (packaged)
-///   4. "python" from PATH
+///   2. `alas-backend*.exe` next to the app binary (packaged PyInstaller
+///      onedir sidecar, shipped via tauri externalBin)
+///   3. <root>/.venv/Scripts/python.exe (development)
+///   4. <root>/toolkit/python/python.exe (legacy packed layout)
+///   5. "python" from PATH
 fn resolve_python(root: &PathBuf) -> PathBuf {
     if let Ok(p) = std::env::var("ALAS_PYTHON") {
         return PathBuf::from(p);
+    }
+    if let Ok(exe) = std::env::current_exe() {
+        if let Some(dir) = exe.parent() {
+            if let Ok(entries) = std::fs::read_dir(dir) {
+                for entry in entries.flatten() {
+                    let name = entry.file_name().to_string_lossy().to_string();
+                    if name.starts_with("alas-backend") && name.ends_with(".exe") {
+                        return entry.path();
+                    }
+                }
+            }
+        }
     }
     let dev = root.join(".venv").join("Scripts").join("python.exe");
     if dev.exists() {
@@ -179,6 +193,7 @@ pub fn run() {
                 let _ = window.set_focus();
             }
         }))
+        .plugin(tauri_plugin_updater::Builder::new().build())
         .manage(BackendProcess(Mutex::new(None)))
         .setup(|app| {
             let handle = app.handle().clone();

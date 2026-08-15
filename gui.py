@@ -1,3 +1,4 @@
+import multiprocessing
 import threading
 from multiprocessing import Event, Process
 
@@ -68,6 +69,10 @@ def func(ev: threading.Event):
 
 
 if __name__ == "__main__":
+    # Required when running frozen (PyInstaller sidecar): EnableReload
+    # spawns a child process of this module on Windows.
+    multiprocessing.freeze_support()
+
     if State.deploy_config.EnableReload:
         should_exit = False
         while not should_exit:
