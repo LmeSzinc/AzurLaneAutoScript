@@ -13,7 +13,7 @@ function wsUrl(): string {
 
 export const status = $state<Status>({
   instances: [],
-  theme: 'default',
+  theme: 'dark',
   language: 'zh-CN',
 })
 

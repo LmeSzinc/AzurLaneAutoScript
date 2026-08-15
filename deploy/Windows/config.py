@@ -56,7 +56,7 @@ class ConfigModel:
     WebuiHost: str = "0.0.0.0"
     WebuiPort: int = 22367
     Language: str = "en-US"
-    Theme: str = "default"
+    Theme: str = "dark"
     DpiScaling: bool = True
     Password: str | None = None
     CDN: str | bool = False

@@ -55,7 +55,7 @@ class ConfigModel:
     WebuiSSLKey: str | None = None
     WebuiSSLCert: str | None = None
     Language: str = "en-US"
-    Theme: str = "default"
+    Theme: str = "dark"
     DpiScaling: bool = True
     Password: str | None = None
     CDN: str | bool = False
