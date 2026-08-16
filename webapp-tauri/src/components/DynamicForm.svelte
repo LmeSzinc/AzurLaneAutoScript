@@ -67,6 +67,9 @@
     return s.replace(' ', 'T').slice(0, 16)
   }
   function fromLocal(value: string): string {
+    // Empty input resets the arg to its default (e.g. Scheduler.NextRun ->
+    // 2020-01-01, i.e. run immediately)
+    if (!value) return ''
     return value.replace('T', ' ') + ':00'
   }
 
@@ -107,13 +110,24 @@
     return t(`${group}.${field.key}.${opt}`)
   }
 
-  /** state/lock values render translated booleans ("已启用" instead of "true") */
+  /** state/lock values render translated option labels ("已启用" / event names) */
   function stateText(field: Field): string {
     const v = currentValue(field)
     if (typeof v === 'boolean') {
       return t(`${group}.${field.key}.${v ? 'True' : 'False'}`)
     }
-    return String(v ?? '')
+    const opt = String(v ?? '')
+    const key = `${group}.${field.key}.${opt}`
+    const label = t(key)
+    return label !== key ? label : opt
+  }
+
+  /** original dark theme styles state values in option_bold/option_light */
+  function stateClass(field: Field): string {
+    const v = currentValue(field)
+    const bold = (field.def.option_bold as unknown[] | undefined)?.includes(v as never)
+    const light = (field.def.option_light as unknown[] | undefined)?.includes(v as never)
+    return bold ? 'state-bold' : light ? 'state-light' : ''
   }
 </script>
 
@@ -178,7 +192,7 @@
             disabled={field.def.display === 'disabled'}
             onchange={(e) => emitSave(field, (e.currentTarget as HTMLTextAreaElement).value)}></textarea>
         {:else if field.def.type === 'state' || field.def.type === 'lock'}
-          <div class="state-display">{stateText(field)}</div>
+          <div class="state-display {stateClass(field)}">{stateText(field)}</div>
         {:else}
           <input
             class="form-control"

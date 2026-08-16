@@ -114,6 +114,19 @@ def _save_config(modified: dict[str, Any], config_name: str, args_schema: dict[s
             default = deep_get(args_schema, k + ".value")
             deep_set(config, k, default)
             valid.append(k)
+        elif validate == "datetime":
+            # datetime args (e.g. Scheduler.NextRun) validate by parsing;
+            # keep the string form so json.dumps stays happy
+            try:
+                v = datetime.strptime(str(v).replace("T", " "), "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S")
+            except ValueError:
+                invalid.append(k)
+                continue
+            deep_set(config, k, v)
+            valid.append(k)
+            for set_key, set_value in config_updater.save_callback(k, v):
+                deep_set(config, set_key, set_value)
+                valid.append(set_key)
         elif not validate or re.fullmatch(validate, str(v)):
             deep_set(config, k, v)
             valid.append(k)

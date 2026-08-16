@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Dark theme shell styles, translated from the original dark-alas.css
  * (pywebio scope ids -> Vue class names).
  */
@@ -68,6 +68,17 @@
 .btn.btn-menu-active {
   border-left-color: var(--alas-accent);
   color: var(--alas-accent);
+}
+
+/* state (fixed-value) fields, translated from the original dark-alas.css:
+   option_bold values are bold + accent, option_light values are muted */
+.state-display.state-bold {
+  font-weight: bold;
+  color: var(--alas-accent);
+}
+
+.state-display.state-light {
+  color: #777777;
 }
 
 .btn.btn-aside:hover,
