@@ -1,7 +1,7 @@
 from module.base.timer import Timer
 from module.base.utils import random_rectangle_vector
 from module.config.config import TaskEnd
-from module.event_hospital.assets import *
+from module.event_hospital.assets import *  # noqa: F403  (data-bundle star import)
 from module.event_hospital.clue import HospitalClue
 from module.event_hospital.combat import HospitalCombat
 from module.exception import OilExhausted, ScriptEnd

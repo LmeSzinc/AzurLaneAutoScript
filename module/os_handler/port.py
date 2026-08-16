@@ -1,6 +1,6 @@
 from module.base.timer import Timer
 from module.logger import logger
-from module.os_handler.assets import *
+from module.os_handler.assets import *  # noqa: F403  (data-bundle star import)
 from module.os_shop.assets import PORT_SUPPLY_CHECK
 from module.os_shop.shop import OSShop
 

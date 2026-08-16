@@ -6,7 +6,7 @@ from module.handler.assets import POPUP_CANCEL, POPUP_CONFIRM
 from module.logger import logger
 from module.map_detection.utils import Points
 from module.ocr.ocr import DigitYuv
-from module.shop.assets import *
+from module.shop.assets import *  # noqa: F403  (data-bundle star import)
 from module.shop.base import ShopItemGrid
 from module.shop.clerk import ShopClerk
 from module.shop.shop_status import ShopStatus

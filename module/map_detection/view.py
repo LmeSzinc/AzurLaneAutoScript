@@ -8,7 +8,7 @@ from module.map.map_grids import SelectedGrids
 from module.map_detection.detector import MapDetector
 from module.map_detection.grid import Grid
 from module.map_detection.utils import corner2area
-from module.map_detection.utils_assets import *
+from module.map_detection.utils_assets import *  # noqa: F403  (data-bundle star import)
 
 
 class View(MapDetector):

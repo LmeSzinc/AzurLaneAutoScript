@@ -2,7 +2,7 @@ from module.base.timer import Timer
 from module.base.utils import rgb2gray
 from module.campaign.campaign_ui import CampaignUI
 from module.combat.combat import Combat
-from module.eventstory.assets import *
+from module.eventstory.assets import *  # noqa: F403  (data-bundle star import)
 from module.handler.login import LoginHandler
 from module.logger import logger
 from module.ui.page import page_event, page_sp

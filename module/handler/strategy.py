@@ -1,5 +1,5 @@
 from module.combat.assets import GET_ITEMS_1
-from module.handler.assets import *
+from module.handler.assets import *  # noqa: F403  (data-bundle star import)
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
 from module.template.assets import TEMPLATE_FORMATION_1, TEMPLATE_FORMATION_2, TEMPLATE_FORMATION_3

@@ -17,7 +17,7 @@ from module.base.utils import (
 from module.device.method.utils import removesuffix
 from module.logger import logger
 from module.ocr.ocr import Duration, Ocr
-from module.research.assets import *
+from module.research.assets import *  # noqa: F403  (data-bundle star import)
 from module.research.project_data import LIST_RESEARCH_PROJECT
 from module.research.series import get_detail_series, get_research_series_3
 from module.statistics.utils import load_folder

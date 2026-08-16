@@ -1,7 +1,7 @@
 from module.base.button import ButtonGrid
 from module.base.timer import Timer
 from module.logger import logger
-from module.meowfficer.assets import *
+from module.meowfficer.assets import *  # noqa: F403  (data-bundle star import)
 from module.meowfficer.base import MeowfficerBase
 from module.meowfficer.buy import MEOWFFICER_COINS
 from module.ocr.ocr import Digit, DigitCounter

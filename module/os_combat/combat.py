@@ -1,8 +1,8 @@
-from module.combat.assets import *
+from module.combat.assets import *  # noqa: F403  (data-bundle star import)
 from module.combat.combat import Combat as Combat_
 from module.logger import logger
-from module.os_combat.assets import *
-from module.os_handler.assets import *
+from module.os_combat.assets import *  # noqa: F403  (data-bundle star import)
+from module.os_handler.assets import *  # noqa: F403  (data-bundle star import)
 from module.os_handler.map_event import MapEventHandler
 
 

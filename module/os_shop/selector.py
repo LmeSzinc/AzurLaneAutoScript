@@ -3,7 +3,7 @@ import re
 from module.base.filter import Filter
 from module.config.config_generated import GeneratedConfig
 from module.os_shop.item import OSShopItem as Item
-from module.os_shop.preset import *
+from module.os_shop.preset import *  # noqa: F403  (re-export facade)
 
 FILTER_REGEX = re.compile(
     "^(actionpoint|crystallizedheatresistantsteel|developmentmaterial"

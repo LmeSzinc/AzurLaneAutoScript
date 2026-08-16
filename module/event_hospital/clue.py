@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 
 from module.base.utils import area_offset, color_similarity_2d, image_size, rgb2gray, xywh2xyxy
-from module.event_hospital.assets import *
+from module.event_hospital.assets import *  # noqa: F403  (data-bundle star import)
 from module.event_hospital.ui import HospitalUI
 from module.logger import logger
 from module.raid.assets import RAID_FLEET_PREPARATION

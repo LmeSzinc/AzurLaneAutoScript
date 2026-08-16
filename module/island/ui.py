@@ -7,7 +7,7 @@ from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.base.utils import area_offset, color_similarity_2d, rgb2luma
 from module.combat.assets import GET_ITEMS_1
-from module.island.assets import *
+from module.island.assets import *  # noqa: F403  (data-bundle star import)
 from module.logger import logger
 from module.ui.navbar import Navbar
 from module.ui.ui import UI

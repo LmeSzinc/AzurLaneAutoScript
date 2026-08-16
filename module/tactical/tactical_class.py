@@ -27,7 +27,7 @@ from module.map.map_grids import SelectedGrids
 from module.ocr.ocr import DigitCounter, Duration, Ocr
 from module.retire.assets import DOCK_CHECK, DOCK_EMPTY, SHIP_CONFIRM
 from module.retire.dock import CARD_GRIDS, CARD_LEVEL_GRIDS, Dock
-from module.tactical.assets import *
+from module.tactical.assets import *  # noqa: F403  (data-bundle star import)
 from module.ui.assets import BACK_ARROW, REWARD_CHECK, REWARD_GOTO_TACTICAL, TACTICAL_CHECK
 from module.ui.page import page_reward
 from module.ui_white.assets import REWARD_2_WHITE, REWARD_GOTO_TACTICAL_WHITE

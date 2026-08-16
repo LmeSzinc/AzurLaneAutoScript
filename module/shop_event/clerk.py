@@ -16,7 +16,7 @@ from module.shop.assets import (
     SHOP_CLICK_SAFE_AREA,
 )
 from module.shop.clerk import OCR_SHOP_AMOUNT
-from module.shop_event.assets import *
+from module.shop_event.assets import *  # noqa: F403  (data-bundle star import)
 from module.shop_event.item import (
     DELTA_ITEM,
     DELTA_PRICE_BACKGROUND,

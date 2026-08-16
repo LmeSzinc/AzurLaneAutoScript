@@ -1,6 +1,6 @@
 from module.base.timer import Timer
 from module.campaign.campaign_status import CampaignStatus
-from module.combat.assets import *
+from module.combat.assets import *  # noqa: F403  (data-bundle star import)
 from module.combat.combat import Combat
 from module.exception import CampaignEnd
 from module.handler.assets import AUTO_SEARCH_MAP_OPTION_ON

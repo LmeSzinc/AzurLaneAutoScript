@@ -1,6 +1,6 @@
 from module.base.timer import Timer
 from module.logger import logger
-from module.minigame.assets import *
+from module.minigame.assets import *  # noqa: F403  (data-bundle star import)
 from module.minigame.minigame import MINIGAME_SCROLL, MinigameRun
 from module.ocr.ocr import Digit
 from module.ui.page import page_game_room

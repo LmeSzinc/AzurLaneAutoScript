@@ -1,9 +1,9 @@
 from module.base.utils import area_pad, color_similarity_2d, crop, cv2, np, rgb2gray
 from module.map_detection.grid import Grid, GridInfo, GridPredictor
 from module.map_detection.utils_assets import ASSETS
-from module.os.assets import *
+from module.os.assets import *  # noqa: F403  (data-bundle star import)
 from module.os.radar import RadarGrid
-from module.template.assets import *
+from module.template.assets import *  # noqa: F403  (data-bundle star import)
 
 
 class OSGridInfo(GridInfo):

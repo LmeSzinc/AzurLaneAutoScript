@@ -2,7 +2,7 @@ import numpy as np
 
 from module.base.button import ButtonGrid
 from module.base.utils import image_left_strip
-from module.exercise.assets import *
+from module.exercise.assets import *  # noqa: F403  (data-bundle star import)
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.ui.assets import BACK_ARROW

@@ -9,7 +9,7 @@ from module.base.button import Button, ButtonGrid
 from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.base.utils import color_similarity_2d
-from module.island.assets import *
+from module.island.assets import *  # noqa: F403  (data-bundle star import)
 from module.island.data import DIC_ISLAND_ITEM, DIC_ISLAND_SEASON_ORDER
 from module.island.ui import IslandUI
 from module.island.utils import (

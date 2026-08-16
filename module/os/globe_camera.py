@@ -2,7 +2,7 @@ from module.base.timer import Timer
 from module.base.utils import area_offset, cv2, np, point_in_area, point_limit, rgb2hsv
 from module.exception import GameStuckError
 from module.logger import logger
-from module.os.assets import *
+from module.os.assets import *  # noqa: F403  (data-bundle star import)
 from module.os.globe_detection import GLOBE_MAP_SHAPE, GlobeDetection
 from module.os.globe_operation import GlobeOperation
 from module.os.globe_zone import ZoneManager

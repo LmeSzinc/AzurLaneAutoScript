@@ -2,7 +2,7 @@ from module.base.button import ButtonGrid
 from module.base.decorator import cached_property, del_cached_property
 from module.base.utils import random_rectangle_vector_opted
 from module.island.ui import IslandUI
-from module.island_handler.assets import *
+from module.island_handler.assets import *  # noqa: F403  (data-bundle star import)
 from module.island_handler.dock_scanner import CharacterScanner
 from module.logger import logger
 from module.map_detection.utils import Points

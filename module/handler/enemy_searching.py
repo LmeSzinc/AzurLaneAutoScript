@@ -1,10 +1,10 @@
 from module.base.decorator import del_cached_property
 from module.base.timer import Timer
 from module.exception import CampaignEnd
-from module.handler.assets import *
+from module.handler.assets import *  # noqa: F403  (data-bundle star import)
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
-from module.map.assets import *
+from module.map.assets import *  # noqa: F403  (data-bundle star import)
 from module.ui.assets import CAMPAIGN_CHECK, EVENT_CHECK, SP_CHECK
 
 

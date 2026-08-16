@@ -5,7 +5,7 @@ from module.base.button import ButtonGrid
 from module.base.decorator import cached_property, del_cached_property
 from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1
-from module.island.assets import *
+from module.island.assets import *  # noqa: F403  (data-bundle star import)
 from module.island.data import DIC_ISLAND_TASK
 from module.island.ui import IslandUI
 from module.island.utils import item_mapping_to_yaml, load_item_mapping, normalize_item_keys

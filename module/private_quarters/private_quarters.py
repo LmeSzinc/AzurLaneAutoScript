@@ -1,7 +1,7 @@
 import module.config.server as server
 from module.base.timer import Timer
 from module.logger import logger
-from module.private_quarters.assets import *
+from module.private_quarters.assets import *  # noqa: F403  (data-bundle star import)
 from module.private_quarters.interact import PQInteract
 from module.private_quarters.shop import PQShop
 from module.ui.page import page_dormmenu, page_private_quarters

@@ -9,8 +9,8 @@ from module.base.timer import timer
 from module.config.deep import deep_default, deep_get, deep_iter, deep_pop, deep_set
 from module.config.env import IS_ON_PHONE_CLOUD
 from module.config.server import VALID_CHANNEL_PACKAGE, VALID_PACKAGE, VALID_SERVER_LIST, to_package, to_server
-from module.config.utils import *
-from module.config.redirect_utils.utils import *
+from module.config.utils import *  # noqa: F403  (re-export facade)
+from module.config.redirect_utils.utils import *  # noqa: F403  (re-export facade)
 
 CONFIG_IMPORT = '''
 import datetime

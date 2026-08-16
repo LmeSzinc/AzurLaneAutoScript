@@ -1,6 +1,6 @@
 from module.base.decorator import cached_property
 from module.logger import logger
-from module.shop.assets import *
+from module.shop.assets import *  # noqa: F403  (data-bundle star import)
 from module.shop.base import ShopItemGrid_250814
 from module.shop.clerk import ShopClerk
 from module.shop.shop_status import ShopStatus

@@ -1,7 +1,7 @@
 from module.base.timer import Timer
 from module.combat.combat import Combat
 from module.logger import logger
-from module.meta_reward.assets import *
+from module.meta_reward.assets import *  # noqa: F403  (data-bundle star import)
 from module.os_ash.assets import DOSSIER_LIST
 from module.ui.page import page_meta
 from module.ui.ui import UI

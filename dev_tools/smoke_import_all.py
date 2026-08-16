@@ -19,7 +19,6 @@ Notes:
 import argparse
 import importlib
 import json
-import pkgutil
 import sys
 import traceback
 from pathlib import Path
@@ -44,7 +43,7 @@ def iter_module_names():
         if rel.name == "__init__.py":
             name = "module." + ".".join(rel.parts[:-1])
         else:
-            name = "module." + ".".join(rel.parts[:-1] + (rel.stem,))
+            name = "module." + ".".join((*rel.parts[:-1], rel.stem))
         yield name
 
 

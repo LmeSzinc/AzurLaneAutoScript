@@ -1,5 +1,5 @@
 from module.base.decorator import cached_property
-from module.retire.assets import *
+from module.retire.assets import *  # noqa: F403  (data-bundle star import)
 from module.ui.setting import Setting
 from module.ui.ui import UI
 

@@ -1,5 +1,5 @@
-from module.combat.combat import *
-from module.exercise.assets import *
+from module.combat.combat import *  # noqa: F403  (re-export facade)
+from module.exercise.assets import *  # noqa: F403  (data-bundle star import)
 from module.exercise.hp_daemon import HpDaemon
 from module.exercise.opponent import OPPONENT, OpponentChoose
 from module.ui.assets import EXERCISE_CHECK

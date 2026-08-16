@@ -7,7 +7,7 @@ from module.base.utils import rgb2gray
 from module.exception import GameTooManyClickError
 from module.logger import logger
 from module.ocr.ocr import Duration
-from module.research.assets import *
+from module.research.assets import *  # noqa: F403  (data-bundle star import)
 from module.research.project import get_research_finished
 from module.research.rqueue import ResearchQueue
 from module.research.selector import RESEARCH_ENTRANCE, ResearchSelector

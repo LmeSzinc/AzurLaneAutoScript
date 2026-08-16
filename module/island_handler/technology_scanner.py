@@ -8,7 +8,7 @@ from module.base.mask import Mask
 from module.base.utils import area_offset, color_similarity_2d, crop, load_image, random_rectangle_vector, rgb2luma
 from module.island.data import DIC_ISLAND_TECHNOLOGY
 from module.island.ui import IslandUI
-from module.island_handler.assets import *
+from module.island_handler.assets import *  # noqa: F403  (data-bundle star import)
 from module.ui.navbar import Navbar
 from module.ui.page import page_island_technology
 

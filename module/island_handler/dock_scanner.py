@@ -7,7 +7,7 @@ import cv2
 
 from module.base.button import Button, ButtonGrid
 from module.base.utils import color_similarity_2d, crop, limit_in, load_image
-from module.island_handler.assets import *
+from module.island_handler.assets import *  # noqa: F403  (data-bundle star import)
 from module.logger import logger
 from module.ocr.ocr import Ocr
 from module.statistics.utils import load_folder

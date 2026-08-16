@@ -22,10 +22,10 @@ from module.map.assets import FLEET_PREPARATION, MAP_PREPARATION, MAP_PREPARATIO
 from module.meowfficer.assets import MEOWFFICER_BUY
 from module.ocr.ocr import Ocr
 from module.os_handler.assets import AUTO_SEARCH_REWARD, EXCHANGE_CHECK, RESET_FLEET_PREPARATION, RESET_TICKET_POPUP
-from module.raid.assets import *
-from module.ui.assets import *
+from module.raid.assets import *  # noqa: F403  (data-bundle star import)
+from module.ui.assets import *  # noqa: F403  (data-bundle star import)
 from module.ui.page import Page, page_academy, page_campaign, page_event, page_main, page_main_white, page_sp
-from module.ui_white.assets import *
+from module.ui_white.assets import *  # noqa: F403  (data-bundle star import)
 
 
 class UI(InfoHandler):

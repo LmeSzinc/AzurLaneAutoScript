@@ -3,7 +3,7 @@ import numpy as np
 from module.base.button import ButtonGrid
 from module.base.decorator import Config
 from module.base.timer import Timer
-from module.handler.assets import *
+from module.handler.assets import *  # noqa: F403  (data-bundle star import)
 from module.handler.enemy_searching import EnemySearchingHandler
 from module.logger import logger
 from module.map.assets import FLEET_PREPARATION_CHECK

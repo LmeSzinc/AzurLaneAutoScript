@@ -2,7 +2,7 @@ from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.handler.assets import POPUP_CONFIRM
 from module.logger import logger
-from module.shop.assets import *
+from module.shop.assets import *  # noqa: F403  (data-bundle star import)
 from module.ui.assets import ACADEMY_GOTO_MUNITIONS, SHOP_BACK_ARROW
 from module.ui.navbar import Navbar
 from module.ui.page import page_academy, page_munitions

@@ -2,7 +2,7 @@ from module.base.timer import Timer
 from module.campaign.campaign_status import OCR_COIN
 from module.combat.assets import GET_SHIP
 from module.exception import ScriptError
-from module.gacha.assets import *
+from module.gacha.assets import *  # noqa: F403  (data-bundle star import)
 from module.gacha.ui import GachaUI
 from module.handler.assets import POPUP_CONFIRM, STORY_SKIP
 from module.logger import logger

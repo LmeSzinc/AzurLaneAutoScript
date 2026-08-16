@@ -5,7 +5,7 @@ from module.combat.combat import BATTLE_PREPARATION, Combat
 from module.config.utils import DEFAULT_TIME
 from module.logger import logger
 from module.ocr.ocr import DigitCounter
-from module.os_ash.assets import *
+from module.os_ash.assets import *  # noqa: F403  (data-bundle star import)
 from module.os_handler.map_event import MapEventHandler
 from module.ui.assets import BACK_ARROW
 from module.ui.ui import UI

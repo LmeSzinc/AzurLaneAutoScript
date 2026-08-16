@@ -1,6 +1,6 @@
 from module.base.timer import Timer
 from module.logger import logger
-from module.private_quarters.assets import *
+from module.private_quarters.assets import *  # noqa: F403  (data-bundle star import)
 from module.private_quarters.ui import PQShopUI
 from module.shop.clerk import ShopClerk
 

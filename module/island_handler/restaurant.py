@@ -17,7 +17,7 @@ from module.island.utils import (
     load_hard_floor_items,
     normalize_item_keys,
 )
-from module.island_handler.assets import *
+from module.island_handler.assets import *  # noqa: F403  (data-bundle star import)
 from module.island_handler.dock import IslandDock
 from module.island_handler.restaurant_config import (
     RESTAURANT_IDS,

@@ -6,7 +6,7 @@ from module.combat.assets import GET_ITEMS_1
 from module.equipment.equipment import Equipment
 from module.logger import logger
 from module.ocr.ocr import DigitCounter
-from module.retire.assets import *
+from module.retire.assets import *  # noqa: F403  (data-bundle star import)
 from module.ui.scroll import Scroll
 from module.ui.setting import Setting
 from module.ui.switch import Switch

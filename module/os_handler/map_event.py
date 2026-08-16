@@ -1,10 +1,10 @@
 from module.base.timer import Timer
-from module.combat.assets import *
+from module.combat.assets import *  # noqa: F403  (data-bundle star import)
 from module.exception import CampaignEnd
 from module.handler.assets import POPUP_CANCEL, POPUP_CONFIRM
 from module.logger import logger
 from module.os.assets import GLOBE_GOTO_MAP
-from module.os_handler.assets import *
+from module.os_handler.assets import *  # noqa: F403  (data-bundle star import)
 from module.os_handler.enemy_searching import EnemySearchingHandler
 from module.ui.assets import BACK_ARROW
 from module.ui.switch import Switch

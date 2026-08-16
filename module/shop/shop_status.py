@@ -1,6 +1,6 @@
 import module.config.server as server
 from module.ocr.ocr import Digit
-from module.shop.assets import *
+from module.shop.assets import *  # noqa: F403  (data-bundle star import)
 from module.ui.ui import UI
 
 if server.server != "jp":

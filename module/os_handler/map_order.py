@@ -7,7 +7,7 @@ from module.map.assets import MAP_CAT_ATTACK
 from module.map.map_operation import MapOperation
 from module.os.globe_zone import ZoneManager
 from module.os_handler.action_point import ActionPointHandler
-from module.os_handler.assets import *
+from module.os_handler.assets import *  # noqa: F403  (data-bundle star import)
 from module.os_handler.map_event import MapEventHandler
 
 

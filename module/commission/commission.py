@@ -5,8 +5,8 @@ from scipy import signal
 
 from module.base.timer import Timer
 from module.base.utils import crop, image_size, np, rgb2gray
-from module.combat.assets import *
-from module.commission.assets import *
+from module.combat.assets import *  # noqa: F403  (data-bundle star import)
+from module.commission.assets import *  # noqa: F403  (data-bundle star import)
 from module.commission.preset import DICT_FILTER_PRESET, SHORTEST_FILTER
 from module.commission.project import COMMISSION_FILTER, Commission
 from module.config.config_generated import GeneratedConfig

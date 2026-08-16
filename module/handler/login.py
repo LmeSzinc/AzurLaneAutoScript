@@ -7,10 +7,10 @@ from uiautomator2.xpath import XPath, XPathSelector
 import module.config.server as server
 from module.base.timer import Timer
 from module.base.utils import color_similarity_2d, crop
-from module.handler.assets import *
+from module.handler.assets import *  # noqa: F403  (data-bundle star import)
 from module.logger import logger
-from module.map.assets import *
-from module.ui.assets import *
+from module.map.assets import *  # noqa: F403  (data-bundle star import)
+from module.ui.assets import *  # noqa: F403  (data-bundle star import)
 from module.ui.page import page_campaign_menu
 from module.ui.ui import UI
 

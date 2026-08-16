@@ -1,4 +1,4 @@
-from module.island_handler.assets import *
+from module.island_handler.assets import *  # noqa: F403  (data-bundle star import)
 from module.island_handler.shop_ui import IslandShopUI
 from module.logger import logger
 from module.ocr.ocr import Digit

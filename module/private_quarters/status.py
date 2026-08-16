@@ -1,6 +1,6 @@
 import module.config.server as server
 from module.ocr.ocr import Digit, DigitCounter
-from module.private_quarters.assets import *
+from module.private_quarters.assets import *  # noqa: F403  (data-bundle star import)
 from module.shop.shop_status import ShopStatus
 
 if server.server in ["cn", "jp", "tw"]:

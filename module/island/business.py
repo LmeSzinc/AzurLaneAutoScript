@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property, del_cached_property
 from module.config.utils import get_server_next_update
-from module.island.assets import *
+from module.island.assets import *  # noqa: F403  (data-bundle star import)
 from module.island_handler.restaurant import IslandRestaurant, WaitressOccupied
 from module.island_handler.restaurant_config import (
     RESTAURANT_IDS,

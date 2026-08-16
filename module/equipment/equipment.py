@@ -1,7 +1,7 @@
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.base.timer import Timer
-from module.equipment.assets import *
+from module.equipment.assets import *  # noqa: F403  (data-bundle star import)
 from module.equipment.equipment_code import EquipmentCodeHandler
 from module.logger import logger
 from module.retire.assets import DOCK_CHECK

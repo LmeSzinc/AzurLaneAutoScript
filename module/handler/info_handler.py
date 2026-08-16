@@ -5,7 +5,7 @@ from module.base.button import Button
 from module.base.timer import Timer
 from module.base.utils import area_offset, area_pad, color_similar, color_similarity_2d, cv2, get_color, np
 from module.exception import GameNotRunningError
-from module.handler.assets import *
+from module.handler.assets import *  # noqa: F403  (data-bundle star import)
 from module.logger import logger
 from module.os_handler.assets import CLICK_SAFE_AREA as OS_CLICK_SAFE_AREA
 from module.ui_white.assets import POPUP_CANCEL_WHITE, POPUP_CONFIRM_WHITE, POPUP_SINGLE_WHITE

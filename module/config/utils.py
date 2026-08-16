@@ -7,7 +7,7 @@ import yaml
 
 import module.config.server as server_
 from deploy.atomic import atomic_read_text, atomic_read_bytes, atomic_write
-from module.submodule.utils import *
+from module.submodule.utils import *  # noqa: F403  (re-export facade)
 
 LANGUAGES = ['zh-CN', 'en-US', 'ja-JP', 'zh-TW']
 SERVER_TO_LANG = {

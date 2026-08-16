@@ -1,7 +1,7 @@
 from module.base.timer import Timer
 from module.exception import GameStuckError
 from module.handler.assets import STORY_SKIP
-from module.island.assets import *
+from module.island.assets import *  # noqa: F403  (data-bundle star import)
 from module.island.ui import IslandUI
 from module.logger import logger
 from module.ui.page import page_island, page_island_manage, page_island_phone

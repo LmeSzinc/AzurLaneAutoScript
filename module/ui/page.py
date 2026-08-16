@@ -1,12 +1,12 @@
 import traceback
 
-from module.coalition.assets import *
+from module.coalition.assets import *  # noqa: F403  (data-bundle star import)
 from module.event_hospital.assets import HOSIPITAL_CHECK
 from module.freebies.assets import MAIL_ENTER
-from module.raid.assets import *
+from module.raid.assets import *  # noqa: F403  (data-bundle star import)
 from module.retire.assets import DOCK_CHECK
-from module.ui.assets import *
-from module.ui_white.assets import *
+from module.ui.assets import *  # noqa: F403  (data-bundle star import)
+from module.ui_white.assets import *  # noqa: F403  (data-bundle star import)
 
 
 class Page:

@@ -8,8 +8,8 @@ from module.base.filter import Filter
 from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_3, GET_SHIP
 from module.logger import logger
-from module.shop.assets import *
-from module.shop.shop_select_globals import *
+from module.shop.assets import *  # noqa: F403  (data-bundle star import)
+from module.shop.shop_select_globals import *  # noqa: F403  (re-export facade)
 from module.statistics.item import Item, ItemGrid
 from module.tactical.tactical_class import Book
 from module.ui.ui import UI

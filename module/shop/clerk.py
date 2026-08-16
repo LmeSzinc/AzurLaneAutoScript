@@ -7,9 +7,9 @@ from module.exception import ScriptError
 from module.logger import logger
 from module.ocr.ocr import Digit, DigitCounter
 from module.retire.retirement import Retirement
-from module.shop.assets import *
+from module.shop.assets import *  # noqa: F403  (data-bundle star import)
 from module.shop.base import ShopBase
-from module.shop.shop_select_globals import *
+from module.shop.shop_select_globals import *  # noqa: F403  (re-export facade)
 from module.ui.assets import SHOP_BACK_ARROW
 
 

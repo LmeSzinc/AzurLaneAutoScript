@@ -16,7 +16,7 @@ from module.meowfficer.collect import SWITCH_LOCK
 from module.ocr.ocr import Digit, Ocr
 from module.shop.assets import SHOP_OCR_BALANCE, SHOP_OCR_OIL, SHOP_OCR_OIL_CHECK
 from module.shop.shop_medal import ShopScroll
-from module.shop_event.assets import *
+from module.shop_event.assets import *  # noqa: F403  (data-bundle star import)
 from module.ui.navbar import Navbar
 from module.ui.ui import UI
 

@@ -4,7 +4,7 @@ from module.base.utils import area_pad
 from module.campaign.campaign_status import OCR_COIN
 from module.handler.assets import LOGIN_ANNOUNCE
 from module.logger import logger
-from module.shipyard.ui_globals import *
+from module.shipyard.ui_globals import *  # noqa: F403  (re-export facade)
 from module.ui.assets import SHIPYARD_CHECK
 from module.ui.navbar import Navbar
 from module.ui.page import page_main_white

@@ -1,5 +1,5 @@
 from module.campaign.campaign_event import CampaignEvent
-from module.event.assets import *
+from module.event.assets import *  # noqa: F403  (data-bundle star import)
 from module.exception import CampaignEnd
 from module.logger import logger
 from module.map.map_operation import MapOperation

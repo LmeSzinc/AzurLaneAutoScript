@@ -2,13 +2,13 @@ import numpy as np
 
 from module.base.timer import Timer
 from module.base.utils import color_similar, get_color
-from module.combat.assets import *
+from module.combat.assets import *  # noqa: F403  (data-bundle star import)
 from module.combat.combat_auto import CombatAuto
 from module.combat.combat_manual import CombatManual
 from module.combat.hp_balancer import HPBalancer
 from module.combat.level import Level
 from module.combat.submarine import SubmarineCall
-from module.combat_ui.assets import *
+from module.combat_ui.assets import *  # noqa: F403  (data-bundle star import)
 from module.handler.auto_search import AutoSearchHandler
 from module.logger import logger
 from module.map.assets import MAP_OFFENSIVE

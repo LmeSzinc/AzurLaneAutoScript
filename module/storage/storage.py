@@ -10,7 +10,7 @@ from module.ocr.ocr import Digit
 from module.retire.assets import EQUIP_CONFIRM, EQUIP_CONFIRM_2
 from module.shop.assets import AMOUNT_MINUS, AMOUNT_PLUS
 from module.statistics.item import ItemGrid
-from module.storage.assets import *
+from module.storage.assets import *  # noqa: F403  (data-bundle star import)
 from module.storage.ui import StorageUI
 from module.ui.assets import BACK_ARROW, STORAGE_CHECK
 from module.ui.scroll import Scroll

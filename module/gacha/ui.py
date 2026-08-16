@@ -1,7 +1,7 @@
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.base.timer import Timer
-from module.gacha.assets import *
+from module.gacha.assets import *  # noqa: F403  (data-bundle star import)
 from module.logger import logger
 from module.ui.navbar import Navbar
 from module.ui.page import page_build

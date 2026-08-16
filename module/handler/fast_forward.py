@@ -3,7 +3,7 @@ import re
 
 from module.base.timer import Timer
 from module.base.utils import color_bar_percentage
-from module.handler.assets import *
+from module.handler.assets import *  # noqa: F403  (data-bundle star import)
 from module.handler.auto_search import AutoSearchHandler
 from module.logger import logger
 from module.ui.switch import Switch

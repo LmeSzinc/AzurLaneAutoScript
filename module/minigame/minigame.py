@@ -1,7 +1,7 @@
 import module.config.server as server
 from module.combat.assets import GET_ITEMS_1
 from module.logger import logger
-from module.minigame.assets import *
+from module.minigame.assets import *  # noqa: F403  (data-bundle star import)
 from module.ocr.ocr import Digit
 from module.ui.assets import ACADEMY_GOTO_GAME_ROOM, GAME_ROOM_CHECK
 from module.ui.page import page_academy, page_game_room

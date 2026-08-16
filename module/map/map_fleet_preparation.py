@@ -15,7 +15,7 @@ from module.handler.assets import (
 )
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
-from module.map.assets import *
+from module.map.assets import *  # noqa: F403  (data-bundle star import)
 
 
 class FleetOperator:

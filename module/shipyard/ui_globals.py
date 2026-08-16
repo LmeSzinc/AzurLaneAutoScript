@@ -1,6 +1,6 @@
 from module.base.button import ButtonGrid
 from module.ocr.ocr import Digit
-from module.shipyard.assets import *
+from module.shipyard.assets import *  # noqa: F403  (data-bundle star import)
 
 SHIPYARD_FACE_GRID = ButtonGrid(
     origin=(188, 607), delta=(181, 0), button_shape=(181, 80), grid_shape=(6, 1), name="SHIPYARD_FACE_GRID"

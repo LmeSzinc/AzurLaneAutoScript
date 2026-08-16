@@ -1,7 +1,7 @@
 from datetime import timedelta
 
 from module.config.utils import get_server_last_update
-from module.exercise.assets import *
+from module.exercise.assets import *  # noqa: F403  (data-bundle star import)
 from module.exercise.combat import ExerciseCombat
 from module.logger import logger
 from module.ocr.ocr import Digit, Ocr, OcrYuv

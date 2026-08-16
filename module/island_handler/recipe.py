@@ -26,7 +26,7 @@ from module.island.utils import (
     normalize_item_needs,
     parse_item_need_deadlines,
 )
-from module.island_handler.assets import *
+from module.island_handler.assets import *  # noqa: F403  (data-bundle star import)
 from module.island_handler.exchange import IslandExchange
 from module.island_handler.shop import IslandShop
 from module.logger import logger

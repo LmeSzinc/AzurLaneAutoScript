@@ -2,7 +2,7 @@ from module.base.timer import Timer
 from module.base.utils import crop, rgb2gray
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_ITEMS_3, GET_ITEMS_3_CHECK
 from module.logger import logger
-from module.research.assets import *
+from module.research.assets import *  # noqa: F403  (data-bundle star import)
 from module.research.project import RESEARCH_STATUS
 from module.research.series import RESEARCH_SCALING
 from module.ui.assets import BACK_ARROW, RESEARCH_CHECK

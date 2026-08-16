@@ -7,7 +7,7 @@ from module.base.utils import get_color, np
 from module.config.utils import get_server_next_update
 from module.logger import logger
 from module.ocr.ocr import Digit, DigitCounter
-from module.os_handler.assets import *
+from module.os_handler.assets import *  # noqa: F403  (data-bundle star import)
 from module.os_handler.map_event import MapEventHandler
 from module.statistics.item import Item, ItemGrid
 from module.ui.assets import OS_CHECK

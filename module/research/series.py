@@ -1,5 +1,5 @@
 from module.base.utils import area_pad, crop, rgb2gray
-from module.research.assets import *
+from module.research.assets import *  # noqa: F403  (data-bundle star import)
 
 RESEARCH_SERIES = (SERIES_1, SERIES_2, SERIES_3, SERIES_4, SERIES_5)
 RESEARCH_SCALING = [

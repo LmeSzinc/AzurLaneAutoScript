@@ -6,7 +6,7 @@ from module.base.utils import get_color
 from module.exception import GameBugError
 from module.logger import logger
 from module.ocr.ocr import Duration
-from module.research.assets import *
+from module.research.assets import *  # noqa: F403  (data-bundle star import)
 from module.research.ui import ResearchUI
 
 OCR_QUEUE_REMAIN = Duration(QUEUE_REMAIN, letter=(255, 255, 255), threshold=128, name="OCR_QUEUE_REMAIN")

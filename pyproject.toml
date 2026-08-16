@@ -68,8 +68,11 @@ ignore = [
     "E402",  # module level import not at top of file
     "E722",  # bare except, used heavily in legacy code
     "E731",  # lambda assignment
-    "F403",  # star import, used in legacy module.base.utils
-    "F405",  # name may be undefined from star import
+    "F405",  # name may be undefined from star import: every star import site is
+    #         annotated `# noqa: F403 (data-bundle star import | re-export facade)`
+    #         (169 sites, see dev_tools/annotate_star_imports.py); the 2787 usage
+    #         sites of those intentional bundles cannot be annotated one by one,
+    #         and real undefined names are caught by pyright + import smoke tests.
     "B008",  # function call in default argument
     "B905",  # zip without strict, py<3.10 compatibility in legacy code
     "B904",  # raise-without-from: per-site exception chaining intent needs manual review

@@ -3,10 +3,10 @@ from datetime import datetime, timedelta
 from module.base.decorator import Config
 from module.base.filter import Filter
 from module.base.utils import area_offset, color_similar, crop, cv2, extract_letters, get_color, np, re
-from module.commission.project_data import *
+from module.commission.project_data import *  # noqa: F403  (re-export facade)
 from module.logger import logger
 from module.ocr.ocr import Duration, Ocr
-from module.reward.assets import *
+from module.reward.assets import *  # noqa: F403  (data-bundle star import)
 
 COMMISSION_FILTER = Filter(
     regex=re.compile(

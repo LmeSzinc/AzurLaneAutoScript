@@ -6,7 +6,7 @@ from module.handler.assets import GET_MISSION
 from module.logger import logger
 from module.os.globe_operation import GlobeOperation
 from module.os.globe_zone import ZoneManager
-from module.os_handler.assets import *
+from module.os_handler.assets import *  # noqa: F403  (data-bundle star import)
 from module.storage.assets import BOX_USE
 from module.ui.scroll import Scroll
 

@@ -2,8 +2,8 @@ from module.base.utils import area_offset, area_pad, color_similarity_2d, crop, 
 from module.exception import ScriptError
 from module.logger import logger
 from module.map_detection.utils import area2corner, corner2area, perspective_transform
-from module.map_detection.utils_assets import *
-from module.template.assets import *
+from module.map_detection.utils_assets import *  # noqa: F403  (data-bundle star import)
+from module.template.assets import *  # noqa: F403  (data-bundle star import)
 
 
 class GridPredictor:

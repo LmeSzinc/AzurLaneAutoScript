@@ -6,7 +6,7 @@ from module.event_hospital.assets import HOSPITAL_BATTLE_PREPARE
 from module.event_hospital.ui import HospitalUI
 from module.exception import OilExhausted, RequestHumanTakeover
 from module.logger import logger
-from module.map.assets import *
+from module.map.assets import *  # noqa: F403  (data-bundle star import)
 from module.map.map_fleet_preparation import FleetOperator
 from module.raid.assets import RAID_FLEET_PREPARATION
 

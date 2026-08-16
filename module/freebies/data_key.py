@@ -1,5 +1,5 @@
 from module.combat.assets import GET_ITEMS_1
-from module.freebies.assets import *
+from module.freebies.assets import *  # noqa: F403  (data-bundle star import)
 from module.logger import logger
 from module.ocr.ocr import DigitCounter
 from module.ui.assets import CAMPAIGN_MENU_GOTO_WAR_ARCHIVES, WAR_ARCHIVES_CHECK

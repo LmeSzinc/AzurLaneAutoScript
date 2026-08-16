@@ -3,7 +3,7 @@ import importlib
 from campaign.campaign_hard.campaign_hard import Campaign
 from module.campaign.run import CampaignRun
 from module.handler.fast_forward import to_map_file_name
-from module.hard.assets import *
+from module.hard.assets import *  # noqa: F403  (data-bundle star import)
 from module.logger import logger
 from module.ocr.ocr import Digit
 

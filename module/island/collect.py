@@ -1,7 +1,7 @@
 from module.base.button import ButtonGrid
 from module.base.timer import Timer
 from module.exception import GameStuckError
-from module.island.assets import *
+from module.island.assets import *  # noqa: F403  (data-bundle star import)
 from module.island_handler.dock import IslandDock
 from module.island_handler.dock_scanner import CharacterScanner
 from module.logger import logger

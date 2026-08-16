@@ -7,7 +7,7 @@ from module.base.timer import Timer
 from module.base.utils import area_offset, color_mapping, get_color, np, rgb2gray
 from module.combat.assets import GET_ITEMS_1
 from module.exception import GameBugError
-from module.guild.assets import *
+from module.guild.assets import *  # noqa: F403  (data-bundle star import)
 from module.guild.base import GuildBase
 from module.logger import logger
 from module.ocr.ocr import Digit

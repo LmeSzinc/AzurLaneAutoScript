@@ -6,13 +6,13 @@ from module.campaign.campaign_base import CampaignBase
 from module.campaign.run import CampaignRun
 from module.combat.assets import BATTLE_PREPARATION
 from module.combat.emotion import Emotion
-from module.equipment.assets import *
+from module.equipment.assets import *  # noqa: F403  (data-bundle star import)
 from module.exception import CampaignEnd, HardNotSatisfied
 from module.handler.assets import AUTO_SEARCH_MAP_OPTION_OFF
 from module.logger import logger
 from module.map.assets import FLEET_PREPARATION, MAP_PREPARATION
 from module.ocr.ocr import Digit
-from module.retire.assets import *
+from module.retire.assets import *  # noqa: F403  (data-bundle star import)
 from module.retire.dock import Dock
 from module.retire.scanner import ShipScanner
 from module.ui.assets import BACK_ARROW

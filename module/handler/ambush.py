@@ -1,10 +1,10 @@
 from module.base.timer import Timer
 from module.base.utils import get_color, red_overlay_transparency
 from module.combat.combat import Combat
-from module.handler.assets import *
+from module.handler.assets import *  # noqa: F403  (data-bundle star import)
 from module.handler.info_handler import info_letter_preprocess
 from module.logger import logger
-from module.template.assets import *
+from module.template.assets import *  # noqa: F403  (data-bundle star import)
 
 TEMPLATE_AMBUSH_EVADE_SUCCESS.pre_process = info_letter_preprocess
 TEMPLATE_AMBUSH_EVADE_FAILED.pre_process = info_letter_preprocess

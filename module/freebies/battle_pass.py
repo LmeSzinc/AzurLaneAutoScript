@@ -1,7 +1,7 @@
 from module.base.timer import Timer
 from module.base.utils import get_color
 from module.combat.combat import Combat
-from module.freebies.assets import *
+from module.freebies.assets import *  # noqa: F403  (data-bundle star import)
 from module.logger import logger
 from module.ui.assets import BATTLE_PASS_CHECK, REWARD_GOTO_BATTLE_PASS
 from module.ui.page import page_reward

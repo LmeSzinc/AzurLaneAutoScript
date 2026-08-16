@@ -8,7 +8,7 @@ import module.config.server as server
 from module.base.decorator import cached_property
 from module.config.utils import server_time_offset
 from module.daemon.daemon_base import DaemonBase
-from module.island.data import *
+from module.island.data import *  # noqa: F403  (re-export facade)
 from module.island.utils import (
     ceil_with_epsilon,
     count_level,

@@ -6,8 +6,8 @@ from module.base.filter import Filter
 from module.base.timer import Timer
 from module.config.config_generated import GeneratedConfig
 from module.logger import logger
-from module.research.assets import *
-from module.research.preset import *
+from module.research.assets import *  # noqa: F403  (data-bundle star import)
+from module.research.preset import *  # noqa: F403  (re-export facade)
 from module.research.project import research_detect, research_jp_detect
 from module.research.ui import ResearchUI
 

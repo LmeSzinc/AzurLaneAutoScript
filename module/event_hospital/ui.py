@@ -1,5 +1,5 @@
 from module.combat.assets import BATTLE_PREPARATION
-from module.event_hospital.assets import *
+from module.event_hospital.assets import *  # noqa: F403  (data-bundle star import)
 from module.logger import logger
 from module.minigame.assets import BACK
 from module.raid.assets import RAID_FLEET_PREPARATION

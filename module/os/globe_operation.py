@@ -1,7 +1,7 @@
 from module.base.timer import Timer
 from module.base.utils import area_pad
 from module.logger import logger
-from module.os.assets import *
+from module.os.assets import *  # noqa: F403  (data-bundle star import)
 from module.os_handler.action_point import ActionPointHandler
 from module.os_handler.assets import AUTO_SEARCH_REWARD
 from module.os_handler.port import PORT_CHECK

@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
 from module.combat.assets import GET_SHIP
-from module.dorm.assets import *
+from module.dorm.assets import *  # noqa: F403  (data-bundle star import)
 from module.exercise.assets import EXERCISE_PREPARATION
 from module.logger import logger
 from module.ocr.ocr import Digit

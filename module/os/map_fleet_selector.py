@@ -2,7 +2,7 @@ from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.base.utils import area_offset, area_pad, get_color, image_size, np
 from module.logger import logger
-from module.os.assets import *
+from module.os.assets import *  # noqa: F403  (data-bundle star import)
 from module.os_handler.map_event import MapEventHandler
 
 

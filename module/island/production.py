@@ -4,7 +4,7 @@ from module.base.button import ButtonGrid
 from module.base.decorator import cached_property, del_cached_property, has_cached_property
 from module.base.utils import random_rectangle_vector_opted
 from module.exception import RequestHumanTakeover
-from module.island.assets import *
+from module.island.assets import *  # noqa: F403  (data-bundle star import)
 from module.island.data import DIC_ISLAND_PRODUCTION_PLACE
 from module.island_handler.dock import IslandDock
 from module.island_handler.recipe import IslandProductionRestart, IslandRecipe

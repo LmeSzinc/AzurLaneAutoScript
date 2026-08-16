@@ -1,8 +1,8 @@
 from module.base.base import ModuleBase
 from module.base.timer import Timer
 from module.base.utils import color_bar_percentage
-from module.combat_ui.assets import *
-from module.exercise.assets import *
+from module.combat_ui.assets import *  # noqa: F403  (data-bundle star import)
+from module.exercise.assets import *  # noqa: F403  (data-bundle star import)
 from module.logger import logger
 
 

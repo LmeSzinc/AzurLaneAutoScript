@@ -2,7 +2,7 @@ import yaml
 
 from module.base.timer import Timer
 from module.device.method.utils import HierarchyButton
-from module.equipment.assets import *
+from module.equipment.assets import *  # noqa: F403  (data-bundle star import)
 from module.logger import logger
 from module.retire.assets import TEMPLATE_BOGUE, TEMPLATE_HERMES, TEMPLATE_LANGLEY, TEMPLATE_RANGER
 from module.storage.assets import EQUIPMENT_FULL

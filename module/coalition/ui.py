@@ -1,5 +1,5 @@
 from module.base.timer import Timer
-from module.coalition.assets import *
+from module.coalition.assets import *  # noqa: F403  (data-bundle star import)
 from module.combat.assets import BATTLE_PREPARATION
 from module.combat.combat import Combat
 from module.exception import CampaignNameError, RequestHumanTakeover, ScriptError

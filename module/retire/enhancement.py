@@ -6,7 +6,7 @@ from module.combat.assets import GET_ITEMS_1
 from module.exception import GameStuckError, ScriptError
 from module.logger import logger
 from module.ocr.ocr import DigitCounter
-from module.retire.assets import *
+from module.retire.assets import *  # noqa: F403  (data-bundle star import)
 from module.retire.dock import Dock
 
 VALID_SHIP_TYPES = ["dd", "ss", "cl", "ca", "bb", "cv", "repair", "others"]

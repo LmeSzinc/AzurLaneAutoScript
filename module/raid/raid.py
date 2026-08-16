@@ -4,12 +4,12 @@ import numpy as np
 import module.config.server as server
 from module.base.timer import Timer
 from module.campaign.campaign_event import CampaignEvent
-from module.combat.assets import *
+from module.combat.assets import *  # noqa: F403  (data-bundle star import)
 from module.exception import ScriptError
 from module.logger import logger
 from module.map.map_operation import MapOperation
 from module.ocr.ocr import Digit, DigitCounter
-from module.raid.assets import *
+from module.raid.assets import *  # noqa: F403  (data-bundle star import)
 from module.raid.combat import RaidCombat
 from module.ui.assets import RAID_CHECK
 from module.ui.page import page_rpg_stage

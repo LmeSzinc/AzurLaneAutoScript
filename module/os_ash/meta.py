@@ -8,7 +8,7 @@ from module.logger import logger
 from module.meta_reward.meta_reward import MetaReward
 from module.ocr.ocr import Digit, DigitCounter
 from module.os_ash.ash import AshCombat
-from module.os_ash.assets import *
+from module.os_ash.assets import *  # noqa: F403  (data-bundle star import)
 from module.os_handler.map_event import MapEventHandler
 from module.ui.assets import BACK_ARROW
 from module.ui.page import page_reward

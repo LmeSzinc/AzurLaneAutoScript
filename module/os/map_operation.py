@@ -4,7 +4,7 @@ from module.base.utils import color_bar_percentage, re
 from module.exception import MapDetectionError, ScriptError
 from module.logger import logger
 from module.ocr.ocr import Ocr
-from module.os.assets import *
+from module.os.assets import *  # noqa: F403  (data-bundle star import)
 from module.os.globe_zone import Zone
 from module.os.map_fleet_selector import OSFleetSelector
 from module.os_handler.assets import AUTO_SEARCH_REWARD, EXCHANGE_CHECK

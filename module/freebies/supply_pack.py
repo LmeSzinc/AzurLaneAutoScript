@@ -4,7 +4,7 @@ from module.base.timer import Timer
 from module.campaign.campaign_status import CampaignStatus
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2
 from module.config.utils import get_server_weekday
-from module.freebies.assets import *
+from module.freebies.assets import *  # noqa: F403  (data-bundle star import)
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.shop.assets import SHOP_OCR_OIL, SHOP_OCR_OIL_CHECK

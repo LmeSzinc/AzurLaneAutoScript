@@ -1,7 +1,7 @@
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.island.ui import IslandUI, NestedNavbar
-from module.island_handler.assets import *
+from module.island_handler.assets import *  # noqa: F403  (data-bundle star import)
 from module.ui.assets import ISLAND_GOTO_ISLAND_SHOP
 from module.ui.page import page_island, page_island_shop
 

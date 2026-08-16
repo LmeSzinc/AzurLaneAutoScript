@@ -1,5 +1,5 @@
 from module.base.base import ModuleBase
-from module.combat.assets import *
+from module.combat.assets import *  # noqa: F403  (data-bundle star import)
 
 
 class CombatManual(ModuleBase):

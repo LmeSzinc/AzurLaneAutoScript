@@ -5,7 +5,7 @@ from PIL import ImageDraw
 
 from module.base.decorator import cached_property
 from module.base.resource import Resource
-from module.base.utils import *
+from module.base.utils import *  # noqa: F403  (re-export facade)
 from module.config.server import VALID_SERVER
 
 

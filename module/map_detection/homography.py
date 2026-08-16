@@ -18,7 +18,7 @@ from module.map_detection.utils import (
     points_to_area_generator,
     separate_edges,
 )
-from module.map_detection.utils_assets import *
+from module.map_detection.utils_assets import *  # noqa: F403  (data-bundle star import)
 
 
 class Homography:

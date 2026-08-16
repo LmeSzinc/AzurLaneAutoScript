@@ -1,4 +1,4 @@
-from module.war_archives.assets import *
+from module.war_archives.assets import *  # noqa: F403  (data-bundle star import)
 
 dic_archives_template = {
     "war_archives_20190321_en": TEMPLATE_VISITORS_DYED_IN_RED,

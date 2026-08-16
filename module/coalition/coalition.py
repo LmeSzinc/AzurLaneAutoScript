@@ -1,7 +1,7 @@
 import re
 
 from module.campaign.campaign_event import CampaignEvent
-from module.coalition.assets import *
+from module.coalition.assets import *  # noqa: F403  (data-bundle star import)
 from module.coalition.combat import CoalitionCombat
 from module.exception import ScriptEnd, ScriptError
 from module.logger import logger
