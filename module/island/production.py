@@ -229,6 +229,8 @@ class IslandProduction(IslandRecipe, IslandDock):
                 logger.warning(f'Failed to select character {worker} for slot {slot_id}, try to select manjuu instead')
                 worker = 'manjuu'
                 self.ensure_dock_page_at_top()
+            else:
+                self.island_dock_select_one(character.button)
         if worker == 'manjuu':
             self.island_dock_select_manjuu()
         self.island_dock_select_confirm(self.is_in_recipe_menu)
