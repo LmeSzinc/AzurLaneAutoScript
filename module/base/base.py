@@ -13,7 +13,6 @@ from module.base.utils import (
     load_image,
     np,
 )
-from module.combat.emotion import Emotion
 from module.config.config import AzurLaneConfig
 from module.config.server import set_server, to_package
 from module.device.device import Device
@@ -72,7 +71,11 @@ class ModuleBase:
         return AzurStats(config=self.config)
 
     @cached_property
-    def emotion(self) -> Emotion:
+    def emotion(self):
+        # Delayed import keeps module.base free of module.combat dependency
+        # (emotion only uses base-layer code; it lives in combat/ historically).
+        from module.combat.emotion import Emotion
+
         return Emotion(config=self.config)
 
     def early_ocr_import(self):

@@ -144,6 +144,9 @@ def main():
         print(f"wrote module/core/{fname} ({len(names)} symbols)")
 
     # Rewrite utils.py as re-export layer (module-level names preserved)
+    # `__all__` is mandatory: ruff F401 --fix otherwise deletes these "unused"
+    # re-export imports (see commit 704dcb483 for the original incident).
+    all_names = []
     reexports = [
         "import random\n",
         "\n",
@@ -158,17 +161,23 @@ def main():
         mod = f"module.core.{fname[:-3]}"
         for n in names:
             reexports.append(f"from {mod} import {n}\n")
+            all_names.append(n)
     layer = (
         "# Compatibility re-export layer (P1.1 refactor).\n"
         "# All symbols moved to module/core/*; keep this module so existing\n"
         "# `from module.base.utils import *` / explicit imports work unchanged.\n"
         "# Module-level names (cv2/np/Image/re/random) are re-exported too, as\n"
         "# 31 files import them from here (rope-expanded explicit imports).\n"
+        "# `__all__` keeps ruff F401 --fix from deleting these re-exports.\n"
         "\n"
         + "".join(reexports)
+        + "\n"
+        + "__all__ = [\n"
+        + "".join(f'    "{n}",\n' for n in all_names)
+        + "]\n"
     )
     UTILS.write_text(layer, encoding="utf-8", newline="\n")
-    print(f"rewrote module/base/utils.py as re-export layer ({len(SPLIT)} source modules)")
+    print(f"rewrote module/base/utils.py as re-export layer ({len(SPLIT)} source modules, __all__={len(all_names)})")
 
     # Sanity: new modules parse and export exactly the split symbols
     for fname, names in SPLIT.items():
