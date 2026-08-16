@@ -31,6 +31,19 @@
   let keepBottom = $state(true)
   const EMPTY_LOGS: string[] = []
 
+  /** One-shot REST bootstrap: the backend's in-memory snapshot cache is
+   *  cold on a fresh backend start (and absent while the bot never ran),
+   *  so fetch once to fill the three columns; SSE takes over afterwards. */
+  async function refreshScheduler() {
+    if (!activeInstance) return
+    const res = await api.scheduler(activeInstance)
+    schedulers[activeInstance] = {
+      current: res.running[0]?.command ?? null,
+      pending: res.pending,
+      waiting: res.waiting,
+    }
+  }
+
   async function toggleScheduler() {
     if (instanceAlive) {
       await api.stop(activeInstance)
@@ -60,10 +73,10 @@
   // Auto-scroll is handled inside LogView.
 
   $effect(() => {
-    // All live updates (status/log/scheduler) come over the SSE stream;
-    // the backend replays the latest scheduler snapshot and status frame
-    // on every reconnect, so no REST polling is needed.
     void loadI18n()
+    // Fills the columns at mount (and when the active instance changes);
+    // no periodic polling - live updates come over the SSE stream.
+    void refreshScheduler()
   })
 </script>
 
