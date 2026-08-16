@@ -15,7 +15,6 @@ cv2.setNumThreads(2)
 
 from module.base.decorator import cached_property, del_cached_property
 from module.config.config import AzurLaneConfig, TaskEnd
-from module.config.deep import deep_get, deep_set
 from module.exception import (
     GameBugError,
     GameNotRunningError,
@@ -27,6 +26,7 @@ from module.exception import (
 )
 from module.logger import logger
 from module.notify import handle_notify
+from module.scheduler.task_record import TaskRecord
 
 
 class AzurLaneAutoScript:
@@ -37,9 +37,8 @@ class AzurLaneAutoScript:
         self.config_name = config_name
         # Skip first restart
         self.is_first_task = True
-        # Failure count of tasks
-        # Key: str, task name, value: int, failure count
-        self.failure_record = {}
+        # Consecutive failure counts, see module.scheduler.task_record
+        self.task_record = TaskRecord()
 
     @cached_property
     def config(self):
@@ -365,10 +364,8 @@ class AzurLaneAutoScript:
             self.is_first_task = False
 
             # Check failures
-            failed = deep_get(self.failure_record, keys=task, default=0)
-            failed = 0 if success else failed + 1
-            deep_set(self.failure_record, keys=task, value=failed)
-            if failed >= 3:
+            self.task_record.mark_result(task, success=success)
+            if self.task_record.too_many_failures(task, limit=3):
                 logger.critical(f"Task `{task}` failed 3 or more times.")
                 logger.critical(
                     "Possible reason #1: You haven't used it correctly. Please read the help text of the options."
