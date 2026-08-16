@@ -97,13 +97,17 @@ class IslandDock(IslandUI):
     def ensure_dock_page_at_top(self):
         ISLAND_DOCK_DETECT.load_color(self.device.image)
         ISLAND_DOCK_DETECT._match_init = True
+        drag_count = 0
         for _ in self.loop(timeout=10):
             self.prev_dock_page()
+            drag_count += 1
             if self.appear(ISLAND_DOCK_DETECT, offset=(20, 20)):
-                logger.warning('Reached top of dock page')
-                return True
+                if drag_count >= 2:
+                    logger.info('Reached top of dock page')
+                    return True
             else:
                 ISLAND_DOCK_DETECT.load_color(self.device.image)
+                drag_count = 0
         return False
 
     def island_dock_select_one(self, button, skip_first=False):
@@ -137,6 +141,7 @@ class IslandDock(IslandUI):
 
     def island_dock_select_manjuu(self):
         self.island_dock_sort_method_dsc_set(enable=False, wait_loading=True)
+        # self.ensure_dock_page_at_top()  # not necessary for now since usually Manjuu is searched first
         scanner = CharacterScanner(self.dock_grid, identity=['Manjuu'], status='free')
         candidates = scanner.scan(self.device.image)
         if candidates:
@@ -147,9 +152,11 @@ class IslandDock(IslandUI):
             return False
 
     def island_dock_find_character(self, identity):
+        self.ensure_dock_page_at_top()
         self.island_dock_sort_method_dsc_set(enable=True)
         ISLAND_DOCK_DETECT.load_color(self.device.image)
         ISLAND_DOCK_DETECT._match_init = True
+        drag_count = 0
         for _ in self.loop(timeout=40, skip_first=False):
             # dock_grid needs refresh after each page swipe, so we need to get a new scanner each time
             scanner = CharacterScanner(self.dock_grid, identity=identity, status=None)
@@ -159,19 +166,24 @@ class IslandDock(IslandUI):
                     continue
                 return candidate
             self.next_dock_page()
+            drag_count += 1
             if self.appear(ISLAND_DOCK_DETECT, offset=(20, 20)):
-                logger.warning('Reached end of dock page')
-                break
+                if drag_count >= 2:
+                    logger.warning('Reached end of dock page')
+                    break
             else:
                 ISLAND_DOCK_DETECT.load_color(self.device.image)
+                drag_count = 0
         else:
             logger.warning('Failed to find all requested characters')
             return None
 
-    def island_dock_select_character_with_blacklist(self, blacklist):
+    def island_dock_find_character_with_blacklist(self, blacklist):
+        self.ensure_dock_page_at_top()
         self.island_dock_sort_method_dsc_set(enable=True)
         ISLAND_DOCK_DETECT.load_color(self.device.image)
         ISLAND_DOCK_DETECT._match_init = True
+        drag_count = 0
         for _ in self.loop(timeout=40, skip_first=False):
             # dock_grid needs refresh after each page swipe, so we need to get a new scanner each time
             scanner = CharacterScanner(self.dock_grid, identity='any', status='free')
@@ -191,13 +203,15 @@ class IslandDock(IslandUI):
                 elif self.is_button_selected(candidate.button, color=(19, 181, 231)):
                     continue
                 else:
-                    self.island_dock_select_one(candidate.button)
-                    return candidate.identity
+                    return candidate
             self.next_dock_page()
+            drag_count += 1
             if self.appear(ISLAND_DOCK_DETECT, offset=(20, 20)):
-                logger.warning('Reached end of dock page')
-                break
+                if drag_count >= 2:
+                    logger.warning('Reached end of dock page')
+                    break
             else:
                 ISLAND_DOCK_DETECT.load_color(self.device.image)
+                drag_count = 0
         logger.warning('Failed to find any character not in blacklist')
         return None

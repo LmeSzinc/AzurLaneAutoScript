@@ -397,19 +397,21 @@ class IslandRestaurant(IslandDock):
                 | selected_waitresses
                 | all_named_waitresses
             )
-            selected = self.island_dock_select_character_with_blacklist(fallback_blacklist)
-            if selected is None:
+            candidate = self.island_dock_find_character_with_blacklist(fallback_blacklist)
+            if candidate is None:
                 success = False
             else:
-                selected_waitresses.add(selected)
+                self.island_dock_select_one(candidate.button)
+                selected_waitresses.add(candidate.identity)
 
         for _ in range(active_waitresses.count(WAITRESS_ANY)):
             blacklist = unavailable_waitress_list | selected_waitresses | all_named_waitresses
-            selected = self.island_dock_select_character_with_blacklist(blacklist)
-            if selected is None:
+            candidate = self.island_dock_find_character_with_blacklist(blacklist)
+            if candidate is None:
                 success = False
             else:
-                selected_waitresses.add(selected)
+                self.island_dock_select_one(candidate.button)
+                selected_waitresses.add(candidate.identity)
         if not success:
             logger.warning("Failed to choose waitress")
             self.ui_back(check_button=self.is_in_island_restaurant)
