@@ -1,14 +1,54 @@
-from datetime import timedelta
-
-from module.config.utils import get_os_next_reset, DEFAULT_TIME, get_os_reset_remain
+from module.config.utils import get_os_next_reset, DEFAULT_TIME
 from module.exception import GameStuckError, ScriptError
 from module.logger import logger
-from module.map.map_grids import SelectedGrids
 from module.os.globe_operation import OSExploreError
+from module.os_handler.assets import EXCHANGE_CHECK, EXCHANGE_ENTER
 from module.os.map import OSMap
+from module.shop.shop_voucher import VoucherShop
 
 
 class OpsiExplore(OSMap):
+    def _os_voucher_enter(self):
+        self.os_map_goto_globe(unpin=False)
+        self.ui_click(click_button=EXCHANGE_ENTER, check_button=EXCHANGE_CHECK,
+                      offset=(200, 20), retry_wait=3, skip_first_screenshot=True)
+
+    def _os_voucher_exit(self):
+        self.ui_back(check_button=EXCHANGE_ENTER, appear_button=EXCHANGE_CHECK,
+                     offset=(200, 20), retry_wait=3, skip_first_screenshot=True)
+        self.os_globe_goto_map()
+
+    def _os_voucher_buy_logger_unlock_t1(self):
+        """
+        Buy and use LoggerUnlockT1 if task OpsiVoucher is enabled
+        """
+        if not self.config.is_task_enabled('OpsiVoucher'):
+            logger.info('Task OpsiVoucher not enabled, skip buying LoggerUnlockT1')
+            return
+
+        if self.bought_logger_unlock_t1_in_voucher_shop:
+            logger.info('Already bought LoggerUnlockT1')
+            return
+
+        logger.hr('OS voucher', level=1)
+        # get oil amount
+        self.action_point_enter()
+        self.action_point_safe_get()
+        self.action_point_quit()
+        oil = self._action_point_box[0]
+        preserve = self.config.OpsiGeneral_OilLimit
+
+        # voucher
+        shop = VoucherShop(self.config, self.device)
+        self._os_voucher_enter()
+        currency = max(oil - preserve, 0)
+        logger.info(f'Oil: {oil}, Preserve: {preserve}, Currency: {currency}')
+        bought = shop.run_once_buy_unlock(currency=currency)
+        self._os_voucher_exit()
+        self.logger_use()
+        if bought:
+            self.config.cross_set("OpsiExplore.Storage.Storage.BoughtLoggerUnlockT1", True)
+
     # List of failed zone id
     _os_explore_failed_zone = []
 
@@ -40,7 +80,7 @@ class OpsiExplore(OSMap):
             logger.info('To run again, clear OpsiExplore.Scheduler.NextRun and set OpsiExplore.OpsiExplore.LastZone=0')
             with self.config.multi_set():
                 self.config.OpsiExplore_LastZone = 0
-                self.config.OpsiExplore_SpecialRadar = False
+                self.config.cross_set("OpsiExplore.Storage.Storage.BoughtLoggerUnlockT1", False)
                 self.config.task_delay(target=next_reset)
                 self.config.task_call('OpsiDaily', force_call=False)
                 self.config.task_call('OpsiShop', force_call=False)
@@ -65,6 +105,10 @@ class OpsiExplore(OSMap):
             raise ScriptError(f'Invalid last_zone: {last_zone}')
         if not len(order):
             end()
+
+        # Voucher
+        if self.config.OpsiExplore_SpecialRadar:
+            self._os_voucher_buy_logger_unlock_t1()
 
         # Run
         self._os_explore_failed_zone = []

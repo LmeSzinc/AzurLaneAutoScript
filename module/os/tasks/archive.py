@@ -38,7 +38,7 @@ class OpsiArchive(OSMap):
 
             logger.hr('OS voucher', level=1)
             self._os_voucher_enter()
-            bought = shop.run_once()
+            bought = shop.run_once_buy_archive()
             self._os_voucher_exit()
             if not bought:
                 break
