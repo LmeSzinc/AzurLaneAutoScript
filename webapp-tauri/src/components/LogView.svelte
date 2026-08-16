@@ -56,6 +56,7 @@
   /* overview page (Home) */
   pre.log-view {
     flex-grow: 1;
+    min-height: 0;
     margin: 0.3125rem;
     padding: 0.625rem;
     overflow-y: auto;

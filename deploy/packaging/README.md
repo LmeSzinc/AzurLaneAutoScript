@@ -50,9 +50,15 @@ pnpm tauri build      # beforeBuildCommand=pnpm build 会自动重建 dist
 ### 更新签名（tauri-plugin-updater）
 发布更新前设置环境变量（构建期嵌入公钥）：
 ```powershell
-$env:TAURI_SIGNING_PRIVATE_KEY = "..."        # tauri signer generate 生成
-$env:TAURI_SIGNING_PRIVATE_KEY_PASSWORD = ""  # 可选
+$env:TAURI_SIGNING_PRIVATE_KEY_PATH = "D:\...\.qoder\tauri-keys\alas.key"
+# 或 $env:TAURI_SIGNING_PRIVATE_KEY = "<密钥文件内容>"（无密码密钥）
 ```
+
+**密钥现状（2026-08-15）**：开发密钥对已生成并写入
+`.qoder/tauri-keys/alas.key`（私钥，**gitignored，务必备份**）+ `alas.key.pub`；
+公钥已写入 `tauri.conf.json` 的 `plugins.updater.pubkey`（minisign 格式，与 .pub
+文件内容逐字节一致，已解码校验）。丢失私钥 = 无法签发更新包，需重新生成密钥对并
+更新配置里的 pubkey（`pnpm tauri signer generate -w <path>` 重新生成）。
 发布：把产物（`.msi/.exe` + `latest.json`）上传到更新端点，并在 `tauri.conf.json` 的
 `plugins.updater.endpoints` 填入 `latest.json` 地址（当前为空数组，未发布更新前保持为空）。
 

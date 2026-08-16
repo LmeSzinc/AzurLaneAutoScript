@@ -178,14 +178,16 @@
     padding: 0.625rem;
     /* original overview grid: schedulers minmax(16rem,20rem) + logs minmax(24rem,1fr) */
     grid-template-columns: minmax(16rem, 20rem) minmax(24rem, 1fr);
+    grid-template-rows: minmax(0, 1fr);
     gap: 0.625rem;
-    overflow: auto;
+    overflow: hidden;
   }
   .scheduler-col {
     display: flex;
     flex-direction: column;
     overflow: hidden;
     height: 100%;
+    min-height: 0;
   }
   /* original schedulers rows: auto 7.75rem minmax(7.75rem,13rem) minmax(7.75rem,1fr) */
   .running-section {
@@ -202,13 +204,14 @@
   .waiting-section {
     min-height: 7.75rem;
     flex-grow: 1;
-    flex-shrink: 0;
+    flex-shrink: 1;
     overflow-y: auto;
   }
   .log-col {
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    min-height: 0;
   }
   .bar-title {
     font-size: 1.25rem;
