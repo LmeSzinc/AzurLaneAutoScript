@@ -1,11 +1,17 @@
 import traceback
 
-from module.coalition.assets import *  # noqa: F403  (data-bundle star import)
-from module.event_hospital.assets import HOSIPITAL_CHECK
-from module.freebies.assets import MAIL_ENTER
-from module.raid.assets import *  # noqa: F403  (data-bundle star import)
-from module.retire.assets import DOCK_CHECK
 from module.ui.assets import *  # noqa: F403  (data-bundle star import)
+from module.ui.assets_bridge import (
+    DOCK_CHECK,
+    HORROR_COALITION_CHECK,
+    HOSIPITAL_CHECK,
+    MAIL_ENTER,
+    RPG_BACK,
+    RPG_GOTO_STAGE,
+    RPG_GOTO_STORY,
+    RPG_HOME,
+    RPG_LEAVE_CITY,
+)
 from module.ui_white.assets import *  # noqa: F403  (data-bundle star import)
 
 

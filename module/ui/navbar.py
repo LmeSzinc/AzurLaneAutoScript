@@ -1,7 +1,6 @@
 from module.base.timer import Timer
-from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_SHIP
 from module.logger import logger
-from module.shop.assets import SHOP_CLICK_SAFE_AREA
+from module.ui.assets_bridge import GET_ITEMS_1, GET_ITEMS_2, GET_SHIP, SHOP_CLICK_SAFE_AREA
 
 
 class Navbar:
