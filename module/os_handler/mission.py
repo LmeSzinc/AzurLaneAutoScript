@@ -31,7 +31,9 @@ class MissionHandler(GlobeOperation, ZoneManager):
         if not len(points):
             logger.warning("Unable to find mission on OS mission map")
 
-        point = (*fit_points(points, mod=(1000, 1000), encourage=5), 0, 11)
+        # Keep ndarray semantics: RUF005's unpacking suggestion would produce
+        # a tuple and break the *= below.
+        point = fit_points(points, mod=(1000, 1000), encourage=5) + (0, 11)  # noqa: RUF005
         # Location of zone.
         # (2570, 1694) is the shape of os_globe_map.png
         point *= np.array(GLOBE_MAP_SHAPE) / np.subtract(area[2:], area[:2])

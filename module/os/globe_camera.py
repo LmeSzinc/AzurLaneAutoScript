@@ -252,9 +252,11 @@ class GlobeCamera(GlobeOperation, ZoneManager):
         """
         zone = self.name_to_zone(zone)
         # The center of red whirlpool, on 2D map.
-        location = (*zone.location, -9.5, -12.5)
+        # RUF005's unpacking suggestion would produce a tuple, breaking the
+        # vector arithmetic below (numpy array +/- tuple broadcasts).
+        location = zone.location + (-9.5, -12.5)  # noqa: RUF005
         # Area around the center, on 2D map.
-        location = [location - (4, 4), (*location, 4, 4)]
+        location = [location - (4, 4), location + (4, 4)]  # noqa: RUF005
         # Area around the center, on screen.
         screen = self.globe2screen(location).flatten().round()
         screen = np.round(screen).astype(int).tolist()
