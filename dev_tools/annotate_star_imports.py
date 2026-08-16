@@ -63,6 +63,10 @@ def main():
     for py in sorted(ROOT.rglob("*.py")):
         if any(x in py.parts for x in ("__pycache__", ".venv", "node_modules", ".pnpm-store", "webapp-tauri", ".git")):
             continue
+        # Match against the repo-relative path so the top-level exclusion works
+        rel = py.relative_to(ROOT)
+        if not args.all and rel.parts[0] in EXCLUDED_TOPS:
+            continue
         total += annotate(py, include_all=args.all, dry_run=args.dry_run)
     print("\n".join(total) if total else "(nothing to change)")
     print(f"\n{len(total)} star import lines annotated" + (" (dry run)" if args.dry_run else ""))
