@@ -1,7 +1,7 @@
 <script lang="ts">
   import { api } from '../api/client'
   import { t, loadI18n } from '../api/i18n.svelte'
-  import { logs, refreshStatus, status } from '../api/store.svelte'
+  import { logs, refreshStatus, schedulers, status } from '../api/store.svelte'
   import { push } from '../router.svelte'
   import AppAside from '../components/AppAside.svelte'
   import AppMenu from '../components/AppMenu.svelte'
@@ -12,24 +12,38 @@
     next_run: string
   }
 
-  let scheduler = $state<{
-    alive: boolean
-    running: SchedulerTask[]
-    pending: SchedulerTask[]
-    waiting: SchedulerTask[]
-  }>({ alive: false, running: [], pending: [], waiting: [] })
-
   const activeInstance = $derived(status.instances[0]?.name ?? 'alas')
+  const instanceAlive = $derived(status.instances.find((i) => i.name === activeInstance)?.alive ?? false)
+  /** Live snapshot pushed by the bot process via SSE; empty until the first event. */
+  const scheduler = $derived(
+    schedulers[activeInstance] ?? { current: null, pending: [] as SchedulerTask[], waiting: [] as SchedulerTask[] },
+  )
+  /** Queue column: pending tasks excluding the one currently running. */
+  const pendingShown = $derived(scheduler.pending.filter((p) => p.command !== scheduler.current))
+  /** The running task's scheduled time (looked up in pending or waiting). */
+  const currentTask = $derived(
+    scheduler.current
+      ? (scheduler.pending.find((p) => p.command === scheduler.current) ??
+          scheduler.waiting.find((p) => p.command === scheduler.current) ??
+          null)
+      : null,
+  )
   let keepBottom = $state(true)
   const EMPTY_LOGS: string[] = []
 
+  /** Initial REST fetch (fallback until the first SSE scheduler event arrives). */
   async function refreshScheduler() {
     if (!activeInstance) return
-    scheduler = await api.scheduler(activeInstance)
+    const res = await api.scheduler(activeInstance)
+    schedulers[activeInstance] = {
+      current: res.running[0]?.command ?? null,
+      pending: res.pending,
+      waiting: res.waiting,
+    }
   }
 
   async function toggleScheduler() {
-    if (scheduler.alive) {
+    if (instanceAlive) {
       await api.stop(activeInstance)
     } else {
       await api.run(activeInstance)
@@ -62,7 +76,6 @@
     void refreshScheduler()
     const timer = window.setInterval(() => {
       void refreshStatus()
-      void refreshScheduler()
     }, 5000)
     return () => window.clearInterval(timer)
   })
@@ -77,8 +90,8 @@
     <section class="scheduler-col">
       <div class="scheduler-bar">
         <span class="bar-title">{t('Gui.Overview.Scheduler')}</span>
-        <button class="btn" class:btn-off={scheduler.alive} class:btn-on={!scheduler.alive} onclick={toggleScheduler}>
-          {scheduler.alive ? t('Gui.Button.Stop') : t('Gui.Button.Start')}
+        <button class="btn" class:btn-off={instanceAlive} class:btn-on={!instanceAlive} onclick={toggleScheduler}>
+          {instanceAlive ? t('Gui.Button.Stop') : t('Gui.Button.Start')}
         </button>
       </div>
 
@@ -86,20 +99,20 @@
         <div class="running-section-title">{t('Gui.Overview.Running')}</div>
         <hr class="hr-group" />
         <div class="running-tasks">
-          {#if scheduler.running.length === 0}
+          {#if !scheduler.current}
             <div class="overview-notask-text">{t('Gui.Overview.NoTask')}</div>
           {/if}
-          {#each scheduler.running as task (task.command)}
+          {#if scheduler.current}
             <div class="overview-task">
               <div>
-                <div class="arg-title">{t(`Task.${task.command}.name`)}</div>
-                <div class="arg-help">{task.next_run}</div>
+                <div class="arg-title">{t(`Task.${scheduler.current}.name`)}</div>
+                <div class="arg-help">{currentTask?.next_run ?? ''}</div>
               </div>
-              <button class="btn btn-off" onclick={() => goSettings(task.command)}>
+              <button class="btn btn-off" onclick={() => goSettings(scheduler.current!)}>
                 {t('Gui.Button.Setting')}
               </button>
             </div>
-          {/each}
+          {/if}
         </div>
       </div>
 
@@ -107,10 +120,10 @@
         <div class="pending-section-title">{t('Gui.Overview.Pending')}</div>
         <hr class="hr-group" />
         <div class="pending-tasks">
-          {#if scheduler.pending.length === 0}
+          {#if pendingShown.length === 0}
             <div class="overview-notask-text">{t('Gui.Overview.NoTask')}</div>
           {/if}
-          {#each scheduler.pending as task (task.command)}
+          {#each pendingShown as task (task.command)}
             <div class="overview-task">
               <div>
                 <div class="arg-title">{t(`Task.${task.command}.name`)}</div>

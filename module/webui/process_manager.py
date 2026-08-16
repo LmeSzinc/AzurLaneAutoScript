@@ -28,6 +28,7 @@ class ProcessManager:
     def __init__(self, config_name: str = "alas") -> None:
         self.config_name = config_name
         self._renderable_queue: queue.Queue[ConsoleRenderable] = State.manager.Queue()
+        self._scheduler_queue: queue.Queue = State.manager.Queue()
         self.renderables: list[ConsoleRenderable] = []
         self.renderables_max_length = 400
         self.renderables_reduce_length = 80
@@ -45,6 +46,7 @@ class ProcessManager:
                     self.config_name,
                     func,
                     self._renderable_queue,
+                    self._scheduler_queue,
                     ev,
                 ),
             )
@@ -120,7 +122,9 @@ class ProcessManager:
         return cls._processes[config_name]
 
     @staticmethod
-    def run_process(config_name, func: str, q: queue.Queue, e: threading.Event | None = None) -> None:
+    def run_process(
+        config_name, func: str, q: queue.Queue, scheduler_queue: queue.Queue, e: threading.Event | None = None
+    ) -> None:
         # Keep the automation at below-normal priority so a fully busy bot
         # can never starve the desktop (mouse/UI/DWM stay responsive).
         try:
@@ -134,7 +138,10 @@ class ProcessManager:
         set_file_logger(name=config_name)
         set_func_logger(func=q.put)
 
-        from module.config.config import AzurLaneConfig
+        from module.config.config import AzurLaneConfig, set_scheduler_publisher
+
+        # Push live scheduler snapshots to the webui (non-blocking).
+        set_scheduler_publisher(scheduler_queue.put_nowait)
 
         AzurLaneConfig.stop_event = e
         try:

@@ -20,6 +20,18 @@ export interface SseLog {
   reset?: boolean
 }
 
+export interface SchedulerTask {
+  command: string
+  next_run: string
+}
+
+/** Live scheduler snapshot pushed from the bot process (SSE `scheduler` event). */
+export interface SchedulerSnapshot {
+  current: string | null
+  pending: SchedulerTask[]
+  waiting: SchedulerTask[]
+}
+
 /** Config schema: task -> group -> arg -> definition */
 export interface ArgDefinition {
   type: string

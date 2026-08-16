@@ -1,5 +1,5 @@
 import { api } from './client'
-import type { Status, SseLog } from './types'
+import type { SchedulerSnapshot, Status, SseLog } from './types'
 
 const BASE = import.meta.env.VITE_API_BASE ?? ''
 
@@ -14,6 +14,9 @@ export const connState = $state<{ connected: boolean }>({ connected: false })
 
 /** Per-instance log buffer, newest entries last. */
 export const logs = $state<Record<string, string[]>>({})
+
+/** Per-instance live scheduler snapshot pushed by the bot process. */
+export const schedulers = $state<Record<string, SchedulerSnapshot>>({})
 
 /** Shared menu collapse state so it survives page navigation. */
 export const collapsedGroups = $state<Record<string, boolean>>({})
@@ -55,6 +58,12 @@ export function connectEvents() {
         logs[instance] = buf.slice(-500)
       }
     }
+  })
+  es.addEventListener('scheduler', (event) => {
+    const { instance, ...snapshot } = JSON.parse(
+      (event as MessageEvent<string>).data,
+    ) as SchedulerSnapshot & { instance: string }
+    schedulers[instance] = snapshot
   })
   es.onerror = () => {
     connState.connected = false

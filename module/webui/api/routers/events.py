@@ -1,5 +1,6 @@
 import asyncio
 import json
+from queue import Empty
 from typing import Any
 
 from fastapi import APIRouter
@@ -14,6 +15,20 @@ router = APIRouter(tags=["events"])
 
 def _render_logs(renderables) -> list[str]:
     return [render_log(r) for r in renderables]
+
+
+def _drain_scheduler_queue(manager) -> list[dict]:
+    """Non-blocking drain of an instance's live scheduler snapshots."""
+    out = []
+    try:
+        while True:
+            out.append(manager._scheduler_queue.get_nowait())
+    except Empty:
+        pass
+    except Exception as e:
+        # Manager proxy may be gone while the child is being torn down.
+        logger.exception(e)
+    return out
 
 
 async def _event_updates():
@@ -44,6 +59,8 @@ async def _event_updates():
                 if new_renderables:
                     logs = await asyncio.to_thread(_render_logs, new_renderables)
                     yield "log", {"instance": name, "logs": logs, "reset": reset}
+                for snapshot in _drain_scheduler_queue(manager):
+                    yield "scheduler", {"instance": name, **snapshot}
             idle += 1
             if idle >= 25:
                 idle = 0

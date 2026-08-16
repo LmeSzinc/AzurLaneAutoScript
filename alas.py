@@ -679,6 +679,9 @@ class AzurLaneAutoScript:
 
             # Run
             logger.info(f"Scheduler: Start task `{task}`")
+            # Tell the webui what is actually running right now (get_next()
+            # publishes before the wait; hoarded tasks start after it).
+            self.config.publish_scheduler_state(current=task)
             self.device.stuck_record_clear()
             self.device.click_record_clear()
             logger.hr(task, level=0)
