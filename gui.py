@@ -74,21 +74,38 @@ if __name__ == "__main__":
     multiprocessing.freeze_support()
 
     if State.deploy_config.EnableReload:
-        should_exit = False
-        while not should_exit:
-            event = Event()
-            process = Process(target=func, args=(event,))
-            process.start()
+        process = None
+        try:
+            should_exit = False
             while not should_exit:
-                try:
-                    b = event.wait(1)
-                except KeyboardInterrupt:
-                    should_exit = True
-                    break
-                else:
-                    if b:
-                        process.terminate()
-                        process.join()
+                event = Event()
+                process = Process(target=func, args=(event,))
+                process.start()
+                while not should_exit:
+                    try:
+                        b = event.wait(1)
+                    except KeyboardInterrupt:
+                        should_exit = True
                         break
+                    else:
+                        if b:
+                            # Reload requested (updater): stop the child and
+                            # start a fresh one.
+                            process.terminate()
+                            process.join()
+                            break
+                        elif not process.is_alive():
+                            # Backend died unexpectedly; no point waiting for
+                            # a reload event that will never come.
+                            logger.critical("Webui backend exited unexpectedly")
+                            should_exit = True
+                            break
+        finally:
+            # Ctrl+C or any other exit path must not leave the uvicorn
+            # child orphaned (previously Ctrl+C only exited the parent and
+            # the backend kept running unreachable).
+            if process is not None and process.is_alive():
+                process.terminate()
+                process.join()
     else:
         func(ev=None)
