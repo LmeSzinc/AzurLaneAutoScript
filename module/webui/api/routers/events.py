@@ -12,6 +12,11 @@ from module.webui.process_manager import ProcessManager
 
 router = APIRouter(tags=["events"])
 
+# Latest scheduler snapshot per instance, so freshly connected SSE clients
+# get the current three-column state immediately (same mechanism as the
+# status first frame).
+_scheduler_cache: dict[str, dict] = {}
+
 
 def _render_logs(renderables) -> list[str]:
     return [render_log(r) for r in renderables]
@@ -39,6 +44,7 @@ async def _event_updates():
     """
     last_status = None
     log_cursor: dict[str, int] = {}
+    sent_scheduler: set[str] = set()
     idle = 0
     try:
         while True:
@@ -60,7 +66,17 @@ async def _event_updates():
                     logs = await asyncio.to_thread(_render_logs, new_renderables)
                     yield "log", {"instance": name, "logs": logs, "reset": reset}
                 for snapshot in _drain_scheduler_queue(manager):
+                    _scheduler_cache[name] = snapshot
+                    sent_scheduler.add(name)
                     yield "scheduler", {"instance": name, **snapshot}
+                if name not in sent_scheduler:
+                    # First frame for this connection: replay the latest
+                    # snapshot so the overview has data before the bot's
+                    # next publish.
+                    cached = _scheduler_cache.get(name)
+                    if cached is not None:
+                        sent_scheduler.add(name)
+                        yield "scheduler", {"instance": name, **cached}
             idle += 1
             if idle >= 25:
                 idle = 0

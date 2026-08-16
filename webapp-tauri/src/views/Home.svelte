@@ -1,7 +1,7 @@
 <script lang="ts">
   import { api } from '../api/client'
   import { t, loadI18n } from '../api/i18n.svelte'
-  import { logs, refreshStatus, schedulers, status } from '../api/store.svelte'
+  import { logs, schedulers, status } from '../api/store.svelte'
   import { push } from '../router.svelte'
   import AppAside from '../components/AppAside.svelte'
   import AppMenu from '../components/AppMenu.svelte'
@@ -31,25 +31,13 @@
   let keepBottom = $state(true)
   const EMPTY_LOGS: string[] = []
 
-  /** Initial REST fetch (fallback until the first SSE scheduler event arrives). */
-  async function refreshScheduler() {
-    if (!activeInstance) return
-    const res = await api.scheduler(activeInstance)
-    schedulers[activeInstance] = {
-      current: res.running[0]?.command ?? null,
-      pending: res.pending,
-      waiting: res.waiting,
-    }
-  }
-
   async function toggleScheduler() {
     if (instanceAlive) {
       await api.stop(activeInstance)
     } else {
       await api.run(activeInstance)
     }
-    await refreshStatus()
-    await refreshScheduler()
+    // Status and scheduler updates arrive via SSE.
   }
 
   function goSettings(task: string) {
@@ -72,12 +60,10 @@
   // Auto-scroll is handled inside LogView.
 
   $effect(() => {
+    // All live updates (status/log/scheduler) come over the SSE stream;
+    // the backend replays the latest scheduler snapshot and status frame
+    // on every reconnect, so no REST polling is needed.
     void loadI18n()
-    void refreshScheduler()
-    const timer = window.setInterval(() => {
-      void refreshStatus()
-    }, 5000)
-    return () => window.clearInterval(timer)
   })
 </script>
 

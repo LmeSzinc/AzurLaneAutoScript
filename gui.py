@@ -62,10 +62,13 @@ def func(ev: threading.Event):
 
     app = create_api_app()
 
+    # log_level="warning" silences uvicorn's per-request access logs (the
+    # noisy GET /... 200/304 lines); application logs go through the rich
+    # console handler (stdout) and the startup marker still goes to stderr.
     if ssl:
-        uvicorn.run(app, host=host, port=port, ssl_keyfile=ssl_key, ssl_certfile=ssl_cert)
+        uvicorn.run(app, host=host, port=port, ssl_keyfile=ssl_key, ssl_certfile=ssl_cert, log_level="warning")
     else:
-        uvicorn.run(app, host=host, port=port)
+        uvicorn.run(app, host=host, port=port, log_level="warning")
 
 
 if __name__ == "__main__":
