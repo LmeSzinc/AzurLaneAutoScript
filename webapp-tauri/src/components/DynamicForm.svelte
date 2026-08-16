@@ -102,8 +102,8 @@
     }
   }
 
-  function selectOptions(field: Field): string[] {
-    return (field.def.option as string[]) ?? []
+  function selectOptions(field: Field): unknown[] {
+    return (field.def.option as unknown[]) ?? []
   }
 
   function optionLabel(field: Field, opt: string): string {
@@ -125,8 +125,8 @@
   /** original dark theme styles state values in option_bold/option_light */
   function stateClass(field: Field): string {
     const v = currentValue(field)
-    const bold = (field.def.option_bold as unknown[] | undefined)?.includes(v as never)
-    const light = (field.def.option_light as unknown[] | undefined)?.includes(v as never)
+    const bold = field.def.option_bold?.includes(v as never)
+    const light = field.def.option_light?.includes(v as never)
     return bold ? 'state-bold' : light ? 'state-light' : ''
   }
 </script>
@@ -156,7 +156,7 @@
             onchange={(e) => emitSave(field, (e.currentTarget as HTMLSelectElement).value)}
           >
             {#each selectOptions(field) as opt (opt)}
-              <option value={opt}>{optionLabel(field, opt)}</option>
+              <option value={String(opt)}>{optionLabel(field, String(opt))}</option>
             {/each}
           </select>
         {:else if field.def.type === 'checkbox'}

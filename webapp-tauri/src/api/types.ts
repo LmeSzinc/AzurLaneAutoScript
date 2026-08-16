@@ -26,7 +26,10 @@ export interface ArgDefinition {
   value?: unknown
   valuetype?: string
   validate?: string
-  option?: string[]
+  /** select options; values may be strings, numbers or booleans */
+  option?: unknown[]
+  option_bold?: unknown[]
+  option_light?: unknown[]
   display?: string
   help?: string
   [key: string]: unknown
