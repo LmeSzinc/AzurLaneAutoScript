@@ -160,17 +160,48 @@ class IslandDock(IslandUI):
                 return candidate
             self.next_dock_page()
             if self.appear(ISLAND_DOCK_DETECT, offset=(20, 20)):
-                # go back to top and rescan again to get missed out chars if owning a lot of chars
-                logger.warning(f'Reached end of dock page, going back to top for one more scan for {identity}')
-                self.ensure_dock_page_at_top()
-                ISLAND_DOCK_DETECT.load_color(self.device.image)
-                ISLAND_DOCK_DETECT._match_init = True
-                continue
+                logger.warning('Reached end of dock page')
+                break
             else:
                 ISLAND_DOCK_DETECT.load_color(self.device.image)
         else:
-            logger.warning(f'Failed to find requested character: {identity}')
+            logger.warning('Failed to find all requested characters')
             return None
+
+    def island_dock_select_named_characters(self, identities):
+        # Search the dock in a single forward sweep for multiple named
+        # characters, selecting each one immediately as it's found.
+        # If owning multiple characters, it would often happen that 
+        # a target characters card has already moved offscreen due
+        # to scroll.
+        remaining = set(identities)
+        found = {}
+        self.island_dock_sort_method_dsc_set(enable=True)
+        ISLAND_DOCK_DETECT.load_color(self.device.image)
+        ISLAND_DOCK_DETECT._match_init = True
+        for _ in self.loop(timeout=40, skip_first=False):
+            # dock_grid needs refresh after each page swipe, so we need to get a new scanner each time
+            scanner = CharacterScanner(self.dock_grid, identity=list(remaining), status=None)
+            candidates = scanner.scan(self.device.image)
+            for candidate in candidates:
+                if candidate.identity in remaining:
+                    found[candidate.identity] = candidate
+                    remaining.discard(candidate.identity)
+                    if candidate.status == 'free':
+                        self.island_dock_select_one(candidate.button)
+            if not remaining:
+                break
+            self.next_dock_page()
+            if self.appear(ISLAND_DOCK_DETECT, offset=(20, 20)):
+                logger.warning('Reached end of dock page')
+                break
+            else:
+                ISLAND_DOCK_DETECT.load_color(self.device.image)
+        else:
+            logger.warning(f'Failed to find all requested characters: {sorted(remaining)}')
+        for identity in remaining:
+            found.setdefault(identity, None)
+        return found
 
     def island_dock_select_character_with_blacklist(self, blacklist):
         self.island_dock_sort_method_dsc_set(enable=True)

@@ -364,6 +364,15 @@ class IslandRestaurant(IslandDock):
             if self.is_in_island_dock():
                 break
         success = True
+
+        to_search = [waitress for waitress in named_waitresses if waitress not in unavailable_waitress_list]
+        if len(to_search) >= 2:
+            candidates = self.island_dock_select_named_characters(to_search)
+        elif to_search:
+            candidates = {to_search[0]: self.island_dock_find_character(to_search[0])}
+        else:
+            candidates = {}
+
         for waitress in named_waitresses:
             if waitress in unavailable_waitress_list:
                 logger.warning(
@@ -372,9 +381,10 @@ class IslandRestaurant(IslandDock):
                 )
                 unavailable_waitress_list.remove(waitress)
                 continue
-            candidate = self.island_dock_find_character(waitress)
+            candidate = candidates.get(waitress)
             if candidate is not None and candidate.status == 'free':
-                self.island_dock_select_one(candidate.button)
+                if len(to_search) < 2:
+                    self.island_dock_select_one(candidate.button)
                 selected_waitresses.add(candidate.identity)
                 continue
 
@@ -402,7 +412,7 @@ class IslandRestaurant(IslandDock):
                 success = False
             else:
                 selected_waitresses.add(selected)
-
+        self.ensure_dock_page_at_top()
         for _ in range(active_waitresses.count(WAITRESS_ANY)):
             blacklist = unavailable_waitress_list | selected_waitresses | all_named_waitresses
             selected = self.island_dock_select_character_with_blacklist(blacklist)
