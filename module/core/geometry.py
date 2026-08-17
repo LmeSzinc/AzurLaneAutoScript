@@ -1,5 +1,7 @@
 import re
 
+import numpy as np
+
 REGEX_NODE = re.compile(r"(-?[A-Za-z]+)(-?\d+)")
 
 
@@ -342,3 +344,42 @@ def xyxy2xywh(area):
     """
     x1, y1, x2, y2 = area
     return min(x1, x2), min(y1, y2), abs(x2 - x1), abs(y2 - y1)
+
+
+def fit_points(points, mod, encourage=1):
+    """
+    Get a closet point in a group of points with common difference.
+    Will ignore points in the distance.
+
+    Args:
+        points: Points on image, a 2D array with shape (n, 2)
+        mod: Common difference of points, (x, y).
+        encourage (int, float): Describe how close to fit a group of points, in pixel.
+            Smaller means closer to local minimum, larger means closer to global minimum.
+
+    Returns:
+        np.ndarray: (x, y)
+
+    Moved from module.map_detection.utils (P2.1): base layer depends on this
+    geometric helper, which belongs to the core utility layer. The scipy
+    import is local so importing module.core.geometry stays light.
+    """
+    from scipy import optimize
+
+    encourage = np.square(encourage)
+    mod = np.array(mod)
+    points = np.array(points) % mod
+    points = np.append(points - mod, points, axis=0)
+
+    def cal_distance(point):
+        distance = np.linalg.norm(points - point, axis=1)
+        return np.sum(1 / (1 + np.exp(encourage / distance) / distance))
+
+    # Fast local minimizer
+    # result = optimize.minimize(cal_distance, np.mean(points, axis=0), method='SLSQP')
+    # return result['x'] % mod
+
+    # Brute-force global minimizer
+    area = np.append(-mod - 10, mod + 10)
+    result = optimize.brute(cal_distance, ((area[0], area[2]), (area[1], area[3])))
+    return result % mod

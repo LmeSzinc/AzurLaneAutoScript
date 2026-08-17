@@ -1,7 +1,8 @@
 import numpy as np
-from scipy import optimize
+from scipy import optimize  # noqa: F401 (re-export facade for module.os_handler/module.sos/module.war_archives)
 
 from module.base.utils import area_pad
+from module.core.geometry import fit_points  # noqa: F401 (re-export facade for map_detection consumers)
 
 
 class Points:
@@ -361,36 +362,3 @@ def perspective_transform(points, data):
     x, y = matrix[0] / matrix[2], matrix[1] / matrix[2]
     points = np.array([x, y]).T
     return points
-
-
-def fit_points(points, mod, encourage=1):
-    """
-    Get a closet point in a group of points with common difference.
-    Will ignore points in the distance.
-
-    Args:
-        points: Points on image, a 2D array with shape (n, 2)
-        mod: Common difference of points, (x, y).
-        encourage (int, float): Describe how close to fit a group of points, in pixel.
-            Smaller means closer to local minimum, larger means closer to global minimum.
-
-    Returns:
-        np.ndarray: (x, y)
-    """
-    encourage = np.square(encourage)
-    mod = np.array(mod)
-    points = np.array(points) % mod
-    points = np.append(points - mod, points, axis=0)
-
-    def cal_distance(point):
-        distance = np.linalg.norm(points - point, axis=1)
-        return np.sum(1 / (1 + np.exp(encourage / distance) / distance))
-
-    # Fast local minimizer
-    # result = optimize.minimize(cal_distance, np.mean(points, axis=0), method='SLSQP')
-    # return result['x'] % mod
-
-    # Brute-force global minimizer
-    area = np.append(-mod - 10, mod + 10)
-    result = optimize.brute(cal_distance, ((area[0], area[2]), (area[1], area[3])))
-    return result % mod

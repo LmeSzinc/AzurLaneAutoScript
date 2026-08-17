@@ -7,7 +7,6 @@ from module.base.decorator import cached_property
 from module.base.resource import Resource
 from module.base.utils import area_offset, cv2, load_image, np, rgb2luma
 from module.config.server import VALID_SERVER
-from module.map_detection.utils import Points
 
 
 class Template(Resource):
@@ -280,6 +279,9 @@ class Template(Resource):
         # result: np.array([[x0, y0], [x1, y1], ...)
         if scaling != 1.0:
             result = np.round(result / scaling).astype(int)
+        # Delayed import keeps module.base free of module.map_detection dependency
+        from module.map_detection.utils import Points
+
         result = Points(result).group(threshold=threshold)
         return [self._point_to_button(point, image=raw, name=name) for point in result]
 

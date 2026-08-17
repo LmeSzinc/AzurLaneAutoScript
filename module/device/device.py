@@ -23,7 +23,6 @@ from module.exception import (
     GameTooManyClickError,
     RequestHumanTakeover,
 )
-from module.handler.assets import GET_MISSION
 from module.logger import logger
 
 
@@ -194,6 +193,9 @@ class Device(Screenshot, Control, AppControl):
         diff = (update.timestamp() - now.timestamp()) % 86400
         if threshold < diff < 86400 - threshold:
             return False
+
+        # Delayed import keeps module.device free of module.handler dependency
+        from module.handler.assets import GET_MISSION
 
         if GET_MISSION.match(self.image, offset=True):
             logger.info("Night commission appear.")

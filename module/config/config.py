@@ -12,7 +12,6 @@ from module.config.utils import DEFAULT_TIME, dict_to_kv, filepath_config, get_o
 from module.config.watcher import ConfigWatcher
 from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
-from module.map.map_grids import SelectedGrids
 
 
 class TaskEnd(Exception):
@@ -478,6 +477,9 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
         """
         if not recon_scan and not submarine_call and not ap_limit and not cl1_preserve:
             return None
+        # Delayed import keeps module.config free of module.map dependency
+        from module.map.map_grids import SelectedGrids
+
         kv = dict_to_kv(
             {
                 "recon_scan": recon_scan,

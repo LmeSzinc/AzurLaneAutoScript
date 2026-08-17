@@ -1,5 +1,5 @@
 from module.base.button import Button
-from module.base.decorator import cached_property
+from module.base.decorator import cached_class_property, cached_property
 from module.base.timer import Timer
 from module.base.utils import (
     Image,
@@ -15,12 +15,10 @@ from module.base.utils import (
 )
 from module.config.config import AzurLaneConfig
 from module.config.server import set_server, to_package
+from module.core.geometry import fit_points
 from module.device.device import Device
 from module.device.method.utils import HierarchyButton
 from module.logger import logger
-from module.map_detection.utils import fit_points
-from module.statistics.azurstats import AzurStats
-from module.webui.setting import cached_class_property
 
 
 class ModuleBase:
@@ -67,7 +65,10 @@ class ModuleBase:
         self.early_ocr_import()
 
     @cached_property
-    def stat(self) -> AzurStats:
+    def stat(self):
+        # Delayed import keeps module.base free of module.statistics dependency
+        from module.statistics.azurstats import AzurStats
+
         return AzurStats(config=self.config)
 
     @cached_property

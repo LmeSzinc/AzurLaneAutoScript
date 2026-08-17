@@ -33,7 +33,6 @@ from module.device.method.utils import (
 )
 from module.exception import EmulatorNotRunningError, RequestHumanTakeover
 from module.logger import logger
-from module.map.map_grids import SelectedGrids
 
 
 def retry(func):
@@ -1026,6 +1025,9 @@ class Connection(ConnectionAttr):
         Returns:
             SelectedGrids[AdbDeviceWithStatus]:
         """
+        # Delayed import keeps module.device free of module.map dependency
+        from module.map.map_grids import SelectedGrids
+
         devices = []
         try:
             with self.adb_client._connect() as c:
@@ -1054,6 +1056,9 @@ class Connection(ConnectionAttr):
         Find available devices
         If serial=='auto' and only 1 device detected, use it
         """
+        # Delayed import keeps module.device free of module.map dependency
+        from module.map.map_grids import SelectedGrids
+
         logger.hr("Detect device")
         available = SelectedGrids([])
         devices = SelectedGrids([])
