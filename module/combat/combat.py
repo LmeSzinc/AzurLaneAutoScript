@@ -136,6 +136,8 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             return PAUSE_AzureCore
         if PAUSE_Nier.match_template_color(self.device.image, offset=(10, 10)):
             return PAUSE_Nier
+        if PAUSE_OldeRoyal.match_template_color(self.device.image, offset=(10, 10)):
+            return PAUSE_OldeRoyal
         return False
 
     def handle_combat_quit(self, offset=(20, 20), interval=3):
