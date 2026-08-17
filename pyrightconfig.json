@@ -1,5 +1,5 @@
 {
-  "include": ["module", "deploy", "dev_tools", "alas.py", "gui.py"],
+  "include": ["module", "deploy", "dev_tools", "tests", "alas.py", "gui.py"],
   "exclude": [
     "**/node_modules",
     "**/__pycache__",

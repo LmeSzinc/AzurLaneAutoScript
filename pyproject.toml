@@ -48,6 +48,7 @@ dependencies = [
 dev = [
     "httpx>=0.28.1",
     "pyright>=1.1.411",
+    "pytest>=8.4",
     "ruff>=0.5",
 ]
 
@@ -105,3 +106,7 @@ ignore = [
     "C411",  # unnecessary-list-call
     "C417",  # unnecessary-map
 ]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
