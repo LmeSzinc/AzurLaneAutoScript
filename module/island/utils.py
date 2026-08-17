@@ -300,6 +300,14 @@ def get_stuck_season_order_requirements(stuck_order_id):
     return dict(requirements)
 
 
+def merge_task_target_stuck_order_items(task_target_items, stuck_order_items):
+    """Normalize and merge configured tasks with remaining stuck-order needs."""
+    return merge_item_needs(
+        normalize_item_needs(task_target_items, default_period=10),
+        normalize_item_needs(stuck_order_items, default_period=10),
+    )
+
+
 def normalize_stuck_season_order_id(stuck_order_id):
     try:
         stuck_order_id = int(stuck_order_id)

@@ -21,9 +21,8 @@ from module.island.utils import (
     load_hard_floor_items,
     load_item_mapping,
     load_reserve_items,
-    merge_item_needs,
+    merge_task_target_stuck_order_items,
     normalize_item_keys,
-    normalize_item_needs,
     parse_item_need_deadlines,
 )
 from module.island_handler.assets import *
@@ -120,6 +119,16 @@ RECIPE_INGREDIENT_COUNTER_OCR = IslandReversedDigitCounter(
 
 def get_recipe_product_id(recipe_id):
     return next(iter(DIC_ISLAND_RECIPE[recipe_id]['commission_product']))
+
+
+def get_ingredient_available_stock(stock, hard_floor, reserve, task_target_reserve):
+    return max(
+        stock
+        - max(hard_floor, 0)
+        - max(reserve, 0)
+        - max(task_target_reserve, 0),
+        0,
+    )
 
 
 def get_target_stock_weight(stock, target_stock, hard_floor, reserve):
@@ -349,6 +358,20 @@ class IslandRecipe(IslandExchange, IslandShop):
         yaml_text = self.config.cross_get("IslandProduction.IslandProduction.ReserveItems", "")
         return normalize_item_keys(load_reserve_items(yaml_text))
 
+    def get_task_target_items(self, task_target_items=None):
+        if task_target_items is None:
+            task_target_items = load_item_mapping(
+                self.config.cross_get("IslandSeasonTask.IslandSeasonTask.TaskTarget", "{}"),
+                config_name='TaskTarget',
+            )
+        stuck_season_order_id = self.config.cross_get(
+            "IslandOrder.IslandOrder.StuckSeasonOrderId", 0
+        )
+        return merge_task_target_stuck_order_items(
+            task_target_items,
+            get_stuck_season_order_requirements(stuck_season_order_id),
+        )
+
     def get_recipe_id_sequence_to_run(
             self,
             daily_buffer_items_dict=None,
@@ -372,21 +395,8 @@ class IslandRecipe(IslandExchange, IslandShop):
             reserve_items_dict = self.reserve_items
         else:
             reserve_items_dict = normalize_item_keys(reserve_items_dict)
-        if task_target_items_dict is None:
-            yaml_text = self.config.cross_get("IslandSeasonTask.IslandSeasonTask.TaskTarget", "{}")
-            task_target_items_dict = load_item_mapping(yaml_text, config_name='TaskTarget')
-        task_target_items_dict = normalize_item_needs(task_target_items_dict, default_period=10)
-        stuck_season_order_id = self.config.cross_get(
-            "IslandOrder.IslandOrder.StuckSeasonOrderId", 0
-        )
-        stuck_season_order_items = normalize_item_needs(
-            get_stuck_season_order_requirements(stuck_season_order_id),
-            default_period=10,
-        )
-        task_target_items_dict = merge_item_needs(
-            task_target_items_dict,
-            stuck_season_order_items,
-        )
+        task_target_items_dict = self.get_task_target_items(task_target_items_dict)
+        self.task_target_items = task_target_items_dict
         if idle_accumulating_items_dict is None:
             yaml_text = self.config.cross_get("IslandProduction.IslandProduction.IdleAccumulatingItems", "")
             if yaml_text is None:
@@ -556,6 +566,9 @@ class IslandRecipe(IslandExchange, IslandShop):
         # since ranch recipes may have boosted ingredient requirement for higher batch production.
         counters = self.get_recipe_ingredient_counters()
         recipe_cost = DIC_ISLAND_RECIPE[recipe_id]['commission_cost']
+        task_target_items = getattr(self, 'task_target_items', None)
+        if task_target_items is None:
+            task_target_items = self.get_task_target_items()
         if counters is None:
             logger.warning(f'Unable to read ingredient counters for recipe {recipe_id}')
             return False, 0
@@ -564,11 +577,12 @@ class IslandRecipe(IslandExchange, IslandShop):
             for ingredient_key, counter in zip(recipe_cost, counters):
                 if ingredient_key in DIC_ISLAND_SHOP_ITEM_TO_RECIPE or ingredient_key in (2521, 2522):
                     continue
-                available_stock = max(
-                    counter[0]
-                    - self.hard_floor_items.get(ingredient_key, 0)
-                    - self.reserve_items.get(ingredient_key, 0),
-                    0,
+                task_target_reserve = task_target_items.get(ingredient_key, {}).get('total_need_count', 0)
+                available_stock = get_ingredient_available_stock(
+                    counter[0],
+                    self.hard_floor_items.get(ingredient_key, 0),
+                    self.reserve_items.get(ingredient_key, 0),
+                    task_target_reserve,
                 )
                 count = available_stock // counter[1] if counter[1] > 0 else float('inf')
                 if count < max_count:
@@ -586,7 +600,10 @@ class IslandRecipe(IslandExchange, IslandShop):
         for ingredient_key, counter, button in zip(recipe_cost, counters, ingredient_buttons):
             hard_floor = self.hard_floor_items.get(ingredient_key, 0)
             reserve = self.reserve_items.get(ingredient_key, 0)
-            available_stock = max(counter[0] - hard_floor - reserve, 0)
+            task_target_reserve = task_target_items.get(ingredient_key, {}).get('total_need_count', 0)
+            available_stock = get_ingredient_available_stock(
+                counter[0], hard_floor, reserve, task_target_reserve
+            )
             if available_stock < real_count * counter[1]:
                 if ingredient_key in (2521, 2522):
                     if ingredient_key in failed_buy_items:
@@ -639,7 +656,8 @@ class IslandRecipe(IslandExchange, IslandShop):
                 else:
                     logger.warning(
                         f'Ingredient {ingredient_key} cannot be bought from shop, '
-                        f'insufficient ingredient for recipe production after hard floor {hard_floor} and reserve {reserve}'
+                        f'insufficient ingredient for recipe production after hard floor {hard_floor}, '
+                        f'reserve {reserve}, and task target {task_target_reserve}'
                     )
                     real_count = min(real_count, available_stock // counter[1]) if counter[1] > 0 else 0
                     success = False
