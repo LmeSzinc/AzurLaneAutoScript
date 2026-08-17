@@ -5,6 +5,14 @@ import socket
 import time
 import typing as t
 
+# Patch pkg_resources before importing adbutils and uiautomator2.
+# This module can be imported before module.device.device runs its own patch
+# (e.g. via module.equipment.equipment_code), so patch here too.
+from module.device.pkg_resources import get_distribution
+
+# Just avoid being removed by import optimization
+_ = get_distribution
+
 import uiautomator2 as u2
 import uiautomator2cache
 from adbutils import AdbTimeout

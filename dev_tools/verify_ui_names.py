@@ -4,7 +4,7 @@ import sys
 
 sys.path.insert(0, ".")
 
-import module.ui.ui as u  # noqa: E402,F401
+import module.ui.ui as u
 
 names = [
     "GET_ITEMS_1", "GET_ITEMS_2", "GET_SHIP", "EXERCISE_PREPARATION",

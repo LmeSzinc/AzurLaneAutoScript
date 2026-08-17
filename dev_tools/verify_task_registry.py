@@ -1,4 +1,4 @@
-"""Verify P1.4 registry completeness against the pre-refactor alas.py (git HEAD)."""
+"""Verify P1.4 registry completeness against the pre-refactor alas.py (master branch)."""
 
 import ast
 import subprocess
@@ -21,8 +21,10 @@ print(f"mapping completeness: {len(TASK_REGISTRY) - len(mismatch)}/{len(TASK_REG
 for m in mismatch:
     print(" ", m)
 
-# 2) Registry covers every old task method (except infra)
-old = subprocess.run(["git", "show", "HEAD:alas.py"], capture_output=True, text=True, check=True).stdout
+# 2) Registry covers every old task method (except infra).
+# Compare against master (pre-refactor) so the check stays meaningful after
+# the refactor branch itself has moved HEAD past alas.py rewrite.
+old = subprocess.run(["git", "show", "master:alas.py"], capture_output=True, text=True, check=True).stdout
 tree = ast.parse(old)
 cls = next(n for n in tree.body if isinstance(n, ast.ClassDef))
 old_methods = {n.name for n in cls.body if isinstance(n, ast.FunctionDef)}
