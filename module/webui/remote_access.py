@@ -118,9 +118,9 @@ def remote_access_service(
     else:  # ssh process exit by itself or by timeout killer
         stderr = _ssh_process.stderr.read().decode("utf8")
         if stderr:
-            logger.error(f"PyWebIO application remote access service error: {stderr}")
+            logger.error(f"Alas remote access service error: {stderr}")
         else:
-            logger.info("PyWebIO application remote access service exit.")
+            logger.info("Alas remote access service exit.")
     address = None
 
 

@@ -59,7 +59,6 @@ class ConfigModel:
     Theme: str = "dark"
     DpiScaling: bool = True
     Password: str | None = None
-    CDN: str | bool = False
     Run: str | None = None
     AppAsarUpdate: bool = True
     NoSandbox: bool = True

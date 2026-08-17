@@ -10,7 +10,7 @@ TRANSLATE_MODE = False
 def set_language(s: str, refresh=False):
     global LANG
     for i, lang in enumerate(LANGUAGES):
-        # pywebio.session.info.user_language return `zh-CN` or `zh-cn`, depends on browser
+        # Browser Accept-Language values like `zh-CN` or `zh-cn` depend on the browser
         if lang.lower() == s.lower():
             LANG = LANGUAGES[i]
             break
