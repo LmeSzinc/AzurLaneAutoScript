@@ -6,7 +6,7 @@ working untouched:
 
     from module.logger import logger, set_file_logger, set_func_logger
     logger.info / warning / error / critical / debug / exception(...)
-    logger.hr(title, level) / attr / attr_align / rule / print
+    logger.hr(title, level) / attr / attr_align / rule
     logger.log_file  (path of the active file sink)
 
 Three sinks:
@@ -232,10 +232,6 @@ def attr_align(name, text, front="", align=22):
     logger.info("%s: %s" % (name, str(text)))
 
 
-def print(*objects, **kwargs):
-    logger.info(" ".join(str(obj) for obj in objects))
-
-
 def _error_convert(func):
     def error_wrapper(msg, *args, **kwargs):
         if isinstance(msg, BaseException):
@@ -287,7 +283,6 @@ logger.hr = hr
 logger.attr = attr
 logger.attr_align = attr_align
 logger.rule = rule
-logger.print = print
 logger.set_file_logger = set_file_logger
 logger.set_func_logger = set_func_logger
 logger.log_file = _log_file

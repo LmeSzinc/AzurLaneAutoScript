@@ -1,6 +1,7 @@
 import time
 
 import numpy as np
+from rich.console import Console
 from rich.table import Table
 from rich.text import Text
 
@@ -122,7 +123,12 @@ class Benchmark(DaemonBase, CampaignUI):
                 float2str(row[1]),
                 evaluate_func(row[1]),
             )
-        logger.print(table, justify="center")
+        # Render the rich table to plain text for the log sinks (the old
+        # logger.print renderable path was removed with the loguru rewrite).
+        console = Console(no_color=True, force_terminal=False, width=100)
+        with console.capture() as capture:
+            console.print(table, justify="center")
+        logger.info("\n" + capture.get().rstrip("\n"))
 
     def benchmark(self, screenshot: tuple[str] = (), click: tuple[str] = ()):
         logger.hr("Benchmark", level=1)

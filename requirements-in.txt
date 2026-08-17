@@ -24,6 +24,7 @@ pydantic>=2.10,<3
 aiofiles
 prettytable>=2.2
 anyio>=1.3
+loguru>=0.7.3
 
 # Pushing
 onepush==1.4.0
