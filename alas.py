@@ -26,7 +26,7 @@ class AzurLaneAutoScript(Scheduler):
     The scheduler loop lives in the `Scheduler` mixin (module/scheduler).
     """
 
-    stop_event: threading.Event = None
+    stop_event: threading.Event | None = None
 
     def __init__(self, config_name="alas"):
         logger.hr("Start", level=0)
