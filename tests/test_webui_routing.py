@@ -13,7 +13,7 @@ import pytest
 
 from module.webui.api import create_api_app
 
-DIST_INDEX = os.path.join("webapp-tauri", "dist", "index.html")
+DIST_BUILT = os.path.isfile(os.path.join("webapp-tauri", "dist", "index.html"))
 
 
 @pytest.fixture
@@ -61,7 +61,7 @@ async def test_root_never_redirect_loops(client):
     # When dist is built, "/" serves the SPA; when it is not, "/" must
     # return the JSON 404 rather than redirect to itself.
     response = await client.get("/", follow_redirects=False)
-    if os.path.isfile(DIST_INDEX):
+    if DIST_BUILT:
         assert response.status_code == 200
     else:
         assert response.status_code == 404
@@ -74,7 +74,7 @@ async def test_hash_fragment_is_client_side(client):
     # and the SPA router handles the hash. Pin that the server treats the
     # path without the fragment as the SPA root.
     response = await client.get("/", follow_redirects=False)
-    if os.path.isfile(DIST_INDEX):
+    if DIST_BUILT:
         assert response.status_code == 200
     else:
         assert response.status_code == 404
