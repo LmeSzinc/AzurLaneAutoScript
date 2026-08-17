@@ -8,8 +8,8 @@ API routes, "/" and the static assets. Everything else must 302 back to
 
 import os
 
+import httpx
 import pytest
-from fastapi.testclient import TestClient
 
 from module.webui.api import create_api_app
 
@@ -17,42 +17,50 @@ DIST_INDEX = os.path.join("webapp-tauri", "dist", "index.html")
 
 
 @pytest.fixture
-def client():
-    # No lifespan: routing behavior only, no State/process side effects.
-    test_client = TestClient(create_api_app())
-    yield test_client
-    test_client.close()
+async def client():
+    # httpx ASGI transport instead of starlette.testclient.TestClient:
+    # starlette deprecates its TestClient in favor of httpx2, and httpx is
+    # already a dev dependency. ASGITransport does not run the lifespan,
+    # matching the previous no-lifespan TestClient usage.
+    transport = httpx.ASGITransport(app=create_api_app())
+    async with httpx.AsyncClient(transport=transport, base_url="http://testserver") as test_client:
+        yield test_client
 
 
-def test_unknown_path_redirects_home(client):
-    response = client.get("/nonexistent-xyz-123", follow_redirects=False)
+@pytest.mark.anyio
+async def test_unknown_path_redirects_home(client):
+    response = await client.get("/nonexistent-xyz-123", follow_redirects=False)
     assert response.status_code == 302
     assert response.headers["location"] == "/"
 
 
-def test_deep_path_redirects_home(client):
-    response = client.get("/deep/link/page", follow_redirects=False)
+@pytest.mark.anyio
+async def test_deep_path_redirects_home(client):
+    response = await client.get("/deep/link/page", follow_redirects=False)
     assert response.status_code == 302
     assert response.headers["location"] == "/"
 
 
-def test_api_typo_redirects_home(client):
+@pytest.mark.anyio
+async def test_api_typo_redirects_home(client):
     # Policy: all non-specified paths go home, including API typos.
-    response = client.get("/api/status", follow_redirects=False)
+    response = await client.get("/api/status", follow_redirects=False)
     assert response.status_code == 302
     assert response.headers["location"] == "/"
 
 
-def test_registered_route_still_works(client):
+@pytest.mark.anyio
+async def test_registered_route_still_works(client):
     # /i18n/{lang} needs no lifespan state and always answers 200.
-    response = client.get("/i18n/zh-CN")
+    response = await client.get("/i18n/zh-CN")
     assert response.status_code == 200
 
 
-def test_root_never_redirect_loops(client):
+@pytest.mark.anyio
+async def test_root_never_redirect_loops(client):
     # When dist is built, "/" serves the SPA; when it is not, "/" must
     # return the JSON 404 rather than redirect to itself.
-    response = client.get("/", follow_redirects=False)
+    response = await client.get("/", follow_redirects=False)
     if os.path.isfile(DIST_INDEX):
         assert response.status_code == 200
     else:
@@ -60,11 +68,12 @@ def test_root_never_redirect_loops(client):
         assert response.json() == {"detail": "Not Found"}
 
 
-def test_hash_fragment_is_client_side(client):
+@pytest.mark.anyio
+async def test_hash_fragment_is_client_side(client):
     # The browser never sends the #fragment; the server only sees "/"
     # and the SPA router handles the hash. Pin that the server treats the
     # path without the fragment as the SPA root.
-    response = client.get("/", follow_redirects=False)
+    response = await client.get("/", follow_redirects=False)
     if os.path.isfile(DIST_INDEX):
         assert response.status_code == 200
     else:

@@ -117,9 +117,11 @@ ignore = [
 testpaths = ["tests"]
 addopts = "-ra"
 filterwarnings = [
-    # Third-party transition noise, not our bugs:
-    # websockets legacy API used by module/device/method/minitouch.py
+    # websockets 14.x deprecates the legacy client API used by
+    # module/device/method/minitouch.py (WebSocketClientProtocol /
+    # ConnectionClosedError / connect). The warning fires at import time
+    # from the library itself; the head-on fix is migrating the minitouch
+    # WebSocket client to the new asyncio API, which is device-layer work
+    # (stage 5) requiring real-emulator touch regression.
     "ignore:websockets.*deprecated.*:DeprecationWarning",
-    # fastapi.testclient shim warns about httpx2 (starlette transition)
-    "ignore:Using .httpx. with .starlette.testclient. is deprecated.*",
 ]
