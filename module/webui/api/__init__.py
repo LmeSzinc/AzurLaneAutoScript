@@ -12,6 +12,8 @@ import threading
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
+from fastapi.responses import JSONResponse, RedirectResponse
+from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from module.logger import logger
 from module.webui.api.helpers import _get_updater
@@ -82,6 +84,30 @@ def _add_dev_cors(app: FastAPI):
     )
 
 
+def _add_home_redirect(app: FastAPI):
+    """Redirect every unmatched path back to the SPA home page.
+
+    The frontend routes live in the URL hash (#/xxx), which the browser
+    never sends to the server, so the only meaningful server paths are the
+    registered API routes, the root SPA page, and its static assets.
+    Anything else (typos, stale links, stray requests) gets a 302 back to
+    "/" instead of the default JSON 404; browsers re-apply the original
+    #fragment to the redirect target, so hash routes survive.
+
+    Loop guard: when the SPA build is missing (webapp-tauri/dist not
+    built), "/" itself 404s — return the JSON 404 then instead of
+    redirecting, to avoid a redirect loop.
+    """
+
+    @app.exception_handler(StarletteHTTPException)
+    async def unmatched_path_to_home(request, exc):
+        if exc.status_code == 404 and request.url.path != "/":
+            return RedirectResponse("/", status_code=302)
+        # Other HTTP errors (405, ...) and a missing "/" keep FastAPI's
+        # default JSON response.
+        return JSONResponse({"detail": exc.detail}, status_code=exc.status_code, headers=exc.headers)
+
+
 def create_api_app() -> FastAPI:
     @asynccontextmanager
     async def lifespan(_app: FastAPI):
@@ -99,6 +125,7 @@ def create_api_app() -> FastAPI:
     app = FastAPI(title="Alas API", lifespan=lifespan)
 
     _add_dev_cors(app)
+    _add_home_redirect(app)
 
     app.include_router(status.router)
     app.include_router(schema.router)
