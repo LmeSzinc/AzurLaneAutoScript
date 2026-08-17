@@ -1,14 +1,14 @@
 <script lang="ts">
-  import { status } from '../api/store.svelte'
-  import { t } from '../api/i18n.svelte'
+import { t } from "../api/i18n.svelte";
+import { status } from "../api/store.svelte";
 
-  let {
-    active = '',
-    onselect,
-  }: {
-    active?: string
-    onselect?: (name: string) => void
-  } = $props()
+let {
+  active = "",
+  onselect,
+}: {
+  active?: string;
+  onselect?: (name: string) => void;
+} = $props();
 </script>
 
 <aside class="app-aside">

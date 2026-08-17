@@ -1,83 +1,83 @@
 <script lang="ts">
-  import { api } from '../api/client'
-  import { t, loadI18n } from '../api/i18n.svelte'
-  import { logs, schedulers, status } from '../api/store.svelte'
-  import { push } from '../router.svelte'
-  import AppAside from '../components/AppAside.svelte'
-  import AppMenu from '../components/AppMenu.svelte'
-  import LogView from '../components/LogView.svelte'
+import { api } from "../api/client";
+import { loadI18n, t } from "../api/i18n.svelte";
+import { logs, schedulers, status } from "../api/store.svelte";
+import AppAside from "../components/AppAside.svelte";
+import AppMenu from "../components/AppMenu.svelte";
+import LogView from "../components/LogView.svelte";
+import { push } from "../router.svelte";
 
-  interface SchedulerTask {
-    command: string
-    next_run: string
+interface SchedulerTask {
+  command: string;
+  next_run: string;
+}
+
+const activeInstance = $derived(status.instances[0]?.name ?? "alas");
+const instanceAlive = $derived(status.instances.find((i) => i.name === activeInstance)?.alive ?? false);
+/** Live snapshot pushed by the bot process via SSE; empty until the first event. */
+const scheduler = $derived(
+  schedulers[activeInstance] ?? { current: null, pending: [] as SchedulerTask[], waiting: [] as SchedulerTask[] },
+);
+/** Queue column: pending tasks excluding the one currently running. */
+const pendingShown = $derived(scheduler.pending.filter((p) => p.command !== scheduler.current));
+/** The running task's scheduled time (looked up in pending or waiting). */
+const currentTask = $derived(
+  scheduler.current
+    ? (scheduler.pending.find((p) => p.command === scheduler.current) ??
+        scheduler.waiting.find((p) => p.command === scheduler.current) ??
+        null)
+    : null,
+);
+let keepBottom = $state(true);
+const EMPTY_LOGS: string[] = [];
+
+/** One-shot REST bootstrap: the backend's in-memory snapshot cache is
+ *  cold on a fresh backend start (and absent while the bot never ran),
+ *  so fetch once to fill the three columns; SSE takes over afterwards. */
+async function refreshScheduler() {
+  if (!activeInstance) return;
+  const res = await api.scheduler(activeInstance);
+  schedulers[activeInstance] = {
+    current: res.running[0]?.command ?? null,
+    pending: res.pending,
+    waiting: res.waiting,
+  };
+}
+
+async function toggleScheduler() {
+  if (instanceAlive) {
+    await api.stop(activeInstance);
+  } else {
+    await api.run(activeInstance);
   }
+  // Status and scheduler updates arrive via SSE.
+}
 
-  const activeInstance = $derived(status.instances[0]?.name ?? 'alas')
-  const instanceAlive = $derived(status.instances.find((i) => i.name === activeInstance)?.alive ?? false)
-  /** Live snapshot pushed by the bot process via SSE; empty until the first event. */
-  const scheduler = $derived(
-    schedulers[activeInstance] ?? { current: null, pending: [] as SchedulerTask[], waiting: [] as SchedulerTask[] },
-  )
-  /** Queue column: pending tasks excluding the one currently running. */
-  const pendingShown = $derived(scheduler.pending.filter((p) => p.command !== scheduler.current))
-  /** The running task's scheduled time (looked up in pending or waiting). */
-  const currentTask = $derived(
-    scheduler.current
-      ? (scheduler.pending.find((p) => p.command === scheduler.current) ??
-          scheduler.waiting.find((p) => p.command === scheduler.current) ??
-          null)
-      : null,
-  )
-  let keepBottom = $state(true)
-  const EMPTY_LOGS: string[] = []
+function goSettings(task: string) {
+  push("/settings", { task });
+}
 
-  /** One-shot REST bootstrap: the backend's in-memory snapshot cache is
-   *  cold on a fresh backend start (and absent while the bot never ran),
-   *  so fetch once to fill the three columns; SSE takes over afterwards. */
-  async function refreshScheduler() {
-    if (!activeInstance) return
-    const res = await api.scheduler(activeInstance)
-    schedulers[activeInstance] = {
-      current: res.running[0]?.command ?? null,
-      pending: res.pending,
-      waiting: res.waiting,
-    }
+function onAsideSelect(name: string) {
+  if (name === "Home") {
+    push("/develop");
+    return;
   }
-
-  async function toggleScheduler() {
-    if (instanceAlive) {
-      await api.stop(activeInstance)
-    } else {
-      await api.run(activeInstance)
-    }
-    // Status and scheduler updates arrive via SSE.
+  if (name === "Manage") {
+    push("/manage");
+    return;
   }
+  // instance: stay on the overview page
+  push("/");
+}
 
-  function goSettings(task: string) {
-    push('/settings', { task })
-  }
+// Auto-scroll is handled inside LogView.
 
-  function onAsideSelect(name: string) {
-    if (name === 'Home') {
-      push('/develop')
-      return
-    }
-    if (name === 'Manage') {
-      push('/manage')
-      return
-    }
-    // instance: stay on the overview page
-    push('/')
-  }
-
-  // Auto-scroll is handled inside LogView.
-
-  $effect(() => {
-    void loadI18n()
-    // Fills the columns at mount (and when the active instance changes);
-    // no periodic polling - live updates come over the SSE stream.
-    void refreshScheduler()
-  })
+$effect(() => {
+  void loadI18n();
+  // Fills the columns at mount (and when the active instance changes);
+  // no periodic polling - live updates come over the SSE stream.
+  void refreshScheduler();
+});
 </script>
 
 <div class="home">

@@ -1,51 +1,51 @@
 <script lang="ts">
-  import { api } from '../api/client'
-  import { t, loadI18n } from '../api/i18n.svelte'
-  import { collapsedGroups } from '../api/store.svelte'
-  import type { MenuSchema } from '../api/types'
+import { api } from "../api/client";
+import { loadI18n, t } from "../api/i18n.svelte";
+import { collapsedGroups } from "../api/store.svelte";
+import type { MenuSchema } from "../api/types";
 
-  let {
-    onoverview,
-    ontask,
-  }: {
-    onoverview?: () => void
-    ontask?: (task: string) => void
-  } = $props()
+let {
+  onoverview,
+  ontask,
+}: {
+  onoverview?: () => void;
+  ontask?: (task: string) => void;
+} = $props();
 
-  let menu = $state<MenuSchema>({})
-  let activeTask = $state('')
+let menu = $state<MenuSchema>({});
+let activeTask = $state("");
 
-  function toggleGroup(name: string) {
-    collapsedGroups[name] = !collapsedGroups[name]
+function toggleGroup(name: string) {
+  collapsedGroups[name] = !collapsedGroups[name];
+}
+
+function isGroupOpen(name: string): boolean {
+  return collapsedGroups[name] === true;
+}
+
+const groups = $derived.by(() => {
+  const result: { name: string; collapse: boolean; tasks: string[] }[] = [];
+  for (const [name, data] of Object.entries(menu)) {
+    result.push({
+      name,
+      collapse: data.menu === "collapse",
+      tasks: data.tasks ?? [],
+    });
   }
+  return result;
+});
 
-  function isGroupOpen(name: string): boolean {
-    return collapsedGroups[name] === true
-  }
+function selectTask(task: string) {
+  activeTask = task;
+  ontask?.(task);
+}
 
-  const groups = $derived.by(() => {
-    const result: { name: string; collapse: boolean; tasks: string[] }[] = []
-    for (const [name, data] of Object.entries(menu)) {
-      result.push({
-        name,
-        collapse: data.menu === 'collapse',
-        tasks: data.tasks ?? [],
-      })
-    }
-    return result
-  })
-
-  function selectTask(task: string) {
-    activeTask = task
-    ontask?.(task)
-  }
-
-  $effect(() => {
-    void api.schema('alas').then((schema) => {
-      menu = schema.menu
-    })
-    void loadI18n()
-  })
+$effect(() => {
+  void api.schema("alas").then((schema) => {
+    menu = schema.menu;
+  });
+  void loadI18n();
+});
 </script>
 
 <nav class="app-menu">

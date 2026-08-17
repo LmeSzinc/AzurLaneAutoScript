@@ -1,39 +1,39 @@
 <script lang="ts">
-  import AppHeader from './components/AppHeader.svelte'
-  import Home from './views/Home.svelte'
-  import Develop from './views/Develop.svelte'
-  import Manage from './views/Manage.svelte'
-  import Settings from './views/Settings.svelte'
-  import { route } from './router.svelte'
-  import { status } from './api/store.svelte'
+import { status } from "./api/store.svelte";
+import AppHeader from "./components/AppHeader.svelte";
+import { route } from "./router.svelte";
+import Develop from "./views/Develop.svelte";
+import Home from "./views/Home.svelte";
+import Manage from "./views/Manage.svelte";
+import Settings from "./views/Settings.svelte";
 
-  const THEMES = ['default', 'dark', 'light', 'minty', 'yeti', 'sketchy']
-  let themeLink: HTMLLinkElement | null = null
-  let alasLink: HTMLLinkElement | null = null
+const THEMES = ["default", "dark", "light", "minty", "yeti", "sketchy"];
+let themeLink: HTMLLinkElement | null = null;
+let alasLink: HTMLLinkElement | null = null;
 
-  function applyTheme(theme: string) {
-    const name = THEMES.includes(theme) ? theme : 'default'
-    const bsTheme = name === 'light' ? 'default' : name
-    const alasTheme = name === 'dark' ? 'dark-alas-shell' : 'light-alas-shell'
-    if (themeLink) {
-      themeLink.remove()
-    }
-    if (alasLink) {
-      alasLink.remove()
-    }
-    themeLink = document.createElement('link')
-    themeLink.rel = 'stylesheet'
-    themeLink.href = `css/${bsTheme}.min.css`
-    document.head.appendChild(themeLink)
-    alasLink = document.createElement('link')
-    alasLink.rel = 'stylesheet'
-    alasLink.href = `css/${alasTheme}.css`
-    document.head.appendChild(alasLink)
+function applyTheme(theme: string) {
+  const name = THEMES.includes(theme) ? theme : "default";
+  const bsTheme = name === "light" ? "default" : name;
+  const alasTheme = name === "dark" ? "dark-alas-shell" : "light-alas-shell";
+  if (themeLink) {
+    themeLink.remove();
   }
+  if (alasLink) {
+    alasLink.remove();
+  }
+  themeLink = document.createElement("link");
+  themeLink.rel = "stylesheet";
+  themeLink.href = `css/${bsTheme}.min.css`;
+  document.head.appendChild(themeLink);
+  alasLink = document.createElement("link");
+  alasLink.rel = "stylesheet";
+  alasLink.href = `css/${alasTheme}.css`;
+  document.head.appendChild(alasLink);
+}
 
-  $effect(() => {
-    applyTheme(status.theme)
-  })
+$effect(() => {
+  applyTheme(status.theme);
+});
 </script>
 
 <div id="app">

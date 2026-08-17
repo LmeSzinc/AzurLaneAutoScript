@@ -397,7 +397,7 @@ class WorkerPool:
         """
 
         @wraps(func)
-        def thread_wrapper(*args, **kwargs) -> "Job[ResultT]":
+        def thread_wrapper(*args, **kwargs):
             return self.start_thread_soon(func, *args, **kwargs)
 
         return thread_wrapper

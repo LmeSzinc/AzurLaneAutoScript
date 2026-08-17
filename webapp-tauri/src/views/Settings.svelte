@@ -1,103 +1,103 @@
 <script lang="ts">
-  import { api } from '../api/client'
-  import { loadI18n, t } from '../api/i18n.svelte'
-  import { logs, refreshStatus, status } from '../api/store.svelte'
-  import { push, replace, route } from '../router.svelte'
-  import type { ArgDefinition } from '../api/types'
-  import AppAside from '../components/AppAside.svelte'
-  import AppMenu from '../components/AppMenu.svelte'
-  import DynamicForm from '../components/DynamicForm.svelte'
-  import LogView from '../components/LogView.svelte'
+import { api } from "../api/client";
+import { loadI18n, t } from "../api/i18n.svelte";
+import { logs, refreshStatus, status } from "../api/store.svelte";
+import type { ArgDefinition } from "../api/types";
+import AppAside from "../components/AppAside.svelte";
+import AppMenu from "../components/AppMenu.svelte";
+import DynamicForm from "../components/DynamicForm.svelte";
+import LogView from "../components/LogView.svelte";
+import { push, replace, route } from "../router.svelte";
 
-  let selectedTask = $state('')
-  let schema = $state<Record<string, Record<string, Record<string, ArgDefinition>>>>({})
-  let config = $state<Record<string, unknown>>({})
-  const activeInstance = $derived(status.instances[0]?.name ?? 'alas')
-  const EMPTY_LOGS: string[] = []
-  let saving = $state(false)
-  /** Tasks whose page is 'tool' show a status view instead of the form */
-  let toolTasks = $state<Set<string>>(new Set())
-  let toolAlive = $state(false)
-  let toolKeepBottom = $state(true)
+let selectedTask = $state("");
+let schema = $state<Record<string, Record<string, Record<string, ArgDefinition>>>>({});
+let config = $state<Record<string, unknown>>({});
+const activeInstance = $derived(status.instances[0]?.name ?? "alas");
+const EMPTY_LOGS: string[] = [];
+let saving = $state(false);
+/** Tasks whose page is 'tool' show a status view instead of the form */
+let toolTasks = $state<Set<string>>(new Set());
+let toolAlive = $state(false);
+let toolKeepBottom = $state(true);
 
-  const isToolTask = $derived(toolTasks.has(selectedTask))
+const isToolTask = $derived(toolTasks.has(selectedTask));
 
-  async function loadTask(task: string) {
-    selectedTask = task
-    const { menu, args } = await api.schema('alas')
-    const found = new Set(toolTasks)
-    for (const data of Object.values(menu)) {
-      if (data.page === 'tool') {
-        for (const name of data.tasks ?? []) {
-          found.add(name)
-        }
+async function loadTask(task: string) {
+  selectedTask = task;
+  const { menu, args } = await api.schema("alas");
+  const found = new Set(toolTasks);
+  for (const data of Object.values(menu)) {
+    if (data.page === "tool") {
+      for (const name of data.tasks ?? []) {
+        found.add(name);
       }
     }
-    toolTasks = found
-    schema = args
-    config = await api.config(activeInstance)
   }
+  toolTasks = found;
+  schema = args;
+  config = await api.config(activeInstance);
+}
 
-  async function refreshToolState() {
-    if (isToolTask && activeInstance) {
-      const sched = await api.scheduler(activeInstance)
-      toolAlive = sched.alive
-    }
+async function refreshToolState() {
+  if (isToolTask && activeInstance) {
+    const sched = await api.scheduler(activeInstance);
+    toolAlive = sched.alive;
   }
+}
 
-  async function toggleTool() {
-    if (toolAlive) {
-      await api.stop(activeInstance)
-    } else {
-      await api.run(activeInstance)
-    }
-    await refreshToolState()
+async function toggleTool() {
+  if (toolAlive) {
+    await api.stop(activeInstance);
+  } else {
+    await api.run(activeInstance);
   }
+  await refreshToolState();
+}
 
-  /** Group names shown in the right navigator. */
-  const navigatorGroups = $derived(Object.keys(schema[selectedTask] ?? {}).filter((name) => name !== 'Storage'))
+/** Group names shown in the right navigator. */
+const navigatorGroups = $derived(Object.keys(schema[selectedTask] ?? {}).filter((name) => name !== "Storage"));
 
-  function scrollToGroup(name: string) {
-    document.getElementById(`group-${name}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+function scrollToGroup(name: string) {
+  document.getElementById(`group-${name}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+async function saveValue(path: string, value: unknown) {
+  saving = true;
+  try {
+    await api.saveConfig(activeInstance, { [path]: value });
+    config = await api.config(activeInstance);
+  } finally {
+    saving = false;
   }
+}
 
-  async function saveValue(path: string, value: unknown) {
-    saving = true
-    try {
-      await api.saveConfig(activeInstance, { [path]: value })
-      config = await api.config(activeInstance)
-    } finally {
-      saving = false
-    }
+function onAsideSelect(name: string) {
+  if (name === "Home") {
+    push("/develop");
+    return;
   }
-
-  function onAsideSelect(name: string) {
-    if (name === 'Home') {
-      push('/develop')
-      return
-    }
-    if (name === 'Manage') {
-      push('/manage')
-      return
-    }
-    push('/')
+  if (name === "Manage") {
+    push("/manage");
+    return;
   }
+  push("/");
+}
 
-  function onMenuTask(task: string) {
-    replace('/settings', { task })
+function onMenuTask(task: string) {
+  replace("/settings", { task });
+}
+
+$effect(() => {
+  const task = route.query.task || "Alas";
+  if (task !== selectedTask || Object.keys(schema).length === 0) {
+    void loadTask(task).then(() => refreshToolState());
   }
+});
 
-  $effect(() => {
-    const task = route.query.task || 'Alas'
-    if (task !== selectedTask || Object.keys(schema).length === 0) {
-      void loadTask(task).then(() => refreshToolState())
-    }
-  })
-
-  $effect(() => {
-    void loadI18n()
-    void refreshStatus()
-  })
+$effect(() => {
+  void loadI18n();
+  void refreshStatus();
+});
 </script>
 
 <div class="settings-wrap">

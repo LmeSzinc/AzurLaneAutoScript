@@ -1,47 +1,47 @@
 <script lang="ts">
-  import { invoke } from '@tauri-apps/api/core'
-  import { status, titleState } from '../api/store.svelte'
-  import { t } from '../api/i18n.svelte'
-  import { route } from '../router.svelte'
+import { invoke } from "@tauri-apps/api/core";
+import { t } from "../api/i18n.svelte";
+import { status, titleState } from "../api/store.svelte";
+import { route } from "../router.svelte";
 
-  const isTauri = '__TAURI_INTERNALS__' in window
+const isTauri = "__TAURI_INTERNALS__" in window;
 
-  const stateText = $derived.by(() => {
-    const state = status.instances[0]?.state ?? 0
-    if (state === 1) return t('Gui.Status.Running')
-    if (state === 3) return t('Gui.Status.Warning')
-    if (state === 4) return t('Gui.Status.Updating')
-    return t('Gui.Status.Inactive')
-  })
+const stateText = $derived.by(() => {
+  const state = status.instances[0]?.state ?? 0;
+  if (state === 1) return t("Gui.Status.Running");
+  if (state === 3) return t("Gui.Status.Warning");
+  if (state === 4) return t("Gui.Status.Updating");
+  return t("Gui.Status.Inactive");
+});
 
-  const stateClass = $derived.by(() => {
-    const state = status.instances[0]?.state ?? 0
-    if (state === 1) return 'header-state-running'
-    if (state === 3) return 'header-state-warning'
-    if (state === 4) return 'header-state-updating'
-    return 'header-state-inactive'
-  })
+const stateClass = $derived.by(() => {
+  const state = status.instances[0]?.state ?? 0;
+  if (state === 1) return "header-state-running";
+  if (state === 3) return "header-state-warning";
+  if (state === 4) return "header-state-updating";
+  return "header-state-inactive";
+});
 
-  const pageTitleText = $derived.by(() => {
-    if (titleState.value) return titleState.value
-    if (route.path === '/settings') {
-      const task = route.query.task ?? ''
-      return task ? t(`Task.${task}.name`) : ''
-    }
-    if (route.path === '/develop') return t('Gui.Aside.Home')
-    if (route.path === '/manage') return t('Gui.AppManage.PageTitle')
-    return t('Gui.MenuAlas.Overview')
-  })
-
-  function min() {
-    void invoke('window_min')
+const pageTitleText = $derived.by(() => {
+  if (titleState.value) return titleState.value;
+  if (route.path === "/settings") {
+    const task = route.query.task ?? "";
+    return task ? t(`Task.${task}.name`) : "";
   }
-  function max() {
-    void invoke('window_max')
-  }
-  function close() {
-    void invoke('window_close')
-  }
+  if (route.path === "/develop") return t("Gui.Aside.Home");
+  if (route.path === "/manage") return t("Gui.AppManage.PageTitle");
+  return t("Gui.MenuAlas.Overview");
+});
+
+function min() {
+  void invoke("window_min");
+}
+function max() {
+  void invoke("window_max");
+}
+function close() {
+  void invoke("window_close");
+}
 </script>
 
 <header class="app-header">

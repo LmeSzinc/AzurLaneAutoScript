@@ -1,87 +1,87 @@
 <script lang="ts">
-  import { api } from '../api/client'
-  import { loadI18n, t } from '../api/i18n.svelte'
-  import { refreshStatus } from '../api/store.svelte'
-  import { push } from '../router.svelte'
-  import AppAside from '../components/AppAside.svelte'
+import { api } from "../api/client";
+import { loadI18n, t } from "../api/i18n.svelte";
+import { refreshStatus } from "../api/store.svelte";
+import AppAside from "../components/AppAside.svelte";
+import { push } from "../router.svelte";
 
-  interface ConfigFile {
-    name: string
-    modified: string
+interface ConfigFile {
+  name: string;
+  modified: string;
+}
+
+let configs = $state<ConfigFile[]>([]);
+let newName = $state("");
+let error = $state("");
+let fileInput = $state<HTMLInputElement | null>(null);
+
+async function refresh() {
+  configs = await api.configs();
+}
+
+async function createConfig() {
+  error = "";
+  const res = await api.newInstance(newName);
+  if (!res.ok) {
+    error = res.error ?? "Failed";
+    return;
   }
+  newName = "";
+  await refresh();
+  await refreshStatus();
+}
 
-  let configs = $state<ConfigFile[]>([])
-  let newName = $state('')
-  let error = $state('')
-  let fileInput = $state<HTMLInputElement | null>(null)
+function pickImportFile() {
+  fileInput?.click();
+}
 
-  async function refresh() {
-    configs = await api.configs()
+async function importFile(event: Event) {
+  error = "";
+  const input = event.currentTarget as HTMLInputElement;
+  const file = input.files?.[0];
+  if (!file) return;
+  const text = await file.text();
+  let config: Record<string, unknown>;
+  try {
+    config = JSON.parse(text);
+  } catch {
+    error = "Invalid JSON file";
+    return;
   }
+  const name = file.name.replace(/\.json$/, "");
+  await api.importConfig(name, config);
+  input.value = "";
+  await refresh();
+  await refreshStatus();
+}
 
-  async function createConfig() {
-    error = ''
-    const res = await api.newInstance(newName)
-    if (!res.ok) {
-      error = res.error ?? 'Failed'
-      return
-    }
-    newName = ''
-    await refresh()
-    await refreshStatus()
+async function exportConfig(name: string) {
+  const res = await fetch(`/config/${name}/export`);
+  const blob = await res.blob();
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `${name}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function onAsideSelect(name: string) {
+  if (name === "Manage") {
+    return;
   }
-
-  function pickImportFile() {
-    fileInput?.click()
+  if (name === "Home") {
+    push("/develop");
+    return;
   }
+  push("/");
+}
 
-  async function importFile(event: Event) {
-    error = ''
-    const input = event.currentTarget as HTMLInputElement
-    const file = input.files?.[0]
-    if (!file) return
-    const text = await file.text()
-    let config: Record<string, unknown>
-    try {
-      config = JSON.parse(text)
-    } catch {
-      error = 'Invalid JSON file'
-      return
-    }
-    const name = file.name.replace(/\.json$/, '')
-    await api.importConfig(name, config)
-    input.value = ''
-    await refresh()
-    await refreshStatus()
-  }
-
-  async function exportConfig(name: string) {
-    const res = await fetch(`/config/${name}/export`)
-    const blob = await res.blob()
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `${name}.json`
-    a.click()
-    URL.revokeObjectURL(url)
-  }
-
-  function onAsideSelect(name: string) {
-    if (name === 'Manage') {
-      return
-    }
-    if (name === 'Home') {
-      push('/develop')
-      return
-    }
-    push('/')
-  }
-
-  $effect(() => {
-    void loadI18n()
-    void refreshStatus()
-    void refresh()
-  })
+$effect(() => {
+  void loadI18n();
+  void refreshStatus();
+  void refresh();
+});
 </script>
 
 <div class="manage-wrap">

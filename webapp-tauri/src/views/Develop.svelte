@@ -1,105 +1,105 @@
 <script lang="ts">
-  import { api } from '../api/client'
-  import { loadI18n, t } from '../api/i18n.svelte'
-  import { titleState, refreshStatus, status } from '../api/store.svelte'
-  import { push } from '../router.svelte'
-  import AppAside from '../components/AppAside.svelte'
+import { api } from "../api/client";
+import { loadI18n, t } from "../api/i18n.svelte";
+import { refreshStatus, status, titleState } from "../api/store.svelte";
+import AppAside from "../components/AppAside.svelte";
+import { push } from "../router.svelte";
 
-  type SubPage = 'HomePage' | 'Update' | 'Remote' | 'Utils'
-  let page = $state<SubPage>('HomePage')
+type SubPage = "HomePage" | "Update" | "Remote" | "Utils";
+let page = $state<SubPage>("HomePage");
 
-  const SUB_TITLES: Record<SubPage, string> = {
-    HomePage: 'Gui.MenuDevelop.HomePage',
-    Update: 'Gui.MenuDevelop.Update',
-    Remote: 'Gui.MenuDevelop.Remote',
-    Utils: 'Gui.MenuDevelop.Utils',
-  }
+const SUB_TITLES: Record<SubPage, string> = {
+  HomePage: "Gui.MenuDevelop.HomePage",
+  Update: "Gui.MenuDevelop.Update",
+  Remote: "Gui.MenuDevelop.Remote",
+  Utils: "Gui.MenuDevelop.Utils",
+};
 
-  const LANGS = [
-    { label: '简体中文', value: 'zh-CN' },
-    { label: '繁體中文', value: 'zh-TW' },
-    { label: 'English', value: 'en-US' },
-    { label: '日本語', value: 'ja-JP' },
-  ]
-  const THEMES = [
-    { label: 'Light', value: 'default' },
-    { label: 'Dark', value: 'dark' },
-  ]
+const LANGS = [
+  { label: "简体中文", value: "zh-CN" },
+  { label: "繁體中文", value: "zh-TW" },
+  { label: "English", value: "en-US" },
+  { label: "日本語", value: "ja-JP" },
+];
+const THEMES = [
+  { label: "Light", value: "default" },
+  { label: "Dark", value: "dark" },
+];
 
-  // updater data
-  let updateState = $state('idle')
-  let history = $state<{
-    local: string[] | null
-    upstream: string[] | null
-    history: string[][]
-  }>({ local: null, upstream: null, history: [] })
+// updater data
+let updateState = $state("idle");
+let history = $state<{
+  local: string[] | null;
+  upstream: string[] | null;
+  history: string[][];
+}>({ local: null, upstream: null, history: [] });
 
-  async function refreshUpdate() {
-    const [st, hist] = await Promise.all([api.updateStatus(), api.updateHistory()])
-    updateState = st.state
-    history = hist
-  }
+async function refreshUpdate() {
+  const [st, hist] = await Promise.all([api.updateStatus(), api.updateHistory()]);
+  updateState = st.state;
+  history = hist;
+}
 
-  async function checkUpdate() {
-    await api.updateCheck()
-    const timer = window.setInterval(async () => {
-      const st = await api.updateStatus()
-      updateState = st.state
-      if (st.state !== 'checking') {
-        window.clearInterval(timer)
-        await refreshUpdate()
-      }
-    }, 1500)
-  }
-
-  async function runUpdate() {
-    await api.updateRun()
-    const timer = window.setInterval(async () => {
-      const st = await api.updateStatus()
-      updateState = st.state
-      if (st.state !== 'updating') {
-        window.clearInterval(timer)
-        await refreshUpdate()
-      }
-    }, 2000)
-  }
-
-  async function setLanguage(lang: string) {
-    await api.setLanguage(lang)
-    status.language = lang
-    // t() is reactive: once the new dictionary is loaded the UI re-renders.
-    await loadI18n()
-  }
-
-  async function setTheme(theme: string) {
-    await api.setTheme(theme)
-    status.theme = theme
-  }
-
-  function onAsideSelect(name: string) {
-    if (name === 'Manage') {
-      push('/manage')
-      return
+async function checkUpdate() {
+  await api.updateCheck();
+  const timer = window.setInterval(async () => {
+    const st = await api.updateStatus();
+    updateState = st.state;
+    if (st.state !== "checking") {
+      window.clearInterval(timer);
+      await refreshUpdate();
     }
-    if (name === 'Home') {
-      page = 'HomePage'
-      return
+  }, 1500);
+}
+
+async function runUpdate() {
+  await api.updateRun();
+  const timer = window.setInterval(async () => {
+    const st = await api.updateStatus();
+    updateState = st.state;
+    if (st.state !== "updating") {
+      window.clearInterval(timer);
+      await refreshUpdate();
     }
-    push('/')
+  }, 2000);
+}
+
+async function setLanguage(lang: string) {
+  await api.setLanguage(lang);
+  status.language = lang;
+  // t() is reactive: once the new dictionary is loaded the UI re-renders.
+  await loadI18n();
+}
+
+async function setTheme(theme: string) {
+  await api.setTheme(theme);
+  status.theme = theme;
+}
+
+function onAsideSelect(name: string) {
+  if (name === "Manage") {
+    push("/manage");
+    return;
   }
+  if (name === "Home") {
+    page = "HomePage";
+    return;
+  }
+  push("/");
+}
 
-  $effect(() => {
-    titleState.value = t(SUB_TITLES[page])
-  })
+$effect(() => {
+  titleState.value = t(SUB_TITLES[page]);
+});
 
-  $effect(() => {
-    void loadI18n()
-    void refreshStatus()
-    void refreshUpdate()
-    return () => {
-      titleState.value = ''
-    }
-  })
+$effect(() => {
+  void loadI18n();
+  void refreshStatus();
+  void refreshUpdate();
+  return () => {
+    titleState.value = "";
+  };
+});
 </script>
 
 <div class="develop-wrap">
