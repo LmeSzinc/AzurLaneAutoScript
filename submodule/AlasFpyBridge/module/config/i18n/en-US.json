@@ -185,7 +185,7 @@
     },
     "AppleTotal": {
       "name": "AppleTotal",
-      "help": "When `EatOnce` is turned off, this value will automatically reduced to prevent eating non-existent apples"
+      "help": "This value will automatically reduced to prevent eating non-existent apples"
     }
   },
   "FpyLimit": {
@@ -219,11 +219,11 @@
   "FpyWeekday": {
     "_info": {
       "name": "Day of Week",
-      "help": "Some objectives can be completed during the daily farming runs, so it is recommended to schedule them for the weekend to avoid wasting AP"
+      "help": "Call this task on the specified day of the week"
     },
     "Weekday": {
       "name": "Day of Week",
-      "help": "Day of Week",
+      "help": "Some objectives can be completed during the daily farming runs, so it is recommended to schedule them for the weekend to avoid wasting AP",
       "0": "Monday",
       "1": "Tuesday",
       "2": "Wednesday",
