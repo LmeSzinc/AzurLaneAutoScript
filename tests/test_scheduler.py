@@ -321,6 +321,24 @@ def test_get_next_task_resets_hoarding_flag(hoarding_restored):
 # ----------------------------------------------------------------- loop()
 
 
+def test_run_binds_task_context(no_side_effects):
+    # L3: every record logged during run() carries extra["task"], so logs
+    # can be filtered per task.
+    from module.logger import logger
+
+    records = []
+    sink_id = logger.add(  # type: ignore[attr-defined] (loguru ships no py.typed)
+        lambda m: records.append(m.record), level="TRACE", enqueue=False
+    )
+    try:
+        shell = FakeShell(task_func=lambda: logger.info("task body log"))
+        shell.run("Commission")
+    finally:
+        logger.remove(sink_id)  # type: ignore[attr-defined] (loguru ships no py.typed)
+    assert records, "no records captured"
+    assert any(r["extra"].get("task") == "Commission" for r in records)
+
+
 def test_loop_stop_event_breaks_immediately():
     event = threading.Event()
     shell = FakeShell(stop_event=event)

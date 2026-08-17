@@ -66,6 +66,12 @@ class Scheduler:
     save_error_log: t.Callable[[], None]
 
     def run(self, command, skip_first_screenshot=False):
+        # Bind the task name to every record logged during execution so
+        # logs can be filtered per task (loguru contextualize, L3).
+        with logger.contextualize(task=command):  # type: ignore[attr-defined] (loguru ships no py.typed)
+            return self._run(command, skip_first_screenshot)
+
+    def _run(self, command, skip_first_screenshot=False):
         try:
             if not skip_first_screenshot:
                 self.device.screenshot()
