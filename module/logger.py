@@ -38,7 +38,6 @@ Semantic notes:
 """
 
 import datetime
-import logging
 import os
 import sys
 import time
@@ -49,19 +48,6 @@ from rich.highlighter import RegexHighlighter
 from rich.style import Style
 from rich.text import Text
 from rich.theme import Theme
-
-
-def empty_function(*args, **kwargs):
-    pass
-
-
-# cnocr (and any library that configures stdlib logging via basicConfig)
-# must not install its own stdout handler: those records would bypass our
-# loguru sinks and print unformatted duplicates. Neutralizing basicConfig
-# keeps third-party stdlib logs silent, matching the old stack's behavior.
-# If a library's logs are ever needed, bridge them selectively with
-# logger.intercept("<name>") instead of re-enabling basicConfig.
-logging.basicConfig = empty_function
 
 
 class Highlighter(RegexHighlighter):
