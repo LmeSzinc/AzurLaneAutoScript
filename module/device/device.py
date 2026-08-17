@@ -69,6 +69,12 @@ def show_function_call():
 
 
 class Device(Screenshot, Control, AppControl):
+    """Concrete device backend; implements the DeviceBase contract (module/device/base.py).
+
+    Capabilities are composed from mixins: Screenshot (adb/wsa/droidcast/
+    ascreencap/scrcpy/nemu_ipc/ldopengl), Control (hermit/minitouch/scrcpy/
+    maatouch/nemu_ipc), AppControl (adb/wsa/uiautomator2).
+    """
     _screen_size_checked = False
     detect_record = set()
     click_record = collections.deque(maxlen=15)
