@@ -1,16 +1,54 @@
 import ctypes
 import re
 import subprocess
+import typing as t
+from dataclasses import dataclass
 
 import psutil
 
-from deploy.Windows.utils import DataProcessInfo
-from module.base.decorator import run_once
+from module.base.decorator import cached_property, run_once
 from module.base.timer import Timer
 from module.device.connection import AdbDeviceWithStatus
 from module.device.platform.emulator_windows import Emulator, EmulatorInstance, EmulatorManager
 from module.device.platform.platform_base import PlatformBase
 from module.logger import logger
+
+
+@dataclass
+class DataProcessInfo:
+    """
+    Process info wrapper (relocated from deploy.Windows.utils, removed with
+    the toolkit installer distribution). `proc` is a psutil Process; name
+    and cmdline are cached and tolerate processes that vanish mid-read.
+    """
+
+    proc: t.Any  # psutil.Process or psutil._pswindows.Process
+    pid: int
+
+    @cached_property
+    def name(self):
+        try:
+            name = self.proc.name()
+        except:
+            name = ""
+        return name
+
+    @cached_property
+    def cmdline(self):
+        try:
+            cmdline = self.proc.cmdline()
+        except:
+            # psutil.AccessDenied
+            # # NoSuchProcess: process no longer exists (pid=xxx)
+            cmdline = []
+        cmdline = " ".join(cmdline).replace(r"\\", "/").replace("\\", "/")
+        return cmdline
+
+    def __str__(self):
+        # Don't print `proc`, it will take some time to get process properties
+        return f'DataProcessInfo(name="{self.name}", pid={self.pid}, cmdline="{self.cmdline}")'
+
+    __repr__ = __str__
 
 
 class EmulatorUnknown(Exception):
