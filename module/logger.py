@@ -55,10 +55,13 @@ def empty_function(*args, **kwargs):
     pass
 
 
-# cnocr will set root logger in cnocr.utils
-# Delete logging.basicConfig to avoid logging the same message twice.
+# cnocr (and any library that configures stdlib logging via basicConfig)
+# must not install its own stdout handler: those records would bypass our
+# loguru sinks and print unformatted duplicates. Neutralizing basicConfig
+# keeps third-party stdlib logs silent, matching the old stack's behavior.
+# If a library's logs are ever needed, bridge them selectively with
+# logger.intercept("<name>") instead of re-enabling basicConfig.
 logging.basicConfig = empty_function
-logging.raiseExceptions = True  # Set True if wanna see encode errors on console
 
 
 class Highlighter(RegexHighlighter):
