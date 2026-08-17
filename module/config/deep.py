@@ -342,12 +342,12 @@ def deep_iter(data, min_depth=None, depth=3):
         if current == depth:
             for key, data in q:
                 for k, v in data.items():
-                    yield key + [k], v
+                    yield [*key, k], v
         # in target depth
         elif min_depth <= current < depth:
             for key, data in q:
                 for k, v in data.items():
-                    subkey = key + [k]
+                    subkey = [*key, k]
                     if type(v) is dict:
                         new_q.append((subkey, v))
                     else:
@@ -356,7 +356,7 @@ def deep_iter(data, min_depth=None, depth=3):
         else:
             for key, data in q:
                 for k, v in data.items():
-                    subkey = key + [k]
+                    subkey = [*key, k]
                     if type(v) is dict:
                         new_q.append((subkey, v))
         q = new_q
@@ -465,19 +465,19 @@ def deep_iter_diff(before, after):
                 except KeyError:
                     # Safe to access d1[key], because key came from the union of both
                     # If it's not in d2 then it's in d1
-                    yield path + [key], d1[key], None
+                    yield [*path, key], d1[key], None
                     continue
                 try:
                     val1 = d1[key]
                 except KeyError:
-                    yield path + [key], None, val2
+                    yield [*path, key], None, val2
                     continue
                 # Compare dict first, which is pretty fast
                 if val1 != val2:
                     if type(val1) is dict and type(val2) is dict:
-                        new_queue.append((path + [key], val1, val2))
+                        new_queue.append(([*path, key], val1, val2))
                     else:
-                        yield path + [key], val1, val2
+                        yield [*path, key], val1, val2
         queue = new_queue
         if not queue:
             break
@@ -515,19 +515,19 @@ def deep_iter_patch(before, after):
                 try:
                     val2 = d2[key]
                 except KeyError:
-                    yield OP_DEL, path + [key], None
+                    yield OP_DEL, [*path, key], None
                     continue
                 try:
                     val1 = d1[key]
                 except KeyError:
-                    yield OP_ADD, path + [key], val2
+                    yield OP_ADD, [*path, key], val2
                     continue
                 # Compare dict first, which is pretty fast
                 if val1 != val2:
                     if type(val1) is dict and type(val2) is dict:
-                        new_queue.append((path + [key], val1, val2))
+                        new_queue.append(([*path, key], val1, val2))
                     else:
-                        yield OP_SET, path + [key], val2
+                        yield OP_SET, [*path, key], val2
         queue = new_queue
         if not queue:
             break

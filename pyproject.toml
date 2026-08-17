@@ -57,10 +57,14 @@ dev = [
 target-version = "py313"
 line-length = 120
 extend-exclude = [
+    # NOTE: bare patterns match same-named dirs at any depth (gitignore
+    # semantics; leading-slash anchoring is not honored by ruff's resolver),
+    # so module/config, module/campaign and module/submodule are also
+    # excluded from `ruff check .`. Lint them explicitly once cleaned:
+    #   ruff check module/config module/campaign module/submodule
     "config",
     "campaign",   # generated map configs (F401-dominated, cleaned by generator later)
     "submodule",  # vendored third-party bridges (AlasFpyBridge, Maa runtime checkouts)
-    "webapp",
 ]
 
 [tool.ruff.lint]

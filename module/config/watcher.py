@@ -1,7 +1,7 @@
 import os
 from datetime import datetime
 
-from module.config.utils import filepath_config, DEFAULT_TIME
+from module.config.utils import DEFAULT_TIME, filepath_config
 from module.logger import logger
 
 

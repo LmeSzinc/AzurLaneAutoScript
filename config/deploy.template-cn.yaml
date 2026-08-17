@@ -27,7 +27,7 @@ Deploy:
   Python:
     # Filepath of python executable `python.exe`
     # [Easy installer] Use './toolkit/python.exe'
-    # [Other] Use you own python, and its version should be 3.7.6 64bit
+    # [Other] Use you own python, and its version should be 3.13.x 64bit
     PythonExecutable: ./toolkit/python.exe
     # URL of pypi mirror
     # [CN user] Use 'https://mirrors.aliyun.com/pypi/simple' for faster and more stable download
@@ -142,11 +142,6 @@ Deploy:
     # --key. Password of web ui
     # Useful when expose Alas to the public network
     Password: null
-    # --cdn. Use jsdelivr cdn for pywebio static files (css, js).
-    # 'true' for jsdelivr cdn
-    # 'false' for self host cdn (automatically)
-    # 'https://path.to.your/cdn' to use custom cdn
-    CDN: false
     # --run. Auto-run specified config when startup
     # 'null' default no specified config
     # '["alas"]' specified "alas" config

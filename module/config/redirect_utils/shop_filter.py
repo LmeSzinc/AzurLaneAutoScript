@@ -71,12 +71,12 @@ def voucher_redirect(value):
         pattern = rf'\b{flat}\b'
         if (match[2] and match[1]) or match[1]:
             value = re.sub(pattern, '', value)
-            value = re.sub('\>\s*\>', '>', value)
-            value = re.sub('\>\s*$', '', value)
+            value = re.sub(r'\>\s*\>', '>', value)
+            value = re.sub(r'\>\s*$', '', value)
         elif match[2]:
             value = re.sub(pattern, f'LoggerAbyssal{match[2].upper()} > LoggerObscure{match[2].upper()}', value)
         else:
-            value = re.sub(pattern, f'LoggerAbyssal > LoggerObscure', value)
+            value = re.sub(pattern, 'LoggerAbyssal > LoggerObscure', value)
 
     return value
 

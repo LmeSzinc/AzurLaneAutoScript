@@ -2,15 +2,14 @@ import re
 import typing as t
 from copy import deepcopy
 
-from module.base.decorator import cached_property
-
 from deploy.utils import DEPLOY_TEMPLATE, poor_yaml_read, poor_yaml_write
+from module.base.decorator import cached_property
 from module.base.timer import timer
-from module.config.deep import deep_default, deep_get, deep_iter, deep_pop, deep_set
+from module.config.deep import deep_default, deep_get, deep_iter, deep_set
 from module.config.env import IS_ON_PHONE_CLOUD
+from module.config.redirect_utils.utils import *  # noqa: F403  (re-export facade)
 from module.config.server import VALID_CHANNEL_PACKAGE, VALID_PACKAGE, VALID_SERVER_LIST, to_package, to_server
 from module.config.utils import *  # noqa: F403  (re-export facade)
-from module.config.redirect_utils.utils import *  # noqa: F403  (re-export facade)
 
 CONFIG_IMPORT = '''
 import datetime
@@ -53,7 +52,7 @@ class Event:
         self.is_war_archives = self.directory.startswith('war_archives')
         self.is_raid = self.directory.startswith('raid_')
         self.is_coalition = self.directory.startswith('coalition_')
-        for server in ARCHIVES_PREFIX.keys():
+        for server in ARCHIVES_PREFIX:
             if self.__getattribute__(server) == '-':
                 self.__setattr__(server, None)
             else:
@@ -185,7 +184,7 @@ class ConfigGenerator:
             # But allow `Interval` to be different
             old_value = old.get('value', None) if isinstance(old, dict) else old
             value = old.get('value', None) if isinstance(value, dict) else value
-            if type(value) != type(old_value) \
+            if type(value) is not type(old_value) \
                     and old_value is not None \
                     and path[2] not in ['SuccessInterval', 'FailureInterval']:
                 print(
@@ -202,26 +201,24 @@ class ConfigGenerator:
         for p, v in deep_iter(self.default, depth=3):
             if not check_override(p, v):
                 continue
-            deep_set(data, keys=p + ['value'], value=v)
+            deep_set(data, keys=[*p, 'value'], value=v)
         # Override non-modifiable arguments
         for p, v in deep_iter(self.override, depth=3):
             if not check_override(p, v):
                 continue
             if isinstance(v, dict):
                 typ = v.get('type')
-                if typ == 'state':
-                    pass
-                elif typ == 'lock':
+                if typ == 'state' or typ == 'lock':
                     pass
                 elif deep_get(v, keys='value') is not None:
                     deep_default(v, keys='display', value='hide')
                 for arg_k, arg_v in v.items():
-                    deep_set(data, keys=p + [arg_k], value=arg_v)
+                    deep_set(data, keys=[*p, arg_k], value=arg_v)
             else:
-                deep_set(data, keys=p + ['value'], value=v)
-                deep_set(data, keys=p + ['display'], value='hide')
+                deep_set(data, keys=[*p, 'value'], value=v)
+                deep_set(data, keys=[*p, 'display'], value='hide')
         # Set command
-        for path, groups in deep_iter(self.task, depth=3):
+        for path, _groups in deep_iter(self.task, depth=3):
             if 'tasks' not in path:
                 continue
             task = path[2]
@@ -243,17 +240,17 @@ class ConfigGenerator:
         visited_path = set()
         lines = CONFIG_IMPORT
         for path, data in deep_iter(self.argument, depth=2):
-            group, arg = path
+            group, _arg = path
             if group not in visited_group:
                 lines.append('')
                 lines.append(f'    # Group `{group}`')
                 visited_group.add(group)
 
             option = ''
-            if 'option' in data and data['option']:
+            if data.get('option'):
                 option = '  # ' + ', '.join([str(opt) for opt in data['option']])
             path = '.'.join(path)
-            lines.append(f'    {path_to_arg(path)} = {repr(parse_value(data["value"], data=data))}{option}')
+            lines.append(f'    {path_to_arg(path)} = {parse_value(data["value"], data=data)!r}{option}')
             visited_path.add(path)
 
         with open(filepath_code(), 'w', encoding='utf-8', newline='') as f:
@@ -274,13 +271,13 @@ class ConfigGenerator:
 
         def deep_load(keys, default=True, words=('name', 'help')):
             for word in words:
-                k = keys + [str(word)]
+                k = [*keys, str(word)]
                 d = ".".join(k) if default else str(word)
                 v = deep_get(old, keys=k, default=d)
                 deep_set(new, keys=k, value=v)
 
         # Menu
-        for path, data in deep_iter(self.task, depth=3):
+        for path, _data in deep_iter(self.task, depth=3):
             if 'tasks' not in path:
                 continue
             task_group, _, task = path
@@ -362,7 +359,7 @@ class ConfigGenerator:
 
         """
         data = {}
-        for task_group in self.task.keys():
+        for task_group in self.task:
             value = deep_get(self.task, keys=[task_group, 'menu'])
             if value not in ['collapse', 'list']:
                 value = 'collapse'
@@ -427,11 +424,11 @@ class ConfigGenerator:
                                   v
                    args.json -----+-----> args.json
         """
-        for server in ARCHIVES_PREFIX.keys():
+        for server in ARCHIVES_PREFIX:
             for event in self.event:
                 name = event.__getattribute__(server)
 
-                def insert(key):
+                def insert(key, server=server, event=event):
                     opts = deep_get(self.args, keys=f'{key}.Campaign.Event.option_{server}', default=[])
                     if event not in opts:
                         opts.append(event)
@@ -462,7 +459,7 @@ class ConfigGenerator:
 
         for task in EVENTS + GEMS_FARMINGS + WAR_ARCHIVES + RAIDS + COALITIONS:
             latest = {}
-            for server in ARCHIVES_PREFIX.keys():
+            for server in ARCHIVES_PREFIX:
                 latest[server] = deep_get(self.args, keys=f'{task}.Campaign.Event.option_{server}', default=[])
             options = set().union(*latest.values())
             options = sorted([option for option in options if option != 'campaign_main'])
@@ -647,7 +644,7 @@ class ConfigUpdater:
         if not is_template:
             for task in EVENTS + RAIDS + COALITIONS:
                 opts = deep_get(self.args, keys=f'{task}.Campaign.Event.option_{server}', default=[])
-                if opts and not deep_get(new, keys=f'{task}.Campaign.Event', default='campaign_main') in opts:
+                if opts and deep_get(new, keys=f'{task}.Campaign.Event', default='campaign_main') not in opts:
                     deep_set(new,
                              keys=f'{task}.Campaign.Event',
                              value=opts[0])
@@ -745,12 +742,12 @@ class ConfigUpdater:
             deep_set(data, 'Alas.Emulator.Serial', '127.0.0.1:5555')
             deep_set(data, 'Alas.Emulator.ScreenshotMethod', 'DroidCast_raw')
             deep_set(data, 'Alas.Emulator.ControlMethod', 'MaaTouch')
-            for arg in deep_get(self.args, keys='Alas.DropRecord', default={}).keys():
+            for arg in deep_get(self.args, keys='Alas.DropRecord', default={}):
                 remove_drop_save(arg)
 
         return data
 
-    def save_callback(self, key: str, value: t.Any) -> t.Iterable[t.Tuple[str, t.Any]]:
+    def save_callback(self, key: str, value: t.Any) -> t.Iterable[tuple[str, t.Any]]:
         """
         Args:
             key: Key path in config json, such as "Main.Emotion.Fleet1Value"
@@ -819,10 +816,10 @@ if __name__ == '__main__':
                  task.yaml -+----------------> menu.json
              argument.yaml -+-> args.json ---> config_generated.py
              override.yaml -+       |
-                  gui.yaml --------\|
+                  gui.yaml --------\\|
                                    ||
     (old) i18n/<lang>.json --------\\========> i18n/<lang>.json
-    (old)    template.json ---------\========> template.json
+    (old)    template.json ---------\\========> template.json
     """
     # Ensure running in Alas root folder
     import os

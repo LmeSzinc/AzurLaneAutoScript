@@ -1,6 +1,5 @@
-from module.config.output import Output
-
 import module.config.server as server
+from module.config.output import Output
 
 
 class ManualConfig:
@@ -398,8 +397,8 @@ class OutputConfig(Output, ManualConfig):
         if 'content' in spec:
             content = spec['content']
             if ADDING not in content and (
-                    content.startswith(chr(10) or content.endswith(chr(10)))
-                    and 'role="status"' not in content
+                    (content.startswith(chr(10) or content.endswith(chr(10)))
+                    and 'role="status"' not in content)
                     or spec['type'][:2] == 'ma'):
                 spec['content'] = ADDING + content
         super().__init__(spec, on_embed)

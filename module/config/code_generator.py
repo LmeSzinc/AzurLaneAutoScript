@@ -48,7 +48,7 @@ class CodeGenerator:
         lines = ''.join(self.lines)
         print(lines)
 
-    def write(self, file: str = None):
+    def write(self, file: str | None = None):
         lines = ''.join(self.lines)
         with open(file, 'w', encoding='utf-8', newline='') as f:
             f.write(lines)
