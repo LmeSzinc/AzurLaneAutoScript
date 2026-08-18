@@ -17,6 +17,7 @@ class ArknightsConfig(AzurLaneConfig, ConfigUpdater, GeneratedConfig):
             > MaaFight > MaaAward
             > MaaReclamationAlgorithm
             > MaaRoguelike
+            > MaaAftercareOperation
             """
 
     def __init__(self, config_name, task=None):
