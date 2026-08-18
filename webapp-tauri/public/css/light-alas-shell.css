@@ -1,10 +1,28 @@
-﻿/*
+/*
  * Light theme shell styles, translated from the original light-alas.css
  * (pywebio scope ids -> Vue class names).
  */
 
 :root {
   --alas-accent: #4e4c97;
+  /* ANSI 16-color palette for the log view (light themes), from the
+   * pywebio-era LIGHT_TERMINAL_THEME in module/webui/utils.py history. */
+  --ansi-black: #000000;
+  --ansi-red: #cd3131;
+  --ansi-green: #00bc00;
+  --ansi-yellow: #949800;
+  --ansi-blue: #0451a5;
+  --ansi-magenta: #bc05bc;
+  --ansi-cyan: #0598bc;
+  --ansi-white: #555555;
+  --ansi-bright-black: #666666;
+  --ansi-bright-red: #cd3131;
+  --ansi-bright-green: #14ce14;
+  --ansi-bright-yellow: #b5ba00;
+  --ansi-bright-blue: #0451a5;
+  --ansi-bright-magenta: #bc05bc;
+  --ansi-bright-cyan: #0598bc;
+  --ansi-bright-white: #a5a5a5;
 }
 
 /* Root page containers: no body color should show through */

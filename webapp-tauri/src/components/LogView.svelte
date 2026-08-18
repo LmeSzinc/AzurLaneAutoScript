@@ -24,7 +24,7 @@ function rebuild() {
   node.textContent = "";
   renderedCount = 0;
   if (lines.length > 0) {
-    node.insertAdjacentHTML("beforeend", ansiToHtml(lines.join("\n") + "\n"));
+    node.insertAdjacentHTML("beforeend", ansiToHtml(`${lines.join("\n")}\n`));
     renderedCount = lines.length;
   }
 }
@@ -41,7 +41,7 @@ $effect(() => {
     // Buffer spliced in place.
     rebuild();
   } else if (lines.length > renderedCount) {
-    node.insertAdjacentHTML("beforeend", ansiToHtml(lines.slice(renderedCount).join("\n") + "\n"));
+    node.insertAdjacentHTML("beforeend", ansiToHtml(`${lines.slice(renderedCount).join("\n")}\n`));
     renderedCount = lines.length;
   }
   if (keepBottom) {

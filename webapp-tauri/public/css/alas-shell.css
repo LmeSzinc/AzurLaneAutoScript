@@ -20,6 +20,25 @@
   --alas-log-bg: #16191d;
   --alas-log-fg: #d4d9de;
   --alas-muted-border: #6c757d;
+  /* ANSI 16-color palette for the log view (dark default), from the
+   * pywebio-era DARK_TERMINAL_THEME in module/webui/utils.py history.
+   * light-alas-shell.css overrides these with LIGHT_TERMINAL_THEME. */
+  --ansi-black: #000000;
+  --ansi-red: #cd3131;
+  --ansi-green: #0dbc79;
+  --ansi-yellow: #e5e510;
+  --ansi-blue: #2472c8;
+  --ansi-magenta: #bc3fbc;
+  --ansi-cyan: #11a8cd;
+  --ansi-white: #e5e5e5;
+  --ansi-bright-black: #666666;
+  --ansi-bright-red: #f14c4c;
+  --ansi-bright-green: #23d18b;
+  --ansi-bright-yellow: #f5f543;
+  --ansi-bright-blue: #3b8eea;
+  --ansi-bright-magenta: #d670d6;
+  --ansi-bright-cyan: #29b8db;
+  --ansi-bright-white: #e5e5e5;
 }
 
 /* ---- base ---- */

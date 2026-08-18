@@ -12,17 +12,21 @@ describe("ansiToHtml", () => {
   });
 
   it("maps SGR colors to theme-aware spans and resets them", () => {
-    expect(ansiToHtml("\x1b[31mred\x1b[0mplain")).toBe('<span style="color:var(--bs-danger)">red</span>plain');
+    expect(ansiToHtml("\x1b[31mred\x1b[0mplain")).toBe(
+      '<span style="color:var(--ansi-red, #cd3131)">red</span>plain',
+    );
   });
 
   it("combines multiple styles in one span", () => {
     expect(ansiToHtml("\x1b[1;31mbold red\x1b[0m")).toBe(
-      '<span style="font-weight:700;color:var(--bs-danger)">bold red</span>',
+      '<span style="font-weight:700;color:var(--ansi-red, #cd3131)">bold red</span>',
     );
   });
 
   it("closes a pending span at end of input without a reset code", () => {
-    expect(ansiToHtml("\x1b[32mgreen")).toBe('<span style="color:var(--bs-success)">green</span>');
+    expect(ansiToHtml("\x1b[32mgreen")).toBe(
+      '<span style="color:var(--ansi-green, #0dbc79)">green</span>',
+    );
   });
 
   it("drops unsupported codes", () => {

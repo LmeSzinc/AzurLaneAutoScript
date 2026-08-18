@@ -1,36 +1,47 @@
 /**
  * Convert ANSI SGR-colored text (as produced by rich with color_system='standard')
- * to theme-aware HTML using Bootstrap CSS variables. The text is HTML-escaped
- * first, so the result is safe to render via {@html}.
+ * to theme-aware HTML. The text is HTML-escaped first, so the result is safe to
+ * render via {@html}.
+ *
+ * Color codes 30-37/40-47/90-97 map to the --ansi-* CSS custom properties
+ * defined in css/alas-shell.css (dark palette, the pywebio-era
+ * DARK_TERMINAL_THEME) and overridden by css/light-alas-shell.css
+ * (LIGHT_TERMINAL_THEME) for light themes. Each reference carries the dark
+ * value as a fallback so the mapping degrades gracefully if the theme CSS
+ * has not loaded yet.
+ *
+ * The previous mapping used var(--bs-primary) etc., but the bundled
+ * Bootstrap themes are pre-CSS-variable versions that never define those
+ * properties, so level/time colors silently resolved to nothing.
  */
 const SGR_FG: Record<string, string> = {
-  "30": "var(--bs-body-color)",
-  "31": "var(--bs-danger)",
-  "32": "var(--bs-success)",
-  "33": "var(--bs-warning)",
-  "34": "var(--bs-primary)",
-  "35": "#d63384",
-  "36": "var(--bs-info)",
-  "37": "var(--bs-body-color)",
-  "90": "var(--bs-secondary)",
-  "91": "#ff8090",
-  "92": "#8be9a8",
-  "93": "#ffe08a",
-  "94": "#9ec5fe",
-  "95": "#e599f7",
-  "96": "#9eeaf9",
-  "97": "var(--bs-body-color)",
+  "30": "var(--ansi-black, #000000)",
+  "31": "var(--ansi-red, #cd3131)",
+  "32": "var(--ansi-green, #0dbc79)",
+  "33": "var(--ansi-yellow, #e5e510)",
+  "34": "var(--ansi-blue, #2472c8)",
+  "35": "var(--ansi-magenta, #bc3fbc)",
+  "36": "var(--ansi-cyan, #11a8cd)",
+  "37": "var(--ansi-white, #e5e5e5)",
+  "90": "var(--ansi-bright-black, #666666)",
+  "91": "var(--ansi-bright-red, #f14c4c)",
+  "92": "var(--ansi-bright-green, #23d18b)",
+  "93": "var(--ansi-bright-yellow, #f5f543)",
+  "94": "var(--ansi-bright-blue, #3b8eea)",
+  "95": "var(--ansi-bright-magenta, #d670d6)",
+  "96": "var(--ansi-bright-cyan, #29b8db)",
+  "97": "var(--ansi-bright-white, #e5e5e5)",
 };
 
 const SGR_BG: Record<string, string> = {
-  "40": "var(--bs-dark)",
-  "41": "var(--bs-danger)",
-  "42": "var(--bs-success)",
-  "43": "var(--bs-warning)",
-  "44": "var(--bs-primary)",
-  "45": "#d63384",
-  "46": "var(--bs-info)",
-  "47": "var(--bs-secondary)",
+  "40": "var(--ansi-black, #000000)",
+  "41": "var(--ansi-red, #cd3131)",
+  "42": "var(--ansi-green, #0dbc79)",
+  "43": "var(--ansi-yellow, #e5e510)",
+  "44": "var(--ansi-blue, #2472c8)",
+  "45": "var(--ansi-magenta, #bc3fbc)",
+  "46": "var(--ansi-cyan, #11a8cd)",
+  "47": "var(--ansi-white, #e5e5e5)",
 };
 
 function escapeHtml(text: string): string {
