@@ -11,7 +11,7 @@ from submodule.AlasFpyBridge.module.utils.headlessCliApplication import Headless
 
 class FGOpy(HeadlessCliApplication):
     def __init__(self, path, counter={}):
-        # Caution that a mutable object is used for default paprameter
+        # Caution that a mutable object is used for default parameter
         assert os.path.isabs(path) and os.path.exists(path)
         launch = shutil.which("launch", path=path)
         assert launch
