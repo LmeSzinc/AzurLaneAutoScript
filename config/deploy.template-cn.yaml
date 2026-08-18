@@ -9,9 +9,8 @@ Deploy:
     # [Other] Use 'master', the stable branch
     Branch: master
     # Filepath of git executable `git.exe`
-    # [Easy installer] Use './toolkit/Git/mingw64/bin/git.exe'
-    # [Other] Use you own git
-    GitExecutable: ./toolkit/Git/mingw64/bin/git.exe
+    # [In most cases] Use 'git'
+    GitExecutable: git
     # Set git proxy
     # [CN user] Use your local http proxy (http://127.0.0.1:{port}) or socks5 proxy (socks5://127.0.0.1:{port})
     # [Other] Use null
@@ -25,10 +24,6 @@ Deploy:
     AutoUpdate: true
 
   Python:
-    # Filepath of python executable `python.exe`
-    # [Easy installer] Use './toolkit/python.exe'
-    # [Other] Use you own python, and its version should be 3.13.x 64bit
-    PythonExecutable: ./toolkit/python.exe
     # URL of pypi mirror
     # [CN user] Use 'https://mirrors.aliyun.com/pypi/simple' for faster and more stable download
     # [Other] Use null
@@ -38,14 +33,12 @@ Deploy:
     InstallDependencies: true
     # Path to requirements.txt
     # [In most cases] Use 'requirements.txt'
-    # [In AidLux] Use './deploy/AidLux/{version}/requirements.txt', version is default to 0.92
     RequirementsFile: requirements.txt
 
   Adb:
     # Filepath of ADB executable `adb.exe`
-    # [Easy installer] Use './toolkit/Lib/site-packages/adbutils/binaries/adb.exe'
-    # [Other] Use you own latest ADB, but not the ADB in your emulator
-    AdbExecutable: ./toolkit/Lib/site-packages/adbutils/binaries/adb.exe
+    # [In most cases] Use 'adb'
+    AdbExecutable: adb
     # Whether to replace ADB
     # Chinese emulators (NoxPlayer, LDPlayer, MemuPlayer, MuMuPlayer) use their own ADB, instead of the latest.
     # Different ADB servers will terminate each other at startup, resulting in disconnection.
@@ -63,22 +56,6 @@ Deploy:
     # Re-install uiautomator2
     # [In most cases] Use true
     InstallUiautomator2: true
-
-  Ocr:
-    # Run Ocr as a service, can reduce memory usage by not import mxnet everytime you start an alas instance
-
-    # Whether to use ocr server
-    # [Default] false
-    UseOcrServer: false
-    # Whether to start ocr server when start GUI
-    # [Default] false
-    StartOcrServer: false
-    # Port of ocr server runs by GUI
-    # [Default] 22268
-    OcrServerPort: 22268
-    # Address of ocr server for alas instance to connect
-    # [Default] 127.0.0.1:22268
-    OcrClientAddress: 127.0.0.1:22268
 
   Update:
     # Use auto update and builtin updater feature

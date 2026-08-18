@@ -24,7 +24,6 @@ from module.webui.setting import State
 
 def _startup():
     """Initialize backend services, previously done by the pywebio startup."""
-    from module.ocr.rpc import start_ocr_server_process
     from module.webui import lang
     from module.webui.discord_presence import init_discord_rpc
     from module.webui.remote_access import RemoteAccess
@@ -44,8 +43,6 @@ def _startup():
     task_handler.start()
     if State.deploy_config.DiscordRichPresence:
         init_discord_rpc()
-    if State.deploy_config.StartOcrServer:
-        start_ocr_server_process(State.deploy_config.OcrServerPort)
     if State.deploy_config.EnableRemoteAccess and State.deploy_config.Password:
         task_handler.add(RemoteAccess.keep_ssh_alive(), 60)
     ProcessManager.restart_processes()
@@ -53,14 +50,12 @@ def _startup():
 
 def _shutdown():
     """Cleanup backend services."""
-    from module.ocr.rpc import stop_ocr_server_process
     from module.webui.discord_presence import close_discord_rpc
     from module.webui.remote_access import RemoteAccess
 
     logger.info("Start clearup")
     RemoteAccess.kill_ssh_process()
     close_discord_rpc()
-    stop_ocr_server_process()
     for alas in ProcessManager._processes.values():
         alas.stop()
     State.clearup()

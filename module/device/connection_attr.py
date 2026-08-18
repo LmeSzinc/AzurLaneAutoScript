@@ -18,7 +18,7 @@ class ConnectionAttr:
     config: AzurLaneConfig
     serial: str
 
-    adb_binary_list = ["./bin/adb/adb.exe", "./toolkit/Lib/site-packages/adbutils/binaries/adb.exe", "/usr/bin/adb"]
+    adb_binary_list = ["./bin/adb/adb.exe", "/usr/bin/adb"]
 
     def __init__(self, config):
         """

@@ -41,15 +41,8 @@ class DataDependency:
 class PipManager(DeployConfig):
     @cached_property
     def python(self) -> str:
-        # No need to read PythonExecutable
-        # since you run this code with python, current python is the python
-
-        # exe = self.filepath(self.PythonExecutable)
-        # if os.path.exists(exe):
-        #     return exe
-
+        # The current interpreter is the python to use
         current = sys.executable.replace("\\", "/")
-        # logger.warning(f'PythonExecutable: {exe} does not exist, use current python instead: {current}')
         return current
 
     @cached_property

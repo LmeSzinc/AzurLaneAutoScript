@@ -18,7 +18,6 @@ class ConfigModel:
     AutoUpdate: bool = True
 
     # Python
-    PythonExecutable: str = "python"
     PypiMirror: str | None = None
     InstallDependencies: bool = True
     RequirementsFile: str = "requirements.txt"
@@ -28,12 +27,6 @@ class ConfigModel:
     ReplaceAdb: bool = True
     AutoConnect: bool = True
     InstallUiautomator2: bool = True
-
-    # Ocr
-    UseOcrServer: bool = False
-    StartOcrServer: bool = False
-    OcrServerPort: int = 22268
-    OcrClientAddress: str = "127.0.0.1:22268"
 
     # Update
     EnableReload: bool = True

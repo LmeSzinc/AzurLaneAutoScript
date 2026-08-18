@@ -82,31 +82,18 @@ def release_resources(next_task=""):
     # Release all OCR models
     # Usually to have 2 models loaded and each model takes about 20MB
     # This will release 20-40MB
-    from module.webui.setting import State
+    from module.ocr.ocr import OCR_MODEL
 
-    if State.deploy_config.UseOcrServer:
-        if not next_task:
-            # Disconnect OCR server on idle
-            from module.ocr.ocr import OCR_MODEL
-
-            try:
-                OCR_MODEL.close()
-            except AttributeError:
-                pass
+    if "Opsi" in next_task or "commission" in next_task:
+        # OCR models will be used soon, don't release
+        models = []
+    elif next_task:
+        # Release OCR models except 'azur_lane'
+        models = ["cnocr", "jp", "tw"]
     else:
-        # Release only when using per-instance OCR
-        from module.ocr.ocr import OCR_MODEL
-
-        if "Opsi" in next_task or "commission" in next_task:
-            # OCR models will be used soon, don't release
-            models = []
-        elif next_task:
-            # Release OCR models except 'azur_lane'
-            models = ["cnocr", "jp", "tw"]
-        else:
-            models = ["azur_lane", "cnocr", "jp", "tw"]
-        for model in models:
-            del_cached_property(OCR_MODEL, model)
+        models = ["azur_lane", "cnocr", "jp", "tw"]
+    for model in models:
+        del_cached_property(OCR_MODEL, model)
 
     # Release assets cache
     # module.ui has about 80 assets and takes about 3MB

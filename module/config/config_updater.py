@@ -477,22 +477,17 @@ class ConfigGenerator:
         }
         aidlux = {
             'GitExecutable': '/usr/bin/git',
-            'PythonExecutable': '/usr/bin/python',
-            'RequirementsFile': './deploy/AidLux/0.92/requirements.txt',
             'AdbExecutable': '/usr/bin/adb',
         }
 
         docker = {
             'GitExecutable': '/usr/bin/git',
-            'PythonExecutable': '/usr/local/bin/python',
             'RequirementsFile': './deploy/docker/requirements.txt',
             'AdbExecutable': '/usr/bin/adb',
         }
 
         linux = {
             'GitExecutable': '/usr/bin/git',
-            'PythonExecutable': 'python',
-            'RequirementsFile': './deploy/headless/requirements.txt',
             'AdbExecutable': '/usr/bin/adb',
             'SSHExecutable': '/usr/bin/ssh',
             'ReplaceAdb': 'false'

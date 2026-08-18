@@ -39,8 +39,7 @@ fn resolve_root(app: &AppHandle) -> PathBuf {
 ///   2. `alas-backend*.exe` next to the app binary (packaged PyInstaller
 ///      onedir sidecar, shipped via tauri externalBin)
 ///   3. <root>/.venv/Scripts/python.exe (development)
-///   4. <root>/toolkit/python/python.exe (legacy packed layout)
-///   5. "python" from PATH
+///   4. "python" from PATH
 fn resolve_python(root: &PathBuf) -> PathBuf {
     if let Ok(p) = std::env::var("ALAS_PYTHON") {
         return PathBuf::from(p);
@@ -60,13 +59,6 @@ fn resolve_python(root: &PathBuf) -> PathBuf {
     let dev = root.join(".venv").join("Scripts").join("python.exe");
     if dev.exists() {
         return dev;
-    }
-    let packed = root
-        .join("toolkit")
-        .join("python")
-        .join("python.exe");
-    if packed.exists() {
-        return packed;
     }
     PathBuf::from("python")
 }

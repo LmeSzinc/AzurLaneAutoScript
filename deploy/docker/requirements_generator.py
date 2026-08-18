@@ -1,27 +1,30 @@
 import os
 import re
+import sys
+
+# Allow `python deploy/docker/requirements_generator.py` from the repo root
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
 
 from deploy.logger import logger
 
 BASE_FOLDER = os.path.dirname(os.path.abspath(__file__))
 logger.info(BASE_FOLDER)
 
-NAME_RE = re.compile(r"^([A-Za-z0-9_.-]+)")
+# uv export lines look like `name==version` with optional `; platform marker`
+# suffixes; `# via` provenance comments are indented and skipped.
+UV_EXPORT_RE = re.compile(r"^\s*([A-Za-z0-9_.-]+)==([^ ;#]+)")
 
 
-def read_file(file):
+def read_uv_export(file):
     out = {}
     with open(file, encoding="utf-8") as f:
-        for line in f.readlines():
-            if not line.strip():
+        for line in f:
+            line = line.strip()
+            if not line or line.startswith("#"):
                 continue
-            res = [s.strip() for s in line.split("==")]
-            if len(res) > 1:
-                name, version = res
-            else:
-                name, version = res[0], None
-            out[name] = version
-
+            res = UV_EXPORT_RE.match(line)
+            if res:
+                out[res.group(1)] = res.group(2)
     return out
 
 
@@ -34,27 +37,27 @@ def write_file(file, data):
             lines.append(str(name))
 
     with open(file, "w", encoding="utf-8", newline="") as f:
-        text = "\n".join(lines)
-        text = text.replace("#", "\n#").strip()
-        f.write(text)
+        f.write("\n".join(lines) + "\n")
 
 
-def docker_requirements_generate(requirements_in="requirements-in.txt"):
-    requirements = read_file(requirements_in)
+def docker_requirements_generate(requirements_txt="requirements.txt"):
+    """Generate deploy/docker/requirements.txt from the uv export artifact.
 
-    logger.info("Generate requirements for Docker image")
+    The root requirements.txt is produced by `uv export` (see
+    dev_tools/requirements_updater.py) and pins every dependency, so the
+    docker image installs a reproducible environment.
+    """
+    requirements = read_uv_export(requirements_txt)
+
+    logger.info("Generate requirements for Docker image from uv export")
     new = {}
-    logger.info(requirements)
     for name, version in requirements.items():
         # alas-webapp is for windows only
         if name == "alas-webapp":
             continue
-        # Lock by normalized package name (requirements-in entries carry
-        # version constraints, e.g. 'opencv-python>=4.12').
-        match = NAME_RE.match(name)
-        if match and match.group(1) == "opencv-python":
+        # Docker images have no GUI stack, use the headless opencv build
+        if name == "opencv-python":
             name = "opencv-python-headless"
-            version = None
         new[name] = version
 
     write_file(os.path.join(BASE_FOLDER, "./requirements.txt"), data=new)

@@ -1,39 +1,32 @@
-import os
+"""Regenerate pip-facing requirement files from the uv project.
 
-from deploy.docker.requirements_generator import docker_requirements_generate
+`requirements.txt` is consumed by the git+pip developer update channel
+(deploy/pip.py) and is the source for the docker variant, so keep the
+uv export artifact in sync here:
+
+- requirements.txt                : `uv export` output
+- deploy/docker/requirements.txt  : docker variant derived from it
+"""
+
+import os
+import subprocess
+import sys
 
 # Ensure running in Alas root folder
 os.chdir(os.path.join(os.path.dirname(__file__), "../"))
+sys.path.insert(0, os.getcwd())
+
+from deploy.docker.requirements_generator import docker_requirements_generate
 
 
-def _requirements_modify(text: str) -> str:
-    """
-    Modify dependency names
-    zope-event -> zope.event
-    zope-interface -> zope.interface
-
-    zope-event and zope-interface will cause errors in low version of pip.
-
-    ERROR: Could not install packages due to an EnvironmentError:
-    [WinError 5] Access is denied: '....\\zope\\interface\\_zope_interface_coptimizations.cp37-win_amd64.pyd'
-    Consider using the `--user` option or check the permissions.
-    """
-    text = text.replace("zope-event", "zope.event")
-    text = text.replace("zope-interface", "zope.interface")
-    return text
-
-
-def requirements_modify(file="requirements.txt"):
-    print(f"requirements_modify: {file}")
-    with open(file) as f:
-        text = f.read()
-
-    text = _requirements_modify(text)
-
-    with open(file, "w") as f:
-        f.write(text)
+def requirements_export():
+    print("uv export -> requirements.txt")
+    subprocess.run(
+        ["uv", "export", "--no-hashes", "--no-dev", "--format", "requirements-txt", "-o", "requirements.txt"],
+        check=True,
+    )
 
 
 if __name__ == "__main__":
-    requirements_modify()
+    requirements_export()
     docker_requirements_generate()

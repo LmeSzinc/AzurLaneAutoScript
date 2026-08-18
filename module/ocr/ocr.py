@@ -7,16 +7,10 @@ from module.base.button import Button
 from module.base.decorator import cached_property
 from module.base.utils import crop, cv2, extract_letters, float2str, np, re, rgb2luma
 from module.logger import logger
-from module.ocr.rpc import ModelProxyFactory
-from module.webui.setting import State
+from module.ocr.models import OCR_MODEL
 
 if TYPE_CHECKING:
     from module.ocr.al_ocr import AlOcr
-
-if not State.deploy_config.UseOcrServer:
-    from module.ocr.models import OCR_MODEL
-else:
-    OCR_MODEL = ModelProxyFactory()
 
 
 class Ocr:

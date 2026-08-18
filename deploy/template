@@ -21,9 +21,6 @@ Deploy:
     AutoUpdate: true
 
   Python:
-    # python executable, resolved from PATH
-    # Version should be 3.13.x 64bit
-    PythonExecutable: 'python'
     # URL of pypi mirror
     # [CN user] Use 'https://mirrors.aliyun.com/pypi/simple' for faster and more stable download
     # [Other] Use null
@@ -55,20 +52,6 @@ Deploy:
     # Re-install uiautomator2
     # [In most cases] Use true
     InstallUiautomator2: true
-
-  Ocr:
-    # Whether to use ocr server
-    # [Default] false
-    UseOcrServer: false
-    # Whether to start ocr server when start GUI
-    # [Default] false
-    StartOcrServer: false
-    # Port of ocr server runs by GUI
-    # [Default] 22268
-    OcrServerPort: 22268
-    # Address of ocr server for alas instance to connect
-    # [Default] 127.0.0.1:22268
-    OcrClientAddress: 127.0.0.1:22268
 
   Update:
     # Restart the webui backend after a manual update
