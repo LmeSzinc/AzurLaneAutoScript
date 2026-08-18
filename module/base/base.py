@@ -193,40 +193,6 @@ class ModuleBase:
                 self.device.screenshot()
                 yield self.device.image
 
-    def loop_hierarchy(self, skip_first=True):
-        """
-        A syntactic sugar to start a hierarchy state loop
-
-        Args:
-            skip_first (bool): Usually to be True to reuse the previous hierarchy
-
-        Yields:
-            etree._Element: hierarchy
-        """
-        while 1:
-            if skip_first:
-                skip_first = False
-            else:
-                self.device.dump_hierarchy()
-            yield self.device.hierarchy
-
-    def loop_screenshot_hierarchy(self, skip_first=True):
-        """
-        A syntactic sugar to start a state loop that takes screenshots and dump hierarchy
-
-        Args:
-            skip_first (bool): Usually to be True to reuse the previous screenshot
-
-        Yields:
-            tuple[np.ndarray, etree._Element]: screenshot, hierarchy
-        """
-        while 1:
-            if skip_first:
-                skip_first = False
-            else:
-                self.device.screenshot()
-                self.device.dump_hierarchy()
-            yield self.device.image, self.device.hierarchy
 
     def appear(self, button, offset=0, interval=0, similarity=0.85, threshold=10):
         """
@@ -335,9 +301,6 @@ class ModuleBase:
             if self.appear(button, offset=offset):
                 break
 
-    def wait_until_appear_then_click(self, button, offset=0):
-        self.wait_until_appear(button, offset=offset)
-        self.device.click(button)
 
     def wait_until_disappear(self, button, offset=0):
         while 1:

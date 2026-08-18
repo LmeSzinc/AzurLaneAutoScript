@@ -6,7 +6,6 @@ from module.base.button import Button
 from module.base.decorator import cached_property
 from module.base.resource import Resource
 from module.base.utils import area_offset, cv2, load_image, np, rgb2luma
-from module.config.server import VALID_SERVER
 
 
 class Template(Resource):
@@ -149,42 +148,6 @@ class Template(Resource):
             # print(self.file, sim)
             return sim > similarity
 
-    def match_binary(self, image, similarity=0.85):
-        """
-        Use template match after binarization.
-
-        Args:
-            image:
-            similarity (float): 0 to 1.
-
-        Returns:
-            bool: If matches.
-        """
-        if self.is_gif:
-            # graying
-            image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-            # binarization
-            _, image_binary = cv2.threshold(image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
-            for template in self.image_binary:
-                # template matching
-                res = cv2.matchTemplate(template, image_binary, cv2.TM_CCOEFF_NORMED)
-                _, sim, _, _ = cv2.minMaxLoc(res)
-                # print(self.file, sim)
-                if sim > similarity:
-                    return True
-
-            return False
-
-        else:
-            # graying
-            image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-            # binarization
-            _, image_binary = cv2.threshold(image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
-            # template matching
-            res = cv2.matchTemplate(self.image_binary, image_binary, cv2.TM_CCOEFF_NORMED)
-            _, sim, _, _ = cv2.minMaxLoc(res)
-            # print(self.file, sim)
-            return sim > similarity
 
     def match_luma(self, image, similarity=0.85):
         if self.is_gif:
@@ -284,17 +247,3 @@ class Template(Resource):
 
         result = Points(result).group(threshold=threshold)
         return [self._point_to_button(point, image=raw, name=name) for point in result]
-
-    def split_server(self):
-        """
-        Split into 4 server specific buttons.
-
-        Returns:
-            dict[str, Button]:
-        """
-        out = {}
-        for s in VALID_SERVER:
-            out[s] = Template(
-                file=self.parse_property(self.raw_file, s),
-            )
-        return out

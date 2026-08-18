@@ -144,22 +144,6 @@ def iter_folder(folder, is_dir=False, ext=None):
             yield os.path.join(folder, file).replace('\\\\', '/').replace('\\', '/')
 
 
-def alas_template():
-    """
-        Returns:
-            list[str]: Name of all Alas instances, except `template`.
-        """
-    out = []
-    for file in os.listdir('./config'):
-        name, extension = os.path.splitext(file)
-        if name == 'template' and extension == '.json':
-            out.append(f'{name}-alas')
-
-    out.extend(list_mod_template())
-
-    return out
-
-
 def alas_instance():
     """
     Returns:
@@ -245,17 +229,6 @@ def data_to_type(data, **kwargs):
         return 'textarea'
     else:
         return 'input'
-
-
-def data_to_path(data):
-    """
-    Args:
-        data (dict):
-
-    Returns:
-        str: <func>.<group>.<arg>
-    """
-    return '.'.join([data.get(attr, '') for attr in ['func', 'group', 'arg']])
 
 
 def path_to_arg(path):
@@ -525,22 +498,6 @@ def to_list(text, length=1):
         return [int(text)] * length
     out = [int(letter.strip()) for letter in text.split(',')]
     return out
-
-
-def type_to_str(typ):
-    """
-    Convert any types or any objects to a string。
-    Remove <> to prevent them from being parsed as HTML tags.
-
-    Args:
-        typ:
-
-    Returns:
-        str: Such as `int`, 'datetime.datetime'.
-    """
-    if not isinstance(typ, type):
-        typ = type(typ).__name__
-    return str(typ)
 
 
 if __name__ == '__main__':

@@ -123,7 +123,7 @@ def main() -> int:
 
     symbols = list(args.symbols)
     if args.batch:
-        symbols += [line.strip() for line in Path(args.batch).read_text(encoding="utf-8").splitlines() if line.strip()]
+        symbols += [line.strip() for line in Path(args.batch).read_text(encoding="utf-8-sig").splitlines() if line.strip()]
     if not symbols:
         parser.error("provide at least one symbol or --batch")
 

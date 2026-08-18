@@ -6,7 +6,6 @@ from PIL import ImageDraw
 from module.base.decorator import cached_property
 from module.base.resource import Resource
 from module.base.utils import *  # noqa: F403  (re-export facade)
-from module.config.server import VALID_SERVER
 
 
 class Button(Resource):
@@ -231,53 +230,6 @@ class Button(Resource):
             self._button_offset = area_offset(self._button, offset[:2] + np.array(point))
             return sim > similarity
 
-    def match_binary(self, image, offset=30, similarity=0.85):
-        """Detects button by template matching. To Some button, its location may not be static.
-           This method will apply template matching under binarization.
-
-        Args:
-            image: Screenshot.
-            offset (int, tuple): Detection area offset.
-            similarity (float): 0-1. Similarity.
-
-        Returns:
-            bool.
-        """
-        self.ensure_template()
-        self.ensure_binary_template()
-
-        if isinstance(offset, tuple):
-            if len(offset) == 2:
-                offset = np.array((-offset[0], -offset[1], offset[0], offset[1]))
-            else:
-                offset = np.array(offset)
-        else:
-            offset = np.array((-3, -offset, 3, offset))
-        image = crop(image, offset + self.area, copy=False)
-
-        if self.is_gif:
-            for template in self.image_binary:
-                # graying
-                image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-                # binarization
-                _, image_binary = cv2.threshold(image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
-                # template matching
-                res = cv2.matchTemplate(template, image_binary, cv2.TM_CCOEFF_NORMED)
-                _, sim, _, point = cv2.minMaxLoc(res)
-                self._button_offset = area_offset(self._button, offset[:2] + np.array(point))
-                if sim > similarity:
-                    return True
-            return False
-        else:
-            # graying
-            image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-            # binarization
-            _, image_binary = cv2.threshold(image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
-            # template matching
-            res = cv2.matchTemplate(self.image_binary, image_binary, cv2.TM_CCOEFF_NORMED)
-            _, sim, _, point = cv2.minMaxLoc(res)
-            self._button_offset = area_offset(self._button, offset[:2] + np.array(point))
-            return sim > similarity
 
     def match_luma(self, image, offset=30, similarity=0.85):
         """
@@ -381,24 +333,6 @@ class Button(Resource):
             button.load_color(image)
         return button
 
-    def split_server(self):
-        """
-        Split into 4 server specific buttons.
-
-        Returns:
-            dict[str, Button]:
-        """
-        out = {}
-        for s in VALID_SERVER:
-            out[s] = Button(
-                area=self.parse_property(self.raw_area, s),
-                color=self.parse_property(self.raw_color, s),
-                button=self.parse_property(self.raw_button, s),
-                file=self.parse_property(self.raw_file, s),
-                name=self.name,
-            )
-        return out
-
 
 class ButtonGrid:
     def __init__(self, origin, delta, button_shape, grid_shape, name=None):
@@ -471,12 +405,3 @@ class ButtonGrid:
         for button in self.buttons:
             draw.rectangle((button.area[:2], button.button[2:]), fill=(255, 255, 255), outline=None)
         return image
-
-    def show_mask(self):
-        self.gen_mask().show()
-
-    def save_mask(self):
-        """
-        Save mask to {name}.png
-        """
-        self.gen_mask().save(f"{self._name}.png")

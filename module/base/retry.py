@@ -99,37 +99,3 @@ def retry(exceptions=Exception, tries=-1, delay=0, max_delay=None, backoff=1, ji
         )
 
     return retry_decorator
-
-
-def retry_call(
-    f,
-    fargs=None,
-    fkwargs=None,
-    exceptions=Exception,
-    tries=-1,
-    delay=0,
-    max_delay=None,
-    backoff=1,
-    jitter=0,
-    logger=logging_logger,
-):
-    """
-    Calls a function and re-executes it if it failed.
-
-    :param f: the function to execute.
-    :param fargs: the positional arguments of the function to execute.
-    :param fkwargs: the named arguments of the function to execute.
-    :param exceptions: an exception or a tuple of exceptions to catch. default: Exception.
-    :param tries: the maximum number of attempts. default: -1 (infinite).
-    :param delay: initial delay between attempts. default: 0.
-    :param max_delay: the maximum value of delay. default: None (no limit).
-    :param backoff: multiplier applied to delay between attempts. default: 1 (no backoff).
-    :param jitter: extra seconds added to delay between attempts. default: 0.
-                   fixed if a number, random if a range tuple (min, max)
-    :param logger: logger.warning(fmt, error, delay) will be called on failed attempts.
-                   default: retry.logging_logger. if None, logging is disabled.
-    :returns: the result of the f function.
-    """
-    args = fargs if fargs else []
-    kwargs = fkwargs if fkwargs else {}
-    return __retry_internal(partial(f, *args, **kwargs), exceptions, tries, delay, max_delay, backoff, jitter, logger)

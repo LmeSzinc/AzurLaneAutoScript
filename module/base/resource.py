@@ -50,16 +50,6 @@ class Resource:
             return False
         return True
 
-    @classmethod
-    def resource_show(cls):
-        from module.logger import logger
-
-        logger.hr("Show resource")
-        for key, obj in cls.instances.items():
-            if cls.is_loaded(obj):
-                continue
-            logger.info(f"{obj}: {key}")
-
     @staticmethod
     def parse_property(data, s=None):
         """

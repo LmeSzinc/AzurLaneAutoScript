@@ -33,45 +33,6 @@ def future_time(string):
     return future
 
 
-def past_time(string):
-    """
-    Args:
-        string (str): Such as 14:59.
-
-    Returns:
-        datetime.datetime: Time with given hour, minute in the past.
-    """
-    hour, minute = [int(x) for x in string.split(":")]
-    past = datetime.now().replace(hour=hour, minute=minute, second=0, microsecond=0)
-    past = past - timedelta(days=1) if past > datetime.now() else past
-    return past
-
-
-def future_time_range(string):
-    """
-    Args:
-        string (str): Such as 23:30-06:30.
-
-    Returns:
-        tuple(datetime.datetime): (time start, time end).
-    """
-    start, end = [future_time(s) for s in string.split("-")]
-    if start > end:
-        start = start - timedelta(days=1)
-    return start, end
-
-
-def time_range_active(time_range):
-    """
-    Args:
-        time_range(tuple(datetime.datetime)): (time start, time end).
-
-    Returns:
-        bool:
-    """
-    return time_range[0] < datetime.now() < time_range[1]
-
-
 class Timer:
     def __init__(self, limit, count=0):
         """
@@ -143,9 +104,6 @@ class Timer:
         """
         return self._access
 
-    def add_count(self):
-        self._access += 1
-        return self
 
     def reached(self):
         """

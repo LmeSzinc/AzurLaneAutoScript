@@ -45,17 +45,6 @@ def to_tmp_file(file: str) -> str:
     return f"{file}.{suffix}.tmp"
 
 
-def to_nontmp_file(file: str) -> str:
-    """
-    Convert a tmp filename or directory name to original file
-    filename.sTD2kF.tmp -> filename
-    """
-    if is_tmp_file(file):
-        return file[:-11]
-    else:
-        return file
-
-
 def windows_attempt_delay(attempt: int) -> float:
     """
     Exponential Backoff if file is in use on Windows
@@ -275,26 +264,6 @@ def atomic_write(
     replace_tmp(temp, file)
 
 
-def atomic_write_stream(
-    file: str,
-    data_generator,
-):
-    """
-    Atomic file write with streaming data support.
-    Handles cases where file might be read by another process.
-
-    os.replace() is an atomic operation among all OS,
-    we write to temp file then do os.replace()
-
-    Args:
-        file: Target file path
-        data_generator: An iterable that yields data chunks (str or bytes)
-    """
-    temp = to_tmp_file(file)
-    file_write_stream(temp, data_generator)
-    replace_tmp(temp, file)
-
-
 def file_read_text(file: str, encoding: str = "utf-8", errors: str = "strict") -> str:
     """
     Args:
@@ -388,36 +357,6 @@ def atomic_read_text(file: str, encoding: str = "utf-8", errors: str = "strict")
         return file_read_text(file, encoding=encoding, errors=errors)
 
 
-def atomic_read_text_stream(
-    file: str, encoding: str = "utf-8", errors: str = "strict", chunk_size: int = 8192
-) -> Iterable[str]:
-    """
-    Args:
-        file:
-        encoding:
-        errors: 'strict', 'ignore', 'replace' and any other errors mode in open()
-        chunk_size:
-    """
-    if IS_WINDOWS:
-        # PermissionError on Windows if another process is replacing
-        last_error = None
-        for attempt in range(WINDOWS_MAX_ATTEMPT):
-            try:
-                yield from file_read_text_stream(file, encoding=encoding, errors=errors, chunk_size=chunk_size)
-                return
-            except PermissionError as e:
-                last_error = e
-                delay = windows_attempt_delay(attempt)
-                time.sleep(delay)
-                continue
-        if last_error is not None:
-            raise last_error from None
-    else:
-        # Linux and Mac allow reading while replacing
-        yield from file_read_text_stream(file, encoding=encoding, errors=errors, chunk_size=chunk_size)
-        return
-
-
 def atomic_read_bytes(file: str) -> bytes:
     """
     Atomic file read with minimal IO operation
@@ -440,32 +379,6 @@ def atomic_read_bytes(file: str) -> bytes:
         return file_read_bytes(file)
 
 
-def atomic_read_bytes_stream(file: str, chunk_size: int = 8192) -> Iterable[bytes]:
-    """
-    Args:
-        file:
-        chunk_size:
-    """
-    if IS_WINDOWS:
-        # PermissionError on Windows if another process is replacing
-        last_error = None
-        for attempt in range(WINDOWS_MAX_ATTEMPT):
-            try:
-                yield from file_read_bytes_stream(file, chunk_size=chunk_size)
-                return
-            except PermissionError as e:
-                last_error = e
-                delay = windows_attempt_delay(attempt)
-                time.sleep(delay)
-                continue
-        if last_error is not None:
-            raise last_error from None
-    else:
-        # Linux and Mac allow reading while replacing
-        yield from file_read_bytes_stream(file, chunk_size=chunk_size)
-        return
-
-
 def file_remove(file: str):
     """
     Remove a file non-atomic
@@ -473,33 +386,6 @@ def file_remove(file: str):
     with suppress(FileNotFoundError):
         # If file not exist, just no need to remove
         os.unlink(file)
-
-
-def atomic_remove(file: str):
-    """
-    Atomic file remove
-
-    Args:
-        file:
-    """
-    if IS_WINDOWS:
-        # PermissionError on Windows if another process is replacing
-        last_error = None
-        for attempt in range(WINDOWS_MAX_ATTEMPT):
-            try:
-                return file_remove(file)
-            except PermissionError as e:
-                last_error = e
-                delay = windows_attempt_delay(attempt)
-                time.sleep(delay)
-                continue
-        if last_error is not None:
-            raise last_error from None
-    else:
-        # Linux and Mac allow deleting while another process is reading
-        # The directory entry is removed but the storage allocated to the file is not made available
-        # until the original file is no longer in use.
-        return file_remove(file)
 
 
 def folder_rmtree(folder, may_symlinks=True):
@@ -550,21 +436,6 @@ def folder_rmtree(folder, may_symlinks=True):
         return True
     except OSError:
         return False
-
-
-def atomic_rmtree(folder: str):
-    """
-    Atomic folder rmtree
-    Rename folder as temp folder and remove it,
-    folder can be removed by atomic_failure_cleanup at next startup if remove gets interrupted
-    """
-    temp = to_tmp_file(folder)
-    try:
-        atomic_replace(folder, temp)
-    except FileNotFoundError:
-        # Folder not exist, no need to rmtree
-        return
-    folder_rmtree(temp)
 
 
 def atomic_failure_cleanup(folder: str, recursive: bool = False):
