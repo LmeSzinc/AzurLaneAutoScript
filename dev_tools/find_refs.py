@@ -60,7 +60,7 @@ def collect_index() -> tuple[dict[str, list[dict]], list[dict]]:
         lines = text.splitlines()
         rel = str(path.relative_to(ROOT)).replace("\\", "/")
 
-        def site(kind: str, node, name: str) -> dict:
+        def site(kind: str, node, name: str, *, rel: str = rel, lines: list[str] = lines) -> dict:
             lineno = getattr(node, "lineno", 0)
             return {
                 "kind": kind,
