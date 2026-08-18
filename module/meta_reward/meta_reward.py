@@ -1,7 +1,7 @@
 from module.base.timer import Timer
 from module.combat.combat import Combat
 from module.logger import logger
-from module.meta_reward.assets import *
+from module.meta_reward.assets import *  # noqa: F403  (data-bundle star import)
 from module.os_ash.assets import DOSSIER_LIST
 from module.ui.page import page_meta
 from module.ui.ui import UI
@@ -33,7 +33,7 @@ class BeaconReward(Combat, UI):
             in: page_meta or REWARD_CHECK
             out: REWARD_CHECK
         """
-        logger.hr('Meta reward receive', level=1)
+        logger.hr("Meta reward receive", level=1)
         confirm_timer = Timer(1, count=3).start()
         received = False
         while 1:
@@ -44,8 +44,9 @@ class BeaconReward(Combat, UI):
 
             # End
             # REWARD_CHECK appears and REWARD_RECEIVE gets gray
-            if self.appear(REWARD_CHECK, offset=(20, 20)) and \
-                    self.image_color_count(REWARD_RECEIVE, color=(49, 52, 49), threshold=221, count=400):
+            if self.appear(REWARD_CHECK, offset=(20, 20)) and self.image_color_count(
+                REWARD_RECEIVE, color=(49, 52, 49), threshold=221, count=400
+            ):
                 break
 
             if self.appear_then_click(REWARD_ENTER, offset=(20, 20), interval=3):
@@ -54,7 +55,7 @@ class BeaconReward(Combat, UI):
                 self.device.click(REWARD_RECEIVE)
                 confirm_timer.reset()
                 continue
-            if self.handle_popup_confirm('META_REWARD'):
+            if self.handle_popup_confirm("META_REWARD"):
                 # Lock new META ships
                 confirm_timer.reset()
                 continue
@@ -67,7 +68,7 @@ class BeaconReward(Combat, UI):
                 confirm_timer.reset()
                 continue
 
-        logger.info(f'Meta reward receive finished, received={received}')
+        logger.info(f"Meta reward receive finished, received={received}")
         return received
 
     def meta_sync_notice_appear(self, interval=0):
@@ -80,9 +81,9 @@ class BeaconReward(Combat, UI):
         Page:
             in: page_meta
         """
-        if self.appear(SYNC_REWARD_NOTICE, threshold=30, interval=interval):
-            return True
-        elif self.appear(SYNC_TAP, threshold=30, interval=interval):
+        if self.appear(SYNC_REWARD_NOTICE, threshold=30, interval=interval) or self.appear(
+            SYNC_TAP, threshold=30, interval=interval
+        ):
             return True
         else:
             return False
@@ -100,7 +101,7 @@ class BeaconReward(Combat, UI):
             out: SYNC_ENTER if meta ship synced < 100%
                 REWARD_ENTER if meta ship synced >= 100%
         """
-        logger.hr('Meta sync receive', level=1)
+        logger.hr("Meta sync receive", level=1)
         received = False
         while 1:
             if skip_first_screenshot:
@@ -111,25 +112,25 @@ class BeaconReward(Combat, UI):
             # End
             # Sync progress >= 100%
             if self.appear(REWARD_ENTER, offset=(20, 20)):
-                logger.info('meta_sync_receive ends at REWARD_ENTER')
+                logger.info("meta_sync_receive ends at REWARD_ENTER")
                 break
 
-            if self.config.SERVER == 'en':
+            if self.config.SERVER == "en":
                 if self.appear(SYNC_ENTER, offset=(20, 20)):
-                    logger.info(f'meta_sync_receive ends at SYNC_ENTER')
+                    logger.info("meta_sync_receive ends at SYNC_ENTER")
                     break
                 elif self.appear(SYNC_ENTER2, offset=(20, 20)):
                     if not self.meta_sync_notice_appear():
-                        logger.info(f'meta_sync_receive ends at SYNC_ENTER2')
+                        logger.info("meta_sync_receive ends at SYNC_ENTER2")
                         break
             else:
                 if self.appear(SYNC_ENTER, offset=(20, 20)):
                     if not self.meta_sync_notice_appear():
-                        logger.info('meta_sync_receive ends at SYNC_ENTER')
+                        logger.info("meta_sync_receive ends at SYNC_ENTER")
                         break
 
             # Click
-            if self.handle_popup_confirm('META_REWARD'):
+            if self.handle_popup_confirm("META_REWARD"):
                 # Lock new META ships
                 continue
             if self.handle_get_items():
@@ -139,7 +140,7 @@ class BeaconReward(Combat, UI):
                 received = True
                 continue
             if self.appear(SYNC_REWARD_NOTICE, threshold=30, interval=3):
-                logger.info(f'sync reward notice appear -> {SYNC_ENTER}')
+                logger.info(f"sync reward notice appear -> {SYNC_ENTER}")
                 self.device.click(SYNC_ENTER)
                 received = True
                 continue
@@ -147,7 +148,7 @@ class BeaconReward(Combat, UI):
                 received = True
                 continue
 
-        logger.info(f'Meta sync receive finished, received={received}')
+        logger.info(f"Meta sync receive finished, received={received}")
         return received
 
     def meta_wait_reward_page(self, skip_first_screenshot=True):
@@ -162,37 +163,37 @@ class BeaconReward(Combat, UI):
                 self.device.screenshot()
 
             if timeout.reached():
-                logger.warning(f'meta_wait_reward_page timeout')
+                logger.warning("meta_wait_reward_page timeout")
                 break
             if self.appear(REWARD_ENTER, offset=(20, 20)):
-                logger.info(f'meta_wait_reward_page ends at {REWARD_ENTER}')
+                logger.info(f"meta_wait_reward_page ends at {REWARD_ENTER}")
                 break
-            if self.config.SERVER == 'en':
+            if self.config.SERVER == "en":
                 if self.appear(SYNC_ENTER, offset=(20, 20)):
-                    logger.info(f'meta_wait_reward_page ends at {SYNC_ENTER}')
+                    logger.info(f"meta_wait_reward_page ends at {SYNC_ENTER}")
                     break
                 elif self.appear(SYNC_ENTER2, offset=(20, 20)):
-                    logger.info(f'meta_wait_reward_page ends at {SYNC_ENTER2}')
+                    logger.info(f"meta_wait_reward_page ends at {SYNC_ENTER2}")
                     break
             else:
                 if self.appear(SYNC_ENTER, offset=(20, 20)):
-                    logger.info(f'meta_wait_reward_page ends at {SYNC_ENTER}')
+                    logger.info(f"meta_wait_reward_page ends at {SYNC_ENTER}")
                     break
             if self.appear(SYNC_TAP, offset=(20, 20)):
-                logger.info(f'meta_wait_reward_page ends at {SYNC_TAP}')
+                logger.info(f"meta_wait_reward_page ends at {SYNC_TAP}")
                 break
             if self.meta_sync_notice_appear():
-                logger.info('meta_wait_reward_page ends at sync red dot')
+                logger.info("meta_wait_reward_page ends at sync red dot")
                 break
             if self.meta_reward_notice_appear():
-                logger.info('meta_wait_reward_page ends at reward red dot')
+                logger.info("meta_wait_reward_page ends at reward red dot")
                 break
 
     def run(self):
-        if self.config.SERVER in ['cn', 'en', 'jp']:
+        if self.config.SERVER in ["cn", "en", "jp"]:
             pass
         else:
-            logger.info(f'MetaReward is not supported in {self.config.SERVER}, please contact server maintainers')
+            logger.info(f"MetaReward is not supported in {self.config.SERVER}, please contact server maintainers")
             return
 
         self.ui_ensure(page_meta)
@@ -201,17 +202,17 @@ class BeaconReward(Combat, UI):
         # Sync rewards
         # "sync" is the period that you gather meta points to 100% and get a meta ship
         if self.meta_sync_notice_appear():
-            logger.info('Found meta sync red dot or sync tap')
+            logger.info("Found meta sync red dot or sync tap")
             self.meta_sync_receive()
         else:
-            logger.info('No meta sync red dot or sync tap')
+            logger.info("No meta sync red dot or sync tap")
 
         # Meta rewards
         if self.meta_reward_notice_appear():
-            logger.info('Found meta reward red dot')
+            logger.info("Found meta reward red dot")
             self.meta_reward_receive()
         else:
-            logger.info('No meta reward red dot')
+            logger.info("No meta reward red dot")
 
 
 class DossierReward(Combat, UI):
@@ -225,10 +226,10 @@ class DossierReward(Combat, UI):
         """
         self.device.screenshot()
         if self.appear(DOSSIER_REWARD_RECEIVE, offset=(-40, 10, -10, 40), similarity=0.7):
-            logger.info('Found dossier reward red dot')
+            logger.info("Found dossier reward red dot")
             return True
         else:
-            logger.info('No dossier reward red dot')
+            logger.info("No dossier reward red dot")
             return False
 
     def meta_reward_enter(self, skip_first_screenshot=True):
@@ -237,7 +238,7 @@ class DossierReward(Combat, UI):
             in: dossier meta page
             out: DOSSIER_REWARD_CHECK
         """
-        logger.info('Dossier reward enter')
+        logger.info("Dossier reward enter")
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -264,7 +265,7 @@ class DossierReward(Combat, UI):
             in: DOSSIER_REWARD_CHECK
             out: DOSSIER_REWARD_CHECK
         """
-        logger.hr('Dossier reward receive', level=1)
+        logger.hr("Dossier reward receive", level=1)
         confirm_timer = Timer(1, count=3).start()
         received = False
         while 1:
@@ -277,7 +278,7 @@ class DossierReward(Combat, UI):
                 self.device.click(DOSSIER_REWARD_RECEIVE)
                 confirm_timer.reset()
                 continue
-            if self.handle_popup_confirm('DOSSIER_REWARD'):
+            if self.handle_popup_confirm("DOSSIER_REWARD"):
                 # Lock new META ships
                 confirm_timer.reset()
                 continue
@@ -297,17 +298,18 @@ class DossierReward(Combat, UI):
             else:
                 confirm_timer.reset()
 
-        logger.info(f'Dossier reward receive finished, received={received}')
+        logger.info(f"Dossier reward receive finished, received={received}")
         return received
 
     def run(self):
-        if self.config.SERVER in ['cn', 'en', 'jp']:
+        if self.config.SERVER in ["cn", "en", "jp"]:
             pass
         else:
-            logger.info(f'MetaReward is not supported in {self.config.SERVER}, please contact server maintainers')
+            logger.info(f"MetaReward is not supported in {self.config.SERVER}, please contact server maintainers")
             return
 
         from module.os_ash.meta import OpsiAshBeacon
+
         OpsiAshBeacon(self.config, self.device).ensure_dossier_page()
         if self.meta_reward_notice_appear():
             self.meta_reward_enter()
@@ -321,4 +323,4 @@ class MetaReward(BeaconReward, DossierReward):
         elif category == "dossier":
             DossierReward(self.config, self.device).run()
         else:
-            logger.info(f'Possible wrong parameter {category}, please contact the developers.')
+            logger.info(f"Possible wrong parameter {category}, please contact the developers.")

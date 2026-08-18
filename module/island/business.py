@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property, del_cached_property
 from module.config.utils import get_server_next_update
-from module.island.assets import *
+from module.island.assets import *  # noqa: F403  (data-bundle star import)
 from module.island_handler.restaurant import IslandRestaurant, WaitressOccupied
 from module.island_handler.restaurant_config import (
     RESTAURANT_IDS,
@@ -14,7 +14,6 @@ from module.logger import logger
 from module.ocr.ocr import Duration
 from module.ui.page import page_island_manage
 
-
 BUSINESS_DETECT_AREA = (210, 72, 1203, 685)
 BUSINESS_ENTRANCE_AREA = (794, 84, 950, 120)
 
@@ -23,30 +22,20 @@ class IslandBusiness(IslandRestaurant):
     @cached_property
     def skip_restaurant(self):
         return {
-            restaurant_id: not is_restaurant_enabled(
-                get_waitress_slots(self.config, restaurant_id)
-            )
+            restaurant_id: not is_restaurant_enabled(get_waitress_slots(self.config, restaurant_id))
             for restaurant_id in RESTAURANT_IDS
         }
 
     @property
     def business_grid(self):
         return ButtonGrid(
-            origin=(210, 88),
-            delta=(0, 177),
-            button_shape=(993, 161),
-            grid_shape=(1, 3),
-            name="BUSINESS_GRID"
+            origin=(210, 88), delta=(0, 177), button_shape=(993, 161), grid_shape=(1, 3), name="BUSINESS_GRID"
         )
 
     @property
     def business_grid_shifted(self):
         return ButtonGrid(
-            origin=(210, 168),
-            delta=(0, 177),
-            button_shape=(993, 161),
-            grid_shape=(1, 3),
-            name="BUSINESS_GRID_SHIFTED"
+            origin=(210, 168), delta=(0, 177), button_shape=(993, 161), grid_shape=(1, 3), name="BUSINESS_GRID_SHIFTED"
         )
 
     def handle_restaurant_popup(self):
@@ -80,7 +69,7 @@ class IslandBusiness(IslandRestaurant):
             TEMPLATE_ISLAND_BUSINESS_BEAR: 602,
             TEMPLATE_ISLAND_BUSINESS_EATERY: 603,
             TEMPLATE_ISLAND_BUSINESS_GRILL: 604,
-            TEMPLATE_ISLAND_BUSINESS_CAFE: 901
+            TEMPLATE_ISLAND_BUSINESS_CAFE: 901,
         }
         for _ in self.loop(timeout=4):
             image = self.image_crop(button, copy=True)
@@ -128,8 +117,10 @@ class IslandBusiness(IslandRestaurant):
             logger.info("No more restaurants")
 
     def run(self):
-        if self.config.SERVER in ['tw']:
-            logger.info(f'IslandBusiness is not available on {self.config.SERVER} server, delay until next server update')
+        if self.config.SERVER in ["tw"]:
+            logger.info(
+                f"IslandBusiness is not available on {self.config.SERVER} server, delay until next server update"
+            )
             self.config.task_delay(server_update=True)
             return
         self.ui_ensure(page_island_manage)
@@ -138,11 +129,21 @@ class IslandBusiness(IslandRestaurant):
         self.restaurant_swipe_to_top()
         unchecked_restaurants = list(RESTAURANT_IDS)
         next_run_time = {
-            601: get_server_next_update('00:00') if not self.skip_restaurant[601] else datetime.now() + timedelta(days=3),
-            602: get_server_next_update('00:00') if not self.skip_restaurant[602] else datetime.now() + timedelta(days=3),
-            603: get_server_next_update('00:00') if not self.skip_restaurant[603] else datetime.now() + timedelta(days=3),
-            604: get_server_next_update('00:00') if not self.skip_restaurant[604] else datetime.now() + timedelta(days=3),
-            901: get_server_next_update('00:00') if not self.skip_restaurant[901] else datetime.now() + timedelta(days=3)
+            601: get_server_next_update("00:00")
+            if not self.skip_restaurant[601]
+            else datetime.now() + timedelta(days=3),
+            602: get_server_next_update("00:00")
+            if not self.skip_restaurant[602]
+            else datetime.now() + timedelta(days=3),
+            603: get_server_next_update("00:00")
+            if not self.skip_restaurant[603]
+            else datetime.now() + timedelta(days=3),
+            604: get_server_next_update("00:00")
+            if not self.skip_restaurant[604]
+            else datetime.now() + timedelta(days=3),
+            901: get_server_next_update("00:00")
+            if not self.skip_restaurant[901]
+            else datetime.now() + timedelta(days=3),
         }
         while unchecked_restaurants:
             button = self.current_restaurant_button()
@@ -193,11 +194,11 @@ class IslandBusiness(IslandRestaurant):
             for _ in self.loop(timeout=0.8, skip_first=False):
                 if self.appear(page_island_manage.check_button, offset=(0, 20)):
                     break
-            del_cached_property(super(), 'restaurant_has_event')
-            del_cached_property(super(), '_restaurant_offset_x')
-            del_cached_property(super(), 'restaurant_grid')
-            del_cached_property(super(), 'event_buff')
-            del_cached_property(super(), '_restaurant_offset')
+            del_cached_property(super(), "restaurant_has_event")
+            del_cached_property(super(), "_restaurant_offset_x")
+            del_cached_property(super(), "restaurant_grid")
+            del_cached_property(super(), "event_buff")
+            del_cached_property(super(), "_restaurant_offset")
             if restaurant_id in unchecked_restaurants:
                 unchecked_restaurants.remove(restaurant_id)
             if success:

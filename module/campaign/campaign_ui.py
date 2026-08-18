@@ -1,6 +1,6 @@
 from module.base.timer import Timer
 from module.base.utils import area_offset
-from module.campaign.assets import *
+from module.campaign.assets import *  # noqa: F403  (data-bundle star import)
 from module.campaign.campaign_event import CampaignEvent
 from module.campaign.campaign_ocr import CampaignOcr
 from module.exception import CampaignEnd, CampaignNameError, ScriptEnd

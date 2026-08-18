@@ -4,18 +4,18 @@ import module.config.server as server
 from module.base.utils import get_color
 from module.combat.assets import BATTLE_PREPARATION
 from module.combat.combat import Combat
-from module.daily.assets import *
+from module.daily.assets import *  # noqa: F403  (data-bundle star import)
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.ui.assets import BACK_ARROW, DAILY_CHECK
 from module.ui.page import page_campaign_menu, page_daily
 
 DAILY_MISSION_LIST = [DAILY_MISSION_1, DAILY_MISSION_2, DAILY_MISSION_3]
-if server.server != 'jp':
-    OCR_REMAIN = Digit(OCR_REMAIN, threshold=128, alphabet='01234')
+if server.server != "jp":
+    OCR_REMAIN = Digit(OCR_REMAIN, threshold=128, alphabet="01234")
 else:
-    OCR_REMAIN = Digit(OCR_REMAIN, letter=(222, 223, 222), threshold=128, alphabet='01234')
-OCR_DAILY_FLEET_INDEX = Digit(OCR_DAILY_FLEET_INDEX, letter=(90, 154, 255), threshold=128, alphabet='123456')
+    OCR_REMAIN = Digit(OCR_REMAIN, letter=(222, 223, 222), threshold=128, alphabet="01234")
+OCR_DAILY_FLEET_INDEX = Digit(OCR_DAILY_FLEET_INDEX, letter=(90, 154, 255), threshold=128, alphabet="123456")
 
 
 class Daily(Combat):
@@ -29,9 +29,9 @@ class Daily(Combat):
         color = (np.max(color) + np.min(color)) / 2
         active = color > 30
         if active:
-            logger.attr(f'Daily_{self.daily_current}', 'active')
+            logger.attr(f"Daily_{self.daily_current}", "active")
         else:
-            logger.attr(f'Daily_{self.daily_current}', 'inactive')
+            logger.attr(f"Daily_{self.daily_current}", "inactive")
         return active
 
     def _wait_daily_switch(self):
@@ -39,14 +39,14 @@ class Daily(Combat):
 
     def next(self):
         self.daily_current += 1
-        logger.info('Switch to %s' % str(self.daily_current))
+        logger.info("Switch to %s" % str(self.daily_current))
         self.device.click(DAILY_NEXT)
         self._wait_daily_switch()
         self.device.screenshot()
 
     def prev(self):
         self.daily_current -= 1
-        logger.info('Switch to %s' % str(self.daily_current))
+        logger.info("Switch to %s" % str(self.daily_current))
         self.device.click(DAILY_PREV)
         self._wait_daily_switch()
         self.device.screenshot()
@@ -80,7 +80,7 @@ class Daily(Combat):
                 self.config.Daily_TacticalTrainingFleet,
                 0,  # Supply Line Disruption, which needs to be done manually or to be done by daily skip
                 self.config.Daily_ModuleDevelopmentFleet,
-                0
+                0,
             ]
             stages = [
                 0,
@@ -91,7 +91,7 @@ class Daily(Combat):
                 self.config.Daily_TacticalTraining,
                 self.config.Daily_SupplyLineDisruption,
                 self.config.Daily_ModuleDevelopment,
-                0
+                0,
             ]
         else:
             # Meaning of daily_current
@@ -111,7 +111,7 @@ class Daily(Combat):
                 self.config.Daily_EscortMissionFleet,
                 self.config.Daily_AdvanceMissionFleet,
                 self.config.Daily_FierceAssaultFleet,
-                0
+                0,
             ]
             stages = [
                 0,
@@ -122,19 +122,19 @@ class Daily(Combat):
                 self.config.Daily_EscortMission,
                 self.config.Daily_AdvanceMission,
                 self.config.Daily_FierceAssault,
-                0
+                0,
             ]
         dic = {
-            'skip': 0,
-            'first': 1,
-            'second': 2,
-            'third': 3,
+            "skip": 0,
+            "first": 1,
+            "second": 2,
+            "third": 3,
         }
         fleet = fleets[self.daily_current]
         stage = stages[self.daily_current]
 
         if stage not in dic:
-            logger.warning(f'Unknown daily stage `{stage}` from daily_current={self.daily_current}')
+            logger.warning(f"Unknown daily stage `{stage}` from daily_current={self.daily_current}")
         stage = dic.get(stage, 0)
         return int(stage), int(fleet)
 
@@ -166,8 +166,8 @@ class Daily(Combat):
             in: page_daily
             out: page_daily
         """
-        logger.hr(f'Daily {self.daily_current}', level=2)
-        logger.info(f'remain={remain}, stage={stage}, fleet={fleet}')
+        logger.hr(f"Daily {self.daily_current}", level=2)
+        logger.info(f"remain={remain}, stage={stage}, fleet={fleet}")
 
         def daily_enter_check():
             return self.appear(DAILY_ENTER_CHECK, threshold=30)
@@ -177,31 +177,45 @@ class Daily(Combat):
                 self.device.click(BACK_ARROW)
             return self.appear(DAILY_ENTER_CHECK, threshold=30) or self.appear(BACK_ARROW, offset=(30, 30))
 
-        self.ui_click(click_button=DAILY_ENTER, check_button=daily_enter_check, appear_button=DAILY_CHECK,
-                      skip_first_screenshot=True)
+        self.ui_click(
+            click_button=DAILY_ENTER,
+            check_button=daily_enter_check,
+            appear_button=DAILY_CHECK,
+            skip_first_screenshot=True,
+        )
         if self.appear(DAILY_LOCKED):
-            logger.info('Daily locked')
+            logger.info("Daily locked")
             self.ui_click(click_button=BACK_ARROW, check_button=DAILY_CHECK)
             self.device.sleep((1, 1.2))
             return False
 
         button = DAILY_MISSION_LIST[stage - 1]
         for n in range(remain):
-            logger.hr(f'Count {n + 1}')
+            logger.hr(f"Count {n + 1}")
             result = self.daily_enter(button)
             if not result:
                 break
             if self.daily_current == self.supply_line_disruption_index:
-                logger.info('Submarine daily skip not unlocked, skip')
+                logger.info("Submarine daily skip not unlocked, skip")
                 self.ui_click(click_button=BACK_ARROW, check_button=daily_enter_check, skip_first_screenshot=True)
                 break
             # Execute classic daily run
-            self.ui_ensure_index(fleet, letter=OCR_DAILY_FLEET_INDEX, prev_button=DAILY_FLEET_PREV,
-                                 next_button=DAILY_FLEET_NEXT, fast=False, skip_first_screenshot=True)
+            self.ui_ensure_index(
+                fleet,
+                letter=OCR_DAILY_FLEET_INDEX,
+                prev_button=DAILY_FLEET_PREV,
+                next_button=DAILY_FLEET_NEXT,
+                fast=False,
+                skip_first_screenshot=True,
+            )
             self.combat(emotion_reduce=False, save_get_items=False, expected_end=daily_end, balance_hp=False)
 
-        self.ui_click(click_button=BACK_ARROW, check_button=DAILY_CHECK, additional=self.handle_daily_additional,
-                      skip_first_screenshot=True)
+        self.ui_click(
+            click_button=BACK_ARROW,
+            check_button=DAILY_CHECK,
+            additional=self.handle_daily_additional,
+            skip_first_screenshot=True,
+        )
         self.device.sleep((1, 1.2))
         return True
 
@@ -241,7 +255,7 @@ class Daily(Combat):
                 continue
             if self.handle_daily_additional():
                 continue
-            if self.handle_popup_confirm('DAILY_SKIP'):
+            if self.handle_popup_confirm("DAILY_SKIP"):
                 continue
 
             # End
@@ -260,19 +274,19 @@ class Daily(Combat):
         if not n:
             n = self.daily_current
         self.daily_checked.append(n)
-        logger.info(f'Checked daily {n}')
-        logger.info(f'Checked_list: {self.daily_checked}')
+        logger.info(f"Checked daily {n}")
+        logger.info(f"Checked_list: {self.daily_checked}")
 
     def daily_run_one(self):
-        logger.hr('Daily run one', level=1)
+        logger.hr("Daily run one", level=1)
         self.ui_ensure(page_daily)
         self.device.sleep(0.2)
         self.device.screenshot()
         self.daily_current = 1
         self.emergency_module_development = self.appear(ENTRANCE_EMERGENCY_MODULE_DEVELOPMENT, offset=(25, 50))
-        logger.attr('emergency_module_development', self.emergency_module_development)
+        logger.attr("emergency_module_development", self.emergency_module_development)
 
-        logger.info(f'Checked_list: {self.daily_checked}')
+        logger.info(f"Checked_list: {self.daily_checked}")
         for _ in range(max(self.daily_checked)):
             self.next()
 
@@ -280,23 +294,23 @@ class Daily(Combat):
             if self.daily_current > 7:
                 break
             if self.daily_current == self.empty_index:
-                logger.info('This daily is not open now')
+                logger.info("This daily is not open now")
                 self.daily_check()
                 self.next()
                 continue
             stage, fleet = self.get_daily_stage_and_fleet()
             if self.daily_current == self.supply_line_disruption_index and not self.config.Daily_UseDailySkip:
-                logger.info('Skip supply line disruption if UseDailySkip disabled')
+                logger.info("Skip supply line disruption if UseDailySkip disabled")
                 self.daily_check()
                 self.next()
                 continue
             if not stage:
-                logger.info(f'No stage set on daily_current: {self.daily_current}, skip')
+                logger.info(f"No stage set on daily_current: {self.daily_current}, skip")
                 self.daily_check()
                 self.next()
                 continue
             if self.daily_current != self.supply_line_disruption_index and not fleet:
-                logger.info(f'No fleet set on daily_current: {self.daily_current}, skip')
+                logger.info(f"No fleet set on daily_current: {self.daily_current}, skip")
                 self.daily_check()
                 self.next()
                 continue
@@ -323,11 +337,11 @@ class Daily(Combat):
         while 1:
             self.daily_run_one()
 
-            if self.emergency_module_development and self.config.Daily_EmergencyModuleDevelopment != 'skip':
+            if self.emergency_module_development and self.config.Daily_EmergencyModuleDevelopment != "skip":
                 self.daily_checked = [0]
 
             if max(self.daily_checked) >= 7:
-                logger.info('Daily clear complete.')
+                logger.info("Daily clear complete.")
                 break
 
     def run(self):

@@ -13,12 +13,12 @@ async def run():
 
 
 def init_discord_rpc():
-    global RPC
+    global RPC, _rpc_task
     RPC = AioPresence("929437173764223057")
-    asyncio.create_task(run())
+    _rpc_task = asyncio.create_task(run())
 
 
 def close_discord_rpc():
     if RPC:
-        RPC.send_data(2, {'v': 1, 'client_id': RPC.client_id})
+        RPC.send_data(2, {"v": 1, "client_id": RPC.client_id})
         RPC.sock_writer.close()

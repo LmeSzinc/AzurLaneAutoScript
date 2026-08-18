@@ -3,12 +3,12 @@ import collections
 from module.base.base import ModuleBase
 from module.base.decorator import Config, cached_property, del_cached_property
 from module.base.timer import Timer
-from module.base.utils import *
+from module.base.utils import *  # noqa: F403  (re-export facade)
 from module.exception import CampaignNameError
 from module.logger import logger
 from module.map.assets import WITHDRAW
 from module.ocr.ocr import Ocr
-from module.template.assets import *
+from module.template.assets import *  # noqa: F403  (data-bundle star import)
 
 
 class CampaignOcr(ModuleBase):

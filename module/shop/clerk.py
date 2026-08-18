@@ -7,9 +7,9 @@ from module.exception import ScriptError
 from module.logger import logger
 from module.ocr.ocr import Digit, DigitCounter
 from module.retire.retirement import Retirement
-from module.shop.assets import *
+from module.shop.assets import *  # noqa: F403  (data-bundle star import)
 from module.shop.base import ShopBase
-from module.shop.shop_select_globals import *
+from module.shop.shop_select_globals import *  # noqa: F403  (re-export facade)
 from module.ui.assets import SHOP_BACK_ARROW
 
 
@@ -24,15 +24,15 @@ class StockCounter(DigitCounter):
     def after_process(self, result):
         result = super().after_process(result)
 
-        if re.match(r'^\d\d$', result):
+        if re.match(r"^\d\d$", result):
             # 55 -> 5/5
-            new = f'{result[0]}/{result[1]}'
-            logger.info(f'StockCounter result {result} is revised to {new}')
+            new = f"{result[0]}/{result[1]}"
+            logger.info(f"StockCounter result {result} is revised to {new}")
             result = new
-        if re.match(r'^\d{4,}$', result):
+        if re.match(r"^\d{4,}$", result):
             # 1515 -> 15/15
-            new = f'{result[0:2]}/{result[2:4]}'
-            logger.info(f'StockCounter result {result} is revised to {new}')
+            new = f"{result[0:2]}/{result[2:4]}"
+            logger.info(f"StockCounter result {result} is revised to {new}")
             result = new
 
         return result
@@ -41,7 +41,7 @@ class StockCounter(DigitCounter):
 SHOP_SELECT_PR = [SHOP_SELECT_PR1, SHOP_SELECT_PR2, SHOP_SELECT_PR3]
 OCR_SHOP_SELECT_STOCK = StockCounter(SHOP_SELECT_STOCK)
 
-OCR_SHOP_AMOUNT = Digit(SHOP_AMOUNT, letter=(239, 239, 239), name='OCR_SHOP_AMOUNT')
+OCR_SHOP_AMOUNT = Digit(SHOP_AMOUNT, letter=(239, 239, 239), name="OCR_SHOP_AMOUNT")
 
 
 class ShopClerk(ShopBase, Retirement):
@@ -61,7 +61,7 @@ class ShopClerk(ShopBase, Retirement):
             ScriptError
         """
         group = item.group
-        if group == 'pr':
+        if group == "pr":
             postfix = None
             for _ in range(3):
                 if _:
@@ -70,25 +70,23 @@ class ShopClerk(ShopBase, Retirement):
 
                 for idx, btn in enumerate(SHOP_SELECT_PR):
                     if self.appear(btn, offset=(20, 20)):
-                        postfix = f'{idx + 1}'
+                        postfix = f"{idx + 1}"
                         break
 
                 if postfix is not None:
                     break
-                logger.warning('Failed to detect PR series, '
-                               'app may be lagging or frozen')
+                logger.warning("Failed to detect PR series, app may be lagging or frozen")
         else:
-            postfix = f'_{item.tier.upper()}'
+            postfix = f"_{item.tier.upper()}"
 
         ugroup = group.upper()
         # 2025-08-14 new shop UI: when buy PlateT4, if is new ui class,
         #  class_name will be XXXShop_250814, need get the classname before "_"
         class_name = self.__class__.__name__.split("_")[0]
         try:
-            return getattr(self.config, f'{class_name}_{ugroup}{postfix}')
+            return getattr(self.config, f"{class_name}_{ugroup}{postfix}")
         except Exception:
-            logger.critical(f'No configuration with name '
-                            f'\'{class_name}_{ugroup}{postfix}\'')
+            logger.critical(f"No configuration with name '{class_name}_{ugroup}{postfix}'")
             raise
 
     def shop_get_select(self, item):
@@ -108,8 +106,7 @@ class ShopClerk(ShopBase, Retirement):
         # Item group must belong in SELECT_ITEM_INFO_MAP
         group = item.group
         if group not in SELECT_ITEM_INFO_MAP:
-            logger.critical(f'Unexpected item group \'{group}\'; '
-                            f'expected one of {SELECT_ITEM_INFO_MAP.keys()}')
+            logger.critical(f"Unexpected item group '{group}'; expected one of {SELECT_ITEM_INFO_MAP.keys()}")
             raise ScriptError
 
         # Get configured choice for item
@@ -118,17 +115,16 @@ class ShopClerk(ShopBase, Retirement):
         # Get appropriate select button for click
         try:
             item_info = SELECT_ITEM_INFO_MAP[group]
-            index = item_info['choices'][choice]
-            if group == 'pr':
+            index = item_info["choices"][choice]
+            if group == "pr":
                 for idx, btn in enumerate(SHOP_SELECT_PR):
                     if self.appear(btn, offset=(20, 20)):
-                        series_key = f's{idx + 1}'
-                        return item_info['grid'][series_key].buttons[index]
+                        series_key = f"s{idx + 1}"
+                        return item_info["grid"][series_key].buttons[index]
             else:
-                return item_info['grid'].buttons[index]
+                return item_info["grid"].buttons[index]
         except Exception:
-            logger.critical(f'SELECT_ITEM_INFO_MAP may be malformed; '
-                            f'item group \'{group}\' entry is compromised')
+            logger.critical(f"SELECT_ITEM_INFO_MAP may be malformed; item group '{group}' entry is compromised")
             raise ScriptError
 
     def shop_buy_select_execute(self, item):
@@ -159,9 +155,9 @@ class ShopClerk(ShopBase, Retirement):
                 break
 
         if not limit:
-            logger.critical(f'{item.name}\'s stock count cannot be '
-                            'extracted. Advised to re-cut the asset '
-                            'OCR_SHOP_SELECT_STOCK')
+            logger.critical(
+                f"{item.name}'s stock count cannot be extracted. Advised to re-cut the asset OCR_SHOP_SELECT_STOCK"
+            )
             raise ScriptError
 
         # Click in intervals until plus/minus are onscreen
@@ -194,13 +190,17 @@ class ShopClerk(ShopBase, Retirement):
             current, remain, _ = OCR_SHOP_SELECT_STOCK.ocr(image)
             if not current:
                 group_case = item.group.title() if len(item.group) > 2 else item.group.upper()
-                logger.info(f'{group_case}(s) out of stock; exit to prevent overbuying')
+                logger.info(f"{group_case}(s) out of stock; exit to prevent overbuying")
                 return limit
             return remain
 
-        self.ui_ensure_index(limit, letter=shop_buy_select_ensure_index, prev_button=SELECT_MINUS,
-                             next_button=SELECT_PLUS,
-                             skip_first_screenshot=True)
+        self.ui_ensure_index(
+            limit,
+            letter=shop_buy_select_ensure_index,
+            prev_button=SELECT_MINUS,
+            next_button=SELECT_PLUS,
+            skip_first_screenshot=True,
+        )
         self.device.click(SHOP_BUY_CONFIRM_SELECT)
         return True
 
@@ -240,8 +240,7 @@ class ShopClerk(ShopBase, Retirement):
                 break
 
         if not limit:
-            logger.critical('OCR_SHOP_AMOUNT resulted in zero (0); '
-                            'asset may be compromised')
+            logger.critical("OCR_SHOP_AMOUNT resulted in zero (0); asset may be compromised")
             raise ScriptError
 
         # Adjust purchase amount if needed
@@ -250,8 +249,9 @@ class ShopClerk(ShopBase, Retirement):
         if diff > 0:
             limit = total
 
-        self.ui_ensure_index(limit, letter=OCR_SHOP_AMOUNT, prev_button=AMOUNT_MINUS, next_button=AMOUNT_PLUS,
-                             skip_first_screenshot=True)
+        self.ui_ensure_index(
+            limit, letter=OCR_SHOP_AMOUNT, prev_button=AMOUNT_MINUS, next_button=AMOUNT_PLUS, skip_first_screenshot=True
+        )
         self.device.click(SHOP_BUY_CONFIRM_AMOUNT)
         return True
 
@@ -327,22 +327,22 @@ class ShopClerk(ShopBase, Retirement):
             bool: If success, and able to continue.
         """
         for _ in range(12):
-            logger.hr('Shop buy', level=2)
+            logger.hr("Shop buy", level=2)
             # Get first for innate delay to ocr
             # shop currency for accurate parse
             items = self.shop_get_items()
             self.shop_currency()
             if self._currency <= 0:
-                logger.warning(f'Current funds: {self._currency}, stopped')
+                logger.warning(f"Current funds: {self._currency}, stopped")
                 return False
 
             item = self.shop_get_item_to_buy(items)
             if item is None:
-                logger.info('Shop buy finished')
+                logger.info("Shop buy finished")
                 return True
             else:
                 self.shop_buy_execute(item)
                 continue
 
-        logger.warning('Too many items to buy, stopped')
+        logger.warning("Too many items to buy, stopped")
         return True

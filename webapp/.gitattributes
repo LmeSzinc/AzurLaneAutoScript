@@ -1,3 +1,0 @@
-.github/actions/**/*.js linguist-detectable=false
-scripts/*.js linguist-detectable=false
-*.config.js linguist-detectable=false

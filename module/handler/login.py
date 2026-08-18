@@ -1,5 +1,3 @@
-from typing import Union
-
 import numpy as np
 from scipy.signal import find_peaks
 from uiautomator2 import UiObject
@@ -9,10 +7,10 @@ from uiautomator2.xpath import XPath, XPathSelector
 import module.config.server as server
 from module.base.timer import Timer
 from module.base.utils import color_similarity_2d, crop
-from module.handler.assets import *
+from module.handler.assets import *  # noqa: F403  (data-bundle star import)
 from module.logger import logger
-from module.map.assets import *
-from module.ui.assets import *
+from module.map.assets import *  # noqa: F403  (data-bundle star import)
+from module.ui.assets import *  # noqa: F403  (data-bundle star import)
 from module.ui.page import page_campaign_menu
 from module.ui.ui import UI
 
@@ -29,7 +27,7 @@ class LoginHandler(UI):
             GameTooManyClickError:
             GameNotRunningError:
         """
-        logger.hr('App login')
+        logger.hr("App login")
 
         confirm_timer = Timer(1.5, count=4).start()
         orientation_timer = Timer(5)
@@ -49,7 +47,7 @@ class LoginHandler(UI):
             # End
             if self.is_in_main():
                 if confirm_timer.reached():
-                    logger.info('Login to main confirm')
+                    logger.info("Login to main confirm")
                     break
             else:
                 confirm_timer.reset()
@@ -58,10 +56,10 @@ class LoginHandler(UI):
             if self.match_template_color(LOGIN_CHECK, offset=(30, 30), interval=5):
                 self.device.click(LOGIN_CHECK)
                 if not login_success:
-                    logger.info('Login success')
+                    logger.info("Login success")
                     login_success = True
             if self.appear(ANDROID_NO_RESPOND, offset=(30, 30), interval=5):
-                logger.warning('Emulator no respond')
+                logger.warning("Emulator no respond")
                 self.device.click_record_add(ANDROID_NO_RESPOND)
                 self.device.click_record_check()
                 self.device.click(ANDROID_NO_RESPOND, control_check=False)
@@ -78,7 +76,7 @@ class LoginHandler(UI):
                 continue
             if self.appear_then_click(LOGIN_GAME_UPDATE, offset=(30, 30), interval=5):
                 continue
-            if server.server == 'cn' and not login_success:
+            if server.server == "cn" and not login_success:
                 if self.handle_cn_user_agreement():
                     continue
             # Player return
@@ -89,7 +87,7 @@ class LoginHandler(UI):
             if self.appear_then_click(AVATAR_EXPIRED, offset=(30, 30), interval=5):
                 continue
             # Popups
-            if self.handle_popup_confirm('LOGIN'):
+            if self.handle_popup_confirm("LOGIN"):
                 continue
             if self.handle_urgent_commission():
                 continue
@@ -109,22 +107,26 @@ class LoginHandler(UI):
             return False
 
         right = self.image_color_button(
-            area=(640, 360, 1280, 720), color=(78, 189, 234),
-            color_threshold=245, encourage=25, name='AGREEMENT_CONFIRM')
+            area=(640, 360, 1280, 720),
+            color=(78, 189, 234),
+            color_threshold=245,
+            encourage=25,
+            name="AGREEMENT_CONFIRM",
+        )
         if right is None:
             return False
         # 2026.04.17 No scroll anymore, just bare swipe before clicking confirm
         # if having blue button at right half of screen, but missing in left, it's a confirm button
         # if having both, it's a blue button at middle confirming login
         left = self.image_color_button(
-            area=(0, 360, 640, 720), color=(78, 189, 234),
-            color_threshold=245, encourage=25, name='AGREEMENT_CONFIRM')
+            area=(0, 360, 640, 720), color=(78, 189, 234), color_threshold=245, encourage=25, name="AGREEMENT_CONFIRM"
+        )
         if left is None:
             # User agreement
             # just somewhere at the middle
             box = (350, 230, 920, 430)
-            self.device.swipe_vector((0, -150), box, name='AGREEMENT_SCROLL')
-            self.device.swipe_vector((0, -150), box, name='AGREEMENT_SCROLL')
+            self.device.swipe_vector((0, -150), box, name="AGREEMENT_SCROLL")
+            self.device.swipe_vector((0, -150), box, name="AGREEMENT_SCROLL")
             self.device.click(right)
             self._user_agreement_timer.reset()
             return True
@@ -144,7 +146,7 @@ class LoginHandler(UI):
             GameTooManyClickError:
             GameNotRunningError:
         """
-        logger.info('handle_app_login')
+        logger.info("handle_app_login")
         self.device.screenshot_interval_set(1.0)
         try:
             self._handle_app_login()
@@ -152,17 +154,17 @@ class LoginHandler(UI):
             self.device.screenshot_interval_set()
 
     def app_stop(self):
-        logger.hr('App stop')
+        logger.hr("App stop")
         self.device.app_stop()
 
     def app_start(self):
-        logger.hr('App start')
+        logger.hr("App start")
         self.device.app_start()
         self.handle_app_login()
         # self.ensure_no_unfinished_campaign()
 
     def app_restart(self):
-        logger.hr('App restart')
+        logger.hr("App restart")
         self.device.app_stop()
         self.device.app_start()
         self.handle_app_login()
@@ -179,14 +181,16 @@ class LoginHandler(UI):
         def ensure_campaign_retreat():
             if self.appear_then_click(WITHDRAW, offset=(30, 30), interval=5):
                 return True
-            if self.handle_popup_confirm('WITHDRAW'):
+            if self.handle_popup_confirm("WITHDRAW"):
                 return True
 
         def in_campaign():
-            return self.appear(CAMPAIGN_CHECK, offset=(30, 30)) \
-                   or self.appear(CAMPAIGN_MENU_CHECK, offset=(30, 30)) \
-                   or self.appear(EVENT_CHECK, offset=(30, 30)) \
-                   or self.appear(SP_CHECK, offset=(30, 30))
+            return (
+                self.appear(CAMPAIGN_CHECK, offset=(30, 30))
+                or self.appear(CAMPAIGN_MENU_CHECK, offset=(30, 30))
+                or self.appear(EVENT_CHECK, offset=(30, 30))
+                or self.appear(SP_CHECK, offset=(30, 30))
+            )
 
         skip_first_screenshot = True
         while 1:
@@ -217,25 +221,34 @@ class LoginHandler(UI):
             bool: If handled.
         """
 
-        if server.server == 'cn':
-            area_wait_results = self.get_for_any_ele([
-                XPS('//*[@text="sdk协议"]', xp, hierarchy),
-                XPS('//*[@content-desc="sdk协议"]', xp, hierarchy)])
+        if server.server == "cn":
+            area_wait_results = self.get_for_any_ele(
+                [XPS('//*[@text="sdk协议"]', xp, hierarchy), XPS('//*[@content-desc="sdk协议"]', xp, hierarchy)]
+            )
             if area_wait_results is False:
                 return False
-            agree_wait_results = self.get_for_any_ele([
-                XPS('//*[@text="同意"]', xp, hierarchy),
-                XPS('//*[@content-desc="同意"]', xp, hierarchy)])
-            start_padding_results = self.get_for_any_ele([
-                XPS('//*[@text="隐私政策"]', xp, hierarchy), XPS('//*[@content-desc="隐私政策"]', xp, hierarchy),
-                XPS('//*[@text="用户协议"]', xp, hierarchy), XPS('//*[@content-desc="用户协议"]', xp, hierarchy)])
-            start_margin_results = self.get_for_any_ele([
-                XPS('//*[@text="请滑动阅读协议内容"]', xp, hierarchy),
-                XPS('//*[@content-desc="请滑动阅读协议内容"]', xp, hierarchy)])
+            agree_wait_results = self.get_for_any_ele(
+                [XPS('//*[@text="同意"]', xp, hierarchy), XPS('//*[@content-desc="同意"]', xp, hierarchy)]
+            )
+            start_padding_results = self.get_for_any_ele(
+                [
+                    XPS('//*[@text="隐私政策"]', xp, hierarchy),
+                    XPS('//*[@content-desc="隐私政策"]', xp, hierarchy),
+                    XPS('//*[@text="用户协议"]', xp, hierarchy),
+                    XPS('//*[@content-desc="用户协议"]', xp, hierarchy),
+                ]
+            )
+            start_margin_results = self.get_for_any_ele(
+                [
+                    XPS('//*[@text="请滑动阅读协议内容"]', xp, hierarchy),
+                    XPS('//*[@content-desc="请滑动阅读协议内容"]', xp, hierarchy),
+                ]
+            )
 
             test_image_original = self.device.image
             image_handle_crop = crop(
-                test_image_original, (start_padding_results[2], 0, start_margin_results[2], 720), copy=False)
+                test_image_original, (start_padding_results[2], 0, start_margin_results[2], 720), copy=False
+            )
             # Image.fromarray(image_handle_crop).show()
             sims = color_similarity_2d(image_handle_crop, color=(182, 189, 202))
             points = np.sum(sims >= 255)
@@ -249,28 +262,29 @@ class LoginHandler(UI):
                 peaks = (peaks[0] + peaks[1]) / 2
             start_pos = [(start_padding_results[2] + start_margin_results[2]) / 2, float(peaks)]
             end_pos = [(start_padding_results[2] + start_margin_results[2]) / 2, area_wait_results[3]]
-            logger.info("user agreement position find result: " + ', '.join('%.2f' % _ for _ in start_pos))
-            logger.info("user agreement area expect:          " + 'x:963-973, y:259-279')
+            logger.info("user agreement position find result: " + ", ".join("%.2f" % _ for _ in start_pos))
+            logger.info("user agreement area expect:          " + "x:963-973, y:259-279")
 
-            self.device.drag(start_pos, end_pos, segments=2, shake=(0, 25), point_random=(0, 0, 0, 0),
-                             shake_random=(0, -5, 0, 5))
-            AGREE = Button(area=agree_wait_results, color=(), button=agree_wait_results, name='AGREE')
+            self.device.drag(
+                start_pos, end_pos, segments=2, shake=(0, 25), point_random=(0, 0, 0, 0), shake_random=(0, -5, 0, 5)
+            )
+            AGREE = Button(area=agree_wait_results, color=(), button=agree_wait_results, name="AGREE")
             self.device.click(AGREE)
             return True
 
     def handle_user_login(self, xp, hierarchy) -> bool:
-        login_wait_results = self.get_for_any_ele([
-            XPS('//*[@text="登录"]', xp, hierarchy),
-            XPS('//*[@content-desc="登录"]', xp, hierarchy)])
+        login_wait_results = self.get_for_any_ele(
+            [XPS('//*[@text="登录"]', xp, hierarchy), XPS('//*[@content-desc="登录"]', xp, hierarchy)]
+        )
         if login_wait_results is False:
             return False
         else:
-            USER_LOGIN_BTN = Button(area=login_wait_results, color=(), button=login_wait_results, name='USER_LOGIN_BTN')
+            USER_LOGIN_BTN = Button(area=login_wait_results, color=(), button=login_wait_results, name="USER_LOGIN_BTN")
             self.device.click(USER_LOGIN_BTN)
             return True
 
     @staticmethod
-    def get_for_any_ele(list_u2_path: list) -> Union[bool, tuple]:
+    def get_for_any_ele(list_u2_path: list) -> bool | tuple:
         """
         Args:
             list_u2_path (list): [UiObject or XPathSelector]  In this case, len(list_u2_path) >= 1

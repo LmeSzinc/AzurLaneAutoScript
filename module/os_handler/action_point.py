@@ -3,25 +3,27 @@ from datetime import datetime
 import module.config.server as server
 from module.base.button import ButtonGrid
 from module.base.timer import Timer
-from module.base.utils import *
+from module.base.utils import get_color, np
 from module.config.utils import get_server_next_update
 from module.logger import logger
 from module.ocr.ocr import Digit, DigitCounter
-from module.os_handler.assets import *
+from module.os_handler.assets import *  # noqa: F403  (data-bundle star import)
 from module.os_handler.map_event import MapEventHandler
 from module.statistics.item import Item, ItemGrid
 from module.ui.assets import OS_CHECK
 from module.ui.ui import UI
 
-OCR_ACTION_POINT_REMAIN = Digit(ACTION_POINT_REMAIN, letter=(255, 219, 66), name='OCR_ACTION_POINT_REMAIN')
-OCR_ACTION_POINT_REMAIN_OS = Digit(ACTION_POINT_REMAIN_OS, letter=(239, 239, 239),
-                                   threshold=160, name='OCR_SHOP_YELLOW_COINS_OS')
+OCR_ACTION_POINT_REMAIN = Digit(ACTION_POINT_REMAIN, letter=(255, 219, 66), name="OCR_ACTION_POINT_REMAIN")
+OCR_ACTION_POINT_REMAIN_OS = Digit(
+    ACTION_POINT_REMAIN_OS, letter=(239, 239, 239), threshold=160, name="OCR_SHOP_YELLOW_COINS_OS"
+)
 
-OCR_OS_ADAPTABILITY = Digit([
-    OS_ADAPTABILITY_ATTACK,
-    OS_ADAPTABILITY_DURABILITY,
-    OS_ADAPTABILITY_RECOVER
-], letter=(231, 235, 239), lang="cnocr", name='OCR_OS_ADAPTABILITY')
+OCR_OS_ADAPTABILITY = Digit(
+    [OS_ADAPTABILITY_ATTACK, OS_ADAPTABILITY_DURABILITY, OS_ADAPTABILITY_RECOVER],
+    letter=(231, 235, 239),
+    lang="cnocr",
+    name="OCR_OS_ADAPTABILITY",
+)
 
 
 class ActionPointBuyCounter(DigitCounter):
@@ -29,20 +31,22 @@ class ActionPointBuyCounter(DigitCounter):
         result = super().after_process(result)
 
         # Possible result: 0/5, 05
-        if result == '05':
-            result = '0/5'
+        if result == "05":
+            result = "0/5"
 
         return result
 
 
-if server.server != 'jp':
+if server.server != "jp":
     # Letters in ACTION_POINT_BUY_REMAIN are not the numeric fonts usually used in azur lane.
     OCR_ACTION_POINT_BUY_REMAIN = ActionPointBuyCounter(
-        ACTION_POINT_BUY_REMAIN, letter=(148, 247, 99), lang='cnocr', name='OCR_ACTION_POINT_BUY_REMAIN')
+        ACTION_POINT_BUY_REMAIN, letter=(148, 247, 99), lang="cnocr", name="OCR_ACTION_POINT_BUY_REMAIN"
+    )
 else:
     # The color of the digits ACTION_POINT_BUY_REMAIN is white in JP, which is light green in CN and EN.
     OCR_ACTION_POINT_BUY_REMAIN = ActionPointBuyCounter(
-        ACTION_POINT_BUY_REMAIN, letter=(255, 255, 255), lang='cnocr', name='OCR_ACTION_POINT_BUY_REMAIN')
+        ACTION_POINT_BUY_REMAIN, letter=(255, 255, 255), lang="cnocr", name="OCR_ACTION_POINT_BUY_REMAIN"
+    )
 
 
 class ActionPointItem(Item):
@@ -51,7 +55,8 @@ class ActionPointItem(Item):
 
 
 ACTION_POINT_GRID = ButtonGrid(
-    origin=(323, 274), delta=(173, 0), button_shape=(115, 115), grid_shape=(4, 1), name='ACTION_POINT_GRID')
+    origin=(323, 274), delta=(173, 0), button_shape=(115, 115), grid_shape=(4, 1), name="ACTION_POINT_GRID"
+)
 ACTION_POINT_ITEMS = ItemGrid(ACTION_POINT_GRID, templates={}, amount_area=(43, 89, 113, 113))
 ACTION_POINT_ITEMS.item_class = ActionPointItem
 ACTION_POINTS_COST = {
@@ -112,12 +117,11 @@ class ActionPointHandler(UI, MapEventHandler):
         prev = self._action_point_current
         self.interval_clear(ACTION_POINT_USE)
         for _ in self.loop():
-
             if self.appear_then_click(ACTION_POINT_USE, offset=(20, 20), interval=3):
                 self.device.sleep(0.3)
                 continue
 
-            if self.handle_popup_confirm('ACTION_POINT_USE'):
+            if self.handle_popup_confirm("ACTION_POINT_USE"):
                 continue
 
             self.action_point_safe_get()
@@ -137,7 +141,7 @@ class ActionPointHandler(UI, MapEventHandler):
             total += np.sum(np.array(box) * tuple(ACTION_POINT_BOX.values()))
         oil = box[0]
 
-        logger.info(f'Action points: {current}({total}), oil: {oil}')
+        logger.info(f"Action points: {current}({total}), oil: {oil}")
         self._action_point_current = current
         self._action_point_box = box
         self._action_point_total = total
@@ -152,7 +156,7 @@ class ActionPointHandler(UI, MapEventHandler):
             if self.is_current_ap_visible():
                 break
             if timeout.reached():
-                logger.warning('Get action points timeout, wait is_current_ap_visible timeout')
+                logger.warning("Get action points timeout, wait is_current_ap_visible timeout")
                 break
             # Forced map event on the top of action point popup
             if self.handle_map_event():
@@ -168,7 +172,7 @@ class ActionPointHandler(UI, MapEventHandler):
                 self.device.screenshot()
 
             if timeout.reached():
-                logger.warning('Get action points timeout')
+                logger.warning("Get action points timeout")
                 break
             # Forced map event on the top of action point popup
             if self.handle_map_event():
@@ -205,18 +209,18 @@ class ActionPointHandler(UI, MapEventHandler):
         Returns:
             int: Action points that will cost.
         """
-        if pinned == 'DANGEROUS':
+        if pinned == "DANGEROUS":
             cost = ACTION_POINTS_COST[zone.hazard_level] * 2
-        elif pinned == 'SAFE':
+        elif pinned == "SAFE":
             cost = ACTION_POINTS_COST[zone.hazard_level]
-        elif pinned == 'OBSCURE':
+        elif pinned == "OBSCURE":
             cost = ACTION_POINTS_COST_OBSCURE[zone.hazard_level]
-        elif pinned == 'ABYSSAL':
+        elif pinned == "ABYSSAL":
             cost = ACTION_POINTS_COST_ABYSSAL[zone.hazard_level]
-        elif pinned == 'STRONGHOLD':
+        elif pinned == "STRONGHOLD":
             cost = 200
         else:
-            logger.warning(f'Unable to get AP cost from zone={zone}, pinned={pinned}, assume it costs 40.')
+            logger.warning(f"Unable to get AP cost from zone={zone}, pinned={pinned}, assume it costs 40.")
             cost = 40
 
         if zone.is_port:
@@ -237,7 +241,7 @@ class ActionPointHandler(UI, MapEventHandler):
             if color[2] > 160:
                 return index
 
-        logger.warning('Unable to find an active action point box button')
+        logger.warning("Unable to find an active action point box button")
         return 1
 
     def action_point_set_button(self, index):
@@ -255,7 +259,7 @@ class ActionPointHandler(UI, MapEventHandler):
                 self.device.click(ACTION_POINT_GRID[index, 0])
                 self.device.sleep(0.3)
         else:
-            logger.warning('FSet action point button timeout')
+            logger.warning("FSet action point button timeout")
             return False
 
     def action_point_get_buy_remain(self):
@@ -268,7 +272,6 @@ class ActionPointHandler(UI, MapEventHandler):
         """
         current = 0
         for _ in self.loop(timeout=1):
-
             current, _, total = OCR_ACTION_POINT_BUY_REMAIN.ocr(self.device.image)
 
             # Possible result: 0/5, 05
@@ -277,7 +280,7 @@ class ActionPointHandler(UI, MapEventHandler):
 
             break
         else:
-            logger.warning('Get action points buy remain timeout')
+            logger.warning("Get action points buy remain timeout")
 
         return current
 
@@ -300,16 +303,16 @@ class ActionPointHandler(UI, MapEventHandler):
         buy_count = buy_max - current
         buy_limit = self.config.OpsiGeneral_BuyActionPointLimit
         if buy_count >= buy_limit:
-            logger.info('Reach the limit to buy action points this week')
+            logger.info("Reach the limit to buy action points this week")
             return False
         cost = ACTION_POINTS_BUY[current]
         oil = self._action_point_box[0]
-        logger.info(f'Buy action points will cost {cost}, current oil: {oil}, preserve: {preserve}')
+        logger.info(f"Buy action points will cost {cost}, current oil: {oil}, preserve: {preserve}")
         if oil >= cost + preserve:
             self.action_point_use()
             return True
         else:
-            logger.info('Not enough oil to buy')
+            logger.info("Not enough oil to buy")
             return False
 
     def action_point_quit(self):
@@ -363,25 +366,27 @@ class ActionPointHandler(UI, MapEventHandler):
 
         # Check the rest action points
         if check_rest_ap:
-            diff = get_server_next_update('00:00') - datetime.now()
+            diff = get_server_next_update("00:00") - datetime.now()
             today_rest = int(diff.total_seconds() // 600)
             if self._action_point_current + today_rest >= 200:
-                logger.info('The sum of the current action points and the rest action points'
-                            ' that can be obtained today exceeds 200, skip AP check')
-                logger.info(f'Current={self._action_point_current}  Rest={today_rest}')
+                logger.info(
+                    "The sum of the current action points and the rest action points"
+                    " that can be obtained today exceeds 200, skip AP check"
+                )
+                logger.info(f"Current={self._action_point_current}  Rest={today_rest}")
                 keep_current_ap = False
 
         # Check action points first
         if keep_current_ap:
             if self._action_point_total <= self.config.OS_ACTION_POINT_PRESERVE:
-                logger.info(f'Reach the limit of action points, preserve={self.config.OS_ACTION_POINT_PRESERVE}')
+                logger.info(f"Reach the limit of action points, preserve={self.config.OS_ACTION_POINT_PRESERVE}")
                 self.action_point_quit()
                 raise ActionPointLimit
 
         for _ in range(12):
             # Having enough action points
             if self._action_point_current >= cost:
-                logger.info('Having enough action points')
+                logger.info("Having enough action points")
                 self.action_point_quit()
                 return True
 
@@ -396,7 +401,7 @@ class ActionPointHandler(UI, MapEventHandler):
             # Recheck if total ap is less than cost
             # If it is, skip using boxes
             if self._action_point_total < cost:
-                logger.info('Not having enough action points')
+                logger.info("Not having enough action points")
                 self.action_point_quit()
                 raise ActionPointLimit
 
@@ -416,15 +421,15 @@ class ActionPointHandler(UI, MapEventHandler):
                     self.action_point_use()
                     continue
                 else:
-                    logger.info(f'Reach the limit of action points, preserve={self.config.OS_ACTION_POINT_PRESERVE}')
+                    logger.info(f"Reach the limit of action points, preserve={self.config.OS_ACTION_POINT_PRESERVE}")
                     self.action_point_quit()
                     raise ActionPointLimit
             else:
-                logger.info('No more action point boxes')
+                logger.info("No more action point boxes")
                 self.action_point_quit()
                 raise ActionPointLimit
 
-        logger.warning('Failed to get action points after 12 trial')
+        logger.warning("Failed to get action points after 12 trial")
         return False
 
     def action_point_enter(self):
@@ -488,9 +493,9 @@ class ActionPointHandler(UI, MapEventHandler):
 
         enough = self._action_point_total > amount
         if enough:
-            logger.info(f'Having {amount} action points')
+            logger.info(f"Having {amount} action points")
         else:
-            logger.info(f'Not having {amount} action points')
+            logger.info(f"Not having {amount} action points")
 
         self.action_point_quit()
         for _ in self.loop():

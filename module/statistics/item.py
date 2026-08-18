@@ -1,11 +1,20 @@
 import numpy as np
 
 import module.config.server as server
-from module.base.button import ButtonGrid
-from module.base.utils import *
+from module.base.button import ButtonGrid  # noqa: F401  (re-exported via star import)
+from module.base.utils import (
+    area_offset,
+    color_similar,
+    crop,
+    cv2,
+    extract_white_letters,
+    load_image,
+    rgb2gray,
+    save_image,
+)
 from module.logger import logger
 from module.ocr.ocr import Digit, DigitYuv
-from module.statistics.utils import *
+from module.statistics.utils import load_folder, os
 
 
 class AmountOcr(Digit):
@@ -21,14 +30,14 @@ class AmountOcr(Digit):
         return image.astype(np.uint8)
 
 
-AMOUNT_OCR = AmountOcr([], threshold=96, name='Amount_ocr')
+AMOUNT_OCR = AmountOcr([], threshold=96, name="Amount_ocr")
 # UI update in 20250814, but server TW is still old UI.
-if server.server == 'tw':
-    PRICE_OCR = DigitYuv([], letter=(255, 223, 57), threshold=128, name='Price_ocr')
-elif server.server == 'jp':
-    PRICE_OCR = Digit([], lang='cnocr', letter=(205, 205, 205), threshold=128, name='Price_ocr')
+if server.server == "tw":
+    PRICE_OCR = DigitYuv([], letter=(255, 223, 57), threshold=128, name="Price_ocr")
+elif server.server == "jp":
+    PRICE_OCR = Digit([], lang="cnocr", letter=(205, 205, 205), threshold=128, name="Price_ocr")
 else:
-    PRICE_OCR = Digit([], letter=(255, 255, 255), threshold=128, name='Price_ocr')
+    PRICE_OCR = Digit([], letter=(255, 255, 255), threshold=128, name="Price_ocr")
 
 
 class Item:
@@ -48,9 +57,9 @@ class Item:
         else:
             self.image = cv2.resize(image, self.IMAGE_SHAPE, interpolation=cv2.INTER_CUBIC)
         self.is_valid = self.predict_valid()
-        self._name = 'DefaultItem'
+        self._name = "DefaultItem"
         self.amount = 1
-        self._cost = 'DefaultCost'
+        self._cost = "DefaultCost"
         self.price = 0
         self.tag = None
 
@@ -65,8 +74,8 @@ class Item:
             value (str): Item name, such as 'PlateGeneralT3'. Suffix in name will be ignore.
                 For example, 'Javelin' and 'Javelin_2' are different templates, but have same output name 'Javelin'.
         """
-        if '_' in value:
-            pre, suffix = value.rsplit('_', 1)
+        if "_" in value:
+            pre, suffix = value.rsplit("_", 1)
             if suffix.isdigit():
                 value = pre
         self._name = value
@@ -77,30 +86,28 @@ class Item:
 
     @cost.setter
     def cost(self, value):
-        if '_' in value:
-            pre, suffix = value.rsplit('_', 1)
+        if "_" in value:
+            pre, suffix = value.rsplit("_", 1)
             if suffix.isdigit():
                 value = pre
         self._cost = value
 
     def is_known_item(self):
-        if self.name == 'DefaultItem':
-            return False
-        elif self.name.isdigit():
+        if self.name == "DefaultItem" or self.name.isdigit():
             return False
         else:
             return True
 
     def __str__(self):
-        if self.name != 'DefaultItem' and self.cost == 'DefaultCost':
-            name = f'{self.name}_x{self.amount}'
-        elif self.name == 'DefaultItem' and self.cost != 'DefaultCost':
-            name = f'{self.cost}_x{self.price}'
+        if self.name != "DefaultItem" and self.cost == "DefaultCost":
+            name = f"{self.name}_x{self.amount}"
+        elif self.name == "DefaultItem" and self.cost != "DefaultCost":
+            name = f"{self.cost}_x{self.price}"
         else:
-            name = f'{self.name}_x{self.amount}_{self.cost}_x{self.price}'
+            name = f"{self.name}_x{self.amount}_{self.cost}_x{self.price}"
 
         if self.tag is not None:
-            name = f'{name}_{self.tag}'
+            name = f"{name}_{self.tag}"
 
         return name
 
@@ -129,8 +136,16 @@ class ItemGrid:
     extract_similarity = 0.92
     cost_similarity = 0.75
 
-    def __init__(self, grids, templates, template_area=(40, 21, 89, 70), amount_area=(60, 71, 91, 92),
-                 cost_area=(6, 123, 84, 166), price_area=(52, 132, 132, 156), tag_area=(81, 4, 91, 8)):
+    def __init__(
+        self,
+        grids,
+        templates,
+        template_area=(40, 21, 89, 70),
+        amount_area=(60, 71, 91, 92),
+        cost_area=(6, 123, 84, 166),
+        price_area=(52, 132, 132, 156),
+        tag_area=(81, 4, 91, 8),
+    ):
         """
         Args:
             grids (ButtonGrid):
@@ -182,7 +197,7 @@ class ItemGrid:
         Args:
             folder (str): Template folder.
         """
-        logger.info(f'Loading template folder: {folder}')
+        logger.info(f"Loading template folder: {folder}")
         max_digit = 0
         data = load_folder(folder)
         for name, image in data.items():
@@ -197,7 +212,7 @@ class ItemGrid:
                 max_digit = max(max_digit, int(name))
             self.next_template_index += 1
         self.next_template_index = max(self.next_template_index, max_digit + 1)
-        logger.attr('next_template_index', self.next_template_index)
+        logger.attr("next_template_index", self.next_template_index)
 
     def load_cost_template_folder(self, folder):
         """
@@ -245,7 +260,7 @@ class ItemGrid:
 
         self.next_template_index += 1
         name = str(self.next_template_index)
-        logger.info(f'New template: {name}')
+        logger.info(f"New template: {name}")
         image = crop(image, self.template_area)
         self.colors[name] = cv2.mean(image)[:3]
         self.templates[name] = image
@@ -276,7 +291,7 @@ class ItemGrid:
 
         if folder is not None:
             for name, im in new.items():
-                save_image(im, os.path.join(folder, f'{name}.png'))
+                save_image(im, os.path.join(folder, f"{name}.png"))
 
         return new
 
@@ -324,13 +339,13 @@ class ItemGrid:
         color = cv2.mean(np.array(image))[:3]
         if color_similar(color1=color, color2=(49, 125, 222), threshold=threshold):
             # Blue
-            return 'catchup'
+            return "catchup"
         elif color_similar(color1=color, color2=(33, 199, 239), threshold=threshold):
             # Cyan
-            return 'bonus'
+            return "bonus"
         elif color_similar(color1=color, color2=(255, 85, 41), threshold=threshold):
             # red
-            return 'event'
+            return "event"
         else:
             return None
 
@@ -377,7 +392,7 @@ class ItemGrid:
         items = [item for item in self.items if not (price and item.price <= 0)]
         diff = len(self.items) - len(items)
         if diff > 0:
-            logger.warning(f'Ignore {diff} items, because price <= 0')
+            logger.warning(f"Ignore {diff} items, because price <= 0")
             self.items = items
 
         return self.items

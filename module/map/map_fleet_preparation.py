@@ -3,14 +3,19 @@ from scipy import signal
 
 from module.base.button import Button
 from module.base.timer import Timer
-from module.base.utils import *
+from module.base.utils import area_offset, color_similar, color_similarity_2d, cv2, get_color, image_size, rgb2gray
 from module.exception import HardNotSatisfied
-from module.handler.assets import AUTO_SEARCH_SET_MOB, AUTO_SEARCH_SET_BOSS, \
-    AUTO_SEARCH_SET_ALL, AUTO_SEARCH_SET_STANDBY, \
-    AUTO_SEARCH_SET_SUB_AUTO, AUTO_SEARCH_SET_SUB_STANDBY
+from module.handler.assets import (
+    AUTO_SEARCH_SET_ALL,
+    AUTO_SEARCH_SET_BOSS,
+    AUTO_SEARCH_SET_MOB,
+    AUTO_SEARCH_SET_STANDBY,
+    AUTO_SEARCH_SET_SUB_AUTO,
+    AUTO_SEARCH_SET_SUB_STANDBY,
+)
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
-from module.map.assets import *
+from module.map.assets import *  # noqa: F403  (data-bundle star import)
 
 
 class FleetOperator:
@@ -64,7 +69,7 @@ class FleetOperator:
             mean = get_color(image, area)
             if np.std(mean, ddof=1) > self.FLEET_BAR_ACTIVE_STD:
                 result.append(index + 1)
-        logger.info('Current selected: %s' % str(result))
+        logger.info("Current selected: %s" % str(result))
         return result
 
     def get_button(self, index):
@@ -78,13 +83,16 @@ class FleetOperator:
             Button: Button instance.
         """
         bar = self._bar.button
-        area = area_offset(area=(
-            0,
-            (self.FLEET_BAR_SHAPE_Y + self.FLEET_BAR_MARGIN_Y) * (index - 1),
-            bar[2] - bar[0],
-            (self.FLEET_BAR_SHAPE_Y + self.FLEET_BAR_MARGIN_Y) * (index - 1) + self.FLEET_BAR_SHAPE_Y
-        ), offset=(bar[0:2]))
-        return Button(area=(), color=(), button=area, name='%s_INDEX_%s' % (str(self._bar), str(index)))
+        area = area_offset(
+            area=(
+                0,
+                (self.FLEET_BAR_SHAPE_Y + self.FLEET_BAR_MARGIN_Y) * (index - 1),
+                bar[2] - bar[0],
+                (self.FLEET_BAR_SHAPE_Y + self.FLEET_BAR_MARGIN_Y) * (index - 1) + self.FLEET_BAR_SHAPE_Y,
+            ),
+            offset=(bar[0:2]),
+        )
+        return Button(area=(), color=(), button=area, name="%s_INDEX_%s" % (str(self._bar), str(index)))
 
     def allow(self):
         """
@@ -116,7 +124,7 @@ class FleetOperator:
         area = self._hard_satisfied.button
         image = color_similarity_2d(self.main.image_crop(area, copy=False), color=(249, 199, 0))
         height = cv2.reduce(image, 1, cv2.REDUCE_AVG).flatten()
-        parameters = {'height': 180, 'distance': 5}
+        parameters = {"height": 180, "distance": 5}
         peaks, _ = signal.find_peaks(height, **parameters)
         lines = len(peaks)
         # logger.attr('Light_orange_line', lines)
@@ -125,8 +133,9 @@ class FleetOperator:
     def raise_hard_not_satisfied(self):
         if self.is_hard_satisfied() is False:
             stage = self.main.config.Campaign_Name
-            logger.critical(f'Stage "{stage}" is a hard mode, '
-                            f'please prepare your fleet "{str(self)}" in game before running Alas')
+            logger.critical(
+                f'Stage "{stage}" is a hard mode, please prepare your fleet "{self!s}" in game before running Alas'
+            )
             raise HardNotSatisfied
 
     def clear(self, skip_first_screenshot=True):
@@ -319,7 +328,7 @@ class FleetPreparation(InfoHandler):
         Returns:
             bool: True if changed.
         """
-        logger.info(f'Using fleet: {[self.config.Fleet_Fleet1, self.config.Fleet_Fleet2, self.config.Submarine_Fleet]}')
+        logger.info(f"Using fleet: {[self.config.Fleet_Fleet1, self.config.Fleet_Fleet2, self.config.Submarine_Fleet]}")
         if self.map_fleet_checked:
             return False
 
@@ -333,25 +342,43 @@ class FleetPreparation(InfoHandler):
             AUTO_SEARCH_SET_SUB_STANDBY.load_offset(SUBMARINE_CLEAR)
 
         fleet_1 = FleetOperator(
-            choose=FLEET_1_CHOOSE, advice=FLEET_1_ADVICE, bar=FLEET_1_BAR, clear=FLEET_1_CLEAR,
-            in_use=FLEET_1_IN_USE, hard_satisfied=FLEET_1_HARD_SATIESFIED, main=self)
+            choose=FLEET_1_CHOOSE,
+            advice=FLEET_1_ADVICE,
+            bar=FLEET_1_BAR,
+            clear=FLEET_1_CLEAR,
+            in_use=FLEET_1_IN_USE,
+            hard_satisfied=FLEET_1_HARD_SATIESFIED,
+            main=self,
+        )
         y = FLEET_1_CLEAR.button[1] - FLEET_1_CLEAR.area[1]
         if y < -10:
-            logger.info('FLEET_1_CLEAR moves up, load W15 assets')
+            logger.info("FLEET_1_CLEAR moves up, load W15 assets")
             in_use = FLEET_2_IN_USE_W15
         else:
             in_use = FLEET_2_IN_USE
         fleet_2 = FleetOperator(
-            choose=FLEET_2_CHOOSE, advice=FLEET_2_ADVICE, bar=FLEET_2_BAR, clear=FLEET_2_CLEAR,
-            in_use=in_use, hard_satisfied=FLEET_2_HARD_SATIESFIED, main=self)
+            choose=FLEET_2_CHOOSE,
+            advice=FLEET_2_ADVICE,
+            bar=FLEET_2_BAR,
+            clear=FLEET_2_CLEAR,
+            in_use=in_use,
+            hard_satisfied=FLEET_2_HARD_SATIESFIED,
+            main=self,
+        )
         submarine = FleetOperator(
-            choose=SUBMARINE_CHOOSE, advice=SUBMARINE_ADVICE, bar=SUBMARINE_BAR, clear=SUBMARINE_CLEAR,
-            in_use=SUBMARINE_IN_USE, hard_satisfied=SUBMARINE_HARD_SATIESFIED, main=self)
+            choose=SUBMARINE_CHOOSE,
+            advice=SUBMARINE_ADVICE,
+            bar=SUBMARINE_BAR,
+            clear=SUBMARINE_CLEAR,
+            in_use=SUBMARINE_IN_USE,
+            hard_satisfied=SUBMARINE_HARD_SATIESFIED,
+            main=self,
+        )
 
         # Check if ship is prepared in hard mode
         h1, h2, h3 = fleet_1.is_hard_satisfied(), fleet_2.is_hard_satisfied(), submarine.is_hard_satisfied()
-        logger.info(f'Hard satisfied: Fleet_1: {h1}, Fleet_2: {h2}, Submarine: {h3}')
-        if self.config.SERVER in ['cn', 'en', 'jp']:
+        logger.info(f"Hard satisfied: Fleet_1: {h1}, Fleet_2: {h2}, Submarine: {h3}")
+        if self.config.SERVER in ["cn", "en", "jp"]:
             if self.config.Fleet_Fleet1:
                 fleet_1.raise_hard_not_satisfied()
             if self.config.Fleet_Fleet2:
@@ -362,7 +389,7 @@ class FleetPreparation(InfoHandler):
         # Skip fleet preparation in hard mode
         self.map_is_hard_mode = h1 or h2 or h3
         if self.map_is_hard_mode:
-            logger.info('Hard Campaign. No fleet preparation')
+            logger.info("Hard Campaign. No fleet preparation")
             # Clear submarine if user did not set a submarine fleet
             if submarine.allow():
                 if self.config.Submarine_Fleet:
@@ -377,7 +404,7 @@ class FleetPreparation(InfoHandler):
         # cache submarine.allow() to avoid inconsistency after setting fleet_2
         # because the expanded fleet_2 may cover submarine buttons
         map_allow_submarine = submarine.allow()
-        logger.attr('map_allow_submarine', map_allow_submarine)
+        logger.attr("map_allow_submarine", map_allow_submarine)
         if map_allow_submarine:
             if self.config.Submarine_Fleet:
                 if fleet_2.allow():

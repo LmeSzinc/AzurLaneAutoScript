@@ -5,12 +5,12 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageOps
 from scipy import signal
 
-from module.base.utils import *
+from module.base.utils import crop, cv2, float2str, point2str, rgb2gray
 from module.config.config import AzurLaneConfig
 from module.exception import MapDetectionError
 from module.logger import logger
-from module.map_detection.utils import *
-from module.map_detection.utils_assets import *
+from module.map_detection.utils import Lines, Points, get_map_inner, optimize, points_to_area_generator, separate_edges
+from module.map_detection.utils_assets import *  # noqa: F403  (data-bundle star import)
 
 warnings.filterwarnings("ignore")
 
@@ -75,14 +75,14 @@ class Perspective:
             is_horizontal=True,
             param=self.config.INTERNAL_LINES_FIND_PEAKS_PARAMETERS,
             threshold=self.config.INTERNAL_LINES_HOUGHLINES_THRESHOLD,
-            theta=self.config.HORIZONTAL_LINES_THETA_THRESHOLD
+            theta=self.config.HORIZONTAL_LINES_THETA_THRESHOLD,
         ).move(*self.config.DETECTING_AREA[:2])
         inner_v = self.detect_lines(
             image,
             is_horizontal=False,
             param=self.config.INTERNAL_LINES_FIND_PEAKS_PARAMETERS,
             threshold=self.config.INTERNAL_LINES_HOUGHLINES_THRESHOLD,
-            theta=self.config.VERTICAL_LINES_THETA_THRESHOLD
+            theta=self.config.VERTICAL_LINES_THETA_THRESHOLD,
         ).move(*self.config.DETECTING_AREA[:2])
         edge_h = self.detect_lines(
             image,
@@ -90,7 +90,7 @@ class Perspective:
             param=self.config.EDGE_LINES_FIND_PEAKS_PARAMETERS,
             threshold=self.config.EDGE_LINES_HOUGHLINES_THRESHOLD,
             theta=self.config.HORIZONTAL_LINES_THETA_THRESHOLD,
-            pad=self.config.DETECTING_AREA[2] - self.config.DETECTING_AREA[0]
+            pad=self.config.DETECTING_AREA[2] - self.config.DETECTING_AREA[0],
         ).move(*self.config.DETECTING_AREA[:2])
         edge_v = self.detect_lines(
             image,
@@ -98,7 +98,7 @@ class Perspective:
             param=self.config.EDGE_LINES_FIND_PEAKS_PARAMETERS,
             threshold=self.config.EDGE_LINES_HOUGHLINES_THRESHOLD,
             theta=self.config.VERTICAL_LINES_THETA_THRESHOLD,
-            pad=self.config.DETECTING_AREA[3] - self.config.DETECTING_AREA[1]
+            pad=self.config.DETECTING_AREA[3] - self.config.DETECTING_AREA[1],
         ).move(*self.config.DETECTING_AREA[:2])
 
         # Lines pre-cleansing
@@ -113,19 +113,19 @@ class Perspective:
         self.horizontal = horizontal
         self.vertical = vertical
         if not self.horizontal:
-            raise MapDetectionError('No horizontal line detected')
+            raise MapDetectionError("No horizontal line detected")
         if not self.vertical:
-            raise MapDetectionError('No vertical line detected')
+            raise MapDetectionError("No vertical line detected")
 
         # Calculate perspective
         self.crossings = self.horizontal.cross(self.vertical)
         self.vanish_point = optimize.brute(self._vanish_point_value, self.config.VANISH_POINT_RANGE)
         distance_point_x = optimize.brute(self._distant_point_value, self.config.DISTANCE_POINT_X_RANGE)[0]
         self.distant_point = (distance_point_x, self.vanish_point[1])
-        logger.attr_align('vanish_point', point2str(*self.vanish_point, length=5))
-        logger.attr_align('distant_point', point2str(*self.distant_point, length=5))
+        logger.attr_align("vanish_point", point2str(*self.vanish_point, length=5))
+        logger.attr_align("distant_point", point2str(*self.distant_point, length=5))
         if np.linalg.norm(np.subtract(self.vanish_point, self.distant_point)) < 10:
-            raise MapDetectionError('Vanish point and distant point too close')
+            raise MapDetectionError("Vanish point and distant point too close")
 
         # Re-generate lines. Useless after mid_cleanse function added.
         # self.horizontal = self.crossings.link(None, is_horizontal=True).group()
@@ -138,9 +138,11 @@ class Perspective:
         # self.draw()
         self.map_inner = get_map_inner(self.crossings.points)
         self.horizontal, self.lower_edge, self.upper_edge = self.line_cleanse(
-            self.horizontal, inner=inner_h.group(), edge=edge_h)
+            self.horizontal, inner=inner_h.group(), edge=edge_h
+        )
         self.vertical, self.left_edge, self.right_edge = self.line_cleanse(
-            self.vertical, inner=inner_v.group(), edge=edge_v)
+            self.vertical, inner=inner_v.group(), edge=edge_v
+        )
 
         # self.draw()
         # print(self.horizontal)
@@ -150,14 +152,27 @@ class Perspective:
 
         # Log
         time_cost = round(time.time() - start_time, 3)
-        logger.info('%ss  %s   Horizontal: %s (%s inner, %s edge)' % (
-            float2str(time_cost), '_' if self.lower_edge else ' ',
-            len(self.horizontal), len(horizontal), len(edge_h))
-                    )
-        logger.info('Edges: %s%s%s    Vertical: %s (%s inner, %s edge)' % (
-            '/' if self.left_edge else ' ', '_' if self.upper_edge else ' ',
-            '\\' if self.right_edge else ' ', len(self.vertical), len(vertical), len(edge_v))
-                    )
+        logger.info(
+            "%ss  %s   Horizontal: %s (%s inner, %s edge)"
+            % (
+                float2str(time_cost),
+                "_" if self.lower_edge else " ",
+                len(self.horizontal),
+                len(horizontal),
+                len(edge_h),
+            )
+        )
+        logger.info(
+            "Edges: %s%s%s    Vertical: %s (%s inner, %s edge)"
+            % (
+                "/" if self.left_edge else " ",
+                "_" if self.upper_edge else " ",
+                "\\" if self.right_edge else " ",
+                len(self.vertical),
+                len(vertical),
+                len(edge_v),
+            )
+        )
 
     def load_image(self, image):
         """Method that turns image to monochrome and hide UI.
@@ -189,9 +204,9 @@ class Perspective:
         if is_horizontal:
             image = image.T
         if pad:
-            image = np.pad(image, ((0, 0), (0, pad)), mode='constant', constant_values=255)
+            image = np.pad(image, ((0, 0), (0, pad)), mode="constant", constant_values=255)
         origin_shape = image.shape
-        out = np.zeros(origin_shape[0] * origin_shape[1], dtype='uint8')
+        out = np.zeros(origin_shape[0] * origin_shape[1], dtype="uint8")
         peaks, _ = signal.find_peaks(image.ravel(), **param)
         out[peaks] = 255
         out = out.reshape(origin_shape)
@@ -241,7 +256,7 @@ class Perspective:
 
     @staticmethod
     def show_array(arr):
-        image = Image.fromarray(arr.astype(np.uint8), mode='L')
+        image = Image.fromarray(arr.astype(np.uint8), mode="L")
         image.show()
 
     def draw(self, lines=None, bg=None, expend=0):
@@ -265,7 +280,7 @@ class Perspective:
             y1 = int(y0 + 10000 * a) + expend
             x2 = int(x0 - 10000 * (-b)) + expend
             y2 = int(y0 - 10000 * a) + expend
-            draw.line([x1, y1, x2, y2], 'white')
+            draw.line([x1, y1, x2, y2], "white")
 
         image.show()
         # image.save('123.png')
@@ -312,17 +327,17 @@ class Perspective:
             793.1379371   922.2605459  1051.38315469 1180.50576349 1309.62837229]
         """
         right_distant_point = (self.vanish_point[0] * 2 - self.distant_point[0], self.distant_point[1])
-        encourage = self.config.COINCIDENT_POINT_ENCOURAGE_DISTANCE ** 2
+        encourage = self.config.COINCIDENT_POINT_ENCOURAGE_DISTANCE**2
 
         def convert_to_x(ys):
-            return Points([[self.config.SCREEN_CENTER[0], y] for y in ys]) \
-                .link(right_distant_point) \
-                .mid
+            return Points([[self.config.SCREEN_CENTER[0], y] for y in ys]).link(right_distant_point).mid
 
         def convert_to_y(xs):
-            return Points([[x, self.config.SCREEN_CENTER[1]] for x in xs]) \
-                .link(right_distant_point) \
+            return (
+                Points([[x, self.config.SCREEN_CENTER[1]] for x in xs])
+                .link(right_distant_point)
                 .get_y(x=self.config.SCREEN_CENTER[0])
+            )
 
         def coincident_point_value(point):
             """Value that measures how close a point to the coincident point. The smaller the better.
@@ -361,22 +376,29 @@ class Perspective:
 
         diff = np.max([mid_diff_range[0] - coincident_point[1], coincident_point[1] - mid_diff_range[1]])
         if diff > 0:
-            logger.info('%s coincident point unexpected: %s' % (
-                'Horizontal' if is_horizontal else 'Vertical',
-                str(coincident_point)))
+            logger.info(
+                "%s coincident point unexpected: %s"
+                % ("Horizontal" if is_horizontal else "Vertical", str(coincident_point))
+            )
 
         # The limits of detecting area
         if is_horizontal:
-            border = Points(
-                [[self.config.SCREEN_CENTER[0], self.config.DETECTING_AREA[1]],
-                 [self.config.SCREEN_CENTER[0], self.config.DETECTING_AREA[3]]]) \
-                .link(right_distant_point) \
+            border = (
+                Points(
+                    [
+                        [self.config.SCREEN_CENTER[0], self.config.DETECTING_AREA[1]],
+                        [self.config.SCREEN_CENTER[0], self.config.DETECTING_AREA[3]],
+                    ]
+                )
+                .link(right_distant_point)
                 .mid
+            )
         else:
-            border = Points(
-                [self.config.DETECTING_AREA[0:2], self.config.DETECTING_AREA[1:3][::-1]]) \
-                .link(self.vanish_point) \
+            border = (
+                Points([self.config.DETECTING_AREA[0:2], self.config.DETECTING_AREA[1:3][::-1]])
+                .link(self.vanish_point)
                 .mid
+            )
 
         left, right = border
         # print(mids)
@@ -397,7 +419,9 @@ class Perspective:
         # Cleansing edge
         edge = edge.mid
         inner = inner.mid
-        inner_clean = [l for l in inner if np.any(np.abs(l - clean) < 5)]  # Use correct inner to delete wrong edge.
+        inner_clean = [
+            point for point in inner if np.any(np.abs(point - clean) < 5)
+        ]  # Use correct inner to delete wrong edge.
         if len(inner_clean) > 0:
             edge = edge[(edge > np.max(inner_clean) - threshold) | (edge < np.min(inner_clean) + threshold)]
         edge = [c for c in clean if np.any(np.abs(c - edge) < 5)]
@@ -413,19 +437,29 @@ class Perspective:
 
         # mid to lines
         if lines.is_horizontal:
-            lines = Points([[self.config.SCREEN_CENTER[0], y] for y in clean]) \
-                .link(None, is_horizontal=True)
-            lower = Points([self.config.SCREEN_CENTER[0], lower]).link(None, is_horizontal=True) \
-                if lower else Lines(None, is_horizontal=True)
-            upper = Points([self.config.SCREEN_CENTER[0], upper]).link(None, is_horizontal=True) \
-                if upper else Lines(None, is_horizontal=True)
+            lines = Points([[self.config.SCREEN_CENTER[0], y] for y in clean]).link(None, is_horizontal=True)
+            lower = (
+                Points([self.config.SCREEN_CENTER[0], lower]).link(None, is_horizontal=True)
+                if lower
+                else Lines(None, is_horizontal=True)
+            )
+            upper = (
+                Points([self.config.SCREEN_CENTER[0], upper]).link(None, is_horizontal=True)
+                if upper
+                else Lines(None, is_horizontal=True)
+            )
         else:
-            lines = Points([[x, self.config.SCREEN_CENTER[1]] for x in clean]) \
-                .link(self.vanish_point)
-            lower = Points([lower, self.config.SCREEN_CENTER[1]]).link(self.vanish_point) \
-                if lower else Lines(None, is_horizontal=False)
-            upper = Points([upper, self.config.SCREEN_CENTER[1]]).link(self.vanish_point) \
-                if upper else Lines(None, is_horizontal=False)
+            lines = Points([[x, self.config.SCREEN_CENTER[1]] for x in clean]).link(self.vanish_point)
+            lower = (
+                Points([lower, self.config.SCREEN_CENTER[1]]).link(self.vanish_point)
+                if lower
+                else Lines(None, is_horizontal=False)
+            )
+            upper = (
+                Points([upper, self.config.SCREEN_CENTER[1]]).link(self.vanish_point)
+                if upper
+                else Lines(None, is_horizontal=False)
+            )
 
         return lines, lower, upper
 

@@ -1,16 +1,24 @@
 from module.base.button import Button
-from module.base.decorator import cached_property
+from module.base.decorator import cached_class_property, cached_property
 from module.base.timer import Timer
-from module.base.utils import *
-from module.combat.emotion import Emotion
+from module.base.utils import (
+    Image,
+    area_offset,
+    color_similarity_2d,
+    crop,
+    cv2,
+    ensure_int,
+    get_color,
+    image_size,
+    load_image,
+    np,
+)
 from module.config.config import AzurLaneConfig
 from module.config.server import set_server, to_package
+from module.core.geometry import fit_points
 from module.device.device import Device
 from module.device.method.utils import HierarchyButton
 from module.logger import logger
-from module.map_detection.utils import fit_points
-from module.statistics.azurstats import AzurStats
-from module.webui.setting import cached_class_property
 
 
 class ModuleBase:
@@ -39,7 +47,7 @@ class ModuleBase:
         elif isinstance(config, str):
             self.config = AzurLaneConfig(config, task=task)
         else:
-            logger.warning('Alas ModuleBase received an unknown config, assume it is AzurLaneConfig')
+            logger.warning("Alas ModuleBase received an unknown config, assume it is AzurLaneConfig")
             self.config = config
 
         if isinstance(device, Device):
@@ -50,50 +58,60 @@ class ModuleBase:
             self.config.override(Emulator_Serial=device)
             self.device = Device(config=self.config)
         else:
-            logger.warning('Alas ModuleBase received an unknown device, assume it is Device')
+            logger.warning("Alas ModuleBase received an unknown device, assume it is Device")
             self.device = device
 
         self.interval_timer = {}
         self.early_ocr_import()
 
     @cached_property
-    def stat(self) -> AzurStats:
+    def stat(self):
+        # Delayed import keeps module.base free of module.statistics dependency
+        from module.statistics.azurstats import AzurStats
+
         return AzurStats(config=self.config)
 
     @cached_property
-    def emotion(self) -> Emotion:
+    def emotion(self):
+        # Delayed import keeps module.base free of module.combat dependency
+        # (emotion only uses base-layer code; it lives in combat/ historically).
+        from module.combat.emotion import Emotion
+
         return Emotion(config=self.config)
 
     def early_ocr_import(self):
         """
-        Start a thread to import cnocr and mxnet while the Alas instance just starting to take screenshots
+        Start a thread to import the OCR model (onnxruntime) while the Alas instance just starting to take screenshots
         The import is paralleled since taking screenshot is I/O-bound while importing is CPU-bound,
         thus would speed up the startup 0.5 ~ 1.0s and even 5s on slow PCs.
         """
         if ModuleBase.EARLY_OCR_IMPORT:
             return
         if not self.config.is_actual_task:
-            logger.info('No actual task bound, skip early_ocr_import')
+            logger.info("No actual task bound, skip early_ocr_import")
             return
-        if self.config.task.command in ['Daemon', 'OpsiDaemon']:
-            logger.info('No ocr in daemon task, skip early_ocr_import')
+        if self.config.task.command in ["Daemon", "OpsiDaemon"]:
+            logger.info("No ocr in daemon task, skip early_ocr_import")
             return
 
         def do_ocr_import():
             # Wait first image
             import time
+
             while 1:
                 if self.device.has_cached_image:
                     break
                 time.sleep(0.01)
 
-            logger.info('early_ocr_import start')
+            logger.info("early_ocr_import start")
             from module.ocr.al_ocr import AlOcr
-            _ = AlOcr
-            logger.info('early_ocr_import finish')
 
-        logger.info('early_ocr_import call')
+            _ = AlOcr
+            logger.info("early_ocr_import finish")
+
+        logger.info("early_ocr_import call")
         import threading
+
         thread = threading.Thread(target=do_ocr_import, daemon=True)
         thread.start()
         ModuleBase.EARLY_OCR_IMPORT = True
@@ -113,8 +131,9 @@ class ModuleBase:
         ModuleBase.worker.submit(func, self.device.image)
         ```
         """
-        logger.hr('Creating worker')
+        logger.hr("Creating worker")
         from concurrent.futures import ThreadPoolExecutor
+
         pool = ThreadPoolExecutor(1)
         return pool
 
@@ -286,15 +305,17 @@ class ModuleBase:
                 return False
 
         appear = button.match_template_color(
-            self.device.image, offset=offset, similarity=similarity, threshold=threshold)
+            self.device.image, offset=offset, similarity=similarity, threshold=threshold
+        )
 
         if appear and interval:
             self.interval_timer[button.name].reset()
 
         return appear
 
-    def appear_then_click(self, button, screenshot=False, genre='items', offset=0, interval=0, similarity=0.85,
-                          threshold=30):
+    def appear_then_click(
+        self, button, screenshot=False, genre="items", offset=0, interval=0, similarity=0.85, threshold=30
+    ):
         button = self.ensure_button(button)
         appear = self.appear(button, offset=offset, interval=interval, similarity=similarity, threshold=threshold)
         if appear:
@@ -324,7 +345,9 @@ class ModuleBase:
             if not self.appear(button, offset=offset):
                 break
 
-    def wait_until_stable(self, button, timer=Timer(0.3, count=1), timeout=Timer(5, count=10), skip_first_screenshot=True):
+    def wait_until_stable(
+        self, button, timer=Timer(0.3, count=1), timeout=Timer(5, count=10), skip_first_screenshot=True
+    ):
         button._match_init = False
         timeout.reset()
         while 1:
@@ -345,7 +368,7 @@ class ModuleBase:
                 button._match_init = True
 
             if timeout.reached():
-                logger.warning(f'wait_until_stable({button}) timeout')
+                logger.warning(f"wait_until_stable({button}) timeout")
                 break
 
     def image_crop(self, button, copy=True):
@@ -355,9 +378,7 @@ class ModuleBase:
             button(Button, tuple): Button instance or area tuple.
             copy:
         """
-        if isinstance(button, Button):
-            return crop(self.device.image, button.area, copy=copy)
-        elif hasattr(button, 'area'):
+        if isinstance(button, Button) or hasattr(button, "area"):
             return crop(self.device.image, button.area, copy=copy)
         else:
             return crop(self.device.image, button, copy=copy)
@@ -382,7 +403,7 @@ class ModuleBase:
         sum_ = cv2.countNonZero(mask)
         return sum_ > count
 
-    def image_color_button(self, area, color, color_threshold=250, encourage=5, name='COLOR_BUTTON'):
+    def image_color_button(self, area, color, color_threshold=250, encourage=5, name="COLOR_BUTTON"):
         """
         Find an area with pure color on image, convert into a Button.
 
@@ -398,7 +419,7 @@ class ModuleBase:
         """
         image = color_similarity_2d(self.image_crop(area, copy=False), color=color)
         points = np.array(np.where(image > color_threshold)).T[:, ::-1]
-        if points.shape[0] < encourage ** 2:
+        if points.shape[0] < encourage**2:
             # Not having enough pixels to match
             return None
 
@@ -409,7 +430,7 @@ class ModuleBase:
         return Button(area=button_area, color=color, button=button_area, name=name)
 
     def get_interval_timer(self, button, interval=5, renew=False) -> Timer:
-        if hasattr(button, 'name'):
+        if hasattr(button, "name"):
             name = button.name
         elif callable(button):
             name = button.__name__
@@ -451,7 +472,7 @@ class ModuleBase:
             else:
                 self.interval_timer[button.name] = Timer(interval).clear()
 
-    _image_file = ''
+    _image_file = ""
 
     @property
     def image_file(self):
@@ -480,4 +501,4 @@ class ModuleBase:
         package = to_package(server)
         self.device.package = package
         set_server(server)
-        logger.attr('Server', self.config.SERVER)
+        logger.attr("Server", self.config.SERVER)

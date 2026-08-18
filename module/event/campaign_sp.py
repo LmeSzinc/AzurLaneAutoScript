@@ -7,9 +7,9 @@ from module.logger import logger
 
 class CampaignSP(EventBase):
     def run(self, *args, **kwargs):
-        if not os.path.exists(f'./campaign/{self.config.Campaign_Event}/sp.py'):
-            logger.info(f'./campaign/{self.config.Campaign_Event}/sp.py not exists')
-            logger.info(f'This event do not have SP, skip')
+        if not os.path.exists(f"./campaign/{self.config.Campaign_Event}/sp.py"):
+            logger.info(f"./campaign/{self.config.Campaign_Event}/sp.py not exists")
+            logger.info("This event do not have SP, skip")
             self.config.Scheduler_Enable = False
             self.config.task_stop()
 

@@ -1,4 +1,3 @@
-from module.base.base import ModuleBase
 from module.base.timer import Timer
 from module.exception import ScriptError
 from module.logger import logger
@@ -18,7 +17,7 @@ class Switch:
         submarine_view.set('on', main=self)
     """
 
-    def __init__(self, name='Switch', is_selector=False, offset=0):
+    def __init__(self, name="Switch", is_selector=False, offset=0):
         """
         Args:
             name (str):
@@ -43,14 +42,16 @@ class Switch:
             click_button (Button):
             offset (bool, int, tuple):
         """
-        if state == 'unknown':
-            raise ScriptError(f'Cannot use "unknown" as state name')
-        self.state_list.append({
-            'state': state,
-            'check_button': check_button,
-            'click_button': click_button if click_button is not None else check_button,
-            'offset': offset if offset else self._offset
-        })
+        if state == "unknown":
+            raise ScriptError('Cannot use "unknown" as state name')
+        self.state_list.append(
+            {
+                "state": state,
+                "check_button": check_button,
+                "click_button": click_button if click_button is not None else check_button,
+                "offset": offset if offset else self._offset,
+            }
+        )
 
     @property
     def offset(self):
@@ -60,7 +61,7 @@ class Switch:
     def offset(self, value):
         self._offset = value
         for data in self.state_list:
-            data['offset'] = value
+            data["offset"] = value
 
     def appear(self, main):
         """
@@ -70,7 +71,7 @@ class Switch:
         Returns:
             bool:
         """
-        return self.get(main=main) != 'unknown'
+        return self.get(main=main) != "unknown"
 
     def get(self, main):
         """
@@ -81,10 +82,10 @@ class Switch:
             str: state name or 'unknown'.
         """
         for data in self.state_list:
-            if main.appear(data['check_button'], offset=data['offset']):
-                return data['state']
+            if main.appear(data["check_button"], offset=data["offset"]):
+                return data["state"]
 
-        return 'unknown'
+        return "unknown"
 
     def click(self, state, main):
         """
@@ -92,7 +93,7 @@ class Switch:
             state (str):
             main (ModuleBase):
         """
-        button = self.get_data(state)['click_button']
+        button = self.get_data(state)["click_button"]
         main.device.click(button)
 
     def get_data(self, state):
@@ -107,10 +108,10 @@ class Switch:
             ScriptError: If state invalid
         """
         for row in self.state_list:
-            if row['state'] == state:
+            if row["state"] == state:
                 return row
 
-        raise ScriptError(f'Switch {self.name} received an invalid state: {state}')
+        raise ScriptError(f"Switch {self.name} received an invalid state: {state}")
 
     def handle_additional(self, main):
         """
@@ -132,7 +133,7 @@ class Switch:
         Returns:
             bool: If clicked
         """
-        logger.info(f'{self.name} set to {state}')
+        logger.info(f"{self.name} set to {state}")
         self.get_data(state)
 
         changed = False
@@ -158,10 +159,9 @@ class Switch:
                 continue
 
             # Warning
-            if current == 'unknown':
+            if current == "unknown":
                 if unknown_timer.reached():
-                    logger.warning(f'Switch {self.name} has states evaluated to unknown, '
-                                   f'asset should be re-verified')
+                    logger.warning(f"Switch {self.name} has states evaluated to unknown, asset should be re-verified")
                     has_unknown = True
                     unknown_timer.reset()
                 # If unknown_timer never reached, don't click when having an unknown state,
@@ -184,7 +184,7 @@ class Switch:
                     # If this is a selector, click on current state to switch to another
                     # But 'unknown' is not clickable, if it is, click target state instead
                     # assuming all selector states share the same position.
-                    if current == 'unknown':
+                    if current == "unknown":
                         click_state = state
                     else:
                         click_state = current
@@ -218,10 +218,10 @@ class Switch:
             logger.attr(self.name, current)
 
             # End
-            if current != 'unknown':
+            if current != "unknown":
                 return True
             if timeout.reached():
-                logger.warning(f'{self.name} wait activated timeout')
+                logger.warning(f"{self.name} wait activated timeout")
                 return False
 
             # Handle additional popups

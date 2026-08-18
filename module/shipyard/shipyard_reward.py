@@ -8,22 +8,22 @@ from module.shipyard.ui import ShipyardUI
 from module.ui.page import page_main, page_shipyard
 
 PRBP_BUY_PRIZE = {
-    (1, 2):               0,
-    (3, 4):               150,
-    (5, 6, 7):            300,
-    (8, 9, 10):           600,
+    (1, 2): 0,
+    (3, 4): 150,
+    (5, 6, 7): 300,
+    (8, 9, 10): 600,
     (11, 12, 13, 14, 15): 1050,
 }
 DRBP_BUY_PRIZE = {
-    (1, 2):               0,
-    (3, 4, 5, 6):         600,
-    (7, 8, 9, 10):        1200,
+    (1, 2): 0,
+    (3, 4, 5, 6): 600,
+    (7, 8, 9, 10): 1200,
     (11, 12, 13, 14, 15): 3000,
 }
 
 
 class RewardShipyard(ShipyardUI):
-    _shipyard_bp_rarity = 'PR'
+    _shipyard_bp_rarity = "PR"
     _coin_count = 0
 
     def _shipyard_get_cost(self, amount, rarity=None):
@@ -38,20 +38,20 @@ class RewardShipyard(ShipyardUI):
         if rarity is None:
             rarity = self._shipyard_bp_rarity
 
-        if rarity == 'PR':
+        if rarity == "PR":
             cost = [v for k, v in PRBP_BUY_PRIZE.items() if amount in k]
             if len(cost):
                 return cost[0]
             else:
                 return 1500
-        elif rarity == 'DR':
+        elif rarity == "DR":
             cost = [v for k, v in DRBP_BUY_PRIZE.items() if amount in k]
             if len(cost):
                 return cost[0]
             else:
                 return 6000
         else:
-            raise ScriptError(f'Invalid rarity in _shipyard_get_cost: {rarity}')
+            raise ScriptError(f"Invalid rarity in _shipyard_get_cost: {rarity}")
 
     def _shipyard_calculate(self, start, count, pay=False):
         """
@@ -84,15 +84,14 @@ class RewardShipyard(ShipyardUI):
                 if pay:
                     self._coin_count -= total
                 else:
-                    logger.info(f'Can only buy up to {(i - start)} '
-                                f'of the {count} BPs')
+                    logger.info(f"Can only buy up to {(i - start)} of the {count} BPs")
                 return i, i - start
             total += cost
 
         if pay:
             self._coin_count -= total
         else:
-            logger.info(f'Can buy all {count} BPs')
+            logger.info(f"Can buy all {count} BPs")
         return i + 1, count
 
     def _shipyard_buy_calc(self, start, count):
@@ -118,24 +117,23 @@ class RewardShipyard(ShipyardUI):
         Args:
             count (int): Total to buy
         """
-        logger.hr('shipyard_buy')
+        logger.hr("shipyard_buy")
         prev = 1
         start, count = self._shipyard_buy_calc(prev, count)
         while count > 0:
-            if not self._shipyard_buy_enter() or \
-                    self._shipyard_cannot_strengthen():
+            if not self._shipyard_buy_enter() or self._shipyard_cannot_strengthen():
                 break
 
             remain = self._shipyard_ensure_index(count)
             if remain is None:
                 break
 
-            if self._shipyard_bp_rarity == 'DR':
+            if self._shipyard_bp_rarity == "DR":
                 self.config.ShipyardDr_LastRun = datetime.now().replace(microsecond=0)
             else:
                 self.config.Shipyard_LastRun = datetime.now().replace(microsecond=0)
 
-            self._shipyard_buy_confirm('BP_BUY')
+            self._shipyard_buy_confirm("BP_BUY")
 
             # Pay for actual amount bought based on 'remain'
             # which also updates 'start' as a result
@@ -150,17 +148,16 @@ class RewardShipyard(ShipyardUI):
         Spend all remaining extraneous BPs
         Supports using BPs in both DEV and FATE
         """
-        logger.hr('shipyard_use')
+        logger.hr("shipyard_use")
         count = self._shipyard_get_bp_count(index)
         while count > 0:
-            if not self._shipyard_buy_enter() or \
-                    self._shipyard_cannot_strengthen():
+            if not self._shipyard_buy_enter() or self._shipyard_cannot_strengthen():
                 break
 
             remain = self._shipyard_ensure_index(count)
             if remain is None:
                 break
-            self._shipyard_buy_confirm('BP_USE')
+            self._shipyard_buy_confirm("BP_USE")
 
             count = self._shipyard_get_bp_count(index)
 
@@ -201,13 +198,15 @@ class RewardShipyard(ShipyardUI):
             if self._coin_count > 0:
                 break
             if timeout.reached():
-                logger.warning('Assumes that OCR_COIN is in the right place')
+                logger.warning("Assumes that OCR_COIN is in the right place")
                 break
 
         self.ui_goto(page_shipyard)
-        if not self.shipyard_set_focus(series=series, index=index) \
-                or not self._shipyard_buy_enter() \
-                or self._shipyard_cannot_strengthen():
+        if (
+            not self.shipyard_set_focus(series=series, index=index)
+            or not self._shipyard_buy_enter()
+            or self._shipyard_cannot_strengthen()
+        ):
             return True
 
         self._shipyard_use(index=index)
@@ -225,26 +224,30 @@ class RewardShipyard(ShipyardUI):
             self.config.Scheduler_Enable = False
             self.config.task_stop()
 
-        logger.hr('Shipyard DR', level=1)
-        logger.attr('ShipyardDr_LastRun', self.config.ShipyardDr_LastRun)
-        if self.config.ShipyardDr_LastRun > get_server_last_update('04:00'):
-            logger.warning('Task Shipyard DR has already been run today, skip')
+        logger.hr("Shipyard DR", level=1)
+        logger.attr("ShipyardDr_LastRun", self.config.ShipyardDr_LastRun)
+        if self.config.ShipyardDr_LastRun > get_server_last_update("04:00"):
+            logger.warning("Task Shipyard DR has already been run today, skip")
         else:
-            self._shipyard_bp_rarity = 'DR'
-            self.shipyard_run(series=self.config.ShipyardDr_ResearchSeries,
-                              index=self.config.ShipyardDr_ShipIndex,
-                              count=self.config.ShipyardDr_BuyAmount)
+            self._shipyard_bp_rarity = "DR"
+            self.shipyard_run(
+                series=self.config.ShipyardDr_ResearchSeries,
+                index=self.config.ShipyardDr_ShipIndex,
+                count=self.config.ShipyardDr_BuyAmount,
+            )
 
-        logger.hr('Shipyard PR', level=1)
-        logger.attr('Shipyard_LastRun', self.config.Shipyard_LastRun)
-        if self.config.Shipyard_LastRun > get_server_last_update('04:00'):
-            logger.warning('Task Shipyard PR has already been run today, stop')
+        logger.hr("Shipyard PR", level=1)
+        logger.attr("Shipyard_LastRun", self.config.Shipyard_LastRun)
+        if self.config.Shipyard_LastRun > get_server_last_update("04:00"):
+            logger.warning("Task Shipyard PR has already been run today, stop")
             self.config.task_delay(server_update=True)
             self.config.task_stop()
         else:
-            self._shipyard_bp_rarity = 'PR'
-            self.shipyard_run(series=self.config.Shipyard_ResearchSeries,
-                              index=self.config.Shipyard_ShipIndex,
-                              count=self.config.Shipyard_BuyAmount)
+            self._shipyard_bp_rarity = "PR"
+            self.shipyard_run(
+                series=self.config.Shipyard_ResearchSeries,
+                index=self.config.Shipyard_ShipIndex,
+                count=self.config.Shipyard_BuyAmount,
+            )
 
         self.config.task_delay(server_update=True)

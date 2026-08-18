@@ -1,4 +1,4 @@
-from module.shop.assets import *
+from module.shop.assets import *  # noqa: F403  (data-bundle star import)
 from module.shop.shop_core import CoreShop_250814
 from module.shop.shop_general import GeneralShop_250814
 from module.shop.shop_guild import GuildShop_250814
@@ -44,7 +44,7 @@ class RewardShop(ShopUI):
         self.config.task_delay(server_update=True)
 
 
-if __name__ == '__main__':
-    self = RewardShop('alas')
+if __name__ == "__main__":
+    self = RewardShop("alas")
     self.device.screenshot()
     self.run_once()

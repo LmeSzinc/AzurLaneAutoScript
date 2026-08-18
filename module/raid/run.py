@@ -18,7 +18,7 @@ class RaidRun(Raid, CampaignEvent):
         """
         # Run count limit
         if self.run_limit and self.config.StopCondition_RunCount <= 0:
-            logger.hr('Triggered stop condition: Run count')
+            logger.hr("Triggered stop condition: Run count")
             self.config.StopCondition_RunCount = 0
             self.config.Scheduler_Enable = False
             return True
@@ -44,11 +44,11 @@ class RaidRun(Raid, CampaignEvent):
 
             ocr = raid_ocr(raid=self.config.Campaign_Event, mode=mode)
             result = ocr.ocr(self.device.image)
-            if mode == 'ex':
+            if mode == "ex":
                 remain = result
             else:
                 remain, _, _ = result
-            logger.attr(f'{mode.capitalize()} Remain', remain)
+            logger.attr(f"{mode.capitalize()} Remain", remain)
 
             if self.appear_then_click(RAID_REWARDS, offset=(30, 30), interval=3):
                 confirm_timer.reset()
@@ -65,7 +65,7 @@ class RaidRun(Raid, CampaignEvent):
 
         return remain
 
-    def run(self, name='', mode='', total=0):
+    def run(self, name="", mode="", total=0):
         """
         Args:
             name (str): Raid name, such as 'raid_20200624'
@@ -75,7 +75,7 @@ class RaidRun(Raid, CampaignEvent):
         name = name if name else self.config.Campaign_Event
         mode = mode if mode else self.config.Raid_Mode
         if not name or not mode:
-            raise ScriptError(f'RaidRun arguments unfilled. name={name}, mode={mode}')
+            raise ScriptError(f"RaidRun arguments unfilled. name={name}, mode={mode}")
 
         self.run_count = 0
         self.run_limit = self.config.StopCondition_RunCount
@@ -87,11 +87,11 @@ class RaidRun(Raid, CampaignEvent):
                 self.config.task_stop()
 
             # Log
-            logger.hr(f'{name}_{mode}', level=2)
+            logger.hr(f"{name}_{mode}", level=2)
             if self.config.StopCondition_RunCount > 0:
-                logger.info(f'Count remain: {self.config.StopCondition_RunCount}')
+                logger.info(f"Count remain: {self.config.StopCondition_RunCount}")
             else:
-                logger.info(f'Count: {self.run_count}')
+                logger.info(f"Count: {self.run_count}")
 
             # UI switches
             if not self._raid_has_oil_icon:
@@ -110,11 +110,10 @@ class RaidRun(Raid, CampaignEvent):
             self.disable_event_on_raid()
 
             # End for mode EX
-            if mode == 'ex' and not self.is_raid_rpg():
+            if mode == "ex" and not self.is_raid_rpg():
                 if not self.get_remain(mode):
-                    logger.info('Triggered stop condition: Zero '
-                                'raid tickets to do EX mode')
-                    if self.config.task.command == 'Raid':
+                    logger.info("Triggered stop condition: Zero raid tickets to do EX mode")
+                    if self.config.task.command == "Raid":
                         with self.config.multi_set():
                             self.config.StopCondition_RunCount = 0
                             self.config.Scheduler_Enable = False
@@ -126,7 +125,7 @@ class RaidRun(Raid, CampaignEvent):
             try:
                 self.raid_execute_once(mode=mode, raid=name)
             except ScriptEnd as e:
-                logger.hr('Script end')
+                logger.hr("Script end")
                 logger.info(str(e))
                 break
 

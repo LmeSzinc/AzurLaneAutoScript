@@ -1,16 +1,54 @@
 import ctypes
 import re
 import subprocess
+import typing as t
+from dataclasses import dataclass
 
 import psutil
 
-from deploy.Windows.utils import DataProcessInfo
-from module.base.decorator import run_once
+from module.base.decorator import cached_property, run_once
 from module.base.timer import Timer
 from module.device.connection import AdbDeviceWithStatus
-from module.device.platform.platform_base import PlatformBase
 from module.device.platform.emulator_windows import Emulator, EmulatorInstance, EmulatorManager
+from module.device.platform.platform_base import PlatformBase
 from module.logger import logger
+
+
+@dataclass
+class DataProcessInfo:
+    """
+    Process info wrapper (relocated from deploy.Windows.utils, removed with
+    the toolkit installer distribution). `proc` is a psutil Process; name
+    and cmdline are cached and tolerate processes that vanish mid-read.
+    """
+
+    proc: t.Any  # psutil.Process or psutil._pswindows.Process
+    pid: int
+
+    @cached_property
+    def name(self):
+        try:
+            name = self.proc.name()
+        except:
+            name = ""
+        return name
+
+    @cached_property
+    def cmdline(self):
+        try:
+            cmdline = self.proc.cmdline()
+        except:
+            # psutil.AccessDenied
+            # # NoSuchProcess: process no longer exists (pid=xxx)
+            cmdline = []
+        cmdline = " ".join(cmdline).replace(r"\\", "/").replace("\\", "/")
+        return cmdline
+
+    def __str__(self):
+        # Don't print `proc`, it will take some time to get process properties
+        return f'DataProcessInfo(name="{self.name}", pid={self.pid}, cmdline="{self.cmdline}")'
+
+    __repr__ = __str__
 
 
 class EmulatorUnknown(Exception):
@@ -33,7 +71,8 @@ def get_window_title(hwnd):
     """Returns the window title as a string."""
     text_len_in_characters = ctypes.windll.user32.GetWindowTextLengthW(hwnd)
     string_buffer = ctypes.create_unicode_buffer(
-        text_len_in_characters + 1)  # +1 for the \0 at the end of the null-terminated string.
+        text_len_in_characters + 1
+    )  # +1 for the \0 at the end of the null-terminated string.
     ctypes.windll.user32.GetWindowTextW(hwnd, string_buffer, text_len_in_characters + 1)
     return string_buffer.value
 
@@ -53,7 +92,7 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             subprocess.Popen:
         """
         command = command.replace(r"\\", "/").replace("\\", "/").replace('"', '"')
-        logger.info(f'Execute: {command}')
+        logger.info(f"Execute: {command}")
         # `close_fds` only work on Windows
         # `start_new_session` to avoid emulator getting tree-killed when Alas gets killed
         return subprocess.Popen(command, close_fds=True, start_new_session=True)
@@ -74,7 +113,7 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         for proc in psutil.process_iter():
             cmdline = DataProcessInfo(proc=proc, pid=proc.pid).cmdline
             if re.search(regex, cmdline):
-                logger.info(f'Kill emulator: {cmdline}')
+                logger.info(f"Kill emulator: {cmdline}")
                 proc.kill()
                 count += 1
 
@@ -98,7 +137,7 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             # the second launch request is handed over to a MuMuNxMain.exe that is still initializing
             # and gets silently dropped, while MuMuManager queues requests in backend service.
             if instance.MuMuPlayer12_id is None:
-                logger.warning(f'Cannot get MuMu instance index from name {instance.name}')
+                logger.warning(f"Cannot get MuMu instance index from name {instance.name}")
             self.execute(f'"{Emulator.single_to_console(exe)}" api -v {instance.MuMuPlayer12_id} launch_player')
         elif instance == Emulator.LDPlayer14 or instance == Emulator.LDPlayer9:
             # ldconsole.exe launch --index 0 --mini
@@ -120,7 +159,7 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             # MEmu.exe MEmu_0
             self.execute(f'"{exe}" {instance.name}')
         else:
-            raise EmulatorUnknown(f'Cannot start an unknown emulator instance: {instance}')
+            raise EmulatorUnknown(f"Cannot start an unknown emulator instance: {instance}")
 
     def _emulator_stop(self, instance: EmulatorInstance):
         """
@@ -135,13 +174,13 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             # E:\ProgramFiles\MuMu\emulator\nemu\EmulatorShell\NemuService.exe
             # "C:\Program Files\NemuVbox\Hypervisor\NemuSVC.exe" -Embedding
             self.kill_process_by_regex(
-                rf'('
-                rf'NemuHeadless.exe'
-                rf'|NemuPlayer.exe\"'
-                rf'|NemuPlayer.exe$'
-                rf'|NemuService.exe'
-                rf'|NemuSVC.exe'
-                rf')'
+                r"("
+                r"NemuHeadless.exe"
+                r"|NemuPlayer.exe\""
+                r"|NemuPlayer.exe$"
+                r"|NemuService.exe"
+                r"|NemuSVC.exe"
+                r")"
             )
         elif instance == Emulator.MuMuPlayerX:
             # MuMu X has 3 processes
@@ -149,16 +188,16 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             # "C:\Program Files\Muvm6Vbox\Hypervisor\Muvm6Headless.exe" --comment nemu-12.0-x64-default --startvm xxx
             # "C:\Program Files\Muvm6Vbox\Hypervisor\Muvm6SVC.exe" --Embedding
             self.kill_process_by_regex(
-                rf'('
-                rf'NemuPlayer.exe.*-m {instance.name}'
-                rf'|Muvm6Headless.exe'
-                rf'|Muvm6SVC.exe'
-                rf')'
+                rf"("
+                rf"NemuPlayer.exe.*-m {instance.name}"
+                rf"|Muvm6Headless.exe"
+                rf"|Muvm6SVC.exe"
+                rf")"
             )
         elif instance == Emulator.MuMuPlayer12:
             # MuMuManager.exe api -v 1 shutdown_player
             if instance.MuMuPlayer12_id is None:
-                logger.warning(f'Cannot get MuMu instance index from name {instance.name}')
+                logger.warning(f"Cannot get MuMu instance index from name {instance.name}")
             self.execute(f'"{Emulator.single_to_console(exe)}" api -v {instance.MuMuPlayer12_id} shutdown_player')
         elif instance == Emulator.LDPlayerFamily:
             # ldconsole.exe quit --index 0
@@ -171,9 +210,9 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             # C:\Program Files\BlueStacks_nxt_cn\HD-Player.exe --instance Pie64
             # C:\Program Files\BlueStacks_nxt_cn\BstkSVC.exe -Embedding
             self.kill_process_by_regex(
-                rf'('
+                rf"("
                 rf'HD-Player.exe.*"--instance" "{instance.name}"'
-                rf')'
+                rf")"
             )
         elif instance == Emulator.BlueStacks4:
             # E:\Program Files (x86)\BluestacksCN\bsconsole.exe quit --name Android
@@ -182,7 +221,7 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             # F:\Program Files\Microvirt\MEmu\memuc.exe stop -n MEmu_0
             self.execute(f'"{Emulator.single_to_console(exe)}" stop -n {instance.name}')
         else:
-            raise EmulatorUnknown(f'Cannot stop an unknown emulator instance: {instance}')
+            raise EmulatorUnknown(f"Cannot stop an unknown emulator instance: {instance}")
 
     def _emulator_function_wrapper(self, func: callable):
         """
@@ -198,14 +237,14 @@ class PlatformWindows(PlatformBase, EmulatorManager):
         except OSError as e:
             msg = str(e)
             # OSError: [WinError 740] 请求的操作需要提升。
-            if 'WinError 740' in msg:
-                logger.error('To start/stop MumuAppPlayer, ALAS needs to be run as administrator')
+            if "WinError 740" in msg:
+                logger.error("To start/stop MumuAppPlayer, ALAS needs to be run as administrator")
         except EmulatorUnknown as e:
             logger.error(e)
         except Exception as e:
             logger.exception(e)
 
-        logger.error(f'Emulator function {func.__name__}() failed')
+        logger.error(f"Emulator function {func.__name__}() failed")
         return False
 
     def emulator_start_watch(self):
@@ -214,18 +253,18 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             bool: True if startup completed
                 False if timeout
         """
-        logger.hr('Emulator start', level=2)
+        logger.hr("Emulator start", level=2)
         current_window = get_focused_window()
         serial = self.emulator_instance.serial
-        logger.info(f'Current window: {current_window}')
+        logger.info(f"Current window: {current_window}")
 
         def adb_connect():
             m = self.adb_client.connect(self.serial)
-            if 'connected' in m:
+            if "connected" in m:
                 # Connected to 127.0.0.1:59865
                 # Already connected to 127.0.0.1:59865
                 return False
-            elif '(10061)' in m:
+            elif "(10061)" in m:
                 # cannot connect to 127.0.0.1:55555:
                 # No connection could be made because the target machine actively refused it. (10061)
                 return False
@@ -234,15 +273,15 @@ class PlatformWindows(PlatformBase, EmulatorManager):
 
         @run_once
         def show_online(m):
-            logger.info(f'Emulator online: {m}')
+            logger.info(f"Emulator online: {m}")
 
         @run_once
         def show_ping(m):
-            logger.info(f'Command ping: {m}')
+            logger.info(f"Command ping: {m}")
 
         @run_once
         def show_package(m):
-            logger.info(f'Found azurlane packages: {m}')
+            logger.info(f"Found azurlane packages: {m}")
 
         interval = Timer(0.5).start()
         timeout = Timer(180).start()
@@ -251,7 +290,7 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             interval.wait()
             interval.reset()
             if timeout.reached():
-                logger.warning(f'Emulator start timeout')
+                logger.warning("Emulator start timeout")
                 return False
 
             # Check emulator window showing up
@@ -259,7 +298,7 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             if current_window != 0 and new_window == 0:
                 new_window = get_focused_window()
                 if current_window != new_window:
-                    logger.info(f'New window showing up: {new_window}, focus back')
+                    logger.info(f"New window showing up: {new_window}, focus back")
                     set_focus_window(current_window)
                 else:
                     new_window = 0
@@ -269,10 +308,10 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             # logger.info(devices)
             if devices:
                 device: AdbDeviceWithStatus = devices.first_or_none()
-                if device.status == 'device':
+                if device.status == "device":
                     # Emulator online
                     pass
-                if device.status == 'offline':
+                if device.status == "offline":
                     self.adb_client.disconnect(serial)
                     adb_connect()
                     continue
@@ -284,7 +323,7 @@ class PlatformWindows(PlatformBase, EmulatorManager):
 
             # Check command availability
             try:
-                pong = self.adb_shell(['echo', 'pong'])
+                pong = self.adb_shell(["echo", "pong"])
             except Exception as e:
                 logger.info(e)
                 continue
@@ -302,19 +341,19 @@ class PlatformWindows(PlatformBase, EmulatorManager):
             break
 
         if new_window != 0 and new_window != current_window:
-            logger.info(f'Minimize new window: {new_window}')
+            logger.info(f"Minimize new window: {new_window}")
             minimize_window(new_window)
         if current_window:
-            logger.info(f'De-flash current window: {current_window}')
+            logger.info(f"De-flash current window: {current_window}")
             flash_window(current_window, flash=False)
         if new_window:
-            logger.info(f'Flash new window: {new_window}')
+            logger.info(f"Flash new window: {new_window}")
             flash_window(new_window, flash=True)
-        logger.info('Emulator start completed')
+        logger.info("Emulator start completed")
         return True
 
     def emulator_start(self):
-        logger.hr('Emulator start', level=1)
+        logger.hr("Emulator start", level=1)
         for _ in range(3):
             # Stop
             if not self._emulator_function_wrapper(self._emulator_stop):
@@ -334,11 +373,11 @@ class PlatformWindows(PlatformBase, EmulatorManager):
                 else:
                     return False
 
-        logger.error('Failed to start emulator 3 times, stopped')
+        logger.error("Failed to start emulator 3 times, stopped")
         return False
 
     def emulator_stop(self):
-        logger.hr('Emulator stop', level=1)
+        logger.hr("Emulator stop", level=1)
         for _ in range(3):
             # Stop
             if self._emulator_function_wrapper(self._emulator_stop):
@@ -351,10 +390,11 @@ class PlatformWindows(PlatformBase, EmulatorManager):
                 else:
                     return False
 
-        logger.error('Failed to stop emulator 3 times, stopped')
+        logger.error("Failed to stop emulator 3 times, stopped")
         return False
-    
-if __name__ == '__main__':
-    self = PlatformWindows('alas')
+
+
+if __name__ == "__main__":
+    self = PlatformWindows("alas")
     d = self.emulator_instance
     print(d)

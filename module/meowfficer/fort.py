@@ -1,7 +1,7 @@
 from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1
 from module.logger import logger
-from module.meowfficer.assets import *
+from module.meowfficer.assets import *  # noqa: F403  (data-bundle star import)
 from module.meowfficer.base import MeowfficerBase
 
 
@@ -34,8 +34,7 @@ class MeowfficerFort(MeowfficerBase):
                 confirm_timer.reset()
                 continue
 
-            if self.appear(MEOWFFICER_FORT_GET_XP_1) or \
-                    self.appear(MEOWFFICER_FORT_GET_XP_2):
+            if self.appear(MEOWFFICER_FORT_GET_XP_1) or self.appear(MEOWFFICER_FORT_GET_XP_2):
                 check_timer.reset()
                 confirm_timer.reset()
                 continue
@@ -47,9 +46,7 @@ class MeowfficerFort(MeowfficerBase):
                 continue
 
             if check_timer.reached():
-                is_chore = self.image_color_count(
-                    MEOWFFICER_FORT_CHORE, color=(247, 186, 90),
-                    threshold=235, count=50)
+                is_chore = self.image_color_count(MEOWFFICER_FORT_CHORE, color=(247, 186, 90), threshold=235, count=50)
                 check_timer.reset()
                 if is_chore:
                     self.device.click(MEOWFFICER_FORT_CHORE)
@@ -75,7 +72,7 @@ class MeowfficerFort(MeowfficerBase):
         # Check for fort red notification
         if not self.appear(MEOWFFICER_FORT_RED_DOT):
             return False
-        logger.hr('Meowfficer fort', level=1)
+        logger.hr("Meowfficer fort", level=1)
 
         # Enter MEOWFFICER_FORT window
         self.meow_enter(MEOWFFICER_FORT_ENTER, check_button=MEOWFFICER_FORT_CHECK)

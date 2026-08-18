@@ -25,7 +25,7 @@ class LDOpenGLError(Exception):
 
 
 def bytes_to_str(b: bytes) -> str:
-    for encoding in ['utf-8', 'gbk']:
+    for encoding in ["utf-8", "gbk"]:
         try:
             return b.decode(encoding)
         except UnicodeDecodeError:
@@ -74,7 +74,7 @@ class LDConsole:
             ld_folder: Installation path of MuMu12, e.g. E:/ProgramFiles/LDPlayer9
                 which should have a `ldconsole.exe` in it.
         """
-        self.ld_console = os.path.abspath(os.path.join(ld_folder, './ldconsole.exe'))
+        self.ld_console = os.path.abspath(os.path.join(ld_folder, "./ldconsole.exe"))
 
     def subprocess_run(self, cmd, timeout=10):
         """
@@ -85,20 +85,20 @@ class LDConsole:
         Returns:
             bytes:
         """
-        cmd = [self.ld_console] + cmd
-        logger.info(f'Execute: {cmd}')
+        cmd = [self.ld_console, *cmd]
+        logger.info(f"Execute: {cmd}")
 
         try:
             process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=False)
         except FileNotFoundError as e:
-            logger.warning(f'warning when calling {cmd}, {str(e)}')
-            raise LDOpenGLIncompatible(f'ld_folder does not have ldconsole.exe')
+            logger.warning(f"warning when calling {cmd}, {e!s}")
+            raise LDOpenGLIncompatible("ld_folder does not have ldconsole.exe")
         try:
             stdout, stderr = process.communicate(timeout=timeout)
         except subprocess.TimeoutExpired:
             process.kill()
             stdout, stderr = process.communicate()
-            logger.warning(f'TimeoutExpired when calling {cmd}, stdout={stdout}, stderr={stderr}')
+            logger.warning(f"TimeoutExpired when calling {cmd}, stdout={stdout}, stderr={stderr}")
         return stdout
 
     def list2(self):
@@ -111,12 +111,12 @@ class LDConsole:
             list[DataLDPlayerInfo]:
         """
         out = []
-        data = self.subprocess_run(['list2'])
-        for row in data.strip().split(b'\n'):
+        data = self.subprocess_run(["list2"])
+        for row in data.strip().split(b"\n"):
             row = row.strip()
             if not row:
                 continue
-            info = row.split(b',')
+            info = row.split(b",")
             # check parts
             if len(info) != 10:
                 logger.warning(f'ldplayer info does not have 10 parts: "{row}"')
@@ -183,7 +183,7 @@ def retry(func):
                 def init():
                     pass
 
-        logger.critical(f'Retry {func.__name__}() failed')
+        logger.critical(f"Retry {func.__name__}() failed")
         raise RequestHumanTakeover
 
     return retry_wrapper
@@ -196,13 +196,8 @@ class LDOpenGLImpl:
             ld_folder: Installation path of MuMu12, e.g. E:/ProgramFiles/LDPlayer9
             instance_id: Emulator instance ID, starting from 0
         """
-        ldopengl_dll = os.path.abspath(os.path.join(ld_folder, './ldopengl64.dll'))
-        logger.info(
-            f'LDOpenGL init, '
-            f'ld_folder={ld_folder}, '
-            f'ldopengl_dll={ldopengl_dll}, '
-            f'instance_id={instance_id}'
-        )
+        ldopengl_dll = os.path.abspath(os.path.join(ld_folder, "./ldopengl64.dll"))
+        logger.info(f"LDOpenGL init, ld_folder={ld_folder}, ldopengl_dll={ldopengl_dll}, instance_id={instance_id}")
         # Load dll
         try:
             self.lib = ctypes.WinDLL(ldopengl_dll)
@@ -210,14 +205,11 @@ class LDOpenGLImpl:
             logger.error(e)
             if not os.path.exists(ldopengl_dll):
                 raise LDOpenGLIncompatible(
-                    f'ldopengl_dll={ldopengl_dll} does not exist, '
-                    f'ldopengl requires LDPlayer >= 9.0.78, please check your version'
+                    f"ldopengl_dll={ldopengl_dll} does not exist, "
+                    f"ldopengl requires LDPlayer >= 9.0.78, please check your version"
                 )
             else:
-                raise LDOpenGLIncompatible(
-                    f'ldopengl_dll={ldopengl_dll} exist, '
-                    f'but cannot be loaded'
-                )
+                raise LDOpenGLIncompatible(f"ldopengl_dll={ldopengl_dll} exist, but cannot be loaded")
         # Get info after loading DLL, so DLL existence can act as a version check
         self.console = LDConsole(ld_folder)
         self.info = self.get_player_info_by_index(instance_id)
@@ -241,11 +233,11 @@ class LDOpenGLImpl:
         """
         for info in self.console.list2():
             if info.index == instance_id:
-                logger.info(f'Match LDPlayer instance: {info}')
+                logger.info(f"Match LDPlayer instance: {info}")
                 if not info.sysboot:
-                    raise LDOpenGLError('Trying to connect LDPlayer instance but emulator is not running')
+                    raise LDOpenGLError("Trying to connect LDPlayer instance but emulator is not running")
                 return info
-        raise LDOpenGLError(f'No LDPlayer instance with index {instance_id}')
+        raise LDOpenGLError(f"No LDPlayer instance with index {instance_id}")
 
     @retry
     def screenshot(self):
@@ -259,7 +251,7 @@ class LDOpenGLImpl:
         img_ptr = self.screenshot_instance.cap()
         # ValueError: NULL pointer access
         if img_ptr is None:
-            raise LDOpenGLError('Empty image pointer')
+            raise LDOpenGLError("Empty image pointer")
 
         img = ctypes.cast(img_ptr, ctypes.POINTER(ctypes.c_ubyte * (height * width * 3))).contents
 
@@ -282,7 +274,7 @@ class LDOpenGLImpl:
         if serial is None:
             return None
         try:
-            port = int(serial.split(':')[1])
+            port = int(serial.split(":")[1])
         except (IndexError, ValueError):
             return None
         if 5555 <= port <= 5555 + 32:
@@ -298,7 +290,7 @@ class LDOpenGL(Platform):
         """
         # Try existing settings first
         if self.config.EmulatorInfo_path:
-            folder = os.path.abspath(os.path.join(self.config.EmulatorInfo_path, '../'))
+            folder = os.path.abspath(os.path.join(self.config.EmulatorInfo_path, "../"))
             index = LDOpenGLImpl.serial_to_id(self.serial)
             if index is not None:
                 try:
@@ -308,22 +300,22 @@ class LDOpenGL(Platform):
                     )
                 except (LDOpenGLIncompatible, LDOpenGLError) as e:
                     logger.error(e)
-                    logger.error('Emulator info incorrect')
+                    logger.error("Emulator info incorrect")
 
         # Search emulator instance
         # with E:/ProgramFiles/LDPlayer9/dnplayer.exe
         # installation path is E:/ProgramFiles/LDPlayer9
         if self.emulator_instance is None:
-            logger.error('Unable to use LDOpenGL because emulator instance not found')
+            logger.error("Unable to use LDOpenGL because emulator instance not found")
             raise RequestHumanTakeover
         try:
             return LDOpenGLImpl(
-                ld_folder=self.emulator_instance.emulator.abspath('./'),
+                ld_folder=self.emulator_instance.emulator.abspath("./"),
                 instance_id=self.emulator_instance.LDPlayer_id,
             )
         except (LDOpenGLIncompatible, LDOpenGLError) as e:
             logger.error(e)
-            logger.error('Unable to initialize LDOpenGL')
+            logger.error("Unable to initialize LDOpenGL")
             raise RequestHumanTakeover
 
     def ldopengl_available(self) -> bool:
@@ -331,8 +323,8 @@ class LDOpenGL(Platform):
             return False
         if not self.is_ldplayer_bluestacks_family:
             return False
-        logger.attr('EmulatorInfo_Emulator', self.config.EmulatorInfo_Emulator)
-        if self.config.EmulatorInfo_Emulator not in ['LDPlayer9', 'LDPlayer14']:
+        logger.attr("EmulatorInfo_Emulator", self.config.EmulatorInfo_Emulator)
+        if self.config.EmulatorInfo_Emulator not in ["LDPlayer9", "LDPlayer14"]:
             return False
 
         try:

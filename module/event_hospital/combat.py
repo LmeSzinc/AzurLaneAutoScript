@@ -6,7 +6,7 @@ from module.event_hospital.assets import HOSPITAL_BATTLE_PREPARE
 from module.event_hospital.ui import HospitalUI
 from module.exception import OilExhausted, RequestHumanTakeover
 from module.logger import logger
-from module.map.assets import *
+from module.map.assets import *  # noqa: F403  (data-bundle star import)
 from module.map.map_fleet_preparation import FleetOperator
 from module.raid.assets import RAID_FLEET_PREPARATION
 
@@ -21,21 +21,28 @@ class HospitalCombat(Combat, HospitalUI, CampaignEvent):
             bool: If clicked
         """
         fleet_1 = FleetOperator(
-            choose=FLEET_1_CHOOSE, advice=FLEET_1_ADVICE, bar=FLEET_1_BAR, clear=FLEET_1_CLEAR,
-            in_use=FLEET_1_IN_USE, hard_satisfied=FLEET_1_HARD_SATIESFIED, main=self)
+            choose=FLEET_1_CHOOSE,
+            advice=FLEET_1_ADVICE,
+            bar=FLEET_1_BAR,
+            clear=FLEET_1_CLEAR,
+            in_use=FLEET_1_IN_USE,
+            hard_satisfied=FLEET_1_HARD_SATIESFIED,
+            main=self,
+        )
         if fleet_1.in_use():
             return False
 
         if recommend:
-            logger.info('Recommend fleet')
+            logger.info("Recommend fleet")
             fleet_1.recommend()
             return True
         else:
-            logger.error('Fleet not prepared and fleet recommend is not enabled, '
-                         'please prepare fleets manually before running')
+            logger.error(
+                "Fleet not prepared and fleet recommend is not enabled, please prepare fleets manually before running"
+            )
             raise RequestHumanTakeover
 
-    def combat_preparation(self, balance_hp=False, emotion_reduce=False, auto='combat_auto', fleet_index=1):
+    def combat_preparation(self, balance_hp=False, emotion_reduce=False, auto="combat_auto", fleet_index=1):
         """
         Args:
             balance_hp (bool):
@@ -43,8 +50,7 @@ class HospitalCombat(Combat, HospitalUI, CampaignEvent):
             auto (bool):
             fleet_index (int):
         """
-        logger.info('Combat preparation.')
-        skip_first_screenshot = True
+        logger.info("Combat preparation.")
 
         # No need, already waited in `raid_execute_once()`
         # if emotion_reduce:
@@ -53,20 +59,19 @@ class HospitalCombat(Combat, HospitalUI, CampaignEvent):
         @run_once
         def check_oil():
             if self.get_oil() < max(500, self.config.StopCondition_OilLimit):
-                logger.hr('Triggered oil limit')
+                logger.hr("Triggered oil limit")
                 raise OilExhausted
 
         @run_once
         def check_coin():
             if self.config.TaskBalancer_Enable and self.triggered_task_balancer():
-                logger.hr('Triggered stop condition: Coin limit')
+                logger.hr("Triggered stop condition: Coin limit")
                 self.handle_task_balancer()
                 return True
 
         for _ in self.loop():
-
             if self.appear(BATTLE_PREPARATION, offset=(30, 20)):
-                if self.handle_combat_automation_set(auto=auto == 'combat_auto'):
+                if self.handle_combat_automation_set(auto=auto == "combat_auto"):
                     continue
                 check_oil()
                 check_coin()
@@ -93,7 +98,7 @@ class HospitalCombat(Combat, HospitalUI, CampaignEvent):
             # End
             pause = self.is_combat_executing()
             if pause:
-                logger.attr('BattleUI', pause)
+                logger.attr("BattleUI", pause)
                 if emotion_reduce:
                     self.emotion.reduce(fleet_index)
                 break

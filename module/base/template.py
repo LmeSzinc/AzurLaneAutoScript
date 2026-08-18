@@ -5,9 +5,8 @@ import imageio
 from module.base.button import Button
 from module.base.decorator import cached_property
 from module.base.resource import Resource
-from module.base.utils import *
+from module.base.utils import area_offset, cv2, load_image, np, rgb2luma
 from module.config.server import VALID_SERVER
-from module.map_detection.utils import Points
 
 
 class Template(Resource):
@@ -23,7 +22,7 @@ class Template(Resource):
 
         self.resource_add(self.file)
 
-    cached = ['file', 'name', 'is_gif']
+    cached = ["file", "name", "is_gif"]
 
     @cached_property
     def file(self):
@@ -35,7 +34,7 @@ class Template(Resource):
 
     @cached_property
     def is_gif(self):
-        return os.path.splitext(self.file)[1] == '.gif'
+        return os.path.splitext(self.file)[1] == ".gif"
 
     @property
     def image(self):
@@ -48,6 +47,12 @@ class Template(Resource):
                         channel = len(image.shape)
                     if channel == 3:
                         image = image[:, :, :3].copy()
+                        # imageio >= 2.28 wraps grayscale palette GIFs as RGB (R=G=B),
+                        # restore them to single channel to match grayscale inputs
+                        if np.array_equal(image[:, :, 0], image[:, :, 1]) and np.array_equal(
+                            image[:, :, 1], image[:, :, 2]
+                        ):
+                            image = image[:, :, 0]
                     elif len(image.shape) == 3:
                         # Follow the first frame
                         image = image[:, :, 0].copy()
@@ -274,6 +279,9 @@ class Template(Resource):
         # result: np.array([[x0, y0], [x1, y1], ...)
         if scaling != 1.0:
             result = np.round(result / scaling).astype(int)
+        # Delayed import keeps module.base free of module.map_detection dependency
+        from module.map_detection.utils import Points
+
         result = Points(result).group(threshold=threshold)
         return [self._point_to_button(point, image=raw, name=name) for point in result]
 

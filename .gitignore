@@ -15,6 +15,9 @@ dev_tools/debug_tools
 /campaign/test/
 /toolkit
 *.lock
+!uv.lock
+# The Tauri shell's lockfile is source-controlled (reproducible builds)
+!webapp-tauri/src-tauri/Cargo.lock
 config/reloadflag
 config/reloadalas
 test.py
@@ -112,8 +115,8 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
-lib64/
+/lib/
+/lib64/
 parts/
 sdist/
 var/
@@ -130,6 +133,8 @@ MANIFEST
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
+# Hand-authored packaging spec is source-controlled
+!deploy/packaging/*.spec
 
 # Installer logs
 pip-log.txt
@@ -255,3 +260,23 @@ console.bat
 
 # Pylance configuration file
 pyrightconfig.json
+# Qoder files
+.qoder/
+
+# Python virtual environments created by uv
+.venv*
+
+# Tauri shell
+webapp-tauri/node_modules/
+webapp-tauri/src-tauri/target/
+webapp-tauri/dist/
+webapp-tauri/.env.development
+
+# Runtime adb copied from adbutils (dev environment)
+/bin/adb/
+
+# Rope refactoring config
+.ropeproject/
+
+# Local pnpm content-addressable store (sandbox/dev artifact)
+.pnpm-store/

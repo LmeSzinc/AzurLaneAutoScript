@@ -20,9 +20,9 @@ _ = get_distribution
 """
 # Inject sys.modules, pretend we have pkg_resources imported
 try:
-    sys.modules['pkg_resources'] = sys.modules['module.device.pkg_resources']
+    sys.modules["pkg_resources"] = sys.modules["module.device.pkg_resources"]
 except KeyError:
-    logger.error('Patch pkg_resources failed, patch module does not exists')
+    logger.error("Patch pkg_resources failed, patch module does not exists")
 
 
 def removesuffix(s, suffix):
@@ -38,7 +38,7 @@ def removesuffix(s, suffix):
     """
     # s[:-0] is empty string, so we need to check if suffix is empty
     if suffix and s.endswith(suffix):
-        return s[:-len(suffix)]
+        return s[: -len(suffix)]
     return s
 
 
@@ -48,7 +48,7 @@ class FakeDistributionObject:
         self.version = version
 
     def __str__(self):
-        return f'{self.__class__.__name__}({self.dist}={self.version})'
+        return f"{self.__class__.__name__}({self.dist}={self.version})"
 
     __repr__ = __str__
 
@@ -58,7 +58,8 @@ class PackageCache:
     def site_packages(self):
         # Just whatever library to locate the `site-packages` directory
         import requests
-        path = os.path.abspath(os.path.join(requests.__file__, '../../'))
+
+        path = os.path.abspath(os.path.join(requests.__file__, "../../"))
         return path
 
     @cached_property
@@ -70,11 +71,11 @@ class PackageCache:
         """
         dic = {}
         for file in os.listdir(self.site_packages):
-            # mxnet_cu101-1.6.0.dist-info
+            # numpy-2.5.2.dist-info
             # adbutils-0.11.0-py3.7.egg-info
-            res = re.match(r'^([a-zA-Z0-9._]+)-([a-zA-Z0-9._]+)-', file)
+            res = re.match(r"^([a-zA-Z0-9._]+)-([a-zA-Z0-9._]+)-", file)
             if res:
-                version = removesuffix(res.group(2), '.dist')
+                version = removesuffix(res.group(2), ".dist")
                 # version = res.group(2)
                 obj = FakeDistributionObject(
                     dist=res.group(1),
@@ -96,15 +97,15 @@ def resource_filename(*args):
 
 def get_distribution(dist):
     """Return a current distribution object for a Requirement or string"""
-    if dist == 'adbutils':
+    if dist == "adbutils":
         return PACKAGE_CACHE.dict_installed_packages.get(
-            'adbutils',
-            FakeDistributionObject('adbutils', '0.11.0'),
+            "adbutils",
+            FakeDistributionObject("adbutils", "0.11.0"),
         )
-    if dist == 'uiautomator2':
+    if dist == "uiautomator2":
         return PACKAGE_CACHE.dict_installed_packages.get(
-            'uiautomator2',
-            FakeDistributionObject('uiautomator2', '2.16.17'),
+            "uiautomator2",
+            FakeDistributionObject("uiautomator2", "2.16.17"),
         )
 
 

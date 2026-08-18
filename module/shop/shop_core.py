@@ -1,13 +1,13 @@
 from module.base.decorator import cached_property
 from module.logger import logger
-from module.shop.assets import *
-from module.shop.base import ShopItemGrid, ShopItemGrid_250814
+from module.shop.assets import *  # noqa: F403  (data-bundle star import)
+from module.shop.base import ShopItemGrid_250814
 from module.shop.clerk import ShopClerk
 from module.shop.shop_status import ShopStatus
 
 
 class CoreShop_250814(ShopClerk, ShopStatus):
-    shop_template_folder = './assets/shop/core'
+    shop_template_folder = "./assets/shop/core"
 
     @cached_property
     def shop_filter(self):
@@ -34,7 +34,7 @@ class CoreShop_250814(ShopClerk, ShopStatus):
             price_area=(18, 121, 85, 150),
         )
         shop_core_items.load_template_folder(self.shop_template_folder)
-        shop_core_items.load_cost_template_folder('./assets/shop/cost')
+        shop_core_items.load_cost_template_folder("./assets/shop/cost")
         return shop_core_items
 
     def shop_items(self):
@@ -59,7 +59,7 @@ class CoreShop_250814(ShopClerk, ShopStatus):
             int: core amount
         """
         self._currency = self.status_get_core()
-        logger.info(f'Core: {self._currency}')
+        logger.info(f"Core: {self._currency}")
         return self._currency
 
     def shop_interval_clear(self):
@@ -97,7 +97,7 @@ class CoreShop_250814(ShopClerk, ShopStatus):
 
         # When called, expected to be in
         # correct Core Shop interface
-        logger.hr('Core Shop', level=1)
+        logger.hr("Core Shop", level=1)
 
         # Execute buy operations
         self.shop_buy()

@@ -4,9 +4,9 @@ from module.base.mask import Mask
 from module.ui.assets import PLAYER_CHECK
 from module.ui.page import MAIN_GOTO_CAMPAIGN_WHITE, MAIN_GOTO_FLEET
 
-MASK_MAIN = Mask('./assets/mask/MASK_MAIN.png')
-MASK_MAIN_WHITE = Mask('./assets/mask/MASK_MAIN_WHITE.png')
-MASK_PLAYER = Mask('./assets/mask/MASK_PLAYER.png')
+MASK_MAIN = Mask("./assets/mask/MASK_MAIN.png")
+MASK_MAIN_WHITE = Mask("./assets/mask/MASK_MAIN_WHITE.png")
+MASK_PLAYER = Mask("./assets/mask/MASK_PLAYER.png")
 
 
 def handle_sensitive_image(image):
@@ -35,8 +35,8 @@ def handle_sensitive_text(text):
     Returns:
         str:
     """
-    text = re.sub('File \"(.*?)AzurLaneAutoScript', 'File \"C:\\\\fakepath\\\\AzurLaneAutoScript', text)
-    text = re.sub('\[Adb_binary\] (.*?)AzurLaneAutoScript', '[Adb_binary] C:\\\\fakepath\\\\AzurLaneAutoScript', text)
+    text = re.sub('File "(.*?)AzurLaneAutoScript', 'File "C:\\\\fakepath\\\\AzurLaneAutoScript', text)
+    text = re.sub(r"\[Adb_binary\] (.*?)AzurLaneAutoScript", "[Adb_binary] C:\\\\fakepath\\\\AzurLaneAutoScript", text)
     return text
 
 

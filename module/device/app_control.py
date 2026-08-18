@@ -11,7 +11,7 @@ from module.logger import logger
 
 class AppControl(Adb, WSA, Uiautomator2):
     hierarchy: etree._Element
-    _app_u2_family = ['uiautomator2', 'minitouch', 'scrcpy', 'MaaTouch', 'nemu_ipc']
+    _app_u2_family = ["uiautomator2", "minitouch", "scrcpy", "MaaTouch", "nemu_ipc"]
     _hierarchy_interval = Timer(0.1)
 
     def app_current(self) -> str:
@@ -22,18 +22,18 @@ class AppControl(Adb, WSA, Uiautomator2):
             package = self.app_current_uiautomator2()
         else:
             package = self.app_current_adb()
-        package = package.strip(' \t\r\n')
+        package = package.strip(" \t\r\n")
         return package
 
     def app_is_running(self) -> bool:
         package = self.app_current()
-        logger.attr('Package_name', package)
+        logger.attr("Package_name", package)
         return package == self.package
 
     def app_start(self):
         method = self.config.Emulator_ControlMethod
-        logger.info(f'App start: {self.package}')
-        if self.config.Emulator_Serial == 'wsa-0':
+        logger.info(f"App start: {self.package}")
+        if self.config.Emulator_Serial == "wsa-0":
             self.app_start_wsa(display=0)
         elif method in AppControl._app_u2_family:
             self.app_start_uiautomator2()
@@ -42,7 +42,7 @@ class AppControl(Adb, WSA, Uiautomator2):
 
     def app_stop(self):
         method = self.config.Emulator_ControlMethod
-        logger.info(f'App stop: {self.package}')
+        logger.info(f"App stop: {self.package}")
         if method in AppControl._app_u2_family:
             self.app_stop_uiautomator2()
         else:
@@ -55,11 +55,11 @@ class AppControl(Adb, WSA, Uiautomator2):
             # No limitation for manual set in code
             pass
         else:
-            logger.warning(f'Unknown hierarchy interval: {interval}')
-            raise ScriptError(f'Unknown hierarchy interval: {interval}')
+            logger.warning(f"Unknown hierarchy interval: {interval}")
+            raise ScriptError(f"Unknown hierarchy interval: {interval}")
 
         if interval != self._hierarchy_interval.limit:
-            logger.info(f'Hierarchy interval set to {interval}s')
+            logger.info(f"Hierarchy interval set to {interval}s")
             self._hierarchy_interval.limit = interval
 
     def dump_hierarchy(self) -> etree._Element:

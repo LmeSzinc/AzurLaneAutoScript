@@ -1,3 +1,4 @@
+import multiprocessing
 import threading
 from multiprocessing import Event, Process
 
@@ -29,23 +30,9 @@ def func(ev: threading.Event):
         type=int,
         help="Port to listen. Default to WebuiPort in deploy setting",
     )
-    parser.add_argument(
-        "-k", "--key", type=str, help="Password of alas. No password by default"
-    )
-    parser.add_argument(
-        "--cdn",
-        action="store_true",
-        help="Use jsdelivr cdn for pywebio static files (css, js). Self host cdn by default.",
-    )
-    parser.add_argument(
-        "--electron", action="store_true", help="Runs by electron client."
-    )
-    parser.add_argument(
-        "--ssl-key", dest="ssl_key", type=str, help="SSL key file path for HTTPS support"
-    )
-    parser.add_argument(
-        "--ssl-cert", type=str, help="SSL certificate file path for HTTPS support"
-    )
+    parser.add_argument("-k", "--key", type=str, help="Password of alas. No password by default")
+    parser.add_argument("--ssl-key", dest="ssl_key", type=str, help="SSL key file path for HTTPS support")
+    parser.add_argument("--ssl-cert", type=str, help="SSL certificate file path for HTTPS support")
     parser.add_argument(
         "--run",
         nargs="+",
@@ -59,51 +46,69 @@ def func(ev: threading.Event):
     ssl_key = args.ssl_key or State.deploy_config.WebuiSSLKey
     ssl_cert = args.ssl_cert or State.deploy_config.WebuiSSLCert
     ssl = ssl_key is not None and ssl_cert is not None
-    State.electron = args.electron
 
     logger.hr("Launcher config")
     logger.attr("Host", host)
     logger.attr("Port", port)
     logger.attr("SSL", ssl)
-    logger.attr("Electron", args.electron)
     logger.attr("Reload", ev is not None)
-
-    if State.electron:
-        # https://github.com/LmeSzinc/AzurLaneAutoScript/issues/2051
-        logger.info("Electron detected, remove log output to stdout")
-        from module.logger import console_hdlr
-        logger.removeHandler(console_hdlr)
 
     if ssl_cert is None and ssl_key is not None:
         logger.error("SSL key provided without certificate. Please provide both SSL key and certificate.")
     elif ssl_key is None and ssl_cert is not None:
         logger.error("SSL certificate provided without key. Please provide both SSL key and certificate.")
 
+    from module.webui.api import create_api_app
+
+    app = create_api_app()
+
+    # log_level="warning" silences uvicorn's per-request access logs (the
+    # noisy GET /... 200/304 lines); application logs go through the rich
+    # console handler (stdout) and the startup marker still goes to stderr.
     if ssl:
-        uvicorn.run("module.webui.app:app", host=host, port=port, factory=True, ssl_keyfile=ssl_key, ssl_certfile=ssl_cert)
+        uvicorn.run(app, host=host, port=port, ssl_keyfile=ssl_key, ssl_certfile=ssl_cert, log_level="warning")
     else:
-        uvicorn.run("module.webui.app:app", host=host, port=port, factory=True)
+        uvicorn.run(app, host=host, port=port, log_level="warning")
 
 
 if __name__ == "__main__":
+    # Required when running frozen (PyInstaller sidecar): EnableReload
+    # spawns a child process of this module on Windows.
+    multiprocessing.freeze_support()
+
     if State.deploy_config.EnableReload:
-        should_exit = False
-        while not should_exit:
-            event = Event()
-            process = Process(target=func, args=(event,))
-            process.start()
+        process = None
+        try:
+            should_exit = False
             while not should_exit:
-                try:
-                    b = event.wait(1)
-                except KeyboardInterrupt:
-                    should_exit = True
-                    break
-                if b:
-                    process.kill()
-                    break
-                elif process.is_alive():
-                    continue
-                else:
-                    should_exit = True
+                event = Event()
+                process = Process(target=func, args=(event,))
+                process.start()
+                while not should_exit:
+                    try:
+                        b = event.wait(1)
+                    except KeyboardInterrupt:
+                        should_exit = True
+                        break
+                    else:
+                        if b:
+                            # Reload requested (updater): stop the child and
+                            # start a fresh one.
+                            process.terminate()
+                            process.join()
+                            break
+                        elif not process.is_alive():
+                            # Backend died unexpectedly; no point waiting for
+                            # a reload event that will never come.
+                            logger.critical("Webui backend exited unexpectedly")
+                            should_exit = True
+                            break
+        finally:
+            # Ctrl+C or any other exit path must not leave the uvicorn
+            # child orphaned (previously Ctrl+C only exited the parent and
+            # the backend kept running unreachable).
+            if process is not None and process.is_alive():
+                process.terminate()
+                process.join()
     else:
-        func(None)
+        func(ev=None)

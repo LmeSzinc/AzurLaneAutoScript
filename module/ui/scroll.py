@@ -1,7 +1,6 @@
 import numpy as np
 from scipy import signal
 
-from module.base.base import ModuleBase
 from module.base.button import Button
 from module.base.timer import Timer
 from module.base.utils import color_similarity_2d, random_rectangle_point, rgb2gray
@@ -14,7 +13,7 @@ class Scroll:
     edge_threshold = 0.05
     edge_add = (0.3, 0.5)
 
-    def __init__(self, area, color, is_vertical=True, name='Scroll'):
+    def __init__(self, area, color, is_vertical=True, name="Scroll"):
         """
         Args:
             area (Button, tuple): A button or area of the whole scroll.
@@ -67,7 +66,7 @@ class Scroll:
         position = (middle - self.length / 2) / (self.total - self.length)
         position = position if position > 0 else 0.0
         position = position if position < 1 else 1.0
-        logger.attr(self.name, f'{position:.2f} ({middle}-{self.length / 2})/({self.total}-{self.length})')
+        logger.attr(self.name, f"{position:.2f} ({middle}-{self.length / 2})/({self.total}-{self.length})")
         return position
 
     def position_to_screen(self, position, random_range=(-0.05, 0.05)):
@@ -131,7 +130,7 @@ class Scroll:
         Returns:
             bool: If dragged.
         """
-        logger.info(f'{self.name} set to {position}')
+        logger.info(f"{self.name} set to {position}")
         self.drag_interval.clear()
         self.drag_timeout.reset()
         dragged = 0
@@ -153,7 +152,7 @@ class Scroll:
                 self.drag_timeout.reset()
             else:
                 if self.drag_timeout.reached():
-                    logger.warning('Scroll disappeared, assume scroll set')
+                    logger.warning("Scroll disappeared, assume scroll set")
                     break
                 else:
                     continue
@@ -200,7 +199,7 @@ class Scroll:
 
 
 class AdaptiveScroll(Scroll):
-    def __init__(self, area, parameters: dict = None, background=5, is_vertical=True, name='Scroll'):
+    def __init__(self, area, parameters: dict | None = None, background=5, is_vertical=True, name="Scroll"):
         """
         Args:
             area (Button, tuple): A button or area of the whole scroll.
@@ -226,14 +225,14 @@ class AdaptiveScroll(Scroll):
             area = (self.area[0], self.area[1] - self.background, self.area[2], self.area[3] + self.background)
             image = main.image_crop(area, copy=False)
             image = rgb2gray(image)
-            image = image.flatten('F')
+            image = image.flatten("F")
             wlen = area[3] - area[1]
 
         parameters = {
-            'height': 128,
-            'prominence': 30,
-            'wlen': wlen,
-            'width': 2,
+            "height": 128,
+            "prominence": 30,
+            "wlen": wlen,
+            "width": 2,
         }
         parameters.update(self.parameters)
         peaks, _ = signal.find_peaks(image, **parameters)

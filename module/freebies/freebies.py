@@ -12,18 +12,18 @@ class Freebies(ModuleBase):
         Run all freebie related modules
         """
         if self.config.BattlePass_Collect:
-            logger.hr('Battle pass', level=1)
+            logger.hr("Battle pass", level=1)
             BattlePass(self.config, self.device).run()
 
         if self.config.DataKey_Collect:
-            logger.hr('Data key', level=1)
+            logger.hr("Data key", level=1)
             DataKey(self.config, self.device).run()
 
-        logger.hr('Mail', level=1)
+        logger.hr("Mail", level=1)
         MailWhite(self.config, self.device).run()
 
         if self.config.SupplyPack_Collect:
-            logger.hr('Supply pack', level=1)
+            logger.hr("Supply pack", level=1)
             SupplyPack_250814(self.config, self.device).run()
 
         self.config.task_delay(server_update=True)

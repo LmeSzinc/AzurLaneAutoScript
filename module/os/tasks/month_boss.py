@@ -4,7 +4,7 @@ from module.config.utils import get_os_next_reset
 from module.logger import logger
 from module.os.map import OSMap
 from module.os_handler.action_point import OCR_OS_ADAPTABILITY
-from module.os_handler.assets import OS_MONTHBOSS_NORMAL, OS_MONTHBOSS_HARD
+from module.os_handler.assets import OS_MONTHBOSS_HARD, OS_MONTHBOSS_NORMAL
 
 
 class OpsiMonthBoss(OSMap):
@@ -25,19 +25,19 @@ class OpsiMonthBoss(OSMap):
             TaskEnd: if no more month boss
         """
         if self.is_in_opsi_explore():
-            logger.info('OpsiExplore is under scheduling, stop OpsiMonthBoss')
+            logger.info("OpsiExplore is under scheduling, stop OpsiMonthBoss")
             self.config.task_delay(server_update=True)
             self.config.task_stop()
 
         logger.hr("OS clear Month Boss", level=1)
         logger.hr("Month Boss precheck", level=2)
         self.os_mission_enter()
-        logger.attr('OpsiMonthBoss.Mode', self.config.OpsiMonthBoss_Mode)
+        logger.attr("OpsiMonthBoss.Mode", self.config.OpsiMonthBoss_Mode)
         if self.appear(OS_MONTHBOSS_NORMAL, offset=(20, 20)):
-            logger.attr('Month boss difficulty', 'normal')
+            logger.attr("Month boss difficulty", "normal")
             is_normal = True
         elif self.appear(OS_MONTHBOSS_HARD, offset=(20, 20)):
-            logger.attr('Month boss difficulty', 'hard')
+            logger.attr("Month boss difficulty", "hard")
             is_normal = False
         else:
             logger.info("No Normal/Hard boss found, stop")
@@ -82,11 +82,11 @@ class OpsiMonthBoss(OSMap):
         """
         if is_normal:
             if result:
-                if self.config.OpsiMonthBoss_Mode == 'normal_hard':
-                    logger.info('Monthly boss normal cleared, run hard boss then')
+                if self.config.OpsiMonthBoss_Mode == "normal_hard":
+                    logger.info("Monthly boss normal cleared, run hard boss then")
                     self.config.task_stop()
                 else:
-                    logger.info('Monthly boss normal cleared, task stop')
+                    logger.info("Monthly boss normal cleared, task stop")
                     next_reset = get_os_next_reset()
                     self.config.task_delay(target=next_reset)
                     self.config.task_stop()
@@ -96,7 +96,7 @@ class OpsiMonthBoss(OSMap):
                 self.config.task_stop()
         else:
             if result:
-                logger.info('Monthly boss hard cleared, task stop')
+                logger.info("Monthly boss hard cleared, task stop")
                 next_reset = get_os_next_reset()
                 self.config.task_delay(target=next_reset)
                 self.config.task_stop()

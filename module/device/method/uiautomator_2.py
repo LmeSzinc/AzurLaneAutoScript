@@ -1,5 +1,4 @@
 import time
-import typing as t
 from dataclasses import dataclass
 from functools import wraps
 from json.decoder import JSONDecodeError
@@ -9,11 +8,18 @@ import uiautomator2 as u2
 from adbutils.errors import AdbError
 from lxml import etree
 
-from module.base.utils import *
+from module.base.utils import cv2, ensure_time, np, point2str, random_line_segments, random_rectangle_point
 from module.config.server import DICT_PACKAGE_TO_ACTIVITY
 from module.device.connection import Connection
-from module.device.method.utils import (ImageTruncated, PackageNotInstalled, RETRY_TRIES, handle_adb_error,
-                                        handle_unknown_host_service, possible_reasons, retry_sleep)
+from module.device.method.utils import (
+    RETRY_TRIES,
+    ImageTruncated,
+    PackageNotInstalled,
+    handle_adb_error,
+    handle_unknown_host_service,
+    possible_reasons,
+    retry_sleep,
+)
 from module.exception import RequestHumanTakeover
 from module.logger import logger
 
@@ -51,9 +57,11 @@ def retry(func):
             # AdbError
             except AdbError as e:
                 if handle_adb_error(e):
+
                     def init():
                         self.adb_reconnect()
                 elif handle_unknown_host_service(e):
+
                     def init():
                         self.adb_start_server()
                         self.adb_reconnect()
@@ -62,6 +70,7 @@ def retry(func):
             # RuntimeError: USB device 127.0.0.1:5555 is offline
             except RuntimeError as e:
                 if handle_adb_error(e):
+
                     def init():
                         self.adb_reconnect()
                 else:
@@ -71,8 +80,8 @@ def retry(func):
             except AssertionError as e:
                 logger.exception(e)
                 possible_reasons(
-                    'If you are using BlueStacks or LD player or WSA, '
-                    'please enable ADB in the settings of your emulator'
+                    "If you are using BlueStacks or LD player or WSA, "
+                    "please enable ADB in the settings of your emulator"
                 )
                 break
             # Package not installed
@@ -94,7 +103,7 @@ def retry(func):
                 def init():
                     pass
 
-        logger.critical(f'Retry {func.__name__}() failed')
+        logger.critical(f"Retry {func.__name__}() failed")
         raise RequestHumanTakeover
 
     return retry_wrapper
@@ -119,18 +128,18 @@ class ShellBackgroundResponse:
 class Uiautomator2(Connection):
     @retry
     def screenshot_uiautomator2(self):
-        image = self.u2.screenshot(format='raw')
+        image = self.u2.screenshot(format="raw")
         image = np.frombuffer(image, np.uint8)
         if image is None:
-            raise ImageTruncated('Empty image after reading from buffer')
+            raise ImageTruncated("Empty image after reading from buffer")
 
         image = cv2.imdecode(image, cv2.IMREAD_COLOR)
         if image is None:
-            raise ImageTruncated('Empty image after cv2.imdecode')
+            raise ImageTruncated("Empty image after cv2.imdecode")
 
         cv2.cvtColor(image, cv2.COLOR_BGR2RGB, dst=image)
         if image is None:
-            raise ImageTruncated('Empty image after cv2.cvtColor')
+            raise ImageTruncated("Empty image after cv2.cvtColor")
 
         return image
 
@@ -177,22 +186,31 @@ class Uiautomator2(Connection):
             x, y, second = data
             if index == 0:
                 self.u2.touch.down(x, y)
-                logger.info(point2str(x, y) + ' down')
+                logger.info(point2str(x, y) + " down")
             elif index - length == -1:
                 self.u2.touch.up(x, y)
-                logger.info(point2str(x, y) + ' up')
+                logger.info(point2str(x, y) + " up")
             else:
                 self.u2.touch.move(x, y)
-                logger.info(point2str(x, y) + ' move')
+                logger.info(point2str(x, y) + " move")
             self.sleep(second)
 
-    def drag_uiautomator2(self, p1, p2, segments=1, shake=(0, 15), point_random=(-10, -10, 10, 10),
-                          shake_random=(-5, -5, 5, 5), swipe_duration=0.25, shake_duration=0.1,
-                          hold_duration=0.0):
+    def drag_uiautomator2(
+        self,
+        p1,
+        p2,
+        segments=1,
+        shake=(0, 15),
+        point_random=(-10, -10, 10, 10),
+        shake_random=(-5, -5, 5, 5),
+        swipe_duration=0.25,
+        shake_duration=0.1,
+        hold_duration=0.0,
+    ):
         """Drag and shake, like:
                      /\
         +-----------+  +  +
-                        \/
+                        \\/
         A simple swipe or drag don't work well, because it only has two points.
         Add some way point to make it more like swipe.
 
@@ -213,7 +231,7 @@ class Uiautomator2(Connection):
         path += [
             (*p2 + shake + random_rectangle_point(shake_random), shake_duration),
             (*p2 - shake - random_rectangle_point(shake_random), shake_duration),
-            (*p2, shake_duration)
+            (*p2, shake_duration),
         ]
         internal_hold = ensure_time(shake_duration) * 3
         hold_duration = ensure_time(hold_duration) - internal_hold
@@ -232,7 +250,7 @@ class Uiautomator2(Connection):
             str: Package name.
         """
         result = self.u2.app_current()
-        return result['package']
+        return result["package"]
 
     @retry
     def _app_start_u2_monkey(self, package_name=None, allow_failure=False):
@@ -249,18 +267,17 @@ class Uiautomator2(Connection):
         """
         if not package_name:
             package_name = self.package
-        result = self.u2.shell([
-            'monkey', '-p', package_name, '-c',
-            'android.intent.category.LAUNCHER', '--pct-syskeys', '0', '1'
-        ])
-        if 'No activities found' in result.output:
+        result = self.u2.shell(
+            ["monkey", "-p", package_name, "-c", "android.intent.category.LAUNCHER", "--pct-syskeys", "0", "1"]
+        )
+        if "No activities found" in result.output:
             # ** No activities found to run, monkey aborted.
             if allow_failure:
                 return False
             else:
                 logger.error(result)
                 raise PackageNotInstalled(package_name)
-        elif 'inaccessible' in result:
+        elif "inaccessible" in result:
             # /system/bin/sh: monkey: inaccessible or not found
             return False
         else:
@@ -291,24 +308,32 @@ class Uiautomator2(Connection):
                 if allow_failure:
                     return False
                 # BaseError('package "111" not found')
-                elif 'not found' in str(e):
+                elif "not found" in str(e):
                     logger.error(e)
                     raise PackageNotInstalled(package_name)
                 # Unknown error
                 else:
                     raise
-            activity_name = info['mainActivity']
+            activity_name = info["mainActivity"]
 
-        cmd = ['am', 'start', '-a', 'android.intent.action.MAIN', '-c',
-               'android.intent.category.LAUNCHER', '-n', f'{package_name}/{activity_name}']
+        cmd = [
+            "am",
+            "start",
+            "-a",
+            "android.intent.action.MAIN",
+            "-c",
+            "android.intent.category.LAUNCHER",
+            "-n",
+            f"{package_name}/{activity_name}",
+        ]
         if self.is_local_network_device and self.is_waydroid:
-            cmd += ['--windowingMode', '4']
+            cmd += ["--windowingMode", "4"]
         ret = self.u2.shell(cmd)
         # Invalid activity
         # Starting: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=... }
         # Error type 3
         # Error: Activity class {.../...} does not exist.
-        if 'Error: Activity class' in ret.output:
+        if "Error: Activity class" in ret.output:
             if allow_failure:
                 return False
             else:
@@ -316,8 +341,8 @@ class Uiautomator2(Connection):
                 return False
         # Already running
         # Warning: Activity not started, intent has been delivered to currently running top-most instance.
-        if 'Warning: Activity not started' in ret.output:
-            logger.info('App activity is already started')
+        if "Warning: Activity not started" in ret.output:
+            logger.info("App activity is already started")
             return True
         # Starting: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.YoStarEN.AzurLane/com.manjuu.azurlane.MainActivity }
         # java.lang.SecurityException: Permission Denial: starting Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10000000 cmp=com.YoStarEN.AzurLane/com.manjuu.azurlane.MainActivity } from null (pid=5140, uid=2000) not exported from uid 10064
@@ -330,12 +355,12 @@ class Uiautomator2(Connection):
         #         at com.android.commands.am.Am.main(Am.java:124)
         #         at com.android.internal.os.RuntimeInit.nativeFinishInit(Native Method)
         #         at com.android.internal.os.RuntimeInit.main(RuntimeInit.java:290)
-        if 'Permission Denial' in ret.output:
+        if "Permission Denial" in ret.output:
             if allow_failure:
                 return False
             else:
                 logger.error(ret)
-                logger.error('Permission Denial while starting app, probably because activity invalid')
+                logger.error("Permission Denial while starting app, probably because activity invalid")
                 return False
         # Success
         # Starting: Intent...
@@ -374,7 +399,7 @@ class Uiautomator2(Connection):
         if self._app_start_u2_am(package_name, activity_name, allow_failure):
             return True
 
-        logger.error('app_start_uiautomator2: All trials failed')
+        logger.error("app_start_uiautomator2: All trials failed")
         return False
 
     @retry
@@ -387,30 +412,30 @@ class Uiautomator2(Connection):
     def dump_hierarchy_uiautomator2(self) -> etree._Element:
         content = self.u2.dump_hierarchy(compressed=False)
         # print(content)
-        hierarchy = etree.fromstring(content.encode('utf-8'))
+        hierarchy = etree.fromstring(content.encode("utf-8"))
         return hierarchy
 
     def uninstall_uiautomator2(self):
-        logger.info('Removing uiautomator2')
+        logger.info("Removing uiautomator2")
         for file in [
-            'app-uiautomator.apk',
-            'app-uiautomator-test.apk',
-            'minitouch',
-            'minitouch.so',
-            'atx-agent',
+            "app-uiautomator.apk",
+            "app-uiautomator-test.apk",
+            "minitouch",
+            "minitouch.so",
+            "atx-agent",
         ]:
             self.adb_shell(["rm", f"/data/local/tmp/{file}"])
 
     @retry
-    def resolution_uiautomator2(self, cal_rotation=True) -> t.Tuple[int, int]:
+    def resolution_uiautomator2(self, cal_rotation=True) -> tuple[int, int]:
         """
         Faster u2.window_size(), cause that calls `dumpsys display` twice.
 
         Returns:
             (width, height)
         """
-        info = self.u2.http.get('/info').json()
-        w, h = info['display']['width'], info['display']['height']
+        info = self.u2.http.get("/info").json()
+        w, h = info["display"]["width"], info["display"]["height"]
         if cal_rotation:
             rotation = self.get_orientation()
             if (w > h) != (rotation % 2 == 1):
@@ -429,18 +454,18 @@ class Uiautomator2(Connection):
             RequestHumanTakeover: If resolution is not 1280x720
         """
         width, height = self.resolution_uiautomator2()
-        logger.attr('Screen_size', f'{width}x{height}')
+        logger.attr("Screen_size", f"{width}x{height}")
         if width == 1280 and height == 720:
             return (width, height)
         if width == 720 and height == 1280:
             return (width, height)
 
-        logger.critical(f'Resolution not supported: {width}x{height}')
-        logger.critical('Please set emulator resolution to 1280x720')
+        logger.critical(f"Resolution not supported: {width}x{height}")
+        logger.critical("Please set emulator resolution to 1280x720")
         raise RequestHumanTakeover
 
     @retry
-    def proc_list_uiautomator2(self) -> t.List[ProcessInfo]:
+    def proc_list_uiautomator2(self) -> list[ProcessInfo]:
         """
         Get info about current processes.
         """
@@ -448,12 +473,13 @@ class Uiautomator2(Connection):
         resp.raise_for_status()
         result = [
             ProcessInfo(
-                pid=proc['pid'],
-                ppid=proc['ppid'],
-                thread_count=proc['threadCount'],
-                cmdline=' '.join(proc['cmdline']) if proc['cmdline'] is not None else '',
-                name=proc['name'],
-            ) for proc in resp.json()
+                pid=proc["pid"],
+                ppid=proc["ppid"],
+                thread_count=proc["threadCount"],
+                cmdline=" ".join(proc["cmdline"]) if proc["cmdline"] is not None else "",
+                name=proc["name"],
+            )
+            for proc in resp.json()
         ]
         return result
 
@@ -472,14 +498,12 @@ class Uiautomator2(Connection):
         else:
             raise TypeError("cmdargs type invalid", type(cmdline))
 
-        data = dict(command=cmdline, timeout=str(timeout))
+        data = {"command": cmdline, "timeout": str(timeout)}
         ret = self.u2.http.post("/shell/background", data=data, timeout=timeout + 10)
         ret.raise_for_status()
 
         resp = ret.json()
         resp = ShellBackgroundResponse(
-            success=bool(resp.get('success', False)),
-            pid=resp.get('pid', 0),
-            description=resp.get('description', '')
+            success=bool(resp.get("success", False)), pid=resp.get("pid", 0), description=resp.get("description", "")
         )
         return resp

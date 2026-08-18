@@ -4,16 +4,28 @@ from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.base.utils import color_similarity_2d, crop
-from module.combat.assets import GET_SHIP, GET_ITEMS_1, GET_ITEMS_3
+from module.combat.assets import GET_ITEMS_1, GET_ITEMS_3, GET_SHIP
 from module.logger import logger
 from module.map_detection.utils import Points
-from module.shop.assets import AMOUNT_PLUS, AMOUNT_MINUS, AMOUNT_MAX, SHOP_BUY_CONFIRM_AMOUNT, SHOP_BUY_CONFIRM, \
-    SHOP_CLICK_SAFE_AREA
+from module.shop.assets import (
+    AMOUNT_MAX,
+    AMOUNT_MINUS,
+    AMOUNT_PLUS,
+    SHOP_BUY_CONFIRM,
+    SHOP_BUY_CONFIRM_AMOUNT,
+    SHOP_CLICK_SAFE_AREA,
+)
 from module.shop.clerk import OCR_SHOP_AMOUNT
-from module.shop_event.assets import *
-from module.shop_event.item import ITEM_SHAPE, EventShopItemGrid, DELTA_PRICE_BACKGROUND, DELTA_ITEM, \
-    PRICE_BACKGROUND_COLOR, PRICE_THRESHOLD
-from module.shop_event.ui import EventShopUI, EVENT_SHOP_SCROLL
+from module.shop_event.assets import *  # noqa: F403  (data-bundle star import)
+from module.shop_event.item import (
+    DELTA_ITEM,
+    DELTA_PRICE_BACKGROUND,
+    ITEM_SHAPE,
+    PRICE_BACKGROUND_COLOR,
+    PRICE_THRESHOLD,
+    EventShopItemGrid,
+)
+from module.shop_event.ui import EVENT_SHOP_SCROLL, EventShopUI
 from module.ui_white.assets import BACK_ARROW_WHITE
 
 DETECT_AREA = (221, 194, 1049, 632)
@@ -32,11 +44,13 @@ class EventShopClerk(EventShopUI):
         cv2.inRange(mask, PRICE_THRESHOLD, 255, dst=mask)
         kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
         mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel, iterations=8)
-        mask = crop(mask,
-                    (DETECT_AREA[0], DETECT_AREA[1] + DELTA_PRICE_BACKGROUND[1], DETECT_AREA[2], DETECT_AREA[3]),
-                    copy=False)
+        mask = crop(
+            mask,
+            (DETECT_AREA[0], DETECT_AREA[1] + DELTA_PRICE_BACKGROUND[1], DETECT_AREA[2], DETECT_AREA[3]),
+            copy=False,
+        )
         buttons = TEMPLATE_COST_PRICE_BACKGROUND.match_multi(mask, similarity=0.6)
-        points = Points([(0., p.area[1]) for p in buttons]).group(threshold=5)
+        points = Points([(0.0, p.area[1]) for p in buttons]).group(threshold=5)
 
         row = len(points)
         if row == 2:
@@ -62,33 +76,41 @@ class EventShopClerk(EventShopUI):
     @cached_property
     def event_shop_items(self):
         event_shop_items = EventShopItemGrid(grids=None, templates={})
-        event_shop_items.load_template_folder('./assets/shop/event')
+        event_shop_items.load_template_folder("./assets/shop/event")
         return event_shop_items
 
     def event_shop_get_items(self, scroll_pos=None):
         self.ensure_no_info_bar()
         self.event_shop_items.grids = self._get_event_shop_grid()
         if self.config.SHOP_EXTRACT_TEMPLATE:
-            self.event_shop_items.extract_template(self.device.image, './assets/shop/event')
-        self.event_shop_items.predict(self.device.image, name=True, amount=True, cost=False,
-                                      price=True, tag=True, counter=True, scroll_pos=scroll_pos)
+            self.event_shop_items.extract_template(self.device.image, "./assets/shop/event")
+        self.event_shop_items.predict(
+            self.device.image,
+            name=True,
+            amount=True,
+            cost=False,
+            price=True,
+            tag=True,
+            counter=True,
+            scroll_pos=scroll_pos,
+        )
         shop_items = self.event_shop_items.items
         if len(shop_items):
             min_row = self.event_shop_items.grids[0, 0].area[1]
             row = [str(item) for item in shop_items if item.button[1] == min_row]
-            logger.info(f'Shop row 1: {row}')
+            logger.info(f"Shop row 1: {row}")
             row = [str(item) for item in shop_items if item.button[1] != min_row]
-            logger.info(f'Shop row 2: {row}')
+            logger.info(f"Shop row 2: {row}")
             return shop_items
         else:
-            logger.info('No shop items found')
+            logger.info("No shop items found")
             return []
 
     def scan_all(self):
         items = []
         self.device.click_record_clear()
 
-        logger.hr('Event Shop Scan', level=2)
+        logger.hr("Event Shop Scan", level=2)
         EVENT_SHOP_SCROLL.set_top(main=self)
         while 1:
             new_items = self.event_shop_get_items(scroll_pos=EVENT_SHOP_SCROLL.cal_position(main=self))
@@ -97,15 +119,16 @@ class EventShopClerk(EventShopUI):
                 new_first_row = [item for item in new_items if item.button[1] == new_items[0].button[1]]
                 new_second_row = [item for item in new_items if item.button[1] != new_items[0].button[1]]
                 if len(old_last_row) == len(new_first_row) and all(
-                        old.name == new.name for old, new in zip(old_last_row, new_first_row)):
-                    logger.info('Ignore duplicated items')
+                    old.name == new.name for old, new in zip(old_last_row, new_first_row)
+                ):
+                    logger.info("Ignore duplicated items")
                     items += new_second_row
                 else:
                     items += new_items
             else:
                 items += new_items
             if EVENT_SHOP_SCROLL.at_bottom(main=self):
-                logger.info('Event shop reach bottom')
+                logger.info("Event shop reach bottom")
                 break
             else:
                 EVENT_SHOP_SCROLL.next_page(main=self, page=0.66)
@@ -116,18 +139,22 @@ class EventShopClerk(EventShopUI):
         scroll_pos = item_to_buy.scroll_pos
         EVENT_SHOP_SCROLL.set(scroll_pos, main=self)
         items = self.event_shop_get_items()
-        items = [item for item in items if item.name == item_to_buy.name
-                 and item.count == item_to_buy.count and item.price == item_to_buy.price]
+        items = [
+            item
+            for item in items
+            if item.name == item_to_buy.name and item.count == item_to_buy.count and item.price == item_to_buy.price
+        ]
         if len(items) == 0:
-            logger.error(f'Item {item_to_buy} not found at scroll position {scroll_pos}')
-            logger.warning(f'Will try to rerun the task.')
-            raise ItemNotFoundError(f'Item {item_to_buy} not found at scroll position {scroll_pos}')
+            logger.error(f"Item {item_to_buy} not found at scroll position {scroll_pos}")
+            logger.warning("Will try to rerun the task.")
+            raise ItemNotFoundError(f"Item {item_to_buy} not found at scroll position {scroll_pos}")
         elif len(items) > 1:
-            logger.warning(f'Multiple items found for {item_to_buy} at scroll position {scroll_pos}, '
-                           f'buying the first one')
+            logger.warning(
+                f"Multiple items found for {item_to_buy} at scroll position {scroll_pos}, buying the first one"
+            )
         item = items[0]
         # For ship items, while it may have multiple stock, can only buy one at a time.
-        if getattr(item, 'is_ship', False):
+        if getattr(item, "is_ship", False):
             buy_times = item.count if amount is None else min(amount, item.count)
             for _ in range(buy_times):
                 self.event_shop_buy_item_execute(item, amount=1)
@@ -147,9 +174,13 @@ class EventShopClerk(EventShopUI):
                 if not amount_handled:
                     self.device.click(AMOUNT_MAX)
                     if amount is not None:
-                        self.ui_ensure_index(amount, letter=OCR_SHOP_AMOUNT, prev_button=AMOUNT_MINUS,
-                                             next_button=AMOUNT_PLUS,
-                                             skip_first_screenshot=False)
+                        self.ui_ensure_index(
+                            amount,
+                            letter=OCR_SHOP_AMOUNT,
+                            prev_button=AMOUNT_MINUS,
+                            next_button=AMOUNT_PLUS,
+                            skip_first_screenshot=False,
+                        )
                     amount_handled = True
                     timer.reset()
                     continue
@@ -181,15 +212,15 @@ class EventShopClerk(EventShopUI):
         if self.handle_get_meowfficer():
             return True
         if self.appear(GET_SHIP, offset=(20, 20), interval=2):
-            logger.info(f'Shop obstruct: {GET_SHIP} -> {SHOP_CLICK_SAFE_AREA}')
+            logger.info(f"Shop obstruct: {GET_SHIP} -> {SHOP_CLICK_SAFE_AREA}")
             self.device.click(SHOP_CLICK_SAFE_AREA)
             return True
         if self.appear(GET_ITEMS_1, offset=(20, 20), interval=2):
-            logger.info(f'Shop obstruct: {GET_ITEMS_1} -> {SHOP_CLICK_SAFE_AREA}')
+            logger.info(f"Shop obstruct: {GET_ITEMS_1} -> {SHOP_CLICK_SAFE_AREA}")
             self.device.click(SHOP_CLICK_SAFE_AREA)
             return True
         if self.appear(GET_ITEMS_3, offset=(20, 20), interval=2):
-            logger.info(f'Shop obstruct: {GET_ITEMS_3} -> {SHOP_CLICK_SAFE_AREA}')
+            logger.info(f"Shop obstruct: {GET_ITEMS_3} -> {SHOP_CLICK_SAFE_AREA}")
             self.device.click(SHOP_CLICK_SAFE_AREA)
             return True
         return False

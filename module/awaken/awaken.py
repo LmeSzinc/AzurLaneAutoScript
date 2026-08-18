@@ -1,4 +1,4 @@
-from module.awaken.assets import *
+from module.awaken.assets import *  # noqa: F403  (data-bundle star import)
 from module.base.timer import Timer
 from module.exception import ScriptError
 from module.logger import logger
@@ -12,7 +12,7 @@ class ShipLevel(Digit):
     def after_process(self, result):
         result = super().after_process(result)
         if result < 100 or result > 125:
-            logger.warning('Unexpected ship level')
+            logger.warning("Unexpected ship level")
             result = 0
         return result
 
@@ -55,7 +55,7 @@ class Awaken(Dock):
         chip = self._get_button_state(COST_CHIP)
         array = self._get_button_state(COST_ARRAY)
 
-        logger.attr('AwakenCost', {'coin': coin, 'chip': chip, 'array': array})
+        logger.attr("AwakenCost", {"coin": coin, "chip": chip, "array": array})
 
         def is_right_moved(button):
             # If COST_ARRAY is absent, COST_COIN and COST_CHIP are right moved 54px
@@ -64,24 +64,27 @@ class Awaken(Dock):
         # Check if result are valid
         if array is not None:
             if not use_array:
-                logger.warning('Not going to use array but array presents')
-                return 'unexpected_array'
+                logger.warning("Not going to use array but array presents")
+                return "unexpected_array"
             # If array is needed, coin and chip should present
-            if coin is not None and not is_right_moved(COST_COIN) \
-                    and chip is not None and not is_right_moved(COST_CHIP):
+            if (
+                coin is not None
+                and not is_right_moved(COST_COIN)
+                and chip is not None
+                and not is_right_moved(COST_CHIP)
+            ):
                 result = coin and chip and array
-                logger.attr('AwakenSufficient', result)
+                logger.attr("AwakenSufficient", result)
                 return result
         else:
             # If array is not needed, coin and chip should both present and right moved
-            if coin is not None and is_right_moved(COST_COIN) \
-                    and chip is not None and is_right_moved(COST_CHIP):
+            if coin is not None and is_right_moved(COST_COIN) and chip is not None and is_right_moved(COST_CHIP):
                 result = coin and chip
-                logger.attr('AwakenSufficient', result)
+                logger.attr("AwakenSufficient", result)
                 return result
 
-        logger.warning('Invalid awaken cost')
-        return 'invalid'
+        logger.warning("Invalid awaken cost")
+        return "invalid"
 
     def handle_awaken_finish(self):
         return self.appear_then_click(AWAKEN_FINISH, offset=(20, 20), interval=1)
@@ -90,7 +93,7 @@ class Awaken(Dock):
         return SHIP_LEVEL_CHECK.match_luma(self.device.image, similarity=0.7)
 
     def awaken_popup_close(self, skip_first_screenshot=True):
-        logger.info('Awaken popup close')
+        logger.info("Awaken popup close")
         self.interval_clear(AWAKEN_CANCEL)
         while 1:
             if skip_first_screenshot:
@@ -118,7 +121,7 @@ class Awaken(Dock):
             in: is_in_awaken
             out: is_in_awaken
         """
-        logger.hr('Awaken once', level=2)
+        logger.hr("Awaken once", level=2)
         interval = Timer(3, count=6)
         while 1:
             if skip_first_screenshot:
@@ -129,15 +132,15 @@ class Awaken(Dock):
             if self.appear(AWAKEN_CONFIRM):
                 break
             if LEVEL_UP.match_luma(self.device.image):
-                logger.info(f'awaken_once ended at {LEVEL_UP}')
-                return 'no_exp'
+                logger.info(f"awaken_once ended at {LEVEL_UP}")
+                return "no_exp"
             # Lower similarity due to random background
             if interval.reached() and AWAKENING.match_luma(self.device.image, similarity=0.7):
                 self.device.click(AWAKENING)
                 interval.reset()
                 continue
 
-        logger.info('Get awaken cost')
+        logger.info("Get awaken cost")
         timeout = Timer(2, count=6).start()
         skip_first_screenshot = True
         while 1:
@@ -147,29 +150,29 @@ class Awaken(Dock):
                 self.device.screenshot()
 
             result = self._get_awaken_cost(use_array)
-            if result == 'unexpected_array':
+            if result == "unexpected_array":
                 # This shouldn't happen
                 self.awaken_popup_close()
                 return result
             elif result is False:
-                logger.info('Insufficient resources to awaken')
+                logger.info("Insufficient resources to awaken")
                 self.awaken_popup_close()
-                return 'insufficient'
+                return "insufficient"
             elif result is True:
                 # Sufficient resources
                 break
-            elif result == 'invalid':
+            elif result == "invalid":
                 # Retry, and check timeout also
                 pass
             else:
-                raise ScriptError(f'Unexpected _get_awaken_cost result: {result}')
+                raise ScriptError(f"Unexpected _get_awaken_cost result: {result}")
             if timeout.reached():
-                logger.warning('Get awaken cost timeout')
+                logger.warning("Get awaken cost timeout")
                 self.awaken_popup_close()
-                return 'timeout'
+                return "timeout"
 
         # sufficient is True
-        logger.info('Awaken confirm')
+        logger.info("Awaken confirm")
         self.interval_clear(AWAKEN_CONFIRM)
         # Awaken popup takes 10s to appear if you have enough EXP to reach next awaken limit
         # and 2s to dismiss it by clicking
@@ -185,23 +188,23 @@ class Awaken(Dock):
 
             # End
             if timeout.reached():
-                logger.warning('Awaken confirm timeout')
+                logger.warning("Awaken confirm timeout")
                 self.awaken_popup_close()
                 break
             if finished and self.is_in_awaken():
-                logger.info('Awaken finished')
+                logger.info("Awaken finished")
                 break
             # Click
             if self.appear_then_click(AWAKEN_CONFIRM, offset=(20, 20), interval=3):
                 continue
-            if self.handle_popup_confirm('AWAKEN'):
+            if self.handle_popup_confirm("AWAKEN"):
                 continue
             if self.handle_awaken_finish():
                 finished = True
                 continue
 
         self.device.click_record_clear()
-        return 'success'
+        return "success"
 
     def get_ship_level(self, skip_first_screenshot=True):
         """
@@ -211,7 +214,7 @@ class Awaken(Dock):
         Returns:
             int: 100~125, or 0 if error
         """
-        ocr = ShipLevel(OCR_SHIP_LEVEL, letter=(255, 255, 255), threshold=128, name='ShipLevel')
+        ocr = ShipLevel(OCR_SHIP_LEVEL, letter=(255, 255, 255), threshold=128, name="ShipLevel")
         timeout = Timer(2, count=4).start()
         level = 0
         while 1:
@@ -225,7 +228,7 @@ class Awaken(Dock):
                 if level > 0:
                     return level
             if timeout.reached():
-                logger.warning('get_ship_level timeout')
+                logger.warning("get_ship_level timeout")
                 return level
 
     def awaken_ship(self, use_array=False, skip_first_screenshot=True):
@@ -243,8 +246,8 @@ class Awaken(Dock):
             in: is_in_awaken
             out: is_in_awaken
         """
-        logger.hr('Awaken ship', level=1)
-        logger.info(f'Awaken ship, use_array={use_array}')
+        logger.hr("Awaken ship", level=1)
+        logger.info(f"Awaken ship, use_array={use_array}")
 
         if use_array:
             stop_level = 125
@@ -258,31 +261,31 @@ class Awaken(Dock):
             level = self.get_ship_level()
             if level > 0:
                 if level >= stop_level:
-                    logger.info(f'Awaken ship ended at stop_level')
-                    return 'level_max'
+                    logger.info("Awaken ship ended at stop_level")
+                    return "level_max"
                 else:
                     result = self.awaken_once(use_array)
                     # 'no_exp', 'unexpected_array', 'insufficient', 'timeout', 'success'
-                    if result == 'success':
+                    if result == "success":
                         continue
-                    if result in ['insufficient', 'no_exp']:
+                    if result in ["insufficient", "no_exp"]:
                         # Return as it is
                         return result
-                    if result == 'unexpected_array':
+                    if result == "unexpected_array":
                         # Maybe just accidentally entered awaken confirm
                         # Re-run awaken_once should recheck it
                         continue
-                    if result == 'timeout':
+                    if result == "timeout":
                         # Timeout getting resources, retry should fix it
                         continue
-                    raise ScriptError(f'Unexpected awaken_once result: {result}')
+                    raise ScriptError(f"Unexpected awaken_once result: {result}")
             else:
                 # Get level timeout, request exit
-                return 'timeout'
+                return "timeout"
 
         # Error, request exit
-        logger.warning('Too many awaken trial on one ship')
-        return 'timeout'
+        logger.warning("Too many awaken trial on one ship")
+        return "timeout"
 
     def awaken_exit(self, skip_first_screenshot=True):
         """
@@ -290,7 +293,7 @@ class Awaken(Dock):
             in: is_in_awaken
             out: DOCK_CHECK
         """
-        logger.info('Awaken exit')
+        logger.info("Awaken exit")
         interval = Timer(3)
         while 1:
             if skip_first_screenshot:
@@ -299,10 +302,10 @@ class Awaken(Dock):
                 self.device.screenshot()
 
             if self.ui_page_appear(page_dock):
-                logger.info(f'Awaken exit at {page_dock}')
+                logger.info(f"Awaken exit at {page_dock}")
                 break
             if interval.reached() and self.is_in_awaken():
-                logger.info(f'is_in_awaken -> {BACK_ARROW}')
+                logger.info(f"is_in_awaken -> {BACK_ARROW}")
                 self.device.click(BACK_ARROW)
                 interval.reset()
                 continue
@@ -329,64 +332,64 @@ class Awaken(Dock):
             in: Any
             out: page_dock
         """
-        logger.hr('Awaken run', level=1)
+        logger.hr("Awaken run", level=1)
         self.ui_ensure(page_dock)
         self.dock_favourite_set(enable=favourite, wait_loading=False)
         self.dock_sort_method_dsc_set(wait_loading=False)
         if use_array:
-            extra = ['can_awaken_plus']
+            extra = ["can_awaken_plus"]
         else:
-            extra = ['can_awaken']
+            extra = ["can_awaken"]
         self.dock_filter_set(extra=extra)
 
         while 1:
             # page_dock
             if self.appear(DOCK_EMPTY, offset=(20, 20)):
-                logger.info('awaken_run finished, no ships to awaken')
-                result = 'finish'
+                logger.info("awaken_run finished, no ships to awaken")
+                result = "finish"
                 break
 
             # page_dock -> SHIP_DETAIL_CHECK
             entered = self.dock_enter_first()
             if not entered:
-                logger.info('awaken_run finished, no ships to awaken')
-                result = 'finish'
+                logger.info("awaken_run finished, no ships to awaken")
+                result = "finish"
                 break
 
             # is_in_awaken
             result = self.awaken_ship(use_array)
             self.awaken_exit()
             # 'insufficient', 'no_exp', 'timeout'
-            if result in ['no_exp', 'level_max']:
+            if result in ["no_exp", "level_max"]:
                 # Awaken next ship
                 continue
-            if result == 'insufficient':
-                logger.info('awaken_run finished, resources exhausted')
+            if result == "insufficient":
+                logger.info("awaken_run finished, resources exhausted")
                 break
-            if result == 'timeout':
-                logger.info(f'awaken_run finished, result={result}')
+            if result == "timeout":
+                logger.info(f"awaken_run finished, result={result}")
                 break
-            raise ScriptError(f'Unexpected awaken_ship result: {result}')
+            raise ScriptError(f"Unexpected awaken_ship result: {result}")
 
         return result
 
     def run(self):
         # Run Awakening+ first
         favourite = self.config.Awaken_Favourite
-        if self.config.Awaken_LevelCap == 'level125':
+        if self.config.Awaken_LevelCap == "level125":
             # Use Cognitive Arrays
             result = self.awaken_run(use_array=True, favourite=favourite)
             # Use Cognitive Chips
-            if result != 'timeout':
+            if result != "timeout":
                 self.awaken_run(favourite=favourite)
-        elif self.config.Awaken_LevelCap == 'level120':
+        elif self.config.Awaken_LevelCap == "level120":
             # Use Cognitive Chips
             self.awaken_run(favourite=favourite)
         else:
-            raise ScriptError(f'Unknown Awaken_LevelCap={self.config.Awaken_LevelCap}')
+            raise ScriptError(f"Unknown Awaken_LevelCap={self.config.Awaken_LevelCap}")
 
         # Reset dock filters
-        logger.hr('Awaken run exit', level=1)
+        logger.hr("Awaken run exit", level=1)
         if favourite:
             self.dock_favourite_set(wait_loading=False)
         self.dock_filter_set(wait_loading=False)

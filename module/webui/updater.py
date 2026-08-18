@@ -2,9 +2,8 @@ import datetime
 import subprocess
 import threading
 import time
-from typing import Generator, List, Tuple
+from collections.abc import Generator
 
-import requests
 from deploy.config import ExecutionError
 from deploy.git import GitManager
 from deploy.pip import PipManager
@@ -14,7 +13,7 @@ from module.logger import logger
 from module.webui.config import DeployConfig
 from module.webui.process_manager import ProcessManager
 from module.webui.setting import State
-from module.webui.utils import TaskHandler, get_next_time
+from module.webui.tasks import TaskHandler, get_next_time
 
 
 class Updater(DeployConfig, GitManager, PipManager):
@@ -39,12 +38,10 @@ class Updater(DeployConfig, GitManager, PipManager):
 
     def execute_output(self, command) -> str:
         command = command.replace(r"\\", "/").replace("\\", "/").replace('"', '"')
-        log = subprocess.run(
-            command, capture_output=True, text=True, encoding="utf8", shell=True
-        ).stdout
+        log = subprocess.run(command, capture_output=True, text=True, encoding="utf8", shell=True).stdout
         return log
 
-    def get_commit(self, revision="", n=1, short_sha1=False) -> Tuple:
+    def get_commit(self, revision="", n=1, short_sha1=False) -> tuple:
         """
         Return:
             (sha1, author, isotime, message,)
@@ -69,116 +66,28 @@ class Updater(DeployConfig, GitManager, PipManager):
     def _check_update(self) -> bool:
         self.state = "checking"
 
-        if State.deploy_config.GitOverCdn:
-            status = self.goc_client.get_status()
-            if status == "uptodate":
-                logger.info(f"No update")
-                return False
-            elif status == "behind":
-                logger.info(f"New update available")
-                return True
-            else:
-                # failed, should fallback to `git pull`
-                pass
-
         source = "origin"
         for _ in range(3):
-            if self.execute(
-                f'"{self.git}" fetch {source} {self.Branch}', allow_failure=True
-            ):
+            if self.execute(f'"{self.git}" fetch {source} {self.Branch}', allow_failure=True):
                 break
         else:
             logger.warning("Git fetch failed")
             return False
 
-        log = self.execute_output(
-            f'"{self.git}" log --not --remotes={source}/* -1 --oneline'
-        )
+        log = self.execute_output(f'"{self.git}" log --not --remotes={source}/* -1 --oneline')
         if log:
-            logger.info(
-                f"Cannot find local commit {log.split()[0]} in upstream, skip update"
-            )
+            logger.info(f"Cannot find local commit {log.split()[0]} in upstream, skip update")
             return False
 
         sha1, _, _, message = self.get_commit(f"..{source}/{self.Branch}")
 
         if sha1:
-            logger.info(f"New update available")
+            logger.info("New update available")
             logger.info(f"{sha1[:8]} - {message}")
             return True
         else:
-            logger.info(f"No update")
-            return False
-
-    def _check_update_(self) -> bool:
-        """
-        Deprecated
-        """
-        self.state = "checking"
-        r = self.Repository.split("/")
-        owner = r[3]
-        repo = r[4]
-        if "gitee" in r[2]:
-            base = "https://gitee.com/api/v5/repos/"
-            headers = {}
-            token = self.config["ApiToken"]
-            if token:
-                para = {"access_token": token}
-        else:
-            base = "https://api.github.com/repos/"
-            headers = {"Accept": "application/vnd.github.v3.sha"}
-            para = {}
-            token = self.config["ApiToken"]
-            if token:
-                headers["Authorization"] = "token " + token
-
-        try:
-            list_commit = requests.get(
-                base + f"{owner}/{repo}/branches/{self.Branch}",
-                headers=headers,
-                params=para,
-            )
-        except Exception as e:
-            logger.exception(e)
-            logger.warning("Check update failed")
-            return 0
-
-        if list_commit.status_code != 200:
-            logger.warning(f"Check update failed, code {list_commit.status_code}")
-            return 0
-        try:
-            sha = list_commit.json()["commit"]["sha"]
-        except Exception as e:
-            logger.exception(e)
-            logger.warning("Check update failed when parsing return json")
-            return 0
-
-        local_sha, _, _, _ = self._get_local_commit()
-
-        if sha == local_sha:
             logger.info("No update")
-            return 0
-
-        try:
-            get_commit = requests.get(
-                base + f"{owner}/{repo}/commits/" + local_sha,
-                headers=headers,
-                params=para,
-            )
-        except Exception as e:
-            logger.exception(e)
-            logger.warning("Check update failed")
-            return 0
-
-        if get_commit.status_code != 200:
-            # for develops
-            logger.info(
-                f"Cannot find local commit {local_sha[:8]} in upstream, skip update"
-            )
-            return 0
-
-        logger.info(f"Update {sha[:8]} available")
-        return 1
+            return False
 
     def check_update(self):
         if self.state in (0, "failed", "finish"):
@@ -207,6 +116,10 @@ class Updater(DeployConfig, GitManager, PipManager):
         self._start_update()
 
     def _start_update(self):
+        # The event is normally created in _startup, but a manual
+        # /update/run can arrive before that thread runs.
+        if self.event is None:
+            self.event = State.manager.Event()
         self.state = "start"
         instances = ProcessManager.running_instances()
         names = []
@@ -216,7 +129,7 @@ class Updater(DeployConfig, GitManager, PipManager):
         logger.info("Waiting all running alas finish.")
         self._wait_update(instances, names)
 
-    def _wait_update(self, instances: List[ProcessManager], names):
+    def _wait_update(self, instances: list[ProcessManager], names):
         if self.state == "cancel":
             self.state = 1
         self.state = "wait"
@@ -251,10 +164,8 @@ class Updater(DeployConfig, GitManager, PipManager):
                 self.state = "reload"
                 with open("./config/reloadalas", mode="w") as f:
                     f.writelines(names)
-                from module.webui.app import clearup
-
                 self._trigger_reload(2)
-                clearup()
+                State.clearup()
             else:
                 self.state = "finish"
         else:

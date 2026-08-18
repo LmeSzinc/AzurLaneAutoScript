@@ -1,7 +1,7 @@
 from module.base.timer import Timer
-from module.base.utils import *
+from module.base.utils import area_pad
 from module.logger import logger
-from module.os.assets import *
+from module.os.assets import *  # noqa: F403  (data-bundle star import)
 from module.os_handler.action_point import ActionPointHandler
 from module.os_handler.assets import AUTO_SEARCH_REWARD
 from module.os_handler.port import PORT_CHECK
@@ -9,7 +9,7 @@ from module.ui.assets import BACK_ARROW
 
 ZONE_TYPES = [ZONE_DANGEROUS, ZONE_SAFE, ZONE_OBSCURE, ZONE_ABYSSAL, ZONE_STRONGHOLD, ZONE_ARCHIVE]
 ZONE_SELECT = [SELECT_DANGEROUS, SELECT_SAFE, SELECT_OBSCURE, SELECT_ABYSSAL, SELECT_STRONGHOLD, SELECT_ARCHIVE]
-ASSETS_PINNED_ZONE = ZONE_TYPES + [ZONE_ENTRANCE, ZONE_SWITCH, ZONE_PINNED]
+ASSETS_PINNED_ZONE = [*ZONE_TYPES, ZONE_ENTRANCE, ZONE_SWITCH, ZONE_PINNED]
 
 
 class OSExploreError(Exception):
@@ -56,7 +56,7 @@ class GlobeOperation(ActionPointHandler):
         Returns:
             str: DANGEROUS, SAFE, OBSCURE, ABYSSAL, STRONGHOLD, ARCHIVE.
         """
-        return button.name.split('_')[1]
+        return button.name.split("_")[1]
 
     def get_zone_pinned_name(self):
         """
@@ -67,7 +67,7 @@ class GlobeOperation(ActionPointHandler):
         if pinned is not None:
             return self.pinned_to_name(pinned)
         else:
-            return ''
+            return ""
 
     def handle_zone_pinned(self):
         """
@@ -82,8 +82,12 @@ class GlobeOperation(ActionPointHandler):
         if self.is_zone_pinned():
             # A click does not disable pinned zone, a swipe does.
             self.device.swipe_vector(
-                (50, -50), box=area_pad(ZONE_PINNED.area, pad=-80), random_range=(-10, -10, 10, 10),
-                padding=0, name='PINNED_DISABLE')
+                (50, -50),
+                box=area_pad(ZONE_PINNED.area, pad=-80),
+                random_range=(-10, -10, 10, 10),
+                padding=0,
+                name="PINNED_DISABLE",
+            )
             self._zone_unpin_interval.reset()
             return True
 
@@ -139,8 +143,11 @@ class GlobeOperation(ActionPointHandler):
         """
         # Lower threshold to 0.75
         # Don't know why buy but fonts are different sometimes
-        return [select for select in ZONE_SELECT if
-                self.appear(select, offset=self._zone_select_offset, similarity=self._zone_select_similarity)]
+        return [
+            select
+            for select in ZONE_SELECT
+            if self.appear(select, offset=self._zone_select_offset, similarity=self._zone_select_similarity)
+        ]
 
     def is_in_zone_select(self):
         """
@@ -163,7 +170,7 @@ class GlobeOperation(ActionPointHandler):
             record = len(selection)
             self.device.screenshot()
 
-        logger.warning('Failed to ensure zone selection expanded, assume expanded')
+        logger.warning("Failed to ensure zone selection expanded, assume expanded")
         return self.get_zone_select()
 
     def zone_select_enter(self):
@@ -172,8 +179,12 @@ class GlobeOperation(ActionPointHandler):
             in: is_zone_pinned
             out: is_in_zone_select
         """
-        self.ui_click(ZONE_SWITCH, appear_button=self.is_zone_pinned, check_button=self.is_in_zone_select,
-                      skip_first_screenshot=True)
+        self.ui_click(
+            ZONE_SWITCH,
+            appear_button=self.is_zone_pinned,
+            check_button=self.is_in_zone_select,
+            skip_first_screenshot=True,
+        )
 
     def zone_select_execute(self, button):
         """
@@ -184,16 +195,17 @@ class GlobeOperation(ActionPointHandler):
             in: is_in_zone_select
             out: is_zone_pinned
         """
-        logger.info(f'Zone select: {button}')
+        logger.info(f"Zone select: {button}")
         for _ in self.loop():
             # End
             if self.is_zone_pinned():
                 break
             if self.appear_then_click(
-                    button, offset=self._zone_select_offset, similarity=self._zone_select_similarity, interval=5):
+                button, offset=self._zone_select_offset, similarity=self._zone_select_similarity, interval=5
+            ):
                 continue
 
-    def zone_type_select(self, types=('SAFE', 'DANGEROUS')):
+    def zone_type_select(self, types=("SAFE", "DANGEROUS")):
         """
         Args:
             types (tuple[str], list[str], str): Zone types, or a list of them.
@@ -209,7 +221,7 @@ class GlobeOperation(ActionPointHandler):
             out: is_zone_pinned
         """
         if not self.zone_has_switch():
-            logger.info('Zone has no type to select, skip')
+            logger.info("Zone has no type to select, skip")
             return True
 
         if isinstance(types, str):
@@ -217,7 +229,7 @@ class GlobeOperation(ActionPointHandler):
 
         def get_button(selection_):
             for typ in types:
-                typ = 'SELECT_' + typ
+                typ = "SELECT_" + typ
                 for sele in selection_:
                     if typ == sele.name:
                         return sele
@@ -225,25 +237,25 @@ class GlobeOperation(ActionPointHandler):
 
         pinned = self.get_zone_pinned_name()
         if pinned in types:
-            logger.info(f'Already selected at {pinned}')
+            logger.info(f"Already selected at {pinned}")
             return True
 
         for _ in range(3):
             self.zone_select_enter()
             selection = self.ensure_zone_select_expanded()
-            logger.attr('Zone_selection', selection)
+            logger.attr("Zone_selection", selection)
 
             button = get_button(selection)
             if button is None:
-                logger.warning('No such zone type to select, fallback to default')
-                types = ('SAFE', 'DANGEROUS')
+                logger.warning("No such zone type to select, fallback to default")
+                types = ("SAFE", "DANGEROUS")
                 button = get_button(selection)
 
             self.zone_select_execute(button)
             if self.pinned_to_name(button) == self.get_zone_pinned_name():
                 return True
 
-        logger.warning('Failed to select zone type after 3 trial')
+        logger.warning("Failed to select zone type after 3 trial")
         return False
 
     def zone_has_safe(self):
@@ -258,7 +270,7 @@ class GlobeOperation(ActionPointHandler):
             in: is_zone_pinned
             out: is_zone_pinned
         """
-        if self.get_zone_pinned_name() == 'SAFE':
+        if self.get_zone_pinned_name() == "SAFE":
             return True
         elif self.zone_has_switch():
             self.zone_select_enter()
@@ -276,8 +288,13 @@ class GlobeOperation(ActionPointHandler):
             in: is_in_globe
             out: is_in_map
         """
-        return self.ui_click(GLOBE_GOTO_MAP, check_button=self.is_in_map, offset=(20, 20),
-                             retry_wait=3, skip_first_screenshot=skip_first_screenshot)
+        return self.ui_click(
+            GLOBE_GOTO_MAP,
+            check_button=self.is_in_map,
+            offset=(20, 20),
+            retry_wait=3,
+            skip_first_screenshot=skip_first_screenshot,
+        )
 
     def os_map_goto_globe(self, unpin=True):
         """
@@ -301,8 +318,9 @@ class GlobeOperation(ActionPointHandler):
                 click_count += 1
                 if click_count >= 5:
                     # When there's zone exploration reward, AL just don't let you go.
-                    logger.warning('Unable to goto globe, '
-                                   'there might be uncollected zone exploration rewards preventing exit')
+                    logger.warning(
+                        "Unable to goto globe, there might be uncollected zone exploration rewards preventing exit"
+                    )
                     raise RewardUncollectedError
                 continue
             if self.appear_then_click(MAP_GOTO_GLOBE_FOG, interval=5):
@@ -314,7 +332,7 @@ class GlobeOperation(ActionPointHandler):
                 continue
             # Accidentally entered port
             if self.appear(PORT_CHECK, offset=(20, 20), interval=5):
-                logger.info(f'Page switch: {PORT_CHECK} -> {BACK_ARROW}')
+                logger.info(f"Page switch: {PORT_CHECK} -> {BACK_ARROW}")
                 self.device.click(BACK_ARROW)
                 continue
             # Popup: AUTO_SEARCH_REWARD appears slowly
@@ -323,7 +341,7 @@ class GlobeOperation(ActionPointHandler):
             # Popup: Leaving current zone will terminate meowfficer searching.
             # Popup: Leaving current zone will retreat submarines
             # Searching reward will be shown after entering another zone.
-            if self.handle_popup_confirm('GOTO_GLOBE'):
+            if self.handle_popup_confirm("GOTO_GLOBE"):
                 continue
 
         confirm_timer = Timer(1, count=2).start()
@@ -365,10 +383,10 @@ class GlobeOperation(ActionPointHandler):
 
             if self.is_zone_pinned():
                 if self.appear(ZONE_LOCKED, offset=(20, 20)):
-                    logger.warning(f'Zone {zone} locked, neighbouring zones may not have been explored')
+                    logger.warning(f"Zone {zone} locked, neighbouring zones may not have been explored")
                     raise OSExploreError
                 if click_count > 5:
-                    logger.warning(f'Unable to enter zone {zone}, neighbouring zones may not have been explored')
+                    logger.warning(f"Unable to enter zone {zone}, neighbouring zones may not have been explored")
                     raise OSExploreError
                 if click_timer.reached():
                     self.device.click(ZONE_ENTRANCE)
@@ -380,7 +398,7 @@ class GlobeOperation(ActionPointHandler):
                 continue
             if self.handle_map_event():
                 continue
-            if self.handle_popup_confirm('GLOBE_ENTER'):
+            if self.handle_popup_confirm("GLOBE_ENTER"):
                 continue
             # A game bug that AUTO_SEARCH_REWARD from the last cleared zone popups
             if self.appear_then_click(AUTO_SEARCH_REWARD, offset=(50, 50), interval=3):

@@ -1,15 +1,15 @@
 from datetime import datetime, timedelta
 
 import cv2
-from jellyfish import levenshtein_distance
 import numpy as np
+from jellyfish import levenshtein_distance
 
 import module.config.server as server
 from module.base.button import Button, ButtonGrid
 from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.base.utils import color_similarity_2d
-from module.island.assets import *
+from module.island.assets import *  # noqa: F403  (data-bundle star import)
 from module.island.data import DIC_ISLAND_ITEM, DIC_ISLAND_SEASON_ORDER
 from module.island.ui import IslandUI
 from module.island.utils import (
@@ -20,10 +20,8 @@ from module.island.utils import (
 )
 from module.island_handler.recipe import IslandReversedDigitCounter
 from module.logger import logger
-from module.map_detection.utils import Points
 from module.ocr.ocr import Duration, Ocr
 from module.ui.page import page_island_order
-
 
 COLOR_REGULAR = (57, 189, 255)  # Blue
 COLOR_REGULAR_COOLDOWN = (173, 227, 255)  # Light Blue
@@ -43,8 +41,16 @@ def get_circles(image, color, inner_radius, outer_radius):
     mask = color_similarity_2d(image, color=color)
     cv2.threshold(mask, 240, 255, cv2.THRESH_BINARY, dst=mask)
     blurred = cv2.GaussianBlur(mask, (7, 7), sigmaX=1.5, sigmaY=1.5)
-    circles = cv2.HoughCircles(blurred, cv2.HOUGH_GRADIENT, dp=1, minDist=2*inner_radius,
-                               param1=100, param2=30, minRadius=inner_radius-2, maxRadius=outer_radius+2)
+    circles = cv2.HoughCircles(
+        blurred,
+        cv2.HOUGH_GRADIENT,
+        dp=1,
+        minDist=2 * inner_radius,
+        param1=100,
+        param2=30,
+        minRadius=inner_radius - 2,
+        maxRadius=outer_radius + 2,
+    )
     if circles is not None:
         circles = circles[0]
     else:
@@ -58,9 +64,9 @@ def get_season_order_id(requirements):
         for item_id, counter in requirements.items()
     }
     for id, order in DIC_ISLAND_SEASON_ORDER.items():
-        if required_items == order.get('request', {}):
+        if required_items == order.get("request", {}):
             return id
-    logger.warning(f'Cannot find season order id for requirements: {requirements}')
+    logger.warning(f"Cannot find season order id for requirements: {requirements}")
     return None
 
 
@@ -73,24 +79,20 @@ class IslandOrder(IslandUI):
         outer_radius = 52
         circles = get_circles(self.device.image, color, inner_radius, outer_radius)
         button_list = []
-        for index, circle in enumerate(circles):
+        for _index, circle in enumerate(circles):
             x, y, _ = circle
             x = int(x)
             y = int(y)
             detect_area = (x - outer_radius, y - outer_radius, x + outer_radius, y + outer_radius)
             click_area = (x - inner_radius, y - inner_radius, x + inner_radius, y + inner_radius)
-            button = Button(area=detect_area, color=(), button=click_area, name=f'ORDER_AT_{x}_{y}')
+            button = Button(area=detect_area, color=(), button=click_area, name=f"ORDER_AT_{x}_{y}")
             button_list.append(button)
         return button_list
 
     @property
     def requirement_grid(self):
         return ButtonGrid(
-            origin=(884, 240),
-            delta=(0, 79),
-            button_shape=(334, 78),
-            grid_shape=(1, 3),
-            name="REQUIREMENT_GRID"
+            origin=(884, 240), delta=(0, 79), button_shape=(334, 78), grid_shape=(1, 3), name="REQUIREMENT_GRID"
         )
 
     @property
@@ -100,7 +102,7 @@ class IslandOrder(IslandUI):
 
     @property
     def requirement_counter_grid(self):
-        if server.server == 'en':
+        if server.server == "en":
             counter_grid = self.requirement_grid.crop((238, 44, 327, 75))
         else:
             counter_grid = self.requirement_grid.crop((238, 44, 327, 65))
@@ -108,34 +110,46 @@ class IslandOrder(IslandUI):
 
     @cached_property
     def requirement_name_ocr(self):
-        if server.server == 'jp':
-            lang = 'jp'
+        if server.server == "jp":
+            lang = "jp"
         else:
-            lang = 'cnocr'
-        return Ocr(self.requirement_name_grid.buttons, lang=lang, letter=(57, 59, 61), threshold=160, name='REQUIREMENTS_NAME_OCR')
+            lang = "cnocr"
+        return Ocr(
+            self.requirement_name_grid.buttons,
+            lang=lang,
+            letter=(57, 59, 61),
+            threshold=160,
+            name="REQUIREMENTS_NAME_OCR",
+        )
 
     @cached_property
     def requirement_counter_ocr(self):
-        return IslandReversedDigitCounter(self.requirement_counter_grid.buttons, lang='cnocr', 
-                                          letter=(57, 59, 61), sub_letter=(253, 97, 96), 
-                                          threshold=160, sub_threshold=160, background_color=None,
-                                          name='REQUIREMENTS_COUNTER_OCR')
+        return IslandReversedDigitCounter(
+            self.requirement_counter_grid.buttons,
+            lang="cnocr",
+            letter=(57, 59, 61),
+            sub_letter=(253, 97, 96),
+            threshold=160,
+            sub_threshold=160,
+            background_color=None,
+            name="REQUIREMENTS_COUNTER_OCR",
+        )
 
     def item_name_to_item_id(self, name):
-        if name == '':
+        if name == "":
             return None
-        if server.server == 'jp':
+        if server.server == "jp":
             # While we have 果樹園二重奏 and 朝光活力コンビ, the problem of カニ as 力二 is worse,
             # so we replace 力 with カ before matching,
             # which can fix most of the misrecognition without causing new issues.
-            name = name.replace('二', 'ニ').replace('力', 'カ')
-        min_distance = float('inf')
+            name = name.replace("二", "ニ").replace("力", "カ")
+        min_distance = float("inf")
         corrected_name = None
         corrected_id = None
         item_lists = DIC_ISLAND_ITEM.keys()
 
         for item in item_lists:
-            item_name = DIC_ISLAND_ITEM[item]['name'][server.server]
+            item_name = DIC_ISLAND_ITEM[item]["name"][server.server]
             distance = levenshtein_distance(name, item_name)
             if distance < min_distance:
                 min_distance = distance
@@ -143,7 +157,9 @@ class IslandOrder(IslandUI):
                 corrected_id = item
 
         if name != corrected_name:
-            logger.info(f'Recipe product name OCR result "{name}" corrected to "{corrected_name}" with distance {min_distance}')
+            logger.info(
+                f'Recipe product name OCR result "{name}" corrected to "{corrected_name}" with distance {min_distance}'
+            )
         return corrected_id
 
     def scan_current_order_requirements(self):
@@ -160,10 +176,10 @@ class IslandOrder(IslandUI):
 
     def get_order_remain_time(self, order_button: Button):
         time_button = order_button.crop((10, 119, 100, 145))
-        print(f'OCR area: {time_button.area}')
-        time_ocr = Duration(time_button, name='ORDER_REMAIN_TIME_OCR')
+        print(f"OCR area: {time_button.area}")
+        time_ocr = Duration(time_button, name="ORDER_REMAIN_TIME_OCR")
         remain_time = time_ocr.ocr(self.device.image)
-        logger.info(f'Order remain time: {remain_time}')
+        logger.info(f"Order remain time: {remain_time}")
         return remain_time
 
     @cached_property
@@ -193,16 +209,16 @@ class IslandOrder(IslandUI):
             )
             if required > effective_stock:
                 logger.warning(
-                    f'Item {item} does not meet the requirement: stock {stock}, '
-                    f'hard floor {hard_floor}, reserve {self.reserve.get(item, 0)}, '
-                    f'effective stock {effective_stock}, required {required}'
+                    f"Item {item} does not meet the requirement: stock {stock}, "
+                    f"hard floor {hard_floor}, reserve {self.reserve.get(item, 0)}, "
+                    f"effective stock {effective_stock}, required {required}"
                 )
                 return False
         return True
 
     def handle_island_order_level_up(self):
         if self.appear(ISLAND_ORDER_LEVEL_UP, offset=(20, 20), interval=1):
-            logger.info('Detected island order level up')
+            logger.info("Detected island order level up")
             self.device.click(ISLAND_CLICK_SAFE_AREA)
             return True
         return False
@@ -214,19 +230,20 @@ class IslandOrder(IslandUI):
                 self.device.click(order_button)
                 click_timer.reset()
                 continue
-            if (is_urgent and self.appear(ISLAND_ORDER_ACCEPT, offset=(20, 20))) or \
-                    (not is_urgent and self.appear(ISLAND_ORDER_ACCEPT_URGENT, offset=(20, 20))):
-                logger.info('requirement page does not match, should click order button again')
+            if (is_urgent and self.appear(ISLAND_ORDER_ACCEPT, offset=(20, 20))) or (
+                not is_urgent and self.appear(ISLAND_ORDER_ACCEPT_URGENT, offset=(20, 20))
+            ):
+                logger.info("requirement page does not match, should click order button again")
                 click_timer.reset()
                 continue
             if self.appear(ISLAND_ORDER_REQUIREMENTS_CHECK, offset=(0, 20)):
-                logger.info('Clicked order button, requirements page appeared')
+                logger.info("Clicked order button, requirements page appeared")
                 break
             if self.appear(ISLAND_ORDER_COOLDOWN_SPEED_UP, offset=(20, 20)):
-                logger.info('Clicked order button, cooldown speed up page appeared')
+                logger.info("Clicked order button, cooldown speed up page appeared")
                 break
         else:
-            logger.info('click timer timeout, assuming requirements page appeared')
+            logger.info("click timer timeout, assuming requirements page appeared")
 
     def submit_order(self, is_urgent=False):
         if is_urgent:
@@ -250,25 +267,27 @@ class IslandOrder(IslandUI):
             if not confirm_timer.reached():
                 continue
             if self.match_template_color(ISLAND_ORDER_BACKGROUND, offset=(20, 20)):
-                logger.info('Submit success')
+                logger.info("Submit success")
                 return True
             # after urgent order submission, cursor may jump to normal order and the normal order submit button is visible
             if is_urgent and self.match_template_color(ISLAND_ORDER_ACCEPT, offset=(20, 20)):
-                logger.info('Urgent order submit success')
+                logger.info("Urgent order submit success")
                 return True
             if not is_urgent and self.match_template_color(ISLAND_ORDER_COOLDOWN_SPEED_UP, offset=(20, 20)):
-                logger.info('Previous order submitted, wait for next order to appear')
+                logger.info("Previous order submitted, wait for next order to appear")
                 continue
             if clicked and self.match_template_color(ISLAND_ORDER_ACCEPT, offset=(20, 20)):
-                logger.info('Confirm timer timeout, assuming submit success')
+                logger.info("Confirm timer timeout, assuming submit success")
                 return True
         else:
-            logger.warning('Submit order timeout, something may be wrong')
+            logger.warning("Submit order timeout, something may be wrong")
             return False
 
     @property
     def cooldown_time_ocr(self):
-        time_ocr = Duration(ISLAND_ORDER_COOLDOWN_REMAIN_TIME, letter=(57, 59, 61), name='ORDER_COOLDOWN_REMAIN_TIME_OCR')
+        time_ocr = Duration(
+            ISLAND_ORDER_COOLDOWN_REMAIN_TIME, letter=(57, 59, 61), name="ORDER_COOLDOWN_REMAIN_TIME_OCR"
+        )
         return time_ocr
 
     def reject_order(self):
@@ -278,7 +297,7 @@ class IslandOrder(IslandUI):
             if self.appear(ISLAND_ORDER_COOLDOWN_SPEED_UP, offset=(20, 20)):
                 break
         cooldown_remain_time = self.cooldown_time_ocr.ocr(self.device.image)
-        logger.info(f'Order cooldown remain time: {cooldown_remain_time}')
+        logger.info(f"Order cooldown remain time: {cooldown_remain_time}")
         return cooldown_remain_time
 
     next_runtime = []
@@ -288,7 +307,7 @@ class IslandOrder(IslandUI):
         order_id = order_id or EMPTY_SEASON_ORDER_ID
         previous_id = self.config.cross_get("IslandOrder.IslandOrder.StuckSeasonOrderId", EMPTY_SEASON_ORDER_ID)
         if order_id != previous_id:
-            logger.info(f'Updating stuck season order id from {previous_id} to {order_id}')
+            logger.info(f"Updating stuck season order id from {previous_id} to {order_id}")
             self.config.cross_set("IslandOrder.IslandOrder.StuckSeasonOrderId", order_id)
             self.update_production_plan = True
 
@@ -301,7 +320,7 @@ class IslandOrder(IslandUI):
         self.handle_info_bar()
         self.click_order(order_button, is_urgent=is_urgent)
         if self.appear(ISLAND_ORDER_COOLDOWN_SPEED_UP, offset=(20, 20)):
-            logger.warning('Order is in cooldown, cannot submit')
+            logger.warning("Order is in cooldown, cannot submit")
             remain_time = self.cooldown_time_ocr.ocr(self.device.image)
             next_runtime = datetime.now() + remain_time
             self.next_runtime.append(next_runtime)
@@ -310,20 +329,20 @@ class IslandOrder(IslandUI):
         if self.is_order_satisfied(requirements, is_urgent=is_urgent, is_season=is_season):
             return self.submit_order(is_urgent=is_urgent)
         else:
-            logger.warning('Order requirements not satisfied due to low stock')
+            logger.warning("Order requirements not satisfied due to low stock")
             if is_urgent:
-                logger.warning('Urgent order can only be delayed')
+                logger.warning("Urgent order can only be delayed")
                 remain_time = self.get_order_remain_time(order_button)
                 if remain_time == timedelta(0):
-                    logger.warning('Urgent order remain time ocr error, default to 8 hours')
+                    logger.warning("Urgent order remain time ocr error, default to 8 hours")
                     remain_time = timedelta(hours=8)
                 else:
-                    logger.warning(f'Order remain time: {remain_time}')
+                    logger.warning(f"Order remain time: {remain_time}")
                 next_runtime = datetime.now() + remain_time
                 self.next_runtime.append(next_runtime)
                 return False
             elif is_season:
-                logger.warning('Season order can only be abandoned, skip this order')
+                logger.warning("Season order can only be abandoned, skip this order")
                 stuck_season_order_id = get_season_order_id(requirements)
                 self.update_stuck_season_order(stuck_season_order_id)
                 return False
@@ -348,36 +367,36 @@ class IslandOrder(IslandUI):
                     break
         self.urgent_orders = self.detect_orders(color=COLOR_URGENT)
         if len(self.urgent_orders) > 1:
-            logger.warning(f'Multiple urgent orders detected, which is unexpected: {len(self.urgent_orders)}')
+            logger.warning(f"Multiple urgent orders detected, which is unexpected: {len(self.urgent_orders)}")
             self.urgent_orders = self.urgent_orders[:1]
         self.season_orders = self.detect_orders(color=COLOR_SEASON)
         if len(self.season_orders) > 1:
-            logger.warning(f'Multiple season orders detected, which is unexpected: {len(self.season_orders)}')
+            logger.warning(f"Multiple season orders detected, which is unexpected: {len(self.season_orders)}")
             self.season_orders = self.season_orders[:1]
 
     def run_any_order(self):
         for order in self.urgent_orders:
             if self.execute_order(order, is_urgent=True, is_season=False):
-                logger.info('Urgent order submitted')
+                logger.info("Urgent order submitted")
             else:
-                logger.info('Urgent order delayed')
+                logger.info("Urgent order delayed")
         for order in self.regular_orders:
             if self.execute_order(order, is_urgent=False, is_season=False):
-                logger.info('Regular order submitted')
+                logger.info("Regular order submitted")
                 return True
             else:
-                logger.info('Regular order rejected')
+                logger.info("Regular order rejected")
         for order in self.season_orders:
             if self.execute_order(order, is_urgent=False, is_season=True):
-                logger.info('Season order submitted')
+                logger.info("Season order submitted")
                 return True
             else:
-                logger.info('Season order abandoned')
+                logger.info("Season order abandoned")
         return False
 
     def run(self):
-        if self.config.SERVER in ['tw']:
-            logger.info(f'IslandOrder is not available on {self.config.SERVER} server, delay until next server update')
+        if self.config.SERVER in ["tw"]:
+            logger.info(f"IslandOrder is not available on {self.config.SERVER} server, delay until next server update")
             self.config.task_delay(server_update=True)
             return
         self.ui_ensure(page_island_order)
@@ -388,26 +407,27 @@ class IslandOrder(IslandUI):
             if self.run_any_order():
                 continue
             else:
-                logger.info('No order can be submitted')
+                logger.info("No order can be submitted")
                 break
         if not self.season_orders:
             self.update_stuck_season_order(EMPTY_SEASON_ORDER_ID)
         if self.update_production_plan:
-            logger.info('Production plan needs to be updated due to stuck season order change')
+            logger.info("Production plan needs to be updated due to stuck season order change")
             from module.island_handler.production_planner import IslandProductionPlanner
+
             IslandProductionPlanner(self.config, self.device).run()
             self.update_production_plan = False
         for order in self.regular_cooldown_orders:
             remain_time = self.get_order_remain_time(order)
             if remain_time == timedelta(0):
-                logger.warning('Order remain time ocr error, click to check')
+                logger.warning("Order remain time ocr error, click to check")
                 self.click_order(order)
                 remain_time = self.cooldown_time_ocr.ocr(self.device.image)
             next_runtime = datetime.now() + remain_time
             self.next_runtime.append(next_runtime)
         if self.next_runtime:
             next_runtime = min(self.next_runtime)
-            logger.info(f'Next order runtime: {next_runtime}')
+            logger.info(f"Next order runtime: {next_runtime}")
             self.config.task_delay(target=next_runtime, server_update=True)
         else:
             self.config.task_delay(server_update=True)

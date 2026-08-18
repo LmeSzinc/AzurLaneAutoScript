@@ -7,7 +7,7 @@ from module.base.utils import rgb2gray
 from module.exception import GameTooManyClickError
 from module.logger import logger
 from module.ocr.ocr import Duration
-from module.research.assets import *
+from module.research.assets import *  # noqa: F403  (data-bundle star import)
 from module.research.project import get_research_finished
 from module.research.rqueue import ResearchQueue
 from module.research.selector import RESEARCH_ENTRANCE, ResearchSelector
@@ -15,8 +15,9 @@ from module.storage.storage import StorageHandler
 from module.ui.assets import RESEARCH_CHECK
 from module.ui.page import page_research
 
-OCR_DURATION = Duration(RESEARCH_LAB_DURATION_REMAIN, letter=(255, 255, 255), threshold=64,
-                        name='RESEARCH_LAB_DURATION_REMAIN')
+OCR_DURATION = Duration(
+    RESEARCH_LAB_DURATION_REMAIN, letter=(255, 255, 255), threshold=64, name="RESEARCH_LAB_DURATION_REMAIN"
+)
 
 
 class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
@@ -35,7 +36,7 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
         """
         index = get_research_finished(self.device.image)
         if index is not None:
-            logger.attr('Research_finished', index)
+            logger.attr("Research_finished", index)
             self._research_finished_index = index
             return True
         else:
@@ -51,10 +52,10 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
             bool: If reset success.
         """
         if not self.appear(RESET_AVAILABLE, threshold=10):
-            logger.info('Research reset unavailable')
+            logger.info("Research reset unavailable")
             return False
 
-        logger.info('Research reset')
+        logger.info("Research reset")
         drop.add(self.device.image)
         executed = False
         while 1:
@@ -65,7 +66,7 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
 
             if self.appear_then_click(RESET_AVAILABLE, interval=10, threshold=10):
                 continue
-            if self.handle_popup_confirm('RESEARCH_RESET'):
+            if self.handle_popup_confirm("RESEARCH_RESET"):
                 executed = True
                 continue
 
@@ -86,10 +87,9 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
                 The 6th project can't be added into queue, so here's the toggle.
         """
         if not self.enforce:
-            logger.info('Enforce choosing research project')
+            logger.info("Enforce choosing research project")
             self.enforce = True
-            return self.research_select(self.research_sort_filter(self.enforce),
-                                        drop=drop, add_queue=add_queue)
+            return self.research_select(self.research_sort_filter(self.enforce), drop=drop, add_queue=add_queue)
         return True
 
     def research_select(self, priority, drop=None, add_queue=True):
@@ -105,11 +105,11 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
             bool: False if have been reset
         """
         if not len(priority):
-            logger.info('No research project satisfies current filter')
+            logger.info("No research project satisfies current filter")
             return self.research_enforce(drop=drop, add_queue=add_queue)
         for project in priority:
             # priority example: ['reset', 'shortest']
-            if project == 'reset':
+            if project == "reset":
                 if self.research_reset(drop=drop):
                     return False
                 else:
@@ -117,16 +117,14 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
 
             if isinstance(project, str):
                 # priority example: ['shortest']
-                if project == 'shortest':
-                    self.research_select(self.research_sort_shortest(self.enforce),
-                                         drop=drop, add_queue=add_queue)
-                elif project == 'cheapest':
-                    self.research_select(self.research_sort_cheapest(self.enforce),
-                                         drop=drop, add_queue=add_queue)
+                if project == "shortest":
+                    self.research_select(self.research_sort_shortest(self.enforce), drop=drop, add_queue=add_queue)
+                elif project == "cheapest":
+                    self.research_select(self.research_sort_cheapest(self.enforce), drop=drop, add_queue=add_queue)
                 else:
-                    logger.warning(f'Unknown select method: {project}')
+                    logger.warning(f"Unknown select method: {project}")
                 return True
-            elif project.genre.upper() in ['C', 'T'] and not self.enforce:
+            elif project.genre.upper() in ["C", "T"] and not self.enforce:
                 return self.research_enforce(drop=drop, add_queue=add_queue)
             else:
                 # priority example: [ResearchProject, ResearchProject,]
@@ -134,12 +132,12 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
                 if ret:
                     return True
                 elif ret is not None and self.research_delay_check():
-                    logger.info('Delay research when resources not enough and queue not empty')
+                    logger.info("Delay research when resources not enough and queue not empty")
                     return True
                 else:
                     continue
 
-        logger.info('No research project started')
+        logger.info("No research project started")
         return self.research_enforce(drop=drop, add_queue=add_queue)
 
     def research_delay_check(self):
@@ -154,9 +152,7 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
             if slot < 4:
                 return True
             if slot == 4:
-                if self.end_time <= datetime.now():
-                    return True
-                elif self.end_time + timedelta(minutes=-10) > datetime.now():
+                if self.end_time <= datetime.now() or self.end_time + timedelta(minutes=-10) > datetime.now():
                     return True
 
         return False
@@ -179,16 +175,16 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
             in: is_in_research
             out: is_in_research
         """
-        logger.hr('Research project start')
-        logger.info(f'Research project: {project}')
+        logger.hr("Research project start")
+        logger.info(f"Research project: {project}")
         if isinstance(project, int):
             index = project
         elif project in self.projects:
             index = self.projects.index(project)
         else:
-            logger.warning(f'The project to start: {project} is not in known projects')
+            logger.warning(f"The project to start: {project} is not in known projects")
             return None
-        logger.info(f'Research project: {index}')
+        logger.info(f"Research project: {index}")
         self.interval_clear([RESEARCH_START])
         self.popup_interval_clear()
         available = False
@@ -205,7 +201,7 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
             # Don't use interval here, RESEARCH_CHECK already appeared 5 seconds ago
             if click_timer.reached() and self.is_in_research():
                 i = (index - self._research_project_offset) % 5
-                logger.info(f'Project offset: {self._research_project_offset}, project {index} is at {i}')
+                logger.info(f"Project offset: {self._research_project_offset}, project {index} is at {i}")
                 self.device.click(RESEARCH_ENTRANCE[i])
                 self.ensure_research_stable()
                 click_count += 1
@@ -214,14 +210,16 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
             if max_rgb > 235 and self.appear_then_click(RESEARCH_START, offset=(5, 20), interval=10):
                 available = True
                 continue
-            if self.handle_popup_confirm('RESEARCH_START'):
+            if self.handle_popup_confirm("RESEARCH_START"):
                 continue
 
             # End
             if click_count >= 3:
-                logger.error('Unable to start a research project after 3 trail, '
-                             'probably because there is a research running but requirements not satisfied, '
-                             'or a research finished')
+                logger.error(
+                    "Unable to start a research project after 3 trail, "
+                    "probably because there is a research running but requirements not satisfied, "
+                    "or a research finished"
+                )
                 raise GameTooManyClickError
             if self.appear(RESEARCH_STOP, offset=(20, 20)):
                 # RESEARCH_STOP is a semi-transparent button,
@@ -234,9 +232,8 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
                 self.research_project_started = project
                 self._research_project_offset = (index - 2) % 5
                 return True
-            if not available and max_rgb <= 235 \
-                    and self.appear(RESEARCH_UNAVAILABLE, offset=(5, 20)):
-                logger.info('Not enough resources to start this project')
+            if not available and max_rgb <= 235 and self.appear(RESEARCH_UNAVAILABLE, offset=(5, 20)):
+                logger.info("Not enough resources to start this project")
                 self.research_detail_quit()
                 self.research_project_started = None
                 self._research_project_offset = (index - 2) % 5
@@ -262,9 +259,10 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
         # Project index, call it directly
         if isinstance(project, int):
             return self.research_project_start(project, add_queue=add_queue)
-        elif project.genre == 'E' and project.equipment_amount > 0:
-            logger.info(f'Going to start an E series research: {project} '
-                        f'and disassemble {project.equipment_amount} equipment')
+        elif project.genre == "E" and project.equipment_amount > 0:
+            logger.info(
+                f"Going to start an E series research: {project} and disassemble {project.equipment_amount} equipment"
+            )
             # Start it
             self.research_project_start(project, add_queue=False)
             # Disassemble
@@ -275,7 +273,7 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
             # Add to queue
             result = self.research_project_start(project, add_queue=add_queue)
             if result is None:
-                logger.error('Research project is missing after disassemble equipment')
+                logger.error("Research project is missing after disassemble equipment")
             return result
         else:
             # Normal project
@@ -294,10 +292,8 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
             bool: True if success to receive rewards.
                   False if project requirements are not satisfied.
         """
-        logger.hr('Research receive', level=3)
-        with self.stat.new(
-                genre='research', method=self.config.DropRecord_ResearchRecord
-        ) as record:
+        logger.hr("Research receive", level=3)
+        with self.stat.new(genre="research", method=self.config.DropRecord_ResearchRecord) as record:
             # Take screenshots of project list
             record.add(self.device.image)
 
@@ -315,7 +311,7 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
                         self.device.click(RESEARCH_ENTRANCE[self._research_finished_index])
 
                 if self.appear(RESEARCH_STOP, offset=(20, 20)):
-                    logger.info('The research time is up, but requirements are not satisfied')
+                    logger.info("The research time is up, but requirements are not satisfied")
                     self.research_project_started = None
                     self.research_detail_quit()
                     return False
@@ -330,7 +326,7 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
                         if confirm_timer.reached():
                             break
                     else:
-                        logger.info(f'{appear_button} appeared')
+                        logger.info(f"{appear_button} appeared")
                         record_button = appear_button
                         confirm_timer.reset()
 
@@ -338,8 +334,12 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
             self.drop_record(drop=record)
 
         # Close GET_ITEMS_*, to project list
-        self.ui_click(appear_button=self.get_items, click_button=GET_ITEMS_RESEARCH_SAVE,
-                      check_button=self.is_in_research, skip_first_screenshot=True)
+        self.ui_click(
+            appear_button=self.get_items,
+            click_button=GET_ITEMS_RESEARCH_SAVE,
+            check_button=self.is_in_research,
+            skip_first_screenshot=True,
+        )
         return True
 
     def queue_receive(self, skip_first_screenshot=True):
@@ -354,11 +354,9 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
         Returns:
             int: Number of research project received
         """
-        logger.hr('Queue receive', level=1)
+        logger.hr("Queue receive", level=1)
         total = 0
-        with self.stat.new(
-                genre='research', method=self.config.DropRecord_ResearchRecord
-        ) as drop:
+        with self.stat.new(genre="research", method=self.config.DropRecord_ResearchRecord) as drop:
             # Take screenshots of project list
             drop.add(self.device.image)
 
@@ -395,7 +393,7 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
                                 total += 1
                                 continue
                         else:
-                            logger.info(f'{appear_button} appeared')
+                            logger.info(f"{appear_button} appeared")
                             record_button = appear_button
                             item_confirm.reset()
                     else:
@@ -418,7 +416,7 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
             if total <= 0:
                 drop.clear()
 
-        logger.info(f'Received rewards from {total} projects')
+        logger.info(f"Received rewards from {total} projects")
         return total
 
     def queue_quit(self, *args, **kwargs):
@@ -454,7 +452,7 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
         self.research_project_started = None
         project_record = None
         for _ in range(2):
-            logger.hr('Research select', level=2)
+            logger.hr("Research select", level=2)
             self.research_project_list_init(from_queue=True)
             project_record = self.device.image
             priority = self.research_sort_filter()
@@ -479,31 +477,29 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
         Pages:
             in: is_in_research
         """
-        logger.hr('Research fill queue', level=1)
+        logger.hr("Research fill queue", level=1)
         total = 0
-        with self.stat.new(
-                genre='research', method=self.config.DropRecord_ResearchRecord
-        ) as drop:
+        with self.stat.new(genre="research", method=self.config.DropRecord_ResearchRecord) as drop:
             for _ in range(5):
                 if self.get_queue_slot() > 0:
                     success = self.research_queue_append(drop=drop)
                     if success:
                         total += 1
                     else:
-                        logger.info(f'Unable to start a project, stop filling queue, queue added: {total}')
+                        logger.info(f"Unable to start a project, stop filling queue, queue added: {total}")
                         return total
                 else:
                     break
 
             # Run the 6th project
             status = self.get_research_status(self.device.image)
-            if 'waiting' not in status:
-                logger.info('Select the 6th research')
+            if "waiting" not in status:
+                logger.info("Select the 6th research")
                 self.research_queue_append(drop=drop, add_queue=False)
             else:
-                logger.info('6th research already waiting')
+                logger.info("6th research already waiting")
 
-            logger.info(f'Research queue full filled, queue added: {total}')
+            logger.info(f"Research queue full filled, queue added: {total}")
             return total
 
     def receive_6th_research(self, skip_first_screenshot=True):
@@ -511,7 +507,7 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
         Returns:
             bool: If success
         """
-        logger.hr('Receive 6th research', level=2)
+        logger.hr("Receive 6th research", level=2)
 
         # Wait animations
         timeout = Timer(2, count=6).start()
@@ -522,47 +518,47 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
                 self.device.screenshot()
 
             if timeout.reached():
-                logger.warning('receive_6th_research wait timeout')
+                logger.warning("receive_6th_research wait timeout")
                 break
 
             status = self.get_research_status(self.device.image)
             # Project cards haven't fully loaded
-            if 'unknown' in status:
+            if "unknown" in status:
                 continue
             # When entering research, `waiting` (queued) project appears at the 2nd, then move to the 3rd
             # When received rewards from queue then goto research,
             # `waiting` (queued) project appears at the 4th, then move to the 3rd
             # A `waiting` (queued) project should be at the 3rd slot by default
-            if 'waiting' in status:
-                if status.index('waiting') == 2:
+            if "waiting" in status:
+                if status.index("waiting") == 2:
                     break
                 else:
                     continue
             # No 6th research
-            if sum([s == 'detail' for s in status]) == 5:
+            if sum([s == "detail" for s in status]) == 5:
                 break
 
         # Check if it's finished
         if self.research_has_finished():
-            logger.info(f'6th research finished at: {self._research_finished_index}')
+            logger.info(f"6th research finished at: {self._research_finished_index}")
             success = self.research_receive()
             if not success:
                 return False
         else:
-            logger.info('No research has finished')
+            logger.info("No research has finished")
 
         # Check if it's waiting or running
         status = self.get_research_status(self.device.image)
-        if 'waiting' in status:
+        if "waiting" in status:
             if self.get_queue_slot() > 0:
-                self.research_project_start(status.index('waiting'))
+                self.research_project_start(status.index("waiting"))
             else:
-                logger.info('Queue full, stop appending waiting research')
-        if 'running' in status:
+                logger.info("Queue full, stop appending waiting research")
+        if "running" in status:
             if self.get_queue_slot() > 0:
-                self.research_project_start(status.index('running'))
+                self.research_project_start(status.index("running"))
             else:
-                logger.info('Queue full, stop appending running research')
+                logger.info("Queue full, stop appending running research")
 
         return True
 

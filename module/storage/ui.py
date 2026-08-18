@@ -2,8 +2,17 @@ from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2
 from module.logger import logger
-from module.storage.assets import DISASSEMBLE, DISASSEMBLE_CANCEL, DISASSEMBLE_CONFIRM, EQUIPMENT_ENTER, \
-    EQUIPMENT_FILTER, EQUIPMENT_FILTER_CONFIRM, MATERIAL_CHECK, MATERIAL_ENTER, MATERIAL_STABLE_CHECK
+from module.storage.assets import (
+    DISASSEMBLE,
+    DISASSEMBLE_CANCEL,
+    DISASSEMBLE_CONFIRM,
+    EQUIPMENT_ENTER,
+    EQUIPMENT_FILTER,
+    EQUIPMENT_FILTER_CONFIRM,
+    MATERIAL_CHECK,
+    MATERIAL_ENTER,
+    MATERIAL_STABLE_CHECK,
+)
 from module.ui.assets import STORAGE_CHECK
 from module.ui.page import page_storage
 from module.ui.setting import Setting
@@ -15,13 +24,14 @@ class StorageUI(UI):
     def storage_filter(self) -> Setting:
         delta = (147 + 1 / 3, 57)
         button_shape = (139, 42)
-        setting = Setting(name='STORAGE', main=self)
+        setting = Setting(name="STORAGE", main=self)
         setting.add_setting(
-            setting='rarity',
+            setting="rarity",
             option_buttons=ButtonGrid(
-                origin=(219, 444), delta=delta, button_shape=button_shape, grid_shape=(7, 1), name='FILTER_RARITY'),
-            option_names=['all', 'common', 'rare', 'elite', 'super_rare', 'ultra_rare', 'not_available'],
-            option_default='all'
+                origin=(219, 444), delta=delta, button_shape=button_shape, grid_shape=(7, 1), name="FILTER_RARITY"
+            ),
+            option_names=["all", "common", "rare", "elite", "super_rare", "ultra_rare", "not_available"],
+            option_default="all",
         )
         return setting
 
@@ -49,7 +59,7 @@ class StorageUI(UI):
             in: page_storage, any
             out: page_storage, material, MATERIAL_CHECK
         """
-        logger.info('storage enter material')
+        logger.info("storage enter material")
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -65,13 +75,13 @@ class StorageUI(UI):
                 continue
             # equipment -> material
             if self.appear(DISASSEMBLE, offset=(20, 20), interval=3):
-                logger.info('DISASSEMBLE -> MATERIAL_ENTER')
+                logger.info("DISASSEMBLE -> MATERIAL_ENTER")
                 self.device.click(MATERIAL_ENTER)
                 self.interval_reset(STORAGE_CHECK)
                 continue
             # design -> material
             if self.appear(STORAGE_CHECK, offset=(20, 20), interval=3):
-                logger.info('DISASSEMBLE -> MATERIAL_ENTER')
+                logger.info("DISASSEMBLE -> MATERIAL_ENTER")
                 self.device.click(MATERIAL_ENTER)
                 continue
 
@@ -83,7 +93,7 @@ class StorageUI(UI):
             in: page_storage, any
             out: page_storage, equipment, DISASSEMBLE
         """
-        logger.info('storage enter equipment')
+        logger.info("storage enter equipment")
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -99,13 +109,13 @@ class StorageUI(UI):
                 continue
             # material -> equipment
             if self._storage_in_material(interval=3):
-                logger.info('_storage_in_material -> EQUIPMENT_ENTER')
+                logger.info("_storage_in_material -> EQUIPMENT_ENTER")
                 self.device.click(EQUIPMENT_ENTER)
                 self.interval_reset(STORAGE_CHECK)
                 continue
             # design -> equipment
             if self.appear(STORAGE_CHECK, offset=(20, 20), interval=3):
-                logger.info('STORAGE_CHECK -> EQUIPMENT_ENTER')
+                logger.info("STORAGE_CHECK -> EQUIPMENT_ENTER")
                 self.device.click(EQUIPMENT_ENTER)
                 continue
 
@@ -117,7 +127,7 @@ class StorageUI(UI):
             in: page_storage, any
             out: page_storage, disassemble, DISASSEMBLE_CANCEL
         """
-        logger.info('storage enter disassemble')
+        logger.info("storage enter disassemble")
         self.appear(STORAGE_CHECK, interval=3)
         while 1:
             if skip_first_screenshot:
@@ -135,20 +145,20 @@ class StorageUI(UI):
                 continue
             # material -> equipment
             if self._storage_in_material(interval=3):
-                logger.info('_storage_in_material -> EQUIPMENT_ENTER')
+                logger.info("_storage_in_material -> EQUIPMENT_ENTER")
                 self.device.click(EQUIPMENT_ENTER)
                 self.interval_reset(STORAGE_CHECK)
                 continue
             # design -> equipment
             if self.appear(STORAGE_CHECK, offset=(20, 20), interval=3):
-                logger.info('STORAGE_CHECK -> EQUIPMENT_ENTER')
+                logger.info("STORAGE_CHECK -> EQUIPMENT_ENTER")
                 self.device.click(EQUIPMENT_ENTER)
                 continue
 
         self.interval_clear(STORAGE_CHECK)
 
     def _equipment_filter_enter(self):
-        logger.info('Equipment filter enter')
+        logger.info("Equipment filter enter")
         self.interval_clear(STORAGE_CHECK)
         for _ in self.loop():
             if self.appear(EQUIPMENT_FILTER_CONFIRM, offset=(20, 20)):
@@ -157,21 +167,21 @@ class StorageUI(UI):
                 self.device.click(EQUIPMENT_FILTER)
                 continue
             if self.appear(GET_ITEMS_1, offset=(5, 5), interval=3):
-                logger.info(f'{GET_ITEMS_1} -> {DISASSEMBLE_CONFIRM}')
+                logger.info(f"{GET_ITEMS_1} -> {DISASSEMBLE_CONFIRM}")
                 self.device.click(DISASSEMBLE_CONFIRM)
                 continue
             if self.appear(GET_ITEMS_2, offset=(5, 5), interval=3):
-                logger.info(f'{GET_ITEMS_2} -> {DISASSEMBLE_CONFIRM}')
+                logger.info(f"{GET_ITEMS_2} -> {DISASSEMBLE_CONFIRM}")
                 self.device.click(DISASSEMBLE_CONFIRM)
                 continue
 
     def _equipment_filter_confirm(self):
-        logger.info('Equipment filter confirm')
+        logger.info("Equipment filter confirm")
         self.interval_clear(EQUIPMENT_FILTER_CONFIRM)
         self.ui_click(EQUIPMENT_FILTER_CONFIRM, check_button=STORAGE_CHECK, skip_first_screenshot=True)
         self._wait_until_storage_stable()
 
-    def equipment_filter_set(self, rarity='all'):
+    def equipment_filter_set(self, rarity="all"):
         """
         A faster filter set function.
 
@@ -183,11 +193,11 @@ class StorageUI(UI):
             in: DISASSEMBLE
         """
         rarity_convert = {
-            '1': 'common',
-            '2': 'rare',
-            '3': 'elite',
-            '4': 'super_rare',
-            '5': 'ultra_rare',
+            "1": "common",
+            "2": "rare",
+            "3": "elite",
+            "4": "super_rare",
+            "5": "ultra_rare",
         }
         rarity = rarity_convert.get(str(rarity), rarity)
         self._equipment_filter_enter()

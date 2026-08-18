@@ -2,7 +2,7 @@ from module.base.timer import Timer
 from module.combat.assets import GET_ITEMS_1
 from module.config.utils import get_server_next_update
 from module.logger import logger
-from module.meowfficer.assets import *
+from module.meowfficer.assets import *  # noqa: F403  (data-bundle star import)
 from module.ui.assets import MEOWFFICER_CHECK, MEOWFFICER_INFO
 from module.ui.ui import UI
 
@@ -60,7 +60,7 @@ class MeowfficerBase(UI):
             in: MEOWFFICER_FORT_CHECK, MEOWFFICER_BUY, MEOWFFICER_TRAIN_START, etc
             out: page_meowfficer
         """
-        logger.hr('Meowfficer menu close')
+        logger.hr("Meowfficer menu close")
         click_timer = Timer(3)
         while 1:
             if skip_first_screenshot:
@@ -147,10 +147,9 @@ class MeowfficerBase(UI):
         Returns:
             bool:
         """
-        if self.appear(MEOWFFICER_CONFIRM, offset=(40, 20), interval=5):
-            self.device.click(MEOWFFICER_CHECK)
-            return True
-        elif self.appear(MEOWFFICER_CANCEL, offset=(40, 20), interval=5):
+        if self.appear(MEOWFFICER_CONFIRM, offset=(40, 20), interval=5) or self.appear(
+            MEOWFFICER_CANCEL, offset=(40, 20), interval=5
+        ):
             self.device.click(MEOWFFICER_CHECK)
             return True
         else:

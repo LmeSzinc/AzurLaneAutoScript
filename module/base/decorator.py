@@ -1,9 +1,50 @@
 import random
 import re
+from collections.abc import Callable
 from functools import wraps
-from typing import Callable, Generic, TypeVar
+from typing import TypeVar
 
 T = TypeVar("T")
+
+
+class cached_class_property[T]:
+    """
+    Code from https://github.com/dssg/dickens
+    Add typing support
+
+    Descriptor decorator implementing a class-level, read-only
+    property, which caches its results on the class(es) on which it
+    operates.
+    Inheritance is supported, insofar as the descriptor is never hidden
+    by its cache; rather, it stores values under its access name with
+    added underscores. For example, when wrapping getters named
+    "choices", "choices_" or "_choices", each class's result is stored
+    on the class at "_choices_"; decoration of a getter named
+    "_choices_" would raise an exception.
+
+    Moved from module.webui.setting (P2.1): base must not depend on the
+    webui layer.
+    """
+
+    class AliasConflict(ValueError):
+        pass
+
+    def __init__(self, func: Callable[..., T]):
+        self.__func__ = func
+        self.__cache_name__ = "_{}_".format(func.__name__.strip("_"))
+        if self.__cache_name__ == func.__name__:
+            raise self.AliasConflict(self.__cache_name__)
+
+    def __get__(self, instance, cls=None) -> T:
+        if cls is None:
+            cls = type(instance)
+
+        try:
+            return vars(cls)[self.__cache_name__]
+        except KeyError:
+            result = self.__func__(cls)
+            setattr(cls, self.__cache_name__, result)
+            return result
 
 
 class Config:
@@ -18,6 +59,7 @@ class Config:
         ]
     }
     """
+
     func_list = {}
 
     @classmethod
@@ -36,18 +78,19 @@ class Config:
                 pass
         """
         from module.logger import logger
+
         options = kwargs
 
         def decorate(func):
             name = func.__name__
-            data = {'options': options, 'func': func}
+            data = {"options": options, "func": func}
             if name not in cls.func_list:
                 cls.func_list[name] = [data]
             else:
                 override = False
                 for record in cls.func_list[name]:
-                    if record['options'] == data['options']:
-                        record['func'] = data['func']
+                    if record["options"] == data["options"]:
+                        record["func"] = data["func"]
                         override = True
                 if not override:
                     cls.func_list[name].append(data)
@@ -61,15 +104,16 @@ class Config:
                     **kwargs:
                 """
                 for record in cls.func_list[name]:
-
-                    flag = [value is None or self.config.__getattribute__(key) == value
-                            for key, value in record['options'].items()]
+                    flag = [
+                        value is None or self.config.__getattribute__(key) == value
+                        for key, value in record["options"].items()
+                    ]
                     if not all(flag):
                         continue
 
-                    return record['func'](self, *args, **kwargs)
+                    return record["func"](self, *args, **kwargs)
 
-                logger.warning(f'No option fits for {name}, using the last define func.')
+                logger.warning(f"No option fits for {name}, using the last define func.")
                 return func(self, *args, **kwargs)
 
             return wrapper
@@ -77,7 +121,7 @@ class Config:
         return decorate
 
 
-class cached_property(Generic[T]):
+class cached_property[T]:
     """
     cached-property from https://github.com/pydanny/cached-property
     Add typing support
@@ -161,16 +205,16 @@ def function_drop(rate=0.5, default=None):
             if random.uniform(0, 1) > rate:
                 return func(*args, **kwargs)
             else:
-                cls = ''
+                cls = ""
                 arguments = [str(arg) for arg in args]
                 if len(arguments):
-                    matched = re.search('<(.*?) object at', arguments[0])
+                    matched = re.search("<(.*?) object at", arguments[0])
                     if matched:
-                        cls = matched.group(1) + '.'
+                        cls = matched.group(1) + "."
                         arguments.pop(0)
-                arguments += [f'{k}={v}' for k, v in kwargs.items()]
-                arguments = ', '.join(arguments)
-                logger.info(f'Dropped: {cls}{func.__name__}({arguments})')
+                arguments += [f"{k}={v}" for k, v in kwargs.items()]
+                arguments = ", ".join(arguments)
+                logger.info(f"Dropped: {cls}{func.__name__}({arguments})")
                 return default
 
         return wrapper

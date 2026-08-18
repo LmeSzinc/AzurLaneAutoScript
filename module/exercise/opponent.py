@@ -2,7 +2,7 @@ import numpy as np
 
 from module.base.button import ButtonGrid
 from module.base.utils import image_left_strip
-from module.exercise.assets import *
+from module.exercise.assets import *  # noqa: F403  (data-bundle star import)
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.ui.assets import BACK_ARROW
@@ -22,7 +22,7 @@ class Level(Digit):
         image = super().pre_process(image)
         image = image_left_strip(image, threshold=85, length=22)
 
-        image = np.pad(image, ((5, 6), (0, 5)), mode='constant', constant_values=255)
+        image = np.pad(image, ((5, 6), (0, 5)), mode="constant", constant_values=255)
         return image.astype(np.uint8)
 
 
@@ -33,12 +33,9 @@ class Opponent:
         self.level = self.get_level(image=fleet_image)
 
         # [OPPONENT_1] ( 8256) 120 120 120 | (12356) 100  80  80
-        level = [str(x).rjust(3, ' ') for x in self.level]
-        power = ['(' + str(x).rjust(5, ' ') + ')' for x in self.power]
-        logger.attr(
-            'OPPONENT_%s' % index,
-            ' '.join([power[0]] + level[:3] + ['|'] + [power[1]] + level[3:])
-        )
+        level = [str(x).rjust(3, " ") for x in self.level]
+        power = ["(" + str(x).rjust(5, " ") + ")" for x in self.power]
+        logger.attr("OPPONENT_%s" % index, " ".join([power[0], *level[:3], "|", power[1], *level[3:]]))
 
     @staticmethod
     def get_level(image):
@@ -50,10 +47,14 @@ class Opponent:
             list[int]: Fleet level, such as [120, 120, 120, 120, 120, 120].
         """
         level = []
-        level += ButtonGrid(origin=(130, 259), delta=(168, 0), button_shape=(58, 21), grid_shape=(3, 1), name='LEVEL').buttons
-        level += ButtonGrid(origin=(832, 259), delta=(168, 0), button_shape=(58, 21), grid_shape=(3, 1), name='LEVEL').buttons
+        level += ButtonGrid(
+            origin=(130, 259), delta=(168, 0), button_shape=(58, 21), grid_shape=(3, 1), name="LEVEL"
+        ).buttons
+        level += ButtonGrid(
+            origin=(832, 259), delta=(168, 0), button_shape=(58, 21), grid_shape=(3, 1), name="LEVEL"
+        ).buttons
 
-        level = Level(level, name='LEVEL', letter=(255, 255, 255), threshold=128)
+        level = Level(level, name="LEVEL", letter=(255, 255, 255), threshold=128)
         result = level.ocr(image)
         return result
 
@@ -65,10 +66,10 @@ class Opponent:
         Returns:
             list[int]: Fleet power, such as [14848, 13477].
         """
-        grids = ButtonGrid(origin=(222, 257), delta=(244, 30), button_shape=(72, 28), grid_shape=(4, 2), name='POWER')
+        grids = ButtonGrid(origin=(222, 257), delta=(244, 30), button_shape=(72, 28), grid_shape=(4, 2), name="POWER")
         power = [grids[self.index, 0], grids[self.index, 1]]
 
-        power = Digit(power, name='POWER', letter=(255, 223, 57), threshold=128)
+        power = Digit(power, name="POWER", letter=(255, 223, 57), threshold=128)
         result = power.ocr(image)
         return result
 
@@ -100,13 +101,21 @@ class OpponentChoose(UI):
         self.main_image = self.device.image
 
         for index in range(4):
-            self.ui_click(click_button=OPPONENT[index, 0], check_button=EXERCISE_PREPARATION,
-                          appear_button=NEW_OPPONENT, skip_first_screenshot=True)
+            self.ui_click(
+                click_button=OPPONENT[index, 0],
+                check_button=EXERCISE_PREPARATION,
+                appear_button=NEW_OPPONENT,
+                skip_first_screenshot=True,
+            )
 
             self.opponents.append(Opponent(main_image=self.main_image, fleet_image=self.device.image, index=index))
 
-            self.ui_click(click_button=BACK_ARROW, check_button=NEW_OPPONENT,
-                          appear_button=EXERCISE_PREPARATION, skip_first_screenshot=True)
+            self.ui_click(
+                click_button=BACK_ARROW,
+                check_button=NEW_OPPONENT,
+                appear_button=EXERCISE_PREPARATION,
+                skip_first_screenshot=True,
+            )
 
     def _opponent_sort(self, method="max_exp"):
         """
@@ -117,6 +126,6 @@ class OpponentChoose(UI):
             list[int]: List of opponent index, such as [2, 1, 0, 3].
                        Attack one by one.
         """
-        order = np.argsort([- x.get_priority(method) for x in self.opponents])
-        logger.attr('Order', str(order))
+        order = np.argsort([-x.get_priority(method) for x in self.opponents])
+        logger.attr("Order", str(order))
         return order

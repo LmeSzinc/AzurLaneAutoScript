@@ -4,20 +4,22 @@ from module.base.button import ButtonGrid
 from module.base.decorator import Config, cached_property
 from module.base.filter import Filter
 from module.base.timer import Timer
-from module.base.utils import *
+from module.base.utils import area_offset, color_mapping, get_color, np, rgb2gray
 from module.combat.assets import GET_ITEMS_1
 from module.exception import GameBugError
-from module.guild.assets import *
+from module.guild.assets import *  # noqa: F403  (data-bundle star import)
 from module.guild.base import GuildBase
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.statistics.item import ItemGrid
 
 EXCHANGE_GRIDS = ButtonGrid(
-    origin=(470, 470), delta=(198.5, 0), button_shape=(83, 83), grid_shape=(3, 1), name='EXCHANGE_GRIDS')
+    origin=(470, 470), delta=(198.5, 0), button_shape=(83, 83), grid_shape=(3, 1), name="EXCHANGE_GRIDS"
+)
 EXCHANGE_BUTTONS = ButtonGrid(
-    origin=(440, 609), delta=(198.5, 0), button_shape=(144, 31), grid_shape=(3, 1), name='EXCHANGE_BUTTONS')
-EXCHANGE_FILTER = Filter(regex=re.compile('^(.*?)$'), attr=('name',))
+    origin=(440, 609), delta=(198.5, 0), button_shape=(144, 31), grid_shape=(3, 1), name="EXCHANGE_BUTTONS"
+)
+EXCHANGE_FILTER = Filter(regex=re.compile("^(.*?)$"), attr=("name",))
 
 
 class ExchangeLimitOcr(Digit):
@@ -40,9 +42,8 @@ class GuildLogistics(GuildBase):
 
     @cached_property
     def exchange_items(self):
-        item_grid = ItemGrid(
-            EXCHANGE_GRIDS, {}, template_area=(40, 21, 89, 70), amount_area=(60, 71, 91, 92))
-        item_grid.load_template_folder('./assets/stats_basic')
+        item_grid = ItemGrid(EXCHANGE_GRIDS, {}, template_area=(40, 21, 89, 70), amount_area=(60, 71, 91, 92))
+        item_grid.load_template_folder("./assets/stats_basic")
         return item_grid
 
     def _is_in_guild_logistics(self):
@@ -56,8 +57,9 @@ class GuildLogistics(GuildBase):
             out: GUILD_LOGISTICS
         """
         # Axis (181, 97, 99) and Azur (148, 178, 255)
-        if self.image_color_count(GUILD_LOGISTICS_ENSURE_CHECK, color=(181, 97, 99), threshold=221, count=400) or \
-                self.image_color_count(GUILD_LOGISTICS_ENSURE_CHECK, color=(148, 178, 255), threshold=221, count=400):
+        if self.image_color_count(
+            GUILD_LOGISTICS_ENSURE_CHECK, color=(181, 97, 99), threshold=221, count=400
+        ) or self.image_color_count(GUILD_LOGISTICS_ENSURE_CHECK, color=(148, 178, 255), threshold=221, count=400):
             return True
         else:
             return False
@@ -79,7 +81,7 @@ class GuildLogistics(GuildBase):
             if self._is_in_guild_logistics():
                 break
 
-    @Config.when(SERVER='en')
+    @Config.when(SERVER="en")
     def _guild_logistics_mission_available(self):
         """
         Color sample the GUILD_MISSION area to determine
@@ -98,21 +100,20 @@ class GuildLogistics(GuildBase):
         r, g, b = get_color(self.device.image, GUILD_MISSION.area)
         if g > max(r, b) - 10:
             # Green tick at the bottom right corner if guild mission finished
-            logger.info('Guild mission has finished this week')
+            logger.info("Guild mission has finished this week")
             self._guild_logistics_mission_finished = True
             return False
         # 0/300 in EN is bold and pure white, and Collect rewards is blue white, so reverse the if condition
         elif self.image_color_count(GUILD_MISSION, color=(255, 255, 255), threshold=235, count=100):
-
-            logger.info('Guild mission button inactive')
+            logger.info("Guild mission button inactive")
             return False
         elif self.image_color_count(GUILD_MISSION, color=(255, 255, 255), threshold=180, count=50):
             # white pixels less than 50, but has blue-white pixels
-            logger.info('Guild mission button active')
+            logger.info("Guild mission button active")
             return True
         else:
             # No guild mission counter
-            logger.info('No guild mission found, mission of this week may not started')
+            logger.info("No guild mission found, mission of this week may not started")
             return False
             # if self.image_color_count(GUILD_MISSION_CHOOSE, color=(255, 255, 255), threshold=221, count=100):
             #     # Guild mission choose available if user is guild master
@@ -122,7 +123,7 @@ class GuildLogistics(GuildBase):
             #     logger.info('Guild mission choose not found')
             #     return False
 
-    @Config.when(SERVER='jp')
+    @Config.when(SERVER="jp")
     def _guild_logistics_mission_available(self):
         """
         Color sample the GUILD_MISSION area to determine
@@ -141,20 +142,20 @@ class GuildLogistics(GuildBase):
         r, g, b = get_color(self.device.image, GUILD_MISSION.area)
         if g > max(r, b) - 10:
             # Green tick at the bottom right corner if guild mission finished
-            logger.info('Guild mission has finished this week')
+            logger.info("Guild mission has finished this week")
             self._guild_logistics_mission_finished = True
             return False
         elif self.image_color_count(GUILD_MISSION, color=(255, 255, 255), threshold=254, count=50):
             # 0/300 in JP is (255, 255, 255)
-            logger.info('Guild mission button inactive')
+            logger.info("Guild mission button inactive")
             return False
         elif self.image_color_count(GUILD_MISSION, color=(255, 255, 255), threshold=180, count=400):
             # (255, 255, 255) less than 50, but has many blue-white pixels
-            logger.info('Guild mission button active')
+            logger.info("Guild mission button active")
             return True
         elif not self.image_color_count(GUILD_MISSION, color=(255, 255, 255), threshold=180, count=50):
             # No guild mission counter
-            logger.info('No guild mission found, mission of this week may not started')
+            logger.info("No guild mission found, mission of this week may not started")
             # Guild mission choose in JP server disabled until we get the screenshot.
             return False
             # if self.image_color_count(GUILD_MISSION_CHOOSE, color=(255, 255, 255), threshold=221, count=100):
@@ -165,7 +166,7 @@ class GuildLogistics(GuildBase):
             #     logger.info('Guild mission choose not found')
             #     return False
         else:
-            logger.info('Unknown guild mission condition. Skipped.')
+            logger.info("Unknown guild mission condition. Skipped.")
             return False
 
     @Config.when(SERVER=None)
@@ -187,16 +188,16 @@ class GuildLogistics(GuildBase):
         r, g, b = get_color(self.device.image, GUILD_MISSION.area)
         if g > max(r, b) - 10:
             # Green tick at the bottom right corner if guild mission finished
-            logger.info('Guild mission has finished this week')
+            logger.info("Guild mission has finished this week")
             self._guild_logistics_mission_finished = True
             return False
         elif self.image_color_count(GUILD_MISSION, color=(255, 255, 255), threshold=180, count=400):
             # Unfinished mission accept/collect range from about 240 to 322
-            logger.info('Guild mission button active')
+            logger.info("Guild mission button active")
             return True
         elif not self.image_color_count(GUILD_MISSION, color=(255, 255, 255), threshold=180, count=50):
             # No guild mission counter
-            logger.info('No guild mission found, mission of this week may not started')
+            logger.info("No guild mission found, mission of this week may not started")
             return False
             # if self.image_color_count(GUILD_MISSION_CHOOSE, color=(255, 255, 255), threshold=221, count=100):
             #     # Guild mission choose available if user is guild master
@@ -206,7 +207,7 @@ class GuildLogistics(GuildBase):
             #     logger.info('Guild mission choose not found')
             #     return False
         else:
-            logger.info('Guild mission button inactive')
+            logger.info("Guild mission button inactive")
             return False
 
     def _guild_logistics_supply_available(self):
@@ -228,10 +229,10 @@ class GuildLogistics(GuildBase):
         if np.max(color) > np.mean(color) + 25:
             # For members, click to receive supply
             # For leaders, click to buy supply and receive supply
-            logger.info('Guild supply button active')
+            logger.info("Guild supply button active")
             return True
         else:
-            logger.info('Guild supply button inactive')
+            logger.info("Guild supply button inactive")
             return False
 
     def _handle_guild_fleet_mission_start(self):
@@ -270,8 +271,8 @@ class GuildLogistics(GuildBase):
             in: GUILD_LOGISTICS
             out: GUILD_LOGISTICS
         """
-        logger.hr('Guild logistics')
-        logger.attr('Guild master/official', self.config.GuildLogistics_SelectNewMission)
+        logger.hr("Guild logistics")
+        logger.attr("Guild master/official", self.config.GuildLogistics_SelectNewMission)
         confirm_timer = Timer(1.5, count=3).start()
         exchange_interval = Timer(1.5, count=3)
         click_interval = Timer(0.5, count=1)
@@ -287,7 +288,7 @@ class GuildLogistics(GuildBase):
                 self.device.screenshot()
 
             # Handle all popups
-            if self.handle_popup_confirm('GUILD_LOGISTICS'):
+            if self.handle_popup_confirm("GUILD_LOGISTICS"):
                 confirm_timer.reset()
                 exchange_interval.reset()
                 continue
@@ -338,15 +339,16 @@ class GuildLogistics(GuildBase):
                     # Restart the game can't fix the problem.
                     # To fix this, you have to enter guild logistics once, then restart.
                     # If exchange for 5 times, this bug is considered to be triggered.
-                    logger.warning(
-                        'Unable to do guild exchange, probably because the timer in game was bugged')
-                    raise GameBugError('Triggered guild logistics refresh bug')
+                    logger.warning("Unable to do guild exchange, probably because the timer in game was bugged")
+                    raise GameBugError("Triggered guild logistics refresh bug")
 
             else:
                 confirm_timer.reset()
 
-        logger.info(f'supply_checked: {supply_checked}, mission_checked: {mission_checked}, '
-                    f'exchange_checked: {exchange_checked}, mission_finished: {self._guild_logistics_mission_finished}')
+        logger.info(
+            f"supply_checked: {supply_checked}, mission_checked: {mission_checked}, "
+            f"exchange_checked: {exchange_checked}, mission_finished: {self._guild_logistics_mission_finished}"
+        )
         # Azur Lane receives new guild missions now
         # No longer consider `self._guild_logistics_mission_finished` as a check
         return all([supply_checked, mission_checked, exchange_checked])
@@ -375,8 +377,8 @@ class GuildLogistics(GuildBase):
             else:
                 item.enough = True
 
-        text = [str(item.name) if item.enough else str(item.name) + ' (not enough)' for item in items]
-        logger.info(f'Exchange items: {", ".join(text)}')
+        text = [str(item.name) if item.enough else str(item.name) + " (not enough)" for item in items]
+        logger.info(f"Exchange items: {', '.join(text)}")
         return items
 
     def _guild_exchange(self):
@@ -399,7 +401,7 @@ class GuildLogistics(GuildBase):
         items = self._guild_exchange_scan()
         EXCHANGE_FILTER.load(self.config.GuildLogistics_ExchangeFilter)
         selected = EXCHANGE_FILTER.apply(items, func=lambda item: item.enough)
-        logger.attr('Exchange_sort', ' > '.join([str(item.name) for item in selected]))
+        logger.attr("Exchange_sort", " > ".join([str(item.name) for item in selected]))
 
         if len(selected):
             button = EXCHANGE_BUTTONS.buttons[items.index(selected[0])]
@@ -407,7 +409,7 @@ class GuildLogistics(GuildBase):
             self.device.click(button)
             return True
         else:
-            logger.warning('No guild exchange items satisfy current filter, or not having enough resources')
+            logger.warning("No guild exchange items satisfy current filter, or not having enough resources")
             return False
 
     def guild_logistics(self):
@@ -421,10 +423,10 @@ class GuildLogistics(GuildBase):
             in: page_guild
             out: page_guild, GUILD_LOGISTICS
         """
-        logger.hr('Guild logistics', level=1)
+        logger.hr("Guild logistics", level=1)
         self.guild_side_navbar_ensure(bottom=3)
         self._guild_logistics_ensure()
 
         result = self._guild_logistics_collect()
-        logger.info(f'Guild logistics run success: {result}')
+        logger.info(f"Guild logistics run success: {result}")
         return result

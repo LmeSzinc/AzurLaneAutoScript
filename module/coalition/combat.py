@@ -1,6 +1,6 @@
 from module.base.timer import Timer
 from module.campaign.campaign_base import CampaignBase
-from module.coalition.assets import *
+from module.coalition.assets import *  # noqa: F403  (data-bundle star import)
 from module.coalition.ui import CoalitionUI
 from module.exception import CampaignEnd
 from module.logger import logger
@@ -16,7 +16,7 @@ class CoalitionCombat(CoalitionUI, CampaignBase):
             in: battle_status
             out: is_combat_executing
         """
-        logger.info('Coalition combat re-enter')
+        logger.info("Coalition combat re-enter")
         status_clicked = False
         click_timer = Timer(0.3)
         click_last = Timer(1, count=3)
@@ -70,12 +70,11 @@ class CoalitionCombat(CoalitionUI, CampaignBase):
 
         try:
             while 1:
-                logger.hr(f'{self.FUNCTION_NAME_BASE}{self.battle_count}', level=2)
+                logger.hr(f"{self.FUNCTION_NAME_BASE}{self.battle_count}", level=2)
                 self.auto_search_combat_execute(
-                    emotion_reduce=self.battle_count == 0 or self.config.Coalition_Fleet == 'single',
-                    fleet_index=1
+                    emotion_reduce=self.battle_count == 0 or self.config.Coalition_Fleet == "single", fleet_index=1
                 )
                 self.coalition_combat_re_enter()
                 self.battle_count += 1
         except CampaignEnd:
-            logger.info('Coalition combat end.')
+            logger.info("Coalition combat end.")

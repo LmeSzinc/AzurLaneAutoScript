@@ -1,6 +1,6 @@
 from module.base.timer import Timer
 from module.logger import logger
-from module.os_handler.assets import *
+from module.os_handler.assets import *  # noqa: F403  (data-bundle star import)
 from module.os_shop.assets import PORT_SUPPLY_CHECK
 from module.os_shop.shop import OSShop
 
@@ -17,7 +17,7 @@ class PortHandler(OSShop):
             in: IN_MAP
             out: PORT_CHECK
         """
-        logger.info('Port enter')
+        logger.info("Port enter")
         for _ in self.loop():
             if self.appear(PORT_CHECK, offset=(20, 20)):
                 break
@@ -34,9 +34,8 @@ class PortHandler(OSShop):
             in: PORT_CHECK
             out: IN_MAP
         """
-        logger.info('Port quit')
-        self.ui_back(appear_button=PORT_CHECK, check_button=self.is_in_map,
-                     skip_first_screenshot=skip_first_screenshot)
+        logger.info("Port quit")
+        self.ui_back(appear_button=PORT_CHECK, check_button=self.is_in_map, skip_first_screenshot=skip_first_screenshot)
         # Buttons at the bottom has an animation to show
         self.wait_os_map_buttons()
 
@@ -55,11 +54,12 @@ class PortHandler(OSShop):
             out: PORT_CHECK
         """
         if not self.appear(PORT_MISSION_RED_DOT):
-            logger.info('No available missions in this port')
+            logger.info("No available missions in this port")
             return True
 
-        self.ui_click(PORT_GOTO_MISSION, appear_button=PORT_CHECK, check_button=PORT_MISSION_CHECK,
-                      skip_first_screenshot=True)
+        self.ui_click(
+            PORT_GOTO_MISSION, appear_button=PORT_CHECK, check_button=PORT_MISSION_CHECK, skip_first_screenshot=True
+        )
 
         confirm_timer = Timer(1.5, count=3).start()
         success = True
@@ -74,7 +74,7 @@ class PortHandler(OSShop):
                     break
 
             if self.info_bar_count():
-                logger.info('Unable to accept missions, because reached the maximum number of missions')
+                logger.info("Unable to accept missions, because reached the maximum number of missions")
                 success = False
                 break
 
@@ -87,8 +87,9 @@ class PortHandler(OSShop):
             in: PORT_CHECK
             out: PORT_SUPPLY_CHECK
         """
-        self.ui_click(PORT_GOTO_SUPPLY, appear_button=PORT_CHECK, check_button=PORT_SUPPLY_CHECK,
-                      skip_first_screenshot=True)
+        self.ui_click(
+            PORT_GOTO_SUPPLY, appear_button=PORT_CHECK, check_button=PORT_SUPPLY_CHECK, skip_first_screenshot=True
+        )
         # Port items has an animation to show
         self.device.sleep(0.5)
         self.device.screenshot()
@@ -109,8 +110,9 @@ class PortHandler(OSShop):
             in: PORT_CHECK
             out: PORT_CHECK
         """
-        self.ui_click(PORT_GOTO_DOCK, appear_button=PORT_CHECK, check_button=PORT_DOCK_CHECK,
-                      skip_first_screenshot=True)
+        self.ui_click(
+            PORT_GOTO_DOCK, appear_button=PORT_CHECK, check_button=PORT_DOCK_CHECK, skip_first_screenshot=True
+        )
 
         repaired = False
         for _ in self.loop():
@@ -123,7 +125,7 @@ class PortHandler(OSShop):
             # PORT_DOCK_CHECK is button to repair all.
             if self.appear_then_click(PORT_DOCK_CHECK, offset=(20, 20), interval=2):
                 continue
-            if self.handle_popup_confirm('DOCK_REPAIR'):
+            if self.handle_popup_confirm("DOCK_REPAIR"):
                 repaired = True
                 continue
 

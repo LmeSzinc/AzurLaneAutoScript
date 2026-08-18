@@ -7,7 +7,7 @@ from adbutils.errors import AdbError
 
 from module.base.decorator import cached_property, del_cached_property, has_cached_property
 from module.base.timer import Timer
-from module.base.utils import *
+from module.base.utils import ensure_time, np, random_rectangle_point
 from module.device.connection import Connection
 from module.device.method.minitouch import Command, CommandBuilder, insert_swipe
 from module.device.method.utils import RETRY_TRIES, handle_adb_error, retry_sleep
@@ -42,7 +42,7 @@ def retry(func):
 
                 def init():
                     self.adb_reconnect()
-                    del_cached_property(self, '_maatouch_builder')
+                    del_cached_property(self, "_maatouch_builder")
             # MaaTouchSyncTimeout
             # Probably because adb server was killed
             except MaaTouchSyncTimeout as e:
@@ -50,7 +50,7 @@ def retry(func):
 
                 def init():
                     self.adb_reconnect()
-                    del_cached_property(self, '_maatouch_builder')
+                    del_cached_property(self, "_maatouch_builder")
                     self.reset_maatouch()
             # Emulator closed
             except ConnectionAbortedError as e:
@@ -58,18 +58,20 @@ def retry(func):
 
                 def init():
                     self.adb_reconnect()
-                    del_cached_property(self, '_maatouch_builder')
+                    del_cached_property(self, "_maatouch_builder")
             # AdbError
             except AdbError as e:
                 if handle_adb_error(e):
+
                     def init():
                         self.adb_reconnect()
-                        del_cached_property(self, '_maatouch_builder')
+                        del_cached_property(self, "_maatouch_builder")
                 elif handle_unknown_host_service(e):
+
                     def init():
                         self.adb_start_server()
                         self.adb_reconnect()
-                        del_cached_property(self, '_maatouch_builder')
+                        del_cached_property(self, "_maatouch_builder")
                 else:
                     break
             # MaaTouchNotInstalledError: Received "Aborted" from MaaTouch
@@ -78,12 +80,12 @@ def retry(func):
 
                 def init():
                     self.maatouch_install()
-                    del_cached_property(self, '_maatouch_builder')
+                    del_cached_property(self, "_maatouch_builder")
             except BrokenPipeError as e:
                 logger.error(e)
 
                 def init():
-                    del_cached_property(self, '_maatouch_builder')
+                    del_cached_property(self, "_maatouch_builder")
             # Unknown, probably a trucked image
             except Exception as e:
                 logger.exception(e)
@@ -91,7 +93,7 @@ def retry(func):
                 def init():
                     pass
 
-        logger.critical(f'Retry {func.__name__}() failed')
+        logger.critical(f"Retry {func.__name__}() failed")
         raise RequestHumanTakeover
 
     return retry_wrapper
@@ -99,10 +101,10 @@ def retry(func):
 
 class MaatouchBuilder(CommandBuilder):
     def __init__(
-            self,
-            device,
-            contact=0,
-            handle_orientation=False,
+        self,
+        device,
+        contact=0,
+        handle_orientation=False,
     ):
         """
         Args:
@@ -134,6 +136,7 @@ class MaaTouch(Connection):
     Control method that implements the same as scrcpy and has an interface similar to minitouch.
     https://github.com/MaaAssistantArknights/MaaTouch
     """
+
     max_x: int
     max_y: int
     _maatouch_stream: socket.socket = None
@@ -164,7 +167,7 @@ class MaaTouch(Connection):
         Start a thread to init maatouch connection while the Alas instance just starting to take screenshots
         This would speed up the first click 0.2 ~ 0.4s.
         """
-        if has_cached_property(self, '_maatouch_builder'):
+        if has_cached_property(self, "_maatouch_builder"):
             return
 
         def early_maatouch_init_func():
@@ -184,12 +187,12 @@ class MaaTouch(Connection):
         if self.orientation == self._maatouch_orientation:
             return
 
-        logger.info(f'Orientation changed {self._maatouch_orientation} => {self.orientation}, re-init MaaTouch')
-        del_cached_property(self, '_maatouch_builder')
+        logger.info(f"Orientation changed {self._maatouch_orientation} => {self.orientation}, re-init MaaTouch")
+        del_cached_property(self, "_maatouch_builder")
         self.early_maatouch_init()
 
     def maatouch_init(self):
-        logger.hr('MaaTouch init')
+        logger.hr("MaaTouch init")
         max_x, max_y = 1280, 720
         max_contacts = 2
         max_pressure = 50
@@ -205,14 +208,14 @@ class MaaTouch(Connection):
             del self._maatouch_stream_storage
 
         # MaaTouch caches devices orientation at its startup
-        super(MaaTouch, self).get_orientation()
+        super().get_orientation()
         self._maatouch_orientation = self.orientation
 
         # CLASSPATH=/data/local/tmp/maatouch app_process / com.shxyke.MaaTouch.App
         stream = self.adb_shell(
-            [f'CLASSPATH={self.config.MAATOUCH_FILEPATH_REMOTE}', 'app_process', '/', 'com.shxyke.MaaTouch.App'],
+            [f"CLASSPATH={self.config.MAATOUCH_FILEPATH_REMOTE}", "app_process", "/", "com.shxyke.MaaTouch.App"],
             stream=True,
-            recvall=False
+            recvall=False,
         )
         # Prevent shell stream from being deleted causing socket close
         self._maatouch_stream_storage = stream
@@ -230,11 +233,10 @@ class MaaTouch(Connection):
             # ^ <max-contacts> <max-x> <max-y> <max-pressure>
             out = socket_out.readline().replace("\n", "").replace("\r", "")
             logger.info(out)
-            if out.strip() == 'Aborted':
+            if out.strip() == "Aborted":
                 stream.close()
                 raise MaaTouchNotInstalledError(
-                    'Received "Aborted" MaaTouch, '
-                    'probably because MaaTouch is not installed'
+                    'Received "Aborted" MaaTouch, probably because MaaTouch is not installed'
                 )
             try:
                 _, max_contacts, max_x, max_y, max_pressure = out.split(" ")
@@ -243,8 +245,7 @@ class MaaTouch(Connection):
                 stream.close()
                 if retry_timeout.reached():
                     raise MaaTouchNotInstalledError(
-                        'Received empty data from MaaTouch, '
-                        'probably because MaaTouch is not installed'
+                        "Received empty data from MaaTouch, probably because MaaTouch is not installed"
                     )
                 else:
                     # maatouch may not start that fast
@@ -264,19 +265,13 @@ class MaaTouch(Connection):
 
         # Timeout 2s for sync
         stream.settimeout(2)
-        logger.info(
-            "MaaTouch stream connected"
-        )
-        logger.info(
-            "max_contact: {}; max_x: {}; max_y: {}; max_pressure: {}".format(
-                max_contacts, max_x, max_y, max_pressure
-            )
-        )
+        logger.info("MaaTouch stream connected")
+        logger.info(f"max_contact: {max_contacts}; max_x: {max_x}; max_y: {max_y}; max_pressure: {max_pressure}")
 
     def maatouch_send(self, builder: MaatouchBuilder):
         content = builder.to_minitouch()
         # logger.info("send operation: {}".format(content.replace("\n", "\\n")))
-        byte_content = content.encode('utf-8')
+        byte_content = content.encode("utf-8")
         self._maatouch_stream.sendall(byte_content)
         self._maatouch_stream.recv(0)
         self.sleep(builder.delay / 1000 + builder.DEFAULT_DELAY)
@@ -285,20 +280,18 @@ class MaaTouch(Connection):
     def maatouch_send_sync(self, builder: MaatouchBuilder, mode=2):
         # Set inject mode to the last command
         for command in builder.commands[::-1]:
-            if command.operation in ['r', 'd', 'm', 'u']:
+            if command.operation in ["r", "d", "m", "u"]:
                 command.mode = mode
                 break
 
         # add maatouch sync command: 's <timestamp>\n'
         timestamp = str(int(time.time() * 1000))
-        builder.commands.insert(0, Command(
-            's', text=timestamp
-        ))
+        builder.commands.insert(0, Command("s", text=timestamp))
 
         # Send
         content = builder.to_maatouch_sync()
         # logger.info("send operation: {}".format(content.replace("\n", "\\n")))
-        byte_content = content.encode('utf-8')
+        byte_content = content.encode("utf-8")
         self._maatouch_stream.sendall(byte_content)
         self._maatouch_stream.recv(0)
 
@@ -309,17 +302,17 @@ class MaaTouch(Connection):
         for n in range(3):
             try:
                 out = socket_out.readline()
-            except socket.timeout as e:
+            except TimeoutError as e:
                 raise MaaTouchSyncTimeout(str(e))
             out = out.strip()
             # logger.info(out)
 
             if out == timestamp:
                 break
-            if out == 'Killed':
-                raise MaaTouchNotInstalledError('MaaTouch died, probably because version incompatible')
+            if out == "Killed":
+                raise MaaTouchNotInstalledError("MaaTouch died, probably because version incompatible")
             if n == max_trial - 1:
-                raise MaaTouchSyncTimeout('Too many incorrect sync response')
+                raise MaaTouchSyncTimeout("Too many incorrect sync response")
             time.sleep(0.001)
 
         # logger.info(f'Delay: {builder.delay}')
@@ -328,11 +321,11 @@ class MaaTouch(Connection):
         builder.clear()
 
     def maatouch_install(self):
-        logger.hr('MaaTouch install')
+        logger.hr("MaaTouch install")
         self.adb_push(self.config.MAATOUCH_FILEPATH_LOCAL, self.config.MAATOUCH_FILEPATH_REMOTE)
 
     def maatouch_uninstall(self):
-        logger.hr('MaaTouch uninstall')
+        logger.hr("MaaTouch uninstall")
         self.adb_shell(["rm", self.config.MAATOUCH_FILEPATH_REMOTE])
 
     @retry

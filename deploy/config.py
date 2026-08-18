@@ -1,8 +1,7 @@
 import copy
-from typing import Optional, Union
 
 from deploy.logger import logger
-from deploy.utils import *
+from deploy.utils import DEPLOY_CONFIG, DEPLOY_TEMPLATE, cached_property, os, poor_yaml_read, poor_yaml_write
 
 
 class ExecutionError(Exception):
@@ -13,19 +12,19 @@ class ConfigModel:
     # Git
     Repository: str = "https://github.com/LmeSzinc/AzurLaneAutoScript"
     Branch: str = "master"
-    GitExecutable: str = "./toolkit/Git/mingw64/bin/git.exe"
-    GitProxy: Optional[str] = None
-    SSLVerify: bool = False
+    GitExecutable: str = "git"
+    GitProxy: str | None = None
+    SSLVerify: bool = True
     AutoUpdate: bool = True
 
     # Python
-    PythonExecutable: str = "./toolkit/python.exe"
-    PypiMirror: Optional[str] = None
+    PythonExecutable: str = "python"
+    PypiMirror: str | None = None
     InstallDependencies: bool = True
     RequirementsFile: str = "requirements.txt"
 
     # Adb
-    AdbExecutable: str = "./toolkit/Lib/site-packages/adbutils/binaries/adb.exe"
+    AdbExecutable: str = "adb"
     ReplaceAdb: bool = True
     AutoConnect: bool = True
     InstallUiautomator2: bool = True
@@ -46,24 +45,20 @@ class ConfigModel:
 
     # Remote Access
     EnableRemoteAccess: bool = False
-    SSHUser: Optional[str] = None
-    SSHServer: Optional[str] = None
-    SSHExecutable: Optional[str] = None
+    SSHUser: str | None = None
+    SSHServer: str | None = None
+    SSHExecutable: str | None = None
 
     # Webui
     WebuiHost: str = "0.0.0.0"
     WebuiPort: int = 22267
-    WebuiSSLKey: Optional[str] = None
-    WebuiSSLCert: Optional[str] = None
+    WebuiSSLKey: str | None = None
+    WebuiSSLCert: str | None = None
     Language: str = "en-US"
     Theme: str = "default"
     DpiScaling: bool = True
-    Password: Optional[str] = None
-    CDN: Union[str, bool] = False
-    Run: Optional[str] = None
-
-    # Dynamic
-    GitOverCdn: bool = False
+    Password: str | None = None
+    Run: str | None = None
 
 
 class DeployConfig(ConfigModel):
@@ -88,7 +83,7 @@ class DeployConfig(ConfigModel):
                 continue
             logger.info(f"{k}: {v}")
 
-        logger.info(f"Rest of the configs are the same as default")
+        logger.info("Rest of the configs are the same as default")
 
     def read(self):
         """
@@ -103,43 +98,11 @@ class DeployConfig(ConfigModel):
             if hasattr(self, key):
                 super().__setattr__(key, value)
 
-        self.config_redirect()
-
         if self.config != origin:
             self.write()
 
     def write(self):
         poor_yaml_write(self.config, self.file)
-
-    def config_redirect(self):
-        """
-        Redirect deploy config, must be called after each `read()`
-        """
-        if self.Repository in [
-            'https://gitee.com/LmeSzinc/AzurLaneAutoScript',
-            'https://gitee.com/lmeszinc/azur-lane-auto-script-mirror',
-            'https://e.coding.net/llop18870/alas/AzurLaneAutoScript.git',
-            'https://e.coding.net/saarcenter/alas/AzurLaneAutoScript.git',
-            'https://git.saarcenter.com/LmeSzinc/AzurLaneAutoScript.git',
-        ]:
-            self.Repository = 'git://git.lyoko.io/AzurLaneAutoScript'
-            self.config['Repository'] = 'git://git.lyoko.io/AzurLaneAutoScript'
-        if self.PypiMirror in [
-            'https://pypi.tuna.tsinghua.edu.cn/simple'
-        ]:
-            self.PypiMirror = 'https://mirrors.aliyun.com/pypi/simple'
-            self.config['PypiMirror'] = 'https://mirrors.aliyun.com/pypi/simple'
-
-        # Bypass webui.config.DeployConfig.__setattr__()
-        # Don't write these into deploy.yaml
-        super().__setattr__(
-            'GitOverCdn',
-            self.Repository == 'git://git.lyoko.io/AzurLaneAutoScript' and self.Branch == 'master'
-        )
-        if self.Repository in ['global']:
-            super().__setattr__('Repository', 'https://github.com/LmeSzinc/AzurLaneAutoScript')
-        if self.Repository in ['cn']:
-            super().__setattr__('Repository', 'git://git.lyoko.io/AzurLaneAutoScript')
 
     def filepath(self, key):
         """
@@ -178,7 +141,7 @@ class DeployConfig(ConfigModel):
         """
         command = command.replace(r"\\", "/").replace("\\", "/").replace('"', '"')
         if not output:
-            command = command + ' >nul 2>nul'
+            command = command + " >nul 2>nul"
         logger.info(command)
         error_code = os.system(command)
         if error_code:
@@ -190,7 +153,7 @@ class DeployConfig(ConfigModel):
                 self.show_error(command)
                 raise ExecutionError
         else:
-            logger.info(f"[ success ]")
+            logger.info("[ success ]")
             return True
 
     def show_error(self, command=None):
@@ -198,8 +161,5 @@ class DeployConfig(ConfigModel):
         self.show_config()
         logger.info("")
         logger.info(f"Last command: {command}")
-        logger.info(
-            "Please check your deploy settings in config/deploy.yaml "
-            "and re-open Alas.exe"
-        )
+        logger.info("Please check your deploy settings in config/deploy.yaml and re-open Alas.exe")
         logger.info("Take the screenshot of entire window if you need help")

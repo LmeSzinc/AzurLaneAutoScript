@@ -19,7 +19,7 @@ class AzurLaneDaemon(DaemonBase, CampaignBase):
                 self.combat_preparation()
             try:
                 if self.handle_battle_status():
-                    self.combat_status(expected_end='no_searching')
+                    self.combat_status(expected_end="no_searching")
                     continue
             except CampaignEnd:
                 continue
@@ -65,6 +65,6 @@ class AzurLaneDaemon(DaemonBase, CampaignBase):
         return True
 
 
-if __name__ == '__main__':
-    b = AzurLaneDaemon('alas', task='Daemon')
+if __name__ == "__main__":
+    b = AzurLaneDaemon("alas", task="Daemon")
     b.run()

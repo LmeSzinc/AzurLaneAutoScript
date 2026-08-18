@@ -6,16 +6,16 @@ from module.handler.assets import POPUP_CANCEL, POPUP_CONFIRM
 from module.logger import logger
 from module.map_detection.utils import Points
 from module.ocr.ocr import DigitYuv
-from module.shop.assets import *
+from module.shop.assets import *  # noqa: F403  (data-bundle star import)
 from module.shop.base import ShopItemGrid
 from module.shop.clerk import ShopClerk
 from module.shop.shop_status import ShopStatus
 from module.ui.assets import BACK_ARROW
 from module.ui.scroll import Scroll
 
-PRICE_OCR = DigitYuv([], letter=(255, 223, 57), threshold=128, name='Price_ocr')
+PRICE_OCR = DigitYuv([], letter=(255, 223, 57), threshold=128, name="Price_ocr")
 VOUCHER_SHOP_SCROLL = Scroll(VOUCHER_SHOP_SCROLL_AREA, color=(255, 255, 255))
-TEMPLATE_VOUCHER_ICON = Template('./assets/shop/cost/Voucher.png')
+TEMPLATE_VOUCHER_ICON = Template("./assets/shop/cost/Voucher.png")
 
 
 class VoucherShop(ShopClerk, ShopStatus):
@@ -34,8 +34,8 @@ class VoucherShop(ShopClerk, ShopStatus):
         """
         left_column = self.image_crop((305, 306, 1256, 646), copy=False)
         vouchers = TEMPLATE_VOUCHER_ICON.match_multi(left_column, similarity=0.75, threshold=5)
-        vouchers = Points([(0., v.area[1]) for v in vouchers]).group(threshold=5)
-        logger.attr('Vouchers_icon', len(vouchers))
+        vouchers = Points([(0.0, v.area[1]) for v in vouchers]).group(threshold=5)
+        logger.attr("Vouchers_icon", len(vouchers))
         return vouchers
 
     def wait_until_voucher_appear(self, skip_first_screenshot=True):
@@ -67,7 +67,7 @@ class VoucherShop(ShopClerk, ShopStatus):
         vouchers = self._get_vouchers()
         count = len(vouchers)
         if count == 0:
-            logger.warning('Unable to find voucher icon, assume item list is at top')
+            logger.warning("Unable to find voucher icon, assume item list is at top")
             origin_y = 200
             delta_y = 191
             row = 2
@@ -85,7 +85,7 @@ class VoucherShop(ShopClerk, ShopStatus):
             delta_y = abs(y1 - y2)
             row = 2
         else:
-            logger.warning(f'Unexpected voucher icon match result: {[v.area for v in vouchers]}')
+            logger.warning(f"Unexpected voucher icon match result: {[v.area for v in vouchers]}")
             origin_y = 200
             delta_y = 191
             row = 2
@@ -94,17 +94,25 @@ class VoucherShop(ShopClerk, ShopStatus):
         # Original grid is:
         # shop_grid = ButtonGrid(
         #     origin=(463, 200), delta=(156, 191), button_shape=(99, 99), grid_shape=(5, 2), name='SHOP_GRID')
-        if self.config.SERVER in ['cn', 'jp', 'tw']:
+        if self.config.SERVER in ["cn", "jp", "tw"]:
             shop_grid = ButtonGrid(
-                origin=(305, origin_y), delta=(189.5, delta_y), button_shape=(99, 99), grid_shape=(5, row),
-                name='SHOP_GRID')
+                origin=(305, origin_y),
+                delta=(189.5, delta_y),
+                button_shape=(99, 99),
+                grid_shape=(5, row),
+                name="SHOP_GRID",
+            )
         else:
             shop_grid = ButtonGrid(
-                origin=(463, origin_y), delta=(156, delta_y), button_shape=(99, 99), grid_shape=(5, row),
-                name='SHOP_GRID')
+                origin=(463, origin_y),
+                delta=(156, delta_y),
+                button_shape=(99, 99),
+                grid_shape=(5, row),
+                name="SHOP_GRID",
+            )
         return shop_grid
 
-    shop_template_folder = './assets/shop/voucher'
+    shop_template_folder = "./assets/shop/voucher"
 
     @cached_property
     def shop_voucher_items(self):
@@ -114,11 +122,10 @@ class VoucherShop(ShopClerk, ShopStatus):
         """
         shop_grid = self.shop_grid
         shop_voucher_items = ShopItemGrid(
-            shop_grid,
-            templates={}, amount_area=(60, 74, 96, 95),
-            price_area=(52, 132, 132, 162))
+            shop_grid, templates={}, amount_area=(60, 74, 96, 95), price_area=(52, 132, 132, 162)
+        )
         shop_voucher_items.load_template_folder(self.shop_template_folder)
-        shop_voucher_items.load_cost_template_folder('./assets/shop/cost')
+        shop_voucher_items.load_cost_template_folder("./assets/shop/cost")
         shop_voucher_items.similarity = 0.85
         shop_voucher_items.cost_similarity = 0.5
         shop_voucher_items.price_ocr = PRICE_OCR
@@ -144,7 +151,7 @@ class VoucherShop(ShopClerk, ShopStatus):
             int: voucher amount
         """
         self._currency = self.status_get_voucher()
-        logger.info(f'Voucher: {self._currency}')
+        logger.info(f"Voucher: {self._currency}")
         return self._currency
 
     def shop_interval_clear(self):
@@ -154,12 +161,14 @@ class VoucherShop(ShopClerk, ShopStatus):
         """
         self.interval_clear(BACK_ARROW)
         self.interval_clear(SHOP_BUY_CONFIRM)
-        self.interval_clear([
-            SHOP_BUY_CONFIRM_SELECT,
-            SHOP_BUY_CONFIRM_AMOUNT,
-            POPUP_CONFIRM,
-            POPUP_CANCEL,
-        ])
+        self.interval_clear(
+            [
+                SHOP_BUY_CONFIRM_SELECT,
+                SHOP_BUY_CONFIRM_AMOUNT,
+                POPUP_CONFIRM,
+                POPUP_CANCEL,
+            ]
+        )
 
     def shop_buy_handle(self, item):
         """
@@ -179,9 +188,9 @@ class VoucherShop(ShopClerk, ShopStatus):
             self.shop_buy_amount_execute(item)
             self.interval_reset(SHOP_BUY_CONFIRM_AMOUNT)
             return True
-        if self.handle_popup_confirm(name='SHOP_BUY_VOUCHER', offset=(20, 50)):
+        if self.handle_popup_confirm(name="SHOP_BUY_VOUCHER", offset=(20, 50)):
             return True
-        if self.config.SERVER in ['cn', 'jp', 'tw']:
+        if self.config.SERVER in ["cn", "jp", "tw"]:
             # A button named `Exchange` when buying item in amount of 1.
             if self.appear_then_click(SHOP_BUY_CONFIRM_AMOUNT, offset=(-20, -160, 20, -120), interval=3):
                 return True
@@ -240,7 +249,7 @@ class VoucherShop(ShopClerk, ShopStatus):
 
         # When called, expected to be in
         # correct Voucher Shop interface
-        logger.hr('Voucher Shop', level=1)
+        logger.hr("Voucher Shop", level=1)
         self.wait_until_voucher_appear()
 
         # Execute buy operations
@@ -248,12 +257,12 @@ class VoucherShop(ShopClerk, ShopStatus):
         while 1:
             self.shop_buy()
             if VOUCHER_SHOP_SCROLL.at_bottom(main=self):
-                logger.info('Voucher Shop reach bottom, stop')
+                logger.info("Voucher Shop reach bottom, stop")
                 break
             else:
                 VOUCHER_SHOP_SCROLL.next_page(main=self)
-                del_cached_property(self, 'shop_grid')
-                del_cached_property(self, 'shop_voucher_items')
+                del_cached_property(self, "shop_grid")
+                del_cached_property(self, "shop_voucher_items")
                 continue
 
     def run_once(self):
@@ -266,25 +275,25 @@ class VoucherShop(ShopClerk, ShopStatus):
             bool
         """
         # Replace filter
-        self.shop_filter = 'LoggerArchive'
+        self.shop_filter = "LoggerArchive"
 
         # When called, expected to be in
         # correct Voucher Shop interface
-        logger.hr('Voucher Shop Once', level=1)
+        logger.hr("Voucher Shop Once", level=1)
         self.wait_until_voucher_appear()
 
         # Execute buy operations
         items = self.shop_get_items()
         self.shop_currency()
         if self._currency <= 0:
-            logger.warning(f'Current funds: {self._currency}, stopped')
+            logger.warning(f"Current funds: {self._currency}, stopped")
             return False
 
         item = self.shop_get_item_to_buy(items)
         if item is None:
-            logger.info('No logger archives available for purchase')
+            logger.info("No logger archives available for purchase")
             return False
         self.shop_buy_execute(item)
 
-        logger.info('Purchased single logger archive')
+        logger.info("Purchased single logger archive")
         return True

@@ -4,6 +4,7 @@ from datetime import datetime
 from lxml import etree
 
 from module.device.env import IS_WINDOWS
+
 # Patch pkg_resources before importing adbutils and uiautomator2
 from module.device.pkg_resources import get_distribution
 
@@ -15,9 +16,13 @@ from module.config.utils import get_server_next_update
 from module.device.app_control import AppControl
 from module.device.control import Control
 from module.device.screenshot import Screenshot
-from module.exception import (EmulatorNotRunningError, GameNotRunningError, GameStuckError, GameTooManyClickError,
-                              RequestHumanTakeover)
-from module.handler.assets import GET_MISSION
+from module.exception import (
+    EmulatorNotRunningError,
+    GameNotRunningError,
+    GameStuckError,
+    GameTooManyClickError,
+    RequestHumanTakeover,
+)
 from module.logger import logger
 
 
@@ -40,6 +45,7 @@ def show_function_call():
     """
     import os
     import traceback
+
     stack = traceback.extract_stack()
     func_list = []
     for row in stack:
@@ -52,22 +58,28 @@ def show_function_call():
 
     def format_(file, line, func):
         file = file.rjust(max_filename, " ")
-        line = f'L{line}'.rjust(max_linenum, " ")
-        if not func.startswith('<'):
-            func = f'{func}()'
-        return f'{file} {line} {func}'
+        line = f"L{line}".rjust(max_linenum, " ")
+        if not func.startswith("<"):
+            func = f"{func}()"
+        return f"{file} {line} {func}"
 
-    func_list = [f'\n{format_(*row)}' for row in func_list]
-    logger.info('Function calls:' + ''.join(func_list))
+    func_list = [f"\n{format_(*row)}" for row in func_list]
+    logger.info("Function calls:" + "".join(func_list))
 
 
 class Device(Screenshot, Control, AppControl):
+    """Concrete device backend; implements the DeviceBase contract (module/device/base.py).
+
+    Capabilities are composed from mixins: Screenshot (adb/wsa/droidcast/
+    ascreencap/scrcpy/nemu_ipc/ldopengl), Control (hermit/minitouch/scrcpy/
+    maatouch/nemu_ipc), AppControl (adb/wsa/uiautomator2).
+    """
     _screen_size_checked = False
     detect_record = set()
     click_record = collections.deque(maxlen=15)
     stuck_timer = Timer(60, count=60).start()
     stuck_timer_long = Timer(180, count=180).start()
-    stuck_long_wait_list = ['BATTLE_STATUS_S', 'PAUSE', 'LOGIN_CHECK', 'TEMPLATE_MANJUU']
+    stuck_long_wait_list = ["BATTLE_STATUS_S", "PAUSE", "LOGIN_CHECK", "TEMPLATE_MANJUU"]
 
     def __init__(self, *args, **kwargs):
         for trial in range(4):
@@ -76,34 +88,33 @@ class Device(Screenshot, Control, AppControl):
                 break
             except EmulatorNotRunningError:
                 if trial >= 3:
-                    logger.critical('Failed to start emulator after 3 trial')
+                    logger.critical("Failed to start emulator after 3 trial")
                     raise RequestHumanTakeover
                 # Try to start emulator
                 if self.emulator_instance is not None:
                     self.emulator_start()
                 else:
                     logger.critical(
-                        f'No emulator with serial "{self.config.Emulator_Serial}" found, '
-                        f'please set a correct serial'
+                        f'No emulator with serial "{self.config.Emulator_Serial}" found, please set a correct serial'
                     )
                     raise RequestHumanTakeover
 
         # Auto-fill emulator info
-        if IS_WINDOWS and self.config.EmulatorInfo_Emulator == 'auto':
+        if IS_WINDOWS and self.config.EmulatorInfo_Emulator == "auto":
             _ = self.emulator_instance
 
         self.screenshot_interval_set()
         self.method_check()
 
         # Auto-select the fastest screenshot method
-        if not self.config.is_template_config and self.config.Emulator_ScreenshotMethod == 'auto':
+        if not self.config.is_template_config and self.config.Emulator_ScreenshotMethod == "auto":
             self.run_simple_screenshot_benchmark()
 
         # Early init
         if self.config.is_actual_task:
-            if self.config.Emulator_ControlMethod == 'MaaTouch':
+            if self.config.Emulator_ControlMethod == "MaaTouch":
                 self.early_maatouch_init()
-            if self.config.Emulator_ControlMethod == 'minitouch':
+            if self.config.Emulator_ControlMethod == "minitouch":
                 self.early_minitouch_init()
 
     def run_simple_screenshot_benchmark(self):
@@ -111,11 +122,12 @@ class Device(Screenshot, Control, AppControl):
         Perform a screenshot method benchmark, test 3 times on each method.
         The fastest one will be set into config.
         """
-        logger.info('run_simple_screenshot_benchmark')
+        logger.info("run_simple_screenshot_benchmark")
         # Check resolution first
         self.resolution_check_uiautomator2()
         # Perform benchmark
         from module.daemon.benchmark import Benchmark
+
         bench = Benchmark(config=self.config, device=self)
         method = bench.run_simple_screenshot_benchmark()
         # Set
@@ -136,35 +148,38 @@ class Device(Screenshot, Control, AppControl):
         #     logger.warning('When not using nemu_ipc, both screenshot and control should not use nemu_ipc')
         #     self.config.Emulator_ControlMethod = 'minitouch'
         # Allow Hermit on VMOS only
-        if self.config.Emulator_ControlMethod == 'Hermit' and not self.is_vmos:
-            logger.warning('ControlMethod Hermit is allowed on VMOS only')
-            self.config.Emulator_ControlMethod = 'MaaTouch'
-        if self.config.Emulator_ScreenshotMethod == 'ldopengl' \
-                and self.config.Emulator_ControlMethod == 'minitouch':
-            logger.warning('Use MaaTouch on ldplayer')
-            self.config.Emulator_ControlMethod = 'MaaTouch'
+        if self.config.Emulator_ControlMethod == "Hermit" and not self.is_vmos:
+            logger.warning("ControlMethod Hermit is allowed on VMOS only")
+            self.config.Emulator_ControlMethod = "MaaTouch"
+        if self.config.Emulator_ScreenshotMethod == "ldopengl" and self.config.Emulator_ControlMethod == "minitouch":
+            logger.warning("Use MaaTouch on ldplayer")
+            self.config.Emulator_ControlMethod = "MaaTouch"
 
         # Fallback to auto if nemu_ipc and ldopengl are selected on non-corresponding emulators
-        if self.config.Emulator_ScreenshotMethod == 'nemu_ipc':
+        if self.config.Emulator_ScreenshotMethod == "nemu_ipc":
             if not (self.is_emulator and self.is_mumu_family):
-                logger.warning('ScreenshotMethod nemu_ipc is available on MuMu Player 12 only, fallback to auto')
-                self.config.Emulator_ScreenshotMethod = 'auto'
-        if self.config.Emulator_ScreenshotMethod == 'ldopengl':
+                logger.warning("ScreenshotMethod nemu_ipc is available on MuMu Player 12 only, fallback to auto")
+                self.config.Emulator_ScreenshotMethod = "auto"
+        if self.config.Emulator_ScreenshotMethod == "ldopengl":
             if not (self.is_emulator and self.is_ldplayer_bluestacks_family):
-                logger.warning('ScreenshotMethod ldopengl is available on LD Player only, fallback to auto')
-                self.config.Emulator_ScreenshotMethod = 'auto'
+                logger.warning("ScreenshotMethod ldopengl is available on LD Player only, fallback to auto")
+                self.config.Emulator_ScreenshotMethod = "auto"
         # DroidCast is available on SDK 23 (Android 6.0) to SDK 32 (Android 12)
-        if self.config.Emulator_ScreenshotMethod in ['DroidCast', 'DroidCast_raw']:
+        if self.config.Emulator_ScreenshotMethod in ["DroidCast", "DroidCast_raw"]:
             if self.sdk_ver < 23 or self.sdk_ver > 32:
-                logger.warning(f'ScreenshotMethod {self.config.Emulator_ScreenshotMethod} is available on '
-                               f'Android 6.0 to 12 only (current sdk_ver={self.sdk_ver}), fallback to auto')
-                self.config.Emulator_ScreenshotMethod = 'auto'
-        if not IS_WINDOWS and self.config.Emulator_ScreenshotMethod in ['nemu_ipc', 'ldopengl']:
-            logger.warning(f'ScreenshotMethod {self.config.Emulator_ScreenshotMethod} is available on Windows only, '
-                           f'fallback to auto')
-            self.config.Emulator_ScreenshotMethod = 'auto'
+                logger.warning(
+                    f"ScreenshotMethod {self.config.Emulator_ScreenshotMethod} is available on "
+                    f"Android 6.0 to 12 only (current sdk_ver={self.sdk_ver}), fallback to auto"
+                )
+                self.config.Emulator_ScreenshotMethod = "auto"
+        if not IS_WINDOWS and self.config.Emulator_ScreenshotMethod in ["nemu_ipc", "ldopengl"]:
+            logger.warning(
+                f"ScreenshotMethod {self.config.Emulator_ScreenshotMethod} is available on Windows only, "
+                f"fallback to auto"
+            )
+            self.config.Emulator_ScreenshotMethod = "auto"
 
-    def handle_night_commission(self, daily_trigger='21:00', threshold=30):
+    def handle_night_commission(self, daily_trigger="21:00", threshold=30):
         """
         Args:
             daily_trigger (int): Time for commission refresh.
@@ -179,8 +194,11 @@ class Device(Screenshot, Control, AppControl):
         if threshold < diff < 86400 - threshold:
             return False
 
+        # Delayed import keeps module.device free of module.handler dependency
+        from module.handler.assets import GET_MISSION
+
         if GET_MISSION.match(self.image, offset=True):
-            logger.info('Night commission appear.')
+            logger.info("Night commission appear.")
             self.click(GET_MISSION)
             return True
 
@@ -197,7 +215,7 @@ class Device(Screenshot, Control, AppControl):
             super().screenshot()
         except RequestHumanTakeover:
             if not self.ascreencap_available:
-                logger.error('aScreenCap unavailable on current device, fallback to auto')
+                logger.error("aScreenCap unavailable on current device, fallback to auto")
                 self.run_simple_screenshot_benchmark()
                 super().screenshot()
             else:
@@ -215,9 +233,9 @@ class Device(Screenshot, Control, AppControl):
     def release_during_wait(self):
         # Scrcpy server is still sending video stream,
         # stop it during wait
-        if self.config.Emulator_ScreenshotMethod == 'scrcpy':
+        if self.config.Emulator_ScreenshotMethod == "scrcpy":
             self._scrcpy_server_stop()
-        if self.config.Emulator_ScreenshotMethod == 'nemu_ipc':
+        if self.config.Emulator_ScreenshotMethod == "nemu_ipc":
             self.nemu_ipc_release()
 
     def get_orientation(self):
@@ -254,14 +272,14 @@ class Device(Screenshot, Control, AppControl):
                     return False
 
         show_function_call()
-        logger.warning('Wait too long')
-        logger.warning(f'Waiting for {self.detect_record}')
+        logger.warning("Wait too long")
+        logger.warning(f"Waiting for {self.detect_record}")
         self.stuck_record_clear()
 
         if self.app_is_running():
-            raise GameStuckError(f'Wait too long')
+            raise GameStuckError("Wait too long")
         else:
-            raise GameNotRunningError('Game died')
+            raise GameNotRunningError("Game died")
 
     def handle_control_check(self, button):
         self.stuck_record_clear()
@@ -303,22 +321,22 @@ class Device(Screenshot, Control, AppControl):
         count = collections.Counter(self.click_record).most_common(2)
         if count[0][1] >= 12:
             show_function_call()
-            logger.warning(f'Too many click for a button: {count[0][0]}')
-            logger.warning(f'History click: {[str(prev) for prev in self.click_record]}')
+            logger.warning(f"Too many click for a button: {count[0][0]}")
+            logger.warning(f"History click: {[str(prev) for prev in self.click_record]}")
             self.click_record_clear()
-            raise GameTooManyClickError(f'Too many click for a button: {count[0][0]}')
+            raise GameTooManyClickError(f"Too many click for a button: {count[0][0]}")
         if len(count) >= 2 and count[0][1] >= 6 and count[1][1] >= 6:
             show_function_call()
-            logger.warning(f'Too many click between 2 buttons: {count[0][0]}, {count[1][0]}')
-            logger.warning(f'History click: {[str(prev) for prev in self.click_record]}')
+            logger.warning(f"Too many click between 2 buttons: {count[0][0]}, {count[1][0]}")
+            logger.warning(f"History click: {[str(prev) for prev in self.click_record]}")
             self.click_record_clear()
-            raise GameTooManyClickError(f'Too many click between 2 buttons: {count[0][0]}, {count[1][0]}')
+            raise GameTooManyClickError(f"Too many click between 2 buttons: {count[0][0]}, {count[1][0]}")
 
     def disable_stuck_detection(self):
         """
         Disable stuck detection and its handler. Usually uses in semi auto and debugging.
         """
-        logger.info('Disable stuck detection')
+        logger.info("Disable stuck detection")
 
         def empty_function(*arg, **kwargs):
             return False
@@ -328,8 +346,8 @@ class Device(Screenshot, Control, AppControl):
 
     def app_start(self):
         if not self.config.Error_HandleError:
-            logger.critical('No app stop/start, because HandleError disabled')
-            logger.critical('Please enable Alas.Error.HandleError or manually login to AzurLane')
+            logger.critical("No app stop/start, because HandleError disabled")
+            logger.critical("Please enable Alas.Error.HandleError or manually login to AzurLane")
             raise RequestHumanTakeover
         super().app_start()
         self.stuck_record_clear()
@@ -337,8 +355,8 @@ class Device(Screenshot, Control, AppControl):
 
     def app_stop(self):
         if not self.config.Error_HandleError:
-            logger.critical('No app stop/start, because HandleError disabled')
-            logger.critical('Please enable Alas.Error.HandleError or manually login to AzurLane')
+            logger.critical("No app stop/start, because HandleError disabled")
+            logger.critical("Please enable Alas.Error.HandleError or manually login to AzurLane")
             raise RequestHumanTakeover
         super().app_stop()
         self.stuck_record_clear()

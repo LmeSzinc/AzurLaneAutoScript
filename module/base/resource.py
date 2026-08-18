@@ -6,7 +6,7 @@ from module.base.decorator import cached_property, del_cached_property
 
 def get_assets_from_file(file, regex):
     assets = set()
-    with open(file, 'r', encoding='utf-8') as f:
+    with open(file, encoding="utf-8") as f:
         for row in f.readlines():
             result = regex.search(row)
             if result:
@@ -18,17 +18,10 @@ class PreservedAssets:
     @cached_property
     def ui(self):
         assets = set()
+        assets |= get_assets_from_file(file="./module/ui/assets.py", regex=re.compile(r"^([A-Za-z][A-Za-z0-9_]+) = "))
+        assets |= get_assets_from_file(file="./module/ui/ui.py", regex=re.compile(r"\(([A-Z][A-Z0-9_]+),"))
         assets |= get_assets_from_file(
-            file='./module/ui/assets.py',
-            regex=re.compile(r'^([A-Za-z][A-Za-z0-9_]+) = ')
-        )
-        assets |= get_assets_from_file(
-            file='./module/ui/ui.py',
-            regex=re.compile(r'\(([A-Z][A-Z0-9_]+),')
-        )
-        assets |= get_assets_from_file(
-            file='./module/handler/info_handler.py',
-            regex=re.compile(r'\(([A-Z][A-Z0-9_]+),')
+            file="./module/handler/info_handler.py", regex=re.compile(r"\(([A-Z][A-Z0-9_]+),")
         )
         # MAIN_CHECK == MAIN_GOTO_CAMPAIGN
         # assets.add('MAIN_GOTO_CAMPAIGN')
@@ -53,20 +46,19 @@ class Resource:
 
     @classmethod
     def is_loaded(cls, obj):
-        if hasattr(obj, '_image') and obj._image is None:
-            return False
-        elif hasattr(obj, 'image') and obj.image is None:
+        if (hasattr(obj, "_image") and obj._image is None) or (hasattr(obj, "image") and obj.image is None):
             return False
         return True
 
     @classmethod
     def resource_show(cls):
         from module.logger import logger
-        logger.hr('Show resource')
+
+        logger.hr("Show resource")
         for key, obj in cls.instances.items():
             if cls.is_loaded(obj):
                 continue
-            logger.info(f'{obj}: {key}')
+            logger.info(f"{obj}: {key}")
 
     @staticmethod
     def parse_property(data, s=None):
@@ -86,15 +78,17 @@ class Resource:
             return data
 
 
-def release_resources(next_task=''):
+def release_resources(next_task=""):
     # Release all OCR models
     # Usually to have 2 models loaded and each model takes about 20MB
     # This will release 20-40MB
     from module.webui.setting import State
+
     if State.deploy_config.UseOcrServer:
         if not next_task:
             # Disconnect OCR server on idle
             from module.ocr.ocr import OCR_MODEL
+
             try:
                 OCR_MODEL.close()
             except AttributeError:
@@ -102,14 +96,15 @@ def release_resources(next_task=''):
     else:
         # Release only when using per-instance OCR
         from module.ocr.ocr import OCR_MODEL
-        if 'Opsi' in next_task or 'commission' in next_task:
+
+        if "Opsi" in next_task or "commission" in next_task:
             # OCR models will be used soon, don't release
             models = []
         elif next_task:
             # Release OCR models except 'azur_lane'
-            models = ['cnocr', 'jp', 'tw']
+            models = ["cnocr", "jp", "tw"]
         else:
-            models = ['azur_lane', 'cnocr', 'jp', 'tw']
+            models = ["azur_lane", "cnocr", "jp", "tw"]
         for model in models:
             del_cached_property(OCR_MODEL, model)
 
@@ -117,7 +112,7 @@ def release_resources(next_task=''):
     # module.ui has about 80 assets and takes about 3MB
     # Alas has about 800 assets, but they are not all loaded.
     # Template images take more, about 6MB each
-    for key, obj in Resource.instances.items():
+    for _key, obj in Resource.instances.items():
         # Preserve assets for ui switching
         if next_task and str(obj) in _preserved_assets.ui:
             continue
@@ -127,15 +122,16 @@ def release_resources(next_task=''):
 
     # Release cached images for map detection
     from module.map_detection.utils_assets import ASSETS
+
     attr_list = [
-        'ui_mask',
-        'ui_mask_os',
-        'ui_mask_stroke',
-        'ui_mask_in_map',
-        'ui_mask_os_in_map',
-        'tile_center_image',
-        'tile_corner_image',
-        'tile_corner_image_list'
+        "ui_mask",
+        "ui_mask_os",
+        "ui_mask_stroke",
+        "ui_mask_in_map",
+        "ui_mask_os_in_map",
+        "tile_center_image",
+        "tile_corner_image",
+        "tile_corner_image_list",
     ]
     for attr in attr_list:
         del_cached_property(ASSETS, attr)

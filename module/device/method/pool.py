@@ -5,7 +5,7 @@ from collections import deque
 from functools import wraps
 from itertools import count
 from threading import Lock, Thread
-from typing import Generic, NoReturn, TypeVar
+from typing import NoReturn, TypeVar
 
 from module.logger import logger
 
@@ -29,7 +29,7 @@ def remove_tb_frames(exc, n: int):
     return exc.with_traceback(tb)
 
 
-class Outcome(abc.ABC, Generic[ValueT]):
+class Outcome[ValueT](abc.ABC):
     @abc.abstractmethod
     def unwrap(self) -> ValueT:
         """Return or raise the contained value or exception.
@@ -43,33 +43,31 @@ class Outcome(abc.ABC, Generic[ValueT]):
         pass
 
 
-class Value(Outcome[ValueT], Generic[ValueT]):
-    """Concrete :class:`Outcome` subclass representing a regular value.
+class Value[ValueT](Outcome[ValueT]):
+    """Concrete :class:`Outcome` subclass representing a regular value."""
 
-    """
-    __slots__ = ('value',)
+    __slots__ = ("value",)
 
     def __init__(self, value: ValueT):
         self.value: ValueT = value
 
     def __repr__(self) -> str:
-        return f'Value({self.value!r})'
+        return f"Value({self.value!r})"
 
     def unwrap(self) -> ValueT:
         return self.value
 
 
 class Error(Outcome[NoReturn]):
-    """Concrete :class:`Outcome` subclass representing a raised exception.
+    """Concrete :class:`Outcome` subclass representing a raised exception."""
 
-    """
-    __slots__ = ('error',)
+    __slots__ = ("error",)
 
     def __init__(self, error: BaseException):
         self.error: BaseException = error
 
     def __repr__(self) -> str:
-        return f'Error({self.error!r})'
+        return f"Error({self.error!r})"
 
     def unwrap(self):
         # Tracebacks show the 'raise' line below out of context, so let's give
@@ -122,7 +120,7 @@ class _JobKill(Exception):
     pass
 
 
-class Job(Generic[ResultT]):
+class Job[ResultT]:
     """
     A simple queue, copied from queue.Queue()
     Faster but can only put() once and get() once.
@@ -136,13 +134,13 @@ class Job(Generic[ResultT]):
         self.worker = worker
         self.func_args_kwargs = func_args_kwargs
 
-        self.queue: "deque[Outcome[ResultT]]" = deque()
+        self.queue: deque[Outcome[ResultT]] = deque()
         self.put_lock = Lock()
         self.notify_get = Lock()
         self.notify_get.acquire()
 
     def __repr__(self):
-        return f'Job({self.func_args_kwargs})'
+        return f"Job({self.func_args_kwargs})"
 
     def get(self) -> ResultT:
         """
@@ -190,7 +188,7 @@ class WorkerThread:
         Args:
             thread_pool (WorkerPool):
         """
-        self.job: "Job | None" = None
+        self.job: Job | None = None
         self.thread_pool = thread_pool
         # This Lock is used in an unconventional way.
         #
@@ -206,7 +204,7 @@ class WorkerThread:
         self.thread.start()
 
     def __repr__(self):
-        return f'{self.__class__.__name__}({self.default_name})'
+        return f"{self.__class__.__name__}({self.default_name})"
 
     def _handle_job(self) -> None:
         # Convert to local variable, `self.job` will be another
@@ -272,8 +270,7 @@ class WorkerThread:
         """
         # Send SystemExit to thread
         thread_id = ctypes.c_long(self.thread.ident)
-        res = ctypes.pythonapi.PyThreadState_SetAsyncExc(
-            thread_id, ctypes.py_object(_JobKill))
+        res = ctypes.pythonapi.PyThreadState_SetAsyncExc(thread_id, ctypes.py_object(_JobKill))
         if res <= 1:
             self.thread_pool.all_workers.pop(self, None)
             self.thread_pool.release_full_lock()
@@ -283,7 +280,7 @@ class WorkerThread:
                 job = self.job
             except AttributeError:
                 job = None
-            logger.error(f'Failed to kill thread {self.thread.ident} from job {job}')
+            logger.error(f"Failed to kill thread {self.thread.ident} from job {job}")
             # Failed to send SystemExit, reset it
             ctypes.pythonapi.PyThreadState_SetAsyncExc(thread_id, 0)
             return False
@@ -303,8 +300,8 @@ class WorkerPool:
         # Alasio is for local low-frequency access so default pool size is small
         self.pool_size = pool_size
 
-        self.idle_workers: "dict[WorkerThread, None]" = {}
-        self.all_workers: "dict[WorkerThread, None]" = {}
+        self.idle_workers: dict[WorkerThread, None] = {}
+        self.all_workers: dict[WorkerThread, None] = {}
 
         self.notify_worker = Lock()
         self.notify_worker.acquire()
@@ -398,8 +395,9 @@ class WorkerPool:
             job = function(...)
             result = job.get()
         """
+
         @wraps(func)
-        def thread_wrapper(*args, **kwargs) -> "Job[ResultT]":
+        def thread_wrapper(*args, **kwargs):
             return self.start_thread_soon(func, *args, **kwargs)
 
         return thread_wrapper
@@ -416,7 +414,7 @@ class WorkerPool:
         Returns:
             bytes:
         """
-        logger.info(f'Execute: {cmd}')
+        logger.info(f"Execute: {cmd}")
 
         process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=False)
 
@@ -425,7 +423,7 @@ class WorkerPool:
         except subprocess.TimeoutExpired:
             process.kill()
             stdout, stderr = process.communicate()
-            logger.warning(f'TimeoutExpired when calling {cmd}, stdout={stdout}, stderr={stderr}')
+            logger.warning(f"TimeoutExpired when calling {cmd}, stdout={stdout}, stderr={stderr}")
         return stdout
 
     def start_cmd_soon(self, cmd, timeout=10):
@@ -441,9 +439,7 @@ class WorkerPool:
             Job[bytes]:
         """
         worker = self._get_thread_worker()
-        job = Job(worker=worker, func_args_kwargs=(
-            self._subprocess_execute, (cmd,), {'timeout': timeout}
-        ))
+        job = Job(worker=worker, func_args_kwargs=(self._subprocess_execute, (cmd,), {"timeout": timeout}))
 
         worker.job = job
         worker.worker_lock.release()
@@ -523,8 +519,8 @@ class WaitJobsWrapper:
     """
 
     def __init__(self, pool: "WorkerPool"):
-        self.pool: "WorkerPool" = pool
-        self.jobs: "list[Job[ResultT]]" = []
+        self.pool: WorkerPool = pool
+        self.jobs: list[Job[ResultT]] = []
 
     def get(self):
         for job in self.jobs:
@@ -563,7 +559,7 @@ class GatherJobsWrapper(WaitJobsWrapper):
 
     def __init__(self, pool: "WorkerPool"):
         super().__init__(pool)
-        self.results: "list[ResultT]" = []
+        self.results: list[ResultT] = []
 
     def get(self):
         for job in self.jobs:

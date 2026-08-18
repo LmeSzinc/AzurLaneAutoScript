@@ -1,10 +1,10 @@
 from module.base.decorator import del_cached_property
 from module.base.timer import Timer
 from module.exception import CampaignEnd
-from module.handler.assets import *
+from module.handler.assets import *  # noqa: F403  (data-bundle star import)
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
-from module.map.assets import *
+from module.map.assets import *  # noqa: F403  (data-bundle star import)
 from module.ui.assets import CAMPAIGN_CHECK, EVENT_CHECK, SP_CHECK
 
 
@@ -34,9 +34,9 @@ class EnemySearchingHandler(InfoHandler):
     def handle_in_stage(self):
         if self.is_in_stage():
             if self.in_stage_timer.reached():
-                logger.info('In stage.')
+                logger.info("In stage.")
                 self.ensure_no_info_bar(timeout=1.2)
-                raise CampaignEnd('In stage.')
+                raise CampaignEnd("In stage.")
             else:
                 return False
         else:
@@ -57,9 +57,9 @@ class EnemySearchingHandler(InfoHandler):
         """
         # campaign_extract_name_image in CampaignOcr.
         try:
-            if hasattr(self, 'campaign_extract_name_image'):
-                del_cached_property(self, '_stage_image')
-                del_cached_property(self, '_stage_image_gray')
+            if hasattr(self, "campaign_extract_name_image"):
+                del_cached_property(self, "_stage_image")
+                del_cached_property(self, "_stage_image_gray")
                 if not len(self.campaign_extract_name_image(self.device.image)):
                     return False
         except IndexError:
@@ -121,8 +121,8 @@ class EnemySearchingHandler(InfoHandler):
             if self.handle_in_stage():
                 return True
             # immediately enter submarine combat in W16
-            if hasattr(self, 'is_combat_loading') and self.is_combat_loading():
-                logger.warning('Entered map with is_combat_loading appeared')
+            if hasattr(self, "is_combat_loading") and self.is_combat_loading():
+                logger.warning("Entered map with is_combat_loading appeared")
                 break
             if self.handle_auto_search_exit(drop=drop):
                 timeout.limit = 10
@@ -155,11 +155,11 @@ class EnemySearchingHandler(InfoHandler):
                     self.handle_enemy_flashing()
                     self.device.sleep(0.3)
                     self.device.screenshot()
-                    logger.info('Enemy searching appeared.')
+                    logger.info("Enemy searching appeared.")
                     break
                 self.enemy_searching_color_initial()
             if timeout.reached():
-                logger.info('Enemy searching timeout.')
+                logger.info("Enemy searching timeout.")
                 break
 
         return True
@@ -206,7 +206,7 @@ class EnemySearchingHandler(InfoHandler):
 
             # End
             if timeout.reached():
-                logger.info('No enemy searching in map.')
+                logger.info("No enemy searching in map.")
                 break
 
         return True

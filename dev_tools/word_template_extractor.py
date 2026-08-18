@@ -9,9 +9,9 @@ Git clone the repository here, https://github.com/Dimbreath/AzurLaneData, to get
 Then put your filepath here, like `<your_folder>/<server>/sharecfg/word_template.lua`
 Server list: en-US, ja-JP, ko-KR, zh-CN, zh-TW
 """
-file = ''
+file = ""
 count = 0
-with open(file, 'r', encoding='utf-8') as f:
+with open(file, encoding="utf-8") as f:
     text = f.read()
 
 
@@ -24,23 +24,23 @@ def extract(dic, word_list):
     global count
     for word, data in dic.items():
         word = str(word)
-        if data.get('this', False):
-            new = word_list + [word]
-            new = ''.join(new)
+        if data.get("this", False):
+            new = [*word_list, word]
+            new = "".join(new)
             count += 1
             print(new)
         else:
-            new = word_list + [word]
+            new = [*word_list, word]
             extract(data, word_list=new)
 
 
 # CN server
-for result in re.findall('word_template = (.*?)return', text, re.DOTALL):
+for result in re.findall("word_template = (.*?)return", text, re.DOTALL):
     pg = slpp.decode(result)
     extract(pg, word_list=[])
 # Other server
-for result in re.findall('uv0\.{0,1}(.*?)end', text, re.DOTALL):
-    pg = slpp.decode('{%s}' % result)
+for result in re.findall(r"uv0\.{0,1}(.*?)end", text, re.DOTALL):
+    pg = slpp.decode("{%s}" % result)
     extract(pg, word_list=[])
 
-print(f'Total count: {count}')
+print(f"Total count: {count}")

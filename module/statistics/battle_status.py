@@ -10,7 +10,7 @@ class BattleStatusStatistics:
 
     @cached_property
     def ocr_object(self):
-        return Ocr(ENEMY_NAME, lang='cnocr', threshold=128, name='ENEMY_NAME')
+        return Ocr(ENEMY_NAME, lang="cnocr", threshold=128, name="ENEMY_NAME")
 
     def stats_battle_status(self, image):
         """
@@ -22,7 +22,7 @@ class BattleStatusStatistics:
         """
         result = self.ocr_object.ocr(image)
         # Delete wrong OCR result
-        for letter in '-一个―~(':
-            result = result.replace(letter, '')
+        for letter in "-一个―~(":
+            result = result.replace(letter, "")
 
         return result

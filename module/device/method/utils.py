@@ -5,6 +5,14 @@ import socket
 import time
 import typing as t
 
+# Patch pkg_resources before importing adbutils and uiautomator2.
+# This module can be imported before module.device.device runs its own patch
+# (e.g. via module.equipment.equipment_code), so patch here too.
+from module.device.pkg_resources import get_distribution
+
+# Just avoid being removed by import optimization
+_ = get_distribution
+
 import uiautomator2 as u2
 import uiautomator2cache
 from adbutils import AdbTimeout
@@ -17,23 +25,21 @@ try:
     from adbutils import _AdbStreamConnection as AdbConnection
 except ImportError:
     # adbutils >= 1.0
-    from adbutils import AdbConnection
+    import subprocess
+
     # Patch list2cmdline back to subprocess.list2cmdline
     # We expect `screencap | nc 192.168.0.1 20298` instead of `screencap '|' nc 192.168.80.1 20298`
     import adbutils
-    import subprocess
+    from adbutils import AdbConnection
 
     adbutils._utils.list2cmdline = subprocess.list2cmdline
     adbutils._device.list2cmdline = subprocess.list2cmdline
 
-
     # BaseDevice.shell() is missing a check_okay() call before reading output,
     # resulting in an `OKAY` prefix in output.
-    def shell(self,
-              cmdargs: t.Union[str, list, tuple],
-              stream: bool = False,
-              timeout: t.Optional[float] = None,
-              rstrip=True) -> t.Union[AdbConnection, str]:
+    def shell(
+        self, cmdargs: str | list | tuple, stream: bool = False, timeout: float | None = None, rstrip=True
+    ) -> AdbConnection | str:
         if isinstance(cmdargs, (list, tuple)):
             cmdargs = subprocess.list2cmdline(cmdargs)
         if stream:
@@ -45,7 +51,6 @@ except ImportError:
             return c
         output = c.read_until_close()
         return output.rstrip() if rstrip else output
-
 
     adbutils._device.BaseDevice.shell = shell
 
@@ -80,12 +85,12 @@ class PatchedIniter(u2.init.Initer):
     @property
     def atx_agent_url(self):
         files = {
-            'armeabi-v7a': 'atx-agent_{v}_linux_armv7.tar.gz',
+            "armeabi-v7a": "atx-agent_{v}_linux_armv7.tar.gz",
             # 'arm64-v8a': 'atx-agent_{v}_linux_armv7.tar.gz',
-            'arm64-v8a': 'atx-agent_{v}_linux_arm64.tar.gz',
-            'armeabi': 'atx-agent_{v}_linux_armv6.tar.gz',
-            'x86': 'atx-agent_{v}_linux_386.tar.gz',
-            'x86_64': 'atx-agent_{v}_linux_386.tar.gz',
+            "arm64-v8a": "atx-agent_{v}_linux_arm64.tar.gz",
+            "armeabi": "atx-agent_{v}_linux_armv6.tar.gz",
+            "x86": "atx-agent_{v}_linux_386.tar.gz",
+            "x86_64": "atx-agent_{v}_linux_386.tar.gz",
         }
         name = None
         for abi in self.abis:
@@ -93,11 +98,11 @@ class PatchedIniter(u2.init.Initer):
             if name:
                 break
         if not name:
-            raise Exception(
-                "arch(%s) need to be supported yet, please report an issue in github"
-                % self.abis)
-        return u2.init.GITHUB_BASEURL + '/atx-agent/releases/download/%s/%s' % (
-            u2.version.__atx_agent_version__, name.format(v=u2.version.__atx_agent_version__))
+            raise Exception("arch(%s) need to be supported yet, please report an issue in github" % self.abis)
+        return u2.init.GITHUB_BASEURL + "/atx-agent/releases/download/%s/%s" % (
+            u2.version.__atx_agent_version__,
+            name.format(v=u2.version.__atx_agent_version__),
+        )
 
     @property
     def minicap_urls(self):
@@ -108,12 +113,12 @@ u2.init.Initer = PatchedIniter
 
 
 def is_port_using(port_num):
-    """ if port is using by others, return True. else return False """
+    """if port is using by others, return True. else return False"""
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.settimeout(2)
 
     try:
-        s.bind(('127.0.0.1', port_num))
+        s.bind(("127.0.0.1", port_num))
         return False
     except OSError:
         # Address already bind
@@ -123,7 +128,7 @@ def is_port_using(port_num):
 
 
 def random_port(port_range):
-    """ get a random port from port set """
+    """get a random port from port set"""
     new_port = random.choice(list(range(*port_range)))
     if is_port_using(new_port):
         return random_port(port_range)
@@ -160,9 +165,9 @@ def recv_all(stream, chunk_size=4096, recv_interval=0.000) -> bytes:
                 time.sleep(recv_interval)
             else:
                 break
-        return remove_shell_warning(b''.join(fragments))
-    except socket.timeout:
-        raise AdbTimeout('adb read timeout')
+        return remove_shell_warning(b"".join(fragments))
+    except TimeoutError:
+        raise AdbTimeout("adb read timeout")
 
 
 def possible_reasons(*args):
@@ -174,7 +179,7 @@ def possible_reasons(*args):
     """
     for index, reason in enumerate(args):
         index += 1
-        logger.critical(f'Possible reason #{index}: {reason}')
+        logger.critical(f"Possible reason #{index}: {reason}")
 
 
 class PackageNotInstalled(Exception):
@@ -187,10 +192,7 @@ class ImageTruncated(Exception):
 
 def retry_sleep(trial):
     # First trial
-    if trial == 0:
-        return 0
-    # Failed once, fast retry
-    elif trial == 1:
+    if trial == 0 or trial == 1:
         return 0
     # Failed twice
     elif trial == 2:
@@ -209,23 +211,23 @@ def handle_adb_error(e):
         bool: If should retry
     """
     text = str(e)
-    if 'not found' in text:
+    if "not found" in text:
         # When you call `adb disconnect <serial>`
         # Or when adb server was killed (low possibility)
         # AdbError(device '127.0.0.1:59865' not found)
         logger.error(e)
         return True
-    elif 'timeout' in text:
+    elif "timeout" in text:
         # AdbTimeout(adb read timeout)
         logger.error(e)
         return True
-    elif 'closed' in text:
+    elif "closed" in text:
         # AdbError(closed)
         # Usually after AdbTimeout(adb read timeout)
         # Disconnect and re-connect should fix this.
         logger.error(e)
         return True
-    elif 'device offline' in text:
+    elif "device offline" in text:
         # AdbError(device offline)
         # When a device that has been connected wirelessly is disconnected passively,
         # it does not disappear from the adb device list,
@@ -235,12 +237,12 @@ def handle_adb_error(e):
         # the device is still available, but it needs to be disconnected and re-connected.
         logger.error(e)
         return True
-    elif 'is offline' in text:
+    elif "is offline" in text:
         # RuntimeError: USB device 127.0.0.1:7555 is offline
         # Raised by uiautomator2 when current adb service is killed by another version of adb service.
         logger.error(e)
         return True
-    elif text == 'rest':
+    elif text == "rest":
         # AdbError(rest)
         # Response telling adbd service has reset, client should reconnect
         logger.error(e)
@@ -249,9 +251,9 @@ def handle_adb_error(e):
         # AdbError()
         logger.exception(e)
         possible_reasons(
-            'If you are using BlueStacks or LD player or WSA, please enable ADB in the settings of your emulator',
-            'Emulator died, please restart emulator',
-            'Serial incorrect, no such device exists or emulator is not running'
+            "If you are using BlueStacks or LD player or WSA, please enable ADB in the settings of your emulator",
+            "Emulator died, please restart emulator",
+            "Serial incorrect, no such device exists or emulator is not running",
         )
         return False
 
@@ -265,7 +267,7 @@ def handle_unknown_host_service(e):
         bool: If should retry
     """
     text = str(e)
-    if 'unknown host service' in text:
+    if "unknown host service" in text:
         # AdbError(unknown host service)
         # Another version of ADB service started, current ADB service has been killed.
         # Usually because user opened a Chinese emulator, which uses ADB from the Stone Age.
@@ -283,18 +285,18 @@ def get_serial_pair(serial):
     Returns:
         tuple[Optional[str], Optional[str]]: `127.0.0.1:5555+{X}` and `emulator-5554+{X}`, 0 <= X <= 32
     """
-    if serial.startswith('127.0.0.1:'):
+    if serial.startswith("127.0.0.1:"):
         try:
             port = int(serial[10:])
             if 5555 <= port <= 5555 + 64:
-                return f'127.0.0.1:{port}', f'emulator-{port - 1}'
+                return f"127.0.0.1:{port}", f"emulator-{port - 1}"
         except (ValueError, IndexError):
             pass
-    if serial.startswith('emulator-'):
+    if serial.startswith("emulator-"):
         try:
             port = int(serial[9:])
             if 5554 <= port <= 5554 + 64:
-                return f'127.0.0.1:{port + 1}', f'emulator-{port}'
+                return f"127.0.0.1:{port + 1}", f"emulator-{port}"
         except (ValueError, IndexError):
             pass
 
@@ -329,7 +331,7 @@ def removeprefix(s, prefix):
         str | bytes:
     """
     if s.startswith(prefix):
-        return s[len(prefix):]
+        return s[len(prefix) :]
     return s
 
 
@@ -346,7 +348,7 @@ def removesuffix(s, suffix):
     """
     # s[:-0] is empty string, so we need to check if suffix is empty
     if suffix and s.endswith(suffix):
-        return s[:-len(suffix)]
+        return s[: -len(suffix)]
     return s
 
 
@@ -379,7 +381,8 @@ class HierarchyButton:
     """
     Convert UI hierarchy to an object like the Button in Alas.
     """
-    _name_regex = re.compile('@.*?=[\'\"](.*?)[\'\"]')
+
+    _name_regex = re.compile("@.*?=['\"](.*?)['\"]")
 
     def __init__(self, hierarchy: etree._Element, xpath: str):
         self.hierarchy = hierarchy
@@ -441,7 +444,7 @@ class HierarchyButton:
     """
 
     def _get_bool_prop(self, prop: str) -> bool:
-        return self.attrib.get(prop, "").lower() == 'true'
+        return self.attrib.get(prop, "").lower() == "true"
 
     @cached_property
     def index(self) -> int:
@@ -468,36 +471,36 @@ class HierarchyButton:
 
     @cached_property
     def checkable(self) -> bool:
-        return self._get_bool_prop('checkable')
+        return self._get_bool_prop("checkable")
 
     @cached_property
     def clickable(self) -> bool:
-        return self._get_bool_prop('clickable')
+        return self._get_bool_prop("clickable")
 
     @cached_property
     def enabled(self) -> bool:
-        return self._get_bool_prop('enabled')
+        return self._get_bool_prop("enabled")
 
     @cached_property
     def fucusable(self) -> bool:
-        return self._get_bool_prop('fucusable')
+        return self._get_bool_prop("fucusable")
 
     @cached_property
     def focused(self) -> bool:
-        return self._get_bool_prop('focused')
+        return self._get_bool_prop("focused")
 
     @cached_property
     def scrollable(self) -> bool:
-        return self._get_bool_prop('scrollable')
+        return self._get_bool_prop("scrollable")
 
     @cached_property
     def longClickable(self) -> bool:
-        return self._get_bool_prop('longClickable')
+        return self._get_bool_prop("longClickable")
 
     @cached_property
     def password(self) -> bool:
-        return self._get_bool_prop('password')
+        return self._get_bool_prop("password")
 
     @cached_property
     def selected(self) -> bool:
-        return self._get_bool_prop('selected')
+        return self._get_bool_prop("selected")

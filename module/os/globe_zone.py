@@ -50,7 +50,7 @@ class Zone:
         Returns:
             str: Such as `[3|圣彼得伯格|St. Petersburg|ペテルブルク|聖彼得堡]`
         """
-        return f'[{self.zone_id}|{self.en}]'
+        return f"[{self.zone_id}|{self.en}]"
 
     __repr__ = __str__
 
@@ -104,15 +104,16 @@ class ZoneManager:
             try:
                 return self.zones.select(zone_id=name)[0]
             except IndexError:
-                raise ScriptError(f'Unable to find OS globe zone: {name}')
+                raise ScriptError(f"Unable to find OS globe zone: {name}")
         elif isinstance(name, str) and name.isdigit():
             try:
                 return self.zones.select(zone_id=int(name))[0]
             except IndexError:
-                raise ScriptError(f'Unable to find OS globe zone: {name}')
+                raise ScriptError(f"Unable to find OS globe zone: {name}")
         else:
+
             def parse_name(n):
-                n = str(n).replace(' ', '').lower()
+                n = str(n).replace(" ", "").lower()
                 return n
 
             name = parse_name(name)
@@ -127,23 +128,22 @@ class ZoneManager:
                     return zone
             # Normal arbiter, Hard arbiter, BOSS after hard arbiter cleared
             # 普通难度：仲裁者·XXX, 困难难度：仲裁者·XXX, 困难模拟战：仲裁机关
-            for keyword in ['普通', '困难', '仲裁']:
+            for keyword in ["普通", "困难", "仲裁"]:
                 if keyword in name:
                     return self.name_to_zone(154)
             # Normal - Arbiter: XXX, Hard - Arbiter: XXX, Hard - Arbiter (Practice)
-            for keyword in ['normal', 'hard', 'arbiter']:
+            for keyword in ["normal", "hard", "arbiter"]:
                 if keyword in name:
                     return self.name_to_zone(154)
             # ノーマル：アビータ・XXX, ハード：アビータ・XXX, ハード模擬戦：アビータ
-            for keyword in ['ノーマル', 'ハード', 'アビータ',
-                            'ノ一マル', 'ハ一ド', 'アビ一タ']:
+            for keyword in ["ノーマル", "ハード", "アビータ", "ノ一マル", "ハ一ド", "アビ一タ"]:
                 if keyword in name:
                     return self.name_to_zone(154)
             # 普通難度：仲裁者·XXX, 困難難度：仲裁者·XXX, 困難模擬戰：仲裁機關
-            for keyword in ['普通', '困難', '仲裁']:
+            for keyword in ["普通", "困難", "仲裁"]:
                 if keyword in name:
                     return self.name_to_zone(154)
-            raise ScriptError(f'Unable to find OS globe zone: {name}')
+            raise ScriptError(f"Unable to find OS globe zone: {name}")
 
     def zone_nearest_azur_port(self, zone):
         """
@@ -178,4 +178,4 @@ class ZoneManager:
         elif hazard_level == 10:
             return self.zones.select(region=5)
         else:
-            raise ScriptError(f'Invalid hazard_level of zones: {hazard_level}')
+            raise ScriptError(f"Invalid hazard_level of zones: {hazard_level}")

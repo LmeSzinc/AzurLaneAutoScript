@@ -1,7 +1,7 @@
 import importlib
 
 from module.logger import logger
-from module.submodule.utils import *
+from module.submodule.utils import *  # noqa: F403  (re-export facade)
 
 
 def load_mod(name):

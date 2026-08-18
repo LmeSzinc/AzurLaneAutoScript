@@ -4,7 +4,7 @@ from module.base.button import Button
 from module.base.timer import Timer
 from module.base.utils import area_offset, color_similarity_2d
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_ITEMS_3
-from module.guild.assets import *
+from module.guild.assets import *  # noqa: F403  (data-bundle star import)
 from module.guild.base import GuildBase
 from module.logger import logger
 from module.map_detection.utils import Points
@@ -25,7 +25,7 @@ class GuildLobby(GuildBase):
             points = Points(points).group(threshold=40) + GUILD_REPORT_AVAILABLE.area[:2]
             # Shift to the center of report icon
             area = area_offset((-51, -45, -13, 0), offset=points[0])
-            return Button(area=area, color=(255, 255, 255), button=area, name='GUILD_REPORT')
+            return Button(area=area, color=(255, 255, 255), button=area, name="GUILD_REPORT")
         else:
             return None
 
@@ -92,6 +92,6 @@ class GuildLobby(GuildBase):
             in: GUILD_LOBBY
             out: GUILD_LOBBY
         """
-        logger.hr('Guild lobby', level=1)
+        logger.hr("Guild lobby", level=1)
         self._guild_lobby_collect()
-        logger.info('Guild lobby collect finished')
+        logger.info("Guild lobby collect finished")

@@ -1,13 +1,12 @@
 import time
 
-from module.base.utils import *
-from module.config.config import AzurLaneConfig
+from module.base.utils import cv2, float2str, load_image, np
 from module.logger import logger
 from module.map_detection.homography import Homography
 from module.map_detection.perspective import Perspective
-from module.map_detection.utils import *
+from module.map_detection.utils import perspective_transform
 
-GLOBE_MAP = './assets/map_detection/os_globe_map.png'
+GLOBE_MAP = "./assets/map_detection/os_globe_map.png"
 GLOBE_MAP_SHAPE = (2570, 1696)
 
 
@@ -23,6 +22,7 @@ class GlobeDetection:
                   globe_center: (1305, 325)
         0.062s      similarity: 0.354
     """
+
     globe = None
     homo_center: tuple
     center_loca: tuple
@@ -44,20 +44,21 @@ class GlobeDetection:
         if self._globe_map_loaded:
             return False
 
-        logger.info('Loading OS globe map')
+        logger.info("Loading OS globe map")
 
         # Load GLOBE_MAP
         image = load_image(GLOBE_MAP)
         image = self.find_peaks(image, para=self.config.OS_GLOBE_FIND_PEAKS_PARAMETERS)
         pad = self.config.OS_GLOBE_IMAGE_PAD
-        image = np.pad(image, ((pad, pad), (pad, pad)), mode='constant', constant_values=0)
+        image = np.pad(image, ((pad, pad), (pad, pad)), mode="constant", constant_values=0)
         image = image.astype(np.uint8)
         image = cv2.resize(image, None, fx=self.config.OS_GLOBE_IMAGE_RESIZE, fy=self.config.OS_GLOBE_IMAGE_RESIZE)
         self.globe = image
 
         # Load homography
         backup = self.config.temporary(
-            HOMO_STORAGE=self.config.OS_GLOBE_HOMO_STORAGE, DETECTING_AREA=self.config.OS_GLOBE_DETECTING_AREA)
+            HOMO_STORAGE=self.config.OS_GLOBE_HOMO_STORAGE, DETECTING_AREA=self.config.OS_GLOBE_DETECTING_AREA
+        )
         self.homography.find_homography(*self.config.HOMO_STORAGE, overflow=False)
         self.homo_center = self.screen2globe([self.config.SCREEN_CENTER])[0].astype(int)
         backup.recover()
@@ -128,7 +129,7 @@ class GlobeDetection:
         self.center_loca = loca
 
         time_cost = round(time.time() - start_time, 3)
-        logger.attr_align('globe_center', loca)
-        logger.attr_align('similarity', float2str(similarity), front=float2str(time_cost) + 's')
+        logger.attr_align("globe_center", loca)
+        logger.attr_align("similarity", float2str(similarity), front=float2str(time_cost) + "s")
         if similarity < 0.1:
-            logger.warning('Low similarity when matching OS globe')
+            logger.warning("Low similarity when matching OS globe")

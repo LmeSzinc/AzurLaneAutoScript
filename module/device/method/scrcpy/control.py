@@ -45,9 +45,7 @@ class ControlSender:
         return self.parent._scrcpy_resolution
 
     @inject(const.TYPE_INJECT_KEYCODE)
-    def keycode(
-            self, keycode: int, action: int = const.ACTION_DOWN, repeat: int = 0
-    ) -> bytes:
+    def keycode(self, keycode: int, action: int = const.ACTION_DOWN, repeat: int = 0) -> bytes:
         """
         Send keycode to device
 
@@ -71,9 +69,7 @@ class ControlSender:
         return struct.pack(">i", len(buffer)) + buffer
 
     @inject(const.TYPE_INJECT_TOUCH_EVENT)
-    def touch(
-            self, x: int, y: int, action: int = const.ACTION_DOWN, touch_id: int = -1
-    ) -> bytes:
+    def touch(self, x: int, y: int, action: int = const.ACTION_DOWN, touch_id: int = -1) -> bytes:
         """
         Touch screen
 
@@ -206,13 +202,13 @@ class ControlSender:
         return b""
 
     def swipe(
-            self,
-            start_x: int,
-            start_y: int,
-            end_x: int,
-            end_y: int,
-            move_step_length: int = 5,
-            move_steps_delay: float = 0.005,
+        self,
+        start_x: int,
+        start_y: int,
+        end_x: int,
+        end_y: int,
+        move_step_length: int = 5,
+        move_steps_delay: float = 0.005,
     ) -> None:
         """
         Swipe on screen

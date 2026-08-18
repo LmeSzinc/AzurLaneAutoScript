@@ -1,43 +1,46 @@
 # Image processing
-numpy==1.16.6
-scipy==1.4.1
-pillow
+numpy>=2.4,<3
+scipy>=1.10
+pillow>=9.5
 opencv-python-headless
-imageio==2.27.0
+imageio
 
 # Device connection
 adbutils==0.11.0
 uiautomator2==2.16.17
 uiautomator2cache==0.3.0.1
-wrapt==1.13.1
-retrying
+wrapt>=1.14
 lz4
-av==10.0.0
-psutil==5.9.3
+av>=10
+psutil>=5.9
 
 # Utils
-rich==11.2.0
+rich>=11
 tqdm
-jellyfish==0.11.2
+jellyfish>=0.11.2
 pyyaml
 inflection
-pydantic
+pydantic>=2.10,<3
 aiofiles
-prettytable==2.2.1
-anyio==1.3.1
+prettytable>=2.2
+anyio>=1.3
+loguru>=0.7.3
+requests>=2.31
 
 # Pushing
 onepush==1.4.0
-pycryptodome==3.9.9
+pycryptodome>=3.9.9
 pypresence==4.2.1
 
 # Ocr
-cnocr==1.2.2
-mxnet==1.6.0
+
+# Self-trained models converted from mxnet checkpoints to ONNX,
+
+# see dev_tools/ocr_convert/build_onnx.py
+onnxruntime>=1.20
 
 # Webui
-pywebio==1.6.2
-starlette==0.14.2
-uvicorn[standard]==0.17.6
-zerorpc==0.6.3
-pyzmq==22.3.0
+starlette>=0.40
+uvicorn>=0.49
+websockets>=12
+fastapi>=0.135

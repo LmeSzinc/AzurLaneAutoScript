@@ -5,9 +5,8 @@ from PIL import ImageDraw
 
 from module.base.decorator import cached_property
 from module.base.resource import Resource
-from module.base.utils import *
+from module.base.utils import *  # noqa: F403  (re-export facade)
 from module.config.server import VALID_SERVER
-from module.logger import logger
 
 
 class Button(Resource):
@@ -46,7 +45,7 @@ class Button(Resource):
         if self.file:
             self.resource_add(key=self.file)
 
-    cached = ['area', 'color', '_button', 'file', 'name', 'is_gif']
+    cached = ["area", "color", "_button", "file", "name", "is_gif"]
 
     @cached_property
     def area(self):
@@ -71,12 +70,12 @@ class Button(Resource):
         elif self.file:
             return os.path.splitext(os.path.split(self.file)[1])[0]
         else:
-            return 'BUTTON'
+            return "BUTTON"
 
     @cached_property
     def is_gif(self):
         if self.file:
-            return os.path.splitext(self.file)[1] == '.gif'
+            return os.path.splitext(self.file)[1] == ".gif"
         else:
             return False
 
@@ -111,11 +110,7 @@ class Button(Resource):
         Returns:
             bool: True if button appears on screenshot.
         """
-        return color_similar(
-            color1=get_color(image, self.area),
-            color2=self.color,
-            threshold=threshold
-        )
+        return color_similar(color1=get_color(image, self.area), color2=self.color, threshold=threshold)
 
     def load_color(self, image):
         """Load color from the specific area of the given image.
@@ -127,9 +122,9 @@ class Button(Resource):
         Returns:
             tuple: Color (r, g, b).
         """
-        self.__dict__['color'] = get_color(image, self.area)
+        self.__dict__["color"] = get_color(image, self.area)
         self.image = crop(image, self.area)
-        self.__dict__['is_gif'] = False
+        self.__dict__["is_gif"] = False
         return self.color
 
     def load_offset(self, button):
@@ -154,6 +149,7 @@ class Button(Resource):
             if self.is_gif:
                 self.image = []
                 import imageio
+
                 for image in imageio.mimread(self.file):
                     image = image[:, :, :3].copy() if len(image.shape) == 3 else image
                     image = crop(image, self.area)
@@ -399,7 +395,7 @@ class Button(Resource):
                 color=self.parse_property(self.raw_color, s),
                 button=self.parse_property(self.raw_button, s),
                 file=self.parse_property(self.raw_file, s),
-                name=self.name
+                name=self.name,
             )
         return out
 
@@ -413,13 +409,13 @@ class ButtonGrid:
         if name:
             self._name = name
         else:
-            (filename, line_number, function_name, text) = traceback.extract_stack()[-2]
-            self._name = text[:text.find('=')].strip()
+            (_filename, _line_number, _function_name, text) = traceback.extract_stack()[-2]
+            self._name = text[: text.find("=")].strip()
 
     def __getitem__(self, item):
         base = np.round(np.array(item) * self.delta + self.origin).astype(int)
         area = tuple(np.append(base, base + self.button_shape))
-        return Button(area=area, color=(), button=area, name='%s_%s_%s' % (self._name, item[0], item[1]))
+        return Button(area=area, color=(), button=area, name="%s_%s_%s" % (self._name, item[0], item[1]))
 
     def generate(self):
         for y in range(self.grid_shape[1]):
@@ -444,7 +440,8 @@ class ButtonGrid:
         origin = self.origin + area[:2]
         button_shape = np.subtract(area[2:], area[:2])
         return ButtonGrid(
-            origin=origin, delta=self.delta, button_shape=button_shape, grid_shape=self.grid_shape, name=name)
+            origin=origin, delta=self.delta, button_shape=button_shape, grid_shape=self.grid_shape, name=name
+        )
 
     def move(self, vector, name=None):
         """
@@ -459,7 +456,8 @@ class ButtonGrid:
             name = self._name
         origin = self.origin + vector
         return ButtonGrid(
-            origin=origin, delta=self.delta, button_shape=self.button_shape, grid_shape=self.grid_shape, name=name)
+            origin=origin, delta=self.delta, button_shape=self.button_shape, grid_shape=self.grid_shape, name=name
+        )
 
     def gen_mask(self):
         """
@@ -481,4 +479,4 @@ class ButtonGrid:
         """
         Save mask to {name}.png
         """
-        self.gen_mask().save(f'{self._name}.png')
+        self.gen_mask().save(f"{self._name}.png")

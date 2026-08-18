@@ -15,18 +15,18 @@ class RaidStage:
         return self.name
 
 
-STAGES = ['easy', 'normal', 'hard']
-STAGE_FILTER = Filter(regex=re.compile('(\w+)'), attr=['name'])
+STAGES = ["easy", "normal", "hard"]
+STAGE_FILTER = Filter(regex=re.compile(r"(\w+)"), attr=["name"])
 
 
 class RaidDaily(RaidRun):
-    def run(self, name=''):
+    def run(self, name=""):
         """
         Args:
             name (str): Raid name, such as 'raid_20200624'
         """
         if self.is_raid_rpg():
-            logger.info('RPG raid has no dailies')
+            logger.info("RPG raid has no dailies")
             self.config.Scheduler_Enable = False
             self.config.task_stop()
 
@@ -48,19 +48,15 @@ class RaidDaily(RaidRun):
 
         # If configured for EX, always do last
         # So does not use stage filtering
-        stages = [stage.lower().strip()\
-            for stage in\
-            self.config.RaidDaily_StageFilter.split('>')]
-        if 'ex' in stages:
+        stages = [stage.lower().strip() for stage in self.config.RaidDaily_StageFilter.split(">")]
+        if "ex" in stages:
             # Collect raid tickets from clearing
             # any difficulty 5+ and 10+ times
             self.ui_goto_main()
-            Reward(self.config, self.device).reward_mission(
-                   daily=self.config.Reward_CollectMission,
-                   weekly=False)
+            Reward(self.config, self.device).reward_mission(daily=self.config.Reward_CollectMission, weekly=False)
             self.ui_ensure(page_raid)
 
-            logger.hr('ex', level=1)
-            super().run(name=name, mode='ex', total=self.get_remain('ex'))
+            logger.hr("ex", level=1)
+            super().run(name=name, mode="ex", total=self.get_remain("ex"))
 
         self.config.task_delay(server_update=True)

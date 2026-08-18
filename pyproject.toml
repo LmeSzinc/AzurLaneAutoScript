@@ -1,0 +1,127 @@
+[project]
+name = "alas"
+version = "1.0.0"
+description = "AzurLaneAutoScript (Alas)"
+requires-python = ">=3.12"
+license = { text = "GPL-3.0" }
+
+dependencies = [
+    # Image processing
+    "numpy>=2.4,<3",
+    "scipy>=1.10",
+    "pillow>=9.5",
+    "opencv-python>=4.12,<5",
+    "imageio",
+    # OCR (onnxruntime backend, models converted from self-trained mxnet checkpoints)
+    "onnxruntime>=1.20",
+    # Device connection
+    "adbutils==0.11.0",
+    "uiautomator2==2.16.17",
+    "uiautomator2cache==0.3.0.1",
+    "wrapt>=1.14",
+    "lz4",
+    "av>=10",
+    "psutil>=5.9",
+    # Utils
+    "rich>=11",
+    "tqdm",
+    "jellyfish>=0.11.2",
+    "pyyaml",
+    "inflection",
+    "pydantic>=2.10,<3",
+    "aiofiles",
+    "prettytable>=2.2",
+    "anyio>=1.3",
+    "loguru>=0.7.3",
+    "requests>=2.31",
+    # Pushing
+    "onepush==1.4.0",
+    "pycryptodome>=3.9.9",
+    "pypresence==4.2.1",
+    # Webui
+    "starlette>=0.40",
+    "uvicorn>=0.49",
+    "websockets>=12",
+    "fastapi>=0.135",
+    "decorator>=5.3.1",
+]
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28.1",
+    "pyright>=1.1.411",
+    "pytest>=8.4",
+    "ruff>=0.5",
+]
+
+[tool.ruff]
+target-version = "py313"
+line-length = 120
+extend-exclude = [
+    # NOTE: bare patterns match same-named dirs at any depth (gitignore
+    # semantics; leading-slash anchoring is not honored by ruff's resolver),
+    # so module/config, module/campaign and module/submodule are also
+    # excluded from `ruff check .`. Lint them explicitly once cleaned:
+    #   ruff check module/config module/campaign module/submodule
+    "config",
+    "campaign",   # generated map configs (F401-dominated, cleaned by generator later)
+    "submodule",  # vendored third-party bridges (AlasFpyBridge, Maa runtime checkouts)
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "B", "UP", "I", "ASYNC", "SIM", "PT", "C4", "RUF"]
+ignore = [
+    "E501",  # line too long, handled by line-length convention in legacy code
+    "E402",  # module level import not at top of file
+    "E722",  # bare except, used heavily in legacy code
+    "E731",  # lambda assignment
+    "F405",  # name may be undefined from star import: every star import site is
+    #         annotated `# noqa: F403 (data-bundle star import | re-export facade)`
+    #         (169 sites, see dev_tools/annotate_star_imports.py); the 2787 usage
+    #         sites of those intentional bundles cannot be annotated one by one,
+    #         and real undefined names are caught by pyright + import smoke tests.
+    "B008",  # function call in default argument
+    "B905",  # zip without strict, py<3.10 compatibility in legacy code
+    "B904",  # raise-without-from: per-site exception chaining intent needs manual review
+    "RUF001",  # ambiguous unicode in strings: game text/names are intentional
+    "RUF002",  # ambiguous unicode in docstrings: game text/names are intentional
+    "RUF003",  # ambiguous unicode in comments: game text/names are intentional
+    "RUF012",  # mutable class defaults: established legacy pattern (class-level caches)
+    "SIM102",  # collapsible-if: style-only refactor on game logic, no behavioral value
+    "SIM103",  # needless-bool: style-only refactor on game logic, no behavioral value
+    "SIM108",  # if-else-block-instead-of-if-exp: style-only refactor, no behavioral value
+    "UP031",  # %-formatting -> f-string: churn on legacy code, deferred
+    "F811",  # redefined-while-unused: established override idiom in task classes
+    "SIM105",  # suppressible-exception (except: pass): intentional suppression in bot logic
+    "B005",  # strip with multi-char strings: intentional char-set rstrip on game names
+    # Remaining rules are pure style/micro-optimizations on legacy code with no
+    # behavioral value; ignored to keep lint green, revisit opportunistically:
+    "RUF046",  # unnecessary-cast-to-int
+    "C414",  # unnecessary-double-cast-or-process
+    "SIM110",  # reimplemented-builtin
+    "SIM210",  # if-expr-with-true-false
+    "RUF007",  # zip-instead-of-pairwise
+    "SIM109",  # compare-with-tuple
+    "UP028",  # yield-in-for-loop
+    "C400",  # unnecessary-generator-list
+    "C405",  # unnecessary-literal-set
+    "C409",  # unnecessary-literal-within-tuple-call
+    "RUF015",  # unnecessary-iterable-allocation-for-first-element
+    "SIM116",  # if-else-block-instead-of-dict-lookup
+    "C410",  # unnecessary-literal-within-list-call
+    "C411",  # unnecessary-list-call
+    "C417",  # unnecessary-map
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+filterwarnings = [
+    # websockets 14.x deprecates the legacy client API used by
+    # module/device/method/minitouch.py (WebSocketClientProtocol /
+    # ConnectionClosedError / connect). The warning fires at import time
+    # from the library itself; the head-on fix is migrating the minitouch
+    # WebSocket client to the new asyncio API, which is device-layer work
+    # (stage 5) requiring real-emulator touch regression.
+    "ignore:websockets.*deprecated.*:DeprecationWarning",
+]

@@ -1,0 +1,11 @@
+{
+  "count": 357,
+  "ok": 356,
+  "failed": [
+    {
+      "module": "module.awaken.awaken",
+      "error": "No module named 'pkg_resources'",
+      "traceback": "Traceback (most recent call last):\n  File \"D:\\source\\qoder\\AzurLaneAutoScript\\.qoder\\smoke_import_all.py\", line 63, in main\n    importlib.import_module(name)\n    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^\n  File \"C:\\Users\\xyg\\AppData\\Roaming\\uv\\python\\cpython-3.13-windows-x86_64-none\\Lib\\importlib\\__init__.py\", line 88, in import_module\n    return _bootstrap._gcd_import(name[level:], package, level)\n           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"<frozen importlib._bootstrap>\", line 1387, in _gcd_import\n  File \"<frozen importlib._bootstrap>\", line 1360, in _find_and_load\n  File \"<frozen importlib._bootstrap>\", line 1331, in _find_and_load_unlocked\n  File \"<frozen importlib._bootstrap>\", line 935, in _load_unlocked\n  File \"<frozen importlib._bootstrap_external>\", line 1026, in exec_module\n  File \"<frozen importlib._bootstrap>\", line 488, in _call_with_frames_removed\n  File \"D:\\source\\qoder\\AzurLaneAutoScript\\module\\awaken\\awaken.py\", line 6, in <module>\n    from module.retire.dock import DOCK_EMPTY, Dock\n  File \"D:\\source\\qoder\\AzurLaneAutoScript\\module\\retire\\dock.py\", line 6, in <module>\n    from module.equipment.equipment import Equipment\n  File \"D:\\source\\qoder\\AzurLaneAutoScript\\module\\equipment\\equipment.py\", line 5, in <module>\n    from module.equipment.equipment_code import EquipmentCodeHandler\n  File \"D:\\source\\qoder\\AzurLaneAutoScript\\module\\equipment\\equipment_code.py\", line 4, in <module>\n    from module.device.method.utils import HierarchyButton\n  File \"D:\\source\\qoder\\AzurLaneAutoScript\\module\\device\\method\\utils.py\", line 8, in <module>\n    import uiautomator2 as u2\n  File \"D:\\source\\qoder\\AzurLaneAutoScript\\.venv\\Lib\\site-packages\\uiautomator2\\__init__.py\", line 40, in <module>\n    import adbutils\n  File \"D:\\source\\qoder\\AzurLaneAutoScript\\.venv\\Lib\\site-packages\\adbutils\\__init__.py\", line 19, in <module>\n    import pkg_resources\nModuleNotFoundError: No module named 'pkg_resources'\n"
+    }
+  ]
+}

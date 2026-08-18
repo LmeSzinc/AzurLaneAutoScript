@@ -1,6 +1,6 @@
 from module.combat.assets import GET_ITEMS_1
 from module.logger import logger
-from module.meowfficer.assets import *
+from module.meowfficer.assets import *  # noqa: F403  (data-bundle star import)
 from module.meowfficer.base import MeowfficerBase
 from module.ocr.ocr import Digit, DigitCounter
 from module.ui.assets import MEOWFFICER_GOTO_DORMMENU
@@ -36,14 +36,14 @@ class MeowfficerBuy(MeowfficerBase):
                 break
             # else: retry if MEOWFFICER has ocr error
         else:
-            logger.warning('Failed to get meowfficer buy status')
+            logger.warning("Failed to get meowfficer buy status")
             return 0
 
-        logger.attr('Meowfficer_remain', remain)
-        logger.attr('Meowfficer_coins', coins)
+        logger.attr("Meowfficer_remain", remain)
+        logger.attr("Meowfficer_coins", coins)
 
         if total != BUY_MAX:
-            logger.warning(f'Invalid meowfficer buy limit: {total}, revise to {BUY_MAX}')
+            logger.warning(f"Invalid meowfficer buy limit: {total}, revise to {BUY_MAX}")
             total = BUY_MAX
             bought = total - remain
 
@@ -72,7 +72,7 @@ class MeowfficerBuy(MeowfficerBase):
         """
         today_left = max(0, total - bought)
         if today_left <= 0:
-            logger.info(f'Already bought {bought}/{total} today, stopped')
+            logger.info(f"Already bought {bought}/{total} today, stopped")
             return 0
 
         # Baseline buy
@@ -96,12 +96,12 @@ class MeowfficerBuy(MeowfficerBase):
         free = 1 if bought == 0 else 0
         affordable = coins // BUY_PRIZE + free
         if count > affordable:
-            logger.info(f'Current coins only afford to buy {affordable}')
+            logger.info(f"Current coins only afford to buy {affordable}")
             count = affordable
 
         logger.info(
-            f'Meowfficer buy plan: count={count}, baseline={baseline}, '
-            f'overflow={extra}, bought={bought}/{total}, coins={coins}'
+            f"Meowfficer buy plan: count={count}, baseline={baseline}, "
+            f"overflow={extra}, bought={bought}/{total}, coins={coins}"
         )
         return count
 
@@ -116,7 +116,7 @@ class MeowfficerBuy(MeowfficerBase):
         Args:
             count (int): 1 to BUY_MAX.
         """
-        logger.hr('Meow buy choose', level=2)
+        logger.hr("Meow buy choose", level=2)
         self.meow_enter(MEOWFFICER_BUY_ENTER, check_button=MEOWFFICER_BUY)
 
         # info_bar may covers OCR_MEOWFFICER_CHOOSE,
@@ -124,8 +124,13 @@ class MeowfficerBuy(MeowfficerBase):
         # info_bar is usually from the previous Dorm task or meowfficer fort
         self.handle_info_bar()
 
-        self.ui_ensure_index(count, letter=MEOWFFICER_CHOOSE, prev_button=MEOWFFICER_BUY_PREV,
-                             next_button=MEOWFFICER_BUY_NEXT, skip_first_screenshot=True)
+        self.ui_ensure_index(
+            count,
+            letter=MEOWFFICER_CHOOSE,
+            prev_button=MEOWFFICER_BUY_PREV,
+            next_button=MEOWFFICER_BUY_NEXT,
+            skip_first_screenshot=True,
+        )
 
     def meow_confirm(self, skip_first_screenshot=True) -> None:
         """
@@ -134,11 +139,11 @@ class MeowfficerBuy(MeowfficerBase):
             out: page_meowfficer
         """
         # Here uses a simple click, to avoid clicking MEOWFFICER_BUY multiple times.
-        logger.hr('Meow buy confirm', level=2)
+        logger.hr("Meow buy confirm", level=2)
         executed = False
         with self.stat.new(
-                genre="meowfficer_buy",
-                method=self.config.DropRecord_MeowfficerBuy,
+            genre="meowfficer_buy",
+            method=self.config.DropRecord_MeowfficerBuy,
         ) as drop:
             while 1:
                 if skip_first_screenshot:
@@ -181,7 +186,7 @@ class MeowfficerBuy(MeowfficerBase):
             in: page_meowfficer
             out: page_meowfficer
         """
-        logger.hr('Meowfficer buy', level=1)
+        logger.hr("Meowfficer buy", level=1)
 
         buy_amount = self.config.Meowfficer_BuyAmount
         buy_amount = max(min(buy_amount, 15), 1)
@@ -194,4 +199,4 @@ class MeowfficerBuy(MeowfficerBase):
             self.meow_choose(count)
             self.meow_confirm()
 
-        logger.warning('Too many trial in meowfficer buy, stopped.')
+        logger.warning("Too many trial in meowfficer buy, stopped.")

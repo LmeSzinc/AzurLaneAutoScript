@@ -1,9 +1,9 @@
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.base.timer import Timer
-from module.combat.assets import *
+from module.combat.assets import *  # noqa: F403  (data-bundle star import)
 from module.logger import logger
-from module.reward.assets import *
+from module.reward.assets import *  # noqa: F403  (data-bundle star import)
 from module.ui.navbar import Navbar
 from module.ui.page import page_main, page_mission, page_reward
 from module.ui.ui import UI
@@ -28,8 +28,8 @@ class Reward(UI):
         if not oil and not coin and not exp:
             return False
 
-        logger.hr('Reward receive')
-        logger.info(f'oil={oil}, coin={coin}, exp={exp}')
+        logger.hr("Reward receive")
+        logger.info(f"oil={oil}, coin={coin}, exp={exp}")
         confirm_timer = Timer(1, count=3).start()
         # Set click interval to 0.3, because game can't respond that fast.
         click_timer = Timer(0.3)
@@ -51,7 +51,7 @@ class Reward(UI):
             if confirm_timer.reached():
                 break
 
-        logger.info('Reward receive end')
+        logger.info("Reward receive end")
         return True
 
     def _reward_get_state(self):
@@ -101,7 +101,7 @@ class Reward(UI):
             in: unknown popup
             out: page_mission
         """
-        logger.info('Mission claim receive')
+        logger.info("Mission claim receive")
         timeout = Timer(2, count=6).start()
         for _ in self.loop():
             if self.ui_page_appear(page_mission):
@@ -109,8 +109,8 @@ class Reward(UI):
                 if state:
                     return state
                 if timeout.reached():
-                    logger.warning('Wait mission receive timeout')
-                    return 'timeout'
+                    logger.warning("Wait mission receive timeout")
+                    return "timeout"
             else:
                 timeout.reset()
 
@@ -127,7 +127,7 @@ class Reward(UI):
                 continue
             if self.handle_story_skip():
                 continue
-            if self.handle_popup_confirm('MISSION_REWARD'):
+            if self.handle_popup_confirm("MISSION_REWARD"):
                 continue
 
     def _reward_wait_mission_list(self):
@@ -144,7 +144,7 @@ class Reward(UI):
             if state:
                 return state
             if timeout.reached():
-                return 'timeout'
+                return "timeout"
 
     def _reward_mission_collect(self):
         """
@@ -156,14 +156,14 @@ class Reward(UI):
         """
         state = self._reward_wait_mission_list()
         while 1:
-            logger.attr('MissionState', state)
+            logger.attr("MissionState", state)
             self.device.stuck_record_clear()
             self.device.click_record_clear()
-            if state == 'timeout':
-                logger.warning('Reward wait mission list timeout')
+            if state == "timeout":
+                logger.warning("Reward wait mission list timeout")
                 return state
             if state in [MISSION_EMPTY, MISSION_UNFINISH]:
-                logger.info('Mission collect finished')
+                logger.info("Mission collect finished")
                 break
             elif state in [MISSION_MULTI, MISSION_SINGLE]:
                 # Clear any existing interval for the following assets
@@ -172,7 +172,7 @@ class Reward(UI):
                 state = self._reward_mission_claim_receive()
                 continue
             else:
-                logger.warning('Empty mission state, mission collect finished')
+                logger.warning("Empty mission state, mission collect finished")
 
         return state
 
@@ -194,7 +194,7 @@ class Reward(UI):
             bool, if handled
         """
         if not self.image_color_count(MISSION_WEEKLY_RED_DOT, color=(206, 81, 66), threshold=221, count=20):
-            logger.info('No MISSION_WEEKLY_RED_DOT')
+            logger.info("No MISSION_WEEKLY_RED_DOT")
             return False
 
         self.reward_side_navbar_ensure(upper=5)
@@ -209,10 +209,10 @@ class Reward(UI):
             in: page_main
         """
         if self.appear(MISSION_NOTICE):
-            logger.info('Found mission notice MISSION_NOTICE')
+            logger.info("Found mission notice MISSION_NOTICE")
             return True
         if self.image_color_count(MISSION_NOTICE_WHITE, color=(214, 117, 99), threshold=221, count=20):
-            logger.info('Found mission notice MISSION_NOTICE_WHITE')
+            logger.info("Found mission notice MISSION_NOTICE_WHITE")
             return True
 
         return False
@@ -234,7 +234,7 @@ class Reward(UI):
         """
         if not daily and not weekly:
             return False
-        logger.hr('Mission reward')
+        logger.hr("Mission reward")
         if not self.reward_mission_notice():
             return False
 
@@ -257,13 +257,10 @@ class Reward(UI):
            event.
         """
         reward_side_navbar = ButtonGrid(
-            origin=(21, 118), delta=(0, 94.5),
-            button_shape=(60, 75), grid_shape=(1, 6),
-            name='REWARD_SIDE_NAVBAR')
+            origin=(21, 118), delta=(0, 94.5), button_shape=(60, 75), grid_shape=(1, 6), name="REWARD_SIDE_NAVBAR"
+        )
 
-        return Navbar(grids=reward_side_navbar,
-                      active_color=(247, 255, 173),
-                      inactive_color=(140, 162, 181))
+        return Navbar(grids=reward_side_navbar, active_color=(247, 255, 173), inactive_color=(140, 162, 181))
 
     def reward_side_navbar_ensure(self, upper=None, bottom=None):
         """
@@ -302,10 +299,8 @@ class Reward(UI):
         """
         self.ui_ensure(page_reward)
         self.reward_receive(
-            oil=self.config.Reward_CollectOil,
-            coin=self.config.Reward_CollectCoin,
-            exp=self.config.Reward_CollectExp)
+            oil=self.config.Reward_CollectOil, coin=self.config.Reward_CollectCoin, exp=self.config.Reward_CollectExp
+        )
         self.ui_goto(page_main)
-        self.reward_mission(daily=self.config.Reward_CollectMission,
-                            weekly=self.config.Reward_CollectWeeklyMission)
+        self.reward_mission(daily=self.config.Reward_CollectMission, weekly=self.config.Reward_CollectWeeklyMission)
         self.config.task_delay(success=True)

@@ -3,7 +3,7 @@ from module.campaign.campaign_base import CampaignBase
 from module.config.config import AzurLaneConfig
 from module.logger import logger
 from module.map_detection.homography import Homography
-from module.map_detection.utils import *
+from module.map_detection.utils import np
 
 
 class Config:
@@ -11,20 +11,15 @@ class Config:
     # Universal configs to reduce error
     INTERNAL_LINES_HOUGHLINES_THRESHOLD = 40
     EDGE_LINES_HOUGHLINES_THRESHOLD = 40
-    DETECTION_BACKEND = 'perspective'
+    DETECTION_BACKEND = "perspective"
 
     INTERNAL_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (80, 255 - 24),
-        'width': (1.5, 10),
-        'prominence': 10,
-        'distance': 35,
+        "height": (80, 255 - 24),
+        "width": (1.5, 10),
+        "prominence": 10,
+        "distance": 35,
     }
-    EDGE_LINES_FIND_PEAKS_PARAMETERS = {
-        'height': (255 - 40, 255),
-        'prominence': 10,
-        'distance': 50,
-        'wlen': 1000
-    }
+    EDGE_LINES_FIND_PEAKS_PARAMETERS = {"height": (255 - 40, 255), "prominence": 10, "distance": 50, "wlen": 1000}
 
     STORY_OPTION = -2
 
@@ -38,8 +33,8 @@ class Config:
     MAP_SWIPE_MULTIPLY_MINITOUCH = (1.276, 0.974)
 
 
-cfg = AzurLaneConfig('alas', task='Alas').merge(Config())
-cfg.DETECTION_BACKEND = 'perspective'
+cfg = AzurLaneConfig("alas", task="Alas").merge(Config())
+cfg.DETECTION_BACKEND = "perspective"
 az = CampaignBase(cfg)
 az.map = MAP
 # az.device.disable_stuck_detection()
@@ -59,18 +54,18 @@ class SwipeSimulate:
         self.simulate_count = simulate_count
         self.swipe = np.array(swipe, dtype=float)
         self.swipe_base = self.cal_swipe_base()
-        logger.info(f'Swipe base {self.swipe_base}')
+        logger.info(f"Swipe base {self.swipe_base}")
 
     def cal_swipe_base(self):
         swipe_base = None
-        for loca, grid in az.view.grids.items():
+        for _loca, grid in az.view.grids.items():
             offset = grid.screen2grid([az.config.SCREEN_CENTER])[0].astype(int)
             points = grid.grid2screen(np.add([[0.5, 0], [-0.5, 0], [0, 0.5], [0, -0.5]], offset))
             swipe_base = np.array([np.linalg.norm(points[0] - points[1]), np.linalg.norm(points[2] - points[3])])
             break
 
         if swipe_base is None:
-            logger.critical('Unable to get swipe_base')
+            logger.critical("Unable to get swipe_base")
             exit(1)
         else:
             return swipe_base
@@ -88,7 +83,7 @@ class SwipeSimulate:
         return offset
 
     def simulate(self):
-        logger.hr(f'Swipe: {self.swipe}', level=1)
+        logger.hr(f"Swipe: {self.swipe}", level=1)
         record = []
         for n in range(self.simulate_count):
             hm.detect(az.device.image)
@@ -106,7 +101,8 @@ class SwipeSimulate:
             # (170, 65)
             multiply = np.round(np.abs(self.swipe) / (3, 3) / self.swipe_base, 3)
             logger.info(
-                f'[{n}/{self.simulate_count}] init_offset={init_offset}, offset={offset}, fit={fit}, multiply={multiply}')
+                f"[{n}/{self.simulate_count}] init_offset={init_offset}, offset={offset}, fit={fit}, multiply={multiply}"
+            )
 
             fleet = az.get_fleet_show_index()
             az.fleet_set(3 - fleet)
@@ -125,14 +121,14 @@ class SwipeSimulate:
 
     def show(self):
         print()
-        print(f'Last swipe: {self.swipe}')
-        print('Result to copy:')
+        print(f"Last swipe: {self.swipe}")
+        print("Result to copy:")
         print()
 
         adb, minitouch, maatouch = get_multiplier(self.multiply[0])
-        print(f'    MAP_SWIPE_MULTIPLY = {adb}')
-        print(f'    MAP_SWIPE_MULTIPLY_MINITOUCH = {minitouch}')
-        print(f'    MAP_SWIPE_MULTIPLY_MAATOUCH = {maatouch}')
+        print(f"    MAP_SWIPE_MULTIPLY = {adb}")
+        print(f"    MAP_SWIPE_MULTIPLY_MINITOUCH = {minitouch}")
+        print(f"    MAP_SWIPE_MULTIPLY_MAATOUCH = {maatouch}")
         print()
 
     def run(self):
@@ -141,6 +137,7 @@ class SwipeSimulate:
             if result <= 1:
                 break
 
+
 def get_multiplier(minitouch_x):
     # MAP_SWIPE_MULTIPLY = (1.064, 1.084)
     # MAP_SWIPE_MULTIPLY_MINITOUCH = (1.029, 1.048)
@@ -148,15 +145,17 @@ def get_multiplier(minitouch_x):
     minitouch = np.array((1.029, 1.048)) / 1.029 * minitouch_x
     adb = np.array((1.064, 1.084)) / 1.029 * minitouch_x
     maatouch = np.array((0.999, 1.017)) / 1.029 * minitouch_x
-    return f'({adb[0]:.3f}, {adb[1]:.3f})', \
-           f'({minitouch[0]:.3f}, {minitouch[1]:.3f})', \
-           f'({maatouch[0]:.3f}, {maatouch[1]:.3f})'
+    return (
+        f"({adb[0]:.3f}, {adb[1]:.3f})",
+        f"({minitouch[0]:.3f}, {minitouch[1]:.3f})",
+        f"({maatouch[0]:.3f}, {maatouch[1]:.3f})",
+    )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     """
     To fit MAP_SWIPE_MULTIPLY.
-    
+
     Before running this, move your fleet on map to be like this:
     FL is current fleet, Fl is another fleet.
     Camera should focus on current fleet (Double click switch over to refocus)

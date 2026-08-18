@@ -1,10 +1,11 @@
 import os
-from typing import Callable, Generic, TypeVar
+from collections.abc import Callable
+from typing import TypeVar
 
 T = TypeVar("T")
 
 
-class cached_property(Generic[T]):
+class cached_property[T]:
     """
     cached-property from https://github.com/pydanny/cached-property
     Add typing support
@@ -44,11 +45,11 @@ def iter_folder(folder, is_dir=False, ext=None):
         sub = os.path.join(folder, file)
         if is_dir:
             if os.path.isdir(sub):
-                yield sub.replace('\\\\', '/').replace('\\', '/')
+                yield sub.replace("\\\\", "/").replace("\\", "/")
         elif ext is not None:
             if not os.path.isdir(sub):
                 _, extension = os.path.splitext(file)
                 if extension == ext:
-                    yield os.path.join(folder, file).replace('\\\\', '/').replace('\\', '/')
+                    yield os.path.join(folder, file).replace("\\\\", "/").replace("\\", "/")
         else:
-            yield os.path.join(folder, file).replace('\\\\', '/').replace('\\', '/')
+            yield os.path.join(folder, file).replace("\\\\", "/").replace("\\", "/")

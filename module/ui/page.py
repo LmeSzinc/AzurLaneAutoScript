@@ -1,12 +1,18 @@
 import traceback
 
-from module.coalition.assets import *
-from module.event_hospital.assets import HOSIPITAL_CHECK
-from module.freebies.assets import MAIL_ENTER
-from module.raid.assets import *
-from module.retire.assets import DOCK_CHECK
-from module.ui.assets import *
-from module.ui_white.assets import *
+from module.ui.assets import *  # noqa: F403  (data-bundle star import)
+from module.ui.assets_bridge import (
+    DOCK_CHECK,
+    HORROR_COALITION_CHECK,
+    HOSIPITAL_CHECK,
+    MAIL_ENTER,
+    RPG_BACK,
+    RPG_GOTO_STAGE,
+    RPG_GOTO_STORY,
+    RPG_HOME,
+    RPG_LEAVE_CITY,
+)
+from module.ui_white.assets import *  # noqa: F403  (data-bundle star import)
 
 
 class Page:
@@ -56,8 +62,8 @@ class Page:
     def __init__(self, check_button):
         self.check_button = check_button
         self.links = {}
-        (filename, line_number, function_name, text) = traceback.extract_stack()[-2]
-        self.name = text[:text.find('=')].strip()
+        (_filename, _line_number, _function_name, text) = traceback.extract_stack()[-2]
+        self.name = text[: text.find("=")].strip()
         self.parent = None
         Page.all_pages[self.name] = self
 
@@ -71,7 +77,7 @@ class Page:
         return self.name
 
     def is_island(self):
-        return self.name == 'page_island' or self.name.startswith('page_island_')
+        return self.name == "page_island" or self.name.startswith("page_island_")
 
     def link(self, button, destination):
         self.links[destination] = button

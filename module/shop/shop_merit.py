@@ -1,13 +1,13 @@
 from module.base.decorator import cached_property
 from module.logger import logger
-from module.shop.base import ShopItemGrid, ShopItemGrid_250814
+from module.shop.base import ShopItemGrid_250814
 from module.shop.clerk import ShopClerk
 from module.shop.shop_status import ShopStatus
 from module.shop.ui import ShopUI
 
 
 class MeritShop_250814(ShopClerk, ShopUI, ShopStatus):
-    shop_template_folder = './assets/shop/merit'
+    shop_template_folder = "./assets/shop/merit"
 
     @cached_property
     def shop_filter(self):
@@ -34,7 +34,7 @@ class MeritShop_250814(ShopClerk, ShopUI, ShopStatus):
             price_area=(18, 121, 85, 150),
         )
         shop_merit_items.load_template_folder(self.shop_template_folder)
-        shop_merit_items.load_cost_template_folder('./assets/shop/cost')
+        shop_merit_items.load_cost_template_folder("./assets/shop/cost")
         return shop_merit_items
 
     def shop_items(self):
@@ -59,7 +59,7 @@ class MeritShop_250814(ShopClerk, ShopUI, ShopStatus):
             int: merit amount
         """
         self._currency = self.status_get_merit()
-        logger.info(f'Merit: {self._currency}')
+        logger.info(f"Merit: {self._currency}")
         return self._currency
 
     def run(self):
@@ -72,7 +72,7 @@ class MeritShop_250814(ShopClerk, ShopUI, ShopStatus):
 
         # When called, expected to be in
         # correct Merit Shop interface
-        logger.hr('Merit Shop', level=1)
+        logger.hr("Merit Shop", level=1)
 
         # Execute buy operations
         # Refresh if enabled and available

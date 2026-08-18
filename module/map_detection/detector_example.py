@@ -18,6 +18,7 @@ class DetectionBackendExample:
     """
     Input
     """
+
     def load(self, image):
         """
         Args:

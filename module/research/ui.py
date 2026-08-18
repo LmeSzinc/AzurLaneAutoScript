@@ -2,7 +2,7 @@ from module.base.timer import Timer
 from module.base.utils import crop, rgb2gray
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_2, GET_ITEMS_3, GET_ITEMS_3_CHECK
 from module.logger import logger
-from module.research.assets import *
+from module.research.assets import *  # noqa: F403  (data-bundle star import)
 from module.research.project import RESEARCH_STATUS
 from module.research.series import RESEARCH_SCALING
 from module.ui.assets import BACK_ARROW, RESEARCH_CHECK
@@ -28,8 +28,13 @@ class ResearchUI(UI):
             in: is_in_research
             out: is_in_queue
         """
-        self.ui_click(RESEARCH_GOTO_QUEUE, check_button=self.is_in_queue, appear_button=self.is_in_research,
-                      retry_wait=1, skip_first_screenshot=skip_first_screenshot)
+        self.ui_click(
+            RESEARCH_GOTO_QUEUE,
+            check_button=self.is_in_queue,
+            appear_button=self.is_in_research,
+            retry_wait=1,
+            skip_first_screenshot=skip_first_screenshot,
+        )
 
     def queue_quit(self):
         """
@@ -37,7 +42,7 @@ class ResearchUI(UI):
             in: is_in_queue
             out: is_in_research, project stabled
         """
-        logger.info('Queue quit')
+        logger.info("Queue quit")
         for _ in self.loop():
             if self.is_in_research():
                 break
@@ -47,11 +52,11 @@ class ResearchUI(UI):
             # handle get_items
             # get_items should be handled when receiving, but sometimes just slow network
             if self.appear(GET_ITEMS_1, offset=(20, 20), interval=3):
-                logger.info(f'{GET_ITEMS_1} -> {GET_ITEMS_RESEARCH_SAVE}')
+                logger.info(f"{GET_ITEMS_1} -> {GET_ITEMS_RESEARCH_SAVE}")
                 self.device.click(GET_ITEMS_RESEARCH_SAVE)
                 continue
             if self.appear(GET_ITEMS_2, offset=(20, 20), interval=3):
-                logger.info(f'{GET_ITEMS_1} -> {GET_ITEMS_RESEARCH_SAVE}')
+                logger.info(f"{GET_ITEMS_1} -> {GET_ITEMS_RESEARCH_SAVE}")
                 self.device.click(GET_ITEMS_RESEARCH_SAVE)
                 continue
 
@@ -85,8 +90,7 @@ class ResearchUI(UI):
             self.device.sleep(1.5)
             self.device.screenshot()
             drop.add(self.device.image)
-            self.device.swipe_vector((0, 250), box=ITEMS_3_SWIPE.area, random_range=(-10, -10, 10, 10),
-                                     padding=0)
+            self.device.swipe_vector((0, 250), box=ITEMS_3_SWIPE.area, random_range=(-10, -10, 10, 10), padding=0)
             self.device.sleep(2)
             self.device.screenshot()
             drop.add(self.device.image)
@@ -100,26 +104,26 @@ class ResearchUI(UI):
             list[str]: List of project status
         """
         out = []
-        for index, status, scaling in zip(range(5), RESEARCH_STATUS, RESEARCH_SCALING):
+        for _index, status, scaling in zip(range(5), RESEARCH_STATUS, RESEARCH_SCALING):
             info = status.crop((0, -40, 200, 0))
             piece = rgb2gray(crop(image, info.area, copy=False))
             if TEMPLATE_WAITING.match(piece, scaling=scaling, similarity=0.75):
-                out.append('waiting')
+                out.append("waiting")
             elif TEMPLATE_RUNNING.match(piece, scaling=scaling, similarity=0.75):
-                out.append('running')
+                out.append("running")
             elif TEMPLATE_DETAIL.match(piece, scaling=scaling, similarity=0.75):
-                out.append('detail')
+                out.append("detail")
             else:
-                out.append('unknown')
+                out.append("unknown")
 
-        logger.info(f'Research status: {out}')
+        logger.info(f"Research status: {out}")
         return out
 
     def is_research_stabled(self):
-        return self.is_in_research() and 'detail' in self.get_research_status(self.device.image)
+        return self.is_in_research() and "detail" in self.get_research_status(self.device.image)
 
     def research_detail_quit(self, skip_first_screenshot=True):
-        logger.info('Research detail quit')
+        logger.info("Research detail quit")
         click_timer = Timer(10)
         while 1:
             if skip_first_screenshot:
@@ -130,15 +134,17 @@ class ResearchUI(UI):
             if self.is_research_stabled():
                 break
 
-            if self.appear(RESEARCH_UNAVAILABLE, offset=(20, 20)) \
-                    or self.appear(RESEARCH_START, offset=(20, 20)) \
-                    or self.appear(RESEARCH_STOP, offset=(20, 20)):
+            if (
+                self.appear(RESEARCH_UNAVAILABLE, offset=(20, 20))
+                or self.appear(RESEARCH_START, offset=(20, 20))
+                or self.appear(RESEARCH_STOP, offset=(20, 20))
+            ):
                 if click_timer.reached():
                     self.device.click(RESEARCH_DETAIL_QUIT)
                     click_timer.reset()
 
     def research_detail_cancel(self, skip_first_screenshot=True):
-        logger.info('Research detail cancel')
+        logger.info("Research detail cancel")
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -150,7 +156,7 @@ class ResearchUI(UI):
 
             if self.appear_then_click(RESEARCH_STOP, offset=(20, 20), interval=5):
                 continue
-            if self.handle_popup_confirm('RESEARCH_CANCEL'):
+            if self.handle_popup_confirm("RESEARCH_CANCEL"):
                 continue
             if self.appear(RESEARCH_START, offset=(20, 20), interval=5):
                 self.device.click(RESEARCH_DETAIL_QUIT)

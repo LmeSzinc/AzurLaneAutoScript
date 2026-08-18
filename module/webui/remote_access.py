@@ -16,12 +16,12 @@ import time
 from subprocess import PIPE, Popen
 from typing import TYPE_CHECKING
 
-from module.logger import logger
 from module.config.utils import random_id
+from module.logger import logger
 from module.webui.setting import State
 
 if TYPE_CHECKING:
-    from module.webui.utils import TaskHandler
+    from module.webui.tasks import TaskHandler
 
 _ssh_process: Popen = None
 _ssh_thread: threading.Thread = None
@@ -32,9 +32,7 @@ address: str = None
 def am_i_the_only_thread() -> bool:
     """Whether the current thread is the only non-Daemon threads in the process"""
     alive_none_daemonic_thread_cnt = sum(
-        1
-        for t in threading.enumerate()
-        if t.is_alive() and not t.isDaemon() or t is threading.current_thread()
+        1 for t in threading.enumerate() if (t.is_alive() and not t.isDaemon()) or t is threading.current_thread()
     )
     return alive_none_daemonic_thread_cnt == 1
 
@@ -68,7 +66,7 @@ def remote_access_service(
         _ssh_process.kill()
     try:
         _ssh_process = Popen(args, stdout=PIPE, stderr=PIPE)
-    except FileNotFoundError as e:
+    except FileNotFoundError:
         logger.critical(
             f"Cannot find SSH executable {bin}, please install OpenSSH or specify SSHExecutable in deploy.yaml"
         )
@@ -83,9 +81,7 @@ def remote_access_service(
             logger.info("Connection timeout, kill ssh process")
             _ssh_process.kill()
 
-    threading.Thread(
-        target=timeout_killer, kwargs=dict(wait_sec=setup_timeout), daemon=True
-    ).start()
+    threading.Thread(target=timeout_killer, kwargs={"wait_sec": setup_timeout}, daemon=True).start()
 
     stdout = _ssh_process.stdout.readline().decode("utf8")
     logger.debug(f"ssh server stdout: {stdout}")
@@ -122,9 +118,9 @@ def remote_access_service(
     else:  # ssh process exit by itself or by timeout killer
         stderr = _ssh_process.stderr.read().decode("utf8")
         if stderr:
-            logger.error(f"PyWebIO application remote access service error: {stderr}")
+            logger.error(f"Alas remote access service error: {stderr}")
         else:
-            logger.info("PyWebIO application remote access service exit.")
+            logger.info("Alas remote access service exit.")
     address = None
 
 
@@ -153,9 +149,7 @@ def start_remote_access_service(**kwagrs):
     try:
         server, server_port = State.deploy_config.SSHServer.split(":")
     except (ValueError, AttributeError):
-        raise ParseError(
-            f"Failed to parse SSH server [{State.deploy_config.SSHServer}]"
-        )
+        raise ParseError(f"Failed to parse SSH server [{State.deploy_config.SSHServer}]")
     if State.deploy_config.WebuiHost == "0.0.0.0":
         local_host = "127.0.0.1"
     elif State.deploy_config.WebuiHost == "::":

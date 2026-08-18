@@ -1,5 +1,3 @@
-from typing import Dict
-
 from module.config.deep import deep_iter
 from module.config.utils import LANGUAGES, filepath_i18n, read_file
 from module.submodule.utils import list_mod_dir
@@ -12,7 +10,7 @@ TRANSLATE_MODE = False
 def set_language(s: str, refresh=False):
     global LANG
     for i, lang in enumerate(LANGUAGES):
-        # pywebio.session.info.user_language return `zh-CN` or `zh-cn`, depends on browser
+        # Browser Accept-Language values like `zh-CN` or `zh-cn` depend on the browser
         if lang.lower() == s.lower():
             LANG = LANGUAGES[i]
             break
@@ -22,9 +20,8 @@ def set_language(s: str, refresh=False):
     State.deploy_config.Language = LANG
 
     if refresh:
-        from pywebio.session import run_js
-
-        run_js("location.reload();")
+        # Reload is handled by the frontend after the language change.
+        pass
 
 
 def t(s, *args, **kwargs):
@@ -50,7 +47,7 @@ def _t(s, lang=None):
         return s
 
 
-dic_lang: Dict[str, Dict[str, str]] = {}
+dic_lang: dict[str, dict[str, str]] = {}
 
 
 def reload():
@@ -58,13 +55,13 @@ def reload():
         if lang not in dic_lang:
             dic_lang[lang] = {}
 
-        for mod_name, dir_name in list_mod_dir():
+        for mod_name, _dir_name in list_mod_dir():
             for path, v in deep_iter(read_file(filepath_i18n(lang, mod_name)), depth=3):
                 dic_lang[lang][".".join(path)] = v
 
         for path, v in deep_iter(read_file(filepath_i18n(lang)), depth=3):
             dic_lang[lang][".".join(path)] = v
 
-    for key in dic_lang["ja-JP"].keys():
+    for key in dic_lang["ja-JP"]:
         if dic_lang["ja-JP"][key] == key:
             dic_lang["ja-JP"][key] = dic_lang["en-US"][key]

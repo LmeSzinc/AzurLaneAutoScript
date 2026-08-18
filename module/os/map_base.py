@@ -1,4 +1,4 @@
-from module.base.utils import *
+from module.base.utils import location2node, node2location, np
 from module.map.map_base import CampaignMap, camera_2d
 from module.map_detection.os_grid import OSGridInfo
 
@@ -26,9 +26,9 @@ class OSCampaignMap(CampaignMap):
         self.camera_data_spawn_point = []
         # weight_data set to 10.
         for grid in self:
-            grid.weight = 10.
+            grid.weight = 10.0
 
-    def update(self, grids, camera, mode='normal'):
+    def update(self, grids, camera, mode="normal"):
         """
         Args:
             grids:

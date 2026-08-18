@@ -1,5 +1,4 @@
 import sys
-import typing as t
 
 from pydantic import BaseModel
 
@@ -12,9 +11,9 @@ from module.map.map_grids import SelectedGrids
 
 
 class EmulatorInfo(BaseModel):
-    emulator: str = ''
-    name: str = ''
-    path: str = ''
+    emulator: str = ""
+    name: str = ""
+    path: str = ""
 
     # For APIs of chinac.com, a phone cloud platform.
     # access_key: SecretStr = ''
@@ -33,7 +32,7 @@ def serial_to_id(serial: str):
         int: instance_id, or None if failed to predict
     """
     try:
-        port = int(serial.split(':')[1])
+        port = int(serial.split(":")[1])
     except (IndexError, ValueError):
         return None
     index, offset = divmod(port - 16384 + 16, 32)
@@ -60,28 +59,28 @@ class PlatformBase(Connection, EmulatorManagerBase):
         - Retry is required.
         - Using bored sleep to wait startup is forbidden.
         """
-        logger.info(f'Current platform {sys.platform} does not support emulator_start, skip')
+        logger.info(f"Current platform {sys.platform} does not support emulator_start, skip")
 
     def emulator_stop(self):
         """
         Stop a emulator.
         """
-        logger.info(f'Current platform {sys.platform} does not support emulator_stop, skip')
+        logger.info(f"Current platform {sys.platform} does not support emulator_stop, skip")
 
     @cached_property
     def emulator_info(self) -> EmulatorInfo:
         emulator = self.config.EmulatorInfo_Emulator
-        if emulator == 'auto':
-            emulator = ''
+        if emulator == "auto":
+            emulator = ""
 
         def parse_info(value):
             if isinstance(value, str):
-                value = value.strip().replace('\n', '')
-                if value in ['None', 'False', 'True']:
-                    value = ''
+                value = value.strip().replace("\n", "")
+                if value in ["None", "False", "True"]:
+                    value = ""
                 return value
             else:
-                return ''
+                return ""
 
         name = parse_info(self.config.EmulatorInfo_name)
         path = parse_info(self.config.EmulatorInfo_path)
@@ -93,17 +92,17 @@ class PlatformBase(Connection, EmulatorManagerBase):
         )
 
     @cached_property
-    def emulator_instance(self) -> t.Optional[EmulatorInstanceBase]:
+    def emulator_instance(self) -> EmulatorInstanceBase | None:
         """
         Returns:
             EmulatorInstanceBase: Emulator instance or None
         """
         data = self.emulator_info
-        old_info = dict(
-            emulator=data.emulator,
-            path=data.path,
-            name=data.name,
-        )
+        old_info = {
+            "emulator": data.emulator,
+            "path": data.path,
+            "name": data.name,
+        }
         # Redirect emulator-5554 to 127.0.0.1:5555
         serial = self.serial
         port_serial, _ = get_serial_pair(self.serial)
@@ -119,27 +118,23 @@ class PlatformBase(Connection, EmulatorManagerBase):
 
         # Write complete emulator data
         if instance is not None:
-            new_info = dict(
-                emulator=instance.type,
-                path=instance.path,
-                name=instance.name,
-            )
+            new_info = {
+                "emulator": instance.type,
+                "path": instance.path,
+                "name": instance.name,
+            }
             if new_info != old_info:
                 with self.config.multi_set():
                     self.config.EmulatorInfo_Emulator = instance.type
                     self.config.EmulatorInfo_name = instance.name
                     self.config.EmulatorInfo_path = instance.path
-                del_cached_property(self, 'emulator_info')
+                del_cached_property(self, "emulator_info")
 
         return instance
 
     def find_emulator_instance(
-            self,
-            serial: str,
-            name: str = None,
-            path: str = None,
-            emulator: str = None
-    ) -> t.Optional[EmulatorInstanceBase]:
+        self, serial: str, name: str | None = None, path: str | None = None, emulator: str | None = None
+    ) -> EmulatorInstanceBase | None:
         """
         Args:
             serial: Serial like "127.0.0.1:5555"
@@ -150,21 +145,21 @@ class PlatformBase(Connection, EmulatorManagerBase):
         Returns:
             EmulatorInstance: Emulator instance or None if no instances not found.
         """
-        logger.hr('Find emulator instance', level=2)
+        logger.hr("Find emulator instance", level=2)
         instances = SelectedGrids(self.all_emulator_instances)
         for instance in instances:
             logger.info(instance)
-        search_args = dict(serial=serial)
+        search_args = {"serial": serial}
 
         # Search by serial
         select = instances.select(**search_args)
         if select.count == 0:
-            logger.warning(f'No emulator instance with {search_args}, serial invalid')
+            logger.warning(f"No emulator instance with {search_args}, serial invalid")
             return None
         if select.count == 1:
             instance = select[0]
-            logger.hr('Emulator instance', level=2)
-            logger.info(f'Found emulator instance: {instance}')
+            logger.hr("Emulator instance", level=2)
+            logger.info(f"Found emulator instance: {instance}")
             return instance
 
         # Additional fixup for MuMu12
@@ -177,69 +172,69 @@ class PlatformBase(Connection, EmulatorManagerBase):
             # because this is just a trial
             if select.count == 1:
                 instance = select[0]
-                logger.hr('Emulator instance', level=2)
-                logger.info(f'Found emulator instance: {instance}')
+                logger.hr("Emulator instance", level=2)
+                logger.info(f"Found emulator instance: {instance}")
                 return instance
 
         # search by emulator type first, which is the easiest setting for user to setup, so more trustworthy
         # Multiple instances in given serial, name and path, search by emulator
         if emulator:
-            search_args['type'] = emulator
+            search_args["type"] = emulator
             select = instances.select(**search_args)
             if select.count == 0:
-                logger.warning(f'No emulator instances with {search_args}, type invalid')
-                search_args.pop('type')
+                logger.warning(f"No emulator instances with {search_args}, type invalid")
+                search_args.pop("type")
             elif select.count == 1:
                 instance = select[0]
-                logger.hr('Emulator instance', level=2)
-                logger.info(f'Found emulator instance: {instance}')
+                logger.hr("Emulator instance", level=2)
+                logger.info(f"Found emulator instance: {instance}")
                 return instance
 
         # Multiple instances in given serial, search by name
         if name:
-            search_args['name'] = name
+            search_args["name"] = name
             select = instances.select(**search_args)
             if select.count == 0:
-                logger.warning(f'No emulator instances with {search_args}, name invalid')
-                search_args.pop('name')
+                logger.warning(f"No emulator instances with {search_args}, name invalid")
+                search_args.pop("name")
             elif select.count == 1:
                 instance = select[0]
-                logger.hr('Emulator instance', level=2)
-                logger.info(f'Found emulator instance: {instance}')
+                logger.hr("Emulator instance", level=2)
+                logger.info(f"Found emulator instance: {instance}")
                 return instance
 
         # Multiple instances in given serial and name, search by path
         if path:
-            search_args['path'] = path
+            search_args["path"] = path
             select = instances.select(**search_args)
             if select.count == 0:
-                logger.warning(f'No emulator instances with {search_args}, path invalid')
-                search_args.pop('path')
+                logger.warning(f"No emulator instances with {search_args}, path invalid")
+                search_args.pop("path")
             elif select.count == 1:
                 instance = select[0]
-                logger.hr('Emulator instance', level=2)
-                logger.info(f'Found emulator instance: {instance}')
+                logger.hr("Emulator instance", level=2)
+                logger.info(f"Found emulator instance: {instance}")
                 return instance
 
         # Still too many instances, search from running emulators
         running = remove_duplicated_path(list(self.iter_running_emulator()))
-        logger.info('Running emulators')
+        logger.info("Running emulators")
         for exe in running:
             logger.info(exe)
         if len(running) == 1:
-            logger.info('Only one running emulator')
+            logger.info("Only one running emulator")
             # Same as searching path
-            search_args['path'] = running[0]
+            search_args["path"] = running[0]
             select = instances.select(**search_args)
             if select.count == 0:
-                logger.warning(f'No emulator instances with {search_args}, path invalid')
-                search_args.pop('path')
+                logger.warning(f"No emulator instances with {search_args}, path invalid")
+                search_args.pop("path")
             elif select.count == 1:
                 instance = select[0]
-                logger.hr('Emulator instance', level=2)
-                logger.info(f'Found emulator instance: {instance}')
+                logger.hr("Emulator instance", level=2)
+                logger.info(f"Found emulator instance: {instance}")
                 return instance
 
         # Still too many instances
-        logger.warning(f'Found multiple emulator instances with {search_args}')
+        logger.warning(f"Found multiple emulator instances with {search_args}")
         return None

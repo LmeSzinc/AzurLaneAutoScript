@@ -1,13 +1,13 @@
 import json
 import random
 import string
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta, timezone
 
 import yaml
 
 import module.config.server as server_
-from deploy.atomic import atomic_read_text, atomic_read_bytes, atomic_write
-from module.submodule.utils import *
+from deploy.atomic import atomic_read_bytes, atomic_read_text, atomic_write
+from module.submodule.utils import *  # noqa: F403  (re-export facade)
 
 LANGUAGES = ['zh-CN', 'en-US', 'ja-JP', 'zh-TW']
 SERVER_TO_LANG = {
@@ -168,7 +168,7 @@ def alas_instance():
     out = []
     for file in os.listdir('./config'):
         name, extension = os.path.splitext(file)
-        config_name, mod_name = os.path.splitext(name)
+        _config_name, mod_name = os.path.splitext(name)
         mod_name = mod_name[1:]
         if name != 'template' and extension == '.json' and mod_name == '':
             out.append(name)
@@ -239,7 +239,7 @@ def data_to_type(data, **kwargs):
     kwargs.update(data)
     if isinstance(kwargs['value'], bool):
         return 'checkbox'
-    elif 'option' in kwargs and kwargs['option']:
+    elif kwargs.get('option'):
         return 'select'
     elif 'Filter' in kwargs['arg']:
         return 'textarea'
@@ -280,7 +280,7 @@ def dict_to_kv(dictionary, allow_none=True):
     Returns:
         str: Such as `path='Scheduler.ServerUpdate', value=True`
     """
-    return ', '.join([f'{k}={repr(v)}' for k, v in dictionary.items() if allow_none or v is not None])
+    return ', '.join([f'{k}={v!r}' for k, v in dictionary.items() if allow_none or v is not None])
 
 
 def server_timezone() -> timedelta:
@@ -294,7 +294,7 @@ def server_time_offset() -> timedelta:
     To convert server time to local time:
         local_time = server_time - server_time_offset()
     """
-    return datetime.now(timezone.utc).astimezone().utcoffset() - server_timezone()
+    return datetime.now(UTC).astimezone().utcoffset() - server_timezone()
 
 
 def random_normal_distribution_int(a, b, n=3):
