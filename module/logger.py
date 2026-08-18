@@ -250,7 +250,7 @@ def set_func_logger(func):
     )
 
 
-def rule(title="", *, characters="─", style="rule.line", end="\n", align="center"):
+def rule(title="", *, characters="─", end="\n", align="center"):
     """
     Emit the ═/─ separator lines of the old rich Rule. The file sink gets
     plain text (alas.save_error_log() splits the error log on the `═`

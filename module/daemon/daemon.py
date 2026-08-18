@@ -62,8 +62,6 @@ class AzurLaneDaemon(DaemonBase, CampaignBase):
             # End
             # No end condition, stop it manually.
 
-        return True
-
 
 if __name__ == "__main__":
     b = AzurLaneDaemon("alas", task="Daemon")

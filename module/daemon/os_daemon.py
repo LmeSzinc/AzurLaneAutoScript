@@ -65,8 +65,6 @@ class AzurLaneDaemon(DaemonBase, OSFleet, PortHandler):
             # End
             # No end condition, stop it manually.
 
-        return True
-
 
 if __name__ == "__main__":
     b = AzurLaneDaemon("alas", task="OpsiDaemon")
