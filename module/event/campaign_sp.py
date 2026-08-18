@@ -1,4 +1,5 @@
 import os
+from contextlib import suppress
 
 from module.config.config import TaskEnd
 from module.event.base import EventBase
@@ -13,11 +14,9 @@ class CampaignSP(EventBase):
             self.config.Scheduler_Enable = False
             self.config.task_stop()
 
-        try:
+        # Catch task switch
+        with suppress(TaskEnd):
             super().run(name=self.config.Campaign_Name, folder=self.config.Campaign_Event, total=1)
-        except TaskEnd:
-            # Catch task switch
-            pass
         if self.run_count > 0:
             self.config.task_delay(server_update=True)
         else:

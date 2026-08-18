@@ -255,7 +255,7 @@ class SLPP:
             return 0
         try:
             return int(n, 0)
-        except:
+        except ValueError:
             pass
         return float(n)
 

@@ -1,4 +1,5 @@
 import re
+from contextlib import suppress
 
 from module.campaign.campaign_event import CampaignEvent
 from module.coalition.assets import *  # noqa: F403  (data-bundle star import)
@@ -16,11 +17,9 @@ class AcademyPtOcr(Digit):
 
     def after_process(self, result):
         logger.attr(self.name, result)
-        try:
-            # 累计: 840
+        # 累计: 840
+        with suppress(IndexError):
             result = result.rsplit(":")[1]
-        except IndexError:
-            pass
         return super().after_process(result)
 
 
@@ -31,11 +30,9 @@ class DALPtOcr(Digit):
 
     def after_process(self, result):
         logger.attr(self.name, result)
-        try:
-            # X9100
+        # X9100
+        with suppress(IndexError):
             result = result.rsplit("X")[1]
-        except IndexError:
-            pass
         return super().after_process(result)
 
 

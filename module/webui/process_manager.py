@@ -1,6 +1,7 @@
 import os
 import queue
 import threading
+from contextlib import suppress
 from multiprocessing import Process
 from typing import Union
 
@@ -214,8 +215,6 @@ class ProcessManager:
             logger.info(f"Starting [{process.config_name}]")
             process.start(func=get_config_mod(process.config_name), ev=ev)
 
-        try:
+        with suppress(OSError):
             os.remove("./config/reloadalas")
-        except:
-            pass
         logger.info("Start alas complete")

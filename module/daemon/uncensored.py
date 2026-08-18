@@ -1,4 +1,5 @@
 import shutil
+from contextlib import suppress
 
 from deploy.git import GitManager
 from deploy.utils import os
@@ -18,10 +19,8 @@ class AzurLaneUncensored(LoginHandler):
     def create_level1_uncensored(self):
         logger.info("Create level 1 uncensored")
         folder = "./files"
-        try:
+        with suppress(FileNotFoundError):
             shutil.rmtree(folder)
-        except FileNotFoundError:
-            pass
         os.makedirs(folder, exist_ok=True)
         with open(os.path.join(folder, "localization.txt"), "w", encoding="utf-8") as f:
             f.write(localization_txt)

@@ -51,7 +51,7 @@ class DropStatistics(BattleStatusStatistics, GetItemsStatistics):
             try:
                 image = load_image(file)
                 super().extract_template(image, folder=self.template_folder)
-            except:
+            except Exception:
                 logger.warning(f"Error image: {ts}")
 
     def stat_drop(self, timestamp):
@@ -80,7 +80,7 @@ class DropStatistics(BattleStatusStatistics, GetItemsStatistics):
             try:
                 data = self.stat_drop(ts)
                 yield data
-            except:
+            except Exception:
                 logger.warning(f"Error image: {ts}")
 
 

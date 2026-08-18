@@ -1,5 +1,6 @@
 import os
 import re
+from contextlib import suppress
 
 from dev_tools.utils import LuaLoader
 from module.base.utils import location2node
@@ -459,10 +460,8 @@ class MapData:
             if count:
                 spawn = spawn_data[index]
                 spawn["mystery"] = spawn.get("mystery", 0) + count
-        try:
+        with suppress(IndexError):
             spawn_data[data["boss_refresh"]]["boss"] = 1
-        except IndexError:
-            pass
 
         return spawn_data
 

@@ -3,6 +3,7 @@ import random
 import string
 import time
 from collections.abc import Iterable
+from contextlib import suppress
 
 IS_WINDOWS = os.name == "nt"
 # Max attempt if another process is reading/writing, effective only on Windows
@@ -108,14 +109,10 @@ def replace_tmp(tmp: str, file: str):
         except Exception as e:
             last_error = e
 
-    # Clean up tmp file on failure
-    try:
+    # Clean up tmp file on failure (both FileNotFoundError -- tmp file
+    # already deleted -- and any other failure are swallowed).
+    with suppress(Exception):
         os.unlink(tmp)
-    except FileNotFoundError:
-        # tmp file already get deleted
-        pass
-    except:
-        pass
     if last_error is not None:
         raise last_error from None
 
@@ -473,11 +470,9 @@ def file_remove(file: str):
     """
     Remove a file non-atomic
     """
-    try:
-        os.unlink(file)
-    except FileNotFoundError:
+    with suppress(FileNotFoundError):
         # If file not exist, just no need to remove
-        pass
+        os.unlink(file)
 
 
 def atomic_remove(file: str):
@@ -531,12 +526,10 @@ def folder_rmtree(folder, may_symlinks=True):
                     folder_rmtree(entry.path, may_symlinks=False)
                 else:
                     # File or symlink
-                    # Just remove the symlink, not what it points to
-                    try:
+                    # Just remove the symlink, not what it points to.
+                    # PermissionError: another process is reading/writing.
+                    with suppress(PermissionError):
                         file_remove(entry.path)
-                    except PermissionError:
-                        # Another process is reading/writing
-                        pass
 
     except FileNotFoundError:
         # directory to clean up does not exist, no need to clean up
@@ -586,31 +579,25 @@ def atomic_failure_cleanup(folder: str, recursive: bool = False):
         with os.scandir(folder) as entries:
             for entry in entries:
                 if is_tmp_file(entry.name):
-                    try:
-                        # Delete temp file or directory
+                    # Delete temp file or directory. Swallow all failures:
+                    # another process may be reading/writing.
+                    with suppress(Exception):
                         if entry.is_dir(follow_symlinks=False):
                             folder_rmtree(entry.path, may_symlinks=False)
                         else:
                             file_remove(entry.path)
-                    except PermissionError:
-                        # Another process is reading/writing
-                        pass
-                    except:
-                        pass
                 else:
                     if recursive:
-                        try:
+                        with suppress(Exception):
                             if entry.is_dir(follow_symlinks=False):
                                 # Normal directory
                                 atomic_failure_cleanup(entry.path, recursive=True)
-                        except:
-                            pass
 
     except FileNotFoundError:
         # directory to clean up does not exist, no need to clean up
         pass
     except NotADirectoryError:
         file_remove(folder)
-    except:
+    except Exception:
         # Ignore all failures, it doesn't matter if tmp files still exist
         pass

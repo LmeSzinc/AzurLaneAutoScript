@@ -1,3 +1,4 @@
+from contextlib import suppress
 from datetime import datetime, timedelta
 
 from module.base.utils import image_left_strip
@@ -76,10 +77,8 @@ class AshCombat(Combat):
         return False
 
     def combat(self, *args, expected_end=None, **kwargs):
-        try:
+        with suppress(AshBeaconFinished):
             super().combat(*args, expected_end=expected_end, **kwargs)
-        except AshBeaconFinished:
-            pass
 
 
 class OSAsh(UI, MapEventHandler):

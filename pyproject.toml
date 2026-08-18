@@ -69,7 +69,6 @@ select = ["E", "F", "W", "B", "UP", "I", "ASYNC", "SIM", "PT", "C4", "RUF"]
 ignore = [
     "E501",  # line too long, handled by line-length convention in legacy code
     "E402",  # module level import not at top of file
-    "E722",  # bare except, used heavily in legacy code
     "F405",  # name may be undefined from star import: every star import site is
     #         annotated `# noqa: F403 (data-bundle star import | re-export facade)`
     #         (169 sites, see dev_tools/annotate_star_imports.py); the 2787 usage
@@ -86,7 +85,6 @@ ignore = [
     "SIM108",  # if-else-block-instead-of-if-exp: style-only refactor, no behavioral value
     "UP031",  # %-formatting -> f-string: churn on legacy code, deferred
     "F811",  # redefined-while-unused: established override idiom in task classes
-    "SIM105",  # suppressible-exception (except: pass): intentional suppression in bot logic
 ]
 
 [tool.pytest.ini_options]
