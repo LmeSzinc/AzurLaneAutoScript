@@ -3,7 +3,7 @@ from scipy import signal
 from module.base.base import ModuleBase
 from module.base.button import Button
 from module.base.timer import Timer
-from module.base.utils import area_offset, area_pad, color_similar, color_similarity_2d, cv2, get_color, np
+from module.base.utils import area_pad, color_similar, color_similarity_2d, cv2, get_color, np
 from module.exception import GameNotRunningError
 from module.handler.assets import *  # noqa: F403  (data-bundle star import)
 from module.logger import logger
@@ -274,14 +274,6 @@ class InfoHandler(ModuleBase):
     Guild popup info
     """
 
-    def handle_guild_popup_confirm(self):
-        if self.appear(GUILD_POPUP_CANCEL, offset=self._popup_offset) and self.appear(
-            GUILD_POPUP_CONFIRM, offset=self._popup_offset, interval=2
-        ):
-            self.device.click(GUILD_POPUP_CONFIRM)
-            return True
-
-        return False
 
     def handle_guild_popup_cancel(self):
         if self.appear(GUILD_POPUP_CONFIRM, offset=self._popup_offset) and self.appear(
@@ -296,14 +288,6 @@ class InfoHandler(ModuleBase):
     Mission popup info
     """
 
-    def handle_mission_popup_go(self):
-        if self.appear(MISSION_POPUP_ACK, offset=self._popup_offset) and self.appear(
-            MISSION_POPUP_GO, offset=self._popup_offset, interval=2
-        ):
-            self.device.click(MISSION_POPUP_GO)
-            return True
-
-        return False
 
     def handle_mission_popup_ack(self):
         if self.appear(MISSION_POPUP_GO, offset=self._popup_offset) and self.appear(
@@ -326,46 +310,6 @@ class InfoHandler(ModuleBase):
     _story_option_record = 0
     _story_option_confirm = Timer(0.3, count=0)
 
-    def _story_option_buttons(self):
-        """
-        Returns:
-            list[Button]: List of story options, from upper to bottom. If no option found, return an empty list.
-        """
-        # Area to detect the options, should include at least 3 options.
-        story_option_area = (730, 188, 1140, 480)
-        # Background color of the left part of the option.
-        story_option_color = (99, 121, 156)
-        image = color_similarity_2d(self.image_crop(story_option_area, copy=False), color=story_option_color) > 225
-        x_count = np.where(np.sum(image, axis=0) > 40)[0]
-        if not len(x_count):
-            return []
-        x_min, x_max = np.min(x_count), np.max(x_count)
-
-        parameters = {
-            # Option is 300`320px x 50~52px.
-            "height": 280,
-            "width": 45,
-            "distance": 50,
-            # Chooses the relative height at which the peak width is measured as a percentage of its prominence.
-            # 1.0 calculates the width of the peak at its lowest contour line,
-            # while 0.5 evaluates at half the prominence height.
-            # Must be at least 0.
-            "rel_height": 5,
-        }
-        y_count = np.sum(image, axis=1)
-        peaks, properties = signal.find_peaks(y_count, **parameters)
-        buttons = []
-        total = len(peaks)
-        if not total:
-            return []
-        for n, bases in enumerate(zip(properties["left_bases"], properties["right_bases"])):
-            area = (x_min, bases[0], x_max, bases[1])
-            area = area_pad(area_offset(area, offset=story_option_area[:2]), pad=5)
-            buttons.append(
-                Button(area=area, color=story_option_color, button=area, name=f"STORY_OPTION_{n + 1}_OF_{total}")
-            )
-
-        return buttons
 
     def _story_option_buttons_2(self):
         """
@@ -521,11 +465,6 @@ class InfoHandler(ModuleBase):
             if story_timer.reached():
                 break
 
-    def handle_map_after_combat_story(self):
-        if not self.config.MAP_HAS_MAP_STORY:
-            return False
-
-        self.ensure_no_story()
 
     """
     Game tips

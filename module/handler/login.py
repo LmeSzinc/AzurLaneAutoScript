@@ -1,17 +1,10 @@
-import numpy as np
-from scipy.signal import find_peaks
-from uiautomator2 import UiObject
-from uiautomator2.exceptions import XPathElementNotFoundError
-from uiautomator2.xpath import XPath, XPathSelector
 
 import module.config.server as server
 from module.base.timer import Timer
-from module.base.utils import color_similarity_2d, crop
 from module.handler.assets import *  # noqa: F403  (data-bundle star import)
 from module.logger import logger
 from module.map.assets import *  # noqa: F403  (data-bundle star import)
 from module.ui.assets import *  # noqa: F403  (data-bundle star import)
-from module.ui.page import page_campaign_menu
 from module.ui.ui import UI
 
 
@@ -161,160 +154,10 @@ class LoginHandler(UI):
         logger.hr("App start")
         self.device.app_start()
         self.handle_app_login()
-        # self.ensure_no_unfinished_campaign()
 
     def app_restart(self):
         logger.hr("App restart")
         self.device.app_stop()
         self.device.app_start()
         self.handle_app_login()
-        # self.ensure_no_unfinished_campaign()
         self.config.task_delay(server_update=True)
-
-    def ensure_no_unfinished_campaign(self, confirm_wait=3):
-        """
-        Pages:
-            in: page_main
-            out: page_main
-        """
-
-        def ensure_campaign_retreat():
-            if self.appear_then_click(WITHDRAW, offset=(30, 30), interval=5):
-                return True
-            if self.handle_popup_confirm("WITHDRAW"):
-                return True
-
-        def in_campaign():
-            return (
-                self.appear(CAMPAIGN_CHECK, offset=(30, 30))
-                or self.appear(CAMPAIGN_MENU_CHECK, offset=(30, 30))
-                or self.appear(EVENT_CHECK, offset=(30, 30))
-                or self.appear(SP_CHECK, offset=(30, 30))
-            )
-
-        skip_first_screenshot = True
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            # End
-            if in_campaign():
-                break
-
-            # Click
-            if self.ui_main_appear_then_click(page_campaign_menu, interval=3):
-                continue
-            if ensure_campaign_retreat():
-                continue
-
-        self.ui_goto_main()
-
-    def handle_user_agreement(self, xp, hierarchy):
-        """
-        For CN only.
-        CN client is bugged. User Agreement and Privacy Policy may popup again even you have agreed with it.
-        This method scrolls to the bottom and click AGREE.
-
-        Returns:
-            bool: If handled.
-        """
-
-        if server.server == "cn":
-            area_wait_results = self.get_for_any_ele(
-                [XPS('//*[@text="sdk协议"]', xp, hierarchy), XPS('//*[@content-desc="sdk协议"]', xp, hierarchy)]
-            )
-            if area_wait_results is False:
-                return False
-            agree_wait_results = self.get_for_any_ele(
-                [XPS('//*[@text="同意"]', xp, hierarchy), XPS('//*[@content-desc="同意"]', xp, hierarchy)]
-            )
-            start_padding_results = self.get_for_any_ele(
-                [
-                    XPS('//*[@text="隐私政策"]', xp, hierarchy),
-                    XPS('//*[@content-desc="隐私政策"]', xp, hierarchy),
-                    XPS('//*[@text="用户协议"]', xp, hierarchy),
-                    XPS('//*[@content-desc="用户协议"]', xp, hierarchy),
-                ]
-            )
-            start_margin_results = self.get_for_any_ele(
-                [
-                    XPS('//*[@text="请滑动阅读协议内容"]', xp, hierarchy),
-                    XPS('//*[@content-desc="请滑动阅读协议内容"]', xp, hierarchy),
-                ]
-            )
-
-            test_image_original = self.device.image
-            image_handle_crop = crop(
-                test_image_original, (start_padding_results[2], 0, start_margin_results[2], 720), copy=False
-            )
-            # Image.fromarray(image_handle_crop).show()
-            sims = color_similarity_2d(image_handle_crop, color=(182, 189, 202))
-            points = np.sum(sims >= 255)
-            if points == 0:
-                return False
-            sims_height = np.mean(sims, axis=1)
-            # pyplot.plot(sims_height, color='r')
-            # pyplot.show()
-            peaks, __ = find_peaks(sims_height, height=225)
-            if len(peaks) == 2:
-                peaks = (peaks[0] + peaks[1]) / 2
-            start_pos = [(start_padding_results[2] + start_margin_results[2]) / 2, float(peaks)]
-            end_pos = [(start_padding_results[2] + start_margin_results[2]) / 2, area_wait_results[3]]
-            logger.info("user agreement position find result: " + ", ".join("%.2f" % _ for _ in start_pos))
-            logger.info("user agreement area expect:          " + "x:963-973, y:259-279")
-
-            self.device.drag(
-                start_pos, end_pos, segments=2, shake=(0, 25), point_random=(0, 0, 0, 0), shake_random=(0, -5, 0, 5)
-            )
-            AGREE = Button(area=agree_wait_results, color=(), button=agree_wait_results, name="AGREE")
-            self.device.click(AGREE)
-            return True
-
-    def handle_user_login(self, xp, hierarchy) -> bool:
-        login_wait_results = self.get_for_any_ele(
-            [XPS('//*[@text="登录"]', xp, hierarchy), XPS('//*[@content-desc="登录"]', xp, hierarchy)]
-        )
-        if login_wait_results is False:
-            return False
-        else:
-            USER_LOGIN_BTN = Button(area=login_wait_results, color=(), button=login_wait_results, name="USER_LOGIN_BTN")
-            self.device.click(USER_LOGIN_BTN)
-            return True
-
-    @staticmethod
-    def get_for_any_ele(list_u2_path: list) -> bool | tuple:
-        """
-        Args:
-            list_u2_path (list): [UiObject or XPathSelector]  In this case, len(list_u2_path) >= 1
-        Returns:
-            bool: False if wait failed
-            tuple: (bounds): if wait success
-        """
-        for path in list_u2_path:
-            try:
-                if isinstance(path, UiObject):
-                    if path.exists():
-                        return path.bounds()
-                    elif not path.exists():
-                        continue
-                elif isinstance(path, XPathSelector):
-                    if path.exists:
-                        return path.bounds
-                    elif not path.exists:
-                        continue
-            except XPathElementNotFoundError:
-                continue
-        return False
-
-    def get_cn_xp_hierarchy(self) -> tuple:
-        d = self.device.u2
-        xp = XPath(d)
-        hierarchy = d.dump_hierarchy()
-        return xp, hierarchy
-
-
-class XPS(XPathSelector):
-    def __init__(self, xpath, parent, source):
-        super().__init__(parent, xpath, source)

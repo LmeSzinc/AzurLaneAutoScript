@@ -240,7 +240,6 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                         logger.warning("Entered map with is_combat_loading appeared")
                         break
                     if self.handle_in_map_with_enemy_searching():
-                        # self.handle_map_after_combat_story()
                         break
 
         return True

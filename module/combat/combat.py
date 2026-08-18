@@ -218,8 +218,6 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             return True
         return False
 
-    def ensure_combat_oil_loaded(self):
-        self.wait_until_stable(COMBAT_OIL_LOADING)
 
     def handle_combat_automation_confirm(self):
         if self.appear(AUTOMATION_CONFIRM_CHECK, threshold=30, interval=1):
@@ -678,6 +676,5 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             )
             self.combat_execute(auto=auto_mode, submarine=submarine_mode, drop=drop)
             self.combat_status(drop=drop, expected_end=expected_end)
-            # self.handle_map_after_combat_story()
 
         logger.info("Combat end.")

@@ -241,24 +241,6 @@ class StrategyHandler(InfoHandler):
             if self.appear_then_click(MOB_MOVE_ENTER, offset=MOB_MOVE_OFFSET, interval=5):
                 continue
 
-    def strategy_mob_move_cancel(self, skip_first_screenshot=True):
-        """
-        Pages:
-            in: MOB_MOVE_CANCEL
-            out: STRATEGY_OPENED, MOB_MOVE_ENTER
-        """
-        logger.info("Mob move cancel")
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            if self.appear(MOB_MOVE_ENTER, offset=MOB_MOVE_OFFSET):
-                break
-
-            if self.appear_then_click(MOB_MOVE_CANCEL, offset=(20, 20), interval=5):
-                continue
 
     def is_in_strategy_air_strike(self):
         return self.appear(AIR_STRIKE_CONFIRM, offset=(20, 20))

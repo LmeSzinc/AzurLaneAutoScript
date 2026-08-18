@@ -131,24 +131,6 @@ class CampaignRun(CampaignEvent):
 
         return False
 
-    def _triggered_app_restart(self):
-        """
-        Returns:
-            bool: If triggered a restart condition.
-        """
-        if not self.campaign.emotion.is_ignore:
-            if self.campaign.emotion.triggered_bug():
-                logger.info('Triggered restart avoid emotion bug')
-                return True
-
-        return False
-
-    def handle_app_restart(self):
-        if self._triggered_app_restart():
-            self.config.task_call('Restart')
-            return True
-
-        return False
 
     def handle_stage_name(self, name, folder, mode='normal'):
         """
