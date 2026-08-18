@@ -18,7 +18,6 @@ dependencies = [
     "adbutils==0.11.0",
     "uiautomator2==2.16.17",
     "uiautomator2cache==0.3.0.1",
-    "wrapt>=1.14",
     "lz4",
     "av>=10",
     "psutil>=5.9",
@@ -29,14 +28,10 @@ dependencies = [
     "pyyaml",
     "inflection",
     "pydantic>=2.10,<3",
-    "aiofiles",
-    "prettytable>=2.2",
-    "anyio>=1.3",
     "loguru>=0.7.3",
     "requests>=2.31",
     # Pushing
     "onepush==1.4.0",
-    "pycryptodome>=3.9.9",
     "pypresence==4.2.1",
     # Webui
     "starlette>=0.40",

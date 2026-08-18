@@ -4,16 +4,12 @@ adbutils==0.11.0
     # via
     #   alas
     #   uiautomator2
-aiofiles==25.1.0
-    # via alas
 annotated-doc==0.0.5
     # via fastapi
 annotated-types==0.8.0
     # via pydantic
 anyio==4.14.2
-    # via
-    #   alas
-    #   starlette
+    # via starlette
 apkutils2==1.0.0
     # via adbutils
 av==18.1.0
@@ -31,10 +27,13 @@ click==8.4.2
 colorama==0.4.6 ; sys_platform == 'win32'
     # via
     #   click
+    #   loguru
     #   logzero
     #   tqdm
 decorator==5.3.1
-    # via retry
+    # via
+    #   alas
+    #   retry
 deprecated==1.2.18
     # via uiautomator2
 deprecation==2.1.0
@@ -56,6 +55,8 @@ imageio==2.37.4
 inflection==0.5.1
     # via alas
 jellyfish==1.2.1
+    # via alas
+loguru==0.7.3
     # via alas
 logzero==1.7.0
     # via uiautomator2
@@ -90,8 +91,6 @@ pillow==12.3.0
     #   alas
     #   imageio
     #   uiautomator2
-prettytable==3.18.0
-    # via alas
 progress==1.6.1
     # via uiautomator2
 protobuf==7.35.1
@@ -101,9 +100,7 @@ psutil==7.2.2
 py==1.11.0
     # via retry
 pycryptodome==3.23.0
-    # via
-    #   alas
-    #   onepush
+    # via onepush
 pydantic==2.13.4
     # via
     #   alas
@@ -123,6 +120,7 @@ pyyaml==6.0.3
 requests==2.34.2
     # via
     #   adbutils
+    #   alas
     #   onepush
     #   uiautomator2
 retry==0.9.2
@@ -163,17 +161,15 @@ urllib3==2.7.0
     # via requests
 uvicorn==0.52.3
     # via alas
-wcwidth==0.8.2
-    # via prettytable
 websockets==17.0.1
     # via alas
 whichcraft==0.6.1
     # via
     #   adbutils
     #   uiautomator2
+win32-setctime==1.2.0 ; sys_platform == 'win32'
+    # via loguru
 wrapt==1.17.3
-    # via
-    #   alas
-    #   deprecated
+    # via deprecated
 xmltodict==1.0.4
     # via apkutils2
