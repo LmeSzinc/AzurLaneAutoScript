@@ -323,14 +323,6 @@ class DroidCast(Uiautomator2):
         logger.warning("Wait DroidCast startup timeout, assume started")
         return False
 
-    def droidcast_uninstall(self):
-        """
-        Stop DroidCast processes and remove DroidCast APK.
-        DroidCast hasn't been installed but a JAVA class call, uninstall is a file delete.
-        """
-        self.droidcast_stop()
-        logger.info("Removing DroidCast")
-        self.adb_shell(["rm", self.config.DROIDCAST_FILEPATH_REMOTE])
 
     def _iter_droidcast_proc(self) -> t.Iterable[ProcessInfo]:
         """

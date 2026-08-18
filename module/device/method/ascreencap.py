@@ -120,9 +120,6 @@ class AScreenCap(Connection):
         logger.info(f"chmod 0777 {self.config.ASCREENCAP_FILEPATH_REMOTE}")
         self.adb_shell(["chmod", "0777", self.config.ASCREENCAP_FILEPATH_REMOTE])
 
-    def uninstall_ascreencap(self):
-        logger.info("Removing ascreencap")
-        self.adb_shell(["rm", self.config.ASCREENCAP_FILEPATH_REMOTE])
 
     def _ascreencap_reposition_byte_pointer(self, byte_array):
         """Method to return the sanitized version of ascreencap stdout for devices

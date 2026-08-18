@@ -568,9 +568,6 @@ class Connection(ConnectionAttr):
         conn.close()
         return data
 
-    def adb_exec_out(self, cmd, serial=None):
-        cmd.insert(0, "exec-out")
-        return self.adb_command(cmd, serial)
 
     def adb_forward(self, remote):
         """

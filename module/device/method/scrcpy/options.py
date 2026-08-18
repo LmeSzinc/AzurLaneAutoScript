@@ -84,20 +84,6 @@ class ScrcpyOptions:
         ]
         return options
 
-    @classmethod
-    def command_v125(cls, jar_path="/data/local/tmp/scrcpy-server.jar") -> list[str]:
-        """
-        Generate the commands to run scrcpy.
-        """
-        commands = [
-            f"CLASSPATH={jar_path}",
-            "app_process",
-            "/",
-            "com.genymobile.scrcpy.Server",
-            "1.25",
-        ]
-        commands += cls.arguments()
-        return commands
 
     @classmethod
     def command_v120(cls, jar_path="/data/local/tmp/scrcpy-server.jar") -> list[str]:

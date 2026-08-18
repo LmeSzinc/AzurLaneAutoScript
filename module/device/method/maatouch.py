@@ -324,9 +324,6 @@ class MaaTouch(Connection):
         logger.hr("MaaTouch install")
         self.adb_push(self.config.MAATOUCH_FILEPATH_LOCAL, self.config.MAATOUCH_FILEPATH_REMOTE)
 
-    def maatouch_uninstall(self):
-        logger.hr("MaaTouch uninstall")
-        self.adb_shell(["rm", self.config.MAATOUCH_FILEPATH_REMOTE])
 
     @retry
     def click_maatouch(self, x, y):

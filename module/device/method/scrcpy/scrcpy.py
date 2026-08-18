@@ -106,14 +106,6 @@ class Scrcpy(ScrcpyCore, Uiautomator2):
                     screenshot = self._scrcpy_last_frame
                     return screenshot
 
-    @retry
-    def click_scrcpy(self, x, y):
-        self.scrcpy_ensure_running()
-
-        with self._scrcpy_control_socket_lock:
-            self._scrcpy_control.touch(x, y, const.ACTION_DOWN)
-            self._scrcpy_control.touch(x, y, const.ACTION_UP)
-            self.sleep(0.05)
 
     @retry
     def long_click_scrcpy(self, x, y, duration=1.0):

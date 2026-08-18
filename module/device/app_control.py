@@ -3,9 +3,7 @@ from lxml import etree
 from module.base.timer import Timer
 from module.device.method.adb import Adb
 from module.device.method.uiautomator_2 import Uiautomator2
-from module.device.method.utils import HierarchyButton
 from module.device.method.wsa import WSA
-from module.exception import ScriptError
 from module.logger import logger
 
 
@@ -48,19 +46,6 @@ class AppControl(Adb, WSA, Uiautomator2):
         else:
             self.app_stop_adb()
 
-    def hierarchy_timer_set(self, interval=None):
-        if interval is None:
-            interval = 0.1
-        elif isinstance(interval, (int, float)):
-            # No limitation for manual set in code
-            pass
-        else:
-            logger.warning(f"Unknown hierarchy interval: {interval}")
-            raise ScriptError(f"Unknown hierarchy interval: {interval}")
-
-        if interval != self._hierarchy_interval.limit:
-            logger.info(f"Hierarchy interval set to {interval}s")
-            self._hierarchy_interval.limit = interval
 
     def dump_hierarchy(self) -> etree._Element:
         """
@@ -76,15 +61,3 @@ class AppControl(Adb, WSA, Uiautomator2):
         else:
             self.hierarchy = self.dump_hierarchy_adb()
         return self.hierarchy
-
-    def xpath_to_button(self, xpath: str) -> HierarchyButton:
-        """
-        Args:
-            xpath (str):
-
-        Returns:
-            HierarchyButton:
-                An object with methods and properties similar to Button.
-                If element not found or multiple elements were found, return None.
-        """
-        return HierarchyButton(self.hierarchy, xpath)

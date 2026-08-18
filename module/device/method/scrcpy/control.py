@@ -1,5 +1,4 @@
 import functools
-import socket
 import struct
 import time
 
@@ -115,91 +114,6 @@ class ControlSender:
             int(v),
         )
 
-    @inject(const.TYPE_BACK_OR_SCREEN_ON)
-    def back_or_turn_screen_on(self, action: int = const.ACTION_DOWN) -> bytes:
-        """
-        If the screen is off, it is turned on only on ACTION_DOWN
-
-        Args:
-            action: ACTION_DOWN | ACTION_UP
-        """
-        return struct.pack(">B", action)
-
-    @inject(const.TYPE_EXPAND_NOTIFICATION_PANEL)
-    def expand_notification_panel(self) -> bytes:
-        """
-        Expand notification panel
-        """
-        return b""
-
-    @inject(const.TYPE_EXPAND_SETTINGS_PANEL)
-    def expand_settings_panel(self) -> bytes:
-        """
-        Expand settings panel
-        """
-        return b""
-
-    @inject(const.TYPE_COLLAPSE_PANELS)
-    def collapse_panels(self) -> bytes:
-        """
-        Collapse all panels
-        """
-        return b""
-
-    def get_clipboard(self) -> str:
-        """
-        Get clipboard
-        """
-        # Since this function need socket response, we can't auto inject it any more
-        s: socket.socket = self.control_socket
-
-        with self.control_socket_lock:
-            # Flush socket
-            s.setblocking(False)
-            while True:
-                try:
-                    s.recv(1024)
-                except BlockingIOError:
-                    break
-            s.setblocking(True)
-
-            # Read package
-            package = struct.pack(">B", const.TYPE_GET_CLIPBOARD)
-            s.send(package)
-            (code,) = struct.unpack(">B", s.recv(1))
-            assert code == 0
-            (length,) = struct.unpack(">i", s.recv(4))
-
-            return s.recv(length).decode("utf-8")
-
-    @inject(const.TYPE_SET_CLIPBOARD)
-    def set_clipboard(self, text: str, paste: bool = False) -> bytes:
-        """
-        Set clipboard
-
-        Args:
-            text: the string you want to set
-            paste: paste now
-        """
-        buffer = text.encode("utf-8")
-        return struct.pack(">?i", paste, len(buffer)) + buffer
-
-    @inject(const.TYPE_SET_SCREEN_POWER_MODE)
-    def set_screen_power_mode(self, mode: int = const.POWER_MODE_NORMAL) -> bytes:
-        """
-        Set screen power mode
-
-        Args:
-            mode: POWER_MODE_OFF | POWER_MODE_NORMAL
-        """
-        return struct.pack(">b", mode)
-
-    @inject(const.TYPE_ROTATE_DEVICE)
-    def rotate_device(self) -> bytes:
-        """
-        Rotate device
-        """
-        return b""
 
     def swipe(
         self,

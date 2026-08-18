@@ -192,9 +192,6 @@ class ConnectionAttr:
         # 127.0.0.1:5555 + 2*n, assume 32 instances at max
         return self.serial.startswith("emulator-") or 5555 <= self.port <= 5619
 
-    @cached_property
-    def is_nox_family(self):
-        return 62001 <= self.port <= 63025
 
     @cached_property
     def is_vmos(self):

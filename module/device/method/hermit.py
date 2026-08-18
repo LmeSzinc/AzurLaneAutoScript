@@ -149,8 +149,6 @@ class Hermit(Adb):
         # Switch back to AzurLane
         self.app_start_adb()
 
-    def uninstall_hermit(self):
-        self.adb_command(["uninstall", self._hermit_package_name])
 
     def hermit_enable_accessibility(self):
         """

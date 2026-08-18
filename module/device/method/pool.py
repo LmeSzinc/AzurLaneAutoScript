@@ -2,7 +2,6 @@ import abc
 import ctypes
 import subprocess
 from collections import deque
-from functools import wraps
 from itertools import count
 from threading import Lock, Thread
 from typing import NoReturn, TypeVar
@@ -106,10 +105,6 @@ def capture(sync_fn, *args, **kwargs):
     except BaseException as exc:
         exc = remove_tb_frames(exc, 1)
         return Error(exc)
-
-
-class JobError(Exception):
-    pass
 
 
 class JobTimeout(Exception):
@@ -377,30 +372,6 @@ class WorkerPool:
         worker.worker_lock.release()
         return job
 
-    def run_on_thread(self, func):
-        """
-        Decorate a function to run on thread,
-        result can be got from `job` object
-
-        Args:
-            func (Callable[..., ResultT]):
-
-        Returns:
-            Job[ResultT]:
-
-        Examples:
-            @run_on_thread
-            def function(...):
-                pass
-            job = function(...)
-            result = job.get()
-        """
-
-        @wraps(func)
-        def thread_wrapper(*args, **kwargs):
-            return self.start_thread_soon(func, *args, **kwargs)
-
-        return thread_wrapper
 
     @staticmethod
     def _subprocess_execute(cmd, timeout=10):
@@ -426,24 +397,6 @@ class WorkerPool:
             logger.warning(f"TimeoutExpired when calling {cmd}, stdout={stdout}, stderr={stderr}")
         return stdout
 
-    def start_cmd_soon(self, cmd, timeout=10):
-        """
-        Run cmd on subprocess and communicate it on another thread,
-        result can be got from `job` object
-
-        Args:
-            cmd (list[str]):
-            timeout:
-
-        Returns:
-            Job[bytes]:
-        """
-        worker = self._get_thread_worker()
-        job = Job(worker=worker, func_args_kwargs=(self._subprocess_execute, (cmd,), {"timeout": timeout}))
-
-        worker.job = job
-        worker.worker_lock.release()
-        return job
 
     def wait_jobs(self) -> "WaitJobsWrapper":
         """
@@ -454,63 +407,6 @@ class WorkerPool:
                 pool.start_thread_soon(...)
         """
         return WaitJobsWrapper(self)
-
-    def gather_jobs(self) -> "GatherJobsWrapper":
-        """
-        Auto wait all jobs finished and gather results
-
-        Examples:
-            pool = WORKER_POOL.gather_jobs()
-            with pool:
-                pool.start_thread_soon(...)
-            # Get results
-            print(pool.results)
-        """
-        return GatherJobsWrapper(self)
-
-    def thread_map(self, func, iterables):
-        """
-        Alternative to ThreadPoolExecutor.map(func, iterables)
-
-        Args:
-            func (Callable[..., ResultT]):
-            iterables:
-
-        Returns:
-            list[ResultT]:
-        """
-        jobs = [self.start_thread_soon(func, arg) for arg in iterables]
-        results = [job.get() for job in jobs]
-        return results
-
-    def thread_starmap(self, func, iterables):
-        """
-        Alternative to multiprocessing.pool.Pool().starmap(func, iterables) but on threads
-
-        Args:
-            func (Callable[..., ResultT]):
-            iterables:
-
-        Returns:
-            list[ResultT]:
-        """
-        jobs = [self.start_thread_soon(func, *arg) for arg in iterables]
-        results = [job.get() for job in jobs]
-        return results
-
-    def thread_funcmap(self, func_iterables):
-        """
-        Run a list of functions on threads
-
-        Args:
-            func_iterables (Iterable[Callable[..., ResultT]]):
-
-        Returns:
-            list[ResultT]:
-        """
-        jobs = [self.start_thread_soon(func) for func in func_iterables]
-        results = [job.get() for job in jobs]
-        return results
 
 
 class WaitJobsWrapper:

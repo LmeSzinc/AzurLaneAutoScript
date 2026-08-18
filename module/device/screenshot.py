@@ -5,7 +5,6 @@ from datetime import datetime
 
 import cv2
 import numpy as np
-from PIL import Image
 
 from module.base.decorator import cached_property
 from module.base.timer import Timer
@@ -152,8 +151,6 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy, NemuIpc, LDOpenGL):
             self._last_save_time[genre] = now
             return False
 
-    def screenshot_last_save_time_reset(self, genre):
-        self._last_save_time[genre] = 0
 
     def screenshot_interval_set(self, interval=None):
         """
@@ -192,10 +189,6 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy, NemuIpc, LDOpenGL):
             logger.info(f"Screenshot interval set to {interval}s")
             self._screenshot_interval.limit = interval
 
-    def image_show(self, image=None):
-        if image is None:
-            image = self.image
-        Image.fromarray(image).show()
 
     def image_save(self, file=None):
         if file is None:

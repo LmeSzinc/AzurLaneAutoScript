@@ -289,15 +289,3 @@ class EmulatorManagerBase:
             if emu_serial:
                 out.append(emu_serial)
         return out
-
-    @cached_property
-    def all_adb_binaries(self) -> list[str]:
-        """
-        Returns:
-            list[str]: All adb binaries of emulators on current computer.
-        """
-        out = []
-        for emulator in self.all_emulators:
-            for exe in emulator.iter_adb_binaries():
-                out.append(exe)
-        return out
