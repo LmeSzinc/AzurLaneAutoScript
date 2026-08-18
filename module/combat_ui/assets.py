@@ -361,6 +361,27 @@ PAUSE_Nurse = Button(
         "tw": "./assets/cn/combat_ui/PAUSE_Nurse.png",
     },
 )
+PAUSE_OldeRoyal = Button(
+    area={
+        "cn": (1223, 37, 1241, 56),
+        "en": (1223, 37, 1241, 56),
+        "jp": (1223, 37, 1241, 56),
+        "tw": (1223, 37, 1241, 56),
+    },
+    color={"cn": (164, 72, 58), "en": (164, 72, 58), "jp": (164, 72, 58), "tw": (164, 72, 58)},
+    button={
+        "cn": (1223, 37, 1241, 56),
+        "en": (1223, 37, 1241, 56),
+        "jp": (1223, 37, 1241, 56),
+        "tw": (1223, 37, 1241, 56),
+    },
+    file={
+        "cn": "./assets/cn/combat_ui/PAUSE_OldeRoyal.png",
+        "en": "./assets/cn/combat_ui/PAUSE_OldeRoyal.png",
+        "jp": "./assets/cn/combat_ui/PAUSE_OldeRoyal.png",
+        "tw": "./assets/cn/combat_ui/PAUSE_OldeRoyal.png",
+    },
+)
 PAUSE_Pharaoh = Button(
     area={
         "cn": (1229, 55, 1259, 62),
@@ -464,6 +485,27 @@ PAUSE_Star = Button(
         "en": "./assets/cn/combat_ui/PAUSE_Star.png",
         "jp": "./assets/cn/combat_ui/PAUSE_Star.png",
         "tw": "./assets/cn/combat_ui/PAUSE_Star.png",
+    },
+)
+PAUSE_YoRHa = Button(
+    area={
+        "cn": (1222, 34, 1241, 54),
+        "en": (1222, 34, 1241, 54),
+        "jp": (1222, 34, 1241, 54),
+        "tw": (1222, 34, 1241, 54),
+    },
+    color={"cn": (142, 122, 81), "en": (142, 122, 81), "jp": (142, 122, 81), "tw": (142, 122, 81)},
+    button={
+        "cn": (1222, 34, 1241, 54),
+        "en": (1222, 34, 1241, 54),
+        "jp": (1222, 34, 1241, 54),
+        "tw": (1222, 34, 1241, 54),
+    },
+    file={
+        "cn": "./assets/cn/combat_ui/PAUSE_YoRHa.png",
+        "en": "./assets/cn/combat_ui/PAUSE_YoRHa.png",
+        "jp": "./assets/cn/combat_ui/PAUSE_YoRHa.png",
+        "tw": "./assets/cn/combat_ui/PAUSE_YoRHa.png",
     },
 )
 QUIT = Button(
@@ -737,5 +779,26 @@ QUIT_SpringInn = Button(
         "en": "./assets/cn/combat_ui/QUIT_SpringInn.png",
         "jp": "./assets/cn/combat_ui/QUIT_SpringInn.png",
         "tw": "./assets/cn/combat_ui/QUIT_SpringInn.png",
+    },
+)
+QUIT_YoRHa = Button(
+    area={
+        "cn": (452, 556, 535, 576),
+        "en": (452, 556, 535, 576),
+        "jp": (452, 557, 534, 576),
+        "tw": (452, 556, 535, 576),
+    },
+    color={"cn": (172, 170, 163), "en": (172, 170, 163), "jp": (148, 145, 136), "tw": (172, 170, 163)},
+    button={
+        "cn": (452, 556, 535, 576),
+        "en": (452, 556, 535, 576),
+        "jp": (452, 557, 534, 576),
+        "tw": (452, 556, 535, 576),
+    },
+    file={
+        "cn": "./assets/cn/combat_ui/QUIT_YoRHa.png",
+        "en": "./assets/cn/combat_ui/QUIT_YoRHa.png",
+        "jp": "./assets/jp/combat_ui/QUIT_YoRHa.png",
+        "tw": "./assets/cn/combat_ui/QUIT_YoRHa.png",
     },
 )
