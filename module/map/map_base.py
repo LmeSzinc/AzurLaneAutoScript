@@ -1,11 +1,11 @@
 import copy
+import itertools
 
 from module.base.utils import location2node, node2location
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
 from module.map.utils import GridInfo, camera_2d, location_ensure, np
 from module.map_detection.grid_info import GridInfo
-import itertools
 
 
 class CampaignMap:

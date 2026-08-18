@@ -1,3 +1,4 @@
+import itertools
 import os
 
 import cv2
@@ -7,7 +8,6 @@ from PIL import Image
 
 from module.exception import RequestHumanTakeover
 from module.logger import logger
-import itertools
 
 # The OCR models are small (3-9MB); spawning one thread per core (24 here)
 # for every inference call creates a thread-creation storm that contends with
