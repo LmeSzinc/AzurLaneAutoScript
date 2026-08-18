@@ -1,10 +1,7 @@
 from datetime import timedelta
 
-from scipy import signal
-
 from module.base.decorator import cached_property
 from module.base.utils import (
-    color_similarity_2d,
     crop,
     cv2,
     extract_white_letters,
@@ -37,55 +34,6 @@ RESEARCH_DETAIL_GENRE = [
     DETAIL_GENRE_Q,
     DETAIL_GENRE_T,
 ]
-
-
-def get_research_series_old(image, series_button=RESEARCH_SERIES):
-    r"""
-    Get research series using a simple color detection.
-    Counting white lines to detect Roman numerals.
-
-    -------               --- --   --
-     | | |   --> 3 lines   |   \   /   --> 3 lines
-     | | |                 |   \   /
-     | | |   --> 3 lines   |    \ /    --> 2 lines
-    -------               ---    v
-
-    Args:
-        image (np.ndarray):
-        series_button:
-
-    Returns:
-        list[int]: Such as [1, 1, 1, 2, 3]
-    """
-    result = []
-    # Set 'prominence = 50' to ignore possible noise.
-    # 2021.07.18 Letter IV is now smaller than I, II, III, since the maintenance in 07.15.
-    #   The "/" of the "V" in IV become darker because of anti-aliasing.
-    #   So lower height to 160 to have a better detection.
-    parameters = {"height": 160, "prominence": 50, "width": 1}
-
-    for button in series_button:
-        im = color_similarity_2d(resize(crop(image, button.area, copy=False), (46, 25)), color=(255, 255, 255))
-        peaks = [len(signal.find_peaks(row, **parameters)[0]) for row in im[5:-5]]
-        upper, lower = max(peaks), min(peaks)
-        # print(peaks)
-
-        # Remove noise like [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 2]
-        if upper == 3 and lower == 2 and peaks.count(3) <= 2:
-            upper = 2
-
-        if upper == lower and 1 <= upper <= 3:
-            series = upper
-        elif upper == 3 and lower == 2:
-            series = 4
-        elif upper == 2 and lower == 1:
-            series = 5
-        else:
-            series = 0
-            logger.warning(f"Unknown research series: button={button}, upper={upper}, lower={lower}")
-        result.append(series)
-
-    return result
 
 
 def _get_research_series(img):
@@ -206,43 +154,6 @@ def match_template(image, template, area, offset=30, similarity=0.85):
     if sim < similarity:
         sim = 0.0
     return sim
-
-
-def get_research_series_jp_old(image):
-    """
-    Almost the same as get_research_series except the button area.
-
-    Args:
-        image (np.ndarray): Screenshot
-
-    Returns:
-        str: Series like "S4"
-    """
-    # Set 'prominence = 50' to ignore possible noise.
-    parameters = {"height": 160, "prominence": 50, "width": 1}
-
-    area = SERIES_DETAIL.area
-    # Resize is not needed because only one area will be checked in JP server.
-    im = color_similarity_2d(crop(image, area, copy=False), color=(255, 255, 255))
-    peaks = [len(signal.find_peaks(row, **parameters)[0]) for row in im[5:-5]]
-    upper, lower = max(peaks), min(peaks)
-    # print(upper, lower)
-
-    # Remove noise like [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 2]
-    if upper == 3 and lower == 2 and peaks.count(3) <= 2:
-        upper = 2
-
-    if upper == lower and 1 <= upper <= 3:
-        series = upper
-    elif upper == 3 and lower == 2:
-        series = 4
-    elif upper == 2 and lower == 1:
-        series = 5
-    else:
-        series = 0
-        logger.warning(f"Unknown research series: upper={upper}, lower={lower}")
-
-    return f"S{series}"
 
 
 def get_research_series_jp(image):

@@ -10,18 +10,6 @@ ITEM_GRIDS_2 = ButtonGrid(origin=(336, 227), delta=(128, 142), button_shape=(96,
 ITEM_GRIDS_3 = ButtonGrid(origin=(336, 223), delta=(128, 149), button_shape=(96, 96), grid_shape=(5, 2))
 
 
-def merge_get_items(item_list_1, item_list_2):
-    """
-    Args:
-        item_list_1 (list[Item]):
-        item_list_2 (list[Item]):
-
-    Returns:
-        list[Item]:
-    """
-    return list(set(item_list_1 + item_list_2))
-
-
 class GetItemsStatistics:
     def appear_on(self, image):
         return GET_ITEMS_1.match(image, offset=(20, 20)) or GET_ITEMS_2.match(image, offset=(20, 20))

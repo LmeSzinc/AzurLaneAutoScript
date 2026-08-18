@@ -498,59 +498,6 @@ class StorageHandler(StorageUI):
 
         return disassembled
 
-    def storage_use_box(self, rarity=1, amount=40):
-        """
-        Disassemble target amount of equipment.
-        If not having enough equipment, use boxes then disassemble.
-
-        Args:
-            rarity (int): 1 for common, 2 for rare, 3 for elite, 4 for super_rare
-            amount (int): Expected amount to disassemble.
-                Actual amount >= expected
-
-        Returns:
-            int: Actual amount of equipments disassembled
-
-        Pages:
-            in: Any
-            out: page_storage, material, MATERIAL_CHECK
-        """
-        logger.hr("Use boxes", level=2)
-        self.ui_goto_storage()
-        self._storage_enter_material()
-        self._wait_until_storage_stable()
-
-        used = 0
-        while 1:
-            self._storage_enter_disassemble()
-            self._storage_disassemble_equipment_execute(rarity=rarity, amount=amount)
-
-            logger.attr("Total_Used", f"{used}/{amount}")
-            if used >= amount:
-                logger.info("Reached total target amount, stop")
-                break
-
-            boxes = 0
-            try:
-                self._storage_enter_material()
-                boxes = self._storage_use_box_execute(rarity=rarity, amount=amount - used)
-                used += boxes
-                if boxes <= 0:
-                    logger.warning("No more boxes to use, use boxes end")
-                    self.storage_has_boxes = False
-                    break
-            except StorageFull:
-                if boxes <= 0:
-                    logger.warning(
-                        "Unable to use boxes because storage full, "
-                        "probably because storage is full of rare equipments or above, "
-                        "use boxes end"
-                    )
-                    logger.warning("Please manually disassemble some equipments to free up storage")
-                    self.storage_has_boxes = False
-                    break
-
-        return used
 
     def handle_storage_full(self, rarity=1, amount=40):
         """

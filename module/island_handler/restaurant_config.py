@@ -168,12 +168,3 @@ def get_waitress_effect(restaurant_id, slots):
         capacity_delta += capacity
         sales_bonus += sales
     return capacity_delta, sales_bonus
-
-
-def legacy_waitress_to_slots(value, restaurant_id):
-    """Convert an old ``name+name`` waitress value into two new slots."""
-    if not isinstance(value, str):
-        values = []
-    else:
-        values = value.split("+")
-    return normalize_waitress_slots(restaurant_id, values)

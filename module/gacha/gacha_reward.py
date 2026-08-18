@@ -9,8 +9,6 @@ from module.logger import logger
 from module.ocr.ocr import Digit
 from module.retire.retirement import Retirement
 
-RECORD_GACHA_OPTION = ("RewardRecord", "gacha")
-RECORD_GACHA_SINCE = (0,)
 OCR_BUILD_CUBE_COUNT = Digit(BUILD_CUBE_COUNT, letter=(255, 247, 247), threshold=64)
 OCR_BUILD_TICKET_COUNT = Digit(BUILD_TICKET_COUNT, letter=(255, 247, 247), threshold=64)
 OCR_BUILD_SUBMIT_COUNT = Digit(BUILD_SUBMIT_COUNT, letter=(255, 247, 247), threshold=64)

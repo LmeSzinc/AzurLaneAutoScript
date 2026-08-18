@@ -197,10 +197,6 @@ class DigitCounter(Ocr):
             return 0, 0, 0
 
 
-class DigitCounterYuv(DigitCounter, OcrYuv):
-    pass
-
-
 class Duration(Ocr):
     def __init__(
         self, buttons, lang="azur_lane", letter=(255, 255, 255), threshold=128, alphabet="0123456789:IDSB", name=None
@@ -248,7 +244,3 @@ class Duration(Ocr):
         else:
             logger.warning(f"Invalid duration: {string}")
             return timedelta(hours=0, minutes=0, seconds=0)
-
-
-class DurationYuv(Duration, OcrYuv):
-    pass

@@ -36,8 +36,6 @@ class ItemNotFoundError(Exception):
 
 
 class EventShopClerk(EventShopUI):
-    pt_image = None
-    urpt_image = None
 
     def _get_event_shop_grid(self):
         mask = color_similarity_2d(self.device.image, PRICE_BACKGROUND_COLOR)

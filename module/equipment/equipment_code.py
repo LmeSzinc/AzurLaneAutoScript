@@ -103,13 +103,6 @@ class EquipmentCodeHandler(StorageHandler):
             if self.appear_then_click(EQUIPMENT_CODE_ENTRANCE, offset=(5, 5), interval=1):
                 continue
 
-    def _code_exit(self):
-        """
-        Pages:
-            in: equipment_code
-            out: ship_detail
-        """
-        self.ui_back(check_button=EQUIPMENT_CODE_ENTRANCE)
 
     def is_code_preview_loaded(self):
         if self.appear(EQUIPMENT_CODE_EQUIP_5_LOCKED, offset=(5, 5)):

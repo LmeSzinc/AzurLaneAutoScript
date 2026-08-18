@@ -138,9 +138,6 @@ class IslandProductionPlanner(DaemonBase):
         if recipe["commission_product"]
     }
     EXCHANGE_PRODUCT_IDS = {item_id for recipe in DIC_ISLAND_EXCHANGE_RECIPE.values() for item_id in recipe["items"]}
-    DISH_ITEM_TO_SLOT = {
-        item_id: slot for slot, menu in DIC_ISLAND_RESTAURANT_MENU_TO_RECIPE.items() for item_id in menu
-    }
 
     @cached_property
     def current_activity_list(self):

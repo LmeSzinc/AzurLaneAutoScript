@@ -11,7 +11,6 @@ from module.shop_event.selector import FILTER_REGEX
 from module.statistics.item import Item, ItemGrid
 
 ITEM_SHAPE = (63, 63)
-GRID_SHAPE = (152, 206)
 DELTA_PRICE_BACKGROUND = (14, 164)
 DELTA_ITEM = (45, 44, 45 + ITEM_SHAPE[0], 33 + ITEM_SHAPE[1])
 DELTA_AMOUNT = (13, 144, 136, 160)

@@ -517,21 +517,3 @@ class Commission:
         if self.valid:
             self.status = "running"
             self.create_time = datetime.now()
-
-    @property
-    def finish_time(self):
-        if self.valid and self.status == "running":
-            return (self.create_time + self.duration).replace(microsecond=0)
-        else:
-            return None
-
-    @staticmethod
-    def beautify_name(name):
-        name = name.strip()
-        name = re.sub(r"VI$", "Ⅵ", name)
-        name = re.sub(r"IV$", "Ⅳ", name)
-        name = re.sub(r"V$", "Ⅴ", name)
-        name = re.sub(r"III$", "Ⅲ", name)
-        name = re.sub(r"II$", "Ⅱ", name)
-        name = re.sub(r"I$", "Ⅰ", name)
-        return name

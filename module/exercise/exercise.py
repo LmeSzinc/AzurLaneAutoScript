@@ -4,7 +4,7 @@ from module.config.utils import get_server_last_update
 from module.exercise.assets import *  # noqa: F403  (data-bundle star import)
 from module.exercise.combat import ExerciseCombat
 from module.logger import logger
-from module.ocr.ocr import Digit, Ocr, OcrYuv
+from module.ocr.ocr import Digit, Ocr
 from module.ui.page import page_exercise
 
 
@@ -56,10 +56,6 @@ class DatedDuration(Ocr):
         else:
             logger.warning(f"Invalid dated duration: {string}")
             return timedelta(days=0, hours=0, minutes=0, seconds=0)
-
-
-class DatedDurationYuv(DatedDuration, OcrYuv):
-    pass
 
 
 OCR_EXERCISE_REMAIN = Digit(OCR_EXERCISE_REMAIN, letter=(173, 247, 74), threshold=128)
@@ -174,13 +170,6 @@ class Exercise(ExerciseCombat):
             self.config.set_record(Exercise_OpponentRefreshValue=0)
             return 0
 
-    def _get_exercise_reset_remain(self):
-        """
-        Returns:
-            datetime.timedelta
-        """
-        result = OCR_PERIOD_REMAIN.ocr(self.device.image)
-        return result
 
     def _get_exercise_strategy(self):
         """

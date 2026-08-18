@@ -26,10 +26,6 @@ class OSGridInfo(GridInfo):
 
     is_radar_scanned = False
 
-    @property
-    def is_interactive_only(self):
-        # Fleet can't goto this grid, but can only interact next to it
-        return self.is_ally or self.is_akashi
 
     def encode(self):
         dic = {

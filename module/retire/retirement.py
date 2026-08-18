@@ -162,12 +162,6 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                 self.interval_clear([EQUIP_CONFIRM, EQUIP_CONFIRM_2])
                 continue
 
-    def retirement_appear(self):
-        return (
-            self.appear(RETIRE_APPEAR_1, offset=30)
-            and self.appear(RETIRE_APPEAR_2, offset=30)
-            and self.appear(RETIRE_APPEAR_3, offset=30)
-        )
 
     def _retirement_quit(self):
         def check_func():

@@ -64,7 +64,3 @@ class IslandExchange(IslandShopUI):
             self.island_shop_side_navbar_ensure(main_index=6, sub_index=1)
             success = self.exchange_fish_meat(delta_count=require_dict[2522]) and success
         return success
-
-    def island_shop_exchange_all_fish_meat(self):
-        """Exchange all available freshwater and saltwater fish in one visit."""
-        return self.island_shop_exchange({2521: 0, 2522: 0})

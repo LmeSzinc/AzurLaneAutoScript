@@ -320,9 +320,6 @@ class IslandRestaurant(IslandDock):
             for item_id in item_ids
         }
 
-    @cached_property
-    def waitress_lists(self):
-        return {restaurant_id: list(get_waitress_slots(self.config, restaurant_id)) for restaurant_id in RESTAURANT_IDS}
 
     def unavailable_waitress_list(self):
         current_waitresses = get_selected_named_waitresses(get_waitress_slots(self.config, self.working_restaurant_id))

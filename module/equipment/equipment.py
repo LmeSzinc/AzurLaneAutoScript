@@ -71,8 +71,6 @@ class Equipment(EquipmentCodeHandler):
     def ship_view_next(self, check_button=EQUIPMENT_OPEN):
         return self._ship_view_swipe(distance=-SWIPE_DISTANCE, check_button=check_button)
 
-    def ship_view_prev(self, check_button=EQUIPMENT_OPEN):
-        return self._ship_view_swipe(distance=SWIPE_DISTANCE, check_button=check_button)
 
     def ship_info_enter(self, click_button, check_button=EQUIPMENT_OPEN, long_click=True, skip_first_screenshot=True):
         enter_timer = Timer(10)

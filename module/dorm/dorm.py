@@ -17,8 +17,6 @@ from module.ui.page import page_dorm, page_dormmenu
 from module.ui.ui import UI
 
 MASK_DORM = Mask(file="./assets/mask/MASK_DORM.png")
-DORM_CAMERA_SWIPE = (300, 250)
-DORM_CAMERA_RANDOM = (-20, -20, 20, 20)
 OCR_SLOT = DigitCounter(OCR_DORM_SLOT, letter=(107, 89, 82), threshold=128, name="OCR_DORM_SLOT")
 OCR_BUY_FOOD_AMOUNT = Digit(
     OCR_DORM_BUY_FOOD_AMOUNT, letter=(96, 96, 100), threshold=128, name="OCR_DORM_BUY_FOOD_AMOUNT"

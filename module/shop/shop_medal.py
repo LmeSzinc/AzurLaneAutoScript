@@ -3,7 +3,6 @@ import numpy as np
 import module.config.server as server
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property, del_cached_property
-from module.base.timer import Timer
 from module.logger import logger
 from module.map_detection.utils import Points
 from module.ocr.ocr import Digit, DigitYuv, Ocr
@@ -56,8 +55,6 @@ if server.server == "jp":
     PRICE_OCR_250814 = Digit([], lang="cnocr", letter=(235, 235, 255), threshold=128, name="Price_ocr")
 else:
     PRICE_OCR_250814 = Digit([], letter=(255, 255, 255), threshold=128, name="Price_ocr")
-TEMPLATE_MEDAL_ICON = Template("./assets/shop/cost/Medal.png")
-TEMPLATE_MEDAL_ICON_2 = Template("./assets/shop/cost/Medal_2.png")
 TEMPLATE_MEDAL_ICON_3 = Template("./assets/shop/cost/Medal_3.png")
 
 
@@ -84,25 +81,6 @@ class MedalShop2_250814(ShopClerk, ShopStatus):
         logger.attr("Medals_icon", len(medals))
         return medals
 
-    def wait_until_medal_appear(self, skip_first_screenshot=True):
-        """
-        After entering medal shop page,
-        items are not loaded that fast,
-        wait until any medal icon appears
-        """
-        timeout = Timer(1, count=3).start()
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            medals = self._get_medals()
-
-            if timeout.reached():
-                break
-            if len(medals):
-                break
 
     @cached_property
     def shop_grid(self):

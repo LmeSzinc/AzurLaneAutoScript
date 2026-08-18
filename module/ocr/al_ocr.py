@@ -387,15 +387,6 @@ class AlOcr:
     handling set_cand_alphabet inside
     """
 
-    def atomic_ocr(self, img_fp, cand_alphabet=None):
-        self._ensure_loaded()
-        self.set_cand_alphabet(cand_alphabet)
-        return self._ocr(img_fp)
-
-    def atomic_ocr_for_single_line(self, img_fp, cand_alphabet=None):
-        self._ensure_loaded()
-        self.set_cand_alphabet(cand_alphabet)
-        return self.ocr_for_single_line(img_fp)
 
     def atomic_ocr_for_single_lines(self, img_list, cand_alphabet=None):
         self._ensure_loaded()

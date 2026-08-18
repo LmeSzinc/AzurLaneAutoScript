@@ -87,39 +87,6 @@ class StorageUI(UI):
 
         self.interval_clear(STORAGE_CHECK)
 
-    def _storage_enter_equipment(self, skip_first_screenshot=True):
-        """
-        Pages:
-            in: page_storage, any
-            out: page_storage, equipment, DISASSEMBLE
-        """
-        logger.info("storage enter equipment")
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
-            if self.appear(DISASSEMBLE, offset=(20, 20)):
-                break
-
-            # disassemble -> equipment
-            if self.appear_then_click(DISASSEMBLE_CANCEL, offset=(20, 20), interval=3):
-                self.interval_reset(STORAGE_CHECK)
-                continue
-            # material -> equipment
-            if self._storage_in_material(interval=3):
-                logger.info("_storage_in_material -> EQUIPMENT_ENTER")
-                self.device.click(EQUIPMENT_ENTER)
-                self.interval_reset(STORAGE_CHECK)
-                continue
-            # design -> equipment
-            if self.appear(STORAGE_CHECK, offset=(20, 20), interval=3):
-                logger.info("STORAGE_CHECK -> EQUIPMENT_ENTER")
-                self.device.click(EQUIPMENT_ENTER)
-                continue
-
-        self.interval_clear(STORAGE_CHECK)
 
     def _storage_enter_disassemble(self, skip_first_screenshot=True):
         """
