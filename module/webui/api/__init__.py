@@ -34,9 +34,13 @@ def _startup():
     updater = _get_updater()
     updater.event = State.manager.Event()
     task_handler = TaskHandler()
-    if updater.delay > 0:
-        task_handler.add(updater.check_update, updater.delay)
-    task_handler.add(updater.schedule_update(), 86400)
+    # Auto-update loop disabled (2026-08): deployments are git-managed by
+    # the user (source) or updated by the shell (packaged), so nothing may
+    # self-update in the background. The webui update panel stays available
+    # for manual /update/check and /update/run calls.
+    # if updater.delay > 0:
+    #     task_handler.add(updater.check_update, updater.delay)
+    # task_handler.add(updater.schedule_update(), 86400)
     task_handler.start()
     if State.deploy_config.DiscordRichPresence:
         init_discord_rpc()
@@ -108,6 +112,42 @@ def _add_home_redirect(app: FastAPI):
         return JSONResponse({"detail": exc.detail}, status_code=exc.status_code, headers=exc.headers)
 
 
+def _add_password_gate(app: FastAPI):
+    """Require HTTP Basic auth on every route when a webui password is set.
+
+    Previously the API was unauthenticated even with Password configured
+    (any LAN client could trigger /update/run, /run, config writes, ...).
+    The browser shows its native credential prompt on the first 401 and
+    re-sends the cached credentials on later fetch/EventSource requests, so
+    the SPA needs no login UI.
+    """
+    try:
+        password = State.deploy_config.Password
+    except Exception:
+        password = None
+    if not password:
+        return
+
+    import base64
+    import secrets
+
+    from starlette.middleware.base import BaseHTTPMiddleware
+
+    expected = "Basic " + base64.b64encode(f"alas:{password}".encode()).decode()
+
+    class PasswordGate(BaseHTTPMiddleware):
+        async def dispatch(self, request, call_next):
+            if not secrets.compare_digest(request.headers.get("Authorization", ""), expected):
+                return JSONResponse(
+                    {"detail": "Unauthorized"},
+                    status_code=401,
+                    headers={"WWW-Authenticate": 'Basic realm="Alas"'},
+                )
+            return await call_next(request)
+
+    app.add_middleware(PasswordGate)
+
+
 def create_api_app() -> FastAPI:
     @asynccontextmanager
     async def lifespan(_app: FastAPI):
@@ -124,6 +164,7 @@ def create_api_app() -> FastAPI:
 
     app = FastAPI(title="Alas API", lifespan=lifespan)
 
+    _add_password_gate(app)
     _add_dev_cors(app)
     _add_home_redirect(app)
 

@@ -12,19 +12,19 @@ class ConfigModel:
     # Git
     Repository: str = "https://github.com/LmeSzinc/AzurLaneAutoScript"
     Branch: str = "master"
-    GitExecutable: str = "./toolkit/Git/mingw64/bin/git.exe"
+    GitExecutable: str = "git"
     GitProxy: str | None = None
-    SSLVerify: bool = False
+    SSLVerify: bool = True
     AutoUpdate: bool = True
 
     # Python
-    PythonExecutable: str = "./toolkit/python.exe"
+    PythonExecutable: str = "python"
     PypiMirror: str | None = None
     InstallDependencies: bool = True
     RequirementsFile: str = "requirements.txt"
 
     # Adb
-    AdbExecutable: str = "./toolkit/Lib/site-packages/adbutils/binaries/adb.exe"
+    AdbExecutable: str = "adb"
     ReplaceAdb: bool = True
     AutoConnect: bool = True
     InstallUiautomator2: bool = True
@@ -55,13 +55,10 @@ class ConfigModel:
     WebuiSSLKey: str | None = None
     WebuiSSLCert: str | None = None
     Language: str = "en-US"
-    Theme: str = "dark"
+    Theme: str = "default"
     DpiScaling: bool = True
     Password: str | None = None
     Run: str | None = None
-
-    # Dynamic
-    GitOverCdn: bool = False
 
 
 class DeployConfig(ConfigModel):
@@ -101,40 +98,11 @@ class DeployConfig(ConfigModel):
             if hasattr(self, key):
                 super().__setattr__(key, value)
 
-        self.config_redirect()
-
         if self.config != origin:
             self.write()
 
     def write(self):
         poor_yaml_write(self.config, self.file)
-
-    def config_redirect(self):
-        """
-        Redirect deploy config, must be called after each `read()`
-        """
-        if self.Repository in [
-            "https://gitee.com/LmeSzinc/AzurLaneAutoScript",
-            "https://gitee.com/lmeszinc/azur-lane-auto-script-mirror",
-            "https://e.coding.net/llop18870/alas/AzurLaneAutoScript.git",
-            "https://e.coding.net/saarcenter/alas/AzurLaneAutoScript.git",
-            "https://git.saarcenter.com/LmeSzinc/AzurLaneAutoScript.git",
-        ]:
-            self.Repository = "git://git.lyoko.io/AzurLaneAutoScript"
-            self.config["Repository"] = "git://git.lyoko.io/AzurLaneAutoScript"
-        if self.PypiMirror in ["https://pypi.tuna.tsinghua.edu.cn/simple"]:
-            self.PypiMirror = "https://mirrors.aliyun.com/pypi/simple"
-            self.config["PypiMirror"] = "https://mirrors.aliyun.com/pypi/simple"
-
-        # Bypass webui.config.DeployConfig.__setattr__()
-        # Don't write these into deploy.yaml
-        super().__setattr__(
-            "GitOverCdn", self.Repository == "git://git.lyoko.io/AzurLaneAutoScript" and self.Branch == "master"
-        )
-        if self.Repository in ["global"]:
-            super().__setattr__("Repository", "https://github.com/LmeSzinc/AzurLaneAutoScript")
-        if self.Repository in ["cn"]:
-            super().__setattr__("Repository", "git://git.lyoko.io/AzurLaneAutoScript")
 
     def filepath(self, key):
         """

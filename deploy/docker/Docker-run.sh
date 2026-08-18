@@ -7,10 +7,6 @@ prun() { # Pretty run
     pprint "$ ${1}"
     eval " ${1}" || exit 1
 }
-prun_or_continue() { # Pretty run or continue
-    pprint "$ ${1}"
-    eval " ${1}" || pprint "↳ Not needed!"
-}
 
 SOURCE="$(dirname $(realpath ${BASH_SOURCE}))" # Poiting to dev_tools folder
 CONTAINER="azurlaneautoscript"
@@ -29,14 +25,6 @@ else
     touch "${XDG_RUNTIME_DIR}/${CONTAINER}.lock"
 fi
 
-# ALAS update
-pprint "Updating this repo"
-prun "cd ${SOURCE}/.."
-prun "git fetch origin master"
-prun "git stash"
-prun "git pull --ff origin master"
-prun_or_continue "git stash pop"
-
 # Container cleanup
 pprint "Killing any previous container"
 prun "docker ps | grep ${CONTAINER} | awk '{print \$1}' | xargs -r -n1 docker kill"
@@ -47,7 +35,7 @@ pprint "Build the image"
 prun "docker build -t ${CONTAINER} -f ${SOURCE}/Dockerfile ${SOURCE}/.."
 
 pprint "Killing any adb servers in the host machine"
-prun_or_continue "adb kill-server"
+prun "adb kill-server" || pprint "adb not found, skipping"
 
 pprint "Running the container"
 trap "rm ${XDG_RUNTIME_DIR}/${CONTAINER}.lock && docker kill ${CONTAINER}" EXIT

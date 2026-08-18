@@ -92,11 +92,16 @@ class PipManager(DeployConfig):
     @cached_property
     def set_required_dependency(self) -> set[DataDependency]:
         data = []
-        regex = re.compile("(.*)==(.*)[ ]*#")
+        # uv export format: bare `name==version` lines, optionally followed
+        # by `; platform marker`; comment lines start with '#' (pip-compile's
+        # trailing `# via` style was replaced by uv's indented comment lines).
+        regex = re.compile(r"^\s*([^\s#;]+?)\s*==\s*([^\s#;]+)")
         file = self.requirements_file
         try:
             with open(file, encoding="utf-8") as f:
                 for line in f.readlines():
+                    if line.lstrip().startswith("#"):
+                        continue
                     res = regex.search(line)
                     if res:
                         dep = DataDependency(name=res.group(1), version=res.group(2))
