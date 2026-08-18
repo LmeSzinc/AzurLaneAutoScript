@@ -337,7 +337,7 @@ class Filter:
             regex = re.compile(regex)
         self.regex = regex
         self.attr = attr
-        self.preset = tuple(list(p.lower() for p in preset))
+        self.preset = tuple(p.lower() for p in preset)
         self.filter_raw = []
         self.filter = []
 

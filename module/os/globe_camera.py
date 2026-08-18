@@ -90,7 +90,7 @@ class GlobeCamera(GlobeOperation, ZoneManager):
         Returns:
             bool: if camera moved.
         """
-        name = "GLOBE_SWIPE_" + "_".join([str(int(round(x))) for x in vector])
+        name = "GLOBE_SWIPE_" + "_".join([str(round(x)) for x in vector])
         if np.linalg.norm(vector) <= 25:
             logger.warning(f"Globe swipe to short: {vector}")
             vector = np.sign(vector) * 25

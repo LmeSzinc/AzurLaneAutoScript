@@ -238,7 +238,7 @@ class IslandSeasonTask(IslandUI):
         for task_id in unfinished_tasks:
             target = DIC_ISLAND_TASK[task_id]["target"]
             if target:
-                item_id = list(target.keys())[0]
+                item_id = next(iter(target.keys()))
                 new_target[item_id] = new_target.get(item_id, 0) + target[item_id]
         new_target = normalize_item_keys(new_target)
         if new_target != old_target:

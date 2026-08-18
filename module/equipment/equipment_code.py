@@ -10,8 +10,7 @@ from module.storage.storage import StorageHandler
 
 EMPTY_CODE = "MC8wLzAvMC8wXDA="
 U2_CONTROL_METHODS = {"uiautomator2", "minitouch", "MaaTouch"}
-EQUIPMENT_PREVIEW = list(
-    [
+EQUIPMENT_PREVIEW = [
         EQUIPMENT_CODE_EQUIP_0,
         EQUIPMENT_CODE_EQUIP_1,
         EQUIPMENT_CODE_EQUIP_2,
@@ -19,7 +18,6 @@ EQUIPMENT_PREVIEW = list(
         EQUIPMENT_CODE_EQUIP_4,
         EQUIPMENT_CODE_EQUIP_5,
     ]
-)
 
 
 class EquipmentCodeHandler(StorageHandler):

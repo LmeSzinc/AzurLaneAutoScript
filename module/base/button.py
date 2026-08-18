@@ -424,7 +424,7 @@ class ButtonGrid:
 
     @cached_property
     def buttons(self):
-        return list([button for _, _, button in self.generate()])
+        return [button for _, _, button in self.generate()]
 
     def crop(self, area, name=None):
         """

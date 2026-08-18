@@ -308,7 +308,7 @@ class AlOcr:
             # color to gray
             img = np.array(Image.fromarray(img).convert("L"))
         # Resize image using cv2.resize (same as the previous implementation)
-        new_width = int(round(IMG_HEIGHT / img.shape[0] * img.shape[1]))
+        new_width = round(IMG_HEIGHT / img.shape[0] * img.shape[1])
         img = cv2.resize(img, (new_width, IMG_HEIGHT))
         img = np.expand_dims(img, 0).astype("float32") / 255.0
         return img

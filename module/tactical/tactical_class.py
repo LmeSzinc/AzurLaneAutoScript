@@ -191,7 +191,7 @@ class Book:
             image (np.ndarray): Screenshot
         """
         area = self.button.area
-        check_area = tuple([area[0], area[3] + 2, area[2], area[3] + 4])
+        check_area = (area[0], area[3] + 2, area[2], area[3] + 4)
         im = rgb2gray(crop(image, check_area, copy=False))
         return True if np.mean(im) > 127 else False
 
@@ -605,7 +605,7 @@ class RewardTacticalClass(Dock):
     @staticmethod
     def check_skill_selected(button, image):
         area = button.area
-        check_area = tuple([area[0], area[3] + 2, area[2], area[3] + 4])
+        check_area = (area[0], area[3] + 2, area[2], area[3] + 4)
         im = rgb2gray(crop(image, check_area, copy=False))
         return True if np.mean(im) > 127 else False
 

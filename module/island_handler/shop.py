@@ -177,7 +177,7 @@ class IslandShop(IslandShopUI):
                 break
 
     def island_shop_buy_in_page(self, recipe_id, amount=1):
-        currency_id = list(DIC_ISLAND_SHOP_RECIPE[recipe_id]["resource_consume"].keys())[0]
+        currency_id = next(iter(DIC_ISLAND_SHOP_RECIPE[recipe_id]["resource_consume"].keys()))
         currency_amount = self.island_shop_get_currency().get(currency_id, 0)
         logger.info(
             f"Current currency amount: {currency_amount}, required: {DIC_ISLAND_SHOP_RECIPE[recipe_id]['resource_consume'][currency_id] * amount}"

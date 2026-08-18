@@ -352,7 +352,7 @@ def ceil_div_or_ceil(numerator, denominator):
 def ceil_with_epsilon(amount, epsilon=1e-9):
     from math import ceil
 
-    return int(ceil(float(amount) - epsilon))
+    return ceil(float(amount) - epsilon)
 
 
 def format_item_need_data(data, format_amount):

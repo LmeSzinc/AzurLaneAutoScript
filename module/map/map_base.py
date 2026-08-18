@@ -188,7 +188,7 @@ class CampaignMap:
         self.maze_round = len(data) * 3
         for index, maze in enumerate(data):
             maze = self.to_selected(maze)
-            maze.set(is_maze=True, maze_round=tuple(list(range(index * 3, index * 3 + 3))))
+            maze.set(is_maze=True, maze_round=tuple(range(index * 3, index * 3 + 3)))
             for grid in maze:
                 self.find_path_initial(grid, has_ambush=False)
                 grid.maze_nearby = self.select(cost=1).add(self.select(cost=2)).select(is_land=False)
@@ -259,7 +259,7 @@ class CampaignMap:
         logger.info(f"grid_connection: wall={wall}, portal={portal}")
 
         # Generate grid connection.
-        total = set(list(self.grids))
+        total = set(self.grids)
         for grid in self:
             connection = set()
             for arr in np.array([(0, -1), (0, 1), (-1, 0), (1, 0)]):

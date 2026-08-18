@@ -40,7 +40,7 @@ class Camera(MapOperation):
             bool: if camera moved.
         """
         vector = np.array(vector)
-        name = "MAP_SWIPE_" + "_".join([str(int(round(x))) for x in vector])
+        name = "MAP_SWIPE_" + "_".join([str(round(x)) for x in vector])
         if np.any(np.abs(vector) > self.config.MAP_SWIPE_DROP):
             # Map grid fit
             if self.config.DEVICE_CONTROL_METHOD == "minitouch":

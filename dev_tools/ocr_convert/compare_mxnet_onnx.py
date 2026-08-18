@@ -77,7 +77,7 @@ def mxnet_infer(mod, images):
     """images: list of (32, W) uint8 -> list of (T, 1, C) float arrays"""
     outs = []
     for img in images:
-        new_w = int(round(32 / img.shape[0] * img.shape[1]))
+        new_w = round(32 / img.shape[0] * img.shape[1])
         img = cv2.resize(img, (new_w, 32))
         x = np.expand_dims(img, 0).astype("float32") / 255.0
         x = x[None, :]  # (1, 1, 32, W)
@@ -92,7 +92,7 @@ def mxnet_infer(mod, images):
 def onnx_infer(session, images):
     outs = []
     for img in images:
-        new_w = int(round(32 / img.shape[0] * img.shape[1]))
+        new_w = round(32 / img.shape[0] * img.shape[1])
         img = cv2.resize(img, (new_w, 32))
         x = np.expand_dims(img, 0).astype("float32") / 255.0
         x = x[None, :]  # (1, 1, 32, W)

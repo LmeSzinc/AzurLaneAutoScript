@@ -56,7 +56,7 @@ class Updater(DeployConfig, GitManager, PipManager):
             return None, None, None, None
 
         logs = log.split("\n")
-        logs = list(map(lambda log: tuple(log.split("---")), logs))
+        logs = [tuple(log.split("---")) for log in logs]
 
         if n == 1:
             return logs[0]

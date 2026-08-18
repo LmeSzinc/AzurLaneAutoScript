@@ -523,7 +523,7 @@ class EmulatorManager(EmulatorManagerBase):
         """
         Get all emulators installed on current computer.
         """
-        exe = set([])
+        exe = set()
 
         # MuiCache
         for file in EmulatorManager.iter_mui_cache():
