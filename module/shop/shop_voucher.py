@@ -256,7 +256,7 @@ class VoucherShop(ShopClerk, ShopStatus):
                 del_cached_property(self, 'shop_voucher_items')
                 continue
 
-    def run_once(self):
+    def run_once_buy_archive(self):
         """
         Run Voucher Shop to purchase
         a single logger archive type
@@ -287,4 +287,44 @@ class VoucherShop(ShopClerk, ShopStatus):
         self.shop_buy_execute(item)
 
         logger.info('Purchased single logger archive')
+        return True
+
+    def run_once_buy_unlock(self, currency=0):
+        """
+        Run Voucher Shop to purchase
+        a single logger unlock type
+        item
+
+        Args:
+            currency (int): oil currency
+
+        Returns:
+            bool
+        """
+        # Replace filter
+        self.shop_filter = 'LoggerUnlockT1'
+
+        # When called, expected to be in
+        # correct Voucher Shop interface
+        logger.hr('Voucher Shop Once', level=1)
+        self.wait_until_voucher_appear()
+
+        # Execute buy operations
+        items = self.shop_get_items()
+        if not any('LoggerUnlockT1' in item.name for item in items):
+            logger.info('No logger unlock T1 in voucher shop')
+            return True
+
+        self._currency = currency
+        if self._currency <= 0:
+            logger.warning(f'Oil currency: {self._currency}, stopped')
+            return False
+
+        item = self.shop_get_item_to_buy(items)
+        if item is None:
+            logger.info('No logger unlock T1 available for purchase')
+            return False
+        self.shop_buy_execute(item)
+
+        logger.info('Purchased single logger unlock T1')
         return True

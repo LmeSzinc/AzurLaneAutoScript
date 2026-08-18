@@ -2499,7 +2499,7 @@
     },
     "SpecialRadar": {
       "name": "OpSi Data Logger Bought (5k oil item)",
-      "help": "Purchase Operation Siren Data Logger is not a must, enable if you have purchased.\nAllows Alas to explore OpSi continously without having to wait 27 minutes between each zone clear\nCannot be selected when not purchased and used manually"
+      "help": "Purchase Operation Siren Data Logger is not a must.\nAllows Alas to explore OpSi continously without having to wait 27 minutes between each zone clear\nThis option will cost 5000 oil to purchase and use logger"
     },
     "ForceRun": {
       "name": "Force Run",

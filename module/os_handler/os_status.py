@@ -62,6 +62,10 @@ class OSStatus(UI):
         return tasks.first_or_none()
 
     @property
+    def bought_logger_unlock_t1_in_voucher_shop(self) -> bool:
+        return self.config.cross_get("OpsiExplore.Storage.Storage.BoughtLoggerUnlockT1", False)
+
+    @property
     def bought_all_yellow_coin_items_in_port_shop(self) -> bool:
         return self.config.cross_get("OpsiShop.Storage.Storage.BoughtAllYellowCoinItems", False)
 
