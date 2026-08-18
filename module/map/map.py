@@ -304,26 +304,6 @@ class Map(Fleet):
 
         return False
 
-    def clear_grids_for_faster(self, grids, **kwargs):
-        """Clear some grids to walk a shorter distance.
-
-        Args:
-            grids(SelectedGrids):
-
-        Returns:
-            bool: True if clear an enemy.
-        """
-
-        grids = grids.select(is_enemy=True)
-        grids = self.select_grids(grids, **kwargs)
-
-        if grids:
-            logger.hr("Clear grids for faster")
-            self.show_select_grids(grids, **kwargs)
-            self.clear_chosen_enemy(grids[0])
-            return True
-
-        return False
 
     def clear_boss(self):
         """This method is deprecated, although it works well in simple map.

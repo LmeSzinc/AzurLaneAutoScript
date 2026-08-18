@@ -1,4 +1,3 @@
-from module.base.timer import Timer
 from module.logger import logger
 from module.os_handler.assets import *  # noqa: F403  (data-bundle star import)
 from module.os_shop.assets import PORT_SUPPLY_CHECK
@@ -39,47 +38,6 @@ class PortHandler(OSShop):
         # Buttons at the bottom has an animation to show
         self.wait_os_map_buttons()
 
-    def port_mission_accept(self):
-        """
-        Accept all missions in port.
-
-        Deprecated since 2022.01.13, missions are shown only in overview, no longer to be shown at ports.
-
-        Returns:
-            bool: True if all missions accepted or no mission found.
-                  False if unable to accept more missions.
-
-        Pages:
-            in: PORT_CHECK
-            out: PORT_CHECK
-        """
-        if not self.appear(PORT_MISSION_RED_DOT):
-            logger.info("No available missions in this port")
-            return True
-
-        self.ui_click(
-            PORT_GOTO_MISSION, appear_button=PORT_CHECK, check_button=PORT_MISSION_CHECK, skip_first_screenshot=True
-        )
-
-        confirm_timer = Timer(1.5, count=3).start()
-        success = True
-        for _ in self.loop():
-            if self.appear_then_click(PORT_MISSION_ACCEPT, offset=(20, 20), interval=0.2):
-                confirm_timer.reset()
-                continue
-            else:
-                # End
-                if confirm_timer.reached():
-                    success = True
-                    break
-
-            if self.info_bar_count():
-                logger.info("Unable to accept missions, because reached the maximum number of missions")
-                success = False
-                break
-
-        self.ui_back(appear_button=PORT_MISSION_CHECK, check_button=PORT_CHECK, skip_first_screenshot=True)
-        return success
 
     def port_shop_enter(self):
         """

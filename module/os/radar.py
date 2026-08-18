@@ -318,21 +318,6 @@ class Radar:
 
         return None
 
-    def predict_akashi(self, image):
-        """
-        Args:
-            image: Screenshot.
-
-        Returns:
-            tuple: Grid location of akashi on radar, or None if no akashi found.
-        """
-        self.predict(image)
-        for location in [(0, 1), (-1, 0), (1, 0), (0, -1)]:
-            grid = self[location]
-            if grid.is_question and not grid.predict_port():
-                return location
-
-        return None
 
     def predict_question(self, image, in_port=True):
         """

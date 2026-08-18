@@ -1,12 +1,9 @@
 from datetime import timedelta
 
 from module.base.timer import Timer
-from module.base.utils import color_similarity_2d, np
 from module.config.utils import DEFAULT_TIME, get_os_next_reset
 from module.logger import logger
-from module.map_detection.utils import fit_points
 from module.os.assets import GLOBE_GOTO_MAP
-from module.os.globe_detection import GLOBE_MAP_SHAPE
 from module.os.globe_operation import GlobeOperation
 from module.os.globe_zone import ZoneManager
 from module.os_handler.assets import *  # noqa: F403  (data-bundle star import)
@@ -19,27 +16,6 @@ class MissionAtCurrentZone(Exception):
 class MissionHandler(GlobeOperation, ZoneManager):
     _os_mission_submitted = False
 
-    def get_mission_zone(self):
-        """
-        Returns:
-            Zone:
-        """
-        area = (341, 72, 1217, 648)
-        # Points of the yellow `!`
-        image = color_similarity_2d(self.image_crop(area, copy=False), color=(255, 207, 66))
-        points = np.array(np.where(image > 235)).T[:, ::-1]
-        if not len(points):
-            logger.warning("Unable to find mission on OS mission map")
-
-        # Keep ndarray semantics: RUF005's unpacking suggestion would produce
-        # a tuple and break the *= below.
-        point = fit_points(points, mod=(1000, 1000), encourage=5) + (0, 11)  # noqa: RUF005
-        # Location of zone.
-        # (2570, 1694) is the shape of os_globe_map.png
-        point *= np.array(GLOBE_MAP_SHAPE) / np.subtract(area[2:], area[:2])
-
-        zone = self.camera_to_zone(tuple(point))
-        return zone
 
     def is_in_os_mission(self):
         return self.appear(MISSION_CHECK, offset=(20, 20))

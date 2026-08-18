@@ -1099,10 +1099,6 @@ class Fleet(Camera, AmbushHandler):
         logger.info("Refocus to previous camera position.")
         self.focus_to(camera)
 
-    def fleet_checked_reset(self):
-        self.map_fleet_checked = False
-        self.fleet_1_formation_fixed = False
-        self.fleet_2_formation_fixed = False
 
     def _submarine_goto(self, location):
         """

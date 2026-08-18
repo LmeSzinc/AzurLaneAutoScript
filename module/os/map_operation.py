@@ -1,6 +1,6 @@
 from module.base.decorator import Config
 from module.base.timer import Timer
-from module.base.utils import color_bar_percentage, re
+from module.base.utils import re
 from module.exception import MapDetectionError, ScriptError
 from module.logger import logger
 from module.ocr.ocr import Ocr
@@ -19,27 +19,6 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
     zone: Zone
     is_zone_name_hidden = False
 
-    def is_meowfficer_searching(self):
-        """
-        Returns:
-            bool:
-
-        Page:
-            in: IN_MAP
-        """
-        return self.appear(MEOWFFICER_SEARCHING, offset=(10, 10))
-
-    def get_meowfficer_searching_percentage(self):
-        """
-        Returns:
-            float: 0 to 1.
-
-        Pages:
-            in: IN_MAP, is_meowfficer_searching == True
-        """
-        return color_bar_percentage(
-            self.device.image, area=MEOWFFICER_SEARCHING_PERCENTAGE.area, prev_color=(74, 223, 255)
-        )
 
     @Config.when(SERVER="en")
     def get_zone_name(self):

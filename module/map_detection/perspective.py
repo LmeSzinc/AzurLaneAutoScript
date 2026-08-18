@@ -254,10 +254,6 @@ class Perspective:
         # self.draw(lines, Image.fromarray(peaks.astype(np.uint8), mode='L'))
         return lines
 
-    @staticmethod
-    def show_array(arr):
-        image = Image.fromarray(arr.astype(np.uint8), mode="L")
-        image.show()
 
     def draw(self, lines=None, bg=None, expend=0):
         if bg is None:

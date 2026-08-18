@@ -143,17 +143,6 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         else:
             return False
 
-    @staticmethod
-    def _get_goto_expected(grid):
-        """
-        Argument `expected` used in _goto()
-        """
-        if grid.is_enemy:
-            return "combat"
-        elif grid.is_resource or grid.is_meowfficer or grid.is_exclamation:
-            return "mystery"
-        else:
-            return ""
 
     def _hp_grid(self):
         hp_grid = super()._hp_grid()
@@ -210,29 +199,6 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         """
         return self.image_color_count(FLEET_LOW_RESOLVE, color=FLEET_LOW_RESOLVE.color, threshold=221, count=250)
 
-    def get_sea_grids(self):
-        """
-        Get sea grids on current view
-
-        Returns:
-            SelectedGrids:
-        """
-        sea = []
-        for local in self.view:
-            if not local.predict_sea() or local.predict_current_fleet():
-                continue
-            # local = np.array(location) - self.camera + self.view.center_loca
-            location = np.array(local.location) + self.camera - self.view.center_loca
-            location = tuple(location.tolist())
-            if location == self.fleet_current or location not in self.map:
-                continue
-            sea.append(self.map[location])
-
-        if len(self.fleet_current):
-            center = self.fleet_current
-        else:
-            center = self.camera
-        return SelectedGrids(sea).sort_by_camera_distance(center)
 
     def wait_until_camera_stable(self, skip_first_screenshot=True):
         """

@@ -533,20 +533,6 @@ class CampaignMap:
             )
             logger.info(text)
 
-    def show_connection(self):
-        logger.info("   " + " ".join([" " + chr(x + 64 + 1) for x in range(self.shape[0] + 1)]))
-        for y in range(self.shape[1] + 1):
-            text = (
-                str(y + 1).rjust(2)
-                + " "
-                + " ".join(
-                    [
-                        location2node(self[(x, y)].connection) if (x, y) in self and self[(x, y)].connection else "  "
-                        for x in range(self.shape[0] + 1)
-                    ]
-                )
-            )
-            logger.info(text)
 
     def find_path_initial(self, location, has_ambush=True, has_enemy=True):
         """
@@ -588,7 +574,6 @@ class CampaignMap:
             visited = new
 
         # self.show_cost()
-        # self.show_connection()
 
     def find_path_initial_multi_fleet(self, location_dict, current, has_ambush):
         """

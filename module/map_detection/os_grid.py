@@ -163,7 +163,6 @@ class OSGridPredictor(GridPredictor):
         # self.enemy_scale = self.predict_enemy_scale()
         # self.is_resource = self.predict_resource()
         # self.is_meowfficer = self.predict_meowfficer()  # This will increase the overall time cost about 100ms
-        # self.is_ally = self.predict_ally()
         self.is_akashi = self.enemy_genre == "Akashi"
         self.is_scanning_device = self.enemy_genre == "ScanningDevice"
         self.is_logging_tower = self.enemy_genre == "LoggingTower"
@@ -274,14 +273,6 @@ class OSGridPredictor(GridPredictor):
         image = rgb2gray(self.image_trans)
         return TEMPLATE_OS_Meowfficer.match(image, similarity=0.85)
 
-    def predict_ally(self):
-        # Ally cargo ship in daily mission
-        image = rgb2gray(self.relative_crop((-0.5, -0.5, 0.5, 0.5), shape=(60, 60)))
-        return TEMPLATE_OS_AllyCargo.match(image, similarity=0.85)
-
-    def predict_akashi(self):
-        image = rgb2gray(self.relative_crop((-0.5, -1, 0.5, 0), shape=(60, 60)))
-        return TEMPLATE_SIREN_Akashi.match(image, similarity=0.85)
 
     def predict_caught_by_siren(self):
         # Detect the red slash background of `In action`.

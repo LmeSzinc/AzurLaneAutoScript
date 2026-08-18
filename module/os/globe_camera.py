@@ -109,29 +109,6 @@ class GlobeCamera(GlobeOperation, ZoneManager):
 
         self.globe_update()
 
-    def globe_wait_until_stable(self):
-        prev = self.globe_camera
-        interval = Timer(1)
-        confirm = Timer(0.5, count=1).start()
-        for _n in range(10):
-            if not interval.reached():
-                interval.wait()
-            interval.reset()
-
-            self.globe_update()
-
-            # End
-            if np.linalg.norm(np.subtract(self.globe_camera, prev)) < 10:
-                if confirm.reached():
-                    logger.info("Globe map stabled")
-                    break
-            else:
-                confirm.reset()
-
-            if self.handle_zone_pinned():
-                continue
-
-            prev = self.globe_camera
 
     def globe2screen(self, points):
         points = np.array(points) - self.globe_camera + self.globe.homo_center
