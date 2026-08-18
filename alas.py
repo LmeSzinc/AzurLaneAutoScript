@@ -102,7 +102,12 @@ class AzurLaneAutoScript(Scheduler):
             instance = task_class(config=self.config, device=self.device, **kwargs)
             method = entry.method
             assert method is not None
-            return lambda: getattr(instance, method)()
+            method_kwargs = (
+                entry.method_kwargs(self.config)
+                if callable(entry.method_kwargs)
+                else (entry.method_kwargs or {})
+            )
+            return lambda: getattr(instance, method)(**method_kwargs)
 
         # Fallback: infra methods (restart/start/goto_main) and any legacy method
         return self.__getattribute__(command)

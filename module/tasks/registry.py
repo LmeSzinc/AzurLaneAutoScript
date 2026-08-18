@@ -8,8 +8,12 @@ Entry fields:
     module (str):           dotted module path, imported lazily on first run
     class (str):            class name in that module
     method (str):           method to call on the instance; default "run"
-    kwargs (callable|dict): extra kwargs for the constructor, or a callable
+    kwargs (callable|dict): extra kwargs for the CONSTRUCTOR, or a callable
                             taking the config to build them dynamically
+    method_kwargs (callable|dict):
+                            extra kwargs for the METHOD call (e.g. the
+                            name/folder/mode of CampaignRun.run), or a
+                            callable taking the config to build them
     function (str):         alternative to class+method: a module-level
                             function to call with config/device kwargs
     task_arg (bool):        pass the scheduler task name as task=... kwarg
@@ -36,6 +40,7 @@ class TaskEntry:
     class_name: str | None = None
     method: str = "run"
     kwargs: t.Callable[[AzurLaneConfig], dict] | dict | None = None
+    method_kwargs: t.Callable[[AzurLaneConfig], dict] | dict | None = None
     function: str | None = None
     task_arg: bool = False
 
@@ -75,7 +80,9 @@ TASK_REGISTRY: dict[str, TaskEntry] = {
     "Hard": TaskEntry("module.hard.hard", "CampaignHard"),
     "Exercise": TaskEntry("module.exercise.exercise", "Exercise"),
     "Sos": TaskEntry("module.sos.sos", "CampaignSos"),
-    "WarArchives": TaskEntry("module.war_archives.war_archives", "CampaignWarArchives", kwargs=_campaign_kwargs),
+    "WarArchives": TaskEntry(
+        "module.war_archives.war_archives", "CampaignWarArchives", method_kwargs=_campaign_kwargs
+    ),
     "RaidDaily": TaskEntry("module.raid.daily", "RaidDaily"),
     "EventA": TaskEntry("module.event.campaign_abcd", "CampaignABCD"),
     "EventB": TaskEntry("module.event.campaign_abcd", "CampaignABCD"),
@@ -99,19 +106,19 @@ TASK_REGISTRY: dict[str, TaskEntry] = {
     ),
     "OpsiHazard1Leveling": TaskEntry("module.campaign.os_run", "OSCampaignRun", method="opsi_hazard1_leveling"),
     "OpsiCrossMonth": TaskEntry("module.campaign.os_run", "OSCampaignRun", method="opsi_cross_month"),
-    "Main": TaskEntry("module.campaign.run", "CampaignRun", kwargs=_campaign_kwargs),
-    "Main2": TaskEntry("module.campaign.run", "CampaignRun", kwargs=_campaign_kwargs),
-    "Main3": TaskEntry("module.campaign.run", "CampaignRun", kwargs=_campaign_kwargs),
-    "Event": TaskEntry("module.campaign.run", "CampaignRun", kwargs=_campaign_kwargs),
-    "Event2": TaskEntry("module.campaign.run", "CampaignRun", kwargs=_campaign_kwargs),
+    "Main": TaskEntry("module.campaign.run", "CampaignRun", method_kwargs=_campaign_kwargs),
+    "Main2": TaskEntry("module.campaign.run", "CampaignRun", method_kwargs=_campaign_kwargs),
+    "Main3": TaskEntry("module.campaign.run", "CampaignRun", method_kwargs=_campaign_kwargs),
+    "Event": TaskEntry("module.campaign.run", "CampaignRun", method_kwargs=_campaign_kwargs),
+    "Event2": TaskEntry("module.campaign.run", "CampaignRun", method_kwargs=_campaign_kwargs),
     "Raid": TaskEntry("module.raid.run", "RaidRun"),
     "Hospital": TaskEntry("module.event_hospital.hospital", "Hospital"),
     "Coalition": TaskEntry("module.coalition.coalition", "Coalition"),
     "CoalitionSp": TaskEntry("module.coalition.coalition_sp", "CoalitionSP"),
-    "C72MysteryFarming": TaskEntry("module.campaign.run", "CampaignRun", kwargs=_campaign_kwargs),
-    "C122MediumLeveling": TaskEntry("module.campaign.run", "CampaignRun", kwargs=_campaign_kwargs),
-    "C124LargeLeveling": TaskEntry("module.campaign.run", "CampaignRun", kwargs=_campaign_kwargs),
-    "GemsFarming": TaskEntry("module.campaign.gems_farming", "GemsFarming", kwargs=_campaign_kwargs),
+    "C72MysteryFarming": TaskEntry("module.campaign.run", "CampaignRun", method_kwargs=_campaign_kwargs),
+    "C122MediumLeveling": TaskEntry("module.campaign.run", "CampaignRun", method_kwargs=_campaign_kwargs),
+    "C124LargeLeveling": TaskEntry("module.campaign.run", "CampaignRun", method_kwargs=_campaign_kwargs),
+    "GemsFarming": TaskEntry("module.campaign.gems_farming", "GemsFarming", method_kwargs=_campaign_kwargs),
     "IslandProduction": TaskEntry("module.island.production", "IslandProduction"),
     "IslandOrder": TaskEntry("module.island.order", "IslandOrder"),
     "IslandFreebie": TaskEntry("module.island.freebie", "IslandFreebie"),

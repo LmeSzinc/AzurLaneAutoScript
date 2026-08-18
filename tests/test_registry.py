@@ -8,6 +8,9 @@ master snapshot).
 """
 
 import importlib
+import inspect
+from types import SimpleNamespace
+from typing import Any, cast
 
 import inflection
 
@@ -31,6 +34,11 @@ def test_entry_shape():
         assert isinstance(entry, TaskEntry), name
         assert entry.class_name is not None or entry.function is not None, f"{name}: no class or function"
         assert entry.kwargs is None or isinstance(entry.kwargs, dict) or callable(entry.kwargs), name
+        assert (
+            entry.method_kwargs is None
+            or isinstance(entry.method_kwargs, dict)
+            or callable(entry.method_kwargs)
+        ), name
 
 
 def test_all_entry_modules_importable():
@@ -45,3 +53,72 @@ def test_all_entry_modules_importable():
                 assert hasattr(module, entry.class_name), f"{module_name} missing class {entry.class_name}"
             if entry.function is not None:
                 assert hasattr(module, entry.function), f"{module_name} missing function {entry.function}"
+
+
+def _signature_accepts(sig, keys):
+    params = sig.parameters
+    return all(key in params for key in keys) or any(p.kind is p.VAR_KEYWORD for p in params.values())
+
+
+def test_declared_kwargs_match_call_targets():
+    """Regression: kwargs must be accepted by the constructor, method_kwargs
+    by the method (ModuleBase.__init__ took name/folder/mode and crashed
+    every campaign task - see 2026-08-18 alas log)."""
+    cfg: Any = SimpleNamespace(Campaign_Name="D1", Campaign_Event="event_20260813_cn", Campaign_Mode="normal")
+    for name, entry in TASK_REGISTRY.items():
+        if entry.class_name is None:
+            continue
+        module = importlib.import_module(entry.module)
+        cls = getattr(module, entry.class_name)
+        if entry.kwargs is not None:
+            keys = entry.kwargs(cfg) if callable(entry.kwargs) else entry.kwargs
+            assert _signature_accepts(inspect.signature(cls.__init__), keys), (
+                f"{name}: constructor does not accept kwargs {keys}"
+            )
+        if entry.method_kwargs is not None:
+            keys = entry.method_kwargs(cfg) if callable(entry.method_kwargs) else entry.method_kwargs
+            method = getattr(cls, entry.method)
+            assert _signature_accepts(inspect.signature(method), keys), (
+                f"{name}: {entry.method} does not accept method kwargs {keys}"
+            )
+        if entry.task_arg:
+            assert _signature_accepts(inspect.signature(cls.__init__), {"task"}), (
+                f"{name}: constructor does not accept task="
+            )
+
+
+def test_resolution_passes_method_kwargs_to_method(monkeypatch):
+    """End-to-end: ctor gets kwargs, the run call gets method_kwargs."""
+    import alas
+    import module.tasks.registry as reg
+
+    calls = {}
+
+    class FakeTask:
+        def __init__(self, config, device, **kwargs):
+            calls["ctor"] = (config, device, kwargs)
+
+        def run(self, **kwargs):
+            calls["run"] = kwargs
+
+    entry = TaskEntry(
+        module="module.tasks.registry",
+        class_name="FakeTask",
+        kwargs={"ctor_extra": 1},
+        method_kwargs=lambda c: {"name": c.Campaign_Name},
+    )
+    monkeypatch.setattr(reg, "TASK_REGISTRY", {"Fake": entry})
+    monkeypatch.setattr(reg, "TASK_BY_COMMAND", {"fake": "Fake"})
+    monkeypatch.setattr(reg, "FakeTask", FakeTask, raising=False)
+
+    az = cast(Any, alas.AzurLaneAutoScript.__new__(alas.AzurLaneAutoScript))
+    az.config = SimpleNamespace(Campaign_Name="D1")
+    az.device = object()
+
+    fn = az._resolve_task("fake")
+    fn()
+
+    assert calls["ctor"][0] is az.config
+    assert calls["ctor"][1] is az.device
+    assert calls["ctor"][2] == {"ctor_extra": 1}
+    assert calls["run"] == {"name": "D1"}
