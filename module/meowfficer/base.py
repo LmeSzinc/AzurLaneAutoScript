@@ -126,18 +126,6 @@ class MeowfficerBase(UI):
         else:
             return False
 
-    def handle_meow_popup_cancel(self):
-        """
-        Cancel the popup; can mean close
-        the popup or to not allow the action
-
-        Returns:
-            bool:
-        """
-        if self.appear_then_click(MEOWFFICER_CANCEL, offset=(40, 20), interval=5):
-            return True
-        else:
-            return False
 
     def handle_meow_popup_dismiss(self):
         """

@@ -1,4 +1,4 @@
-from module.base.utils import area_offset, area_pad, color_similarity_2d, crop, cv2, np, rgb2gray
+from module.base.utils import area_offset, color_similarity_2d, crop, cv2, np, rgb2gray
 from module.exception import ScriptError
 from module.logger import logger
 from module.map_detection.utils import area2corner, corner2area, perspective_transform
@@ -287,30 +287,6 @@ class GridPredictor:
 
         return True
 
-    def predict_sea(self):
-        area = area_pad((48, 48, 48 + 46, 48 + 46), pad=5)
-        res = cv2.matchTemplate(
-            ASSETS.tile_center_image, crop(self.image_homo, area=area, copy=False), cv2.TM_CCOEFF_NORMED
-        )
-        _, sim, _, _ = cv2.minMaxLoc(res)
-        if sim > 0.8:
-            return True
-
-        tile = 135
-        corner = 25
-        corner = [
-            (5, 5, corner, corner),
-            (tile - corner, 5, tile, corner),
-            (5, tile - corner, corner, tile),
-            (tile - corner, tile - corner, tile, tile),
-        ]
-        for area, template in zip(corner[::-1], ASSETS.tile_corner_image_list[::-1]):
-            res = cv2.matchTemplate(template, crop(self.image_homo, area=area, copy=False), cv2.TM_CCOEFF_NORMED)
-            _, sim, _, _ = cv2.minMaxLoc(res)
-            if sim > 0.8:
-                return True
-
-        return False
 
     def predict_submarine_move(self):
         # Detect the orange arrow in submarine movement mode.

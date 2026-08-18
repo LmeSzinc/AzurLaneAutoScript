@@ -1,7 +1,6 @@
 import codecs
 import os
 import re
-import typing as t
 import winreg
 from dataclasses import dataclass
 
@@ -324,27 +323,6 @@ class Emulator(EmulatorBase):
                             name=os.path.basename(folder),
                             path=self.path,
                         )
-
-    def iter_adb_binaries(self) -> t.Iterable[str]:
-        """
-        Yields:
-            str: Filepath to adb binaries found in this emulator
-        """
-        if self == Emulator.NoxPlayerFamily:
-            exe = self.abspath("./nox_adb.exe")
-            if os.path.exists(exe):
-                yield exe
-        if self == Emulator.MuMuPlayerFamily:
-            # From MuMu9\emulator\nemu9\EmulatorShell
-            # to MuMu9\emulator\nemu9\vmonitor\bin\adb_server.exe
-            exe = self.abspath("../vmonitor/bin/adb_server.exe")
-            if os.path.exists(exe):
-                yield exe
-
-        # All emulators have adb.exe
-        exe = self.abspath("./adb.exe")
-        if os.path.exists(exe):
-            yield exe
 
 
 class EmulatorManager(EmulatorManagerBase):

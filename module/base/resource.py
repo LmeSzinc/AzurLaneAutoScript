@@ -44,11 +44,6 @@ class Resource:
         for cache in self.cached:
             del_cached_property(self, cache)
 
-    @classmethod
-    def is_loaded(cls, obj):
-        if (hasattr(obj, "_image") and obj._image is None) or (hasattr(obj, "image") and obj.image is None):
-            return False
-        return True
 
     @staticmethod
     def parse_property(data, s=None):
@@ -93,8 +88,6 @@ def release_resources(next_task=""):
         # Preserve assets for ui switching
         if next_task and str(obj) in _preserved_assets.ui:
             continue
-        # if Resource.is_loaded(obj):
-        #     logger.info(f'Release {obj}')
         obj.resource_release()
 
     # Release cached images for map detection

@@ -1,8 +1,6 @@
 import os
 import traceback
 
-from PIL import ImageDraw
-
 from module.base.decorator import cached_property
 from module.base.resource import Resource
 from module.base.utils import *  # noqa: F403  (re-export facade)
@@ -157,22 +155,6 @@ class Button(Resource):
                 self.image = load_image(self.file, self.area)
             self._match_init = True
 
-    def ensure_binary_template(self):
-        """
-        Load asset image.
-        If needs to call self.match, call this first.
-        """
-        if not self._match_binary_init:
-            if self.is_gif:
-                self.image_binary = []
-                for image in self.image:
-                    image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-                    _, image_binary = cv2.threshold(image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
-                    self.image_binary.append(image_binary)
-            else:
-                image_gray = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
-                _, self.image_binary = cv2.threshold(image_gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
-            self._match_binary_init = True
 
     def ensure_luma_template(self):
         if not self._match_luma_init:
@@ -392,16 +374,3 @@ class ButtonGrid:
         return ButtonGrid(
             origin=origin, delta=self.delta, button_shape=self.button_shape, grid_shape=self.grid_shape, name=name
         )
-
-    def gen_mask(self):
-        """
-        Generate a mask image to display this ButtonGrid object for debugging.
-
-        Returns:
-            PIL.Image.Image: Area in white, background in black.
-        """
-        image = Image.new("RGB", (1280, 720), (0, 0, 0))
-        draw = ImageDraw.Draw(image)
-        for button in self.buttons:
-            draw.rectangle((button.area[:2], button.button[2:]), fill=(255, 255, 255), outline=None)
-        return image

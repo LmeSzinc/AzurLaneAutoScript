@@ -82,23 +82,6 @@ class SelectedGrids:
 
         return SelectedGrids([grid for grid in self.grids if matched(grid)])
 
-    def create_index(self, *attrs):
-        indexes = {}
-        # index_keys = [(grid.__getattribute__(attr) for attr in attrs) for grid in self.grids]
-        for grid in self.grids:
-            k = tuple(grid.__getattribute__(attr) for attr in attrs)
-            try:
-                indexes[k].append(grid)
-            except KeyError:
-                indexes[k] = [grid]
-
-        indexes = {k: SelectedGrids(v) for k, v in indexes.items()}
-        self.indexes = indexes
-        return indexes
-
-    def indexed_select(self, *values):
-        return self.indexes.get(values, SelectedGrids([]))
-
 
     def filter(self, func):
         """

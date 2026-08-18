@@ -61,11 +61,6 @@ class PlatformBase(Connection, EmulatorManagerBase):
         """
         logger.info(f"Current platform {sys.platform} does not support emulator_start, skip")
 
-    def emulator_stop(self):
-        """
-        Stop a emulator.
-        """
-        logger.info(f"Current platform {sys.platform} does not support emulator_stop, skip")
 
     @cached_property
     def emulator_info(self) -> EmulatorInfo:

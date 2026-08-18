@@ -96,15 +96,6 @@ class Navbar:
 
         return active, left, right
 
-    def get_active(self, main):
-        """
-        Args:
-            main (ModuleBase):
-
-        Returns:
-            int: Index of the active nav item.
-        """
-        return self.get_info(main=main)[0]
 
     def get_total(self, main):
         """

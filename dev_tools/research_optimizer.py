@@ -625,10 +625,6 @@ def hr0(title):
     print(border)
 
 
-def hr1(title):
-    print("=" * 20 + " " + title + " " + "=" * 20)
-
-
 def hr2(title):
     print("-" * 20 + " " + title + " " + "-" * 20)
 
@@ -1036,18 +1032,6 @@ def beautify_filter(list_filter):
         length += len(selection) + 3
     string = " > ".join(out).strip("\n >").replace(" > \n", "\n").replace("\n ", "\n")
     return string
-
-
-def position_change(string, position):
-    selection = split_filter(string)
-    selection[position], selection[position + 1] = selection[position + 1], selection[position]
-    return join_filter(selection)
-
-
-def position_insert(string, insert, position):
-    selection = split_filter(string)
-    selection.insert(position, insert)
-    return join_filter(selection)
 
 
 def epoch_worker(data):

@@ -517,27 +517,6 @@ class Camera(MapOperation):
             return self.view[local]
 
 
-    def full_scan_find_boss(self):
-        logger.info("Full scan find boss.")
-        self.map.reset_fleet()
-
-        queue = self.map.select(may_boss=True)
-        while len(queue) > 0:
-            queue = queue.sort_by_camera_distance(self.camera)
-            self.in_sight(queue[0])
-            self.predict()
-            queue = queue[1:]
-
-            boss = self.map.select(is_boss=True)
-            boss = boss.add(self.map.select(may_boss=True, is_enemy=True))
-            if boss:
-                logger.info(f"Boss found: {boss}")
-                self.map.show()
-                return True
-
-        logger.warning("No boss found.")
-        return False
-
     def get_swipe_area_opt(self, map_vector):
         """
         Get the whitelist and the blacklist for `random_rectangle_vector_opted()`.

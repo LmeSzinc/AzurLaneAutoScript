@@ -1,6 +1,5 @@
-from module.base.utils import area_pad, color_similarity_2d, crop, cv2, np, rgb2gray
+from module.base.utils import color_similarity_2d, crop, cv2, np, rgb2gray
 from module.map_detection.grid import Grid, GridInfo, GridPredictor
-from module.map_detection.utils_assets import ASSETS
 from module.os.assets import *  # noqa: F403  (data-bundle star import)
 from module.os.radar import RadarGrid
 from module.template.assets import *  # noqa: F403  (data-bundle star import)
@@ -185,30 +184,6 @@ class OSGridPredictor(GridPredictor):
         # OS don't have ammo icon
         return super().predict_current_fleet()
 
-    def predict_sea(self):
-        color = cv2.mean(self.image_trans)
-        if not min(color[1], color[2]) > color[0] + 20:
-            return False
-
-        area = area_pad((48, 48, 48 + 46, 48 + 46), pad=5)
-        res = cv2.matchTemplate(
-            ASSETS.tile_center_image, crop(self.image_homo, area=area, copy=False), cv2.TM_CCOEFF_NORMED
-        )
-        _, sim, _, _ = cv2.minMaxLoc(res)
-        if sim > 0.8:
-            return True
-
-        # tile = 135
-        # corner = 25
-        # corner = [(5, 5, corner, corner), (tile - corner, 5, tile, corner), (5, tile - corner, corner, tile),
-        #           (tile - corner, tile - corner, tile, tile)]
-        # for area, template in zip(corner[::-1], ASSETS.tile_corner_image_list[::-1]):
-        #     res = cv2.matchTemplate(template, crop(self.image_homo, area=area), cv2.TM_CCOEFF_NORMED)
-        #     _, sim, _, _ = cv2.minMaxLoc(res)
-        #     if sim > 0.8:
-        #         return True
-
-        return False
 
     _os_template_enemy = {
         "Akashi": TEMPLATE_SIREN_Akashi,

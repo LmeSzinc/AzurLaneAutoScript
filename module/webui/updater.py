@@ -2,7 +2,6 @@ import datetime
 import subprocess
 import threading
 import time
-from collections.abc import Generator
 
 from deploy.config import ExecutionError
 from deploy.git import GitManager
@@ -13,7 +12,6 @@ from module.logger import logger
 from module.webui.config import DeployConfig
 from module.webui.process_manager import ProcessManager
 from module.webui.setting import State
-from module.webui.tasks import TaskHandler, get_next_time
 
 
 class Updater(DeployConfig, GitManager, PipManager):
@@ -185,31 +183,6 @@ class Updater(DeployConfig, GitManager, PipManager):
 
         timer = threading.Timer(delay, trigger)
         timer.start()
-
-    def schedule_update(self) -> Generator:
-        th: TaskHandler
-        th = yield
-        if self.schedule_time is None:
-            th.remove_current_task()
-            yield
-        th._task.delay = get_next_time(self.schedule_time)
-        yield
-        while True:
-            self.check_update()
-            if self.state != 1:
-                th._task.delay = get_next_time(self.schedule_time)
-                yield
-                continue
-            if State.restart_event is None:
-                yield
-                continue
-            if not self.run_update():
-                self.state = "failed"
-            th._task.delay = get_next_time(self.schedule_time)
-            yield
-
-    def cancel(self):
-        self.state = "cancel"
 
 
 updater = Updater()

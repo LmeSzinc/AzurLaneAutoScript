@@ -67,16 +67,6 @@ def minimize_window(hwnd):
     ctypes.windll.user32.ShowWindow(hwnd, 6)
 
 
-def get_window_title(hwnd):
-    """Returns the window title as a string."""
-    text_len_in_characters = ctypes.windll.user32.GetWindowTextLengthW(hwnd)
-    string_buffer = ctypes.create_unicode_buffer(
-        text_len_in_characters + 1
-    )  # +1 for the \0 at the end of the null-terminated string.
-    ctypes.windll.user32.GetWindowTextW(hwnd, string_buffer, text_len_in_characters + 1)
-    return string_buffer.value
-
-
 def flash_window(hwnd, flash=True):
     ctypes.windll.user32.FlashWindow(hwnd, flash)
 
@@ -374,23 +364,6 @@ class PlatformWindows(PlatformBase, EmulatorManager):
                     return False
 
         logger.error("Failed to start emulator 3 times, stopped")
-        return False
-
-    def emulator_stop(self):
-        logger.hr("Emulator stop", level=1)
-        for _ in range(3):
-            # Stop
-            if self._emulator_function_wrapper(self._emulator_stop):
-                # Success
-                return True
-            else:
-                # Failed to stop, start and stop again
-                if self._emulator_function_wrapper(self._emulator_start):
-                    continue
-                else:
-                    return False
-
-        logger.error("Failed to stop emulator 3 times, stopped")
         return False
 
 

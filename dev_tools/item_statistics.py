@@ -71,18 +71,6 @@ class DropStatistics(BattleStatusStatistics, GetItemsStatistics):
         data = [[timestamp, battle_status_timestamp, enemy_name, item.name, item.amount] for item in items]
         return data
 
-    def generate_data(self):
-        """
-        Yields:
-            list: Drop data.
-        """
-        for ts, _file in tqdm(self.get_items.items()):
-            try:
-                data = self.stat_drop(ts)
-                yield data
-            except Exception:
-                logger.warning(f"Error image: {ts}")
-
 
 """
 Args:

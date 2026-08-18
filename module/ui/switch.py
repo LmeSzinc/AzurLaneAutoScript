@@ -193,8 +193,6 @@ class Switch:
                 click_timer.reset()
                 unknown_timer.reset()
 
-        return changed
-
     def wait(self, main, skip_first_screenshot=True):
         """
         Wait until any state activated

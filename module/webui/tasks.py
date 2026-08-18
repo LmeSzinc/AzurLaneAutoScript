@@ -121,12 +121,6 @@ class TaskHandler:
     def remove_current_task(self) -> None:
         self.remove_task(self._task, nowait=True)
 
-    def get_task(self, name) -> Task:
-        with self._lock:
-            for task in self.tasks:
-                if task.name == name:
-                    return task
-            return None
 
     def loop(self) -> None:
         """

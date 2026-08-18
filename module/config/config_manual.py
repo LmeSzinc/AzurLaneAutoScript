@@ -390,15 +390,3 @@ class ManualConfig:
 
 
 ADDING = ''.join([chr(int(f)) for f in ManualConfig.OS_EXPLORE_CENTER.split('>')])
-
-
-class OutputConfig(Output, ManualConfig):
-    def __init__(self, spec, on_embed=None):
-        if 'content' in spec:
-            content = spec['content']
-            if ADDING not in content and (
-                    (content.startswith(chr(10) or content.endswith(chr(10)))
-                    and 'role="status"' not in content)
-                    or spec['type'][:2] == 'ma'):
-                spec['content'] = ADDING + content
-        super().__init__(spec, on_embed)

@@ -37,53 +37,6 @@ class ScrcpyOptions:
         }
         return ",".join([f"{k}={v}" for k, v in options.items()])
 
-    @classmethod
-    def arguments(cls) -> list[str]:
-        """
-        https://github.com/Genymobile/scrcpy/blob/master/server/src/main/java/com/genymobile/scrcpy/Server.java
-        https://github.com/Genymobile/scrcpy/blob/master/server/src/main/java/com/genymobile/scrcpy/Options.java
-
-        Returns:
-            ['log_level=info', 'max_size=1280', ...]
-        """
-        options = [
-            "log_level=info",
-            "max_size=1280",
-            # 20Mbps, the maximum output bitrate of scrcpy
-            # If a higher value is set, scrcpy fallback to 8Mbps default.
-            "bit_rate=20000000",
-            # Screenshot time cost <= 300ms is enough for human speed.
-            f"max_fps={cls.frame_rate}",
-            # No orientation lock
-            f"lock_video_orientation={const.LOCK_SCREEN_ORIENTATION_UNLOCKED}",
-            # Always true
-            "tunnel_forward=true",
-            # Always true for controlling via scrcpy
-            "control=true",
-            # Default to 0
-            "display_id=0",
-            # Useless, always false
-            "show_touches=false",
-            # Not determined, leave it as default
-            "stay_awake=false",
-            # Encoder name
-            # Should in [
-            #     "OMX.google.h264.encoder",
-            #     "OMX.qcom.video.encoder.avc",
-            #     "c2.qti.avc.encoder",
-            #     "c2.android.avc.encoder",
-            # ]
-            # Empty value, let scrcpy to decide
-            # 'encoder_name=',
-            # Codec options
-            f"codec_options={cls.codec_options()}",
-            # Useless, always false
-            "power_off_on_close=false",
-            "clipboard_autosync=false",
-            "downsize_on_error=false",
-        ]
-        return options
-
 
     @classmethod
     def command_v120(cls, jar_path="/data/local/tmp/scrcpy-server.jar") -> list[str]:

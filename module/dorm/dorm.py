@@ -11,7 +11,6 @@ from module.dorm.buy_furniture import BuyFurniture
 from module.handler.assets import POPUP_CONFIRM
 from module.logger import logger
 from module.ocr.ocr import Digit, DigitCounter
-from module.template.assets import TEMPLATE_DORM_COIN, TEMPLATE_DORM_LOVE
 from module.ui.assets import DORM_CHECK
 from module.ui.page import page_dorm, page_dormmenu
 from module.ui.ui import UI
@@ -67,41 +66,6 @@ FOOD_FILTER = Filter(regex=re.compile(r"(\d+)"), attr=["feed"])
 
 
 class RewardDorm(UI):
-    def _dorm_receive_click(self):
-        """
-        Click coins and loves in dorm.
-
-        Returns:
-            int: Receive count.
-
-        Pages:
-            in: page_dorm
-            out: page_dorm, with info_bar
-        """
-        image = MASK_DORM.apply(self.device.image)
-        loves = TEMPLATE_DORM_LOVE.match_multi(image, name="DORM_LOVE")
-        coins = TEMPLATE_DORM_COIN.match_multi(image, name="DORM_COIN")
-        logger.info(f"Dorm loves: {len(loves)}, Dorm coins: {len(coins)}")
-        # Complicated dorm background
-        if len(loves) > 6:
-            logger.warning("Too many dorm loves, limited to 6")
-            loves = loves[:6]
-        if len(coins) > 6:
-            logger.warning("Too many dorm coins, limited to 6")
-            coins = coins[:6]
-
-        count = 0
-        for button in loves:
-            count += 1
-            # Disable click record check, because may have too many coins or loves.
-            self.device.click(button, control_check=False)
-            self.device.sleep((0.5, 0.8))
-        for button in coins:
-            count += 1
-            self.device.click(button, control_check=False)
-            self.device.sleep((0.5, 0.8))
-
-        return count
 
     @Config.when(DEVICE_CONTROL_METHOD="minitouch")
     def _dorm_feed_long_tap(self, button, count):
@@ -209,35 +173,6 @@ class RewardDorm(UI):
         )
         self.device.multi_click(button, count)
 
-    def dorm_view_reset(self):
-        """
-        Use Dorm manage and Back to reset dorm view.
-
-        Pages:
-            in: page_dorm
-            out: page_dorm
-        """
-        logger.info("Dorm view reset")
-        for _ in self.loop():
-            # End
-            if self.appear(DORM_MANAGE_CHECK, offset=(20, 20)):
-                break
-
-            if self.appear_then_click(DORM_MANAGE, offset=(20, 20), interval=3):
-                continue
-            # Handle all popups
-            if self.ui_additional(get_ship=False):
-                continue
-            if self.appear_then_click(DORM_FURNITURE_CONFIRM, offset=(30, 30), interval=3):
-                continue
-
-        for _ in self.loop():
-            if self.appear(DORM_MANAGE, offset=(20, 20)):
-                break
-
-            if self.appear(DORM_MANAGE_CHECK, offset=(20, 20), interval=3):
-                self.device.click(DORM_FURNITURE_SHOP_QUIT)
-                continue
 
     def dorm_collect(self):
         """

@@ -293,20 +293,3 @@ class Emotion:
     def bug_threshold_reset(self):
         """Call this method after emotion bug triggered."""
         del self.__dict__["bug_threshold"]
-
-    def triggered_bug(self):
-        """
-        Azur Lane client does not calculate emotion correctly, which is a bug.
-        After a long run, we have to restart game client and let the client update it.
-        """
-        logger.attr("Emotion_bug", f"{self.total_reduced}/{self.bug_threshold}")
-        if self.total_reduced >= self.bug_threshold:
-            logger.info(
-                "Azur Lane client does not calculate emotion correctly, which is a bug. "
-                "After a long run, we have to restart game client and let the client update it."
-            )
-            self.total_reduced = 0
-            self.bug_threshold_reset()
-            return True
-        else:
-            return False

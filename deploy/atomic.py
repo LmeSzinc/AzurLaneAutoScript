@@ -2,7 +2,6 @@ import os
 import random
 import string
 import time
-from collections.abc import Iterable
 from contextlib import suppress
 
 IS_WINDOWS = os.name == "nt"
@@ -106,40 +105,6 @@ def replace_tmp(tmp: str, file: str):
         raise last_error from None
 
 
-def atomic_replace(replace_from: str, replace_to: str):
-    """
-    Replace file or directory
-
-    Raises:
-        PermissionError: (Windows only) If another process is still reading the file and all retries failed
-        FileNotFoundError:
-    """
-    if IS_WINDOWS:
-        # PermissionError on Windows if another process is reading
-        last_error = None
-        for attempt in range(WINDOWS_MAX_ATTEMPT):
-            try:
-                # Atomic operation
-                os.replace(replace_from, replace_to)
-                # success
-                return
-            except PermissionError as e:
-                last_error = e
-                delay = windows_attempt_delay(attempt)
-                time.sleep(delay)
-                continue
-            except FileNotFoundError:
-                raise
-            except Exception as e:
-                last_error = e
-                break
-        if last_error is not None:
-            raise last_error from None
-    else:
-        # Linux and Mac
-        os.replace(replace_from, replace_to)
-
-
 def file_write(file: str, data: str | bytes):
     """
     Write data into file, auto create directory
@@ -186,64 +151,6 @@ def file_write(file: str, data: str | bytes):
             os.fsync(f.fileno())
 
 
-def file_write_stream(file: str, data_generator):
-    """
-    Only creates a file if the generator yields at least one data chunk.
-    Auto determines write mode based on the type of first chunk.
-
-    Args:
-        file: Target file path
-        data_generator: An iterable that yields data chunks (str or bytes)
-    """
-    # Convert generator to iterator to ensure we can peek at first chunk
-    data_iter = iter(data_generator)
-
-    # Try to get the first chunk
-    try:
-        first_chunk = next(data_iter)
-    except StopIteration:
-        # Generator is empty, no file will be created
-        return
-
-    # Determine mode, encoding and newline from first chunk
-    if isinstance(first_chunk, str):
-        mode = "w"
-        encoding = "utf-8"
-        newline = ""
-    elif isinstance(first_chunk, bytes):
-        mode = "wb"
-        encoding = None
-        newline = None
-    else:
-        # Default to text mode for other types
-        mode = "w"
-        encoding = "utf-8"
-        newline = ""
-
-    try:
-        # Write temp file
-        with open(file, mode=mode, encoding=encoding, newline=newline) as f:
-            f.write(first_chunk)
-            for chunk in data_iter:
-                f.write(chunk)
-            # Ensure data flush to disk
-            f.flush()
-            os.fsync(f.fileno())
-    except FileNotFoundError:
-        # Create parent directory
-        directory = os.path.dirname(file)
-        if directory:
-            os.makedirs(directory, exist_ok=True)
-        # Write again
-        with open(file, mode=mode, encoding=encoding, newline=newline) as f:
-            f.write(first_chunk)
-            for chunk in data_iter:
-                f.write(chunk)
-            # Ensure data flush to disk
-            f.flush()
-            os.fsync(f.fileno())
-
-
 def atomic_write(
     file: str,
     data: str | bytes,
@@ -278,27 +185,6 @@ def file_read_text(file: str, encoding: str = "utf-8", errors: str = "strict") -
         return ""
 
 
-def file_read_text_stream(
-    file: str, encoding: str = "utf-8", errors: str = "strict", chunk_size: int = 8192
-) -> Iterable[str]:
-    """
-    Args:
-        file:
-        encoding:
-        errors: 'strict', 'ignore', 'replace' and any other errors mode in open()
-        chunk_size:
-    """
-    try:
-        with open(file, encoding=encoding, errors=errors) as f:
-            while 1:
-                chunk = f.read(chunk_size)
-                if not chunk:
-                    return
-                yield chunk
-    except FileNotFoundError:
-        return
-
-
 def file_read_bytes(file: str) -> bytes:
     """
     Args:
@@ -311,23 +197,6 @@ def file_read_bytes(file: str) -> bytes:
             return f.read()
     except FileNotFoundError:
         return b""
-
-
-def file_read_bytes_stream(file: str, chunk_size: int = 8192) -> Iterable[bytes]:
-    """
-    Args:
-        file:
-        chunk_size:
-    """
-    try:
-        with open(file, mode="rb") as f:
-            while 1:
-                chunk = f.read(chunk_size)
-                if not chunk:
-                    return
-                yield chunk
-    except FileNotFoundError:
-        return
 
 
 def atomic_read_text(file: str, encoding: str = "utf-8", errors: str = "strict") -> str:

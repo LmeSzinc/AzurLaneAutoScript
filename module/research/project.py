@@ -57,25 +57,6 @@ def _get_research_series(img):
     return {(0,): 1, (0, 0): 2, (0, 0, 0): 3, (0, 1): 4, (1,): 5, (1, 0): 6}.get(edge, 0)
 
 
-def get_research_series(image, series_button=RESEARCH_SERIES):
-    """
-        Args:
-        image (np.ndarray):
-        series_button:
-
-    Returns:
-        list[int]: Such as [1, 1, 1, 2, 3]
-    """
-    result = []
-    for button in series_button:
-        # img = resize(crop(image, button.area), (46, 25))
-        img = crop(image, button.area, copy=False)
-        img = cv2.resize(img, (46, 25), interpolation=cv2.INTER_AREA)
-        series = _get_research_series(img)
-        result.append(series)
-    return result
-
-
 def get_research_name(image, ocr=OCR_RESEARCH):
     """
     Args:

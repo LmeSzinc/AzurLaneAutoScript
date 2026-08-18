@@ -245,18 +245,6 @@ class AlOcr:
 
         return line_res
 
-    def ocr_for_single_line(self, img_fp):
-        self._ensure_loaded()
-        if isinstance(img_fp, str):
-            if not os.path.isfile(img_fp):
-                raise FileNotFoundError(img_fp)
-            img = cv2.imread(img_fp, cv2.IMREAD_GRAYSCALE)
-        elif isinstance(img_fp, np.ndarray):
-            img = img_fp
-        else:
-            raise TypeError("Inappropriate argument type.")
-        res = self.ocr_for_single_lines([img])
-        return res[0]
 
     def ocr_for_single_lines(self, img_list):
         """

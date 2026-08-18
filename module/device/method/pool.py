@@ -1,6 +1,5 @@
 import abc
 import ctypes
-import subprocess
 from collections import deque
 from itertools import count
 from threading import Lock, Thread
@@ -373,31 +372,6 @@ class WorkerPool:
         return job
 
 
-    @staticmethod
-    def _subprocess_execute(cmd, timeout=10):
-        """
-        Helper function to run cmd in subprocess
-
-        Args:
-            cmd (list[str]):
-            timeout:
-
-        Returns:
-            bytes:
-        """
-        logger.info(f"Execute: {cmd}")
-
-        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=False)
-
-        try:
-            stdout, stderr = process.communicate(timeout=timeout)
-        except subprocess.TimeoutExpired:
-            process.kill()
-            stdout, stderr = process.communicate()
-            logger.warning(f"TimeoutExpired when calling {cmd}, stdout={stdout}, stderr={stderr}")
-        return stdout
-
-
     def wait_jobs(self) -> "WaitJobsWrapper":
         """
         Auto wait all jobs finished
@@ -446,27 +420,6 @@ class WaitJobsWrapper:
         job = self.pool.start_thread_soon(func, *args, **kwargs)
         self.jobs.append(job)
         return job
-
-
-class GatherJobsWrapper(WaitJobsWrapper):
-    """
-    Wrapper class to gather all jobs
-    """
-
-    def __init__(self, pool: "WorkerPool"):
-        super().__init__(pool)
-        self.results: list[ResultT] = []
-
-    def get(self):
-        for job in self.jobs:
-            result = job.get()
-            self.results.append(result)
-        self.jobs.clear()
-
-    def __enter__(self):
-        self.jobs.clear()
-        self.results.clear()
-        return self
 
 
 WORKER_POOL = WorkerPool()
