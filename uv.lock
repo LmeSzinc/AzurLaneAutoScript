@@ -74,6 +74,7 @@ dev = [
     { name = "httpx" },
     { name = "pyright" },
     { name = "pytest" },
+    { name = "rope" },
     { name = "ruff" },
 ]
 
@@ -118,6 +119,7 @@ dev = [
     { name = "httpx", specifier = ">=0.28.1" },
     { name = "pyright", specifier = ">=1.1.411" },
     { name = "pytest", specifier = ">=8.4" },
+    { name = "rope", specifier = ">=1.1.1" },
     { name = "ruff", specifier = ">=0.5" },
 ]
 
@@ -1295,6 +1297,15 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/c0/8f/0722ca900cc807c13a6a0c696dacf35430f72e0ec571c4275d2371fca3e9/rich-15.0.0.tar.gz", hash = "sha256:edd07a4824c6b40189fb7ac9bc4c52536e9780fbbfbddf6f1e2502c31b068c36", size = 230680, upload-time = "2026-04-12T08:24:00.75Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/82/3b/64d4899d73f91ba49a8c18a8ff3f0ea8f1c1d75481760df8c68ef5235bf5/rich-15.0.0-py3-none-any.whl", hash = "sha256:33bd4ef74232fb73fe9279a257718407f169c09b78a87ad3d296f548e27de0bb", size = 310654, upload-time = "2026-04-12T08:24:02.83Z" },
+]
+
+[[package]]
+name = "rope"
+version = "1.1.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/0c/b5/51532e830abd1f274abb16a65a40359cf5dba32ee0559e6cbb622d37470c/rope-1.1.1.tar.gz", hash = "sha256:13048ff0245a0fa187f282697a55add46e4ccf083e7670f868bdf54ee9e47f2e", size = 274610, upload-time = "2022-05-25T10:58:18.723Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/76/f3/ebd965c6b44b32c3edb1ecaeba9c77bb6503e0f70309c4c78d9e600e9fc8/rope-1.1.1-py3-none-any.whl", hash = "sha256:216390b6342bde8ef1f27a6663554de0ea0b1fdad7c421deb3d5a3f6c5fc01e7", size = 197003, upload-time = "2022-05-25T10:58:15.062Z" },
 ]
 
 [[package]]
