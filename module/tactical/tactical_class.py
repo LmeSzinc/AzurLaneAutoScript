@@ -193,7 +193,7 @@ class Book:
         area = self.button.area
         check_area = (area[0], area[3] + 2, area[2], area[3] + 4)
         im = rgb2gray(crop(image, check_area, copy=False))
-        return True if np.mean(im) > 127 else False
+        return np.mean(im) > 127
 
     def __str__(self):
         # Example: Red_T3_Exp
@@ -607,7 +607,7 @@ class RewardTacticalClass(Dock):
         area = button.area
         check_area = (area[0], area[3] + 2, area[2], area[3] + 4)
         im = rgb2gray(crop(image, check_area, copy=False))
-        return True if np.mean(im) > 127 else False
+        return np.mean(im) > 127
 
     def _tactical_skill_choose(self):
         """

@@ -871,7 +871,7 @@ def sample(condition, project_select_index, reset_index):
         p1, p2, p3 = random_choice(3, SPAWN_RATE_S4[index])
         p4, p5 = random_choice(2, SPAWN_RATE[index])
         # 去重
-        if p1 == p4 or p2 == p4 or p3 == p4 or p1 == p5 or p2 == p5 or p3 == p5:
+        if p3 in (p4, p5) or p2 in (p4, p5) or p1 in (p4, p5):
             continue
         # 加入刷新，1000表示刷新
         project_list = np.array([p1, p2, p3, p4, p5, 1000])

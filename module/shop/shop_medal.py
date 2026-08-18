@@ -207,10 +207,7 @@ class MedalShop2_250814(ShopClerk, ShopStatus):
         Returns:
             bool
         """
-        for item in items:
-            if int(item.price) == 5000:
-                return False
-        return True
+        return all(int(item.price) != 5000 for item in items)
 
     def shop_interval_clear(self):
         """

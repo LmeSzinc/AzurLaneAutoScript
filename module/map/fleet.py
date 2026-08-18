@@ -321,7 +321,7 @@ class Fleet(Camera, AmbushHandler):
                     )
                     self.hp_get()
                     self.lv_get(after_battle=True)
-                    arrived = True if not self.config.MAP_HAS_MOVABLE_ENEMY else False
+                    arrived = bool(not self.config.MAP_HAS_MOVABLE_ENEMY)
                     result = "combat"
                     self.battle_count += 1
                     self.fleet_ammo -= 1

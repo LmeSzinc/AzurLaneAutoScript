@@ -5,6 +5,7 @@ from module.logger import logger
 from module.map.map_grids import SelectedGrids
 from module.map.utils import GridInfo, camera_2d, location_ensure, np
 from module.map_detection.grid_info import GridInfo
+import itertools
 
 
 class CampaignMap:
@@ -681,7 +682,7 @@ class CampaignMap:
 
         res.insert(0, 0)
         inserted = []
-        for left, right in zip(res[:-1], res[1:]):
+        for left, right in itertools.pairwise(res):
             for index in list(range(left, right, step))[1:]:
                 way_node = self[route[index]]
                 if way_node.is_fleet or way_node.is_portal or way_node.is_flare:
@@ -708,7 +709,7 @@ class CampaignMap:
 
         portal_path = []
         index = [0]
-        for i, loca in enumerate(zip(path[:-1], path[1:])):
+        for i, loca in enumerate(itertools.pairwise(path)):
             grid = self[loca[0]]
             if grid.is_portal and grid.portal_link == loca[1]:
                 index += [i, i + 1]
@@ -716,7 +717,7 @@ class CampaignMap:
                 index += [i]
         if len(path) not in index:
             index.append(len(path))
-        for start, end in zip(index[:-1], index[1:]):
+        for start, end in itertools.pairwise(index):
             if end - start == 1 and self[path[start]].is_portal and self[path[start]].portal_link == path[end]:
                 continue
             local_path = path[start : end + 1]
@@ -790,11 +791,7 @@ class CampaignMap:
 
         may, missing = self.missing_get(battle_count, mystery_count, siren_count, carrier_count, mode)
 
-        for key in may:
-            if missing[key] != 0:
-                return False
-
-        return True
+        return all(missing[key] == 0 for key in may)
 
     def missing_predict(self, battle_count, mystery_count=0, siren_count=0, carrier_count=0, mode="normal"):
         if self.poor_map_data:

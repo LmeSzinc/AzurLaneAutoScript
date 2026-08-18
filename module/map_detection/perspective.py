@@ -468,5 +468,4 @@ class Perspective:
         Yields (tuple): ((x, y), [upper-left, upper-right, bottom-left, bottom-right])
         """
         points = self.horizontal.cross(self.vertical).points
-        for data in points_to_area_generator(points, shape=(len(self.vertical), len(self.horizontal))):
-            yield data
+        yield from points_to_area_generator(points, shape=(len(self.vertical), len(self.horizontal)))

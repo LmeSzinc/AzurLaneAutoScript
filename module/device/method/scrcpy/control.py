@@ -233,8 +233,8 @@ class ControlSender:
         if end_y > self.resolution[1]:
             end_y = self.resolution[1]
 
-        decrease_x = True if start_x > end_x else False
-        decrease_y = True if start_y > end_y else False
+        decrease_x = start_x > end_x
+        decrease_y = start_y > end_y
         while True:
             if decrease_x:
                 next_x -= move_step_length

@@ -7,6 +7,7 @@ from PIL import Image
 
 from module.exception import RequestHumanTakeover
 from module.logger import logger
+import itertools
 
 # The OCR models are small (3-9MB); spawning one thread per core (24 here)
 # for every inference call creates a thread-creation storm that contends with
@@ -187,7 +188,7 @@ class AlOcr:
             return [[np.array(image), (0, 0, pic_len, h)]]
 
         width = np.max(diff)
-        coordinate = list(zip(pos[:-1], pos[1:], strict=False))
+        coordinate = list(itertools.pairwise(pos))
         info = list(zip(diff, coordinate, strict=False))
         info = list(filter(lambda x: x[0] > 10, info))
 

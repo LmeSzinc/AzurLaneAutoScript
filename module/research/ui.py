@@ -84,7 +84,7 @@ class ResearchUI(UI):
         if not drop:
             return
         button = self.get_items()
-        if button == GET_ITEMS_1 or button == GET_ITEMS_2:
+        if button in (GET_ITEMS_1, GET_ITEMS_2):
             drop.add(self.device.image)
         elif button == GET_ITEMS_3:
             self.device.sleep(1.5)

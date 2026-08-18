@@ -411,8 +411,7 @@ class Homography:
         shape = (len(x), len(y))
         points = np.array(np.meshgrid(x, y)).reshape((2, -1)).T
         points = perspective_transform(points, data=self.homo_invt) + self.config.DETECTING_AREA[:2]
-        for data in points_to_area_generator(points.reshape(*shape[::-1], 2), shape=shape):
-            yield data
+        yield from points_to_area_generator(points.reshape(*shape[::-1], 2), shape=shape)
 
     def to_perspective(self):
         """

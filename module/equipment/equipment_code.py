@@ -116,11 +116,7 @@ class EquipmentCodeHandler(StorageHandler):
             max_index = 5
         else:
             max_index = 6
-        for index in range(max_index):
-            if not self.appear(EQUIPMENT_PREVIEW[index], offset=(5, 5)):
-                return True
-
-        return False
+        return any(not self.appear(EQUIPMENT_PREVIEW[index], offset=(5, 5)) for index in range(max_index))
 
     def _code_preview_clear(self):
         for _ in self.loop(timeout=2):

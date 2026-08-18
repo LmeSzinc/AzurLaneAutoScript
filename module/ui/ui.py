@@ -159,10 +159,7 @@ class UI(InfoHandler):
         elif callable(check_button):
             return check_button()
         elif isinstance(check_button, (list, tuple)):
-            for button in check_button:
-                if self.appear(button, offset=offset):
-                    return True
-            return False
+            return any(self.appear(button, offset=offset) for button in check_button)
         else:
             return self.appear(check_button, offset=offset)
 

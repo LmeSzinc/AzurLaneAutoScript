@@ -46,10 +46,7 @@ class EnemySearchingHandler(InfoHandler):
             return False
 
     def is_in_stage_page(self):
-        for check in [CAMPAIGN_CHECK, EVENT_CHECK, SP_CHECK]:
-            if self.appear(check, offset=(20, 20)):
-                return True
-        return False
+        return any(self.appear(check, offset=(20, 20)) for check in [CAMPAIGN_CHECK, EVENT_CHECK, SP_CHECK])
 
     def is_stage_page_has_entrance(self):
         """

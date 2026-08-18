@@ -378,8 +378,7 @@ class EmulatorManager(EmulatorManagerBase):
                         # Skip those with hash
                         if regex_hash.search(key):
                             continue
-                        for file in Emulator.multi_to_single(key):
-                            yield file
+                        yield from Emulator.multi_to_single(key)
             except FileNotFoundError:
                 # FileNotFoundError: [WinError 2] 系统找不到指定的文件。
                 # Might be a random directory without "Count" subdirectory
@@ -407,8 +406,7 @@ class EmulatorManager(EmulatorManagerBase):
             res = regex.search(row.name)
             if not res:
                 continue
-            for file in Emulator.multi_to_single(res.group(1)):
-                yield file
+            yield from Emulator.multi_to_single(res.group(1))
 
     @staticmethod
     def get_install_dir_from_reg(path, key):
