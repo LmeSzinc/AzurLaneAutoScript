@@ -3050,6 +3050,7 @@
       "NewSuccess": "Add config succeeded",
       "Name": "Name",
       "Mod": "Mod",
+      "Modified": "Modified",
       "Actions": "Actions"
     },
     "Update": {

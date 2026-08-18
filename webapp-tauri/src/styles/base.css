@@ -42,6 +42,25 @@ button {
   color: inherit;
 }
 
+/* Bootstrap reboot form-element metrics. The UnoCSS preflight uses the
+   `font: inherit` shorthand, which silently resets line-height to
+   `normal` (~15px) instead of inheriting the theme's 1.5 — buttons and
+   inputs came out a few pixels short. Reboot used the longhands. */
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+/* Bootstrap reboot pointer cursor: every enabled <button> is clickable. */
+button:not(:disabled) {
+  cursor: pointer;
+}
+
 a {
   color: var(--alas-link);
   text-decoration: none;

@@ -44,7 +44,7 @@ export default defineConfig({
     // generated rule). Variants add their own colors, so conflicting hover
     // colors between .btn and .btn-* can never fight either.
     "btn-core":
-      "inline-block text-center align-middle select-none cursor-pointer border-solid " +
+      "inline-block text-center align-middle select-none border-solid " +
       "[transition:none] [padding:var(--alas-btn-py)_var(--alas-btn-px)] [font-size:var(--alas-btn-fs)] " +
       "[font-weight:var(--alas-btn-fw)] [line-height:var(--alas-btn-lh)] [font-family:var(--alas-btn-font,inherit)] " +
       "[border-width:var(--alas-btn-bw)] rounded-[var(--alas-btn-radius)] " +
@@ -73,14 +73,14 @@ export default defineConfig({
       "hover:[border-color:#adb5bd] hover:[background:rgba(0,0,0,.12)]",
     // Sidebar menu entry (old .btn.btn-menu)
     "btn-menu":
-      "block w-full font-normal bg-transparent border-solid border-transparent border-l-3 rounded-none " +
+      "block w-full font-normal bg-transparent border-solid border-transparent border-0 border-l-3 rounded-none " +
       "[padding:.0625rem_.625rem_.0625rem_.75rem] [transition:border_.05s_ease-in-out,padding_.05s_ease-in-out] " +
       "whitespace-pre-wrap text-left hover:font-bold hover:[border-left-color:var(--alas-accent)] " +
       "hover:[color:var(--alas-accent)]",
     "btn-menu-active": "font-bold [border-left-color:var(--alas-accent)] [color:var(--alas-accent)]",
     // Instance sidebar entry (old .btn.btn-aside)
     "btn-aside":
-      "w-16 text-[0.8rem] font-normal bg-transparent border-solid border-transparent border-l-4 rounded-none " +
+      "w-16 text-[0.8rem] font-normal bg-transparent border-solid border-transparent border-0 border-l-4 rounded-none " +
       "[padding:.375rem_0_.75rem] mb-1.5 [transition:border_.1s_ease-in-out,padding_.1s_ease-in-out] " +
       "hover:border-l-accent hover:pl-[3px] hover:font-bold hover:text-accent",
     "btn-aside-active": "border-l-accent pl-[3px] font-bold text-accent",

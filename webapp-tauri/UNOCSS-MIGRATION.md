@@ -37,6 +37,15 @@ uno.config.ts          presetUno + shortcuts (btn*, form-control*, table,
 
 - Bootstrap reboot used `box-sizing: border-box` globally; the UnoCSS
   preflight does not → fixed heights would have overflowed by padding.
+- The UnoCSS preflight uses the `font: inherit` shorthand on form elements,
+  which resets line-height to `normal`; reboot used the longhands so
+  `line-height: 1.5` inherits (buttons were 4px short).
+- Chrome's UA stylesheet gives `<button>` a 2px outset border; the old
+  shell css neutralized it with `border: 0 solid`. Bare shortcut buttons
+  (btn-menu/btn-aside) must carry `border-0`.
+- Bootstrap reboot gives every enabled button `cursor: pointer`
+  (`button:not(:disabled)`); restored in `base.css` so disabled buttons
+  keep the default cursor.
 - The bootswatch `.form-control` (loaded after the shell css) wins the
   cascade: real padding is `.375rem .75rem`, not the shell override.
 - Table cells are transparent everywhere except the sketchy theme.
