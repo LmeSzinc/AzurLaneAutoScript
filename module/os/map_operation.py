@@ -116,7 +116,9 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
         if "塞" in name:
             name = name.split("塞")[0]
         # Remove '安全海域', '隱秘海域', '深淵海域' at the end of tw ocr.
-        name = name.rstrip("安全隱秘塞壬要塞深淵海域一")
+        # rstrip takes the union of the suffix characters, not the literal
+        # string: intentional character-set strip of zone-name suffixes.
+        name = name.rstrip("安全隱秘塞壬要塞深淵海域一")  # noqa: B005
         return name
 
     @Config.when(SERVER=None)
@@ -129,7 +131,7 @@ class OSMapOperation(MapOrderHandler, MissionHandler, PortHandler, StorageHandle
         if "-" in name:
             name = name.split("-")[0]
         else:
-            name = name.rstrip("安全隐秘塞壬要塞深渊海域-")
+            name = name.rstrip("安全隐秘塞壬要塞深渊海域-")  # noqa: B005 (char-set strip of zone suffixes)
         return name
 
     def get_current_zone(self):

@@ -346,8 +346,10 @@ class ModuleBase:
                 break
 
     def wait_until_stable(
-        self, button, timer=Timer(0.3, count=1), timeout=Timer(5, count=10), skip_first_screenshot=True
+        self, button, timer=None, timeout=None, skip_first_screenshot=True
     ):
+        timer = timer or Timer(0.3, count=1)
+        timeout = timeout or Timer(5, count=10)
         button._match_init = False
         timeout.reset()
         while 1:

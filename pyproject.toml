@@ -70,13 +70,11 @@ ignore = [
     "E501",  # line too long, handled by line-length convention in legacy code
     "E402",  # module level import not at top of file
     "E722",  # bare except, used heavily in legacy code
-    "E731",  # lambda assignment
     "F405",  # name may be undefined from star import: every star import site is
     #         annotated `# noqa: F403 (data-bundle star import | re-export facade)`
     #         (169 sites, see dev_tools/annotate_star_imports.py); the 2787 usage
     #         sites of those intentional bundles cannot be annotated one by one,
     #         and real undefined names are caught by pyright + import smoke tests.
-    "B008",  # function call in default argument
     "B905",  # zip without strict, py<3.10 compatibility in legacy code
     "B904",  # raise-without-from: per-site exception chaining intent needs manual review
     "RUF001",  # ambiguous unicode in strings: game text/names are intentional
@@ -89,24 +87,6 @@ ignore = [
     "UP031",  # %-formatting -> f-string: churn on legacy code, deferred
     "F811",  # redefined-while-unused: established override idiom in task classes
     "SIM105",  # suppressible-exception (except: pass): intentional suppression in bot logic
-    "B005",  # strip with multi-char strings: intentional char-set rstrip on game names
-    # Remaining rules are pure style/micro-optimizations on legacy code with no
-    # behavioral value; ignored to keep lint green, revisit opportunistically:
-    "RUF046",  # unnecessary-cast-to-int
-    "C414",  # unnecessary-double-cast-or-process
-    "SIM110",  # reimplemented-builtin
-    "SIM210",  # if-expr-with-true-false
-    "RUF007",  # zip-instead-of-pairwise
-    "SIM109",  # compare-with-tuple
-    "UP028",  # yield-in-for-loop
-    "C400",  # unnecessary-generator-list
-    "C405",  # unnecessary-literal-set
-    "C409",  # unnecessary-literal-within-tuple-call
-    "RUF015",  # unnecessary-iterable-allocation-for-first-element
-    "SIM116",  # if-else-block-instead-of-dict-lookup
-    "C410",  # unnecessary-literal-within-list-call
-    "C411",  # unnecessary-list-call
-    "C417",  # unnecessary-map
 ]
 
 [tool.pytest.ini_options]

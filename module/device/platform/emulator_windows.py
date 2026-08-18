@@ -108,16 +108,12 @@ class Emulator(EmulatorBase):
             else:
                 return cls.BlueStacks5
         if exe == "dnplayer.exe":
-            if dir1 == "ldplayer":
-                return cls.LDPlayer3
-            elif dir1 == "ldplayer4":
-                return cls.LDPlayer4
-            elif dir1 == "ldplayer9":
-                return cls.LDPlayer9
-            elif dir1 == "ldplayer14":
-                return cls.LDPlayer14
-            else:
-                return cls.LDPlayer3
+            return {
+                "ldplayer": cls.LDPlayer3,
+                "ldplayer4": cls.LDPlayer4,
+                "ldplayer9": cls.LDPlayer9,
+                "ldplayer14": cls.LDPlayer14,
+            }.get(dir1, cls.LDPlayer3)
         if exe == "nemuplayer.exe":
             if dir2 == "nemu":
                 return cls.MuMuPlayer

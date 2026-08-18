@@ -260,7 +260,9 @@ class Builder:
         y_fwd_out, y_bwd_out = "y_fwd_out", "y_bwd_out"
 
         for tag, x_t, h_t, h_new in (("f", "x_fwd_t", "h_fwd", h_fwd_new), ("b", "x_bwd_t", "h_bwd", h_bwd_new)):
-            w = lambda k, tag=tag: weight_names[(tag, k)]
+            def w(k, tag=tag):
+                return weight_names[(tag, k)]
+
             out = f"{name}_{tag}_{{}}"
             xr, xi, xn = out.format("xr"), out.format("xi"), out.format("xn")
             body_nodes += [
