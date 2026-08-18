@@ -11,28 +11,33 @@ working untouched:
 
 Three sinks:
 
-- stdout: loguru's native colorized console output (the default loguru
-  handler is removed first to avoid double printing).
+- stdout: a rich-based sink that mirrors the pre-loguru RichHandler look
+  (padded `logging.level.*` level column, `YYYY-MM-DD HH:mm:ss.mmm │ ` time,
+  ReprHighlighter syntax highlighting, rich tracebacks, styled hr rules).
+  Rendered by a plain `rich.console.Console` (default theme), like before.
 - file: `./log/{date}_{name}.txt` with size rotation and gz compression;
   `set_file_logger(name)` switches the active file, keeping the legacy
   date-per-name convention, and `logger.log_file` tracks it so
   alas.save_error_log() still packages the right file (the `═` separator
   lines emitted by `hr(level=0/1)` are preserved for its split regex).
 - func stream: `set_func_logger(func)` delivers rich ConsoleRenderables
-  (styled time/level + message + traceback, highlighted with the legacy
-  Highlighter/WEB_THEME) into a callable. The webui child puts them into
-  a multiprocessing queue and the parent renders them unchanged
-  (process_manager.renderables / helpers.render_log), so the streaming
-  contract is untouched.
+  (level column + `HH:MM:SS.mmm │ ` time + message + rich traceback,
+  highlighted with the legacy Highlighter/WEB_THEME) into a callable. The
+  webui child puts them into a multiprocessing queue and the parent renders
+  them unchanged (process_manager.renderables / helpers.render_log), so the
+  streaming contract is untouched.
 
 Semantic notes:
 
 - `error(Exception)` converts to "<Type>: <message>" and
   `exception(e)` logs with the traceback (diagnose=True adds local
-  variables to every sink), matching the legacy handlers.
-- Rich markup is no longer parsed anywhere: `hr(level=3)` writes plain
-  `<<< TITLE >>>` on every sink (the old console stripped the [bold]
-  tags anyway, files and webui always showed plain text).
+  variables to the file sink, rich tracebacks to stdout/webui), matching
+  the legacy handlers.
+- `hr`/`rule` emit plain text (files and the `═` split regex stay intact)
+  and flag the record with an `alas_style` extra; the rich sinks restyle
+  that text as the old rich `Rule` / `[bold]` markup did:
+  `banner` -> bold, `rule_line` -> `rule.line` color, `rule_title` ->
+  `rule.text` (bold in WEB_THEME, plain on the default console theme).
 - %-style lazy formatting is not supported (loguru uses {}); the 43
   legacy call sites were migrated in L2.
 """
@@ -44,10 +49,13 @@ import time
 import typing as t
 
 from loguru import logger as _logger
-from rich.highlighter import RegexHighlighter
+from rich._log_render import LogRender
+from rich.console import Console
+from rich.highlighter import RegexHighlighter, ReprHighlighter
 from rich.style import Style
 from rich.text import Text
 from rich.theme import Theme
+from rich.traceback import Traceback
 
 
 class Highlighter(RegexHighlighter):
@@ -81,28 +89,89 @@ WEB_THEME = Theme(
     }
 )
 
-LEVEL_STYLES = {
-    "TRACE": "logging.level.trace",
-    "DEBUG": "logging.level.debug",
-    "INFO": "logging.level.info",
-    "SUCCESS": "logging.level.success",
-    "WARNING": "logging.level.warning",
-    "ERROR": "logging.level.error",
-    "CRITICAL": "logging.level.critical",
-}
-
 logger_debug = False
 
 # loguru auto-appends the traceback to {message} when the record carries an
-# exception, so formats must NOT include {exception} (it would print twice).
-_FORMAT = "{time:YYYY-MM-DD HH:mm:ss.SSS} | {level: <8} | {message}"
+# exception, so the plain file format must NOT include {exception} (it would
+# print twice). The rich sinks below read `record["message"]` and build their
+# own rich Traceback instead.
+_PLAIN_FORMAT = "{time:YYYY-MM-DD HH:mm:ss.SSS} | {level: <8} | {message}"
+
+# Styling of hr()/rule() output, resolved per render console theme:
+# `rule.line` is bright_green in rich's default theme (inherited by
+# WEB_THEME), `rule.text` is bold in WEB_THEME and plain on the console.
+_ALAS_STYLE_KINDS = {
+    "banner": "bold",
+    "rule_line": "rule.line",
+    "rule_title": "rule.text",
+}
+
+_stdout_console = Console()
+_repr_highlighter = ReprHighlighter()
+# Same grid layout RichHandler used: level column (padded, logging.level.*
+# colored) + message column, 1-space padding; tracebacks render in the
+# message column below the line.
+_log_render = LogRender(show_time=False, show_level=True, show_path=False, level_width=None)
+
+
+def _rich_renderable(record, *, time_format, highlighter, traceback_extra_lines):
+    """Build the pre-loguru RichHandler-style renderable for one record.
+
+    The rendered object carries style *names* (`logging.level.*`, `web.*`,
+    `repr.*`); they resolve against whichever Console finally prints it
+    (default theme on stdout, WEB_THEME in the webui parent).
+    """
+    level_name = record["level"].name
+    level = Text.styled(f"{level_name:<8}", f"logging.level.{level_name.lower()}")
+
+    stamp = record["time"]
+    head = f"{stamp.strftime(time_format)}.{stamp.strftime('%f')[:3]} │ "
+    body = Text(record["message"])
+
+    kind = record["extra"].get("alas_style")
+    if kind in _ALAS_STYLE_KINDS:
+        body.stylize(_ALAS_STYLE_KINDS[kind])
+        if kind == "rule_line" and record["extra"].get("alas_title") is not None:
+            # Mixed rule line: chars in rule.line, the centered title in
+            # rule.text (old rich Rule rendering).
+            start = record["extra"]["alas_title_start"]
+            body.stylize("rule.text", start, start + len(record["extra"]["alas_title"]))
+
+    message = highlighter(Text(head) + body)
+
+    renderables = [message]
+    if record["exception"]:
+        exc_type, exc_value, exc_traceback = record["exception"]
+        renderables.append(
+            Traceback.from_exception(
+                exc_type,
+                exc_value,
+                exc_traceback,
+                extra_lines=traceback_extra_lines,
+                show_locals=True,
+            )
+        )
+
+    return _log_render(_stdout_console, renderables, level=level)
+
+
+def _console_sink(message):
+    _stdout_console.print(
+        _rich_renderable(
+            message.record,
+            time_format="%Y-%m-%d %H:%M:%S",
+            highlighter=_repr_highlighter,
+            traceback_extra_lines=3,
+        )
+    )
+
 
 # Logger init
 # Remove loguru's default stderr handler; we add our own sinks below.
 _logger.remove()
 _console_sink_id = _logger.add(
-    sys.stdout,
-    format=_FORMAT,
+    _console_sink,
+    format="{message}",
     level="DEBUG" if logger_debug else "INFO",
     backtrace=False,
     diagnose=True,
@@ -135,7 +204,7 @@ def set_file_logger(name=pyw_name):
     os.makedirs(os.path.dirname(_log_file), exist_ok=True)
     _file_sink_id = _logger.add(
         _log_file,
-        format=_FORMAT,
+        format=_PLAIN_FORMAT,
         level="DEBUG" if logger_debug else "INFO",
         rotation="100 MB",
         compression="gz",
@@ -149,10 +218,11 @@ def set_file_logger(name=pyw_name):
 
 def set_func_logger(func):
     """
-    Deliver rich renderables (styled time/level + message + traceback,
-    highlighted with the legacy WEB_THEME) into a function. Used by the
-    webui child process to stream logs through a multiprocessing queue;
-    the parent side keeps expecting ConsoleRenderables, unchanged.
+    Deliver rich renderables (level column + `HH:MM:SS.mmm │ ` time +
+    message + rich traceback, highlighted with the legacy Highlighter and
+    resolved by WEB_THEME on the parent side) into a function. Used by the
+    webui child process to stream logs through a multiprocessing queue; the
+    parent side keeps expecting ConsoleRenderables, unchanged.
     """
     global _func_sink_id
 
@@ -161,13 +231,14 @@ def set_func_logger(func):
         _func_sink_id = None
 
     def sink(message):
-        record = message.record
-        text = Text()
-        text.append(f"{record['time'].strftime('%H:%M:%S.%f')[:-3]} │ ", style="log.time")
-        level_name = record["level"].name
-        text.append(f"{level_name:<8} │ ", style=LEVEL_STYLES.get(level_name, ""))
-        text.append(str(message).rstrip("\n"))
-        func(Highlighter()(text))
+        func(
+            _rich_renderable(
+                message.record,
+                time_format="%H:%M:%S",
+                highlighter=Highlighter(),
+                traceback_extra_lines=2,
+            )
+        )
 
     _func_sink_id = _logger.add(
         sink,
@@ -181,17 +252,25 @@ def set_func_logger(func):
 
 def rule(title="", *, characters="─", style="rule.line", end="\n", align="center"):
     """
-    Plain-text replacement for rich.rule.Rule. Keeps the ═/─ separator
-    lines that alas.save_error_log() splits the error log on.
+    Emit the ═/─ separator lines of the old rich Rule. The file sink gets
+    plain text (alas.save_error_log() splits the error log on the `═`
+    lines); the rich sinks restyle it via the `alas_style` extra: line
+    characters in `rule.line` color and, for mixed lines, the centered
+    title in `rule.text` (bold in WEB_THEME, plain on the console).
     """
     width = 60
     if title:
         text = str(title).upper()
         side = max(2, (width - len(text)) // 2)
         line = characters * side + f" {text} " + characters * max(0, width - side - len(text) - 2)
+        if characters.strip():
+            _logger.bind(alas_style="rule_line", alas_title=text, alas_title_start=side + 1).info(line)
+        else:
+            # Title-only banner line (hr level 0 center line).
+            _logger.bind(alas_style="rule_title").info(line)
     else:
         line = characters * width
-    logger.info(line)
+        _logger.bind(alas_style="rule_line").info(line)
 
 
 def hr(title, level=3):
@@ -203,7 +282,7 @@ def hr(title, level=3):
         rule(title, characters="─")
         logger.info(title)
     elif level == 3:
-        logger.info(f"<<< {title} >>>")
+        _logger.bind(alas_style="banner").info(f"<<< {title} >>>")
     elif level == 0:
         rule(characters="═")
         rule(title, characters=" ")

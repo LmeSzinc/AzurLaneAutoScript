@@ -8,6 +8,7 @@ from rich.console import Console
 
 from module.config.deep import deep_get, deep_iter, deep_set
 from module.config.utils import alas_instance, filepath_config, write_file
+from module.logger import WEB_THEME
 from module.webui.process_manager import ProcessManager
 from module.webui.setting import State
 
@@ -29,10 +30,18 @@ def render_log(renderable) -> str:
 
     `no_color=False` + explicit `color_system` bypass the NO_COLOR env var so
     output is deterministic; the frontend converts the ANSI SGR codes to
-    theme-aware HTML (see webapp-tauri/src/lib/ansi.ts).
+    theme-aware HTML (see webapp-tauri/src/lib/ansi.ts). WEB_THEME restores
+    the `web.*` highlight spans (paths/booleans/braces) produced by the func
+    stream; rich's Theme merges it over the default styles, so `log.time` and
+    `logging.level.*` keep resolving too.
     """
     try:
-        console = Console(no_color=False, color_system="standard", force_terminal=True)
+        console = Console(
+            theme=WEB_THEME,
+            no_color=False,
+            color_system="standard",
+            force_terminal=True,
+        )
         with console.capture() as capture:
             console.print(renderable)
         return capture.get().rstrip("\n")
