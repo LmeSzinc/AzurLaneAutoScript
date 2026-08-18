@@ -44,95 +44,41 @@ function close() {
 }
 </script>
 
-<header class="app-header">
-  <img class="header-icon" src="icon/alas.png" alt="Alas" />
-  <span class="header-text">Alas</span>
-  <span class="header-state {stateClass}">
+<header
+  class="app-header grid [grid-auto-flow:column] [grid-template-columns:4.4rem_4rem_auto_1fr_auto] items-center h-[50px] select-none [-webkit-app-region:drag] [background:var(--alas-header-bg)] [box-shadow:var(--alas-header-shadow)] [border-bottom:var(--alas-header-border-bottom)]"
+>
+  <img class="w-[42px] h-[42px] my-1 mx-auto rounded-3xl" src="icon/alas.png" alt="Alas" />
+  <span class="text-[1.5rem] font-bold m-auto">Alas</span>
+  <span class="flex items-center gap-1 text-[0.85rem] m-auto {stateClass}">
     <span class="header-state-dot"></span>
     {stateText}
   </span>
-  <div class="header-title">
-    <span class="header-title-text">{pageTitleText}</span>
+  <div class="m-auto">
+    <span class="text-[1.2rem] m-auto overflow-hidden text-center whitespace-nowrap">{pageTitleText}</span>
   </div>
   {#if isTauri}
-    <div class="app-header-controls">
-      <button class="header-btn" title="Minimize" onclick={min}>&#x2212;</button>
-      <button class="header-btn" title="Maximize" onclick={max}>&#x25A1;</button>
-      <button class="header-btn header-btn-close" title="Close" onclick={close}>&#x2715;</button>
+    <div class="flex h-full [-webkit-app-region:no-drag]">
+      <button
+        class="w-11 h-full border-0 bg-transparent text-xs cursor-pointer hover:[background:rgba(255,255,255,.08)]"
+        title="Minimize"
+        onclick={min}
+      >
+        &#x2212;
+      </button>
+      <button
+        class="w-11 h-full border-0 bg-transparent text-xs cursor-pointer hover:[background:rgba(255,255,255,.08)]"
+        title="Maximize"
+        onclick={max}
+      >
+        &#x25A1;
+      </button>
+      <button
+        class="w-11 h-full border-0 bg-transparent text-xs cursor-pointer hover:[background:var(--alas-danger)] hover:text-white"
+        title="Close"
+        onclick={close}
+      >
+        &#x2715;
+      </button>
     </div>
   {/if}
 </header>
-
-<style>
-  .app-header {
-    display: grid;
-    grid-auto-flow: column;
-    grid-template-columns: 4.4rem 4rem auto 1fr auto;
-    align-items: center;
-    height: 50px;
-    user-select: none;
-    -webkit-app-region: drag;
-  }
-  .header-icon {
-    width: 42px;
-    height: 42px;
-    margin: 0.25rem auto;
-  }
-  .header-text {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin: auto !important;
-  }
-  .header-state {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 0.85rem;
-    margin: auto;
-  }
-  .header-state-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--alas-status-idle);
-  }
-  .header-state-running .header-state-dot {
-    background: var(--alas-status-running);
-  }
-  .header-state-warning .header-state-dot {
-    background: var(--alas-status-warning);
-  }
-  .header-state-updating .header-state-dot {
-    background: var(--alas-status-updating);
-  }
-  .header-title {
-    margin: auto;
-  }
-  .header-title-text {
-    font-size: 1.2rem;
-    margin: auto;
-    overflow: hidden;
-    text-align: center;
-    white-space: nowrap;
-  }
-  .app-header-controls {
-    display: flex;
-    height: 100%;
-    -webkit-app-region: no-drag;
-  }
-  .header-btn {
-    width: 44px;
-    height: 100%;
-    border: none;
-    background: transparent;
-    font-size: 12px;
-    cursor: pointer;
-  }
-  .header-btn:hover {
-    background: rgba(255, 255, 255, 0.08);
-  }
-  .header-btn-close:hover {
-    background: var(--alas-danger);
-    color: #fff;
-  }
-</style>

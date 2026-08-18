@@ -131,15 +131,16 @@ function stateClass(field: Field): string {
 }
 </script>
 
-<div class="dynamic-form">
+<div>
   {#each fields as field (field.key)}
     <div
-      class="form-field {field.def.type === 'checkbox' || field.def.type === 'storage'
+      class="grid [grid-auto-flow:column] [grid-template-columns:1fr_13rem] items-center {field.def.type === 'checkbox' ||
+      field.def.type === 'storage'
         ? 'arg-container-checkbox'
         : 'arg-container'}"
     >
       <!-- title column: title on top, help below -->
-      <div class="field-title-col">
+      <div class="pr-2">
         <div class="arg-title">{label(field)}</div>
         {#if helpLabel(field)}
           <div class="arg-help">{helpLabel(field)}</div>
@@ -147,10 +148,10 @@ function stateClass(field: Field): string {
       </div>
 
       <!-- control column -->
-      <div class="field-control arg-input">
+      <div class="m-0 pr-1">
         {#if field.def.type === 'select'}
           <select
-            class="form-control"
+            class="form-control appearance-none [-webkit-appearance:none] [-moz-appearance:none] !pr-4 [background-position:right,center] [background-repeat:no-repeat]"
             value={String(currentValue(field) ?? '')}
             disabled={field.def.display === 'disabled'}
             onchange={(e) => emitSave(field, (e.currentTarget as HTMLSelectElement).value)}
@@ -206,26 +207,3 @@ function stateClass(field: Field): string {
     </div>
   {/each}
 </div>
-
-<style>
-  /* PC layout from alas-pc.css: title column + 13rem control column */
-  .form-field {
-    display: grid;
-    grid-auto-flow: column;
-    grid-template-columns: 1fr 13rem;
-    align-items: center;
-  }
-  .field-title-col {
-    padding-right: 0.5rem;
-  }
-  /* state/lock: bordered on top/left/right, no bottom line */
-  .state-display {
-    border: 1px solid var(--alas-muted-border);
-    border-bottom: 0;
-    padding: 0 0.5rem;
-    height: auto;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-</style>

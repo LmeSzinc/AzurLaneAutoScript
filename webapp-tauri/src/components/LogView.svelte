@@ -51,29 +51,3 @@ $effect(() => {
 </script>
 
 <pre class={cls} bind:this={preEl}><code bind:this={codeEl}></code></pre>
-
-<style>
-  /* overview page (Home) */
-  pre.log-view {
-    flex-grow: 1;
-    min-height: 0;
-    margin: 0.3125rem;
-    padding: 0.625rem;
-    overflow-y: auto;
-  }
-
-  /* tool tasks page (Settings) */
-  pre.tool-log {
-    grid-column: 2;
-    margin: 0.3rem 0;
-    min-height: 15rem;
-    max-height: 40vh;
-    overflow-y: auto;
-    background: var(--alas-log-bg);
-    color: var(--alas-log-fg);
-    padding: 8px;
-    font-size: 12px;
-    border-radius: 4px;
-    white-space: pre-wrap;
-  }
-</style>

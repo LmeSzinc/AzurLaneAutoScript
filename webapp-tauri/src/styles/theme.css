@@ -1,0 +1,416 @@
+/*
+ * Alas design tokens — single source of truth for every theme value.
+ *
+ * Replaces the vendored Bootswatch v4.6.1 themes (default/dark/minty/yeti/
+ * sketchy, ~850KB) and the legacy alas-shell.css / {light,dark}-alas-shell.css
+ * override files. Every value below was extracted from those files
+ * (dev_tools/webui/extract_themes.py) and verified against pixel captures of
+ * the original UI (dev_tools/webui), so the visuals match the original
+ * pixel for pixel.
+ *
+ * Two orthogonal token groups:
+ *  - "palette" tokens (buttons, forms, tables, alerts, text colors) follow
+ *    the Bootswatch theme selected by the user (5 palettes; light == default).
+ *  - "shell" tokens (panels, sidebars, header, accent, ANSI log palette)
+ *    follow the dark/light shell variant (dark shell only for theme "dark").
+ *
+ * The active theme is the `data-theme` attribute on <html>.
+ */
+
+/* ============================== light shell + default palette ============================== */
+
+:root {
+  /* ---- shell: light variant (default for every theme except dark) ---- */
+  --alas-shell-bg: #f9f9f9;
+  --alas-shell-panel: #ffffff;
+  --alas-shell-side: #ffffff;
+  --alas-shell-border: lightgrey;
+  --alas-header-bg: transparent;
+  --alas-header-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  --alas-header-border-bottom: none;
+  --alas-aside-border-right: 1px solid lightgrey;
+  --alas-menu-bg: #ffffff;
+  --alas-menu-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  --alas-menu-border-right: none;
+  --alas-icon: #2c2c2c;
+  --alas-off-bg: #ffffff;
+  --alas-off-border: lightgrey;
+  --alas-on-border: lightgrey;
+  --alas-hr-bg: #eaecef;
+  --alas-task-line: #d0d0d0;
+  --alas-task-text: #777777;
+  --alas-help: #777777;
+  --alas-navigator-bg: #ffffff;
+  --alas-navigator-color: inherit;
+  --alas-navigator-border: lightgrey;
+  --alas-input-focus-bg: #ffffff;
+  --alas-accent: #4e4c97;
+  --alas-state-light: #777777;
+
+  /* ---- palette: default (shared by themes "default" and "light") ---- */
+  --alas-body-bg: #ffffff;
+  --alas-body-color: #212529;
+  --alas-body-fs: 1rem;
+  --alas-body-fw: 400;
+  --alas-link: #007bff;
+  --alas-link-hover: #0056b3;
+  --alas-hr-border: 1px solid rgba(0, 0, 0, 0.1);
+  --alas-btn-color: #212529;
+  --alas-btn-hover: #212529;
+  --alas-btn-fs: 1rem;
+  --alas-btn-fw: 400;
+  --alas-btn-lh: 1.5;
+  --alas-btn-py: 0.375rem;
+  --alas-btn-px: 0.75rem;
+  --alas-btn-bw: 1px;
+  --alas-btn-radius: 0.25rem;
+  --alas-btn-sm-fs: 0.875rem;
+  --alas-btn-sm-radius: 0.2rem;
+  --alas-btn-font: inherit;
+  --alas-primary: #007bff;
+  --alas-primary-hover: #0069d9;
+  --alas-primary-hover-border: #0062cc;
+  --alas-primary-active: #0062cc;
+  --alas-primary-active-border: #005cbf;
+  --alas-success: #28a745;
+  --alas-success-hover: #218838;
+  --alas-success-hover-border: #1e7e34;
+  --alas-success-active: #1e7e34;
+  --alas-success-active-border: #1c7430;
+  --alas-info: #17a2b8;
+  --alas-info-hover: #138496;
+  --alas-info-hover-border: #117a8b;
+  --alas-info-active: #117a8b;
+  --alas-info-active-border: #10707f;
+  --alas-input-color: #495057;
+  --alas-input-bg: #ffffff;
+  --alas-input-fs: 1rem;
+  --alas-input-fw: 400;
+  --alas-input-sm-fs: 0.875rem;
+  --alas-table-color: #212529;
+  --alas-table-cell-bg: transparent;
+  --alas-table-row-border: 1px solid #dee2e6;
+  --alas-table-thead-border: 2px solid #dee2e6;
+  --alas-alert-color: inherit;
+  --alas-alert-fs: inherit;
+  --alas-alert-fw: inherit;
+  --alas-alert-bw: 1px;
+  --alas-alert-radius: 0.25rem;
+  --alas-alert-danger-color: #721c24;
+  --alas-alert-danger-bg: #f8d7da;
+  --alas-alert-danger-border: #f5c6cb;
+  --alas-text-muted: #6c757d;
+  --alas-text-success: #28a745;
+  --alas-text-danger: #dc3545;
+
+  /* ---- shell: light ANSI log palette (from LIGHT_TERMINAL_THEME) ---- */
+  --ansi-black: #000000;
+  --ansi-red: #cd3131;
+  --ansi-green: #00bc00;
+  --ansi-yellow: #949800;
+  --ansi-blue: #0451a5;
+  --ansi-magenta: #bc05bc;
+  --ansi-cyan: #0598bc;
+  --ansi-white: #555555;
+  --ansi-bright-black: #666666;
+  --ansi-bright-red: #cd3131;
+  --ansi-bright-green: #14ce14;
+  --ansi-bright-yellow: #b5ba00;
+  --ansi-bright-blue: #0451a5;
+  --ansi-bright-magenta: #bc05bc;
+  --ansi-bright-cyan: #0598bc;
+  --ansi-bright-white: #a5a5a5;
+
+  /* ---- theme-independent tokens ---- */
+  --alas-status-idle: #8a939c;
+  --alas-status-running: #4cd07d;
+  --alas-status-warning: #e6a23c;
+  --alas-status-updating: #4c9aff;
+  --alas-danger: #c42b1c;
+  --alas-log-bg: #16191d;
+  --alas-log-fg: #d4d9de;
+  --alas-muted-border: #6c757d;
+}
+
+/* ============================== theme: dark ============================== */
+
+:root[data-theme="dark"] {
+  /* shell: dark variant */
+  --alas-shell-bg: #36393f;
+  --alas-shell-panel: #2f3136;
+  --alas-shell-side: #202225;
+  --alas-shell-border: #21262d;
+  --alas-header-bg: #202225;
+  --alas-header-shadow: none;
+  --alas-header-border-bottom: 1px solid #36393f;
+  --alas-aside-border-right: 1px solid #21262d;
+  --alas-menu-bg: #2f3136;
+  --alas-menu-shadow: none;
+  --alas-menu-border-right: 1px solid #21262d;
+  --alas-icon: #c9d1d9;
+  --alas-off-bg: #36393f;
+  --alas-off-border: #202225;
+  --alas-on-border: #202225;
+  --alas-hr-bg: #40444b;
+  --alas-task-line: #adb5bd;
+  --alas-task-text: #adb5bd;
+  --alas-help: #adb5bd;
+  --alas-navigator-bg: #2f3136;
+  --alas-navigator-color: #c9d1d9;
+  --alas-navigator-border: #21262d;
+  --alas-input-focus-bg: #2f3136;
+  --alas-accent: #7a77bb;
+  --alas-state-light: #777777;
+
+  /* palette: bootswatch "dark" */
+  --alas-body-bg: #0d1117;
+  --alas-body-color: #d3d3d3;
+  --alas-body-fs: 0.9375rem;
+  --alas-body-fw: 400;
+  --alas-link: #adadad;
+  --alas-link-hover: #878787;
+  --alas-hr-border: 1px solid rgba(255, 255, 255, 0.1);
+  --alas-btn-color: #ffffff;
+  --alas-btn-hover: #ffffff;
+  --alas-btn-fs: 0.9375rem;
+  --alas-btn-fw: 400;
+  --alas-btn-lh: 1.5;
+  --alas-btn-py: 0.375rem;
+  --alas-btn-px: 0.75rem;
+  --alas-btn-bw: 1px;
+  --alas-btn-radius: 0.25rem;
+  --alas-btn-sm-fs: 0.825rem;
+  --alas-btn-sm-radius: 0.2rem;
+  --alas-btn-font: inherit;
+  --alas-primary: #375a7f;
+  --alas-primary-hover: #2b4764;
+  --alas-primary-hover-border: #28415b;
+  --alas-primary-active: #28415b;
+  --alas-primary-active-border: #243a53;
+  --alas-success: #00bc8c;
+  --alas-success-hover: #009670;
+  --alas-success-hover-border: #008966;
+  --alas-success-active: #008966;
+  --alas-success-active-border: #007c5d;
+  --alas-info: #3498db;
+  --alas-info-hover: #2384c6;
+  --alas-info-hover-border: #217dbb;
+  --alas-info-active: #217dbb;
+  --alas-info-active-border: #1f76b0;
+  --alas-input-color: #dee2e6;
+  --alas-input-bg: #000000;
+  --alas-input-fs: 1rem;
+  --alas-input-fw: 400;
+  --alas-input-sm-fs: 0.875rem;
+  --alas-table-color: #d3d3d3;
+  --alas-table-cell-bg: transparent;
+  --alas-table-row-border: 1px solid #343a40;
+  --alas-table-thead-border: 2px solid #343a40;
+  --alas-alert-color: inherit;
+  --alas-alert-fs: inherit;
+  --alas-alert-fw: inherit;
+  --alas-alert-bw: 1px;
+  --alas-alert-radius: 0.25rem;
+  --alas-alert-danger-color: #721c24;
+  --alas-alert-danger-bg: #f8d7da;
+  --alas-alert-danger-border: #f5c6cb;
+  --alas-text-muted: #6c757d;
+  --alas-text-success: #28a745;
+  --alas-text-danger: #dc3545;
+
+  /* shell: dark ANSI log palette (from DARK_TERMINAL_THEME) */
+  --ansi-black: #000000;
+  --ansi-red: #cd3131;
+  --ansi-green: #0dbc79;
+  --ansi-yellow: #e5e510;
+  --ansi-blue: #2472c8;
+  --ansi-magenta: #bc3fbc;
+  --ansi-cyan: #11a8cd;
+  --ansi-white: #e5e5e5;
+  --ansi-bright-black: #666666;
+  --ansi-bright-red: #f14c4c;
+  --ansi-bright-green: #23d18b;
+  --ansi-bright-yellow: #f5f543;
+  --ansi-bright-blue: #3b8eea;
+  --ansi-bright-magenta: #d670d6;
+  --ansi-bright-cyan: #29b8db;
+  --ansi-bright-white: #e5e5e5;
+}
+
+/* ============================== theme: minty ============================== */
+
+:root[data-theme="minty"] {
+  --alas-body-bg: #ffffff;
+  --alas-body-color: #888888;
+  --alas-body-fs: 1rem;
+  --alas-body-fw: 400;
+  --alas-link: #78c2ad;
+  --alas-link-hover: #4aa48a;
+  --alas-hr-border: 1px solid rgba(0, 0, 0, 0.1);
+  --alas-btn-color: #ffffff;
+  --alas-btn-hover: #ffffff;
+  --alas-btn-fs: 1rem;
+  --alas-btn-fw: 400;
+  --alas-btn-lh: 1.5;
+  --alas-btn-py: 0.375rem;
+  --alas-btn-px: 0.75rem;
+  --alas-btn-bw: 1px;
+  --alas-btn-radius: 0.4rem;
+  --alas-btn-sm-fs: 0.875rem;
+  --alas-btn-sm-radius: 0.3rem;
+  --alas-btn-font:
+    Montserrat, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --alas-primary: #78c2ad;
+  --alas-primary-hover: #5eb69d;
+  --alas-primary-hover-border: #55b298;
+  --alas-primary-active: #55b298;
+  --alas-primary-active-border: #4eac92;
+  --alas-success: #56cc9d;
+  --alas-success-hover: #3ac18c;
+  --alas-success-hover-border: #37b885;
+  --alas-success-active: #37b885;
+  --alas-success-active-border: #34ae7d;
+  --alas-info: #6cc3d5;
+  --alas-info-hover: #4eb7cd;
+  --alas-info-hover-border: #44b3ca;
+  --alas-info-active: #44b3ca;
+  --alas-info-active-border: #3aafc7;
+  --alas-input-color: #5a5a5a;
+  --alas-input-bg: #ffffff;
+  --alas-input-fs: 1rem;
+  --alas-input-fw: 400;
+  --alas-input-sm-fs: 0.875rem;
+  --alas-table-color: #888888;
+  --alas-table-cell-bg: transparent;
+  --alas-table-row-border: 1px solid rgba(0, 0, 0, 0.05);
+  --alas-table-thead-border: 2px solid rgba(0, 0, 0, 0.05);
+  --alas-alert-color: #ffffff;
+  --alas-alert-fs: inherit;
+  --alas-alert-fw: inherit;
+  --alas-alert-bw: 1px;
+  --alas-alert-radius: 0.4rem;
+  --alas-alert-danger-color: #853e2a;
+  --alas-alert-danger-bg: #ff7851;
+  --alas-alert-danger-border: #ffd9ce;
+  --alas-text-muted: #888888;
+  --alas-text-success: #56cc9d;
+  --alas-text-danger: #ff7851;
+}
+
+/* ============================== theme: yeti ============================== */
+
+:root[data-theme="yeti"] {
+  --alas-body-bg: #ffffff;
+  --alas-body-color: #222222;
+  --alas-body-fs: 0.9375rem;
+  --alas-body-fw: 400;
+  --alas-link: #008cba;
+  --alas-link-hover: #00526e;
+  --alas-hr-border: 1px solid rgba(0, 0, 0, 0.1);
+  --alas-btn-color: #222222;
+  --alas-btn-hover: #222222;
+  --alas-btn-fs: 0.9375rem;
+  --alas-btn-fw: 300;
+  --alas-btn-lh: 1.5;
+  --alas-btn-py: 0.375rem;
+  --alas-btn-px: 0.5rem;
+  --alas-btn-bw: 1px;
+  --alas-btn-radius: 0;
+  --alas-btn-sm-fs: 0.825rem;
+  --alas-btn-sm-radius: 0;
+  --alas-btn-font: inherit;
+  --alas-primary: #008cba;
+  --alas-primary-hover: #006f94;
+  --alas-primary-hover-border: #006687;
+  --alas-primary-active: #006687;
+  --alas-primary-active-border: #005c7a;
+  --alas-success: #43ac6a;
+  --alas-success-hover: #389059;
+  --alas-success-hover-border: #358753;
+  --alas-success-active: #358753;
+  --alas-success-active-border: #317e4e;
+  --alas-info: #5bc0de;
+  --alas-info-hover: #3bb4d8;
+  --alas-info-hover-border: #31b0d5;
+  --alas-info-active: #31b0d5;
+  --alas-info-active-border: #2aaacf;
+  --alas-input-color: #495057;
+  --alas-input-bg: #ffffff;
+  --alas-input-fs: 0.9375rem;
+  --alas-input-fw: 400;
+  --alas-input-sm-fs: 0.825rem;
+  --alas-table-color: #222222;
+  --alas-table-cell-bg: transparent;
+  --alas-table-row-border: 1px solid #dee2e6;
+  --alas-table-thead-border: 2px solid #dee2e6;
+  --alas-alert-color: #ffffff;
+  --alas-alert-fs: 0.825rem;
+  --alas-alert-fw: 300;
+  --alas-alert-bw: 1px;
+  --alas-alert-radius: 0;
+  --alas-alert-danger-color: #7d2213;
+  --alas-alert-danger-bg: #f04124;
+  --alas-alert-danger-border: #fbcac2;
+  --alas-text-muted: #888888;
+  --alas-text-success: #43ac6a;
+  --alas-text-danger: #f04124;
+}
+
+/* ============================== theme: sketchy ============================== */
+
+:root[data-theme="sketchy"] {
+  --alas-body-bg: #ffffff;
+  --alas-body-color: #212529;
+  --alas-body-fs: 1rem;
+  --alas-body-fw: 700;
+  --alas-link: #333333;
+  --alas-link-hover: #0d0d0d;
+  --alas-hr-border: 2px solid rgba(0, 0, 0, 0.1);
+  --alas-btn-color: #212529;
+  --alas-btn-hover: #212529;
+  --alas-btn-fs: 1rem;
+  --alas-btn-fw: 400;
+  --alas-btn-lh: 1.5;
+  --alas-btn-py: 0.375rem;
+  --alas-btn-px: 0.75rem;
+  --alas-btn-bw: 2px;
+  --alas-btn-radius: 255px 25px 225px 25px / 25px 225px 25px 255px;
+  --alas-btn-sm-fs: 0.875rem;
+  --alas-btn-sm-radius: 255px 25px 225px 25px / 25px 225px 25px 255px;
+  --alas-btn-font: inherit;
+  --alas-primary: #333333;
+  --alas-primary-hover: #202020;
+  --alas-primary-hover-border: #1a1a1a;
+  --alas-primary-active: #1a1a1a;
+  --alas-primary-active-border: #131313;
+  --alas-success: #28a745;
+  --alas-success-hover: #218838;
+  --alas-success-hover-border: #1e7e34;
+  --alas-success-active: #1e7e34;
+  --alas-success-active-border: #1c7430;
+  --alas-info: #17a2b8;
+  --alas-info-hover: #138496;
+  --alas-info-hover-border: #117a8b;
+  --alas-info-active: #117a8b;
+  --alas-info-active-border: #10707f;
+  --alas-input-color: #555555;
+  --alas-input-bg: #ffffff;
+  --alas-input-fs: 1rem;
+  --alas-input-fw: 700;
+  --alas-input-sm-fs: 0.875rem;
+  --alas-table-color: #212529;
+  --alas-table-cell-bg: #ffffff;
+  --alas-table-row-border: 2px solid #333333;
+  --alas-table-thead-border: 4px solid #333333;
+  --alas-alert-color: inherit;
+  --alas-alert-fs: inherit;
+  --alas-alert-fw: inherit;
+  --alas-alert-bw: 2px;
+  --alas-alert-radius: 255px 25px 225px 25px / 25px 225px 25px 255px;
+  --alas-alert-danger-color: #721c24;
+  --alas-alert-danger-bg: #f8d7da;
+  --alas-alert-danger-border: #f5c6cb;
+  --alas-text-muted: #868e96;
+  --alas-text-success: #28a745;
+  --alas-text-danger: #dc3545;
+}

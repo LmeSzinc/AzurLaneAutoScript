@@ -102,27 +102,29 @@ $effect(() => {
 });
 </script>
 
-<div class="develop-wrap">
+<div class="h-full flex overflow-hidden [background:var(--alas-shell-bg)]">
   <AppAside active="Home" onselect={onAsideSelect} />
-  <nav class="dev-menu">
-    <button class="btn btn-menu" class:btn-menu-active={page === 'HomePage'} onclick={() => (page = 'HomePage')}>
+  <nav
+    class="flex-shrink-0 w-48 px-2 pt-[1.2rem] overflow-y-auto [background:var(--alas-menu-bg)] [box-shadow:var(--alas-menu-shadow)] [border-right:var(--alas-menu-border-right)]"
+  >
+    <button class="btn-menu" class:btn-menu-active={page === 'HomePage'} onclick={() => (page = 'HomePage')}>
       {t('Gui.MenuDevelop.HomePage')}
     </button>
-    <button class="btn btn-menu" class:btn-menu-active={page === 'Update'} onclick={() => (page = 'Update')}>
+    <button class="btn-menu" class:btn-menu-active={page === 'Update'} onclick={() => (page = 'Update')}>
       {t('Gui.MenuDevelop.Update')}
     </button>
-    <button class="btn btn-menu" class:btn-menu-active={page === 'Remote'} onclick={() => (page = 'Remote')}>
+    <button class="btn-menu" class:btn-menu-active={page === 'Remote'} onclick={() => (page = 'Remote')}>
       {t('Gui.MenuDevelop.Remote')}
     </button>
-    <button class="btn btn-menu" class:btn-menu-active={page === 'Utils'} onclick={() => (page = 'Utils')}>
+    <button class="btn-menu" class:btn-menu-active={page === 'Utils'} onclick={() => (page = 'Utils')}>
       {t('Gui.MenuDevelop.Utils')}
     </button>
   </nav>
 
-  <div class="content">
+  <div class="grow p-4 overflow-y-auto [background:var(--alas-shell-bg)]">
     {#if page === 'HomePage'}
-      <p class="center-text">Select your language / 选择语言</p>
-      <div class="center-btns">
+      <p class="text-center [margin:1rem_0_.4rem]">Select your language / 选择语言</p>
+      <div class="flex gap-1.6 justify-center flex-wrap">
         {#each LANGS as lang (lang.value)}
           <button
             class="btn btn-sm"
@@ -134,8 +136,8 @@ $effect(() => {
           </button>
         {/each}
       </div>
-      <p class="center-text">Change theme / 更改主题</p>
-      <div class="center-btns">
+      <p class="text-center [margin:1rem_0_.4rem]">Change theme / 更改主题</p>
+      <div class="flex gap-1.6 justify-center flex-wrap">
         {#each THEMES as theme (theme.value)}
           <button
             class="btn btn-sm"
@@ -147,14 +149,14 @@ $effect(() => {
           </button>
         {/each}
       </div>
-      <p class="center-text">
+      <p class="text-center [margin:1rem_0_.4rem]">
         Alas is a free open source software.
         <a href="https://github.com/LmeSzinc/AzurLaneAutoScript" target="_blank" rel="noreferrer">
           https://github.com/LmeSzinc/AzurLaneAutoScript
         </a>
       </p>
     {:else if page === 'Update'}
-      <div class="d-flex align-items-center gap-2 mb-3">
+      <div class="flex items-center gap-2 mb-3">
         {#if updateState === 'checking'}
           <span class="spinner-border spinner-border-sm"></span>
           <span>{t('Gui.Update.UpdateChecking')}</span>
@@ -176,7 +178,7 @@ $effect(() => {
         {/if}
       </div>
 
-      <table class="table table-sm compare-table">
+      <table class="table table-sm">
         <thead>
           <tr>
             <th></th>
@@ -207,7 +209,7 @@ $effect(() => {
       </table>
 
       <p class="mb-1">{t('Gui.Update.DetailedHistory')}</p>
-      <table class="table table-sm history-table">
+      <table class="table table-sm">
         <thead>
           <tr>
             <th>SHA1</th>
@@ -233,36 +235,3 @@ $effect(() => {
     {/if}
   </div>
 </div>
-
-<style>
-  .develop-wrap {
-    height: 100%;
-    display: flex;
-    overflow: hidden;
-  }
-  .dev-menu {
-    flex-shrink: 0;
-    width: 12rem;
-    padding: 1.2rem 0.5rem;
-    overflow-y: auto;
-  }
-  .dev-menu .btn-menu {
-    display: block;
-    width: 100%;
-  }
-  .content {
-    flex-grow: 1;
-    padding: 1rem;
-    overflow-y: auto;
-  }
-  .center-text {
-    text-align: center;
-    margin: 1rem 0 0.4rem;
-  }
-  .center-btns {
-    display: flex;
-    gap: 0.4rem;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-</style>

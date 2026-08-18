@@ -1,0 +1,8 @@
+# Generated/captured artifacts of the visual regression harness
+baseline/
+baseline-old/
+baseline-new/
+_diff/
+*.png
+mock-i18n-*.json
+mock-theme.txt

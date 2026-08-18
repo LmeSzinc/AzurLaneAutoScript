@@ -100,20 +100,22 @@ $effect(() => {
 });
 </script>
 
-<div class="settings-wrap">
+<div class="h-full flex overflow-hidden [background:var(--alas-shell-bg)]">
   <AppAside active={activeInstance} onselect={onAsideSelect} />
   <AppMenu onoverview={() => push('/')} ontask={onMenuTask} />
 
-  <div class="content">
+  <div class="grow basis-auto min-w-0 p-4 overflow-y-auto [background:var(--alas-shell-bg)]">
     {#if isToolTask}
       <!-- tool tasks: scheduler bar (top) + form + log (bottom) -->
-      <div class="tool-view">
-        <div class="tool-upper">
-          <span class="col-title">{t('Gui.Overview.Scheduler')}</span>
+      <div class="grid [grid-auto-flow:column] [grid-template-columns:1fr_minmax(25rem,6fr)_1fr] gap-1.6">
+        <div
+          class="[grid-column:2] flex items-center gap-2 my-[0.3rem] p-2.4 [background:var(--alas-shell-panel)] border-solid border-1 [border-color:var(--alas-shell-border)]"
+        >
+          <span>{t('Gui.Overview.Scheduler')}</span>
           <button class="btn" class:btn-off={toolAlive} class:btn-on={!toolAlive} onclick={toggleTool}>
             {toolAlive ? t('Gui.Button.Stop') : t('Gui.Button.Start')}
           </button>
-          <span class="col-title ms-auto">{t('Gui.Overview.Log')}</span>
+          <span class="ms-auto">{t('Gui.Overview.Log')}</span>
           <button
             class="btn"
             class:btn-on={toolKeepBottom}
@@ -126,7 +128,7 @@ $effect(() => {
 
         {#each Object.entries(schema[selectedTask] ?? {}) as [groupKey, groupArgs] (groupKey)}
           {#if groupKey !== 'Storage'}
-            <div class="group-card" id={`group-${groupKey}`}>
+            <div class="group-card !border-0 [grid-column:2]" id={`group-${groupKey}`}>
               <div class="group-card-title">{t(`${groupKey}._info.name`)}</div>
               {#if t(`${groupKey}._info.help`) !== `${groupKey}._info.help`}
                 <div class="group-card-help">{t(`${groupKey}._info.help`)}</div>
@@ -156,64 +158,21 @@ $effect(() => {
         {/if}
       {/each}
       {#if saving}
-        <span class="saving-hint">saving...</span>
+        <span class="text-xs [color:var(--alas-status-running)]">saving...</span>
       {/if}
     {/if}
   </div>
 
   <!-- right navigator: group anchors -->
   {#if navigatorGroups.length}
-    <nav class="navigator">
+    <nav
+      class="my-2 mx-4 [height:min-content] [width:max-content] min-w-28 max-w-60 flex-shrink-0 overflow-y-auto border-solid border-1 [border-color:var(--alas-navigator-border)] [background:var(--alas-navigator-bg)] [color:var(--alas-navigator-color)]"
+    >
       {#each navigatorGroups as name (name)}
-        <button class="btn btn-navigator" onclick={() => scrollToGroup(name)}>
+        <button class="btn-navigator" onclick={() => scrollToGroup(name)}>
           {t(`${name}._info.name`)}
         </button>
       {/each}
     </nav>
   {/if}
 </div>
-
-<style>
-  .settings-wrap {
-    height: 100%;
-    display: flex;
-    overflow: hidden;
-  }
-  .content {
-    flex: 1 1 auto;
-    min-width: 0;
-    padding: 1rem;
-    overflow-y: auto;
-  }
-  .tool-view {
-    /* original daemon-overview grid: 1fr minmax(25rem, 6fr) 1fr */
-    display: grid;
-    grid-auto-flow: column;
-    grid-template-columns: 1fr minmax(25rem, 6fr) 1fr;
-    gap: 0.4rem;
-  }
-  .tool-upper {
-    grid-column: 2;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin: 0.3rem 0;
-    padding: 0.6rem;
-  }
-  .tool-view .group-card {
-    grid-column: 2;
-  }
-  .saving-hint {
-    font-size: 12px;
-    color: var(--alas-status-running);
-  }
-  .navigator {
-    margin: 0.5rem 1rem;
-    height: min-content;
-    width: max-content;
-    min-width: 7rem;
-    max-width: 15rem;
-    flex-shrink: 0;
-    overflow-y: auto;
-  }
-</style>

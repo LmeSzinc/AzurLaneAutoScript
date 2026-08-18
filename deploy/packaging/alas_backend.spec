@@ -25,6 +25,10 @@ datas = [
     # In-tree schemas/i18n read via module-relative paths.
     ("module/config", "module/config"),
     ("module/submodule", "module/submodule"),
+    # Production SPA build served by module/webui/api (StaticFiles at "/").
+    # Built with `pnpm build` in webapp-tauri/; keep the tree layout because
+    # the backend resolves webapp-tauri/dist relative to the repo root.
+    ("webapp-tauri/dist", "webapp-tauri/dist"),
 ]
 
 binaries = []

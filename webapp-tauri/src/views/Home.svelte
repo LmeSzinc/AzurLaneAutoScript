@@ -80,15 +80,17 @@ $effect(() => {
 });
 </script>
 
-<div class="home">
+<div class="h-full flex overflow-hidden [background:var(--alas-shell-bg)]">
   <AppAside active={activeInstance} onselect={onAsideSelect} />
   <AppMenu onoverview={() => push('/')} ontask={(task) => goSettings(task)} />
 
-  <div class="content overview">
+  <div
+    class="grow min-w-0 p-2.5 grid [grid-template-columns:minmax(16rem,20rem)_minmax(24rem,1fr)] [grid-template-rows:minmax(0,1fr)] gap-2.5 overflow-hidden [background:var(--alas-shell-bg)]"
+  >
     <!-- schedulers column -->
-    <section class="scheduler-col">
+    <section class="flex flex-col overflow-hidden h-full min-h-0">
       <div class="scheduler-bar">
-        <span class="bar-title">{t('Gui.Overview.Scheduler')}</span>
+        <span class="text-[1.25rem] mx-2 my-auto">{t('Gui.Overview.Scheduler')}</span>
         <button class="btn" class:btn-off={instanceAlive} class:btn-on={!instanceAlive} onclick={toggleScheduler}>
           {instanceAlive ? t('Gui.Button.Stop') : t('Gui.Button.Start')}
         </button>
@@ -159,9 +161,9 @@ $effect(() => {
     </section>
 
     <!-- logs column -->
-    <section class="log-col">
+    <section class="flex flex-col overflow-hidden min-h-0">
       <div class="log-bar">
-        <span class="bar-title">{t('Gui.Overview.Log')}</span>
+        <span class="text-[1.25rem] mx-2 my-auto">{t('Gui.Overview.Log')}</span>
         <div class="log-bar-btns">
           <button
             class="btn"
@@ -177,56 +179,3 @@ $effect(() => {
     </section>
   </div>
 </div>
-
-<style>
-  .home {
-    height: 100%;
-    display: flex;
-    overflow: hidden;
-  }
-  .content {
-    flex-grow: 1;
-    min-width: 0;
-    padding: 0.625rem;
-    /* original overview grid: schedulers minmax(16rem,20rem) + logs minmax(24rem,1fr) */
-    grid-template-columns: minmax(16rem, 20rem) minmax(24rem, 1fr);
-    grid-template-rows: minmax(0, 1fr);
-    gap: 0.625rem;
-    overflow: hidden;
-  }
-  .scheduler-col {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    height: 100%;
-    min-height: 0;
-  }
-  /* original schedulers rows: auto 7.75rem minmax(7.75rem,13rem) minmax(7.75rem,1fr) */
-  .running-section {
-    height: 7.75rem;
-    flex-shrink: 0;
-    overflow-y: auto;
-  }
-  .pending-section {
-    min-height: 7.75rem;
-    max-height: 13rem;
-    flex-shrink: 0;
-    overflow-y: auto;
-  }
-  .waiting-section {
-    min-height: 7.75rem;
-    flex-grow: 1;
-    flex-shrink: 1;
-    overflow-y: auto;
-  }
-  .log-col {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    min-height: 0;
-  }
-  .bar-title {
-    font-size: 1.25rem;
-    margin: auto 0.5rem auto;
-  }
-</style>

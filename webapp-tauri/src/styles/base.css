@@ -1,0 +1,98 @@
+/*
+ * Base element styles that are not practical as utilities (UA resets,
+ * scrollbars, native controls, keyframes). Loaded after virtual:uno.css so
+ * it layers on top of the UnoCSS preflight, mirroring the old
+ * alas-ui.css + App.svelte :global() + bootswatch element rules.
+ */
+
+/* Bootstrap reboot used border-box everywhere; the UnoCSS preflight does
+   not, so fixed heights (sections, log panels) would otherwise overflow. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+body {
+  background-color: var(--alas-body-bg);
+  color: var(--alas-body-color);
+  font-size: var(--alas-body-fs);
+  font-weight: var(--alas-body-fw);
+  line-height: 1.5;
+  /* biome-ignore lint/complexity/noImportantStyles: bootswatch v4.6.1 body quirk, kept for pixel parity */
+  min-width: 992px !important;
+}
+
+#app {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+}
+
+/* Bare buttons do not inherit body color by default (UA style); inherit the
+   theme text color so bare buttons are visible on dark themes. */
+button {
+  color: inherit;
+}
+
+a {
+  color: var(--alas-link);
+  text-decoration: none;
+  background-color: transparent;
+}
+
+a:hover {
+  color: var(--alas-link-hover);
+  text-decoration: underline;
+}
+
+/* ---- scrollbars (old alas-ui.css) ---- */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #6c757d;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #adb5bd;
+}
+
+/* Native dropdown options keep dark text on a light popup */
+select option {
+  color: initial;
+  background: #fff;
+}
+
+/* Manage page heading (bootstrap h4) */
+h4 {
+  font-size: 1.5rem;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+/* Bootstrap reboot paragraph metrics (the UnoCSS preflight keeps UA 1em) */
+p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+/* spinner-border animation (bootstrap core) */
+@keyframes spinner-border {
+  to {
+    transform: rotate(360deg);
+  }
+}

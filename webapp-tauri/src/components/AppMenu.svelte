@@ -48,9 +48,11 @@ $effect(() => {
 });
 </script>
 
-<nav class="app-menu">
+<nav
+  class="[z-index:90] px-2 pt-[1.2rem] overflow-y-auto w-48 flex-shrink-0 [background:var(--alas-menu-bg)] [box-shadow:var(--alas-menu-shadow)] [border-right:var(--alas-menu-border-right)]"
+>
   <button
-    class="btn btn-menu"
+    class="btn-menu mb-2"
     class:btn-menu-active={activeTask === ''}
     onclick={() => {
       activeTask = ''
@@ -62,15 +64,20 @@ $effect(() => {
 
   {#each groups as group (group.name)}
     {#if group.collapse}
-      <div class="menu-collapse">
-        <button class="menu-collapse-title" onclick={() => toggleGroup(group.name)}>
-          <span class="collapse-arrow" class:collapse-arrow-open={isGroupOpen(group.name)}>&#x25B8;</span>
+      <div>
+        <button
+          class="block w-full font-medium bg-transparent border-0 text-left px-3 py-2 cursor-pointer hover:font-bold"
+          onclick={() => toggleGroup(group.name)}
+        >
+          <span class="inline-block [transition:transform_.15s_ease] mr-0.5" class:rotate-90={isGroupOpen(group.name)}>
+            &#x25B8;
+          </span>
           {t(`Menu.${group.name}.name`)}
         </button>
         {#if isGroupOpen(group.name)}
-          <div class="menu-collapse-body">
+          <div class="ml-2.5">
             {#each group.tasks as task (task)}
-              <button class="btn btn-menu" class:btn-menu-active={activeTask === task} onclick={() => selectTask(task)}>
+              <button class="btn-menu mb-2" class:btn-menu-active={activeTask === task} onclick={() => selectTask(task)}>
                 {t(`Task.${task}.name`)}
               </button>
             {/each}
@@ -84,52 +91,10 @@ $effect(() => {
         <span class="hr-task-group-line"></span>
       </div>
       {#each group.tasks as task (task)}
-        <button class="btn btn-menu" class:btn-menu-active={activeTask === task} onclick={() => selectTask(task)}>
+        <button class="btn-menu mb-2" class:btn-menu-active={activeTask === task} onclick={() => selectTask(task)}>
           {t(`Task.${task}.name`)}
         </button>
       {/each}
     {/if}
   {/each}
 </nav>
-
-<style>
-  .app-menu {
-    z-index: 90;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-    padding-top: 1.2rem;
-    overflow-y: auto;
-    width: 12rem;
-    flex-shrink: 0;
-  }
-  .app-menu .btn-menu {
-    display: block;
-    width: 100%;
-    /* original gap between menu buttons */
-    margin-bottom: 8px;
-  }
-  .menu-collapse-title {
-    display: block;
-    width: 100%;
-    font-weight: 500;
-    background-color: transparent;
-    border: 0;
-    text-align: left;
-    padding: 8px 12px;
-    cursor: pointer;
-  }
-  .menu-collapse-title:hover {
-    font-weight: bold;
-  }
-  .collapse-arrow {
-    display: inline-block;
-    transition: transform 0.15s ease;
-    margin-right: 2px;
-  }
-  .collapse-arrow-open {
-    transform: rotate(90deg);
-  }
-  .menu-collapse-body {
-    margin-left: 0.625rem;
-  }
-</style>

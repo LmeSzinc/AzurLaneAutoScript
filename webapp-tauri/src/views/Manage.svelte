@@ -84,15 +84,15 @@ $effect(() => {
 });
 </script>
 
-<div class="manage-wrap">
+<div class="h-full flex overflow-hidden [background:var(--alas-shell-bg)]">
   <AppAside active="Manage" onselect={onAsideSelect} />
-  <div class="content">
+  <div class="grow p-4 overflow-y-auto [background:var(--alas-shell-bg)]">
     <h4>{t('Gui.AppManage.PageTitle')}</h4>
     {#if error}
       <div class="alert alert-danger">{error}</div>
     {/if}
 
-    <table class="table table-sm config-table">
+    <table class="table table-sm max-w-[640px] [&_th]:font-medium">
       <thead>
         <tr>
           <th>{t('Gui.AppManage.Name')}</th>
@@ -115,10 +115,9 @@ $effect(() => {
       </tbody>
     </table>
 
-    <div class="d-flex gap-2 mt-3 align-items-center">
+    <div class="flex gap-2 mt-3 items-center">
       <input
-        class="form-control form-control-sm"
-        style="max-width: 220px"
+        class="form-control form-control-sm max-w-[220px]"
         placeholder="config name"
         bind:value={newName}
       />
@@ -132,22 +131,3 @@ $effect(() => {
     </div>
   </div>
 </div>
-
-<style>
-  .manage-wrap {
-    height: 100%;
-    display: flex;
-    overflow: hidden;
-  }
-  .content {
-    flex-grow: 1;
-    padding: 1rem;
-    overflow-y: auto;
-  }
-  .config-table {
-    max-width: 640px;
-  }
-  .config-table th {
-    font-weight: 500;
-  }
-</style>
