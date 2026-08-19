@@ -10,9 +10,56 @@ use tauri::{
     AppHandle, Manager, WebviewWindow,
 };
 use tauri::menu::{Menu, MenuItem};
-use tauri::tray::{TrayIconBuilder, TrayIconEvent};
+use tauri::tray::{MouseButton, TrayIconBuilder, TrayIconEvent};
 
-pub struct BackendProcess(pub Mutex<Option<Child>>);
+pub struct BackendProcess {
+    pub child: Mutex<Option<Child>>,
+    /// Windows job object holding the whole backend process tree. Killing
+    /// the direct child does NOT kill its EnableReload grandchild (Windows
+    /// processes have no parent-kill propagation), so the tree is pinned to
+    /// a kill-on-close job: TerminateJobObject reaps it on exit, and if the
+    /// shell itself dies (crash, task manager) the OS closes the handle and
+    /// reaps the backend automatically - no orphaned uvicorn on 22267.
+    /// Stored as usize: HANDLE is a raw pointer, which is !Send.
+    #[cfg(target_os = "windows")]
+    pub job: Mutex<Option<usize>>,
+}
+
+/// Create a kill-on-close job object and assign the just-spawned backend to
+/// it. Best effort: a failure here degrades to the old orphan-prone
+/// behavior instead of blocking startup.
+#[cfg(target_os = "windows")]
+fn assign_kill_on_close_job(child: &Child) -> Option<usize> {
+    use std::os::windows::io::AsRawHandle;
+    use windows_sys::Win32::Foundation::{CloseHandle, HANDLE};
+    use windows_sys::Win32::System::JobObjects::{
+        AssignProcessToJobObject, CreateJobObjectW, JobObjectExtendedLimitInformation,
+        SetInformationJobObject, JOBOBJECT_EXTENDED_LIMIT_INFORMATION, JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE,
+    };
+    unsafe {
+        let job: HANDLE = CreateJobObjectW(std::ptr::null(), std::ptr::null());
+        if job.is_null() {
+            return None;
+        }
+        let mut info: JOBOBJECT_EXTENDED_LIMIT_INFORMATION = std::mem::zeroed();
+        info.BasicLimitInformation.LimitFlags = JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE;
+        if SetInformationJobObject(
+            job,
+            JobObjectExtendedLimitInformation,
+            &info as *const _ as *const _,
+            std::mem::size_of::<JOBOBJECT_EXTENDED_LIMIT_INFORMATION>() as u32,
+        ) == 0
+        {
+            CloseHandle(job);
+            return None;
+        }
+        if AssignProcessToJobObject(job, child.as_raw_handle() as HANDLE) == 0 {
+            CloseHandle(job);
+            return None;
+        }
+        Some(job as usize)
+    }
+}
 
 /// Default backend port; release builds probe upwards from here for a free
 /// one so a concurrently running web instance never blocks the desktop
@@ -154,7 +201,8 @@ fn spawn_backend(app: AppHandle) {
     std::thread::spawn(move || {
         if let Some(stdout) = stdout {
             let reader = BufReader::new(stdout);
-            for _line in reader.lines().map_while(Result::ok) {
+            #[allow(unused_variables)]
+            for line in reader.lines().map_while(Result::ok) {
                 #[cfg(debug_assertions)]
                 println!("[backend] {}", line);
             }
@@ -238,15 +286,34 @@ fn spawn_backend(app: AppHandle) {
         }
     });
 
-    app.state::<BackendProcess>().0.lock().unwrap().replace(child);
+    // Pin the whole backend tree to a kill-on-close job (see BackendProcess).
+    #[cfg(target_os = "windows")]
+    {
+        let job = assign_kill_on_close_job(&child);
+        *app.state::<BackendProcess>().job.lock().unwrap() = job;
+    }
+
+    app.state::<BackendProcess>().child.lock().unwrap().replace(child);
 }
 
 fn kill_backend(app: &AppHandle) {
-    let state = app.state::<BackendProcess>();
-    let child = state.0.lock().unwrap().take();
+    let child = app.state::<BackendProcess>().child.lock().unwrap().take();
     if let Some(mut child) = child {
         let _ = child.kill();
         let _ = child.wait();
+    }
+    #[cfg(target_os = "windows")]
+    {
+        use windows_sys::Win32::Foundation::{CloseHandle, HANDLE};
+        let job = app.state::<BackendProcess>().job.lock().unwrap().take();
+        if let Some(job) = job {
+            unsafe {
+                // Reaps every process in the backend tree (the reload child
+                // and its own spawns would otherwise survive the direct kill).
+                windows_sys::Win32::System::JobObjects::TerminateJobObject(job as HANDLE, 0);
+                CloseHandle(job as HANDLE);
+            }
+        }
     }
 }
 
@@ -288,7 +355,11 @@ pub fn run() {
             }
         }))
         .plugin(tauri_plugin_updater::Builder::new().build())
-        .manage(BackendProcess(Mutex::new(None)))
+        .manage(BackendProcess {
+            child: Mutex::new(None),
+            #[cfg(target_os = "windows")]
+            job: Mutex::new(None),
+        })
         .setup(|app| {
             let handle = app.handle().clone();
             spawn_backend(handle.clone());
@@ -299,8 +370,9 @@ pub fn run() {
             let exit = MenuItem::with_id(app, "exit", "Exit", true, None::<&str>)?;
             let menu = Menu::with_items(app, &[&show, &hide, &exit])?;
             let _tray = TrayIconBuilder::with_id("alas-tray")
+                .icon(app.default_window_icon().expect("bundled window icon").clone())
                 .menu(&menu)
-                .on_menu_event(move |app, event| match event.id.as_ref() {
+                .on_menu_event(|app, event| match event.id.as_ref() {
                     "show" => {
                         if let Some(window) = app.get_webview_window("main") {
                             let _ = window.show();
@@ -319,7 +391,18 @@ pub fn run() {
                     _ => {}
                 })
                 .on_tray_icon_event(|tray, event| {
-                    if let TrayIconEvent::Click { .. } = event {
+                    // Only a left click shows the window. A right click pops
+                    // the context menu natively; showing+focusing the window
+                    // here would steal focus and dismiss the menu instantly.
+                    if let TrayIconEvent::Click {
+                        button: MouseButton::Left,
+                        ..
+                    }
+                    | TrayIconEvent::DoubleClick {
+                        button: MouseButton::Left,
+                        ..
+                    } = event
+                    {
                         if let Some(window) = tray.app_handle().get_webview_window("main") {
                             let _ = window.show();
                             let _ = window.set_focus();
@@ -328,16 +411,15 @@ pub fn run() {
                 })
                 .build(app)?;
 
-            // Keep the window hidden until the backend is ready (done in
-            // spawn_backend); closing the window hides it to the tray.
+            // Close = quit (taskbar close, Alt+F4, or the custom titlebar X
+            // which invokes window_close). The backend is killed and the
+            // process exits, taking the tray icon with it - no hidden zombie.
             if let Some(window) = app.get_webview_window("main") {
                 let handle = app.handle().clone();
                 window.on_window_event(move |event| {
-                    if let tauri::WindowEvent::CloseRequested { api, .. } = event {
-                        api.prevent_close();
-                        if let Some(window) = handle.get_webview_window("main") {
-                            let _ = window.hide();
-                        }
+                    if let tauri::WindowEvent::CloseRequested { .. } = event {
+                        kill_backend(&handle);
+                        handle.exit(0);
                     }
                 });
             }
