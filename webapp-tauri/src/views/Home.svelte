@@ -37,9 +37,12 @@ const EMPTY_LOGS: string[] = [];
 async function refreshScheduler() {
   if (!activeInstance) return;
   const res = await api.scheduler(activeInstance);
+  // The REST response splits the running task out of pending, but the SSE
+  // snapshots keep it in pending. Merge it back so the store always has one
+  // shape and the running row's next_run survives page navigation.
   schedulers[activeInstance] = {
     current: res.running[0]?.command ?? null,
-    pending: res.pending,
+    pending: [...res.running, ...res.pending],
     waiting: res.waiting,
   };
 }

@@ -55,9 +55,16 @@ async def _event_updates():
             for name, manager in list(ProcessManager._processes.items()):
                 total = len(manager.renderables)
                 cursor = log_cursor.get(name, 0)
+                first_frame = name not in log_cursor
                 reset = False
                 if total < cursor:
                     # renderables buffer was trimmed or replaced; re-send all
+                    cursor = 0
+                    reset = True
+                if first_frame:
+                    # Pre-push the whole accumulated buffer for a fresh
+                    # connection (page refresh) so the log view fills
+                    # immediately instead of appearing cleared and re-fetching.
                     cursor = 0
                     reset = True
                 new_renderables = manager.renderables[cursor:]

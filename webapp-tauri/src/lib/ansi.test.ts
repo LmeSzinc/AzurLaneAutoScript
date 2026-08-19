@@ -32,4 +32,11 @@ describe("ansiToHtml", () => {
   it("drops unsupported codes", () => {
     expect(ansiToHtml("\x1b[99mX\x1b[0m")).toBe("X");
   });
+
+  it("pins wide CJK characters to fixed 2-cell spans for box alignment", () => {
+    expect(ansiToHtml("运行 委托")).toBe('<span class="cjk">运</span><span class="cjk">行</span> <span class="cjk">委</span><span class="cjk">托</span>');
+    expect(ansiToHtml("\x1b[31m完成\x1b[0m")).toBe(
+      '<span style="color:var(--ansi-red, #cd3131)"><span class="cjk">完</span><span class="cjk">成</span></span>',
+    );
+  });
 });

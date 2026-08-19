@@ -14,6 +14,24 @@ from module.webui.setting import State
 
 _update_singleton = None
 
+# Shared render console: creating one Console per renderable made the
+# initial full-log dump on SSE connect slow (hundreds of constructions).
+# render_log is only called sequentially (single to_thread batches), so a
+# shared console is safe.
+_render_console: "Console | None" = None
+
+
+def _get_render_console() -> Console:
+    global _render_console
+    if _render_console is None:
+        _render_console = Console(
+            theme=WEB_THEME,
+            no_color=False,
+            color_system="standard",
+            force_terminal=True,
+        )
+    return _render_console
+
 
 def _get_updater():
     """Module-level updater singleton so state survives across requests."""
@@ -36,12 +54,7 @@ def render_log(renderable) -> str:
     `logging.level.*` keep resolving too.
     """
     try:
-        console = Console(
-            theme=WEB_THEME,
-            no_color=False,
-            color_system="standard",
-            force_terminal=True,
-        )
+        console = _get_render_console()
         with console.capture() as capture:
             console.print(renderable)
         return capture.get().rstrip("\n")

@@ -48,8 +48,23 @@ function escapeHtml(text: string): string {
   return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
+/**
+ * Wide characters (CJK ideographs, fullwidth forms, ...) must occupy exactly
+ * two monospace cells for the rich traceback boxes to stay aligned. The
+ * browser's CJK font fallback renders them at ~1em while two mono cells are
+ * ~1.1em, which drifts the box borders by ~1px per character. Wrapping each
+ * wide char in a fixed-width span (2ch of the log font) pins them to two
+ * cells regardless of which font renders them.
+ */
+const CJK_RE =
+  /([\u1100-\u115f\u2e80-\u303e\u3041-\u33ff\u3400-\u4dbf\u4e00-\u9fff\ua000-\ua4cf\uac00-\ud7a3\uf900-\ufaff\ufe30-\ufe4f\uff00-\uff60\uffe0-\uffe6])/g;
+
+function pinWideChars(text: string): string {
+  return text.replace(CJK_RE, '<span class="cjk">$1</span>');
+}
+
 export function ansiToHtml(text: string): string {
-  const escaped = escapeHtml(text);
+  const escaped = pinWideChars(escapeHtml(text));
   let out = "";
   let pendingClose = false;
   const re = /\x1b\[([0-9;]*)m/g;

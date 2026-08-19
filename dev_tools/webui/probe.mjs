@@ -1,11 +1,14 @@
 /** One-off CDP probe: evaluate a JS expression in a page and print the result. */
 import { spawn } from "node:child_process";
-import { mkdirSync } from "node:fs";
+import { mkdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
 const PORT = Number(process.argv[2] ?? 8117);
 const PAGE_URL = process.argv[3] ?? `http://127.0.0.1:${PORT}/#/`;
-const EXPR = process.argv[4] ?? "document.body.innerHTML.slice(0, 4000)";
+// expression: inline string, or a path to a .js file (read from disk)
+const EXPR = process.argv[4]?.endsWith(".js")
+  ? readFileSync(process.argv[4], "utf-8")
+  : process.argv[4] ?? "document.body.innerHTML.slice(0, 4000)";
 const EDGE = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe";
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 

@@ -93,3 +93,13 @@ select option {
     transform: rotate(360deg);
   }
 }
+
+/* Log-view wide characters: pin CJK/fullwidth glyphs to exactly two
+   monospace cells so ANSI/rich box borders stay column-aligned even when
+   the browser falls back to a CJK font that is narrower than 2x the mono
+   advance (see src/lib/ansi.ts). */
+.cjk {
+  display: inline-block;
+  width: 2ch;
+  text-align: center;
+}
