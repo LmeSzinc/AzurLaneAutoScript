@@ -122,28 +122,42 @@ function stateText(field: Field): string {
   return label !== key ? label : opt;
 }
 
-/** original dark theme styles state values in option_bold/option_light */
+/** old dark theme styled state values in option_bold/option_light */
 function stateClass(field: Field): string {
   const v = currentValue(field);
   const bold = field.def.option_bold?.includes(v as never);
   const light = field.def.option_light?.includes(v as never);
-  return bold ? "state-bold" : light ? "state-light" : "";
+  return bold ? "font-bold text-accent" : light ? "text-muted" : "";
 }
+
+/** checkbox/storage rows use a larger vertical rhythm; the old UI's
+ *  in-flow checkbox (relative + margin, inside a line box) made these
+ *  rows 31px tall — the min-height reproduces that exactly. */
+function rowClass(field: Field): string {
+  return field.def.type === "checkbox" || field.def.type === "storage"
+    ? "my-[0.375rem] min-h-[31px]"
+    : "my-[0.125rem]";
+}
+
+/** every form control shares this skeleton; selects/checkboxes add extras.
+ *  The 2px top margin reproduces the old .form-control's margin-top (it
+ *  participates in the row height in both implementations). */
+const CONTROL =
+  "block h-auto w-full rounded-none border-0 bg-surface-insert px-3 py-1.5 [margin-top:.125rem] leading-6 [font-size:var(--text-input)] [font-weight:var(--input-fw,400)] [color:var(--input-fg)] focus:bg-surface-hover focus:outline-none";
 </script>
 
 <div>
   {#each fields as field (field.key)}
     <div
-      class="grid [grid-auto-flow:column] [grid-template-columns:1fr_13rem] items-center {field.def.type === 'checkbox' ||
-      field.def.type === 'storage'
-        ? 'arg-container-checkbox'
-        : 'arg-container'}"
+      class="grid items-center [grid-auto-flow:column] [grid-template-columns:1fr_var(--w-form-col)] {rowClass(field)}"
     >
       <!-- title column: title on top, help below -->
       <div class="pr-2">
-        <div class="arg-title">{label(field)}</div>
+        <div class="mx-1 text-base font-medium [overflow-wrap:break-word]">{label(field)}</div>
         {#if helpLabel(field)}
-          <div class="arg-help">{helpLabel(field)}</div>
+          <div class="mx-1 mt-[0.2rem] mb-[0.1rem] text-[0.8rem] text-muted [overflow-wrap:break-word]">
+            {helpLabel(field)}
+          </div>
         {/if}
       </div>
 
@@ -151,7 +165,7 @@ function stateClass(field: Field): string {
       <div class="m-0 pr-1">
         {#if field.def.type === 'select'}
           <select
-            class="form-control appearance-none [-webkit-appearance:none] [-moz-appearance:none] !pr-4 [background-position:right,center] [background-repeat:no-repeat]"
+            class="{CONTROL} appearance-none [-webkit-appearance:none] [-moz-appearance:none] pr-4 [background-position:right,center] [background-repeat:no-repeat]"
             value={String(currentValue(field) ?? '')}
             disabled={field.def.display === 'disabled'}
             onchange={(e) => emitSave(field, (e.currentTarget as HTMLSelectElement).value)}
@@ -161,9 +175,9 @@ function stateClass(field: Field): string {
             {/each}
           </select>
         {:else if field.def.type === 'checkbox'}
-          <div class="form-check">
+          <div class="relative block pl-5">
             <input
-              class="form-check-input"
+              class="relative -ml-5 mt-[0.3rem] mb-0 mr-0 h-5 w-5 focus:outline-none [accent-color:var(--accent-check)]"
               type="checkbox"
               checked={asBool(field)}
               disabled={field.def.display === 'disabled'}
@@ -172,7 +186,7 @@ function stateClass(field: Field): string {
           </div>
         {:else if field.def.type === 'datetime'}
           <input
-            class="form-control"
+            class={CONTROL}
             type="datetime-local"
             value={toLocal(currentValue(field))}
             disabled={field.def.display === 'disabled'}
@@ -180,23 +194,25 @@ function stateClass(field: Field): string {
           />
         {:else if field.def.type === 'storage'}
           <textarea
-            class="form-control"
+            class={CONTROL}
             rows="4"
             value={storageText(field)}
             disabled={field.def.display === 'disabled'}
             onchange={(e) => emitSave(field, parseStorage((e.currentTarget as HTMLTextAreaElement).value))}></textarea>
         {:else if field.def.type === 'textarea'}
           <textarea
-            class="form-control"
+            class={CONTROL}
             rows="3"
             value={String(currentValue(field) ?? '')}
             disabled={field.def.display === 'disabled'}
             onchange={(e) => emitSave(field, (e.currentTarget as HTMLTextAreaElement).value)}></textarea>
         {:else if field.def.type === 'state' || field.def.type === 'lock'}
-          <div class="state-display {stateClass(field)}">{stateText(field)}</div>
+          <div class="h-auto truncate border border-b-0 border-solid border-line-control px-2 {stateClass(field)}">
+            {stateText(field)}
+          </div>
         {:else}
           <input
-            class="form-control"
+            class={CONTROL}
             type={isNumber(field) ? 'number' : 'text'}
             value={String(currentValue(field) ?? '')}
             disabled={field.def.display === 'disabled'}

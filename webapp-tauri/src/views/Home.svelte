@@ -80,36 +80,47 @@ $effect(() => {
 });
 </script>
 
-<div class="h-full flex overflow-hidden [background:var(--alas-shell-bg)]">
+<div class="flex h-full overflow-hidden bg-surface-app">
   <AppAside active={activeInstance} onselect={onAsideSelect} />
   <AppMenu onoverview={() => push('/')} ontask={(task) => goSettings(task)} />
 
   <div
-    class="grow min-w-0 p-2.5 grid [grid-template-columns:minmax(16rem,20rem)_minmax(24rem,1fr)] [grid-template-rows:minmax(0,1fr)] gap-2.5 overflow-hidden [background:var(--alas-shell-bg)]"
+    class="grid min-w-0 grow gap-2.5 overflow-hidden bg-surface-app p-2.5 [grid-template-columns:minmax(16rem,20rem)_minmax(24rem,1fr)] [grid-template-rows:minmax(0,1fr)]"
   >
     <!-- schedulers column -->
-    <section class="flex flex-col overflow-hidden h-full min-h-0">
-      <div class="scheduler-bar">
-        <span class="text-[1.25rem] mx-2 my-auto">{t('Gui.Overview.Scheduler')}</span>
-        <button class="btn" class:btn-off={instanceAlive} class:btn-on={!instanceAlive} onclick={toggleScheduler}>
+    <section class="flex h-full min-h-0 flex-col overflow-hidden">
+      <div class="panel m-1.25 flex items-center justify-between p-2.5 font-medium">
+        <span class="mx-2 my-auto text-[1.25rem]">{t('Gui.Overview.Scheduler')}</span>
+        <button
+          class="btn m-0 rounded-none border-toggle"
+          class:bg-accent={!instanceAlive}
+          class:bg-surface-app={instanceAlive}
+          class:text-white={!instanceAlive}
+          class:text-body={instanceAlive}
+          onclick={toggleScheduler}
+        >
           {instanceAlive ? t('Gui.Button.Stop') : t('Gui.Button.Start')}
         </button>
       </div>
 
-      <div class="running-section">
-        <div class="running-section-title">{t('Gui.Overview.Running')}</div>
-        <hr class="hr-group" />
-        <div class="running-tasks">
+      <div class="panel m-1.25 grid h-[var(--space-section)] flex-shrink-0 overflow-y-auto p-2.5 font-medium [grid-auto-flow:row] [grid-template-rows:auto_auto_1fr]">
+        <div class="mx-2.5 text-[1.25rem] font-medium">{t('Gui.Overview.Running')}</div>
+        <hr class="my-1 border-0 bg-surface-hr [border-top:var(--hr-line)]" />
+        <div class="h-full overflow-y-auto">
           {#if !scheduler.current}
-            <div class="overview-notask-text">{t('Gui.Overview.NoTask')}</div>
+            <div class="text-center text-[0.875rem] [color:darkgrey]">{t('Gui.Overview.NoTask')}</div>
           {/if}
           {#if scheduler.current}
-            <div class="overview-task">
+            <div class="my-0.5 ml-1.5 mr-2.5 grid [grid-template-columns:1fr_auto]">
               <div>
-                <div class="arg-title">{t(`Task.${scheduler.current}.name`)}</div>
-                <div class="arg-help">{currentTask?.next_run ?? ''}</div>
+                <div class="mx-1 text-base font-medium [overflow-wrap:break-word]">
+                  {t(`Task.${scheduler.current}.name`)}
+                </div>
+                <div class="mx-1 mt-[0.2rem] mb-[0.1rem] text-[0.8rem] text-muted [overflow-wrap:break-word]">
+                  {currentTask?.next_run ?? ''}
+                </div>
               </div>
-              <button class="btn btn-off" onclick={() => goSettings(scheduler.current!)}>
+              <button class="btn m-0 rounded-none border-toggle bg-surface-app text-body" onclick={() => goSettings(scheduler.current!)}>
                 {t('Gui.Button.Setting')}
               </button>
             </div>
@@ -117,20 +128,24 @@ $effect(() => {
         </div>
       </div>
 
-      <div class="pending-section">
-        <div class="pending-section-title">{t('Gui.Overview.Pending')}</div>
-        <hr class="hr-group" />
-        <div class="pending-tasks">
+      <div class="panel m-1.25 grid min-h-[var(--space-section)] max-h-52 flex-shrink-0 overflow-y-auto p-2.5 font-medium [grid-auto-flow:row] [grid-template-rows:auto_auto_1fr]">
+        <div class="mx-2.5 text-[1.25rem] font-medium">{t('Gui.Overview.Pending')}</div>
+        <hr class="my-1 border-0 bg-surface-hr [border-top:var(--hr-line)]" />
+        <div class="h-full overflow-y-auto">
           {#if pendingShown.length === 0}
-            <div class="overview-notask-text">{t('Gui.Overview.NoTask')}</div>
+            <div class="text-center text-[0.875rem] [color:darkgrey]">{t('Gui.Overview.NoTask')}</div>
           {/if}
           {#each pendingShown as task (task.command)}
-            <div class="overview-task">
+            <div class="my-0.5 ml-1.5 mr-2.5 grid [grid-template-columns:1fr_auto]">
               <div>
-                <div class="arg-title">{t(`Task.${task.command}.name`)}</div>
-                <div class="arg-help">{task.next_run}</div>
+                <div class="mx-1 text-base font-medium [overflow-wrap:break-word]">
+                  {t(`Task.${task.command}.name`)}
+                </div>
+                <div class="mx-1 mt-[0.2rem] mb-[0.1rem] text-[0.8rem] text-muted [overflow-wrap:break-word]">
+                  {task.next_run}
+                </div>
               </div>
-              <button class="btn btn-off" onclick={() => goSettings(task.command)}>
+              <button class="btn m-0 rounded-none border-toggle bg-surface-app text-body" onclick={() => goSettings(task.command)}>
                 {t('Gui.Button.Setting')}
               </button>
             </div>
@@ -138,20 +153,24 @@ $effect(() => {
         </div>
       </div>
 
-      <div class="waiting-section">
-        <div class="waiting-section-title">{t('Gui.Overview.Waiting')}</div>
-        <hr class="hr-group" />
-        <div class="waiting-tasks">
+      <div class="panel m-1.25 grid min-h-[var(--space-section)] grow flex-shrink overflow-y-auto p-2.5 font-medium [grid-auto-flow:row] [grid-template-rows:auto_auto_1fr]">
+        <div class="mx-2.5 text-[1.25rem] font-medium">{t('Gui.Overview.Waiting')}</div>
+        <hr class="my-1 border-0 bg-surface-hr [border-top:var(--hr-line)]" />
+        <div class="h-full overflow-y-auto">
           {#if scheduler.waiting.length === 0}
-            <div class="overview-notask-text">{t('Gui.Overview.NoTask')}</div>
+            <div class="text-center text-[0.875rem] [color:darkgrey]">{t('Gui.Overview.NoTask')}</div>
           {/if}
           {#each scheduler.waiting as task (task.command)}
-            <div class="overview-task">
+            <div class="my-0.5 ml-1.5 mr-2.5 grid [grid-template-columns:1fr_auto]">
               <div>
-                <div class="arg-title">{t(`Task.${task.command}.name`)}</div>
-                <div class="arg-help">{task.next_run}</div>
+                <div class="mx-1 text-base font-medium [overflow-wrap:break-word]">
+                  {t(`Task.${task.command}.name`)}
+                </div>
+                <div class="mx-1 mt-[0.2rem] mb-[0.1rem] text-[0.8rem] text-muted [overflow-wrap:break-word]">
+                  {task.next_run}
+                </div>
               </div>
-              <button class="btn btn-off" onclick={() => goSettings(task.command)}>
+              <button class="btn m-0 rounded-none border-toggle bg-surface-app text-body" onclick={() => goSettings(task.command)}>
                 {t('Gui.Button.Setting')}
               </button>
             </div>
@@ -161,21 +180,27 @@ $effect(() => {
     </section>
 
     <!-- logs column -->
-    <section class="flex flex-col overflow-hidden min-h-0">
-      <div class="log-bar">
-        <span class="text-[1.25rem] mx-2 my-auto">{t('Gui.Overview.Log')}</span>
-        <div class="log-bar-btns">
+    <section class="flex min-h-0 flex-col overflow-hidden">
+      <div class="panel m-1.25 flex items-center justify-between p-2.5 font-medium">
+        <span class="mx-2 my-auto text-[1.25rem]">{t('Gui.Overview.Log')}</span>
+        <div class="grid [grid-auto-flow:column]">
           <button
-            class="btn"
-            class:btn-on={keepBottom}
-            class:btn-off={!keepBottom}
+            class="btn m-0 rounded-none border-toggle"
+            class:bg-accent={keepBottom}
+            class:bg-surface-app={!keepBottom}
+            class:text-white={keepBottom}
+            class:text-body={!keepBottom}
             onclick={() => (keepBottom = !keepBottom)}
           >
             {keepBottom ? t('Gui.Button.ScrollON') : t('Gui.Button.ScrollOFF')}
           </button>
         </div>
       </div>
-      <LogView class="log-view" lines={logs[activeInstance] ?? EMPTY_LOGS} {keepBottom} />
+      <LogView
+        class="panel m-1.25 min-h-0 grow overflow-y-auto p-2.5 text-[0.85rem] leading-[1.2] whitespace-pre [color:inherit] [font-family:var(--font-mono)]"
+        lines={logs[activeInstance] ?? EMPTY_LOGS}
+        {keepBottom}
+      />
     </section>
   </div>
 </div>

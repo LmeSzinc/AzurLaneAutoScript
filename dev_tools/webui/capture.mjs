@@ -23,12 +23,12 @@ const PORT = Number(process.argv[3] ?? 8117);
 const EDGE = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe";
 const THEMES = ["default", "dark", "minty", "yeti", "sketchy"];
 const ROUTES = [
-  // selectors exist in both the old and the new UI implementations
-  ["home", `http://127.0.0.1:${PORT}/#/`, ".overview-task"], // scheduler rows loaded
+  // v2 UI: wait for the route content (legacy class names no longer exist)
+  ["home", `http://127.0.0.1:${PORT}/#/`, "#app .panel"],
   ["develop", `http://127.0.0.1:${PORT}/#/develop`, "#app main > div"],
-  ["manage", `http://127.0.0.1:${PORT}/#/manage`, "tbody tr"], // config rows loaded
+  ["manage", `http://127.0.0.1:${PORT}/#/manage`, "tbody tr"],
   // settings renders its group cards after the schema fetch resolves
-  ["settings", `http://127.0.0.1:${PORT}/#/settings?task=Alas`, ".group-card"],
+  ["settings", `http://127.0.0.1:${PORT}/#/settings?task=Alas`, "#app [id^='group-']"],
 ];
 // App ready: mounted, theme mechanism applied (old app: dynamic bootswatch
 // link; new app: data-theme attribute), and the route content rendered.

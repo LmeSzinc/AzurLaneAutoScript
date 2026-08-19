@@ -100,26 +100,33 @@ $effect(() => {
 });
 </script>
 
-<div class="h-full flex overflow-hidden [background:var(--alas-shell-bg)]">
+<div class="flex h-full overflow-hidden bg-surface-app">
   <AppAside active={activeInstance} onselect={onAsideSelect} />
   <AppMenu onoverview={() => push('/')} ontask={onMenuTask} />
 
-  <div class="grow basis-auto min-w-0 p-4 overflow-y-auto [background:var(--alas-shell-bg)]">
+  <div class="min-w-0 grow overflow-y-auto bg-surface-app p-4">
     {#if isToolTask}
       <!-- tool tasks: scheduler bar (top) + form + log (bottom) -->
-      <div class="grid [grid-auto-flow:column] [grid-template-columns:1fr_minmax(25rem,6fr)_1fr] gap-1.6">
-        <div
-          class="[grid-column:2] flex items-center gap-2 my-[0.3rem] p-2.4 [background:var(--alas-shell-panel)] border-solid border-1 [border-color:var(--alas-shell-border)]"
-        >
+      <div class="grid gap-1.6 [grid-auto-flow:column] [grid-template-columns:1fr_minmax(25rem,6fr)_1fr]">
+        <div class="panel col-[2] my-[0.3rem] flex items-center gap-2 p-2.4">
           <span>{t('Gui.Overview.Scheduler')}</span>
-          <button class="btn" class:btn-off={toolAlive} class:btn-on={!toolAlive} onclick={toggleTool}>
+          <button
+            class="btn m-0 rounded-none border-toggle"
+            class:bg-accent={!toolAlive}
+            class:bg-surface-app={toolAlive}
+            class:text-white={!toolAlive}
+            class:text-body={toolAlive}
+            onclick={toggleTool}
+          >
             {toolAlive ? t('Gui.Button.Stop') : t('Gui.Button.Start')}
           </button>
           <span class="ms-auto">{t('Gui.Overview.Log')}</span>
           <button
-            class="btn"
-            class:btn-on={toolKeepBottom}
-            class:btn-off={!toolKeepBottom}
+            class="btn m-0 rounded-none border-toggle"
+            class:bg-accent={toolKeepBottom}
+            class:bg-surface-app={!toolKeepBottom}
+            class:text-white={toolKeepBottom}
+            class:text-body={!toolKeepBottom}
             onclick={() => (toolKeepBottom = !toolKeepBottom)}
           >
             {toolKeepBottom ? t('Gui.Button.ScrollON') : t('Gui.Button.ScrollOFF')}
@@ -128,37 +135,45 @@ $effect(() => {
 
         {#each Object.entries(schema[selectedTask] ?? {}) as [groupKey, groupArgs] (groupKey)}
           {#if groupKey !== 'Storage'}
-            <div class="group-card !border-0 [grid-column:2]" id={`group-${groupKey}`}>
-              <div class="group-card-title">{t(`${groupKey}._info.name`)}</div>
+            <div class="panel col-[2] my-2 border-0 p-4" id={`group-${groupKey}`}>
+              <div class="mx-1 text-[1.25rem] font-medium">{t(`${groupKey}._info.name`)}</div>
               {#if t(`${groupKey}._info.help`) !== `${groupKey}._info.help`}
-                <div class="group-card-help">{t(`${groupKey}._info.help`)}</div>
+                <div class="mx-1 mt-[0.2rem] mb-[0.1rem] text-[0.8rem] text-muted [overflow-wrap:break-word]">
+                  {t(`${groupKey}._info.help`)}
+                </div>
               {/if}
-              <hr class="hr-group" />
+              <hr class="my-1 border-0 bg-surface-hr [border-top:var(--hr-line)]" />
               <DynamicForm args={groupArgs} group={groupKey} task={selectedTask} {config} onsave={saveValue} />
             </div>
           {/if}
         {/each}
 
-        <LogView class="tool-log" lines={logs[activeInstance] ?? EMPTY_LOGS} keepBottom={toolKeepBottom} />
+        <LogView
+          class="col-[2] my-[0.3rem] min-h-60 max-h-[40vh] overflow-y-auto rounded bg-surface-log p-2 text-xs whitespace-pre-wrap [color:var(--log-fg)]"
+          lines={logs[activeInstance] ?? EMPTY_LOGS}
+          keepBottom={toolKeepBottom}
+        />
       </div>
     {:else}
       {#if selectedTask && t(`Task.${selectedTask}.help`) !== `Task.${selectedTask}.help`}
-        <p class="text-muted">{t(`Task.${selectedTask}.help`)}</p>
+        <p class="mt-0 mb-4 text-muted">{t(`Task.${selectedTask}.help`)}</p>
       {/if}
       {#each Object.entries(schema[selectedTask] ?? {}) as [groupKey, groupArgs] (groupKey)}
         {#if groupKey !== 'Storage'}
-          <div class="group-card" id={`group-${groupKey}`}>
-            <div class="group-card-title">{t(`${groupKey}._info.name`)}</div>
+          <div class="panel my-2 p-4" id={`group-${groupKey}`}>
+            <div class="mx-1 text-[1.25rem] font-medium">{t(`${groupKey}._info.name`)}</div>
             {#if t(`${groupKey}._info.help`) !== `${groupKey}._info.help`}
-              <div class="group-card-help">{t(`${groupKey}._info.help`)}</div>
+              <div class="mx-1 mt-[0.2rem] mb-[0.1rem] text-[0.8rem] text-muted [overflow-wrap:break-word]">
+                {t(`${groupKey}._info.help`)}
+              </div>
             {/if}
-            <hr class="hr-group" />
+            <hr class="my-1 border-0 bg-surface-hr [border-top:var(--hr-line)]" />
             <DynamicForm args={groupArgs} group={groupKey} task={selectedTask} {config} onsave={saveValue} />
           </div>
         {/if}
       {/each}
       {#if saving}
-        <span class="text-xs [color:var(--alas-status-running)]">saving...</span>
+        <span class="text-xs text-status-running">saving...</span>
       {/if}
     {/if}
   </div>
@@ -166,10 +181,13 @@ $effect(() => {
   <!-- right navigator: group anchors -->
   {#if navigatorGroups.length}
     <nav
-      class="my-2 mx-4 [height:min-content] [width:max-content] min-w-28 max-w-60 flex-shrink-0 overflow-y-auto border-solid border-1 [border-color:var(--alas-navigator-border)] [background:var(--alas-navigator-bg)] [color:var(--alas-navigator-color)]"
+      class="mx-4 my-2 max-w-60 min-w-28 flex-shrink-0 overflow-y-auto border border-solid border-line-panel bg-surface-panel text-body [height:min-content] [width:max-content]"
     >
       {#each navigatorGroups as name (name)}
-        <button class="btn-navigator" onclick={() => scrollToGroup(name)}>
+        <button
+          class="btn w-full justify-start rounded-none border-transparent bg-transparent text-body transition-none hover:font-bold hover:text-accent"
+          onclick={() => scrollToGroup(name)}
+        >
           {t(`${name}._info.name`)}
         </button>
       {/each}

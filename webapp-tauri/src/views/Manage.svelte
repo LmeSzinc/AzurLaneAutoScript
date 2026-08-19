@@ -84,15 +84,19 @@ $effect(() => {
 });
 </script>
 
-<div class="h-full flex overflow-hidden [background:var(--alas-shell-bg)]">
+<div class="flex h-full overflow-hidden bg-surface-app">
   <AppAside active="Manage" onselect={onAsideSelect} />
-  <div class="grow p-4 overflow-y-auto [background:var(--alas-shell-bg)]">
-    <h4>{t('Gui.AppManage.PageTitle')}</h4>
+  <div class="grow overflow-y-auto bg-surface-app p-4">
+    <h4 class="mt-0 mb-2 text-[1.5rem] font-medium leading-[1.2]">{t('Gui.AppManage.PageTitle')}</h4>
     {#if error}
-      <div class="alert alert-danger">{error}</div>
+      <div
+        class="relative mb-4 rounded-[var(--alert-radius)] border border-solid px-5 py-3 [border-width:var(--alert-bw)] [font-size:var(--alert-fs,inherit)] [font-weight:var(--alert-fw,inherit)] [border-color:var(--danger-line)] [background:var(--danger-bg)] [color:var(--danger-fg)]"
+      >
+        {error}
+      </div>
     {/if}
 
-    <table class="table table-sm max-w-[640px] [&_th]:font-medium">
+    <table class="table max-w-[640px] [&_th]:font-medium">
       <thead>
         <tr>
           <th>{t('Gui.AppManage.Name')}</th>
@@ -106,7 +110,10 @@ $effect(() => {
             <td>{cfg.name}</td>
             <td>{cfg.modified}</td>
             <td class="text-end">
-              <button class="btn btn-sm btn-adaptive" onclick={() => exportConfig(cfg.name)}>
+              <button
+                class="btn-sm border-line-control bg-transparent text-body hover:border-gray-500 hover:bg-gray-800"
+                onclick={() => exportConfig(cfg.name)}
+              >
                 {t('Gui.AppManage.Export')}
               </button>
             </td>
@@ -115,16 +122,19 @@ $effect(() => {
       </tbody>
     </table>
 
-    <div class="flex gap-2 mt-3 items-center">
+    <div class="mt-3 flex items-center gap-2">
       <input
-        class="form-control form-control-sm max-w-[220px]"
+        class="block h-auto w-full max-w-[220px] rounded-none border-0 bg-surface-insert px-2 py-1 text-[var(--text-input-sm)] leading-6 [color:var(--input-fg)] focus:bg-surface-hover focus:outline-none"
         placeholder="config name"
         bind:value={newName}
       />
-      <button class="btn btn-sm btn-success" disabled={!newName} onclick={createConfig}>
+      <button class="btn-sm border-success bg-success text-white hover:bg-success-hover" disabled={!newName} onclick={createConfig}>
         {t('Gui.AppManage.New')}
       </button>
-      <button class="btn btn-sm btn-adaptive" onclick={pickImportFile}>
+      <button
+        class="btn-sm border-line-control bg-transparent text-body hover:border-gray-500 hover:bg-gray-800"
+        onclick={pickImportFile}
+      >
         {t('Gui.AppManage.Import')}
       </button>
       <input bind:this={fileInput} type="file" accept=".json" style="display: none" onchange={importFile} />

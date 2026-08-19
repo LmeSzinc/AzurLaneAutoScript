@@ -1,18 +1,16 @@
 /*
- * Alas design tokens — single source of truth for every theme value.
+ * Alas design tokens v2 — semantic roles, not upstream-theme copies.
  *
- * Replaces the vendored Bootswatch v4.6.1 themes (default/dark/minty/yeti/
- * sketchy, ~850KB) and the legacy alas-shell.css / {light,dark}-alas-shell.css
- * override files. Every value below was extracted from those files
- * (dev_tools/webui/extract_themes.py) and verified against pixel captures of
- * the original UI (dev_tools/webui), so the visuals match the original
- * pixel for pixel.
+ * Two layers:
+ *  - raw palette (--color-primary/success/info/danger, --gray-*) — one set
+ *    per Bootswatch-inspired theme;
+ *  - semantic roles (--surface-*, --line-*, --text-*, --accent, --status-*,
+ *    --ansi-*, metrics) — what components actually consume.
  *
- * Two orthogonal token groups:
- *  - "palette" tokens (buttons, forms, tables, alerts, text colors) follow
- *    the Bootswatch theme selected by the user (5 palettes; light == default).
- *  - "shell" tokens (panels, sidebars, header, accent, ANSI log palette)
- *    follow the dark/light shell variant (dark shell only for theme "dark").
+ * Button hover/active states are DERIVED with color-mix() from the palette
+ * (see uno.config.ts), so themes no longer hand-carry three shades per
+ * variant. Values that intentionally differ from the old hand-tuned shades
+ * are logged in UNOCSS-REWRITE.md §5 (visual-equivalence register).
  *
  * The active theme is the `data-theme` attribute on <html>.
  */
@@ -20,90 +18,91 @@
 /* ============================== light shell + default palette ============================== */
 
 :root {
-  /* ---- shell: light variant (default for every theme except dark) ---- */
-  --alas-shell-bg: #f9f9f9;
-  --alas-shell-panel: #ffffff;
-  --alas-shell-side: #ffffff;
-  --alas-shell-border: lightgrey;
-  --alas-header-bg: transparent;
-  --alas-header-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
-  --alas-header-border-bottom: none;
-  --alas-aside-border-right: 1px solid lightgrey;
-  --alas-menu-bg: #ffffff;
-  --alas-menu-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-  --alas-menu-border-right: none;
-  --alas-icon: #2c2c2c;
-  --alas-off-bg: #ffffff;
-  --alas-off-border: lightgrey;
-  --alas-on-border: lightgrey;
-  --alas-hr-bg: #eaecef;
-  --alas-task-line: #d0d0d0;
-  --alas-task-text: #777777;
-  --alas-help: #777777;
-  --alas-navigator-bg: #ffffff;
-  --alas-navigator-color: inherit;
-  --alas-navigator-border: lightgrey;
-  --alas-input-focus-bg: #ffffff;
-  --alas-accent: #4e4c97;
-  --alas-state-light: #777777;
+  /* ---- shell (light variant) ---- */
+  --surface-app: #f9f9f9;
+  --surface-panel: #ffffff;
+  --surface-side: #ffffff;
+  --surface-insert: #ffffff; /* form control background */
+  --surface-hover: #ffffff; /* form control focus background */
+  --surface-hr: #eaecef;
+  --surface-log: #16191d;
+  --log-fg: #d4d9de;
+  --body-bg: #ffffff;
+  --header-bg: transparent;
+  --header-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  --header-line: none;
+  --aside-line: 1px solid lightgrey;
+  --menu-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  --menu-line: none;
+  --icon-fill: #2c2c2c;
+  --line-panel: lightgrey;
+  --line-control: #6c757d;
+  --line-task: #d0d0d0;
+  --toggle-line: lightgrey;
+  --text-body: #212529;
+  --text-muted: #777777;
+  --accent: #4e4c97;
+  --accent-check: #7a77bb; /* constant in both shells, matching the old light shell */
+  --status-idle: #8a939c;
+  --status-running: #4cd07d;
+  --status-warning: #e6a23c;
+  --status-updating: #4c9aff;
 
-  /* ---- palette: default (shared by themes "default" and "light") ---- */
-  --alas-body-bg: #ffffff;
-  --alas-body-color: #212529;
-  --alas-body-fs: 1rem;
-  --alas-body-fw: 400;
-  --alas-link: #007bff;
-  --alas-link-hover: #0056b3;
-  --alas-hr-border: 1px solid rgba(0, 0, 0, 0.1);
-  --alas-btn-color: #212529;
-  --alas-btn-hover: #212529;
-  --alas-btn-fs: 1rem;
-  --alas-btn-fw: 400;
-  --alas-btn-lh: 1.5;
-  --alas-btn-py: 0.375rem;
-  --alas-btn-px: 0.75rem;
-  --alas-btn-bw: 1px;
-  --alas-btn-radius: 0.25rem;
-  --alas-btn-sm-fs: 0.875rem;
-  --alas-btn-sm-radius: 0.2rem;
-  --alas-btn-font: inherit;
-  --alas-primary: #007bff;
-  --alas-primary-hover: #0069d9;
-  --alas-primary-hover-border: #0062cc;
-  --alas-primary-active: #0062cc;
-  --alas-primary-active-border: #005cbf;
-  --alas-success: #28a745;
-  --alas-success-hover: #218838;
-  --alas-success-hover-border: #1e7e34;
-  --alas-success-active: #1e7e34;
-  --alas-success-active-border: #1c7430;
-  --alas-info: #17a2b8;
-  --alas-info-hover: #138496;
-  --alas-info-hover-border: #117a8b;
-  --alas-info-active: #117a8b;
-  --alas-info-active-border: #10707f;
-  --alas-input-color: #495057;
-  --alas-input-bg: #ffffff;
-  --alas-input-fs: 1rem;
-  --alas-input-fw: 400;
-  --alas-input-sm-fs: 0.875rem;
-  --alas-table-color: #212529;
-  --alas-table-cell-bg: transparent;
-  --alas-table-row-border: 1px solid #dee2e6;
-  --alas-table-thead-border: 2px solid #dee2e6;
-  --alas-alert-color: inherit;
-  --alas-alert-fs: inherit;
-  --alas-alert-fw: inherit;
-  --alas-alert-bw: 1px;
-  --alas-alert-radius: 0.25rem;
-  --alas-alert-danger-color: #721c24;
-  --alas-alert-danger-bg: #f8d7da;
-  --alas-alert-danger-border: #f5c6cb;
-  --alas-text-muted: #6c757d;
-  --alas-text-success: #28a745;
-  --alas-text-danger: #dc3545;
+  /* ---- palette: default (themes "default" and "light") ---- */
+  --color-primary: #007bff;
+  --color-success: #28a745;
+  --color-info: #17a2b8;
+  --color-danger: #c42b1c;
+  --color-link: #007bff;
+  --color-link-hover: #0056b3;
+  --gray-300: #dee2e6;
+  --gray-400: #ced4da;
+  --gray-500: #adb5bd;
+  --gray-600: #6c757d;
+  --gray-800: rgba(0, 0, 0, 0.12);
+  --line-soft: rgba(0, 0, 0, 0.1);
+  --hr-line: 1px solid rgba(0, 0, 0, 0.1);
+  --line-table: 1px solid #dee2e6;
+  --line-table-strong: 2px solid #dee2e6;
+  --table-cell-bg: transparent;
+  --input-fg: #495057;
+  --text-danger: #dc3545;
+  --text-success: #28a745;
+  --danger-fg: #721c24;
+  --danger-bg: #f8d7da;
+  --danger-line: #f5c6cb;
+  --alert-fs: inherit;
+  --alert-fw: inherit;
+  --alert-bw: 1px;
+  --alert-radius: 0.25rem;
 
-  /* ---- shell: light ANSI log palette (from LIGHT_TERMINAL_THEME) ---- */
+  /* ---- metrics ---- */
+  --body-fs: 1rem;
+  --body-fw: 400;
+  --btn-fg: #212529;
+  --btn-fg-hover: #212529;
+  --text-btn: 1rem;
+  --btn-fw: 400;
+  --btn-py: 0.375rem;
+  --btn-px: 0.75rem;
+  --btn-bw: 1px;
+  --radius-btn: 0.25rem;
+  --text-btn-sm: 0.875rem;
+  --radius-btn-sm: 0.2rem;
+  --btn-sm-py: 0.25rem;
+  --btn-sm-px: 0.5rem;
+  --btn-font: inherit;
+  --text-input: 1rem;
+  --input-fw: 400;
+  --text-input-sm: 0.875rem;
+  --font-mono: Menlo, consolas, "DejaVu Sans Mono", "Courier New", monospace;
+  --h-header: 50px;
+  --w-aside: 4rem;
+  --w-menu: 12rem;
+  --w-form-col: 13rem;
+  --space-section: 7.75rem;
+
+  /* ---- shell: light ANSI log palette ---- */
   --ansi-black: #000000;
   --ansi-red: #cd3131;
   --ansi-green: #00bc00;
@@ -120,105 +119,61 @@
   --ansi-bright-magenta: #bc05bc;
   --ansi-bright-cyan: #0598bc;
   --ansi-bright-white: #a5a5a5;
-
-  /* ---- theme-independent tokens ---- */
-  --alas-status-idle: #8a939c;
-  --alas-status-running: #4cd07d;
-  --alas-status-warning: #e6a23c;
-  --alas-status-updating: #4c9aff;
-  --alas-danger: #c42b1c;
-  --alas-log-bg: #16191d;
-  --alas-log-fg: #d4d9de;
-  --alas-muted-border: #6c757d;
 }
 
 /* ============================== theme: dark ============================== */
 
 :root[data-theme="dark"] {
-  /* shell: dark variant */
-  --alas-shell-bg: #36393f;
-  --alas-shell-panel: #2f3136;
-  --alas-shell-side: #202225;
-  --alas-shell-border: #21262d;
-  --alas-header-bg: #202225;
-  --alas-header-shadow: none;
-  --alas-header-border-bottom: 1px solid #36393f;
-  --alas-aside-border-right: 1px solid #21262d;
-  --alas-menu-bg: #2f3136;
-  --alas-menu-shadow: none;
-  --alas-menu-border-right: 1px solid #21262d;
-  --alas-icon: #c9d1d9;
-  --alas-off-bg: #36393f;
-  --alas-off-border: #202225;
-  --alas-on-border: #202225;
-  --alas-hr-bg: #40444b;
-  --alas-task-line: #adb5bd;
-  --alas-task-text: #adb5bd;
-  --alas-help: #adb5bd;
-  --alas-navigator-bg: #2f3136;
-  --alas-navigator-color: #c9d1d9;
-  --alas-navigator-border: #21262d;
-  --alas-input-focus-bg: #2f3136;
-  --alas-accent: #7a77bb;
-  --alas-state-light: #777777;
-
-  /* palette: bootswatch "dark" */
-  --alas-body-bg: #0d1117;
-  --alas-body-color: #d3d3d3;
-  --alas-body-fs: 0.9375rem;
-  --alas-body-fw: 400;
-  --alas-link: #adadad;
-  --alas-link-hover: #878787;
-  --alas-hr-border: 1px solid rgba(255, 255, 255, 0.1);
-  --alas-btn-color: #ffffff;
-  --alas-btn-hover: #ffffff;
-  --alas-btn-fs: 0.9375rem;
-  --alas-btn-fw: 400;
-  --alas-btn-lh: 1.5;
-  --alas-btn-py: 0.375rem;
-  --alas-btn-px: 0.75rem;
-  --alas-btn-bw: 1px;
-  --alas-btn-radius: 0.25rem;
-  --alas-btn-sm-fs: 0.825rem;
-  --alas-btn-sm-radius: 0.2rem;
-  --alas-btn-font: inherit;
-  --alas-primary: #375a7f;
-  --alas-primary-hover: #2b4764;
-  --alas-primary-hover-border: #28415b;
-  --alas-primary-active: #28415b;
-  --alas-primary-active-border: #243a53;
-  --alas-success: #00bc8c;
-  --alas-success-hover: #009670;
-  --alas-success-hover-border: #008966;
-  --alas-success-active: #008966;
-  --alas-success-active-border: #007c5d;
-  --alas-info: #3498db;
-  --alas-info-hover: #2384c6;
-  --alas-info-hover-border: #217dbb;
-  --alas-info-active: #217dbb;
-  --alas-info-active-border: #1f76b0;
-  --alas-input-color: #dee2e6;
-  --alas-input-bg: #000000;
-  --alas-input-fs: 1rem;
-  --alas-input-fw: 400;
-  --alas-input-sm-fs: 0.875rem;
-  --alas-table-color: #d3d3d3;
-  --alas-table-cell-bg: transparent;
-  --alas-table-row-border: 1px solid #343a40;
-  --alas-table-thead-border: 2px solid #343a40;
-  --alas-alert-color: inherit;
-  --alas-alert-fs: inherit;
-  --alas-alert-fw: inherit;
-  --alas-alert-bw: 1px;
-  --alas-alert-radius: 0.25rem;
-  --alas-alert-danger-color: #721c24;
-  --alas-alert-danger-bg: #f8d7da;
-  --alas-alert-danger-border: #f5c6cb;
-  --alas-text-muted: #6c757d;
-  --alas-text-success: #28a745;
-  --alas-text-danger: #dc3545;
-
-  /* shell: dark ANSI log palette (from DARK_TERMINAL_THEME) */
+  --surface-app: #36393f;
+  --surface-panel: #2f3136;
+  --surface-side: #202225;
+  --surface-insert: #000000;
+  --surface-hover: #2f3136;
+  --surface-hr: #40444b;
+  --body-bg: #0d1117;
+  --header-bg: #202225;
+  --header-shadow: none;
+  --header-line: 1px solid #36393f;
+  --aside-line: 1px solid #21262d;
+  --menu-shadow: none;
+  --menu-line: 1px solid #21262d;
+  --icon-fill: #c9d1d9;
+  --line-panel: #21262d;
+  --line-control: #6c757d;
+  --line-task: #adb5bd;
+  --toggle-line: #202225;
+  --text-body: #d3d3d3;
+  --text-muted: #adb5bd;
+  --accent: #7a77bb;
+  --color-primary: #375a7f;
+  --color-success: #00bc8c;
+  --color-info: #3498db;
+  --color-link: #adadad;
+  --color-link-hover: #878787;
+  --gray-300: #343a40;
+  --gray-400: #6c757d;
+  --gray-500: #adb5bd;
+  --gray-600: #6c757d;
+  --gray-800: rgba(0, 0, 0, 0.12);
+  --line-soft: rgba(255, 255, 255, 0.1);
+  --hr-line: 1px solid rgba(255, 255, 255, 0.1);
+  --line-table: 1px solid #343a40;
+  --line-table-strong: 2px solid #343a40;
+  --table-cell-bg: transparent;
+  --input-fg: #dee2e6;
+  --text-danger: #dc3545;
+  --text-success: #28a745;
+  --danger-fg: #721c24;
+  --danger-bg: #f8d7da;
+  --danger-line: #f5c6cb;
+  --body-fs: 0.9375rem;
+  --body-fw: 400;
+  --btn-fg: #ffffff;
+  --btn-fg-hover: #ffffff;
+  --text-btn: 0.9375rem;
+  --btn-fw: 400;
+  --text-btn-sm: 0.825rem;
+  --text-input-sm: 0.875rem;
   --ansi-black: #000000;
   --ansi-red: #cd3131;
   --ansi-green: #0dbc79;
@@ -240,177 +195,99 @@
 /* ============================== theme: minty ============================== */
 
 :root[data-theme="minty"] {
-  --alas-body-bg: #ffffff;
-  --alas-body-color: #888888;
-  --alas-body-fs: 1rem;
-  --alas-body-fw: 400;
-  --alas-link: #78c2ad;
-  --alas-link-hover: #4aa48a;
-  --alas-hr-border: 1px solid rgba(0, 0, 0, 0.1);
-  --alas-btn-color: #ffffff;
-  --alas-btn-hover: #ffffff;
-  --alas-btn-fs: 1rem;
-  --alas-btn-fw: 400;
-  --alas-btn-lh: 1.5;
-  --alas-btn-py: 0.375rem;
-  --alas-btn-px: 0.75rem;
-  --alas-btn-bw: 1px;
-  --alas-btn-radius: 0.4rem;
-  --alas-btn-sm-fs: 0.875rem;
-  --alas-btn-sm-radius: 0.3rem;
-  --alas-btn-font:
-    Montserrat, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --alas-primary: #78c2ad;
-  --alas-primary-hover: #5eb69d;
-  --alas-primary-hover-border: #55b298;
-  --alas-primary-active: #55b298;
-  --alas-primary-active-border: #4eac92;
-  --alas-success: #56cc9d;
-  --alas-success-hover: #3ac18c;
-  --alas-success-hover-border: #37b885;
-  --alas-success-active: #37b885;
-  --alas-success-active-border: #34ae7d;
-  --alas-info: #6cc3d5;
-  --alas-info-hover: #4eb7cd;
-  --alas-info-hover-border: #44b3ca;
-  --alas-info-active: #44b3ca;
-  --alas-info-active-border: #3aafc7;
-  --alas-input-color: #5a5a5a;
-  --alas-input-bg: #ffffff;
-  --alas-input-fs: 1rem;
-  --alas-input-fw: 400;
-  --alas-input-sm-fs: 0.875rem;
-  --alas-table-color: #888888;
-  --alas-table-cell-bg: transparent;
-  --alas-table-row-border: 1px solid rgba(0, 0, 0, 0.05);
-  --alas-table-thead-border: 2px solid rgba(0, 0, 0, 0.05);
-  --alas-alert-color: #ffffff;
-  --alas-alert-fs: inherit;
-  --alas-alert-fw: inherit;
-  --alas-alert-bw: 1px;
-  --alas-alert-radius: 0.4rem;
-  --alas-alert-danger-color: #853e2a;
-  --alas-alert-danger-bg: #ff7851;
-  --alas-alert-danger-border: #ffd9ce;
-  --alas-text-muted: #888888;
-  --alas-text-success: #56cc9d;
-  --alas-text-danger: #ff7851;
+  --color-primary: #78c2ad;
+  --color-success: #56cc9d;
+  --color-info: #6cc3d5;
+  --color-link: #78c2ad;
+  --color-link-hover: #4aa48a;
+  --gray-500: #adb5bd;
+  --gray-600: #6c757d;
+  --line-soft: rgba(0, 0, 0, 0.05);
+  --hr-line: 1px solid rgba(0, 0, 0, 0.1);
+  --line-table: 1px solid rgba(0, 0, 0, 0.05);
+  --line-table-strong: 2px solid rgba(0, 0, 0, 0.05);
+  --input-fg: #5a5a5a;
+  --text-body: #888888;
+  --text-muted: #888888;
+  --text-danger: #ff7851;
+  --text-success: #56cc9d;
+  --danger-fg: #853e2a;
+  --danger-bg: #ff7851;
+  --danger-line: #ffd9ce;
+  --alert-bw: 1px;
+  --alert-radius: 0.4rem;
+  --btn-fg: #ffffff;
+  --btn-fg-hover: #ffffff;
+  --radius-btn: 0.4rem;
+  --radius-btn-sm: 0.3rem;
+  --btn-font: Montserrat, -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    sans-serif;
 }
 
 /* ============================== theme: yeti ============================== */
 
 :root[data-theme="yeti"] {
-  --alas-body-bg: #ffffff;
-  --alas-body-color: #222222;
-  --alas-body-fs: 0.9375rem;
-  --alas-body-fw: 400;
-  --alas-link: #008cba;
-  --alas-link-hover: #00526e;
-  --alas-hr-border: 1px solid rgba(0, 0, 0, 0.1);
-  --alas-btn-color: #222222;
-  --alas-btn-hover: #222222;
-  --alas-btn-fs: 0.9375rem;
-  --alas-btn-fw: 300;
-  --alas-btn-lh: 1.5;
-  --alas-btn-py: 0.375rem;
-  --alas-btn-px: 0.5rem;
-  --alas-btn-bw: 1px;
-  --alas-btn-radius: 0;
-  --alas-btn-sm-fs: 0.825rem;
-  --alas-btn-sm-radius: 0;
-  --alas-btn-font: inherit;
-  --alas-primary: #008cba;
-  --alas-primary-hover: #006f94;
-  --alas-primary-hover-border: #006687;
-  --alas-primary-active: #006687;
-  --alas-primary-active-border: #005c7a;
-  --alas-success: #43ac6a;
-  --alas-success-hover: #389059;
-  --alas-success-hover-border: #358753;
-  --alas-success-active: #358753;
-  --alas-success-active-border: #317e4e;
-  --alas-info: #5bc0de;
-  --alas-info-hover: #3bb4d8;
-  --alas-info-hover-border: #31b0d5;
-  --alas-info-active: #31b0d5;
-  --alas-info-active-border: #2aaacf;
-  --alas-input-color: #495057;
-  --alas-input-bg: #ffffff;
-  --alas-input-fs: 0.9375rem;
-  --alas-input-fw: 400;
-  --alas-input-sm-fs: 0.825rem;
-  --alas-table-color: #222222;
-  --alas-table-cell-bg: transparent;
-  --alas-table-row-border: 1px solid #dee2e6;
-  --alas-table-thead-border: 2px solid #dee2e6;
-  --alas-alert-color: #ffffff;
-  --alas-alert-fs: 0.825rem;
-  --alas-alert-fw: 300;
-  --alas-alert-bw: 1px;
-  --alas-alert-radius: 0;
-  --alas-alert-danger-color: #7d2213;
-  --alas-alert-danger-bg: #f04124;
-  --alas-alert-danger-border: #fbcac2;
-  --alas-text-muted: #888888;
-  --alas-text-success: #43ac6a;
-  --alas-text-danger: #f04124;
+  --color-primary: #008cba;
+  --color-success: #43ac6a;
+  --color-info: #5bc0de;
+  --color-link: #008cba;
+  --color-link-hover: #00526e;
+  --input-fg: #495057;
+  --text-body: #222222;
+  --text-muted: #888888;
+  --text-danger: #f04124;
+  --text-success: #43ac6a;
+  --danger-fg: #7d2213;
+  --danger-bg: #f04124;
+  --danger-line: #fbcac2;
+  --alert-fs: 0.825rem;
+  --alert-fw: 300;
+  --alert-bw: 1px;
+  --alert-radius: 0;
+  --body-fs: 0.9375rem;
+  --body-fw: 400;
+  --btn-fg: #222222;
+  --btn-fg-hover: #222222;
+  --text-btn: 0.9375rem;
+  --btn-fw: 300;
+  --btn-px: 0.5rem;
+  --radius-btn: 0;
+  --radius-btn-sm: 0;
+  --text-btn-sm: 0.825rem;
+  --text-input: 0.9375rem;
+  --text-input-sm: 0.825rem;
 }
 
 /* ============================== theme: sketchy ============================== */
 
 :root[data-theme="sketchy"] {
-  --alas-body-bg: #ffffff;
-  --alas-body-color: #212529;
-  --alas-body-fs: 1rem;
-  --alas-body-fw: 700;
-  --alas-link: #333333;
-  --alas-link-hover: #0d0d0d;
-  --alas-hr-border: 2px solid rgba(0, 0, 0, 0.1);
-  --alas-btn-color: #212529;
-  --alas-btn-hover: #212529;
-  --alas-btn-fs: 1rem;
-  --alas-btn-fw: 400;
-  --alas-btn-lh: 1.5;
-  --alas-btn-py: 0.375rem;
-  --alas-btn-px: 0.75rem;
-  --alas-btn-bw: 2px;
-  --alas-btn-radius: 255px 25px 225px 25px / 25px 225px 25px 255px;
-  --alas-btn-sm-fs: 0.875rem;
-  --alas-btn-sm-radius: 255px 25px 225px 25px / 25px 225px 25px 255px;
-  --alas-btn-font: inherit;
-  --alas-primary: #333333;
-  --alas-primary-hover: #202020;
-  --alas-primary-hover-border: #1a1a1a;
-  --alas-primary-active: #1a1a1a;
-  --alas-primary-active-border: #131313;
-  --alas-success: #28a745;
-  --alas-success-hover: #218838;
-  --alas-success-hover-border: #1e7e34;
-  --alas-success-active: #1e7e34;
-  --alas-success-active-border: #1c7430;
-  --alas-info: #17a2b8;
-  --alas-info-hover: #138496;
-  --alas-info-hover-border: #117a8b;
-  --alas-info-active: #117a8b;
-  --alas-info-active-border: #10707f;
-  --alas-input-color: #555555;
-  --alas-input-bg: #ffffff;
-  --alas-input-fs: 1rem;
-  --alas-input-fw: 700;
-  --alas-input-sm-fs: 0.875rem;
-  --alas-table-color: #212529;
-  --alas-table-cell-bg: #ffffff;
-  --alas-table-row-border: 2px solid #333333;
-  --alas-table-thead-border: 4px solid #333333;
-  --alas-alert-color: inherit;
-  --alas-alert-fs: inherit;
-  --alas-alert-fw: inherit;
-  --alas-alert-bw: 2px;
-  --alas-alert-radius: 255px 25px 225px 25px / 25px 225px 25px 255px;
-  --alas-alert-danger-color: #721c24;
-  --alas-alert-danger-bg: #f8d7da;
-  --alas-alert-danger-border: #f5c6cb;
-  --alas-text-muted: #868e96;
-  --alas-text-success: #28a745;
-  --alas-text-danger: #dc3545;
+  --color-primary: #333333;
+  --color-success: #28a745;
+  --color-info: #17a2b8;
+  --color-link: #333333;
+  --color-link-hover: #0d0d0d;
+  --line-soft: rgba(0, 0, 0, 0.1);
+  --hr-line: 2px solid rgba(0, 0, 0, 0.1);
+  --line-table: 2px solid #333333;
+  --line-table-strong: 4px solid #333333;
+  --table-cell-bg: #ffffff;
+  --input-fg: #555555;
+  --text-body: #212529;
+  --text-muted: #868e96;
+  --text-danger: #dc3545;
+  --text-success: #28a745;
+  --danger-fg: #721c24;
+  --danger-bg: #f8d7da;
+  --danger-line: #f5c6cb;
+  --alert-bw: 2px;
+  --alert-radius: 255px 25px 225px 25px/25px 225px 25px 255px;
+  --body-fs: 1rem;
+  --body-fw: 700;
+  --btn-fg: #212529;
+  --btn-fg-hover: #212529;
+  --btn-bw: 2px;
+  --radius-btn: 255px 25px 225px 25px/25px 225px 25px 255px;
+  --radius-btn-sm: 255px 25px 225px 25px/25px 225px 25px 255px;
+  --text-input-sm: 0.875rem;
+  --input-fw: 700;
 }

@@ -14,12 +14,13 @@ const stateText = $derived.by(() => {
   return t("Gui.Status.Inactive");
 });
 
+// Dot color for the instance state; classes live in the uno safelist.
 const stateClass = $derived.by(() => {
   const state = status.instances[0]?.state ?? 0;
-  if (state === 1) return "header-state-running";
-  if (state === 3) return "header-state-warning";
-  if (state === 4) return "header-state-updating";
-  return "header-state-inactive";
+  if (state === 1) return "bg-status-running";
+  if (state === 3) return "bg-status-warning";
+  if (state === 4) return "bg-status-updating";
+  return "bg-status-idle";
 });
 
 const pageTitleText = $derived.by(() => {
@@ -45,35 +46,35 @@ function close() {
 </script>
 
 <header
-  class="app-header grid [grid-auto-flow:column] [grid-template-columns:4.4rem_4rem_auto_1fr_auto] items-center h-[50px] select-none [-webkit-app-region:drag] [background:var(--alas-header-bg)] [box-shadow:var(--alas-header-shadow)] [border-bottom:var(--alas-header-border-bottom)]"
+  class="grid h-[var(--h-header)] select-none items-center [grid-auto-flow:column] [grid-template-columns:4.4rem_4rem_auto_1fr_auto] [-webkit-app-region:drag] [background:var(--header-bg)] [box-shadow:var(--header-shadow)] [border-bottom:var(--header-line)]"
 >
-  <img class="w-[42px] h-[42px] my-1 mx-auto rounded-3xl" src="icon/alas.png" alt="Alas" />
-  <span class="text-[1.5rem] font-bold m-auto">Alas</span>
-  <span class="flex items-center gap-1 text-[0.85rem] m-auto {stateClass}">
-    <span class="header-state-dot"></span>
+  <img class="mx-auto my-1 h-[42px] w-[42px] rounded-3xl" src="icon/alas.png" alt="Alas" />
+  <span class="m-auto text-[1.5rem] font-bold">Alas</span>
+  <span class="m-auto flex items-center gap-1 text-[0.85rem]">
+    <span class="h-2 w-2 rounded-full {stateClass}"></span>
     {stateText}
   </span>
   <div class="m-auto">
-    <span class="text-[1.2rem] m-auto overflow-hidden text-center whitespace-nowrap">{pageTitleText}</span>
+    <span class="m-auto overflow-hidden text-center text-[1.2rem] whitespace-nowrap">{pageTitleText}</span>
   </div>
   {#if isTauri}
     <div class="flex h-full [-webkit-app-region:no-drag]">
       <button
-        class="w-11 h-full border-0 bg-transparent text-xs cursor-pointer hover:[background:rgba(255,255,255,.08)]"
+        class="h-full w-11 cursor-pointer border-0 bg-transparent text-xs hover:bg-white/8"
         title="Minimize"
         onclick={min}
       >
         &#x2212;
       </button>
       <button
-        class="w-11 h-full border-0 bg-transparent text-xs cursor-pointer hover:[background:rgba(255,255,255,.08)]"
+        class="h-full w-11 cursor-pointer border-0 bg-transparent text-xs hover:bg-white/8"
         title="Maximize"
         onclick={max}
       >
         &#x25A1;
       </button>
       <button
-        class="w-11 h-full border-0 bg-transparent text-xs cursor-pointer hover:[background:var(--alas-danger)] hover:text-white"
+        class="h-full w-11 cursor-pointer border-0 bg-transparent text-xs hover:bg-danger hover:text-white"
         title="Close"
         onclick={close}
       >

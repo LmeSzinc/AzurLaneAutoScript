@@ -76,6 +76,13 @@ async function setTheme(theme: string) {
   status.theme = theme;
 }
 
+/** One class string per state so conditional utilities never conflict. */
+function pickButtonClass(active: boolean): string {
+  return active
+    ? "btn-sm border-primary bg-primary text-white hover:bg-primary-hover"
+    : "btn-sm border-line-control bg-transparent text-body hover:border-gray-500 hover:bg-gray-800";
+}
+
 function onAsideSelect(name: string) {
   if (name === "Manage") {
     push("/manage");
@@ -102,83 +109,99 @@ $effect(() => {
 });
 </script>
 
-<div class="h-full flex overflow-hidden [background:var(--alas-shell-bg)]">
+<div class="flex h-full overflow-hidden bg-surface-app">
   <AppAside active="Home" onselect={onAsideSelect} />
   <nav
-    class="flex-shrink-0 w-48 px-2 pt-[1.2rem] overflow-y-auto [background:var(--alas-menu-bg)] [box-shadow:var(--alas-menu-shadow)] [border-right:var(--alas-menu-border-right)]"
+    class="w-48 flex-shrink-0 overflow-y-auto bg-surface-panel px-2 pt-[1.2rem] [box-shadow:var(--menu-shadow)] [border-right:var(--menu-line)]"
   >
-    <button class="btn-menu" class:btn-menu-active={page === 'HomePage'} onclick={() => (page = 'HomePage')}>
+    <button
+      class="mb-2 block w-full rounded-none border-0 border-l-3 border-solid border-transparent bg-transparent px-3 py-[1px] text-left font-normal whitespace-pre-wrap [transition:border_.05s_ease-in-out,padding_.05s_ease-in-out] hover:border-l-accent hover:font-bold hover:text-accent"
+      class:border-l-accent={page === 'HomePage'}
+      class:font-bold={page === 'HomePage'}
+      class:text-accent={page === 'HomePage'}
+      onclick={() => (page = 'HomePage')}
+    >
       {t('Gui.MenuDevelop.HomePage')}
     </button>
-    <button class="btn-menu" class:btn-menu-active={page === 'Update'} onclick={() => (page = 'Update')}>
+    <button
+      class="mb-2 block w-full rounded-none border-0 border-l-3 border-solid border-transparent bg-transparent px-3 py-[1px] text-left font-normal whitespace-pre-wrap [transition:border_.05s_ease-in-out,padding_.05s_ease-in-out] hover:border-l-accent hover:font-bold hover:text-accent"
+      class:border-l-accent={page === 'Update'}
+      class:font-bold={page === 'Update'}
+      class:text-accent={page === 'Update'}
+      onclick={() => (page = 'Update')}
+    >
       {t('Gui.MenuDevelop.Update')}
     </button>
-    <button class="btn-menu" class:btn-menu-active={page === 'Remote'} onclick={() => (page = 'Remote')}>
+    <button
+      class="mb-2 block w-full rounded-none border-0 border-l-3 border-solid border-transparent bg-transparent px-3 py-[1px] text-left font-normal whitespace-pre-wrap [transition:border_.05s_ease-in-out,padding_.05s_ease-in-out] hover:border-l-accent hover:font-bold hover:text-accent"
+      class:border-l-accent={page === 'Remote'}
+      class:font-bold={page === 'Remote'}
+      class:text-accent={page === 'Remote'}
+      onclick={() => (page = 'Remote')}
+    >
       {t('Gui.MenuDevelop.Remote')}
     </button>
-    <button class="btn-menu" class:btn-menu-active={page === 'Utils'} onclick={() => (page = 'Utils')}>
+    <button
+      class="mb-2 block w-full rounded-none border-0 border-l-3 border-solid border-transparent bg-transparent px-3 py-[1px] text-left font-normal whitespace-pre-wrap [transition:border_.05s_ease-in-out,padding_.05s_ease-in-out] hover:border-l-accent hover:font-bold hover:text-accent"
+      class:border-l-accent={page === 'Utils'}
+      class:font-bold={page === 'Utils'}
+      class:text-accent={page === 'Utils'}
+      onclick={() => (page = 'Utils')}
+    >
       {t('Gui.MenuDevelop.Utils')}
     </button>
   </nav>
 
-  <div class="grow p-4 overflow-y-auto [background:var(--alas-shell-bg)]">
+  <div class="grow overflow-y-auto bg-surface-app p-4">
     {#if page === 'HomePage'}
-      <p class="text-center [margin:1rem_0_.4rem]">Select your language / 选择语言</p>
-      <div class="flex gap-1.6 justify-center flex-wrap">
+      <p class="mt-4 mb-1.6 text-center">Select your language / 选择语言</p>
+      <div class="flex flex-wrap justify-center gap-1.6">
         {#each LANGS as lang (lang.value)}
-          <button
-            class="btn btn-sm"
-            class:btn-primary={status.language === lang.value}
-            class:btn-adaptive={status.language !== lang.value}
-            onclick={() => setLanguage(lang.value)}
-          >
+          <button class={pickButtonClass(status.language === lang.value)} onclick={() => setLanguage(lang.value)}>
             {lang.label}
           </button>
         {/each}
       </div>
-      <p class="text-center [margin:1rem_0_.4rem]">Change theme / 更改主题</p>
-      <div class="flex gap-1.6 justify-center flex-wrap">
+      <p class="mt-4 mb-1.6 text-center">Change theme / 更改主题</p>
+      <div class="flex flex-wrap justify-center gap-1.6">
         {#each THEMES as theme (theme.value)}
-          <button
-            class="btn btn-sm"
-            class:btn-primary={status.theme === theme.value}
-            class:btn-adaptive={status.theme !== theme.value}
-            onclick={() => setTheme(theme.value)}
-          >
+          <button class={pickButtonClass(status.theme === theme.value)} onclick={() => setTheme(theme.value)}>
             {theme.label}
           </button>
         {/each}
       </div>
-      <p class="text-center [margin:1rem_0_.4rem]">
+      <p class="mt-4 mb-1.6 text-center">
         Alas is a free open source software.
         <a href="https://github.com/LmeSzinc/AzurLaneAutoScript" target="_blank" rel="noreferrer">
           https://github.com/LmeSzinc/AzurLaneAutoScript
         </a>
       </p>
     {:else if page === 'Update'}
-      <div class="flex items-center gap-2 mb-3">
+      <div class="mb-3 flex items-center gap-2">
         {#if updateState === 'checking'}
-          <span class="spinner-border spinner-border-sm"></span>
+          <span
+            class="inline-block h-4 w-4 rounded-full border-[0.2em] border-solid border-r-transparent [animation:spinner-border_.75s_linear_infinite]"
+          ></span>
           <span>{t('Gui.Update.UpdateChecking')}</span>
         {:else if updateState === 'available'}
-          <span class="text-success">{t('Gui.Update.HaveUpdate')}</span>
-          <button class="btn btn-sm btn-success" onclick={runUpdate}>
+          <span class="text-[var(--text-success)]">{t('Gui.Update.HaveUpdate')}</span>
+          <button class="btn-sm border-success bg-success text-white hover:bg-success-hover" onclick={runUpdate}>
             {t('Gui.Button.ClickToUpdate')}
           </button>
         {:else if updateState === 'failed'}
-          <span class="text-danger">{t('Gui.Update.UpdateFailed')}</span>
-          <button class="btn btn-sm btn-info" onclick={checkUpdate}>
+          <span class="text-[var(--text-danger)]">{t('Gui.Update.UpdateFailed')}</span>
+          <button class="btn-sm border-info bg-info text-white hover:bg-info-hover" onclick={checkUpdate}>
             {t('Gui.Button.CheckUpdate')}
           </button>
         {:else}
           <span>{t('Gui.Update.UpToDate')}</span>
-          <button class="btn btn-sm btn-info" onclick={checkUpdate}>
+          <button class="btn-sm border-info bg-info text-white hover:bg-info-hover" onclick={checkUpdate}>
             {t('Gui.Button.CheckUpdate')}
           </button>
         {/if}
       </div>
 
-      <table class="table table-sm">
+      <table class="table">
         <thead>
           <tr>
             <th></th>
@@ -209,7 +232,7 @@ $effect(() => {
       </table>
 
       <p class="mb-1">{t('Gui.Update.DetailedHistory')}</p>
-      <table class="table table-sm">
+      <table class="table">
         <thead>
           <tr>
             <th>SHA1</th>
@@ -229,9 +252,9 @@ $effect(() => {
         </tbody>
       </table>
     {:else if page === 'Remote'}
-      <p class="text-muted">未支持</p>
+      <p class="mt-0 mb-4 text-muted">未支持</p>
     {:else}
-      <p class="text-muted">未实现</p>
+      <p class="mt-0 mb-4 text-muted">未实现</p>
     {/if}
   </div>
 </div>
