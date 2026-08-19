@@ -517,3 +517,10 @@ class Commission:
         if self.valid:
             self.status = "running"
             self.create_time = datetime.now()
+
+    @property
+    def finish_time(self):
+        if self.valid and self.status == "running":
+            return (self.create_time + self.duration).replace(microsecond=0)
+        else:
+            return None

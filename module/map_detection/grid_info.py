@@ -172,6 +172,14 @@ class GridInfo:
     def is_accessible(self):
         return self.cost < 9999
 
+    @property
+    def is_accessible_2(self):
+        return self.cost_2 < 9999
+
+    @property
+    def is_nearby(self):
+        return self.cost < 20
+
 
     def merge(self, info, mode="normal"):
         """
