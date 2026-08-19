@@ -169,13 +169,20 @@ def _console_sink(message):
 # Logger init
 # Remove loguru's default stderr handler; we add our own sinks below.
 _logger.remove()
+# enqueue=False: the console sink must render synchronously, while the
+# logging call site still holds the live traceback object. With enqueue=True
+# loguru serializes the record for the worker (tracebacks are not picklable),
+# the exception arrives frame-less, and rich can only print the final
+# exception line — the terminal looked "concise" while the webui func sink
+# (also synchronous) showed the full call chain. Same record, different
+# sink timing; align them.
 _console_sink_id = _logger.add(
     _console_sink,
     format="{message}",
     level="DEBUG" if logger_debug else "INFO",
     backtrace=False,
     diagnose=True,
-    enqueue=True,
+    enqueue=False,
 )
 
 _file_sink_id = None

@@ -110,6 +110,11 @@ class AdbDeviceWithStatus(AdbDevice):
         except (IndexError, ValueError):
             return 0
 
+    @cached_property
+    def may_mumu12_family(self) -> bool:
+        # 127.0.0.1:16XXX
+        return 16384 <= self.port <= 17408
+
 
 class Connection(ConnectionAttr):
     def __init__(self, config):

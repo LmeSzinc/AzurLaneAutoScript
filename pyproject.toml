@@ -21,6 +21,10 @@ dependencies = [
     "lz4",
     "av>=10",
     "psutil>=5.9",
+    # adbutils imports pkg_resources at runtime; keep setuptools installed
+    # (dropped in the uv migration, fresh installs crashed on import).
+    # pkg_resources was removed in setuptools 81+, so pin below it.
+    "setuptools>=65,<81",
     # Utils
     "rich>=11",
     "tqdm",

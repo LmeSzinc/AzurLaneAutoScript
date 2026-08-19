@@ -4,6 +4,10 @@ adbutils==0.11.0
     # via
     #   alas
     #   uiautomator2
+# adbutils imports pkg_resources at runtime; keep setuptools installed
+# (pkg_resources was removed in setuptools 81+, so pin below it)
+setuptools>=65,<81
+    # via alas
 annotated-doc==0.0.5
     # via fastapi
 annotated-types==0.8.0
