@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Alas - backend failed to start</title>
+  <style>
+    :root { color-scheme: dark; }
+    body {
+      margin: 0; min-height: 100vh; display: grid; place-items: center;
+      background: #1a1b26; color: #c0caf5;
+      font-family: "Segoe UI", "Microsoft YaHei", system-ui, sans-serif;
+    }
+    main { max-width: 40rem; padding: 2rem; }
+    h1 { color: #f7768e; font-size: 1.25rem; }
+    code { background: #24283b; padding: 0.15em 0.4em; border-radius: 4px; }
+    li { margin: 0.4em 0; }
+    a { color: #7aa2f7; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Alas 后端启动失败 / Backend failed to start</h1>
+    <p>桌面壳未能启动 Python 后端（或者后端在就绪前退出了）。常见原因：</p>
+    <ul>
+      <li>22267 端口被另一个 Alas 实例占用（桌面壳会自动换用空闲端口，可重试）；</li>
+      <li>仓库下缺少 <code>.venv</code>（在仓库根目录执行 <code>uv sync</code>）；</li>
+      <li>依赖或配置损坏。</li>
+    </ul>
+    <p>诊断日志：</p>
+    <ul>
+      <li>仓库下 <code>log/</code> 目录中当天的 <code>*_gui.txt</code>；</li>
+      <li>应用日志目录下的 <code>backend.log</code>（后端 stderr 全量镜像）。</li>
+    </ul>
+    <p>退出请使用系统托盘中的 Alas 图标（退出按钮），或结束 <code>alas-shell</code> 进程。</p>
+  </main>
+</body>
+</html>

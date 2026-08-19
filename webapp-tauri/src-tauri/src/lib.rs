@@ -1,7 +1,10 @@
-use std::io::{BufRead, BufReader};
+use std::fs::OpenOptions;
+use std::io::{BufRead, BufReader, Write};
 use std::path::PathBuf;
 use std::process::{Child, Command, Stdio};
-use std::sync::Mutex;
+use std::sync::atomic::{AtomicBool, Ordering};
+use std::sync::{Arc, Mutex};
+use std::time::Duration;
 
 use tauri::{
     AppHandle, Manager, WebviewWindow,
@@ -10,6 +13,11 @@ use tauri::menu::{Menu, MenuItem};
 use tauri::tray::{TrayIconBuilder, TrayIconEvent};
 
 pub struct BackendProcess(pub Mutex<Option<Child>>);
+
+/// Default backend port; release builds probe upwards from here for a free
+/// one so a concurrently running web instance never blocks the desktop
+/// backend (uvicorn exits on a bind conflict and the marker never arrives).
+const BACKEND_PORT: u16 = 22267;
 
 /// Resolve the Alas project root: the directory containing gui.py.
 /// Search order: ALAS_ROOT env, then walk up from the resource dir.
@@ -63,30 +71,78 @@ fn resolve_python(root: &PathBuf) -> PathBuf {
     PathBuf::from("python")
 }
 
+/// First free port at or after the backend default (release builds only).
+/// Dev builds keep the backend on the default port, which the vite dev
+/// proxy targets (see vite.config.ts).
+///
+/// Probe with TCP connect, not bind: on Windows a bind to 127.0.0.1:P can
+/// succeed even while another process listens on 0.0.0.0:P (SO_REUSEADDR
+/// hijack), which would make a bind-based probe useless.
+fn find_free_port() -> u16 {
+    use std::net::TcpStream;
+    (BACKEND_PORT..BACKEND_PORT + 20)
+        .find(|port| {
+            let addr = format!("127.0.0.1:{port}").parse().unwrap();
+            TcpStream::connect_timeout(&addr, Duration::from_millis(150)).is_err()
+        })
+        .unwrap_or(BACKEND_PORT)
+}
+
+/// The backend failed (spawn error, early exit, or startup timeout): show
+/// the window with the embedded error page instead of leaving the app as
+/// an invisible tray-only process.
+fn show_backend_error(app: &AppHandle) {
+    if let Some(window) = app.get_webview_window("main") {
+        let _ = window.navigate(url::Url::parse("tauri://localhost/error.html").unwrap());
+        let _ = window.show();
+        let _ = window.set_focus();
+    }
+}
+
 /// Spawn the python webui backend and wait until it is ready, then show the
 /// main window.
 fn spawn_backend(app: AppHandle) {
     let root = resolve_root(&app);
     let python = resolve_python(&root);
+    #[cfg(not(debug_assertions))]
+    let port = find_free_port();
+
     let mut command = Command::new(&python);
     command
         .arg("gui.py")
         .current_dir(&root)
+        .stdin(Stdio::null())
         .stdout(Stdio::piped())
         .stderr(Stdio::piped());
+    // Keep stdin occupied by a real handle: alas-shell.exe is a GUI binary
+    // whose stdin handle slot is NULL, and CreatePipe then reuses handle 0
+    // for the multiprocessing spawn handshake. The EnableReload child reads
+    // that handshake through sys.stdin (CPython's spawn_main), hits EOF on
+    // the misrouted pipe and dies silently a split second after start.
+    #[cfg(not(debug_assertions))]
+    command.arg("--port").arg(port.to_string());
+    // Stdio is GBK-encoded pipes here; force UTF-8 so rich/loguru output
+    // (box-drawing rules, CJK) never crashes the backend's error paths.
+    command.env("PYTHONIOENCODING", "utf-8");
+    // python.exe is a console-subsystem binary: without CREATE_NO_WINDOW
+    // Windows pops up an empty console window next to the app.
+    #[cfg(target_os = "windows")]
+    {
+        use std::os::windows::process::CommandExt;
+        command.creation_flags(0x0800_0000);
+    }
     // Dev builds load the SPA from the vite dev server (devUrl), which is
     // cross-origin to the backend; allow that origin via the backend's
     // ALAS_CORS_ORIGINS gate. Packaged builds serve the SPA from the
     // backend itself (same origin) and need no CORS.
     #[cfg(debug_assertions)]
     command.env("ALAS_CORS_ORIGINS", "http://127.0.0.1:1420");
+
     let mut child = match command.spawn() {
         Ok(child) => child,
         Err(e) => {
             eprintln!("Failed to spawn backend {}: {}", python.display(), e);
-            if let Some(window) = app.get_webview_window("main") {
-                let _ = window.show();
-            }
+            show_backend_error(&app);
             return;
         }
     };
@@ -98,34 +154,58 @@ fn spawn_backend(app: AppHandle) {
     std::thread::spawn(move || {
         if let Some(stdout) = stdout {
             let reader = BufReader::new(stdout);
-            for line in reader.lines().map_while(Result::ok) {
+            for _line in reader.lines().map_while(Result::ok) {
                 #[cfg(debug_assertions)]
                 println!("[backend] {}", line);
             }
         }
     });
 
+    // Backend stderr carries both the readiness marker and every failure
+    // (tracebacks, bind errors). Mirror it to a file so release-build
+    // problems stay diagnosable even though the pipe swallows them.
+    let stderr_log = app
+        .path()
+        .app_log_dir()
+        .map(|dir| {
+            let _ = std::fs::create_dir_all(&dir);
+            dir.join("backend.log")
+        })
+        .unwrap_or_else(|_| PathBuf::from("backend.log"));
+
+    let ready = Arc::new(AtomicBool::new(false));
     let stderr = child.stderr.take();
     let handle = app.clone();
+    let ready_reader = Arc::clone(&ready);
+    let stderr_log_reader = stderr_log.clone();
     std::thread::spawn(move || {
+        let mut log_file = OpenOptions::new()
+            .create(true)
+            .append(true)
+            .open(&stderr_log_reader)
+            .ok();
         if let Some(stderr) = stderr {
             let reader = BufReader::new(stderr);
             for line in reader.lines().map_while(Result::ok) {
                 // Mirror backend logs to the console in debug builds.
                 #[cfg(debug_assertions)]
                 println!("[backend] {}", line);
+                if let Some(file) = log_file.as_mut() {
+                    let _ = writeln!(file, "{line}");
+                }
                 if line.contains("Application startup complete") {
+                    ready_reader.store(true, Ordering::SeqCst);
                     if let Some(window) = handle.get_webview_window("main") {
                         // The backend binds its port right after the marker;
                         // wait briefly so the first navigation lands.
-                        std::thread::sleep(std::time::Duration::from_millis(500));
+                        std::thread::sleep(Duration::from_millis(500));
                         // Packaged builds navigate to the SPA served by the
                         // backend itself (same origin). Dev builds stay on
                         // the vite devUrl, so navigation is skipped there.
                         #[cfg(not(debug_assertions))]
                         {
                             let url = std::env::var("ALAS_WEBUI_URL")
-                                .unwrap_or_else(|_| "http://127.0.0.1:22267".to_string());
+                                .unwrap_or_else(|_| format!("http://127.0.0.1:{port}"));
                             match url::Url::parse(&url) {
                                 Ok(url) => {
                                     let _ = window.navigate(url);
@@ -140,6 +220,21 @@ fn spawn_backend(app: AppHandle) {
                     }
                 }
             }
+        }
+        // stderr closed => the backend exited. If the marker never arrived,
+        // surface the failure instead of hiding the window forever.
+        if !ready_reader.load(Ordering::SeqCst) {
+            show_backend_error(&handle);
+        }
+    });
+
+    // Watchdog for a hung backend that never becomes ready and never exits.
+    let ready_watch = Arc::clone(&ready);
+    let handle_watch = app.clone();
+    std::thread::spawn(move || {
+        std::thread::sleep(Duration::from_secs(60));
+        if !ready_watch.load(Ordering::SeqCst) {
+            show_backend_error(&handle_watch);
         }
     });
 
