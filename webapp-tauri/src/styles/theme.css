@@ -10,7 +10,8 @@
  * Button hover/active states are DERIVED with color-mix() from the palette
  * (see uno.config.ts), so themes no longer hand-carry three shades per
  * variant. Values that intentionally differ from the old hand-tuned shades
- * are logged in UNOCSS-REWRITE.md §5 (visual-equivalence register).
+ * are logged in .qoder/doc/UNOCSS-REWRITE.md §5 (visual-equivalence
+ * register).
  *
  * The active theme is the `data-theme` attribute on <html>.
  */
