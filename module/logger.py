@@ -42,7 +42,18 @@ Semantic notes:
   legacy call sites were migrated in L2.
 """
 
+import contextlib
 import datetime
+
+# packaging==20.9 (pinned by the uiautomator2==2.16.17 metadata) imports
+# stdlib distutils, which no longer exists on Python 3.12+. Importing
+# distutils once here, at the root of every ALAS import chain (webui
+# process, task subprocesses, desktop backend), pins the setuptools shim
+# into sys.modules before anything reaches packaging.utils and avoids
+# "ModuleNotFoundError: No module named 'distutils'".
+with contextlib.suppress(ImportError):  # pragma: no cover - setuptools is always installed
+    import distutils  # noqa: F401
+
 import os
 import sys
 import time

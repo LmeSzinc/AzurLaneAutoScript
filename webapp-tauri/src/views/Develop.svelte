@@ -171,9 +171,9 @@ $effect(() => {
         {/each}
       </div>
       <p class="mt-4 mb-1.6 text-center">
-        Alas is a free open source software.
-        <a href="https://github.com/LmeSzinc/AzurLaneAutoScript" target="_blank" rel="noreferrer">
-          https://github.com/LmeSzinc/AzurLaneAutoScript
+        Joxos fork of Alas — focused on: UnoCSS frontend rewrite, Tauri desktop shell, webui log/scheduler fixes, and dead-code cleanup.
+        <a href="https://github.com/Joxos/AzurLaneAutoScript" target="_blank" rel="noreferrer">
+          https://github.com/Joxos/AzurLaneAutoScript
         </a>
       </p>
     {:else if page === 'Update'}

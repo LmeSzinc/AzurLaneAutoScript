@@ -1,3 +1,27 @@
+# AzurLaneAutoScript（Joxos fork）
+
+本仓库是 [LmeSzinc/AzurLaneAutoScript](https://github.com/LmeSzinc/AzurLaneAutoScript) 的 fork。
+
+仓库地址：https://github.com/Joxos/AzurLaneAutoScript
+
+## 改动聚焦
+
+- **前端从零重写**：`webapp-tauri/` 用 Svelte 5 + Vite + UnoCSS 从零重写，与原版样式视觉等观；语义化设计令牌（design tokens），hover/active 态由 `color-mix` 派生，主题通过 `data-theme` 切换。
+- **桌面应用**：Tauri 2 桌面壳（`webapp-tauri/src-tauri/`），自动拉起/回收后端进程、系统托盘、单实例、NSIS 安装包与更新签名基建。
+- **WebUI 修复**：日志盒 CJK 等宽对齐、SSE 连接时预推送已有日志、运行中任务时间跨页面保留、日志按级别渲染等。
+- **代码清理**：全量死代码审计与清理，并恢复被误删的运行时属性（`finish_time`、`is_accessible_2`、`is_nearby`、`may_mumu12_family` 等）。
+- **工程化**：uv 依赖锁定、ruff/pyright 配置、Tauri 打包与 PyInstaller 后端侧车规范（`deploy/packaging/alas_backend.spec`，DRAFT）。
+
+## 开发
+
+- 后端环境：`uv sync`（Python ≥ 3.12）
+- 前端：`cd webapp-tauri && pnpm install && pnpm dev`（vite 开发服务器把 API/SSE 代理到 `127.0.0.1:22267` 的后端）
+- 桌面（开发模式）：`cd webapp-tauri && pnpm tauri dev`（需先停止占用 22267 端口的后端实例）
+- 桌面（打包）：`cd webapp-tauri && pnpm tauri build`
+- 测试：`cd webapp-tauri && pnpm test`
+
+---
+
 **| [English](README_en.md) | 简体中文 | [日本語](README_jp.md) |**
 
 # AzurLaneAutoScript
@@ -177,4 +201,3 @@ Alas 仍在活跃开发中，我们会不定期发布未来的工作在 [Issues]
 - QQ 八群：[938081688](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=3h8Gl323WkIt6yGx8Jx5Ht93puZxeA8T&authKey=xPT6kPm7W9jWO2TNzPdohJ27l1njxorwKmkDrbwwYGGA6Oni1xQSJhHsRIJ8w7GZ&noverify=0&group_code=938081688)
 - QQ 一群：[1087735381](https://jq.qq.com/?_wv=1027&k=I4NSqX7g) （有开发意向请加一群，入群需要提供你的Github用户名）
 - Bilibili 直播间：https://live.bilibili.com/22216705 ，偶尔直播写Alas，~~为了拯救Alas，Lme决定出道成为偶像~~
-
