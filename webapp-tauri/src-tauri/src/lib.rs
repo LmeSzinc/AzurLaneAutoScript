@@ -386,9 +386,9 @@ pub fn run() {
                 })
                 .build(app)?;
 
-            // Close = quit (taskbar close, Alt+F4, or the custom titlebar X
-            // which invokes window_close). The backend is killed and the
-            // process exits, taking the tray icon with it - no hidden zombie.
+            // Close = quit (native titlebar X, taskbar close, or Alt+F4).
+            // The backend is killed and the process exits, taking the tray
+            // icon with it - no hidden zombie.
             if let Some(window) = app.get_webview_window("main") {
                 let handle = app.handle().clone();
                 window.on_window_event(move |event| {
