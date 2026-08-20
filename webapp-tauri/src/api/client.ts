@@ -81,20 +81,33 @@ export const api = {
       body: JSON.stringify({ config }),
     }),
 
-  updateStatus: () => request<{ state: string; current: { sha: string; message: string } | null }>("/update/status"),
-
-  updateHistory: () =>
+  updateStatus: () =>
     request<{
-      local: string[] | null;
-      upstream: string[] | null;
-      history: string[][];
-    }>("/update/history"),
+      current: string;
+      repo: string;
+      state: string;
+      error: string | null;
+      releases: {
+        tag: string;
+        name: string;
+        body: string;
+        date: string;
+        prerelease: boolean;
+        assets: { name: string; size: number; url: string }[];
+      }[];
+      installing: { version: string; stage: string; progress: number } | null;
+    }>("/update/status"),
 
   configs: () => request<{ name: string; modified: string }[]>("/configs"),
 
-  updateCheck: () => request<{ ok: boolean }>("/update/check", { method: "POST" }),
+  updateRefresh: () => request<{ ok: boolean }>("/update/refresh", { method: "POST" }),
 
-  updateRun: () => request<{ ok: boolean }>("/update/run", { method: "POST" }),
+  updateInstall: (version: string) =>
+    request<{ ok: boolean; error?: string }>("/update/install", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ version }),
+    }),
 
   remoteStatus: () => request<{ alive: boolean; state: string; entry_point: string }>("/remote/status"),
 

@@ -1,5 +1,7 @@
 import os
 
+from module.base.paths import get_resource_root
+
 MOD_DICT = {
     'maa': 'AlasMaaBridge',
     'fpy': 'AlasFpyBridge',
@@ -46,7 +48,7 @@ def get_mod_dir(name):
 
 
 def get_mod_filepath(name):
-    return os.path.join('./submodule', get_mod_dir(name))
+    return os.path.join(get_resource_root(), 'submodule', get_mod_dir(name))
 
 
 def list_mod_instance():

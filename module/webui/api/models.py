@@ -80,20 +80,8 @@ class LanguageResponse(BaseModel):
     language: str
 
 
-class CommitInfo(BaseModel):
-    sha: str
-    message: str
-
-
-class UpdateStatusResponse(BaseModel):
-    state: str
-    current: CommitInfo | None = None
-
-
-class UpdateHistoryResponse(BaseModel):
-    local: list[str] | None = None
-    upstream: list[str] | None = None
-    history: list[list[str]] = []
+class UpdateInstallRequest(BaseModel):
+    version: str
 
 
 class RemoteStatusResponse(BaseModel):

@@ -200,8 +200,11 @@ _file_sink_id = None
 _func_sink_id = None
 _log_file = ""
 
-# Ensure running in Alas root folder
-os.chdir(os.path.join(os.path.dirname(__file__), "../"))
+# Ensure running in Alas root folder (source runs). Installed sidecars run
+# with ALAS_DATA_DIR set: gui.py already chdir'd to the writable user data
+# directory, which must not be overridden here.
+if not os.environ.get("ALAS_DATA_DIR"):
+    os.chdir(os.path.join(os.path.dirname(__file__), "../"))
 
 # Add file logger
 pyw_name = os.path.splitext(os.path.basename(sys.argv[0]))[0]

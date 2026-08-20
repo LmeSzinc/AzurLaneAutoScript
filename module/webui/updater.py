@@ -1,193 +1,226 @@
-import datetime
+"""Release-based updater for the desktop app (single channel).
+
+Installed builds update by whole-release replacement: the backend pulls
+release metadata from the configured GitHub repository, downloads the two
+release assets (NSIS setup exe + PyInstaller sidecar zip), swaps the
+sidecar directory and runs the installer silently; the installer replaces
+the shell, kills the app and relaunches it, and the new shell spawns the
+new backend. The shell's kill-on-close job reaps the old backend tree.
+
+Source checkouts are not special-cased (single UI by design): install
+reports an error because there is no sidecar to swap. Developers update
+with git manually.
+"""
+
+import os
+import shutil
 import subprocess
+import sys
 import threading
 import time
+import zipfile
 
-from deploy.config import ExecutionError
-from deploy.git import GitManager
-from deploy.pip import PipManager
-from deploy.utils import DEPLOY_CONFIG
-from module.base.retry import retry
+import requests
+
+from module.base.paths import get_resource_root
 from module.logger import logger
-from module.webui.config import DeployConfig
-from module.webui.process_manager import ProcessManager
-from module.webui.setting import State
+
+GITHUB_API = "https://api.github.com"
+DEFAULT_REPO = "Joxos/AzurLaneAutoScript"
 
 
-class Updater(DeployConfig, GitManager, PipManager):
-    def __init__(self, file=DEPLOY_CONFIG):
-        super().__init__(file=file)
-        self.state = 0
-        self.event: threading.Event = None
+class Updater:
+    def __init__(self):
+        self.state = "idle"  # idle | refreshing | ready | failed | installing
+        self.error: str | None = None
+        self.releases: list[dict] = []
+        self.install: dict | None = None  # {version, stage, progress}
+        self._lock = threading.Lock()
+
+    # ---------- configuration ----------
 
     @property
-    def delay(self):
-        self.read()
-        return int(self.CheckUpdateInterval) * 60
-
-    @property
-    def schedule_time(self):
-        self.read()
-        t = self.AutoRestartTime
-        if t is not None:
-            return datetime.time.fromisoformat(t)
-        else:
-            return None
-
-    def execute_output(self, command) -> str:
-        command = command.replace(r"\\", "/").replace("\\", "/").replace('"', '"')
-        log = subprocess.run(command, capture_output=True, text=True, encoding="utf8", shell=True).stdout
-        return log
-
-    def get_commit(self, revision="", n=1, short_sha1=False) -> tuple:
-        """
-        Return:
-            (sha1, author, isotime, message,)
-        """
-        ph = "h" if short_sha1 else "H"
-
-        log = self.execute_output(
-            f'"{self.git}" log {revision} --pretty=format:"%{ph}---%an---%ad---%s" --date=iso -{n}'
-        )
-
-        if not log:
-            return None, None, None, None
-
-        logs = log.split("\n")
-        logs = [tuple(log.split("---")) for log in logs]
-
-        if n == 1:
-            return logs[0]
-        else:
-            return logs
-
-    def _check_update(self) -> bool:
-        self.state = "checking"
-
-        source = "origin"
-        for _ in range(3):
-            if self.execute(f'"{self.git}" fetch {source} {self.Branch}', allow_failure=True):
-                break
-        else:
-            logger.warning("Git fetch failed")
-            return False
-
-        log = self.execute_output(f'"{self.git}" log --not --remotes={source}/* -1 --oneline')
-        if log:
-            logger.info(f"Cannot find local commit {log.split()[0]} in upstream, skip update")
-            return False
-
-        sha1, _, _, message = self.get_commit(f"..{source}/{self.Branch}")
-
-        if sha1:
-            logger.info("New update available")
-            logger.info(f"{sha1[:8]} - {message}")
-            return True
-        else:
-            logger.info("No update")
-            return False
-
-    def check_update(self):
-        if self.state in (0, "failed", "finish"):
-            self.state = self._check_update()
-
-    @retry(ExecutionError, tries=3, delay=5, logger=None)
-    def git_install(self):
-        return super().git_install()
-
-    @retry(ExecutionError, tries=3, delay=5, logger=None)
-    def pip_install(self):
-        return super().pip_install()
-
-    def update(self):
-        logger.hr("Run update")
-        try:
-            self.git_install()
-            self.pip_install()
-        except ExecutionError:
-            return False
-        return True
-
-    def run_update(self):
-        if self.state not in ("failed", 0, 1):
-            return
-        self._start_update()
-
-    def _start_update(self):
-        # The event is normally created in _startup, but a manual
-        # /update/run can arrive before that thread runs.
-        if self.event is None:
-            self.event = State.manager.Event()
-        self.state = "start"
-        instances = ProcessManager.running_instances()
-        names = []
-        for alas in instances:
-            names.append(alas.config_name + "\n")
-
-        logger.info("Waiting all running alas finish.")
-        self._wait_update(instances, names)
-
-    def _wait_update(self, instances: list[ProcessManager], names):
-        if self.state == "cancel":
-            self.state = 1
-        self.state = "wait"
-        self.event.set()
-        _instances = instances.copy()
-        start_time = time.time()
-        while _instances:
-            for alas in _instances:
-                if not alas.alive:
-                    _instances.remove(alas)
-                    logger.info(f"Alas [{alas.config_name}] stopped")
-                    logger.info(f"Remains: {[alas.config_name for alas in _instances]}")
-            if self.state == "cancel":
-                self.state = 1
-                self.event.clear()
-                ProcessManager.restart_processes(instances, self.event)
-                return
-            time.sleep(0.25)
-            if time.time() - start_time > 60 * 10:
-                logger.warning("Waiting alas shutdown timeout, force kill")
-                for alas in _instances:
-                    alas.stop()
-                break
-        self._run_update(instances, names)
-
-    def _run_update(self, instances, names):
-        self.state = "run update"
-        logger.info("All alas stopped, start updating")
-
-        if self.update():
-            if State.restart_event is not None:
-                self.state = "reload"
-                with open("./config/reloadalas", mode="w") as f:
-                    f.writelines(names)
-                self._trigger_reload(2)
-                State.clearup()
-            else:
-                self.state = "finish"
-        else:
-            self.state = "failed"
-            logger.warning("Update failed")
-            self.event.clear()
-            ProcessManager.restart_processes(instances, self.event)
-            return False
+    def repo(self) -> str:
+        return (os.environ.get("ALAS_UPDATE_REPO") or DEFAULT_REPO).strip().strip("/")
 
     @staticmethod
-    def _trigger_reload(delay=2):
-        def trigger():
-            # with open("./config/reloadflag", mode="w"):
-            #     # app ended here and uvicorn will restart whole app
-            #     pass
-            State.restart_event.set()
+    def current_version() -> str:
+        """Version of the running build, from the bundled version.txt."""
+        path = os.path.join(get_resource_root(), "version.txt")
+        try:
+            with open(path, encoding="utf-8") as f:
+                return f.read().strip() or "dev"
+        except OSError:
+            return "dev"
 
-        timer = threading.Timer(delay, trigger)
-        timer.start()
+    @staticmethod
+    def is_installed_build() -> bool:
+        return bool(getattr(sys, "frozen", False))
+
+    # ---------- release listing ----------
+
+    def refresh(self):
+        with self._lock:
+            if self.state == "installing":
+                return
+            self.state = "refreshing"
+            self.error = None
+        try:
+            url = f"{GITHUB_API}/repos/{self.repo}/releases?per_page=30"
+            resp = requests.get(
+                url, timeout=20, headers={"Accept": "application/vnd.github+json", "User-Agent": "alas"}
+            )
+            resp.raise_for_status()
+            releases = []
+            for rel in resp.json():
+                releases.append(
+                    {
+                        "tag": rel["tag_name"],
+                        "name": rel.get("name") or rel["tag_name"],
+                        "body": (rel.get("body") or "")[:2000],
+                        "date": rel.get("published_at") or "",
+                        "prerelease": bool(rel.get("prerelease")),
+                        "assets": [
+                            {
+                                "name": a["name"],
+                                "size": a.get("size", 0),
+                                "url": a["browser_download_url"],
+                            }
+                            for a in rel.get("assets", [])
+                        ],
+                    }
+                )
+            with self._lock:
+                self.releases = releases
+                self.state = "ready"
+        except Exception as e:
+            logger.exception("Fetch releases failed")
+            with self._lock:
+                self.state = "failed"
+                self.error = str(e)
+
+    def status(self) -> dict:
+        return {
+            "current": self.current_version(),
+            "repo": self.repo,
+            "state": self.state,
+            "error": self.error,
+            "releases": self.releases,
+            "installing": self.install,
+        }
+
+    # ---------- install ----------
+
+    def start_install(self, tag: str) -> str | None:
+        """Start an install worker; returns an error string if refused."""
+        with self._lock:
+            if self.state == "installing":
+                return "An install is already in progress"
+            release = next((r for r in self.releases if r["tag"] == tag), None)
+        if release is None:
+            return f"Release {tag} not found, refresh the list first"
+        threading.Thread(target=self._install_worker, args=(release,), daemon=True).start()
+        return None
+
+    def _install_worker(self, release: dict):
+        with self._lock:
+            self.state = "installing"
+            self.install = {"version": release["tag"], "stage": "preparing", "progress": 0}
+            self.error = None
+        try:
+            self._install(release)
+        except Exception as e:
+            logger.exception("Release install failed")
+            with self._lock:
+                self.state = "failed"
+                self.error = str(e)
+                self.install = None
+
+    def _install(self, release: dict):
+        if not self.is_installed_build():
+            raise RuntimeError("Installing a release requires the installed desktop build")
+
+        sidecar_dir = os.path.dirname(os.path.abspath(sys.executable))
+        tmp = os.path.join(os.environ.get("TEMP", "."), "alas-update", release["tag"])
+        shutil.rmtree(tmp, ignore_errors=True)
+        os.makedirs(tmp, exist_ok=True)
+
+        setup_asset = next(
+            (a for a in release["assets"] if a["name"].lower().endswith(".exe") and "setup" in a["name"].lower()), None
+        )
+        zip_asset = next((a for a in release["assets"] if a["name"].lower().endswith(".zip")), None)
+        if setup_asset is None or zip_asset is None:
+            raise RuntimeError("Release is missing assets (need the setup exe and the backend zip)")
+
+        def _progress(stage: str, offset: int, scale: int, done: int, total: int):
+            frac = 0 if not total else min(done / total, 1.0)
+            with self._lock:
+                if self.install is not None:
+                    self.install["stage"] = stage
+                    self.install["progress"] = round((offset + frac * scale) * 100)
+
+        # Backend zip = 60% of the progress bar, shell installer = 40%.
+        zip_path = self._download(zip_asset, os.path.join(tmp, zip_asset["name"]), lambda d, t: _progress("downloading backend", 0, 0.6, d, t))
+        setup_path = self._download(
+            setup_asset, os.path.join(tmp, setup_asset["name"]), lambda d, t: _progress("downloading shell", 0.6, 0.4, d, t)
+        )
+
+        # Stop running tasks before swapping files out from under them.
+        self._stop_tasks()
+
+        # Swap the sidecar: rename the running dir aside (Windows allows
+        # renaming a directory whose exe is running), extract the new one
+        # next to it. The old dir is removed on the next startup.
+        with self._lock:
+            self.install["stage"] = "swapping backend"
+        backup = sidecar_dir + ".old"
+        shutil.rmtree(backup, ignore_errors=True)
+        os.rename(sidecar_dir, backup)
+        try:
+            with zipfile.ZipFile(zip_path) as zf:
+                zf.extractall(os.path.dirname(sidecar_dir))
+        except Exception:
+            shutil.rmtree(sidecar_dir, ignore_errors=True)
+            os.rename(backup, sidecar_dir)
+            raise
+
+        # Run the NSIS installer silently: it replaces the shell binary,
+        # kills this app, and relaunches. This process rarely survives past
+        # this point; the job object reaps the backend tree with the shell.
+        with self._lock:
+            self.install["stage"] = "installing shell"
+            self.install["progress"] = 100
+        logger.info(f"Running installer {setup_path} /S")
+        subprocess.run([setup_path, "/S"], check=True, timeout=900)
+
+    @staticmethod
+    def _download(asset: dict, path: str, progress) -> str:
+        logger.info(f"Downloading {asset['name']} ({asset.get('size', 0)} bytes)")
+        with requests.get(asset["url"], stream=True, timeout=60, headers={"User-Agent": "alas"}) as resp:
+            resp.raise_for_status()
+            total = int(resp.headers.get("Content-Length") or asset.get("size") or 0)
+            done = 0
+            with open(path, "wb") as f:
+                for chunk in resp.iter_content(chunk_size=1 << 16):
+                    if chunk:
+                        f.write(chunk)
+                        done += len(chunk)
+                        progress(done, total)
+        return path
+
+    @staticmethod
+    def _stop_tasks():
+        from module.webui.process_manager import ProcessManager
+
+        running = []
+        for manager in ProcessManager._processes.values():
+            if manager.alive:
+                running.append(manager)
+                manager.stop()
+        deadline = time.time() + 30
+        while running and time.time() < deadline:
+            running = [m for m in running if m.alive]
+            time.sleep(0.5)
 
 
 updater = Updater()
-
-if __name__ == "__main__":
-    pass
-    # if updater.check_update():
-    updater.update()

@@ -26,42 +26,43 @@ const THEMES = [
   { label: "Dark", value: "dark" },
 ];
 
-// updater data
-let updateState = $state("idle");
-let history = $state<{
-  local: string[] | null;
-  upstream: string[] | null;
-  history: string[][];
-}>({ local: null, upstream: null, history: [] });
+// release updater data
+type UpdStatus = Awaited<ReturnType<typeof api.updateStatus>>;
+let upd = $state<UpdStatus | null>(null);
 
 async function refreshUpdate() {
-  const [st, hist] = await Promise.all([api.updateStatus(), api.updateHistory()]);
-  updateState = st.state;
-  history = hist;
+  try {
+    upd = await api.updateStatus();
+  } catch {
+    // backend offline: keep whatever we had
+  }
 }
 
-async function checkUpdate() {
-  await api.updateCheck();
+async function refreshReleases() {
+  await api.updateRefresh();
   const timer = window.setInterval(async () => {
     const st = await api.updateStatus();
-    updateState = st.state;
-    if (st.state !== "checking") {
+    upd = st;
+    if (st.state !== "refreshing") {
       window.clearInterval(timer);
-      await refreshUpdate();
     }
   }, 1500);
 }
 
-async function runUpdate() {
-  await api.updateRun();
+async function installRelease(tag: string) {
+  const res = await api.updateInstall(tag);
+  if (!res.ok && res.error && upd) {
+    upd = { ...upd, state: "failed", error: res.error };
+    return;
+  }
+  // Poll until the install finishes (or fails); the app restarts on success.
   const timer = window.setInterval(async () => {
     const st = await api.updateStatus();
-    updateState = st.state;
-    if (st.state !== "updating") {
+    upd = st;
+    if (!st.installing) {
       window.clearInterval(timer);
-      await refreshUpdate();
     }
-  }, 2000);
+  }, 1500);
 }
 
 async function setLanguage(lang: string) {
@@ -178,79 +179,66 @@ $effect(() => {
       </p>
     {:else if page === 'Update'}
       <div class="mb-3 flex items-center gap-2">
-        {#if updateState === 'checking'}
-          <span
-            class="inline-block h-4 w-4 rounded-full border-[0.2em] border-solid border-r-transparent [animation:spinner-border_.75s_linear_infinite]"
-          ></span>
-          <span>{t('Gui.Update.UpdateChecking')}</span>
-        {:else if updateState === 'available'}
-          <span class="text-[var(--text-success)]">{t('Gui.Update.HaveUpdate')}</span>
-          <button class="btn-sm border-success bg-success text-white hover:bg-success-hover" onclick={runUpdate}>
-            {t('Gui.Button.ClickToUpdate')}
-          </button>
-        {:else if updateState === 'failed'}
-          <span class="text-[var(--text-danger)]">{t('Gui.Update.UpdateFailed')}</span>
-          <button class="btn-sm border-info bg-info text-white hover:bg-info-hover" onclick={checkUpdate}>
-            {t('Gui.Button.CheckUpdate')}
-          </button>
-        {:else}
-          <span>{t('Gui.Update.UpToDate')}</span>
-          <button class="btn-sm border-info bg-info text-white hover:bg-info-hover" onclick={checkUpdate}>
-            {t('Gui.Button.CheckUpdate')}
-          </button>
-        {/if}
+        <span class="text-muted">
+          {t('Gui.Update.CurrentVersion')}: {upd?.current ?? '…'}
+        </span>
+        <span class="text-muted text-[0.8rem]">({upd?.repo ?? ''})</span>
+        <button class="btn-sm border-info bg-info text-white hover:bg-info-hover" onclick={refreshReleases}>
+          {t('Gui.Update.Refresh')}
+        </button>
       </div>
 
-      <table class="table">
-        <thead>
-          <tr>
-            <th></th>
-            <th>SHA1</th>
-            <th>{t('Gui.Update.Author')}</th>
-            <th>{t('Gui.Update.Time')}</th>
-            <th>{t('Gui.Update.Message')}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {#if history.local}
-            <tr>
-              <td>{t('Gui.Update.Local')}</td>
-              {#each history.local as cell (cell)}
-                <td>{cell}</td>
-              {/each}
-            </tr>
-          {/if}
-          {#if history.upstream}
-            <tr>
-              <td>{t('Gui.Update.Upstream')}</td>
-              {#each history.upstream as cell (cell)}
-                <td>{cell}</td>
-              {/each}
-            </tr>
-          {/if}
-        </tbody>
-      </table>
+      {#if upd?.state === 'refreshing'}
+        <span
+          class="inline-block h-4 w-4 rounded-full border-[0.2em] border-solid border-r-transparent [animation:spinner-border_.75s_linear_infinite]"
+        ></span>
+        <span>{t('Gui.Update.UpdateChecking')}</span>
+      {:else if upd?.state === 'failed' && upd.error}
+        <p class="text-[var(--text-danger)]">{t('Gui.Update.UpdateFailed')}: {upd.error}</p>
+      {/if}
 
-      <p class="mb-1">{t('Gui.Update.DetailedHistory')}</p>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>SHA1</th>
-            <th>{t('Gui.Update.Author')}</th>
-            <th>{t('Gui.Update.Time')}</th>
-            <th>{t('Gui.Update.Message')}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {#each history.history as commit, i (i)}
-            <tr>
-              {#each commit as cell, j (j)}
-                <td>{cell}</td>
-              {/each}
-            </tr>
-          {/each}
-        </tbody>
-      </table>
+      {#if upd?.installing}
+        <div class="panel mb-3 p-2.5">
+          <p>
+            {t('Gui.Update.Installing')}: {upd.installing.version} — {upd.installing.stage} ({upd.installing.progress}%)
+          </p>
+          <div class="h-2 w-full overflow-hidden bg-surface-hr">
+            <div class="h-full bg-accent" style:width="{upd.installing.progress}%"></div>
+          </div>
+        </div>
+      {/if}
+
+      {#if !upd?.releases?.length}
+        <p class="text-muted">{t('Gui.Update.NoReleases')}</p>
+      {:else}
+        {#each upd.releases as rel (rel.tag)}
+          <div class="panel mb-3 p-2.5">
+            <div class="flex items-center justify-between gap-2">
+              <span class="font-medium">
+                {rel.name}
+                <span class="text-muted text-[0.8rem]">({rel.tag})</span>
+                {#if rel.prerelease}
+                  <span class="text-muted text-[0.8rem]"> [pre-release]</span>
+                {/if}
+              </span>
+              <button
+                class="btn-sm border-success bg-success text-white hover:bg-success-hover disabled:opacity-50"
+                onclick={() => installRelease(rel.tag)}
+                disabled={upd?.installing != null}
+              >
+                {t('Gui.Update.Install')}
+              </button>
+            </div>
+            {#if rel.date}
+              <p class="mt-0.5 text-[0.8rem] text-muted">{rel.date}</p>
+            {/if}
+            {#if rel.body}
+              <pre class="mt-1 max-h-40 overflow-y-auto whitespace-pre-wrap text-[0.85rem]">{rel.body}</pre>
+            {/if}
+          </div>
+        {/each}
+        <p class="text-muted text-[0.85rem]">{t('Gui.Update.InstallHint')}</p>
+      {/if}
     {:else if page === 'Remote'}
       <p class="mt-0 mb-4 text-muted">未支持</p>
     {:else}

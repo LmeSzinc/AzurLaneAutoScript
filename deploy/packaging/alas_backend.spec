@@ -19,16 +19,17 @@ root = os.path.abspath(os.path.join(SPECPATH, "..", ".."))
 
 datas = [
     # Runtime directories the backend opens with relative paths (./config, ./assets, ./bin).
-    ("assets", "assets"),
-    ("bin", "bin"),
-    ("config", "config"),
+    # Absolute paths: PyInstaller resolves relative entries against SPECPATH.
+    (os.path.join(root, "assets"), "assets"),
+    (os.path.join(root, "bin"), "bin"),
+    (os.path.join(root, "config"), "config"),
     # In-tree schemas/i18n read via module-relative paths.
-    ("module/config", "module/config"),
-    ("module/submodule", "module/submodule"),
+    (os.path.join(root, "module/config"), "module/config"),
+    (os.path.join(root, "module/submodule"), "module/submodule"),
     # Production SPA build served by module/webui/api (StaticFiles at "/").
     # Built with `pnpm build` in webapp-tauri/; keep the tree layout because
     # the backend resolves webapp-tauri/dist relative to the repo root.
-    ("webapp-tauri/dist", "webapp-tauri/dist"),
+    (os.path.join(root, "webapp-tauri/dist"), "webapp-tauri/dist"),
 ]
 
 binaries = []
@@ -50,7 +51,12 @@ for pkg in ("cv2", "onnxruntime", "scipy", "av", "PIL"):
 
 a = Analysis(
     [os.path.join(root, "gui.py")],
-    pathex=[root],
+    # Project modules (root) plus the synced venv site-packages (CI runs
+    # `uv sync` first, so .venv/Lib/site-packages holds the locked deps).
+    # pathex only feeds the ANALYSIS search path; the pyinstaller process
+    # itself keeps its own environment, so packaging-20.9 (pinned by
+    # uiautomator2 for Python>=3.12) never shadows the builder's runtime.
+    pathex=[root, os.path.join(root, ".venv", "Lib", "site-packages")],
     binaries=binaries,
     datas=datas + data,
     hiddenimports=hiddenimports,

@@ -7,6 +7,7 @@ import yaml
 
 import module.config.server as server_
 from deploy.atomic import atomic_read_bytes, atomic_read_text, atomic_write
+from module.base.paths import get_resource_root
 from module.submodule.utils import *  # noqa: F403  (re-export facade)
 
 LANGUAGES = ['zh-CN', 'en-US', 'ja-JP', 'zh-TW']
@@ -39,18 +40,18 @@ yaml.representer.SafeRepresenter.add_representer(str, str_presenter)
 
 def filepath_args(filename='args', mod_name='alas'):
     if mod_name == 'alas':
-        return f'./module/config/argument/{filename}.json'
+        return os.path.join(get_resource_root(), 'module/config/argument', f'{filename}.json')
     else:
-        return os.path.join(get_mod_filepath(mod_name), f'./module/config/argument/{filename}.json')
+        return os.path.join(get_mod_filepath(mod_name), './module/config/argument', f'{filename}.json')
 
 
 def filepath_argument(filename):
-    return f'./module/config/argument/{filename}.yaml'
+    return os.path.join(get_resource_root(), 'module/config/argument', f'{filename}.yaml')
 
 
 def filepath_i18n(lang, mod_name='alas'):
     if mod_name == 'alas':
-        return os.path.join('./module/config/i18n', f'{lang}.json')
+        return os.path.join(get_resource_root(), 'module/config/i18n', f'{lang}.json')
     else:
         return os.path.join(get_mod_filepath(mod_name), './module/config/i18n', f'{lang}.json')
 
@@ -289,7 +290,7 @@ def random_normal_distribution_int(a, b, n=3):
     """
     if a < b:
         output = sum([random.randint(a, b) for _ in range(n)]) / n
-        return int(round(output))
+        return round(output)
     else:
         return b
 

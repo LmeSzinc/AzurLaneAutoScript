@@ -3070,7 +3070,14 @@
       "Time": "提交時間",
       "Message": "提交資訊",
       "DisabledWarn": "更新模塊未啟用，你需要手動重啟 Alas 進行更新",
-      "DetailedHistory": "詳細提交歷史"
+      "DetailedHistory": "詳細提交歷史",
+      "CurrentVersion": "目前版本",
+      "Repo": "更新倉庫",
+      "Refresh": "重新整理清單",
+      "Install": "安裝",
+      "Installing": "安裝中",
+      "NoReleases": "尚未取得版本清單，請重新整理",
+      "InstallHint": "安裝會替換桌面應用並自動重新啟動"
     },
     "Remote": {
       "Running": "運行中",

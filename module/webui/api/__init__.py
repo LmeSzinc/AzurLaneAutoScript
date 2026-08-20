@@ -16,7 +16,6 @@ from fastapi.responses import JSONResponse, RedirectResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from module.logger import logger
-from module.webui.api.helpers import _get_updater
 from module.webui.api.routers import config, control, events, i18n, remote, scheduler, schema, status, theme, updater
 from module.webui.process_manager import ProcessManager
 from module.webui.setting import State
@@ -30,16 +29,11 @@ def _startup():
     from module.webui.tasks import TaskHandler
 
     lang.reload()
-    updater = _get_updater()
-    updater.event = State.manager.Event()
     task_handler = TaskHandler()
-    # Auto-update loop disabled (2026-08): deployments are git-managed by
-    # the user (source) or updated by the shell (packaged), so nothing may
-    # self-update in the background. The webui update panel stays available
-    # for manual /update/check and /update/run calls.
-    # if updater.delay > 0:
-    #     task_handler.add(updater.check_update, updater.delay)
-    # task_handler.add(updater.schedule_update(), 86400)
+    # Auto-update loop removed (2026-08): source deployments are git-managed
+    # by the user and installed builds update through the manual release
+    # updater (routers/updater.py), so nothing self-updates in the
+    # background.
     task_handler.start()
     if State.deploy_config.DiscordRichPresence:
         init_discord_rpc()

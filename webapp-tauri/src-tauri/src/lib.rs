@@ -154,6 +154,16 @@ fn spawn_backend(app: AppHandle) {
     #[cfg(not(debug_assertions))]
     let port = find_free_port();
 
+    // Installed sidecar: point the backend at a writable per-user data
+    // directory (install dirs may be read-only, and the wholesale sidecar
+    // swap during updates must not touch user data). gui.py seeds
+    // config/assets/bin from the bundle on first run and chdirs there.
+    let is_sidecar = python
+        .file_name()
+        .and_then(|n| n.to_str())
+        .map(|n| n.starts_with("alas-backend") && n.ends_with(".exe"))
+        .unwrap_or(false);
+
     let mut command = Command::new(&python);
     command
         .arg("gui.py")
@@ -171,6 +181,11 @@ fn spawn_backend(app: AppHandle) {
     // Stdio is GBK-encoded pipes here; force UTF-8 so rich/loguru output
     // (box-drawing rules, CJK) never crashes the backend's error paths.
     command.env("PYTHONIOENCODING", "utf-8");
+    if is_sidecar {
+        if let Ok(data_dir) = app.path().app_data_dir() {
+            command.env("ALAS_DATA_DIR", &data_dir);
+        }
+    }
     // python.exe is a console-subsystem binary: without CREATE_NO_WINDOW
     // Windows pops up an empty console window next to the app.
     #[cfg(target_os = "windows")]
