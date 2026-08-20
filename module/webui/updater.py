@@ -1,15 +1,15 @@
 """Release-based updater for the desktop app (single channel).
 
 Installed builds update by whole-release replacement: the backend pulls
-release metadata from the configured GitHub repository, downloads the two
-release assets (NSIS setup exe + PyInstaller sidecar zip), swaps the
-sidecar directory and runs the installer silently; the installer replaces
-the shell, kills the app and relaunches it, and the new shell spawns the
-new backend. The shell's kill-on-close job reaps the old backend tree.
+release metadata from the configured GitHub repository, downloads the
+release's NSIS setup exe and runs it silently. The installer carries the
+new sidecar (bundle.resources), kills the running app (the shell's
+kill-on-close job reaps this backend tree), overwrites shell and sidecar
+files and restarts the app.
 
 Source checkouts are not special-cased (single UI by design): install
-reports an error because there is no sidecar to swap. Developers update
-with git manually.
+reports an error because there is no installed build to replace.
+Developers update with git manually.
 """
 
 import os
@@ -18,7 +18,6 @@ import subprocess
 import sys
 import threading
 import time
-import zipfile
 
 import requests
 
@@ -45,8 +44,16 @@ class Updater:
 
     @staticmethod
     def current_version() -> str:
-        """Version of the running build, from the bundled version.txt."""
-        path = os.path.join(get_resource_root(), "version.txt")
+        """Version of the running build, from the bundled version.txt.
+
+        The file sits next to the sidecar executable (packaging writes it
+        into the onedir root), not under the _internal resource dir.
+        """
+        if getattr(sys, "frozen", False):
+            root = os.path.dirname(os.path.abspath(sys.executable))
+        else:
+            root = get_resource_root()
+        path = os.path.join(root, "version.txt")
         try:
             with open(path, encoding="utf-8") as f:
                 return f.read().strip() or "dev"
@@ -140,7 +147,6 @@ class Updater:
         if not self.is_installed_build():
             raise RuntimeError("Installing a release requires the installed desktop build")
 
-        sidecar_dir = os.path.dirname(os.path.abspath(sys.executable))
         tmp = os.path.join(os.environ.get("TEMP", "."), "alas-update", release["tag"])
         shutil.rmtree(tmp, ignore_errors=True)
         os.makedirs(tmp, exist_ok=True)
@@ -148,50 +154,36 @@ class Updater:
         setup_asset = next(
             (a for a in release["assets"] if a["name"].lower().endswith(".exe") and "setup" in a["name"].lower()), None
         )
-        zip_asset = next((a for a in release["assets"] if a["name"].lower().endswith(".zip")), None)
-        if setup_asset is None or zip_asset is None:
-            raise RuntimeError("Release is missing assets (need the setup exe and the backend zip)")
+        if setup_asset is None:
+            raise RuntimeError("Release is missing the setup exe asset")
 
-        def _progress(stage: str, offset: int, scale: int, done: int, total: int):
+        def _progress(stage: str, done: int, total: int):
             frac = 0 if not total else min(done / total, 1.0)
             with self._lock:
                 if self.install is not None:
                     self.install["stage"] = stage
-                    self.install["progress"] = round((offset + frac * scale) * 100)
+                    self.install["progress"] = round(frac * 100)
 
-        # Backend zip = 60% of the progress bar, shell installer = 40%.
-        zip_path = self._download(zip_asset, os.path.join(tmp, zip_asset["name"]), lambda d, t: _progress("downloading backend", 0, 0.6, d, t))
-        setup_path = self._download(
-            setup_asset, os.path.join(tmp, setup_asset["name"]), lambda d, t: _progress("downloading shell", 0.6, 0.4, d, t)
-        )
+        setup_path = self._download(setup_asset, os.path.join(tmp, setup_asset["name"]), lambda d, t: _progress("downloading installer", d, t))
 
-        # Stop running tasks before swapping files out from under them.
+        # Stop running tasks before the installer replaces files under them.
         self._stop_tasks()
 
-        # Swap the sidecar: rename the running dir aside (Windows allows
-        # renaming a directory whose exe is running), extract the new one
-        # next to it. The old dir is removed on the next startup.
+        # Run the NSIS installer silently: it carries the new sidecar
+        # (bundle.resources), kills the running app (the job object reaps
+        # this backend tree), overwrites the shell and sidecar files and
+        # restarts the app. /R makes the installer relaunch the app after
+        # a silent install (stock tauri NSIS onInstSuccess hook).
+        # CREATE_BREAKAWAY_FROM_JOB: the installer inherits the shell's
+        # kill-on-close job through this process; it must survive the job
+        # teardown (which fires the moment the installer kills the shell)
+        # or the install would be reaped mid-flight and never relaunch.
         with self._lock:
-            self.install["stage"] = "swapping backend"
-        backup = sidecar_dir + ".old"
-        shutil.rmtree(backup, ignore_errors=True)
-        os.rename(sidecar_dir, backup)
-        try:
-            with zipfile.ZipFile(zip_path) as zf:
-                zf.extractall(os.path.dirname(sidecar_dir))
-        except Exception:
-            shutil.rmtree(sidecar_dir, ignore_errors=True)
-            os.rename(backup, sidecar_dir)
-            raise
-
-        # Run the NSIS installer silently: it replaces the shell binary,
-        # kills this app, and relaunches. This process rarely survives past
-        # this point; the job object reaps the backend tree with the shell.
-        with self._lock:
-            self.install["stage"] = "installing shell"
+            self.install["stage"] = "installing"
             self.install["progress"] = 100
-        logger.info(f"Running installer {setup_path} /S")
-        subprocess.run([setup_path, "/S"], check=True, timeout=900)
+        logger.info(f"Running installer {setup_path} /S /R")
+        creationflags = 0x0100_0000 if os.name == "nt" else 0  # CREATE_BREAKAWAY_FROM_JOB
+        subprocess.run([setup_path, "/S", "/R"], check=True, timeout=900, creationflags=creationflags)
 
     @staticmethod
     def _download(asset: dict, path: str, progress) -> str:

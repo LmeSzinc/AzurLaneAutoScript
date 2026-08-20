@@ -20,12 +20,7 @@ def _bootstrap_data_dir():
         return
     os.makedirs(data_dir, exist_ok=True)
     if getattr(sys, "frozen", False):
-        # PyInstaller onedir: bundled templates live in the _internal dir.
         bundle_dir = getattr(sys, "_MEIPASS", os.path.dirname(os.path.abspath(sys.executable)))
-        # Leftover from a previous release install (the updater renames the
-        # running sidecar aside before extracting the new one); safe to
-        # remove now that the old process is gone.
-        shutil.rmtree(bundle_dir + ".old", ignore_errors=True)
         for name in ("config", "assets", "bin"):
             dst = os.path.join(data_dir, name)
             if not os.path.exists(dst):
