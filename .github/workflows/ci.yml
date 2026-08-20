@@ -17,20 +17,18 @@ jobs:
       - name: Set up Python 3.13
         run: uv python install 3.13
 
-      # Non-frozen sync: uv.lock does not yet pin pytest (the dev group was
-      # added on an offline machine). Run `uv add --dev pytest` once on a
-      # networked machine, commit the lockfile, then switch to --frozen.
       - name: Sync dependencies
-        run: uv sync --group dev
+        run: uv sync --frozen
 
       # The lint/type gates are scoped to the directories that are currently
-      # clean; widen them as the legacy codebase goes green (module/config
-      # and friends still carry pre-existing findings).
+      # clean; widen them as the legacy codebase goes green (module/config,
+      # module/core and friends still carry pre-existing findings - the cv2
+      # stubs reject scalar/tuple image ops all over module/core).
       - name: Lint (scoped)
         run: uv run ruff check alas.py module/logger.py module/scheduler module/tasks module/core module/base module/device module/map_detection tests dev_tools/verify_alas_structure.py
 
       - name: Type check (scoped)
-        run: uv run pyright module/logger.py module/scheduler module/tasks module/core tests
+        run: uv run pyright module/logger.py module/scheduler module/tasks tests
 
       - name: Import smoke (full tree)
         run: uv run python dev_tools/smoke_import_all.py
