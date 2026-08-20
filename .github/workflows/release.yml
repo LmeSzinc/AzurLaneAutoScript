@@ -61,7 +61,8 @@ jobs:
           CI: "true"
         run: |
           pnpm tauri build
-          Copy-Item "src-tauri/target/release/bundle/nsis/*-setup.exe" "..\Alas_$env:GITHUB_REF_NAME_x64-setup.exe" -Force
+          Copy-Item -ErrorAction Stop "src-tauri/target/release/bundle/nsis/*-setup.exe" "..\Alas_${{ github.ref_name }}_x64-setup.exe" -Force
+          Get-ChildItem "..\Alas_*" | ForEach-Object { $_.FullName }
 
       - name: Publish release
         uses: softprops/action-gh-release@v2
