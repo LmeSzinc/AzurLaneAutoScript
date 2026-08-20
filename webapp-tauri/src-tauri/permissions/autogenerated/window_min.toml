@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-window-min"
+description = "Enables the window_min command without any pre-configured scope."
+commands.allow = ["window_min"]
+
+[[permission]]
+identifier = "deny-window-min"
+description = "Denies the window_min command without any pre-configured scope."
+commands.deny = ["window_min"]

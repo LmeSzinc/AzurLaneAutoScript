@@ -4,7 +4,7 @@
   "description": "Default capabilities for the Alas shell",
   "windows": ["main"],
   "remote": {
-    "urls": ["http://127.0.0.1/*", "http://localhost/*"]
+    "urls": ["http://127.0.0.1:*/*", "http://localhost:*/*"]
   },
   "permissions": [
     "core:default",
@@ -14,6 +14,10 @@
     "core:window:allow-show",
     "core:window:allow-hide",
     "core:window:allow-set-focus",
-    "updater:default"
+    "updater:default",
+    "allow-window-min",
+    "allow-window-max",
+    "allow-window-tray",
+    "allow-window-close"
   ]
 }
