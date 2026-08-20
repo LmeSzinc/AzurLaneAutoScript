@@ -9,6 +9,12 @@ import Settings from "./views/Settings.svelte";
 
 const THEMES = ["default", "dark", "light", "minty", "yeti", "sketchy"];
 
+// The Tauri shell injects its IPC internals into every page it loads, so
+// this doubles as the desktop detector. The desktop window uses the native
+// title bar (decorations: true) and therefore skips the custom header;
+// the browser version keeps it as the branding/status bar.
+const isTauri = "__TAURI_INTERNALS__" in window;
+
 $effect(() => {
   // Single source of truth for theming: the data-theme attribute on <html>
   // selects the token block in src/styles/theme.css. No stylesheet swaps,
@@ -18,8 +24,10 @@ $effect(() => {
 </script>
 
 <div id="app" class="h-full">
-  <AppHeader />
-  <main class="h-[calc(100vh-50px)]">
+  {#if !isTauri}
+    <AppHeader />
+  {/if}
+  <main class={isTauri ? "h-full" : "h-[calc(100vh-50px)]"}>
     {#if route.path === '/settings'}
       <Settings />
     {:else if route.path === '/develop'}

@@ -7,7 +7,7 @@ use std::sync::{Arc, Mutex};
 use std::time::Duration;
 
 use tauri::{
-    AppHandle, Manager, WebviewWindow,
+    AppHandle, Manager,
 };
 use tauri::menu::{Menu, MenuItem};
 use tauri::tray::{MouseButton, TrayIconBuilder, TrayIconEvent};
@@ -317,31 +317,6 @@ fn kill_backend(app: &AppHandle) {
     }
 }
 
-#[tauri::command]
-fn window_min(window: WebviewWindow) {
-    let _ = window.minimize();
-}
-
-#[tauri::command]
-fn window_max(window: WebviewWindow) {
-    if window.is_maximized().unwrap_or(false) {
-        let _ = window.unmaximize();
-    } else {
-        let _ = window.maximize();
-    }
-}
-
-#[tauri::command]
-fn window_tray(window: WebviewWindow) {
-    let _ = window.hide();
-}
-
-#[tauri::command]
-fn window_close(app: AppHandle) {
-    kill_backend(&app);
-    app.exit(0);
-}
-
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     let app = tauri::Builder::default()
@@ -425,12 +400,6 @@ pub fn run() {
             }
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![
-            window_min,
-            window_max,
-            window_tray,
-            window_close,
-        ])
         .build(tauri::generate_context!())
         .expect("error while building tauri application");
 

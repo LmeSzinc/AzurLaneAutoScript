@@ -14,9 +14,7 @@
     "test": "vitest run",
     "test:watch": "vitest"
   },
-  "dependencies": {
-    "@tauri-apps/api": "^2"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@biomejs/biome": "^2",
     "@sveltejs/vite-plugin-svelte": "^7.3.0",

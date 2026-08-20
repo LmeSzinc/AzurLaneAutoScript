@@ -177,54 +177,6 @@
       "description": "Permission identifier",
       "oneOf": [
         {
-          "description": "Enables the window_close command without any pre-configured scope.",
-          "type": "string",
-          "const": "allow-window-close",
-          "markdownDescription": "Enables the window_close command without any pre-configured scope."
-        },
-        {
-          "description": "Enables the window_max command without any pre-configured scope.",
-          "type": "string",
-          "const": "allow-window-max",
-          "markdownDescription": "Enables the window_max command without any pre-configured scope."
-        },
-        {
-          "description": "Enables the window_min command without any pre-configured scope.",
-          "type": "string",
-          "const": "allow-window-min",
-          "markdownDescription": "Enables the window_min command without any pre-configured scope."
-        },
-        {
-          "description": "Enables the window_tray command without any pre-configured scope.",
-          "type": "string",
-          "const": "allow-window-tray",
-          "markdownDescription": "Enables the window_tray command without any pre-configured scope."
-        },
-        {
-          "description": "Denies the window_close command without any pre-configured scope.",
-          "type": "string",
-          "const": "deny-window-close",
-          "markdownDescription": "Denies the window_close command without any pre-configured scope."
-        },
-        {
-          "description": "Denies the window_max command without any pre-configured scope.",
-          "type": "string",
-          "const": "deny-window-max",
-          "markdownDescription": "Denies the window_max command without any pre-configured scope."
-        },
-        {
-          "description": "Denies the window_min command without any pre-configured scope.",
-          "type": "string",
-          "const": "deny-window-min",
-          "markdownDescription": "Denies the window_min command without any pre-configured scope."
-        },
-        {
-          "description": "Denies the window_tray command without any pre-configured scope.",
-          "type": "string",
-          "const": "deny-window-tray",
-          "markdownDescription": "Denies the window_tray command without any pre-configured scope."
-        },
-        {
           "description": "Default core plugins set.\n#### This default permission set includes:\n\n- `core:path:default`\n- `core:event:default`\n- `core:window:default`\n- `core:webview:default`\n- `core:app:default`\n- `core:image:default`\n- `core:resources:default`\n- `core:menu:default`\n- `core:tray:default`",
           "type": "string",
           "const": "core:default",
