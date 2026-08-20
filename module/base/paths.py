@@ -15,5 +15,7 @@ def get_resource_root():
     paths that point at bundled content must resolve from here instead.
     """
     if getattr(sys, "frozen", False):
-        return os.path.dirname(os.path.abspath(sys.executable))
+        # PyInstaller onedir bundles datas under the _internal directory
+        # (sys._MEIPASS points there), not next to the executable.
+        return getattr(sys, "_MEIPASS", os.path.dirname(os.path.abspath(sys.executable)))
     return os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "../.."))

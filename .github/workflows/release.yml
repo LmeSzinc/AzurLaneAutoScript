@@ -1,0 +1,76 @@
+name: Release
+
+# Build the desktop release assets and publish them as a GitHub Release.
+# A release consists of two assets (see .qoder/doc/UPDATE-PLAN.md):
+#   - Alas_<tag>_x64-setup.exe   (NSIS installer: shell + sidecar)
+#   - alas-backend_<tag>_x64.zip (PyInstaller onedir sidecar with version.txt)
+# The installed app's updater (module/webui/updater.py) lists these
+# releases and installs them by swapping the sidecar and running the
+# installer silently.
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Set up Python 3.13
+        run: uv python install 3.13
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      # Main dependency group only; the dev group is not needed to package.
+      - name: Sync dependencies
+        run: uv sync --frozen --no-group dev
+
+      - name: Build frontend
+        working-directory: webapp-tauri
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm build
+
+      - name: Build backend sidecar
+        run: |
+          uv tool install "pyinstaller>=6.19"
+          $env:PATH = "$env:USERPROFILE\.local\bin;$env:PATH"
+          pyinstaller --clean --noconfirm deploy/packaging/alas_backend.spec
+          # Keep the onedir name "alas-backend": the NSIS bundles it as a
+          # resource (bundle.resources) and the updater swaps exactly this
+          # directory during release installs.
+          # version.txt = the release tag; the updater reports it as the
+          # current version of the running build.
+          Set-Content -Path "dist/alas-backend/version.txt" -Value "$env:GITHUB_REF_NAME" -NoNewline
+          Compress-Archive -Path "dist/alas-backend" -DestinationPath "alas-backend_$env:GITHUB_REF_NAME_x64.zip"
+
+      - name: Build NSIS installer
+        working-directory: webapp-tauri
+        env:
+          CI: "true"
+        run: |
+          pnpm tauri build
+          Copy-Item "src-tauri/target/release/bundle/nsis/*-setup.exe" "..\Alas_$env:GITHUB_REF_NAME_x64-setup.exe" -Force
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: |
+            alas-backend_${{ github.ref_name }}_x64.zip
+            Alas_${{ github.ref_name }}_x64-setup.exe

@@ -71,8 +71,12 @@ exe = EXE(
     [],
     exclude_binaries=True,
     name="alas-backend",
-    console=False,
-    disable_windowed_traceback=False,
+    # console=True on purpose: windowed PyInstaller apps route uncaught
+    # tracebacks to a modal dialog (which hangs the app invisibly); with a
+    # console subsystem the traceback goes to stderr, which the shell
+    # mirrors to <app_log_dir>/backend.log. The shell spawns the sidecar
+    # with CREATE_NO_WINDOW, so users never see the console.
+    console=True,
 )
 
 coll = COLLECT(
