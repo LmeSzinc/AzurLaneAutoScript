@@ -8,7 +8,8 @@ name: Release
 
 on:
   push:
-    tags: ["v*"]
+    # Date-version tags (YYMMDD, e.g. 260821); see deploy/packaging/README.md
+    tags: ["[0-9]*"]
   workflow_dispatch:
 
 permissions:

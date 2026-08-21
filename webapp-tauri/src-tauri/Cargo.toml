@@ -1,6 +1,6 @@
 [package]
 name = "alas-shell"
-version = "0.1.2"
+version = "26.8.21"
 description = "Alas desktop shell"
 edition = "2021"
 rust-version = "1.77"
