@@ -168,11 +168,6 @@
         "type": "input",
         "value": "",
         "valuetype": "str"
-      },
-      "BundleIdentifier": {
-        "type": "input",
-        "value": "auto",
-        "valuetype": "str"
       }
     },
     "EmulatorInfo": {

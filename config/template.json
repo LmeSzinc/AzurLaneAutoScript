@@ -13,8 +13,7 @@
       "ManagerEnable": true,
       "ManagerHost": "auto",
       "ManagerPort": 1718,
-      "ManagerKey": null,
-      "BundleIdentifier": "auto"
+      "ManagerKey": null
     },
     "EmulatorInfo": {
       "Emulator": "auto",

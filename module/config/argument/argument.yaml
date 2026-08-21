@@ -66,9 +66,6 @@ PlayCover:
   ManagerKey:
     value: ''
     valuetype: str
-  BundleIdentifier:
-    value: auto
-    valuetype: str
 EmulatorInfo:
   Emulator:
     value: auto

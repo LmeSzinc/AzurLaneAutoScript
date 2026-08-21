@@ -181,7 +181,7 @@ class Connection(ConnectionAttr):
             if e.status == 404:
                 logger.critical(
                     f'PlayCover app "{bundle_identifier}" does not exist, '
-                    'please check PlayCover.BundleIdentifier and Emulator.PackageName')
+                    'please check Emulator.PackageName')
                 raise RequestHumanTakeover
             logger.warning(e)
             logger.info('PlayCover manager API is unavailable, skip app validation and try MaaTools directly')
@@ -192,9 +192,7 @@ class Connection(ConnectionAttr):
 
     def detect_package_playcover(self):
         package = str(self.config.Emulator_PackageName or '').strip()
-        bundle = str(getattr(self.config, 'PlayCover_BundleIdentifier', 'auto') or '').strip()
         package_auto = not package or package.lower() == 'auto'
-        bundle_auto = not bundle or bundle.lower() == 'auto'
 
         if not self.playcover_manager_configured():
             if package_auto:
@@ -203,7 +201,7 @@ class Connection(ConnectionAttr):
                 self.package = package
             return
 
-        if package_auto and bundle_auto:
+        if package_auto:
             logger.hr('Detect package')
             apps = self._playcover_list_known_apps()
             if apps is None:
@@ -225,7 +223,7 @@ class Connection(ConnectionAttr):
             if len(apps) > 1:
                 logger.critical(
                     'Multiple AzurLane packages found in PlayCover, auto package detection cannot decide which to use, '
-                    'please select one in Alas.Emulator.PackageName or set PlayCover.BundleIdentifier')
+                    'please select one in Alas.Emulator.PackageName')
                 raise RequestHumanTakeover
 
             logger.info('Auto package detection found only one package, using it')
@@ -234,34 +232,13 @@ class Connection(ConnectionAttr):
             self._playcover_initial_manager_status = status
             return
 
-        if package_auto:
-            bundle_server = self._playcover_package_server(bundle)
-            if bundle_server is None:
-                logger.critical(
-                    f'Cannot determine game server from PlayCover Bundle Identifier "{bundle}", '
-                    'please select one in Alas.Emulator.PackageName')
-                raise RequestHumanTakeover
-            self.package = bundle
-            self.config.Emulator_PackageName = self.package
-            self._playcover_validate_app(bundle)
-            return
-
-        package_server = self._playcover_package_server(package)
-        if package_server is None:
+        if self._playcover_package_server(package) is None:
             logger.critical(
                 f'Unknown game server package "{package}", please select a valid Alas.Emulator.PackageName')
             raise RequestHumanTakeover
 
         self.package = package
-        bundle_identifier = package if bundle_auto else bundle
-        if not bundle_auto:
-            bundle_server = self._playcover_package_server(bundle)
-            if bundle_server is not None and bundle_server != package_server:
-                logger.warning(
-                    f'PlayCover Bundle Identifier "{bundle}" belongs to server "{bundle_server}", '
-                    f'but Emulator.PackageName selects server "{package_server}"; '
-                    f'continue with "{package_server}" assets')
-        self._playcover_validate_app(bundle_identifier)
+        self._playcover_validate_app(package)
 
     def adb_install_on_demand(self):
         from deploy.adb import AdbManager

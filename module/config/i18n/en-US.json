@@ -508,10 +508,6 @@
     "ManagerKey": {
       "name": "Management API Key",
       "help": "Access key of the PlayCover management API. Leave empty when authentication is disabled."
-    },
-    "BundleIdentifier": {
-      "name": "Bundle Identifier",
-      "help": "Bundle identifier of the app managed by PlayCover. With \"auto\", it follows Emulator > Game Server. If both settings are automatic, the management API detects the only installed Azur Lane client. If only Game Server is automatic, ALAS infers it from a known Bundle Identifier."
     }
   },
   "EmulatorInfo": {

@@ -659,12 +659,7 @@ class PlayCover:
             return False
 
     def playcover_bundle_identifier(self):
-        bundle = str(getattr(self.config, 'PlayCover_BundleIdentifier', 'auto') or '').strip()
-        if bundle and bundle.lower() != 'auto':
-            return bundle
-
-        package = getattr(self, 'package', self.config.Emulator_PackageName)
-        return package
+        return self.package
 
     def playcover_manager_app_status(self):
         return self.playcover_manager.app_status(self.playcover_bundle_identifier())

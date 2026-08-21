@@ -508,10 +508,6 @@
     "ManagerKey": {
       "name": "管理密钥",
       "help": "PlayCover 管理 API 的访问密钥。未启用认证时留空。"
-    },
-    "BundleIdentifier": {
-      "name": "Bundle Identifier",
-      "help": "PlayCover 管理的应用 Bundle Identifier。填 \"auto\" 时沿用“模拟器设置 > 游戏服务器”的选择；两项均为自动时，管理 API 会检测唯一已安装的碧蓝航线客户端；仅游戏服务器为自动时，从已知 Bundle Identifier 判断服务器。"
     }
   },
   "EmulatorInfo": {

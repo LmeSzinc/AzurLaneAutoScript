@@ -31,7 +31,6 @@ class GeneratedConfig:
     PlayCover_ManagerHost = 'auto'
     PlayCover_ManagerPort = 1718
     PlayCover_ManagerKey = None
-    PlayCover_BundleIdentifier = 'auto'
 
     # Group `EmulatorInfo`
     EmulatorInfo_Emulator = 'auto'  # auto, NoxPlayer, NoxPlayer64, BlueStacks4, BlueStacks5, BlueStacks4HyperV, BlueStacks5HyperV, LDPlayer3, LDPlayer4, LDPlayer9, LDPlayer14, MuMuPlayer, MuMuPlayerX, MuMuPlayer12, MEmuPlayer

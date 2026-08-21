@@ -508,10 +508,6 @@
     "ManagerKey": {
       "name": "管理 API キー",
       "help": "PlayCover 管理 API のアクセスキーです。認証を使用しない場合は空欄にします。"
-    },
-    "BundleIdentifier": {
-      "name": "Bundle Identifier",
-      "help": "PlayCover が管理するアプリの Bundle Identifier です。\"auto\" では「エミュレーター > ゲームサーバー」の設定を使用します。両方が自動の場合、管理 API がインストール済みの唯一のアズールレーンを検出します。ゲームサーバーだけが自動の場合、既知の Bundle Identifier から判定します。"
     }
   },
   "EmulatorInfo": {
