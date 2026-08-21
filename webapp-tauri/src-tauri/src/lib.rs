@@ -20,7 +20,11 @@ pub struct BackendProcess {
     /// a kill-on-close job: TerminateJobObject reaps it on exit, and if the
     /// shell itself dies (crash, task manager) the OS closes the handle and
     /// reaps the backend automatically - no orphaned uvicorn on 22267.
-    /// Stored as usize: HANDLE is a raw pointer, which is !Send.
+    /// JOB_OBJECT_LIMIT_BREAKAWAY_OK lets the updater's installer spawn
+    /// with CREATE_BREAKAWAY_FROM_JOB: it must survive the job teardown
+    /// that fires when the installer kills the shell, or every update would
+    /// be reaped mid-install. Stored as usize: HANDLE is a raw pointer,
+    /// which is !Send.
     #[cfg(target_os = "windows")]
     pub job: Mutex<Option<usize>>,
 }
@@ -34,7 +38,8 @@ fn assign_kill_on_close_job(child: &Child) -> Option<usize> {
     use windows_sys::Win32::Foundation::{CloseHandle, HANDLE};
     use windows_sys::Win32::System::JobObjects::{
         AssignProcessToJobObject, CreateJobObjectW, JobObjectExtendedLimitInformation,
-        SetInformationJobObject, JOBOBJECT_EXTENDED_LIMIT_INFORMATION, JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE,
+        SetInformationJobObject, JOBOBJECT_EXTENDED_LIMIT_INFORMATION, JOB_OBJECT_LIMIT_BREAKAWAY_OK,
+        JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE,
     };
     unsafe {
         let job: HANDLE = CreateJobObjectW(std::ptr::null(), std::ptr::null());
@@ -42,7 +47,8 @@ fn assign_kill_on_close_job(child: &Child) -> Option<usize> {
             return None;
         }
         let mut info: JOBOBJECT_EXTENDED_LIMIT_INFORMATION = std::mem::zeroed();
-        info.BasicLimitInformation.LimitFlags = JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE;
+        info.BasicLimitInformation.LimitFlags =
+            JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE | JOB_OBJECT_LIMIT_BREAKAWAY_OK;
         if SetInformationJobObject(
             job,
             JobObjectExtendedLimitInformation,
