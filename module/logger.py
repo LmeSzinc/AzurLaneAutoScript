@@ -200,10 +200,11 @@ _file_sink_id = None
 _func_sink_id = None
 _log_file = ""
 
-# Ensure running in Alas root folder (source runs). Installed sidecars run
-# with ALAS_DATA_DIR set: gui.py already chdir'd to the writable user data
-# directory, which must not be overridden here.
-if not os.environ.get("ALAS_DATA_DIR"):
+# Ensure running in Alas root folder (source runs). Frozen sidecars run
+# from the install directory (the shell seeds config/assets/bin there and
+# launches the backend with it as CWD) and must never chdir into their own
+# bundle, which updates replace wholesale.
+if not getattr(sys, "frozen", False):
     os.chdir(os.path.join(os.path.dirname(__file__), "../"))
 
 # Add file logger

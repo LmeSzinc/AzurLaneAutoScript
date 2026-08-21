@@ -7,7 +7,6 @@ updates over /sse (server-sent events).
 """
 
 import os
-import sys
 import threading
 from contextlib import asynccontextmanager
 
@@ -144,10 +143,6 @@ def create_api_app() -> FastAPI:
         State.init()
         thread = threading.Thread(target=_startup, daemon=True)
         thread.start()
-        # The Tauri shell watches stderr for this marker before showing its
-        # window and navigating to this server. Must stay on stderr: logger
-        # output goes to stdout, which the shell does not read.
-        print("Application startup complete", file=sys.stderr, flush=True)
         yield
         _shutdown()
 

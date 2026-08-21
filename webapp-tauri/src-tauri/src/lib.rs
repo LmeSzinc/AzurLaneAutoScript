@@ -1,8 +1,6 @@
-use std::fs::OpenOptions;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use std::process::{Child, Command, Stdio};
-use std::sync::atomic::{AtomicBool, Ordering};
-use std::sync::{Arc, Mutex};
+use std::sync::Mutex;
 use std::time::Duration;
 
 use tauri::{
@@ -12,7 +10,7 @@ use tauri::menu::{Menu, MenuItem};
 use tauri::tray::{MouseButton, TrayIconBuilder, TrayIconEvent};
 
 pub struct BackendProcess {
-    /// Non-Windows fallback: the tail thread cannot own the Child there
+    /// Non-Windows fallback: the poll thread cannot own the Child there
     /// (no job object), so the handle stays managed here.
     #[cfg(not(target_os = "windows"))]
     pub child: Mutex<Option<Child>>,
@@ -94,42 +92,47 @@ fn resolve_root(app: &AppHandle) -> PathBuf {
 ///
 /// Search order:
 ///   1. ALAS_PYTHON environment variable
-///   2. `alas-backend*.exe` next to the app binary (packaged PyInstaller
-///      onedir sidecar, shipped via tauri externalBin)
-///   3. <root>/.venv/Scripts/python.exe (development)
+///   2. <root>/.venv/Scripts/python.exe (development / source build)
+///   3. `alas-backend*.exe` next to the app binary (installed sidecar,
+///      shipped via bundle.resources) - release builds only, and only
+///      when no .venv exists: a dev or source-run must never pick up a
+///      stale sidecar copied into target/ by an older externalBin setup
 ///   4. "python" from PATH
 fn resolve_python(root: &PathBuf) -> PathBuf {
     if let Ok(p) = std::env::var("ALAS_PYTHON") {
         return PathBuf::from(p);
     }
-    if let Ok(exe) = std::env::current_exe() {
-        if let Some(dir) = exe.parent() {
-            if let Ok(entries) = std::fs::read_dir(dir) {
-                for entry in entries.flatten() {
-                    let name = entry.file_name().to_string_lossy().to_string();
-                    if name.starts_with("alas-backend") {
-                        let path = entry.path();
-                        if path.is_dir() {
-                            // externalBin directory: the binary sits inside.
-                            if let Ok(inner) = std::fs::read_dir(&path) {
-                                for f in inner.flatten() {
-                                    let fname = f.file_name().to_string_lossy().to_string();
-                                    if fname.ends_with(".exe") {
-                                        return f.path();
+    let dev = root.join(".venv").join("Scripts").join("python.exe");
+    if dev.exists() {
+        return dev;
+    }
+    #[cfg(not(debug_assertions))]
+    {
+        if let Ok(exe) = std::env::current_exe() {
+            if let Some(dir) = exe.parent() {
+                if let Ok(entries) = std::fs::read_dir(dir) {
+                    for entry in entries.flatten() {
+                        let name = entry.file_name().to_string_lossy().to_string();
+                        if name.starts_with("alas-backend") {
+                            let path = entry.path();
+                            if path.is_dir() {
+                                // onedir sidecar: the binary sits inside.
+                                if let Ok(inner) = std::fs::read_dir(&path) {
+                                    for f in inner.flatten() {
+                                        let fname = f.file_name().to_string_lossy().to_string();
+                                        if fname.ends_with(".exe") {
+                                            return f.path();
+                                        }
                                     }
                                 }
+                            } else if name.ends_with(".exe") {
+                                return path;
                             }
-                        } else if name.ends_with(".exe") {
-                            return path;
                         }
                     }
                 }
             }
         }
-    }
-    let dev = root.join(".venv").join("Scripts").join("python.exe");
-    if dev.exists() {
-        return dev;
     }
     PathBuf::from("python")
 }
@@ -163,90 +166,165 @@ fn show_backend_error(app: &AppHandle) {
     }
 }
 
-/// Spawn the python webui backend and wait until it is ready, then show the
-/// main window.
+/// Copy a directory tree. Used to seed the install directory from the
+/// PyInstaller bundle on first run; failures are per-file and ignored (the
+/// backend surfaces what it needs in its own logs).
+fn copy_dir_recursive(src: &Path, dst: &Path) {
+    let Ok(entries) = std::fs::read_dir(src) else {
+        return;
+    };
+    let _ = std::fs::create_dir_all(dst);
+    for entry in entries.flatten() {
+        let from = entry.path();
+        let to = dst.join(entry.file_name());
+        if entry.file_type().map(|t| t.is_dir()).unwrap_or(false) {
+            copy_dir_recursive(&from, &to);
+        } else {
+            let _ = std::fs::copy(&from, &to);
+        }
+    }
+}
+
+/// Installed sidecar: the install directory is the data directory.
+/// currentUser installs are writable, and updates only replace the files
+/// that ship in the installer (exe + sidecar dir), so config/log/assets/bin
+/// left beside them survive. First run seeds those directories from the
+/// PyInstaller bundle, whose datas live next to the exe under `_internal/`.
+fn seed_sidecar_data(python: &Path, root: &Path) {
+    let Some(bundle_dir) = python.parent() else {
+        return;
+    };
+    let internal = bundle_dir.join("_internal");
+    for name in ["config", "assets", "bin"] {
+        let dst = root.join(name);
+        if !dst.exists() {
+            copy_dir_recursive(&internal.join(name), &dst);
+        }
+    }
+}
+
+/// Open the packaged-build backend log file for append (diagnostics only,
+/// never parsed). Falls back to a null stdio on any failure.
+#[cfg(not(debug_assertions))]
+fn open_log(path: &Path) -> Stdio {
+    use std::fs::OpenOptions;
+    OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(path)
+        .map(Stdio::from)
+        .unwrap_or_else(|_| Stdio::null())
+}
+
+/// A backend HTTP port is ready when it accepts a connection and answers
+/// with any status (uvicorn binds before serving, so a reply - even
+/// 401/404 - proves the app is up). Pure std TCP keeps this
+/// dependency-free.
+fn http_probe(addr: std::net::SocketAddr) -> bool {
+    use std::io::{Read, Write};
+    use std::net::TcpStream;
+
+    let Ok(mut stream) = TcpStream::connect_timeout(&addr, Duration::from_millis(300)) else {
+        return false;
+    };
+    let Ok(()) = stream.set_read_timeout(Some(Duration::from_millis(500))) else {
+        return false;
+    };
+    if stream
+        .write_all(b"GET / HTTP/1.0\r\nHost: 127.0.0.1\r\n\r\n")
+        .is_err()
+    {
+        return false;
+    }
+    let mut buf = [0u8; 1];
+    stream.read(&mut buf).is_ok_and(|n| n > 0)
+}
+
+/// Spawn the python webui backend, poll its HTTP port until it answers,
+/// then show the main window.
 fn spawn_backend(app: AppHandle) {
     let root = resolve_root(&app);
     let python = resolve_python(&root);
-    #[cfg(not(debug_assertions))]
-    let port = find_free_port();
 
-    // Installed sidecar: point the backend at a writable per-user data
-    // directory (install dirs may be read-only, and the wholesale sidecar
-    // swap during updates must not touch user data). gui.py seeds
-    // config/assets/bin from the bundle on first run and chdirs there.
+    // Installed sidecar: the install directory is the data directory (see
+    // seed_sidecar_data). Anchor the data root to the exe's directory so
+    // the shell's launch CWD never decides where user data lands.
     let is_sidecar = python
         .file_name()
         .and_then(|n| n.to_str())
         .map(|n| n.starts_with("alas-backend") && n.ends_with(".exe"))
         .unwrap_or(false);
+    let root = if is_sidecar {
+        std::env::current_exe()
+            .ok()
+            .and_then(|exe| exe.parent().map(|p| p.to_path_buf()))
+            .unwrap_or(root)
+    } else {
+        root
+    };
+    if is_sidecar {
+        seed_sidecar_data(&python, &root);
+    }
+
+    // Dev: fixed port, the vite proxy target (vite.config.ts). Release:
+    // probe upwards from the default so a running web instance never
+    // blocks the desktop backend.
+    #[cfg(debug_assertions)]
+    let port: u16 = 22267;
+    #[cfg(not(debug_assertions))]
+    let port = find_free_port();
 
     let mut command = Command::new(&python);
     command
         .arg("gui.py")
+        .arg("--port")
+        .arg(port.to_string())
         .current_dir(&root)
-        .stdin(Stdio::null())
-        .stdout(Stdio::piped())
-        .stderr(Stdio::piped());
-    // Keep stdin occupied by a real handle: alas-shell.exe is a GUI binary
-    // whose stdin handle slot is NULL, and CreatePipe then reuses handle 0
-    // for the multiprocessing spawn handshake. The EnableReload child reads
-    // that handshake through sys.stdin (CPython's spawn_main), hits EOF on
-    // the misrouted pipe and dies silently a split second after start.
+        // Keep stdin occupied by a real handle: alas-shell.exe is a GUI
+        // binary whose stdin handle slot is NULL, and CreatePipe then
+        // reuses handle 0 for the multiprocessing spawn handshake. The
+        // EnableReload child reads that handshake through sys.stdin
+        // (CPython's spawn_main), hits EOF on the misrouted pipe and dies
+        // silently a split second after start.
+        .stdin(Stdio::null());
+
+    #[cfg(debug_assertions)]
+    {
+        // Dev builds inherit the terminal, so backend logs appear exactly
+        // as with `uv run gui.py` (console-native encoding, no mojibake).
+        // The SPA loads from the vite dev server (devUrl), which is
+        // cross-origin to the backend; allow that origin via the backend's
+        // ALAS_CORS_ORIGINS gate.
+        command.env("ALAS_CORS_ORIGINS", "http://127.0.0.1:1420");
+    }
+
     #[cfg(not(debug_assertions))]
-    command.arg("--port").arg(port.to_string());
-    // Stdio is GBK-encoded on this machine; force UTF-8 so rich/loguru
-    // output (box-drawing rules, CJK) can always be written to the log
-    // file regardless of the system locale.
-    command.env("PYTHONIOENCODING", "utf-8");
-    if is_sidecar {
-        if let Ok(data_dir) = app.path().app_data_dir() {
-            command.env("ALAS_DATA_DIR", &data_dir);
+    {
+        // Packaged builds: stdout+stderr go into a log file (no pipes: the
+        // frozen PyInstaller runtime has shown fragile behavior under
+        // piped, no-console stdio combinations, while file handles are
+        // always fine). The file is diagnostics only - readiness is
+        // detected over HTTP, never by parsing logs.
+        let backend_log = app
+            .path()
+            .app_log_dir()
+            .map(|dir| {
+                let _ = std::fs::create_dir_all(&dir);
+                dir.join("backend.log")
+            })
+            .unwrap_or_else(|_| PathBuf::from("backend.log"));
+        let _ = std::fs::remove_file(&backend_log);
+        command.stdout(open_log(&backend_log)).stderr(open_log(&backend_log));
+
+        // python.exe is a console-subsystem binary: without
+        // CREATE_NO_WINDOW Windows pops up an empty console window next to
+        // the app.
+        #[cfg(target_os = "windows")]
+        {
+            use std::os::windows::process::CommandExt;
+            command.creation_flags(0x0800_0000);
         }
     }
-    // python.exe is a console-subsystem binary: without CREATE_NO_WINDOW
-    // Windows pops up an empty console window next to the app.
-    #[cfg(target_os = "windows")]
-    {
-        use std::os::windows::process::CommandExt;
-        command.creation_flags(0x0800_0000);
-    }
-    // Dev builds load the SPA from the vite dev server (devUrl), which is
-    // cross-origin to the backend; allow that origin via the backend's
-    // ALAS_CORS_ORIGINS gate. Packaged builds serve the SPA from the
-    // backend itself (same origin) and need no CORS.
-    #[cfg(debug_assertions)]
-    command.env("ALAS_CORS_ORIGINS", "http://127.0.0.1:1420");
-
-    // Backend stdout+stderr go straight into a log file (no pipes: the
-    // frozen PyInstaller runtime has shown fragile behavior under piped,
-    // no-console stdio combinations, while file handles are always fine).
-    // The readiness marker is detected by tailing the same file.
-    let backend_log = app
-        .path()
-        .app_log_dir()
-        .map(|dir| {
-            let _ = std::fs::create_dir_all(&dir);
-            dir.join("backend.log")
-        })
-        .unwrap_or_else(|_| PathBuf::from("backend.log"));
-    let _ = std::fs::remove_file(&backend_log);
-    command.stdout(
-        OpenOptions::new()
-            .create(true)
-            .append(true)
-            .open(&backend_log)
-            .map(Stdio::from)
-            .unwrap_or_else(|_| Stdio::null()),
-    );
-    command.stderr(
-        OpenOptions::new()
-            .create(true)
-            .append(true)
-            .open(&backend_log)
-            .map(Stdio::from)
-            .unwrap_or_else(|_| Stdio::null()),
-    );
 
     let mut child = match command.spawn() {
         Ok(child) => child,
@@ -258,81 +336,56 @@ fn spawn_backend(app: AppHandle) {
     };
 
     // Pin the whole backend tree to a kill-on-close job (see BackendProcess).
-    // Must run before the tail thread takes ownership of the Child handle.
+    // Must run before the poll thread takes ownership of the Child handle.
     #[cfg(target_os = "windows")]
     {
         let job = assign_kill_on_close_job(&child);
         *app.state::<BackendProcess>().job.lock().unwrap() = job;
     }
 
-    let ready = Arc::new(AtomicBool::new(false));
     let handle = app.clone();
-    let ready_thread = Arc::clone(&ready);
-    let tail_log = backend_log.clone();
     std::thread::spawn(move || {
-        use std::io::{Read, Seek, SeekFrom};
-        let mut offset = 0u64;
-        loop {
-            if let Ok(meta) = std::fs::metadata(&tail_log) {
-                if meta.len() > offset {
-                    if let Ok(mut file) = std::fs::File::open(&tail_log) {
-                        if file.seek(SeekFrom::Start(offset)).is_ok() {
-                            let mut buf = String::new();
-                            if file.read_to_string(&mut buf).is_ok() {
-                                offset += buf.len() as u64;
-                                #[cfg(debug_assertions)]
-                                print!("{buf}");
-                                if buf.contains("Application startup complete") && !ready_thread.load(Ordering::SeqCst) {
-                                    ready_thread.store(true, Ordering::SeqCst);
-                                    if let Some(window) = handle.get_webview_window("main") {
-                                        // The backend binds its port right after
-                                        // the marker; wait briefly so the first
-                                        // navigation lands.
-                                        std::thread::sleep(Duration::from_millis(500));
-                                        #[cfg(not(debug_assertions))]
-                                        {
-                                            let url = std::env::var("ALAS_WEBUI_URL")
-                                                .unwrap_or_else(|_| format!("http://127.0.0.1:{port}"));
-                                            match url::Url::parse(&url) {
-                                                Ok(url) => {
-                                                    let _ = window.navigate(url);
-                                                }
-                                                Err(e) => {
-                                                    eprintln!("Invalid ALAS_WEBUI_URL: {e}");
-                                                }
-                                            }
-                                        }
-                                        let _ = window.show();
-                                        let _ = window.set_focus();
-                                    }
-                                }
-                            }
-                        }
+        // Readiness: the backend binds its HTTP port before serving, so the
+        // first response means ready. Poll until an answer arrives, the
+        // backend exits, or 60s elapse.
+        let addr = format!("127.0.0.1:{port}").parse().unwrap();
+        let deadline = std::time::Instant::now() + Duration::from_secs(60);
+        let mut ready = false;
+        while !ready && std::time::Instant::now() < deadline {
+            if let Ok(Some(_)) = child.try_wait() {
+                break; // backend exited before answering
+            }
+            ready = http_probe(addr);
+            if !ready {
+                std::thread::sleep(Duration::from_millis(300));
+            }
+        }
+        if !ready {
+            // Backend exited early or never came up: surface the failure
+            // instead of leaving an invisible tray-only process.
+            show_backend_error(&handle);
+            return;
+        }
+        if let Some(window) = handle.get_webview_window("main") {
+            #[cfg(not(debug_assertions))]
+            {
+                let url = std::env::var("ALAS_WEBUI_URL")
+                    .unwrap_or_else(|_| format!("http://127.0.0.1:{port}"));
+                match url::Url::parse(&url) {
+                    Ok(url) => {
+                        let _ = window.navigate(url);
+                    }
+                    Err(e) => {
+                        eprintln!("Invalid ALAS_WEBUI_URL: {e}");
                     }
                 }
             }
-            if let Ok(Some(_)) = child.try_wait() {
-                break;
-            }
-            std::thread::sleep(Duration::from_millis(400));
-        }
-        // Backend exited; surface the failure if the marker never arrived.
-        if !ready_thread.load(Ordering::SeqCst) {
-            show_backend_error(&handle);
+            let _ = window.show();
+            let _ = window.set_focus();
         }
     });
 
-    // Watchdog for a hung backend that never becomes ready and never exits.
-    let ready_watch = Arc::clone(&ready);
-    let handle_watch = app.clone();
-    std::thread::spawn(move || {
-        std::thread::sleep(Duration::from_secs(60));
-        if !ready_watch.load(Ordering::SeqCst) {
-            show_backend_error(&handle_watch);
-        }
-    });
-
-    // The tail thread owns the Child handle now; kill_backend reaps the
+    // The poll thread owns the Child handle now; kill_backend reaps the
     // tree through the job object instead.
     #[cfg(not(target_os = "windows"))]
     app.state::<BackendProcess>().child.lock().unwrap().replace(child);

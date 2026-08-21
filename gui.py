@@ -1,36 +1,6 @@
 import multiprocessing
-import os
-import shutil
-import sys
 import threading
 from multiprocessing import Event, Process
-
-
-def _bootstrap_data_dir():
-    """Installed sidecar layout: the shell sets ALAS_DATA_DIR to a writable
-    per-user directory (the install dir may be read-only, and wholesale
-    sidecar replacement during updates must not touch user data). First run
-    seeds config/assets/bin from the bundled templates and the process
-    chdirs there; module.logger skips its repo-root chdir when this env
-    var is present, and bundled read-only resources (module/config,
-    module/submodule, webapp-tauri/dist) resolve via
-    module.base.paths.get_resource_root()."""
-    data_dir = os.environ.get("ALAS_DATA_DIR")
-    if not data_dir:
-        return
-    os.makedirs(data_dir, exist_ok=True)
-    if getattr(sys, "frozen", False):
-        bundle_dir = getattr(sys, "_MEIPASS", os.path.dirname(os.path.abspath(sys.executable)))
-        for name in ("config", "assets", "bin"):
-            dst = os.path.join(data_dir, name)
-            if not os.path.exists(dst):
-                src = os.path.join(bundle_dir, name)
-                if os.path.isdir(src):
-                    shutil.copytree(src, dst)
-    os.chdir(data_dir)
-
-
-_bootstrap_data_dir()
 
 from module.logger import logger
 from module.webui.setting import State
