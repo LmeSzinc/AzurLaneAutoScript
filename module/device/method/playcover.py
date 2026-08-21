@@ -31,7 +31,10 @@ PLAYCOVER_TOUCH_SYNC_TIMEOUT = 5
 
 
 class PlayCoverError(Exception):
-    pass
+    def __init__(self, message, status=None, result=None):
+        super().__init__(message)
+        self.status = status
+        self.result = result
 
 
 def retry(func):
@@ -475,7 +478,11 @@ class PlayCoverManagerClient:
             result = {'raw': data.decode('utf-8', errors='replace')}
 
         if response.status >= 400:
-            raise PlayCoverError(f'PlayCover manager {method} {path} failed: HTTP {response.status}, {result}')
+            raise PlayCoverError(
+                f'PlayCover manager {method} {path} failed: HTTP {response.status}, {result}',
+                status=response.status,
+                result=result,
+            )
         return result
 
     @staticmethod
@@ -484,6 +491,13 @@ class PlayCoverManagerClient:
 
     def app_status(self, bundle_identifier, timeout=3):
         return self._request('GET', self._app_path(bundle_identifier), timeout=timeout)
+
+    def list_apps(self, timeout=3):
+        result = self._request('GET', '/apps', timeout=timeout)
+        apps = result.get('apps') if isinstance(result, dict) else None
+        if not isinstance(apps, list):
+            raise PlayCoverError(f'Invalid PlayCover manager app list: {result}')
+        return apps
 
     def app_stop(self, bundle_identifier, timeout=10, force=False):
         return self._request('POST', f'{self._app_path(bundle_identifier)}/stop', {
@@ -515,12 +529,15 @@ class PlayCover:
     @cached_property
     def playcover(self):
         host, port = parse_playcover_serial(self.config.Emulator_Serial)
-        manager_status = None
+        manager_status = getattr(self, '_playcover_initial_manager_status', None)
+        if hasattr(self, '_playcover_initial_manager_status'):
+            del self._playcover_initial_manager_status
         manager_prepared = False
 
         if self.playcover_manager_configured():
             try:
-                manager_status = self.playcover_manager_app_status()
+                if manager_status is None:
+                    manager_status = self.playcover_manager_app_status()
                 if not (
                         self._playcover_status_running(manager_status)
                         and self._playcover_status_maatools_reachable(manager_status, port)

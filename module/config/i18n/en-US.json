@@ -511,7 +511,7 @@
     },
     "BundleIdentifier": {
       "name": "Bundle Identifier",
-      "help": "Bundle identifier of the app managed by PlayCover. With \"auto\", this follows Emulator > Game Server. Select the correct server there when using a non-CN client."
+      "help": "Bundle identifier of the app managed by PlayCover. With \"auto\", it follows Emulator > Game Server. If both settings are automatic, the management API detects the only installed Azur Lane client. If only Game Server is automatic, ALAS infers it from a known Bundle Identifier."
     }
   },
   "EmulatorInfo": {
