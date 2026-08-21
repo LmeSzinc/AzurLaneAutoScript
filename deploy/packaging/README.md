@@ -52,34 +52,36 @@ pnpm tauri build          # 产物 src-tauri/target/release/bundle/nsis/*-setup.
 
 ## 3. 发布新版本（操作手册）
 
-**版本规则**：对外版本 = tag = `YYMMDD`（如 `260821`）；资产名
-`Alas_<tag>_x64-setup.exe`、应用内"当前版本"（version.txt）均为 tag 值。
-Tauri 内部 version 字段必须是合法 semver，用对应日期 `YY.M.DD`（如 `26.8.21`）。
+**版本规则**：对外版本 = GitHub tag / release 标题 = `vYYYY.MM.DD`（如
+`v2026.08.21`）；资产名 `Alas_<tag>_x64-setup.exe`、应用内"当前版本"
+（version.txt）均为 tag 值，三者始终一致。Tauri 内部 version 字段沿用日期
+semver `YY.M.DD`（如 `26.8.21`，对应 tag 的 YYYY 年缩两位）。
 
 **发布一个版本只需三步**：
 
 ```powershell
-# ① 改版本号（3 个文件 → YY.M.DD，如 26.8.22）
+# ① 改版本号：内部 semver → YY.M.DD（如 26.8.22，对应发布日）
 #    webapp-tauri/src-tauri/tauri.conf.json 的 "version"
 #    webapp-tauri/src-tauri/Cargo.toml       的 version
 #    webapp-tauri/package.json               的 "version"
 
 # ② 提交推送
 git add -A
-git commit -m "release 260822"
+git commit -m "release v2026.08.22"
 git push fork master
 
 # ③ 打 tag 并推送 → CI 自动构建并发布（约 12 分钟）
-git tag 260822
-git push fork 260822
+git tag v2026.08.22
+git push fork v2026.08.22
 ```
 
-CI 完成后 GitHub Release `260822` 自动创建，资产 `Alas_260822_x64-setup.exe`。
-已安装的应用在 主页→更新器 刷新后即可看到并安装该版本。
+CI 完成后 GitHub Release `v2026.08.22` 自动创建，资产
+`Alas_v2026.08.22_x64-setup.exe`。已安装的应用在 主页→更新器 刷新后即可看到
+并安装该版本。
 
 **注意事项**：
 - tag 不可重用：同一版本要重发时，先删掉再重打——
-  `gh release delete 260822 --cleanup-tag && git tag -d 260822 && git tag 260822 && git push fork 260822`
+  `gh release delete v2026.08.22 --cleanup-tag && git tag -d v2026.08.22 && git tag v2026.08.22 && git push fork v2026.08.22`
 - 推 tag 前先确认 ci.yml 通过（前端 lint/测试、pyright、导入冒烟）；
   推送 tag 前请确保所有改动已 commit 在 master 上——CI 构建的是 tag 指向的提交。
 - 手动重跑（不发新版本）：Actions → Release → Run workflow（此时资产名会带
