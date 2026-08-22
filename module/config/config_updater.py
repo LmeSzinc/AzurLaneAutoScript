@@ -10,6 +10,7 @@ from module.config.env import IS_ON_PHONE_CLOUD
 from module.config.redirect_utils.utils import *  # noqa: F403  (re-export facade)
 from module.config.server import VALID_CHANNEL_PACKAGE, VALID_PACKAGE, VALID_SERVER_LIST, to_package, to_server
 from module.config.utils import *  # noqa: F403  (re-export facade)
+from module.tasks.registry import family_tasks
 
 CONFIG_IMPORT = '''
 import datetime
@@ -29,14 +30,6 @@ ARCHIVES_PREFIX = {
     'jp': '檔案 ',
     'tw': '檔案 '
 }
-MAINS = ['Main', 'Main2', 'Main3']
-EVENTS = ['Event', 'Event2', 'EventA', 'EventB', 'EventC', 'EventD', 'EventSp']
-GEMS_FARMINGS = ['GemsFarming']
-RAIDS = ['Raid', 'RaidDaily']
-WAR_ARCHIVES = ['WarArchives']
-COALITIONS = ['Coalition', 'CoalitionSp']
-MARITIME_ESCORTS = ['MaritimeEscort']
-HOSPITAL = ['Hospital']
 
 
 class Event:
@@ -423,47 +416,53 @@ class ConfigGenerator:
         ./campaign/Readme.md -----+
                                   v
                    args.json -----+-----> args.json
+
+        Phase 4D: table-driven. Latest-date rule per (server, family) mirrors
+        the legacy hasattr-based per-server latest date tracking.
         """
+        rules = [
+            (lambda e: e.is_raid, 'raid', 'raid'),
+            (lambda e: e.is_war_archives, 'war_archives', None),
+            (lambda e: e.is_coalition, 'coalition', 'coalition'),
+            (lambda e: True, 'event', 'event'),
+        ]
+        latest: dict[tuple[str, str], int] = {}
         for server in ARCHIVES_PREFIX:
             for event in self.event:
                 name = event.__getattribute__(server)
+                if not name:
+                    continue
+                for predicate, family, latest_key in rules:
+                    if predicate(event):
+                        break
+                if latest_key is not None:
+                    key = (server, latest_key)
+                    if key not in latest:
+                        latest[key] = int(event.date)
+                    elif int(event.date) != latest[key]:
+                        continue
+                if family == 'event':
+                    tasks = family_tasks('event') + family_tasks('gems')
+                else:
+                    tasks = family_tasks(family)
+                for task in tasks:
 
-                def insert(key, server=server, event=event):
-                    opts = deep_get(self.args, keys=f'{key}.Campaign.Event.option_{server}', default=[])
-                    if event not in opts:
-                        opts.append(event)
-                    deep_set(self.args, keys=f'{key}.Campaign.Event.option_{server}', value=opts)
+                    def insert(key, server=server, event=event):
+                        opts = deep_get(self.args, keys=f'{key}.Campaign.Event.option_{server}', default=[])
+                        if event not in opts:
+                            opts.append(event)
+                        deep_set(self.args, keys=f'{key}.Campaign.Event.option_{server}', value=opts)
 
-                if name:
-                    if event.is_raid:
-                        if not hasattr(self, f'_{server}_latest_raid_date'):
-                            setattr(self, f'_{server}_latest_raid_date', int(event.date))
-                        if int(event.date) == getattr(self, f'_{server}_latest_raid_date'):
-                            for task in RAIDS:
-                                insert(task)
-                    elif event.is_war_archives:
-                        for task in WAR_ARCHIVES:
-                            insert(task)
-                    elif event.is_coalition:
-                        if not hasattr(self, f'_{server}_latest_coalition_date'):
-                            setattr(self, f'_{server}_latest_coalition_date', int(event.date))
-                        if int(event.date) == getattr(self, f'_{server}_latest_coalition_date'):
-                            for task in COALITIONS:
-                                insert(task)
-                    else:
-                        if not hasattr(self, f'_{server}_latest_event_date'):
-                            setattr(self, f'_{server}_latest_event_date', int(event.date))
-                        if int(event.date) == getattr(self, f'_{server}_latest_event_date'):
-                            for task in EVENTS + GEMS_FARMINGS:
-                                insert(task)
+                    insert(task)
 
-        for task in EVENTS + GEMS_FARMINGS + WAR_ARCHIVES + RAIDS + COALITIONS:
+        for task in (family_tasks('event') + family_tasks('gems') + family_tasks('war_archives')
+                     + family_tasks('raid') + family_tasks('coalition')):
             latest = {}
             for server in ARCHIVES_PREFIX:
                 latest[server] = deep_get(self.args, keys=f'{task}.Campaign.Event.option_{server}', default=[])
             options = set().union(*latest.values())
             options = sorted([option for option in options if option != 'campaign_main'])
-            if task not in WAR_ARCHIVES:
+            if task not in family_tasks('war_archives'):
                 deep_set(self.args, keys=f'{task}.Campaign.Event.option_bold', value=options)
             deep_set(self.args, keys=f'{task}.Campaign.Event.option', value=options)
 
@@ -637,21 +636,21 @@ class ConfigUpdater:
         # Update to latest event
         server = to_server(deep_get(new, 'Alas.Emulator.PackageName', 'cn'))
         if not is_template:
-            for task in EVENTS + RAIDS + COALITIONS:
+            for task in family_tasks('event') + family_tasks('raid') + family_tasks('coalition'):
                 opts = deep_get(self.args, keys=f'{task}.Campaign.Event.option_{server}', default=[])
                 if opts and deep_get(new, keys=f'{task}.Campaign.Event', default='campaign_main') not in opts:
                     deep_set(new,
                              keys=f'{task}.Campaign.Event',
                              value=opts[0])
 
-            for task in ['GemsFarming']:
+            for task in family_tasks('gems'):
                 opts = deep_get(self.args, keys=f'{task}.Campaign.Event.option_{server}', default=[])
                 if opts and deep_get(new, keys=f'{task}.Campaign.Event', default='campaign_main') not in opts:
                     deep_set(new,
                              keys=f'{task}.Campaign.Event',
                              value=opts[0])
         # War archive does not allow campaign_main
-        for task in WAR_ARCHIVES:
+        for task in family_tasks('war_archives'):
             opts = deep_get(self.args, keys=f'{task}.Campaign.Event.option_{server}', default=[])
             if opts and deep_get(new, keys=f'{task}.Campaign.Event', default='campaign_main') == 'campaign_main':
                 deep_set(new,
@@ -663,9 +662,9 @@ class ConfigUpdater:
             if deep_get(new, keys=f'{t}.Campaign.Name', default='12-4') in ['7-2', '12-4']:
                 deep_set(new, keys=f'{t}.Campaign.Name', value=stage)
 
-        for task in EVENTS + WAR_ARCHIVES:
+        for task in family_tasks('event') + family_tasks('war_archives'):
             default_stage(task, 'D3')
-        for task in COALITIONS:
+        for task in family_tasks('coalition'):
             default_stage(task, 'area1-normal')
 
         if not is_template:

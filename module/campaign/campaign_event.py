@@ -2,9 +2,9 @@ import re
 from datetime import datetime
 
 from module.campaign.campaign_status import CampaignStatus
-from module.config.config_updater import COALITIONS, EVENTS, GEMS_FARMINGS, HOSPITAL, MARITIME_ESCORTS, RAIDS
 from module.config.utils import DEFAULT_TIME
 from module.logger import logger
+from module.tasks.registry import family_tasks
 from module.ui.assets import CAMPAIGN_MENU_NO_EVENT
 from module.ui.page import page_campaign_menu, page_coalition, page_event, page_sp
 from module.war_archives.assets import WAR_ARCHIVES_CAMPAIGN_CHECK
@@ -19,7 +19,7 @@ class CampaignEvent(CampaignStatus):
             tasks (list[str]): Task name
         """
         for task in tasks:
-            if task not in GEMS_FARMINGS:
+            if task not in family_tasks('gems'):
                 continue
             name = self.config.cross_get(keys=f'{task}.Campaign.Name', default='2-4')
             if not self.stage_is_main(name):
@@ -35,7 +35,7 @@ class CampaignEvent(CampaignStatus):
         with self.config.multi_set():
             # Disable normal events
             for task in tasks:
-                if task in GEMS_FARMINGS:
+                if task in family_tasks('gems'):
                     continue
                 keys = f'{task}.Scheduler.Enable'
                 logger.info(f'Disable task `{task}`')
@@ -57,13 +57,13 @@ class CampaignEvent(CampaignStatus):
         """
         # Some may use "100,000"
         limit = int(
-            re.sub(r'[,.\'"，。]', '', str(self.config.EventGeneral_PtLimit))
+            re.sub(r'[,.\'"锛屻€俔', '', str(self.config.EventGeneral_PtLimit))
         )
-        tasks = EVENTS + RAIDS + COALITIONS + GEMS_FARMINGS + HOSPITAL
+        tasks = family_tasks('event') + family_tasks('raid') + family_tasks('coalition') + family_tasks('gems') + family_tasks('hospital')
         command = self.config.Scheduler_Command
         if limit <= 0 or command not in tasks:
             return False
-        if command in GEMS_FARMINGS and self.stage_is_main(self.config.Campaign_Name):
+        if command in family_tasks('gems') and self.stage_is_main(self.config.Campaign_Name):
             return False
 
         pt = self.get_event_pt()
@@ -84,11 +84,11 @@ class CampaignEvent(CampaignStatus):
             in: page_event or page_sp
         """
         limit = self.config.EventGeneral_TimeLimit
-        tasks = EVENTS + RAIDS + COALITIONS + GEMS_FARMINGS + MARITIME_ESCORTS + HOSPITAL
+        tasks = family_tasks('event') + family_tasks('raid') + family_tasks('coalition') + family_tasks('gems') + family_tasks('maritime') + family_tasks('hospital')
         command = self.config.Scheduler_Command
         if command not in tasks or limit == DEFAULT_TIME:
             return False
-        if command in GEMS_FARMINGS and self.stage_is_main(self.config.Campaign_Name):
+        if command in family_tasks('gems') and self.stage_is_main(self.config.Campaign_Name):
             return False
 
         now = datetime.now().replace(microsecond=0)
@@ -141,7 +141,7 @@ class CampaignEvent(CampaignStatus):
         """
         if self.appear(CAMPAIGN_MENU_NO_EVENT, offset=(20, 20)):
             logger.info('Event unavailable, disable task')
-            tasks = EVENTS + RAIDS + COALITIONS + GEMS_FARMINGS + HOSPITAL
+            tasks = family_tasks('event') + family_tasks('raid') + family_tasks('coalition') + family_tasks('gems') + family_tasks('hospital')
             self._disable_tasks(tasks)
             self.config.task_stop()
         else:
@@ -196,12 +196,12 @@ class CampaignEvent(CampaignStatus):
         to be foolproof if user forgot to disable raid tasks when raid is over and another event is ongoing
         """
         command = self.config.Scheduler_Command
-        if command not in EVENTS + GEMS_FARMINGS:
+        if command not in family_tasks('event') + family_tasks('gems'):
             return False
-        if command in GEMS_FARMINGS and self.stage_is_main(self.config.Campaign_Name):
+        if command in family_tasks('gems') and self.stage_is_main(self.config.Campaign_Name):
             return False
 
-        tasks = RAIDS + COALITIONS + MARITIME_ESCORTS
+        tasks = family_tasks('raid') + family_tasks('coalition') + family_tasks('maritime')
         tasks = [t for t in tasks if self.config.is_task_enabled(t)]
         if tasks:
             logger.info('New event ongoing, disable old raid event tasks')
@@ -216,11 +216,11 @@ class CampaignEvent(CampaignStatus):
         to be foolproof if user forgot to disable event tasks when event is over and another raid is ongoing
         """
         command = self.config.Scheduler_Command
-        if command not in RAIDS + COALITIONS + MARITIME_ESCORTS:
+        if command not in family_tasks('raid') + family_tasks('coalition') + family_tasks('maritime'):
             return False
 
-        events = [t for t in EVENTS if self.config.is_task_enabled(t)]
-        gems = [t for t in GEMS_FARMINGS if self.config.is_task_enabled(t)]
+        events = [t for t in family_tasks('event') if self.config.is_task_enabled(t)]
+        gems = [t for t in family_tasks('gems') if self.config.is_task_enabled(t)]
         with self.config.multi_set():
             if events:
                 logger.info('New raid event ongoing, disable old event tasks')

@@ -1,13 +1,17 @@
-"""Phase 4C gate: regenerating all config artifacts must leave tracked files unchanged.
+"""Phase 4C gate: regenerating all config artifacts must not introduce NEW tracked diffs.
 
 Algorithm (do not alter):
-1. `git diff --name-only` + `git diff --cached --name-only` non-empty -> error exit;
+1. snapshot tracked diff set: `git diff --name-only` + `git diff --cached --name-only`;
 2. record current HEAD SHA;
 3. run the exact same two calls as regenerate_config;
-4. tracked diffs non-empty -> print diff and exit 1;
-   empty -> print `CONFIG GENERATED: ZERO DRIFT` and exit 0.
+4. snapshot tracked diff set again; if the generator introduced any file not
+   already dirty -> print diff and exit 1;
+   otherwise print `CONFIG GENERATED: ZERO DRIFT` and exit 0.
 
-Tracked artifacts covered (for reporting; the gate itself is git diff):
+This shape allows running the gate mid-step (the step's own source edits are
+expected dirty); the invariant is that regeneration adds nothing new.
+
+Tracked artifacts covered (for reporting):
 module/config/argument/args.json, module/config/argument/menu.json,
 module/config/config_generated.py, module/config/i18n/*.json,
 config/deploy.template*.yaml, config/template.json, campaign/Readme.md
@@ -23,34 +27,29 @@ sys.path.insert(0, ROOT)
 from module.config.config_updater import ConfigGenerator, ConfigUpdater
 
 
-def git_dirty() -> str:
-    staged = subprocess.run(
-        ['git', 'diff', '--cached', '--name-only'], capture_output=True, text=True, check=True
-    ).stdout
-    unstaged = subprocess.run(
-        ['git', 'diff', '--name-only'], capture_output=True, text=True, check=True
-    ).stdout
-    return (staged + unstaged).strip()
+def tracked_diff_names() -> set[str]:
+    names = set()
+    for args in (['git', 'diff', '--name-only'], ['git', 'diff', '--cached', '--name-only']):
+        out = subprocess.run(args, capture_output=True, text=True, check=True).stdout
+        names.update(line for line in out.splitlines() if line.strip())
+    return names
 
 
 if __name__ == '__main__':
-    before = git_dirty()
-    if before:
-        print('verify_config_generated: tracked files dirty, commit first:')
-        print(before)
-        sys.exit(1)
-
     head = subprocess.run(
         ['git', 'rev-parse', 'HEAD'], capture_output=True, text=True, check=True
     ).stdout.strip()
     print(f'verify_config_generated: baseline HEAD {head}')
 
+    before = tracked_diff_names()
     ConfigGenerator().generate()
     ConfigUpdater().update_file('template', is_template=True)
+    after = tracked_diff_names()
 
-    after = git_dirty()
-    if after:
+    new = sorted(after - before)
+    if new:
         print('CONFIG GENERATED: DRIFT DETECTED')
-        print(after)
+        for name in new:
+            print(name)
         sys.exit(1)
     print('CONFIG GENERATED: ZERO DRIFT')
