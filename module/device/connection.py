@@ -151,19 +151,18 @@ class Connection(ConnectionAttr):
             return VALID_CHANNEL_PACKAGE[package][0]
         return None
 
-    def _playcover_default_package(self, set_config):
+    def _playcover_default_package(self):
         logger.warning('PackageName auto cannot be detected on PlayCover, defaulting to the CN package')
         self.package = to_package('cn')
-        if set_config:
-            self.config.Emulator_PackageName = self.package
+        self.config.Emulator_PackageName = self.package
 
     def _playcover_list_known_apps(self):
         try:
             apps = self.playcover_manager.list_apps()
         except PlayCoverError as e:
-            logger.warning(e)
-            logger.info('PlayCover manager API is unavailable, skip automatic package detection')
-            return None
+            logger.critical(e)
+            logger.critical('PlayCover manager API is required by the selected Serial')
+            raise RequestHumanTakeover
 
         known = {}
         for app in apps:
@@ -183,9 +182,9 @@ class Connection(ConnectionAttr):
                     f'PlayCover app "{bundle_identifier}" does not exist, '
                     'please check Emulator.PackageName')
                 raise RequestHumanTakeover
-            logger.warning(e)
-            logger.info('PlayCover manager API is unavailable, skip app validation and try MaaTools directly')
-            return
+            logger.critical(e)
+            logger.critical('PlayCover manager API is required by the selected Serial')
+            raise RequestHumanTakeover
 
         if isinstance(status, dict):
             self._playcover_initial_manager_status = status
@@ -196,7 +195,7 @@ class Connection(ConnectionAttr):
 
         if not self.playcover_manager_configured():
             if package_auto:
-                self._playcover_default_package(set_config=True)
+                self._playcover_default_package()
             else:
                 self.package = package
             return
@@ -204,10 +203,6 @@ class Connection(ConnectionAttr):
         if package_auto:
             logger.hr('Detect package')
             apps = self._playcover_list_known_apps()
-            if apps is None:
-                # Keep `auto` in config so a later startup can retry manager discovery.
-                self._playcover_default_package(set_config=False)
-                return
 
             logger.info('Here are the available packages from PlayCover manager, '
                         'select one in Alas.Emulator.PackageName when necessary')

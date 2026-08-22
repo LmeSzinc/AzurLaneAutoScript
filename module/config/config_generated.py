@@ -27,9 +27,6 @@ class GeneratedConfig:
     Emulator_AdbRestart = False
 
     # Group `PlayCover`
-    PlayCover_ManagerEnable = True
-    PlayCover_ManagerHost = 'auto'
-    PlayCover_ManagerPort = 1718
     PlayCover_ManagerKey = None
 
     # Group `EmulatorInfo`

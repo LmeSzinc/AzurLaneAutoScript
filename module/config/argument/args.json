@@ -151,19 +151,6 @@
       }
     },
     "PlayCover": {
-      "ManagerEnable": {
-        "type": "checkbox",
-        "value": true
-      },
-      "ManagerHost": {
-        "type": "input",
-        "value": "auto",
-        "valuetype": "str"
-      },
-      "ManagerPort": {
-        "type": "input",
-        "value": 1718
-      },
       "ManagerKey": {
         "type": "input",
         "value": "",

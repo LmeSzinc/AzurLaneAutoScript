@@ -491,19 +491,7 @@
   "PlayCover": {
     "_info": {
       "name": "PlayCover",
-      "help": "PlayCover の MaaTools と管理 API の設定です。PlayCover 使用時のみ有効です。Serial には playcover://192.168.1.10:1717 のようなアドレスを指定します。"
-    },
-    "ManagerEnable": {
-      "name": "管理 API を有効化",
-      "help": "ALAS から PlayCover 経由でゲームを起動、終了、再起動できるようにします（既定のポートは 1718）。無効時は、起動済みのゲームにのみ接続できます。"
-    },
-    "ManagerHost": {
-      "name": "管理 API ホスト",
-      "help": "PlayCover 管理 API のホストです。\"auto\" では Serial の MaaTools ホストを使用します。"
-    },
-    "ManagerPort": {
-      "name": "管理 API ポート",
-      "help": "PlayCover 管理 API のポートです。"
+      "help": "PlayCover 管理 API の設定です。PlayCover モードでのみ使用します。"
     },
     "ManagerKey": {
       "name": "管理 API キー",

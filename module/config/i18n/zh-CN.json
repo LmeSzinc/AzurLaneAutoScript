@@ -350,7 +350,7 @@
     },
     "Serial": {
       "name": "模拟器 Serial",
-      "help": "常见的模拟器 Serial 可以查询下方列表\n填 \"auto\" 自动检测模拟器，多个模拟器正在运行或使用不支持自动检测的模拟器时无法使用 \"auto\"，必须手动填写\n\n模拟器默认 Serial：\n- 蓝叠模拟器 127.0.0.1:5555\n- 蓝叠模拟器4 Hyper-v版，填\"bluestacks4-hyperv\"自动连接，多开填\"bluestacks4-hyperv-2\"以此类推\n- 蓝叠模拟器5 Hyper-v版，填\"bluestacks5-hyperv\"自动连接，多开填\"bluestacks5-hyperv-1\"以此类推\n- 夜神模拟器 127.0.0.1:62001\n- 夜神模拟器64位 127.0.0.1:59865\n- MuMu模拟器/MuMu模拟器X 127.0.0.1:7555\n- MuMu模拟器12 127.0.0.1:16384\n- 逍遥模拟器 127.0.0.1:21503\n- 雷电模拟器 emulator-5554 或 127.0.0.1:5555\n如果你使用了模拟器的多开功能，它们的 Serial 将不是默认的，可以在 console.bat 中执行 `adb devices` 查询，或根据模拟器官方的教程填写"
+      "help": "常见的模拟器 Serial 可以查询下方列表\n填 \"auto\" 自动检测模拟器，多个模拟器正在运行或使用不支持自动检测的模拟器时无法使用 \"auto\"，必须手动填写\n\n模拟器默认 Serial：\n- 蓝叠模拟器 127.0.0.1:5555\n- 蓝叠模拟器4 Hyper-v版，填\"bluestacks4-hyperv\"自动连接，多开填\"bluestacks4-hyperv-2\"以此类推\n- 蓝叠模拟器5 Hyper-v版，填\"bluestacks5-hyperv\"自动连接，多开填\"bluestacks5-hyperv-1\"以此类推\n- 夜神模拟器 127.0.0.1:62001\n- 夜神模拟器64位 127.0.0.1:59865\n- MuMu模拟器/MuMu模拟器X 127.0.0.1:7555\n- MuMu模拟器12 127.0.0.1:16384\n- 逍遥模拟器 127.0.0.1:21503\n- 雷电模拟器 emulator-5554 或 127.0.0.1:5555\n如果你使用了模拟器的多开功能，它们的 Serial 将不是默认的，可以在 console.bat 中执行 `adb devices` 查询，或根据模拟器官方的教程填写\n\nPlayCover Serial 示例：\n- 连接管理 API（推荐），自动获取 MaaTools 端口并管理应用：playcoverm://127.0.0.1:1718 或 pm://127.0.0.1:1718\n- 直连 MaaTools，不具备应用管理功能：playcover://127.0.0.1:1717"
     },
     "PackageName": {
       "name": "游戏服务器",
@@ -456,7 +456,7 @@
     },
     "ScreenshotMethod": {
       "name": "模拟器截图方案",
-      "help": "使用自动选择时，将执行一次性能测试并自动更改为最快的截图方案\n一般情况下的速度: DroidCast_raw >> aScreenCap_nc > ADB_nc >>> aScreenCap > uiautomator2 ~= ADB\n运行 工具 - 性能测试 以寻找最快的方案",
+      "help": "使用自动选择时，将执行一次性能测试并自动更改为最快的截图方案\n一般情况下的速度: DroidCast_raw >> aScreenCap_nc > ADB_nc >>> aScreenCap > uiautomator2 ~= ADB\n运行 工具 - 性能测试 以寻找最快的方案\nPlayCover 模式下忽略此项。",
       "auto": "自动选择最快的",
       "ADB": "ADB",
       "ADB_nc": "ADB_nc",
@@ -471,7 +471,7 @@
     },
     "ControlMethod": {
       "name": "模拟器控制方案",
-      "help": "速度: minitouch > Hermit >>> uiautomator2 ~= ADB\n建议选minitouch，不建议选Hermit除非在vmos下",
+      "help": "速度: minitouch > Hermit >>> uiautomator2 ~= ADB\n建议选minitouch，不建议选Hermit除非在vmos下\nPlayCover 模式下忽略此项。",
       "ADB": "ADB",
       "uiautomator2": "uiautomator2",
       "minitouch": "minitouch",
@@ -491,19 +491,7 @@
   "PlayCover": {
     "_info": {
       "name": "PlayCover",
-      "help": "PlayCover 的 MaaTools 与管理 API 设置，仅在 PlayCover 模式下生效。Serial 请填写类似 playcover://192.168.1.10:1717 的地址。"
-    },
-    "ManagerEnable": {
-      "name": "启用管理 API",
-      "help": "允许 ALAS 通过 PlayCover 启动、关闭或重启游戏（默认端口 1718）。关闭后只能连接已经启动的游戏。"
-    },
-    "ManagerHost": {
-      "name": "管理主机",
-      "help": "PlayCover 管理 API 的主机。填 \"auto\" 时使用 Serial 中的 MaaTools 主机。"
-    },
-    "ManagerPort": {
-      "name": "管理端口",
-      "help": "PlayCover 管理 API 的端口。"
+      "help": "PlayCover 管理 API 设置，仅在 PlayCover 模式下生效。"
     },
     "ManagerKey": {
       "name": "管理密钥",
@@ -513,7 +501,7 @@
   "EmulatorInfo": {
     "_info": {
       "name": "模拟器设置",
-      "help": "下列数值是根据Serial自动填充的，如果不懂请不要随意修改"
+      "help": "下列数值会根据 Serial 自动填充，PlayCover 模式下会被忽略。如果不懂请不要随意修改。"
     },
     "Emulator": {
       "name": "模拟器类型",

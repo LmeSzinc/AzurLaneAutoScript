@@ -22,6 +22,8 @@ PLAYCOVER_METHOD = 'playcover'
 PLAYCOVER_DEFAULT_HOST = '127.0.0.1'
 PLAYCOVER_DEFAULT_PORT = 1717
 PLAYCOVER_MANAGER_DEFAULT_PORT = 1718
+PLAYCOVER_SERIAL_SCHEMES = ('playcover', 'maatools')
+PLAYCOVER_MANAGER_SERIAL_SCHEMES = ('playcoverm', 'pm')
 PLAYCOVER_SHORT_SWIPE_DISTANCE = 80
 PLAYCOVER_SHORT_SWIPE_SPEED = 5
 PLAYCOVER_SHORT_SWIPE_MIN_STEPS = 8
@@ -77,6 +79,49 @@ def retry(func):
     return retry_wrapper
 
 
+def _parse_playcover_address(serial: str, schemes, default_port):
+    serial = str(serial or '').strip()
+    lowered = serial.lower()
+    if not serial or lowered == 'auto' or lowered in schemes:
+        return PLAYCOVER_DEFAULT_HOST, default_port
+
+    for scheme in schemes:
+        prefix = f'{scheme}://'
+        if lowered.startswith(prefix):
+            parsed = urlparse(serial)
+            host = parsed.hostname or PLAYCOVER_DEFAULT_HOST
+            port = parsed.port or default_port
+            return host, port
+
+        prefix = f'{scheme}:'
+        if lowered.startswith(prefix):
+            value = serial[len(prefix):]
+            if not value:
+                return PLAYCOVER_DEFAULT_HOST, default_port
+            host, sep, port = value.rpartition(':')
+            if sep:
+                return host or PLAYCOVER_DEFAULT_HOST, int(port)
+            return value, default_port
+
+    host, sep, port = serial.rpartition(':')
+    if sep:
+        return host or PLAYCOVER_DEFAULT_HOST, int(port)
+    return serial or PLAYCOVER_DEFAULT_HOST, default_port
+
+
+def is_playcover_manager_serial(serial: str):
+    serial = str(serial or '').strip().lower()
+    return serial in PLAYCOVER_MANAGER_SERIAL_SCHEMES or any(
+        serial.startswith(f'{scheme}:') for scheme in PLAYCOVER_MANAGER_SERIAL_SCHEMES
+    )
+
+
+def is_playcover_serial(serial: str):
+    serial = str(serial or '').strip().lower()
+    schemes = PLAYCOVER_SERIAL_SCHEMES + PLAYCOVER_MANAGER_SERIAL_SCHEMES
+    return serial in schemes or any(serial.startswith(f'{scheme}:') for scheme in schemes)
+
+
 def parse_playcover_serial(serial: str):
     """
     Args:
@@ -86,61 +131,25 @@ def parse_playcover_serial(serial: str):
     Returns:
         tuple[str, int]:
     """
-    serial = str(serial or '').strip()
-    if not serial or serial == 'auto' or serial.lower() in ['playcover', 'maatools']:
-        return PLAYCOVER_DEFAULT_HOST, PLAYCOVER_DEFAULT_PORT
-
-    lowered = serial.lower()
-    if lowered.startswith(('playcover://', 'maatools://')):
-        parsed = urlparse(serial)
-        host = parsed.hostname or PLAYCOVER_DEFAULT_HOST
-        port = parsed.port or PLAYCOVER_DEFAULT_PORT
-        return host, port
-
-    for prefix in ['playcover:', 'maatools:']:
-        if lowered.startswith(prefix):
-            value = serial[len(prefix):]
-            if not value:
-                return PLAYCOVER_DEFAULT_HOST, PLAYCOVER_DEFAULT_PORT
-            host, sep, port = value.rpartition(':')
-            if sep:
-                return host or PLAYCOVER_DEFAULT_HOST, int(port)
-            return value, PLAYCOVER_DEFAULT_PORT
-
-    host, sep, port = serial.rpartition(':')
-    if sep:
-        return host or PLAYCOVER_DEFAULT_HOST, int(port)
-    return serial or PLAYCOVER_DEFAULT_HOST, PLAYCOVER_DEFAULT_PORT
+    return _parse_playcover_address(serial, PLAYCOVER_SERIAL_SCHEMES, PLAYCOVER_DEFAULT_PORT)
 
 
-def parse_playcover_manager_address(host: str, port, serial: str):
+def parse_playcover_manager_serial(serial: str):
     """
     Args:
-        host: PlayCover manager host. ``auto`` uses the MaaTools host.
-        port: PlayCover manager port.
-        serial: MaaTools serial.
+        serial: playcoverm, playcoverm://host:port, playcoverm:host:port,
+            pm://host:port, or pm:host:port.
 
     Returns:
         tuple[str, int]:
     """
-    try:
-        port = int(port or PLAYCOVER_MANAGER_DEFAULT_PORT)
-    except (TypeError, ValueError):
-        port = PLAYCOVER_MANAGER_DEFAULT_PORT
-
-    host = str(host or 'auto').strip()
-    if not host or host.lower() == 'auto':
-        host, _ = parse_playcover_serial(serial)
-        return host, port
-
-    if host.lower().startswith(('http://', 'https://')):
-        parsed = urlparse(host)
-        if parsed.hostname:
-            if parsed.port:
-                port = parsed.port
-            return parsed.hostname, port
-
-    return host, port
+    if not is_playcover_manager_serial(serial):
+        raise ValueError(f'Not a PlayCover manager serial: {serial}')
+    return _parse_playcover_address(
+        serial,
+        PLAYCOVER_MANAGER_SERIAL_SCHEMES,
+        PLAYCOVER_MANAGER_DEFAULT_PORT,
+    )
 
 
 def insert_swipe(p0, p3, speed=15, min_steps=2):
@@ -517,8 +526,8 @@ class PlayCoverManagerClient:
 class PlayCover:
     _playcover_hierarchy_warned = False
 
-    def _playcover_connect_client(self, timeout=3):
-        host, port = parse_playcover_serial(self.config.Emulator_Serial)
+    def _playcover_connect_client(self, timeout=3, status=None):
+        host, port = self.playcover_maatools_address(status=status)
         return MaaToolsClient(
             host=host,
             port=port,
@@ -528,7 +537,6 @@ class PlayCover:
 
     @cached_property
     def playcover(self):
-        host, port = parse_playcover_serial(self.config.Emulator_Serial)
         manager_status = getattr(self, '_playcover_initial_manager_status', None)
         if hasattr(self, '_playcover_initial_manager_status'):
             del self._playcover_initial_manager_status
@@ -538,6 +546,7 @@ class PlayCover:
             try:
                 if manager_status is None:
                     manager_status = self.playcover_manager_app_status()
+                _, port = self.playcover_maatools_address(status=manager_status)
                 if not (
                         self._playcover_status_running(manager_status)
                         and self._playcover_status_maatools_reachable(manager_status, port)
@@ -550,9 +559,13 @@ class PlayCover:
                     manager_prepared = True
             except PlayCoverError as e:
                 logger.warning(e)
-                logger.info('PlayCover manager API is unavailable, trying MaaTools directly')
+                if not hasattr(self, '_playcover_maatools_address'):
+                    logger.critical('Unable to resolve the PlayCover MaaTools address from manager API')
+                    raise RequestHumanTakeover
+                logger.info('PlayCover manager API is unavailable, trying the last known MaaTools address')
                 manager_status = None
 
+        host, port = self.playcover_maatools_address()
         try:
             return self._playcover_connect_client()
         except Exception as e:
@@ -602,8 +615,20 @@ class PlayCover:
         if allow_manager and self.playcover_manager_configured():
             manager_attempted = True
             try:
-                _, port = parse_playcover_serial(self.config.Emulator_Serial)
                 status = self.playcover_manager_app_status()
+                _, port = self.playcover_maatools_address(status=status)
+                if (
+                        not force_manager
+                        and self._playcover_status_running(status)
+                        and self._playcover_status_maatools_reachable(status, port)
+                ):
+                    try:
+                        client = self._playcover_connect_client(timeout=1)
+                        set_cached_property(self, 'playcover', client)
+                        logger.info('Reconnected PlayCover MaaTools at the address reported by manager API')
+                        return True, True
+                    except Exception as e:
+                        logger.warning(f'Unable to connect MaaTools at the address reported by manager API: {e}')
                 manager_force = force_manager or (
                     self._playcover_status_running(status)
                     and self._playcover_status_maatools_reachable(status, port)
@@ -633,11 +658,7 @@ class PlayCover:
 
     @cached_property
     def playcover_manager(self):
-        host, port = parse_playcover_manager_address(
-            getattr(self.config, 'PlayCover_ManagerHost', 'auto'),
-            getattr(self.config, 'PlayCover_ManagerPort', PLAYCOVER_MANAGER_DEFAULT_PORT),
-            self.config.Emulator_Serial,
-        )
+        host, port = parse_playcover_manager_serial(self.serial)
         logger.attr('PlayCoverManager', f'{host}:{port}')
         return PlayCoverManagerClient(
             host=host,
@@ -646,7 +667,7 @@ class PlayCover:
         )
 
     def playcover_manager_configured(self):
-        return bool(getattr(self.config, 'PlayCover_ManagerEnable', True))
+        return is_playcover_manager_serial(self.serial)
 
     def playcover_manager_available(self):
         if not self.playcover_manager_configured():
@@ -665,6 +686,41 @@ class PlayCover:
         return self.playcover_manager.app_status(self.playcover_bundle_identifier())
 
     @staticmethod
+    def _playcover_status_maatools_port(status):
+        if not isinstance(status, dict):
+            return None
+        maatools = status.get('maaTools') or {}
+        if not isinstance(maatools, dict):
+            return None
+        try:
+            port = int(maatools.get('port') or 0)
+        except (TypeError, ValueError):
+            return None
+        if 1024 <= port <= 65535:
+            return port
+        return None
+
+    def playcover_maatools_address(self, status=None):
+        if not self.playcover_manager_configured():
+            return parse_playcover_serial(self.serial)
+
+        if status is not None:
+            port = self._playcover_status_maatools_port(status)
+            if port is None:
+                raise PlayCoverError(f'Invalid MaaTools port in PlayCover app status: {status}')
+            host, _ = parse_playcover_manager_serial(self.serial)
+            self._playcover_maatools_address = (host, port)
+            return self._playcover_maatools_address
+
+        address = getattr(self, '_playcover_maatools_address', None)
+        if address is not None:
+            return address
+        status = getattr(self, '_playcover_initial_manager_status', None)
+        if status is not None:
+            return self.playcover_maatools_address(status=status)
+        return self.playcover_maatools_address(status=self.playcover_manager_app_status())
+
+    @staticmethod
     def _playcover_status_running(status):
         return isinstance(status, dict) and bool(status.get('running'))
 
@@ -681,9 +737,9 @@ class PlayCover:
             return False
 
     def playcover_manager_ensure_maatools(self, restart=True, force=False, status=None):
-        _, port = parse_playcover_serial(self.config.Emulator_Serial)
         if status is None:
             status = self.playcover_manager_app_status()
+        _, port = self.playcover_maatools_address(status=status)
         if (
                 not force
                 and self._playcover_status_running(status)
@@ -698,6 +754,7 @@ class PlayCover:
             port=port,
             restart=restart,
         )
+        self.playcover_maatools_address(status=status)
         if restart:
             self.playcover_set_need_app_login()
         if not self._playcover_status_running(status):
@@ -722,13 +779,13 @@ class PlayCover:
 
     def playcover_connect_maatools(self, status=None, restart=True, force=False):
         self.playcover_release()
-        self.playcover_manager_ensure_maatools(
+        status = self.playcover_manager_ensure_maatools(
             restart=restart,
             force=force,
             status=status,
         )
         try:
-            client = self._playcover_connect_client()
+            client = self._playcover_connect_client(status=status)
         except Exception as e:
             raise PlayCoverError(f'Unable to connect PlayCover MaaTools after manager action: {e}') from e
         set_cached_property(self, 'playcover', client)
@@ -792,17 +849,8 @@ class PlayCover:
             if has_cached_property(self, 'playcover'):
                 self.playcover.get_window_size()
             else:
-                host, port = parse_playcover_serial(self.config.Emulator_Serial)
-                client = MaaToolsClient(
-                    host=host,
-                    port=port,
-                    timeout=1,
-                    expected_bundle_identifier=self.playcover_bundle_identifier(),
-                )
-                try:
-                    client.connect()
-                finally:
-                    client.disconnect()
+                client = self._playcover_connect_client(timeout=1)
+                client.disconnect()
             return True
         except Exception as e:
             logger.warning(f'PlayCover MaaTools is not reachable: {e}')

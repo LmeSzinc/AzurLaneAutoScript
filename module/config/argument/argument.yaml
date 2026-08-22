@@ -58,11 +58,6 @@ Emulator:
   ScreenshotDedithering: false
   AdbRestart: false
 PlayCover:
-  ManagerEnable: true
-  ManagerHost:
-    value: auto
-    valuetype: str
-  ManagerPort: 1718
   ManagerKey:
     value: ''
     valuetype: str

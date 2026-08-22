@@ -10,9 +10,6 @@
       "AdbRestart": false
     },
     "PlayCover": {
-      "ManagerEnable": true,
-      "ManagerHost": "auto",
-      "ManagerPort": 1718,
       "ManagerKey": null
     },
     "EmulatorInfo": {

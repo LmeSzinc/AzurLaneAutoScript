@@ -350,7 +350,7 @@
     },
     "Serial": {
       "name": "Serial",
-      "help": "Common emulator Serial can be queried in the list below\nUse \"auto\" to auto-detect emulators, but if multiple emulators are running or use emulators that do not support auto-detect, \"auto\" cannot be used and serial must be filled in manually\nDefault serial for select emulators:\n- BlueStacks 127.0.0.1:5555\n- BlueStacks4 Hyper-V use \"bluestacks4-hyperv\", \"bluestacks4-hyperv-2\" for multi instance, and so on\n- BlueStacks5 Hyper-V use \"bluestacks5-hyperv\", \"bluestacks5-hyperv-1\" for multi instance, and so on\n- NoxPlayer 127.0.0.1:62001\n- NoxPlayer64bit 127.0.0.1:59865\n- MuMuPlayer/MuMuPlayer X 127.0.0.1:7555\n- MuMuPlayer12 127.0.0.1:16384\n- MemuPlayer 127.0.0.1:21503\n- LDPlayer emulator-5554 or 127.0.0.1:5555\nIf there are multiple emulator instances running, the default is reserved for one of them and the others will use different serials to avoid conflicts\nOpen console.bat and run `adb devices` to find them or follow the emulator's official tutorial"
+      "help": "Common emulator Serial can be queried in the list below\nUse \"auto\" to auto-detect emulators, but if multiple emulators are running or use emulators that do not support auto-detect, \"auto\" cannot be used and serial must be filled in manually\nDefault serial for select emulators:\n- BlueStacks 127.0.0.1:5555\n- BlueStacks4 Hyper-V use \"bluestacks4-hyperv\", \"bluestacks4-hyperv-2\" for multi instance, and so on\n- BlueStacks5 Hyper-V use \"bluestacks5-hyperv\", \"bluestacks5-hyperv-1\" for multi instance, and so on\n- NoxPlayer 127.0.0.1:62001\n- NoxPlayer64bit 127.0.0.1:59865\n- MuMuPlayer/MuMuPlayer X 127.0.0.1:7555\n- MuMuPlayer12 127.0.0.1:16384\n- MemuPlayer 127.0.0.1:21503\n- LDPlayer emulator-5554 or 127.0.0.1:5555\nIf there are multiple emulator instances running, the default is reserved for one of them and the others will use different serials to avoid conflicts\nOpen console.bat and run `adb devices` to find them or follow the emulator's official tutorial\n\nPlayCover Serial examples:\n- Management API connection (Recommended), with automatic MaaTools port discovery and app management: playcoverm://127.0.0.1:1718 or pm://127.0.0.1:1718\n- Direct MaaTools connection without app management: playcover://127.0.0.1:1717"
     },
     "PackageName": {
       "name": "Game Server",
@@ -456,7 +456,7 @@
     },
     "ScreenshotMethod": {
       "name": "Screenshot Method",
-      "help": "When using auto-select, a benchmark will be performed and automatically changed to the fastest screenshot method.\nGeneral speed: DroidCast_raw >> aScreenCap_nc > ADB_nc >>> aScreenCap > uiautomator2 ~= ADB.\nRun Tools - Performance Test to find the fastest method.",
+      "help": "When using auto-select, a benchmark will be performed and automatically changed to the fastest screenshot method.\nGeneral speed: DroidCast_raw >> aScreenCap_nc > ADB_nc >>> aScreenCap > uiautomator2 ~= ADB.\nRun Tools - Performance Test to find the fastest method.\nThis setting is ignored in PlayCover mode.",
       "auto": "Auto-select the fastest",
       "ADB": "ADB ",
       "ADB_nc": "ADB_nc",
@@ -471,7 +471,7 @@
     },
     "ControlMethod": {
       "name": "Control Method",
-      "help": "Speed: minitouch > Hermit >>> uiautomator2 ~= ADB\nminitouch is recommended, hermit is not recommended unless on vmos",
+      "help": "Speed: minitouch > Hermit >>> uiautomator2 ~= ADB\nminitouch is recommended, hermit is not recommended unless on vmos\nThis setting is ignored in PlayCover mode.",
       "ADB": "ADB",
       "uiautomator2": "uiautomator2",
       "minitouch": "minitouch",
@@ -491,19 +491,7 @@
   "PlayCover": {
     "_info": {
       "name": "PlayCover",
-      "help": "PlayCover MaaTools and management API settings. These options are used only with PlayCover. Set Serial to an address such as playcover://192.168.1.10:1717."
-    },
-    "ManagerEnable": {
-      "name": "Enable Management API",
-      "help": "Allows ALAS to start, stop, and restart the game through PlayCover (default port 1718). When disabled, ALAS can only connect to a game that is already running."
-    },
-    "ManagerHost": {
-      "name": "Management API Host",
-      "help": "Host of the PlayCover management API. Use \"auto\" to use the MaaTools host from Serial."
-    },
-    "ManagerPort": {
-      "name": "Management API Port",
-      "help": "Port of the PlayCover management API."
+      "help": "PlayCover management API settings. Used only in PlayCover mode."
     },
     "ManagerKey": {
       "name": "Management API Key",
@@ -513,7 +501,7 @@
   "EmulatorInfo": {
     "_info": {
       "name": "Emulator Settings",
-      "help": "The following values are auto-filled according to \"Serial\", if you don’t understand, please don't modify them"
+      "help": "The following values are auto-filled according to \"Serial\" and are ignored in PlayCover mode. If you don't understand them, please don't modify them."
     },
     "Emulator": {
       "name": "Emulator Type",
