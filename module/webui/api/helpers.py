@@ -130,6 +130,21 @@ def _save_config(modified: dict[str, Any], config_name: str, args_schema: dict[s
                 deep_set(config, p, "")
     for k, v in modified.items():
         valuetype = deep_get(args_schema, k + ".valuetype")
+        # Selects carry no valuetype in the schema, but the DOM always
+        # sends strings. Infer the type from the option list so numeric
+        # options (e.g. Shipyard.ResearchSeries) are stored as ints, not
+        # strings - otherwise config_update's option membership check
+        # fails on read ('3' not in [1,2,3,...]) and the value silently
+        # falls back to the schema default ("config lost").
+        if valuetype is None:
+            option = deep_get(args_schema, k + ".option")
+            if isinstance(option, list) and option:
+                if all(isinstance(o, bool) for o in option):
+                    valuetype = "bool"
+                elif all(isinstance(o, int) for o in option):
+                    valuetype = "int"
+                elif all(isinstance(o, float) for o in option):
+                    valuetype = "float"
         v = _parse_value(v, valuetype)
         validate = deep_get(args_schema, k + ".validate")
         if not len(str(v)):
