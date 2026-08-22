@@ -1,15 +1,12 @@
-﻿Deploy:
+Deploy:
   Git:
     # URL of AzurLaneAutoScript repository
-    # [CN user] Use 'git://git.lyoko.io/AzurLaneAutoScript' for faster and more stable download
-    # [Other] Use 'https://github.com/LmeSzinc/AzurLaneAutoScript'
     Repository: https://github.com/LmeSzinc/AzurLaneAutoScript
     # Branch of Alas
     # [Developer] Use 'dev', 'app', etc, to try new features
     # [Other] Use 'master', the stable branch
     Branch: master
-    # Filepath of git executable `git.exe`
-    # [In most cases] Use 'git'
+    # git executable, resolved from PATH
     GitExecutable: /usr/bin/git
     # Set git proxy
     # [CN user] Use your local http proxy (http://127.0.0.1:{port}) or socks5 proxy (socks5://127.0.0.1:{port})
@@ -19,7 +16,7 @@
     # [In most cases] Use true
     # [Other] Use false to when connected to an untrusted network
     SSLVerify: true
-    # Update Alas at startup
+    # Gate the manual update panel in the webui (no background auto-update)
     # [In most cases] Use true
     AutoUpdate: true
 
@@ -28,16 +25,15 @@
     # [CN user] Use 'https://mirrors.aliyun.com/pypi/simple' for faster and more stable download
     # [Other] Use null
     PypiMirror: null
-    # Install dependencies at startup
+    # Install dependencies when updating manually via the webui panel
     # [In most cases] Use true
     InstallDependencies: true
     # Path to requirements.txt
-    # [In most cases] Use './deploy/docker/requirements.txt'
+    # [In most cases] Use 'requirements.txt'
     RequirementsFile: ./deploy/docker/requirements.txt
 
   Adb:
-    # Filepath of ADB executable `adb.exe`
-    # [In most cases] Use 'adb'
+    # adb executable, resolved from PATH
     AdbExecutable: /usr/bin/adb
     # Whether to replace ADB
     # Chinese emulators (NoxPlayer, LDPlayer, MemuPlayer, MuMuPlayer) use their own ADB, instead of the latest.
@@ -58,18 +54,11 @@
     InstallUiautomator2: true
 
   Update:
-    # Use auto update and builtin updater feature
-    # This may cause problem https://github.com/LmeSzinc/AzurLaneAutoScript/issues/876
+    # Restart the webui backend after a manual update
     EnableReload: true
-    # Check update every X minute
-    # [Disable] 0
-    # [Default] 5
+    # Scheduled auto-update is disabled; these two keys are kept for
+    # configuration compatibility and currently unused.
     CheckUpdateInterval: 5
-    # Scheduled restart time
-    # If there are updates, Alas will automatically restart and update at this time every day
-    # and run all alas instances that running before restarted
-    # [Disable] null
-    # [Default] 03:50
     AutoRestartTime: 03:50
 
   Misc:

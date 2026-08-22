@@ -3050,7 +3050,6 @@
       "NewSuccess": "Add config succeeded",
       "Name": "Name",
       "Mod": "Mod",
-      "Modified": "Modified",
       "Actions": "Actions"
     },
     "Update": {
@@ -3070,14 +3069,7 @@
       "Time": "Commit time",
       "Message": "Commit message",
       "DisabledWarn": "Updater module is disabled. You need to manually restart Alas to update",
-      "DetailedHistory": "Detailed Commit History",
-      "CurrentVersion": "Current version",
-      "Repo": "Update repository",
-      "Refresh": "Refresh list",
-      "Install": "Install",
-      "Installing": "Installing",
-      "NoReleases": "No releases loaded yet, click refresh",
-      "InstallHint": "Installing replaces the desktop app and restarts it automatically"
+      "DetailedHistory": "Detailed Commit History"
     },
     "Remote": {
       "Running": "Remote access on",
