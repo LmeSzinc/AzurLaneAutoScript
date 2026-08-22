@@ -466,7 +466,8 @@
       "DroidCast": "DroidCast",
       "DroidCast_raw": "DroidCast_raw",
       "nemu_ipc": "nemu_ipc",
-      "ldopengl": "ldopengl"
+      "ldopengl": "ldopengl",
+      "playcover": "PlayCover"
     },
     "ControlMethod": {
       "name": "Emulator.ControlMethod.name",
@@ -475,7 +476,8 @@
       "uiautomator2": "uiautomator2",
       "minitouch": "minitouch",
       "Hermit": "Hermit",
-      "MaaTouch": "MaaTouch"
+      "MaaTouch": "MaaTouch",
+      "playcover": "PlayCover"
     },
     "ScreenshotDedithering": {
       "name": "Emulator.ScreenshotDedithering.name",
@@ -484,6 +486,16 @@
     "AdbRestart": {
       "name": "Emulator.AdbRestart.name",
       "help": "Emulator.AdbRestart.help"
+    }
+  },
+  "PlayCover": {
+    "_info": {
+      "name": "PlayCover",
+      "help": "PlayCover 管理 API の設定です。PlayCover モードでのみ使用します。"
+    },
+    "ManagerKey": {
+      "name": "管理 API キー",
+      "help": "PlayCover 管理 API のアクセスキーです。認証を使用しない場合は空欄にします。"
     }
   },
   "EmulatorInfo": {

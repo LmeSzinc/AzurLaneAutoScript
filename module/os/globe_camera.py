@@ -97,7 +97,7 @@ class GlobeCamera(GlobeOperation, ZoneManager):
 
         if self.config.DEVICE_CONTROL_METHOD == 'minitouch':
             distance = self.config.MAP_SWIPE_MULTIPLY_MINITOUCH
-        elif self.config.DEVICE_CONTROL_METHOD == 'MaaTouch':
+        elif self.config.DEVICE_CONTROL_METHOD in ['MaaTouch', 'playcover']:
             distance = self.config.MAP_SWIPE_MULTIPLY_MAATOUCH
         else:
             distance = self.config.MAP_SWIPE_MULTIPLY

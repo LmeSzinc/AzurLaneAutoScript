@@ -1,3 +1,5 @@
+import module.config.server as server
+from module.base.button import Button
 from module.base.timer import Timer
 from module.base.utils import *
 from module.logger import logger
@@ -9,6 +11,29 @@ from module.ui.assets import BACK_ARROW
 
 ZONE_TYPES = [ZONE_DANGEROUS, ZONE_SAFE, ZONE_OBSCURE, ZONE_ABYSSAL, ZONE_STRONGHOLD, ZONE_ARCHIVE]
 ZONE_SELECT = [SELECT_DANGEROUS, SELECT_SAFE, SELECT_OBSCURE, SELECT_ABYSSAL, SELECT_STRONGHOLD, SELECT_ARCHIVE]
+
+
+def _playcover_zone_select_assets(server_, *buttons):
+    return [
+        Button(
+            area=button.parse_property(button.raw_area, server_),
+            color=button.parse_property(button.raw_color, server_),
+            button=button.parse_property(button.raw_button, server_),
+            file=f'./assets/{server_}/os/{button.name}_PLAYCOVER.png',
+            name=button.name)
+        for button in buttons
+    ]
+
+
+# Register only servers with dedicated templates. Other servers use ZONE_SELECT.
+ZONE_SELECT_PLAYCOVER = {
+    'cn': _playcover_zone_select_assets(
+        'cn',
+        SELECT_DANGEROUS,
+        SELECT_SAFE,
+        SELECT_OBSCURE,
+    ),
+}
 ASSETS_PINNED_ZONE = ZONE_TYPES + [ZONE_ENTRANCE, ZONE_SWITCH, ZONE_PINNED]
 
 
@@ -131,6 +156,51 @@ class GlobeOperation(ActionPointHandler):
 
     _zone_select_offset = (20, 200)
     _zone_select_similarity = 0.75
+    _zone_select_row_threshold = 30
+
+    def _zone_select_assets(self):
+        if getattr(self.device, 'is_playcover', False):
+            return ZONE_SELECT_PLAYCOVER.get(server.server, []) + ZONE_SELECT
+        return ZONE_SELECT
+
+    def _match_zone_select(self, button):
+        button.ensure_template()
+
+        offset = np.array((-self._zone_select_offset[0], -self._zone_select_offset[1],
+                           self._zone_select_offset[0], self._zone_select_offset[1]))
+        image = crop(self.device.image, offset + button.area, copy=False)
+
+        if button.is_gif:
+            best = (0, None)
+            for template in button.image:
+                res = cv2.matchTemplate(template, image, cv2.TM_CCOEFF_NORMED)
+                _, similarity, _, point = cv2.minMaxLoc(res)
+                if similarity > best[0]:
+                    best = (similarity, point)
+            similarity, point = best
+        else:
+            res = cv2.matchTemplate(button.image, image, cv2.TM_CCOEFF_NORMED)
+            _, similarity, _, point = cv2.minMaxLoc(res)
+
+        if point is not None:
+            button._button_offset = area_offset(button._button, offset[:2] + np.array(point))
+        return similarity
+
+    def _zone_select_row(self, button):
+        area = button.button
+        return (area[1] + area[3]) / 2
+
+    @staticmethod
+    def _zone_select_name(button):
+        return button.name.split('_', 1)[1]
+
+    @staticmethod
+    def _get_zone_select_button(selection, typ):
+        name = 'SELECT_' + typ
+        for select in selection:
+            if select.name == name:
+                return select
+        return None
 
     def get_zone_select(self):
         """
@@ -139,8 +209,32 @@ class GlobeOperation(ActionPointHandler):
         """
         # Lower threshold to 0.75
         # Don't know why buy but fonts are different sometimes
-        return [select for select in ZONE_SELECT if
-                self.appear(select, offset=self._zone_select_offset, similarity=self._zone_select_similarity)]
+        if not getattr(self.device, 'is_playcover', False):
+            return [select for select in ZONE_SELECT if
+                    self.appear(select, offset=self._zone_select_offset,
+                                similarity=self._zone_select_similarity)]
+
+        candidates = []
+        for select in self._zone_select_assets():
+            self.device.stuck_record_add(select)
+            similarity = self._match_zone_select(select)
+            if similarity > self._zone_select_similarity:
+                candidates.append((select, similarity, self._zone_select_row(select)))
+
+        selection = []
+        matched = set()
+        matched_rows = []
+        for select, _, row in sorted(candidates, key=lambda data: data[1], reverse=True):
+            if select.name in matched:
+                continue
+            if any(abs(row - matched_row) < self._zone_select_row_threshold for matched_row in matched_rows):
+                continue
+
+            selection.append(select)
+            matched.add(select.name)
+            matched_rows.append(row)
+
+        return selection
 
     def is_in_zone_select(self):
         """
@@ -180,18 +274,41 @@ class GlobeOperation(ActionPointHandler):
         Args:
             button (Button): Button to select, one of the SELECT_* buttons
 
+        Returns:
+            bool: If success.
+
         Pages:
             in: is_in_zone_select
             out: is_zone_pinned
         """
         logger.info(f'Zone select: {button}')
-        for _ in self.loop():
+        if not getattr(self.device, 'is_playcover', False):
+            for _ in self.loop():
+                if self.is_zone_pinned():
+                    return True
+                if self.appear_then_click(
+                        button, offset=self._zone_select_offset,
+                        similarity=self._zone_select_similarity, interval=5):
+                    continue
+
+        target = self._zone_select_name(button)
+        click_timer = Timer(1, count=1)
+        for _ in self.loop(timeout=10):
+            selection = self.get_zone_select()
+
             # End
-            if self.is_zone_pinned():
-                break
-            if self.appear_then_click(
-                    button, offset=self._zone_select_offset, similarity=self._zone_select_similarity, interval=5):
+            if not selection and self.is_zone_pinned():
+                return True
+
+            current = self._get_zone_select_button(selection, target)
+            if current is None:
                 continue
+            if click_timer.reached():
+                self.device.click(current)
+                click_timer.reset()
+
+        logger.warning(f'Failed to execute zone select: {button}')
+        return False
 
     def zone_type_select(self, types=('SAFE', 'DANGEROUS')):
         """
@@ -200,7 +317,6 @@ class GlobeOperation(ActionPointHandler):
                 Available types: DANGEROUS, SAFE, OBSCURE, ABYSSAL, STRONGHOLD, ARCHIVE.
                 Try the the first selection in type list, if not available, try the next one.
                 Do nothing if no selection satisfied input.
-
         Returns:
             bool: If success.
 
@@ -208,25 +324,29 @@ class GlobeOperation(ActionPointHandler):
             in: is_zone_pinned
             out: is_zone_pinned
         """
-        if not self.zone_has_switch():
-            logger.info('Zone has no type to select, skip')
-            return True
-
         if isinstance(types, str):
             types = [types]
-
-        def get_button(selection_):
-            for typ in types:
-                typ = 'SELECT_' + typ
-                for sele in selection_:
-                    if typ == sele.name:
-                        return sele
-            return None
 
         pinned = self.get_zone_pinned_name()
         if pinned in types:
             logger.info(f'Already selected at {pinned}')
             return True
+
+        is_playcover = getattr(self.device, 'is_playcover', False)
+        if not self.zone_has_switch():
+            if not is_playcover:
+                logger.info('Zone has no type to select, skip')
+                return True
+            logger.attr('Zone_switch', f'missing, pinned={pinned}, types={types}')
+            logger.warning('Zone switch missing while pinned type is not in target types')
+            return False
+
+        def get_button(selection_):
+            for typ in types:
+                button = self._get_zone_select_button(selection_, typ)
+                if button is not None:
+                    return button
+            return None
 
         for _ in range(3):
             self.zone_select_enter()
@@ -238,8 +358,12 @@ class GlobeOperation(ActionPointHandler):
                 logger.warning('No such zone type to select, fallback to default')
                 types = ('SAFE', 'DANGEROUS')
                 button = get_button(selection)
+                if button is None:
+                    logger.warning('Zone has no target type to select')
+                    return False
 
-            self.zone_select_execute(button)
+            if not self.zone_select_execute(button):
+                continue
             if self.pinned_to_name(button) == self.get_zone_pinned_name():
                 return True
 
@@ -262,9 +386,22 @@ class GlobeOperation(ActionPointHandler):
             return True
         elif self.zone_has_switch():
             self.zone_select_enter()
-            flag = SELECT_SAFE in self.ensure_zone_select_expanded()
-            button = SELECT_SAFE if flag else SELECT_DANGEROUS
-            self.zone_select_execute(button)
+            if not getattr(self.device, 'is_playcover', False):
+                flag = SELECT_SAFE in self.ensure_zone_select_expanded()
+                button = SELECT_SAFE if flag else SELECT_DANGEROUS
+                self.zone_select_execute(button)
+                return flag
+
+            selection = self.ensure_zone_select_expanded()
+            button = self._get_zone_select_button(selection, 'SAFE')
+            flag = button is not None
+            if button is None:
+                button = self._get_zone_select_button(selection, 'DANGEROUS')
+            if button is None:
+                logger.warning('Zone has no SAFE or DANGEROUS type to select')
+                return False
+            if not self.zone_select_execute(button):
+                return False
             return flag
         else:
             # No zone_switch, already on DANGEROUS

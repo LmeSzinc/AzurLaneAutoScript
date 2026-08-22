@@ -9,6 +9,9 @@
       "ScreenshotDedithering": false,
       "AdbRestart": false
     },
+    "PlayCover": {
+      "ManagerKey": null
+    },
     "EmulatorInfo": {
       "Emulator": "auto",
       "name": null,
