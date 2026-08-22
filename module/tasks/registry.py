@@ -18,6 +18,10 @@ Entry fields:
                             function to call with config/device kwargs
     task_arg (bool):        pass the scheduler task name as task=... kwarg
                             (used by daemon/eventstory/planner tasks)
+    family (str|None):      task family tag (Phase 4D). Canonical families:
+                            main/event/gems/raid/war_archives/coalition/
+                            maritime/hospital. Config generation and campaign
+                            event logic derive their task lists from here.
 
 The registry is intentionally data-only; azurlane_auto_script.py resolves
 entries so the scheduler keeps a single execution path.
@@ -43,6 +47,7 @@ class TaskEntry:
     method_kwargs: t.Callable[[AzurLaneConfig], dict] | dict | None = None
     function: str | None = None
     task_arg: bool = False
+    family: str | None = None
 
 
 def _campaign_kwargs(config):
@@ -81,15 +86,16 @@ TASK_REGISTRY: dict[str, TaskEntry] = {
     "Exercise": TaskEntry("module.exercise.exercise", "Exercise"),
     "Sos": TaskEntry("module.sos.sos", "CampaignSos"),
     "WarArchives": TaskEntry(
-        "module.war_archives.war_archives", "CampaignWarArchives", method_kwargs=_campaign_kwargs
+        "module.war_archives.war_archives", "CampaignWarArchives", method_kwargs=_campaign_kwargs,
+        family="war_archives"
     ),
-    "RaidDaily": TaskEntry("module.raid.daily", "RaidDaily"),
-    "EventA": TaskEntry("module.event.campaign_abcd", "CampaignABCD"),
-    "EventB": TaskEntry("module.event.campaign_abcd", "CampaignABCD"),
-    "EventC": TaskEntry("module.event.campaign_abcd", "CampaignABCD"),
-    "EventD": TaskEntry("module.event.campaign_abcd", "CampaignABCD"),
-    "EventSp": TaskEntry("module.event.campaign_sp", "CampaignSP"),
-    "MaritimeEscort": TaskEntry("module.event.maritime_escort", "MaritimeEscort"),
+    "RaidDaily": TaskEntry("module.raid.daily", "RaidDaily", family="raid"),
+    "EventA": TaskEntry("module.event.campaign_abcd", "CampaignABCD", family="event"),
+    "EventB": TaskEntry("module.event.campaign_abcd", "CampaignABCD", family="event"),
+    "EventC": TaskEntry("module.event.campaign_abcd", "CampaignABCD", family="event"),
+    "EventD": TaskEntry("module.event.campaign_abcd", "CampaignABCD", family="event"),
+    "EventSp": TaskEntry("module.event.campaign_sp", "CampaignSP", family="event"),
+    "MaritimeEscort": TaskEntry("module.event.maritime_escort", "MaritimeEscort", family="maritime"),
     "OpsiAshAssist": TaskEntry("module.os_ash.meta", "AshBeaconAssist"),
     "OpsiAshBeacon": TaskEntry("module.os_ash.meta", "OpsiAshBeacon"),
     "OpsiExplore": TaskEntry("module.campaign.os_run", "OSCampaignRun", method="opsi_explore"),
@@ -106,19 +112,19 @@ TASK_REGISTRY: dict[str, TaskEntry] = {
     ),
     "OpsiHazard1Leveling": TaskEntry("module.campaign.os_run", "OSCampaignRun", method="opsi_hazard1_leveling"),
     "OpsiCrossMonth": TaskEntry("module.campaign.os_run", "OSCampaignRun", method="opsi_cross_month"),
-    "Main": TaskEntry("module.campaign.run", "CampaignRun", method_kwargs=_campaign_kwargs),
-    "Main2": TaskEntry("module.campaign.run", "CampaignRun", method_kwargs=_campaign_kwargs),
-    "Main3": TaskEntry("module.campaign.run", "CampaignRun", method_kwargs=_campaign_kwargs),
-    "Event": TaskEntry("module.campaign.run", "CampaignRun", method_kwargs=_campaign_kwargs),
-    "Event2": TaskEntry("module.campaign.run", "CampaignRun", method_kwargs=_campaign_kwargs),
-    "Raid": TaskEntry("module.raid.run", "RaidRun"),
-    "Hospital": TaskEntry("module.event_hospital.hospital", "Hospital"),
-    "Coalition": TaskEntry("module.coalition.coalition", "Coalition"),
-    "CoalitionSp": TaskEntry("module.coalition.coalition_sp", "CoalitionSP"),
+    "Main": TaskEntry("module.campaign.run", "CampaignRun", method_kwargs=_campaign_kwargs, family="main"),
+    "Main2": TaskEntry("module.campaign.run", "CampaignRun", method_kwargs=_campaign_kwargs, family="main"),
+    "Main3": TaskEntry("module.campaign.run", "CampaignRun", method_kwargs=_campaign_kwargs, family="main"),
+    "Event": TaskEntry("module.campaign.run", "CampaignRun", method_kwargs=_campaign_kwargs, family="event"),
+    "Event2": TaskEntry("module.campaign.run", "CampaignRun", method_kwargs=_campaign_kwargs, family="event"),
+    "Raid": TaskEntry("module.raid.run", "RaidRun", family="raid"),
+    "Hospital": TaskEntry("module.event_hospital.hospital", "Hospital", family="hospital"),
+    "Coalition": TaskEntry("module.coalition.coalition", "Coalition", family="coalition"),
+    "CoalitionSp": TaskEntry("module.coalition.coalition_sp", "CoalitionSP", family="coalition"),
     "C72MysteryFarming": TaskEntry("module.campaign.run", "CampaignRun", method_kwargs=_campaign_kwargs),
     "C122MediumLeveling": TaskEntry("module.campaign.run", "CampaignRun", method_kwargs=_campaign_kwargs),
     "C124LargeLeveling": TaskEntry("module.campaign.run", "CampaignRun", method_kwargs=_campaign_kwargs),
-    "GemsFarming": TaskEntry("module.campaign.gems_farming", "GemsFarming", method_kwargs=_campaign_kwargs),
+    "GemsFarming": TaskEntry("module.campaign.gems_farming", "GemsFarming", method_kwargs=_campaign_kwargs, family="gems"),
     "IslandProduction": TaskEntry("module.island.production", "IslandProduction"),
     "IslandOrder": TaskEntry("module.island.order", "IslandOrder"),
     "IslandFreebie": TaskEntry("module.island.freebie", "IslandFreebie"),
@@ -141,3 +147,18 @@ TASK_REGISTRY: dict[str, TaskEntry] = {
 TASK_BY_COMMAND: dict[str, str] = {
     inflection.underscore(name): name for name in TASK_REGISTRY
 }
+
+# Family -> task names, in registry declaration order.
+# Phase 4D: this is the single source of truth for the task families that
+# config generation and campaign event logic used to hand-maintain as
+# constants (MAINS/EVENTS/RAIDS/... in config_updater.py).
+TASK_FAMILIES: dict[str, list[str]] = {}
+for _name, _entry in TASK_REGISTRY.items():
+    if _entry.family:
+        TASK_FAMILIES.setdefault(_entry.family, []).append(_name)
+
+
+def family_tasks(family: str) -> list[str]:
+    """Tasks of a family. Consumers must treat the result as a set; order is
+    registry declaration order and is not part of the contract."""
+    return list(TASK_FAMILIES.get(family, []))
