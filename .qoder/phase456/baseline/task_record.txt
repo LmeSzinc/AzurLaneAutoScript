@@ -1,0 +1,6 @@
+﻿case 0: 5 runs -> equivalent
+case 1: 6 runs -> equivalent
+case 2: 5 runs -> equivalent
+case 3: 0 runs -> equivalent
+reset semantics OK
+TASK RECORD VERIFICATION PASSED

@@ -1,0 +1,107 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.13.7, pytest-8.4.2, pluggy-1.6.0 -- D:\source\dsh\AzurLaneAutoScript\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: D:\source\dsh\AzurLaneAutoScript
+configfile: pyproject.toml
+plugins: anyio-4.14.2
+collecting ... collected 55 items
+
+tests/test_decorator.py::test_cached_per_class PASSED                    [  1%]
+tests/test_decorator.py::test_inheritance_isolates_cache PASSED          [  3%]
+tests/test_decorator.py::test_instance_access_reads_class_cache PASSED   [  5%]
+tests/test_geometry.py::test_result_within_grid_period PASSED            [  7%]
+tests/test_geometry.py::test_fit_lands_on_tight_cluster PASSED           [  9%]
+tests/test_geometry.py::test_deterministic PASSED                        [ 10%]
+tests/test_geometry.py::test_single_point PASSED                         [ 12%]
+tests/test_logger.py::test_hr_level3 PASSED                              [ 14%]
+tests/test_logger.py::test_hr_level2 PASSED                              [ 16%]
+tests/test_logger.py::test_hr_level0_separator_lines PASSED              [ 18%]
+tests/test_logger.py::test_attr PASSED                                   [ 20%]
+tests/test_logger.py::test_attr_align PASSED                             [ 21%]
+tests/test_logger.py::test_error_converts_exception PASSED               [ 23%]
+tests/test_logger.py::test_exception_logs_once_with_traceback PASSED     [ 25%]
+tests/test_logger.py::test_lazy_braces_formatting PASSED                 [ 27%]
+tests/test_logger.py::test_func_stream_delivers_renderable PASSED        [ 29%]
+tests/test_logger.py::test_cleanup_old_logs_removes_only_old_top_level_files PASSED [ 30%]
+tests/test_logger.py::test_file_logger_writes_and_tracks_path PASSED     [ 32%]
+tests/test_registry.py::test_command_map_round_trip PASSED               [ 34%]
+tests/test_registry.py::test_command_map_has_no_collisions PASSED        [ 36%]
+tests/test_registry.py::test_entry_shape PASSED                          [ 38%]
+tests/test_registry.py::test_all_entry_modules_importable PASSED         [ 40%]
+tests/test_registry.py::test_declared_kwargs_match_call_targets PASSED   [ 41%]
+tests/test_registry.py::test_resolution_passes_method_kwargs_to_method PASSED [ 43%]
+tests/test_scheduler.py::test_run_success PASSED                         [ 45%]
+tests/test_scheduler.py::test_run_skip_first_screenshot PASSED           [ 47%]
+tests/test_scheduler.py::test_run_task_end_returns_true PASSED           [ 49%]
+tests/test_scheduler.py::test_run_game_not_running_requests_restart PASSED [ 50%]
+tests/test_scheduler.py::test_run_game_stuck_saves_error_and_restarts PASSED [ 52%]
+tests/test_scheduler.py::test_run_game_bug_requests_restart PASSED       [ 54%]
+tests/test_scheduler.py::test_run_game_page_unknown_exits_when_available PASSED [ 56%]
+tests/test_scheduler.py::test_run_game_page_unknown_waits_when_unavailable PASSED [ 58%]
+tests/test_scheduler.py::test_run_script_error_exits PASSED              [ 60%]
+tests/test_scheduler.py::test_run_request_human_takeover_exits PASSED    [ 61%]
+tests/test_scheduler.py::test_run_unexpected_exception_saves_log_and_exits PASSED [ 63%]
+tests/test_scheduler.py::test_wait_until_past_time_returns_true PASSED   [ 65%]
+tests/test_scheduler.py::test_wait_until_stop_event_exits PASSED         [ 67%]
+tests/test_scheduler.py::test_wait_until_config_reload_returns_false PASSED [ 69%]
+tests/test_scheduler.py::test_get_next_task_returns_due_task PASSED      [ 70%]
+tests/test_scheduler.py::test_get_next_task_alas_command PASSED          [ 72%]
+tests/test_scheduler.py::test_get_next_task_resets_hoarding_flag PASSED  [ 74%]
+tests/test_scheduler.py::test_run_binds_task_context PASSED              [ 76%]
+tests/test_scheduler.py::test_loop_stop_event_breaks_immediately PASSED  [ 78%]
+tests/test_scheduler.py::test_loop_skips_first_restart_then_runs_and_breaks PASSED [ 80%]
+tests/test_scheduler.py::test_loop_too_many_failures_requests_takeover PASSED [ 81%]
+tests/test_task_record.py::test_failure_counting_resets_on_success PASSED [ 83%]
+tests/test_task_record.py::test_too_many_failures_threshold PASSED       [ 85%]
+tests/test_task_record.py::test_reset_single_and_all PASSED              [ 87%]
+tests/test_task_record.py::test_unknown_task_failure_count PASSED        [ 89%]
+tests/test_webui_routing.py::test_unknown_path_redirects_home[asyncio] PASSED [ 90%]
+tests/test_webui_routing.py::test_deep_path_redirects_home[asyncio] PASSED [ 92%]
+tests/test_webui_routing.py::test_api_typo_redirects_home[asyncio] PASSED [ 94%]
+tests/test_webui_routing.py::test_registered_route_still_works[asyncio] PASSED [ 96%]
+tests/test_webui_routing.py::test_root_never_redirect_loops[asyncio] PASSED [ 98%]
+tests/test_webui_routing.py::test_hash_fragment_is_client_side[asyncio] PASSED [100%]
+
+============================== warnings summary ===============================
+.venv\Lib\site-packages\packaging\markers.py:125
+  D:\source\dsh\AzurLaneAutoScript\.venv\Lib\site-packages\packaging\markers.py:125: PyparsingDeprecationWarning: 'setParseAction' deprecated - use 'set_parse_action'
+    VARIABLE.setParseAction(lambda s, l, t: Variable(ALIASES.get(t[0], t[0])))
+
+.venv\Lib\site-packages\packaging\markers.py:132
+  D:\source\dsh\AzurLaneAutoScript\.venv\Lib\site-packages\packaging\markers.py:132: PyparsingDeprecationWarning: 'setParseAction' deprecated - use 'set_parse_action'
+    MARKER_OP.setParseAction(lambda s, l, t: Op(t[0]))
+
+.venv\Lib\site-packages\packaging\markers.py:135
+  D:\source\dsh\AzurLaneAutoScript\.venv\Lib\site-packages\packaging\markers.py:135: PyparsingDeprecationWarning: 'setParseAction' deprecated - use 'set_parse_action'
+    MARKER_VALUE.setParseAction(lambda s, l, t: Value(t[0]))
+
+.venv\Lib\site-packages\packaging\markers.py:142
+  D:\source\dsh\AzurLaneAutoScript\.venv\Lib\site-packages\packaging\markers.py:142: PyparsingDeprecationWarning: 'setParseAction' deprecated - use 'set_parse_action'
+    MARKER_ITEM.setParseAction(lambda s, l, t: tuple(t[0]))
+
+.venv\Lib\site-packages\packaging\requirements.py:74
+  D:\source\dsh\AzurLaneAutoScript\.venv\Lib\site-packages\packaging\requirements.py:74: PyparsingDeprecationWarning: 'setParseAction' deprecated - use 'set_parse_action'
+    _VERSION_SPEC.setParseAction(lambda s, l, t: t._raw_spec or "")
+
+.venv\Lib\site-packages\packaging\requirements.py:76
+  D:\source\dsh\AzurLaneAutoScript\.venv\Lib\site-packages\packaging\requirements.py:76: PyparsingDeprecationWarning: 'originalTextFor' deprecated - use 'original_text_for'
+    VERSION_SPEC = originalTextFor(_VERSION_SPEC)("specifier")
+
+.venv\Lib\site-packages\packaging\requirements.py:77
+  D:\source\dsh\AzurLaneAutoScript\.venv\Lib\site-packages\packaging\requirements.py:77: PyparsingDeprecationWarning: 'setParseAction' deprecated - use 'set_parse_action'
+    VERSION_SPEC.setParseAction(lambda s, l, t: t[1])
+
+.venv\Lib\site-packages\packaging\requirements.py:79
+  D:\source\dsh\AzurLaneAutoScript\.venv\Lib\site-packages\packaging\requirements.py:79: PyparsingDeprecationWarning: 'originalTextFor' deprecated - use 'original_text_for'
+    MARKER_EXPR = originalTextFor(MARKER_EXPR())("marker")
+
+.venv\Lib\site-packages\packaging\requirements.py:80
+  D:\source\dsh\AzurLaneAutoScript\.venv\Lib\site-packages\packaging\requirements.py:80: PyparsingDeprecationWarning: 'setParseAction' deprecated - use 'set_parse_action'
+    MARKER_EXPR.setParseAction(
+
+.venv\Lib\site-packages\packaging\requirements.py:94
+  D:\source\dsh\AzurLaneAutoScript\.venv\Lib\site-packages\packaging\requirements.py:94: PyparsingDeprecationWarning: 'parseString' deprecated - use 'parse_string'
+    REQUIREMENT.parseString("x[]")
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================= 55 passed, 10 warnings in 2.42s =======================
