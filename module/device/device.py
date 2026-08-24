@@ -116,8 +116,16 @@ class Device(Screenshot, Control, AppControl):
         self.resolution_check_uiautomator2()
         # Perform benchmark
         from module.daemon.benchmark import Benchmark
-        bench = Benchmark(config=self.config, device=self)
-        method = bench.run_simple_screenshot_benchmark()
+        # Benchmark will replace stuck detection to empty function
+        # recover them after run_simple_screenshot_benchmark
+        click_record_check = self.click_record_check
+        stuck_record_check = self.stuck_record_check
+        try:
+            bench = Benchmark(config=self.config, device=self)
+            method = bench.run_simple_screenshot_benchmark()
+        finally:
+            self.click_record_check = click_record_check
+            self.stuck_record_check = stuck_record_check
         # Set
         with self.config.multi_set():
             self.config.Emulator_ScreenshotMethod = method
