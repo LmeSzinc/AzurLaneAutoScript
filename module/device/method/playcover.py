@@ -514,13 +514,35 @@ class PlayCoverManagerClient:
             'force': force,
         }, timeout=timeout + 10)
 
-    def maatools_open(self, bundle_identifier, port, restart=True, timeout=15, port_timeout=15):
+    def maatools_open(
+            self, bundle_identifier, port, restart=True, timeout=15, port_timeout=15, fresh='off'
+    ):
+        fresh = str(fresh or 'off')
+        if fresh not in ('off', 'fallback', 'always'):
+            raise ValueError(f'Invalid PlayCover fresh mode: {fresh!r}')
+        if not restart and fresh != 'off':
+            raise ValueError('PlayCover fresh mode requires restart=True')
+
+        launch_attempts = 2 if fresh == 'fallback' else 1
+        if restart:
+            stop_budget = timeout + 5
+            cleanup_budget = 10 if fresh == 'fallback' else 0
+            request_timeout = (
+                stop_budget
+                + min(5, timeout)
+                + launch_attempts * (timeout + port_timeout)
+                + cleanup_budget
+                + 15
+            )
+        else:
+            request_timeout = timeout + 15
         return self._request('POST', f'{self._app_path(bundle_identifier)}/maatools/open', {
             'port': int(port),
             'restart': restart,
             'timeout': timeout,
             'portTimeout': port_timeout,
-        }, timeout=timeout * 2 + port_timeout + 10)
+            'fresh': fresh,
+        }, timeout=request_timeout)
 
 
 class PlayCover:
@@ -749,11 +771,18 @@ class PlayCover:
             return status
 
         logger.info(f'Open PlayCover MaaTools on port {port}')
-        status = self.playcover_manager.maatools_open(
-            self.playcover_bundle_identifier(),
-            port=port,
-            restart=restart,
-        )
+        try:
+            status = self.playcover_manager.maatools_open(
+                self.playcover_bundle_identifier(),
+                port=port,
+                restart=restart,
+                fresh='fallback' if restart else 'off',
+            )
+        except PlayCoverError as e:
+            result = e.result if isinstance(e.result, dict) else {}
+            self._playcover_log_launch_result(result.get('status'))
+            raise
+        self._playcover_log_launch_result(status)
         self.playcover_maatools_address(status=status)
         if restart:
             self.playcover_set_need_app_login()
@@ -762,6 +791,31 @@ class PlayCover:
         if not self._playcover_status_maatools_reachable(status, port):
             raise PlayCoverError(f'PlayCover MaaTools is not reachable after opening: {status}')
         return status
+
+    def _playcover_log_launch_result(self, status):
+        if not isinstance(status, dict):
+            return
+        launch = status.get('launch') or {}
+        if not isinstance(launch, dict) or not launch.get('fallbackUsed'):
+            return
+
+        attempts = launch.get('attempts') or []
+        first = attempts[0] if attempts and isinstance(attempts[0], dict) else {}
+        final = attempts[-1] if attempts and isinstance(attempts[-1], dict) else {}
+        first_outcome = first.get('outcome') or 'unknown'
+        elapsed = first.get('elapsedMs')
+        detail = f'first attempt: {first_outcome}'
+        if isinstance(elapsed, int):
+            detail += f' after {elapsed / 1000:.2f}s'
+
+        if final.get('outcome') == 'ready':
+            logger.warning(f'PlayCover recovered MaaTools with a fresh launch ({detail})')
+        else:
+            final_outcome = final.get('outcome') or 'unknown'
+            logger.warning(
+                f'PlayCover used a fresh launch fallback but recovery failed '
+                f'({detail}, final attempt: {final_outcome})'
+            )
 
     def playcover_manager_check_app(self, status, action):
         if not self._playcover_status_running(status):
@@ -832,9 +886,11 @@ class PlayCover:
             try:
                 status = self.playcover_manager_app_status()
                 self.playcover_manager_check_app(status, 'restart')
-                self.playcover_connect_maatools(status=status)
+                client = self._playcover_connect_client(timeout=3, status=status)
+                set_cached_property(self, 'playcover', client)
+                logger.warning('PlayCover MaaTools became reachable after the manager request timed out')
                 self.playcover_set_need_app_login()
-            except PlayCoverError as e:
+            except (PlayCoverError, OSError, struct.error, ValueError) as e:
                 logger.error(e)
                 raise RequestHumanTakeover
 
