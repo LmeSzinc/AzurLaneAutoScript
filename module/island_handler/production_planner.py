@@ -507,7 +507,7 @@ class IslandProductionPlanner(DaemonBase):
 
     def _subtract_passive_idle_accumulating_items(self):
         """Exclude passive collection from exported idle accumulation."""
-        passive_supply = defaultdict(float)
+        passive_supply = defaultdict(int)
         for product in self.wild_gather_plan.values():
             for item_id, amount in product.items():
                 passive_supply[item_id] += amount
@@ -645,7 +645,7 @@ class IslandProductionPlanner(DaemonBase):
                 'outputs': dict(recipe['items']),
             })
 
-        initial_supply = defaultdict(float)
+        initial_supply = defaultdict(int)
         wild_gather_plan = {}
         for gather_id, gather in DIC_ISLAND_WILD_GATHER.items():
             if self.wild_gather_available.get(gather_id, False):
@@ -653,13 +653,13 @@ class IslandProductionPlanner(DaemonBase):
                 for item_id, amount in gather['product'].items():
                     initial_supply[item_id] += amount
         mining_multiplier = 2 if self.mining_additional else 1
-        mining_supply_plan = defaultdict(float)
+        mining_supply_plan = defaultdict(int)
         for product in DIC_ISLAND_PRODUCTION_MINING.values():
             for item_id, amount in product.items():
                 mining_supply_plan[item_id] += amount * mining_multiplier
                 initial_supply[item_id] += amount * mining_multiplier
         wood_multiplier = 2 if self.wood_additional else 1
-        logging_supply_plan = defaultdict(float)
+        logging_supply_plan = defaultdict(int)
         for product in DIC_ISLAND_PRODUCTION_LOGGING.values():
             for item_id, amount in product.items():
                 logging_supply_plan[item_id] += amount * wood_multiplier
@@ -1102,21 +1102,17 @@ class IslandProductionPlanner(DaemonBase):
                 + self.restaurant_capacity[slot]
             )
         return {
-            item_id: self._round_up_int(amount)
+            item_id: amount
             for item_id, amount in sorted(reserve_items.items())
-            if amount > self.NET_ACCUMULATING_EPSILON
+            if amount > 0
         }
 
     def _get_hard_floor_export_items(self):
         # Hard floors are explicit manual dead-stock claims only. Planner
         # demands and restaurant allocations are represented by soft floors
-        # and daily-buffer widths instead.
-        hard_floor_items = dict(self.hard_floor_items)
-        return {
-            item_id: self._round_up_int(amount)
-            for item_id, amount in sorted(hard_floor_items.items())
-            if amount > self.NET_ACCUMULATING_EPSILON
-        }
+        # and daily-buffer widths instead. Amounts are already normalized to
+        # positive integers by _build_planner_hard_floor_items.
+        return dict(self.hard_floor_items)
 
     def hard_floor_items_to_yaml(self, use_item_name=False):
         return item_mapping_to_yaml(self._get_hard_floor_export_items(), use_item_name=use_item_name)
@@ -1155,7 +1151,7 @@ class IslandProductionPlanner(DaemonBase):
             reserve_items = load_reserve_items(reserve_items) if isinstance(reserve_items, str) else reserve_items
         previous_menu_capacity = self._configured_menu_capacity_items()
         reserve_items = {
-            item_id: max(float(amount) - previous_menu_capacity.get(item_id, 0), 0)
+            item_id: max(self._round_up_int(amount - previous_menu_capacity.get(item_id, 0)), 0)
             for item_id, amount in normalize_item_keys(reserve_items).items()
         }
         if hard_floor_items is None:
