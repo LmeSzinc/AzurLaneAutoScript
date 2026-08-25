@@ -27,6 +27,7 @@ from module.island_handler.restaurant_config import (
     WAITRESS_ANY,
     WAITRESS_NONE,
     get_config_key,
+    get_restaurant_capacity,
     get_restaurant_config,
     get_selected_named_waitresses,
     get_waitress_effect,
@@ -114,27 +115,12 @@ class RestaurantItemGrid(ItemGrid):
 class IslandRestaurant(IslandDock):
     working_restaurant_id = None
 
-    @staticmethod
-    def get_initial_capacity_from_grade(grade):
-        if grade == 'bronze':
-            return 5
-        elif grade in ['silver', 'gold', 'diamond']:
-            return 6
-        else:
-            raise ValueError(f"Invalid grade: {grade}")
-
     @cached_property
     def restaurant_capacity(self):
-        capacity = {}
-        for restaurant_id in RESTAURANT_IDS:
-            config_data = get_restaurant_config(restaurant_id)
-            grade = self.config.cross_get(
-                get_config_key(restaurant_id, config_data['grade_key'])
-            )
-            slots = get_waitress_slots(self.config, restaurant_id)
-            capacity_delta, _ = get_waitress_effect(restaurant_id, slots)
-            capacity[restaurant_id] = self.get_initial_capacity_from_grade(grade) + capacity_delta
-        return capacity
+        return {
+            restaurant_id: get_restaurant_capacity(self.config, restaurant_id)
+            for restaurant_id in RESTAURANT_IDS
+        }
 
     @staticmethod
     def get_quantity_from_grade(grade):

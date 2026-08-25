@@ -16,9 +16,9 @@ from module.island.ui import IslandUI
 from module.island.utils import (
     get_order_effective_stock,
     load_hard_floor_items,
-    load_reserve_items,
     normalize_item_keys,
 )
+from module.island_handler.restaurant_config import get_menu_reserve_items
 from module.island_handler.recipe import IslandReversedDigitCounter
 from module.logger import logger
 from module.map_detection.utils import Points
@@ -179,10 +179,7 @@ class IslandOrder(IslandUI):
 
     @cached_property
     def reserve(self):
-        reserve_items_text = load_reserve_items(
-            self.config.cross_get("IslandProduction.IslandProduction.ReserveItems", "")
-        )
-        return normalize_item_keys(reserve_items_text)
+        return get_menu_reserve_items(self.config)
 
     def is_order_satisfied(self, order_requirements, is_urgent=False, is_season=False, force=False):
         for item, counter in order_requirements.items():
