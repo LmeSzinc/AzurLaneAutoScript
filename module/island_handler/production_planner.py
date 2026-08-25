@@ -36,7 +36,7 @@ class IslandProductionPlanner(DaemonBase):
 
     @cached_property
     def current_activity_list(self):
-        time = datetime.now() + server_time_offset()
+        time = datetime.now() - server_time_offset()
         return get_current_activity_list(time)
 
     def create_calculator(self, technology_status):
