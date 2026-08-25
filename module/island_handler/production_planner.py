@@ -558,6 +558,47 @@ class IslandProductionPlanner(DaemonBase):
             return min(slots)
         return 999999
 
+    def _drop_unobtainable_demand_items(self, demand_items, activities, initial_supply):
+        """Drop demands on items that current technology cannot supply.
+
+        Obtainable items are computed as a fixed point: coins and passive
+        supply (wild gather, mining, logging) are always obtainable, and an
+        available activity (recipe/shop/exchange) yields its outputs once
+        every input is obtainable. A demand row on an unobtainable item
+        (e.g. a task target whose recipe technology is not unlocked yet, or
+        a season dish whose ingredient gather is not active) would make the
+        whole LP infeasible, losing the plan for every other item as well.
+        """
+        if not demand_items:
+            return demand_items
+        obtainable = {1}
+        obtainable.update(initial_supply)
+        pending = list(activities)
+        changed = True
+        while changed:
+            changed = False
+            remaining = []
+            for activity in pending:
+                if all(item_id in obtainable for item_id in activity['inputs']):
+                    obtainable.update(activity['outputs'])
+                    changed = True
+                else:
+                    remaining.append(activity)
+            pending = remaining
+        unobtainable = {item_id for item_id in demand_items if item_id not in obtainable}
+        if not unobtainable:
+            return demand_items
+        for item_id in sorted(unobtainable):
+            logger.warning(
+                f'Demand item {self._item_name(item_id)} ({item_id}) cannot be produced '
+                f'with current technology, dropped from production planner demands'
+            )
+        return {
+            item_id: data
+            for item_id, data in demand_items.items()
+            if item_id not in unobtainable
+        }
+
     def _build_production_problem(self, demand_items=None):
         if demand_items is None:
             demand_items = {}
@@ -674,6 +715,12 @@ class IslandProductionPlanner(DaemonBase):
         for slot, menu in sell_slots.items():
             for item_id in menu:
                 sale_entries.append((slot, item_id))
+
+        demand_items = self._drop_unobtainable_demand_items(
+            demand_items=demand_items,
+            activities=activities,
+            initial_supply=initial_supply,
+        )
 
         item_ids = {1}
         for activity in activities:
@@ -1079,7 +1126,7 @@ class IslandProductionPlanner(DaemonBase):
 
     def _configured_menu_capacity_items(self):
         """Return capacity tranches represented by the currently saved menus."""
-        capacity_items = defaultdict(float)
+        capacity_items = defaultdict(int)
         for slot, config_key in self.RESTAURANT_MENU_CONFIG.items():
             menu = normalize_item_keys(load_item_mapping(
                 self.config.cross_get(config_key, default='{}'),
