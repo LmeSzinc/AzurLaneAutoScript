@@ -260,7 +260,7 @@
     },
     "IslandProduction": {
       "name": "離島生産",
-      "help": ""
+      "help": "先に店舗経営の店舗属性と店員を設定し、ツール-離島生産ソルバーを設定して実行してください。ソルバーの結果が得られてから離島生産を実行できます。\nチュートリアル：https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Island-Planner-Auto-Farming-&-Configure"
     },
     "IslandOrder": {
       "name": "離島依頼",

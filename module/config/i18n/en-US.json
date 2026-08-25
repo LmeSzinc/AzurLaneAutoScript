@@ -260,7 +260,7 @@
     },
     "IslandProduction": {
       "name": "Island Production",
-      "help": ""
+      "help": "Users need to config Island Business' restaurant level and waitress, then config and run Tools - Island Production Planner to generate the production plan.\nAfter that the Island Production will run normally.\nTutorial: https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Island-Planner-Auto-Farming-&-Configure"
     },
     "IslandOrder": {
       "name": "Island Request",
@@ -2642,7 +2642,7 @@
   "IslandProduction": {
     "_info": {
       "name": "Island Production",
-      "help": "Users need to config Island Business' restaurant level and waitress, then config and run Tools - Island Production Planner to generate the production plan.\nAfter that the Island Production will run normally."
+      "help": ""
     },
     "HardFloorItems": {
       "name": "Hard Floor Items",

@@ -260,7 +260,7 @@
     },
     "IslandProduction": {
       "name": "離島生產",
-      "help": ""
+      "help": "需要先配置店鋪經營的店面屬性、店員，然後配置工具-離島生產規劃器，最後執行離島生產規劃器，規劃器執行得到結果後方可執行離島生產。\n詳細教程：https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Island-Planner-Auto-Farming-&-Configure"
     },
     "IslandOrder": {
       "name": "離島訂單",
@@ -2642,7 +2642,7 @@
   "IslandProduction": {
     "_info": {
       "name": "離島生產",
-      "help": "需要先配置店鋪經營的店面屬性、店員，然後配置工具-離島生產規劃器，最後執行離島生產規劃器，規劃器執行得到結果後方可執行離島生產。"
+      "help": ""
     },
     "HardFloorItems": {
       "name": "硬性保底物品",
