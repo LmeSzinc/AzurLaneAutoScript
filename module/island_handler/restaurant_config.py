@@ -202,9 +202,13 @@ def get_restaurant_capacity(config, restaurant_id):
 def get_menu_reserve_items(config):
     """Item protection derived from the saved restaurant menus.
 
-    The menus are the single source of restaurant demand: each menu amount is
-    protected up to the restaurant's shelf capacity, so regular orders and
-    production ingredient consumption keep enough stock for restocking.
+    The menus are the single source of restaurant demand: each menu dish
+    reserves a full shelf-capacity tranche, because the restaurant only lists
+    a dish once a whole tranche is in stock and sells it all at once. This
+    keeps regular orders and production ingredient consumption from eating
+    the stock being accumulated for the next restock, and makes production
+    replenish up to a sellable amount even for dishes whose planned daily
+    sale rate is below capacity.
     """
     reserve = {}
     for restaurant_id in RESTAURANT_IDS:
@@ -217,9 +221,8 @@ def get_menu_reserve_items(config):
             continue
         capacity = get_restaurant_capacity(config, restaurant_id)
         for item_id, amount in menu.items():
-            protected = min(ceil_with_epsilon(amount), capacity)
-            if protected > 0:
-                reserve[item_id] = reserve.get(item_id, 0) + protected
+            if ceil_with_epsilon(amount) > 0:
+                reserve[item_id] = reserve.get(item_id, 0) + capacity
     return reserve
 
 

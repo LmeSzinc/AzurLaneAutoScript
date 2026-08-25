@@ -323,6 +323,19 @@ def get_production_target_stock(hard_floor, reserve, daily_buffer):
     return max(hard_floor, 0) + max(reserve, 0) + max(daily_buffer, 0)
 
 
+def get_idle_accumulating_batch_count(workload, quantum_hours):
+    """Batch count for one idle_accumulating dispatch.
+
+    Idle accumulation is filler work, so one dispatch commits at most about
+    `quantum_hours` of workload (but always at least one batch), letting
+    normal replenishment preempt the slot sooner than a full production
+    queue would. Workload is in game units, 36000 per hour.
+    """
+    if workload <= 0:
+        return 1
+    return max(int(quantum_hours * 36000 // workload), 1)
+
+
 def get_order_effective_stock(stock, hard_floor, reserve=0, priority=False):
     """Return stock available to an order under the current priority policy."""
     if priority:

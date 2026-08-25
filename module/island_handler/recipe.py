@@ -16,6 +16,7 @@ from module.exception import GameTooManyClickError
 from module.island.data import DIC_ISLAND_ITEM, DIC_ISLAND_RECIPE, DIC_ISLAND_SHOP_ITEM_TO_RECIPE, DIC_ISLAND_SLOT
 from module.island.utils import (
     ceil_div_or_ceil,
+    get_idle_accumulating_batch_count,
     get_stuck_season_order_requirements,
     get_target_stock_load_rate,
     get_production_target_stock,
@@ -870,7 +871,10 @@ class IslandRecipe(IslandExchange, IslandShop):
             if mode == RECIPE_MODE_BUFFER_SURPLUS:
                 batch_count = self.calculate_buffer_surplus_run_count(info)
             elif mode:
-                batch_count = float('inf')
+                batch_count = get_idle_accumulating_batch_count(
+                    DIC_ISLAND_RECIPE[recipe_id]['workload'],
+                    self.config.ISLAND_IDLE_ACCUMULATING_DISPATCH_HOURS,
+                )
             else:
                 batch_count = self.calculate_recipe_run_count(info)
             strategy = mode or 'normal'
