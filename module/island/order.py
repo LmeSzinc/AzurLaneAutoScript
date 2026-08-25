@@ -6,6 +6,7 @@ import numpy as np
 
 import module.config.server as server
 from module.base.button import Button, ButtonGrid
+from module.config.utils import get_server_next_update
 from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.base.utils import color_similarity_2d
@@ -32,6 +33,9 @@ COLOR_URGENT = (135, 122, 239)  # Purple
 # COLOR_EASY = (114, 225, 167)  # Green
 # COLOR_HARD = (237, 128, 102)  # Red
 EMPTY_SEASON_ORDER_ID = 0
+# Regular orders expire at server update. Within this window a reject-cooldown
+# cycle (~100min) would outlive the order, so submit using protected stock instead.
+ORDER_EXPIRE_FORCE_WINDOW = timedelta(hours=2)
 
 
 def get_circles(image, color, inner_radius, outer_radius):
@@ -180,11 +184,11 @@ class IslandOrder(IslandUI):
         )
         return normalize_item_keys(reserve_items_text)
 
-    def is_order_satisfied(self, order_requirements, is_urgent=False, is_season=False):
+    def is_order_satisfied(self, order_requirements, is_urgent=False, is_season=False, force=False):
         for item, counter in order_requirements.items():
             stock, required, _ = counter
             hard_floor = self.hard_floor.get(item, 0)
-            priority = is_urgent or is_season
+            priority = is_urgent or is_season or force
             effective_stock = get_order_effective_stock(
                 stock,
                 hard_floor,
@@ -307,7 +311,12 @@ class IslandOrder(IslandUI):
             self.next_runtime.append(next_runtime)
             return False
         requirements = self.scan_current_order_requirements()
-        if self.is_order_satisfied(requirements, is_urgent=is_urgent, is_season=is_season):
+        force = not is_urgent and not is_season and (
+            get_server_next_update(self.config.Scheduler_ServerUpdate) - datetime.now() <= ORDER_EXPIRE_FORCE_WINDOW
+        )
+        if force:
+            logger.info('Regular order is about to expire at server update, submit ignoring protected stock')
+        if self.is_order_satisfied(requirements, is_urgent=is_urgent, is_season=is_season, force=force):
             return self.submit_order(is_urgent=is_urgent)
         else:
             logger.warning('Order requirements not satisfied due to low stock')
