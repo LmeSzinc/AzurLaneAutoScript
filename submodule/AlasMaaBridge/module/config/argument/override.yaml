@@ -43,3 +43,12 @@ MaaRecruit:
 MaaAward:
   Scheduler:
     ServerUpdate: 04:00, 16:00
+
+MaaAftercareOperation
+    Scheduler
+      Enable:
+        value: true
+        display: disabled
+      SuccessInterval: 0
+      FailureInterval: 0
+      ServerUpdate: 04:00
