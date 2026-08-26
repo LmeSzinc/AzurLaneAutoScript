@@ -1122,6 +1122,19 @@ class AlasGUI(Frame):
     def show(self) -> None:
         self._show()
         self.load_home = True
+        # Create state_switch before rendering aside buttons, so that
+        # ui_alas() (invoked by clicking aside buttons, possibly before
+        # the rest of show() finishes on slow machines) never touches an
+        # uninitialized member. Reuse existing instance on repeated
+        # show() calls (language/theme change, ui_develop) to keep the
+        # original single-instance semantics and avoid resetting its
+        # internal state generator.
+        if not hasattr(self, "state_switch"):
+            self.state_switch = Switch(
+                status=self.set_status,
+                get_state=lambda: getattr(getattr(self, "alas", -1), "state", 0),
+                name="state",
+            )
         self.set_aside()
         self.init_aside(name="Home")
         self.dev_set_menu()
@@ -1242,12 +1255,6 @@ class AlasGUI(Frame):
             },
             get_state=get_window_visibility_state,
             name="visibility_state",
-        )
-
-        self.state_switch = Switch(
-            status=self.set_status,
-            get_state=lambda: getattr(getattr(self, "alas", -1), "state", 0),
-            name="state",
         )
 
         def goto_update():
