@@ -229,7 +229,8 @@ page_main_white.link(button=MAIN_GOTO_EVENT_LIST_WHITE, destination=page_event_l
 # page_main.link(button=MAIN_GOTO_RAID, destination=page_raid)
 # page_main_white.link(button=MAIN_GOTO_RAID_WHITE, destination=page_raid)
 # after 2026.02.12
-page_raid = Page(RAID_CHECK)
+# page_raid = Page(RAID_CHECK)
+page_raid = Page(RAID_CHECK_20260827)
 page_raid.link(button=GOTO_MAIN, destination=page_main)
 page_raid.link(button=BACK_ARROW, destination=page_campaign_menu)
 page_campaign_menu.link(button=CAMPAIGN_MENU_GOTO_EVENT, destination=page_raid)
