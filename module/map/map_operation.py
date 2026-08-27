@@ -347,19 +347,19 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                 information finished, else None.
         """
         if self.appear(MAP_PREPARATION, offset=(20, 20)):
-            button = MAP_PREPARATION
+            prep_button = MAP_PREPARATION
         elif self.appear(MAP_PREPARATION_HARD, offset=(20, 20)):
-            button = MAP_PREPARATION_HARD
+            prep_button = MAP_PREPARATION_HARD
         else:
             self.map_clear_percentage_prev = -1
             self.map_clear_percentage_timer.reset()
             return None
         if not self.config.MAP_HAS_CLEAR_PERCENTAGE:
             logger.attr('MAP_HAS_CLEAR_PERCENTAGE', self.config.MAP_HAS_CLEAR_PERCENTAGE)
-            return button
+            return prep_button
         if self.config.MAP_IS_ONE_TIME_STAGE:
             logger.attr('MAP_IS_ONE_TIME_STAGE', self.config.MAP_IS_ONE_TIME_STAGE)
-            return button
+            return prep_button
         # info_bar covers percentage and MAP_GREEN
         if self.info_bar_count():
             return None
@@ -370,11 +370,11 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
         # 2022.08.21 Still enable this when `percent` was raised from 0.
         if percent > 0.95 and 0 <= self.map_clear_percentage_prev < 0.95:
             # map clear percentage 100%, exit directly
-            return button
+            return prep_button
         if abs(percent - self.map_clear_percentage_prev) < 0.02:
             self.map_clear_percentage_prev = percent
             if self.map_clear_percentage_timer.reached():
-                return button
+                return prep_button
             else:
                 return None
         else:
