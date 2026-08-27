@@ -198,10 +198,11 @@ class RewardDorm(UI):
     def _dorm_feed_long_tap(self, button, count):
         timeout = Timer(count // 5 + 5).start()
         x, y = random_rectangle_point(button.button)
-        self.device.playcover.send_touch(0, x, y)
+        client, source_size = self.device._maatools_touch_context()
+        client.send_touch(0, x, y, source_size=source_size)
 
         while 1:
-            self.device.playcover.send_touch(1, x, y)
+            client.send_touch(1, x, y, source_size=source_size)
             time.sleep(.01)
             self.device.screenshot()
 
@@ -213,7 +214,8 @@ class RewardDorm(UI):
                 logger.warning('Wait dorm feed timeout')
                 break
 
-        self.device.playcover.send_touch(3, x, y)
+        client.send_touch(3, x, y, source_size=source_size)
+        client.sync_touch()
 
     @Config.when(DEVICE_CONTROL_METHOD=None)
     def _dorm_feed_long_tap(self, button, count):

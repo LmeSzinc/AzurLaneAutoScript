@@ -11,14 +11,13 @@ import cv2
 import numpy as np
 from lxml import etree
 
-from module.base.decorator import cached_property, del_cached_property, has_cached_property, set_cached_property
-from module.base.utils import ensure_time, random_rectangle_point
+from module.base.decorator import cached_property, del_cached_property, has_cached_property
+from module.base.utils import ensure_time, image_size, random_rectangle_point
 from module.device.method.utils import RETRY_TRIES, retry_sleep
-from module.exception import RequestHumanTakeover
+from module.exception import GameNotRunningError, RequestHumanTakeover
 from module.logger import logger
 
 
-PLAYCOVER_METHOD = 'playcover'
 PLAYCOVER_DEFAULT_HOST = '127.0.0.1'
 PLAYCOVER_DEFAULT_PORT = 1717
 PLAYCOVER_MANAGER_DEFAULT_PORT = 1718
@@ -30,13 +29,35 @@ PLAYCOVER_SHORT_SWIPE_MIN_STEPS = 8
 PLAYCOVER_SHORT_SWIPE_INTERVAL = 0.025
 PLAYCOVER_SWIPE_INTERVAL = 0.010
 PLAYCOVER_TOUCH_SYNC_TIMEOUT = 5
+PLAYCOVER_MAATOOLS_READY_TIMEOUT = 15
+PLAYCOVER_MAATOOLS_READY_INTERVAL = 0.5
 
 
-class PlayCoverError(Exception):
+class MaaToolsManagerError(Exception):
     def __init__(self, message, status=None, result=None):
         super().__init__(message)
         self.status = status
         self.result = result
+
+
+class MaaToolsBundleMismatch(MaaToolsManagerError):
+    pass
+
+
+class MaaToolsPortConflict(MaaToolsManagerError):
+    pass
+
+
+class MaaToolsClientError(Exception):
+    pass
+
+
+class PlayCoverDataTruncated(MaaToolsClientError):
+    pass
+
+
+class PlayCoverDataTimeout(MaaToolsClientError):
+    pass
 
 
 def retry(func):
@@ -46,34 +67,45 @@ def retry(func):
         Args:
             self (PlayCover):
         """
-        reconnect = False
-        reconnected = False
-        manager_attempted = False
+        init = None
         for trial in range(RETRY_TRIES):
-            if reconnect:
+            if callable(init):
                 time.sleep(retry_sleep(trial))
-                connected, attempted = self.playcover_reconnect(
-                    allow_manager=not manager_attempted,
-                    force_manager=reconnected,
-                )
-                manager_attempted = manager_attempted or attempted
-                if not connected:
-                    continue
-                reconnect = False
-                reconnected = True
+                init()
 
             try:
                 return func(self, *args, **kwargs)
             # Can't handle
             except RequestHumanTakeover:
                 break
-            # MaaTools connection lost
-            except (PlayCoverError, OSError, struct.error, ValueError) as e:
+            # Let the scheduler run the normal restart and login workflow.
+            except GameNotRunningError:
+                raise
+            # Restarting the target app cannot resolve a configured port conflict.
+            except (MaaToolsBundleMismatch, MaaToolsPortConflict) as e:
+                logger.critical(e)
+                break
+            # MaaTools manager
+            except MaaToolsManagerError as e:
                 logger.error(e)
-                reconnect = True
+
+                def init():
+                    self.maatools_manager_release()
+            # MaaTools connection lost or invalid response
+            except MaaToolsClientError as e:
+                logger.error(e)
+
+                def init():
+                    self.maatools_client_release()
+            # Unknown
+            except Exception as e:
+                logger.exception(e)
+
+                def init():
+                    self.maatools_client_release()
 
         logger.critical(f'Retry {func.__name__}() failed')
-        self.playcover_release()
+        self.maatools_manager_release()
         raise RequestHumanTakeover
 
     return retry_wrapper
@@ -201,14 +233,13 @@ class MaaToolsClient:
         self.version = 0
         self.bundle_identifier = None
         self.screenshot_method = None
-        self.native_screenshot_available = None
-        self.bgr_screenshot_available = None
 
     def connect(self):
         self.disconnect()
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.settimeout(self.timeout)
         try:
+            logger.attr('PlayCover', f'{self.host}:{self.port}')
             sock.connect((self.host, self.port))
             self.sock = sock
             self._handshake()
@@ -217,19 +248,24 @@ class MaaToolsClient:
                 self.bundle_identifier = self.get_bundle_identifier()
                 if self.expected_bundle_identifier \
                         and self.bundle_identifier != self.expected_bundle_identifier:
-                    raise PlayCoverError(
-                        f'PlayCover MaaTools bundle mismatch: {self.bundle_identifier!r}, '
-                        f'expected {self.expected_bundle_identifier!r}'
+                    raise MaaToolsBundleMismatch(
+                        f'PlayCover MaaTools bundle mismatch at {self.host}:{self.port}: '
+                        f'{self.bundle_identifier!r}, expected {self.expected_bundle_identifier!r}. '
+                        f'Configure a unique MaaTools port for each concurrently running app'
                     )
             self.max_x, self.max_y = self.get_window_size()
-            logger.attr('PlayCover', f'{self.host}:{self.port}')
             logger.attr('PlayCoverMaaToolsVersion', self.version)
             if self.bundle_identifier:
                 logger.attr('PlayCoverBundle', self.bundle_identifier)
             logger.attr('PlayCoverWindow', f'{self.max_x}x{self.max_y}')
-        except Exception:
+        except (MaaToolsManagerError, MaaToolsClientError):
             self.disconnect()
             raise
+        except OSError as e:
+            self.disconnect()
+            raise MaaToolsClientError(
+                f'Unable to connect PlayCover MaaTools at {self.host}:{self.port}: {e}'
+            ) from e
         return self
 
     def disconnect(self):
@@ -241,24 +277,36 @@ class MaaToolsClient:
             self.sock = None
 
     def _send_message(self, magic, payload=b''):
-        self.sock.sendall(struct.pack('>H', 4 + len(payload)) + magic + payload)
+        try:
+            self.sock.sendall(struct.pack('>H', 4 + len(payload)) + magic + payload)
+        except socket.timeout as e:
+            raise PlayCoverDataTimeout(f'PlayCover MaaTools send timed out: {e}') from e
+        except OSError as e:
+            raise MaaToolsClientError(f'PlayCover MaaTools send failed: {e}') from e
 
     def _recv_exact(self, size):
-        chunks = []
+        data = bytearray(size)
+        view = memoryview(data)
         received = 0
         while received < size:
-            chunk = self.sock.recv(size - received)
-            if not chunk:
-                raise PlayCoverError(f'Incomplete data received: {received}/{size}')
-            chunks.append(chunk)
-            received += len(chunk)
-        return b''.join(chunks)
+            try:
+                length = self.sock.recv_into(view[received:], size - received)
+            except socket.timeout as e:
+                raise PlayCoverDataTimeout(
+                    f'PlayCover MaaTools receive timed out at {received}/{size}: {e}'
+                ) from e
+            except OSError as e:
+                raise MaaToolsClientError(f'PlayCover MaaTools receive failed: {e}') from e
+            if not length:
+                raise PlayCoverDataTruncated(f'Incomplete data received: {received}/{size}')
+            received += length
+        return data
 
     def _handshake(self):
         self.sock.sendall(self.connection_magic)
         response = self._recv_exact(4)
         if response != b'OKAY':
-            raise PlayCoverError(f'PlayCover MaaTools handshake failed: {response!r}')
+            raise MaaToolsClientError(f'PlayCover MaaTools handshake failed: {response!r}')
 
     def get_window_size(self):
         with self.lock:
@@ -277,33 +325,38 @@ class MaaToolsClient:
             self._send_message(self.bundle_magic)
             size = struct.unpack('>I', self._recv_exact(4))[0]
             if not 1 <= size <= 4096:
-                raise PlayCoverError(f'Invalid PlayCover MaaTools bundle length: {size}')
+                raise PlayCoverDataTruncated(f'Invalid PlayCover MaaTools bundle length: {size}')
             data = self._recv_exact(size)
         try:
             return data.decode('utf-8')
         except UnicodeDecodeError as e:
-            raise PlayCoverError('Invalid PlayCover MaaTools bundle identifier') from e
+            raise PlayCoverDataTruncated('Invalid PlayCover MaaTools bundle identifier') from e
 
     def detect_version(self):
         timeout = self.sock.gettimeout()
         self.sock.settimeout(min(timeout or self.timeout, 1))
         try:
             return self.get_version()
-        except (OSError, PlayCoverError, struct.error) as e:
+        except PlayCoverDataTimeout as e:
             logger.warning(f'Unable to detect PlayCover MaaTools version, disable touch sync: {e}')
             return 0
         finally:
             self.sock.settimeout(timeout)
 
-    def convert(self, x, y):
-        x = int(round(int(x) / 1280 * self.max_x))
-        y = int(round(int(y) / 720 * self.max_y))
+    def convert(self, x, y, source_size=None):
+        if source_size is None:
+            source_size = self.max_x, self.max_y
+        source_width, source_height = source_size
+        if source_width <= 0 or source_height <= 0:
+            raise MaaToolsClientError(f'Invalid PlayCover touch source size: {source_size}')
+        x = int(round(int(x) / source_width * self.max_x))
+        y = int(round(int(y) / source_height * self.max_y))
         x = max(0, min(x, self.max_x - 1))
         y = max(0, min(y, self.max_y - 1))
         return x, y
 
-    def send_touch(self, phase, x=0, y=0):
-        x, y = self.convert(x, y)
+    def send_touch(self, phase, x=0, y=0, source_size=None):
+        x, y = self.convert(x, y, source_size=source_size)
         payload = struct.pack('>BHH', int(phase), x, y)
         with self.lock:
             self._send_message(self.touch_magic, payload)
@@ -321,68 +374,55 @@ class MaaToolsClient:
             finally:
                 self.sock.settimeout(timeout)
         if response != b'OKAY':
-            raise PlayCoverError(f'PlayCover MaaTools touch sync failed: {response!r}')
+            raise MaaToolsClientError(f'PlayCover MaaTools touch sync failed: {response!r}')
         return True
-
-    def screenshot_raw(self):
-        with self.lock:
-            try:
-                self._send_message(self.screencap_magic)
-                size = struct.unpack('>I', self._recv_exact(4))[0]
-                return self._recv_exact(size)
-            except socket.timeout:
-                raise PlayCoverError(
-                    'PlayCover MaaTools screenshot timed out, '
-                    'the macOS display may be sleeping, locked, or running without an active monitor'
-                )
-
-    def screenshot_bgr_raw(self):
-        with self.lock:
-            self._send_message(self.bgr_screencap_magic)
-            width, height, size = struct.unpack('>III', self._recv_exact(12))
-            data = self._recv_exact(size)
-        return width, height, data
-
-    def screenshot_native_raw(self):
-        with self.lock:
-            self._send_message(self.native_screencap_magic)
-            width, height, image_format, size = struct.unpack('>II4sI', self._recv_exact(16))
-            data = self._recv_exact(size)
-        return width, height, image_format, data
 
     def _log_screenshot_method(self, method):
         if self.screenshot_method != method:
             logger.attr('PlayCoverScreenshot', method)
             self.screenshot_method = method
 
-    @staticmethod
-    def _decode_bgr3(width, height, data):
+    def screenshot_bgr(self):
+        with self.lock:
+            self._send_message(self.bgr_screencap_magic)
+            width, height, size = struct.unpack('>III', self._recv_exact(12))
+            data = self._recv_exact(size)
         expected = width * height * 3
         if expected <= 0 or len(data) != expected:
-            raise PlayCoverError(
+            raise PlayCoverDataTruncated(
                 f'Unexpected PlayCover BGR screenshot size: {len(data)}, '
                 f'expected {expected} from {width}x{height}'
             )
-
         image = np.frombuffer(data, dtype=np.uint8).reshape((height, width, 3))
-        return cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        cv2.cvtColor(image, cv2.COLOR_BGR2RGB, dst=image)
+        return image
 
-    def screenshot_bgr_rgb(self):
-        width, height, data = self.screenshot_bgr_raw()
-        return self._decode_bgr3(width, height, data)
-
-    def screenshot_native_rgb(self):
-        width, height, image_format, data = self.screenshot_native_raw()
+    def screenshot_native(self):
+        with self.lock:
+            self._send_message(self.native_screencap_magic)
+            width, height, image_format, size = struct.unpack('>II4sI', self._recv_exact(16))
+            data = self._recv_exact(size)
         if image_format != b'BGR3':
-            raise PlayCoverError(f'Unexpected PlayCover native screenshot format: {image_format!r}')
-        return self._decode_bgr3(width, height, data)
+            raise PlayCoverDataTruncated(f'Unexpected PlayCover native screenshot format: {image_format!r}')
+        expected = width * height * 3
+        if expected <= 0 or len(data) != expected:
+            raise PlayCoverDataTruncated(
+                f'Unexpected PlayCover native screenshot size: {len(data)}, '
+                f'expected {expected} from {width}x{height}'
+            )
+        image = np.frombuffer(data, dtype=np.uint8).reshape((height, width, 3))
+        cv2.cvtColor(image, cv2.COLOR_BGR2RGB, dst=image)
+        return image
 
-    def screenshot_scrn_rgb(self):
-        data = self.screenshot_raw()
+    def screenshot_scrn(self):
+        with self.lock:
+            self._send_message(self.screencap_magic)
+            size = struct.unpack('>I', self._recv_exact(4))[0]
+            data = self._recv_exact(size)
         expected_rgb = self.max_x * self.max_y * 3
         expected_rgba = self.max_x * self.max_y * 4
         if not data:
-            raise PlayCoverError('Empty PlayCover screenshot received')
+            raise PlayCoverDataTruncated('Empty PlayCover screenshot received')
 
         if len(data) == expected_rgb:
             image = np.frombuffer(data, dtype=np.uint8).reshape((self.max_y, self.max_x, 3))
@@ -392,7 +432,7 @@ class MaaToolsClient:
         else:
             image = cv2.imdecode(np.frombuffer(data, np.uint8), cv2.IMREAD_COLOR)
             if image is None:
-                raise PlayCoverError(
+                raise PlayCoverDataTruncated(
                     f'Unexpected PlayCover screenshot size: {len(data)}, '
                     f'expected {expected_rgb} or {expected_rgba}'
                 )
@@ -400,59 +440,25 @@ class MaaToolsClient:
 
         return image
 
-    @staticmethod
-    def _screenshot_error(error):
-        if isinstance(error, socket.timeout):
-            return (
-                'PlayCover MaaTools screenshot timed out, '
-                'the macOS display may be sleeping, locked, or running without an active monitor'
-            )
-        return str(error)
-
-    def _normalize_screenshot(self, image):
-        image = np.ascontiguousarray(image, dtype=np.uint8)
-        if image.shape[:2] != (720, 1280):
-            source_ratio = image.shape[1] / image.shape[0]
-            if abs(source_ratio - 16 / 9) > 0.03:
-                logger.warning(
-                    f'PlayCover screenshot aspect ratio is {image.shape[1]}x{image.shape[0]}, '
-                    f'please use a 16:9 PlayCover resolution if recognition is unstable'
-                )
-            image = cv2.resize(image, (1280, 720), interpolation=cv2.INTER_AREA)
-        return image
-
-    def screenshot_rgb(self):
-        if self.version >= 5 and self.native_screenshot_available is not False:
-            try:
-                image = self.screenshot_native_rgb()
-                self.native_screenshot_available = True
-                self._log_screenshot_method('NATV')
-                return self._normalize_screenshot(image)
-            except (OSError, PlayCoverError, struct.error, ValueError) as e:
-                self.native_screenshot_available = False
-                logger.warning(
-                    f'Unable to use PlayCover NATV screenshot, fallback to BGR/SCRN: {self._screenshot_error(e)}'
-                )
-
-        if self.bgr_screenshot_available is not False:
-            try:
-                image = self.screenshot_bgr_rgb()
-                self.bgr_screenshot_available = True
-                self._log_screenshot_method('BGR')
-                return self._normalize_screenshot(image)
-            except (OSError, PlayCoverError, struct.error, ValueError) as e:
-                self.bgr_screenshot_available = False
-                logger.warning(
-                    f'Unable to use PlayCover BGR screenshot, fallback to SCRN: {self._screenshot_error(e)}'
-                )
-
-        image = self.screenshot_scrn_rgb()
+    def screenshot(self):
+        if self.version >= 5:
+            self._log_screenshot_method('NATV')
+            return self.screenshot_native()
+        if self.version >= 3:
+            self._log_screenshot_method('BGR')
+            return self.screenshot_bgr()
         self._log_screenshot_method('SCRN')
-        return self._normalize_screenshot(image)
+        return self.screenshot_scrn()
 
 
-class PlayCoverManagerClient:
-    def __init__(self, host=PLAYCOVER_DEFAULT_HOST, port=PLAYCOVER_MANAGER_DEFAULT_PORT, key='', timeout=3):
+class PlayCoverManager:
+    def __init__(
+            self,
+            host=PLAYCOVER_DEFAULT_HOST,
+            port=PLAYCOVER_MANAGER_DEFAULT_PORT,
+            key='',
+            timeout=3,
+    ):
         self.host = host
         self.port = int(port)
         self.key = str(key or '')
@@ -475,7 +481,7 @@ class PlayCoverManagerClient:
             response = conn.getresponse()
             data = response.read()
         except (OSError, http.client.HTTPException) as e:
-            raise PlayCoverError(
+            raise MaaToolsManagerError(
                 f'PlayCover manager is not reachable at {self.host}:{self.port}: {e}'
             ) from e
         finally:
@@ -487,7 +493,7 @@ class PlayCoverManagerClient:
             result = {'raw': data.decode('utf-8', errors='replace')}
 
         if response.status >= 400:
-            raise PlayCoverError(
+            raise MaaToolsManagerError(
                 f'PlayCover manager {method} {path} failed: HTTP {response.status}, {result}',
                 status=response.status,
                 result=result,
@@ -505,7 +511,7 @@ class PlayCoverManagerClient:
         result = self._request('GET', '/apps', timeout=timeout)
         apps = result.get('apps') if isinstance(result, dict) else None
         if not isinstance(apps, list):
-            raise PlayCoverError(f'Invalid PlayCover manager app list: {result}')
+            raise MaaToolsManagerError(f'Invalid PlayCover manager app list: {result}')
         return apps
 
     def app_stop(self, bundle_identifier, timeout=10, force=False):
@@ -514,9 +520,23 @@ class PlayCoverManagerClient:
             'force': force,
         }, timeout=timeout + 10)
 
-    def maatools_open(
-            self, bundle_identifier, port, restart=True, timeout=15, port_timeout=15, fresh='off'
+
+class MaaToolsManager(PlayCoverManager):
+    def __init__(
+            self,
+            bundle_identifier,
+            host=PLAYCOVER_DEFAULT_HOST,
+            port=PLAYCOVER_MANAGER_DEFAULT_PORT,
+            key='',
+            timeout=3,
     ):
+        super().__init__(host=host, port=port, key=key, timeout=timeout)
+        self.bundle_identifier = str(bundle_identifier or '').strip()
+        if not self.bundle_identifier:
+            raise ValueError('PlayCover bundle identifier is required for MaaTools manager')
+        self.maatools_port = None
+
+    def maatools_open(self, port=None, restart=True, timeout=15, port_timeout=15, fresh='off'):
         fresh = str(fresh or 'off')
         if fresh not in ('off', 'fallback', 'always'):
             raise ValueError(f'Invalid PlayCover fresh mode: {fresh!r}')
@@ -536,263 +556,148 @@ class PlayCoverManagerClient:
             )
         else:
             request_timeout = timeout + 15
-        return self._request('POST', f'{self._app_path(bundle_identifier)}/maatools/open', {
-            'port': int(port),
+        body = {
             'restart': restart,
             'timeout': timeout,
             'portTimeout': port_timeout,
             'fresh': fresh,
-        }, timeout=request_timeout)
-
-
-class PlayCover:
-    _playcover_hierarchy_warned = False
-
-    def _playcover_connect_client(self, timeout=3, status=None):
-        host, port = self.playcover_maatools_address(status=status)
-        return MaaToolsClient(
-            host=host,
-            port=port,
-            timeout=timeout,
-            expected_bundle_identifier=self.playcover_bundle_identifier(),
-        ).connect()
-
-    @cached_property
-    def playcover(self):
-        manager_status = getattr(self, '_playcover_initial_manager_status', None)
-        if hasattr(self, '_playcover_initial_manager_status'):
-            del self._playcover_initial_manager_status
-        manager_prepared = False
-
-        if self.playcover_manager_configured():
-            try:
-                if manager_status is None:
-                    manager_status = self.playcover_manager_app_status()
-                _, port = self.playcover_maatools_address(status=manager_status)
-                if not (
-                        self._playcover_status_running(manager_status)
-                        and self._playcover_status_maatools_reachable(manager_status, port)
-                ):
-                    logger.info('Prepare PlayCover MaaTools from manager API before connecting')
-                    manager_status = self.playcover_manager_ensure_maatools(
-                        restart=True,
-                        status=manager_status,
-                    )
-                    manager_prepared = True
-            except PlayCoverError as e:
-                logger.warning(e)
-                if not hasattr(self, '_playcover_maatools_address'):
-                    logger.critical('Unable to resolve the PlayCover MaaTools address from manager API')
-                    raise RequestHumanTakeover
-                logger.info('PlayCover manager API is unavailable, trying the last known MaaTools address')
-                manager_status = None
-
-        host, port = self.playcover_maatools_address()
-        try:
-            return self._playcover_connect_client()
-        except Exception as e:
-            logger.warning(f'Unable to connect PlayCover MaaTools at {host}:{port}')
-            logger.warning(e)
-
-        if manager_status is not None and not manager_prepared:
-            try:
-                logger.info('PlayCover manager is reachable but MaaTools connection failed, restart once')
-                self.playcover_manager_ensure_maatools(
-                    restart=True,
-                    force=True,
-                    status=manager_status,
-                )
-                return self._playcover_connect_client()
-            except Exception as e:
-                logger.error(f'Unable to recover PlayCover MaaTools at {host}:{port}')
-                logger.error(e)
-
-        raise RequestHumanTakeover
-
-    def playcover_release(self):
-        if has_cached_property(self, 'playcover'):
-            self.playcover.disconnect()
-        del_cached_property(self, 'playcover')
-        logger.info('PlayCover MaaTools released')
-
-    def playcover_reconnect(self, allow_manager=True, force_manager=False):
-        """
-        Returns:
-            tuple[bool, bool]: Connection success and whether manager API was attempted.
-        """
-        self.playcover_release()
-        direct_attempted = False
-
-        if not force_manager:
-            direct_attempted = True
-            try:
-                client = self._playcover_connect_client(timeout=1)
-                set_cached_property(self, 'playcover', client)
-                logger.info('Reconnected PlayCover MaaTools directly')
-                return True, False
-            except Exception as e:
-                logger.warning(f'Unable to reconnect PlayCover MaaTools directly: {e}')
-
-        manager_attempted = False
-        if allow_manager and self.playcover_manager_configured():
-            manager_attempted = True
-            try:
-                status = self.playcover_manager_app_status()
-                _, port = self.playcover_maatools_address(status=status)
-                if (
-                        not force_manager
-                        and self._playcover_status_running(status)
-                        and self._playcover_status_maatools_reachable(status, port)
-                ):
-                    try:
-                        client = self._playcover_connect_client(timeout=1)
-                        set_cached_property(self, 'playcover', client)
-                        logger.info('Reconnected PlayCover MaaTools at the address reported by manager API')
-                        return True, True
-                    except Exception as e:
-                        logger.warning(f'Unable to connect MaaTools at the address reported by manager API: {e}')
-                manager_force = force_manager or (
-                    self._playcover_status_running(status)
-                    and self._playcover_status_maatools_reachable(status, port)
-                )
-                logger.info('Recover PlayCover MaaTools from manager API')
-                self.playcover_manager_ensure_maatools(
-                    restart=True,
-                    force=manager_force,
-                    status=status,
-                )
-                client = self._playcover_connect_client()
-                set_cached_property(self, 'playcover', client)
-                return True, True
-            except Exception as e:
-                logger.warning(f'Unable to recover PlayCover MaaTools from manager API: {e}')
-
-        if not direct_attempted:
-            try:
-                client = self._playcover_connect_client(timeout=1)
-                set_cached_property(self, 'playcover', client)
-                logger.info('Reconnected PlayCover MaaTools directly')
-                return True, manager_attempted
-            except Exception as e:
-                logger.warning(f'Unable to reconnect PlayCover MaaTools directly: {e}')
-
-        return False, manager_attempted
-
-    @cached_property
-    def playcover_manager(self):
-        host, port = parse_playcover_manager_serial(self.serial)
-        logger.attr('PlayCoverManager', f'{host}:{port}')
-        return PlayCoverManagerClient(
-            host=host,
-            port=port,
-            key=getattr(self.config, 'PlayCover_ManagerKey', ''),
+        }
+        if port is not None:
+            body['port'] = int(port)
+        return self._request(
+            'POST', f'{self._app_path(self.bundle_identifier)}/maatools/open',
+            body, timeout=request_timeout,
         )
 
-    def playcover_manager_configured(self):
-        return is_playcover_manager_serial(self.serial)
-
-    def playcover_manager_available(self):
-        if not self.playcover_manager_configured():
-            return False
-        try:
-            self.playcover_manager_app_status()
-            return True
-        except PlayCoverError as e:
-            logger.warning(e)
-            return False
-
-    def playcover_bundle_identifier(self):
-        return self.package
-
-    def playcover_manager_app_status(self):
-        return self.playcover_manager.app_status(self.playcover_bundle_identifier())
-
-    @staticmethod
-    def _playcover_status_maatools_port(status):
-        if not isinstance(status, dict):
-            return None
-        maatools = status.get('maaTools') or {}
-        if not isinstance(maatools, dict):
-            return None
-        try:
-            port = int(maatools.get('port') or 0)
-        except (TypeError, ValueError):
-            return None
-        if 1024 <= port <= 65535:
-            return port
-        return None
-
-    def playcover_maatools_address(self, status=None):
-        if not self.playcover_manager_configured():
-            return parse_playcover_serial(self.serial)
-
-        if status is not None:
-            port = self._playcover_status_maatools_port(status)
-            if port is None:
-                raise PlayCoverError(f'Invalid MaaTools port in PlayCover app status: {status}')
-            host, _ = parse_playcover_manager_serial(self.serial)
-            self._playcover_maatools_address = (host, port)
-            return self._playcover_maatools_address
-
-        address = getattr(self, '_playcover_maatools_address', None)
-        if address is not None:
-            return address
-        status = getattr(self, '_playcover_initial_manager_status', None)
-        if status is not None:
-            return self.playcover_maatools_address(status=status)
-        return self.playcover_maatools_address(status=self.playcover_manager_app_status())
-
-    @staticmethod
-    def _playcover_status_running(status):
-        return isinstance(status, dict) and bool(status.get('running'))
-
-    @staticmethod
-    def _playcover_status_maatools_reachable(status, port):
-        if not isinstance(status, dict):
-            return False
-        maatools = status.get('maaTools') or {}
-        if not isinstance(maatools, dict) or not maatools.get('reachable'):
-            return False
-        try:
-            return int(maatools.get('port') or 0) == int(port)
-        except (TypeError, ValueError):
-            return False
-
-    def playcover_manager_ensure_maatools(self, restart=True, force=False, status=None):
-        if status is None:
-            status = self.playcover_manager_app_status()
-        _, port = self.playcover_maatools_address(status=status)
-        if (
-                not force
-                and self._playcover_status_running(status)
-                and self._playcover_status_maatools_reachable(status, port)
-        ):
-            logger.info(f'PlayCover MaaTools is reachable on port {port}')
-            return status
-
-        logger.info(f'Open PlayCover MaaTools on port {port}')
-        try:
-            status = self.playcover_manager.maatools_open(
-                self.playcover_bundle_identifier(),
-                port=port,
-                restart=restart,
-                fresh='fallback' if restart else 'off',
-            )
-        except PlayCoverError as e:
-            result = e.result if isinstance(e.result, dict) else {}
-            self._playcover_log_launch_result(result.get('status'))
-            raise
-        self._playcover_log_launch_result(status)
-        self.playcover_maatools_address(status=status)
-        if restart:
-            self.playcover_set_need_app_login()
-        if not self._playcover_status_running(status):
-            raise PlayCoverError(f'PlayCover app is not running after opening MaaTools: {status}')
-        if not self._playcover_status_maatools_reachable(status, port):
-            raise PlayCoverError(f'PlayCover MaaTools is not reachable after opening: {status}')
+    def _checked_status(self):
+        status = self.app_status(self.bundle_identifier)
+        self._validate_maatools_bundle(status)
+        self._validate_status(status)
         return status
 
-    def _playcover_log_launch_result(self, status):
+    def launch(self):
+        status = self._checked_status()
+        maatools = status['maaTools']
+        if status['running'] and maatools['enabled']:
+            try:
+                return self._wait_until_ready(status)
+            except GameNotRunningError as e:
+                logger.warning(f'{e}, restarting app')
+
+        return self.restart()
+
+    def attach(self):
+        return self._wait_until_ready(self._checked_status())
+
+    def _wait_until_ready(self, status, timeout=PLAYCOVER_MAATOOLS_READY_TIMEOUT):
+        if not status['running']:
+            raise GameNotRunningError('PlayCover app is not running')
+        if not status['maaTools']['enabled']:
+            raise GameNotRunningError('PlayCover MaaTools is not enabled')
+
+        timeout = max(0, float(timeout))
+        deadline = time.monotonic() + timeout
+        waiting_logged = False
+        while not self.status_ready(status):
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                raise GameNotRunningError('PlayCover MaaTools is not ready')
+            if not waiting_logged:
+                logger.info(f'Wait up to {timeout:g}s for PlayCover MaaTools')
+                waiting_logged = True
+            time.sleep(min(PLAYCOVER_MAATOOLS_READY_INTERVAL, remaining))
+            status = self._checked_status()
+            if not status['running']:
+                raise GameNotRunningError('PlayCover app stopped before MaaTools was ready')
+            if not status['maaTools']['enabled']:
+                raise GameNotRunningError('PlayCover MaaTools was disabled while waiting')
+
+        self._set_maatools_port(status)
+        logger.info('Reuse running PlayCover app')
+        return self
+
+    def restart(self):
+        try:
+            status = self.maatools_open(restart=True, fresh='fallback')
+        except MaaToolsManagerError as e:
+            result = e.result if isinstance(e.result, dict) else {}
+            self._validate_maatools_bundle(result)
+            if result.get('error') == 'maatools_port_in_use':
+                raise MaaToolsPortConflict(
+                    f'PlayCover MaaTools port conflict at {self.host}: '
+                    f'the configured port is occupied by an unidentified service'
+                ) from e
+            status = result.get('status')
+            self._log_launch_result(status)
+            self._validate_maatools_bundle(status)
+            raise
+        self._log_launch_result(status)
+        self._validate_maatools_bundle(status)
+        self._validate_status(status)
+        self._set_maatools_port(status)
+        return self
+
+    @staticmethod
+    def status_ready(status):
+        maatools = status.get('maaTools') if isinstance(status, dict) else None
+        return bool(
+            isinstance(maatools, dict)
+            and status.get('running')
+            and maatools.get('enabled')
+            and maatools.get('reachable')
+        )
+
+    def _validate_status(self, status):
+        maatools = status.get('maaTools') if isinstance(status, dict) else None
+        valid = (
+            isinstance(status, dict)
+            and str(status.get('bundleIdentifier') or '').strip() == self.bundle_identifier
+            and isinstance(status.get('running'), bool)
+            and isinstance(maatools, dict)
+            and isinstance(maatools.get('enabled'), bool)
+            and isinstance(maatools.get('reachable'), bool)
+            and isinstance(maatools.get('port'), int)
+            and not isinstance(maatools.get('port'), bool)
+            and 1024 <= maatools.get('port') <= 65535
+        )
+        if not valid:
+            raise MaaToolsManagerError(f'Invalid PlayCover manager app status: {status}')
+
+    def _validate_maatools_bundle(self, status):
+        if not isinstance(status, dict):
+            return
+
+        maatools = status.get('maaTools')
+        if isinstance(maatools, dict):
+            bundle_identifier = str(maatools.get('bundleIdentifier') or '').strip()
+            port = maatools.get('port') or self.maatools_port or 'unknown'
+        elif status.get('error') == 'maatools_port_in_use':
+            bundle_identifier = str(status.get('bundleIdentifier') or '').strip()
+            port = self.maatools_port or 'unknown'
+        else:
+            return
+
+        if not bundle_identifier or not self.bundle_identifier \
+                or bundle_identifier == self.bundle_identifier:
+            return
+        raise MaaToolsBundleMismatch(
+            f'PlayCover MaaTools bundle mismatch at {self.host}:{port}: '
+            f'{bundle_identifier!r}, expected {self.bundle_identifier!r}. '
+            f'Configure a unique MaaTools port for each concurrently running app'
+        )
+
+    def _set_maatools_port(self, status):
+        maatools = status.get('maaTools') if isinstance(status, dict) else None
+        try:
+            port = int(maatools.get('port') or 0)
+        except (AttributeError, TypeError, ValueError):
+            port = 0
+        if not 1024 <= port <= 65535:
+            raise MaaToolsManagerError(f'Invalid MaaTools port in PlayCover manager response: {status}')
+        self.maatools_port = port
+
+    @staticmethod
+    def _log_launch_result(status):
         if not isinstance(status, dict):
             return
         launch = status.get('launch') or {}
@@ -817,100 +722,178 @@ class PlayCover:
                 f'({detail}, final attempt: {final_outcome})'
             )
 
-    def playcover_manager_check_app(self, status, action):
-        if not self._playcover_status_running(status):
-            raise PlayCoverError(f'PlayCover app is not running after {action}: {status}')
-        return status
 
-    def playcover_set_need_app_login(self):
-        self._playcover_need_app_login = True
+class PlayCover:
+    _playcover_hierarchy_warned = False
 
-    def playcover_need_app_login(self):
-        return bool(getattr(self, '_playcover_need_app_login', False))
+    def _playcover_manager_endpoint(self):
+        host, port = parse_playcover_manager_serial(self.serial)
+        logger.attr('PlayCoverManager', f'{host}:{port}')
+        return host, port, getattr(self.config, 'PlayCover_ManagerKey', '')
 
-    def playcover_clear_need_app_login(self):
-        self._playcover_need_app_login = False
+    def _new_playcover_manager(self):
+        host, port, key = self._playcover_manager_endpoint()
+        return PlayCoverManager(host=host, port=port, key=key)
 
-    def playcover_connect_maatools(self, status=None, restart=True, force=False):
-        self.playcover_release()
-        status = self.playcover_manager_ensure_maatools(
-            restart=restart,
-            force=force,
-            status=status,
+    def _new_maatools_manager(self, bundle_identifier):
+        host, port, key = self._playcover_manager_endpoint()
+        return MaaToolsManager(
+            bundle_identifier=bundle_identifier,
+            host=host,
+            port=port,
+            key=key,
+        )
+
+    def list_package_playcover(self, show_log=True):
+        if show_log:
+            logger.info('Get package list')
+        if not self.playcover_manager_configured():
+            from module.config.server import to_package
+            logger.warning('PackageName auto cannot be detected without PlayCover manager, defaulting to CN')
+            return [to_package('cn')]
+
+        try:
+            apps = self._new_playcover_manager().list_apps()
+        except MaaToolsManagerError as e:
+            logger.critical(e)
+            logger.critical('PlayCover manager API is required by the selected Serial')
+            raise RequestHumanTakeover
+
+        return [
+            str(app.get('bundleIdentifier') or '').strip()
+            for app in apps
+            if isinstance(app, dict) and str(app.get('bundleIdentifier') or '').strip()
+        ]
+
+    @cached_property
+    def maatools_manager(self):
+        return self._new_maatools_manager(bundle_identifier=self.package)
+
+    @cached_property
+    def maatools_client(self):
+        manager = None
+        if self.playcover_manager_configured():
+            manager = self.maatools_manager
+            if manager.maatools_port is None:
+                manager.attach()
+            host, port = manager.host, manager.maatools_port
+        else:
+            host, port = parse_playcover_serial(self.serial)
+
+        client = MaaToolsClient(
+            host=host,
+            port=port,
+            expected_bundle_identifier=self.package,
         )
         try:
-            client = self._playcover_connect_client(status=status)
-        except Exception as e:
-            raise PlayCoverError(f'Unable to connect PlayCover MaaTools after manager action: {e}') from e
-        set_cached_property(self, 'playcover', client)
+            return client.connect()
+        except MaaToolsBundleMismatch:
+            if manager is None:
+                raise
+
+            status = manager._checked_status()
+            was_ready = manager.status_ready(status)
+            previous_port = manager.maatools_port
+            manager._wait_until_ready(status)
+            if was_ready and manager.maatools_port == previous_port:
+                raise
+            if manager.maatools_port != previous_port:
+                logger.info(
+                    f'PlayCover MaaTools port changed '
+                    f'{previous_port} -> {manager.maatools_port}'
+                )
+        except MaaToolsClientError:
+            if manager is None:
+                raise
+
+            status = manager._checked_status()
+            was_ready = manager.status_ready(status)
+            previous_port = manager.maatools_port
+            manager._wait_until_ready(status)
+            if was_ready and manager.maatools_port == previous_port:
+                raise
+            if manager.maatools_port != previous_port:
+                logger.info(
+                    f'PlayCover MaaTools port changed '
+                    f'{previous_port} -> {manager.maatools_port}'
+                )
+
+        client = MaaToolsClient(
+            host=manager.host,
+            port=manager.maatools_port,
+            expected_bundle_identifier=self.package,
+        )
+        return client.connect()
+
+    def maatools_client_release(self, show_log=True):
+        if has_cached_property(self, 'maatools_client'):
+            self.maatools_client.disconnect()
+            del_cached_property(self, 'maatools_client')
+            if show_log:
+                logger.info('PlayCover MaaTools client released')
+
+    def maatools_manager_release(self):
+        manager_cached = has_cached_property(self, 'maatools_manager')
+        self.maatools_client_release(show_log=not manager_cached)
+        if manager_cached:
+            del_cached_property(self, 'maatools_manager')
+            logger.info('PlayCover MaaTools manager released')
+
+    def playcover_manager_configured(self):
+        return is_playcover_manager_serial(self.serial)
 
     def app_current_playcover(self):
-        return self.playcover_bundle_identifier()
+        return self.package
 
+    @retry
     def app_start_playcover(self):
         if not self.playcover_manager_configured():
             logger.info('App start is skipped for PlayCover; manager API is disabled')
             return
 
-        try:
-            self.playcover_connect_maatools(restart=True)
-            self.playcover_set_need_app_login()
-        except PlayCoverError as e:
-            logger.error(e)
-            raise RequestHumanTakeover
+        self.maatools_manager.launch()
+        _ = self.maatools_client
 
+    @retry
     def app_stop_playcover(self):
         if not self.playcover_manager_configured():
             logger.info('App stop is skipped for PlayCover; manager API is disabled')
             return
 
-        try:
-            status = self.playcover_manager.app_stop(self.playcover_bundle_identifier(), timeout=10, force=False)
-            self.playcover_release()
-            if self._playcover_status_running(status):
-                raise PlayCoverError(f'PlayCover app is still running after stop: {status}')
-        except PlayCoverError as e:
-            logger.error(e)
-            raise RequestHumanTakeover
-
-    def app_restart_playcover(self):
-        if not self.playcover_manager_configured():
-            logger.info('App restart is skipped for PlayCover; manager API is disabled')
-            return
-
-        try:
-            self.playcover_connect_maatools(restart=True, force=True)
-            self.playcover_set_need_app_login()
-        except PlayCoverError as e:
-            logger.warning(e)
-            try:
-                status = self.playcover_manager_app_status()
-                self.playcover_manager_check_app(status, 'restart')
-                client = self._playcover_connect_client(timeout=3, status=status)
-                set_cached_property(self, 'playcover', client)
-                logger.warning('PlayCover MaaTools became reachable after the manager request timed out')
-                self.playcover_set_need_app_login()
-            except (PlayCoverError, OSError, struct.error, ValueError) as e:
-                logger.error(e)
-                raise RequestHumanTakeover
+        manager = self.__dict__.get('maatools_manager')
+        if manager is None:
+            manager = self._new_playcover_manager()
+        manager.app_stop(self.package, timeout=10, force=False)
+        self.maatools_manager_release()
 
     def app_is_running_playcover(self):
         if self.playcover_manager_configured():
+            manager = self.__dict__.get('maatools_manager')
+            if manager is None:
+                manager = self._new_playcover_manager()
             try:
-                return self._playcover_status_running(self.playcover_manager_app_status())
-            except PlayCoverError as e:
+                status = manager.app_status(self.package)
+                return isinstance(status, dict) and bool(status.get('running'))
+            except MaaToolsManagerError as e:
                 logger.warning(e)
+                return False
 
         try:
-            if has_cached_property(self, 'playcover'):
-                self.playcover.get_window_size()
+            if has_cached_property(self, 'maatools_client'):
+                self.maatools_client.get_window_size()
             else:
-                client = self._playcover_connect_client(timeout=1)
+                host, port = parse_playcover_serial(self.serial)
+                client = MaaToolsClient(
+                    host=host,
+                    port=port,
+                    timeout=1,
+                    expected_bundle_identifier=self.package,
+                ).connect()
                 client.disconnect()
             return True
-        except Exception as e:
+        except (MaaToolsManagerError, MaaToolsClientError) as e:
             logger.warning(f'PlayCover MaaTools is not reachable: {e}')
-            self.playcover_release()
+            self.maatools_client_release()
             return False
 
     def dump_hierarchy_playcover(self):
@@ -924,22 +907,31 @@ class PlayCover:
 
     @retry
     def screenshot_playcover(self):
-        return self.playcover.screenshot_rgb()
+        return self.maatools_client.screenshot()
+
+    def _maatools_touch_context(self):
+        client = self.maatools_client
+        image = getattr(self, 'image', None)
+        source_size = image_size(image) if image is not None else (client.max_x, client.max_y)
+        return client, source_size
 
     @retry
     def click_playcover(self, x, y):
+        client, source_size = self._maatools_touch_context()
         down = ensure_time((0.010, 0.020))
-        self.playcover.send_touch(0, x, y)
+        client.send_touch(0, x, y, source_size=source_size)
         self.sleep(down)
-        self.playcover.send_touch(3, x, y)
-        self.playcover.sync_touch()
+        client.send_touch(3, x, y, source_size=source_size)
+        client.sync_touch()
         self.sleep(0.050 - down)
 
     @retry
     def long_click_playcover(self, x, y, duration=1.0):
-        self.playcover.send_touch(0, x, y)
+        client, source_size = self._maatools_touch_context()
+        client.send_touch(0, x, y, source_size=source_size)
         self.sleep(duration)
-        self.playcover.send_touch(3, x, y)
+        client.send_touch(3, x, y, source_size=source_size)
+        client.sync_touch()
         self.sleep(0.050)
 
     @retry
@@ -959,15 +951,16 @@ class PlayCover:
         if not points:
             return
 
+        client, source_size = self._maatools_touch_context()
         first = points[0]
-        self.playcover.send_touch(0, first[0], first[1])
+        client.send_touch(0, first[0], first[1], source_size=source_size)
         self.sleep(interval)
         for point in points[1:]:
-            self.playcover.send_touch(1, point[0], point[1])
+            client.send_touch(1, point[0], point[1], source_size=source_size)
             self.sleep(interval)
         last = points[-1]
-        self.playcover.send_touch(3, last[0], last[1])
-        self.playcover.sync_touch()
+        client.send_touch(3, last[0], last[1], source_size=source_size)
+        client.sync_touch()
         self.sleep(0.050)
 
     @retry
@@ -978,22 +971,24 @@ class PlayCover:
         if not points:
             return
 
+        client, source_size = self._maatools_touch_context()
         first = points[0]
-        self.playcover.send_touch(0, first[0], first[1])
+        client.send_touch(0, first[0], first[1], source_size=source_size)
         self.sleep(0.010)
         for point in points[1:]:
-            self.playcover.send_touch(1, point[0], point[1])
+            client.send_touch(1, point[0], point[1], source_size=source_size)
             self.sleep(0.010)
 
-        self.playcover.send_touch(1, p2[0], p2[1])
+        client.send_touch(1, p2[0], p2[1], source_size=source_size)
         self.sleep(0.140)
-        self.playcover.send_touch(1, p2[0], p2[1])
+        client.send_touch(1, p2[0], p2[1], source_size=source_size)
         self.sleep(0.140)
 
         hold_duration = ensure_time(hold_duration) - 0.28
         if hold_duration > 0:
-            self.playcover.send_touch(1, p2[0], p2[1])
+            client.send_touch(1, p2[0], p2[1], source_size=source_size)
             self.sleep(hold_duration)
 
-        self.playcover.send_touch(3, p2[0], p2[1])
+        client.send_touch(3, p2[0], p2[1], source_size=source_size)
+        client.sync_touch()
         self.sleep(0.050)

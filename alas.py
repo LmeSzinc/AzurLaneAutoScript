@@ -62,27 +62,14 @@ class AzurLaneAutoScript:
             logger.exception(e)
             exit(1)
 
-    def playcover_ensure_app(self, command, check_running=False):
-        if not self.device.is_playcover or command in ['start', 'restart']:
-            return
-
-        if check_running and self.device.playcover_manager_configured() and not self.device.app_is_running():
-            logger.info('PlayCover app is not running, starting it before the task')
-            from module.handler.login import LoginHandler
-            LoginHandler(self.config, device=self.device).app_start()
-            return
-
-        if self.device.playcover_need_app_login():
-            from module.handler.login import LoginHandler
-            LoginHandler(self.config, device=self.device).handle_app_login()
-
     def run(self, command, skip_first_screenshot=False):
         try:
-            self.playcover_ensure_app(command, check_running=True)
-            skip_lifecycle_screenshot = self.device.is_playcover and command in ['start', 'restart']
-            if not skip_first_screenshot and not skip_lifecycle_screenshot:
-                self.device.screenshot()
-            self.playcover_ensure_app(command)
+            if not skip_first_screenshot:
+                try:
+                    self.device.screenshot()
+                except GameNotRunningError:
+                    if command not in ['start', 'restart']:
+                        raise
             self.__getattribute__(command)()
             return True
         except TaskEnd:
@@ -510,6 +497,7 @@ class AzurLaneAutoScript:
         """
         Returns:
             str: Name of the next task.
+            None: If an idle action failed while error handling is disabled.
         """
         while 1:
             task = self.config.get_next()
@@ -524,10 +512,6 @@ class AzurLaneAutoScript:
                 logger.info(f'Wait until {task.next_run} for task `{task.command}`')
                 self.is_first_task = False
                 method = self.config.Optimization_WhenTaskQueueEmpty
-                playcover_close_game = method == 'close_game' and self.device.is_playcover \
-                    and not self.device.playcover_manager_available()
-                if playcover_close_game:
-                    method = 'goto_main'
                 if method == 'close_game':
                     logger.info('Close game during wait')
                     self.device.app_stop()
@@ -541,11 +525,15 @@ class AzurLaneAutoScript:
                         del_cached_property(self, 'config')
                         continue
                 elif method == 'goto_main':
-                    if playcover_close_game:
-                        logger.info('PlayCover manager API is unavailable, go to main page during wait')
-                    else:
-                        logger.info('Goto main page during wait')
-                    self.run('goto_main')
+                    logger.info('Goto main page during wait')
+                    if not self.run('goto_main'):
+                        if self.config.Error_HandleError:
+                            # Recovery tasks must bypass the idle queue's hoarding delay.
+                            AzurLaneConfig.is_hoarding_task = False
+                            del_cached_property(self, 'config')
+                            continue
+                        task = None
+                        break
                     release_resources()
                     self.device.release_during_wait()
                     if not self.wait_until(task.next_run):
@@ -568,7 +556,7 @@ class AzurLaneAutoScript:
             break
 
         AzurLaneConfig.is_hoarding_task = False
-        return task.command
+        return task.command if task is not None else None
 
     def loop(self):
         logger.set_file_logger(self.config_name)
@@ -593,6 +581,8 @@ class AzurLaneAutoScript:
                 self.config.task_call('Restart')
             # Get task
             task = self.get_next_task()
+            if task is None:
+                break
             # Init device and change server
             _ = self.device
             self.device.config = self.config

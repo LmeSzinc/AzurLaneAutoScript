@@ -9,7 +9,7 @@ from module.base.decorator import cached_property
 from module.config.config import AzurLaneConfig
 from module.config.env import IS_ON_PHONE_CLOUD
 from module.config.deep import deep_iter
-from module.device.method.playcover import PLAYCOVER_METHOD, is_playcover_serial
+from module.device.method.playcover import is_playcover_serial
 from module.device.method.utils import get_serial_pair
 from module.exception import RequestHumanTakeover
 from module.logger import logger
@@ -79,17 +79,17 @@ class ConnectionAttr:
 
     def method_startup_check(self):
         if is_playcover_serial(self.serial):
-            screenshot = PLAYCOVER_METHOD
-            control = PLAYCOVER_METHOD
+            screenshot = 'playcover'
+            control = 'playcover'
         else:
             serial = str(self.serial).strip()
             if re.match(r'^(https?://|wsa)', serial):
                 return
             screenshot = self.config.Emulator_ScreenshotMethod
             control = self.config.Emulator_ControlMethod
-            if screenshot == PLAYCOVER_METHOD:
+            if screenshot == 'playcover':
                 screenshot = 'auto'
-            if control == PLAYCOVER_METHOD:
+            if control == 'playcover':
                 control = 'MaaTouch'
 
         if screenshot == self.config.Emulator_ScreenshotMethod \

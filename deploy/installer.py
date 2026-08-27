@@ -19,7 +19,7 @@ class Installer(GitManager, PipManager, AdbManager, AppManager, AlasManager):
             self.alas_kill()
             self.pip_install()
             self.app_update()
-            # ADB setup is deferred until an Android device is initialized.
+            self.adb_install()
         except ExecutionError:
             exit(1)
 

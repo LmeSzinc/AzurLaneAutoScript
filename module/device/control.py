@@ -6,7 +6,7 @@ from module.device.method.hermit import Hermit
 from module.device.method.maatouch import MaaTouch
 from module.device.method.minitouch import Minitouch
 from module.device.method.nemu_ipc import NemuIpc
-from module.device.method.playcover import PLAYCOVER_METHOD, PlayCover
+from module.device.method.playcover import PlayCover
 from module.device.method.scrcpy import Scrcpy
 from module.logger import logger
 
@@ -25,7 +25,7 @@ class Control(Hermit, Minitouch, Scrcpy, MaaTouch, NemuIpc, PlayCover):
             'Hermit': self.click_hermit,
             'MaaTouch': self.click_maatouch,
             'nemu_ipc': self.click_nemu_ipc,
-            PLAYCOVER_METHOD: self.click_playcover,
+            'playcover': self.click_playcover,
         }
 
     def click(self, button, control_check=True):
@@ -84,7 +84,7 @@ class Control(Hermit, Minitouch, Scrcpy, MaaTouch, NemuIpc, PlayCover):
             self.long_click_maatouch(x, y, duration)
         elif method == 'nemu_ipc':
             self.long_click_nemu_ipc(x, y, duration)
-        elif method == PLAYCOVER_METHOD:
+        elif method == 'playcover':
             self.long_click_playcover(x, y, duration)
         else:
             self.swipe_adb((x, y), (x, y), duration)
@@ -96,7 +96,7 @@ class Control(Hermit, Minitouch, Scrcpy, MaaTouch, NemuIpc, PlayCover):
         method = self.config.Emulator_ControlMethod
         if method == 'uiautomator2':
             logger.info('Swipe %s -> %s, %s' % (point2str(*p1), point2str(*p2), duration))
-        elif method in ['minitouch', 'MaaTouch', 'scrcpy', 'nemu_ipc', PLAYCOVER_METHOD]:
+        elif method in ['minitouch', 'MaaTouch', 'scrcpy', 'nemu_ipc', 'playcover']:
             logger.info('Swipe %s -> %s' % (point2str(*p1), point2str(*p2)))
         else:
             # ADB needs to be slow, or swipe doesn't work
@@ -120,7 +120,7 @@ class Control(Hermit, Minitouch, Scrcpy, MaaTouch, NemuIpc, PlayCover):
             self.swipe_maatouch(p1, p2)
         elif method == 'nemu_ipc':
             self.swipe_nemu_ipc(p1, p2)
-        elif method == PLAYCOVER_METHOD:
+        elif method == 'playcover':
             self.swipe_playcover(p1, p2)
         else:
             self.swipe_adb(p1, p2, duration=duration)
@@ -173,7 +173,7 @@ class Control(Hermit, Minitouch, Scrcpy, MaaTouch, NemuIpc, PlayCover):
             self.drag_maatouch(p1, p2, point_random=point_random, hold_duration=hold_duration)
         elif method == 'nemu_ipc':
             self.drag_nemu_ipc(p1, p2, point_random=point_random, hold_duration=hold_duration)
-        elif method == PLAYCOVER_METHOD:
+        elif method == 'playcover':
             self.drag_playcover(p1, p2, point_random=point_random, hold_duration=hold_duration)
         else:
             logger.warning(f'Control method {method} does not support drag well, '
