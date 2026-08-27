@@ -99,13 +99,16 @@ class IslandOrder(IslandUI):
 
     @property
     def requirement_name_grid(self):
-        name_grid = self.requirement_grid.crop((168, 12, 328, 40))
+        if server.server == 'en':
+            name_grid = self.requirement_grid.crop((81, 12, 328, 40))
+        else:
+            name_grid = self.requirement_grid.crop((168, 12, 328, 40))
         return name_grid
 
     @property
     def requirement_counter_grid(self):
         if server.server == 'en':
-            counter_grid = self.requirement_grid.crop((238, 44, 327, 75))
+            counter_grid = self.requirement_grid.crop((238, 44, 326, 70))
         else:
             counter_grid = self.requirement_grid.crop((238, 44, 327, 65))
         return counter_grid
