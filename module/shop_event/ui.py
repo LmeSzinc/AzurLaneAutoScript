@@ -1,24 +1,24 @@
-import numpy as np
 import re
 from datetime import datetime, timedelta
+
+import numpy as np
 
 import module.config.server as server
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.base.timer import Timer
-from module.base.utils import rgb2luma, crop, color_similarity_2d
+from module.base.utils import color_similarity_2d, crop
 from module.config.utils import server_time_offset
 from module.exception import GameStuckError
 from module.logger import logger
 from module.meowfficer.assets import MEOWFFICER_GET_CHECK, MEOWFFICER_TRAIN_CLICK_SAFE_AREA
 from module.meowfficer.collect import SWITCH_LOCK
-from module.ocr.ocr import Ocr, Digit
-from module.shop.assets import SHOP_OCR_BALANCE, SHOP_OCR_OIL_CHECK, SHOP_OCR_OIL
+from module.ocr.ocr import Digit, Ocr
+from module.shop.assets import SHOP_OCR_BALANCE, SHOP_OCR_OIL, SHOP_OCR_OIL_CHECK
 from module.shop.shop_medal import ShopScroll
 from module.shop_event.assets import *
 from module.ui.navbar import Navbar
 from module.ui.ui import UI
-
 
 EVENT_SHOP_SCROLL = ShopScroll(
     EVENT_SHOP_SCROLL_AREA,
@@ -27,7 +27,6 @@ EVENT_SHOP_SCROLL = ShopScroll(
 )
 EVENT_SHOP_SCROLL.drag_threshold = 0.08
 EVENT_SHOP_SCROLL.edge_threshold = 0.1
-
 
 if server.server == 'tw':
     EVENT_SHOP_DEADLINE_COLOR = (102, 204, 255)
@@ -71,18 +70,38 @@ class EventShopUI(UI):
             logger.info("Event shop has no urpt.")
             return False
 
-    @cached_property
-    def is_event_ended(self):
-        if self.config.EVENT_SHOP_IGNORE_DEADLINE:
-            return True
-        period = OCR_EVENT_SHOP_DEADLINE.ocr(self.device.image)[:-8]
+    def _get_event_deadline(self):
+        """
+        Get event deadline in server timezone
+
+        Returns:
+            datetime | None:
+        """
+        period = OCR_EVENT_SHOP_DEADLINE.ocr(self.device.image)
+        # OCR result is like ":2026.8.13~2026.9.323:59:59", remove "23:59:59"
+        period, _, _ = period.partition('23:59:59')
         pattern = r'(\d{4})\.(\d{1,2})\.(\d{1,2})'
         matches = re.findall(pattern, period)
         if not matches or len(matches) < 2:
             logger.warning(f"Failed to read event deadline: {period}")
-            return False
+            return None
         y, m, d = matches[-1]
         deadline = datetime(int(y), int(m), int(d)) + timedelta(days=1)  # server deadline
+        return deadline
+
+    @cached_property
+    def is_event_ended(self):
+        if self.config.EVENT_SHOP_IGNORE_DEADLINE:
+            return True
+
+        for _ in self.loop(timeout=2):
+            deadline = self._get_event_deadline()
+            if deadline is not None:
+                break
+        else:
+            logger.error('Failed to get event deadline')
+            return False
+
         server_now = datetime.now() - server_time_offset()
         return (deadline - server_now).days < 7
 
@@ -95,7 +114,7 @@ class EventShopUI(UI):
             if ensure_timeout.reached():
                 raise GameStuckError('Waiting too long for EventShop to appear.')
         return True
-    
+
     @cached_property
     def is_pt_reversed(self):
         blacklist = [
