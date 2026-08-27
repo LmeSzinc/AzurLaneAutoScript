@@ -247,9 +247,9 @@ class GemsFarming(CampaignRun, Dock):
                 break
             if map_timer.reached() \
                     and self.campaign.handle_map_mode_switch('hard'):
-                button = self.campaign.handle_map_preparation()
-                if button:
-                    self.device.click(button)
+                prep_button = self.campaign.handle_map_preparation()
+                if prep_button:
+                    self.device.click(prep_button)
                     map_timer.reset()
                     campaign_timer.reset()
             # Retire
