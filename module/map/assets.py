@@ -574,16 +574,16 @@ MAP_OFFENSIVE = Button(
 )
 MAP_PREPARATION = Button(
     area={
-        "cn": (854, 488, 1052, 548),
+        "cn": (975, 497, 1094, 525),
         "en": (852, 489, 1054, 553),
-        "jp": (850, 485, 1051, 548),
+        "jp": (991, 494, 1084, 526),
         "tw": (854, 488, 1052, 548),
     },
-    color={"cn": (236, 186, 115), "en": (234, 179, 93), "jp": (232, 181, 101), "tw": (236, 186, 115)},
+    color={"cn": (248, 223, 160), "en": (234, 179, 93), "jp": (246, 214, 118), "tw": (236, 186, 115)},
     button={
-        "cn": (854, 488, 1052, 548),
+        "cn": (975, 497, 1094, 525),
         "en": (852, 489, 1054, 553),
-        "jp": (850, 485, 1051, 548),
+        "jp": (991, 494, 1084, 526),
         "tw": (854, 488, 1052, 548),
     },
     file={
@@ -591,6 +591,27 @@ MAP_PREPARATION = Button(
         "en": "./assets/en/map/MAP_PREPARATION.png",
         "jp": "./assets/jp/map/MAP_PREPARATION.png",
         "tw": "./assets/tw/map/MAP_PREPARATION.png",
+    },
+)
+MAP_PREPARATION_HARD = Button(
+    area={
+        "cn": (933, 493, 1081, 529),
+        "en": (933, 493, 1081, 529),
+        "jp": (980, 496, 1075, 526),
+        "tw": (933, 493, 1081, 529),
+    },
+    color={"cn": (239, 199, 137), "en": (239, 199, 137), "jp": (233, 186, 107), "tw": (239, 199, 137)},
+    button={
+        "cn": (933, 493, 1081, 529),
+        "en": (933, 493, 1081, 529),
+        "jp": (980, 496, 1075, 526),
+        "tw": (933, 493, 1081, 529),
+    },
+    file={
+        "cn": "./assets/cn/map/MAP_PREPARATION_HARD.png",
+        "en": "./assets/cn/map/MAP_PREPARATION_HARD.png",
+        "jp": "./assets/jp/map/MAP_PREPARATION_HARD.png",
+        "tw": "./assets/cn/map/MAP_PREPARATION_HARD.png",
     },
 )
 MAP_PREPARATION_CANCEL = Button(

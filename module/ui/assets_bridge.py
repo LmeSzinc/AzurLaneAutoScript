@@ -31,6 +31,7 @@ from module.map.assets import (
     FLEET_PREPARATION,
     MAP_PREPARATION,
     MAP_PREPARATION_CANCEL,
+    MAP_PREPARATION_HARD,
     WITHDRAW,
 )
 from module.meowfficer.assets import MEOWFFICER_BUY
@@ -74,6 +75,7 @@ __all__ = [
     "MAINTENANCE_ANNOUNCE",
     "MAP_PREPARATION",
     "MAP_PREPARATION_CANCEL",
+    "MAP_PREPARATION_HARD",
     "MEOWFFICER_BUY",
     "MONTHLY_PASS_NOTICE",
     "RAID_FLEET_PREPARATION",
