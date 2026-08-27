@@ -11,8 +11,7 @@ from module.map.map_operation import MapOperation
 from module.ocr.ocr import Digit, DigitCounter
 from module.raid.assets import *
 from module.raid.combat import RaidCombat
-from module.ui.assets import RAID_CHECK
-from module.ui.page import page_rpg_stage
+from module.ui.page import page_raid, page_rpg_stage
 
 
 class RaidCounterPostMixin(DigitCounter):
@@ -336,7 +335,7 @@ class Raid(MapOperation, RaidCombat, CampaignEvent):
         if self.is_raid_rpg():
             return self.appear(page_rpg_stage.check_button, offset=(30, 30))
         else:
-            return self.appear(RAID_CHECK, offset=(30, 30))
+            return self.ui_page_appear(page_raid, offset=(30, 30))
 
     def raid_execute_once(self, mode, raid):
         """
