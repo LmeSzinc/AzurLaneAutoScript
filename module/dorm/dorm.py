@@ -199,23 +199,30 @@ class RewardDorm(UI):
         timeout = Timer(count // 5 + 5).start()
         x, y = random_rectangle_point(button.button)
         client, source_size = self.device._maatools_touch_context()
-        client.send_touch(0, x, y, source_size=source_size)
+        try:
+            client.send_touch(0, x, y, source_size=source_size)
+            client.sync_touch()
 
-        while 1:
-            client.send_touch(1, x, y, source_size=source_size)
-            time.sleep(.01)
-            self.device.screenshot()
+            while 1:
+                client.send_touch(1, x, y, source_size=source_size)
+                client.sync_touch()
+                time.sleep(.01)
+                self.device.screenshot()
 
-            if not self._dorm_has_food(button) \
-                    or self.handle_info_bar() \
-                    or self.appear(POPUP_CONFIRM, offset=self._popup_offset):
-                break
-            if timeout.reached():
-                logger.warning('Wait dorm feed timeout')
-                break
+                if not self._dorm_has_food(button) \
+                        or self.handle_info_bar() \
+                        or self.appear(POPUP_CONFIRM, offset=self._popup_offset):
+                    break
+                if timeout.reached():
+                    logger.warning('Wait dorm feed timeout')
+                    break
 
-        client.send_touch(3, x, y, source_size=source_size)
-        client.sync_touch()
+            client.send_touch(3, x, y, source_size=source_size)
+            client.sync_touch()
+        except BaseException:
+            # Closing this connection cancels its hold without masking the original error.
+            client.disconnect()
+            raise
 
     @Config.when(DEVICE_CONTROL_METHOD=None)
     def _dorm_feed_long_tap(self, button, count):

@@ -29,6 +29,11 @@ PLAYCOVER_SHORT_SWIPE_MIN_STEPS = 8
 PLAYCOVER_SHORT_SWIPE_INTERVAL = 0.025
 PLAYCOVER_SWIPE_INTERVAL = 0.010
 PLAYCOVER_TOUCH_SYNC_TIMEOUT = 5
+# Shared delivery budget, failure cleanup, and network allowance: 3 + 3 + 2 seconds.
+PLAYCOVER_TOUCH_SEQUENCE_TIMEOUT_MARGIN = 8
+PLAYCOVER_TOUCH_SEQUENCE_MAX_EVENTS = 1024
+PLAYCOVER_TOUCH_SEQUENCE_MAX_DELAY = 30
+PLAYCOVER_TOUCH_SEQUENCE_MAX_DURATION_US = 120_000_000
 PLAYCOVER_MAATOOLS_READY_TIMEOUT = 15
 PLAYCOVER_MAATOOLS_READY_INTERVAL = 0.5
 
@@ -50,6 +55,10 @@ class MaaToolsPortConflict(MaaToolsManagerError):
 
 class MaaToolsClientError(Exception):
     pass
+
+
+class MaaToolsTouchError(MaaToolsClientError):
+    """A failed gesture must not be automatically replayed."""
 
 
 class PlayCoverDataTruncated(MaaToolsClientError):
@@ -85,6 +94,10 @@ def retry(func):
             except (MaaToolsBundleMismatch, MaaToolsPortConflict) as e:
                 logger.critical(e)
                 break
+            except MaaToolsTouchError as e:
+                logger.critical(e)
+                self.maatools_client_release()
+                raise RequestHumanTakeover from e
             # MaaTools manager
             except MaaToolsManagerError as e:
                 logger.error(e)
@@ -212,6 +225,7 @@ class MaaToolsClient:
     size_magic = b'SIZE'
     touch_magic = b'TUCH'
     touch_sync_magic = b'TSYN'
+    touch_sequence_magic = b'TSEQ'
     version_magic = b'VERN'
     bundle_magic = b'BNDL'
 
@@ -284,11 +298,16 @@ class MaaToolsClient:
         except OSError as e:
             raise MaaToolsClientError(f'PlayCover MaaTools send failed: {e}') from e
 
-    def _recv_exact(self, size):
+    def _recv_exact(self, size, deadline=None):
         data = bytearray(size)
         view = memoryview(data)
         received = 0
         while received < size:
+            if deadline is not None:
+                remaining = deadline - time.monotonic()
+                if remaining <= 0:
+                    raise PlayCoverDataTimeout(f'PlayCover MaaTools response timed out at {received}/{size}')
+                self.sock.settimeout(remaining)
             try:
                 length = self.sock.recv_into(view[received:], size - received)
             except socket.timeout as e:
@@ -376,6 +395,61 @@ class MaaToolsClient:
         if response != b'OKAY':
             raise MaaToolsClientError(f'PlayCover MaaTools touch sync failed: {response!r}')
         return True
+
+    def send_touch_sequence(self, events, source_size=None):
+        """
+        Args:
+            events (list[tuple[float, int, int, int]]): Delay in seconds before each
+                event, TUCH phase, x, y. Must contain complete down/move*/up gestures.
+            source_size: Same screenshot coordinate space as send_touch().
+
+        A failure may follow partial execution. Never retry or fall back after sending.
+        """
+        if self.version < 5:
+            raise MaaToolsClientError('PlayCover touch sequences require MaaTools v5')
+        if not 2 <= len(events) <= PLAYCOVER_TOUCH_SEQUENCE_MAX_EVENTS:
+            raise MaaToolsClientError(f'Invalid PlayCover touch sequence length: {len(events)}')
+
+        payload = bytearray(struct.pack('>H', len(events)))
+        total_delay = 0
+        active = False
+        for delay, phase, x, y in events:
+            if not 0 <= delay <= PLAYCOVER_TOUCH_SEQUENCE_MAX_DELAY:
+                raise MaaToolsClientError(f'Invalid PlayCover touch sequence delay: {delay}')
+            delay_us = int(round(delay * 1_000_000))
+            total_delay += delay_us
+            if total_delay > PLAYCOVER_TOUCH_SEQUENCE_MAX_DURATION_US:
+                raise MaaToolsClientError('PlayCover touch sequence exceeds 120 seconds')
+            if phase == 0 and not active:
+                active = True
+            elif phase in (1, 3) and active:
+                active = phase != 3
+            else:
+                raise MaaToolsClientError(f'Invalid PlayCover touch sequence phase: {phase}')
+            x, y = self.convert(x, y, source_size=source_size)
+            payload.extend(struct.pack('>IBHH', delay_us, int(phase), x, y))
+        if active:
+            raise MaaToolsClientError('PlayCover touch sequence must end with touch up')
+
+        with self.lock:
+            sock = self.sock
+            timeout = sock.gettimeout()
+            budget = max(timeout or self.timeout or 0, total_delay / 1_000_000
+                         + PLAYCOVER_TOUCH_SEQUENCE_TIMEOUT_MARGIN)
+            deadline = time.monotonic() + budget
+            try:
+                try:
+                    sock.settimeout(budget)
+                    self._send_message(self.touch_sequence_magic, payload)
+                    response = self._recv_exact(4, deadline=deadline)
+                    if response != b'OKAY':
+                        raise MaaToolsClientError(f'PlayCover touch sequence failed: {response!r}')
+                finally:
+                    sock.settimeout(timeout)
+            except BaseException:
+                # Discard late/partial responses and cancel this connection's active touch.
+                self.disconnect()
+                raise
 
     def _log_screenshot_method(self, method):
         if self.screenshot_method != method:
@@ -915,24 +989,33 @@ class PlayCover:
         source_size = image_size(image) if image is not None else (client.max_x, client.max_y)
         return client, source_size
 
+    def _playcover_touch_sequence(self, events, post_delay=0.050):
+        client, source_size = self._maatools_touch_context()
+        try:
+            if client.version >= 5:
+                client.send_touch_sequence(events, source_size=source_size)
+            else:
+                for delay, phase, x, y in events:
+                    if delay:
+                        self.sleep(delay)
+                    client.send_touch(phase, x, y, source_size=source_size)
+                client.sync_touch()
+            self.sleep(post_delay)
+        except BaseException as e:
+            client.disconnect()
+            if isinstance(e, Exception):
+                raise MaaToolsTouchError(f'PlayCover gesture failed; not replaying it: {e}') from e
+            raise
+
     @retry
     def click_playcover(self, x, y):
-        client, source_size = self._maatools_touch_context()
         down = ensure_time((0.010, 0.020))
-        client.send_touch(0, x, y, source_size=source_size)
-        self.sleep(down)
-        client.send_touch(3, x, y, source_size=source_size)
-        client.sync_touch()
-        self.sleep(0.050 - down)
+        self._playcover_touch_sequence(
+            [(0, 0, x, y), (down, 3, x, y)], post_delay=0.050 - down)
 
     @retry
     def long_click_playcover(self, x, y, duration=1.0):
-        client, source_size = self._maatools_touch_context()
-        client.send_touch(0, x, y, source_size=source_size)
-        self.sleep(duration)
-        client.send_touch(3, x, y, source_size=source_size)
-        client.sync_touch()
-        self.sleep(0.050)
+        self._playcover_touch_sequence([(0, 0, x, y), (ensure_time(duration), 3, x, y)])
 
     @retry
     def swipe_playcover(self, p1, p2):
@@ -951,17 +1034,12 @@ class PlayCover:
         if not points:
             return
 
-        client, source_size = self._maatools_touch_context()
         first = points[0]
-        client.send_touch(0, first[0], first[1], source_size=source_size)
-        self.sleep(interval)
-        for point in points[1:]:
-            client.send_touch(1, point[0], point[1], source_size=source_size)
-            self.sleep(interval)
+        events = [(0, 0, first[0], first[1])]
+        events.extend((interval, 1, point[0], point[1]) for point in points[1:])
         last = points[-1]
-        client.send_touch(3, last[0], last[1], source_size=source_size)
-        client.sync_touch()
-        self.sleep(0.050)
+        events.append((interval, 3, last[0], last[1]))
+        self._playcover_touch_sequence(events)
 
     @retry
     def drag_playcover(self, p1, p2, point_random=(-10, -10, 10, 10), hold_duration=0.0):
@@ -971,24 +1049,17 @@ class PlayCover:
         if not points:
             return
 
-        client, source_size = self._maatools_touch_context()
         first = points[0]
-        client.send_touch(0, first[0], first[1], source_size=source_size)
-        self.sleep(0.010)
-        for point in points[1:]:
-            client.send_touch(1, point[0], point[1], source_size=source_size)
-            self.sleep(0.010)
-
-        client.send_touch(1, p2[0], p2[1], source_size=source_size)
-        self.sleep(0.140)
-        client.send_touch(1, p2[0], p2[1], source_size=source_size)
-        self.sleep(0.140)
+        events = [(0, 0, first[0], first[1])]
+        events.extend((0.010, 1, point[0], point[1]) for point in points[1:])
+        events.append((0.010, 1, p2[0], p2[1]))
+        events.append((0.140, 1, p2[0], p2[1]))
 
         hold_duration = ensure_time(hold_duration) - 0.28
+        delay = 0.140
         if hold_duration > 0:
-            client.send_touch(1, p2[0], p2[1], source_size=source_size)
-            self.sleep(hold_duration)
+            events.append((delay, 1, p2[0], p2[1]))
+            delay = hold_duration
 
-        client.send_touch(3, p2[0], p2[1], source_size=source_size)
-        client.sync_touch()
-        self.sleep(0.050)
+        events.append((delay, 3, p2[0], p2[1]))
+        self._playcover_touch_sequence(events)
