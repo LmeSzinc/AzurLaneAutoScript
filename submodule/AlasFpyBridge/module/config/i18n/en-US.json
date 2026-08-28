@@ -12,6 +12,10 @@
       "name": "Daily",
       "help": ""
     },
+    "FpyWeekly": {
+      "name": "Weekly",
+      "help": ""
+    },
     "FpyTool": {
       "name": "Tool",
       "help": ""
@@ -20,7 +24,7 @@
   "Task": {
     "Fpy": {
       "name": "FGO-py",
-      "help": "Requries FGO-py v20.1.2 or higher"
+      "help": "Requries FGO-py v21.1.0 or higher"
     },
     "FpyHeartbeat": {
       "name": "Heartbeat",
@@ -33,6 +37,18 @@
     "FpyDailyFpSummon": {
       "name": "DailyFpSummon",
       "help": ""
+    },
+    "FpyDailyStorySummon": {
+      "name": "DailyStorySummon",
+      "help": "Get free daily story summon, Skip if no opportunity"
+    },
+    "FpyDailyQuest": {
+      "name": "DailyQuest",
+      "help": ""
+    },
+    "FpyWeeklyMission": {
+      "name": "WeeklyMission",
+      "help": "Automatically identifies, solves, and completes weekly missions\nRecognition errors may occur; it is recommended to manually verify that all missions have been completed"
     },
     "FpyBattle": {
       "name": "Battle",
@@ -169,7 +185,7 @@
     },
     "AppleTotal": {
       "name": "AppleTotal",
-      "help": "When `EatOnce` is turned off, this value will automatically reduced to prevent eating non-existent apples"
+      "help": "This value will automatically reduced to prevent eating non-existent apples"
     }
   },
   "FpyLimit": {
@@ -188,6 +204,33 @@
     "SpecialDrop": {
       "name": "SpecialDrop",
       "help": "Disable this task after several ★5 essences earned\nThis value is automatically reduced"
+    }
+  },
+  "FpyParam": {
+    "_info": {
+      "name": "Extra Parameters",
+      "help": "Append parameters to the FGO-py cli main command to set operations\nIf operations are set for any task, then all tasks that support this parameter must also have operations set"
+    },
+    "Cmd": {
+      "name": "Parameters",
+      "help": "Parameters contents"
+    }
+  },
+  "FpyWeekday": {
+    "_info": {
+      "name": "Day of Week",
+      "help": "Call this task on the specified day of the week"
+    },
+    "Weekday": {
+      "name": "Day of Week",
+      "help": "Some objectives can be completed during the daily farming runs, so it is recommended to schedule them for the weekend to avoid wasting AP",
+      "0": "Monday",
+      "1": "Tuesday",
+      "2": "Wednesday",
+      "3": "Thursday",
+      "4": "Friday",
+      "5": "Saturday",
+      "6": "Sunday"
     }
   },
   "FpyBenchmark": {
