@@ -60,6 +60,9 @@
     "FpyInterval": {
       "Interval": "07:00"
     },
+    "FpyParam": {
+      "Cmd": ""
+    },
     "Storage": {
       "Storage": {}
     }
@@ -72,6 +75,57 @@
       "SuccessInterval": 60,
       "FailureInterval": 120,
       "ServerUpdate": "00:00"
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
+  "FpyDailyStorySummon": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2023-01-01 05:00:00",
+      "Command": "FpyDailyStorySummon",
+      "SuccessInterval": 60,
+      "FailureInterval": 120,
+      "ServerUpdate": "05:00"
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
+  "FpyDailyQuest": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2023-01-01 05:00:00",
+      "Command": "FpyDailyQuest",
+      "SuccessInterval": 60,
+      "FailureInterval": 120,
+      "ServerUpdate": "05:00"
+    },
+    "FpyParam": {
+      "Cmd": ""
+    },
+    "FpyTeam": {
+      "Index": 0
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
+  "FpyWeeklyMission": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2023-01-01 05:00:00",
+      "Command": "FpyWeeklyMission",
+      "SuccessInterval": 60,
+      "FailureInterval": 120,
+      "ServerUpdate": "05:00"
+    },
+    "FpyWeekday": {
+      "Weekday": 5
+    },
+    "FpyTeam": {
+      "Index": 0
     },
     "Storage": {
       "Storage": {}

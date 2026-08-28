@@ -30,8 +30,6 @@ EVENT_SHOP_SCROLL.edge_threshold = 0.1
 
 if server.server == 'tw':
     EVENT_SHOP_DEADLINE_COLOR = (102, 204, 255)
-elif server.server == 'en':
-    EVENT_SHOP_DEADLINE_COLOR = (255, 207, 129)
 else:
     EVENT_SHOP_DEADLINE_COLOR = (96, 162, 62)
 OCR_EVENT_SHOP_DEADLINE = Ocr(SHOP_EVENT_DEADLINE, lang='cnocr', letter=EVENT_SHOP_DEADLINE_COLOR,

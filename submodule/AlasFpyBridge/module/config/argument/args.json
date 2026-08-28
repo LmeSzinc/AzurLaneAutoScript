@@ -179,6 +179,13 @@
         "validate": "\\d+:\\d+"
       }
     },
+    "FpyParam": {
+      "Cmd": {
+        "type": "textarea",
+        "value": "",
+        "valuetype": "str"
+      }
+    },
     "Storage": {
       "Storage": {
         "type": "storage",
@@ -218,6 +225,163 @@
         "type": "input",
         "value": "00:00",
         "display": "hide"
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
+    }
+  },
+  "FpyDailyStorySummon": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "NextRun": {
+        "type": "datetime",
+        "value": "2023-01-01 05:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "input",
+        "value": "FpyDailyStorySummon",
+        "display": "hide"
+      },
+      "SuccessInterval": {
+        "type": "input",
+        "value": 60,
+        "display": "hide"
+      },
+      "FailureInterval": {
+        "type": "input",
+        "value": 120,
+        "display": "hide"
+      },
+      "ServerUpdate": {
+        "type": "input",
+        "value": "05:00",
+        "display": "hide"
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
+    }
+  },
+  "FpyDailyQuest": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "NextRun": {
+        "type": "datetime",
+        "value": "2023-01-01 05:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "input",
+        "value": "FpyDailyQuest",
+        "display": "hide"
+      },
+      "SuccessInterval": {
+        "type": "input",
+        "value": 60,
+        "display": "hide"
+      },
+      "FailureInterval": {
+        "type": "input",
+        "value": 120,
+        "display": "hide"
+      },
+      "ServerUpdate": {
+        "type": "input",
+        "value": "05:00",
+        "display": "hide"
+      }
+    },
+    "FpyParam": {
+      "Cmd": {
+        "type": "textarea",
+        "value": "",
+        "valuetype": "str"
+      }
+    },
+    "FpyTeam": {
+      "Index": {
+        "type": "input",
+        "value": 0
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
+    }
+  },
+  "FpyWeeklyMission": {
+    "Scheduler": {
+      "Enable": {
+        "type": "checkbox",
+        "value": false
+      },
+      "NextRun": {
+        "type": "datetime",
+        "value": "2023-01-01 05:00:00",
+        "validate": "datetime"
+      },
+      "Command": {
+        "type": "input",
+        "value": "FpyWeeklyMission",
+        "display": "hide"
+      },
+      "SuccessInterval": {
+        "type": "input",
+        "value": 60,
+        "display": "hide"
+      },
+      "FailureInterval": {
+        "type": "input",
+        "value": 120,
+        "display": "hide"
+      },
+      "ServerUpdate": {
+        "type": "input",
+        "value": "05:00",
+        "display": "hide"
+      }
+    },
+    "FpyWeekday": {
+      "Weekday": {
+        "type": "select",
+        "value": 5,
+        "option": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
+      }
+    },
+    "FpyTeam": {
+      "Index": {
+        "type": "input",
+        "value": 0
       }
     },
     "Storage": {
