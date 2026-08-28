@@ -66,7 +66,7 @@ class ModuleBase:
 
     def early_ocr_import(self):
         """
-        Start a thread to import cnocr and mxnet while the Alas instance just starting to take screenshots
+        Start a thread to import OCR dependencies while the Alas instance just starting to take screenshots
         The import is paralleled since taking screenshot is I/O-bound while importing is CPU-bound,
         thus would speed up the startup 0.5 ~ 1.0s and even 5s on slow PCs.
         """
@@ -79,6 +79,10 @@ class ModuleBase:
             logger.info('No ocr in daemon task, skip early_ocr_import')
             return
 
+        from module.webui.setting import State
+        if State.deploy_config.UseOcrServer:
+            logger.info('UseOcrServer enabled, skip early_ocr_import')
+            return
         def do_ocr_import():
             # Wait first image
             import time
@@ -88,8 +92,8 @@ class ModuleBase:
                 time.sleep(0.01)
 
             logger.info('early_ocr_import start')
-            from module.ocr.al_ocr import AlOcr
-            _ = AlOcr
+            from module.ocr.models import OCR_MODEL
+            OCR_MODEL.load()
             logger.info('early_ocr_import finish')
 
         logger.info('early_ocr_import call')
