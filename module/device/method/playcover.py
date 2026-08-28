@@ -219,7 +219,6 @@ def playcover_empty_hierarchy():
 
 class MaaToolsClient:
     connection_magic = b'MAA\x00'
-    screencap_magic = b'SCRN'
     bgr_screencap_magic = b'BGR\x01'
     native_screencap_magic = b'NATV'
     size_magic = b'SIZE'
@@ -257,16 +256,15 @@ class MaaToolsClient:
             sock.connect((self.host, self.port))
             self.sock = sock
             self._handshake()
-            self.version = self.detect_version()
-            if self.version >= 3:
-                self.bundle_identifier = self.get_bundle_identifier()
-                if self.expected_bundle_identifier \
-                        and self.bundle_identifier != self.expected_bundle_identifier:
-                    raise MaaToolsBundleMismatch(
-                        f'PlayCover MaaTools bundle mismatch at {self.host}:{self.port}: '
-                        f'{self.bundle_identifier!r}, expected {self.expected_bundle_identifier!r}. '
-                        f'Configure a unique MaaTools port for each concurrently running app'
-                    )
+            self.version = self.get_version()
+            self.bundle_identifier = self.get_bundle_identifier()
+            if self.expected_bundle_identifier \
+                    and self.bundle_identifier != self.expected_bundle_identifier:
+                raise MaaToolsBundleMismatch(
+                    f'PlayCover MaaTools bundle mismatch at {self.host}:{self.port}: '
+                    f'{self.bundle_identifier!r}, expected {self.expected_bundle_identifier!r}. '
+                    f'Configure a unique MaaTools port for each concurrently running app'
+                )
             self.max_x, self.max_y = self.get_window_size()
             logger.attr('PlayCoverMaaToolsVersion', self.version)
             if self.bundle_identifier:
@@ -351,17 +349,6 @@ class MaaToolsClient:
         except UnicodeDecodeError as e:
             raise PlayCoverDataTruncated('Invalid PlayCover MaaTools bundle identifier') from e
 
-    def detect_version(self):
-        timeout = self.sock.gettimeout()
-        self.sock.settimeout(min(timeout or self.timeout, 1))
-        try:
-            return self.get_version()
-        except PlayCoverDataTimeout as e:
-            logger.warning(f'Unable to detect PlayCover MaaTools version, disable touch sync: {e}')
-            return 0
-        finally:
-            self.sock.settimeout(timeout)
-
     def convert(self, x, y, source_size=None):
         if source_size is None:
             source_size = self.max_x, self.max_y
@@ -381,7 +368,7 @@ class MaaToolsClient:
             self._send_message(self.touch_magic, payload)
 
     def sync_touch(self):
-        if self.version < 4:
+        if self.version < 5:
             return False
 
         with self.lock:
@@ -488,41 +475,12 @@ class MaaToolsClient:
         cv2.cvtColor(image, cv2.COLOR_BGR2RGB, dst=image)
         return image
 
-    def screenshot_scrn(self):
-        with self.lock:
-            self._send_message(self.screencap_magic)
-            size = struct.unpack('>I', self._recv_exact(4))[0]
-            data = self._recv_exact(size)
-        expected_rgb = self.max_x * self.max_y * 3
-        expected_rgba = self.max_x * self.max_y * 4
-        if not data:
-            raise PlayCoverDataTruncated('Empty PlayCover screenshot received')
-
-        if len(data) == expected_rgb:
-            image = np.frombuffer(data, dtype=np.uint8).reshape((self.max_y, self.max_x, 3))
-        elif len(data) == expected_rgba:
-            image = np.frombuffer(data, dtype=np.uint8).reshape((self.max_y, self.max_x, 4))
-            image = cv2.cvtColor(image, cv2.COLOR_RGBA2RGB)
-        else:
-            image = cv2.imdecode(np.frombuffer(data, np.uint8), cv2.IMREAD_COLOR)
-            if image is None:
-                raise PlayCoverDataTruncated(
-                    f'Unexpected PlayCover screenshot size: {len(data)}, '
-                    f'expected {expected_rgb} or {expected_rgba}'
-                )
-            cv2.cvtColor(image, cv2.COLOR_BGR2RGB, dst=image)
-
-        return image
-
     def screenshot(self):
         if self.version >= 5:
             self._log_screenshot_method('NATV')
             return self.screenshot_native()
-        if self.version >= 3:
-            self._log_screenshot_method('BGR')
-            return self.screenshot_bgr()
-        self._log_screenshot_method('SCRN')
-        return self.screenshot_scrn()
+        self._log_screenshot_method('BGR')
+        return self.screenshot_bgr()
 
 
 class PlayCoverManager:
@@ -999,7 +957,6 @@ class PlayCover:
                     if delay:
                         self.sleep(delay)
                     client.send_touch(phase, x, y, source_size=source_size)
-                client.sync_touch()
             self.sleep(post_delay)
         except BaseException as e:
             client.disconnect()
