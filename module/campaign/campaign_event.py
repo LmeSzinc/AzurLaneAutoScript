@@ -57,7 +57,7 @@ class CampaignEvent(CampaignStatus):
         """
         # Some may use "100,000"
         limit = int(
-            re.sub(r'[,.\'"锛屻€俔', '', str(self.config.EventGeneral_PtLimit))
+            re.sub(r'[,.\'"，。]', '', str(self.config.EventGeneral_PtLimit))
         )
         tasks = family_tasks('event') + family_tasks('raid') + family_tasks('coalition') + family_tasks('gems') + family_tasks('hospital')
         command = self.config.Scheduler_Command
