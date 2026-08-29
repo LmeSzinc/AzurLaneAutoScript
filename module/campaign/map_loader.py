@@ -45,7 +45,12 @@ def _load_config(folder, base):
     json_path = os.path.join(_CAMPAIGN, base_folder, f'{base_module}.json')
     if os.path.exists(json_path):
         return load_map(base_folder, base_module).Config
-    return importlib.import_module('campaign.' + base).Config
+    if len(parts) > 1:
+        return importlib.import_module('campaign.' + base).Config
+    try:
+        return importlib.import_module(f'campaign.{folder}.{base}').Config
+    except ModuleNotFoundError:
+        return importlib.import_module('campaign.' + base).Config
 
 
 def _folder_campaign_base(folder):
@@ -55,24 +60,79 @@ def _folder_campaign_base(folder):
     return importlib.import_module('module.campaign.campaign_base').CampaignBase
 
 
+def _resolve_value(folder, value):
+    """Resolve {'__ref__': '<module>.<attr>'} references produced by the converter."""
+    if isinstance(value, dict) and '__ref__' in value:
+        parts = value['__ref__'].split('.')
+        module, attr = '.'.join(parts[:-1]), parts[-1]
+        if module:
+            try:
+                mod = importlib.import_module(f'campaign.{folder}.{module}')
+            except ModuleNotFoundError:
+                mod = importlib.import_module(f'campaign.{module}')
+        else:
+            mod = None
+        return getattr(mod, attr)
+    return value
+
+
+def _resolve_action_arg(m, value):
+    """Grid-name strings ('D5') become grid objects, matching legacy flatten vars."""
+    if isinstance(value, str) and value and value[0].isalpha() and value[1:].isdigit():
+        return m[node2location(value)]
+    return value
+
+
+def _resolve_map(folder, attrs, actions):
+    data = {'name': attrs.pop('name', None)}
+    for key, value in attrs.items():
+        data[key] = _resolve_value(folder, value)
+    m = CampaignMap.from_data(data)
+    for action in actions:
+        args = [_resolve_action_arg(m, a) for a in action['args']]
+        kwargs = {k: _resolve_action_arg(m, v) for k, v in action['kwargs'].items()}
+        getattr(m, action['call'])(*args, **kwargs)
+    return m
+
+
 def _load_data(folder, name, json_path):
     with open(json_path, encoding='utf-8') as f:
         data = json.load(f)
-    MAP = CampaignMap.from_data(data['map'])
+    MAP = _resolve_map(folder, data['map'], data.get('actions', []))
 
     # config: full class namespace, optional base chain
     Config = type('Config', (_load_config(folder, data.get('config_base')),), data['config'])
 
-    # roads -> RoadGrids objects, injected into fragment namespace
+    # roads (grouped) and flat SelectedGrids, injected into fragment namespace
     flatten_names = {}
     for loca, grid in MAP.grids.items():
         flatten_names[chr(loca[0] + 65) + str(loca[1] + 1)] = grid  # A1..Z99
     ns = {'MAP': MAP, 'Config': Config, 'RoadGrids': RoadGrids, 'SelectedGrids': SelectedGrids,
           'logger': logger, 'CampaignMap': CampaignMap, **flatten_names}
-    for road_name, nodes in data.get('roads', {}).items():
-        ns[f'road_{road_name}'] = RoadGrids([MAP[node2location(n)] for n in nodes])
-    for action in data.get('actions', []):
-        getattr(MAP, action['call'])(*action['args'], **action['kwargs'])
+
+    def _road_grids(groups):
+        grid_groups = [[MAP[node2location(n)] for n in group] for group in groups]
+        return RoadGrids([group if len(group) > 1 else group[0] for group in grid_groups])
+
+    def _eval_road_expr(expr, memo):
+        if 'roadgrids' in expr:
+            return _road_grids(expr['roadgrids'])
+        if 'combine' in expr:
+            return _eval_road_expr(expr['combine'][0], memo).combine(
+                _eval_road_expr(expr['combine'][1], memo)
+            )
+        if 'ref' in expr:
+            return memo[expr['ref']]
+        if 'list' in expr:
+            return [_eval_road_expr(e, memo) for e in expr['list']]
+        raise ValueError(f'bad road expr: {expr}')
+
+    for road_name, expr in data.get('roads', {}).items():
+        ns[road_name] = _eval_road_expr(expr, ns)
+    for sel_name, nodes in data.get('selects', {}).items():
+        ns[sel_name] = SelectedGrids([MAP[node2location(n)] for n in nodes])
+    for extra_name, extra in data.get('extra_maps', {}).items():
+        ns[extra_name] = _resolve_map(folder, dict(extra['attrs']), extra.get('actions', []))
 
     # fragment: only `class Campaign(CampaignBase): ...`, no imports,
     # every name is provided by the namespace above.
@@ -80,7 +140,7 @@ def _load_data(folder, name, json_path):
     frag_path = os.path.join(_CAMPAIGN, folder, f'{name}.py')
     with open(frag_path, encoding='utf-8') as f:
         source = f.read()
-    exec(compile(source, frag_path, 'exec'), ns)  # noqa: S102 - own data-driven fragment
+    exec(compile(source, frag_path, 'exec'), ns)
     Campaign = ns['Campaign']
     Campaign.MAP = MAP
     return LoadedMap(MAP, Config, Campaign, 'json')

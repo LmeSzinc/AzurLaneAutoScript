@@ -16,7 +16,7 @@ from pathlib import Path
 
 sys.path.insert(0, ".")
 
-from module.base.utils import location2node
+from module.base.utils import node2location
 from module.campaign.map_loader import load_map
 from module.map.map_base import CampaignMap
 
@@ -50,7 +50,19 @@ def check_one(folder, name):
 
     reference = CampaignMap.from_data(snap['map'])
     for action in snap.get('actions', []):
-        getattr(reference, action['call'])(*action['args'], **action['kwargs'])
+        args = [
+            reference[node2location(a)]
+            if isinstance(a, str) and a and a[0].isalpha() and a[1:].isdigit()
+            else a
+            for a in action['args']
+        ]
+        kwargs = {
+            k: (reference[node2location(v)]
+                if isinstance(v, str) and v and v[0].isalpha() and v[1:].isdigit()
+                else v)
+            for k, v in action['kwargs'].items()
+        }
+        getattr(reference, action['call'])(*args, **kwargs)
 
     if loaded.MAP.name != reference.name:
         errors.append(f'name: {loaded.MAP.name!r} != {reference.name!r}')
@@ -73,11 +85,15 @@ def check_one(folder, name):
     if methods != set(snap['campaign_methods']):
         errors.append(f'Campaign methods differ: {sorted(methods)} vs {snap["campaign_methods"]}')
 
-    # roads: converter fidelity against snapshot (runtime injection is covered
-    # by fragment exec inside load_map)
+    # roads/selects/extra_maps: converter fidelity against snapshot (runtime
+    # injection is covered by fragment exec inside load_map)
     data = json.loads((CAMPAIGN / folder / f'{name}.json').read_text(encoding='utf-8'))
     if data.get('roads') != snap.get('roads'):
         errors.append('roads differ')
+    if data.get('selects') != snap.get('selects'):
+        errors.append('selects differ')
+    if data.get('extra_maps') != snap.get('extra_maps'):
+        errors.append('extra_maps differ')
 
     return errors
 
@@ -98,7 +114,7 @@ def main():
             continue
         for snap in sorted(snap_dir.glob('*.snapshot.json')):
             total += 1
-            name = snap.stem
+            name = snap.name[:-len('.snapshot.json')]
             errors = check_one(folder, name)
             if errors:
                 failed.append((folder, name, errors))
