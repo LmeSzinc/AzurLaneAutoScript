@@ -1,0 +1,50 @@
+{
+  "rules": [
+    {
+      "type": "chapter_convert",
+      "map": {
+        "a1": "t1",
+        "a2": "t2",
+        "a3": "t3",
+        "a4": "t4",
+        "a5": "t5",
+        "a6": "t6",
+        "sp1": "t1",
+        "sp2": "t2",
+        "sp3": "t3",
+        "sp4": "t4",
+        "sp5": "t5",
+        "sp6": "t6"
+      }
+    },
+    {
+      "type": "chapter_convert",
+      "map": {
+        "a1": "t1",
+        "a2": "t2",
+        "a3": "t3",
+        "b1": "t4",
+        "b2": "t5",
+        "b3": "t6",
+        "c1": "ht1",
+        "c2": "ht2",
+        "c3": "ht3",
+        "d1": "ht4",
+        "d2": "ht5",
+        "d3": "ht6"
+      }
+    },
+    {
+      "type": "override",
+      "config": {
+        "StopCondition_OilLimit": 0,
+        "StopCondition_MapAchievement": "100_percent_clear",
+        "StopCondition_StageIncrease": true,
+        "Emotion_Mode": "ignore",
+        "Fleet_Fleet2": 0,
+        "Submarine_Fleet": 0
+      },
+      "when_name_contains": "tss"
+    }
+  ]
+}

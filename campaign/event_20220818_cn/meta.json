@@ -1,0 +1,10 @@
+{
+  "rules": [
+    {
+      "type": "alias",
+      "map": {
+        "esp": "sp"
+      }
+    }
+  ]
+}

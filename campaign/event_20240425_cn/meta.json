@@ -1,0 +1,25 @@
+{
+  "rules": [
+    {
+      "type": "alias",
+      "map": {
+        "usp": "sp",
+        "iisp": "sp",
+        "μsp": "sp"
+      }
+    },
+    {
+      "type": "alias",
+      "map": {
+        "lsp": "isp",
+        "1sp": "isp"
+      }
+    },
+    {
+      "type": "alias",
+      "map": {
+        "isp": "isp1"
+      }
+    }
+  ]
+}

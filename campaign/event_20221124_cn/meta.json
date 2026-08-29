@@ -1,0 +1,58 @@
+{
+  "rules": [
+    {
+      "type": "alias",
+      "map": {
+        "asp": "sp",
+        "a.sp": "sp"
+      }
+    },
+    {
+      "type": "chapter_convert",
+      "map": {
+        "a1": "t1",
+        "a2": "t2",
+        "a3": "t3",
+        "a4": "t4",
+        "a5": "t5",
+        "a6": "t6",
+        "sp1": "t1",
+        "sp2": "t2",
+        "sp3": "t3",
+        "sp4": "t4",
+        "sp5": "t5",
+        "sp6": "t6"
+      }
+    },
+    {
+      "type": "chapter_convert",
+      "map": {
+        "a1": "t1",
+        "a2": "t2",
+        "a3": "t3",
+        "b1": "t4",
+        "b2": "t5",
+        "b3": "t6",
+        "c1": "ht1",
+        "c2": "ht2",
+        "c3": "ht3",
+        "d1": "ht4",
+        "d2": "ht5",
+        "d3": "ht6"
+      }
+    },
+    {
+      "type": "replace_prefix",
+      "map": {
+        "ht": "th"
+      }
+    },
+    {
+      "type": "override",
+      "config": {
+        "StopCondition_MapAchievement": "threat_safe"
+      },
+      "when_name_startswith": "th"
+    }
+  ]
+}

@@ -6,6 +6,7 @@ import random
 from module.campaign.campaign_base import CampaignBase
 from module.campaign.campaign_event import CampaignEvent
 from module.campaign.campaign_ui import MODE_SWITCH_1
+from module.campaign.stage_meta import CHAPTER_CONVERT_REVERSE, load_stage_meta
 from module.config.config import AzurLaneConfig
 from module.exception import CampaignEnd, RequestHumanTakeover, ScriptEnd
 from module.handler.fast_forward import map_files, to_map_file_name
@@ -56,7 +57,7 @@ class CampaignRun(CampaignEvent):
                 logger.warning(f'Existing files: {files}')
 
             logger.critical(f'Possible reason #1: This event ({folder}) does not have {name}')
-            logger.critical(f'Possible reason #2: You are using an old Alas, '
+            logger.critical('Possible reason #2: You are using an old Alas, '
                             'please check for update, or make map files yourself using dev_tools/map_extractor.py')
             raise RequestHumanTakeover
 
@@ -135,15 +136,10 @@ class CampaignRun(CampaignEvent):
     def handle_stage_name(self, name, folder, mode='normal'):
         """
         Handle wrong stage names.
-        In some events, the name of SP may be different, such as 'vsp', muse sp.
-        To call them easier, their map files should named 'sp.py'.
 
-        Args:
-            name (str): Name of .py file.
-            folder (str): Name of the file folder under campaign.
-
-        Returns:
-            str, str: name, folder
+        Phase 456 D1: per-event normalization moved to campaign/<folder>/meta.json
+        (see module/campaign/stage_meta.py). Rule order mirrors the legacy
+        if-chain; equivalence is gated by dev_tools/verify_stage_meta.py.
         """
         name = to_map_file_name(name)
         # For GemsFarming, auto choose events or main chapters
@@ -156,133 +152,38 @@ class CampaignRun(CampaignEvent):
                 if folder is not None:
                     logger.info(f'Stage name {name} is from event {folder}')
                 else:
-                    logger.warning(f'Cannot get the latest event, fallback to campaign_main')
+                    logger.warning('Cannot get the latest event, fallback to campaign_main')
                     folder = 'campaign_main'
-        # Handle special names SP maps
-        if folder == 'event_20201126_cn' and name == 'vsp':
-            name = 'sp'
-        if folder == 'event_20210723_cn' and name == 'vsp':
-            name = 'sp'
-        if folder == 'event_20220324_cn' and name == 'esp':
-            name = 'sp'
-        if folder == 'event_20220818_cn' and name == 'esp':
-            name = 'sp'
-        if folder == 'event_20221124_cn' and name in ['asp', 'a.sp']:
-            name = 'sp'
-        if folder == 'event_20240425_cn':
-            if name in ['μsp', 'usp', 'iisp']:
-                name = 'sp'
-            name = name.replace('lsp', 'isp').replace('1sp', 'isp')
-            if name == 'isp':
-                name = 'isp1'
-        if folder == 'event_20240724_cn':
-            if name in ['ysp', 'y.sp']:
-                name = 'sp'
-        # Convert to chapter T
-        convert = {
-            'a1': 't1',
-            'a2': 't2',
-            'a3': 't3',
-            'a4': 't4',
-            'a5': 't5',
-            'a6': 't6',
-            'sp1': 't1',
-            'sp2': 't2',
-            'sp3': 't3',
-            'sp4': 't4',
-            'sp5': 't5',
-            'sp6': 't6',
-        }
-        if folder in [
-            'event_20211125_cn',
-            'event_20231026_cn',
-            'event_20241024_cn',
-            'event_20250424_cn',
-            'event_20250724_cn',
-            'event_20250814_cn',
-            'event_20251023_cn',
-            'event_20260326_cn',
-            'event_20260625_cn',
-            'war_archives_20230525_cn',
-            'war_archives_20231026_cn',
-            'war_archives_20240725_cn',
-        ]:
-            name = convert.get(name, name)
-        # Convert between A/B/C/D and T/HT
-        convert = {
-            'a1': 't1',
-            'a2': 't2',
-            'a3': 't3',
-            'b1': 't4',
-            'b2': 't5',
-            'b3': 't6',
-            'c1': 'ht1',
-            'c2': 'ht2',
-            'c3': 'ht3',
-            'd1': 'ht4',
-            'd2': 'ht5',
-            'd3': 'ht6',
-        }
-        if folder in [
-            'event_20200917_cn',
-            'event_20221124_cn',
-            'event_20230525_cn',
-            'war_archives_20200917_cn',
-            # chapter T
-            'event_20211125_cn',
-            'event_20231026_cn',
-            'event_20231123_cn',
-            'event_20240725_cn',
-            'event_20240829_cn',
-            'event_20241024_cn',
-            'event_20241121_cn',
-            'event_20250424_cn',
-            'event_20250724_cn',
-            'event_20250814_cn',
-            'event_20251023_cn',
-            'event_20260326_cn',
-            'event_20260625_cn',
-            'war_archives_20230525_cn',
-            'war_archives_20231026_cn',
-            'war_archives_20240725_cn',
-        ]:
-            name = convert.get(name, name)
-        else:
-            reverse = {v: k for k, v in convert.items()}
-            name = reverse.get(name, name)
-        # The Alchemist and the Archipelago of Secrets
-        # Handle typo
-        if folder == 'event_20221124_cn':
-            name = name.replace('ht', 'th')
-        # Chapter TH has no map_percentage and no 3_stars
-        if folder == 'event_20221124_cn' and name.startswith('th'):
-            if self.config.StopCondition_MapAchievement != 'non_stop':
-                logger.info(f'When running chapter TH of event_20221124_cn, '
-                            f'StopCondition.MapAchievement is forced set to threat_safe')
-                self.config.override(StopCondition_MapAchievement='threat_safe')
-        if folder == 'event_20250724_cn' and name.startswith('ts'):
-            if self.config.StopCondition_MapAchievement != 'non_stop':
-                logger.info(f'When running chapter TS of event_20250724_cn, '
-                            f'StopCondition.MapAchievement is forced set to threat_safe')
-                self.config.override(StopCondition_MapAchievement='threat_safe')
-        # event_20211125_cn, TSS maps are on time maps
-        if folder == 'event_20211125_cn' and 'tss' in name:
-            self.config.override(
-                StopCondition_OilLimit=0,  # No oil cost
-                StopCondition_MapAchievement='100_percent_clear',
-                StopCondition_StageIncrease=True,
-                Emotion_Mode='ignore',  # No emotion cost
-                Fleet_Fleet2=0,  # Has only one fleet
-                Submarine_Fleet=0,  # No submarine
-            )
-        # event_20230817_cn story states
-        if folder == 'event_20230817_cn':
-            if name.startswith('e0'):
-                name = 'a1'
-        # event_20240829_cn, TP -> SP
-        if folder == 'event_20240829_cn':
-            if name == 'tp':
-                name = 'sp'
+
+        meta = load_stage_meta(folder)
+        rules = list(meta.get('rules', []))
+        if not any(rule['type'] == 'chapter_convert' for rule in rules):
+            # Legacy else-branch: folders outside the whitelist get the reverse
+            # mapping, applied right after the alias stage.
+            index = 0
+            while index < len(rules) and rules[index]['type'] in ('alias', 'alias_startswith'):
+                index += 1
+            rules.insert(index, {'type': 'chapter_convert_reverse'})
+        for rule in rules:
+            typ = rule['type']
+            if typ == 'alias' and name in rule['map']:
+                name = rule['map'][name]
+            elif typ == 'alias_startswith':
+                for prefix, value in rule['map'].items():
+                    if name.startswith(prefix):
+                        name = value
+                        break
+            elif typ == 'chapter_convert':
+                name = rule['map'].get(name, name)
+            elif typ == 'chapter_convert_reverse':
+                name = CHAPTER_CONVERT_REVERSE.get(name, name)
+            elif typ == 'replace_prefix':
+                for old, new in rule['map'].items():
+                    name = name.replace(old, new)
+            elif typ == 'override' and self._override_condition(rule, name):
+                for key, value in rule['config'].items():
+                    self.config.override(**{key: value})
+
         # Stage loop
         for alias, stages in self.config.STAGE_LOOP_ALIAS.items():
             alias_folder, alias = alias
@@ -308,20 +209,17 @@ class CampaignRun(CampaignEvent):
         # Convert campaign_main to campaign hard if mode is hard and file exists
         if mode == 'hard' and folder == 'campaign_main' and name in map_files('campaign_hard'):
             folder = 'campaign_hard'
-        # event_20240912_cn does not have "Threat: Safe" indicator, fallback MapAchievement
-        if folder == 'event_20240912_cn':
-            if self.config.StopCondition_MapAchievement == 'threat_safe':
-                logger.info(
-                    'In event_20240912_cn, MapAchievement=threat_safe fallback to map_3_stars')
-                self.config.override(StopCondition_MapAchievement='map_3_stars')
-            if self.config.StopCondition_MapAchievement == 'threat_safe_without_3_stars':
-                logger.info(
-                    'In event_20240912_cn, MapAchievement=threat_safe_without_3_stars fallback to 100_percent_clear')
-                self.config.override(StopCondition_MapAchievement='100_percent_clear')
-        if folder == 'event_20260417_cn':
-            if name in ['vsp', ]:
-                name = 'sp'
         return name, folder
+
+    def _override_condition(self, rule, name):
+        """Phase 456 D1: condition helpers for override rules (default: always)."""
+        if 'when_name_startswith' in rule:
+            return name.startswith(rule['when_name_startswith'])
+        if 'when_name_contains' in rule:
+            return rule['when_name_contains'] in name
+        if 'when_attr' in rule:
+            return getattr(self.config, rule['when_attr']) == rule['when_value']
+        return True
 
     def can_use_auto_search_continue(self):
         # Cannot update map info in auto search menu
@@ -395,7 +293,7 @@ class CampaignRun(CampaignEvent):
                     # Because event_20240725 task balancer delete self.campaign.ensure_auto_search_exit()
                     self.campaign.ensure_campaign_ui(name=self.stage, mode=mode)
             else:
-                self.campaign.ensure_campaign_ui(name=self.stage, mode=mode)            
+                self.campaign.ensure_campaign_ui(name=self.stage, mode=mode)
             self.config.override(Campaign_Mode=self.campaign.config.Campaign_Mode)
             self.disable_raid_on_event()
             self.handle_commission_notice()

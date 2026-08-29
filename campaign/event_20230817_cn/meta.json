@@ -1,0 +1,10 @@
+{
+  "rules": [
+    {
+      "type": "alias_startswith",
+      "map": {
+        "e0": "a1"
+      }
+    }
+  ]
+}

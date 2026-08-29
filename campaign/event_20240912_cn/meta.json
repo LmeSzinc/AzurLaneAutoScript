@@ -1,0 +1,20 @@
+{
+  "rules": [
+    {
+      "type": "override",
+      "config": {
+        "StopCondition_MapAchievement": "map_3_stars"
+      },
+      "when_attr": "StopCondition_MapAchievement",
+      "when_value": "threat_safe"
+    },
+    {
+      "type": "override",
+      "config": {
+        "StopCondition_MapAchievement": "100_percent_clear"
+      },
+      "when_attr": "StopCondition_MapAchievement",
+      "when_value": "threat_safe_without_3_stars"
+    }
+  ]
+}
