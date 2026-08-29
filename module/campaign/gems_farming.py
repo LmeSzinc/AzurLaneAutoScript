@@ -442,28 +442,54 @@ class GemsFarming(CampaignRun, Dock):
         return False
 
     def flagship_change(self):
+        """Change flagship and flagship's equipment (behavior unchanged)."""
+        return self._change_role('flagship')
+
+    # Phase 5.2: role specs drive the shared change skeleton. Lambdas defer
+    # resolution so the table can live before the methods it references.
+    ROLES = {
+        'flagship': {
+            'logger_key': 'ChangeFlagship',
+            'config_value': lambda self: self.config.GemsFarming_ChangeFlagship,
+            'entry_button': lambda self: self.fleet_backline_1_button,
+            'equip_enabled': lambda self: self.change_flagship_equip,
+            'execute': lambda self: self.flagship_change_execute(),
+        },
+        'vanguard': {
+            'logger_key': 'ChangeVanguard',
+            'config_value': lambda self: self.config.GemsFarming_ChangeVanguard,
+            'entry_button': lambda self: self.fleet_vanguard_1_button,
+            'equip_enabled': lambda self: self.change_vanguard_equip,
+            'execute': lambda self: self.vanguard_change_execute(),
+        },
+    }
+
+    def _change_role(self, role):
         """
-        Change flagship and flagship's equipment
+        Shared skeleton for flagship/vanguard change: unmount equipments ->
+        execute change -> mount equipments. Logger attr keys are part of the
+        webui/log contract and must stay 'ChangeFlagship'/'ChangeVanguard'.
 
         Returns:
-            bool: True if flagship changed.
+            bool: True if the ship was changed.
         """
-        logger.hr('Change flagship', level=1)
-        logger.attr('ChangeFlagship', self.config.GemsFarming_ChangeFlagship)
+        spec = self.ROLES[role]
+        logger.hr(f'Change {role}', level=1)
+        logger.attr(spec['logger_key'], spec['config_value'](self))
         self.ui_goto_fleet()
-        button = self.fleet_backline_1_button
+        button = spec['entry_button'](self)
 
-        if self.change_flagship_equip and not self.appear(button, offset=(20, 20)):
-            logger.hr('Unmount flagship equipments', level=2)
+        if spec['equip_enabled'](self) and not self.appear(button, offset=(20, 20)):
+            logger.hr(f'Unmount {role} equipments', level=2)
             self.ui_enter_ship(button, long_click=True)
             self.ship_equipment_take_off()
             self.ui_leave_ship()
 
-        logger.hr('Change flagship', level=2)
-        success = self.flagship_change_execute()
+        logger.hr(f'Change {role}', level=2)
+        success = spec['execute'](self)
 
-        if self.change_flagship_equip and not self.appear(button, offset=(20, 20)):
-            logger.hr('Mount flagship equipments', level=2)
+        if spec['equip_enabled'](self) and not self.appear(button, offset=(20, 20)):
+            logger.hr(f'Mount {role} equipments', level=2)
             self.ui_enter_ship(button, long_click=True)
             self.ship_equipment_take_on()
             self.ui_leave_ship()
@@ -576,33 +602,8 @@ class GemsFarming(CampaignRun, Dock):
         return False
 
     def vanguard_change(self):
-        """
-        Change vanguard and vanguard's equipment
-
-        Returns:
-            bool: True if vanguard changed.
-        """
-        logger.hr('Change vanguard', level=1)
-        logger.attr('ChangeVanguard', self.config.GemsFarming_ChangeVanguard)
-        self.ui_goto_fleet()
-        button = self.fleet_vanguard_1_button
-
-        if self.change_vanguard_equip and not self.appear(button, offset=(20, 20)):
-            logger.hr('Unmount vanguard equipments', level=2)
-            self.ui_enter_ship(button, long_click=True)
-            self.ship_equipment_take_off()
-            self.ui_leave_ship()
-
-        logger.hr('Change vanguard', level=2)
-        success = self.vanguard_change_execute()
-
-        if self.change_vanguard_equip and not self.appear(button, offset=(20, 20)):
-            logger.hr('Mount vanguard equipments', level=2)
-            self.ui_enter_ship(button, long_click=True)
-            self.ship_equipment_take_on()
-            self.ui_leave_ship()
-
-        return success
+        """Change vanguard and vanguard's equipment (behavior unchanged)."""
+        return self._change_role('vanguard')
 
     def hard_fleet_prepare(self):
         """
