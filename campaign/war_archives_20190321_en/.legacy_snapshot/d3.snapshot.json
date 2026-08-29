@@ -1,0 +1,71 @@
+{
+  "map": {
+    "shape": "F10",
+    "camera_data": [
+      "C2",
+      "C6",
+      "C8"
+    ],
+    "camera_data_spawn_point": [
+      "C8"
+    ],
+    "map_data": "\n    ++ ++ ++ ++ ++ ++\n    ++ MB ++ ++ MB ++\n    ++ -- ++ ++ -- ++\n    ++ ME ME ME ME ++\n    ++ ME ME ME ME ++\n    -- Me ME ME Me --\n    ME ++ ++ ++ ++ Me\n    Me ME -- -- ME Me\n    -- -- SP SP -- --\n    ++ ++ ++ ++ ++ ++\n",
+    "weight_data": "\n    50 50 50 50 50 50\n    50 10 50 50 10 50\n    50 10 50 50 10 50\n    50 10 40 40 10 50\n    50 20 40 40 20 50\n    50 30 20 20 30 50\n    20 50 50 50 50 20\n    20 20 50 50 20 20\n    50 50 50 50 50 50\n    50 50 50 50 50 50\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 4
+      },
+      {
+        "battle": 1,
+        "enemy": 2
+      },
+      {
+        "battle": 2,
+        "enemy": 2
+      },
+      {
+        "battle": 3,
+        "enemy": 1
+      },
+      {
+        "battle": 4,
+        "enemy": 1
+      },
+      {
+        "battle": 5,
+        "enemy": 1
+      },
+      {
+        "battle": 6
+      },
+      {
+        "battle": 7,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": "d1",
+  "config": {
+    "MAP_HAS_MAP_STORY": true,
+    "MAP_HAS_FLEET_STEP": false,
+    "MAP_HAS_AMBUSH": true,
+    "MAP_HAS_MYSTERY": false
+  },
+  "roads": {},
+  "selects": {},
+  "actions": [],
+  "extra_maps": {},
+  "imports": {
+    "logger": "module.logger.logger",
+    "CampaignMap": "module.map.map_base.CampaignMap",
+    "RoadGrids": "module.map.map_grids.RoadGrids",
+    "SelectedGrids": "module.map.map_grids.SelectedGrids",
+    "CampaignBase": "campaign_war_archives.campaign_base.CampaignBase"
+  },
+  "campaign_methods": [
+    "battle_0",
+    "battle_5",
+    "battle_7"
+  ]
+}

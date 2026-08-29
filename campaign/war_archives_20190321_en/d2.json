@@ -1,0 +1,98 @@
+{
+  "map": {
+    "shape": "I7",
+    "camera_data": [
+      "D2",
+      "D5",
+      "F2",
+      "F5"
+    ],
+    "camera_data_spawn_point": [
+      "D5"
+    ],
+    "map_data": "\n    ++ -- ME ME ME ME -- -- ++\n    MB Me ME ME ++ -- ME -- ++\n    MB MB ++ ++ ++ ++ ++ ME --\n    ++ ++ ++ ++ -- -- ME Me --\n    SP SP -- ++ -- ME Me -- ++\n    SP -- -- Me -- -- ++ -- --\n    SP SP ++ -- -- -- ++ -- MM\n",
+    "weight_data": "\n    50 10 20 20 10 20 50 50 50\n    20 20 30 30 50 50 50 50 50\n    10 10 50 50 50 50 50 10 50\n    50 50 50 50 50 10 20 10 50\n    50 50 50 50 10 30 30 50 50\n    50 50 50 20 50 40 50 50 50\n    50 50 50 50 50 50 50 50 50\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 4
+      },
+      {
+        "battle": 1,
+        "enemy": 2
+      },
+      {
+        "battle": 2,
+        "enemy": 1
+      },
+      {
+        "battle": 3,
+        "enemy": 1,
+        "mystery": 1
+      },
+      {
+        "battle": 4,
+        "enemy": 1
+      },
+      {
+        "battle": 5,
+        "enemy": 1
+      },
+      {
+        "battle": 6
+      },
+      {
+        "battle": 7,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": "d1",
+  "config": {
+    "MAP_HAS_MAP_STORY": true,
+    "MAP_HAS_FLEET_STEP": false,
+    "MAP_HAS_AMBUSH": true,
+    "MAP_HAS_MYSTERY": true
+  },
+  "roads": {
+    "ROAD_MAIN": {
+      "roadgrids": [
+        [
+          "D6"
+        ],
+        [
+          "G4",
+          "G5"
+        ],
+        [
+          "H4"
+        ],
+        [
+          "H3"
+        ],
+        [
+          "F1"
+        ],
+        [
+          "D1"
+        ],
+        [
+          "C1"
+        ],
+        [
+          "B2"
+        ]
+      ]
+    }
+  },
+  "selects": {},
+  "actions": [],
+  "extra_maps": {},
+  "imports": {
+    "logger": "module.logger.logger",
+    "CampaignMap": "module.map.map_base.CampaignMap",
+    "RoadGrids": "module.map.map_grids.RoadGrids",
+    "SelectedGrids": "module.map.map_grids.SelectedGrids",
+    "CampaignBase": "campaign_war_archives.campaign_base.CampaignBase"
+  }
+}
