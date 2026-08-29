@@ -18,9 +18,33 @@ from module.retire.scanner import ShipScanner
 from module.ui.assets import BACK_ARROW
 from module.ui.page import page_fleet
 
-
 FLEET_INDEX = Digit(OCR_FLEET_INDEX, letter=(90, 154, 255), threshold=128, alphabet='123456')
 SIM_VALUE = 0.92
+
+# Phase 5.2: explicit slot table replaces globals()[f'FLEET_{n}_...'] lookups.
+# Key: (fleet_index, 'backline'|'vanguard', slot_index)
+FLEET_SLOTS = {
+    (1, 'backline', 1): FLEET_1_BACKLINE_1, (1, 'backline', 3): FLEET_1_BACKLINE_3,
+    (2, 'backline', 1): FLEET_2_BACKLINE_1, (2, 'backline', 3): FLEET_2_BACKLINE_3,
+    (1, 'vanguard', 1): FLEET_1_VANGUARD_1, (1, 'vanguard', 3): FLEET_1_VANGUARD_3,
+    (2, 'vanguard', 1): FLEET_2_VANGUARD_1, (2, 'vanguard', 3): FLEET_2_VANGUARD_3,
+}
+
+# Phase 5.2: config option -> strategy tables (semantics unchanged).
+CV_TEMPLATES = {
+    'bogue': TEMPLATE_BOGUE,
+    'hermes': TEMPLATE_HERMES,
+    'langley': TEMPLATE_LANGLEY,
+    'ranger': TEMPLATE_RANGER,
+}
+DD_SPEC = {
+    'any': {'faction': ['eagle', 'iron'], 'templates': []},
+    'favourite': {'faction': 'all', 'templates': []},
+    'z20_or_z21': {'faction': 'iron', 'templates': []},
+    'aulick_or_foote': {'faction': 'eagle', 'templates': [TEMPLATE_AULICK, TEMPLATE_FOOTE]},
+    'cassin_or_downes': {'faction': 'eagle', 'templates': [TEMPLATE_CASSIN_1, TEMPLATE_CASSIN_2,
+                                                          TEMPLATE_DOWNES_1, TEMPLATE_DOWNES_2]},
+}
 
 
 class GemsCampaignOverride(CampaignBase):
@@ -207,7 +231,7 @@ class GemsFarming(CampaignRun, Dock):
     @Config.when(Campaign_Mode='normal')
     def ui_goto_fleet(self):
         self.ui_ensure(page_fleet)
-        
+
         # ui_ensure_index, set fleet
         letter = FLEET_INDEX
         next_button = FLEET_NEXT
@@ -266,13 +290,13 @@ class GemsFarming(CampaignRun, Dock):
     @property
     def fleet_backline_1_button(self):
         if self.config.Campaign_Mode == 'hard':
-            return globals()[f'FLEET_{self.fleet_to_attack}_BACKLINE_1']
+            return FLEET_SLOTS[(self.fleet_to_attack, 'backline', 1)]
         return FLEET_ENTER_FLAGSHIP
 
     @property
     def fleet_vanguard_1_button(self):
         if self.config.Campaign_Mode == 'hard':
-            return globals()[f'FLEET_{self.fleet_to_attack}_VANGUARD_1']
+            return FLEET_SLOTS[(self.fleet_to_attack, 'vanguard', 1)]
         return FLEET_ENTER
 
     def ui_enter_ship(self, click_button, long_click=True):
@@ -290,7 +314,7 @@ class GemsFarming(CampaignRun, Dock):
                           check_button=FLEET_DETAIL_CHECK, skip_first_screenshot=True)
             self.ship_info_enter(enter_button, long_click=False)
         else:
-            self.ship_info_enter(click_button=click_button, check_button=DOCK_CHECK, 
+            self.ship_info_enter(click_button=click_button, check_button=DOCK_CHECK,
                                  long_click=False, skip_first_screenshot=False)
 
     def ui_leave_ship(self, check_button=None):
@@ -326,14 +350,7 @@ class GemsFarming(CampaignRun, Dock):
         """
         if self.config.GemsFarming_CommonCV == 'any':
             return []
-        else:
-            templates = {
-                'bogue': TEMPLATE_BOGUE,
-                'hermes': TEMPLATE_HERMES,
-                'langley': TEMPLATE_LANGLEY,
-                'ranger': TEMPLATE_RANGER,
-            }
-            return [templates[self.config.GemsFarming_CommonCV]]
+        return [CV_TEMPLATES[self.config.GemsFarming_CommonCV]]
 
     def get_common_rarity_cv(self, max_level=31, min_emotion=0):
         """
@@ -387,14 +404,14 @@ class GemsFarming(CampaignRun, Dock):
 
     @Config.when(Campaign_Mode='hard')
     def flagship_change_execute(self):
-        unmount_button = globals()[f'FLEET_{self.fleet_to_attack}_BACKLINE_1']
-        mount_button = globals()[f'FLEET_{self.fleet_to_attack}_BACKLINE_3']
+        unmount_button = FLEET_SLOTS[(self.fleet_to_attack, 'backline', 1)]
+        mount_button = FLEET_SLOTS[(self.fleet_to_attack, 'backline', 3)]
 
         if self.appear(unmount_button, offset=(20, 20)):
             logger.info('No flagship to unmount, skip unmounting.')
         else:
             self.ui_enter_ship(unmount_button, long_click=False)
-            self.ui_click(DOCK_UNMOUNT, check_button=FLEET_PREPARATION, appear_button=DOCK_CHECK, 
+            self.ui_click(DOCK_UNMOUNT, check_button=FLEET_PREPARATION, appear_button=DOCK_CHECK,
                           additional=self.ensure_no_info_bar, confirm_wait=1, retry_wait=5)
 
         self.ui_enter_ship(mount_button, long_click=False)
@@ -454,19 +471,12 @@ class GemsFarming(CampaignRun, Dock):
         return success
 
     def get_dd_faction(self):
-        if self.config.GemsFarming_CommonDD == 'any':
-            faction = ['eagle', 'iron']
-        elif self.config.GemsFarming_CommonDD == 'favourite':
-            faction = 'all'
-        elif self.config.GemsFarming_CommonDD == 'z20_or_z21':
-            faction = 'iron'
-        elif self.config.GemsFarming_CommonDD in ['aulick_or_foote', 'cassin_or_downes']:
-            faction = 'eagle'
-        else:
+        spec = DD_SPEC.get(self.config.GemsFarming_CommonDD)
+        if spec is None:
             logger.error(f'Invalid CommonDD setting: {self.config.GemsFarming_CommonDD}')
             logger.error("Default to 'eagle' and 'iron' faction.")
-            faction = ['eagle', 'iron']
-        return faction
+            return ['eagle', 'iron']
+        return spec['faction']
 
     def get_dd_templates(self):
         """
@@ -475,18 +485,10 @@ class GemsFarming(CampaignRun, Dock):
         Returns:
             list[Template]: DD templates
         """
-        if self.config.GemsFarming_CommonDD == 'aulick_or_foote':
-            return [
-                TEMPLATE_AULICK,
-                TEMPLATE_FOOTE
-            ]
-        elif self.config.GemsFarming_CommonDD == 'cassin_or_downes':
-            return [
-                TEMPLATE_CASSIN_1, TEMPLATE_CASSIN_2,
-                TEMPLATE_DOWNES_1, TEMPLATE_DOWNES_2
-            ]
-        else:
+        spec = DD_SPEC.get(self.config.GemsFarming_CommonDD)
+        if spec is None:
             return []
+        return list(spec['templates'])
 
     def get_common_rarity_dd(self, min_emotion=0):
         """
@@ -536,14 +538,14 @@ class GemsFarming(CampaignRun, Dock):
 
     @Config.when(Campaign_Mode='hard')
     def vanguard_change_execute(self):
-        unmount_button = globals()[f'FLEET_{self.fleet_to_attack}_VANGUARD_1']
-        mount_button = globals()[f'FLEET_{self.fleet_to_attack}_VANGUARD_3']
+        unmount_button = FLEET_SLOTS[(self.fleet_to_attack, 'vanguard', 1)]
+        mount_button = FLEET_SLOTS[(self.fleet_to_attack, 'vanguard', 3)]
 
         if self.appear(unmount_button, offset=(20, 20)):
             logger.info('No vanguard to unmount, skip unmounting.')
         else:
             self.ui_enter_ship(unmount_button, long_click=False)
-            self.ui_click(DOCK_UNMOUNT, check_button=FLEET_PREPARATION, appear_button=DOCK_CHECK, 
+            self.ui_click(DOCK_UNMOUNT, check_button=FLEET_PREPARATION, appear_button=DOCK_CHECK,
                           additional=self.ensure_no_info_bar, confirm_wait=1, retry_wait=5)
 
         self.ui_enter_ship(mount_button, long_click=False)
