@@ -1,23 +1,34 @@
 # Phase456 终验报告(FINAL)
 
-日期:2026-08-29
-分支:`refactor/phase456`(基线 master @ afcab3d13)
+日期:2026-08-29(含 followup 三项 + 上游/支线合并)
+分支:`refactor/phase456`(基线 master @ afcab3d13;已合并 qoder/master @ 6ec24bb25)
 
-## 全部等价/门禁结果(终验)
+## Followup 终验门禁(最新)
 
 | 门禁 | 结果 |
 |---|---|
-| ruff(scoped,基线范围) | exit 0 |
-| pyright(scoped) | 0 errors |
-| smoke_import_all | 427/427(基线 424 + 3 新模块:code_generation/event_table/deploy_templates) |
-| verify_alas_structure | pass |
-| verify_task_registry | exit 0(master 已重构,"extras" 为预期噪音) |
-| verify_task_record | PASSED |
-| verify_config_generated | CONFIG GENERATED: ZERO DRIFT |
-| verify_task_families | FAMILIES: OK(8 族 18 任务) |
+| ruff(scoped) / pyright(scoped) | 0 / 0 |
+| smoke_import_all | 427/427 |
+| verify_config_generated | ZERO DRIFT |
+| verify_task_families | OK(8 族 18 任务) |
 | verify_stage_meta | OK(1982 cases;27 meta.json) |
-| verify_map_data --all | **1348/1348 maps OK,12 skipped** |
-| verify_assets check | OK(1334 buttons / 437 templates) |
+| verify_map_data --all | **1353/1353 maps OK,3 skipped(死导入)** |
+| verify_assets check | OK(1345 buttons / 437 templates,含合并后新按钮) |
+| pytest / 桥接导入 | 55 passed / ok |
+
+## Followup 变更摘要
+- 地图数据文件:JSON → **YAML(网格文本块为行数组)**,并修复 4A 遗留的 MAP.name 丢失 bug。
+- 数据化补完:跳过 12 → 3(仅剩资产缺失的死导入地图);OCR 重写入 meta.json;
+  事件入口流 D2 三助手抽取(5 事件收敛);battle_clear_roadblocks 助手(32 处精确模式重写)。
+- 合并:qoder/master(上游 5 修复 + MAP_PREPARATION_HARD/raid_20260827 UI 更新);
+  island 全面守护 0 改动;冲突仅 4 个 assets.py。raid_20260827 的 Readme 源行上游缺失,
+  其 args/i18n 选项按零漂移原则未保留(详见 NOTES.md)。
+
+## 首次终验(合并前)
+
+| 门禁 | 结果 |
+|---|---|
+| verify_map_data --all | 1348/1348 maps OK,12 skipped |
 | pytest | 55 passed |
 | 桥接导入(AlasMaa/AlasFpy) | ok |
 

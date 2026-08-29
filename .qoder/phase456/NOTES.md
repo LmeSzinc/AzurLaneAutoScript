@@ -48,8 +48,29 @@
 可在后续逐个支持;当前全部走 legacy 路径,行为与重构前完全一致。
 
 ## 加载器关键设计(供后续维护)
-- JSON 优先、legacy 回退;片段无 import,全部名字由 ns 注入。
+- YAML 优先、legacy 回退;片段无 import,全部名字由 ns 注入。
+- 网格文本块(map_data/weight_data/map_data_loop)以**行数组**存 YAML,loader join 还原
+  (CampaignMap._parse_text 逐行 strip,语义全等)。
 - legacy 兄弟文件导入已转换图:早期 shim 注册 + _inflight/_loading 守卫解决循环。
-- campaign 内引用一律走 _legacy_import(先垫片预载);module.* 引用走 importlib 前缀循环。
+- campaign 内引用优先取垫片(yaml 存在时),否则 _legacy_import;module.* 引用走 importlib 前缀循环。
 - from_data 依赖字段顺序(shape 先于 map_data 等),转换器按源文件顺序保序。
+
+## Followup(2026-08-29)完成记录
+- **followup-2**(YAML+行数组):1ea13c46b。1348 地图 json→yaml;迁移时发现并修复 **MAP.name 丢失 bug**
+  (转换器从未捕获 `CampaignMap('10-1')` 位置参数,自 4A 起全部地图 name=None;已从基线 git 树恢复,
+  后续转换器已修)。
+- **followup-1a**(转换器模式扩展):6920f9984。片段允许前置类/顶层函数、globals 字段、__main__ 块丢弃;
+  跳过从 12 → 3(仅剩死导入地图,资产确实缺失,legacy 同样 ImportError)。
+- **followup-1b**(OCR 入 meta):04879b688。campaign_ocr._get_stage_name 应用 ocr_rewrite 规则;
+  2 个事件覆盖删除。
+- **followup-1c**(D2 事件入口流):3c8179125。campaign_event 新增 event_entrance_ensure/click/from_main;
+  5 个事件 ui_goto_event 收敛(war_archives 滚动搜索保留专用)。
+- **followup-1d**(C5 战斗助手):cffbe168f。battle_clear_roadblocks 助手;32 处精确模式 AST 重写(6 简单+26 potential);
+  其余混杂模式未动(需真机逐个验证)。
+- **merge**:a2b4bce57 合并 qoder/master(上游 5 提交 + 2 游戏更新提交)。冲突仅 4 个 assets.py(取对方→广播重生成)。
+  gems_farming/fast_forward 自动合并成功,双方改动均在。island 全面守护:diff 中 0 个 island 路径。
+  **注意**:对方 args.json/i18n 中的 raid_20260827 选项与事件名("大人物的预告信")因上游未提供
+  campaign/Readme.md 源行,按零漂移原则被 regenerate 归一丢弃;raid 按钮/raid.py/地图模块改动均已保留。
+  待上游补 Readme 行 + raid 地图目录后可自然恢复。
+
 
