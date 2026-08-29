@@ -17,7 +17,7 @@ from module.ui.ui import UI
 FILTER_REGEX = re.compile(
     '^(array|book|box|bulin|cat'
     '|chip|coin|cube|drill|food'
-    '|plate|retrofit|pr|dr|specializedcore'
+    '|plate|retrofit|pr|dr|specializedcore|unget'
     '|logger|tuning'
     '|type93pureoxygentorpedo|type1armorpiercingshell|superheavyshell'
     '|hecombatplan|fragment|hiddenzonedatalogger'
