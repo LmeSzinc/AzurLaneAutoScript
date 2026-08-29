@@ -23,7 +23,7 @@ class CampaignEvent(CampaignStatus):
                 continue
             name = self.config.cross_get(keys=f'{task}.Campaign.Name', default='2-4')
             if not self.stage_is_main(name):
-                logger.info(f'Reset GemsFarming to 2-4')
+                logger.info('Reset GemsFarming to 2-4')
                 self.config.cross_set(keys=f'{task}.Campaign.Name', value='2-4')
                 self.config.cross_set(keys=f'{task}.Campaign.Event', value='campaign_main')
 
@@ -44,7 +44,7 @@ class CampaignEvent(CampaignStatus):
             # Reset GemsFarming
             self._reset_gems_farming(tasks)
 
-            logger.info(f'Reset event time limit')
+            logger.info('Reset event time limit')
             self.config.cross_set(keys='EventGeneral.EventGeneral.TimeLimit', value=DEFAULT_TIME)
 
     def event_pt_limit_triggered(self):
