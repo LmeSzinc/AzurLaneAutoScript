@@ -5,7 +5,7 @@ import random
 from module.campaign.campaign_base import CampaignBase
 from module.campaign.campaign_event import CampaignEvent
 from module.campaign.campaign_ui import MODE_SWITCH_1
-from module.campaign.map_loader import load_map
+from module.campaign.map_loader import load_logic, load_map
 from module.campaign.stage_meta import CHAPTER_CONVERT_REVERSE, load_stage_meta
 from module.config.config import AzurLaneConfig
 from module.exception import CampaignEnd, RequestHumanTakeover, ScriptEnd
@@ -28,7 +28,40 @@ class CampaignRun(CampaignEvent):
 
     def load_campaign(self, name, folder='campaign_main'):
         """
+        Load a map module (MAP / Config / Campaign).
+
         Args:
+            name (str): Name of .py file under module.campaign.
+            folder (str): Name of the file folder under campaign.
+
+        Returns:
+            bool: If load.
+        """
+        return self._load_module(load_map, name, folder)
+
+    def load_campaign_logic(self, name, folder):
+        """
+        Load a logic module (Config / Campaign only, no MAP of its own), e.g.
+        the campaign_hard mother module. The caller injects the stage map
+        afterwards (hard.py loads it from campaign_main).
+
+        Args:
+            name (str): Name of .py file under module.campaign.
+            folder (str): Name of the file folder under campaign.
+
+        Returns:
+            bool: If load.
+        """
+        return self._load_module(load_logic, name, folder)
+
+    def _load_module(self, loader, name, folder):
+        """
+        Shared load path: resolve the module through a role-aware loader
+        (`load_map` for map modules, `load_logic` for logic modules), then
+        build the config merge and the campaign instance.
+
+        Args:
+            loader: callable(folder, name) -> LoadedMap | LoadedLogic.
             name (str): Name of .py file under module.campaign.
             folder (str): Name of the file folder under campaign.
 
@@ -48,7 +81,7 @@ class CampaignRun(CampaignEvent):
 
         try:
             # Phase 4A: JSON data first, legacy .py fallback (map_loader).
-            self.module = load_map(folder, name)
+            self.module = loader(folder, name)
         except ModuleNotFoundError:
             logger.warning(f'Map file not found: campaign.{folder}.{name}')
             if not os.path.exists(f'./campaign/{folder}'):

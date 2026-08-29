@@ -7,6 +7,14 @@ namespace (MAP / Config / Campaign), so campaign run/hard and gems_farming
 Map data files (`<name>.yaml`) store grid text blocks (map_data/weight_data/
 map_data_loop) as row arrays for readability; the loader joins them back -
 semantically identical because CampaignMap._parse_text strips every row.
+
+Campaign modules come in two roles with distinct load contracts:
+- map modules (MAP + Config + Campaign): loaded with `load_map`. The MAP
+  attribute is part of the contract; a legacy module without it raises
+  ModuleNotMapError instead of silently degrading.
+- logic modules (Config + Campaign only, no MAP of their own), e.g. the
+  `campaign_hard` mother module whose stage map is injected by the caller
+  (hard.py pulls it from campaign_main): loaded with `load_logic`.
 """
 from __future__ import annotations
 
@@ -57,6 +65,28 @@ class LoadedMap:
         self.Config = Config
         self.Campaign = Campaign
         self.source = source
+
+
+class LoadedLogic:
+    """Config / Campaign of a logic module (mother module, no MAP of its own).
+
+    Logic modules provide campaign behaviour without a map; their MAP is
+    injected by the caller (e.g. hard.py loads the stage map from
+    campaign_main and assigns it to the campaign instance).
+    """
+
+    def __init__(self, Config, Campaign, source: str):
+        self.Config = Config
+        self.Campaign = Campaign
+        self.source = source
+
+
+class ModuleNotMapError(TypeError):
+    """A logic module (no MAP) was requested through the map-load contract.
+
+    Raised instead of returning a MAP-less LoadedMap, so a wrong contract
+    fails loudly at the load site with an actionable message.
+    """
 
 
 _loading: set[str] = set()
@@ -282,6 +312,12 @@ def _load_data(folder, name, yaml_path):
 
 @lru_cache(maxsize=2048)
 def load_map(folder: str, name: str) -> LoadedMap:
+    """Load a map module: MAP / Config / Campaign (MAP part of the contract).
+
+    Raises:
+        ModuleNotMapError: the module is a logic module without MAP; load it
+            with `load_logic` instead.
+    """
     yaml_path = os.path.join(_CAMPAIGN, folder, f'{name}.yaml')
     if os.path.exists(yaml_path):
         key = (folder, name)
@@ -297,4 +333,19 @@ def load_map(folder: str, name: str) -> LoadedMap:
         finally:
             _inflight.discard(key)
     module = _legacy_import(folder, name)  # legacy fallback
+    if not hasattr(module, 'MAP'):
+        raise ModuleNotMapError(
+            f'campaign.{folder}.{name} is a logic module (no MAP); '
+            f'load it with load_logic() instead')
     return LoadedMap(module.MAP, module.Config, module.Campaign, 'legacy')
+
+
+@lru_cache(maxsize=2048)
+def load_logic(folder: str, name: str) -> LoadedLogic:
+    """Load a logic module: Config / Campaign only (no MAP), e.g. campaign_hard.
+
+    The caller is responsible for providing the map: hard.py loads the stage
+    map from campaign_main and injects it into the campaign instance.
+    """
+    module = _legacy_import(folder, name)
+    return LoadedLogic(module.Config, module.Campaign, 'legacy')

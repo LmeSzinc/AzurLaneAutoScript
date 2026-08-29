@@ -29,8 +29,10 @@ class CampaignHard(CampaignRun):
         # campaign/campaign_hard/campaign_hard.py Campaign.fleet_preparation()
 
         # Initial
-        self.load_campaign(name="campaign_hard", folder="campaign_hard")  # Load campaign file
-        self.campaign.MAP = load_map('campaign_main', name).MAP  # Load map from normal mode.
+        # Logic module: Config/Campaign only (no MAP of its own).
+        self.load_campaign_logic(name="campaign_hard", folder="campaign_hard")
+        # Map module: the stage map comes from campaign_main (normal mode).
+        self.campaign.MAP = load_map('campaign_main', name).MAP
 
         # UI ensure
         self.device.screenshot()
