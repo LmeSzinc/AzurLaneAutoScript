@@ -72,7 +72,9 @@ class ImageExtractor:
             logger.warning(f"{file} has wrong resolution: {size}")
         bbox = get_bbox(image)
         mean = get_color(image=image, area=bbox)
-        mean = tuple(np.rint(mean).astype(int))
+        # Cast to plain ints: numpy 2.x str() of np.int64 emits `np.int64(104)`,
+        # which is not valid in the generated assets.py.
+        mean = tuple(int(v) for v in np.rint(mean))
         return bbox, mean
 
     def load(self, server="cn"):
@@ -103,12 +105,20 @@ class ImageExtractor:
 
     @property
     def expression(self):
+        # Phase 4B: when all four servers share a value, emit the bare value
+        # (Runtime Resource.parse_property broadcasts non-dict values unchanged.)
+        def broadcast(value, quote=False):
+            if all(value['cn'] == value[s] for s in ('en', 'jp', 'tw')):
+                v = value['cn']
+                return repr(v) if quote else v
+            return value
+
         return "%s = Button(area=%s, color=%s, button=%s, file=%s)" % (
             self.name,
-            self.area,
-            self.color,
-            self.button,
-            self.file,
+            broadcast(self.area),
+            broadcast(self.color),
+            broadcast(self.button),
+            broadcast(self.file, quote=True),
         )
 
 
@@ -128,12 +138,17 @@ class TemplateExtractor(ImageExtractor):
         image = load_image(file)
         bbox = get_bbox(image)
         mean = get_color(image=image, area=bbox)
-        mean = tuple(np.rint(mean).astype(int))
+        mean = tuple(int(v) for v in np.rint(mean))
         return bbox, mean
 
     @property
     def expression(self):
-        return "%s = Template(file=%s)" % (self.name, self.file)
+        # Phase 4B: broadcast bare file path when all four servers share it.
+        if all(self.file['cn'] == self.file[s] for s in ('en', 'jp', 'tw')):
+            file = repr(self.file['cn'])
+        else:
+            file = self.file
+        return "%s = Template(file=%s)" % (self.name, file)
         # return '%s = Template(area=%s, color=%s, button=%s, file=\'%s\')' % (
         #     self.name, self.area, self.color, self.button,
         #     self.config.ASSETS_FOLDER + '/' + self.module + '/' + self.name + '.png')

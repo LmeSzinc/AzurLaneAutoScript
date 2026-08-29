@@ -49,7 +49,11 @@ def parse_assets():
                 unparsed.append(f'{rel}:{node.lineno} {tgt.id} literal eval failed')
                 continue
             if call.func.id == 'Template':
-                entry = {'file': kwargs.get('file')}
+                value = kwargs.get('file')
+                if isinstance(value, dict):
+                    entry = {'file': {s: value[s] for s in SERVERS}}
+                else:
+                    entry = {'file': dict.fromkeys(SERVERS, value)}
                 templates[tgt.id] = entry
             else:
                 entry = {}
@@ -59,7 +63,7 @@ def parse_assets():
                         entry[key] = {s: value[s] for s in SERVERS}
                     else:
                         # bare value broadcasts across all four servers
-                        entry[key] = {s: value for s in SERVERS}
+                        entry[key] = dict.fromkeys(SERVERS, value)
                 buttons[tgt.id] = entry
     return {'buttons': buttons, 'templates': templates, 'unparsed': unparsed}
 
@@ -77,7 +81,9 @@ def main():
         )
     elif mode == 'check':
         old = json.loads(Path(arg).read_text(encoding='utf-8'))
-        new = parse_assets()
+        # Normalize through JSON so tuple/list type differences don't matter
+        # (dump serializes tuples as arrays).
+        new = json.loads(json.dumps(parse_assets()))
         errors = []
         for kind in ('buttons', 'templates'):
             for name in sorted(set(old[kind]) | set(new[kind])):
