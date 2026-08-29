@@ -1,0 +1,98 @@
+{
+  "map": {
+    "shape": "G7",
+    "camera_data": [
+      "A3",
+      "A5"
+    ],
+    "camera_data_spawn_point": [
+      "A3"
+    ],
+    "camera_sight": [
+      -2,
+      -1,
+      3,
+      2
+    ],
+    "map_data": "\n    ++ ++ ++ -- MS ME --\n    -- ME -- ME -- ME --\n    SP -- ME -- __ ME ++\n    -- ME -- ++ -- -- MB\n    SP -- -- -- -- ME --\n    ++ ++ -- -- ME -- ME\n    ++ ++ ME -- -- -- --\n",
+    "weight_data": "\n    50 50 50 50 50 50 50\n    50 50 50 50 50 50 50\n    50 50 50 50 50 50 50\n    50 50 50 50 50 50 50\n    50 50 50 50 50 50 50\n    50 50 50 50 50 50 50\n    50 50 50 50 50 50 50\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 2,
+        "siren": 1
+      },
+      {
+        "battle": 1,
+        "enemy": 2
+      },
+      {
+        "battle": 2,
+        "enemy": 1
+      },
+      {
+        "battle": 3,
+        "enemy": 1
+      },
+      {
+        "battle": 4,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": null,
+  "config": {
+    "MAP_SIREN_TEMPLATE": [
+      "SheffieldIdol"
+    ],
+    "MOVABLE_ENEMY_TURN": [
+      2
+    ],
+    "MAP_HAS_SIREN": true,
+    "MAP_HAS_MOVABLE_ENEMY": true,
+    "MAP_HAS_MAP_STORY": false,
+    "MAP_HAS_FLEET_STEP": true,
+    "MAP_HAS_AMBUSH": false,
+    "DETECTION_BACKEND": "perspective",
+    "INTERNAL_LINES_HOUGHLINES_THRESHOLD": 40,
+    "EDGE_LINES_HOUGHLINES_THRESHOLD": 40,
+    "INTERNAL_LINES_FIND_PEAKS_PARAMETERS": {
+      "height": [
+        150,
+        243
+      ],
+      "width": [
+        0.9,
+        10
+      ],
+      "prominence": 10,
+      "distance": 35
+    },
+    "EDGE_LINES_FIND_PEAKS_PARAMETERS": {
+      "height": [
+        246,
+        255
+      ],
+      "prominence": 10,
+      "distance": 50,
+      "wlen": 1000
+    },
+    "HOMO_EDGE_COLOR_RANGE": [
+      0,
+      9
+    ],
+    "HOMO_EDGE_HOUGHLINES_THRESHOLD": 180,
+    "MAP_ENSURE_EDGE_INSIGHT_CORNER": "bottom"
+  },
+  "roads": {},
+  "selects": {},
+  "actions": [],
+  "extra_maps": {},
+  "imports": {
+    "logger": "module.logger.logger",
+    "CampaignMap": "module.map.map_base.CampaignMap",
+    "RoadGrids": "module.map.map_grids.RoadGrids",
+    "SelectedGrids": "module.map.map_grids.SelectedGrids",
+    "CampaignBase": "campaign_base.CampaignBase"
+  }
+}

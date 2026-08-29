@@ -1,0 +1,93 @@
+{
+  "map": {
+    "shape": "J9",
+    "camera_data": [
+      "E3",
+      "E7",
+      "F3",
+      "F7"
+    ],
+    "camera_data_spawn_point": [
+      "E7"
+    ],
+    "map_data": "\n    -- -- ++ -- -- -- -- ++ -- --\n    -- -- -- ME ++ ++ ME -- -- --\n    ++ ++ Me -- ++ ++ -- Me ++ ++\n    ++ ++ -- -- MB MB -- -- ++ ++\n    -- Me -- __ -- -- __ -- Me --\n    -- -- ME MS ++ ++ MS ME -- --\n    -- -- ME MS -- -- MS ME -- --\n    ++ ME -- -- -- -- -- -- ME ++\n    ++ -- ME ++ SP SP ++ ME -- ++\n",
+    "weight_data": "\n    50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 2,
+        "siren": 2
+      },
+      {
+        "battle": 1,
+        "enemy": 1
+      },
+      {
+        "battle": 2,
+        "enemy": 2,
+        "siren": 1
+      },
+      {
+        "battle": 3,
+        "enemy": 1
+      },
+      {
+        "battle": 4,
+        "enemy": 2
+      },
+      {
+        "battle": 5,
+        "enemy": 1
+      },
+      {
+        "battle": 6,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": "d1",
+  "config": {
+    "MAP_SIREN_TEMPLATE": [
+      "CA",
+      "BB",
+      "CV"
+    ],
+    "MOVABLE_ENEMY_TURN": [
+      2
+    ],
+    "MAP_HAS_SIREN": true,
+    "MAP_HAS_MOVABLE_ENEMY": true,
+    "MAP_HAS_MAP_STORY": true,
+    "MAP_HAS_FLEET_STEP": true,
+    "MAP_HAS_AMBUSH": false,
+    "MAP_HAS_MYSTERY": false,
+    "MAP_SWIPE_MULTIPLY": [
+      0.969,
+      0.987
+    ],
+    "MAP_SWIPE_MULTIPLY_MINITOUCH": [
+      0.937,
+      0.955
+    ],
+    "MAP_SWIPE_MULTIPLY_MAATOUCH": [
+      0.91,
+      0.926
+    ]
+  },
+  "roads": {},
+  "selects": {},
+  "actions": [],
+  "extra_maps": {},
+  "imports": {
+    "CampaignBase": "campaign_war_archives.campaign_base.CampaignBase",
+    "CampaignMap": "module.map.map_base.CampaignMap",
+    "SelectedGrids": "module.map.map_grids.SelectedGrids",
+    "RoadGrids": "module.map.map_grids.RoadGrids",
+    "logger": "module.logger.logger"
+  },
+  "campaign_methods": [
+    "battle_0",
+    "battle_5",
+    "battle_6"
+  ]
+}

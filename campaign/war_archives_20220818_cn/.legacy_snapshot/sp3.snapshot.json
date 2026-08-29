@@ -1,0 +1,85 @@
+{
+  "map": {
+    "shape": "H8",
+    "camera_data": [
+      "D5",
+      "E3",
+      "E5"
+    ],
+    "camera_data_spawn_point": [
+      "D5"
+    ],
+    "map_data": "\n    -- -- -- -- ++ ++ -- --\n    ++ ++ Me -- Me ++ ME --\n    -- -- -- -- -- ME -- --\n    SP -- -- MS __ -- -- MB\n    SP -- -- MS -- ME -- --\n    -- ++ Me -- Me -- -- ME\n    -- ME -- ++ ++ ME ME ++\n    -- -- -- ++ ++ -- -- ++\n",
+    "weight_data": "\n    50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 3,
+        "siren": 2
+      },
+      {
+        "battle": 1,
+        "enemy": 2
+      },
+      {
+        "battle": 2,
+        "enemy": 1
+      },
+      {
+        "battle": 3,
+        "enemy": 1
+      },
+      {
+        "battle": 4
+      },
+      {
+        "battle": 5,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": "sp1",
+  "config": {
+    "MAP_SIREN_TEMPLATE": [
+      "GrafZeppelin",
+      "Weser",
+      "PeterStrasser"
+    ],
+    "MOVABLE_ENEMY_TURN": [
+      2
+    ],
+    "MAP_HAS_SIREN": true,
+    "MAP_HAS_MOVABLE_ENEMY": true,
+    "MAP_HAS_MAP_STORY": true,
+    "MAP_HAS_FLEET_STEP": true,
+    "MAP_HAS_AMBUSH": true,
+    "MAP_HAS_MYSTERY": false,
+    "MAP_SWIPE_MULTIPLY": [
+      1.091,
+      1.112
+    ],
+    "MAP_SWIPE_MULTIPLY_MINITOUCH": [
+      1.056,
+      1.075
+    ],
+    "MAP_SWIPE_MULTIPLY_MAATOUCH": [
+      1.025,
+      1.043
+    ]
+  },
+  "roads": {},
+  "selects": {},
+  "actions": [],
+  "extra_maps": {},
+  "imports": {
+    "CampaignBase": "campaign_base.CampaignBase",
+    "CampaignMap": "module.map.map_base.CampaignMap",
+    "SelectedGrids": "module.map.map_grids.SelectedGrids",
+    "RoadGrids": "module.map.map_grids.RoadGrids",
+    "logger": "module.logger.logger"
+  },
+  "campaign_methods": [
+    "battle_0",
+    "battle_5"
+  ]
+}

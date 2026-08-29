@@ -1,0 +1,107 @@
+{
+  "map": {
+    "shape": "K7",
+    "camera_data": [
+      "D2",
+      "D5",
+      "H2",
+      "H5"
+    ],
+    "camera_data_spawn_point": [
+      "D2",
+      "D5"
+    ],
+    "map_data": "\n    SP ++ ++ ++ ME -- -- MS Me -- MM\n    -- -- -- -- -- -- Me -- -- -- --\n    ME -- ++ ME -- -- -- -- ++ ++ --\n    ME -- -- -- MS ++ __ -- MB ++ --\n    -- -- ME -- -- -- -- -- -- -- --\n    -- -- ++ ++ ME ME -- Me ++ ++ ++\n    SP -- ++ ++ ME -- -- -- -- Me MM\n",
+    "weight_data": "\n    50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 2,
+        "siren": 2
+      },
+      {
+        "battle": 1,
+        "enemy": 1
+      },
+      {
+        "battle": 2,
+        "enemy": 2,
+        "mystery": 1
+      },
+      {
+        "battle": 3,
+        "enemy": 1,
+        "mystery": 1
+      },
+      {
+        "battle": 4,
+        "enemy": 1
+      },
+      {
+        "battle": 5,
+        "boss": 1
+      }
+    ],
+    "spawn_data_loop": [
+      {
+        "battle": 0,
+        "enemy": 2,
+        "siren": 2
+      },
+      {
+        "battle": 1,
+        "enemy": 1
+      },
+      {
+        "battle": 2,
+        "enemy": 2,
+        "mystery": 1
+      },
+      {
+        "battle": 3,
+        "enemy": 1,
+        "mystery": 1
+      },
+      {
+        "battle": 4,
+        "enemy": 2
+      },
+      {
+        "battle": 5,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": "c1",
+  "config": {
+    "MAP_SIREN_TEMPLATE": [
+      "DD",
+      "CL",
+      "CA"
+    ],
+    "MOVABLE_ENEMY_TURN": [
+      3
+    ],
+    "MAP_HAS_SIREN": true,
+    "MAP_HAS_MOVABLE_ENEMY": true,
+    "MAP_HAS_MAP_STORY": false,
+    "MAP_HAS_FLEET_STEP": true,
+    "MAP_HAS_AMBUSH": false,
+    "MAP_HAS_MYSTERY": true
+  },
+  "roads": {},
+  "selects": {},
+  "actions": [],
+  "extra_maps": {},
+  "imports": {
+    "logger": "module.logger.logger",
+    "CampaignMap": "module.map.map_base.CampaignMap",
+    "RoadGrids": "module.map.map_grids.RoadGrids",
+    "SelectedGrids": "module.map.map_grids.SelectedGrids",
+    "CampaignBase": "campaign_war_archives.campaign_base.CampaignBase"
+  },
+  "campaign_methods": [
+    "battle_0",
+    "battle_5"
+  ]
+}

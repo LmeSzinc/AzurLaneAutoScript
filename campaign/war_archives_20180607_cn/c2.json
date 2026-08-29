@@ -1,0 +1,51 @@
+{
+  "map": {
+    "camera_sight": [
+      -4,
+      -2,
+      4,
+      2
+    ],
+    "shape": "G7",
+    "camera_data_spawn_point": [],
+    "map_data": "\n    ++ ++ ME -- Me -- MB\n    ++ ++ -- __ -- -- --\n    ++ ++ ME -- ME -- Me\n    ME -- ME MS -- -- --\n    -- ME __ -- -- Me MB\n    SP -- -- ME -- ++ ++\n    SP SP -- -- ME ++ ++\n",
+    "weight_data": "\n    50 50 50 50 50 50 50\n    50 50 50 50 50 50 50\n    50 50 50 50 50 50 50\n    50 50 50 50 50 50 50\n    50 50 50 50 50 50 50\n    50 50 50 50 50 50 50\n    50 50 50 50 50 50 50\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 2,
+        "siren": 2
+      },
+      {
+        "battle": 1,
+        "enemy": 1
+      },
+      {
+        "battle": 2,
+        "enemy": 2
+      },
+      {
+        "battle": 3,
+        "enemy": 1
+      },
+      {
+        "battle": 4,
+        "enemy": 1,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": "c1",
+  "config": {},
+  "roads": {},
+  "selects": {},
+  "actions": [],
+  "extra_maps": {},
+  "imports": {
+    "logger": "module.logger.logger",
+    "CampaignMap": "module.map.map_base.CampaignMap",
+    "RoadGrids": "module.map.map_grids.RoadGrids",
+    "SelectedGrids": "module.map.map_grids.SelectedGrids",
+    "CampaignBase": "campaign_war_archives.campaign_base.CampaignBase"
+  }
+}

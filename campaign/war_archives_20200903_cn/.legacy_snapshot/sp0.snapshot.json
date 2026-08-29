@@ -1,0 +1,72 @@
+{
+  "map": {
+    "shape": "J6",
+    "camera_data": [
+      "D2",
+      "D4",
+      "G2",
+      "G4"
+    ],
+    "camera_data_spawn_point": [
+      "D2",
+      "D4"
+    ],
+    "map_data": "\n    -- -- ++ ++ ++ ++ -- -- ++ ++\n    -- ++ -- -- -- ++ -- -- -- ++\n    SP -- -- -- -- -- ++ -- -- --\n    SP -- -- -- -- -- -- -- -- MB\n    -- -- -- -- ++ -- -- ++ -- --\n    -- -- -- ++ ++ -- ++ ++ ++ --\n",
+    "weight_data": "\n    50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50\n",
+    "land_based_data": [
+      [
+        "D6",
+        "up"
+      ],
+      [
+        "H5",
+        "up"
+      ],
+      [
+        "F2",
+        "down"
+      ],
+      [
+        "C1",
+        "down"
+      ]
+    ],
+    "spawn_data": [
+      {
+        "battle": 0,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": null,
+  "config": {
+    "MAP_HAS_MAP_STORY": false,
+    "MAP_HAS_FLEET_STEP": true,
+    "MAP_HAS_AMBUSH": false,
+    "MAP_HAS_LAND_BASED": true,
+    "STAR_REQUIRE_1": 0,
+    "STAR_REQUIRE_2": 0,
+    "STAR_REQUIRE_3": 0,
+    "MAP_IS_ONE_TIME_STAGE": true
+  },
+  "roads": {},
+  "selects": {
+    "mechanism": [
+      "C6",
+      "E2",
+      "G5"
+    ]
+  },
+  "actions": [],
+  "extra_maps": {},
+  "imports": {
+    "CampaignBase": "campaign_base.CampaignBase",
+    "logger": "module.logger.logger",
+    "CampaignMap": "module.map.map_base.CampaignMap",
+    "RoadGrids": "module.map.map_grids.RoadGrids",
+    "SelectedGrids": "module.map.map_grids.SelectedGrids"
+  },
+  "campaign_methods": [
+    "battle_0"
+  ]
+}

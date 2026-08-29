@@ -1,0 +1,116 @@
+{
+  "map": {
+    "shape": "I9",
+    "camera_data": [
+      "D2",
+      "D5",
+      "D7",
+      "F2",
+      "F5",
+      "F7"
+    ],
+    "camera_data_spawn_point": [
+      "F7",
+      "D7"
+    ],
+    "map_data": "\n    -- ME -- -- Me -- -- ME --\n    ME -- ++ ++ -- ++ ++ -- ME\n    -- ++ ++ MS -- MS ++ ++ --\n    -- ++ Me -- -- -- Me ++ --\n    ME -- -- -- MB -- -- -- ME\n    -- ++ MS -- __ -- MS ++ --\n    -- ++ ++ Me -- Me ++ ++ --\n    ME -- ++ ++ -- ++ ++ -- ME\n    -- ME -- SP -- SP -- ME --\n",
+    "weight_data": "\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 10 10 10 50 50 50\n    50 50 10 10 10 10 10 50 50\n    50 50 10 10 10 10 10 50 50\n    50 50 10 10 50 10 10 50 50\n    50 50 50 10 10 10 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n",
+    "maze_data": [
+      [
+        "A3",
+        "I3",
+        "C9",
+        "G9"
+      ],
+      [
+        "E2",
+        "B5",
+        "H5",
+        "E8"
+      ],
+      [
+        "C1",
+        "G1",
+        "A7",
+        "I7"
+      ]
+    ],
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 2,
+        "siren": 2
+      },
+      {
+        "battle": 1,
+        "enemy": 1
+      },
+      {
+        "battle": 2,
+        "enemy": 2,
+        "siren": 1
+      },
+      {
+        "battle": 3,
+        "enemy": 1
+      },
+      {
+        "battle": 4,
+        "enemy": 2
+      },
+      {
+        "battle": 5,
+        "enemy": 1
+      },
+      {
+        "battle": 6,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": "d1",
+  "config": {
+    "MAP_SIREN_TEMPLATE": [
+      "Warspite",
+      "Formidable",
+      "Illustrious"
+    ],
+    "MOVABLE_ENEMY_TURN": [
+      2
+    ],
+    "MAP_HAS_SIREN": true,
+    "MAP_HAS_MOVABLE_ENEMY": true,
+    "MAP_HAS_MAP_STORY": true,
+    "MAP_HAS_FLEET_STEP": true,
+    "MAP_HAS_AMBUSH": false,
+    "MAP_SWIPE_MULTIPLY": [
+      1.002,
+      1.021
+    ],
+    "MAP_SWIPE_MULTIPLY_MINITOUCH": [
+      0.97,
+      0.987
+    ],
+    "MAP_SWIPE_MULTIPLY_MAATOUCH": [
+      0.941,
+      0.958
+    ],
+    "INTERNAL_LINES_HOUGHLINES_THRESHOLD": 40
+  },
+  "roads": {},
+  "selects": {},
+  "actions": [],
+  "extra_maps": {},
+  "imports": {
+    "CampaignBase": "campaign_war_archives.campaign_base.CampaignBase",
+    "logger": "module.logger.logger",
+    "CampaignMap": "module.map.map_base.CampaignMap",
+    "RoadGrids": "module.map.map_grids.RoadGrids",
+    "SelectedGrids": "module.map.map_grids.SelectedGrids"
+  },
+  "campaign_methods": [
+    "battle_0",
+    "battle_5",
+    "battle_6"
+  ]
+}

@@ -1,0 +1,117 @@
+{
+  "map": {
+    "shape": "I5",
+    "camera_data": [
+      "D2",
+      "D3",
+      "F2",
+      "F3"
+    ],
+    "camera_data_spawn_point": [
+      "D3",
+      "D2"
+    ],
+    "map_data": "\n    SP -- ++ ME -- ME ++ -- --\n    -- ME -- -- ME -- Me ++ Me\n    -- -- MS -- -- MS __ -- --\n    -- ME -- -- ++ Me -- Me --\n    SP -- -- Me ++ -- Me -- MB\n",
+    "weight_data": "\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 2,
+        "siren": 2
+      },
+      {
+        "battle": 1,
+        "enemy": 1
+      },
+      {
+        "battle": 2,
+        "enemy": 2
+      },
+      {
+        "battle": 3,
+        "enemy": 1
+      },
+      {
+        "battle": 4,
+        "enemy": 1,
+        "boss": 1
+      }
+    ],
+    "spawn_data_loop": [
+      {
+        "battle": 0,
+        "enemy": 2,
+        "siren": 2
+      },
+      {
+        "battle": 1,
+        "enemy": 1
+      },
+      {
+        "battle": 2,
+        "enemy": 2
+      },
+      {
+        "battle": 3,
+        "enemy": 1
+      },
+      {
+        "battle": 4,
+        "enemy": 2,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": null,
+  "config": {
+    "MAP_SIREN_TEMPLATE": [
+      "DD"
+    ],
+    "MOVABLE_ENEMY_TURN": [
+      3
+    ],
+    "MAP_HAS_SIREN": true,
+    "MAP_HAS_MOVABLE_ENEMY": true,
+    "MAP_HAS_MAP_STORY": false,
+    "MAP_HAS_FLEET_STEP": true,
+    "MAP_HAS_AMBUSH": false,
+    "MAP_HAS_MYSTERY": false,
+    "TRUST_EDGE_LINES": true,
+    "INTERNAL_LINES_FIND_PEAKS_PARAMETERS": {
+      "height": [
+        80,
+        215
+      ],
+      "width": [
+        0.9,
+        10
+      ],
+      "prominence": 10,
+      "distance": 35
+    },
+    "EDGE_LINES_FIND_PEAKS_PARAMETERS": {
+      "height": [
+        215,
+        255
+      ],
+      "prominence": 10,
+      "distance": 50,
+      "wlen": 1000
+    }
+  },
+  "roads": {},
+  "selects": {},
+  "actions": [],
+  "extra_maps": {},
+  "imports": {
+    "logger": "module.logger.logger",
+    "CampaignMap": "module.map.map_base.CampaignMap",
+    "RoadGrids": "module.map.map_grids.RoadGrids",
+    "SelectedGrids": "module.map.map_grids.SelectedGrids",
+    "CampaignBase": "campaign_war_archives.campaign_base.CampaignBase"
+  },
+  "campaign_methods": [
+    "battle_0",
+    "battle_4"
+  ]
+}
