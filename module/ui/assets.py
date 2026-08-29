@@ -1589,6 +1589,17 @@ RAID_CHECK = Button(
         "tw": "./assets/tw/ui/RAID_CHECK.png",
     },
 )
+RAID_CHECK_20260827 = Button(
+    area={"cn": (131, 23, 208, 43), "en": (130, 24, 183, 43), "jp": (129, 23, 210, 45), "tw": (131, 23, 208, 43)},
+    color={"cn": (120, 125, 134), "en": (103, 108, 119), "jp": (107, 112, 123), "tw": (120, 125, 134)},
+    button={"cn": (131, 23, 208, 43), "en": (130, 24, 183, 43), "jp": (129, 23, 210, 45), "tw": (131, 23, 208, 43)},
+    file={
+        "cn": "./assets/cn/ui/RAID_CHECK_20260827.png",
+        "en": "./assets/en/ui/RAID_CHECK_20260827.png",
+        "jp": "./assets/jp/ui/RAID_CHECK_20260827.png",
+        "tw": "./assets/cn/ui/RAID_CHECK_20260827.png",
+    },
+)
 RESEARCH_CHECK = Button(
     area={"cn": (118, 15, 170, 39), "en": (119, 14, 259, 36), "jp": (117, 14, 171, 40), "tw": (117, 13, 172, 40)},
     color={"cn": (165, 179, 215), "en": (118, 133, 174), "jp": (135, 154, 195), "tw": (148, 165, 205)},

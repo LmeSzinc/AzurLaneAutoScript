@@ -151,6 +151,195 @@ ALBION_RAID_NORMAL = Button(
         "tw": "./assets/tw/raid/ALBION_RAID_NORMAL.png",
     },
 )
+BIGSHOT_OCR_PT = Button(
+    area={
+        "cn": (1156, 606, 1276, 638),
+        "en": (1156, 606, 1276, 638),
+        "jp": (1156, 606, 1276, 638),
+        "tw": (1156, 606, 1276, 638),
+    },
+    color={"cn": (174, 197, 175), "en": (174, 197, 175), "jp": (174, 197, 175), "tw": (174, 197, 175)},
+    button={
+        "cn": (1156, 606, 1276, 638),
+        "en": (1156, 606, 1276, 638),
+        "jp": (1156, 606, 1276, 638),
+        "tw": (1156, 606, 1276, 638),
+    },
+    file={
+        "cn": "./assets/cn/raid/BIGSHOT_OCR_PT.png",
+        "en": "./assets/cn/raid/BIGSHOT_OCR_PT.png",
+        "jp": "./assets/cn/raid/BIGSHOT_OCR_PT.png",
+        "tw": "./assets/cn/raid/BIGSHOT_OCR_PT.png",
+    },
+)
+BIGSHOT_OCR_REMAIN_EASY = Button(
+    area={
+        "cn": (1041, 552, 1101, 574),
+        "en": (1041, 552, 1101, 574),
+        "jp": (1041, 552, 1101, 574),
+        "tw": (1041, 552, 1101, 574),
+    },
+    color={"cn": (86, 154, 147), "en": (86, 154, 147), "jp": (86, 154, 147), "tw": (86, 154, 147)},
+    button={
+        "cn": (1041, 552, 1101, 574),
+        "en": (1041, 552, 1101, 574),
+        "jp": (1041, 552, 1101, 574),
+        "tw": (1041, 552, 1101, 574),
+    },
+    file={
+        "cn": "./assets/cn/raid/BIGSHOT_OCR_REMAIN_EASY.png",
+        "en": "./assets/cn/raid/BIGSHOT_OCR_REMAIN_EASY.png",
+        "jp": "./assets/cn/raid/BIGSHOT_OCR_REMAIN_EASY.png",
+        "tw": "./assets/cn/raid/BIGSHOT_OCR_REMAIN_EASY.png",
+    },
+)
+BIGSHOT_OCR_REMAIN_EX = Button(
+    area={
+        "cn": (1133, 30, 1193, 52),
+        "en": (1133, 30, 1193, 52),
+        "jp": (1133, 30, 1193, 52),
+        "tw": (1133, 30, 1193, 52),
+    },
+    color={"cn": (105, 189, 146), "en": (105, 189, 146), "jp": (105, 189, 146), "tw": (105, 189, 146)},
+    button={
+        "cn": (1133, 30, 1193, 52),
+        "en": (1133, 30, 1193, 52),
+        "jp": (1133, 30, 1193, 52),
+        "tw": (1133, 30, 1193, 52),
+    },
+    file={
+        "cn": "./assets/cn/raid/BIGSHOT_OCR_REMAIN_EX.png",
+        "en": "./assets/cn/raid/BIGSHOT_OCR_REMAIN_EX.png",
+        "jp": "./assets/cn/raid/BIGSHOT_OCR_REMAIN_EX.png",
+        "tw": "./assets/cn/raid/BIGSHOT_OCR_REMAIN_EX.png",
+    },
+)
+BIGSHOT_OCR_REMAIN_HARD = Button(
+    area={
+        "cn": (1129, 400, 1189, 422),
+        "en": (1129, 400, 1189, 422),
+        "jp": (1129, 400, 1189, 422),
+        "tw": (1129, 400, 1189, 422),
+    },
+    color={"cn": (87, 157, 150), "en": (87, 157, 150), "jp": (87, 157, 150), "tw": (87, 157, 150)},
+    button={
+        "cn": (1129, 400, 1189, 422),
+        "en": (1129, 400, 1189, 422),
+        "jp": (1129, 400, 1189, 422),
+        "tw": (1129, 400, 1189, 422),
+    },
+    file={
+        "cn": "./assets/cn/raid/BIGSHOT_OCR_REMAIN_HARD.png",
+        "en": "./assets/cn/raid/BIGSHOT_OCR_REMAIN_HARD.png",
+        "jp": "./assets/cn/raid/BIGSHOT_OCR_REMAIN_HARD.png",
+        "tw": "./assets/cn/raid/BIGSHOT_OCR_REMAIN_HARD.png",
+    },
+)
+BIGSHOT_OCR_REMAIN_NORMAL = Button(
+    area={
+        "cn": (1085, 471, 1145, 493),
+        "en": (1085, 471, 1145, 493),
+        "jp": (1085, 471, 1145, 493),
+        "tw": (1085, 471, 1145, 493),
+    },
+    color={"cn": (86, 154, 147), "en": (86, 154, 147), "jp": (86, 154, 147), "tw": (86, 154, 147)},
+    button={
+        "cn": (1085, 471, 1145, 493),
+        "en": (1085, 471, 1145, 493),
+        "jp": (1085, 471, 1145, 493),
+        "tw": (1085, 471, 1145, 493),
+    },
+    file={
+        "cn": "./assets/cn/raid/BIGSHOT_OCR_REMAIN_NORMAL.png",
+        "en": "./assets/cn/raid/BIGSHOT_OCR_REMAIN_NORMAL.png",
+        "jp": "./assets/cn/raid/BIGSHOT_OCR_REMAIN_NORMAL.png",
+        "tw": "./assets/cn/raid/BIGSHOT_OCR_REMAIN_NORMAL.png",
+    },
+)
+BIGSHOT_RAID_EASY = Button(
+    area={
+        "cn": (938, 549, 986, 574),
+        "en": (932, 547, 989, 578),
+        "jp": (934, 548, 990, 578),
+        "tw": (938, 549, 986, 574),
+    },
+    color={"cn": (142, 161, 167), "en": (92, 125, 131), "jp": (117, 143, 149), "tw": (142, 161, 167)},
+    button={
+        "cn": (938, 549, 986, 574),
+        "en": (932, 547, 989, 578),
+        "jp": (934, 548, 990, 578),
+        "tw": (938, 549, 986, 574),
+    },
+    file={
+        "cn": "./assets/cn/raid/BIGSHOT_RAID_EASY.png",
+        "en": "./assets/en/raid/BIGSHOT_RAID_EASY.png",
+        "jp": "./assets/jp/raid/BIGSHOT_RAID_EASY.png",
+        "tw": "./assets/cn/raid/BIGSHOT_RAID_EASY.png",
+    },
+)
+BIGSHOT_RAID_EX = Button(
+    area={
+        "cn": (1045, 215, 1115, 248),
+        "en": (1045, 215, 1115, 248),
+        "jp": (1045, 215, 1115, 248),
+        "tw": (1045, 215, 1115, 248),
+    },
+    color={"cn": (140, 184, 178), "en": (140, 184, 178), "jp": (140, 184, 178), "tw": (140, 184, 178)},
+    button={
+        "cn": (1045, 215, 1115, 248),
+        "en": (1045, 215, 1115, 248),
+        "jp": (1045, 215, 1115, 248),
+        "tw": (1045, 215, 1115, 248),
+    },
+    file={
+        "cn": "./assets/cn/raid/BIGSHOT_RAID_EX.png",
+        "en": "./assets/cn/raid/BIGSHOT_RAID_EX.png",
+        "jp": "./assets/cn/raid/BIGSHOT_RAID_EX.png",
+        "tw": "./assets/cn/raid/BIGSHOT_RAID_EX.png",
+    },
+)
+BIGSHOT_RAID_HARD = Button(
+    area={
+        "cn": (1027, 399, 1075, 423),
+        "en": (1020, 393, 1080, 426),
+        "jp": (1013, 396, 1087, 425),
+        "tw": (1027, 399, 1075, 423),
+    },
+    color={"cn": (157, 173, 179), "en": (94, 124, 131), "jp": (108, 134, 141), "tw": (157, 173, 179)},
+    button={
+        "cn": (1027, 399, 1075, 423),
+        "en": (1020, 393, 1080, 426),
+        "jp": (1013, 396, 1087, 425),
+        "tw": (1027, 399, 1075, 423),
+    },
+    file={
+        "cn": "./assets/cn/raid/BIGSHOT_RAID_HARD.png",
+        "en": "./assets/en/raid/BIGSHOT_RAID_HARD.png",
+        "jp": "./assets/jp/raid/BIGSHOT_RAID_HARD.png",
+        "tw": "./assets/cn/raid/BIGSHOT_RAID_HARD.png",
+    },
+)
+BIGSHOT_RAID_NORMAL = Button(
+    area={
+        "cn": (983, 469, 1031, 493),
+        "en": (967, 467, 1046, 494),
+        "jp": (980, 465, 1035, 496),
+        "tw": (983, 469, 1031, 493),
+    },
+    color={"cn": (148, 166, 172), "en": (102, 130, 137), "jp": (115, 140, 146), "tw": (148, 166, 172)},
+    button={
+        "cn": (983, 469, 1031, 493),
+        "en": (967, 467, 1046, 494),
+        "jp": (980, 465, 1035, 496),
+        "tw": (983, 469, 1031, 493),
+    },
+    file={
+        "cn": "./assets/cn/raid/BIGSHOT_RAID_NORMAL.png",
+        "en": "./assets/en/raid/BIGSHOT_RAID_NORMAL.png",
+        "jp": "./assets/jp/raid/BIGSHOT_RAID_NORMAL.png",
+        "tw": "./assets/cn/raid/BIGSHOT_RAID_NORMAL.png",
+    },
+)
 BRISTOL_OCR_REMAIN_EASY = Button(
     area={
         "cn": (1135, 536, 1195, 554),
