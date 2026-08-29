@@ -27,13 +27,6 @@ class CampaignBase(CampaignBase_):
                               appear_button=EVENT_20260417_DETAIL_CHECK, offset=(40, 20))
                 return True
 
-    @staticmethod
-    def _campaign_ocr_result_process(result):
-        result = CampaignBase_._campaign_ocr_result_process(result)
-        if result in ['ysp', 'usp', 'vsp']:
-            result = 'sp'
-        return result
-
     def is_event_animation(self):
         """
         Animation in events after cleared an enemy.

@@ -20,6 +20,15 @@
       "map": {
         "isp": "isp1"
       }
+    },
+    {
+      "type": "ocr_rewrite",
+      "map": {
+        "usp": "sp",
+        "iisp": "sp",
+        "ijsp": "sp",
+        "jjsp": "sp"
+      }
     }
   ]
 }

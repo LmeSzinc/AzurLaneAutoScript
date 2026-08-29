@@ -5,6 +5,14 @@
       "map": {
         "vsp": "sp"
       }
+    },
+    {
+      "type": "ocr_rewrite",
+      "map": {
+        "ysp": "sp",
+        "usp": "sp",
+        "vsp": "sp"
+      }
     }
   ]
 }

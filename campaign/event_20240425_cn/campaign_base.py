@@ -36,13 +36,6 @@ class CampaignBase(CampaignBase_):
 
         return super(CampaignBase, CampaignBase)._campaign_get_chapter_index(name)
 
-    @staticmethod
-    def _campaign_ocr_result_process(result):
-        result = CampaignBase_._campaign_ocr_result_process(result)
-        if result in ['usp', 'iisp', 'ijsp', 'jjsp']:
-            result = 'sp'
-        return result
-
     def is_event_animation(self):
         # Blue banner
         if self.image_color_count((1180, 285, 1280, 335), color=(140, 215, 255), count=1000):

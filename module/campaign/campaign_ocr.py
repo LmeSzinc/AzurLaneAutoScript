@@ -4,6 +4,7 @@ from module.base.base import ModuleBase
 from module.base.decorator import Config, cached_property, del_cached_property
 from module.base.timer import Timer
 from module.base.utils import *  # noqa: F403  (re-export facade)
+from module.campaign.stage_meta import load_stage_meta
 from module.exception import CampaignNameError
 from module.logger import logger
 from module.map.assets import WITHDRAW
@@ -305,6 +306,12 @@ class CampaignOcr(ModuleBase):
         if not isinstance(result, list):
             result = [result]
         result = [self._campaign_ocr_result_process(res) for res in result]
+        # Phase 456 D3: per-event OCR rewrites from campaign/<folder>/meta.json
+        # (replaces the per-event _campaign_ocr_result_process overrides)
+        meta = load_stage_meta(self.config.Campaign_Event)
+        for rule in meta.get('rules', []):
+            if rule.get('type') == 'ocr_rewrite':
+                result = [rule['map'].get(res, res) for res in result]
 
         chapter = [self._campaign_separate_name(res)[0] for res in result if res]
         chapter = list(filter(('').__ne__, chapter))
@@ -338,7 +345,7 @@ class CampaignOcr(ModuleBase):
             bool: If clicked
         """
         if self.appear(WITHDRAW, offset=(30, 30)):
-            logger.warning(f'get_chapter_index: WITHDRAW appears')
+            logger.warning('get_chapter_index: WITHDRAW appears')
             raise CampaignNameError
 
     def get_chapter_index(self, skip_first_screenshot=True):
