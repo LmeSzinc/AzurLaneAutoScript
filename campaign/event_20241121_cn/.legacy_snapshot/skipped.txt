@@ -1,2 +1,1 @@
-ttl1.py: top-level If if __name__ == '__main__':
-    cfg = AzurLaneConfig('alas5')
+

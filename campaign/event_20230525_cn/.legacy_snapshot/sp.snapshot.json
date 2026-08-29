@@ -1,0 +1,155 @@
+{
+  "map": {
+    "name": "SP",
+    "shape": "J8",
+    "camera_data_spawn_point": [
+      "E6"
+    ],
+    "map_data": [
+      "++ ++ ++ ME ME ME ME ++ ++ ++",
+      "++ ME ME ME ME ME ME ME ME ++",
+      "ME ME ME ME ++ ++ ME ME ME ME",
+      "ME ME ME ME ++ ++ ME ME ME ME",
+      "ME ME ME ME MB MB ME ME ME ME",
+      "ME ++ ME ME __ __ ME ME ++ ME",
+      "ME ++ ME ME ME ME ME ME ++ ME",
+      "ME ME ME ME SP SP ME ME ME ME"
+    ],
+    "weight_data": [
+      "50 50 50 50 50 50 50 50 50 50",
+      "50 50 50 50 50 50 50 50 50 50",
+      "50 50 50 50 50 50 50 50 50 50",
+      "50 50 50 50 50 50 50 50 50 50",
+      "50 50 50 50 50 50 50 50 50 50",
+      "50 50 50 50 50 50 50 50 50 50",
+      "50 50 50 50 50 50 50 50 50 50",
+      "50 50 50 50 50 50 50 50 50 50"
+    ],
+    "spawn_data": [
+      {
+        "battle": 0,
+        "siren": 4
+      },
+      {
+        "battle": 1
+      },
+      {
+        "battle": 2
+      },
+      {
+        "battle": 3
+      },
+      {
+        "battle": 4,
+        "enemy": 14
+      },
+      {
+        "battle": 5
+      },
+      {
+        "battle": 6
+      },
+      {
+        "battle": 7,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": null,
+  "config": {
+    "MAP_HAS_SIREN": false,
+    "MAP_HAS_MOVABLE_ENEMY": false,
+    "MAP_HAS_MOVABLE_NORMAL_ENEMY": false,
+    "MAP_HAS_MAP_STORY": true,
+    "MAP_HAS_FLEET_STEP": true,
+    "MAP_HAS_AMBUSH": false,
+    "MAP_HAS_MYSTERY": false,
+    "STAR_REQUIRE_1": 0,
+    "STAR_REQUIRE_2": 0,
+    "STAR_REQUIRE_3": 0,
+    "MAP_IS_ONE_TIME_STAGE": true
+  },
+  "roads": {},
+  "selects": {},
+  "actions": [],
+  "extra_maps": {},
+  "imports": {
+    "location2node": "module.base.utils.location2node",
+    "RequestHumanTakeover": "module.exception.RequestHumanTakeover",
+    "ScriptError": "module.exception.ScriptError",
+    "CampaignBase": "campaign_base.CampaignBase",
+    "ConfigBase": "config_base.ConfigBase",
+    "CampaignMap": "module.map.map_base.CampaignMap",
+    "SelectedGrids": "module.map.map_grids.SelectedGrids",
+    "RoadGrids": "module.map.map_grids.RoadGrids",
+    "logger": "module.logger.logger"
+  },
+  "campaign_base_name": "CampaignBase",
+  "globals": {
+    "actions": {
+      "4": [
+        [
+          "1_R_2_",
+          "1_L_2_",
+          "1_R_2_B"
+        ],
+        [
+          "2_U_2_",
+          "1_S_0_B"
+        ],
+        [
+          "1_L_1_B"
+        ],
+        [
+          "1_U_1_B"
+        ],
+        [
+          "1_U_2_",
+          "1_R_1_B"
+        ],
+        [
+          "1_L_2_",
+          "1_L_1_B"
+        ],
+        [
+          "1_R_2_",
+          "1_R_1_B"
+        ]
+      ],
+      "5": [
+        [
+          "1_L_2_",
+          "1_R_2_",
+          "1_L_2_B"
+        ],
+        [
+          "2_U_2_",
+          "1_S_0_B"
+        ],
+        [
+          "1_RU_2_",
+          "1_RU_2_B"
+        ],
+        [
+          "1_RD_2_B"
+        ],
+        [
+          "1_U_2_B"
+        ],
+        [
+          "1_L_2_",
+          "1_L_1_B"
+        ],
+        [
+          "1_R_2_",
+          "1_L_2_B"
+        ]
+      ]
+    }
+  },
+  "campaign_methods": [
+    "battle_0",
+    "battle_7",
+    "execute_actions"
+  ]
+}

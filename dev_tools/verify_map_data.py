@@ -49,7 +49,7 @@ def check_one(folder, name):
     # converter fidelity: committed yaml must equal the recorded legacy snapshot
     data = load_map_file(str(CAMPAIGN / folder / f'{name}.yaml'))
     for field in ('map', 'config_base', 'config', 'roads', 'selects', 'actions', 'extra_maps',
-                  'imports', 'campaign_base_name'):
+                  'imports', 'campaign_base_name', 'globals'):
         if data.get(field) != snap.get(field):
             errors.append(f'yaml field {field} differs from snapshot')
 

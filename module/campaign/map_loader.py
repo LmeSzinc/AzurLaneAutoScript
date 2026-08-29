@@ -116,13 +116,23 @@ def _resolve_value(folder, value):
         module, attr = '.'.join(parts[:-1]), parts[-1]
         if module:
             if '.' not in module:
-                # same-folder ref: always campaign-internal
-                mod = _legacy_import(folder, module)
+                # same-folder ref: converted maps resolve via the shim module,
+                # legacy files via the legacy import path
+                yaml_path = os.path.join(_CAMPAIGN, folder, f'{module}.yaml')
+                if os.path.exists(yaml_path):
+                    load_map(folder, module)
+                    mod = sys.modules.get(f'campaign.{folder}.{module}')
+                else:
+                    mod = _legacy_import(folder, module)
             elif os.path.exists(os.path.join(_CAMPAIGN, module.split('.')[0])):
-                # campaign-internal: route through _legacy_import so converted
-                # siblings get shim-registered before the legacy import runs
                 segs = module.split('.')
-                mod = _legacy_import('/'.join(segs[:-1]), segs[-1])
+                base_folder, base_module = '/'.join(segs[:-1]), segs[-1]
+                yaml_path = os.path.join(_CAMPAIGN, base_folder, f'{base_module}.yaml')
+                if os.path.exists(yaml_path):
+                    load_map(base_folder, base_module)
+                    mod = sys.modules.get(f'campaign.{base_folder}.{base_module}')
+                else:
+                    mod = _legacy_import(base_folder, base_module)
             else:
                 mod = None
                 for prefix in (f'campaign.{folder}.', 'campaign.', ''):
@@ -226,6 +236,9 @@ def _load_data(folder, name, yaml_path):
         ns[road_name] = _eval_road_expr(expr, ns)
     for sel_name, nodes in data.get('selects', {}).items():
         ns[sel_name] = SelectedGrids([MAP[node2location(n)] for n in nodes])
+    for gname, gvalue in data.get('globals', {}).items():
+        if gname not in ns:
+            ns[gname] = gvalue
     for extra_name, extra in data.get('extra_maps', {}).items():
         ns[extra_name] = _resolve_map(folder, dict(extra['attrs']), extra.get('actions', []))
     # names imported by the legacy file (e.g. EventGrid/W15GridInfo) resolved

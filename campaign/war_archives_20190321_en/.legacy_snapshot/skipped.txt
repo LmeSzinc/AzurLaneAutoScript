@@ -1,3 +1,1 @@
-a1.py: top-level ClassDef class EventGrid(Grid):
 
-    def predict_current_fleet(self):

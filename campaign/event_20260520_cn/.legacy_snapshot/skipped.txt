@@ -1,3 +1,1 @@
-d3.py: top-level ClassDef class GridCurrentFleet(Grid):
 
-    def predict_current_fleet

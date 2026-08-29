@@ -1,0 +1,75 @@
+map:
+  name: TTL1
+  shape: E5
+  camera_data:
+  - C2
+  camera_data_spawn_point:
+  - C2
+  map_data:
+  - ++ ++ -- ++ ++
+  - ++ ++ MB ++ ++
+  - -- -- -- -- --
+  - ++ -- SP -- ++
+  - -- ++ ++ ++ --
+  weight_data:
+  - 50 50 50 50 50
+  - 50 50 50 50 50
+  - 50 50 50 50 50
+  - 50 50 50 50 50
+  - 50 50 50 50 50
+  spawn_data:
+  - battle: 0
+    boss: 1
+config_base: null
+config:
+  MAP_HAS_MAP_STORY: false
+  MAP_HAS_FLEET_STEP: false
+  MAP_HAS_AMBUSH: false
+  MAP_HAS_MYSTERY: false
+  STAR_REQUIRE_1: 0
+  STAR_REQUIRE_2: 0
+  STAR_REQUIRE_3: 0
+  STAGE_ENTRANCE:
+  - half
+  - '20240725'
+  MAP_CHAPTER_SWITCH_20241219: true
+  MAP_IS_ONE_TIME_STAGE: true
+  INTERNAL_LINES_FIND_PEAKS_PARAMETERS:
+    height:
+    - 80
+    - 222
+    width:
+    - 0.9
+    - 10
+    prominence: 10
+    distance: 35
+  EDGE_LINES_FIND_PEAKS_PARAMETERS:
+    height:
+    - 222
+    - 255
+    prominence: 10
+    distance: 50
+    wlen: 1000
+  MAP_ENSURE_EDGE_INSIGHT_CORNER: bottom
+  MAP_SWIPE_MULTIPLY:
+  - 1.107
+  - 1.128
+  MAP_SWIPE_MULTIPLY_MINITOUCH:
+  - 1.071
+  - 1.091
+  MAP_SWIPE_MULTIPLY_MAATOUCH:
+  - 1.04
+  - 1.059
+roads: {}
+selects: {}
+actions: []
+extra_maps: {}
+imports:
+  AzurLaneConfig: module.config.config.AzurLaneConfig
+  CampaignBase: campaign_base.CampaignBase
+  CampaignMap: module.map.map_base.CampaignMap
+  SelectedGrids: module.map.map_grids.SelectedGrids
+  RoadGrids: module.map.map_grids.RoadGrids
+  logger: module.logger.logger
+campaign_base_name: CampaignBase
+globals: {}

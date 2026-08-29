@@ -116,6 +116,8 @@ def convert(path: Path):
     import_map: dict[str, str] = {}  # imported name -> module path (campaign-relative)
     roads = {}
     selects = {}
+    globals_data = {}
+    extra_top = []  # helper classes/functions living in the fragment
     config_base = None
     config = {}
     campaign_nodes = []
@@ -132,6 +134,8 @@ def convert(path: Path):
         if isinstance(node, ast.Expr) and isinstance(node.value, ast.Constant) \
                 and isinstance(node.value.value, str):
             continue  # module docstring
+        if isinstance(node, ast.If) and ast.unparse(node.test).strip() == "__name__ == '__main__'":
+            continue  # debug/screenshot main guard, dropped
         if isinstance(node, (ast.Import, ast.ImportFrom)):
             if isinstance(node, ast.ImportFrom):
                 rel = node.level
@@ -204,6 +208,12 @@ def convert(path: Path):
                     and isinstance(node.value.func, ast.Attribute) \
                     and node.value.func.attr == 'flatten':
                 continue  # A1, B1, ... = MAP.flatten()
+            if isinstance(tgt, ast.Name):
+                try:
+                    globals_data[tgt.id] = safe_eval(node.value)
+                    continue
+                except ValueError:
+                    pass
             skip_reason = f'top-level assign {ast.unparse(node)[:60]}'
             break
         if isinstance(node, ast.Expr) and isinstance(node.value, ast.Call) \
@@ -239,6 +249,15 @@ def convert(path: Path):
                         and isinstance(sub.targets[0], ast.Name) and sub.targets[0].id == 'MAP':
                     continue  # MAP = MAP
                 campaign_nodes.append(sub)
+            continue
+        if isinstance(node, ast.ClassDef):
+            # custom helper classes (e.g. EventGrid(Grid)) live in the fragment
+            # before Campaign; their bases/deps resolve via the imports field
+            extra_top.append(node)
+            continue
+        if isinstance(node, ast.FunctionDef):
+            # module-level helper functions referenced by battle methods
+            extra_top.append(node)
             continue
         skip_reason = f'top-level {type(node).__name__} {ast.unparse(node)[:60]}'
         break
@@ -290,10 +309,12 @@ def convert(path: Path):
         'extra_maps': {k: v for k, v in map_objects.items() if k != 'MAP'},
         'imports': import_map,
         'campaign_base_name': campaign_base_name,
+        'globals': globals_data,
     }
     header = f'class Campaign({campaign_base_name}):' if campaign_base_name else 'class Campaign:'
     body = '\n'.join(textwrap.indent(ast.unparse(n), '    ') for n in campaign_nodes) or '    pass'
-    fragment = header + '\n' + body + '\n'
+    extra_src = '\n\n'.join(ast.unparse(n) for n in extra_top)
+    fragment = (extra_src + '\n\n' if extra_src else '') + header + '\n' + body + '\n'
 
     snapshot = {
         'map': data['map'],
@@ -305,6 +326,7 @@ def convert(path: Path):
         'extra_maps': data['extra_maps'],
         'imports': import_map,
         'campaign_base_name': campaign_base_name,
+        'globals': globals_data,
         'campaign_methods': sorted(
             n.name for n in campaign_nodes if isinstance(n, ast.FunctionDef)
         ),
