@@ -1,0 +1,109 @@
+{
+  "map": {
+    "shape": "I5",
+    "camera_data": [
+      "D3",
+      "E3"
+    ],
+    "camera_data_spawn_point": [
+      "D3"
+    ],
+    "map_data": "\n    ++ ++ ME -- MB ME -- Me --\n    MM ++ ME ME MB ME ++ ME --\n    ME -- Me ++ ++ ++ ++ Me ++\n    -- ++ -- -- ++ SP -- ME --\n    -- ME -- SP ++ SP -- -- --\n",
+    "weight_data": "\n    10 10 30 10 10 10 10 10 10\n    10 10 20 30 10 30 10 10 10\n    30 10 20 10 10 10 10 10 10\n    10 10 10 10 10 10 10 10 10\n    10 30 10 10 10 10 10 10 10\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 3
+      },
+      {
+        "battle": 1,
+        "enemy": 2,
+        "mystery": 1
+      },
+      {
+        "battle": 2,
+        "enemy": 2
+      },
+      {
+        "battle": 3,
+        "enemy": 1
+      },
+      {
+        "battle": 4,
+        "enemy": 1
+      },
+      {
+        "battle": 5,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": null,
+  "config": {
+    "SUBMARINE": 0,
+    "MAP_HAS_MYSTERY": true,
+    "INTERNAL_LINES_HOUGHLINES_THRESHOLD": 40,
+    "EDGE_LINES_HOUGHLINES_THRESHOLD": 40,
+    "COINCIDENT_POINT_ENCOURAGE_DISTANCE": 1.5,
+    "INTERNAL_LINES_FIND_PEAKS_PARAMETERS": {
+      "height": [
+        150,
+        231
+      ],
+      "width": [
+        0.9,
+        10
+      ],
+      "prominence": 10,
+      "distance": 35
+    },
+    "EDGE_LINES_FIND_PEAKS_PARAMETERS": {
+      "height": [
+        231,
+        255
+      ],
+      "prominence": 10,
+      "distance": 50,
+      "width": [
+        0,
+        10
+      ],
+      "wlen": 1000
+    },
+    "HOMO_EDGE_HOUGHLINES_THRESHOLD": 210
+  },
+  "roads": {
+    "road_main": {
+      "roadgrids": [
+        [
+          "C3"
+        ],
+        [
+          "C2"
+        ],
+        [
+          "C1",
+          "D2"
+        ],
+        [
+          "F1"
+        ],
+        [
+          "H1"
+        ],
+        [
+          "H2"
+        ],
+        [
+          "H3"
+        ],
+        [
+          "H4"
+        ]
+      ]
+    }
+  },
+  "selects": {},
+  "actions": [],
+  "extra_maps": {}
+}

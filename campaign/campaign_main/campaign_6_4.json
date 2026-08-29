@@ -1,0 +1,141 @@
+{
+  "map": {
+    "shape": "H6",
+    "camera_data": [
+      "D2",
+      "D4",
+      "E2",
+      "E4"
+    ],
+    "camera_data_spawn_point": [
+      "D2",
+      "D4"
+    ],
+    "map_data": "\n    -- ME MB MB -- ME ++ ++\n    MB SP ME -- ME MM MA ++\n    -- ++ ME -- -- ME SP ME\n    ME __ -- ME ME __ ME MB\n    -- ME -- MB ++ ME -- ME\n    MB ME -- SP -- ME -- --\n",
+    "weight_data": "\n    50 40 40 40 50 50 50 50\n    40 40 20 20 20 20 50 50\n    10 50 10 10 10 10 10 20\n    10 10 10 10 30 30 30 40\n    10 20 20 40 40 50 50 50\n    30 40 30 50 50 50 50 50\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 4
+      },
+      {
+        "battle": 1,
+        "enemy": 2
+      },
+      {
+        "battle": 2,
+        "enemy": 2
+      },
+      {
+        "battle": 3,
+        "enemy": 1,
+        "mystery": 1
+      },
+      {
+        "battle": 4,
+        "enemy": 1
+      },
+      {
+        "battle": 5,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": null,
+  "config": {
+    "FLEET_BOSS": 1,
+    "MAP_MYSTERY_HAS_CARRIER": true
+  },
+  "roads": {
+    "road_boss": {
+      "roadgrids": [
+        [
+          "A5",
+          "B6"
+        ],
+        [
+          "A4",
+          "B5",
+          "B6"
+        ],
+        [
+          "C4"
+        ],
+        [
+          "C5"
+        ],
+        [
+          "C3",
+          "D4"
+        ],
+        [
+          "D3"
+        ],
+        [
+          "C5",
+          "D3"
+        ],
+        [
+          "B1",
+          "B2"
+        ],
+        [
+          "B1",
+          "C2"
+        ],
+        [
+          "C1",
+          "C2"
+        ],
+        [
+          "C2",
+          "D1"
+        ],
+        [
+          "C2",
+          "D2"
+        ],
+        [
+          "H3",
+          "G4"
+        ],
+        [
+          "G3",
+          "G4"
+        ],
+        [
+          "F3",
+          "G4"
+        ],
+        [
+          "F3",
+          "F4"
+        ],
+        [
+          "F2",
+          "F3",
+          "E4"
+        ],
+        [
+          "E2",
+          "F3",
+          "E4"
+        ],
+        [
+          "E3"
+        ]
+      ]
+    }
+  },
+  "selects": {
+    "step_on": [
+      "C2",
+      "C3",
+      "D4",
+      "F3",
+      "G4"
+    ]
+  },
+  "actions": [],
+  "extra_maps": {}
+}

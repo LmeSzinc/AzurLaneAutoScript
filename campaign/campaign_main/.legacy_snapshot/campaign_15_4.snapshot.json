@@ -1,0 +1,101 @@
+{
+  "map": {
+    "grid_class": {
+      "__ref__": "campaign_15_base.W15GridInfo"
+    },
+    "shape": "K9",
+    "camera_data": [
+      "C2",
+      "C5",
+      "C7",
+      "F2",
+      "F5",
+      "F7",
+      "H2",
+      "H5",
+      "H7"
+    ],
+    "camera_data_spawn_point": [
+      "H2"
+    ],
+    "camera_sight": [
+      -2,
+      -1,
+      3,
+      2
+    ],
+    "map_data": "\n    Me -- ME ME Me -- ME ++ ++ ME ME\n    ME -- -- -- -- ME -- ++ ++ -- ME\n    ++ -- -- MS -- -- ME SP SP ME Me\n    ++ ME -- ++ ++ -- -- -- -- ME --\n    -- Me ME MA ++ ME -- MS -- -- ME\n    ME ME ME -- -- -- -- ++ ME -- Me\n    ME -- __ -- ME ME -- ME ME -- ++\n    -- -- ++ -- Me -- ME ME ME Me ME\n    MB Me -- ME ME Me ++ ++ ++ -- Me\n",
+    "weight_data": "\n    50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 8
+      },
+      {
+        "battle": 1,
+        "enemy": 1
+      },
+      {
+        "battle": 2,
+        "enemy": 1
+      },
+      {
+        "battle": 3,
+        "enemy": 1,
+        "siren": 1
+      },
+      {
+        "battle": 4,
+        "enemy": 2
+      },
+      {
+        "battle": 5
+      },
+      {
+        "battle": 6,
+        "siren": 1
+      },
+      {
+        "battle": 7,
+        "enemy": 1
+      },
+      {
+        "battle": 8,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": "campaign_15_base",
+  "config": {
+    "MAP_HAS_MAP_STORY": false,
+    "MAP_HAS_FLEET_STEP": false,
+    "MAP_HAS_AMBUSH": true,
+    "MAP_SWIPE_MULTIPLY": [
+      1.055,
+      1.075
+    ],
+    "MAP_SWIPE_MULTIPLY_MINITOUCH": [
+      1.02,
+      1.039
+    ],
+    "MAP_SWIPE_MULTIPLY_MAATOUCH": [
+      0.99,
+      1.008
+    ]
+  },
+  "roads": {},
+  "selects": {},
+  "actions": [],
+  "extra_maps": {},
+  "campaign_methods": [
+    "battle_0",
+    "battle_1",
+    "battle_2",
+    "battle_3",
+    "battle_4",
+    "battle_6",
+    "battle_7",
+    "battle_8",
+    "battle_function"
+  ]
+}

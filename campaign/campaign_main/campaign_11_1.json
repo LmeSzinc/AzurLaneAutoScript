@@ -1,0 +1,76 @@
+{
+  "map": {
+    "shape": "H6",
+    "camera_data": [
+      "D3",
+      "E4"
+    ],
+    "camera_data_spawn_point": [
+      "D4"
+    ],
+    "map_data": "\n    -- -- ME -- ME -- -- MB\n    MB ME __ ME -- ++ ++ --\n    ++ Me -- ++ ME MB ++ ME\n    -- -- ++ ++ __ ME ME --\n    SP -- -- -- Me ME -- ++\n    ++ SP -- -- ++ -- MB ++\n",
+    "weight_data": "\n    90 90 90 90 90 90 90 90\n    90 90 90 90 90 90 90 90\n    90 90 90 90 90 90 90 90\n    90 90 90 90 90 90 90 90\n    90 90 90 90 90 90 90 90\n    90 90 90 90 90 90 90 90\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 2
+      },
+      {
+        "battle": 1,
+        "enemy": 2
+      },
+      {
+        "battle": 2,
+        "enemy": 1
+      },
+      {
+        "battle": 3,
+        "enemy": 1
+      },
+      {
+        "battle": 4,
+        "enemy": 1
+      },
+      {
+        "battle": 5
+      },
+      {
+        "battle": 6,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": null,
+  "config": {
+    "INTERNAL_LINES_HOUGHLINES_THRESHOLD": 30,
+    "EDGE_LINES_HOUGHLINES_THRESHOLD": 30,
+    "COINCIDENT_POINT_ENCOURAGE_DISTANCE": 1.2
+  },
+  "roads": {
+    "road_main": {
+      "roadgrids": [
+        [
+          "B2"
+        ],
+        [
+          "B3"
+        ],
+        [
+          "E5"
+        ],
+        [
+          "F4"
+        ],
+        [
+          "G4"
+        ],
+        [
+          "H3"
+        ]
+      ]
+    }
+  },
+  "selects": {},
+  "actions": [],
+  "extra_maps": {}
+}

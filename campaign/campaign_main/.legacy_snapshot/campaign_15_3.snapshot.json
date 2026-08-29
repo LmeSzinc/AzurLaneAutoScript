@@ -1,0 +1,74 @@
+{
+  "map": {
+    "grid_class": {
+      "__ref__": "campaign_15_base.W15GridInfo"
+    },
+    "shape": "J8",
+    "camera_data": [
+      "C2",
+      "C6",
+      "G2",
+      "G6"
+    ],
+    "camera_data_spawn_point": [
+      "G6"
+    ],
+    "camera_sight": [
+      -2,
+      -1,
+      3,
+      2
+    ],
+    "map_data": "\n    Me -- ++ ME ME ME -- ME -- ME\n    -- ME ++ Me -- Me ME Me ME --\n    ME Me ME ME Me -- ++ MB -- ME\n    ++ -- -- ME ME Me ++ ++ __ ME\n    Me ME -- ++ Me -- ME MS -- Me\n    ME ME -- -- ME ME ME -- -- ME\n    Me -- __ -- -- ME -- -- ++ ++\n    ++ ++ ++ Me -- -- SP SP ++ ++\n",
+    "weight_data": "\n    50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 5
+      },
+      {
+        "battle": 1,
+        "enemy": 2
+      },
+      {
+        "battle": 2,
+        "enemy": 1
+      },
+      {
+        "battle": 3,
+        "enemy": 1,
+        "siren": 1
+      },
+      {
+        "battle": 4,
+        "enemy": 2
+      },
+      {
+        "battle": 5
+      },
+      {
+        "battle": 6,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": "campaign_15_base",
+  "config": {
+    "MAP_HAS_MAP_STORY": false,
+    "MAP_HAS_FLEET_STEP": false,
+    "MAP_HAS_AMBUSH": true
+  },
+  "roads": {},
+  "selects": {},
+  "actions": [],
+  "extra_maps": {},
+  "campaign_methods": [
+    "battle_0",
+    "battle_1",
+    "battle_3",
+    "battle_4",
+    "battle_5",
+    "battle_6",
+    "battle_function"
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "map": {
+    "shape": "F6",
+    "camera_data": [
+      "C2",
+      "C4"
+    ],
+    "camera_data_spawn_point": [
+      "C2"
+    ],
+    "map_data": "\n    ME -- SP -- -- SP\n    -- -- -- -- -- ME\n    ME ME ++ ++ ME SP\n    -- -- MB ++ -- ME\n    ME -- ME MM ME --\n    -- MB ++ ++ ++ ++\n",
+    "weight_data": "\n    50 50 50 50 50 50\n    50 10 10 10 10 20\n    20 10 10 10 10 20\n    20 10 10 10 10 20\n    50 10 10 10 10 20\n    50 10 50 50 50 50\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 2,
+        "mystery": 1
+      },
+      {
+        "battle": 1,
+        "enemy": 2
+      },
+      {
+        "battle": 2,
+        "enemy": 1
+      },
+      {
+        "battle": 3,
+        "enemy": 1,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": null,
+  "config": {
+    "FLEET_BOSS": 1,
+    "MAP_MYSTERY_HAS_CARRIER": true,
+    "INTERNAL_LINES_FIND_PEAKS_PARAMETERS": {
+      "height": [
+        120,
+        222
+      ],
+      "width": [
+        1.5,
+        10
+      ],
+      "prominence": 10,
+      "distance": 35
+    },
+    "EDGE_LINES_FIND_PEAKS_PARAMETERS": {
+      "height": [
+        222,
+        255
+      ],
+      "prominence": 10,
+      "distance": 50,
+      "wlen": 1000
+    },
+    "HOMO_EDGE_COLOR_RANGE": [
+      0,
+      33
+    ],
+    "HOMO_EDGE_HOUGHLINES_THRESHOLD": 210
+  },
+  "roads": {},
+  "selects": {},
+  "actions": [],
+  "extra_maps": {},
+  "campaign_methods": [
+    "battle_0",
+    "battle_3"
+  ]
+}

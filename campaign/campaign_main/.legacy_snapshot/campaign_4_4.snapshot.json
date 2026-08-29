@@ -1,0 +1,74 @@
+{
+  "map": {
+    "shape": "H6",
+    "camera_data": [
+      "D2",
+      "D4"
+    ],
+    "camera_data_spawn_point": [
+      "E2",
+      "E4"
+    ],
+    "map_data": "\n    ++ ++ MB ME SP -- ++ ++\n    ++ ++ ME __ ME ME ++ ++\n    ++ ++ -- ME -- -- -- SP\n    ++ ++ -- ME ++ ME -- --\n    ++ ++ ME -- ++ -- ME --\n    MB ME -- ME -- ME -- SP\n",
+    "weight_data": "\n    50 50 10 20 50 50 50 50\n    50 50 10 20 50 50 50 50\n    50 50 10 20 50 50 50 50\n    50 50 10 20 50 50 50 50\n    50 50 10 20 50 50 50 50\n    10 10 10 20 50 50 50 50\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 3
+      },
+      {
+        "battle": 1,
+        "enemy": 1
+      },
+      {
+        "battle": 2,
+        "enemy": 2
+      },
+      {
+        "battle": 3,
+        "enemy": 1
+      },
+      {
+        "battle": 4,
+        "enemy": 2,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": null,
+  "config": {
+    "MAP_MYSTERY_HAS_CARRIER": false
+  },
+  "roads": {
+    "road_main": {
+      "roadgrids": [
+        [
+          "B6"
+        ],
+        [
+          "C4",
+          "D6"
+        ],
+        [
+          "C5",
+          "D4"
+        ],
+        [
+          "D3",
+          "C2"
+        ],
+        [
+          "C2",
+          "D1"
+        ]
+      ]
+    }
+  },
+  "selects": {},
+  "actions": [],
+  "extra_maps": {},
+  "campaign_methods": [
+    "battle_0",
+    "battle_4"
+  ]
+}

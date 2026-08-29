@@ -1,0 +1,49 @@
+{
+  "map": {
+    "shape": "H5",
+    "camera_data": [
+      "D3",
+      "E3"
+    ],
+    "camera_data_spawn_point": [
+      "D2",
+      "D3"
+    ],
+    "map_data": "\n    ++ ++ ++ -- MB -- ME SP\n    SP -- ME -- ++ ++ -- ME\n    -- ME -- -- MB ++ MB --\n    -- -- ME -- ME -- -- ME\n    ME -- SP ME -- ME ME MM\n",
+    "weight_data": "\n    50 50 50 10 10 20 20 30\n    50 50 30 10 10 10 20 30\n    50 30 30 10 10 10 10 30\n    50 50 30 10 10 10 10 20\n    50 50 50 30 30 30 20 20\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 2,
+        "mystery": 1
+      },
+      {
+        "battle": 1,
+        "enemy": 1
+      },
+      {
+        "battle": 2,
+        "enemy": 2
+      },
+      {
+        "battle": 3,
+        "enemy": 1
+      },
+      {
+        "battle": 4,
+        "enemy": 1,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": null,
+  "config": {},
+  "roads": {},
+  "selects": {},
+  "actions": [],
+  "extra_maps": {},
+  "campaign_methods": [
+    "battle_0",
+    "battle_4"
+  ]
+}

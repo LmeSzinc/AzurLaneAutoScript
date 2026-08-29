@@ -1,0 +1,87 @@
+{
+  "map": {
+    "shape": "H5",
+    "camera_data": [
+      "D2",
+      "D3"
+    ],
+    "camera_data_spawn_point": [
+      "D2",
+      "D3"
+    ],
+    "map_data": "\n    ME ++ ME -- ME ME -- SP\n    MM ++ ++ MM -- -- ME --\n    ME -- ME MB ME -- ME MM\n    -- ME -- MM -- ME ++ ++\n    SP -- ME ME -- ME ++ ++\n",
+    "weight_data": "\n    40 30 30 30 30 30 30 30\n    20 20 20 10 20 20 20 20\n    10 10 10 10 10 10 10 10\n    20 20 20 10 20 20 20 20\n    30 30 30 30 30 30 30 30\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 3
+      },
+      {
+        "battle": 1,
+        "enemy": 2,
+        "mystery": 1
+      },
+      {
+        "battle": 2,
+        "enemy": 2,
+        "mystery": 1
+      },
+      {
+        "battle": 3,
+        "enemy": 1,
+        "mystery": 2
+      },
+      {
+        "battle": 4,
+        "enemy": 1
+      },
+      {
+        "battle": 5,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": null,
+  "config": {
+    "SUBMARINE": 0
+  },
+  "roads": {
+    "ROAD_MAIN": {
+      "roadgrids": [
+        [
+          "A3"
+        ],
+        [
+          "C3",
+          "B4",
+          "C5"
+        ],
+        [
+          "F1",
+          "G2",
+          "G3"
+        ]
+      ]
+    }
+  },
+  "selects": {
+    "GRIDS_FOR_FASTER": [
+      "A3",
+      "C3",
+      "E3",
+      "G3"
+    ],
+    "FLEET_2_STEP_ON": [
+      "A3",
+      "G3",
+      "C3",
+      "E3"
+    ]
+  },
+  "actions": [],
+  "extra_maps": {},
+  "campaign_methods": [
+    "battle_0",
+    "battle_5"
+  ]
+}

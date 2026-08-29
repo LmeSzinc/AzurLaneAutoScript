@@ -1,0 +1,117 @@
+{
+  "map": {
+    "shape": "H6",
+    "camera_data": [
+      "C2",
+      "C4",
+      "E2",
+      "E4"
+    ],
+    "camera_data_spawn_point": [
+      "D2",
+      "D4"
+    ],
+    "map_data": "\n    MB ME ME -- ++ ++ ++ MB\n    ME __ -- ME SP -- SP --\n    -- ++ ME -- -- ME -- ME\n    ME ++ ++ ++ ME -- ME --\n    SP -- MA ++ ME ++ __ ME\n    MM -- MM ME -- ME MB --\n",
+    "weight_data": "\n    10 20 50 10 10 10 10 10\n    04 10 10 07 10 10 10 10\n    10 10 05 10 10 40 10 20\n    04 50 50 50 30 10 06 10\n    50 50 50 50 30 10 10 20\n    50 50 50 50 30 30 10 30\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 3
+      },
+      {
+        "battle": 1,
+        "enemy": 2
+      },
+      {
+        "battle": 2,
+        "enemy": 3,
+        "mystery": 1
+      },
+      {
+        "battle": 3,
+        "enemy": 2,
+        "mystery": 1
+      },
+      {
+        "battle": 4,
+        "enemy": 2
+      },
+      {
+        "battle": 5,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": null,
+  "config": {
+    "INTERNAL_LINES_HOUGHLINES_THRESHOLD": 40,
+    "COINCIDENT_POINT_ENCOURAGE_DISTANCE": 1.5,
+    "HOMO_EDGE_HOUGHLINES_THRESHOLD": 210
+  },
+  "roads": {
+    "road_a1": {
+      "roadgrids": [
+        [
+          "A2"
+        ],
+        [
+          "C3",
+          "D2"
+        ]
+      ]
+    },
+    "road_g6": {
+      "roadgrids": [
+        [
+          "G4"
+        ]
+      ]
+    },
+    "roads": {
+      "list": [
+        {
+          "ref": "road_a1"
+        },
+        {
+          "ref": "road_g6"
+        }
+      ]
+    },
+    "road_a5": {
+      "combine": [
+        {
+          "roadgrids": [
+            [
+              "A4"
+            ],
+            [
+              "A2"
+            ],
+            [
+              "C3",
+              "D2"
+            ]
+          ]
+        },
+        {
+          "roadgrids": [
+            [
+              "G4"
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  "selects": {
+    "fleet_2_step_on": [
+      "A4",
+      "A2",
+      "G4",
+      "D2",
+      "C3"
+    ]
+  },
+  "actions": [],
+  "extra_maps": {}
+}

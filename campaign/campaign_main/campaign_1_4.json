@@ -1,0 +1,35 @@
+{
+  "map": {
+    "shape": "G3",
+    "camera_data": [
+      "D1"
+    ],
+    "camera_data_spawn_point": [
+      "D1"
+    ],
+    "map_data": "\n    SP -- ME -- ++ ++ ++\n    ++ ++ ME -- MA ++ ++\n    ++ ++ ++ ME -- ME MB\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 2
+      },
+      {
+        "battle": 1,
+        "enemy": 1
+      },
+      {
+        "battle": 2
+      },
+      {
+        "battle": 3,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": null,
+  "config": {},
+  "roads": {},
+  "selects": {},
+  "actions": [],
+  "extra_maps": {}
+}

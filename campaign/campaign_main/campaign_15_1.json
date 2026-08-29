@@ -1,0 +1,60 @@
+{
+  "map": {
+    "shape": "H7",
+    "camera_data": [
+      "C2",
+      "C5",
+      "E2",
+      "E5"
+    ],
+    "camera_data_spawn_point": [
+      "C5"
+    ],
+    "camera_sight": [
+      -2,
+      -1,
+      3,
+      2
+    ],
+    "map_data": "\n    Me Me ME ++ ME MB ++ ++\n    ME ME Me ME Me -- MB ++\n    ++ Me ME -- Me -- -- MB\n    ++ ME -- -- -- __ Me --\n    -- ME -- ME ME Me -- ME\n    ME -- -- ME ++ -- ME --\n    -- SP SP -- Me -- ME --\n",
+    "weight_data": "\n    50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 5
+      },
+      {
+        "battle": 1,
+        "enemy": 2
+      },
+      {
+        "battle": 2,
+        "enemy": 1
+      },
+      {
+        "battle": 3
+      },
+      {
+        "battle": 4
+      },
+      {
+        "battle": 5
+      },
+      {
+        "battle": 6,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": "campaign_15_base",
+  "config": {
+    "MAP_HAS_MAP_STORY": false,
+    "MAP_HAS_FLEET_STEP": false,
+    "MAP_HAS_AMBUSH": true,
+    "MAP_WALK_USE_CURRENT_FLEET": true
+  },
+  "roads": {},
+  "selects": {},
+  "actions": [],
+  "extra_maps": {}
+}

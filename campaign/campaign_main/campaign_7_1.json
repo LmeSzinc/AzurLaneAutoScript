@@ -1,0 +1,60 @@
+{
+  "map": {
+    "shape": "H3",
+    "camera_data": [
+      "C1",
+      "E1"
+    ],
+    "camera_data_spawn_point": [
+      "C1"
+    ],
+    "map_data": "\n    -- ME ME MM ME -- ++ ++\n    SP ME ++ ++ ME ME ++ ++\n    SP -- ++ ++ -- ME ME MB\n",
+    "weight_data": "\n    40 30 21 20 17 15 50 50\n    40 40 50 50 16 13 50 50\n    40 40 50 50 14 12 11 10\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 3
+      },
+      {
+        "battle": 1,
+        "enemy": 2
+      },
+      {
+        "battle": 2,
+        "enemy": 2
+      },
+      {
+        "battle": 3,
+        "enemy": 1,
+        "mystery": 1
+      },
+      {
+        "battle": 4
+      },
+      {
+        "battle": 5,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": null,
+  "config": {
+    "SUBMARINE": 0,
+    "FLEET_BOSS": 2,
+    "INTERNAL_LINES_HOUGHLINES_THRESHOLD": 40,
+    "EDGE_LINES_HOUGHLINES_THRESHOLD": 40,
+    "COINCIDENT_POINT_ENCOURAGE_DISTANCE": 1.5,
+    "MID_DIFF_RANGE_H": [
+      137,
+      143
+    ],
+    "MID_DIFF_RANGE_V": [
+      140,
+      146
+    ]
+  },
+  "roads": {},
+  "selects": {},
+  "actions": [],
+  "extra_maps": {}
+}

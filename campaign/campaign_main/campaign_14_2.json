@@ -1,0 +1,78 @@
+{
+  "map": {
+    "shape": "I8",
+    "camera_data": [
+      "D2",
+      "D6",
+      "F2",
+      "F6"
+    ],
+    "camera_data_spawn_point": [
+      "F2"
+    ],
+    "map_data": "\n    MB MB ++ -- ME -- ME ++ ++\n    -- ME ++ ME -- Me -- SP SP\n    -- -- Me Me Me -- -- ME ME\n    ME __ -- Me -- ME -- -- ME\n    MM ME -- -- Me -- -- ME ++\n    ++ ++ ++ -- ++ -- ME ME ME\n    Me MB ME __ -- -- Me MM ME\n    ME -- -- -- ME ME ++ ++ ME\n",
+    "weight_data": "\n    50 50 50 60 60 60 50 50 50\n    50 50 50 60 60 50 50 50 50\n    50 50 50 60 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 60 70\n    50 50 50 50 50 50 50 60 80\n    50 50 50 50 50 50 50 50 90\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 3
+      },
+      {
+        "battle": 1,
+        "enemy": 2
+      },
+      {
+        "battle": 2,
+        "enemy": 2
+      },
+      {
+        "battle": 3,
+        "enemy": 1
+      },
+      {
+        "battle": 4,
+        "enemy": 1
+      },
+      {
+        "battle": 5
+      },
+      {
+        "battle": 6,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": "campaign_14_base",
+  "config": {
+    "MAP_HAS_MAP_STORY": false,
+    "MAP_HAS_FLEET_STEP": false,
+    "MAP_HAS_AMBUSH": true
+  },
+  "roads": {
+    "road_H7": {
+      "roadgrids": [
+        [
+          "G6",
+          "G7",
+          "H6"
+        ],
+        [
+          "G6",
+          "G7",
+          "H7"
+        ]
+      ]
+    },
+    "road_A5": {
+      "roadgrids": [
+        [
+          "A4",
+          "B5"
+        ]
+      ]
+    }
+  },
+  "selects": {},
+  "actions": [],
+  "extra_maps": {}
+}

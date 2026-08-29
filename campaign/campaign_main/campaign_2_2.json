@@ -1,0 +1,39 @@
+{
+  "map": {
+    "shape": "G5",
+    "camera_data": [
+      "D3"
+    ],
+    "camera_data_spawn_point": [
+      "D3"
+    ],
+    "map_data": "\n    ++ ++ ++ MB ++ ++ ++\n    ++ ++ ++ ME MA ++ ++\n    -- ME -- ME -- -- ME\n    SP -- ME -- -- ME ME\n    -- ME -- -- SP ME MM\n",
+    "weight_data": "\n    10 10 10 10 10 10 10\n    10 10 10 10 10 10 10\n    50 50 50 50 50 50 50\n    30 30 30 30 30 30 30\n    30 30 30 30 30 30 30\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 2,
+        "mystery": 1
+      },
+      {
+        "battle": 1,
+        "enemy": 2
+      },
+      {
+        "battle": 2,
+        "enemy": 1
+      },
+      {
+        "battle": 3,
+        "enemy": 2,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": null,
+  "config": {},
+  "roads": {},
+  "selects": {},
+  "actions": [],
+  "extra_maps": {}
+}

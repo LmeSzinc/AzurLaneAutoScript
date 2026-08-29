@@ -1,0 +1,136 @@
+{
+  "map": {
+    "shape": "I6",
+    "camera_data": [
+      "D2",
+      "F4"
+    ],
+    "camera_data_spawn_point": [
+      "D4"
+    ],
+    "map_data": "\n    MB ME ME -- ++ MB -- ++ ++\n    ME ME ++ ME ++ -- Me -- ++\n    -- __ ME Me ME ++ ME ME --\n    ++ ++ ++ -- ME -- Me ++ ME\n    SP -- -- Me -- ++ __ ME --\n    SP -- -- -- Me ++ ME -- MB\n",
+    "weight_data": "\n    10 30 30 10 10 10 10 10 10\n    5 30 10 30 10 10 5 10 10\n    10 10 5 4 30 10 5 30 10\n    10 10 10 10 10 10 5 10 30\n    10 10 10 10 10 10 10 30 10\n    10 10 10 10 30 10 5 10 10\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 4
+      },
+      {
+        "battle": 1,
+        "enemy": 2
+      },
+      {
+        "battle": 2,
+        "enemy": 2
+      },
+      {
+        "battle": 3,
+        "enemy": 1
+      },
+      {
+        "battle": 4,
+        "enemy": 1
+      },
+      {
+        "battle": 5
+      },
+      {
+        "battle": 6,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": null,
+  "config": {
+    "INTERNAL_LINES_HOUGHLINES_THRESHOLD": 40,
+    "EDGE_LINES_HOUGHLINES_THRESHOLD": 40,
+    "COINCIDENT_POINT_ENCOURAGE_DISTANCE": 1.5,
+    "INTERNAL_LINES_FIND_PEAKS_PARAMETERS": {
+      "height": [
+        150,
+        231
+      ],
+      "width": [
+        0.9,
+        10
+      ],
+      "prominence": 10,
+      "distance": 35
+    },
+    "EDGE_LINES_FIND_PEAKS_PARAMETERS": {
+      "height": [
+        231,
+        255
+      ],
+      "prominence": 10,
+      "distance": 50,
+      "width": [
+        0,
+        10
+      ],
+      "wlen": 1000
+    },
+    "MAP_ENSURE_EDGE_INSIGHT_CORNER": "bottom"
+  },
+  "roads": {
+    "road_main": {
+      "roadgrids": [
+        [
+          "D5"
+        ],
+        [
+          "E4"
+        ],
+        [
+          "D3"
+        ],
+        [
+          "C3"
+        ],
+        [
+          "A2"
+        ],
+        [
+          "G4"
+        ],
+        [
+          "H5"
+        ],
+        [
+          "G3"
+        ],
+        [
+          "G2"
+        ]
+      ]
+    },
+    "roadblocks_d4": {
+      "roadgrids": [
+        [
+          "D5",
+          "E6"
+        ],
+        [
+          "E4"
+        ],
+        [
+          "D3"
+        ]
+      ]
+    }
+  },
+  "selects": {
+    "step_on": [
+      "E4",
+      "D3",
+      "G4",
+      "C3"
+    ]
+  },
+  "actions": [],
+  "extra_maps": {},
+  "campaign_methods": [
+    "battle_0",
+    "battle_6"
+  ]
+}

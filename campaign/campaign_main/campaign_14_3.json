@@ -1,0 +1,84 @@
+{
+  "map": {
+    "shape": "J8",
+    "camera_data": [
+      "D2",
+      "D6",
+      "G2",
+      "G6"
+    ],
+    "camera_data_spawn_point": [
+      "G2"
+    ],
+    "map_data": "\n    ME ++ ++ ++ -- ME ++ ++ ME ME\n    -- Me ME -- ME -- ++ ++ ME --\n    MB -- ME ME -- -- SP SP ME Me\n    -- __ -- ++ -- ME Me -- ME --\n    MB -- Me MM -- ME -- Me ++ ++\n    ME -- Me ME -- Me ME ME ME ++\n    ++ -- ME __ ME Me ++ Me ME --\n    MB -- MB MB -- ++ ++ -- ME --\n",
+    "weight_data": "\n    50 50 40 40 40 50 50 50 50 50\n    50 50 40 40 40 50 50 50 50 50\n    50 50 40 40 50 50 50 50 50 50\n    50 50 40 40 50 50 50 50 50 50\n    50 50 40 40 50 50 50 50 50 50\n    50 50 40 40 50 50 50 50 50 50\n    50 50 40 40 40 50 50 50 50 50\n    50 50 40 40 40 50 50 50 50 50\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 4
+      },
+      {
+        "battle": 1,
+        "enemy": 3
+      },
+      {
+        "battle": 2,
+        "enemy": 2
+      },
+      {
+        "battle": 3,
+        "enemy": 1
+      },
+      {
+        "battle": 4,
+        "enemy": 1
+      },
+      {
+        "battle": 5
+      },
+      {
+        "battle": 6,
+        "boss": 1
+      }
+    ],
+    "spawn_data_loop": [
+      {
+        "battle": 0,
+        "enemy": 3
+      },
+      {
+        "battle": 1,
+        "enemy": 3
+      },
+      {
+        "battle": 2,
+        "enemy": 2
+      },
+      {
+        "battle": 3,
+        "enemy": 1
+      },
+      {
+        "battle": 4,
+        "enemy": 1
+      },
+      {
+        "battle": 5
+      },
+      {
+        "battle": 6,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": "campaign_14_base",
+  "config": {
+    "MAP_HAS_MAP_STORY": false,
+    "MAP_HAS_FLEET_STEP": false,
+    "MAP_HAS_AMBUSH": true
+  },
+  "roads": {},
+  "selects": {},
+  "actions": [],
+  "extra_maps": {}
+}

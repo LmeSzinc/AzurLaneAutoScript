@@ -1,0 +1,159 @@
+{
+  "map": {
+    "shape": "H5",
+    "camera_data": [
+      "D2",
+      "D3",
+      "E3"
+    ],
+    "camera_data_spawn_point": [
+      "E3"
+    ],
+    "map_data": "\n    MB ME -- ++ ++ ME -- MB\n    ME ME ME -- ++ ME ME --\n    -- ME -- ME ME -- ME ME\n    ME ++ ++ -- ME ++ ++ ME\n    MM ++ ++ ME ME SP -- SP\n",
+    "weight_data": "\n    50 35 20 90 90 40 50 50\n    30 40 25 90 90 25 30 50\n    20 20 20 10 10 20 20 35\n    50 90 90 60 60 90 90 90\n    90 90 90 70 80 90 90 90\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 3
+      },
+      {
+        "battle": 1,
+        "enemy": 2,
+        "mystery": 1
+      },
+      {
+        "battle": 2,
+        "enemy": 2
+      },
+      {
+        "battle": 3,
+        "enemy": 1
+      },
+      {
+        "battle": 4,
+        "enemy": 1,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": "campaign_8_1",
+  "config": {
+    "HOMO_EDGE_HOUGHLINES_THRESHOLD": 210
+  },
+  "roads": {
+    "road_A1": {
+      "roadgrids": [
+        [
+          "A2",
+          "B1"
+        ],
+        [
+          "B1",
+          "B2",
+          "B3"
+        ],
+        [
+          "A2",
+          "B2",
+          "C2"
+        ],
+        [
+          "B3",
+          "C2"
+        ],
+        [
+          "D3"
+        ]
+      ]
+    },
+    "road_H1": {
+      "roadgrids": [
+        [
+          "F1",
+          "G2",
+          "H3"
+        ],
+        [
+          "F1",
+          "G2",
+          "G3"
+        ],
+        [
+          "F2",
+          "G2",
+          "H3"
+        ],
+        [
+          "F2",
+          "G3"
+        ],
+        [
+          "E3"
+        ]
+      ]
+    },
+    "road_MY": {
+      "roadgrids": [
+        [
+          "A4"
+        ],
+        [
+          "A2",
+          "B3"
+        ]
+      ]
+    },
+    "road_middle": {
+      "combine": [
+        {
+          "roadgrids": [
+            [
+              "E5"
+            ],
+            [
+              "D5",
+              "E4"
+            ],
+            [
+              "D3"
+            ]
+          ]
+        },
+        {
+          "roadgrids": [
+            [
+              "H4"
+            ],
+            [
+              "H3"
+            ],
+            [
+              "F1",
+              "G2",
+              "G3"
+            ],
+            [
+              "F2",
+              "G3"
+            ],
+            [
+              "E3"
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  "selects": {
+    "step_on": [
+      "D3",
+      "E3"
+    ]
+  },
+  "actions": [],
+  "extra_maps": {},
+  "campaign_methods": [
+    "battle_0",
+    "battle_4"
+  ]
+}

@@ -1,0 +1,129 @@
+{
+  "map": {
+    "shape": "H5",
+    "camera_data": [
+      "E3"
+    ],
+    "camera_data_spawn_point": [
+      "C1",
+      "C3"
+    ],
+    "map_data": "\n    SP -- ++ ++ ++ Me -- MB\n    ++ -- ++ ++ ++ ME ++ ++\n    -- ME -- ME ME Me ++ ++\n    -- -- ++ -- ME ++ ME MB\n    SP SP ++ ME -- Me ME ME\n",
+    "weight_data": "\n    90 90 90 90 90 30 30 30\n    90 90 90 90 90 30 90 90\n    90 80 70 60 50 30 90 90\n    90 90 90 90 50 90 30 30\n    90 90 90 90 40 40 30 30\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 3
+      },
+      {
+        "battle": 1,
+        "enemy": 2
+      },
+      {
+        "battle": 2,
+        "enemy": 1
+      },
+      {
+        "battle": 3,
+        "enemy": 1
+      },
+      {
+        "battle": 4,
+        "enemy": 1
+      },
+      {
+        "battle": 5,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": null,
+  "config": {
+    "SUBMARINE": 0,
+    "HOMO_STORAGE": [
+      [
+        9,
+        5
+      ],
+      [
+        [
+          214.274,
+          100.482
+        ],
+        [
+          1300.358,
+          100.482
+        ],
+        [
+          79.666,
+          584.209
+        ],
+        [
+          1505.19,
+          584.209
+        ]
+      ]
+    ],
+    "MAP_ENSURE_EDGE_INSIGHT_CORNER": "bottom"
+  },
+  "roads": {
+    "road_main": {
+      "roadgrids": [
+        [
+          "B3"
+        ],
+        [
+          "D3"
+        ],
+        [
+          "D5",
+          "E4"
+        ],
+        [
+          "F5"
+        ],
+        [
+          "G5"
+        ],
+        [
+          "G4",
+          "H5"
+        ],
+        [
+          "H4"
+        ],
+        [
+          "E3"
+        ],
+        [
+          "F3"
+        ],
+        [
+          "F2"
+        ],
+        [
+          "F1"
+        ]
+      ]
+    }
+  },
+  "selects": {
+    "step_on": [
+      "F3",
+      "E4"
+    ]
+  },
+  "actions": [
+    {
+      "call": "ignore_prediction",
+      "args": [
+        "D5"
+      ],
+      "kwargs": {
+        "enemy_scale": 1,
+        "enemy_genre": "Enemy"
+      }
+    }
+  ],
+  "extra_maps": {}
+}
