@@ -33,10 +33,15 @@ describe("ansiToHtml", () => {
     expect(ansiToHtml("\x1b[99mX\x1b[0m")).toBe("X");
   });
 
-  it("pins wide CJK characters to fixed 2-cell spans for box alignment", () => {
-    expect(ansiToHtml("运行 委托")).toBe('<span class="cjk">运</span><span class="cjk">行</span> <span class="cjk">委</span><span class="cjk">托</span>');
+  it("pins wide CJK characters to fixed 2-cell spans only on box-drawing lines", () => {
+    // Regular log lines carry no box-drawing chars: alignment is irrelevant,
+    // and pinning every CJK char there created tens of thousands of DOM
+    // spans (frozen page during high-rate log streaming).
+    expect(ansiToHtml("运行 委托")).toBe("运行 委托");
     expect(ansiToHtml("\x1b[31m完成\x1b[0m")).toBe(
-      '<span style="color:var(--ansi-red, #cd3131)"><span class="cjk">完</span><span class="cjk">成</span></span>',
+      '<span style="color:var(--ansi-red, #cd3131)">完成</span>',
     );
+    // Traceback/table lines keep the 2-cell pinning so rich boxes align.
+    expect(ansiToHtml("└ 运行 委托")).toBe('└ <span class="cjk">运</span><span class="cjk">行</span> <span class="cjk">委</span><span class="cjk">托</span>');
   });
 });

@@ -17,6 +17,22 @@ let codeEl = $state<HTMLElement | null>(null);
 // replaces the buffer (instance switch / trim / backend reset).
 let lastArray: string[] | null = null;
 let renderedCount = 0;
+let scrollRaf: number | undefined;
+
+function scheduleScroll() {
+  // Coalesce keep-bottom scrolling into one layout pass per animation
+  // frame; assigning scrollTop synchronously inside the effect forced a
+  // full reflow of the log container on every SSE batch (system-wide
+  // stutter during high-rate log streaming).
+  if (scrollRaf !== undefined) return;
+  scrollRaf = requestAnimationFrame(() => {
+    scrollRaf = undefined;
+    const pre = preEl;
+    if (pre && keepBottom) {
+      pre.scrollTop = pre.scrollHeight;
+    }
+  });
+}
 
 function rebuild() {
   const node = codeEl;
@@ -44,9 +60,12 @@ $effect(() => {
     node.insertAdjacentHTML("beforeend", ansiToHtml(`${lines.slice(renderedCount).join("\n")}\n`));
     renderedCount = lines.length;
   }
-  if (keepBottom) {
-    pre.scrollTop = pre.scrollHeight;
-  }
+  scheduleScroll();
+});
+
+// Re-arm follow scrolling when the user toggles scroll lock back on.
+$effect(() => {
+  if (keepBottom) scheduleScroll();
 });
 </script>
 

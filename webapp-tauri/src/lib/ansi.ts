@@ -55,12 +55,23 @@ function escapeHtml(text: string): string {
  * ~1.1em, which drifts the box borders by ~1px per character. Wrapping each
  * wide char in a fixed-width span (2ch of the log font) pins them to two
  * cells regardless of which font renders them.
+ *
+ * Pinning is restricted to lines that actually contain box-drawing
+ * characters (tracebacks, tables): pinning every CJK char of every line
+ * created tens of thousands of DOM spans for an 800-line buffer and froze
+ * the page during high-rate log streaming. Regular log lines need no
+ * alignment and stay span-free.
  */
 const CJK_RE =
   /([\u1100-\u115f\u2e80-\u303e\u3041-\u33ff\u3400-\u4dbf\u4e00-\u9fff\ua000-\ua4cf\uac00-\ud7a3\uf900-\ufaff\ufe30-\ufe4f\uff00-\uff60\uffe0-\uffe6])/g;
 
+const BOX_LINE_RE = /[│└├─┐┌┘┃║═┬┴┤┼]/;
+
 function pinWideChars(text: string): string {
-  return text.replace(CJK_RE, '<span class="cjk">$1</span>');
+  return text
+    .split("\n")
+    .map((line) => (BOX_LINE_RE.test(line) ? line.replace(CJK_RE, '<span class="cjk">$1</span>') : line))
+    .join("\n");
 }
 
 export function ansiToHtml(text: string): string {
