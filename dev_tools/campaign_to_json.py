@@ -37,6 +37,17 @@ def node_name(node):
     raise ValueError(f'not a name: {ast.dump(node)[:80]}')
 
 
+def _is_shell_fragment(fragment_text: str) -> bool:
+    """True when the fragment is only `class Campaign(...): pass` (no logic)."""
+    try:
+        tree = ast.parse(fragment_text)
+    except Exception:
+        return False
+    return (len(tree.body) == 1 and isinstance(tree.body[0], ast.ClassDef)
+            and tree.body[0].name == 'Campaign'
+            and len(tree.body[0].body) == 1 and isinstance(tree.body[0].body[0], ast.Pass))
+
+
 def flatten_list(node):
     """Flatten List/BinOp(Add) into item nodes (road/select grid names)."""
     if isinstance(node, ast.List):
@@ -388,7 +399,11 @@ def main():
         stale = folder_path / f'{py.stem}.json'
         if stale.exists():
             stale.unlink()
-        py.write_text(fragment, encoding='utf-8', newline='\n')
+        if _is_shell_fragment(fragment):
+            # pure shell (no hand-written logic): no .py fragment needed
+            py.unlink(missing_ok=True)
+        else:
+            py.write_text(fragment, encoding='utf-8', newline='\n')
         (snap_dir / f'{py.stem}.snapshot.json').write_text(
             json.dumps(snapshot, ensure_ascii=False, indent=2) + '\n', encoding='utf-8', newline='\n'
         )

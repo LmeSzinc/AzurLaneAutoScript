@@ -261,10 +261,15 @@ def _load_data(folder, name, yaml_path):
     ns['CampaignBase'] = base_cls
     ns[base_name] = base_cls
     frag_path = os.path.join(_CAMPAIGN, folder, f'{name}.py')
-    with open(frag_path, encoding='utf-8') as f:
-        source = f.read()
-    exec(compile(source, frag_path, 'exec'), ns)
-    Campaign = ns['Campaign']
+    if os.path.exists(frag_path):
+        with open(frag_path, encoding='utf-8') as f:
+            source = f.read()
+        exec(compile(source, frag_path, 'exec'), ns)
+        Campaign = ns['Campaign']
+    else:
+        # no logic fragment: synthesize the class shell, pattern methods are
+        # attached below
+        Campaign = type('Campaign', (base_cls,), {})
     Campaign.MAP = MAP
     # Phase 456: synthesize declarative battle methods onto the Campaign class
     for bname, bspec in data.get('battles', {}).items():

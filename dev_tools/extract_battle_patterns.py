@@ -27,6 +27,16 @@ ROOT = Path(__file__).resolve().parent.parent
 CAMPAIGN = ROOT / 'campaign'
 
 
+def _is_shell_fragment(fragment_text: str) -> bool:
+    try:
+        tree = ast.parse(fragment_text)
+    except Exception:
+        return False
+    return (len(tree.body) == 1 and isinstance(tree.body[0], ast.ClassDef)
+            and tree.body[0].name == 'Campaign'
+            and len(tree.body[0].body) == 1 and isinstance(tree.body[0].body[0], ast.Pass))
+
+
 def transform(folder_path: Path):
     changed = 0
     for yp in sorted(folder_path.glob('*.yaml')):
@@ -86,7 +96,11 @@ def transform(folder_path: Path):
         fragment_text = '\n\n'.join(
             ast.unparse(ast.fix_missing_locations(n)) for n in rebuilt
         ).rstrip() + '\n'
-        py.write_text(fragment_text, encoding='utf-8', newline='\n')
+        if _is_shell_fragment(fragment_text):
+            # no hand-written logic left: the loader synthesizes the class
+            py.unlink(missing_ok=True)
+        else:
+            py.write_text(fragment_text, encoding='utf-8', newline='\n')
         # update yaml + snapshot
         data['battles'] = battles
         yp.write_text(dump_map_file(json.loads(json.dumps(data))), encoding='utf-8', newline='\n')

@@ -1,2 +1,0 @@
-c2.py: unresolvable import ENTRANCE -> module.campaign.assets.C2
-d3.py: unresolvable import ENTRANCE -> module.campaign.assets.D3
