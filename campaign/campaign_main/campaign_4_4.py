@@ -3,11 +3,7 @@ class Campaign(CampaignBase):
     MAP_AIR_RAID_OVERLAY_TRANSPARENCY_THRESHOLD = 0.25
     MAP_ENEMY_SEARCHING_OVERLAY_TRANSPARENCY_THRESHOLD = 0.65
     def battle_0(self):
-        if self.clear_roadblocks([road_main]):
-            return True
-        if self.clear_potential_roadblocks([road_main]):
-            return True
-        return self.battle_default()
+        return self.battle_clear_roadblocks(road_main, potential=True)
     def battle_4(self):
         boss = self.map.select(is_boss=True)
         if boss:

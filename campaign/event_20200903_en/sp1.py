@@ -3,8 +3,6 @@ class Campaign(CampaignBase):
         if self.clear_siren():
             return True
         self.clear_mechanism()
-        if self.clear_roadblocks([road_main]):
-            return True
-        return self.battle_default()
+        return self.battle_clear_roadblocks(road_main)
     def battle_4(self):
         return self.clear_boss()

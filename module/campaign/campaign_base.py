@@ -18,6 +18,29 @@ class CampaignBase(CampaignUI, Map, AutoSearchCombat):
         logger.warning('No battle executed.')
         return False
 
+    def battle_clear_roadblocks(self, road, potential=False):
+        """Phase 456 C5: clear roadblocks along a road, then battle_default.
+
+        Exactly equivalent to:
+            if self.clear_roadblocks([road]):
+                return True
+            if potential and self.clear_potential_roadblocks([road]):
+                return True
+            return self.battle_default()
+
+        Args:
+            road (RoadGrids): Road to clear.
+            potential (bool): Also try potential roadblocks.
+
+        Returns:
+            bool: True if a battle was executed.
+        """
+        if self.clear_roadblocks([road]):
+            return True
+        if potential and self.clear_potential_roadblocks([road]):
+            return True
+        return self.battle_default()
+
     def battle_boss(self):
         if self.brute_clear_boss():
             return True

@@ -7,8 +7,6 @@ class Campaign(CampaignBase):
         self.clear_mechanism()
         if self.config.MAP_HAS_MOVABLE_ENEMY:
             self.fleet_2_push_forward()
-        if self.clear_roadblocks([road_main]):
-            return True
-        return self.battle_default()
+        return self.battle_clear_roadblocks(road_main)
     def battle_5(self):
         return self.fleet_boss.clear_boss()

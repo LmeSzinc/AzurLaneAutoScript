@@ -1,11 +1,7 @@
 class Campaign(CampaignBase):
     def battle_0(self):
         self.fleet_2_push_forward()
-        if self.clear_roadblocks([road_main]):
-            return True
-        if self.clear_potential_roadblocks([road_main]):
-            return True
-        return self.battle_default()
+        return self.battle_clear_roadblocks(road_main, potential=True)
     def battle_6(self):
         boss = self.map.select(is_boss=True)
         if boss:
