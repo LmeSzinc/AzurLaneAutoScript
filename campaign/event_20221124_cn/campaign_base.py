@@ -5,7 +5,6 @@ from module.handler.assets import MYSTERY_ITEM
 from module.handler.fast_forward import AUTO_SEARCH
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
-from module.ui.page import page_campaign_menu, page_event
 
 
 class CampaignBase(CampaignBase_):
@@ -15,15 +14,8 @@ class CampaignBase(CampaignBase_):
     ]
 
     def ui_goto_event(self):
-        if self.appear(EVENT_20221124_PT_ICON, offset=(20, 20)) and self.ui_page_appear(page_event):
-            logger.info('Already at EVENT_20221124')
-            return True
-        self.ui_ensure(page_campaign_menu)
-        if self.is_event_entrance_available():
-            self.ui_click(EVENT_20221124_ENTRANCE,
-                      check_button=EVENT_20221124_PT_ICON,
-                      appear_button=EVENT_20221124_ENTRANCE)
-            return True
+        if self.event_entrance_ensure(EVENT_20221124_PT_ICON, log_name='EVENT_20221124'):
+            return self.event_entrance_click(EVENT_20221124_ENTRANCE, EVENT_20221124_PT_ICON)
 
     def campaign_set_chapter_event(self, chapter, mode='normal'):
         if chapter.startswith('t'):

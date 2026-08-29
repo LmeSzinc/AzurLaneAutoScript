@@ -6,7 +6,7 @@ from module.config.utils import DEFAULT_TIME
 from module.logger import logger
 from module.tasks.registry import family_tasks
 from module.ui.assets import CAMPAIGN_MENU_NO_EVENT
-from module.ui.page import page_campaign_menu, page_coalition, page_event, page_sp
+from module.ui.page import page_campaign_menu, page_coalition, page_event, page_main_white, page_sp
 from module.war_archives.assets import WAR_ARCHIVES_CAMPAIGN_CHECK
 
 
@@ -147,6 +147,41 @@ class CampaignEvent(CampaignStatus):
         else:
             logger.info('Event available')
             return True
+
+    def event_entrance_ensure(self, pt_icon, offset=(20, 20), page=page_event, log_name=None):
+        """Phase 456 D2: shared event-entrance prelude used by per-event
+        ui_goto_event implementations.
+
+        Returns:
+            bool: True if already at the event page or the entrance is
+                  available; None if unavailable (task stopped).
+        """
+        if self.appear(pt_icon, offset=offset) and self.ui_page_appear(page):
+            logger.info(f'Already at {log_name or str(pt_icon)}')
+            return True
+        self.ui_ensure(page_campaign_menu)
+        return self.is_event_entrance_available()
+
+    def event_entrance_click(self, entrance, pt_icon, offset=(20, 20), appear_button=None):
+        """Phase 456 D2: single-click entrance (page check on the pt icon)."""
+        if appear_button is None:
+            appear_button = entrance
+        self.ui_click(entrance, check_button=pt_icon, appear_button=appear_button, offset=offset)
+        return True
+
+    def event_entrance_from_main(self, detail, detail_white, check_button, entrance, pt_icon,
+                                 offset=(40, 20)):
+        """Phase 456 D2: main-menu entrance flow (detail panel then entrance).
+
+        Callers navigate to the main page first; the white-background variant
+        of the detail button is used when the main page is in white style.
+        """
+        if self.ui_page_appear(page_main_white):
+            self.ui_click(detail_white, check_button=check_button)
+        else:
+            self.ui_click(detail, check_button=check_button)
+        self.ui_click(entrance, check_button=pt_icon, appear_button=check_button, offset=offset)
+        return True
 
     def ui_goto_event(self):
         # Already in page_event, skip event_check.
