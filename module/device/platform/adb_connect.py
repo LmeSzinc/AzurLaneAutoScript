@@ -9,7 +9,6 @@ via module.device.platform.emulator_windows, and `adb connect` each.
 """
 
 import asyncio
-import os
 import subprocess
 import sys
 from dataclasses import dataclass
@@ -30,13 +29,12 @@ class DataAdbDevice:
 class AdbConnectManager:
     @cached_property
     def adb(self) -> str:
-        from deploy.config import DeployConfig
+        # Phase 456: reuse the device-layer resolution chain (deploy config ->
+        # ./bin/adb/adb.exe -> /usr/bin/adb -> adbutils bundle -> PATH) instead
+        # of the former deploy-config-only lookup.
+        from module.device.connection_attr import resolve_adb_binary
 
-        exe = DeployConfig().filepath("AdbExecutable")
-        if os.path.exists(exe):
-            return exe
-        logger.warning(f"AdbExecutable: {exe} does not exist, use `adb` instead")
-        return "adb"
+        return resolve_adb_binary()
 
     @cached_property
     def emulator_manager(self):

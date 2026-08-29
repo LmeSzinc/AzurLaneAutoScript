@@ -13,12 +13,52 @@ from module.device.method.utils import get_serial_pair
 from module.exception import RequestHumanTakeover
 from module.logger import logger
 
+ADB_BINARY_LIST = ["./bin/adb/adb.exe", "/usr/bin/adb"]
+
+
+def resolve_adb_binary() -> str:
+    """Resolve the adb executable used by the device layer.
+
+    Shared by ConnectionAttr.adb_binary and AdbConnectManager.adb (Phase 456):
+    deploy config AdbExecutable -> ./bin/adb/adb.exe -> /usr/bin/adb ->
+    adbutils bundled adb.exe -> `adb` on PATH. Returns an absolute path when
+    a real binary is found, otherwise the bare `adb` (PATH lookup) fallback.
+    """
+    # Try adb in deploy.yaml
+    from module.webui.setting import State
+
+    file = State.deploy_config.AdbExecutable
+    file = file.replace("\\", "/")
+    if os.path.exists(file):
+        return os.path.abspath(file)
+
+    # Try known local/global locations (bin/adb/ is a runtime copy from
+    # adbutils, kept out of git)
+    for file in ADB_BINARY_LIST:
+        if os.path.exists(file):
+            return os.path.abspath(file)
+
+    # Try adb bundled inside the adbutils package in the python environment
+    import sys
+
+    file = os.path.join(sys.executable, "../Lib/site-packages/adbutils/binaries/adb.exe")
+    file = os.path.abspath(file).replace("\\", "/")
+    if os.path.exists(file):
+        return file
+
+    # Use adb in system PATH
+    logger.warning(
+        "adb not found in deploy config, ./bin/adb/adb.exe or the adbutils "
+        "bundle, falling back to `adb` on PATH"
+    )
+    return "adb"
+
 
 class ConnectionAttr:
     config: AzurLaneConfig
     serial: str
 
-    adb_binary_list = ["./bin/adb/adb.exe", "/usr/bin/adb"]
+    adb_binary_list = ADB_BINARY_LIST
 
     def __init__(self, config):
         """
@@ -305,30 +345,7 @@ class ConnectionAttr:
 
     @cached_property
     def adb_binary(self):
-        # Try adb in deploy.yaml
-        from module.webui.setting import State
-
-        file = State.deploy_config.AdbExecutable
-        file = file.replace("\\", "/")
-        if os.path.exists(file):
-            return os.path.abspath(file)
-
-        # Try existing adb.exe
-        for file in self.adb_binary_list:
-            if os.path.exists(file):
-                return os.path.abspath(file)
-
-        # Try adb in python environment
-        import sys
-
-        file = os.path.join(sys.executable, "../Lib/site-packages/adbutils/binaries/adb.exe")
-        file = os.path.abspath(file).replace("\\", "/")
-        if os.path.exists(file):
-            return file
-
-        # Use adb in system PATH
-        file = "adb"
-        return file
+        return resolve_adb_binary()
 
     @cached_property
     def adb_client(self) -> AdbClient:
