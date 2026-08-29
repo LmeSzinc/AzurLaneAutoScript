@@ -79,6 +79,10 @@
   等价硬门:快照 `battle_bodies` 记录提取前方法体,verify 逐方法断言"规范源码 == 原方法体"
   (canonical_source 与 match_body 共用同一 AST 构建器,匹配时即断言)。
   未匹配模式的手写方法(~450)保留在片段,含全部真机差异策略。
+- **followup-1f**(死代码清理):754 个纯 pass 空壳片段删除(loader 现支持无片段时由 type() 合成
+  Campaign 类);3 个死导入地图删除(load 报 ModuleNotFoundError → 友好的"Map file not found",
+  比原先 ImportError 更明确)。campaign .py 1423 → **666**;skipped 计数归零。
+
 
 
 
