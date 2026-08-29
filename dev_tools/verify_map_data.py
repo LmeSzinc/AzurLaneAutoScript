@@ -16,9 +16,7 @@ from pathlib import Path
 
 sys.path.insert(0, ".")
 
-from module.base.utils import node2location
 from module.campaign.map_loader import _resolve_map, load_map
-from module.map.map_base import CampaignMap
 
 ROOT = Path(__file__).resolve().parent.parent
 CAMPAIGN = ROOT / 'campaign'
@@ -50,7 +48,8 @@ def check_one(folder, name):
 
     # converter fidelity: committed json must equal the recorded legacy snapshot
     data = json.loads((CAMPAIGN / folder / f'{name}.json').read_text(encoding='utf-8'))
-    for field in ('map', 'config_base', 'config', 'roads', 'selects', 'actions', 'extra_maps', 'imports'):
+    for field in ('map', 'config_base', 'config', 'roads', 'selects', 'actions', 'extra_maps',
+                  'imports', 'campaign_base_name'):
         if data.get(field) != snap.get(field):
             errors.append(f'json field {field} differs from snapshot')
 
@@ -76,7 +75,7 @@ def check_one(folder, name):
     import types
     methods = {
         k for k, v in loaded.Campaign.__dict__.items()
-        if isinstance(v, types.FunctionType)
+        if isinstance(v, (types.FunctionType, staticmethod, classmethod))
     }
     if methods != set(snap['campaign_methods']):
         errors.append(f'Campaign methods differ: {sorted(methods)} vs {snap["campaign_methods"]}')

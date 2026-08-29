@@ -25,6 +25,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 CAMPAIGN = ROOT / 'campaign'
+sys.path.insert(0, str(ROOT))  # ref validation imports module.* / campaign.*
 
 
 def node_name(node):
@@ -116,6 +117,7 @@ def convert(path: Path):
     config_base = None
     config = {}
     campaign_nodes = []
+    campaign_base_name = None
     skip_reason = None
 
     def resolve_ref(name):
@@ -220,6 +222,10 @@ def convert(path: Path):
                 break
             continue
         if isinstance(node, ast.ClassDef) and node.name == 'Campaign':
+            if len(node.bases) == 1 and isinstance(node.bases[0], ast.Name):
+                campaign_base_name = node.bases[0].id
+            else:
+                campaign_base_name = None
             for sub in node.body:
                 if isinstance(sub, ast.Assign) and len(sub.targets) == 1 \
                         and isinstance(sub.targets[0], ast.Name) and sub.targets[0].id == 'MAP':
@@ -235,6 +241,36 @@ def convert(path: Path):
     if 'MAP' not in map_objects:
         return None, 'no MAP data'
 
+    # validate import refs resolvable; unresolvable -> keep file legacy
+    # (legacy import would fail the same way, so behavior is unchanged)
+    import importlib as _importlib
+    for alias, target in import_map.items():
+        parts = target.split('.')
+        module, attr = '.'.join(parts[:-1]), parts[-1]
+        first = module.split('.')[0]
+        if '.' not in module:
+            # same-folder ref: check json/py next to the source file
+            base_dir, rel = path.parent, module
+        elif (CAMPAIGN / first).exists():
+            # campaign-internal refs resolve through load_map (json or legacy
+            # .py); never importlib (a converted sibling is a bare fragment).
+            base_dir, rel = CAMPAIGN, module.replace('.', '/')
+        else:
+            base_dir = None
+        if base_dir is not None:
+            if (base_dir / f'{rel}.json').exists() or (base_dir / f'{rel}.py').exists():
+                continue
+            return None, f'unresolvable import {alias} -> {target}'
+        mod = None
+        for prefix in (f'campaign.{path.parent.name}.', 'campaign.', ''):
+            try:
+                mod = _importlib.import_module(prefix + module)
+                break
+            except ModuleNotFoundError:
+                continue
+        if mod is None or not hasattr(mod, attr):
+            return None, f'unresolvable import {alias} -> {target}'
+
     primary = map_objects['MAP']
     data = {
         'map': primary['attrs'],
@@ -245,10 +281,11 @@ def convert(path: Path):
         'actions': primary['actions'],
         'extra_maps': {k: v for k, v in map_objects.items() if k != 'MAP'},
         'imports': import_map,
+        'campaign_base_name': campaign_base_name,
     }
-    fragment = 'class Campaign(CampaignBase):\n' + '\n'.join(
-        textwrap.indent(ast.unparse(n), '    ') for n in campaign_nodes
-    ) + '\n'
+    header = f'class Campaign({campaign_base_name}):' if campaign_base_name else 'class Campaign:'
+    body = '\n'.join(textwrap.indent(ast.unparse(n), '    ') for n in campaign_nodes) or '    pass'
+    fragment = header + '\n' + body + '\n'
 
     snapshot = {
         'map': data['map'],
@@ -259,6 +296,7 @@ def convert(path: Path):
         'actions': data['actions'],
         'extra_maps': data['extra_maps'],
         'imports': import_map,
+        'campaign_base_name': campaign_base_name,
         'campaign_methods': sorted(
             n.name for n in campaign_nodes if isinstance(n, ast.FunctionDef)
         ),

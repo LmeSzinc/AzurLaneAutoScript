@@ -9,6 +9,8 @@ from __future__ import annotations
 import importlib
 import json
 import os
+import sys
+import types
 from functools import lru_cache
 
 from module.base.utils import node2location
@@ -29,6 +31,27 @@ class LoadedMap:
         self.source = source
 
 
+_loading: set[str] = set()
+_inflight: set[tuple[str, str]] = set()
+
+
+def _legacy_import(folder, name):
+    """Import a legacy .py, pre-loading converted siblings as shim modules."""
+    if folder not in _loading:
+        _loading.add(folder)
+        try:
+            folder_path = os.path.join(_CAMPAIGN, folder)
+            if os.path.isdir(folder_path):
+                for file in sorted(os.listdir(folder_path)):
+                    stem = file[:-len('.json')] if file.endswith('.json') else None
+                    if stem and file != 'meta.json' and stem != name \
+                            and (folder, stem) not in _inflight:
+                        load_map(folder, stem)
+        finally:
+            _loading.discard(folder)
+    return importlib.import_module('.' + name, f'campaign.{folder}')
+
+
 def _load_config(folder, base):
     """Resolve Config base class: json map if converted, else legacy module.
 
@@ -46,17 +69,17 @@ def _load_config(folder, base):
     if os.path.exists(json_path):
         return load_map(base_folder, base_module).Config
     if len(parts) > 1:
-        return importlib.import_module('campaign.' + base).Config
-    try:
-        return importlib.import_module(f'campaign.{folder}.{base}').Config
-    except ModuleNotFoundError:
-        return importlib.import_module('campaign.' + base).Config
+        return _legacy_import(base_folder, base_module).Config
+    return _legacy_import(folder, base).Config
 
 
 def _folder_campaign_base(folder):
     cb = os.path.join(_CAMPAIGN, folder, 'campaign_base.py')
     if os.path.exists(cb):
-        return importlib.import_module('.' + 'campaign_base', f'campaign.{folder}').CampaignBase
+        mod = _legacy_import(folder, 'campaign_base')
+        if hasattr(mod, 'CampaignBase'):
+            return mod.CampaignBase
+        # some folders' campaign_base.py only defines Grid subclasses
     return importlib.import_module('module.campaign.campaign_base').CampaignBase
 
 
@@ -66,15 +89,24 @@ def _resolve_value(folder, value):
         parts = value['__ref__'].split('.')
         module, attr = '.'.join(parts[:-1]), parts[-1]
         if module:
-            mod = None
-            for prefix in (f'campaign.{folder}.', 'campaign.', ''):
-                try:
-                    mod = importlib.import_module(prefix + module)
-                    break
-                except ModuleNotFoundError:
-                    continue
-            if mod is None:
-                raise ImportError(f'cannot resolve ref module: {module}')
+            if '.' not in module:
+                # same-folder ref: always campaign-internal
+                mod = _legacy_import(folder, module)
+            elif os.path.exists(os.path.join(_CAMPAIGN, module.split('.')[0])):
+                # campaign-internal: route through _legacy_import so converted
+                # siblings get shim-registered before the legacy import runs
+                segs = module.split('.')
+                mod = _legacy_import('/'.join(segs[:-1]), segs[-1])
+            else:
+                mod = None
+                for prefix in (f'campaign.{folder}.', 'campaign.', ''):
+                    try:
+                        mod = importlib.import_module(prefix + module)
+                        break
+                    except ModuleNotFoundError:
+                        continue
+                if mod is None:
+                    raise ImportError(f'cannot resolve ref module: {module}')
         else:
             mod = None
         return getattr(mod, attr)
@@ -138,6 +170,13 @@ def _load_data(folder, name, json_path):
         flatten_names[chr(loca[0] + 65) + str(loca[1] + 1)] = grid  # A1..Z99
     ns = {'MAP': MAP, 'Config': Config, 'RoadGrids': RoadGrids, 'SelectedGrids': SelectedGrids,
           'logger': logger, 'CampaignMap': CampaignMap, **flatten_names}
+    # register a partial shim early so circular legacy imports (a skipped
+    # sibling importing THIS converted map) resolve Config/MAP while we are
+    # still building the rest of the namespace
+    shim = types.ModuleType(f'campaign.{folder}.{name}')
+    shim.__dict__.update(ns)
+    shim.MAP, shim.Config = MAP, Config
+    sys.modules[f'campaign.{folder}.{name}'] = shim
 
     def _road_grids(groups):
         grid_groups = [[MAP[node2location(n)] for n in group] for group in groups]
@@ -163,19 +202,32 @@ def _load_data(folder, name, json_path):
     for extra_name, extra in data.get('extra_maps', {}).items():
         ns[extra_name] = _resolve_map(folder, dict(extra['attrs']), extra.get('actions', []))
     # names imported by the legacy file (e.g. EventGrid/W15GridInfo) resolved
-    # for class-level references in the fragment
+    # for class-level references in the fragment; skip names the loader already
+    # provides (Config/CampaignBase/MAP/logger/...)
     for alias, target in data.get('imports', {}).items():
+        if alias in ns:
+            continue
         ns[alias] = _resolve_value(folder, {'__ref__': target})
 
-    # fragment: only `class Campaign(CampaignBase): ...`, no imports,
+    # fragment: only `class Campaign(<base>): ...`, no imports,
     # every name is provided by the namespace above.
-    ns['CampaignBase'] = _folder_campaign_base(folder)
+    base_name = data.get('campaign_base_name') or 'CampaignBase'
+    imports = data.get('imports', {})
+    if base_name in imports:
+        base_cls = _resolve_value(folder, {'__ref__': imports[base_name]})
+    else:
+        base_cls = _folder_campaign_base(folder)
+    ns['CampaignBase'] = base_cls
+    ns[base_name] = base_cls
     frag_path = os.path.join(_CAMPAIGN, folder, f'{name}.py')
     with open(frag_path, encoding='utf-8') as f:
         source = f.read()
     exec(compile(source, frag_path, 'exec'), ns)
     Campaign = ns['Campaign']
     Campaign.MAP = MAP
+    # finalize the shim (registered early above) with the complete namespace
+    shim.__dict__.update(ns)
+    shim.MAP, shim.Config, shim.Campaign = MAP, Config, Campaign
     return LoadedMap(MAP, Config, Campaign, 'json')
 
 
@@ -183,6 +235,17 @@ def _load_data(folder, name, json_path):
 def load_map(folder: str, name: str) -> LoadedMap:
     json_path = os.path.join(_CAMPAIGN, folder, f'{name}.json')
     if os.path.exists(json_path):
-        return _load_data(folder, name, json_path)
-    module = importlib.import_module('.' + name, f'campaign.{folder}')  # legacy fallback
+        key = (folder, name)
+        if key in _inflight:
+            # re-entrant request during sibling pre-load: use the partial shim
+            shim = sys.modules.get(f'campaign.{folder}.{name}')
+            if shim is not None and hasattr(shim, 'Config'):
+                return LoadedMap(shim.MAP, shim.Config, getattr(shim, 'Campaign', None), 'json')
+            raise RuntimeError(f're-entrant load before shim ready: {folder}.{name}')
+        _inflight.add(key)
+        try:
+            return _load_data(folder, name, json_path)
+        finally:
+            _inflight.discard(key)
+    module = _legacy_import(folder, name)  # legacy fallback
     return LoadedMap(module.MAP, module.Config, module.Campaign, 'legacy')
