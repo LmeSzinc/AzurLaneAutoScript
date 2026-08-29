@@ -1,4 +1,5 @@
 class Campaign(CampaignBase):
+
     def battle_function(self):
         if not self.config.MAP_CLEAR_ALL_THIS_TIME:
             return super().battle_function()
@@ -9,6 +10,7 @@ class Campaign(CampaignBase):
             result = func()
             return result
         return super().battle_function()
+
     def battle_0(self):
         if not self.map_is_clear_mode and self.map_has_mob_move:
             self.mob_move(B3, B4)
@@ -18,20 +20,7 @@ class Campaign(CampaignBase):
         if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=1):
             return True
         return self.battle_default()
-    def battle_1(self):
-        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=1):
-            return True
-        return self.battle_default()
+
     def battle_3(self):
         self.clear_chosen_enemy(H5, expected='siren')
         return True
-    def battle_4(self):
-        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=1):
-            return True
-        return self.battle_default()
-    def battle_5(self):
-        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
-            return True
-        return self.battle_default()
-    def battle_6(self):
-        return self.fleet_boss.clear_boss()

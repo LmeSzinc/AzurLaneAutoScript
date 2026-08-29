@@ -1,5 +1,6 @@
 class Campaign(CampaignBase):
     MACHINE_FORTRESS = [E5]
+
     def battle_0(self):
         if self.clear_siren():
             return True
@@ -12,5 +13,3 @@ class Campaign(CampaignBase):
         if self.clear_enemy(scale=[2, 3]):
             return True
         return self.battle_default()
-    def battle_4(self):
-        return self.clear_boss()

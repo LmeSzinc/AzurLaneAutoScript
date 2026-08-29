@@ -93,3 +93,7 @@ imports:
   RoadGrids: module.map.map_grids.RoadGrids
   SelectedGrids: module.map.map_grids.SelectedGrids
   CampaignBase: campaign_base.CampaignBase
+battles:
+  battle_6:
+    pattern: boss
+    kind: fleet_boss

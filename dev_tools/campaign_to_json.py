@@ -27,6 +27,7 @@ ROOT = Path(__file__).resolve().parent.parent
 CAMPAIGN = ROOT / 'campaign'
 sys.path.insert(0, str(ROOT))  # ref validation imports module.* / campaign.*
 
+from module.campaign.battle_patterns import canonical_source, match_body
 from module.campaign.map_loader import ROW_KEYS, dump_map_file
 
 
@@ -117,6 +118,7 @@ def convert(path: Path):
     roads = {}
     selects = {}
     globals_data = {}
+    battles_data = {}
     extra_top = []  # helper classes/functions living in the fragment
     config_base = None
     config = {}
@@ -248,7 +250,18 @@ def convert(path: Path):
                 if isinstance(sub, ast.Assign) and len(sub.targets) == 1 \
                         and isinstance(sub.targets[0], ast.Name) and sub.targets[0].id == 'MAP':
                     continue  # MAP = MAP
+                if isinstance(sub, ast.FunctionDef) and not sub.decorator_list:
+                    spec = match_body(sub.body)
+                    if spec is not None:
+                        canonical = canonical_source(sub.name, spec)
+                        if canonical != ast.unparse(sub):
+                            skip_reason = f'pattern canonical mismatch for {sub.name}'
+                            break
+                        battles_data[sub.name] = spec
+                        continue
                 campaign_nodes.append(sub)
+            if skip_reason:
+                break
             continue
         if isinstance(node, ast.ClassDef):
             # custom helper classes (e.g. EventGrid(Grid)) live in the fragment
@@ -310,6 +323,7 @@ def convert(path: Path):
         'imports': import_map,
         'campaign_base_name': campaign_base_name,
         'globals': globals_data,
+        'battles': battles_data,
     }
     header = f'class Campaign({campaign_base_name}):' if campaign_base_name else 'class Campaign:'
     body = '\n'.join(textwrap.indent(ast.unparse(n), '    ') for n in campaign_nodes) or '    pass'
@@ -327,8 +341,9 @@ def convert(path: Path):
         'imports': import_map,
         'campaign_base_name': campaign_base_name,
         'globals': globals_data,
+        'battles': battles_data,
         'campaign_methods': sorted(
-            n.name for n in campaign_nodes if isinstance(n, ast.FunctionDef)
+            [n.name for n in campaign_nodes if isinstance(n, ast.FunctionDef)] + list(battles_data)
         ),
     }
     return (data, fragment, snapshot), None

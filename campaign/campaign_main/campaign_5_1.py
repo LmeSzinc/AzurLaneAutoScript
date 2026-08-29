@@ -1,7 +1,5 @@
 class Campaign(CampaignBase):
-    def battle_0(self):
-        self.clear_all_mystery()
-        return self.battle_default()
+
     def battle_4(self):
         self.clear_all_mystery()
         boss = self.map.select(is_boss=True)

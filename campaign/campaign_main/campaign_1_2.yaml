@@ -22,3 +22,6 @@ roads: {}
 selects: {}
 actions: []
 extra_maps: {}
+battles:
+  battle_0:
+    pattern: mystery

@@ -1,4 +1,5 @@
 class Campaign(CampaignBase):
+
     def battle_0(self):
         if self.fleet_2_step_on(fleet_2_step_on, roadblocks=[road_a5]):
             return True
@@ -8,6 +9,7 @@ class Campaign(CampaignBase):
         if self.clear_potential_roadblocks(roads):
             return True
         return self.battle_default()
+
     def battle_3(self):
         if self.fleet_2_step_on(fleet_2_step_on, roadblocks=[road_a5]):
             return True
@@ -19,5 +21,3 @@ class Campaign(CampaignBase):
         if self.clear_potential_roadblocks(roads):
             return True
         return self.battle_default()
-    def battle_5(self):
-        return self.fleet_boss.clear_boss()

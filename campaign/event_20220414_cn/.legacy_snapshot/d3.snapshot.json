@@ -158,5 +158,26 @@
     "battle_0",
     "battle_5",
     "battle_6"
-  ]
+  ],
+  "battles": {
+    "battle_0": {
+      "pattern": "clear_filter",
+      "siren": true,
+      "preserve": 1
+    },
+    "battle_5": {
+      "pattern": "clear_filter",
+      "siren": true,
+      "preserve": 0
+    },
+    "battle_6": {
+      "pattern": "boss",
+      "kind": "fleet_boss"
+    }
+  },
+  "battle_bodies": {
+    "battle_0": "def battle_0(self):\n    if self.clear_siren():\n        return True\n    if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=1):\n        return True\n    return self.battle_default()",
+    "battle_5": "def battle_5(self):\n    if self.clear_siren():\n        return True\n    if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):\n        return True\n    return self.battle_default()",
+    "battle_6": "def battle_6(self):\n    return self.fleet_boss.clear_boss()"
+  }
 }

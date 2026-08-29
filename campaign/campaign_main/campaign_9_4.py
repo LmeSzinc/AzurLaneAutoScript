@@ -1,6 +1,5 @@
 class Campaign(CampaignBase):
-    def battle_0(self):
-        return self.battle_clear_roadblocks(road_main, potential=True)
+
     def battle_5(self):
         if self.config.FLEET_BOSS == 1:
             self.pick_up_ammo()

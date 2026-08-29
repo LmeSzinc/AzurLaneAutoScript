@@ -89,3 +89,7 @@ imports:
   RoadGrids: module.map.map_grids.RoadGrids
   SelectedGrids: module.map.map_grids.SelectedGrids
   CampaignBase: campaign_base.CampaignBase
+battles:
+  battle_3:
+    pattern: boss
+    kind: clear

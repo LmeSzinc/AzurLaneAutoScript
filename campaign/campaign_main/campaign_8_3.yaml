@@ -85,3 +85,7 @@ selects:
   - F3
 actions: []
 extra_maps: {}
+battles:
+  battle_4:
+    pattern: boss
+    kind: brute

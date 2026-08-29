@@ -80,5 +80,13 @@
     "battle_0",
     "battle_2",
     "handle_boss_appear_refocus"
-  ]
+  ],
+  "battles": {
+    "battle_0": {
+      "pattern": "mystery"
+    }
+  },
+  "battle_bodies": {
+    "battle_0": "def battle_0(self):\n    self.clear_all_mystery()\n    return self.battle_default()"
+  }
 }

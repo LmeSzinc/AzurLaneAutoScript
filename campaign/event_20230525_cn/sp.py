@@ -11,10 +11,10 @@ def parse_move(movement: str, step: int):
     return (dx, dy)
 
 class Campaign(CampaignBase):
-    ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
     siren_list = [C7, D6, G6, H7]
     patched = False
     action = []
+
     def execute_actions(self, step):
         for action in self.action[step]:
             fleet_index, movement, step, battle = action.split('_')
@@ -37,6 +37,7 @@ class Campaign(CampaignBase):
                 else:
                     logger.warning(f'Fleet{fleet_index} did not move, retry')
         return True
+
     def battle_0(self):
         if not self.patched:
             for battle_count in range(1, 7):
@@ -52,5 +53,3 @@ class Campaign(CampaignBase):
             if not self.action:
                 self.action = actions[self.fleet_1_location[0]]
             return self.execute_actions(self.battle_count)
-    def battle_7(self):
-        return self.fleet_boss.clear_boss()

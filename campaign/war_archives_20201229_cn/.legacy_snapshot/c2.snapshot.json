@@ -106,5 +106,18 @@
   "campaign_methods": [
     "battle_0",
     "battle_4"
-  ]
+  ],
+  "battles": {
+    "battle_0": {
+      "pattern": "protect_siren"
+    },
+    "battle_4": {
+      "pattern": "boss",
+      "kind": "clear"
+    }
+  },
+  "battle_bodies": {
+    "battle_0": "def battle_0(self):\n    if self.fleet_2_protect():\n        return True\n    if self.clear_siren():\n        return True\n    return self.battle_default()",
+    "battle_4": "def battle_4(self):\n    return self.clear_boss()"
+  }
 }

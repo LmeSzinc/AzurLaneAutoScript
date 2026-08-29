@@ -75,3 +75,7 @@ imports:
   SelectedGrids: module.map.map_grids.SelectedGrids
   RoadGrids: module.map.map_grids.RoadGrids
   logger: module.logger.logger
+battles:
+  battle_6:
+    pattern: boss
+    kind: fleet_boss

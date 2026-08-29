@@ -73,5 +73,15 @@
   "campaign_methods": [
     "battle_0",
     "battle_5"
-  ]
+  ],
+  "battles": {
+    "battle_0": {
+      "pattern": "clear_filter",
+      "siren": true,
+      "preserve": null
+    }
+  },
+  "battle_bodies": {
+    "battle_0": "def battle_0(self):\n    if self.clear_siren():\n        return True\n    return self.battle_default()"
+  }
 }

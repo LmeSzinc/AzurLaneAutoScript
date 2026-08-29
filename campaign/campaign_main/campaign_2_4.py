@@ -1,6 +1,5 @@
 class Campaign(CampaignBase):
-    def battle_0(self):
-        return self.battle_clear_roadblocks(road_main, potential=True)
+
     def battle_3(self):
         if not self.check_accessibility(G1, fleet='boss'):
             if self.clear_roadblocks([road_main]):

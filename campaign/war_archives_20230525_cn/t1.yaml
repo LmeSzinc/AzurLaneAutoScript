@@ -63,3 +63,7 @@ imports:
   SelectedGrids: module.map.map_grids.SelectedGrids
   RoadGrids: module.map.map_grids.RoadGrids
   logger: module.logger.logger
+battles:
+  battle_3:
+    pattern: boss
+    kind: clear

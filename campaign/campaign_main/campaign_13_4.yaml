@@ -73,3 +73,7 @@ roads: {}
 selects: {}
 actions: []
 extra_maps: {}
+battles:
+  battle_7:
+    pattern: boss
+    kind: fleet_boss

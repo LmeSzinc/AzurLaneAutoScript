@@ -48,3 +48,8 @@ roads:
 selects: {}
 actions: []
 extra_maps: {}
+battles:
+  battle_0:
+    pattern: roadblocks
+    road: road_main
+    potential: true

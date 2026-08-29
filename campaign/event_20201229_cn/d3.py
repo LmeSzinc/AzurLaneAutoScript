@@ -1,4 +1,5 @@
 class Campaign(CampaignBase):
+
     def battle_0(self):
         if self.fleet_2_protect():
             return True
@@ -13,6 +14,7 @@ class Campaign(CampaignBase):
         if self.clear_enemy(scale=(3,), genre=['Enemy', 'CarrierInvertedOrthant']):
             return True
         return self.battle_default()
+
     def battle_5(self):
         if self.fleet_2_protect():
             return True
@@ -29,5 +31,3 @@ class Campaign(CampaignBase):
         if self.clear_enemy(scale=(3,), genre=['Enemy', 'CarrierInvertedOrthant']):
             return True
         return self.battle_default()
-    def battle_6(self):
-        return self.fleet_boss.clear_boss()

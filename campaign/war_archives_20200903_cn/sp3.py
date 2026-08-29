@@ -1,4 +1,5 @@
 class Campaign(CampaignBase):
+
     def battle_0(self):
         if not self.config.MAP_HAS_MOVABLE_ENEMY:
             self.fleet_2_push_forward()
@@ -8,5 +9,3 @@ class Campaign(CampaignBase):
         if self.config.MAP_HAS_MOVABLE_ENEMY:
             self.fleet_2_push_forward()
         return self.battle_clear_roadblocks(road_main)
-    def battle_5(self):
-        return self.fleet_boss.clear_boss()

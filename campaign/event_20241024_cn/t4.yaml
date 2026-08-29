@@ -93,3 +93,11 @@ imports:
   TEMPLATE_ENEMY_BOSS: module.template.assets.TEMPLATE_ENEMY_BOSS
 campaign_base_name: CampaignBase
 globals: {}
+battles:
+  battle_0:
+    pattern: clear_filter
+    siren: true
+    preserve: 0
+  battle_5:
+    pattern: boss
+    kind: fleet_boss

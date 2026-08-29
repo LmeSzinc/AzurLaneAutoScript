@@ -10,6 +10,9 @@ from module.map.map_base import CampaignMap
 class CampaignBase(CampaignUI, Map, AutoSearchCombat):
     FUNCTION_NAME_BASE = 'battle_'
     MAP: CampaignMap
+    # Phase 456: default enemy filter (813 legacy fragments assigned the same
+    # literal; only ~12 maps override it).
+    ENEMY_FILTER = '1L > 1M > 1E > 1C > 2L > 2M > 2E > 2C > 3L > 3M > 3E > 3C'
 
     def battle_default(self):
         if self.clear_enemy():

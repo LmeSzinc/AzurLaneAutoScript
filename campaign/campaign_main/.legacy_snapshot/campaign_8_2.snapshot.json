@@ -168,5 +168,14 @@
   "campaign_methods": [
     "battle_0",
     "battle_4"
-  ]
+  ],
+  "battles": {
+    "battle_4": {
+      "pattern": "boss",
+      "kind": "brute"
+    }
+  },
+  "battle_bodies": {
+    "battle_4": "def battle_4(self):\n    return self.brute_clear_boss()"
+  }
 }

@@ -19,6 +19,7 @@ from functools import lru_cache
 import yaml
 
 from module.base.utils import node2location
+from module.campaign.battle_patterns import synthesize
 from module.logger import logger
 from module.map.map_base import CampaignMap
 from module.map.map_grids import RoadGrids, SelectedGrids
@@ -265,6 +266,9 @@ def _load_data(folder, name, yaml_path):
     exec(compile(source, frag_path, 'exec'), ns)
     Campaign = ns['Campaign']
     Campaign.MAP = MAP
+    # Phase 456: synthesize declarative battle methods onto the Campaign class
+    for bname, bspec in data.get('battles', {}).items():
+        setattr(Campaign, bname, synthesize(bname, bspec, ns))
     # finalize the shim (registered early above) with the complete namespace
     shim.__dict__.update(ns)
     shim.MAP, shim.Config, shim.Campaign = MAP, Config, Campaign

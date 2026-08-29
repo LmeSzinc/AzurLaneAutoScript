@@ -1,8 +1,5 @@
 class Campaign(CampaignBase):
-    def battle_0(self):
-        if self.clear_siren():
-            return True
-        return self.battle_default()
+
     def battle_6(self):
         if self.clear_siren():
             return True

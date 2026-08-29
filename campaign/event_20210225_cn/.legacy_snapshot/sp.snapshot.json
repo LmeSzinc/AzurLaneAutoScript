@@ -137,5 +137,14 @@
     "battle_0",
     "battle_5",
     "battle_7"
-  ]
+  ],
+  "battles": {
+    "battle_7": {
+      "pattern": "boss",
+      "kind": "fleet_boss"
+    }
+  },
+  "battle_bodies": {
+    "battle_7": "def battle_7(self):\n    return self.fleet_boss.clear_boss()"
+  }
 }

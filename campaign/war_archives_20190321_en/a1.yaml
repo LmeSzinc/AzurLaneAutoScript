@@ -54,3 +54,7 @@ imports:
   TEMPLATE_FLEET_CURRENT: module.template.assets.TEMPLATE_FLEET_CURRENT
 campaign_base_name: CampaignBase
 globals: {}
+battles:
+  battle_5:
+    pattern: boss
+    kind: fleet_boss

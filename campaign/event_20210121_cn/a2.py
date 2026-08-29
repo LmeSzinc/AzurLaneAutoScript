@@ -1,4 +1,5 @@
 class Campaign(CampaignBase):
+
     def get_map_clear_percentage(self):
         """
             map clear here is shorter than normal, about 70% at max
@@ -7,6 +8,7 @@ class Campaign(CampaignBase):
                 float: 0 to 1.
             """
         return super().get_map_clear_percentage() * 1.4
+
     def battle_0(self):
         if not self.map_is_clear_mode:
             for grid in self.map:
@@ -15,5 +17,3 @@ class Campaign(CampaignBase):
         if self.clear_siren():
             return True
         return self.battle_default()
-    def battle_4(self):
-        return self.clear_boss()

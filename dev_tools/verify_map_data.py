@@ -16,6 +16,7 @@ from pathlib import Path
 
 sys.path.insert(0, ".")
 
+from module.campaign.battle_patterns import canonical_source
 from module.campaign.map_loader import _resolve_map, load_map, load_map_file
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -49,7 +50,7 @@ def check_one(folder, name):
     # converter fidelity: committed yaml must equal the recorded legacy snapshot
     data = load_map_file(str(CAMPAIGN / folder / f'{name}.yaml'))
     for field in ('map', 'config_base', 'config', 'roads', 'selects', 'actions', 'extra_maps',
-                  'imports', 'campaign_base_name', 'globals'):
+                  'imports', 'campaign_base_name', 'globals', 'battles'):
         if data.get(field) != snap.get(field):
             errors.append(f'yaml field {field} differs from snapshot')
 
@@ -79,6 +80,16 @@ def check_one(folder, name):
     }
     if methods != set(snap['campaign_methods']):
         errors.append(f'Campaign methods differ: {sorted(methods)} vs {snap["campaign_methods"]}')
+
+    # declarative battle patterns: canonical source must equal the recorded
+    # pre-extraction body (structural equivalence gate)
+    for bname, bspec in (data.get('battles') or {}).items():
+        body = (snap.get('battle_bodies') or {}).get(bname)
+        if body is None:
+            errors.append(f'battle {bname} missing recorded body')
+            continue
+        if canonical_source(bname, bspec) != body:
+            errors.append(f'battle {bname} canonical source differs from recorded body')
 
     return errors
 

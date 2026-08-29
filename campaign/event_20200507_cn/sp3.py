@@ -1,9 +1,8 @@
 class Campaign(CampaignBase):
+
     def battle_0(self):
         if self.clear_enemy(scale=(2,)):
             return True
         if self.clear_enemy(scale=(1,)):
             return True
         return self.battle_default()
-    def battle_5(self):
-        return self.brute_clear_boss()

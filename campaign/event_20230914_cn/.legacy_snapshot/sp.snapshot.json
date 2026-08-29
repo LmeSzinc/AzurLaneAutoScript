@@ -143,5 +143,20 @@
     "battle_2",
     "battle_3",
     "battle_7"
-  ]
+  ],
+  "battles": {
+    "battle_3": {
+      "pattern": "clear_filter",
+      "siren": false,
+      "preserve": 0
+    },
+    "battle_7": {
+      "pattern": "boss",
+      "kind": "fleet_boss"
+    }
+  },
+  "battle_bodies": {
+    "battle_3": "def battle_3(self):\n    if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):\n        return True\n    return self.battle_default()",
+    "battle_7": "def battle_7(self):\n    return self.fleet_boss.clear_boss()"
+  }
 }

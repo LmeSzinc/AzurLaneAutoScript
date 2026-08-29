@@ -44,3 +44,11 @@ roads: {}
 selects: {}
 actions: []
 extra_maps: {}
+battles:
+  battle_0:
+    pattern: clear_filter
+    siren: false
+    preserve: null
+  battle_1:
+    pattern: boss
+    kind: clear

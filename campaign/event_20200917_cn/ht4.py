@@ -1,4 +1,5 @@
 class Campaign(CampaignBase):
+
     def battle_0(self):
         if self.config.MAP_HAS_MOVABLE_ENEMY:
             self.fleet_2_push_forward()
@@ -10,6 +11,7 @@ class Campaign(CampaignBase):
             if self.clear_enemy(scale=(1,)):
                 return True
         return self.battle_default()
+
     def battle_2(self):
         if self.clear_siren():
             return True
@@ -19,5 +21,3 @@ class Campaign(CampaignBase):
             if self.clear_enemy(scale=(1,)):
                 return True
         return self.battle_default()
-    def battle_5(self):
-        return self.fleet_boss.clear_boss()

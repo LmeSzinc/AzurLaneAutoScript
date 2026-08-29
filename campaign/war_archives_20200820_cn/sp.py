@@ -1,4 +1,5 @@
 class Campaign(CampaignBase):
+
     def battle_0(self):
         if self.fleet_2_protect():
             return True
@@ -7,11 +8,10 @@ class Campaign(CampaignBase):
         if self.clear_enemy(scale=(3,)):
             return True
         return self.battle_default()
+
     def battle_5(self):
         if self.clear_enemy(scale=(1,)):
             return True
         if self.clear_enemy(scale=(2,)):
             return True
         return self.battle_default()
-    def battle_7(self):
-        return self.fleet_boss.clear_boss()

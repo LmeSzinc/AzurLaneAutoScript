@@ -48,3 +48,11 @@ imports:
   SelectedGrids: module.map.map_grids.SelectedGrids
   RoadGrids: module.map.map_grids.RoadGrids
   logger: module.logger.logger
+battles:
+  battle_0:
+    pattern: clear_filter
+    siren: false
+    preserve: 0
+  battle_4:
+    pattern: boss
+    kind: clear

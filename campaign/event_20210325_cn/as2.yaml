@@ -66,3 +66,11 @@ imports:
   SelectedGrids: module.map.map_grids.SelectedGrids
   CampaignBase: campaign_base.CampaignBase
 campaign_base_name: CampaignBase
+battles:
+  battle_0:
+    pattern: clear_filter
+    siren: true
+    preserve: null
+  battle_4:
+    pattern: boss
+    kind: clear

@@ -122,5 +122,14 @@
   "campaign_methods": [
     "battle_0",
     "battle_3"
-  ]
+  ],
+  "battles": {
+    "battle_3": {
+      "pattern": "boss",
+      "kind": "clear"
+    }
+  },
+  "battle_bodies": {
+    "battle_3": "def battle_3(self):\n    return self.clear_boss()"
+  }
 }

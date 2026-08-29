@@ -1,4 +1,5 @@
 class Campaign(CampaignBase):
+
     def battle_0(self):
         if not self.picked_flare and H7.is_accessible and A5.is_accessible:
             self.fleet_boss.pick_up_flare(H7)
@@ -10,9 +11,3 @@ class Campaign(CampaignBase):
         if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=1):
             return True
         return self.battle_default()
-    def battle_5(self):
-        if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):
-            return True
-        return self.battle_default()
-    def battle_6(self):
-        return self.fleet_boss.clear_boss()

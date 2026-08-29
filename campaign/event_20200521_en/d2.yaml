@@ -74,3 +74,7 @@ imports:
   CampaignBase: module.campaign.campaign_base.CampaignBase
   CampaignMap: module.map.map_base.CampaignMap
 campaign_base_name: CampaignBase
+battles:
+  battle_6:
+    pattern: boss
+    kind: fleet_boss

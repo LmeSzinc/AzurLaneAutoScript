@@ -95,3 +95,11 @@ imports:
   logger: module.logger.logger
   CampaignMap: module.map.map_base.CampaignMap
 campaign_base_name: CampaignBase
+battles:
+  battle_0:
+    pattern: clear_filter
+    siren: true
+    preserve: 0
+  battle_5:
+    pattern: boss
+    kind: fleet_boss

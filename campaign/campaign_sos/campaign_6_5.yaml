@@ -49,3 +49,15 @@ roads: {}
 selects: {}
 actions: []
 extra_maps: {}
+battles:
+  battle_0:
+    pattern: clear_filter
+    siren: false
+    preserve: 1
+  battle_4:
+    pattern: clear_filter
+    siren: false
+    preserve: 0
+  battle_5:
+    pattern: boss
+    kind: fleet_boss

@@ -91,3 +91,7 @@ globals:
       - 1_L_1_B
     - - 1_R_2_
       - 1_L_2_B
+battles:
+  battle_7:
+    pattern: boss
+    kind: fleet_boss

@@ -1,4 +1,5 @@
 class Campaign(CampaignBase):
+
     def battle_0(self):
         if self.map.select(is_siren=True):
             if self.fleet_2_protect():
@@ -8,5 +9,3 @@ class Campaign(CampaignBase):
         if self.clear_siren():
             return True
         return self.battle_default()
-    def battle_7(self):
-        return self.fleet_boss.clear_boss()

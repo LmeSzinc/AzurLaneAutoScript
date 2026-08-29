@@ -54,5 +54,14 @@
   "campaign_base_name": "CampaignBase",
   "campaign_methods": [
     "battle_0"
-  ]
+  ],
+  "battles": {
+    "battle_0": {
+      "pattern": "boss",
+      "kind": "clear"
+    }
+  },
+  "battle_bodies": {
+    "battle_0": "def battle_0(self):\n    return self.clear_boss()"
+  }
 }

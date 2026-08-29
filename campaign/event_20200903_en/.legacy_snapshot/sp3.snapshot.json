@@ -125,5 +125,14 @@
   "campaign_methods": [
     "battle_0",
     "battle_5"
-  ]
+  ],
+  "battles": {
+    "battle_5": {
+      "pattern": "boss",
+      "kind": "fleet_boss"
+    }
+  },
+  "battle_bodies": {
+    "battle_5": "def battle_5(self):\n    return self.fleet_boss.clear_boss()"
+  }
 }

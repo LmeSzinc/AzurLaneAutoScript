@@ -70,3 +70,7 @@ imports:
   RoadGrids: module.map.map_grids.RoadGrids
   logger: module.logger.logger
 campaign_base_name: CampaignBase
+battles:
+  battle_4:
+    pattern: boss
+    kind: clear

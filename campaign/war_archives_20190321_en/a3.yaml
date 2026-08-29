@@ -55,3 +55,7 @@ imports:
   SelectedGrids: module.map.map_grids.SelectedGrids
   CampaignBase: campaign_war_archives.campaign_base.CampaignBase
   EventGrid: a1.EventGrid
+battles:
+  battle_6:
+    pattern: boss
+    kind: fleet_boss

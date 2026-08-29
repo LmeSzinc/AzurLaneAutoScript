@@ -120,5 +120,20 @@
   "campaign_methods": [
     "battle_0",
     "battle_3"
-  ]
+  ],
+  "battles": {
+    "battle_0": {
+      "pattern": "clear_filter",
+      "siren": true,
+      "preserve": 0
+    },
+    "battle_3": {
+      "pattern": "boss",
+      "kind": "clear"
+    }
+  },
+  "battle_bodies": {
+    "battle_0": "def battle_0(self):\n    if self.clear_siren():\n        return True\n    if self.clear_filter_enemy(self.ENEMY_FILTER, preserve=0):\n        return True\n    return self.battle_default()",
+    "battle_3": "def battle_3(self):\n    return self.clear_boss()"
+  }
 }

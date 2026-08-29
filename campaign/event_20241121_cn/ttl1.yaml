@@ -73,3 +73,7 @@ imports:
   logger: module.logger.logger
 campaign_base_name: CampaignBase
 globals: {}
+battles:
+  battle_0:
+    pattern: boss
+    kind: clear
