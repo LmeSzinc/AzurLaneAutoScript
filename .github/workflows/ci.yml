@@ -41,3 +41,11 @@ jobs:
 
       - name: Tests
         run: uv run pytest tests -v
+
+      - name: Equivalence gates (Phase 456)
+        run: |
+          uv run python dev_tools/verify_config_generated.py
+          uv run python dev_tools/verify_task_families.py
+          uv run python dev_tools/verify_stage_meta.py
+          uv run python dev_tools/verify_map_data.py --all
+          uv run python dev_tools/verify_assets.py check .qoder/phase456/assets_before.json
