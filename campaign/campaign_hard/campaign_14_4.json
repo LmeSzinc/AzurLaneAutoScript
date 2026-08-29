@@ -1,0 +1,89 @@
+{
+  "map": {
+    "shape": "K9",
+    "camera_data": [
+      "D2",
+      "D6",
+      "D7",
+      "H2",
+      "H6",
+      "H7"
+    ],
+    "camera_data_spawn_point": [
+      "H2"
+    ],
+    "map_covered": [
+      "A4"
+    ],
+    "map_data": "\n    ME -- ++ ++ -- ME ME ME ++ ++ ++\n    -- ME ME ME ME ME ME -- SP SP --\n    MB -- __ -- -- -- -- -- ME -- --\n    MB ME -- Me Me -- Me ++ ++ -- ME\n    MM -- Me ME -- Me -- MA ++ -- ME\n    ++ ME ME -- ++ -- ME -- ME -- --\n    ++ -- ME Me Me ME -- -- -- -- ++\n    -- ME -- -- -- __ -- ME ME -- ME\n    -- -- ++ MB MB ++ ++ MM ME ME ME\n",
+    "map_data_loop": "\n    ME -- ++ ++ -- ME ME ME ++ ++ ++\n    -- ME ME ME ME ME ME -- SP SP --\n    MB -- __ -- -- -- -- -- ME -- --\n    MB ME -- Me Me -- Me ++ ++ -- ME\n    MM -- Me ME -- Me -- MA ++ -- ME\n    ++ ME ME -- ++ -- ME -- ME -- --\n    ++ -- ME Me Me ME -- -- -- -- ++\n    -- -- -- -- -- __ -- ME ME -- ME\n    -- -- ++ MB MB ++ ++ MM ME ME ME\n",
+    "weight_data": "\n    40 40 40 40 50 50 50 50 50 50 50\n    40 40 40 40 50 50 50 50 50 50 50\n    40 40 40 40 50 50 50 50 50 50 50\n    40 40 40 40 50 50 50 50 50 50 50\n    40 40 40 40 50 50 50 50 50 50 50\n    40 40 40 40 50 50 50 50 50 50 50\n    40 40 40 40 50 50 50 50 50 50 50\n    50 10 50 50 50 50 50 40 40 50 50\n    50 50 50 50 50 50 50 50 50 40 50\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 4
+      },
+      {
+        "battle": 1,
+        "enemy": 3
+      },
+      {
+        "battle": 2,
+        "enemy": 2
+      },
+      {
+        "battle": 3,
+        "enemy": 2
+      },
+      {
+        "battle": 4,
+        "enemy": 1
+      },
+      {
+        "battle": 5,
+        "enemy": 1
+      },
+      {
+        "battle": 6
+      },
+      {
+        "battle": 7,
+        "boss": 1
+      }
+    ],
+    "spawn_data_loop": [
+      {
+        "battle": 0,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": "campaign_main.campaign_14_base",
+  "config": {
+    "MAP_HAS_MAP_STORY": false,
+    "MAP_HAS_FLEET_STEP": false,
+    "MAP_HAS_AMBUSH": true,
+    "MAP_WALK_USE_CURRENT_FLEET": true
+  },
+  "roads": {
+    "road_A8": {
+      "roadgrids": [
+        [
+          "B8"
+        ]
+      ]
+    },
+    "road_H9": {
+      "roadgrids": [
+        [
+          "H8",
+          "I8",
+          "J9"
+        ]
+      ]
+    }
+  },
+  "selects": {},
+  "actions": [],
+  "extra_maps": {}
+}
