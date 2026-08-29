@@ -1,0 +1,97 @@
+{
+  "map": {
+    "shape": "I8",
+    "camera_data": [
+      "E2",
+      "E5"
+    ],
+    "camera_data_spawn_point": [
+      "E2"
+    ],
+    "map_data": "\n    -- -- -- SP -- SP -- -- --\n    -- ME -- -- MB -- -- ME --\n    -- ++ Me -- -- -- ++ ++ --\n    ++ ME -- MS -- MS ++ ++ --\n    -- ME -- -- __ -- -- ME --\n    -- -- ME -- Me -- -- ME --\n    -- -- ++ ME -- ++ Me -- --\n    -- -- ++ -- -- -- -- -- --\n",
+    "weight_data": "\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 2,
+        "siren": 2
+      },
+      {
+        "battle": 1,
+        "enemy": 1
+      },
+      {
+        "battle": 2,
+        "enemy": 2
+      },
+      {
+        "battle": 3,
+        "enemy": 1
+      },
+      {
+        "battle": 4,
+        "enemy": 1,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": null,
+  "config": {
+    "MAP_SIREN_TEMPLATE": [],
+    "MOVABLE_ENEMY_TURN": [
+      2
+    ],
+    "MAP_HAS_SIREN": true,
+    "MAP_HAS_MOVABLE_ENEMY": true,
+    "MAP_HAS_MAP_STORY": true,
+    "MAP_HAS_FLEET_STEP": true,
+    "MAP_HAS_AMBUSH": false,
+    "MAP_HAS_MYSTERY": false,
+    "MAP_SIREN_HAS_BOSS_ICON_SMALL": true,
+    "INTERNAL_LINES_FIND_PEAKS_PARAMETERS": {
+      "height": [
+        80,
+        222
+      ],
+      "width": [
+        0.9,
+        10
+      ],
+      "prominence": 10,
+      "distance": 35
+    },
+    "EDGE_LINES_FIND_PEAKS_PARAMETERS": {
+      "height": [
+        222,
+        255
+      ],
+      "prominence": 10,
+      "distance": 50,
+      "wlen": 1000
+    },
+    "MAP_SWIPE_MULTIPLY": [
+      1.194,
+      1.217
+    ],
+    "MAP_SWIPE_MULTIPLY_MINITOUCH": [
+      1.155,
+      1.176
+    ],
+    "MAP_SWIPE_MULTIPLY_MAATOUCH": [
+      1.121,
+      1.142
+    ]
+  },
+  "roads": {},
+  "selects": {},
+  "actions": [],
+  "extra_maps": {},
+  "imports": {
+    "CampaignBase": "campaign_base.CampaignBase",
+    "CampaignMap": "module.map.map_base.CampaignMap",
+    "SelectedGrids": "module.map.map_grids.SelectedGrids",
+    "RoadGrids": "module.map.map_grids.RoadGrids",
+    "logger": "module.logger.logger"
+  },
+  "campaign_base_name": "CampaignBase"
+}

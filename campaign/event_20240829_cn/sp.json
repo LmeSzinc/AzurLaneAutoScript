@@ -1,0 +1,115 @@
+{
+  "map": {
+    "shape": "I9",
+    "camera_data": [
+      "E5",
+      "E7"
+    ],
+    "camera_data_spawn_point": [
+      "E5"
+    ],
+    "map_data": "\n    -- -- -- ++ ++ ++ -- -- --\n    -- -- -- ++ ++ ++ -- -- --\n    -- -- -- ++ ++ ++ -- -- --\n    -- -- ++ SP -- SP ++ -- --\n    -- ++ ME -- -- -- ME ++ --\n    ++ ME -- -- __ -- -- ME ++\n    ++ -- ME -- MS -- ME -- ++\n    -- ++ ++ MS -- MS ++ ++ --\n    -- ++ ++ -- MB -- ++ ++ --\n",
+    "weight_data": "\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 6,
+        "siren": 3
+      },
+      {
+        "battle": 1
+      },
+      {
+        "battle": 2
+      },
+      {
+        "battle": 3
+      },
+      {
+        "battle": 4
+      },
+      {
+        "battle": 5
+      },
+      {
+        "battle": 6
+      },
+      {
+        "battle": 7,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": null,
+  "config": {
+    "MAP_SIREN_TEMPLATE": [],
+    "MOVABLE_ENEMY_TURN": [
+      0
+    ],
+    "MAP_HAS_SIREN": true,
+    "MAP_HAS_MOVABLE_ENEMY": false,
+    "MAP_HAS_MAP_STORY": false,
+    "MAP_HAS_FLEET_STEP": false,
+    "MAP_HAS_AMBUSH": false,
+    "MAP_HAS_MYSTERY": false,
+    "STAR_REQUIRE_1": 0,
+    "STAR_REQUIRE_2": 0,
+    "STAR_REQUIRE_3": 0,
+    "INTERNAL_LINES_FIND_PEAKS_PARAMETERS": {
+      "height": [
+        80,
+        238
+      ],
+      "width": [
+        0.9,
+        10
+      ],
+      "prominence": 10,
+      "distance": 35
+    },
+    "EDGE_LINES_FIND_PEAKS_PARAMETERS": {
+      "height": [
+        238,
+        255
+      ],
+      "prominence": 10,
+      "distance": 50,
+      "wlen": 1000
+    },
+    "HOMO_EDGE_COLOR_RANGE": [
+      0,
+      17
+    ],
+    "MAP_IS_ONE_TIME_STAGE": true,
+    "STAGE_ENTRANCE": [
+      "half",
+      "20240725"
+    ],
+    "MAP_SIREN_HAS_BOSS_ICON_SMALL": true,
+    "MAP_ENSURE_EDGE_INSIGHT_CORNER": "bottom",
+    "MAP_SWIPE_MULTIPLY": [
+      1.167,
+      1.189
+    ],
+    "MAP_SWIPE_MULTIPLY_MINITOUCH": [
+      1.129,
+      1.15
+    ],
+    "MAP_SWIPE_MULTIPLY_MAATOUCH": [
+      1.096,
+      1.116
+    ]
+  },
+  "roads": {},
+  "selects": {},
+  "actions": [],
+  "extra_maps": {},
+  "imports": {
+    "CampaignBase": "campaign_base.CampaignBase",
+    "CampaignMap": "module.map.map_base.CampaignMap",
+    "SelectedGrids": "module.map.map_grids.SelectedGrids",
+    "RoadGrids": "module.map.map_grids.RoadGrids",
+    "logger": "module.logger.logger"
+  },
+  "campaign_base_name": "CampaignBase"
+}

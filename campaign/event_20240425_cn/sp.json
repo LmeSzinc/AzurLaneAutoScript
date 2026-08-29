@@ -1,0 +1,112 @@
+{
+  "map": {
+    "shape": "I9",
+    "camera_data": [
+      "C5",
+      "F5"
+    ],
+    "camera_data_spawn_point": [
+      "E7"
+    ],
+    "camera_sight": [
+      -2,
+      -1,
+      3,
+      2
+    ],
+    "map_data": "\n    -- ++ ++ -- -- -- ++ ++ --\n    -- ++ ++ -- MB -- ++ ++ --\n    ++ ++ ++ ++ -- ++ ++ ++ ++\n    -- ME ++ -- -- -- ++ ME --\n    ME -- -- -- __ -- -- -- ME\n    -- ME ++ -- -- -- ++ ME --\n    ++ ++ ++ ++ -- ++ ++ ++ ++\n    -- ++ ++ -- -- -- ++ ++ --\n    -- ++ ++ SP -- SP ++ ++ --\n",
+    "weight_data": "\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 6,
+        "siren": 4
+      },
+      {
+        "battle": 1
+      },
+      {
+        "battle": 2
+      },
+      {
+        "battle": 3
+      },
+      {
+        "battle": 4
+      },
+      {
+        "battle": 5
+      },
+      {
+        "battle": 6
+      },
+      {
+        "battle": 7,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": null,
+  "config": {
+    "MAP_HAS_MAP_STORY": false,
+    "MAP_HAS_FLEET_STEP": false,
+    "MAP_HAS_AMBUSH": false,
+    "MAP_HAS_MYSTERY": false,
+    "STAR_REQUIRE_1": 0,
+    "STAR_REQUIRE_2": 0,
+    "STAR_REQUIRE_3": 0,
+    "MAP_HAS_SIREN": true,
+    "MAP_HAS_CLEAR_PERCENTAGE": false,
+    "MAP_IS_ONE_TIME_STAGE": true,
+    "HOMO_STORAGE": [
+      [
+        9,
+        6
+      ],
+      [
+        [
+          165.083,
+          80.309
+        ],
+        [
+          1168.09,
+          80.309
+        ],
+        [
+          21.023,
+          612.379
+        ],
+        [
+          1325.484,
+          612.379
+        ]
+      ]
+    ],
+    "MAP_SWIPE_MULTIPLY": [
+      1.009,
+      1.028
+    ],
+    "MAP_SWIPE_MULTIPLY_MINITOUCH": [
+      0.976,
+      0.994
+    ],
+    "MAP_SWIPE_MULTIPLY_MAATOUCH": [
+      0.948,
+      0.965
+    ],
+    "MAP_ENSURE_EDGE_INSIGHT_CORNER": "bottom",
+    "MAP_WALK_USE_CURRENT_FLEET": true
+  },
+  "roads": {},
+  "selects": {},
+  "actions": [],
+  "extra_maps": {},
+  "imports": {
+    "CampaignBase": "campaign_base.CampaignBase",
+    "CampaignMap": "module.map.map_base.CampaignMap",
+    "SelectedGrids": "module.map.map_grids.SelectedGrids",
+    "RoadGrids": "module.map.map_grids.RoadGrids",
+    "logger": "module.logger.logger"
+  },
+  "campaign_base_name": "CampaignBase"
+}

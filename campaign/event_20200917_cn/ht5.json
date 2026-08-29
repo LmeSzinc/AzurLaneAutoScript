@@ -1,0 +1,98 @@
+{
+  "map": {
+    "shape": "I9",
+    "camera_data": [
+      "D3",
+      "D5",
+      "D7",
+      "F3",
+      "F5",
+      "F7"
+    ],
+    "camera_data_spawn_point": [
+      "F7",
+      "D3"
+    ],
+    "portal_data": [
+      [
+        "D3",
+        "F3"
+      ],
+      [
+        "G4",
+        "G6"
+      ],
+      [
+        "F7",
+        "D7"
+      ],
+      [
+        "C6",
+        "C4"
+      ]
+    ],
+    "map_data": "\n    ++ -- -- -- ++ -- MB -- ++\n    -- ME -- ME ++ MS -- MS --\n    Me -- SP -- ++ -- __ -- --\n    -- ME -- Me ++ Me -- ME --\n    ++ ++ ++ ++ -- ++ ++ ++ ++\n    -- ME -- Me ++ Me -- ME --\n    -- -- __ -- ++ -- SP -- Me\n    -- MS -- MS ++ ME -- ME --\n    ++ -- MB -- ++ -- -- -- ++\n",
+    "map_data_loop": "\n    ++ -- -- -- ++ -- MB -- ++\n    -- ME -- ME ++ MS -- MS --\n    Me -- SP -- -- -- __ -- --\n    -- ME -- Me ++ Me -- ME --\n    ++ ++ -- ++ -- ++ -- ++ ++\n    -- ME -- Me ++ Me -- ME --\n    -- -- __ -- -- -- SP -- Me\n    -- MS -- MS ++ ME -- ME --\n    ++ -- MB -- ++ -- -- -- ++\n",
+    "weight_data": "\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 2,
+        "siren": 2
+      },
+      {
+        "battle": 1,
+        "enemy": 1
+      },
+      {
+        "battle": 2,
+        "enemy": 2,
+        "siren": 1
+      },
+      {
+        "battle": 3,
+        "enemy": 1
+      },
+      {
+        "battle": 4,
+        "enemy": 2
+      },
+      {
+        "battle": 5,
+        "enemy": 1
+      },
+      {
+        "battle": 6,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": "ht1",
+  "config": {
+    "MAP_SIREN_TEMPLATE": [
+      "BB",
+      "CV"
+    ],
+    "MOVABLE_ENEMY_TURN": [
+      2
+    ],
+    "MAP_HAS_SIREN": true,
+    "MAP_HAS_MOVABLE_ENEMY": true,
+    "MAP_HAS_MAP_STORY": true,
+    "MAP_HAS_FLEET_STEP": true,
+    "MAP_HAS_AMBUSH": false,
+    "MAP_HAS_PORTAL": true
+  },
+  "roads": {},
+  "selects": {},
+  "actions": [],
+  "extra_maps": {},
+  "imports": {
+    "logger": "module.logger.logger",
+    "CampaignMap": "module.map.map_base.CampaignMap",
+    "RoadGrids": "module.map.map_grids.RoadGrids",
+    "SelectedGrids": "module.map.map_grids.SelectedGrids",
+    "CampaignBase": "campaign_base.CampaignBase"
+  },
+  "campaign_base_name": "CampaignBase"
+}

@@ -1,0 +1,42 @@
+{
+  "map": {
+    "shape": "E7",
+    "camera_data": [
+      "C3"
+    ],
+    "camera_data_spawn_point": [
+      "C3"
+    ],
+    "map_data": "\n    -- ++ -- ++ --\n    -- -- -- -- --\n    ++ ++ MB ++ ++\n    ++ ++ -- ++ ++\n    -- -- SP -- --\n    ++ -- -- -- ++\n    -- -- -- -- --\n",
+    "weight_data": "\n    50 50 50 50 50\n    50 50 50 50 50\n    50 50 50 50 50\n    50 50 50 50 50\n    50 50 50 50 50\n    50 50 50 50 50\n    50 50 50 50 50\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": null,
+  "config": {
+    "MAP_HAS_MAP_STORY": false,
+    "MAP_HAS_FLEET_STEP": false,
+    "MAP_HAS_AMBUSH": false,
+    "MAP_HAS_MYSTERY": false,
+    "STAR_REQUIRE_1": 0,
+    "STAR_REQUIRE_2": 0,
+    "STAR_REQUIRE_3": 0,
+    "MAP_IS_ONE_TIME_STAGE": true
+  },
+  "roads": {},
+  "selects": {},
+  "actions": [],
+  "extra_maps": {},
+  "imports": {
+    "CampaignMap": "module.map.map_base.CampaignMap",
+    "SelectedGrids": "module.map.map_grids.SelectedGrids",
+    "RoadGrids": "module.map.map_grids.RoadGrids",
+    "logger": "module.logger.logger",
+    "CampaignBase": "campaign_base.CampaignBase"
+  },
+  "campaign_base_name": "CampaignBase"
+}

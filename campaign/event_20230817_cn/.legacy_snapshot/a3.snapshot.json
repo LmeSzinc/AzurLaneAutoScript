@@ -1,0 +1,84 @@
+{
+  "map": {
+    "shape": "I10",
+    "camera_data": [
+      "D4",
+      "D6",
+      "F4",
+      "F6"
+    ],
+    "camera_data_spawn_point": [
+      "E8"
+    ],
+    "map_data": "\n    ++ ++ ++ -- -- -- ++ ++ ++\n    -- -- ++ -- MB -- ++ -- --\n    -- ME ++ ++ -- ++ ++ ME --\n    ME -- ME Me -- Me ME -- ME\n    ME -- -- -- -- -- -- -- ME\n    ++ Me -- MS -- MS -- Me ++\n    ME -- -- -- -- -- -- -- ME\n    -- ME MS -- __ -- MS ME --\n    ++ ++ -- -- -- -- -- ++ ++\n    ++ ++ -- SP -- SP -- ++ ++\n",
+    "weight_data": "\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 2,
+        "siren": 1
+      },
+      {
+        "battle": 1,
+        "enemy": 1
+      },
+      {
+        "battle": 2,
+        "enemy": 1
+      },
+      {
+        "battle": 3,
+        "enemy": 1
+      },
+      {
+        "battle": 4,
+        "enemy": 1,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": "a1",
+  "config": {
+    "MAP_SIREN_TEMPLATE": [
+      "SirenBoss18",
+      "SirenBoss19"
+    ],
+    "MOVABLE_ENEMY_TURN": [
+      2
+    ],
+    "MAP_HAS_SIREN": true,
+    "MAP_HAS_MOVABLE_ENEMY": true,
+    "MAP_HAS_MAP_STORY": true,
+    "MAP_HAS_FLEET_STEP": true,
+    "MAP_HAS_AMBUSH": false,
+    "MAP_HAS_MYSTERY": false,
+    "MAP_SWIPE_MULTIPLY": [
+      1.156,
+      1.178
+    ],
+    "MAP_SWIPE_MULTIPLY_MINITOUCH": [
+      1.118,
+      1.139
+    ],
+    "MAP_SWIPE_MULTIPLY_MAATOUCH": [
+      1.085,
+      1.105
+    ]
+  },
+  "roads": {},
+  "selects": {},
+  "actions": [],
+  "extra_maps": {},
+  "imports": {
+    "CampaignBase": "campaign_base.CampaignBase",
+    "CampaignMap": "module.map.map_base.CampaignMap",
+    "SelectedGrids": "module.map.map_grids.SelectedGrids",
+    "RoadGrids": "module.map.map_grids.RoadGrids",
+    "logger": "module.logger.logger"
+  },
+  "campaign_base_name": "CampaignBase",
+  "campaign_methods": [
+    "battle_0",
+    "battle_4"
+  ]
+}

@@ -1,0 +1,4 @@
+t4.py: top-level ClassDef class EventGrid(Grid):
+
+    def predict_enemy_genre(self):
+ 

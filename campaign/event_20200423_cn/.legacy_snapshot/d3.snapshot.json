@@ -1,0 +1,65 @@
+{
+  "map": {
+    "map_data": "\n    MS -- -- ME -- MS -- ME --\n    -- ME -- -- __ ME -- ++ ++\n    ++ ++ -- ME ++ ++ ME -- ME\n    MB -- -- -- ++ ++ -- -- SP\n    ++ ++ -- -- -- -- -- -- SP\n    ME -- ME ME ME -- -- ++ --\n    -- ME ++ ++ ++ MS ME -- --\n",
+    "weight_data": "\n    10 10 10 10 10 10 10 10 10\n    10 10 10 10 10 10 10 10 10\n    10 10 10 10 10 10 10 10 10\n    10 10 10 10 10 10 10 10 10\n    10 10 10 10 10 10 10 10 10\n    20 20 10 10 10 10 10 10 10\n    20 20 10 10 10 10 10 10 10\n",
+    "camera_data": [
+      "D3",
+      "D5",
+      "F3",
+      "F5"
+    ],
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 2,
+        "siren": 2
+      },
+      {
+        "battle": 1,
+        "enemy": 1
+      },
+      {
+        "battle": 2,
+        "enemy": 2,
+        "siren": 1
+      },
+      {
+        "battle": 3,
+        "enemy": 1
+      },
+      {
+        "battle": 4,
+        "enemy": 2
+      },
+      {
+        "battle": 5,
+        "enemy": 1
+      },
+      {
+        "battle": 6,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": "event_20200423_cn.d1",
+  "config": {
+    "FLEET_BOSS": 2
+  },
+  "roads": {},
+  "selects": {},
+  "actions": [],
+  "extra_maps": {},
+  "imports": {
+    "CampaignBase": "module.campaign.campaign_base.CampaignBase",
+    "logger": "module.logger.logger",
+    "CampaignMap": "module.map.map_base.CampaignMap",
+    "RoadGrids": "module.map.map_grids.RoadGrids",
+    "SelectedGrids": "module.map.map_grids.SelectedGrids"
+  },
+  "campaign_base_name": "CampaignBase",
+  "campaign_methods": [
+    "battle_0",
+    "battle_5",
+    "battle_6"
+  ]
+}

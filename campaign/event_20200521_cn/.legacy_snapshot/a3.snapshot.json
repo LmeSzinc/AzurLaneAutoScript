@@ -1,0 +1,22 @@
+{
+  "map": {
+    "map_data": "\n    -- -- -- ++ ++ -- -- --\n    -- -- -- -- -- -- -- --\n    ++ ++ -- -- -- -- ++ ++\n    -- -- -- ++ -- -- ++ ++\n    -- -- -- ++ -- -- -- --\n    -- -- -- -- -- -- -- ++\n    -- -- -- ++ -- -- -- --\n"
+  },
+  "config_base": "event_20200521_cn.a1",
+  "config": {
+    "MAP_HAS_DYNAMIC_RED_BORDER": false
+  },
+  "roads": {},
+  "selects": {},
+  "actions": [],
+  "extra_maps": {},
+  "imports": {
+    "CampaignBase": "module.campaign.campaign_base.CampaignBase",
+    "logger": "module.logger.logger",
+    "CampaignMap": "module.map.map_base.CampaignMap",
+    "RoadGrids": "module.map.map_grids.RoadGrids",
+    "SelectedGrids": "module.map.map_grids.SelectedGrids"
+  },
+  "campaign_base_name": "CampaignBase",
+  "campaign_methods": []
+}

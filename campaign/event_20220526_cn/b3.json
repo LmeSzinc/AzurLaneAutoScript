@@ -1,0 +1,115 @@
+{
+  "map": {
+    "shape": "I9",
+    "camera_data": [
+      "D3",
+      "D5",
+      "D7",
+      "F3",
+      "F5",
+      "F7"
+    ],
+    "camera_data_spawn_point": [
+      "F7",
+      "D7"
+    ],
+    "map_data": "\n    -- ++ ++ -- MB -- ++ ++ --\n    -- ++ ++ Me -- Me ++ ++ --\n    ME -- -- -- -- -- -- -- ME\n    -- ME ME Me -- Me ME ME --\n    -- ++ ++ ++ -- ++ ++ ++ --\n    -- Me ME MS -- MS ME Me --\n    ME -- -- -- __ -- -- -- ME\n    ++ MS -- -- -- -- -- MS ++\n    ++ -- ++ SP -- SP ++ -- ++\n",
+    "weight_data": "\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 2,
+        "siren": 2
+      },
+      {
+        "battle": 1,
+        "enemy": 1
+      },
+      {
+        "battle": 2,
+        "enemy": 2
+      },
+      {
+        "battle": 3,
+        "enemy": 1
+      },
+      {
+        "battle": 4,
+        "enemy": 2
+      },
+      {
+        "battle": 5,
+        "enemy": 1,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": "b1",
+  "config": {
+    "MAP_SIREN_TEMPLATE": [
+      "CA",
+      "BB",
+      "Bellona",
+      "Revenge"
+    ],
+    "MOVABLE_ENEMY_TURN": [
+      2
+    ],
+    "MAP_HAS_SIREN": true,
+    "MAP_HAS_MOVABLE_ENEMY": true,
+    "MAP_HAS_MAP_STORY": true,
+    "MAP_HAS_FLEET_STEP": true,
+    "MAP_HAS_AMBUSH": false,
+    "MAP_HAS_MYSTERY": false,
+    "INTERNAL_LINES_FIND_PEAKS_PARAMETERS": {
+      "height": [
+        120,
+        222
+      ],
+      "width": [
+        1.5,
+        10
+      ],
+      "prominence": 10,
+      "distance": 35
+    },
+    "EDGE_LINES_FIND_PEAKS_PARAMETERS": {
+      "height": [
+        222,
+        255
+      ],
+      "prominence": 10,
+      "distance": 50,
+      "wlen": 1000
+    },
+    "HOMO_EDGE_COLOR_RANGE": [
+      0,
+      33
+    ],
+    "HOMO_EDGE_HOUGHLINES_THRESHOLD": 210,
+    "MAP_SWIPE_MULTIPLY": [
+      0.993,
+      1.011
+    ],
+    "MAP_SWIPE_MULTIPLY_MINITOUCH": [
+      0.96,
+      0.978
+    ],
+    "MAP_SWIPE_MULTIPLY_MAATOUCH": [
+      0.932,
+      0.949
+    ]
+  },
+  "roads": {},
+  "selects": {},
+  "actions": [],
+  "extra_maps": {},
+  "imports": {
+    "CampaignBase": "module.campaign.campaign_base.CampaignBase",
+    "CampaignMap": "module.map.map_base.CampaignMap",
+    "SelectedGrids": "module.map.map_grids.SelectedGrids",
+    "RoadGrids": "module.map.map_grids.RoadGrids",
+    "logger": "module.logger.logger"
+  },
+  "campaign_base_name": "CampaignBase"
+}

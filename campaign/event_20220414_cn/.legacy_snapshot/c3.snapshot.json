@@ -1,0 +1,88 @@
+{
+  "map": {
+    "shape": "H8",
+    "camera_data": [
+      "D2",
+      "D6",
+      "E2",
+      "E6"
+    ],
+    "camera_data_spawn_point": [
+      "E6",
+      "D6"
+    ],
+    "map_data": "\n    ME ++ ++ ++ ME -- -- --\n    -- -- Me ME -- ++ ++ ME\n    -- ME ++ Me -- ME -- --\n    -- Me __ MB MB __ -- ++\n    -- MS -- MB MB -- MS --\n    ++ ++ Me -- -- Me ++ ME\n    ++ ME -- -- -- -- ME --\n    MS -- -- SP SP -- -- MS\n",
+    "weight_data": "\n    50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 2,
+        "siren": 2
+      },
+      {
+        "battle": 1,
+        "enemy": 1
+      },
+      {
+        "battle": 2,
+        "enemy": 2
+      },
+      {
+        "battle": 3,
+        "enemy": 1
+      },
+      {
+        "battle": 4,
+        "enemy": 1
+      },
+      {
+        "battle": 5,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": "c1",
+  "config": {
+    "MAP_SIREN_TEMPLATE": [
+      "CLpurple",
+      "BBpurple"
+    ],
+    "MOVABLE_ENEMY_TURN": [
+      2
+    ],
+    "MAP_HAS_SIREN": true,
+    "MAP_HAS_MOVABLE_ENEMY": true,
+    "MAP_HAS_MAP_STORY": true,
+    "MAP_HAS_FLEET_STEP": true,
+    "MAP_HAS_AMBUSH": false,
+    "MAP_HAS_MYSTERY": false,
+    "MAP_SWIPE_MULTIPLY": [
+      1.034,
+      1.053
+    ],
+    "MAP_SWIPE_MULTIPLY_MINITOUCH": [
+      1.0,
+      1.018
+    ],
+    "MAP_SWIPE_MULTIPLY_MAATOUCH": [
+      0.971,
+      0.988
+    ]
+  },
+  "roads": {},
+  "selects": {},
+  "actions": [],
+  "extra_maps": {},
+  "imports": {
+    "CampaignBase": "module.campaign.campaign_base.CampaignBase",
+    "logger": "module.logger.logger",
+    "CampaignMap": "module.map.map_base.CampaignMap",
+    "RoadGrids": "module.map.map_grids.RoadGrids",
+    "SelectedGrids": "module.map.map_grids.SelectedGrids"
+  },
+  "campaign_base_name": "CampaignBase",
+  "campaign_methods": [
+    "battle_0",
+    "battle_5"
+  ]
+}

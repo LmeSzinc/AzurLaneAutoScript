@@ -1,0 +1,107 @@
+{
+  "map": {
+    "shape": "I7",
+    "camera_data": [
+      "D2",
+      "D5",
+      "F2",
+      "F5"
+    ],
+    "camera_data_spawn_point": [
+      "D2"
+    ],
+    "map_data": "\n    SP -- -- ++ -- -- ++ -- --\n    -- -- SI -- SI -- SI -- ME\n    SP -- -- ++ -- -- ++ -- --\n    ++ ++ ++ ++ ++ ++ ++ ME ++\n    ME -- __ -- -- ++ -- -- --\n    -- MB -- ++ -- -- ME -- ME\n    ME -- ME ++ ME -- -- ++ --\n",
+    "weight_data": "\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 8,
+        "siren": 3
+      },
+      {
+        "battle": 1
+      },
+      {
+        "battle": 2
+      },
+      {
+        "battle": 3
+      },
+      {
+        "battle": 4
+      },
+      {
+        "battle": 5
+      },
+      {
+        "battle": 6
+      },
+      {
+        "battle": 7,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": null,
+  "config": {
+    "MAP_HAS_MAP_STORY": false,
+    "MAP_HAS_FLEET_STEP": false,
+    "MAP_HAS_AMBUSH": false,
+    "MAP_HAS_MYSTERY": false,
+    "STAR_REQUIRE_1": 0,
+    "STAR_REQUIRE_2": 0,
+    "STAR_REQUIRE_3": 0,
+    "MAP_HAS_SIREN": true,
+    "MAP_HAS_MOVABLE_ENEMY": false,
+    "MAP_IS_ONE_TIME_STAGE": true,
+    "INTERNAL_LINES_FIND_PEAKS_PARAMETERS": {
+      "height": [
+        80,
+        238
+      ],
+      "width": [
+        0.9,
+        10
+      ],
+      "prominence": 10,
+      "distance": 35
+    },
+    "EDGE_LINES_FIND_PEAKS_PARAMETERS": {
+      "height": [
+        238,
+        255
+      ],
+      "prominence": 10,
+      "distance": 50,
+      "wlen": 1000
+    },
+    "HOMO_EDGE_COLOR_RANGE": [
+      0,
+      17
+    ],
+    "MAP_SWIPE_MULTIPLY": [
+      1.227,
+      1.25
+    ],
+    "MAP_SWIPE_MULTIPLY_MINITOUCH": [
+      1.187,
+      1.209
+    ],
+    "MAP_SWIPE_MULTIPLY_MAATOUCH": [
+      1.152,
+      1.173
+    ]
+  },
+  "roads": {},
+  "selects": {},
+  "actions": [],
+  "extra_maps": {},
+  "imports": {
+    "CampaignBase": "module.campaign.campaign_base.CampaignBase",
+    "CampaignMap": "module.map.map_base.CampaignMap",
+    "SelectedGrids": "module.map.map_grids.SelectedGrids",
+    "RoadGrids": "module.map.map_grids.RoadGrids",
+    "logger": "module.logger.logger"
+  },
+  "campaign_base_name": "CampaignBase"
+}

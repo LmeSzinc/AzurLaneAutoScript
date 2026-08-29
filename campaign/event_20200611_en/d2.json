@@ -1,0 +1,34 @@
+{
+  "map": {
+    "map_data": "\n    -- -- -- -- ++ -- -- -- -- ++ ++\n    -- -- -- -- -- -- ++ ++ -- -- --\n    ++ -- -- -- -- -- ++ ++ -- -- --\n    -- -- -- -- -- -- -- -- -- -- --\n    -- -- -- -- -- -- -- -- -- -- --\n    ++ ++ -- -- -- -- ++ ++ -- -- --\n    ++ -- -- -- -- -- -- -- -- -- --\n",
+    "camera_data": [
+      "D3",
+      "D5",
+      "F3",
+      "F5",
+      "H3",
+      "H5"
+    ],
+    "wall_data": "\n    ·   · | ·   ·   ·   ·   ·   ·   ·   ·   · ,\n          +                                   ,\n    ·   ·   ·   ·   ·   ·   ·   ·   ·   · | · ,\n          +       +   +               +   +   ,\n    ·   · | ·   · | · | ·   ·   ·   · | ·   · ,\n          +---+---+   |               |   +   ,\n    ·   ·   · | ·   · | ·   ·   ·   · | · | · ,\n              +---+   +---+       +---+   +-- ,\n    ·   ·   ·   ·   ·   ·   ·   ·   ·   ·   · ,\n                                              ,\n    ·   ·   ·   ·   ·   ·   ·   ·   ·   ·   · ,\n                                              ,\n    ·   ·   ·   ·   ·   ·   ·   ·   ·   ·   · ,\n"
+  },
+  "config_base": "event_20200611_en.d1",
+  "config": {
+    "MAP_HAS_WALL": true,
+    "MAP_SIREN_TEMPLATE": [
+      "Algerie",
+      "Vauquelin"
+    ]
+  },
+  "roads": {},
+  "selects": {},
+  "actions": [],
+  "extra_maps": {},
+  "imports": {
+    "CampaignBase": "module.campaign.campaign_base.CampaignBase",
+    "logger": "module.logger.logger",
+    "CampaignMap": "module.map.map_base.CampaignMap",
+    "RoadGrids": "module.map.map_grids.RoadGrids",
+    "SelectedGrids": "module.map.map_grids.SelectedGrids"
+  },
+  "campaign_base_name": "CampaignBase"
+}

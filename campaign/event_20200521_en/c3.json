@@ -1,0 +1,87 @@
+{
+  "map": {
+    "shape": "K7",
+    "camera_data": [
+      "F2",
+      "F4",
+      "F6"
+    ],
+    "map_data": "\n    SP ++ ++ ++ ME -- -- MS ME -- MM\n    -- -- -- -- -- -- ME -- -- -- --\n    ME -- ++ ME -- -- -- -- ++ ++ --\n    ME -- -- -- MS ++ __ -- MB ++ --\n    -- -- ME -- -- -- -- -- -- -- --\n    -- -- ++ ++ ME ME -- ME ++ ++ ++\n    SP -- ++ ++ ME -- -- -- -- ME MM\n"
+  },
+  "config_base": null,
+  "config": {
+    "POOR_MAP_DATA": true,
+    "MAP_HAS_AMBUSH": false,
+    "MAP_HAS_FLEET_STEP": true,
+    "MAP_HAS_MOVABLE_ENEMY": true,
+    "MAP_HAS_SIREN": true,
+    "MAP_SIREN_COUNT": 2,
+    "MAP_GRID_CENTER_TOLERANCE": 0.3,
+    "MAP_SIREN_TEMPLATE": [
+      "1",
+      "2",
+      "3",
+      "DD"
+    ],
+    "INTERNAL_LINES_HOUGHLINES_THRESHOLD": 50,
+    "MID_DIFF_RANGE_H": [
+      45,
+      70
+    ],
+    "MID_DIFF_RANGE_V": [
+      94,
+      100
+    ],
+    "TRUST_EDGE_LINES": true,
+    "VANISH_POINT_RANGE": [
+      [
+        540,
+        740
+      ],
+      [
+        -4000,
+        -2000
+      ]
+    ],
+    "DISTANCE_POINT_X_RANGE": [
+      [
+        -2000,
+        -1000
+      ]
+    ],
+    "INTERNAL_LINES_FIND_PEAKS_PARAMETERS": {
+      "height": [
+        80,
+        215
+      ],
+      "width": [
+        0.9,
+        10
+      ],
+      "prominence": 10,
+      "distance": 35,
+      "wlen": 100
+    },
+    "EDGE_LINES_FIND_PEAKS_PARAMETERS": {
+      "height": [
+        215,
+        255
+      ],
+      "prominence": 10,
+      "distance": 50,
+      "wlen": 1000
+    }
+  },
+  "roads": {},
+  "selects": {},
+  "actions": [],
+  "extra_maps": {},
+  "imports": {
+    "CampaignBase": "module.campaign.campaign_base.CampaignBase",
+    "logger": "module.logger.logger",
+    "CampaignMap": "module.map.map_base.CampaignMap",
+    "RoadGrids": "module.map.map_grids.RoadGrids",
+    "SelectedGrids": "module.map.map_grids.SelectedGrids"
+  },
+  "campaign_base_name": "CampaignBase"
+}

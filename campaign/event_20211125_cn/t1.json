@@ -1,0 +1,96 @@
+{
+  "map": {
+    "shape": "H7",
+    "camera_data": [
+      "D2",
+      "D5",
+      "E2",
+      "E5"
+    ],
+    "camera_data_spawn_point": [
+      "D2"
+    ],
+    "map_data": "\n    SP SP -- ME ++ -- ME --\n    -- -- -- -- MS ME ++ ++\n    -- ++ ++ Me -- -- -- --\n    -- ME ++ -- -- ++ ME --\n    Me -- -- ME -- ++ -- --\n    -- Me __ -- Me -- -- ME\n    ++ ++ ME ME -- -- MB --\n",
+    "weight_data": "\n    50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 3
+      },
+      {
+        "battle": 1,
+        "enemy": 2
+      },
+      {
+        "battle": 2,
+        "enemy": 1
+      },
+      {
+        "battle": 3,
+        "enemy": 1
+      },
+      {
+        "battle": 4,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": null,
+  "config": {
+    "MAP_HAS_MAP_STORY": true,
+    "MAP_HAS_FLEET_STEP": true,
+    "MAP_HAS_AMBUSH": false,
+    "MAP_HAS_MYSTERY": false,
+    "INTERNAL_LINES_FIND_PEAKS_PARAMETERS": {
+      "height": [
+        150,
+        231
+      ],
+      "width": [
+        0.9,
+        10
+      ],
+      "prominence": 10,
+      "distance": 35
+    },
+    "EDGE_LINES_FIND_PEAKS_PARAMETERS": {
+      "height": [
+        238,
+        255
+      ],
+      "prominence": 10,
+      "distance": 50,
+      "wlen": 1000
+    },
+    "HOMO_EDGE_COLOR_RANGE": [
+      0,
+      17
+    ],
+    "HOMO_EDGE_HOUGHLINES_THRESHOLD": 180,
+    "MAP_ENSURE_EDGE_INSIGHT_CORNER": "bottom",
+    "MAP_SWIPE_MULTIPLY": [
+      1.215,
+      1.237
+    ],
+    "MAP_SWIPE_MULTIPLY_MINITOUCH": [
+      1.175,
+      1.196
+    ],
+    "MAP_SWIPE_MULTIPLY_MAATOUCH": [
+      1.14,
+      1.161
+    ]
+  },
+  "roads": {},
+  "selects": {},
+  "actions": [],
+  "extra_maps": {},
+  "imports": {
+    "logger": "module.logger.logger",
+    "CampaignMap": "module.map.map_base.CampaignMap",
+    "RoadGrids": "module.map.map_grids.RoadGrids",
+    "SelectedGrids": "module.map.map_grids.SelectedGrids",
+    "CampaignBase": "campaign_base.CampaignBase"
+  },
+  "campaign_base_name": "CampaignBase"
+}

@@ -1,0 +1,48 @@
+{
+  "map": {
+    "shape": "H7",
+    "map_data": "\n    -- ME -- ME ++ ++ SP SP\n    ME -- MS -- ME -- -- SP\n    ++ ME -- -- -- -- -- --\n    ++ ME -- -- MS -- ME ++\n    ME -- __ ME ++ -- -- --\n    MB -- -- MS ++ -- ME ME\n    MB MB ME -- ME -- ME --\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 2,
+        "siren": 1
+      },
+      {
+        "battle": 1,
+        "enemy": 1
+      },
+      {
+        "battle": 2,
+        "enemy": 2
+      },
+      {
+        "battle": 3,
+        "enemy": 1
+      },
+      {
+        "battle": 4,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": null,
+  "config": {},
+  "roads": {},
+  "selects": {},
+  "actions": [],
+  "extra_maps": {},
+  "imports": {
+    "Config": "event_20200326_cn.a1.Config",
+    "CampaignBase": "module.campaign.campaign_base.CampaignBase",
+    "logger": "module.logger.logger",
+    "CampaignMap": "module.map.map_base.CampaignMap",
+    "RoadGrids": "module.map.map_grids.RoadGrids",
+    "SelectedGrids": "module.map.map_grids.SelectedGrids"
+  },
+  "campaign_base_name": "CampaignBase",
+  "campaign_methods": [
+    "battle_0",
+    "battle_4"
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "map": {
+    "shape": "G7",
+    "map_data": "\n    ++ ++ ME ME ME ++ --\n    ++ MS -- ME -- MS ++\n    ME -- -- __ -- -- ME\n    ME -- SP MB SP -- ME\n    ME -- -- MB -- -- ME\n    -- MS -- MB ++ ++ ++\n    ++ -- ME -- ME -- --\n",
+    "weight_data": "\n    10 10 10 10 10 10 10\n    10 10 10 10 10 10 10\n    10 10 10 10 10 10 10\n    10 10 10 10 10 10 10\n    10 10 10 10 10 10 10\n    10 10 10 10 10 10 10\n    10 10 10 20 20 20 20\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 2,
+        "siren": 1
+      },
+      {
+        "battle": 1,
+        "enemy": 1
+      },
+      {
+        "battle": 2,
+        "enemy": 1
+      },
+      {
+        "battle": 3,
+        "enemy": 1
+      },
+      {
+        "battle": 4,
+        "enemy": 1,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": null,
+  "config": {},
+  "roads": {},
+  "selects": {},
+  "actions": [],
+  "extra_maps": {},
+  "imports": {
+    "Config": "event_20200326_cn.a1.Config",
+    "CampaignBase": "module.campaign.campaign_base.CampaignBase",
+    "logger": "module.logger.logger",
+    "CampaignMap": "module.map.map_base.CampaignMap",
+    "RoadGrids": "module.map.map_grids.RoadGrids",
+    "SelectedGrids": "module.map.map_grids.SelectedGrids"
+  },
+  "campaign_base_name": "CampaignBase"
+}

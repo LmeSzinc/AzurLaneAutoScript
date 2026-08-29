@@ -1,0 +1,83 @@
+{
+  "map": {
+    "shape": "K8",
+    "camera_data": [
+      "E2",
+      "E6",
+      "H2",
+      "H6"
+    ],
+    "camera_data_spawn_point": [
+      "E2"
+    ],
+    "map_data": "\n    -- -- -- ++ SP -- SP ++ ME -- ME\n    -- MB -- -- -- __ -- -- -- ME --\n    -- -- -- ++ -- MS -- ++ ME -- --\n    ++ ++ ++ ++ MS ++ MS ++ ++ ++ --\n    -- -- -- -- -- Me -- -- -- -- --\n    -- ++ ++ Me -- -- -- ME -- ME --\n    -- ++ ++ Me -- Me ++ ++ ME -- ME\n    -- -- -- -- ME -- -- ++ -- ++ --\n",
+    "weight_data": "\n    50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 2,
+        "siren": 1
+      },
+      {
+        "battle": 1,
+        "enemy": 1
+      },
+      {
+        "battle": 2,
+        "enemy": 2
+      },
+      {
+        "battle": 3,
+        "enemy": 1
+      },
+      {
+        "battle": 4,
+        "enemy": 2
+      },
+      {
+        "battle": 5,
+        "enemy": 1,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": "b1",
+  "config": {
+    "MAP_SIREN_TEMPLATE": [
+      "Fox"
+    ],
+    "MOVABLE_ENEMY_TURN": [
+      2
+    ],
+    "MAP_HAS_SIREN": true,
+    "MAP_HAS_MOVABLE_ENEMY": true,
+    "MAP_HAS_MAP_STORY": false,
+    "MAP_HAS_FLEET_STEP": true,
+    "MAP_HAS_AMBUSH": false,
+    "MAP_HAS_MYSTERY": false,
+    "MAP_SWIPE_MULTIPLY": [
+      1.215,
+      1.238
+    ],
+    "MAP_SWIPE_MULTIPLY_MINITOUCH": [
+      1.175,
+      1.197
+    ],
+    "MAP_SWIPE_MULTIPLY_MAATOUCH": [
+      1.141,
+      1.161
+    ]
+  },
+  "roads": {},
+  "selects": {},
+  "actions": [],
+  "extra_maps": {},
+  "imports": {
+    "CampaignBase": "campaign_base.CampaignBase",
+    "CampaignMap": "module.map.map_base.CampaignMap",
+    "SelectedGrids": "module.map.map_grids.SelectedGrids",
+    "RoadGrids": "module.map.map_grids.RoadGrids",
+    "logger": "module.logger.logger"
+  },
+  "campaign_base_name": "CampaignBase"
+}

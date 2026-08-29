@@ -1,0 +1,87 @@
+{
+  "map": {
+    "shape": "K9",
+    "camera_data": [
+      "D3",
+      "D6",
+      "E3",
+      "E6"
+    ],
+    "camera_data_spawn_point": [
+      "D3",
+      "D6"
+    ],
+    "map_data": "\n    ++ ++ -- -- -- -- -- -- -- ++ --\n    -- -- ME ME MS MS ME ME -- ++ --\n    -- Me -- -- -- -- -- Me -- -- --\n    SP -- -- Me ME -- MB ++ ++ ++ --\n    -- ME ++ ++ ++ __ MB ++ ++ ++ --\n    SP -- -- Me ME -- MB ++ ++ ++ --\n    -- Me -- -- -- -- -- Me -- -- --\n    -- -- ME ME MS MS ME ME -- ++ --\n    ++ -- -- -- -- -- -- -- -- -- --\n",
+    "weight_data": "\n    50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 2,
+        "siren": 2
+      },
+      {
+        "battle": 1,
+        "enemy": 1
+      },
+      {
+        "battle": 2,
+        "enemy": 2,
+        "siren": 1
+      },
+      {
+        "battle": 3,
+        "enemy": 1
+      },
+      {
+        "battle": 4,
+        "enemy": 2
+      },
+      {
+        "battle": 5,
+        "enemy": 1
+      },
+      {
+        "battle": 6
+      },
+      {
+        "battle": 7,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": null,
+  "config": {
+    "MAP_SIREN_TEMPLATE": [
+      "Vauquelin",
+      "LaGalissonniere",
+      "Algerie"
+    ],
+    "MOVABLE_ENEMY_TURN": [
+      2
+    ],
+    "MAP_HAS_SIREN": true,
+    "MAP_HAS_MOVABLE_ENEMY": true,
+    "MAP_HAS_MAP_STORY": false,
+    "MAP_HAS_FLEET_STEP": true,
+    "MAP_HAS_AMBUSH": false,
+    "STAR_REQUIRE_1": 0,
+    "STAR_REQUIRE_2": 0,
+    "STAR_REQUIRE_3": 0
+  },
+  "roads": {},
+  "selects": {},
+  "actions": [],
+  "extra_maps": {},
+  "imports": {
+    "CampaignBase": "module.campaign.campaign_base.CampaignBase",
+    "logger": "module.logger.logger",
+    "CampaignMap": "module.map.map_base.CampaignMap",
+    "RoadGrids": "module.map.map_grids.RoadGrids",
+    "SelectedGrids": "module.map.map_grids.SelectedGrids"
+  },
+  "campaign_base_name": "CampaignBase",
+  "campaign_methods": [
+    "battle_0",
+    "battle_7"
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "map": {
+    "shape": "K7",
+    "camera_data": [
+      "D2",
+      "D5",
+      "H2",
+      "H5"
+    ],
+    "camera_data_spawn_point": [
+      "D2",
+      "H2"
+    ],
+    "map_data": "\n    -- -- ++ ++ SP -- SP ++ ++ ++ ++\n    -- ME ++ ++ -- -- -- -- -- ME ME\n    ME -- -- MS -- -- -- ME -- -- MB\n    ++ -- -- -- Me -- Me ++ __ -- MB\n    -- -- ++ ++ ++ MS -- ++ -- -- ME\n    -- ME -- ME ++ -- -- -- -- Me ++\n    -- -- -- -- Me -- ME -- ME -- ++\n",
+    "weight_data": "\n    50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 3,
+        "siren": 2
+      },
+      {
+        "battle": 1,
+        "enemy": 2
+      },
+      {
+        "battle": 2,
+        "enemy": 1
+      },
+      {
+        "battle": 3,
+        "enemy": 1
+      },
+      {
+        "battle": 4,
+        "boss": 1
+      }
+    ]
+  },
+  "config_base": "sp1",
+  "config": {
+    "MAP_SIREN_TEMPLATE": [
+      "Z2"
+    ],
+    "MOVABLE_ENEMY_TURN": [
+      3
+    ],
+    "MAP_HAS_SIREN": true,
+    "MAP_HAS_MOVABLE_ENEMY": true,
+    "MAP_HAS_MAP_STORY": true,
+    "MAP_HAS_FLEET_STEP": true,
+    "MAP_HAS_AMBUSH": false,
+    "MAP_SWIPE_MULTIPLY": [
+      1.135,
+      1.157
+    ],
+    "MAP_SWIPE_MULTIPLY_MINITOUCH": [
+      1.098,
+      1.118
+    ],
+    "MAP_SWIPE_MULTIPLY_MAATOUCH": [
+      1.066,
+      1.085
+    ]
+  },
+  "roads": {},
+  "selects": {},
+  "actions": [],
+  "extra_maps": {},
+  "imports": {
+    "CampaignBase": "module.campaign.campaign_base.CampaignBase",
+    "logger": "module.logger.logger",
+    "CampaignMap": "module.map.map_base.CampaignMap",
+    "RoadGrids": "module.map.map_grids.RoadGrids",
+    "SelectedGrids": "module.map.map_grids.SelectedGrids"
+  },
+  "campaign_base_name": "CampaignBase",
+  "campaign_methods": [
+    "battle_0",
+    "battle_4"
+  ]
+}

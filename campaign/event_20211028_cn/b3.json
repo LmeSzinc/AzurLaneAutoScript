@@ -1,0 +1,86 @@
+{
+  "map": {
+    "shape": "N10",
+    "camera_data": [
+      "G8",
+      "G6",
+      "F3",
+      "H4"
+    ],
+    "camera_data_spawn_point": [
+      "G8"
+    ],
+    "map_data": "\n    -- -- -- -- -- ME -- -- ME -- -- -- -- ++\n    -- -- -- ME -- -- MB MB -- -- ME -- -- --\n    ++ -- ME -- Me ME -- -- ME Me -- ME -- --\n    ++ -- -- ME -- -- __ __ -- -- ME -- -- --\n    -- -- -- -- Me MS -- -- MS Me -- -- ++ ++\n    -- ++ -- ME ++ ++ -- -- ++ ++ ME -- -- --\n    -- ++ -- ME ++ ++ -- -- ++ ++ ME -- -- --\n    -- -- -- -- Me MS -- -- MS Me -- -- ++ ++\n    ++ -- -- -- -- -- -- -- -- -- -- -- ++ ++\n    -- -- -- -- -- -- SP SP -- -- -- -- -- --\n",
+    "weight_data": "\n    50 50 50 50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50 50 50 50 50 50 50\n",
+    "spawn_data": [
+      {
+        "battle": 0,
+        "enemy": 2,
+        "siren": 2
+      },
+      {
+        "battle": 1,
+        "enemy": 1
+      },
+      {
+        "battle": 2,
+        "enemy": 2
+      },
+      {
+        "battle": 3,
+        "enemy": 1
+      },
+      {
+        "battle": 4,
+        "enemy": 2
+      },
+      {
+        "battle": 5,
+        "enemy": 1,
+        "boss": 1
+      }
+    ],
+    "wall_data": "\n    ·   ·   ·   ·   · | ·   ·   ·   · | ·   ·   ·   ·   · ,\n          +-----------+               +-----------+       ,\n    ·   · | ·   ·   · | ·   ·   ·   · | ·   ·   · | ·   · ,\n          |           |               |           |       ,\n    ·   · | ·   ·   · | ·   ·   ·   · | ·   ·   · | ·   · ,\n          +---+       +---+       +----+       +---+       ,\n    ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,\n              |                               |           ,\n    ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,\n              |                               |           ,\n    ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,\n              |                               |            ,\n    ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,\n              |                               |           ,\n    ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,\n              |                               |           ,\n    ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,\n              +-----------+       +-----------+           ,\n    ·   ·   ·   ·   ·   · | ·   · | ·   ·   ·   ·   ·   · ,\n"
+  },
+  "config_base": "b1",
+  "config": {
+    "MAP_SIREN_TEMPLATE": [
+      "Vauquelin",
+      "LaGalissonniere"
+    ],
+    "MOVABLE_ENEMY_TURN": [
+      2
+    ],
+    "MAP_HAS_SIREN": true,
+    "MAP_HAS_MOVABLE_ENEMY": true,
+    "MAP_HAS_MAP_STORY": true,
+    "MAP_HAS_FLEET_STEP": true,
+    "MAP_HAS_AMBUSH": false,
+    "MAP_HAS_MYSTERY": false,
+    "MAP_HAS_WALL": true,
+    "MAP_SWIPE_MULTIPLY": [
+      0.946,
+      0.963
+    ],
+    "MAP_SWIPE_MULTIPLY_MINITOUCH": [
+      0.914,
+      0.931
+    ],
+    "MAP_SWIPE_MULTIPLY_MAATOUCH": [
+      0.888,
+      0.904
+    ]
+  },
+  "roads": {},
+  "selects": {},
+  "actions": [],
+  "extra_maps": {},
+  "imports": {
+    "CampaignBase": "module.campaign.campaign_base.CampaignBase",
+    "logger": "module.logger.logger",
+    "CampaignMap": "module.map.map_base.CampaignMap",
+    "RoadGrids": "module.map.map_grids.RoadGrids",
+    "SelectedGrids": "module.map.map_grids.SelectedGrids"
+  },
+  "campaign_base_name": "CampaignBase"
+}
