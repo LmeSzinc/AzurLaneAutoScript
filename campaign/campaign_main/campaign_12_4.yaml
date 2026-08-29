@@ -1,0 +1,53 @@
+map:
+  name: 12-4
+  shape: K8
+  camera_data:
+  - D2
+  - D6
+  - H2
+  - H6
+  camera_data_spawn_point:
+  - D6
+  map_data:
+  - MB MB ME -- ME ++ ++ ++ MB MB ++
+  - ME ++ -- ME -- MA ++ ++ ME Me ++
+  - -- ME __ Me Me -- Me Me -- Me --
+  - ++ -- ME ++ ++ Me ME __ ++ ++ ME
+  - ++ ME ME -- ME ME -- ME -- ++ --
+  - ++ __ Me Me -- Me ME ++ __ -- ME
+  - ME -- Me -- Me -- Me -- -- ME --
+  - -- -- -- ME SP SP ++ ++ ++ ME --
+  weight_data:
+  - 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50 50
+  spawn_data:
+  - battle: 0
+    enemy: 2
+  - battle: 1
+    enemy: 2
+  - battle: 2
+    enemy: 2
+  - battle: 3
+    enemy: 1
+  - battle: 4
+    enemy: 1
+  - battle: 5
+  - battle: 6
+    boss: 1
+config_base: null
+config: {}
+roads:
+  road_main:
+    roadgrids:
+    - - H3
+      - B6
+      - C5
+selects: {}
+actions: []
+extra_maps: {}

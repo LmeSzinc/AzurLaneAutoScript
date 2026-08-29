@@ -1,6 +1,15 @@
 {
   "map": {
-    "map_data": "\n    ++ ++ ++ ME ME ++ MB MB\n    ME -- -- -- -- ME -- MB\n    -- -- ME ME -- __ -- ++\n    ME -- ++ ++ -- ME -- ME\n    -- -- SP SP -- ++ -- ME\n    ME -- -- -- ME ++ ME --\n    ++ ++ ME -- -- -- -- ME\n    ++ ME ME -- ME ++ ME --\n",
+    "map_data": [
+      "++ ++ ++ ME ME ++ MB MB",
+      "ME -- -- -- -- ME -- MB",
+      "-- -- ME ME -- __ -- ++",
+      "ME -- ++ ++ -- ME -- ME",
+      "-- -- SP SP -- ++ -- ME",
+      "ME -- -- -- ME ++ ME --",
+      "++ ++ ME -- -- -- -- ME",
+      "++ ME ME -- ME ++ ME --"
+    ],
     "camera_data": [
       "D3",
       "D6"

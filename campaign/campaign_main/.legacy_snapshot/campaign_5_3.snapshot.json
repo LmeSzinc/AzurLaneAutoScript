@@ -9,8 +9,20 @@
       "D2",
       "D3"
     ],
-    "map_data": "\n    ++ MB ME SP ME MB ME\n    ++ ME -- ME -- -- --\n    ++ ME ++ MM ME -- ME\n    ++ -- -- ME MB ME --\n    SP ME -- -- ME -- SP\n",
-    "weight_data": "\n    50 10 20 20 20 10 50\n    50 10 10 10 10 10 50\n    50 50 50 10 10 50 50\n    50 20 20 10 10 50 50\n    50 50 50 50 50 50 50\n",
+    "map_data": [
+      "++ MB ME SP ME MB ME",
+      "++ ME -- ME -- -- --",
+      "++ ME ++ MM ME -- ME",
+      "++ -- -- ME MB ME --",
+      "SP ME -- -- ME -- SP"
+    ],
+    "weight_data": [
+      "50 10 20 20 20 10 50",
+      "50 10 10 10 10 10 50",
+      "50 50 50 10 10 50 50",
+      "50 20 20 10 10 50 50",
+      "50 50 50 50 50 50 50"
+    ],
     "spawn_data": [
       {
         "battle": 0,

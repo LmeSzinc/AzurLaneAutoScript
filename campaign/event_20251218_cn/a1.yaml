@@ -1,0 +1,110 @@
+map:
+  name: A1
+  shape: J8
+  camera_data:
+  - D3
+  - D6
+  - G3
+  - G6
+  camera_data_spawn_point:
+  - G2
+  map_data:
+  - ++ -- -- -- -- -- ++ -- SP --
+  - ++ ME ++ ++ ++ Me -- -- -- SP
+  - -- -- -- -- Me -- -- MS -- --
+  - ME -- ME -- -- -- __ -- ++ ++
+  - ++ -- ++ ++ -- MS -- -- ++ ++
+  - -- -- -- ++ ME -- ++ Me -- --
+  - -- MB -- -- -- -- -- -- -- --
+  - -- -- -- ++ ME -- ME ++ ++ ++
+  weight_data:
+  - 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50
+  spawn_data:
+  - battle: 0
+    enemy: 2
+    siren: 1
+  - battle: 1
+    enemy: 1
+  - battle: 2
+    enemy: 1
+  - battle: 3
+    enemy: 1
+    boss: 1
+  - battle: 4
+    enemy: 1
+config_base: null
+config:
+  MAP_SIREN_TEMPLATE:
+  - Vboss_Star
+  MOVABLE_ENEMY_TURN:
+  - 2
+  MAP_HAS_SIREN: true
+  MAP_HAS_MOVABLE_ENEMY: true
+  MAP_HAS_MAP_STORY: false
+  MAP_HAS_FLEET_STEP: true
+  MAP_HAS_AMBUSH: false
+  MAP_HAS_MYSTERY: false
+  MAP_CHAPTER_SWITCH_20241219: true
+  STAGE_ENTRANCE:
+  - half
+  - '20240725'
+  MAP_HAS_MODE_SWITCH: true
+  STAGE_INCREASE_AB: true
+  INTERNAL_LINES_FIND_PEAKS_PARAMETERS:
+    height:
+    - 80
+    - 238
+    width:
+    - 0.9
+    - 10
+    prominence: 10
+    distance: 35
+  EDGE_LINES_FIND_PEAKS_PARAMETERS:
+    height:
+    - 238
+    - 255
+    prominence: 10
+    distance: 50
+    wlen: 1000
+  HOMO_STORAGE:
+  - - 8
+    - 6
+  - - - 137.405
+      - 104.804
+    - - 1046.044
+      - 104.804
+    - - -12.171
+      - 652.093
+    - - 1166.717
+      - 652.093
+  HOMO_EDGE_COLOR_RANGE:
+  - 0
+  - 17
+  MAP_WALK_USE_CURRENT_FLEET: true
+  MAP_SWIPE_MULTIPLY:
+  - 1.232
+  - 1.255
+  MAP_SWIPE_MULTIPLY_MINITOUCH:
+  - 1.191
+  - 1.213
+  MAP_SWIPE_MULTIPLY_MAATOUCH:
+  - 1.156
+  - 1.177
+roads: {}
+selects: {}
+actions: []
+extra_maps: {}
+imports:
+  CampaignBase: module.campaign.campaign_base.CampaignBase
+  CampaignMap: module.map.map_base.CampaignMap
+  SelectedGrids: module.map.map_grids.SelectedGrids
+  RoadGrids: module.map.map_grids.RoadGrids
+  logger: module.logger.logger
+campaign_base_name: CampaignBase

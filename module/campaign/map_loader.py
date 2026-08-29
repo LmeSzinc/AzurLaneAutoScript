@@ -1,17 +1,22 @@
-"""Phase 4A: unified map loading. JSON first, legacy .py fallback.
+"""Phase 4A: unified map loading. YAML data first, legacy .py fallback.
 
 `load_map(folder, name)` returns a LoadedMap mirroring the legacy module
 namespace (MAP / Config / Campaign), so campaign run/hard and gems_farming
 (`self.module.Campaign`) keep working unchanged.
+
+Map data files (`<name>.yaml`) store grid text blocks (map_data/weight_data/
+map_data_loop) as row arrays for readability; the loader joins them back -
+semantically identical because CampaignMap._parse_text strips every row.
 """
 from __future__ import annotations
 
 import importlib
-import json
 import os
 import sys
 import types
 from functools import lru_cache
+
+import yaml
 
 from module.base.utils import node2location
 from module.logger import logger
@@ -19,6 +24,28 @@ from module.map.map_base import CampaignMap
 from module.map.map_grids import RoadGrids, SelectedGrids
 
 _CAMPAIGN = os.path.join(os.path.dirname(__file__), '..', '..', 'campaign')
+
+# map attrs stored as row arrays in YAML
+ROW_KEYS = {'map_data', 'map_data_loop', 'weight_data'}
+
+
+def _str_representer(dumper, data):
+    if '\n' in data:
+        return dumper.represent_scalar('tag:yaml.org,2002:str', data, style='|')
+    return dumper.represent_scalar('tag:yaml.org,2002:str', data)
+
+
+yaml.add_representer(str, _str_representer, Dumper=yaml.SafeDumper)
+
+
+def dump_map_file(data: dict) -> str:
+    return yaml.dump(data, Dumper=yaml.SafeDumper, allow_unicode=True,
+                     sort_keys=False, default_flow_style=False)
+
+
+def load_map_file(path: str) -> dict:
+    with open(path, encoding='utf-8') as f:
+        return yaml.safe_load(f)
 
 
 class LoadedMap:
@@ -43,9 +70,8 @@ def _legacy_import(folder, name):
             folder_path = os.path.join(_CAMPAIGN, folder)
             if os.path.isdir(folder_path):
                 for file in sorted(os.listdir(folder_path)):
-                    stem = file[:-len('.json')] if file.endswith('.json') else None
-                    if stem and file != 'meta.json' and stem != name \
-                            and (folder, stem) not in _inflight:
+                    stem = file[:-len('.yaml')] if file.endswith('.yaml') else None
+                    if stem and stem != name and (folder, stem) not in _inflight:
                         load_map(folder, stem)
         finally:
             _loading.discard(folder)
@@ -65,7 +91,7 @@ def _load_config(folder, base):
         base_folder, base_module = '/'.join(parts[:-1]), parts[-1]
     else:
         base_folder, base_module = folder, base
-    json_path = os.path.join(_CAMPAIGN, base_folder, f'{base_module}.json')
+    json_path = os.path.join(_CAMPAIGN, base_folder, f'{base_module}.yaml')
     if os.path.exists(json_path):
         return load_map(base_folder, base_module).Config
     if len(parts) > 1:
@@ -142,6 +168,8 @@ def _resolve_grid_value(m, value):
 def _resolve_map(folder, attrs, actions):
     data = {'name': attrs.pop('name', None)}
     for key, value in attrs.items():
+        if key in ROW_KEYS and isinstance(value, list):
+            value = '\n'.join(value)
         data[key] = _resolve_value(folder, value)
     # grid-marker attrs need the map instance; apply after from_data so the
     # setters resolve names against the built grids.
@@ -156,9 +184,8 @@ def _resolve_map(folder, attrs, actions):
     return m
 
 
-def _load_data(folder, name, json_path):
-    with open(json_path, encoding='utf-8') as f:
-        data = json.load(f)
+def _load_data(folder, name, yaml_path):
+    data = load_map_file(yaml_path)
     MAP = _resolve_map(folder, data['map'], data.get('actions', []))
 
     # config: full class namespace, optional base chain
@@ -233,8 +260,8 @@ def _load_data(folder, name, json_path):
 
 @lru_cache(maxsize=2048)
 def load_map(folder: str, name: str) -> LoadedMap:
-    json_path = os.path.join(_CAMPAIGN, folder, f'{name}.json')
-    if os.path.exists(json_path):
+    yaml_path = os.path.join(_CAMPAIGN, folder, f'{name}.yaml')
+    if os.path.exists(yaml_path):
         key = (folder, name)
         if key in _inflight:
             # re-entrant request during sibling pre-load: use the partial shim
@@ -244,7 +271,7 @@ def load_map(folder: str, name: str) -> LoadedMap:
             raise RuntimeError(f're-entrant load before shim ready: {folder}.{name}')
         _inflight.add(key)
         try:
-            return _load_data(folder, name, json_path)
+            return _load_data(folder, name, yaml_path)
         finally:
             _inflight.discard(key)
     module = _legacy_import(folder, name)  # legacy fallback

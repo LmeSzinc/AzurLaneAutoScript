@@ -1,0 +1,48 @@
+map:
+  name: SP.2
+  shape: G5
+  camera_data:
+  - D2
+  - D3
+  camera_data_spawn_point:
+  - D3
+  map_data:
+  - -- ++ -- ME Me MB ++
+  - -- Me ME -- -- ++ ++
+  - -- -- ++ ++ Me ME ME
+  - SP ME ++ ++ -- ME --
+  - -- SP Me -- Me -- MB
+  weight_data:
+  - 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50
+  spawn_data:
+  - battle: 0
+    enemy: 3
+    mystery: 1
+  - battle: 1
+    enemy: 2
+  - battle: 2
+    enemy: 2
+  - battle: 3
+    enemy: 1
+  - battle: 4
+    boss: 1
+config_base: sp1
+config:
+  MAP_HAS_MAP_STORY: false
+  MAP_HAS_FLEET_STEP: false
+  MAP_HAS_AMBUSH: true
+  MAP_HAS_MYSTERY: true
+roads: {}
+selects: {}
+actions: []
+extra_maps: {}
+imports:
+  logger: module.logger.logger
+  CampaignMap: module.map.map_base.CampaignMap
+  RoadGrids: module.map.map_grids.RoadGrids
+  SelectedGrids: module.map.map_grids.SelectedGrids
+  CampaignBase: campaign_war_archives.campaign_base.CampaignBase

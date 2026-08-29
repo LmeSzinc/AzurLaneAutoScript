@@ -1,0 +1,70 @@
+map:
+  name: D2
+  shape: J7
+  camera_data:
+  - E2
+  - E5
+  camera_data_spawn_point:
+  - F5
+  map_data:
+  - ++ ++ ++ -- Me -- Me -- ++ ++
+  - ++ ME -- ME -- ME -- ME -- ++
+  - -- -- ME -- -- MS -- -- SP --
+  - -- MB -- -- Me -- MS __ -- --
+  - -- -- ME -- -- MS -- -- SP --
+  - ++ ME -- ME -- ME -- ME ++ ++
+  - ++ ++ ++ -- Me -- Me -- ++ ++
+  weight_data:
+  - 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50
+  spawn_data:
+  - battle: 0
+    enemy: 2
+    siren: 2
+  - battle: 1
+    enemy: 1
+  - battle: 2
+    enemy: 2
+    siren: 1
+  - battle: 3
+    enemy: 1
+  - battle: 4
+    enemy: 2
+  - battle: 5
+    enemy: 1
+  - battle: 6
+    boss: 1
+config_base: d1
+config:
+  MAP_SIREN_TEMPLATE: []
+  MOVABLE_ENEMY_TURN:
+  - 2
+  MAP_HAS_SIREN: true
+  MAP_HAS_MOVABLE_ENEMY: true
+  MAP_HAS_MAP_STORY: true
+  MAP_HAS_FLEET_STEP: true
+  MAP_HAS_AMBUSH: false
+  MAP_HAS_MYSTERY: false
+  MAP_SWIPE_MULTIPLY:
+  - 1.168
+  - 1.19
+  MAP_SWIPE_MULTIPLY_MINITOUCH:
+  - 1.13
+  - 1.151
+  MAP_SWIPE_MULTIPLY_MAATOUCH:
+  - 1.097
+  - 1.117
+roads: {}
+selects: {}
+actions: []
+extra_maps: {}
+imports:
+  SirenIconGrid: event_20240521_cn.campaign_base.SirenIconGrid
+  CampaignBase: module.campaign.campaign_base.CampaignBase
+  CampaignMap: module.map.map_base.CampaignMap
+campaign_base_name: CampaignBase

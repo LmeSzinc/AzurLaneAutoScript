@@ -1,0 +1,42 @@
+map:
+  name: TTL2
+  shape: E5
+  camera_data:
+  - C2
+  camera_data_spawn_point:
+  - C2
+  map_data:
+  - ++ ++ -- ++ ++
+  - ++ ++ MB ++ ++
+  - -- -- -- -- --
+  - ++ -- SP -- ++
+  - -- ++ ++ ++ --
+  weight_data:
+  - 50 50 50 50 50
+  - 50 50 50 50 50
+  - 50 50 50 50 50
+  - 50 50 50 50 50
+  - 50 50 50 50 50
+  spawn_data:
+  - battle: 0
+    boss: 1
+config_base: ttl1
+config:
+  MAP_HAS_MAP_STORY: false
+  MAP_HAS_FLEET_STEP: false
+  MAP_HAS_AMBUSH: false
+  MAP_HAS_MYSTERY: false
+  STAR_REQUIRE_1: 0
+  STAR_REQUIRE_2: 0
+  STAR_REQUIRE_3: 0
+roads: {}
+selects: {}
+actions: []
+extra_maps: {}
+imports:
+  CampaignBase: campaign_base.CampaignBase
+  CampaignMap: module.map.map_base.CampaignMap
+  SelectedGrids: module.map.map_grids.SelectedGrids
+  RoadGrids: module.map.map_grids.RoadGrids
+  logger: module.logger.logger
+campaign_base_name: CampaignBase

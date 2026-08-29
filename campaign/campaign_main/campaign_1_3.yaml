@@ -1,0 +1,24 @@
+map:
+  shape: F3
+  camera_data:
+  - C1
+  camera_data_spawn_point:
+  - C1
+  map_data:
+  - ++ ++ ++ -- MB --
+  - -- ME -- ME -- --
+  - SP -- ++ -- -- MM
+  spawn_data:
+  - battle: 0
+    enemy: 1
+    mystery: 1
+  - battle: 1
+    enemy: 1
+  - battle: 2
+    boss: 1
+config_base: null
+config: {}
+roads: {}
+selects: {}
+actions: []
+extra_maps: {}

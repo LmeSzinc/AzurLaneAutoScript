@@ -1,0 +1,86 @@
+map:
+  name: D4
+  shape: I9
+  camera_data:
+  - D2
+  - D6
+  - D7
+  - F2
+  - F6
+  - F7
+  camera_data_spawn_point:
+  - D7
+  map_data:
+  - ++ -- -- ME -- -- -- -- Me
+  - -- ME -- -- -- Me -- -- --
+  - -- -- -- Me -- ++ ++ Me --
+  - ME -- Me ++ -- ++ ++ -- --
+  - -- -- -- -- MB -- -- -- --
+  - -- ME ++ ++ -- ++ Me -- ME
+  - -- -- -- ++ -- Me __ -- --
+  - SP -- -- ME -- -- -- ME --
+  - SP SP -- -- -- ME -- -- ++
+  weight_data:
+  - 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50
+  spawn_data:
+  - battle: 0
+    enemy: 3
+  - battle: 1
+    enemy: 2
+  - battle: 2
+    enemy: 2
+  - battle: 3
+    enemy: 1
+  - battle: 4
+    enemy: 2
+  - battle: 5
+    boss: 1
+config_base: d1
+config:
+  MAP_HAS_MAP_STORY: false
+  MAP_HAS_FLEET_STEP: false
+  MAP_HAS_AMBUSH: false
+  MAP_HAS_MYSTERY: false
+  HOMO_EDGE_COLOR_RANGE:
+  - 0
+  - 12
+  HOMO_EDGE_HOUGHLINES_THRESHOLD: 210
+  MAP_SWIPE_MULTIPLY:
+  - 1.101
+  - 1.122
+  MAP_SWIPE_MULTIPLY_MINITOUCH:
+  - 1.065
+  - 1.085
+  MAP_SWIPE_MULTIPLY_MAATOUCH:
+  - 1.034
+  - 1.053
+  HOMO_STORAGE:
+  - - 6
+    - 4
+  - - - 448
+      - 180
+    - - 1051
+      - 180
+    - - 426
+      - 513
+    - - 1100
+      - 513
+  MAP_ENSURE_EDGE_INSIGHT_CORNER: top
+roads: {}
+selects: {}
+actions: []
+extra_maps: {}
+imports:
+  logger: module.logger.logger
+  CampaignMap: module.map.map_base.CampaignMap
+  RoadGrids: module.map.map_grids.RoadGrids
+  SelectedGrids: module.map.map_grids.SelectedGrids
+  CampaignBase: campaign_war_archives.campaign_base.CampaignBase

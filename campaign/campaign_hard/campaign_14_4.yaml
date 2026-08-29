@@ -1,0 +1,81 @@
+map:
+  name: 14-4
+  shape: K9
+  camera_data:
+  - D2
+  - D6
+  - D7
+  - H2
+  - H6
+  - H7
+  camera_data_spawn_point:
+  - H2
+  map_covered:
+  - A4
+  map_data:
+  - ME -- ++ ++ -- ME ME ME ++ ++ ++
+  - -- ME ME ME ME ME ME -- SP SP --
+  - MB -- __ -- -- -- -- -- ME -- --
+  - MB ME -- Me Me -- Me ++ ++ -- ME
+  - MM -- Me ME -- Me -- MA ++ -- ME
+  - ++ ME ME -- ++ -- ME -- ME -- --
+  - ++ -- ME Me Me ME -- -- -- -- ++
+  - -- ME -- -- -- __ -- ME ME -- ME
+  - -- -- ++ MB MB ++ ++ MM ME ME ME
+  map_data_loop:
+  - ME -- ++ ++ -- ME ME ME ++ ++ ++
+  - -- ME ME ME ME ME ME -- SP SP --
+  - MB -- __ -- -- -- -- -- ME -- --
+  - MB ME -- Me Me -- Me ++ ++ -- ME
+  - MM -- Me ME -- Me -- MA ++ -- ME
+  - ++ ME ME -- ++ -- ME -- ME -- --
+  - ++ -- ME Me Me ME -- -- -- -- ++
+  - -- -- -- -- -- __ -- ME ME -- ME
+  - -- -- ++ MB MB ++ ++ MM ME ME ME
+  weight_data:
+  - 40 40 40 40 50 50 50 50 50 50 50
+  - 40 40 40 40 50 50 50 50 50 50 50
+  - 40 40 40 40 50 50 50 50 50 50 50
+  - 40 40 40 40 50 50 50 50 50 50 50
+  - 40 40 40 40 50 50 50 50 50 50 50
+  - 40 40 40 40 50 50 50 50 50 50 50
+  - 40 40 40 40 50 50 50 50 50 50 50
+  - 50 10 50 50 50 50 50 40 40 50 50
+  - 50 50 50 50 50 50 50 50 50 40 50
+  spawn_data:
+  - battle: 0
+    enemy: 4
+  - battle: 1
+    enemy: 3
+  - battle: 2
+    enemy: 2
+  - battle: 3
+    enemy: 2
+  - battle: 4
+    enemy: 1
+  - battle: 5
+    enemy: 1
+  - battle: 6
+  - battle: 7
+    boss: 1
+  spawn_data_loop:
+  - battle: 0
+    boss: 1
+config_base: campaign_main.campaign_14_base
+config:
+  MAP_HAS_MAP_STORY: false
+  MAP_HAS_FLEET_STEP: false
+  MAP_HAS_AMBUSH: true
+  MAP_WALK_USE_CURRENT_FLEET: true
+roads:
+  road_A8:
+    roadgrids:
+    - - B8
+  road_H9:
+    roadgrids:
+    - - H8
+      - I8
+      - J9
+selects: {}
+actions: []
+extra_maps: {}

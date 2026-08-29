@@ -1,0 +1,83 @@
+map:
+  map_data:
+  - -- -- -- -- -- ME -- -- ME -- -- -- -- ++
+  - -- -- -- ME -- -- MB MB -- -- ME -- -- --
+  - ++ -- ME -- ME ME -- -- ME ME -- ME -- --
+  - ++ -- -- ME -- -- __ __ -- -- ME -- -- --
+  - -- -- -- -- ME MS -- -- MS ME -- -- ++ ++
+  - -- ++ -- ME ++ ++ -- -- ++ ++ ME -- -- --
+  - -- ++ -- ME ++ ++ -- -- ++ ++ ME -- -- --
+  - -- -- -- -- ME MS -- -- MS ME -- -- ++ ++
+  - ++ -- -- -- -- -- -- -- -- -- -- -- ++ ++
+  - -- -- -- -- -- -- SP SP -- -- -- -- -- --
+  weight_data:
+  - 10 10 10 10 10 10 10 10 10 10 10 10 10 10
+  - 10 10 10 30 10 10 10 10 10 10 30 10 10 10
+  - 10 10 30 10 10 10 10 10 10 10 10 30 10 10
+  - 10 10 10 10 10 10 10 10 10 10 10 10 10 10
+  - 10 10 10 10 10 10 10 10 10 10 10 10 10 10
+  - 10 10 10 30 10 10 10 10 10 10 30 10 10 10
+  - 10 10 10 30 10 10 10 10 10 10 30 10 10 10
+  - 10 10 10 10 10 10 10 10 10 10 10 10 10 10
+  - 10 10 10 10 10 10 10 10 10 10 10 10 10 10
+  - 10 10 10 10 10 10 10 10 10 10 10 10 10 10
+  camera_data:
+  - G8
+  - G6
+  - F3
+  - H4
+  wall_data: |2
+
+        ·   ·   ·   ·   · | ·   ·   ·   · | ·   ·   ·   ·   · ,
+              +-----------+               +-----------+       ,
+        ·   · | ·   ·   · | ·   ·   ·   · | ·   ·   · | ·   · ,
+              |           |               |           |       ,
+        ·   · | ·   ·   · | ·   ·   ·   · | ·   ·   · | ·   · ,
+              +---+       +---+       +----+       +---+       ,
+        ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
+                  |                               |           ,
+        ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
+                  |                               |           ,
+        ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
+                  |                               |            ,
+        ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
+                  |                               |           ,
+        ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
+                  |                               |           ,
+        ·   ·   · | ·   ·   ·   ·   ·   ·   ·   · | ·   ·   · ,
+                  +-----------+       +-----------+           ,
+        ·   ·   ·   ·   ·   · | ·   · | ·   ·   ·   ·   ·   · ,
+  spawn_data:
+  - battle: 0
+    enemy: 2
+    siren: 2
+  - battle: 1
+    enemy: 1
+  - battle: 2
+    enemy: 2
+    siren: 1
+  - battle: 3
+    enemy: 1
+  - battle: 4
+    enemy: 2
+  - battle: 5
+    enemy: 1
+  - battle: 6
+    boss: 1
+config_base: event_20200521_cn.d1
+config:
+  MAP_HAS_WALL: true
+  MAP_SIREN_TEMPLATE:
+  - LaGalissonniere
+  - Vauquelin
+roads: {}
+selects: {}
+actions: []
+extra_maps: {}
+imports:
+  CampaignBase: module.campaign.campaign_base.CampaignBase
+  logger: module.logger.logger
+  CampaignMap: module.map.map_base.CampaignMap
+  RoadGrids: module.map.map_grids.RoadGrids
+  SelectedGrids: module.map.map_grids.SelectedGrids
+campaign_base_name: CampaignBase

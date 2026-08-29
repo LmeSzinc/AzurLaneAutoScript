@@ -1,7 +1,17 @@
 {
   "map": {
     "shape": "F9",
-    "map_data": "\n    ME ME MS MS ME ME\n    ME -- -- -- -- ME\n    ++ ++ -- -- ++ ++\n    ++ ++ SP SP ME ++\n    MS -- -- -- -- MS\n    ME -- MB MB __ ME\n    -- ME ++ ++ -- ME\n    -- ME ++ ME -- ME\n    -- -- ME -- -- ME\n",
+    "map_data": [
+      "ME ME MS MS ME ME",
+      "ME -- -- -- -- ME",
+      "++ ++ -- -- ++ ++",
+      "++ ++ SP SP ME ++",
+      "MS -- -- -- -- MS",
+      "ME -- MB MB __ ME",
+      "-- ME ++ ++ -- ME",
+      "-- ME ++ ME -- ME",
+      "-- -- ME -- -- ME"
+    ],
     "spawn_data": [
       {
         "battle": 0,

@@ -1,5 +1,6 @@
 {
   "map": {
+    "name": "SOS",
     "shape": "H6",
     "camera_data": [
       "D2",
@@ -8,8 +9,22 @@
     "camera_data_spawn_point": [
       "D4"
     ],
-    "map_data": "\n    ME ME ++ -- ME Me MB --\n    -- -- ME MB MB ME ME MB\n    ME ++ ME Me ME __ ME --\n    -- ME __ ME Me ME ME ME\n    -- ME ME SP SP ME ME --\n    ++ ++ ME -- ME ME ++ --\n",
-    "weight_data": "\n    50 50 50 50 20 20 10 50\n    50 50 50 10 10 10 10 10\n    50 50 50 30 20 20 20 20\n    50 50 20 50 30 30 30 30\n    50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50\n",
+    "map_data": [
+      "ME ME ++ -- ME Me MB --",
+      "-- -- ME MB MB ME ME MB",
+      "ME ++ ME Me ME __ ME --",
+      "-- ME __ ME Me ME ME ME",
+      "-- ME ME SP SP ME ME --",
+      "++ ++ ME -- ME ME ++ --"
+    ],
+    "weight_data": [
+      "50 50 50 50 20 20 10 50",
+      "50 50 50 10 10 10 10 10",
+      "50 50 50 30 20 20 20 20",
+      "50 50 20 50 30 30 30 30",
+      "50 50 50 50 50 50 50 50",
+      "50 50 50 50 50 50 50 50"
+    ],
     "spawn_data": [
       {
         "battle": 0,

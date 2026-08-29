@@ -1,0 +1,81 @@
+map:
+  name: SP1
+  shape: K7
+  camera_data:
+  - D3
+  - D5
+  - H3
+  - H5
+  camera_data_spawn_point:
+  - D2
+  map_data:
+  - ++ ++ ++ -- MS -- -- -- ME ++ --
+  - -- ME -- ++ -- ++ ++ -- ME ++ MB
+  - SP -- ME -- -- ME ++ -- Me ++ Me
+  - SP -- __ -- -- ++ ME -- ME -- --
+  - ME -- -- -- ME -- -- -- -- -- --
+  - ME -- -- ++ -- -- -- -- -- -- --
+  - -- -- -- ++ -- -- -- ++ ++ ++ ++
+  map_data_loop:
+  - ++ ++ ++ -- MS -- -- -- ME ++ --
+  - -- ME -- -- -- ++ ++ -- ME ++ MB
+  - SP -- ME -- -- ME ++ -- Me -- Me
+  - SP -- __ -- -- -- ME -- ME -- --
+  - ME -- -- -- ME -- -- -- -- -- --
+  - ME -- -- ++ -- -- -- -- -- -- --
+  - -- -- -- ++ -- -- -- -- ++ ++ ++
+  weight_data:
+  - 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 55 50 50 50 50 30
+  - 50 50 50 50 50 50 50 50 50 50 40
+  - 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50 50
+  land_based_data:
+  - - H7
+    - up
+  - - F4
+    - down
+  - - J3
+    - down
+  - - D2
+    - down
+  spawn_data:
+  - battle: 0
+    enemy: 2
+    siren: 1
+  - battle: 1
+    enemy: 1
+  - battle: 2
+    enemy: 1
+  - battle: 3
+    enemy: 1
+  - battle: 4
+    boss: 1
+config_base: null
+config:
+  MAP_SIREN_TEMPLATE:
+  - Z18
+  MOVABLE_ENEMY_TURN:
+  - 3
+  MAP_HAS_SIREN: true
+  MAP_HAS_MOVABLE_ENEMY: true
+  MAP_HAS_MAP_STORY: false
+  MAP_HAS_FLEET_STEP: true
+  MAP_HAS_AMBUSH: false
+  MAP_HAS_LAND_BASED: true
+roads:
+  road_main:
+    roadgrids:
+    - - K3
+selects: {}
+actions: []
+extra_maps: {}
+imports:
+  CampaignBase: module.campaign.campaign_base.CampaignBase
+  logger: module.logger.logger
+  CampaignMap: module.map.map_base.CampaignMap
+  RoadGrids: module.map.map_grids.RoadGrids
+  SelectedGrids: module.map.map_grids.SelectedGrids
+campaign_base_name: CampaignBase

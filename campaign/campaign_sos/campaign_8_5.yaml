@@ -1,0 +1,71 @@
+map:
+  name: SOS
+  shape: H7
+  camera_data:
+  - D3
+  - D5
+  camera_data_spawn_point:
+  - D3
+  - D5
+  map_data:
+  - ++ ++ ME -- ME -- ME --
+  - ++ ++ ME ME -- ++ -- ME
+  - -- Me ME ME SP -- ME ME
+  - MB Me __ Me ME ME -- ++
+  - -- ++ ME Me ME -- ME ++
+  - ME ++ ME ME SP ME -- ME
+  - -- ME ME -- ME -- ++ ME
+  weight_data:
+  - 50 50 50 50 50 50 50 50
+  - 50 50 13 50 50 50 50 50
+  - 50 11 12 13 50 50 50 50
+  - 10 11 12 12 13 50 50 50
+  - 50 50 12 13 50 50 50 50
+  - 50 50 13 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  spawn_data:
+  - battle: 0
+    enemy: 4
+  - battle: 1
+    enemy: 2
+  - battle: 2
+    enemy: 2
+  - battle: 3
+    enemy: 1
+  - battle: 4
+    enemy: 2
+    boss: 1
+config_base: null
+config:
+  MAP_HAS_MAP_STORY: false
+  MAP_HAS_FLEET_STEP: false
+  MAP_HAS_AMBUSH: false
+  STAR_REQUIRE_1: 0
+  STAR_REQUIRE_2: 0
+  STAR_REQUIRE_3: 0
+  INTERNAL_LINES_HOUGHLINES_THRESHOLD: 40
+  EDGE_LINES_HOUGHLINES_THRESHOLD: 40
+  COINCIDENT_POINT_ENCOURAGE_DISTANCE: 1.5
+  INTERNAL_LINES_FIND_PEAKS_PARAMETERS:
+    height:
+    - 120
+    - 206
+    width:
+    - 0.9
+    - 10
+    prominence: 10
+    distance: 35
+  EDGE_LINES_FIND_PEAKS_PARAMETERS:
+    height:
+    - 206
+    - 255
+    prominence: 10
+    distance: 50
+    wlen: 1000
+  HOMO_EDGE_COLOR_RANGE:
+  - 0
+  - 49
+roads: {}
+selects: {}
+actions: []
+extra_maps: {}

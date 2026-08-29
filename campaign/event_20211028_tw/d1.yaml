@@ -1,0 +1,93 @@
+map:
+  name: D1
+  shape: H6
+  camera_data:
+  - D2
+  - D4
+  - E2
+  - E4
+  camera_data_spawn_point:
+  - D4
+  map_data:
+  - ++ ++ ++ -- -- -- -- MB
+  - MS -- -- -- __ Me Me --
+  - ME -- ME ++ ++ MS -- --
+  - SP -- ME ++ ++ MS ME --
+  - ME -- -- -- -- -- -- --
+  - SP -- -- ME MS Me -- MB
+  weight_data:
+  - 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  spawn_data:
+  - battle: 0
+    enemy: 2
+    siren: 2
+  - battle: 1
+    enemy: 1
+  - battle: 2
+    enemy: 2
+  - battle: 3
+    enemy: 1
+  - battle: 4
+    enemy: 2
+  - battle: 5
+    boss: 1
+  spawn_data_loop:
+  - battle: 0
+    enemy: 2
+    siren: 2
+  - battle: 1
+    enemy: 1
+  - battle: 2
+    enemy: 2
+    siren: 1
+  - battle: 3
+    enemy: 1
+  - battle: 4
+    enemy: 2
+  - battle: 5
+    boss: 1
+config_base: null
+config:
+  MAP_SIREN_TEMPLATE:
+  - CL
+  - CA
+  MOVABLE_ENEMY_TURN:
+  - 3
+  MAP_HAS_SIREN: true
+  MAP_HAS_MOVABLE_ENEMY: true
+  MAP_HAS_MAP_STORY: false
+  MAP_HAS_FLEET_STEP: true
+  MAP_HAS_AMBUSH: false
+  TRUST_EDGE_LINES: true
+  INTERNAL_LINES_FIND_PEAKS_PARAMETERS:
+    height:
+    - 80
+    - 215
+    width:
+    - 0.9
+    - 10
+    prominence: 10
+    distance: 35
+  EDGE_LINES_FIND_PEAKS_PARAMETERS:
+    height:
+    - 215
+    - 255
+    prominence: 10
+    distance: 50
+    wlen: 1000
+roads: {}
+selects: {}
+actions: []
+extra_maps: {}
+imports:
+  CampaignBase: module.campaign.campaign_base.CampaignBase
+  logger: module.logger.logger
+  CampaignMap: module.map.map_base.CampaignMap
+  RoadGrids: module.map.map_grids.RoadGrids
+  SelectedGrids: module.map.map_grids.SelectedGrids
+campaign_base_name: CampaignBase

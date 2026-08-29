@@ -1,10 +1,10 @@
-"""Phase 4A gate: rebuilt (JSON) maps must equal their legacy semantic snapshot.
+"""Phase 4A gate: rebuilt (YAML) maps must equal their legacy semantic snapshot.
 
 Usage:
     .venv\\Scripts\\python.exe dev_tools/verify_map_data.py <folder>
     .venv\\Scripts\\python.exe dev_tools/verify_map_data.py --all
 
-For every converted map (JSON + fragment) the loader output is compared
+For every converted map (YAML + fragment) the loader output is compared
 against `.legacy_snapshot/<name>.snapshot.json` (recorded from the legacy
 .py before conversion): map literals, per-grid code/weight/spawn flags,
 ignore_prediction replay, Config namespace, Campaign method names and road
@@ -16,7 +16,7 @@ from pathlib import Path
 
 sys.path.insert(0, ".")
 
-from module.campaign.map_loader import _resolve_map, load_map
+from module.campaign.map_loader import _resolve_map, load_map, load_map_file
 
 ROOT = Path(__file__).resolve().parent.parent
 CAMPAIGN = ROOT / 'campaign'
@@ -46,12 +46,12 @@ def check_one(folder, name):
         return [f'snapshot missing: {snap_path}']
     snap = json.loads(snap_path.read_text(encoding='utf-8'))
 
-    # converter fidelity: committed json must equal the recorded legacy snapshot
-    data = json.loads((CAMPAIGN / folder / f'{name}.json').read_text(encoding='utf-8'))
+    # converter fidelity: committed yaml must equal the recorded legacy snapshot
+    data = load_map_file(str(CAMPAIGN / folder / f'{name}.yaml'))
     for field in ('map', 'config_base', 'config', 'roads', 'selects', 'actions', 'extra_maps',
                   'imports', 'campaign_base_name'):
         if data.get(field) != snap.get(field):
-            errors.append(f'json field {field} differs from snapshot')
+            errors.append(f'yaml field {field} differs from snapshot')
 
     reference = _resolve_map(folder, dict(snap['map']), snap.get('actions', []))
 

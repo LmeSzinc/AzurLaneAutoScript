@@ -1,0 +1,44 @@
+map:
+  shape: G4
+  camera_data:
+  - D2
+  camera_data_spawn_point:
+  - D2
+  map_data:
+  - -- ++ ++ ++ ME ME MB
+  - SP -- ME -- -- ME --
+  - -- -- ME -- ME ++ ++
+  - -- ME -- SP -- MA ++
+  weight_data:
+  - 20 20 20 20 12 11 10
+  - 20 20 20 20 10 10 10
+  - 20 20 20 20 30 20 20
+  - 20 20 20 20 20 20 20
+  spawn_data:
+  - battle: 0
+    enemy: 2
+  - battle: 1
+    enemy: 2
+  - battle: 2
+    enemy: 1
+  - battle: 3
+    enemy: 2
+    boss: 1
+config_base: campaign_main.campaign_2_1
+config:
+  MID_DIFF_RANGE_H:
+  - 118
+  - 124
+  MID_DIFF_RANGE_V:
+  - 118
+  - 124
+roads:
+  road_main:
+    roadgrids:
+    - - F2
+      - F1
+    - - F2
+      - E1
+selects: {}
+actions: []
+extra_maps: {}

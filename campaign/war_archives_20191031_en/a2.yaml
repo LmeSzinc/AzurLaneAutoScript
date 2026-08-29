@@ -1,0 +1,51 @@
+map:
+  name: A2
+  shape: K6
+  camera_data:
+  - D2
+  - D4
+  - H2
+  - H4
+  camera_data_spawn_point:
+  - D2
+  - D4
+  map_data:
+  - SP ME -- ME -- -- -- -- -- Me --
+  - SP -- -- -- -- ME -- Me ++ ++ --
+  - SP -- ME ++ ++ ++ -- -- __ Me --
+  - SP -- ME ++ ++ ++ -- ME -- -- Me
+  - SP -- -- ME -- -- -- -- ++ -- --
+  - SP -- -- -- -- ME -- MB ++ -- MB
+  weight_data:
+  - 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50 50
+  spawn_data:
+  - battle: 0
+    enemy: 3
+  - battle: 1
+    enemy: 2
+  - battle: 2
+    enemy: 2
+  - battle: 3
+    enemy: 1
+    boss: 1
+config_base: a1
+config:
+  MAP_HAS_MAP_STORY: false
+  MAP_HAS_FLEET_STEP: false
+  MAP_HAS_AMBUSH: false
+  MAP_HAS_MYSTERY: false
+roads: {}
+selects: {}
+actions: []
+extra_maps: {}
+imports:
+  logger: module.logger.logger
+  CampaignMap: module.map.map_base.CampaignMap
+  RoadGrids: module.map.map_grids.RoadGrids
+  SelectedGrids: module.map.map_grids.SelectedGrids
+  CampaignBase: campaign_war_archives.campaign_base.CampaignBase

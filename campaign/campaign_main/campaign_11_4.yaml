@@ -1,0 +1,82 @@
+map:
+  name: 11-4
+  shape: J8
+  camera_data:
+  - D2
+  - D6
+  - G2
+  - G6
+  camera_data_spawn_point:
+  - D2
+  - G2
+  map_data:
+  - MB MB ++ -- -- -- ++ MB -- --
+  - -- -- ++ ME -- Me ++ -- -- ME
+  - ME __ ME -- ++ -- __ -- ME --
+  - -- ++ -- -- SP SP -- Me -- --
+  - MB -- ME -- -- -- -- ++ ++ ++
+  - ++ ++ ++ -- Me -- Me __ -- ME
+  - -- -- ME __ -- ++ -- ++ ME --
+  - MB -- -- ME -- ++ -- ME -- MB
+  weight_data:
+  - 10 10 10 10 10 10 10 10 10 10
+  - 10 10 10 10 10 10 10 10 10 10
+  - 10 10 10 10 10 10 10 10 10 10
+  - 10 10 10 10 10 10 10 10 10 10
+  - 10 10 10 10 10 10 10 10 10 10
+  - 10 10 10 10 10 10 10 10 10 10
+  - 10 10 10 10 10 10 10 10 10 10
+  - 10 10 10 10 10 10 10 10 10 10
+  spawn_data:
+  - battle: 0
+    enemy: 2
+  - battle: 1
+    enemy: 2
+  - battle: 2
+    enemy: 2
+  - battle: 3
+    enemy: 1
+  - battle: 4
+    enemy: 1
+  - battle: 5
+  - battle: 6
+    boss: 1
+config_base: null
+config:
+  INTERNAL_LINES_HOUGHLINES_THRESHOLD: 35
+  EDGE_LINES_HOUGHLINES_THRESHOLD: 35
+  COINCIDENT_POINT_ENCOURAGE_DISTANCE: 1.3
+  INTERNAL_LINES_FIND_PEAKS_PARAMETERS:
+    height:
+    - 150
+    - 231
+    width:
+    - 0.9
+    - 10
+    prominence: 10
+    distance: 35
+  EDGE_LINES_FIND_PEAKS_PARAMETERS:
+    height:
+    - 231
+    - 255
+    prominence: 10
+    distance: 50
+    width:
+    - 0
+    - 10
+    wlen: 1000
+  HOMO_EDGE_HOUGHLINES_THRESHOLD: 210
+roads:
+  road_boss:
+    roadgrids:
+    - - C3
+    - - H4
+    - - C5
+      - C7
+    - - G6
+    - - G8
+selects:
+  step_on:
+  - C3
+actions: []
+extra_maps: {}

@@ -1,0 +1,94 @@
+map:
+  name: T1
+  shape: I7
+  camera_data:
+  - E2
+  - F5
+  camera_data_spawn_point:
+  - E5
+  map_data:
+  - -- -- MB -- ++ -- ME -- --
+  - -- ME -- Me ++ ME -- ME --
+  - -- ++ Me -- -- -- -- -- ++
+  - -- MS ++ MS -- Me -- ME --
+  - -- -- MS -- ++ ++ ME -- --
+  - ++ -- __ -- ++ ++ -- -- ME
+  - ++ SP -- SP -- -- -- ME --
+  weight_data:
+  - 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50
+  spawn_data:
+  - battle: 0
+    enemy: 2
+    siren: 1
+  - battle: 1
+    enemy: 2
+  - battle: 2
+    enemy: 1
+  - battle: 3
+    enemy: 1
+  - battle: 4
+    boss: 1
+config_base: null
+config:
+  MAP_SIREN_TEMPLATE: []
+  MOVABLE_ENEMY_TURN:
+  - 2
+  MAP_HAS_SIREN: true
+  MAP_HAS_MOVABLE_ENEMY: true
+  MAP_HAS_MAP_STORY: false
+  MAP_HAS_FLEET_STEP: true
+  MAP_HAS_AMBUSH: false
+  MAP_HAS_MYSTERY: false
+  MAP_CHAPTER_SWITCH_20241219_SP: true
+  STAGE_ENTRANCE:
+  - half
+  - '20240725'
+  MAP_HAS_MODE_SWITCH: true
+  MAP_WALK_USE_CURRENT_FLEET: true
+  MAP_SIREN_HAS_BOSS_ICON_SMALL: true
+  INTERNAL_LINES_FIND_PEAKS_PARAMETERS:
+    height:
+    - 120
+    - 222
+    width:
+    - 1.5
+    - 10
+    prominence: 10
+    distance: 35
+  EDGE_LINES_FIND_PEAKS_PARAMETERS:
+    height:
+    - 222
+    - 255
+    prominence: 10
+    distance: 50
+    wlen: 1000
+  HOMO_EDGE_COLOR_RANGE:
+  - 0
+  - 33
+  HOMO_EDGE_HOUGHLINES_THRESHOLD: 210
+  MAP_SWIPE_MULTIPLY:
+  - 1.147
+  - 1.168
+  MAP_SWIPE_MULTIPLY_MINITOUCH:
+  - 1.109
+  - 1.129
+  MAP_SWIPE_MULTIPLY_MAATOUCH:
+  - 1.077
+  - 1.096
+roads: {}
+selects: {}
+actions: []
+extra_maps: {}
+imports:
+  CampaignBase: module.campaign.campaign_base.CampaignBase
+  CampaignMap: module.map.map_base.CampaignMap
+  SelectedGrids: module.map.map_grids.SelectedGrids
+  RoadGrids: module.map.map_grids.RoadGrids
+  logger: module.logger.logger
+campaign_base_name: CampaignBase

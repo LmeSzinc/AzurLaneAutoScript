@@ -1,0 +1,65 @@
+map:
+  name: 16-2
+  shape: J8
+  camera_data:
+  - C2
+  - C6
+  - G2
+  - G6
+  camera_data_spawn_point:
+  - C6
+  camera_sight:
+  - -2
+  - -1
+  - 3
+  - 2
+  map_data:
+  - MB ++ -- ME -- -- -- -- -- --
+  - -- Me ME -- ME ++ ME -- -- --
+  - -- __ -- -- -- -- -- ME ++ ++
+  - ME -- ME ME ME -- ME -- ++ --
+  - Me -- -- Me ++ -- Me -- -- --
+  - ++ ME -- ME ME -- ME ++ ++ --
+  - -- -- -- -- -- Me -- -- ++ --
+  - -- SP SP -- ++ ++ ++ -- -- --
+  weight_data:
+  - 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50
+  spawn_data:
+  - battle: 0
+    enemy: 3
+  - battle: 1
+    enemy: 2
+  - battle: 2
+    enemy: 2
+  - battle: 3
+    enemy: 1
+  - battle: 4
+    enemy: 1
+  - battle: 5
+    boss: 1
+config_base: campaign_16_base_submarine
+config:
+  MAP_HAS_MAP_STORY: false
+  MAP_HAS_FLEET_STEP: false
+  MAP_HAS_AMBUSH: true
+  MAP_ENSURE_EDGE_INSIGHT_CORNER: bottom-left
+  MAP_SWIPE_MULTIPLY:
+  - 1.093
+  - 1.113
+  MAP_SWIPE_MULTIPLY_MINITOUCH:
+  - 1.057
+  - 1.077
+  MAP_SWIPE_MULTIPLY_MAATOUCH:
+  - 1.026
+  - 1.045
+roads: {}
+selects: {}
+actions: []
+extra_maps: {}

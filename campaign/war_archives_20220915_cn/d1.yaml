@@ -1,0 +1,91 @@
+map:
+  name: D1
+  shape: H8
+  camera_data:
+  - D3
+  - D5
+  camera_data_spawn_point:
+  - E6
+  map_data:
+  - ++ -- -- -- ME -- -- --
+  - -- -- -- ME -- ME ++ --
+  - -- ++ ++ ME -- Me ++ ME
+  - -- MB -- -- -- -- -- --
+  - Me -- -- __ Me ME MS --
+  - ++ ME -- ME -- ++ -- --
+  - -- -- Me -- MS -- -- SP
+  - -- ++ ++ ++ -- -- SP --
+  weight_data:
+  - 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  spawn_data:
+  - battle: 0
+    enemy: 2
+    siren: 2
+  - battle: 1
+    enemy: 1
+  - battle: 2
+    enemy: 2
+  - battle: 3
+    enemy: 1
+  - battle: 4
+    enemy: 2
+  - battle: 5
+    enemy: 1
+    boss: 1
+config_base: null
+config:
+  MAP_SIREN_TEMPLATE:
+  - Hiei
+  - Haruna
+  - Shokaku
+  MOVABLE_ENEMY_TURN:
+  - 2
+  MAP_HAS_SIREN: true
+  MAP_HAS_MOVABLE_ENEMY: true
+  MAP_HAS_MAP_STORY: true
+  MAP_HAS_FLEET_STEP: true
+  MAP_HAS_AMBUSH: false
+  MAP_HAS_MYSTERY: false
+  INTERNAL_LINES_FIND_PEAKS_PARAMETERS:
+    height:
+    - 80
+    - 222
+    width:
+    - 0.9
+    - 10
+    prominence: 10
+    distance: 35
+  EDGE_LINES_FIND_PEAKS_PARAMETERS:
+    height:
+    - 222
+    - 255
+    prominence: 10
+    distance: 50
+    wlen: 1000
+  MAP_WALK_USE_CURRENT_FLEET: true
+  MAP_SWIPE_MULTIPLY:
+  - 1.023
+  - 1.043
+  MAP_SWIPE_MULTIPLY_MINITOUCH:
+  - 0.99
+  - 1.008
+  MAP_SWIPE_MULTIPLY_MAATOUCH:
+  - 0.961
+  - 0.978
+roads: {}
+selects: {}
+actions: []
+extra_maps: {}
+imports:
+  CampaignBase: campaign_base.CampaignBase
+  CampaignMap: module.map.map_base.CampaignMap
+  SelectedGrids: module.map.map_grids.SelectedGrids
+  RoadGrids: module.map.map_grids.RoadGrids
+  logger: module.logger.logger

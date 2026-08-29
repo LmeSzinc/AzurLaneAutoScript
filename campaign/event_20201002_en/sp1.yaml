@@ -1,0 +1,60 @@
+map:
+  name: SP1
+  shape: K7
+  camera_data:
+  - D2
+  - D5
+  - H2
+  - H5
+  camera_data_spawn_point:
+  - H5
+  map_data:
+  - ++ ++ ++ -- ME -- -- -- -- ++ --
+  - -- ME -- ++ -- ++ ++ ME -- ++ ME
+  - ME -- -- Me -- ME ++ -- Me ++ --
+  - -- -- -- -- -- ++ ME -- -- -- SP
+  - ME -- -- Me -- -- -- __ -- -- SP
+  - -- -- ME ++ -- MS -- Me -- -- --
+  - -- -- -- ++ MB -- MB ++ ++ ++ ++
+  weight_data:
+  - 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50 50
+  spawn_data:
+  - battle: 0
+    enemy: 2
+    siren: 1
+  - battle: 1
+    enemy: 1
+  - battle: 2
+    enemy: 1
+  - battle: 3
+    enemy: 1
+  - battle: 4
+    boss: 1
+config_base: null
+config:
+  MAP_SIREN_TEMPLATE:
+  - Z18
+  MOVABLE_ENEMY_TURN:
+  - 3
+  MAP_HAS_SIREN: true
+  MAP_HAS_MOVABLE_ENEMY: true
+  MAP_HAS_MAP_STORY: true
+  MAP_HAS_FLEET_STEP: true
+  MAP_HAS_AMBUSH: false
+roads: {}
+selects: {}
+actions: []
+extra_maps: {}
+imports:
+  CampaignBase: module.campaign.campaign_base.CampaignBase
+  logger: module.logger.logger
+  CampaignMap: module.map.map_base.CampaignMap
+  RoadGrids: module.map.map_grids.RoadGrids
+  SelectedGrids: module.map.map_grids.SelectedGrids
+campaign_base_name: CampaignBase

@@ -1,0 +1,61 @@
+map:
+  name: SP3
+  shape: I8
+  camera_data:
+  - D3
+  - D6
+  - F3
+  - F6
+  camera_data_spawn_point:
+  - F6
+  map_data:
+  - ++ ++ ++ ++ ME ME -- -- ME
+  - MB MB MB ++ -- -- -- ME --
+  - -- ME -- ME Me ++ MS -- ++
+  - ME MS -- __ ME -- ME -- ++
+  - ++ ++ ++ -- -- ++ ++ -- ME
+  - ME ME MS Me -- ++ ++ ME --
+  - -- -- -- -- -- SP SP -- --
+  - Me ME ++ ME -- -- -- -- ME
+  weight_data:
+  - 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50
+  spawn_data:
+  - battle: 0
+    enemy: 3
+    siren: 2
+  - battle: 1
+    enemy: 2
+    siren: 1
+  - battle: 2
+    enemy: 1
+  - battle: 3
+    enemy: 1
+  - battle: 4
+    enemy: 1
+  - battle: 5
+    boss: 1
+config_base: sp1
+config:
+  MAP_SIREN_TEMPLATE: []
+  MAP_HAS_SIREN: true
+  MAP_HAS_MAP_STORY: true
+  MAP_HAS_FLEET_STEP: false
+  MAP_HAS_AMBUSH: false
+  MAP_HAS_MYSTERY: false
+roads: {}
+selects: {}
+actions: []
+extra_maps: {}
+imports:
+  logger: module.logger.logger
+  CampaignMap: module.map.map_base.CampaignMap
+  RoadGrids: module.map.map_grids.RoadGrids
+  SelectedGrids: module.map.map_grids.SelectedGrids
+  CampaignBase: campaign_war_archives.campaign_base.CampaignBase

@@ -1,0 +1,38 @@
+map:
+  shape: H7
+  map_data:
+  - -- ME ME ++ ++ ME ME ME
+  - ME -- -- MS -- -- MB --
+  - ++ ++ -- ME __ ME ++ ++
+  - ME ME -- ++ -- ME ++ ++
+  - ME -- -- ++ -- MS MB ME
+  - SP SP -- -- __ -- ME ++
+  - -- SP ME ++ ME MS -- ME
+  spawn_data:
+  - battle: 0
+    enemy: 2
+    siren: 2
+  - battle: 1
+    enemy: 2
+  - battle: 2
+    enemy: 2
+  - battle: 3
+    enemy: 1
+  - battle: 4
+    enemy: 1
+  - battle: 5
+    boss: 1
+config_base: event_20200611_en.c1
+config:
+  FLEET_BOSS: 2
+roads: {}
+selects: {}
+actions: []
+extra_maps: {}
+imports:
+  CampaignBase: module.campaign.campaign_base.CampaignBase
+  logger: module.logger.logger
+  CampaignMap: module.map.map_base.CampaignMap
+  RoadGrids: module.map.map_grids.RoadGrids
+  SelectedGrids: module.map.map_grids.SelectedGrids
+campaign_base_name: CampaignBase

@@ -1,0 +1,64 @@
+map:
+  name: A2
+  shape: G7
+  camera_data:
+  - D2
+  - D5
+  camera_data_spawn_point:
+  - D2
+  - D5
+  map_data:
+  - -- ME MS MS -- ++ --
+  - ME -- -- -- -- ME --
+  - -- -- __ -- SP ++ ++
+  - ME -- ME ++ -- ++ ++
+  - ++ -- -- ++ -- SP --
+  - -- MB MS -- -- ++ ++
+  - -- -- MS ME -- -- --
+  weight_data:
+  - 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50
+  - 50 50 50 50 10 50 50
+  - 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50
+  spawn_data:
+  - battle: 0
+    enemy: 3
+    siren: 1
+  - battle: 1
+    enemy: 1
+    siren: 1
+  - battle: 2
+    enemy: 2
+  - battle: 3
+    enemy: 1
+  - battle: 4
+    enemy: 2
+    boss: 1
+  - battle: 5
+    enemy: 1
+config_base: a1
+config:
+  MAP_SIREN_TEMPLATE:
+  - Swordfish
+  MOVABLE_ENEMY_TURN:
+  - 1
+  MAP_HAS_SIREN: true
+  MAP_HAS_MOVABLE_ENEMY: true
+  MAP_HAS_MAP_STORY: false
+  MAP_HAS_FLEET_STEP: true
+  MAP_HAS_AMBUSH: false
+  STAR_REQUIRE_3: 0
+roads: {}
+selects: {}
+actions: []
+extra_maps: {}
+imports:
+  logger: module.logger.logger
+  CampaignMap: module.map.map_base.CampaignMap
+  RoadGrids: module.map.map_grids.RoadGrids
+  SelectedGrids: module.map.map_grids.SelectedGrids
+  CampaignBase: campaign_base.CampaignBase
+campaign_base_name: CampaignBase

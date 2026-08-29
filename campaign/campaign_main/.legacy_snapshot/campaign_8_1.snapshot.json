@@ -1,5 +1,6 @@
 {
   "map": {
+    "name": "8-1",
     "shape": "I3",
     "camera_data": [
       "D1",
@@ -9,8 +10,16 @@
       "D1",
       "F1"
     ],
-    "map_data": "\n    SP -- ++ ++ ME -- ME MB ++\n    SP -- ++ ++ ME -- ME -- ME\n    -- ME ME -- ME ++ ME ME MB\n",
-    "weight_data": "\n    50 50 50 50 50 50 21 30 50\n    50 50 50 50 25 24 20 12 11\n    50 45 40 31 30 50 22 10 20\n",
+    "map_data": [
+      "SP -- ++ ++ ME -- ME MB ++",
+      "SP -- ++ ++ ME -- ME -- ME",
+      "-- ME ME -- ME ++ ME ME MB"
+    ],
+    "weight_data": [
+      "50 50 50 50 50 50 21 30 50",
+      "50 50 50 50 25 24 20 12 11",
+      "50 45 40 31 30 50 22 10 20"
+    ],
     "spawn_data": [
       {
         "battle": 0,

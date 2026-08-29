@@ -1,0 +1,53 @@
+map:
+  name: SOS
+  shape: I6
+  camera_data:
+  - D2
+  - D4
+  - F2
+  - F4
+  camera_data_spawn_point:
+  - D2
+  - F4
+  map_data:
+  - -- ++ ++ ++ -- MB ME -- ++
+  - -- Me ++ ME -- ME Me ME ++
+  - Me ME ME SP ME ++ __ ME --
+  - ME ME __ ME Me SP Me ME ME
+  - -- ME Me ++ ME -- ME ME --
+  - -- ++ ME MB -- -- ++ ++ ++
+  weight_data:
+  - 50 50 50 50 10 10 30 50 50
+  - 50 50 50 20 10 20 30 50 50
+  - 50 50 30 20 10 50 30 50 50
+  - 50 50 30 20 10 30 30 50 50
+  - 50 50 30 50 10 50 50 50 50
+  - 50 50 30 30 50 50 50 50 50
+  spawn_data:
+  - battle: 0
+    enemy: 3
+  - battle: 1
+    enemy: 2
+  - battle: 2
+    enemy: 2
+  - battle: 3
+    enemy: 1
+  - battle: 4
+    enemy: 2
+  - battle: 5
+    boss: 1
+config_base: null
+config:
+  MAP_HAS_MAP_STORY: false
+  MAP_HAS_FLEET_STEP: false
+  MAP_HAS_AMBUSH: false
+  STAR_REQUIRE_1: 0
+  STAR_REQUIRE_2: 0
+  STAR_REQUIRE_3: 0
+  INTERNAL_LINES_HOUGHLINES_THRESHOLD: 40
+  EDGE_LINES_HOUGHLINES_THRESHOLD: 40
+  COINCIDENT_POINT_ENCOURAGE_DISTANCE: 1.5
+roads: {}
+selects: {}
+actions: []
+extra_maps: {}

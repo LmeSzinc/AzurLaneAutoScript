@@ -1,0 +1,89 @@
+map:
+  name: CS1
+  shape: H6
+  camera_data:
+  - D2
+  - D4
+  - E2
+  - E4
+  camera_data_spawn_point:
+  - D2
+  - E2
+  map_data:
+  - -- ++ -- ME ME -- -- ME
+  - ME ++ -- -- -- ++ ++ --
+  - -- -- SP -- SP -- ++ Me
+  - -- -- -- ME -- __ -- --
+  - ME ME -- -- -- MS -- ME
+  - ME ++ MS ME MB -- MB --
+  weight_data:
+  - 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  spawn_data:
+  - battle: 0
+    enemy: 3
+    siren: 2
+  - battle: 1
+    enemy: 1
+  - battle: 2
+    enemy: 2
+  - battle: 3
+    enemy: 1
+  - battle: 4
+    enemy: 2
+    boss: 1
+  - battle: 5
+    enemy: 1
+config_base: null
+config:
+  MAP_SIREN_TEMPLATE:
+  - CL
+  - CA
+  MOVABLE_ENEMY_TURN:
+  - 2
+  - 3
+  MAP_HAS_SIREN: true
+  MAP_HAS_MOVABLE_ENEMY: true
+  MAP_HAS_MAP_STORY: false
+  MAP_HAS_FLEET_STEP: true
+  MAP_HAS_AMBUSH: false
+  STAR_REQUIRE_1: 0
+  STAR_REQUIRE_2: 0
+  STAR_REQUIRE_3: 0
+  MAP_IS_ONE_TIME_STAGE: true
+  INTERNAL_LINES_FIND_PEAKS_PARAMETERS:
+    height:
+    - 150
+    - 231
+    width:
+    - 1.5
+    - 10
+    prominence: 10
+    distance: 35
+  EDGE_LINES_FIND_PEAKS_PARAMETERS:
+    height:
+    - 231
+    - 255
+    prominence: 10
+    distance: 50
+    wlen: 1000
+  HOMO_EDGE_HOUGHLINES_THRESHOLD: 120
+  HOMO_EDGE_COLOR_RANGE:
+  - 0
+  - 12
+  INTERNAL_LINES_HOUGHLINES_THRESHOLD: 40
+  EDGE_LINES_HOUGHLINES_THRESHOLD: 40
+roads: {}
+selects: {}
+actions: []
+extra_maps: {}
+imports:
+  logger: module.logger.logger
+  CampaignMap: module.map.map_base.CampaignMap
+  RoadGrids: module.map.map_grids.RoadGrids
+  SelectedGrids: module.map.map_grids.SelectedGrids
+  CampaignBase: campaign_base.CampaignBase

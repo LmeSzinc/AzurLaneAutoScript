@@ -1,0 +1,97 @@
+map:
+  name: D1
+  camera_sight:
+  - -4
+  - -2
+  - 4
+  - 2
+  shape: J7
+  camera_data_spawn_point: []
+  map_data:
+  - ++ ++ ++ MS -- ME ++ ++ ++ ++
+  - ++ ++ ++ -- ME __ -- ++ ++ ++
+  - ++ ++ ++ __ -- ME -- -- ++ ++
+  - ++ ++ ++ Me ++ ++ ME -- ++ ++
+  - -- MB -- -- ME ME -- ME -- SP
+  - -- -- Me -- -- -- -- __ -- SP
+  - ++ ++ -- Me MS ME Me ++ ME --
+  weight_data:
+  - 10 10 10 10 10 10 10 10 10 10
+  - 10 10 10 10 10 10 10 10 10 10
+  - 10 10 10 10 10 10 10 10 10 10
+  - 10 10 10 10 10 10 10 10 10 10
+  - 10 10 10 10 10 10 10 10 10 10
+  - 10 10 10 10 10 10 10 10 10 10
+  - 10 10 10 10 10 10 10 10 10 10
+  spawn_data:
+  - battle: 0
+    enemy: 2
+    siren: 2
+  - battle: 1
+    enemy: 1
+  - battle: 2
+    enemy: 2
+    siren: 1
+  - battle: 3
+    enemy: 1
+  - battle: 4
+    enemy: 2
+  - battle: 5
+    enemy: 1
+  - battle: 6
+    boss: 1
+config_base: null
+config:
+  SUBMARINE: 0
+  POOR_MAP_DATA: true
+  MAP_HAS_AMBUSH: false
+  MAP_HAS_FLEET_STEP: true
+  MAP_HAS_MOVABLE_ENEMY: true
+  MAP_HAS_SIREN: true
+  MAP_HAS_DYNAMIC_RED_BORDER: false
+  MAP_SIREN_COUNT: 3
+  MAP_HAS_PT_BONUS: true
+  INTERNAL_LINES_FIND_PEAKS_PARAMETERS:
+    height:
+    - 100
+    - 231
+    width: 1
+    prominence: 10
+    distance: 35
+  EDGE_LINES_FIND_PEAKS_PARAMETERS:
+    height:
+    - 231
+    - 255
+    prominence: 2
+    distance: 50
+    wlen: 1000
+  VANISH_POINT_RANGE:
+  - - 540
+    - 740
+  - - -4000
+    - -2000
+  DISTANCE_POINT_X_RANGE:
+  - - -2000
+    - -1000
+  INTERNAL_LINES_HOUGHLINES_THRESHOLD: 50
+  EDGE_LINES_HOUGHLINES_THRESHOLD: 50
+  COINCIDENT_POINT_ENCOURAGE_DISTANCE: 1.0
+  MID_DIFF_RANGE_H:
+  - 45
+  - 70
+  MID_DIFF_RANGE_V:
+  - 94
+  - 100
+  TRUST_EDGE_LINES: true
+  MAP_GRID_CENTER_TOLERANCE: 0.3
+roads: {}
+selects: {}
+actions: []
+extra_maps: {}
+imports:
+  CampaignBase: module.campaign.campaign_base.CampaignBase
+  logger: module.logger.logger
+  CampaignMap: module.map.map_base.CampaignMap
+  RoadGrids: module.map.map_grids.RoadGrids
+  SelectedGrids: module.map.map_grids.SelectedGrids
+campaign_base_name: CampaignBase

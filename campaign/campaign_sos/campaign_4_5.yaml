@@ -1,0 +1,72 @@
+map:
+  name: SOS
+  shape: H7
+  camera_data:
+  - D2
+  - D3
+  - E5
+  camera_data_spawn_point:
+  - E5
+  map_data:
+  - ME -- ME -- ++ Me ME --
+  - -- Me ME MB MB ME ME --
+  - ME ++ __ ME ME __ ME ME
+  - ME ME ME Me ME ME ME ++
+  - -- ME ME SP SP ME ME ME
+  - ++ ME -- ME -- Me -- --
+  - ++ -- ++ -- ME -- ++ ME
+  weight_data:
+  - 50 50 50 50 50 50 50 50
+  - 50 50 10 10 10 10 50 50
+  - 50 50 20 10 10 20 30 50
+  - 50 50 20 20 20 20 30 50
+  - 50 50 30 30 30 30 50 50
+  - 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  spawn_data:
+  - battle: 0
+    enemy: 4
+  - battle: 1
+    enemy: 1
+  - battle: 2
+    enemy: 2
+  - battle: 3
+    enemy: 1
+  - battle: 4
+    enemy: 2
+    boss: 1
+config_base: null
+config:
+  MAP_HAS_MAP_STORY: false
+  MAP_HAS_FLEET_STEP: false
+  MAP_HAS_AMBUSH: false
+  STAR_REQUIRE_1: 0
+  STAR_REQUIRE_2: 0
+  STAR_REQUIRE_3: 0
+  INTERNAL_LINES_HOUGHLINES_THRESHOLD: 40
+  EDGE_LINES_HOUGHLINES_THRESHOLD: 40
+  COINCIDENT_POINT_ENCOURAGE_DISTANCE: 1.5
+  INTERNAL_LINES_FIND_PEAKS_PARAMETERS:
+    height:
+    - 120
+    - 222
+    width:
+    - 1.5
+    - 10
+    prominence: 10
+    distance: 35
+  EDGE_LINES_FIND_PEAKS_PARAMETERS:
+    height:
+    - 222
+    - 255
+    prominence: 10
+    distance: 50
+    wlen: 1000
+  HOMO_EDGE_COLOR_RANGE:
+  - 0
+  - 33
+  HOMO_EDGE_HOUGHLINES_THRESHOLD: 210
+roads: {}
+selects: {}
+actions: []
+extra_maps: {}

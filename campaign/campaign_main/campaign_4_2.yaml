@@ -1,0 +1,38 @@
+map:
+  shape: F6
+  camera_data:
+  - D2
+  - D4
+  camera_data_spawn_point:
+  - D2
+  map_data:
+  - ++ ++ ++ ME SP --
+  - SP -- -- -- ME --
+  - -- -- ME ME -- ME
+  - SP -- -- -- -- MB
+  - ++ ++ ME ME -- ME
+  - ++ ++ -- MB ME MM
+  weight_data:
+  - 50 50 50 50 50 50
+  - 50 50 50 50 50 50
+  - 50 50 50 50 50 50
+  - 50 50 50 10 10 10
+  - 50 50 20 10 10 20
+  - 50 50 20 10 10 20
+  spawn_data:
+  - battle: 0
+    enemy: 3
+    mystery: 1
+  - battle: 1
+    enemy: 2
+  - battle: 2
+    enemy: 1
+  - battle: 3
+    enemy: 1
+    boss: 1
+config_base: null
+config: {}
+roads: {}
+selects: {}
+actions: []
+extra_maps: {}

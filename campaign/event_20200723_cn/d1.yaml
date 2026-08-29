@@ -1,0 +1,90 @@
+map:
+  name: D1
+  shape: I8
+  camera_data:
+  - D2
+  - D6
+  - F2
+  - F6
+  camera_data_spawn_point:
+  - D2
+  map_data:
+  - ++ ++ ++ ME -- ME -- ++ --
+  - SP -- Me -- -- -- Me -- ME
+  - SP -- -- ++ MS -- -- -- --
+  - SP -- -- -- __ -- MS ++ ++
+  - ++ ++ Me -- -- -- Me ++ --
+  - ++ ++ -- -- MS -- -- ME --
+  - -- ME -- MB ++ MB -- -- ME
+  - -- ME -- ME ++ -- ME -- ++
+  weight_data:
+  - 10 10 10 10 10 10 10 10 10
+  - 10 10 10 10 10 10 10 10 10
+  - 10 10 10 10 10 10 10 10 10
+  - 10 10 10 10 10 10 10 10 10
+  - 10 10 10 10 10 10 10 10 10
+  - 10 10 10 10 10 10 10 10 10
+  - 10 10 10 10 10 10 10 10 10
+  - 10 10 10 10 10 10 10 10 10
+  spawn_data:
+  - battle: 0
+    enemy: 2
+    siren: 2
+  - battle: 1
+    enemy: 1
+  - battle: 2
+    enemy: 2
+  - battle: 3
+    enemy: 1
+  - battle: 4
+    enemy: 2
+  - battle: 5
+    enemy: 1
+    boss: 1
+config_base: null
+config:
+  SUBMARINE: 0
+  MAP_HAS_AMBUSH: false
+  MAP_HAS_FLEET_STEP: true
+  MAP_HAS_MOVABLE_ENEMY: true
+  MAP_HAS_SIREN: true
+  MAP_HAS_DYNAMIC_RED_BORDER: false
+  MAP_HAS_MAP_STORY: true
+  MAP_SIREN_COUNT: 2
+  DETECTION_BACKEND: homography
+  HOMO_STORAGE:
+  - - 6
+    - 6
+  - - - 583.092
+      - 82.574
+    - - 1247.528
+      - 82.574
+    - - 564.74
+      - 614.947
+    - - 1434.046
+      - 614.947
+  HOMO_EDGE_HOUGHLINES_THRESHOLD: 350
+  MAP_SIREN_TEMPLATE:
+  - U101
+  - U73
+  - U552
+  MAP_SWIPE_MULTIPLY:
+  - 1.191
+  - 1.213
+  MAP_SWIPE_MULTIPLY_MINITOUCH:
+  - 1.152
+  - 1.173
+  MAP_SWIPE_MULTIPLY_MAATOUCH:
+  - 1.118
+  - 1.138
+roads: {}
+selects: {}
+actions: []
+extra_maps: {}
+imports:
+  CampaignBase: module.campaign.campaign_base.CampaignBase
+  logger: module.logger.logger
+  CampaignMap: module.map.map_base.CampaignMap
+  RoadGrids: module.map.map_grids.RoadGrids
+  SelectedGrids: module.map.map_grids.SelectedGrids
+campaign_base_name: CampaignBase

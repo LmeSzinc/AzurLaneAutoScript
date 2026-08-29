@@ -1,0 +1,68 @@
+map:
+  name: VSP
+  shape: G8
+  camera_data:
+  - D2
+  - D6
+  camera_data_spawn_point:
+  - D6
+  map_data:
+  - ++ ++ ++ MB ++ ++ ++
+  - ME -- MS -- MS -- ME
+  - ++ ++ -- MS -- ++ ++
+  - ++ ME -- ++ -- ME ++
+  - ++ ++ -- ++ -- ++ ++
+  - ++ ++ -- __ -- ++ ++
+  - ME -- -- -- -- -- ME
+  - ++ ++ SP -- SP ++ ++
+  weight_data:
+  - 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50
+  spawn_data:
+  - battle: 0
+    siren: 3
+  - battle: 1
+    enemy: 1
+  - battle: 2
+    enemy: 1
+  - battle: 3
+    enemy: 2
+  - battle: 4
+  - battle: 5
+  - battle: 6
+  - battle: 7
+    boss: 1
+config_base: null
+config:
+  MAP_HAS_MAP_STORY: false
+  MAP_HAS_FLEET_STEP: false
+  MAP_HAS_AMBUSH: false
+  STAR_REQUIRE_1: 0
+  STAR_REQUIRE_2: 0
+  STAR_REQUIRE_3: 0
+  MAP_HAS_SIREN: true
+  MAP_SIREN_TEMPLATE:
+  - AzusaMiura
+  - ChihayaKisaragi
+  - IoriMinase
+  MAP_ENSURE_EDGE_INSIGHT_CORNER: bottom
+  HOMO_EDGE_COLOR_RANGE:
+  - 0
+  - 12
+roads: {}
+selects: {}
+actions: []
+extra_maps: {}
+imports:
+  logger: module.logger.logger
+  CampaignMap: module.map.map_base.CampaignMap
+  RoadGrids: module.map.map_grids.RoadGrids
+  SelectedGrids: module.map.map_grids.SelectedGrids
+  CampaignBase: campaign_base.CampaignBase
+campaign_base_name: CampaignBase

@@ -1,0 +1,63 @@
+map:
+  name: 7-2
+  shape: H5
+  camera_data:
+  - D2
+  - D3
+  camera_data_spawn_point:
+  - D2
+  - D3
+  map_data:
+  - ME ++ ME -- ME ME -- SP
+  - MM ++ ++ MM -- -- ME --
+  - ME -- ME MB ME -- ME MM
+  - -- ME -- MM -- ME ++ ++
+  - SP -- ME ME -- ME ++ ++
+  weight_data:
+  - 40 30 30 30 30 30 30 30
+  - 20 20 20 10 20 20 20 20
+  - 10 10 10 10 10 10 10 10
+  - 20 20 20 10 20 20 20 20
+  - 30 30 30 30 30 30 30 30
+  spawn_data:
+  - battle: 0
+    enemy: 3
+  - battle: 1
+    enemy: 2
+    mystery: 1
+  - battle: 2
+    enemy: 2
+    mystery: 1
+  - battle: 3
+    enemy: 1
+    mystery: 2
+  - battle: 4
+    enemy: 1
+  - battle: 5
+    boss: 1
+config_base: null
+config:
+  SUBMARINE: 0
+roads:
+  ROAD_MAIN:
+    roadgrids:
+    - - A3
+    - - C3
+      - B4
+      - C5
+    - - F1
+      - G2
+      - G3
+selects:
+  GRIDS_FOR_FASTER:
+  - A3
+  - C3
+  - E3
+  - G3
+  FLEET_2_STEP_ON:
+  - A3
+  - G3
+  - C3
+  - E3
+actions: []
+extra_maps: {}

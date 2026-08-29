@@ -1,0 +1,36 @@
+map:
+  shape: F5
+  camera_data:
+  - D3
+  camera_data_spawn_point:
+  - D3
+  map_data:
+  - ++ ++ ME MM ++ ++
+  - ++ ++ -- ME -- SP
+  - -- ++ ME -- ME --
+  - MB ME -- ME -- --
+  - -- ME ME SP ME SP
+  weight_data:
+  - 50 50 30 30 50 50
+  - 50 50 30 30 50 50
+  - 50 50 20 30 50 50
+  - 09 10 11 20 50 50
+  - 10 10 11 50 50 50
+  spawn_data:
+  - battle: 0
+    enemy: 2
+    mystery: 1
+  - battle: 1
+    enemy: 2
+  - battle: 2
+    enemy: 2
+  - battle: 3
+    enemy: 1
+    boss: 1
+config_base: campaign_main.campaign_3_1
+config:
+  HOMO_EDGE_HOUGHLINES_THRESHOLD: 210
+roads: {}
+selects: {}
+actions: []
+extra_maps: {}

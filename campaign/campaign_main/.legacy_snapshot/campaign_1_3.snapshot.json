@@ -7,7 +7,11 @@
     "camera_data_spawn_point": [
       "C1"
     ],
-    "map_data": "\n    ++ ++ ++ -- MB --\n    -- ME -- ME -- --\n    SP -- ++ -- -- MM\n",
+    "map_data": [
+      "++ ++ ++ -- MB --",
+      "-- ME -- ME -- --",
+      "SP -- ++ -- -- MM"
+    ],
     "spawn_data": [
       {
         "battle": 0,

@@ -1,6 +1,13 @@
 {
   "map": {
-    "map_data": "\n    -- -- ++ ++ -- ME -- ++ ++ ME --\n    ME ME ++ ++ ME -- ME -- ME -- ME\n    ME -- MB -- MB -- -- -- -- -- --\n    ++ -- MB MB -- __ ME ++ ++ ME ++\n    SP -- ME -- ME -- -- ++ ME -- ME\n    SP SP ++ ++ ++ ME -- -- -- -- ME\n",
+    "map_data": [
+      "-- -- ++ ++ -- ME -- ++ ++ ME --",
+      "ME ME ++ ++ ME -- ME -- ME -- ME",
+      "ME -- MB -- MB -- -- -- -- -- --",
+      "++ -- MB MB -- __ ME ++ ++ ME ++",
+      "SP -- ME -- ME -- -- ++ ME -- ME",
+      "SP SP ++ ++ ++ ME -- -- -- -- ME"
+    ],
     "spawn_data": [
       {
         "battle": 0,

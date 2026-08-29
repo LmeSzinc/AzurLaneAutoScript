@@ -42,8 +42,8 @@ def map_files(event):
     files = []
     for file in os.listdir(folder):
         name, ext = os.path.splitext(file)
-        # Phase 4A: maps may be JSON data files or .py fragments
-        if ext not in (".py", ".json"):
+        # Phase 4A: maps may be YAML data files or .py fragments
+        if ext not in (".py", ".yaml"):
             continue
         if name in ("campaign_base", "meta"):
             continue

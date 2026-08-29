@@ -1,0 +1,117 @@
+map:
+  name: C3
+  shape: I9
+  camera_data:
+  - E3
+  - E5
+  - E7
+  camera_data_spawn_point:
+  - E7
+  map_data:
+  - ++ ++ ++ -- MB -- ++ ++ ++
+  - ++ -- -- -- -- -- -- -- ++
+  - -- ME -- ME ++ ME -- ME --
+  - -- -- -- -- -- -- -- -- --
+  - -- ME -- -- -- -- -- ME --
+  - ++ ++ -- -- -- -- -- ++ ++
+  - ++ ++ Me -- Me -- Me ++ ++
+  - ++ Me -- -- __ -- -- Me ++
+  - ++ -- -- SP -- SP -- -- ++
+  map_data_loop:
+  - ++ ++ ++ -- MB -- ++ ++ ++
+  - ++ -- -- -- -- -- -- -- ++
+  - -- ME -- ME ++ ME -- ME --
+  - -- -- -- -- -- -- -- -- --
+  - -- ME -- ME -- ME -- ME --
+  - ++ ++ -- MS -- MS -- ++ ++
+  - ++ ++ Me -- Me -- Me ++ ++
+  - ++ Me -- -- __ -- -- Me ++
+  - ++ -- -- SP -- SP -- -- ++
+  weight_data:
+  - 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50
+  spawn_data:
+  - battle: 0
+    enemy: 1
+  - battle: 1
+  - battle: 2
+    enemy: 2
+  - battle: 3
+    enemy: 1
+  - battle: 4
+    enemy: 1
+  - battle: 5
+    boss: 1
+  spawn_data_loop:
+  - battle: 0
+    enemy: 2
+    siren: 2
+  - battle: 1
+    enemy: 1
+  - battle: 2
+    enemy: 2
+  - battle: 3
+    enemy: 1
+  - battle: 4
+    enemy: 1
+  - battle: 5
+    boss: 1
+  bouncing_enemy_data:
+  - __tuple__:
+    - __grid__: C4
+    - __grid__: D4
+    - __grid__: E4
+    - __grid__: F4
+    - __grid__: G4
+  - __tuple__:
+    - __grid__: C2
+    - __grid__: D2
+    - __grid__: E2
+    - __grid__: F2
+    - __grid__: G2
+  fortress_data:
+  - __tuple__:
+    - __grid__: D6
+    - __grid__: F6
+  - __tuple__:
+    - __grid__: C5
+    - __grid__: D5
+    - __grid__: E5
+    - __grid__: F5
+    - __grid__: G5
+    - __grid__: C6
+    - __grid__: E6
+    - __grid__: G6
+config_base: c1
+config:
+  MAP_HAS_MAP_STORY: true
+  MAP_HAS_FLEET_STEP: true
+  MAP_HAS_AMBUSH: false
+  MAP_HAS_MYSTERY: false
+  MAP_SWIPE_MULTIPLY:
+  - 0.993
+  - 1.012
+  MAP_SWIPE_MULTIPLY_MINITOUCH:
+  - 0.961
+  - 0.978
+  MAP_SWIPE_MULTIPLY_MAATOUCH:
+  - 0.933
+  - 0.949
+roads: {}
+selects: {}
+actions: []
+extra_maps: {}
+imports:
+  logger: module.logger.logger
+  CampaignMap: module.map.map_base.CampaignMap
+  RoadGrids: module.map.map_grids.RoadGrids
+  SelectedGrids: module.map.map_grids.SelectedGrids
+  CampaignBase: campaign_base.CampaignBase
+campaign_base_name: CampaignBase

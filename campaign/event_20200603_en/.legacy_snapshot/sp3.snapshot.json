@@ -1,7 +1,15 @@
 {
   "map": {
+    "name": "sp3",
     "shape": "i6",
-    "map_data": "\n    ++ MB -- ME -- ME -- ++ ++\n    MB -- ME -- ++ -- ME ++ ++\n    MB ME -- ME -- ME -- ME --\n    ++ ++ ++ -- ME -- ME ++ --\n    MB -- ME ME -- ++ -- -- SP\n    -- ME -- -- -- ++ -- SP SP\n",
+    "map_data": [
+      "++ MB -- ME -- ME -- ++ ++",
+      "MB -- ME -- ++ -- ME ++ ++",
+      "MB ME -- ME -- ME -- ME --",
+      "++ ++ ++ -- ME -- ME ++ --",
+      "MB -- ME ME -- ++ -- -- SP",
+      "-- ME -- -- -- ++ -- SP SP"
+    ],
     "camera_data": [
       "D3",
       "F5"

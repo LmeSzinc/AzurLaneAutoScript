@@ -1,0 +1,110 @@
+map:
+  name: SP
+  shape: K9
+  camera_data:
+  - F2
+  - F4
+  - F7
+  camera_data_spawn_point:
+  - F2
+  portal_data:
+  - - E1
+    - K1
+  - - K1
+    - E1
+  - - A1
+    - G1
+  - - G1
+    - A1
+  map_data:
+  - -- -- MS ++ -- -- -- ++ MS -- --
+  - -- -- -- ++ -- __ -- ++ -- -- --
+  - ++ -- Me ++ SP -- SP ++ Me -- ++
+  - -- ++ ++ ++ ++ -- ++ ++ ++ ++ --
+  - -- -- ++ ME -- -- -- ME ++ -- --
+  - -- -- ++ -- -- MS -- -- ++ -- --
+  - -- ++ ++ ++ ++ -- ++ ++ ++ ++ --
+  - ++ -- -- -- ++ -- ++ -- -- -- ++
+  - -- -- -- -- ++ MB ++ -- -- -- --
+  weight_data:
+  - 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50 50
+  spawn_data:
+  - battle: 0
+    enemy: 2
+    siren: 2
+  - battle: 1
+  - battle: 2
+  - battle: 3
+  - battle: 4
+    enemy: 2
+    siren: 1
+  - battle: 5
+  - battle: 6
+  - battle: 7
+    boss: 1
+config_base: null
+config:
+  MAP_HAS_MAP_STORY: false
+  MAP_HAS_FLEET_STEP: false
+  MAP_HAS_AMBUSH: false
+  MAP_HAS_PORTAL: true
+  STAR_REQUIRE_1: 0
+  STAR_REQUIRE_2: 0
+  STAR_REQUIRE_3: 0
+  STAGE_ENTRANCE:
+  - blue
+  MAP_SIREN_TEMPLATE:
+  - CV
+  - BB
+  MAP_HAS_SIREN: true
+  MAP_HAS_MOVABLE_ENEMY: false
+  INTERNAL_LINES_FIND_PEAKS_PARAMETERS:
+    height:
+    - 150
+    - 231
+    width:
+    - 0.9
+    - 10
+    prominence: 10
+    distance: 35
+  EDGE_LINES_FIND_PEAKS_PARAMETERS:
+    height:
+    - 231
+    - 255
+    prominence: 10
+    distance: 50
+    wlen: 1000
+  HOMO_EDGE_COLOR_RANGE:
+  - 0
+  - 24
+  MAP_ENSURE_EDGE_INSIGHT_CORNER: bottom
+  INTERNAL_LINES_HOUGHLINES_THRESHOLD: 40
+  MAP_SWIPE_MULTIPLY:
+  - 1.23
+  - 1.253
+  MAP_SWIPE_MULTIPLY_MINITOUCH:
+  - 1.19
+  - 1.212
+  MAP_SWIPE_MULTIPLY_MAATOUCH:
+  - 1.155
+  - 1.176
+  MAP_WALK_USE_CURRENT_FLEET: true
+roads: {}
+selects: {}
+actions: []
+extra_maps: {}
+imports:
+  logger: module.logger.logger
+  CampaignMap: module.map.map_base.CampaignMap
+  RoadGrids: module.map.map_grids.RoadGrids
+  SelectedGrids: module.map.map_grids.SelectedGrids
+  CampaignBase: campaign_base.CampaignBase
+campaign_base_name: CampaignBase

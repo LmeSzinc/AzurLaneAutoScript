@@ -1,0 +1,111 @@
+map:
+  name: C2
+  shape: H10
+  camera_data:
+  - D2
+  - E5
+  - E7
+  camera_data_spawn_point:
+  - D2
+  map_data:
+  - ++ -- SP SP -- -- ++ ++
+  - -- Me -- -- -- Me ++ ++
+  - Me -- -- -- -- -- Me --
+  - ++ ++ -- __ -- Me -- --
+  - -- ++ -- -- -- ++ ++ ++
+  - -- ME -- -- -- -- ME --
+  - ++ ME -- -- -- -- -- MB
+  - -- ME -- ME -- -- ME --
+  - -- ++ ME -- ME ME ++ ++
+  - -- -- -- -- -- -- -- ++
+  map_data_loop:
+  - ++ -- SP SP -- -- ++ ++
+  - -- Me -- -- -- Me ++ ++
+  - Me -- -- MS -- -- Me --
+  - ++ ++ -- __ -- Me -- --
+  - -- ++ -- MS -- ++ ++ ++
+  - -- ME -- -- ME -- ME --
+  - ++ ME -- -- -- -- -- MB
+  - -- ME -- ME -- -- ME --
+  - -- ++ ME -- ME ME ++ ++
+  - -- -- -- -- -- -- -- ++
+  weight_data:
+  - 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  spawn_data:
+  - battle: 0
+    enemy: 1
+  - battle: 1
+    enemy: 1
+  - battle: 2
+    enemy: 2
+  - battle: 3
+    enemy: 1
+  - battle: 4
+    enemy: 1
+    boss: 1
+  spawn_data_loop:
+  - battle: 0
+    enemy: 2
+    siren: 2
+  - battle: 1
+    enemy: 1
+  - battle: 2
+    enemy: 2
+  - battle: 3
+    enemy: 1
+  - battle: 4
+    enemy: 1
+    boss: 1
+  bouncing_enemy_data:
+  - __tuple__:
+    - __grid__: B3
+    - __grid__: C3
+    - __grid__: D3
+    - __grid__: E3
+    - __grid__: F3
+  - __tuple__:
+    - __grid__: F6
+    - __grid__: F7
+    - __grid__: F8
+  fortress_data:
+  - __grid__: D5
+  - __tuple__:
+    - __grid__: C5
+    - __grid__: E5
+    - __grid__: C6
+    - __grid__: D6
+    - __grid__: E6
+config_base: c1
+config:
+  MAP_HAS_MAP_STORY: true
+  MAP_HAS_FLEET_STEP: true
+  MAP_HAS_AMBUSH: false
+  MAP_HAS_MYSTERY: false
+  MAP_SWIPE_MULTIPLY:
+  - 1.216
+  - 1.239
+  MAP_SWIPE_MULTIPLY_MINITOUCH:
+  - 1.176
+  - 1.198
+  MAP_SWIPE_MULTIPLY_MAATOUCH:
+  - 1.142
+  - 1.163
+roads: {}
+selects: {}
+actions: []
+extra_maps: {}
+imports:
+  logger: module.logger.logger
+  CampaignMap: module.map.map_base.CampaignMap
+  RoadGrids: module.map.map_grids.RoadGrids
+  SelectedGrids: module.map.map_grids.SelectedGrids
+  CampaignBase: campaign_base.CampaignBase

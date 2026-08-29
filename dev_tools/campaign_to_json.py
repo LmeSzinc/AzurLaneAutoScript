@@ -27,6 +27,8 @@ ROOT = Path(__file__).resolve().parent.parent
 CAMPAIGN = ROOT / 'campaign'
 sys.path.insert(0, str(ROOT))  # ref validation imports module.* / campaign.*
 
+from module.campaign.map_loader import ROW_KEYS, dump_map_file
+
 
 def node_name(node):
     if isinstance(node, ast.Name):
@@ -159,8 +161,10 @@ def convert(path: Path):
                     and isinstance(node.value.func, ast.Name) \
                     and node.value.func.id == 'CampaignMap':
                 map_name = None
+                if len(node.value.args) == 1:
+                    map_name = ast.literal_eval(node.value.args[0])
                 for kw in node.value.keywords:
-                    if kw.arg == 'name' or (kw.arg is None and len(node.value.args) == 1):
+                    if kw.arg == 'name':
                         map_name = ast.literal_eval(kw.value)
                 map_objects.setdefault(tgt.id, {'attrs': {}, 'actions': []})
                 if map_name is not None:
@@ -179,6 +183,10 @@ def convert(path: Path):
                         except ValueError:
                             skip_reason = f'unsupported MAP attr {ast.unparse(node)[:60]}'
                             break
+                if tgt.attr in ROW_KEYS and isinstance(value, str):
+                    # grid text blocks become row arrays (readable YAML; the
+                    # loader joins them - CampaignMap._parse_text strips rows)
+                    value = [row.strip() for row in value.strip().split('\n')]
                 map_objects[tgt.value.id]['attrs'][tgt.attr] = value
                 continue
             if isinstance(tgt, ast.Name):
@@ -249,16 +257,16 @@ def convert(path: Path):
         module, attr = '.'.join(parts[:-1]), parts[-1]
         first = module.split('.')[0]
         if '.' not in module:
-            # same-folder ref: check json/py next to the source file
+            # same-folder ref: check yaml/py next to the source file
             base_dir, rel = path.parent, module
         elif (CAMPAIGN / first).exists():
-            # campaign-internal refs resolve through load_map (json or legacy
+            # campaign-internal refs resolve through load_map (yaml or legacy
             # .py); never importlib (a converted sibling is a bare fragment).
             base_dir, rel = CAMPAIGN, module.replace('.', '/')
         else:
             base_dir = None
         if base_dir is not None:
-            if (base_dir / f'{rel}.json').exists() or (base_dir / f'{rel}.py').exists():
+            if (base_dir / f'{rel}.yaml').exists() or (base_dir / f'{rel}.py').exists():
                 continue
             return None, f'unresolvable import {alias} -> {target}'
         mod = None
@@ -335,9 +343,14 @@ def main():
             skipped.append(f'{py.name}: {reason}')
             continue
         data, fragment, snapshot = result
-        (folder_path / f'{py.stem}.json').write_text(
-            json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8', newline='\n'
+        # yaml emit: normalize tuples -> lists first (SafeDumper rejects tuples)
+        data_norm = json.loads(json.dumps(data))
+        (folder_path / f'{py.stem}.yaml').write_text(
+            dump_map_file(data_norm), encoding='utf-8', newline='\n'
         )
+        stale = folder_path / f'{py.stem}.json'
+        if stale.exists():
+            stale.unlink()
         py.write_text(fragment, encoding='utf-8', newline='\n')
         (snap_dir / f'{py.stem}.snapshot.json').write_text(
             json.dumps(snapshot, ensure_ascii=False, indent=2) + '\n', encoding='utf-8', newline='\n'

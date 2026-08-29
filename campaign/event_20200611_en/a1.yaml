@@ -1,0 +1,47 @@
+map:
+  map_data:
+  - -- -- ++ -- -- -- ++ ++
+  - -- -- -- -- -- -- -- --
+  - ++ -- -- ++ -- -- -- --
+  - ++ -- -- -- -- -- -- --
+  - -- -- -- -- -- -- -- --
+  - -- -- ++ ++ ++ -- -- ++
+config_base: null
+config:
+  SUBMARINE: 0
+  FLEET_BOSS: 1
+  POOR_MAP_DATA: true
+  MAP_HAS_AMBUSH: false
+  MAP_HAS_FLEET_STEP: true
+  MAP_HAS_MOVABLE_ENEMY: true
+  MAP_HAS_SIREN: true
+  MAP_HAS_DYNAMIC_RED_BORDER: false
+  MAP_HAS_MAP_STORY: true
+  MAP_SIREN_COUNT: 1
+  TRUST_EDGE_LINES: false
+  COINCIDENT_POINT_ENCOURAGE_DISTANCE: 1.5
+  INTERNAL_LINES_FIND_PEAKS_PARAMETERS:
+    height:
+    - 100
+    - 231
+    width: 1
+    prominence: 10
+    distance: 35
+  EDGE_LINES_FIND_PEAKS_PARAMETERS:
+    height:
+    - 231
+    - 255
+    prominence: 2
+    distance: 50
+    wlen: 1000
+roads: {}
+selects: {}
+actions: []
+extra_maps: {}
+imports:
+  CampaignBase: module.campaign.campaign_base.CampaignBase
+  logger: module.logger.logger
+  CampaignMap: module.map.map_base.CampaignMap
+  RoadGrids: module.map.map_grids.RoadGrids
+  SelectedGrids: module.map.map_grids.SelectedGrids
+campaign_base_name: CampaignBase

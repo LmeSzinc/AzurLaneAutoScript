@@ -1,0 +1,73 @@
+map:
+  name: C3
+  shape: J8
+  camera_data:
+  - D2
+  - D6
+  - G2
+  - G6
+  camera_data_spawn_point:
+  - D2
+  map_data:
+  - -- SP -- -- -- ++ -- ++ ++ --
+  - SP -- -- MS -- -- Me ++ ++ --
+  - ++ ++ ++ -- MS -- -- -- ME --
+  - -- -- -- __ -- -- Me -- -- ME
+  - -- ME -- -- Me ++ Me -- ME ++
+  - ME -- MB -- -- ++ Me -- -- ME
+  - ++ ++ -- ME -- -- -- -- ME --
+  - ++ ++ ME -- -- ++ -- ME -- ++
+  weight_data:
+  - 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50
+  spawn_data:
+  - battle: 0
+    enemy: 2
+    siren: 2
+  - battle: 1
+    enemy: 1
+  - battle: 2
+    enemy: 2
+  - battle: 3
+    enemy: 1
+  - battle: 4
+    enemy: 1
+  - battle: 5
+    boss: 1
+config_base: c1
+config:
+  MAP_SIREN_TEMPLATE: []
+  MOVABLE_ENEMY_TURN:
+  - 2
+  MAP_HAS_SIREN: true
+  MAP_HAS_MOVABLE_ENEMY: true
+  MAP_HAS_MAP_STORY: false
+  MAP_HAS_FLEET_STEP: true
+  MAP_HAS_AMBUSH: false
+  MAP_HAS_MYSTERY: false
+  MAP_SWIPE_MULTIPLY:
+  - 1.24
+  - 1.263
+  MAP_SWIPE_MULTIPLY_MINITOUCH:
+  - 1.199
+  - 1.221
+  MAP_SWIPE_MULTIPLY_MAATOUCH:
+  - 1.164
+  - 1.185
+roads: {}
+selects: {}
+actions: []
+extra_maps: {}
+imports:
+  CampaignBase: module.campaign.campaign_base.CampaignBase
+  CampaignMap: module.map.map_base.CampaignMap
+  SelectedGrids: module.map.map_grids.SelectedGrids
+  RoadGrids: module.map.map_grids.RoadGrids
+  logger: module.logger.logger
+campaign_base_name: CampaignBase

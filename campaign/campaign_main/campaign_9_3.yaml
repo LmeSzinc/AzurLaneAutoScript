@@ -1,0 +1,74 @@
+map:
+  name: 9-3
+  shape: H6
+  camera_data:
+  - D3
+  - E4
+  camera_data_spawn_point:
+  - E4
+  map_data:
+  - MB -- ME -- ME -- ++ MB
+  - ME ++ ++ ++ MB ME ++ --
+  - Me __ -- SP ++ ME ME --
+  - -- -- ME ++ SP -- __ Me
+  - ++ -- Me MB ++ ++ ++ --
+  - ++ ++ -- ME -- ME ME MB
+  weight_data:
+  - 10 10 10 10 10 10 10 10
+  - 10 10 10 10 10 10 10 10
+  - 10 10 10 10 10 10 20 10
+  - 10 10 20 10 10 10 10 10
+  - 10 10 10 10 10 10 10 10
+  - 10 10 10 10 10 10 10 10
+  spawn_data:
+  - battle: 0
+    enemy: 3
+  - battle: 1
+    enemy: 2
+  - battle: 2
+    enemy: 2
+  - battle: 3
+    enemy: 1
+  - battle: 4
+    enemy: 1
+  - battle: 5
+    boss: 1
+config_base: null
+config:
+  INTERNAL_LINES_HOUGHLINES_THRESHOLD: 40
+  EDGE_LINES_HOUGHLINES_THRESHOLD: 40
+  COINCIDENT_POINT_ENCOURAGE_DISTANCE: 1.5
+  INTERNAL_LINES_FIND_PEAKS_PARAMETERS:
+    height:
+    - 150
+    - 231
+    width:
+    - 0.9
+    - 10
+    prominence: 10
+    distance: 35
+  EDGE_LINES_FIND_PEAKS_PARAMETERS:
+    height:
+    - 231
+    - 255
+    prominence: 10
+    distance: 50
+    width:
+    - 0
+    - 10
+    wlen: 1000
+roads:
+  road_main:
+    roadgrids:
+    - - A2
+    - - A3
+    - - C5
+    - - D6
+    - - F2
+    - - F3
+    - - F6
+    - - G6
+    - - H4
+selects: {}
+actions: []
+extra_maps: {}

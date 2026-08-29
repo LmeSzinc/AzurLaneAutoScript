@@ -7,8 +7,18 @@
     "camera_data_spawn_point": [
       "D1"
     ],
-    "map_data": "\n    SP ME -- ME -- SP MB\n    -- -- ME -- ME -- ME\n    ++ ++ ME -- -- MB MM\n    ++ ++ MB -- ME -- ME\n",
-    "weight_data": "\n    50 50 50 50 50 10 10\n    50 50 50 50 50 10 20\n    50 50 20 10 10 10 10\n    50 50 10 10 50 50 50\n",
+    "map_data": [
+      "SP ME -- ME -- SP MB",
+      "-- -- ME -- ME -- ME",
+      "++ ++ ME -- -- MB MM",
+      "++ ++ MB -- ME -- ME"
+    ],
+    "weight_data": [
+      "50 50 50 50 50 10 10",
+      "50 50 50 50 50 10 20",
+      "50 50 20 10 10 10 10",
+      "50 50 10 10 50 50 50"
+    ],
     "spawn_data": [
       {
         "battle": 0,

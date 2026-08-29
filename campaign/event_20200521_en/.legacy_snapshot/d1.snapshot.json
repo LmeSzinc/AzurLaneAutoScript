@@ -1,7 +1,15 @@
 {
   "map": {
+    "name": "d1",
     "shape": "H6",
-    "map_data": "\n    ++ ++ ++ -- -- -- -- MB\n    MS -- -- -- __ ME ME --\n    ME -- ME ++ ++ MS -- --\n    SP -- ME ++ ++ MS ME --\n    ME -- -- -- -- -- -- --\n    SP -- -- ME MS ME -- MB\n"
+    "map_data": [
+      "++ ++ ++ -- -- -- -- MB",
+      "MS -- -- -- __ ME ME --",
+      "ME -- ME ++ ++ MS -- --",
+      "SP -- ME ++ ++ MS ME --",
+      "ME -- -- -- -- -- -- --",
+      "SP -- -- ME MS ME -- MB"
+    ]
   },
   "config_base": null,
   "config": {

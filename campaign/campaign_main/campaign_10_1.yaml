@@ -1,0 +1,53 @@
+map:
+  name: 10-1
+  shape: G6
+  camera_data:
+  - D3
+  camera_data_spawn_point:
+  - D1
+  - D4
+  map_data:
+  - SP -- ++ -- ME ME --
+  - -- -- ++ Me ME ME ME
+  - -- Me ME ME ++ ++ MB
+  - -- ME Me ME ME ++ MB
+  - -- -- ++ -- Me ME ME
+  - SP -- ++ ++ -- -- ++
+  weight_data:
+  - 50 50 50 50 50 40 50
+  - 50 50 50 30 30 50 40
+  - 50 40 30 30 30 50 05
+  - 50 25 20 20 30 50 05
+  - 50 50 50 15 10 10 05
+  - 50 50 50 50 50 50 50
+  spawn_data:
+  - battle: 0
+    enemy: 4
+  - battle: 1
+    enemy: 1
+  - battle: 2
+    enemy: 1
+  - battle: 3
+    enemy: 1
+  - battle: 4
+    enemy: 1
+  - battle: 5
+  - battle: 6
+    boss: 1
+config_base: null
+config:
+  INTERNAL_LINES_HOUGHLINES_THRESHOLD: 40
+  EDGE_LINES_HOUGHLINES_THRESHOLD: 40
+  COINCIDENT_POINT_ENCOURAGE_DISTANCE: 1.5
+roads:
+  road_main:
+    roadgrids:
+    - - B4
+    - - C4
+    - - D4
+    - - E5
+    - - F5
+    - - G5
+selects: {}
+actions: []
+extra_maps: {}

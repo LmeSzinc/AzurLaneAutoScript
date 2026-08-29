@@ -1,5 +1,6 @@
 {
   "map": {
+    "name": "SP.2",
     "shape": "G5",
     "camera_data": [
       "D2",
@@ -8,8 +9,20 @@
     "camera_data_spawn_point": [
       "D3"
     ],
-    "map_data": "\n    -- ++ -- ME Me MB ++\n    -- Me ME -- -- ++ ++\n    -- -- ++ ++ Me ME ME\n    SP ME ++ ++ -- ME --\n    -- SP Me -- Me -- MB\n",
-    "weight_data": "\n    50 50 50 50 50 50 50\n    50 50 50 50 50 50 50\n    50 50 50 50 50 50 50\n    50 50 50 50 50 50 50\n    50 50 50 50 50 50 50\n",
+    "map_data": [
+      "-- ++ -- ME Me MB ++",
+      "-- Me ME -- -- ++ ++",
+      "-- -- ++ ++ Me ME ME",
+      "SP ME ++ ++ -- ME --",
+      "-- SP Me -- Me -- MB"
+    ],
+    "weight_data": [
+      "50 50 50 50 50 50 50",
+      "50 50 50 50 50 50 50",
+      "50 50 50 50 50 50 50",
+      "50 50 50 50 50 50 50",
+      "50 50 50 50 50 50 50"
+    ],
     "spawn_data": [
       {
         "battle": 0,

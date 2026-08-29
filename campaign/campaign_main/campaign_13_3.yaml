@@ -1,0 +1,47 @@
+map:
+  name: 13-3
+  shape: J7
+  camera_data:
+  - D2
+  - D5
+  - G2
+  - G5
+  camera_data_spawn_point:
+  - G5
+  - D5
+  map_data:
+  - ++ ++ ++ ME ME MB -- Me ++ --
+  - MB Me ME ME -- ME -- -- ++ MB
+  - MB -- -- -- Me ++ ME __ -- --
+  - MB __ -- ++ ++ ME -- -- Me ME
+  - ME ME -- ++ ++ -- Me -- ME ++
+  - ++ -- ME Me SP SP Me -- -- ME
+  - ++ ME -- ME -- -- -- ME -- ME
+  weight_data:
+  - 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50
+  spawn_data:
+  - battle: 0
+    enemy: 3
+  - battle: 1
+    enemy: 3
+  - battle: 2
+    enemy: 2
+  - battle: 3
+    enemy: 1
+  - battle: 4
+    enemy: 1
+  - battle: 5
+  - battle: 6
+    boss: 1
+config_base: campaign_13_1
+config: {}
+roads: {}
+selects: {}
+actions: []
+extra_maps: {}

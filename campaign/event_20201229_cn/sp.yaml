@@ -1,0 +1,109 @@
+map:
+  name: SP
+  shape: M10
+  camera_data:
+  - F6
+  - I6
+  - G8
+  camera_data_spawn_point:
+  - D8
+  map_data:
+  - -- -- -- -- -- -- -- -- -- -- -- -- --
+  - -- -- -- -- -- ++ ++ -- -- -- -- -- --
+  - -- ++ ++ ++ -- -- ++ -- -- ++ ++ ++ --
+  - -- -- ++ ++ ++ ++ ++ ++ ++ ++ ++ -- --
+  - -- -- ME -- ++ ++ ++ ++ ++ -- ME -- --
+  - -- -- -- ME -- -- ++ -- -- ME -- -- --
+  - -- -- -- -- ME ++ MB ++ ME -- Me Me --
+  - -- SP -- -- -- MS -- MS -- -- ++ ++ --
+  - -- -- SP -- -- -- __ -- -- -- ++ ++ --
+  - -- -- -- -- -- MS -- MS -- -- -- -- --
+  weight_data:
+  - 50 50 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50 50 50 50 50
+  spawn_data:
+  - battle: 0
+    enemy: 3
+    siren: 2
+  - battle: 1
+    enemy: 1
+  - battle: 2
+    enemy: 1
+    siren: 1
+  - battle: 3
+    enemy: 1
+  - battle: 4
+    enemy: 1
+  - battle: 5
+    enemy: 1
+  - battle: 6
+  - battle: 7
+    boss: 1
+config_base: null
+config:
+  MAP_SIREN_TEMPLATE:
+  - Z24
+  - Nuremberg
+  - PeterStrasser
+  MOVABLE_ENEMY_TURN:
+  - 2
+  MAP_HAS_SIREN: true
+  MAP_HAS_MOVABLE_ENEMY: true
+  MAP_HAS_MAP_STORY: false
+  MAP_HAS_FLEET_STEP: true
+  MAP_HAS_AMBUSH: false
+  STAR_REQUIRE_1: 0
+  STAR_REQUIRE_2: 0
+  STAR_REQUIRE_3: 0
+  INTERNAL_LINES_FIND_PEAKS_PARAMETERS:
+    height:
+    - 150
+    - 238
+    width:
+    - 0.9
+    - 10
+    prominence: 10
+    distance: 35
+  EDGE_LINES_FIND_PEAKS_PARAMETERS:
+    height:
+    - 238
+    - 255
+    prominence: 10
+    distance: 50
+    wlen: 1000
+  HOMO_EDGE_COLOR_RANGE:
+  - 0
+  - 17
+  INTERNAL_LINES_HOUGHLINES_THRESHOLD: 40
+  EDGE_LINES_HOUGHLINES_THRESHOLD: 40
+  COINCIDENT_POINT_ENCOURAGE_DISTANCE: 1.5
+  HOMO_EDGE_HOUGHLINES_THRESHOLD: 180
+  MAP_SWIPE_MULTIPLY:
+  - 0.946
+  - 0.963
+  MAP_SWIPE_MULTIPLY_MINITOUCH:
+  - 0.914
+  - 0.931
+  MAP_SWIPE_MULTIPLY_MAATOUCH:
+  - 0.888
+  - 0.904
+  MAP_ENSURE_EDGE_INSIGHT_CORNER: bottom
+roads: {}
+selects: {}
+actions: []
+extra_maps: {}
+imports:
+  CampaignBase: module.campaign.campaign_base.CampaignBase
+  logger: module.logger.logger
+  CampaignMap: module.map.map_base.CampaignMap
+  RoadGrids: module.map.map_grids.RoadGrids
+  SelectedGrids: module.map.map_grids.SelectedGrids
+campaign_base_name: CampaignBase

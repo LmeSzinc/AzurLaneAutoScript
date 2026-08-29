@@ -1,7 +1,14 @@
 {
   "map": {
+    "name": "a1",
     "shape": "I5",
-    "map_data": "\n    SP -- ++ ME -- ME ++ -- --\n    -- ME -- -- ME -- ME ++ ME\n    -- -- MS -- -- MS __ -- --\n    -- ME -- -- ++ ME -- ME --\n    SP -- -- ME ++ -- ME -- MB\n",
+    "map_data": [
+      "SP -- ++ ME -- ME ++ -- --",
+      "-- ME -- -- ME -- ME ++ ME",
+      "-- -- MS -- -- MS __ -- --",
+      "-- ME -- -- ++ ME -- ME --",
+      "SP -- -- ME ++ -- ME -- MB"
+    ],
     "camera_data": [
       "D1",
       "D3",

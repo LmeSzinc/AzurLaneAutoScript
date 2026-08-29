@@ -1,0 +1,77 @@
+map:
+  name: 10-3
+  shape: I6
+  camera_data:
+  - D2
+  - E3
+  - F4
+  camera_data_spawn_point:
+  - E3
+  map_data:
+  - Me -- ME -- ME MB ++ -- MM
+  - -- ++ ++ ++ ME MB ++ -- --
+  - -- Me -- ME ME ME __ ME --
+  - -- -- ++ ++ MB ME ME Me ++
+  - -- -- SP SP ++ ++ ++ ME MB
+  - ++ -- -- -- Me -- ME ME ME
+  weight_data:
+  - 90 90 90 90 40 10 90 90 90
+  - 90 90 90 90 30 10 90 90 90
+  - 90 90 90 90 20 05 20 90 90
+  - 90 90 90 90 10 15 20 30 90
+  - 90 90 90 90 90 90 90 40 40
+  - 90 90 90 90 80 70 60 50 50
+  spawn_data:
+  - battle: 0
+    enemy: 4
+  - battle: 1
+    enemy: 2
+    mystery: 1
+  - battle: 2
+    enemy: 1
+  - battle: 3
+    enemy: 1
+  - battle: 4
+    enemy: 1
+  - battle: 5
+  - battle: 6
+    boss: 1
+config_base: null
+config:
+  INTERNAL_LINES_HOUGHLINES_THRESHOLD: 35
+  EDGE_LINES_HOUGHLINES_THRESHOLD: 35
+  COINCIDENT_POINT_ENCOURAGE_DISTANCE: 1.2
+  INTERNAL_LINES_FIND_PEAKS_PARAMETERS:
+    height:
+    - 150
+    - 231
+    width:
+    - 0.9
+    - 10
+    prominence: 10
+    distance: 35
+  EDGE_LINES_FIND_PEAKS_PARAMETERS:
+    height:
+    - 231
+    - 255
+    prominence: 10
+    distance: 50
+    width:
+    - 0
+    - 10
+    wlen: 1000
+  HOMO_EDGE_HOUGHLINES_THRESHOLD: 210
+roads:
+  road_main:
+    roadgrids:
+    - - E6
+    - - G6
+    - - H6
+    - - E5
+    - - H4
+    - - G4
+    - - F4
+    - - F3
+selects: {}
+actions: []
+extra_maps: {}

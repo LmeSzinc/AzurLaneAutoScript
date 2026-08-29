@@ -1,11 +1,20 @@
 {
   "map": {
+    "name": "sp2",
     "shape": "g7",
     "camera_data": [
       "D3",
       "D5"
     ],
-    "map_data": "\n    ++ ++ -- ME -- ME MB\n    MM ++ -- -- ME -- MB\n    ME -- ME -- ++ ++ ++\n    -- -- -- ME -- ME MB\n    -- -- ++ -- ++ ME --\n    SP SP -- -- ++ -- ME\n    ++ SP -- ME -- ME --\n",
+    "map_data": [
+      "++ ++ -- ME -- ME MB",
+      "MM ++ -- -- ME -- MB",
+      "ME -- ME -- ++ ++ ++",
+      "-- -- -- ME -- ME MB",
+      "-- -- ++ -- ++ ME --",
+      "SP SP -- -- ++ -- ME",
+      "++ SP -- ME -- ME --"
+    ],
     "spawn_data": [
       {
         "battle": 0,

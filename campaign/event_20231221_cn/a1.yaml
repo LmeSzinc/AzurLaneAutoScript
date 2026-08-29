@@ -1,0 +1,96 @@
+map:
+  name: A1
+  shape: I8
+  camera_data:
+  - D3
+  - D6
+  - E6
+  camera_data_spawn_point:
+  - F2
+  map_data:
+  - ++ ++ ++ -- -- -- -- SP --
+  - -- Me -- MS MS -- -- -- SP
+  - -- ME -- ++ ME -- -- -- --
+  - ME -- ME -- -- __ MS Me --
+  - Me -- ME -- ++ ME ++ ++ ME
+  - ++ -- -- -- -- -- ++ ++ --
+  - -- MB -- ++ Me -- -- ME --
+  - -- -- -- ++ -- ME ++ ++ ++
+  weight_data:
+  - 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50 50
+  spawn_data:
+  - battle: 0
+    enemy: 2
+    siren: 1
+  - battle: 1
+    enemy: 1
+  - battle: 2
+    enemy: 1
+  - battle: 3
+    enemy: 1
+    boss: 1
+  - battle: 4
+    enemy: 1
+config_base: null
+config:
+  MAP_SIREN_TEMPLATE: []
+  MOVABLE_ENEMY_TURN:
+  - 2
+  MAP_HAS_SIREN: true
+  MAP_HAS_MOVABLE_ENEMY: true
+  MAP_HAS_MAP_STORY: true
+  MAP_HAS_FLEET_STEP: true
+  MAP_HAS_AMBUSH: false
+  MAP_HAS_MYSTERY: false
+  INTERNAL_LINES_FIND_PEAKS_PARAMETERS:
+    height:
+    - 80
+    - 238
+    width:
+    - 0.9
+    - 10
+    prominence: 10
+    distance: 35
+  EDGE_LINES_FIND_PEAKS_PARAMETERS:
+    height:
+    - 238
+    - 255
+    prominence: 10
+    distance: 50
+    wlen: 1000
+  HOMO_EDGE_COLOR_RANGE:
+  - 0
+  - 17
+  MAP_ENEMY_GENRE_DETECTION_SCALING:
+    DD: 1.111
+    CL: 1.111
+    CAred: 1.111
+    CV: 1.111
+    BBred: 1.111
+  MAP_SWIPE_MULTIPLY:
+  - 1.116
+  - 1.137
+  MAP_SWIPE_MULTIPLY_MINITOUCH:
+  - 1.079
+  - 1.099
+  MAP_SWIPE_MULTIPLY_MAATOUCH:
+  - 1.048
+  - 1.066
+roads: {}
+selects: {}
+actions: []
+extra_maps: {}
+imports:
+  CampaignBase: campaign_base.CampaignBase
+  CampaignMap: module.map.map_base.CampaignMap
+  SelectedGrids: module.map.map_grids.SelectedGrids
+  RoadGrids: module.map.map_grids.RoadGrids
+  logger: module.logger.logger
+campaign_base_name: CampaignBase

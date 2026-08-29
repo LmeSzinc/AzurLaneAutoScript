@@ -1,5 +1,6 @@
 {
   "map": {
+    "name": "13-1",
     "shape": "H6",
     "camera_data": [
       "D2",
@@ -10,8 +11,22 @@
     "camera_data_spawn_point": [
       "D4"
     ],
-    "map_data": "\n    ME -- ME Me ++ ++ ME MB\n    ++ ME -- ME -- ++ ME --\n    ++ __ Me ME -- -- Me --\n    ME ME ++ ME ME -- __ --\n    ME -- SP SP -- -- ++ --\n    ME -- Me ME Me Me ++ MB\n",
-    "weight_data": "\n    50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50\n    50 50 50 50 50 50 50 50\n",
+    "map_data": [
+      "ME -- ME Me ++ ++ ME MB",
+      "++ ME -- ME -- ++ ME --",
+      "++ __ Me ME -- -- Me --",
+      "ME ME ++ ME ME -- __ --",
+      "ME -- SP SP -- -- ++ --",
+      "ME -- Me ME Me Me ++ MB"
+    ],
+    "weight_data": [
+      "50 50 50 50 50 50 50 50",
+      "50 50 50 50 50 50 50 50",
+      "50 50 50 50 50 50 50 50",
+      "50 50 50 50 50 50 50 50",
+      "50 50 50 50 50 50 50 50",
+      "50 50 50 50 50 50 50 50"
+    ],
     "spawn_data": [
       {
         "battle": 0,

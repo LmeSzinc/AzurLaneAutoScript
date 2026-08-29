@@ -1,7 +1,13 @@
 {
   "map": {
     "shape": "h5",
-    "map_data": "\n    ++ ++ ++ -- ME ME MB ++\n    -- -- -- ME -- ME -- --\n    -- -- ++ -- ME ++ MB --\n    SP SP -- ME -- ++ -- ME\n    SP SP -- -- ME -- ME --\n",
+    "map_data": [
+      "++ ++ ++ -- ME ME MB ++",
+      "-- -- -- ME -- ME -- --",
+      "-- -- ++ -- ME ++ MB --",
+      "SP SP -- ME -- ++ -- ME",
+      "SP SP -- -- ME -- ME --"
+    ],
     "camera_data": [
       "D3",
       "D5"

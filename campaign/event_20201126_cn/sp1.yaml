@@ -1,0 +1,82 @@
+map:
+  name: SP1
+  shape: H7
+  camera_data:
+  - D2
+  - D5
+  - E2
+  - E5
+  camera_data_spawn_point:
+  - D2
+  map_data:
+  - -- SP -- ++ ++ -- -- ++
+  - SP -- -- ++ ++ Me ME ++
+  - -- -- -- Me ME -- -- --
+  - ME ++ -- __ -- -- -- MB
+  - -- Me -- -- Me ME -- --
+  - ME -- -- ME ++ ++ ME ME
+  - ++ -- ME -- -- ++ -- --
+  weight_data:
+  - 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  spawn_data:
+  - battle: 0
+    enemy: 3
+  - battle: 1
+    enemy: 2
+  - battle: 2
+    enemy: 1
+  - battle: 3
+    enemy: 1
+  - battle: 4
+    boss: 1
+config_base: null
+config:
+  MAP_HAS_MAP_STORY: false
+  MAP_HAS_FLEET_STEP: true
+  MAP_HAS_AMBUSH: false
+  MAP_HAS_MYSTERY: false
+  STAGE_ENTRANCE:
+  - normal
+  - half
+  MAP_SWIPE_MULTIPLY:
+  - 1.221
+  - 1.244
+  MAP_SWIPE_MULTIPLY_MINITOUCH:
+  - 1.181
+  - 1.203
+  MAP_SWIPE_MULTIPLY_MAATOUCH:
+  - 1.146
+  - 1.167
+  INTERNAL_LINES_FIND_PEAKS_PARAMETERS:
+    height:
+    - 80
+    - 215
+    width:
+    - 0.9
+    - 10
+    prominence: 10
+    distance: 35
+  EDGE_LINES_FIND_PEAKS_PARAMETERS:
+    height:
+    - 231
+    - 255
+    prominence: 10
+    distance: 50
+    wlen: 1000
+roads: {}
+selects: {}
+actions: []
+extra_maps: {}
+imports:
+  CampaignBase: campaign_base.CampaignBase
+  CampaignMap: module.map.map_base.CampaignMap
+  SelectedGrids: module.map.map_grids.SelectedGrids
+  RoadGrids: module.map.map_grids.RoadGrids
+  logger: module.logger.logger
+campaign_base_name: CampaignBase

@@ -1,7 +1,17 @@
 {
   "map": {
     "shape": "G9",
-    "map_data": "\n    ME -- ME -- ME -- ME\n    ++ -- -- ME -- -- ++\n    ++ -- ++ ++ ++ -- ++\n    MS -- MB MB MB -- MS\n    ME ME -- __ -- ME ME\n    ++ ++ SP -- SP ++ ++\n    ++ ME -- -- -- ME ++\n    ME -- -- ME -- -- ME\n    -- MS ME -- ME MS --\n",
+    "map_data": [
+      "ME -- ME -- ME -- ME",
+      "++ -- -- ME -- -- ++",
+      "++ -- ++ ++ ++ -- ++",
+      "MS -- MB MB MB -- MS",
+      "ME ME -- __ -- ME ME",
+      "++ ++ SP -- SP ++ ++",
+      "++ ME -- -- -- ME ++",
+      "ME -- -- ME -- -- ME",
+      "-- MS ME -- ME MS --"
+    ],
     "camera_data": [
       "D3",
       "D5",

@@ -1,0 +1,70 @@
+map:
+  name: A1
+  shape: H6
+  camera_data:
+  - D2
+  - D4
+  - E2
+  - E4
+  camera_data_spawn_point:
+  - D4
+  map_data:
+  - -- ++ ME ME -- -- ME --
+  - Me ++ -- ME -- Me ME ++
+  - ME -- __ ++ ++ -- -- MB
+  - -- Me -- ME ++ -- MS MB
+  - SP -- ME -- ME -- -- MB
+  - SP SP -- -- -- -- ME ++
+  weight_data:
+  - 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  - 50 50 50 50 50 50 50 50
+  spawn_data:
+  - battle: 0
+    enemy: 2
+    siren: 1
+  - battle: 1
+    enemy: 1
+  - battle: 2
+    enemy: 2
+  - battle: 3
+    enemy: 1
+    boss: 1
+  - battle: 4
+    enemy: 2
+  - battle: 5
+    enemy: 1
+config_base: null
+config:
+  MAP_SIREN_TEMPLATE:
+  - Kasumi
+  MOVABLE_ENEMY_TURN:
+  - 2
+  MAP_HAS_SIREN: true
+  MAP_HAS_MOVABLE_ENEMY: true
+  MAP_HAS_MAP_STORY: false
+  MAP_HAS_FLEET_STEP: true
+  MAP_HAS_AMBUSH: false
+  MAP_SWIPE_MULTIPLY:
+  - 0.948
+  - 0.966
+  MAP_SWIPE_MULTIPLY_MINITOUCH:
+  - 0.917
+  - 0.934
+  MAP_SWIPE_MULTIPLY_MAATOUCH:
+  - 0.89
+  - 0.906
+roads: {}
+selects: {}
+actions: []
+extra_maps: {}
+imports:
+  CampaignBase: module.campaign.campaign_base.CampaignBase
+  logger: module.logger.logger
+  CampaignMap: module.map.map_base.CampaignMap
+  RoadGrids: module.map.map_grids.RoadGrids
+  SelectedGrids: module.map.map_grids.SelectedGrids
+campaign_base_name: CampaignBase
