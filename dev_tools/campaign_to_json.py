@@ -61,6 +61,19 @@ def safe_eval(node):
             raise ValueError(f'unsupported expression: {ast.dump(node)[:80]}') from None
 
 
+def try_grid_struct(node):
+    """Grid-name structures (bouncing_enemy_data / fortress_data):
+    Name -> {'__grid__': 'C2'}; Tuple -> {'__tuple__': [...]}; List -> [...].
+    """
+    if isinstance(node, ast.Name):
+        return {'__grid__': node.id}
+    if isinstance(node, ast.Tuple):
+        return {'__tuple__': [try_grid_struct(e) for e in node.elts]}
+    if isinstance(node, ast.List):
+        return [try_grid_struct(e) for e in node.elts]
+    raise ValueError('not a grid structure')
+
+
 def parse_road_expr(node):
     """Road expression DSL: RoadGrids(...) / .combine(...) / ref / list of refs."""
     if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) \
@@ -119,10 +132,13 @@ def convert(path: Path):
             if isinstance(node, ast.ImportFrom):
                 rel = node.level
                 module = node.module or ''
-                if rel > 0:
-                    # .campaign_15_base -> 'campaign_15_base' (folder-relative);
-                    # multi-level: '<folder>.sub.module'
-                    target = module if rel == 1 else f'{path.parent.name}.{module}'
+                if rel == 1:
+                    # from .x -> 'x' (same folder)
+                    target = module
+                elif rel >= 2:
+                    # from ..x -> 'x' (relative to campaign root, as used by
+                    # war_archives: ..campaign_war_archives.campaign_base)
+                    target = module
                 elif module.startswith('campaign.'):
                     target = '.'.join(module.split('.')[1:])
                 else:
@@ -156,8 +172,11 @@ def convert(path: Path):
                     if isinstance(node.value, ast.Name):
                         value = {'__ref__': resolve_ref(node.value.id)}
                     else:
-                        skip_reason = f'unsupported MAP attr {ast.unparse(node)[:60]}'
-                        break
+                        try:
+                            value = try_grid_struct(node.value)
+                        except ValueError:
+                            skip_reason = f'unsupported MAP attr {ast.unparse(node)[:60]}'
+                            break
                 map_objects[tgt.value.id]['attrs'][tgt.attr] = value
                 continue
             if isinstance(tgt, ast.Name):
@@ -225,6 +244,7 @@ def convert(path: Path):
         'selects': selects,
         'actions': primary['actions'],
         'extra_maps': {k: v for k, v in map_objects.items() if k != 'MAP'},
+        'imports': import_map,
     }
     fragment = 'class Campaign(CampaignBase):\n' + '\n'.join(
         textwrap.indent(ast.unparse(n), '    ') for n in campaign_nodes
@@ -238,6 +258,7 @@ def convert(path: Path):
         'selects': selects,
         'actions': data['actions'],
         'extra_maps': data['extra_maps'],
+        'imports': import_map,
         'campaign_methods': sorted(
             n.name for n in campaign_nodes if isinstance(n, ast.FunctionDef)
         ),

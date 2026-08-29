@@ -17,7 +17,7 @@ from pathlib import Path
 sys.path.insert(0, ".")
 
 from module.base.utils import node2location
-from module.campaign.map_loader import load_map
+from module.campaign.map_loader import _resolve_map, load_map
 from module.map.map_base import CampaignMap
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -48,21 +48,13 @@ def check_one(folder, name):
         return [f'snapshot missing: {snap_path}']
     snap = json.loads(snap_path.read_text(encoding='utf-8'))
 
-    reference = CampaignMap.from_data(snap['map'])
-    for action in snap.get('actions', []):
-        args = [
-            reference[node2location(a)]
-            if isinstance(a, str) and a and a[0].isalpha() and a[1:].isdigit()
-            else a
-            for a in action['args']
-        ]
-        kwargs = {
-            k: (reference[node2location(v)]
-                if isinstance(v, str) and v and v[0].isalpha() and v[1:].isdigit()
-                else v)
-            for k, v in action['kwargs'].items()
-        }
-        getattr(reference, action['call'])(*args, **kwargs)
+    # converter fidelity: committed json must equal the recorded legacy snapshot
+    data = json.loads((CAMPAIGN / folder / f'{name}.json').read_text(encoding='utf-8'))
+    for field in ('map', 'config_base', 'config', 'roads', 'selects', 'actions', 'extra_maps', 'imports'):
+        if data.get(field) != snap.get(field):
+            errors.append(f'json field {field} differs from snapshot')
+
+    reference = _resolve_map(folder, dict(snap['map']), snap.get('actions', []))
 
     if loaded.MAP.name != reference.name:
         errors.append(f'name: {loaded.MAP.name!r} != {reference.name!r}')
@@ -81,19 +73,13 @@ def check_one(folder, name):
     if config_dict != snap['config']:
         errors.append('Config namespace differ')
 
-    methods = {k for k, v in loaded.Campaign.__dict__.items() if callable(v) and not k.startswith('__')}
+    import types
+    methods = {
+        k for k, v in loaded.Campaign.__dict__.items()
+        if isinstance(v, types.FunctionType)
+    }
     if methods != set(snap['campaign_methods']):
         errors.append(f'Campaign methods differ: {sorted(methods)} vs {snap["campaign_methods"]}')
-
-    # roads/selects/extra_maps: converter fidelity against snapshot (runtime
-    # injection is covered by fragment exec inside load_map)
-    data = json.loads((CAMPAIGN / folder / f'{name}.json').read_text(encoding='utf-8'))
-    if data.get('roads') != snap.get('roads'):
-        errors.append('roads differ')
-    if data.get('selects') != snap.get('selects'):
-        errors.append('selects differ')
-    if data.get('extra_maps') != snap.get('extra_maps'):
-        errors.append('extra_maps differ')
 
     return errors
 

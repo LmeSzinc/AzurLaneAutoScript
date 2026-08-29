@@ -66,10 +66,15 @@ def _resolve_value(folder, value):
         parts = value['__ref__'].split('.')
         module, attr = '.'.join(parts[:-1]), parts[-1]
         if module:
-            try:
-                mod = importlib.import_module(f'campaign.{folder}.{module}')
-            except ModuleNotFoundError:
-                mod = importlib.import_module(f'campaign.{module}')
+            mod = None
+            for prefix in (f'campaign.{folder}.', 'campaign.', ''):
+                try:
+                    mod = importlib.import_module(prefix + module)
+                    break
+                except ModuleNotFoundError:
+                    continue
+            if mod is None:
+                raise ImportError(f'cannot resolve ref module: {module}')
         else:
             mod = None
         return getattr(mod, attr)
@@ -83,11 +88,35 @@ def _resolve_action_arg(m, value):
     return value
 
 
+def _has_grid_marker(value):
+    if isinstance(value, dict):
+        return '__grid__' in value or '__tuple__' in value
+    if isinstance(value, list):
+        return any(_has_grid_marker(e) for e in value)
+    return False
+
+
+def _resolve_grid_value(m, value):
+    """{'__grid__'/'__tuple__'} markers -> grid objects, preserving List/Tuple shape."""
+    if isinstance(value, dict) and '__grid__' in value:
+        return m[node2location(value['__grid__'])]
+    if isinstance(value, dict) and '__tuple__' in value:
+        return tuple(_resolve_grid_value(m, e) for e in value['__tuple__'])
+    if isinstance(value, list):
+        return [_resolve_grid_value(m, e) for e in value]
+    return value
+
+
 def _resolve_map(folder, attrs, actions):
     data = {'name': attrs.pop('name', None)}
     for key, value in attrs.items():
         data[key] = _resolve_value(folder, value)
-    m = CampaignMap.from_data(data)
+    # grid-marker attrs need the map instance; apply after from_data so the
+    # setters resolve names against the built grids.
+    grid_attrs = {k: v for k, v in data.items() if _has_grid_marker(v)}
+    m = CampaignMap.from_data({k: v for k, v in data.items() if k not in grid_attrs})
+    for key, value in grid_attrs.items():
+        setattr(m, key, _resolve_grid_value(m, value))
     for action in actions:
         args = [_resolve_action_arg(m, a) for a in action['args']]
         kwargs = {k: _resolve_action_arg(m, v) for k, v in action['kwargs'].items()}
@@ -133,6 +162,10 @@ def _load_data(folder, name, json_path):
         ns[sel_name] = SelectedGrids([MAP[node2location(n)] for n in nodes])
     for extra_name, extra in data.get('extra_maps', {}).items():
         ns[extra_name] = _resolve_map(folder, dict(extra['attrs']), extra.get('actions', []))
+    # names imported by the legacy file (e.g. EventGrid/W15GridInfo) resolved
+    # for class-level references in the fragment
+    for alias, target in data.get('imports', {}).items():
+        ns[alias] = _resolve_value(folder, {'__ref__': target})
 
     # fragment: only `class Campaign(CampaignBase): ...`, no imports,
     # every name is provided by the namespace above.
