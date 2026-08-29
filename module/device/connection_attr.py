@@ -38,11 +38,10 @@ def resolve_adb_binary() -> str:
         if os.path.exists(file):
             return os.path.abspath(file)
 
-    # Try adb bundled inside the adbutils package in the python environment
-    import sys
-
-    file = os.path.join(sys.executable, "../Lib/site-packages/adbutils/binaries/adb.exe")
-    file = os.path.abspath(file).replace("\\", "/")
+    # Try adb bundled inside the adbutils package (resolved from the package
+    # location, layout-independent - the previous sys.executable-relative
+    # join put `..` after the .exe and never matched on Windows)
+    file = os.path.join(os.path.dirname(adbutils.__file__), 'binaries', 'adb.exe')
     if os.path.exists(file):
         return file
 
