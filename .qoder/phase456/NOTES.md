@@ -72,5 +72,13 @@
   **注意**:对方 args.json/i18n 中的 raid_20260827 选项与事件名("大人物的预告信")因上游未提供
   campaign/Readme.md 源行,按零漂移原则被 regenerate 归一丢弃;raid 按钮/raid.py/地图模块改动均已保留。
   待上游补 Readme 行 + raid 地图目录后可自然恢复。
+- **followup-1e**(声明式战斗模式):battle_patterns.py 模式库(11 种:clear_filter/boss/clear_siren/
+  default/clear_mode_filter/protect_siren/mystery/clear_scale/bouncing_filter/roadblocks)。
+  转换器+变换器双通道提取;**2472 个方法**从片段移入 YAML `battles` 字段,loader 按模式合成方法;
+  片段 15,638 → 6,725 行(-57%),battle_N 定义 2990 → 450。
+  等价硬门:快照 `battle_bodies` 记录提取前方法体,verify 逐方法断言"规范源码 == 原方法体"
+  (canonical_source 与 match_body 共用同一 AST 构建器,匹配时即断言)。
+  未匹配模式的手写方法(~450)保留在片段,含全部真机差异策略。
+
 
 
