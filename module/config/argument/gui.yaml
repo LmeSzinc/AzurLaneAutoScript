@@ -79,6 +79,7 @@ AppManage:
   ImportSuccess:
   NewSuccess:
   Name:
+  Modified:
   Mod:
   Actions:
 
@@ -100,6 +101,12 @@ Update:
   Message:
   DisabledWarn:
   DetailedHistory:
+  CurrentVersion:
+  Install:
+  Installing:
+  NoReleases:
+  Refresh:
+  InstallHint:
 
 Remote:
   Running:

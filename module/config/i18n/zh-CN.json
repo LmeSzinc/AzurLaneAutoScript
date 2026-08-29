@@ -3049,6 +3049,7 @@
       "ImportSuccess": "导入成功",
       "NewSuccess": "添加成功",
       "Name": "配置名称",
+      "Modified": "修改时间",
       "Mod": "插件",
       "Actions": "操作"
     },
@@ -3069,7 +3070,13 @@
       "Time": "提交时间",
       "Message": "提交信息",
       "DisabledWarn": "更新模块未启用，你需要手动重启 Alas 进行更新",
-      "DetailedHistory": "详细提交历史"
+      "DetailedHistory": "详细提交历史",
+      "CurrentVersion": "当前版本",
+      "Install": "安装",
+      "Installing": "安装中",
+      "NoReleases": "尚未获取到版本列表，点击刷新",
+      "Refresh": "刷新列表",
+      "InstallHint": "安装会替换桌面应用并自动重启"
     },
     "Remote": {
       "Running": "运行中",

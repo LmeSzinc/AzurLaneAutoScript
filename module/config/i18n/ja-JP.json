@@ -3049,6 +3049,7 @@
       "ImportSuccess": "インポート成功",
       "NewSuccess": "追加成功",
       "Name": "コンフィグ名",
+      "Modified": "更新日時",
       "Mod": "モジュール",
       "Actions": "操作"
     },
@@ -3069,7 +3070,13 @@
       "Time": "提出時間",
       "Message": "提出内容",
       "DisabledWarn": "アップデータモジュールは稼働されませんのでAlasを再起動してください",
-      "DetailedHistory": "詳しい提出履歴"
+      "DetailedHistory": "詳しい提出履歴",
+      "CurrentVersion": "現在のバージョン",
+      "Install": "インストール",
+      "Installing": "インストール中",
+      "NoReleases": "バージョン一覧が未取得です、更新を押してください",
+      "Refresh": "一覧を更新",
+      "InstallHint": "インストールするとデスクトップアプリが置き換わり自動再起動します"
     },
     "Remote": {
       "Running": "実行中",
