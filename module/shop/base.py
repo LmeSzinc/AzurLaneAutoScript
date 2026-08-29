@@ -359,6 +359,8 @@ class ShopBase(UI):
 
         # Second, load selection, apply filter,
         # and return 1st item in result if any
+        if not self.shop_filter:
+            return None
         FILTER.load(self.shop_filter)
         filtered = FILTER.apply(items, self.shop_check_item)
 

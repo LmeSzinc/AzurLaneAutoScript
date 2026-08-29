@@ -563,6 +563,7 @@ MedalShop2:
     option: [ general, gun, torpedo, antiair, plane ]
 MeritShop:
   Refresh: false
+  BuyUnobtainedShip: false
   Filter: |-
     Cube
 CoreShop:
