@@ -1,11 +1,11 @@
 import copy
-import importlib
 import os
 import random
 
 from module.campaign.campaign_base import CampaignBase
 from module.campaign.campaign_event import CampaignEvent
 from module.campaign.campaign_ui import MODE_SWITCH_1
+from module.campaign.map_loader import load_map
 from module.campaign.stage_meta import CHAPTER_CONVERT_REVERSE, load_stage_meta
 from module.config.config import AzurLaneConfig
 from module.exception import CampaignEnd, RequestHumanTakeover, ScriptEnd
@@ -47,7 +47,8 @@ class CampaignRun(CampaignEvent):
             self.stage = name
 
         try:
-            self.module = importlib.import_module('.' + name, f'campaign.{folder}')
+            # Phase 4A: JSON data first, legacy .py fallback (map_loader).
+            self.module = load_map(folder, name)
         except ModuleNotFoundError:
             logger.warning(f'Map file not found: campaign.{folder}.{name}')
             if not os.path.exists(f'./campaign/{folder}'):

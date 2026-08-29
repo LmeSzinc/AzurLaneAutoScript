@@ -37,6 +37,23 @@ class CampaignMap:
         self.camera_sight = (-3, -1, 3, 2)
         self.grid_connection = {}
 
+    @classmethod
+    def from_data(cls, data: dict) -> 'CampaignMap':
+        """Build map from generator-side literals (Phase 4A).
+
+        `data` keys are the exact attribute names a legacy .py assigned
+        (`shape`, `map_data`, `weight_data`, `spawn_data`, ...), values are
+        the raw literals. Attribute application order follows the dict order,
+        matching the legacy module-level assignment order.
+        """
+        data = dict(data)  # avoid mutating the caller's dict (snapshot replay)
+        name = data.pop('name', None)
+        obj = cls(name)
+        if 'shape' in data:
+            obj.shape = data.pop('shape')
+        for key, value in data.items():
+            setattr(obj, key, value)
+        return obj
     def __iter__(self):
         return iter(self.grids.values())
 

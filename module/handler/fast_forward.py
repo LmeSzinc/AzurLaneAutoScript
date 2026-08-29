@@ -42,12 +42,13 @@ def map_files(event):
     files = []
     for file in os.listdir(folder):
         name, ext = os.path.splitext(file)
-        if ext != ".py":
+        # Phase 4A: maps may be JSON data files or .py fragments
+        if ext not in (".py", ".json"):
             continue
-        if name == "campaign_base":
+        if name in ("campaign_base", "meta"):
             continue
         files.append(name)
-    return files
+    return list(dict.fromkeys(files))
 
 
 def to_map_input_name(name: str) -> str:

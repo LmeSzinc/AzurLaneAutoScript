@@ -1,6 +1,5 @@
-import importlib
-
 from campaign.campaign_hard.campaign_hard import Campaign
+from module.campaign.map_loader import load_map
 from module.campaign.run import CampaignRun
 from module.handler.fast_forward import to_map_file_name
 from module.hard.assets import *  # noqa: F403  (data-bundle star import)
@@ -31,8 +30,7 @@ class CampaignHard(CampaignRun):
 
         # Initial
         self.load_campaign(name="campaign_hard", folder="campaign_hard")  # Load campaign file
-        module = importlib.import_module("." + name, "campaign.campaign_main")  # Load map from normal mode.
-        self.campaign.MAP = module.MAP
+        self.campaign.MAP = load_map('campaign_main', name).MAP  # Load map from normal mode.
 
         # UI ensure
         self.device.screenshot()
