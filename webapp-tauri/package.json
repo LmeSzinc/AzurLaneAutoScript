@@ -1,7 +1,7 @@
 {
   "name": "alas-shell",
   "private": true,
-  "version": "0.1.2",
+  "version": "26.8.21",
   "type": "module",
   "scripts": {
     "tauri": "tauri",

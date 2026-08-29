@@ -1,6 +1,6 @@
 # Desktop 打包与分发
 
-> 状态：已实现并在打包机验证（v0.1.1/v0.1.2）；构建与发布由
+> 状态：已实现并实测（260821 起采用日期版本命名）；构建与发布由
 > `.github/workflows/release.yml` 在 CI 完成。
 
 ## 目标架构
@@ -50,14 +50,53 @@ pnpm tauri build          # 产物 src-tauri/target/release/bundle/nsis/*-setup.
 - `webviewInstallMode: downloadBootstrapper`：目标机缺 WebView2 时自动下载引导。
 - 无 Authenticode 签名（SmartScreen 会提示；后续可加）。
 
-## 3. 发布（CI）
+## 3. 发布新版本（操作手册）
 
-`.github/workflows/release.yml`：推 `v*` tag（或手动 dispatch）→ Windows runner
-上 uv sync → 前端 `pnpm build` → PyInstaller sidecar（`version.txt = $GITHUB_REF_NAME`）
-→ NSIS → 创建 GitHub Release 上传 `Alas_<ref>_x64-setup.exe`。
+**版本规则**：对外版本 = GitHub tag / release 标题 = `vYYYY.MM.DD`（如
+`v2026.08.21`）；资产名 `Alas_<tag>_x64-setup.exe`、应用内"当前版本"
+（version.txt）均为 tag 值，三者始终一致。Tauri 内部 version 字段沿用日期
+semver `YY.M.DD`（如 `26.8.21`，对应 tag 的 YYYY 年缩两位）。
 
-## 4. 已知权衡
+**发布一个版本只需三步**：
 
-- **卸载即删数据**：NSIS 卸载器删除安装目录，用户数据随之删除（更新路径不受
-  影响）。如需要求保留，需自定义 NSIS 卸载钩子。
+```powershell
+# ① 改版本号：内部 semver → YY.M.DD（如 26.8.22，对应发布日）
+#    webapp-tauri/src-tauri/tauri.conf.json 的 "version"
+#    webapp-tauri/src-tauri/Cargo.toml       的 version
+#    webapp-tauri/package.json               的 "version"
+
+# ② 提交推送
+git add -A
+git commit -m "release v2026.08.22"
+git push fork master
+
+# ③ 打 tag 并推送 → CI 自动构建并发布（约 12 分钟）
+git tag v2026.08.22
+git push fork v2026.08.22
+```
+
+CI 完成后 GitHub Release `v2026.08.22` 自动创建，资产
+`Alas_v2026.08.22_x64-setup.exe`。已安装的应用在 主页→更新器 刷新后即可看到
+并安装该版本。
+
+**注意事项**：
+- tag 不可重用：同一版本要重发时，先删掉再重打——
+  `gh release delete v2026.08.22 --cleanup-tag && git tag -d v2026.08.22 && git tag v2026.08.22 && git push fork v2026.08.22`
+- 推 tag 前先确认 ci.yml 通过（前端 lint/测试、pyright、导入冒烟）；
+  推送 tag 前请确保所有改动已 commit 在 master 上——CI 构建的是 tag 指向的提交。
+- 手动重跑（不发新版本）：Actions → Release → Run workflow（此时资产名会带
+  分支名，仅用于调试，不建议）。
+- 下载 GitHub 资产需代理（国内网络环境）。
+
+## 4. 发布流水线内部（CI）
+
+`.github/workflows/release.yml`：推 tag（名称不限，惯例 YYMMDD）→ Windows
+runner 上 uv sync → 前端 `pnpm build` → PyInstaller sidecar（`version.txt =
+$GITHUB_REF_NAME`）→ NSIS（`pnpm tauri build`）→ softprops/action-gh-release
+创建同名 Release 并上传 `Alas_<ref>_x64-setup.exe`。
+
+## 5. 已知权衡
+
+- **卸载行为（实测）**：卸载器只删除壳 exe 与注册表项，侧车目录（~200MB）与
+  用户数据保留，需手动清理残留目录。更新路径不受影响。
 - 更新下载走 GitHub 资产地址（国内网络环境可能需要 VPN）。

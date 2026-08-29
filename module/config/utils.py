@@ -177,32 +177,43 @@ def parse_value(value, data):
     Returns:
 
     """
-    if 'option' in data:
-        if value not in data['option']:
-            return data['value']
+    # Convert string scalars BEFORE the option membership check: selects
+    # with numeric options (e.g. Shipyard.ResearchSeries) may hold string
+    # values written by older webui builds ('3' instead of 3), which would
+    # otherwise fail 'value not in data["option"]' and silently fall back
+    # to the schema default - the "config lost" symptom.
+    converted = value
     if isinstance(value, str):
         if value == '':
             return None
         if value == 'true' or value == 'True':
-            return True
-        if value == 'false' or value == 'False':
-            return False
-        if '.' in value:
+            converted = True
+        elif value == 'false' or value == 'False':
+            converted = False
+        elif '.' in value:
             try:
-                return float(value)
+                converted = float(value)
             except ValueError:
                 pass
         else:
             try:
-                return int(value)
+                converted = int(value)
             except ValueError:
                 pass
-        try:
-            return datetime.fromisoformat(value)
-        except ValueError:
-            pass
-
-    return value
+        if converted is value:
+            try:
+                converted = datetime.fromisoformat(value)
+            except ValueError:
+                pass
+    if 'option' in data:
+        if converted in data['option']:
+            return converted
+        # The conversion may have missed (e.g. a textual option that looks
+        # numeric); accept the raw string when it is a listed option.
+        if value not in data['option']:
+            return data['value']
+        return value
+    return converted
 
 
 def data_to_type(data, **kwargs):

@@ -1,7 +1,9 @@
-import { render } from "@testing-library/svelte";
-import { describe, expect, it } from "vitest";
+import { cleanup, fireEvent, render } from "@testing-library/svelte";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import DynamicForm from "./DynamicForm.svelte";
+
+afterEach(() => cleanup());
 
 const args = {
   Fleet1: { type: "select", value: 1, option: [1, 2, 3, 4, 5, 6] },
@@ -41,5 +43,15 @@ describe("DynamicForm select values", () => {
     expect(selects[1].value).toBe("5"); // Fleet1Step (config value, not default 3)
     expect(selects[2].value).toBe("2"); // Fleet2
     expect(selects[3].value).toBe("fleet1_mob_fleet2_boss");
+  });
+
+  it("select change emits onsave with the task.group.key path", async () => {
+    const onsave = vi.fn();
+    render(DynamicForm, { props: { args, group: "Fleet", task: "Main", config, onsave } });
+    const selects = document.querySelectorAll("select");
+    expect(selects).toHaveLength(4);
+    const sel = selects[0] as HTMLSelectElement;
+    await fireEvent.change(sel, { target: { value: "4" } });
+    expect(onsave).toHaveBeenCalledWith("Main.Fleet.Fleet1", "4");
   });
 });

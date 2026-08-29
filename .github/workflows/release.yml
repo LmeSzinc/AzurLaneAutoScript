@@ -8,6 +8,7 @@ name: Release
 
 on:
   push:
+    # Version tags (vYYYY.MM.DD, e.g. v2026.08.21); see deploy/packaging/README.md
     tags: ["v*"]
   workflow_dispatch:
 

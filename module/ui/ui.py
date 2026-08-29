@@ -25,6 +25,7 @@ from module.ui.assets_bridge import (
     MAINTENANCE_ANNOUNCE,
     MAP_PREPARATION,
     MAP_PREPARATION_CANCEL,
+    MAP_PREPARATION_HARD,
     MEOWFFICER_BUY,
     MONTHLY_PASS_NOTICE,
     RAID_FLEET_PREPARATION,
@@ -529,6 +530,7 @@ class UI(InfoHandler):
         # Campaign preparation
         if (
             self.appear(MAP_PREPARATION, offset=(30, 30), interval=3)
+            or self.appear(MAP_PREPARATION_HARD, offset=(30, 30), interval=3)
             or self.appear(FLEET_PREPARATION, offset=(20, 50), interval=3)
             or self.appear(RAID_FLEET_PREPARATION, offset=(30, 30), interval=3)
         ):

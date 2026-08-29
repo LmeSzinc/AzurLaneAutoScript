@@ -20,7 +20,11 @@ pub struct BackendProcess {
     /// a kill-on-close job: TerminateJobObject reaps it on exit, and if the
     /// shell itself dies (crash, task manager) the OS closes the handle and
     /// reaps the backend automatically - no orphaned uvicorn on 22267.
-    /// Stored as usize: HANDLE is a raw pointer, which is !Send.
+    /// JOB_OBJECT_LIMIT_BREAKAWAY_OK lets the updater's installer spawn
+    /// with CREATE_BREAKAWAY_FROM_JOB: it must survive the job teardown
+    /// that fires when the installer kills the shell, or every update would
+    /// be reaped mid-install. Stored as usize: HANDLE is a raw pointer,
+    /// which is !Send.
     #[cfg(target_os = "windows")]
     pub job: Mutex<Option<usize>>,
 }
@@ -34,7 +38,8 @@ fn assign_kill_on_close_job(child: &Child) -> Option<usize> {
     use windows_sys::Win32::Foundation::{CloseHandle, HANDLE};
     use windows_sys::Win32::System::JobObjects::{
         AssignProcessToJobObject, CreateJobObjectW, JobObjectExtendedLimitInformation,
-        SetInformationJobObject, JOBOBJECT_EXTENDED_LIMIT_INFORMATION, JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE,
+        SetInformationJobObject, JOBOBJECT_EXTENDED_LIMIT_INFORMATION, JOB_OBJECT_LIMIT_BREAKAWAY_OK,
+        JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE,
     };
     unsafe {
         let job: HANDLE = CreateJobObjectW(std::ptr::null(), std::ptr::null());
@@ -42,7 +47,8 @@ fn assign_kill_on_close_job(child: &Child) -> Option<usize> {
             return None;
         }
         let mut info: JOBOBJECT_EXTENDED_LIMIT_INFORMATION = std::mem::zeroed();
-        info.BasicLimitInformation.LimitFlags = JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE;
+        info.BasicLimitInformation.LimitFlags =
+            JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE | JOB_OBJECT_LIMIT_BREAKAWAY_OK;
         if SetInformationJobObject(
             job,
             JobObjectExtendedLimitInformation,
@@ -67,72 +73,55 @@ fn assign_kill_on_close_job(child: &Child) -> Option<usize> {
 #[cfg(not(debug_assertions))]
 const BACKEND_PORT: u16 = 22267;
 
-/// Resolve the Alas project root: the directory containing gui.py.
-/// Search order: ALAS_ROOT env, then walk up from the resource dir.
-fn resolve_root(app: &AppHandle) -> PathBuf {
-    if let Ok(root) = std::env::var("ALAS_ROOT") {
-        return PathBuf::from(root);
-    }
-    let mut dir = app
-        .path()
-        .resource_dir()
-        .unwrap_or_else(|_| std::env::current_dir().unwrap_or_default());
-    loop {
-        if dir.join("gui.py").exists() {
-            return dir;
+/// Walk up from `start` looking for a directory containing gui.py (the
+/// source checkout root). The mode decision must never depend on the
+/// launch CWD: an installed shell launched with a stray CWD must still
+/// resolve its sidecar, not some unrelated source tree.
+fn find_source_root(start: &Path) -> Option<PathBuf> {
+    let mut dir = Some(start.to_path_buf());
+    while let Some(d) = dir {
+        if d.join("gui.py").exists() {
+            return Some(d);
         }
-        if !dir.pop() {
-            break;
-        }
+        dir = d.parent().map(PathBuf::from);
     }
-    std::env::current_dir().unwrap_or_default()
+    None
 }
 
-/// Resolve the python executable and the project root directory.
-///
-/// Search order:
-///   1. ALAS_PYTHON environment variable
-///   2. <root>/.venv/Scripts/python.exe (development / source build)
-///   3. `alas-backend*.exe` next to the app binary (installed sidecar,
-///      shipped via bundle.resources) - release builds only, and only
-///      when no .venv exists: a dev or source-run must never pick up a
-///      stale sidecar copied into target/ by an older externalBin setup
-///   4. "python" from PATH
-fn resolve_python(root: &PathBuf) -> PathBuf {
-    if let Ok(p) = std::env::var("ALAS_PYTHON") {
-        return PathBuf::from(p);
-    }
-    let dev = root.join(".venv").join("Scripts").join("python.exe");
-    if dev.exists() {
-        return dev;
-    }
-    #[cfg(not(debug_assertions))]
-    {
-        if let Ok(exe) = std::env::current_exe() {
-            if let Some(dir) = exe.parent() {
-                if let Ok(entries) = std::fs::read_dir(dir) {
-                    for entry in entries.flatten() {
-                        let name = entry.file_name().to_string_lossy().to_string();
-                        if name.starts_with("alas-backend") {
-                            let path = entry.path();
-                            if path.is_dir() {
-                                // onedir sidecar: the binary sits inside.
-                                if let Ok(inner) = std::fs::read_dir(&path) {
-                                    for f in inner.flatten() {
-                                        let fname = f.file_name().to_string_lossy().to_string();
-                                        if fname.ends_with(".exe") {
-                                            return f.path();
-                                        }
-                                    }
-                                }
-                            } else if name.ends_with(".exe") {
-                                return path;
-                            }
+/// Find the PyInstaller onedir sidecar next to the shell exe: the
+/// `alas-backend` directory whose own `alas-backend.exe` is the backend
+/// entry point (bundle.resources installs the whole directory beside the
+/// shell exe).
+fn find_sidecar(exe_dir: &Path) -> Option<PathBuf> {
+    let entries = std::fs::read_dir(exe_dir).ok()?;
+    for entry in entries.flatten() {
+        let name = entry.file_name().to_string_lossy().to_string();
+        if name.starts_with("alas-backend") {
+            let path = entry.path();
+            if path.is_dir() {
+                if let Ok(inner) = std::fs::read_dir(&path) {
+                    for f in inner.flatten() {
+                        let fname = f.file_name().to_string_lossy().to_string();
+                        if fname.ends_with(".exe") {
+                            return Some(f.path());
                         }
                     }
                 }
+            } else if name.ends_with(".exe") {
+                return Some(path);
             }
         }
+    }
+    None
+}
+
+/// Resolve the python executable for a source root: the venv interpreter
+/// if present, else `python` from PATH. (ALAS_PYTHON is handled by the
+/// caller.)
+fn resolve_python(root: &Path) -> PathBuf {
+    let dev = root.join(".venv").join("Scripts").join("python.exe");
+    if dev.exists() {
+        return dev;
     }
     PathBuf::from("python")
 }
@@ -243,25 +232,33 @@ fn http_probe(addr: std::net::SocketAddr) -> bool {
 /// Spawn the python webui backend, poll its HTTP port until it answers,
 /// then show the main window.
 fn spawn_backend(app: AppHandle) {
-    let root = resolve_root(&app);
-    let python = resolve_python(&root);
+    let exe_dir = std::env::current_exe()
+        .ok()
+        .and_then(|exe| exe.parent().map(|p| p.to_path_buf()));
 
-    // Installed sidecar: the install directory is the data directory (see
-    // seed_sidecar_data). Anchor the data root to the exe's directory so
-    // the shell's launch CWD never decides where user data lands.
-    let is_sidecar = python
-        .file_name()
-        .and_then(|n| n.to_str())
-        .map(|n| n.starts_with("alas-backend") && n.ends_with(".exe"))
-        .unwrap_or(false);
-    let root = if is_sidecar {
-        std::env::current_exe()
+    // Mode decision, CWD-independent: a source checkout exists iff gui.py
+    // sits at or above the shell exe (ALAS_ROOT overrides). Otherwise this
+    // is an installed build - the sidecar next to the exe is the backend
+    // and the install dir is the data dir (see seed_sidecar_data).
+    let source_root = std::env::var("ALAS_ROOT")
+        .ok()
+        .map(PathBuf::from)
+        .or_else(|| exe_dir.as_deref().and_then(find_source_root));
+
+    let (root, python, is_sidecar) = if let Some(root) = source_root {
+        let python = std::env::var("ALAS_PYTHON")
             .ok()
-            .and_then(|exe| exe.parent().map(|p| p.to_path_buf()))
-            .unwrap_or(root)
+            .map(PathBuf::from)
+            .unwrap_or_else(|| resolve_python(&root));
+        (root, python, false)
     } else {
-        root
+        let dir = exe_dir.unwrap_or_else(|| PathBuf::from("."));
+        let python = find_sidecar(&dir)
+            .or_else(|| std::env::var("ALAS_PYTHON").ok().map(PathBuf::from))
+            .unwrap_or_else(|| PathBuf::from("python"));
+        (dir, python, true)
     };
+
     if is_sidecar {
         seed_sidecar_data(&python, &root);
     }

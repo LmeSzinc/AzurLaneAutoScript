@@ -19,7 +19,7 @@ dependencies = [
 
 [[package]]
 name = "alas-shell"
-version = "0.1.2"
+version = "26.8.21"
 dependencies = [
  "serde",
  "serde_json",
