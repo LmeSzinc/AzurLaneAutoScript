@@ -564,7 +564,7 @@ class RewardCommission(UI, InfoHandler):
                         raise OilMaxed
                 # Check GET_SHIP at last to handle random white background at page_main
                 for button in [GET_SHIP]:
-                    if click_timer.reached() and self.appear(button, interval=1):
+                    if click_timer.reached() and self.appear(button, offset=(20, 20), interval=1):
                         self.ensure_no_info_bar(timeout=1)
                         drop.add(self.device.image)
 
