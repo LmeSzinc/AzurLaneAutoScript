@@ -41,6 +41,11 @@ class DeleteInstanceRequest(ApiRequest):
     name: str
 
 
+class RenameInstanceRequest(ApiRequest):
+    name: str
+    new_name: str
+
+
 class ImportConfigRequest(ApiRequest):
     config: dict[str, Any]
 

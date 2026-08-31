@@ -66,6 +66,31 @@ async function exportConfig(name: string) {
   URL.revokeObjectURL(url);
 }
 
+async function renameConfig(name: string) {
+  error = "";
+  const newName = window.prompt(t("Gui.AppManage.RenamePrompt"), name)?.trim();
+  if (!newName || newName === name) return;
+  const res = await api.renameInstance(name, newName);
+  if (!res.ok) {
+    error = res.error ?? "Failed";
+    return;
+  }
+  await refresh();
+  await refreshStatus();
+}
+
+async function deleteConfig(name: string) {
+  error = "";
+  if (!window.confirm(t("Gui.AppManage.DeleteConfirm", { name }))) return;
+  const res = await api.deleteInstance(name);
+  if (!res.ok) {
+    error = res.error ?? "Failed";
+    return;
+  }
+  await refresh();
+  await refreshStatus();
+}
+
 function onAsideSelect(name: string) {
   if (name === "Manage") {
     return;
@@ -109,12 +134,24 @@ $effect(() => {
           <tr>
             <td>{cfg.name}</td>
             <td>{cfg.modified}</td>
-            <td class="text-end">
+            <td class="text-end whitespace-nowrap">
+              <button
+                class="btn-sm border-line-control bg-transparent text-body hover:border-gray-500 hover:bg-gray-800"
+                onclick={() => renameConfig(cfg.name)}
+              >
+                {t('Gui.AppManage.Rename')}
+              </button>
               <button
                 class="btn-sm border-line-control bg-transparent text-body hover:border-gray-500 hover:bg-gray-800"
                 onclick={() => exportConfig(cfg.name)}
               >
                 {t('Gui.AppManage.Export')}
+              </button>
+              <button
+                class="btn-sm border-danger bg-transparent text-danger hover:bg-danger"
+                onclick={() => deleteConfig(cfg.name)}
+              >
+                {t('Gui.AppManage.Delete')}
               </button>
             </td>
           </tr>

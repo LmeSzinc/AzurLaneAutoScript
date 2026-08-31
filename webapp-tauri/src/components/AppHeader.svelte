@@ -1,10 +1,11 @@
 <script lang="ts">
 import { t } from "../api/i18n.svelte";
-import { status, titleState } from "../api/store.svelte";
+import { currentInstance, status, titleState } from "../api/store.svelte";
 import { route } from "../router.svelte";
 
 const stateText = $derived.by(() => {
-  const state = status.instances[0]?.state ?? 0;
+  const name = currentInstance();
+  const state = status.instances.find((i) => i.name === name)?.state ?? 0;
   if (state === 1) return t("Gui.Status.Running");
   if (state === 3) return t("Gui.Status.Warning");
   if (state === 4) return t("Gui.Status.Updating");
@@ -13,7 +14,8 @@ const stateText = $derived.by(() => {
 
 // Dot color for the instance state; classes live in the uno safelist.
 const stateClass = $derived.by(() => {
-  const state = status.instances[0]?.state ?? 0;
+  const name = currentInstance();
+  const state = status.instances.find((i) => i.name === name)?.state ?? 0;
   if (state === 1) return "bg-status-running";
   if (state === 3) return "bg-status-warning";
   if (state === 4) return "bg-status-updating";

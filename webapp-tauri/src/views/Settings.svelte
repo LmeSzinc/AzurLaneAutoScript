@@ -1,7 +1,7 @@
 <script lang="ts">
 import { api } from "../api/client";
 import { loadI18n, t } from "../api/i18n.svelte";
-import { logs, refreshStatus, status } from "../api/store.svelte";
+import { currentInstance, logs, refreshStatus, status } from "../api/store.svelte";
 import type { ArgDefinition } from "../api/types";
 import AppAside from "../components/AppAside.svelte";
 import AppMenu from "../components/AppMenu.svelte";
@@ -12,7 +12,7 @@ import { push, replace, route } from "../router.svelte";
 let selectedTask = $state("");
 let schema = $state<Record<string, Record<string, Record<string, ArgDefinition>>>>({});
 let config = $state<Record<string, unknown>>({});
-const activeInstance = $derived(status.instances[0]?.name ?? "alas");
+const activeInstance = $derived(currentInstance());
 const EMPTY_LOGS: string[] = [];
 let saving = $state(false);
 /** Tasks whose page is 'tool' show a status view instead of the form */

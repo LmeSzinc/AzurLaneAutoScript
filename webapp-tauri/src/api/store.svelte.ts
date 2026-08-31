@@ -24,8 +24,34 @@ export const collapsedGroups = $state<Record<string, boolean>>({});
 /** Explicit page title set by pages (e.g. the develop sub pages). */
 export const titleState = $state<{ value: string }>({ value: "" });
 
+/**
+ * Instance selected in the aside. Persists across page navigation so the
+ * overview/settings always follow the instance the user clicked, not just
+ * the first configured one.
+ */
+export const activeInstance = $state<{ name: string }>({ name: "" });
+
+export function selectInstance(name: string) {
+  activeInstance.name = name;
+}
+
+/** Resolve the effective instance: the selected one, falling back to the
+ *  first configured instance (or "alas") while the selection is empty or
+ *  the selected instance no longer exists (deleted/renamed). */
+export function currentInstance(): string {
+  const name = activeInstance.name;
+  if (name && status.instances.some((i) => i.name === name)) {
+    return name;
+  }
+  return status.instances[0]?.name ?? "alas";
+}
+
 export async function refreshStatus() {
   Object.assign(status, await api.status());
+  // Keep the selection valid after instance creation/deletion/rename.
+  if (activeInstance.name && !status.instances.some((i) => i.name === activeInstance.name)) {
+    activeInstance.name = "";
+  }
 }
 
 let es: EventSource | null = null;

@@ -75,6 +75,9 @@ AppManage:
   Import:
   Export:
   Delete:
+  Rename:
+  RenamePrompt:
+  DeleteConfirm:
   OverrideWarning:
   ImportSuccess:
   NewSuccess:

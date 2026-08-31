@@ -1,5 +1,6 @@
 import asyncio
 import json
+import time
 from queue import Empty
 from typing import Any
 
@@ -16,6 +17,40 @@ router = APIRouter(tags=["events"])
 # get the current three-column state immediately (same mechanism as the
 # status first frame).
 _scheduler_cache: dict[str, dict] = {}
+
+# Wall-clock of the last live recompute per instance. The bot process only
+# publishes scheduler snapshots while it runs (on task transitions); while
+# the scheduler is stopped/paused the overview would otherwise freeze on the
+# stale snapshot even though pending/waiting are plain functions of the
+# config file. Recompute those instances periodically.
+_last_recompute: dict[str, float] = {}
+_RECOMPUTE_INTERVAL = 30.0
+
+
+def _recompute_scheduler(name: str) -> dict | None:
+    """Compute the current pending/waiting split straight from the config
+    file, mirroring the REST /scheduler/{name} route (shared shape with
+    publish_scheduler_state: current/pending/waiting)."""
+    try:
+        from module.config.config import AzurLaneConfig
+
+        config = AzurLaneConfig(name)
+        config.load()
+        config.get_next_task()
+        pending = config.pending_task
+        running = []
+        if pending:
+            running = pending[:1]
+            pending = pending[1:]
+        fmt = lambda f: {"command": f.command, "next_run": str(f.next_run)}  # noqa: E731
+        return {
+            "current": running[0].command if running else None,
+            "pending": [fmt(f) for f in pending],
+            "waiting": [fmt(f) for f in config.waiting_task],
+        }
+    except Exception:
+        # Config may be mid-write or half-renamed; skip this round.
+        return None
 
 
 def _render_logs(renderables) -> list[str]:
@@ -84,6 +119,17 @@ async def _event_updates():
                     if cached is not None:
                         sent_scheduler.add(name)
                         yield "scheduler", {"instance": name, **cached}
+                if not manager.alive:
+                    # Scheduler stopped/paused: the bot publishes nothing,
+                    # so keep the overview honest by recomputing the
+                    # pending/waiting split from the config file.
+                    now = time.monotonic()
+                    if now - _last_recompute.get(name, 0) >= _RECOMPUTE_INTERVAL:
+                        _last_recompute[name] = now
+                        snapshot = _recompute_scheduler(name)
+                        if snapshot is not None:
+                            _scheduler_cache[name] = snapshot
+                            yield "scheduler", {"instance": name, **snapshot}
             idle += 1
             if idle >= 25:
                 idle = 0

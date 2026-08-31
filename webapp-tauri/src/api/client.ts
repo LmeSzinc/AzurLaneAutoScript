@@ -74,6 +74,13 @@ export const api = {
       body: JSON.stringify({ name }),
     }),
 
+  renameInstance: (name: string, newName: string) =>
+    request<{ ok: boolean; error?: string }>("/instance/rename", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, new_name: newName }),
+    }),
+
   importConfig: (name: string, config: Record<string, unknown>) =>
     request<{ ok: boolean }>(`/config/${name}/import`, {
       method: "POST",

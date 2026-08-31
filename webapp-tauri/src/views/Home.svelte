@@ -1,7 +1,7 @@
 <script lang="ts">
 import { api } from "../api/client";
 import { loadI18n, t } from "../api/i18n.svelte";
-import { logs, schedulers, status } from "../api/store.svelte";
+import { currentInstance, logs, schedulers, status } from "../api/store.svelte";
 import AppAside from "../components/AppAside.svelte";
 import AppMenu from "../components/AppMenu.svelte";
 import LogView from "../components/LogView.svelte";
@@ -12,7 +12,7 @@ interface SchedulerTask {
   next_run: string;
 }
 
-const activeInstance = $derived(status.instances[0]?.name ?? "alas");
+const activeInstance = $derived(currentInstance());
 const instanceAlive = $derived(status.instances.find((i) => i.name === activeInstance)?.alive ?? false);
 /** Live snapshot pushed by the bot process via SSE; empty until the first event. */
 const scheduler = $derived(

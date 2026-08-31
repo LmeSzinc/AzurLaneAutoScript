@@ -1,6 +1,6 @@
 <script lang="ts">
 import { t } from "../api/i18n.svelte";
-import { status } from "../api/store.svelte";
+import { selectInstance, status } from "../api/store.svelte";
 
 let {
   active = "",
@@ -40,7 +40,10 @@ const ICON =
       class:pl-[3px]={active === inst.name}
       class:font-bold={active === inst.name}
       class:text-accent={active === inst.name}
-      onclick={() => onselect?.(inst.name)}
+      onclick={() => {
+        selectInstance(inst.name);
+        onselect?.(inst.name);
+      }}
     >
       <span class="{ICON} [mask-image:url('/icon/run.svg')] [-webkit-mask-image:url('/icon/run.svg')]"></span>
       {inst.name}
