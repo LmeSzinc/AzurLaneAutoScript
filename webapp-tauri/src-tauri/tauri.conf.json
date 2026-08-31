@@ -14,8 +14,8 @@
       {
         "label": "main",
         "title": "Alas",
-        "width": 1600,
-        "height": 960,
+        "width": 1280,
+        "height": 880,
         "decorations": true,
         "visible": false,
         "center": true
