@@ -13,9 +13,14 @@ export async function loadI18n(): Promise<Record<string, string>> {
   return dict;
 }
 
-/** Translate a dotted key, e.g. "Gui.Overview.Scheduler". */
-export function t(key: string): string {
+/** Translate a dotted key, e.g. "Gui.Overview.Scheduler".
+ *  Named placeholders like {name} in the template are substituted from
+ *  `args` when provided (same convention as the backend `.format`). */
+export function t(key: string, args?: Record<string, string | number>): string {
   const dict = dicts[status.language] ?? dicts["zh-CN"];
-  if (!dict) return key;
-  return dict[key] ?? key;
+  const template = dict?.[key] ?? key;
+  if (!args) return template;
+  return template.replace(/\{(\w+)\}/g, (match, name: string) =>
+    args[name] !== undefined ? String(args[name]) : match,
+  );
 }
