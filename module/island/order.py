@@ -117,6 +117,8 @@ class IslandOrder(IslandUI):
     def requirement_name_ocr(self):
         if server.server == 'jp':
             lang = 'jp'
+        elif server.server == 'tw':
+            lang = 'tw'
         else:
             lang = 'cnocr'
         return Ocr(self.requirement_name_grid.buttons, lang=lang, letter=(57, 59, 61), threshold=160, name='REQUIREMENTS_NAME_OCR')
@@ -385,10 +387,6 @@ class IslandOrder(IslandUI):
         return False
 
     def run(self):
-        if self.config.SERVER in ['tw']:
-            logger.info(f'IslandOrder is not available on {self.config.SERVER} server, delay until next server update')
-            self.config.task_delay(server_update=True)
-            return
         self.ui_ensure(page_island_order)
         self.next_runtime = []
         self.update_production_plan = False

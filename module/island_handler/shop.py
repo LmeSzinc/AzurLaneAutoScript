@@ -132,7 +132,7 @@ class IslandShop(IslandShopUI):
                 middle = 10*(q + 1) + 1
             return middle
 
-        if server.server == 'cn':
+        if server.server in ['cn', 'tw']:
             lang = 'cnocr'
         else:
             lang = 'azur_lane'
