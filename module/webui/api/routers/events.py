@@ -30,7 +30,15 @@ _RECOMPUTE_INTERVAL = 30.0
 def _recompute_scheduler(name: str) -> dict | None:
     """Compute the current pending/waiting split straight from the config
     file, mirroring the REST /scheduler/{name} route (shared shape with
-    publish_scheduler_state: current/pending/waiting)."""
+    publish_scheduler_state: current/pending/waiting).
+
+    Only called while the bot process is NOT alive, so nothing is running:
+    `current` stays None and `pending` keeps its full list (the bot's own
+    snapshots keep the running task inside pending, so the shapes match).
+    Splitting pending[:1] off as a fake "running" task here made the overview
+    show a phantom running task with an empty time row after the first
+    30-second recompute of a stopped instance.
+    """
     try:
         from module.config.config import AzurLaneConfig
 
@@ -38,13 +46,9 @@ def _recompute_scheduler(name: str) -> dict | None:
         config.load()
         config.get_next_task()
         pending = config.pending_task
-        running = []
-        if pending:
-            running = pending[:1]
-            pending = pending[1:]
         fmt = lambda f: {"command": f.command, "next_run": str(f.next_run)}  # noqa: E731
         return {
-            "current": running[0].command if running else None,
+            "current": None,
             "pending": [fmt(f) for f in pending],
             "waiting": [fmt(f) for f in config.waiting_task],
         }
