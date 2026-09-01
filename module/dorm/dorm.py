@@ -28,9 +28,12 @@ class OcrDormFood(DigitCounter):
     def pre_process(self, image):
         orange = color_similarity_2d(image, color=(239, 158, 49))
         gray = color_similarity_2d(image, color=(99, 97, 99))
-        image = cv2.subtract(255, cv2.max(orange, gray))
-        image = cv2.multiply(image, 2)
-        return image
+        # image = cv2.subtract(255, cv2.max(orange, gray))
+        # image = cv2.multiply(image, 2)
+        cv2.max(orange, gray, dst=gray)
+        cv2.bitwise_not(gray, dst=gray)
+        cv2.convertScaleAbs(gray, alpha=2, dst=gray)
+        return gray
 
     def after_process(self, result):
         result = super().after_process(result)

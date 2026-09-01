@@ -1035,7 +1035,7 @@ def color_similarity_2d(image, color):
     cv2.max(r, b, dst=r)
     negative = r
     cv2.add(positive, negative, dst=positive)
-    cv2.subtract(255, positive, dst=positive)
+    cv2.bitwise_not(positive, dst=positive)
     return positive
 
 
@@ -1050,6 +1050,15 @@ def extract_letters(image, letter=(255, 255, 255), threshold=128):
     Returns:
         np.ndarray: Shape (height, width)
     """
+    if tuple(letter) == (255, 255, 255):
+        # image - 255 saturates to 0, so only 255 - image (== ~image) matters
+        diff = cv2.bitwise_not(image)
+        r, g, b = cv2.split(diff)
+        cv2.max(r, g, dst=r)
+        cv2.max(r, b, dst=r)
+        if threshold != 255:
+            cv2.convertScaleAbs(r, alpha=255.0 / threshold, dst=r)
+        return r
     # r, g, b = cv2.split(cv2.subtract(image, (*letter, 0)))
     # positive = cv2.max(cv2.max(r, g), b)
     # r, g, b = cv2.split(cv2.subtract((*letter, 0), image))
@@ -1082,10 +1091,13 @@ def extract_white_letters(image, threshold=128):
     Returns:
         np.ndarray: Shape (height, width)
     """
+    # r, g, b = cv2.split(cv2.subtract((255, 255, 255, 0), image))
     # minimum = cv2.min(cv2.min(r, g), b)
     # maximum = cv2.max(cv2.max(r, g), b)
+    # maximum = cv2.multiply(maximum, 0.5)
+    # minimum = cv2.multiply(minimum, 0.5)
     # return cv2.multiply(cv2.add(maximum, cv2.subtract(maximum, minimum)), 255.0 / threshold)
-    r, g, b = cv2.split(cv2.subtract((255, 255, 255, 0), image))
+    r, g, b = cv2.split(cv2.bitwise_not(image))
     maximum = cv2.max(r, g)
     cv2.min(r, g, dst=r)
     cv2.max(maximum, b, dst=maximum)
@@ -1099,7 +1111,6 @@ def extract_white_letters(image, threshold=128):
     if threshold != 255:
         cv2.convertScaleAbs(maximum, alpha=255.0 / threshold, dst=maximum)
     return maximum
-
 
 
 def color_mapping(image, max_multiply=2):

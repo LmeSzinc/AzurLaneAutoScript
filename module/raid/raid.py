@@ -80,7 +80,7 @@ class BigshotPtOcr(Digit):
             cv2.floodFill(mask, mask=None, seedPoint=(0, height - 1), newVal=fill_color, flags=8)
         # extract flood-fill area
         cv2.inRange(mask, fill_color, fill_color, dst=mask)
-        cv2.subtract(255, mask, dst=mask)
+        cv2.bitwise_not(mask, dst=mask)
         # apply to image
         image = cv2.bitwise_and(image, image, mask=mask)
         return super().pre_process(image)
