@@ -15,13 +15,14 @@ from module.device.method.ascreencap import AScreenCap
 from module.device.method.droidcast import DroidCast
 from module.device.method.ldopengl import LDOpenGL
 from module.device.method.nemu_ipc import NemuIpc
+from module.device.method.playcover import PlayCover
 from module.device.method.scrcpy import Scrcpy
 from module.device.method.wsa import WSA
 from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 
 
-class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy, NemuIpc, LDOpenGL):
+class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy, NemuIpc, LDOpenGL, PlayCover):
     _screen_size_checked = False
     _screen_black_checked = False
     _minicap_uninstalled = False
@@ -42,6 +43,7 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy, NemuIpc, LDOpenGL):
             'scrcpy': self.screenshot_scrcpy,
             'nemu_ipc': self.screenshot_nemu_ipc,
             'ldopengl': self.screenshot_ldopengl,
+            'playcover': self.screenshot_playcover,
         }
 
     @cached_property
@@ -169,7 +171,7 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy, NemuIpc, LDOpenGL):
                 logger.warning(f'Optimization.ScreenshotInterval {origin} is revised to {interval}')
                 self.config.Optimization_ScreenshotInterval = interval
             # Allow nemu_ipc to have a lower default
-            if self.config.Emulator_ScreenshotMethod in ['nemu_ipc', 'ldopengl']:
+            if self.config.Emulator_ScreenshotMethod in ['nemu_ipc', 'ldopengl', 'playcover']:
                 interval = limit_in(origin, 0.1, 0.2)
         elif interval == 'combat':
             origin = self.config.Optimization_CombatScreenshotInterval
@@ -260,6 +262,11 @@ class Screenshot(Adb, WSA, DroidCast, AScreenCap, Scrcpy, NemuIpc, LDOpenGL):
                 logger.warning(f'Received pure black screenshots from emulator, color: {color}')
                 logger.warning('Uninstall minicap and retry')
                 self.uninstall_minicap()
+                self._screen_black_checked = False
+                return False
+            elif self.config.Emulator_ScreenshotMethod == 'playcover':
+                logger.warning(f'Received pure black screenshots from PlayCover, color: {color}')
+                logger.warning('The macOS display may be sleeping, locked, or running without an active monitor')
                 self._screen_black_checked = False
                 return False
             else:
