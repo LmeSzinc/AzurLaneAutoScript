@@ -47,14 +47,13 @@ pyinstaller --clean --noconfirm deploy/packaging/alas_backend.spec
 > resource path `..\..\dist\alas-backend` doesn't exist
 > ```
 >
-> 因此 sidecar 必须先于壳构建。本地一键构建（pwsh 7）：
+> 因此 sidecar 必须先于壳构建。构建入口统一在 `webapp-tauri/package.json`：
 
 ```powershell
-# 前端 pnpm build → PyInstaller sidecar → cargo build --release（只编译壳）
-pwsh deploy/packaging/build.ps1 -ShellOnly
-
-# 完整产物：前端 + sidecar + NSIS 安装包（等价于 CI 的三步）
-pwsh deploy/packaging/build.ps1
+cd webapp-tauri
+pnpm build:shell       # 前端 pnpm build → sidecar(增量) → cargo build --release
+pnpm build:desktop     # 前端 + sidecar + NSIS 安装包（等价于 CI 的三步）
+pnpm build:sidecar     # 只重建 sidecar（增量；--clean 强制全量：pnpm build:sidecar:clean）
 ```
 
 手动分步（与脚本等价）：
@@ -69,6 +68,9 @@ pyinstaller --clean --noconfirm deploy/packaging/alas_backend.spec
 cd webapp-tauri
 pnpm tauri build           # 产物 src-tauri/target/release/bundle/nsis/*-setup.exe
 ```
+
+> spec 内已固定 `distpath`/`workpath` 为 repo 根 `dist/`、`build/alas_backend/`，
+> 与调用目录无关（PyInstaller 默认按 CWD 输出，不固定会随入口目录漂移）。
 
 - `bundle.resources` 携带 `dist/alas-backend` → 安装后与 exe 并列（externalBin
   会压平 onedir 目录，不可用）。

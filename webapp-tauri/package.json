@@ -12,7 +12,11 @@
     "lint": "biome check src",
     "format:svelte": "prettier --write \"src/**/*.svelte\"",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "build:sidecar": "pyinstaller --noconfirm ../deploy/packaging/alas_backend.spec",
+    "build:sidecar:clean": "pyinstaller --clean --noconfirm ../deploy/packaging/alas_backend.spec",
+    "build:shell": "pnpm build && pnpm build:sidecar && cargo build --release --manifest-path src-tauri/Cargo.toml",
+    "build:desktop": "pnpm build && pnpm build:sidecar && pnpm tauri build"
   },
   "dependencies": {},
   "devDependencies": {

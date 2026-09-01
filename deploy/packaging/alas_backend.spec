@@ -12,10 +12,19 @@ Result: dist/alas-backend/ with alas-backend.exe as the entry point.
 
 import os
 
+from PyInstaller.config import CONF
 from PyInstaller.utils.hooks import collect_all
 
 # Repo root: spec lives in <root>/deploy/packaging/
 root = os.path.abspath(os.path.join(SPECPATH, "..", ".."))
+
+# Anchor the output locations to the repo root. PyInstaller otherwise
+# defaults distpath/workpath to the *current working directory*, so running
+# the spec from webapp-tauri/ (pnpm build:sidecar) or the repo root (CI)
+# would place artifacts in different spots and tauri-build's resource check
+# for ../../dist/alas-backend (relative to src-tauri/) would fail again.
+CONF["distpath"] = os.path.join(root, "dist")
+CONF["workpath"] = os.path.join(root, "build", "alas_backend")
 
 datas = [
     # Runtime directories the backend opens with relative paths (./config, ./assets, ./bin).
