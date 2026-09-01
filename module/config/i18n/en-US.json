@@ -1961,6 +1961,10 @@
       "name": "Allow Shop Refresh",
       "help": "Refreshing will consume 50 gems"
     },
+    "BuyUnobtainedShip": {
+      "name": "Buy Unobtained Ships",
+      "help": "Prioritizes ships marked as unobtained in the upper-right corner, regardless of the normal shop filter"
+    },
     "Filter": {
       "name": "Item Filter",
       "help": "All options have been defined at <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string>"

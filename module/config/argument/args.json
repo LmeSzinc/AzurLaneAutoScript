@@ -8027,6 +8027,10 @@
         "type": "checkbox",
         "value": false
       },
+      "BuyUnobtainedShip": {
+        "type": "checkbox",
+        "value": false
+      },
       "Filter": {
         "type": "textarea",
         "value": "Cube"

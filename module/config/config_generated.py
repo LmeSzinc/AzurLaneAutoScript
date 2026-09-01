@@ -301,6 +301,7 @@ class GeneratedConfig:
 
     # Group `MeritShop`
     MeritShop_Refresh = False
+    MeritShop_BuyUnobtainedShip = False
     MeritShop_Filter = 'Cube'
 
     # Group `CoreShop`

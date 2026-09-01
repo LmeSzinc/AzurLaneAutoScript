@@ -1012,6 +1012,12 @@ def color_similar_1d(image, color, threshold=10):
 
 def color_similarity_2d(image, color):
     """
+    Per-pixel color distance map: 255 when the pixel exactly matches color.
+
+    result = 255 - sat_add(max_c(sat_sub(image - c)), max_c(sat_sub(c - image)))
+    where c = (r, g, b), sat_sub/sat_add are uint8 saturating ops,
+    max_c takes the per-pixel maximum across channels.
+
     Args:
         image: 2D array.
         color: (r, g, b)
@@ -1024,23 +1030,50 @@ def color_similarity_2d(image, color):
     # r, g, b = cv2.split(cv2.subtract((*color, 0), image))
     # negative = cv2.max(cv2.max(r, g), b)
     # return cv2.subtract(255, cv2.add(positive, negative))
-    diff = cv2.subtract(image, (*color, 0))
-    r, g, b = cv2.split(diff)
-    cv2.max(r, g, dst=r)
-    cv2.max(r, b, dst=r)
-    positive = r
-    cv2.subtract((*color, 0), image, dst=diff)
-    r, g, b = cv2.split(diff)
-    cv2.max(r, g, dst=r)
-    cv2.max(r, b, dst=r)
+    h, w = image.shape[:2]
+    if h * w < 30000:
+        # The 3-channel path is faster on tiny images where per-call
+        # overhead dominates
+        diff = cv2.subtract(image, (*color, 0))
+        r, g, b = cv2.split(diff)
+        cv2.max(r, g, dst=r)
+        cv2.max(r, b, dst=r)
+        positive = r
+        cv2.subtract((*color, 0), image, dst=diff)
+        r, g, b = cv2.split(diff)
+        cv2.max(r, g, dst=r)
+        cv2.max(r, b, dst=r)
+        negative = r
+        cv2.add(positive, negative, dst=positive)
+        cv2.bitwise_not(positive, dst=positive)
+        return positive
+    # Per-channel subtract with buffer reuse wins on larger images
+    r, g, b = cv2.split(image)
+    cr, cg, cb = color
+    positive = cv2.subtract(r, cr)
+    cv2.subtract(cr, r, dst=r)
     negative = r
+    diff = cv2.subtract(g, cg)
+    cv2.max(positive, diff, dst=positive)
+    cv2.subtract(cg, g, dst=diff)
+    cv2.max(negative, diff, dst=negative)
+    cv2.subtract(b, cb, dst=diff)
+    cv2.max(positive, diff, dst=positive)
+    cv2.subtract(cb, b, dst=diff)
+    cv2.max(negative, diff, dst=negative)
     cv2.add(positive, negative, dst=positive)
-    cv2.subtract(255, positive, dst=positive)
+    cv2.bitwise_not(positive, dst=positive)
     return positive
 
 
 def extract_letters(image, letter=(255, 255, 255), threshold=128):
     """Set letter color to black, set background color to white.
+
+    result = sat_mul(sat_add(max_c(sat_sub(image - l)), max_c(sat_sub(l - image))), 255 / threshold)
+    where l = (r, g, b), sat_sub/sat_add/sat_mul are uint8 saturating ops,
+    max_c takes the per-pixel maximum across channels, and the scale step
+    is skipped when threshold = 255.
+    For l = (255, 255, 255): result = sat_mul(max_c(~image), 255 / threshold).
 
     Args:
         image: Shape (height, width, channel)
@@ -1050,30 +1083,68 @@ def extract_letters(image, letter=(255, 255, 255), threshold=128):
     Returns:
         np.ndarray: Shape (height, width)
     """
+    if tuple(letter) == (255, 255, 255):
+        # MAX of the inverted image == inverted MIN of the image
+        r, g, b = cv2.split(image)
+        cv2.min(r, g, dst=r)
+        cv2.min(r, b, dst=r)
+        cv2.bitwise_not(r, dst=r)
+        if threshold != 255:
+            cv2.convertScaleAbs(r, alpha=255.0 / threshold, dst=r)
+        return r
     # r, g, b = cv2.split(cv2.subtract(image, (*letter, 0)))
     # positive = cv2.max(cv2.max(r, g), b)
     # r, g, b = cv2.split(cv2.subtract((*letter, 0), image))
     # negative = cv2.max(cv2.max(r, g), b)
     # return cv2.multiply(cv2.add(positive, negative), 255.0 / threshold)
-    diff = cv2.subtract(image, (*letter, 0))
-    r, g, b = cv2.split(diff)
-    cv2.max(r, g, dst=r)
-    cv2.max(r, b, dst=r)
-    positive = r
-    cv2.subtract((*letter, 0), image, dst=diff)
-    r, g, b = cv2.split(diff)
-    cv2.max(r, g, dst=r)
-    cv2.max(r, b, dst=r)
+    h, w = image.shape[:2]
+    if h * w < 30000:
+        # The 3-channel path is faster on tiny images where per-call
+        # overhead dominates
+        diff = cv2.subtract(image, (*letter, 0))
+        r, g, b = cv2.split(diff)
+        cv2.max(r, g, dst=r)
+        cv2.max(r, b, dst=r)
+        positive = r
+        cv2.subtract((*letter, 0), image, dst=diff)
+        r, g, b = cv2.split(diff)
+        cv2.max(r, g, dst=r)
+        cv2.max(r, b, dst=r)
+        negative = r
+        if threshold != 255:
+            cv2.addWeighted(positive, 255.0 / threshold, negative, 255.0 / threshold, 0, dst=positive)
+        else:
+            cv2.add(positive, negative, dst=positive)
+        return positive
+    # Per-channel subtract with buffer reuse wins on larger images
+    r, g, b = cv2.split(image)
+    lr, lg, lb = letter
+    positive = cv2.subtract(r, lr)
+    cv2.subtract(lr, r, dst=r)
     negative = r
-    cv2.add(positive, negative, dst=positive)
+    diff = cv2.subtract(g, lg)
+    cv2.max(positive, diff, dst=positive)
+    cv2.subtract(lg, g, dst=diff)
+    cv2.max(negative, diff, dst=negative)
+    cv2.subtract(b, lb, dst=diff)
+    cv2.max(positive, diff, dst=positive)
+    cv2.subtract(lb, b, dst=diff)
+    cv2.max(negative, diff, dst=negative)
     if threshold != 255:
-        cv2.convertScaleAbs(positive, alpha=255.0 / threshold, dst=positive)
+        cv2.addWeighted(positive, 255.0 / threshold, negative, 255.0 / threshold, 0, dst=positive)
+    else:
+        cv2.add(positive, negative, dst=positive)
     return positive
 
 
 def extract_white_letters(image, threshold=128):
     """Set letter color to black, set background color to white.
     This function will discourage color pixels (Non-gray pixels)
+
+    result = sat_mul(max' - 0.5 * min', 255 / threshold)
+    where max' = max_c(255 - image) and min' = min_c(255 - image) are the
+    per-pixel max/min of the inverted image across channels, and the scale
+    step is skipped when threshold = 255.
 
     Args:
         image: Shape (height, width, channel)
@@ -1082,24 +1153,29 @@ def extract_white_letters(image, threshold=128):
     Returns:
         np.ndarray: Shape (height, width)
     """
+    # r, g, b = cv2.split(cv2.subtract((255, 255, 255, 0), image))
     # minimum = cv2.min(cv2.min(r, g), b)
     # maximum = cv2.max(cv2.max(r, g), b)
+    # maximum = cv2.multiply(maximum, 0.5)
+    # minimum = cv2.multiply(minimum, 0.5)
     # return cv2.multiply(cv2.add(maximum, cv2.subtract(maximum, minimum)), 255.0 / threshold)
-    r, g, b = cv2.split(cv2.subtract((255, 255, 255, 0), image))
+    r, g, b = cv2.split(image)
     maximum = cv2.max(r, g)
     cv2.min(r, g, dst=r)
     cv2.max(maximum, b, dst=maximum)
     cv2.min(r, b, dst=r)
-    # minimum = r
+    # r = MIN(r, g, b), maximum = MAX(r, g, b) in the original domain
+    cv2.bitwise_not(r, dst=r)
+    cv2.bitwise_not(maximum, dst=maximum)
 
-    cv2.convertScaleAbs(maximum, alpha=0.5, dst=maximum)
     cv2.convertScaleAbs(r, alpha=0.5, dst=r)
-    cv2.subtract(maximum, r, dst=r)
-    cv2.add(maximum, r, dst=maximum)
+    cv2.convertScaleAbs(maximum, alpha=0.5, dst=maximum)
+    cv2.subtract(r, maximum, dst=maximum)
     if threshold != 255:
-        cv2.convertScaleAbs(maximum, alpha=255.0 / threshold, dst=maximum)
-    return maximum
-
+        cv2.addWeighted(r, 255.0 / threshold, maximum, 255.0 / threshold, 0, dst=r)
+    else:
+        cv2.add(r, maximum, dst=r)
+    return r
 
 
 def color_mapping(image, max_multiply=2):

@@ -1961,6 +1961,10 @@
       "name": "MeritShop.Refresh.name",
       "help": "MeritShop.Refresh.help"
     },
+    "BuyUnobtainedShip": {
+      "name": "未入手艦船を購入",
+      "help": "右上に「未入手」と表示された艦船を、通常のショップフィルターに関係なく優先して購入します"
+    },
     "Filter": {
       "name": "MeritShop.Filter.name",
       "help": "MeritShop.Filter.help"
