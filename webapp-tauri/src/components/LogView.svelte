@@ -45,6 +45,32 @@ function rebuild() {
   }
 }
 
+// PROBE: temporary instrumentation (revert with the probe commit).
+// 30-second summary of DOM-render cost per SSE batch, to correlate whole-
+// machine stutter during heavy OCR with log-view layout/insert work.
+let probeSince = performance.now();
+let probeAppends = 0;
+let probeLines = 0;
+let probeTotalMs = 0;
+let probeMaxMs = 0;
+function probeRender(ms: number, linesDelta: number) {
+  probeAppends += 1;
+  probeLines += linesDelta;
+  probeTotalMs += ms;
+  if (ms > probeMaxMs) probeMaxMs = ms;
+  const now = performance.now();
+  if (now - probeSince >= 30000) {
+    console.warn(
+      `[PROBE][LogView] ${probeAppends} appends, ${probeLines} lines, avg=${(probeTotalMs / probeAppends).toFixed(2)}ms, max=${probeMaxMs.toFixed(1)}ms`,
+    );
+    probeAppends = 0;
+    probeLines = 0;
+    probeTotalMs = 0;
+    probeMaxMs = 0;
+    probeSince = now;
+  }
+}
+
 $effect(() => {
   const node = codeEl;
   const pre = preEl;
@@ -52,13 +78,20 @@ $effect(() => {
   if (lines !== lastArray) {
     // Buffer replaced: instance switch, chunked trim or backend reset.
     lastArray = lines;
+    const t0 = performance.now();
     rebuild();
+    probeRender(performance.now() - t0, lines.length);
   } else if (lines.length < renderedCount) {
     // Buffer spliced in place.
+    const t0 = performance.now();
     rebuild();
+    probeRender(performance.now() - t0, lines.length);
   } else if (lines.length > renderedCount) {
+    const t0 = performance.now();
     node.insertAdjacentHTML("beforeend", ansiToHtml(`${lines.slice(renderedCount).join("\n")}\n`));
+    const delta = lines.length - renderedCount;
     renderedCount = lines.length;
+    probeRender(performance.now() - t0, delta);
   }
   scheduleScroll();
 });

@@ -57,6 +57,31 @@ export async function refreshStatus() {
 let es: EventSource | null = null;
 let reconnectTimer: number | undefined;
 
+// PROBE: temporary instrumentation (revert with the probe commit).
+// 30-second summary of SSE event volume / parse cost, to correlate whole-
+// machine stutter during heavy OCR with the log-streaming load.
+let probeSince = performance.now();
+let probeEvents = 0;
+let probeBytes = 0;
+let probeMaxMs = 0;
+function probeSse(kind: string, bytes: number, started: number) {
+  probeEvents += 1;
+  probeBytes += bytes;
+  const ms = performance.now() - started;
+  if (ms > probeMaxMs) probeMaxMs = ms;
+  const now = performance.now();
+  if (now - probeSince >= 30000) {
+    const secs = (now - probeSince) / 1000;
+    console.warn(
+      `[PROBE][SSE] ${kind}: ${probeEvents} events, ${(probeBytes / 1024).toFixed(1)}KB, maxParseMs=${probeMaxMs.toFixed(1)}, ${(probeEvents / secs).toFixed(1)}/s`,
+    );
+    probeEvents = 0;
+    probeBytes = 0;
+    probeMaxMs = 0;
+    probeSince = now;
+  }
+}
+
 export function connectEvents() {
   if (es) {
     return;
@@ -67,10 +92,15 @@ export function connectEvents() {
     connState.connected = true;
   };
   es.addEventListener("status", (event) => {
-    Object.assign(status, JSON.parse((event as MessageEvent<string>).data) as Status);
+    const started = performance.now();
+    const data = (event as MessageEvent<string>).data;
+    Object.assign(status, JSON.parse(data) as Status);
+    probeSse("status", data.length, started);
   });
   es.addEventListener("log", (event) => {
-    const { instance, logs: newLogs, reset } = JSON.parse((event as MessageEvent<string>).data) as SseLog;
+    const started = performance.now();
+    const data = (event as MessageEvent<string>).data;
+    const { instance, logs: newLogs, reset } = JSON.parse(data) as SseLog;
     if (reset) {
       // Backend re-sent the whole buffer (initial connect / backend trim).
       // Replace the array identity so LogView rebuilds.
@@ -84,12 +114,16 @@ export function connectEvents() {
         logs[instance] = buf.slice(-500);
       }
     }
+    probeSse("log", data.length, started);
   });
   es.addEventListener("scheduler", (event) => {
-    const { instance, ...snapshot } = JSON.parse((event as MessageEvent<string>).data) as SchedulerSnapshot & {
+    const started = performance.now();
+    const data = (event as MessageEvent<string>).data;
+    const { instance, ...snapshot } = JSON.parse(data) as SchedulerSnapshot & {
       instance: string;
     };
     schedulers[instance] = snapshot;
+    probeSse("scheduler", data.length, started);
   });
   es.onerror = () => {
     connState.connected = false;
