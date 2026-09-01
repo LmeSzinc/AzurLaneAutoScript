@@ -304,10 +304,6 @@ class IslandProduction(IslandRecipe, IslandDock):
                 break
 
     def run(self):
-        if self.config.SERVER in ['tw']:
-            logger.info(f'IslandProduction is not available on {self.config.SERVER} server, delay until next server update')
-            self.config.task_delay(server_update=True)
-            return
         self.ensure_island_production_page()
         slot_finish_time = self.config.cross_get("IslandProduction.Storage.Storage.SlotFinishTime", default={})
         self.slot_finish_time = {int(k): datetime.fromisoformat(v) for k, v in slot_finish_time.items()}
