@@ -100,7 +100,7 @@ class CampaignBase(CampaignBase_):
             else:
                 break
 
-        logger.warning('Failed to find archives entrance')
+        logger.warning(f'Failed to find archives entrance: {name}')
         return None
 
     def ui_goto_archives_campaign(self, mode='ex'):
