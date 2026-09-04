@@ -30,6 +30,16 @@ class Enhancement(Dock):
                 return 10
         return 3000
 
+    @property
+    def _retire_keep_common_cv(self):
+        """
+        Returns:
+            str: "any" or specific ship name, or empty string if GemsFarming is not enabled
+        """
+        if not self.config.is_task_enabled('GemsFarming'):
+            return ''
+        return self.config.cross_get('GemsFarming.GemsFarming.CommonCV', default='any')
+
     def _enhance_enter(self, favourite=False, ship_type=None):
         """
         Pages:
