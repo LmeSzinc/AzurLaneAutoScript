@@ -176,6 +176,9 @@ class ResearchSelector(ResearchUI):
         string = string.lower()
         # Filter uses `hakuryu`, but allows both `hakuryu` and `hakuryuu`
         string = string.replace('hakuryuu', 'hakuryu')
+        # convert latin letters in ship name
+        string = string.replace('ägir', 'agir')
+        string = string.replace('valparaíso', 'valparaiso')
         # Allow both `fastest` and `shortest`
         string = string.replace('fastest', 'shortest')
         # Allow both `PR` and `PRY`
