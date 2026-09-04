@@ -542,28 +542,18 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
             'langley': TEMPLATE_LANGLEY,
             'ranger': TEMPLATE_RANGER,
         }
-        if cv == 'any':
-            for cv in ['bogue', 'hermes', 'langley', 'ranger']:
-                template = dict_template[cv]
-                sim, button = template.match_result(
-                    resize(self.device.image, size=(1189, 669)))
+        if cv != 'any':
+            dict_template = {cv: dict_template[cv]}
 
-                if sim > self.config.COMMON_CV_THRESHOLD:
-                    return Button(button=tuple(_ * 155 // 144 for _ in button.button), area=button.area,
-                                  color=button.color,
-                                  name=f'TEMPLATE_{cv.upper()}_RETIRE')
-
-            return None
-        else:
-            template = dict_template[cv]
-            sim, button = template.match_result(
-                resize(self.device.image, size=(1189, 669)))
-
+        target = resize(self.device.image, size=(1189, 669))
+        for cv, template in dict_template.items():
+            sim, button = template.match_result(target)
             if sim > self.config.COMMON_CV_THRESHOLD:
-                return Button(button=tuple(_ * 155 // 144 for _ in button.button), area=button.area, color=button.color,
+                return Button(button=tuple(_ * 155 // 144 for _ in button.button), area=button.area,
+                              color=button.color,
                               name=f'TEMPLATE_{cv.upper()}_RETIRE')
 
-            return None
+        return None
 
     def retirement_get_common_rarity_cv(self, skip_first_screenshot=False):
         """
