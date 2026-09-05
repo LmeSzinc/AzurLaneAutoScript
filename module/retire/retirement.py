@@ -6,6 +6,7 @@ from module.exception import RequestHumanTakeover, ScriptError
 from module.handler.assets import AUTO_SEARCH_MAP_OPTION_OFF, AUTO_SEARCH_MAP_OPTION_ON
 from module.logger import logger
 from module.retire.assets import *
+from module.retire.bulin import BULIN_RETIRE_TEMPLATES
 from module.retire.enhancement import Enhancement
 from module.retire.scanner import ShipScanner
 from module.retire.setting import QuickRetireSettingHandler
@@ -26,11 +27,15 @@ CARD_RARITY_COLORS = {
 
 RETIRE_CONFIRM_SCROLL = Scroll(RETIRE_CONFIRM_SCROLL_AREA, color=(74, 77, 110), name='STRATEGIC_SEARCH_SCROLL')
 RETIRE_CONFIRM_SCROLL.color_threshold = 240  # Background color is (66, 72, 77), so default (256-221)=35 is not enough to dintinguish.
+RETIRE_CONFIRM_IMAGE_SIZE = (1189, 669)
+RETIRE_CONFIRM_COORDINATE_SCALE = 155 / 144
+BULIN_RETIRE_THRESHOLD = 0.88
 
 
 class Retirement(Enhancement, QuickRetireSettingHandler):
     _unable_to_enhance = False
     _have_kept_cv = True
+    _protect_bulins = False
 
     # From MapOperation
     map_cat_attack_timer = Timer(2)
@@ -132,6 +137,9 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                     self.interval_reset([EQUIP_CONFIRM, EQUIP_CONFIRM_2])
                     continue
             if self.match_template_color(SHIP_CONFIRM_2, offset=(30, 30), interval=2):
+                if self._protect_bulins and self.protect_bulins_from_retirement():
+                    self.interval_reset([SHIP_CONFIRM, SHIP_CONFIRM_2])
+                    continue
                 if self.retire_keep_common_cv and not self._have_kept_cv:
                     self.keep_one_common_cv()
                 self.device.click(SHIP_CONFIRM_2)
@@ -255,7 +263,11 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
             if end:
                 break
             # SHIP_CONFIRM_2 -> IN_RETIREMENT_CHECK
-            self._retirement_confirm()
+            self._protect_bulins = True
+            try:
+                self._retirement_confirm()
+            finally:
+                self._protect_bulins = False
             total += 10
             # if total >= amount:
             #     break
@@ -310,7 +322,11 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                 logger.warning('No ship selected, retrying')
                 continue
 
-            self._retirement_confirm()
+            self._protect_bulins = bool({'SR', 'SSR'} & set(rarity))
+            try:
+                self._retirement_confirm()
+            finally:
+                self._protect_bulins = False
 
             amount -= selected
             if amount <= 0:
@@ -347,7 +363,9 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
 
         total = 0
         _ = self._have_kept_cv
+        protect_bulins = self._protect_bulins
         self._have_kept_cv = True
+        self._protect_bulins = False
 
         skip_first_screenshot = True
         while 1:
@@ -381,6 +399,7 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                 break
 
         self._have_kept_cv = _
+        self._protect_bulins = protect_bulins
         # No need to wait, retire finished, just about to exit
         self.dock_filter_set(wait_loading=False)
 
@@ -540,10 +559,10 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
             for common_cv_name in ['BOGUE', 'HERMES', 'LANGLEY', 'RANGER']:
                 template = globals()[f'TEMPLATE_{common_cv_name}']
                 sim, button = template.match_result(
-                    resize(self.device.image, size=(1189, 669)))
+                    resize(self.device.image, size=RETIRE_CONFIRM_IMAGE_SIZE))
 
                 if sim > self.config.COMMON_CV_THRESHOLD:
-                    return Button(button=tuple(_ * 155 // 144 for _ in button.button), area=button.area,
+                    return Button(button=tuple(int(_ * RETIRE_CONFIRM_COORDINATE_SCALE) for _ in button.button), area=button.area,
                                   color=button.color,
                                   name=f'TEMPLATE_{common_cv_name}_RETIRE')
 
@@ -553,13 +572,32 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
             template = globals()[
                 f'TEMPLATE_{self.config.GemsFarming_CommonCV.upper()}']
             sim, button = template.match_result(
-                resize(self.device.image, size=(1189, 669)))
+                resize(self.device.image, size=RETIRE_CONFIRM_IMAGE_SIZE))
 
             if sim > self.config.COMMON_CV_THRESHOLD:
-                return Button(button=tuple(_ * 155 // 144 for _ in button.button), area=button.area, color=button.color,
+                return Button(button=tuple(int(_ * RETIRE_CONFIRM_COORDINATE_SCALE) for _ in button.button), area=button.area, color=button.color,
                               name=f'TEMPLATE_{self.config.GemsFarming_CommonCV.upper()}_RETIRE')
 
             return None
+
+    def retirement_get_bulin_in_page(self):
+        """
+        Returns:
+            Button:
+        """
+        image = resize(self.device.image, size=RETIRE_CONFIRM_IMAGE_SIZE)
+        for ship_name, templates in BULIN_RETIRE_TEMPLATES.items():
+            for template in templates:
+                sim, button = template.match_result(image, name=f'TEMPLATE_{ship_name.upper()}_RETIRE')
+                if sim > BULIN_RETIRE_THRESHOLD:
+                    logger.info(f'Found {ship_name} in retirement confirm, similarity={sim:.3f}')
+                    return Button(
+                        button=tuple(int(_ * RETIRE_CONFIRM_COORDINATE_SCALE) for _ in button.button),
+                        area=button.area,
+                        color=button.color,
+                        name=f'TEMPLATE_{ship_name.upper()}_RETIRE')
+
+        return None
 
     def retirement_get_common_rarity_cv(self, skip_first_screenshot=False):
         """
@@ -611,6 +649,78 @@ class Retirement(Enhancement, QuickRetireSettingHandler):
                 swipe_count += 1
 
         return button
+
+    def retirement_get_bulin(self, skip_first_screenshot=False):
+        """
+        Args:
+            skip_first_screenshot:
+
+        Returns:
+            Button: Button to click to remove bulin from retire list
+        """
+        swipe_count = 0
+        disappear_confirm = Timer(2, count=6)
+        top_checked = False
+        button = None
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                self.device.screenshot()
+
+            button = self.retirement_get_bulin_in_page()
+            if button is not None:
+                return button
+
+            if RETIRE_CONFIRM_SCROLL.appear(main=self):
+                disappear_confirm.clear()
+            else:
+                disappear_confirm.start()
+                if disappear_confirm.reached():
+                    logger.warning('Scroll bar disappeared, stop')
+                    break
+                else:
+                    continue
+
+            if not top_checked:
+                top_checked = True
+                logger.info('Find bulin from bottom to top')
+                RETIRE_CONFIRM_SCROLL.set_bottom(main=self)
+                continue
+            else:
+                if RETIRE_CONFIRM_SCROLL.at_top(main=self):
+                    logger.info('Scroll bar reached top, stop')
+                    break
+                if swipe_count >= 7:
+                    logger.info('Reached maximum swipes to find bulin')
+                    break
+                RETIRE_CONFIRM_SCROLL.prev_page(main=self)
+                swipe_count += 1
+
+        return button
+
+    def protect_bulins_from_retirement(self):
+        """
+        Returns:
+            int: Amount of bulins removed from retire list
+        """
+        logger.info('Protect bulins from retirement')
+        protected = 0
+        for _ in range(10):
+            button = self.retirement_get_bulin(skip_first_screenshot=protected == 0)
+            if button is None:
+                break
+            if self._retire_select_one(button):
+                protected += 1
+                continue
+            break
+
+        if protected:
+            logger.info(f'Protected bulins: {protected}')
+        else:
+            logger.info('No bulin found in retirement confirm')
+
+        return protected
 
     def keep_one_common_cv(self):
         """
