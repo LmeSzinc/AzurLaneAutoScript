@@ -118,7 +118,7 @@ class RadarGrid:
         """
         image = crop(self.image, area_offset(area, self.center), copy=False)
         mask = color_mask(image, color=color, threshold=threshold)
-        return np.count_nonzero(mask) >= count
+        return cv2.countNonZero(mask) >= count
 
     def predict_enemy(self):
         return self.image_color_count(area=(-3, -3, 3, 3), color=(247, 89, 49), threshold=30, count=10)

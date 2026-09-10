@@ -57,7 +57,7 @@ class RestaurantItem(Item):
         # Mask pixels that are not similar to the background
         mask = color_mask(self.image, (207, 209, 211), threshold=50)
         cv2.bitwise_not(mask, dst=mask)
-        sum_ = np.count_nonzero(mask)
+        sum_ = cv2.countNonZero(mask)
         return sum_ > 400
 
 
