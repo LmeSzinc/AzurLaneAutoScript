@@ -21,7 +21,7 @@ class PQShopUI(ShopUI):
         return Navbar(shop_navgrid,
                       active_color=(186, 226, 245), inactive_color=(236, 237, 243),
                       active_count=350, inactive_count=350,
-                      active_threshold=221, inactive_threshold=221,
+                      active_threshold=30, inactive_threshold=30,
                       name='PRIVATE_QUARTERS_BOTTOM_NAVBAR')
 
     def shop_bottom_navbar_ensure(self, left=None, right=None):
@@ -61,7 +61,7 @@ class PQShopUI(ShopUI):
         return Navbar(shop_navgrid,
                       active_color=(255, 255, 255), inactive_color=(176, 245, 250),
                       active_count=200, inactive_count=200,
-                      active_threshold=221, inactive_threshold=221,
+                      active_threshold=30, inactive_threshold=30,
                       name='PRIVATE_QUARTERS_LEFT_NAVBAR')
 
     def shop_left_navbar_ensure(self, upper=None, bottom=None):

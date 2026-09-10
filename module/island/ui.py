@@ -38,10 +38,10 @@ class NestedNavbar:
                  subgrid_delta: tuple = None, subgrid_button_shape: tuple = None,
                  subgrid_shapes: List[tuple] = None, direction: str = 'vertical',
                  main_active_color=(57, 189, 255), main_inactive_color=(38, 39, 40),
-                 main_active_threshold=221, main_inactive_threshold=221,
+                 main_active_threshold=30, main_inactive_threshold=30,
                  main_active_count=2000, main_inactive_count=2000,
                  sub_active_color=(125, 126, 126), sub_inactive_color=(38, 39, 40),
-                 sub_active_threshold=221, sub_inactive_threshold=221,
+                 sub_active_threshold=30, sub_inactive_threshold=30,
                  sub_active_count=500, sub_inactive_count=500, name: str = None):
         """
         Parameters:

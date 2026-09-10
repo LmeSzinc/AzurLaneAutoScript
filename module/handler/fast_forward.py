@@ -218,7 +218,7 @@ class FastForwardHandler(AutoSearchHandler):
         return changed
 
     def _is_map_star_active(self, button):
-        return self.image_color_count(button, color=(250, 232, 140), threshold=180, count=35)
+        return self.image_color_count(button, color=(250, 232, 140), threshold=75, count=35)
 
     def handle_map_fleet_lock(self, enable=None):
         """
@@ -486,7 +486,7 @@ class FastForwardHandler(AutoSearchHandler):
 
             if self.appear(check_button, offset=self._auto_search_menu_offset, interval=3):
                 box_button.load_offset(check_button)
-                enabled = self.image_color_count(box_button.button, color=(156, 255, 82), threshold=221, count=20)
+                enabled = self.image_color_count(box_button.button, color=(156, 255, 82), threshold=30, count=20)
                 if (status == 'on' and enabled) or (status == 'off' and not enabled):
                     return True
                 if (status == 'on' and not enabled) or (status == 'off' and enabled):
@@ -565,7 +565,7 @@ class FastForwardHandler(AutoSearchHandler):
             else:
                 self.device.screenshot()
 
-            if self.image_color_count(MAP_WALK_SPEEDUP, color=(132, 255, 148), threshold=180, count=50):
+            if self.image_color_count(MAP_WALK_SPEEDUP, color=(132, 255, 148), threshold=75, count=50):
                 logger.attr('Walk_Speedup', 'on')
                 return True
             if timeout.reached():

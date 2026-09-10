@@ -32,7 +32,7 @@ class Awaken(Dock):
             # Look down, see if there are red letters
             area = button.button
             area = (area[0], area[3], area[2], area[3] + 60)
-            if self.image_color_count(area, color=(214, 53, 33), threshold=180, count=16):
+            if self.image_color_count(area, color=(214, 53, 33), threshold=75, count=16):
                 return False
             else:
                 return True

@@ -63,7 +63,7 @@ class ResearchUI(UI):
             Button:
         """
         if self.appear(GET_ITEMS_3, offset=(5, 5)):
-            if self.image_color_count(GET_ITEMS_3_CHECK, color=(255, 255, 255), threshold=221, count=100):
+            if self.image_color_count(GET_ITEMS_3_CHECK, color=(255, 255, 255), threshold=30, count=100):
                 return GET_ITEMS_3
             else:
                 return GET_ITEMS_2

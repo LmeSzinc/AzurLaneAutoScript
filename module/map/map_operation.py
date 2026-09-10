@@ -415,14 +415,14 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
         """
         if not self.map_cat_attack_timer.reached():
             return False
-        if self.image_color_count(MAP_CAT_ATTACK, color=(255, 231, 123), threshold=221, count=100):
+        if self.image_color_count(MAP_CAT_ATTACK, color=(255, 231, 123), threshold=30, count=100):
             logger.info('Skip map cat attack')
             self.device.click(MAP_CAT_ATTACK)
             self.map_cat_attack_timer.reset()
             return True
         if not self.map_is_clear_mode:
             # Threat: Med has 106 pixels count, MAP_CAT_ATTACK_MIRROR has 290.
-            if self.image_color_count(MAP_CAT_ATTACK_MIRROR, color=(255, 231, 123), threshold=221, count=200):
+            if self.image_color_count(MAP_CAT_ATTACK_MIRROR, color=(255, 231, 123), threshold=30, count=200):
                 logger.info('Skip map being attack')
                 self.device.click(MAP_CAT_ATTACK)
                 self.map_cat_attack_timer.reset()

@@ -254,7 +254,7 @@ class HospitalClue(HospitalUI):
         search = CLUE_LIST.area
         # Search around if having dark background
         area = (search[0], area[1], search[2], area[3])
-        return self.image_color_count(area, color=(82, 85, 107), threshold=221, count=500)
+        return self.image_color_count(area, color=(82, 85, 107), threshold=30, count=500)
 
     def is_aside_checked(self, button: Button) -> bool:
         area = button.area
@@ -262,7 +262,7 @@ class HospitalClue(HospitalUI):
         # Search if there's any cyan
         # JP has text overflowed, set right to 308
         area = (search[0], area[1], 308, area[3])
-        return self.image_color_count(area, color=(74, 130, 148), threshold=221, count=20)
+        return self.image_color_count(area, color=(74, 130, 148), threshold=30, count=20)
 
     def iter_aside(self):
         """

@@ -105,44 +105,44 @@ class RadarGrid:
                 self.is_siren = True
                 self.enemy_scale = 0
 
-    def image_color_count(self, area, color, threshold=221, count=50):
+    def image_color_count(self, area, color, threshold=30, count=50):
         """
         Args:
             area (tuple): Area relative to center
             color (tuple): RGB.
-            threshold: 255 means colors are the same, the lower the worse.
+            threshold: 0 means colors are the same, the higher the worse.
             count (int): Pixels count.
 
         Returns:
             bool:
         """
         image = crop(self.image, area_offset(area, self.center), copy=False)
-        mask = color_similarity_2d(image, color=color) > threshold
-        return np.sum(mask) >= count
+        mask = color_mask(image, color=color, threshold=threshold)
+        return np.count_nonzero(mask) >= count
 
     def predict_enemy(self):
-        return self.image_color_count(area=(-3, -3, 3, 3), color=(247, 89, 49), threshold=221, count=10)
+        return self.image_color_count(area=(-3, -3, 3, 3), color=(247, 89, 49), threshold=30, count=10)
 
     def predict_resource(self):
-        return self.image_color_count(area=(-3, -3, 3, 3), color=(66, 231, 165), threshold=221, count=10)
+        return self.image_color_count(area=(-3, -3, 3, 3), color=(66, 231, 165), threshold=30, count=10)
 
     def predict_meowfficer(self):
-        return self.image_color_count(area=(-3, 0, 3, 6), color=(33, 186, 255), threshold=221, count=10)
+        return self.image_color_count(area=(-3, 0, 3, 6), color=(33, 186, 255), threshold=30, count=10)
 
     def predict_exclamation(self):
-        return self.image_color_count(area=(-3, -3, 3, 3), color=(255, 203, 49), threshold=221, count=10)
+        return self.image_color_count(area=(-3, -3, 3, 3), color=(255, 203, 49), threshold=30, count=10)
 
     def predict_boss(self):
-        return self.image_color_count(area=(-3, -3, 3, 3), color=(147, 12, 8), threshold=221, count=10)
+        return self.image_color_count(area=(-3, -3, 3, 3), color=(147, 12, 8), threshold=30, count=10)
 
     def predict_port(self):
-        return self.image_color_count(area=(-3, -3, 3, 3), color=(255, 255, 255), threshold=235, count=9)
+        return self.image_color_count(area=(-3, -3, 3, 3), color=(255, 255, 255), threshold=20, count=9)
 
     def predict_question(self):
-        return self.image_color_count(area=(0, -7, 6, 0), color=(255, 255, 255), threshold=235, count=9)
+        return self.image_color_count(area=(0, -7, 6, 0), color=(255, 255, 255), threshold=20, count=9)
 
     def predict_archive(self):
-        return self.image_color_count(area=(-3, -3, 3, 3), color=(173, 113, 255), threshold=235, count=10)
+        return self.image_color_count(area=(-3, -3, 3, 3), color=(173, 113, 255), threshold=20, count=10)
 
 
 class Radar:
