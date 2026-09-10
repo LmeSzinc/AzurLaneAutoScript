@@ -53,14 +53,16 @@ class HuanChangPtOcr(Digit):
         """
         image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         image = cv2.threshold(image, 128, 255, cv2.THRESH_BINARY_INV)[1]
-        count, cc = cv2.connectedComponents(image)
+        count, cc, stats, _ = cv2.connectedComponentsWithStats(image)
         # Calculate connected area, greater than 60 is considered a number,
         # CN, JP background rightmost is connected but EN is not, 
         # EN need judge both [0, -1] and [-1, -1]
-        num_idx = [i for i in range(1, count + 1) if
-                   i != cc[0, -1] and i != cc[-1, -1] and np.count_nonzero(cc == i) > 60]
-        image = ~(np.isin(cc, num_idx) * 255)  # Numbers are white, need invert
-        return image.astype(np.uint8)
+        num_idx = [i for i in range(1, count) if
+                   i != cc[0, -1] and i != cc[-1, -1] and stats[i, cv2.CC_STAT_AREA] > 60]
+        # Numbers are white, need invert, so map number labels to 0 and the rest to 255
+        lut = np.full(count, 255, np.uint8)
+        lut[num_idx] = 0
+        return lut[cc]
 
 
 class BigshotPtOcr(Digit):
@@ -460,3 +462,13 @@ class Raid(MapOperation, RaidCombat, CampaignEvent):
                 self.device.swipe_vector((-900, 0), box=(0, 130, 1280, 440))
                 interval.reset()
                 continue
+
+
+if __name__ == '__main__':
+    from module.config.utils import iter_folder
+    self = Raid('alas5', task='Raid')
+    for file in iter_folder(r'C:\Users\LmeSzinc\Documents\MuMu共享文件夹\Screenshots\raid_20260827\ocr_badcase'):
+        self.image_file = file
+        # ocr = raid_ocr(raid=self.config.Campaign_Event, mode='hard')
+        ocr = pt_ocr(raid=self.config.Campaign_Event)
+        result = ocr.ocr(self.device.image)
