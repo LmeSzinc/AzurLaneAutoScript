@@ -462,13 +462,3 @@ class Raid(MapOperation, RaidCombat, CampaignEvent):
                 self.device.swipe_vector((-900, 0), box=(0, 130, 1280, 440))
                 interval.reset()
                 continue
-
-
-if __name__ == '__main__':
-    from module.config.utils import iter_folder
-    self = Raid('alas5', task='Raid')
-    for file in iter_folder(r'C:\Users\LmeSzinc\Documents\MuMu共享文件夹\Screenshots\raid_20260827\ocr_badcase'):
-        self.image_file = file
-        # ocr = raid_ocr(raid=self.config.Campaign_Event, mode='hard')
-        ocr = pt_ocr(raid=self.config.Campaign_Event)
-        result = ocr.ocr(self.device.image)
