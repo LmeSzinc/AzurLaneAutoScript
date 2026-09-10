@@ -362,12 +362,12 @@ class ModuleBase:
         else:
             return crop(self.device.image, button, copy=copy)
 
-    def image_color_count(self, button, color, threshold=221, count=50):
+    def image_color_count(self, button, color, threshold=30, count=50):
         """
         Args:
             button (Button, tuple): Button instance or area.
             color (tuple): RGB.
-            threshold: 255 means colors are the same, the lower the worse.
+            threshold: 0 means colors are the same, the higher the worse.
             count (int): Pixels count.
 
         Returns:
@@ -377,8 +377,7 @@ class ModuleBase:
             image = button
         else:
             image = self.image_crop(button, copy=False)
-        mask = color_similarity_2d(image, color=color)
-        cv2.inRange(mask, threshold, 255, dst=mask)
+        mask = color_mask(image, color, threshold=threshold)
         sum_ = cv2.countNonZero(mask)
         return sum_ > count
 

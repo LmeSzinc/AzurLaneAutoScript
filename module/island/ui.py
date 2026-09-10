@@ -1,12 +1,13 @@
+from typing import List
+
 import cv2
 import numpy as np
-from typing import List
 
 from module.base.base import ModuleBase
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.base.timer import Timer
-from module.base.utils import area_offset, color_similarity_2d, rgb2luma
+from module.base.utils import area_offset, color_mask, rgb2luma
 from module.combat.assets import GET_ITEMS_1
 from module.island.assets import *
 from module.logger import logger
@@ -278,13 +279,15 @@ class IslandUI(UI):
             return True
         return False
 
-    def is_button_selected(self, button, color=(57, 189, 255), threshold=221, count=100):
+    def is_button_selected(self, button, color=(57, 189, 255), threshold=30, count=100):
         """
         Detects if the button is surrounded by a blue border,
         which indicates that the button is chosen.
 
         Args:
             button (Button, tuple): Button instance or area.
+            color:
+            threshold:
 
         Returns:
             bool: True if the button is chosen, False otherwise.
@@ -293,8 +296,7 @@ class IslandUI(UI):
             image = button
         else:
             image = self.image_crop(button, copy=False)
-        mask = color_similarity_2d(image, color)
-        cv2.inRange(mask, threshold, 255, dst=mask)
+        mask = color_mask(image, color, threshold=threshold)
         mask[2:-2, 2:-2] = 0
         sum_ = cv2.countNonZero(mask)
         return sum_ > count

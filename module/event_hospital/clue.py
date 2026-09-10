@@ -4,7 +4,7 @@ from typing import List, Optional, Tuple
 import cv2
 import numpy as np
 
-from module.base.utils import area_offset, color_similarity_2d, image_size, rgb2gray, xywh2xyxy
+from module.base.utils import area_offset, color_mask, image_size, rgb2gray, xywh2xyxy
 from module.event_hospital.assets import *
 from module.event_hospital.ui import HospitalUI
 from module.logger import logger
@@ -59,11 +59,9 @@ class HospitalClue(HospitalUI):
         image = self.image_crop(area, copy=False)
 
         # Mask for gray letters
-        gray = color_similarity_2d(image, color=(132, 134, 148))
-        cv2.inRange(gray, 215, 255, dst=gray)
+        gray = color_mask(image, color=(132, 134, 148), threshold=40)
         # Mask for selected aside (white letters)
-        white = color_similarity_2d(image, color=(255, 255, 255))
-        cv2.inRange(white, 215, 255, dst=white)
+        white = color_mask(image, color=(255, 255, 255), threshold=40)
         # Clear gray mask around white pixels
         kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (200, 20))
         white_expanded = cv2.dilate(white, kernel)

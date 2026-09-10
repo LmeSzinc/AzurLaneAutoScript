@@ -3,7 +3,7 @@ import numpy as np
 
 import module.config.server as server
 from module.base.timer import Timer
-from module.base.utils import color_similarity_2d, image_size
+from module.base.utils import color_mask, image_size
 from module.campaign.campaign_event import CampaignEvent
 from module.combat.assets import *
 from module.exception import ScriptError
@@ -69,8 +69,7 @@ class BigshotPtOcr(Digit):
         remove white background at upper-left and bottom-left
         """
         # create white background mask
-        mask = color_similarity_2d(image, (240, 252, 233))
-        cv2.inRange(mask, 180, 255, dst=mask)
+        mask = color_mask(image, (240, 252, 233), threshold=75)
         # flood-fill upper-left and bottom-left to 128
         width, height = image_size(image)
         fill_color = 128

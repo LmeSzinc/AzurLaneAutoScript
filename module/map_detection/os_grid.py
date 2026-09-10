@@ -283,7 +283,7 @@ class OSGridPredictor(GridPredictor):
     def predict_caught_by_siren(self):
         # Detect the red slash background of `In action`.
         return self.relative_rgb_count(
-            area=(-1, -0.5, 0, 0.5), color=(255, 109, 91), shape=(50, 50), threshold=221) > 120
+            area=(-1, -0.5, 0, 0.5), color=(255, 109, 91), shape=(50, 50), threshold=30) > 120
 
     def predict_fleet_mechanism(self):
         # Get the upper border
