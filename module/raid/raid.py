@@ -3,7 +3,7 @@ import numpy as np
 
 import module.config.server as server
 from module.base.timer import Timer
-from module.base.utils import color_similarity_2d, image_size
+from module.base.utils import color_mask, image_size
 from module.campaign.campaign_event import CampaignEvent
 from module.combat.assets import *
 from module.exception import ScriptError
@@ -53,14 +53,16 @@ class HuanChangPtOcr(Digit):
         """
         image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         image = cv2.threshold(image, 128, 255, cv2.THRESH_BINARY_INV)[1]
-        count, cc = cv2.connectedComponents(image)
+        count, cc, stats, _ = cv2.connectedComponentsWithStats(image)
         # Calculate connected area, greater than 60 is considered a number,
         # CN, JP background rightmost is connected but EN is not, 
         # EN need judge both [0, -1] and [-1, -1]
-        num_idx = [i for i in range(1, count + 1) if
-                   i != cc[0, -1] and i != cc[-1, -1] and np.count_nonzero(cc == i) > 60]
-        image = ~(np.isin(cc, num_idx) * 255)  # Numbers are white, need invert
-        return image.astype(np.uint8)
+        num_idx = [i for i in range(1, count) if
+                   i != cc[0, -1] and i != cc[-1, -1] and stats[i, cv2.CC_STAT_AREA] > 60]
+        # Numbers are white, need invert, so map number labels to 0 and the rest to 255
+        lut = np.full(count, 255, np.uint8)
+        lut[num_idx] = 0
+        return lut[cc]
 
 
 class BigshotPtOcr(Digit):
@@ -69,8 +71,7 @@ class BigshotPtOcr(Digit):
         remove white background at upper-left and bottom-left
         """
         # create white background mask
-        mask = color_similarity_2d(image, (240, 252, 233))
-        cv2.inRange(mask, 180, 255, dst=mask)
+        mask = color_mask(image, (240, 252, 233), threshold=75)
         # flood-fill upper-left and bottom-left to 128
         width, height = image_size(image)
         fill_color = 128

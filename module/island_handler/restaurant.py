@@ -6,9 +6,9 @@ from yaml import safe_load
 
 import module.config.server as server
 from module.base.button import ButtonGrid
-from module.base.decorator import cached_property, del_cached_property
+from module.base.decorator import cached_property
 from module.base.timer import Timer
-from module.base.utils import color_similar, color_similarity_2d, load_image
+from module.base.utils import color_mask, color_similar
 from module.config.utils import get_server_next_update
 from module.island.assets import ISLAND_CLICK_SAFE_AREA
 from module.island.data import DIC_ISLAND_ITEM, DIC_ISLAND_RESTAURANT_MENU_TO_RECIPE
@@ -21,7 +21,6 @@ from module.island.utils import (
 )
 from module.island_handler.assets import *
 from module.island_handler.dock import IslandDock
-from module.island_handler.dock_scanner import CharacterScanner
 from module.island_handler.restaurant_config import (
     RESTAURANT_IDS,
     WAITRESS_ANY,
@@ -30,14 +29,11 @@ from module.island_handler.restaurant_config import (
     get_restaurant_capacity,
     get_restaurant_config,
     get_selected_named_waitresses,
-    get_waitress_effect,
     get_waitress_slots,
 )
 from module.logger import logger
 from module.ocr.ocr import Digit
 from module.statistics.item import Item, ItemGrid
-from module.statistics.utils import load_folder
-
 
 RESTAURANT_SWIPE_AREA = (583, 208, 1023, 400)
 ISLAND_RESTAURANT_ITEM_ORDER_PRICE = {
@@ -58,9 +54,10 @@ class RestaurantItem(Item):
     IMAGE_SHAPE = (83, 87)
 
     def predict_valid(self):
-        mask = color_similarity_2d(self.image, (207, 209, 211))
-        cv2.inRange(mask, 0, 201, dst=mask)
-        sum_ = np.count_nonzero(mask)
+        # Mask pixels that are not similar to the background
+        mask = color_mask(self.image, (207, 209, 211), threshold=50)
+        cv2.bitwise_not(mask, dst=mask)
+        sum_ = cv2.countNonZero(mask)
         return sum_ > 400
 
 

@@ -110,7 +110,7 @@ class LoginHandler(UI):
 
         right = self.image_color_button(
             area=(640, 360, 1280, 720), color=(78, 189, 234),
-            color_threshold=245, encourage=25, name='AGREEMENT_CONFIRM')
+            threshold=10, encourage=25, name='AGREEMENT_CONFIRM')
         if right is None:
             return False
         # 2026.04.17 No scroll anymore, just bare swipe before clicking confirm
@@ -118,7 +118,7 @@ class LoginHandler(UI):
         # if having both, it's a blue button at middle confirming login
         left = self.image_color_button(
             area=(0, 360, 640, 720), color=(78, 189, 234),
-            color_threshold=245, encourage=25, name='AGREEMENT_CONFIRM')
+            threshold=10, encourage=25, name='AGREEMENT_CONFIRM')
         if left is None:
             # User agreement
             # just somewhere at the middle

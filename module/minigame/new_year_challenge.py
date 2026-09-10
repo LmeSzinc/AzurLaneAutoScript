@@ -157,7 +157,7 @@ class NewYearChallenge(MinigameRun):
         # judge to click
         for to_judge in self.NEW_YEAR_BATTLE_TMP_BUTTON:
             for color, button in self.NEW_YEAR_BATTLE_COLOR_BUTTON_DICT.items():
-                if self.image_color_count(to_judge, color, threshold=221, count=10):
+                if self.image_color_count(to_judge, color, threshold=30, count=10):
                     to_clicks.append(button)
                     break
         logger.info(f"to clicks: {to_clicks}")

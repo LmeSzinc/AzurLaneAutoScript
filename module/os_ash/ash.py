@@ -92,13 +92,13 @@ class OSAsh(UI, MapEventHandler):
         """
         if self._ash_fully_collected:
             return 0
-        if self.image_color_count(ASH_COLLECT_STATUS, color=(235, 235, 235), threshold=221, count=20):
+        if self.image_color_count(ASH_COLLECT_STATUS, color=(235, 235, 235), threshold=30, count=20):
             logger.info('Ash beacon status: light')
             ocr_collect = DigitCounter(
                 ASH_COLLECT_STATUS, letter=(235, 235, 235), threshold=160, name='OCR_ASH_COLLECT_STATUS')
             ocr_daily = DailyDigitCounter(
                 ASH_DAILY_STATUS, letter=(235, 235, 235), threshold=160, name='OCR_ASH_DAILY_STATUS')
-        elif self.image_color_count(ASH_COLLECT_STATUS, color=(140, 142, 140), threshold=221, count=20):
+        elif self.image_color_count(ASH_COLLECT_STATUS, color=(140, 142, 140), threshold=30, count=20):
             logger.info('Ash beacon status: gray')
             ocr_collect = DigitCounter(
                 ASH_COLLECT_STATUS, letter=(140, 142, 140), threshold=160, name='OCR_ASH_COLLECT_STATUS')

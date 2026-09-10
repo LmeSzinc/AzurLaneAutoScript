@@ -1066,6 +1066,74 @@ def color_similarity_2d(image, color):
     return positive
 
 
+def color_mask(image, color, threshold=30):
+    """
+    Create a binary mask for the pixels similar to color.
+
+    result = 255 if diff <= threshold else 0
+    where diff = sat_add(max_c(sat_sub(image - c)), max_c(sat_sub(c - image))),
+    c = (r, g, b), sat_sub/sat_add are uint8 saturating ops,
+    max_c takes the per-pixel maximum across channels.
+    The tolerance is the same as color_similar().
+
+    Args:
+        image: Shape (height, width, channel)
+        color: (r, g, b)
+        threshold (int): Default to 30. Pixels with a tolerance lesser or
+            equal to threshold are matched.
+
+    Returns:
+        np.ndarray: Shape (height, width), uint8, 255 for matched pixels
+            and 0 for the rest.
+    """
+    # r, g, b = cv2.split(cv2.subtract(image, (*color, 0)))
+    # positive = cv2.max(cv2.max(r, g), b)
+    # r, g, b = cv2.split(cv2.subtract((*color, 0), image))
+    # negative = cv2.max(cv2.max(r, g), b)
+    # diff = cv2.add(positive, negative)
+    # return cv2.inRange(cv2.bitwise_not(diff), 255 - threshold, 255)
+    h, w = image.shape[:2]
+    if h * w < 30000:
+        # The 3-channel path is faster on tiny images where per-call
+        # overhead dominates
+        diff = cv2.subtract(image, (*color, 0))
+        r, g, b = cv2.split(diff)
+        cv2.max(r, g, dst=r)
+        cv2.max(r, b, dst=r)
+        positive = r
+        cv2.subtract((*color, 0), image, dst=diff)
+        r, g, b = cv2.split(diff)
+        cv2.max(r, g, dst=r)
+        cv2.max(r, b, dst=r)
+        negative = r
+        cv2.add(positive, negative, dst=positive)
+        # diff is always non-negative, so 255 where diff <= threshold is
+        # equivalent to inRange(255 - diff, 255 - threshold, 255) and skips
+        # the intermediate bitwise_not in color_similarity_2d
+        cv2.threshold(positive, threshold, 255, cv2.THRESH_BINARY_INV, dst=positive)
+        return positive
+    # Per-channel subtract with buffer reuse wins on larger images
+    r, g, b = cv2.split(image)
+    cr, cg, cb = color
+    positive = cv2.subtract(r, cr)
+    cv2.subtract(cr, r, dst=r)
+    negative = r
+    diff = cv2.subtract(g, cg)
+    cv2.max(positive, diff, dst=positive)
+    cv2.subtract(cg, g, dst=diff)
+    cv2.max(negative, diff, dst=negative)
+    cv2.subtract(b, cb, dst=diff)
+    cv2.max(positive, diff, dst=positive)
+    cv2.subtract(cb, b, dst=diff)
+    cv2.max(negative, diff, dst=negative)
+    cv2.add(positive, negative, dst=positive)
+    # diff is always non-negative, so 255 where diff <= threshold is
+    # equivalent to inRange(255 - diff, 255 - threshold, 255) and skips
+    # the intermediate bitwise_not in color_similarity_2d
+    cv2.threshold(positive, threshold, 255, cv2.THRESH_BINARY_INV, dst=positive)
+    return positive
+
+
 def extract_letters(image, letter=(255, 255, 255), threshold=128):
     """Set letter color to black, set background color to white.
 

@@ -3,7 +3,7 @@ import cv2
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property
 from module.base.timer import Timer
-from module.base.utils import color_similarity_2d, crop
+from module.base.utils import color_mask, crop
 from module.combat.assets import GET_SHIP, GET_ITEMS_1, GET_ITEMS_3
 from module.logger import logger
 from module.map_detection.utils import Points
@@ -28,8 +28,8 @@ class EventShopClerk(EventShopUI):
     urpt_image = None
 
     def _get_event_shop_grid(self):
-        mask = color_similarity_2d(self.device.image, PRICE_BACKGROUND_COLOR)
-        cv2.inRange(mask, PRICE_THRESHOLD, 255, dst=mask)
+        # PRICE_THRESHOLD is a color similarity, color_mask takes a color tolerance
+        mask = color_mask(self.device.image, PRICE_BACKGROUND_COLOR, threshold=255 - PRICE_THRESHOLD)
         kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
         mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel, iterations=8)
         mask = crop(mask,

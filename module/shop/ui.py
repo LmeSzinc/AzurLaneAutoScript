@@ -87,13 +87,13 @@ class ShopUI(UI):
             # SHOP_REFRESH is refresh icon with surrounded background
             if self.appear(SHOP_REFRESH_CHECK, offset=(30, 30), interval=3):
                 # SHOP_REFRESH has two kinds of color when active
-                if self.image_color_count(SHOP_REFRESH.button, color=(49, 142, 207), threshold=221, count=50):
+                if self.image_color_count(SHOP_REFRESH.button, color=(49, 142, 207), threshold=30, count=50):
                     self.device.click(SHOP_REFRESH)
                     continue
-                if self.image_color_count(SHOP_REFRESH.button, color=(54, 117, 161), threshold=221, count=50):
+                if self.image_color_count(SHOP_REFRESH.button, color=(54, 117, 161), threshold=30, count=50):
                     self.device.click(SHOP_REFRESH)
                     continue
-                if self.image_color_count(SHOP_REFRESH.button, color=(52, 74, 94), threshold=221, count=50):
+                if self.image_color_count(SHOP_REFRESH.button, color=(52, 74, 94), threshold=30, count=50):
                     logger.info('Refresh not available')
                     break
                 # no `continue`, act like SHOP_REFRESH not matched
