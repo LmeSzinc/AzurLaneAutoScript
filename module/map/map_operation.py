@@ -283,7 +283,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
             return True
 
         if mode == 'normal':
-            if self.match_template_color(MAP_MODE_SWITCH_NORMAL, offset=(-20, -20, 80, 20)):
+            if self.match_template_color(MAP_MODE_SWITCH_NORMAL, offset=(20, 20)):
                 logger.attr('MAP_MODE_SWITCH', 'normal')
                 return True
             if self._is_mod_switch_hard_appear(active=False, interval=2):
@@ -296,7 +296,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
             if self._is_mod_switch_hard_appear(active=True):
                 logger.attr('MAP_MODE_SWITCH', 'hard')
                 return True
-            if self.match_template_color(MAP_MODE_SWITCH_NORMAL, offset=(-20, -20, 80, 20), interval=2):
+            if self.match_template_color(MAP_MODE_SWITCH_NORMAL, offset=(20, 20), interval=2):
                 logger.attr('MAP_MODE_SWITCH', 'normal')
                 MAP_MODE_SWITCH_HARD.clear_offset()
                 self.device.click(MAP_MODE_SWITCH_HARD)
@@ -320,7 +320,7 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
             MAP_MODE_SWITCH_HARD5,
             MAP_MODE_SWITCH_HARD6,
         ]:
-            if self.appear(button, offset=(-20, -20, 80, 20), similarity=0.7):
+            if self.appear(button, offset=(20, 20), similarity=0.7):
                 if active:
                     return self._is_mod_switch_hard_active(button)
                 else:
