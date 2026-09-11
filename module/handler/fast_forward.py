@@ -36,11 +36,17 @@ CLEAR_MODE.add_state('off', check_button=CLEAR_MODE_TITLE, click_button=CLEAR_MO
 
 class SwitchAutoSearch(Switch):
     def get(self, main):
-        title = main.appear(AUTO_SEARCH_TITLE, offset=(20, 20))
+        title = None
+        if main.appear(AUTO_SEARCH_TITLE, offset=(20, 20)):
+            title = AUTO_SEARCH_TITLE
+        # [JP] has different character spacing in hard mode and normal mode
+        if not title:
+            if main.appear(AUTO_SEARCH_TITLE2, offset=(20, 20)):
+                title = AUTO_SEARCH_TITLE2
         if not title:
             return 'unknown'
         # find check area to the right of title
-        AUTO_SEARCH_CHECK.load_offset(AUTO_SEARCH_TITLE)
+        AUTO_SEARCH_CHECK.load_offset(title)
         # green square is `on`
         if main.image_color_count(AUTO_SEARCH_CHECK.button, color=(158, 234, 94), threshold=30, count=50):
             return 'on'
