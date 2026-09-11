@@ -3,6 +3,41 @@ from module.os.map import OSMap
 
 
 class OpsiHazard1Leveling(OSMap):
+
+    def clear_question(self, drop=None):
+        """
+        Clear a nearby question mark using any available fleet.
+
+        In rare cases, strategic search may leave the configured CL1 fleet too
+        far from Akashi (Issue #5656). The cause is unclear, but another fleet
+        may be closer to Akashi. Switch through the other fleets until one can
+        detect the question mark. For instance:
+        """
+        
+        primary = self.config.OpsiFleet_Fleet
+        fleets = [primary] + [
+            fleet for fleet in [1, 2, 3, 4]
+            if fleet != primary
+        ]
+
+        for fleet in fleets:
+            self.fleet_set(fleet)
+            self.device.screenshot()
+
+            grid = self.radar.predict_question(
+                self.device.image,
+                in_port=self.zone.is_port,
+            )
+
+            if grid is None:
+                logger.info(f'No nearby question mark for fleet {fleet}')
+                continue
+
+            logger.info(f'Found nearby question mark using fleet {fleet}')
+            return super().clear_question(drop=drop)
+
+        return False
+
     def os_hazard1_leveling(self):
         logger.hr('OS hazard 1 leveling', level=1)
         # Without these enabled, CL1 gains 0 profits
