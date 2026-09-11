@@ -185,7 +185,6 @@ class ModelProxyFactory:
 def start_ocr_server(port=22268):
     import zerorpc
     import zmq
-    from module.ocr.al_ocr import AlOcr
     from module.ocr.models import OcrModel
 
     class OCRServer(OcrModel):
@@ -194,42 +193,38 @@ def start_ocr_server(port=22268):
 
         def ocr(self, lang, img_fp):
             img_fp = pickle.loads(img_fp)
-            cnocr: AlOcr = self.__getattribute__(lang)
-            return cnocr.ocr(img_fp)
-
+            model = self.__getattribute__(lang)
+            return model.ocr(img_fp)
         def ocr_for_single_line(self, lang, img_fp):
             img_fp = pickle.loads(img_fp)
-            cnocr: AlOcr = self.__getattribute__(lang)
-            return cnocr.ocr_for_single_line(img_fp)
+            model = self.__getattribute__(lang)
+            return model.ocr_for_single_line(img_fp)
 
         def ocr_for_single_lines(self, lang, img_list):
             img_list = [pickle.loads(img_fp) for img_fp in img_list]
-            cnocr: AlOcr = self.__getattribute__(lang)
-            return cnocr.ocr_for_single_lines(img_list)
-
+            model = self.__getattribute__(lang)
+            return model.ocr_for_single_lines(img_list)
         def set_cand_alphabet(self, lang, cand_alphabet):
-            cnocr: AlOcr = self.__getattribute__(lang)
-            return cnocr.set_cand_alphabet(cand_alphabet)
+            model = self.__getattribute__(lang)
+            return model.set_cand_alphabet(cand_alphabet)
 
         def atomic_ocr(self, lang, img_fp, cand_alphabet):
             img_fp = pickle.loads(img_fp)
-            cnocr: AlOcr = self.__getattribute__(lang)
-            return cnocr.atomic_ocr(img_fp, cand_alphabet)
-
+            model = self.__getattribute__(lang)
+            return model.atomic_ocr(img_fp, cand_alphabet)
         def atomic_ocr_for_single_line(self, lang, img_fp, cand_alphabet):
             img_fp = pickle.loads(img_fp)
-            cnocr: AlOcr = self.__getattribute__(lang)
-            return cnocr.atomic_ocr_for_single_line(img_fp, cand_alphabet)
-
+            model = self.__getattribute__(lang)
+            return model.atomic_ocr_for_single_line(img_fp, cand_alphabet)
         def atomic_ocr_for_single_lines(self, lang, img_list, cand_alphabet):
             img_list = [pickle.loads(img_fp) for img_fp in img_list]
-            cnocr: AlOcr = self.__getattribute__(lang)
-            return cnocr.atomic_ocr_for_single_lines(img_list, cand_alphabet)
+            model = self.__getattribute__(lang)
+            return model.atomic_ocr_for_single_lines(img_list, cand_alphabet)
 
         def debug(self, lang, img_list):
             img_list = [pickle.loads(img_fp) for img_fp in img_list]
-            cnocr: AlOcr = self.__getattribute__(lang)
-            return cnocr.debug(img_list)
+            model = self.__getattribute__(lang)
+            return model.debug(img_list)
 
     server = zerorpc.Server(OCRServer())
     try:
