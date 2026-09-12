@@ -65,7 +65,11 @@ class AzurLaneAutoScript:
     def run(self, command, skip_first_screenshot=False):
         try:
             if not skip_first_screenshot:
-                self.device.screenshot()
+                try:
+                    self.device.screenshot()
+                except GameNotRunningError:
+                    if command not in ['start', 'restart']:
+                        raise
             self.__getattribute__(command)()
             return True
         except TaskEnd:
@@ -493,6 +497,7 @@ class AzurLaneAutoScript:
         """
         Returns:
             str: Name of the next task.
+            None: If an idle action failed while error handling is disabled.
         """
         while 1:
             task = self.config.get_next()
@@ -521,7 +526,14 @@ class AzurLaneAutoScript:
                         continue
                 elif method == 'goto_main':
                     logger.info('Goto main page during wait')
-                    self.run('goto_main')
+                    if not self.run('goto_main'):
+                        if self.config.Error_HandleError:
+                            # Recovery tasks must bypass the idle queue's hoarding delay.
+                            AzurLaneConfig.is_hoarding_task = False
+                            del_cached_property(self, 'config')
+                            continue
+                        task = None
+                        break
                     release_resources()
                     self.device.release_during_wait()
                     if not self.wait_until(task.next_run):
@@ -544,7 +556,7 @@ class AzurLaneAutoScript:
             break
 
         AzurLaneConfig.is_hoarding_task = False
-        return task.command
+        return task.command if task is not None else None
 
     def loop(self):
         logger.set_file_logger(self.config_name)
@@ -569,6 +581,8 @@ class AzurLaneAutoScript:
                 self.config.task_call('Restart')
             # Get task
             task = self.get_next_task()
+            if task is None:
+                break
             # Init device and change server
             _ = self.device
             self.device.config = self.config

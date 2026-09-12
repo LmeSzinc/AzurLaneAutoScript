@@ -18,6 +18,7 @@ from module.config.deep import deep_get
 from module.config.server import VALID_CHANNEL_PACKAGE, VALID_PACKAGE, set_server
 from module.device.connection_attr import ConnectionAttr
 from module.device.env import IS_LINUX, IS_MACINTOSH, IS_WINDOWS
+from module.device.method.playcover import playcover_empty_hierarchy
 from module.device.method.pool import WORKER_POOL
 from module.device.method.remove_warning import remove_shell_warning
 from module.device.method.utils import (PackageNotInstalled, RETRY_TRIES, get_serial_pair, handle_adb_error,
@@ -114,6 +115,18 @@ class Connection(ConnectionAttr):
             config (AzurLaneConfig, str): Name of the user config under ./config
         """
         super().__init__(config)
+        if self.is_playcover:
+            logger.attr('AdbDevice', 'PlayCover MaaTools')
+            self.package = self.config.Emulator_PackageName
+            if self.package == 'auto':
+                self.detect_package()
+            else:
+                set_server(self.package)
+            logger.attr('PackageName', self.package)
+            logger.attr('Server', self.config.SERVER)
+            self.hierarchy = playcover_empty_hierarchy()
+            return
+
         if not self.is_over_http:
             self.detect_device()
 
@@ -1191,6 +1204,9 @@ class Connection(ConnectionAttr):
         Find all packages on device.
         Use dumpsys first for faster.
         """
+        if self.is_playcover:
+            return self.list_package_playcover(show_log=show_log)
+
         # 80ms
         if show_log:
             logger.info('Get package list')
