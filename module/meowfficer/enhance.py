@@ -65,7 +65,7 @@ class MeowfficerEnhance(MeowfficerBase):
                 click_timer.reset()
                 continue
 
-            if self.image_color_count(MEOWFFICER_SELECT_GRID[x, y], color=(255, 255, 255), threshold=246, count=100):
+            if self.image_color_count(MEOWFFICER_SELECT_GRID[x, y], color=(255, 255, 255), threshold=9, count=100):
                 break
 
             if click_timer.reached():
@@ -114,12 +114,12 @@ class MeowfficerEnhance(MeowfficerBase):
                 break
 
             # Exit if button is empty slot
-            if self.image_color_count(button, color=(231, 223, 221), threshold=235, count=450):
+            if self.image_color_count(button, color=(231, 223, 221), threshold=20, count=450):
                 break
 
             # Continue onto next if button
             # already selected (green check mark)
-            if self.image_color_count(button, color=(95, 229, 108), threshold=221, count=150):
+            if self.image_color_count(button, color=(95, 229, 108), threshold=30, count=150):
                 continue
 
             # Continue onto next If the target Meowfficer's level

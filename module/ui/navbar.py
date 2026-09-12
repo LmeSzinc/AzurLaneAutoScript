@@ -7,8 +7,8 @@ from module.shop.assets import SHOP_CLICK_SAFE_AREA
 
 
 class Navbar:
-    def __init__(self, grids, active_color=(247, 251, 181), inactive_color=(140, 162, 181), active_threshold=180,
-                 inactive_threshold=180, active_count=100, inactive_count=50, name=None):
+    def __init__(self, grids, active_color=(247, 251, 181), inactive_color=(140, 162, 181), active_threshold=75,
+                 inactive_threshold=75, active_count=100, inactive_count=50, name=None):
         """
         Args:
             grids (ButtonGrid):

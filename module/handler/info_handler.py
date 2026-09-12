@@ -206,7 +206,7 @@ class InfoHandler(ModuleBase):
             # enable USE_DATA_KEY_NOTIFIED
             for _ in self.loop():
                 enabled = self.image_color_count(
-                    USE_DATA_KEY_NOTIFIED, color=(140, 207, 66), threshold=180, count=10)
+                    USE_DATA_KEY_NOTIFIED, color=(140, 207, 66), threshold=75, count=10)
                 if enabled:
                     break
                 if self.appear(USE_DATA_KEY, offset=(20, 20), interval=5):
@@ -525,15 +525,15 @@ class InfoHandler(ModuleBase):
             bool: If handled
         """
         if self.appear(GAME_TIPS, offset=(20, 20), interval=2) and self.image_color_count(
-                GAME_TIPS.button, color=(40, 40, 40), threshold=240, count=50):
+                GAME_TIPS.button, color=(40, 40, 40), threshold=15, count=50):
             self.device.click(GAME_TIPS)
             return True
         if self.appear(GAME_TIPS3, offset=(20, 20), interval=2) and self.image_color_count(
-                GAME_TIPS3.button, color=(40, 40, 40), threshold=240, count=50):
+                GAME_TIPS3.button, color=(40, 40, 40), threshold=15, count=50):
             self.device.click(GAME_TIPS)
             return True
         if self.appear(GAME_TIPS4, offset=(20, 20), interval=2) and self.image_color_count(
-                GAME_TIPS4.button, color=(40, 40, 40), threshold=240, count=50):
+                GAME_TIPS4.button, color=(40, 40, 40), threshold=15, count=50):
             self.device.click(GAME_TIPS)
             return True
 

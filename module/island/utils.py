@@ -84,10 +84,6 @@ def load_item_mapping(yaml_text=None, config_name='Items'):
     return items
 
 
-def load_reserve_items(reserve_items_yaml=None):
-    return load_item_mapping(reserve_items_yaml, config_name='ReserveItems')
-
-
 def load_hard_floor_items(hard_floor_items_yaml=None):
     return load_item_mapping(hard_floor_items_yaml, config_name='HardFloorItems')
 
@@ -139,10 +135,6 @@ def normalize_item_needs(items=None, default_period=1):
         item_id: build_item_need_data(item_requirements)
         for item_id, item_requirements in requirements.items()
     }
-
-
-def normalize_reserve_items(reserve_items=None):
-    return normalize_item_needs(reserve_items, default_period=1)
 
 
 def merge_item_needs(*item_needs):
@@ -270,13 +262,6 @@ def parse_item_need_deadlines(item_need, default_period=1):
     return [(total_need_count, period)]
 
 
-def merge_task_target_reserve_items(reserve_items, task_target_items):
-    return merge_item_needs(
-        normalize_item_needs(reserve_items),
-        normalize_item_needs(task_target_items, default_period=10),
-    )
-
-
 def get_stuck_season_order_requirements(stuck_order_id):
     stuck_order_id = normalize_stuck_season_order_id(stuck_order_id)
     if not stuck_order_id:
@@ -336,6 +321,19 @@ def get_target_stock_load_rate(stock, reserve, target_deadlines):
 def get_production_target_stock(hard_floor, reserve, daily_buffer):
     """Return the recipe replenishment target, including the soft daily buffer."""
     return max(hard_floor, 0) + max(reserve, 0) + max(daily_buffer, 0)
+
+
+def get_idle_accumulating_batch_count(workload, quantum_hours):
+    """Batch count for one idle_accumulating dispatch.
+
+    Idle accumulation is filler work, so one dispatch commits at most about
+    `quantum_hours` of workload (but always at least one batch), letting
+    normal replenishment preempt the slot sooner than a full production
+    queue would. Workload is in game units, 36000 per hour.
+    """
+    if workload <= 0:
+        return 1
+    return max(int(quantum_hours * 36000 // workload), 1)
 
 
 def get_order_effective_stock(stock, hard_floor, reserve=0, priority=False):

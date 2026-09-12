@@ -40,7 +40,9 @@ class EnemySearchingHandler(InfoHandler):
             else:
                 return False
         else:
-            if self.appear(MAP_PREPARATION, offset=(20, 20)) or self.appear(FLEET_PREPARATION, offset=(20, 50)):
+            if self.appear(MAP_PREPARATION, offset=(20, 20)) \
+                    or self.appear(MAP_PREPARATION_HARD, offset=(20, 20)) \
+                    or self.appear(FLEET_PREPARATION, offset=(20, 50)):
                 self.device.click(MAP_PREPARATION_CANCEL)
             self.in_stage_timer.reset()
             return False

@@ -569,6 +569,7 @@ MedalShop2:
     option: [ general, gun, torpedo, antiair, plane ]
 MeritShop:
   Refresh: false
+  BuyUnobtainedShip: false
   Filter: |-
     Cube
 CoreShop:
@@ -775,11 +776,11 @@ IslandProduction:
     type: textarea
     value: |-
       {}
-  ReserveItems:
+  DailyBufferItems:
     type: textarea
     value: |-
       {}
-  DailyBufferItems:
+  ManualBufferItems:
     type: textarea
     value: |-
       {}

@@ -8,6 +8,7 @@ migration code alike.
 from collections import OrderedDict
 
 from module.exception import RequestHumanTakeover
+from module.island.utils import ceil_with_epsilon, load_item_mapping, normalize_item_keys
 
 
 WAITRESS_NONE = 'none'
@@ -179,6 +180,50 @@ def get_waitress_effect(restaurant_id, slots):
         capacity_delta += capacity
         sales_bonus += sales
     return capacity_delta, sales_bonus
+
+
+def get_initial_capacity_from_grade(grade):
+    if grade == 'bronze':
+        return 5
+    elif grade in ['silver', 'gold', 'diamond']:
+        return 6
+    else:
+        raise ValueError(f"Invalid grade: {grade}")
+
+
+def get_restaurant_capacity(config, restaurant_id):
+    config_data = get_restaurant_config(restaurant_id)
+    grade = config.cross_get(get_config_key(restaurant_id, config_data['grade_key']))
+    slots = get_waitress_slots(config, restaurant_id)
+    capacity_delta, _ = get_waitress_effect(restaurant_id, slots)
+    return get_initial_capacity_from_grade(grade) + capacity_delta
+
+
+def get_menu_reserve_items(config):
+    """Item protection derived from the saved restaurant menus.
+
+    The menus are the single source of restaurant demand: each menu dish
+    reserves a full shelf-capacity tranche, because the restaurant only lists
+    a dish once a whole tranche is in stock and sells it all at once. This
+    keeps regular orders and production ingredient consumption from eating
+    the stock being accumulated for the next restock, and makes production
+    replenish up to a sellable amount even for dishes whose planned daily
+    sale rate is below capacity.
+    """
+    reserve = {}
+    for restaurant_id in RESTAURANT_IDS:
+        config_data = get_restaurant_config(restaurant_id)
+        menu = normalize_item_keys(load_item_mapping(
+            config.cross_get(get_config_key(restaurant_id, config_data['menu_key']), default='{}'),
+            config_name=config_data['menu_key'],
+        ))
+        if not menu:
+            continue
+        capacity = get_restaurant_capacity(config, restaurant_id)
+        for item_id, amount in menu.items():
+            if ceil_with_epsilon(amount) > 0:
+                reserve[item_id] = reserve.get(item_id, 0) + capacity
+    return reserve
 
 
 def legacy_waitress_to_slots(value, restaurant_id):

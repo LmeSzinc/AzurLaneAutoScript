@@ -1,7 +1,6 @@
 import os
-import shlex
 import sys
-from subprocess import PIPE, STDOUT, Popen, TimeoutExpired
+from subprocess import PIPE, STDOUT, Popen
 from threading import Thread
 
 

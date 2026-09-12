@@ -51,6 +51,15 @@ class CounterOcr(Ocr):
         result = super().after_process(result)
         result = result.replace('I', '1').replace('D', '0').replace('S', '5')
         result = result.replace('B', '8')
+        # fixup result like "55" -> "5/5", "2530" -> "25/30"
+        if result.isdigit():
+            for total in [100, 50, 30, 40, 20, 10, 5, 4, 2, 1]:
+                total_str = f'{total}'
+                total_sep = f'/{total}'
+                # Do not add a slash when the result is exactly the total,
+                # e.g. "50" stays "50" instead of becoming "/50"
+                if result.endswith(total_str) and result != total_str and not result.endswith(total_sep):
+                    result = result[:-len(total_str)] + total_sep
         return result
 
     def ocr(self, image, direct_ocr=False):

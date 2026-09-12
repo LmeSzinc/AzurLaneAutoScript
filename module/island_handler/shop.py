@@ -132,7 +132,7 @@ class IslandShop(IslandShopUI):
                 middle = 10*(q + 1) + 1
             return middle
 
-        if server.server == 'cn':
+        if server.server in ['cn', 'tw']:
             lang = 'cnocr'
         else:
             lang = 'azur_lane'
@@ -187,8 +187,8 @@ class IslandShop(IslandShopUI):
             ),
             active_color=(249, 181, 76),
             inactive_color=(235, 235, 235),
-            active_threshold=221,
-            inactive_threshold=240,
+            active_threshold=30,
+            inactive_threshold=15,
             active_count=5000,
             inactive_count=5000,
             name="island_shop_tab",

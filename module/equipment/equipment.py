@@ -120,8 +120,8 @@ class Equipment(EquipmentCodeHandler):
             origin=(21, 118), delta=(0, 94.5), button_shape=(60, 75), grid_shape=(1, 5), name='SHIP_SIDE_NAVBAR')
 
         return Navbar(grids=ship_side_navbar,
-                      active_color=(247, 255, 173), active_threshold=221,
-                      inactive_color=(140, 162, 181), inactive_threshold=221)
+                      active_color=(247, 255, 173), active_threshold=30,
+                      inactive_color=(140, 162, 181), inactive_threshold=30)
 
     def ship_side_navbar_ensure(self, upper=None, bottom=None):
         """

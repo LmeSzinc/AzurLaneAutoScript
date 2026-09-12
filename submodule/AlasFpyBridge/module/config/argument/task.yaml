@@ -29,6 +29,7 @@ FpyFarm:
       - FpyApple
       - FpyLimit
       - FpyInterval
+      - FpyParam
 
 # ==================== FpyDaily ====================
 
@@ -38,6 +39,23 @@ FpyDaily:
   tasks:
     FpyDailyFpSummon:
       - Scheduler
+    FpyDailyStorySummon:
+      - Scheduler
+    FpyDailyQuest:
+      - Scheduler
+      - FpyParam
+      - FpyTeam
+
+# ==================== FpyWeekly ==================
+
+FpyWeekly:
+  menu: 'list'
+  page: 'setting'
+  tasks:
+    FpyWeeklyMission:
+      - Scheduler
+      - FpyWeekday
+      - FpyTeam
 
 # ==================== FpyTool ====================
 

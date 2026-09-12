@@ -2,7 +2,7 @@ from module.campaign.campaign_base import CampaignBase
 from module.daemon.daemon_base import DaemonBase
 from module.exception import CampaignEnd
 from module.handler.ambush import MAP_AMBUSH_EVADE
-from module.map.map_operation import FLEET_PREPARATION, MAP_PREPARATION
+from module.map.map_operation import FLEET_PREPARATION, MAP_PREPARATION, MAP_PREPARATION_HARD
 
 
 class AzurLaneDaemon(DaemonBase, CampaignBase):
@@ -34,6 +34,8 @@ class AzurLaneDaemon(DaemonBase, CampaignBase):
             # Map preparation
             if self.config.Daemon_EnterMap:
                 if self.appear_then_click(MAP_PREPARATION, offset=(20, 20), interval=2):
+                    continue
+                if self.appear_then_click(MAP_PREPARATION_HARD, offset=(20, 20), interval=2):
                     continue
                 if self.appear_then_click(FLEET_PREPARATION, offset=(20, 50), interval=2):
                     continue

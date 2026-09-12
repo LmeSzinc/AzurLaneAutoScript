@@ -3,6 +3,7 @@ import numpy as np
 
 import module.config.server as server
 from module.base.timer import Timer
+from module.base.utils import color_mask, image_size
 from module.campaign.campaign_event import CampaignEvent
 from module.combat.assets import *
 from module.exception import ScriptError
@@ -11,8 +12,7 @@ from module.map.map_operation import MapOperation
 from module.ocr.ocr import Digit, DigitCounter
 from module.raid.assets import *
 from module.raid.combat import RaidCombat
-from module.ui.assets import RAID_CHECK
-from module.ui.page import page_rpg_stage
+from module.ui.page import page_raid, page_rpg_stage
 
 
 class RaidCounterPostMixin(DigitCounter):
@@ -53,14 +53,38 @@ class HuanChangPtOcr(Digit):
         """
         image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         image = cv2.threshold(image, 128, 255, cv2.THRESH_BINARY_INV)[1]
-        count, cc = cv2.connectedComponents(image)
+        count, cc, stats, _ = cv2.connectedComponentsWithStats(image)
         # Calculate connected area, greater than 60 is considered a number,
         # CN, JP background rightmost is connected but EN is not, 
         # EN need judge both [0, -1] and [-1, -1]
-        num_idx = [i for i in range(1, count + 1) if
-                   i != cc[0, -1] and i != cc[-1, -1] and np.count_nonzero(cc == i) > 60]
-        image = ~(np.isin(cc, num_idx) * 255)  # Numbers are white, need invert
-        return image.astype(np.uint8)
+        num_idx = [i for i in range(1, count) if
+                   i != cc[0, -1] and i != cc[-1, -1] and stats[i, cv2.CC_STAT_AREA] > 60]
+        # Numbers are white, need invert, so map number labels to 0 and the rest to 255
+        lut = np.full(count, 255, np.uint8)
+        lut[num_idx] = 0
+        return lut[cc]
+
+
+class BigshotPtOcr(Digit):
+    def pre_process(self, image):
+        """
+        remove white background at upper-left and bottom-left
+        """
+        # create white background mask
+        mask = color_mask(image, (240, 252, 233), threshold=75)
+        # flood-fill upper-left and bottom-left to 128
+        width, height = image_size(image)
+        fill_color = 128
+        if mask[0, 0] == 255:
+            cv2.floodFill(mask, mask=None, seedPoint=(0, 0), newVal=fill_color, flags=8)
+        if mask[height - 1, 0] == 255:
+            cv2.floodFill(mask, mask=None, seedPoint=(0, height - 1), newVal=fill_color, flags=8)
+        # extract flood-fill area
+        cv2.inRange(mask, fill_color, fill_color, dst=mask)
+        cv2.bitwise_not(mask, dst=mask)
+        # apply to image
+        image = cv2.bitwise_and(image, image, mask=mask)
+        return super().pre_process(image)
 
 
 def raid_name_shorten(name):
@@ -93,6 +117,8 @@ def raid_name_shorten(name):
         return 'CHIENWU'
     elif name == 'raid_20260212':
         return 'CHANGWU'
+    elif name == 'raid_20260827':
+        return 'BIGSHOT'
     else:
         raise ScriptError(f'Unknown raid name: {name}')
 
@@ -173,6 +199,11 @@ def raid_ocr(raid, mode):
             return Digit(button, letter=(255, 239, 215), threshold=128)
         else:
             return RaidCounterPostMixin(button, lang='cnocr', letter=(154, 148, 133), threshold=128)
+    elif raid == 'BIGSHOT':
+        if mode == 'ex':
+            return Digit(button, letter=(198, 220, 136), threshold=128)
+        else:
+            return RaidCounterPostMixin(button, letter=(58, 60, 65), threshold=128)
 
 
 def pt_ocr(raid):
@@ -204,6 +235,8 @@ def pt_ocr(raid):
         return Digit(button, letter=(255, 231, 231), threshold=128)
     elif raid == 'CHANGWU':
         return Digit(button, letter=(255, 239, 215), threshold=128)
+    elif raid == 'BIGSHOT':
+        return BigshotPtOcr(button, letter=(255, 247, 236), threshold=128)
 
 
 class Raid(MapOperation, RaidCombat, CampaignEvent):
@@ -336,7 +369,7 @@ class Raid(MapOperation, RaidCombat, CampaignEvent):
         if self.is_raid_rpg():
             return self.appear(page_rpg_stage.check_button, offset=(30, 30))
         else:
-            return self.appear(RAID_CHECK, offset=(30, 30))
+            return self.ui_page_appear(page_raid, offset=(30, 30))
 
     def raid_execute_once(self, mode, raid):
         """

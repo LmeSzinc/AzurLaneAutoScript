@@ -195,6 +195,8 @@ def parse_value(value, data):
     if 'option' in data:
         if value not in data['option']:
             return data['value']
+    if data.get('valuetype') == 'str':
+        return str(value)
     if isinstance(value, str):
         if value == '':
             return None
@@ -290,9 +292,9 @@ def server_timezone() -> timedelta:
 def server_time_offset() -> timedelta:
     """
     To convert local time to server time:
-        server_time = local_time + server_time_offset()
+        server_time = local_time - server_time_offset()
     To convert server time to local time:
-        local_time = server_time - server_time_offset()
+        local_time = server_time + server_time_offset()
     """
     return datetime.now(timezone.utc).astimezone().utcoffset() - server_timezone()
 

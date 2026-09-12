@@ -888,8 +888,15 @@ class Fleet(Camera, AmbushHandler):
         Such as select strategy, calculate hp and level, init camera position, do first map scan.
         """
         self.update()
-        if not self.handle_fleet_reverse():
-            self.fleet_set(index=1)
+        switched = self.handle_fleet_reverse()
+        if not switched:
+            switched = self.fleet_set(index=1)
+        # infobar might cover bottom edge, causing retries in ensure_edge_insight
+        # if map surface is dark and fleet spawn point is near bottom edge,
+        # MAP_FLEET_REVERSE_WAIT_INFO_BAR to prevent that happens
+        if switched and self.config.MAP_FLEET_REVERSE_WAIT_INFO_BAR:
+            # info bar might not appear immediately, use ensure_no_info_bar to wait until appear with timeout
+            self.ensure_no_info_bar()
         self.handle_strategy(index=self.fleet_show_index)
         self.hp_reset()
         self.hp_get()

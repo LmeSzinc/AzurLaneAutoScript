@@ -13,7 +13,7 @@ class NeoncitySwitch(Switch):
     def get(self, main):
         # check if having red text
         for data in self.state_list:
-            if main.image_color_count(data['check_button'], color=(123, 41, 41), threshold=221, count=100):
+            if main.image_color_count(data['check_button'], color=(123, 41, 41), threshold=30, count=100):
                 return data['state']
 
         return 'unknown'

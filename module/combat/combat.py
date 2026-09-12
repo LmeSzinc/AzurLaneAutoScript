@@ -134,8 +134,6 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             return PAUSE_GildedReverie
         if PAUSE_AzureCore.match_template_color(self.device.image, offset=(10, 10)):
             return PAUSE_AzureCore
-        if PAUSE_Nier.match_template_color(self.device.image, offset=(10, 10)):
-            return PAUSE_Nier
         if PAUSE_OldeRoyal.match_template_color(self.device.image, offset=(10, 10)):
             return PAUSE_OldeRoyal
         if PAUSE_YoRHa.match_template_color(self.device.image, offset=(10, 10)):
@@ -197,10 +195,6 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             return True
         if QUIT_GildedReverie.match_luma(self.device.image, offset=offset):
             self.device.click(QUIT_GildedReverie)
-            timer.reset()
-            return True
-        if QUIT_Nier.match_luma(self.device.image, offset=offset):
-            self.device.click(QUIT_Nier)
             timer.reset()
             return True
         if QUIT_YoRHa.match_luma(self.device.image, offset=offset):

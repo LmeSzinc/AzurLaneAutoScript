@@ -10,7 +10,7 @@ from module.equipment.assets import *
 from module.exception import CampaignEnd, HardNotSatisfied
 from module.handler.assets import AUTO_SEARCH_MAP_OPTION_OFF
 from module.logger import logger
-from module.map.assets import FLEET_PREPARATION, MAP_PREPARATION
+from module.map.assets import FLEET_PREPARATION, MAP_PREPARATION, MAP_PREPARATION_HARD
 from module.ocr.ocr import Digit
 from module.retire.assets import *
 from module.retire.dock import Dock
@@ -61,7 +61,8 @@ class GemsCampaignOverride(CampaignBase):
                     break
 
                 if self.appear(FLEET_PREPARATION, offset=(20, 50), interval=2) \
-                        or self.appear(MAP_PREPARATION, offset=(20, 20), interval=2):
+                        or self.appear(MAP_PREPARATION, offset=(20, 20), interval=2) \
+                        or self.appear(MAP_PREPARATION_HARD, offset=(20, 20), interval=2):
                     self.enter_map_cancel()
                     break
             raise CampaignEnd('Emotion withdraw')
@@ -245,11 +246,12 @@ class GemsFarming(CampaignRun, Dock):
             if self.appear(FLEET_PREPARATION, offset=(20, 50)):
                 break
             if map_timer.reached() \
-                    and self.campaign.handle_map_mode_switch('hard') \
-                    and self.campaign.handle_map_preparation():
-                self.device.click(MAP_PREPARATION)
-                map_timer.reset()
-                campaign_timer.reset()
+                    and self.campaign.handle_map_mode_switch('hard'):
+                prep_button = self.campaign.handle_map_preparation()
+                if prep_button:
+                    self.device.click(prep_button)
+                    map_timer.reset()
+                    campaign_timer.reset()
             # Retire
             if self.campaign.handle_retirement():
                 continue

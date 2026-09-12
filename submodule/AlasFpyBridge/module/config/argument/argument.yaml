@@ -74,6 +74,17 @@ FpyLimit:
   SpecialDrop:
     value: 999
 
+FpyParam:
+  Cmd:
+    value: ''
+    valuetype: str
+    type: textarea
+
+FpyWeekday:
+  Weekday:
+    value: 5
+    option: [0, 1, 2, 3, 4, 5, 6]
+
 FpyBenchmark:
   BenchOption:
     value: all

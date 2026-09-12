@@ -1,3 +1,5 @@
+# docker run -v ${PWD}:/app/AzurLaneAutoScript --rm hgjazhgj/alas python -m submodule.AlasFpyBridge.module.config.config_updater
+
 from cached_property import cached_property
 
 from module.base.timer import timer

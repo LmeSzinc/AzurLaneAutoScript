@@ -42,7 +42,7 @@ class IslandItem:
                 'cn': '',
                 'en': '',
                 'jp': '',
-                # 'tw': '',
+                'tw': '',
             },
             'pt_num': self.pt_num,
             'manage_influence': self.manage_influence,
@@ -68,8 +68,8 @@ class IslandItemExtractor:
             self.item[index]['name']['en'] = name
         for index, name in self.extract_item_name('ja-JP').items():
             self.item[index]['name']['jp'] = name
-        # for index, name in self.extract_item_name('zh-TW').items():
-        #     self.item[index]['name']['tw'] = name
+        for index, name in self.extract_item_name('zh-TW').items():
+            self.item[index]['name']['tw'] = name
 
     def extract_item_name(self, server):
         LOADER.server = server
@@ -85,7 +85,7 @@ class IslandItemExtractor:
     def encode(self):
         lines = []
         lines.append('DIC_ISLAND_ITEM = {')
-        lines.append("    0: {'name': {'cn': '岛屿开发PT', 'en': 'Island Development Points', 'jp': '離島開発Pt'}, 'pt_num': 1, 'manage_influence': 0, 'order_price': 0},")
+        lines.append("    0: {'name': {'cn': '岛屿开发PT', 'en': 'Island Development Points', 'jp': '離島開発Pt', 'tw': '島嶼開發PT'}, 'pt_num': 1, 'manage_influence': 0, 'order_price': 0},")
         for index, item in self.item.items():
             lines.append(f'    {index}: {item},')
         lines.append('}')
@@ -137,7 +137,7 @@ class IslandRecipe:
                     'cn': '',
                     'en': '',
                     'jp': '',
-                    # 'tw': '',
+                    'tw': '',
                 },
                 'workload': self.workload,
                 'commission_cost': unpack_ingredient_dic(self.commission_cost),
@@ -175,9 +175,9 @@ class IslandRecipeExtractor:
         for index, name in self.extract_item_name('ja-JP').items():
             if index in self.recipe:
                 self.recipe[index]['name']['jp'] = name
-        # for index, name in self.extract_item_name('zh-TW').items():
-        #     if index in self.recipe:
-        #         self.recipe[index]['name']['tw'] = name
+        for index, name in self.extract_item_name('zh-TW').items():
+            if index in self.recipe:
+                self.recipe[index]['name']['tw'] = name
 
     def extract_item_name(self, server):
         LOADER.server = server
@@ -306,13 +306,13 @@ class Activity:
                 'cn': '',
                 'en': '',
                 'jp': '',
-                # 'tw': '',
+                'tw': '',
             },
             'end_time': {
                 'cn': '',
                 'en': '',
                 'jp': '',
-                # 'tw': '',
+                'tw': '',
             },
             'config_data': self.config_data,
         }
@@ -357,13 +357,13 @@ class IslandActivityExtractor:
             elif isinstance(item['time'], dict) and item['time'][0] == 'timer':
                 self.activity[index]['start_time']['jp'] = island_time_to_sql_time(item['time'][1])
                 self.activity[index]['end_time']['jp'] = island_time_to_sql_time(item['time'][2])
-        # for index, item in self.extract_item_name('zh-TW').items():
-        #     if item['time'] == 'always':
-        #         self.activity[index]['start_time']['tw'] = None
-        #         self.activity[index]['end_time']['tw'] = None
-        #     elif isinstance(item['time'], dict) and item['time'][0] == 'timer':
-        #         self.activity[index]['start_time']['tw'] = island_time_to_sql_time(item['time'][1])
-        #         self.activity[index]['end_time']['tw'] = island_time_to_sql_time(item['time'][2])
+        for index, item in self.extract_item_name('zh-TW').items():
+            if item['time'] == 'always':
+                self.activity[index]['start_time']['tw'] = None
+                self.activity[index]['end_time']['tw'] = None
+            elif isinstance(item['time'], dict) and item['time'][0] == 'timer':
+                self.activity[index]['start_time']['tw'] = island_time_to_sql_time(item['time'][1])
+                self.activity[index]['end_time']['tw'] = island_time_to_sql_time(item['time'][2])
 
     def extract_item_name(self, server):
         LOADER.server = server
@@ -470,13 +470,13 @@ class IslandSeasonExtractor:
                     'cn': '',
                     'en': '',
                     'jp': '',
-                    # 'tw': '',
+                    'tw': '',
                 },
                 'end_time': {
                     'cn': '',
                     'en': '',
                     'jp': '',
-                    # 'tw': '',
+                    'tw': '',
                 },
                 'task_list': [task for _, task in item['task_list'].items()],
             }
@@ -489,9 +489,9 @@ class IslandSeasonExtractor:
         for index, item in self.extract_item_name('ja-JP').items():
             self.season[index]['start_time']['jp'] = island_time_to_sql_time(item['time'][0])
             self.season[index]['end_time']['jp'] = island_time_to_sql_time(item['time'][1])
-        # for index, item in self.extract_item_name('zh-TW').items():
-        #     self.season[index]['start_time']['tw'] = island_time_to_sql_time(item['time'][0])
-        #     self.season[index]['end_time']['tw'] = island_time_to_sql_time(item['time'][1])
+        for index, item in self.extract_item_name('zh-TW').items():
+            self.season[index]['start_time']['tw'] = island_time_to_sql_time(item['time'][0])
+            self.season[index]['end_time']['tw'] = island_time_to_sql_time(item['time'][1])
         if activity_dict is None:
             print('activity_dict is None, skipping season-activity matching')
             return
@@ -534,7 +534,7 @@ class IslandTaskExtractor:
                     'cn': '',
                     'en': '',
                     'jp': '',
-                    # 'tw': '',
+                    'tw': '',
                 },
                 'target_id': item['target_id'][0],
                 'target': {},
@@ -542,13 +542,13 @@ class IslandTaskExtractor:
                     'cn': None,
                     'en': None,
                     'jp': None,
-                    # 'tw': None,
+                    'tw': None,
                 },
                 'end_time': {
                     'cn': None,
                     'en': None,
                     'jp': None,
-                    # 'tw': None,
+                    'tw': None,
                 },
             }
             target_id_to_task_id[item['target_id'][0]] = item['id']
@@ -588,18 +588,18 @@ class IslandTaskExtractor:
             else:
                 self.task[index]['start_time']['jp'] = island_time_to_sql_time(time_dict[0])
                 self.task[index]['end_time']['jp'] = island_time_to_sql_time(time_dict[1])
-        # for index, item in self.extract_item('zh-TW').items():
-        #     self.task[index]['name']['tw'] = item['name']
-        #     time_dict = item['unlock_time']
-        #     if time_dict == 'stop':
-        #         self.task[index]['start_time']['tw'] = None
-        #         self.task[index]['end_time']['tw'] = None
-        #     elif time_dict == 'always':
-        #         self.task[index]['start_time']['tw'] = 'always'
-        #         self.task[index]['end_time']['tw'] = 'always'
-        #     else:
-        #         self.task[index]['start_time']['tw'] = island_time_to_sql_time(time_dict[0])
-        #         self.task[index]['end_time']['tw'] = island_time_to_sql_time(time_dict[1])
+        for index, item in self.extract_item('zh-TW').items():
+            self.task[index]['name']['tw'] = item['name']
+            time_dict = item['unlock_time']
+            if time_dict == 'stop':
+                self.task[index]['start_time']['tw'] = None
+                self.task[index]['end_time']['tw'] = None
+            elif time_dict == 'always':
+                self.task[index]['start_time']['tw'] = 'always'
+                self.task[index]['end_time']['tw'] = 'always'
+            else:
+                self.task[index]['start_time']['tw'] = island_time_to_sql_time(time_dict[0])
+                self.task[index]['end_time']['tw'] = island_time_to_sql_time(time_dict[1])
         
         data = LOADER.load('sharecfg/island_task_target.lua')
         for index, item in data.items():
@@ -686,7 +686,7 @@ class IslandShop:
                 'cn': '',
                 'en': '',
                 'jp': '',
-                # 'tw': '',
+                'tw': '',
             },
             'tag_type': self.tag_type,
             'order': self.order,
@@ -709,8 +709,8 @@ class IslandShopExtractor:
             self.shop[index]['name']['en'] = item['tag_icon'][0]
         for index, item in self.extract_item('ja-JP').items():
             self.shop[index]['name']['jp'] = item['tag_icon'][0]
-        # for index, item in self.extract_item('zh-TW').items():
-        #     self.shop[index]['name']['tw'] = item['tag_icon'][0]
+        for index, item in self.extract_item('zh-TW').items():
+            self.shop[index]['name']['tw'] = item['tag_icon'][0]
 
         # Fix bug of lua data to make sure the order of shops is correct
         self.shop[10020]['order'] = 1
@@ -750,7 +750,7 @@ class IslandShopItemExtractor:
                     'cn': '',
                     'en': '',
                     'jp': '',
-                    # 'tw': '',
+                    'tw': '',
                 },
                 'resource_consume': {item['resource_consume'][1]: item['resource_consume'][2]},
                 'items': {
@@ -760,13 +760,13 @@ class IslandShopItemExtractor:
                     'cn': None,
                     'en': None,
                     'jp': None,
-                    # 'tw': None,
+                    'tw': None,
                 },
                 'end_time': {
                     'cn': None,
                     'en': None,
                     'jp': None,
-                    # 'tw': None,
+                    'tw': None,
                 }
             }
             for _, itm in item['items'].items():
@@ -799,15 +799,15 @@ class IslandShopItemExtractor:
             else:
                 self.item[index]['start_time']['jp'] = island_time_to_sql_time(time_dict[0])
                 self.item[index]['end_time']['jp'] = island_time_to_sql_time(time_dict[1])
-        # for index, item in self.extract_item('zh-TW').items():
-        #     self.item[index]['name']['tw'] = item['goods_name']
-        #     time_dict = item['time']
-        #     if time_dict == 'always':
-        #         self.item[index]['start_time']['tw'] = 'always'
-        #         self.item[index]['end_time']['tw'] = 'always'
-        #     else:
-        #         self.item[index]['start_time']['tw'] = island_time_to_sql_time(time_dict[0])
-        #         self.item[index]['end_time']['tw'] = island_time_to
+        for index, item in self.extract_item('zh-TW').items():
+            self.item[index]['name']['tw'] = item['goods_name']
+            time_dict = item['time']
+            if time_dict == 'always':
+                self.item[index]['start_time']['tw'] = 'always'
+                self.item[index]['end_time']['tw'] = 'always'
+            else:
+                self.item[index]['start_time']['tw'] = island_time_to_sql_time(time_dict[0])
+                self.item[index]['end_time']['tw'] = island_time_to_sql_time(time_dict[1])
 
     def extract_item(self, server):
         LOADER.server = server
@@ -882,7 +882,7 @@ class IslandProductionPlaceExtractor(IslandProductionCommission):
                     'cn': '',
                     'en': '',
                     'jp': '',
-                    # 'tw': '',
+                    'tw': '',
                 },
                 'slot': [self.commission[slot_id] for slot_id in item['commission_slot'].values()]
             }
@@ -892,8 +892,8 @@ class IslandProductionPlaceExtractor(IslandProductionCommission):
             self.place[index]['name']['en'] = name
         for index, name in self.extract_place_name('ja-JP').items():
             self.place[index]['name']['jp'] = name
-        # for index, name in self.extract_place_name('zh-TW').items():
-        #     self.item[index]['name']['tw'] = name
+        for index, name in self.extract_place_name('zh-TW').items():
+            self.place[index]['name']['tw'] = name
 
     def extract_place_name(self, server):
         LOADER.server = server
@@ -963,7 +963,7 @@ class IslandTechnology:
                 'cn': '',
                 'en': '',
                 'jp': '',
-                # 'tw': '',
+                'tw': '',
             },
             'tech_belong': self.tech_belong,
             'axis': (self.axis_x, self.axis_y),
@@ -988,8 +988,8 @@ class IslandTechnologyExtractor:
             self.item[index]['name']['en'] = name
         for index, name in self.extract_item_name('ja-JP').items():
             self.item[index]['name']['jp'] = name
-        # for index, name in self.extract_item_name('zh-TW').items():
-        #     self.item[index]['name']['tw'] = name
+        for index, name in self.extract_item_name('zh-TW').items():
+            self.item[index]['name']['tw'] = name
 
         # sort by id
         self.item = dict(sorted(self.item.items(), key=lambda x: x[0]))

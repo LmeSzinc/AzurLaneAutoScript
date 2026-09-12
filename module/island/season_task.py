@@ -122,6 +122,8 @@ class IslandSeasonTask(IslandUI):
     def task_name_ocr(self):
         if server.server == 'jp':
             lang = 'jp'
+        elif server.server == 'tw':
+            lang = 'tw'
         else:
             lang = 'cnocr'
         ocr = Ocr([], lang=lang, letter=(57, 58, 60), name='task_name_ocr')
@@ -138,11 +140,35 @@ class IslandSeasonTask(IslandUI):
     def task_name_to_codename(self, name):
         if not isinstance(name, str):
             return None
+
+        from module.island.data import DIC_ISLAND_SEASON
+        from module.config.utils import server_timezone, server_time_offset
+        from datetime import datetime, timezone
+
+        server_now = (datetime.now()-server_time_offset()).replace(tzinfo=timezone(server_timezone()))
+        current_season_task_ids= set()
+        for season_data in DIC_ISLAND_SEASON.values():
+            if not season_data['start_time'] or not season_data['end_time']:
+                continue
+            season_start_string = season_data['start_time'].get(server.server)
+            season_end_string = season_data['end_time'].get(server.server)
+            if not season_start_string or not season_end_string:
+                continue
+            season_start= datetime.fromisoformat(season_start_string).replace(tzinfo=timezone(server_timezone()))
+            season_end= datetime.fromisoformat(season_end_string).replace(tzinfo=timezone(server_timezone()))
+            if season_start<= server_now<= season_end:
+                current_season_task_ids.update(season_data['task_list'])
+        if not current_season_task_ids:
+            logger.warning(f'No active season found or season data missing for {server.server} server.')
+            return None
+        
         min_distance = float('inf')
         code = None
         corrected_name = None
-        for key, item in DIC_ISLAND_TASK.items():
-            if item['start_time'] is None or item['end_time'] is None:
+
+        for key in current_season_task_ids:
+            item = DIC_ISLAND_TASK.get(key)
+            if not item:
                 continue
             distance = levenshtein_distance(name, item['name'][server.server])
             if distance <= min_distance:
@@ -214,10 +240,6 @@ class IslandSeasonTask(IslandUI):
         return unfinished_tasks
 
     def run(self):
-        if self.config.SERVER in ['tw']:
-            logger.info(f'IslandSeasonTask is not available on {self.config.SERVER} server, delay until next server update')
-            self.config.task_delay(server_update=True)
-            return
         self.ui_ensure(page_island_season)
         self.island_season_bottom_navbar_ensure(left=3)
         self.receive_all_reward()

@@ -127,7 +127,7 @@ class IslandProduction(IslandRecipe, IslandDock):
 
     def is_slot_finished(self, slot_button: Button):
         tick_button = slot_button.crop(area=TICK_AREA, name=f'{slot_button.name}_TICK')
-        return self.image_color_count(tick_button, (255, 255, 255), threshold=240, count=85)
+        return self.image_color_count(tick_button, (255, 255, 255), threshold=15, count=85)
 
     def is_slot_empty(self, slot_button: Button):
         image = self.image_crop(slot_button.area, copy=True)
@@ -170,7 +170,7 @@ class IslandProduction(IslandRecipe, IslandDock):
         self.device.click_record_clear()
 
     def is_enter_window_shown(self):
-        return self.image_color_count(CHARACTER_SELECT_TITLE_AREA, (62, 193, 255), threshold=221, count=6000)
+        return self.image_color_count(CHARACTER_SELECT_TITLE_AREA, (62, 193, 255), threshold=30, count=6000)
 
     def claim_slot_reward(self, slot_button: Button):
         if not self.is_slot_finished(slot_button):
@@ -304,10 +304,6 @@ class IslandProduction(IslandRecipe, IslandDock):
                 break
 
     def run(self):
-        if self.config.SERVER in ['tw']:
-            logger.info(f'IslandProduction is not available on {self.config.SERVER} server, delay until next server update')
-            self.config.task_delay(server_update=True)
-            return
         self.ensure_island_production_page()
         slot_finish_time = self.config.cross_get("IslandProduction.Storage.Storage.SlotFinishTime", default={})
         self.slot_finish_time = {int(k): datetime.fromisoformat(v) for k, v in slot_finish_time.items()}

@@ -6,6 +6,7 @@ import numpy as np
 
 import module.config.server as server
 from module.base.button import Button, ButtonGrid
+from module.config.utils import get_server_next_update
 from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.base.utils import color_similarity_2d
@@ -15,9 +16,9 @@ from module.island.ui import IslandUI
 from module.island.utils import (
     get_order_effective_stock,
     load_hard_floor_items,
-    load_reserve_items,
     normalize_item_keys,
 )
+from module.island_handler.restaurant_config import get_menu_reserve_items
 from module.island_handler.recipe import IslandReversedDigitCounter
 from module.logger import logger
 from module.map_detection.utils import Points
@@ -32,6 +33,9 @@ COLOR_URGENT = (135, 122, 239)  # Purple
 # COLOR_EASY = (114, 225, 167)  # Green
 # COLOR_HARD = (237, 128, 102)  # Red
 EMPTY_SEASON_ORDER_ID = 0
+# Regular orders expire at server update. Within this window a reject-cooldown
+# cycle (~100min) would outlive the order, so submit using protected stock instead.
+ORDER_EXPIRE_FORCE_WINDOW = timedelta(hours=2)
 
 
 def get_circles(image, color, inner_radius, outer_radius):
@@ -95,13 +99,16 @@ class IslandOrder(IslandUI):
 
     @property
     def requirement_name_grid(self):
-        name_grid = self.requirement_grid.crop((168, 12, 328, 40))
+        if server.server == 'en':
+            name_grid = self.requirement_grid.crop((81, 12, 328, 40))
+        else:
+            name_grid = self.requirement_grid.crop((168, 12, 328, 40))
         return name_grid
 
     @property
     def requirement_counter_grid(self):
         if server.server == 'en':
-            counter_grid = self.requirement_grid.crop((238, 44, 327, 75))
+            counter_grid = self.requirement_grid.crop((238, 44, 326, 70))
         else:
             counter_grid = self.requirement_grid.crop((238, 44, 327, 65))
         return counter_grid
@@ -110,6 +117,8 @@ class IslandOrder(IslandUI):
     def requirement_name_ocr(self):
         if server.server == 'jp':
             lang = 'jp'
+        elif server.server == 'tw':
+            lang = 'tw'
         else:
             lang = 'cnocr'
         return Ocr(self.requirement_name_grid.buttons, lang=lang, letter=(57, 59, 61), threshold=160, name='REQUIREMENTS_NAME_OCR')
@@ -175,16 +184,13 @@ class IslandOrder(IslandUI):
 
     @cached_property
     def reserve(self):
-        reserve_items_text = load_reserve_items(
-            self.config.cross_get("IslandProduction.IslandProduction.ReserveItems", "")
-        )
-        return normalize_item_keys(reserve_items_text)
+        return get_menu_reserve_items(self.config)
 
-    def is_order_satisfied(self, order_requirements, is_urgent=False, is_season=False):
+    def is_order_satisfied(self, order_requirements, is_urgent=False, is_season=False, force=False):
         for item, counter in order_requirements.items():
             stock, required, _ = counter
             hard_floor = self.hard_floor.get(item, 0)
-            priority = is_urgent or is_season
+            priority = is_urgent or is_season or force
             effective_stock = get_order_effective_stock(
                 stock,
                 hard_floor,
@@ -307,7 +313,12 @@ class IslandOrder(IslandUI):
             self.next_runtime.append(next_runtime)
             return False
         requirements = self.scan_current_order_requirements()
-        if self.is_order_satisfied(requirements, is_urgent=is_urgent, is_season=is_season):
+        force = not is_urgent and not is_season and (
+            get_server_next_update(self.config.Scheduler_ServerUpdate) - datetime.now() <= ORDER_EXPIRE_FORCE_WINDOW
+        )
+        if force:
+            logger.info('Regular order is about to expire at server update, submit ignoring protected stock')
+        if self.is_order_satisfied(requirements, is_urgent=is_urgent, is_season=is_season, force=force):
             return self.submit_order(is_urgent=is_urgent)
         else:
             logger.warning('Order requirements not satisfied due to low stock')
@@ -376,10 +387,6 @@ class IslandOrder(IslandUI):
         return False
 
     def run(self):
-        if self.config.SERVER in ['tw']:
-            logger.info(f'IslandOrder is not available on {self.config.SERVER} server, delay until next server update')
-            self.config.task_delay(server_update=True)
-            return
         self.ui_ensure(page_island_order)
         self.next_runtime = []
         self.update_production_plan = False
