@@ -67,12 +67,24 @@ class EventShopClerk(EventShopUI):
 
     def event_shop_get_items(self, scroll_pos=None):
         self.ensure_no_info_bar()
-        self.event_shop_items.grids = self._get_event_shop_grid()
-        if self.config.SHOP_EXTRACT_TEMPLATE:
-            self.event_shop_items.extract_template(self.device.image, './assets/shop/event')
-        self.event_shop_items.predict(self.device.image, name=True, amount=True, cost=False,
-                                      price=True, tag=True, counter=True, scroll_pos=scroll_pos)
-        shop_items = self.event_shop_items.items
+        for attempt in range(3):
+            self.event_shop_items.grids = self._get_event_shop_grid()
+            if self.config.SHOP_EXTRACT_TEMPLATE:
+                self.event_shop_items.extract_template(self.device.image, './assets/shop/event')
+            self.event_shop_items.predict(self.device.image, name=True, amount=True, cost=False,
+                                          price=True, tag=True, counter=True, scroll_pos=scroll_pos)
+            shop_items = self.event_shop_items.items
+            # Invalid OCR uses 0/0; a valid sold-out counter is 0/N.
+            invalid = [item for item in shop_items if item.count == 0 and item.total_count == 0]
+            if not invalid:
+                break
+            if attempt >= 2:
+                message = f'Invalid event shop counter after {attempt + 1} scans: {[str(item) for item in invalid]}'
+                logger.error(message)
+                raise ItemNotFoundError(message)
+            logger.warning(f'Invalid event shop counter, retrying: {[str(item) for item in invalid]}')
+            self.device.screenshot()
+
         if len(shop_items):
             min_row = self.event_shop_items.grids[0, 0].area[1]
             row = [str(item) for item in shop_items if item.button[1] == min_row]
