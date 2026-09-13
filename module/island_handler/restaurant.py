@@ -26,6 +26,7 @@ from module.island_handler.restaurant_config import (
     WAITRESS_ANY,
     WAITRESS_NONE,
     get_config_key,
+    get_menu_reserve_items,
     get_restaurant_capacity,
     get_restaurant_config,
     get_selected_named_waitresses,
@@ -263,21 +264,36 @@ class IslandRestaurant(IslandDock):
             if item.id in menu
             # Sell one full waitress-capacity tranche while preserving manual
             # hard floors, task targets, and remaining season-order
-            # requirements. Reserves and daily buffers are soft and may be
-            # consumed by restaurants.
+            # requirements. Configured menu sales may consume their soft
+            # restaurant reserve and daily buffer.
             and has_sellable_capacity(item)
         ]
-        surplus_items = [
-            item for item in items
-            if item.id not in menu
-            and has_sellable_capacity(item)
-        ]
-        sellable_items = menu_items + surplus_items
         quantity = self.restaurant_quantity[self.working_restaurant_id]
-        items = sorted(sellable_items, key=total_revenue_estimate, reverse=True)
-        if len(items) < quantity:
-            quantity = len(items)
-        plan = items[:quantity]
+        plan = sorted(menu_items, key=total_revenue_estimate, reverse=True)[:quantity]
+        remaining = quantity - len(plan)
+        if remaining:
+            # Fill only vacant shelves from stock above the complete operating floor.
+            daily_buffer_items = normalize_item_keys(load_item_mapping(
+                self.config.cross_get("IslandProduction.IslandProduction.DailyBufferItems", "{}"),
+                config_name='DailyBufferItems',
+            ))
+            manual_buffer_items = normalize_item_keys(load_item_mapping(
+                self.config.cross_get("IslandProduction.IslandProduction.ManualBufferItems", "{}"),
+                config_name='ManualBufferItems',
+            ))
+            menu_reserve_items = get_menu_reserve_items(self.config)
+            def has_surplus_capacity(item):
+                operation_floor = (
+                    protected_items.get(item.id, 0)
+                    + menu_reserve_items.get(item.id, 0)
+                    + max(daily_buffer_items.get(item.id, 0), manual_buffer_items.get(item.id, 0), 0)
+                )
+                return item.amount >= capacity + operation_floor
+            surplus_items = [
+                item for item in items
+                if item.id not in menu and has_surplus_capacity(item)
+            ]
+            plan.extend(sorted(surplus_items, key=total_revenue_estimate, reverse=True)[:remaining])
         logger.info(f'Sell plan: {[str(item) for item in plan]}')
         return plan
 
