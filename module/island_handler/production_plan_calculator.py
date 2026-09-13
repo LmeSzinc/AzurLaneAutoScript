@@ -5,7 +5,6 @@ unit tested and reused: every input is passed in explicitly and every result
 is stored as a plain attribute on ProductionPlanCalculator.
 """
 from collections import defaultdict
-from datetime import datetime
 from typing import Dict
 
 import numpy as np
@@ -17,14 +16,14 @@ from module.island.utils import (
     ceil_with_epsilon,
     count_level,
     format_item_need_data,
-    get_stuck_season_order_requirements,
+    get_current_activity_list,
+    get_stuck_season_order_items,
     get_sub_dict,
     item_mapping_to_yaml,
     item_name,
     merge_item_needs,
     normalize_item_keys,
     normalize_item_needs,
-    normalize_stuck_season_order_id,
 )
 from module.island_handler.restaurant_config import (
     RESTAURANT_IDS,
@@ -34,22 +33,6 @@ from module.island_handler.restaurant_config import (
     normalize_waitress_slots,
 )
 from module.logger import logger
-
-
-def get_current_activity_list(time):
-    """
-    Args:
-        time (datetime): Time in server timezone.
-
-    Returns:
-        list[int]: Activity ids of the island season covering `time`,
-            or None if no season covers it.
-    """
-    for season, content in DIC_ISLAND_SEASON.items():
-        start_time = datetime.strptime(content['start_time'][server.server], "%Y-%m-%d %H:%M:%S")
-        end_time = datetime.strptime(content['end_time'][server.server], "%Y-%m-%d %H:%M:%S")
-        if start_time <= time < end_time:
-            return content['activity']
 
 
 class ProductionPlanCalculator:
@@ -156,6 +139,8 @@ class ProductionPlanCalculator:
         self.daily_buffer_safety_margin = max(float(daily_buffer_safety_margin or 0), 0)
 
         restaurant_settings = restaurant_settings or {}
+        self.restaurant_grade = {}
+        self.restaurant_waitress_slots = {}
         self.restaurant_capacity = {}
         self.restaurant_quantity = {}
         self.restaurant_sales_bonus = {}
@@ -164,6 +149,8 @@ class ProductionPlanCalculator:
             settings = restaurant_settings.get(restaurant_id, {})
             grade = settings.get('grade') or 'bronze'
             slots = normalize_waitress_slots(restaurant_id, settings.get('waitress_slots'))
+            self.restaurant_grade[restaurant_id] = grade
+            self.restaurant_waitress_slots[restaurant_id] = slots
             capacity_delta, sales_bonus = get_waitress_effect(restaurant_id, slots)
             self.restaurant_capacity[restaurant_id] = get_initial_capacity_from_grade(grade) + capacity_delta
             self.restaurant_quantity[restaurant_id] = self.get_quantity_from_grade(grade)
@@ -407,6 +394,7 @@ class ProductionPlanCalculator:
         self.lp_status = None
         self.lp_success = False
         self.lp_message = ''
+        self.failure_diagnostics = []
         self._clear_solution_state()
 
     def _clear_solution_state(self):
@@ -539,7 +527,10 @@ class ProductionPlanCalculator:
         if place_id is None:
             return group
         name = DIC_ISLAND_PRODUCTION_PLACE[place_id]['name'][server.server]
-        slots = self.GROUP_TO_SLOTS.get(group, [])
+        slots = [
+            slot for slot in self.GROUP_TO_SLOTS.get(group, [])
+            if self.slot_available.get(slot, False)
+        ]
         if slots:
             slot_text = ','.join(str(slot) for slot in slots)
             return f'{name} ({slot_text})'
@@ -754,6 +745,7 @@ class ProductionPlanCalculator:
 
         a_ub = []
         b_ub = []
+        ub_constraints = []
         for group, capacity in group_capacity.items():
             row = np.zeros(total_vars)
             for col, activity in enumerate(activities):
@@ -762,6 +754,7 @@ class ProductionPlanCalculator:
             if row.any():
                 a_ub.append(row)
                 b_ub.append(capacity)
+                ub_constraints.append(('production_capacity', group))
 
         for slot, menu in sell_slots.items():
             slot_sales = [idx for idx, entry in enumerate(sale_entries) if entry[0] == slot]
@@ -771,22 +764,26 @@ class ProductionPlanCalculator:
                     row[activity_count + idx] = 1
                 a_ub.append(row)
                 b_ub.append(self.restaurant_quantity[slot] * self.restaurant_capacity[slot])
+                ub_constraints.append(('restaurant_capacity', slot))
                 for idx in slot_sales:
                     cap_row = np.zeros(total_vars)
                     cap_row[activity_count + idx] = 1
                     a_ub.append(cap_row)
                     b_ub.append(self.restaurant_capacity[slot])
+                    ub_constraints.append(('restaurant_item_capacity', sale_entries[idx]))
 
         profit_row = np.zeros(total_vars)
         profit_row[end_offset + item_index[1]] = -1
         a_ub.append(profit_row)
         b_ub.append(-self.daily_profit_lower_limit)
+        ub_constraints.append(('daily_profit', 1))
 
         for item_id, demand_data in demand_items.items():
             demand_row = np.zeros(total_vars)
             demand_row[end_offset + item_index[item_id]] = -1
             a_ub.append(demand_row)
             b_ub.append(-demand_data['rate_per_day'])
+            ub_constraints.append(('demand', item_id))
 
         return {
             'group_slots': group_slots,
@@ -797,6 +794,7 @@ class ProductionPlanCalculator:
             'wild_gather_plan': wild_gather_plan,
             'mining_supply_plan': dict(mining_supply_plan),
             'logging_supply_plan': dict(logging_supply_plan),
+            'ub_constraints': ub_constraints,
             'demand_items': demand_items,
             'hard_floor_items': getattr(self, 'hard_floor_items', {}),
             'task_target_items': getattr(self, 'task_target_items', {}),
@@ -909,6 +907,187 @@ class ProductionPlanCalculator:
                 }
             }
 
+    def _diagnose_failed_plan(self, problem):
+        """Find actionable shortfalls and saturated capacity in an infeasible LP.
+
+        Demand and profit rows receive normalized slack; physical capacities
+        stay hard, so a feasible diagnostic solution exposes the limiting rows.
+        """
+        constraints = problem['ub_constraints']
+        relaxable = [
+            (row, kind, key)
+            for row, (kind, key) in enumerate(constraints)
+            if kind in ('daily_profit', 'demand') and -problem['b_ub'][row] > self.NET_ACCUMULATING_EPSILON
+        ]
+        if not relaxable:
+            return ['No demand or profit constraint was available for bottleneck diagnosis.']
+
+        variable_count = len(problem['c'])
+        slack_count = len(relaxable)
+        diagnostic_c = np.zeros(variable_count + slack_count)
+        diagnostic_a_ub = np.pad(
+            problem['A_ub'], ((0, 0), (0, slack_count)), mode='constant'
+        )
+        diagnostic_a_eq = np.pad(
+            problem['A_eq'], ((0, 0), (0, slack_count)), mode='constant'
+        )
+        for slack_index, (row, _kind, _key) in enumerate(relaxable):
+            required = max(-problem['b_ub'][row], 1)
+            diagnostic_a_ub[row, variable_count + slack_index] = -1
+            diagnostic_c[variable_count + slack_index] = 1 / required
+
+        diagnostic_result = None
+        for method, options in [
+                ('revised simplex', {'tol': 1e-9}),
+                ('interior-point', {'tol': 1e-9}),
+        ]:
+            diagnostic_result = linprog(
+                diagnostic_c,
+                A_ub=diagnostic_a_ub,
+                b_ub=problem['b_ub'],
+                A_eq=diagnostic_a_eq,
+                b_eq=problem['b_eq'],
+                bounds=problem['bounds'] + [(0, None)] * slack_count,
+                method=method,
+                options=options,
+            )
+            if diagnostic_result.success:
+                break
+        if not diagnostic_result.success:
+            return [
+                'Unable to isolate the planning bottleneck: '
+                f'{diagnostic_result.message}'
+            ]
+
+        solution = diagnostic_result.x[:variable_count]
+        activities = problem['activities']
+        lines = []
+        unmet_items = set()
+        has_shortfall = False
+        profit_shortfall = False
+        for slack_index, (_row, kind, key) in enumerate(relaxable):
+            shortfall = diagnostic_result.x[variable_count + slack_index]
+            if shortfall <= self.NET_ACCUMULATING_EPSILON:
+                continue
+            has_shortfall = True
+            required = max(-problem['b_ub'][_row], 0)
+            supplied = max(required - shortfall, 0)
+            if kind == 'daily_profit':
+                profit_shortfall = True
+                lines.append(
+                    f'Profit bottleneck: requires {self._format_amount(required)} coins/day, '
+                    f'but the relaxed plan supplies {self._format_amount(supplied)} '
+                    f'(shortfall {self._format_amount(shortfall)}).'
+                )
+                continue
+
+            item_id = key
+            unmet_items.add(item_id)
+            sources = []
+            mining_amount = problem['mining_supply_plan'].get(item_id, 0)
+            if mining_amount:
+                sources.append(f'mining x{self._format_amount(mining_amount)}/day')
+            logging_amount = problem['logging_supply_plan'].get(item_id, 0)
+            if logging_amount:
+                sources.append(f'logging x{self._format_amount(logging_amount)}/day')
+            for gather_id, products in problem['wild_gather_plan'].items():
+                amount = products.get(item_id, 0)
+                if amount:
+                    sources.append(
+                        f'wild gather {gather_id} x{self._format_amount(amount)}/day'
+                    )
+            for activity in activities:
+                if item_id not in activity['outputs']:
+                    continue
+                if activity['kind'] == 'recipe':
+                    sources.append(
+                        f'recipe {self._recipe_name(activity["id"])} ({activity["id"]}) '
+                        f'at {self._slot_group_name(activity["group"])}'
+                    )
+                elif activity['kind'] == 'shop':
+                    sources.append(f'shop {self._shop_name(activity["id"])} ({activity["id"]})')
+                else:
+                    sources.append(
+                        f'exchange {self._exchange_name(activity["id"])} ({activity["id"]})'
+                    )
+            source_text = '; '.join(sources) if sources else 'no available source'
+            demand_text = format_item_need_data(
+                problem['demand_items'][item_id],
+                self._format_amount,
+            )
+            lines.append(
+                f'Demand bottleneck: {self._item_name(item_id)} ({item_id}) requires '
+                f'{self._format_amount(required)}/day ({demand_text}), '
+                f'but the relaxed plan supplies '
+                f'{self._format_amount(supplied)} (shortfall {self._format_amount(shortfall)}). '
+                f'Available sources: {source_text}.'
+            )
+
+        if not has_shortfall:
+            return [
+                'The relaxed diagnostic plan satisfies all explicit demands; '
+                'the solver failure is likely numerical.'
+            ]
+
+        relevant_groups = set()
+        relevant_recipes = set()
+        needs_coin = profit_shortfall
+        pending_items = set(unmet_items)
+        visited_items = set()
+        while pending_items:
+            item_id = pending_items.pop()
+            if item_id in visited_items:
+                continue
+            visited_items.add(item_id)
+            for activity in activities:
+                if item_id not in activity['outputs']:
+                    continue
+                if 1 in activity['inputs']:
+                    needs_coin = True
+                if activity['kind'] == 'recipe':
+                    relevant_groups.add(activity['group'])
+                    relevant_recipes.add(activity['id'])
+                pending_items.update(
+                    input_id for input_id in activity['inputs']
+                    if input_id != 1 and input_id not in visited_items
+                )
+
+        for row, (kind, key) in enumerate(constraints):
+            used = float(problem['A_ub'][row] @ solution)
+            capacity = float(problem['b_ub'][row])
+            tolerance = max(abs(capacity), 1) * 1e-6
+            if used < capacity - tolerance:
+                continue
+            if kind == 'production_capacity' and key in relevant_groups:
+                recipes = [
+                    f'{self._recipe_name(activity["id"])} ({activity["id"]}) '
+                    f'x{self._format_amount(solution[index])} batches/day -> '
+                    + ', '.join(
+                        f'{self._item_name(item_id)} ({item_id}) '
+                        f'x{self._format_amount(output_amount * solution[index])}/day'
+                        for item_id, output_amount in activity['outputs'].items()
+                    )
+                    for index, activity in enumerate(activities)
+                    if activity['kind'] == 'recipe'
+                    and activity['group'] == key
+                    and activity['id'] in relevant_recipes
+                    and solution[index] > self.NET_ACCUMULATING_EPSILON
+                ]
+                recipe_text = ', '.join(recipes) if recipes else '-'
+                lines.append(
+                    f'Production bottleneck: {self._slot_group_name(key)} uses '
+                    f'{self._format_amount(used / 36000)}h/'
+                    f'{self._format_amount(capacity / 36000)}h capacity; '
+                    f'contributing recipes: {recipe_text}.'
+                )
+            elif needs_coin and kind == 'restaurant_capacity':
+                restaurant_name = DIC_ISLAND_PRODUCTION_PLACE[key]['name'][server.server]
+                lines.append(
+                    f'Restaurant bottleneck: {restaurant_name} ({key}) sells '
+                    f'{self._format_amount(used)}/{self._format_amount(capacity)} items/day.'
+                )
+        return lines
+
     def _calculate_product_daily_buffer_items(self, solution, activities, sale_entries, activity_count):
         daily_product_demand = defaultdict(float)
 
@@ -942,13 +1121,40 @@ class ProductionPlanCalculator:
             f'LP success: {self.lp_success}',
             f'LP status: {self.lp_status}',
             f'LP message: {self.lp_message}',
+            '',
+            '[restaurant_config]',
+        ]
+        for restaurant_id in RESTAURANT_IDS:
+            restaurant_name = DIC_ISLAND_PRODUCTION_PLACE[restaurant_id]['name'][server.server]
+            waitress_text = ', '.join(self.restaurant_waitress_slots[restaurant_id])
+            capacity = self.restaurant_capacity[restaurant_id]
+            quantity = self.restaurant_quantity[restaurant_id]
+            lines.append(
+                f'{restaurant_name} ({restaurant_id}): '
+                f'grade={self.restaurant_grade[restaurant_id]}, '
+                f'waitress_slots=[{waitress_text}], '
+                f'enabled={self.restaurant_enabled[restaurant_id]}'
+            )
+            lines.append(
+                f'  shelf_count={quantity}, shelf_capacity={capacity}, '
+                f'total_capacity={self._format_amount(quantity * capacity)}/day, '
+                f'sales_bonus={self._format_amount(self.restaurant_sales_bonus[restaurant_id] * 100)}%'
+            )
+        if not self.lp_success:
+            lines.extend([
+                '',
+                '[planning_failure]',
+                *(self.failure_diagnostics or ['No bottleneck diagnostic is available.']),
+            ])
+            return '\n'.join(lines)
+        lines.extend([
             f'Total PT: {self._format_amount(self.total_pt)}',
             f'Daily coin revenue: {self._format_amount(self.daily_coin_revenue)}',
             f'Daily coin cost: {self._format_amount(self.daily_coin_cost)}',
             f'Daily profit: {self._format_amount(self.daily_profit)}',
             '',
             '[production]',
-        ]
+        ])
         if self.production_plan:
             for recipe_id, amount in sorted(self.production_plan.items()):
                 lines.append(f'{self._recipe_name(recipe_id)} ({recipe_id}): {self._format_amount(amount)} batches')
@@ -1076,7 +1282,10 @@ class ProductionPlanCalculator:
 
     def print_solved_production_plan(self):
         for line in self.format_solved_production_plan().split('\n'):
-            logger.info(line)
+            if not self.lp_success and line:
+                logger.warning(line)
+            else:
+                logger.info(line)
 
     def daily_buffer_items_to_yaml(self, use_item_name=False):
         return item_mapping_to_yaml(self.product_daily_buffer_items, use_item_name=use_item_name)
@@ -1122,17 +1331,24 @@ class ProductionPlanCalculator:
             self,
             hard_floor_items=None,
             task_target_items=None,
+            task_target_period=None,
             stuck_season_order_id=0,
+            current_time=None,
     ):
-        stuck_season_order_items = get_stuck_season_order_requirements(stuck_season_order_id)
-        self.task_target_items = normalize_item_needs(task_target_items, default_period=10)
-        self.stuck_season_order_id = normalize_stuck_season_order_id(stuck_season_order_id)
-        self.stuck_season_order_items = normalize_item_needs(stuck_season_order_items, default_period=10)
+        self.task_target_items = normalize_item_needs(
+            task_target_items,
+            default_period=task_target_period,
+        )
+        self.stuck_season_order_id, self.stuck_season_order_items = get_stuck_season_order_items(
+            stuck_season_order_id,
+            current_time,
+        )
         self.hard_floor_items = self._build_planner_hard_floor_items(hard_floor_items)
         if self.stuck_season_order_items:
+            period = next(iter(self.stuck_season_order_items.values()))['period']
             logger.info(
                 f'Adding stuck season order {self.stuck_season_order_id} '
-                f'as 10-day production planner demand'
+                f'as production planner demand over {self._format_amount(period)} day(s)'
             )
         demand_items = merge_item_needs(self.task_target_items, self.stuck_season_order_items)
         problem = self._build_production_problem(demand_items=demand_items)
@@ -1156,3 +1372,9 @@ class ProductionPlanCalculator:
             if result.success:
                 break
         self._apply_production_lp_result(result, problem)
+        if not result.success:
+            try:
+                self.failure_diagnostics = self._diagnose_failed_plan(problem)
+            except Exception as e:
+                logger.exception(f'Failed to diagnose production planning bottleneck: {e}')
+                self.failure_diagnostics = [f'Bottleneck diagnosis failed: {e}']

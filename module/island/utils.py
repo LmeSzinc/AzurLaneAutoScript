@@ -1,12 +1,20 @@
 import re
 from collections import defaultdict
+from datetime import datetime
 from typing import Dict
 
 import numpy as np
 from yaml import safe_dump, safe_load
 
 import module.config.server as server
-from module.island.data import DIC_ISLAND_ITEM, DIC_ISLAND_SEASON_ORDER
+from module.island.data import (
+    DIC_ISLAND_ACTIVITY,
+    DIC_ISLAND_ITEM,
+    DIC_ISLAND_PRODUCTION_PLACE,
+    DIC_ISLAND_RECIPE,
+    DIC_ISLAND_SEASON,
+    DIC_ISLAND_SEASON_ORDER,
+)
 from module.logger import logger
 
 
@@ -59,9 +67,21 @@ def item_name(item_id):
     return DIC_ISLAND_ITEM[item_id]['name'][server.server]
 
 
+def item_name_with_id(item_id):
+    return f'{item_name(item_id)} ({item_id})'
+
+
+def recipe_name_with_id(recipe_id):
+    return f"{DIC_ISLAND_RECIPE[recipe_id]['name'][server.server]} ({recipe_id})"
+
+
+def production_place_name_with_id(place_id):
+    return f"{DIC_ISLAND_PRODUCTION_PLACE[place_id]['name'][server.server]} ({place_id})"
+
+
 def item_export_key(item_id, use_item_name=False):
     if use_item_name:
-        return f'{item_name(item_id)} ({item_id})'
+        return item_name_with_id(item_id)
     return item_id
 
 
@@ -107,6 +127,124 @@ def load_technology_status(technology_status=None):
     return normalize_technology_status(technology_status)
 
 
+def _get_server_time(time=None):
+    if time is None:
+        from module.config.utils import server_time_offset
+        return datetime.now() - server_time_offset()
+    return time
+
+
+def _get_activity_window(activity_id):
+    activity = DIC_ISLAND_ACTIVITY.get(activity_id)
+    if activity is None:
+        return None, None
+    start_text = activity['start_time'].get(server.server)
+    end_text = activity['end_time'].get(server.server)
+    if not start_text or not end_text:
+        return None, None
+    return (
+        datetime.strptime(start_text, '%Y-%m-%d %H:%M:%S'),
+        datetime.strptime(end_text, '%Y-%m-%d %H:%M:%S'),
+    )
+
+
+def get_active_island_activity_ids(time=None):
+    time = _get_server_time(time)
+    active = []
+    for activity_id in DIC_ISLAND_ACTIVITY:
+        start_time, end_time = _get_activity_window(activity_id)
+        if start_time is not None and start_time <= time < end_time:
+            active.append(activity_id)
+    return active
+
+
+def get_current_season(time=None):
+    time = _get_server_time(time)
+    for season in DIC_ISLAND_SEASON.values():
+        start_text = season['start_time'].get(server.server)
+        end_text = season['end_time'].get(server.server)
+        if not start_text or not end_text:
+            continue
+        start_time = datetime.strptime(start_text, '%Y-%m-%d %H:%M:%S')
+        end_time = datetime.strptime(end_text, '%Y-%m-%d %H:%M:%S')
+        if start_time <= time < end_time:
+            return season, end_time
+    return None, None
+
+
+def get_current_activity_list(time=None):
+    season, _ = get_current_season(time)
+    return season['activity'] if season else None
+
+
+def get_current_season_remaining_days(time=None):
+    time = _get_server_time(time)
+    _, end_time = get_current_season(time)
+    if end_time is None:
+        return None
+    return (end_time - time).total_seconds() / 86400
+
+
+def resolve_stuck_season_order_id(stuck_order_id, time=None):
+    """Map a stored order ID to an active order with identical requirements."""
+    stuck_order_id = normalize_stuck_season_order_id(stuck_order_id)
+    if not stuck_order_id:
+        return 0
+    order = DIC_ISLAND_SEASON_ORDER.get(stuck_order_id)
+    if order is None:
+        logger.warning(f'Cannot find stuck season order id {stuck_order_id}')
+        return 0
+
+    active_activity_ids = set(get_active_island_activity_ids(time))
+    if order.get('activity_id') in active_activity_ids:
+        return stuck_order_id
+    candidates = [
+        order_id
+        for order_id, candidate in DIC_ISLAND_SEASON_ORDER.items()
+        if candidate.get('activity_id') in active_activity_ids
+        and candidate.get('request', {}) == order.get('request', {})
+    ]
+    if len(candidates) == 1:
+        resolved_id = candidates[0]
+        resolved_activity_id = DIC_ISLAND_SEASON_ORDER[resolved_id]['activity_id']
+        logger.info(
+            f'Resolved stored stuck season order {stuck_order_id} '
+            f'(activity {order.get("activity_id", 0)}) as current order '
+            f'{resolved_id} (activity {resolved_activity_id}) from identical requirements'
+        )
+        return resolved_id
+    if len(candidates) > 1:
+        logger.warning(
+            f'Multiple active season orders match stored order {stuck_order_id}: '
+            f'{candidates}; keeping the stored order id'
+        )
+    return stuck_order_id
+
+
+def get_stuck_season_order_remaining_days(stuck_order_id, time=None):
+    """Return the remaining time of the active activity matching an order."""
+    time = _get_server_time(time)
+    stuck_order_id = resolve_stuck_season_order_id(stuck_order_id, time)
+    if not stuck_order_id:
+        return None
+    order = DIC_ISLAND_SEASON_ORDER[stuck_order_id]
+    activity_id = order.get('activity_id', 0)
+    start_time, end_time = _get_activity_window(activity_id)
+    if start_time is None:
+        logger.warning(
+            f'Stuck season order {stuck_order_id} activity {activity_id} has no '
+            f'{server.server} deadline; cannot infer its planning period'
+        )
+        return None
+    if not start_time <= time < end_time:
+        logger.warning(
+            f'Stuck season order {stuck_order_id} has no uniquely matching active '
+            f'activity; cannot infer its planning period'
+        )
+        return None
+    return (end_time - time).total_seconds() / 86400
+
+
 def normalize_item_needs(items=None, default_period=1):
     if not items:
         return {}
@@ -127,8 +265,15 @@ def normalize_item_needs(items=None, default_period=1):
             total_need_count = raw_value
             period = default_period
         total_need_count = int(total_need_count)
+        if total_need_count <= 0:
+            continue
+        if period is None:
+            raise ValueError(
+                f'No planning period was provided for item {item_id}; '
+                'use an explicit period or supply a default period'
+            )
         period = float(period)
-        if total_need_count <= 0 or period <= 0:
+        if period <= 0:
             continue
         requirements[item_id].append((total_need_count, period))
     return {
@@ -214,8 +359,15 @@ def item_need_input_to_requirements(data, default_period=1):
             count = deadline
             period = default_period
         count = int(count)
+        if count <= 0:
+            continue
+        if period is None:
+            raise ValueError(
+                'No planning period was provided for an item deadline; '
+                'use an explicit period or supply a default period'
+            )
         period = float(period)
-        if count > 0 and period > 0:
+        if period > 0:
             requirements.append((count, period))
     return requirements
 
@@ -285,11 +437,50 @@ def get_stuck_season_order_requirements(stuck_order_id):
     return dict(requirements)
 
 
-def merge_task_target_stuck_order_items(task_target_items, stuck_order_items):
+def get_stuck_season_order_items(stuck_order_id, current_time=None):
+    """Return the resolved order ID and its deadline-normalized item needs."""
+    current_time = _get_server_time(current_time)
+    stuck_order_id = resolve_stuck_season_order_id(stuck_order_id, current_time)
+    return stuck_order_id, normalize_item_needs(
+        get_stuck_season_order_requirements(stuck_order_id),
+        default_period=get_stuck_season_order_remaining_days(
+            stuck_order_id,
+            current_time,
+        ),
+    )
+
+
+def merge_task_target_stuck_order_items(
+        task_target_items,
+        stuck_order_items,
+        task_target_period=None,
+        stuck_order_period=None,
+):
     """Normalize and merge configured tasks with remaining stuck-order needs."""
     return merge_item_needs(
-        normalize_item_needs(task_target_items, default_period=10),
-        normalize_item_needs(stuck_order_items, default_period=10),
+        normalize_item_needs(task_target_items, default_period=task_target_period),
+        normalize_item_needs(stuck_order_items, default_period=stuck_order_period),
+    )
+
+
+def get_task_target_items(config, task_target_items=None, current_time=None):
+    """Load TaskTarget and merge the active stuck season-order requirements."""
+    if task_target_items is None:
+        task_target_items = load_item_mapping(
+            config.cross_get("IslandSeasonTask.IslandSeasonTask.TaskTarget", "{}"),
+            config_name='TaskTarget',
+        )
+    current_time = _get_server_time(current_time)
+    _, stuck_order_items = get_stuck_season_order_items(
+        config.cross_get("IslandOrder.IslandOrder.StuckSeasonOrderId", 0),
+        current_time,
+    )
+    return merge_item_needs(
+        normalize_item_needs(
+            task_target_items,
+            default_period=get_current_season_remaining_days(current_time),
+        ),
+        stuck_order_items,
     )
 
 

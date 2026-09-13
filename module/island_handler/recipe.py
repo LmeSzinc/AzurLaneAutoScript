@@ -17,14 +17,14 @@ from module.island.data import DIC_ISLAND_ITEM, DIC_ISLAND_RECIPE, DIC_ISLAND_SH
 from module.island.utils import (
     ceil_div_or_ceil,
     get_idle_accumulating_batch_count,
-    get_stuck_season_order_requirements,
+    get_task_target_items,
     get_target_stock_load_rate,
     get_production_target_stock,
+    item_name_with_id,
     load_hard_floor_items,
-    load_item_mapping,
-    merge_task_target_stuck_order_items,
     normalize_item_keys,
     parse_item_need_deadlines,
+    recipe_name_with_id,
 )
 from module.island_handler.assets import *
 from module.island_handler.exchange import IslandExchange
@@ -123,6 +123,11 @@ RECIPE_INGREDIENT_COUNTER_OCR = IslandReversedDigitCounter(
 
 def get_recipe_product_id(recipe_id):
     return next(iter(DIC_ISLAND_RECIPE[recipe_id]['commission_product']))
+
+
+def format_recipe_with_product(recipe_id):
+    product_id = get_recipe_product_id(recipe_id)
+    return f'{recipe_name_with_id(recipe_id)}, product {item_name_with_id(product_id)}'
 
 
 # demand is always the parsed [(count, period), ...] list from parse_item_need_deadlines.
@@ -369,20 +374,6 @@ class IslandRecipe(IslandExchange, IslandShop):
     def reserve_items(self):
         return get_menu_reserve_items(self.config)
 
-    def get_task_target_items(self, task_target_items=None):
-        if task_target_items is None:
-            task_target_items = load_item_mapping(
-                self.config.cross_get("IslandSeasonTask.IslandSeasonTask.TaskTarget", "{}"),
-                config_name='TaskTarget',
-            )
-        stuck_season_order_id = self.config.cross_get(
-            "IslandOrder.IslandOrder.StuckSeasonOrderId", 0
-        )
-        return merge_task_target_stuck_order_items(
-            task_target_items,
-            get_stuck_season_order_requirements(stuck_season_order_id),
-        )
-
     def get_recipe_id_sequence_to_run(
             self,
             daily_buffer_items_dict=None,
@@ -414,7 +405,7 @@ class IslandRecipe(IslandExchange, IslandShop):
             reserve_items_dict = self.reserve_items
         else:
             reserve_items_dict = normalize_item_keys(reserve_items_dict)
-        task_target_items_dict = self.get_task_target_items(task_target_items_dict)
+        task_target_items_dict = get_task_target_items(self.config, task_target_items_dict)
         self.task_target_items = task_target_items_dict
         if idle_accumulating_items_dict is None:
             yaml_text = self.config.cross_get("IslandProduction.IslandProduction.IdleAccumulatingItems", "")
@@ -447,7 +438,7 @@ class IslandRecipe(IslandExchange, IslandShop):
             info = RecipeInfo(stock, target_stock, daily_buffer_width, batch_size, demand, idle_accumulating)
             self.recipe_info_by_id[recipe_id] = info
             logger.info(
-                f'Recipe {recipe_id} stock: {stock}, '
+                f'Recipe {format_recipe_with_product(recipe_id)} stock: {stock}, '
                 f'daily_buffer_width: {daily_buffer_width}, '
                 f'hard_floor: {hard_floor}, '
                 f'reserve: {reserve}, '
@@ -500,9 +491,13 @@ class IslandRecipe(IslandExchange, IslandShop):
         normal_entries.sort(key=lambda entry: get_recipe_entry_weight(entry[0], entry[1]), reverse=True)
         optional_entries.sort(key=get_optional_recipe_entry_weight)
         sequence = normal_entries + optional_entries
+        sequence_text = [
+            f'{format_recipe_with_product(recipe_id)} [{mode or "normal"}]'
+            for recipe_id, _info, mode in sequence
+        ]
         logger.info(
             'Calculated recipe sequence to run: '
-            f'{[(recipe_id, mode) for recipe_id, _info, mode in sequence]}'
+            f'{sequence_text}'
         )
         return sequence
 
@@ -527,9 +522,7 @@ class IslandRecipe(IslandExchange, IslandShop):
     def get_active_recipe_id(self):
         for recipe_id, button in zip(self.recipe_ids, self.recipe_grid.buttons):
             if self.is_button_selected(button):
-                product_id = get_recipe_product_id(recipe_id)
-                product_name = DIC_ISLAND_ITEM[product_id]['name'][server.server]
-                logger.info(f'Selected recipe id: {recipe_id}, product name: {product_name}')
+                logger.info(f'Selected recipe: {format_recipe_with_product(recipe_id)}')
                 return recipe_id
         logger.warning('Unable to determine selected recipe, assume no active recipe')
         return None
@@ -607,7 +600,10 @@ class IslandRecipe(IslandExchange, IslandShop):
                 self.next_recipe_page()
             clicked = False
         else:
-            logger.warning(f'Unable to find recipe id {recipe_id} after looping through recipe pages, failed to set recipe')
+            logger.warning(
+                f'Unable to find recipe {format_recipe_with_product(recipe_id)} '
+                'after looping through recipe pages, failed to set recipe'
+            )
             self.device.click_record_clear()
             return False
 
@@ -638,7 +634,7 @@ class IslandRecipe(IslandExchange, IslandShop):
         recipe_cost = DIC_ISLAND_RECIPE[recipe_id]['commission_cost']
         task_target_items = getattr(self, 'task_target_items', None)
         if task_target_items is None:
-            task_target_items = self.get_task_target_items()
+            task_target_items = get_task_target_items(self.config)
         hard_floor_items, reserve_items, daily_buffer_items = self.production_floor_items
         buffer_surplus_mode = mode == RECIPE_MODE_BUFFER_SURPLUS
 
@@ -658,7 +654,9 @@ class IslandRecipe(IslandExchange, IslandShop):
             return available_stock, protected_stock, task_target
 
         if counters is None:
-            logger.warning(f'Unable to read ingredient counters for recipe {recipe_id}')
+            logger.warning(
+                f'Unable to read ingredient counters for recipe {format_recipe_with_product(recipe_id)}'
+            )
             return False, 0
         if batch_count == float('inf'):
             max_count = DIC_ISLAND_RECIPE[recipe_id]['production_limit']
@@ -682,7 +680,9 @@ class IslandRecipe(IslandExchange, IslandShop):
         failed_buy_items = getattr(self, 'failed_buy_items', set())
         ingredient_grid = self.get_recipe_ingredient_grids(recipe_id)
         if ingredient_grid is None:
-            logger.warning(f'Unable to determine ingredient grid for recipe {recipe_id}')
+            logger.warning(
+                f'Unable to determine ingredient grid for recipe {format_recipe_with_product(recipe_id)}'
+            )
             return False, 0
         ingredient_buttons = ingredient_grid.buttons
         for ingredient_key, counter, button in zip(recipe_cost, counters, ingredient_buttons):
@@ -694,7 +694,8 @@ class IslandRecipe(IslandExchange, IslandShop):
             if available_stock < real_count * counter[1]:
                 if buffer_surplus_mode:
                     logger.info(
-                        f'Ingredient {ingredient_key} has insufficient stock above protected stock '
+                        f'Ingredient {item_name_with_id(ingredient_key)} has insufficient stock '
+                        'above protected stock '
                         f'{protected_stock} and task target {task_target_reserve}; '
                         'buffer surplus production will not buy or exchange ingredients'
                     )
@@ -704,7 +705,8 @@ class IslandRecipe(IslandExchange, IslandShop):
                 if ingredient_key in (2521, 2522):
                     if ingredient_key in failed_buy_items:
                         logger.warning(
-                            f'Skipping exchange of ingredient {ingredient_key} after a previous failed exchange'
+                            f'Skipping exchange of ingredient {item_name_with_id(ingredient_key)} '
+                            'after a previous failed exchange'
                         )
                         real_count = min(real_count, available_stock // counter[1])
                         success = False
@@ -721,7 +723,8 @@ class IslandRecipe(IslandExchange, IslandShop):
                 if ingredient_key in DIC_ISLAND_SHOP_ITEM_TO_RECIPE:
                     if ingredient_key in failed_buy_items:
                         logger.warning(
-                            f'Skipping purchase of ingredient {ingredient_key} after a previous failed buy'
+                            f'Skipping purchase of ingredient {item_name_with_id(ingredient_key)} '
+                            'after a previous failed buy'
                         )
                         real_count = min(real_count, available_stock // counter[1])
                         success = False
@@ -747,12 +750,16 @@ class IslandRecipe(IslandExchange, IslandShop):
                     else:
                         self.ui_back(check_button=self.is_in_recipe_menu)
                     if not success:
-                        logger.warning(f'Failed to buy ingredient {ingredient_key} from shop, insufficient ingredient for recipe production')
+                        logger.warning(
+                            f'Failed to buy ingredient {item_name_with_id(ingredient_key)} from shop, '
+                            f'insufficient ingredient for recipe {format_recipe_with_product(recipe_id)}'
+                        )
                         real_count = min(real_count, available_stock // counter[1])
                 else:
                     logger.warning(
-                        f'Ingredient {ingredient_key} cannot be bought from shop, '
-                        f'insufficient ingredient for recipe production after protected stock {protected_stock} '
+                        f'Ingredient {item_name_with_id(ingredient_key)} cannot be bought from shop, '
+                        f'insufficient ingredient for recipe {format_recipe_with_product(recipe_id)} '
+                        f'after protected stock {protected_stock} '
                         f'and task target {task_target_reserve}'
                     )
                     real_count = min(real_count, available_stock // counter[1])
@@ -805,7 +812,9 @@ class IslandRecipe(IslandExchange, IslandShop):
             logger.warning('Not in recipe menu, cannot run recipe')
             return None
         if not self.set_recipe(recipe_id):
-            logger.warning(f'Failed to set recipe to {recipe_id}, cannot run recipe')
+            logger.warning(
+                f'Failed to set recipe to {format_recipe_with_product(recipe_id)}, cannot run recipe'
+            )
             return None
         success, real_count = self.prepare_ingredients(
             recipe_id,
@@ -813,11 +822,17 @@ class IslandRecipe(IslandExchange, IslandShop):
             mode=mode,
         )
         if real_count <= 0:
-            logger.warning('No batch can be produced with current ingredient stock, cannot run recipe')
+            logger.warning(
+                f'No batch of recipe {format_recipe_with_product(recipe_id)} can be produced '
+                'with current ingredient stock'
+            )
             self.last_unavailable_product = get_recipe_product_id(recipe_id)
             return None
         if not success:
-            logger.warning(f'Failed to prepare enough ingredient for {batch_count} batch(es) production')
+            logger.warning(
+                f'Failed to prepare enough ingredients for {batch_count} batch(es) of '
+                f'recipe {format_recipe_with_product(recipe_id)}'
+            )
             logger.info(f'Can only produce {real_count} batch(es) with current ingredient stock, will try to run with this amount')
         if not self.set_recipe_batch_count(real_count):
             logger.warning(f'Failed to set recipe batch count to {"max" if real_count == float("inf") else real_count}, cannot run recipe')
@@ -830,7 +845,10 @@ class IslandRecipe(IslandExchange, IslandShop):
                     continue
                 if not self.is_in_recipe_menu():
                     break
-            logger.info(f'Recipe {recipe_id} started with amount {"max" if real_count == float("inf") else real_count}, remain time: {remain_time}')
+            logger.info(
+                f'Recipe {format_recipe_with_product(recipe_id)} started with amount '
+                f'{"max" if real_count == float("inf") else real_count}, remain time: {remain_time}'
+            )
             return remain_time, real_count
         else:
             logger.warning('Failed to get recipe remain time, recipe may not have started successfully')
@@ -844,14 +862,17 @@ class IslandRecipe(IslandExchange, IslandShop):
             if old_recipe_id == recipe_id:
                 new_stock = info.stock + info.batch_size * batch_count
                 logger.info(
-                    f'Updated recipe {recipe_id} stock from {info.stock} to {new_stock} '
+                    f'Updated recipe {format_recipe_with_product(recipe_id)} stock '
+                    f'from {info.stock} to {new_stock} '
                     f'after running recipe for {batch_count} batch(es)'
                 )
             elif product_id in consumed_items:
                 new_stock = info.stock - consumed_items[product_id]
                 logger.info(
-                    f'Updated recipe {old_recipe_id} stock from {info.stock} to {new_stock} '
-                    f'after consuming {consumed_items[product_id]} item(s) for recipe {recipe_id}'
+                    f'Updated recipe {format_recipe_with_product(old_recipe_id)} stock '
+                    f'from {info.stock} to {new_stock} after consuming '
+                    f'{consumed_items[product_id]} {item_name_with_id(product_id)} for '
+                    f'recipe {format_recipe_with_product(recipe_id)}'
                 )
             else:
                 continue
@@ -881,7 +902,8 @@ class IslandRecipe(IslandExchange, IslandShop):
                 batch_count = self.calculate_recipe_run_count(info)
             strategy = mode or 'normal'
             logger.info(
-                f'Plan to run {batch_count} batch(es) of recipe {recipe_id} in {strategy} mode, '
+                f'Plan to run {batch_count} batch(es) of recipe '
+                f'{format_recipe_with_product(recipe_id)} in {strategy} mode, '
                 f'limitation: {production_limit} batches'
             )
             if batch_count > production_limit:
@@ -892,7 +914,8 @@ class IslandRecipe(IslandExchange, IslandShop):
                 remain_time, real_count = result
                 target_time = datetime.now() + remain_time
                 logger.info(
-                    f'Will run recipe {recipe_id} in {strategy} mode for {real_count} batch(es), '
+                    f'Will run recipe {format_recipe_with_product(recipe_id)} in {strategy} mode '
+                    f'for {real_count} batch(es), '
                     f'expected target time: {target_time}'
                 )
                 self.update_recipe_id_sequence_and_stock(recipe_id, real_count)
@@ -901,7 +924,8 @@ class IslandRecipe(IslandExchange, IslandShop):
                 unavailable_product = getattr(self, 'last_unavailable_product', None)
                 if unavailable_product is not None:
                     logger.info(
-                        f'Product {unavailable_product} is unavailable after recipe {recipe_id} failed'
+                        f'Product {item_name_with_id(unavailable_product)} is unavailable after '
+                        f'recipe {format_recipe_with_product(recipe_id)} failed'
                     )
                 self.checked_recipe_modes.add((recipe_id, mode))
                 self.recipe_id_sequence = self._build_recipe_id_sequence_to_run()
