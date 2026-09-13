@@ -451,6 +451,14 @@ class IslandRecipe(IslandExchange, IslandShop):
 
     def _build_recipe_id_sequence_to_run(self):
         checked_modes = self.checked_recipe_modes
+        skip_buffer_surplus = self.config.cross_get(
+            "IslandProduction.IslandProduction.SkipBufferSurplus", True
+        )
+        if skip_buffer_surplus:
+            logger.info(
+                'Skip buffer-surplus recipe checks because '
+                'IslandProduction.SkipBufferSurplus is enabled'
+            )
         normal_entries = []
         optional_entries = []
         run_counts = {
@@ -476,7 +484,8 @@ class IslandRecipe(IslandExchange, IslandShop):
             # feed, fry, flour) into tier-1 products. Surplus of recipe products
             # stays as-is: it is fungible for orders and downstream demand is
             # already maintained by normal replenishment.
-            elif recipe_cost and all(item in DIC_ISLAND_SHOP_ITEM_TO_RECIPE for item in recipe_cost) \
+            elif not skip_buffer_surplus and recipe_cost \
+                    and all(item in DIC_ISLAND_SHOP_ITEM_TO_RECIPE for item in recipe_cost) \
                     and self.calculate_buffer_surplus_run_count(info) > 0 and (
                     recipe_id, RECIPE_MODE_BUFFER_SURPLUS
             ) not in checked_modes:
@@ -484,8 +493,8 @@ class IslandRecipe(IslandExchange, IslandShop):
             elif info.idle_accumulating > 0 and (
                     recipe_id, RECIPE_MODE_IDLE_ACCUMULATING
             ) not in checked_modes:
-                # Reached for buffer_surplus recipes only after that mode failed
-                # and was checked, via the rebuild in run().
+                # Also reached after a buffer-surplus attempt failed and the
+                # sequence was rebuilt with that strategy marked as checked.
                 optional_entries.append((recipe_id, info, RECIPE_MODE_IDLE_ACCUMULATING))
 
         normal_entries.sort(key=lambda entry: get_recipe_entry_weight(entry[0], entry[1]), reverse=True)
