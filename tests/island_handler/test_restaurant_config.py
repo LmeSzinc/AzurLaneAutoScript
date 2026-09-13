@@ -1,5 +1,11 @@
-"""Tests for restaurant menu reserve derivation."""
-from module.island_handler.restaurant_config import get_menu_reserve_items
+"""Tests for restaurant configuration helpers."""
+import pytest
+
+from module.exception import RequestHumanTakeover
+from module.island_handler.restaurant_config import (
+    get_menu_reserve_items,
+    normalize_waitress_slots,
+)
 
 
 class FakeConfig:
@@ -41,3 +47,18 @@ class TestGetMenuReserveItems:
 
     def test_empty_menus_reserve_nothing(self):
         assert get_menu_reserve_items(FakeConfig({})) == {}
+
+
+class TestNormalizeWaitressSlots:
+    @pytest.mark.parametrize(('values', 'message'), [
+        (['Unknown'], 'Invalid waitress value for restaurant 601: Unknown'),
+        (['Chao_Ho', 'Chao_Ho'], 'Duplicate named waitress for restaurant 601: Chao_Ho'),
+        (['none', 'any', 'none'], 'Restaurant 601 has more than two waitress slots'),
+    ])
+    def test_logs_error_before_requesting_human_takeover(self, caplog, values, message):
+        with caplog.at_level('ERROR', logger='alas'):
+            with pytest.raises(RequestHumanTakeover) as exc_info:
+                normalize_waitress_slots(601, values)
+
+        assert str(exc_info.value) == message
+        assert caplog.messages[-1] == message

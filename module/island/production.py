@@ -6,7 +6,8 @@ from module.base.timer import Timer
 from module.base.utils import random_rectangle_vector_opted
 from module.exception import RequestHumanTakeover
 from module.island.assets import *
-from module.island.data import DIC_ISLAND_PRODUCTION_PLACE
+from module.island.data import DIC_ISLAND_PRODUCTION_PLACE, DIC_ISLAND_SLOT
+from module.island.utils import item_name_with_id, production_place_name_with_id
 from module.island_handler.dock import IslandDock
 from module.island_handler.dock_scanner import CharacterScanner
 from module.island_handler.recipe import IslandProductionRestart, IslandRecipe
@@ -25,6 +26,11 @@ SLOT_SIZE = (86, 86)
 SLOT_DELTA = (95 - 1/3, 0)
 TICK_AREA = (30, 35, 52, 51)
 CHARACTER_SELECT_TITLE_AREA = (515, 144, 765, 202)
+
+
+def production_slot_name_with_id(slot_id):
+    place_id = DIC_ISLAND_SLOT[slot_id]['place']
+    return f'{production_place_name_with_id(place_id)} slot {slot_id}'
 
 
 class IslandProduction(IslandRecipe, IslandDock):
@@ -103,7 +109,13 @@ class IslandProduction(IslandRecipe, IslandDock):
             else:
                 logger.warning('Failed to recognize production name')
                 codenames.append(None)
+        places = [
+            production_place_name_with_id(place_id)
+            if place_id in DIC_ISLAND_PRODUCTION_PLACE else f'Unknown ({place_id})'
+            for place_id in codenames
+        ]
         logger.attr('Codenames', codenames)
+        logger.attr('Production_places', places)
         return codenames
 
     @cached_property
@@ -226,7 +238,10 @@ class IslandProduction(IslandRecipe, IslandDock):
         if worker != 'manjuu':
             character = self.island_dock_find_character(worker)
             if not character or character.status != 'free':
-                logger.warning(f'Failed to select character {worker} for slot {slot_id}, try to select manjuu instead')
+                logger.warning(
+                    f'Failed to select character {worker} for '
+                    f'{production_slot_name_with_id(slot_id)}, try to select manjuu instead'
+                )
                 worker = 'manjuu'
                 self.ensure_dock_page_at_top()
             else:
@@ -244,7 +259,7 @@ class IslandProduction(IslandRecipe, IslandDock):
                 if self.match_template_color(page_island_manage.check_button, offset=(0, 20)):
                     return True
         else:
-            logger.warning(f'Failed to start production for slot {slot_id}')
+            logger.warning(f'Failed to start production for {production_slot_name_with_id(slot_id)}')
             if slot_id in [9031, 9032, 9033, 9034]:
                 del_cached_property(super(), 'recipe_id_sequence')
                 del_cached_property(super(), 'all_recipe_stocks')
@@ -254,13 +269,19 @@ class IslandProduction(IslandRecipe, IslandDock):
 
     def dispatch_place(self, place_id):
         if place_id not in self.slot_grids:
-            logger.error(f'Place id {place_id} not found in current production page')
+            place = (
+                production_place_name_with_id(place_id)
+                if place_id in DIC_ISLAND_PRODUCTION_PLACE else f'Unknown production place ({place_id})'
+            )
+            logger.error(f'{place} not found in current production page')
             return False
+        place = production_place_name_with_id(place_id)
+        logger.info(f'Dispatch production place: {place}')
         slot_grid = self.slot_grids[place_id]
         is_first = True
         for slot_id, slot_button in zip(DIC_ISLAND_PRODUCTION_PLACE[place_id]['slot'], slot_grid.buttons):
             if not is_first and has_cached_property(super(), 'recipe_id_sequence') and not self.recipe_id_sequence:
-                logger.info(f'No more recipe for place {place_id}, skip remaining slots')
+                logger.info(f'No more recipe for {place}, skip remaining slots')
                 break
             if self.is_slot_empty(slot_button):
                 self.dispatch_slot(slot_id=slot_id, slot_button=slot_button, worker='manjuu')
@@ -285,7 +306,15 @@ class IslandProduction(IslandRecipe, IslandDock):
             except IslandProductionRestart as e:
                 if not e.success:
                     self.failed_buy_items.add(e.item_id)
-                logger.info('Production restarted, continue from current page')
+                    logger.warning(
+                        f'Failed to acquire ingredient {item_name_with_id(e.item_id)}; '
+                        'restart production and skip further attempts for this item'
+                    )
+                else:
+                    logger.info(
+                        f'Acquired ingredient {item_name_with_id(e.item_id)}; '
+                        'restart production from current page'
+                    )
                 del_cached_property(self, 'production_grid')
                 del_cached_property(self, 'production_names')
                 del_cached_property(self, 'slot_grids')
