@@ -20,7 +20,7 @@ DELTA_PRICE = (28, 164, 128, 193)
 DELTA_TAG = (108, 30, 155, 52)
 COUNTER_COLOR = (106, 120, 131)
 COUNTER_THRESHOLD = 150
-COUNTER_TOTALS = (500, 350, 100, 50, 40, 30, 20, 10, 5, 4, 2, 1)
+COUNTER_TOTALS = (500, 350, 100, 50, 40, 30, 20, 15, 10, 5, 4, 2, 1)
 PRICE_THRESHOLD = 230
 PRICE_BACKGROUND_COLOR = (61, 78, 91)
 if server.server == 'jp':
@@ -161,7 +161,9 @@ class EventShopItem(Item):
             self.cost = 'URpt'
         else:
             self.cost = 'pt'
-            if self.price == 2000:
+            if self.price == 135 and self.total_count == 15:
+                self.name = 'EquipSSR'
+            elif self.price == 2000:
                 if self.total_count == 10:
                     self.name = 'SkinBox'
                 elif self.total_count == 4:

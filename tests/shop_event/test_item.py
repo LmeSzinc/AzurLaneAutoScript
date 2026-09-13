@@ -2,9 +2,9 @@
 import pytest
 
 from module.ocr.ocr import Ocr
-from module.shop_event.item import CounterOcr
+from module.shop_event.item import CounterOcr, EventShopItem
 
-AMBIGUOUS_SLASHLESS_COUNTERS = {'350', '0350', '1350', '2350', '3350', '4350'}
+AMBIGUOUS_SLASHLESS_COUNTERS = {'15', '015', '350', '0350', '1350', '2350', '3350', '4350'}
 
 
 class TestCounterOcrAfterProcess:
@@ -47,6 +47,7 @@ class TestCounterOcrAfterProcess:
     @pytest.mark.parametrize('raw, expected', [
         ('55', '5/5'),
         ('2530', '25/30'),
+        ('1515', '15/15'),
         ('350350', '350/350'),
         ('500500', '500/500'),
     ])
@@ -58,7 +59,7 @@ class TestCounterOcrAfterProcess:
         # "0100" -> "0/100", ..., "100100" -> "100/100", and likewise for
         # every other total in the fixup list
         (f'{current}{total}', f'{current}/{total}')
-        for total in [500, 350, 100, 50, 40, 30, 20, 10, 5, 4, 2, 1]
+        for total in [500, 350, 100, 50, 40, 30, 20, 15, 10, 5, 4, 2, 1]
         for current in range(0, total + 1)
         if f'{current}{total}' not in AMBIGUOUS_SLASHLESS_COUNTERS
     ])
@@ -75,6 +76,7 @@ class TestCounterOcrAfterProcess:
         ('30', '30'),
         ('40', '40'),
         ('20', '20'),
+        ('15', '15'),
         ('10', '10'),
         ('5', '5'),
         ('4', '4'),
@@ -102,6 +104,7 @@ class TestCounterOcrAfterProcess:
     @pytest.mark.parametrize('raw, expected', [
         ('0/500', [0, 500]),
         ('500/500', [500, 500]),
+        ('15/15', [15, 15]),
         ('14/15', [14, 15]),
     ])
     def test_parse_valid_counter(self, raw, expected):
@@ -117,3 +120,15 @@ class TestCounterOcrAfterProcess:
         monkeypatch.setattr(Ocr, 'ocr', lambda *args, **kwargs: ['/', '500/500'])
 
         assert self.ocr.ocr([None, None], direct_ocr=True) == [[0, 0], [500, 500]]
+
+
+def test_price_135_total_15_is_equip_ssr():
+    item = object.__new__(EventShopItem)
+    item.price = 135
+    item.total_count = 15
+    item.name = 'Unknown'
+
+    item.correct_name_and_cost()
+
+    assert item.name == 'EquipSSR'
+    assert item.cost == 'pt'
