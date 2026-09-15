@@ -47,6 +47,8 @@ class IslandShop(IslandShopUI):
     def _island_shop_item_name_ocr(self):
         if server.server == 'jp':
             lang = 'jp'
+        elif server.server == 'tw':
+            lang = 'tw'
         else:
             lang = 'cnocr'
         return Ocr(
