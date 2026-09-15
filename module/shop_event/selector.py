@@ -15,7 +15,7 @@ FILTER_REGEX = re.compile(
     '|core|change|enhance'
     '|general|gun|torpedo|antiair|plane)?'
 
-    '(s[1-8]|t[1-6])?$'
+    '(s[1-9]|t[1-6])?$'
 )
 FILTER_ATTR = ('group', 'sub_genre', 'tier')
 FILTER = Filter(FILTER_REGEX, FILTER_ATTR)
