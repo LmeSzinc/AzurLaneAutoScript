@@ -1,13 +1,16 @@
 from random import choice
 
+import cv2
+
 import module.config.server as server
 from module.base.timer import Timer
+from module.base.utils import area_pad
 from module.combat.assets import GET_ITEMS_1
 from module.exception import GameStuckError, ScriptError
 from module.logger import logger
 from module.ocr.ocr import DigitCounter
 from module.retire.assets import *
-from module.retire.dock import CARD_GRIDS, Dock
+from module.retire.dock import Dock
 
 VALID_SHIP_TYPES = ['dd', 'ss', 'cl', 'ca', 'bb', 'cv', 'repair', 'others']
 if server.server != 'jp':
@@ -29,6 +32,16 @@ class Enhancement(Dock):
             if self.config.OldRetire_RetireAmount == 'retire_10':
                 return 10
         return 3000
+
+    @property
+    def _retire_keep_common_cv(self):
+        """
+        Returns:
+            str: "any" or specific ship name, or empty string if GemsFarming is not enabled
+        """
+        if not self.config.is_task_enabled('GemsFarming'):
+            return ''
+        return self.config.cross_get('GemsFarming.GemsFarming.CommonCV', default='any')
 
     def _enhance_enter(self, favourite=False, ship_type=None):
         """
@@ -99,6 +112,72 @@ class Enhancement(Dock):
             else:
                 confirm_timer.reset()
 
+    def _enhance_get_deselect_cv(self, first_slot=False):
+        """
+        Args:
+            first_slot: True to check in first slot only, False to check in all slots
+
+        Returns:
+            Button | None: Button of common rarity CV to de-select, or None if not found
+        """
+        cv = self._retire_keep_common_cv
+        if not cv:
+            return None
+        dict_template = {
+            'bogue': TEMPLATE_ENHANCE_BOGUE,
+            'hermes': TEMPLATE_ENHANCE_HERMES,
+            'langley': TEMPLATE_ENHANCE_LANGLEY,
+            'ranger': TEMPLATE_ENHANCE_RANGER,
+        }
+        if cv != 'any':
+            dict_template = {cv: dict_template[cv]}
+
+        if first_slot:
+            # outer pad 22 px reaches slot edge
+            area = area_pad(EMPTY_ENHANCE_SLOT_PLUS.area, pad=-22)
+        else:
+            area = ENHANCE_AREA_FULL.area
+        image = self.image_crop(area, copy=False)
+
+        for cv, template in dict_template.items():
+            sim, button = template.match_result(image)
+            if sim > 0.85:
+                button = button.move(area[:2])
+                return Button(area=button.area, color=button.color, button=button.area,
+                              name=f'TEMPLATE_ENHANCE_{cv.upper()}_RETIRE')
+
+        return None
+
+    def _enhance_deselect_cv(self):
+        """
+        De-select common rarity CV from enhance material slots
+        """
+        cv = self._enhance_get_deselect_cv()
+        if cv is None:
+            return
+
+        logger.info(f'Enhance de-select common CV')
+        # get cv slot, outer pad from matched center
+        area = cv.area
+        center = ((area[0] + area[2]) / 2, (area[1] + area[3]) / 2)
+        radius = abs(EMPTY_ENHANCE_SLOT_PLUS.area[3] - EMPTY_ENHANCE_SLOT_PLUS.area[1]) / 2
+        radius = radius + 22
+        search = (center[0] - radius, center[1] - radius, center[0] + radius, center[1] + radius)
+
+        self.interval_clear(ENHANCE_RECOMMEND, interval=2)
+        EMPTY_ENHANCE_SLOT_PLUS.ensure_template()
+        for _ in self.loop():
+            image = self.image_crop(search, copy=False)
+            result = cv2.matchTemplate(EMPTY_ENHANCE_SLOT_PLUS.image, image, cv2.TM_CCOEFF_NORMED)
+            _, similarity, _, _ = cv2.minMaxLoc(result)
+            if similarity > 0.85:
+                logger.info(f'Enhance de-select common CV done')
+                break
+
+            if self.appear(ENHANCE_RECOMMEND, offset=(5, 5), interval=2):
+                self.device.click(cv)
+                continue
+
     def _enhance_choose(self, ship_count, skip_first_screenshot=True):
         """
         Refactor the implementation.
@@ -147,13 +226,24 @@ class Enhancement(Dock):
 
         def state_enhance_recommend():
             # Judge if enhance material appeared
-            if not EMPTY_ENHANCE_SLOT_PLUS.match(self.device.image):
+            if not EMPTY_ENHANCE_SLOT_PLUS.match(self.device.image, offset=(20, 20)):
+                if self._retire_keep_common_cv:
+                    # consider empty if first slot is common CV and second slot is empty
+                    # to avoid infinite loop of recommend and de-select
+                    # the second slot is 92px to the left
+                    if EMPTY_ENHANCE_SLOT_PLUS.match(self.device.image, offset=(72, -20, 112, 20)) \
+                            and self._enhance_get_deselect_cv(first_slot=True):
+                        logger.info('Only 1 common CV material, consider as no material found as enhancement')
+                        logger.info('Enhancement failed. Swiping to next ship if feasible')
+                        return "state_enhance_fail"
+                    # de-select common CV
+                    self._enhance_deselect_cv()
+
                 logger.info('Material found. Try enhancing...')
                 return "state_enhance_attempt"
             elif self.info_bar_count():
                 logger.info('No material found for enhancement.')
-                logger.info(
-                    'Enhancement failed. Swiping to next ship if feasible')
+                logger.info('Enhancement failed. Swiping to next ship if feasible')
                 return "state_enhance_fail"
 
             return "state_enhance_ready"

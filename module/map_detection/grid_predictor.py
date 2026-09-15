@@ -127,19 +127,18 @@ class GridPredictor:
             image = cv2.resize(image, shape, interpolation=cv2.INTER_CUBIC)
         return image
 
-    def relative_rgb_count(self, area, color, shape=(50, 50), threshold=221):
+    def relative_rgb_count(self, area, color, shape=(50, 50), threshold=34):
         """
         Args:
             area (tuple): upper_left_x, upper_left_y, bottom_right_x, bottom_right_y, such as (-1, -1, 1, 1).
             color (tuple): Target RGB.
             shape (tuple): Output image shape, (width, height).
-            threshold (int): 0-255. The bigger, the more similar. 255 means the same color.
+            threshold (int): 0-255. The lower, the more similar. 0 means the same color.
 
         Returns:
             int: Number of matched pixels.
         """
-        mask = color_similarity_2d(self.relative_crop(area, shape=shape), color=color)
-        cv2.inRange(mask, threshold, 255, dst=mask)
+        mask = color_mask(self.relative_crop(area, shape=shape), color=color, threshold=threshold)
         count = cv2.countNonZero(mask)
         return count
 

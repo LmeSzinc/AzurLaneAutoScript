@@ -118,13 +118,13 @@ class ResearchQueue(ResearchUI):
                 'empty': Black … surrounded by black border or just nothing
         """
         center = button.crop((7, 7, 21, 21))
-        if self.image_color_count(center, color=(255, 158, 57), threshold=180, count=20):
+        if self.image_color_count(center, color=(255, 158, 57), threshold=75, count=20):
             return 'finished'
-        if self.image_color_count(center, color=(90, 97, 132), threshold=221, count=10):
+        if self.image_color_count(center, color=(90, 97, 132), threshold=30, count=10):
             return 'waiting'
-        if self.image_color_count(center, color=(24, 24, 41), threshold=221, count=10):
+        if self.image_color_count(center, color=(24, 24, 41), threshold=30, count=10):
             below = button.crop((7, 14, 21, 21))
-            if self.image_color_count(below, color=(24, 24, 41), threshold=221, count=10):
+            if self.image_color_count(below, color=(24, 24, 41), threshold=30, count=10):
                 return 'running'
             else:
                 return 'empty'
@@ -161,12 +161,12 @@ class ResearchQueue(ResearchUI):
         Raises:
             GameBugError:
         """
-        if self.image_color_count(QUEUE_REMAIN, color=(123, 125, 123), threshold=235, count=100):
+        if self.image_color_count(QUEUE_REMAIN, color=(123, 125, 123), threshold=20, count=100):
             logger.error('The first research of queue is not running,'
                          'probably a game bug from AL,'
                          'restart the game should fix it.')
             raise GameBugError
-        if not self.image_color_count(QUEUE_REMAIN, color=(255, 255, 255), threshold=221, count=100):
+        if not self.image_color_count(QUEUE_REMAIN, color=(255, 255, 255), threshold=30, count=100):
             logger.info('Research queue empty')
             return datetime.now()
 

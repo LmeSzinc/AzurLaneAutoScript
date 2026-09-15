@@ -221,6 +221,10 @@ class AzurLaneAutoScript:
         from module.shop.shop_reward import RewardShop
         RewardShop(config=self.config, device=self.device).run_once()
 
+    def event_shop(self):
+        from module.shop_event.shop_event import EventShop
+        EventShop(config=self.config, device=self.device).run()
+
     def shipyard(self):
         from module.shipyard.shipyard_reward import RewardShipyard
         RewardShipyard(config=self.config, device=self.device).run()
@@ -407,6 +411,30 @@ class AzurLaneAutoScript:
         GemsFarming(config=self.config, device=self.device).run(
             name=self.config.Campaign_Name, folder=self.config.Campaign_Event, mode=self.config.Campaign_Mode)
 
+    def island_production(self):
+        from module.island.production import IslandProduction
+        IslandProduction(config=self.config, device=self.device).run()
+
+    def island_order(self):
+        from module.island.order import IslandOrder
+        IslandOrder(config=self.config, device=self.device).run()
+
+    def island_freebie(self):
+        from module.island.freebie import IslandFreebie
+        IslandFreebie(config=self.config, device=self.device).run()
+
+    def island_collect(self):
+        from module.island.collect import IslandCollect
+        IslandCollect(config=self.config, device=self.device).run()
+
+    def island_season_task(self):
+        from module.island.season_task import IslandSeasonTask
+        IslandSeasonTask(config=self.config, device=self.device).run()
+
+    def island_business(self):
+        from module.island.business import IslandBusiness
+        IslandBusiness(config=self.config, device=self.device).run()
+
     def daemon(self):
         from module.daemon.daemon import AzurLaneDaemon
         AzurLaneDaemon(config=self.config, device=self.device, task="Daemon").run()
@@ -418,6 +446,10 @@ class AzurLaneAutoScript:
     def event_story(self):
         from module.eventstory.eventstory import EventStory
         EventStory(config=self.config, device=self.device, task="EventStory").run()
+
+    def island_production_planner(self):
+        from module.island_handler.production_planner import IslandProductionPlanner
+        IslandProductionPlanner(config=self.config, device=self.device, task="IslandProductionPlanner").run()
 
     def azur_lane_uncensored(self):
         from module.daemon.uncensored import AzurLaneUncensored

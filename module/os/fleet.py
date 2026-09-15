@@ -62,7 +62,7 @@ class PercentageOcr(Ocr):
 
 
 FLEET_LOW_RESOLVE = Button(
-    area=(144, 148, 170, 175), color=(255, 44, 33), button=(144, 148, 170, 175),
+    area=(294, 76, 339, 121), color=(255, 44, 33), button=(294, 76, 339, 121),
     name='FLEET_LOW_RESOLVE')
 
 
@@ -203,7 +203,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         Whether low resolve debuff appears on current fleet
         """
         return self.image_color_count(
-            FLEET_LOW_RESOLVE, color=FLEET_LOW_RESOLVE.color, threshold=221, count=250)
+            FLEET_LOW_RESOLVE, color=FLEET_LOW_RESOLVE.color, threshold=30, count=250)
 
     def get_sea_grids(self):
         """
@@ -675,7 +675,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
 
             # Wait until arrived
             # Having new screenshots
-            self.wait_until_walk_stable(confirm_timer=Timer(1.5, count=4), walk_out_of_step=False, drop=drop)
+            self.wait_until_walk_stable(confirm_timer=Timer(4, count=6), walk_out_of_step=False, drop=drop)
 
     def get_boss_leave_button(self):
         for grid in self.view:

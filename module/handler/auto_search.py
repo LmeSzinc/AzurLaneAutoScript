@@ -63,11 +63,11 @@ class AutoSearchHandler(EnemySearchingHandler):
         sidebar = self._fleet_sidebar()
 
         for idx, button in enumerate(sidebar.buttons):
-            if self.image_color_count(button, color=(99, 235, 255), threshold=221, count=50):
+            if self.image_color_count(button, color=(99, 235, 255), threshold=30, count=50):
                 current = idx + 1
                 total = idx + 1
                 continue
-            if self.image_color_count(button, color=(255, 255, 255), threshold=221, count=100):
+            if self.image_color_count(button, color=(255, 255, 255), threshold=30, count=100):
                 total = idx + 1
             else:
                 break
@@ -119,7 +119,7 @@ class AutoSearchHandler(EnemySearchingHandler):
         active = []
 
         for index, button in enumerate(AUTO_SEARCH_SETTINGS):
-            if self.image_color_count(button.button, color=(156, 255, 82), threshold=221, count=20):
+            if self.image_color_count(button.button, color=(156, 255, 82), threshold=30, count=20):
                 active.append(index)
 
         if not active:

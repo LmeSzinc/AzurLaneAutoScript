@@ -45,7 +45,7 @@ class BeaconReward(Combat, UI):
             # End
             # REWARD_CHECK appears and REWARD_RECEIVE gets gray
             if self.appear(REWARD_CHECK, offset=(20, 20)) and \
-                    self.image_color_count(REWARD_RECEIVE, color=(49, 52, 49), threshold=221, count=400):
+                    self.image_color_count(REWARD_RECEIVE, color=(49, 52, 49), threshold=30, count=400):
                 break
 
             if self.appear_then_click(REWARD_ENTER, offset=(20, 20), interval=3):

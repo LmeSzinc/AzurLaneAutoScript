@@ -18,7 +18,16 @@
     "menu": "list",
     "page": "setting",
     "tasks": [
-      "FpyDailyFpSummon"
+      "FpyDailyFpSummon",
+      "FpyDailyStorySummon",
+      "FpyDailyQuest"
+    ]
+  },
+  "FpyWeekly": {
+    "menu": "list",
+    "page": "setting",
+    "tasks": [
+      "FpyWeeklyMission"
     ]
   },
   "FpyTool": {

@@ -362,12 +362,12 @@ class ModuleBase:
         else:
             return crop(self.device.image, button, copy=copy)
 
-    def image_color_count(self, button, color, threshold=221, count=50):
+    def image_color_count(self, button, color, threshold=30, count=50):
         """
         Args:
             button (Button, tuple): Button instance or area.
             color (tuple): RGB.
-            threshold: 255 means colors are the same, the lower the worse.
+            threshold: 0 means colors are the same, the higher the worse.
             count (int): Pixels count.
 
         Returns:
@@ -377,32 +377,31 @@ class ModuleBase:
             image = button
         else:
             image = self.image_crop(button, copy=False)
-        mask = color_similarity_2d(image, color=color)
-        cv2.inRange(mask, threshold, 255, dst=mask)
+        mask = color_mask(image, color, threshold=threshold)
         sum_ = cv2.countNonZero(mask)
         return sum_ > count
 
-    def image_color_button(self, area, color, color_threshold=250, encourage=5, name='COLOR_BUTTON'):
+    def image_color_button(self, area, color, threshold=5, encourage=5, name='COLOR_BUTTON'):
         """
         Find an area with pure color on image, convert into a Button.
 
         Args:
             area (tuple[int]): Area to search from
             color (tuple[int]): Target color
-            color_threshold (int): 0-255, 255 means exact match
+            threshold (int): 0-255, 0 means exact match
             encourage (int): Radius of button
             name (str): Name of the button
 
         Returns:
             Button: Or None if nothing matched.
         """
-        image = color_similarity_2d(self.image_crop(area, copy=False), color=color)
-        points = np.array(np.where(image > color_threshold)).T[:, ::-1]
+        mask = color_mask(self.image_crop(area, copy=False), color=color, threshold=threshold)
+        points = np.array(np.where(mask > 0)).T[:, ::-1]
         if points.shape[0] < encourage ** 2:
             # Not having enough pixels to match
             return None
 
-        point = fit_points(points, mod=image_size(image), encourage=encourage)
+        point = fit_points(points, mod=image_size(mask), encourage=encourage)
         point = ensure_int(point + area[:2])
         button_area = area_offset((-encourage, -encourage, encourage, encourage), offset=point)
         color = get_color(self.device.image, button_area)

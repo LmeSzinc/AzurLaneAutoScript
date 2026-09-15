@@ -47,7 +47,7 @@ class GuildOperations(GuildBase):
                 confirm_timer.reset()
                 continue
             if self.appear(GUILD_OPERATIONS_JOIN, interval=3):
-                if self.image_color_count(GUILD_OPERATIONS_MONTHLY_COUNT, color=(255, 93, 90), threshold=221, count=20):
+                if self.image_color_count(GUILD_OPERATIONS_MONTHLY_COUNT, color=(255, 93, 90), threshold=30, count=20):
                     logger.info('Unable to join operation, no more monthly attempts left')
                     self.device.click(GUILD_OPERATIONS_CLICK_SAFE_AREA)
                 else:
@@ -125,7 +125,7 @@ class GuildOperations(GuildBase):
         """
         if not self.appear(GUILD_OPERATIONS_NEW, offset=(20, 20)):
             return False
-        if self.image_color_count(GUILD_OPERATION_FUND_CHECK, color=(255, 93, 91), threshold=180, count=30):
+        if self.image_color_count(GUILD_OPERATION_FUND_CHECK, color=(255, 93, 91), threshold=75, count=30):
             logger.warning('Insufficient guild fund to start new operation')
             return True
         return False
@@ -261,7 +261,7 @@ class GuildOperations(GuildBase):
                     for button in entrance_2:
                         # Enter button has a black area around Easy/Normal/Hard on the upper right
                         # If operation not expanded, enter button is a background with Gaussian Blur
-                        if self.image_color_count(button, color=(0, 0, 0), threshold=235, count=50):
+                        if self.image_color_count(button, color=(0, 0, 0), threshold=20, count=50):
                             self.device.click(button)
                             timer_1.reset()
                             timer_2.reset()
@@ -306,11 +306,11 @@ class GuildOperations(GuildBase):
         index = 0
         button = None
         for switch in switch_grid.buttons:
-            if self.image_color_count(switch, color=color_inactive, threshold=235, count=30):
+            if self.image_color_count(switch, color=color_inactive, threshold=20, count=30):
                 index += 1
                 text.append(f'| {index} |')
                 button = switch
-            elif self.image_color_count(switch, color=color_active, threshold=235, count=30):
+            elif self.image_color_count(switch, color=color_active, threshold=20, count=30):
                 index += 1
                 text.append(f'[ {index} ]')
                 button = switch
@@ -372,7 +372,7 @@ class GuildOperations(GuildBase):
             if not dispatched and self.appear(GUILD_DISPATCH_FLEET, offset=(20, 20), interval=3):
                 # GUILD_DISPATCH_FLEET and GUILD_DISPATCH_FLEET_UNFILLED has same feature but different colors
                 # check background blue for double check
-                if self.image_color_count(GUILD_DISPATCH_FLEET, color=(82, 93, 221), threshold=235, count=500):
+                if self.image_color_count(GUILD_DISPATCH_FLEET, color=(82, 93, 221), threshold=20, count=500):
                     self.device.click(GUILD_DISPATCH_FLEET)
                 else:
                     self.interval_clear(GUILD_DISPATCH_FLEET)
@@ -390,7 +390,7 @@ class GuildOperations(GuildBase):
             if dispatched and self.appear(GUILD_DISPATCH_FLEET, offset=(20, 20), interval=3):
                 # GUILD_DISPATCH_FLEET and GUILD_DISPATCH_FLEET_UNFILLED has same feature but different colors
                 # check background blue for double check
-                if self.image_color_count(GUILD_DISPATCH_FLEET, color=(82, 93, 221), threshold=235, count=500):
+                if self.image_color_count(GUILD_DISPATCH_FLEET, color=(82, 93, 221), threshold=20, count=500):
                     # In the rest of the dispatch, it will show GUILD_DISPATCH_FLEET
                     # We can't ensure that fleet has dispatched,
                     # because GUILD_DISPATCH_FLEET still shows after clicking recommend before dispatching
@@ -537,7 +537,7 @@ class GuildOperations(GuildBase):
         Returns:
             bool:
         """
-        appear = self.image_color_count(GUILD_BOSS_AVAILABLE, color=(140, 243, 99), threshold=221, count=10)
+        appear = self.image_color_count(GUILD_BOSS_AVAILABLE, color=(140, 243, 99), threshold=30, count=10)
         if appear:
             logger.info('Guild boss available')
         else:

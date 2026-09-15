@@ -10,8 +10,11 @@ from submodule.AlasFpyBridge.module.config.config_updater import ConfigUpdater
 
 class FgoConfig(AzurLaneConfig, ConfigUpdater, GeneratedConfig):
     SCHEDULER_PRIORITY = """
-        FpyMain
-      > FpyDailyFpSummon
+        FpyDailyFpSummon
+      > FpyDailyStorySummon
+      > FpyWeeklyMission
+      > FpyDailyQuest
+      > FpyMain
       > FpyHeartbeat
     """
 
@@ -39,6 +42,13 @@ class FgoConfig(AzurLaneConfig, ConfigUpdater, GeneratedConfig):
         timestamp = os.stat(filepath_config(self.config_name, mod_name="fpy")).st_mtime
         mtime = datetime.fromtimestamp(timestamp).replace(microsecond=0)
         return mtime
+
+    def override(self, **kwargs):
+        for arg, value in kwargs.items():
+            self.overridden[arg] = value
+            object.__setattr__(self, arg, value)
+
+    config_override = override
 
 
 def load_config(config_name, task):

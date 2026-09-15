@@ -60,6 +60,12 @@ class Coalition(CoalitionCombat, CampaignEvent):
             ocr = DALPtOcr(DAL_PT_OCR, name='OCR_PT', letter=(255, 213, 69), threshold=128)
         elif event == 'coalition_20260122':
             ocr = Digit(FASHION_PT_OCR, name='OCR_PT', letter=(41, 40, 40), threshold=128)
+        elif event == 'coalition_20260723':
+            if self.config.SERVER == 'en':
+                ocr = Digit(HORROR_PT_OCR, name='OCR_PT', lang='cnocr', letter=(228, 230, 237), threshold=256)
+            else:
+                # thin font
+                ocr = Digit(HORROR_PT_OCR, name='OCR_PT', lang='cnocr', letter=(228, 230, 237), threshold=221)
         else:
             logger.error(f'ocr object is not defined in event {event}')
             raise ScriptError
@@ -82,6 +88,8 @@ class Coalition(CoalitionCombat, CampaignEvent):
         https://github.com/LmeSzinc/AzurLaneAutoScript/issues/5214
         """
         if self.config.Campaign_Event == 'coalition_20260122':
+            return False
+        if self.config.Campaign_Event == 'coalition_20260723':
             return False
         return True
 
@@ -192,7 +200,7 @@ class Coalition(CoalitionCombat, CampaignEvent):
 
             # UI switches
             if not self._coalition_has_oil_icon:
-                self.ui_goto(page_campaign_menu)
+                self.ui_ensure(page_campaign_menu)
                 if self.triggered_stop_condition(oil_check=True, coin_check=True):
                     break
             self.device.stuck_record_clear()
@@ -229,5 +237,6 @@ class Coalition(CoalitionCombat, CampaignEvent):
 
 if __name__ == '__main__':
     self = Coalition('alas5', task='Coalition')
-    self.device.screenshot()
+    self.image_file = r''
+    # self.device.screenshot()
     self.get_event_pt()

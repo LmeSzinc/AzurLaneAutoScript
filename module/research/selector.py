@@ -12,7 +12,7 @@ from module.research.project import research_detect, research_jp_detect
 from module.research.ui import ResearchUI
 
 RESEARCH_ENTRANCE = [ENTRANCE_1, ENTRANCE_2, ENTRANCE_3, ENTRANCE_4, ENTRANCE_5]
-FILTER_REGEX = re.compile('(s[12345678])?'
+FILTER_REGEX = re.compile('(s[123456789])?'
                           '-?'
                           '(neptune|monarch|ibuki|izumo|roon|saintlouis'
                           '|seattle|georgia|kitakaze|azuma|friedrich'
@@ -21,7 +21,8 @@ FILTER_REGEX = re.compile('(s[12345678])?'
                           '|plymouth|rupprecht|harbin|chkalov|brest'
                           '|kearsarge|hindenburg|shimanto|schultz|flandre'
                           '|napoli|nakhimov|halford|bayard|daisen'
-                          '|goudenleeuw|mecklenburg|dmitri|kansas|vittorio)?'
+                          '|goudenleeuw|mecklenburg|dmitri|kansas|vittorio'
+                          '|valparaiso|maximmelmann|duncan|takahashi|orage)?'
                           '(dr|pry)?'
                           '([bcdeghqt])?'
                           '-?'
@@ -175,6 +176,9 @@ class ResearchSelector(ResearchUI):
         string = string.lower()
         # Filter uses `hakuryu`, but allows both `hakuryu` and `hakuryuu`
         string = string.replace('hakuryuu', 'hakuryu')
+        # convert latin letters in ship name
+        string = string.replace('ägir', 'agir')
+        string = string.replace('valparaíso', 'valparaiso')
         # Allow both `fastest` and `shortest`
         string = string.replace('fastest', 'shortest')
         # Allow both `PR` and `PRY`

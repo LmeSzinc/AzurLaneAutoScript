@@ -10,6 +10,8 @@ import uiautomator2cache
 from adbutils import AdbTimeout
 from lxml import etree
 
+from module.device.method.remove_warning import remove_shell_warning
+
 try:
     # adbutils 0.x
     from adbutils import _AdbStreamConnection as AdbConnection
@@ -299,99 +301,52 @@ def get_serial_pair(serial):
     return None, None
 
 
-def remove_prefix(s, prefix):
+@t.overload
+def removeprefix(s: str, prefix: str) -> str: ...
+
+
+@t.overload
+def removeprefix(s: bytes, prefix: bytes) -> bytes: ...
+
+
+@t.overload
+def removesuffix(s: str, suffix: str) -> str: ...
+
+
+@t.overload
+def removesuffix(s: bytes, suffix: bytes) -> bytes: ...
+
+
+def removeprefix(s, prefix):
     """
-    Remove prefix of a string or bytes like `string.removeprefix(prefix)`, which is on Python3.9+
+    Backport `string.removeprefix(prefix)`, which is on Python>=3.9
 
     Args:
-        s (str, bytes):
-        prefix (str, bytes):
+        s (str | bytes):
+        prefix (str | bytes):
 
     Returns:
-        str, bytes:
+        str | bytes:
     """
-    return s[len(prefix):] if s.startswith(prefix) else s
+    if s.startswith(prefix):
+        return s[len(prefix):]
+    return s
 
 
-def remove_suffix(s, suffix):
+def removesuffix(s, suffix):
     """
-    Remove suffix of a string or bytes like `string.removesuffix(suffix)`, which is on Python3.9+
+    Backport `string.removesuffix(suffix)`, which is on Python>=3.9
 
     Args:
-        s (str, bytes):
-        suffix (str, bytes):
+        s (str | bytes):
+        suffix (str | bytes):
 
     Returns:
-        str, bytes:
+        str | bytes:
     """
-    return s[:-len(suffix)] if s.endswith(suffix) else s
-
-
-def remove_shell_warning(s):
-    """
-    Remove warnings from shell
-
-    1. Warnings in VMOS shell
-    https://github.com/LmeSzinc/AzurLaneAutoScript/issues/1425
-
-    WARNING: linker: [vdso]: unused DT entry: type 0x70000001 arg 0x0\n\x89PNG\r\n\x1a\n\x00\x00\x00\rIH
-
-    2. This linker thingy might appear multiple times when executing multiple commands
-
-    mek_8q:/dev # getprop | grep gnss
-    WARNING: linker: Warning: "[vdso]" unused DT entry: unknown processor-specific (type 0x70000001 arg 0x0) (ignoring)
-    WARNING: linker: Warning: "[vdso]" unused DT entry: unknown processor-specific (type 0x70000001 arg 0x0) (ignoring)
-    [init.svc.gnss_service]: [running]
-    [init.svc_debug_pid.gnss_service]: [406]
-    [ro.boottime.gnss_service]: [27308752875]
-
-    3. Errors in waydroid screencap render
-    https://github.com/LmeSzinc/AzurLaneAutoScript/issues/4760
-
-    Failed to create //.cache for shader cache (Read-only file system)---disabling.\n
-
-    4. Warning when taking screenshot from multiscreen device
-
-    [Warning] Multiple displays were found, but no display id was specified! Defaulting to the first display found,
-    however this default is not guaranteed to be consistent across captures.\n
-    A display id should be specified.\n
-    See "dumpsys SurfaceFlinger --display-id" for valid display IDs.\n
-    \x89PNG...
-
-    Args:
-        s (T): bytes or str
-
-    Returns:
-        T:
-    """
-    if isinstance(s, bytes):
-        while 1:
-            if s.startswith(b'WARNING: linker:'):
-                _, _, s = s.partition(b'\n')
-            else:
-                break
-        if s.startswith(b'Failed to create'):
-            _, _, s = s.partition(b'\n')
-        if s.startswith(b'[Warning] Multiple displays'):
-            _, _, s = s.partition(b'\n')
-            if s.startswith(b'A display id'):
-                _, _, s = s.partition(b'\n')
-                if s.startswith(b'See "dumpsys'):
-                    _, _, s = s.partition(b'\n')
-    elif isinstance(s, str):
-        while 1:
-            if s.startswith('WARNING: linker:'):
-                _, _, s = s.partition('\n')
-            else:
-                break
-        if s.startswith('Failed to create'):
-            _, _, s = s.partition('\n')
-        if s.startswith('[Warning] Multiple displays'):
-            _, _, s = s.partition('\n')
-            if s.startswith('A display id'):
-                _, _, s = s.partition('\n')
-                if s.startswith('See "dumpsys'):
-                    _, _, s = s.partition('\n')
+    # s[:-0] is empty string, so we need to check if suffix is empty
+    if suffix and s.endswith(suffix):
+        return s[:-len(suffix)]
     return s
 
 

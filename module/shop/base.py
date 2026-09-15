@@ -19,6 +19,7 @@ FILTER_REGEX = re.compile(
     '|chip|coin|cube|drill|food'
     '|plate|retrofit|pr|dr|specializedcore'
     '|logger|tuning'
+    '|type93pureoxygentorpedo|type1armorpiercingshell|superheavyshell'
     '|hecombatplan|fragment|hiddenzonedatalogger'
     '|albacore|bataan|bearn|bluegill|carabiniere|casablanca|contedicavour|dukeofyork'
     '|echo|eldridge|gangut|glorious|grenville|hibiki|hunter|icarus'
@@ -358,6 +359,8 @@ class ShopBase(UI):
 
         # Second, load selection, apply filter,
         # and return 1st item in result if any
+        if not self.shop_filter:
+            return None
         FILTER.load(self.shop_filter)
         filtered = FILTER.apply(items, self.shop_check_item)
 

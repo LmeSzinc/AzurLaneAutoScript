@@ -17,16 +17,21 @@ class OpsiHazard1Leveling(OSMap):
             self.config.OS_ACTION_POINT_PRESERVE = 200
             if self.config.is_task_enabled('OpsiAshBeacon') \
                     and not self._ash_fully_collected \
-                    and self.config.OpsiAshBeacon_EnsureFullyCollected:
+                    and self.config.cross_get("OpsiAshBeacon.OpsiAshBeacon.EnsureFullyCollected", True):
                 logger.info('Ash beacon not fully collected, ignore action point limit temporarily')
                 self.config.OS_ACTION_POINT_PRESERVE = 0
             logger.attr('OS_ACTION_POINT_PRESERVE', self.config.OS_ACTION_POINT_PRESERVE)
 
-            if self.get_yellow_coins() < self.config.OS_CL1_YELLOW_COINS_PRESERVE:
-                logger.info(f'Reach the limit of yellow coins, preserve={self.config.OS_CL1_YELLOW_COINS_PRESERVE}')
+            if self.get_yellow_coins() < self.yellow_coins_preserve:
+                logger.info(f'Reach the limit of yellow coins, preserve={self.yellow_coins_preserve}')
                 with self.config.multi_set():
                     self.config.task_delay(server_update=True)
                     if not self.is_in_opsi_explore():
+                        cd = self.nearest_task_cooling_down
+                        if cd is None:
+                            for task in ['OpsiAbyssal', 'OpsiStronghold', 'OpsiObscure']:
+                                if self.config.is_task_enabled(task):
+                                    self.config.task_call(task)
                         self.config.task_call('OpsiMeowfficerFarming')
                 self.config.task_stop()
 
@@ -42,6 +47,11 @@ class OpsiHazard1Leveling(OSMap):
                 with self.config.multi_set():
                     self.config.task_delay(server_update=True)
                     if not self.is_in_opsi_explore():
+                        cd = self.nearest_task_cooling_down
+                        if cd is None:
+                            for task in ['OpsiAbyssal', 'OpsiStronghold', 'OpsiObscure']:
+                                if self.config.is_task_enabled(task):
+                                    self.config.task_call(task)
                         self.config.task_call('OpsiMeowfficerFarming')
                 self.config.task_stop()
 

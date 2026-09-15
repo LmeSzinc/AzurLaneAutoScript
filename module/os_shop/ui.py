@@ -67,8 +67,8 @@ class OSShopUI(UI):
             name='OS_SHOP_SIDE_NAVBAR')
 
         return Navbar(grids=os_shop_side_navbar,
-                      active_color=(43, 94, 248), active_threshold=221,
-                      inactive_color=(12, 58, 86), inactive_threshold=221)
+                      active_color=(43, 94, 248), active_threshold=30,
+                      inactive_color=(12, 58, 86), inactive_threshold=30)
 
     def os_shop_side_navbar_ensure(self, upper=None, bottom=None):
         """

@@ -48,6 +48,12 @@ class GeneratedConfig:
     FpyLimit_KizunaReisou = True
     FpyLimit_SpecialDrop = 999
 
+    # Group `FpyParam`
+    FpyParam_Cmd = ''
+
+    # Group `FpyWeekday`
+    FpyWeekday_Weekday = 5  # 0, 1, 2, 3, 4, 5, 6
+
     # Group `FpyBenchmark`
     FpyBenchmark_BenchOption = 'all'  # touch, screen, all
 

@@ -28,6 +28,10 @@
       "name": "OpSi",
       "help": ""
     },
+    "Island": {
+      "name": "Island Planner",
+      "help": ""
+    },
     "Tool": {
       "name": "Tools",
       "help": ""
@@ -83,11 +87,11 @@
       "help": ""
     },
     "Coalition": {
-      "name": "Light & Shadow Fashion Shoot",
+      "name": "Authentic Horror Story",
       "help": ""
     },
-    "MaritimeEscort": {
-      "name": "Maritime Escort",
+    "EventShop": {
+      "name": "Event Shop",
       "help": ""
     },
     "WarArchives": {
@@ -119,7 +123,7 @@
       "help": ""
     },
     "CoalitionSp": {
-      "name": "Light & Shadow Fashion Shoot SP",
+      "name": "Authentic Horror Story SP",
       "help": ""
     },
     "Commission": {
@@ -254,6 +258,30 @@
       "name": "Cross Month Daily",
       "help": "    ALAS will enter OpSi 10min before OpSi reset, wait until OpSi reset but not exit OpSi. Then do the daily, obscure, abyssal and meowfficer farming to get extra gold plates. When running dailies, settings in task \"OpSiDaily\" are used, the rest function are the same.\n    IMPORTANT: Please do not touch the game while ALAS is waiting for OpSi reset."
     },
+    "IslandProduction": {
+      "name": "Island Production",
+      "help": "Users need to config Island Business' restaurant level and waitress, then config and run Tools - Island Production Planner to generate the production plan.\nAfter that the Island Production will run normally.\nTutorial: https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Island-Planner-Auto-Farming-&-Configure"
+    },
+    "IslandOrder": {
+      "name": "Island Request",
+      "help": ""
+    },
+    "IslandFreebie": {
+      "name": "Daily Supplies",
+      "help": ""
+    },
+    "IslandCollect": {
+      "name": "Daily Gathering",
+      "help": "Use management panel to gather season specialities and coal/wood.\nWill use multiple characters with least levels until stamina requirement is fulfilled."
+    },
+    "IslandSeasonTask": {
+      "name": "Island Season Task",
+      "help": ""
+    },
+    "IslandBusiness": {
+      "name": "Restaurant Management",
+      "help": ""
+    },
     "Daemon": {
       "name": "Normal Semi-auto",
       "help": ""
@@ -265,6 +293,10 @@
     "EventStory": {
       "name": "Event Story",
       "help": ""
+    },
+    "IslandProductionPlanner": {
+      "name": "Island Production Planner",
+      "help": "Planner for optimizing island production plan to earn pt subject to given daily profit.\nWill export bootstrap inventory stock quantities and accumulating item quantities to config after running, which can be used for production planning in the future without scanning technology again.\nNote: The production plan is optimized based on the technology status at the time of scanning, if there are changes in technology status, it is recommended to run the planner again to get an updated production plan."
     },
     "Benchmark": {
       "name": "Performance Test",
@@ -379,6 +411,7 @@
       "cn_android-26": "[国服] 冬月计划",
       "cn_android-27": "[国服] 长弓计划",
       "cn_android-28": "[国服] 裁决协议",
+      "cn_android-29": "[国服] 帷幕计划",
       "cn_ios-0": "[国服] 夏威夷",
       "cn_ios-1": "[国服] 珊瑚海",
       "cn_ios-2": "[国服] 中途岛",
@@ -395,6 +428,7 @@
       "cn_channel-2": "[国服] 十字军行动",
       "cn_channel-3": "[国服] 龙骑兵行动",
       "cn_channel-4": "[国服] 冥王星行动",
+      "cn_channel-5": "[国服] 群岛计划",
       "en-0": "[EN] Avrora",
       "en-1": "[EN] Lexington",
       "en-2": "[EN] Sandy",
@@ -687,6 +721,7 @@
       "coalition_20250626": "The Neon City Investigator",
       "coalition_20251120": "DATE A LANE",
       "coalition_20260122": "Light & Shadow Fashion Shoot!",
+      "coalition_20260723": "Authentic Horror Story",
       "event_20200227_cn": "Northern Overture",
       "event_20200312_cn": "The Solomon Ranger Rerun",
       "event_20200326_cn": "Microlayer Medley",
@@ -751,7 +786,7 @@
       "event_20231221_cn": "Light-Chasing Sea of Stars Rerun",
       "event_20240229_cn": "Snowrealm Peregrination Rerun",
       "event_20240425_cn": "Heart-Linking Harmony",
-      "event_20240521_cn": "Light of the Martyrium",
+      "event_20240521_cn": "Light of the Martyrium Rerun",
       "event_20240725_cn": "Interlude of Illusions",
       "event_20240815_cn": "Windborne Steel Wings",
       "event_20240829_cn": "Whence Flowers Bear No Fruit",
@@ -770,6 +805,10 @@
       "event_20260226_cn": "Springtide Inn Online",
       "event_20260326_cn": "The Vagabond’s Recruitment Plan",
       "event_20260417_cn": "Vacation Lane – Beachside Brilliance",
+      "event_20260520_cn": "Alliance Before the Hagiobull",
+      "event_20260625_cn": "Miracle by Midnight",
+      "event_20260813_cn": "Depths of the Astrarium",
+      "event_20260908_cn": "Tales of the Paranormal",
       "raid_20200624": "Air Raid Drills with Essex Rerun",
       "raid_20210708": "Cross Wave rerun",
       "raid_20220127": "Mystery Investigation",
@@ -781,6 +820,7 @@
       "raid_20240328": "From Zero to Hero Rerun",
       "raid_20250116": "Spring Fashion Festa",
       "raid_20260212": "Spring Auction Adventure",
+      "raid_20260827": "The Big Shots Proclamation",
       "war_archives_20180607_cn": "archives Ink Stained Steel Sakura",
       "war_archives_20180726_cn": "archives Iris of Light and Dark",
       "war_archives_20181020_en": "archives Strive Wish and Strategize",
@@ -821,10 +861,14 @@
       "war_archives_20220428_cn": "archives Rondo at Rainbows End",
       "war_archives_20220526_cn": "archives Pledge of the Radiant Court",
       "war_archives_20220728_cn": "archives Aquilifers Ballade",
+      "war_archives_20220818_cn": "archives Operation Convergence",
       "war_archives_20220915_cn": "archives Violet Tempest Blooming Lycoris",
       "war_archives_20221222_cn": "archives Parallel Superimposition",
       "war_archives_20230223_cn": "archives Revelations of Dust",
-      "war_archives_20231026_cn": "archives Tempesta and the Fountain of Youth"
+      "war_archives_20230525_cn": "archives Confluence of Nothingness",
+      "war_archives_20230803_cn": "archives Anthem of Remembrance",
+      "war_archives_20231026_cn": "archives Tempesta and the Fountain of Youth",
+      "war_archives_20240725_cn": "archives Interlude of Illusions"
     },
     "Mode": {
       "name": "Level Mode",
@@ -1196,6 +1240,12 @@
       "name": "Commission Farming Settings",
       "help": "Warning: This task allows players to get a small amount of gems, but not an efficient way to farm.\nPlayers who have recently started Azur Lane are easily superstitious about 0LB and low oil consumption, while being ignorant about character leveling.\nRunning this function will only make you feel fulfilled however in reality your account will not actually progress very much.\nThe main purpose of this task is to get extra cubes for players with a formed lineup. Please rationally treat gems as a by-product.\n\nFleet 1 is expected to consist of 1 0LB CV/CVL and 1 0LB Vanguard, Fleet 2 is expected to consist of support ships such as New Jersey or Shinano to provide external battle assistance.\nFor information about the drop mechanism/rate of urgent commissions, you can refer to <https://bbs.nga.cn/read.php?tid=27134956> (in Chinese Simplified)"
     },
+    "ChangeFlagship": {
+      "name": "Change Flagship",
+      "help": "Change flagship if flagship level >= 32 or either flagship or vanguard are emotion exhausted. If you choose not to change, your fleet will ignore the low emotion warning and continue combat.\nSwitch out to new common CV/CVL whose level is in range of 1 to 31, after current has reached level 32+. Meanwhile, abandoned flagships will be retired. Any common CV/CVL whose level is 2+ will be regarded as targets. Do confirm that your own ships which is not a target has been locked\n\nThe flagship's equipment is replaced when being switched out by first recording the current setup\nOnly populated equipment slots will be replaced. If the CV/CVL preference has been configured, all 5 slots will be populated otherwise only the auxiliary slots will be populated.",
+      "ship": "Change Ship",
+      "ship_equip": "Change Ship + Gears"
+    },
     "CommonCV": {
       "name": "Flagship Common CV/CVL Preference",
       "help": "",
@@ -1207,9 +1257,10 @@
     },
     "ChangeVanguard": {
       "name": "Change Vanguard",
-      "help": "Change vanguard if flagship or vanguard are emotion exhausted. If you choose not to change, your fleet will ignore the low emotion warning and continue combat.\nSwitch out to new level 100(70) common vanguard from eagle or ironblood after current flagship has reached level 32+ (Only CN players'0 limit break ship can reach level 100)\n\nThe vanguard's equipment is replaced when being switched out by first recording the current setup. Only populated equipment slots will be replaced.",
+      "help": "Change vanguard if flagship or vanguard are emotion exhausted. If you choose not to change, your fleet will ignore the low emotion warning and continue combat.\nSwitch out to new level 100(70) common vanguard from eagle or ironblood after current flagship has reached level 32+ (Only CN players'0 limit break ship can reach level 100)",
       "disabled": "Don't Change",
-      "ship": "Change Ship"
+      "ship": "Change Ship",
+      "ship_equip": "Change Ship + Gears"
     },
     "CommonDD": {
       "name": "Flagship Common DD Preference",
@@ -1223,6 +1274,20 @@
     "CommissionLimit": {
       "name": "Prevent Too Many Urgent Commissions",
       "help": "When running 7x24, prevent having a lot of urgent commissions and not being able to complete daily commissions. It is recommended to select only short-terms and high-yields in the commission filter"
+    }
+  },
+  "EquipmentCode": {
+    "_info": {
+      "name": "Gear Code",
+      "help": ""
+    },
+    "ExportToConfig": {
+      "name": "Export to config",
+      "help": "Only exports if corresponding key has no value. Delete specific row to trigger later update."
+    },
+    "Config": {
+      "name": "Gear code config",
+      "help": "Format is yaml"
     }
   },
   "EventGeneral": {
@@ -1312,16 +1377,6 @@
       "help": "If turned off, you need to manually prepare fleets of all 15 stages in advance"
     }
   },
-  "MaritimeEscort": {
-    "_info": {
-      "name": "Maritime Escort",
-      "help": "Enter then retreat, get about 70% of maximum rewards"
-    },
-    "Enable": {
-      "name": "Enable maritime Escort",
-      "help": ""
-    }
-  },
   "Coalition": {
     "_info": {
       "name": "Event Settings",
@@ -1330,16 +1385,43 @@
     "Mode": {
       "name": "Mode",
       "help": "SP needs to use event daily SP to run",
-      "easy": "easy",
-      "normal": "normal",
-      "hard": "hard",
-      "sp": "sp"
+      "easy": "EASY",
+      "normal": "NORMAL",
+      "hard": "HARD",
+      "sp": "SP"
     },
     "Fleet": {
       "name": "Fleet",
       "help": "",
       "single": "Solo Challenge",
       "multi": "Coalition Battle"
+    }
+  },
+  "EventShop": {
+    "_info": {
+      "name": "Event Shop Settings",
+      "help": ""
+    },
+    "UnlockSSRShip": {
+      "name": "Unlock SSR Ship",
+      "help": ""
+    },
+    "BuyURShip": {
+      "name": "Buy X UR Ship(s)",
+      "help": "",
+      "0": "0",
+      "1": "1",
+      "2": "2"
+    },
+    "PresetFilter": {
+      "name": "Event Shop Filter",
+      "help": "Generally does not need to be modified.",
+      "all": "All",
+      "custom": "Custom"
+    },
+    "CustomFilter": {
+      "name": "Custom Filter",
+      "help": "To use your own filter, set \"Event Shop Filter\" to \"Custom\". All options have been defined at <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/filter_string_en>"
     }
   },
   "Commission": {
@@ -1421,7 +1503,7 @@
       "help": ""
     },
     "Favorite": {
-      "name": "Use Favorite Filter",
+      "name": "Only Favorite Ships",
       "help": "During student selection apply the favorite filter\nThereby, giving priority to certain ship girls\nApply the favorite status to a ship girl in-game"
     },
     "MinLevel": {
@@ -1466,6 +1548,9 @@
       "name": "Preset Filter Select",
       "help": "See research drops rates and spawn rates in https://azur-stats.lyoko.io/. People without a basic knowledge of these are recommended to use pre-optimized presets instead of writing custom filters",
       "custom": "custom",
+      "series_9_blueprint_ta152": "Series 9 Blueprints+Ta152",
+      "series_9_blueprint_only": "Series 9 Blueprints Only",
+      "series_9_ta152_only": "Series 9 Ta152 Only",
       "series_8_blueprint_305": "Series 8 Blueprints+305",
       "series_8_blueprint_only": "Series 8 Blueprints Only",
       "series_8_305_only": "Series 8 305 Only",
@@ -1544,6 +1629,10 @@
     "FortChoreMeowfficer": {
       "name": "Do Fort Chores",
       "help": "Completes all 3 chores; clean, feed, and play with meowfficer to get fort exp"
+    },
+    "OverflowCoins": {
+      "name": "Buy Boxes On Coin Overflow",
+      "help": "When coins are above this value, keep buying boxes until coins drop to it or boxes run out; -1 to disable"
     }
   },
   "MeowfficerTrain": {
@@ -1877,6 +1966,10 @@
       "name": "Allow Shop Refresh",
       "help": "Refreshing will consume 50 gems"
     },
+    "BuyUnobtainedShip": {
+      "name": "Buy Unobtained Ships",
+      "help": "Prioritizes ships marked as unobtained in the upper-right corner, regardless of the normal shop filter"
+    },
     "Filter": {
       "name": "Item Filter",
       "help": "All options have been defined at <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string>"
@@ -2099,7 +2192,8 @@
       "sirius": "Sirius",
       "new_jersey": "New Jersey",
       "taihou": "Taihou",
-      "aegir": "Aegir"
+      "aegir": "Aegir",
+      "nakhimov": "Nakhimov"
     }
   },
   "Daily": {
@@ -2555,6 +2649,214 @@
       "22": "22 | NA Ocean SW Sector B"
     }
   },
+  "IslandProduction": {
+    "_info": {
+      "name": "Island Production",
+      "help": ""
+    },
+    "HardFloorItems": {
+      "name": "Hard Floor Items",
+      "help": "User-defined dead stock reserved for manual use\nProtected from recipes, restaurants, and normal orders\nNot used as an LP production constraint\nExample format:\n(item name on the current server): (quantity)"
+    },
+    "DailyBufferItems": {
+      "name": "Daily Buffer Items",
+      "help": "Planner-generated width of the expected stock range above the floors\nRecipe production targets hard floor plus restaurant menu reserve (derived from saved menus, capped to capacity) plus daily buffer\nGenerated automatically by the island production planner in Tools"
+    },
+    "ManualBufferItems": {
+      "name": "Manual Buffer Items",
+      "help": "User-maintained supplement to Daily Buffer Items, never overwritten by the production planner\nKeeps a consumable stock band above the floors for items the LP plan leaves unbuffered, e.g. so regular orders can be served\nMerged with Daily Buffer Items by taking the larger value per item\nFormat example:\n(item name on current server): (amount)"
+    },
+    "IdleAccumulatingItems": {
+      "name": "Idle Accumulating Items",
+      "help": "Items that may accumulate when production is idle and ingredients are sufficient\nThe value is the expected daily accumulation rate used for idle recipe priority\nThis can be automatically generated by Island Production Planner in Tools."
+    },
+    "SkipBufferSurplus": {
+      "name": "Skip Buffer-Surplus Production",
+      "help": "Skip buffer-surplus eligibility checks and proceed directly to idle-accumulating production. When disabled, buffer-surplus is tried first; idle accumulation is still used if that attempt fails."
+    }
+  },
+  "IslandOrder": {
+    "_info": {
+      "name": "Island Request",
+      "help": "Normal requests preserve soft floors and manual hard floors.\nUrgent and season requests may consume soft floors and hard floors.\nSeason requests are treated as priority requests and may consume all stock."
+    },
+    "StuckSeasonOrderId": {
+      "name": "Unfulfilled Season Request ID",
+      "help": "0 means no stuck request\nUsually do not need to modify it"
+    }
+  },
+  "IslandFreebie": {
+    "_info": {
+      "name": "Daily Supplies",
+      "help": ""
+    },
+    "Share": {
+      "name": "Share Supplies with Friends",
+      "help": ""
+    }
+  },
+  "IslandRestaurant": {
+    "_info": {
+      "name": "Restaurant Management",
+      "help": ""
+    },
+    "KoiGrade": {
+      "name": "Golden Koi Restaurant Grade",
+      "help": "",
+      "bronze": "Bronze",
+      "silver": "Silver",
+      "gold": "Gold",
+      "diamond": "Diamond"
+    },
+    "KoiWaitress1": {
+      "name": "Golden Koi Restaurant Waitress 1",
+      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
+      "none": "None",
+      "any": "Any",
+      "Chao_Ho": "Chao Ho",
+      "Chang_Feng": "Chang Feng"
+    },
+    "KoiWaitress2": {
+      "name": "Golden Koi Restaurant Waitress 2",
+      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
+      "none": "None",
+      "any": "Any",
+      "Chao_Ho": "Chao Ho",
+      "Chang_Feng": "Chang Feng"
+    },
+    "KoiMenu": {
+      "name": "Golden Koi Restaurant Menu",
+      "help": "Will only sell from these dishes.\nAutomatically generated by Island Production Planner in Tools."
+    },
+    "BearGrade": {
+      "name": "Polar Bear Teahouse Grade",
+      "help": "",
+      "bronze": "Bronze",
+      "silver": "Silver",
+      "gold": "Gold",
+      "diamond": "Diamond"
+    },
+    "BearWaitress1": {
+      "name": "Polar Bear Teahouse Waitress 1",
+      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
+      "none": "None",
+      "any": "Any",
+      "Cheshire": "HMS Cheshire",
+      "Chang_Feng": "Chang Feng"
+    },
+    "BearWaitress2": {
+      "name": "Polar Bear Teahouse Waitress 2",
+      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
+      "none": "None",
+      "any": "Any",
+      "Cheshire": "HMS Cheshire",
+      "Chang_Feng": "Chang Feng"
+    },
+    "BearMenu": {
+      "name": "Polar Bear Teahouse Menu",
+      "help": "Will only sell from these dishes.\nAutomatically generated by Island Production Planner in Tools."
+    },
+    "EateryGrade": {
+      "name": "Manjuu Eatery Grade",
+      "help": "",
+      "bronze": "Bronze",
+      "silver": "Silver",
+      "gold": "Gold",
+      "diamond": "Diamond"
+    },
+    "EateryWaitress1": {
+      "name": "Manjuu Eatery Waitress 1",
+      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
+      "none": "None",
+      "any": "Any",
+      "Helena": "USS Helena",
+      "Prinz_Eugen": "KMS Prinz Eugen",
+      "Chang_Feng": "Chang Feng"
+    },
+    "EateryWaitress2": {
+      "name": "Manjuu Eatery Waitress 2",
+      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
+      "none": "None",
+      "any": "Any",
+      "Helena": "USS Helena",
+      "Prinz_Eugen": "KMS Prinz Eugen",
+      "Chang_Feng": "Chang Feng"
+    },
+    "EateryMenu": {
+      "name": "Manjuu Eatery Menu",
+      "help": "Will only sell from these dishes.\nAutomatically generated by Island Production Planner in Tools."
+    },
+    "GrillGrade": {
+      "name": "Fin-'n'-Feather Grill Grade",
+      "help": "",
+      "bronze": "Bronze",
+      "silver": "Silver",
+      "gold": "Gold",
+      "diamond": "Diamond"
+    },
+    "GrillWaitress1": {
+      "name": "Fin-'n'-Feather Grill Waitress 1",
+      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
+      "none": "None",
+      "any": "Any",
+      "August_von_Parseval": "KMS August von Parseval",
+      "Prinz_Eugen": "KMS Prinz Eugen",
+      "Chang_Feng": "Chang Feng"
+    },
+    "GrillWaitress2": {
+      "name": "Fin-'n'-Feather Grill Waitress 2",
+      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
+      "none": "None",
+      "any": "Any",
+      "August_von_Parseval": "KMS August von Parseval",
+      "Prinz_Eugen": "KMS Prinz Eugen",
+      "Chang_Feng": "Chang Feng"
+    },
+    "GrillMenu": {
+      "name": "Fin-'n'-Feather Grill Menu",
+      "help": "Will only sell from these dishes.\nAutomatically generated by Island Production Planner in Tools."
+    },
+    "CafeGrade": {
+      "name": "Café Manjuu Grade",
+      "help": "",
+      "bronze": "Bronze",
+      "silver": "Silver",
+      "gold": "Gold",
+      "diamond": "Diamond"
+    },
+    "CafeWaitress1": {
+      "name": "Café Manjuu Waitress 1",
+      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
+      "none": "None",
+      "any": "Any",
+      "Cheshire": "HMS Cheshire",
+      "Belfast": "HMS Belfast",
+      "Chang_Feng": "Chang Feng"
+    },
+    "CafeWaitress2": {
+      "name": "Café Manjuu Waitress 2",
+      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
+      "none": "None",
+      "any": "Any",
+      "Cheshire": "HMS Cheshire",
+      "Belfast": "HMS Belfast",
+      "Chang_Feng": "Chang Feng"
+    },
+    "CafeMenu": {
+      "name": "Café Manjuu Menu",
+      "help": "Will only sell from these dishes.\nAutomatically generated by Island Production Planner in Tools."
+    }
+  },
+  "IslandSeasonTask": {
+    "_info": {
+      "name": "Island Season Task",
+      "help": ""
+    },
+    "TaskTarget": {
+      "name": "Task Preserved Items",
+      "help": ""
+    }
+  },
   "Daemon": {
     "_info": {
       "name": "Semi-auto Clicking",
@@ -2589,6 +2891,45 @@
       "help": "",
       "True": "Enabled",
       "False": "False"
+    }
+  },
+  "IslandProductionPlanner": {
+    "_info": {
+      "name": "Island Production Planner",
+      "help": "Will use linear programming to optimize the production plan for the island based on the parameters you set and generate the config for Island Production module.\nPlease set Island Restaurant config and Island Production Preserved Items first.\nClear Task status to rerun Island Technology Scanner."
+    },
+    "RescanIslandTechnology": {
+      "name": "Rescan Island Technology this time",
+      "help": "Alas will rescan the island technology and update the config for Island Production module with the new technology levels\nThis is useful when you have just upgraded your island technology and want to update the production plan accordingly."
+    },
+    "DailyProfitLowerLimit": {
+      "name": "Daily Profit Lower Limit",
+      "help": "Negative value means accepting a daily loss, 0 means breaking even, and positive value means profit."
+    },
+    "DailyBufferSafetyMargin": {
+      "name": "Daily Buffer Safety Margin",
+      "help": "Multiplier margin applied to planner-generated daily buffer. 0.2 means exporting 120% of the calculated daily demand."
+    },
+    "FieldsEfficiency": {
+      "name": "Faircrop Fields Efficiency",
+      "help": "See character collecting reward for your value",
+      "0": "0",
+      "0.04": "0.04",
+      "0.12": "0.12"
+    },
+    "OrchardEfficiency": {
+      "name": "Sweetscent Orchard Efficiency",
+      "help": "See character collecting reward for your value",
+      "0": "0",
+      "0.04": "0.04",
+      "0.12": "0.12"
+    },
+    "NurseryEfficiency": {
+      "name": "Newsprout Nursery Efficiency",
+      "help": "See character collecting reward for your value",
+      "0": "0",
+      "0.04": "0.04",
+      "0.12": "0.12"
     }
   },
   "Benchmark": {

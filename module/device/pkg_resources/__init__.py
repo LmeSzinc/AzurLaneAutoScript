@@ -25,7 +25,7 @@ except KeyError:
     logger.error('Patch pkg_resources failed, patch module does not exists')
 
 
-def remove_suffix(s, suffix):
+def removesuffix(s, suffix):
     """
     Remove suffix of a string or bytes like `string.removesuffix(suffix)`, which is on Python3.9+
 
@@ -36,7 +36,10 @@ def remove_suffix(s, suffix):
     Returns:
         str, bytes:
     """
-    return s[:-len(suffix)] if s.endswith(suffix) else s
+    # s[:-0] is empty string, so we need to check if suffix is empty
+    if suffix and s.endswith(suffix):
+        return s[:-len(suffix)]
+    return s
 
 
 class FakeDistributionObject:
@@ -71,7 +74,7 @@ class PackageCache:
             # adbutils-0.11.0-py3.7.egg-info
             res = re.match(r'^([a-zA-Z0-9._]+)-([a-zA-Z0-9._]+)-', file)
             if res:
-                version = remove_suffix(res.group(2), '.dist')
+                version = removesuffix(res.group(2), '.dist')
                 # version = res.group(2)
                 obj = FakeDistributionObject(
                     dist=res.group(1),

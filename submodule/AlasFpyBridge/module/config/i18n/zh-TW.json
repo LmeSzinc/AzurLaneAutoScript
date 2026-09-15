@@ -12,6 +12,10 @@
       "name": "Menu.FpyDaily.name",
       "help": "Menu.FpyDaily.help"
     },
+    "FpyWeekly": {
+      "name": "Menu.FpyWeekly.name",
+      "help": "Menu.FpyWeekly.help"
+    },
     "FpyTool": {
       "name": "Menu.Tool.name",
       "help": "Menu.Tool.help"
@@ -33,6 +37,18 @@
     "FpyDailyFpSummon": {
       "name": "Task.FpyDailyFpSummon.name",
       "help": "Task.FpyDailyFpSummon.help"
+    },
+    "FpyDailyStorySummon": {
+      "name": "Task.FpyDailyStorySummon.name",
+      "help": "Task.FpyDailyStorySummon.help"
+    },
+    "FpyDailyQuest": {
+      "name": "Task.FpyDailyQuest.name",
+      "help": "Task.FpyDailyQuest.help"
+    },
+    "FpyWeeklyMission": {
+      "name": "Task.FpyWeeklyMission.name",
+      "help": "Task.FpyWeeklyMission.help"
     },
     "FpyBattle": {
       "name": "Task.FpyBattle.name",
@@ -188,6 +204,33 @@
     "SpecialDrop": {
       "name": "FpyLimit.SpecialDrop.name",
       "help": "FpyLimit.SpecialDrop.help"
+    }
+  },
+  "FpyParam": {
+    "_info": {
+      "name": "FpyParam._info.name",
+      "help": "FpyParam._info.help"
+    },
+    "Cmd": {
+      "name": "FpyParam.Cmd.name",
+      "help": "FpyParam.Cmd.help"
+    }
+  },
+  "FpyWeekday": {
+    "_info": {
+      "name": "FpyWeekday._info.name",
+      "help": "FpyWeekday._info.help"
+    },
+    "Weekday": {
+      "name": "FpyWeekday.Weekday.name",
+      "help": "FpyWeekday.Weekday.help",
+      "0": "0",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6"
     }
   },
   "FpyBenchmark": {

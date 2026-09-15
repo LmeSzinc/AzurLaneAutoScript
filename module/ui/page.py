@@ -70,6 +70,9 @@ class Page:
     def __str__(self):
         return self.name
 
+    def is_island(self):
+        return self.name == 'page_island' or self.name.startswith('page_island_')
+
     def link(self, button, destination):
         self.links[destination] = button
 
@@ -155,7 +158,12 @@ page_campaign.link(button=CAMPAIGN_GOTO_EVENT, destination=page_sp)
 # page_coalition.link(button=BACK_ARROW, destination=page_campaign_menu)
 # page_campaign_menu.link(button=CAMPAIGN_MENU_GOTO_EVENT, destination=page_coalition)
 # FASHION
-page_coalition = Page(FASHION_COALITION_CHECK)
+# page_coalition = Page(FASHION_COALITION_CHECK)
+# page_coalition.link(button=GOTO_MAIN, destination=page_main)
+# page_coalition.link(button=BACK_ARROW, destination=page_campaign_menu)
+# page_campaign_menu.link(button=CAMPAIGN_MENU_GOTO_EVENT, destination=page_coalition)
+# HORROR
+page_coalition = Page(HORROR_COALITION_CHECK)
 page_coalition.link(button=GOTO_MAIN, destination=page_main)
 page_coalition.link(button=BACK_ARROW, destination=page_campaign_menu)
 page_campaign_menu.link(button=CAMPAIGN_MENU_GOTO_EVENT, destination=page_coalition)
@@ -221,7 +229,8 @@ page_main_white.link(button=MAIN_GOTO_EVENT_LIST_WHITE, destination=page_event_l
 # page_main.link(button=MAIN_GOTO_RAID, destination=page_raid)
 # page_main_white.link(button=MAIN_GOTO_RAID_WHITE, destination=page_raid)
 # after 2026.02.12
-page_raid = Page(RAID_CHECK)
+# page_raid = Page(RAID_CHECK)
+page_raid = Page(RAID_CHECK_20260827)
 page_raid.link(button=GOTO_MAIN, destination=page_main)
 page_raid.link(button=BACK_ARROW, destination=page_campaign_menu)
 page_campaign_menu.link(button=CAMPAIGN_MENU_GOTO_EVENT, destination=page_raid)
@@ -286,6 +295,47 @@ page_academy.link(button=GOTO_MAIN, destination=page_main)
 page_private_quarters = Page(PRIVATE_QUARTERS_CHECK)
 page_dormmenu.link(button=DORMMENU_GOTO_PRIVATE_QUARTERS, destination=page_private_quarters)
 page_private_quarters.link(button=PQ_GOTO_MAIN, destination=page_main)
+
+# Island
+page_island = Page(ISLAND_CHECK)
+page_dormmenu.link(button=DORMMENU_GOTO_ISLAND, destination=page_island)
+
+page_island_shop = Page(ISLAND_SHOP_CHECK)  # use coin icon as check
+page_island.link(button=ISLAND_GOTO_ISLAND_SHOP, destination=page_island_shop)
+page_island_shop.link(button=BACK_ARROW_WHITE, destination=page_island)
+
+page_island_map = Page(ISLAND_MAP_CHECK)
+page_island.link(button=ISLAND_GOTO_ISLAND_MAP, destination=page_island_map)
+page_island_map.link(button=BACK_ARROW_WHITE, destination=page_island)
+
+page_island_season = Page(ISLAND_SEASON_CHECK)
+page_island.link(button=ISLAND_GOTO_ISLAND_SEASON, destination=page_island_season)
+page_island_season.link(button=BACK_ARROW_WHITE, destination=page_island)
+
+page_island_technology = Page(ISLAND_TECHNOLOGY_CHECK)
+page_island.link(button=ISLAND_GOTO_ISLAND_TECHNOLOGY, destination=page_island_technology)
+page_island_technology.link(button=BACK_ARROW_WHITE, destination=page_island)
+
+page_island_phone = Page(ISLAND_PHONE_CHECK)
+page_island.link(button=ISLAND_GOTO_ISLAND_PHONE, destination=page_island_phone)
+page_island_phone.link(button=ISLAND_PHONE_GOTO_ISLAND, destination=page_island)
+page_island_phone.link(button=ISLAND_PHONE_GOTO_MAIN, destination=page_main)
+
+page_island_order = Page(ISLAND_ORDER_CHECK)
+page_island_phone.link(button=ISLAND_PHONE_GOTO_ISLAND_ORDER, destination=page_island_order)
+page_island_order.link(button=BACK_ARROW_WHITE, destination=page_island_phone)
+
+page_island_transport = Page(ISLAND_TRANSPORT_CHECK)
+page_island_phone.link(button=ISLAND_PHONE_GOTO_ISLAND_TRANSPORT, destination=page_island_transport)
+page_island_transport.link(button=BACK_ARROW_WHITE, destination=page_island_phone)
+
+page_island_storage = Page(ISLAND_STORAGE_CHECK)
+page_island_phone.link(button=ISLAND_PHONE_GOTO_ISLAND_STORAGE, destination=page_island_storage)
+page_island_storage.link(button=ISLAND_STORAGE_EXIT, destination=page_island_phone)
+
+page_island_manage = Page(ISLAND_MANAGE_CHECK)
+page_island_phone.link(button=ISLAND_PHONE_GOTO_ISLAND_MANAGE, destination=page_island_manage)
+page_island_manage.link(button=BACK_ARROW_WHITE, destination=page_island_phone)
 
 # Game room & choose game
 page_game_room = Page(GAME_ROOM_CHECK)

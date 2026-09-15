@@ -224,7 +224,10 @@ class CampaignRun(CampaignEvent):
             'event_20250814_cn',
             'event_20251023_cn',
             'event_20260326_cn',
+            'event_20260625_cn',
+            'war_archives_20230525_cn',
             'war_archives_20231026_cn',
+            'war_archives_20240725_cn',
         ]:
             name = convert.get(name, name)
         # Convert between A/B/C/D and T/HT
@@ -260,7 +263,10 @@ class CampaignRun(CampaignEvent):
             'event_20250814_cn',
             'event_20251023_cn',
             'event_20260326_cn',
+            'event_20260625_cn',
+            'war_archives_20230525_cn',
             'war_archives_20231026_cn',
+            'war_archives_20240725_cn',
         ]:
             name = convert.get(name, name)
         else:
@@ -411,7 +417,8 @@ class CampaignRun(CampaignEvent):
                     # Because event_20240725 task balancer delete self.campaign.ensure_auto_search_exit()
                     self.campaign.ensure_campaign_ui(name=self.stage, mode=mode)
             else:
-                self.campaign.ensure_campaign_ui(name=self.stage, mode=mode)
+                self.campaign.ensure_campaign_ui(name=self.stage, mode=mode)            
+            self.config.override(Campaign_Mode=self.campaign.config.Campaign_Mode)
             self.disable_raid_on_event()
             self.handle_commission_notice()
 

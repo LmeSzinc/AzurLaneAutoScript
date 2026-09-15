@@ -70,4 +70,5 @@ TEMPLATE_S5 = Template(file={'cn': './assets/cn/research/TEMPLATE_S5.png', 'en':
 TEMPLATE_S6 = Template(file={'cn': './assets/cn/research/TEMPLATE_S6.png', 'en': './assets/en/research/TEMPLATE_S6.png', 'jp': './assets/jp/research/TEMPLATE_S6.png', 'tw': './assets/tw/research/TEMPLATE_S6.png'})
 TEMPLATE_S7 = Template(file={'cn': './assets/cn/research/TEMPLATE_S7.png', 'en': './assets/en/research/TEMPLATE_S7.png', 'jp': './assets/jp/research/TEMPLATE_S7.png', 'tw': './assets/tw/research/TEMPLATE_S7.png'})
 TEMPLATE_S8 = Template(file={'cn': './assets/cn/research/TEMPLATE_S8.png', 'en': './assets/cn/research/TEMPLATE_S8.png', 'jp': './assets/cn/research/TEMPLATE_S8.png', 'tw': './assets/cn/research/TEMPLATE_S8.png'})
+TEMPLATE_S9 = Template(file={'cn': './assets/cn/research/TEMPLATE_S9.png', 'en': './assets/cn/research/TEMPLATE_S9.png', 'jp': './assets/cn/research/TEMPLATE_S9.png', 'tw': './assets/cn/research/TEMPLATE_S9.png'})
 TEMPLATE_WAITING = Template(file={'cn': './assets/cn/research/TEMPLATE_WAITING.png', 'en': './assets/en/research/TEMPLATE_WAITING.png', 'jp': './assets/jp/research/TEMPLATE_WAITING.png', 'tw': './assets/tw/research/TEMPLATE_WAITING.png'})

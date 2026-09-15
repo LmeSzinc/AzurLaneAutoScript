@@ -235,6 +235,8 @@ class RewardGacha(GachaUI, Retirement):
                 self.device.click(STORY_SKIP)  # Fast forward for multiple orders
                 confirm_timer.reset()
                 continue
+            if self.handle_get_items_ship():
+                continue
 
             if self.appear(BUILD_FINISH_RESULTS, offset=(20, 150), interval=3):
                 self.device.click(BUILD_FINISH_ORDERS)  # Safe area

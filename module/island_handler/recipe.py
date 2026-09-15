@@ -1,0 +1,942 @@
+from collections import namedtuple
+from datetime import datetime
+import re
+
+import cv2
+from jellyfish import levenshtein_distance
+import numpy as np
+from yaml import safe_load
+
+import module.config.server as server
+from module.base.button import ButtonGrid
+from module.base.decorator import cached_property, del_cached_property
+from module.base.timer import Timer
+from module.base.utils import color_similarity_2d, extract_letters, random_rectangle_vector_opted
+from module.exception import GameTooManyClickError
+from module.island.data import DIC_ISLAND_ITEM, DIC_ISLAND_RECIPE, DIC_ISLAND_SHOP_ITEM_TO_RECIPE, DIC_ISLAND_SLOT
+from module.island.utils import (
+    ceil_div_or_ceil,
+    get_idle_accumulating_batch_count,
+    get_task_target_items,
+    get_target_stock_load_rate,
+    get_production_target_stock,
+    item_name_with_id,
+    load_hard_floor_items,
+    normalize_item_keys,
+    parse_item_need_deadlines,
+    recipe_name_with_id,
+)
+from module.island_handler.assets import *
+from module.island_handler.exchange import IslandExchange
+from module.island_handler.restaurant_config import get_menu_reserve_items
+from module.island_handler.shop import IslandShop
+from module.logger import logger
+from module.map_detection.utils import Points
+from module.ocr.ocr import Digit, Duration, Ocr
+from module.ui.page import page_island, page_island_manage, page_island_shop
+
+
+class IslandProductionRestart(Exception):
+    def __init__(self, item_id, success=True):
+        self.item_id = item_id
+        self.success = success
+
+
+RECIPE_SIZE = (280, 134)
+RECIPE_DELTA = (0, 149)
+RECIPE_DETECT_AREA = (181, 55, 460, 668)
+RECIPE_DRAG_AREA = (300, 55, 350, 668)
+RECIPE_ANCHOR_AREA = (58, 97, 102, 115)
+RECIPE_PRODUCT_NAME_AREA = (123, 23, 269, 46)
+RECIPE_PRODUCT_STOCK_AREA = (212, 92, 275, 110)
+if server.server == 'jp':
+    lang = 'jp'
+elif server.server == 'tw':
+    lang = 'tw'
+else:
+    lang = 'cnocr'
+RECIPE_PRODUCT_NAME_OCR = Ocr([], lang=lang, letter=(57, 59, 61), threshold=160, name='product_name_ocr')
+RECIPE_PRODUCT_STOCK_OCR = Digit([], lang='cnocr', letter=(80, 80, 80), threshold=160, name='product_stock_ocr')
+ISLAND_RECIPE_AMOUNT_OCR = Digit(ISLAND_RECIPE_AMOUNT, letter=(50, 50, 57), name='recipe_amount_ocr')
+
+
+class IslandReversedDigitCounter(Ocr):
+    def __init__(self, buttons, lang='cnocr', letter=(255, 255, 255), sub_letter=None, 
+                 threshold=128, sub_threshold=128, 
+                 background_color=None,
+                 alphabet='0123456789/IDSB()+', name=None):
+        super().__init__(buttons, lang=lang, letter=letter, threshold=threshold, alphabet=alphabet, name=name)
+        self.sub_letter = sub_letter
+        self.sub_threshold = sub_threshold
+        self.background_color = background_color
+
+    def pre_process(self, image):
+        if self.background_color is not None:
+            mask = color_similarity_2d(image, self.background_color)
+            mask[mask < self.threshold] = 0
+            line = cv2.bitwise_and(mask[0], mask[-1]).flatten()
+            indices = np.where(line > 200)[0]
+            left = indices[0] if len(indices) > 0 else 0
+            right = indices[-1] + 1 if len(indices) > 0 else len(line)
+            image = image[:, left:right]
+
+        main_image = extract_letters(image, letter=self.letter, threshold=self.threshold)
+        if self.sub_letter is not None and isinstance(self.sub_letter, tuple):
+            mask = color_similarity_2d(image, self.sub_letter)
+            mask[mask < self.sub_threshold] = 0
+            if cv2.countNonZero(mask) > 30:
+                sub_image = extract_letters(image, letter=self.sub_letter, threshold=self.sub_threshold)
+                cv2.bitwise_and(main_image, sub_image, dst=main_image)
+
+        main_image = cv2.copyMakeBorder(main_image, 2, 4, 0, 0, cv2.BORDER_CONSTANT, value=(255, 255, 255))
+                    
+        return main_image
+
+    def after_process(self, result):
+        result = super().after_process(result)
+        result = result.replace('I', '1').replace('D', '0').replace('S', '5')
+        result = result.replace('B', '8')
+        if re.fullmatch(r'[0-9]+/?', result):
+            normalized = f'{result.rstrip("/")}/0'
+            logger.warning(f'Unexpected ocr result: {result}, normalized to {normalized}')
+            result = normalized
+        # Accept only "total/current" or "total/(current+bonus)". The last
+        # capture handles a direct current value; the middle two are summed.
+        match = re.fullmatch(r'([0-9]+)/(?:\(([0-9]+)\+([0-9]+)\)|([0-9]+))', result)
+        if not match:
+            logger.warning(f'Unexpected ocr result: {result}')
+            return 0, 0, 0
+
+        total = int(match.group(1))
+        if match.group(4) is not None:
+            current = int(match.group(4))
+        else:
+            current = int(match.group(2)) + int(match.group(3))
+        return total, current, total - current
+
+
+RECIPE_INGREDIENT_COUNTER_OCR = IslandReversedDigitCounter(
+    [], lang='cnocr', letter=(255, 255, 255), sub_letter=(253, 171, 34),
+    threshold=160, sub_threshold=160, background_color=(80, 80, 80), name='ingredient_counter_ocr'
+)
+
+
+def get_recipe_product_id(recipe_id):
+    return next(iter(DIC_ISLAND_RECIPE[recipe_id]['commission_product']))
+
+
+def format_recipe_with_product(recipe_id):
+    product_id = get_recipe_product_id(recipe_id)
+    return f'{recipe_name_with_id(recipe_id)}, product {item_name_with_id(product_id)}'
+
+
+# demand is always the parsed [(count, period), ...] list from parse_item_need_deadlines.
+# daily_buffer is the merged LP + manual buffer width contained in target_stock.
+RecipeInfo = namedtuple('RecipeInfo', [
+    'stock', 'target_stock', 'daily_buffer', 'batch_size', 'demand', 'idle_accumulating',
+])
+
+
+def get_target_stock_weight(stock, target_stock, daily_buffer):
+    if stock >= target_stock or target_stock <= 0:
+        return 0
+    # Daily buffer is the consumable range above the floors, so its fill level
+    # represents replenishment urgency. Fall back to the complete target for
+    # manually configured floors that have no daily buffer.
+    denominator = daily_buffer if daily_buffer > 0 else target_stock
+    return (target_stock - stock) / denominator
+
+
+def get_target_stock_replenish_workload(stock, target_stock, batch_size, workload):
+    if stock >= target_stock:
+        return 0
+    delta_batch = ceil_div_or_ceil(target_stock - stock, batch_size)
+    return delta_batch * workload
+
+
+def get_demand_weight(stock, target_stock, batch_size, demand):
+    rate_per_day = get_target_stock_load_rate(stock, target_stock, demand)
+    if rate_per_day <= 0:
+        return 0
+    return rate_per_day / batch_size
+
+
+def get_idle_accumulating_weight(stock, target_stock, demand, idle_accumulating):
+    if idle_accumulating <= 0:
+        return float('inf')
+    demand_stock = demand[-1][0] if demand else 0
+    effective_stock = max(stock - target_stock - demand_stock, 0)
+    return effective_stock / idle_accumulating
+
+
+RECIPE_MODE_BUFFER_SURPLUS = 'buffer_surplus'
+RECIPE_MODE_IDLE_ACCUMULATING = 'idle_accumulating'
+
+
+def get_recipe_entry_weight(recipe_id, info):
+    workload = DIC_ISLAND_RECIPE[recipe_id]['workload']
+    return (
+        get_demand_weight(info.stock, info.target_stock, info.batch_size, info.demand),
+        get_target_stock_weight(info.stock, info.target_stock, info.daily_buffer),
+        -get_target_stock_replenish_workload(
+            info.stock, info.target_stock, info.batch_size, workload
+        ),
+        -info.stock
+    )
+
+
+def get_optional_recipe_entry_weight(entry):
+    recipe_id, info, mode = entry
+    # Leading 0/1 keeps all buffer_surplus entries ahead of idle_accumulating
+    # ones in the combined ascending sort.
+    if mode == RECIPE_MODE_BUFFER_SURPLUS:
+        return (
+            0,
+            info.stock / max(info.target_stock, info.batch_size, 1),
+            DIC_ISLAND_RECIPE[recipe_id]['workload'],
+            info.stock,
+        )
+    return (
+        1,
+        get_idle_accumulating_weight(info.stock, info.target_stock, info.demand, info.idle_accumulating),
+        info.stock,
+    )
+
+
+def recipe_product_name_to_recipe_id(name, slotcode=None):
+    if server.server == 'jp':
+        # While we have 果樹園二重奏 and 朝光活力コンビ, the problem of カニ as 力二 is worse,
+        # so we replace 力 with カ before matching,
+        # which can fix most of the misrecognition without causing new issues.
+        name = name.replace('二', 'ニ').replace('力', 'カ')
+    min_distance = float('inf')
+    min_real_distance = float('inf')
+    corrected_name = None
+    corrected_id = None
+    if isinstance(slotcode, int):
+        recipe_lists = DIC_ISLAND_SLOT[slotcode]['formula'] + DIC_ISLAND_SLOT[slotcode]['activity_formula']
+    else:
+        recipe_lists = DIC_ISLAND_RECIPE.keys()
+
+    for recipe_id in recipe_lists:
+        product_id = get_recipe_product_id(recipe_id)
+        product_name = DIC_ISLAND_ITEM[product_id]['name'][server.server]
+
+        # If product_name is longer than OCR result name, try matching any substring
+        # of product_name with the same length as name and take the minimal distance.
+        if isinstance(name, str) and isinstance(product_name, str) and len(product_name) >= len(name) and len(name) > 0:
+            best_sub_distance = float('inf')
+            L = len(name)
+            for i in range(len(product_name) - L + 1):
+                sub = product_name[i:i+L]
+                d = levenshtein_distance(name, sub)
+                if d < best_sub_distance:
+                    best_sub_distance = d
+            distance = best_sub_distance
+            real_distance = levenshtein_distance(name, product_name)
+        else:
+            distance = levenshtein_distance(name, product_name)
+            real_distance = distance
+        if distance < min_distance or (distance == min_distance and real_distance < min_real_distance):
+            min_distance = distance
+            min_real_distance = real_distance
+            corrected_name = product_name
+            corrected_id = recipe_id
+
+    if name != corrected_name:
+        logger.info(f'Recipe product name OCR result "{name}" corrected to "{corrected_name}" with distance {min_distance} and real distance {min_real_distance}')
+    return corrected_id
+
+
+class IslandRecipe(IslandExchange, IslandShop):
+    working_slot_id = None
+
+    # recipe related methods
+    def is_in_recipe_menu(self):
+        return self.appear(ISLAND_RECIPE_CHECK, offset=(20, 20))
+
+    def _get_recipe_buttons(self):
+        area = (RECIPE_DETECT_AREA[0] + RECIPE_ANCHOR_AREA[0],
+                RECIPE_DETECT_AREA[1] + RECIPE_ANCHOR_AREA[1],
+                RECIPE_DETECT_AREA[2] - RECIPE_SIZE[0] + RECIPE_ANCHOR_AREA[2],
+                RECIPE_DETECT_AREA[3] - RECIPE_SIZE[1] + RECIPE_ANCHOR_AREA[3])
+        image = self.image_crop(area, copy=True)
+        anchors = TEMPLATE_ISLAND_RECIPE_ANCHOR.match_multi(image, similarity=0.5, threshold=5)
+        logger.attr('Recipe_in_view', len(anchors))
+        rows = Points([(0., a.area[1]) for a in anchors]).group(threshold=5)
+        return rows
+
+    @cached_property
+    def recipe_grid(self):
+        for _ in self.loop(timeout=2):
+            grid = self.get_recipe_grid()
+            if len(grid.buttons) >= 3 or len(grid.buttons) == 1 and self.working_slot_id in [9031, 9032, 9033, 9034]:
+                return grid
+        return grid
+
+    def get_recipe_grid(self):
+        rows = self._get_recipe_buttons()
+        count = len(rows)
+        delta_y = RECIPE_DELTA[1]
+        if count > 4:
+            logger.warning(f'Found {count} recipe anchors, which is more than expected, fixing count to 4')
+            count = 4
+        if count >= 2:
+            y_list = rows[:, 1]
+            y1, y2 = y_list[0], y_list[-1]
+            origin_y = min(y1, y2) + RECIPE_DETECT_AREA[1]
+        else:
+            logger.warning('Unable to find enough recipe anchors, assume recipes are at top')
+            origin_y = 114
+
+        recipe_grid = ButtonGrid(
+            origin=(181, origin_y), delta=(0, delta_y), button_shape=RECIPE_SIZE,
+            grid_shape=(1, count), name='RECIPE_GRID'
+        )
+        return recipe_grid
+
+    @cached_property
+    def recipe_ids(self):
+        return self.get_recipe_ids()
+
+    def get_recipe_ids(self):
+        product_name_grid = self.recipe_grid.crop(RECIPE_PRODUCT_NAME_AREA, name='RECIPE_PRODUCT_NAME_GRID')
+        product_name_images = [self.image_crop(button.area, copy=True) for button in product_name_grid.buttons]
+        product_names = RECIPE_PRODUCT_NAME_OCR.ocr(product_name_images, direct_ocr=True)
+        corrected_ids = [recipe_product_name_to_recipe_id(name, slotcode=self.working_slot_id) for name in product_names]
+        return corrected_ids
+
+    def get_recipe_product_stocks(self):
+        stock_grid = self.recipe_grid.crop(RECIPE_PRODUCT_STOCK_AREA, name='RECIPE_PRODUCT_STOCK_GRID')
+        stock_images = [self.image_crop(button.area, copy=True) for button in stock_grid.buttons]
+        stocks = RECIPE_PRODUCT_STOCK_OCR.ocr(stock_images, direct_ocr=True)
+        return stocks
+
+    def next_recipe_page(self):
+        if len(self.recipe_grid.buttons) < 3:
+            logger.info('Less than 3 recipes in current page, no need to swipe to next page')
+            return
+        else:
+            p1, p2 = random_rectangle_vector_opted((0, -300), box=RECIPE_DRAG_AREA, padding=0)
+            self.device.drag(p1, p2, hold_duration=0.1, name='RECIPE_NEXT_PAGE_SWIPE')
+            del_cached_property(self, 'recipe_grid')
+            del_cached_property(self, 'recipe_ids')
+            self.device.screenshot()
+
+    def prev_recipe_page(self):
+        if len(self.recipe_grid.buttons) < 3:
+            logger.info('Less than 3 recipes in current page, no need to swipe to previous page')
+            return
+        else:
+            p1, p2 = random_rectangle_vector_opted((0, 300), box=RECIPE_DRAG_AREA, padding=0)
+            self.device.drag(p1, p2, hold_duration=0.1, name='RECIPE_PREV_PAGE_SWIPE')
+            del_cached_property(self, 'recipe_grid')
+            del_cached_property(self, 'recipe_ids')
+            self.device.screenshot()
+
+    def scan_all_recipe_stocks(self):
+        for _ in self.loop(timeout=3):
+            # use ISLAND_RECIPE_AMOUNT_MAX as a check to ensure the recipe page is fully loaded
+            if self.appear(ISLAND_RECIPE_AMOUNT_MAX, offset=(0, 20)):
+                break
+        all_stocks = {}
+        drag_count = 0
+        ISLAND_RECIPE_DRAG_CHECK.load_color(self.device.image)
+        for _ in self.loop(timeout=30):
+            new_stocks = dict(zip(self.recipe_ids, self.get_recipe_product_stocks()))
+            all_stocks.update(new_stocks)
+            self.next_recipe_page()
+            drag_count += 1
+            if self.appear(ISLAND_RECIPE_DRAG_CHECK, offset=(20, 20)):
+                if drag_count > 1:
+                    logger.info(f'Ensured recipe page bottom after dragging {drag_count} times')
+                    self.device.click_record_clear()
+                    break
+            else:
+                drag_count = 0
+                ISLAND_RECIPE_DRAG_CHECK.load_color(self.device.image)
+        return all_stocks
+
+    @cached_property
+    def all_recipe_stocks(self):
+        return self.scan_all_recipe_stocks()
+
+    @cached_property
+    def recipe_id_sequence(self):
+        return self.get_recipe_id_sequence_to_run()
+
+    @cached_property
+    def hard_floor_items(self):
+        yaml_text = self.config.cross_get("IslandProduction.IslandProduction.HardFloorItems", "")
+        return normalize_item_keys(load_hard_floor_items(yaml_text))
+
+    @cached_property
+    def reserve_items(self):
+        return get_menu_reserve_items(self.config)
+
+    def get_recipe_id_sequence_to_run(
+            self,
+            daily_buffer_items_dict=None,
+            hard_floor_items_dict=None,
+            reserve_items_dict=None,
+            idle_accumulating_items_dict=None,
+            task_target_items_dict=None,
+    ):
+        stocks_dict = self.all_recipe_stocks
+        if daily_buffer_items_dict is None:
+            yaml_text = self.config.cross_get("IslandProduction.IslandProduction.DailyBufferItems", "")
+            if yaml_text is None:
+                yaml_text = ""
+            daily_buffer_items_dict = safe_load(yaml_text) or {}
+        daily_buffer_items_dict = normalize_item_keys(daily_buffer_items_dict)
+        # User-maintained supplement for items the LP plan leaves unbuffered,
+        # merged by max so regular orders keep a consumable band above the floors.
+        manual_buffer_items_dict = normalize_item_keys(safe_load(
+            self.config.cross_get("IslandProduction.IslandProduction.ManualBufferItems", "") or ""
+        ) or {})
+        for item_id, amount in manual_buffer_items_dict.items():
+            if amount > daily_buffer_items_dict.get(item_id, 0):
+                daily_buffer_items_dict[item_id] = amount
+        if hard_floor_items_dict is None:
+            hard_floor_items_dict = self.hard_floor_items
+        else:
+            hard_floor_items_dict = normalize_item_keys(hard_floor_items_dict)
+        if reserve_items_dict is None:
+            reserve_items_dict = self.reserve_items
+        else:
+            reserve_items_dict = normalize_item_keys(reserve_items_dict)
+        task_target_items_dict = get_task_target_items(self.config, task_target_items_dict)
+        self.task_target_items = task_target_items_dict
+        if idle_accumulating_items_dict is None:
+            yaml_text = self.config.cross_get("IslandProduction.IslandProduction.IdleAccumulatingItems", "")
+            if yaml_text is None:
+                yaml_text = ""
+            idle_accumulating_items_dict = safe_load(yaml_text) or {}
+        idle_accumulating_items_dict = normalize_item_keys(idle_accumulating_items_dict)
+
+        self.production_floor_items = hard_floor_items_dict, reserve_items_dict, daily_buffer_items_dict
+        self.recipe_info_by_id = {}
+        for recipe_id, stock in stocks_dict.items():
+            recipe_product = DIC_ISLAND_RECIPE[recipe_id]['commission_product']
+            product_id = get_recipe_product_id(recipe_id)
+            batch_size = recipe_product[product_id]
+            daily_buffer_width = daily_buffer_items_dict.get(product_id, 0)
+            hard_floor = hard_floor_items_dict.get(product_id, 0)
+            reserve = reserve_items_dict.get(product_id, 0)
+            target_stock = get_production_target_stock(
+                hard_floor,
+                reserve,
+                daily_buffer_width,
+            )
+            demand = task_target_items_dict.get(product_id, {})
+            demand = parse_item_need_deadlines(demand)
+            demand_text = ', '.join(
+                f'{count} items in {period:g} days'
+                for count, period in demand
+            ) or '0 items in 1 days'
+            idle_accumulating = idle_accumulating_items_dict.get(product_id, 0)
+            info = RecipeInfo(stock, target_stock, daily_buffer_width, batch_size, demand, idle_accumulating)
+            self.recipe_info_by_id[recipe_id] = info
+            logger.info(
+                f'Recipe {format_recipe_with_product(recipe_id)} stock: {stock}, '
+                f'daily_buffer_width: {daily_buffer_width}, '
+                f'hard_floor: {hard_floor}, '
+                f'reserve: {reserve}, '
+                f'target_stock: {target_stock}, '
+                f'batch_size: {batch_size}, task_target: {demand_text}, '
+                f'idle accumulating rate: {idle_accumulating}'
+            )
+        self.checked_recipe_modes = set()
+        return self._build_recipe_id_sequence_to_run()
+
+    def _build_recipe_id_sequence_to_run(self):
+        checked_modes = self.checked_recipe_modes
+        skip_buffer_surplus = self.config.cross_get(
+            "IslandProduction.IslandProduction.SkipBufferSurplus", True
+        )
+        if skip_buffer_surplus:
+            logger.info(
+                'Skip buffer-surplus recipe checks because '
+                'IslandProduction.SkipBufferSurplus is enabled'
+            )
+        normal_entries = []
+        optional_entries = []
+        run_counts = {
+            recipe_id: self.calculate_recipe_run_count(info)
+            for recipe_id, info in self.recipe_info_by_id.items()
+        }
+        # Products with unmet normal demand are protected: optional modes must not
+        # consume them as ingredients, but may consume anything else (e.g. shop-bought
+        # raw materials) above its protected stock, so slots don't idle needlessly.
+        pending_products = {
+            get_recipe_product_id(recipe_id)
+            for recipe_id, count in run_counts.items() if count > 0
+        }
+
+        for recipe_id, info in self.recipe_info_by_id.items():
+            recipe_cost = DIC_ISLAND_RECIPE[recipe_id]['commission_cost']
+            if run_counts[recipe_id] > 0:
+                if (recipe_id, None) not in checked_modes:
+                    normal_entries.append((recipe_id, info, None))
+            elif pending_products.intersection(recipe_cost):
+                continue
+            # Buffer surplus only converts coin-buyable shop materials (seeds,
+            # feed, fry, flour) into tier-1 products. Surplus of recipe products
+            # stays as-is: it is fungible for orders and downstream demand is
+            # already maintained by normal replenishment.
+            elif not skip_buffer_surplus and recipe_cost \
+                    and all(item in DIC_ISLAND_SHOP_ITEM_TO_RECIPE for item in recipe_cost) \
+                    and self.calculate_buffer_surplus_run_count(info) > 0 and (
+                    recipe_id, RECIPE_MODE_BUFFER_SURPLUS
+            ) not in checked_modes:
+                optional_entries.append((recipe_id, info, RECIPE_MODE_BUFFER_SURPLUS))
+            elif info.idle_accumulating > 0 and (
+                    recipe_id, RECIPE_MODE_IDLE_ACCUMULATING
+            ) not in checked_modes:
+                # Also reached after a buffer-surplus attempt failed and the
+                # sequence was rebuilt with that strategy marked as checked.
+                optional_entries.append((recipe_id, info, RECIPE_MODE_IDLE_ACCUMULATING))
+
+        normal_entries.sort(key=lambda entry: get_recipe_entry_weight(entry[0], entry[1]), reverse=True)
+        optional_entries.sort(key=get_optional_recipe_entry_weight)
+        sequence = normal_entries + optional_entries
+        sequence_text = [
+            f'{format_recipe_with_product(recipe_id)} [{mode or "normal"}]'
+            for recipe_id, _info, mode in sequence
+        ]
+        logger.info(
+            'Calculated recipe sequence to run: '
+            f'{sequence_text}'
+        )
+        return sequence
+
+    @staticmethod
+    def calculate_recipe_run_count(info):
+        rate_per_day = get_target_stock_load_rate(info.stock, info.target_stock, info.demand)
+        if rate_per_day > 0:
+            return ceil_div_or_ceil(rate_per_day, info.batch_size)
+        if info.stock < info.target_stock:
+            return ceil_div_or_ceil(info.target_stock - info.stock, info.batch_size)
+        return 0
+
+    @staticmethod
+    def calculate_buffer_surplus_run_count(info):
+        # Surplus production is capped at one extra buffer width above the
+        # target, so ingredient surplus is not endlessly converted into stock.
+        headroom = info.target_stock + info.daily_buffer - info.stock
+        if headroom <= 0:
+            return 0
+        return ceil_div_or_ceil(headroom, info.batch_size)
+
+    def get_active_recipe_id(self):
+        for recipe_id, button in zip(self.recipe_ids, self.recipe_grid.buttons):
+            if self.is_button_selected(button):
+                logger.info(f'Selected recipe: {format_recipe_with_product(recipe_id)}')
+                return recipe_id
+        logger.warning('Unable to determine selected recipe, assume no active recipe')
+        return None
+
+    def get_recipe_ingredient_grids(self, recipe_id=None):
+        if recipe_id is None:
+            recipe_id = self.get_active_recipe_id()
+        if recipe_id is None:
+            return None
+
+        recipe_cost = DIC_ISLAND_RECIPE[recipe_id]['commission_cost']
+        count = len(recipe_cost)
+        logger.attr('Ingredient_count', count)
+        if count == 0:
+            return ButtonGrid(
+                origin=(750, 474), delta=(0, 0), button_shape=(82, 83), grid_shape=(0, 1), name='RECIPE_INGREDIENT_GRID'
+            )
+        elif count == 1:
+            return ButtonGrid(
+                origin=(750, 474), delta=(0, 0), button_shape=(82, 83), grid_shape=(1, 1), name='RECIPE_INGREDIENT_GRID'
+            )
+        elif count == 2:
+            return ButtonGrid(
+                origin=(663, 474), delta=(175, 0), button_shape=(82, 83), grid_shape=(2, 1), name='RECIPE_INGREDIENT_GRID'
+            )
+        elif count == 3:
+            return ButtonGrid(
+                origin=(634, 474), delta=(116, 0), button_shape=(82, 83), grid_shape=(3, 1), name='RECIPE_INGREDIENT_GRID'
+            )
+        else:
+            logger.warning(f'Unexpected ingredient count {count}, unable to determine ingredient grid')
+            return None
+
+    def get_recipe_ingredient_counters(self):
+        active_recipe_id = self.get_active_recipe_id()
+        ingredient_grids = self.get_recipe_ingredient_grids(active_recipe_id)
+        if ingredient_grids is None:
+            return None
+
+        counter_grids = ingredient_grids.crop((-10, 66, 92, 84), name='counter_grids')
+        for _ in self.loop(timeout=3):
+            counter_images = [self.image_crop(button.area, copy=True) for button in counter_grids.buttons]
+            counters = RECIPE_INGREDIENT_COUNTER_OCR.ocr(counter_images, direct_ocr=True)
+            if (0, 0, 0) not in counters:
+                break
+        return counters
+
+    def set_recipe(self, recipe_id):
+        all_recipe_ids = list(self.all_recipe_stocks.keys())
+        clicked = False
+        for _ in self.loop(timeout=30):
+            if clicked and self.get_active_recipe_id() == recipe_id:
+                self.device.click_record_clear()
+                return True
+            if recipe_id in self.recipe_ids:
+                index = self.recipe_ids.index(recipe_id)
+                button = self.recipe_grid.buttons[index]
+                self.device.click(button)
+                clicked = True
+                continue
+            first_index = None
+            for first_recipe_id in self.recipe_ids:
+                if first_recipe_id in all_recipe_ids:
+                    # Avoid error due to unscanned recipe_ids outside all_recipe_ids
+                    first_index = all_recipe_ids.index(first_recipe_id)
+                    break
+            if first_index is None:
+                logger.warning('No recognized recipe id in current page, swipe and retry')
+                self.next_recipe_page()
+                clicked = False
+                continue
+            if all_recipe_ids.index(recipe_id) < first_index:
+                self.prev_recipe_page()
+            else:
+                self.next_recipe_page()
+            clicked = False
+        else:
+            logger.warning(
+                f'Unable to find recipe {format_recipe_with_product(recipe_id)} '
+                'after looping through recipe pages, failed to set recipe'
+            )
+            self.device.click_record_clear()
+            return False
+
+    def goto_ingredient_shop_page(self, entrance_button):
+        click_timer = Timer(1, count=3).reset()
+        for _ in self.loop(timeout=15):
+            if self.appear(ISLAND_INFO_GOTO_SHOP, offset=(20, 20)):
+                break
+            if self.is_in_recipe_menu():
+                if click_timer.reached_and_reset():
+                    self.device.click(entrance_button)
+        else:
+            logger.warning('Unable to find ingredient button, failed to goto ingredient shop page')
+            return False
+        for _ in self.loop(timeout=15, skip_first=False):
+            if self.appear_then_click(ISLAND_INFO_GOTO_SHOP, offset=(20, 20), interval=2):
+                continue
+            if self._island_shop_side_navbar.get_info(main=self)[0] == 0:
+                return True
+        else:
+            logger.warning('Unable to find shop page in ingredient info page, failed to goto ingredient shop page')
+            return False
+
+    def prepare_ingredients(self, recipe_id, batch_count=float('inf'), mode=None):
+        # use this before setting recipe batch count to read out current ingredient need per batch,
+        # since ranch recipes may have boosted ingredient requirement for higher batch production.
+        counters = self.get_recipe_ingredient_counters()
+        recipe_cost = DIC_ISLAND_RECIPE[recipe_id]['commission_cost']
+        task_target_items = getattr(self, 'task_target_items', None)
+        if task_target_items is None:
+            task_target_items = get_task_target_items(self.config)
+        hard_floor_items, reserve_items, daily_buffer_items = self.production_floor_items
+        buffer_surplus_mode = mode == RECIPE_MODE_BUFFER_SURPLUS
+
+        def get_available_stock(ingredient_key, stock):
+            hard_floor = hard_floor_items.get(ingredient_key, 0)
+            reserve = reserve_items.get(ingredient_key, 0)
+            task_target = task_target_items.get(ingredient_key, {}).get('total_need_count', 0)
+            if buffer_surplus_mode:
+                protected_stock = get_production_target_stock(
+                    hard_floor,
+                    reserve,
+                    daily_buffer_items.get(ingredient_key, 0),
+                )
+            else:
+                protected_stock = max(hard_floor, 0) + max(reserve, 0)
+            available_stock = max(stock - protected_stock - max(task_target, 0), 0)
+            return available_stock, protected_stock, task_target
+
+        if counters is None:
+            logger.warning(
+                f'Unable to read ingredient counters for recipe {format_recipe_with_product(recipe_id)}'
+            )
+            return False, 0
+        if batch_count == float('inf'):
+            max_count = DIC_ISLAND_RECIPE[recipe_id]['production_limit']
+            for ingredient_key, counter in zip(recipe_cost, counters):
+                if not buffer_surplus_mode and (
+                        ingredient_key in DIC_ISLAND_SHOP_ITEM_TO_RECIPE
+                        or ingredient_key in (2521, 2522)
+                ):
+                    continue
+                available_stock, _protected_stock, _task_target = get_available_stock(
+                    ingredient_key,
+                    counter[0],
+                )
+                count = available_stock // counter[1] if counter[1] > 0 else float('inf')
+                if count < max_count:
+                    max_count = count
+            batch_count = max_count
+            logger.info(f'Calculated max batch count to produce with current ingredient stock: {batch_count}')
+        success = True
+        real_count = batch_count
+        failed_buy_items = getattr(self, 'failed_buy_items', set())
+        ingredient_grid = self.get_recipe_ingredient_grids(recipe_id)
+        if ingredient_grid is None:
+            logger.warning(
+                f'Unable to determine ingredient grid for recipe {format_recipe_with_product(recipe_id)}'
+            )
+            return False, 0
+        ingredient_buttons = ingredient_grid.buttons
+        for ingredient_key, counter, button in zip(recipe_cost, counters, ingredient_buttons):
+            available_stock, protected_stock, task_target_reserve = get_available_stock(
+                ingredient_key,
+                counter[0],
+            )
+            # Entering this branch implies counter[1] > 0, so divisions below are safe.
+            if available_stock < real_count * counter[1]:
+                if buffer_surplus_mode:
+                    logger.info(
+                        f'Ingredient {item_name_with_id(ingredient_key)} has insufficient stock '
+                        'above protected stock '
+                        f'{protected_stock} and task target {task_target_reserve}; '
+                        'buffer surplus production will not buy or exchange ingredients'
+                    )
+                    real_count = min(real_count, available_stock // counter[1])
+                    success = False
+                    continue
+                if ingredient_key in (2521, 2522):
+                    if ingredient_key in failed_buy_items:
+                        logger.warning(
+                            f'Skipping exchange of ingredient {item_name_with_id(ingredient_key)} '
+                            'after a previous failed exchange'
+                        )
+                        real_count = min(real_count, available_stock // counter[1])
+                        success = False
+                        continue
+                    delta = real_count * counter[1] - available_stock
+                    self.ui_back(check_button=page_island_manage.check_button)
+                    self.ui_goto_island_shop()
+                    exchange_success = super().island_shop_exchange({ingredient_key: delta})
+                    # Exchange leaves the recipe menu. Return to production management and
+                    # restart so the next attempt rescans recipe stocks and ingredient state.
+                    self.ui_back(check_button=page_island.check_button)
+                    self.ui_goto(page_island_manage)
+                    raise IslandProductionRestart(item_id=ingredient_key, success=exchange_success)
+                if ingredient_key in DIC_ISLAND_SHOP_ITEM_TO_RECIPE:
+                    if ingredient_key in failed_buy_items:
+                        logger.warning(
+                            f'Skipping purchase of ingredient {item_name_with_id(ingredient_key)} '
+                            'after a previous failed buy'
+                        )
+                        real_count = min(real_count, available_stock // counter[1])
+                        success = False
+                        continue
+                    if ingredient_key == 3004:  # flour cannot be bought via jumping page, need to go to shop page to buy
+                        self.ui_back(check_button=page_island_manage.check_button)
+                        self.ui_goto_island_shop()
+                        isolated = False
+                    else:
+                        self.goto_ingredient_shop_page(entrance_button=button)
+                        isolated = True
+                    delta = real_count * counter[1] - available_stock
+                    buy_success = super().island_shop_buy({ingredient_key: delta}, isolated=isolated)
+                    success = buy_success and success
+                    if not isolated:
+                        # We need an exception for inherited class to handle ui switch
+                        # and restart the ingredient preparation after buying flour,
+                        # since flour purchase requires going into shop page and back,
+                        # which may cause the recipe page to lose the set recipe and ingredient states.
+                        self.ui_back(check_button=page_island.check_button)
+                        self.ui_goto(page_island_manage)
+                        raise IslandProductionRestart(item_id=ingredient_key, success=buy_success)
+                    else:
+                        self.ui_back(check_button=self.is_in_recipe_menu)
+                    if not success:
+                        logger.warning(
+                            f'Failed to buy ingredient {item_name_with_id(ingredient_key)} from shop, '
+                            f'insufficient ingredient for recipe {format_recipe_with_product(recipe_id)}'
+                        )
+                        real_count = min(real_count, available_stock // counter[1])
+                else:
+                    logger.warning(
+                        f'Ingredient {item_name_with_id(ingredient_key)} cannot be bought from shop, '
+                        f'insufficient ingredient for recipe {format_recipe_with_product(recipe_id)} '
+                        f'after protected stock {protected_stock} '
+                        f'and task target {task_target_reserve}'
+                    )
+                    real_count = min(real_count, available_stock // counter[1])
+                    success = False
+        return success, real_count
+
+    def set_recipe_batch_count(self, batch_count=float('inf')):
+        for _ in self.loop():
+            if self.appear_then_click(ISLAND_RECIPE_AMOUNT_MAX, offset=(20, 20)):
+                self.device.screenshot()
+                break
+        if batch_count == float('inf'):
+            logger.info('Set recipe amount to max')
+            return True
+        else:
+            logger.info(f'Set recipe amount to {batch_count}')
+            if ISLAND_RECIPE_AMOUNT_OCR.ocr(self.device.image) < batch_count:
+                # Check if already at max, if so, cannot set to desired amount
+                counters = self.get_recipe_ingredient_counters()
+                for counter in counters:
+                    if counter[2] < 0:
+                        logger.warning('Insufficient ingredient for next recipe amount, cannot set recipe amount to desired value')
+                        return False
+            try:
+                self.ui_ensure_index(index=batch_count, letter=ISLAND_RECIPE_AMOUNT_OCR,
+                                 next_button=ISLAND_RECIPE_AMOUNT_PLUS,
+                                 prev_button=ISLAND_RECIPE_AMOUNT_MINUS,)
+                return True
+            except GameTooManyClickError:
+                logger.warning('Too many clicks when setting recipe amount, failed to set recipe amount')
+                return False
+
+    def get_recipe_remain_time(self):
+        if self.match_template_color(ISLAND_RECIPE_TIME_ANCHOR, offset=(100, 20)):
+            ISLAND_RECIPE_TIME.load_offset(ISLAND_RECIPE_TIME_ANCHOR)
+            remain_time = Duration(ISLAND_RECIPE_TIME.button, lang='cnocr', name='recipe_remain_time').ocr(self.device.image)
+            return remain_time
+        else:
+            logger.warning('Unable to find recipe time anchor, failed to execute recipe')
+            return None
+
+    def run_recipe(self, recipe_id, batch_count=float('inf'), mode=None):
+        """
+        Returns:
+            tuple[timedelta, int | float]: remain time and actual batch count after starting,
+                or None if failed to start recipe
+        """
+        self.last_unavailable_product = None
+        if not self.is_in_recipe_menu():
+            logger.warning('Not in recipe menu, cannot run recipe')
+            return None
+        if not self.set_recipe(recipe_id):
+            logger.warning(
+                f'Failed to set recipe to {format_recipe_with_product(recipe_id)}, cannot run recipe'
+            )
+            return None
+        success, real_count = self.prepare_ingredients(
+            recipe_id,
+            batch_count=batch_count,
+            mode=mode,
+        )
+        if real_count <= 0:
+            logger.warning(
+                f'No batch of recipe {format_recipe_with_product(recipe_id)} can be produced '
+                'with current ingredient stock'
+            )
+            self.last_unavailable_product = get_recipe_product_id(recipe_id)
+            return None
+        if not success:
+            logger.warning(
+                f'Failed to prepare enough ingredients for {batch_count} batch(es) of '
+                f'recipe {format_recipe_with_product(recipe_id)}'
+            )
+            logger.info(f'Can only produce {real_count} batch(es) with current ingredient stock, will try to run with this amount')
+        if not self.set_recipe_batch_count(real_count):
+            logger.warning(f'Failed to set recipe batch count to {"max" if real_count == float("inf") else real_count}, cannot run recipe')
+            return None
+        remain_time = self.get_recipe_remain_time()
+        logger.attr('Recipe_remain_time', remain_time)
+        if remain_time is not None:
+            for _ in self.loop():
+                if self.appear_then_click(ISLAND_RECIPE_TIME_ANCHOR, offset=(100, 20), interval=2):
+                    continue
+                if not self.is_in_recipe_menu():
+                    break
+            logger.info(
+                f'Recipe {format_recipe_with_product(recipe_id)} started with amount '
+                f'{"max" if real_count == float("inf") else real_count}, remain time: {remain_time}'
+            )
+            return remain_time, real_count
+        else:
+            logger.warning('Failed to get recipe remain time, recipe may not have started successfully')
+            return None
+
+    def update_recipe_id_sequence_and_stock(self, recipe_id, batch_count):
+        recipe_cost = DIC_ISLAND_RECIPE[recipe_id]['commission_cost']
+        consumed_items = {item_id: amount * batch_count for item_id, amount in recipe_cost.items()}
+        for old_recipe_id, info in self.recipe_info_by_id.items():
+            product_id = get_recipe_product_id(old_recipe_id)
+            if old_recipe_id == recipe_id:
+                new_stock = info.stock + info.batch_size * batch_count
+                logger.info(
+                    f'Updated recipe {format_recipe_with_product(recipe_id)} stock '
+                    f'from {info.stock} to {new_stock} '
+                    f'after running recipe for {batch_count} batch(es)'
+                )
+            elif product_id in consumed_items:
+                new_stock = info.stock - consumed_items[product_id]
+                logger.info(
+                    f'Updated recipe {format_recipe_with_product(old_recipe_id)} stock '
+                    f'from {info.stock} to {new_stock} after consuming '
+                    f'{consumed_items[product_id]} {item_name_with_id(product_id)} for '
+                    f'recipe {format_recipe_with_product(recipe_id)}'
+                )
+            else:
+                continue
+            self.recipe_info_by_id[old_recipe_id] = info._replace(stock=new_stock)
+            self.all_recipe_stocks[old_recipe_id] = new_stock
+        self.recipe_id_sequence = self._build_recipe_id_sequence_to_run()
+
+    def run(self, slot_id=None):
+        """
+        Returns:
+            target_time (datetime): timestamp of when the recipe will finish, or None if failed to run any recipe
+        """
+        self.working_slot_id = slot_id
+        del_cached_property(self, 'recipe_grid')
+        del_cached_property(self, 'recipe_ids')
+        while self.recipe_id_sequence:
+            recipe_id, info, mode = self.recipe_id_sequence[0]
+            production_limit = DIC_ISLAND_RECIPE[recipe_id]['production_limit']
+            if mode == RECIPE_MODE_BUFFER_SURPLUS:
+                batch_count = self.calculate_buffer_surplus_run_count(info)
+            elif mode:
+                batch_count = get_idle_accumulating_batch_count(
+                    DIC_ISLAND_RECIPE[recipe_id]['workload'],
+                    self.config.ISLAND_IDLE_ACCUMULATING_DISPATCH_HOURS,
+                )
+            else:
+                batch_count = self.calculate_recipe_run_count(info)
+            strategy = mode or 'normal'
+            logger.info(
+                f'Plan to run {batch_count} batch(es) of recipe '
+                f'{format_recipe_with_product(recipe_id)} in {strategy} mode, '
+                f'limitation: {production_limit} batches'
+            )
+            if batch_count > production_limit:
+                logger.info(f"Will try to run {production_limit} batches")
+                batch_count = production_limit
+            result = self.run_recipe(recipe_id, batch_count, mode=mode)
+            if result is not None:
+                remain_time, real_count = result
+                target_time = datetime.now() + remain_time
+                logger.info(
+                    f'Will run recipe {format_recipe_with_product(recipe_id)} in {strategy} mode '
+                    f'for {real_count} batch(es), '
+                    f'expected target time: {target_time}'
+                )
+                self.update_recipe_id_sequence_and_stock(recipe_id, real_count)
+                return target_time
+            else:
+                unavailable_product = getattr(self, 'last_unavailable_product', None)
+                if unavailable_product is not None:
+                    logger.info(
+                        f'Product {item_name_with_id(unavailable_product)} is unavailable after '
+                        f'recipe {format_recipe_with_product(recipe_id)} failed'
+                    )
+                self.checked_recipe_modes.add((recipe_id, mode))
+                self.recipe_id_sequence = self._build_recipe_id_sequence_to_run()
+        logger.info('No recipe to run or failed to run any recipe')
+        return None

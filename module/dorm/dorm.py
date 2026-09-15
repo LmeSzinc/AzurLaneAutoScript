@@ -21,15 +21,19 @@ MASK_DORM = Mask(file='./assets/mask/MASK_DORM.png')
 DORM_CAMERA_SWIPE = (300, 250)
 DORM_CAMERA_RANDOM = (-20, -20, 20, 20)
 OCR_SLOT = DigitCounter(OCR_DORM_SLOT, letter=(107, 89, 82), threshold=128, name='OCR_DORM_SLOT')
+OCR_BUY_FOOD_AMOUNT = Digit(OCR_DORM_BUY_FOOD_AMOUNT, letter=(96, 96, 100), threshold=128, name='OCR_DORM_BUY_FOOD_AMOUNT')
 
 
 class OcrDormFood(DigitCounter):
     def pre_process(self, image):
         orange = color_similarity_2d(image, color=(239, 158, 49))
         gray = color_similarity_2d(image, color=(99, 97, 99))
-        image = cv2.subtract(255, cv2.max(orange, gray))
-        image = cv2.multiply(image, 2)
-        return image
+        # image = cv2.subtract(255, cv2.max(orange, gray))
+        # image = cv2.multiply(image, 2)
+        cv2.max(orange, gray, dst=gray)
+        cv2.bitwise_not(gray, dst=gray)
+        cv2.convertScaleAbs(gray, alpha=2, dst=gray)
+        return gray
 
     def after_process(self, result):
         result = super().after_process(result)
@@ -199,7 +203,7 @@ class RewardDorm(UI):
                        f'does not support DOWN/UP events, use multi-click instead')
         self.device.multi_click(button, count)
 
-    def dorm_view_reset(self, skip_first_screenshot=True):
+    def dorm_view_reset(self):
         """
         Use Dorm manage and Back to reset dorm view.
 
@@ -208,12 +212,7 @@ class RewardDorm(UI):
             out: page_dorm
         """
         logger.info('Dorm view reset')
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
+        for _ in self.loop():
             # End
             if self.appear(DORM_MANAGE_CHECK, offset=(20, 20)):
                 break
@@ -226,13 +225,7 @@ class RewardDorm(UI):
             if self.appear_then_click(DORM_FURNITURE_CONFIRM, offset=(30, 30), interval=3):
                 continue
 
-        skip_first_screenshot = True
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
+        for _ in self.loop():
             if self.appear(DORM_MANAGE, offset=(20, 20)):
                 break
 
@@ -251,17 +244,11 @@ class RewardDorm(UI):
         logger.hr('Dorm collect')
 
         self.ensure_no_info_bar()
-        skip_first_screenshot = True
 
         # Set a timer to avoid Alas failing to detect the info_bar by accident.
         timeout = Timer(1.5, count=3).start()
 
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
+        for _ in self.loop():
             # Handle all popups
             if self.ui_additional(get_ship=False):
                 continue
@@ -312,11 +299,7 @@ class RewardDorm(UI):
             skip_first_screenshot = True
 
         self.popup_interval_clear()
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
+        for _ in self.loop(skip_first=skip_first_screenshot):
             # End
             if self.appear(DORM_FEED_CHECK, offset=(20, 20)):
                 break
@@ -354,13 +337,7 @@ class RewardDorm(UI):
         timeout = Timer(1.5, count=3).start()
         food: t.List[Food] = []
         fill: int = 0
-        skip_first_screenshot = True
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
+        for _ in self.loop():
             # End
             if timeout.reached():
                 logger.warning('Get dorm food timeout, probably because food is empty')
@@ -406,19 +383,14 @@ class RewardDorm(UI):
         logger.warning('Dorm feed run count reached')
         return 10
 
-    def dorm_feed_enter(self, skip_first_screenshot=False):
+    def dorm_feed_enter(self):
         """
         Pages:
             in: DORM_CHECK
             out: DORM_FEED_CHECK
         """
         self.interval_clear(DORM_CHECK)
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
+        for _ in self.loop(skip_first=False):
             # End
             if self.appear(DORM_FEED_CHECK, offset=(20, 20)):
                 break
@@ -442,19 +414,14 @@ class RewardDorm(UI):
                 logger.info(f'{DORM_FURNITURE_SHOP_FIRST_SELECTED} -> {DORM_FURNITURE_SHOP_QUIT}')
                 continue
 
-    def dorm_feed_quit(self, skip_first_screenshot=True):
+    def dorm_feed_quit(self):
         """
         Pages:
             in: DORM_FEED_CHECK
             out: DORM_CHECK
         """
         self.interval_clear(DORM_FEED_CHECK)
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
+        for _ in self.loop():
             # End
             if self.appear(DORM_CHECK):
                 break
@@ -468,6 +435,76 @@ class RewardDorm(UI):
             if self.ui_additional(get_ship=False):
                 self.interval_clear(DORM_CHECK)
                 continue
+
+    def dorm_buy_food_enter(self):
+        """
+        Pages:
+            in: DORM_FEED_CHECK
+            out: DORM_BUY_FOOD_CHECK
+        """
+        self.interval_clear(DORM_FEED_CHECK)
+        for _ in self.loop():
+            # End
+            if self.appear(DORM_BUY_FOOD_CHECK, offset=(20, 20)):
+                break
+
+            if self.match_template_color(DORM_FEED_CHECK, offset=(20, 20), interval=5):
+                self.device.click(DORM_BUY_FOOD_ENTER)
+                continue
+
+    def dorm_buy_food(self, amount):
+        """
+        Pages:
+            in: DORM_BUY_FOOD_CHECK
+            out: DORM_BUY_FOOD_CHECK
+        """
+        logger.hr('Dorm buy food')
+        index_offset = (20, 20)
+        # In case either -/+ shift position, use
+        # shipyard ocr trick to accurately parse
+        self.appear(FOOD_PLUS, offset=index_offset)
+        self.appear(FOOD_MINUS, offset=index_offset)
+
+        self.ui_ensure_index(amount, letter=OCR_BUY_FOOD_AMOUNT, prev_button=FOOD_MINUS, next_button=FOOD_PLUS,
+                             skip_first_screenshot=True)
+        return True
+
+    def dorm_buy_food_confirm(self):
+        """
+        Pages:
+            in: DORM_BUY_FOOD_CHECK
+            out: DORM_FEED_CHECK
+        """
+        self.interval_clear(DORM_BUY_FOOD_CONFIRM)
+        for _ in self.loop():
+            # End
+            if self.match_template_color(DORM_FEED_CHECK, offset=(20, 20)):
+                break
+
+            if self.appear_then_click(DORM_BUY_FOOD_CONFIRM, offset=(20, 20), interval=5):
+                continue
+
+    def dorm_food_run(self, amount):
+        """
+        Args:
+            amount (int): amount of food to buy
+
+        Pages:
+            in: Any page
+            out: page_dorm
+        """
+        if amount <= 0:
+            return
+
+        self.ui_ensure(page_dormmenu)
+        self.handle_info_bar()
+        self.ui_goto(page_dorm, skip_first_screenshot=True)
+        logger.hr('Dorm buy food', level=1)
+        self.dorm_feed_enter()
+        self.dorm_buy_food_enter()
+        self.dorm_buy_food(amount=amount)
+        self.dorm_buy_food_confirm()
+        self.dorm_feed_quit()
 
     def dorm_run(self, feed=True, collect=True, buy_furniture=False):
         """
@@ -504,11 +541,8 @@ class RewardDorm(UI):
             logger.hr('Dorm buy furniture', level=1)
             BuyFurniture(self.config, self.device).run()
 
-    def get_dorm_ship_amount(self, skip_first_screenshot=True):
+    def get_dorm_ship_amount(self):
         """
-        Args:
-            skip_first_screenshot:
-
         Returns:
             int: Number of ships in dorm
 
@@ -517,12 +551,7 @@ class RewardDorm(UI):
         """
         timeout = Timer(2, count=4).start()
         current = 0
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
+        for _ in self.loop():
             # Handle popups
             if self.appear_then_click(DORM_FURNITURE_CONFIRM, offset=(30, 30), interval=3):
                 timeout.reset()

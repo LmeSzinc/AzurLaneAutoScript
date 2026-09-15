@@ -1,6 +1,5 @@
 from datetime import datetime, timedelta
 
-import module.config.server as server
 from module.base.decorator import Config
 from module.base.filter import Filter
 from module.base.utils import *
@@ -23,20 +22,54 @@ COMMISSION_FILTER = Filter(
 )
 
 
-class SuffixOcr(Ocr):
-    def pre_process(self, image):
-        image = super().pre_process(image)
+def crop_suffix_image(image, area):
+    """
+    Args:
+        image (np.ndarray):
+        area (tuple): Commission name area.
 
-        left = np.where(np.min(image[5:-5, :], axis=0) < 85)[0]
-        # Look back several pixels
-        if server.server in ['jp']:
-            look_back = 21
-        else:
-            look_back = 18
-        if len(left):
-            image = image[:, left[-1] - look_back:]
+    Returns:
+        np.ndarray | None: Cropped suffix image, black letters on white background.
+    """
+    name_image = crop(image, area)
+    name_image = extract_letters(name_image, letter=(255, 255, 255), threshold=128).astype(np.uint8)
 
-        return image
+    line = cv2.reduce(name_image[5:-5, :], 0, cv2.REDUCE_AVG).flatten()
+    columns = np.where(line < 250)[0]
+    if not len(columns):
+        return None
+
+    # Look back several pixels from the rightmost letter to include Roman numerals.
+    threshold = 250
+    look_back = 10
+    for i in range(columns[-1], 0, -1):
+        if line[i] > threshold:
+            if columns[-1] - i > look_back:
+                look_back = columns[-1] - i
+                break
+
+    left = columns[-1] - look_back
+    right = columns[-1] + 1
+    x1, y1 = area[0:2]
+    suffix_area = area_offset((left - 3, -3, right + 3, name_image.shape[0] + 3), (x1, y1))
+    image = crop(image, suffix_area)
+    image = extract_letters(image, letter=(255, 255, 255), threshold=128).astype(np.uint8)
+    return image
+
+
+def image_hash(image):
+    """
+    Args:
+        image (np.ndarray):
+
+    Returns:
+        str:
+    """
+    if image is None:
+        return ''
+
+    import hashlib
+    return hashlib.md5(image.tobytes()).hexdigest()
 
 
 class Commission:
@@ -46,10 +79,10 @@ class Commission:
     name: str
     # If success to parse commission name
     valid: bool
-    # Suffix in roman numerals
-    # May be wrong if commission does not have a suffix
-    # Value: ⅠⅡⅢⅤⅣⅥ
-    suffix: str
+    # Cropped suffix image, black letters on white background, or None
+    suffix_image: np.ndarray
+    # Hash of suffix image, used only for logging, or empty string if suffix_image is None
+    suffix_hash: str
     # Genre name in project_data.py
     # Value: major_comm, daily_resource, urgent_cube, ...
     genre: str
@@ -113,8 +146,8 @@ class Commission:
         self.genre = self.commission_name_parse(self.name)
 
         # Suffix
-        ocr = SuffixOcr(button, lang='azur_lane', letter=(255, 255, 255), threshold=128, alphabet='IV')
-        self.suffix = self.beautify_name(ocr.ocr(self.image))
+        self.suffix_image = crop_suffix_image(self.image, self.button.area)
+        self.suffix_hash = image_hash(self.suffix_image)
 
         # Duration time
         area = area_offset((290, 68, 390, 95), self.area[0:2])
@@ -160,8 +193,8 @@ class Commission:
         self.genre = self.commission_name_parse(self.name)
 
         # Suffix
-        ocr = SuffixOcr(button, lang='azur_lane', letter=(255, 255, 255), threshold=128, alphabet='IV')
-        self.suffix = self.beautify_name(ocr.ocr(self.image))
+        self.suffix_image = crop_suffix_image(self.image, self.button.area)
+        self.suffix_hash = image_hash(self.suffix_image)
 
         # Duration time
         area = area_offset((290, 68, 390, 95), self.area[0:2])
@@ -209,8 +242,8 @@ class Commission:
         self.genre = self.commission_name_parse(self.name)
 
         # Suffix
-        ocr = SuffixOcr(button, lang='azur_lane', letter=(255, 255, 255), threshold=128, alphabet='IV')
-        self.suffix = self.beautify_name(ocr.ocr(self.image))
+        self.suffix_image = crop_suffix_image(self.image, self.button.area)
+        self.suffix_hash = image_hash(self.suffix_image)
 
         # Duration time
         area = area_offset((290, 68, 390, 95), self.area[0:2])
@@ -254,8 +287,8 @@ class Commission:
         self.genre = self.commission_name_parse(self.name)
 
         # Suffix
-        ocr = SuffixOcr(button, lang='azur_lane', letter=(255, 255, 255), threshold=128, alphabet='IV')
-        self.suffix = self.beautify_name(ocr.ocr(self.image))
+        self.suffix_image = crop_suffix_image(self.image, self.button.area)
+        self.suffix_hash = image_hash(self.suffix_image)
 
         # Duration time
         area = area_offset((290, 68, 390, 95), self.area[0:2])
@@ -288,7 +321,7 @@ class Commission:
         self.status = dic[int(np.argmax(color))]
 
     def __str__(self):
-        name = f'{self.name} | {self.suffix}'
+        name = f'{self.name} | {self.suffix_hash}' if self.suffix_hash else self.name
         if not self.valid:
             return f'{name} (Invalid)'
         info = {'Genre': self.genre, 'Status': self.status, 'Duration': self.duration}
@@ -315,7 +348,7 @@ class Commission:
         if self.genre != other.genre or self.status != other.status:
             return False
         if self.category_str == 'daily':
-            if self.suffix != other.suffix:
+            if not self.suffix_match(other):
                 return False
         if self.genre == 'urgent_box':
             for tag in ['NYB', 'BIW']:
@@ -332,13 +365,42 @@ class Commission:
                 return False
         if self.repeat_count != other.repeat_count:
             return False
-        if self.genre in ['extra_oil', 'night_oil'] and self.suffix != other.suffix:
+        if self.genre in ['extra_oil', 'night_oil'] and not self.suffix_match(other):
             return False
 
         return True
 
     def __hash__(self):
         return hash(f'{self.genre}_{self.name}')
+
+    def suffix_match(self, other, similarity=0.75):
+        """
+        Args:
+            other (Commission):
+            similarity (float): 0-1. Similarity.
+
+        Returns:
+            bool:
+        """
+        if self.suffix_image is None and other.suffix_image is None:
+            return True
+        if self.suffix_image is None or other.suffix_image is None:
+            return False
+
+        def match(image, template):
+            template = crop(template, (3, 3, template.shape[1] - 3, template.shape[0] - 3), copy=False)
+            if image.shape[0] < template.shape[0] or image.shape[1] < template.shape[1]:
+                return 0.0
+
+            res = cv2.matchTemplate(image, template, cv2.TM_CCOEFF_NORMED)
+            _, sim, _, _ = cv2.minMaxLoc(res)
+            return sim
+
+        sim = max(
+            match(self.suffix_image, other.suffix_image),
+            match(other.suffix_image, self.suffix_image)
+        )
+        return sim >= similarity
 
     def parse_time(self, string):
         """

@@ -30,13 +30,14 @@ class PtOcr(Ocr):
         Returns:
             np.ndarray: Shape (width, height)
         """
-        # Use MAX(r, g, b)
-        r, g, b = cv2.split(cv2.subtract((255, 255, 255, 0), image))
-        image = cv2.min(cv2.min(r, g), b)
+        # MIN(r, g, b) of the inverted image == inverted MAX(r, g, b)
+        r, g, b = cv2.split(image)
+        cv2.max(r, g, dst=r)
+        cv2.max(r, b, dst=r)
+        cv2.bitwise_not(r, dst=r)
         # Remove background, 0-192 => 0-255
-        image = cv2.multiply(image, 255 / 192)
-
-        return image.astype(np.uint8)
+        cv2.convertScaleAbs(r, alpha=255 / 192, dst=r)
+        return r
 
 
 OCR_PT = PtOcr(OCR_EVENT_PT)

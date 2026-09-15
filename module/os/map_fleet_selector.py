@@ -40,8 +40,8 @@ class FleetSelector:
         area = self._bar.area
         area = (area[0] + 3, area[1], area[0] + 13, area[3])
         # Should have at least 2 gray option and 1 blue option.
-        return self.main.image_color_count(area, color=(239, 243, 247), threshold=221, count=400) \
-               and self.main.image_color_count(area, color=(66, 125, 231), threshold=221, count=150)
+        return self.main.image_color_count(area, color=(239, 243, 247), threshold=30, count=400) \
+               and self.main.image_color_count(area, color=(66, 125, 231), threshold=30, count=150)
 
     def parse_fleet_bar(self, image):
         """

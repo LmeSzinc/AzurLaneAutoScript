@@ -15,13 +15,17 @@ class ManualConfig:
     > Exercise
     > Dorm > Meowfficer > Guild > Gacha
     > Reward
-    > ShopFrequent > ShopOnce > Shipyard > Freebies
+    > ShopFrequent > EventShop > ShopOnce > Shipyard > Freebies
     > PrivateQuarters
     > OpsiExplore
     > Minigame > Awaken
     > OpsiAshBeacon
     > OpsiDaily > OpsiShop > OpsiVoucher
     > OpsiAbyssal > OpsiStronghold > OpsiObscure > OpsiArchive
+    > IslandFreebie > IslandCollect
+    > IslandBusiness > IslandSeasonTask
+    > IslandOrder
+    > IslandProduction
     > Daily > Hard > OpsiAshBeacon > OpsiAshAssist > OpsiMonthBoss
     > Sos > EventSp > EventA > EventB > EventC > EventD
     > RaidDaily > CoalitionSp > WarArchives > MaritimeEscort
@@ -112,6 +116,17 @@ class ManualConfig:
     STORY_ALLOW_SKIP = True
 
     """
+    module.island_handler.recipe
+    """
+    # Max hours of workload committed per idle_accumulating dispatch.
+    # Idle accumulation is filler work: a full production queue can occupy a
+    # slot for 30h and block normal replenishment from preempting, so one
+    # dispatch is capped at roughly this many hours (at least one batch).
+    # Smaller values let normal replenishment cut in sooner, at the cost of
+    # more frequent task wakeups and idle slots while Alas is not running.
+    ISLAND_IDLE_ACCUMULATING_DISPATCH_HOURS = 6
+
+    """
     module.map.fleet
     """
     MAP_HAS_MODE_SWITCH = False  # event_20240725_cn has mode switch in map preparation
@@ -121,7 +136,7 @@ class ManualConfig:
     MAP_CHAPTER_SWITCH_20241219_SPEX = False
     # Since event_20241219_cn chapter B unlocks event startup
     # which means chapter AB are continuous
-    STAGE_INCREASE_AB = False
+    STAGE_INCREASE_AB = True
     # Insert anything to STAGE_INCREASE
     STAGE_INCREASE_CUSTOM = ''
     MAP_HAS_CLEAR_PERCENTAGE = True
@@ -157,6 +172,8 @@ class ManualConfig:
     MAP_MYSTERY_MAP_CLICK = True
     MAP_MYSTERY_HAS_CARRIER = False
     MAP_GRID_CENTER_TOLERANCE = 0.2
+    # see map_control_init()
+    MAP_FLEET_REVERSE_WAIT_INFO_BAR = False
 
     MOVABLE_ENEMY_FLEET_STEP = 2
     MOVABLE_ENEMY_TURN = (2,)
@@ -374,6 +391,11 @@ class ManualConfig:
     """
     # For dev purpose, auto extract new item templates
     SHOP_EXTRACT_TEMPLATE = False
+
+    """
+    module.shop_event
+    """
+    EVENT_SHOP_IGNORE_DEADLINE = False
 
     """
     module.war_archives

@@ -10,8 +10,9 @@ from lxml import etree
 from module.base.decorator import Config
 from module.config.server import DICT_PACKAGE_TO_ACTIVITY
 from module.device.connection import Connection
+from module.device.method.remove_warning import remove_screenshot_warning
 from module.device.method.utils import (ImageTruncated, PackageNotInstalled, RETRY_TRIES, handle_adb_error,
-                                        handle_unknown_host_service, remove_prefix, retry_sleep)
+                                        handle_unknown_host_service, retry_sleep)
 from module.exception import RequestHumanTakeover, ScriptError
 from module.logger import logger
 
@@ -120,10 +121,7 @@ class Adb(Connection):
         else:
             raise ScriptError(f'Unknown method to load screenshots: {method}')
 
-        # fix compatibility issues for adb screencap decode problem when the data is from vmos pro
-        # When use adb screencap for a screenshot from vmos pro, there would be a header more than that from emulator
-        # which would cause image decode problem. So i check and remove the header there.
-        screenshot = remove_prefix(screenshot, b'long long=8 fun*=10\n')
+        screenshot = remove_screenshot_warning(screenshot)
 
         image = np.frombuffer(screenshot, np.uint8)
         if image is None:
@@ -166,6 +164,7 @@ class Adb(Connection):
     @Config.when(DEVICE_OVER_HTTP=True)
     def screenshot_adb(self):
         data = self.adb_shell(['screencap'], stream=True)
+        data = remove_screenshot_warning(data)
         if len(data) < 500:
             logger.warning(f'Unexpected screenshot: {data}')
 
@@ -174,6 +173,7 @@ class Adb(Connection):
     @retry
     def screenshot_adb_nc(self):
         data = self.adb_shell_nc(['screencap'])
+        data = remove_screenshot_warning(data)
         if len(data) < 500:
             logger.warning(f'Unexpected screenshot: {data}')
 

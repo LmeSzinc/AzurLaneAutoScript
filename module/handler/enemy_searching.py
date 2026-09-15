@@ -40,7 +40,9 @@ class EnemySearchingHandler(InfoHandler):
             else:
                 return False
         else:
-            if self.appear(MAP_PREPARATION, offset=(20, 20)) or self.appear(FLEET_PREPARATION, offset=(20, 50)):
+            if self.appear(MAP_PREPARATION, offset=(20, 20)) \
+                    or self.appear(MAP_PREPARATION_HARD, offset=(20, 20)) \
+                    or self.appear(FLEET_PREPARATION, offset=(20, 50)):
                 self.device.click(MAP_PREPARATION_CANCEL)
             self.in_stage_timer.reset()
             return False
@@ -120,6 +122,10 @@ class EnemySearchingHandler(InfoHandler):
             # although here expects an enemy searching animation.
             if self.handle_in_stage():
                 return True
+            # immediately enter submarine combat in W16
+            if hasattr(self, 'is_combat_loading') and self.is_combat_loading():
+                logger.warning('Entered map with is_combat_loading appeared')
+                break
             if self.handle_auto_search_exit(drop=drop):
                 timeout.limit = 10
                 timeout.reset()

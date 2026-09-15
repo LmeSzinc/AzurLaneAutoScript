@@ -170,7 +170,7 @@ class Perspective:
         """
         image = rgb2gray(crop(image, self.config.DETECTING_AREA, copy=False))
         cv2.bitwise_and(image, ASSETS.ui_mask, dst=image)
-        cv2.subtract(255, image, dst=image)
+        cv2.bitwise_not(image, dst=image)
         return image
 
     @staticmethod

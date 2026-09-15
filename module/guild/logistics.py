@@ -56,8 +56,8 @@ class GuildLogistics(GuildBase):
             out: GUILD_LOGISTICS
         """
         # Axis (181, 97, 99) and Azur (148, 178, 255)
-        if self.image_color_count(GUILD_LOGISTICS_ENSURE_CHECK, color=(181, 97, 99), threshold=221, count=400) or \
-                self.image_color_count(GUILD_LOGISTICS_ENSURE_CHECK, color=(148, 178, 255), threshold=221, count=400):
+        if self.image_color_count(GUILD_LOGISTICS_ENSURE_CHECK, color=(181, 97, 99), threshold=30, count=400) or \
+                self.image_color_count(GUILD_LOGISTICS_ENSURE_CHECK, color=(148, 178, 255), threshold=30, count=400):
             return True
         else:
             return False
@@ -102,11 +102,11 @@ class GuildLogistics(GuildBase):
             self._guild_logistics_mission_finished = True
             return False
         # 0/300 in EN is bold and pure white, and Collect rewards is blue white, so reverse the if condition
-        elif self.image_color_count(GUILD_MISSION, color=(255, 255, 255), threshold=235, count=100):
+        elif self.image_color_count(GUILD_MISSION, color=(255, 255, 255), threshold=20, count=100):
 
             logger.info('Guild mission button inactive')
             return False
-        elif self.image_color_count(GUILD_MISSION, color=(255, 255, 255), threshold=180, count=50):
+        elif self.image_color_count(GUILD_MISSION, color=(255, 255, 255), threshold=75, count=50):
             # white pixels less than 50, but has blue-white pixels
             logger.info('Guild mission button active')
             return True
@@ -144,15 +144,15 @@ class GuildLogistics(GuildBase):
             logger.info('Guild mission has finished this week')
             self._guild_logistics_mission_finished = True
             return False
-        elif self.image_color_count(GUILD_MISSION, color=(255, 255, 255), threshold=254, count=50):
+        elif self.image_color_count(GUILD_MISSION, color=(255, 255, 255), threshold=1, count=50):
             # 0/300 in JP is (255, 255, 255)
             logger.info('Guild mission button inactive')
             return False
-        elif self.image_color_count(GUILD_MISSION, color=(255, 255, 255), threshold=180, count=400):
+        elif self.image_color_count(GUILD_MISSION, color=(255, 255, 255), threshold=75, count=400):
             # (255, 255, 255) less than 50, but has many blue-white pixels
             logger.info('Guild mission button active')
             return True
-        elif not self.image_color_count(GUILD_MISSION, color=(255, 255, 255), threshold=180, count=50):
+        elif not self.image_color_count(GUILD_MISSION, color=(255, 255, 255), threshold=75, count=50):
             # No guild mission counter
             logger.info('No guild mission found, mission of this week may not started')
             # Guild mission choose in JP server disabled until we get the screenshot.
@@ -190,11 +190,11 @@ class GuildLogistics(GuildBase):
             logger.info('Guild mission has finished this week')
             self._guild_logistics_mission_finished = True
             return False
-        elif self.image_color_count(GUILD_MISSION, color=(255, 255, 255), threshold=180, count=400):
+        elif self.image_color_count(GUILD_MISSION, color=(255, 255, 255), threshold=75, count=400):
             # Unfinished mission accept/collect range from about 240 to 322
             logger.info('Guild mission button active')
             return True
-        elif not self.image_color_count(GUILD_MISSION, color=(255, 255, 255), threshold=180, count=50):
+        elif not self.image_color_count(GUILD_MISSION, color=(255, 255, 255), threshold=75, count=50):
             # No guild mission counter
             logger.info('No guild mission found, mission of this week may not started')
             return False
@@ -370,7 +370,7 @@ class GuildLogistics(GuildBase):
         # indicating player lacks inventory for that item
         for item, button in zip(items, EXCHANGE_GRIDS.buttons):
             area = area_offset((35, 64, 83, 83), button.area[0:2])
-            if self.image_color_count(area, color=(255, 93, 90), threshold=221, count=20):
+            if self.image_color_count(area, color=(255, 93, 90), threshold=30, count=20):
                 item.enough = False
             else:
                 item.enough = True

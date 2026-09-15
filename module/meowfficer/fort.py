@@ -49,7 +49,7 @@ class MeowfficerFort(MeowfficerBase):
             if check_timer.reached():
                 is_chore = self.image_color_count(
                     MEOWFFICER_FORT_CHORE, color=(247, 186, 90),
-                    threshold=235, count=50)
+                    threshold=20, count=50)
                 check_timer.reset()
                 if is_chore:
                     self.device.click(MEOWFFICER_FORT_CHORE)

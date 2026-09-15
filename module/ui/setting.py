@@ -47,6 +47,8 @@ class Setting:
         if isinstance(option_buttons, ButtonGrid):
             option_buttons = option_buttons.buttons
         for option, option_name in zip(option_buttons, option_names):
+            if option_name == 'not_available':
+                continue
             self.settings[(setting, option_name)] = option
 
         if option_default not in option_names:
@@ -55,8 +57,8 @@ class Setting:
         self.settings_default[setting] = option_default
 
     def is_option_active(self, option: Button) -> bool:
-        return self.main.image_color_count(option, color=(181, 142, 90), threshold=235, count=250) \
-               or self.main.image_color_count(option, color=(74, 117, 189), threshold=235, count=250)
+        return self.main.image_color_count(option, color=(181, 142, 90), threshold=20, count=250) \
+               or self.main.image_color_count(option, color=(74, 117, 189), threshold=20, count=250)
 
     def _product_setting_status(self, **kwargs) -> t.Dict[Button, bool]:
         """

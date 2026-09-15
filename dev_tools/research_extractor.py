@@ -55,6 +55,11 @@ DIC_TRANSLATION = {
     '蓝图：埃吉尔': 'Blueprint - Ägir',
     '蓝图：奥古斯特·冯·帕塞瓦尔': 'Blueprint - August von Parseval',
     '蓝图：马可波罗': 'Blueprint - Marco Polo',
+    '蓝图：瓦尔帕莱索': 'Blueprint - Valparaíso',
+    '蓝图：{namecode:565}': 'Blueprint - Max Immelmann',
+    '蓝图：邓肯': 'Blueprint - Duncan',
+    '蓝图：{namecode:313}': 'Blueprint - Takahashi',
+    '蓝图：暴风雨': 'Blueprint - Orage',
 }
 
 
@@ -82,10 +87,10 @@ class TechnologyTemplate:
         for project in self.projects.values():
             project.task.name = DIC_TRANSLATION.get(project.task.name, project.task.name)
             for item in project.input:
-                # Change Ägir to Agir
-                item.name = DIC_TRANSLATION.get(item.name, item.name).replace('Ä', 'A')
+                # Change Ägir to Agir, Valparaíso to Valparaiso
+                item.name = DIC_TRANSLATION.get(item.name, item.name).replace('Ä', 'A').replace('í', 'i')
             for item in project.output:
-                item.name = DIC_TRANSLATION.get(item.name, item.name).replace('Ä', 'A')
+                item.name = DIC_TRANSLATION.get(item.name, item.name).replace('Ä', 'A').replace('í', 'i')
 
     def load_projects(self, loader):
         tech = loader.load('sharecfg/technology_data_template.lua')
@@ -139,7 +144,7 @@ Arguments:
     FILE:  Path to AzurLaneData, '<your_folder>/AzurLaneData'
     SAVE:  File to save, 'module/research/project_data.py'
 """
-FOLDER = ''
+FOLDER = '../AzurLaneLuaScripts'
 SAVE = 'module/research/project_data.py'
 
 TechnologyTemplate().write(SAVE)

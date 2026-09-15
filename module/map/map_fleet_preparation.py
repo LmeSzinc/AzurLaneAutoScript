@@ -4,7 +4,7 @@ from scipy import signal
 from module.base.button import Button
 from module.base.timer import Timer
 from module.base.utils import *
-from module.exception import RequestHumanTakeover
+from module.exception import HardNotSatisfied
 from module.handler.assets import AUTO_SEARCH_SET_MOB, AUTO_SEARCH_SET_BOSS, \
     AUTO_SEARCH_SET_ALL, AUTO_SEARCH_SET_STANDBY, \
     AUTO_SEARCH_SET_SUB_AUTO, AUTO_SEARCH_SET_SUB_STANDBY
@@ -127,7 +127,7 @@ class FleetOperator:
             stage = self.main.config.Campaign_Name
             logger.critical(f'Stage "{stage}" is a hard mode, '
                             f'please prepare your fleet "{str(self)}" in game before running Alas')
-            raise RequestHumanTakeover
+            raise HardNotSatisfied
 
     def clear(self, skip_first_screenshot=True):
         """
@@ -267,8 +267,23 @@ class FleetOperator:
 
         # Cropping FLEET_*_IN_USE to avoid detecting info_bar, also do the trick.
         # It also avoids wasting time on handling the info_bar.
-        image = rgb2gray(self.main.image_crop(self._in_use.button, copy=False))
-        return np.std(image.flatten(), ddof=1) > self.FLEET_IN_USE_STD
+        image = self.main.image_crop(self._in_use.button, copy=False)
+
+        # special fix for Perseus skin, which color is so flat
+        # https://github.com/LmeSzinc/AzurLaneAutoScript/issues/5678
+        # no ship is in color (71, 70, 63)
+        color = cv2.mean(image)[:3]
+        # Perseus skin
+        if color_similar(color, (224, 154, 114), threshold=30):
+            return True
+
+        # Akane Shinjo skin: Room of Secrets
+        # special fix for fleet card bottom area having a bluish background color
+        if color_similar(color, (124, 141, 171), threshold=30):
+            return True
+
+        gray = rgb2gray(image)
+        return np.std(gray.flatten(), ddof=1) > self.FLEET_IN_USE_STD
 
     def bar_opened(self):
         """

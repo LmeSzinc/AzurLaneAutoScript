@@ -267,16 +267,25 @@ C124LargeLeveling:
     value: 3
     option: [ 3, 4, 5 ]
 GemsFarming:
+  ChangeFlagship:
+    value: ship
+    option: [ ship, ship_equip ]
   CommonCV:
     value: any
     option: [ any, langley, bogue, ranger, hermes ]
   ChangeVanguard:
     value: ship
-    option: [ disabled, ship ]
+    option: [ disabled, ship, ship_equip ]
   CommonDD:
     value: any
     option: [ any, favourite, aulick_or_foote , cassin_or_downes, z20_or_z21 ]
   CommissionLimit: true
+EquipmentCode:
+  ExportToConfig: true
+  Config:
+    type: textarea
+    mode: yaml
+    value: |-
 
 # ==================== Event ====================
 
@@ -303,8 +312,6 @@ RaidDaily:
     hard > normal > easy
 Hospital:
   UseRecommendFleet: true
-MaritimeEscort:
-  Enable: true
 Coalition:
   Mode:
     value: hard
@@ -312,6 +319,23 @@ Coalition:
   Fleet:
     value: single
     option: [ single, multi ]
+EventShop:
+  UnlockSSRShip: true
+  BuyURShip:
+    value: 2
+    option: [ 0, 1, 2 ]
+  PresetFilter:
+    value: all
+    option: [ all, custom ]
+  CustomFilter: |-
+    EquipUR > EquipSSR > Cube > GachaTicket
+    > Array > Chip > CatT3 
+    > Meta > SkinBox
+    > Oil > Coin > Medal > ExpBookT1 > FoodT1
+    > DR > PR
+    > AugmentCore > AugmentEnhanceT2 > AugmentChangeT2 > AugmentChangeT1
+    > CatT2 > CatT1 > PlateGeneralT3 > PlateT3 > BoxT4
+    > ShipSSR
 
 
 # ==================== Reward ====================
@@ -377,9 +401,12 @@ Research:
     option: [ always_use, only_05_hour, only_no_project, do_not_use ]
   AllowDelay: true
   PresetFilter:
-    value: series_8_blueprint_305
+    value: series_9_blueprint_ta152
     option:
       - custom
+      - series_9_blueprint_ta152
+      - series_9_blueprint_only
+      - series_9_ta152_only
       - series_8_blueprint_305
       - series_8_blueprint_only
       - series_8_305_only
@@ -403,12 +430,12 @@ Research:
       - series_2_blueprint_only
       - series_2_457_only
   CustomFilter: |-
-    S8-DR0.5 > S8-PRY0.5 > S8-Q0.5 > S8-H0.5 > Q0.5 > S8-DR2.5
-    > S8-G1.5 > S8-Q1 > S8-DR5 > 0.5 > S8-G4 > S8-Q2 > S8-PRY2.5 > reset
-    > S8-DR8 > Q1 > 1 > S8-E-315 > S8-G2.5 > G1.5 > 1.5 > S8-E-031
-    > S8-Q4 > Q2 > E2 > 2 > DR2.5 > PRY2.5 > G2.5 > 2.5 > S8-PRY5
-    > S8-PRY8 > Q4 > G4 > 4 > S8-C6 > DR5 > PRY5 > 5 > C6 > 6 > S8-C8
-    > S8-C12 > DR8 > PRY8 > C8 > 8 > C12 > 12
+    S9-DR0.5 > S9-PRY0.5 > S9-Q0.5 > S9-H0.5 > Q0.5 > S9-DR2.5
+    > S9-G1.5 > S9-Q1 > S9-DR5 > 0.5 > S9-G4 > S9-Q2 > S9-PRY2.5 > reset
+    > S9-DR8 > Q1 > 1 > S9-E-315 > S9-G2.5 > G1.5 > 1.5 > S9-E-031
+    > S9-Q4 > Q2 > E2 > 2 > DR2.5 > PRY2.5 > G2.5 > 2.5 > S9-PRY5
+    > S9-PRY8 > Q4 > G4 > 4 > S9-C6 > DR5 > PRY5 > 5 > C6 > 6 > S9-C8
+    > S9-C12 > DR8 > PRY8 > C8 > 8 > C12 > 12
 Dorm:
   Collect: true
   Feed: true
@@ -423,6 +450,7 @@ BuyFurniture:
 Meowfficer:
   BuyAmount: 1
   FortChoreMeowfficer: true
+  OverflowCoins: -1
 MeowfficerTrain:
   Enable: false
   Mode:
@@ -536,6 +564,7 @@ MedalShop2:
     option: [ general, gun, torpedo, antiair, plane ]
 MeritShop:
   Refresh: false
+  BuyUnobtainedShip: false
   Filter: |-
     Cube
 CoreShop:
@@ -591,7 +620,7 @@ PrivateQuarters:
     TargetInteract: true
     TargetShip:
       value: anchorage
-      option: [ anchorage, noshiro, sirius, new_jersey, taihou, aegir ]
+      option: [ anchorage, noshiro, sirius, new_jersey, taihou, aegir, nakhimov ]
 # ==================== Daily ====================
 
 Daily:
@@ -701,7 +730,7 @@ OpsiShop:
       - all
       - custom
   CustomFilter: |-
-    LoggerAbyssalT6 > LoggerAbyssalT5 > LoggerObscure > LoggerAbyssalT4 > ActionPoint > PurpleCoins
+    LoggerAbyssalT6 > LoggerAbyssalT5 > LoggerAbyssalT4 > LoggerObscureT6 > LoggerObscureT5 > LoggerObscureT4 > LoggerObscureT3 > ActionPoint > PurpleCoins
     > GearDesignPlanT3 > PlateRandomT4 > DevelopmentMaterialT3 > GearDesignPlanT2 > GearPart
     > OrdnanceTestingReportT3 > OrdnanceTestingReportT2 > DevelopmentMaterialT2 > OrdnanceTestingReportT1
     > METARedBook > CrystallizedHeatResistantSteel > NanoceramicAlloy > NeuroplasticProstheticArm > SupercavitationGenerator
@@ -735,6 +764,102 @@ OpsiHazard1Leveling:
     value: 0
     option: [ 0, 44, 22 ]
 
+# =================== Island ====================
+
+IslandProduction:
+  HardFloorItems:
+    type: textarea
+    value: |-
+      {}
+  DailyBufferItems:
+    type: textarea
+    value: |-
+      {}
+  ManualBufferItems:
+    type: textarea
+    value: |-
+      {}
+  IdleAccumulatingItems:
+    type: textarea
+    value: |-
+      {}
+  SkipBufferSurplus: true
+IslandOrder:
+  StuckSeasonOrderId: 0
+IslandFreebie:
+  Share: true
+IslandRestaurant:
+  KoiGrade:
+    value: bronze
+    option: [ bronze, silver, gold, diamond ]
+  KoiWaitress1: &KoiWaitressSlot
+    value: any
+    option: &KoiWaitressOptions [ none, any, Chao_Ho, Chang_Feng ]
+  KoiWaitress2:
+    <<: *KoiWaitressSlot
+    value: none
+  KoiMenu:
+    type: textarea
+    value: |-
+      {}
+  BearGrade:
+    value: bronze
+    option: [ bronze, silver, gold, diamond ]
+  BearWaitress1: &BearWaitressSlot
+    value: any
+    option: &BearWaitressOptions [ none, any, Cheshire, Chang_Feng ]
+  BearWaitress2:
+    <<: *BearWaitressSlot
+    value: none
+  BearMenu:
+    type: textarea
+    value: |-
+      {}
+  EateryGrade:  
+    value: bronze
+    option: [ bronze, silver, gold, diamond ]
+  EateryWaitress1: &EateryWaitressSlot
+    value: any
+    option: &EateryWaitressOptions [ none, any, Helena, Prinz_Eugen, Chang_Feng ]
+  EateryWaitress2:
+    <<: *EateryWaitressSlot
+    value: none
+  EateryMenu:
+    type: textarea
+    value: |-
+      {}
+  GrillGrade:
+    value: bronze
+    option: [ bronze, silver, gold, diamond ]
+  GrillWaitress1: &GrillWaitressSlot
+    value: any
+    option: &GrillWaitressOptions [ none, any, August_von_Parseval, Prinz_Eugen, Chang_Feng ]
+  GrillWaitress2:
+    <<: *GrillWaitressSlot
+    value: none
+  GrillMenu:
+    type: textarea
+    value: |-
+      {}
+  CafeGrade:
+    value: bronze
+    option: [ bronze, silver, gold, diamond ]
+  CafeWaitress1: &CafeWaitressSlot
+    value: any
+    option: &CafeWaitressOptions [ none, any, Cheshire, Belfast, Chang_Feng ]
+  CafeWaitress2:
+    <<: *CafeWaitressSlot
+    value: none
+  CafeMenu:
+    type: textarea
+    value: |-
+      {}
+IslandSeasonTask:
+  TaskTarget:
+    type: textarea
+    value: |-
+      {}
+
 # ==================== Tools ====================
 
 Daemon:
@@ -747,6 +872,19 @@ EventStory:
     type: checkbox
     value: false
     option: [ true, false ]
+IslandProductionPlanner:
+  RescanIslandTechnology: false
+  DailyProfitLowerLimit: 50000
+  DailyBufferSafetyMargin: 0
+  FieldsEfficiency:
+    value: 0
+    option: [ 0, 0.04, 0.12 ]
+  OrchardEfficiency:
+    value: 0
+    option: [ 0, 0.04, 0.12 ]
+  NurseryEfficiency:
+    value: 0
+    option: [ 0, 0.04, 0.12 ]
 Benchmark:
   DeviceType:
     value: emulator

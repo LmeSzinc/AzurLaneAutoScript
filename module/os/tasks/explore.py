@@ -91,8 +91,11 @@ class OpsiExplore(OSMap):
             self.config.OpsiExplore_LastZone = zone
             logger.info(f'Zone cleared: {self.name_to_zone(zone)}')
             if finished_combat == 0:
-                logger.warning('Zone cleared but did not finish any combat')
-                self._os_explore_failed_zone.append(zone)
+                if 'is_exploration_container' in self._solved_map_event:
+                    logger.info('Zone cleared by exploration container')
+                else:
+                    logger.warning('Zone cleared but did not finish any combat')
+                    self._os_explore_failed_zone.append(zone)
             self.handle_after_auto_search()
             self.config.check_task_switch()
 

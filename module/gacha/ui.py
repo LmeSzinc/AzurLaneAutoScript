@@ -62,8 +62,8 @@ class GachaUI(UI):
             name='GACHA_SIDE_NAVBAR')
 
         return Navbar(grids=gacha_side_navbar,
-                      active_color=(247, 255, 173), active_threshold=221,
-                      inactive_color=(140, 162, 181), inactive_threshold=221)
+                      active_color=(247, 255, 173), active_threshold=30,
+                      inactive_color=(140, 162, 181), inactive_threshold=30)
 
     def gacha_side_navbar_ensure(self, upper=None, bottom=None):
         """

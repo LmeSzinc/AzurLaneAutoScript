@@ -1,11 +1,11 @@
-import json
-import os
+from datetime import timedelta
 from functools import wraps
 
 import inflection
 from cached_property import cached_property
 
 from alas import AzurLaneAutoScript
+from module.config.utils import get_nearest_weekday_date
 from module.exception import RequestHumanTakeover
 from module.logger import logger
 from submodule.AlasFpyBridge.module.config.config import FgoConfig
@@ -46,6 +46,8 @@ class FgoAutoScript(AzurLaneAutoScript):
             {
                 "Special Drop": lambda:
                     setattr(self.config, "FpyLimit_SpecialDrop", max(0, getattr(self.config, "FpyLimit_SpecialDrop") - 1)),
+                "Eat Apple": lambda:
+                    self.config.cross_set("FpyMain.FpyApple.AppleTotal", max(0, self.config.cross_get("FpyMain.FpyApple.AppleTotal") - 1))
             },
         )
         assert app.run("ping")
@@ -67,7 +69,7 @@ class FgoAutoScript(AzurLaneAutoScript):
         assert self.app.run(f"config stopOnKizunaReisou {self.config.FpyLimit_KizunaReisou}")
         assert self.app.run(f"config stopOnSpecialDrop {self.config.FpyLimit_SpecialDrop}")
         assert self.app.run(f"teamup set index {self.config.FpyTeam_Index}")
-        assert self.app.run(f"main {self.config.FpyApple_AppleCount} {self.config.FpyApple_AppleKind}")
+        assert self.app.run(f"main {self.config.FpyApple_AppleCount} {self.config.FpyApple_AppleKind} {self.config.FpyParam_Cmd}")
         with self.config.multi_set():
             if self.app.last_error.startswith("Script Stopped"):
                 self.config.Scheduler_Enable = False
@@ -75,7 +77,6 @@ class FgoAutoScript(AzurLaneAutoScript):
             if self.config.FpyApple_EatOnce:
                 self.config.FpyApple_AppleCount = 0
             else:
-                self.config.FpyApple_AppleTotal -= self.config.FpyApple_AppleCount
                 self.config.FpyApple_AppleCount = min(
                     self.config.FpyApple_AppleCount,
                     self.config.FpyApple_AppleTotal,
@@ -86,6 +87,26 @@ class FgoAutoScript(AzurLaneAutoScript):
     def fpy_daily_fp_summon(self):
         assert self.app.run("call dailyFpSummon")
         self.config.task_delay(server_update=True)
+
+    def fpy_daily_story_summon(self):
+        assert self.app.run("call dailyStorySummon")
+        self.config.task_delay(server_update=True)
+
+    def fpy_daily_quest(self):
+        assert self.app.run("config stopOnDefeated False")
+        assert self.app.run("config stopOnKizunaReisou False")
+        assert self.app.run("config stopOnSpecialDrop 0")
+        assert self.app.run(f"teamup set index {self.config.FpyTeam_Index}")
+        assert self.app.run(f"main {self.config.FpyParam_Cmd}")
+        self.config.task_delay(server_update=True)
+
+    def fpy_weekly_mission(self):
+        assert self.app.run("config stopOnDefeated False")
+        assert self.app.run("config stopOnKizunaReisou False")
+        assert self.app.run("config stopOnSpecialDrop 0")
+        assert self.app.run(f"teamup set index {self.config.FpyTeam_Index}")
+        assert self.app.run("week -w -e")
+        self.config.task_delay(target=get_nearest_weekday_date(0) + timedelta(days=self.config.FpyWeekday_Weekday))
 
     def fpy_battle(self):
         assert self.app.run("battle")

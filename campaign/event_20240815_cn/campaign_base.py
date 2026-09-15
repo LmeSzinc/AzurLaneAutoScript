@@ -19,7 +19,7 @@ class CampaignBase(CampaignBase_):
         # You can't go anywhere unless you clicked it
         button = self.image_color_button(
             area=(66, 200, 1200, 690), color=(0, 0, 0),
-            color_threshold=240, encourage=10, name='STORY_ENTRANCE')
+            threshold=15, encourage=10, name='STORY_ENTRANCE')
         if button is None:
             return None
         # Blacklisted area

@@ -60,7 +60,6 @@ class HospitalCombat(Combat, HospitalUI, CampaignEvent):
         def check_coin():
             if self.coin_limit_triggered():
                 logger.hr('Triggered stop condition: Coin limit')
-                self.config.task_stop()
                 return True
             if self.config.TaskBalancer_Enable and self.triggered_task_balancer():
                 logger.hr('Triggered stop condition: Coin limit')

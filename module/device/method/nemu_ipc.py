@@ -225,6 +225,8 @@ class NemuIpcImpl:
             os.path.abspath(os.path.join(nemu_folder, './shell/sdk/external_renderer_ipc.dll')),
             # MuMuPlayer12 5.0
             os.path.abspath(os.path.join(nemu_folder, './nx_device/12.0/shell/sdk/external_renderer_ipc.dll')),
+            # MuMuPlayer12 6.0
+            os.path.abspath(os.path.join(nemu_folder, './nx_main/sdk/external_renderer_ipc.dll')),
         ]
         self.lib = None
         for ipc_dll in list_dll:
@@ -622,7 +624,7 @@ class NemuIpc(Platform):
         self.nemu_ipc.up()
         self.sleep(0.050)
 
-    def drag_nemu_ipc(self, p1, p2, point_random=(-10, -10, 10, 10)):
+    def drag_nemu_ipc(self, p1, p2, point_random=(-10, -10, 10, 10), hold_duration=0.0):
         p1 = np.array(p1) - random_rectangle_point(point_random)
         p2 = np.array(p2) - random_rectangle_point(point_random)
         points = insert_swipe(p0=p1, p3=p2, speed=20)
@@ -635,6 +637,11 @@ class NemuIpc(Platform):
         self.sleep(0.140)
         self.nemu_ipc.down(*p2)
         self.sleep(0.140)
+
+        hold_duration = ensure_time(hold_duration) - 0.28
+        if hold_duration > 0:
+            self.nemu_ipc.down(*p2)
+            self.sleep(hold_duration)
 
         self.nemu_ipc.up()
         self.sleep(0.050)
