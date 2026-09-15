@@ -20,6 +20,7 @@ DELTA_PRICE = (28, 164, 128, 193)
 DELTA_TAG = (108, 30, 155, 52)
 COUNTER_COLOR = (106, 120, 131)
 COUNTER_THRESHOLD = 150
+COUNTER_TOTALS = (500, 350, 100, 50, 40, 30, 20, 15, 10, 5, 4, 2, 1)
 PRICE_THRESHOLD = 230
 PRICE_BACKGROUND_COLOR = (61, 78, 91)
 if server.server == 'jp':
@@ -52,15 +53,31 @@ class CounterOcr(Ocr):
         result = result.replace('I', '1').replace('D', '0').replace('S', '5')
         result = result.replace('B', '8')
         # fixup result like "55" -> "5/5", "2530" -> "25/30"
-        if result.isdigit():
-            for total in [100, 50, 30, 40, 20, 10, 5, 4, 2, 1]:
-                total_str = f'{total}'
-                total_sep = f'/{total}'
-                # Do not add a slash when the result is exactly the total,
-                # e.g. "50" stays "50" instead of becoming "/50"
-                if result.endswith(total_str) and result != total_str and not result.endswith(total_sep):
-                    result = result[:-len(total_str)] + total_sep
+        if result.isdigit() and result not in [str(total) for total in COUNTER_TOTALS]:
+            candidates = []
+            for total in COUNTER_TOTALS:
+                total_str = str(total)
+                current_str = result[:-len(total_str)]
+                if result.endswith(total_str) and current_str and int(current_str) <= total:
+                    candidates.append(f'{current_str}/{total_str}')
+            # For example, "1350" can be either "13/50" or "1/350".
+            # Leave ambiguous results invalid so the shop scanner retries them.
+            if len(candidates) == 1:
+                result = candidates[0]
         return result
+
+    @staticmethod
+    def parse_result(result):
+        parts = result.split('/') if result else []
+        if len(parts) != 2 or not all(part.isdigit() for part in parts):
+            logger.warning(f'Invalid counter format: {result}')
+            return [0, 0]
+
+        current, total = [int(part) for part in parts]
+        if total <= 0 or current > total:
+            logger.warning(f'Invalid counter value: {result}')
+            return [0, 0]
+        return [current, total]
 
     def ocr(self, image, direct_ocr=False):
         """
@@ -75,32 +92,8 @@ class CounterOcr(Ocr):
         """
         result_list = super().ocr(image, direct_ocr=direct_ocr)
         if isinstance(result_list, list):
-            parsed = []
-            for i in result_list:
-                if not i or '/' not in i:
-                    logger.warning(f'Invalid OCR result format: {i}')
-                    parsed.append([0, 0])
-                    continue
-
-                parts = i.split('/')
-                if len(parts) != 2:
-                    logger.warning(f'Invalid counter format: {i}')
-                    parsed.append([0, 0])
-                    continue
-                parsed.append([int(j) for j in parts])
-
-            return parsed
-        else:
-            if not result_list or '/' not in result_list:
-                logger.warning(f'Invalid OCR result: {result_list}')
-                return [0, 0]
-
-            parts = result_list.split('/')
-            if len(parts) != 2:
-                logger.warning(f'Invalid counter format: {result_list}')
-                return [0, 0]
-
-            return [int(i) for i in parts]
+            return [self.parse_result(result) for result in result_list]
+        return self.parse_result(result_list)
 
 
 class PriceOcr(Digit):
@@ -168,7 +161,9 @@ class EventShopItem(Item):
             self.cost = 'URpt'
         else:
             self.cost = 'pt'
-            if self.price == 2000:
+            if self.price == 135 and self.total_count == 15:
+                self.name = 'EquipSSR'
+            elif self.price == 2000:
                 if self.total_count == 10:
                     self.name = 'SkinBox'
                 elif self.total_count == 4:
@@ -247,7 +242,8 @@ class EventShopItemGrid(ItemGrid):
                 i.scroll_pos = scroll_pos
 
         for i in self.items:
-            i.correct_name_and_cost()
+            if not (i.count == 0 and i.total_count == 0):
+                i.correct_name_and_cost()
             i.predict_genre()
 
         return self.items

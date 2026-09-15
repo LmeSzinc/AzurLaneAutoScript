@@ -782,6 +782,7 @@ IslandProduction:
     type: textarea
     value: |-
       {}
+  SkipBufferSurplus: true
 IslandOrder:
   StuckSeasonOrderId: 0
 IslandFreebie:

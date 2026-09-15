@@ -1,17 +1,15 @@
 from datetime import datetime
 
-from module.base.decorator import cached_property
 from module.config.utils import server_time_offset
 from module.daemon.daemon_base import DaemonBase
 from module.island.utils import (
+    get_current_activity_list,
+    get_current_season_remaining_days,
     load_hard_floor_items,
     load_item_mapping,
     load_technology_status,
 )
-from module.island_handler.production_plan_calculator import (
-    ProductionPlanCalculator,
-    get_current_activity_list,
-)
+from module.island_handler.production_plan_calculator import ProductionPlanCalculator
 from module.island_handler.restaurant_config import (
     RESTAURANT_CONFIG,
     RESTAURANT_IDS,
@@ -20,6 +18,7 @@ from module.island_handler.restaurant_config import (
     get_waitress_slots,
 )
 from module.island_handler.technology_scanner import IslandTechnologyScanner
+from module.logger import logger
 
 
 class IslandProductionPlanner(DaemonBase):
@@ -34,12 +33,7 @@ class IslandProductionPlanner(DaemonBase):
         for restaurant_id, data in RESTAURANT_CONFIG.items()
     }
 
-    @cached_property
-    def current_activity_list(self):
-        time = datetime.now() - server_time_offset()
-        return get_current_activity_list(time)
-
-    def create_calculator(self, technology_status):
+    def create_calculator(self, technology_status, current_time=None):
         restaurant_settings = {}
         for restaurant_id in RESTAURANT_IDS:
             config_data = get_restaurant_config(restaurant_id)
@@ -49,7 +43,7 @@ class IslandProductionPlanner(DaemonBase):
             }
         return ProductionPlanCalculator(
             technology_status=technology_status,
-            activity_list=self.current_activity_list,
+            activity_list=get_current_activity_list(current_time),
             place_efficiency={
                 101: self.config.cross_get("IslandProductionPlanner.IslandProductionPlanner.FieldsEfficiency"),
                 501: self.config.cross_get("IslandProductionPlanner.IslandProductionPlanner.OrchardEfficiency"),
@@ -70,7 +64,12 @@ class IslandProductionPlanner(DaemonBase):
             stuck_season_order_id=None,
             export=True,
             use_item_name_in_export=True,
+            current_time=None,
     ):
+        if current_time is None:
+            current_time = datetime.now() - server_time_offset()
+        task_target_period = get_current_season_remaining_days(current_time)
+
         if tech_status_yaml is not None:
             technology_status = tech_status_yaml
         else:
@@ -92,11 +91,24 @@ class IslandProductionPlanner(DaemonBase):
         if stuck_season_order_id is None:
             stuck_season_order_id = self.config.cross_get("IslandOrder.IslandOrder.StuckSeasonOrderId", 0)
 
-        calculator = self.create_calculator(technology_status)
+        calculator = self.create_calculator(technology_status, current_time)
+        if task_target_items:
+            if task_target_period is None:
+                logger.warning(
+                    'No active island season was found, so no default TaskTarget '
+                    'planning period is available; each entry must provide an explicit period'
+                )
+            else:
+                logger.info(
+                    f'Default TaskTarget planning period: {task_target_period:.3f} day(s) '
+                    'remaining in the current island season'
+                )
         calculator.solve_production_plan(
             hard_floor_items=hard_floor_items,
             task_target_items=task_target_items,
+            task_target_period=task_target_period,
             stuck_season_order_id=stuck_season_order_id,
+            current_time=current_time,
         )
         calculator.print_solved_production_plan()
         if export:

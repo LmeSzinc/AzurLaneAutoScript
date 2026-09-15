@@ -451,6 +451,7 @@ class GeneratedConfig:
     IslandProduction_DailyBufferItems = '{}'
     IslandProduction_ManualBufferItems = '{}'
     IslandProduction_IdleAccumulatingItems = '{}'
+    IslandProduction_SkipBufferSurplus = True
 
     # Group `IslandOrder`
     IslandOrder_StuckSeasonOrderId = 0

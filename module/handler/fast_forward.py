@@ -44,6 +44,9 @@ class SwitchAutoSearch(Switch):
             if main.appear(AUTO_SEARCH_TITLE2, offset=(20, 20)):
                 title = AUTO_SEARCH_TITLE2
         if not title:
+            if main.appear(AUTO_SEARCH_TITLE3, offset=(20, 20)):
+                title = AUTO_SEARCH_TITLE3
+        if not title:
             return 'unknown'
         # find check area to the right of title
         AUTO_SEARCH_CHECK.load_offset(title)

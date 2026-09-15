@@ -4,6 +4,7 @@ from module.base.button import ButtonGrid
 from module.base.decorator import cached_property, del_cached_property
 from module.config.utils import get_server_next_update
 from module.island.assets import *
+from module.island.utils import production_place_name_with_id
 from module.island_handler.restaurant import IslandRestaurant, WaitressOccupied
 from module.island_handler.restaurant_config import (
     RESTAURANT_IDS,
@@ -143,7 +144,8 @@ class IslandBusiness(IslandRestaurant):
         while unchecked_restaurants:
             button = self.current_restaurant_button()
             if button is None:
-                logger.warning(f"Restaurant index exhausted, unchecked restaurants: {unchecked_restaurants}")
+                unchecked = [production_place_name_with_id(item) for item in unchecked_restaurants]
+                logger.warning(f"Restaurant index exhausted, unchecked restaurants: {unchecked}")
                 break
             restaurant_id = self.get_restaurant_id(button)
             if restaurant_id is None:
@@ -154,24 +156,25 @@ class IslandBusiness(IslandRestaurant):
                 self.next_restaurant()
                 continue
             entrance_button = button.crop(BUSINESS_ENTRANCE_AREA)
+            restaurant = production_place_name_with_id(restaurant_id)
             if self.skip_restaurant[restaurant_id]:
-                logger.info(f"Skip restaurant {restaurant_id}")
+                logger.info(f"Skip restaurant {restaurant}")
                 unchecked_restaurants.remove(restaurant_id)
                 self.next_restaurant()
                 continue
             if self.is_restaurant_running(entrance_button):
                 remain_time = self.get_remain_time(button)
                 next_run_time[restaurant_id] = datetime.now() + remain_time
-                logger.info(f"Restaurant {restaurant_id} is running")
+                logger.info(f"Restaurant {restaurant} is running, remaining time: {remain_time}")
                 unchecked_restaurants.remove(restaurant_id)
                 self.next_restaurant()
                 continue
             if self.is_restaurant_resting(entrance_button):
-                logger.info(f"Restaurant {restaurant_id} is resting")
+                logger.info(f"Restaurant {restaurant} is resting")
                 unchecked_restaurants.remove(restaurant_id)
                 self.next_restaurant()
                 continue
-            logger.info(f"Restaurant {restaurant_id} is ready")
+            logger.info(f"Restaurant {restaurant} is ready")
             for _ in self.loop():
                 if self.appear(page_island_manage.check_button, offset=(20, 20), interval=1):
                     self.device.click(entrance_button)
@@ -181,7 +184,8 @@ class IslandBusiness(IslandRestaurant):
             self.working_restaurant_id = restaurant_id
             try:
                 success = super().run()
-            except WaitressOccupied:
+            except WaitressOccupied as e:
+                logger.warning(e)
                 next_run_time[restaurant_id] = datetime.now() + timedelta(hours=8)
                 unchecked_restaurants.remove(restaurant_id)
                 success = False
