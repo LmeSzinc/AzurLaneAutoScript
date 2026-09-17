@@ -269,7 +269,7 @@ class ShipyardUI(UI):
                 confirm_timer.reset()
                 continue
 
-            if self.appear_then_click(GET_SHIP, interval=1):
+            if self.appear_then_click(GET_SHIP, offset=(20, 20), interval=1):
                 confirm_timer.reset()
                 continue
 
