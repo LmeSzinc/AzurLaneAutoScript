@@ -1782,6 +1782,10 @@
       "name": "GuildShop._info.name",
       "help": "GuildShop._info.help"
     },
+    "Enable": {
+      "name": "このショップから購入",
+      "help": ""
+    },
     "Refresh": {
       "name": "GuildShop.Refresh.name",
       "help": "GuildShop.Refresh.help"
@@ -1895,6 +1899,10 @@
       "name": "MedalShop._info.name",
       "help": "MedalShop._info.help"
     },
+    "Enable": {
+      "name": "このショップから購入",
+      "help": ""
+    },
     "Filter": {
       "name": "MedalShop.Filter.name",
       "help": "MedalShop.Filter.help"
@@ -1956,6 +1964,10 @@
       "name": "MeritShop._info.name",
       "help": "MeritShop._info.help"
     },
+    "Enable": {
+      "name": "このショップから購入",
+      "help": ""
+    },
     "Refresh": {
       "name": "MeritShop.Refresh.name",
       "help": "MeritShop.Refresh.help"
@@ -1969,6 +1981,10 @@
     "_info": {
       "name": "CoreShop._info.name",
       "help": "CoreShop._info.help"
+    },
+    "Enable": {
+      "name": "このショップから購入",
+      "help": ""
     },
     "Filter": {
       "name": "CoreShop.Filter.name",
