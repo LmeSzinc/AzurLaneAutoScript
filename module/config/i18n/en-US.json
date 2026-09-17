@@ -1029,7 +1029,7 @@
     },
     "Mode": {
       "name": "Submarine Mode",
-      "help": "Effective only when auto search disabled. Reminder: 'Hunt and Boss' is actually a mix of 'Hunt Only' and 'Boss Only', it does hunt and summon submarines at boss if available.",
+      "help": "Effective only when auto search disabled. Reminder: 'Hunt and Boss' is actually a mix of 'Hunt Only' and 'Boss Only', it does hunt and summon submarines at boss if available.\nNote: Calling the submarine at the BOSS node requires the default battle UI theme, otherwise it will not be called.",
       "do_not_use": "Don't Use",
       "hunt_only": "Hunt Only",
       "boss_only": "BOSS Only",
