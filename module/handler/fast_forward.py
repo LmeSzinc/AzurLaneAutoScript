@@ -38,7 +38,7 @@ class SwitchAutoSearch(Switch):
     def get(self, main):
         title = None
         # Text rendering and character spacing vary between clients and map modes.
-        for candidate in (AUTO_SEARCH_TITLE, AUTO_SEARCH_TITLE2, AUTO_SEARCH_TITLE3):
+        for candidate in (AUTO_SEARCH_TITLE, AUTO_SEARCH_TITLE2, AUTO_SEARCH_TITLE3, AUTO_SEARCH_TITLE4):
             if main.appear(candidate, offset=(20, 20)):
                 title = candidate
                 break

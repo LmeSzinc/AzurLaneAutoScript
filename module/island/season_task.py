@@ -253,9 +253,11 @@ class IslandSeasonTask(IslandUI):
                 item_id = list(target.keys())[0]
                 new_target[item_id] = new_target.get(item_id, 0) + target[item_id]
         new_target = normalize_item_keys(new_target)
-        if new_target != old_target:
+        target_changed = new_target != old_target
+        if target_changed:
             yaml_text = item_mapping_to_yaml(new_target, use_item_name=True)
             self.config.cross_set("IslandSeasonTask.IslandSeasonTask.TaskTarget", yaml_text)
+            logger.info('Re-running production planner because season-task targets changed')
             from module.island_handler.production_planner import IslandProductionPlanner
             IslandProductionPlanner(self.config, self.device).run()
         self.config.task_delay(server_update=True)

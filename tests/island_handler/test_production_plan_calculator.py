@@ -14,6 +14,12 @@ from module.island_handler.production_plan_calculator import (
     ProductionPlanCalculator,
     get_current_activity_list,
 )
+from module.island_handler.production_planner import IslandProductionPlanner
+from module.island.utils import (
+    get_current_season_remaining_days,
+    get_stuck_season_order_remaining_days,
+    resolve_stuck_season_order_id,
+)
 
 EPS = 1e-4
 
@@ -23,6 +29,14 @@ class AllUnlockedTechnology(dict):
 
     def get(self, key, default=False):
         return True
+
+
+class FakePlannerConfig:
+    def __init__(self, values):
+        self.values = values
+
+    def cross_get(self, key, default=None):
+        return self.values.get(key, default)
 
 
 def make_calculator(technology_status=None, **kwargs):
@@ -84,9 +98,65 @@ class TestGetCurrentActivityList:
         end = datetime.strptime(season['end_time'][server.server], '%Y-%m-%d %H:%M:%S')
         midpoint = start + (end - start) / 2
         assert get_current_activity_list(midpoint) == season['activity']
+        assert get_current_season_remaining_days(midpoint) == pytest.approx(
+            (end - midpoint).total_seconds() / 86400
+        )
 
     def test_outside_all_seasons(self):
         assert get_current_activity_list(datetime(1970, 1, 1)) is None
+        assert get_current_season_remaining_days(datetime(1970, 1, 1)) is None
+
+    def test_stuck_order_uses_its_activity_deadline(self):
+        order_id = 100001
+        activity = DIC_ISLAND_ACTIVITY[990002]
+        start = datetime.strptime(activity['start_time'][server.server], '%Y-%m-%d %H:%M:%S')
+        end = datetime.strptime(activity['end_time'][server.server], '%Y-%m-%d %H:%M:%S')
+        midpoint = start + (end - start) / 2
+        assert get_stuck_season_order_remaining_days(order_id, midpoint) == pytest.approx(
+            (end - midpoint).total_seconds() / 86400
+        )
+
+    def test_stuck_order_resolves_repeated_requirements_to_active_activity(self):
+        old_order_id = 100015
+        current_order_id = 100060
+        activity = DIC_ISLAND_ACTIVITY[990023]
+        start = datetime.strptime(activity['start_time'][server.server], '%Y-%m-%d %H:%M:%S')
+        end = datetime.strptime(activity['end_time'][server.server], '%Y-%m-%d %H:%M:%S')
+        midpoint = start + (end - start) / 2
+        assert resolve_stuck_season_order_id(old_order_id, midpoint) == current_order_id
+        assert get_stuck_season_order_remaining_days(old_order_id, midpoint) == pytest.approx(
+            (end - midpoint).total_seconds() / 86400
+        )
+
+    def test_planner_run_replays_with_injected_current_time(self):
+        activity = DIC_ISLAND_ACTIVITY[990023]
+        start = datetime.strptime(activity['start_time'][server.server], '%Y-%m-%d %H:%M:%S')
+        end = datetime.strptime(activity['end_time'][server.server], '%Y-%m-%d %H:%M:%S')
+        current_time = start + (end - start) / 2
+        planner = object.__new__(IslandProductionPlanner)
+        planner.config = FakePlannerConfig({
+            'IslandProductionPlanner.IslandProductionPlanner.FieldsEfficiency': 0,
+            'IslandProductionPlanner.IslandProductionPlanner.OrchardEfficiency': 0,
+            'IslandProductionPlanner.IslandProductionPlanner.NurseryEfficiency': 0,
+        })
+
+        calculator = planner.run(
+            tech_status_yaml={},
+            hard_floor_items_yaml={},
+            task_target_items={2700: 100},
+            stuck_season_order_id=100015,
+            export=False,
+            current_time=current_time,
+        )
+
+        assert calculator.activity_list == get_current_activity_list(current_time)
+        assert calculator.task_target_items[2700]['period'] == pytest.approx(
+            get_current_season_remaining_days(current_time)
+        )
+        assert calculator.stuck_season_order_id == 100060
+        assert calculator.stuck_season_order_items[4011]['period'] == pytest.approx(
+            get_stuck_season_order_remaining_days(100015, current_time)
+        )
 
 
 class TestAnalyzeTechnologyStatus:
@@ -172,6 +242,8 @@ class TestRestaurantSettings:
         assert calc.restaurant_capacity[601] == 5  # bronze
         assert calc.restaurant_quantity[601] == 2
         assert calc.restaurant_sales_bonus[601] == 0
+        assert calc.restaurant_grade[601] == 'bronze'
+        assert calc.restaurant_waitress_slots[601] == ('none', 'none')
 
     def test_waitress_effects(self):
         calc = make_calculator({}, restaurant_settings={
@@ -183,6 +255,8 @@ class TestRestaurantSettings:
         assert calc.restaurant_quantity[601] == 3
         assert calc.restaurant_sales_bonus[601] == pytest.approx(0.10)
         assert calc.restaurant_enabled[601]
+        assert calc.restaurant_grade[601] == 'gold'
+        assert calc.restaurant_waitress_slots[601] == ('Chao_Ho', 'none')
         # Prinz_Eugen: +0 capacity, +10% sales
         assert calc.restaurant_capacity[603] == 6
         assert calc.restaurant_sales_bonus[603] == pytest.approx(0.10)
@@ -232,14 +306,42 @@ class TestSolveBaseTechnology:
         assert calc.production_plan == {}
         assert calc.demand_items == {}
 
+    def test_scalar_task_target_requires_planning_period(self):
+        calc = make_calculator({})
+        with pytest.raises(ValueError, match='No planning period was provided'):
+            calc.solve_production_plan(task_target_items={2700: 100})
+
+    def test_scalar_stuck_order_requires_planning_period(self):
+        calc = make_calculator({})
+        with pytest.raises(ValueError, match='No planning period was provided'):
+            calc.solve_production_plan(
+                stuck_season_order_id=100015,
+                current_time=datetime(1970, 1, 1),
+            )
+
+    def test_stuck_order_uses_period_from_injected_current_time(self):
+        activity = DIC_ISLAND_ACTIVITY[990023]
+        end = datetime.strptime(activity['end_time'][server.server], '%Y-%m-%d %H:%M:%S')
+        calc = make_calculator({})
+        calc.solve_production_plan(
+            stuck_season_order_id=100015,
+            current_time=end - timedelta(days=20),
+        )
+        assert calc.stuck_season_order_id == 100060
+        assert calc.stuck_season_order_items[4011]['rate_per_day'] == pytest.approx(0.25)
+        assert calc.stuck_season_order_items[4013]['rate_per_day'] == pytest.approx(0.25)
+
     def test_demand_satisfied_and_invalid_stuck_order_ignored(self):
         calc = make_calculator({})
         # 2700 (stone) is passively supplied by mining: 9 sites x 8/day
-        calc.solve_production_plan(task_target_items={2700: 100}, stuck_season_order_id='abc')
+        calc.solve_production_plan(
+            task_target_items={2700: 100},
+            task_target_period=20,
+            stuck_season_order_id='abc',
+        )
         assert calc.lp_success
-        # 100 over default 10-day period -> 10 per day
-        assert calc.demand_items[2700]['rate_per_day'] == pytest.approx(10.0)
-        assert calc.net_items.get(2700, 0) >= 10 - EPS
+        assert calc.demand_items[2700]['rate_per_day'] == pytest.approx(5.0)
+        assert calc.net_items.get(2700, 0) >= 5 - EPS
         assert calc.mining_supply_plan == {2700: 72}
         assert calc.logging_supply_plan == {2800: 72}
         # Invalid stuck order id normalizes to no stuck demand
@@ -250,18 +352,67 @@ class TestSolveBaseTechnology:
         calc = make_calculator({})
         # 3054 (clock) needs locked manufacturing technology and has no
         # shop/exchange source, so its demand must be dropped, not kill the LP.
-        calc.solve_production_plan(task_target_items={3054: 5})
+        calc.solve_production_plan(task_target_items={3054: 5}, task_target_period=10)
         assert calc.lp_success
         assert 3054 not in calc.demand_items
 
     def test_impossible_demand_fails_with_empty_plans(self):
         calc = make_calculator({})
-        calc.solve_production_plan(task_target_items={2700: 10 ** 9})
+        calc.solve_production_plan(
+            task_target_items={2700: 10 ** 9},
+            task_target_period=10,
+        )
         assert not calc.lp_success
         assert calc.production_plan == {}
         assert calc.sell_plan == {}
         # Inputs are still recorded for reporting
         assert 2700 in calc.demand_items
+        failure_text = '\n'.join(calc.failure_diagnostics)
+        assert f'Demand bottleneck: {calc._item_name(2700)} (2700)' in failure_text
+        assert 'mining x72/day' in failure_text
+        report = calc.format_solved_production_plan()
+        assert '[restaurant_config]' in report
+        assert '[planning_failure]' in report
+
+    def test_impossible_recipe_demand_reports_saturated_production(self):
+        calc = make_calculator(
+            AllUnlockedTechnology(),
+            restaurant_settings={
+                601: {'grade': 'gold', 'waitress_slots': ('any', 'none')},
+            },
+        )
+        calc.solve_production_plan(
+            task_target_items={2000: 10 ** 6},
+            task_target_period=10,
+        )
+
+        assert not calc.lp_success
+        failure_text = '\n'.join(calc.failure_diagnostics)
+        assert f'Demand bottleneck: {calc._item_name(2000)} (2000)' in failure_text
+        assert 'Production bottleneck:' in failure_text
+        assert f'{calc._recipe_name(101001)} (101001)' in failure_text
+        assert 'Restaurant bottleneck:' in failure_text
+
+    def test_ranch_bottleneck_reports_daily_product_throughput(self):
+        calc = make_calculator({
+            310101: True,
+            420301: True,
+            420302: True,
+            500211: True,
+            500212: True,
+            540001: True,
+        }, restaurant_settings={
+            901: {'grade': 'bronze', 'waitress_slots': ('any', 'none')},
+        })
+        calc.solve_production_plan(
+            task_target_items={3029: 250},
+            task_target_period=10,
+        )
+
+        assert not calc.lp_success
+        failure_text = '\n'.join(calc.failure_diagnostics)
+        assert 'requires 25/day (250 in 10 day(s))' in failure_text
+        assert '鲜肉 (101015) x12 batches/day -> 鲜肉 (2600) x96/day' in failure_text
 
 
 class TestSolveAllTechnology:
@@ -311,8 +462,13 @@ class TestSolveAllTechnology:
     def test_format_solved_production_plan(self, all_tech_koi_solved):
         text = all_tech_koi_solved.format_solved_production_plan()
         assert 'LP success: True' in text
-        for section in ['[production]', '[sell]', '[daily_buffer_items]']:
+        for section in ['[restaurant_config]', '[production]', '[sell]', '[daily_buffer_items]']:
             assert section in text
+        assert (
+            '(601): grade=gold, waitress_slots=[Chao_Ho, none], enabled=True'
+            in text
+        )
+        assert 'shelf_count=3, shelf_capacity=7, total_capacity=21/day, sales_bonus=10%' in text
 
 
 class TestDailyBufferSafetyMargin:

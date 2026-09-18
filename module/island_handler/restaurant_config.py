@@ -9,6 +9,7 @@ from collections import OrderedDict
 
 from module.exception import RequestHumanTakeover
 from module.island.utils import ceil_with_epsilon, load_item_mapping, normalize_item_keys
+from module.logger import logger
 
 
 WAITRESS_NONE = 'none'
@@ -129,21 +130,21 @@ def normalize_waitress_slots(restaurant_id, values):
         if value is None:
             value = WAITRESS_NONE
         if value not in allowed:
-            raise RequestHumanTakeover(
-                f'Invalid waitress value for restaurant {restaurant_id}: {value}'
-            )
+            message = f'Invalid waitress value for restaurant {restaurant_id}: {value}'
+            logger.error(message)
+            raise RequestHumanTakeover(message)
         if value not in (WAITRESS_NONE, WAITRESS_ANY):
             if value in seen_named:
-                raise RequestHumanTakeover(
-                    f'Duplicate named waitress for restaurant {restaurant_id}: {value}'
-                )
+                message = f'Duplicate named waitress for restaurant {restaurant_id}: {value}'
+                logger.error(message)
+                raise RequestHumanTakeover(message)
             seen_named.add(value)
         cleaned.append(value)
 
     if len(cleaned) > 2:
-        raise RequestHumanTakeover(
-            f'Restaurant {restaurant_id} has more than two waitress slots'
-        )
+        message = f'Restaurant {restaurant_id} has more than two waitress slots'
+        logger.error(message)
+        raise RequestHumanTakeover(message)
 
     cleaned.sort(key=lambda value: _waitress_sort_key(restaurant_id, value))
     cleaned.extend([WAITRESS_NONE] * (2 - len(cleaned)))
