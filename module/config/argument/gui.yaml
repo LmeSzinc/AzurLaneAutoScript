@@ -114,3 +114,23 @@ Text:
   Clear:
   EnterPassword:
   ChooseFile:
+
+GameManager:
+  Status:
+  Capture:
+  Fullscreen:
+  Send:
+  Cancel:
+  Running:
+  Busy:
+  InvalidValue:
+  TimedOut:
+  Tap:
+  Hold:
+  Swipe:
+  DeviceUnavailable:
+  InvalidImage:
+  StaleFrame:
+  Closed:
+  FrameTimeout:
+  UnsupportedGesture:

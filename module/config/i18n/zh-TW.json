@@ -307,7 +307,7 @@
       "help": ""
     },
     "GameManager": {
-      "name": "遊戲管理器(未完成)",
+      "name": "遊戲管理器",
       "help": ""
     }
   },
@@ -2953,11 +2953,25 @@
   "GameManager": {
     "_info": {
       "name": "遊戲管理",
-      "help": "半成品，僅實現了強制關閉遊戲，自動登錄"
+      "help": "關閉遊戲、自動登入、截圖與遠端控制。遠端操作前需要先停止 Alas 排程（按一下上方的「停止」）。"
     },
     "AutoRestart": {
       "name": "自動登錄",
       "help": "遊戲被強制結束後自動登錄遊戲"
+    },
+    "RefreshRate": {
+      "name": "自動重新整理間隔",
+      "help": "自動重新整理頻率，建議 2～5 FPS；更高設定會大量消耗頻寬。\n頻寬參考：\n30 FPS --- 20 Mbps\n15 FPS --- 10 Mbps\n10 FPS --- 7 Mbps\n5 FPS --- 3.5 Mbps\n2 FPS --- 1.4 Mbps",
+      "0": "不自動重新整理",
+      "30": "30 FPS",
+      "15": "15 FPS",
+      "10": "10 FPS",
+      "5": "5 FPS",
+      "2": "2 FPS"
+    },
+    "InstantSend": {
+      "name": "即時傳送控制指令",
+      "help": "開啟後即可直接在下方圖片上操作，不必每次按一下傳送（全螢幕會自動開啟）。"
     }
   },
   "Storage": {
@@ -3084,6 +3098,26 @@
       "Clear": "清除",
       "EnterPassword": "輸入密碼",
       "ChooseFile": "選擇檔案"
+    },
+    "GameManager": {
+      "Status": "裝置: {serial} · {width}×{height} · {screenshot_method} / {control_method} · 目前 FPS: {fps:.1f} · 預估頻寬: {mbps:.2f} Mbps · 截圖耗時: {capture_ms:.1f} ms · 截圖時間: {time}",
+      "Capture": "取得截圖",
+      "Fullscreen": "全螢幕",
+      "Send": "傳送手勢",
+      "Cancel": "取消手勢",
+      "Running": "任務執行中：停止任務後才能操作",
+      "Busy": "正在處理，請稍候",
+      "InvalidValue": "參數錯誤。",
+      "TimedOut": "操作逾時。",
+      "Tap": "點擊",
+      "Hold": "長按",
+      "Swipe": "滑動",
+      "DeviceUnavailable": "設定的裝置未連線或未授權",
+      "InvalidImage": "截圖無效，請檢查模擬器連線後重試",
+      "StaleFrame": "畫面或裝置已變更，請重新取得截圖後操作",
+      "Closed": "頁面已關閉",
+      "FrameTimeout": "畫面顯示確認逾時，已暫停自動重新整理。請重新選擇更新檔位。",
+      "UnsupportedGesture": "設定的控制方式不支援此手勢，請在模擬器設定中選擇支援的方式。"
     }
   }
 }

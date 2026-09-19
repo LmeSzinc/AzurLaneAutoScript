@@ -742,6 +742,12 @@ class AlasGUI(Frame):
         self.task_handler.add(switch_log_scroll.g(), 1, True)
         self.task_handler.add(log.put_log(self.alas), 0.25, True)
 
+        if task == "GameManager":
+            from module.webui.game_manager import GameManagerPanel
+
+            self.game_manager = GameManagerPanel(self, config)
+            self.game_manager.show()
+
     @use_scope("menu", clear=True)
     def dev_set_menu(self) -> None:
         self.init_menu(collapse_menu=False, name="Develop")

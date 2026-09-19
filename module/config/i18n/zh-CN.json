@@ -307,7 +307,7 @@
       "help": ""
     },
     "GameManager": {
-      "name": "游戏管理器(未完成)",
+      "name": "游戏管理器",
       "help": ""
     }
   },
@@ -2953,11 +2953,25 @@
   "GameManager": {
     "_info": {
       "name": "游戏管理",
-      "help": "半成品，仅实现了强制关闭游戏，自动登录"
+      "help": "关闭游戏、自动登录、截图与远程控制。远程操作需要先停止Alas调度(就是上面按一下停止)"
     },
     "AutoRestart": {
       "name": "自动登录",
       "help": "游戏被强制结束后自动登录游戏"
+    },
+    "RefreshRate": {
+      "name": "自动刷新间隔",
+      "help": "自动刷新频率，推荐2~5FPS，高了吃的带宽飞天了。\n所需带宽参考为\n30FPS --- 20Mbps\n15FPS --- 10Mbps\n10FPS --- 7Mbps\n5FPS --- 3.5Mbps\n2FPS --- 1.4Mbps",
+      "0": "不自动刷新",
+      "30": "30 FPS",
+      "15": "15 FPS",
+      "10": "10 FPS",
+      "5": "5 FPS",
+      "2": "2 FPS"
+    },
+    "InstantSend": {
+      "name": "即时发送控制指令",
+      "help": "开了之后就可以直接在下面的图上操作不用每次都按一下发送了(全屏会自动开)"
     }
   },
   "Storage": {
@@ -3084,6 +3098,26 @@
       "Clear": "清除",
       "EnterPassword": "输入密码",
       "ChooseFile": "选择文件"
+    },
+    "GameManager": {
+      "Status": "设备: {serial} · {width}×{height} · {screenshot_method} / {control_method} · 当前FPS: {fps:.1f} · 预估带宽: {mbps:.2f} Mbps · 截图耗时: {capture_ms:.1f} ms · 截图时间: {time}",
+      "Capture": "获取截图",
+      "Fullscreen": "全屏",
+      "Send": "发送手势",
+      "Cancel": "取消手势",
+      "Running": "任务运行中：停止任务后才能控制",
+      "Busy": "正在处理，请稍候",
+      "InvalidValue": "参数错误",
+      "TimedOut": "操作超时",
+      "Tap": "点击",
+      "Hold": "长按",
+      "Swipe": "滑动",
+      "DeviceUnavailable": "配置的设备未连接或未授权",
+      "InvalidImage": "截图无效，请检查模拟器连接后重试",
+      "StaleFrame": "画面或设备已变化，请重新获取截图后操作",
+      "Closed": "页面已关闭",
+      "FrameTimeout": "画面显示确认超时，已暂停自动刷新。请重新选择刷新档位。",
+      "UnsupportedGesture": "配置的控制方式不支持此手势，请在模拟器设置中选择支持的方式。"
     }
   }
 }
