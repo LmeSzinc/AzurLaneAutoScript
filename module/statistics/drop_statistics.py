@@ -1,5 +1,7 @@
 import csv
+import json
 import shutil
+from collections import defaultdict
 
 from tqdm import tqdm
 
@@ -22,6 +24,9 @@ class DropStatistics:
     CSV_FILE = 'drop_result.csv'
     CSV_OVERWRITE = True
     CSV_ENCODING = 'utf-8'
+    CSV_HEADER = ['timestamp', 'campaign', 'enemy_name', 'drop_type', 'item', 'amount']
+    REPORT_FILE = 'drop_statistics.csv'
+    REPORT_JSON_FILE = 'drop_statistics.json'
 
     def __init__(self):
         AlOcr.CNOCR_CONTEXT = DropStatistics.CNOCR_CONTEXT
@@ -41,6 +46,14 @@ class DropStatistics:
     @property
     def csv_file(self):
         return os.path.join(DropStatistics.DROP_FOLDER, DropStatistics.CSV_FILE)
+
+    @property
+    def report_file(self):
+        return os.path.join(DropStatistics.DROP_FOLDER, DropStatistics.REPORT_FILE)
+
+    @property
+    def report_json_file(self):
+        return os.path.join(DropStatistics.DROP_FOLDER, DropStatistics.REPORT_JSON_FILE)
 
     @staticmethod
     def drop_folder(campaign):
@@ -126,6 +139,8 @@ class DropStatistics:
 
         with open(self.csv_file, 'a', newline='', encoding=DropStatistics.CSV_ENCODING) as csv_file:
             writer = csv.writer(csv_file)
+            if csv_file.tell() == 0:
+                writer.writerow(DropStatistics.CSV_HEADER)
             for ts, file in tqdm(load_folder(self.drop_folder(campaign)).items()):
                 try:
                     rows = list(self.parse_drop(file))
@@ -137,6 +152,67 @@ class DropStatistics:
                     logger.exception(e)
                     logger.warning(f'Error on image {ts}')
                     continue
+
+        report = self.write_report()
+        logger.info(
+            f'Drop statistics updated: {report["total_amount"]} items in '
+            f'{report["total_records"]} records')
+
+    @staticmethod
+    def summarize_csv(csv_file):
+        """Aggregate parsed drop rows by campaign, type, and item."""
+        items = defaultdict(int)
+        records = set()
+        with open(csv_file, newline='', encoding=DropStatistics.CSV_ENCODING) as source:
+            reader = csv.reader(source)
+            first_row = next(reader, None)
+            rows = reader if first_row == DropStatistics.CSV_HEADER else (
+                iter([first_row] + list(reader)) if first_row else iter(())
+            )
+            for values in rows:
+                if len(values) != len(DropStatistics.CSV_HEADER):
+                    logger.warning(f'Invalid drop row in {csv_file}: {values}')
+                    continue
+                row = dict(zip(DropStatistics.CSV_HEADER, values))
+                if not row.get('item'):
+                    continue
+                try:
+                    amount = int(row.get('amount', 0))
+                except (TypeError, ValueError):
+                    logger.warning(f'Invalid drop amount in {csv_file}: {row}')
+                    continue
+                key = (row.get('campaign', ''), row.get('drop_type', ''), row['item'])
+                items[key] += amount
+                records.add((row.get('timestamp', ''), row.get('campaign', '')))
+
+        summary_items = [
+            {
+                'campaign': campaign,
+                'drop_type': drop_type,
+                'item': item,
+                'amount': amount,
+            }
+            for (campaign, drop_type, item), amount in sorted(items.items())
+        ]
+        return {
+            'total_records': len(records),
+            'total_amount': sum(row['amount'] for row in summary_items),
+            'items': summary_items,
+        }
+
+    def write_report(self):
+        """Write CSV and JSON summaries for the parsed drop records."""
+        summary = self.summarize_csv(self.csv_file)
+        with open(self.report_file, 'w', newline='', encoding=DropStatistics.CSV_ENCODING) as target:
+            writer = csv.DictWriter(
+                target,
+                fieldnames=['campaign', 'drop_type', 'item', 'amount'],
+            )
+            writer.writeheader()
+            writer.writerows(summary['items'])
+        with open(self.report_json_file, 'w', encoding=DropStatistics.CSV_ENCODING) as target:
+            json.dump(summary, target, ensure_ascii=False, indent=2)
+        return summary
 
 
 if __name__ == '__main__':

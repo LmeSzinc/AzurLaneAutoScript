@@ -1,5 +1,7 @@
 import argparse
+import csv
 import json
+import os
 import queue
 import threading
 import time
@@ -775,6 +777,59 @@ class AlasGUI(Frame):
             onclick=self.dev_utils,
             color="menu",
         ).style(f"--menu-Utils--")
+
+        put_button(
+            label="Drop statistics",
+            onclick=self.dev_drop_statistics,
+            color="menu",
+        ).style("--menu-DropStatistics--")
+
+    @use_scope("content", clear=True)
+    def dev_drop_statistics(self) -> None:
+        from module.statistics.drop_statistics import DropStatistics
+
+        self.init_menu(name="Drop statistics")
+        self.set_title("Drop statistics")
+        root = os.path.abspath("./screenshots")
+        csv_files = []
+        if os.path.isdir(root):
+            for current_root, _, files in os.walk(root):
+                if DropStatistics.CSV_FILE in files:
+                    csv_files.append(os.path.join(current_root, DropStatistics.CSV_FILE))
+
+        if not csv_files:
+            put_warning(
+                f"No {DropStatistics.CSV_FILE} found under {root}. "
+                "Enable local drop recording and run a campaign first."
+            )
+            return
+
+        totals = {}
+        total_records = 0
+        total_amount = 0
+        for csv_file in csv_files:
+            try:
+                summary = DropStatistics.summarize_csv(csv_file)
+            except (OSError, UnicodeError, csv.Error) as error:
+                logger.warning(f"Unable to read drop statistics file {csv_file}: {error}")
+                continue
+            total_records += summary["total_records"]
+            total_amount += summary["total_amount"]
+            for item in summary["items"]:
+                key = (item["campaign"], item["drop_type"], item["item"])
+                totals[key] = totals.get(key, 0) + item["amount"]
+
+        put_text(
+            f"Records: {total_records}    Items: {total_amount}    "
+            f"Sources: {len(csv_files)}"
+        )
+        put_table(
+            [
+                [campaign, drop_type, item, amount]
+                for (campaign, drop_type, item), amount in sorted(totals.items())
+            ],
+            header=["Campaign", "Type", "Item", "Amount"],
+        )
 
     def dev_translate(self) -> None:
         go_app("translate", new_window=True)

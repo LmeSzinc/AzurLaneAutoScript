@@ -35,6 +35,20 @@ GUI development, thanks **[@18870](https://github.com/18870)** , say HURRAY.
 - **Operation Siren**: Receive Opsi dailies, purchase port shops, do Opsi dailies, do meowfficer farming, purchase Akashi's shop, clear obscured zones every 27 min, clear abyssal and strongholds. ~~What the ... is the strategic search, like sh*t, compares to Alas.~~
 - **Opsi Explore**: After Opsi monthly reset, re-explore all zones without special radar (5000 oil item)
 
+### Built-in drop statistics
+
+Alas can aggregate locally parsed drop records without relying on AzurStats.
+After running `module/statistics/drop_statistics.py` against saved drop
+screenshots, the configured drop folder contains:
+
+- `drop_result.csv`: one row per parsed item drop.
+- `drop_statistics.csv`: totals grouped by campaign, drop type, and item.
+- `drop_statistics.json`: the same totals for integrations.
+
+The generated totals are logged, and the GUI exposes them under
+**Develop -> Drop statistics**. Existing headerless `drop_result.csv` files
+remain supported.
+
 
 
 ## Installation [![](https://img.shields.io/github/downloads/LmeSzinc/AzurLaneAutoScript/total?color=4e4c97)](https://github.com/LmeSzinc/AzurLaneAutoScript/releases)
