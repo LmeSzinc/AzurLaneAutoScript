@@ -29,6 +29,24 @@ COMMISSION_SWITCH.add_state('daily', COMMISSION_DAILY)
 COMMISSION_SWITCH.add_state('urgent', COMMISSION_URGENT)
 COMMISSION_SCROLL = Scroll(COMMISSION_SCROLL_AREA, color=(247, 211, 66), name='COMMISSION_SCROLL')
 
+# Some commissions can not be started at all. The "High-level" ones require a
+# ship above a level, for example "High-level tactical research I" needs at
+# least one ship of level 100, while "Recommend" fills in whatever it finds,
+# level 1 ships included. The Start button then stays grey, clicking Recommend
+# again does not help, and the game sends you to the dock when a start is
+# confirmed. Alas loops on it and used to raise GameStuckError, which restarts
+# the whole game and throws away every running commission. It is far cheaper to
+# give up on that single commission, the caller then simply moves on to the
+# next one in the chosen list.
+# Three signals, whichever comes first:
+COMMISSION_SKIP_AFTER_RECOMMEND = 5   # Start still grey this long after Recommend.
+COMMISSION_SKIP_TIMEOUT = 90          # Absolute cap for one commission.
+COMMISSION_SKIP_MAX_RECOMMEND = 3     # Recommend clicked this often, the flashing bug.
+# Names of commissions found unstartable in this Alas session. They are skipped
+# for the rest of the session, restarting Alas clears the list, so a player who
+# obtained the required ships can try again.
+COMMISSION_SKIP_LIST = set()
+
 
 def lines_detect(image):
     """
@@ -199,6 +217,11 @@ class RewardCommission(UI, InfoHandler):
             return False
         if not self.config.Commission_DoMajorCommission and commission.category_str == 'major':
             return False
+        # Dropped here rather than in commission_start(), so the ones behind
+        # them move up and take the free slots. Filtering only after they were
+        # chosen leaves those slots empty for hours.
+        if commission.name in COMMISSION_SKIP_LIST:
+            return False
 
         return True
 
@@ -330,6 +353,10 @@ class RewardCommission(UI, InfoHandler):
         """
         Start a commission.
 
+        Returns False and lets the caller skip this commission when it can not
+        be started at all, see COMMISSION_SKIP_* above. The caller then leaves
+        the details pane and goes on with the next commission in the list.
+
         Args:
             comm (Commission):
             is_urgent (bool):
@@ -346,6 +373,11 @@ class RewardCommission(UI, InfoHandler):
         self.interval_clear(COMMISSION_ADVICE)
         self.interval_clear(COMMISSION_START)
         comm_timer = Timer(7)
+        skip_timer = Timer(COMMISSION_SKIP_TIMEOUT)
+        skip_timer.reset()
+        # Set once Recommend has been clicked, then counts down to the moment the
+        # Start button is expected to light up. None when Recommend was not used.
+        recommend_timer = None
         count = 0
         while 1:
             if skip_first_screenshot:
@@ -356,18 +388,40 @@ class RewardCommission(UI, InfoHandler):
             # End
             if self.info_bar_count():
                 break
-            if count >= 3:
-                # Restart game and handle commission recommend bug.
+
+            # The commission can not be started, stop here so the caller can
+            # move on to the next one. This used to raise GameStuckError, which
+            # restarts the whole game and throws away every running commission,
+            # far more expensive than skipping a single one.
+            if skip_timer.reached():
+                logger.warning(f'Commission start timeout, skip: {comm.name}')
+                COMMISSION_SKIP_LIST.add(comm.name)
+                return False
+            if count >= COMMISSION_SKIP_MAX_RECOMMEND:
                 # After you click "Recommend", your ships appear and then suddenly disappear.
                 # At the same time, the icon of commission is flashing.
-                logger.warning('Triggered commission list flashing bug')
-                raise GameStuckError('Triggered commission list flashing bug')
+                logger.warning('Triggered commission list flashing bug, skip this commission')
+                COMMISSION_SKIP_LIST.add(comm.name)
+                return False
+            if recommend_timer is not None and recommend_timer.reached():
+                # Recommend was clicked and the fleet was filled in, so Start is
+                # expected to be clickable by now. It stays grey when the
+                # recommended ships do not meet the requirements, which is what
+                # the level capped commissions do, and no amount of clicking
+                # Recommend will help. Give up on this one.
+                if self.match_template_color(COMMISSION_START, offset=(5, 20)):
+                    recommend_timer = None
+                else:
+                    logger.warning(f'Ships do not meet the requirement, skip: {comm.name}')
+                    COMMISSION_SKIP_LIST.add(comm.name)
+                    return False
 
             # Click
             if self.match_template_color(COMMISSION_START, offset=(5, 20), interval=7):
                 self.device.click(COMMISSION_START)
                 self.interval_reset(COMMISSION_ADVICE)
                 comm_timer.reset()
+                recommend_timer = None
                 continue
             if self.handle_popup_confirm('COMMISSION_START'):
                 self.interval_reset(COMMISSION_ADVICE)
@@ -375,6 +429,13 @@ class RewardCommission(UI, InfoHandler):
                 continue
             # Accidentally entered dock
             if self.appear(DOCK_CHECK, offset=(20, 20), interval=3):
+                if recommend_timer is not None:
+                    # A fleet was recommended and confirming the start sent us to
+                    # the dock. That is what the game does when the ships do not
+                    # meet the requirements of the commission.
+                    logger.warning(f'Sent to dock after recommend, skip: {comm.name}')
+                    COMMISSION_SKIP_LIST.add(comm.name)
+                    return False
                 logger.info(f'equip_enter {DOCK_CHECK} -> {BACK_ARROW}')
                 self.device.click(BACK_ARROW)
                 comm_timer.reset()
@@ -396,6 +457,8 @@ class RewardCommission(UI, InfoHandler):
                     logger.warning('No selected commission detected, assuming correct')
                 self.device.click(COMMISSION_ADVICE)
                 count += 1
+                recommend_timer = Timer(COMMISSION_SKIP_AFTER_RECOMMEND)
+                recommend_timer.reset()
                 self.interval_reset(COMMISSION_ADVICE)
                 self.interval_clear(COMMISSION_START)
                 comm_timer.reset()
@@ -455,12 +518,30 @@ class RewardCommission(UI, InfoHandler):
                 self.device.click_record_clear()
                 continue
             else:
-                logger.warning(f'Commission not found: {comm}')
+                # _commission_start_click returned False, either the commission
+                # picked is not the one asked for or it can not be started at
+                # all. Either way, leave it and go on with the next one.
+                logger.warning(f'Give up on commission: {comm}')
                 self.device.click_record_clear()
                 return False
 
         logger.warning(f'Failed to select commission after 3 trial')
         self.device.click_record_clear()
+        return False
+
+    def _commission_is_skip(self, comm):
+        """
+        Whether this commission is known to be unstartable in this session.
+
+        Args:
+            comm (Commission):
+
+        Returns:
+            bool: True if it should be left alone.
+        """
+        if comm.name in COMMISSION_SKIP_LIST:
+            logger.warning(f'Skip commission known to be unstartable: {comm.name}')
+            return True
         return False
 
     def commission_start(self):
@@ -476,6 +557,8 @@ class RewardCommission(UI, InfoHandler):
         logger.hr('Commission run', level=1)
         if self.daily_choose:
             for comm in self.daily_choose:
+                if self._commission_is_skip(comm):
+                    continue
                 self._commission_ensure_mode('daily')
                 self._commission_swipe_to_top()
                 self.handle_info_bar()
@@ -484,6 +567,8 @@ class RewardCommission(UI, InfoHandler):
                 self._commission_mode_reset()
         if self.urgent_choose:
             for comm in self.urgent_choose:
+                if self._commission_is_skip(comm):
+                    continue
                 self._commission_ensure_mode('urgent')
                 self._commission_swipe_to_top()
                 self.handle_info_bar()
