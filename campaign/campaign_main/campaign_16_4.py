@@ -35,11 +35,7 @@ MAP.spawn_data = [
     {'battle': 1, 'enemy': 3},
     {'battle': 2, 'enemy': 5},
     {'battle': 3},
-    {'battle': 4},
-    {'battle': 5},
-    {'battle': 6},
-    {'battle': 7},
-    {'battle': 8, 'boss': 1},
+    {'battle': 4, 'boss': 1},
 ]
 MAP.spawn_data_loop = [
     {'battle': 0, 'enemy': 5},
