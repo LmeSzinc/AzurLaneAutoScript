@@ -67,10 +67,9 @@ class OSStatus(UI):
 
     @cached_property
     def yellow_coins_preserve(self):
-        if self.is_cl1_enabled and not self.bought_all_yellow_coin_items_in_port_shop:
-            return 100000
-        else:
-            return 35000
+        if self.is_cl1_enabled:
+            return 0
+        return 35000
 
     def get_yellow_coins(self) -> int:
         yellow_coins = 0
