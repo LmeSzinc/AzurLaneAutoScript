@@ -121,14 +121,22 @@ GameManager:
   Fullscreen:
   Send:
   Cancel:
+  Command:
+  Execute:
+  Timeout:
+  CommandHelp:
   Running:
   Busy:
   InvalidValue:
   TimedOut:
+  Truncated:
+  ExitCode:
   Tap:
   Hold:
   Swipe:
+  InvalidCommand:
   DeviceUnavailable:
+  AdbRequired:
   InvalidImage:
   StaleFrame:
   Closed:

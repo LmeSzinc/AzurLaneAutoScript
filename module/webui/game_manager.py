@@ -3,9 +3,16 @@ import multiprocessing
 from collections import deque
 from contextlib import suppress
 from functools import wraps
+import ctypes
+import os
+import shlex
+import subprocess
+import tempfile
 import threading
 import time
 import uuid
+
+OUTPUT_LIMIT = 1024 * 1024
 
 
 class ManagerError(Exception):
@@ -16,9 +23,77 @@ class TransportError(ManagerError):
     pass
 
 
+def bounded_int(value, minimum, maximum):
+    try:
+        number = int(value)
+        if float(value) != number or not minimum <= number <= maximum:
+            raise ValueError()
+    except (ValueError, TypeError, OverflowError):
+        raise ManagerError('InvalidValue')
+    return number
+
+
 def read_settings(config):
     settings = config['GameManager']['GameManager']
     return dict(RefreshRate=settings['RefreshRate'], InstantSend=settings['InstantSend'])
+
+
+def split_command(command):
+    if os.name == 'nt':
+        # Prefix a dummy executable: CommandLineToArgvW treats argv[0] specially.
+        parse = ctypes.windll.shell32.CommandLineToArgvW
+        parse.restype = ctypes.POINTER(ctypes.c_wchar_p)
+        count = ctypes.c_int()
+        pointer = parse(ctypes.c_wchar_p('adb-placeholder ' + command), ctypes.byref(count))
+        if not pointer:
+            raise ManagerError('InvalidCommand')
+        try:
+            args = list(pointer[:count.value])[1:]
+        finally:
+            ctypes.windll.kernel32.LocalFree(ctypes.cast(pointer, ctypes.c_void_p))
+    else:
+        try:
+            args = shlex.split(command)
+        except ValueError:
+            raise ManagerError('InvalidCommand')
+    if args and args[0].lower() in ('adb', 'adb.exe'):
+        args.pop(0)
+    if not args:
+        raise ManagerError('InvalidCommand')
+    return args
+
+
+def needs_serial(args):
+    """
+
+    Args:
+        args:
+
+    Returns:
+
+    """
+    explicit = False
+    index = 0
+    while index < len(args) and args[index].startswith('-'):
+        option = args[index]
+        if option in ('-s', '-t', '-d', '-e'):
+            explicit = True
+        if option in ('-s', '-t', '-H', '-P', '-L'):
+            if index + 1 >= len(args):
+                raise ManagerError('InvalidCommand')
+            index += 2
+        elif option in ('-d', '-e', '-a'):
+            index += 1
+        elif option in ('--help', '--version'):
+            return False
+        else:
+            raise ManagerError('InvalidCommand')
+    if index == len(args):
+        raise ManagerError('InvalidCommand')
+    return not explicit and args[index] not in {
+        'devices', 'connect', 'disconnect', 'pair', 'start-server', 'kill-server',
+        'server-status', 'version', 'help', 'host-features', 'mdns', 'keygen',
+    }
 
 
 def dispatch_gesture(device, data, width, height):
@@ -36,6 +111,36 @@ def dispatch_gesture(device, data, width, height):
     if func is None:
         raise ManagerError('UnsupportedGesture')
     func(*args)
+
+
+def run_adb(binary, args, timeout, stopped, running):
+    """Add cancellable, bounded stdout/stderr to the existing device connection."""
+    if stopped.is_set():
+        raise ManagerError('Closed')
+    if running():
+        raise ManagerError('Running')
+    with tempfile.TemporaryFile() as stdout, tempfile.TemporaryFile() as stderr:
+        with subprocess.Popen([binary] + args, stdin=subprocess.DEVNULL, stdout=stdout, stderr=stderr,
+                              creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0)) as process:
+            deadline = time.perf_counter() + timeout
+            timed_out = False
+            try:
+                while process.poll() is None:
+                    if stopped.wait(0.05) or time.perf_counter() >= deadline:
+                        timed_out = not stopped.is_set()
+                        break
+            finally:
+                if process.poll() is None:
+                    process.kill()
+                process.wait()
+            stdout.seek(0)
+            stderr.seek(0)
+            out, err = stdout.read(OUTPUT_LIMIT + 1), stderr.read(OUTPUT_LIMIT + 1)
+        if stopped.is_set():
+            raise ManagerError('Closed')
+        return dict(stdout=out[:OUTPUT_LIMIT].decode('utf-8', errors='replace'),
+                    stderr=err[:max(0, OUTPUT_LIMIT - len(out))].decode('utf-8', errors='replace'),
+                    code=process.returncode, timeout=timed_out, truncated=len(out) + len(err) > OUTPUT_LIMIT)
 
 
 def capture_device(device, quality):
@@ -92,6 +197,9 @@ def device_service(pipe, config_name, allowed):
             if request['action'] == 'close':
                 break
             try:
+                if request['action'] == 'adb' and not request['target']:
+                    pipe.send(dict(binary=Connection.__new__(Connection).adb_binary))
+                    continue
                 current = request['selection']
                 if current != selection:
                     if device is not None:
@@ -103,6 +211,11 @@ def device_service(pipe, config_name, allowed):
                     device.get_orientation()
                     selection = current
                     frames.clear()
+                if request['action'] == 'adb':
+                    if device.is_over_http:
+                        raise ManagerError('AdbRequired')
+                    pipe.send(dict(binary=device.adb_binary, serial=device.serial))
+                    continue
                 fps = request['rate'] or 15
                 if ScrcpyOptions.frame_rate != fps:
                     if device._scrcpy_alive:
@@ -188,6 +301,12 @@ class ConfiguredTransport:
                 raise TransportError('TimedOut')
         raise ManagerError('Closed')
 
+    def command(self, command, timeout):
+        args = split_command(command)
+        target = self.exchange('adb', target=needs_serial(args))
+        if 'serial' in target:
+            args = ['-s', target['serial']] + args
+        return run_adb(target['binary'], args, timeout, self.stopped, self.running)
 
     def close(self):
         self.allowed.clear()
@@ -305,14 +424,18 @@ class ManagerWorker:
                     if request is None:
                         continue
                     kind = request['action']
-                    if kind == 'gesture':
-                        self.transport.exchange('gesture', data=request)
-                        started = time.perf_counter()
-                        self.refresh_until = started + 2
-                        self.emit(dict(sent=True))
-                    image = self.transport.exchange('screenshot',
-                                                    quality=90 if manual and kind == 'screenshot' else 20)
-                    self.publish(image)
+                    if kind == 'command':
+                        result = self.transport.command(request['command'], request['timeout'])
+                        self.emit(dict(result=result))
+                    else:
+                        if kind == 'gesture':
+                            self.transport.exchange('gesture', data=request)
+                            started = time.perf_counter()
+                            self.refresh_until = started + 2
+                            self.emit(dict(sent=True))
+                        image = self.transport.exchange('screenshot',
+                                                        quality=90 if manual and kind == 'screenshot' else 20)
+                        self.publish(image)
                 except Exception as exc:
                     if not isinstance(exc, ManagerError) or isinstance(exc, TransportError):
                         self.transport.close()
@@ -418,6 +541,7 @@ class GameManagerPanel:
             ('fullscreen', 'Fullscreen', lambda: self.screen('fullscreen'), not self.has_frame),
             ('send', 'Send', lambda: self.submit('gesture'), not available or self.pending is None),
             ('cancel', 'Cancel', self.cancel_gesture, self.pending is None or self.busy),
+            ('execute', 'Execute', lambda: self.submit('command'), not available),
         ]
         for name, label, callback, disabled in controls:
             with use_scope(self.scope(name), clear=True):
@@ -431,9 +555,13 @@ class GameManagerPanel:
     @panel_action
     def submit(self, action):
         from pywebio.output import clear
+        from pywebio.pin import pin
         if action == 'gesture' and self.pending is None:
             raise ManagerError('InvalidValue')
         request = self.pending if action == 'gesture' else dict(action=action)
+        if action == 'command':
+            request.update(command=pin[self.element_id + '_Command'],
+                           timeout=bounded_int(pin[self.element_id + '_Timeout'], 1, 600))
         clear(self.scope('error'))
         self.worker.submit(request)
         self.busy = True
@@ -509,12 +637,21 @@ class GameManagerPanel:
             self.output('error', self.text(data['error']) if data.get('translated') else data['error'], 'error')
         if 'image' in data:
             self.screen('frame', data)
+        if 'result' in data:
+            result = data['result']
+            status = ' · '.join([self.text('ExitCode') + ': ' + str(result['code'])] +
+                                [self.text(key) for flag, key in [('timeout', 'TimedOut'), ('truncated', 'Truncated')]
+                                 if result[flag]])
+            self.output('result', '{}\nstdout:\n{}\nstderr:\n{}'.format(
+                status, result['stdout'], result['stderr']), 'code')
 
     def show(self):
         from pywebio.io_ctrl import output_register_callback
-        from pywebio.output import put_row, put_scope, put_html, use_scope
+        from pywebio.output import put_row, put_scope, put_scrollable, put_html, use_scope
         from pywebio.pin import pin_on_change
         from pywebio.session import defer_call, register_thread, run_js
+        from module.webui.pin import put_textarea
+        from module.webui.widgets import put_output
 
         manager = self.gui.alas
         transport = ConfiguredTransport(self.config_name, lambda: self.gui.alas_config.read_file(self.config_name),
@@ -539,6 +676,14 @@ class GameManagerPanel:
             row(['status', 'send', 'cancel'], 'minmax(0,1fr) auto auto')
             put_scope(self.scope('gesture'))
             put_scope(self.scope('error'))
+            put_textarea(self.element_id + '_Command', label=self.text('Command'), rows=2,
+                         placeholder='adb devices', help_text=self.text('CommandHelp'))
+            put_row([
+                put_output(dict(widget_type='input', name=self.element_id + '_Timeout', type='number',
+                                title=self.text('Timeout'), value=60, min=1, max=600)),
+                put_scope(self.scope('execute')),
+            ], size='1fr auto')
+            put_scrollable(put_scope(self.scope('result')), height=(0, 240), border=False)
 
         for name in self.settings:
             pin_on_change('GameManager_GameManager_' + name,
