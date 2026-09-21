@@ -11,6 +11,7 @@ from module.logger import logger
 from module.ocr.ocr import DigitCounter
 from module.retire.assets import *
 from module.retire.dock import Dock
+from module.ui.assets import BACK_ARROW
 
 VALID_SHIP_TYPES = ['dd', 'ss', 'cl', 'ca', 'bb', 'cv', 'repair', 'others']
 if server.server != 'jp':
@@ -174,7 +175,12 @@ class Enhancement(Dock):
                 logger.info(f'Enhance de-select common CV done')
                 break
 
-            if self.appear(ENHANCE_RECOMMEND, offset=(5, 5), interval=2):
+            # Accidentally entered dock
+            if self.appear(DOCK_CHECK, offset=(20, 20), interval=3):
+                logger.info(f'{DOCK_CHECK} -> {BACK_ARROW}')
+                self.device.click(BACK_ARROW)
+                continue
+            if self.appear(ENHANCE_RECOMMEND, offset=(5, 5), interval=5):
                 self.device.click(cv)
                 continue
 

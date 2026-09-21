@@ -384,7 +384,7 @@ class UI(InfoHandler):
         if self.appear_then_click(GET_ITEMS_2, offset=True, interval=3):
             return True
         if get_ship:
-            if self.appear_then_click(GET_SHIP, interval=5):
+            if self.appear_then_click(GET_SHIP, offset=(20, 20), interval=5):
                 return True
         if self.appear_then_click(LOGIN_RETURN_SIGN, offset=(30, 30), interval=3):
             return True
