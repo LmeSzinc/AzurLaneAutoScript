@@ -509,6 +509,8 @@ class GeneratedConfig:
 
     # Group `GameManager`
     GameManager_AutoRestart = True
+    GameManager_RefreshRate = 0  # 0, 30, 15, 10, 5, 2
+    GameManager_InstantSend = False
 
     # Group `Storage`
     Storage_Storage = {}

@@ -307,7 +307,7 @@
       "help": ""
     },
     "GameManager": {
-      "name": "Game Manager(WIP)",
+      "name": "ゲーム管理",
       "help": ""
     }
   },
@@ -2952,12 +2952,26 @@
   },
   "GameManager": {
     "_info": {
-      "name": "GameManager._info.name",
-      "help": "GameManager._info.help"
+      "name": "ゲーム管理",
+      "help": "ゲームの終了、自動ログイン、スクリーンショット、リモート操作を行います。リモート操作の前に Alas のスケジューラーを停止してください（上の「停止」をクリック）。"
     },
     "AutoRestart": {
-      "name": "GameManager.AutoRestart.name",
-      "help": "GameManager.AutoRestart.help"
+      "name": "自動ログイン",
+      "help": "ゲームを強制終了した後、ゲームに自動ログインします。"
+    },
+    "RefreshRate": {
+      "name": "自動更新間隔",
+      "help": "自動更新の頻度です。2～5 FPSを推奨します。高い設定では帯域幅を大きく消費します。\n帯域幅の目安：\n30 FPS --- 20 Mbps\n15 FPS --- 10 Mbps\n10 FPS --- 7 Mbps\n5 FPS --- 3.5 Mbps\n2 FPS --- 1.4 Mbps",
+      "0": "自動更新しない",
+      "30": "30 FPS",
+      "15": "15 FPS",
+      "10": "10 FPS",
+      "5": "5 FPS",
+      "2": "2 FPS"
+    },
+    "InstantSend": {
+      "name": "操作を即時送信",
+      "help": "有効にすると、毎回「送信」を押さず、下の画像上で操作できます（全画面表示では自動的に有効になります）。"
     }
   },
   "Storage": {
@@ -3084,6 +3098,34 @@
       "Clear": "消除",
       "EnterPassword": "パスワードを入力してください",
       "ChooseFile": "ファイルを選択してください"
+    },
+    "GameManager": {
+      "Status": "端末: {serial} · {width}×{height} · {screenshot_method} / {control_method} · 現在の FPS: {fps:.1f} · 推定帯域幅: {mbps:.2f} Mbps · スクリーンショット処理時間: {capture_ms:.1f} ms · スクリーンショット時刻: {time}",
+      "Capture": "スクリーンショット取得",
+      "Fullscreen": "全画面",
+      "Send": "操作を送信",
+      "Cancel": "操作をキャンセル",
+      "Command": "ADB コマンド",
+      "Execute": "コマンド実行",
+      "Timeout": "タイムアウト（秒）",
+      "CommandHelp": "コマンドは Alas が動作しているマシンで実行されます。",
+      "Running": "タスク実行中：操作するにはタスクを停止してください",
+      "Busy": "処理中です",
+      "InvalidValue": "パラメーターが無効です。",
+      "TimedOut": "操作がタイムアウトしました。",
+      "Truncated": "画像が大きすぎます…",
+      "ExitCode": "終了コード",
+      "Tap": "タップ",
+      "Hold": "長押し",
+      "Swipe": "スワイプ",
+      "InvalidCommand": "ADB コマンドまたは引数が無効です",
+      "DeviceUnavailable": "設定したデバイスが未接続または未認証です",
+      "AdbRequired": "ADB 接続が必要です。HTTP デバイスアドレスには対応していません",
+      "InvalidImage": "画像が無効です。接続を確認して再試行してください。",
+      "StaleFrame": "画面またはデバイスが変わりました。再取得してください。",
+      "Closed": "ページを閉じました",
+      "FrameTimeout": "フレーム表示の確認がタイムアウトしたため、自動更新を一時停止しました。更新プリセットを選び直してください。",
+      "UnsupportedGesture": "設定した操作方式はこのジェスチャーに対応していません。"
     }
   }
 }

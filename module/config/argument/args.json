@@ -10054,6 +10054,22 @@
       "AutoRestart": {
         "type": "checkbox",
         "value": true
+      },
+      "RefreshRate": {
+        "type": "select",
+        "value": 0,
+        "option": [
+          0,
+          30,
+          15,
+          10,
+          5,
+          2
+        ]
+      },
+      "InstantSend": {
+        "type": "checkbox",
+        "value": false
       }
     },
     "Storage": {

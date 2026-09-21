@@ -901,3 +901,7 @@ AzurLaneUncensored:
     display: disabled
 GameManager:
   AutoRestart: true
+  RefreshRate:
+    value: 0
+    option: [0, 30, 15, 10, 5, 2]
+  InstantSend: false

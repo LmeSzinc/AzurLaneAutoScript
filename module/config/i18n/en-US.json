@@ -307,7 +307,7 @@
       "help": ""
     },
     "GameManager": {
-      "name": "Game Manager(WIP)",
+      "name": "Game manager",
       "help": ""
     }
   },
@@ -2953,11 +2953,25 @@
   "GameManager": {
     "_info": {
       "name": "Game Manager",
-      "help": "This is a semi-finished product, currently only implemented to force close the game and start it after closing."
+      "help": "Stop the game, log in automatically, capture screenshots, and control the emulator. Stop the Alas scheduler before remote operations (click Stop above)."
     },
     "AutoRestart": {
-      "name": "Automatic Login",
-      "help": "Log back into the game when the game has been ended."
+      "name": "Automatic login",
+      "help": "Automatically log in to the game after it is forcibly closed."
+    },
+    "RefreshRate": {
+      "name": "Auto-refresh interval",
+      "help": "Auto-refresh frequency. 2–5 FPS is recommended; higher rates use much more bandwidth.\nApproximate bandwidth:\n30 FPS --- 20 Mbps\n15 FPS --- 10 Mbps\n10 FPS --- 7 Mbps\n5 FPS --- 3.5 Mbps\n2 FPS --- 1.4 Mbps",
+      "0": "No auto-refresh",
+      "30": "30 FPS",
+      "15": "15 FPS",
+      "10": "10 FPS",
+      "5": "5 FPS",
+      "2": "2 FPS"
+    },
+    "InstantSend": {
+      "name": "Send control gestures immediately",
+      "help": "When enabled, operate directly on the image below without clicking Send each time (fullscreen enables this automatically)."
     }
   },
   "Storage": {
@@ -3084,6 +3098,34 @@
       "Clear": "Clear",
       "EnterPassword": "Enter password",
       "ChooseFile": "Choose file"
+    },
+    "GameManager": {
+      "Status": "Device: {serial} · {width}×{height} · {screenshot_method} / {control_method} · Current FPS: {fps:.1f} · Estimated bandwidth: {mbps:.2f} Mbps · Capture time: {capture_ms:.1f} ms · Screenshot time: {time}",
+      "Capture": "Capture screenshot",
+      "Fullscreen": "Fullscreen",
+      "Send": "Send gesture",
+      "Cancel": "Cancel gesture",
+      "Command": "ADB command",
+      "Execute": "Execute command",
+      "Timeout": "Timeout (seconds)",
+      "CommandHelp": "Commands run on the machine hosting Alas.",
+      "Running": "Task running: stop it before controlling",
+      "Busy": "Processing, please wait",
+      "InvalidValue": "Invalid parameters.",
+      "TimedOut": "Operation timed out.",
+      "Truncated": "Image is too large…",
+      "ExitCode": "Exit code",
+      "Tap": "Tap",
+      "Hold": "Long press",
+      "Swipe": "Swipe",
+      "InvalidCommand": "Invalid ADB command or arguments",
+      "DeviceUnavailable": "Configured device is offline or unauthorized",
+      "AdbRequired": "This feature requires ADB; HTTP device addresses are not supported",
+      "InvalidImage": "Invalid screenshot. Check the emulator connection and retry.",
+      "StaleFrame": "The frame or device changed. Capture a new screenshot before controlling.",
+      "Closed": "Page closed",
+      "FrameTimeout": "Frame display acknowledgement timed out. Auto-refresh has been paused. Please select a refresh preset again.",
+      "UnsupportedGesture": "The configured control method does not support this gesture. Choose a compatible method in emulator settings."
     }
   }
 }
