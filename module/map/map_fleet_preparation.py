@@ -1,22 +1,17 @@
-import numpy as np
 from scipy import signal
 
 from module.base.button import Button
 from module.base.timer import Timer
 from module.base.utils import *
 from module.exception import HardNotSatisfied
-from module.handler.assets import AUTO_SEARCH_SET_MOB, AUTO_SEARCH_SET_BOSS, \
-    AUTO_SEARCH_SET_ALL, AUTO_SEARCH_SET_STANDBY, \
-    AUTO_SEARCH_SET_SUB_AUTO, AUTO_SEARCH_SET_SUB_STANDBY
+from module.handler.assets import *
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
 from module.map.assets import *
+from module.map.fleet_bar import FleetBarDetector
 
 
 class FleetOperator:
-    FLEET_BAR_SHAPE_Y = 33
-    FLEET_BAR_MARGIN_Y = 9
-    FLEET_BAR_ACTIVE_STD = 45  # Active: 67, inactive: 12.
     FLEET_IN_USE_STD = 27  # In use 52, not in use (3, 6).
 
     OFFSET = (-20, -80, 20, 5)
@@ -39,6 +34,7 @@ class FleetOperator:
         self._in_use = in_use
         self._hard_satisfied = hard_satisfied
         self.main = main
+        self.options = {}
 
         if main.appear(clear, offset=FleetOperator.OFFSET):
             choose.load_offset(clear)
@@ -48,43 +44,6 @@ class FleetOperator:
 
     def __str__(self):
         return str(self._choose)[:-7]
-
-    def parse_fleet_bar(self, image):
-        """
-        Args:
-            image (np.ndarray): Image of dropdown menu.
-
-        Returns:
-            list: List of int. Currently selected fleet ranges from 1 to 6.
-        """
-        width, height = image_size(image)
-        result = []
-        for index, y in enumerate(range(0, height, self.FLEET_BAR_SHAPE_Y + self.FLEET_BAR_MARGIN_Y)):
-            area = (0, y, width, y + self.FLEET_BAR_SHAPE_Y)
-            mean = get_color(image, area)
-            if np.std(mean, ddof=1) > self.FLEET_BAR_ACTIVE_STD:
-                result.append(index + 1)
-        logger.info('Current selected: %s' % str(result))
-        return result
-
-    def get_button(self, index):
-        """
-        Convert fleet index to the Button object on dropdown menu.
-
-        Args:
-            index (int): Fleet index, 1-6.
-
-        Returns:
-            Button: Button instance.
-        """
-        bar = self._bar.button
-        area = area_offset(area=(
-            0,
-            (self.FLEET_BAR_SHAPE_Y + self.FLEET_BAR_MARGIN_Y) * (index - 1),
-            bar[2] - bar[0],
-            (self.FLEET_BAR_SHAPE_Y + self.FLEET_BAR_MARGIN_Y) * (index - 1) + self.FLEET_BAR_SHAPE_Y
-        ), offset=(bar[0:2]))
-        return Button(area=(), color=(), button=area, name='%s_INDEX_%s' % (str(self._bar), str(index)))
 
     def allow(self):
         """
@@ -129,18 +88,13 @@ class FleetOperator:
                             f'please prepare your fleet "{str(self)}" in game before running Alas')
             raise HardNotSatisfied
 
-    def clear(self, skip_first_screenshot=True):
+    def clear(self):
         """
         Clear chosen fleet.
         """
         main = self.main
         click_timer = Timer(3, count=6)
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                main.device.screenshot()
-
+        for _ in main.loop():
             # Popups when clearing hard fleets
             if self.main.handle_popup_confirm(str(self._clear)):
                 continue
@@ -156,18 +110,13 @@ class FleetOperator:
                     main.device.click(self._clear)
                     click_timer.reset()
 
-    def recommend(self, skip_first_screenshot=True):
+    def recommend(self):
         """
         Recommend fleet
         """
         main = self.main
         click_timer = Timer(3, count=6)
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                main.device.screenshot()
-
+        for _ in main.loop():
             # End
             if self.in_use():
                 break
@@ -177,20 +126,29 @@ class FleetOperator:
                 main.device.click(self._choose)
                 click_timer.reset()
 
+    def update_options(self):
+        det = FleetBarDetector(self.main, bar=self._bar, choose=self._choose)
+        self.options = det.options
+
     def open(self, skip_first_screenshot=True):
         """
         Activate dropdown menu for fleet selection.
         """
         main = self.main
         click_timer = Timer(3, count=6)
+        # TODO: Simplify if `for state in main.loop(): if state.first:` is available
+        # TODO: Simplify if `@cached_on_screenshot` is available
+        # TODO: write tests for FleetBarDetector
+
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 main.device.screenshot()
+                self.update_options()
 
             # End
-            if self.bar_opened():
+            if self.options:
                 break
 
             # Click
@@ -209,9 +167,10 @@ class FleetOperator:
                 skip_first_screenshot = False
             else:
                 main.device.screenshot()
+                self.update_options()
 
             # End
-            if not self.bar_opened():
+            if not self.options:
                 break
 
             # Click
@@ -228,33 +187,35 @@ class FleetOperator:
             skip_first_screenshot (bool):
         """
         main = self.main
-        button = self.get_button(index)
         click_timer = Timer(3, count=6)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 main.device.screenshot()
+                self.update_options()
 
-            if not self.bar_opened():
+            if not self.options:
                 # End
                 if self.in_use():
                     break
                 else:
                     self.open()
 
+            button = self.options.get(index)
+            if button is None:
+                logger.error(f'No fleet option {index} to select')
+                self.close()
+                break
+            if button.selected:
+                logger.info(f'Fleet option {index} is already selected')
+                self.close()
+                break
+
             # Click
             if click_timer.reached():
                 main.device.click(button)
                 click_timer.reset()
-
-    def selected(self):
-        """
-        Returns:
-            list: List of int. Currently selected fleet ranges from 1 to 6.
-        """
-        data = self.parse_fleet_bar(self.main.image_crop(self._bar.button, copy=False))
-        return data
 
     def in_use(self):
         """
@@ -285,16 +246,6 @@ class FleetOperator:
         gray = rgb2gray(image)
         return np.std(gray.flatten(), ddof=1) > self.FLEET_IN_USE_STD
 
-    def bar_opened(self):
-        """
-        Returns:
-            bool: If dropdown menu appears.
-        """
-        # Check the brightness of the rightest column of the bar area.
-        luma = rgb2gray(self.main.image_crop(self._bar.button, copy=False))[:, -1]
-        # FLEET_PREPARATION is about 146~155
-        return np.sum(luma > 168) / luma.size > 0.5
-
     def ensure_to_be(self, index):
         """
         Set to a specific fleet.
@@ -302,11 +253,9 @@ class FleetOperator:
         Args:
             index (int): Fleet index, 1-6.
         """
+        logger.info(f'Fleet {self} set to {index}')
         self.open()
-        if index in self.selected():
-            self.close()
-        else:
-            self.click(index)
+        self.click(index)
 
 
 class FleetPreparation(InfoHandler):
