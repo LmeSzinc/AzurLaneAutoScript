@@ -211,43 +211,28 @@ class Dock(Equipment):
         self.dock_sort_method_dsc_set(False, wait_loading=False)
         self.dock_filter_set()
 
-    def dock_select_one(self, button, skip_first_screenshot=True):
+    def dock_select_one(self, button):
         """
         Args:
             button (Button): Ship button to select
             skip_first_screenshot:
         """
-        # if self.config.SERVER == 'en':
-        #     logger.info('EN has no dock_selected check currently, use plain click')
-        #
-        #     self.device.click(button)
-        #
-        #     while 1:
-        #         self.device.screenshot()
-        #
-        #         if self.appear(DOCK_CHECK, offset=(20, 20)):
-        #             break
-        #         if self.handle_popup_confirm('DOCK_SELECT'):
-        #             continue
-        #     return
-
         self.interval_clear(DOCK_CHECK)
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
+        click_interval = Timer(3, count=6)
+        for _ in self.loop():
             if self.dock_selected():
                 break
 
-            if self.appear(DOCK_CHECK, offset=(20, 20), interval=5):
-                self.device.click(button)
-                continue
+            # unwrapped self.appear(interval=3) with Timer.count
+            if click_interval.reached():
+                if self.appear(DOCK_CHECK, offset=(20, 20)):
+                    self.device.click(button)
+                    click_interval.reset()
+                    continue
             if self.handle_popup_confirm('DOCK_SELECT'):
                 continue
 
-    def dock_selected(self, skip_first_screenshot=True):
+    def dock_selected(self):
         """
         Args:
             skip_first_screenshot:
@@ -262,12 +247,7 @@ class Dock(Equipment):
 
         current = 0
         timeout = Timer(1.5, count=3).start()
-        while 1:
-            if skip_first_screenshot:
-                skip_first_screenshot = False
-            else:
-                self.device.screenshot()
-
+        for _ in self.loop():
             if timeout.reached():
                 logger.warning('Get dock_selected timeout, assume not selected')
                 break
