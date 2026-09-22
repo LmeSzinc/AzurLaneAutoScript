@@ -676,7 +676,7 @@ class RewardTacticalClass(Dock):
             return False
 
         # select a ship
-        self.dock_select_one(should_select_button, skip_first_screenshot=True)
+        self.dock_select_one(should_select_button)
         # Confirm selected ship
         # Clear interval if alas have just selected and exited from a meta skill
         self.interval_clear(SHIP_CONFIRM)
