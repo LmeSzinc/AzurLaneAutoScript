@@ -36,7 +36,7 @@ class FleetBarDetector:
             bar (Button):
             choose (Button): Optional choose button to check if first option is below recommend
         """
-        self.area = bar.area
+        self.area = bar.button
         self.main = main
         self.image = main.device.image
         self.choose = choose
