@@ -4,7 +4,7 @@ import cv2
 
 import module.config.server as server
 from module.base.timer import Timer
-from module.base.utils import area_pad
+from module.base.utils import area_pad, rgb2luma
 from module.combat.assets import GET_ITEMS_1
 from module.exception import GameStuckError, ScriptError
 from module.logger import logger
@@ -167,21 +167,34 @@ class Enhancement(Dock):
 
         self.interval_clear(ENHANCE_RECOMMEND, interval=2)
         EMPTY_ENHANCE_SLOT_PLUS.ensure_template()
+        EMPTY_ENHANCE_SLOT_PLUS.ensure_luma_template()
         for _ in self.loop():
+            # if PLUS icon appear, slot is empty
             image = self.image_crop(search, copy=False)
-            result = cv2.matchTemplate(EMPTY_ENHANCE_SLOT_PLUS.image, image, cv2.TM_CCOEFF_NORMED)
+            image = rgb2luma(image)
+            result = cv2.matchTemplate(EMPTY_ENHANCE_SLOT_PLUS.image_luma, image, cv2.TM_CCOEFF_NORMED)
             _, similarity, _, _ = cv2.minMaxLoc(result)
-            if similarity > 0.85:
+            if similarity > 0.75:
                 logger.info(f'Enhance de-select common CV done')
                 break
 
-            # Accidentally entered dock
+            # if entered dock, meaning that slot is already empty
+            if self.appear(DOCK_CHECK, offset=(20, 20)):
+                logger.info('Enhance de-select entered dock')
+                self._enhance_exit_dock()
+                logger.info('Enhance de-select common CV done (exit from dock)')
+                break
+            if self.appear(ENHANCE_RECOMMEND, offset=(5, 5), interval=5):
+                self.device.click(cv)
+                continue
+
+    def _enhance_exit_dock(self):
+        for _ in self.loop():
+            if self.appear(ENHANCE_RECOMMEND, offset=(5, 5)):
+                break
             if self.appear(DOCK_CHECK, offset=(20, 20), interval=3):
                 logger.info(f'{DOCK_CHECK} -> {BACK_ARROW}')
                 self.device.click(BACK_ARROW)
-                continue
-            if self.appear(ENHANCE_RECOMMEND, offset=(5, 5), interval=5):
-                self.device.click(cv)
                 continue
 
     def _enhance_choose(self, ship_count, skip_first_screenshot=True):
