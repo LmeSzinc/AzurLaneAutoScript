@@ -43,7 +43,9 @@ class FleetBarDetector:
 
         self.option_shape = (169, 33)
         # option might be covered by info_bar, half width to full width is allowed
-        self.shape_range = (88, 33 - 5, 169 + 5, 55 + 5)
+        # width should larger than 67px, the width of choose button
+        # and smaller than 80px, the remaining option width in EN when info bar covers the left side
+        self.shape_range = (75, 33 - 5, 169 + 5, 55 + 5)
 
     def _find_option(self, image):
         """
