@@ -74,6 +74,7 @@ class GitManager(DeployConfig):
             url=[
                 'https://1818706573.cdn.123clouddisk.com/1818706573/pack/LmeSzinc_AzurLaneAutoScript_master',
                 'https://vip.123pan.cn/1818706573/pack/LmeSzinc_AzurLaneAutoScript_master',
+                'https://alas-goc-1254325529.cos.ap-shanghai.myqcloud.com/LmeSzinc_AzurLaneAutoScript_master',
             ],
             folder=self.root_filepath,
             source='origin',
