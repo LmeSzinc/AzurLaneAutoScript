@@ -234,6 +234,7 @@ Emotion:
     value: not_in_dormitory
     option: [ not_in_dormitory, dormitory_floor_1, dormitory_floor_2 ]
   Fleet2Oath: false
+  DormOcr: false
 HpControl:
   UseHpBalance: false
   UseEmergencyRepair: false
