@@ -9,6 +9,7 @@ from module.base.decorator import cached_property
 from module.config.config import AzurLaneConfig
 from module.config.env import IS_ON_PHONE_CLOUD
 from module.config.deep import deep_iter
+from module.device.method.playcover import is_playcover_serial
 from module.device.method.utils import get_serial_pair
 from module.exception import RequestHumanTakeover
 from module.logger import logger
@@ -36,6 +37,14 @@ class ConnectionAttr:
             self.config = config
 
         logger.attr('IS_ON_PHONE_CLOUD', IS_ON_PHONE_CLOUD)
+
+        # Parse custom serial
+        self.serial = str(self.config.Emulator_Serial)
+        self.method_startup_check()
+        if self.is_playcover:
+            self.serial_check()
+            self.config.DEVICE_OVER_HTTP = self.is_over_http
+            return
 
         # Init adb client
         logger.attr('AdbBinary', self.adb_binary)
@@ -65,10 +74,32 @@ class ConnectionAttr:
         # Cache adb_client
         _ = self.adb_client
 
-        # Parse custom serial
-        self.serial = str(self.config.Emulator_Serial)
         self.serial_check()
         self.config.DEVICE_OVER_HTTP = self.is_over_http
+
+    def method_startup_check(self):
+        if is_playcover_serial(self.serial):
+            screenshot = 'playcover'
+            control = 'playcover'
+        else:
+            serial = str(self.serial).strip()
+            if re.match(r'^(https?://|wsa)', serial):
+                return
+            screenshot = self.config.Emulator_ScreenshotMethod
+            control = self.config.Emulator_ControlMethod
+            if screenshot == 'playcover':
+                screenshot = 'auto'
+            if control == 'playcover':
+                control = 'MaaTouch'
+
+        if screenshot == self.config.Emulator_ScreenshotMethod \
+                and control == self.config.Emulator_ControlMethod:
+            return
+
+        logger.info(f'Use screenshot method {screenshot} and control method {control}')
+        with self.config.multi_set():
+            self.config.Emulator_ScreenshotMethod = screenshot
+            self.config.Emulator_ControlMethod = control
 
     @staticmethod
     def revise_serial(serial: str):
@@ -163,6 +194,10 @@ class ConnectionAttr:
     @cached_property
     def is_wsa(self):
         return bool(re.match(r'^wsa', self.serial))
+
+    @cached_property
+    def is_playcover(self):
+        return is_playcover_serial(self.serial)
 
     @cached_property
     def port(self) -> int:

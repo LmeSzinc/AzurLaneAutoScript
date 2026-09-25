@@ -1,5 +1,6 @@
 from module.base.timer import Timer
 from module.base.utils import *
+from module.exception import GameStuckError
 from module.logger import logger
 from module.os.assets import *
 from module.os_handler.action_point import ActionPointHandler
@@ -8,7 +9,13 @@ from module.os_handler.port import PORT_CHECK
 from module.ui.assets import BACK_ARROW
 
 ZONE_TYPES = [ZONE_DANGEROUS, ZONE_SAFE, ZONE_OBSCURE, ZONE_ABYSSAL, ZONE_STRONGHOLD, ZONE_ARCHIVE]
-ZONE_SELECT = [SELECT_DANGEROUS, SELECT_SAFE, SELECT_OBSCURE, SELECT_ABYSSAL, SELECT_STRONGHOLD, SELECT_ARCHIVE]
+# Alternate font-rendering templates are shared by every capture backend.
+ZONE_SELECT = [
+    SELECT_DANGEROUS, SELECT_DANGEROUS_2,
+    SELECT_SAFE, SELECT_SAFE_2,
+    SELECT_OBSCURE, SELECT_OBSCURE_2,
+    SELECT_ABYSSAL, SELECT_STRONGHOLD, SELECT_ARCHIVE,
+]
 ASSETS_PINNED_ZONE = ZONE_TYPES + [ZONE_ENTRANCE, ZONE_SWITCH, ZONE_PINNED]
 
 
@@ -132,6 +139,13 @@ class GlobeOperation(ActionPointHandler):
     _zone_select_offset = (20, 200)
     _zone_select_similarity = 0.75
 
+    @classmethod
+    def _get_zone_select_button(cls, selection, typ):
+        for button in selection:
+            if cls.pinned_to_name(button) == typ:
+                return button
+        return None
+
     def get_zone_select(self):
         """
         Returns:
@@ -199,10 +213,13 @@ class GlobeOperation(ActionPointHandler):
             types (tuple[str], list[str], str): Zone types, or a list of them.
                 Available types: DANGEROUS, SAFE, OBSCURE, ABYSSAL, STRONGHOLD, ARCHIVE.
                 Try the the first selection in type list, if not available, try the next one.
-                Do nothing if no selection satisfied input.
+                Fall back to SAFE/DANGEROUS if no requested type is available.
 
         Returns:
-            bool: If success.
+            bool: True if selection is confirmed or switching is unnecessary.
+
+        Raises:
+            GameStuckError: If no fallback is recognized or selection cannot be confirmed.
 
         Pages:
             in: is_zone_pinned
@@ -217,9 +234,8 @@ class GlobeOperation(ActionPointHandler):
 
         def get_button(selection_):
             for typ in types:
-                typ = 'SELECT_' + typ
                 for sele in selection_:
-                    if typ == sele.name:
+                    if typ == self.pinned_to_name(sele):
                         return sele
             return None
 
@@ -239,12 +255,15 @@ class GlobeOperation(ActionPointHandler):
                 types = ('SAFE', 'DANGEROUS')
                 button = get_button(selection)
 
+            if button is None:
+                logger.warning('Zone has no target type to select')
+                continue
+
             self.zone_select_execute(button)
             if self.pinned_to_name(button) == self.get_zone_pinned_name():
                 return True
 
-        logger.warning('Failed to select zone type after 3 trial')
-        return False
+        raise GameStuckError('Failed to select zone type after 3 trials')
 
     def zone_has_safe(self):
         """
@@ -262,8 +281,11 @@ class GlobeOperation(ActionPointHandler):
             return True
         elif self.zone_has_switch():
             self.zone_select_enter()
-            flag = SELECT_SAFE in self.ensure_zone_select_expanded()
-            button = SELECT_SAFE if flag else SELECT_DANGEROUS
+            selection = self.ensure_zone_select_expanded()
+            button = self._get_zone_select_button(selection, 'SAFE')
+            flag = button is not None
+            if button is None:
+                button = self._get_zone_select_button(selection, 'DANGEROUS') or SELECT_DANGEROUS
             self.zone_select_execute(button)
             return flag
         else:
