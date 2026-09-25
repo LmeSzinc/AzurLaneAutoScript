@@ -116,8 +116,16 @@ class Device(Screenshot, Control, AppControl):
         self.resolution_check_uiautomator2()
         # Perform benchmark
         from module.daemon.benchmark import Benchmark
-        bench = Benchmark(config=self.config, device=self)
-        method = bench.run_simple_screenshot_benchmark()
+        # Benchmark will replace stuck detection to empty function
+        # recover them after run_simple_screenshot_benchmark
+        click_record_check = self.click_record_check
+        stuck_record_check = self.stuck_record_check
+        try:
+            bench = Benchmark(config=self.config, device=self)
+            method = bench.run_simple_screenshot_benchmark()
+        finally:
+            self.click_record_check = click_record_check
+            self.stuck_record_check = stuck_record_check
         # Set
         with self.config.multi_set():
             self.config.Emulator_ScreenshotMethod = method
@@ -153,9 +161,9 @@ class Device(Screenshot, Control, AppControl):
             if not (self.is_emulator and self.is_ldplayer_bluestacks_family):
                 logger.warning('ScreenshotMethod ldopengl is available on LD Player only, fallback to auto')
                 self.config.Emulator_ScreenshotMethod = 'auto'
-        # DroidCast is available on SDK 23 (Android 6.0) to SDK 32 (Android 12)
+        # DroidCast is available on SDK 23 (Android 6.0) to SDK 33 (Android 13)
         if self.config.Emulator_ScreenshotMethod in ['DroidCast', 'DroidCast_raw']:
-            if self.sdk_ver < 23 or self.sdk_ver > 32:
+            if self.sdk_ver < 23 or self.sdk_ver > 33:
                 logger.warning(f'ScreenshotMethod {self.config.Emulator_ScreenshotMethod} is available on '
                                f'Android 6.0 to 12 only (current sdk_ver={self.sdk_ver}), fallback to auto')
                 self.config.Emulator_ScreenshotMethod = 'auto'
