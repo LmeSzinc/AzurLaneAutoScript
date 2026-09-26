@@ -1,5 +1,6 @@
 from module.base.timer import Timer
 from module.base.utils import rgb2gray
+from module.campaign.assets import SWITCH_20241219_STORY
 from module.campaign.campaign_ui import CampaignUI
 from module.combat.combat import Combat
 from module.eventstory.assets import *
@@ -94,14 +95,26 @@ class EventStory(CampaignUI, Combat, LoginHandler):
             skip_first_screenshot:
 
         Returns:
-            str: 'battle' or 'finish'
+            str: 'battle', 'finish' or 'reset'
         """
         logger.hr('Event story', level=1)
+        # After a story is skipped, event story page may be swiped,
+        # putting the next entrance at the right side where no button matches
+        stuck_timer = Timer(5, count=10)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
                 self.device.screenshot()
+
+            # Stuck at event story page with no entrance clicked
+            if self.appear(SWITCH_20241219_STORY, offset=(30, 30)):
+                stuck_timer.start()
+                if stuck_timer.reached():
+                    logger.info('run_story end at event story page, no entrance found')
+                    return 'reset'
+            else:
+                stuck_timer.clear()
 
             # End
             if self.is_combat_executing() or self.is_combat_loading():
@@ -126,27 +139,32 @@ class EventStory(CampaignUI, Combat, LoginHandler):
                 self.story_skip_interval_clear()
                 self.popup_interval_clear()
                 self.device.click_record_clear()
+                stuck_timer.clear()
                 continue
             if self.match_template_color(STORY_LAST, offset=(20, 20), interval=3):
                 self.device.click(STORY_LAST)
                 self.story_skip_interval_clear()
                 self.popup_interval_clear()
                 self.device.click_record_clear()
+                stuck_timer.clear()
                 continue
             if self.appear_then_click(STORY_MIDDLE, offset=(20, 200), interval=3):
                 self.story_skip_interval_clear()
                 self.popup_interval_clear()
                 self.device.click_record_clear()
+                stuck_timer.clear()
                 continue
             if self.appear_then_click(BATTLE_MIDDLE, offset=(20, 200), interval=3):
                 self.story_skip_interval_clear()
                 self.popup_interval_clear()
                 self.device.click_record_clear()
+                stuck_timer.clear()
                 continue
             if self.handle_event_20250724():
                 self.story_skip_interval_clear()
                 self.popup_interval_clear()
                 self.device.click_record_clear()
+                stuck_timer.clear()
                 continue
             # Secrets of the Abyss (event_20250814_cn)
             # popup after all story finished
@@ -158,11 +176,23 @@ class EventStory(CampaignUI, Combat, LoginHandler):
         Loop until event story finished
         Handle story battles
         """
+        reset = 0
         while 1:
             state = self.ui_goto_event_story()
             if state == 'finish':
                 break
             result = self.event_story()
+            if result == 'reset':
+                # ui_goto_event_story() switches mode to reset swipe.
+                # If that doesn't help, restart game to reset event story page
+                reset += 1
+                if reset > 2:
+                    logger.warning('Too many event story page reset, restart game')
+                    self.app_stop()
+                    self.app_start()
+                    reset = 0
+                continue
+            reset = 0
             if result == 'battle':
                 # Kill game is considered cleared battles
                 # It's much faster than waiting event battles
