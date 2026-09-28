@@ -13,8 +13,8 @@ class PrivateQuarters(PQInteract, PQShop):
     not_supported_filter = {
         'cn': (),
         'en': (),
-        'jp': ('nakhimov'),
-        'tw': ('taihou', 'nakhimov'),
+        'jp': ('nakhimov', 'implacable'),
+        'tw': ('taihou', 'nakhimov', 'implacable'),
     }
 
     def _pq_get_daily_count(self, retry=3):
