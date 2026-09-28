@@ -1116,6 +1116,10 @@
     "Fleet2Oath": {
       "name": "Fleet 2 All Oath",
       "help": "+10/hr emotion recovery is included into calculation"
+    },
+    "DormOcr": {
+      "name": "Read actual emotion from dorm",
+      "help": "When enabled, Alas enters the dorm before the first sortie of a task and corrects its calculated emotion with the value read there. Prevents low emotion popups caused by the drift of the calculated value. No further checks during combat, and only fleets whose recover location is the dormitory are synced."
     }
   },
   "HpControl": {
