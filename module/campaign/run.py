@@ -98,6 +98,10 @@ class CampaignRun(CampaignEvent):
                 logger.hr('Triggered stop condition: Oil limit')
                 self.config.task_delay(minute=(120, 240))
                 return True
+        # Coin limit
+        if oil_check and self.coin_limit_triggered():
+            logger.hr('Triggered stop condition: Coin limit')
+            return True
         # Auto search oil limit
         if self.campaign.auto_search_oil_limit_triggered:
             logger.hr('Triggered stop condition: Auto search oil limit')
