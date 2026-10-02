@@ -174,6 +174,10 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                     map_click += 1
                     map_timer.reset()
                     campaign_timer.reset()
+                    # always clear self.map_fleet_checked after MAP_PREPARATION
+                    # we will enter FLEET_PREPARATION very soon,
+                    # fleets get reset when leaving FLEET_PREPARATION, it only get stored after entering stage,
+                    self.map_fleet_checked = False
                     continue
 
                 # Fleet preparation
