@@ -188,6 +188,11 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                         self.handle_auto_submarine_call_disable()
                         self.handle_auto_search_setting()
                         self.map_fleet_checked = True
+                        # re-check FLEET_PREPARATION after tons of preparation clicks
+                        # and also update FLEET_PREPARATION.button because fleet_bar re-detected it as avoid_area
+                        if not self.appear(FLEET_PREPARATION, offset=(20, 50)):
+                            logger.warning('FLEET_PREPARATION button disappeared after fleet_preparation()')
+                            continue
                     self.device.click(FLEET_PREPARATION)
                     fleet_click += 1
                     fleet_timer.reset()
