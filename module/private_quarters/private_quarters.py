@@ -14,7 +14,7 @@ class PrivateQuarters(PQInteract, PQShop):
         'cn': (),
         'en': (),
         'jp': ('nakhimov', 'implacable'),
-        'tw': ('taihou', 'nakhimov', 'implacable'),
+        'tw': ('implacable'),
     }
 
     def _pq_get_daily_count(self, retry=3):
