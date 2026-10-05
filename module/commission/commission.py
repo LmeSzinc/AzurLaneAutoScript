@@ -1,8 +1,11 @@
 import copy
 from datetime import datetime, timedelta
 
+import numpy as np
+
 from scipy import signal
 
+from module.base.button import Button, ButtonGrid
 from module.base.timer import Timer
 from module.base.utils import *
 from module.combat.assets import *
@@ -17,9 +20,10 @@ from module.handler.assets import POPUP_CANCEL, POPUP_CONFIRM
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
-from module.retire.assets import DOCK_CHECK
-from module.retire.dock import CARD_GRIDS, DOCK_SCROLL, Dock, OCR_DOCK_SELECTED
-from module.retire.scanner import ShipScanner
+from module.retire.assets import DOCK_CHECK, SORTING_CLICK
+from module.combat.level import LevelOcr
+from module.retire.dock import CARD_GRIDS, DOCK_SCROLL, DOCK_SORTING, Dock, OCR_DOCK_SELECTED
+from module.retire.scanner import FleetScanner, LevelScanner
 from module.ui.assets import BACK_ARROW, REWARD_GOTO_COMMISSION
 from module.ui.page import page_commission, page_reward
 from module.ui.scroll import Scroll
@@ -32,19 +36,58 @@ COMMISSION_SWITCH.add_state('daily', COMMISSION_DAILY)
 COMMISSION_SWITCH.add_state('urgent', COMMISSION_URGENT)
 COMMISSION_SCROLL = Scroll(COMMISSION_SCROLL_AREA, color=(247, 211, 66), name='COMMISSION_SCROLL')
 
+# First ship slot of the commission detail pane, clicking it opens the ship
+# dock. The pane is located through the orange COMMISSION_ADVICE button at a
+# fixed distance (ADVICE centre 935,352 -> slot centre 270,347); slot colors
+# change once recommend fills ships in, so this button must never be matched
+# by color, area/color below are placeholders for the constructor only.
+COMMISSION_SHIP_SLOT = Button(
+    area=(229, 306, 311, 388), color=(127, 134, 150),
+    button=(229, 306, 311, 388), name='COMMISSION_SHIP_SLOT')
+
+# TEMP TEST (2026-09-30): skip Recommend and enter the dock straight from the
+# first ship slot, so the manual pick can be observed live. Set False to
+# restore the normal recommend-first flow.
+COMMISSION_TEST_DIRECT_DOCK = True
+
 # Commissions that can not be started (e.g. level-capped) are given up after a
 # short wait rather than looping until GameStuckError restarts the game.
 COMMISSION_SKIP_AFTER_RECOMMEND = 5   # Start still grey this long after Recommend.
 COMMISSION_SKIP_TIMEOUT = 90          # Absolute cap for one commission.
 COMMISSION_SKIP_MAX_RECOMMEND = 3     # Recommend clicks before the flashing bug.
 
-# Dock pages scanned for a fill ship (AutoPickShip).
-COMMISSION_DOCK_SCAN_PAGES = 6
-
-# Rarity ranking for the pick fallback; common (white) is dropped, blue+ only.
-_RARITY_ORDER = {'': 0, 'common': 1, 'rare': 2, 'elite': 3, 'super_rare': 4}
-# Pick fallback skips white (common); blue (rare) is the lowest it takes.
-_COMMISSION_PICK_MIN_RARITY = 'rare'
+# Filter panel of the commission ship dock, calibrated on 1280x720 cn
+# screenshots (2026-09-30). States are read back from the area mean color.
+DOCK_FILTER_OPEN = Button(area=(1088, 5, 1177, 45), color=(96, 124, 168),
+                          button=(1088, 5, 1177, 45), name='DOCK_FILTER_OPEN')
+DOCK_FILTER_LEVEL = Button(area=(360, 28, 505, 78), color=(199, 144, 62),
+                           button=(360, 28, 505, 78), name='DOCK_FILTER_LEVEL')
+DOCK_FILTER_CONFIRM = Button(area=(712, 642, 888, 702), color=(64, 99, 160),
+                             button=(712, 642, 888, 702), name='DOCK_FILTER_CONFIRM')
+DOCK_FILTER_CANCEL_AREA = (400, 650, 560, 695)
+DOCK_FILTER_CANCEL = Button(area=(390, 642, 567, 702), color=(160, 84, 84),
+                            button=(390, 642, 567, 702), name='DOCK_FILTER_CANCEL')
+DOCK_FILTER_ALL_RARITY = Button(area=(218, 427, 357, 469), color=(131, 142, 154),
+                                button=(218, 427, 357, 469), name='DOCK_FILTER_ALL_RARITY')
+DOCK_FILTER_RARITY = {
+    'common': Button(area=(365, 427, 505, 469), color=(103, 132, 175),
+                     button=(365, 427, 505, 469), name='FILTER_COMMON'),
+    'rare': Button(area=(512, 427, 652, 469), color=(103, 132, 175),
+                   button=(512, 427, 652, 469), name='FILTER_RARE'),
+    'elite': Button(area=(659, 427, 799, 469), color=(103, 132, 175),
+                    button=(659, 427, 799, 469), name='FILTER_ELITE'),
+    'super_rare': Button(area=(806, 427, 946, 469), color=(103, 132, 175),
+                         button=(806, 427, 946, 469), name='FILTER_SUPER_RARE'),
+    'ultra': Button(area=(953, 427, 1093, 469), color=(103, 132, 175),
+                    button=(953, 427, 1093, 469), name='FILTER_ULTRA'),
+}
+# Rarity stages walked from the user's minimum upward.
+_COMMISSION_RARITY_STAGES = ['common', 'rare', 'elite', 'super_rare', 'ultra']
+# One page turn is one viewport dragged on the scrollbar itself, the dark
+# row gap is measured afterwards and corrected onto the OCR grid lines.
+CARD_GRIDS_ROW3 = ButtonGrid(
+    origin=(93, 530), delta=(164 + 2 / 3, 227), button_shape=(138, 204),
+    grid_shape=(7, 1), name='CARD_ROW3')
 
 # Minimum ship level each commission demands (at least ONE ship at or above
 # it, per the game's own auto-fill rule). CN names as OCR'd; unknown -> 0.
@@ -84,15 +127,28 @@ _COMMISSION_LEVEL_SINGLE = {
     '小型观舰仪式': 20, '联合观舰仪式': 45, '同盟观舰仪式': 80,
     '歼灭敌侦查部队': 12, '歼灭敌主力部队': 35, '歼灭敌精锐部队': 60,
 }
-_ROMAN_TRANS = str.maketrans({'Ⅰ': 'I', 'Ⅱ': 'II', 'Ⅲ': 'III',
-                              'Ⅳ': 'IV', 'Ⅴ': 'V', 'Ⅵ': 'VI'})
+_ROMAN_MAP = {'Ⅰ': 'I', 'Ⅱ': 'II', 'Ⅲ': 'III',
+              'Ⅳ': 'IV', 'Ⅴ': 'V', 'Ⅵ': 'VI'}
+_ROMAN_TRANS = str.maketrans(_ROMAN_MAP)
 
 
 def commission_level_requirement(name):
     """Minimum ship level the commission demands (>=1 ship), 0 if unknown."""
-    name = (name or '').upper().replace(' ', '')
-    name = re.sub(r'[「」『』“”\'\"（）()]', '', name)
-    name = name.translate(_ROMAN_TRANS)
+    raw = (name or '').upper().replace(' ', '')
+    raw = re.sub(r'[「」『』“”\'\“（）()]', '', raw)
+    # OCR splits one roman glyph into ascii letters plus a numeral character
+    # (敌袭IⅡ is 敌袭Ⅱ), so the last unicode numeral decides the threat and
+    # the ascii letters in front of it belong to the same glyph.
+    numerals = list(re.finditer(r'[ⅠⅡⅢⅣⅤⅥ]', raw))
+    if numerals:
+        last = numerals[-1]
+        # 敌袭IⅡ: the ascii letters before the glyph are part of it, the
+        # group key is what is left of the whole numeral.
+        group = _COMMISSION_LEVEL_GROUP.get(raw[:last.start()].rstrip('IV'))
+        if group:
+            return group.get(_ROMAN_MAP[last.group()], 0)
+        return 0
+    name = raw.translate(_ROMAN_TRANS)
     for key, value in _COMMISSION_LEVEL_SINGLE.items():
         if name.startswith(key):
             return value
@@ -102,7 +158,6 @@ def commission_level_requirement(name):
         if group:
             return group.get(match.group(1), 0)
     return 0
-
 
 def lines_detect(image):
     """
@@ -276,6 +331,14 @@ class RewardCommission(Dock, UI, InfoHandler):
         return True
 
     def _commission_ensure_mode(self, mode):
+        # Switch.set has no retry limit: off the commission list it clicks the
+        # same button until GameTooManyClickError restarts the game. Take a
+        # fresh screenshot first, a cached frame still shows the commission
+        # list after the page has already been left.
+        self.device.screenshot()
+        if not COMMISSION_SWITCH.appear(main=self):
+            logger.warning('Not on the commission list, mode switch skipped')
+            return False
         if COMMISSION_SWITCH.set(mode, main=self):
             # If daily list has commissions > 4, usually to be 5, and 1 <= urgent <= 4
             # commission list will have an animation to scroll,
@@ -298,6 +361,9 @@ class RewardCommission(Dock, UI, InfoHandler):
 
     def _commission_mode_reset(self):
         logger.hr('Commission mode reset')
+        # The cached screenshot can be older than the last click, and a stale
+        # frame makes the switch click on a page that is not the commission list.
+        self.device.screenshot()
         if self.appear(COMMISSION_DAILY):
             current, another = 'daily', 'urgent'
         elif self.appear(COMMISSION_URGENT):
@@ -422,63 +488,249 @@ class RewardCommission(Dock, UI, InfoHandler):
         self.device.screenshot()
 
     def _commission_dock_click_ship(self, button, select=True, allow_fleet=False):
-        """Click a card and verify the selected counter moved; undo a wrong
-        toggle with one restore click. Returns False if it did not move."""
-        for _ in range(2):
-            self.device.screenshot()
-            before, _ = self._commission_dock_ship_count()
-            if before < 0:
-                # A counter that can not be read makes every click a guess.
-                return False
-            self.device.click(button)
-            self.device.sleep(0.4)
-            self.device.screenshot()
-            if self._commission_dock_fleet_question():
-                if not allow_fleet:
-                    # The card belongs to a fleet and this option never takes a
-                    # ship out of one, so the card is left alone.
-                    self._commission_dock_answer_fleet_question(confirm=False)
-                    return False
-                logger.warning('The ship belongs to a fleet, '
-                               'taking it out of that fleet to use it here')
-                self._commission_dock_answer_fleet_question(confirm=True)
-                after, _ = self._commission_dock_ship_count()
-                if after < 0:
-                    return False
-                return (after == before + 1) if select else (after == before - 1)
-            if self.handle_popup_confirm('COMMISSION_DOCK_SHIP'):
-                # A ship the game refuses answers with a popup instead of a
-                # selection, dismissing it leaves the counter where it was.
-                return False
+        """Click a card once, answer popups, and return the selected counter
+        after the click; -1 when unreadable or the game refused the ship.
+        The caller compares it with the count before the click."""
+        before, _ = self._commission_dock_ship_count()
+        if before < 0:
+            return -1
+        self.device.click(button)
+        self.device.sleep(0.4)
+        self.device.screenshot()
+        if self._commission_dock_fleet_question():
+            if not allow_fleet:
+                # The card belongs to a fleet and this option never takes a
+                # ship out of one, so the card is left alone.
+                self._commission_dock_answer_fleet_question(confirm=False)
+                return -1
+            logger.warning('The ship belongs to a fleet, '
+                           'taking it out of that fleet to use it here')
+            self._commission_dock_answer_fleet_question(confirm=True)
             after, _ = self._commission_dock_ship_count()
-            if after < 0:
-                return False
-            if (after == before + 1) if select else (after == before - 1):
-                return True
-            # The card was already in the wanted state or the click landed on
-            # nothing, one more click brings the counter back.
-            self.device.click(button)
-            self.device.sleep(0.4)
+            return after
+        if self.handle_popup_confirm('COMMISSION_DOCK_SHIP'):
+            # A ship the game refuses answers with a popup instead of a
+            # selection, dismissing it leaves the counter where it was.
+            return -1
+        after, _ = self._commission_dock_ship_count()
+        return after
+
+    def _commission_protected_fleets(self):
+        """Fleets used by any enabled scheduler task must not be raided, the
+        task would lose those ships on its next sortie."""
+        fleets = set()
+        try:
+            data = self.config.data
+        except Exception:
+            return fleets
+        for node in data.values():
+            if not isinstance(node, dict):
+                continue
+            if not node.get('Scheduler', {}).get('Enable'):
+                continue
+            stack = [node]
+            while stack:
+                d = stack.pop(0)
+                for key, value in d.items():
+                    if isinstance(value, dict):
+                        stack.append(value)
+                        continue
+                    if not isinstance(value, int) or not 1 <= value <= 6:
+                        continue
+                    if key in ('Fleet1', 'Fleet2', 'Fleet') or key.endswith('Fleet'):
+                        fleets.add(value)
+        return fleets
+
+    def _commission_dock_ship_occupied(self, button):
+        """True when the card carries a red occupation banner such as
+        大型作战中. The banner is a solid strip, card art never forms one."""
+        image = np.asarray(self.device.image).astype(int)
+        x0, y0, x1, y1 = button.area
+        strip = image[y0 + 118:y0 + 170, x0:x1]
+        red = (strip[:, :, 0] > 90) & (strip[:, :, 0] > strip[:, :, 1] + 20) \
+            & (strip[:, :, 0] > strip[:, :, 2] + 20)
+        rows = 0
+        for line in red:
+            run = best = 0
+            for v in line:
+                run = run + 1 if v else 0
+                best = max(best, run)
+            if best >= 85:
+                rows += 1
+                if rows >= 2:
+                    return True
         return False
 
-    def _commission_dock_scan(self, allow_fleet, sort_key=None):
-        """Scan the visible dock page for free ships, fleet ships last."""
-        scanner = ShipScanner(
-            level=(1, 125),
-            fleet=None if allow_fleet else 0,
-            status='free')
-        # Rarity is needed by the pick fallback, keep it on; emotion is unused.
-        scanner.disable('emotion')
-        ships = scanner.scan(self.device.image, output=False)
-        if sort_key is None:
-            sort_key = lambda s: -s.level
-        # Ships outside every fleet always come first.
-        ships.sort(key=lambda s: (s.fleet != 0, sort_key(s)))
+    def _commission_dock_scan_page(self, level_scanner, fleet_scanner):
+        """Read the top two card rows: level OCR, fleet badge, occupation."""
+        image = self.device.image
+        levels = level_scanner.scan(image)
+        fleets = fleet_scanner.scan(image)
+        ships = []
+        for idx, button in enumerate(CARD_GRIDS.buttons):
+            ships.append({
+                'idx': idx,
+                'level': int(levels[idx]) if idx < len(levels) else 0,
+                'fleet': fleets[idx] if idx < len(fleets) else 0,
+                'occupied': self._commission_dock_ship_occupied(button),
+                'button': button,
+            })
         return ships
 
+    def _commission_dock_scan_row3(self, row3_scanner):
+        """Read the third card row, only valid at the bottom of the list.
+        Its fleet badge is cut by the bottom bar, so it reports no fleet."""
+        image = self.device.image
+        levels = row3_scanner.scan(image)
+        ships = []
+        for idx, button in enumerate(CARD_GRIDS_ROW3.buttons):
+            ships.append({
+                'idx': 14 + idx,
+                'level': int(levels[idx]) if idx < len(levels) else 0,
+                'occupied': self._commission_dock_ship_occupied(button),
+                'button': button,
+            })
+        return ships
+
+    def _commission_dock_wait_stable(self, timeout=4):
+        """Wait until the scrollbar stops moving, the list has settled."""
+        timer = Timer(timeout)
+        timer.reset()
+        last = None
+        while not timer.reached():
+            self.device.screenshot()
+            position = DOCK_SCROLL.cal_position(main=self)
+            if last is not None and abs(position - last) < 0.01:
+                return True
+            last = position
+        return False
+
+    def _commission_dock_gap_offset(self):
+        """Distance of the dark gap below row one from its aligned position
+        (centre 292), None when no gap shows in the window."""
+        image = np.asarray(self.device.image).astype(float)
+        band = image[240:344, 93:1219].mean(axis=2).mean(axis=1)
+        if band.min() > 110:
+            return None
+        return int(np.argmin(band)) + 240 - 292
+
+    def _commission_dock_align(self):
+        """The thumb drag lands within a row but not exactly on the grid
+        lines; measure the gap and correct with a small slow swipe."""
+        for _ in range(3):
+            self.device.screenshot()
+            offset = self._commission_dock_gap_offset()
+            if offset is None:
+                # No gap in the window, aligned or at the list edge, the
+                # caller reads what is visible either way.
+                return True
+            if abs(offset) <= 4:
+                return True
+            self.device.swipe((650, 400), (650, 400 - offset), name='DOCK_ALIGN')
+            self._commission_dock_wait_stable()
+        return False
+
+    def _commission_filter_panel_open(self):
+        """The panel is up when its own red cancel button covers this area."""
+        image = np.asarray(self.device.image).astype(int)
+        x0, y0, x1, y1 = DOCK_FILTER_CANCEL_AREA
+        button = image[y0:y1, x0:x1]
+        mean = button.mean(axis=(0, 1))
+        return mean[0] > 110 and mean[0] > mean[2] + 35
+
+    def _commission_filter_rarity_selected(self, button):
+        """Selected filter buttons turn bright blue, idle ones stay gray."""
+        image = np.asarray(self.device.image).astype(int)
+        x0, y0, x1, y1 = button.area
+        area = image[y0:y1, x0:x1]
+        return float(area[:, :, 2].mean() - area[:, :, 0].mean()) > 50
+
+    def _commission_dock_set_filter(self, stage, descending):
+        """Set the rarity stage through the game's own filter panel, sorting
+        by level. False when the panel could not be controlled."""
+        for _ in range(3):
+            if self._commission_filter_panel_open():
+                break
+            self.device.click(DOCK_FILTER_OPEN)
+            self.device.sleep(0.8)
+            self.device.screenshot()
+        if not self._commission_filter_panel_open():
+            logger.warning('Dock filter panel did not open')
+            return False
+        # 等级 must be the active sort type before stages make any sense.
+        if not self._commission_filter_sort_is_level():
+            self.device.click(DOCK_FILTER_LEVEL)
+            self.device.sleep(0.4)
+            self.device.screenshot()
+        if self._commission_filter_rarity_selected(DOCK_FILTER_ALL_RARITY):
+            self.device.click(DOCK_FILTER_ALL_RARITY)
+            self.device.sleep(0.3)
+            self.device.screenshot()
+        for name, button in DOCK_FILTER_RARITY.items():
+            if name == stage:
+                continue
+            if self._commission_filter_rarity_selected(button):
+                logger.info(f'Dock filter deselect rarity: {name}')
+                self.device.click(button)
+                self.device.sleep(0.3)
+                self.device.screenshot()
+        if not self._commission_filter_rarity_selected(DOCK_FILTER_RARITY[stage]):
+            self.device.click(DOCK_FILTER_RARITY[stage])
+            self.device.sleep(0.4)
+            self.device.screenshot()
+        if not self._commission_filter_rarity_selected(DOCK_FILTER_RARITY[stage]):
+            logger.warning(f'Dock filter stage {stage} did not select')
+            self.device.click(DOCK_FILTER_CANCEL)
+            return False
+        logger.attr('Dock filter stage', stage)
+        self.device.click(DOCK_FILTER_CONFIRM)
+        timer = Timer(3)
+        timer.reset()
+        while not timer.reached():
+            self.device.screenshot()
+            if not self._commission_filter_panel_open():
+                break
+        self.handle_dock_cards_loading()
+        self._commission_dock_set_sort(descending)
+        return True
+
+    def _commission_dock_sort_direction(self):
+        """Read the little arrow next to the sorting button, unknown when
+        neither arrow pixel matches."""
+        image = np.asarray(self.device.image).astype(int)
+        for name, (x0, y0, x1, y1) in (('asc', (1014, 22, 1020, 27)),
+                                       ('desc', (1014, 29, 1020, 34))):
+            pixel = image[y0:y1, x0:x1]
+            if np.abs(pixel.mean(axis=(0, 1)) - np.array([189, 207, 231])).mean() < 35:
+                return name
+        return 'unknown'
+
+    def _commission_dock_set_sort(self, descending):
+        """Point the arrow to the wanted direction with a bounded retry,
+        never blind clicking when the arrow is unreadable."""
+        target = 'desc' if descending else 'asc'
+        for _ in range(3):
+            self.device.screenshot()
+            current = self._commission_dock_sort_direction()
+            if current == target:
+                return True
+            if current == 'unknown':
+                logger.warning('Dock sorting arrow unreadable, direction not set')
+                return False
+            self.device.click(SORTING_CLICK)
+            self.device.sleep(0.6)
+        logger.warning('Dock sorting direction did not settle')
+        return False
+
+    def _commission_filter_sort_is_level(self):
+        image = np.asarray(self.device.image).astype(int)
+        area = image[35:72, 370:495]
+        mean = area.mean(axis=(0, 1))
+        return mean[0] > 150 and mean[0] > mean[2] + 40
+
     def _commission_wait_dock(self, timeout=10):
-        """Wait for the dock to open after a grey start. Returns False if the
-        game refused the start and the commission is truly unstartable."""
+        """Wait for the dock to open after clicking a ship slot. Returns False
+        when the dock never shows up."""
         timer = Timer(timeout)
         timer.reset()
         while not timer.reached():
@@ -490,78 +742,172 @@ class RewardCommission(Dock, UI, InfoHandler):
                 return False
         return self.appear(DOCK_CHECK, offset=(20, 20))
 
-    def _commission_dock_pick_ships(self, comm=None):
-        """Fill the slots by hand with ships at or above the rarity the user
-        picks, locked ones included. One ship meeting the commission's level
-        requirement is picked first; False when the slots could not be filled."""
-        logger.hr('Commission dock pick')
-        required = commission_level_requirement(comm.name) if comm is not None else 0
-
-        def pick(allow_fleet):
-            self.handle_dock_cards_loading()
-            DOCK_SCROLL.set_top(main=self)
-            count, total = self._commission_dock_ship_count()
-            if count < 0 or total <= 0:
-                logger.warning('Dock selected counter unreadable')
+    def _commission_dock_fill_stage(self, allow_fleet, protected, required,
+                                    scanners, picked):
+        """Fill slots from one rarity stage, paging one viewport at a time
+        and reading the top two rows only. A card already picked stays
+        selected across the rarity stages and must never be clicked again,
+        the second click would deselect it."""
+        level_scanner, fleet_scanner, row3_scanner = scanners
+        count, total = self._commission_dock_ship_count()
+        if count < 0 or total <= 0:
+            logger.warning('Dock selected counter unreadable')
+            return False
+        if count >= total:
+            return True
+        swipes = 0
+        while 1:
+            if not self.appear(DOCK_CHECK, offset=(20, 20)):
+                # A full pick can close the dock by itself, stop instead of
+                # scanning whatever screen is left behind.
+                logger.warning('Dock closed during the scan, stop picking')
                 return False
-            if count >= total:
-                # Slots full but Start grey: the picked ships miss the level
-                # requirement. Free the first card to take one that meets it.
-                if required <= 1:
-                    return True
-                if not self._commission_dock_click_ship(CARD_GRIDS[(0, 0)], select=False):
-                    logger.warning('Could not free a slot, first card not selected')
-                    return False
-                count -= 1
-            floor = _RARITY_ORDER.get(
-                self.config.Commission_PickMinRarity,
-                _RARITY_ORDER[_COMMISSION_PICK_MIN_RARITY])
-            high_first = self.config.Commission_PickLevelOrder == 'high_first'
-            sort_key = lambda s: (_RARITY_ORDER.get(s.rarity, 0),
-                                  -s.level if high_first else s.level)
-            if required:
-                logger.info(f'Commission level requirement: Lv{required}+')
-            # One qualifying ship goes first, the remaining slots follow the
-            # user's own preference.
-            required_done = not required
-            for _ in range(COMMISSION_DOCK_SCAN_PAGES):
-                for ship in self._commission_dock_scan(allow_fleet, sort_key=sort_key):
-                    if count >= total:
-                        break
-                    # Skip ships below the rarity floor the user picked.
-                    if _RARITY_ORDER.get(ship.rarity, 0) < floor:
-                        continue
-                    if not required_done:
-                        if ship.level < required:
-                            continue
-                        # A ship the recommend already selected would
-                        # toggle off, the click helper restores it.
-                        if self._commission_dock_click_ship(ship.button, allow_fleet=allow_fleet):
-                            count += 1
-                            required_done = True
-                            logger.attr('Level ship picked', f'Lv{ship.level}')
-                        continue
-                    if self._commission_dock_click_ship(ship.button, allow_fleet=allow_fleet):
-                        count += 1
-                        logger.attr('Picked ship', f'Lv{ship.level} {ship.rarity}')
+            for ship in self._commission_dock_scan_page(level_scanner, fleet_scanner):
                 if count >= total:
                     break
-                if DOCK_SCROLL.at_bottom(main=self):
-                    break
-                DOCK_SCROLL.next_page(main=self)
-            if not required_done:
-                logger.warning(f'No ship meets Lv{required}+, cannot start')
-            return count >= total
+                if ship['idx'] in picked:
+                    continue
+                if ship['occupied']:
+                    continue
+                if not allow_fleet and ship['fleet']:
+                    continue
+                if allow_fleet and ship['fleet'] and ship['fleet'] in protected:
+                    continue
+                if not 1 <= ship['level'] <= 125 or ship['level'] < required:
+                    continue
+                after = self._commission_dock_click_ship(
+                    ship['button'], allow_fleet=allow_fleet)
+                if after < 0:
+                    continue
+                if after == count - 1:
+                    # A card the recommend already selected, the click
+                    # deselected it, bring it back and do not count it.
+                    self.device.click(ship['button'])
+                    self.device.sleep(0.4)
+                    self.device.screenshot()
+                    restored, _ = self._commission_dock_ship_count()
+                    if restored >= 0:
+                        count = restored
+                    continue
+                count = after
+                picked.add(ship['idx'])
+                logger.attr('Picked ship', f'Lv{ship["level"]} fleet{ship["fleet"]}')
+            if count >= total:
+                return True
+            if DOCK_SCROLL.at_bottom(main=self):
+                # The last row peeks above the bottom bar, its fleet badge is
+                # cut off so raiding fleets skips it.
+                if not allow_fleet:
+                    for ship in self._commission_dock_scan_row3(row3_scanner):
+                        if count >= total:
+                            break
+                        if ship['idx'] in picked:
+                            continue
+                        if ship['occupied']:
+                            continue
+                        if not 1 <= ship['level'] <= 125 or ship['level'] < required:
+                            continue
+                        after = self._commission_dock_click_ship(
+                            ship['button'], allow_fleet=False)
+                        if after < 0:
+                            continue
+                        if after == count - 1:
+                            self.device.click(ship['button'])
+                            self.device.sleep(0.4)
+                            self.device.screenshot()
+                            restored, _ = self._commission_dock_ship_count()
+                            if restored >= 0:
+                                count = restored
+                            continue
+                        count = after
+                        picked.add(ship['idx'])
+                        logger.attr('Picked ship', f'Lv{ship["level"]} (bottom row)')
+                return count >= total
+            before = DOCK_SCROLL.cal_position(main=self)
+            if not DOCK_SCROLL.drag_page(1.0, main=self):
+                logger.warning('Dock scrollbar did not move, stop paging')
+                return False
+            swipes += 1
+            if swipes % 6 == 0:
+                # Paging can take many drags, keep the click guard quiet.
+                self.device.click_record_clear()
+            self._commission_dock_wait_stable()
+            if abs(DOCK_SCROLL.cal_position(main=self) - before) < 0.005:
+                logger.warning('Dock scrollbar did not move, stop paging')
+                return False
+            if not self._commission_dock_align():
+                logger.warning('Dock page did not align, stop paging')
+                return False
 
-        if not pick(allow_fleet=False):
-            if self.config.Commission_NoFreeShipPolicy != 'use_fleet':
-                logger.warning(
-                    'Not enough free ships to fill the commission, '
-                    'skip per NoFreeShipPolicy')
+    def _commission_dock_pick_ships(self, comm=None):
+        """Fill the slots by hand through the dock's own filter panel: sorted
+        by level, walking rarity stages from the user's minimum upward, free
+        ships only until every stage runs out. Fleets are raided last, never
+        the ones other enabled tasks use."""
+        logger.hr('Commission dock pick')
+        required = commission_level_requirement(comm.name) if comm is not None else 0
+        if required:
+            logger.info(f'Commission level requirement: Lv{required}+')
+        # High requirements find nothing in low levels, read the list from
+        # the top instead of paging through hundreds of lesser ships.
+        descending = required >= 100
+        min_rarity = self.config.Commission_PickMinRarity
+        if min_rarity not in _COMMISSION_RARITY_STAGES:
+            min_rarity = 'rare'
+        stages = _COMMISSION_RARITY_STAGES[_COMMISSION_RARITY_STAGES.index(min_rarity):]
+        protected = self._commission_protected_fleets()
+        if protected:
+            logger.attr('Protected fleets', sorted(protected))
+        level_scanner = LevelScanner()
+        fleet_scanner = FleetScanner()
+        row3_grids = CARD_GRIDS_ROW3.crop(area=(77, 5, 138, 27), name='LEVEL_ROW3')
+        row3_scanner = LevelScanner()
+        row3_scanner.grids = row3_grids
+        row3_scanner.ocr_model = LevelOcr(row3_grids.buttons, name='DOCK_LEVEL_OCR', threshold=64)
+        scanners = (level_scanner, fleet_scanner, row3_scanner)
+
+        count, total = self._commission_dock_ship_count()
+        if count < 0 or total <= 0:
+            logger.warning('Dock selected counter unreadable')
+            return False
+        if count >= total and required <= 1:
+            self.dock_select_confirm(check_button=COMMISSION_ADVICE)
+            return True
+        if count >= total:
+            # Slots full but Start grey: the picked ships miss the level
+            # requirement. Free the first card to take one that meets it.
+            after = self._commission_dock_click_ship(CARD_GRIDS[(0, 0)], select=False)
+            if after != count - 1:
+                logger.warning('Could not free a slot, first card not selected')
                 return False
+            count = after
+
+        picked = set()
+
+        def fill(allow_fleet):
+            for stage in stages:
+                current, _ = self._commission_dock_ship_count()
+                if current >= total:
+                    return True
+                if not self._commission_dock_set_filter(stage, descending):
+                    logger.warning(f'Dock filter stage {stage} failed, next stage')
+                    continue
+                if self._commission_dock_fill_stage(
+                        allow_fleet, protected, required, scanners, picked):
+                    return True
+            return False
+
+        picked = fill(allow_fleet=False)
+        if not picked and self.config.Commission_NoFreeShipPolicy == 'use_fleet':
             logger.info('Retrying the pick with fleet ships allowed')
-            if not pick(allow_fleet=True):
+            self.device.click_record_clear()
+            picked = fill(allow_fleet=True)
+        if not picked:
+            count, _ = self._commission_dock_ship_count()
+            if count <= 0:
+                logger.warning('No ship picked for the commission, skip')
                 return False
+            logger.warning(f'Ships still short ({count}/{total}), start anyway')
         self.dock_select_confirm(check_button=COMMISSION_ADVICE)
         return True
 
@@ -605,13 +951,19 @@ class RewardCommission(Dock, UI, InfoHandler):
                 # not meet the requirement, so give up on this commission.
                 if self.match_template_color(COMMISSION_START, offset=(5, 20)):
                     recommend_timer = None
-                elif self.config.Commission_AutoPickShip and not enter_dock_tried:
-                    # Start still grey after recommend: confirm it to enter the
-                    # dock and pick ships by hand instead of giving up.
-                    logger.info('Recommend left start grey, confirming to enter dock')
+                elif self.config.Commission_AutoPickShip and not enter_dock_tried \
+                        and self.match_template_color(COMMISSION_ADVICE, offset=(10, 10)):
+                    # Start still grey after recommend: open the dock from the
+                    # first ship slot, the dock takes up to six ships at once.
+                    # Gated on the orange Recommend button, the slot row sits a
+                    # fixed distance left of it and is clicked blind by design.
+                    logger.info('Recommend left start grey, entering dock from the first ship slot')
                     enter_dock_tried = True
-                    self.device.click(COMMISSION_START)
-                    self._commission_wait_dock()
+                    COMMISSION_SHIP_SLOT.clear_offset()
+                    self.device.click(COMMISSION_SHIP_SLOT)
+                    if not self._commission_wait_dock():
+                        logger.warning(f'Dock did not open from the ship slot, skip: {comm.name}')
+                        return False
                     recommend_timer = None
                     comm_timer.reset()
                     continue
@@ -620,9 +972,9 @@ class RewardCommission(Dock, UI, InfoHandler):
                     # or every enabled option was tried in the dock and Start is
                     # still grey. Skipping is never the first move.
                     logger.warning(f'Ships do not meet the requirement, skip: {comm.name}')
-                    # Step back to the commission list only if we entered the
-                    # dock; otherwise we are already on it.
-                    if enter_dock_tried:
+                    # Leave the dock only when the dock is what is on screen, the
+                    # back arrow of the detail pane quits the whole page.
+                    if self.appear(DOCK_CHECK, offset=(20, 20)):
                         self.device.click(BACK_ARROW)
                         self.device.sleep(1)
                     return False
@@ -668,6 +1020,19 @@ class RewardCommission(Dock, UI, InfoHandler):
                         return False
                 else:
                     logger.warning('No selected commission detected, assuming correct')
+                if COMMISSION_TEST_DIRECT_DOCK and self.config.Commission_AutoPickShip:
+                    # TEMP TEST: click the first ship slot instead of Recommend,
+                    # the dock takes up to six ships so one slot is enough.
+                    logger.info('TEST: skipping recommend, entering dock from the first ship slot')
+                    enter_dock_tried = True
+                    COMMISSION_SHIP_SLOT.clear_offset()
+                    self.device.click(COMMISSION_SHIP_SLOT)
+                    if not self._commission_wait_dock():
+                        logger.warning(f'TEST: dock did not open from the ship slot, skip: {comm.name}')
+                        return False
+                    recommend_timer = None
+                    comm_timer.reset()
+                    continue
                 self.device.click(COMMISSION_ADVICE)
                 count += 1
                 recommend_timer = Timer(COMMISSION_SKIP_AFTER_RECOMMEND)
