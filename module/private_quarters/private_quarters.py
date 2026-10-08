@@ -13,7 +13,7 @@ class PrivateQuarters(PQInteract, PQShop):
     not_supported_filter = {
         'cn': (),
         'en': (),
-        'jp': ('nakhimov', 'implacable'),
+        'jp': (),
         'tw': ('implacable'),
     }
 
