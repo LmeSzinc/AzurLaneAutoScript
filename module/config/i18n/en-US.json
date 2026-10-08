@@ -788,18 +788,18 @@
       "event_20240425_cn": "Heart-Linking Harmony",
       "event_20240521_cn": "Light of the Martyrium Rerun",
       "event_20240725_cn": "Interlude of Illusions",
-      "event_20240815_cn": "Windborne Steel Wings",
+      "event_20240815_cn": "Windborne Steel Wings Rerun",
       "event_20240829_cn": "Whence Flowers Bear No Fruit",
-      "event_20240912_cn": "Ode of Everblooming Crimson",
+      "event_20240912_cn": "Ode of Everblooming Crimson Rerun",
       "event_20241024_cn": "Tempesta and the Sleeping Sea",
       "event_20241121_cn": "Dangerous Inventions Incoming",
-      "event_20241219_cn": "Substellar Crepuscule",
-      "event_20250227_cn": "Paradiso of Shackled Light",
+      "event_20241219_cn": "Substellar Crepuscule Rerun",
+      "event_20250227_cn": "Paradiso of Shackled Light Rerun",
       "event_20250424_cn": "Toward Tulipa’s Seas Rerun",
-      "event_20250520_cn": "A Rose on the High Tower",
+      "event_20250520_cn": "A Rose on the High Tower Rerun",
       "event_20250724_cn": "The Alchemist and the Tower of Horizons",
-      "event_20250814_cn": "Secrets of the Abyss",
-      "event_20250912_cn": "A Dance for Amahara Above",
+      "event_20250814_cn": "Secrets of the Abyss Rerun",
+      "event_20250912_cn": "A Dance for Amahara Above Rerun",
       "event_20251023_cn": "Tempesta and Islas de Libertád",
       "event_20251218_cn": "A Note Through the Firmament",
       "event_20260226_cn": "Springtide Inn Online",
@@ -1246,10 +1246,10 @@
       "name": "Flagship Common CV/CVL Preference",
       "help": "",
       "any": "any",
-      "langley": "langley",
-      "bogue": "bogue",
-      "ranger": "ranger",
-      "hermes": "hermes"
+      "langley": "Langley",
+      "bogue": "Bogue",
+      "ranger": "Ranger",
+      "hermes": "Hermes"
     },
     "ChangeVanguard": {
       "name": "Change Vanguard",
@@ -1868,28 +1868,28 @@
     "PR1": {
       "name": "PR1 BP Preference",
       "help": "",
-      "neptune": "neptune",
-      "monarch": "monarch",
-      "ibuki": "ibuki",
-      "izumo": "izumo",
-      "roon": "roon",
-      "saintlouis": "saintlouis"
+      "neptune": "Neptune",
+      "monarch": "Monarch",
+      "ibuki": "Ibuki",
+      "izumo": "Izumo",
+      "roon": "Roon",
+      "saintlouis": "Saint Louis"
     },
     "PR2": {
       "name": "PR2 BP Preference",
       "help": "",
-      "seattle": "seattle",
-      "georgia": "georgia",
-      "kitakaze": "kitakaze",
-      "gascogne": "gascogne"
+      "seattle": "Seattle",
+      "georgia": "Georgia",
+      "kitakaze": "Kitakaze",
+      "gascogne": "Gascogne"
     },
     "PR3": {
       "name": "PR3 BP Preference",
       "help": "",
-      "cheshire": "cheshire",
-      "mainz": "mainz",
-      "odin": "odin",
-      "champagne": "champagne"
+      "cheshire": "Cheshire",
+      "mainz": "Mainz",
+      "odin": "Odin",
+      "champagne": "Champagne"
     }
   },
   "MedalShop2": {
@@ -2188,8 +2188,8 @@
       "sirius": "Sirius",
       "new_jersey": "New Jersey",
       "taihou": "Taihou",
-      "aegir": "Aegir",
-      "nakhimov": "Nakhimov",
+      "aegir": "Ägir",
+      "nakhimov": "Admiral Nakhimov",
       "implacable": "Implacable"
     }
   },
@@ -2738,7 +2738,7 @@
       "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
       "none": "None",
       "any": "Any",
-      "Cheshire": "HMS Cheshire",
+      "Cheshire": "Cheshire",
       "Chang_Feng": "Chang Feng"
     },
     "BearWaitress2": {
@@ -2746,7 +2746,7 @@
       "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
       "none": "None",
       "any": "Any",
-      "Cheshire": "HMS Cheshire",
+      "Cheshire": "Cheshire",
       "Chang_Feng": "Chang Feng"
     },
     "BearMenu": {
@@ -2766,8 +2766,8 @@
       "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
       "none": "None",
       "any": "Any",
-      "Helena": "USS Helena",
-      "Prinz_Eugen": "KMS Prinz Eugen",
+      "Helena": "Helena",
+      "Prinz_Eugen": "Prinz Eugen",
       "Chang_Feng": "Chang Feng"
     },
     "EateryWaitress2": {
@@ -2775,8 +2775,8 @@
       "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
       "none": "None",
       "any": "Any",
-      "Helena": "USS Helena",
-      "Prinz_Eugen": "KMS Prinz Eugen",
+      "Helena": "Helena",
+      "Prinz_Eugen": "Prinz Eugen",
       "Chang_Feng": "Chang Feng"
     },
     "EateryMenu": {
@@ -2796,8 +2796,8 @@
       "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
       "none": "None",
       "any": "Any",
-      "August_von_Parseval": "KMS August von Parseval",
-      "Prinz_Eugen": "KMS Prinz Eugen",
+      "August_von_Parseval": "August von Parseval",
+      "Prinz_Eugen": "Prinz Eugen",
       "Chang_Feng": "Chang Feng"
     },
     "GrillWaitress2": {
@@ -2805,8 +2805,8 @@
       "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
       "none": "None",
       "any": "Any",
-      "August_von_Parseval": "KMS August von Parseval",
-      "Prinz_Eugen": "KMS Prinz Eugen",
+      "August_von_Parseval": "August von Parseval",
+      "Prinz_Eugen": "Prinz Eugen",
       "Chang_Feng": "Chang Feng"
     },
     "GrillMenu": {
@@ -2826,8 +2826,8 @@
       "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
       "none": "None",
       "any": "Any",
-      "Cheshire": "HMS Cheshire",
-      "Belfast": "HMS Belfast",
+      "Cheshire": "Cheshire",
+      "Belfast": "Belfast",
       "Chang_Feng": "Chang Feng"
     },
     "CafeWaitress2": {
@@ -2835,8 +2835,8 @@
       "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
       "none": "None",
       "any": "Any",
-      "Cheshire": "HMS Cheshire",
-      "Belfast": "HMS Belfast",
+      "Cheshire": "Cheshire",
+      "Belfast": "Belfast",
       "Chang_Feng": "Chang Feng"
     },
     "CafeMenu": {

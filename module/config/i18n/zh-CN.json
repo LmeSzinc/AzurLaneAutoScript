@@ -788,18 +788,18 @@
       "event_20240425_cn": "共鸣的PASSION",
       "event_20240521_cn": "复刻绽放于辉光之城",
       "event_20240725_cn": "幻梦间奏曲",
-      "event_20240815_cn": "铁翼擎风",
+      "event_20240815_cn": "复刻铁翼擎风",
       "event_20240829_cn": "埋葬于彼岸之花",
-      "event_20240912_cn": "唤醒苍红之炎",
+      "event_20240912_cn": "复刻唤醒苍红之炎",
       "event_20241024_cn": "飓风与沉眠之海",
       "event_20241121_cn": "危险发明迫近中",
-      "event_20241219_cn": "星光下的余晖",
-      "event_20250227_cn": "樊笼内的神光",
+      "event_20241219_cn": "复刻星光下的余晖",
+      "event_20250227_cn": "复刻樊笼内的神光",
       "event_20250424_cn": "复刻扬起郁金之旗",
-      "event_20250520_cn": "高塔上的蔷薇",
+      "event_20250520_cn": "复刻高塔上的蔷薇",
       "event_20250724_cn": "优米雅的炼金工房",
-      "event_20250814_cn": "奇渊下的秘密",
-      "event_20250912_cn": "起舞于天原之上",
+      "event_20250814_cn": "复刻奇渊下的秘密",
+      "event_20250912_cn": "复刻起舞于天原之上",
       "event_20251023_cn": "飓风与自由群岛",
       "event_20251218_cn": "响彻于天穹之音",
       "event_20260226_cn": "春满客栈Online",
@@ -1265,7 +1265,7 @@
       "favourite": "仅常用",
       "aulick_or_foote": "奥利克或富特",
       "cassin_or_downes": "卡辛或唐斯",
-      "z20_or_z21": "Z20或Z21"
+      "z20_or_z21": "Z20或Z21（卡洛琳或威尔赫米娜）"
     },
     "CommissionLimit": {
       "name": "防止紧急委托数量过多",
@@ -1870,9 +1870,9 @@
       "help": "",
       "neptune": "海王星",
       "monarch": "君主",
-      "ibuki": "伊吹",
-      "izumo": "出云",
-      "roon": "罗恩",
+      "ibuki": "伊吹（峦）",
+      "izumo": "出云（侌）",
+      "roon": "罗恩（艾伯塔）",
       "saintlouis": "路易九世"
     },
     "PR2": {
@@ -1880,15 +1880,15 @@
       "help": "",
       "seattle": "西雅图",
       "georgia": "佐治亚",
-      "kitakaze": "北风",
+      "kitakaze": "北风（苝）",
       "gascogne": "加斯科涅"
     },
     "PR3": {
       "name": "三期科研图纸选择",
       "help": "",
       "cheshire": "柴郡",
-      "mainz": "美因茨",
-      "odin": "奥丁",
+      "mainz": "美因茨（米兹）",
+      "odin": "奥丁（沃登）",
       "champagne": "香槟"
     }
   },
@@ -2184,12 +2184,12 @@
       "name": "选择每日互动的舰娘",
       "help": "选择需要与之每日互动的舰娘",
       "anchorage": "安克雷奇",
-      "noshiro": "能代",
+      "noshiro": "能代（貅）",
       "sirius": "天狼星",
-      "new_jersey": "新泽西",
-      "taihou": "鹩",
-      "aegir": "埃吉尔",
-      "nakhimov": "纳希莫夫",
+      "new_jersey": "新泽西（花园）",
+      "taihou": "大凤（鹩）",
+      "aegir": "埃吉尔（埃格妮丝）",
+      "nakhimov": "纳希莫夫海军上将",
       "implacable": "怨仇"
     }
   },
@@ -2767,7 +2767,7 @@
       "none": "无",
       "any": "任意",
       "Helena": "海伦娜",
-      "Prinz_Eugen": "欧根亲王",
+      "Prinz_Eugen": "欧根亲王（萨沃伊亲王）",
       "Chang_Feng": "长风"
     },
     "EateryWaitress2": {
@@ -2776,7 +2776,7 @@
       "none": "无",
       "any": "任意",
       "Helena": "海伦娜",
-      "Prinz_Eugen": "欧根亲王",
+      "Prinz_Eugen": "欧根亲王（萨沃伊亲王）",
       "Chang_Feng": "长风"
     },
     "EateryMenu": {
@@ -2796,8 +2796,8 @@
       "help": "两个服务员槽位无顺序。无表示空槽位，两个槽位都为无时停用餐厅；任意会选择管理等级最高的空闲角色。命名角色优先选择，重复的命名角色会被清空。",
       "none": "无",
       "any": "任意",
-      "August_von_Parseval": "奥古斯特·冯·帕塞瓦尔",
-      "Prinz_Eugen": "欧根亲王",
+      "August_von_Parseval": "奥古斯特·冯·帕塞瓦尔（奥斯特雷德·冯·帕赫贝尔）",
+      "Prinz_Eugen": "欧根亲王（萨沃伊亲王）",
       "Chang_Feng": "长风"
     },
     "GrillWaitress2": {
@@ -2805,8 +2805,8 @@
       "help": "两个服务员槽位无顺序。无表示空槽位，两个槽位都为无时停用餐厅；任意会选择管理等级最高的空闲角色。命名角色优先选择，重复的命名角色会被清空。",
       "none": "无",
       "any": "任意",
-      "August_von_Parseval": "奥古斯特·冯·帕塞瓦尔",
-      "Prinz_Eugen": "欧根亲王",
+      "August_von_Parseval": "奥古斯特·冯·帕塞瓦尔（奥斯特雷德·冯·帕赫贝尔）",
+      "Prinz_Eugen": "欧根亲王（萨沃伊亲王）",
       "Chang_Feng": "长风"
     },
     "GrillMenu": {
