@@ -1246,10 +1246,10 @@
       "name": "GemsFarming.CommonCV.name",
       "help": "GemsFarming.CommonCV.help",
       "any": "any",
-      "langley": "langley",
-      "bogue": "bogue",
-      "ranger": "ranger",
-      "hermes": "hermes"
+      "langley": "ラングレー",
+      "bogue": "ボーグ",
+      "ranger": "レンジャー",
+      "hermes": "ハーミーズ"
     },
     "ChangeVanguard": {
       "name": "GemsFarming.ChangeVanguard.name",
@@ -1263,9 +1263,9 @@
       "help": "GemsFarming.CommonDD.help",
       "any": "GemsFarming.CommonDD.any",
       "favourite": "GemsFarming.CommonDD.favourite",
-      "aulick_or_foote": "GemsFarming.CommonDD.aulick_or_foote",
-      "cassin_or_downes": "GemsFarming.CommonDD.cassin_or_downes",
-      "z20_or_z21": "GemsFarming.CommonDD.z20_or_z21"
+      "aulick_or_foote": "オーリックまたはフート",
+      "cassin_or_downes": "カッシンまたはダウンズ",
+      "z20_or_z21": "Z20またはZ21"
     },
     "CommissionLimit": {
       "name": "GemsFarming.CommissionLimit.name",
@@ -1868,28 +1868,28 @@
     "PR1": {
       "name": "GuildShop.PR1.name",
       "help": "GuildShop.PR1.help",
-      "neptune": "neptune",
-      "monarch": "monarch",
-      "ibuki": "ibuki",
-      "izumo": "izumo",
-      "roon": "roon",
-      "saintlouis": "saintlouis"
+      "neptune": "ネプチューン",
+      "monarch": "モナーク",
+      "ibuki": "伊吹",
+      "izumo": "出雲",
+      "roon": "ローン",
+      "saintlouis": "サン・ルイ"
     },
     "PR2": {
       "name": "GuildShop.PR2.name",
       "help": "GuildShop.PR2.help",
-      "seattle": "seattle",
-      "georgia": "georgia",
-      "kitakaze": "kitakaze",
-      "gascogne": "gascogne"
+      "seattle": "シアトル",
+      "georgia": "ジョージア",
+      "kitakaze": "北風",
+      "gascogne": "ガスコーニュ"
     },
     "PR3": {
       "name": "GuildShop.PR3.name",
       "help": "GuildShop.PR3.help",
-      "cheshire": "cheshire",
-      "mainz": "mainz",
-      "odin": "odin",
-      "champagne": "champagne"
+      "cheshire": "チェシャー",
+      "mainz": "マインツ",
+      "odin": "オーディン",
+      "champagne": "シャンパーニュ"
     }
   },
   "MedalShop2": {
@@ -2183,14 +2183,14 @@
     "TargetShip": {
       "name": "PrivateQuarters.TargetShip.name",
       "help": "PrivateQuarters.TargetShip.help",
-      "anchorage": "anchorage",
-      "noshiro": "noshiro",
-      "sirius": "sirius",
-      "new_jersey": "new_jersey",
-      "taihou": "taihou",
-      "aegir": "aegir",
-      "nakhimov": "nakhimov",
-      "implacable": "implacable"
+      "anchorage": "アンカレッジ",
+      "noshiro": "能代",
+      "sirius": "シリアス",
+      "new_jersey": "ニュージャージー",
+      "taihou": "大鳳",
+      "aegir": "エーギル",
+      "nakhimov": "アドミラル・ナヒーモフ",
+      "implacable": "インプラカブル"
     }
   },
   "Daily": {
