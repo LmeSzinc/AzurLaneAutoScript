@@ -17,7 +17,8 @@ from module.ocr.ocr import Ocr
 from module.os_handler.assets import (AUTO_SEARCH_REWARD, EXCHANGE_CHECK, RESET_FLEET_PREPARATION, RESET_TICKET_POPUP)
 from module.raid.assets import *
 from module.ui.assets import *
-from module.ui.page import Page, page_academy, page_campaign, page_event, page_main, page_main_white, page_sp
+from module.ui.page import Page, page_academy, page_campaign, page_event, page_main, page_main_white, page_sp, \
+    page_tactical
 from module.ui_white.assets import *
 
 
@@ -39,9 +40,13 @@ class UI(InfoHandler):
             return False
         # shitty EN localization changing font width of ACADEMY title,
         # check other buttons also
-        if self.config.SERVER == 'en' and page == page_academy:
-            if self.appear(ACADEMY_GOTO_MUNITIONS, offset=offset, interval=interval):
-                return True
+        if self.config.SERVER == 'en':
+            if page == page_academy:
+                if self.appear(ACADEMY_GOTO_MUNITIONS, offset=offset, interval=interval):
+                    return True
+            if page == page_tactical:
+                if self.appear(TACTICAL_CHECK_2, offset=offset, interval=interval):
+                    return True
         return self.appear(page.check_button, offset=offset, interval=interval)
 
     def is_in_main(self, offset=(30, 30), interval=0):
@@ -550,6 +555,11 @@ class UI(InfoHandler):
         if self.appear_then_click(LOGIN_CHECK, offset=(30, 30), interval=3):
             return True
         if self.appear_then_click(MAINTENANCE_ANNOUNCE, offset=(30, 30), interval=3):
+            return True
+        # rerun event select page
+        if self.appear(RERUN_SELECT_CHECK, offset=(30, 30), interval=3):
+            logger.info(f'UI additional: {RERUN_SELECT_CHECK} -> {SHOP_BACK_ARROW}')
+            self.device.click(SHOP_BACK_ARROW)
             return True
 
         # Mistaken click
