@@ -15,8 +15,8 @@ from module.ocr.ocr import DigitCounter, Duration, Ocr
 from module.retire.assets import DOCK_CHECK, DOCK_EMPTY, SHIP_CONFIRM
 from module.retire.dock import CARD_GRIDS, CARD_LEVEL_GRIDS, Dock
 from module.tactical.assets import *
-from module.ui.assets import (BACK_ARROW, REWARD_CHECK, REWARD_GOTO_TACTICAL, TACTICAL_CHECK)
-from module.ui.page import page_reward
+from module.ui.assets import BACK_ARROW, REWARD_CHECK, REWARD_GOTO_TACTICAL, TACTICAL_CHECK, TACTICAL_CHECK_2
+from module.ui.page import page_reward, page_tactical
 from module.ui_white.assets import REWARD_2_WHITE, REWARD_GOTO_TACTICAL_WHITE
 
 SKILL_GRIDS = ButtonGrid(origin=(315, 140), delta=(621, 132), button_shape=(621, 119), grid_shape=(1, 3), name='SKILL')
@@ -430,14 +430,14 @@ class RewardTacticalClass(Dock):
                 break
 
             # Learn new skills
-            if not study_finished and self.appear(TACTICAL_CHECK, offset=(20, 20)):
+            if not study_finished and self.ui_page_appear(page_tactical, offset=(20, 20)):
                 # Tactical page, has empty position
                 if self.appear_then_click(ADD_NEW_STUDENT, offset=(800, 20), interval=1):
-                    self.interval_reset([TACTICAL_CHECK, RAPID_TRAINING])
+                    self.interval_reset([TACTICAL_CHECK, TACTICAL_CHECK_2, RAPID_TRAINING])
                     self.interval_clear([POPUP_CONFIRM, POPUP_CANCEL, GET_MISSION, DOCK_CHECK, SKILL_CONFIRM])
                     continue
             if self.handle_rapid_training():
-                self.interval_reset(TACTICAL_CHECK)
+                self.interval_reset([TACTICAL_CHECK, TACTICAL_CHECK_2])
                 self.interval_clear([POPUP_CONFIRM, POPUP_CANCEL, GET_MISSION, DOCK_CHECK, SKILL_CONFIRM])
                 continue
 
@@ -445,20 +445,20 @@ class RewardTacticalClass(Dock):
             # sometimes you have TACTICAL_CHECK without black-blurred background
             # TACTICAL_CLASS_CANCEL and TACTICAL_CHECK appears
             if not self.appear(TACTICAL_CLASS_START, offset=(20, 20)) \
-                    and self.appear(TACTICAL_CHECK, offset=(20, 20), interval=2):
+                    and self.ui_page_appear(page_tactical, offset=(20, 20), interval=2):
                 self.interval_clear([POPUP_CONFIRM, POPUP_CANCEL, GET_MISSION])
                 if book_empty:
                     self.device.click(BACK_ARROW)
-                    self.interval_reset(TACTICAL_CHECK)
+                    self.interval_reset([TACTICAL_CHECK, TACTICAL_CHECK_2])
                     continue
                 if self._tactical_get_finish():
                     self.device.click(BACK_ARROW)
-                    self.interval_reset(TACTICAL_CHECK)
+                    self.interval_reset([TACTICAL_CHECK, TACTICAL_CHECK_2])
                     empty_confirm.reset()
                     received = True
                     continue
                 else:
-                    self.interval_clear(TACTICAL_CHECK)
+                    self.interval_clear([TACTICAL_CHECK, TACTICAL_CHECK_2])
                     if empty_confirm.reached():
                         self.device.click(BACK_ARROW)
                         empty_confirm.reset()
@@ -551,7 +551,7 @@ class RewardTacticalClass(Dock):
                 # Select the next ship in `select_suitable_ship()`
                 self.dock_select_index += 1
                 # Avoid exit tactical between exiting meta skill to select new ship
-                self.interval_reset([TACTICAL_CHECK, BOOK_EMPTY_POPUP])
+                self.interval_reset([TACTICAL_CHECK, TACTICAL_CHECK_2, BOOK_EMPTY_POPUP])
                 self.interval_clear(ADD_NEW_STUDENT)
                 continue
             # No books
