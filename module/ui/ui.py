@@ -551,6 +551,11 @@ class UI(InfoHandler):
             return True
         if self.appear_then_click(MAINTENANCE_ANNOUNCE, offset=(30, 30), interval=3):
             return True
+        # rerun event select page
+        if self.appear(RERUN_SELECT_CHECK, offset=(30, 30), interval=3):
+            logger.info(f'UI additional: {RERUN_SELECT_CHECK} -> {SHOP_BACK_ARROW}')
+            self.device.click(SHOP_BACK_ARROW)
+            return True
 
         # Mistaken click
         if self.appear(EXERCISE_PREPARATION, interval=3):
