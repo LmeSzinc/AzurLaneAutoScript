@@ -546,6 +546,12 @@ class AzurLaneAutoScript:
         AzurLaneConfig.is_hoarding_task = False
         return task.command
 
+    def record_task_result(self, task, success):
+        failed = deep_get(self.failure_record, keys=task, default=0)
+        failed = 0 if success else failed + 1
+        deep_set(self.failure_record, keys=task, value=failed)
+        return task, failed
+
     def loop(self):
         logger.set_file_logger(self.config_name)
         logger.info(f'Start scheduler loop: {self.config_name}')
@@ -589,11 +595,10 @@ class AzurLaneAutoScript:
             self.is_first_task = False
 
             # Check failures
-            failed = deep_get(self.failure_record, keys=task, default=0)
-            failed = 0 if success else failed + 1
-            deep_set(self.failure_record, keys=task, value=failed)
+            failed_task, failed = self.record_task_result(task, success)
             if failed >= 3:
-                logger.critical(f"Task `{task}` failed 3 or more times.")
+                message = f'Task `{failed_task}` failed 3 or more times.'
+                logger.critical(message)
                 logger.critical("Possible reason #1: You haven't used it correctly. "
                                 "Please read the help text of the options.")
                 logger.critical("Possible reason #2: There is a problem with this task. "
@@ -602,7 +607,7 @@ class AzurLaneAutoScript:
                 handle_notify(
                     self.config.Error_OnePushConfig,
                     title=f"Alas <{self.config_name}> crashed",
-                    content=f"<{self.config_name}> RequestHumanTakeover\nTask `{task}` failed 3 or more times.",
+                    content=f"<{self.config_name}> RequestHumanTakeover\n{message}",
                 )
                 exit(1)
 
