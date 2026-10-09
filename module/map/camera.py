@@ -44,7 +44,7 @@ class Camera(MapOperation):
             # Map grid fit
             if self.config.DEVICE_CONTROL_METHOD == 'minitouch':
                 distance = self.view.swipe_base * self.config.MAP_SWIPE_MULTIPLY_MINITOUCH
-            elif self.config.DEVICE_CONTROL_METHOD == 'MaaTouch':
+            elif self.config.DEVICE_CONTROL_METHOD in ['MaaTouch', 'playcover']:
                 distance = self.view.swipe_base * self.config.MAP_SWIPE_MULTIPLY_MAATOUCH
             else:
                 distance = self.view.swipe_base * self.config.MAP_SWIPE_MULTIPLY
