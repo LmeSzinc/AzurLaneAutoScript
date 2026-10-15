@@ -1,9 +1,14 @@
+import numpy as np
+
 import module.config.server as server
+from module.base.timer import Timer
+from module.base.utils import random_rectangle_point
 from module.combat.assets import GET_ITEMS_1
+from module.exception import RequestHumanTakeover
 from module.logger import logger
 from module.minigame.assets import *
 from module.ocr.ocr import Digit
-from module.ui.assets import ACADEMY_GOTO_GAME_ROOM, GAME_ROOM_CHECK
+from module.ui.assets import ACADEMY_GOTO_GAME_ROOM
 from module.ui.page import page_academy, page_game_room
 from module.ui.scroll import Scroll
 from module.ui.ui import UI
@@ -18,15 +23,90 @@ else:
                     name='OCR_COIN',
                     letter=(211, 196, 95),
                     threshold=128)
-MINIGAME_SCROLL = Scroll(MINIGAME_SCROLL_AREA, color=(247, 247, 247), name='MINIGAME_SCROLL')
 
-class MinigameRun(UI):
+
+class MinigameScroll(Scroll):
+    def cal_position(self, main):
+        """Locate the knob without counting the persistent start button's white border."""
+        y = main.minigame_scroll_y()
+        if y is None:
+            return None
+        # The reference asset is captured with the slider at the top of the track.
+        reference_y = (MINIGAME_SCROLL_KNOB.area[1] + MINIGAME_SCROLL_KNOB.area[3]) / 2
+        self.length = 2 * (reference_y - self.area[1])
+        position = (y - reference_y) / (self.total - self.length)
+        position = min(max(position, 0.0), 1.0)
+        logger.attr(self.name, f'{position:.2f} (knob y={y})')
+        return position
+
+    def set(self, position, main, random_range=(-0.05, 0.05), distance_check=True, skip_first_screenshot=True):
+        """Keep percentage positioning, recovering through the cards when the knob is covered."""
+        logger.info(f'{self.name} set to {position}')
+        timeout = Timer(20).start()
+        interval = Timer(1)
+        dragged = 0
+        previous = None
+        stationary = 0
+        while 1:
+            if skip_first_screenshot:
+                skip_first_screenshot = False
+            else:
+                main.device.screenshot()
+            current = self.cal_position(main)
+            if current is not None and abs(position - current) < self.drag_threshold:
+                return dragged
+            if dragged >= 8 or timeout.reached():
+                raise RequestHumanTakeover('Unable to position the minigame scrollbar')
+            if not interval.reached():
+                continue
+            if position >= 1 - self.edge_threshold:
+                # The knob is covered at the bottom. Confirm the cards stop moving instead.
+                cards = main.image_crop((300, 110, 600, 500))
+                if previous is not None and np.mean(np.abs(cards.astype(float) - previous)) < 1:
+                    stationary += 1
+                    if stationary >= 2:
+                        return dragged
+                else:
+                    stationary = 0
+                previous = cards.astype(float)
+                p1, p2 = (600, 550), (600, 250)
+            elif current is None:
+                # Move toward the top through the cards until the knob is visible again.
+                p1, p2 = (600, 250), (600, 550)
+            else:
+                p1 = random_rectangle_point(self.position_to_screen(current), n=1)
+                p2 = random_rectangle_point(self.position_to_screen(position, random_range=random_range), n=1)
+            main.device.swipe(p1, p2, name=self.name, distance_check=distance_check)
+            dragged += 1
+            interval.reset()
+
+
+MINIGAME_SCROLL = MinigameScroll(MINIGAME_SCROLL_AREA, color=(247, 247, 247), name='MINIGAME_SCROLL')
+
+
+class MinigameUI(UI):
+    def minigame_scroll_y(self):
+        """Return the scrollbar knob's screen coordinate, or None if covered."""
+        if self.appear(MINIGAME_SCROLL_KNOB, offset=(-9, -73, 12, 495)):
+            return int((MINIGAME_SCROLL_KNOB.button[1] + MINIGAME_SCROLL_KNOB.button[3]) // 2)
+        return None
+
+    def minigame_list_appear(self):
+        """Identify the shared card marker together with the list scrollbar."""
+        # Each asset anchors its own column; search vertically as the list scrolls.
+        return MINIGAME_SCROLL.appear(main=self) and (
+            self.appear(GAME_LIST_CHECK_LEFT, offset=(5, 500))
+            or self.appear(GAME_LIST_CHECK_RIGHT, offset=(5, 500))
+        )
+
+
+class MinigameRun(MinigameUI):
 
     def minigame_run(self, skip_first_screenshot=True):
         """
         Pages:
             in: page_game_room main_page
-            out: page_game_room main_page
+            out: page_game_room main_page/choose_game_page
         Return:
             False if unable or unnecessary to play
         """
@@ -40,10 +120,8 @@ class MinigameRun(UI):
             else:
                 self.device.screenshot()
             # End
-            # both minigame main and minigame list has GOTO_CHOOSE_GAME
-            if self.appear(GAME_ROOM_CHECK, offset=(5, 5)) and not self.appear(GOTO_CHOOSE_GAME, offset=(20, 20)):
-                if MINIGAME_SCROLL.appear(main=self):
-                    break
+            if self.minigame_list_appear():
+                break
             # unable to get more ticket popup
             if self.deal_popup():
                 continue
@@ -108,7 +186,7 @@ class MinigameRun(UI):
         pass
 
 
-class Minigame(UI):
+class Minigame(MinigameUI):
 
     def get_coin_amount(self, skip_first_screenshot=True):
         """
@@ -141,8 +219,7 @@ class Minigame(UI):
                 continue
             if self.appear_then_click(COIN_POPUP, offset=(5, 5), interval=2):
                 continue
-            if self.appear(GAME_ROOM_CHECK, offset=(5, 5)) \
-                    and not self.appear(GOTO_CHOOSE_GAME, offset=(5, 5)):
+            if self.minigame_list_appear():
                 self.appear_then_click(BACK, offset=(5, 5), interval=2)
                 continue
             if self.appear(GOTO_CHOOSE_GAME, offset=(5, 5)):
@@ -165,8 +242,7 @@ class Minigame(UI):
             if self.appear_then_click(COIN_POPUP, offset=(5, 5), interval=3):
                 continue
             # game room and choose game have same header, go to game room first
-            if self.appear(GAME_ROOM_CHECK, offset=(5, 5)) \
-                    and not self.appear(GOTO_CHOOSE_GAME, offset=(5, 5)):
+            if self.minigame_list_appear():
                 self.appear_then_click(BACK, offset=(5, 5), interval=3)
                 continue
             # collect coins
