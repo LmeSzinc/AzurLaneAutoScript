@@ -597,7 +597,7 @@ class NemuIpc(Platform):
     def screenshot_nemu_ipc(self):
         image = self.nemu_ipc.screenshot()
 
-        image = cv2.cvtColor(image, cv2.COLOR_BGRA2BGR)
+        image = cv2.cvtColor(image, cv2.COLOR_RGBA2RGB)
         cv2.flip(image, 0, dst=image)
         return image
 

@@ -204,9 +204,13 @@ class FleetOperator:
 
             button = self.options.get(index)
             if button is None:
-                logger.error(f'No fleet option {index} to select')
-                self.close()
-                break
+                if click_timer.reached():
+                    logger.error(f'No fleet option {index} to select')
+                    self.close()
+                    break
+                else:
+                    # clicked just now, maybe click animation covers the option and dropdown menu didn't close that fast
+                    continue
             if button.selected:
                 logger.info(f'Fleet option {index} is already selected')
                 self.close()

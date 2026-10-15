@@ -67,6 +67,10 @@ class ResearchUI(UI):
                 return GET_ITEMS_3
             else:
                 return GET_ITEMS_2
+        # On EN, the title of 2-row GET_ITEMS is 7px lower than GET_ITEMS_3,
+        # which is out of the offset above, so check GET_ITEMS_2 directly
+        if self.appear(GET_ITEMS_2, offset=(5, 5)):
+            return GET_ITEMS_2
         if self.appear(GET_ITEMS_1, offset=(5, 5)):
             return GET_ITEMS_1
         return None

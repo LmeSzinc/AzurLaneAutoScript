@@ -13,7 +13,7 @@ FILTER_REGEX = re.compile(
     '|tuning)'
 
     '(20|50|100|prototype|specialized|abyssal|obscure|full2|full|triple2|triple|2'
-    '|combat|offence|survival)?'
+    '|combat|offence|offense|survival)?'
 
     '(t[1-6])?$',
     flags=re.IGNORECASE)

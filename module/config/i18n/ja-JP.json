@@ -788,18 +788,18 @@
       "event_20240425_cn": "共鳴のパッション",
       "event_20240521_cn": "赫輝のマルティリウム（復刻）",
       "event_20240725_cn": "夢幻の間奏曲",
-      "event_20240815_cn": "錬翼空翔",
+      "event_20240815_cn": "錬翼空翔（復刻）",
       "event_20240829_cn": "徒花咲かす彼岸",
-      "event_20240912_cn": "絳染む丹華の詠歌",
+      "event_20240912_cn": "絳染む丹華の詠歌（復刻）",
       "event_20241024_cn": "テンペスタと眠りし海",
       "event_20241121_cn": "危険発明接近中",
-      "event_20241219_cn": "星降る夕影の残光",
-      "event_20250227_cn": "籠檻に囚われし神光",
+      "event_20241219_cn": "星降る夕影の残光（復刻）",
+      "event_20250227_cn": "籠檻に囚われし神光（復刻）",
       "event_20250424_cn": "チュリッパの海へ（復刻）",
-      "event_20250520_cn": "高い塔の薔薇",
+      "event_20250520_cn": "高い塔の薔薇（復刻）",
       "event_20250724_cn": "錬金術士と天空邂逅の塔",
-      "event_20250814_cn": "淵層界の秘密",
-      "event_20250912_cn": "アマハラに舞い奉れ",
+      "event_20250814_cn": "淵層界の秘密（復刻）",
+      "event_20250912_cn": "アマハラに舞い奉れ（復刻）",
       "event_20251023_cn": "テンペスタと自由群島",
       "event_20251218_cn": "天穹に響く音謡",
       "event_20260226_cn": "春色旅籠Online",
@@ -1246,10 +1246,10 @@
       "name": "GemsFarming.CommonCV.name",
       "help": "GemsFarming.CommonCV.help",
       "any": "any",
-      "langley": "langley",
-      "bogue": "bogue",
-      "ranger": "ranger",
-      "hermes": "hermes"
+      "langley": "ラングレー",
+      "bogue": "ボーグ",
+      "ranger": "レンジャー",
+      "hermes": "ハーミーズ"
     },
     "ChangeVanguard": {
       "name": "GemsFarming.ChangeVanguard.name",
@@ -1263,9 +1263,9 @@
       "help": "GemsFarming.CommonDD.help",
       "any": "GemsFarming.CommonDD.any",
       "favourite": "GemsFarming.CommonDD.favourite",
-      "aulick_or_foote": "GemsFarming.CommonDD.aulick_or_foote",
-      "cassin_or_downes": "GemsFarming.CommonDD.cassin_or_downes",
-      "z20_or_z21": "GemsFarming.CommonDD.z20_or_z21"
+      "aulick_or_foote": "オーリックまたはフート",
+      "cassin_or_downes": "カッシンまたはダウンズ",
+      "z20_or_z21": "Z20またはZ21"
     },
     "CommissionLimit": {
       "name": "GemsFarming.CommissionLimit.name",
@@ -1868,28 +1868,28 @@
     "PR1": {
       "name": "GuildShop.PR1.name",
       "help": "GuildShop.PR1.help",
-      "neptune": "neptune",
-      "monarch": "monarch",
-      "ibuki": "ibuki",
-      "izumo": "izumo",
-      "roon": "roon",
-      "saintlouis": "saintlouis"
+      "neptune": "ネプチューン",
+      "monarch": "モナーク",
+      "ibuki": "伊吹",
+      "izumo": "出雲",
+      "roon": "ローン",
+      "saintlouis": "サン・ルイ"
     },
     "PR2": {
       "name": "GuildShop.PR2.name",
       "help": "GuildShop.PR2.help",
-      "seattle": "seattle",
-      "georgia": "georgia",
-      "kitakaze": "kitakaze",
-      "gascogne": "gascogne"
+      "seattle": "シアトル",
+      "georgia": "ジョージア",
+      "kitakaze": "北風",
+      "gascogne": "ガスコーニュ"
     },
     "PR3": {
       "name": "GuildShop.PR3.name",
       "help": "GuildShop.PR3.help",
-      "cheshire": "cheshire",
-      "mainz": "mainz",
-      "odin": "odin",
-      "champagne": "champagne"
+      "cheshire": "チェシャー",
+      "mainz": "マインツ",
+      "odin": "オーディン",
+      "champagne": "シャンパーニュ"
     }
   },
   "MedalShop2": {
@@ -2183,14 +2183,14 @@
     "TargetShip": {
       "name": "PrivateQuarters.TargetShip.name",
       "help": "PrivateQuarters.TargetShip.help",
-      "anchorage": "anchorage",
-      "noshiro": "noshiro",
-      "sirius": "sirius",
-      "new_jersey": "new_jersey",
-      "taihou": "taihou",
-      "aegir": "aegir",
-      "nakhimov": "nakhimov",
-      "implacable": "implacable"
+      "anchorage": "アンカレッジ",
+      "noshiro": "能代",
+      "sirius": "シリアス",
+      "new_jersey": "ニュージャージー",
+      "taihou": "大鳳",
+      "aegir": "エーギル",
+      "nakhimov": "アドミラル・ナヒーモフ",
+      "implacable": "インプラカブル"
     }
   },
   "Daily": {
