@@ -95,9 +95,13 @@ class IslandShop(IslandShopUI):
         return self.island_shop_get_item_ids()
 
     def island_shop_get_item_ids(self):
-        names = self._island_shop_item_name_ocr.ocr(self.device.image)
-        ids = [self.item_name_to_recipe_id(name) for name in names if name != '']
-        return ids
+        for _ in self.loop(timeout=5):
+            names = self._island_shop_item_name_ocr.ocr(self.device.image)
+            ids = [self.item_name_to_recipe_id(name) for name in names]
+            if any(id is '' for id in ids):
+                logger.warning(f"Failed to recognize some item names: {names}, ids: {ids}")
+                continue
+            return ids
 
     @property
     def _island_currency_grid(self):

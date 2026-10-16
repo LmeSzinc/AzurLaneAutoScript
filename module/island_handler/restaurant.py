@@ -164,9 +164,11 @@ class IslandRestaurant(IslandDock):
     @cached_property
     def _restaurant_offset_x(self):
         if self.restaurant_has_event:
-            return 150
+            offset = 150
         else:
-            return 0
+            offset = 0
+        logger.attr('restaurant_offset_x', offset)
+        return offset
 
     @cached_property
     def _restaurant_offset(self):

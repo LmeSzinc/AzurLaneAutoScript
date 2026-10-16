@@ -5,6 +5,7 @@ from module.base.decorator import cached_property, del_cached_property
 from module.config.utils import get_server_next_update
 from module.island.assets import *
 from module.island.utils import production_place_name_with_id
+from module.island_handler.assets import ISLAND_RESTAURANT_ANIMATION_CHECK
 from module.island_handler.restaurant import IslandRestaurant, WaitressOccupied
 from module.island_handler.restaurant_config import (
     RESTAURANT_IDS,
@@ -179,7 +180,7 @@ class IslandBusiness(IslandRestaurant):
                 if self.appear(page_island_manage.check_button, offset=(20, 20), interval=1):
                     self.device.click(entrance_button)
                     continue
-                if self.is_in_island_restaurant():
+                if self.appear(ISLAND_RESTAURANT_ANIMATION_CHECK, offset=(-170, -20, 20, 20)):  # 20261016, slow animation for loading restaurants
                     break
             self.working_restaurant_id = restaurant_id
             try:

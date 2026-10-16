@@ -55,9 +55,9 @@ def image_encode(image, ext='png', encode=None):
         elif ext == 'jpg' or ext == 'jpeg':
             # Best quality
             encode = [cv2.IMWRITE_JPEG_QUALITY, 100]
-        elif ext.lower() == '.webp':
-            # Best quality
-            encode = [cv2.IMWRITE_WEBP_QUALITY, 100]
+        elif ext.lower() == 'webp':
+            # 0~100 is lossy, >100 is lossless
+            encode = [cv2.IMWRITE_WEBP_QUALITY, 101]
         elif ext == 'tiff' or ext == 'tif':
             # LZW compression in TIFF
             encode = [cv2.IMWRITE_TIFF_COMPRESSION, 5]
@@ -95,15 +95,21 @@ class WatchScreen(ModuleBase):
     def watch(self, similarity=0.98):
         start = now()
         before = self.device.screenshot()
-        file = os.path.abspath(f'screenshots/{start}/{start}.png')
+        file = os.path.abspath(f'screenshots/{start}/{start}.webp')
+        logger.info(f'Save file: {file}')
         image_save(before, file)
+
         for image in self.loop():
-            res = cv2.matchTemplate(image, before, cv2.TM_CCOEFF_NORMED)
-            _, sim, _, loca = cv2.minMaxLoc(res)
+            if similarity < 1:
+                res = cv2.matchTemplate(image, before, cv2.TM_CCOEFF_NORMED)
+                _, sim, _, loca = cv2.minMaxLoc(res)
+            else:
+                # skip template matching if similarity >= 1, always saving
+                sim = -1
 
             if sim < similarity:
                 name = now()
-                file = os.path.abspath(f'screenshots/{start}/{name}.png')
+                file = os.path.abspath(f'screenshots/{start}/{name}.webp')
                 logger.info(f'Save file: {file}')
                 image_save(image, file)
                 before = image
