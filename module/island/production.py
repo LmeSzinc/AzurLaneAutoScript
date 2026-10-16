@@ -253,11 +253,7 @@ class IslandProduction(IslandRecipe, IslandDock):
         if target_time is not None:
             target_time = target_time.replace(microsecond=0)
             self.slot_finish_time[slot_id] = target_time
-            for _ in self.loop(timeout=5):
-                if self.handle_island_additional():
-                    continue
-                if self.match_template_color(page_island_manage.check_button, offset=(0, 20)):
-                    return True
+            self.ensure_island_production_page()
         else:
             logger.warning(f'Failed to start production for {production_slot_name_with_id(slot_id)}')
             if slot_id in [9031, 9032, 9033, 9034]:
@@ -323,6 +319,8 @@ class IslandProduction(IslandRecipe, IslandDock):
     def ensure_island_production_page(self):
         self.ui_ensure(page_island_manage)
         for _ in self.loop(timeout=10):
+            if self.handle_island_additional():
+                continue
             if self.ui_page_appear(page_island_manage, offset=(0, 20)):
                 break
         self.island_manage_side_navbar_ensure(upper=1, skip_first_screenshot=False)
