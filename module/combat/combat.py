@@ -140,6 +140,8 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             return PAUSE_YoRHa
         if PAUSE_Ritual.match_template_color(self.device.image, offset=(10, 10)):
             return PAUSE_Ritual
+        if PAUSE_Bullet.match_template_color(self.device.image, offset=(10, 10)):
+            return PAUSE_Bullet
         return False
 
     def handle_combat_quit(self, offset=(20, 20), interval=3):
