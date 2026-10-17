@@ -47,6 +47,8 @@ GUI development, thanks **[@18870](https://github.com/18870)** , say HURRAY.
 
 [中文安装教程](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Installation_cn)，包含自动安装教程，使用教程，手动安装教程，远程控制教程。
 
+Apple 芯片 macOS 安装指南：[中文](doc/MacOS_zh-CN.md) / [English](doc/MacOS.md)。
+
 [设备支持文档](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Emulator_cn)，包含模拟器运行、云手机运行以及解锁各种骚方式运行。
 
 

@@ -1,0 +1,3 @@
+# Known-compatible GIF decoding versions from deploy/headless/requirements.txt.
+imageio==2.27.0
+pillow==9.5.0

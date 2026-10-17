@@ -41,6 +41,8 @@ GUI development, thanks **[@18870](https://github.com/18870)** , say HURRAY.
 
 Refers to [Installation tutorial](https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Installation_en), including easy-installer manual, use manual, manual installation tutorial, remote access manual.
 
+Apple Silicon macOS setup: [macOS guide](doc/MacOS.md).
+
 ## Correctly Using the Scheduler
 
 - **For *Task* and *Scheduler***

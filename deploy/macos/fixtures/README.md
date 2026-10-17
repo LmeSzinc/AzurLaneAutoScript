@@ -1,0 +1,1 @@
+These fixtures contain synthetic text rendered on a white background, using macOS Impact for numbers/stage labels and Heiti for Chinese. They contain no game screenshots, account data, private model weights, or local log paths. Model weights are the unchanged files tracked under bin/cnocr_models/.

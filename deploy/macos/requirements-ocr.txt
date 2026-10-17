@@ -1,0 +1,12 @@
+# Install with --no-deps --target deploy/macos/packages.
+# Reuse the existing ALAS NumPy, packaging, and Pillow; do not upgrade them.
+onnxruntime==1.23.2
+onnx==1.19.1
+protobuf==5.29.5
+ml_dtypes==0.5.4
+flatbuffers==25.9.23
+sympy==1.14.0
+mpmath==1.3.0
+coloredlogs==15.0.1
+humanfriendly==10.0
+typing_extensions==4.15.0

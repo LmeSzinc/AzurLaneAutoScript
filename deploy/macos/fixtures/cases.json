@@ -1,0 +1,61 @@
+[
+  {
+    "image": "4517.png",
+    "model": "azur_lane",
+    "expected": "4517",
+    "alphabet": "0123456789-:"
+  },
+  {
+    "image": "20234.png",
+    "model": "azur_lane",
+    "expected": "20234",
+    "alphabet": "0123456789-:"
+  },
+  {
+    "image": "19843.png",
+    "model": "azur_lane",
+    "expected": "19843",
+    "alphabet": "0123456789-:"
+  },
+  {
+    "image": "5678.png",
+    "model": "azur_lane",
+    "expected": "5678",
+    "alphabet": "0123456789-:"
+  },
+  {
+    "image": "16-1.png",
+    "model": "azur_lane",
+    "expected": "16-1",
+    "alphabet": "0123456789-:"
+  },
+  {
+    "image": "16-2.png",
+    "model": "azur_lane",
+    "expected": "16-2",
+    "alphabet": "0123456789-:"
+  },
+  {
+    "image": "16-3.png",
+    "model": "azur_lane",
+    "expected": "16-3",
+    "alphabet": "0123456789-:"
+  },
+  {
+    "image": "16-4.png",
+    "model": "azur_lane",
+    "expected": "16-4",
+    "alphabet": "0123456789-:"
+  },
+  {
+    "image": "12_34_56.png",
+    "model": "azur_lane",
+    "expected": "12:34:56",
+    "alphabet": "0123456789-:"
+  },
+  {
+    "image": "chinese.png",
+    "model": "cnocr",
+    "expected": "安土"
+  }
+]
