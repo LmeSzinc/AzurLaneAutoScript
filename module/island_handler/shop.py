@@ -98,7 +98,7 @@ class IslandShop(IslandShopUI):
         for _ in self.loop(timeout=5):
             names = self._island_shop_item_name_ocr.ocr(self.device.image)
             ids = [self.item_name_to_recipe_id(name) for name in names]
-            if any(id is '' for id in ids):
+            if any(id is None for id in ids):
                 logger.warning(f"Failed to recognize some item names: {names}, ids: {ids}")
                 continue
             return ids
