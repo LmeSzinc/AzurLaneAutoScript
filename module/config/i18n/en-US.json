@@ -1442,6 +1442,30 @@
     "DoMajorCommission": {
       "name": "Do Major Commissions",
       "help": "1200 oil commission is now outdated, the yield is very low, it is recommended to disable"
+    },
+    "AutoPickShip": {
+      "name": "Commission ship pick fallback (by rarity/level)",
+      "help": "When ships are short, locked ships are picked automatically; one ship meeting the commission's level requirement is picked first, then the rest follow the preferences below; when no ship is available, it follows the \"no free ship\" setting."
+    },
+    "NoFreeShipPolicy": {
+      "name": "When no free ship exists",
+      "help": "",
+      "skip": "Skip the commission",
+      "use_fleet": "Use ships in fleets"
+    },
+    "PickMinRarity": {
+      "name": "└ Pick fallback - lowest rarity to send",
+      "help": "Active only when \"Commission ship pick fallback\" is on.",
+      "common": "White (common) and above",
+      "rare": "Blue (rare) and above",
+      "elite": "Purple (elite) and above",
+      "super_rare": "Gold (super rare) and above"
+    },
+    "PickLevelOrder": {
+      "name": "└ Pick fallback - level order within a rarity",
+      "help": "Active only when \"Commission ship pick fallback\" is on.",
+      "low_first": "Lowest level first",
+      "high_first": "Highest level first"
     }
   },
   "Tactical": {
