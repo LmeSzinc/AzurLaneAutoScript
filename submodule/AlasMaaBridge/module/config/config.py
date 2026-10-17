@@ -32,6 +32,11 @@ class ArknightsConfig(AzurLaneConfig, ConfigUpdater, GeneratedConfig):
             func_list = ['Maa']
         super().bind(func, func_list)
 
+    def task_call(self, task, force_call=True):
+        if task == 'Restart':
+            task = 'MaaStartup'
+        return super().task_call(task, force_call=force_call)
+
     def save(self, mod_name='maa'):
         super().save(mod_name)
 
