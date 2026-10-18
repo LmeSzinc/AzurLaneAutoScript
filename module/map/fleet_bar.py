@@ -8,15 +8,20 @@ from module.map.assets import FLEET_PREPARATION
 
 
 class FleetOption:
-    def __init__(self, area):
+    def __init__(self, area, index=0, selected=False):
         self.area = area
         self.color = (0, 0, 0)
         self.button = area
-        self.index = 0
-        self.selected = False
+        self.index = index
+        self.selected = selected
 
     def __repr__(self):
         return f'{self.__class__.__name__}(area={self.area}, index={self.index}, selected={self.selected})'
+
+    def __eq__(self, other):
+        if not isinstance(other, FleetOption):
+            return NotImplemented
+        return self.area == other.area and self.index == other.index and self.selected == other.selected
 
     def __str__(self):
         return f'{self.__class__.__name__}_{self.index}'
@@ -42,10 +47,9 @@ class FleetBarDetector:
         self.choose = choose
 
         self.option_shape = (169, 33)
-        # option might be covered by info_bar, half width to full width is allowed
-        # width should larger than 67px, the width of choose button
-        # and smaller than 80px, the remaining option width in EN when info bar covers the left side
-        self.shape_range = (75, 33 - 5, 169 + 5, 55 + 5)
+        # min size: size of letter 1
+        # max size: size of option
+        self.shape_range = (12, 25, 169 + 5, 55 + 5)
 
     def _find_option(self, image):
         """
@@ -76,6 +80,44 @@ class FleetBarDetector:
 
         return buttons
 
+    @staticmethod
+    def _merge_options(options):
+        """
+        Merge option boxes that belong to the same option.
+
+        A click animation can split one option into two boxes on the same row.
+        Boxes whose center y coordinates are close enough are merged into one.
+
+        Args:
+            options (list[FleetOption]):
+
+        Returns:
+            list[FleetOption]:
+        """
+        merged = []
+        for button in sorted(options, key=lambda x: x.area[1]):
+            if not merged:
+                merged.append(button)
+                continue
+
+            prev = merged[-1]
+            prev_center_y = (prev.area[1] + prev.area[3]) / 2
+            center_y = (button.area[1] + button.area[3]) / 2
+            if abs(center_y - prev_center_y) < 10:
+                area = (
+                    min(prev.area[0], button.area[0]),
+                    min(prev.area[1], button.area[1]),
+                    max(prev.area[2], button.area[2]),
+                    max(prev.area[3], button.area[3]),
+                )
+                option = FleetOption(area)
+                option.selected = prev.selected or button.selected
+                merged[-1] = option
+            else:
+                merged.append(button)
+
+        return merged
+
     @cached_property
     def avoid_area(self):
         # delete options from FLEET_PREPARATION
@@ -83,45 +125,43 @@ class FleetBarDetector:
             return FLEET_PREPARATION.button
         return None
 
-    @cached_property
-    def options(self):
+    def get_options(self):
         """
+        Get the detected fleet options.
+
         Returns:
-            dict[int, FleetOption]:
+            tuple[dict[int, FleetOption], str]:
+                The options, and the validation error. The error is empty if no
+                problem was found.
         """
         image = crop(self.image, self.area, copy=False)
-        # selected option in gradient orange
-        orange = color_mask(image, (220, 161, 90), threshold=50)
-        orange2 = color_mask(image, (248, 209, 70), threshold=50)
-        cv2.bitwise_or(orange, orange2, dst=orange)
+        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
+
         # white letter on orange background
-        orange2 = color_mask(image, (251, 231, 157), threshold=30)
-        cv2.bitwise_or(orange, orange2, dst=orange)
+        orange = color_mask(image, (251, 231, 157), threshold=30)
+        cv2.morphologyEx(orange, cv2.MORPH_OPEN, kernel, dst=orange)
         selected = self._find_option(orange)
 
-        # non-selected option in gradient light-gray
-        gray = color_mask(image, (220, 207, 232), threshold=30)
-        gray2 = color_mask(image, (166, 175, 199), threshold=30)
-        cv2.bitwise_or(gray, gray2, dst=gray)
         # white letter on light-gray background
-        gray2 = color_mask(image, (203, 208, 222), threshold=30)
-        cv2.bitwise_or(gray, gray2, dst=gray)
+        gray = color_mask(image, (203, 208, 222), threshold=30)
+        cv2.morphologyEx(gray, cv2.MORPH_OPEN, kernel, dst=gray)
         non_selected = self._find_option(gray)
 
         # re-index
         for button in selected:
             button.selected = True
-        options = sorted(selected + non_selected, key=lambda x: x.area[1])
+        options = self._merge_options(selected + non_selected)
         for index, button in enumerate(options, start=1):
             button.index = index
 
         logger.info('FleetOption: ' + ''.join([button.pretty() for button in options]))
         # validate
+        error = []
         amount = len(options)
         if amount == 1:
-            logger.warning(f'FleetOption amount == 1, options={options}')
+            error.append(f'FleetOption amount == 1, options={options}')
         elif amount > 6:
-            logger.warning(f'FleetOption amount > 6, options={options}')
+            error.append(f'FleetOption amount > 6, options={options}')
         elif 2 <= amount <= 6:
             # check option gaps
             prev_h = 0
@@ -130,22 +170,22 @@ class FleetBarDetector:
                     # options should just next to each other with little gaps
                     gap = button.area[1] - prev_h
                     if gap < self.option_shape[1]:
-                        logger.warning(f'FleetOption gap too small on index={button.index}, options={options}')
+                        error.append(f'FleetOption gap too small on index={button.index}, options={options}')
                     if gap > self.option_shape[1] * 2:
-                        logger.warning(f'FleetOption gap too large on index={button.index}, options={options}')
+                        error.append(f'FleetOption gap too large on index={button.index}, options={options}')
                 else:
                     # first option should just below recommend button
                     if not self.choose:
                         continue
                     gap = button.area[1] - self.choose.button[3]
                     if gap < 0:
-                        logger.warning(f'FleetOption first option is on the top of choose button, options={options}')
+                        error.append(f'FleetOption first option is on the top of choose button, options={options}')
                     if gap > self.option_shape[1]:
-                        logger.warning(f'FleetOption gap too large on first button, options={options}')
+                        error.append(f'FleetOption gap too large on first button, options={options}')
 
                 prev_h = button.area[1]
         else:
             # no logs on empty options
             pass
         options = {button.index: button for button in options}
-        return options
+        return options, '\n'.join(error)
