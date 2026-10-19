@@ -97,11 +97,14 @@ class IslandShop(IslandShopUI):
     def island_shop_get_item_ids(self):
         for _ in self.loop(timeout=5):
             names = self._island_shop_item_name_ocr.ocr(self.device.image)
-            ids = [self.item_name_to_recipe_id(name) for name in names]
-            if any(id is None for id in ids):
-                logger.warning(f"Failed to recognize some item names: {names}, ids: {ids}")
+            ids = [self.item_name_to_recipe_id(name) for name in names]  # need to keep all ids to pair with buttons
+            if all(id is None for id in ids):
+                logger.warning(f"Failed to get item ids from names {names}, retrying...")
                 continue
             return ids
+        else:
+            logger.warning("Failed to get item ids, return empty list")
+            return [None] * len(self._island_shop_item_name_grid.buttons)
 
     @property
     def _island_currency_grid(self):
