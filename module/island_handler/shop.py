@@ -1,20 +1,19 @@
+import re
+
 from jellyfish import levenshtein_distance
 
 import module.config.server as server
-from module.base.decorator import cached_property, del_cached_property
 from module.base.button import ButtonGrid
+from module.base.decorator import cached_property, del_cached_property
 from module.island.data import DIC_ISLAND_SHOP, DIC_ISLAND_SHOP_ITEM_TO_RECIPE, DIC_ISLAND_SHOP_RECIPE
-from module.island.ui import NestedNavbar
 from module.island.utils import item_name_with_id
 from module.island_handler.assets import *
 from module.island_handler.shop_ui import IslandShopUI
 from module.logger import logger
 from module.ocr.ocr import Digit, Ocr
-from module.ui.assets import ISLAND_GOTO_ISLAND_SHOP
 from module.ui.navbar import Navbar
-from module.ui.page import page_island, page_island_shop
+from module.ui.page import page_island_shop
 from module.ui_white.assets import BACK_ARROW_WHITE
-
 
 SHOP_ITEM_NAME_AREA = (12, 142, 134, 163)
 
@@ -23,6 +22,48 @@ def shop_recipe_name_with_id(recipe_id):
     if recipe_id not in DIC_ISLAND_SHOP_RECIPE:
         return f'unknown shop recipe ({recipe_id})'
     return f"{DIC_ISLAND_SHOP_RECIPE[recipe_id]['name'][server.server]} ({recipe_id})"
+
+
+class ProductNameOcr(Ocr):
+    """OCR of island product names.
+
+    cnocr takes a glyph stroke or an edge of the item icon as punctuation, such
+    as `小\\麦种子` for `小麦种子` or `_大米` for `大米`. Those characters never
+    belong to a product name, so they are removed here, and the misreads that
+    are not punctuation are revised to the real name, so that
+    item_name_to_recipe_id does not have to guess by edit distance.
+    """
+
+    def after_process(self, result):
+        """
+        Args:
+            result (str): '小\\麦种子'
+
+        Returns:
+            str: '小麦种子'
+        """
+        result = super().after_process(result)
+        prev = result
+
+        # Punctuation, symbols and stroke fragments read from the glyph strokes
+        # and the item icon, e.g. `小\麦种子`, `_大米` and `大米”`. Covers ASCII
+        # punctuation (!-/ :-@ [-` {-~), general punctuation (\u2000-\u206f,
+        # quotes and dashes), CJK punctuation (\u3000-\u303f), fullwidth forms
+        # (\uff00-\uffef) and 丶, the stroke of the first glyph of `小麦`
+        result = re.sub(r'[\u2000-\u206f\u3000-\u303f\uff00-\uffef!-/:-@\[-`{-~丶]', '', result)
+        if server.server == 'en':
+            # Latin product names keep the space between words
+            result = re.sub(r'\s+', ' ', result).strip()
+        else:
+            # Latin letters and digits never appear in a CJK product name
+            result = re.sub(r'[A-Za-z0-9]', '', result)
+            result = re.sub(r'\s+', '', result)
+        # 眸牛饲料 -> 哞哞牛饲料, the doubled prefix is read as a single glyph
+        result = re.sub(r'^[眸哞]牛饲料$', '哞哞牛饲料', result)
+
+        if result != prev:
+            logger.info(f'OCR {self.name}: Result "{prev}" is revised to "{result}"')
+        return result
 
 
 class IslandShop(IslandShopUI):
@@ -51,7 +92,7 @@ class IslandShop(IslandShopUI):
             lang = 'tw'
         else:
             lang = 'cnocr'
-        return Ocr(
+        return ProductNameOcr(
             self._island_shop_item_name_grid.buttons,
             lang=lang,
             letter=(66, 66, 66),
@@ -97,11 +138,14 @@ class IslandShop(IslandShopUI):
     def island_shop_get_item_ids(self):
         for _ in self.loop(timeout=5):
             names = self._island_shop_item_name_ocr.ocr(self.device.image)
-            ids = [self.item_name_to_recipe_id(name) for name in names]
-            if any(id is None for id in ids):
-                logger.warning(f"Failed to recognize some item names: {names}, ids: {ids}")
+            ids = [self.item_name_to_recipe_id(name) for name in names]  # need to keep all ids to pair with buttons
+            if all(id is None for id in ids):
+                logger.warning(f"Failed to get item ids from names {names}, retrying...")
                 continue
             return ids
+        else:
+            logger.warning("Failed to get item ids, return empty list")
+            return [None] * len(self._island_shop_item_name_grid.buttons)
 
     @property
     def _island_currency_grid(self):
