@@ -35,6 +35,7 @@ class FleetOperator:
         self._hard_satisfied = hard_satisfied
         self.main = main
         self.options = {}
+        self.options_error = ''
 
         if main.appear(clear, offset=FleetOperator.OFFSET):
             choose.load_offset(clear)
@@ -128,7 +129,7 @@ class FleetOperator:
 
     def update_options(self):
         det = FleetBarDetector(self.main, bar=self._bar, choose=self._choose)
-        self.options = det.options
+        self.options, self.options_error = det.get_options()
 
     def open(self, skip_first_screenshot=True):
         """
@@ -188,6 +189,7 @@ class FleetOperator:
         """
         main = self.main
         click_timer = Timer(3, count=6)
+        infobar_ignore = Timer(1, count=2)
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -201,6 +203,15 @@ class FleetOperator:
                     break
                 else:
                     self.open()
+
+            # half loaded infobar may cover one option
+            # mute warnings within infobar_ignore, as infobar animation will end quickly
+            if len(self.options) not in (2, 6):
+                if infobar_ignore.started() and infobar_ignore.reached():
+                    logger.warning(self.options_error)
+                else:
+                    infobar_ignore.start()
+                    continue
 
             button = self.options.get(index)
             if button is None:

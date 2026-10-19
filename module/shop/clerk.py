@@ -219,8 +219,13 @@ class ShopClerk(ShopBase, Retirement):
 
         # In case either -/+ shift position, use
         # shipyard ocr trick to accurately parse
-        self.appear(AMOUNT_MINUS, offset=index_offset)
-        self.appear(AMOUNT_PLUS, offset=index_offset)
+        # find AMOUNT_MINUS AMOUNT_PLUS
+        for _ in self.loop(timeout=1):
+            if self.appear(AMOUNT_MINUS, offset=index_offset) and self.appear(AMOUNT_PLUS, offset=index_offset):
+                break
+        else:
+            logger.warning('Wait AMOUNT_MINUS and AMOUNT_PLUS timeout, continue anyway')
+
         area = OCR_SHOP_AMOUNT.buttons[0]
         OCR_SHOP_AMOUNT.buttons = [(AMOUNT_MINUS.button[2] + 3, area[1], AMOUNT_PLUS.button[0] - 3, area[3])]
 
