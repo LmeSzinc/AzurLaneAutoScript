@@ -1,4 +1,8 @@
+import os
+import re
 import subprocess
+
+import psutil
 
 from module.base.decorator import run_once
 from module.base.timer import Timer
@@ -27,6 +31,31 @@ class PlatformMacOS(PlatformBase, EmulatorManager):
         # `start_new_session` to avoid emulator getting tree-killed when Alas gets killed
         return subprocess.Popen(command, start_new_session=True)
 
+    @classmethod
+    def kill_process_by_regex(cls, regex: str) -> int:
+        """
+        Kill processes with cmdline match the given regex.
+
+        Args:
+            regex:
+
+        Returns:
+            int: Number of processes killed
+        """
+        count = 0
+        for proc in psutil.process_iter():
+            if proc.pid == os.getpid():
+                continue
+            try:
+                cmdline = ' '.join(proc.cmdline())
+            except (psutil.AccessDenied, psutil.NoSuchProcess):
+                continue
+            if re.search(regex, cmdline):
+                logger.info(f'Kill emulator: {cmdline}')
+                proc.kill()
+                count += 1
+        return count
+
     def adb_connect(self, wait_device=True):
         """
         Raise EmulatorNotRunningError when BlueStacks Air is not running.
@@ -35,9 +64,14 @@ class PlatformMacOS(PlatformBase, EmulatorManager):
         the Windows error code in Connection.adb_connect.
         """
         result = super().adb_connect(wait_device=wait_device)
-        if result is False:
-            instance = self.emulator_instance
-            if instance == Emulator.BlueStacks5:
+        if result is False and self.emulator_instance == Emulator.BlueStacks5:
+            # Connection.adb_connect() only recognizes the Windows error code.
+            # Probe once more to distinguish Connection refused from other errors.
+            msg = self.adb_client.connect(self.serial)
+            logger.info(msg)
+            if 'connected' in msg:
+                return True
+            if 'connection refused' in msg.lower() or '(10061)' in msg:
                 logger.warning('No such device exists, please restart the emulator or set a correct serial')
                 raise EmulatorNotRunningError
         return result
@@ -48,14 +82,29 @@ class PlatformMacOS(PlatformBase, EmulatorManager):
         """
         if instance == Emulator.BlueStacks5:
             # BlueStacks.app/Contents/MacOS/BlueStacks
-            self.execute([instance.path])
+            self.execute([instance.path, '--instance', instance.name])
         else:
             raise EmulatorUnknown(f'Cannot start an unknown emulator instance: {instance}')
+
+    def _emulator_stop(self, instance: EmulatorInstance):
+        """
+        Stop a emulator without error handling
+        """
+        if instance == Emulator.BlueStacks5:
+            # BlueStacks.app/Contents/MacOS/BlueStacks --instance Tiramisu64
+            count = self.kill_process_by_regex(
+                rf'^{re.escape(instance.path)}.*--instance(?:=|\s+){re.escape(instance.name)}(?:\s|$)'
+            )
+            if count == 0 and len(self.all_emulator_instances) == 1:
+                # BlueStacks may have been started without --instance.
+                self.kill_process_by_regex(rf'^{re.escape(instance.path)}(?:\s|$)')
+        else:
+            raise EmulatorUnknown(f'Cannot stop an unknown emulator instance: {instance}')
 
     def _emulator_function_wrapper(self, func: callable):
         """
         Args:
-            func (callable): _emulator_start
+            func (callable): _emulator_start or _emulator_stop
 
         Returns:
             bool: If success
@@ -142,11 +191,43 @@ class PlatformMacOS(PlatformBase, EmulatorManager):
 
     def emulator_start(self):
         logger.hr('Emulator start', level=1)
-        if self._emulator_function_wrapper(self._emulator_start):
-            if self.emulator_start_watch():
-                return True
+        for _ in range(3):
+            # Stop
+            if not self._emulator_function_wrapper(self._emulator_stop):
+                return False
+            # Start
+            if self._emulator_function_wrapper(self._emulator_start):
+                if self.emulator_start_watch():
+                    # Success
+                    return True
+                else:
+                    # Start command was sent but emulator didn't come online, stop and start again
+                    continue
+            else:
+                # Failed to start, stop and start again
+                if self._emulator_function_wrapper(self._emulator_stop):
+                    continue
+                else:
+                    return False
 
-        logger.error('Failed to start emulator')
+        logger.error('Failed to start emulator 3 times, stopped')
+        return False
+
+    def emulator_stop(self):
+        logger.hr('Emulator stop', level=1)
+        for _ in range(3):
+            # Stop
+            if self._emulator_function_wrapper(self._emulator_stop):
+                # Success
+                return True
+            else:
+                # Failed to stop, start and stop again
+                if self._emulator_function_wrapper(self._emulator_start):
+                    continue
+                else:
+                    return False
+
+        logger.error('Failed to stop emulator 3 times, stopped')
         return False
 
 

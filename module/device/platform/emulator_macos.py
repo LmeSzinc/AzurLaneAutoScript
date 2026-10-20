@@ -5,6 +5,7 @@ import typing as t
 
 from module.device.platform.emulator_base import EmulatorBase, EmulatorInstanceBase, EmulatorManagerBase
 from module.device.platform.utils import cached_property
+from module.logger import logger
 
 BLUESTACKS_BUNDLE_ID = 'com.now.gg.BlueStacks'
 BLUESTACKS_EXE = 'Contents/MacOS/BlueStacks'
@@ -45,7 +46,8 @@ class Emulator(EmulatorBase):
             try:
                 with open(BLUESTACKS_CONFIG, encoding='utf-8') as f:
                     content = f.read()
-            except FileNotFoundError:
+            except OSError as e:
+                logger.warning(f'Failed to read {BLUESTACKS_CONFIG}: {e}')
                 return
             # bst.instance.Tiramisu64.status.adb_port="5555"
             emulators = re.findall(r'bst.instance.(\w+).status.adb_port="(\d+)"', content)
