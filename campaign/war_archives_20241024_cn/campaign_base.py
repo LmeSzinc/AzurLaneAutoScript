@@ -34,7 +34,6 @@ class CampaignBase(CampaignBase_):
     def campaign_set_chapter_20241219(self, chapter, stage, mode='combat'):
         if chapter == 't' and stage in ['1', '2', '3', '4', '5', '6']:
             self.ui_goto_sp()
-            # Archive tabs occupy the event menu's part2 and SP positions.
             if stage in ['1', '2', '3']:
                 ASIDE_SWITCH_20241219.set('part2', main=self)
             else:
