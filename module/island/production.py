@@ -10,6 +10,7 @@ from module.island.data import DIC_ISLAND_PRODUCTION_PLACE, DIC_ISLAND_SLOT
 from module.island.utils import item_name_with_id, production_place_name_with_id
 from module.island_handler.dock import IslandDock
 from module.island_handler.dock_scanner import CharacterScanner
+from module.island_handler.exchange import FISH_MEAT_SOURCES
 from module.island_handler.recipe import IslandProductionRestart, IslandRecipe
 from module.logger import logger
 from module.map_detection.utils import Points
@@ -211,12 +212,14 @@ class IslandProduction(IslandRecipe, IslandDock):
         for place_id, slot_grid in self.slot_grids.items():
             for slot_id, slot_button in zip(DIC_ISLAND_PRODUCTION_PLACE[place_id]['slot'], slot_grid.buttons):
                 if self.is_slot_finished(slot_button) or self.slot_finish_time.get(slot_id, datetime.max) <= datetime.now():
-                    self.claim_slot_reward(slot_button)
+                    if self.claim_slot_reward(slot_button):
+                        self.claimed_slots.add(slot_id)
                     if slot_id in self.slot_finish_time:
                         del self.slot_finish_time[slot_id]
 
     def claim_all_rewards(self):
         logger.hr("Claim Production Rewards", level=2)
+        self.claimed_slots = set()
         self.ensure_top_page()
         while 1:
             self.claim_reward_in_page()
@@ -330,15 +333,33 @@ class IslandProduction(IslandRecipe, IslandDock):
             if count >= 2:
                 break
 
+    def exchange_surplus_fish(self):
+        """
+        Exchange fish above their hard floor, reserve and task target into fish meat,
+        which holds more PT, and record the fish meat stock for fish production.
+        """
+        logger.hr("Exchange Surplus Fish", level=2)
+        self.ui_goto_island_shop()
+        keep = self.get_fish_keep_items()
+        for meat_id in FISH_MEAT_SOURCES:
+            result = self.island_exchange_fish_meat(meat_id, keep=keep)
+            if result is not None:
+                self.fish_meat_stock[meat_id] = result.after
+        self.ui_back(check_button=page_island.check_button)
+        self.ensure_island_production_page()
+
     def run(self):
         self.ensure_island_production_page()
         slot_finish_time = self.config.cross_get("IslandProduction.Storage.Storage.SlotFinishTime", default={})
         self.slot_finish_time = {int(k): datetime.fromisoformat(v) for k, v in slot_finish_time.items()}
+        self.fish_meat_stock = {}
         self.claim_all_rewards()
         yaml_text = self.config.cross_get("IslandProduction.IslandProduction.DailyBufferItems", "")
         if not yaml_text or yaml_text == "{}":
             logger.critical('No daily buffer items found in config, please run Island Production Planner first')
             raise RequestHumanTakeover('No daily buffer items found in config, please run Island Production Planner first')
+        if self.claimed_slots.intersection(DIC_ISLAND_PRODUCTION_PLACE[201]['slot']):
+            self.exchange_surplus_fish()
         self.dispatch_all()
         next_run_time = list(self.slot_finish_time.values())
         with self.config.multi_set():
