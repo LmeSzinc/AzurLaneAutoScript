@@ -10,9 +10,8 @@ from module.base.timer import Timer
 from module.base.utils import color_similarity_2d, crop, extract_letters
 from module.exception import GameTooManyClickError
 from module.island.data import DIC_ISLAND_EXCHANGE_RECIPE, DIC_ISLAND_ITEM
-from module.island.utils import get_task_target_items, item_name_with_id, load_hard_floor_items, normalize_item_keys
+from module.island.utils import item_name_with_id
 from module.island_handler.assets import *
-from module.island_handler.restaurant_config import get_menu_reserve_items
 from module.island_handler.shop_ui import IslandShopUI
 from module.logger import logger
 from module.ocr.ocr import Digit, Ocr
@@ -163,21 +162,7 @@ class IslandExchange(IslandShopUI):
             dict: {fish id: amount} protected from exchange, the hard floor,
                 restaurant reserve and task target of each fish.
         """
-        hard_floor = normalize_item_keys(load_hard_floor_items(
-            self.config.cross_get("IslandProduction.IslandProduction.HardFloorItems", "")
-        ))
-        reserve = get_menu_reserve_items(self.config)
-        task_target = get_task_target_items(self.config)
-        keep = {}
-        for fish_id in FISH_MEAT_YIELD:
-            amount = (
-                max(hard_floor.get(fish_id, 0), 0)
-                + max(reserve.get(fish_id, 0), 0)
-                + max(task_target.get(fish_id, {}).get('total_need_count', 0), 0)
-            )
-            if amount > 0:
-                keep[fish_id] = amount
-        return keep
+        return self.get_protected_items(FISH_MEAT_YIELD)
 
     def _exchange_clear_selection(self):
         """

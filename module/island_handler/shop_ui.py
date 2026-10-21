@@ -1,7 +1,9 @@
 from module.base.decorator import cached_property
 from module.base.button import ButtonGrid
 from module.island.ui import IslandUI, NestedNavbar
+from module.island.utils import get_task_target_items, load_hard_floor_items, normalize_item_keys
 from module.island_handler.assets import *
+from module.island_handler.restaurant_config import get_menu_reserve_items
 from module.ui.assets import ISLAND_GOTO_ISLAND_SHOP
 from module.ui.page import page_island, page_island_shop
 
@@ -11,6 +13,31 @@ SHOP_ITEM_NAME_AREA = (12, 142, 134, 163)
 
 class IslandShopUI(IslandUI):
     has_shop_banner = False
+
+    def get_protected_items(self, item_ids):
+        """
+        Args:
+            item_ids (iterable[int]):
+
+        Returns:
+            dict: {item id: amount} not to be spent in shop or exchange, the hard floor,
+                restaurant reserve and task target of each item. Items without protection are omitted.
+        """
+        hard_floor = normalize_item_keys(load_hard_floor_items(
+            self.config.cross_get("IslandProduction.IslandProduction.HardFloorItems", "")
+        ))
+        reserve = get_menu_reserve_items(self.config)
+        task_target = get_task_target_items(self.config)
+        protected = {}
+        for item_id in item_ids:
+            amount = (
+                max(hard_floor.get(item_id, 0), 0)
+                + max(reserve.get(item_id, 0), 0)
+                + max(task_target.get(item_id, {}).get('total_need_count', 0), 0)
+            )
+            if amount > 0:
+                protected[item_id] = amount
+        return protected
 
     def ui_goto_island_shop(self):
         self.ui_goto(page_island)
