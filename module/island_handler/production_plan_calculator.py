@@ -37,6 +37,9 @@ from module.logger import logger
 
 class ProductionPlanCalculator:
     NET_ACCUMULATING_EPSILON = 1e-3
+    # Ranch second products (poultry, pelt) drop once every this many batches,
+    # planned as an amortized rate per batch.
+    RANCH_SECOND_PRODUCT_INTERVAL = 3
     SLOT_TO_GROUP = {
         9001: 'field', 9002: 'field', 9003: 'field', 9004: 'field',
         9011: 'mine', 9012: 'mine', 9013: 'mine', 9014: 'mine',
@@ -643,7 +646,9 @@ class ProductionPlanCalculator:
                 outputs = {item_id: amount * multiplier for item_id, amount in outputs.items()}
                 if self.ranch_additional:
                     for item_id, amount in recipe['second_product_display'].items():
-                        outputs[item_id] = outputs.get(item_id, 0) + amount * multiplier
+                        outputs[item_id] = outputs.get(item_id, 0) + (
+                            amount * multiplier / self.RANCH_SECOND_PRODUCT_INTERVAL
+                        )
             activities.append({
                 'kind': 'recipe',
                 'id': recipe_id,

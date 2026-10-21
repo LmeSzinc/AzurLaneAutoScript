@@ -299,6 +299,30 @@ class TestHardFloorNormalization:
         assert calc._build_planner_hard_floor_items(None) == {}
 
 
+class TestRanchSecondProduct:
+    @staticmethod
+    def get_recipe_activity(calc, recipe_id):
+        problem = calc._build_production_problem()
+        return next(
+            activity for activity in problem['activities']
+            if activity['kind'] == 'recipe' and activity['id'] == recipe_id
+        )
+
+    def test_second_product_amortized_over_three_batches(self):
+        # 400001 unlocks ranch second products, 2 chicken levels triple a batch
+        calc = make_calculator({400001: True, 410301: True, 410302: True})
+        eggs = self.get_recipe_activity(calc, 101013)
+        assert eggs['inputs'] == {3000: 2 * 3}
+        assert eggs['outputs'][2601] == pytest.approx(5 * 3)
+        # 4 poultry per drop, one drop every 3 batches
+        assert eggs['outputs'][2602] == pytest.approx(4 * 3 / 3)
+
+    def test_no_second_product_without_technology(self):
+        calc = make_calculator({410301: True, 410302: True})
+        eggs = self.get_recipe_activity(calc, 101013)
+        assert 2602 not in eggs['outputs']
+
+
 class TestSolveBaseTechnology:
     def test_initial_state_before_solve(self):
         calc = make_calculator({})
