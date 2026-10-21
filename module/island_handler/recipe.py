@@ -132,9 +132,10 @@ def format_recipe_with_product(recipe_id):
 
 # demand is always the parsed [(count, period), ...] list from parse_item_need_deadlines.
 # daily_buffer is the merged LP + manual buffer width contained in target_stock.
+# hard_floor is the HardFloorItems amount contained in target_stock.
 RecipeInfo = namedtuple('RecipeInfo', [
-    'stock', 'target_stock', 'daily_buffer', 'batch_size', 'demand', 'idle_accumulating',
-])
+    'stock', 'target_stock', 'daily_buffer', 'batch_size', 'demand', 'idle_accumulating', 'hard_floor',
+], defaults=(0,))
 
 
 def get_target_stock_weight(stock, target_stock, daily_buffer):
@@ -176,6 +177,8 @@ RECIPE_MODE_IDLE_ACCUMULATING = 'idle_accumulating'
 def get_recipe_entry_weight(recipe_id, info):
     workload = DIC_ISLAND_RECIPE[recipe_id]['workload']
     return (
+        # Products below their hard floor are produced before anything else
+        info.stock < info.hard_floor,
         get_demand_weight(info.stock, info.target_stock, info.batch_size, info.demand),
         get_target_stock_weight(info.stock, info.target_stock, info.daily_buffer),
         -get_target_stock_replenish_workload(
@@ -435,7 +438,7 @@ class IslandRecipe(IslandExchange, IslandShop):
                 for count, period in demand
             ) or '0 items in 1 days'
             idle_accumulating = idle_accumulating_items_dict.get(product_id, 0)
-            info = RecipeInfo(stock, target_stock, daily_buffer_width, batch_size, demand, idle_accumulating)
+            info = RecipeInfo(stock, target_stock, daily_buffer_width, batch_size, demand, idle_accumulating, hard_floor)
             self.recipe_info_by_id[recipe_id] = info
             logger.info(
                 f'Recipe {format_recipe_with_product(recipe_id)} stock: {stock}, '
