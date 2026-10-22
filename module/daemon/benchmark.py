@@ -175,6 +175,16 @@ class Benchmark(DaemonBase, CampaignUI):
 
     def get_test_methods(self) -> t.Tuple[t.Tuple[str], t.Tuple[str]]:
         device = self.config.Benchmark_DeviceType
+        if self.device.is_playcover:
+            screenshot = ['playcover']
+            click = ['playcover']
+            scene = self.config.Benchmark_TestScene
+            if 'screenshot' not in scene:
+                screenshot = []
+            if 'click' not in scene:
+                click = []
+            return tuple(screenshot), tuple(click)
+
         # device == 'emulator'
         screenshot = ['ADB', 'ADB_nc', 'uiautomator2', 'aScreenCap', 'aScreenCap_nc', 'DroidCast', 'DroidCast_raw']
         click = ['ADB', 'uiautomator2', 'minitouch', 'MaaTouch']
@@ -214,8 +224,9 @@ class Benchmark(DaemonBase, CampaignUI):
         return tuple(screenshot), tuple(click)
 
     def run(self):
-        self.config.override(Emulator_ScreenshotMethod='ADB')
-        self.device.uninstall_minicap()
+        if not self.device.is_playcover:
+            self.config.override(Emulator_ScreenshotMethod='ADB')
+            self.device.uninstall_minicap()
         self.ensure_campaign_ui('7-2', mode='normal')
 
         logger.attr('DeviceType', self.config.Benchmark_DeviceType)
@@ -228,6 +239,9 @@ class Benchmark(DaemonBase, CampaignUI):
         Returns:
             str: The fastest screenshot method on current device.
         """
+        if self.device.is_playcover:
+            return 'playcover'
+
         screenshot = ['ADB', 'ADB_nc', 'uiautomator2', 'aScreenCap', 'aScreenCap_nc', 'DroidCast', 'DroidCast_raw']
 
         def remove(*args):

@@ -89,7 +89,7 @@ class Device(Screenshot, Control, AppControl):
                     raise RequestHumanTakeover
 
         # Auto-fill emulator info
-        if IS_WINDOWS and self.config.EmulatorInfo_Emulator == 'auto':
+        if IS_WINDOWS and self.config.EmulatorInfo_Emulator == 'auto' and not self.is_playcover:
             _ = self.emulator_instance
 
         self.screenshot_interval_set()
@@ -128,6 +128,9 @@ class Device(Screenshot, Control, AppControl):
         """
         Check combinations of screenshot method and control methods
         """
+        if self.is_playcover:
+            return
+
         # nemu_ipc should be together
         # if self.config.Emulator_ScreenshotMethod == 'nemu_ipc' and self.config.Emulator_ControlMethod != 'nemu_ipc':
         #     logger.warning('When using nemu_ipc, both screenshot and control should use nemu_ipc')
@@ -224,6 +227,10 @@ class Device(Screenshot, Control, AppControl):
         """
         Callbacks when orientation changed.
         """
+        if self.is_playcover:
+            self.orientation = self.get_orientation_playcover()
+            return self.orientation
+
         o = super().get_orientation()
 
         self.on_orientation_change_maatouch()

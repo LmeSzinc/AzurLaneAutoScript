@@ -162,8 +162,7 @@ class HPBalancer(ModuleBase):
 
         return order
 
-    @Config.when(DEVICE_CONTROL_METHOD='minitouch')
-    def _gen_exchange_step(self, target):
+    def _gen_exchange_step_touchlike(self, target):
         """
         Minitouch swiping is more like human, when it drag the first ship to the third ship,
         [0, 1, 2] becomes [1, 2, 0], while in adb/uiautomator2, it becomes [2, 1, 0].
@@ -193,6 +192,14 @@ class HPBalancer(ModuleBase):
             # [0, 1, 2]
             # Target is the same as origin. Do nothing
             pass
+
+    @Config.when(DEVICE_CONTROL_METHOD='minitouch')
+    def _gen_exchange_step(self, target):
+        yield from self._gen_exchange_step_touchlike(target)
+
+    @Config.when(DEVICE_CONTROL_METHOD='playcover')
+    def _gen_exchange_step(self, target):
+        yield from self._gen_exchange_step_touchlike(target)
 
     @Config.when(DEVICE_CONTROL_METHOD=None)
     def _gen_exchange_step(self, target):
