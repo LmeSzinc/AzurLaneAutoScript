@@ -35,6 +35,82 @@ from module.island_handler.restaurant_config import (
 from module.logger import logger
 
 
+def extend_problem(problem, columns=(), rows=()):
+    """
+    Append columns, then rows, to a problem built by ProductionPlanCalculator.
+
+    Existing column indices and row labels keep their meaning, so the first
+    len(problem['c']) values of a solution of the extended problem read as a
+    solution of the original problem.
+
+    Args:
+        problem (dict): With c, constraints, bounds and constraint_labels, and
+            integrality and column_labels if it was extended before.
+        columns (list[dict]): Columns to append, each with
+            label: Unique label, not an int.
+            cost (float): Objective coefficient, default 0.
+            lb (float): Lower bound, default 0.
+            ub (float): Upper bound, default inf.
+            integer (bool): Integer variable, default False.
+            rows (dict): {row label: coefficient} on existing rows.
+        rows (list[dict]): Rows to append, each with
+            label: Unique label.
+            columns (dict): {column: coefficient}, column is an index or a column label.
+            lb (float): Lower limit, default -inf.
+            ub (float): Upper limit, default inf.
+
+    Returns:
+        dict: A copy of problem with c, constraints, bounds, integrality and
+            constraint_labels extended, and column_labels {label: index} of
+            appended columns. The input problem is not modified.
+    """
+    constraints = problem['constraints']
+    variable_count = len(problem['c'])
+    row_count = constraints.A.shape[0]
+    row_index = {label: row for row, label in enumerate(problem['constraint_labels'])}
+    column_index = dict(problem.get('column_labels', {}))
+
+    a_columns = np.zeros((row_count, len(columns)))
+    for offset, column in enumerate(columns):
+        label = column['label']
+        if isinstance(label, (int, np.integer)) or label in column_index:
+            raise ValueError(f'Column label {label} is an int or not unique')
+        column_index[label] = variable_count + offset
+        for row_label, coefficient in column.get('rows', {}).items():
+            a_columns[row_index[row_label], offset] += coefficient
+
+    a_rows = np.zeros((len(rows), variable_count + len(columns)))
+    for offset, row in enumerate(rows):
+        label = row['label']
+        if label in row_index:
+            raise ValueError(f'Row label {label} is not unique')
+        row_index[label] = row_count + offset
+        for column, coefficient in row['columns'].items():
+            index = column if isinstance(column, (int, np.integer)) else column_index[column]
+            a_rows[offset, index] += coefficient
+
+    extended = dict(problem)
+    extended.update({
+        'c': np.concatenate([problem['c'], [column.get('cost', 0.) for column in columns]]),
+        'constraints': LinearConstraint(
+            np.vstack([np.hstack([constraints.A, a_columns]), a_rows]),
+            np.concatenate([constraints.lb, [row.get('lb', -np.inf) for row in rows]]),
+            np.concatenate([constraints.ub, [row.get('ub', np.inf) for row in rows]]),
+        ),
+        'bounds': Bounds(
+            np.concatenate([problem['bounds'].lb, [column.get('lb', 0.) for column in columns]]),
+            np.concatenate([problem['bounds'].ub, [column.get('ub', np.inf) for column in columns]]),
+        ),
+        'integrality': np.concatenate([
+            problem.get('integrality', np.zeros(variable_count)),
+            [1 if column.get('integer', False) else 0 for column in columns],
+        ]),
+        'constraint_labels': list(problem['constraint_labels']) + [row['label'] for row in rows],
+        'column_labels': column_index,
+    })
+    return extended
+
+
 class ProductionPlanCalculator:
     NET_ACCUMULATING_EPSILON = 1e-3
     # Ranch second products (poultry, pelt) drop once every this many batches,
@@ -962,23 +1038,18 @@ class ProductionPlanCalculator:
             return ['No demand or profit constraint was available for bottleneck diagnosis.']
 
         variable_count = len(problem['c'])
-        slack_count = len(relaxable)
-        diagnostic_c = np.zeros(variable_count + slack_count)
-        diagnostic_a = np.pad(
-            constraints.A, ((0, 0), (0, slack_count)), mode='constant'
-        )
-        for slack_index, (row, _kind, _key) in enumerate(relaxable):
-            required = max(constraints.lb[row], 1)
-            diagnostic_a[row, variable_count + slack_index] = 1
-            diagnostic_c[variable_count + slack_index] = 1 / required
+        diagnostic = extend_problem(problem, columns=[
+            {'label': ('slack', kind, key), 'cost': 1 / max(constraints.lb[row], 1), 'rows': {(kind, key): 1}}
+            for row, kind, key in relaxable
+        ])
+        # Minimize the normalized shortfall only, production value plays no role
+        diagnostic_c = diagnostic['c'].copy()
+        diagnostic_c[:variable_count] = 0
 
         diagnostic_result = milp(
             diagnostic_c,
-            constraints=LinearConstraint(diagnostic_a, constraints.lb, constraints.ub),
-            bounds=Bounds(
-                np.concatenate([problem['bounds'].lb, np.zeros(slack_count)]),
-                np.concatenate([problem['bounds'].ub, np.full(slack_count, np.inf)]),
-            ),
+            constraints=diagnostic['constraints'],
+            bounds=diagnostic['bounds'],
         )
         if not diagnostic_result.success:
             return [
@@ -1364,14 +1435,24 @@ class ProductionPlanCalculator:
             for slot, menu in menus.items()
         }
 
-    def solve_production_plan(
+    def build_production_problem(
             self,
-            hard_floor_items=None,
             task_target_items=None,
             task_target_period=None,
             stuck_season_order_id=0,
             current_time=None,
     ):
+        """
+        Build the problem solve_production_plan solves, with TaskTarget and
+        stuck season order demands, without solving it.
+
+        Callers can append their own columns and rows with extend_problem,
+        e.g. to value transport commissions against the same production model.
+
+        Returns:
+            dict: c, constraints, bounds and constraint_labels for milp, and
+                the index data _apply_production_lp_result reads.
+        """
         self.task_target_items = normalize_item_needs(
             task_target_items,
             default_period=task_target_period,
@@ -1380,7 +1461,6 @@ class ProductionPlanCalculator:
             stuck_season_order_id,
             current_time,
         )
-        self.hard_floor_items = self._build_planner_hard_floor_items(hard_floor_items)
         if self.stuck_season_order_items:
             period = next(iter(self.stuck_season_order_items.values()))['period']
             logger.info(
@@ -1388,7 +1468,24 @@ class ProductionPlanCalculator:
                 f'as production planner demand over {self._format_amount(period)} day(s)'
             )
         demand_items = merge_item_needs(self.task_target_items, self.stuck_season_order_items)
-        problem = self._build_production_problem(demand_items=demand_items)
+        return self._build_production_problem(demand_items=demand_items)
+
+    def solve_production_plan(
+            self,
+            hard_floor_items=None,
+            task_target_items=None,
+            task_target_period=None,
+            stuck_season_order_id=0,
+            current_time=None,
+    ):
+        # Set before building, the problem carries it over _reset_lp_result
+        self.hard_floor_items = self._build_planner_hard_floor_items(hard_floor_items)
+        problem = self.build_production_problem(
+            task_target_items=task_target_items,
+            task_target_period=task_target_period,
+            stuck_season_order_id=stuck_season_order_id,
+            current_time=current_time,
+        )
         self._reset_lp_result()
         result = milp(
             problem['c'],
