@@ -60,6 +60,10 @@ class Config(ConfigBase):
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
 
+    MAP_SWIPE_MULTIPLY = (1.263, 1.286)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.221, 1.244)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.185, 1.207)
+
 
 class Campaign(CampaignBase):
     MAP = MAP

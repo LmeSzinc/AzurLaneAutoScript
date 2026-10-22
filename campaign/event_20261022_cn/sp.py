@@ -53,7 +53,7 @@ class Config:
     MAP_SIREN_TEMPLATE = ['TempestaGhostBoss02']
     MOVABLE_ENEMY_TURN = (2,)
     MAP_HAS_SIREN = True
-    MAP_HAS_MOVABLE_ENEMY = True
+    MAP_HAS_MOVABLE_ENEMY = False
     MAP_HAS_MAP_STORY = False
     MAP_HAS_FLEET_STEP = False
     MAP_HAS_AMBUSH = False
@@ -62,12 +62,15 @@ class Config:
     STAR_REQUIRE_2 = 0
     STAR_REQUIRE_3 = 0
     # ===== End of generated config =====
+
     MAP_CHAPTER_SWITCH_20241219 = True
     STAGE_ENTRANCE = ['half', '20240725']
+    MAP_IS_ONE_TIME_STAGE = True
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
     MAP_SIREN_HAS_BOSS_ICON_SMALL = False
-    MAP_SWIPE_MULTIPLY = (1.123, 1.144)
-    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.086, 1.106)
-    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.054, 1.073)
+    MAP_SWIPE_MULTIPLY = (1.245, 1.268)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.204, 1.226)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.169, 1.190)
 
 
 class Campaign(CampaignBase):

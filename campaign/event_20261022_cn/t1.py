@@ -5,7 +5,7 @@ from module.logger import logger
 
 MAP = CampaignMap('T1')
 MAP.shape = 'E10'
-MAP.camera_data = ['B2', 'B6', 'B8']
+MAP.camera_data = ['B3', 'B5', 'B8']
 MAP.camera_data_spawn_point = ['B2']
 MAP.map_data = """
     ++ SP -- SP ++
@@ -62,12 +62,14 @@ class Config:
     MAP_HAS_AMBUSH = False
     MAP_HAS_MYSTERY = False
     # ===== End of generated config =====
+
     MAP_CHAPTER_SWITCH_20241219 = True
     STAGE_ENTRANCE = ['half', '20240725']
     MAP_SIREN_HAS_BOSS_ICON_SMALL = True
-    MAP_SWIPE_MULTIPLY = (1.123, 1.144)
-    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.086, 1.106)
-    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.054, 1.073)
+    MAP_ENSURE_EDGE_INSIGHT_CORNER = 'bottom'
+    MAP_SWIPE_MULTIPLY = (1.249, 1.273)
+    MAP_SWIPE_MULTIPLY_MINITOUCH = (1.208, 1.230)
+    MAP_SWIPE_MULTIPLY_MAATOUCH = (1.173, 1.194)
     
 
 class Campaign(CampaignBase):
