@@ -4,6 +4,7 @@ Run with (pytest is not a repo dependency, install it yourself):
     pixi run python -m pytest tests/ -v
 """
 from datetime import datetime, timedelta
+from types import SimpleNamespace
 
 import pytest
 from yaml import safe_load
@@ -299,6 +300,80 @@ class TestHardFloorNormalization:
         assert calc._build_planner_hard_floor_items(None) == {}
 
 
+class TestRanchSecondProduct:
+    @staticmethod
+    def get_recipe_activity(calc, recipe_id):
+        problem = calc._build_production_problem()
+        return next(
+            activity for activity in problem['activities']
+            if activity['kind'] == 'recipe' and activity['id'] == recipe_id
+        )
+
+    def test_second_product_amortized_over_three_batches(self):
+        # 400001 unlocks ranch second products, 2 chicken levels triple a batch
+        calc = make_calculator({400001: True, 410301: True, 410302: True})
+        eggs = self.get_recipe_activity(calc, 101013)
+        assert eggs['inputs'] == {3000: 2 * 3}
+        assert eggs['outputs'][2601] == pytest.approx(5 * 3)
+        # 4 poultry per drop, one drop every 3 batches
+        assert eggs['outputs'][2602] == pytest.approx(4 * 3 / 3)
+
+    def test_no_second_product_without_technology(self):
+        calc = make_calculator({410301: True, 410302: True})
+        eggs = self.get_recipe_activity(calc, 101013)
+        assert 2602 not in eggs['outputs']
+
+
+FLOUR_ACTIVITY = {'kind': 'shop', 'id': 103004, 'group': None, 'workload': 0,
+                  'inputs': {2000: 6}, 'outputs': {3004: 1}}
+COW_FEED_ACTIVITY = {'kind': 'shop', 'id': 103002, 'group': None, 'workload': 0,
+                     'inputs': {2008: 30}, 'outputs': {3002: 10}}
+
+
+class TestConversionIdleRedirect:
+    def test_pt_neutral_shop_ids(self):
+        # Flour and chicken/pig feed keep PT, cow/sheep feed gain PT
+        assert ProductionPlanCalculator.PT_NEUTRAL_SHOP_IDS == {103000, 103001, 103004}
+
+    def test_idle_flour_exported_as_wheat(self):
+        calc = make_calculator({})
+        calc.net_idle_accumulating_items = {3004: 10, 2000: 5}
+        # 12 flour bought, 2 of them consumed, 10 left idle
+        ratios = calc._redirect_conversion_idle_accumulating_items([12], [FLOUR_ACTIVITY])
+        assert calc.net_idle_accumulating_items == {2000: pytest.approx(5 + 10 * 6)}
+        assert ratios == {0: pytest.approx(10 / 12)}
+
+    def test_pt_gaining_shop_conversion_kept(self):
+        calc = make_calculator({})
+        calc.net_idle_accumulating_items = {3002: 10}
+        ratios = calc._redirect_conversion_idle_accumulating_items([1], [COW_FEED_ACTIVITY])
+        assert calc.net_idle_accumulating_items == {3002: 10}
+        assert ratios == {}
+
+    def test_total_pt_counts_idle_fish_meat(self):
+        calc = make_calculator({})
+        # Exchange 1 yellowfin tuna per day into 18 saltwater fish meat, left idle
+        exchange = {'kind': 'exchange', 'id': 206, 'group': None, 'workload': 0,
+                    'inputs': {5107: 1}, 'outputs': {2522: 18}}
+        problem = {
+            'activities': [exchange], 'sale_entries': [], 'item_index': {5107: 0, 2522: 1},
+            'end_offset': 1, 'group_slots': {}, 'wild_gather_plan': {}, 'mining_supply_plan': {},
+            'logging_supply_plan': {}, 'demand_items': {}, 'hard_floor_items': {},
+            'task_target_items': {}, 'stuck_season_order_id': 0, 'stuck_season_order_items': {},
+        }
+        result = SimpleNamespace(status=0, success=True, message='', x=[1, 0, 18])
+        calc._apply_production_lp_result(result, problem)
+        assert calc.idle_accumulating_items_per_day == {5107: 1}
+        assert calc.total_pt == pytest.approx(18 * 48)
+
+    def test_idle_conversion_share_needs_no_buffer(self):
+        calc = make_calculator({})
+        kwargs = dict(solution=[12], activities=[FLOUR_ACTIVITY], sale_entries=[], activity_count=1)
+        assert calc._calculate_product_daily_buffer_items(**kwargs) == {2000: 72}
+        # 10 of 12 flour left idle, only the wheat of 2 flour is consumed daily
+        assert calc._calculate_product_daily_buffer_items(**kwargs, idle_ratios={0: 10 / 12}) == {2000: 12}
+
+
 class TestSolveBaseTechnology:
     def test_initial_state_before_solve(self):
         calc = make_calculator({})
@@ -446,6 +521,11 @@ class TestSolveAllTechnology:
         calc = all_tech_koi_solved
         for plan in (calc.production_plan, calc.shop_plan, calc.exchange_plan, calc.sell_plan):
             assert all(amount > 0 for amount in plan.values())
+
+    def test_conversion_output_not_exported_as_idle(self, all_tech_koi_solved):
+        # Production cannot schedule flour, chicken/pig feed or fish meat
+        idle = set(all_tech_koi_solved.idle_accumulating_items_per_day)
+        assert not idle & {3000, 3001, 3004, 2521, 2522}
 
     def test_yaml_exports_parse(self, all_tech_koi_solved):
         calc = all_tech_koi_solved

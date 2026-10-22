@@ -86,7 +86,13 @@ class IslandCollect(IslandDock):
             dock_grid = super().dock_grid
             scanner = CharacterScanner(dock_grid, emotion=(80, 150), status='free')
             scanner.disable('emotion_limit')
-            candidates = scanner.scan(self.device.image)
+            for _ in self.loop(timeout=3):
+                candidates = scanner.scan(self.device.image)
+                if not candidates:
+                    continue
+                if any(candidate.identity == 'unknown' for candidate in candidates):
+                    continue
+                break
             if not candidates:
                 logger.warning(f'No candidate found for workslot {workslot}, canceling collect')
                 self.island_dock_quit()

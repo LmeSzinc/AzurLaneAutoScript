@@ -37,6 +37,9 @@ from module.logger import logger
 
 class ProductionPlanCalculator:
     NET_ACCUMULATING_EPSILON = 1e-3
+    # Ranch second products (poultry, pelt) drop once every this many batches,
+    # planned as an amortized rate per batch.
+    RANCH_SECOND_PRODUCT_INTERVAL = 3
     SLOT_TO_GROUP = {
         9001: 'field', 9002: 'field', 9003: 'field', 9004: 'field',
         9011: 'mine', 9012: 'mine', 9013: 'mine', 9014: 'mine',
@@ -106,6 +109,15 @@ class ProductionPlanCalculator:
         item_id
         for recipe in DIC_ISLAND_EXCHANGE_RECIPE.values()
         for item_id in recipe['items']
+    }
+    # Shop recipes converting items into items of the same PT, e.g. wheat into flour.
+    # Holding the output gains no PT over holding the input.
+    PT_NEUTRAL_SHOP_IDS = {
+        shop_id
+        for shop_id, recipe in DIC_ISLAND_SHOP_RECIPE.items()
+        if 1 not in recipe['resource_consume']
+        and sum(DIC_ISLAND_ITEM[item_id]['pt_num'] * amount for item_id, amount in recipe['resource_consume'].items())
+        == sum(DIC_ISLAND_ITEM[item_id]['pt_num'] * amount for item_id, amount in recipe['items'].items())
     }
     def __init__(
             self,
@@ -444,29 +456,40 @@ class ProductionPlanCalculator:
             return 0
         return idle_accumulating_amount
 
-    def _redirect_exchange_idle_accumulating_items(self, solution, activities):
-        """Translate idle exchange outputs into equivalent source production.
+    def _is_idle_redirected_conversion(self, activity):
+        return activity['kind'] == 'exchange' or (
+            activity['kind'] == 'shop' and activity['id'] in self.PT_NEUTRAL_SHOP_IDS
+        )
+
+    def _redirect_conversion_idle_accumulating_items(self, solution, activities):
+        """Translate idle conversion outputs into equivalent source production.
+
+        Conversions are exchanges (fish into fish meat) and PT-neutral shop
+        recipes (wheat into flour). Production can only schedule the source,
+        so idle output is exported as idle source. Fish surplus is exchanged
+        anyway, and holding wheat gains the same PT as holding flour.
 
         Only the amount that the LP actually leaves accumulating is translated.
-        Required exchange output consumed by another activity remains ordinary
-        fish-meat flow. Any independently planned source-fish accumulation is
-        preserved and added to the translated amount.
-        """
-        if not self.exchange_plan:
-            return
+        Required conversion output consumed by another activity remains ordinary
+        flow. Any independently planned source accumulation is preserved and
+        added to the translated amount.
 
+        Returns:
+            dict: {column: ratio of the conversion output left idle}.
+        """
+        idle_ratios = {}
         idle_output = {
             item_id: self.net_idle_accumulating_items.get(item_id, 0)
-            for item_id in self.EXCHANGE_PRODUCT_IDS
+            for activity in activities if self._is_idle_redirected_conversion(activity)
+            for item_id in activity['outputs']
         }
         for col, activity in enumerate(activities):
-            if activity['kind'] != 'exchange':
+            if not self._is_idle_redirected_conversion(activity):
                 continue
             amount = solution[col]
             if amount <= self.NET_ACCUMULATING_EPSILON:
                 continue
-            recipe = DIC_ISLAND_EXCHANGE_RECIPE[activity['id']]
-            for output_id, output_amount in recipe['items'].items():
+            for output_id, output_amount in activity['outputs'].items():
                 total_output = output_amount * amount
                 if total_output <= self.NET_ACCUMULATING_EPSILON:
                     continue
@@ -474,19 +497,22 @@ class ProductionPlanCalculator:
                 if idle_amount <= self.NET_ACCUMULATING_EPSILON:
                     continue
                 ratio = idle_amount / total_output
+                # Conversions have a single output
+                idle_ratios[col] = ratio
                 self.net_idle_accumulating_items[output_id] = max(
                     self.net_idle_accumulating_items.get(output_id, 0) - idle_amount,
                     0,
                 )
                 if self.net_idle_accumulating_items.get(output_id, 0) <= self.NET_ACCUMULATING_EPSILON:
                     self.net_idle_accumulating_items.pop(output_id, None)
-                for input_id, input_amount in recipe['resource_consume'].items():
+                for input_id, input_amount in activity['inputs'].items():
                     translated = input_amount * amount * ratio
                     if translated > self.NET_ACCUMULATING_EPSILON:
                         self.net_idle_accumulating_items[input_id] = (
                             self.net_idle_accumulating_items.get(input_id, 0) + translated
                         )
                 idle_output[output_id] = max(idle_output.get(output_id, 0) - idle_amount, 0)
+        return idle_ratios
 
     def _subtract_passive_idle_accumulating_items(self):
         """Exclude passive collection from exported idle accumulation."""
@@ -643,7 +669,9 @@ class ProductionPlanCalculator:
                 outputs = {item_id: amount * multiplier for item_id, amount in outputs.items()}
                 if self.ranch_additional:
                     for item_id, amount in recipe['second_product_display'].items():
-                        outputs[item_id] = outputs.get(item_id, 0) + amount * multiplier
+                        outputs[item_id] = outputs.get(item_id, 0) + (
+                            amount * multiplier / self.RANCH_SECOND_PRODUCT_INTERVAL
+                        )
             activities.append({
                 'kind': 'recipe',
                 'id': recipe_id,
@@ -856,11 +884,12 @@ class ProductionPlanCalculator:
                 idle_accumulating_amount = self._get_natural_idle_accumulating_amount(item_id, amount)
                 if idle_accumulating_amount > 0:
                     self.net_idle_accumulating_items[item_id] = idle_accumulating_amount
-        self._redirect_exchange_idle_accumulating_items(solution=solution, activities=activities)
+        # Count PT before redirecting, idle fish meat is held as fish meat not as fish
         self.total_pt = sum(
             DIC_ISLAND_ITEM[item_id].get('pt_num', 0) * amount
             for item_id, amount in self.net_idle_accumulating_items.items()
         )
+        idle_ratios = self._redirect_conversion_idle_accumulating_items(solution=solution, activities=activities)
         self._subtract_passive_idle_accumulating_items()
         self.daily_profit = self.net_items.get(1, 0)
         for col, activity in enumerate(activities):
@@ -875,6 +904,7 @@ class ProductionPlanCalculator:
             activities=activities,
             sale_entries=sale_entries,
             activity_count=activity_count,
+            idle_ratios=idle_ratios,
         )
         self.idle_accumulating_items_per_day = {
             item_id: self._round_output_amount(amount)
@@ -1088,11 +1118,19 @@ class ProductionPlanCalculator:
                 )
         return lines
 
-    def _calculate_product_daily_buffer_items(self, solution, activities, sale_entries, activity_count):
+    def _calculate_product_daily_buffer_items(self, solution, activities, sale_entries, activity_count,
+                                              idle_ratios=None):
+        """
+        Args:
+            idle_ratios (dict): {column: ratio of the conversion output left idle},
+                see _redirect_conversion_idle_accumulating_items. The idle share is
+                exported as idle source instead, so it needs no buffer.
+        """
         daily_product_demand = defaultdict(float)
+        idle_ratios = idle_ratios or {}
 
         for col, activity in enumerate(activities):
-            amount = solution[col]
+            amount = solution[col] * (1 - idle_ratios.get(col, 0))
             if amount <= self.NET_ACCUMULATING_EPSILON:
                 continue
             for item_id, input_amount in activity['inputs'].items():

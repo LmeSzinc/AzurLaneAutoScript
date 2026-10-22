@@ -809,6 +809,7 @@
       "event_20260625_cn": "Miracle by Midnight",
       "event_20260813_cn": "Depths of the Astrarium",
       "event_20260908_cn": "Tales of the Paranormal",
+      "event_20261022_cn": "Tempesta and the Corridor of Fog",
       "raid_20200624": "Air Raid Drills with Essex Rerun",
       "raid_20210708": "Cross Wave rerun",
       "raid_20220127": "Mystery Investigation",
@@ -868,7 +869,9 @@
       "war_archives_20230525_cn": "archives Confluence of Nothingness",
       "war_archives_20230803_cn": "archives Anthem of Remembrance",
       "war_archives_20231026_cn": "archives Tempesta and the Fountain of Youth",
-      "war_archives_20240725_cn": "archives Interlude of Illusions"
+      "war_archives_20240725_cn": "archives Interlude of Illusions",
+      "war_archives_20241024_cn": "archives Tempesta and the Sleeping Sea",
+      "war_archives_20251023_cn": "archives Tempesta and Islas de Libertád"
     },
     "Mode": {
       "name": "Level Mode",

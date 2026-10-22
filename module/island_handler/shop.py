@@ -222,10 +222,13 @@ class IslandShop(IslandShopUI):
         currency_id = list(DIC_ISLAND_SHOP_RECIPE[recipe_id]['resource_consume'].keys())[0]
         currency_amount = self.island_shop_get_currency().get(currency_id, 0)
         required = DIC_ISLAND_SHOP_RECIPE[recipe_id]['resource_consume'][currency_id] * amount
+        # Items paid as currency, e.g. wheat for flour, keep their protected stock
+        protected = self.get_protected_items([currency_id]).get(currency_id, 0) if currency_id != 1 else 0
         logger.info(
-            f'Current {item_name_with_id(currency_id)} amount: {currency_amount}, required: {required}'
+            f'Current {item_name_with_id(currency_id)} amount: {currency_amount}, '
+            f'protected: {protected}, required: {required}'
         )
-        if currency_amount < DIC_ISLAND_SHOP_RECIPE[recipe_id]['resource_consume'][currency_id] * amount:
+        if currency_amount - protected < required:
             logger.warning(
                 f'Not enough {item_name_with_id(currency_id)} to buy {amount} of '
                 f'{shop_recipe_name_with_id(recipe_id)}'

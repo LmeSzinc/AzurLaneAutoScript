@@ -72,3 +72,28 @@ def test_idle_accumulating_follows_failed_buffer_surplus():
     assert recipe._build_recipe_id_sequence_to_run() == [
         (101001, info, RECIPE_MODE_IDLE_ACCUMULATING),
     ]
+
+
+def test_hard_floor_shortfall_runs_first():
+    # Half way to its hard floor, so less urgent than both other entries by
+    # demand and buffer fill level
+    below_floor = RecipeInfo(2, 4, 0, 2, [], 0, 4)
+    buffer_short = RecipeInfo(0, 20, 20, 8, [], 0)
+    task_target = RecipeInfo(0, 0, 0, 12, [(24, 1)], 0)
+    recipe = make_recipe(201002, below_floor)
+    recipe.recipe_info_by_id.update({201006: buffer_short, 201005: task_target})
+
+    sequence = recipe._build_recipe_id_sequence_to_run()
+
+    assert [recipe_id for recipe_id, _info, _mode in sequence] == [201002, 201005, 201006]
+
+
+def test_hard_floor_met_keeps_normal_order():
+    floor_met = RecipeInfo(1, 11, 10, 2, [], 0, 1)
+    task_target = RecipeInfo(0, 20, 20, 8, [(30, 1)], 0)
+    recipe = make_recipe(201002, floor_met)
+    recipe.recipe_info_by_id[201006] = task_target
+
+    sequence = recipe._build_recipe_id_sequence_to_run()
+
+    assert [recipe_id for recipe_id, _info, _mode in sequence] == [201006, 201002]
