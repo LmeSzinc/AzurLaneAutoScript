@@ -320,3 +320,4 @@ To add a new event, add a new row in here, and run `python -m module.config.conf
 | 20261008   | event 20250520 cn        | A Rose on the High Tower Rerun               | 复刻高塔上的蔷薇           | A Rose on the High Tower Rerun                     | 高い塔の薔薇（復刻）                 | -                          |
 | 20261008   | event 20250814 cn        | Secrets of the Abyss Rerun                   | 复刻奇渊下的秘密           | Secrets of the Abyss Rerun                         | 淵層界の秘密（復刻）                 | -                          |
 | 20261008   | event 20250912 cn        | A Dance for Amahara Above Rerun              | 复刻起舞于天原之上         | A Dance for Amahara Above Rerun                    | アマハラに舞い奉れ（復刻）           | -                          |
+| 20261022   | event 20261022 cn        | Tempesta and the Corridor of Fog             | 飓风与雾霭回廊             | Tempesta and the Corridor of Fog                   | テンペスタと霧靄回廊                 | -                          |
