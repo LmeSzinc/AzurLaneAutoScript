@@ -1972,6 +1972,19 @@
       "Storage": {}
     }
   },
+  "IslandTransport": {
+    "Scheduler": {
+      "Enable": false,
+      "NextRun": "2020-01-01 00:00:00",
+      "Command": "IslandTransport",
+      "SuccessInterval": 0,
+      "FailureInterval": 120,
+      "ServerUpdate": "03:00, 18:00"
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
   "IslandFreebie": {
     "Scheduler": {
       "Enable": false,
