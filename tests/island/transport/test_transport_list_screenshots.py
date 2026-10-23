@@ -1,6 +1,7 @@
 """Transport commission-list readers exercised against real screenshots."""
 
 from module.base.utils import crop
+from module.island.assets import ISLAND_TRANSPORT_LIST_REFRESH
 from module.island.transport import IslandTransport, remove_row_mask
 from module.testing.screenshot import image
 
@@ -357,6 +358,10 @@ def test_sparse_rewards_jp(main: IslandTransport):
 
 @image('island/transport/536dd606', server='cn')
 def test_requirements_selected_cn(main: IslandTransport):
+    assert main.transport_refresh_status() == ('ready', None)
+    main.device.review({'refresh_state': 'ready'}, [
+        (ISLAND_TRANSPORT_LIST_REFRESH.area, 'list refresh ready'),
+    ])
     assert list_snapshot(main, 'requirements') == {
         'readings': {
             1: {

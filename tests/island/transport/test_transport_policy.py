@@ -72,6 +72,8 @@ def test_needs_fish_meat_largest_needs():
 
 def test_decide_swaps_into_blocked_slot(monkeypatch):
     class FakeOptimizer:
+        success = True
+
         def __init__(self, problem, max_commissions):
             FakeOptimizer.max_commissions = max_commissions
 
@@ -108,6 +110,13 @@ def test_decide_swaps_into_blocked_slot(monkeypatch):
 class FakeTaskConfig:
     def __init__(self):
         self.calls = []
+        self.storage = {}
+
+    def cross_get(self, key, default=None):
+        return self.storage.get(key, default)
+
+    def cross_set(self, key, value):
+        self.storage[key] = value
 
     def task_delay(self, **kwargs):
         self.calls.append(('task_delay', kwargs))
@@ -129,7 +138,7 @@ def run_module(submit=(), submit_success=True):
     module.submitted = []
     module.server_support_island_transport = lambda: True
     module.ui_ensure = lambda page: None
-    module.transport_claim_rewards = lambda: None
+    module.transport_claim_rewards = lambda: True
     module.transport_scan_slots = lambda rewards=True: ({}, {})
     module.needs_fish_meat = lambda commissions, max_commissions: False
     module.transport_decide = lambda slots, subs: ([], list(submit)) if submit else None

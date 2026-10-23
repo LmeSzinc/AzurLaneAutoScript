@@ -6,6 +6,7 @@ import math
 import numpy as np
 import pytest
 
+import module.island_handler.transport_optimizer as transport_optimizer
 from module.island.data import DIC_ISLAND_ITEM
 from module.island_handler.milp import LinearConstraint, milp
 from module.island_handler.production_plan_calculator import ProductionPlanCalculator
@@ -269,6 +270,31 @@ class TestTransportOptimizer:
         optimizer = TransportOptimizer(all_tech_problem)
         assert optimizer.select(commissions, stock) == []
         assert optimizer.gain == 0
+        assert optimizer.success
+
+    def test_parking_omits_only_immediate_stock_limit(self, low_tech_problem):
+        optimizer = TransportOptimizer(low_tech_problem)
+        assert optimizer.select(LOW_TECH_COMMISSIONS, {}) == []
+        assert optimizer.success
+        chosen = optimizer.select(LOW_TECH_COMMISSIONS, None)
+        best, best_chosen = brute_force(low_tech_problem, LOW_TECH_COMMISSIONS, loose_stock(LOW_TECH_COMMISSIONS))
+        assert sorted(chosen) == best_chosen
+        assert optimizer.gain == pytest.approx(best, abs=EPS)
+        assert optimizer.success
+
+    def test_failed_selection_is_distinct_from_no_profitable_jobs(self, low_tech_problem, monkeypatch):
+        optimizer = TransportOptimizer(low_tech_problem)
+        assert optimizer.select(LOW_TECH_COMMISSIONS, LOW_TECH_STOCK)
+        assert optimizer.success
+
+        class FailedResult:
+            success = False
+            message = 'test solver failure'
+
+        monkeypatch.setattr(transport_optimizer, 'milp', lambda *args, **kwargs: FailedResult())
+        assert optimizer.select(LOW_TECH_COMMISSIONS, LOW_TECH_STOCK) == []
+        assert not optimizer.success
+        assert optimizer.gain == 0
 
     def test_amortized_as_12_hours_of_output(self, all_tech_problem):
         # Production scaled to 12 hours with the change injected once gives the same gain
@@ -291,11 +317,13 @@ class TestTransportOptimizer:
         assert optimizer.base_value is None
         assert optimizer.select([TransportCommission([], {COIN: 1000})], {}) == []
         assert 'infeasible' in optimizer.message
+        assert not optimizer.success
 
     def test_no_commission(self, low_tech_problem):
         optimizer = TransportOptimizer(low_tech_problem)
         assert optimizer.select([], {}) == []
         assert optimizer.gain == 0
+        assert optimizer.success
 
 
 class TestScreenshotCommissions:
@@ -311,7 +339,6 @@ class TestScreenshotCommissions:
 
     def test_choice_without_stock_limit(self, jp_problem):
         optimizer = TransportOptimizer(jp_problem)
-        unlimited = {item_id: 10 ** 9 for item_id in SCREENSHOT_STOCK}
-        chosen = optimizer.select(SCREENSHOT_COMMISSIONS, unlimited)
+        chosen = optimizer.select(SCREENSHOT_COMMISSIONS, None)
         assert [SCREENSHOT_COMMISSIONS[index].name for index in chosen] == ['03', '05', '06']
         assert optimizer.gain == pytest.approx(3300.8, abs=0.1)

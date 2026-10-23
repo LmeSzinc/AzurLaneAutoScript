@@ -15,6 +15,9 @@ of production output:
     s.t. sum_p y_p <= max_commissions
          sum_p submitted_p,i * y_p <= max(effective_stock_i, 0)
 
+The stock constraint is omitted when effective_stock is None, to value jobs
+worth preserving for later rather than jobs that can be submitted now.
+
 V is the production optimum in PT per day with supply raised by its argument,
 H = amortize_hours / 24 day. Production is re-optimized in the same solve, so
 commissions are valued together, including how they compete for items,
@@ -107,6 +110,7 @@ class TransportOptimizer:
         self.chosen = []
         self.gain = 0.
         self.message = ''
+        self.success = False
 
     def select(self, commissions, effective_stock):
         """
@@ -114,9 +118,9 @@ class TransportOptimizer:
 
         Args:
             commissions (list[TransportCommission]): Visible commissions.
-            effective_stock (dict): {item_id: effective stock at the check time},
+            effective_stock (dict | None): {item_id: effective stock at the check time},
                 as get_order_effective_stock(stock, hard_floor, reserve).
-                Items missing have none.
+                Items missing have none. None omits the immediate stock limit.
 
         Returns:
             list[int]: Indices of chosen commissions, also stored in self.chosen,
@@ -124,12 +128,14 @@ class TransportOptimizer:
         """
         self.chosen = []
         self.gain = 0.
-        if not commissions:
-            self.message = 'No transport commission'
-            return self.chosen
+        self.success = False
         if self.base_value is None:
             self.message = 'Production problem is infeasible, transport commissions cannot be valued'
             logger.warning(self.message)
+            return self.chosen
+        if not commissions:
+            self.message = 'No transport commission'
+            self.success = True
             return self.chosen
 
         problem = self._build_selection_problem(commissions, effective_stock)
@@ -140,6 +146,7 @@ class TransportOptimizer:
             logger.warning(self.message)
             return self.chosen
 
+        self.success = True
         days = self.amortize_hours / 24
         gain = days * (-result.fun - self.base_value)
         if gain > self.GAIN_EPSILON:
@@ -178,10 +185,11 @@ class TransportOptimizer:
         }]
         # Clamped at 0, negative effective stock covers nothing and choosing
         # no commission stays feasible
-        for item_id, counts in sorted(submitted.items()):
-            rows.append({
-                'label': ('effective_stock', item_id),
-                'columns': counts,
-                'ub': max(effective_stock.get(item_id, 0), 0),
-            })
+        if effective_stock is not None:
+            for item_id, counts in sorted(submitted.items()):
+                rows.append({
+                    'label': ('effective_stock', item_id),
+                    'columns': counts,
+                    'ub': max(effective_stock.get(item_id, 0), 0),
+                })
         return extend_problem(self.problem, columns=columns, rows=rows)

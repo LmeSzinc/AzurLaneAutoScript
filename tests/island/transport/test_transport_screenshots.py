@@ -1,7 +1,7 @@
 """Transport slot, requirement and reward goldens from real JP and CN captures."""
 
 from module.base.utils import crop
-from module.island.assets import ISLAND_TRANSPORT_SUBMIT
+from module.island.assets import ISLAND_TRANSPORT_LIST_REFRESH, ISLAND_TRANSPORT_SUBMIT
 from module.island.transport import (
     IslandTransport, REWARD_GRID, SLOT_COUNT, SUBMISSION_GRID, primary_badge_area, primary_counter_area,
 )
@@ -192,6 +192,10 @@ class TestTransportSlotsJP:
 
     @image('island/transport/3fc147aa', server='jp')
     def test_empty_slots_without_remaining_trips(self, main: IslandTransport):
+        assert main.transport_refresh_status() == ('unknown', None)
+        main.device.review({'refresh_state': 'unknown'}, [
+            (ISLAND_TRANSPORT_LIST_REFRESH.area, 'no list refresh control on primary view'),
+        ])
         assert slot_snapshot(main) == {
             'counter_areas': [
                 (1070, 136, 1099, 157),
@@ -201,7 +205,7 @@ class TestTransportSlotsJP:
             'counters': [(0, 1), (0, 1), (0, 1)],
             'requirements': {},
             'rewards': {},
-            'states': ['other', 'other', 'other'],
+            'states': ['empty', 'empty', 'empty'],
             'submit_enabled': [False, False, False],
         }
 
@@ -216,7 +220,7 @@ class TestTransportSlotsJP:
             'counters': [(0, 1), (0, 1), (0, 1)],
             'requirements': {},
             'rewards': {},
-            'states': ['other', 'other', 'other'],
+            'states': ['exhausted', 'empty', 'empty'],
             'submit_enabled': [False, False, False],
         }
 
