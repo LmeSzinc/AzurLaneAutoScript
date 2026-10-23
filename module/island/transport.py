@@ -83,6 +83,8 @@ TRANSPORT_VIEW = TransportViewSwitch('Transport_view', offset=(10, 10))
 TRANSPORT_VIEW.add_state('content', check_button=ISLAND_TRANSPORT_VIEW_REWARD)
 TRANSPORT_VIEW.add_state('reward', check_button=ISLAND_TRANSPORT_VIEW_CONTENT)
 
+def counter_dy():
+    return 6 if server.server == 'en' else 0
 
 def primary_counter_area(card, slot):
     """
@@ -91,7 +93,8 @@ def primary_counter_area(card, slot):
     """
     x = SUBMISSION_GRID[card, slot].area[0]
     left = SUBMISSION_GRID[card - 1, slot].area[0] + 85 if card else x - 20
-    return left, 239 + SLOT_DELTA * slot, x + 84, 255 + SLOT_DELTA * slot
+    dy = counter_dy()
+    return left, 239 + dy + SLOT_DELTA * slot, x + 84, 255 + dy + SLOT_DELTA * slot
 
 
 def adjust_counter(stock, need, spilled=False, covered=False):
@@ -365,6 +368,9 @@ class IslandTransport(IslandExchange):
         # `stock/need`, blue when covered and red when short
         if server.server == 'jp':
             threshold, sub_threshold = 200, 200
+        elif server.server == 'en':
+            # 90-160 all read the '/' correctly on EN; pick the middle of that window
+            threshold, sub_threshold = 125, 110
         else:
             # cnocr, tuned on CN, which draws thinner digits
             threshold, sub_threshold = 170, 110
@@ -374,8 +380,13 @@ class IslandTransport(IslandExchange):
 
     @cached_property
     def transport_badge_ocr(self):
-        return TransportBadgeOcr([], lang=self.transport_digit_lang, letter=(255, 255, 255), threshold=160,
-                                 name='TRANSPORT_REWARD_OCR')
+        #EN badge background artifact reads as 7 at threshold 160
+        if server.server == 'en':
+            threshold = 140
+        else:
+            threshold = 160
+        return TransportBadgeOcr([], lang=self.transport_digit_lang, letter=(255, 255, 255), threshold=threshold,
+                                name='TRANSPORT_REWARD_OCR')
 
     @cached_property
     def transport_index_ocr(self):
@@ -1119,4 +1130,4 @@ class IslandTransport(IslandExchange):
         return self.next_run_time
 
     def server_support_island_transport(self):
-        return self.config.SERVER in ['jp']
+        return self.config.SERVER in ['jp', 'en']
