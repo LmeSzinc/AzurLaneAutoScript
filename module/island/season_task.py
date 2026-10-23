@@ -28,6 +28,22 @@ ISLAND_SEASON_TASK_SCROLL = Scroll(
     name="ISLAND_SEASON_TASK_SCROLL"
 )
 
+
+class SeasonTaskNameOcr(Ocr):
+    def after_process(self, result):
+        result = super().after_process(result)
+        if server.server != 'en' or not result:
+            return result
+        # Recover missing word spaces only when the existing task data gives
+        # one exact match after removing whitespace. Other OCR text is retained.
+        compact = ''.join(result.split())
+        matches = {
+            task['name']['en'] for task in DIC_ISLAND_TASK.values()
+            if ''.join(task['name']['en'].split()) == compact
+        }
+        return next(iter(matches)) if len(matches) == 1 else result
+
+
 class IslandSeasonTask(IslandUI):
     @cached_property
     def _island_season_bottom_navbar(self):
@@ -126,7 +142,7 @@ class IslandSeasonTask(IslandUI):
             lang = 'tw'
         else:
             lang = 'cnocr'
-        ocr = Ocr([], lang=lang, letter=(57, 58, 60), name='task_name_ocr')
+        ocr = SeasonTaskNameOcr([], lang=lang, letter=(57, 58, 60), name='task_name_ocr')
         return ocr
 
     def get_task_codename(self):

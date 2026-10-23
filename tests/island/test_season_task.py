@@ -119,7 +119,7 @@ class TestTasksEN:
             'tasks': [
                 {'area': (42, 376, 418, 587), 'name': 'watching the Fields', 'obtained': True},
                 {'area': (437, 376, 813, 587), 'name': 'The Beasts Hunger', 'obtained': True},
-                {'area': (832, 376, 1208, 587), 'name': 'MoreRice!', 'obtained': True},
+                {'area': (832, 376, 1208, 587), 'name': 'More Rice!', 'obtained': True},
             ],
         }
 
