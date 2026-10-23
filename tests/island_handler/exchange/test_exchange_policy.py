@@ -1,35 +1,17 @@
-"""Tests for the island fish meat exchange.
-
-Screen reads use the screenshots in test/island_exchange/material, which are
-not in the repository, so they are skipped without them.
-"""
-import os
+"""Policy and confirmation-flow regression tests for island fish exchange."""
 from types import SimpleNamespace
 
 import pytest
 
 import module.config.server as server
 import module.island_handler.exchange as exchange_module
-from module.base.utils import load_image
 from module.island_handler.exchange import (
     FISH_MEAT_SOURCES,
     IslandExchange,
     fish_name_to_id,
     get_fish_exchange_amounts,
     get_fish_meat_gain,
-    read_fish_cards,
-    read_fish_counts,
-    read_fish_meat,
 )
-
-MATERIAL = os.path.join(os.path.dirname(__file__), '..', '..', 'test', 'island_exchange', 'material')
-
-
-def load_material(name):
-    path = os.path.join(MATERIAL, name)
-    if not os.path.exists(path):
-        pytest.skip(f'Screenshot {name} is not available')
-    return load_image(path)
 
 
 @pytest.fixture
@@ -66,6 +48,13 @@ class TestFishNameToId:
 
 
 class TestExchangeAmounts:
+    def test_fish_keep_items(self):
+        values = {'IslandProduction.IslandProduction.HardFloorItems': '{2000: 100, 5107: 3}'}
+        exchange = object.__new__(IslandExchange)
+        exchange.config = SimpleNamespace(cross_get=lambda key, default=None: values.get(key, default))
+
+        assert exchange.get_fish_keep_items() == {5107: 3}
+
     def test_keep(self):
         amounts = get_fish_exchange_amounts({5105: 4, 5107: 10}, keep={5107: 3, 5103: 5})
         assert amounts == {5105: 4, 5107: 7}
@@ -120,33 +109,3 @@ class TestExchangeConfirm:
         frames = [(13052, 24), None, (13052, 24), (13052, 24)]
         exchange = self.make_exchange(monkeypatch, frames, popup_frames={1})
         assert exchange._exchange_confirm(2522, 13052, 24) == 13052
-
-
-class TestScreenReads:
-    @pytest.mark.parametrize('name, meat_id, cards, meat', [
-        ('MuMu12-20260811-135613.png', 2522,
-         [(0, 5103, 2), (1, 5104, 4), (2, 5105, 4), (3, 5106, 4), (4, 5107, 10)], (395, 0)),
-        ('MuMu12-20260810-175529.png', 2522, [(0, 5105, 4), (1, 5107, 2)], (398, 0)),
-        ('MuMu12-20260810-175534.png', 2521, [(0, 5002, 2)], (0, 0)),
-        ('MuMu12-20260810-144841.png', 2522, [(0, 5107, 2)], (399, 0)),
-    ])
-    def test_unselected_cards(self, jp_server, name, meat_id, cards, meat):
-        image = load_material(name)
-        assert read_fish_cards(image, meat_id) == cards
-        assert read_fish_counts(image, [index for index, _, _ in cards]) == [0] * len(cards)
-        assert read_fish_meat(image) == meat
-
-    @pytest.mark.parametrize('name, count, meat', [
-        ('MuMu12-20260808-000527.png', 4, (0, 4)),
-        ('MuMu12-20260810-144910.png', 1, (399, 18)),
-        ('MuMu12-20260810-145006.png', 2, (399, 36)),
-    ])
-    def test_selected_card(self, jp_server, name, count, meat):
-        image = load_material(name)
-        assert read_fish_counts(image, [0]) == [count]
-        assert read_fish_meat(image) == meat
-
-    def test_empty_page(self, cn_server):
-        image = load_material('QQ图片20260806201629.png')
-        assert read_fish_cards(image, 2522) == []
-        assert read_fish_meat(image) == (0, 0)

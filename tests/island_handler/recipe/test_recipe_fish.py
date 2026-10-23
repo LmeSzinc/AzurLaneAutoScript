@@ -1,4 +1,4 @@
-"""Tests for fish production following the fish meat stock."""
+"""Fish production targets and meat-stock shortage calculations."""
 import pytest
 
 from module.island_handler.recipe import IslandRecipe, get_fish_meat_shortage_rate

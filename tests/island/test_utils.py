@@ -4,12 +4,14 @@ from datetime import datetime
 import pytest
 
 import module.config.server as server
-from module.island.data import DIC_ISLAND_ACTIVITY
+from module.island.data import DIC_ISLAND_ACTIVITY, DIC_ISLAND_SEASON
 from module.island.utils import (
+    get_current_activity_list,
     get_current_season_remaining_days,
     get_idle_accumulating_batch_count,
     get_stuck_season_order_remaining_days,
     get_task_target_items,
+    resolve_stuck_season_order_id,
 )
 
 
@@ -19,6 +21,54 @@ class FakeConfig:
 
     def cross_get(self, key, default=None):
         return self.values.get(key, default)
+
+
+class TestCurrentSeasonActivity:
+    def test_inside_season(self):
+        season = next(iter(DIC_ISLAND_SEASON.values()))
+        start = datetime.strptime(season['start_time'][server.server], '%Y-%m-%d %H:%M:%S')
+        end = datetime.strptime(season['end_time'][server.server], '%Y-%m-%d %H:%M:%S')
+        midpoint = start + (end - start) / 2
+        assert get_current_activity_list(midpoint) == season['activity']
+
+    def test_inside_season_remaining_days(self):
+        season = next(iter(DIC_ISLAND_SEASON.values()))
+        start = datetime.strptime(season['start_time'][server.server], '%Y-%m-%d %H:%M:%S')
+        end = datetime.strptime(season['end_time'][server.server], '%Y-%m-%d %H:%M:%S')
+        midpoint = start + (end - start) / 2
+        assert get_current_season_remaining_days(midpoint) == pytest.approx(
+            (end - midpoint).total_seconds() / 86400
+        )
+
+    def test_outside_all_seasons(self):
+        assert get_current_activity_list(datetime(1970, 1, 1)) is None
+
+    def test_outside_all_seasons_remaining_days(self):
+        assert get_current_season_remaining_days(datetime(1970, 1, 1)) is None
+
+
+class TestStuckSeasonOrder:
+    def test_stuck_order_uses_its_activity_deadline(self):
+        order_id = 100001
+        activity = DIC_ISLAND_ACTIVITY[990002]
+        start = datetime.strptime(activity['start_time'][server.server], '%Y-%m-%d %H:%M:%S')
+        end = datetime.strptime(activity['end_time'][server.server], '%Y-%m-%d %H:%M:%S')
+        midpoint = start + (end - start) / 2
+        assert get_stuck_season_order_remaining_days(order_id, midpoint) == pytest.approx(
+            (end - midpoint).total_seconds() / 86400
+        )
+
+    def test_stuck_order_resolves_repeated_requirements_to_active_activity(self):
+        old_order_id = 100015
+        current_order_id = 100060
+        activity = DIC_ISLAND_ACTIVITY[990023]
+        start = datetime.strptime(activity['start_time'][server.server], '%Y-%m-%d %H:%M:%S')
+        end = datetime.strptime(activity['end_time'][server.server], '%Y-%m-%d %H:%M:%S')
+        midpoint = start + (end - start) / 2
+        assert resolve_stuck_season_order_id(old_order_id, midpoint) == current_order_id
+        assert get_stuck_season_order_remaining_days(old_order_id, midpoint) == pytest.approx(
+            (end - midpoint).total_seconds() / 86400
+        )
 
 
 class TestGetIdleAccumulatingBatchCount:
