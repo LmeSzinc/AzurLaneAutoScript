@@ -11,7 +11,11 @@ from module.base.timer import Timer
 from module.base.utils import color_mask, color_similar
 from module.config.utils import get_server_next_update
 from module.island.assets import ISLAND_CLICK_SAFE_AREA
-from module.island.data import DIC_ISLAND_ITEM, DIC_ISLAND_RESTAURANT_MENU_TO_RECIPE
+from module.island.data import (
+    DIC_ISLAND_ITEM,
+    DIC_ISLAND_RECIPE,
+    DIC_ISLAND_RESTAURANT_MENU_TO_RECIPE,
+)
 from module.island.utils import (
     get_task_target_items,
     item_name_with_id,
@@ -38,13 +42,27 @@ from module.ocr.ocr import Digit
 from module.statistics.item import Item, ItemGrid
 
 RESTAURANT_SWIPE_AREA = (583, 208, 1023, 400)
+_RESTAURANT_ITEM_IDS = {
+    item_id
+    for menu in DIC_ISLAND_RESTAURANT_MENU_TO_RECIPE.values()
+    for item_id in menu.keys()
+}
+# Seasonal restaurant recipes are kept in the general recipe table instead of
+# the current menu rotation.  Their item data marks them as restaurant food
+# with manage_influence=250, so derive these entries from the same business
+# data rather than maintaining a second list of historical IDs.
+_RESTAURANT_ITEM_IDS.update(
+    item_id
+    for recipe in DIC_ISLAND_RECIPE.values()
+    for item_id in recipe.get('commission_product', {})
+    if DIC_ISLAND_ITEM.get(item_id, {}).get('manage_influence') == 250
+)
 ISLAND_RESTAURANT_ITEM_ORDER_PRICE = {
     DIC_ISLAND_ITEM[item_id]['name']['en'].replace(' ', '_'): {
         'id': item_id,
         'order_price': DIC_ISLAND_ITEM[item_id]['order_price'],
     }
-    for menu in DIC_ISLAND_RESTAURANT_MENU_TO_RECIPE.values()
-    for item_id in menu.keys()
+    for item_id in _RESTAURANT_ITEM_IDS
 }
 
 

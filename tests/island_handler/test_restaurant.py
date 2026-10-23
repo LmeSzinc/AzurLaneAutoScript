@@ -313,7 +313,7 @@ class TestMenuCN:
                 {
                     'amount': 26,
                     'button': (672, 300, 755, 387),
-                    'id': 0,
+                    'id': 4039,
                     'name': 'Amaranth_Onigiri',
                     'tag': None,
                 },
@@ -327,7 +327,7 @@ class TestMenuCN:
                 {
                     'amount': 3,
                     'button': (852, 300, 935, 387),
-                    'id': 0,
+                    'id': 4040,
                     'name': 'Tomato_and_Egg_Stir-Fry',
                     'tag': None,
                 },
