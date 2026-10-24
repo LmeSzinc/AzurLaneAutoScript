@@ -50,12 +50,13 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
         Returns:
             bool: If reset success.
         """
-        if not self.appear(RESET_AVAILABLE, threshold=10):
+        if not self.match_template_color(RESET_AVAILABLE, offset=(60, 20), threshold=10):
             logger.info('Research reset unavailable')
             return False
 
         logger.info('Research reset')
-        drop.add(self.device.image)
+        if drop:
+            drop.add(self.device.image)
         executed = False
         while 1:
             if skip_first_screenshot:
@@ -63,7 +64,8 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
             else:
                 self.device.screenshot()
 
-            if self.appear_then_click(RESET_AVAILABLE, interval=10, threshold=10):
+            if self.match_template_color(RESET_AVAILABLE, offset=(60, 20), threshold=10, interval=10):
+                self.device.click(RESET_AVAILABLE)
                 continue
             if self.handle_popup_confirm('RESEARCH_RESET'):
                 executed = True
@@ -602,3 +604,9 @@ class RewardResearch(ResearchSelector, ResearchQueue, StorageHandler):
             # ten minutes in advance to avoid idle research.
             self.end_time = self.end_time + timedelta(minutes=-10)
         self.config.task_delay(target=self.end_time)
+
+
+if __name__ == '__main__':
+    self = RewardResearch('alas5')
+    self.image_file = r'C:\Users\LmeSzinc\Documents\MuMu共享文件夹\Screenshots\科研刷新202610\683320600-0ded609d-ef77-4dc4-ac44-c9789b1b2275.png'
+    self.research_reset()
