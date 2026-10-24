@@ -158,6 +158,11 @@ class Emotion:
         self.fleet_1 = FleetEmotion(self.config, fleet=1)
         self.fleet_2 = FleetEmotion(self.config, fleet=2)
         self.fleets = [self.fleet_1, self.fleet_2]
+        self.fleets = [self.fleet_1, self.fleet_2]
+        # Sync from dorm once per task, not once per battle.
+        # This limit belongs to callers, not to dorm_emotion, the low emotion
+        # popup handler will call it again with force=True during combat.
+        self._dorm_synced = False
 
     @property
     def is_calculate(self):
@@ -187,6 +192,91 @@ class Emotion:
     def show(self):
         for fleet in self.fleets:
             logger.attr(f'Emotion fleet_{fleet.fleet}', fleet.value)
+
+    def sync_from_dorm(self, device, force=False, origin=None):
+        """
+        Read real emotion from dorm panel and re-anchor the calculation.
+
+        Every cause of desync, manual play, scheduler gap between two tasks,
+        changing ships or dorm placement, client side emotion bug, happens while
+        Alas is not running, so syncing once at task start covers them all.
+        Not called during combat, where Alas reduces emotion by itself and the
+        calculated value is already accurate.
+
+        Args:
+            device (Device):
+            force (bool): Ignore the once per task limit. The low emotion popup
+                handler needs to sync again while combat is paused.
+            origin (Page, None): Page the game was on, it is put back there
+                after reading. None to let the reader detect it, which is what
+                callers without a page context should pass.
+
+        Returns:
+            bool: If config updated.
+
+        Pages:
+            in: Any page
+            out: Same page as in
+        """
+        if not self.is_calculate:
+            return False
+        if not self.config.Emotion_DormOcr:
+            return False
+        if self._dorm_synced and not force:
+            return False
+        self._dorm_synced = True
+
+        logger.hr('Emotion dorm sync')
+        from module.dorm.dorm_emotion import read_dorm_emotion
+
+        ships = read_dorm_emotion(self.config, device, origin=origin)
+        if not ships:
+            logger.info('Dorm emotion sync: no ship in dorm, keep calculated value')
+            return False
+
+        updated = [self._sync_fleet_from_dorm(fleet, ships) for fleet in self.fleets]
+        if any(updated):
+            self.update()
+            self.show()
+        return any(updated)
+
+    def _sync_fleet_from_dorm(self, fleet, ships):
+        """
+        Write the bottleneck ship of one fleet back into config.
+
+        Args:
+            fleet (FleetEmotion):
+            ships (list[DormShip]): Ships read from dorm.
+
+        Returns:
+            bool: If config updated.
+        """
+        # A fleet declared not in dorm is never synced, we can't read it there
+        # and writing a higher value would cause a red face directly
+        if fleet.recover == 'not_in_dormitory':
+            return False
+
+        same_floor = [ship for ship in ships if ship.floor == fleet.recover]
+        if same_floor:
+            candidates = same_floor
+        else:
+            # Nothing in the declared floor means a wrong setting, correct it
+            # by where the player really put the ships
+            logger.warning(
+                f'Fleet {fleet.fleet} recover location is "{fleet.recover}" '
+                f'but no ship found there, use all ships in dorm')
+            candidates = ships
+
+        # Bottleneck is the lowest mood slot, and its own recover speed decides
+        # the floor and oath status, never borrow them from another slot
+        bottleneck = min(candidates, key=lambda ship: ship.mood)
+        logger.info(f'Fleet {fleet.fleet} bottleneck: {bottleneck}')
+
+        with self.config.multi_set():
+            self.config.set_record(**{fleet.value_name: bottleneck.mood})
+            setattr(self.config, f'Emotion_Fleet{fleet.fleet}Recover', bottleneck.floor)
+            setattr(self.config, f'Emotion_Fleet{fleet.fleet}Oath', bottleneck.oath)
+        return True
 
     @property
     def reduce_per_battle(self):
