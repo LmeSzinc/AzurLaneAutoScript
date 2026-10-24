@@ -266,6 +266,10 @@
       "name": "Island Request",
       "help": ""
     },
+    "IslandTransport": {
+      "name": "Island Transport",
+      "help": "Claim finished transports, then submit the commissions worth the most to the production plan, swapping in commissions from the list when they are better.\nCommissions are valued with the production plan, run Tools - Island Production Planner first.\nOnly TW server is unsupported for now."
+    },
     "IslandFreebie": {
       "name": "Daily Supplies",
       "help": ""
