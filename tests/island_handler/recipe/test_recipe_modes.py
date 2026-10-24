@@ -1,3 +1,4 @@
+"""Recipe mode selection and production-priority rules."""
 from module.island_handler.recipe import (
     IslandRecipe,
     RECIPE_MODE_BUFFER_SURPLUS,
