@@ -63,20 +63,16 @@ class ShopClerk(ShopBase, Retirement):
         group = item.group
         if group == 'pr':
             postfix = None
-            for _ in range(3):
-                if _:
-                    self.device.sleep((0.3, 0.5))
-                    self.device.screenshot()
-
+            self.handle_info_bar()
+            for _ in self.loop(timeout=1.5):
                 for idx, btn in enumerate(SHOP_SELECT_PR):
                     if self.appear(btn, offset=(20, 20)):
                         postfix = f'{idx + 1}'
                         break
-
                 if postfix is not None:
                     break
-                logger.warning('Failed to detect PR series, '
-                               'app may be lagging or frozen')
+            else:
+                logger.warning('Failed to detect PR series, app may be lagging or frozen')
         else:
             postfix = f'_{item.tier.upper()}'
 
