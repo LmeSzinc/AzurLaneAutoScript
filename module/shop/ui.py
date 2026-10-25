@@ -113,7 +113,8 @@ class ShopUI(UI):
                 refreshed = True
                 continue
 
-        self.handle_info_bar()
+        # always having info_bar, wait it
+        self.ensure_no_info_bar(timeout=1)
         return refreshed
 
     def ui_goto_shop(self):
