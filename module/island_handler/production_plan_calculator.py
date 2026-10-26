@@ -8,7 +8,6 @@ from collections import defaultdict
 from typing import Dict
 
 import numpy as np
-from scipy.optimize import linprog
 
 import module.config.server as server
 from module.island.data import *
@@ -25,6 +24,7 @@ from module.island.utils import (
     normalize_item_keys,
     normalize_item_needs,
 )
+from module.island_handler.milp import Bounds, LinearConstraint, milp
 from module.island_handler.restaurant_config import (
     RESTAURANT_IDS,
     get_initial_capacity_from_grade,
@@ -33,6 +33,82 @@ from module.island_handler.restaurant_config import (
     normalize_waitress_slots,
 )
 from module.logger import logger
+
+
+def extend_problem(problem, columns=(), rows=()):
+    """
+    Append columns, then rows, to a problem built by ProductionPlanCalculator.
+
+    Existing column indices and row labels keep their meaning, so the first
+    len(problem['c']) values of a solution of the extended problem read as a
+    solution of the original problem.
+
+    Args:
+        problem (dict): With c, constraints, bounds and constraint_labels, and
+            integrality and column_labels if it was extended before.
+        columns (list[dict]): Columns to append, each with
+            label: Unique label, not an int.
+            cost (float): Objective coefficient, default 0.
+            lb (float): Lower bound, default 0.
+            ub (float): Upper bound, default inf.
+            integer (bool): Integer variable, default False.
+            rows (dict): {row label: coefficient} on existing rows.
+        rows (list[dict]): Rows to append, each with
+            label: Unique label.
+            columns (dict): {column: coefficient}, column is an index or a column label.
+            lb (float): Lower limit, default -inf.
+            ub (float): Upper limit, default inf.
+
+    Returns:
+        dict: A copy of problem with c, constraints, bounds, integrality and
+            constraint_labels extended, and column_labels {label: index} of
+            appended columns. The input problem is not modified.
+    """
+    constraints = problem['constraints']
+    variable_count = len(problem['c'])
+    row_count = constraints.A.shape[0]
+    row_index = {label: row for row, label in enumerate(problem['constraint_labels'])}
+    column_index = dict(problem.get('column_labels', {}))
+
+    a_columns = np.zeros((row_count, len(columns)))
+    for offset, column in enumerate(columns):
+        label = column['label']
+        if isinstance(label, (int, np.integer)) or label in column_index:
+            raise ValueError(f'Column label {label} is an int or not unique')
+        column_index[label] = variable_count + offset
+        for row_label, coefficient in column.get('rows', {}).items():
+            a_columns[row_index[row_label], offset] += coefficient
+
+    a_rows = np.zeros((len(rows), variable_count + len(columns)))
+    for offset, row in enumerate(rows):
+        label = row['label']
+        if label in row_index:
+            raise ValueError(f'Row label {label} is not unique')
+        row_index[label] = row_count + offset
+        for column, coefficient in row['columns'].items():
+            index = column if isinstance(column, (int, np.integer)) else column_index[column]
+            a_rows[offset, index] += coefficient
+
+    extended = dict(problem)
+    extended.update({
+        'c': np.concatenate([problem['c'], [column.get('cost', 0.) for column in columns]]),
+        'constraints': LinearConstraint(
+            np.vstack([np.hstack([constraints.A, a_columns]), a_rows]),
+            np.concatenate([constraints.lb, [row.get('lb', -np.inf) for row in rows]]),
+            np.concatenate([constraints.ub, [row.get('ub', np.inf) for row in rows]]),
+        ),
+        'bounds': Bounds(
+            np.concatenate([problem['bounds'].lb, [column.get('lb', 0.) for column in columns]]),
+            np.concatenate([problem['bounds'].ub, [column.get('ub', np.inf) for column in columns]]),
+        ),
+        'integrality': np.concatenate([
+            problem.get('integrality', np.zeros(variable_count)),
+            [1 if column.get('integer', False) else 0 for column in columns],
+        ]),
+        'constraint_labels': list(problem['constraint_labels']) + [row['label'] for row in rows],
+        'column_labels': column_index,
+    })
+    return extended
 
 
 class ProductionPlanCalculator:
@@ -756,62 +832,73 @@ class ProductionPlanCalculator:
         for item_id, idx in item_index.items():
             c[end_offset + idx] = -DIC_ISLAND_ITEM.get(item_id, {}).get('pt_num', 0)
 
-        a_eq = np.zeros((item_count, total_vars))
-        b_eq = np.zeros(item_count)
+        # Item balance rows, production - consumption - end amount == -initial supply
+        a_balance = np.zeros((item_count, total_vars))
+        b_balance = np.zeros(item_count)
         for col, activity in enumerate(activities):
             for item_id, amount in activity['outputs'].items():
-                a_eq[item_index[item_id], col] += amount
+                a_balance[item_index[item_id], col] += amount
             for item_id, amount in activity['inputs'].items():
-                a_eq[item_index[item_id], col] -= amount
+                a_balance[item_index[item_id], col] -= amount
         for sale_col, (slot, item_id) in enumerate(sale_entries, start=activity_count):
-            a_eq[item_index[item_id], sale_col] -= 1
+            a_balance[item_index[item_id], sale_col] -= 1
             revenue = DIC_ISLAND_ITEM[item_id]['order_price'] * (1 + self.restaurant_sales_bonus[slot])
-            a_eq[item_index[1], sale_col] += revenue
+            a_balance[item_index[1], sale_col] += revenue
         for item_id, idx in item_index.items():
-            a_eq[idx, end_offset + idx] -= 1
-            b_eq[idx] = -initial_supply.get(item_id, 0)
+            a_balance[idx, end_offset + idx] -= 1
+            b_balance[idx] = -initial_supply.get(item_id, 0)
 
-        a_ub = []
-        b_ub = []
-        ub_constraints = []
+        # Rows after the item balance rows, lb <= row @ x <= ub
+        a_rows = []
+        rows_lb = []
+        rows_ub = []
+        row_labels = []
         for group, capacity in group_capacity.items():
             row = np.zeros(total_vars)
             for col, activity in enumerate(activities):
                 if activity['group'] == group and activity['workload'] > 0:
                     row[col] = activity['workload']
             if row.any():
-                a_ub.append(row)
-                b_ub.append(capacity)
-                ub_constraints.append(('production_capacity', group))
+                a_rows.append(row)
+                rows_lb.append(-np.inf)
+                rows_ub.append(capacity)
+                row_labels.append(('production_capacity', group))
 
+        # Each dish is capped by its shelf capacity as a variable bound
+        ub = np.full(total_vars, np.inf)
         for slot, menu in sell_slots.items():
             slot_sales = [idx for idx, entry in enumerate(sale_entries) if entry[0] == slot]
             if slot_sales:
                 row = np.zeros(total_vars)
                 for idx in slot_sales:
                     row[activity_count + idx] = 1
-                a_ub.append(row)
-                b_ub.append(self.restaurant_quantity[slot] * self.restaurant_capacity[slot])
-                ub_constraints.append(('restaurant_capacity', slot))
-                for idx in slot_sales:
-                    cap_row = np.zeros(total_vars)
-                    cap_row[activity_count + idx] = 1
-                    a_ub.append(cap_row)
-                    b_ub.append(self.restaurant_capacity[slot])
-                    ub_constraints.append(('restaurant_item_capacity', sale_entries[idx]))
+                    ub[activity_count + idx] = self.restaurant_capacity[slot]
+                a_rows.append(row)
+                rows_lb.append(-np.inf)
+                rows_ub.append(self.restaurant_quantity[slot] * self.restaurant_capacity[slot])
+                row_labels.append(('restaurant_capacity', slot))
 
         profit_row = np.zeros(total_vars)
-        profit_row[end_offset + item_index[1]] = -1
-        a_ub.append(profit_row)
-        b_ub.append(-self.daily_profit_lower_limit)
-        ub_constraints.append(('daily_profit', 1))
+        profit_row[end_offset + item_index[1]] = 1
+        a_rows.append(profit_row)
+        rows_lb.append(self.daily_profit_lower_limit)
+        rows_ub.append(np.inf)
+        row_labels.append(('daily_profit', 1))
 
         for item_id, demand_data in demand_items.items():
             demand_row = np.zeros(total_vars)
-            demand_row[end_offset + item_index[item_id]] = -1
-            a_ub.append(demand_row)
-            b_ub.append(-demand_data['rate_per_day'])
-            ub_constraints.append(('demand', item_id))
+            demand_row[end_offset + item_index[item_id]] = 1
+            a_rows.append(demand_row)
+            rows_lb.append(demand_data['rate_per_day'])
+            rows_ub.append(np.inf)
+            row_labels.append(('demand', item_id))
+
+        constraints = LinearConstraint(
+            np.vstack([a_balance] + a_rows),
+            np.concatenate([b_balance, rows_lb]),
+            np.concatenate([b_balance, rows_ub]),
+        )
+        constraint_labels = [('item_balance', item_id) for item_id in item_ids] + row_labels
 
         return {
             'group_slots': group_slots,
@@ -822,18 +909,15 @@ class ProductionPlanCalculator:
             'wild_gather_plan': wild_gather_plan,
             'mining_supply_plan': dict(mining_supply_plan),
             'logging_supply_plan': dict(logging_supply_plan),
-            'ub_constraints': ub_constraints,
+            'constraint_labels': constraint_labels,
             'demand_items': demand_items,
             'hard_floor_items': getattr(self, 'hard_floor_items', {}),
             'task_target_items': getattr(self, 'task_target_items', {}),
             'stuck_season_order_id': getattr(self, 'stuck_season_order_id', 0),
             'stuck_season_order_items': getattr(self, 'stuck_season_order_items', {}),
             'c': c,
-            'A_ub': np.array(a_ub) if a_ub else None,
-            'b_ub': np.array(b_ub) if b_ub else None,
-            'A_eq': a_eq,
-            'b_eq': b_eq,
-            'bounds': [(0, None)] * total_vars,
+            'constraints': constraints,
+            'bounds': Bounds(np.zeros(total_vars), ub),
         }
 
     def _apply_production_lp_result(self, result, problem):
@@ -943,46 +1027,30 @@ class ProductionPlanCalculator:
         Demand and profit rows receive normalized slack; physical capacities
         stay hard, so a feasible diagnostic solution exposes the limiting rows.
         """
-        constraints = problem['ub_constraints']
+        constraints = problem['constraints']
+        labels = problem['constraint_labels']
         relaxable = [
             (row, kind, key)
-            for row, (kind, key) in enumerate(constraints)
-            if kind in ('daily_profit', 'demand') and -problem['b_ub'][row] > self.NET_ACCUMULATING_EPSILON
+            for row, (kind, key) in enumerate(labels)
+            if kind in ('daily_profit', 'demand') and constraints.lb[row] > self.NET_ACCUMULATING_EPSILON
         ]
         if not relaxable:
             return ['No demand or profit constraint was available for bottleneck diagnosis.']
 
         variable_count = len(problem['c'])
-        slack_count = len(relaxable)
-        diagnostic_c = np.zeros(variable_count + slack_count)
-        diagnostic_a_ub = np.pad(
-            problem['A_ub'], ((0, 0), (0, slack_count)), mode='constant'
-        )
-        diagnostic_a_eq = np.pad(
-            problem['A_eq'], ((0, 0), (0, slack_count)), mode='constant'
-        )
-        for slack_index, (row, _kind, _key) in enumerate(relaxable):
-            required = max(-problem['b_ub'][row], 1)
-            diagnostic_a_ub[row, variable_count + slack_index] = -1
-            diagnostic_c[variable_count + slack_index] = 1 / required
+        diagnostic = extend_problem(problem, columns=[
+            {'label': ('slack', kind, key), 'cost': 1 / max(constraints.lb[row], 1), 'rows': {(kind, key): 1}}
+            for row, kind, key in relaxable
+        ])
+        # Minimize the normalized shortfall only, production value plays no role
+        diagnostic_c = diagnostic['c'].copy()
+        diagnostic_c[:variable_count] = 0
 
-        diagnostic_result = None
-        for method, options in [
-                ('revised simplex', {'tol': 1e-9}),
-                ('interior-point', {'tol': 1e-9}),
-        ]:
-            diagnostic_result = linprog(
-                diagnostic_c,
-                A_ub=diagnostic_a_ub,
-                b_ub=problem['b_ub'],
-                A_eq=diagnostic_a_eq,
-                b_eq=problem['b_eq'],
-                bounds=problem['bounds'] + [(0, None)] * slack_count,
-                method=method,
-                options=options,
-            )
-            if diagnostic_result.success:
-                break
+        diagnostic_result = milp(
+            diagnostic_c,
+            constraints=diagnostic['constraints'],
+            bounds=diagnostic['bounds'],
+        )
         if not diagnostic_result.success:
             return [
                 'Unable to isolate the planning bottleneck: '
@@ -1000,7 +1068,7 @@ class ProductionPlanCalculator:
             if shortfall <= self.NET_ACCUMULATING_EPSILON:
                 continue
             has_shortfall = True
-            required = max(-problem['b_ub'][_row], 0)
+            required = max(constraints.lb[_row], 0)
             supplied = max(required - shortfall, 0)
             if kind == 'daily_profit':
                 profit_shortfall = True
@@ -1082,9 +1150,11 @@ class ProductionPlanCalculator:
                     if input_id != 1 and input_id not in visited_items
                 )
 
-        for row, (kind, key) in enumerate(constraints):
-            used = float(problem['A_ub'][row] @ solution)
-            capacity = float(problem['b_ub'][row])
+        for row, (kind, key) in enumerate(labels):
+            if kind not in ('production_capacity', 'restaurant_capacity'):
+                continue
+            used = float(constraints.A[row] @ solution)
+            capacity = float(constraints.ub[row])
             tolerance = max(abs(capacity), 1) * 1e-6
             if used < capacity - tolerance:
                 continue
@@ -1365,14 +1435,24 @@ class ProductionPlanCalculator:
             for slot, menu in menus.items()
         }
 
-    def solve_production_plan(
+    def build_production_problem(
             self,
-            hard_floor_items=None,
             task_target_items=None,
             task_target_period=None,
             stuck_season_order_id=0,
             current_time=None,
     ):
+        """
+        Build the problem solve_production_plan solves, with TaskTarget and
+        stuck season order demands, without solving it.
+
+        Callers can append their own columns and rows with extend_problem,
+        e.g. to value transport commissions against the same production model.
+
+        Returns:
+            dict: c, constraints, bounds and constraint_labels for milp, and
+                the index data _apply_production_lp_result reads.
+        """
         self.task_target_items = normalize_item_needs(
             task_target_items,
             default_period=task_target_period,
@@ -1381,7 +1461,6 @@ class ProductionPlanCalculator:
             stuck_season_order_id,
             current_time,
         )
-        self.hard_floor_items = self._build_planner_hard_floor_items(hard_floor_items)
         if self.stuck_season_order_items:
             period = next(iter(self.stuck_season_order_items.values()))['period']
             logger.info(
@@ -1389,26 +1468,30 @@ class ProductionPlanCalculator:
                 f'as production planner demand over {self._format_amount(period)} day(s)'
             )
         demand_items = merge_item_needs(self.task_target_items, self.stuck_season_order_items)
-        problem = self._build_production_problem(demand_items=demand_items)
+        return self._build_production_problem(demand_items=demand_items)
+
+    def solve_production_plan(
+            self,
+            hard_floor_items=None,
+            task_target_items=None,
+            task_target_period=None,
+            stuck_season_order_id=0,
+            current_time=None,
+    ):
+        # Set before building, the problem carries it over _reset_lp_result
+        self.hard_floor_items = self._build_planner_hard_floor_items(hard_floor_items)
+        problem = self.build_production_problem(
+            task_target_items=task_target_items,
+            task_target_period=task_target_period,
+            stuck_season_order_id=stuck_season_order_id,
+            current_time=current_time,
+        )
         self._reset_lp_result()
-        result = None
-        solver_attempts = [
-            ('interior-point', {'tol': 1e-9}),
-            ('revised simplex', {'tol': 1e-9}),
-        ]
-        for method, options in solver_attempts:
-            result = linprog(
-                problem['c'],
-                A_ub=problem['A_ub'],
-                b_ub=problem['b_ub'],
-                A_eq=problem['A_eq'],
-                b_eq=problem['b_eq'],
-                bounds=problem['bounds'],
-                method=method,
-                options=options,
-            )
-            if result.success:
-                break
+        result = milp(
+            problem['c'],
+            constraints=problem['constraints'],
+            bounds=problem['bounds'],
+        )
         self._apply_production_lp_result(result, problem)
         if not result.success:
             try:
