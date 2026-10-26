@@ -42,12 +42,11 @@ ssh -T -i .ssh/id_ed25519 git@github.com
 ```
 若提示 `Hi <你的用户名>! You've successfully authenticated...` 即代表连接成功！
 
-### 2. 关联并推送到你的 Fork 仓库：
-如果你在 GitHub 上 Fork 了仓库，使用 SSH 地址关联并推送：
+### 2. 推送到你的 Fork 仓库：
+当前仓库已配置好 `origin` 指向 `git@github.com:ZerowindSE/AzurLaneAutoScript.git`：
 ```bash
-# 添加或修改 origin 为 SSH 地址 (替换为你自己的 GitHub 路径)
-git remote add origin git@github.com:你的GitHub用户名/AzurLaneAutoScript.git
-
-# 推送当前特性分支
+# 推送当前特性分支到你的 Fork 仓库
 git push -u origin feat/api-mcp
 ```
+
+> **安全机制**：本项目已严密锁死对官方上游（LmeSzinc）的推送权限，**禁止任何私自向 upstream 的 push 操作**，仅允许从 upstream pull/fetch 合并更新。
