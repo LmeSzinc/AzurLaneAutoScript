@@ -1,0 +1,7 @@
+# AI Agent Safety Guidelines
+
+CRITICAL RULES:
+1. NEVER create Pull Requests to upstream (LmeSzinc/AzurLaneAutoScript) or origin under any circumstances.
+2. DO NOT use `gh pr create` or GitHub API to create PRs or issues.
+3. NEVER push to `upstream`. Only push to `origin` (ZerowindSE/AzurLaneAutoScript).
+4. All custom API and MCP code belongs in `module/api/`. Do not modify Alas upstream core files.
