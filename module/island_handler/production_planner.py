@@ -21,6 +21,90 @@ from module.island_handler.technology_scanner import IslandTechnologyScanner
 from module.logger import logger
 
 
+def create_production_calculator(config, technology_status, current_time=None):
+    """
+    Args:
+        config (AzurLaneConfig):
+        technology_status (dict): {technology_id: unlocked}, see load_technology_status.
+        current_time (datetime): Server time, selects the island season content.
+
+    Returns:
+        ProductionPlanCalculator: With restaurant, efficiency and profit settings from config.
+    """
+    restaurant_settings = {}
+    for restaurant_id in RESTAURANT_IDS:
+        config_data = get_restaurant_config(restaurant_id)
+        restaurant_settings[restaurant_id] = {
+            'grade': config.cross_get(get_config_key(restaurant_id, config_data['grade_key'])),
+            'waitress_slots': get_waitress_slots(config, restaurant_id),
+        }
+    return ProductionPlanCalculator(
+        technology_status=technology_status,
+        activity_list=get_current_activity_list(current_time),
+        place_efficiency={
+            101: config.cross_get("IslandProductionPlanner.IslandProductionPlanner.FieldsEfficiency"),
+            501: config.cross_get("IslandProductionPlanner.IslandProductionPlanner.OrchardEfficiency"),
+            502: config.cross_get("IslandProductionPlanner.IslandProductionPlanner.NurseryEfficiency"),
+        },
+        restaurant_settings=restaurant_settings,
+        daily_profit_lower_limit=config.cross_get(
+            "IslandProductionPlanner.IslandProductionPlanner.DailyProfitLowerLimit", 0),
+        daily_buffer_safety_margin=config.cross_get(
+            "IslandProductionPlanner.IslandProductionPlanner.DailyBufferSafetyMargin", 0),
+    )
+
+
+def load_planner_demands(config, current_time, task_target_items=None, stuck_season_order_id=None):
+    """
+    Args:
+        config (AzurLaneConfig):
+        current_time (datetime): Server time.
+        task_target_items (dict): TaskTarget, read from config if None.
+        stuck_season_order_id (int): Read from config if None.
+
+    Returns:
+        dict: Production planner demands, as keyword arguments of
+            ProductionPlanCalculator.build_production_problem and solve_production_plan.
+    """
+    if task_target_items is None:
+        task_target_items = load_item_mapping(
+            config.cross_get("IslandSeasonTask.IslandSeasonTask.TaskTarget", "{}"),
+            config_name='TaskTarget',
+        )
+    if stuck_season_order_id is None:
+        stuck_season_order_id = config.cross_get("IslandOrder.IslandOrder.StuckSeasonOrderId", 0)
+    return {
+        'task_target_items': task_target_items,
+        'task_target_period': get_current_season_remaining_days(current_time),
+        'stuck_season_order_id': stuck_season_order_id,
+        'current_time': current_time,
+    }
+
+
+def create_production_problem(config, current_time=None):
+    """
+    The production problem IslandProductionPlanner solves, built from config
+    without solving, e.g. to value island transport commissions against it.
+    Uses the technology status saved by the last planner run, without rescanning.
+
+    Args:
+        config (AzurLaneConfig):
+        current_time (datetime): Server time, now by default.
+
+    Returns:
+        dict: See ProductionPlanCalculator.build_production_problem,
+            None if no technology status is saved yet.
+    """
+    if current_time is None:
+        current_time = datetime.now() - server_time_offset()
+    technology_status = config.cross_get("IslandProductionPlanner.Storage.Storage.IslandTechnologyStatus", None)
+    if technology_status is None:
+        logger.warning('No island technology status is saved, run IslandProductionPlanner first')
+        return None
+    calculator = create_production_calculator(config, load_technology_status(technology_status), current_time)
+    return calculator.build_production_problem(**load_planner_demands(config, current_time))
+
+
 class IslandProductionPlanner(DaemonBase):
     """Config/device adapter around ProductionPlanCalculator.
 
@@ -32,29 +116,6 @@ class IslandProductionPlanner(DaemonBase):
         restaurant_id: get_config_key(restaurant_id, data['menu_key'])
         for restaurant_id, data in RESTAURANT_CONFIG.items()
     }
-
-    def create_calculator(self, technology_status, current_time=None):
-        restaurant_settings = {}
-        for restaurant_id in RESTAURANT_IDS:
-            config_data = get_restaurant_config(restaurant_id)
-            restaurant_settings[restaurant_id] = {
-                'grade': self.config.cross_get(get_config_key(restaurant_id, config_data['grade_key'])),
-                'waitress_slots': get_waitress_slots(self.config, restaurant_id),
-            }
-        return ProductionPlanCalculator(
-            technology_status=technology_status,
-            activity_list=get_current_activity_list(current_time),
-            place_efficiency={
-                101: self.config.cross_get("IslandProductionPlanner.IslandProductionPlanner.FieldsEfficiency"),
-                501: self.config.cross_get("IslandProductionPlanner.IslandProductionPlanner.OrchardEfficiency"),
-                502: self.config.cross_get("IslandProductionPlanner.IslandProductionPlanner.NurseryEfficiency"),
-            },
-            restaurant_settings=restaurant_settings,
-            daily_profit_lower_limit=self.config.cross_get(
-                "IslandProductionPlanner.IslandProductionPlanner.DailyProfitLowerLimit", 0),
-            daily_buffer_safety_margin=self.config.cross_get(
-                "IslandProductionPlanner.IslandProductionPlanner.DailyBufferSafetyMargin", 0),
-        )
 
     def run(
             self,
@@ -68,7 +129,6 @@ class IslandProductionPlanner(DaemonBase):
     ):
         if current_time is None:
             current_time = datetime.now() - server_time_offset()
-        task_target_period = get_current_season_remaining_days(current_time)
 
         if tech_status_yaml is not None:
             technology_status = tech_status_yaml
@@ -83,16 +143,16 @@ class IslandProductionPlanner(DaemonBase):
             )
         else:
             hard_floor_items = load_hard_floor_items(hard_floor_items_yaml)
-        if task_target_items is None:
-            task_target_items = load_item_mapping(
-                self.config.cross_get("IslandSeasonTask.IslandSeasonTask.TaskTarget", "{}"),
-                config_name='TaskTarget',
-            )
-        if stuck_season_order_id is None:
-            stuck_season_order_id = self.config.cross_get("IslandOrder.IslandOrder.StuckSeasonOrderId", 0)
+        demands = load_planner_demands(
+            self.config,
+            current_time,
+            task_target_items=task_target_items,
+            stuck_season_order_id=stuck_season_order_id,
+        )
 
-        calculator = self.create_calculator(technology_status, current_time)
-        if task_target_items:
+        calculator = create_production_calculator(self.config, technology_status, current_time)
+        task_target_period = demands['task_target_period']
+        if demands['task_target_items']:
             if task_target_period is None:
                 logger.warning(
                     'No active island season was found, so no default TaskTarget '
@@ -103,13 +163,7 @@ class IslandProductionPlanner(DaemonBase):
                     f'Default TaskTarget planning period: {task_target_period:.3f} day(s) '
                     'remaining in the current island season'
                 )
-        calculator.solve_production_plan(
-            hard_floor_items=hard_floor_items,
-            task_target_items=task_target_items,
-            task_target_period=task_target_period,
-            stuck_season_order_id=stuck_season_order_id,
-            current_time=current_time,
-        )
+        calculator.solve_production_plan(hard_floor_items=hard_floor_items, **demands)
         calculator.print_solved_production_plan()
         if export:
             inventory_levels_yaml_text = calculator.daily_buffer_items_to_yaml(use_item_name=use_item_name_in_export)
