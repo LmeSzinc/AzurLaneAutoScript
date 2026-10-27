@@ -24,9 +24,9 @@ class IslandDock(IslandUI):
         return self.appear(ISLAND_DOCK_CHECK, offset=(0, 20))
 
     def handle_island_dock_loading(self):
-        # poor implementation, just wait for a while
-        for _ in self.loop(timeout=0.6):
-            pass
+        for _ in self.loop(timeout=1.5):
+            if self.match_template_color(ISLAND_DOCK_CHARACTER_CONFIRM, offset=(0, 20)):
+                break
 
     def _island_dock_quit_check_func(self):
         return not self.appear(ISLAND_DOCK_CHECK, offset=(20, 20))
@@ -143,12 +143,13 @@ class IslandDock(IslandUI):
         self.island_dock_sort_method_dsc_set(enable=False, wait_loading=True)
         # self.ensure_dock_page_at_top()  # not necessary for now since usually Manjuu is searched first
         scanner = CharacterScanner(self.dock_grid, identity=['Manjuu'], status='free')
-        candidates = scanner.scan(self.device.image)
-        if candidates:
-            self.island_dock_select_one(candidates[0].button)
-            return True
+        for _ in self.loop(timeout=3):
+            candidates = scanner.scan(self.device.image)
+            if candidates:
+                self.island_dock_select_one(candidates[0].button)
+                return True
         else:
-            logger.warning('No Manjuu found in dock')
+            logger.warning('Failed to find Manjuu in dock')
             return False
 
     def island_dock_find_character(self, identity):
