@@ -81,8 +81,19 @@ def fish_name_to_id(name, meat_id):
     """
     if not name:
         return None
+
+    def distance_to(fish_id):
+        full_name = DIC_ISLAND_ITEM[fish_id]['name'][server.server]
+        # Cards clip names on EN, e.g. ocrs:
+        # 'Vellowfin', 'catfish', 'Koi carp', 'Common', 'Sea Bass'
+        # 'Mackerel', 'Red Sea Br.．', 'Black Porgy'
+        # so compare against word-prefix of the full name.
+        words = full_name.split()
+        prefixes = [' '.join(words[:i]) for i in range(1, len(words) + 1)]
+        return min(levenshtein_distance(name, prefix) for prefix in prefixes)
+
     distances = sorted(
-        (levenshtein_distance(name, DIC_ISLAND_ITEM[fish_id]['name'][server.server]), fish_id)
+        (distance_to(fish_id), fish_id)
         for fish_id in FISH_MEAT_SOURCES[meat_id]
     )
     if len(distances) > 1 and distances[0][0] == distances[1][0]:
