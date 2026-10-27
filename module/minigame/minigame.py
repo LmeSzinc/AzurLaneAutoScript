@@ -184,12 +184,6 @@ class Minigame(UI):
             in: Any page
             out: page_game_room
         """
-        # TEMP: 2026.10.15 Game bug that -1 +1 button is not functioning at all,
-        # skip minigame before game client patches
-        logger.info('Skip minigame before game client patches')
-        self.config.task_delay(server_update=True)
-        self.config.task_stop()
-
         # TEMP: 2026.02.18 separate self.ui_ensure(page_game_room) into 2 steps
         # EN has different page_academy detection, to use ui_ensure(page_game_room),
         # ui_goto must use `if self.ui_page_appear(page)` instead of `if self.appear(page.check_button)`
