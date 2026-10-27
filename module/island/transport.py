@@ -181,8 +181,8 @@ class TransportItemMatcher:
     Recognise item cards with the templates in assets/island/transport, resized per view.
 
     *_2.png are 46x46 icons from recipe cards or item details. Unnumbered files are
-    73x56 crops of primary submission cards, used with the card background trimmed
-    for items without a recipe icon (Copper Ore, fish meats, Poultry).
+    73x56 crops of primary submission cards, used with the card background trimmed.
+    Both source variants are tried because they can fit different views better.
     """
     FOLDER = './assets/island/transport'
     # Scales are measured on screenshots, matching gets much worse a few percent off.
@@ -223,10 +223,12 @@ class TransportItemMatcher:
 
     @cached_property
     def item_ids(self):
-        return {
+        item_ids = {
             data['name']['en'].replace(' ', '_'): item_id
             for item_id, data in DIC_ISLAND_ITEM.items()
         }
+        item_ids.update({f'{name}_2': item_id for name, item_id in item_ids.items()})
+        return item_ids
 
     def card_icon(self, image):
         diff = np.abs(image.astype(int) - np.array(self.CARD_WHITE)).max(axis=2) > 25
@@ -243,12 +245,11 @@ class TransportItemMatcher:
             out = {}
             for name, image in icons.items():
                 scale = self.ICON_SCALE[view]
-                out[name] = cv2.resize(image, None, fx=scale, fy=scale, interpolation=cv2.INTER_AREA)
+                out[f'{name}_2'] = cv2.resize(image, None, fx=scale, fy=scale, interpolation=cv2.INTER_AREA)
             for name, image in cards.items():
-                if name not in out:
-                    scale = self.CARD_SCALE[view]
-                    out[name] = cv2.resize(self.card_icon(image), None, fx=scale, fy=scale,
-                                           interpolation=cv2.INTER_AREA)
+                scale = self.CARD_SCALE[view]
+                out[name] = cv2.resize(self.card_icon(image), None, fx=scale, fy=scale,
+                                       interpolation=cv2.INTER_AREA)
             self._templates[view] = {
                 name: (image, rgb2luma(image), tuple(cv2.mean(image)[:3]))
                 for name, image in out.items()
@@ -280,7 +281,7 @@ class TransportItemMatcher:
                 passed.append(name)
         if not passed:
             return None
-        if len(passed) > 1:
+        if len({self.item_ids.get(name) for name in passed}) > 1:
             card = rgb2luma(crop(image, area))
             scores = {name: cv2.minMaxLoc(cv2.matchTemplate(card, self.templates(view)[name][1],
                                                             cv2.TM_CCOEFF_NORMED))[1]
