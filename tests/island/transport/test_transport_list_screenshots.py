@@ -6,7 +6,7 @@ from module.island.transport import IslandTransport, remove_row_mask
 from module.testing.screenshot import image
 
 
-def list_snapshot(main, mode):
+def list_snapshot(main, mode, include_unknown=False):
     rows = main.transport_list_rows()
     selected = [bool(main.transport_row_selected(row)) for row in rows]
     unselected = [row for row, is_selected in zip(rows, selected) if not is_selected]
@@ -56,6 +56,8 @@ def list_snapshot(main, mode):
                 [crop(reading_image, badge) for _, badge, _ in cards], direct_ocr=True
             )
             actual['readings'][row.index] = {'items': readings[row.index], 'amounts': amounts}
+            if include_unknown:
+                actual['readings'][row.index]['unknown'] = readings[row.index].unknown
             for card in range(3):
                 regions.extend([
                     (row.reward_area(card), 'row {} reward {}'.format(row.index, card + 1)),
@@ -460,5 +462,49 @@ def test_rewards_selected_cn(main: IslandTransport):
                 'select_area': (760, 492, 880, 562),
                 'selected': False,
             },
+        ],
+    }
+
+
+@image('island/transport/list_rewards_saltwater_fish_meat_selected_02_jp.webp', server='jp')
+def test_saltwater_fish_meat_rewards_selected_02_jp(main: IslandTransport):
+    assert list_snapshot(main, 'rewards', include_unknown=True) == {
+        'readings': {
+            2: {'amounts': [26, 17, 4], 'items': {2701: 26, 2016: 17, 2600: 4}, 'unknown': False},
+            4: {'amounts': [26, 19, 0], 'items': {2012: 26, 2801: 19}, 'unknown': False},
+            5: {'amounts': [7, 5, 47], 'items': {2522: 7, 2703: 5, 2602: 47}, 'unknown': False},
+            6: {'amounts': [25, 17, 14], 'items': {5006: 25, 2601: 17, 2017: 14}, 'unknown': False},
+        },
+        'rows': [
+            {'area': (400, 170, 900, 260), 'index': 2,
+             'select_area': (760, 180, 880, 250), 'selected': True},
+            {'area': (400, 274, 900, 364), 'index': 4,
+             'select_area': (760, 284, 880, 354), 'selected': False},
+            {'area': (400, 378, 900, 468), 'index': 5,
+             'select_area': (760, 388, 880, 458), 'selected': False},
+            {'area': (400, 482, 900, 572), 'index': 6,
+             'select_area': (760, 492, 880, 562), 'selected': False},
+        ],
+    }
+
+
+@image('island/transport/list_rewards_saltwater_fish_meat_selected_04_jp.webp', server='jp')
+def test_saltwater_fish_meat_rewards_selected_04_jp(main: IslandTransport):
+    assert list_snapshot(main, 'rewards', include_unknown=True) == {
+        'readings': {
+            2: {'amounts': [26, 17, 4], 'items': {2701: 26, 2016: 17, 2600: 4}, 'unknown': False},
+            4: {'amounts': [26, 19, 0], 'items': {2012: 26, 2801: 19}, 'unknown': False},
+            5: {'amounts': [7, 5, 47], 'items': {2522: 7, 2703: 5, 2602: 47}, 'unknown': False},
+            6: {'amounts': [25, 17, 14], 'items': {5006: 25, 2601: 17, 2017: 14}, 'unknown': False},
+        },
+        'rows': [
+            {'area': (400, 170, 900, 260), 'index': 2,
+             'select_area': (760, 180, 880, 250), 'selected': False},
+            {'area': (400, 274, 900, 364), 'index': 4,
+             'select_area': (760, 284, 880, 354), 'selected': True},
+            {'area': (400, 378, 900, 468), 'index': 5,
+             'select_area': (760, 388, 880, 458), 'selected': False},
+            {'area': (400, 482, 900, 572), 'index': 6,
+             'select_area': (760, 492, 880, 562), 'selected': False},
         ],
     }

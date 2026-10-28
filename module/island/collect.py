@@ -1,4 +1,5 @@
 from module.base.button import ButtonGrid
+from module.base.decorator import del_cached_property
 from module.base.timer import Timer
 from module.exception import GameStuckError
 from module.island.assets import *
@@ -82,9 +83,9 @@ class IslandCollect(IslandDock):
             else:
                 logger.warning(f'Failed to click workslot button for workslot {workslot}')
                 return False
-            self.island_dock_sort_method_dsc_set(enable=False)
-            dock_grid = super().dock_grid
-            scanner = CharacterScanner(dock_grid, emotion=(80, 150), status='free')
+            self.island_dock_sort_method_dsc_set(enable=False, wait_loading=True)
+            del_cached_property(self, 'dock_grid')
+            scanner = CharacterScanner(self.dock_grid, emotion=(80, 150), status='free')
             scanner.disable('emotion_limit')
             for _ in self.loop(timeout=3):
                 candidates = scanner.scan(self.device.image)
