@@ -135,6 +135,36 @@ class GeneralShop_250814(ShopClerk, ShopUI, ShopStatus):
 
         return False
 
+    def shop_get_item_to_buy(self, items):
+        """Restrict skin boxes before custom purchases and the item filter.
+
+        Args:
+            items (list[Item]): Detected unsold shop items.
+
+        Returns:
+            Item: Item to buy, or None.
+        """
+        if self.config.GeneralShop_SkinBoxFirstOnly:
+            first_slot = self.shop_grid[0, 0].button
+            allowed = []
+            for item in items:
+                is_skin_box = item.name in ('BoxIrisT2', 'BoxSardegnaT2') or (
+                    not item.is_known_item() and item.amount == 1
+                    and item.cost == 'Coins' and item.price == 7000
+                )
+                if is_skin_box and not (
+                    item.button == first_slot and item.amount == 1
+                    and item.cost == 'Coins' and item.price == 7000
+                ):
+                    logger.info(f'Skip equip skin box excluded by the first-slot restriction: {item}')
+                    continue
+                allowed.append(item)
+            # Apply the restriction before both custom purchases (including
+            # spilled coins) and the regular filter. Sold-out slots disappear
+            # from items, so the first detected item is not a fixed shop slot.
+            items = allowed
+        return super().shop_get_item_to_buy(items)
+
     def run(self):
         """
         Run General Shop

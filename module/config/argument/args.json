@@ -7778,6 +7778,10 @@
         "type": "checkbox",
         "value": false
       },
+      "SkinBoxFirstOnly": {
+        "type": "checkbox",
+        "value": false
+      },
       "ConsumeCoins": {
         "type": "checkbox",
         "value": false

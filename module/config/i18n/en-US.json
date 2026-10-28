@@ -1768,6 +1768,10 @@
       "name": "Buy Equip Skin Boxes",
       "help": "In order to reduce maintenance costs, the skin box selectors in the filter will not be updated with the game, but Alas will consider any unknown items with a quantity of 1 and consume 7000 coins as skin boxes and buy them."
     },
+    "SkinBoxFirstOnly": {
+      "name": "Only Buy the First Equip Skin Box",
+      "help": "Restrict equip skin boxes to the fixed top-left shop slot at 7000 coins, including purchases through the item filter or Consume Spilled Coins. If that slot is sold out or does not qualify, skip other skin boxes. A restocked first slot after a shop refresh can be bought again. This does not identify rerun boxes."
+    },
     "ConsumeCoins": {
       "name": "Consume Spilled Coins",
       "help": "Buy all items when the coins exceed 550000"

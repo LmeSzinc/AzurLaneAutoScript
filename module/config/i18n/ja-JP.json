@@ -1768,6 +1768,10 @@
       "name": "GeneralShop.BuySkinBox.name",
       "help": "GeneralShop.BuySkinBox.help"
     },
+    "SkinBoxFirstOnly": {
+      "name": "左上の装備外装箱のみ購入",
+      "help": "装備外装箱の購入を、ショップ左上の固定枠にある7000資金の商品に制限します。フィルターと余剰資金の消費にも適用されます。売り切れや条件不一致の場合、他の装備外装箱は購入しません。更新後に左上へ再入荷した商品は再び購入できます。復刻商品かどうかは判定しません。"
+    },
     "ConsumeCoins": {
       "name": "GeneralShop.ConsumeCoins.name",
       "help": "GeneralShop.ConsumeCoins.help"
