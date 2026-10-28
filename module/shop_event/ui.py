@@ -111,6 +111,15 @@ class EventShopUI(UI):
             return None
         # Without a year, take the candidate closest to now
         deadline = min(candidates, key=lambda t: abs(t - server_now))
+        # if guess is not within 90 days, use current year
+        if not year and abs(deadline - server_now) > timedelta(days=90):
+            logger.warning(f"Guessed event deadline {deadline} is more than 90 days from now, "
+                           f"using current year {server_now.year}")
+            try:
+                deadline = datetime(server_now.year, int(month), int(day), hour, minute, second)
+            except ValueError:
+                logger.warning(f"Invalid event deadline: {raw}")
+                return None
         return deadline + timedelta(seconds=1)
 
     @cached_property
