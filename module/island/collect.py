@@ -119,6 +119,7 @@ class IslandCollect(IslandDock):
             success = self.collect_execute()
             if success:
                 logger.info('Collect successfully')
+                self.config.cross_set('IslandProduction.Storage.Storage.CheckAllEmptySlots', True)
                 self.config.task_delay(server_update=True)
             else:
                 logger.warning('Failed to collect, will retry later')

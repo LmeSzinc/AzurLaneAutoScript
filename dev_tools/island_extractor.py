@@ -244,6 +244,41 @@ class IslandProduction:
         return data
 
 
+def get_slot_ingredient_sources(slots, recipes, conversions):
+    """Find which slots can supply ingredients, including shop and fish exchanges."""
+    products = {}
+    ingredients = {}
+    for slot_id, slot in slots.items():
+        products[slot_id] = set()
+        ingredients[slot_id] = set()
+        for recipe_id in slot['formula'] + slot['activity_formula']:
+            recipe = recipes[recipe_id]
+            products[slot_id].update(recipe['commission_product'])
+            products[slot_id].update(recipe['second_product_display'])
+            ingredients[slot_id].update(recipe['commission_cost'])
+
+        # These conversions can happen during dispatch without waiting for
+        # another production slot: wheat -> flour, crops -> feed, fish -> meat.
+        while 1:
+            converted = {
+                item_id
+                for conversion in conversions
+                if products[slot_id].intersection(conversion['resource_consume'])
+                for item_id in conversion['items']
+            }
+            if converted <= products[slot_id]:
+                break
+            products[slot_id].update(converted)
+
+    return {
+        slot_id: sorted(
+            source_id for source_id, items in products.items()
+            if items.intersection(cost)
+        )
+        for slot_id, cost in ingredients.items()
+    }
+
+
 class IslandProductionExtractor:
     def __init__(self):
         self.slot = {}
@@ -1032,9 +1067,20 @@ if __name__ == '__main__':
 
     lines += IslandItemExtractor().encode()
     lines.append('')
-    lines += IslandRecipeExtractor().encode()
+    recipe_extractor = IslandRecipeExtractor()
+    production_extractor = IslandProductionExtractor()
+    shop_extractor = IslandShopItemExtractor()
+    exchange_extractor = IslandExchangeRecipeExtractor()
+    sources = get_slot_ingredient_sources(
+        production_extractor.slot, recipe_extractor.recipe,
+        list(shop_extractor.item.values()) + list(exchange_extractor.item.values()),
+    )
+    for slot_id, source_slots in sources.items():
+        production_extractor.slot[slot_id]['ingredient_source_slots'] = source_slots
+
+    lines += recipe_extractor.encode()
     lines.append('')
-    lines += IslandProductionExtractor().encode()
+    lines += production_extractor.encode()
     lines.append('')
     activity_extractor = IslandActivityExtractor()
     lines += activity_extractor.encode()
@@ -1051,9 +1097,9 @@ if __name__ == '__main__':
     lines.append('')
     lines += IslandShopExtractor().encode()
     lines.append('')
-    lines += IslandShopItemExtractor().encode()
+    lines += shop_extractor.encode()
     lines.append('')
-    lines += IslandExchangeRecipeExtractor().encode()
+    lines += exchange_extractor.encode()
     lines.append('')
     lines += IslandTaskExtractor().encode()
     lines.append('')

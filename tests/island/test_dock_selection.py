@@ -195,9 +195,9 @@ def test_next_dispatch_pass_retries_human_workers(production):
     main.ensure_top_page = lambda: None
     main.next_page = lambda: False
 
-    main.dispatch_all()
+    main.dispatch_all(check_all_empty_slots=True)
     assert main.human_workers_available is False
-    main.dispatch_all()
+    main.dispatch_all(check_all_empty_slots=True)
 
     assert events.count('character') == 2
     assert events.count('workerjuu') == 1
@@ -225,7 +225,7 @@ def test_ingredient_restart_does_not_repeat_failed_human_search(production, monk
         return finish
 
     monkeypatch.setattr(IslandRecipe, 'run', recipe)
-    main.dispatch_all()
+    main.dispatch_all(check_all_empty_slots=True)
 
     assert recipe_calls == [slot, slot]
     assert events.count('character') == 1
