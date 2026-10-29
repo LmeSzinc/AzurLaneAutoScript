@@ -1,3 +1,4 @@
+import re
 import time
 import typing as t
 from dataclasses import dataclass
@@ -483,3 +484,18 @@ class Uiautomator2(Connection):
             description=resp.get('description', '')
         )
         return resp
+
+    @retry
+    def u2_current_ime(self) -> t.Tuple[t.Optional[str], bool]:
+        """
+        Same as u2.current_ime(), which only matches `mCurMethodId=`.
+        Android 15 (e.g. MuMu 12) shows it as `mSelectedMethodId=` instead.
+
+        Returns:
+            str: Current IME id, or None
+            bool: If keyboard is shown
+        """
+        output = self.adb_shell(['dumpsys', 'input_method'])
+        res = re.search(r'(?:mCurMethodId|mSelectedMethodId)=([-_./\w]+)', output)
+        ime = res.group(1) if res else None
+        return ime, 'mInputShown=true' in output

@@ -1,3 +1,5 @@
+import base64
+
 import yaml
 
 from module.base.timer import Timer
@@ -173,7 +175,7 @@ class EquipmentCodeHandler(StorageHandler):
 
     def set_fastinput_ime(self):
         d = self.device.u2
-        name, _ = d.current_ime()
+        name, _ = self.device.u2_current_ime()
         if name == self.FASTINPUT_IME:
             return
         failed = False
@@ -195,10 +197,9 @@ class EquipmentCodeHandler(StorageHandler):
 
     def _code_input(self, code):
         logger.info(f"Code input: {code}")
-        d = self.device.u2
         click_timer = Timer(1, count=3)
-        for _ in self.loop():
-            name, shown = d.current_ime()
+        for _ in self.loop(timeout=20):
+            name, shown = self.device.u2_current_ime()
             if name != self.FASTINPUT_IME:
                 self.set_fastinput_ime()
                 continue
@@ -209,11 +210,14 @@ class EquipmentCodeHandler(StorageHandler):
         else:
             logger.warning("Equipment code load failed")
             return False
-        d.send_keys(text=code, clear=True)
-        d.send_action(code="done")
+        # Same as u2 send_keys(clear=True) and send_action("done"), which wait for FastInputIME
+        # with u2.current_ime() and fail on Android 15. It's already shown here.
+        text = base64.b64encode(code.encode('utf-8')).decode()
+        self.device.adb_shell(['am', 'broadcast', '-a', 'ADB_SET_TEXT', '--es', 'text', text])
+        self.device.adb_shell(['am', 'broadcast', '-a', 'ADB_EDITOR_CODE', '--ei', 'code', '6'])
         self.device.sleep((0.3, 0.5))
         for _ in self.loop(timeout=10, skip_first=False):
-            _, shown = d.current_ime()
+            _, shown = self.device.u2_current_ime()
             if shown:
                 continue
             if self.is_code_preview_loaded():
