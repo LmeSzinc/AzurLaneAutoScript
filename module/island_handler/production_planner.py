@@ -1,7 +1,7 @@
 from datetime import datetime
 
+from module.base.base import ModuleBase
 from module.config.utils import server_time_offset
-from module.daemon.daemon_base import DaemonBase
 from module.island.utils import (
     get_current_activity_list,
     get_current_season_remaining_days,
@@ -105,7 +105,7 @@ def create_production_problem(config, current_time=None):
     return calculator.build_production_problem(**load_planner_demands(config, current_time))
 
 
-class IslandProductionPlanner(DaemonBase):
+class IslandProductionPlanner(ModuleBase):
     """Config/device adapter around ProductionPlanCalculator.
 
     Reads planner inputs from config, runs the pure calculator, then writes

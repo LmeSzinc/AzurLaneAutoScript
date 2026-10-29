@@ -436,6 +436,8 @@ class IslandOrder(IslandUI):
             logger.info('Production plan needs to be updated due to stuck season order change')
             from module.island_handler.production_planner import IslandProductionPlanner
             IslandProductionPlanner(self.config, self.device).run()
+            # Planner may take long without touching the game, it's not stuck
+            self.device.stuck_record_clear()
             self.update_production_plan = False
         for order in self.regular_cooldown_orders:
             remain_time = self.get_order_remain_time(order)
