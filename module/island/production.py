@@ -9,7 +9,6 @@ from module.island.assets import *
 from module.island.data import DIC_ISLAND_PRODUCTION_PLACE, DIC_ISLAND_SLOT
 from module.island.utils import item_name_with_id, production_place_name_with_id
 from module.island_handler.dock import IslandDock
-from module.island_handler.dock_scanner import CharacterScanner
 from module.island_handler.exchange import FISH_MEAT_SOURCES
 from module.island_handler.recipe import IslandProductionRestart, IslandRecipe
 from module.logger import logger
@@ -238,19 +237,21 @@ class IslandProduction(IslandRecipe, IslandDock):
             if self.match_template_color(page_island_manage.check_button, interval=1) and not self.is_enter_window_shown():
                 self.device.click(slot_button)
                 continue
+        selected = False
         if worker != 'manjuu':
-            character = self.island_dock_find_character(worker)
-            if not character or character.status != 'free':
+            selected = self.island_dock_select_character(identity=worker, fallback=True)
+            if not selected:
                 logger.warning(
                     f'Failed to select character {worker} for '
                     f'{production_slot_name_with_id(slot_id)}, try to select manjuu instead'
                 )
                 worker = 'manjuu'
-                self.ensure_dock_page_at_top()
-            else:
-                self.island_dock_select_one(character.button)
         if worker == 'manjuu':
-            self.island_dock_select_manjuu()
+            selected = self.island_dock_select_manjuu()
+        if not selected:
+            logger.warning(f'Failed to select a worker for {production_slot_name_with_id(slot_id)}')
+            self.island_dock_quit()
+            return False
         self.island_dock_select_confirm(self.is_in_recipe_menu)
         target_time = super().run(slot_id=slot_id)
         if target_time is not None:
