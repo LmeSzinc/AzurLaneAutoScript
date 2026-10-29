@@ -1,3 +1,4 @@
+import contextlib
 from datetime import datetime
 
 import pytest
@@ -109,6 +110,20 @@ class TestPlannerConfig:
         assert rebuilt.lp_success
         assert rebuilt.production_plan == pytest.approx(solved.production_plan)
         assert rebuilt.net_items == pytest.approx(solved.net_items)
+
+    def test_failed_solve_keeps_previous_plan(self):
+        config = self.planner_config(**{
+            'IslandProductionPlanner.IslandProductionPlanner.DailyProfitLowerLimit': 10 ** 9,
+            'IslandProduction.IslandProduction.DailyBufferItems': 'previous plan',
+        })
+        config.cross_set = config.values.__setitem__
+        config.multi_set = contextlib.nullcontext
+        planner = object.__new__(IslandProductionPlanner)
+        planner.config = config
+        solved = planner.run(hard_floor_items_yaml={}, current_time=self.season_midpoint())
+
+        assert not solved.lp_success
+        assert config.values['IslandProduction.IslandProduction.DailyBufferItems'] == 'previous plan'
 
     def test_create_production_problem_needs_saved_technology(self):
         config = self.planner_config(**{'IslandProductionPlanner.Storage.Storage.IslandTechnologyStatus': None})

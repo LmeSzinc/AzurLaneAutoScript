@@ -172,10 +172,14 @@ class IslandProductionPlanner(DaemonBase):
             restaurant_menu_yaml_texts = calculator.restaurant_menus_to_yaml()
             with self.config.multi_set():
                 self.config.cross_set("IslandProductionPlanner.Storage.Storage.IslandTechnologyStatus", technology_status)
-                self.config.cross_set("IslandProduction.IslandProduction.DailyBufferItems", inventory_levels_yaml_text)
-                self.config.cross_set("IslandProduction.IslandProduction.IdleAccumulatingItems", idle_accumulating_items_yaml_text)
-                self.config.cross_set("IslandProduction.IslandProduction.HardFloorItems", hard_floor_items_yaml_text)
-                for slot, config_key in self.RESTAURANT_MENU_CONFIG.items():
-                    self.config.cross_set(config_key, restaurant_menu_yaml_texts[slot])
+                if calculator.lp_success:
+                    self.config.cross_set("IslandProduction.IslandProduction.DailyBufferItems", inventory_levels_yaml_text)
+                    self.config.cross_set("IslandProduction.IslandProduction.IdleAccumulatingItems", idle_accumulating_items_yaml_text)
+                    self.config.cross_set("IslandProduction.IslandProduction.HardFloorItems", hard_floor_items_yaml_text)
+                    for slot, config_key in self.RESTAURANT_MENU_CONFIG.items():
+                        self.config.cross_set(config_key, restaurant_menu_yaml_texts[slot])
+                else:
+                    # A failed solve has an empty plan, don't overwrite the previous one with it
+                    logger.warning(f'Production plan solve failed, keep the previous plan: {calculator.lp_message}')
                 self.config.cross_set("IslandProductionPlanner.IslandProductionPlanner.RescanIslandTechnology", False)
         return calculator
