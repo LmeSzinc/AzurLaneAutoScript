@@ -36,7 +36,7 @@ def dock_character_matches(character, identity=None, emotion=None, emotion_limit
             return False
         identities = dock_identity_set(identity)
         if identities is None:
-            if character.identity == 'Manjuu':
+            if character.identity == 'Workerjuu':
                 return False
         elif character.identity not in identities:
             return False
@@ -249,7 +249,7 @@ class IslandDock(IslandUI):
                                      prefer_grade=False, unavailable=None, start_at_top=False):
         """Search using filters and preferences, then select on the current page.
 
-        Return True only after the selection is verified.
+        Return the selected character after verification, or None on failure.
 
         Identity recognition is optional when no identity filter, blacklist, or
         unavailable-identity tracking is requested. Grade is read only when
@@ -295,28 +295,30 @@ class IslandDock(IslandUI):
                 match_page, descending=descending, start_at_top=start_at_top, disabled=disabled)
             start_at_top = True
         if character:
-            return self.island_dock_select_one(character.button)
+            if self.island_dock_select_one(character.button):
+                return character
+            return None
         if fallback and identities is not None and completed:
             return self.island_dock_select_character(
                 identity='any', emotion=emotion, emotion_limit=emotion_limit, grade=grade, status='free',
                 blacklist=blacklist | identities, descending=fallback_descending,
                 disabled=disabled, prefer_grade=prefer_grade, unavailable=unavailable,
                 start_at_top=start_at_top)
-        return False
+        return None
 
-    def island_dock_select_manjuu(self):
-        # Normally searched first on the top page. Avoid routine top-reset drags.
+    def island_dock_select_workerjuu(self, descending=False):
+        """Select Workerjuu from the current page after sorting."""
         def select_page(characters):
             for character in characters:
-                if dock_character_matches(character, identity='Manjuu'):
-                    return self.island_dock_select_one(character.button)
+                if dock_character_matches(character, identity='Workerjuu'):
+                    if self.island_dock_select_one(character.button):
+                        return character
+                    return False
             return False
 
-        for start_at_top in (False, True):
-            selected, _ = self.island_dock_search(
-                select_page, descending=False, start_at_top=start_at_top,
-                disabled=('emotion', 'emotion_limit', 'grade'))
-            if selected:
-                return True
-        logger.warning('Failed to find Manjuu in dock')
-        return False
+        character, _ = self.island_dock_search(
+            select_page, descending=descending, disabled=('emotion', 'emotion_limit', 'grade'))
+        if character:
+            return character
+        logger.warning('Failed to find Workerjuu in dock')
+        return None

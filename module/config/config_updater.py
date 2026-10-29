@@ -596,6 +596,8 @@ class ConfigUpdater:
         # ('Coalition.Coalition.Mode', 'Coalition.Coalition.Mode', coalition_to_frostfall),
         # 2025.06.26
         # ('Coalition.Coalition.Mode', 'Coalition.Coalition.Mode', coalition_to_little_academy),
+        ('IslandProduction.IslandProduction.UseManjuuByDefault',
+         'IslandProduction.IslandProduction.UseWorkerjuuByDefault'),
     ]
 
     # redirection += [

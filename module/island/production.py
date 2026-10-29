@@ -11,6 +11,11 @@ from module.island.utils import item_name_with_id, production_place_name_with_id
 from module.island_handler.dock import IslandDock
 from module.island_handler.exchange import FISH_MEAT_SOURCES
 from module.island_handler.recipe import IslandProductionRestart, IslandRecipe
+from module.island_handler.restaurant_config import (
+    RESTAURANT_IDS,
+    get_selected_named_waitresses,
+    get_waitress_slots,
+)
 from module.logger import logger
 from module.map_detection.utils import Points
 from module.ui.page import page_island, page_island_manage
@@ -35,6 +40,7 @@ def production_slot_name_with_id(slot_id):
 
 class IslandProduction(IslandRecipe, IslandDock):
     slot_finish_time = {}
+    human_workers_available = True
     # main menu related methods
     def _get_tabs(self):
         area = (DETECT_AREA[0] + ANCHOR_AREA[0], DETECT_AREA[1] + ANCHOR_AREA[1], DETECT_AREA[2] - TAB_SIZE[0] + ANCHOR_AREA[2], DETECT_AREA[3] - TAB_SIZE[1] + ANCHOR_AREA[3])
@@ -225,7 +231,7 @@ class IslandProduction(IslandRecipe, IslandDock):
             if not self.next_page():
                 break
 
-    def dispatch_slot(self, slot_id, slot_button, worker='manjuu'):
+    def dispatch_slot(self, slot_id, slot_button):
         if slot_id in DIC_ISLAND_PRODUCTION_PLACE[102]['slot']:
             del_cached_property(super(), 'recipe_id_sequence')
             del_cached_property(super(), 'all_recipe_stocks')
@@ -237,23 +243,31 @@ class IslandProduction(IslandRecipe, IslandDock):
             if self.match_template_color(page_island_manage.check_button, interval=1) and not self.is_enter_window_shown():
                 self.device.click(slot_button)
                 continue
-        selected = False
-        if worker != 'manjuu':
-            selected = self.island_dock_select_character(identity=worker, fallback=True)
-            if not selected:
+        if self.config.IslandProduction_UseWorkerjuuByDefault or not self.human_workers_available:
+            worker = self.island_dock_select_workerjuu()
+        else:
+            blacklist = set()
+            for restaurant_id in RESTAURANT_IDS:
+                blacklist.update(get_selected_named_waitresses(get_waitress_slots(self.config, restaurant_id)))
+            worker = self.island_dock_select_character(
+                emotion=(100, 150), emotion_limit=(100, 149),
+                blacklist=blacklist, descending=False)
+            if not worker:
+                self.device.click_record_remove('ISLAND_DOCK_NEXT_PAGE_SWIPE')
+                self.human_workers_available = False
                 logger.warning(
-                    f'Failed to select character {worker} for '
-                    f'{production_slot_name_with_id(slot_id)}, try to select manjuu instead'
+                    f'No available character for {production_slot_name_with_id(slot_id)}, '
+                    'use Workerjuu for the remaining production slots'
                 )
-                worker = 'manjuu'
-        if worker == 'manjuu':
-            selected = self.island_dock_select_manjuu()
-        if not selected:
+                worker = self.island_dock_select_workerjuu(descending=True)
+        if not worker:
             logger.warning(f'Failed to select a worker for {production_slot_name_with_id(slot_id)}')
             self.island_dock_quit()
             return False
+        emotion = float('inf') if worker.identity == 'Workerjuu' else worker.emotion
+        logger.attr('Worker emotion', emotion)
         self.island_dock_select_confirm(self.is_in_recipe_menu)
-        target_time = super().run(slot_id=slot_id)
+        target_time = super().run(slot_id=slot_id, emotion=emotion)
         if target_time is not None:
             target_time = target_time.replace(microsecond=0)
             self.slot_finish_time[slot_id] = target_time
@@ -284,7 +298,7 @@ class IslandProduction(IslandRecipe, IslandDock):
                 logger.info(f'No more recipe for {place}, skip remaining slots')
                 break
             if self.is_slot_empty(slot_button):
-                self.dispatch_slot(slot_id=slot_id, slot_button=slot_button, worker='manjuu')
+                self.dispatch_slot(slot_id=slot_id, slot_button=slot_button)
             if is_first:
                 is_first = False
         del_cached_property(super(), 'recipe_id_sequence')
@@ -292,6 +306,7 @@ class IslandProduction(IslandRecipe, IslandDock):
 
     def dispatch_all(self):
         logger.hr("Dispatch Production", level=2)
+        self.human_workers_available = True
         self.ensure_top_page()
         self.failed_buy_items = set()
         dispatched_places = set()

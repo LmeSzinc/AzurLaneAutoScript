@@ -102,6 +102,9 @@ def test_dock_character_matches_supports_exact_list_set_and_filters():
     assert dock_character_matches(candidate, identity={'Alice'}, status='free')
     assert not dock_character_matches(candidate, identity='Alice', emotion=(81, 90))
     assert not dock_character_matches(candidate, identity='Alice', status='occupied')
+    workerjuu = character('Workerjuu', emotion=999)
+    assert not dock_character_matches(workerjuu, identity='any')
+    assert dock_character_matches(workerjuu, identity='Workerjuu')
 
 
 def test_emotion_only_search_does_not_require_identity_or_grade(monkeypatch):
@@ -109,8 +112,10 @@ def test_emotion_only_search_does_not_require_identity_or_grade(monkeypatch):
     main = make_main([[candidate]])
     calls = install_search_stub(monkeypatch, main, [dict(pages=[[candidate]])])
 
-    assert main.island_dock_select_character(
+    selected = main.island_dock_select_character(
         emotion=(80, 150), descending=False, disabled=('emotion_limit',))
+    assert selected is candidate
+    assert selected.emotion == 100
     assert main._clicks == [candidate.button]
     assert calls[0]['descending'] is False
     assert set(calls[0]['disabled']) == {'identity', 'grade', 'emotion_limit'}
@@ -125,7 +130,7 @@ def test_identity_constraints_still_require_recognition(monkeypatch, filters):
     main = make_main([[unknown]])
     calls = install_search_stub(monkeypatch, main, [dict(pages=[[unknown]], completed=False)])
 
-    assert main.island_dock_select_character(**filters) is False
+    assert main.island_dock_select_character(**filters) is None
     assert 'identity' not in calls[0]['disabled']
     with pytest.raises(ValueError, match='requires identity recognition'):
         main.island_dock_select_character(disabled=('identity',), **filters)
@@ -138,7 +143,7 @@ def test_grade_filter_and_ranking_enable_grade_recognition(monkeypatch, filters)
     main = make_main([[lower, higher]])
     calls = install_search_stub(monkeypatch, main, [dict(pages=[[lower, higher]])])
 
-    assert main.island_dock_select_character(**filters) is True
+    assert main.island_dock_select_character(**filters) is higher
     assert main._clicks == [higher.button]
     assert all('grade' not in call['disabled'] for call in calls)
 
@@ -275,14 +280,14 @@ def test_blacklist_wins_over_explicit_identity_and_occupied_is_reported(monkeypa
 
     assert main.island_dock_select_character(
         identity='Alice', blacklist={'Alice'}, unavailable=unavailable
-    ) is False
+    ) is None
     assert unavailable == set()
     assert calls == []
 
     unavailable.clear()
     assert main.island_dock_select_character(
         identity='Alice', unavailable=unavailable
-    ) is False
+    ) is None
     assert unavailable == {'Alice'}
 
 
@@ -292,7 +297,7 @@ def test_selected_identity_is_excluded_from_single_search(monkeypatch):
     main = make_main([[selected, replacement]], selected={selected.button})
     install_search_stub(monkeypatch, main, [dict(pages=[[selected, replacement]])])
 
-    assert main.island_dock_select_character(identity='any') is True
+    assert main.island_dock_select_character(identity='any') is replacement
     assert main._clicks == [replacement.button]
 
 
@@ -303,7 +308,7 @@ def test_occupied_character_is_reported_without_selection_or_scrolling(monkeypat
     monkeypatch.setattr(dock_module, 'ISLAND_DOCK_DETECT', FakeDetect())
 
     assert main.island_dock_select_character(
-        identity='Alice', status=None, unavailable=unavailable) is False
+        identity='Alice', status=None, unavailable=unavailable) is None
     assert unavailable == {'Alice'}
     assert main._next_calls == 0
     assert main._clicks == []
@@ -317,7 +322,7 @@ def test_selection_skips_occupied_alternative_even_without_status_filter(monkeyp
     install_search_stub(monkeypatch, main, [dict(pages=[[busy, free]])])
 
     assert main.island_dock_select_character(
-        identity={'Alice', 'Bob'}, status=None, unavailable=unavailable) is True
+        identity={'Alice', 'Bob'}, status=None, unavailable=unavailable) is free
     assert unavailable == {'Alice'}
     assert main._clicks == [free.button]
 
@@ -388,7 +393,7 @@ def test_timeout_or_incomplete_absence_does_not_trigger_outside_fallback(monkeyp
         dict(pages=[[fallback]]),
     ])
 
-    assert main.island_dock_select_character(identity='Alice', fallback=True) is False
+    assert main.island_dock_select_character(identity='Alice', fallback=True) is None
     assert len(calls) == 1
 
 
@@ -405,7 +410,7 @@ def test_occupied_required_name_allows_fallback_and_reacquires_current_button(mo
 
     assert main.island_dock_select_character(
         identity='Alice', fallback=True, fallback_descending=False, unavailable=unavailable
-    ) is True
+    ) is fallback
 
     assert main._clicks == [fallback.button]
     assert unavailable == {'Alice'}
@@ -423,7 +428,7 @@ def test_preferred_identity_beats_fallback_pass(monkeypatch):
         dict(pages=[[fallback]]),
     ])
 
-    assert main.island_dock_select_character(identity='Alice', fallback=True) is True
+    assert main.island_dock_select_character(identity='Alice', fallback=True) is preferred
     assert main._clicks == [preferred.button]
     assert len(calls) == 1
 
@@ -434,7 +439,7 @@ def test_preferred_character_on_lower_page_beats_earlier_outside_candidate(monke
     main = make_main([[other], [preferred]])
     monkeypatch.setattr(dock_module, 'ISLAND_DOCK_DETECT', FakeDetect())
 
-    assert main.island_dock_select_character(identity={'Alice', 'Bob'}, fallback=True) is True
+    assert main.island_dock_select_character(identity={'Alice', 'Bob'}, fallback=True) is preferred
     assert main._clicks == [preferred.button]
     assert main._sort_calls == [True]
     assert main._top_calls == 0
@@ -495,33 +500,53 @@ def test_failed_click_does_not_trigger_outside_fallback(monkeypatch):
     ])
     main.island_dock_select_one = lambda button: main._clicks.append(button) or False
 
-    assert main.island_dock_select_character(identity='Alice', fallback=True) is False
+    assert main.island_dock_select_character(identity='Alice', fallback=True) is None
     assert main._clicks == [preferred.button]
     assert len(calls) == 1
 
 
-def test_manjuu_visible_first_uses_no_top_recovery(monkeypatch):
-    manjuu = character('Manjuu', page='first')
-    main = make_main([[manjuu]])
-    calls = install_search_stub(monkeypatch, main, [dict(pages=[[manjuu]])])
+def test_workerjuu_visible_first_uses_no_top_recovery(monkeypatch):
+    workerjuu = character('Workerjuu', page='first')
+    main = make_main([[workerjuu]])
+    calls = install_search_stub(monkeypatch, main, [dict(pages=[[workerjuu]])])
 
-    assert main.island_dock_select_manjuu()
+    assert main.island_dock_select_workerjuu() is workerjuu
     assert len(calls) == 1
     assert calls[0]['descending'] is False
     assert calls[0]['start_at_top'] is False
     assert main._top_calls == 0
 
 
-def test_manjuu_fast_path_and_top_recovery(monkeypatch):
-    other = character('Other', page='first')
-    manjuu = character('Manjuu', page='top')
-    main = make_main([[other]])
-    calls = install_search_stub(monkeypatch, main, [
-        dict(pages=[[other]]),
-        dict(pages=[[manjuu]]),
-    ])
+def test_workerjuu_after_failed_ascending_search_is_selected_locally_in_descending_order(monkeypatch):
+    low_emotion = character('Other', emotion=99, page='top')
+    mature = character('Mature', emotion_limit=150, page='bottom')
+    workerjuu = character('Workerjuu', page='sorted-bottom')
+    main = make_main([[low_emotion], [mature]])
+    monkeypatch.setattr(dock_module, 'ISLAND_DOCK_DETECT', FakeDetect())
+    original_sort = main.island_dock_sort_method_dsc_set
 
-    assert main.island_dock_select_manjuu()
-    assert [call['descending'] for call in calls] == [False, False]
-    assert calls[0]['start_at_top'] is False
-    assert calls[1]['start_at_top'] is True
+    def sort(enable=True, **kwargs):
+        original_sort(enable=enable, **kwargs)
+        if enable:
+            main._pages = [[mature], [workerjuu]]
+
+    main.island_dock_sort_method_dsc_set = sort
+    assert main.island_dock_select_character(
+        emotion=(100, 150), emotion_limit=(100, 149), descending=False) is None
+    down_swipes = main._next_calls
+
+    assert main.island_dock_select_workerjuu(descending=True) is workerjuu
+    assert main._sort_calls == [False, True]
+    assert main._top_calls == 0
+    assert main._next_calls == down_swipes
+    assert main._clicks == [workerjuu.button]
+
+
+def test_missing_workerjuu_does_not_scroll_or_retry():
+    main = make_main([[character('Other')], [character('Workerjuu')]])
+
+    assert main.island_dock_select_workerjuu() is None
+    assert main._sort_calls == [False]
+    assert main._top_calls == 0
+    assert main._next_calls == 0
+    assert main._clicks == []

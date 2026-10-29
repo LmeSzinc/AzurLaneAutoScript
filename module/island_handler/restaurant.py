@@ -89,7 +89,7 @@ def waitress_requests_match(requests, identities, blacklist=()):
 
     def match(request, identity):
         allowed = dock_identity_set(request)
-        return identity != 'Manjuu' if allowed is None else identity in allowed
+        return identity != 'Workerjuu' if allowed is None else identity in allowed
 
     if len(identities) == 1:
         return any(match(request, identities[0]) for request in requests)

@@ -9622,6 +9622,10 @@
       "SkipBufferSurplus": {
         "type": "checkbox",
         "value": true
+      },
+      "UseWorkerjuuByDefault": {
+        "type": "checkbox",
+        "value": true
       }
     },
     "Storage": {

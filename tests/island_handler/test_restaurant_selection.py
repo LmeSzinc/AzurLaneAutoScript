@@ -101,6 +101,7 @@ def restaurant_dialog(monkeypatch, requests, pages, blacklist=(), preselected=()
     ([{'A', 'B'}, {'A', 'B'}], ['B', 'B'], (), False),
     (['A', 'any'], ['B', 'C'], (), False),
     (['A', 'any'], ['A', 'C'], {'A'}, False),
+    (['any', 'any'], ['Workerjuu', 'A'], (), False),
 ])
 def test_waitress_requests_match_unordered_roles(requests, identities, blacklist, expected):
     assert restaurant.waitress_requests_match(requests, identities, blacklist) is expected
