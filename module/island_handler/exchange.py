@@ -233,7 +233,7 @@ class IslandExchange(IslandShopUI):
             keep (dict): {fish id: amount} not to exchange, None to exchange all fish.
 
         Returns:
-            FishMeatExchange: None if failed before exchanging.
+            FishMeatExchange: None if the exchange failed.
         """
         logger.info(f'Exchange fish into {item_name_with_id(meat_id)}, keep: {keep or {}}')
         self.island_shop_side_navbar_ensure(main_index=6, sub_index=FISH_MEAT_TAB[meat_id])
@@ -272,11 +272,13 @@ class IslandExchange(IslandShopUI):
             return None
 
         after = self._exchange_confirm(meat_id, before, expected)
+        if after is None:
+            return None
         return FishMeatExchange(before, after, stock)
 
     def _exchange_confirm(self, meat_id, before, expected):
         """
-        Confirm the selected fish and wait for the fish meat to arrive.
+        Confirm the selected fish, dismiss the item popup and verify the fish meat.
 
         Args:
             meat_id (int):
@@ -284,12 +286,16 @@ class IslandExchange(IslandShopUI):
             expected (int): Fish meat gain of the selected fish.
 
         Returns:
-            int: Fish meat owned after the exchange, `before` if the gain is not seen.
+            int: Fish meat owned after the exchange, None if completion is not seen.
         """
         popup_confirmed = False
+        items_received = False
         owned = before
         for _ in self.loop(timeout=10):
-            if self.handle_island_additional():
+            if self.handle_island_get_items():
+                items_received = True
+                continue
+            if self.handle_island_level_up():
                 continue
             if self.handle_island_popup_confirm('EXCHANGE'):
                 popup_confirmed = True
@@ -297,14 +303,15 @@ class IslandExchange(IslandShopUI):
             owned, gain = read_fish_meat(self.device.image)
             # Exact match only. While the popup fades, the dimmed gain digits may read
             # as part of the owned digits, e.g. 13052 +24 as 1305224.
-            if gain == 0 and owned == before + expected:
+            if items_received and gain == 0 and owned == before + expected:
                 return owned
             # The page takes a while to update after the popup is confirmed
-            if not popup_confirmed and self.appear_then_click(ISLAND_EXCHANGE_CONFIRM, offset=(20, 20), interval=2):
+            if not popup_confirmed and not items_received and self.appear_then_click(
+                    ISLAND_EXCHANGE_CONFIRM, offset=(20, 20), interval=2):
                 continue
         logger.warning(f'Exchange expected {expected} {item_name_with_id(meat_id)}, '
-                       f'but owned {owned} from {before}')
-        return before
+                       f'but owned {owned} from {before}, item popup handled: {items_received}')
+        return None
 
     def island_shop_exchange(self, require_dict={}, keep=None):
         """
