@@ -1766,11 +1766,19 @@
     },
     "BuySkinBox": {
       "name": "Buy Equip Skin Boxes",
-      "help": "In order to reduce maintenance costs, the skin box selectors in the filter will not be updated with the game, but Alas will consider any unknown items with a quantity of 1 and consume 7000 coins as skin boxes and buy them."
+      "help": "In order to reduce maintenance costs, the skin box selectors in the filter will not be updated with the game, but Alas will consider any unknown items with a quantity of 1 and consume 7000 coins as skin boxes and buy them. Re-enabling this option resets the successful purchase count and starts a new cycle."
     },
-    "SkinBoxFirstOnly": {
-      "name": "Only Buy the First Equip Skin Box",
-      "help": "Restrict equip skin boxes to the fixed top-left shop slot at 7000 coins, including purchases through the item filter or Consume Spilled Coins. If that slot is sold out or does not qualify, skip other skin boxes. A restocked first slot after a shop refresh can be bought again. This does not identify rerun boxes."
+    "SkinBoxSlots": {
+      "name": "Equip Skin Box Positions",
+      "help": "Click the fixed slots in which skin boxes may be bought. The top row is 1–5 and the bottom row is 6–10, from left to right. Select multiple slots or clear all to skip skin boxes. Sold-out slots do not shift the numbering; shop refreshes keep the same positions. This does not identify reruns. Ordinary goods retain their filter."
+    },
+    "SkinBoxPurchaseLimit": {
+      "name": "Skin Box Purchase Operation Limit",
+      "help": "0 means unlimited. Each confirmed successful skin-box purchase operation counts once; buying slots 1 and 3 counts as two operations, regardless of the contents. At the limit, Buy Equip Skin Boxes is unchecked and further skin boxes are blocked in the same run, including filters and spilled coins. Other shop purchases continue. After an automatic stop, re-enable the purchase option or explicitly reset the count to 0 to resume; changing the limit alone does not resume purchases."
+    },
+    "SkinBoxPurchaseCount": {
+      "name": "Successful Skin Box Purchases",
+      "help": "Successful operations in the current cycle, saved across task runs and process restarts. Explicitly enter 0 to reset (do not leave blank). Re-enabling Buy Equip Skin Boxes also starts a new cycle. Counts only confirmed purchases observed by this feature, not manual purchases. Check this count when setting a limit."
     },
     "ConsumeCoins": {
       "name": "Consume Spilled Coins",
@@ -3084,6 +3092,7 @@
       "SSHNotInstall": "No SSH command in your system. Please refer to the tutorial to download or install one"
     },
     "Text": {
+      "ShopSlot": "Slot {slot}",
       "InvalidFeedBack": "Invalid format. Example: {0}",
       "Clear": "Clear",
       "EnterPassword": "Enter password",

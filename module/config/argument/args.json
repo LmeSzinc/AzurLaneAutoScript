@@ -7778,9 +7778,18 @@
         "type": "checkbox",
         "value": false
       },
-      "SkinBoxFirstOnly": {
-        "type": "checkbox",
-        "value": false
+      "SkinBoxSlots": {
+        "type": "skin_box_slots",
+        "value": "all",
+        "valuetype": "skin_box_slots"
+      },
+      "SkinBoxPurchaseLimit": {
+        "type": "input",
+        "value": 0
+      },
+      "SkinBoxPurchaseCount": {
+        "type": "input",
+        "value": 0
       },
       "ConsumeCoins": {
         "type": "checkbox",

@@ -487,6 +487,49 @@ pre.rich-traceback-code {
     margin: .375rem 0;
 }
 
+/* The two rows mirror the shop: 1-5 above 6-10, independent of screen size. */
+[id^="pywebio-scope-arg_container-skin_box_slots-"] {
+    grid-auto-flow: row !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-rows: auto auto;
+    gap: .375rem;
+}
+
+[id^="pywebio-scope-arg_container-skin_box_slots-"] .form-group {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: .375rem;
+    margin: 0 .25rem;
+}
+
+[id^="pywebio-scope-arg_container-skin_box_slots-"] .form-check {
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+}
+
+[id^="pywebio-scope-arg_container-skin_box_slots-"] .form-check-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .25rem;
+    padding: .5rem .125rem;
+    border: 1px solid currentColor;
+    border-radius: .25rem;
+    cursor: pointer;
+    font-size: .875rem;
+}
+
+[id^="pywebio-scope-arg_container-skin_box_slots-"] .form-check-input {
+    display: inline-block;
+    position: static;
+    margin: 0;
+}
+
+[id^="pywebio-scope-arg_container-skin_box_slots-"] .form-text:empty {
+    display: none;
+}
+
 *[style*="--arg-title--"] {
     font-size: 1rem;
     font-weight: 500;
