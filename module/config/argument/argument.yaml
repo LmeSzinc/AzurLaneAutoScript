@@ -43,6 +43,7 @@ Emulator:
       DroidCast_raw,
       nemu_ipc,
       ldopengl,
+      playcover,
     ]
   ControlMethod:
     value: MaaTouch
@@ -52,9 +53,14 @@ Emulator:
       minitouch,
       Hermit,
       MaaTouch,
+      playcover,
     ]
   ScreenshotDedithering: false
   AdbRestart: false
+PlayCover:
+  ManagerKey:
+    value: ''
+    valuetype: str
 EmulatorInfo:
   Emulator:
     value: auto
