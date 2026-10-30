@@ -151,8 +151,14 @@ class DroidCast(Uiautomator2):
         self.droidcast_stop()
         self._droidcast_update_resolution()
 
-        logger.info('Pushing DroidCast apk')
-        self.adb_push(self.config.DROIDCAST_FILEPATH_LOCAL, self.config.DROIDCAST_FILEPATH_REMOTE)
+        # DroidCast_raw v1.0 on SDK 23 (Android 6.0) to SDK 32 (Android 12)
+        # DroidCast_raw v1.1 on SDK 33 (Android 13) and above
+        if self.sdk_ver > 32:
+            local = self.config.DROIDCAST_V11_FILEPATH_LOCAL
+        else:
+            local = self.config.DROIDCAST_FILEPATH_LOCAL
+        logger.info(f'Pushing DroidCast apk: {local}')
+        self.adb_push(local, self.config.DROIDCAST_FILEPATH_REMOTE)
 
         logger.info('Starting DroidCast apk')
         # DroidCast_raw-release-1.0.apk

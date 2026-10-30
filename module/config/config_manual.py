@@ -87,6 +87,8 @@ class ManualConfig:
     # 'DroidCast', 'DroidCast_raw'
     DROIDCAST_VERSION = 'DroidCast'
     DROIDCAST_FILEPATH_LOCAL = './bin/DroidCast/DroidCast_raw-release-1.0.apk'
+    # DroidCast_raw v1.1 supports Android 14+, used on SDK > 32 only
+    DROIDCAST_V11_FILEPATH_LOCAL = './bin/DroidCast/DroidCast_raw-release-1.1.apk'
     DROIDCAST_FILEPATH_REMOTE = '/data/local/tmp/DroidCast_raw.apk'
 
     MINITOUCH_FILEPATH_REMOTE = '/data/local/tmp/minitouch'
