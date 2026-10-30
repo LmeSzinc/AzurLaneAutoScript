@@ -11,6 +11,7 @@ from pywebio.session import eval_js, local, run_js
 from rich.console import ConsoleRenderable
 
 from module.logger import HTMLConsole, Highlighter, WEB_THEME
+from module.shop.skin_box import parse_skin_box_slots
 from module.webui.lang import t
 from module.webui.pin import put_checkbox, put_input, put_select, put_textarea
 from module.webui.process_manager import ProcessManager
@@ -448,6 +449,33 @@ def put_arg_checkbox(kwargs: T_Output_Kwargs) -> Output:
     )
 
 
+def put_arg_skin_box_slots(kwargs: T_Output_Kwargs) -> Output:
+    """Display fixed shop slots as a native, keyboard-accessible checkbox grid."""
+    name: str = kwargs["name"]
+    try:
+        selected = sorted(parse_skin_box_slots(kwargs["value"]))
+    except ValueError:
+        # Keep invalid saved input closed until the user makes a new selection.
+        selected = []
+    options = [
+        {"label": t("Gui.Text.ShopSlot", slot=slot), "value": slot}
+        for slot in range(1, 11)
+    ]
+    return put_scope(
+        f"arg_container-skin_box_slots-{name}",
+        [
+            get_title_help(kwargs),
+            put_checkbox(
+                name=name,
+                options=options,
+                value=selected,
+                inline=False,
+                disabled=kwargs.get("disabled", False),
+            ),
+        ],
+    )
+
+
 def put_arg_datetime(kwargs: T_Output_Kwargs) -> Output:
     name: str = kwargs["name"]
     return put_scope(
@@ -497,6 +525,7 @@ _widget_type_to_func: Dict[str, Callable] = {
     "select": put_arg_select,
     "textarea": put_arg_textarea,
     "checkbox": put_arg_checkbox,
+    "skin_box_slots": put_arg_skin_box_slots,
     "storage": put_arg_storage,
     "state": put_arg_state,
     "stored": put_arg_stored,

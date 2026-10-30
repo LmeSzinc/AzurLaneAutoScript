@@ -3,6 +3,7 @@ import re
 import cv2
 
 from module.base.timer import Timer
+from module.combat.assets import GET_ITEMS_1, GET_ITEMS_3
 from module.exception import ScriptError
 from module.logger import logger
 from module.ocr.ocr import Digit, DigitCounter
@@ -278,6 +279,10 @@ class ShopClerk(ShopBase, Retirement):
         """
         return False
 
+    def shop_buy_confirmed(self, item):
+        """Handle one receipt observed after submitting a purchase."""
+        pass
+
     def shop_buy_execute(self, item, skip_first_screenshot=True):
         """
         Args:
@@ -285,9 +290,11 @@ class ShopClerk(ShopBase, Retirement):
             skip_first_screenshot: bool
 
         Returns:
-            None: exits appropriately therefore successful
+            bool: A purchase receipt was observed after submitting the purchase.
         """
         success = False
+        submitted = False
+        confirmed = False
         self.shop_interval_clear()
 
         while 1:
@@ -300,6 +307,7 @@ class ShopClerk(ShopBase, Retirement):
                 self.device.click(item)
                 continue
             if self.appear_then_click(SHOP_BUY_CONFIRM, offset=(20, 20), interval=3):
+                submitted = True
                 self.interval_reset(SHOP_BACK_ARROW)
                 continue
             if self.shop_buy_handle(item):
@@ -308,6 +316,11 @@ class ShopClerk(ShopBase, Retirement):
             if self.handle_retirement():
                 self.interval_reset(SHOP_BACK_ARROW)
                 continue
+            if submitted and not confirmed and (self.appear(GET_ITEMS_1) or self.appear(GET_ITEMS_3)):
+                confirmed = True
+                # Repeated receipt frames and confirmation retries belong to
+                # one operation. Generic popups/info bars are not receipts.
+                self.shop_buy_confirmed(item)
             if self.shop_obstruct_handle():
                 self.interval_reset(SHOP_BACK_ARROW)
                 success = True
@@ -320,6 +333,7 @@ class ShopClerk(ShopBase, Retirement):
             # End
             if success and self.appear(SHOP_BACK_ARROW, offset=(30, 30)):
                 break
+        return confirmed
 
     def shop_buy(self):
         """
