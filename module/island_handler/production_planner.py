@@ -1,7 +1,7 @@
 from datetime import datetime
 
+from module.base.base import ModuleBase
 from module.config.utils import server_time_offset
-from module.daemon.daemon_base import DaemonBase
 from module.island.utils import (
     get_current_activity_list,
     get_current_season_remaining_days,
@@ -105,7 +105,7 @@ def create_production_problem(config, current_time=None):
     return calculator.build_production_problem(**load_planner_demands(config, current_time))
 
 
-class IslandProductionPlanner(DaemonBase):
+class IslandProductionPlanner(ModuleBase):
     """Config/device adapter around ProductionPlanCalculator.
 
     Reads planner inputs from config, runs the pure calculator, then writes
@@ -135,7 +135,7 @@ class IslandProductionPlanner(DaemonBase):
         else:
             technology_status = self.config.cross_get("IslandProductionPlanner.Storage.Storage.IslandTechnologyStatus", None)
             if technology_status is None or self.config.cross_get("IslandProductionPlanner.IslandProductionPlanner.RescanIslandTechnology", False):
-                technology_status = IslandTechnologyScanner(self.config).get_technology_status()
+                technology_status = IslandTechnologyScanner(self.config, self.device).get_technology_status()
         technology_status = load_technology_status(technology_status)
         if hard_floor_items_yaml is None:
             hard_floor_items = load_hard_floor_items(
@@ -175,6 +175,7 @@ class IslandProductionPlanner(DaemonBase):
                 self.config.cross_set("IslandProduction.IslandProduction.DailyBufferItems", inventory_levels_yaml_text)
                 self.config.cross_set("IslandProduction.IslandProduction.IdleAccumulatingItems", idle_accumulating_items_yaml_text)
                 self.config.cross_set("IslandProduction.IslandProduction.HardFloorItems", hard_floor_items_yaml_text)
+                self.config.cross_set("IslandProduction.Storage.Storage.CheckAllEmptySlots", True)
                 for slot, config_key in self.RESTAURANT_MENU_CONFIG.items():
                     self.config.cross_set(config_key, restaurant_menu_yaml_texts[slot])
                 self.config.cross_set("IslandProductionPlanner.IslandProductionPlanner.RescanIslandTechnology", False)

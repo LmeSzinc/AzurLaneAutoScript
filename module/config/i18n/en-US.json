@@ -2677,6 +2677,10 @@
     "SkipBufferSurplus": {
       "name": "Skip Buffer-Surplus Production",
       "help": "Skip buffer-surplus eligibility checks and proceed directly to idle-accumulating production. When disabled, buffer-surplus is tried first; idle accumulation is still used if that attempt fails."
+    },
+    "UseWorkerjuuByDefault": {
+      "name": "Use Workerjuu by default",
+      "help": "Enabled: use Workerjuu by default. Disabled: search free characters in ascending dock order with at least 100 emotion and an emotion limit below 150, excluding explicitly configured named restaurant waitresses; use Workerjuu if none is available."
     }
   },
   "IslandOrder": {

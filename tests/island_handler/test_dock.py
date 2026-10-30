@@ -1,16 +1,13 @@
 """Screenshot golden results; awaiting human review of collection/ images."""
 from module.testing.screenshot import image
 
-from module.island_handler.dock import IslandDock
-from module.island_handler.dock_scanner import CharacterScanner
+from module.island_handler.dock import IslandDock, dock_character_matches
 
 
 class TestCharactersJP:
     @image('island/dock/f9bd49a5', server='jp')
     def test_two_selected_characters(self, main: IslandDock):
-        grid = main.get_dock_grid()
-        characters = CharacterScanner(grid, identity=None, emotion=None, emotion_limit=None,
-                                      grade=None, status=None).scan(main.device.image)
+        characters = main.island_dock_scan_page()
         actual = dict(in_dock=main.is_in_island_dock(), characters=[dict(
             identity=character.identity, emotion=character.emotion, emotion_limit=character.emotion_limit,
             grade=character.grade, status=character.status, area=character.button.area,
@@ -149,9 +146,7 @@ class TestCharactersJP:
 
     @image('island/dock/5c2752bc', server='jp')
     def test_one_selected_character(self, main: IslandDock):
-        grid = main.get_dock_grid()
-        characters = CharacterScanner(grid, identity=None, emotion=None, emotion_limit=None,
-                                      grade=None, status=None).scan(main.device.image)
+        characters = main.island_dock_scan_page()
         actual = dict(in_dock=main.is_in_island_dock(), characters=[dict(
             identity=character.identity, emotion=character.emotion, emotion_limit=character.emotion_limit,
             grade=character.grade, status=character.status, area=character.button.area,
@@ -170,7 +165,7 @@ class TestCharactersJP:
                     'emotion': 999,
                     'emotion_limit': 999,
                     'grade': 'E',
-                    'identity': 'Manjuu',
+                    'identity': 'Workerjuu',
                     'selected': True,
                     'status': 'free',
                 },
@@ -289,12 +284,26 @@ class TestCharactersJP:
         }
 
 
+class TestEmotionOnlyJP:
+    @image('island/dock/5c2752bc', server='jp')
+    def test_without_identity_or_grade_recognition(self, main: IslandDock):
+        characters = main.island_dock_scan_page(disabled=('identity', 'emotion_limit', 'grade'))
+        assert len(characters) == 12
+        assert all(c.identity is None and c.emotion_limit is None and c.grade is None for c in characters)
+        candidates = [c for c in characters if dock_character_matches(c, emotion=(80, 150))]
+        areas = [c.button.area for c in candidates]
+        main.device.review(dict(areas=areas), [(c.button.area, f'emotion={c.emotion}') for c in candidates])
+        assert areas == [
+            (336, 139, 460, 303), (476, 139, 600, 303), (756, 139, 880, 303),
+            (56, 319, 180, 483), (196, 319, 320, 483), (336, 319, 460, 483),
+            (476, 319, 600, 483), (616, 319, 740, 483), (756, 319, 880, 483),
+        ]
+
+
 class TestCharactersCN:
     @image('island/dock/a4f3aae4', server='cn')
     def test_no_selected_characters(self, main: IslandDock):
-        grid = main.get_dock_grid()
-        characters = CharacterScanner(grid, identity=None, emotion=None, emotion_limit=None,
-                                      grade=None, status=None).scan(main.device.image)
+        characters = main.island_dock_scan_page()
         actual = dict(in_dock=main.is_in_island_dock(), characters=[dict(
             identity=character.identity, emotion=character.emotion, emotion_limit=character.emotion_limit,
             grade=character.grade, status=character.status, area=character.button.area,
@@ -423,7 +432,7 @@ class TestCharactersCN:
                     'emotion': 999,
                     'emotion_limit': 999,
                     'grade': 'E',
-                    'identity': 'Manjuu',
+                    'identity': 'Workerjuu',
                     'selected': False,
                     'status': 'free',
                 },

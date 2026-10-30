@@ -943,16 +943,28 @@ class IslandRecipe(IslandExchange, IslandShop):
             self.all_recipe_stocks[old_recipe_id] = new_stock
         self.recipe_id_sequence = self._build_recipe_id_sequence_to_run()
 
-    def run(self, slot_id=None):
+    def run(self, slot_id=None, emotion=float('inf')):
         """
+        Args:
+            emotion: Current worker emotion; Workerjuu has no emotion limit.
+
         Returns:
             target_time (datetime): timestamp of when the recipe will finish, or None if failed to run any recipe
         """
         self.working_slot_id = slot_id
+        available_workload = emotion * 3000
         del_cached_property(self, 'recipe_grid')
         del_cached_property(self, 'recipe_ids')
         while self.recipe_id_sequence:
-            recipe_id, info, mode = self.recipe_id_sequence[0]
+            affordable_sequence = [
+                entry for entry in self.recipe_id_sequence
+                if DIC_ISLAND_RECIPE[entry[0]]['workload'] <= available_workload
+            ]
+            if not affordable_sequence:
+                logger.info(f'No recipe fits worker emotion {emotion}')
+                break
+            recipe_id, info, mode = affordable_sequence[0]
+            workload = DIC_ISLAND_RECIPE[recipe_id]['workload']
             production_limit = DIC_ISLAND_RECIPE[recipe_id]['production_limit']
             if mode == RECIPE_MODE_BUFFER_SURPLUS:
                 batch_count = self.calculate_buffer_surplus_run_count(info)
@@ -972,6 +984,11 @@ class IslandRecipe(IslandExchange, IslandShop):
             if batch_count > production_limit:
                 logger.info(f"Will try to run {production_limit} batches")
                 batch_count = production_limit
+            if workload and available_workload != float('inf'):
+                emotion_batch_limit = int(available_workload // workload)
+                if batch_count > emotion_batch_limit:
+                    logger.info(f'Will try to run {emotion_batch_limit} batches within worker emotion {emotion}')
+                    batch_count = emotion_batch_limit
             result = self.run_recipe(recipe_id, batch_count, mode=mode)
             if result is not None:
                 remain_time, real_count = result

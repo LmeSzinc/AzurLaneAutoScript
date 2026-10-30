@@ -1,10 +1,8 @@
 from module.base.button import ButtonGrid
-from module.base.decorator import del_cached_property
 from module.base.timer import Timer
 from module.exception import GameStuckError
 from module.island.assets import *
 from module.island_handler.dock import IslandDock
-from module.island_handler.dock_scanner import CharacterScanner
 from module.logger import logger
 from module.ui.page import page_island_manage, page_island_phone
 
@@ -83,23 +81,12 @@ class IslandCollect(IslandDock):
             else:
                 logger.warning(f'Failed to click workslot button for workslot {workslot}')
                 return False
-            self.island_dock_sort_method_dsc_set(enable=False, wait_loading=True)
-            del_cached_property(self, 'dock_grid')
-            scanner = CharacterScanner(self.dock_grid, emotion=(80, 150), status='free')
-            scanner.disable('emotion_limit')
-            for _ in self.loop(timeout=3):
-                candidates = scanner.scan(self.device.image)
-                if not candidates:
-                    continue
-                if any(candidate.identity == 'unknown' for candidate in candidates):
-                    continue
-                break
-            if not candidates:
+            if not self.island_dock_select_character(
+                    emotion=(80, 150), descending=False,
+                    disabled=('emotion_limit',)):
                 logger.warning(f'No candidate found for workslot {workslot}, canceling collect')
                 self.island_dock_quit()
                 return False
-            button = candidates[0].button
-            self.island_dock_select_one(button)
             self.island_dock_select_confirm(check_button=[ISLAND_COLLECT_START, ISLAND_COLLECT_START_UNAVAILABLE])
             if self.match_template_color(ISLAND_COLLECT_START, offset=(20, 20)):
                 break
@@ -132,6 +119,7 @@ class IslandCollect(IslandDock):
             success = self.collect_execute()
             if success:
                 logger.info('Collect successfully')
+                self.config.cross_set('IslandProduction.Storage.Storage.CheckAllEmptySlots', True)
                 self.config.task_delay(server_update=True)
             else:
                 logger.warning('Failed to collect, will retry later')

@@ -591,6 +591,7 @@ class IslandTransport(IslandExchange):
     def transport_claim_rewards(self, skip_first_screenshot=True):
         """Claim every completed slot."""
         logger.hr('Transport claim rewards', level=2)
+        claimed = False
         confirm = Timer(1.5, count=3).start()
         for _ in self.loop(skip_first=skip_first_screenshot, timeout=30):
             if self.handle_transport_popup():
@@ -605,8 +606,12 @@ class IslandTransport(IslandExchange):
                 if self.slot_appear(ISLAND_TRANSPORT_CLAIM, completed[0], interval=2):
                     logger.info(f'Claim transport reward of P{completed[0] + 1}')
                     self.device.click(ISLAND_TRANSPORT_CLAIM)
+                    claimed = True
                 continue
             if confirm.reached():
+                if claimed and not self.config.cross_get(
+                        'IslandProduction.Storage.Storage.CheckAllEmptySlots', default=False):
+                    self.config.cross_set('IslandProduction.Storage.Storage.CheckAllEmptySlots', True)
                 return True
         logger.warning('Transport claim rewards timeout')
         return False
