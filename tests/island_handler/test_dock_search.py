@@ -32,7 +32,7 @@ def character(identity, *, status='free', emotion=100, emotion_limit=110, grade=
     )
 
 
-def make_main(pages, selected=(), grid_size=None):
+def make_main(pages, selected=(), grid_size=None, grid_origins=None):
     main = object.__new__(IslandDock)
     main._pages = pages
     main._page_index = 0
@@ -46,7 +46,9 @@ def make_main(pages, selected=(), grid_size=None):
     def scan_page(disabled=()):
         characters = list(main._pages[min(main._page_index, len(main._pages) - 1)])
         count = len(characters) if grid_size is None else grid_size
-        main.dock_grid = SimpleNamespace(buttons=[None] * count)
+        origin = (56, 139) if grid_origins is None else grid_origins[main._page_index]
+        main.dock_grid = SimpleNamespace(buttons=[None] * count, origin=origin,
+                                         grid_shape=(6, (count + 5) // 6))
         return characters
 
     def sort_method(enable=True, wait_loading=True):
@@ -66,6 +68,7 @@ def make_main(pages, selected=(), grid_size=None):
         return getattr(main, '_terminal_transition', False)
 
     main.island_dock_scan_page = scan_page
+    main.island_dock_has_third_row = lambda: False
     main.island_dock_sort_method_dsc_set = sort_method
     main.ensure_dock_page_at_top = ensure_top
     main.next_dock_page = next_page
@@ -74,6 +77,36 @@ def make_main(pages, selected=(), grid_size=None):
     main.is_button_selected = lambda button, color=None: button in main._selected_buttons
     main.island_dock_select_one = lambda button: main._clicks.append(button) or True
     return main
+
+
+def make_scanning_main(monkeypatch, frames):
+    main = object.__new__(IslandDock)
+    images = [object() for _ in frames]
+    screenshots = iter(images[1:])
+    main.device = SimpleNamespace(image=images[0])
+    main.device.screenshot = lambda: setattr(main.device, 'image', next(screenshots))
+    main.dock_grid = SimpleNamespace(buttons=[c.button for c in frames[0]], origin=(56, 139),
+                                     grid_shape=(6, (len(frames[0]) + 5) // 6))
+    main.island_dock_has_third_row = lambda: False
+    main.next_dock_page = lambda: pytest.fail('Swiped while confirming empty cards')
+    main.prev_dock_page = lambda: pytest.fail('Swiped while confirming empty cards')
+    scanned = []
+
+    class Scanner:
+        def __init__(self, grid, **kwargs):
+            pass
+
+        def disable(self, *fields):
+            pass
+
+        def scan(self, image):
+            assert image is images[len(scanned)]
+            frame = frames[len(scanned)]
+            scanned.append(image)
+            return list(frame)
+
+    monkeypatch.setattr(dock_module, 'CharacterScanner', Scanner)
+    return main, scanned, images
 
 
 def install_search_stub(monkeypatch, main, specs):
@@ -177,7 +210,7 @@ def test_scan_page_without_identity_does_not_retry_name_recognition(monkeypatch)
 
 @pytest.mark.parametrize(('cards', 'disabled', 'expected', 'scan_count'), [
     ([character('Alice'), character('unknown', emotion=0, emotion_limit=0),
-      character('unknown', emotion=0, emotion_limit=0)], (), ['Alice'], 1),
+      character('unknown', emotion=0, emotion_limit=0)], (), ['Alice'], 2),
     ([character('Alice'), character('unknown', emotion=0, emotion_limit=150)],
      (), ['Alice', 'unknown'], 3),
     ([character('Alice'), character('unknown', emotion=100, emotion_limit=0)],
@@ -217,6 +250,51 @@ def test_scan_page_drops_only_confirmed_empty_tail_before_retry(monkeypatch, car
 
     assert [c.identity for c in result] == expected
     assert len(scanned) == scan_count
+
+
+@pytest.mark.parametrize(('frames', 'expected'), [
+    ([[character('Alice'), character('unknown', emotion=0, emotion_limit=0)],
+      [character('Alice'), character('Bob')]], ['Alice', 'Bob']),
+    ([[character('Alice'), character('unknown')],
+      [character('Alice'), character('unknown', emotion=0, emotion_limit=0)],
+      [character('Alice'), character('Bob')]], ['Alice', 'Bob']),
+    ([[character('Alice'), character('Bob'), character('unknown', emotion=0, emotion_limit=0)],
+      [character('Alice'), character('unknown', emotion=0, emotion_limit=0),
+       character('unknown', emotion=0, emotion_limit=0)],
+      [character('Alice'), character('unknown', emotion=0, emotion_limit=0),
+       character('unknown', emotion=0, emotion_limit=0)]], ['Alice']),
+])
+def test_scan_page_rechecks_empty_tail_on_fresh_screenshots(monkeypatch, frames, expected):
+    main, scanned, images = make_scanning_main(monkeypatch, frames)
+
+    result = main.island_dock_scan_page()
+
+    assert [c.identity for c in result] == expected
+    assert scanned == images
+
+
+def test_search_confirms_empty_bottom_without_swiping(monkeypatch):
+    frames = [[character('Alice'), character('unknown', emotion=0, emotion_limit=0)]
+              for _ in range(2)]
+    main, scanned, images = make_scanning_main(monkeypatch, frames)
+    main.island_dock_sort_method_dsc_set = lambda **kwargs: None
+    seen = []
+
+    result, completed = main.island_dock_search(lambda page: seen.extend(page))
+
+    assert result is None
+    assert completed is True
+    assert seen == [frames[-1][0]]
+    assert scanned == images
+
+
+def test_scan_page_keeps_unconfirmed_empty_tail_on_timeout(monkeypatch):
+    frames = [[character('Alice'), character('unknown', emotion=0, emotion_limit=0)]]
+    main, scanned, images = make_scanning_main(monkeypatch, frames)
+    main.loop = lambda **kwargs: range(1)
+
+    assert main.island_dock_scan_page() == frames[0]
+    assert scanned == images
 
 
 def test_scan_without_identity_can_reach_a_reliable_end(monkeypatch):
@@ -364,6 +442,140 @@ def test_search_processes_trimmed_bottom_page_without_another_swipe(monkeypatch,
     assert main._next_calls == swipes
 
 
+@pytest.mark.parametrize('grid_size', [None, 12])
+def test_search_cannot_finish_with_one_row_away_from_end_positions(monkeypatch, grid_size):
+    first = [character('First{}'.format(index)) for index in range(12)]
+    last = [character('Last{}'.format(index)) for index in range(6)]
+    main = make_main([first, last], grid_size=grid_size, grid_origins=[(56, 139), (56, 254)])
+    monkeypatch.setattr(dock_module, 'ISLAND_DOCK_DETECT', FakeDetect())
+
+    result, completed = main.island_dock_search(lambda page: None)
+
+    assert result is None
+    assert completed is False
+    assert main._next_calls > 2
+
+
+def test_search_checks_rows_after_two_unchanged_swipes(monkeypatch):
+    full = [character('Full{}'.format(index)) for index in range(12)]
+    partial = [character('Partial{}'.format(index)) for index in range(6)]
+    main = make_main([full, full, partial], grid_origins=[(56, 139), (56, 250), (56, 254)])
+    main.appear = lambda *args, **kwargs: True
+    monkeypatch.setattr(dock_module, 'ISLAND_DOCK_DETECT', FakeDetect())
+    seen = []
+
+    result, completed = main.island_dock_search(lambda page: seen.append(len(page)))
+
+    assert result is None
+    assert completed is False
+    assert seen[:3] == [12, 12, 6]
+    assert main._next_calls > 2
+
+
+def test_search_keeps_scrolling_past_one_row_until_exact_bottom(monkeypatch):
+    full = [character('Full{}'.format(index)) for index in range(12)]
+    partial = [character('Partial{}'.format(index)) for index in range(6)]
+    bottom = [character('Bottom{}'.format(index)) for index in range(7)]
+    main = make_main([full, partial, bottom], grid_size=12,
+                     grid_origins=[(56, 139), (56, 254), (56, 206)])
+    monkeypatch.setattr(dock_module, 'ISLAND_DOCK_DETECT', FakeDetect())
+    scans = []
+
+    result, completed = main.island_dock_search(lambda page: scans.append(page))
+
+    assert result is None
+    assert completed is True
+    assert scans == [full, partial, bottom]
+    assert main._next_calls == 2
+
+
+@pytest.mark.parametrize('origin', [(56, 205), (56, 207), (55, 206), (57, 206)])
+@pytest.mark.parametrize('count', [7, 12])
+def test_search_cannot_finish_at_a_nearby_unaligned_grid(monkeypatch, origin, count):
+    page = [character('Card{}'.format(index)) for index in range(count)]
+    main = make_main([page], grid_size=12, grid_origins=[origin])
+    monkeypatch.setattr(dock_module, 'ISLAND_DOCK_DETECT', FakeDetect())
+
+    assert main.island_dock_search(lambda page: None) == (None, False)
+    assert main._next_calls > 2
+
+
+@pytest.mark.parametrize('count', [7, 12])
+def test_search_stops_at_exact_bottom_without_another_drag(monkeypatch, count):
+    page = [character('Card{}'.format(index)) for index in range(count)]
+    main = make_main([page], grid_size=12, grid_origins=[(56, 206)])
+
+    assert main.island_dock_search(lambda page: None) == (None, True)
+    assert main._next_calls == 0
+
+
+def test_search_verifies_exactly_twelve_characters_at_top_with_two_drags(monkeypatch):
+    page = [character('Card{}'.format(index)) for index in range(12)]
+    main = make_main([page])
+    monkeypatch.setattr(dock_module, 'ISLAND_DOCK_DETECT', FakeDetect())
+    scans = []
+
+    assert main.island_dock_search(lambda page: scans.append(page)) == (None, True)
+    assert len(scans) == 3
+    assert main._next_calls == 2
+
+
+@pytest.mark.parametrize('count', [7, 12])
+def test_third_row_rules_out_a_short_dock_despite_failed_drags(monkeypatch, count):
+    page = [character('Card{}'.format(index)) for index in range(count)]
+    main = make_main([page], grid_size=12)
+    main.island_dock_has_third_row = lambda: True
+    monkeypatch.setattr(dock_module, 'ISLAND_DOCK_DETECT', FakeDetect())
+
+    assert main.island_dock_search(lambda page: None) == (None, False)
+    assert main._next_calls > 2
+
+
+def test_search_remembers_a_third_row_if_later_anchor_scans_miss_it(monkeypatch):
+    page = [character('Card{}'.format(index)) for index in range(12)]
+    main = make_main([page])
+    detections = iter([True, False, False, False])
+    main.island_dock_has_third_row = lambda: next(detections)
+    monkeypatch.setattr(dock_module, 'ISLAND_DOCK_DETECT', FakeDetect())
+
+    assert main.island_dock_search(lambda page: None) == (None, False)
+    assert main._next_calls > 2
+
+
+def test_search_continues_from_a_trimmed_middle_page_to_the_aligned_bottom(monkeypatch):
+    full = [character('First{}'.format(index)) for index in range(12)]
+    middle = [character('Middle{}'.format(index)) for index in range(7)]
+    bottom = [character('Last{}'.format(index)) for index in range(7)]
+    main = make_main([full, middle, bottom], grid_size=12,
+                     grid_origins=[(56, 139), (56, 250), (56, 206)])
+    monkeypatch.setattr(dock_module, 'ISLAND_DOCK_DETECT', FakeDetect())
+    scans = []
+
+    assert main.island_dock_search(lambda page: scans.append(page)) == (None, True)
+    assert scans == [full, middle, bottom]
+    assert main._next_calls == 2
+
+
+@pytest.mark.parametrize('count', [5, 6])
+def test_search_can_finish_in_a_dock_that_only_has_one_row(monkeypatch, count):
+    page = [character('Only{}'.format(index)) for index in range(count)]
+    main = make_main([page], grid_size=6)
+    monkeypatch.setattr(dock_module, 'ISLAND_DOCK_DETECT', FakeDetect())
+
+    assert main.island_dock_search(lambda page: None) == (None, True)
+
+
+def test_search_can_select_a_current_one_row_match_after_seeing_two(monkeypatch):
+    full = [character('Full{}'.format(index)) for index in range(12)]
+    candidate = character('Alice', page='current')
+    main = make_main([full, [candidate]], grid_size=12)
+    monkeypatch.setattr(dock_module, 'ISLAND_DOCK_DETECT', FakeDetect())
+
+    assert main.island_dock_select_character(identity='Alice') is candidate
+    assert main._clicks == [candidate.button]
+    assert main._next_calls == 1
+
+
 def test_search_refreshes_pages_and_ends_with_bounded_navigation(monkeypatch):
     first = character('First', page='first')
     second = character('Second', page='second')
@@ -379,7 +591,7 @@ def test_search_refreshes_pages_and_ends_with_bounded_navigation(monkeypatch):
 
     assert result is None
     assert completed
-    assert [item.identity for item in seen] == ['First', 'Second', 'Second']
+    assert [item.identity for item in seen] == ['First', 'Second', 'Second', 'Second']
     assert seen[0].button is not seen[1].button
     assert main._next_calls == 3
 

@@ -1247,10 +1247,6 @@ class IslandTransport(IslandExchange):
         Returns:
             datetime: Next batch collection, needed refresh or retry, or None for the next server reset.
         """
-        if not self.server_support_island_transport():
-            logger.info('Island transport is not available on this server')
-            self.config.task_delay(server_update=True)
-            return None
         self.ui_ensure(page_island_transport)
         claimed = dry_run or self.transport_claim_rewards()
         submitted = False
@@ -1324,6 +1320,3 @@ class IslandTransport(IslandExchange):
             # Submissions change item stock, check island orders again
             self.config.task_call('IslandOrder', force_call=False)
         return self.next_run_time
-
-    def server_support_island_transport(self):
-        return self.config.SERVER in ['cn', 'jp', 'en']

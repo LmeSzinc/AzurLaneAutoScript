@@ -4,6 +4,32 @@ from module.testing.screenshot import image
 from module.island_handler.dock import IslandDock, dock_character_matches
 
 
+class TestDockGrid:
+    @image('island/dock/a4f3aae4', server='cn')
+    def test_full_bottom_rows(self, main: IslandDock):
+        grid = main.dock_grid
+        actual = dict(origin=tuple(grid.origin), shape=tuple(grid.grid_shape),
+                      bottom=main.island_dock_at_bottom(), third_row=main.island_dock_has_third_row())
+        main.device.review(actual, [(button.area, button.name) for button in grid.buttons])
+        assert actual == dict(origin=(56, 206), shape=(6, 2), bottom=True, third_row=False)
+
+    @image('island/dock/7fa4c81a', server='jp')
+    def test_bottom_with_partial_last_row(self, main: IslandDock):
+        grid = main.dock_grid
+        actual = dict(origin=tuple(grid.origin), shape=tuple(grid.grid_shape),
+                      bottom=main.island_dock_at_bottom(), third_row=main.island_dock_has_third_row())
+        main.device.review(actual, [(button.area, button.name) for button in grid.buttons])
+        assert actual == dict(origin=(56, 206), shape=(6, 2), bottom=True, third_row=False)
+
+    @image('island/dock/f9bd49a5', server='jp')
+    def test_top_has_a_clipped_third_row(self, main: IslandDock):
+        grid = main.dock_grid
+        actual = dict(origin=tuple(grid.origin), shape=tuple(grid.grid_shape),
+                      bottom=main.island_dock_at_bottom(), third_row=main.island_dock_has_third_row())
+        main.device.review(actual, [(button.area, button.name) for button in grid.buttons])
+        assert actual == dict(origin=(56, 139), shape=(6, 2), bottom=False, third_row=True)
+
+
 class TestCharactersJP:
     @image('island/dock/f9bd49a5', server='jp')
     def test_two_selected_characters(self, main: IslandDock):

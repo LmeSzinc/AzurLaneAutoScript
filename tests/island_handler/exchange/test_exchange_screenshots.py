@@ -1,8 +1,10 @@
 """Exchange recognition goldens; awaiting human review of collection/ images."""
 from module.testing.screenshot import image
 
+from module.base.utils import crop
 from module.island_handler.exchange import (
-    EXCHANGE_FISH_GRID, IslandExchange, read_fish_cards, read_fish_counts, read_fish_meat,
+    EXCHANGE_FISH_GRID, EXCHANGE_FISH_ICON_GRID, EXCHANGE_FISH_TEMPLATES,
+    IslandExchange, fish_icon_to_id, read_fish_cards, read_fish_counts, read_fish_meat,
 )
 from module.island_handler.assets import ISLAND_EXCHANGE_TOTAL_AMOUNT
 
@@ -104,3 +106,53 @@ class TestCardsCN:
         regions += [(ISLAND_EXCHANGE_TOTAL_AMOUNT.area, 'meat owned={} gain={}'.format(*actual['meat']))]
         main.device.review(actual, regions)
         assert actual == {'cards': [], 'counts': [0, 0, 0, 0, 0, 0, 0, 0], 'meat': (0, 0)}
+
+
+class TestCardsEN:
+    @image('island/exchange/38cc331e', server='en')
+    def test_six_unselected_saltwater_fish_cards(self, main: IslandExchange):
+        cards = read_fish_cards(main.device.image, 2522)
+        counts = read_fish_counts(main.device.image, list(range(len(EXCHANGE_FISH_GRID.buttons))))
+        actual = dict(cards=cards, counts=counts, meat=read_fish_meat(main.device.image))
+        regions = [(button.area, 'card #{} selected={}'.format(index, counts[index]))
+                   for index, button in enumerate(EXCHANGE_FISH_GRID.buttons)]
+        regions += [(ISLAND_EXCHANGE_TOTAL_AMOUNT.area, 'meat owned={} gain={}'.format(*actual['meat']))]
+        main.device.review(actual, regions)
+        assert actual == {
+            'cards': [(0, 5102, 1), (1, 5103, 1), (2, 5104, 1), (3, 5105, 1), (4, 5106, 1), (5, 5107, 1)],
+            'counts': [0, 0, 0, 0, 0, 0, 0, 0],
+            'meat': (17791, 0),
+        }
+
+    @image('island/exchange/6892c695', server='en')
+    def test_four_unselected_freshwater_fish_cards(self, main: IslandExchange):
+        cards = read_fish_cards(main.device.image, 2521)
+        counts = read_fish_counts(main.device.image, list(range(len(EXCHANGE_FISH_GRID.buttons))))
+        actual = dict(cards=cards, counts=counts, meat=read_fish_meat(main.device.image))
+        regions = [(button.area, 'card #{} selected={}'.format(index, counts[index]))
+                   for index, button in enumerate(EXCHANGE_FISH_GRID.buttons)]
+        regions += [(ISLAND_EXCHANGE_TOTAL_AMOUNT.area, 'meat owned={} gain={}'.format(*actual['meat']))]
+        main.device.review(actual, regions)
+        assert actual == {
+            'cards': [(0, 5002, 1), (1, 5003, 1), (2, 5004, 1), (3, 5007, 1)],
+            'counts': [0, 0, 0, 0, 0, 0, 0, 0],
+            'meat': (40, 0),
+        }
+
+
+class TestFishIconToId:
+    @image('island/exchange/38cc331e', server='en')
+    def test_empty_card_is_not_a_fish(self, main: IslandExchange):
+        icon = crop(main.device.image, EXCHANGE_FISH_ICON_GRID.buttons[7].area)
+        assert fish_icon_to_id(icon, 2522) is None
+
+    @image('island/exchange/38cc331e', server='en')
+    def test_fish_from_other_meat_tab_is_rejected(self, main: IslandExchange):
+        icon = crop(main.device.image, EXCHANGE_FISH_ICON_GRID.buttons[0].area)
+        assert fish_icon_to_id(icon, 2521) is None
+
+    @image('island/exchange/38cc331e', server='en')
+    def test_ambiguous_icon_is_rejected(self, main: IslandExchange, monkeypatch):
+        icon = crop(main.device.image, EXCHANGE_FISH_ICON_GRID.buttons[3].area)
+        monkeypatch.setitem(EXCHANGE_FISH_TEMPLATES, 5106, EXCHANGE_FISH_TEMPLATES[5105])
+        assert fish_icon_to_id(icon, 2522) is None

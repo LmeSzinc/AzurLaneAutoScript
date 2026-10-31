@@ -48,6 +48,8 @@ RECIPE_DELTA = (0, 149)
 RECIPE_DETECT_AREA = (181, 55, 460, 668)
 RECIPE_DRAG_AREA = (300, 55, 350, 668)
 RECIPE_ANCHOR_AREA = (58, 97, 102, 115)
+RECIPE_GRID_TOP_ORIGIN = (181, 114)
+RECIPE_GRID_BOTTOM_ORIGIN = (181, 71)
 RECIPE_PRODUCT_NAME_AREA = (123, 23, 269, 46)
 RECIPE_PRODUCT_STOCK_AREA = (212, 92, 275, 110)
 if server.server == 'jp':
@@ -275,7 +277,8 @@ class IslandRecipe(IslandExchange, IslandShop):
 
     # recipe related methods
     def is_in_recipe_menu(self):
-        return self.appear(ISLAND_RECIPE_CHECK, offset=(20, 20))
+        return self.appear(ISLAND_RECIPE_CHECK, offset=(20, 20)) and self.appear(
+            ISLAND_RECIPE_AMOUNT_MAX, offset=(20, 20))
 
     def _get_recipe_buttons(self):
         area = (RECIPE_DETECT_AREA[0] + RECIPE_ANCHOR_AREA[0],
@@ -305,8 +308,9 @@ class IslandRecipe(IslandExchange, IslandShop):
             count = 4
         if count >= 2:
             y_list = rows[:, 1]
-            y1, y2 = y_list[0], y_list[-1]
-            origin_y = min(y1, y2) + RECIPE_DETECT_AREA[1]
+            # Fit the shared origin so one noisy anchor cannot shift the grid.
+            row_offsets = np.rint((y_list - y_list.min()) / delta_y) * delta_y
+            origin_y = round(float(np.median(y_list - row_offsets))) + RECIPE_DETECT_AREA[1]
         else:
             logger.warning('Unable to find enough recipe anchors, assume recipes are at top')
             origin_y = 114
@@ -316,6 +320,10 @@ class IslandRecipe(IslandExchange, IslandShop):
             grid_shape=(1, count), name='RECIPE_GRID'
         )
         return recipe_grid
+
+    def recipe_at_bottom(self):
+        grid = self.recipe_grid
+        return tuple(grid.origin) == RECIPE_GRID_BOTTOM_ORIGIN and tuple(grid.grid_shape) == (1, 4)
 
     @cached_property
     def recipe_ids(self):
@@ -362,21 +370,19 @@ class IslandRecipe(IslandExchange, IslandShop):
             if self.appear(ISLAND_RECIPE_AMOUNT_MAX, offset=(0, 20)):
                 break
         all_stocks = {}
-        drag_count = 0
-        ISLAND_RECIPE_DRAG_CHECK.load_color(self.device.image)
         for _ in self.loop(timeout=30):
             new_stocks = dict(zip(self.recipe_ids, self.get_recipe_product_stocks()))
             all_stocks.update(new_stocks)
+            grid = self.recipe_grid
+            short_list = len(grid.buttons) in (1, 2) and tuple(grid.origin) == RECIPE_GRID_TOP_ORIGIN
+            if self.recipe_at_bottom() or short_list:
+                logger.info('Reached recipe list bottom')
+                self.device.click_record_clear()
+                break
             self.next_recipe_page()
-            drag_count += 1
-            if self.appear(ISLAND_RECIPE_DRAG_CHECK, offset=(20, 20)):
-                if drag_count > 1:
-                    logger.info(f'Ensured recipe page bottom after dragging {drag_count} times')
-                    self.device.click_record_clear()
-                    break
-            else:
-                drag_count = 0
-                ISLAND_RECIPE_DRAG_CHECK.load_color(self.device.image)
+            # Rescan even if sparse recognition prevented a drag.
+            del_cached_property(self, 'recipe_grid')
+            del_cached_property(self, 'recipe_ids')
         return all_stocks
 
     @cached_property
@@ -830,30 +836,30 @@ class IslandRecipe(IslandExchange, IslandShop):
         return success, real_count
 
     def set_recipe_batch_count(self, batch_count=float('inf')):
-        for _ in self.loop():
-            if self.appear_then_click(ISLAND_RECIPE_AMOUNT_MAX, offset=(20, 20)):
-                self.device.screenshot()
-                break
+        if batch_count != 1:
+            for _ in self.loop():
+                if self.appear_then_click(ISLAND_RECIPE_AMOUNT_MAX, offset=(20, 20)):
+                    self.device.screenshot()
+                    break
         if batch_count == float('inf'):
             logger.info('Set recipe amount to max')
             return True
-        else:
-            logger.info(f'Set recipe amount to {batch_count}')
-            if ISLAND_RECIPE_AMOUNT_OCR.ocr(self.device.image) < batch_count:
-                # Check if already at max, if so, cannot set to desired amount
-                counters = self.get_recipe_ingredient_counters()
-                for counter in counters:
-                    if counter[2] < 0:
-                        logger.warning('Insufficient ingredient for next recipe amount, cannot set recipe amount to desired value')
-                        return False
-            try:
-                self.ui_ensure_index(index=batch_count, letter=ISLAND_RECIPE_AMOUNT_OCR,
+        logger.info(f'Set recipe amount to {batch_count}')
+        if ISLAND_RECIPE_AMOUNT_OCR.ocr(self.device.image) < batch_count:
+            # Check if already at max, if so, cannot set to desired amount
+            counters = self.get_recipe_ingredient_counters()
+            for counter in counters:
+                if counter[2] < 0:
+                    logger.warning('Insufficient ingredient for next recipe amount, cannot set recipe amount to desired value')
+                    return False
+        try:
+            self.ui_ensure_index(index=batch_count, letter=ISLAND_RECIPE_AMOUNT_OCR,
                                  next_button=ISLAND_RECIPE_AMOUNT_PLUS,
                                  prev_button=ISLAND_RECIPE_AMOUNT_MINUS,)
-                return True
-            except GameTooManyClickError:
-                logger.warning('Too many clicks when setting recipe amount, failed to set recipe amount')
-                return False
+            return True
+        except GameTooManyClickError:
+            logger.warning('Too many clicks when setting recipe amount, failed to set recipe amount')
+            return False
 
     def get_recipe_remain_time(self):
         if self.match_template_color(ISLAND_RECIPE_TIME_ANCHOR, offset=(100, 20)):

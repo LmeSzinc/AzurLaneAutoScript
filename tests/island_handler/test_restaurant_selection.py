@@ -50,8 +50,9 @@ def restaurant_dialog(monkeypatch, requests, pages, blacklist=(), preselected=()
                 identity=source.identity, emotion=source.emotion, emotion_limit=source.emotion_limit,
                 grade=source.grade, status=source.status, button=button))
         state.buttons = [candidate.button for candidate in candidates]
-        main.dock_grid = SimpleNamespace(
-            buttons=state.buttons if grid_size is None else [None] * grid_size)
+        buttons = state.buttons if grid_size is None else [None] * grid_size
+        main.dock_grid = SimpleNamespace(buttons=buttons, origin=(56, 139),
+                                         grid_shape=(6, (len(buttons) + 5) // 6))
         return candidates
 
     def next_page(**kwargs):
@@ -82,6 +83,7 @@ def restaurant_dialog(monkeypatch, requests, pages, blacklist=(), preselected=()
     main.island_dock_sort_method_dsc_set = sort
     main.ensure_dock_page_at_top = top
     main.island_dock_scan_page = scan
+    main.island_dock_has_third_row = lambda: False
     main.next_dock_page = next_page
     main.appear = lambda *args, **kwargs: state.unchanged
     main.is_button_selected = lambda button, **kwargs: button.identity in state.selected
