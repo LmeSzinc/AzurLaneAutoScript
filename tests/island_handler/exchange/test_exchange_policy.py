@@ -1,28 +1,14 @@
 """Policy and confirmation-flow regression tests for island fish exchange."""
 from types import SimpleNamespace
 
-import pytest
-
-import module.config.server as server
 import module.island_handler.exchange as exchange_module
 from module.island_handler.exchange import (
     FISH_MEAT_SOURCES,
     IslandExchange,
-    fish_name_to_id,
     get_fish_exchange_amounts,
     get_fish_meat_gain,
 )
 from module.ui_white.assets import BACK_ARROW_WHITE
-
-
-@pytest.fixture
-def jp_server(monkeypatch):
-    monkeypatch.setattr(server, 'server', 'jp')
-
-
-@pytest.fixture
-def cn_server(monkeypatch):
-    monkeypatch.setattr(server, 'server', 'cn')
 
 
 class TestFishMeatSources:
@@ -31,21 +17,6 @@ class TestFishMeatSources:
             2521: {5002: 4, 5003: 3, 5004: 2, 5007: 3},
             2522: {5102: 3, 5103: 12, 5104: 5, 5105: 1, 5106: 2, 5107: 18},
         }
-
-
-class TestFishNameToId:
-    def test_misread_name(self, jp_server):
-        # Long vowel mark dropped from サーモン
-        assert fish_name_to_id('サモン', 2522) == 5104
-
-    def test_exact_name(self, cn_server):
-        assert fish_name_to_id('鲶鱼', 2521) == 5002
-        assert fish_name_to_id('黄鳍金枪鱼', 2522) == 5107
-
-    def test_ambiguous_or_empty_name(self, cn_server):
-        # One glyph away from every freshwater fish
-        assert fish_name_to_id('X鱼', 2521) is None
-        assert fish_name_to_id('', 2521) is None
 
 
 class TestExchangeAmounts:

@@ -2,19 +2,18 @@ from collections import namedtuple
 
 import cv2
 import numpy as np
-from jellyfish import levenshtein_distance
 
-import module.config.server as server
 from module.base.button import Button, ButtonGrid
+from module.base.template import Template
 from module.base.timer import Timer
-from module.base.utils import color_similarity_2d, crop, extract_letters
+from module.base.utils import color_similar, color_similarity_2d, crop, extract_letters
 from module.exception import GameTooManyClickError
 from module.island.data import DIC_ISLAND_EXCHANGE_RECIPE, DIC_ISLAND_ITEM
 from module.island.utils import item_name_with_id
 from module.island_handler.assets import *
 from module.island_handler.shop_ui import IslandShopUI
 from module.logger import logger
-from module.ocr.ocr import Digit, Ocr
+from module.ocr.ocr import Digit
 
 # {fish meat id: {fish id: fish meat per fish}}, every exchange consumes one fish
 FISH_MEAT_SOURCES = {
@@ -32,6 +31,7 @@ FISH_MEAT_TAB = {2521: 0, 2522: 1}
 # Fish cards, 4 per row. Only fish in stock are shown, sorted by item id.
 EXCHANGE_FISH_GRID = ButtonGrid(
     origin=(215, 111), delta=(131.33, 155), button_shape=(104, 108), grid_shape=(4, 2), name='EXCHANGE_FISH_GRID')
+EXCHANGE_FISH_ICON_GRID = EXCHANGE_FISH_GRID.crop((8, 18, 98, 88), name='EXCHANGE_FISH_ICON_GRID')
 EXCHANGE_FISH_NAME_GRID = EXCHANGE_FISH_GRID.crop((-2, 111, 106, 138), name='EXCHANGE_FISH_NAME_GRID')
 EXCHANGE_FISH_STOCK_GRID = EXCHANGE_FISH_GRID.crop((56, 86, 106, 110), name='EXCHANGE_FISH_STOCK_GRID')
 # Selected amount above the card top left, shown once selected
@@ -40,6 +40,11 @@ EXCHANGE_FISH_COUNT_GRID = EXCHANGE_FISH_GRID.crop((34, -7, 81, 20), name='EXCHA
 # since a click on the card selects one more fish.
 EXCHANGE_FISH_MINUS_GRID = EXCHANGE_FISH_GRID.crop((105, -5, 116, 17), name='EXCHANGE_FISH_MINUS_GRID')
 EXCHANGE_FISH_NAME_BACKGROUND = (112, 112, 115)
+EXCHANGE_FISH_TEMPLATES = {
+    fish_id: Template('./assets/island/exchange/{}.png'.format(
+        DIC_ISLAND_ITEM[fish_id]['name']['en'].replace(' ', '_')))
+    for fish_id in FISH_MEAT_YIELD
+}
 ISLAND_EXCHANGE_CLEAR = Button(
     area=(375, 630, 423, 677), color=(), button=(375, 630, 423, 677), name='ISLAND_EXCHANGE_CLEAR')
 
@@ -70,24 +75,26 @@ EXCHANGE_MEAT_GAIN_OCR = Digit(ISLAND_EXCHANGE_TOTAL_AMOUNT, lang='cnocr', lette
 FishMeatExchange = namedtuple('FishMeatExchange', ['before', 'after', 'stock'])
 
 
-def fish_name_to_id(name, meat_id):
+def fish_icon_to_id(image, meat_id):
     """
     Args:
-        name (str): Fish name OCR result.
+        image (np.ndarray): Fish artwork with a small margin for matching.
         meat_id (int): Fish meat of the page, which limits the candidates.
 
     Returns:
-        int: Fish id of the closest name on the current server, None if empty or ambiguous.
+        int: Fish id, None if no confident, unambiguous template matches.
     """
-    if not name:
+    matches = []
+    for fish_id in FISH_MEAT_SOURCES[meat_id]:
+        template = EXCHANGE_FISH_TEMPLATES[fish_id]
+        similarity, button = template.match_result(image)
+        # Red Sea Bream and Black Porgy have similar shapes but different colors.
+        if similarity >= 0.85 and color_similar(button.color, cv2.mean(template.image)[:3], threshold=15):
+            matches.append((similarity, fish_id))
+    matches.sort(reverse=True)
+    if not matches or (len(matches) > 1 and matches[0][0] - matches[1][0] < 0.05):
         return None
-    distances = sorted(
-        (levenshtein_distance(name, DIC_ISLAND_ITEM[fish_id]['name'][server.server]), fish_id)
-        for fish_id in FISH_MEAT_SOURCES[meat_id]
-    )
-    if len(distances) > 1 and distances[0][0] == distances[1][0]:
-        return None
-    return distances[0][1]
+    return matches[0][1]
 
 
 def read_fish_cards(image, meat_id):
@@ -98,7 +105,7 @@ def read_fish_cards(image, meat_id):
 
     Returns:
         list[tuple[int, int, int]]: (card index, fish id, stock) of shown cards,
-            fish id is None if the name is not recognized.
+            fish id is None if the artwork is not recognized.
     """
     indices = [
         index for index, button in enumerate(EXCHANGE_FISH_NAME_GRID.buttons)
@@ -106,17 +113,10 @@ def read_fish_cards(image, meat_id):
     ]
     if not indices:
         return []
-    if server.server == 'jp':
-        lang = 'jp'
-    elif server.server == 'tw':
-        lang = 'tw'
-    else:
-        lang = 'cnocr'
-    name_ocr = Ocr([], lang=lang, letter=(255, 255, 255), threshold=128, name='EXCHANGE_FISH_NAME')
-    names = name_ocr.ocr([crop(image, EXCHANGE_FISH_NAME_GRID.buttons[i].area) for i in indices], direct_ocr=True)
+    fish_ids = [fish_icon_to_id(crop(image, EXCHANGE_FISH_ICON_GRID.buttons[i].area), meat_id) for i in indices]
     stocks = EXCHANGE_FISH_STOCK_OCR.ocr(
         [crop(image, EXCHANGE_FISH_STOCK_GRID.buttons[i].area) for i in indices], direct_ocr=True)
-    return [(index, fish_name_to_id(name, meat_id), stock) for index, name, stock in zip(indices, names, stocks)]
+    return [(index, fish_id, stock) for index, fish_id, stock in zip(indices, fish_ids, stocks)]
 
 
 def read_fish_counts(image, indices):
