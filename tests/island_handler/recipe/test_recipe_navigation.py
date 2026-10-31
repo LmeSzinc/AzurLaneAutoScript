@@ -1,25 +1,33 @@
 """Recipe stock scans end only at a recognized list boundary."""
 from types import SimpleNamespace
 
+import numpy as np
 import pytest
 
 from module.base.button import ButtonGrid
+from module.base.decorator import del_cached_property
 import module.island_handler.recipe as recipe_module
 from module.island_handler.recipe import IslandRecipe, RECIPE_DELTA, RECIPE_SIZE
 
 
-def page(recipe_ids, origin=(181, 114)):
-    return SimpleNamespace(stocks={recipe_id: recipe_id * 10 for recipe_id in recipe_ids}, origin=origin)
+def page(recipe_ids, origin=(181, 114), has_next=False):
+    return SimpleNamespace(stocks={recipe_id: recipe_id * 10 for recipe_id in recipe_ids},
+                           origin=origin, has_next=has_next)
 
 
 def make_recipe(monkeypatch, pages):
     main = object.__new__(IslandRecipe)
-    state = SimpleNamespace(index=0, next_calls=0, scans=[], clears=0, reference=None)
+    state = SimpleNamespace(index=0, next_calls=0, scans=[], grid_scans=[], clears=0,
+                            drags=[], screenshots=0, reference=None)
 
     def clear_clicks():
         state.clears += 1
 
+    def screenshot():
+        state.screenshots += 1
+
     def get_grid():
+        state.grid_scans.append(state.index)
         current = pages[state.index]
         return ButtonGrid(origin=current.origin, delta=RECIPE_DELTA, button_shape=RECIPE_SIZE,
                           grid_shape=(1, len(current.stocks)), name='RECIPE_GRID')
@@ -44,19 +52,22 @@ def make_recipe(monkeypatch, pages):
 
     drag_check = SimpleNamespace(load_color=load_color)
     monkeypatch.setattr(recipe_module, 'ISLAND_RECIPE_DRAG_CHECK', drag_check)
-    main.device = SimpleNamespace(click_record_clear=clear_clicks)
+    main.device = SimpleNamespace(click_record_clear=clear_clicks, screenshot=screenshot,
+                                  drag=lambda *args, **kwargs: state.drags.append(args))
     main.loop = lambda **kwargs: range(len(pages) + 3)
     main.appear = lambda button, **kwargs: button is not drag_check or main.device.image == state.reference
     main.get_recipe_grid = get_grid
     main.get_recipe_ids = lambda: list(pages[state.index].stocks)
     main.get_recipe_product_stocks = stocks
+    main.image_color_count = lambda *args, **kwargs: pages[state.index].has_next
     main.next_recipe_page = next_page
     update_page()
     return main, state
 
 
 def test_stock_scan_reads_the_bottom_page_before_stopping(monkeypatch):
-    pages = [page([1, 2, 3]), page([3, 4, 5], (181, 162)), page([5, 6, 7, 8], (181, 71))]
+    pages = [page([1, 2, 3], has_next=True), page([3, 4, 5], (181, 162)),
+             page([5, 6, 7, 8], (181, 71))]
     main, state = make_recipe(monkeypatch, pages)
 
     assert main.scan_all_recipe_stocks() == {recipe_id: recipe_id * 10 for recipe_id in range(1, 9)}
@@ -66,7 +77,7 @@ def test_stock_scan_reads_the_bottom_page_before_stopping(monkeypatch):
 
 
 def test_stock_scan_retries_failed_drags_instead_of_missing_later_recipes(monkeypatch):
-    first = page([1, 2, 3])
+    first = page([1, 2, 3], has_next=True)
     main, state = make_recipe(monkeypatch, [first, first, first, page([3, 4, 5, 6], (181, 71))])
 
     assert main.scan_all_recipe_stocks() == {recipe_id: recipe_id * 10 for recipe_id in range(1, 7)}
@@ -83,7 +94,7 @@ def test_stock_scan_retries_failed_drags_instead_of_missing_later_recipes(monkey
     ((181, 71), 3),
 ])
 def test_unchanged_unaligned_grid_does_not_end_the_scan(monkeypatch, origin, count):
-    current = page(range(1, count + 1), origin)
+    current = page(range(1, count + 1), origin, has_next=True)
     main, state = make_recipe(monkeypatch, [current])
 
     assert main.scan_all_recipe_stocks() == current.stocks
@@ -92,7 +103,7 @@ def test_unchanged_unaligned_grid_does_not_end_the_scan(monkeypatch, origin, cou
     assert state.clears == 0
 
 
-@pytest.mark.parametrize('count', [1, 2])
+@pytest.mark.parametrize('count', [1, 2, 3])
 def test_short_top_list_does_not_need_another_drag(monkeypatch, count):
     current = page(range(1, count + 1))
     main, state = make_recipe(monkeypatch, [current])
@@ -101,6 +112,61 @@ def test_short_top_list_does_not_need_another_drag(monkeypatch, count):
     assert state.scans == [0]
     assert state.next_calls == 0
     assert state.clears == 1
+
+
+@pytest.mark.parametrize('count', [1, 2, 3])
+def test_short_top_grid_is_accepted_without_waiting(monkeypatch, count):
+    main, state = make_recipe(monkeypatch, [page(range(1, count + 1))])
+    del_cached_property(main, 'recipe_grid')
+    state.grid_scans.clear()
+
+    assert len(main.recipe_grid.buttons) == count
+    assert state.grid_scans == [0]
+
+
+@pytest.mark.parametrize('count', [1, 2])
+def test_short_top_grid_waits_until_recipe_controls_load(monkeypatch, count):
+    main, state = make_recipe(monkeypatch, [page(range(1, count + 1))])
+    loaded = iter([False, True])
+    main.appear = lambda *args, **kwargs: next(loaded)
+    del_cached_property(main, 'recipe_grid')
+    state.grid_scans.clear()
+
+    assert len(main.recipe_grid.buttons) == count
+    assert state.grid_scans == [0, 0]
+
+
+@pytest.mark.parametrize('count', [1, 2])
+def test_sparse_top_grid_with_another_title_keeps_retrying(monkeypatch, count):
+    current = page(range(1, count + 1), has_next=True)
+    main, state = make_recipe(monkeypatch, [current])
+
+    assert main.scan_all_recipe_stocks() == current.stocks
+    assert len(state.scans) == 4
+    assert state.clears == 0
+
+
+@pytest.mark.parametrize('count', [1, 2, 3])
+@pytest.mark.parametrize('method', ['next_recipe_page', 'prev_recipe_page'])
+def test_short_list_page_navigation_does_not_drag(monkeypatch, count, method):
+    main, state = make_recipe(monkeypatch, [page(range(1, count + 1))])
+
+    getattr(IslandRecipe, method)(main)
+
+    assert state.drags == []
+    assert state.screenshots == 0
+
+
+def test_single_anchor_retains_its_detected_origin():
+    main = object.__new__(IslandRecipe)
+    main._get_recipe_buttons = lambda: np.array([[0., 107.]])
+
+    grid = main.get_recipe_grid()
+
+    assert tuple(grid.origin) == (181, 162)
+    assert tuple(grid.grid_shape) == (1, 1)
+    main.recipe_grid = grid
+    assert not main.recipe_at_bottom()
 
 
 def test_bottom_grid_does_not_need_another_drag(monkeypatch):

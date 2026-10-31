@@ -20,6 +20,17 @@ def recipe_ocr_language(request, monkeypatch):
 
 
 class TestRecipeGrid:
+    @image('island/recipe/0e57ef95', server='cn')
+    def test_single_recipe_is_complete_without_waiting_or_dragging(self, main: IslandRecipe):
+        grid = main.recipe_grid
+        actual = dict(origin=tuple(grid.origin), shape=tuple(grid.grid_shape), bottom=main.recipe_at_bottom())
+        main.device.review(actual, [(button.area, button.name) for button in grid.buttons])
+        assert actual == dict(origin=(181, 114), shape=(1, 1), bottom=True)
+        assert main.scan_all_recipe_stocks() == {402004: 2912}
+        main.next_recipe_page()
+        main.prev_recipe_page()
+        assert main.device.drags == []
+
     @image('island/recipe/9ed7842d', server='jp')
     def test_crop_recipes_at_bottom_with_three_digit_yields(self, main: IslandRecipe):
         main.recipe_grid = main.get_recipe_grid()

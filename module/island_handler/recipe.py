@@ -11,7 +11,7 @@ import module.config.server as server
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property, del_cached_property
 from module.base.timer import Timer
-from module.base.utils import color_similarity_2d, extract_letters, random_rectangle_vector_opted
+from module.base.utils import area_offset, color_similarity_2d, extract_letters, random_rectangle_vector_opted
 from module.exception import GameTooManyClickError
 from module.island.data import DIC_ISLAND_ITEM, DIC_ISLAND_RECIPE, DIC_ISLAND_SHOP_ITEM_TO_RECIPE, DIC_ISLAND_SLOT
 from module.island.utils import (
@@ -295,7 +295,9 @@ class IslandRecipe(IslandExchange, IslandShop):
     def recipe_grid(self):
         for _ in self.loop(timeout=2):
             grid = self.get_recipe_grid()
-            if len(grid.buttons) >= 3 or len(grid.buttons) == 1 and self.working_slot_id in [9031, 9032, 9033, 9034]:
+            if len(grid.buttons) >= 3:
+                return grid
+            if self._recipe_list_is_short(grid) and self.appear(ISLAND_RECIPE_AMOUNT_MAX, offset=(20, 20)):
                 return grid
         return grid
 
@@ -306,14 +308,14 @@ class IslandRecipe(IslandExchange, IslandShop):
         if count > 4:
             logger.warning(f'Found {count} recipe anchors, which is more than expected, fixing count to 4')
             count = 4
-        if count >= 2:
+        if count >= 1:
             y_list = rows[:, 1]
             # Fit the shared origin so one noisy anchor cannot shift the grid.
             row_offsets = np.rint((y_list - y_list.min()) / delta_y) * delta_y
             origin_y = round(float(np.median(y_list - row_offsets))) + RECIPE_DETECT_AREA[1]
         else:
-            logger.warning('Unable to find enough recipe anchors, assume recipes are at top')
-            origin_y = 114
+            logger.warning('Unable to find recipe anchors, assume recipes are at top')
+            origin_y = RECIPE_GRID_TOP_ORIGIN[1]
 
         recipe_grid = ButtonGrid(
             origin=(181, origin_y), delta=(0, delta_y), button_shape=RECIPE_SIZE,
@@ -321,9 +323,21 @@ class IslandRecipe(IslandExchange, IslandShop):
         )
         return recipe_grid
 
+    def _recipe_list_is_short(self, grid):
+        count = len(grid.buttons)
+        if count not in (1, 2, 3) or tuple(grid.origin) != RECIPE_GRID_TOP_ORIGIN:
+            return False
+        # The next card's title is visible even when its count anchor is clipped.
+        next_name_area = area_offset(
+            RECIPE_PRODUCT_NAME_AREA, offset=(grid.origin[0], grid.origin[1] + count * RECIPE_DELTA[1])
+        )
+        return not self.image_color_count(next_name_area, color=RECIPE_PRODUCT_NAME_OCR.letter,
+                                         threshold=30, count=50)
+
     def recipe_at_bottom(self):
         grid = self.recipe_grid
-        return tuple(grid.origin) == RECIPE_GRID_BOTTOM_ORIGIN and tuple(grid.grid_shape) == (1, 4)
+        return (tuple(grid.origin) == RECIPE_GRID_BOTTOM_ORIGIN and tuple(grid.grid_shape) == (1, 4)
+                or self._recipe_list_is_short(grid))
 
     @cached_property
     def recipe_ids(self):
@@ -343,8 +357,9 @@ class IslandRecipe(IslandExchange, IslandShop):
         return stocks
 
     def next_recipe_page(self):
-        if len(self.recipe_grid.buttons) < 3:
-            logger.info('Less than 3 recipes in current page, no need to swipe to next page')
+        grid = self.recipe_grid
+        if len(grid.buttons) < 3 or self._recipe_list_is_short(grid):
+            logger.info('No need to swipe to next recipe page')
             return
         else:
             p1, p2 = random_rectangle_vector_opted((0, -300), box=RECIPE_DRAG_AREA, padding=0)
@@ -354,8 +369,9 @@ class IslandRecipe(IslandExchange, IslandShop):
             self.device.screenshot()
 
     def prev_recipe_page(self):
-        if len(self.recipe_grid.buttons) < 3:
-            logger.info('Less than 3 recipes in current page, no need to swipe to previous page')
+        grid = self.recipe_grid
+        if len(grid.buttons) < 3 or self._recipe_list_is_short(grid):
+            logger.info('No need to swipe to previous recipe page')
             return
         else:
             p1, p2 = random_rectangle_vector_opted((0, 300), box=RECIPE_DRAG_AREA, padding=0)
@@ -367,15 +383,13 @@ class IslandRecipe(IslandExchange, IslandShop):
     def scan_all_recipe_stocks(self):
         for _ in self.loop(timeout=3):
             # use ISLAND_RECIPE_AMOUNT_MAX as a check to ensure the recipe page is fully loaded
-            if self.appear(ISLAND_RECIPE_AMOUNT_MAX, offset=(0, 20)):
+            if self.appear(ISLAND_RECIPE_AMOUNT_MAX, offset=(20, 20)):
                 break
         all_stocks = {}
         for _ in self.loop(timeout=30):
             new_stocks = dict(zip(self.recipe_ids, self.get_recipe_product_stocks()))
             all_stocks.update(new_stocks)
-            grid = self.recipe_grid
-            short_list = len(grid.buttons) in (1, 2) and tuple(grid.origin) == RECIPE_GRID_TOP_ORIGIN
-            if self.recipe_at_bottom() or short_list:
+            if self.recipe_at_bottom():
                 logger.info('Reached recipe list bottom')
                 self.device.click_record_clear()
                 break
