@@ -481,6 +481,13 @@
       "Hermit": "Hermit",
       "MaaTouch": "MaaTouch"
     },
+    "InputMethod": {
+      "name": "Input Method",
+      "help": "Auto prepares and benchmarks both usable input methods, then saves the faster verified method. Selecting Auto again reruns the benchmark.",
+      "auto": "Auto-select the fastest",
+      "ADB": "ADB",
+      "FastInputIME": "FastInputIME"
+    },
     "ScreenshotDedithering": {
       "name": "Image Color De-dithering",
       "help": "Enable when running Alas on phones"
@@ -2943,7 +2950,7 @@
   "Benchmark": {
     "_info": {
       "name": "Performance Test",
-      "help": "Test which screenshot method and click method combination is the fastest and best for you.\nSpeed can vary on the emulator being used and your PC build.\nAfter testing, select the fastest screenshot and control method in \"Alas\" - \"Emulator Settings\""
+      "help": "Test which screenshot, click, and input method is fastest and best for you.\nSpeed can vary on the emulator being used and your PC build.\nAfter testing, select the fastest screenshot, control, and input method in \"Alas\" - \"Emulator Settings\""
     },
     "DeviceType": {
       "name": "Device Type",
@@ -2958,8 +2965,10 @@
       "name": "Test Scene",
       "help": "",
       "screenshot_click": "Screenshot + Click speed tests",
+      "screenshot_click_input": "Screenshot + Click + Input speed tests",
       "screenshot": "Screenshot speed tests",
-      "click": "Click speed tests"
+      "click": "Click speed tests",
+      "input": "Input speed tests"
     }
   },
   "AzurLaneUncensored": {

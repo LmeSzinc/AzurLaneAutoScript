@@ -100,6 +100,10 @@ class Device(Screenshot, Control, AppControl, Input):
         if not self.config.is_template_config and self.config.Emulator_ScreenshotMethod == 'auto':
             self.run_simple_screenshot_benchmark()
 
+        if (not self.config.is_template_config and not self.input_method_override
+                and self.config.Emulator_InputMethod == 'auto'):
+            self.run_simple_input_benchmark()
+
         # Early init
         if self.config.is_actual_task:
             if self.config.Emulator_ControlMethod == 'MaaTouch':

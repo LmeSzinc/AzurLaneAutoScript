@@ -1,4 +1,5 @@
 import base64
+from contextlib import nullcontext
 from types import SimpleNamespace
 from unittest.mock import ANY, Mock, call
 
@@ -7,9 +8,11 @@ from lxml import etree
 from uiautomator2.exceptions import UiObjectNotFoundError
 
 import module.device.method.fastinput_ime as fastinput_module
+import module.daemon.benchmark as input_benchmark_module
 import module.device.method.uiautomator_2 as uiautomator_module
 from module.device.control import Control
 from module.device.device import Device
+from module.device.connection import Connection
 from module.device.method.fastinput_ime import FastInputIME
 from module.device.method.uiautomator_2 import Uiautomator2
 
@@ -21,7 +24,7 @@ def make_device(sdk_ver=28, mumu_version=None, bluestacks_air=False,
     device.is_mumu_family = mumu_version is not None
     device.nemud_player_version = '' if mumu_version is None else mumu_version
     device.is_bluestacks_air = bluestacks_air
-    device.config = SimpleNamespace(Emulator_ControlMethod='minitouch')
+    device.config = SimpleNamespace(Emulator_ControlMethod='minitouch', Emulator_InputMethod='ADB')
     device.u2 = SimpleNamespace(
         current_ime=Mock(side_effect=AssertionError('Legacy uiautomator2 IME query must not be used')),
         shell=Mock(return_value=SimpleNamespace(exit_code=0, output='')),
@@ -730,6 +733,95 @@ def test_default_and_unknown_input_methods_select_the_expected_backend(method, b
         device.adb_input.input_text_adb.assert_not_called()
 
 
+@pytest.mark.parametrize('configured,expected', [('ADB', 'ADB'), ('FastInputIME', 'FastInputIME')])
+def test_configured_input_method_dispatches_without_running_auto_benchmark(configured, expected):
+    device = make_device(input_method_override='')
+    device.config.Emulator_InputMethod = configured
+    device.adb_input.adb_input_supported = Mock(return_value=True)
+    device.adb_input.ensure_adb_input = Mock(return_value=True)
+    device.adb_input.input_text_adb = Mock(return_value=True)
+    device.fastinput_ime.fastinput_ime_supported = Mock(return_value=True)
+    device.fastinput_ime.ensure_fastinput_ime = Mock(return_value=True)
+    device.fastinput_ime.input_text_fastinput_ime = Mock(return_value=False)
+
+    assert device.text_input_supported() is True
+    result = device.input_text('code', object(), clear=False)
+    assert result is (expected == 'ADB')
+    device.run_simple_input_benchmark = Mock(side_effect=AssertionError('configured input must not benchmark'))
+    assert device.ensure_text_input() is True
+    if expected == 'ADB':
+        device.adb_input.adb_input_supported.assert_called_once_with()
+        device.adb_input.input_text_adb.assert_called_once_with('code', focus=ANY, clear=False)
+        device.adb_input.ensure_adb_input.assert_called_once_with()
+        device.fastinput_ime.fastinput_ime_supported.assert_not_called()
+        device.fastinput_ime.ensure_fastinput_ime.assert_not_called()
+        device.fastinput_ime.input_text_fastinput_ime.assert_not_called()
+    else:
+        device.fastinput_ime.fastinput_ime_supported.assert_called_once_with()
+        device.fastinput_ime.input_text_fastinput_ime.assert_called_once_with('code', focus=ANY, clear=False)
+        device.fastinput_ime.ensure_fastinput_ime.assert_called_once_with()
+        device.adb_input.adb_input_supported.assert_not_called()
+        device.adb_input.ensure_adb_input.assert_not_called()
+        device.adb_input.input_text_adb.assert_not_called()
+
+
+def test_input_method_override_has_priority_over_configured_method():
+    device = make_device(input_method_override='ADB')
+    device.config.Emulator_InputMethod = 'FastInputIME'
+    device.adb_input.adb_input_supported = Mock(return_value=True)
+    device.fastinput_ime.fastinput_ime_supported = Mock(return_value=True)
+
+    assert device.text_input_supported() is True
+    device.adb_input.adb_input_supported.assert_called_once_with()
+    device.fastinput_ime.fastinput_ime_supported.assert_not_called()
+
+
+def test_auto_benchmark_persists_winner_and_reruns_after_reset(monkeypatch):
+    device = make_device(input_method_override='')
+    device.config.Emulator_InputMethod = 'auto'
+    device.config.multi_set = Mock(return_value=nullcontext())
+    device.adb_input.adb_input_supported = Mock(return_value=True)
+    device.fastinput_ime.fastinput_ime_supported = Mock(return_value=True)
+
+    class StubBenchmark:
+        winners = iter(['ADB', 'FastInputIME'])
+
+        def __init__(self, owner):
+            self.owner = owner
+
+        def run(self):
+            return next(self.winners)
+
+    monkeypatch.setattr(input_benchmark_module, 'InputBenchmark', StubBenchmark)
+
+    assert device.text_input_supported() is True
+    assert device.config.Emulator_InputMethod == 'ADB'
+    assert device.text_input_supported() is True
+    device.config.Emulator_InputMethod = 'auto'
+    assert device.text_input_supported() is True
+    assert device.config.Emulator_InputMethod == 'FastInputIME'
+    assert device.config.multi_set.call_count == 2
+
+
+def test_failed_auto_benchmark_does_not_save_a_method(monkeypatch):
+    device = make_device(input_method_override='')
+    device.config.Emulator_InputMethod = 'auto'
+    device.config.multi_set = Mock(return_value=nullcontext())
+
+    class FailingBenchmark:
+        def __init__(self, owner):
+            self.owner = owner
+
+        def run(self):
+            raise RuntimeError('Cannot restore the foreground app after the input benchmark')
+
+    monkeypatch.setattr(input_benchmark_module, 'InputBenchmark', FailingBenchmark)
+    with pytest.raises(RuntimeError, match='Cannot restore the foreground app'):
+        device.run_simple_input_benchmark()
+    assert device.config.Emulator_InputMethod == 'auto'
+    device.config.multi_set.assert_not_called()
+
+
 def test_input_override_only_selects_text_operations():
     device = make_device()
     backend = {
@@ -781,3 +873,36 @@ def test_clipboard_access_before_android_10_does_not_prepare_an_ime():
     device.fastinput_ime.ensure_fastinput_ime.assert_not_called()
     device.u2.shell.assert_not_called()
     device.adb_shell.assert_not_called()
+
+
+@pytest.mark.parametrize('template,input_method,override,expected_calls', [
+    (False, 'auto', '', 1),
+    (True, 'auto', '', 0),
+    (False, 'ADB', '', 0),
+    (False, 'FastInputIME', '', 0),
+    (False, 'auto', 'ADB', 0),
+])
+def test_device_startup_runs_input_benchmark_only_for_real_auto_config(
+        monkeypatch, template, input_method, override, expected_calls):
+    config = SimpleNamespace(
+        is_template_config=template,
+        EmulatorInfo_Emulator='MuMuPlayer12',
+        Emulator_ScreenshotMethod='ADB',
+        Emulator_InputMethod=input_method,
+        Emulator_ControlMethod='minitouch',
+        is_actual_task=False,
+    )
+
+    def connection_init(device, config_value):
+        device.config = config_value
+
+    monkeypatch.setattr(Connection, '__init__', connection_init)
+    monkeypatch.setattr(Device, 'input_method_override', override)
+    device = object.__new__(Device)
+    device.screenshot_interval_set = Mock()
+    device.method_check = Mock()
+    device.run_simple_input_benchmark = Mock()
+
+    Device.__init__(device, config)
+
+    assert device.run_simple_input_benchmark.call_count == expected_calls

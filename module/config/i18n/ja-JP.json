@@ -481,6 +481,13 @@
       "Hermit": "Hermit",
       "MaaTouch": "MaaTouch"
     },
+    "InputMethod": {
+      "name": "入力方法",
+      "help": "自動モードでは利用可能な入力方法を準備してベンチマークし、検証済みでより速い方法を保存します。自動を再度選択するとベンチマークを再実行します。",
+      "auto": "最速の方法を自動選択",
+      "ADB": "ADB",
+      "FastInputIME": "FastInputIME"
+    },
     "ScreenshotDedithering": {
       "name": "Emulator.ScreenshotDedithering.name",
       "help": "Emulator.ScreenshotDedithering.help"
@@ -2958,8 +2965,10 @@
       "name": "Benchmark.TestScene.name",
       "help": "Benchmark.TestScene.help",
       "screenshot_click": "screenshot_click",
+      "screenshot_click_input": "スクリーンショット+クリック+入力速度テスト",
       "screenshot": "screenshot",
-      "click": "click"
+      "click": "click",
+      "input": "入力速度テスト"
     }
   },
   "AzurLaneUncensored": {

@@ -139,6 +139,15 @@
           "MaaTouch"
         ]
       },
+      "InputMethod": {
+        "type": "select",
+        "value": "auto",
+        "option": [
+          "auto",
+          "ADB",
+          "FastInputIME"
+        ]
+      },
       "ScreenshotDedithering": {
         "type": "checkbox",
         "value": false
@@ -10070,8 +10079,10 @@
         "value": "screenshot_click",
         "option": [
           "screenshot_click",
+          "screenshot_click_input",
           "screenshot",
-          "click"
+          "click",
+          "input"
         ]
       }
     },

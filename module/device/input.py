@@ -45,9 +45,19 @@ class Input(Uiautomator2):
         return ''
 
     def _input_method(self, operation):
-        method = self.input_method_override or 'ADB'
+        method = self.input_method_override or self.config.Emulator_InputMethod
+        if method == 'auto':
+            method = self.run_simple_input_benchmark()
         methods = self.input_methods.get(method, self.input_methods['ADB'])
         return methods[operation]
+
+    def run_simple_input_benchmark(self):
+        from module.daemon.benchmark import InputBenchmark
+
+        method = InputBenchmark(self).run()
+        with self.config.multi_set():
+            self.config.Emulator_InputMethod = method
+        return method
 
     def text_input_supported(self):
         return self._input_method('supported')()
