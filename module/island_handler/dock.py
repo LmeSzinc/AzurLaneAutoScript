@@ -18,6 +18,8 @@ ISLAND_DOCK_DETECT = Button(ISLAND_DOCK_DETECT_AREA, color=(), button=ISLAND_DOC
 ISLAND_DOCK_CARD_ANCHOR_AREA = (11, 9, 29, 27)
 ISLAND_DOCK_CARD_DELTA = (140, 180)
 ISLAND_DOCK_CARD_SIZE = (124, 164)
+ISLAND_DOCK_GRID_TOP_ORIGIN = (56, 139)
+ISLAND_DOCK_GRID_BOTTOM_ORIGIN = (56, 206)
 
 
 def dock_identity_set(identity):
@@ -75,11 +77,14 @@ class IslandDock(IslandUI):
             if wait_loading:
                 self.handle_island_dock_loading()
 
-    def _get_dock_buttons(self):
+    def _get_dock_buttons(self, include_partial=False):
+        bottom = ISLAND_DOCK_DETECT_AREA[3]
+        if not include_partial:
+            bottom += ISLAND_DOCK_CARD_ANCHOR_AREA[3] - ISLAND_DOCK_CARD_SIZE[1]
         area = (ISLAND_DOCK_DETECT_AREA[0] + ISLAND_DOCK_CARD_ANCHOR_AREA[0],
                 ISLAND_DOCK_DETECT_AREA[1] + ISLAND_DOCK_CARD_ANCHOR_AREA[1],
                 ISLAND_DOCK_DETECT_AREA[2] - ISLAND_DOCK_CARD_SIZE[0] + ISLAND_DOCK_CARD_ANCHOR_AREA[2],
-                ISLAND_DOCK_DETECT_AREA[3] - ISLAND_DOCK_CARD_SIZE[1] + ISLAND_DOCK_CARD_ANCHOR_AREA[3])
+                bottom)
         image = self.image_crop(area, copy=True)
         anchors = TEMPLATE_ISLAND_DOCK_CARD_ANCHOR.match_multi(image, threshold=5)
         logger.attr('cards_in_view', len(anchors))
@@ -115,6 +120,13 @@ class IslandDock(IslandUI):
             name='CARD'
         )
         return grid
+
+    def island_dock_at_bottom(self):
+        grid = self.dock_grid
+        return tuple(grid.origin) == ISLAND_DOCK_GRID_BOTTOM_ORIGIN and tuple(grid.grid_shape) == (6, 2)
+
+    def island_dock_has_third_row(self):
+        return len(self._get_dock_buttons(include_partial=True)) >= 3
 
     def next_dock_page(self, wait_loading=True):
         p1, p2 = random_rectangle_vector_opted((0, -250), box=ISLAND_DOCK_DETECT_AREA, padding=-10)
@@ -184,21 +196,27 @@ class IslandDock(IslandUI):
         if 'status' in disabled:
             raise ValueError('Dock searches require status recognition')
         characters = []
+        previous_empty_tail = 0
         for _ in self.loop(timeout=3):
             grid = self.dock_grid
             if not grid.buttons:
                 del_cached_property(self, 'dock_grid')
+                previous_empty_tail = 0
                 continue
             scanner = CharacterScanner(grid, identity=None, emotion=None,
                                        emotion_limit=None, grade=None, status=None)
             scanner.disable(*disabled)
             characters = scanner.scan(self.device.image)
             # Leave one card so an entirely unreadable page still retries.
-            while len(characters) > 1:
-                last = characters[-1]
+            empty_tail = 0
+            for last in reversed(characters[1:]):
                 if not (last.identity == 'unknown' and last.emotion == 0 and last.emotion_limit == 0):
                     break
-                characters.pop()
+                empty_tail += 1
+            # Confirm the same empty tail on a fresh screenshot before trimming.
+            if empty_tail and empty_tail == previous_empty_tail:
+                del characters[-empty_tail:]
+            previous_empty_tail = empty_tail
             if characters and ('identity' in disabled
                                or all(c.identity not in (None, '', 'unknown') for c in characters)):
                 break
@@ -218,29 +236,31 @@ class IslandDock(IslandUI):
             return None, False
         unchanged = 0
         incomplete = False
+        seen_third_row = False
         for _ in self.loop(timeout=timeout):
             characters = self.island_dock_scan_page(disabled=disabled)
             if not characters:
                 return None, False
-            # Page scanning removes empty grid cells only from the bottom tail.
-            at_bottom = len(characters) < len(self.dock_grid.buttons)
-            if 'identity' not in disabled:
-                incomplete |= any(c.identity in (None, '', 'unknown') for c in characters)
             result = handle_page(characters)
             if result is not None:
                 return result, True
-            if at_bottom:
+            if 'identity' not in disabled:
+                incomplete |= any(c.identity in (None, '', 'unknown') for c in characters)
+
+            at_end = self.island_dock_at_bottom()
+            if tuple(self.dock_grid.origin) == ISLAND_DOCK_GRID_TOP_ORIGIN:
+                seen_third_row = seen_third_row or self.island_dock_has_third_row()
+                # A short dock has empty cells, or stays put after two drags.
+                at_end = not seen_third_row and (
+                    len(characters) < len(self.dock_grid.buttons) or unchanged >= 2)
+            if at_end:
                 return None, not incomplete
+
             # A selection may have changed highlights since the previous drag.
             ISLAND_DOCK_DETECT.load_color(self.device.image)
             ISLAND_DOCK_DETECT._match_init = True
             self.next_dock_page()
-            if self.appear(ISLAND_DOCK_DETECT, offset=(20, 20)):
-                unchanged += 1
-                if unchanged >= 2:
-                    return None, not incomplete
-            else:
-                unchanged = 0
+            unchanged = unchanged + 1 if self.appear(ISLAND_DOCK_DETECT, offset=(20, 20)) else 0
         return None, False
 
     def island_dock_select_character(self, identity=None, emotion=None, emotion_limit=None,
