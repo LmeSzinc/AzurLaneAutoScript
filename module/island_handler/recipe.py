@@ -834,30 +834,30 @@ class IslandRecipe(IslandExchange, IslandShop):
         return success, real_count
 
     def set_recipe_batch_count(self, batch_count=float('inf')):
-        for _ in self.loop():
-            if self.appear_then_click(ISLAND_RECIPE_AMOUNT_MAX, offset=(20, 20)):
-                self.device.screenshot()
-                break
+        if batch_count != 1:
+            for _ in self.loop():
+                if self.appear_then_click(ISLAND_RECIPE_AMOUNT_MAX, offset=(20, 20)):
+                    self.device.screenshot()
+                    break
         if batch_count == float('inf'):
             logger.info('Set recipe amount to max')
             return True
-        else:
-            logger.info(f'Set recipe amount to {batch_count}')
-            if ISLAND_RECIPE_AMOUNT_OCR.ocr(self.device.image) < batch_count:
-                # Check if already at max, if so, cannot set to desired amount
-                counters = self.get_recipe_ingredient_counters()
-                for counter in counters:
-                    if counter[2] < 0:
-                        logger.warning('Insufficient ingredient for next recipe amount, cannot set recipe amount to desired value')
-                        return False
-            try:
-                self.ui_ensure_index(index=batch_count, letter=ISLAND_RECIPE_AMOUNT_OCR,
+        logger.info(f'Set recipe amount to {batch_count}')
+        if ISLAND_RECIPE_AMOUNT_OCR.ocr(self.device.image) < batch_count:
+            # Check if already at max, if so, cannot set to desired amount
+            counters = self.get_recipe_ingredient_counters()
+            for counter in counters:
+                if counter[2] < 0:
+                    logger.warning('Insufficient ingredient for next recipe amount, cannot set recipe amount to desired value')
+                    return False
+        try:
+            self.ui_ensure_index(index=batch_count, letter=ISLAND_RECIPE_AMOUNT_OCR,
                                  next_button=ISLAND_RECIPE_AMOUNT_PLUS,
                                  prev_button=ISLAND_RECIPE_AMOUNT_MINUS,)
-                return True
-            except GameTooManyClickError:
-                logger.warning('Too many clicks when setting recipe amount, failed to set recipe amount')
-                return False
+            return True
+        except GameTooManyClickError:
+            logger.warning('Too many clicks when setting recipe amount, failed to set recipe amount')
+            return False
 
     def get_recipe_remain_time(self):
         if self.match_template_color(ISLAND_RECIPE_TIME_ANCHOR, offset=(100, 20)):
