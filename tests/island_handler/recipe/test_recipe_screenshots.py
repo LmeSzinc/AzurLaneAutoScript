@@ -18,6 +18,42 @@ def recipe_ocr_language(request, monkeypatch):
     monkeypatch.setattr(ISLAND_RECIPE_AMOUNT_OCR, 'lang', amount_language)
 
 
+class TestRecipeGrid:
+    @image('island/recipe/81c7c0c3', server='jp')
+    def test_gold_wood_recipes_at_bottom(self, main: IslandRecipe):
+        rows = main._get_recipe_buttons()
+        main.recipe_grid = main.get_recipe_grid()
+        grid = main.recipe_grid
+        actual = dict(anchor_rows=rows[:, 1].tolist(), origin=tuple(grid.origin),
+                      shape=tuple(grid.grid_shape), bottom=main.recipe_at_bottom())
+        main.device.review(actual, [(button.area, button.name) for button in grid.buttons])
+        assert actual == dict(anchor_rows=[16, 165, 314, 463], origin=(181, 71), shape=(1, 4), bottom=True)
+
+    @image('island/recipe/4974f6ec', server='jp')
+    def test_furniture_recipes_at_bottom(self, main: IslandRecipe):
+        main.recipe_grid = main.get_recipe_grid()
+        grid = main.recipe_grid
+        actual = dict(origin=tuple(grid.origin), shape=tuple(grid.grid_shape), bottom=main.recipe_at_bottom())
+        main.device.review(actual, [(button.area, button.name) for button in grid.buttons])
+        assert actual == dict(origin=(181, 71), shape=(1, 4), bottom=True)
+
+    @image('island/recipe/8beef9be', server='jp')
+    def test_bottom_recipes_with_missing_ingredients(self, main: IslandRecipe):
+        main.recipe_grid = main.get_recipe_grid()
+        grid = main.recipe_grid
+        actual = dict(origin=tuple(grid.origin), shape=tuple(grid.grid_shape), bottom=main.recipe_at_bottom())
+        main.device.review(actual, [(button.area, button.name) for button in grid.buttons])
+        assert actual == dict(origin=(181, 71), shape=(1, 4), bottom=True)
+
+    @image('island/recipe/661dfab1', server='cn')
+    def test_three_detected_rows_with_a_clipped_fourth_are_not_bottom(self, main: IslandRecipe):
+        main.recipe_grid = main.get_recipe_grid()
+        grid = main.recipe_grid
+        actual = dict(origin=tuple(grid.origin), shape=tuple(grid.grid_shape), bottom=main.recipe_at_bottom())
+        main.device.review(actual, [(button.area, button.name) for button in grid.buttons])
+        assert actual == dict(origin=(181, 114), shape=(1, 3), bottom=False)
+
+
 class TestRecipesCN:
     @image('island/recipe/661dfab1', server='cn')
     def test_first_recipe_with_two_ingredients(self, main: IslandRecipe):

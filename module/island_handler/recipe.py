@@ -48,6 +48,8 @@ RECIPE_DELTA = (0, 149)
 RECIPE_DETECT_AREA = (181, 55, 460, 668)
 RECIPE_DRAG_AREA = (300, 55, 350, 668)
 RECIPE_ANCHOR_AREA = (58, 97, 102, 115)
+RECIPE_GRID_TOP_ORIGIN = (181, 114)
+RECIPE_GRID_BOTTOM_ORIGIN = (181, 71)
 RECIPE_PRODUCT_NAME_AREA = (123, 23, 269, 46)
 RECIPE_PRODUCT_STOCK_AREA = (212, 92, 275, 110)
 if server.server == 'jp':
@@ -317,6 +319,10 @@ class IslandRecipe(IslandExchange, IslandShop):
         )
         return recipe_grid
 
+    def recipe_at_bottom(self):
+        grid = self.recipe_grid
+        return tuple(grid.origin) == RECIPE_GRID_BOTTOM_ORIGIN and tuple(grid.grid_shape) == (1, 4)
+
     @cached_property
     def recipe_ids(self):
         return self.get_recipe_ids()
@@ -362,21 +368,19 @@ class IslandRecipe(IslandExchange, IslandShop):
             if self.appear(ISLAND_RECIPE_AMOUNT_MAX, offset=(0, 20)):
                 break
         all_stocks = {}
-        drag_count = 0
-        ISLAND_RECIPE_DRAG_CHECK.load_color(self.device.image)
         for _ in self.loop(timeout=30):
             new_stocks = dict(zip(self.recipe_ids, self.get_recipe_product_stocks()))
             all_stocks.update(new_stocks)
+            grid = self.recipe_grid
+            short_list = len(grid.buttons) in (1, 2) and tuple(grid.origin) == RECIPE_GRID_TOP_ORIGIN
+            if self.recipe_at_bottom() or short_list:
+                logger.info('Reached recipe list bottom')
+                self.device.click_record_clear()
+                break
             self.next_recipe_page()
-            drag_count += 1
-            if self.appear(ISLAND_RECIPE_DRAG_CHECK, offset=(20, 20)):
-                if drag_count > 1:
-                    logger.info(f'Ensured recipe page bottom after dragging {drag_count} times')
-                    self.device.click_record_clear()
-                    break
-            else:
-                drag_count = 0
-                ISLAND_RECIPE_DRAG_CHECK.load_color(self.device.image)
+            # Rescan even if sparse recognition prevented a drag.
+            del_cached_property(self, 'recipe_grid')
+            del_cached_property(self, 'recipe_ids')
         return all_stocks
 
     @cached_property
