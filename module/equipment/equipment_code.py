@@ -1,7 +1,5 @@
 import yaml
 
-from module.base.timer import Timer
-from module.device.method.utils import HierarchyButton
 from module.equipment.assets import *
 from module.logger import logger
 from module.retire.assets import TEMPLATE_BOGUE, TEMPLATE_HERMES, TEMPLATE_RANGER, TEMPLATE_LANGLEY
@@ -9,7 +7,6 @@ from module.storage.assets import EQUIPMENT_FULL
 from module.storage.storage import StorageHandler
 
 EMPTY_CODE = "MC8wLzAvMC8wXDA="
-U2_CONTROL_METHODS = {'uiautomator2', 'minitouch', 'MaaTouch'}
 EQUIPMENT_PREVIEW = list([
     EQUIPMENT_CODE_EQUIP_0,
     EQUIPMENT_CODE_EQUIP_1,
@@ -21,16 +18,14 @@ EQUIPMENT_PREVIEW = list([
 
 class EquipmentCodeHandler(StorageHandler):
     last_code: str = None
-    FASTINPUT_IME = 'com.github.uiautomator/.FastInputIME'
 
     def equipment_code_supported(self):
-        method = self.config.Emulator_ControlMethod
-        if method in U2_CONTROL_METHODS:
+        if self.device.text_input_supported():
             return True
 
         logger.warning(
-            f"Equipment code requires uiautomator2 based control method, "
-            f"current control method is {method}, skip equipment change"
+            f"Equipment code input is unavailable with control method "
+            f"{self.config.Emulator_ControlMethod}, skip equipment change"
         )
         return False
 
@@ -131,90 +126,13 @@ class EquipmentCodeHandler(StorageHandler):
         else:
             return False
 
-    def fastinput_ime_enable(self):
-        self.device.adb_shell(['am', 'start', '-a', 'android.settings.INPUT_METHOD_SETTINGS'])
-        while 1:
-            h = self.device.dump_hierarchy()
-
-            def appear(xpath):
-                return bool(HierarchyButton(h, xpath))
-
-            def appear_then_click(xpath):
-                b = HierarchyButton(h, xpath)
-                if b:
-                    self.device.click(b)
-                    return True
-                else:
-                    return False
-
-            if appear_then_click('//*[@resource-id="android:id/title" and @text="FastInputIME"]/following-sibling::*[@resource-id="android:id/switch_widget" and @checked="false"]'):
-                continue
-            if appear_then_click('//*[@resource-id="android:id/button1"]'):
-                continue
-            # Disable one other enabled IME at a time
-            if appear_then_click('(//*[@resource-id="android:id/title" and @text!="FastInputIME"]/following-sibling::*[@resource-id="android:id/switch_widget" and @enabled="true" and @checked="true"])[1]'):
-                continue
-            if appear('//*[@resource-id="android:id/title" and @text="FastInputIME"]/following-sibling::*[@resource-id="android:id/switch_widget" and @checked="true"]') \
-                    and not appear('//*[@resource-id="android:id/title" and @text!="FastInputIME"]/following-sibling::*[@resource-id="android:id/switch_widget" and @enabled="true" and @checked="true"]'):
-                break
-
-            # Android 15 (e.g. MuMu 12) uses com.android.settings:id/switchWidget for the same switch,
-            # keep the xpath above untouched and handle the other resource id here.
-            if appear_then_click('//*[@resource-id="android:id/title" and @text="FastInputIME"]/following-sibling::*[@resource-id="com.android.settings:id/switchWidget" and @checked="false"]'):
-                continue
-            # Disable one other enabled IME at a time
-            if appear_then_click('(//*[@resource-id="android:id/title" and @text!="FastInputIME"]/following-sibling::*[@resource-id="com.android.settings:id/switchWidget" and @enabled="true" and @checked="true"])[1]'):
-                continue
-            if appear('//*[@resource-id="android:id/title" and @text="FastInputIME"]/following-sibling::*[@resource-id="com.android.settings:id/switchWidget" and @checked="true"]') \
-                    and not appear('//*[@resource-id="android:id/title" and @text!="FastInputIME"]/following-sibling::*[@resource-id="com.android.settings:id/switchWidget" and @enabled="true" and @checked="true"]'):
-                break
-
-        self.device.adb_shell(['input', 'keyevent', '4'])
-
-    def set_fastinput_ime(self):
-        d = self.device.u2
-        name, _ = d.current_ime()
-        if name == self.FASTINPUT_IME:
-            return
-        failed = False
-        try:
-            for command in ('enable', 'set'):
-                result = d.shell(['ime', command, self.FASTINPUT_IME])
-                exit_code = getattr(result, 'exit_code', 0)
-                output = getattr(result, 'output', result)
-                if exit_code:
-                    failed = True
-                    logger.warning(f"Unable to {command} FastInputIME: {output.strip()}")
-        except Exception as e:
-            failed = True
-            logger.warning(f"Unable to set FastInputIME: {e}")
-
-        if failed:
-            logger.warning("FastInputIME not enabled by adb shell, trying to enable it in settings")
-            self.fastinput_ime_enable()
-
     def _code_input(self, code):
         logger.info(f"Code input: {code}")
-        d = self.device.u2
-        click_timer = Timer(1, count=3)
-        for _ in self.loop():
-            name, shown = d.current_ime()
-            if name != self.FASTINPUT_IME:
-                self.set_fastinput_ime()
-                continue
-            if shown:
-                break
-            if click_timer.reached_and_reset():
-                self.device.click(EQUIPMENT_CODE_TEXTBOX)
-        else:
+        if not self.device.input_text(code, EQUIPMENT_CODE_TEXTBOX):
             logger.warning("Equipment code load failed")
             return False
-        d.send_keys(text=code, clear=True)
-        d.send_action(code="done")
-        self.device.sleep((0.3, 0.5))
         for _ in self.loop(timeout=10, skip_first=False):
-            _, shown = d.current_ime()
-            if shown:
+            if self.device.is_keyboard_shown():
                 continue
             if self.is_code_preview_loaded():
                 return True
@@ -256,15 +174,15 @@ class EquipmentCodeHandler(StorageHandler):
 
     def _code_export(self):
         self.handle_info_bar()
-        d = self.device.u2
-        self.set_fastinput_ime()
+        if not self.device.ensure_clipboard():
+            logger.warning("Equipment code export failed")
+            return None
         for _ in self.loop(timeout=10):
             if self.info_bar_count():
                 break
             if self.appear_then_click(EQUIPMENT_CODE_EXPORT, offset=(5, 5), interval=3):
                 continue
-        code = d.clipboard
-        return code
+        return self.device.get_clipboard()
 
     def code_clear(self, name=None):
         if not self.equipment_code_supported():
@@ -274,8 +192,11 @@ class EquipmentCodeHandler(StorageHandler):
         if name is None:
             name = self.current_ship()
         if self.config.EquipmentCode_ExportToConfig and self.get_code(name=name) is None:
-            self.last_code = self._code_export()
-            self.set_code(name=name, code=self.last_code)
+            code = self._code_export()
+            if code is None:
+                return False
+            self.last_code = code
+            self.set_code(name=name, code=code)
         return self._code_apply(code=None)
 
     def code_apply(self, name=None):

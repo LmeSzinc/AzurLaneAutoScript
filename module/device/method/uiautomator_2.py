@@ -1,3 +1,4 @@
+import re
 import time
 import typing as t
 from dataclasses import dataclass
@@ -117,6 +118,34 @@ class ShellBackgroundResponse:
 
 
 class Uiautomator2(Connection):
+    def current_ime_uiautomator2(self):
+        """Read the selected IME and input state from legacy or per-user Android dumps."""
+        dump = self.adb_shell(['dumpsys', 'input_method'])
+        users = re.split(r'(?m)^[ \t]*UserId=(\d+)[ \t]*\r?$', dump)
+        if len(users) > 1:
+            current = (re.search(r'\bmCurrentImeUserId=(\d+)\b', users[0])
+                       or re.search(r'\bmCurrentUserId=(\d+)\b', users[0]))
+            if current:
+                dump = next((state for user, state in zip(users[1::2], users[2::2])
+                             if user == current.group(1)), '')
+            elif len(users) == 3:
+                dump = users[2]
+            else:
+                return None, False
+        # mCurId describes the connected service, which can differ from the selected IME.
+        selected = (re.search(r'\bmSelectedMethodId=(\S+)', dump)
+                    or re.search(r'\bmCurMethodId=(\S+)', dump))
+        name = selected.group(1) if selected else None
+        if name == 'null':
+            name = None
+        return name, bool(re.search(r'\bmInputShown=true\b', dump))
+
+    def is_keyboard_shown_uiautomator2(self):
+        return self.current_ime_uiautomator2()[1]
+
+    def get_clipboard_uiautomator2(self):
+        return self.u2.clipboard
+
     @retry
     def screenshot_uiautomator2(self):
         image = self.u2.screenshot(format='raw')
