@@ -14,6 +14,7 @@ from module.base.timer import Timer
 from module.config.utils import get_server_next_update
 from module.device.app_control import AppControl
 from module.device.control import Control
+from module.device.input import Input
 from module.device.screenshot import Screenshot
 from module.exception import (EmulatorNotRunningError, GameNotRunningError, GameStuckError, GameTooManyClickError,
                               RequestHumanTakeover)
@@ -61,7 +62,7 @@ def show_function_call():
     logger.info('Function calls:' + ''.join(func_list))
 
 
-class Device(Screenshot, Control, AppControl):
+class Device(Screenshot, Control, AppControl, Input):
     _screen_size_checked = False
     detect_record = set()
     click_record = collections.deque(maxlen=15)
@@ -98,6 +99,10 @@ class Device(Screenshot, Control, AppControl):
         # Auto-select the fastest screenshot method
         if not self.config.is_template_config and self.config.Emulator_ScreenshotMethod == 'auto':
             self.run_simple_screenshot_benchmark()
+
+        if (not self.config.is_template_config and not self.input_method_override
+                and self.config.Emulator_InputMethod == 'auto'):
+            self.run_simple_input_benchmark()
 
         # Early init
         if self.config.is_actual_task:

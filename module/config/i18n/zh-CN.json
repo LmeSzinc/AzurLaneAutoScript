@@ -481,6 +481,13 @@
       "Hermit": "Hermit",
       "MaaTouch": "MaaTouch"
     },
+    "InputMethod": {
+      "name": "输入方案",
+      "help": "自动模式会准备并测试所有可用的输入方案，然后保存已验证的较快方案。再次选择自动模式会重新运行性能测试。",
+      "auto": "自动选择最快方案",
+      "ADB": "ADB",
+      "FastInputIME": "FastInputIME"
+    },
     "ScreenshotDedithering": {
       "name": "去除图片色彩抖动",
       "help": "在手机上运行时开启"
@@ -2943,7 +2950,7 @@
   "Benchmark": {
     "_info": {
       "name": "性能测试",
-      "help": "测试哪个截图方案和控制方案速度更快，速度因模拟器和电脑配置而异\n测试完成后，在 \"Alas\" - \"模拟器设置\" 内选择最快的截图和控制方案"
+      "help": "测试哪个截图、点击和输入方案速度最快，速度因模拟器和电脑配置而异\n测试完成后，在 \"Alas\" - \"模拟器设置\" 内选择最快的截图、控制和输入方案"
     },
     "DeviceType": {
       "name": "设备类型",
@@ -2958,8 +2965,10 @@
       "name": "测试场景",
       "help": "",
       "screenshot_click": "截图+点击速度测试",
+      "screenshot_click_input": "截图+点击+输入速度测试",
       "screenshot": "截图速度测试",
-      "click": "点击速度测试"
+      "click": "点击速度测试",
+      "input": "输入速度测试"
     }
   },
   "AzurLaneUncensored": {

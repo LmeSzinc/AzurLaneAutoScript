@@ -6,6 +6,7 @@
       "ServerName": "disabled",
       "ScreenshotMethod": "auto",
       "ControlMethod": "MaaTouch",
+      "InputMethod": "auto",
       "ScreenshotDedithering": false,
       "AdbRestart": false
     },

@@ -1,3 +1,4 @@
+import re
 import time
 import typing as t
 from dataclasses import dataclass
@@ -117,6 +118,96 @@ class ShellBackgroundResponse:
 
 
 class Uiautomator2(Connection):
+    def current_ime_uiautomator2(self):
+        """Read the selected IME and input state from legacy or per-user Android dumps."""
+        dump = self.adb_shell(['dumpsys', 'input_method'])
+        users = re.split(r'(?m)^[ \t]*UserId=(\d+)[ \t]*\r?$', dump)
+        if len(users) > 1:
+            current = (re.search(r'\bmCurrentImeUserId=(\d+)\b', users[0])
+                       or re.search(r'\bmCurrentUserId=(\d+)\b', users[0]))
+            if current:
+                dump = next((state for user, state in zip(users[1::2], users[2::2])
+                             if user == current.group(1)), '')
+            elif len(users) == 3:
+                dump = users[2]
+            else:
+                return None, False
+        # mCurId describes the connected service, which can differ from the selected IME.
+        selected = (re.search(r'\bmSelectedMethodId=(\S+)', dump)
+                    or re.search(r'\bmCurMethodId=(\S+)', dump))
+        name = selected.group(1) if selected else None
+        if name == 'null':
+            name = None
+        return name, bool(re.search(r'\bmInputShown=true\b', dump))
+
+    def is_keyboard_shown_uiautomator2(self):
+        return self.current_ime_uiautomator2()[1]
+
+    def _foreground_activity_uiautomator2(self):
+        # Android 15 may omit current focus from the "windows" sub-dump.
+        dump = self.adb_shell(['dumpsys', 'window'])
+        match = re.search(r'\bmCurrentFocus=Window\{[^\r\n]*?\s([A-Za-z0-9_.]+/[A-Za-z0-9_.$]+)', dump)
+        if not match:
+            return None
+        package, activity = match.group(1).split('/', 1)
+        if activity.startswith('.'):
+            activity = package + activity
+        return f'{package}/{activity}'
+
+    def _foreground_task_uiautomator2(self):
+        dump = self.adb_shell(['dumpsys', 'window'])
+        match = re.search(r'\bmFocusedApp=[^\r\n]*\bActivityRecord\{[^\r\n]*?\bt(\d+)\b', dump)
+        return int(match.group(1)) if match else None
+
+    def _wait_clipboard_activity_uiautomator2(self, activity, timeout=8, dismiss_permissions=False):
+        deadline = time.monotonic() + timeout
+        while True:
+            current = self._foreground_activity_uiautomator2()
+            if current == activity:
+                return True
+            if current and dismiss_permissions:
+                package, name = current.split('/', 1)
+                if package in ('com.android.permissioncontroller', 'com.google.android.permissioncontroller',
+                               'com.android.packageinstaller') and name.endswith('.GrantPermissionsActivity'):
+                    # The helper's phone/location requests are unrelated to clipboard access.
+                    self.adb_shell(['input', 'keyevent', 'KEYCODE_BACK'])
+            if time.monotonic() >= deadline:
+                return False
+            time.sleep(0.2)
+
+    def get_clipboard_uiautomator2(self):
+        if self.sdk_ver < 29:
+            return self.u2.clipboard
+        original = self._foreground_activity_uiautomator2()
+        if not original:
+            raise RuntimeError('Cannot determine the foreground activity before reading the clipboard')
+        original_task = self._foreground_task_uiautomator2()
+        if original_task is None:
+            raise RuntimeError('Cannot determine the foreground task before reading the clipboard')
+        helper = 'com.github.uiautomator/com.github.uiautomator.MainActivity'
+        try:
+            # Start instrumentation before opening the helper: starting it afterward
+            # can kill the activity we just focused. Keep this within the restoration guard.
+            _ = self.u2.info
+            if self._foreground_activity_uiautomator2() != helper:
+                self.adb_shell(['am', 'start', '-W', '-n', helper], timeout=15)
+                if not self._wait_clipboard_activity_uiautomator2(helper, dismiss_permissions=True):
+                    raise RuntimeError('UIAutomator MainActivity did not receive focus for clipboard access')
+            return self.u2.clipboard
+        finally:
+            if self._foreground_activity_uiautomator2() != original:
+                # Relaunching the activity can reset transient UI such as Settings search.
+                self.adb_shell(['am', 'task', 'focus', str(original_task)], timeout=15)
+                if not self._wait_clipboard_activity_uiautomator2(original, timeout=5):
+                    raise RuntimeError('Cannot restore the original activity after reading the clipboard')
+
+    def clear_text_uiautomator2(self):
+        try:
+            result = self.u2(focused=True).clear_text(timeout=1)
+            return result is not False
+        except u2.UiObjectNotFoundError:
+            return False
+
     @retry
     def screenshot_uiautomator2(self):
         image = self.u2.screenshot(format='raw')

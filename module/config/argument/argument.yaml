@@ -53,6 +53,13 @@ Emulator:
       Hermit,
       MaaTouch,
     ]
+  InputMethod:
+    value: auto
+    option: [
+      auto,
+      ADB,
+      FastInputIME,
+    ]
   ScreenshotDedithering: false
   AdbRestart: false
 EmulatorInfo:
@@ -897,7 +904,7 @@ Benchmark:
     ]
   TestScene:
     value: screenshot_click
-    option: [ screenshot_click, screenshot, click ]
+    option: [ screenshot_click, screenshot_click_input, screenshot, click, input ]
 AzurLaneUncensored:
   Repository:
     value: https://gitee.com/LmeSzinc/AzurLaneUncensored
