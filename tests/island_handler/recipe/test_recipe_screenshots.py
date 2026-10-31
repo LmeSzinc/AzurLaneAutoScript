@@ -1,6 +1,7 @@
 """Recipe recognition goldens; awaiting human review of collection/ images."""
 import pytest
 
+from module.island_handler.assets import ISLAND_RECIPE_AMOUNT_MAX, ISLAND_RECIPE_CHECK
 from module.testing.screenshot import image
 
 from module.island_handler.recipe import (
@@ -60,6 +61,26 @@ class TestRecipeGrid:
         actual = dict(origin=tuple(grid.origin), shape=tuple(grid.grid_shape), bottom=main.recipe_at_bottom())
         main.device.review(actual, [(button.area, button.name) for button in grid.buttons])
         assert actual == dict(origin=(181, 114), shape=(1, 3), bottom=False)
+
+
+class TestRecipeLoading:
+    @image('island/recipe/043dcd48', server='jp')
+    def test_shop_return_header_appears_before_recipe_controls(self, main: IslandRecipe):
+        actual = dict(in_menu=main.is_in_recipe_menu(),
+                      header_visible=main.appear(ISLAND_RECIPE_CHECK, offset=(20, 20)),
+                      max_visible=main.appear(ISLAND_RECIPE_AMOUNT_MAX, offset=(20, 20)))
+        main.device.review(actual, [(ISLAND_RECIPE_CHECK.area, 'header'),
+                                    (ISLAND_RECIPE_AMOUNT_MAX.area, 'MAX loading check')])
+        assert actual == dict(in_menu=False, header_visible=True, max_visible=False)
+
+    @image('island/recipe/81c7c0c3', server='jp')
+    def test_loaded_recipe_controls_allow_menu_detection(self, main: IslandRecipe):
+        actual = dict(in_menu=main.is_in_recipe_menu(),
+                      max_visible=main.appear(ISLAND_RECIPE_AMOUNT_MAX, offset=(20, 20)))
+        main.device.review(actual, [(ISLAND_RECIPE_AMOUNT_MAX.area, 'MAX loading check')])
+        assert actual == dict(in_menu=True, max_visible=True)
+        assert main.device.clicks == []
+        assert main.device.drags == []
 
 
 class TestRecipesCN:

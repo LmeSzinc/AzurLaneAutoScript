@@ -277,7 +277,8 @@ class IslandRecipe(IslandExchange, IslandShop):
 
     # recipe related methods
     def is_in_recipe_menu(self):
-        return self.appear(ISLAND_RECIPE_CHECK, offset=(20, 20))
+        return self.appear(ISLAND_RECIPE_CHECK, offset=(20, 20)) and self.appear(
+            ISLAND_RECIPE_AMOUNT_MAX, offset=(20, 20))
 
     def _get_recipe_buttons(self):
         area = (RECIPE_DETECT_AREA[0] + RECIPE_ANCHOR_AREA[0],
