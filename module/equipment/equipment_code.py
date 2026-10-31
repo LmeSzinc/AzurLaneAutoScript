@@ -173,16 +173,21 @@ class EquipmentCodeHandler(StorageHandler):
             return False
 
     def _code_export(self):
-        self.handle_info_bar()
-        if not self.device.ensure_clipboard():
+        def copy():
+            self.handle_info_bar()
+            copied = False
+            for _ in self.loop(timeout=10):
+                if self.info_bar_count() and copied:
+                    return True
+                if self.appear_then_click(EQUIPMENT_CODE_EXPORT, offset=(5, 5), interval=3):
+                    copied = True
+            return False
+
+        code = self.device.clipboard_copy(copy)
+        if not code:
             logger.warning("Equipment code export failed")
             return None
-        for _ in self.loop(timeout=10):
-            if self.info_bar_count():
-                break
-            if self.appear_then_click(EQUIPMENT_CODE_EXPORT, offset=(5, 5), interval=3):
-                continue
-        return self.device.get_clipboard()
+        return code
 
     def code_clear(self, name=None):
         if not self.equipment_code_supported():
