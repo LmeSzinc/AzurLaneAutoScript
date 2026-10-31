@@ -307,8 +307,9 @@ class IslandRecipe(IslandExchange, IslandShop):
             count = 4
         if count >= 2:
             y_list = rows[:, 1]
-            y1, y2 = y_list[0], y_list[-1]
-            origin_y = min(y1, y2) + RECIPE_DETECT_AREA[1]
+            # Fit the shared origin so one noisy anchor cannot shift the grid.
+            row_offsets = np.rint((y_list - y_list.min()) / delta_y) * delta_y
+            origin_y = round(float(np.median(y_list - row_offsets))) + RECIPE_DETECT_AREA[1]
         else:
             logger.warning('Unable to find enough recipe anchors, assume recipes are at top')
             origin_y = 114

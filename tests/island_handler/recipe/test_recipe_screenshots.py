@@ -19,6 +19,14 @@ def recipe_ocr_language(request, monkeypatch):
 
 
 class TestRecipeGrid:
+    @image('island/recipe/9ed7842d', server='jp')
+    def test_crop_recipes_at_bottom_with_three_digit_yields(self, main: IslandRecipe):
+        main.recipe_grid = main.get_recipe_grid()
+        grid = main.recipe_grid
+        actual = dict(origin=tuple(grid.origin), shape=tuple(grid.grid_shape), bottom=main.recipe_at_bottom())
+        main.device.review(actual, [(button.area, button.name) for button in grid.buttons])
+        assert actual == dict(origin=(181, 71), shape=(1, 4), bottom=True)
+
     @image('island/recipe/81c7c0c3', server='jp')
     def test_gold_wood_recipes_at_bottom(self, main: IslandRecipe):
         rows = main._get_recipe_buttons()
