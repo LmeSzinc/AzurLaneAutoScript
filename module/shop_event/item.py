@@ -219,7 +219,8 @@ class EventShopItemGrid(ItemGrid):
                                DELTA_AMOUNT[2] - DELTA_ITEM[0], DELTA_AMOUNT[3] - DELTA_ITEM[1]),
                  ):
         super().__init__(grids, templates, template_area, amount_area, cost_area, price_area, tag_area)
-        self.counter_ocr = CounterOcr([], letter=COUNTER_COLOR, name="CounterOcr")
+        counter_lang = 'cnocr' if server.server == 'en' else 'azur_lane'
+        self.counter_ocr = CounterOcr([], lang=counter_lang, letter=COUNTER_COLOR, name="CounterOcr")
         self.counter_area = counter_area
         self.price_ocr = PRICE_OCR
 
