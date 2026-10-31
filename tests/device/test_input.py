@@ -7,13 +7,15 @@ from lxml import etree
 from uiautomator2.exceptions import UiObjectNotFoundError
 
 import module.device.method.fastinput_ime as fastinput_module
+import module.device.method.uiautomator_2 as uiautomator_module
 from module.device.control import Control
 from module.device.device import Device
 from module.device.method.fastinput_ime import FastInputIME
 from module.device.method.uiautomator_2 import Uiautomator2
 
 
-def make_device(sdk_ver=28, mumu_version=None, bluestacks_air=False):
+def make_device(sdk_ver=28, mumu_version=None, bluestacks_air=False,
+                input_method_override='FastInputIME'):
     device = object.__new__(Device)
     device.sdk_ver = sdk_ver
     device.is_mumu_family = mumu_version is not None
@@ -24,8 +26,12 @@ def make_device(sdk_ver=28, mumu_version=None, bluestacks_air=False):
         current_ime=Mock(side_effect=AssertionError('Legacy uiautomator2 IME query must not be used')),
         shell=Mock(return_value=SimpleNamespace(exit_code=0, output='')),
         send_keys=Mock(), send_action=Mock(), clipboard='exported code',
-        dump_hierarchy=Mock(return_value='<hierarchy/>'), click=Mock(),
+        dump_hierarchy=Mock(return_value='<hierarchy/>'), click=Mock(), info={},
     )
+    # The historical tests below exercise FastInputIME internals; selecting it
+    # here keeps that opt-in explicit while leaving the production default free
+    # to use ADB input.
+    device.input_method_override = input_method_override
     device.current_ime_uiautomator2 = Mock(return_value=(FastInputIME.FASTINPUT_IME, False))
     device.adb_shell = Mock(return_value='')
     device.click = Mock()
@@ -37,6 +43,7 @@ def make_device(sdk_ver=28, mumu_version=None, bluestacks_air=False):
 def test_uiautomator2_keyboard_and_clipboard_work_without_fastinput_helper():
     assert not issubclass(Uiautomator2, FastInputIME)
     device = object.__new__(Uiautomator2)
+    device.sdk_ver = 28
     device.u2 = SimpleNamespace(
         current_ime=Mock(side_effect=AssertionError('Legacy query')),
         clipboard='exported code', shell=Mock(),
@@ -48,6 +55,161 @@ def test_uiautomator2_keyboard_and_clipboard_work_without_fastinput_helper():
     assert device.get_clipboard_uiautomator2() == 'exported code'
     device.u2.shell.assert_not_called()
     device.u2.current_ime.assert_not_called()
+
+
+def make_modern_uiautomator_device(clipboard='exported code', task=42):
+    device = object.__new__(Uiautomator2)
+    device.sdk_ver = 35
+    device.u2 = SimpleNamespace(info={}, clipboard=clipboard, shell=Mock())
+    device.adb_shell = Mock(return_value='')
+    if task is not None:
+        device._foreground_task_uiautomator2 = Mock(return_value=task)
+    return device
+
+
+def test_foreground_activity_uses_full_window_dump_and_normalizes_short_names():
+    device = make_modern_uiautomator_device()
+    device.adb_shell.return_value = (
+        '  mCurrentFocus=Window{abc u0 com.android.settings/.Settings$ManageApplicationsActivity}\n')
+
+    assert device._foreground_activity_uiautomator2() == (
+        'com.android.settings/com.android.settings.Settings$ManageApplicationsActivity')
+    device.adb_shell.assert_called_once_with(['dumpsys', 'window'])
+
+
+def test_foreground_task_reads_the_focused_activity_record_id():
+    device = make_modern_uiautomator_device(task=None)
+    device.adb_shell.return_value = (
+        '  mFocusedApp=ActivityRecord{abc u0 com.android.settings/.Settings$ManageApplicationsActivity t42}\n')
+
+    assert device._foreground_task_uiautomator2() == 42
+    device.adb_shell.assert_called_once_with(['dumpsys', 'window'])
+
+
+def test_clipboard_activity_wait_dismisses_only_trusted_permission_dialogs():
+    device = make_modern_uiautomator_device()
+    helper = 'com.github.uiautomator/com.github.uiautomator.MainActivity'
+    permission = ('com.android.permissioncontroller/'
+                  'com.android.permissioncontroller.permission.ui.GrantPermissionsActivity')
+    device._foreground_activity_uiautomator2 = Mock(side_effect=[permission, helper])
+
+    assert device._wait_clipboard_activity_uiautomator2(helper, timeout=1, dismiss_permissions=True) is True
+    device.adb_shell.assert_called_once_with(['input', 'keyevent', 'KEYCODE_BACK'])
+
+
+def test_clipboard_activity_wait_does_not_back_out_of_an_untrusted_activity(monkeypatch):
+    device = make_modern_uiautomator_device()
+    clock = [0]
+
+    def monotonic():
+        clock[0] += 1
+        return clock[0]
+
+    monkeypatch.setattr(uiautomator_module, 'time', SimpleNamespace(monotonic=monotonic, sleep=Mock()))
+    device._foreground_activity_uiautomator2 = Mock(
+        return_value='com.example.permissioncontroller/com.example.GrantPermissionsActivity')
+
+    assert device._wait_clipboard_activity_uiautomator2(
+        'com.github.uiautomator/com.github.uiautomator.MainActivity', timeout=1,
+        dismiss_permissions=True) is False
+    device.adb_shell.assert_not_called()
+
+
+def test_modern_clipboard_reads_helper_and_restores_dollar_activity():
+    device = make_modern_uiautomator_device()
+    helper = 'com.github.uiautomator/com.github.uiautomator.MainActivity'
+    original = 'com.android.settings/com.android.settings.Settings$ManageApplicationsActivity'
+    device._foreground_activity_uiautomator2 = Mock(side_effect=[original, original, helper])
+    device._wait_clipboard_activity_uiautomator2 = Mock(return_value=True)
+
+    assert device.get_clipboard_uiautomator2() == 'exported code'
+    assert device.adb_shell.call_args_list == [
+        call(['am', 'start', '-W', '-n', helper], timeout=15),
+        call(['am', 'task', 'focus', '42'], timeout=15),
+    ]
+    assert all(original not in str(entry) for entry in device.adb_shell.call_args_list)
+    assert device._wait_clipboard_activity_uiautomator2.call_args_list == [
+        call(helper, dismiss_permissions=True), call(original, timeout=5),
+    ]
+
+
+def test_modern_clipboard_returns_directly_when_helper_is_already_focused():
+    device = make_modern_uiautomator_device()
+    helper = 'com.github.uiautomator/com.github.uiautomator.MainActivity'
+    device._foreground_activity_uiautomator2 = Mock(return_value=helper)
+
+    assert device.get_clipboard_uiautomator2() == 'exported code'
+    device.adb_shell.assert_not_called()
+
+
+def test_modern_clipboard_requires_known_original_before_navigation():
+    device = make_modern_uiautomator_device()
+    device._foreground_activity_uiautomator2 = Mock(return_value=None)
+
+    with pytest.raises(RuntimeError, match='foreground activity'):
+        device.get_clipboard_uiautomator2()
+    device.adb_shell.assert_not_called()
+
+
+def test_modern_clipboard_requires_known_original_task_before_navigation():
+    device = make_modern_uiautomator_device(task=None)
+    original = 'com.android.settings/com.android.settings.Settings$ManageApplicationsActivity'
+    device._foreground_activity_uiautomator2 = Mock(return_value=original)
+    device._foreground_task_uiautomator2 = Mock(return_value=None)
+
+    with pytest.raises(RuntimeError, match='foreground task'):
+        device.get_clipboard_uiautomator2()
+    device._foreground_task_uiautomator2.assert_called_once_with()
+    device.adb_shell.assert_not_called()
+
+
+def test_modern_clipboard_restores_original_activity_when_read_fails():
+    class FailingNativeDevice:
+        info = {}
+        shell = Mock()
+
+        @property
+        def clipboard(self):
+            raise RuntimeError('clipboard read failed')
+
+    device = make_modern_uiautomator_device()
+    device.u2 = FailingNativeDevice()
+    helper = 'com.github.uiautomator/com.github.uiautomator.MainActivity'
+    original = 'com.android.settings/com.android.settings.Settings$ManageApplicationsActivity'
+    device._foreground_activity_uiautomator2 = Mock(side_effect=[original, original, helper])
+    device._wait_clipboard_activity_uiautomator2 = Mock(return_value=True)
+
+    with pytest.raises(RuntimeError, match='clipboard read failed'):
+        device.get_clipboard_uiautomator2()
+    assert device.adb_shell.call_args_list[-1] == call(['am', 'task', 'focus', '42'], timeout=15)
+    assert all(original not in str(entry) for entry in device.adb_shell.call_args_list)
+
+
+def test_modern_clipboard_reports_helper_focus_failure_after_restoration():
+    device = make_modern_uiautomator_device()
+    helper = 'com.github.uiautomator/com.github.uiautomator.MainActivity'
+    original = 'com.android.settings/com.android.settings.Settings$ManageApplicationsActivity'
+    device._foreground_activity_uiautomator2 = Mock(side_effect=[original, original, helper])
+    device._wait_clipboard_activity_uiautomator2 = Mock(side_effect=[False, True])
+
+    with pytest.raises(RuntimeError, match='MainActivity did not receive focus'):
+        device.get_clipboard_uiautomator2()
+    assert device.adb_shell.call_args_list == [
+        call(['am', 'start', '-W', '-n', helper], timeout=15),
+        call(['am', 'task', 'focus', '42'], timeout=15),
+    ]
+    assert all(original not in str(entry) for entry in device.adb_shell.call_args_list)
+
+
+def test_modern_clipboard_reports_original_activity_restore_failure():
+    device = make_modern_uiautomator_device()
+    helper = 'com.github.uiautomator/com.github.uiautomator.MainActivity'
+    original = 'com.android.settings/com.android.settings.Settings$ManageApplicationsActivity'
+    device._foreground_activity_uiautomator2 = Mock(side_effect=[original, original, helper])
+    device._wait_clipboard_activity_uiautomator2 = Mock(side_effect=[True, False])
+
+    with pytest.raises(RuntimeError, match='restore the original activity'):
+        device.get_clipboard_uiautomator2()
 
 
 @pytest.mark.parametrize('result', [True, None])
@@ -535,20 +697,37 @@ def test_clipboard_and_keyboard_facade():
     assert device.get_clipboard() == 'exported code'
 
 
-@pytest.mark.parametrize('method', ['', 'uiautomator2', 'FastInputIME', 'unknown backend'])
-def test_default_and_unknown_input_methods_use_uiautomator2(method):
+@pytest.mark.parametrize('method,backend', [
+    ('', 'ADB'), ('unknown backend', 'ADB'),
+    ('uiautomator2', 'FastInputIME'), ('FastInputIME', 'FastInputIME'),
+])
+def test_default_and_unknown_input_methods_select_the_expected_backend(method, backend):
     device = make_device()
     device.input_method_override = method
+    device.adb_input.adb_input_supported = Mock(return_value=True)
+    device.adb_input.ensure_adb_input = Mock(return_value=True)
+    device.adb_input.input_text_adb = Mock(return_value=True)
     device.fastinput_ime.ensure_fastinput_ime = Mock(return_value=True)
     device.fastinput_ime.input_text_fastinput_ime = Mock(return_value=False)
     button = object()
 
     assert device.text_input_supported() is True
     assert device.ensure_text_input() is True
-    assert device.input_text('code', button, clear=False) is False
+    assert device.input_text('code', button, clear=False) is (backend == 'ADB')
     assert device.is_keyboard_shown() is False
     assert device.get_clipboard() == 'exported code'
-    device.fastinput_ime.input_text_fastinput_ime.assert_called_once_with('code', focus=ANY, clear=False)
+    if backend == 'ADB':
+        device.adb_input.adb_input_supported.assert_called_once_with()
+        device.adb_input.ensure_adb_input.assert_called_once_with()
+        device.adb_input.input_text_adb.assert_called_once_with('code', focus=ANY, clear=False)
+        device.fastinput_ime.ensure_fastinput_ime.assert_not_called()
+        device.fastinput_ime.input_text_fastinput_ime.assert_not_called()
+    else:
+        device.fastinput_ime.ensure_fastinput_ime.assert_called_once_with()
+        device.fastinput_ime.input_text_fastinput_ime.assert_called_once_with('code', focus=ANY, clear=False)
+        device.adb_input.adb_input_supported.assert_not_called()
+        device.adb_input.ensure_adb_input.assert_not_called()
+        device.adb_input.input_text_adb.assert_not_called()
 
 
 def test_input_override_only_selects_text_operations():
@@ -576,18 +755,21 @@ def test_input_override_only_selects_text_operations():
     device.adb_shell.assert_not_called()
 
 
-def test_adb_override_does_not_prepare_fastinput_but_clipboard_access_does():
+def test_adb_override_does_not_prepare_fastinput_or_change_the_ime_for_clipboard():
     device = make_device(sdk_ver=35)
     device.input_method_override = 'ADB'
     device.fastinput_ime.ensure_fastinput_ime = Mock(return_value=False)
     device.adb_input.input_text_adb = Mock(return_value=True)
+    device.get_clipboard_uiautomator2 = Mock(return_value='exported code')
 
     assert device.text_input_supported() is True
     assert device.ensure_text_input() is True
     assert device.input_text('Aa09+/=', object()) is True
     device.fastinput_ime.ensure_fastinput_ime.assert_not_called()
-    assert device.ensure_clipboard() is False
-    device.fastinput_ime.ensure_fastinput_ime.assert_called_once_with()
+    assert device.ensure_clipboard() is True
+    device.fastinput_ime.ensure_fastinput_ime.assert_not_called()
+    device.u2.shell.assert_not_called()
+    device.adb_shell.assert_not_called()
     assert device.get_clipboard() == 'exported code'
 
 
@@ -597,3 +779,5 @@ def test_clipboard_access_before_android_10_does_not_prepare_an_ime():
 
     assert device.ensure_clipboard() is True
     device.fastinput_ime.ensure_fastinput_ime.assert_not_called()
+    device.u2.shell.assert_not_called()
+    device.adb_shell.assert_not_called()

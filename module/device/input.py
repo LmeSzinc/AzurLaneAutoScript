@@ -45,11 +45,8 @@ class Input(Uiautomator2):
         return ''
 
     def _input_method(self, operation):
-        if self.input_method_override:
-            method = self.input_method_override
-        else:
-            method = 'uiautomator2'
-        methods = self.input_methods.get(method, self.input_methods['uiautomator2'])
+        method = self.input_method_override or 'ADB'
+        methods = self.input_methods.get(method, self.input_methods['ADB'])
         return methods[operation]
 
     def text_input_supported(self):
@@ -69,11 +66,9 @@ class Input(Uiautomator2):
         return self.current_ime_uiautomator2()
 
     def ensure_clipboard(self):
-        # The uiautomator2 app needs default-IME access when reading a game app's
-        # clipboard in the background on Android 10 and newer.
-        if self.sdk_ver < 29:
-            return True
-        return self.fastinput_ime.ensure_fastinput_ime()
+        # Initialize the reader without changing the selected or enabled IMEs.
+        _ = self.u2
+        return True
 
     def get_clipboard(self):
         return self.get_clipboard_uiautomator2()

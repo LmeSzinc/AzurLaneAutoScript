@@ -4,6 +4,7 @@ import subprocess
 import sys
 import time
 from pathlib import Path
+from types import SimpleNamespace
 from unittest.mock import Mock
 
 import pytest
@@ -45,6 +46,32 @@ def test_copy_and_read_both_hold_the_clipboard_lock(device):
     device.get_clipboard.side_effect = read
     assert device.clipboard_copy(copy) == 'copied text'
     device.ensure_clipboard.assert_called_once_with()
+    assert_clipboard_released()
+
+
+def test_modern_foreground_read_and_restore_stay_inside_clipboard_lock(device):
+    device.sdk_ver = 35
+    device.u2 = SimpleNamespace(info={}, clipboard='copied text', shell=Mock())
+    device.adb_shell = Mock(return_value='')
+    device.ensure_clipboard = Input.ensure_clipboard.__get__(device, Input)
+    device.get_clipboard = Input.get_clipboard.__get__(device, Input)
+    helper = 'com.github.uiautomator/com.github.uiautomator.MainActivity'
+    original = 'com.android.settings/com.android.settings.Settings$ManageApplicationsActivity'
+    focus = iter([original, original, helper])
+
+    def foreground():
+        assert_clipboard_locked()
+        return next(focus)
+
+    device._foreground_activity_uiautomator2 = foreground
+    device._foreground_task_uiautomator2 = Mock(return_value=42)
+    device._wait_clipboard_activity_uiautomator2 = Mock(return_value=True)
+
+    def copy():
+        assert_clipboard_locked()
+        return True
+
+    assert device.clipboard_copy(copy) == 'copied text'
     assert_clipboard_released()
 
 
