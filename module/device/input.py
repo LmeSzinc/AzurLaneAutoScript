@@ -1,9 +1,14 @@
 from module.base.decorator import cached_property
+from module.device.method.adb_input import AdbInput
 from module.device.method.fastinput_ime import FastInputIME
 from module.device.method.uiautomator_2 import Uiautomator2
 
 
 class Input(Uiautomator2):
+    @cached_property
+    def adb_input(self):
+        return AdbInput(self)
+
     @cached_property
     def fastinput_ime(self):
         return FastInputIME(self)
@@ -16,6 +21,11 @@ class Input(Uiautomator2):
             'input': self.fastinput_ime.input_text_fastinput_ime,
         }
         return {
+            'ADB': {
+                'supported': self.adb_input.adb_input_supported,
+                'prepare': self.adb_input.ensure_adb_input,
+                'input': self.adb_input.input_text_adb,
+            },
             'FastInputIME': fastinput,
             'uiautomator2': fastinput,
         }

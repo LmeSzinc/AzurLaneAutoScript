@@ -146,6 +146,13 @@ class Uiautomator2(Connection):
     def get_clipboard_uiautomator2(self):
         return self.u2.clipboard
 
+    def clear_text_uiautomator2(self):
+        try:
+            result = self.u2(focused=True).clear_text(timeout=1)
+            return result is not False
+        except u2.UiObjectNotFoundError:
+            return False
+
     @retry
     def screenshot_uiautomator2(self):
         image = self.u2.screenshot(format='raw')

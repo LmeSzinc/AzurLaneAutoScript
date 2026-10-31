@@ -4,6 +4,7 @@ from unittest.mock import ANY, Mock, call
 
 import pytest
 from lxml import etree
+from uiautomator2.exceptions import UiObjectNotFoundError
 
 import module.device.method.fastinput_ime as fastinput_module
 from module.device.control import Control
@@ -47,6 +48,26 @@ def test_uiautomator2_keyboard_and_clipboard_work_without_fastinput_helper():
     assert device.get_clipboard_uiautomator2() == 'exported code'
     device.u2.shell.assert_not_called()
     device.u2.current_ime.assert_not_called()
+
+
+@pytest.mark.parametrize('result', [True, None])
+def test_uiautomator2_clears_the_focused_field_without_fastinput_helper(result):
+    device = object.__new__(Uiautomator2)
+    device.u2 = Mock()
+    device.u2.return_value.clear_text.return_value = result
+
+    assert device.clear_text_uiautomator2() is True
+    device.u2.assert_called_once_with(focused=True)
+    device.u2.return_value.clear_text.assert_called_once_with(timeout=1)
+
+
+def test_uiautomator2_clear_reports_an_unavailable_native_editor():
+    device = object.__new__(Uiautomator2)
+    device.u2 = Mock()
+    device.u2.return_value.clear_text.side_effect = UiObjectNotFoundError(
+        {'code': -32002, 'data': 'No focused editable field', 'method': 'clearTextField'})
+
+    assert device.clear_text_uiautomator2() is False
 
 
 @pytest.mark.parametrize('dump,expected', [
@@ -553,6 +574,21 @@ def test_input_override_only_selects_text_operations():
     device.u2.current_ime.assert_not_called()
     device.u2.send_keys.assert_not_called()
     device.adb_shell.assert_not_called()
+
+
+def test_adb_override_does_not_prepare_fastinput_but_clipboard_access_does():
+    device = make_device(sdk_ver=35)
+    device.input_method_override = 'ADB'
+    device.fastinput_ime.ensure_fastinput_ime = Mock(return_value=False)
+    device.adb_input.input_text_adb = Mock(return_value=True)
+
+    assert device.text_input_supported() is True
+    assert device.ensure_text_input() is True
+    assert device.input_text('Aa09+/=', object()) is True
+    device.fastinput_ime.ensure_fastinput_ime.assert_not_called()
+    assert device.ensure_clipboard() is False
+    device.fastinput_ime.ensure_fastinput_ime.assert_called_once_with()
+    assert device.get_clipboard() == 'exported code'
 
 
 def test_clipboard_access_before_android_10_does_not_prepare_an_ime():
