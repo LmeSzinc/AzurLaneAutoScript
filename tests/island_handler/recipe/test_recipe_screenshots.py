@@ -20,6 +20,31 @@ def recipe_ocr_language(request, monkeypatch):
 
 
 class TestRecipeGrid:
+    @image('island/recipe/95e9ae1d', server='jp')
+    def test_single_milk_recipe_ignores_dotted_background(self, main: IslandRecipe):
+        rows = main._get_recipe_buttons()
+        grid = main.recipe_grid
+        actual = dict(anchor_rows=rows[:, 1].tolist(), origin=tuple(grid.origin),
+                      shape=tuple(grid.grid_shape), bottom=main.recipe_at_bottom(),
+                      stocks=main.scan_all_recipe_stocks())
+        main.device.review(actual, [(button.area, button.name) for button in grid.buttons])
+        assert actual == dict(anchor_rows=[59], origin=(181, 114), shape=(1, 1), bottom=True,
+                              stocks={101016: 80})
+        main.next_recipe_page()
+        main.prev_recipe_page()
+        assert main.device.drags == []
+
+    @image('island/recipe/9bbbbd95', server='jp')
+    def test_single_milk_recipe_ignores_seaside_background(self, main: IslandRecipe):
+        grid = main.recipe_grid
+        actual = dict(origin=tuple(grid.origin), shape=tuple(grid.grid_shape), bottom=main.recipe_at_bottom(),
+                      stocks=main.scan_all_recipe_stocks())
+        main.device.review(actual, [(button.area, button.name) for button in grid.buttons])
+        assert actual == dict(origin=(181, 114), shape=(1, 1), bottom=True, stocks={101016: 80})
+        main.next_recipe_page()
+        main.prev_recipe_page()
+        assert main.device.drags == []
+
     @image('island/recipe/0e57ef95', server='cn')
     def test_single_recipe_is_complete_without_waiting_or_dragging(self, main: IslandRecipe):
         grid = main.recipe_grid
@@ -47,7 +72,7 @@ class TestRecipeGrid:
         actual = dict(anchor_rows=rows[:, 1].tolist(), origin=tuple(grid.origin),
                       shape=tuple(grid.grid_shape), bottom=main.recipe_at_bottom())
         main.device.review(actual, [(button.area, button.name) for button in grid.buttons])
-        assert actual == dict(anchor_rows=[16, 165, 314, 463], origin=(181, 71), shape=(1, 4), bottom=True)
+        assert actual == dict(anchor_rows=[16, 165, 314, 464], origin=(181, 71), shape=(1, 4), bottom=True)
 
     @image('island/recipe/4974f6ec', server='jp')
     def test_furniture_recipes_at_bottom(self, main: IslandRecipe):

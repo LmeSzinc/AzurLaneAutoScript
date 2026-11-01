@@ -87,6 +87,7 @@ class IslandDock(IslandUI):
                 bottom)
         image = self.image_crop(area, copy=True)
         anchors = TEMPLATE_ISLAND_DOCK_CARD_ANCHOR.match_multi(image, threshold=5)
+        anchors += TEMPLATE_ISLAND_DOCK_CARD_ANCHOR_GREEN.match_multi(image, threshold=5)
         logger.attr('cards_in_view', len(anchors))
         rows = Points([(0., a.area[1]) for a in anchors]).group(threshold=5)
         return rows

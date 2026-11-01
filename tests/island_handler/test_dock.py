@@ -2,6 +2,7 @@
 from module.testing.screenshot import image
 
 from module.island_handler.dock import IslandDock, dock_character_matches
+from module.island_handler.dock_scanner import CharacterScanner
 
 
 class TestDockGrid:
@@ -21,6 +22,14 @@ class TestDockGrid:
         main.device.review(actual, [(button.area, button.name) for button in grid.buttons])
         assert actual == dict(origin=(56, 206), shape=(6, 2), bottom=True, third_row=False)
 
+    @image('island/dock/65c571e2', server='en')
+    def test_bottom_with_only_a_green_anchor_on_the_last_row(self, main: IslandDock):
+        grid = main.dock_grid
+        actual = dict(origin=tuple(grid.origin), shape=tuple(grid.grid_shape),
+                      bottom=main.island_dock_at_bottom(), third_row=main.island_dock_has_third_row())
+        main.device.review(actual, [(button.area, button.name) for button in grid.buttons])
+        assert actual == dict(origin=(56, 206), shape=(6, 2), bottom=True, third_row=False)
+
     @image('island/dock/f9bd49a5', server='jp')
     def test_top_has_a_clipped_third_row(self, main: IslandDock):
         grid = main.dock_grid
@@ -28,6 +37,29 @@ class TestDockGrid:
                       bottom=main.island_dock_at_bottom(), third_row=main.island_dock_has_third_row())
         main.device.review(actual, [(button.area, button.name) for button in grid.buttons])
         assert actual == dict(origin=(56, 139), shape=(6, 2), bottom=False, third_row=True)
+
+
+class TestCharactersEN:
+    @image('island/dock/65c571e2', server='en')
+    def test_selected_character_on_a_partial_bottom_row(self, main: IslandDock):
+        scanner = CharacterScanner(grids=main.dock_grid)
+        characters = scanner.scan(main.device.image)
+        actual = [dict(identity=character.identity, emotion=character.emotion,
+                       emotion_limit=character.emotion_limit, grade=character.grade,
+                       status=character.status,
+                       selected=main.is_button_selected(character.button, color=(19, 181, 231)))
+                  for character in characters]
+        regions = [(character.button.area, str(entry)) for character, entry in zip(characters, actual)]
+        main.device.review(actual, regions)
+        assert actual == [
+            dict(identity='Belfast', emotion=120, emotion_limit=120, grade='C', status='occupied', selected=False),
+            dict(identity='Shimakaze', emotion=150, emotion_limit=150, grade='C', status='occupied', selected=False),
+            dict(identity='Le_Malin', emotion=150, emotion_limit=150, grade='C', status='free', selected=False),
+            dict(identity='New_Jersey', emotion=150, emotion_limit=150, grade='B', status='occupied', selected=False),
+            dict(identity='Akashi', emotion=120, emotion_limit=120, grade='B', status='occupied', selected=False),
+            dict(identity='Ying_Swei', emotion=150, emotion_limit=150, grade='B', status='free', selected=False),
+            dict(identity='Saratoga', emotion=150, emotion_limit=150, grade='B', status='free', selected=True),
+        ]
 
 
 class TestCharactersJP:

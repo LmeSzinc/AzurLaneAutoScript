@@ -286,7 +286,7 @@ class IslandRecipe(IslandExchange, IslandShop):
                 RECIPE_DETECT_AREA[2] - RECIPE_SIZE[0] + RECIPE_ANCHOR_AREA[2],
                 RECIPE_DETECT_AREA[3] - RECIPE_SIZE[1] + RECIPE_ANCHOR_AREA[3])
         image = self.image_crop(area, copy=True)
-        anchors = TEMPLATE_ISLAND_RECIPE_ANCHOR.match_multi(image, similarity=0.5, threshold=5)
+        anchors = TEMPLATE_ISLAND_RECIPE_ANCHOR.match_multi(image, similarity=0.6, threshold=5)
         logger.attr('Recipe_in_view', len(anchors))
         rows = Points([(0., a.area[1]) for a in anchors]).group(threshold=5)
         return rows
