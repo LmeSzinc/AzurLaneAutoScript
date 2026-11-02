@@ -1501,6 +1501,9 @@
       "UseGems": false,
       "Refresh": false,
       "BuySkinBox": false,
+      "SkinBoxSlots": "all",
+      "SkinBoxPurchaseLimit": 0,
+      "SkinBoxPurchaseCount": 0,
       "ConsumeCoins": false,
       "Filter": "BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2\n> Cube\n> FoodT6 > FoodT5"
     },

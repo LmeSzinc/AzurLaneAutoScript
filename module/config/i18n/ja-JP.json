@@ -1765,8 +1765,20 @@
       "help": "GeneralShop.Refresh.help"
     },
     "BuySkinBox": {
-      "name": "GeneralShop.BuySkinBox.name",
-      "help": "GeneralShop.BuySkinBox.help"
+      "name": "装備外装箱を購入",
+      "help": "未識別で数量1・価格7000資金の商品を外装箱として購入します。"
+    },
+    "SkinBoxSlots": {
+      "name": "外装箱の購入位置",
+      "help": "左上から右下の順に番号付け。売り切れても繰り上がらず、未選択なら購入しません。"
+    },
+    "SkinBoxPurchaseLimit": {
+      "name": "外装箱の購入上限",
+      "help": "0は無制限です。購入成功1回を1と数え、上限で外装箱の購入のみ停止します。"
+    },
+    "SkinBoxPurchaseCount": {
+      "name": "外装箱の購入回数",
+      "help": "再有効化または0入力でリセット。回数は実行をまたいで保存します。"
     },
     "ConsumeCoins": {
       "name": "GeneralShop.ConsumeCoins.name",
@@ -3080,6 +3092,7 @@
       "SSHNotInstall": "システムでsshツールが探さない、sshツールをインストールしてください"
     },
     "Text": {
+      "ShopSlot": "{slot}",
       "InvalidFeedBack": "フォーマットエラー。 例：{0}",
       "Clear": "消除",
       "EnterPassword": "パスワードを入力してください",

@@ -487,6 +487,51 @@ pre.rich-traceback-code {
     margin: .375rem 0;
 }
 
+/* The two rows mirror the shop: 1-5 above 6-10, independent of screen size. */
+[id^="pywebio-scope-arg_container-skin_box_slots-"] {
+    align-items: center;
+}
+
+[id^="pywebio-scope-arg_container-skin_box_slots-"] .form-group {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: .25rem;
+    margin: 0;
+    max-width: 22rem;
+}
+
+[id^="pywebio-scope-arg_container-skin_box_slots-"] .form-check {
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+}
+
+[id^="pywebio-scope-arg_container-skin_box_slots-"] .form-check-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .125rem;
+    min-height: 2rem;
+    padding: .25rem .0625rem;
+    border: 1px solid currentColor;
+    border-radius: .25rem;
+    cursor: pointer;
+    font-size: .875rem;
+}
+
+[id^="pywebio-scope-arg_container-skin_box_slots-"] .form-check-input {
+    display: inline-block;
+    position: static;
+    margin: 0;
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+}
+
+[id^="pywebio-scope-arg_container-skin_box_slots-"] .form-text:empty {
+    display: none;
+}
+
 *[style*="--arg-title--"] {
     font-size: 1rem;
     font-weight: 500;
