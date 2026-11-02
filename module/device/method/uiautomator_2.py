@@ -1,3 +1,4 @@
+import re
 import time
 import typing as t
 from dataclasses import dataclass
@@ -117,6 +118,35 @@ class ShellBackgroundResponse:
 
 
 class Uiautomator2(Connection):
+    @retry
+    def ensure_clipboard_uiautomator2(self):
+        # Start instrumentation before the game copies, outside the copy/read window.
+        _ = self.u2.info
+
+    @retry
+    def get_clipboard_uiautomator2(self):
+        if self.sdk_ver < 29 or (self.current_ime_adb()[0] or '').split('/')[0] == 'com.github.uiautomator':
+            # The default IME's package can read without switching foreground apps.
+            return self.u2.clipboard or ''
+        with self._preserve_foreground_adb(verify_activity=True):
+            # Starting instrumentation after the helper can kill its activity.
+            self.ensure_clipboard_uiautomator2()
+            helper = 'com.github.uiautomator/com.github.uiautomator.MainActivity'
+            self.adb_shell(['am', 'start', '-W', '-n', helper], timeout=15)
+            deadline = time.monotonic() + 8
+            while True:
+                _, current = self._foreground_adb()
+                if current == helper:
+                    return self.u2.clipboard or ''
+                if current:
+                    package, name = current.split('/', 1)
+                    if package in ('com.android.permissioncontroller', 'com.google.android.permissioncontroller',
+                                   'com.android.packageinstaller') and name.endswith('.GrantPermissionsActivity'):
+                        # The helper's phone/location requests are unrelated to clipboard access.
+                        self.adb_shell(['input', 'keyevent', 'KEYCODE_BACK'])
+                if time.monotonic() >= deadline:
+                    raise OSError('UIAutomator MainActivity did not receive clipboard focus')
+
     @retry
     def screenshot_uiautomator2(self):
         image = self.u2.screenshot(format='raw')
