@@ -5,19 +5,6 @@ from module.os.map import OSMap
 
 
 class OpsiAbyssal(OSMap):
-    def delay_abyssal(self, result=True):
-        """
-        Args:
-            result(bool): If still have obscure coordinates.
-        """
-        if get_os_reset_remain() == 0:
-            logger.info('Just less than 1 day to OpSi reset, delay 2.5 hours')
-            self.config.task_delay(minute=150, server_update=True)
-            self.config.task_stop()
-        elif not result:
-            self.config.task_delay(server_update=True)
-            self.config.task_stop()
-
     def clear_abyssal(self):
         """
         Get one abyssal logger in storage,
@@ -35,7 +22,12 @@ class OpsiAbyssal(OSMap):
         with self.config.temporary(STORY_ALLOW_SKIP=False):
             result = self.storage_get_next_item('ABYSSAL', use_logger=self.config.OpsiGeneral_UseLogger)
         if not result:
-            self.delay_abyssal(result=False)
+            if get_os_reset_remain() == 0:
+                logger.info('Just less than 1 day to OpSi reset, delay 2.5 hours')
+                self.config.task_delay(minute=150, server_update=True)
+            else:
+                self.config.task_delay(server_update=True)
+            self.config.task_stop()
 
         self.config.override(
             OpsiGeneral_DoRandomMapEvent=False,
@@ -48,7 +40,6 @@ class OpsiAbyssal(OSMap):
             raise RequestHumanTakeover
 
         self.fleet_repair(revert=False)
-        self.delay_abyssal()
 
     def os_abyssal(self):
         while True:
