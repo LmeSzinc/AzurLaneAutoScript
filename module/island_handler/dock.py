@@ -77,7 +77,7 @@ class IslandDock(IslandUI):
             if wait_loading:
                 self.handle_island_dock_loading()
 
-    def _get_dock_buttons(self, include_partial=False):
+    def _get_dock_anchors(self, include_partial=False):
         bottom = ISLAND_DOCK_DETECT_AREA[3]
         if not include_partial:
             bottom += ISLAND_DOCK_CARD_ANCHOR_AREA[3] - ISLAND_DOCK_CARD_SIZE[1]
@@ -89,6 +89,10 @@ class IslandDock(IslandUI):
         anchors = TEMPLATE_ISLAND_DOCK_CARD_ANCHOR.match_multi(image, threshold=5)
         anchors += TEMPLATE_ISLAND_DOCK_CARD_ANCHOR_GREEN.match_multi(image, threshold=5)
         logger.attr('cards_in_view', len(anchors))
+        return anchors
+
+    def _get_dock_buttons(self, include_partial=False):
+        anchors = self._get_dock_anchors(include_partial=include_partial)
         rows = Points([(0., a.area[1]) for a in anchors]).group(threshold=5)
         return rows
 
@@ -197,29 +201,21 @@ class IslandDock(IslandUI):
         if 'status' in disabled:
             raise ValueError('Dock searches require status recognition')
         characters = []
-        previous_empty_tail = 0
         for _ in self.loop(timeout=3):
             grid = self.dock_grid
-            if not grid.buttons:
-                del_cached_property(self, 'dock_grid')
-                previous_empty_tail = 0
-                continue
+            anchors = self._get_dock_anchors()
+            if not anchors:
+                return []
+            # Keep cells through the last anchor, including any gaps before it.
+            count = int(max(
+                round((a.area[1] + ISLAND_DOCK_DETECT_AREA[1] - grid.origin[1]) / grid.delta[1]) * grid.grid_shape[0]
+                + round((a.area[0] + ISLAND_DOCK_DETECT_AREA[0] - grid.origin[0]) / grid.delta[0]) + 1
+                for a in anchors))
             scanner = CharacterScanner(grid, identity=None, emotion=None,
                                        emotion_limit=None, grade=None, status=None)
             scanner.disable(*disabled)
-            characters = scanner.scan(self.device.image)
-            # Leave one card so an entirely unreadable page still retries.
-            empty_tail = 0
-            for last in reversed(characters[1:]):
-                if not (last.identity == 'unknown' and last.emotion == 0 and last.emotion_limit == 0):
-                    break
-                empty_tail += 1
-            # Confirm the same empty tail on a fresh screenshot before trimming.
-            if empty_tail and empty_tail == previous_empty_tail:
-                del characters[-empty_tail:]
-            previous_empty_tail = empty_tail
-            if characters and ('identity' in disabled
-                               or all(c.identity not in (None, '', 'unknown') for c in characters)):
+            characters = scanner.scan(self.device.image)[:count]
+            if 'identity' in disabled or all(c.identity not in (None, '', 'unknown') for c in characters):
                 break
         return characters
 

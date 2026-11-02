@@ -1,8 +1,9 @@
 """Screenshot golden results; awaiting human review of collection/ images."""
+import pytest
+
 from module.testing.screenshot import image
 
 from module.island_handler.dock import IslandDock, dock_character_matches
-from module.island_handler.dock_scanner import CharacterScanner
 
 
 class TestDockGrid:
@@ -42,8 +43,7 @@ class TestDockGrid:
 class TestCharactersEN:
     @image('island/dock/65c571e2', server='en')
     def test_selected_character_on_a_partial_bottom_row(self, main: IslandDock):
-        scanner = CharacterScanner(grids=main.dock_grid)
-        characters = scanner.scan(main.device.image)
+        characters = main.island_dock_scan_page()
         actual = [dict(identity=character.identity, emotion=character.emotion,
                        emotion_limit=character.emotion_limit, grade=character.grade,
                        status=character.status,
@@ -60,6 +60,37 @@ class TestCharactersEN:
             dict(identity='Ying_Swei', emotion=150, emotion_limit=150, grade='B', status='free', selected=False),
             dict(identity='Saratoga', emotion=150, emotion_limit=150, grade='B', status='free', selected=True),
         ]
+
+
+@pytest.mark.parametrize('disabled', [('identity', 'grade'), ('identity', 'emotion_limit', 'grade')])
+class TestShortDocksTW:
+    @staticmethod
+    def check_short_search(main, monkeypatch, disabled):
+        monkeypatch.setattr(main, 'island_dock_sort_method_dsc_set', lambda **kwargs: None)
+
+        def next_page(**kwargs):
+            pytest.fail('Swiped past a short dock with an empty final slot')
+
+        monkeypatch.setattr(main, 'next_dock_page', next_page)
+        pages = []
+        result, completed = main.island_dock_search(lambda page: pages.append(page), disabled=disabled)
+        grid = main.dock_grid
+        actual = dict(origin=tuple(grid.origin), shape=tuple(grid.grid_shape),
+                      third_row=main.island_dock_has_third_row(),
+                      scanned_slots=[len(page) for page in pages], completed=completed)
+        main.device.review(actual, [(button.area, button.name) for button in grid.buttons])
+        assert actual == dict(origin=(56, 139), shape=(6, 2), third_row=False,
+                              scanned_slots=[11], completed=True)
+        assert result is None
+        assert main.device.drags == []
+
+    @image('island/dock/9079daa2', server='tw')
+    def test_short_descending_list_stops_without_swiping(self, main: IslandDock, monkeypatch, disabled):
+        self.check_short_search(main, monkeypatch, disabled)
+
+    @image('island/dock/8e690ac0', server='tw')
+    def test_short_ascending_list_stops_without_swiping(self, main: IslandDock, monkeypatch, disabled):
+        self.check_short_search(main, monkeypatch, disabled)
 
 
 class TestCharactersJP:

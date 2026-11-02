@@ -32,6 +32,11 @@ def character(identity, *, status='free', emotion=100, emotion_limit=110, grade=
     )
 
 
+def card_anchor(index):
+    x, y = index % 6 * 140, 11 + index // 6 * 180
+    return SimpleNamespace(area=(x, y, x + 18, y + 18))
+
+
 def make_main(pages, selected=(), grid_size=None, grid_origins=None):
     main = object.__new__(IslandDock)
     main._pages = pages
@@ -79,14 +84,26 @@ def make_main(pages, selected=(), grid_size=None, grid_origins=None):
     return main
 
 
-def make_scanning_main(monkeypatch, frames):
+def make_scanning_main(monkeypatch, frames, anchor_counts=None):
     main = object.__new__(IslandDock)
     images = [object() for _ in frames]
     screenshots = iter(images[1:])
     main.device = SimpleNamespace(image=images[0])
     main.device.screenshot = lambda: setattr(main.device, 'image', next(screenshots))
     main.dock_grid = SimpleNamespace(buttons=[c.button for c in frames[0]], origin=(56, 139),
-                                     grid_shape=(6, (len(frames[0]) + 5) // 6))
+                                     delta=(140, 180), grid_shape=(6, (len(frames[0]) + 5) // 6))
+    if anchor_counts is None:
+        anchor_counts = [len(frame) for frame in frames]
+
+    def loop(skip_first=True, timeout=None):
+        for index in range(len(frames)):
+            if index or not skip_first:
+                main.device.screenshot()
+            yield main.device.image
+
+    main._get_dock_anchors = lambda: [card_anchor(index)
+                                     for index in range(anchor_counts[images.index(main.device.image)])]
+    main.loop = loop
     main.island_dock_has_third_row = lambda: False
     main.next_dock_page = lambda: pytest.fail('Swiped while confirming empty cards')
     main.prev_dock_page = lambda: pytest.fail('Swiped while confirming empty cards')
@@ -97,11 +114,10 @@ def make_scanning_main(monkeypatch, frames):
             pass
 
         def disable(self, *fields):
-            pass
+            main._disabled = fields
 
         def scan(self, image):
-            assert image is images[len(scanned)]
-            frame = frames[len(scanned)]
+            frame = frames[images.index(image)]
             scanned.append(image)
             return list(frame)
 
@@ -183,100 +199,72 @@ def test_grade_filter_and_ranking_enable_grade_recognition(monkeypatch, filters)
 
 def test_scan_page_without_identity_does_not_retry_name_recognition(monkeypatch):
     candidate = character(None, grade=None)
-    main = object.__new__(IslandDock)
-    main.device = SimpleNamespace(image=object())
-    main.dock_grid = SimpleNamespace(buttons=[candidate.button])
-    main.loop = lambda **kwargs: range(3)
-    scanned = []
-    disabled = []
-
-    class Scanner:
-        def __init__(self, grid, **kwargs):
-            pass
-
-        def disable(self, *fields):
-            disabled.extend(fields)
-
-        def scan(self, image):
-            scanned.append(image)
-            return [candidate]
-
-    monkeypatch.setattr(dock_module, 'CharacterScanner', Scanner)
+    main, scanned, images = make_scanning_main(monkeypatch, [[candidate]])
 
     assert main.island_dock_scan_page(disabled=('identity', 'grade')) == [candidate]
     assert len(scanned) == 1
-    assert disabled == ['identity', 'grade']
+    assert main._disabled == ('identity', 'grade')
 
 
-@pytest.mark.parametrize(('cards', 'disabled', 'expected', 'scan_count'), [
-    ([character('Alice'), character('unknown', emotion=0, emotion_limit=0),
-      character('unknown', emotion=0, emotion_limit=0)], (), ['Alice'], 2),
-    ([character('Alice'), character('unknown', emotion=0, emotion_limit=150)],
-     (), ['Alice', 'unknown'], 3),
-    ([character('Alice'), character('unknown', emotion=100, emotion_limit=0)],
-     (), ['Alice', 'unknown'], 3),
-    ([character('Alice'), character('unknown', emotion=None, emotion_limit=None, grade=None)],
-     ('emotion', 'emotion_limit', 'grade'), ['Alice', 'unknown'], 3),
-    ([character('Alice'), character(None, emotion=0, emotion_limit=0)],
-     (), ['Alice', None], 3),
-    ([character('Alice'), character('unknown', emotion=0, emotion_limit=0), character('Bob')],
-     (), ['Alice', 'unknown', 'Bob'], 3),
-    ([character('unknown', emotion=0, emotion_limit=0), character('unknown', emotion=0, emotion_limit=0)],
-     (), ['unknown'], 3),
-    ([character('Alice'), character('Bob', emotion=0, emotion_limit=0)],
-     (), ['Alice', 'Bob'], 1),
+@pytest.mark.parametrize(('last', 'disabled', 'scan_count'), [
+    (character('unknown', emotion=0, emotion_limit=0), (), 3),
+    (character('unknown', emotion=0, emotion_limit=150), (), 3),
+    (character('unknown', emotion=100, emotion_limit=0), (), 3),
+    (character('unknown', emotion=None, emotion_limit=None), ('emotion', 'emotion_limit'), 3),
+    (character(None, emotion=0, emotion_limit=0), (), 3),
+    (character(None, emotion=None, emotion_limit=None), ('identity', 'emotion', 'emotion_limit'), 1),
+    (character('Bob', emotion=0, emotion_limit=0), (), 1),
 ])
-def test_scan_page_drops_only_confirmed_empty_tail_before_retry(monkeypatch, cards, disabled, expected, scan_count):
-    main = object.__new__(IslandDock)
-    main.device = SimpleNamespace(image=object())
-    main.dock_grid = SimpleNamespace(buttons=[c.button for c in cards])
-    main.loop = lambda **kwargs: range(3)
-    scanned = []
+def test_scan_page_keeps_anchored_cards_regardless_of_ocr(monkeypatch, last, disabled, scan_count):
+    cards = [character('Alice'), last]
+    main, scanned, images = make_scanning_main(monkeypatch, [cards] * scan_count)
 
-    class Scanner:
-        def __init__(self, grid, **kwargs):
-            pass
-
-        def disable(self, *fields):
-            pass
-
-        def scan(self, image):
-            scanned.append(image)
-            return list(cards)
-
-    monkeypatch.setattr(dock_module, 'CharacterScanner', Scanner)
-
-    result = main.island_dock_scan_page(disabled=disabled)
-
-    assert [c.identity for c in result] == expected
+    assert main.island_dock_scan_page(disabled=disabled) == cards
     assert len(scanned) == scan_count
 
 
-@pytest.mark.parametrize(('frames', 'expected'), [
-    ([[character('Alice'), character('unknown', emotion=0, emotion_limit=0)],
-      [character('Alice'), character('Bob')]], ['Alice', 'Bob']),
-    ([[character('Alice'), character('unknown')],
-      [character('Alice'), character('unknown', emotion=0, emotion_limit=0)],
-      [character('Alice'), character('Bob')]], ['Alice', 'Bob']),
-    ([[character('Alice'), character('Bob'), character('unknown', emotion=0, emotion_limit=0)],
-      [character('Alice'), character('unknown', emotion=0, emotion_limit=0),
-       character('unknown', emotion=0, emotion_limit=0)],
-      [character('Alice'), character('unknown', emotion=0, emotion_limit=0),
-       character('unknown', emotion=0, emotion_limit=0)]], ['Alice']),
-])
-def test_scan_page_rechecks_empty_tail_on_fresh_screenshots(monkeypatch, frames, expected):
-    main, scanned, images = make_scanning_main(monkeypatch, frames)
+@pytest.mark.parametrize('disabled', [(), ('identity', 'grade'), ('identity', 'emotion_limit', 'grade'),
+                                      ('identity', 'emotion', 'emotion_limit', 'grade')])
+def test_scan_page_uses_anchor_count_with_any_scanner_fields(monkeypatch, disabled):
+    cards = [character('Alice'), character('unknown', emotion=80, emotion_limit=100)]
+    main, scanned, images = make_scanning_main(monkeypatch, [cards], [1])
 
-    result = main.island_dock_scan_page()
-
-    assert [c.identity for c in result] == expected
+    assert main.island_dock_scan_page(disabled=disabled) == cards[:1]
     assert scanned == images
 
 
-def test_search_confirms_empty_bottom_without_swiping(monkeypatch):
-    frames = [[character('Alice'), character('unknown', emotion=0, emotion_limit=0)]
-              for _ in range(2)]
+@pytest.mark.parametrize('missing', [1, 7])
+def test_missing_interior_anchor_keeps_later_cards(monkeypatch, missing):
+    cards = [character('Card{}'.format(index)) for index in range(11)]
+    cards.append(character('unknown', emotion=0, emotion_limit=0))
+    main, scanned, images = make_scanning_main(monkeypatch, [cards])
+    main._get_dock_anchors = lambda: [card_anchor(index) for index in reversed(range(11)) if index != missing]
+
+    assert main.island_dock_scan_page() == cards[:11]
+    assert scanned == images
+
+
+def test_scan_page_retries_an_unreadable_character_on_a_fresh_screenshot(monkeypatch):
+    frames = [[character('Alice'), character('unknown', emotion=0, emotion_limit=0)],
+              [character('Alice'), character('Bob')]]
     main, scanned, images = make_scanning_main(monkeypatch, frames)
+
+    assert main.island_dock_scan_page() == frames[-1]
+    assert scanned == images
+
+
+def test_no_anchors_return_an_incomplete_page(monkeypatch):
+    cards = [character('unknown', emotion=0, emotion_limit=0)] * 6
+    main, scanned, images = make_scanning_main(monkeypatch, [cards], [0])
+
+    assert main.island_dock_scan_page() == []
+    assert scanned == []
+    assert main.device.image is images[-1]
+
+
+def test_search_reads_a_short_page_without_swiping(monkeypatch):
+    frames = [[character('Alice'), character('unknown', emotion=0, emotion_limit=0)]]
+    main, scanned, images = make_scanning_main(monkeypatch, frames, [1])
     main.island_dock_sort_method_dsc_set = lambda **kwargs: None
     seen = []
 
@@ -288,10 +276,9 @@ def test_search_confirms_empty_bottom_without_swiping(monkeypatch):
     assert scanned == images
 
 
-def test_scan_page_keeps_unconfirmed_empty_tail_on_timeout(monkeypatch):
+def test_scan_page_keeps_an_unreadable_detected_card_on_timeout(monkeypatch):
     frames = [[character('Alice'), character('unknown', emotion=0, emotion_limit=0)]]
     main, scanned, images = make_scanning_main(monkeypatch, frames)
-    main.loop = lambda **kwargs: range(1)
 
     assert main.island_dock_scan_page() == frames[0]
     assert scanned == images
@@ -518,6 +505,16 @@ def test_search_verifies_exactly_twelve_characters_at_top_with_two_drags(monkeyp
     assert main.island_dock_search(lambda page: scans.append(page)) == (None, True)
     assert len(scans) == 3
     assert main._next_calls == 2
+
+
+def test_search_uses_anchor_count_with_disabled_fields(monkeypatch):
+    cards = [character(None, emotion_limit=None, grade=None) for _ in range(11)]
+    cards.append(character(None, emotion=0, emotion_limit=None, grade=None))
+    main, scanned, images = make_scanning_main(monkeypatch, [cards], [11])
+    main.island_dock_sort_method_dsc_set = lambda **kwargs: None
+
+    assert main.island_dock_search(lambda page: None, disabled=('identity', 'emotion_limit', 'grade')) == (None, True)
+    assert scanned == images
 
 
 @pytest.mark.parametrize('count', [7, 12])
