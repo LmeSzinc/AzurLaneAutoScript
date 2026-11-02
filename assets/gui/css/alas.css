@@ -489,17 +489,15 @@ pre.rich-traceback-code {
 
 /* The two rows mirror the shop: 1-5 above 6-10, independent of screen size. */
 [id^="pywebio-scope-arg_container-skin_box_slots-"] {
-    grid-auto-flow: row !important;
-    grid-template-columns: minmax(0, 1fr) !important;
-    grid-template-rows: auto auto;
-    gap: .375rem;
+    align-items: center;
 }
 
 [id^="pywebio-scope-arg_container-skin_box_slots-"] .form-group {
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: .375rem;
-    margin: 0 .25rem;
+    gap: .25rem;
+    margin: 0;
+    max-width: 22rem;
 }
 
 [id^="pywebio-scope-arg_container-skin_box_slots-"] .form-check {
@@ -510,10 +508,11 @@ pre.rich-traceback-code {
 
 [id^="pywebio-scope-arg_container-skin_box_slots-"] .form-check-label {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: .25rem;
-    padding: .5rem .125rem;
+    justify-content: center;
+    gap: .125rem;
+    min-height: 2rem;
+    padding: .25rem .0625rem;
     border: 1px solid currentColor;
     border-radius: .25rem;
     cursor: pointer;
@@ -524,6 +523,9 @@ pre.rich-traceback-code {
     display: inline-block;
     position: static;
     margin: 0;
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
 }
 
 [id^="pywebio-scope-arg_container-skin_box_slots-"] .form-text:empty {
