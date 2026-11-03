@@ -6,7 +6,7 @@ from module.island_handler.exchange import (
     EXCHANGE_FISH_GRID, EXCHANGE_FISH_ICON_GRID, EXCHANGE_FISH_TEMPLATES,
     IslandExchange, fish_icon_to_id, read_fish_cards, read_fish_counts, read_fish_meat,
 )
-from module.island_handler.assets import ISLAND_EXCHANGE_TOTAL_AMOUNT
+from module.island_handler.assets import ISLAND_EXCHANGE_SELECT_ALL, ISLAND_EXCHANGE_TOTAL_AMOUNT
 
 
 class TestCardsJP:
@@ -138,6 +138,46 @@ class TestCardsEN:
             'counts': [0, 0, 0, 0, 0, 0, 0, 0],
             'meat': (40, 0),
         }
+
+
+class TestSelectAll:
+    @staticmethod
+    def run_select_all(main, monkeypatch):
+        # One unchanged frame can prove a click, but not successful selection.
+        monkeypatch.setattr(main, 'loop', lambda **kwargs: iter((None,)))
+        monkeypatch.setattr(main, 'handle_island_additional', lambda: False)
+        selected = main._exchange_select_all()
+        actual = dict(selected=selected, clicks=[str(button) for button in main.device.clicks])
+        main.device.review(actual, [(ISLAND_EXCHANGE_SELECT_ALL.area, 'select all')])
+        return actual
+
+    @image('island/exchange/13b41573', server='tw')
+    def test_clicks_unchecked_box_tw(self, main: IslandExchange, monkeypatch):
+        assert self.run_select_all(main, monkeypatch) == {
+            'selected': False, 'clicks': ['ISLAND_EXCHANGE_SELECT_ALL'],
+        }
+
+    @image('island/exchange/fe39f9e0', server='cn')
+    def test_clicks_unchecked_box_cn(self, main: IslandExchange, monkeypatch):
+        assert self.run_select_all(main, monkeypatch) == {
+            'selected': False, 'clicks': ['ISLAND_EXCHANGE_SELECT_ALL'],
+        }
+
+    @image('island/exchange/38cc331e', server='en')
+    def test_clicks_unchecked_box_en(self, main: IslandExchange, monkeypatch):
+        assert self.run_select_all(main, monkeypatch) == {
+            'selected': False, 'clicks': ['ISLAND_EXCHANGE_SELECT_ALL'],
+        }
+
+    @image('island/exchange/272a0fc0', server='jp')
+    def test_clicks_unchecked_box_jp(self, main: IslandExchange, monkeypatch):
+        assert self.run_select_all(main, monkeypatch) == {
+            'selected': False, 'clicks': ['ISLAND_EXCHANGE_SELECT_ALL'],
+        }
+
+    @image('island/exchange/38c8558f', server='jp')
+    def test_checked_box_succeeds_without_clicking(self, main: IslandExchange, monkeypatch):
+        assert self.run_select_all(main, monkeypatch) == {'selected': True, 'clicks': []}
 
 
 class TestFishIconToId:

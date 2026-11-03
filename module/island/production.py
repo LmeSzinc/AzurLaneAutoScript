@@ -318,9 +318,11 @@ class IslandProduction(IslandRecipe, IslandDock):
         self.human_workers_available = True
         slots_to_check = None
         if not check_all_empty_slots:
+            # Empty sources mean no upstream production to wait for.
             slots_to_check = self.claimed_slots | {
                 slot_id for slot_id, slot in DIC_ISLAND_SLOT.items()
-                if self.claimed_slots.intersection(slot['ingredient_source_slots'])
+                if not slot['ingredient_source_slots']
+                or self.claimed_slots.intersection(slot['ingredient_source_slots'])
             }
             if not slots_to_check:
                 logger.info('No completed production or external rewards to retry empty slots')

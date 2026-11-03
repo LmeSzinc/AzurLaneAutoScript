@@ -332,7 +332,7 @@ class IslandRecipe(IslandExchange, IslandShop):
             RECIPE_PRODUCT_NAME_AREA, offset=(grid.origin[0], grid.origin[1] + count * RECIPE_DELTA[1])
         )
         return not self.image_color_count(next_name_area, color=RECIPE_PRODUCT_NAME_OCR.letter,
-                                         threshold=30, count=50)
+                                         threshold=30, count=20)
 
     def recipe_at_bottom(self):
         grid = self.recipe_grid

@@ -208,7 +208,8 @@ class IslandExchange(IslandShopUI):
                 continue
             if self.image_color_count(ISLAND_EXCHANGE_SELECT_ALL, color=(255, 255, 255), count=25):
                 return True
-            if self.appear_then_click(ISLAND_EXCHANGE_SELECT_ALL, offset=(20, 20), interval=1):
+            # Match the flat checkbox fill by color instead of its tiny pixel variations.
+            if self.appear_then_click(ISLAND_EXCHANGE_SELECT_ALL, interval=1):
                 continue
         logger.warning('Unable to select all fish')
         return False
