@@ -295,9 +295,7 @@ class GlobeOperation(ActionPointHandler):
                 break
 
             if self.appear_then_click(MAP_GOTO_GLOBE, offset=(200, 5), interval=5):
-                # Just to initialize interval timer of MAP_GOTO_GLOBE_FOG
-                self.appear(MAP_GOTO_GLOBE_FOG, interval=5)
-                self.interval_reset(MAP_GOTO_GLOBE_FOG)
+                self.get_interval_timer(MAP_GOTO_GLOBE_FOG, interval=5, renew=True).reset()
                 click_count += 1
                 if click_count >= 5:
                     # When there's zone exploration reward, AL just don't let you go.
@@ -305,9 +303,9 @@ class GlobeOperation(ActionPointHandler):
                                    'there might be uncollected zone exploration rewards preventing exit')
                     raise RewardUncollectedError
                 continue
-            if self.appear_then_click(MAP_GOTO_GLOBE_FOG, interval=5):
-                # Encountered only in strongholds; AL will not prevent
-                # zone exit even with left over exploration rewards in map
+            # Fog may persist after leaving a stronghold.
+            if self.match_template_color(MAP_GOTO_GLOBE_FOG, offset=(200, 5), interval=5, threshold=40):
+                self.device.click(MAP_GOTO_GLOBE_FOG)
                 self.interval_reset(MAP_GOTO_GLOBE)
                 continue
             if self.handle_map_event():
