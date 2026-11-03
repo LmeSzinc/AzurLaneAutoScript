@@ -34,11 +34,13 @@ class EnemySearchingHandler(InfoHandler):
     def handle_in_stage(self):
         if self.is_in_stage():
             if self.in_stage_timer.reached():
-                logger.info('In stage.')
                 self.ensure_no_info_bar(timeout=1.2)
-                raise CampaignEnd('In stage.')
-            else:
-                return False
+                # The campaign page can flash while returning from combat.
+                if self.is_in_stage():
+                    logger.info('In stage.')
+                    raise CampaignEnd('In stage.')
+                self.in_stage_timer.reset()
+            return False
         else:
             if self.appear(MAP_PREPARATION, offset=(20, 20)) \
                     or self.appear(MAP_PREPARATION_HARD, offset=(20, 20)) \
