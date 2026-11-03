@@ -119,6 +119,28 @@ def test_crop_to_feed_retries_each_ranch_recipe_independently():
     assert dispatched(events) == [9031, 9032, 9033, 9034]
 
 
+@pytest.mark.parametrize('place', [101, 201, 401, 402, 501, 502])
+@pytest.mark.parametrize('claimed', [(), (9207,)])
+def test_source_free_places_retry_empty_slots_without_ingredient_claims(place, claimed):
+    main, events = make_production(places=(place, 602), claimed=claimed)
+
+    main.dispatch_all()
+
+    assert dispatched(events) == DIC_ISLAND_PRODUCTION_PLACE[place]['slot']
+    assert ('empty', 9071) not in events
+    assert ('empty', 9072) not in events
+
+
+def test_source_free_places_only_dispatch_empty_slots():
+    main, events = make_production(places=(201, 401, 402), claimed=())
+    empty_slots = {9212, 9013, 9024}
+    main.is_slot_empty = lambda button: button in empty_slots
+
+    main.dispatch_all()
+
+    assert dispatched(events) == [9212, 9013, 9024]
+
+
 @pytest.mark.parametrize(('claimed', 'expected'), [
     ((9207,), [9207, 9208]),
     ((), []),
@@ -226,12 +248,13 @@ def test_collect_unlocks_next_production_check_after_success(success):
     assert dispatched(events) == ([9071, 9072, 9207, 9208] if success else [9207, 9208])
 
 
-def test_no_completion_or_external_reward_does_not_retry_empty_slots():
+def test_no_completion_or_external_reward_does_not_retry_dependent_slots():
     main, events = make_production(claimed=())
 
     main.dispatch_all()
 
-    assert events == []
+    assert dispatched(events) == []
+    assert all(event[0] != 'empty' for event in events)
 
 
 @pytest.mark.parametrize('check_all', [True, False])
