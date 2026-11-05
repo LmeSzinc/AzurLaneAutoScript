@@ -1,3 +1,4 @@
+from dev_tools import island_extractor
 from dev_tools.island_extractor import get_slot_ingredient_sources
 from module.island.data import (
     DIC_ISLAND_EXCHANGE_RECIPE,
@@ -20,6 +21,56 @@ def conversion(consumes, products):
         'resource_consume': dict(consumes),
         'items': dict(products),
     }
+
+
+def test_consecutive_extractors_load_cn_first(tmp_path, monkeypatch):
+    for server in ('CN', 'EN', 'JP', 'TW'):
+        (tmp_path / server).mkdir()
+
+    requests = []
+
+    def record_load(loader, path, keyword=None):
+        requests.append((loader, loader.server, path))
+        if path == 'sharecfg/island_shop_template.lua':
+            # These shops are required by the extractor's order corrections.
+            return {
+                shop_id: {
+                    'tag_type': 1, 'order': 0, 'top_resource': {},
+                    'goods_id': {}, 'tag_icon': {0: 'Shop'},
+                }
+                for shop_id in (10020, 10021, 10112, 10113)
+            }
+        return {}
+
+    loader = island_extractor.LuaLoader(str(tmp_path), server='CN')
+    monkeypatch.setattr(island_extractor, 'LOADER', loader, raising=False)
+    monkeypatch.setattr(island_extractor.LuaLoader, 'load', record_load)
+
+    # Follow main's order, keeping the same loader between extractors.
+    # Mining and logging are omitted because they do not load Lua data.
+    for extractor in (
+        island_extractor.IslandItemExtractor,
+        island_extractor.IslandRecipeExtractor,
+        island_extractor.IslandProductionExtractor,
+        island_extractor.IslandShopItemExtractor,
+        island_extractor.IslandExchangeRecipeExtractor,
+        island_extractor.IslandActivityExtractor,
+        island_extractor.IslandWildGatherExtractor,
+        island_extractor.IslandSeasonExtractor,
+        island_extractor.IslandSeasonRequestExtractor,
+        island_extractor.IslandShopExtractor,
+        island_extractor.IslandTaskExtractor,
+        island_extractor.IslandRestaurantExtractor,
+        island_extractor.IslandTechnologyExtractor,
+        island_extractor.IslandProductionPlaceExtractor,
+    ):
+        requests.clear()
+        extractor()
+        assert requests[0][1] == 'CN', (extractor.__name__, requests[0][2])
+        assert all(
+            server == 'CN' for request_loader, server, _ in requests if request_loader is loader
+        ), extractor.__name__
+        assert loader.server == 'CN', extractor.__name__
 
 
 def test_sources_include_primary_secondary_and_activity_outputs():

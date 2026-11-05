@@ -72,8 +72,8 @@ class IslandItemExtractor:
             self.item[index]['name']['tw'] = name
 
     def extract_item_name(self, server):
-        LOADER.server = server
-        data = LOADER.load('sharecfg/island_item_data_template.lua', keyword='pg.base.island_item_data_template')
+        loader = LuaLoader(LOADER.folder, server=server)
+        data = loader.load('sharecfg/island_item_data_template.lua', keyword='pg.base.island_item_data_template')
         out = {}
         for index, item in data.items():
             if not isinstance(index, int) or 1 < index < 1000 or index > 100000:
@@ -180,8 +180,8 @@ class IslandRecipeExtractor:
                 self.recipe[index]['name']['tw'] = name
 
     def extract_item_name(self, server):
-        LOADER.server = server
-        data = LOADER.load('sharecfg/island_formula.lua')
+        loader = LuaLoader(LOADER.folder, server=server)
+        data = loader.load('sharecfg/island_formula.lua')
         out = {}
         for index, item in data.items():
             if not isinstance(index, int) or not (index // 10000 < 700 or index // 10000 >= 990):
@@ -401,8 +401,8 @@ class IslandActivityExtractor:
                 self.activity[index]['end_time']['tw'] = island_time_to_sql_time(item['time'][2])
 
     def extract_item_name(self, server):
-        LOADER.server = server
-        data = LOADER.load('sharecfg/activity_template.lua')
+        loader = LuaLoader(LOADER.folder, server=server)
+        data = loader.load('sharecfg/activity_template.lua')
         out = {}
         for index, item in data.items():
             if not isinstance(index, int) or not index in self.activity:
@@ -441,6 +441,10 @@ class IslandWildGatherExtractor:
             4030: 8,
             4031: 4,
             4032: 8,
+            4043: 4,
+            4044: 12,
+            4045: 6,
+            4046: 6,
         }
         self.gather = {}
         data = LOADER.load('sharecfg/island_wild_gather.lua')
@@ -538,8 +542,8 @@ class IslandSeasonExtractor:
                         season.setdefault('activity', []).append(activity_id)
 
     def extract_item_name(self, server):
-        LOADER.server = server
-        data = LOADER.load('sharecfg/island_season.lua')
+        loader = LuaLoader(LOADER.folder, server=server)
+        data = loader.load('sharecfg/island_season.lua')
         out = {}
         for index, item in data.items():
             if not isinstance(index, int):
@@ -645,8 +649,8 @@ class IslandTaskExtractor:
                 self.task[task_id]['target'] = {item['target_param'][0]: item['target_num']}
 
     def extract_item(self, server):
-        LOADER.server = server
-        data = LOADER.load('sharecfg/island_task.lua')
+        loader = LuaLoader(LOADER.folder, server=server)
+        data = loader.load('sharecfg/island_task.lua')
         out = {}
         for index, item in data.items():
             if not isinstance(index, int) or not item['id'] in self.task.keys():
@@ -755,8 +759,8 @@ class IslandShopExtractor:
         self.isolated_shop = {index: shop for index, shop in self.shop.items() if 10019 <= index < 10130}
 
     def extract_item(self, server):
-        LOADER.server = server
-        data = LOADER.load('sharecfg/island_shop_template.lua')
+        loader = LuaLoader(LOADER.folder, server=server)
+        data = loader.load('sharecfg/island_shop_template.lua')
         out = {}
         for index, item in data.items():
             out[index] = item
@@ -845,8 +849,8 @@ class IslandShopItemExtractor:
                 self.item[index]['end_time']['tw'] = island_time_to_sql_time(time_dict[1])
 
     def extract_item(self, server):
-        LOADER.server = server
-        data = LOADER.load('sharecfg/island_shop_goods.lua', keyword='pg.base.island_shop_goods')
+        loader = LuaLoader(LOADER.folder, server=server)
+        data = loader.load('sharecfg/island_shop_goods.lua', keyword='pg.base.island_shop_goods')
         out = {}
         for index, item in data.items():
             if not isinstance(index, int) or index < 100000 or index >= 412000:
@@ -931,8 +935,8 @@ class IslandProductionPlaceExtractor(IslandProductionCommission):
             self.place[index]['name']['tw'] = name
 
     def extract_place_name(self, server):
-        LOADER.server = server
-        data = LOADER.load('sharecfg/island_production_place.lua')
+        loader = LuaLoader(LOADER.folder, server=server)
+        data = loader.load('sharecfg/island_production_place.lua')
         out = {}
         for index, item in data.items():
             if not isinstance(index, int):
@@ -1030,8 +1034,8 @@ class IslandTechnologyExtractor:
         self.item = dict(sorted(self.item.items(), key=lambda x: x[0]))
 
     def extract_item_name(self, server):
-        LOADER.server = server
-        data = LOADER.load('sharecfg/island_technology_template.lua', keyword='pg.base.island_technology_template')
+        loader = LuaLoader(LOADER.folder, server=server)
+        data = loader.load('sharecfg/island_technology_template.lua', keyword='pg.base.island_technology_template')
         out = {}
         for index, item in data.items():
             if not isinstance(index, int) or item['tech_belong'] == 1:
