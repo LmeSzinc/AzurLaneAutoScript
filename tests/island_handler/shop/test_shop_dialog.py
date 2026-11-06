@@ -157,7 +157,7 @@ def test_confirmation_click_without_dialog_closing_is_not_success():
 
 def test_failed_purchase_result_propagates_to_shopping_routine():
     shop = SimpleNamespace(
-        island_shop_get_currency=lambda: {1: 1000},
+        island_shop_get_currency=lambda: {1: 2000},
         get_protected_items=lambda ids: {},
         island_shop_item_ids=[123],
         _island_shop_item_grid=SimpleNamespace(buttons=['item']),
