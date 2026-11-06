@@ -177,29 +177,24 @@ class IslandShop(IslandShopUI):
             return {}
 
     def island_shop_buy_ensure_amount(self, amount):
-        # having button of -10, -1, +1, +10, and the amount to buy, we can ensure the amount to buy by clicking these buttons
-        # try using least number of clicks
-        def middle_integer(N):
-            d = N - 1
-            q = d // 10
-            r = d % 10
-            if r <= 5:
-                middle = 10*q + 1
-            else:
-                middle = 10*(q + 1) + 1
-            return middle
-
+        """Select the exact amount, allowing ten-step clicks to hit the shop's limit."""
         if server.server in ['cn', 'tw']:
             lang = 'cnocr'
         else:
             lang = 'azur_lane'
         ocr = Digit([ISLAND_SHOP_BUY_AMOUNT], lang=lang, letter=(57, 58, 60), threshold=160, name="island_shop_buy_amount_ocr")
-        def one_tenth_ocr(image):
-            amount = ocr.ocr(image)
-            return amount // 10
 
-        self.ui_ensure_index(middle_integer(amount) // 10, one_tenth_ocr, ISLAND_SHOP_BUY_AMOUNT_PLUS_TEN, ISLAND_SHOP_BUY_AMOUNT_MINUS_TEN)
-        self.ui_ensure_index(amount, ocr, ISLAND_SHOP_BUY_AMOUNT_PLUS_ONE, ISLAND_SHOP_BUY_AMOUNT_MINUS_ONE)
+        def ten_step_index(image):
+            # Round the actual remaining distance to ten-step clicks, then finish
+            # with single steps. Clamping at either limit can shorten this phase.
+            diff = ocr.ocr(image) - amount
+            count = (abs(diff) + 4) // 10
+            return count if diff > 0 else -count
+
+        self.ui_ensure_index(0, ten_step_index,
+                             ISLAND_SHOP_BUY_AMOUNT_PLUS_TEN, ISLAND_SHOP_BUY_AMOUNT_MINUS_TEN)
+        self.ui_ensure_index(amount, ocr,
+                             ISLAND_SHOP_BUY_AMOUNT_PLUS_ONE, ISLAND_SHOP_BUY_AMOUNT_MINUS_ONE)
 
     def island_shop_buy_execute(self, button, amount):
         for _ in self.loop():
