@@ -153,11 +153,11 @@ class Device(Screenshot, Control, AppControl):
             if not (self.is_emulator and self.is_ldplayer_bluestacks_family):
                 logger.warning('ScreenshotMethod ldopengl is available on LD Player only, fallback to auto')
                 self.config.Emulator_ScreenshotMethod = 'auto'
-        # DroidCast is available on SDK 23 (Android 6.0) to SDK 32 (Android 12)
+        # DroidCast is available on SDK 23 (Android 6.0) and above
         if self.config.Emulator_ScreenshotMethod in ['DroidCast', 'DroidCast_raw']:
-            if self.sdk_ver < 23 or self.sdk_ver > 32:
+            if self.sdk_ver < 23:
                 logger.warning(f'ScreenshotMethod {self.config.Emulator_ScreenshotMethod} is available on '
-                               f'Android 6.0 to 12 only (current sdk_ver={self.sdk_ver}), fallback to auto')
+                               f'Android 6.0 and above only (current sdk_ver={self.sdk_ver}), fallback to auto')
                 self.config.Emulator_ScreenshotMethod = 'auto'
         if not IS_WINDOWS and self.config.Emulator_ScreenshotMethod in ['nemu_ipc', 'ldopengl']:
             logger.warning(f'ScreenshotMethod {self.config.Emulator_ScreenshotMethod} is available on Windows only, '

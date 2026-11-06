@@ -194,8 +194,9 @@ class Benchmark(DaemonBase, CampaignUI):
         if device == 'android_phone_vmos':
             screenshot = ['ADB', 'aScreenCap', 'DroidCast', 'DroidCast_raw']
             click = ['ADB', 'Hermit', 'MaaTouch']
-        # Droidcast on SDK 23 (Android 6.0) to SDK 32 (Android 12)
-        if not (23 <= sdk <= 32):
+        # Droidcast on SDK 23 (Android 6.0) and above
+        # DroidCast_raw v1.1 uses android.window.ScreenCapture on SDK 34+
+        if sdk < 23:
             screenshot = remove('DroidCast', 'DroidCast_raw')
 
         if self.device.nemu_ipc_available():
