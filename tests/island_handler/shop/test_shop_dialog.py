@@ -20,6 +20,12 @@ class RequestHumanTakeover(Exception):
 
 
 class FakeLogger:
+    def info(self, message):
+        pass
+
+    def warning(self, message):
+        pass
+
     def error(self, message):
         pass
 
