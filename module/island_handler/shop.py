@@ -5,6 +5,7 @@ from jellyfish import levenshtein_distance
 import module.config.server as server
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property, del_cached_property
+from module.base.timer import Timer
 from module.island.data import DIC_ISLAND_SHOP, DIC_ISLAND_SHOP_ITEM_TO_RECIPE, DIC_ISLAND_SHOP_RECIPE
 from module.island.utils import item_name_with_id
 from module.island_handler.assets import *
@@ -177,29 +178,63 @@ class IslandShop(IslandShopUI):
             return {}
 
     def island_shop_buy_ensure_amount(self, amount):
-        # having button of -10, -1, +1, +10, and the amount to buy, we can ensure the amount to buy by clicking these buttons
-        # try using least number of clicks
-        def middle_integer(N):
-            d = N - 1
-            q = d // 10
-            r = d % 10
-            if r <= 5:
-                middle = 10*q + 1
-            else:
-                middle = 10*(q + 1) + 1
-            return middle
+        """Select an exact purchase amount without overshooting a shop-imposed cap.
+
+        A shop can cap the quantity by available currency or stock. Overshooting
+        the requested amount with +10 can then make the intermediate target
+        unreachable, causing ui_ensure_index to click indefinitely.
+        """
+        if amount < 1:
+            logger.warning(f'Invalid island shop purchase amount: {amount}')
+            return False
 
         if server.server in ['cn', 'tw']:
             lang = 'cnocr'
         else:
             lang = 'azur_lane'
-        ocr = Digit([ISLAND_SHOP_BUY_AMOUNT], lang=lang, letter=(57, 58, 60), threshold=160, name="island_shop_buy_amount_ocr")
-        def one_tenth_ocr(image):
-            amount = ocr.ocr(image)
-            return amount // 10
+        ocr = Digit([ISLAND_SHOP_BUY_AMOUNT], lang=lang, letter=(57, 58, 60),
+                    threshold=160, name="island_shop_buy_amount_ocr")
 
-        self.ui_ensure_index(middle_integer(amount) // 10, one_tenth_ocr, ISLAND_SHOP_BUY_AMOUNT_PLUS_TEN, ISLAND_SHOP_BUY_AMOUNT_MINUS_TEN)
-        self.ui_ensure_index(amount, ocr, ISLAND_SHOP_BUY_AMOUNT_PLUS_ONE, ISLAND_SHOP_BUY_AMOUNT_MINUS_ONE)
+        retry = Timer(1, count=2)
+        last_amount = None
+        for _ in self.loop(timeout=max(30, amount)):
+            if not retry.reached():
+                continue
+            current = ocr.ocr(self.device.image)
+            if current == amount:
+                return True
+            if current < 1:
+                logger.warning(f'Invalid island shop purchase quantity OCR: {current}')
+                return False
+            if current == last_amount:
+                logger.warning(
+                    f'Island shop quantity is stuck at {current}, requested {amount}; '
+                    'purchase will be skipped'
+                )
+                return False
+            last_amount = current
+
+            diff = amount - current
+            if diff >= 10:
+                button = ISLAND_SHOP_BUY_AMOUNT_PLUS_TEN
+                clicks = min(diff // 10, 3)
+            elif diff > 0:
+                button = ISLAND_SHOP_BUY_AMOUNT_PLUS_ONE
+                clicks = min(diff, 3)
+            elif diff <= -10:
+                button = ISLAND_SHOP_BUY_AMOUNT_MINUS_TEN
+                clicks = min(-diff // 10, 3)
+            else:
+                button = ISLAND_SHOP_BUY_AMOUNT_MINUS_ONE
+                clicks = min(-diff, 3)
+
+            # Never step past the requested quantity. Small batches also bound
+            # the number of clicks if a quantity button is disabled by the game.
+            self.device.multi_click(button, n=clicks, interval=(0.2, 0.3))
+            retry.reset()
+
+        logger.warning(f'Timed out setting island shop quantity to {amount}')
+        return False
 
     def island_shop_buy_execute(self, button, amount):
         for _ in self.loop():
@@ -207,7 +242,14 @@ class IslandShop(IslandShopUI):
                 break
             if self.appear(BACK_ARROW_WHITE, offset=(20, 20), interval=2):
                 self.device.click(button)
-        self.island_shop_buy_ensure_amount(amount)
+        if not self.island_shop_buy_ensure_amount(amount):
+            # Leave the purchase dialog without confirming an incorrect amount.
+            for _ in self.loop(timeout=5):
+                if not self.appear(ISLAND_SHOP_BUY_CHECK, offset=(20, 20)):
+                    break
+                if self.appear(BACK_ARROW_WHITE, offset=(20, 20), interval=2):
+                    self.device.click(BACK_ARROW_WHITE)
+            return False
         for _ in self.loop():
             if self.handle_island_additional():
                 self.interval_reset(BACK_ARROW_WHITE)
@@ -236,8 +278,7 @@ class IslandShop(IslandShopUI):
             return False
         for id, button in zip(self.island_shop_item_ids, self._island_shop_item_grid.buttons):
             if id == recipe_id:
-                self.island_shop_buy_execute(button, amount)
-                return True
+                return self.island_shop_buy_execute(button, amount) is not False
         logger.warning(f'{shop_recipe_name_with_id(recipe_id)} not found in shop')
         return False
 
