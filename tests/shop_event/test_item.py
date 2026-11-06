@@ -132,3 +132,57 @@ def test_price_135_total_15_is_equip_ssr():
 
     assert item.name == 'EquipSSR'
     assert item.cost == 'pt'
+
+
+def make_ship_item(count, total_count, tag=None):
+    item = object.__new__(EventShopItem)
+    item.is_ship = True
+    item.count = count
+    item.total_count = total_count
+    item.tag = tag
+    return item
+
+
+@pytest.mark.parametrize('count, total_count, tag, expected', [
+    # The `unobtained` tag is a positive signal: present means the ship is
+    # still locked, absent means there is nothing to unlock here.
+    (5, 5, 'unobtained', True),
+    (5, 5, None, False),
+    (4, 5, None, False),
+    (1, 1, 'unobtained', True),
+    (0, 0, 'unobtained', True),
+])
+def test_is_unobtained_ship(count, total_count, tag, expected):
+    assert make_ship_item(count, total_count, tag).is_unobtained_ship() is expected
+
+
+@pytest.mark.parametrize('count, total_count, tag', [
+    (5, 5, 'unobtained'),
+    (3, 4, None),
+    (1, 1, None),
+])
+def test_is_unobtained_ship_rejects_non_ship_items(count, total_count, tag):
+    """An item priced without PT is not a ship, whatever its tag."""
+    item = object.__new__(EventShopItem)
+    item.is_ship = False
+    item.count = count
+    item.total_count = total_count
+    item.tag = tag
+
+    assert item.is_unobtained_ship() is False
+
+
+@pytest.mark.parametrize('count, total_count, expected', [
+    # Ships are stocked 5 at a time, so 4/5 proves a copy was already bought.
+    (4, 5, True),
+    (3, 5, True),
+    (0, 5, True),
+    (5, 5, False),
+    # A total other than 5 is not trusted, it may be an OCR misread.
+    (2, 3, False),
+    (0, 1, False),
+    (3, 10, False),
+    (0, 0, False),
+])
+def test_is_partially_bought(count, total_count, expected):
+    assert make_ship_item(count, total_count).is_partially_bought() is expected

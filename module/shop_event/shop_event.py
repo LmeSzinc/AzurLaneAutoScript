@@ -129,48 +129,50 @@ class EventShop(EventShopClerk):
             return other_items, urpt_items + coin_items
 
     def handle_unobtained_items(self, items: List[EventShopItem], buy_unobtained_items=False) \
-            -> Tuple[List[EventShopItem], List[EventShopItem]]:
+            -> List[EventShopItem]:
         """
-        Buy all items (ships) with tag "unobtained" in the event shop.
+        Buy one copy of each unobtained ship to unlock it.
+
         This should be done after handling URpt-related items but before buying other items.
 
-        For items with stock more than 1, should buy only one and let filter string decide whether to buy more.
-        The second return value will contain items with stock more than 1 that have been bought once,
-        so that the caller can (and maybe should) rescan the shop.
+        A ship is bought only to unlock it, so ships never reach the filter string,
+        which would otherwise buy duplicates of it. A ship still needs the unlock
+        purchase when the shop marks it as unobtained and its stock counter shows
+        no copy was bought in this event yet.
 
         Args:
             items (List[EventShopItem]): List of items to buy.
             buy_unobtained_items (bool): Whether to buy unobtained items. Default is False.
+
+        Returns:
+            List[EventShopItem]: Non-ship items, to be handled by the filter and the purchase loop.
         """
-        if not buy_unobtained_items:
-            return items, []
-        unobtained_items = []
         other_items = []
+        ships = []
+        skipped = []
         for item in items:
-            if item.tag == "unobtained":
-                unobtained_items.append(item)
-            else:
+            if not item.is_ship:
                 other_items.append(item)
-        if not unobtained_items:
-            return other_items, []
+            elif item.is_unobtained_ship() and not item.is_partially_bought():
+                ships.append(item)
+            else:
+                skipped.append(item)
+        if skipped:
+            logger.info(f"Skip ships that need no unlock: {[str(item) for item in skipped]}")
+        if not buy_unobtained_items or not ships:
+            return other_items
         if not self.is_event_ended:
             logger.info("Event is not ended, preserve pt for unobtained items. May also wait for event map drop.")
-            self.preserve_pt(sum(item.price for item in unobtained_items))
-            return other_items, []
+            self.preserve_pt(sum(item.price for item in ships))
+            return other_items
 
-        multiple_items = []
-        logger.info(f"Attempting to buy unobtained items: {[str(item) for item in unobtained_items]}")
-        for item in unobtained_items:
-            self.event_shop_buy_item(item)
+        logger.info(f"Attempting to buy unobtained items: {[str(item) for item in ships]}")
+        for item in ships:
+            # A ship can only be bought one at a time, one copy is enough to unlock.
+            self.event_shop_buy_item(item, amount=1)
             logger.info(f"Successfully bought unobtained item: {str(item)}")
-            if item.count > 1:
-                item.count -= 1
-                multiple_items.append(item)
-            else:
-                # If the item has stock 1, it won't appear in the rescan.
-                pass
 
-        return items, multiple_items
+        return other_items
 
     def calculate_affordable_amount(self, item: EventShopItem) -> int:
         if item.name == "Oil":
@@ -198,8 +200,7 @@ class EventShop(EventShopClerk):
         self.get_current_pts()
         items, urpt_related_items = self.handle_items_related_with_urpt(items, self.config.EventShop_BuyURShip)
         self.get_current_pts()
-        items, unobtained_multiple_stock_items = self.handle_unobtained_items(items, self.config.EventShop_UnlockSSRShip)
-        items += unobtained_multiple_stock_items
+        items = self.handle_unobtained_items(items, self.config.EventShop_UnlockSSRShip)
 
         if self.config.EventShop_PresetFilter == 'custom':
             filter = self.config.EventShop_CustomFilter
