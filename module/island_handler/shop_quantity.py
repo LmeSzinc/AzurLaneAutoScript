@@ -50,3 +50,15 @@ def ensure_purchase_quantity(target, read_amount, press):
         current = updated
 
     return current == target
+
+def close_purchase_dialog(is_open, try_close, max_attempts=4):
+    """Attempt to dismiss a failed purchase, verifying that it really closed.
+
+    Never report success while the purchase dialog is still visible. The caller
+    must stop automation and request intervention if this returns False.
+    """
+    for _ in range(max_attempts):
+        if not is_open():
+            return True
+        try_close()
+    return not is_open()
