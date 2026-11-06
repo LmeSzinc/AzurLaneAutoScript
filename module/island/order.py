@@ -246,6 +246,11 @@ class IslandOrder(IslandUI):
             return True
         return False
 
+    def handle_island_additional(self):
+        if self.appear_then_click(ISLAND_ORDER_SPEED_UP_CLOSE, offset=(20, 20)):
+            return True
+        return super().handle_island_additional()
+
     def click_order(self, order_button, is_urgent=False):
         click_timer = Timer(1, count=3)
         for _ in self.loop(timeout=5, skip_first=False):
