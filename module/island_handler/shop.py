@@ -5,10 +5,10 @@ from jellyfish import levenshtein_distance
 import module.config.server as server
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property, del_cached_property
-from module.base.timer import Timer
 from module.island.data import DIC_ISLAND_SHOP, DIC_ISLAND_SHOP_ITEM_TO_RECIPE, DIC_ISLAND_SHOP_RECIPE
 from module.island.utils import item_name_with_id
 from module.island_handler.assets import *
+from module.island_handler.shop_quantity import ensure_purchase_quantity
 from module.island_handler.shop_ui import IslandShopUI
 from module.logger import logger
 from module.ocr.ocr import Digit, Ocr
@@ -178,63 +178,31 @@ class IslandShop(IslandShopUI):
             return {}
 
     def island_shop_buy_ensure_amount(self, amount):
-        """Select an exact purchase amount without overshooting a shop-imposed cap.
-
-        A shop can cap the quantity by available currency or stock. Overshooting
-        the requested amount with +10 can then make the intermediate target
-        unreachable, causing ui_ensure_index to click indefinitely.
-        """
-        if amount < 1:
-            logger.warning(f'Invalid island shop purchase amount: {amount}')
-            return False
-
+        """Choose an exact purchase amount, respecting stock and currency caps."""
         if server.server in ['cn', 'tw']:
             lang = 'cnocr'
         else:
             lang = 'azur_lane'
         ocr = Digit([ISLAND_SHOP_BUY_AMOUNT], lang=lang, letter=(57, 58, 60),
                     threshold=160, name="island_shop_buy_amount_ocr")
+        buttons = {
+            'plus_ten': ISLAND_SHOP_BUY_AMOUNT_PLUS_TEN,
+            'plus_one': ISLAND_SHOP_BUY_AMOUNT_PLUS_ONE,
+            'minus_ten': ISLAND_SHOP_BUY_AMOUNT_MINUS_TEN,
+            'minus_one': ISLAND_SHOP_BUY_AMOUNT_MINUS_ONE,
+        }
 
-        retry = Timer(1, count=2)
-        last_amount = None
-        for _ in self.loop(timeout=max(30, amount)):
-            if not retry.reached():
-                continue
-            current = ocr.ocr(self.device.image)
-            if current == amount:
-                return True
-            if current < 1:
-                logger.warning(f'Invalid island shop purchase quantity OCR: {current}')
-                return False
-            if current == last_amount:
-                logger.warning(
-                    f'Island shop quantity is stuck at {current}, requested {amount}; '
-                    'purchase will be skipped'
-                )
-                return False
-            last_amount = current
+        def read_amount():
+            self.device.screenshot()
+            return ocr.ocr(self.device.image)
 
-            diff = amount - current
-            if diff >= 10:
-                button = ISLAND_SHOP_BUY_AMOUNT_PLUS_TEN
-                clicks = min(diff // 10, 3)
-            elif diff > 0:
-                button = ISLAND_SHOP_BUY_AMOUNT_PLUS_ONE
-                clicks = min(diff, 3)
-            elif diff <= -10:
-                button = ISLAND_SHOP_BUY_AMOUNT_MINUS_TEN
-                clicks = min(-diff // 10, 3)
-            else:
-                button = ISLAND_SHOP_BUY_AMOUNT_MINUS_ONE
-                clicks = min(-diff, 3)
+        def press(button_name, count):
+            self.device.multi_click(buttons[button_name], n=count, interval=(0.2, 0.3))
 
-            # Never step past the requested quantity. Small batches also bound
-            # the number of clicks if a quantity button is disabled by the game.
-            self.device.multi_click(button, n=clicks, interval=(0.2, 0.3))
-            retry.reset()
-
-        logger.warning(f'Timed out setting island shop quantity to {amount}')
-        return False
+        success = ensure_purchase_quantity(amount, read_amount, press)
+        if not success:
+            logger.warning(f'Unable to set island shop purchase quantity to {amount}; skipping purchase')
+        return success
 
     def island_shop_buy_execute(self, button, amount):
         for _ in self.loop():
