@@ -227,16 +227,22 @@ class IslandShop(IslandShopUI):
                 logger.error('Island shop purchase dialog remained open after cancellation attempts')
                 raise RequestHumanTakeover('Unable to dismiss Island Shop purchase dialog')
             return False
-        for _ in self.loop():
+        # The back arrow can be visible behind the purchase dialog. It is not
+        # proof of a completed purchase until the confirmation was clicked and
+        # the dialog is no longer visible.
+        confirm_clicked = False
+        for _ in self.loop(timeout=15):
             if self.handle_island_additional():
                 self.interval_reset(BACK_ARROW_WHITE)
                 continue
-            if self.appear_then_click(ISLAND_SHOP_BUY_CONFIRM, offset=(20, 20), interval=3):
-                self.interval_reset(BACK_ARROW_WHITE)
+            if self.appear(ISLAND_SHOP_BUY_CHECK, offset=(20, 20)):
+                if self.appear_then_click(ISLAND_SHOP_BUY_CONFIRM, offset=(20, 20), interval=3):
+                    confirm_clicked = True
+                    self.interval_reset(BACK_ARROW_WHITE)
                 continue
-            if self.appear(BACK_ARROW_WHITE, offset=(20, 20), interval=2):
-                break
-        return True
+            if confirm_clicked and self.appear(BACK_ARROW_WHITE, offset=(20, 20), interval=2):
+                return True
+        raise RequestHumanTakeover('Unable to verify Island Shop purchase completion')
 
     def island_shop_buy_in_page(self, recipe_id, amount=1):
         currency_id = list(DIC_ISLAND_SHOP_RECIPE[recipe_id]['resource_consume'].keys())[0]
