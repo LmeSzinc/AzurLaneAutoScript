@@ -1,95 +1,76 @@
-"""Regression tests for capped Island Shop purchase quantity selectors."""
-import pytest
+"""Unit tests for the Island Shop quantity selector (no ALAS emulator required)."""
 
-import module.island_handler.shop as shop_module
-from module.island_handler.shop import IslandShop
+from module.island_handler.shop_quantity import ensure_purchase_quantity
 
 
-class FakeDevice:
+class FakeCounter:
+    """Simulate the in-game quantity selector and a maximum affordable amount."""
+
     def __init__(self, quantity=1, cap=999):
-        self.image = object()
         self.quantity = quantity
         self.cap = cap
         self.clicks = []
 
-    def screenshot(self):
-        pass
+    def read(self):
+        return self.quantity
 
-    def multi_click(self, button, n, interval):
-        self.clicks.append((button, n))
-        if button is shop_module.ISLAND_SHOP_BUY_AMOUNT_PLUS_TEN:
-            self.quantity = min(self.cap, self.quantity + 10 * n)
-        elif button is shop_module.ISLAND_SHOP_BUY_AMOUNT_PLUS_ONE:
-            self.quantity = min(self.cap, self.quantity + n)
-        elif button is shop_module.ISLAND_SHOP_BUY_AMOUNT_MINUS_TEN:
-            self.quantity = max(1, self.quantity - 10 * n)
-        elif button is shop_module.ISLAND_SHOP_BUY_AMOUNT_MINUS_ONE:
-            self.quantity = max(1, self.quantity - n)
-        else:
-            raise AssertionError(f'Unexpected quantity button: {button}')
+    def press(self, button, count):
+        self.clicks.append((button, count))
+        direction = 1 if button.startswith('plus') else -1
+        size = 10 if button.endswith('ten') else 1
+        self.quantity = max(1, min(self.cap, self.quantity + direction * size * count))
 
 
-class FakeTimer:
-    def __init__(self, *args, **kwargs):
-        pass
-
-    def reached(self):
-        return True
-
-    def reset(self):
-        pass
+def test_request_18_with_affordable_cap_19():
+    # Original production failure: 1183 coins, 60 per seed, 18 requested.
+    counter = FakeCounter(cap=19)
+    assert ensure_purchase_quantity(18, counter.read, counter.press)
+    assert counter.quantity == 18
+    assert counter.clicks[0] == ('plus_ten', 1)
+    assert len(counter.clicks) <= 5
 
 
-class FakeDigit:
-    def __init__(self, *args, **kwargs):
-        pass
-
-    def ocr(self, image):
-        return active_device.quantity
-
-
-active_device = None
+def test_unreachable_request_stops_without_click_loop():
+    counter = FakeCounter(cap=19)
+    assert not ensure_purchase_quantity(20, counter.read, counter.press)
+    assert counter.quantity == 19
+    assert len(counter.clicks) <= 6
 
 
-@pytest.fixture
-def purchase_shop(monkeypatch):
-    global active_device
-    active_device = FakeDevice()
-    monkeypatch.setattr(shop_module, 'Digit', FakeDigit)
-    monkeypatch.setattr(shop_module, 'Timer', FakeTimer)
-    shop = object.__new__(IslandShop)
-    shop.device = active_device
-    shop.loop = lambda timeout=None: (None for _ in range(100))
-    yield shop
-    active_device = None
+def test_selector_stuck_at_initial_quantity():
+    counter = FakeCounter(cap=1)
+    assert not ensure_purchase_quantity(18, counter.read, counter.press)
+    assert counter.quantity == 1
+    assert len(counter.clicks) == 1
 
 
-def test_purchase_quantity_below_affordable_cap(purchase_shop):
-    # Reproduction: 18 seeds requested, affordable maximum is 19.
-    purchase_shop.device.cap = 19
-    assert purchase_shop.island_shop_buy_ensure_amount(18) is True
-    assert purchase_shop.device.quantity == 18
-    assert sum(n for _, n in purchase_shop.device.clicks) < 25
+def test_can_decrease_existing_quantity():
+    counter = FakeCounter(quantity=25)
+    assert ensure_purchase_quantity(18, counter.read, counter.press)
+    assert counter.quantity == 18
+    assert counter.clicks[0] == ('minus_one', 3)
 
 
-def test_purchase_quantity_above_affordable_cap_exits(purchase_shop):
-    purchase_shop.device.cap = 19
-    assert purchase_shop.island_shop_buy_ensure_amount(20) is False
-    assert purchase_shop.device.quantity == 19
-    assert len(purchase_shop.device.clicks) < 10
+def test_large_increment_and_exact_quantity():
+    counter = FakeCounter()
+    assert ensure_purchase_quantity(31, counter.read, counter.press)
+    assert counter.quantity == 31
+    assert counter.clicks == [('plus_ten', 3)]
 
 
-def test_purchase_quantity_can_decrease(purchase_shop):
-    purchase_shop.device.quantity = 25
-    assert purchase_shop.island_shop_buy_ensure_amount(18) is True
-    assert purchase_shop.device.quantity == 18
+def test_one_item_needs_no_clicks():
+    counter = FakeCounter()
+    assert ensure_purchase_quantity(1, counter.read, counter.press)
+    assert counter.clicks == []
 
 
-def test_purchase_quantity_one_needs_no_clicks(purchase_shop):
-    assert purchase_shop.island_shop_buy_ensure_amount(1) is True
-    assert purchase_shop.device.clicks == []
+def test_invalid_target_does_not_click():
+    counter = FakeCounter()
+    assert not ensure_purchase_quantity(0, counter.read, counter.press)
+    assert counter.clicks == []
 
 
-def test_invalid_purchase_quantity_exits(purchase_shop):
-    assert purchase_shop.island_shop_buy_ensure_amount(0) is False
-    assert purchase_shop.device.clicks == []
+def test_invalid_ocr_amount_does_not_click():
+    counter = FakeCounter(quantity=0)
+    assert not ensure_purchase_quantity(18, counter.read, counter.press)
+    assert counter.clicks == []
