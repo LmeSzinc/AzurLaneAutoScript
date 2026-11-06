@@ -116,6 +116,7 @@ class IslandRecipe:
         In the file 'sharecfg/island_formula.lua':
         id: serial of this recipe
         name: name in server, default to CN
+        attribute: production category, 4 = restaurant
         workload: using time with unit 0.1 second.
         commission_cost: a nested dict of ingredients, each being a pair of item id and count
         production_limit: consecutive commission upper bound for one commission handle
@@ -124,6 +125,7 @@ class IslandRecipe:
         """
         self.id = recipe['id']
         # self.name = recipe['name']
+        self.attribute = recipe['attribute']
         self.workload = recipe['workload']
         self.commission_cost = recipe['commission_cost']
         self.production_limit = recipe['production_limit']
@@ -139,6 +141,7 @@ class IslandRecipe:
                     'jp': '',
                     'tw': '',
                 },
+                'attribute': self.attribute,
                 'workload': self.workload,
                 'commission_cost': unpack_ingredient_dic(self.commission_cost),
                 'production_limit': self.production_limit,
