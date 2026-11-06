@@ -5,6 +5,8 @@ such as when only 19 seeds can be afforded but 18 are requested. Adjust only
 toward the exact amount, checking the displayed quantity after each batch.
 """
 
+from numbers import Integral
+
 
 def quantity_adjustment(current, target):
     """Return (button_name, clicks) without overshooting the desired quantity."""
@@ -28,11 +30,11 @@ def ensure_purchase_quantity(target, read_amount, press):
     This helper deliberately has no ALAS imports, so behavior can be unit-tested
     without loading the emulator, OCR models, or image processing libraries.
     """
-    if not isinstance(target, int) or target < 1:
+    if not isinstance(target, Integral) or target < 1:
         return False
 
     current = read_amount()
-    if not isinstance(current, int) or current < 1:
+    if not isinstance(current, Integral) or current < 1:
         return False
 
     # At most three +/-10 clicks in a batch, followed by a fresh OCR check.
@@ -43,7 +45,7 @@ def ensure_purchase_quantity(target, read_amount, press):
         button, clicks = quantity_adjustment(current, target)
         press(button, clicks)
         updated = read_amount()
-        if not isinstance(updated, int) or updated < 1 or updated == current:
+        if not isinstance(updated, Integral) or updated < 1 or updated == current:
             return False
         current = updated
 
