@@ -8,7 +8,8 @@ from module.base.decorator import cached_property, del_cached_property
 from module.island.data import DIC_ISLAND_SHOP, DIC_ISLAND_SHOP_ITEM_TO_RECIPE, DIC_ISLAND_SHOP_RECIPE
 from module.island.utils import item_name_with_id
 from module.island_handler.assets import *
-from module.island_handler.shop_quantity import ensure_purchase_quantity
+from module.exception import RequestHumanTakeover
+from module.island_handler.shop_quantity import close_purchase_dialog, ensure_purchase_quantity
 from module.island_handler.shop_ui import IslandShopUI
 from module.logger import logger
 from module.ocr.ocr import Digit, Ocr
@@ -211,12 +212,20 @@ class IslandShop(IslandShopUI):
             if self.appear(BACK_ARROW_WHITE, offset=(20, 20), interval=2):
                 self.device.click(button)
         if not self.island_shop_buy_ensure_amount(amount):
-            # Leave the purchase dialog without confirming an incorrect amount.
-            for _ in self.loop(timeout=5):
-                if not self.appear(ISLAND_SHOP_BUY_CHECK, offset=(20, 20)):
-                    break
-                if self.appear(BACK_ARROW_WHITE, offset=(20, 20), interval=2):
+            # A failed quantity adjustment must never confirm an incorrect amount.
+            # Check the dialog actually closes before returning to the recipe.
+            def dialog_is_open():
+                self.device.screenshot()
+                return self.appear(ISLAND_SHOP_BUY_CHECK, offset=(20, 20))
+
+            def try_close():
+                if self.appear(BACK_ARROW_WHITE, offset=(20, 20)):
                     self.device.click(BACK_ARROW_WHITE)
+                self.device.sleep(0.5)
+
+            if not close_purchase_dialog(dialog_is_open, try_close):
+                logger.error('Island shop purchase dialog remained open after cancellation attempts')
+                raise RequestHumanTakeover('Unable to dismiss Island Shop purchase dialog')
             return False
         for _ in self.loop():
             if self.handle_island_additional():
@@ -227,6 +236,7 @@ class IslandShop(IslandShopUI):
                 continue
             if self.appear(BACK_ARROW_WHITE, offset=(20, 20), interval=2):
                 break
+        return True
 
     def island_shop_buy_in_page(self, recipe_id, amount=1):
         currency_id = list(DIC_ISLAND_SHOP_RECIPE[recipe_id]['resource_consume'].keys())[0]
@@ -246,7 +256,7 @@ class IslandShop(IslandShopUI):
             return False
         for id, button in zip(self.island_shop_item_ids, self._island_shop_item_grid.buttons):
             if id == recipe_id:
-                return self.island_shop_buy_execute(button, amount) is not False
+                return self.island_shop_buy_execute(button, amount)
         logger.warning(f'{shop_recipe_name_with_id(recipe_id)} not found in shop')
         return False
 
