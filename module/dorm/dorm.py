@@ -334,7 +334,10 @@ class RewardDorm(UI):
         timeout = Timer(1.5, count=3).start()
         food: t.List[Food] = []
         fill: int = 0
-        for _ in self.loop():
+        # loop() defaults to skip_first=True and this loop breaks on the first
+        # iteration that finds food, so dorm_feed() reuses the screenshot taken
+        # when entering DORM_FEED_CHECK and the fill level never updates.
+        for _ in self.loop(skip_first=False):
             # End
             if timeout.reached():
                 logger.warning('Get dorm food timeout, probably because food is empty')
