@@ -139,33 +139,6 @@ class EventShopItem(Item):
         luma = rgb2luma(self.image)
         return np.mean(luma > 127) >= 0.2
 
-    def is_unobtained_ship(self):
-        """
-        Whether the shop still marks this item as a ship that is not obtained.
-
-        The event shop shows the `unobtained` tag only for ships the player does
-        not own, so this is the only positive signal that a purchase is needed.
-        An absent tag is not proof of ownership, it only means there is nothing
-        to unlock, so a ship without the tag must not be bought.
-
-        Returns:
-            bool: True if this item is a ship and is still marked as unobtained.
-        """
-        return self.is_ship and self.tag == 'unobtained'
-
-    def is_partially_bought(self):
-        """
-        Whether the stock counter shows a copy was already bought.
-
-        Event shop ships are stocked 5 at a time, so a consumed counter such as
-        4/5 means at least one copy was bought in this event. A total other than
-        5 is not trusted, because it may come from an OCR misread of the counter.
-
-        Returns:
-            bool: True if the counter proves a copy was already bought.
-        """
-        return self.total_count == 5 and self.count < 5
-
     @property
     def scroll_pos(self):
         return self._scroll_pos
@@ -206,13 +179,11 @@ class EventShopItem(Item):
                 self.name = 'URpt'
             elif self.name.isdigit():
                 logger.warning(f'Unrecognized item with price {self.price} and total count {self.total_count}, '
-                               # f'defaulting to EquipSSR')
-                               f'saving image for analysis.')
+                               f'using EquipSSR filter priority and saving image for analysis.')
                 import os
                 from module.base.utils import save_image
                 os.mkdir('assets/shop/event/new_templates/') if not os.path.exists('assets/shop/event/new_templates/') else None
                 save_image(self.image, f'assets/shop/event/new_templates/{self.name}.png')
-                # self.name = 'EquipSSR'
 
     def predict_genre(self):
         self.group, self.sub_genre, self.tier = None, None, None
@@ -220,6 +191,10 @@ class EventShopItem(Item):
         # Can use regular expression to quickly populate
         # the new attributes
         name = self.name.lower()
+        if not self.is_known_item():
+            # Unknown event rewards may be important. Keep their template names
+            # for rescanning, but give them the same filter priority as SSR equipment.
+            name = 'equipssr'
         result = re.search(FILTER_REGEX, name)
         if result:
             self.group, self.sub_genre, self.tier = \
