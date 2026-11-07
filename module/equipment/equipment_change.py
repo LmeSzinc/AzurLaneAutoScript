@@ -97,8 +97,7 @@ class EquipmentChange(Equipment):
                 self.handle_info_bar()
                 self._find_equipment(index)
 
-    @Config.when(DEVICE_CONTROL_METHOD='minitouch')
-    def _equipment_swipe(self, distance=190):
+    def _equipment_swipe_touchlike(self, distance=190):
         # Distance of two commission is 146px
         p1, p2 = random_rectangle_vector(
             (0, -distance), box=(620, 67, 1154, 692), random_range=(-20, -5, 20, 5))
@@ -106,6 +105,14 @@ class EquipmentChange(Equipment):
                          point_random=(0, 0, 0, 0), shake_random=(-5, 0, 5, 0))
         self.device.sleep(0.3)
         self.device.screenshot()
+
+    @Config.when(DEVICE_CONTROL_METHOD='minitouch')
+    def _equipment_swipe(self, distance=190):
+        self._equipment_swipe_touchlike(distance=distance)
+
+    @Config.when(DEVICE_CONTROL_METHOD='playcover')
+    def _equipment_swipe(self, distance=190):
+        self._equipment_swipe_touchlike(distance=distance)
 
     @Config.when(DEVICE_CONTROL_METHOD=None)
     def _equipment_swipe(self, distance=300):
