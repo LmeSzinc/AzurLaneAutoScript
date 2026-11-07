@@ -61,9 +61,9 @@ class StrategicSearchHandler(MapEventHandler):
         logger.info('Strategic search set option')
         is_jp = self.config.SERVER == 'jp'
         if is_jp:
-            # Keep the wrapped zone choices and merchant choices visible together.
-            STRATEGIC_SEARCH_SCROLL.drag_threshold = 0.01
-            STRATEGIC_SEARCH_SCROLL.set(0.17, main=self, random_range=(-0.01, 0.01), distance_check=False)
+            # Center both tick rows in the viewport to leave room for scroll variation.
+            STRATEGIC_SEARCH_SCROLL.drag_threshold = 0.05
+            STRATEGIC_SEARCH_SCROLL.set(0.12, main=self, distance_check=False)
             if not self._strategy_search_scroll_appear():
                 return False
 
