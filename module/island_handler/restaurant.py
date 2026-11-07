@@ -44,15 +44,13 @@ _RESTAURANT_ITEM_IDS = {
     for menu in DIC_ISLAND_RESTAURANT_MENU_TO_RECIPE.values()
     for item_id in menu.keys()
 }
-# Seasonal restaurant recipes are kept in the general recipe table instead of
-# the current menu rotation.  Their item data marks them as restaurant food
-# with manage_influence=250, so derive these entries from the same business
-# data rather than maintaining a second list of historical IDs.
+# Include dishes from past seasons using the recipe's restaurant category.
+# Influence affects sales quantity and is also nonzero for some factory products.
 _RESTAURANT_ITEM_IDS.update(
     item_id
     for recipe in DIC_ISLAND_RECIPE.values()
+    if recipe['attribute'] == 4
     for item_id in recipe.get('commission_product', {})
-    if DIC_ISLAND_ITEM.get(item_id, {}).get('manage_influence') == 250
 )
 ISLAND_RESTAURANT_ITEM_ORDER_PRICE = {
     DIC_ISLAND_ITEM[item_id]['name']['en'].replace(' ', '_'): {
