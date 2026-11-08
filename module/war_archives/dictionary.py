@@ -51,4 +51,5 @@ dic_archives_template = {
     'war_archives_20240725_cn': TEMPLATE_INTERLUDE_OF_ILLUSIONS,
     'war_archives_20241024_cn': TEMPLATE_TEMPESTA_AND_THE_SLEEPING_SEA,
     'war_archives_20251023_cn': TEMPLATE_TEMPESTA_AND_ISLAS_DE_LIBERTAD,
+    'war_archives_20230817_cn': TEMPLATE_THE_FOOLS_SCALES,
 }
