@@ -256,7 +256,7 @@
     },
     "OpsiCrossMonth": {
       "name": "Cross Month Daily",
-      "help": "    ALAS will enter OpSi 10min before OpSi reset, wait until OpSi reset but not exit OpSi. Then do the daily, obscure, abyssal and meowfficer farming to get extra gold plates. When running dailies, settings in task \"OpSiDaily\" are used, the rest function are the same.\n    IMPORTANT: Please do not touch the game while ALAS is waiting for OpSi reset."
+      "help": "ALAS will enter OpSi 10min before OpSi reset, wait until OpSi reset but not exit OpSi. Then do the daily, obscure, abyssal and meowfficer farming to get extra gold plates. When running dailies, settings in task \"OpSiDaily\" are used, the rest function are the same.\nIMPORTANT: Please do not touch the game while ALAS is waiting for OpSi reset."
     },
     "IslandProduction": {
       "name": "Island Production",
@@ -872,6 +872,7 @@
       "war_archives_20230223_cn": "archives Revelations of Dust",
       "war_archives_20230525_cn": "archives Confluence of Nothingness",
       "war_archives_20230803_cn": "archives Anthem of Remembrance",
+      "war_archives_20230817_cn": "archives The Fools Scales",
       "war_archives_20231026_cn": "archives Tempesta and the Fountain of Youth",
       "war_archives_20240725_cn": "archives Interlude of Illusions",
       "war_archives_20241024_cn": "archives Tempesta and the Sleeping Sea",
@@ -2128,7 +2129,7 @@
     },
     "ClaimMaintenance": {
       "name": "Claim Maintenance Mails",
-      "help": "Mail.ClaimMaintenance.help"
+      "help": ""
     },
     "ClaimTradeLicense": {
       "name": "Claim Trade License Mails",
