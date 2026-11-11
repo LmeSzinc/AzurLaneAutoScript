@@ -73,6 +73,20 @@ class Event:
         return hash(str(self))
 
 
+class IslandSeason:
+    def __init__(self, text):
+        self.start_date, self.end_date, self.namespace, self.name, cn, en, jp, tw \
+            = [cell.strip() for cell in text.strip('| \n').split('|')]
+        self.namespace = self.namespace.replace(' ', '_')
+        self.names = {
+            'cn': cn.replace('、', ''),
+            'en': en.replace(',', '').replace("'", '').replace('\\', ''),
+            'jp': jp.replace('、', ''),
+            'tw': tw.replace('、', ''),
+        }
+        self.names = {server: name for server, name in self.names.items() if name != '-'}
+
+
 class ConfigGenerator:
     @cached_property
     def argument(self):
@@ -311,6 +325,7 @@ class ConfigGenerator:
         for event in sorted(self.event):
             name = events.get(event.directory, event.directory)
             deep_set(new, keys=f'Campaign.Event.{event.directory}', value=name)
+        self.insert_island_season_names(new, lang)
         # Package names
         for package, server in VALID_PACKAGE.items():
             path = ['Emulator', 'PackageName', package]
@@ -470,6 +485,40 @@ class ConfigGenerator:
                 deep_set(self.args, keys=f'{task}.Campaign.Event.option_bold', value=options)
             deep_set(self.args, keys=f'{task}.Campaign.Event.option', value=options)
 
+    @cached_property
+    def island_season(self):
+        """Read released season namespaces and names from the island list."""
+        with open('./module/island/README.md', encoding='utf-8') as f:
+            rows = [IslandSeason(text) for text in f if re.match(r'^\|\s*\d{8}\s*\|', text)]
+        return sorted(rows, key=lambda season: season.start_date, reverse=True)
+
+    def insert_island_season(self):
+        argument = self.argument['IslandGeneral']['Season']
+        for server in SERVER_TO_LANG:
+            argument[f'option_{server}'] = [
+                season.namespace for season in self.island_season if server in season.names
+            ][:1]
+        options = sorted({
+            namespace for server in SERVER_TO_LANG
+            for namespace in argument[f'option_{server}']
+        })
+        argument['option'] = options
+        argument['option_bold'] = options
+        argument['value'] = argument['option_cn'][0]
+        deep_set(self.args, keys='IslandGeneral.IslandGeneral.Season', value=deepcopy(argument))
+
+    def insert_island_season_names(self, i18n, lang):
+        # Names come from SameLanguageServer > en > cn > jp > tw.
+        names = {}
+        for server in [LANG_TO_SERVER.get(lang), 'en', 'cn', 'jp', 'tw']:
+            for season in self.island_season:
+                name = season.names.get(server)
+                if name:
+                    names.setdefault(season.namespace, name)
+        for season in sorted(self.island_season, key=lambda season: season.namespace):
+            name = names.get(season.namespace, season.namespace)
+            deep_set(i18n, keys=f'IslandGeneral.Season.{season.namespace}', value=name)
+
     @staticmethod
     def generate_deploy_template():
         template = poor_yaml_read(DEPLOY_TEMPLATE)
@@ -540,6 +589,7 @@ class ConfigGenerator:
         _ = self.menu
         _ = self.event
         self.insert_event()
+        self.insert_island_season()
         self.insert_package()
         self.insert_server()
         write_file(filepath_args(), self.args)
@@ -677,6 +727,13 @@ class ConfigUpdater:
             default_stage(task, 'D3')
         for task in COALITIONS:
             default_stage(task, 'area1-normal')
+
+        # Update to latest island season
+        season_path = 'IslandGeneral.IslandGeneral.Season'
+        seasons = deep_get(self.args, keys=f'{season_path}.option_{server}', default=[])
+        selected_season = deep_get(old, keys=season_path)
+        if seasons and selected_season not in seasons:
+            deep_set(new, keys=season_path, value=seasons[0])
 
         if not is_template:
             new = self.config_redirect(old, new)

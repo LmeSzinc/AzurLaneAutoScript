@@ -446,6 +446,9 @@ class GeneratedConfig:
     # Group `OpsiHazard1Leveling`
     OpsiHazard1Leveling_TargetZone = 0  # 0, 44, 22
 
+    # Group `IslandGeneral`
+    IslandGeneral_Season = 'season_20261105_cn'  # season_20260806_cn, season_20261105_cn
+
     # Group `IslandProduction`
     IslandProduction_HardFloorItems = '{}'
     IslandProduction_DailyBufferItems = '{}'

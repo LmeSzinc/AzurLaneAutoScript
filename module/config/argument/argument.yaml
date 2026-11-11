@@ -765,6 +765,11 @@ OpsiHazard1Leveling:
 
 # =================== Island ====================
 
+IslandGeneral:
+  Season:
+    type: select
+    value: ''
+    option: []
 IslandProduction:
   HardFloorItems:
     type: textarea

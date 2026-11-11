@@ -258,6 +258,10 @@
       "name": "Cross Month Daily",
       "help": "ALAS will enter OpSi 10min before OpSi reset, wait until OpSi reset but not exit OpSi. Then do the daily, obscure, abyssal and meowfficer farming to get extra gold plates. When running dailies, settings in task \"OpSiDaily\" are used, the rest function are the same.\nIMPORTANT: Please do not touch the game while ALAS is waiting for OpSi reset."
     },
+    "IslandGeneral": {
+      "name": "Island General",
+      "help": ""
+    },
     "IslandProduction": {
       "name": "Island Production",
       "help": "Users need to config Island Business' restaurant level and waitress, then config and run Tools - Island Production Planner to generate the production plan.\nAfter that the Island Production will run normally.\nTutorial: https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Island-Planner-Auto-Farming-&-Configure"
@@ -2652,6 +2656,21 @@
       "0": "No Specification",
       "44": "44 | West Continental Shelf D",
       "22": "22 | NA Ocean SW Sector B"
+    }
+  },
+  "IslandGeneral": {
+    "_info": {
+      "name": "Island General",
+      "help": ""
+    },
+    "Season": {
+      "name": "Development Season",
+      "help": "The latest development season for your server is selected automatically. All island tasks and the production planner share this setting.",
+      "season_20260806_cn": "Island Planner Season IV - Tales from Autumn",
+      "season_20261105_cn": "Island Planner Season V – Winter Wanderlust",
+      "season_20260507_cn": "Development Season Ⅲ – Summer Sojourn",
+      "season_20260205_cn": "Development Season II - Spring Merrymaking",
+      "season_20251106_cn": "Development Season I - Lets Get Started!"
     }
   },
   "IslandProduction": {

@@ -258,6 +258,10 @@
       "name": "Cross Month Daily",
       "help": "ALAS will enter OpSi 10min before OpSi reset, wait until OpSi reset but not exit OpSi. Then do the daily, obscure, abyssal and meowfficer farming to get extra gold plates. When running dailies, settings in task \"OpSiDaily\" are used, the rest function are the same.\nIMPORTANT: Please do not touch the game while ALAS is waiting for OpSi reset."
     },
+    "IslandGeneral": {
+      "name": "離島共通設定",
+      "help": ""
+    },
     "IslandProduction": {
       "name": "離島生産",
       "help": "先に店舗経営の店舗属性と店員を設定し、ツール-離島生産ソルバーを設定して実行してください。ソルバーの結果が得られてから離島生産を実行できます。\nチュートリアル：https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Island-Planner-Auto-Farming-&-Configure"
@@ -2652,6 +2656,21 @@
       "0": "0",
       "44": "44",
       "22": "22"
+    }
+  },
+  "IslandGeneral": {
+    "_info": {
+      "name": "離島共通設定",
+      "help": ""
+    },
+    "Season": {
+      "name": "開発シーズン",
+      "help": "サーバーの最新の開発シーズンが自動的に選択されます。離島の全タスクと生産プランナーで共通の設定です。",
+      "season_20260806_cn": "開発シーズンⅣ",
+      "season_20261105_cn": "離島開発シーズンⅤ――冬日漫々",
+      "season_20260507_cn": "開発シーズンⅢ",
+      "season_20260205_cn": "開発シーズンⅡ",
+      "season_20251106_cn": "開発シーズンⅠ"
     }
   },
   "IslandProduction": {
