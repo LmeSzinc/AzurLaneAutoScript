@@ -665,6 +665,9 @@ class IslandRecipe(IslandExchange, IslandShop):
                 index = self.recipe_ids.index(recipe_id)
                 button = self.recipe_grid.buttons[index]
                 self.device.click(button)
+                # Selecting a recipe can snap the list to a different scroll position.
+                del_cached_property(self, 'recipe_grid')
+                del_cached_property(self, 'recipe_ids')
                 clicked = True
                 continue
             first_index = None
