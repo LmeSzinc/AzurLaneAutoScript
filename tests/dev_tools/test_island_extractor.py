@@ -1,5 +1,10 @@
+from datetime import datetime
+
+import pytest
+
 from dev_tools import island_extractor
-from dev_tools.island_extractor import get_slot_ingredient_sources
+from dev_tools.island_extractor import get_slot_ingredient_sources, seasons_for_period
+from module.island import data, season_data
 from module.island.data import (
     DIC_ISLAND_EXCHANGE_RECIPE,
     DIC_ISLAND_RECIPE,
@@ -75,10 +80,10 @@ def test_consecutive_extractors_load_cn_first(tmp_path, monkeypatch):
 
 def test_sources_include_primary_secondary_and_activity_outputs():
     slots = {
-        1: {'formula': [101], 'activity_formula': [102]},
-        2: {'formula': [201], 'activity_formula': []},
-        3: {'formula': [301], 'activity_formula': []},
-        4: {'formula': [401], 'activity_formula': []},
+        1: {'formula': [101]},
+        2: {'formula': [201]},
+        3: {'formula': [301]},
+        4: {'formula': [401]},
     }
     recipes = {
         101: recipe(product={20: 1}, secondary={30: 1}),
@@ -88,20 +93,22 @@ def test_sources_include_primary_secondary_and_activity_outputs():
         401: recipe(cost={40: 1}, product={52: 1}),
     }
 
-    sources = get_slot_ingredient_sources(slots, recipes, [])
+    sources = get_slot_ingredient_sources(slots, recipes, [], {1: [102]})
 
     assert sources[2] == [1]
     assert sources[3] == [1]
     assert sources[4] == [1]
+    assert get_slot_ingredient_sources(slots, recipes, [])[4] == []
+    assert slots[1] == {'formula': [101]}
 
 
 def test_conversions_chain_but_production_outputs_require_their_slot():
     slots = {
-        1: {'formula': [101], 'activity_formula': []},
-        2: {'formula': [201], 'activity_formula': []},
-        3: {'formula': [301], 'activity_formula': []},
-        4: {'formula': [401], 'activity_formula': []},
-        5: {'formula': [501], 'activity_formula': []},
+        1: {'formula': [101]},
+        2: {'formula': [201]},
+        3: {'formula': [301]},
+        4: {'formula': [401]},
+        5: {'formula': [501]},
     }
     recipes = {
         101: recipe(product={10: 1}),
@@ -144,7 +151,7 @@ def test_current_data_keeps_secondary_and_conversion_dependencies():
     exchange_only_sources = get_slot_ingredient_sources(
         {
             9211: DIC_ISLAND_SLOT[9211],
-            9999: {'formula': [601006], 'activity_formula': []},
+            9999: {'formula': [601006]},
         },
         DIC_ISLAND_RECIPE,
         list(DIC_ISLAND_EXCHANGE_RECIPE.values()),
@@ -153,3 +160,106 @@ def test_current_data_keeps_secondary_and_conversion_dependencies():
 
     # A production output from 9207 is not an instant input to 9071.
     assert 9207 not in sources[9071]
+
+
+def lua_time(text):
+    value = datetime.fromisoformat(text)
+    return {
+        0: dict(enumerate((value.year, value.month, value.day))),
+        1: dict(enumerate((value.hour, value.minute, value.second))),
+    }
+
+
+def lua_period(start, end):
+    return {0: lua_time(start), 1: lua_time(end)}
+
+
+@pytest.fixture
+def season_schedule():
+    boundaries = (
+        ('2025-09-29 00:00:00', '2026-02-05 12:00:00'),
+        ('2026-02-05 12:00:01', '2026-05-07 12:00:00'),
+        ('2026-05-07 12:00:01', '2026-08-06 12:00:00'),
+    )
+    return {
+        f'season_{index}': {'start_time': {'cn': start}, 'end_time': {'cn': end}}
+        for index, (start, end) in enumerate(boundaries, start=1)
+    }
+
+
+@pytest.mark.parametrize('start_hour', ['00:00:00', '12:00:01'])
+def test_period_transition_day_belongs_to_new_season(season_schedule, start_hour):
+    period = lua_period(f'2026-02-05 {start_hour}', '2026-05-07 12:00:00')
+    assert seasons_for_period(period, season_schedule) == ['season_2']
+
+
+def test_period_can_start_before_first_season_or_span_multiple_seasons(season_schedule):
+    first_shop = lua_period('2025-09-25 00:00:00', '2026-02-05 12:00:00')
+    assert seasons_for_period(first_shop, season_schedule) == ['season_1']
+    several = lua_period('2026-02-05 00:00:00', '2026-08-06 12:00:00')
+    assert seasons_for_period(several, season_schedule) == ['season_2', 'season_3']
+
+
+def test_period_always_stop_and_unpublished_server(season_schedule):
+    assert seasons_for_period('always', season_schedule) == list(season_schedule)
+    assert seasons_for_period('stop', season_schedule) == []
+    assert seasons_for_period(None, season_schedule) == []
+    assert seasons_for_period(
+        lua_period('2026-02-05 00:00:00', '2026-05-07 12:00:00'), season_schedule, server='tw',
+    ) == []
+
+
+def test_generated_permanent_catalog_has_no_season_activation_fields():
+    for constant in ('DIC_ISLAND_ACTIVITY', 'DIC_ISLAND_SEASON', 'DIC_ISLAND_SEASON_ORDER'):
+        assert not hasattr(data, constant)
+    for table in (data.DIC_ISLAND_SLOT, data.DIC_ISLAND_WILD_GATHER,
+                  data.DIC_ISLAND_SHOP_RECIPE, data.DIC_ISLAND_TASK):
+        for entry in table.values():
+            assert not {'activity_formula', 'activity_id', 'start_time', 'end_time'}.intersection(entry)
+    # Seasonal recipes remain permanent definitions, including older specialties.
+    assert {9900001, 9900003, 9900025, 9900032} <= set(data.DIC_ISLAND_RECIPE)
+
+
+def test_generated_seasons_have_four_activities_and_matching_current_content():
+    expected_dates = ('20251106', '20260205', '20260507', '20260806', '20261105')
+    assert list(season_data.DIC_ISLAND_SEASON) == [f'season_{date}_cn' for date in expected_dates]
+    for date in expected_dates:
+        season = season_data.DIC_ISLAND_SEASON[f'season_{date}_cn']
+        assert not {'start_time', 'end_time', 'season_order'}.intersection(season)
+        assert [season_data.DIC_ISLAND_ACTIVITY[index]['type'] for index in season['activity']] == [
+            5001, 5002, 5003, 5004,
+        ]
+        order_activity, gather_activity, recipe_activity = season['activity'][1:]
+        orders = [
+            season_data.DIC_ISLAND_SEASON_ORDER[index]
+            for index in season_data.DIC_ISLAND_ACTIVITY[order_activity]['config_data']
+        ]
+        assert all(order['group_id'] == order_activity for order in orders)
+        assert set(season['wild_gather']) == set(season_data.DIC_ISLAND_ACTIVITY[gather_activity]['config_data'])
+        assert {index for formulas in season['production'].values() for index in formulas} == set(
+            season_data.DIC_ISLAND_ACTIVITY[recipe_activity]['config_data']
+        )
+        assert set(season['task_list']) <= set(season['tasks']) <= set(data.DIC_ISLAND_TASK)
+
+
+def test_activity_window_matches_season_despite_maintenance_time(season_schedule):
+    assert island_extractor.get_season_namespace(
+        '2026-02-05 00:00:00', '2026-05-07 12:00:00', season_schedule,
+    ) == 'season_2'
+
+
+def test_generated_catalog_uses_current_values_and_tw_recipe_differences():
+    first = season_data.DIC_ISLAND_SEASON['season_20251106_cn']
+    assert data.DIC_ISLAND_RECIPE[9900001]['commission_cost'] == {4006: 4}
+    assert data.DIC_ISLAND_RECIPE[9900001]['commission_product'] == {4005: 32}
+    assert data.DIC_ISLAND_RECIPE[601001]['workload'] == 24000
+    assert data.DIC_ISLAND_RECIPE[601001]['production_limit'] == 12
+    tw_recipes = season_data.DIC_ISLAND_SERVER_OVERRIDES['tw']['recipe_overrides']
+    assert tw_recipes[9900001]['commission_cost'] == {4006: 1}
+    assert tw_recipes[9900001]['commission_product'] == {4005: 8}
+    assert 601001 not in tw_recipes
+    assert [key for key, season in season_data.DIC_ISLAND_SEASON.items() if 411023 in season['shop_goods']] == [
+        'season_20260806_cn',
+    ]
+    assert first['shop_goods'] == []
+    assert [len(season['tasks']) for season in season_data.DIC_ISLAND_SEASON.values()] == [49, 62, 56, 49, 49]

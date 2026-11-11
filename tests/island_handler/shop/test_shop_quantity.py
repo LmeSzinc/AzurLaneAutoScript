@@ -1,5 +1,6 @@
 """Quantity selection follows the displayed value when the shop clamps a click."""
 from collections import deque
+from types import SimpleNamespace
 
 import pytest
 
@@ -157,6 +158,7 @@ def test_stalled_quantity_uses_device_guard_without_confirming_purchase(monkeypa
 
 def test_buy_in_page_rejects_unaffordable_quantity():
     shop = object.__new__(IslandShop)
+    shop.config = SimpleNamespace(cross_get=lambda key, default=None: 'season_20261105_cn')
     shop.island_shop_get_currency = lambda: {1: 1183}
     shop.island_shop_item_ids = [411003]
     purchases = []

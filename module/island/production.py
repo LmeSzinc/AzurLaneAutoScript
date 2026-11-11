@@ -7,7 +7,9 @@ from module.base.utils import random_rectangle_vector_opted
 from module.exception import RequestHumanTakeover
 from module.island.assets import *
 from module.island.data import DIC_ISLAND_PRODUCTION_PLACE, DIC_ISLAND_SLOT
-from module.island.utils import item_name_with_id, production_place_name_with_id
+from module.island.utils import (
+    get_configured_season, get_slot_ingredient_source_slots, item_name_with_id, production_place_name_with_id,
+)
 from module.island_handler.dock import IslandDock
 from module.island_handler.exchange import FISH_MEAT_SOURCES
 from module.island_handler.recipe import IslandProductionRestart, IslandRecipe
@@ -319,11 +321,12 @@ class IslandProduction(IslandRecipe, IslandDock):
         slots_to_check = None
         if not check_all_empty_slots:
             # Empty sources mean no upstream production to wait for.
-            slots_to_check = self.claimed_slots | {
-                slot_id for slot_id, slot in DIC_ISLAND_SLOT.items()
-                if not slot['ingredient_source_slots']
-                or self.claimed_slots.intersection(slot['ingredient_source_slots'])
-            }
+            season = get_configured_season(self.config)
+            slots_to_check = self.claimed_slots.copy()
+            for slot_id in DIC_ISLAND_SLOT:
+                sources = get_slot_ingredient_source_slots(slot_id, season)
+                if not sources or self.claimed_slots.intersection(sources):
+                    slots_to_check.add(slot_id)
             if not slots_to_check:
                 logger.info('No completed production or external rewards to retry empty slots')
                 return

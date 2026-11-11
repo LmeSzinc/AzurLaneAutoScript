@@ -4,7 +4,7 @@ import pytest
 from yaml import safe_load
 
 import module.config.server as server
-from module.island.data import DIC_ISLAND_ACTIVITY
+from module.island.season_data import DIC_ISLAND_ACTIVITY
 
 EPS = 1e-4
 
@@ -21,22 +21,21 @@ class TestSolveBaseTechnology:
         with pytest.raises(ValueError, match='No planning period was provided'):
             calc.solve_production_plan(task_target_items={2700: 100})
 
-    def test_scalar_stuck_order_requires_planning_period(self, make_calculator):
+    def test_stuck_order_without_selected_season_uses_its_recorded_deadline(self, make_calculator, monkeypatch):
+        activity = DIC_ISLAND_ACTIVITY[990002]
+        end = datetime.strptime(activity['end_time'][server.server], '%Y-%m-%d %H:%M:%S')
+        monkeypatch.setattr('module.island.utils._get_server_time', lambda time=None: end - timedelta(days=20))
         calc = make_calculator({})
-        with pytest.raises(ValueError, match='No planning period was provided'):
-            calc.solve_production_plan(
-                stuck_season_order_id=100015,
-                current_time=datetime(1970, 1, 1),
-            )
+        calc.solve_production_plan(stuck_season_order_id=100015)
+        assert calc.stuck_season_order_id == 100015
+        assert calc.stuck_season_order_items[4011]['period'] == pytest.approx(20)
 
-    def test_stuck_order_uses_period_from_injected_current_time(self, make_calculator):
+    def test_stuck_order_uses_selected_season_deadline(self, make_calculator, monkeypatch):
         activity = DIC_ISLAND_ACTIVITY[990023]
         end = datetime.strptime(activity['end_time'][server.server], '%Y-%m-%d %H:%M:%S')
-        calc = make_calculator({})
-        calc.solve_production_plan(
-            stuck_season_order_id=100015,
-            current_time=end - timedelta(days=20),
-        )
+        monkeypatch.setattr('module.island.utils._get_server_time', lambda time=None: end - timedelta(days=20))
+        calc = make_calculator({}, season_name='season_20260806_cn')
+        calc.solve_production_plan(stuck_season_order_id=100015)
         assert calc.stuck_season_order_id == 100060
         assert calc.stuck_season_order_items[4011]['rate_per_day'] == pytest.approx(0.25)
         assert calc.stuck_season_order_items[4013]['rate_per_day'] == pytest.approx(0.25)

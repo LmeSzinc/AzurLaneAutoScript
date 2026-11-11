@@ -1,9 +1,6 @@
 """Order recognition goldens and season-order scheduling rules."""
-from datetime import datetime
-
-import module.config.server as server
 from module.island.assets import ISLAND_ORDER_SPEED_UP_CLOSE
-from module.island.data import DIC_ISLAND_ACTIVITY
+from module.island.season_data import DIC_ISLAND_SEASON
 from module.island.order import IslandOrder, get_season_order_id
 from module.testing.screenshot import image
 
@@ -313,13 +310,10 @@ class StoredOrderConfig:
 
 
 class TestSeasonOrderScheduling:
-    def test_repeated_autumn_order_prefers_current_activity(self):
-        activity = DIC_ISLAND_ACTIVITY[990023]
-        start = datetime.strptime(activity['start_time'][server.server], '%Y-%m-%d %H:%M:%S')
-        end = datetime.strptime(activity['end_time'][server.server], '%Y-%m-%d %H:%M:%S')
+    def test_repeated_autumn_order_prefers_selected_season(self):
         assert get_season_order_id(
             {4011: 5, 4013: 5},
-            current_time=start + (end - start) / 2,
+            DIC_ISLAND_SEASON['season_20260806_cn'],
         ) == 100060
 
     def test_unchanged_stuck_order_does_not_replan_after_date_change(self):

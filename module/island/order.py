@@ -11,11 +11,12 @@ from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.base.utils import color_similarity_2d
 from module.island.assets import *
-from module.island.data import DIC_ISLAND_ITEM, DIC_ISLAND_SEASON_ORDER
+from module.island.data import DIC_ISLAND_ITEM
 from module.island.ui import IslandUI
 from module.island.utils import (
-    get_active_island_activity_ids,
+    get_configured_season,
     get_order_effective_stock,
+    get_season_order_catalog,
     load_hard_floor_items,
     normalize_item_keys,
 )
@@ -57,48 +58,16 @@ def get_circles(image, color, inner_radius, outer_radius):
     return circles
 
 
-def get_season_order_id(requirements, current_time=None):
+def get_season_order_id(requirements, season):
     required_items = {
         item_id: counter[1] if isinstance(counter, (list, tuple)) and len(counter) > 1 else counter
         for item_id, counter in requirements.items()
     }
-    matches = [
-        (order_id, order)
-        for order_id, order in DIC_ISLAND_SEASON_ORDER.items()
-        if required_items == order.get('request', {})
-    ]
-    if not matches:
-        logger.warning(f'Cannot find season order id for requirements: {requirements}')
-        return None
-    activity_list = get_active_island_activity_ids(current_time)
-    active_matches = [
-        (order_id, order)
-        for order_id, order in matches
-        if order.get('activity_id') in activity_list
-    ]
-    if len(active_matches) == 1:
-        order_id, order = active_matches[0]
-        historical_ids = [candidate_id for candidate_id, _ in matches if candidate_id != order_id]
-        if historical_ids:
-            logger.info(
-                f'Season order requirements matched current order {order_id} '
-                f'(activity {order.get("activity_id", 0)}); ignored historical matches '
-                f'{historical_ids}'
-            )
-        return order_id
-    if len(active_matches) > 1:
-        logger.warning(
-            f'Multiple active season orders match requirements {requirements}: '
-            f'{[order_id for order_id, _ in active_matches]}'
-        )
-        return active_matches[0][0]
-    if len(matches) > 1:
-        logger.warning(
-            f'No active season order uniquely matches requirements {requirements}; '
-            f'falling back to historical order {matches[0][0]} among '
-            f'{[order_id for order_id, _ in matches]}'
-        )
-    return matches[0][0]
+    for order_id, order in get_season_order_catalog().items():
+        if order['activity_id'] in season['activity'] and order['request'] == required_items:
+            return order_id
+    logger.warning(f'Cannot find season order id for requirements: {requirements}')
+    return None
 
 
 class IslandOrder(IslandUI):
@@ -373,7 +342,7 @@ class IslandOrder(IslandUI):
                 return False
             elif is_season:
                 logger.warning('Season order can only be abandoned, skip this order')
-                stuck_season_order_id = get_season_order_id(requirements)
+                stuck_season_order_id = get_season_order_id(requirements, get_configured_season(self.config))
                 self.update_stuck_season_order(stuck_season_order_id)
                 return False
             else:
