@@ -6778,6 +6778,14 @@
       "DoMajorCommission": {
         "type": "checkbox",
         "value": false
+      },
+      "OilOverflowBuyFood": {
+        "type": "checkbox",
+        "value": false
+      },
+      "OilOverflowAmount": {
+        "type": "input",
+        "value": 4000
       }
     },
     "Storage": {

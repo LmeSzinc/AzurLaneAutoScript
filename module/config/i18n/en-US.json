@@ -1450,6 +1450,14 @@
     "DoMajorCommission": {
       "name": "Do Major Commissions",
       "help": "1200 oil commission is now outdated, the yield is very low, it is recommended to disable"
+    },
+    "OilOverflowBuyFood": {
+      "name": "Buy Food When Oil Is Full",
+      "help": "Commission rewards can't be received when oil is near the 25000 cap. If enabled, spend oil on Naval Curry (the 5000 supplies food) in the dorm, then receive the rewards. If disabled, leave the rewards unclaimed and check again after 60 minutes"
+    },
+    "OilOverflowAmount": {
+      "name": "Oil to Spend on Food",
+      "help": "Oil to spend each time oil is full. Naval Curry costs 50 oil each, so 4000 oil buys 80"
     }
   },
   "Tactical": {

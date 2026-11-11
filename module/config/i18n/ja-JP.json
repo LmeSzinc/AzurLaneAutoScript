@@ -1450,6 +1450,14 @@
     "DoMajorCommission": {
       "name": "Commission.DoMajorCommission.name",
       "help": "Commission.DoMajorCommission.help"
+    },
+    "OilOverflowBuyFood": {
+      "name": "燃料が上限の時に食料を購入",
+      "help": "燃料が上限25000に近いと委託報酬を受け取れません。有効にすると、寮舎で燃料を使って海軍カレー（5000補給の食料）を購入してから報酬を受け取ります。無効の場合は報酬を受け取らず、60分後に再確認します"
+    },
+    "OilOverflowAmount": {
+      "name": "食料購入に使う燃料",
+      "help": "燃料が上限になるたびに使う燃料。海軍カレーは1個50燃料なので、4000燃料で80個購入できます"
     }
   },
   "Tactical": {

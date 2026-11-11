@@ -478,8 +478,28 @@ class RewardDorm(UI):
         self.appear(FOOD_PLUS, offset=index_offset)
         self.appear(FOOD_MINUS, offset=index_offset)
 
-        self.ui_ensure_index(amount, letter=OCR_BUY_FOOD_AMOUNT, prev_button=FOOD_MINUS, next_button=FOOD_PLUS,
-                             skip_first_screenshot=True)
+        # Same as ui_ensure_index(), but buying a large amount may hit the limit of oil or the game,
+        # stop when the amount stops changing instead of clicking forever.
+        retry = Timer(1, count=2)
+        last = None
+        stuck = 0
+        for _ in self.loop():
+            current = OCR_BUY_FOOD_AMOUNT.ocr(self.device.image)
+            diff = amount - current
+            if diff == 0:
+                break
+            if retry.reached():
+                if current == last:
+                    stuck += 1
+                    if stuck >= 3:
+                        logger.warning(f'Food amount stays at {current}, buy {current} instead of {amount}')
+                        break
+                else:
+                    stuck = 0
+                last = current
+                button = FOOD_PLUS if diff > 0 else FOOD_MINUS
+                self.device.multi_click(button, n=abs(diff), interval=(0.2, 0.3))
+                retry.reset()
         return True
 
     def dorm_buy_food_confirm(self):

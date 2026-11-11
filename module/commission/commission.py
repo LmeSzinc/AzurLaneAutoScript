@@ -5,20 +5,25 @@ from scipy import signal
 
 from module.base.timer import Timer
 from module.base.utils import *
+from module.campaign.campaign_status import CampaignStatus
 from module.combat.assets import *
 from module.commission.assets import *
+from module.commission.oil import (
+    BUY_FOOD, NAVAL_CURRY_OIL_COST, OIL_OVERFLOW_RECHECK, SKIP,
+    food_to_buy, is_refused_by_oil, oil_overflow_action
+)
 from module.commission.preset import DICT_FILTER_PRESET, SHORTEST_FILTER
 from module.commission.project import COMMISSION_FILTER, Commission
 from module.config.config_generated import GeneratedConfig
 from module.config.utils import get_server_last_update, get_server_next_update
 from module.dorm.dorm import RewardDorm
-from module.exception import GameStuckError, OilMaxed, RequestHumanTakeover
+from module.exception import GameStuckError, OilMaxed
 from module.handler.info_handler import InfoHandler
 from module.logger import logger
 from module.map.map_grids import SelectedGrids
 from module.retire.assets import DOCK_CHECK
 from module.ui.assets import BACK_ARROW, REWARD_GOTO_COMMISSION
-from module.ui.page import page_commission, page_reward
+from module.ui.page import page_campaign, page_commission, page_reward
 from module.ui.scroll import Scroll
 from module.ui.switch import Switch
 from module.ui.ui import UI
@@ -509,6 +514,10 @@ class RewardCommission(UI, InfoHandler):
 
         reward = False
         click_timer = Timer(1)
+        # When oil is full, clicking REWARD_1 shows an info bar instead of rewards.
+        # OIL_MAXED is a CN-only template, so count refused clicks on all servers.
+        reward_clicked = False
+        refused = 0
         with self.stat.new(
                 'commission', method=self.config.DropRecord_CommissionRecord
         ) as drop:
@@ -534,16 +543,26 @@ class RewardCommission(UI, InfoHandler):
                         self.device.click(REWARD_SAVE_CLICK)
                         click_timer.reset()
                         reward = True
+                        reward_clicked = False
+                        refused = 0
                         continue
+                if reward_clicked and self.info_bar_count():
+                    reward_clicked = False
+                    refused += 1
+                    logger.info(f'Commission reward refused with an info bar ({refused}/3)')
+                    if refused >= 3:
+                        raise OilMaxed
                 if click_timer.reached() and self.appear_then_click(REWARD_1, offset=(20, 20), interval=1):
                     self.interval_reset(GET_SHIP)
                     click_timer.reset()
                     reward = True
+                    reward_clicked = True
                     continue
                 if click_timer.reached() and self.appear_then_click(REWARD_1_WHITE, offset=(20, 20), interval=1):
                     self.interval_reset(GET_SHIP)
                     click_timer.reset()
                     reward = True
+                    reward_clicked = True
                     continue
                 if click_timer.reached() and self.appear_then_click(REWARD_GOTO_COMMISSION, offset=(20, 20)):
                     self.interval_reset(GET_SHIP)
@@ -572,6 +591,8 @@ class RewardCommission(UI, InfoHandler):
                         self.device.click(REWARD_SAVE_CLICK)
                         click_timer.reset()
                         reward = True
+                        reward_clicked = False
+                        refused = 0
                         continue
                 if click_timer.reached() and self.ui_additional():
                     click_timer.reset()
@@ -579,35 +600,116 @@ class RewardCommission(UI, InfoHandler):
 
         return reward
 
-    def commission_receive(self):
+    def commission_reward_appear(self, skip_first_screenshot=True):
         """
         Returns:
-            bool: If rewarded.
+            bool: If there are commission rewards to receive.
 
         Pages:
             in: page_reward
-            out: page_commission
+            out: page_reward
+        """
+        timeout = Timer(1, count=3).start()
+        for _ in self.loop(skip_first=skip_first_screenshot):
+            if self.appear(REWARD_1, offset=(20, 20)):
+                return True
+            if self.appear(REWARD_1_WHITE, offset=(20, 20)):
+                return True
+            if timeout.reached():
+                return False
+
+    def commission_get_oil(self):
+        """
+        Returns:
+            int: Current oil, 0 if failed to read.
+
+        Pages:
+            in: Any
+            out: page_campaign
+        """
+        self.ui_ensure(page_campaign)
+        return CampaignStatus(self.config, self.device).get_oil(skip_first_screenshot=False)
+
+    def commission_buy_food(self):
+        """
+        Spend oil on Naval Curry, so commission rewards can be received.
+
+        Pages:
+            in: Any
+            out: page_dorm
+        """
+        amount = food_to_buy(self.config.Commission_OilOverflowAmount)
+        logger.info(f'Spend {amount * NAVAL_CURRY_OIL_COST} oil on {amount} Naval Curry')
+        RewardDorm(self.config, self.device).dorm_food_run(amount=amount)
+
+    def commission_oil_check(self):
+        """
+        Check oil before receiving commission rewards,
+        and buy food if oil is full and Commission_OilOverflowBuyFood is enabled.
+
+        Returns:
+            bool: True to receive rewards, False to leave them unclaimed.
+
+        Pages:
+            in: page_reward
+            out: page_reward, or any page if returned False
+        """
+        if not self.commission_reward_appear():
+            return True
+
+        logger.hr('Commission oil check', level=2)
+        oil = self.commission_get_oil()
+        action = oil_overflow_action(oil, buy_food=self.config.Commission_OilOverflowBuyFood)
+        logger.attr('Oil overflow action', action)
+        if action == SKIP:
+            return False
+        if action == BUY_FOOD:
+            self.commission_buy_food()
+        self.ui_ensure(page_reward)
+        return True
+
+    def commission_receive(self):
+        """
+        Returns:
+            bool: True if received,
+                False if oil is full and rewards are left unclaimed.
+
+        Pages:
+            in: page_reward
+            out: page_commission, or any page if returned False
         """
         for _ in range(3):
             try:
-                reward = self._commission_receive()
-                return reward
+                self._commission_receive()
+                return True
             except OilMaxed:
-                logger.info("Oil maxed, buy food to consume oil")
-                RewardDorm(self.config, self.device).dorm_food_run(amount=10)
+                logger.warning('Commission rewards are refused, oil may be full')
+                if not self.config.Commission_OilOverflowBuyFood:
+                    return False
+                oil = self.commission_get_oil()
+                if not is_refused_by_oil(oil):
+                    logger.warning(f'Oil is {oil}, rewards are refused for another reason')
+                    return False
+                self.commission_buy_food()
                 self.ui_ensure(page_reward)
 
-        logger.critical(f'Failed to handle oil maxed after 3 trial')
-        raise RequestHumanTakeover
+        logger.warning('Oil is still full after buying food 3 times')
+        return False
 
     def run(self):
         """
         Pages:
             in: Any
-            out: page_commission
+            out: page_commission, or any page if oil is full
         """
         self.ui_ensure(page_reward)
-        self.commission_receive()
+        if not self.commission_oil_check() or not self.commission_receive():
+            logger.warning(
+                'Oil is full, leave commission rewards unclaimed. '
+                'Use some oil or enable "Commission > Buy Food When Oil Is Full", '
+                f'Alas will check again in {OIL_OVERFLOW_RECHECK} minutes')
+            self.config.task_delay(minute=OIL_OVERFLOW_RECHECK)
+            return
 
         # info_bar appears when get ship in Launch Ceremony commissions
         # This is a game bug, the info_bar shows get ship, will appear over and over again, until you click get_ship.
