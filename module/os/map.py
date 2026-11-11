@@ -821,7 +821,9 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
             if fleet.distance_to(grid) > 1:
                 self.device.click(grid)
                 with self.config.temporary(STORY_ALLOW_SKIP=False):
-                    result = self.wait_until_walk_stable(drop=drop, walk_out_of_step=False)
+                    # Grid alignment can look stable while the fleet is still approaching Akashi.
+                    result = self.wait_until_walk_stable(
+                        drop=drop, walk_out_of_step=False, expect_akashi=True)
                 if 'akashi' in result:
                     self._solved_map_event.add('is_akashi')
                     return True

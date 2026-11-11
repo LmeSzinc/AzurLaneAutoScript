@@ -5,7 +5,7 @@ import numpy as np
 from module.base.timer import Timer
 from module.base.utils import area_offset
 from module.combat.assets import GET_ITEMS_1, GET_ITEMS_1_RYZA
-from module.exception import CampaignEnd, GameNotRunningError, MapDetectionError
+from module.exception import CampaignEnd, GameNotRunningError, GameStuckError, MapDetectionError
 from module.handler.assets import AUTO_SEARCH_MENU_CONTINUE, GAME_TIPS, GET_MISSION
 from module.logger import logger
 from module.map.assets import MAP_PREPARATION, MAP_PREPARATION_HARD
@@ -354,6 +354,8 @@ class Camera(MapOperation):
         logger.info(f'Ensure edge in sight.')
         record = []
         x_swipe, y_swipe = np.multiply(swipe_limit, random_direction(self.config.MAP_ENSURE_EDGE_INSIGHT_CORNER))
+        # Allow a full traversal even if each swipe moves only one tile.
+        max_swipes = max(self.map.shape) + 2
 
         while 1:
             if len(record) == 0:
@@ -365,6 +367,8 @@ class Camera(MapOperation):
 
             x = 0 if self.view.left_edge or self.view.right_edge else x_swipe
             y = 0 if self.view.lower_edge or self.view.upper_edge else y_swipe
+            if (x or y) and len(record) >= max_swipes:
+                raise GameStuckError('Map edges still missing after repeated swipes')
 
             if len(record) > 0:
                 # Swipe even if two edges insight, this will avoid some embarrassing camera position.

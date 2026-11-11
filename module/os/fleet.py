@@ -251,7 +251,8 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
 
         logger.info('Camera stabled')
 
-    def wait_until_walk_stable(self, confirm_timer=None, skip_first_screenshot=False, walk_out_of_step=True, drop=None):
+    def wait_until_walk_stable(self, confirm_timer=None, skip_first_screenshot=False, walk_out_of_step=True,
+                               drop=None, *, expect_akashi=False):
         """
         Wait until homo_loca stabled.
         DETECTION_BACKEND must be 'homography'.
@@ -262,6 +263,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             walk_out_of_step (bool): If catch walk_out_of_step error.
                 Default to True, use False in abyssal zones.
             drop (DropImage):
+            expect_akashi (bool): Allow extra time for the shop to appear before accepting a stable map view.
 
         Returns：
             str: Things that fleet met on its way,
@@ -282,6 +284,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
         # Record story history to clear click record
         clicked_story = False
         stuck_timer = Timer(20, count=5).start()
+        akashi_wait = Timer(5).start() if expect_akashi else None
         confirm_timer.reset()
 
         def abyssal_expected_end():
@@ -364,6 +367,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
             if self.appear(PORT_SUPPLY_CHECK, offset=(20, 20)):
                 self.interval_clear(PORT_SUPPLY_CHECK)
                 self.handle_akashi_supply_buy(CLICK_SAFE_AREA)
+                akashi_wait = None
                 confirm_timer.reset()
                 stuck_timer.reset()
                 result.add('akashi')
@@ -402,7 +406,7 @@ class OSFleet(OSCamera, Combat, Fleet, OSAsh):
                 logger.attr('homo_loca', current)
                 # Max known distance is 4.48px, homo_loca between ( 56,  60) and ( 52,  58)
                 if record is None or (current is not None and np.linalg.norm(np.subtract(current, record)) < 5.5):
-                    if confirm_timer.reached():
+                    if confirm_timer.reached() and (akashi_wait is None or akashi_wait.reached()):
                         break
                 else:
                     if stuck_timer.reached():
