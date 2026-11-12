@@ -8,7 +8,10 @@ from module.base.decorator import cached_property, del_cached_property
 from module.island.assets import *
 from module.island.data import DIC_ISLAND_TASK
 from module.island.ui import IslandUI
-from module.island.utils import item_mapping_to_yaml, load_item_mapping, normalize_item_keys
+from module.island.utils import (
+    get_configured_season, get_season_task_data,
+    item_mapping_to_yaml, load_item_mapping, normalize_item_keys,
+)
 from module.logger import logger
 from module.map_detection.utils import Points
 from module.ocr.ocr import Ocr
@@ -157,25 +160,9 @@ class IslandSeasonTask(IslandUI):
         if not isinstance(name, str):
             return None
 
-        from module.island.data import DIC_ISLAND_SEASON
-        from module.config.utils import server_timezone, server_time_offset
-        from datetime import datetime, timezone
-
-        server_now = (datetime.now()-server_time_offset()).replace(tzinfo=timezone(server_timezone()))
-        current_season_task_ids= set()
-        for season_data in DIC_ISLAND_SEASON.values():
-            if not season_data['start_time'] or not season_data['end_time']:
-                continue
-            season_start_string = season_data['start_time'].get(server.server)
-            season_end_string = season_data['end_time'].get(server.server)
-            if not season_start_string or not season_end_string:
-                continue
-            season_start= datetime.fromisoformat(season_start_string).replace(tzinfo=timezone(server_timezone()))
-            season_end= datetime.fromisoformat(season_end_string).replace(tzinfo=timezone(server_timezone()))
-            if season_start<= server_now<= season_end:
-                current_season_task_ids.update(season_data['task_list'])
+        current_season_task_ids = get_configured_season(self.config)['task_list']
         if not current_season_task_ids:
-            logger.warning(f'No active season found or season data missing for {server.server} server.')
+            logger.warning(f'No tasks found for the configured season on {server.server} server.')
             return None
         
         min_distance = float('inf')
@@ -183,9 +170,9 @@ class IslandSeasonTask(IslandUI):
         corrected_name = None
 
         for key in current_season_task_ids:
-            item = DIC_ISLAND_TASK.get(key)
-            if not item:
+            if key not in DIC_ISLAND_TASK:
                 continue
+            item = get_season_task_data(key)
             distance = levenshtein_distance(name, item['name'][server.server])
             if distance <= min_distance:
                 # allow for multiple matches, but only keep the closest one
@@ -264,7 +251,7 @@ class IslandSeasonTask(IslandUI):
         new_target = {}
         unfinished_tasks = self.scan_all()
         for task_id in unfinished_tasks:
-            target = DIC_ISLAND_TASK[task_id]['target']
+            target = get_season_task_data(task_id)['target']
             if target:
                 item_id = list(target.keys())[0]
                 new_target[item_id] = new_target.get(item_id, 0) + target[item_id]

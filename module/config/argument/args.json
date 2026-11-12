@@ -9411,6 +9411,42 @@
       }
     }
   },
+  "IslandGeneral": {
+    "IslandGeneral": {
+      "Season": {
+        "type": "select",
+        "value": "season_20261105_cn",
+        "option": [
+          "season_20260806_cn",
+          "season_20261105_cn"
+        ],
+        "option_cn": [
+          "season_20261105_cn"
+        ],
+        "option_en": [
+          "season_20261105_cn"
+        ],
+        "option_jp": [
+          "season_20261105_cn"
+        ],
+        "option_tw": [
+          "season_20260806_cn"
+        ],
+        "option_bold": [
+          "season_20260806_cn",
+          "season_20261105_cn"
+        ]
+      }
+    },
+    "Storage": {
+      "Storage": {
+        "type": "storage",
+        "value": {},
+        "valuetype": "ignore",
+        "display": "disabled"
+      }
+    }
+  },
   "IslandProduction": {
     "Scheduler": {
       "Enable": {

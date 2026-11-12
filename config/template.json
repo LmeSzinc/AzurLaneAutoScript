@@ -1936,6 +1936,14 @@
       "Storage": {}
     }
   },
+  "IslandGeneral": {
+    "IslandGeneral": {
+      "Season": "season_20261105_cn"
+    },
+    "Storage": {
+      "Storage": {}
+    }
+  },
   "IslandProduction": {
     "Scheduler": {
       "Enable": false,

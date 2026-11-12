@@ -8,12 +8,19 @@ from yaml import safe_dump, safe_load
 
 import module.config.server as server
 from module.island.data import (
-    DIC_ISLAND_ACTIVITY,
     DIC_ISLAND_ITEM,
     DIC_ISLAND_PRODUCTION_PLACE,
     DIC_ISLAND_RECIPE,
+    DIC_ISLAND_SHOP_RECIPE,
+    DIC_ISLAND_SLOT,
+    DIC_ISLAND_TASK,
+)
+from module.island.season_data import (
+    DIC_ISLAND_ACTIVITY,
     DIC_ISLAND_SEASON,
     DIC_ISLAND_SEASON_ORDER,
+    DIC_ISLAND_SEASONAL_SHOP_GOODS,
+    DIC_ISLAND_SERVER_OVERRIDES,
 )
 from module.logger import logger
 
@@ -134,79 +141,117 @@ def _get_server_time(time=None):
     return time
 
 
-def _get_activity_window(activity_id):
+def _get_activity_remaining_days(activity_id, time=None):
     activity = DIC_ISLAND_ACTIVITY.get(activity_id)
     if activity is None:
-        return None, None
-    start_text = activity['start_time'].get(server.server)
+        return None
     end_text = activity['end_time'].get(server.server)
-    if not start_text or not end_text:
-        return None, None
+    if not end_text:
+        return None
+    end_time = datetime.strptime(end_text, '%Y-%m-%d %H:%M:%S')
+    return max((end_time - _get_server_time(time)).total_seconds(), 0) / 86400
+
+
+def get_configured_season(config):
+    """Resolve the season selected in IslandGeneral for the current server."""
+    return get_season_data(config.cross_get('IslandGeneral.IslandGeneral.Season'))
+
+
+def get_season_data(season_name):
+    """Look up a shared season namespace and apply the current server's overrides."""
+    season = DIC_ISLAND_SEASON[season_name]
+    overrides = season.get('server_overrides', {}).get(server.server, {})
+    return {**season, **overrides} if overrides else season
+
+
+def get_server_overrides(key):
+    return DIC_ISLAND_SERVER_OVERRIDES.get(server.server, {}).get(key, {})
+
+
+def apply_server_overrides(data, key):
+    """Overlay current server differences without changing permanent definitions."""
+    overrides = get_server_overrides(key)
+    return {
+        key: {**value, **overrides.get(key, {})}
+        for key, value in data.items()
+    }
+
+
+def get_recipe_data(recipe_id):
+    overrides = get_server_overrides('recipe_overrides')
+    return {**DIC_ISLAND_RECIPE[recipe_id], **overrides.get(recipe_id, {})}
+
+
+def get_shop_recipe_data(recipe_id):
+    overrides = get_server_overrides('shop_goods_overrides')
+    return {**DIC_ISLAND_SHOP_RECIPE[recipe_id], **overrides.get(recipe_id, {})}
+
+
+def get_season_task_data(task_id):
+    overrides = get_server_overrides('task_overrides')
+    return {**DIC_ISLAND_TASK[task_id], **overrides.get(task_id, {})}
+
+
+def get_slot_recipe_ids(slot_id, season, include_inactive=False):
+    """Use the resolved season, or the full server catalog for UI recognition."""
+    recipes = list(DIC_ISLAND_SLOT[slot_id]['formula'])
+    if include_inactive:
+        seasons = (get_season_data(name) for name in DIC_ISLAND_SEASON)
+    else:
+        seasons = [season] if season else []
+    for selected in seasons:
+        recipes.extend(selected.get('production', {}).get(slot_id, []))
+    return list(dict.fromkeys(recipes))
+
+
+def get_slot_ingredient_source_slots(slot_id, season):
+    if season and slot_id in season.get('ingredient_source_slots', {}):
+        return season['ingredient_source_slots'][slot_id]
+    return DIC_ISLAND_SLOT[slot_id]['ingredient_source_slots']
+
+
+def is_shop_recipe_available(recipe_id, season):
     return (
-        datetime.strptime(start_text, '%Y-%m-%d %H:%M:%S'),
-        datetime.strptime(end_text, '%Y-%m-%d %H:%M:%S'),
+        recipe_id not in DIC_ISLAND_SEASONAL_SHOP_GOODS
+        or bool(season and recipe_id in season.get('shop_goods', []))
     )
 
 
-def get_active_island_activity_ids(time=None):
-    time = _get_server_time(time)
-    active = []
-    for activity_id in DIC_ISLAND_ACTIVITY:
-        start_time, end_time = _get_activity_window(activity_id)
-        if start_time is not None and start_time <= time < end_time:
-            active.append(activity_id)
-    return active
+def get_season_order_catalog():
+    return apply_server_overrides(DIC_ISLAND_SEASON_ORDER, 'season_order_overrides')
 
 
-def get_current_season(time=None):
-    time = _get_server_time(time)
-    for season in DIC_ISLAND_SEASON.values():
-        start_text = season['start_time'].get(server.server)
-        end_text = season['end_time'].get(server.server)
-        if not start_text or not end_text:
-            continue
-        start_time = datetime.strptime(start_text, '%Y-%m-%d %H:%M:%S')
-        end_time = datetime.strptime(end_text, '%Y-%m-%d %H:%M:%S')
-        if start_time <= time < end_time:
-            return season, end_time
-    return None, None
+def get_season_remaining_days(season, time=None):
+    """Use the selected season's page activity deadline for seasonal tasks."""
+    for activity_id in season['activity']:
+        if DIC_ISLAND_ACTIVITY[activity_id]['type'] == 5001:
+            return _get_activity_remaining_days(activity_id, time)
+    return None
 
 
-def get_current_activity_list(time=None):
-    season, _ = get_current_season(time)
-    return season['activity'] if season else None
-
-
-def get_current_season_remaining_days(time=None):
-    time = _get_server_time(time)
-    _, end_time = get_current_season(time)
-    if end_time is None:
-        return None
-    return (end_time - time).total_seconds() / 86400
-
-
-def resolve_stuck_season_order_id(stuck_order_id, time=None):
+def resolve_stuck_season_order_id(stuck_order_id, season):
     """Map a stored order ID to an active order with identical requirements."""
     stuck_order_id = normalize_stuck_season_order_id(stuck_order_id)
     if not stuck_order_id:
         return 0
-    order = DIC_ISLAND_SEASON_ORDER.get(stuck_order_id)
+    orders = get_season_order_catalog()
+    order = orders.get(stuck_order_id)
     if order is None:
         logger.warning(f'Cannot find stuck season order id {stuck_order_id}')
         return 0
 
-    active_activity_ids = set(get_active_island_activity_ids(time))
+    active_activity_ids = set(season['activity']) if season else set()
     if order.get('activity_id') in active_activity_ids:
         return stuck_order_id
     candidates = [
         order_id
-        for order_id, candidate in DIC_ISLAND_SEASON_ORDER.items()
+        for order_id, candidate in orders.items()
         if candidate.get('activity_id') in active_activity_ids
         and candidate.get('request', {}) == order.get('request', {})
     ]
     if len(candidates) == 1:
         resolved_id = candidates[0]
-        resolved_activity_id = DIC_ISLAND_SEASON_ORDER[resolved_id]['activity_id']
+        resolved_activity_id = orders[resolved_id]['activity_id']
         logger.info(
             f'Resolved stored stuck season order {stuck_order_id} '
             f'(activity {order.get("activity_id", 0)}) as current order '
@@ -222,27 +267,12 @@ def resolve_stuck_season_order_id(stuck_order_id, time=None):
 
 
 def get_stuck_season_order_remaining_days(stuck_order_id, time=None):
-    """Return the remaining time of the active activity matching an order."""
-    time = _get_server_time(time)
-    stuck_order_id = resolve_stuck_season_order_id(stuck_order_id, time)
+    """Return the deadline of an order already resolved to the selected season."""
+    stuck_order_id = normalize_stuck_season_order_id(stuck_order_id)
     if not stuck_order_id:
         return None
-    order = DIC_ISLAND_SEASON_ORDER[stuck_order_id]
-    activity_id = order.get('activity_id', 0)
-    start_time, end_time = _get_activity_window(activity_id)
-    if start_time is None:
-        logger.warning(
-            f'Stuck season order {stuck_order_id} activity {activity_id} has no '
-            f'{server.server} deadline; cannot infer its planning period'
-        )
-        return None
-    if not start_time <= time < end_time:
-        logger.warning(
-            f'Stuck season order {stuck_order_id} has no uniquely matching active '
-            f'activity; cannot infer its planning period'
-        )
-        return None
-    return (end_time - time).total_seconds() / 86400
+    order = get_season_order_catalog()[stuck_order_id]
+    return _get_activity_remaining_days(order['activity_id'], time)
 
 
 def normalize_item_needs(items=None, default_period=1):
@@ -421,13 +451,14 @@ def get_stuck_season_order_requirements(stuck_order_id):
 
     requirements = defaultdict(int)
     visited = set()
+    orders = get_season_order_catalog()
     order_id = stuck_order_id
     while order_id:
         if order_id in visited:
             logger.warning(f'Detected season order loop at order id {order_id}')
             break
         visited.add(order_id)
-        order = DIC_ISLAND_SEASON_ORDER.get(order_id)
+        order = orders.get(order_id)
         if order is None:
             logger.warning(f'Cannot find stuck season order id {order_id}')
             break
@@ -437,16 +468,12 @@ def get_stuck_season_order_requirements(stuck_order_id):
     return dict(requirements)
 
 
-def get_stuck_season_order_items(stuck_order_id, current_time=None):
+def get_stuck_season_order_items(stuck_order_id, season):
     """Return the resolved order ID and its deadline-normalized item needs."""
-    current_time = _get_server_time(current_time)
-    stuck_order_id = resolve_stuck_season_order_id(stuck_order_id, current_time)
+    stuck_order_id = resolve_stuck_season_order_id(stuck_order_id, season)
     return stuck_order_id, normalize_item_needs(
         get_stuck_season_order_requirements(stuck_order_id),
-        default_period=get_stuck_season_order_remaining_days(
-            stuck_order_id,
-            current_time,
-        ),
+        default_period=get_stuck_season_order_remaining_days(stuck_order_id),
     )
 
 
@@ -463,22 +490,22 @@ def merge_task_target_stuck_order_items(
     )
 
 
-def get_task_target_items(config, task_target_items=None, current_time=None):
+def get_task_target_items(config, task_target_items=None):
     """Load TaskTarget and merge the active stuck season-order requirements."""
     if task_target_items is None:
         task_target_items = load_item_mapping(
             config.cross_get("IslandSeasonTask.IslandSeasonTask.TaskTarget", "{}"),
             config_name='TaskTarget',
         )
-    current_time = _get_server_time(current_time)
-    _, stuck_order_items = get_stuck_season_order_items(
-        config.cross_get("IslandOrder.IslandOrder.StuckSeasonOrderId", 0),
-        current_time,
-    )
+    stuck_order_id = config.cross_get("IslandOrder.IslandOrder.StuckSeasonOrderId", 0)
+    if not task_target_items and not stuck_order_id:
+        return {}
+    season = get_configured_season(config)
+    _, stuck_order_items = get_stuck_season_order_items(stuck_order_id, season)
     return merge_item_needs(
         normalize_item_needs(
             task_target_items,
-            default_period=get_current_season_remaining_days(current_time),
+            default_period=get_season_remaining_days(season),
         ),
         stuck_order_items,
     )

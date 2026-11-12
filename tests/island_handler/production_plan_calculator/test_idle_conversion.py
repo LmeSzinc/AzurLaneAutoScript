@@ -2,9 +2,6 @@ from types import SimpleNamespace
 
 import pytest
 
-from module.island_handler.production_plan_calculator import ProductionPlanCalculator
-
-
 FLOUR_ACTIVITY = {'kind': 'shop', 'id': 103004, 'group': None, 'workload': 0,
                   'inputs': {2000: 6}, 'outputs': {3004: 1}}
 COW_FEED_ACTIVITY = {'kind': 'shop', 'id': 103002, 'group': None, 'workload': 0,
@@ -12,9 +9,9 @@ COW_FEED_ACTIVITY = {'kind': 'shop', 'id': 103002, 'group': None, 'workload': 0,
 
 
 class TestConversionIdleRedirect:
-    def test_pt_neutral_shop_ids(self):
+    def test_pt_neutral_shop_ids(self, make_calculator):
         # Flour and chicken/pig feed keep PT, cow/sheep feed gain PT
-        assert ProductionPlanCalculator.PT_NEUTRAL_SHOP_IDS == {103000, 103001, 103004}
+        assert make_calculator({}).pt_neutral_shop_ids == {103000, 103001, 103004}
 
     def test_idle_flour_exported_as_wheat(self, make_calculator):
         calc = make_calculator({})

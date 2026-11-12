@@ -11,15 +11,19 @@ import numpy as np
 
 import module.config.server as server
 from module.island.data import *
+from module.island.season_data import DIC_ISLAND_SEASON
 from module.island.utils import (
+    apply_server_overrides,
     ceil_with_epsilon,
     count_level,
     format_item_need_data,
-    get_current_activity_list,
+    get_season_data,
+    get_slot_recipe_ids,
     get_stuck_season_order_items,
     get_sub_dict,
     item_mapping_to_yaml,
     item_name,
+    is_shop_recipe_available,
     merge_item_needs,
     normalize_item_keys,
     normalize_item_needs,
@@ -176,29 +180,16 @@ class ProductionPlanCalculator:
         'manufacturing_crafts': [9207, 9208],
         'fishery': [9211, 9212, 9213],
     }
-    RECIPE_PRODUCT_IDS = {
-        next(iter(recipe['commission_product']))
-        for recipe in DIC_ISLAND_RECIPE.values()
-        if recipe['commission_product']
-    }
     EXCHANGE_PRODUCT_IDS = {
         item_id
         for recipe in DIC_ISLAND_EXCHANGE_RECIPE.values()
         for item_id in recipe['items']
     }
-    # Shop recipes converting items into items of the same PT, e.g. wheat into flour.
-    # Holding the output gains no PT over holding the input.
-    PT_NEUTRAL_SHOP_IDS = {
-        shop_id
-        for shop_id, recipe in DIC_ISLAND_SHOP_RECIPE.items()
-        if 1 not in recipe['resource_consume']
-        and sum(DIC_ISLAND_ITEM[item_id]['pt_num'] * amount for item_id, amount in recipe['resource_consume'].items())
-        == sum(DIC_ISLAND_ITEM[item_id]['pt_num'] * amount for item_id, amount in recipe['items'].items())
-    }
+
     def __init__(
             self,
             technology_status: Dict[int, bool],
-            activity_list=None,
+            season_name=None,
             place_efficiency=None,
             restaurant_settings=None,
             daily_profit_lower_limit=0,
@@ -208,8 +199,7 @@ class ProductionPlanCalculator:
         Args:
             technology_status: {technology_id: unlocked},
                 see module.island.utils.load_technology_status.
-            activity_list (list[int]): Activity ids of the current island season,
-                see get_current_activity_list.
+            season_name (str): Shared season namespace; None enables permanent content only.
             place_efficiency (dict): User-configured efficiency bonus by production
                 place id, e.g. {101: 0.05, 501: 0, 502: 0} for field/orchard/nursery.
                 Mining (401) and logging (402) bonuses are derived from
@@ -221,7 +211,40 @@ class ProductionPlanCalculator:
             daily_buffer_safety_margin (float): Relative safety margin applied to
                 exported daily buffer amounts.
         """
-        self.activity_list = list(activity_list) if activity_list else []
+        self.season = get_season_data(season_name) if season_name is not None else None
+        season_data = self.season or {}
+        self.seasonal_recipe_ids = {
+            recipe_id for season in DIC_ISLAND_SEASON.values()
+            for recipes in season.get('production', {}).values() for recipe_id in recipes
+        }
+        self.seasonal_gather_ids = {
+            gather_id for season in DIC_ISLAND_SEASON.values()
+            for gather_id in season.get('wild_gather', {})
+        }
+        self.recipe_data = apply_server_overrides(
+            DIC_ISLAND_RECIPE, 'recipe_overrides',
+        )
+        self.shop_recipe_data = apply_server_overrides(
+            DIC_ISLAND_SHOP_RECIPE, 'shop_goods_overrides',
+        )
+        self.wild_gather_data = apply_server_overrides(
+            {**DIC_ISLAND_WILD_GATHER, **season_data.get('wild_gather', {})},
+            'wild_gather_overrides',
+        )
+        self.recipe_product_ids = {
+            item_id for recipe in self.recipe_data.values()
+            for item_id in recipe['commission_product']
+        }
+        # Converting items into items of the same PT, e.g. wheat into flour,
+        # gains no PT over holding the input.
+        self.pt_neutral_shop_ids = {
+            shop_id for shop_id, recipe in self.shop_recipe_data.items()
+            if 1 not in recipe['resource_consume']
+            and sum(DIC_ISLAND_ITEM[item_id]['pt_num'] * amount
+                    for item_id, amount in recipe['resource_consume'].items())
+            == sum(DIC_ISLAND_ITEM[item_id]['pt_num'] * amount
+                   for item_id, amount in recipe['items'].items())
+        }
         self.place_efficiency = dict(place_efficiency) if place_efficiency else {}
         self.daily_profit_lower_limit = float(daily_profit_lower_limit or 0)
         self.daily_buffer_safety_margin = max(float(daily_buffer_safety_margin or 0), 0)
@@ -249,15 +272,12 @@ class ProductionPlanCalculator:
         self._reset_lp_result()
 
     def analyze_technology_status(self, technology_status: Dict[int, bool]):
-        self.recipe_available = {}
-        self.wild_gather_available = {}
-        for activity_id in self.activity_list:
-            if DIC_ISLAND_ACTIVITY[activity_id]['type'] == 5003:
-                for gather_id in DIC_ISLAND_ACTIVITY[activity_id]['config_data']:
-                    self.wild_gather_available[gather_id] = True
-            if DIC_ISLAND_ACTIVITY[activity_id]['type'] == 5004:
-                for recipe_id in DIC_ISLAND_ACTIVITY[activity_id]['config_data']:
-                    self.recipe_available[recipe_id] = True
+        season = self.season or {}
+        self.recipe_available = {
+            recipe_id: True
+            for recipes in season.get('production', {}).values() for recipe_id in recipes
+        }
+        self.wild_gather_available = dict.fromkeys(season.get('wild_gather', {}), True)
 
         self.slot_available = {
             # Fields
@@ -322,16 +342,13 @@ class ProductionPlanCalculator:
         }
         self.recipe_group = {}
         self.available_slot_recipes = set()
-        for slot, slot_data in DIC_ISLAND_SLOT.items():
+        for slot in DIC_ISLAND_SLOT:
             if not self.slot_available.get(slot, False):
                 continue
             group = self.SLOT_TO_GROUP.get(slot)
             if group is None:
                 continue
-            for recipe_id in slot_data.get('formula', []):
-                self.available_slot_recipes.add(recipe_id)
-                self.recipe_group.setdefault(recipe_id, group)
-            for recipe_id in slot_data.get('activity_formula', []):
+            for recipe_id in get_slot_recipe_ids(slot, self.season):
                 self.available_slot_recipes.add(recipe_id)
                 self.recipe_group.setdefault(recipe_id, group)
         self.recipe_available.update({
@@ -431,15 +448,8 @@ class ProductionPlanCalculator:
             701022: technology_status.get(650203, False),  # 净水滤芯
             701023: technology_status.get(630205, False),  # 装饰画
         })
-        for recipe_id in DIC_ISLAND_RECIPE:
-            if recipe_id < 9900000:
-                self.recipe_available.setdefault(recipe_id, True)
-            else:
-                self.recipe_available.setdefault(recipe_id, False)
-        for recipe_id in self.available_slot_recipes:
-            if recipe_id >= 9900000:
-                self.recipe_available[recipe_id] = True
-
+        for recipe_id in self.recipe_data:
+            self.recipe_available.setdefault(recipe_id, recipe_id not in self.seasonal_recipe_ids)
         self.mining_additional = technology_status.get(220401, False)
         self.wood_additional = technology_status.get(210401, False)
         self.ranch_additional = technology_status.get(400001, False)
@@ -453,11 +463,8 @@ class ProductionPlanCalculator:
             5: technology_status.get(450301, False),
             6: technology_status.get(450302, False),
         })
-        for id, item in DIC_ISLAND_WILD_GATHER.items():
-            if id < 10:
-                self.wild_gather_available.setdefault(id, True)
-            else:
-                self.wild_gather_available.setdefault(id, False)
+        for gather_id in DIC_ISLAND_WILD_GATHER:
+            self.wild_gather_available.setdefault(gather_id, gather_id not in self.seasonal_gather_ids)
 
         self.place_efficiency_bonus = {
             101: self.place_efficiency.get(101) or 0,
@@ -534,7 +541,7 @@ class ProductionPlanCalculator:
 
     def _is_idle_redirected_conversion(self, activity):
         return activity['kind'] == 'exchange' or (
-            activity['kind'] == 'shop' and activity['id'] in self.PT_NEUTRAL_SHOP_IDS
+            activity['kind'] == 'shop' and activity['id'] in self.pt_neutral_shop_ids
         )
 
     def _redirect_conversion_idle_accumulating_items(self, solution, activities):
@@ -726,7 +733,7 @@ class ProductionPlanCalculator:
         recipe_group = getattr(self, 'recipe_group', {})
         activities = []
 
-        for recipe_id, recipe in DIC_ISLAND_RECIPE.items():
+        for recipe_id, recipe in self.recipe_data.items():
             if not self.recipe_available.get(recipe_id, False):
                 continue
             group = recipe_group.get(recipe_id)
@@ -757,7 +764,9 @@ class ProductionPlanCalculator:
                 'outputs': outputs,
             })
 
-        for shop_id, recipe in DIC_ISLAND_SHOP_RECIPE.items():
+        for shop_id, recipe in self.shop_recipe_data.items():
+            if not is_shop_recipe_available(shop_id, self.season):
+                continue
             activities.append({
                 'kind': 'shop',
                 'id': shop_id,
@@ -778,7 +787,7 @@ class ProductionPlanCalculator:
 
         initial_supply = defaultdict(int)
         wild_gather_plan = {}
-        for gather_id, gather in DIC_ISLAND_WILD_GATHER.items():
+        for gather_id, gather in self.wild_gather_data.items():
             if self.wild_gather_available.get(gather_id, False):
                 wild_gather_plan[gather_id] = dict(gather['product'])
                 for item_id, amount in gather['product'].items():
@@ -803,7 +812,9 @@ class ProductionPlanCalculator:
         }
         sale_entries = []
         for slot, menu in sell_slots.items():
-            for item_id in menu:
+            for item_id, recipe_id in menu.items():
+                if recipe_id in self.seasonal_recipe_ids and not self.recipe_available.get(recipe_id, False):
+                    continue
                 sale_entries.append((slot, item_id))
 
         demand_items = self._drop_unobtainable_demand_items(
@@ -1204,14 +1215,14 @@ class ProductionPlanCalculator:
             if amount <= self.NET_ACCUMULATING_EPSILON:
                 continue
             for item_id, input_amount in activity['inputs'].items():
-                if item_id in self.RECIPE_PRODUCT_IDS or item_id in self.EXCHANGE_PRODUCT_IDS:
+                if item_id in self.recipe_product_ids or item_id in self.EXCHANGE_PRODUCT_IDS:
                     daily_product_demand[item_id] += input_amount * amount
 
         for idx, (slot, item_id) in enumerate(sale_entries, start=activity_count):
             amount = solution[idx]
             if amount <= self.NET_ACCUMULATING_EPSILON:
                 continue
-            if item_id in self.RECIPE_PRODUCT_IDS:
+            if item_id in self.recipe_product_ids:
                 daily_product_demand[item_id] += amount
 
         daily_buffer_items = {}
@@ -1440,7 +1451,6 @@ class ProductionPlanCalculator:
             task_target_items=None,
             task_target_period=None,
             stuck_season_order_id=0,
-            current_time=None,
     ):
         """
         Build the problem solve_production_plan solves, with TaskTarget and
@@ -1459,7 +1469,7 @@ class ProductionPlanCalculator:
         )
         self.stuck_season_order_id, self.stuck_season_order_items = get_stuck_season_order_items(
             stuck_season_order_id,
-            current_time,
+            self.season,
         )
         if self.stuck_season_order_items:
             period = next(iter(self.stuck_season_order_items.values()))['period']
@@ -1476,7 +1486,6 @@ class ProductionPlanCalculator:
             task_target_items=None,
             task_target_period=None,
             stuck_season_order_id=0,
-            current_time=None,
     ):
         # Set before building, the problem carries it over _reset_lp_result
         self.hard_floor_items = self._build_planner_hard_floor_items(hard_floor_items)
@@ -1484,7 +1493,6 @@ class ProductionPlanCalculator:
             task_target_items=task_target_items,
             task_target_period=task_target_period,
             stuck_season_order_id=stuck_season_order_id,
-            current_time=current_time,
         )
         self._reset_lp_result()
         result = milp(

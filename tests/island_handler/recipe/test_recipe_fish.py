@@ -6,6 +6,8 @@ from module.island_handler.recipe import IslandRecipe, get_fish_meat_shortage_ra
 
 class FakeConfig:
     def cross_get(self, key, default=None):
+        if key == 'IslandGeneral.IslandGeneral.Season':
+            return 'season_20261105_cn'
         return default
 
 

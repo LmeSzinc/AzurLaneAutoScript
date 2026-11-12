@@ -13,11 +13,13 @@ from module.base.decorator import cached_property, del_cached_property
 from module.base.timer import Timer
 from module.base.utils import area_offset, color_similarity_2d, extract_letters, random_rectangle_vector_opted
 from module.exception import GameTooManyClickError
-from module.island.data import DIC_ISLAND_ITEM, DIC_ISLAND_RECIPE, DIC_ISLAND_SHOP_ITEM_TO_RECIPE, DIC_ISLAND_SLOT
+from module.island.data import DIC_ISLAND_ITEM, DIC_ISLAND_RECIPE, DIC_ISLAND_SHOP_ITEM_TO_RECIPE
 from module.island.utils import (
     ceil_div_or_ceil,
     ceil_with_epsilon,
     get_idle_accumulating_batch_count,
+    get_recipe_data,
+    get_slot_recipe_ids,
     get_task_target_items,
     get_target_stock_load_rate,
     get_production_target_stock,
@@ -125,7 +127,7 @@ RECIPE_INGREDIENT_COUNTER_OCR = IslandReversedDigitCounter(
 
 
 def get_recipe_product_id(recipe_id):
-    return next(iter(DIC_ISLAND_RECIPE[recipe_id]['commission_product']))
+    return next(iter(get_recipe_data(recipe_id)['commission_product']))
 
 
 def format_recipe_with_product(recipe_id):
@@ -196,7 +198,7 @@ RECIPE_MODE_IDLE_ACCUMULATING = 'idle_accumulating'
 
 
 def get_recipe_entry_weight(recipe_id, info):
-    workload = DIC_ISLAND_RECIPE[recipe_id]['workload']
+    workload = get_recipe_data(recipe_id)['workload']
     return (
         # Products below their hard floor are produced before anything else
         info.stock < info.hard_floor,
@@ -217,7 +219,7 @@ def get_optional_recipe_entry_weight(entry):
         return (
             0,
             info.stock / max(info.target_stock, info.batch_size, 1),
-            DIC_ISLAND_RECIPE[recipe_id]['workload'],
+            get_recipe_data(recipe_id)['workload'],
             info.stock,
         )
     return (
@@ -238,7 +240,7 @@ def recipe_product_name_to_recipe_id(name, slotcode=None):
     corrected_name = None
     corrected_id = None
     if isinstance(slotcode, int):
-        recipe_lists = DIC_ISLAND_SLOT[slotcode]['formula'] + DIC_ISLAND_SLOT[slotcode]['activity_formula']
+        recipe_lists = get_slot_recipe_ids(slotcode, None, include_inactive=True)
     else:
         recipe_lists = DIC_ISLAND_RECIPE.keys()
 
@@ -488,8 +490,8 @@ class IslandRecipe(IslandExchange, IslandShop):
             hard_floor_items_dict, reserve_items_dict, daily_buffer_items_dict, task_target_items_dict)
         self.recipe_info_by_id = {}
         for recipe_id, stock in stocks_dict.items():
-            recipe_product = DIC_ISLAND_RECIPE[recipe_id]['commission_product']
-            product_id = get_recipe_product_id(recipe_id)
+            recipe_product = get_recipe_data(recipe_id)['commission_product']
+            product_id = next(iter(recipe_product))
             batch_size = recipe_product[product_id]
             daily_buffer_width = daily_buffer_items_dict.get(product_id, 0)
             if product_id in fish_buffer_rates:
@@ -547,7 +549,7 @@ class IslandRecipe(IslandExchange, IslandShop):
         }
 
         for recipe_id, info in self.recipe_info_by_id.items():
-            recipe_cost = DIC_ISLAND_RECIPE[recipe_id]['commission_cost']
+            recipe_cost = get_recipe_data(recipe_id)['commission_cost']
             if run_counts[recipe_id] > 0:
                 if (recipe_id, None) not in checked_modes:
                     normal_entries.append((recipe_id, info, None))
@@ -615,7 +617,7 @@ class IslandRecipe(IslandExchange, IslandShop):
         if recipe_id is None:
             return None
 
-        recipe_cost = DIC_ISLAND_RECIPE[recipe_id]['commission_cost']
+        recipe_cost = get_recipe_data(recipe_id)['commission_cost']
         count = len(recipe_cost)
         logger.attr('Ingredient_count', count)
         if count == 0:
@@ -663,6 +665,9 @@ class IslandRecipe(IslandExchange, IslandShop):
                 index = self.recipe_ids.index(recipe_id)
                 button = self.recipe_grid.buttons[index]
                 self.device.click(button)
+                # Selecting a recipe can snap the list to a different scroll position.
+                del_cached_property(self, 'recipe_grid')
+                del_cached_property(self, 'recipe_ids')
                 clicked = True
                 continue
             first_index = None
@@ -713,7 +718,8 @@ class IslandRecipe(IslandExchange, IslandShop):
         # use this before setting recipe batch count to read out current ingredient need per batch,
         # since ranch recipes may have boosted ingredient requirement for higher batch production.
         counters = self.get_recipe_ingredient_counters()
-        recipe_cost = DIC_ISLAND_RECIPE[recipe_id]['commission_cost']
+        recipe = get_recipe_data(recipe_id)
+        recipe_cost = recipe['commission_cost']
         task_target_items = getattr(self, 'task_target_items', None)
         if task_target_items is None:
             task_target_items = get_task_target_items(self.config)
@@ -741,7 +747,7 @@ class IslandRecipe(IslandExchange, IslandShop):
             )
             return False, 0
         if batch_count == float('inf'):
-            max_count = DIC_ISLAND_RECIPE[recipe_id]['production_limit']
+            max_count = recipe['production_limit']
             for ingredient_key, counter in zip(recipe_cost, counters):
                 if not buffer_surplus_mode and (
                         ingredient_key in DIC_ISLAND_SHOP_ITEM_TO_RECIPE
@@ -938,7 +944,7 @@ class IslandRecipe(IslandExchange, IslandShop):
             return None
 
     def update_recipe_id_sequence_and_stock(self, recipe_id, batch_count):
-        recipe_cost = DIC_ISLAND_RECIPE[recipe_id]['commission_cost']
+        recipe_cost = get_recipe_data(recipe_id)['commission_cost']
         consumed_items = {item_id: amount * batch_count for item_id, amount in recipe_cost.items()}
         for old_recipe_id, info in self.recipe_info_by_id.items():
             product_id = get_recipe_product_id(old_recipe_id)
@@ -976,21 +982,20 @@ class IslandRecipe(IslandExchange, IslandShop):
         del_cached_property(self, 'recipe_grid')
         del_cached_property(self, 'recipe_ids')
         while self.recipe_id_sequence:
-            affordable_sequence = [
-                entry for entry in self.recipe_id_sequence
-                if DIC_ISLAND_RECIPE[entry[0]]['workload'] <= available_workload
-            ]
-            if not affordable_sequence:
+            for recipe_id, info, mode in self.recipe_id_sequence:
+                recipe = get_recipe_data(recipe_id)
+                if recipe['workload'] <= available_workload:
+                    break
+            else:
                 logger.info(f'No recipe fits worker emotion {emotion}')
                 break
-            recipe_id, info, mode = affordable_sequence[0]
-            workload = DIC_ISLAND_RECIPE[recipe_id]['workload']
-            production_limit = DIC_ISLAND_RECIPE[recipe_id]['production_limit']
+            workload = recipe['workload']
+            production_limit = recipe['production_limit']
             if mode == RECIPE_MODE_BUFFER_SURPLUS:
                 batch_count = self.calculate_buffer_surplus_run_count(info)
             elif mode:
                 batch_count = get_idle_accumulating_batch_count(
-                    DIC_ISLAND_RECIPE[recipe_id]['workload'],
+                    workload,
                     self.config.ISLAND_IDLE_ACCUMULATING_DISPATCH_HOURS,
                 )
             else:

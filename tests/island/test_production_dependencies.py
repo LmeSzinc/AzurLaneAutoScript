@@ -20,7 +20,7 @@ def continuous_alas_process(monkeypatch):
 
 class ProductionConfig:
     def __init__(self, values):
-        self.values = dict(values)
+        self.values = {'IslandGeneral.IslandGeneral.Season': 'season_20261105_cn', **values}
         self.writes = []
 
     def cross_get(self, key, default=None):

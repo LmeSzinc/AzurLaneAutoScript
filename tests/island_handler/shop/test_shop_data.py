@@ -7,7 +7,7 @@ from module.island_handler.shop import IslandShop, ProductNameOcr
 
 class FakeConfig:
     def __init__(self, values):
-        self.values = values
+        self.values = {'IslandGeneral.IslandGeneral.Season': 'season_20261105_cn', **values}
 
     def cross_get(self, key, default=None):
         return self.values.get(key, default)

@@ -4,10 +4,10 @@ from datetime import datetime
 import pytest
 
 import module.config.server as server
-from module.island.data import DIC_ISLAND_ACTIVITY, DIC_ISLAND_SEASON
+from module.island.season_data import DIC_ISLAND_ACTIVITY, DIC_ISLAND_SEASON
 from module.island.utils import (
-    get_current_activity_list,
-    get_current_season_remaining_days,
+    get_configured_season,
+    get_season_remaining_days,
     get_idle_accumulating_batch_count,
     get_stuck_season_order_remaining_days,
     get_task_target_items,
@@ -23,28 +23,20 @@ class FakeConfig:
         return self.values.get(key, default)
 
 
-class TestCurrentSeasonActivity:
-    def test_inside_season(self):
-        season = next(iter(DIC_ISLAND_SEASON.values()))
-        start = datetime.strptime(season['start_time'][server.server], '%Y-%m-%d %H:%M:%S')
-        end = datetime.strptime(season['end_time'][server.server], '%Y-%m-%d %H:%M:%S')
-        midpoint = start + (end - start) / 2
-        assert get_current_activity_list(midpoint) == season['activity']
+class TestConfiguredSeason:
+    def test_configured_season(self):
+        config = FakeConfig({'IslandGeneral.IslandGeneral.Season': 'season_20260806_cn'})
+        assert get_configured_season(config)['activity'] == [990022, 990023, 990024, 990025]
 
-    def test_inside_season_remaining_days(self):
-        season = next(iter(DIC_ISLAND_SEASON.values()))
-        start = datetime.strptime(season['start_time'][server.server], '%Y-%m-%d %H:%M:%S')
-        end = datetime.strptime(season['end_time'][server.server], '%Y-%m-%d %H:%M:%S')
+    def test_selected_season_uses_its_activity_deadline(self):
+        season = DIC_ISLAND_SEASON['season_20260806_cn']
+        activity = DIC_ISLAND_ACTIVITY[990022]
+        start = datetime.strptime(activity['start_time'][server.server], '%Y-%m-%d %H:%M:%S')
+        end = datetime.strptime(activity['end_time'][server.server], '%Y-%m-%d %H:%M:%S')
         midpoint = start + (end - start) / 2
-        assert get_current_season_remaining_days(midpoint) == pytest.approx(
+        assert get_season_remaining_days(season, midpoint) == pytest.approx(
             (end - midpoint).total_seconds() / 86400
         )
-
-    def test_outside_all_seasons(self):
-        assert get_current_activity_list(datetime(1970, 1, 1)) is None
-
-    def test_outside_all_seasons_remaining_days(self):
-        assert get_current_season_remaining_days(datetime(1970, 1, 1)) is None
 
 
 class TestStuckSeasonOrder:
@@ -65,8 +57,9 @@ class TestStuckSeasonOrder:
         start = datetime.strptime(activity['start_time'][server.server], '%Y-%m-%d %H:%M:%S')
         end = datetime.strptime(activity['end_time'][server.server], '%Y-%m-%d %H:%M:%S')
         midpoint = start + (end - start) / 2
-        assert resolve_stuck_season_order_id(old_order_id, midpoint) == current_order_id
-        assert get_stuck_season_order_remaining_days(old_order_id, midpoint) == pytest.approx(
+        season = DIC_ISLAND_SEASON['season_20260806_cn']
+        assert resolve_stuck_season_order_id(old_order_id, season) == current_order_id
+        assert get_stuck_season_order_remaining_days(current_order_id, midpoint) == pytest.approx(
             (end - midpoint).total_seconds() / 86400
         )
 
@@ -94,24 +87,26 @@ class TestGetIdleAccumulatingBatchCount:
         assert get_idle_accumulating_batch_count(-1, 6) == 1
 
 
-def test_get_task_target_items_merges_config_and_stuck_order_at_injected_time():
+def test_get_task_target_items_merges_config_and_stuck_order(monkeypatch):
     activity = DIC_ISLAND_ACTIVITY[990023]
     start = datetime.strptime(activity['start_time'][server.server], '%Y-%m-%d %H:%M:%S')
     end = datetime.strptime(activity['end_time'][server.server], '%Y-%m-%d %H:%M:%S')
     current_time = start + (end - start) / 2
+    monkeypatch.setattr('module.island.utils._get_server_time', lambda time=None: current_time)
     config = FakeConfig({
+        'IslandGeneral.IslandGeneral.Season': 'season_20260806_cn',
         'IslandSeasonTask.IslandSeasonTask.TaskTarget': '2700: 100',
         'IslandOrder.IslandOrder.StuckSeasonOrderId': 100015,
     })
 
-    items = get_task_target_items(config, current_time=current_time)
+    items = get_task_target_items(config)
 
     assert items[2700]['total_need_count'] == 100
     assert items[2700]['period'] == pytest.approx(
-        get_current_season_remaining_days(current_time)
+        get_season_remaining_days(get_configured_season(config), current_time)
     )
     for item_id in (4011, 4013):
         assert items[item_id]['total_need_count'] == 5
         assert items[item_id]['period'] == pytest.approx(
-            get_stuck_season_order_remaining_days(100015, current_time)
+            get_stuck_season_order_remaining_days(100060, current_time)
         )

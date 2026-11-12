@@ -86,7 +86,6 @@ JP_TECHNOLOGIES = (
     640205, 650001, 650101, 650201, 650202, 650203, 660001, 660101, 660201, 660202,
     660203, 660204, 660205, 660206,
 )
-JP_ACTIVITIES = [990022, 990023, 990024, 990025]
 SCREENSHOT_COMMISSIONS = [
     # Onion, Freshwater Fish Meat, Freshwater Shrimp -> Saltwater Fish Meat, Potato, Sulfur
     TransportCommission([(2007, 8), (2521, 10), (5005, 9)], {2522: 7, 2005: 28, 2704: 1}, name='P1'),
@@ -119,7 +118,7 @@ SCREENSHOT_STOCK = {
 def jp_problem():
     calc = ProductionPlanCalculator(
         {technology_id: True for technology_id in JP_TECHNOLOGIES},
-        activity_list=JP_ACTIVITIES,
+        season_name='season_20260806_cn',
         place_efficiency={101: 0.12, 501: 0.12, 502: 0.12},
         restaurant_settings={
             601: {'grade': 'diamond', 'waitress_slots': ('Chao_Ho', 'any')},
