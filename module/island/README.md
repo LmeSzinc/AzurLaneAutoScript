@@ -38,5 +38,5 @@ the release shown in the row.
 | 20260507 | 20260806 | season_20260507_cn | Development Season Ⅲ – Summer Sojourn | 岛屿开发季III——夏日悠游 | Development Season Ⅲ – Summer Sojourn | 開発シーズンⅢ | - |
 | 20260521 | 20260820 | season_20260507_cn | Development Season Ⅲ – Summer Sojourn | - | - | - | 島嶼開發季III——夏日悠遊 |
 | 20260806 | 20261105 | season_20260806_cn | Island Planner Season IV - Tales from Autumn | 岛屿开发季IV——秋日絮语 | Island Planner Season IV - Tales from Autumn | 開発シーズンⅣ | - |
-| 20260820 | 20261119 | season_20260806_cn | Island Planner Season IV - Tales from Autumn | - | - | - | 島嶼開發季I——秋日絮語 |
+| 20260820 | 20261119 | season_20260806_cn | Island Planner Season IV - Tales from Autumn | - | - | - | 島嶼開發季IV——秋日絮語 |
 | 20261105 | 20270201 | season_20261105_cn | Island Planner Season V – Winter Wanderlust | 岛屿开发季V——冬日漫行 | Island Planner Season V – Winter Wanderlust | 離島開発シーズンⅤ――冬日漫々 | - |
