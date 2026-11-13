@@ -456,6 +456,27 @@ class GeneratedConfig:
     IslandProduction_IdleAccumulatingItems = '{}'
     IslandProduction_SkipBufferSurplus = True
     IslandProduction_UseWorkerjuuByDefault = True
+    IslandProduction_WorkerPoolField = None
+    IslandProduction_WorkerPoolRanchChicken = None
+    IslandProduction_WorkerPoolRanchPig = None
+    IslandProduction_WorkerPoolRanchCow = None
+    IslandProduction_WorkerPoolRanchSheep = None
+    IslandProduction_WorkerPoolFishery = None
+    IslandProduction_WorkerPoolMine = None
+    IslandProduction_WorkerPoolWood = None
+    IslandProduction_WorkerPoolOrchard = None
+    IslandProduction_WorkerPoolNursery = None
+    IslandProduction_WorkerPoolKoi = None
+    IslandProduction_WorkerPoolBear = None
+    IslandProduction_WorkerPoolEatery = None
+    IslandProduction_WorkerPoolGrill = None
+    IslandProduction_WorkerPoolLumber = None
+    IslandProduction_WorkerPoolMachinery = None
+    IslandProduction_WorkerPoolElectronic = None
+    IslandProduction_WorkerPoolCrafts = None
+    IslandProduction_WorkerPoolCafe = None
+    IslandProduction_MinStaminaToAssign = 50
+    IslandProduction_ReservedCharacters = None
 
     # Group `IslandOrder`
     IslandOrder_StuckSeasonOrderId = 0

@@ -2701,6 +2701,90 @@
     "UseWorkerjuuByDefault": {
       "name": "Use Workerjuu by default",
       "help": "Enabled: use Workerjuu by default. Disabled: search available characters in ascending dock order with at least 100 Stamina and a Stamina cap below 150, excluding named staff configured under Store Management; use Workerjuu if none is available."
+    },
+    "WorkerPoolField": {
+      "name": "Field",
+      "help": ""
+    },
+    "WorkerPoolRanchChicken": {
+      "name": "Ranch (Chicken)",
+      "help": ""
+    },
+    "WorkerPoolRanchPig": {
+      "name": "Ranch (Pig)",
+      "help": ""
+    },
+    "WorkerPoolRanchCow": {
+      "name": "Ranch (Cow)",
+      "help": ""
+    },
+    "WorkerPoolRanchSheep": {
+      "name": "Ranch (Sheep)",
+      "help": ""
+    },
+    "WorkerPoolFishery": {
+      "name": "Fishery",
+      "help": ""
+    },
+    "WorkerPoolMine": {
+      "name": "Mine",
+      "help": ""
+    },
+    "WorkerPoolWood": {
+      "name": "Woodcutting",
+      "help": ""
+    },
+    "WorkerPoolOrchard": {
+      "name": "Orchard",
+      "help": ""
+    },
+    "WorkerPoolNursery": {
+      "name": "Nursery",
+      "help": ""
+    },
+    "WorkerPoolKoi": {
+      "name": "Koi Restaurant",
+      "help": ""
+    },
+    "WorkerPoolBear": {
+      "name": "Bear Restaurant",
+      "help": ""
+    },
+    "WorkerPoolEatery": {
+      "name": "Eatery Restaurant",
+      "help": ""
+    },
+    "WorkerPoolGrill": {
+      "name": "Grill Restaurant",
+      "help": ""
+    },
+    "WorkerPoolLumber": {
+      "name": "Lumber Mill",
+      "help": ""
+    },
+    "WorkerPoolMachinery": {
+      "name": "Machinery Workshop",
+      "help": ""
+    },
+    "WorkerPoolElectronic": {
+      "name": "Electronics Workshop",
+      "help": ""
+    },
+    "WorkerPoolCrafts": {
+      "name": "Crafts Workshop",
+      "help": ""
+    },
+    "WorkerPoolCafe": {
+      "name": "Cafe",
+      "help": ""
+    },
+    "MinStaminaToAssign": {
+      "name": "Minimum Stamina to Assign",
+      "help": "Minimum stamina a named character must have before being dispatched to a production slot\nuse higher values if you want fewer IslandProduction tasks interrupting other tasks"
+    },
+    "ReservedCharacters": {
+      "name": "Reserved Characters",
+      "help": "Characters listed here are never dispatched to production slots, even if they also appear in a worker pool above"
     }
   },
   "IslandOrder": {

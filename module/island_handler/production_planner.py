@@ -162,6 +162,7 @@ class IslandProductionPlanner(ModuleBase):
                 self.config.cross_set("IslandProduction.IslandProduction.IdleAccumulatingItems", idle_accumulating_items_yaml_text)
                 self.config.cross_set("IslandProduction.IslandProduction.HardFloorItems", hard_floor_items_yaml_text)
                 self.config.cross_set("IslandProduction.Storage.Storage.CheckAllEmptySlots", True)
+                self.config.cross_set("IslandProductionPlanner.Storage.Storage.IdlePlaceIds", calculator.idle_place_ids)
                 for slot, config_key in self.RESTAURANT_MENU_CONFIG.items():
                     self.config.cross_set(config_key, restaurant_menu_yaml_texts[slot])
                 self.config.cross_set("IslandProductionPlanner.IslandProductionPlanner.RescanIslandTechnology", False)

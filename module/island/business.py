@@ -129,12 +129,20 @@ class IslandBusiness(IslandRestaurant):
         elif self.index >= len(self.business_grid_shifted.buttons) and self.shifted:
             logger.info("No more restaurants")
 
+    def save_last_success_time(self, last_success_time):
+        self.config.cross_set(
+            "IslandBusiness.Storage.Storage.LastSuccessTime",
+            {k: v.isoformat(sep=' ') for k, v in last_success_time.items()},
+        )
+
     def run(self):
         self.ui_ensure(page_island_manage)
         self.island_manage_side_navbar_ensure(upper=2)
         self.handle_restaurant_popup()
         self.restaurant_swipe_to_top()
         unchecked_restaurants = list(RESTAURANT_IDS)
+        last_success_time = self.config.cross_get("IslandBusiness.Storage.Storage.LastSuccessTime", default={})
+        last_success_time = {int(k): datetime.fromisoformat(v) for k, v in last_success_time.items()}
         next_run_time = {
             601: get_server_next_update('00:00') if not self.skip_restaurant[601] else datetime.now() + timedelta(days=3),
             602: get_server_next_update('00:00') if not self.skip_restaurant[602] else datetime.now() + timedelta(days=3),
@@ -172,6 +180,9 @@ class IslandBusiness(IslandRestaurant):
                 continue
             if self.is_restaurant_resting(entrance_button):
                 logger.info(f"Restaurant {restaurant} is resting")
+                # Nothing to run until the next reset, so its waitresses are free for production
+                last_success_time[restaurant_id] = datetime.now()
+                self.save_last_success_time(last_success_time)
                 unchecked_restaurants.remove(restaurant_id)
                 self.next_restaurant()
                 continue
@@ -202,6 +213,13 @@ class IslandBusiness(IslandRestaurant):
                 unchecked_restaurants.remove(restaurant_id)
             if success:
                 next_run_time[restaurant_id] = datetime.now() + timedelta(hours=8)
+                last_success_time[restaurant_id] = datetime.now()
+                self.save_last_success_time(last_success_time)
                 # Since dealt restaurants will be moved to the bottom,
                 # we can directly check the next one without swiping
-        self.config.task_delay(target=min(next_run_time.values()))
+        with self.config.multi_set():
+            self.config.cross_set(
+                "IslandBusiness.Storage.Storage.LastSuccessTime",
+                {k: v.isoformat(sep=' ') for k, v in last_success_time.items()},
+            )
+            self.config.task_delay(target=min(next_run_time.values()))

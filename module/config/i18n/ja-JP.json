@@ -2701,6 +2701,90 @@
     "UseWorkerjuuByDefault": {
       "name": "デフォルトで作業饅頭を使用",
       "help": "有効：デフォルトで作業饅頭を使用します。無効：ドックの昇順で、体力が100以上、体力上限が150未満の空いているキャラクターを検索します。明示的に設定された名前付きレストラン店員は除外し、利用可能なキャラクターがいなければ作業饅頭を使用します。"
+    },
+    "WorkerPoolField": {
+      "name": "豊穣の畑",
+      "help": ""
+    },
+    "WorkerPoolRanchChicken": {
+      "name": "悠々牧場（鶏）",
+      "help": ""
+    },
+    "WorkerPoolRanchPig": {
+      "name": "悠々牧場（豚）",
+      "help": ""
+    },
+    "WorkerPoolRanchCow": {
+      "name": "悠々牧場（牛）",
+      "help": ""
+    },
+    "WorkerPoolRanchSheep": {
+      "name": "悠々牧場（羊）",
+      "help": ""
+    },
+    "WorkerPoolFishery": {
+      "name": "饅頭いけす",
+      "help": ""
+    },
+    "WorkerPoolMine": {
+      "name": "積岩鉱山",
+      "help": ""
+    },
+    "WorkerPoolWood": {
+      "name": "翠緑の森",
+      "help": ""
+    },
+    "WorkerPoolOrchard": {
+      "name": "薫る果樹園",
+      "help": ""
+    },
+    "WorkerPoolNursery": {
+      "name": "青々苗場",
+      "help": ""
+    },
+    "WorkerPoolKoi": {
+      "name": "有魚飯店",
+      "help": ""
+    },
+    "WorkerPoolBear": {
+      "name": "白クマ茶房",
+      "help": ""
+    },
+    "WorkerPoolEatery": {
+      "name": "饅頭軽食",
+      "help": ""
+    },
+    "WorkerPoolGrill": {
+      "name": "烏魚焼肉",
+      "help": ""
+    },
+    "WorkerPoolLumber": {
+      "name": "木材加工",
+      "help": ""
+    },
+    "WorkerPoolMachinery": {
+      "name": "工作機械",
+      "help": ""
+    },
+    "WorkerPoolElectronic": {
+      "name": "電子部品加工",
+      "help": ""
+    },
+    "WorkerPoolCrafts": {
+      "name": "手工作業台",
+      "help": ""
+    },
+    "WorkerPoolCafe": {
+      "name": "饅頭カフェ",
+      "help": ""
+    },
+    "MinStaminaToAssign": {
+      "name": "配属に必要な最低スタミナ",
+      "help": "キャラクターが生産スロットに配属される前に必要な最低スタミナ\n他のタスクへの割り込みを減らしたい場合は、より高い値を設定してください"
+    },
+    "ReservedCharacters": {
+      "name": "予約キャラクター",
+      "help": "ここに記載されたキャラクターは、上記の人材プールに含まれていても生産スロットに配属されません"
     }
   },
   "IslandOrder": {
