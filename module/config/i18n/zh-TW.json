@@ -2666,11 +2666,11 @@
     "Season": {
       "name": "開發季",
       "help": "自動使用目前伺服器最新的開發季，所有島嶼任務和生產規劃共用此設定。",
-      "season_20260806_cn": "島嶼開發季IV——秋日絮語",
+      "season_20260806_cn": "島嶼開發季I——秋日絮語",
       "season_20261105_cn": "Island Planner Season V – Winter Wanderlust",
-      "season_20260507_cn": "島嶼開發季III——夏日悠遊",
-      "season_20260205_cn": "島嶼開發季II——春日閒趣",
-      "season_20251106_cn": "島嶼開發季I——啟動時刻！"
+      "season_20260507_cn": "Development Season Ⅲ – Summer Sojourn",
+      "season_20260205_cn": "Development Season II - Spring Merrymaking",
+      "season_20251106_cn": "Development Season I - Lets Get Started!"
     }
   },
   "IslandProduction": {
