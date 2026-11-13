@@ -114,6 +114,9 @@ class CampaignBase(CampaignBase_):
         Performs the operations needed to transition
         to target archive's campaign stage map
         """
+        # Close the menu and wait for the stage page before checking the data-key icon.
+        self.ensure_auto_search_exit()
+
         # On first run regardless of current location
         # even in target stage map, start from page_archives
         # For subsequent runs when neither reward or
