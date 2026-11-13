@@ -48,6 +48,7 @@ def make_production(places=(602, 706), claimed=(9207,), config=None):
         for place in places
     }
     main.claimed_slots = set(claimed)
+    main.has_empty_fishery_slot = False
     main.slot_finish_time = {}
     main.ensure_island_production_page = lambda: None
     main.claim_all_rewards = lambda: setattr(main, 'claimed_slots', set(claimed))
@@ -61,6 +62,33 @@ def make_production(places=(602, 706), claimed=(9207,), config=None):
 
 def dispatched(events):
     return [event[1] for event in events if event[0] == 'dispatch']
+
+
+@pytest.mark.parametrize(('empty', 'finished', 'exchange'), [
+    ((9211, 9212, 9213), (), True),
+    ((), (9211,), True),
+    ((9212, 9213), (9211,), True),
+    ((), (), False),
+    ((9013,), (), False),
+])
+def test_fish_exchange_runs_once_before_dispatch(empty, finished, exchange):
+    main, events = make_production(places=(201, 401), claimed=())
+    del main.claim_all_rewards
+    main.is_slot_empty = lambda button: button in empty or button in finished
+    main.is_slot_finished = lambda button: button in finished
+    main.claim_slot_reward = lambda button: True
+    main.exchange_surplus_fish = lambda: events.append('exchange')
+
+    main.run()
+
+    assert events.count('exchange') == int(exchange)
+    if exchange:
+        assert events[:3] == ['top', 'exchange', 'top']
+
+    events.clear()
+    main.is_slot_empty = main.is_slot_finished = lambda button: False
+    main.run()
+    assert 'exchange' not in events
 
 
 def make_transport(config, monkeypatch, claimed=True):

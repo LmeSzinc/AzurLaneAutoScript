@@ -224,10 +224,13 @@ class IslandProduction(IslandRecipe, IslandDock):
                         self.claimed_slots.add(slot_id)
                     if slot_id in self.slot_finish_time:
                         del self.slot_finish_time[slot_id]
+                if place_id == 201 and self.is_slot_empty(slot_button):
+                    self.has_empty_fishery_slot = True
 
     def claim_all_rewards(self):
         logger.hr("Claim Production Rewards", level=2)
         self.claimed_slots = set()
+        self.has_empty_fishery_slot = False
         self.ensure_top_page()
         while 1:
             self.claim_reward_in_page()
@@ -407,7 +410,8 @@ class IslandProduction(IslandRecipe, IslandDock):
         if not yaml_text or yaml_text == "{}":
             logger.critical('No daily buffer items found in config, please run Island Production Planner first')
             raise RequestHumanTakeover('No daily buffer items found in config, please run Island Production Planner first')
-        if self.claimed_slots.intersection(DIC_ISLAND_PRODUCTION_PLACE[201]['slot']):
+        if (self.claimed_slots.intersection(DIC_ISLAND_PRODUCTION_PLACE[201]['slot'])
+                or self.has_empty_fishery_slot):
             self.exchange_surplus_fish()
         self.dispatch_all(check_all_empty_slots=check_all_empty_slots)
         next_run_time = list(self.slot_finish_time.values())
