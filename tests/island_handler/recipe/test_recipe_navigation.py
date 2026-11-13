@@ -71,8 +71,8 @@ def test_stock_scan_reads_the_bottom_page_before_stopping(monkeypatch):
     main, state = make_recipe(monkeypatch, pages)
 
     assert main.scan_all_recipe_stocks() == {recipe_id: recipe_id * 10 for recipe_id in range(1, 9)}
-    assert state.scans == [0, 1, 2]
-    assert state.next_calls == 2
+    assert state.scans == [0, 1, 2, 2]
+    assert state.next_calls == 3
     assert state.clears == 1
 
 
@@ -81,8 +81,37 @@ def test_stock_scan_retries_failed_drags_instead_of_missing_later_recipes(monkey
     main, state = make_recipe(monkeypatch, [first, first, first, page([3, 4, 5, 6], (181, 71))])
 
     assert main.scan_all_recipe_stocks() == {recipe_id: recipe_id * 10 for recipe_id in range(1, 7)}
-    assert state.scans == [0, 1, 2, 3]
+    assert state.scans == [0, 1, 2, 3, 3]
+    assert state.next_calls == 4
+
+
+@pytest.mark.parametrize('delayed_screenshot', [False, True])
+def test_stock_scan_continues_past_bottom_aligned_middle_pages(monkeypatch, delayed_screenshot):
+    pages = [page([1, 2, 3], has_next=True), page([3, 4, 5, 6], (181, 71)),
+             page([5, 6, 7, 8], (181, 71))]
+    main, state = make_recipe(monkeypatch, pages)
+    if delayed_screenshot:
+        next_page = main.next_recipe_page
+        loop = main.loop
+
+        def next_page_with_old_frame():
+            previous_image = main.device.image
+            next_page()
+            main.device.image = previous_image
+
+        def loop_with_screenshots(**kwargs):
+            for _ in loop(**kwargs):
+                current = pages[state.index]
+                main.device.image = (current.origin, tuple(current.stocks.items()))
+                yield
+
+        main.next_recipe_page = next_page_with_old_frame
+        main.loop = loop_with_screenshots
+
+    assert main.scan_all_recipe_stocks() == {recipe_id: recipe_id * 10 for recipe_id in range(1, 9)}
+    assert state.scans == [0, 1, 2, 2]
     assert state.next_calls == 3
+    assert state.clears == 1
 
 
 @pytest.mark.parametrize('origin, count', [
@@ -169,10 +198,10 @@ def test_single_anchor_retains_its_detected_origin():
     assert not main.recipe_at_bottom()
 
 
-def test_bottom_grid_does_not_need_another_drag(monkeypatch):
+def test_bottom_grid_is_confirmed_with_one_more_drag(monkeypatch):
     current = page([1, 2, 3, 4], (181, 71))
     main, state = make_recipe(monkeypatch, [current])
 
     assert main.scan_all_recipe_stocks() == current.stocks
-    assert state.scans == [0]
-    assert state.next_calls == 0
+    assert state.scans == [0, 0]
+    assert state.next_calls == 1

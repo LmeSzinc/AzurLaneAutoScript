@@ -388,13 +388,21 @@ class IslandRecipe(IslandExchange, IslandShop):
             if self.appear(ISLAND_RECIPE_AMOUNT_MAX, offset=(20, 20)):
                 break
         all_stocks = {}
+        confirm_bottom = False
         for _ in self.loop(timeout=30):
             new_stocks = dict(zip(self.recipe_ids, self.get_recipe_product_stocks()))
             all_stocks.update(new_stocks)
-            if self.recipe_at_bottom():
+            at_bottom = self.recipe_at_bottom()
+            if at_bottom and (self._recipe_list_is_short(self.recipe_grid)
+                              or confirm_bottom and self.appear(ISLAND_RECIPE_DRAG_CHECK, offset=(20, 20))):
                 logger.info('Reached recipe list bottom')
                 self.device.click_record_clear()
                 break
+            # A middle page can share the bottom alignment; compare again after another drag.
+            if at_bottom:
+                ISLAND_RECIPE_DRAG_CHECK.load_color(self.device.image)
+                ISLAND_RECIPE_DRAG_CHECK._match_init = True
+            confirm_bottom = at_bottom
             self.next_recipe_page()
             # Rescan even if sparse recognition prevented a drag.
             del_cached_property(self, 'recipe_grid')

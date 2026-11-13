@@ -487,13 +487,30 @@ def test_search_cannot_finish_at_a_nearby_unaligned_grid(monkeypatch, origin, co
     assert main._next_calls > 2
 
 
-@pytest.mark.parametrize('count', [7, 12])
-def test_search_stops_at_exact_bottom_without_another_drag(monkeypatch, count):
+@pytest.mark.parametrize('count, swipes', [(7, 0), (11, 0), (12, 1)])
+def test_search_only_drags_at_exact_bottom_when_all_slots_are_filled(monkeypatch, count, swipes):
     page = [character('Card{}'.format(index)) for index in range(count)]
     main = make_main([page], grid_size=12, grid_origins=[(56, 206)])
+    monkeypatch.setattr(dock_module, 'ISLAND_DOCK_DETECT', FakeDetect())
+    scans = []
 
-    assert main.island_dock_search(lambda page: None) == (None, True)
-    assert main._next_calls == 0
+    assert main.island_dock_search(lambda page: scans.append(page)) == (None, True)
+    assert scans == [page] * (swipes + 1)
+    assert main._next_calls == swipes
+
+
+def test_search_continues_past_bottom_aligned_middle_pages(monkeypatch):
+    first = [character('First{}'.format(index)) for index in range(12)]
+    middle = [character('Middle{}'.format(index)) for index in range(12)]
+    bottom = [character('Last{}'.format(index)) for index in range(12)]
+    main = make_main([first, middle, bottom], grid_size=12,
+                     grid_origins=[(56, 139), (56, 206), (56, 206)])
+    monkeypatch.setattr(dock_module, 'ISLAND_DOCK_DETECT', FakeDetect())
+    scans = []
+
+    assert main.island_dock_search(lambda page: scans.append(page)) == (None, True)
+    assert scans == [first, middle, bottom, bottom]
+    assert main._next_calls == 3
 
 
 def test_search_verifies_exactly_twelve_characters_at_top_with_two_drags(monkeypatch):

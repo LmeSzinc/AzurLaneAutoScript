@@ -244,7 +244,9 @@ class IslandDock(IslandUI):
             if 'identity' not in disabled:
                 incomplete |= any(c.identity in (None, '', 'unknown') for c in characters)
 
-            at_end = self.island_dock_at_bottom()
+            # Empty trailing slots establish the bottom; a full grid needs another drag.
+            at_end = self.island_dock_at_bottom() and (
+                len(characters) < len(self.dock_grid.buttons) or unchanged >= 1)
             if tuple(self.dock_grid.origin) == ISLAND_DOCK_GRID_TOP_ORIGIN:
                 seen_third_row = seen_third_row or self.island_dock_has_third_row()
                 # A short dock has empty cells, or stays put after two drags.
