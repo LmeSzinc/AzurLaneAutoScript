@@ -295,7 +295,7 @@ def test_order_submission_does_not_request_full_check(submitted):
     main.config = ProductionConfig({CHECK_ALL: False})
     main.handle_island_additional = lambda: False
     main.handle_info_bar = lambda: None
-    main.click_order = lambda *args, **kwargs: None
+    main.click_order = lambda *args, **kwargs: True
     main.appear = lambda *args, **kwargs: False
     main.scan_current_order_requirements = lambda: {}
     main.is_order_satisfied = lambda *args, **kwargs: True
