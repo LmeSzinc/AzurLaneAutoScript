@@ -1,3 +1,4 @@
+import cv2
 import numpy as np
 
 from module.base.button import Button
@@ -10,6 +11,11 @@ from module.map_detection.os_grid import OSGrid
 from module.map_detection.view import View
 from module.os.map_operation import OSMapOperation
 from module.os.radar import Radar
+
+
+# Numeral area of the centered fleet's badge in a 1280x720 screenshot.
+WALK_COUNTER_AREA = (574, 253, 594, 270)
+WALK_COUNTER_MAX_MEAN_DIFFERENCE = 20
 
 
 class OSCamera(OSMapOperation, Camera):
@@ -41,6 +47,31 @@ class OSCamera(OSMapOperation, Camera):
         """
         self.radar.predict(self.device.image)
         self.radar.show()
+
+    _walk_counter_image = None
+
+    def walk_counter_changed(self, reset=False):
+        """
+        Detect visual changes, including appearance or disappearance, in the walk counter.
+
+        Args:
+            reset (bool): Clear the reference image without reading a screenshot.
+
+        Returns:
+            bool | None: True for the first image or a changed image,
+                False when unchanged, None after a reset.
+        """
+        if reset:
+            self._walk_counter_image = None
+            return None
+        image = cv2.cvtColor(self.image_crop(WALK_COUNTER_AREA, copy=False), cv2.COLOR_RGB2GRAY)
+        previous = self._walk_counter_image
+        if previous is not None and cv2.norm(image, previous, cv2.NORM_L1) / image.size \
+                <= WALK_COUNTER_MAX_MEAN_DIFFERENCE:
+            return False
+
+        self._walk_counter_image = image
+        return True
 
     def grid_is_in_sight(self, grid, camera=None, sight=None):
         location = location_ensure(grid)
