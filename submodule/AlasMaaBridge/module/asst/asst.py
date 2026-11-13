@@ -3,6 +3,7 @@ import json
 import os
 import pathlib
 import platform
+import threading
 from typing import Union, Optional
 
 from .utils import InstanceOptionType, JSON
@@ -90,8 +91,22 @@ class Asst:
             self.__ptr = Asst.__lib.AsstCreate()
 
     def __del__(self):
-        Asst.__lib.AsstDestroy(self.__ptr)
-        self.__ptr = None
+        if getattr(self, '_Asst__ptr', None):
+            Asst.__lib.AsstDestroy(self.__ptr)
+            self.__ptr = None
+
+    def close(self, timeout=10) -> bool:
+        """Destroy a failed instance without blocking the scheduler indefinitely."""
+        thread = getattr(self, '_close_thread', None)
+        if thread is None:
+            if not self.__ptr:
+                return True
+            thread = threading.Thread(target=Asst.__lib.AsstDestroy, args=(self.__ptr,), daemon=True)
+            self.__ptr = None
+            self._close_thread = thread
+            thread.start()
+        thread.join(timeout)
+        return not thread.is_alive()
 
     def set_instance_option(self, option_type: InstanceOptionType, option_value: str):
         """
