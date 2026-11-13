@@ -6,7 +6,9 @@ migration code alike.
 """
 
 from collections import OrderedDict
+from datetime import datetime, timedelta
 
+from module.config.utils import get_server_next_update
 from module.exception import RequestHumanTakeover
 from module.island.utils import ceil_with_epsilon, load_item_mapping, normalize_item_keys
 from module.logger import logger
@@ -182,6 +184,25 @@ def get_waitress_effect(restaurant_id, slots):
         sales_bonus += sales
     return capacity_delta, sales_bonus
 
+def get_blacklisted_waitresses(config):
+    """Named waitresses assigned to an enabled restaurant that has not yet
+    completed its run since the last daily reset. Once a restaurant
+    completes for the day, its waitresses are released for the rest of
+    the day.
+    """
+    last_reset = get_server_next_update('00:00') - timedelta(days=1)
+    last_success_time = config.cross_get("IslandBusiness.Storage.Storage.LastSuccessTime", default={})
+    last_success_time = {int(k): datetime.fromisoformat(v) for k, v in last_success_time.items()}
+
+    blacklisted = set()
+    for restaurant_id in RESTAURANT_IDS:
+        slots = get_waitress_slots(config, restaurant_id)
+        if not is_restaurant_enabled(slots):
+            continue
+        ran_today = last_success_time.get(restaurant_id, datetime.min) >= last_reset
+        if not ran_today:
+            blacklisted.update(get_selected_named_waitresses(slots))
+    return blacklisted
 
 def get_initial_capacity_from_grade(grade):
     if grade == 'bronze':

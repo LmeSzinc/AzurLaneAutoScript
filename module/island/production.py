@@ -10,14 +10,15 @@ from module.island.data import DIC_ISLAND_PRODUCTION_PLACE, DIC_ISLAND_SLOT
 from module.island.utils import (
     get_configured_season, get_slot_ingredient_source_slots, item_name_with_id, production_place_name_with_id,
 )
-from module.island_handler.dock import IslandDock
+from module.island_handler.dock import IslandDock, dock_character_matches
 from module.island_handler.exchange import FISH_MEAT_SOURCES
-from module.island_handler.recipe import IslandProductionRestart, IslandRecipe
-from module.island_handler.restaurant_config import (
-    RESTAURANT_IDS,
-    get_selected_named_waitresses,
-    get_waitress_slots,
+from module.island_handler.production_worker_config import (
+    WORKER_WORKERJUU,
+    get_effective_worker_pool,
+    get_min_stamina,
+    get_unavailable_characters,
 )
+from module.island_handler.recipe import IslandProductionRestart, IslandRecipe
 from module.logger import logger
 from module.map_detection.utils import Points
 from module.ui.page import page_island, page_island_manage
@@ -33,6 +34,8 @@ SLOT_SIZE = (86, 86)
 SLOT_DELTA = (95 - 1/3, 0)
 TICK_AREA = (30, 35, 52, 51)
 CHARACTER_SELECT_TITLE_AREA = (515, 144, 765, 202)
+# Highest emotion a character can have
+EMOTION_MAX = 150
 
 
 def production_slot_name_with_id(slot_id):
@@ -43,6 +46,8 @@ def production_slot_name_with_id(slot_id):
 class IslandProduction(IslandRecipe, IslandDock):
     slot_finish_time = {}
     human_workers_available = True
+    # Named characters used during this dispatch_all
+    dispatched_characters = set()
     _first_run = True
     # main menu related methods
     def _get_tabs(self):
@@ -234,7 +239,122 @@ class IslandProduction(IslandRecipe, IslandDock):
             if not self.next_page():
                 break
 
-    def dispatch_slot(self, slot_id, slot_button):
+    # worker selection
+
+    def select_pool_worker(self, pool, excluded=()):
+        """
+        Select the highest priority eligible character of a worker pool in the dock.
+
+        The dock is swept once. A character is selected right away when no
+        character with a higher priority can still show up on a later page.
+        Otherwise the eligible characters are only noted, and the best of them
+        is selected by a second search after the sweep. Eligible means free,
+        with at least the minimum stamina.
+
+        Args:
+            pool (list[str]): Character names, highest priority first.
+            excluded (iterable[str]): Pool characters not to use.
+
+        Returns:
+            Character: Selected, None if no character of the pool is eligible.
+        """
+        min_stamina = get_min_stamina(self.config)
+        candidates = [name for name in pool if name not in excluded]
+        if not candidates:
+            return None
+        rank = {name: index for index, name in enumerate(candidates)}
+        identities = set(candidates)
+        emotion = (min_stamina, EMOTION_MAX)
+        seen = set()
+        eligible = {}
+
+        def handle_page(characters):
+            for character in characters:
+                if character.identity not in rank:
+                    continue
+                seen.add(character.identity)
+                if dock_character_matches(character, identity=identities, emotion=emotion):
+                    eligible[character.identity] = character.emotion
+            if not eligible:
+                return None
+            best = min(eligible, key=rank.get)
+            # A character with a higher priority that is not seen yet may be on a later page
+            if any(name not in seen for name in candidates[:rank[best]]):
+                return None
+            for character in characters:
+                if character.identity == best and character.status == 'free':
+                    if self.island_dock_select_one(character.button):
+                        return character
+                    return False
+            # The best character was on an earlier page
+            return None
+
+        character, _ = self.island_dock_search(
+            handle_page, descending=False, disabled=('emotion_limit', 'grade'))
+        if character:
+            return character
+        if character is False or not eligible:
+            return None
+        for name in sorted(eligible, key=rank.get):
+            character = self.island_dock_select_character(
+                identity=name, emotion=emotion, descending=False, start_at_top=True,
+                disabled=('emotion_limit',))
+            if character:
+                return character
+            # The character changed since the sweep, try the next one
+        return None
+
+    def select_worker(self, slot_id, force_workerjuu=False):
+        """
+        Select a worker in the dock.
+
+        A slot with a worker pool (its own, or borrowed from idle places) uses the
+        pool in priority order, then Workerjuu. A slot without a pool keeps the
+        upstream behaviour: any free character within the stamina window, then Workerjuu.
+
+        Returns:
+            Character: None if no worker could be selected.
+        """
+        if force_workerjuu or self.config.IslandProduction_UseWorkerjuuByDefault or not self.human_workers_available:
+            return self.island_dock_select_workerjuu()
+
+        place_id = DIC_ISLAND_SLOT[slot_id]['place']
+        pool = get_effective_worker_pool(self.config, place_id, slot_id=slot_id)
+        if pool:
+            worker = self.select_pool_worker(pool, excluded=self.dispatched_characters)
+            if worker:
+                logger.info(f'Selected {worker.identity} for {production_slot_name_with_id(slot_id)} '
+                            f'(emotion: {worker.emotion})')
+                return worker
+            logger.warning(f'No eligible character in the worker pool of {production_slot_name_with_id(slot_id)}, '
+                           'use Workerjuu')
+            self.device.click_record_remove('ISLAND_DOCK_NEXT_PAGE_SWIPE')
+            # Sorting again scrolls the dock back to the top
+            return self.island_dock_select_workerjuu(descending=True)
+
+        worker = self.island_dock_select_character(
+            emotion=(100, EMOTION_MAX), emotion_limit=(100, 149),
+            blacklist=get_unavailable_characters(self.config), descending=False)
+        if not worker:
+            self.device.click_record_remove('ISLAND_DOCK_NEXT_PAGE_SWIPE')
+            self.human_workers_available = False
+            logger.warning(
+                f'No available character for {production_slot_name_with_id(slot_id)}, '
+                'use Workerjuu for the remaining production slots'
+            )
+            worker = self.island_dock_select_workerjuu(descending=True)
+        return worker
+
+    def dispatch_slot(self, slot_id, slot_button, force_workerjuu=False):
+        """
+        Args:
+            slot_id (int):
+            slot_button (Button):
+            force_workerjuu (bool): Use Workerjuu whatever the worker pools say, set by the retry.
+
+        Returns:
+            bool: False if production did not start. None if it started.
+        """
         if slot_id in DIC_ISLAND_PRODUCTION_PLACE[102]['slot']:
             del_cached_property(super(), 'recipe_id_sequence')
             del_cached_property(super(), 'all_recipe_stocks')
@@ -246,42 +366,37 @@ class IslandProduction(IslandRecipe, IslandDock):
             if self.match_template_color(page_island_manage.check_button, interval=1) and not self.is_enter_window_shown():
                 self.device.click(slot_button)
                 continue
-        if self.config.IslandProduction_UseWorkerjuuByDefault or not self.human_workers_available:
-            worker = self.island_dock_select_workerjuu()
-        else:
-            blacklist = set()
-            for restaurant_id in RESTAURANT_IDS:
-                blacklist.update(get_selected_named_waitresses(get_waitress_slots(self.config, restaurant_id)))
-            worker = self.island_dock_select_character(
-                emotion=(100, 150), emotion_limit=(100, 149),
-                blacklist=blacklist, descending=False)
-            if not worker:
-                self.device.click_record_remove('ISLAND_DOCK_NEXT_PAGE_SWIPE')
-                self.human_workers_available = False
-                logger.warning(
-                    f'No available character for {production_slot_name_with_id(slot_id)}, '
-                    'use Workerjuu for the remaining production slots'
-                )
-                worker = self.island_dock_select_workerjuu(descending=True)
+        worker = self.select_worker(slot_id, force_workerjuu=force_workerjuu)
         if not worker:
             logger.warning(f'Failed to select a worker for {production_slot_name_with_id(slot_id)}')
             self.island_dock_quit()
             return False
-        emotion = float('inf') if worker.identity == 'Workerjuu' else worker.emotion
+        is_workerjuu = worker.identity == WORKER_WORKERJUU
+        emotion = float('inf') if is_workerjuu else worker.emotion
         logger.attr('Worker emotion', emotion)
         self.island_dock_select_confirm(self.is_in_recipe_menu)
         target_time = super().run(slot_id=slot_id, emotion=emotion)
         if target_time is not None:
             target_time = target_time.replace(microsecond=0)
             self.slot_finish_time[slot_id] = target_time
+            if not is_workerjuu:
+                self.dispatched_characters.add(worker.identity)
             self.ensure_island_production_page()
         else:
             logger.warning(f'Failed to start production for {production_slot_name_with_id(slot_id)}')
+            # Recipes left after a failed run mean none of them fits the worker emotion,
+            # since a recipe that can't be started is dropped from the sequence.
+            # Checked before the ranch caches below are deleted, which would rescan the recipe page.
+            emotion_limited = not is_workerjuu and bool(self.recipe_id_sequence)
             if slot_id in [9031, 9032, 9033, 9034]:
                 del_cached_property(super(), 'recipe_id_sequence')
                 del_cached_property(super(), 'all_recipe_stocks')
             self.ui_back(check_button=page_island_manage.check_button)
             self.ensure_island_production_page()
+            if emotion_limited:
+                logger.info(f'Worker {worker.identity} (emotion {emotion}) is too tired for the remaining recipes, '
+                            'retry with Workerjuu')
+                return self.dispatch_slot(slot_id, slot_button, force_workerjuu=True)
             return False
 
     def dispatch_place(self, place_id, slots_to_check=None):
@@ -318,6 +433,7 @@ class IslandProduction(IslandRecipe, IslandDock):
     def dispatch_all(self, check_all_empty_slots=False):
         logger.hr("Dispatch Production", level=2)
         self.human_workers_available = True
+        self.dispatched_characters = set()
         slots_to_check = None
         if not check_all_empty_slots:
             # Empty sources mean no upstream production to wait for.

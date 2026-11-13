@@ -2701,6 +2701,90 @@
     "UseWorkerjuuByDefault": {
       "name": "預設使用工作啾",
       "help": "啟用：預設使用工作啾。停用：按船塢升序搜尋體力至少為 100 且體力上限低於 150 的空閒角色，排除所有明確設定姓名的餐廳店員；如果沒有可用角色，則使用工作啾。"
+    },
+    "WorkerPoolField": {
+      "name": "豐壤農田",
+      "help": ""
+    },
+    "WorkerPoolRanchChicken": {
+      "name": "悠然牧場（雞）",
+      "help": ""
+    },
+    "WorkerPoolRanchPig": {
+      "name": "悠然牧場（豬）",
+      "help": ""
+    },
+    "WorkerPoolRanchCow": {
+      "name": "悠然牧場（牛）",
+      "help": ""
+    },
+    "WorkerPoolRanchSheep": {
+      "name": "悠然牧場（羊）",
+      "help": ""
+    },
+    "WorkerPoolFishery": {
+      "name": "啾啾漁場",
+      "help": ""
+    },
+    "WorkerPoolMine": {
+      "name": "沉石礦山",
+      "help": ""
+    },
+    "WorkerPoolWood": {
+      "name": "翠土林場",
+      "help": ""
+    },
+    "WorkerPoolOrchard": {
+      "name": "墜香果園",
+      "help": ""
+    },
+    "WorkerPoolNursery": {
+      "name": "青芽苗圃",
+      "help": ""
+    },
+    "WorkerPoolKoi": {
+      "name": "有魚餐館",
+      "help": ""
+    },
+    "WorkerPoolBear": {
+      "name": "白熊飲品",
+      "help": ""
+    },
+    "WorkerPoolEatery": {
+      "name": "啾啾簡餐",
+      "help": ""
+    },
+    "WorkerPoolGrill": {
+      "name": "烏魚烤肉",
+      "help": ""
+    },
+    "WorkerPoolLumber": {
+      "name": "木料加工裝置",
+      "help": ""
+    },
+    "WorkerPoolMachinery": {
+      "name": "工業生產裝置",
+      "help": ""
+    },
+    "WorkerPoolElectronic": {
+      "name": "電子加工裝置",
+      "help": ""
+    },
+    "WorkerPoolCrafts": {
+      "name": "手工製作裝置",
+      "help": ""
+    },
+    "WorkerPoolCafe": {
+      "name": "啾咖啡",
+      "help": ""
+    },
+    "MinStaminaToAssign": {
+      "name": "派遣所需最低體力",
+      "help": "指定角色被派遣到生產位前所需的最低體力\n如果希望減少島嶼生產任務打斷其他任務的頻率，可設定更高的數值"
+    },
+    "ReservedCharacters": {
+      "name": "保留角色",
+      "help": "此處列出的角色不會被派遣到生產位，即使其也出現在上方的角色池中"
     }
   },
   "IslandOrder": {
