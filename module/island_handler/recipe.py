@@ -13,7 +13,9 @@ from module.base.decorator import cached_property, del_cached_property
 from module.base.timer import Timer
 from module.base.utils import area_offset, color_similarity_2d, extract_letters, random_rectangle_vector_opted
 from module.exception import GameTooManyClickError
-from module.island.data import DIC_ISLAND_ITEM, DIC_ISLAND_RECIPE, DIC_ISLAND_SHOP_ITEM_TO_RECIPE
+from module.island.data import (
+    DIC_ISLAND_ITEM, DIC_ISLAND_PRODUCTION_PLACE, DIC_ISLAND_RECIPE, DIC_ISLAND_SHOP_ITEM_TO_RECIPE,
+)
 from module.island.utils import (
     ceil_div_or_ceil,
     ceil_with_epsilon,
@@ -388,13 +390,21 @@ class IslandRecipe(IslandExchange, IslandShop):
             if self.appear(ISLAND_RECIPE_AMOUNT_MAX, offset=(20, 20)):
                 break
         all_stocks = {}
+        confirm_bottom = False
         for _ in self.loop(timeout=30):
             new_stocks = dict(zip(self.recipe_ids, self.get_recipe_product_stocks()))
             all_stocks.update(new_stocks)
-            if self.recipe_at_bottom():
+            at_bottom = self.recipe_at_bottom()
+            if at_bottom and (self._recipe_list_is_short(self.recipe_grid)
+                              or confirm_bottom and self.appear(ISLAND_RECIPE_DRAG_CHECK, offset=(20, 20))):
                 logger.info('Reached recipe list bottom')
                 self.device.click_record_clear()
                 break
+            # A middle page can share the bottom alignment; compare again after another drag.
+            if at_bottom:
+                ISLAND_RECIPE_DRAG_CHECK.load_color(self.device.image)
+                ISLAND_RECIPE_DRAG_CHECK._match_init = True
+            confirm_bottom = at_bottom
             self.next_recipe_page()
             # Rescan even if sparse recognition prevented a drag.
             del_cached_property(self, 'recipe_grid')
@@ -437,10 +447,11 @@ class IslandRecipe(IslandExchange, IslandShop):
             ) + max(task_target_items.get(meat_id, {}).get('total_need_count', 0), 0)
             meat_stock = fish_meat_stock.get(meat_id)
             rate = get_fish_meat_shortage_rate(meat_stock, meat_target, meat_buffer)
-            logger.info(
-                f'{item_name_with_id(meat_id)} stock: {meat_stock}, target_stock: {meat_target}, '
-                f'fish daily buffer rate: {rate:.3f}'
-            )
+            if self.working_slot_id in DIC_ISLAND_PRODUCTION_PLACE[201]['slot']:
+                logger.info(
+                    f'{item_name_with_id(meat_id)} stock: {meat_stock}, target_stock: {meat_target}, '
+                    f'fish daily buffer rate: {rate:.3f}'
+                )
             for fish_id in sources:
                 rates[fish_id] = rate
         return rates
@@ -819,6 +830,7 @@ class IslandRecipe(IslandExchange, IslandShop):
                         success = False
                         continue
                     if ingredient_key == 3004:  # flour cannot be bought via jumping page, need to go to shop page to buy
+                        logger.info('Jumping to shop to buy flour')
                         self.ui_back(check_button=page_island_manage.check_button)
                         self.ui_goto_island_shop()
                         isolated = False

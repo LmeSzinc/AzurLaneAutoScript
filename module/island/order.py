@@ -220,6 +220,11 @@ class IslandOrder(IslandUI):
             return True
         return super().handle_island_additional()
 
+    def is_order_selected(self, order_button):
+        # Upper part of the white selection bracket beside the order circle.
+        selection_corner = order_button.crop((-12, -12, 12, 6))
+        return self.image_color_count(selection_corner, color=(255, 255, 255), threshold=10, count=80)
+
     def click_order(self, order_button, is_urgent=False):
         click_timer = Timer(1, count=3)
         for _ in self.loop(timeout=5, skip_first=False):
@@ -227,19 +232,20 @@ class IslandOrder(IslandUI):
                 self.device.click(order_button)
                 click_timer.reset()
                 continue
+            if not self.is_order_selected(order_button):
+                continue
             if (is_urgent and self.appear(ISLAND_ORDER_ACCEPT, offset=(20, 20))) or \
                     (not is_urgent and self.appear(ISLAND_ORDER_ACCEPT_URGENT, offset=(20, 20))):
                 logger.info('requirement page does not match, should click order button again')
-                click_timer.reset()
                 continue
             if self.appear(ISLAND_ORDER_REQUIREMENTS_CHECK, offset=(0, 20)):
                 logger.info('Clicked order button, requirements page appeared')
-                break
+                return True
             if self.appear(ISLAND_ORDER_COOLDOWN_SPEED_UP, offset=(20, 20)):
                 logger.info('Clicked order button, cooldown speed up page appeared')
-                break
-        else:
-            logger.info('click timer timeout, assuming requirements page appeared')
+                return True
+        logger.warning(f'Failed to select order {order_button}')
+        return False
 
     def submit_order(self, is_urgent=False):
         if is_urgent:
@@ -310,9 +316,12 @@ class IslandOrder(IslandUI):
         Returns:
             (bool): True if the order is dealt.
         """
+        order_type = 'urgent' if is_urgent else 'season' if is_season else 'regular'
+        logger.info(f'Execute {order_type} order: {order_button}')
         self.handle_island_additional()
         self.handle_info_bar()
-        self.click_order(order_button, is_urgent=is_urgent)
+        if not self.click_order(order_button, is_urgent=is_urgent):
+            return False
         if self.appear(ISLAND_ORDER_COOLDOWN_SPEED_UP, offset=(20, 20)):
             logger.warning('Order is in cooldown, cannot submit')
             remain_time = self.cooldown_time_ocr.ocr(self.device.image)
@@ -415,7 +424,8 @@ class IslandOrder(IslandUI):
             remain_time = self.get_order_remain_time(order)
             if remain_time == timedelta(0):
                 logger.warning('Order remain time ocr error, click to check')
-                self.click_order(order)
+                if not self.click_order(order):
+                    continue
                 remain_time = self.cooldown_time_ocr.ocr(self.device.image)
             next_runtime = datetime.now() + remain_time
             self.next_runtime.append(next_runtime)
