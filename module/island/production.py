@@ -281,6 +281,10 @@ class IslandProduction(IslandRecipe, IslandDock):
                 del_cached_property(super(), 'recipe_id_sequence')
                 del_cached_property(super(), 'all_recipe_stocks')
             self.ui_back(check_button=page_island_manage.check_button)
+            for _ in self.loop():
+                if not self.is_enter_window_shown():
+                    break
+                self.device.click(ISLAND_CLICK_SAFE_AREA)
             self.ensure_island_production_page()
             return False
 
