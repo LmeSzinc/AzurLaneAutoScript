@@ -137,10 +137,17 @@ class AssistantHandler:
     def annihilation_callback(self, m, d):
         # Skip annihilation error task callback temporary
         # https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/10623
-        ignoreErrorKeywords = ["FightSeries-Indicator","FightSeries-Icon"]
-        if m == self.Message.SubTaskError \
-                and deep_get(d, keys='first') != ignoreErrorKeywords:
-            self.signal = m 
+                # MAA's StageNavigationTask first tries a "last battle" shortcut; when it
+        # cannot OCR the stage name it emits a *recoverable* SubTaskError
+        # (first=["LastBattleStageName"]) then falls back to full navigation which
+        # succeeds. The old `first != ignoreErrorKeywords` compared a 1-element list
+        # to a 2-element list (always True), so EVERY SubTaskError set self.signal and
+        # maa_start() stopped MAA right after it clicked into the stage -> 0 battles.
+        ignoreErrorKeywords = ["FightSeries-Indicator", "FightSeries-Icon", "LastBattleStageName"]
+        if m == self.Message.SubTaskError:
+            first = deep_get(d, keys='first') or []
+            if not any(keyword in first for keyword in ignoreErrorKeywords):
+                self.signal = m
 
     def fight_stop_count_callback(self, m, d):
         if m == self.Message.SubTaskCompleted:
