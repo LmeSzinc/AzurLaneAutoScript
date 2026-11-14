@@ -1,3 +1,6 @@
+from time import monotonic
+
+import cv2
 import numpy as np
 
 from module.base.button import Button
@@ -10,6 +13,12 @@ from module.map_detection.os_grid import OSGrid
 from module.map_detection.view import View
 from module.os.map_operation import OSMapOperation
 from module.os.radar import Radar
+
+
+# Numeral area of the centered fleet's badge in a 1280x720 screenshot.
+WALK_COUNTER_AREA = (574, 253, 594, 270)
+WALK_COUNTER_MAX_MEAN_DIFFERENCE = 20
+WALK_COUNTER_CONFIRM_SECONDS = 0.2
 
 
 class OSCamera(OSMapOperation, Camera):
@@ -41,6 +50,45 @@ class OSCamera(OSMapOperation, Camera):
         """
         self.radar.predict(self.device.image)
         self.radar.show()
+
+    _walk_counter_state = None
+    _walk_counter_candidate = None
+
+    def walk_counter_changed(self, reset=False):
+        """
+        Confirm visual changes in the centered fleet's walk-counter region.
+
+        Args:
+            reset (bool): Clear the confirmed image and pending change without reading a screenshot.
+
+        Returns:
+            bool | None: True when the first image or a changed image is confirmed,
+                False when the image matches the last confirmed image,
+                None while awaiting confirmation or after a reset.
+        """
+        if reset:
+            self._walk_counter_state = None
+            self._walk_counter_candidate = None
+            return None
+        image = cv2.cvtColor(self.image_crop(WALK_COUNTER_AREA, copy=False), cv2.COLOR_RGB2GRAY)
+        previous = self._walk_counter_state
+        if previous is not None and cv2.norm(image, previous, cv2.NORM_L1) / image.size \
+                <= WALK_COUNTER_MAX_MEAN_DIFFERENCE:
+            self._walk_counter_candidate = None
+            return False
+
+        now = monotonic()
+        candidate = self._walk_counter_candidate
+        if candidate is None or cv2.norm(image, candidate[0], cv2.NORM_L1) / image.size \
+                > WALK_COUNTER_MAX_MEAN_DIFFERENCE:
+            self._walk_counter_candidate = (image, now)
+            return None
+        if now - candidate[1] < WALK_COUNTER_CONFIRM_SECONDS:
+            return None
+
+        self._walk_counter_state = candidate[0]
+        self._walk_counter_candidate = None
+        return True
 
     def grid_is_in_sight(self, grid, camera=None, sight=None):
         location = location_ensure(grid)
