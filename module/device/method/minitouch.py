@@ -464,7 +464,7 @@ class Minitouch(Connection):
     _minitouch_port: int = 0
     _minitouch_client: socket.socket = None
     _minitouch_pid: int
-    _minitouch_ws: websockets.WebSocketClientProtocol
+    _minitouch_ws: "websockets.WebSocketClientProtocol"
     max_x: int
     max_y: int
     _minitouch_init_thread = None
