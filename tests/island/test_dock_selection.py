@@ -62,7 +62,7 @@ def test_character_mode_excludes_named_waitresses_and_passes_actual_emotion(prod
     main.config.IslandProduction_UseWorkerjuuByDefault = False
     prefix = 'IslandBusiness.IslandRestaurant.'
     main.config.values = {
-        prefix + 'KoiWaitress1': 'Chao_Ho', prefix + 'KoiWaitress2': 'any',
+        prefix + 'KoiWaitress1': 'Chao_Ho', prefix + 'KoiWaitress2': 'business_grade',
         prefix + 'BearWaitress1': 'Cheshire', prefix + 'BearWaitress2': 'Chang_Feng',
         prefix + 'EateryWaitress1': 'Prinz_Eugen', prefix + 'EateryWaitress2': 'none',
         prefix + 'GrillWaitress1': 'August_von_Parseval', prefix + 'GrillWaitress2': 'Chang_Feng',

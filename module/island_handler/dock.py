@@ -20,6 +20,7 @@ ISLAND_DOCK_CARD_DELTA = (140, 180)
 ISLAND_DOCK_CARD_SIZE = (124, 164)
 ISLAND_DOCK_GRID_TOP_ORIGIN = (56, 139)
 ISLAND_DOCK_GRID_BOTTOM_ORIGIN = (56, 206)
+DOCK_GRADES = ('SSS', 'SS', 'S', 'A', 'B', 'C', 'D', 'E')
 
 
 def dock_identity_set(identity):
@@ -52,7 +53,8 @@ def dock_character_matches(character, identity=None, emotion=None, emotion_limit
 
 
 def dock_grade_key(character):
-    return 'SABCDE'.index(character.grade) if character.grade in ('S', 'A', 'B', 'C', 'D', 'E') else 6
+    """Rank grades from highest to lowest, placing unknown grades last."""
+    return DOCK_GRADES.index(character.grade) if character.grade in DOCK_GRADES else len(DOCK_GRADES)
 
 
 class IslandDock(IslandUI):

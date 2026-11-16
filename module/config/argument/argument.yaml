@@ -798,8 +798,8 @@ IslandRestaurant:
     value: bronze
     option: [ bronze, silver, gold, diamond ]
   KoiWaitress1: &KoiWaitressSlot
-    value: any
-    option: &KoiWaitressOptions [ none, any, Chao_Ho, Chang_Feng ]
+    value: business_grade
+    option: &KoiWaitressOptions [ none, business_grade, Chao_Ho, Chang_Feng ]
   KoiWaitress2:
     <<: *KoiWaitressSlot
     value: none
@@ -811,8 +811,8 @@ IslandRestaurant:
     value: bronze
     option: [ bronze, silver, gold, diamond ]
   BearWaitress1: &BearWaitressSlot
-    value: any
-    option: &BearWaitressOptions [ none, any, Cheshire, Chang_Feng ]
+    value: business_grade
+    option: &BearWaitressOptions [ none, business_grade, Cheshire, Chang_Feng ]
   BearWaitress2:
     <<: *BearWaitressSlot
     value: none
@@ -824,8 +824,8 @@ IslandRestaurant:
     value: bronze
     option: [ bronze, silver, gold, diamond ]
   EateryWaitress1: &EateryWaitressSlot
-    value: any
-    option: &EateryWaitressOptions [ none, any, Helena, Prinz_Eugen, Chang_Feng ]
+    value: business_grade
+    option: &EateryWaitressOptions [ none, business_grade, Helena, Prinz_Eugen, Chang_Feng ]
   EateryWaitress2:
     <<: *EateryWaitressSlot
     value: none
@@ -837,8 +837,8 @@ IslandRestaurant:
     value: bronze
     option: [ bronze, silver, gold, diamond ]
   GrillWaitress1: &GrillWaitressSlot
-    value: any
-    option: &GrillWaitressOptions [ none, any, August_von_Parseval, Prinz_Eugen, Chang_Feng ]
+    value: business_grade
+    option: &GrillWaitressOptions [ none, business_grade, August_von_Parseval, Prinz_Eugen, Chang_Feng ]
   GrillWaitress2:
     <<: *GrillWaitressSlot
     value: none
@@ -850,8 +850,8 @@ IslandRestaurant:
     value: bronze
     option: [ bronze, silver, gold, diamond ]
   CafeWaitress1: &CafeWaitressSlot
-    value: any
-    option: &CafeWaitressOptions [ none, any, Cheshire, Belfast, Chang_Feng ]
+    value: business_grade
+    option: &CafeWaitressOptions [ none, business_grade, Cheshire, Belfast, Chang_Feng ]
   CafeWaitress2:
     <<: *CafeWaitressSlot
     value: none

@@ -130,3 +130,8 @@ def coalition_to_little_academy(value):
         return 'hard'
     else:
         return value
+
+
+def island_waitress_redirect(value):
+    """Rename automatic restaurant staffing to business-grade priority."""
+    return 'business_grade' if value in ('any', 'auto') else value
