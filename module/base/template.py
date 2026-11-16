@@ -81,7 +81,7 @@ class Template(Resource):
                 self._image_luma = []
                 for image in self.image:
                     luma = rgb2luma(image)
-                    self.image_luma.append(luma)
+                    self._image_luma.append(luma)
             else:
                 self._image_luma = rgb2luma(self.image)
 
@@ -114,6 +114,14 @@ class Template(Resource):
         else:
             return self.image.shape[0:2][::-1]
 
+    @staticmethod
+    def _align_channels(image, template):
+        if image.ndim == 2 and template.ndim == 3:
+            return rgb2gray(template)
+        if image.ndim == 3 and template.ndim == 2:
+            return cv2.cvtColor(template, cv2.COLOR_GRAY2RGB)
+        return template
+
     def match(self, image, scaling=1.0, similarity=0.85):
         """
         Args:
@@ -130,6 +138,7 @@ class Template(Resource):
 
         if self.is_gif:
             for template in self.image:
+                template = self._align_channels(image, template)
                 res = cv2.matchTemplate(image, template, cv2.TM_CCOEFF_NORMED)
                 _, sim, _, _ = cv2.minMaxLoc(res)
                 # print(self.file, sim)
@@ -139,7 +148,8 @@ class Template(Resource):
             return False
 
         else:
-            res = cv2.matchTemplate(image, self.image, cv2.TM_CCOEFF_NORMED)
+            template = self._align_channels(image, self.image)
+            res = cv2.matchTemplate(image, template, cv2.TM_CCOEFF_NORMED)
             _, sim, _, _ = cv2.minMaxLoc(res)
             # print(self.file, sim)
             return sim > similarity
@@ -194,7 +204,8 @@ class Template(Resource):
             return False
 
         else:
-            res = cv2.matchTemplate(image, self.image, cv2.TM_CCOEFF_NORMED)
+            image = rgb2luma(image)
+            res = cv2.matchTemplate(image, self.image_luma, cv2.TM_CCOEFF_NORMED)
             _, sim, _, _ = cv2.minMaxLoc(res)
             # print(self.file, sim)
             return sim > similarity
@@ -227,7 +238,8 @@ class Template(Resource):
             float: Similarity
             Button:
         """
-        res = cv2.matchTemplate(image, self.image, cv2.TM_CCOEFF_NORMED)
+        template = self._align_channels(image, self.image)
+        res = cv2.matchTemplate(image, template, cv2.TM_CCOEFF_NORMED)
         _, sim, _, point = cv2.minMaxLoc(res)
         # print(self.file, sim)
 
@@ -263,12 +275,14 @@ class Template(Resource):
         if self.is_gif:
             result = []
             for template in self.image:
+                template = self._align_channels(image, template)
                 res = cv2.matchTemplate(image, template, cv2.TM_CCOEFF_NORMED)
                 res = np.array(np.where(res > similarity)).T[:, ::-1].tolist()
                 result += res
             result = np.array(result)
         else:
-            result = cv2.matchTemplate(image, self.image, cv2.TM_CCOEFF_NORMED)
+            template = self._align_channels(image, self.image)
+            result = cv2.matchTemplate(image, template, cv2.TM_CCOEFF_NORMED)
             result = np.array(np.where(result > similarity)).T[:, ::-1]
 
         # result: np.array([[x0, y0], [x1, y1], ...)
