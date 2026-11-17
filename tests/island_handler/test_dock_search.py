@@ -1,3 +1,4 @@
+from collections import deque
 from types import SimpleNamespace
 
 import pytest
@@ -42,11 +43,11 @@ def make_main(pages, selected=(), grid_size=None, grid_origins=None):
     main._pages = pages
     main._page_index = 0
     main._next_calls = 0
+    main._prev_calls = 0
     main._sort_calls = []
-    main._top_calls = 0
     main._clicks = []
     main._selected_buttons = set(selected)
-    main.device = SimpleNamespace(image=object())
+    main.device = SimpleNamespace(image=object(), click_record_remove=lambda name: None)
 
     def scan_page(disabled=()):
         characters = list(main._pages[min(main._page_index, len(main._pages) - 1)])
@@ -59,15 +60,15 @@ def make_main(pages, selected=(), grid_size=None, grid_origins=None):
     def sort_method(enable=True, wait_loading=True):
         main._sort_calls.append(enable)
 
-    def ensure_top():
-        main._top_calls += 1
-        main._page_index = 0
-        return True
-
     def next_page(wait_loading=True):
         main._next_calls += 1
         main._terminal_transition = main._page_index >= len(main._pages) - 1
         main._page_index = min(main._page_index + 1, len(main._pages) - 1)
+
+    def prev_page(wait_loading=True):
+        main._prev_calls += 1
+        main._terminal_transition = main._page_index == 0
+        main._page_index = max(main._page_index - 1, 0)
 
     def appear(button, offset=0):
         return getattr(main, '_terminal_transition', False)
@@ -75,8 +76,8 @@ def make_main(pages, selected=(), grid_size=None, grid_origins=None):
     main.island_dock_scan_page = scan_page
     main.island_dock_has_third_row = lambda: False
     main.island_dock_sort_method_dsc_set = sort_method
-    main.ensure_dock_page_at_top = ensure_top
     main.next_dock_page = next_page
+    main.prev_dock_page = prev_page
     main.appear = appear
     main.loop = lambda skip_first=True, timeout=None: range(len(pages) + 3)
     main.is_button_selected = lambda button, color=None: button in main._selected_buttons
@@ -84,14 +85,23 @@ def make_main(pages, selected=(), grid_size=None, grid_origins=None):
     return main
 
 
-def make_scanning_main(monkeypatch, frames, anchor_counts=None):
+def make_scanning_main(monkeypatch, frames, anchor_counts=None, grid_origins=None):
     main = object.__new__(IslandDock)
     images = [object() for _ in frames]
     screenshots = iter(images[1:])
-    main.device = SimpleNamespace(image=images[0])
+    main.device = SimpleNamespace(image=images[0], click_record_remove=lambda name: None)
     main.device.screenshot = lambda: setattr(main.device, 'image', next(screenshots))
-    main.dock_grid = SimpleNamespace(buttons=[c.button for c in frames[0]], origin=(56, 139),
-                                     delta=(140, 180), grid_shape=(6, (len(frames[0]) + 5) // 6))
+    if grid_origins is None:
+        grid_origins = [(56, 139)] * len(frames)
+
+    def get_grid():
+        index = images.index(main.device.image)
+        rows = (len(frames[index]) + 5) // 6
+        return SimpleNamespace(buttons=[None] * (6 * rows), origin=grid_origins[index],
+                               delta=(140, 180), grid_shape=(6, rows))
+
+    main.get_dock_grid = get_grid
+    main.dock_grid = get_grid()
     if anchor_counts is None:
         anchor_counts = [len(frame) for frame in frames]
 
@@ -101,8 +111,14 @@ def make_scanning_main(monkeypatch, frames, anchor_counts=None):
                 main.device.screenshot()
             yield main.device.image
 
-    main._get_dock_anchors = lambda: [card_anchor(index)
-                                     for index in range(anchor_counts[images.index(main.device.image)])]
+    def anchors():
+        frame_index = images.index(main.device.image)
+        y_offset = grid_origins[frame_index][1] - 139
+        return [SimpleNamespace(area=(anchor.area[0], anchor.area[1] + y_offset,
+                                      anchor.area[2], anchor.area[3] + y_offset))
+                for anchor in (card_anchor(index) for index in range(anchor_counts[frame_index]))]
+
+    main._get_dock_anchors = anchors
     main.loop = loop
     main.island_dock_has_third_row = lambda: False
     main.next_dock_page = lambda: pytest.fail('Swiped while confirming empty cards')
@@ -111,14 +127,17 @@ def make_scanning_main(monkeypatch, frames, anchor_counts=None):
 
     class Scanner:
         def __init__(self, grid, **kwargs):
-            pass
+            self.grid = grid
 
         def disable(self, *fields):
             main._disabled = fields
 
         def scan(self, image):
-            frame = frames[images.index(image)]
+            index = images.index(image)
+            frame = frames[index]
             scanned.append(image)
+            if self.grid.origin != grid_origins[index]:
+                return [character('unknown') for _ in frame]
             return list(frame)
 
     monkeypatch.setattr(dock_module, 'CharacterScanner', Scanner)
@@ -128,9 +147,9 @@ def make_scanning_main(monkeypatch, frames, anchor_counts=None):
 def install_search_stub(monkeypatch, main, specs):
     calls = []
 
-    def search(handle_page, descending=True, start_at_top=False, timeout=40, disabled=()):
+    def search(handle_page, descending=True, timeout=40, disabled=(), reverse=False):
         spec = specs[len(calls)]
-        calls.append(dict(descending=descending, start_at_top=start_at_top,
+        calls.append(dict(descending=descending, reverse=reverse,
                           timeout=timeout, disabled=tuple(disabled)))
         for page in spec['pages']:
             result = handle_page(page)
@@ -162,7 +181,8 @@ def test_emotion_only_search_does_not_require_identity_or_grade(monkeypatch):
     calls = install_search_stub(monkeypatch, main, [dict(pages=[[candidate]])])
 
     selected = main.island_dock_select_character(
-        emotion=(80, 150), descending=False, disabled=('emotion_limit',))
+        lambda candidate: dock_character_matches(candidate, emotion=(80, 150)),
+        descending=False, disabled=('identity', 'emotion_limit', 'grade'))
     assert selected is candidate
     assert selected.emotion == 100
     assert main._clicks == [candidate.button]
@@ -171,28 +191,24 @@ def test_emotion_only_search_does_not_require_identity_or_grade(monkeypatch):
     assert dock_character_matches(character('unknown', grade=None), emotion=(80, 150))
 
 
-@pytest.mark.parametrize('filters', [
-    {'identity': 'Alice'}, {'identity': 'any'}, {'blacklist': {'Alice'}},
-])
-def test_identity_constraints_still_require_recognition(monkeypatch, filters):
+def test_predicate_can_require_recognized_identity(monkeypatch):
     unknown = character(None)
     main = make_main([[unknown]])
     calls = install_search_stub(monkeypatch, main, [dict(pages=[[unknown]], completed=False)])
 
-    assert main.island_dock_select_character(**filters) is None
+    assert main.island_dock_select_character(
+        lambda candidate: dock_character_matches(candidate, identity='Alice')) is None
     assert 'identity' not in calls[0]['disabled']
-    with pytest.raises(ValueError, match='requires identity recognition'):
-        main.island_dock_select_character(disabled=('identity',), **filters)
 
 
-@pytest.mark.parametrize('filters', [{'grade': 'A'}, {'prefer_grade': True}])
-def test_grade_filter_and_ranking_enable_grade_recognition(monkeypatch, filters):
+def test_predicate_can_filter_grade(monkeypatch):
     lower = character(None, grade='C')
     higher = character(None, grade='A')
     main = make_main([[lower, higher]])
     calls = install_search_stub(monkeypatch, main, [dict(pages=[[lower, higher]])])
 
-    assert main.island_dock_select_character(**filters) is higher
+    assert main.island_dock_select_character(
+        lambda candidate: dock_character_matches(candidate, grade='A')) is higher
     assert main._clicks == [higher.button]
     assert all('grade' not in call['disabled'] for call in calls)
 
@@ -244,13 +260,15 @@ def test_missing_interior_anchor_keeps_later_cards(monkeypatch, missing):
     assert scanned == images
 
 
-def test_scan_page_retries_an_unreadable_character_on_a_fresh_screenshot(monkeypatch):
+def test_scan_page_retries_an_unreadable_character_with_fresh_grid_coordinates(monkeypatch):
     frames = [[character('Alice'), character('unknown', emotion=0, emotion_limit=0)],
-              [character('Alice'), character('Bob')]]
-    main, scanned, images = make_scanning_main(monkeypatch, frames)
+              [character('Alice', page='settled'), character('Bob', page='settled')]]
+    main, scanned, images = make_scanning_main(
+        monkeypatch, frames, grid_origins=[(56, 139), (56, 145)])
 
     assert main.island_dock_scan_page() == frames[-1]
     assert scanned == images
+    assert main.dock_grid.origin == (56, 145)
 
 
 def test_no_anchors_return_an_incomplete_page(monkeypatch):
@@ -262,13 +280,14 @@ def test_no_anchors_return_an_incomplete_page(monkeypatch):
     assert main.device.image is images[-1]
 
 
-def test_search_reads_a_short_page_without_swiping(monkeypatch):
+@pytest.mark.parametrize('reverse', [False, True])
+def test_search_reads_a_short_page_without_swiping(monkeypatch, reverse):
     frames = [[character('Alice'), character('unknown', emotion=0, emotion_limit=0)]]
     main, scanned, images = make_scanning_main(monkeypatch, frames, [1])
     main.island_dock_sort_method_dsc_set = lambda **kwargs: None
     seen = []
 
-    result, completed = main.island_dock_search(lambda page: seen.extend(page))
+    result, completed = main.island_dock_search(lambda page: seen.extend(page), reverse=reverse)
 
     assert result is None
     assert completed is True
@@ -336,59 +355,33 @@ def test_unreadable_page_remains_incomplete():
     assert main._next_calls == 0
 
 
-def test_blacklist_wins_over_explicit_identity_and_occupied_is_reported(monkeypatch):
-    busy = character('Alice', status='occupied', page='busy')
-    unknown = character('unknown', page='unknown')
-    main = make_main([[busy, unknown]])
-    unavailable = set()
-    calls = install_search_stub(monkeypatch, main, [dict(pages=[[busy, unknown]])])
-
-    assert main.island_dock_select_character(
-        identity='Alice', blacklist={'Alice'}, unavailable=unavailable
-    ) is None
-    assert unavailable == set()
-    assert calls == []
-
-    unavailable.clear()
-    assert main.island_dock_select_character(
-        identity='Alice', unavailable=unavailable
-    ) is None
-    assert unavailable == {'Alice'}
-
-
 def test_selected_identity_is_excluded_from_single_search(monkeypatch):
     selected = character('Alice', page='selected')
     replacement = character('Bob', page='replacement')
     main = make_main([[selected, replacement]], selected={selected.button})
     install_search_stub(monkeypatch, main, [dict(pages=[[selected, replacement]])])
 
-    assert main.island_dock_select_character(identity='any') is replacement
+    assert main.island_dock_select_character(
+        lambda candidate: dock_character_matches(candidate, identity='any')) is replacement
     assert main._clicks == [replacement.button]
 
 
-def test_occupied_character_is_reported_without_selection_or_scrolling(monkeypatch):
+def test_occupied_character_is_not_selected_even_if_predicate_accepts_it(monkeypatch):
     busy = character('Alice', status='occupied')
     main = make_main([[busy]])
-    unavailable = set()
-    monkeypatch.setattr(dock_module, 'ISLAND_DOCK_DETECT', FakeDetect())
+    install_search_stub(monkeypatch, main, [dict(pages=[[busy]])])
 
-    assert main.island_dock_select_character(
-        identity='Alice', status=None, unavailable=unavailable) is None
-    assert unavailable == {'Alice'}
-    assert main._next_calls == 0
+    assert main.island_dock_select_character(lambda candidate: True) is None
     assert main._clicks == []
 
 
-def test_selection_skips_occupied_alternative_even_without_status_filter(monkeypatch):
+def test_selection_skips_occupied_alternative_even_if_predicate_accepts_it(monkeypatch):
     busy = character('Alice', status='occupied')
     free = character('Bob')
     main = make_main([[busy, free]])
-    unavailable = set()
     install_search_stub(monkeypatch, main, [dict(pages=[[busy, free]])])
 
-    assert main.island_dock_select_character(
-        identity={'Alice', 'Bob'}, status=None, unavailable=unavailable) is free
-    assert unavailable == {'Alice'}
+    assert main.island_dock_select_character(lambda candidate: True) is free
     assert main._clicks == [free.button]
 
 
@@ -407,7 +400,118 @@ def test_search_stops_before_navigation_after_handler_decision(monkeypatch):
     assert completed
     assert main._next_calls == 0
     assert main._sort_calls == [False]
-    assert main._top_calls == 0
+    assert main._prev_calls == 0
+
+
+def test_reverse_search_reads_current_page_backwards_before_moving_up(monkeypatch):
+    highest = character('Highest', page='bottom')
+    main = make_main([[character('Lower')], [character('High'), highest]],
+                     grid_size=12, grid_origins=[(56, 139), (56, 206)])
+    main._page_index = 1
+    monkeypatch.setattr(dock_module, 'ISLAND_DOCK_DETECT', FakeDetect())
+
+    assert main.island_dock_search(lambda page: page[0], descending=False, reverse=True) == (highest, True)
+    assert main._sort_calls == [False]
+    assert main._next_calls == main._prev_calls == 0
+
+
+@pytest.mark.parametrize('unknown', [False, True])
+def test_reverse_search_scans_to_confirmed_top_even_with_a_third_row(monkeypatch, unknown):
+    top = [character('unknown' if unknown else 'Low'), character('Higher')]
+    bottom = [character('High'), character('Highest')]
+    main = make_main([top, bottom], grid_size=12, grid_origins=[(56, 139), (56, 206)])
+    main._page_index = 1
+    main.island_dock_has_third_row = lambda: True
+    monkeypatch.setattr(dock_module, 'ISLAND_DOCK_DETECT', FakeDetect())
+    seen = []
+
+    assert main.island_dock_search(
+        lambda page: seen.append(page), descending=False, reverse=True) == (None, not unknown)
+    assert seen == [list(reversed(bottom))] + [list(reversed(top))] * 2
+    assert main._prev_calls == 2
+    assert main._next_calls == 0
+
+
+def test_reverse_search_selects_a_fresh_match_on_an_upper_page(monkeypatch):
+    chosen = character('HighestEligible', page='upper')
+    main = make_main([[character('LowerEligible'), chosen], [character('Other')]],
+                     grid_size=12, grid_origins=[(56, 139), (56, 206)])
+    main._page_index = 1
+    monkeypatch.setattr(dock_module, 'ISLAND_DOCK_DETECT', FakeDetect())
+
+    def select_page(page):
+        for candidate in page:
+            if candidate.identity.endswith('Eligible'):
+                main.island_dock_select_one(candidate.button)
+                return candidate
+        return None
+
+    assert main.island_dock_search(select_page, descending=False, reverse=True) == (chosen, True)
+    assert main._clicks == [chosen.button]
+    assert main._prev_calls == 1
+    assert main._next_calls == 0
+
+
+@pytest.mark.parametrize('reverse', [False, True])
+def test_search_settles_boundary_bounce_before_checking_unchanged(monkeypatch, reverse):
+    main = object.__new__(IslandDock)
+    endpoint = (56, 139) if reverse else (56, 206)
+    bouncing = (56, 143) if reverse else (56, 200)
+    origins = {'initial': endpoint, 'bouncing': bouncing, 'settled': endpoint}
+    cards = [character('Card{}'.format(index)) for index in range(12)]
+    events = []
+    clock = SimpleNamespace(elapsed=0)
+
+    def screenshot():
+        clock.elapsed += 0.1
+        main.device.image = 'bouncing' if clock.elapsed < 0.6 else 'settled'
+        events.append(('screenshot', main.device.image))
+
+    def loop(skip_first=True, timeout=None):
+        started = clock.elapsed
+        for _ in range(20):
+            if timeout is not None and clock.elapsed - started >= timeout:
+                return
+            if skip_first:
+                skip_first = False
+            else:
+                main.device.screenshot()
+            yield None
+
+    main.device = SimpleNamespace(
+        image='initial', click_record_remove=lambda name: None,
+        screenshot=screenshot)
+    main.get_dock_grid = lambda: SimpleNamespace(
+        buttons=[card.button for card in cards], origin=origins[main.device.image], grid_shape=(6, 2))
+
+    def scan(disabled=()):
+        events.append(('scan', main.dock_grid.origin))
+        return list(cards)
+
+    def drag(*args, **kwargs):
+        assert 'drag' not in events, 'Dragged again before the boundary finished settling'
+        events.append('drag')
+        main.device.image = 'bouncing'
+
+    def unchanged(*args, **kwargs):
+        events.append(('unchanged', main.device.image))
+        return main.device.image == 'settled'
+
+    main.island_dock_scan_page = scan
+    main.island_dock_sort_method_dsc_set = lambda **kwargs: None
+    main.island_dock_has_third_row = lambda: True
+    main.device.drag = drag
+    main.appear = unchanged
+    main.loop = loop
+    monkeypatch.setattr(dock_module, 'ISLAND_DOCK_DETECT', FakeDetect())
+
+    assert main.island_dock_search(lambda page: None, reverse=reverse) == (None, True)
+    assert [event for event in events if isinstance(event, tuple) and event[0] == 'unchanged'] == [
+        ('unchanged', 'settled'),
+    ]
+    settled = events.index(('screenshot', 'settled'))
+    assert events[settled + 1] == ('unchanged', 'settled')
+    assert events[0] == events[-1] == ('scan', endpoint)
 
 
 @pytest.mark.parametrize(('pages', 'completed', 'swipes'), [
@@ -513,15 +617,17 @@ def test_search_continues_past_bottom_aligned_middle_pages(monkeypatch):
     assert main._next_calls == 3
 
 
-def test_search_verifies_exactly_twelve_characters_at_top_with_two_drags(monkeypatch):
+@pytest.mark.parametrize('reverse,swipes', [(False, 2), (True, 1)])
+def test_search_confirms_full_short_dock_in_requested_direction(monkeypatch, reverse, swipes):
     page = [character('Card{}'.format(index)) for index in range(12)]
     main = make_main([page])
     monkeypatch.setattr(dock_module, 'ISLAND_DOCK_DETECT', FakeDetect())
     scans = []
 
-    assert main.island_dock_search(lambda page: scans.append(page)) == (None, True)
-    assert len(scans) == 3
-    assert main._next_calls == 2
+    assert main.island_dock_search(lambda page: scans.append(page), reverse=reverse) == (None, True)
+    assert len(scans) == swipes + 1
+    assert main._next_calls == (0 if reverse else swipes)
+    assert main._prev_calls == (swipes if reverse else 0)
 
 
 def test_search_uses_anchor_count_with_disabled_fields(monkeypatch):
@@ -585,7 +691,7 @@ def test_search_can_select_a_current_one_row_match_after_seeing_two(monkeypatch)
     main = make_main([full, [candidate]], grid_size=12)
     monkeypatch.setattr(dock_module, 'ISLAND_DOCK_DETECT', FakeDetect())
 
-    assert main.island_dock_select_character(identity='Alice') is candidate
+    assert main.island_dock_select_character(lambda candidate: candidate.identity == 'Alice') is candidate
     assert main._clicks == [candidate.button]
     assert main._next_calls == 1
 
@@ -610,7 +716,7 @@ def test_search_refreshes_pages_and_ends_with_bounded_navigation(monkeypatch):
     assert main._next_calls == 3
 
 
-def test_timeout_or_incomplete_absence_does_not_trigger_outside_fallback(monkeypatch):
+def test_incomplete_search_returns_no_character_without_extra_pass(monkeypatch):
     unknown = character('unknown', page='partial')
     fallback = character('Other', page='fallback')
     main = make_main([[unknown]])
@@ -619,60 +725,25 @@ def test_timeout_or_incomplete_absence_does_not_trigger_outside_fallback(monkeyp
         dict(pages=[[fallback]]),
     ])
 
-    assert main.island_dock_select_character(identity='Alice', fallback=True) is None
+    assert main.island_dock_select_character(lambda candidate: candidate.identity == 'Alice') is None
     assert len(calls) == 1
 
 
-def test_occupied_required_name_allows_fallback_and_reacquires_current_button(monkeypatch):
-    occupied = character('Alice', status='occupied', page='primary')
-    unknown = character('unknown', page='partial')
-    fallback = character('Other', page='fallback')
-    main = make_main([[occupied, unknown]])
-    unavailable = set()
-    calls = install_search_stub(monkeypatch, main, [
-        dict(pages=[[occupied, unknown]]),
-        dict(pages=[[fallback]]),
-    ])
-
-    assert main.island_dock_select_character(
-        identity='Alice', fallback=True, fallback_descending=False, unavailable=unavailable
-    ) is fallback
-
-    assert main._clicks == [fallback.button]
-    assert unavailable == {'Alice'}
-    assert [call['descending'] for call in calls] == [True, False]
-    assert [call['start_at_top'] for call in calls] == [False, True]
-    assert occupied.button not in main._clicks
-
-
-def test_preferred_identity_beats_fallback_pass(monkeypatch):
-    preferred = character('Alice', page='preferred')
-    fallback = character('Other', page='fallback')
-    main = make_main([[preferred]])
-    calls = install_search_stub(monkeypatch, main, [
-        dict(pages=[[preferred]]),
-        dict(pages=[[fallback]]),
-    ])
-
-    assert main.island_dock_select_character(identity='Alice', fallback=True) is preferred
-    assert main._clicks == [preferred.button]
-    assert len(calls) == 1
-
-
-def test_preferred_character_on_lower_page_beats_earlier_outside_candidate(monkeypatch):
+def test_predicate_can_skip_current_page_for_a_later_match(monkeypatch):
     other = character('Other', page='top')
     preferred = character('Alice', page='lower')
     main = make_main([[other], [preferred]])
     monkeypatch.setattr(dock_module, 'ISLAND_DOCK_DETECT', FakeDetect())
 
-    assert main.island_dock_select_character(identity={'Alice', 'Bob'}, fallback=True) is preferred
+    assert main.island_dock_select_character(
+        lambda candidate: candidate.identity in {'Alice', 'Bob'}) is preferred
     assert main._clicks == [preferred.button]
     assert main._sort_calls == [True]
-    assert main._top_calls == 0
+    assert main._prev_calls == 0
     assert main._next_calls == 1
 
 
-def test_fallback_after_returning_to_top_uses_new_coordinates(monkeypatch):
+def test_reverse_search_after_a_completed_pass_uses_new_coordinates(monkeypatch):
     old_other = character('Other', page='before-sort')
     new_other = character('Other', page='after-sort')
     busy = character('Alice', status='occupied', page='lower')
@@ -688,23 +759,54 @@ def test_fallback_after_returning_to_top_uses_new_coordinates(monkeypatch):
     main.island_dock_sort_method_dsc_set = sort
 
     assert main.island_dock_select_character(
-        identity='Alice', descending=False, fallback=True, fallback_descending=True)
+        lambda candidate: candidate.identity == 'Alice', descending=False) is None
+
+    def select_page(page):
+        for candidate in page:
+            if candidate.identity == 'Other':
+                main.island_dock_select_one(candidate.button)
+                return candidate
+        return None
+
+    assert main.island_dock_search(select_page, descending=True, reverse=True) == (new_other, True)
     assert main._sort_calls == [False, True]
-    assert main._top_calls == 1
+    assert main._prev_calls == 1
     assert main._clicks == [new_other.button]
     assert old_other.button not in main._clicks
 
 
-def test_blacklisted_preference_can_fall_back_without_selecting_excluded_name(monkeypatch):
-    forbidden = character('Alice')
-    other = character('Other')
-    main = make_main([[forbidden, other]])
-    calls = install_search_stub(monkeypatch, main, [dict(pages=[[forbidden, other]])])
+@pytest.mark.parametrize('reverse', [False, True])
+def test_search_clears_only_previous_dock_swipe_history(monkeypatch, reverse):
+    from module.device.device import Device
 
-    assert main.island_dock_select_character(identity='Alice', blacklist={'Alice'}, fallback=True)
-    assert main._clicks == [other.button]
-    assert len(calls) == 1
-    assert calls[0]['start_at_top'] is False
+    pages = [[character(str(index))] for index in range(7)]
+    main = make_main(pages, grid_size=12,
+                     grid_origins=[(56, 139)] + [(56, 250)] * 5 + [(56, 206)])
+    main._page_index = 6 if reverse else 0
+    main.island_dock_has_third_row = lambda: True
+    monkeypatch.setattr(dock_module, 'ISLAND_DOCK_DETECT', FakeDetect())
+    main.device = object.__new__(Device)
+    main.device.image = object()
+    down = 'ISLAND_DOCK_NEXT_PAGE_SWIPE'
+    up = 'ISLAND_DOCK_PREV_PAGE_SWIPE'
+    main.device.click_record = deque([down] * 6 + [up] * 5 + ['OTHER_ACTION'], maxlen=15)
+    swipe = up if reverse else down
+    scroll = main.prev_dock_page if reverse else main.next_dock_page
+
+    def scroll_page():
+        main.device.click_record_add(swipe)
+        main.device.click_record_check()
+        scroll()
+
+    if reverse:
+        main.prev_dock_page = scroll_page
+    else:
+        main.next_dock_page = scroll_page
+    target = pages[0 if reverse else -1][0]
+    assert main.island_dock_search(
+        lambda page: page[0] if page[0].identity == target.identity else None,
+        descending=not reverse, reverse=reverse) == (target, True)
+    assert list(main.device.click_record) == ['OTHER_ACTION'] + [swipe] * 6
 
 
 def test_select_character_clicks_match_before_any_page_navigation(monkeypatch):
@@ -712,12 +814,12 @@ def test_select_character_clicks_match_before_any_page_navigation(monkeypatch):
     main = make_main([[candidate]])
     install_search_stub(monkeypatch, main, [dict(pages=[[candidate]])])
 
-    assert main.island_dock_select_character(identity='Alice')
+    assert main.island_dock_select_character(lambda candidate: candidate.identity == 'Alice')
     assert main._clicks == [candidate.button]
     assert main._next_calls == 0
 
 
-def test_failed_click_does_not_trigger_outside_fallback(monkeypatch):
+def test_failed_click_returns_none_without_trying_another_character(monkeypatch):
     preferred = character('Alice')
     other = character('Other')
     main = make_main([[preferred, other]])
@@ -726,12 +828,12 @@ def test_failed_click_does_not_trigger_outside_fallback(monkeypatch):
     ])
     main.island_dock_select_one = lambda button: main._clicks.append(button) or False
 
-    assert main.island_dock_select_character(identity='Alice', fallback=True) is None
+    assert main.island_dock_select_character(lambda candidate: True) is None
     assert main._clicks == [preferred.button]
     assert len(calls) == 1
 
 
-def test_workerjuu_visible_first_uses_no_top_recovery(monkeypatch):
+def test_workerjuu_visible_first_uses_no_navigation(monkeypatch):
     workerjuu = character('Workerjuu', page='first')
     main = make_main([[workerjuu]])
     calls = install_search_stub(monkeypatch, main, [dict(pages=[[workerjuu]])])
@@ -739,8 +841,7 @@ def test_workerjuu_visible_first_uses_no_top_recovery(monkeypatch):
     assert main.island_dock_select_workerjuu() is workerjuu
     assert len(calls) == 1
     assert calls[0]['descending'] is False
-    assert calls[0]['start_at_top'] is False
-    assert main._top_calls == 0
+    assert main._prev_calls == 0
 
 
 def test_workerjuu_after_failed_ascending_search_is_selected_locally_in_descending_order(monkeypatch):
@@ -758,12 +859,13 @@ def test_workerjuu_after_failed_ascending_search_is_selected_locally_in_descendi
 
     main.island_dock_sort_method_dsc_set = sort
     assert main.island_dock_select_character(
-        emotion=(100, 150), emotion_limit=(100, 149), descending=False) is None
+        lambda candidate: dock_character_matches(candidate, emotion=(100, 150), emotion_limit=(100, 149)),
+        descending=False) is None
     down_swipes = main._next_calls
 
     assert main.island_dock_select_workerjuu(descending=True) is workerjuu
     assert main._sort_calls == [False, True]
-    assert main._top_calls == 0
+    assert main._prev_calls == 0
     assert main._next_calls == down_swipes
     assert main._clicks == [workerjuu.button]
 
@@ -773,6 +875,16 @@ def test_missing_workerjuu_does_not_scroll_or_retry():
 
     assert main.island_dock_select_workerjuu() is None
     assert main._sort_calls == [False]
-    assert main._top_calls == 0
+    assert main._prev_calls == 0
     assert main._next_calls == 0
     assert main._clicks == []
+
+
+def test_workerjuu_can_keep_current_sort_without_navigation():
+    workerjuu = character('Workerjuu', page='current')
+    main = make_main([[workerjuu]])
+
+    assert main.island_dock_select_workerjuu(descending=None) is workerjuu
+    assert main._sort_calls == []
+    assert main._next_calls == main._prev_calls == 0
+    assert main._clicks == [workerjuu.button]

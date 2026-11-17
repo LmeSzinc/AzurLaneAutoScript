@@ -2700,7 +2700,7 @@
     },
     "UseWorkerjuuByDefault": {
       "name": "Use Workerjuu by default",
-      "help": "Enabled: use Workerjuu by default. Disabled: search available characters in ascending dock order with at least 100 Stamina and a Stamina cap below 150, excluding named staff configured under Store Management; use Workerjuu if none is available."
+      "help": "Enabled: use Workerjuu.\nDisabled: first try characters whose skills are exclusive to this workplace, then those whose skills are restricted to several workplaces including this one, then characters without place-specific production skills. Characters with place-specific skills are only used where those skills apply. Within each group, choose free characters with at least 100 current Stamina by Working Efficiency, highest first. Use Workerjuu if none qualifies.\nAlways reserve named restaurant staff. Also reserve Hood, Unicorn, Shimakaze, Javelin, Yat Sen, Fei Yuen, Taihou, and Argus for restaurants when their Stamina cap reaches 150; below that cap they remain eligible for production."
     }
   },
   "IslandOrder": {

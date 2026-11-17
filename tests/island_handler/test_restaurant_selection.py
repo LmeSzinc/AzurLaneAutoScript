@@ -25,19 +25,12 @@ def restaurant_dialog(monkeypatch, requests, pages, blacklist=(), preselected=()
     main.is_in_island_restaurant = lambda: True
     main.appear_then_click = lambda *args, **kwargs: False
     main.unavailable_waitress_list = lambda: list(blacklist)
-    main.device = SimpleNamespace(image=object())
+    main.device = SimpleNamespace(image=object(), click_record_remove=lambda name: None)
     monkeypatch.setattr(restaurant, 'get_waitress_slots', lambda *args: requests)
     monkeypatch.setattr(dock, 'ISLAND_DOCK_DETECT', SimpleNamespace(load_color=lambda image: None))
 
     def sort(enable=True, **kwargs):
         state.events.append(('sort', enable))
-
-    def top():
-        state.events.append(('top',))
-        state.page = 0
-        state.unchanged = False
-        state.buttons = []
-        return True
 
     def scan(disabled=()):
         state.frame += 1
@@ -63,6 +56,12 @@ def restaurant_dialog(monkeypatch, requests, pages, blacklist=(), preselected=()
         state.page = min(state.page + 1, len(pages) - 1)
         state.buttons = []
 
+    def prev_page(**kwargs):
+        state.events.append(('up', state.page))
+        state.unchanged = state.page == 0
+        state.page = max(state.page - 1, 0)
+        state.buttons = []
+
     def select(button):
         assert any(current is button for current in state.buttons), 'stale dock button'
         assert button.frame == state.frame
@@ -83,10 +82,10 @@ def restaurant_dialog(monkeypatch, requests, pages, blacklist=(), preselected=()
         state.committed = list(state.selected)
 
     main.island_dock_sort_method_dsc_set = sort
-    main.ensure_dock_page_at_top = top
     main.island_dock_scan_page = scan
     main.island_dock_has_third_row = lambda: False
     main.next_dock_page = next_page
+    main.prev_dock_page = prev_page
     main.appear = lambda *args, **kwargs: state.unchanged
     main.is_button_selected = lambda button, **kwargs: button.identity in state.selected
     main.island_dock_select_one = select
@@ -118,7 +117,7 @@ def test_business_grade_is_selected_before_required_identity_on_lower_page(monke
 
     assert main.choose_waitress() is True
     assert state.committed == ['B', 'A']
-    assert [event for event in state.events if event[0] in ('top', 'down', 'select')] == [
+    assert [event for event in state.events if event[0] in ('up', 'down', 'select')] == [
         ('select', 'B', 0), ('down', 0), ('select', 'A', 1),
     ]
 
@@ -130,7 +129,7 @@ def test_two_named_characters_are_selected_in_encounter_order(monkeypatch):
 
     assert main.choose_waitress() is True
     assert state.committed == ['B', 'A']
-    assert state.events.count(('top',)) == 0
+    assert not any(event[0] == 'up' for event in state.events)
 
 
 def test_occupied_required_identity_aborts_before_clicking_same_page(monkeypatch):
@@ -210,14 +209,20 @@ def test_two_business_grade_roles_wait_for_later_a_instead_of_early_b(monkeypatc
     assert state.committed == ['FirstA', 'SecondA']
 
 
-def test_business_grade_fallback_rematches_earlier_page_after_selecting_a(monkeypatch):
-    main, state = restaurant_dialog(monkeypatch, ['business_grade', 'business_grade'], [
+@pytest.mark.parametrize('preferred_request', ['business_grade', 'Preferred'])
+def test_business_grade_fallback_scans_up_to_earlier_target_after_selecting_preferred(
+        monkeypatch, preferred_request):
+    main, state = restaurant_dialog(monkeypatch, [preferred_request, 'business_grade'], [
         [character('BestFallback', grade='B')],
         [character('Preferred', grade='A'), character('WorseFallback', grade='C')],
     ])
 
     assert main.choose_waitress() is True
     assert state.committed == ['Preferred', 'BestFallback']
+    assert [event for event in state.events if event[0] == 'sort'] == [('sort', True)]
+    assert [event for event in state.events if event[0] in ('up', 'select')] == [
+        ('select', 'Preferred', 1), ('up', 1), ('select', 'BestFallback', 0),
+    ]
 
 
 def test_two_characters_on_same_page_use_fresh_buttons_after_first_click(monkeypatch):

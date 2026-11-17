@@ -491,7 +491,7 @@ class IslandRestaurant(IslandDock):
                 key=fallback_grades.get,
             )[:remaining])
             if len(fallback_targets) == remaining:
-                success, _ = self.island_dock_search(handle_page, descending=True, start_at_top=True)
+                success, _ = self.island_dock_search(handle_page, descending=None, reverse=True)
         if success is not True:
             logger.warning("Failed to choose waitress")
             self.island_dock_quit()

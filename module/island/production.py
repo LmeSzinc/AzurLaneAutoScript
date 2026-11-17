@@ -1,3 +1,4 @@
+from dataclasses import replace
 from datetime import datetime
 
 from module.base.button import ButtonGrid
@@ -10,7 +11,7 @@ from module.island.data import DIC_ISLAND_PRODUCTION_PLACE, DIC_ISLAND_SLOT
 from module.island.utils import (
     get_configured_season, get_slot_ingredient_source_slots, item_name_with_id, production_place_name_with_id,
 )
-from module.island_handler.dock import IslandDock
+from module.island_handler.dock import IslandDock, dock_character_matches
 from module.island_handler.exchange import FISH_MEAT_SOURCES
 from module.island_handler.recipe import IslandProductionRestart, IslandRecipe
 from module.island_handler.restaurant_config import (
@@ -34,6 +35,33 @@ SLOT_DELTA = (95 - 1/3, 0)
 TICK_AREA = (30, 35, 52, 51)
 CHARACTER_SELECT_TITLE_AREA = (515, 144, 765, 202)
 
+# Dedicated place skills, then shared skills. Names within each pool are unordered;
+# the production dock sorts candidates by their current working efficiency.
+# Unrestricted skills, such as Laffey's, use the general fallback.
+PRODUCTION_WORKERS = {
+    101: (('Saratoga', 'Chen_Hai'), ('Explorer', 'Hwah_Jah')),  # Farm
+    102: (('Shimakaze', 'Nagato', 'Atago'), ()),  # Ranch
+    201: (('Agir',), ()),  # Fishery
+    401: (('Unicorn', 'Fei_Yuen'), ('Oceana',)),  # Mine
+    402: (('New_Jersey', 'Mogador'), ('Oceana',)),  # Woods
+    501: (('Taihou', 'Amagi_chan'), ('Explorer', 'Hwah_Jah')),  # Orchard
+    502: (('Hood', 'Yat_Sen'), ('Explorer', 'Hwah_Jah')),  # Nursery
+    601: (('Ying_Swei',), ('Chang_Feng',)),  # Golden Koi
+    602: ((), ('Chang_Feng',)),  # Polar Bear
+    603: ((), ('Chang_Feng',)),  # Manjuu Eatery
+    604: ((), ('Chang_Feng',)),  # Grill
+    703: (('Takao', 'Argus'), ()),  # Lumber
+    704: (('William_D_Porter',), ()),  # Machinery
+    706: (('Tashkent', 'Anchorage'), ()),  # Crafts
+    901: (('Friedrich_der_Grosse', 'Belfast'), ('Chang_Feng',)),  # Cafe
+}
+# Natural Business A at level 50 without attribute training, excluding restaurant
+# specialists covered by named waitress settings. Reserve these at stamina cap 150.
+BUSINESS_WORKERS = {
+    'Hood', 'Unicorn', 'Shimakaze', 'Javelin',
+    'Yat_Sen', 'Fei_Yuen', 'Taihou', 'Argus',
+}
+
 
 def production_slot_name_with_id(slot_id):
     place_id = DIC_ISLAND_SLOT[slot_id]['place']
@@ -42,8 +70,10 @@ def production_slot_name_with_id(slot_id):
 
 class IslandProduction(IslandRecipe, IslandDock):
     slot_finish_time = {}
-    human_workers_available = True
     _first_run = True
+    # Current place's roster in efficiency order; None until a complete scan.
+    production_dock = None
+
     # main menu related methods
     def _get_tabs(self):
         area = (DETECT_AREA[0] + ANCHOR_AREA[0], DETECT_AREA[1] + ANCHOR_AREA[1], DETECT_AREA[2] - TAB_SIZE[0] + ANCHOR_AREA[2], DETECT_AREA[3] - TAB_SIZE[1] + ANCHOR_AREA[3])
@@ -237,7 +267,85 @@ class IslandProduction(IslandRecipe, IslandDock):
             if not self.next_page():
                 break
 
+    def select_production_character(self, place_id):
+        pools = [pool for pool in PRODUCTION_WORKERS.get(place_id, ()) if pool]
+        # Keep dedicated and shared workers within the places covered by their skills.
+        blacklist = {
+            name for groups in PRODUCTION_WORKERS.values() for pool in groups for name in pool
+        }
+        blacklist.difference_update(name for pool in pools for name in pool)
+        for restaurant_id in RESTAURANT_IDS:
+            slots = get_waitress_slots(self.config, restaurant_id)
+            blacklist.update(get_selected_named_waitresses(slots))
+        pools.append(None)  # General fallback accepts any eligible character.
+
+        def available(character):
+            if not dock_character_matches(
+                    character, identity='any', emotion=(100, 150), emotion_limit=(100, 150),
+                    blacklist=blacklist):
+                return False
+            return character.identity not in BUSINESS_WORKERS or character.emotion_limit < 150
+
+        reverse = self.production_dock is None
+        if reverse:
+            dock = {}
+            preferred = pools[0]
+
+            def record_page(characters):
+                for character in characters:
+                    if character.identity in (None, '', 'unknown', 'Workerjuu'):
+                        continue
+                    # Preserve first-seen efficiency order, but never retain a button.
+                    dock[character.identity] = replace(character, button=None)
+                # The first eligible worker in the highest pool cannot be outranked later.
+                for character in characters:
+                    if (preferred is None or character.identity in preferred) and available(character):
+                        return character
+                return None
+
+            logger.info(f'Scan production dock for {production_place_name_with_id(place_id)}')
+            character, completed = self.island_dock_search(record_page, descending=True, disabled=('grade',))
+            if character:
+                logger.attr('Production worker', character.identity)
+                # An early exit leaves the place roster incomplete; select this live button.
+                return character if self.island_dock_select_one(character.button) else None
+            if not completed:
+                logger.warning('Production dock scan incomplete, discard roster')
+                return None
+            self.production_dock = dock
+        else:
+            dock = self.production_dock
+            logger.info(f'Reuse production dock for {production_place_name_with_id(place_id)}')
+
+        target = None
+        for candidates in pools:
+            target = next((character for character in dock.values()
+                           if (candidates is None or character.identity in candidates) and available(character)), None)
+            if target:
+                break
+        if target is None:
+            if not reverse:
+                # A new slot opens at the top; use the usual Workerjuu sort there.
+                self.island_dock_sort_method_dsc_set(enable=False)
+            return None
+        logger.attr('Production worker', target.identity)
+
+        def match_page(characters):
+            for character in characters:
+                if character.identity == target.identity:
+                    return character if available(character) else False
+            return None
+
+        # The discovery pass ends at the bottom; later slots start at the top.
+        character, _ = self.island_dock_search(
+            match_page, descending=not reverse, reverse=reverse, disabled=('grade',))
+        if character and self.island_dock_select_one(character.button):
+            return character
+        self.production_dock = None
+        return None
+
     def dispatch_slot(self, slot_id, slot_button):
+        place_id = DIC_ISLAND_SLOT[slot_id]['place']
         if slot_id in DIC_ISLAND_PRODUCTION_PLACE[102]['slot']:
             del_cached_property(super(), 'recipe_id_sequence')
             del_cached_property(super(), 'all_recipe_stocks')
@@ -249,23 +357,16 @@ class IslandProduction(IslandRecipe, IslandDock):
             if self.match_template_color(page_island_manage.check_button, interval=1) and not self.is_enter_window_shown():
                 self.device.click(slot_button)
                 continue
-        if self.config.IslandProduction_UseWorkerjuuByDefault or not self.human_workers_available:
+        if self.config.IslandProduction_UseWorkerjuuByDefault:
             worker = self.island_dock_select_workerjuu()
         else:
-            blacklist = set()
-            for restaurant_id in RESTAURANT_IDS:
-                blacklist.update(get_selected_named_waitresses(get_waitress_slots(self.config, restaurant_id)))
-            worker = self.island_dock_select_character(
-                emotion=(100, 150), emotion_limit=(100, 149),
-                blacklist=blacklist, descending=False)
+            worker = self.select_production_character(place_id)
             if not worker:
-                self.device.click_record_remove('ISLAND_DOCK_NEXT_PAGE_SWIPE')
-                self.human_workers_available = False
                 logger.warning(
                     f'No available character for {production_slot_name_with_id(slot_id)}, '
-                    'use Workerjuu for the remaining production slots'
+                    'use Workerjuu for this slot'
                 )
-                worker = self.island_dock_select_workerjuu(descending=True)
+                worker = self.island_dock_select_workerjuu(descending=None)
         if not worker:
             logger.warning(f'Failed to select a worker for {production_slot_name_with_id(slot_id)}')
             self.island_dock_quit()
@@ -275,6 +376,9 @@ class IslandProduction(IslandRecipe, IslandDock):
         self.island_dock_select_confirm(self.is_in_recipe_menu)
         target_time = super().run(slot_id=slot_id, emotion=emotion)
         if target_time is not None:
+            dock = self.production_dock
+            if dock and worker.identity in dock:
+                dock[worker.identity] = replace(dock[worker.identity], status='occupied')
             target_time = target_time.replace(microsecond=0)
             self.slot_finish_time[slot_id] = target_time
             self.ensure_island_production_page()
@@ -305,6 +409,7 @@ class IslandProduction(IslandRecipe, IslandDock):
             logger.info(f'Skip {place}: no new ingredients from completed production')
             return
         logger.info(f'Dispatch production place: {place}')
+        self.production_dock = None
         slot_grid = self.slot_grids[place_id]
         is_first = True
         for slot_id, slot_button in zip(DIC_ISLAND_PRODUCTION_PLACE[place_id]['slot'], slot_grid.buttons):
@@ -324,7 +429,6 @@ class IslandProduction(IslandRecipe, IslandDock):
 
     def dispatch_all(self, check_all_empty_slots=False):
         logger.hr("Dispatch Production", level=2)
-        self.human_workers_available = True
         slots_to_check = None
         if not check_all_empty_slots:
             # Empty sources mean no upstream production to wait for.
