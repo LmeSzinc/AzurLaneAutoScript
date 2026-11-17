@@ -3046,6 +3046,14 @@
       "Updating": "Waiting Update"
     },
     "MenuAlas": {
+      "ReturnToTasks": "Back to tasks",
+      "AppSettings": "App settings",
+      "ManageInstances": "Manage instances",
+      "Tasks": "Menu",
+      "Search": "Find a task",
+      "SearchPlaceholder": "Search tasks or categories",
+      "NoMatches": "No matching tasks",
+      "BackToOverview": "Back to overview",
       "Overview": "Overview",
       "Log": "Logs"
     },
