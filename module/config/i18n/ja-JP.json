@@ -3046,6 +3046,14 @@
       "Updating": "アップデータを待っています"
     },
     "MenuAlas": {
+      "ReturnToTasks": "タスクに戻る",
+      "AppSettings": "アプリ設定",
+      "ManageInstances": "インスタンス管理",
+      "Tasks": "メニュー",
+      "Search": "タスクを探す",
+      "SearchPlaceholder": "タスクまたはカテゴリを検索",
+      "NoMatches": "一致するタスクがありません",
+      "BackToOverview": "概要に戻る",
       "Overview": "概要",
       "Log": "実行ログ"
     },

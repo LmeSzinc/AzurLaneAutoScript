@@ -1,0 +1,26 @@
+:root {
+    --ui-bg: #1b1f25;
+    --ui-surface: #262b33;
+    --ui-sidebar: #20252c;
+    --ui-text: #e7edf3;
+    --ui-muted: #a8b3c0;
+    --ui-border: #3a424e;
+    --ui-hover: #303b45;
+    --ui-active: #25434b;
+    --ui-accent: #68d3de;
+    --ui-shadow: 0 2px 10px rgba(0, 0, 0, .12);
+}
+.btn-on { color: #15272b; }
+:root {
+    --ui-bg: #121218;
+    --ui-surface: #1b1b23;
+    --ui-sidebar: #101015;
+    --ui-text: #ededf2;
+    --ui-muted: #aaaab8;
+    --ui-border: #30303c;
+    --ui-hover: #292933;
+    --ui-active: #302947;
+    --ui-accent: #b8a6ff;
+}
+.btn-on { color: #1d153a; }
+#pywebio-scope-home_preferences .btn-primary { color: #1d153a; }

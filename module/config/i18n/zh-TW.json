@@ -3046,6 +3046,14 @@
       "Updating": "等待更新"
     },
     "MenuAlas": {
+      "ReturnToTasks": "返回任務",
+      "AppSettings": "應用設定",
+      "ManageInstances": "管理實例",
+      "Tasks": "選單",
+      "Search": "搜尋任務",
+      "SearchPlaceholder": "輸入任務或分類名稱",
+      "NoMatches": "找不到符合的任務",
+      "BackToOverview": "返回總覽",
       "Overview": "總覽",
       "Log": "執行日誌"
     },

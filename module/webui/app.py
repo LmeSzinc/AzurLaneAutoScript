@@ -1,4 +1,5 @@
 import argparse
+import html
 import json
 import queue
 import threading
@@ -56,7 +57,7 @@ from module.logger import logger
 from module.ocr.rpc import start_ocr_server_process, stop_ocr_server_process
 from module.submodule.submodule import load_config
 from module.submodule.utils import get_config_mod
-from module.webui.base import Frame
+from module.webui.base import APP_TITLE, Frame
 from module.webui.discord_presence import close_discord_rpc, init_discord_rpc
 from module.webui.fastapi import asgi_app
 from module.webui.lang import _t, t
@@ -85,7 +86,6 @@ from module.webui.widgets import (
     BinarySwitchButton,
     RichLog,
     T_Output_Kwargs,
-    put_icon_buttons,
     put_loading_text,
     put_none,
     put_output,
@@ -117,83 +117,41 @@ class AlasGUI(Frame):
         self.alas_config = AzurLaneConfig("template")
         self.initial()
         # rendered state cache
-        self.rendered_cache = []
         self.inst_cache = []
-        self.load_home = False
-        self.af_flag = False
+        self.last_instance = None
+
+    def set_aside(self) -> None:
+        self.inst_cache = alas_instance()
+        self.render_instance_selector()
+        with use_scope("mobile_nav", clear=True):
+            put_button(t("Gui.MenuAlas.Tasks"), onclick=self.expand_menu, color="menu")
+        with use_scope("sidebar_footer", clear=True):
+            put_button(t("Gui.MenuAlas.ReturnToTasks"), onclick=self.open_workspace, color="menu").style("--return-workspace--")
+            put_collapse(t("Gui.MenuAlas.AppSettings"), [
+                put_button(t("Gui.MenuAlas.AppSettings"), onclick=self.ui_develop, color="menu"),
+                put_button(t("Gui.MenuAlas.ManageInstances"), onclick=lambda: go_app("manage", new_window=False), color="menu"),
+            ]).style("--settings-menu--")
 
     @use_scope("aside", clear=True)
-    def set_aside(self) -> None:
-        # TODO: update put_icon_buttons()
+    def render_instance_selector(self) -> None:
+        if len(self.inst_cache) > 1:
+            selected = self.alas_name if self.alas_name in self.inst_cache else self.inst_cache[0]
+            choices = [
+                put_button(name, onclick=partial(self.ui_alas, name), color="instance-active" if name == selected else "instance")
+                for name in self.inst_cache
+            ]
+            put_collapse(title=selected, content=choices).style("--instance-selector--")
 
-        current_date = datetime.now().date()
-        if current_date.month == 4 and current_date.day == 1:
-            self.af_flag = True
-
-        put_icon_buttons(
-            Icon.DEVELOP,
-            buttons=[{"label": t("Gui.Aside.Home"), "value": "Home", "color": "aside"}],
-            onclick=[self.ui_develop],
-        )
-        put_scope("aside_instance", [
-            put_scope(f"alas-instance-{i}", [])
-            for i, _ in enumerate(alas_instance())
-        ])
-        self.set_aside_status()
-        put_icon_buttons(
-            Icon.SETTING,
-            buttons=[
-                {
-                    "label": t("Gui.AddAlas.Manage"),
-                    "value": "AddAlas",
-                    "color": "aside",
-                }
-            ],
-            onclick=[lambda: go_app("manage", new_window=False)],
-        )
-
-
-    @use_scope("aside_instance")
     def set_aside_status(self) -> None:
-        flag = True
+        instances = alas_instance()
+        if instances != self.inst_cache:
+            self.inst_cache = instances
+            self.render_instance_selector()
 
-        def update(name, seq):
-            with use_scope(f"alas-instance-{seq}", clear=True):
-                icon_html = Icon.RUN
-                rendered_state = ProcessManager.get_manager(inst).state
-                if rendered_state == 1 and self.af_flag:
-                    icon_html = icon_html[:31] + ' anim-rotate' + icon_html[31:]
-                put_icon_buttons(
-                    icon_html,
-                    buttons=[{"label": name, "value": name, "color": "aside"}],
-                    onclick=self.ui_alas,
-                )
-            return rendered_state
-
-        if not len(self.rendered_cache) or self.load_home:
-            # Reload when add/delete new instance | first start app.py | go to HomePage (HomePage load call force reload)
-            flag = False
-            self.inst_cache.clear()
-            self.inst_cache = alas_instance()
-        if flag:
-            for index, inst in enumerate(self.inst_cache):
-                # Check for state change
-                state = ProcessManager.get_manager(inst).state
-                if state != self.rendered_cache[index]:
-                    self.rendered_cache[index] = update(inst, index)
-                    flag = False
-        else:
-            self.rendered_cache.clear()
-            clear("aside_instance")
-            for index, inst in enumerate(self.inst_cache):
-                self.rendered_cache.append(update(inst, index))
-            self.load_home = False
-        if not flag:
-            # Redraw lost focus, now focus on aside button
-            aside_name = get_localstorage("aside")
-            self.active_button("aside", aside_name)
-
-        return
+    def open_workspace(self) -> None:
+        instances = alas_instance()
+        selected = self.last_instance if self.last_instance in instances else instances[0]
+        self.ui_alas(selected)
 
     @use_scope("header_status")
     def set_status(self, state: int) -> None:
@@ -232,6 +190,13 @@ class AlasGUI(Frame):
         """
         Set menu
         """
+        put_html(
+            '<div class="task-search">'
+            f'<label for="alas-task-search">{html.escape(t("Gui.MenuAlas.Search"))}</label>'
+            f'<input id="alas-task-search" type="search" autocomplete="off" '
+            f'placeholder="{html.escape(t("Gui.MenuAlas.SearchPlaceholder"), quote=True)}">'
+            '</div>'
+        )
         put_buttons(
             [
                 {
@@ -243,47 +208,78 @@ class AlasGUI(Frame):
             onclick=[self.alas_overview],
         ).style(f"--menu-Overview--")
 
-        for menu, task_data in self.ALAS_MENU.items():
+        for index, (menu, task_data) in enumerate(self.ALAS_MENU.items()):
             if task_data.get("page") == "tool":
                 _onclick = self.alas_daemon_overview
             else:
                 _onclick = self.alas_set_group
 
-            if task_data.get("menu") == "collapse":
-                task_btn_list = [
-                    put_buttons(
-                        [
-                            {
-                                "label": t(f"Task.{task}.name"),
-                                "value": task,
-                                "color": "menu",
-                            }
-                        ],
-                        onclick=_onclick,
-                    ).style(f"--menu-{task}--")
-                    for task in task_data.get("tasks", [])
-                ]
-                put_collapse(title=t(f"Menu.{menu}.name"), content=task_btn_list)
-            else:
-                title = t(f"Menu.{menu}.name")
-                put_html(
-                    '<div class="hr-task-group-box">'
-                    '<span class="hr-task-group-line"></span>'
-                    f'<span class="hr-task-group-text">{title}</span>'
-                    '<span class="hr-task-group-line"></span>'
-                    '</div>'
-                )
-                for task in task_data.get("tasks", []):
-                    put_buttons(
-                        [
-                            {
-                                "label": t(f"Task.{task}.name"),
-                                "value": task,
-                                "color": "menu",
-                            }
-                        ],
-                        onclick=_onclick,
-                    ).style(f"--menu-{task}--").style(f"padding-left: 0.75rem")
+            with use_scope(f"task-section-{index}"):
+                if task_data.get("menu") == "collapse":
+                    task_btn_list = [
+                        put_buttons(
+                            [{"label": t(f"Task.{task}.name"), "value": task, "color": "menu"}],
+                            onclick=_onclick,
+                        ).style(f"--menu-{task}--")
+                        for task in task_data.get("tasks", [])
+                    ]
+                    put_collapse(title=t(f"Menu.{menu}.name"), content=task_btn_list)
+                else:
+                    title = t(f"Menu.{menu}.name")
+                    put_html(
+                        '<div class="hr-task-group-box">'
+                        '<span class="hr-task-group-line"></span>'
+                        f'<span class="hr-task-group-text">{html.escape(title)}</span>'
+                        '<span class="hr-task-group-line"></span>'
+                        '</div>'
+                    )
+                    for task in task_data.get("tasks", []):
+                        put_buttons(
+                            [{"label": t(f"Task.{task}.name"), "value": task, "color": "menu"}],
+                            onclick=_onclick,
+                        ).style(f"--menu-{task}--")
+
+        put_html(f'<p id="task-search-empty" hidden>{html.escape(t("Gui.MenuAlas.NoMatches"))}</p>')
+        run_js("""
+            (() => {
+                const menu = document.getElementById("pywebio-scope-menu");
+                const input = document.getElementById("alas-task-search");
+                const empty = document.getElementById("task-search-empty");
+                const sections = Array.from(menu.querySelectorAll('[id^="pywebio-scope-task-section-"]'));
+                const previous = new WeakMap();
+                let searching = false;
+                input.addEventListener("input", () => {
+                    const query = input.value.trim().toLocaleLowerCase();
+                    let matches = 0;
+                    sections.forEach(section => {
+                        const details = section.querySelector("details");
+                        const heading = section.querySelector("summary, .hr-task-group-text");
+                        const groupMatches = heading && heading.textContent.toLocaleLowerCase().includes(query);
+                        const buttons = Array.from(section.querySelectorAll("button.btn-menu"));
+                        let count = 0;
+                        buttons.forEach(button => {
+                            const show = !query || groupMatches || button.textContent.toLocaleLowerCase().includes(query);
+                            button.parentElement.hidden = !show;
+                            if (show) count++;
+                        });
+                        if (details) {
+                            if (query && !searching) previous.set(details, details.open);
+                            if (query) details.open = count > 0;
+                            else if (searching) details.open = !!previous.get(details);
+                        }
+                        section.hidden = !!query && count === 0;
+                        matches += count;
+                    });
+                    if (!query && searching) {
+                        const selected = menu.querySelector("button.btn-menu-active");
+                        const selectedGroup = selected && selected.closest("details");
+                        if (selectedGroup) selectedGroup.open = true;
+                    }
+                    searching = !!query;
+                    empty.hidden = !query || matches > 0;
+                });
+            })();
+        """)
 
         self.alas_overview()
 
@@ -294,6 +290,8 @@ class AlasGUI(Frame):
         """
         self.init_menu(name=task)
         self.set_title(t(f"Task.{task}.name"))
+        with use_scope("header_title"):
+            put_button(t("Gui.MenuAlas.BackToOverview"), onclick=self.alas_overview, color="off").style("--back-to-overview--")
 
         put_scope("_groups", [put_none(), put_scope("groups"), put_scope("navigator")])
 
@@ -397,10 +395,10 @@ class AlasGUI(Frame):
     @use_scope("navigator")
     def set_navigator(self, group):
         js = f"""
-            $("#pywebio-scope-groups").scrollTop(
-                $("#pywebio-scope-group_{group[0]}").position().top
-                + $("#pywebio-scope-groups").scrollTop() - 59
-            )
+            const container = document.getElementById("pywebio-scope-groups");
+            const target = document.getElementById("pywebio-scope-group_{group[0]}");
+            container.scrollTop += target.getBoundingClientRect().top
+                - container.getBoundingClientRect().top - 4;
         """
         put_button(
             label=t(f"{group[0]}._info.name"),
@@ -1031,24 +1029,19 @@ class AlasGUI(Frame):
         self.task_handler.add(remote_switch.g(), delay=1, pending_delete=True)
 
     def ui_develop(self) -> None:
-        if not self.is_mobile:
-            self.show()
-            return
-        self.init_aside(name="Home")
-        self.set_title(t("Gui.Aside.Home"))
-        self.dev_set_menu()
-        self.alas_name = ""
-        if hasattr(self, "alas"):
-            del self.alas
-        self.state_switch.switch()
+        self.show()
 
     def ui_alas(self, config_name: str) -> None:
         if config_name == self.alas_name:
+            self.render_instance_selector()
             self.expand_menu()
             return
         self.init_aside(name=config_name)
         clear("content")
         self.alas_name = config_name
+        self.last_instance = config_name
+        run_js('document.body.classList.remove("app-settings")')
+        self.render_instance_selector()
         self.alas_mod = get_config_mod(config_name)
         self.alas = ProcessManager.get_manager(config_name)
         self.alas_config = load_config(config_name)
@@ -1121,7 +1114,7 @@ class AlasGUI(Frame):
 
     def show(self) -> None:
         self._show()
-        self.load_home = True
+        run_js('document.body.classList.add("app-settings")')
         # Create state_switch before rendering aside buttons, so that
         # ui_alas() (invoked by clicking aside buttons, possibly before
         # the rest of show() finishes on slow machines) never touches an
@@ -1153,7 +1146,13 @@ class AlasGUI(Frame):
             run_js("location.reload()")
 
         with use_scope("content"):
-            put_text("Select your language / 选择语言").style("text-align: center")
+            put_scope("home_welcome", [
+                put_text("Alas").style("--home-eyebrow--"),
+                put_text("Azur Lane Auto Script").style("--home-title--"),
+            ])
+            put_scope("home_preferences")
+        with use_scope("home_preferences"):
+            put_text("Select your language / 选择语言").style("--home-section-title--")
             put_buttons(
                 [
                     {"label": "简体中文", "value": "zh-CN"},
@@ -1162,24 +1161,24 @@ class AlasGUI(Frame):
                     {"label": "日本語", "value": "ja-JP"},
                 ],
                 onclick=lambda l: set_language(l),
-            ).style("text-align: center")
-            put_text("Change theme / 更改主题").style("text-align: center")
+            )
+            put_text("Change theme / 更改主题").style("--home-section-title--")
             put_buttons(
                 [
                     {"label": "Light", "value": "default", "color": "light"},
                     {"label": "Dark", "value": "dark", "color": "dark"},
                 ],
                 onclick=lambda t: set_theme(t),
-            ).style("text-align: center")
+            )
 
-            # show something
+        with use_scope("content"):
             put_markdown(
                 """
             Alas is a free open source software, if you paid for Alas from any channel, please refund.
             Alas 是一款免费开源软件，如果你在任何渠道付费购买了Alas，请退款。
             Project repository 项目地址：`https://github.com/LmeSzinc/AzurLaneAutoScript`
             """
-            ).style("text-align: center")
+            ).style("--home-note--")
 
         if lang.TRANSLATE_MODE:
             lang.reload()
@@ -1197,7 +1196,7 @@ class AlasGUI(Frame):
 
     def run(self) -> None:
         # setup gui
-        set_env(title="Alas", output_animation=False)
+        set_env(title=APP_TITLE, output_animation=False)
         add_css(filepath_css("alas"))
         if self.is_mobile:
             add_css(filepath_css("alas-mobile"))
@@ -1208,6 +1207,9 @@ class AlasGUI(Frame):
             add_css(filepath_css("dark-alas"))
         else:
             add_css(filepath_css("light-alas"))
+        add_css(filepath_css("modern-alas"))
+        if self.theme == "dark":
+            add_css(filepath_css("modern-dark-alas"))
 
         # Auto refresh when lost connection
         # [For develop] Disable by run `reload=0` in console
@@ -1282,8 +1284,8 @@ class AlasGUI(Frame):
         self.task_handler.start()
 
         # Return to previous page
-        if aside not in ["Home", None]:
-            self.ui_alas(aside)
+        instances = alas_instance()
+        self.ui_alas(aside if aside in instances else instances[0])
 
 
 def app_manage():
@@ -1409,7 +1411,7 @@ def app_manage():
             scope="config_table",
         )
 
-    set_env(title="Alas", output_animation=False)
+    set_env(title=APP_TITLE, output_animation=False)
     run_js("$('head').append('<style>.footer{display:none}</style>')")
 
     put_html(f"<h2>{t('Gui.AppManage.PageTitle')}</h2>")

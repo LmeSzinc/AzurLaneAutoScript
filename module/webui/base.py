@@ -3,6 +3,8 @@ from pywebio.session import defer_call, info, run_js
 
 from module.webui.utils import Icon, WebIOTaskHandler, set_localstorage
 
+APP_TITLE = "Alas - Azur Lane Auto Script"
+
 
 class Base:
     def __init__(self) -> None:
@@ -64,17 +66,16 @@ class Frame(Base):
             "header",
             [
                 put_html(Icon.ALAS).style("--header-icon--"),
-                put_text("Alas").style("--header-text--"),
+                put_text(APP_TITLE).style("--header-text--"),
+                put_scope("mobile_nav"),
                 put_scope("header_status"),
-                put_scope("header_title"),
             ],
         )
         put_scope(
             "contents",
             [
-                put_scope("aside"),
-                put_scope("menu"),
-                put_scope("content"),
+                put_scope("sidebar", [put_scope("aside"), put_scope("menu"), put_scope("sidebar_footer")]),
+                put_scope("main", [put_scope("header_title"), put_scope("content")]),
             ],
         )
 
@@ -89,6 +90,8 @@ class Frame(Base):
             f"""
             $("#pywebio-scope-menu").addClass("container-menu-collapsed");
             $(".container-content-collapsed").removeClass("container-content-collapsed");
+            $("#pywebio-scope-main").removeClass("container-main-collapsed");
+            $("#pywebio-scope-sidebar").addClass("container-sidebar-collapsed");
         """
         )
 
@@ -98,6 +101,8 @@ class Frame(Base):
             f"""
             $(".container-menu-collapsed").removeClass("container-menu-collapsed");
             $("#pywebio-scope-content").addClass("container-content-collapsed");
+            $("#pywebio-scope-main").addClass("container-main-collapsed");
+            $("#pywebio-scope-sidebar").removeClass("container-sidebar-collapsed");
         """
         )
 
@@ -107,6 +112,7 @@ class Frame(Base):
             f"""
             $("button.btn-{position}").removeClass("btn-{position}-active");
             $("div[style*='--{position}-{value}--']>button").addClass("btn-{position}-active");
+            $("div[style*='--{position}-{value}--']>button").closest("details").prop("open", true);
         """
         )
 
