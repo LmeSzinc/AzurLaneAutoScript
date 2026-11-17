@@ -4,7 +4,7 @@ from jellyfish import levenshtein_distance
 
 import module.config.server as server
 from module.base.button import ButtonGrid
-from module.base.decorator import cached_property, del_cached_property
+from module.base.decorator import cached_property
 from module.island.data import DIC_ISLAND_SHOP, DIC_ISLAND_SHOP_ITEM_TO_RECIPE, DIC_ISLAND_SHOP_RECIPE
 from module.island.utils import (
     get_configured_season, get_shop_recipe_data, is_shop_recipe_available, item_name_with_id,
@@ -133,16 +133,16 @@ class IslandShop(IslandShopUI):
             logger.info(f"Corrected '{name}' to '{corrected_name}' with distance {min_distance}")
         return corrected_id
 
-    @cached_property
-    def island_shop_item_ids(self):
-        return self.island_shop_get_item_ids()
-
-    def island_shop_get_item_ids(self):
+    def island_shop_get_item_ids(self, expected_recipe_id=None):
         for _ in self.loop(timeout=5):
             names = self._island_shop_item_name_ocr.ocr(self.device.image)
             ids = [self.item_name_to_recipe_id(name) for name in names]  # need to keep all ids to pair with buttons
             if all(id is None for id in ids):
                 logger.warning(f"Failed to get item ids from names {names}, retrying...")
+                continue
+            # The selected tab can change before its item cards finish loading.
+            if expected_recipe_id is not None and expected_recipe_id not in ids:
+                logger.info(f'Waiting for {shop_recipe_name_with_id(expected_recipe_id)} to appear in shop')
                 continue
             return ids
         else:
@@ -220,6 +220,10 @@ class IslandShop(IslandShopUI):
         if not is_shop_recipe_available(recipe_id, season):
             logger.warning(f'Shop recipe {recipe_id} is inactive this season')
             return False
+        ids = self.island_shop_get_item_ids(expected_recipe_id=recipe_id)
+        if recipe_id not in ids:
+            logger.warning(f'{shop_recipe_name_with_id(recipe_id)} not found in shop')
+            return False
         recipe = get_shop_recipe_data(recipe_id)
         currency_id = list(recipe['resource_consume'].keys())[0]
         currency_amount = self.island_shop_get_currency().get(currency_id, 0)
@@ -236,7 +240,7 @@ class IslandShop(IslandShopUI):
                 f'{shop_recipe_name_with_id(recipe_id)}'
             )
             return False
-        for id, button in zip(self.island_shop_item_ids, self._island_shop_item_grid.buttons):
+        for id, button in zip(ids, self._island_shop_item_grid.buttons):
             if id == recipe_id:
                 self.island_shop_buy_execute(button, amount)
                 return True
@@ -264,7 +268,6 @@ class IslandShop(IslandShopUI):
 
     def island_shop_set_navbar_and_tab(self, recipe_id, isolated=True):
         # only works for general items (skins and items are not included)
-        del_cached_property(self, 'island_shop_item_ids')
         success = True
         if isolated:
             search_range = range(10019, 10038)

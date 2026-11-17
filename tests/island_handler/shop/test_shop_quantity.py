@@ -160,7 +160,7 @@ def test_buy_in_page_rejects_unaffordable_quantity():
     shop = object.__new__(IslandShop)
     shop.config = SimpleNamespace(cross_get=lambda key, default=None: 'season_20261105_cn')
     shop.island_shop_get_currency = lambda: {1: 1183}
-    shop.island_shop_item_ids = [411003]
+    shop.island_shop_get_item_ids = lambda expected_recipe_id=None: [411003]
     purchases = []
     shop.island_shop_buy_execute = lambda button, amount: purchases.append(amount)
 
