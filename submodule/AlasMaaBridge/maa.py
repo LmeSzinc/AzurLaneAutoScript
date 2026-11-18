@@ -1,6 +1,7 @@
 import os
 import json
 import ctypes
+import time
 from cached_property import cached_property
 
 # In order for MAA submodule to exexute,
@@ -25,14 +26,23 @@ if os.name == 'nt':
         print(e)
 
 from alas import AzurLaneAutoScript
+from module.base.decorator import del_cached_property
 from module.exception import RequestHumanTakeover
 from module.logger import logger
 from submodule.AlasMaaBridge.module.config.config import ArknightsConfig
+from submodule.AlasMaaBridge.module.exception import MaaError
 from submodule.AlasMaaBridge.module.handler.handler import AssistantHandler
 from submodule.AlasMaaBridge.module.logger import log_callback
 
 
 class FakeDevice:
+    package = 'Arknights'
+    screenshot_deque = ()
+
+    @staticmethod
+    def sleep(seconds):
+        time.sleep(seconds)
+
     @staticmethod
     def empty_func(*args, **kwargs):
         pass
@@ -42,6 +52,21 @@ class FakeDevice:
 
 
 class ArknightsAutoScript(AzurLaneAutoScript):
+    recovering_task = None
+
+    def record_task_result(self, task, success):
+        if task == 'MaaStartup' and self.recovering_task is not None and task != self.recovering_task:
+            if success:
+                # Successful login alone does not mean the failed task recovered.
+                return self.recovering_task, self.failure_record[self.recovering_task]
+            task = self.recovering_task
+        task, failed = super().record_task_result(task, success)
+        if not success:
+            self.recovering_task = task
+        elif task == self.recovering_task:
+            self.recovering_task = None
+        return task, failed
+
     @cached_property
     def device(self):
         return FakeDevice()
@@ -139,6 +164,15 @@ class ArknightsAutoScript(AzurLaneAutoScript):
         return asst
 
     def maa_startup(self):
+        if self.recovering_task is not None:
+            logger.warning('Restart Arknights for MAA recovery')
+            # Restart through ADB before calling into the failed MAA instance.
+            AssistantHandler(config=self.config, asst=None).restart()
+            AssistantHandler.ASST_HANDLER = None
+            asst = self.__dict__.get('asst')
+            if asst is not None and not asst.close(timeout=10):
+                raise MaaError('MAA instance cleanup timed out')
+            del_cached_property(self, 'asst')
         AssistantHandler(config=self.config, asst=self.asst).startup()
 
     def maa_annihilation(self):

@@ -13,11 +13,21 @@ from module.base.timer import Timer
 from module.config.deep import deep_get
 from module.config.utils import read_file, get_server_last_update
 from module.device.connection_attr import ConnectionAttr
-from module.exception import RequestHumanTakeover
+from module.device.method.adb import Adb
+from module.exception import EmulatorNotRunningError, RequestHumanTakeover
 from module.logger import logger
 
 from submodule.AlasMaaBridge.module.config.config import ArknightsConfig
 from submodule.AlasMaaBridge.module.asst import asst, utils
+from submodule.AlasMaaBridge.module.exception import MaaError
+
+
+class ArknightsConnection(Adb):
+    def __init__(self, config, serial, package):
+        # Reuse ADB control without Azur Lane package detection and server setup.
+        self.config = config
+        self.serial = serial
+        self.package = package
 
 
 class AssistantHandler:
@@ -72,7 +82,7 @@ class AssistantHandler:
         while 1:
             if self.callback_timer.reached():
                 logger.critical('MAA no respond, probably stuck')
-                raise RequestHumanTakeover
+                raise MaaError('MAA stop timed out')
 
             if self.signal in [
                 self.Message.AllTasksCompleted,
@@ -82,23 +92,28 @@ class AssistantHandler:
             ]:
                 return
 
+            time.sleep(0.5)
+
     def maa_start(self, task_name, params):
         logger.hr('MAA start')
         logger.info(f'Task name: {task_name}, params={params}')
         self.task_id = self.asst.append_task(task_name, params)
+        if not self.task_id:
+            raise MaaError(f'MAA failed to append task {task_name}')
         self.signal = None
         self.params = params
         self.callback_list.append(self.task_end_callback)
         self.callback_timer.reset()
-        self.asst.start()
+        if not self.asst.start():
+            raise MaaError(f'MAA failed to start task {task_name}')
         while 1:
             if self.callback_timer.reached():
                 logger.critical('MAA no respond, probably stuck')
-                raise RequestHumanTakeover
+                raise MaaError(f'MAA task {task_name} timed out')
 
             if self.signal is not None:
                 if self.signal == self.Message.TaskChainError:
-                    raise RequestHumanTakeover
+                    raise MaaError(f'MAA task {task_name} failed')
                 self.maa_stop()
                 self.callback_list.clear()
                 return
@@ -210,9 +225,23 @@ class AssistantHandler:
         self.callback_list = []
 
         if not self.asst.connect(adb, self.serial):
-            raise RequestHumanTakeover
+            raise MaaError('MAA failed to connect to emulator')
 
         self.callback_list = old_callback_list
+
+    def restart(self):
+        self.serial = self.config.MaaEmulator_Serial
+        self.serial_check()
+        path = os.path.join(self.config.MaaEmulator_MaaPath, 'resource/config.json')
+        package = read_file(path)['packageName'][self.config.MaaEmulator_PackageName]
+        device = ArknightsConnection(self.config, self.serial, package)
+        try:
+            device.adb_connect(wait_device=False)
+            device.app_stop_adb()
+            if not device.app_start_adb(allow_failure=True):
+                raise MaaError('Failed to start Arknights')
+        except (EmulatorNotRunningError, RequestHumanTakeover) as e:
+            raise MaaError(f'Failed to restart Arknights: {e}') from e
 
     def startup(self):
         self.connect()
