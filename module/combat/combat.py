@@ -142,6 +142,8 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             return PAUSE_Ritual
         if PAUSE_Bullet.match_template_color(self.device.image, offset=(10, 10)):
             return PAUSE_Bullet
+        if PAUSE_Angel.match_template_color(self.device.image, offset=(10, 10)):
+            return PAUSE_Angel
         return False
 
     def handle_combat_quit(self, offset=(20, 20), interval=3):
@@ -207,6 +209,10 @@ class Combat(Level, HPBalancer, Retirement, SubmarineCall, CombatAuto, CombatMan
             return True
         if QUIT_Ritual.match_luma(self.device.image, offset=offset):
             self.device.click(QUIT_Ritual)
+            timer.reset()
+            return True
+        if QUIT_Angel.match_luma(self.device.image, offset=offset):
+            self.device.click(QUIT_Angel)
             timer.reset()
             return True
         return False
