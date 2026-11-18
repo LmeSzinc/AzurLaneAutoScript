@@ -145,6 +145,7 @@ class CampaignBase(CampaignBase_):
         logger.info('Select target grid')
         skip_first_screenshot = True
         interval = Timer(2, count=4)
+        move_confirmed = False
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -155,12 +156,12 @@ class CampaignBase(CampaignBase_):
             if self.appear(STRATEGY_OPENED, offset=MOB_MOVE_OFFSET):
                 break
             # Click
-            if interval.reached() and self.is_in_strategy_mob_move():
+            if self.handle_popup_confirm('MOB_MOVE'):
+                # The move controls can linger after confirmation.
+                move_confirmed = True
+            elif not move_confirmed and interval.reached() and self.is_in_strategy_mob_move():
                 self.device.click(target_grid)
                 interval.reset()
-                continue
-            if self.handle_popup_confirm('MOB_MOVE'):
-                continue
 
     def _mob_move_info_change(self, location, target):
         location = location_ensure(location)
