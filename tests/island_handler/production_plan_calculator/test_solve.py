@@ -88,7 +88,7 @@ class TestSolveBaseTechnology:
         calc = make_calculator(
             all_unlocked_technology,
             restaurant_settings={
-                601: {'grade': 'gold', 'waitress_slots': ('any', 'none')},
+                601: {'grade': 'gold', 'waitress_slots': ('business_grade', 'none')},
             },
         )
         calc.solve_production_plan(
@@ -112,7 +112,7 @@ class TestSolveBaseTechnology:
             500212: True,
             540001: True,
         }, restaurant_settings={
-            901: {'grade': 'bronze', 'waitress_slots': ('any', 'none')},
+            901: {'grade': 'bronze', 'waitress_slots': ('business_grade', 'none')},
         })
         calc.solve_production_plan(
             task_target_items={3029: 250},

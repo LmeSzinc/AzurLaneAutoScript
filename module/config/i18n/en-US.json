@@ -2700,7 +2700,7 @@
     },
     "UseWorkerjuuByDefault": {
       "name": "Use Workerjuu by default",
-      "help": "Enabled: use Workerjuu by default. Disabled: search available characters in ascending dock order with at least 100 Stamina and a Stamina cap below 150, excluding named staff configured under Store Management; use Workerjuu if none is available."
+      "help": "Enabled: use Workerjuu.\nDisabled: first try characters whose skills are exclusive to this workplace, then those whose skills are restricted to several workplaces including this one, then characters without place-specific production skills. Characters with place-specific skills are only used where those skills apply. Within each group, choose free characters with at least 100 current Stamina by Working Efficiency, highest first. Use Workerjuu if none qualifies.\nAlways reserve named restaurant staff. Also reserve Hood, Unicorn, Shimakaze, Javelin, Yat Sen, Fei Yuen, Taihou, and Argus for restaurants when their Stamina cap reaches 150; below that cap they remain eligible for production."
     }
   },
   "IslandOrder": {
@@ -2738,17 +2738,17 @@
     },
     "KoiWaitress1": {
       "name": "Golden Koi Restaurant Waitress 1",
-      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
+      "help": "The two waitress slots are unordered. None leaves a slot empty; both None disables the restaurant. Business grade priority searches across pages for free characters with business grade A, then fills remaining slots with the best recognized lower grades. Named characters are required to open the restaurant.",
       "none": "None",
-      "any": "Any",
+      "business_grade": "Business grade priority",
       "Chao_Ho": "Chao Ho",
       "Chang_Feng": "Chang Feng"
     },
     "KoiWaitress2": {
       "name": "Golden Koi Restaurant Waitress 2",
-      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
+      "help": "The two waitress slots are unordered. None leaves a slot empty; both None disables the restaurant. Business grade priority searches across pages for free characters with business grade A, then fills remaining slots with the best recognized lower grades. Named characters are required to open the restaurant.",
       "none": "None",
-      "any": "Any",
+      "business_grade": "Business grade priority",
       "Chao_Ho": "Chao Ho",
       "Chang_Feng": "Chang Feng"
     },
@@ -2766,17 +2766,17 @@
     },
     "BearWaitress1": {
       "name": "Polar Bear Teahouse Waitress 1",
-      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
+      "help": "The two waitress slots are unordered. None leaves a slot empty; both None disables the restaurant. Business grade priority searches across pages for free characters with business grade A, then fills remaining slots with the best recognized lower grades. Named characters are required to open the restaurant.",
       "none": "None",
-      "any": "Any",
+      "business_grade": "Business grade priority",
       "Cheshire": "Cheshire",
       "Chang_Feng": "Chang Feng"
     },
     "BearWaitress2": {
       "name": "Polar Bear Teahouse Waitress 2",
-      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
+      "help": "The two waitress slots are unordered. None leaves a slot empty; both None disables the restaurant. Business grade priority searches across pages for free characters with business grade A, then fills remaining slots with the best recognized lower grades. Named characters are required to open the restaurant.",
       "none": "None",
-      "any": "Any",
+      "business_grade": "Business grade priority",
       "Cheshire": "Cheshire",
       "Chang_Feng": "Chang Feng"
     },
@@ -2794,18 +2794,18 @@
     },
     "EateryWaitress1": {
       "name": "Manjuu Eatery Waitress 1",
-      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
+      "help": "The two waitress slots are unordered. None leaves a slot empty; both None disables the restaurant. Business grade priority searches across pages for free characters with business grade A, then fills remaining slots with the best recognized lower grades. Named characters are required to open the restaurant.",
       "none": "None",
-      "any": "Any",
+      "business_grade": "Business grade priority",
       "Helena": "Helena",
       "Prinz_Eugen": "Prinz Eugen",
       "Chang_Feng": "Chang Feng"
     },
     "EateryWaitress2": {
       "name": "Manjuu Eatery Waitress 2",
-      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
+      "help": "The two waitress slots are unordered. None leaves a slot empty; both None disables the restaurant. Business grade priority searches across pages for free characters with business grade A, then fills remaining slots with the best recognized lower grades. Named characters are required to open the restaurant.",
       "none": "None",
-      "any": "Any",
+      "business_grade": "Business grade priority",
       "Helena": "Helena",
       "Prinz_Eugen": "Prinz Eugen",
       "Chang_Feng": "Chang Feng"
@@ -2824,18 +2824,18 @@
     },
     "GrillWaitress1": {
       "name": "Fin-'n'-Feather Grill Waitress 1",
-      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
+      "help": "The two waitress slots are unordered. None leaves a slot empty; both None disables the restaurant. Business grade priority searches across pages for free characters with business grade A, then fills remaining slots with the best recognized lower grades. Named characters are required to open the restaurant.",
       "none": "None",
-      "any": "Any",
+      "business_grade": "Business grade priority",
       "August_von_Parseval": "August von Parseval",
       "Prinz_Eugen": "Prinz Eugen",
       "Chang_Feng": "Chang Feng"
     },
     "GrillWaitress2": {
       "name": "Fin-'n'-Feather Grill Waitress 2",
-      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
+      "help": "The two waitress slots are unordered. None leaves a slot empty; both None disables the restaurant. Business grade priority searches across pages for free characters with business grade A, then fills remaining slots with the best recognized lower grades. Named characters are required to open the restaurant.",
       "none": "None",
-      "any": "Any",
+      "business_grade": "Business grade priority",
       "August_von_Parseval": "August von Parseval",
       "Prinz_Eugen": "Prinz Eugen",
       "Chang_Feng": "Chang Feng"
@@ -2854,18 +2854,18 @@
     },
     "CafeWaitress1": {
       "name": "Café Manjuu Waitress 1",
-      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
+      "help": "The two waitress slots are unordered. None leaves a slot empty; both None disables the restaurant. Business grade priority searches across pages for free characters with business grade A, then fills remaining slots with the best recognized lower grades. Named characters are required to open the restaurant.",
       "none": "None",
-      "any": "Any",
+      "business_grade": "Business grade priority",
       "Cheshire": "Cheshire",
       "Belfast": "Belfast",
       "Chang_Feng": "Chang Feng"
     },
     "CafeWaitress2": {
       "name": "Café Manjuu Waitress 2",
-      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
+      "help": "The two waitress slots are unordered. None leaves a slot empty; both None disables the restaurant. Business grade priority searches across pages for free characters with business grade A, then fills remaining slots with the best recognized lower grades. Named characters are required to open the restaurant.",
       "none": "None",
-      "any": "Any",
+      "business_grade": "Business grade priority",
       "Cheshire": "Cheshire",
       "Belfast": "Belfast",
       "Chang_Feng": "Chang Feng"

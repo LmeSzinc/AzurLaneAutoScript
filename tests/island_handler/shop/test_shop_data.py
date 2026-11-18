@@ -1,4 +1,7 @@
 """Data and policy tests for island shop recognition and purchases."""
+from types import SimpleNamespace
+from unittest.mock import Mock
+
 import pytest
 
 import module.config.server as server
@@ -80,12 +83,44 @@ def test_product_name_cleanup_returns_empty_slot(srv, raw_name, monkeypatch):
     assert shop.item_name_to_recipe_id(name) is None
 
 
+@pytest.mark.parametrize('names, success', [
+    ([['玉米种子'], ['小麦种子']], True),
+    ([['玉米种子']], False),
+])
+def test_purchase_waits_for_requested_item(monkeypatch, names, success):
+    monkeypatch.setattr(server, 'server', 'cn')
+    monkeypatch.setattr(ProductNameOcr, 'ocr', lambda self, image: image)
+    shop = make_shop()
+    shop.device = SimpleNamespace(image=None)
+
+    def scan_loop(timeout):
+        assert timeout == 5
+        for result in names:
+            shop.device.image = result
+            yield
+
+    def read_currency():
+        assert shop.device.image == ['小麦种子']
+        return {1: 10000}
+
+    shop.loop = scan_loop
+    shop.island_shop_get_currency = Mock(side_effect=read_currency)
+    shop.island_shop_buy_execute = Mock()
+
+    assert shop.island_shop_buy_in_page(411000) is success
+    assert shop.island_shop_get_currency.call_count == int(success)
+    if success:
+        shop.island_shop_buy_execute.assert_called_once_with(shop._island_shop_item_grid.buttons[0], 1)
+    else:
+        shop.island_shop_buy_execute.assert_not_called()
+
+
 class TestBuyWithItemCurrency:
     @staticmethod
     def make_shop(wheat):
         shop = make_shop()
         shop.island_shop_get_currency = lambda: {2000: wheat, 2001: 0, 2008: 0}
-        shop.island_shop_item_ids = [103004]
+        shop.island_shop_get_item_ids = lambda expected_recipe_id=None: [103004]
         shop.bought = []
         shop.island_shop_buy_execute = lambda button, amount: shop.bought.append(amount)
         return shop

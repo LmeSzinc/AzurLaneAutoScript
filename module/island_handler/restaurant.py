@@ -22,10 +22,10 @@ from module.island.utils import (
     production_place_name_with_id,
 )
 from module.island_handler.assets import *
-from module.island_handler.dock import IslandDock, dock_grade_key, dock_identity_set
+from module.island_handler.dock import DOCK_GRADES, IslandDock, dock_grade_key, dock_identity_set
 from module.island_handler.restaurant_config import (
     RESTAURANT_IDS,
-    WAITRESS_ANY,
+    WAITRESS_BUSINESS_GRADE,
     WAITRESS_NONE,
     get_config_key,
     get_menu_reserve_items,
@@ -86,7 +86,7 @@ def waitress_requests_match(requests, identities, blacklist=()):
         return True
 
     def match(request, identity):
-        allowed = dock_identity_set(request)
+        allowed = None if request == WAITRESS_BUSINESS_GRADE else dock_identity_set(request)
         return identity != 'Workerjuu' if allowed is None else identity in allowed
 
     if len(identities) == 1:
@@ -408,7 +408,7 @@ class IslandRestaurant(IslandDock):
             return False
 
         blacklist = set(self.unavailable_waitress_list())
-        required = {waitress for waitress in active_waitresses if waitress != WAITRESS_ANY}
+        required = {waitress for waitress in active_waitresses if waitress != WAITRESS_BUSINESS_GRADE}
         if blacklist:
             logger.warning(f"Unavailable waitress list: {sorted(blacklist)}")
         if required & blacklist:
@@ -425,6 +425,8 @@ class IslandRestaurant(IslandDock):
             return False
 
         selected = set()
+        fallback_grades = {}
+        fallback_targets = None
 
         def handle_page(characters):
             while True:
@@ -452,11 +454,20 @@ class IslandRestaurant(IslandDock):
                 for character in sorted(characters, key=dock_grade_key):
                     if character.identity in selected or character.status != 'free':
                         continue
-                    # Check both assignments. An early `any` choice must not
+                    # Check both assignments. An automatic choice must not
                     # consume the only character suitable for a named role.
                     if not waitress_requests_match(
                             active_waitresses, selected | {character.identity}, blacklist):
                         continue
+                    if character.identity not in required:
+                        if fallback_targets is None:
+                            grade = dock_grade_key(character)
+                            if grade > DOCK_GRADES.index('A'):
+                                # Cache identities and grades; rescan buttons for fallback.
+                                fallback_grades[character.identity] = grade
+                                continue
+                        elif character.identity not in fallback_targets:
+                            continue
                     if not self.island_dock_select_one(character.button):
                         logger.warning("Failed to select waitress, cancel restaurant")
                         return False
@@ -471,7 +482,16 @@ class IslandRestaurant(IslandDock):
                 else:
                     return None
 
-        success, _ = self.island_dock_search(handle_page, descending=True)
+        success, completed = self.island_dock_search(handle_page, descending=True)
+        if (success is None and completed and required <= selected
+                and all(grade < len(DOCK_GRADES) for grade in fallback_grades.values())):
+            remaining = len(active_waitresses) - len(selected)
+            fallback_targets = set(sorted(
+                (identity for identity in fallback_grades if identity not in selected),
+                key=fallback_grades.get,
+            )[:remaining])
+            if len(fallback_targets) == remaining:
+                success, _ = self.island_dock_search(handle_page, descending=None, reverse=True)
         if success is not True:
             logger.warning("Failed to choose waitress")
             self.island_dock_quit()

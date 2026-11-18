@@ -121,8 +121,8 @@ def jp_problem():
         season_name='season_20260806_cn',
         place_efficiency={101: 0.12, 501: 0.12, 502: 0.12},
         restaurant_settings={
-            601: {'grade': 'diamond', 'waitress_slots': ('Chao_Ho', 'any')},
-            602: {'grade': 'diamond', 'waitress_slots': ('Cheshire', 'any')},
+            601: {'grade': 'diamond', 'waitress_slots': ('Chao_Ho', 'business_grade')},
+            602: {'grade': 'diamond', 'waitress_slots': ('Cheshire', 'business_grade')},
             603: {'grade': 'diamond', 'waitress_slots': ('Helena', 'Prinz_Eugen')},
             604: {'grade': 'diamond', 'waitress_slots': ('August_von_Parseval', 'Prinz_Eugen')},
             901: {'grade': 'diamond', 'waitress_slots': ('Cheshire', 'Belfast')},

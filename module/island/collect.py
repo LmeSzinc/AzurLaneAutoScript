@@ -2,7 +2,7 @@ from module.base.button import ButtonGrid
 from module.base.timer import Timer
 from module.exception import GameStuckError
 from module.island.assets import *
-from module.island_handler.dock import IslandDock
+from module.island_handler.dock import IslandDock, dock_character_matches
 from module.logger import logger
 from module.ui.page import page_island_manage, page_island_phone
 
@@ -69,6 +69,9 @@ class IslandCollect(IslandDock):
         return False
 
     def collect_execute(self):
+        def available(character):
+            return dock_character_matches(character, emotion=(80, 150))
+
         for workslot, button in enumerate(ISLAND_COLLECT_WORKSLOT_GRID.buttons):
             click_timer = Timer(1, count=3)
             for _ in self.loop(timeout=10):
@@ -82,8 +85,8 @@ class IslandCollect(IslandDock):
                 logger.warning(f'Failed to click workslot button for workslot {workslot}')
                 return False
             if not self.island_dock_select_character(
-                    emotion=(80, 150), descending=False,
-                    disabled=('emotion_limit',)):
+                    predicate=available,
+                    descending=False, disabled=('identity', 'emotion_limit', 'grade')):
                 logger.warning(f'No candidate found for workslot {workslot}, canceling collect')
                 self.island_dock_quit()
                 return False

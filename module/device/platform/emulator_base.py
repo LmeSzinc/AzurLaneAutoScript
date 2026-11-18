@@ -85,7 +85,14 @@ class EmulatorInstanceBase:
         if isinstance(other, list) and self.type in other:
             return True
         if isinstance(other, EmulatorInstanceBase):
-            return super().__eq__(other) and self.type == other.type
+            # Compare the fields, so equality stays consistent with __hash__:
+            # two instances of the same emulator type but with a different
+            # name or serial are two different instances
+            return (
+                self.serial == other.serial
+                and self.name == other.name
+                and self.path == other.path
+            )
         return super().__eq__(other)
 
     def __hash__(self):
