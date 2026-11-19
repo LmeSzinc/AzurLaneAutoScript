@@ -13,6 +13,7 @@ from pywebio.platform.fastapi import (STATIC_PATH, Session, cdn_validation,
 from starlette.applications import Starlette
 from starlette.middleware import Middleware
 from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.middleware.gzip import GZipMiddleware
 from starlette.routing import Mount
 from starlette.staticfiles import StaticFiles
 
@@ -20,7 +21,10 @@ from starlette.staticfiles import StaticFiles
 class HeaderMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request, call_next):
         response = await call_next(request)
-        response.headers["Cache-Control"] = "no-cache"
+        if request.url.path.startswith(("/pywebio_static/", "/static/")):
+            response.headers["Cache-Control"] = "public, max-age=3600"
+        else:
+            response.headers["Cache-Control"] = "no-cache"
         return response
 
 
@@ -54,7 +58,10 @@ def asgi_app(
             name="pywebio_static",
         )
     )
-    middleware = [Middleware(HeaderMiddleware)]
+    middleware = [
+        Middleware(HeaderMiddleware),
+        Middleware(GZipMiddleware, minimum_size=1024),
+    ]
     return Starlette(
         routes=routes, middleware=middleware, debug=debug, **starlette_settings
     )

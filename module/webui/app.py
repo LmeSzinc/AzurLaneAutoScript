@@ -105,7 +105,6 @@ class AlasGUI(Frame):
     def initial(self) -> None:
         self.ALAS_MENU = read_file(filepath_args("menu", self.alas_mod))
         self.ALAS_ARGS = read_file(filepath_args("args", self.alas_mod))
-        self._init_alas_config_watcher()
 
     def __init__(self) -> None:
         super().__init__()
@@ -1218,7 +1217,7 @@ class AlasGUI(Frame):
         aside = get_localstorage("aside")
         self.show()
 
-        # init config watcher
+        # init config watcher after initial UI is queued
         self._init_alas_config_watcher()
 
         # save config
