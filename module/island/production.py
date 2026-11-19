@@ -4,7 +4,7 @@ from datetime import datetime
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property, del_cached_property, has_cached_property
 from module.base.timer import Timer
-from module.base.utils import random_rectangle_vector_opted
+from module.base.utils import area_offset, area_pad, color_mask, random_rectangle_vector_opted
 from module.exception import RequestHumanTakeover
 from module.island.assets import *
 from module.island.data import DIC_ISLAND_PRODUCTION_PLACE, DIC_ISLAND_SLOT
@@ -33,6 +33,7 @@ SLOT_ORIGIN = (62, 59)
 SLOT_SIZE = (86, 86)
 SLOT_DELTA = (95 - 1/3, 0)
 TICK_AREA = (30, 35, 52, 51)
+TICK_SEARCH_AREA = area_pad(TICK_AREA, pad=-2)
 CHARACTER_SELECT_TITLE_AREA = (515, 144, 765, 202)
 
 # Dedicated place skills, then shared skills. Names within each pool are unordered;
@@ -177,8 +178,10 @@ class IslandProduction(IslandRecipe, IslandDock):
         return slot_grids
 
     def is_slot_finished(self, slot_button: Button):
-        tick_button = slot_button.crop(area=TICK_AREA, name=f'{slot_button.name}_TICK')
-        return self.image_color_count(tick_button, (255, 255, 255), threshold=15, count=85)
+        area = area_offset(TICK_SEARCH_AREA, slot_button.area[:2])
+        image = self.image_crop(area, copy=False)
+        white = color_mask(image, (255, 255, 255), threshold=15)
+        return TEMPLATE_ISLAND_PRODUCTION_SLOT_TICK.match(white, similarity=0.70)
 
     def is_slot_empty(self, slot_button: Button):
         image = self.image_crop(slot_button.area, copy=True)
