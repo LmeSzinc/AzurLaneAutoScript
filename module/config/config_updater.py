@@ -623,6 +623,15 @@ class ConfigUpdater:
         Returns:
             dict:
         """
+        # Migrate the earlier first-slot switch before normalizing values.
+        # Presence, rather than truthiness, gives an explicit new setting
+        # precedence (including an empty/null value using its normal default).
+        old = deepcopy(old)
+        for task, task_data in old.items():
+            general = task_data.get('GeneralShop', {}) if isinstance(task_data, dict) else {}
+            if 'SkinBoxSlots' not in general and 'SkinBoxFirstOnly' in general:
+                first_only = general['SkinBoxFirstOnly'] in (True, 'true', 'True')
+                general['SkinBoxSlots'] = '1' if first_only else 'all'
         new = {}
 
         for keys, data in deep_iter(self.args, depth=3):
@@ -760,6 +769,15 @@ class ConfigUpdater:
             str: Key path to set config json, such as "Main.Emotion.Fleet1Record"
             any: Value to set, such as "2020-01-01 00:00:00"
         """
+        if key.endswith('.GeneralShop.BuySkinBox') and value is True:
+            task = key.split('.')[0]
+            yield f'{task}.GeneralShop.SkinBoxPurchaseCount', 0
+            yield f'{task}.Storage.Storage.SkinBoxQuota.epoch', random_id()
+            yield f'{task}.Storage.Storage.SkinBoxQuota.stopped', False
+        elif key.endswith('.GeneralShop.SkinBoxPurchaseCount'):
+            task = key.split('.')[0]
+            yield f'{task}.Storage.Storage.SkinBoxQuota.epoch', random_id()
+            yield f'{task}.Storage.Storage.SkinBoxQuota.stopped', False
         if "Emotion" in key and "Value" in key:
             key = key.split(".")
             key[-1] = key[-1].replace("Value", "Record")

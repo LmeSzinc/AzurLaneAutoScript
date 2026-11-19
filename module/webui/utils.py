@@ -405,6 +405,14 @@ def parse_pin_value(val, valuetype: str = None):
     select return its option (str or int)
     checkbox return [] or [True] (define in put_checkbox_)
     """
+    if valuetype == "skin_box_slots":
+        from module.shop.skin_box import parse_skin_box_slots
+
+        value = ",".join(str(slot) for slot in val) if isinstance(val, list) else val
+        slots = parse_skin_box_slots(value if value != "" else "none")
+        if len(slots) == 10:
+            return "all"
+        return ",".join(str(slot) for slot in sorted(slots)) if slots else "none"
     if isinstance(val, list):
         if len(val) == 0:
             return False

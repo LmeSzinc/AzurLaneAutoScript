@@ -490,6 +490,12 @@ GeneralShop:
   UseGems: false
   Refresh: false
   BuySkinBox: false
+  SkinBoxSlots:
+    type: skin_box_slots
+    valuetype: skin_box_slots
+    value: all
+  SkinBoxPurchaseLimit: 0
+  SkinBoxPurchaseCount: 0
   ConsumeCoins: false
   Filter: |-
     BookRedT3 > BookYellowT3 > BookBlueT3 > BookRedT2

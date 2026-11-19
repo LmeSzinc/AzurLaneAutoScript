@@ -1766,7 +1766,19 @@
     },
     "BuySkinBox": {
       "name": "Buy Equip Skin Boxes",
-      "help": "In order to reduce maintenance costs, the skin box selectors in the filter will not be updated with the game, but Alas will consider any unknown items with a quantity of 1 and consume 7000 coins as skin boxes and buy them."
+      "help": "Unknown items with quantity 1 and a price of 7000 coins are bought as skin boxes."
+    },
+    "SkinBoxSlots": {
+      "name": "Skin Box Slots",
+      "help": "Numbered left to right, top to bottom. Sold-out slots do not shift; select none to skip skin boxes."
+    },
+    "SkinBoxPurchaseLimit": {
+      "name": "Skin Box Purchase Limit",
+      "help": "0 is unlimited. Each successful purchase counts once; the limit stops only skin-box purchases."
+    },
+    "SkinBoxPurchaseCount": {
+      "name": "Skin Box Purchases",
+      "help": "Re-enable or enter 0 to reset. The count persists across runs."
     },
     "ConsumeCoins": {
       "name": "Consume Spilled Coins",
@@ -3080,6 +3092,7 @@
       "SSHNotInstall": "No SSH command in your system. Please refer to the tutorial to download or install one"
     },
     "Text": {
+      "ShopSlot": "{slot}",
       "InvalidFeedBack": "Invalid format. Example: {0}",
       "Clear": "Clear",
       "EnterPassword": "Enter password",

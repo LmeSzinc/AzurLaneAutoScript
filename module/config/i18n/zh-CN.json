@@ -1766,7 +1766,19 @@
     },
     "BuySkinBox": {
       "name": "买外观装备箱",
-      "help": "为降低维护成本，过滤器中的外观箱选择器不会随游戏更新，但Alas会将任何未知的，数量为1的，消耗7000物资的物品视为外观箱，并购买"
+      "help": "未知且数量为1、售价7000物资的商品按外观箱购买。"
+    },
+    "SkinBoxSlots": {
+      "name": "外观箱购买位置",
+      "help": "从左上到右下编号；售罄不顺延，全不选则不买。"
+    },
+    "SkinBoxPurchaseLimit": {
+      "name": "外观箱购买上限",
+      "help": "0表示不限；每次成功购买计1次，达到上限仅停买外观箱。"
+    },
+    "SkinBoxPurchaseCount": {
+      "name": "外观箱已购次数",
+      "help": "重新开启或输入0重置；次数跨运行保存。"
     },
     "ConsumeCoins": {
       "name": "消耗溢出物资",
@@ -3080,6 +3092,7 @@
       "SSHNotInstall": "系统中没有 ssh 工具，请参考教程下载或安装 ssh"
     },
     "Text": {
+      "ShopSlot": "{slot}",
       "InvalidFeedBack": "格式错误。 示例：{0}",
       "Clear": "清除",
       "EnterPassword": "输入密码",
