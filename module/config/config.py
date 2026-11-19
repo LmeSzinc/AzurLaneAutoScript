@@ -333,11 +333,24 @@ class AzurLaneConfig(ConfigUpdater, ManualConfig, GeneratedConfig, ConfigWatcher
             **kwargs: For example, `Emotion1_Value=150`
                 will set `Emotion1_Value=150` and `Emotion1_Record=now()`
         """
+        from module.config.emotion import peers
+
+        now = datetime.now().replace(microsecond=0)
         with self.multi_set():
             for arg, value in kwargs.items():
                 record = arg.replace("Value", "Record")
                 self.__setattr__(arg, value)
-                self.__setattr__(record, datetime.now().replace(microsecond=0))
+                self.__setattr__(record, now)
+                if arg in ('Emotion_Fleet1Value', 'Emotion_Fleet2Value'):
+                    slot = int(arg[len('Emotion_Fleet')])
+                    task = self.bound.get(arg, '').split('.')[0]
+                    # Runtime fleet overrides may describe special formations.
+                    if any(key in self.overridden for key in
+                           ('Fleet_Fleet1', 'Fleet_Fleet2', 'Campaign_Mode')):
+                        continue
+                    for name, index in peers(self.data, task, slot):
+                        self.cross_set(f'{name}.Emotion.Fleet{index}Value', value)
+                        self.cross_set(f'{name}.Emotion.Fleet{index}Record', now)
 
     def multi_set(self):
         """

@@ -118,6 +118,29 @@ class FleetEmotion:
         recover_count = int(int(datetime.now().timestamp()) // 360 - int(self.record.timestamp()) // 360)
         recover_count = max(recover_count, 0)
         self.current = min(max(self.value, 0) + self.speed * recover_count, self.max)
+        from module.config.emotion import peers
+
+        if any(key in self.config.overridden for key in
+               ('Fleet_Fleet1', 'Fleet_Fleet2', 'Campaign_Mode')):
+            return
+        task = self.config.bound.get(self.value_name, '').split('.')[0]
+        # Reconcile legacy independent records conservatively. After recording,
+        # all mapped slots have the same value and timestamp.
+        for name, index in peers(self.config.data, task, self.fleet):
+            settings = self.config.data[name]['Emotion']
+            prefix = f'Fleet{index}'
+            record = settings.get(prefix + 'Record')
+            if isinstance(record, str):
+                record = datetime.fromisoformat(record)
+            if not isinstance(record, datetime):
+                continue
+            count = max(int(datetime.now().timestamp()) // 360
+                        - int(record.timestamp()) // 360, 0)
+            location = settings[prefix + 'Recover']
+            speed = (DIC_RECOVER[location] + (OATH_RECOVER if settings[prefix + 'Oath'] else 0)) // 10
+            value = min(max(settings[prefix + 'Value'], 0) + speed * count,
+                        DIC_RECOVER_MAX[location])
+            self.current = min(self.current, value)
 
     def get_recovered(self, expected_reduce=0):
         """
