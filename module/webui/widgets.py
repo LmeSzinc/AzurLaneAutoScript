@@ -20,6 +20,7 @@ from module.webui.utils import (
     LIGHT_TERMINAL_THEME,
     LOG_CODE_FORMAT,
     Switch,
+    Icon
 )
 
 if TYPE_CHECKING:
@@ -269,19 +270,43 @@ class BinarySwitchButton(Switch):
 
 def put_icon_buttons(
         icon_html: str,
+        signal: str,
         buttons: List[Dict[str, str]],
         onclick: Union[List[Callable[[], None]], Callable[[], None]],
 ) -> Output:
     value = buttons[0]["value"]
-    return put_column(
+    circle_c = ""
+    status_html = ""
+    state = 2
+    if signal == "true":
+        state = ProcessManager.get_manager(value).state
+        if state == 1:
+            circle_c = "RUNNING"
+        elif state == 3:
+            circle_c = "ERROR"
+        elif state == 4:
+            circle_c = "UPDATE"
+    if circle_c != "":
+        status_html = getattr(Icon, circle_c)
+
+    put_column(
         [
-            output(put_html(icon_html)).style(
-                "z-index: 1; margin-left: 8px;text-align: center"
+            put_row(
+                [
+                    output(put_html(icon_html)).style(
+                        "z-index: 1; margin-left: 8px;text-align: center; grid-column: 1 / 3; grid-row: 1 / 2"
+                    ),
+                    output(put_html(status_html)).style(
+                        "z-index: 1; margin-left: 8px;text-align: center; grid-column: 2 / 3; grid-row: 1 / 2"
+                    ),
+                ]
             ),
             put_buttons(buttons, onclick).style(f"z-index: 2; --aside-{value}--;"),
         ],
         size="0",
     )
+
+    return state
 
 
 def put_none() -> Output:

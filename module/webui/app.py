@@ -132,6 +132,7 @@ class AlasGUI(Frame):
 
         put_icon_buttons(
             Icon.DEVELOP,
+            "false",
             buttons=[{"label": t("Gui.Aside.Home"), "value": "Home", "color": "aside"}],
             onclick=[self.ui_develop],
         )
@@ -142,6 +143,7 @@ class AlasGUI(Frame):
         self.set_aside_status()
         put_icon_buttons(
             Icon.SETTING,
+            "false",
             buttons=[
                 {
                     "label": t("Gui.AddAlas.Manage"),
