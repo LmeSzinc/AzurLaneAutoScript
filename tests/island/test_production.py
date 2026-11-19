@@ -1,4 +1,6 @@
 """Screenshot golden results; awaiting human review of collection/ images."""
+import cv2
+
 from module.testing.screenshot import image
 
 from module.island.production import IslandProduction
@@ -120,6 +122,21 @@ class TestOverviewJP:
 
 
 class TestOverviewCN:
+    @image('island/production/0adb2438', server='cn')
+    def test_sparse_tick_and_bright_unticked_slot(self, main: IslandProduction):
+        main.production_grid = main.get_production_grid()
+        finished = main.slot_grids[706].buttons[0]
+        unfinished = main.slot_grids[704].buttons[0]
+
+        # Blur the tick down to 69 near-white pixels and add a 12x12 highlight to the unfinished item.
+        ticked_icon = main.image_crop(finished, copy=False)
+        ticked_icon[:] = cv2.GaussianBlur(ticked_icon, (3, 3), sigmaX=0.6)
+        main.image_crop(unfinished, copy=False)[37:49, 35:47] = 255
+
+        assert main.is_slot_finished(finished.move((-2, -2)))
+        assert main.is_slot_finished(finished.move((2, 2)))
+        assert not main.is_slot_finished(unfinished)
+
     @image('island/production/0adb2438', server='cn')
     def test_overview_with_finished_slots(self, main: IslandProduction):
         # The uncached reader describes this frame without entering a screenshot retry loop.
