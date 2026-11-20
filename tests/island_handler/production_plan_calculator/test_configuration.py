@@ -163,13 +163,10 @@ class TestSeasonActivation:
         assert active_items <= menu
         assert not inactive_items.intersection(menu)
 
-    @pytest.mark.parametrize(('srv', 'seed_count', 'batch_size', 'limit'), [
-        ('cn', 4, 32, 8),
-        ('tw', 1, 8, 5),
-    ])
+    @pytest.mark.parametrize('srv', ['cn', 'tw'])
     def test_current_server_recipe_definitions_reach_the_model(
             self, make_calculator, all_unlocked_technology, monkeypatch,
-            srv, seed_count, batch_size, limit,
+            srv,
     ):
         monkeypatch.setattr(server, 'server', srv)
         permanent_cost = dict(DIC_ISLAND_RECIPE[9900001]['commission_cost'])
@@ -181,9 +178,9 @@ class TestSeasonActivation:
             if activity['kind'] == 'recipe' and activity['id'] == 9900001
         )
 
-        assert recipe['inputs'] == {4006: seed_count}
-        assert recipe['outputs'] == {4005: batch_size}
-        assert calc.recipe_data[9900003]['production_limit'] == limit
+        assert recipe['inputs'] == {4006: 4}
+        assert recipe['outputs'] == {4005: 32}
+        assert calc.recipe_data[9900003]['production_limit'] == 8
         assert DIC_ISLAND_RECIPE[9900001]['commission_cost'] == permanent_cost
 
     def test_server_definitions_apply_without_an_active_season(self, make_calculator, monkeypatch):
@@ -192,6 +189,6 @@ class TestSeasonActivation:
         calc = make_calculator({})
 
         assert calc.season is None
-        assert calc.recipe_data[9900001]['commission_cost'] == {4006: 1}
-        assert calc.recipe_data[9900001]['commission_product'] == {4005: 8}
+        assert calc.recipe_data[9900001]['commission_cost'] == {4006: 4}
+        assert calc.recipe_data[9900001]['commission_product'] == {4005: 32}
         assert calc.recipe_data[601001] == DIC_ISLAND_RECIPE[601001]

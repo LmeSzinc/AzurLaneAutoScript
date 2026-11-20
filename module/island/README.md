@@ -34,3 +34,4 @@ the release shown in the row.
 | 20260806 | 20261105 | season_20260806_cn | Island Planner Season IV - Tales from Autumn | 岛屿开发季IV——秋日絮语 | Island Planner Season IV - Tales from Autumn | 開発シーズンⅣ | - |
 | 20260820 | 20261119 | season_20260806_cn | Island Planner Season IV - Tales from Autumn | - | - | - | 島嶼開發季I——秋日絮語 |
 | 20261105 | 20270201 | season_20261105_cn | Island Planner Season V – Winter Wanderlust | 岛屿开发季V——冬日漫行 | Island Planner Season V – Winter Wanderlust | 離島開発シーズンⅤ――冬日漫々 | - |
+| 20261119 | 20270201 | season_20261105_cn | Island Planner Season V – Winter Wanderlust | - | - | - | 島嶼開發季II——冬日漫行 |
