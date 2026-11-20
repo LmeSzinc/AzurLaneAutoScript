@@ -371,6 +371,8 @@ class IslandTechnologyExtractor:
 def seasons_for_period(period, seasons, server='cn'):
     """Translate Lua timer ranges to season keys, ignoring maintenance hours.
 
+    Match complete season windows before overlap, including retained CN dates
+    on servers with later releases.
     Seasons switch on their start date. Some activities start at midnight while
     the season switches at noon, so an overlap on that day alone must not
     activate the previous season. Ranges may cover more than one season.
@@ -379,12 +381,19 @@ def seasons_for_period(period, seasons, server='cn'):
         return list(seasons)
     if not isinstance(period, dict):
         return []
-    start = island_time_to_sql_time(period[0])[:10]
-    end = island_time_to_sql_time(period[1])[:10]
-    return [
-        key for key, season in seasons.items()
+    start = island_time_to_sql_time(period[0])
+    end = island_time_to_sql_time(period[1])
+    available = {
+        key: season for key, season in seasons.items()
         if season['start_time'].get(server) and season['end_time'].get(server)
-        and start < season['end_time'][server][:10]
+    }
+    key = get_season_namespace(start, end, available, server) or get_season_namespace(start, end, available)
+    if key:
+        return [key]
+    start, end = start[:10], end[:10]
+    return [
+        key for key, season in available.items()
+        if start < season['end_time'][server][:10]
         and season['start_time'][server][:10] < end
     ]
 
@@ -491,6 +500,15 @@ class IslandSeasonDataExtractor:
         # Slot tables retain only the current specialties. Item navigation still
         # identifies where the other retained recipes are produced.
         recipe_slots = self.get_recipe_slots(sources, production.slot)
+        # Keep seasonal dishes after they leave every server's active menu.
+        for recipe_id, slot_ids in recipe_slots.items():
+            recipe = recipes.recipe[recipe_id]
+            if recipe['attribute'] != 4:
+                continue
+            for slot_id in slot_ids:
+                menu = restaurants.restaurant[production.slot[slot_id]['place']]
+                for item_id in recipe['commission_product']:
+                    menu.setdefault(item_id, recipe_id)
         conversions = list(shops.item.values()) + list(exchanges.item.values())
         permanent_sources = get_slot_ingredient_sources(production.slot, recipes.recipe, conversions)
         for index, source_slots in permanent_sources.items():

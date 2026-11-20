@@ -248,16 +248,13 @@ def test_activity_window_matches_season_despite_maintenance_time(season_schedule
     ) == 'season_2'
 
 
-def test_generated_catalog_uses_current_values_and_tw_recipe_differences():
+def test_generated_catalog_uses_current_values():
     first = season_data.DIC_ISLAND_SEASON['season_20251106_cn']
     assert data.DIC_ISLAND_RECIPE[9900001]['commission_cost'] == {4006: 4}
     assert data.DIC_ISLAND_RECIPE[9900001]['commission_product'] == {4005: 32}
     assert data.DIC_ISLAND_RECIPE[601001]['workload'] == 24000
     assert data.DIC_ISLAND_RECIPE[601001]['production_limit'] == 12
-    tw_recipes = season_data.DIC_ISLAND_SERVER_OVERRIDES['tw']['recipe_overrides']
-    assert tw_recipes[9900001]['commission_cost'] == {4006: 1}
-    assert tw_recipes[9900001]['commission_product'] == {4005: 8}
-    assert 601001 not in tw_recipes
+    assert season_data.DIC_ISLAND_SERVER_OVERRIDES == {}
     assert [key for key, season in season_data.DIC_ISLAND_SEASON.items() if 411023 in season['shop_goods']] == [
         'season_20260806_cn',
     ]

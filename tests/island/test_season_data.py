@@ -32,9 +32,9 @@ def test_current_cn_and_tw_recipe_values(monkeypatch):
     permanent = deepcopy(DIC_ISLAND_RECIPE[9900001])
     monkeypatch.setattr(server, 'server', 'tw')
 
-    assert utils.get_recipe_data(9900001)['commission_cost'] == {4006: 1}
-    assert utils.get_recipe_data(9900001)['commission_product'] == {4005: 8}
-    assert utils.get_recipe_data(9900003)['production_limit'] == 5
+    assert utils.get_recipe_data(9900001)['commission_cost'] == {4006: 4}
+    assert utils.get_recipe_data(9900001)['commission_product'] == {4005: 32}
+    assert utils.get_recipe_data(9900003)['production_limit'] == 8
     assert DIC_ISLAND_RECIPE[9900001] == permanent
 
     monkeypatch.setattr(server, 'server', 'cn')
