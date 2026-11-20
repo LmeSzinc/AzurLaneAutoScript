@@ -2666,11 +2666,11 @@
     "Season": {
       "name": "Development Season",
       "help": "The latest development season for your server is selected automatically. All island tasks and the production planner share this setting.",
-      "season_20260806_cn": "Island Planner Season IV - Tales from Autumn",
       "season_20261105_cn": "Island Planner Season V – Winter Wanderlust",
-      "season_20260507_cn": "Development Season Ⅲ – Summer Sojourn",
+      "season_20251106_cn": "Development Season I - Lets Get Started!",
       "season_20260205_cn": "Development Season II - Spring Merrymaking",
-      "season_20251106_cn": "Development Season I - Lets Get Started!"
+      "season_20260507_cn": "Development Season Ⅲ – Summer Sojourn",
+      "season_20260806_cn": "Island Planner Season IV - Tales from Autumn"
     }
   },
   "IslandProduction": {
