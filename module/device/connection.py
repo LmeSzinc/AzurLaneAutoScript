@@ -1050,6 +1050,16 @@ class Connection(ConnectionAttr):
             manager = EmulatorManager()
             manager.brute_force_connect()
 
+        @run_once
+        def brute_force_connect_linux():
+            # Emulators like Waydroid are network devices, they won't appear in `adb devices` until connected
+            logger.info('Brute force connect')
+            from module.device.platform.emulator_linux import EmulatorManager
+            manager = EmulatorManager()
+            serial_list = [instance.serial for instance in manager.all_emulator_instances]
+            if serial_list:
+                self.adb_brute_force_connect(serial_list)
+
         for _ in range(2):
             logger.info('Here are the available devices, '
                         'copy to Alas.Emulator.Serial to use it or set Alas.Emulator.Serial="auto"')
@@ -1074,6 +1084,9 @@ class Connection(ConnectionAttr):
                 logger.warning(f'No available device found')
                 if IS_WINDOWS:
                     brute_force_connect()
+                    continue
+                elif IS_LINUX:
+                    brute_force_connect_linux()
                     continue
                 else:
                     break
