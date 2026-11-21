@@ -92,6 +92,10 @@ class Device(Screenshot, Control, AppControl):
         if (IS_WINDOWS or IS_LINUX) and self.config.EmulatorInfo_Emulator == 'auto':
             _ = self.emulator_instance
 
+        # Before screenshot benchmark and MaaTouch init, which depend on display size
+        if self.is_local_network_device and self.is_waydroid:
+            self.resolution_check_waydroid()
+
         self.screenshot_interval_set()
         self.method_check()
 

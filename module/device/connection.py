@@ -311,7 +311,30 @@ class Connection(ConnectionAttr):
     def is_waydroid(self):
         res = self.adb_getprop('ro.product.brand')
         logger.attr('ro.product.brand', res)
-        return 'waydroid' in res.lower()
+        if 'waydroid' in res.lower():
+            return True
+        # Brand and model can be spoofed, board platform is set by the Waydroid image
+        # [ro.board.platform]: [waydroid]
+        res = self.adb_getprop('ro.board.platform')
+        logger.attr('ro.board.platform', res)
+        return res == 'waydroid'
+
+    @retry
+    def resolution_check_waydroid(self):
+        """
+        Waydroid takes window size as display size, e.g. 3840x2160 on a fullscreen 4K window,
+        but Alas requires 1280x720. Override display size if it's not.
+        """
+        # Physical size: 3840x2160
+        # Override size: 1280x720
+        res = self.adb_shell(['wm', 'size'])
+        sizes = re.findall(r'(\d+)x(\d+)', res)
+        # Override size is listed after physical size
+        if sizes and sizes[-1] in [('1280', '720'), ('720', '1280')]:
+            return
+        logger.warning(f'Waydroid display size is not 1280x720: {res}')
+        logger.info('Override Waydroid display size to 1280x720')
+        self.adb_shell(['wm', 'size', '1280x720'])
 
     @cached_property
     @retry
