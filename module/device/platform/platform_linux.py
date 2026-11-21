@@ -4,6 +4,8 @@ import typing as t
 
 import psutil
 
+from module.base.decorator import run_once
+from module.base.timer import Timer
 from module.device.platform.emulator_linux import Emulator, EmulatorInstance, EmulatorManager
 from module.device.platform.platform_base import PlatformBase
 from module.logger import logger
@@ -42,6 +44,29 @@ class PlatformLinux(PlatformBase, EmulatorManager):
             )
         except (FileNotFoundError, PermissionError, OSError, ValueError) as e:
             logger.error(f'Failed to execute {command}: {e}')
+            raise ExecuteFailed(str(e)) from e
+
+    @classmethod
+    def execute_wait(cls, command: t.List[str], timeout: float) -> int:
+        """
+        Execute a command and wait until it exits.
+
+        Args:
+            command: Command and arguments, executed without shell
+            timeout: Seconds to wait
+
+        Returns:
+            int: Return code
+
+        Raises:
+            ExecuteFailed: If command failed to start or timeout
+        """
+        process = cls.execute(command)
+        try:
+            return process.wait(timeout=timeout)
+        except subprocess.TimeoutExpired as e:
+            logger.error(f'Execute timeout after {timeout}s: {command}')
+            process.kill()
             raise ExecuteFailed(str(e)) from e
 
     @classmethod
@@ -85,7 +110,9 @@ class PlatformLinux(PlatformBase, EmulatorManager):
         Stop a waydroid emulator instance.
         """
         if instance == Emulator.Waydroid:
-            self.execute([instance.path, 'session', 'stop'])
+            # `waydroid session stop` returns after session stopped.
+            # Wait for it, otherwise a following `session start` would be stopped as well.
+            self.execute_wait([instance.path, 'session', 'stop'], timeout=60)
         else:
             raise EmulatorUnknown(f'Cannot stop an unknown emulator instance: {instance}')
 
@@ -104,6 +131,72 @@ class PlatformLinux(PlatformBase, EmulatorManager):
             logger.error(e)
             return False
 
+    def emulator_start_watch(self):
+        """
+        Wait until emulator is online, adb shell is available and azurlane package is found.
+
+        Returns:
+            bool: True if startup completed
+                False if timeout
+        """
+        logger.hr('Emulator start', level=2)
+        serial = self.emulator_instance.serial
+
+        @run_once
+        def show_online(m):
+            logger.info(f'Emulator online: {m}')
+
+        @run_once
+        def show_ping(m):
+            logger.info(f'Command ping: {m}')
+
+        @run_once
+        def show_package(m):
+            logger.info(f'Found azurlane packages: {m}')
+
+        interval = Timer(0.5).start()
+        timeout = Timer(180).start()
+        while 1:
+            interval.wait()
+            interval.reset()
+            if timeout.reached():
+                logger.warning('Emulator start timeout')
+                return False
+
+            # Check device connection
+            # Waydroid is a network device, it won't show up until connected
+            device = self.list_device().select(serial=serial).first_or_none()
+            if device is None:
+                self.adb_client.connect(serial)
+                continue
+            if device.status == 'offline':
+                self.adb_client.disconnect(serial)
+                self.adb_client.connect(serial)
+                continue
+            if device.status != 'device':
+                continue
+            show_online(device)
+
+            # Check command availability
+            try:
+                pong = self.adb_shell(['echo', 'pong'])
+            except Exception as e:
+                logger.info(e)
+                continue
+            show_ping(pong)
+
+            # Check azurlane package
+            packages = self.list_known_packages(show_log=False)
+            if not len(packages):
+                continue
+            show_package(packages)
+
+            # All check passed
+            break
+
+        logger.info('Emulator start completed')
+        return True
+
     def emulator_start(self):
         """
         Start the waydroid emulator until startup is complete.
@@ -115,7 +208,12 @@ class PlatformLinux(PlatformBase, EmulatorManager):
                 return False
             # Start
             if self._emulator_function_wrapper(self._emulator_start):
-                return True
+                if self.emulator_start_watch():
+                    # Success
+                    return True
+                else:
+                    # Start command was sent but emulator didn't come online, stop and start again
+                    continue
             else:
                 # Failed to start, stop and start again
                 if self._emulator_function_wrapper(self._emulator_stop):
