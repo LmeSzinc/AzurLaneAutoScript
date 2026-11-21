@@ -11,11 +11,12 @@ from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.base.utils import color_similarity_2d
 from module.island.assets import *
-from module.island.data import DIC_ISLAND_ITEM, DIC_ISLAND_SEASON_ORDER
+from module.island.data import DIC_ISLAND_ITEM
 from module.island.ui import IslandUI
 from module.island.utils import (
-    get_active_island_activity_ids,
+    get_configured_season,
     get_order_effective_stock,
+    get_season_order_catalog,
     load_hard_floor_items,
     normalize_item_keys,
 )
@@ -57,48 +58,16 @@ def get_circles(image, color, inner_radius, outer_radius):
     return circles
 
 
-def get_season_order_id(requirements, current_time=None):
+def get_season_order_id(requirements, season):
     required_items = {
         item_id: counter[1] if isinstance(counter, (list, tuple)) and len(counter) > 1 else counter
         for item_id, counter in requirements.items()
     }
-    matches = [
-        (order_id, order)
-        for order_id, order in DIC_ISLAND_SEASON_ORDER.items()
-        if required_items == order.get('request', {})
-    ]
-    if not matches:
-        logger.warning(f'Cannot find season order id for requirements: {requirements}')
-        return None
-    activity_list = get_active_island_activity_ids(current_time)
-    active_matches = [
-        (order_id, order)
-        for order_id, order in matches
-        if order.get('activity_id') in activity_list
-    ]
-    if len(active_matches) == 1:
-        order_id, order = active_matches[0]
-        historical_ids = [candidate_id for candidate_id, _ in matches if candidate_id != order_id]
-        if historical_ids:
-            logger.info(
-                f'Season order requirements matched current order {order_id} '
-                f'(activity {order.get("activity_id", 0)}); ignored historical matches '
-                f'{historical_ids}'
-            )
-        return order_id
-    if len(active_matches) > 1:
-        logger.warning(
-            f'Multiple active season orders match requirements {requirements}: '
-            f'{[order_id for order_id, _ in active_matches]}'
-        )
-        return active_matches[0][0]
-    if len(matches) > 1:
-        logger.warning(
-            f'No active season order uniquely matches requirements {requirements}; '
-            f'falling back to historical order {matches[0][0]} among '
-            f'{[order_id for order_id, _ in matches]}'
-        )
-    return matches[0][0]
+    for order_id, order in get_season_order_catalog().items():
+        if order['activity_id'] in season['activity'] and order['request'] == required_items:
+            return order_id
+    logger.warning(f'Cannot find season order id for requirements: {requirements}')
+    return None
 
 
 class IslandOrder(IslandUI):
@@ -246,6 +215,16 @@ class IslandOrder(IslandUI):
             return True
         return False
 
+    def handle_island_additional(self):
+        if self.appear_then_click(ISLAND_ORDER_SPEED_UP_CLOSE, offset=(20, 20)):
+            return True
+        return super().handle_island_additional()
+
+    def is_order_selected(self, order_button):
+        # Upper part of the white selection bracket beside the order circle.
+        selection_corner = order_button.crop((-12, -12, 12, 6))
+        return self.image_color_count(selection_corner, color=(255, 255, 255), threshold=10, count=80)
+
     def click_order(self, order_button, is_urgent=False):
         click_timer = Timer(1, count=3)
         for _ in self.loop(timeout=5, skip_first=False):
@@ -253,19 +232,20 @@ class IslandOrder(IslandUI):
                 self.device.click(order_button)
                 click_timer.reset()
                 continue
+            if not self.is_order_selected(order_button):
+                continue
             if (is_urgent and self.appear(ISLAND_ORDER_ACCEPT, offset=(20, 20))) or \
                     (not is_urgent and self.appear(ISLAND_ORDER_ACCEPT_URGENT, offset=(20, 20))):
                 logger.info('requirement page does not match, should click order button again')
-                click_timer.reset()
                 continue
             if self.appear(ISLAND_ORDER_REQUIREMENTS_CHECK, offset=(0, 20)):
                 logger.info('Clicked order button, requirements page appeared')
-                break
+                return True
             if self.appear(ISLAND_ORDER_COOLDOWN_SPEED_UP, offset=(20, 20)):
                 logger.info('Clicked order button, cooldown speed up page appeared')
-                break
-        else:
-            logger.info('click timer timeout, assuming requirements page appeared')
+                return True
+        logger.warning(f'Failed to select order {order_button}')
+        return False
 
     def submit_order(self, is_urgent=False):
         if is_urgent:
@@ -336,9 +316,12 @@ class IslandOrder(IslandUI):
         Returns:
             (bool): True if the order is dealt.
         """
+        order_type = 'urgent' if is_urgent else 'season' if is_season else 'regular'
+        logger.info(f'Execute {order_type} order: {order_button}')
         self.handle_island_additional()
         self.handle_info_bar()
-        self.click_order(order_button, is_urgent=is_urgent)
+        if not self.click_order(order_button, is_urgent=is_urgent):
+            return False
         if self.appear(ISLAND_ORDER_COOLDOWN_SPEED_UP, offset=(20, 20)):
             logger.warning('Order is in cooldown, cannot submit')
             remain_time = self.cooldown_time_ocr.ocr(self.device.image)
@@ -368,7 +351,7 @@ class IslandOrder(IslandUI):
                 return False
             elif is_season:
                 logger.warning('Season order can only be abandoned, skip this order')
-                stuck_season_order_id = get_season_order_id(requirements)
+                stuck_season_order_id = get_season_order_id(requirements, get_configured_season(self.config))
                 self.update_stuck_season_order(stuck_season_order_id)
                 return False
             else:
@@ -441,7 +424,8 @@ class IslandOrder(IslandUI):
             remain_time = self.get_order_remain_time(order)
             if remain_time == timedelta(0):
                 logger.warning('Order remain time ocr error, click to check')
-                self.click_order(order)
+                if not self.click_order(order):
+                    continue
                 remain_time = self.cooldown_time_ocr.ocr(self.device.image)
             next_runtime = datetime.now() + remain_time
             self.next_runtime.append(next_runtime)

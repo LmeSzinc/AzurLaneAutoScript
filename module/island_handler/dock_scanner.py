@@ -56,7 +56,7 @@ class IslandEmotionCounterOcr(Ocr):
         mask = color_similarity_2d(image, background_color_sub)
         mask2 = color_similarity_2d(image, self.letter)
         mask[mask < mask2] = 0
-        cv2.inRange(mask, 221, 255, dst=mask)
+        cv2.inRange(mask, 232, 255, dst=mask)
         image[mask > 0] = background_color_main
         return super().pre_process(image)
 

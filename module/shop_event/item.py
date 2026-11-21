@@ -179,13 +179,11 @@ class EventShopItem(Item):
                 self.name = 'URpt'
             elif self.name.isdigit():
                 logger.warning(f'Unrecognized item with price {self.price} and total count {self.total_count}, '
-                               # f'defaulting to EquipSSR')
-                               f'saving image for analysis.')
+                               f'using EquipSSR filter priority and saving image for analysis.')
                 import os
                 from module.base.utils import save_image
                 os.mkdir('assets/shop/event/new_templates/') if not os.path.exists('assets/shop/event/new_templates/') else None
                 save_image(self.image, f'assets/shop/event/new_templates/{self.name}.png')
-                # self.name = 'EquipSSR'
 
     def predict_genre(self):
         self.group, self.sub_genre, self.tier = None, None, None
@@ -193,6 +191,10 @@ class EventShopItem(Item):
         # Can use regular expression to quickly populate
         # the new attributes
         name = self.name.lower()
+        if not self.is_known_item():
+            # Unknown event rewards may be important. Keep their template names
+            # for rescanning, but give them the same filter priority as SSR equipment.
+            name = 'equipssr'
         result = re.search(FILTER_REGEX, name)
         if result:
             self.group, self.sub_genre, self.tier = \
@@ -219,7 +221,8 @@ class EventShopItemGrid(ItemGrid):
                                DELTA_AMOUNT[2] - DELTA_ITEM[0], DELTA_AMOUNT[3] - DELTA_ITEM[1]),
                  ):
         super().__init__(grids, templates, template_area, amount_area, cost_area, price_area, tag_area)
-        self.counter_ocr = CounterOcr([], letter=COUNTER_COLOR, name="CounterOcr")
+        counter_lang = 'cnocr' if server.server == 'en' else 'azur_lane'
+        self.counter_ocr = CounterOcr([], lang=counter_lang, letter=COUNTER_COLOR, name="CounterOcr")
         self.counter_area = counter_area
         self.price_ocr = PRICE_OCR
 

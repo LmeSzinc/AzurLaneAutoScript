@@ -59,7 +59,8 @@ class CampaignBase(CampaignBase_):
         increase as more war archives campaigns are added
         """
         loading_checked = False
-        for _ in range(20):
+        swipe_count = 0
+        while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
             else:
@@ -91,11 +92,16 @@ class CampaignBase(CampaignBase_):
                 if entrance is not None:
                     return entrance
 
+            # too many swipes
+            if swipe_count >= 20:
+                break
+
             if WAR_ARCHIVES_SCROLL.appear(main=self):
                 if WAR_ARCHIVES_SCROLL.at_bottom(main=self):
                     WAR_ARCHIVES_SCROLL.set_top(main=self)
                 else:
                     WAR_ARCHIVES_SCROLL.next_page(main=self, page=0.66)
+                    swipe_count += 1
                 continue
             else:
                 break
@@ -108,6 +114,9 @@ class CampaignBase(CampaignBase_):
         Performs the operations needed to transition
         to target archive's campaign stage map
         """
+        # Close the menu and wait for the stage page before checking the data-key icon.
+        self.ensure_auto_search_exit()
+
         # On first run regardless of current location
         # even in target stage map, start from page_archives
         # For subsequent runs when neither reward or

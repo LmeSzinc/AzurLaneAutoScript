@@ -256,30 +256,38 @@
     },
     "OpsiCrossMonth": {
       "name": "Cross Month Daily",
-      "help": "    ALAS will enter OpSi 10min before OpSi reset, wait until OpSi reset but not exit OpSi. Then do the daily, obscure, abyssal and meowfficer farming to get extra gold plates. When running dailies, settings in task \"OpSiDaily\" are used, the rest function are the same.\n    IMPORTANT: Please do not touch the game while ALAS is waiting for OpSi reset."
+      "help": "ALAS will enter OpSi 10min before OpSi reset, wait until OpSi reset but not exit OpSi. Then do the daily, obscure, abyssal and meowfficer farming to get extra gold plates. When running dailies, settings in task \"OpSiDaily\" are used, the rest function are the same.\nIMPORTANT: Please do not touch the game while ALAS is waiting for OpSi reset."
+    },
+    "IslandGeneral": {
+      "name": "Island Settings",
+      "help": ""
     },
     "IslandProduction": {
       "name": "Island Production",
-      "help": "Users need to config Island Business' restaurant level and waitress, then config and run Tools - Island Production Planner to generate the production plan.\nAfter that the Island Production will run normally.\nTutorial: https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Island-Planner-Auto-Farming-&-Configure"
+      "help": "Configure restaurant grades and staff under Store Management, then configure and run Tools > Island Production Planner. Run Island Production after the planner has generated a plan.\nTutorial: https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Island-Planner-Auto-Farming-&-Configure"
     },
     "IslandOrder": {
       "name": "Island Request",
       "help": ""
     },
+    "IslandTransport": {
+      "name": "Transport Job",
+      "help": "Claim rewards from completed Transport Jobs, then complete the jobs with the best value for the production plan, replacing them with better jobs from the list when appropriate.\nJob values come from the production plan; run Tools > Island Production Planner first."
+    },
     "IslandFreebie": {
-      "name": "Daily Supplies",
+      "name": "Daily Supply",
       "help": ""
     },
     "IslandCollect": {
-      "name": "Daily Gathering",
-      "help": "Use management panel to gather season specialities and coal/wood.\nWill use multiple characters with least levels until stamina requirement is fulfilled."
+      "name": "Resource Gathering",
+      "help": "Use Gathering in Manage All to collect seasonal specialties, Coal, and Raw Timber.\nAssign available characters with sufficient Stamina for gathering."
     },
     "IslandSeasonTask": {
-      "name": "Island Season Task",
+      "name": "Development Plan",
       "help": ""
     },
     "IslandBusiness": {
-      "name": "Restaurant Management",
+      "name": "Store Management",
       "help": ""
     },
     "Daemon": {
@@ -296,7 +304,7 @@
     },
     "IslandProductionPlanner": {
       "name": "Island Production Planner",
-      "help": "Planner for optimizing island production plan to earn pt subject to given daily profit.\nWill export bootstrap inventory stock quantities and accumulating item quantities to config after running, which can be used for production planning in the future without scanning technology again.\nNote: The production plan is optimized based on the technology status at the time of scanning, if there are changes in technology status, it is recommended to run the planner again to get an updated production plan."
+      "help": "Use linear programming to optimize the island production plan from your settings and generate the configuration for Island Production."
     },
     "Benchmark": {
       "name": "Performance Test",
@@ -458,7 +466,7 @@
       "name": "Screenshot Method",
       "help": "When using auto-select, a benchmark will be performed and automatically changed to the fastest screenshot method.\nGeneral speed: DroidCast_raw >> aScreenCap_nc > ADB_nc >>> aScreenCap > uiautomator2 ~= ADB.\nRun Tools - Performance Test to find the fastest method.",
       "auto": "Auto-select the fastest",
-      "ADB": "ADB ",
+      "ADB": "ADB",
       "ADB_nc": "ADB_nc",
       "uiautomator2": "uiautomator2",
       "aScreenCap": "aScreenCap",
@@ -535,7 +543,7 @@
     },
     "OnePushConfig": {
       "name": "Error notify config",
-      "help": "When Alas cannot handle exception, send a message through Onepush. Configuration document: \nhttps://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Onepush-configuration-%5BEN%5D"
+      "help": "When Alas cannot handle exception, send a message through Onepush. Configuration document:\nhttps://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Onepush-configuration-%5BEN%5D"
     },
     "ScreenshotLength": {
       "name": "Record Screenshot(s)",
@@ -789,18 +797,18 @@
       "event_20240425_cn": "Heart-Linking Harmony",
       "event_20240521_cn": "Light of the Martyrium Rerun",
       "event_20240725_cn": "Interlude of Illusions",
-      "event_20240815_cn": "Windborne Steel Wings",
+      "event_20240815_cn": "Windborne Steel Wings Rerun",
       "event_20240829_cn": "Whence Flowers Bear No Fruit",
-      "event_20240912_cn": "Ode of Everblooming Crimson",
+      "event_20240912_cn": "Ode of Everblooming Crimson Rerun",
       "event_20241024_cn": "Tempesta and the Sleeping Sea",
       "event_20241121_cn": "Dangerous Inventions Incoming",
-      "event_20241219_cn": "Substellar Crepuscule",
-      "event_20250227_cn": "Paradiso of Shackled Light",
+      "event_20241219_cn": "Substellar Crepuscule Rerun",
+      "event_20250227_cn": "Paradiso of Shackled Light Rerun",
       "event_20250424_cn": "Toward Tulipa’s Seas Rerun",
-      "event_20250520_cn": "A Rose on the High Tower",
+      "event_20250520_cn": "A Rose on the High Tower Rerun",
       "event_20250724_cn": "The Alchemist and the Tower of Horizons",
-      "event_20250814_cn": "Secrets of the Abyss",
-      "event_20250912_cn": "A Dance for Amahara Above",
+      "event_20250814_cn": "Secrets of the Abyss Rerun",
+      "event_20250912_cn": "A Dance for Amahara Above Rerun",
       "event_20251023_cn": "Tempesta and Islas de Libertád",
       "event_20251218_cn": "A Note Through the Firmament",
       "event_20260226_cn": "Springtide Inn Online",
@@ -810,6 +818,7 @@
       "event_20260625_cn": "Miracle by Midnight",
       "event_20260813_cn": "Depths of the Astrarium",
       "event_20260908_cn": "Tales of the Paranormal",
+      "event_20261022_cn": "Tempesta and the Corridor of Fog",
       "raid_20200624": "Air Raid Drills with Essex Rerun",
       "raid_20210708": "Cross Wave rerun",
       "raid_20220127": "Mystery Investigation",
@@ -868,8 +877,11 @@
       "war_archives_20230223_cn": "archives Revelations of Dust",
       "war_archives_20230525_cn": "archives Confluence of Nothingness",
       "war_archives_20230803_cn": "archives Anthem of Remembrance",
+      "war_archives_20230817_cn": "archives The Fools Scales",
       "war_archives_20231026_cn": "archives Tempesta and the Fountain of Youth",
-      "war_archives_20240725_cn": "archives Interlude of Illusions"
+      "war_archives_20240725_cn": "archives Interlude of Illusions",
+      "war_archives_20241024_cn": "archives Tempesta and the Sleeping Sea",
+      "war_archives_20251023_cn": "archives Tempesta and Islas de Libertád"
     },
     "Mode": {
       "name": "Level Mode",
@@ -1159,7 +1171,7 @@
   },
   "EnemyPriority": {
     "_info": {
-      "name": "Enemy Priority ",
+      "name": "Enemy Priority",
       "help": "Customize the priority of the enemy you want to fight"
     },
     "EnemyScaleBalanceWeight": {
@@ -1247,10 +1259,10 @@
       "name": "Flagship Common CV/CVL Preference",
       "help": "",
       "any": "any",
-      "langley": "langley",
-      "bogue": "bogue",
-      "ranger": "ranger",
-      "hermes": "hermes"
+      "langley": "Langley",
+      "bogue": "Bogue",
+      "ranger": "Ranger",
+      "hermes": "Hermes"
     },
     "ChangeVanguard": {
       "name": "Change Vanguard",
@@ -1869,28 +1881,28 @@
     "PR1": {
       "name": "PR1 BP Preference",
       "help": "",
-      "neptune": "neptune",
-      "monarch": "monarch",
-      "ibuki": "ibuki",
-      "izumo": "izumo",
-      "roon": "roon",
-      "saintlouis": "saintlouis"
+      "neptune": "Neptune",
+      "monarch": "Monarch",
+      "ibuki": "Ibuki",
+      "izumo": "Izumo",
+      "roon": "Roon",
+      "saintlouis": "Saint Louis"
     },
     "PR2": {
       "name": "PR2 BP Preference",
       "help": "",
-      "seattle": "seattle",
-      "georgia": "georgia",
-      "kitakaze": "kitakaze",
-      "gascogne": "gascogne"
+      "seattle": "Seattle",
+      "georgia": "Georgia",
+      "kitakaze": "Kitakaze",
+      "gascogne": "Gascogne"
     },
     "PR3": {
       "name": "PR3 BP Preference",
       "help": "",
-      "cheshire": "cheshire",
-      "mainz": "mainz",
-      "odin": "odin",
-      "champagne": "champagne"
+      "cheshire": "Cheshire",
+      "mainz": "Mainz",
+      "odin": "Odin",
+      "champagne": "Champagne"
     }
   },
   "MedalShop2": {
@@ -2122,7 +2134,7 @@
     },
     "ClaimMaintenance": {
       "name": "Claim Maintenance Mails",
-      "help": "Mail.ClaimMaintenance.help"
+      "help": ""
     },
     "ClaimTradeLicense": {
       "name": "Claim Trade License Mails",
@@ -2189,8 +2201,8 @@
       "sirius": "Sirius",
       "new_jersey": "New Jersey",
       "taihou": "Taihou",
-      "aegir": "Aegir",
-      "nakhimov": "Nakhimov",
+      "aegir": "Ägir",
+      "nakhimov": "Admiral Nakhimov",
       "implacable": "Implacable"
     }
   },
@@ -2647,6 +2659,21 @@
       "22": "22 | NA Ocean SW Sector B"
     }
   },
+  "IslandGeneral": {
+    "_info": {
+      "name": "Island Settings",
+      "help": ""
+    },
+    "Season": {
+      "name": "Development Season",
+      "help": "The latest development season for your server is selected automatically. All island tasks and the production planner share this setting.",
+      "season_20261105_cn": "Island Planner Season V – Winter Wanderlust",
+      "season_20251106_cn": "Development Season I - Lets Get Started!",
+      "season_20260205_cn": "Development Season II - Spring Merrymaking",
+      "season_20260507_cn": "Development Season Ⅲ – Summer Sojourn",
+      "season_20260806_cn": "Island Planner Season IV - Tales from Autumn"
+    }
+  },
   "IslandProduction": {
     "_info": {
       "name": "Island Production",
@@ -2671,12 +2698,16 @@
     "SkipBufferSurplus": {
       "name": "Skip Buffer-Surplus Production",
       "help": "Skip buffer-surplus eligibility checks and proceed directly to idle-accumulating production. When disabled, buffer-surplus is tried first; idle accumulation is still used if that attempt fails."
+    },
+    "UseWorkerjuuByDefault": {
+      "name": "Use Workerjuu by default",
+      "help": "Enabled: use Workerjuu.\nDisabled: first try characters whose skills are exclusive to this workplace, then those whose skills are restricted to several workplaces including this one, then characters without place-specific production skills. Characters with place-specific skills are only used where those skills apply. Within each group, choose free characters with at least 100 current Stamina by Working Efficiency, highest first. Use Workerjuu if none qualifies.\nAlways reserve named restaurant staff. Also reserve Hood, Unicorn, Shimakaze, Javelin, Yat Sen, Fei Yuen, Taihou, and Argus for restaurants when their Stamina cap reaches 150; below that cap they remain eligible for production."
     }
   },
   "IslandOrder": {
     "_info": {
       "name": "Island Request",
-      "help": "Normal requests preserve soft floors and manual hard floors.\nUrgent and season requests may consume soft floors and hard floors.\nSeason requests are treated as priority requests and may consume all stock."
+      "help": "Regular Requests normally preserve manual Hard Floor Items and restaurant menu reserves.\nUrgent and seasonal requests may use all stock. During the last two hours before the daily server reset, Regular Requests may also use these reserves."
     },
     "StuckSeasonOrderId": {
       "name": "Unfulfilled Season Request ID",
@@ -2685,7 +2716,7 @@
   },
   "IslandFreebie": {
     "_info": {
-      "name": "Daily Supplies",
+      "name": "Daily Supply",
       "help": ""
     },
     "Share": {
@@ -2695,7 +2726,7 @@
   },
   "IslandRestaurant": {
     "_info": {
-      "name": "Restaurant Management",
+      "name": "Store Management",
       "help": ""
     },
     "KoiGrade": {
@@ -2708,17 +2739,17 @@
     },
     "KoiWaitress1": {
       "name": "Golden Koi Restaurant Waitress 1",
-      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
+      "help": "The two waitress slots are unordered. None leaves a slot empty; both None disables the restaurant. Business grade priority searches across pages for free characters with business grade A, then fills remaining slots with the best recognized lower grades. Named characters are required to open the restaurant.",
       "none": "None",
-      "any": "Any",
+      "business_grade": "Business grade priority",
       "Chao_Ho": "Chao Ho",
       "Chang_Feng": "Chang Feng"
     },
     "KoiWaitress2": {
       "name": "Golden Koi Restaurant Waitress 2",
-      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
+      "help": "The two waitress slots are unordered. None leaves a slot empty; both None disables the restaurant. Business grade priority searches across pages for free characters with business grade A, then fills remaining slots with the best recognized lower grades. Named characters are required to open the restaurant.",
       "none": "None",
-      "any": "Any",
+      "business_grade": "Business grade priority",
       "Chao_Ho": "Chao Ho",
       "Chang_Feng": "Chang Feng"
     },
@@ -2736,18 +2767,18 @@
     },
     "BearWaitress1": {
       "name": "Polar Bear Teahouse Waitress 1",
-      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
+      "help": "The two waitress slots are unordered. None leaves a slot empty; both None disables the restaurant. Business grade priority searches across pages for free characters with business grade A, then fills remaining slots with the best recognized lower grades. Named characters are required to open the restaurant.",
       "none": "None",
-      "any": "Any",
-      "Cheshire": "HMS Cheshire",
+      "business_grade": "Business grade priority",
+      "Cheshire": "Cheshire",
       "Chang_Feng": "Chang Feng"
     },
     "BearWaitress2": {
       "name": "Polar Bear Teahouse Waitress 2",
-      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
+      "help": "The two waitress slots are unordered. None leaves a slot empty; both None disables the restaurant. Business grade priority searches across pages for free characters with business grade A, then fills remaining slots with the best recognized lower grades. Named characters are required to open the restaurant.",
       "none": "None",
-      "any": "Any",
-      "Cheshire": "HMS Cheshire",
+      "business_grade": "Business grade priority",
+      "Cheshire": "Cheshire",
       "Chang_Feng": "Chang Feng"
     },
     "BearMenu": {
@@ -2764,20 +2795,20 @@
     },
     "EateryWaitress1": {
       "name": "Manjuu Eatery Waitress 1",
-      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
+      "help": "The two waitress slots are unordered. None leaves a slot empty; both None disables the restaurant. Business grade priority searches across pages for free characters with business grade A, then fills remaining slots with the best recognized lower grades. Named characters are required to open the restaurant.",
       "none": "None",
-      "any": "Any",
-      "Helena": "USS Helena",
-      "Prinz_Eugen": "KMS Prinz Eugen",
+      "business_grade": "Business grade priority",
+      "Helena": "Helena",
+      "Prinz_Eugen": "Prinz Eugen",
       "Chang_Feng": "Chang Feng"
     },
     "EateryWaitress2": {
       "name": "Manjuu Eatery Waitress 2",
-      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
+      "help": "The two waitress slots are unordered. None leaves a slot empty; both None disables the restaurant. Business grade priority searches across pages for free characters with business grade A, then fills remaining slots with the best recognized lower grades. Named characters are required to open the restaurant.",
       "none": "None",
-      "any": "Any",
-      "Helena": "USS Helena",
-      "Prinz_Eugen": "KMS Prinz Eugen",
+      "business_grade": "Business grade priority",
+      "Helena": "Helena",
+      "Prinz_Eugen": "Prinz Eugen",
       "Chang_Feng": "Chang Feng"
     },
     "EateryMenu": {
@@ -2794,20 +2825,20 @@
     },
     "GrillWaitress1": {
       "name": "Fin-'n'-Feather Grill Waitress 1",
-      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
+      "help": "The two waitress slots are unordered. None leaves a slot empty; both None disables the restaurant. Business grade priority searches across pages for free characters with business grade A, then fills remaining slots with the best recognized lower grades. Named characters are required to open the restaurant.",
       "none": "None",
-      "any": "Any",
-      "August_von_Parseval": "KMS August von Parseval",
-      "Prinz_Eugen": "KMS Prinz Eugen",
+      "business_grade": "Business grade priority",
+      "August_von_Parseval": "August von Parseval",
+      "Prinz_Eugen": "Prinz Eugen",
       "Chang_Feng": "Chang Feng"
     },
     "GrillWaitress2": {
       "name": "Fin-'n'-Feather Grill Waitress 2",
-      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
+      "help": "The two waitress slots are unordered. None leaves a slot empty; both None disables the restaurant. Business grade priority searches across pages for free characters with business grade A, then fills remaining slots with the best recognized lower grades. Named characters are required to open the restaurant.",
       "none": "None",
-      "any": "Any",
-      "August_von_Parseval": "KMS August von Parseval",
-      "Prinz_Eugen": "KMS Prinz Eugen",
+      "business_grade": "Business grade priority",
+      "August_von_Parseval": "August von Parseval",
+      "Prinz_Eugen": "Prinz Eugen",
       "Chang_Feng": "Chang Feng"
     },
     "GrillMenu": {
@@ -2824,20 +2855,20 @@
     },
     "CafeWaitress1": {
       "name": "Café Manjuu Waitress 1",
-      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
+      "help": "The two waitress slots are unordered. None leaves a slot empty; both None disables the restaurant. Business grade priority searches across pages for free characters with business grade A, then fills remaining slots with the best recognized lower grades. Named characters are required to open the restaurant.",
       "none": "None",
-      "any": "Any",
-      "Cheshire": "HMS Cheshire",
-      "Belfast": "HMS Belfast",
+      "business_grade": "Business grade priority",
+      "Cheshire": "Cheshire",
+      "Belfast": "Belfast",
       "Chang_Feng": "Chang Feng"
     },
     "CafeWaitress2": {
       "name": "Café Manjuu Waitress 2",
-      "help": "Two waitress slots are unordered. None leaves this slot empty; both None disables the restaurant. Any chooses the highest-management free character. Named choices are processed first and duplicate named choices are cleared.",
+      "help": "The two waitress slots are unordered. None leaves a slot empty; both None disables the restaurant. Business grade priority searches across pages for free characters with business grade A, then fills remaining slots with the best recognized lower grades. Named characters are required to open the restaurant.",
       "none": "None",
-      "any": "Any",
-      "Cheshire": "HMS Cheshire",
-      "Belfast": "HMS Belfast",
+      "business_grade": "Business grade priority",
+      "Cheshire": "Cheshire",
+      "Belfast": "Belfast",
       "Chang_Feng": "Chang Feng"
     },
     "CafeMenu": {
@@ -2847,7 +2878,7 @@
   },
   "IslandSeasonTask": {
     "_info": {
-      "name": "Island Season Task",
+      "name": "Development Plan",
       "help": ""
     },
     "TaskTarget": {
@@ -2894,7 +2925,7 @@
   "IslandProductionPlanner": {
     "_info": {
       "name": "Island Production Planner",
-      "help": "Will use linear programming to optimize the production plan for the island based on the parameters you set and generate the config for Island Production module.\nPlease set Island Restaurant config and Island Production Preserved Items first.\nClear Task status to rerun Island Technology Scanner."
+      "help": "Use linear programming to optimize the island production plan from your settings and generate the configuration for Island Production.\nFirst configure restaurant grades and staff under Store Management and stock requirements under Island Production.\nAfter Tech Research changes, enable Rescan Island Technology this time and run the planner."
     },
     "RescanIslandTechnology": {
       "name": "Rescan Island Technology this time",

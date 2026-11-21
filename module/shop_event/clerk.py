@@ -172,6 +172,12 @@ class EventShopClerk(EventShopUI):
                 executed = True
                 timer.reset()
                 continue
+            #EN event shop uses different confirm compared to normal shop
+            elif self.appear(SHOP_EVENT_BUY_CONFIRM, offset=(20, 40)):
+                self.device.click(SHOP_EVENT_BUY_CONFIRM)
+                executed = True
+                timer.reset()
+                continue
             elif self.handle_popup_confirm("meta_buy_confirm"):
                 timer.reset()
                 continue

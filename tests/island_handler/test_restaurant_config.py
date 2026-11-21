@@ -53,7 +53,7 @@ class TestNormalizeWaitressSlots:
     @pytest.mark.parametrize(('values', 'message'), [
         (['Unknown'], 'Invalid waitress value for restaurant 601: Unknown'),
         (['Chao_Ho', 'Chao_Ho'], 'Duplicate named waitress for restaurant 601: Chao_Ho'),
-        (['none', 'any', 'none'], 'Restaurant 601 has more than two waitress slots'),
+        (['none', 'business_grade', 'none'], 'Restaurant 601 has more than two waitress slots'),
     ])
     def test_logs_error_before_requesting_human_takeover(self, caplog, values, message):
         with caplog.at_level('ERROR', logger='alas'):

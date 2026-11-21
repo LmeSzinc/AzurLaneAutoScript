@@ -18,35 +18,83 @@ ISLAND_DOCK_DETECT = Button(ISLAND_DOCK_DETECT_AREA, color=(), button=ISLAND_DOC
 ISLAND_DOCK_CARD_ANCHOR_AREA = (11, 9, 29, 27)
 ISLAND_DOCK_CARD_DELTA = (140, 180)
 ISLAND_DOCK_CARD_SIZE = (124, 164)
+ISLAND_DOCK_GRID_TOP_ORIGIN = (56, 139)
+ISLAND_DOCK_GRID_BOTTOM_ORIGIN = (56, 206)
+DOCK_GRADES = ('SSS', 'SS', 'S', 'A', 'B', 'C', 'D', 'E')
+
+
+def dock_identity_set(identity):
+    """Return unordered identity alternatives, or None for an unrestricted role."""
+    if identity is None or identity == 'any':
+        return None
+    if isinstance(identity, str):
+        return {identity}
+    return set(identity)
+
+
+def dock_character_matches(character, identity=None, emotion=None, emotion_limit=None,
+                           grade=None, status='free', blacklist=()):
+    if identity is not None or blacklist:
+        if character.identity in (None, '', 'unknown') or character.identity in blacklist:
+            return False
+        identities = dock_identity_set(identity)
+        if identities is None:
+            if character.identity == 'Workerjuu':
+                return False
+        elif character.identity not in identities:
+            return False
+    limitations = dict(emotion=emotion, emotion_limit=emotion_limit, grade=grade, status=status)
+    for name, value in limitations.items():
+        if value is not None and value != 'any' and getattr(character, name) is None:
+            return False
+        if isinstance(value, (set, frozenset)):
+            limitations[name] = list(value)
+    return character.satisfy_limitation(limitations)
+
+
+def dock_grade_key(character):
+    """Rank grades from highest to lowest, placing unknown grades last."""
+    return DOCK_GRADES.index(character.grade) if character.grade in DOCK_GRADES else len(DOCK_GRADES)
+
 
 class IslandDock(IslandUI):
     def is_in_island_dock(self):
         return self.appear(ISLAND_DOCK_CHECK, offset=(0, 20))
 
     def handle_island_dock_loading(self):
-        # poor implementation, just wait for a while
-        for _ in self.loop(timeout=0.6):
-            pass
+        for _ in self.loop(timeout=1.5):
+            if self.match_template_color(ISLAND_DOCK_CHARACTER_CONFIRM, offset=(0, 20)):
+                break
 
     def _island_dock_quit_check_func(self):
         return not self.appear(ISLAND_DOCK_CHECK, offset=(20, 20))
 
     def island_dock_quit(self):
         self.ui_back(check_button=self._island_dock_quit_check_func, skip_first_screenshot=True)
+        del_cached_property(self, 'dock_grid')
 
     def island_dock_sort_method_dsc_set(self, enable=True, wait_loading=True):
         if ISLAND_DOCK_SORTING.set('Descending' if enable else 'Ascending', main=self):
+            del_cached_property(self, 'dock_grid')
             if wait_loading:
                 self.handle_island_dock_loading()
 
-    def _get_dock_buttons(self):
+    def _get_dock_anchors(self, include_partial=False):
+        bottom = ISLAND_DOCK_DETECT_AREA[3]
+        if not include_partial:
+            bottom += ISLAND_DOCK_CARD_ANCHOR_AREA[3] - ISLAND_DOCK_CARD_SIZE[1]
         area = (ISLAND_DOCK_DETECT_AREA[0] + ISLAND_DOCK_CARD_ANCHOR_AREA[0],
                 ISLAND_DOCK_DETECT_AREA[1] + ISLAND_DOCK_CARD_ANCHOR_AREA[1],
                 ISLAND_DOCK_DETECT_AREA[2] - ISLAND_DOCK_CARD_SIZE[0] + ISLAND_DOCK_CARD_ANCHOR_AREA[2],
-                ISLAND_DOCK_DETECT_AREA[3] - ISLAND_DOCK_CARD_SIZE[1] + ISLAND_DOCK_CARD_ANCHOR_AREA[3])
+                bottom)
         image = self.image_crop(area, copy=True)
         anchors = TEMPLATE_ISLAND_DOCK_CARD_ANCHOR.match_multi(image, threshold=5)
+        anchors += TEMPLATE_ISLAND_DOCK_CARD_ANCHOR_GREEN.match_multi(image, threshold=5)
         logger.attr('cards_in_view', len(anchors))
+        return anchors
+
+    def _get_dock_buttons(self, include_partial=False):
+        anchors = self._get_dock_anchors(include_partial=include_partial)
         rows = Points([(0., a.area[1]) for a in anchors]).group(threshold=5)
         return rows
 
@@ -80,35 +128,45 @@ class IslandDock(IslandUI):
         )
         return grid
 
+    def island_dock_at_top(self):
+        return tuple(self.dock_grid.origin) == ISLAND_DOCK_GRID_TOP_ORIGIN
+
+    def island_dock_at_bottom(self):
+        grid = self.dock_grid
+        return tuple(grid.origin) == ISLAND_DOCK_GRID_BOTTOM_ORIGIN and tuple(grid.grid_shape) == (6, 2)
+
+    def island_dock_has_third_row(self):
+        return len(self._get_dock_buttons(include_partial=True)) >= 3
+
     def next_dock_page(self, wait_loading=True):
         p1, p2 = random_rectangle_vector_opted((0, -250), box=ISLAND_DOCK_DETECT_AREA, padding=-10)
         self.device.drag(p1, p2, hold_duration=0.1, name='ISLAND_DOCK_NEXT_PAGE_SWIPE')
         del_cached_property(self, 'dock_grid')
         if wait_loading:
-            self.handle_island_dock_loading()
+            for _ in self.loop(timeout=0.3, skip_first=False):
+                pass
+            # Near the bottom, allow the list to finish bouncing before comparing pages.
+            for _ in self.loop(timeout=1.2):
+                del_cached_property(self, 'dock_grid')
+                if self.island_dock_at_bottom() or abs(
+                        self.dock_grid.origin[1] - ISLAND_DOCK_GRID_BOTTOM_ORIGIN[1]) > 20:
+                    break
+            del_cached_property(self, 'dock_grid')
 
     def prev_dock_page(self, wait_loading=True):
         p1, p2 = random_rectangle_vector_opted((0, 250), box=ISLAND_DOCK_DETECT_AREA, padding=-10)
         self.device.drag(p1, p2, hold_duration=0.1, name='ISLAND_DOCK_PREV_PAGE_SWIPE')
         del_cached_property(self, 'dock_grid')
         if wait_loading:
-            self.handle_island_dock_loading()
-
-    def ensure_dock_page_at_top(self):
-        ISLAND_DOCK_DETECT.load_color(self.device.image)
-        ISLAND_DOCK_DETECT._match_init = True
-        drag_count = 0
-        for _ in self.loop(timeout=10):
-            self.prev_dock_page()
-            drag_count += 1
-            if self.appear(ISLAND_DOCK_DETECT, offset=(20, 20)):
-                if drag_count >= 2:
-                    logger.info('Reached top of dock page')
-                    return True
-            else:
-                ISLAND_DOCK_DETECT.load_color(self.device.image)
-                drag_count = 0
-        return False
+            for _ in self.loop(timeout=0.3, skip_first=False):
+                pass
+            # Reverse searches need the corresponding settling check near the top.
+            for _ in self.loop(timeout=1.2):
+                del_cached_property(self, 'dock_grid')
+                if self.island_dock_at_top() or abs(
+                        self.dock_grid.origin[1] - ISLAND_DOCK_GRID_TOP_ORIGIN[1]) > 20:
+                    break
+            del_cached_property(self, 'dock_grid')
 
     def island_dock_select_one(self, button, skip_first=False):
         """
@@ -116,7 +174,7 @@ class IslandDock(IslandUI):
             button (Button): Character button to select
             skip_first (bool):
         """
-        for _ in self.loop(skip_first=skip_first):
+        for _ in self.loop(skip_first=skip_first, timeout=5):
             if self.is_button_selected(button, color=(19, 181, 231)):
                 logger.info(f'Button {button.name} is selected')
                 return True
@@ -124,6 +182,8 @@ class IslandDock(IslandUI):
                 if self.appear(ISLAND_DOCK_CHECK, offset=(20, 20), interval=1):
                     self.device.click(button)
                 continue
+        logger.warning(f'Failed to select dock button {button.name}')
+        return False
 
     def island_dock_select_confirm(self, check_button, skip_first=True):
         """
@@ -139,79 +199,118 @@ class IslandDock(IslandUI):
             if self.appear_then_click(ISLAND_DOCK_CHARACTER_CONFIRM, offset=(20, 20), interval=2):
                 continue
 
-    def island_dock_select_manjuu(self):
-        self.island_dock_sort_method_dsc_set(enable=False, wait_loading=True)
-        # self.ensure_dock_page_at_top()  # not necessary for now since usually Manjuu is searched first
-        scanner = CharacterScanner(self.dock_grid, identity=['Manjuu'], status='free')
-        candidates = scanner.scan(self.device.image)
-        if candidates:
-            self.island_dock_select_one(candidates[0].button)
-            return True
-        else:
-            logger.warning('No Manjuu found in dock')
-            return False
+    def island_dock_scan_page(self, disabled=()):
+        """Recognize a live page without hiding occupied or filtered characters."""
+        if 'status' in disabled:
+            raise ValueError('Dock searches require status recognition')
+        characters = []
+        for _ in self.loop(timeout=3):
+            grid = self.dock_grid
+            anchors = self._get_dock_anchors()
+            if not anchors:
+                return []
+            # Keep cells through the last anchor, including any gaps before it.
+            count = int(max(
+                round((a.area[1] + ISLAND_DOCK_DETECT_AREA[1] - grid.origin[1]) / grid.delta[1]) * grid.grid_shape[0]
+                + round((a.area[0] + ISLAND_DOCK_DETECT_AREA[0] - grid.origin[0]) / grid.delta[0]) + 1
+                for a in anchors))
+            scanner = CharacterScanner(grid, identity=None, emotion=None,
+                                       emotion_limit=None, grade=None, status=None)
+            scanner.disable(*disabled)
+            characters = scanner.scan(self.device.image)[:count]
+            if 'identity' in disabled or all(c.identity not in (None, '', 'unknown') for c in characters):
+                break
+            del_cached_property(self, 'dock_grid')
+        return characters
 
-    def island_dock_find_character(self, identity):
-        self.ensure_dock_page_at_top()
-        self.island_dock_sort_method_dsc_set(enable=True)
-        ISLAND_DOCK_DETECT.load_color(self.device.image)
-        ISLAND_DOCK_DETECT._match_init = True
-        drag_count = 0
-        for _ in self.loop(timeout=40, skip_first=False):
-            # dock_grid needs refresh after each page swipe, so we need to get a new scanner each time
-            scanner = CharacterScanner(self.dock_grid, identity=identity, status=None)
-            candidates = scanner.scan(self.device.image)
-            for candidate in candidates:
-                if candidate.identity != identity:
-                    continue
-                return candidate
-            self.next_dock_page()
-            drag_count += 1
-            if self.appear(ISLAND_DOCK_DETECT, offset=(20, 20)):
-                if drag_count >= 2:
-                    logger.warning('Reached end of dock page')
-                    break
+    def island_dock_search(self, handle_page, descending=True, timeout=40, disabled=(), reverse=False):
+        """Search from the current page, processing each live page before scrolling.
+
+        Reverse searches move toward the top and process each page in reverse
+        card order. Set descending=None to preserve the current sort order.
+        A handler returns None to continue, or a result to stop immediately.
+        Return (result, completed); incomplete recognition and timeouts cannot
+        establish that a requested character is absent. Handlers must click
+        current-page buttons before returning None, never cache them for later.
+        """
+        self.device.click_record_remove('ISLAND_DOCK_NEXT_PAGE_SWIPE')
+        self.device.click_record_remove('ISLAND_DOCK_PREV_PAGE_SWIPE')
+        if descending is not None:
+            self.island_dock_sort_method_dsc_set(enable=descending)
+        unchanged = 0
+        incomplete = False
+        seen_third_row = False
+        for _ in self.loop(timeout=timeout):
+            characters = self.island_dock_scan_page(disabled=disabled)
+            if not characters:
+                return None, False
+            if reverse:
+                characters.reverse()
+            result = handle_page(characters)
+            if result is not None:
+                return result, True
+            if 'identity' not in disabled:
+                incomplete |= any(c.identity in (None, '', 'unknown') for c in characters)
+
+            if reverse:
+                at_end = self.island_dock_at_top() and unchanged >= 1
             else:
-                ISLAND_DOCK_DETECT.load_color(self.device.image)
-                drag_count = 0
-        else:
-            logger.warning('Failed to find all requested characters')
+                # Empty trailing slots establish the bottom; a full grid needs another drag.
+                at_end = self.island_dock_at_bottom() and (
+                    len(characters) < len(self.dock_grid.buttons) or unchanged >= 1)
+
+            # Short docks align to the top and count as both ends.
+            if self.island_dock_at_top():
+                seen_third_row = seen_third_row or self.island_dock_has_third_row()
+                if not seen_third_row:
+                    at_end = at_end or len(characters) < len(self.dock_grid.buttons) or unchanged >= 2
+            if at_end:
+                return None, not incomplete
+
+            # A selection may have changed highlights since the previous drag.
+            ISLAND_DOCK_DETECT.load_color(self.device.image)
+            ISLAND_DOCK_DETECT._match_init = True
+            if reverse:
+                self.prev_dock_page()
+                unchanged = unchanged + 1 if self.appear(ISLAND_DOCK_DETECT, offset=(20, 20)) else 0
+            else:
+                self.next_dock_page()
+                unchanged = unchanged + 1 if self.appear(ISLAND_DOCK_DETECT, offset=(20, 20)) else 0
+        return None, False
+
+    def island_dock_select_character(self, predicate, descending=True, disabled=()):
+        """Select the first free, unselected character accepted by predicate.
+
+        The caller supplies eligibility rules and disables unused scan fields.
+        Return the selected character after verification, or None on failure.
+        """
+
+        def match_page(characters):
+            for character in characters:
+                if (character.status == 'free' and predicate(character)
+                        and not self.is_button_selected(character.button, color=(19, 181, 231))):
+                    return character
             return None
 
-    def island_dock_find_character_with_blacklist(self, blacklist):
-        self.ensure_dock_page_at_top()
-        self.island_dock_sort_method_dsc_set(enable=True)
-        ISLAND_DOCK_DETECT.load_color(self.device.image)
-        ISLAND_DOCK_DETECT._match_init = True
-        drag_count = 0
-        for _ in self.loop(timeout=40, skip_first=False):
-            # dock_grid needs refresh after each page swipe, so we need to get a new scanner each time
-            scanner = CharacterScanner(self.dock_grid, identity='any', status='free')
-            candidates = scanner.scan(self.device.image)
-            candidates = (
-                [c for c in candidates if c.grade == 'S']
-                + [c for c in candidates if c.grade == 'A']
-                + [c for c in candidates if c.grade == 'B']
-                + [c for c in candidates if c.grade == 'C']
-                + [c for c in candidates if c.grade == 'D']
-                + [c for c in candidates if c.grade == 'E']
-            )
-            for candidate in candidates:
-                if candidate.identity in blacklist:
-                    logger.warning(f'Candidate {candidate.identity} is in blacklist, skip')
-                    continue
-                elif self.is_button_selected(candidate.button, color=(19, 181, 231)):
-                    continue
-                else:
-                    return candidate
-            self.next_dock_page()
-            drag_count += 1
-            if self.appear(ISLAND_DOCK_DETECT, offset=(20, 20)):
-                if drag_count >= 2:
-                    logger.warning('Reached end of dock page')
-                    break
-            else:
-                ISLAND_DOCK_DETECT.load_color(self.device.image)
-                drag_count = 0
-        logger.warning('Failed to find any character not in blacklist')
+        character, _ = self.island_dock_search(
+            match_page, descending=descending, disabled=disabled)
+        if character and self.island_dock_select_one(character.button):
+            return character
+        return None
+
+    def island_dock_select_workerjuu(self, descending=False):
+        """Select Workerjuu on the current page; descending=None keeps its sort order."""
+        def select_page(characters):
+            for character in characters:
+                if dock_character_matches(character, identity='Workerjuu'):
+                    if self.island_dock_select_one(character.button):
+                        return character
+                    return False
+            return False
+
+        character, _ = self.island_dock_search(
+            select_page, descending=descending, disabled=('emotion', 'emotion_limit', 'grade'))
+        if character:
+            return character
+        logger.warning('Failed to find Workerjuu in dock')
         return None

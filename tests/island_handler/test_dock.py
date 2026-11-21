@@ -1,0 +1,530 @@
+"""Screenshot golden results; awaiting human review of collection/ images."""
+import pytest
+
+from module.testing.screenshot import image
+
+from module.island_handler.dock import IslandDock, dock_character_matches
+
+
+class TestDockGrid:
+    @image('island/dock/a4f3aae4', server='cn')
+    def test_full_bottom_rows(self, main: IslandDock):
+        grid = main.dock_grid
+        actual = dict(origin=tuple(grid.origin), shape=tuple(grid.grid_shape),
+                      bottom=main.island_dock_at_bottom(), third_row=main.island_dock_has_third_row())
+        main.device.review(actual, [(button.area, button.name) for button in grid.buttons])
+        assert actual == dict(origin=(56, 206), shape=(6, 2), bottom=True, third_row=False)
+
+    @image('island/dock/7fa4c81a', server='jp')
+    def test_bottom_with_partial_last_row(self, main: IslandDock):
+        grid = main.dock_grid
+        actual = dict(origin=tuple(grid.origin), shape=tuple(grid.grid_shape),
+                      bottom=main.island_dock_at_bottom(), third_row=main.island_dock_has_third_row())
+        main.device.review(actual, [(button.area, button.name) for button in grid.buttons])
+        assert actual == dict(origin=(56, 206), shape=(6, 2), bottom=True, third_row=False)
+
+    @image('island/dock/65c571e2', server='en')
+    def test_bottom_with_only_a_green_anchor_on_the_last_row(self, main: IslandDock):
+        grid = main.dock_grid
+        actual = dict(origin=tuple(grid.origin), shape=tuple(grid.grid_shape),
+                      bottom=main.island_dock_at_bottom(), third_row=main.island_dock_has_third_row())
+        main.device.review(actual, [(button.area, button.name) for button in grid.buttons])
+        assert actual == dict(origin=(56, 206), shape=(6, 2), bottom=True, third_row=False)
+
+    @image('island/dock/f9bd49a5', server='jp')
+    def test_top_has_a_clipped_third_row(self, main: IslandDock):
+        grid = main.dock_grid
+        actual = dict(origin=tuple(grid.origin), shape=tuple(grid.grid_shape),
+                      bottom=main.island_dock_at_bottom(), third_row=main.island_dock_has_third_row())
+        main.device.review(actual, [(button.area, button.name) for button in grid.buttons])
+        assert actual == dict(origin=(56, 139), shape=(6, 2), bottom=False, third_row=True)
+
+
+class TestCharactersEN:
+    @image('island/dock/65c571e2', server='en')
+    def test_selected_character_on_a_partial_bottom_row(self, main: IslandDock):
+        characters = main.island_dock_scan_page()
+        actual = [dict(identity=character.identity, emotion=character.emotion,
+                       emotion_limit=character.emotion_limit, grade=character.grade,
+                       status=character.status,
+                       selected=main.is_button_selected(character.button, color=(19, 181, 231)))
+                  for character in characters]
+        regions = [(character.button.area, str(entry)) for character, entry in zip(characters, actual)]
+        main.device.review(actual, regions)
+        assert actual == [
+            dict(identity='Belfast', emotion=120, emotion_limit=120, grade='C', status='occupied', selected=False),
+            dict(identity='Shimakaze', emotion=150, emotion_limit=150, grade='C', status='occupied', selected=False),
+            dict(identity='Le_Malin', emotion=150, emotion_limit=150, grade='C', status='free', selected=False),
+            dict(identity='New_Jersey', emotion=150, emotion_limit=150, grade='B', status='occupied', selected=False),
+            dict(identity='Akashi', emotion=120, emotion_limit=120, grade='B', status='occupied', selected=False),
+            dict(identity='Ying_Swei', emotion=150, emotion_limit=150, grade='B', status='free', selected=False),
+            dict(identity='Saratoga', emotion=150, emotion_limit=150, grade='B', status='free', selected=True),
+        ]
+
+
+@pytest.mark.parametrize('disabled', [('identity', 'grade'), ('identity', 'emotion_limit', 'grade')])
+class TestShortDocksTW:
+    @staticmethod
+    def check_short_search(main, monkeypatch, disabled):
+        monkeypatch.setattr(main, 'island_dock_sort_method_dsc_set', lambda **kwargs: None)
+
+        def next_page(**kwargs):
+            pytest.fail('Swiped past a short dock with an empty final slot')
+
+        monkeypatch.setattr(main, 'next_dock_page', next_page)
+        pages = []
+        result, completed = main.island_dock_search(lambda page: pages.append(page), disabled=disabled)
+        grid = main.dock_grid
+        actual = dict(origin=tuple(grid.origin), shape=tuple(grid.grid_shape),
+                      third_row=main.island_dock_has_third_row(),
+                      scanned_slots=[len(page) for page in pages], completed=completed)
+        main.device.review(actual, [(button.area, button.name) for button in grid.buttons])
+        assert actual == dict(origin=(56, 139), shape=(6, 2), third_row=False,
+                              scanned_slots=[11], completed=True)
+        assert result is None
+        assert main.device.drags == []
+
+    @image('island/dock/9079daa2', server='tw')
+    def test_short_descending_list_stops_without_swiping(self, main: IslandDock, monkeypatch, disabled):
+        self.check_short_search(main, monkeypatch, disabled)
+
+    @image('island/dock/8e690ac0', server='tw')
+    def test_short_ascending_list_stops_without_swiping(self, main: IslandDock, monkeypatch, disabled):
+        self.check_short_search(main, monkeypatch, disabled)
+
+
+class TestCharactersJP:
+    @image('island/dock/f9bd49a5', server='jp')
+    def test_two_selected_characters(self, main: IslandDock):
+        characters = main.island_dock_scan_page()
+        actual = dict(in_dock=main.is_in_island_dock(), characters=[dict(
+            identity=character.identity, emotion=character.emotion, emotion_limit=character.emotion_limit,
+            grade=character.grade, status=character.status, area=character.button.area,
+            button=character.button.button,
+            selected=main.is_button_selected(character.button, color=(19, 181, 231)))
+            for character in characters])
+        regions = [(entry['area'], 'character #{} {} emotion={}/{} grade={} status={} selected={}'.format(
+            index, entry['identity'], entry['emotion'], entry['emotion_limit'], entry['grade'],
+            entry['status'], entry['selected'])) for index, entry in enumerate(actual['characters'])]
+        main.device.review(actual, regions)
+        assert actual == {
+            'characters': [
+                {
+                    'area': (56, 139, 180, 303),
+                    'button': (56, 139, 180, 303),
+                    'emotion': 150,
+                    'emotion_limit': 150,
+                    'grade': 'A',
+                    'identity': 'Le_Malin',
+                    'selected': False,
+                    'status': 'occupied',
+                },
+                {
+                    'area': (196, 139, 320, 303),
+                    'button': (196, 139, 320, 303),
+                    'emotion': 150,
+                    'emotion_limit': 150,
+                    'grade': 'B',
+                    'identity': 'Chao_Ho',
+                    'selected': False,
+                    'status': 'occupied',
+                },
+                {
+                    'area': (336, 139, 460, 303),
+                    'button': (336, 139, 460, 303),
+                    'emotion': 150,
+                    'emotion_limit': 150,
+                    'grade': 'B',
+                    'identity': 'August_von_Parseval',
+                    'selected': False,
+                    'status': 'free',
+                },
+                {
+                    'area': (476, 139, 600, 303),
+                    'button': (476, 139, 600, 303),
+                    'emotion': 150,
+                    'emotion_limit': 150,
+                    'grade': 'A',
+                    'identity': 'Prinz_Eugen',
+                    'selected': False,
+                    'status': 'occupied',
+                },
+                {
+                    'area': (616, 139, 740, 303),
+                    'button': (616, 139, 740, 303),
+                    'emotion': 150,
+                    'emotion_limit': 150,
+                    'grade': 'A',
+                    'identity': 'Shimakaze',
+                    'selected': True,
+                    'status': 'free',
+                },
+                {
+                    'area': (756, 139, 880, 303),
+                    'button': (756, 139, 880, 303),
+                    'emotion': 150,
+                    'emotion_limit': 150,
+                    'grade': 'B',
+                    'identity': 'Cheshire',
+                    'selected': True,
+                    'status': 'free',
+                },
+                {
+                    'area': (56, 319, 180, 483),
+                    'button': (56, 319, 180, 483),
+                    'emotion': 150,
+                    'emotion_limit': 150,
+                    'grade': 'A',
+                    'identity': 'Unicorn',
+                    'selected': False,
+                    'status': 'free',
+                },
+                {
+                    'area': (196, 319, 320, 483),
+                    'button': (196, 319, 320, 483),
+                    'emotion': 150,
+                    'emotion_limit': 150,
+                    'grade': 'A',
+                    'identity': 'Hood',
+                    'selected': False,
+                    'status': 'free',
+                },
+                {
+                    'area': (336, 319, 460, 483),
+                    'button': (336, 319, 460, 483),
+                    'emotion': 150,
+                    'emotion_limit': 150,
+                    'grade': 'B',
+                    'identity': 'Helena',
+                    'selected': False,
+                    'status': 'occupied',
+                },
+                {
+                    'area': (476, 319, 600, 483),
+                    'button': (476, 319, 600, 483),
+                    'emotion': 150,
+                    'emotion_limit': 150,
+                    'grade': 'C',
+                    'identity': 'Ying_Swei',
+                    'selected': False,
+                    'status': 'free',
+                },
+                {
+                    'area': (616, 319, 740, 483),
+                    'button': (616, 319, 740, 483),
+                    'emotion': 150,
+                    'emotion_limit': 150,
+                    'grade': 'C',
+                    'identity': 'Amagi_chan',
+                    'selected': False,
+                    'status': 'occupied',
+                },
+                {
+                    'area': (756, 319, 880, 483),
+                    'button': (756, 319, 880, 483),
+                    'emotion': 150,
+                    'emotion_limit': 150,
+                    'grade': 'C',
+                    'identity': 'New_Jersey',
+                    'selected': False,
+                    'status': 'occupied',
+                },
+            ],
+            'in_dock': True,
+        }
+
+    @image('island/dock/5c2752bc', server='jp')
+    def test_one_selected_character(self, main: IslandDock):
+        characters = main.island_dock_scan_page()
+        actual = dict(in_dock=main.is_in_island_dock(), characters=[dict(
+            identity=character.identity, emotion=character.emotion, emotion_limit=character.emotion_limit,
+            grade=character.grade, status=character.status, area=character.button.area,
+            button=character.button.button,
+            selected=main.is_button_selected(character.button, color=(19, 181, 231)))
+            for character in characters])
+        regions = [(entry['area'], 'character #{} {} emotion={}/{} grade={} status={} selected={}'.format(
+            index, entry['identity'], entry['emotion'], entry['emotion_limit'], entry['grade'],
+            entry['status'], entry['selected'])) for index, entry in enumerate(actual['characters'])]
+        main.device.review(actual, regions)
+        assert actual == {
+            'characters': [
+                {
+                    'area': (56, 139, 180, 303),
+                    'button': (56, 139, 180, 303),
+                    'emotion': 999,
+                    'emotion_limit': 999,
+                    'grade': 'E',
+                    'identity': 'Workerjuu',
+                    'selected': True,
+                    'status': 'free',
+                },
+                {
+                    'area': (196, 139, 320, 303),
+                    'button': (196, 139, 320, 303),
+                    'emotion': 0,
+                    'emotion_limit': 110,
+                    'grade': 'E',
+                    'identity': 'Anchorage',
+                    'selected': False,
+                    'status': 'free',
+                },
+                {
+                    'area': (336, 139, 460, 303),
+                    'button': (336, 139, 460, 303),
+                    'emotion': 110,
+                    'emotion_limit': 110,
+                    'grade': 'E',
+                    'identity': 'Fei_Yuen',
+                    'selected': False,
+                    'status': 'free',
+                },
+                {
+                    'area': (476, 139, 600, 303),
+                    'button': (476, 139, 600, 303),
+                    'emotion': 110,
+                    'emotion_limit': 110,
+                    'grade': 'E',
+                    'identity': 'Leonardo_da_Vinci',
+                    'selected': False,
+                    'status': 'free',
+                },
+                {
+                    'area': (616, 139, 740, 303),
+                    'button': (616, 139, 740, 303),
+                    'emotion': 2,
+                    'emotion_limit': 110,
+                    'grade': 'E',
+                    'identity': 'Mogador',
+                    'selected': False,
+                    'status': 'free',
+                },
+                {
+                    'area': (756, 139, 880, 303),
+                    'button': (756, 139, 880, 303),
+                    'emotion': 110,
+                    'emotion_limit': 110,
+                    'grade': 'E',
+                    'identity': 'Royal_Fortune',
+                    'selected': False,
+                    'status': 'free',
+                },
+                {
+                    'area': (56, 319, 180, 483),
+                    'button': (56, 319, 180, 483),
+                    'emotion': 110,
+                    'emotion_limit': 110,
+                    'grade': 'E',
+                    'identity': 'Oceana',
+                    'selected': False,
+                    'status': 'free',
+                },
+                {
+                    'area': (196, 319, 320, 483),
+                    'button': (196, 319, 320, 483),
+                    'emotion': 110,
+                    'emotion_limit': 110,
+                    'grade': 'D',
+                    'identity': 'William_D_Porter',
+                    'selected': False,
+                    'status': 'free',
+                },
+                {
+                    'area': (336, 319, 460, 483),
+                    'button': (336, 319, 460, 483),
+                    'emotion': 130,
+                    'emotion_limit': 130,
+                    'grade': 'D',
+                    'identity': 'Saratoga',
+                    'selected': False,
+                    'status': 'free',
+                },
+                {
+                    'area': (476, 319, 600, 483),
+                    'button': (476, 319, 600, 483),
+                    'emotion': 110,
+                    'emotion_limit': 110,
+                    'grade': 'D',
+                    'identity': 'Javelin',
+                    'selected': False,
+                    'status': 'free',
+                },
+                {
+                    'area': (616, 319, 740, 483),
+                    'button': (616, 319, 740, 483),
+                    'emotion': 110,
+                    'emotion_limit': 110,
+                    'grade': 'D',
+                    'identity': 'Takao',
+                    'selected': False,
+                    'status': 'free',
+                },
+                {
+                    'area': (756, 319, 880, 483),
+                    'button': (756, 319, 880, 483),
+                    'emotion': 110,
+                    'emotion_limit': 110,
+                    'grade': 'D',
+                    'identity': 'Atago',
+                    'selected': False,
+                    'status': 'free',
+                },
+            ],
+            'in_dock': True,
+        }
+
+
+class TestEmotionOnlyJP:
+    @image('island/dock/5c2752bc', server='jp')
+    def test_without_identity_or_grade_recognition(self, main: IslandDock):
+        characters = main.island_dock_scan_page(disabled=('identity', 'emotion_limit', 'grade'))
+        assert len(characters) == 12
+        assert all(c.identity is None and c.emotion_limit is None and c.grade is None for c in characters)
+        candidates = [c for c in characters if dock_character_matches(c, emotion=(80, 150))]
+        areas = [c.button.area for c in candidates]
+        main.device.review(dict(areas=areas), [(c.button.area, f'emotion={c.emotion}') for c in candidates])
+        assert areas == [
+            (336, 139, 460, 303), (476, 139, 600, 303), (756, 139, 880, 303),
+            (56, 319, 180, 483), (196, 319, 320, 483), (336, 319, 460, 483),
+            (476, 319, 600, 483), (616, 319, 740, 483), (756, 319, 880, 483),
+        ]
+
+
+class TestCharactersCN:
+    @image('island/dock/a4f3aae4', server='cn')
+    def test_no_selected_characters(self, main: IslandDock):
+        characters = main.island_dock_scan_page()
+        actual = dict(in_dock=main.is_in_island_dock(), characters=[dict(
+            identity=character.identity, emotion=character.emotion, emotion_limit=character.emotion_limit,
+            grade=character.grade, status=character.status, area=character.button.area,
+            button=character.button.button,
+            selected=main.is_button_selected(character.button, color=(19, 181, 231)))
+            for character in characters])
+        regions = [(entry['area'], 'character #{} {} emotion={}/{} grade={} status={} selected={}'.format(
+            index, entry['identity'], entry['emotion'], entry['emotion_limit'], entry['grade'],
+            entry['status'], entry['selected'])) for index, entry in enumerate(actual['characters'])]
+        main.device.review(actual, regions)
+        assert actual == {
+            'characters': [
+                {
+                    'area': (56, 206, 180, 370),
+                    'button': (56, 206, 180, 370),
+                    'emotion': 150,
+                    'emotion_limit': 150,
+                    'grade': 'C',
+                    'identity': 'William_D_Porter',
+                    'selected': False,
+                    'status': 'free',
+                },
+                {
+                    'area': (196, 206, 320, 370),
+                    'button': (196, 206, 320, 370),
+                    'emotion': 150,
+                    'emotion_limit': 150,
+                    'grade': 'A',
+                    'identity': 'Yat_Sen',
+                    'selected': False,
+                    'status': 'free',
+                },
+                {
+                    'area': (336, 206, 460, 370),
+                    'button': (336, 206, 460, 370),
+                    'emotion': 150,
+                    'emotion_limit': 150,
+                    'grade': 'A',
+                    'identity': 'Prinz_Eugen',
+                    'selected': False,
+                    'status': 'free',
+                },
+                {
+                    'area': (476, 206, 600, 370),
+                    'button': (476, 206, 600, 370),
+                    'emotion': 150,
+                    'emotion_limit': 150,
+                    'grade': 'A',
+                    'identity': 'Javelin',
+                    'selected': False,
+                    'status': 'free',
+                },
+                {
+                    'area': (616, 206, 740, 370),
+                    'button': (616, 206, 740, 370),
+                    'emotion': 150,
+                    'emotion_limit': 150,
+                    'grade': 'C',
+                    'identity': 'Explorer',
+                    'selected': False,
+                    'status': 'free',
+                },
+                {
+                    'area': (756, 206, 880, 370),
+                    'button': (756, 206, 880, 370),
+                    'emotion': 150,
+                    'emotion_limit': 150,
+                    'grade': 'C',
+                    'identity': 'Navigator',
+                    'selected': False,
+                    'status': 'free',
+                },
+                {
+                    'area': (56, 386, 180, 550),
+                    'button': (56, 386, 180, 550),
+                    'emotion': 150,
+                    'emotion_limit': 150,
+                    'grade': 'B',
+                    'identity': 'Oceana',
+                    'selected': False,
+                    'status': 'free',
+                },
+                {
+                    'area': (196, 386, 320, 550),
+                    'button': (196, 386, 320, 550),
+                    'emotion': 150,
+                    'emotion_limit': 150,
+                    'grade': 'B',
+                    'identity': 'Fei_Yuen',
+                    'selected': False,
+                    'status': 'free',
+                },
+                {
+                    'area': (336, 386, 460, 550),
+                    'button': (336, 386, 460, 550),
+                    'emotion': 150,
+                    'emotion_limit': 150,
+                    'grade': 'C',
+                    'identity': 'Takao',
+                    'selected': False,
+                    'status': 'free',
+                },
+                {
+                    'area': (476, 386, 600, 550),
+                    'button': (476, 386, 600, 550),
+                    'emotion': 150,
+                    'emotion_limit': 150,
+                    'grade': 'A',
+                    'identity': 'Hood',
+                    'selected': False,
+                    'status': 'free',
+                },
+                {
+                    'area': (616, 386, 740, 550),
+                    'button': (616, 386, 740, 550),
+                    'emotion': 110,
+                    'emotion_limit': 150,
+                    'grade': 'C',
+                    'identity': 'Laffey',
+                    'selected': False,
+                    'status': 'free',
+                },
+                {
+                    'area': (756, 386, 880, 550),
+                    'button': (756, 386, 880, 550),
+                    'emotion': 999,
+                    'emotion_limit': 999,
+                    'grade': 'E',
+                    'identity': 'Workerjuu',
+                    'selected': False,
+                    'status': 'free',
+                },
+            ],
+            'in_dock': True,
+        }

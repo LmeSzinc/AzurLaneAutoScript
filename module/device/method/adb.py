@@ -1,5 +1,6 @@
 import re
 import time
+from contextlib import contextmanager
 from functools import wraps
 
 import cv2
@@ -107,6 +108,65 @@ def load_screencap(data):
 
 
 class Adb(Connection):
+    @retry
+    def current_ime_adb(self):
+        """Read the selected IME and input state from legacy or per-user Android dumps."""
+        dump = self.adb_shell(['dumpsys', 'input_method'])
+        users = re.split(r'(?m)^[ \t]*UserId=(\d+)[ \t]*\r?$', dump)
+        if len(users) > 1:
+            current = (re.search(r'\bmCurrentImeUserId=(\d+)\b', users[0])
+                       or re.search(r'\bmCurrentUserId=(\d+)\b', users[0]))
+            if current:
+                dump = next((state for user, state in zip(users[1::2], users[2::2])
+                             if user == current.group(1)), '')
+            elif len(users) == 3:
+                dump = users[2]
+            else:
+                return None, False
+        # mCurId describes the connected service, which can differ from the selected IME.
+        selected = (re.search(r'\bmSelectedMethodId=(\S+)', dump)
+                    or re.search(r'\bmCurMethodId=(\S+)', dump))
+        name = selected.group(1) if selected else None
+        if name == 'null':
+            name = None
+        return name, bool(re.search(r'\bmInputShown=true\b', dump))
+
+    def _foreground_adb(self):
+        # Android 15 may omit current focus from the "windows" sub-dump.
+        dump = self.adb_shell(['dumpsys', 'window'])
+        match = re.search(r'\bmFocusedApp=[^\r\n]*\bActivityRecord\{[^\r\n]*?\bt(\d+)\b', dump)
+        task = int(match.group(1)) if match else None
+        match = re.search(r'\bmCurrentFocus=Window\{[^\r\n]*?\s([A-Za-z0-9_.]+/[A-Za-z0-9_.$]+)', dump)
+        if not match:
+            return task, None
+        package, activity = match.group(1).split('/', 1)
+        if activity.startswith('.'):
+            activity = package + activity
+        return task, f'{package}/{activity}'
+
+    @retry
+    def _restore_foreground_adb(self, task, activity):
+        self.adb_shell(['am', 'task', 'focus', str(task)], timeout=15)
+        deadline = time.monotonic() + 5
+        while True:
+            current_task, current_activity = self._foreground_adb()
+            if current_task == task and (activity is None or current_activity == activity):
+                return
+            if time.monotonic() >= deadline:
+                raise OSError('Cannot restore the foreground app after reading the clipboard')
+            self.sleep(0.2)
+
+    @contextmanager
+    def _preserve_foreground_adb(self, verify_activity=False):
+        task, activity = self._foreground_adb()
+        if task is None or (verify_activity and not activity):
+            raise OSError('Cannot identify the foreground app before reading the clipboard')
+        try:
+            yield
+        finally:
+            # Retry restoration against the saved target, before another clipboard attempt.
+            self._restore_foreground_adb(task, activity if verify_activity else None)
+
     __screenshot_method = [0, 1, 2]
     __screenshot_method_fixed = [0, 1, 2]
 

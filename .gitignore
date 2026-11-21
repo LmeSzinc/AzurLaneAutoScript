@@ -12,6 +12,7 @@ config/tmp*
 dev_tools/debug_tools
 .idea
 /screenshots
+/collection/
 /campaign/test/
 /toolkit
 *.lock
@@ -147,6 +148,7 @@ coverage.xml
 *.cover
 .hypothesis/
 .pytest_cache/
+/test-results/
 
 # Translations
 *.mo

@@ -337,6 +337,9 @@ DIC_SIREN_NAME_CHI_TO_ENG = {
     'haorenlichade_m_zhanlie': 'BonhommeRichard_BB',
     'haorenlichade_m_hangmu': 'BonhommeRichard_CV',
     'haorenlichade_m_qianting': 'BonhommeRichard_SS',
+
+    # Tempesta and the Corridor of Fog
+    'fengfan_lingti_boss02': 'TempestaGhostBoss02'
 }
 
 
@@ -789,8 +792,8 @@ Arguments:
                      adapted for war_archives usage
 """
 FILE = '../AzurLaneLuaScripts'
-FOLDER = './campaign/event_20260417_cn'
-KEYWORD = '2020001'
+FOLDER = './campaign/event_20261022_cn'
+KEYWORD = '2027001'
 SELECT = True
 OVERWRITE = True
 IS_WAR_ARCHIVES = False

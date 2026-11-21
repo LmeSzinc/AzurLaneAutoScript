@@ -5,7 +5,8 @@ from module.base.decorator import cached_property, del_cached_property
 from module.config.utils import get_server_next_update
 from module.island.assets import *
 from module.island.utils import production_place_name_with_id
-from module.island_handler.restaurant import IslandRestaurant, WaitressOccupied
+from module.island_handler.assets import ISLAND_RESTAURANT_ANIMATION_CHECK
+from module.island_handler.restaurant import IslandRestaurant
 from module.island_handler.restaurant_config import (
     RESTAURANT_IDS,
     get_waitress_slots,
@@ -179,16 +180,15 @@ class IslandBusiness(IslandRestaurant):
                 if self.appear(page_island_manage.check_button, offset=(20, 20), interval=1):
                     self.device.click(entrance_button)
                     continue
-                if self.is_in_island_restaurant():
+                if self.appear(ISLAND_RESTAURANT_ANIMATION_CHECK, offset=(-170, -20, 20, 20)):  # 20261016, slow animation for loading restaurants
                     break
             self.working_restaurant_id = restaurant_id
-            try:
-                success = super().run()
-            except WaitressOccupied as e:
-                logger.warning(e)
-                next_run_time[restaurant_id] = datetime.now() + timedelta(hours=8)
-                unchecked_restaurants.remove(restaurant_id)
-                success = False
+            self.waitress_occupied = False
+            success = super().run()
+            if not success and self.waitress_occupied:
+                next_run_time[restaurant_id] = min(
+                    next_run_time[restaurant_id], datetime.now() + timedelta(hours=8))
+                logger.info(f"Required waitress occupied, retry restaurant {restaurant} at {next_run_time[restaurant_id]}")
             self.ui_back(page_island_manage.check_button)
             for _ in self.loop(timeout=0.8, skip_first=False):
                 if self.appear(page_island_manage.check_button, offset=(0, 20)):

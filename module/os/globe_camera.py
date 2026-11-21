@@ -38,13 +38,12 @@ class GlobeCamera(GlobeOperation, ZoneManager):
             # A copy of os_map_goto_globe()
             # May accidentally enter map
             if self.appear_then_click(MAP_GOTO_GLOBE, offset=(200, 5), interval=3):
-                # Just to initialize interval timer of MAP_GOTO_GLOBE_FOG
-                self.appear(MAP_GOTO_GLOBE_FOG, interval=3)
+                self.get_interval_timer(MAP_GOTO_GLOBE_FOG, interval=3, renew=True).reset()
                 timeout.reset()
                 continue
-            # Encountered only in strongholds; AL will not prevent
-            # zone exit even with left over exploration rewards in map
-            if self.appear_then_click(MAP_GOTO_GLOBE_FOG, interval=3):
+            # Fog may persist after leaving a stronghold.
+            if self.match_template_color(MAP_GOTO_GLOBE_FOG, offset=(200, 5), interval=3, threshold=40):
+                self.device.click(MAP_GOTO_GLOBE_FOG)
                 self.interval_reset(MAP_GOTO_GLOBE)
                 timeout.reset()
                 continue

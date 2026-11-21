@@ -174,6 +174,10 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                     map_click += 1
                     map_timer.reset()
                     campaign_timer.reset()
+                    # always clear self.map_fleet_checked after MAP_PREPARATION
+                    # we will enter FLEET_PREPARATION very soon,
+                    # fleets get reset when leaving FLEET_PREPARATION, it only get stored after entering stage,
+                    self.map_fleet_checked = False
                     continue
 
                 # Fleet preparation
@@ -184,6 +188,11 @@ class MapOperation(MysteryHandler, FleetPreparation, Retirement, FastForwardHand
                         self.handle_auto_submarine_call_disable()
                         self.handle_auto_search_setting()
                         self.map_fleet_checked = True
+                        # re-check FLEET_PREPARATION after tons of preparation clicks
+                        # and also update FLEET_PREPARATION.button because fleet_bar re-detected it as avoid_area
+                        if not self.appear(FLEET_PREPARATION, offset=(20, 50)):
+                            logger.warning('FLEET_PREPARATION button disappeared after fleet_preparation()')
+                            continue
                     self.device.click(FLEET_PREPARATION)
                     fleet_click += 1
                     fleet_timer.reset()

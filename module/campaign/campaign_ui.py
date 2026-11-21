@@ -5,7 +5,7 @@ from module.campaign.campaign_event import CampaignEvent
 from module.campaign.campaign_ocr import CampaignOcr
 from module.exception import CampaignEnd, CampaignNameError, ScriptEnd
 from module.logger import logger
-from module.map.assets import WITHDRAW
+from module.map.assets import WITHDRAW, MAP_PREPARATION, MAP_PREPARATION_HARD, FLEET_PREPARATION, MAP_PREPARATION_CANCEL
 from module.map.map_operation import MapOperation
 from module.ui.assets import CAMPAIGN_CHECK
 from module.ui.switch import Switch
@@ -16,6 +16,14 @@ class ModeSwitch(Switch):
         if main.appear(WITHDRAW, offset=(30, 30)):
             logger.warning(f'ModeSwitch: WITHDRAW appears')
             raise CampaignNameError
+        # missing blur background of MAP_PREPARATION on memu player
+        # Mode_switch_20241219 and MAP_PREPARARION appears at the same time
+        # Campaign preparation
+        if main.appear(MAP_PREPARATION, offset=(30, 30), interval=3) \
+                or main.appear(MAP_PREPARATION_HARD, offset=(30, 30), interval=3) \
+                or main.appear(FLEET_PREPARATION, offset=(20, 50), interval=3):
+            main.device.click(MAP_PREPARATION_CANCEL)
+            return True
 
 
 MODE_SWITCH_1 = ModeSwitch('Mode_switch_1', offset=(30, 10))

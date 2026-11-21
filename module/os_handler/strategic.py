@@ -59,7 +59,22 @@ class StrategicSearchHandler(MapEventHandler):
             If success. False if strategic settings closed for unknown reason.
         """
         logger.info('Strategic search set option')
+        is_jp = self.config.SERVER == 'jp'
+        if is_jp:
+            # Center both tick rows in the viewport to leave room for scroll variation.
+            STRATEGIC_SEARCH_SCROLL.drag_threshold = 0.05
+            STRATEGIC_SEARCH_SCROLL.set(0.12, main=self, distance_check=False)
+            if not self._strategy_search_scroll_appear():
+                return False
+
         for _ in self.loop():
+            if is_jp:
+                if not self.appear(STRATEGIC_SEARCH_MERCHANT_CHECK, offset=(20, 100)):
+                    continue
+                for button in (STRATEGIC_SEARCH_ZONEMODE_REPEAT, STRATEGIC_SEARCH_ZONEMODE_RANDOM,
+                               STRATEGIC_SEARCH_MERCHANT_STOP, STRATEGIC_SEARCH_MERCHANT_CONTINUE):
+                    button.load_offset(STRATEGIC_SEARCH_MERCHANT_CHECK)
+
             if self._strategy_option_selected(STRATEGIC_SEARCH_ZONEMODE_REPEAT) \
                     and self._strategy_option_selected(STRATEGIC_SEARCH_MERCHANT_STOP):
                 logger.attr('zone_mode', 'repeat')

@@ -194,6 +194,14 @@ class OSShop(PortShop, AkashiShop):
             if OCR_SHOP_AMOUNT.ocr(self.device.image) > 1:
                 break
 
+        # find AMOUNT_MINUS AMOUNT_PLUS
+        index_offset = (40, 20)
+        for _ in self.loop(timeout=1):
+            if self.appear(AMOUNT_MINUS, offset=index_offset) and self.appear(AMOUNT_PLUS, offset=index_offset):
+                break
+        else:
+            logger.warning('Wait AMOUNT_MINUS and AMOUNT_PLUS timeout, continue anyway')
+
         self.ui_ensure_index(limit, letter=OCR_SHOP_AMOUNT, prev_button=AMOUNT_MINUS, next_button=AMOUNT_PLUS,
                              skip_first_screenshot=True)
         return True
