@@ -1,32 +1,78 @@
-import functools
 import os
 import re
 import shutil
-import subprocess
 import typing as t
 
 # module/device/platform/emulator_base.py
 # module/device/platform/emulator_linux.py
 # Will be used in Alas Easy Install, they shouldn't import any Alas modules.
 from module.device.platform.emulator_base import EmulatorBase, EmulatorInstanceBase, EmulatorManagerBase
-from module.device.platform.utils import cached_property, iter_folder
+from module.device.platform.utils import cached_property
+
+WAYDROID_BRIDGE = 'waydroid0'
+# Default container IP assigned by waydroid-net.sh
+WAYDROID_DEFAULT_IP = '192.168.240.112'
+WAYDROID_DEFAULT_PORT = '5555'
 
 
 def abspath(path):
     return os.path.abspath(path)
 
 
-def which(cmd: str) -> t.Optional[str]:
+def read_file(file: str) -> str:
     """
-    Find a command in PATH, like shutil.which.
-
-    Args:
-        cmd: Command name
-
     Returns:
-        str: Full path to command, or None if not found
+        str: File content, or '' if file not readable
     """
-    return shutil.which(cmd)
+    try:
+        with open(file, 'r', encoding='utf-8', errors='ignore') as f:
+            return f.read()
+    except (FileNotFoundError, PermissionError, OSError):
+        return ''
+
+
+def is_waydroid_config_dir(path: str) -> bool:
+    """
+    A valid Waydroid config directory must contain waydroid.cfg
+    """
+    return os.path.isfile(os.path.join(path, 'waydroid.cfg'))
+
+
+def iter_waydroid_config_dirs() -> t.Iterable[str]:
+    """
+    Yields:
+        str: Absolute path to waydroid config directories, including multi-instance ones like `waydroid-xxx`
+    """
+    for parent in [
+        '/var/lib',
+        os.path.expanduser('~/.local/share'),
+        os.path.expanduser('~/.config'),
+    ]:
+        try:
+            entries = sorted(os.listdir(parent))
+        except (FileNotFoundError, PermissionError, OSError):
+            continue
+        for entry in entries:
+            if not entry.startswith('waydroid'):
+                continue
+            path = os.path.join(parent, entry)
+            if is_waydroid_config_dir(path):
+                yield abspath(path)
+
+
+def parse_prop(file: str) -> t.Dict[str, str]:
+    """
+    Parse `key=value` lines from a waydroid.prop file.
+    """
+    props = {}
+    for line in read_file(file).splitlines():
+        line = line.strip()
+        if not line or line.startswith('#'):
+            continue
+        key, sep, value = line.partition('=')
+        if sep:
+            props[key.strip()] = value.strip()
+    return props
 
 
 class EmulatorInstance(EmulatorInstanceBase):
@@ -68,339 +114,136 @@ class Emulator(EmulatorBase):
         """
         return exe
 
-    @staticmethod
-    def _parse_waydroid_prop(prop_path: str) -> t.Dict[str, str]:
+    @cached_property
+    def bridge_ip(self) -> t.Optional[str]:
         """
-        Parse a waydroid.prop file, similar to how MuMu parses vbox configs.
-
-        Args:
-            prop_path: Path to waydroid.prop
+        IPv4 address of the waydroid0 bridge on host, read from /proc/net/fib_trie.
 
         Returns:
-            dict: Property key-value pairs
+            str: Bridge IP like '192.168.240.1', or None if bridge not exists
         """
-        props = {}
-        try:
-            with open(prop_path, 'r', encoding='utf-8', errors='ignore') as f:
-                for line in f:
-                    line = line.strip()
-                    if not line or line.startswith('#'):
-                        continue
-                    if '=' in line:
-                        key, _, value = line.partition('=')
-                        props[key.strip()] = value.strip()
-        except (FileNotFoundError, PermissionError):
-            pass
-        return props
-
-    @staticmethod
-    def _find_adb_port_from_config(config_dir: str) -> t.Optional[str]:
-        """
-        Read Waydroid config to find the ADB serial.
-        Waydroid uses an LXC bridge network, so the ADB address is the container's IP
-        on the waydroid0 bridge, not 127.0.0.1. Default port is 5555.
-
-        Args:
-            config_dir: Path to waydroid config directory
-
-        Returns:
-            str: serial like '192.168.240.112:5555', or None
-        """
-        default_port = '5555'
-        port = default_port
-
-        # Read waydroid.prop for any port overrides
-        prop_path = os.path.join(config_dir, 'waydroid.prop')
-        props = Emulator._parse_waydroid_prop(prop_path)
-
-        adb_port = props.get('persist.waydroid.adb.port', '')
-        if adb_port and adb_port.isdigit():
-            port = adb_port
-
-        # Detect the LXC bridge IP for Waydroid container
-        # The container gets DHCP from waydroid0 bridge
-        host_ip = Emulator._detect_waydroid_bridge_ip(config_dir)
-
-        if host_ip:
-            return f'{host_ip}:{port}'
-
-        # Fallback: try 127.0.0.1 (works with some port-forwarding setups)
-        return f'127.0.0.1:{port}'
-
-    @staticmethod
-    def _detect_waydroid_bridge_ip(config_dir: str) -> t.Optional[str]:
-        """
-        Detect the Waydroid container's IP on the waydroid0 bridge.
-        The bridge is at 192.168.240.1/24, and the container gets DHCP-assigned IP.
-
-        Strategy:
-        1. Check running ADB devices for a device on the waydroid subnet
-        2. Fallback: predict bridge subnet + .112 (LXC dnsmasq common default)
-
-        Args:
-            config_dir: Waydroid config directory (kept for signature compatibility)
-
-        Returns:
-            str: IP address, or None
-        """
-        bridge_ip = Emulator._get_bridge_ip()
-        if not bridge_ip:
+        if not os.path.exists(f'/sys/class/net/{WAYDROID_BRIDGE}'):
             return None
+        # Local addresses are listed as "|-- 192.168.240.1" followed by "/32 host LOCAL"
+        content = read_file('/proc/net/fib_trie')
+        for ip in re.findall(r'\|-- (\d+\.\d+\.\d+\.\d+)\s+/32 host LOCAL', content):
+            if ip.startswith('192.168.240.'):
+                return ip
+        return None
 
-        # Strategy 1: Check running ADB devices on the waydroid bridge subnet
-        adb_path = which('adb')
-        if adb_path:
-            try:
-                result = subprocess.run(
-                    [adb_path, 'devices'],
-                    capture_output=True, text=True, timeout=5
-                )
-                subnet_prefix = bridge_ip.rsplit('.', 1)[0] + '.'
-                for line in result.stdout.split('\n'):
-                    line = line.strip()
-                    if '\tdevice' in line:
-                        serial = line.split('\t')[0]
-                        if ':' in serial:
-                            ip = serial.rsplit(':', 1)[0]
-                            if ip.startswith(subnet_prefix):
-                                return ip
-            except (subprocess.TimeoutExpired, FileNotFoundError, OSError):
-                pass
-
-        # Strategy 2: predict the LXC dnsmasq common default (.112)
-        subnet_base = bridge_ip.rsplit('.', 1)[0]
-        return f'{subnet_base}.112'
-
-    @staticmethod
-    @functools.lru_cache(maxsize=1)
-    def _get_bridge_ip() -> t.Optional[str]:
+    @cached_property
+    def container_ip(self) -> t.Optional[str]:
         """
-        Get the waydroid0 bridge IP address.
-        Works without external commands (compatible with Docker containers).
+        IPv4 address of the Waydroid container on the waydroid0 bridge.
+        Read from system environment only, no adb commands, because emulator detection
+        decides which serial adb should connect to.
+
+        1. DHCP lease file written by dnsmasq in waydroid-net.sh
+        2. ARP table entries on waydroid0
+        3. Default IP if bridge exists
 
         Returns:
-            str: Bridge IP like '192.168.240.1', or None
+            str: Container IP like '192.168.240.112', or None
         """
-        bridge_path = '/sys/class/net/waydroid0'
-        if not os.path.exists(bridge_path):
-            return None
+        # 1700000000 00:16:3e:f9:d3:03 192.168.240.112 WayDroid-x86-64-Device 01:00:16:3e:f9:d3:03
+        content = read_file(f'/var/lib/misc/dnsmasq.{WAYDROID_BRIDGE}.leases')
+        for line in content.splitlines():
+            parts = line.split()
+            if len(parts) >= 3 and re.fullmatch(r'\d+\.\d+\.\d+\.\d+', parts[2]):
+                return parts[2]
 
-        # Try `ip` command first
-        try:
-            result = subprocess.run(
-                ['ip', '-4', 'addr', 'show', 'waydroid0'],
-                capture_output=True, text=True, timeout=3
-            )
-            match = re.search(r'inet (\d+\.\d+\.\d+\.\d+)', result.stdout)
-            if match:
-                return match.group(1)
-        except (subprocess.TimeoutExpired, FileNotFoundError, OSError):
-            pass
+        # IP address       HW type     Flags       HW address            Mask     Device
+        # 192.168.240.112  0x1         0x2         00:16:3e:f9:d3:03     *        waydroid0
+        content = read_file('/proc/net/arp')
+        for line in content.splitlines()[1:]:
+            parts = line.split()
+            # Flags 0x0 means incomplete entry
+            if len(parts) >= 6 and parts[5] == WAYDROID_BRIDGE and parts[2] != '0x0':
+                return parts[0]
 
-        # Fallback: parse /proc/net/fib_trie (no external commands needed)
-        try:
-            with open('/proc/net/fib_trie', 'r') as f:
-                content = f.read()
-            # Look for waydroid0's local route: /32 host LOCAL under the subnet
-            # Match pattern: "192.168.240.1/32 host LOCAL"
-            for line in content.split('\n'):
-                match = re.search(r'(\d+\.\d+\.\d+\.\d+)/32 host LOCAL', line)
-                if match:
-                    ip = match.group(1)
-                    # Verify this IP is on a waydroid-like subnet
-                    if ip.startswith('192.168.'):
-                        return ip
-        except (FileNotFoundError, PermissionError):
-            pass
+        if self.bridge_ip:
+            return WAYDROID_DEFAULT_IP
+        return None
 
+    def config_dir_to_serial(self, config_dir: str) -> t.Optional[str]:
+        """
+        Args:
+            config_dir: Waydroid config directory
+
+        Returns:
+            str: Serial like '192.168.240.112:5555', or None
+        """
+        props = parse_prop(os.path.join(config_dir, 'waydroid.prop'))
+        port = props.get('persist.waydroid.adb.port', '')
+        if not port.isdigit():
+            port = WAYDROID_DEFAULT_PORT
+
+        ip = self.container_ip
+        if ip:
+            return f'{ip}:{port}'
         return None
 
     @staticmethod
-    def _find_waydroid_adb_serials() -> t.List[str]:
+    def config_dir_to_name(config_dir: str) -> str:
         """
-        Find running Waydroid ADB serials without relying on config files.
-        Works inside Docker containers where /var/lib/waydroid may be inaccessible.
-
-        Returns:
-            list[str]: ADB serials like ['192.168.240.112:5555']
+        System-wide: 'waydroid', user-specific: 'waydroid-{user}'
         """
-        adb_path = which('adb')
-        if not adb_path:
-            return []
-        try:
-            devices = subprocess.run(
-                [adb_path, 'devices'],
-                capture_output=True, text=True, timeout=5
-            )
-        except (subprocess.TimeoutExpired, FileNotFoundError, OSError):
-            return []
+        basename = os.path.basename(config_dir)
+        if basename != 'waydroid':
+            return basename
+        props = parse_prop(os.path.join(config_dir, 'waydroid.prop'))
+        host_user = props.get('waydroid.host.user', '')
+        if host_user:
+            return f'waydroid-{host_user}'
+        return 'waydroid'
 
-        serials = []
-        for line in devices.stdout.split('\n'):
-            line = line.strip()
-            if '\tdevice' not in line:
-                continue
-            serial = line.split('\t')[0]
-            try:
-                result = subprocess.run(
-                    [adb_path, '-s', serial, 'shell', 'getprop', 'ro.product.brand'],
-                    capture_output=True, text=True, timeout=5
-                )
-            except (subprocess.TimeoutExpired, FileNotFoundError, OSError):
-                continue
-            if 'waydroid' in result.stdout.lower():
-                serials.append(serial)
-        return serials
-
-    def iter_instances(self) -> t.Iterable[EmulatorInstanceBase]:
+    def iter_instances(self) -> t.Iterable[EmulatorInstance]:
         """
-        Scan Waydroid config directories for instances, like MuMu scans vms/ folders.
-        Falls back to ADB-based detection when config dirs are inaccessible (Docker).
-
         Yields:
             EmulatorInstance: Waydroid instances found
         """
         if self.type != self.Waydroid:
             return
 
-        config_dirs = EmulatorManager._list_waydroid_config_dirs()
         yielded = False
-
-        for config_dir in config_dirs:
-            if not os.path.isdir(config_dir):
-                continue
-
-            # Derive instance name from config directory
-            # System-wide: 'waydroid', user-specific: 'waydroid-{user}'
-            basename = os.path.basename(config_dir)
-            if basename == 'waydroid':
-                # Check waydroid.prop for host user
-                prop_path = os.path.join(config_dir, 'waydroid.prop')
-                props = Emulator._parse_waydroid_prop(prop_path)
-                host_user = props.get('waydroid.host.user', '')
-                if host_user:
-                    name = f'waydroid-{host_user}'
-                else:
-                    name = 'waydroid'
-            else:
-                name = basename
-
-            # Get ADB serial from config (like MuMu reads vbox port forwarding)
-            serial = Emulator._find_adb_port_from_config(config_dir)
+        for config_dir in iter_waydroid_config_dirs():
+            serial = self.config_dir_to_serial(config_dir)
             if serial:
                 yield EmulatorInstance(
                     serial=serial,
-                    name=name,
-                    path=self.path
+                    name=self.config_dir_to_name(config_dir),
+                    path=self.path,
                 )
                 yielded = True
 
-        # Fallback: ADB-based detection when config dirs are inaccessible (e.g. Docker)
-        if not yielded:
-            for serial in Emulator._find_waydroid_adb_serials():
-                yield EmulatorInstance(
-                    serial=serial,
-                    name='waydroid',
-                    path=self.path
-                )
+        # Config directories may be inaccessible, e.g. in docker with host network mode
+        if not yielded and self.container_ip:
+            yield EmulatorInstance(
+                serial=f'{self.container_ip}:{WAYDROID_DEFAULT_PORT}',
+                name='waydroid',
+                path=self.path,
+            )
 
     def iter_adb_binaries(self) -> t.Iterable[str]:
         """
-        Find ADB binaries shipped with Waydroid, like MuMu scans for adb_server.exe.
-
         Yields:
-            str: Path to adb binary
+            str: Path to adb binary shipped with Waydroid
         """
         if self.type != self.Waydroid:
             return
 
-        # Waydroid tools directory
-        candidates = [
+        for path in [
             '/usr/lib/waydroid/tools/adb',
             '/usr/share/waydroid-extra/tools/adb',
             os.path.join(self.dir, 'tools', 'adb'),
-        ]
-
-        # Also search in LXC container paths
-        for config_dir in EmulatorManager._list_waydroid_config_dirs():
-            if os.path.isdir(config_dir):
-                # LXC rootfs may contain adb
-                rootfs_adb = os.path.join(config_dir, 'rootfs', 'system', 'bin', 'adb')
-                if os.path.exists(rootfs_adb):
-                    candidates.append(rootfs_adb)
-
-        for path in candidates:
+        ]:
             if os.path.isfile(path) and os.access(path, os.X_OK):
                 yield abspath(path)
 
 
 class EmulatorManager(EmulatorManagerBase):
-    # Known waydroid config directory locations
-    _WAYDROID_CONFIG_DIRS = [
-        '/var/lib/waydroid',
-        os.path.expanduser('~/.local/share/waydroid'),
-        os.path.expanduser('~/.config/waydroid'),
-    ]
-
     @staticmethod
-    def _is_waydroid_config_dir(path: str) -> bool:
-        """
-        Check if a directory is a valid Waydroid config directory.
-        Must contain waydroid.cfg (like MuMu checks for .vbox / .nemu files).
-
-        Returns:
-            bool:
-        """
-        return os.path.isdir(path) and os.path.exists(os.path.join(path, 'waydroid.cfg'))
-
-    @staticmethod
-    @functools.lru_cache(maxsize=1)
-    def _list_waydroid_config_dirs() -> t.List[str]:
-        """
-        List all waydroid config directories, including user-specific ones.
-        Similar to how MuMu scans multiple vms/ folders.
-
-        Returns:
-            list[str]: Paths to waydroid config directories
-        """
-        dirs = []
-
-        # Standard locations
-        for d in EmulatorManager._WAYDROID_CONFIG_DIRS:
-            expanded = os.path.expanduser(d)
-            if EmulatorManager._is_waydroid_config_dir(expanded):
-                dirs.append(abspath(expanded))
-
-        # Scan /var/lib for waydroid-* directories (multi-instance)
-        try:
-            for entry in os.listdir('/var/lib'):
-                if entry.startswith('waydroid') and entry != 'waydroid':
-                    full = os.path.join('/var/lib', entry)
-                    if EmulatorManager._is_waydroid_config_dir(full):
-                        dirs.append(abspath(full))
-        except PermissionError:
-            pass
-
-        # Scan user home for waydroid-* directories
-        for prefix in [
-            os.path.expanduser('~/.local/share'),
-            os.path.expanduser('~/.config'),
-        ]:
-            try:
-                if not os.path.isdir(prefix):
-                    continue
-                for entry in os.listdir(prefix):
-                    if entry.startswith('waydroid') and entry != 'waydroid':
-                        full = os.path.join(prefix, entry)
-                        if EmulatorManager._is_waydroid_config_dir(full):
-                            dirs.append(abspath(full))
-            except PermissionError:
-                pass
-
-        return dirs
-
-    @staticmethod
-    def _iter_systemd_waydroid_paths() -> t.Iterable[str]:
+    def iter_systemd_waydroid_paths() -> t.Iterable[str]:
         """
         Parse waydroid-container systemd service files for ExecStart binary paths.
 
@@ -412,258 +255,79 @@ class EmulatorManager(EmulatorManagerBase):
             '/etc/systemd/system/waydroid-container.service',
             os.path.expanduser('~/.config/systemd/user/waydroid-container.service'),
         ]:
-            try:
-                with open(service_file, 'r', encoding='utf-8', errors='ignore') as f:
-                    content = f.read()
-            except (FileNotFoundError, PermissionError):
-                continue
-            match = re.search(r'ExecStart=(/\S+waydroid\S*)', content)
-            if match:
-                exec_path = match.group(1).strip()
-                if os.path.isfile(exec_path):
-                    yield abspath(exec_path)
+            content = read_file(service_file)
+            res = re.search(r'ExecStart=(/\S*waydroid)\b', content)
+            if res and os.path.isfile(res.group(1)):
+                yield abspath(res.group(1))
 
-    @staticmethod
-    @functools.lru_cache(maxsize=1)
-    def _find_waydroid_binary() -> t.Optional[str]:
+    @cached_property
+    def waydroid_binary(self) -> t.Optional[str]:
         """
-        Find the waydroid command, like MuMu searches MuiCache / UserAssist / Uninstall.
-        Uses PATH → common locations → systemd service file parsing.
-
         Returns:
             str: Path to waydroid binary, or None
         """
-        # Check PATH (equivalent to scanning MuiCache for exe names)
-        path = which('waydroid')
+        path = shutil.which('waydroid')
         if path and os.path.isfile(path):
             return abspath(path)
-
-        # Check common installation paths
-        candidates = [
+        for path in [
             '/usr/bin/waydroid',
             '/usr/local/bin/waydroid',
-            '/opt/waydroid/waydroid',
-        ]
-        for p in candidates:
-            if os.path.isfile(p):
-                return abspath(p)
-
-        # Try to find from systemd service file (like reading Uninstall registry)
-        for exec_path in EmulatorManager._iter_systemd_waydroid_paths():
-            return exec_path
-
+        ]:
+            if os.path.isfile(path):
+                return abspath(path)
         return None
-
-    @staticmethod
-    def _find_waydroid_config_dir() -> t.Optional[str]:
-        """
-        Find primary Waydroid config directory.
-
-        Returns:
-            str: Path to waydroid config directory, or None
-        """
-        # Check known config directories
-        candidates = [
-            '/var/lib/waydroid',
-            os.path.expanduser('~/.local/share/waydroid'),
-            os.path.expanduser('~/.config/waydroid'),
-        ]
-        for p in candidates:
-            expanded = os.path.expanduser(p)
-            if os.path.isdir(expanded) and os.path.exists(os.path.join(expanded, 'waydroid.cfg')):
-                return abspath(expanded)
-
-        return None
-
-    @staticmethod
-    def _check_waydroid_status() -> bool:
-        """
-        Check if Waydroid session is running via the CLI,
-        similar to how MuMu checks running processes.
-
-        Returns:
-            bool: True if waydroid session is running
-        """
-        path = which('waydroid')
-        if not path:
-            return False
-        try:
-            result = subprocess.run(
-                [path, 'status'],
-                capture_output=True, text=True, timeout=5
-            )
-            # Look for "Session: RUNNING"
-            if 'RUNNING' in result.stdout:
-                return True
-        except (subprocess.TimeoutExpired, FileNotFoundError, OSError):
-            pass
-        return False
-
-    @staticmethod
-    def _check_waydroid_bridge() -> bool:
-        """
-        Check if the waydroid0 network bridge exists,
-        indicating the LXC container is running.
-
-        Returns:
-            bool: True if waydroid0 bridge is up
-        """
-        bridge_path = '/sys/class/net/waydroid0'
-        if os.path.exists(bridge_path):
-            operstate = os.path.join(bridge_path, 'operstate')
-            try:
-                with open(operstate, 'r') as f:
-                    return f.read().strip() == 'up'
-            except (FileNotFoundError, PermissionError):
-                pass
-        return False
-
-    @staticmethod
-    def _check_systemd_service() -> bool:
-        """
-        Check if waydroid-container systemd service is active.
-
-        Returns:
-            bool: True if waydroid-container service is active
-        """
-        try:
-            result = subprocess.run(
-                ['systemctl', '--user', 'is-active', 'waydroid-container'],
-                capture_output=True, text=True, timeout=5
-            )
-            if 'active' in result.stdout:
-                return True
-        except (subprocess.TimeoutExpired, FileNotFoundError, OSError):
-            pass
-        return False
 
     @staticmethod
     def iter_running_emulator():
         """
-        Multi-layer running detection, like MuMu's approach:
-        1. waydroid status CLI (fastest)
-        2. waydroid0 network bridge
-        3. systemd service
-        4. /proc or psutil process scanning
-
         Yields:
-            str: Path to waydroid binary if running
+            str: Path to waydroid binary from running processes, may contains duplicate values
         """
-        path = which('waydroid')
-
-        # Layer 1: waydroid status CLI
-        if EmulatorManager._check_waydroid_status():
-            if path:
-                yield abspath(path)
-            return
-
-        # Layer 2: waydroid0 bridge
-        if EmulatorManager._check_waydroid_bridge():
-            if path:
-                yield abspath(path)
-            return
-
-        # Layer 3: systemd service
-        if EmulatorManager._check_systemd_service():
-            if path:
-                yield abspath(path)
-            return
-
-        # Layer 4: process scanning (/proc or psutil)
         try:
             import psutil
         except ModuleNotFoundError:
-            # Fallback: check for waydroid process via /proc
-            for pid in os.listdir('/proc'):
-                if not pid.isdigit():
-                    continue
-                try:
-                    cmdline_path = f'/proc/{pid}/cmdline'
-                    with open(cmdline_path, 'rb') as f:
-                        raw = f.read()
-                    cmdline = raw.decode('utf-8', errors='replace')
-                    # Look for waydroid container process
-                    if 'waydroid' in cmdline.lower() and 'container' in cmdline.lower():
-                        if path:
-                            yield abspath(path)
-                        return
-                except (FileNotFoundError, PermissionError, OSError):
-                    continue
             return
-
-        # psutil fallback
-        for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
-            try:
-                cmdline = proc.info.get('cmdline') or []
-                cmdline_str = ' '.join(cmdline) if cmdline else ''
-                name = (proc.info.get('name') or '').lower()
-                if 'waydroid' in cmdline_str.lower() or name == 'waydroid':
-                    if path:
-                        yield abspath(path)
-                    return
-            except (psutil.NoSuchProcess, psutil.AccessDenied):
-                continue
+        for proc in psutil.process_iter(['cmdline']):
+            cmdline = proc.info.get('cmdline') or []
+            # Waydroid is a python script, cmdline is like:
+            # ['/usr/bin/python3', '/usr/bin/waydroid', '-w', 'container', 'start']
+            for arg in cmdline[:2]:
+                if Emulator.is_emulator(arg) and os.path.isabs(arg):
+                    yield arg
 
     @cached_property
     def all_emulators(self) -> t.List[Emulator]:
         """
-        Get all Waydroid installations, like MuMu's all_emulators scans:
-        1. Binary in PATH
-        2. Config directories
-        3. systemd service files
-        4. Running processes
+        Get all Waydroid installations.
         """
         exe = set()
 
-        # Source 1: PATH / common locations
-        path = self._find_waydroid_binary()
-        if path and Emulator.is_emulator(path):
-            exe.add(path)
+        # PATH and common locations
+        if self.waydroid_binary:
+            exe.add(self.waydroid_binary)
 
-        # Source 2: Config directories (may find waydroid even if binary not in PATH)
-        for config_dir in self._list_waydroid_config_dirs():
-            if not os.path.isdir(config_dir):
-                continue
-            # Look for waydroid binary relative to config
-            parent = os.path.dirname(config_dir)
-            for candidate in [
-                os.path.join(parent, 'waydroid'),
-                '/usr/bin/waydroid',
-            ]:
-                if os.path.isfile(candidate) and Emulator.is_emulator(candidate):
-                    exe.add(abspath(candidate))
+        # systemd service files
+        for file in self.iter_systemd_waydroid_paths():
+            exe.add(file)
 
-        # Source 3: systemd service files (like scanning Uninstall registry)
-        for exec_path in self._iter_systemd_waydroid_paths():
-            if Emulator.is_emulator(exec_path):
-                exe.add(exec_path)
-
-        # Source 4: Running processes
+        # Running
         for file in self.iter_running_emulator():
             if os.path.isfile(file):
-                exe.add(file)
+                exe.add(abspath(file))
 
-        return [Emulator(path) for path in exe]
+        return [Emulator(path) for path in sorted(exe) if Emulator.is_emulator(path)]
 
     @cached_property
     def all_emulator_instances(self) -> t.List[EmulatorInstance]:
         """
         Get all Waydroid instances, deduplicated by (serial, name).
         """
-        instances = []
+        unique = {}
         for emulator in self.all_emulators:
-            instances += list(emulator.iter_instances())
+            for instance in emulator.iter_instances():
+                unique[(instance.serial, instance.name)] = instance
 
-        # Dedup by (serial, name) — like MuMu avoids duplicate instances
-        seen = set()
-        unique = []
-        for inst in instances:
-            key = (inst.serial, inst.name)
-            if key not in seen:
-                seen.add(key)
-                unique.append(inst)
-
-        instances: t.List[EmulatorInstance] = sorted(unique, key=lambda x: str(x))
+        instances: t.List[EmulatorInstance] = sorted(unique.values(), key=lambda x: str(x))
         return instances
 
 

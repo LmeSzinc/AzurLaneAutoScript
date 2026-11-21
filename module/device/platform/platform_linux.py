@@ -1,4 +1,8 @@
+import re
 import subprocess
+import typing as t
+
+import psutil
 
 from module.device.platform.emulator_linux import Emulator, EmulatorInstance, EmulatorManager
 from module.device.platform.platform_base import PlatformBase
@@ -9,23 +13,41 @@ class EmulatorUnknown(Exception):
     pass
 
 
+class ExecuteFailed(Exception):
+    pass
+
+
 class PlatformLinux(PlatformBase, EmulatorManager):
     @classmethod
-    def execute(cls, command):
+    def execute(cls, command: t.List[str]) -> subprocess.Popen:
         """
         Args:
-            command (str):
+            command: Command and arguments, executed without shell
 
         Returns:
             subprocess.Popen:
+
+        Raises:
+            ExecuteFailed: If command failed to start
         """
         logger.info(f'Execute: {command}')
-        return subprocess.Popen(command, shell=True, close_fds=True, start_new_session=True)
+        try:
+            # `start_new_session` to avoid emulator getting tree-killed when Alas gets killed
+            return subprocess.Popen(
+                command,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                close_fds=True,
+                start_new_session=True,
+            )
+        except (FileNotFoundError, PermissionError, OSError, ValueError) as e:
+            logger.error(f'Failed to execute {command}: {e}')
+            raise ExecuteFailed(str(e)) from e
 
     @classmethod
     def kill_process_by_regex(cls, regex: str) -> int:
         """
-        Kill processes with cmdline matching the given regex.
+        Kill processes with cmdline match the given regex.
 
         Args:
             regex:
@@ -33,24 +55,19 @@ class PlatformLinux(PlatformBase, EmulatorManager):
         Returns:
             int: Number of processes killed
         """
-        import os
         count = 0
-        for pid in os.listdir('/proc'):
-            if not pid.isdigit():
+
+        for proc in psutil.process_iter(['cmdline']):
+            cmdline = ' '.join(proc.info.get('cmdline') or [])
+            if not cmdline or not re.search(regex, cmdline):
                 continue
             try:
-                cmdline_path = f'/proc/{pid}/cmdline'
-                with open(cmdline_path, 'rb') as f:
-                    cmdline = f.read().decode('utf-8', errors='replace')
-                if regex in cmdline:
-                    try:
-                        os.kill(int(pid), 9)
-                        count += 1
-                        logger.info(f'Kill process: pid={pid}, cmdline={cmdline}')
-                    except (PermissionError, ProcessLookupError):
-                        pass
-            except (FileNotFoundError, PermissionError, OSError):
+                proc.kill()
+            except (psutil.NoSuchProcess, psutil.AccessDenied) as e:
+                logger.warning(f'Failed to kill process: {cmdline}, {e}')
                 continue
+            logger.info(f'Kill process: {cmdline}')
+            count += 1
 
         return count
 
@@ -59,9 +76,7 @@ class PlatformLinux(PlatformBase, EmulatorManager):
         Start a waydroid emulator instance.
         """
         if instance == Emulator.Waydroid:
-            # Start waydroid container and session
-            self.execute('waydroid container start')
-            self.execute('waydroid session start')
+            self.execute([instance.path, 'session', 'start'])
         else:
             raise EmulatorUnknown(f'Cannot start an unknown emulator instance: {instance}')
 
@@ -70,8 +85,7 @@ class PlatformLinux(PlatformBase, EmulatorManager):
         Stop a waydroid emulator instance.
         """
         if instance == Emulator.Waydroid:
-            self.execute('waydroid session stop')
-            self.execute('waydroid container stop')
+            self.execute([instance.path, 'session', 'stop'])
         else:
             raise EmulatorUnknown(f'Cannot stop an unknown emulator instance: {instance}')
 
@@ -86,7 +100,7 @@ class PlatformLinux(PlatformBase, EmulatorManager):
         try:
             func(self.emulator_instance)
             return True
-        except Exception as e:
+        except (EmulatorUnknown, ExecuteFailed) as e:
             logger.error(e)
             return False
 
