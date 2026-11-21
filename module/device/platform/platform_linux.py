@@ -116,10 +116,10 @@ class PlatformLinux(PlatformBase, EmulatorManager):
         else:
             raise EmulatorUnknown(f'Cannot stop an unknown emulator instance: {instance}')
 
-    def _emulator_function_wrapper(self, func):
+    def _emulator_function_wrapper(self, func: callable):
         """
         Args:
-            func: Function to call, must take instance as argument
+            func (callable): _emulator_start or _emulator_stop
 
         Returns:
             bool: If success
@@ -129,7 +129,11 @@ class PlatformLinux(PlatformBase, EmulatorManager):
             return True
         except (EmulatorUnknown, ExecuteFailed) as e:
             logger.error(e)
-            return False
+        except Exception as e:
+            logger.exception(e)
+
+        logger.error(f'Emulator function {func.__name__}() failed')
+        return False
 
     def emulator_start_watch(self):
         """
