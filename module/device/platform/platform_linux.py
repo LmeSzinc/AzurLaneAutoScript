@@ -2,8 +2,6 @@ import re
 import subprocess
 import typing as t
 
-import psutil
-
 from module.base.decorator import run_once
 from module.base.timer import Timer
 from module.device.platform.emulator_linux import Emulator, EmulatorInstance, EmulatorManager
@@ -80,6 +78,10 @@ class PlatformLinux(PlatformBase, EmulatorManager):
         Returns:
             int: Number of processes killed
         """
+        # Import psutil on demand, it costs about 11ms and is only used here,
+        # keeping it out of the startup path of the device stack
+        import psutil
+
         count = 0
 
         for proc in psutil.process_iter(['cmdline']):
