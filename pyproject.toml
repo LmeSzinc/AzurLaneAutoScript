@@ -1,0 +1,18 @@
+# Configuration of the test suite only. The runtime dependencies are declared in
+# requirements-in.txt and compiled into requirements.txt by pip-compile, they are
+# not described here.
+[tool.pytest.ini_options]
+# Only tests/ holds the suite. Without this, a bare `pytest` walks the whole
+# checkout: dev_tools/extract_tools/paddle_test.py and
+# module/device/minitouch_test.py match the default `*_test.py` pattern but are
+# scratch scripts that cannot be imported, so collection stopped with exit
+# code 2 before a single test ran.
+testpaths = ["tests"]
+# Put the repository root on sys.path, so the tests import ``module`` and the
+# screenshot plugin registers from tests/conftest.py, whichever pytest entry
+# point is used. The ini option is applied before the initial conftests load.
+pythonpath = ["."]
+# Keep the temporary directory of the failed tests only, most of the suite uses
+# tmp_path for the parcel fixtures and the screenshot lookups.
+tmp_path_retention_count = 1
+tmp_path_retention_policy = "failed"
