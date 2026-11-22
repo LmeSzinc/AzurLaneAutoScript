@@ -353,16 +353,16 @@
   },
   "Emulator": {
     "_info": {
-      "name": "Emulator._info.name",
-      "help": "Emulator._info.help"
+      "name": "エミュレーター設定",
+      "help": ""
     },
     "Serial": {
-      "name": "Emulator.Serial.name",
-      "help": "Emulator.Serial.help"
+      "name": "エミュレーターの Serial",
+      "help": "一般的なエミュレーターの Serial は以下のリストを参照してください\n\"auto\" を指定するとエミュレーターを自動検出します。複数のエミュレーターが起動している場合や、自動検出に対応していないエミュレーターを使用する場合は \"auto\" が使えないため、手動で入力する必要があります\n\nエミュレーターのデフォルト Serial：\n- BlueStacks 127.0.0.1:5555\n- BlueStacks4 Hyper-V 版は \"bluestacks4-hyperv\" で自動接続、マルチインスタンスは \"bluestacks4-hyperv-2\" のように指定\n- BlueStacks5 Hyper-V 版は \"bluestacks5-hyperv\" で自動接続、マルチインスタンスは \"bluestacks5-hyperv-1\" のように指定\n- NoxPlayer 127.0.0.1:62001\n- NoxPlayer 64bit 127.0.0.1:59865\n- MuMuPlayer/MuMuPlayer X 127.0.0.1:7555\n- MuMuPlayer12 127.0.0.1:16384\n- MEmu Player 127.0.0.1:21503\n- LDPlayer emulator-5554 または 127.0.0.1:5555\n複数のエミュレーターインスタンスが起動している場合、デフォルトの Serial はそのうち 1 つに割り当てられ、残りは競合を避けるために別の Serial を使用します\nconsole.bat で `adb devices` を実行して確認するか、エミュレーターの公式ドキュメントに従って入力してください"
     },
     "PackageName": {
-      "name": "Emulator.PackageName.name",
-      "help": "Emulator.PackageName.help",
+      "name": "ゲームサーバー",
+      "help": "エミュレーターに複数のゲームクライアントがインストールされている場合は、手動でサーバーを選択する必要があります",
       "auto": "auto",
       "com.bilibili.azurlane": "CN",
       "com.YoStarEN.AzurLane": "EN",
@@ -387,8 +387,8 @@
       "com.hkmanjuu.azurlane.gp.mc": "TW com.hkmanjuu.azurlane.gp.mc"
     },
     "ServerName": {
-      "name": "Emulator.ServerName.name",
-      "help": "Emulator.ServerName.help",
+      "name": "ゲーム内サーバー",
+      "help": "ゲーム内のサーバーを選択すると、サーバー状態の監視が有効になります\nサーバーのメンテナンス中やネットワークが利用できない場合は、復旧するまで待機します",
       "disabled": "disabled",
       "cn_android-0": "[国服] 莱茵演习",
       "cn_android-1": "[国服] 巴巴罗萨",
@@ -463,9 +463,9 @@
       "jp-17": "[JP] スイートバン"
     },
     "ScreenshotMethod": {
-      "name": "Emulator.ScreenshotMethod.name",
-      "help": "Emulator.ScreenshotMethod.help",
-      "auto": "auto",
+      "name": "スクリーンショット方法",
+      "help": "自動選択を使用すると、パフォーマンステストを実行して最速のスクリーンショット方法に自動で変更します\n一般的な速度: DroidCast_raw >> aScreenCap_nc > ADB_nc >>> aScreenCap > uiautomator2 ~= ADB\nツール - パフォーマンステスト を実行して最速の方法を確認してください",
+      "auto": "最速を自動選択",
       "ADB": "ADB",
       "ADB_nc": "ADB_nc",
       "uiautomator2": "uiautomator2",
@@ -477,8 +477,8 @@
       "ldopengl": "ldopengl"
     },
     "ControlMethod": {
-      "name": "Emulator.ControlMethod.name",
-      "help": "Emulator.ControlMethod.help",
+      "name": "エミュレーターの操作方法",
+      "help": "速度: minitouch > Hermit >>> uiautomator2 ~= ADB\nminitouch を推奨します。vmos 上でない限り Hermit は推奨しません",
       "ADB": "ADB",
       "uiautomator2": "uiautomator2",
       "minitouch": "minitouch",
@@ -486,92 +486,92 @@
       "MaaTouch": "MaaTouch"
     },
     "ScreenshotDedithering": {
-      "name": "Emulator.ScreenshotDedithering.name",
-      "help": "Emulator.ScreenshotDedithering.help"
+      "name": "画像のディザリング除去",
+      "help": "スマートフォンで実行する場合に有効にします"
     },
     "AdbRestart": {
-      "name": "Emulator.AdbRestart.name",
-      "help": "Emulator.AdbRestart.help"
+      "name": "デバイスが見つからないときに adb の再起動を試みる",
+      "help": ""
     }
   },
   "EmulatorInfo": {
     "_info": {
-      "name": "EmulatorInfo._info.name",
-      "help": "EmulatorInfo._info.help"
+      "name": "エミュレーター設定",
+      "help": "以下の値は Serial に応じて自動入力されます。意味が分からない場合は変更しないでください"
     },
     "Emulator": {
-      "name": "EmulatorInfo.Emulator.name",
-      "help": "EmulatorInfo.Emulator.help",
-      "auto": "auto",
+      "name": "エミュレーターの種類",
+      "help": "",
+      "auto": "自動検出",
       "NoxPlayer": "NoxPlayer",
-      "NoxPlayer64": "NoxPlayer64",
-      "BlueStacks4": "BlueStacks4",
-      "BlueStacks5": "BlueStacks5",
-      "BlueStacks4HyperV": "BlueStacks4HyperV",
-      "BlueStacks5HyperV": "BlueStacks5HyperV",
-      "LDPlayer3": "LDPlayer3",
-      "LDPlayer4": "LDPlayer4",
-      "LDPlayer9": "LDPlayer9",
-      "LDPlayer14": "LDPlayer14",
+      "NoxPlayer64": "NoxPlayer 64bit",
+      "BlueStacks4": "BlueStacks 4",
+      "BlueStacks5": "BlueStacks 5",
+      "BlueStacks4HyperV": "BlueStacks 4 Hyper-V",
+      "BlueStacks5HyperV": "BlueStacks 5 Hyper-V",
+      "LDPlayer3": "LDPlayer 3",
+      "LDPlayer4": "LDPlayer 4",
+      "LDPlayer9": "LDPlayer 9",
+      "LDPlayer14": "LDPlayer 14",
       "MuMuPlayer": "MuMuPlayer",
-      "MuMuPlayerX": "MuMuPlayerX",
-      "MuMuPlayer12": "MuMuPlayer12",
+      "MuMuPlayerX": "MuMuPlayer X",
+      "MuMuPlayer12": "MuMuPlayer 12",
       "MEmuPlayer": "MEmuPlayer"
     },
     "name": {
-      "name": "EmulatorInfo.name.name",
-      "help": "EmulatorInfo.name.help"
+      "name": "エミュレーターのインスタンス名",
+      "help": ""
     },
     "path": {
-      "name": "EmulatorInfo.path.name",
-      "help": "EmulatorInfo.path.help"
+      "name": "エミュレーターのインストール先",
+      "help": ""
     }
   },
   "Error": {
     "_info": {
-      "name": "Error._info.name",
-      "help": "Error._info.help"
+      "name": "デバッグ設定",
+      "help": ""
     },
     "HandleError": {
-      "name": "Error.HandleError.name",
-      "help": "Error.HandleError.help"
+      "name": "例外処理を有効にする",
+      "help": "一部の例外を処理します。戦闘中にエラーが発生した場合は撤退します"
     },
     "SaveError": {
-      "name": "Error.SaveError.name",
-      "help": "Error.SaveError.help"
+      "name": "例外を記録",
+      "help": "例外とログをディレクトリに保存し、確認や共有に使えるようにします"
     },
     "OnePushConfig": {
-      "name": "Error.OnePushConfig.name",
-      "help": "Error.OnePushConfig.help"
+      "name": "エラー通知の設定",
+      "help": "処理できない例外が発生したとき、Onepush でメッセージを送信します。設定方法は次のドキュメントを参照してください：\nhttps://github.com/LmeSzinc/AzurLaneAutoScript/wiki/Onepush-configuration-%5BEN%5D"
     },
     "ScreenshotLength": {
-      "name": "Error.ScreenshotLength.name",
-      "help": "Error.ScreenshotLength.help"
+      "name": "例外発生時に保存するスクリーンショット数",
+      "help": "例外が発生したときに保存するスクリーンショットの枚数です"
     }
   },
   "Optimization": {
     "_info": {
-      "name": "Optimization._info.name",
-      "help": "Optimization._info.help"
+      "name": "最適化設定",
+      "help": ""
     },
     "ScreenshotInterval": {
-      "name": "Optimization.ScreenshotInterval.name",
-      "help": "Optimization.ScreenshotInterval.help"
+      "name": "スクリーンショットの間隔を X 秒に制限",
+      "help": "2 回のスクリーンショットの最小間隔です。0.1 ~ 0.3 の範囲で指定でき、高性能な PC では CPU 使用率を抑えられます"
     },
     "CombatScreenshotInterval": {
-      "name": "Optimization.CombatScreenshotInterval.name",
-      "help": "Optimization.CombatScreenshotInterval.help"
+      "name": "戦闘中のスクリーンショット間隔を X 秒に制限",
+      "help": "2 回のスクリーンショットの最小間隔です。0.3 ~ 1.0 の範囲で指定でき、戦闘中の CPU 使用率を抑えられます"
     },
     "TaskHoardingDuration": {
-      "name": "Optimization.TaskHoardingDuration.name",
-      "help": "Optimization.TaskHoardingDuration.help"
+      "name": "タスクを X 分間保留する",
+      "help": "ゲームを操作する頻度を抑えられます\nタスクが発生してから X 分待ち、保留していたタスクをまとめて実行します"
     },
     "WhenTaskQueueEmpty": {
-      "name": "Optimization.WhenTaskQueueEmpty.name",
-      "help": "Optimization.WhenTaskQueueEmpty.help",
-      "stay_there": "stay_there",
-      "goto_main": "goto_main",
-      "close_game": "close_game"
+      "name": "タスクキューが空になったとき",
+      "help": "保留中のタスクがないときにゲームを終了します。CPU 使用率を抑えられます",
+      "stay_there": "その場に留まる",
+      "goto_main": "メイン画面へ移動",
+      "close_game": "ゲームを終了"
     }
   },
   "DropRecord": {
