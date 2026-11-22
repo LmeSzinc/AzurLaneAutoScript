@@ -33,12 +33,38 @@ class LuaLoader:
         self._server = self.get_alias(value)
 
     def get_alias(self, server):
+        """
+        Resolve a server alias into the directory name that exists on disk.
+
+        A server is requested by any alias of its group, while the checkout may
+        name the directory with another alias of that group, or with a
+        different letter case: a case-insensitive filesystem resolves 'cn' to a
+        'CN' directory. The resolved name is not only used to build paths but
+        also identifies the server, so it has to be read from the directory
+        instead of echoing the request. One scandir pass serves every alias.
+
+        Args:
+            server (str): Server alias, e.g. 'zh-CN'
+
+        Returns:
+            str: Name of the matching directory under self.folder, the server
+                unchanged if no directory matches or the folder is unreadable
+        """
+        try:
+            with os.scandir(self.folder) as entries:
+                directories = {
+                    entry.name.lower(): entry.name
+                    for entry in entries if entry.is_dir()
+                }
+        except OSError:
+            return server
+
         for alias_list in self.server_alias:
             if server in alias_list:
                 for alias in alias_list:
-                    folder = os.path.join(self.folder, alias)
-                    if os.path.exists(folder) and os.path.isdir(folder):
-                        return alias
+                    name = directories.get(alias.lower())
+                    if name is not None:
+                        return name
 
         return server
 
