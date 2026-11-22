@@ -648,6 +648,8 @@ class ConfigUpdater:
         # ('Coalition.Coalition.Mode', 'Coalition.Coalition.Mode', coalition_to_little_academy),
         # ('IslandProduction.IslandProduction.UseManjuuByDefault',
         #  'IslandProduction.IslandProduction.UseWorkerjuuByDefault'),
+        # UseManjuuByDefault never shipped, UseWorkerjuuByDefault is a new key,
+        # so there is nothing to migrate and the redirect stays disabled.
     ]
     redirection += [
         (
