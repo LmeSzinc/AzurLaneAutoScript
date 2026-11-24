@@ -1,7 +1,10 @@
+from datetime import datetime
+
 import numpy as np
 
 import module.config.server as server
 from module.base.utils import get_color
+from module.config.utils import server_time_offset
 from module.combat.assets import BATTLE_PREPARATION
 from module.combat.combat import Combat
 from module.daily.assets import *
@@ -11,6 +14,28 @@ from module.ui.assets import BACK_ARROW, DAILY_CHECK
 from module.ui.page import page_campaign_menu, page_daily
 
 DAILY_MISSION_LIST = [DAILY_MISSION_1, DAILY_MISSION_2, DAILY_MISSION_3]
+
+# Weekday (Monday=0) on which each daily mission is open.
+# None means open every day. Used only as a fallback guard, the lock overlay
+# on the card is still the primary source of truth.
+DAILY_OPEN_WEEKDAYS_NORMAL = {
+    1: None,  # Tactical Training
+    2: None,  # Supply Line Disruption
+    3: None,  # Module Development
+    4: None,  # Empty
+    5: (0, 3, 6),  # Escort Mission, Mon/Thu/Sun
+    6: (1, 4, 6),  # Advance Mission, Tue/Fri/Sun
+    7: (2, 5, 6),  # Fierce Assault, Wed/Sat/Sun
+}
+DAILY_OPEN_WEEKDAYS_EMERGENCY = {
+    1: None,  # Emergency Module Development
+    2: (0, 3, 6),  # Escort Mission
+    3: (1, 4, 6),  # Advance Mission
+    4: (2, 5, 6),  # Fierce Assault
+    5: None,  # Tactical Training
+    6: None,  # Supply Line Disruption
+    7: None,  # Module Development
+}
 if server.server != 'jp':
     OCR_REMAIN = Digit(OCR_REMAIN, threshold=128, alphabet='01234')
 else:
@@ -152,6 +177,23 @@ class Daily(Combat):
         else:
             return 4
 
+    def daily_expected_open_today(self):
+        """
+        Skip daily cards that are closed today according to the server weekday.
+
+        A locked daily card still shows its old remaining count (e.g. 3/3),
+        so OCR_REMAIN alone cannot tell that it is closed today.
+        """
+        server_weekday = (datetime.now() - server_time_offset()).weekday()
+        table = DAILY_OPEN_WEEKDAYS_EMERGENCY if self.emergency_module_development else DAILY_OPEN_WEEKDAYS_NORMAL
+        weekdays = table.get(self.daily_current)
+        if weekdays is None:
+            return True
+        if server_weekday in weekdays:
+            return True
+        logger.attr(f'Daily_{self.daily_current}', f'closed today (server weekday={server_weekday})')
+        return False
+
     def daily_execute(self, remain=3, stage=1, fleet=1):
         """
         Args:
@@ -281,6 +323,10 @@ class Daily(Combat):
                 break
             if self.daily_current == self.empty_index:
                 logger.info('This daily is not open now')
+                self.daily_check()
+                self.next()
+                continue
+            if not self.daily_expected_open_today():
                 self.daily_check()
                 self.next()
                 continue
