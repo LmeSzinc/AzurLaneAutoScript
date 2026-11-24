@@ -8,10 +8,12 @@ import tempfile
 import threading
 import time
 import uuid
-from collections import deque
 from contextlib import suppress
 from functools import wraps
 from html import escape
+from typing import Any, Callable, Dict, List, Optional
+
+from module.logger import logger
 
 OUTPUT_LIMIT = 1024 * 1024
 HOST_ADB_COMMANDS = frozenset({
@@ -38,7 +40,8 @@ class TransportError(ManagerError):
     pass
 
 
-def split_command(command):
+def split_command(command: str) -> List[str]:
+    """Split an ADB command string into argv tokens, stripping an optional leading 'adb'."""
     if os.name == 'nt':
         # Prefix a dummy executable: CommandLineToArgvW treats argv[0] specially.
         parse = ctypes.windll.shell32.CommandLineToArgvW
@@ -63,7 +66,8 @@ def split_command(command):
     return args
 
 
-def needs_serial(args):
+def needs_serial(args: List[str]) -> bool:
+    """Return whether an ADB argv list needs `-s <serial>` prepended."""
     explicit = False
     it = iter(args)
     for token in it:
@@ -81,9 +85,12 @@ def needs_serial(args):
     raise ManagerError('InvalidCommand')
 
 
-def dispatch_gesture(device, data):
+def dispatch_gesture(device: Any, data: Dict[str, Any]) -> None:
+    """Execute a tap, hold, or swipe gesture using the device's configured ControlMethod."""
     kind, start, end, duration = data['kind'], data['start'], data['end'], data['duration']
     method = device.config.Emulator_ControlMethod
+    if method == 'Hermit' and kind != 'tap':
+        method = 'ADB'
     if kind == 'hold' and method == 'ADB':
         kind, end = 'swipe', start
     op = {'tap': 'click_', 'hold': 'long_click_', 'swipe': 'swipe_'}[kind]
@@ -95,8 +102,9 @@ def dispatch_gesture(device, data):
     func(*args)
 
 
-def run_adb(binary, args, timeout, stopped, running):
-    """Add cancellable, bounded stdout/stderr to the existing device connection."""
+def run_adb(binary: str, args: List[str], timeout: int, stopped: threading.Event,
+            running: Callable[[], bool]) -> Optional[Dict[str, Any]]:
+    """Run an ADB command with cancellable execution and bounded stdout/stderr."""
     if running():
         raise ManagerError('Running')
     with tempfile.TemporaryFile() as stdout, tempfile.TemporaryFile() as stderr:
@@ -122,7 +130,8 @@ def run_adb(binary, args, timeout, stopped, running):
                     code=process.returncode, timeout=timed_out, truncated=len(out) + len(err) > OUTPUT_LIMIT)
 
 
-def capture_device(device, quality):
+def capture_device(device: Any, quality: int) -> Dict[str, Any]:
+    """Capture a single screenshot from the device and return a base64 JPEG payload."""
     import cv2
     started = time.perf_counter()
     method = device.config.Emulator_ScreenshotMethod
@@ -141,15 +150,18 @@ def capture_device(device, quality):
                 screenshot_method=method, control_method=device.config.Emulator_ControlMethod)
 
 
-def device_service(pipe, config_name):
+def device_service(pipe: Any, config_name: str) -> None:
+    """Subprocess entrypoint isolating Device/PIL/OpenCV from the WebUI server process."""
     device = None
     selection = None
     last_size = None
-    frames = deque(maxlen=8)
+    valid_since = None
+    last_frame = None
     try:
         from module.config.config import AzurLaneConfig
         from module.device.connection import Connection
         from module.device.device import Device
+        from module.device.env import IS_WINDOWS
         from module.device.method.scrcpy.options import ScrcpyOptions
 
         class ViewerConfig(AzurLaneConfig):
@@ -161,18 +173,30 @@ def device_service(pipe, config_name):
         class ViewerDevice(Device):
             __init__ = Connection.__init__
 
+        def release_device(dev):
+            if dev is None:
+                return
+            if dev._scrcpy_alive:
+                with suppress(Exception):
+                    dev._scrcpy_server_stop()
+            if 'nemu_ipc' in dev.__dict__:
+                with suppress(Exception):
+                    dev.nemu_ipc_release()
+
         def ensure_device(current):
-            nonlocal device, selection
+            nonlocal device, selection, last_size, valid_since
             if current != selection:
-                if device is not None:
-                    device.release_during_wait()
+                release_device(device)
                 config = ViewerConfig(config_name)
                 config.auto_update = False
                 config.__dict__.update({'Emulator_' + k: v for k, v in current.items()})
                 device = ViewerDevice(config)
+                if IS_WINDOWS and config.EmulatorInfo_Emulator == 'auto':
+                    _ = device.emulator_instance
                 device.get_orientation()
                 selection = current
-                frames.clear()
+                last_size = None
+                valid_since = None
             return device
 
         while True:
@@ -196,7 +220,8 @@ def device_service(pipe, config_name):
                         dev._scrcpy_server_stop()
                     ScrcpyOptions.frame_rate = fps
                 if action == 'gesture':
-                    if request['data']['frame'] not in frames:
+                    frame = request['data']['frame']
+                    if valid_since is None or not (valid_since <= frame <= last_frame):
                         raise ManagerError('StaleFrame')
                     dispatch_gesture(dev, request['data'])
                     response = {}
@@ -205,10 +230,10 @@ def device_service(pipe, config_name):
                         dev.run_simple_screenshot_benchmark()
                     response = capture_device(dev, quality=request['quality'])
                     size = (response['height'], response['width'])
-                    if size != last_size:
-                        frames.clear()
+                    if valid_since is None or size != last_size:
+                        valid_since = request['frame']
                         last_size = size
-                    frames.append(request['frame'])
+                    last_frame = request['frame']
                     response['frame'] = request['frame']
                 pipe.send(response)
             except ManagerError as exc:
@@ -217,16 +242,18 @@ def device_service(pipe, config_name):
         pass
     except Exception as exc:
         with suppress(EOFError, BrokenPipeError):
-            pipe.send(dict(error=str(exc), translated=False))
+            pipe.send(dict(error=str(exc) or type(exc).__name__, translated=False))
     finally:
         if device is not None:
-            with suppress(Exception):
-                device.release_during_wait()
+            release_device(device)
         pipe.close()
 
 
 class DeviceWorker:
-    def __init__(self, config_name, read_emulator_cfg, stopped, is_running, panel, rate):
+    """Background worker coordinating IPC calls to `device_service` and auto-refresh scheduling."""
+
+    def __init__(self, config_name: str, read_emulator_cfg: Callable[[], Dict[str, Any]],
+                 stopped: threading.Event, is_running: Callable[[], bool], panel: Any, rate: int) -> None:
         self.config_name = config_name
         self.read_emulator_cfg = read_emulator_cfg
         self.stopped = stopped
@@ -247,7 +274,7 @@ class DeviceWorker:
         self.awaiting_frame = None
         self.pending_frame = None
         self.active_action = None
-        self.holding = False
+        self.paused = False
         self.visible = True
         self.frame_sent_at = 0
         self.next_refresh = 0
@@ -276,14 +303,14 @@ class DeviceWorker:
                 self.awaiting_frame = None
                 self.wake.set()
 
-    def configure(self, rate, holding, visible):
+    def configure(self, rate, paused, visible):
         with self.lock:
             if rate != self.rate:
                 self.next_refresh = time.perf_counter()
                 self.refresh_until = 0
                 self.pending_frame = None
             self.rate = rate
-            self.holding = holding
+            self.paused = paused
             self.visible = visible
             self.wake.set()
 
@@ -352,7 +379,7 @@ class DeviceWorker:
                 self.pending_frame = None
                 self.active_action = req['action']
                 return req, None, True, 0
-            ready = self.visible and not self.holding
+            ready = self.visible and not self.paused
             if ready and self.pending_frame is not None and self.awaiting_frame is None:
                 image = self.pending_frame
                 self.pending_frame = None
@@ -418,10 +445,12 @@ class DeviceWorker:
                     if manual:
                         self.panel.on_state(busy=False)
                 except Exception as exc:
+                    if not isinstance(exc, ManagerError):
+                        logger.exception(exc)
                     if not isinstance(exc, ManagerError) or isinstance(exc, TransportError):
                         self._close_process()
                     self._finish(time.perf_counter() + 1)
-                    self.panel.on_error(str(exc), isinstance(exc, ManagerError),
+                    self.panel.on_error(str(exc) or type(exc).__name__, isinstance(exc, ManagerError),
                                         isinstance(exc, TransportError) and str(exc) == 'FrameTimeout')
         finally:
             self.close()
@@ -442,21 +471,25 @@ def panel_action(func):
 
 
 class PanelStopEvent(threading.Event):
-    def __init__(self, current):
+    """Stop event that automatically trips once the owning panel is no longer active."""
+
+    def __init__(self, current: Callable[[], bool]) -> None:
         super().__init__()
         self.current = current
 
-    def is_set(self):
+    def is_set(self) -> bool:
         if not super().is_set() and not self.current():
             self.set()
         return super().is_set()
 
-    def wait(self, timeout=None):
+    def wait(self, timeout: Optional[float] = None) -> bool:
         return self.is_set() or super().wait(timeout) or self.is_set()
 
 
 class GameManagerPanel:
-    def __init__(self, gui, config):
+    """Interactive PyWebIO panel for live emulator viewing, gesture input, and ADB commands."""
+
+    def __init__(self, gui: Any, config: Dict[str, Any]) -> None:
         _ensure_ui()
         self.gui = gui
         self.config_name = gui.alas_name
@@ -468,46 +501,50 @@ class GameManagerPanel:
         cfg = config['GameManager']['GameManager']
         self.settings = dict(RefreshRate=cfg['RefreshRate'], InstantSend=cfg['InstantSend'])
         self.busy = False
-        self.holding = False
         self.has_frame = False
+        self.fullscreen = False
+        self.fullscreen_rate = 0
         self.running = gui.alas.alive
         self.visible = True
         self.pending = None
         self._ui_state = None
 
-    def scope(self, name):
+    def scope(self, name: str) -> str:
         return self.element_id + '-' + name
 
-    def text(self, key, **values):
+    def text(self, key: str, **values: Any) -> str:
         return web_lang.t('Gui.GameManager.' + key, **values)
 
-    def screen(self, method, data=None):
+    def screen(self, method: str, data: Any = None) -> None:
         if not self.stopped.is_set():
             pw_session.run_js('const r=document.getElementById("pywebio-scope-"+id);'
                               'if(r && r.gameScreen) r.gameScreen[method](data);',
                               id=self.element_id, method=method, data=data)
 
-    def output(self, name, value, error=False):
+    def output(self, name: str, value: str, error: bool = False) -> None:
         with pw_out.use_scope(self.scope(name), clear=True):
             (pw_out.put_error if error else pw_out.put_text)(value)
 
-    def sync(self):
-        self.worker.configure(self.settings['RefreshRate'], self.holding or self.busy, self.visible)
+    def sync(self) -> None:
+        rate = self.settings['RefreshRate'] or self.fullscreen_rate
+        self.worker.configure(rate, self.busy, self.visible)
         avail = not self.running and not self.busy
         state = dict(enabled=avail, disabled=dict(
-            capture=self.busy or self.holding, fullscreen=not self.has_frame,
+            capture=self.busy, fullscreen=not self.has_frame,
             send=not avail or self.pending is None, cancel=self.pending is None or self.busy, execute=not avail))
         if state != self._ui_state:
             self._ui_state = state
             self.screen('sync', state)
 
     @panel_action
-    def setting_changed(self, name, value):
+    def setting_changed(self, name: str, value: Any) -> None:
+        if name not in self.settings:
+            return
         self.settings[name] = web_utils.parse_pin_value(value)
         self.sync()
 
     @panel_action
-    def submit(self, action):
+    def submit(self, action: str) -> None:
         if action == 'gesture' and self.pending is None:
             return
         request = self.pending if action == 'gesture' else dict(action=action)
@@ -522,24 +559,27 @@ class GameManagerPanel:
         self.sync()
 
     @panel_action
-    def cancel_gesture(self):
+    def cancel_gesture(self) -> None:
         self.pending = None
-        self.holding = False
         pw_out.clear(self.scope('gesture'))
         self.screen('reset')
         self.sync()
 
-    def screen_event(self, data):
+    def screen_event(self, data: Dict[str, Any]) -> None:
         if data['action'] == 'frame_ack':
             self.worker.acknowledge(data['frame'])
         else:
             self._screen_event(data)
 
     @panel_action
-    def _screen_event(self, data):
+    def _screen_event(self, data: Dict[str, Any]) -> None:
         action = data['action']
-        if action in ('holding', 'visible'):
-            setattr(self, action, data['value'])
+        if action == 'visible':
+            self.visible = data['value']
+            self.sync()
+        elif action == 'fullscreen':
+            self.fullscreen = bool(data['value'])
+            self.fullscreen_rate = 5 if self.fullscreen else 0
             self.sync()
         elif action == 'stats':
             self.output('status', self.text('Status', **data))
@@ -550,7 +590,7 @@ class GameManagerPanel:
                                 end=data['end'], duration=data['duration'] / 1000, frame=data['frame'])
             self.output('gesture', '{}: {} → {} · {} ms'.format(
                 self.text(data['kind'].capitalize()), data['start'], data['end'], data['duration']))
-            if self.settings['InstantSend']:
+            if self.settings['InstantSend'] or self.fullscreen:
                 self.submit('gesture')
             else:
                 self.sync()
@@ -560,14 +600,14 @@ class GameManagerPanel:
             raise ManagerError('InvalidImage')
 
     @panel_action
-    def on_frame(self, image):
+    def on_frame(self, image: Dict[str, Any]) -> None:
         if not self.has_frame:
             self.has_frame = True
             self.sync()
         self.screen('frame', image)
 
     @panel_action
-    def on_state(self, **changes):
+    def on_state(self, **changes: Any) -> None:
         for key, value in changes.items():
             setattr(self, key, value)
         if changes.get('running'):
@@ -576,21 +616,23 @@ class GameManagerPanel:
             self.sync()
 
     @panel_action
-    def on_error(self, message, translated, reset_rate=False):
+    def on_error(self, message: str, translated: bool, reset_rate: bool = False) -> None:
         if reset_rate:
             self.settings['RefreshRate'] = 0
+            self.fullscreen_rate = 0
             pw_pin.pin_update('GameManager_GameManager_RefreshRate', value=0)
         self.busy = False
         self.cancel_gesture()
         self.output('error', self.text(message) if translated else message, error=True)
 
     @panel_action
-    def on_result(self, result):
+    def on_result(self, result: Dict[str, Any]) -> None:
         flags = [self.text(k) for f, k in (('timeout', 'TimedOut'), ('truncated', 'Truncated')) if result[f]]
         status = ' · '.join([self.text('ExitCode') + ': ' + str(result['code'])] + flags)
         self.output('result', '{}\nstdout:\n{}\nstderr:\n{}'.format(status, result['stdout'], result['stderr']))
 
-    def show(self):
+    def show(self) -> None:
+        """Render the Game Manager panel and start its background device worker."""
         manager = self.gui.alas
         out = pw_out
         self.worker = DeviceWorker(
@@ -628,9 +670,6 @@ class GameManagerPanel:
             out.put_scrollable(out.put_scope(self.scope('result')).style(
                 'white-space:pre-wrap;font-family:monospace'), height=(0, 240), border=False)
 
-        for name in self.settings:
-            pw_pin.pin_on_change('GameManager_GameManager_' + name,
-                                 onchange=lambda value, name=name: self.setting_changed(name, value))
         pw_session.run_js(SCREEN_BRIDGE, id=self.element_id,
                           callback=pw_io.output_register_callback(self.screen_event, serial_mode=True))
         self.sync()
@@ -649,14 +688,15 @@ SCREEN_BRIDGE = r'''
   const dots = overlay.querySelectorAll('circle');
   const buttons = Object.fromEntries(['capture', 'fullscreen', 'send', 'cancel', 'execute'].map(
     k => [k, document.querySelector('#pywebio-scope-' + id + '-' + k + ' button')]));
-  let enabled = false, holding = false, disposed = false;
-  let frame = null, pointer = null, deferred = null, path = null;
+  let enabled = false, disposed = false;
+  let frame = null, pointer = null, path = null;
   let clock = performance.now(), count = 0, bytes = 0;
 
   const dispose = () => {
     if (disposed) return;
     disposed = true;
     document.removeEventListener('visibilitychange', visible);
+    document.removeEventListener('fullscreenchange', onFullscreen);
     resize.disconnect();
     clearInterval(timer);
   };
@@ -706,16 +746,16 @@ SCREEN_BRIDGE = r'''
 
   const present = data => {
     if (disposed) return;
-    if (holding) { deferred = data; ack(data); return; }
     const image = new Image();
     image.onload = () => {
       if (disposed) return;
       if (frame && data.frame <= frame.frame) { ack(data); return; }
-      if (holding) { deferred = data; ack(data); return; }
+      const resized = frame && (data.width !== frame.width || data.height !== frame.height);
       frame = data;
       img.src = data.image;
       img.style.display = 'block';
-      draw();
+      if (resized && (pointer || path)) cancel();
+      else draw();
       if (document.hidden) ack(data);
       else requestAnimationFrame(() => { count++; ack(data); });
     };
@@ -725,18 +765,12 @@ SCREEN_BRIDGE = r'''
 
   const reset = () => {
     pointer = path = null;
-    holding = false;
     draw();
-    if (deferred) {
-      const data = deferred;
-      deferred = null;
-      present(data);
-    }
   };
   const cancel = () => { reset(); send({action: 'cancel'}); };
 
   screen.addEventListener('pointerdown', event => {
-    if (!enabled || holding || !frame || event.target !== img || event.button !== 0 || !event.isPrimary) return;
+    if (!enabled || pointer || !frame || event.target !== img || event.button !== 0 || !event.isPrimary) return;
     const start = point(event, false);
     if (!start) return;
     event.preventDefault();
@@ -744,8 +778,6 @@ SCREEN_BRIDGE = r'''
     pointer = {start, id: event.pointerId, time: performance.now(), x: event.clientX, y: event.clientY};
     path = [start, start];
     draw();
-    holding = true;
-    send({action: 'holding', value: true});
   });
   screen.addEventListener('pointermove', event => {
     if (pointer && event.pointerId === pointer.id) {
@@ -768,7 +800,9 @@ SCREEN_BRIDGE = r'''
   screen.addEventListener('lostpointercapture', () => { if (pointer) cancel(); });
 
   const visible = () => send({action: 'visible', value: !document.hidden});
+  const onFullscreen = () => send({action: 'fullscreen', value: document.fullscreenElement === screen});
   document.addEventListener('visibilitychange', visible);
+  document.addEventListener('fullscreenchange', onFullscreen);
 
   root.gameScreen = {
     frame: data => { bytes += data.image.length; present(data); },

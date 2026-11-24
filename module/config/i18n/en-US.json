@@ -315,7 +315,7 @@
       "help": ""
     },
     "GameManager": {
-      "name": "Game manager",
+      "name": "Game Manager",
       "help": ""
     }
   },
@@ -2998,7 +2998,7 @@
       "help": "Stop the game, log in automatically, capture screenshots, and control the emulator. Stop the Alas scheduler before remote operations (click Stop above)."
     },
     "AutoRestart": {
-      "name": "Automatic login",
+      "name": "Automatic Login",
       "help": "Automatically log in to the game after it is forcibly closed."
     },
     "RefreshRate": {
@@ -3155,7 +3155,7 @@
       "Busy": "Processing, please wait",
       "InvalidValue": "Invalid parameters.",
       "TimedOut": "Operation timed out.",
-      "Truncated": "Image is too large…",
+      "Truncated": "Output truncated",
       "ExitCode": "Exit code",
       "Tap": "Tap",
       "Hold": "Long press",

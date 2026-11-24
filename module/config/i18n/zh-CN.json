@@ -3155,7 +3155,7 @@
       "Busy": "正在处理，请稍候",
       "InvalidValue": "参数错误",
       "TimedOut": "操作超时",
-      "Truncated": "图太大了...",
+      "Truncated": "输出已截断",
       "ExitCode": "退出码",
       "Tap": "点击",
       "Hold": "长按",
