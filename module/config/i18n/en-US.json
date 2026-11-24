@@ -70,6 +70,10 @@
       "name": "Event General",
       "help": ""
     },
+    "Coalition": {
+      "name": "The Transfer Student of Veritas Academy",
+      "help": ""
+    },
     "Event": {
       "name": "Event",
       "help": ""
@@ -86,10 +90,6 @@
       "name": "Valley Hospital",
       "help": ""
     },
-    "Coalition": {
-      "name": "Authentic Horror Story",
-      "help": ""
-    },
     "EventShop": {
       "name": "Event Shop",
       "help": ""
@@ -97,6 +97,10 @@
     "WarArchives": {
       "name": "War Archives",
       "help": "Due to the lack of maintenance of war archives, continuous clear may not work normally, if Alas runs abnormally, Please manually finish clearing and use auto search"
+    },
+    "CoalitionSp": {
+      "name": "The Transfer Student of Veritas Academy SP",
+      "help": ""
     },
     "EventA": {
       "name": "Event Daily A",
@@ -120,10 +124,6 @@
     },
     "RaidDaily": {
       "name": "Raid Daily",
-      "help": ""
-    },
-    "CoalitionSp": {
-      "name": "Authentic Horror Story SP",
       "help": ""
     },
     "Commission": {
@@ -730,6 +730,7 @@
       "coalition_20251120": "DATE A LANE",
       "coalition_20260122": "Light & Shadow Fashion Shoot!",
       "coalition_20260723": "Authentic Horror Story",
+      "coalition_20261124": "The Transfer Student of Veritas Academy",
       "event_20200227_cn": "Northern Overture",
       "event_20200312_cn": "The Solomon Ranger Rerun",
       "event_20200326_cn": "Microlayer Medley",

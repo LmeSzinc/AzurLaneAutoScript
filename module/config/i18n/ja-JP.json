@@ -70,6 +70,10 @@
       "name": "イベント共通設定",
       "help": ""
     },
+    "Coalition": {
+      "name": "真理学園の転校生",
+      "help": ""
+    },
     "Event": {
       "name": "イベント海域",
       "help": ""
@@ -86,16 +90,16 @@
       "name": "病院探訪",
       "help": ""
     },
-    "Coalition": {
-      "name": "怪談実録",
-      "help": ""
-    },
     "EventShop": {
       "name": "イベント商店",
       "help": ""
     },
     "WarArchives": {
       "name": "作戦履歴",
+      "help": ""
+    },
+    "CoalitionSp": {
+      "name": "真理学園の転校生SP",
       "help": ""
     },
     "EventA": {
@@ -120,10 +124,6 @@
     },
     "RaidDaily": {
       "name": "Raid Daily",
-      "help": ""
-    },
-    "CoalitionSp": {
-      "name": "怪談実録SP",
       "help": ""
     },
     "Commission": {
@@ -730,6 +730,7 @@
       "coalition_20251120": "DATE A LANE",
       "coalition_20260122": "特集写真-撮影進行中",
       "coalition_20260723": "怪談実録",
+      "coalition_20261124": "真理学園の転校生",
       "event_20200227_cn": "凍絶の北海",
       "event_20200312_cn": "南洋に靡く硝煙（復刻）",
       "event_20200326_cn": "闇靄払う銀翼",
