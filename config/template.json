@@ -2131,7 +2131,9 @@
   },
   "GameManager": {
     "GameManager": {
-      "AutoRestart": true
+      "AutoRestart": true,
+      "RefreshRate": 0,
+      "InstantSend": false
     },
     "Storage": {
       "Storage": {}
