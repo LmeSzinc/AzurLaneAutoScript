@@ -1,6 +1,8 @@
 import numpy as np
 
 import module.config.server as server
+from module.base.template import Template
+from module.base.timer import Timer
 from module.base.utils import get_color
 from module.combat.assets import BATTLE_PREPARATION
 from module.combat.combat import Combat
@@ -11,6 +13,15 @@ from module.ui.assets import BACK_ARROW, DAILY_CHECK
 from module.ui.page import page_campaign_menu, page_daily
 
 DAILY_MISSION_LIST = [DAILY_MISSION_1, DAILY_MISSION_2, DAILY_MISSION_3]
+
+# "今日未开放 / NOT OPEN TODAY" overlay shown on closed daily cards.
+# The lock icon (DAILY_LOCKED) is language independent, this template is cn only.
+DAILY_NOT_OPEN_TODAY = Template(file='./assets/cn/daily/DAILY_NOT_OPEN_TODAY.png')
+
+
+class DailyEnterTimeout(Exception):
+    """Raised when entering a daily card takes too long."""
+    pass
 if server.server != 'jp':
     OCR_REMAIN = Digit(OCR_REMAIN, threshold=128, alphabet='01234')
 else:
@@ -152,6 +163,19 @@ class Daily(Combat):
         else:
             return 4
 
+    def is_daily_locked(self):
+        """
+        Primary detection: the card itself tells us it is closed today.
+
+        The lock icon is language independent, while the red "今日未开放"
+        banner is only matched on the cn server. Either one is enough.
+        """
+        if self.appear(DAILY_LOCKED):
+            return True
+        if server.server == 'cn' and self.appear(DAILY_NOT_OPEN_TODAY):
+            return True
+        return False
+
     def daily_execute(self, remain=3, stage=1, fleet=1):
         """
         Args:
@@ -170,16 +194,35 @@ class Daily(Combat):
         logger.info(f'remain={remain}, stage={stage}, fleet={fleet}')
 
         def daily_enter_check():
-            return self.appear(DAILY_ENTER_CHECK, threshold=30)
+            # A locked card never shows DAILY_ENTER_CHECK, so treat the lock
+            # overlay as "reached" and let the check below skip this daily.
+            return self.appear(DAILY_ENTER_CHECK, threshold=30) or self.is_daily_locked()
 
         def daily_end():
             if self.appear(BATTLE_PREPARATION, offset=(20, 20), interval=2):
                 self.device.click(BACK_ARROW)
             return self.appear(DAILY_ENTER_CHECK, threshold=30) or self.appear(BACK_ARROW, offset=(30, 30))
 
-        self.ui_click(click_button=DAILY_ENTER, check_button=daily_enter_check, appear_button=DAILY_CHECK,
-                      skip_first_screenshot=True)
-        if self.appear(DAILY_LOCKED):
+        # ui_click() has no timeout. Bound it here so a card that cannot be
+        # entered is skipped instead of clicking DAILY_ENTER forever.
+        enter_timer = Timer(20, count=40).start()
+
+        def handle_daily_enter_timeout():
+            if enter_timer.reached():
+                logger.warning(f'Daily {self.daily_current} enter timeout, skip')
+                raise DailyEnterTimeout
+            return False
+
+        try:
+            self.ui_click(click_button=DAILY_ENTER, check_button=daily_enter_check, appear_button=DAILY_CHECK,
+                          additional=handle_daily_enter_timeout, skip_first_screenshot=True)
+        except DailyEnterTimeout:
+            self.ui_click(click_button=BACK_ARROW, check_button=DAILY_CHECK,
+                          additional=self.handle_daily_additional, skip_first_screenshot=True)
+            self.device.sleep((1, 1.2))
+            return False
+
+        if self.is_daily_locked():
             logger.info('Daily locked')
             self.ui_click(click_button=BACK_ARROW, check_button=DAILY_CHECK)
             self.device.sleep((1, 1.2))
@@ -219,6 +262,7 @@ class Daily(Combat):
             out: DAILY_ENTER_CHECK or combat_appear
         """
         reward_received = False
+        mission_timer = Timer(60, count=120).start()
         while 1:
             if skip_first_screenshot:
                 skip_first_screenshot = False
@@ -255,6 +299,9 @@ class Daily(Combat):
                     return False
             if self.combat_appear():
                 return True
+            if mission_timer.reached():
+                logger.warning(f'Daily {self.daily_current} mission enter timeout, skip')
+                return False
 
     def daily_check(self, n=None):
         if not n:
@@ -281,6 +328,11 @@ class Daily(Combat):
                 break
             if self.daily_current == self.empty_index:
                 logger.info('This daily is not open now')
+                self.daily_check()
+                self.next()
+                continue
+            if self.is_daily_locked():
+                logger.info('Daily locked, skip')
                 self.daily_check()
                 self.next()
                 continue
