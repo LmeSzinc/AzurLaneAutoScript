@@ -66,6 +66,9 @@ class Coalition(CoalitionCombat, CampaignEvent):
             else:
                 # thin font
                 ocr = Digit(HORROR_PT_OCR, name='OCR_PT', lang='cnocr', letter=(228, 230, 237), threshold=221)
+        elif event == 'coalition_20261124':
+            # thin font, azur_lane model reads it as 0
+            ocr = Digit(VERITAS_PT_OCR, name='OCR_PT', lang='cnocr', letter=(255, 255, 255), threshold=128)
         else:
             logger.error(f'ocr object is not defined in event {event}')
             raise ScriptError
@@ -90,6 +93,8 @@ class Coalition(CoalitionCombat, CampaignEvent):
         if self.config.Campaign_Event == 'coalition_20260122':
             return False
         if self.config.Campaign_Event == 'coalition_20260723':
+            return False
+        if self.config.Campaign_Event == 'coalition_20261124':
             return False
         return True
 

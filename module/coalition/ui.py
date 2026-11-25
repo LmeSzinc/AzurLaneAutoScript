@@ -26,6 +26,22 @@ class HorrorSwitch(Switch):
         return super().handle_additional(main)
 
 
+class VeritasSwitch(Switch):
+    def get(self, main):
+        """
+        Args:
+            main (ModuleBase):
+
+        Returns:
+            str: state name or 'unknown'.
+        """
+        for data in self.state_list:
+            if main.match_template_color(data['check_button'], offset=data['offset']):
+                return data['state']
+
+        return 'unknown'
+
+
 class CoalitionUI(Combat):
     def in_coalition(self):
         # The same as raid
@@ -73,6 +89,11 @@ class CoalitionUI(Combat):
             mode_switch = HorrorSwitch('CoalitionMode', offset=(50, 20))
             mode_switch.add_state('story', HORROR_MODE_STORY)
             mode_switch.add_state('battle', HORROR_MODE_BATTLE)
+        elif event == 'coalition_20261124':
+            # VERITAS uses two separate mode buttons, click the target one to switch
+            mode_switch = VeritasSwitch('CoalitionMode', is_selector=True, offset=(20, 20))
+            mode_switch.add_state('story', VERITAS_MODE_STORY)
+            mode_switch.add_state('battle', VERITAS_MODE_BATTLE)
         else:
             logger.error(f'MODE_SWITCH is not defined in event {event}')
             raise ScriptError
@@ -115,6 +136,9 @@ class CoalitionUI(Combat):
         elif event == 'coalition_20260723':
             fleet_switch.add_state('single', HORROR_SWITCH_SINGLE)
             fleet_switch.add_state('multi', HORROR_SWITCH_MULTI)
+        elif event == 'coalition_20261124':
+            fleet_switch.add_state('single', VERITAS_SWITCH_SINGLE)
+            fleet_switch.add_state('multi', VERITAS_SWITCH_MULTI)
         else:
             logger.error(f'FLEET_SWITCH is not defined in event {event}')
             raise ScriptError
@@ -185,6 +209,12 @@ class CoalitionUI(Combat):
             ('coalition_20260723', 'hard'): HORROR_HARD,
             ('coalition_20260723', 'sp'): HORROR_SP,
             ('coalition_20260723', 'ex'): HORROR_EX,
+            # VERITAS
+            ('coalition_20261124', 'easy'): VERITAS_EASY,
+            ('coalition_20261124', 'normal'): VERITAS_NORMAL,
+            ('coalition_20261124', 'hard'): VERITAS_HARD,
+            ('coalition_20261124', 'sp'): VERITAS_SP,
+            ('coalition_20261124', 'ex'): VERITAS_EX,
         }
         stage = stage.lower()
         try:
@@ -279,6 +309,12 @@ class CoalitionUI(Combat):
             ('coalition_20260723', 'hard'): 3,
             ('coalition_20260723', 'sp'): 4,
             ('coalition_20260723', 'ex'): 5,
+            # VERITAS
+            ('coalition_20261124', 'easy'): 1,
+            ('coalition_20261124', 'normal'): 2,
+            ('coalition_20261124', 'hard'): 3,
+            ('coalition_20261124', 'sp'): 4,
+            ('coalition_20261124', 'ex'): 5,
         }
         stage = stage.lower()
         try:
@@ -309,6 +345,8 @@ class CoalitionUI(Combat):
             return NEONCITY_FLEET_PREPARATION
         elif event == 'coalition_20260723':
             return HORROR_FLEET_PREPARATION
+        elif event == 'coalition_20261124':
+            return VERITAS_FLEET_PREPARATION
         else:
             logger.error(f'FLEET_PREPARATION is not defined in event {event}')
             raise ScriptError
@@ -334,6 +372,7 @@ class CoalitionUI(Combat):
             'coalition_20250626',
             'coalition_20260122',
             'coalition_20260723',
+            'coalition_20261124',
         ]:
             # easy is single fleet, SP and EX must must multiple fleets
             if stage in ['easy', 'sp', 'ex']:
