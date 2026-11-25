@@ -8,8 +8,14 @@ from module.map.camera import Camera
 from module.map.map_base import location2node, location_ensure
 from module.map_detection.os_grid import OSGrid
 from module.map_detection.view import View
+from module.os.assets import TEMPLATE_WALK_COUNTER_1, TEMPLATE_WALK_COUNTER_2, TEMPLATE_WALK_COUNTER_3
 from module.os.map_operation import OSMapOperation
 from module.os.radar import Radar
+
+
+# Centered numeral area at 1280x720, with four pixels of positional tolerance.
+WALK_COUNTER_SEARCH_AREA = (570, 249, 598, 274)
+WALK_COUNTER_SIMILARITY = 0.95
 
 
 class OSCamera(OSMapOperation, Camera):
@@ -41,6 +47,18 @@ class OSCamera(OSMapOperation, Camera):
         """
         self.radar.predict(self.device.image)
         self.radar.show()
+
+    def get_walk_counter(self):
+        """
+        Returns:
+            int: 1, 2 or 3 if matched, otherwise 0 (including an absent badge).
+        """
+        image = self.image_crop(WALK_COUNTER_SEARCH_AREA, copy=False)
+        templates = (TEMPLATE_WALK_COUNTER_1, TEMPLATE_WALK_COUNTER_2, TEMPLATE_WALK_COUNTER_3)
+        for counter, template in enumerate(templates, start=1):
+            if template.match(image, similarity=WALK_COUNTER_SIMILARITY):
+                return counter
+        return 0
 
     def grid_is_in_sight(self, grid, camera=None, sight=None):
         location = location_ensure(grid)

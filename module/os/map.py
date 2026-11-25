@@ -484,7 +484,9 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
 
         success = True
         finished_combat = 0
+        walk_counter = 0
         died_timer = Timer(1.5, count=3)
+        self.device.stuck_record_clear()
         self.hp_reset()
         for _ in self.loop():
             # End
@@ -494,13 +496,17 @@ class OSMap(OSFleet, Map, GlobeCamera, StrategicSearchHandler):
                                 'before using any OpSi functions')
                 raise RequestHumanTakeover
             if self.is_in_map():
-                self.device.stuck_record_clear()
                 if not success:
                     if died_timer.reached():
                         logger.warning('Fleet died confirm')
                         break
                 else:
                     died_timer.reset()
+                    if self.match_template_color(AUTO_SEARCH_OS_MAP_OPTION_ON, offset=(5, 120)):
+                        counter = self.get_walk_counter()
+                        if counter != walk_counter:
+                            walk_counter = counter
+                            self.device.stuck_record_clear()
             else:
                 died_timer.reset()
 
