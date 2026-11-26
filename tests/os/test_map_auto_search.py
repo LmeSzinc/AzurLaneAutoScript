@@ -1,6 +1,6 @@
 from functools import partial
 from types import SimpleNamespace
-from unittest.mock import Mock, call
+from unittest.mock import Mock
 
 import pytest
 
@@ -32,22 +32,18 @@ def make_auto_search(monkeypatch, frames):
     def match(button, **kwargs):
         if device.image.get('page', 'map') != 'map':
             return False
-        state = device.image.get('auto', 'on')
-        return state == {
+        return device.image.get('auto', 'on') == {
             map_module.AUTO_SEARCH_OS_MAP_OPTION_ON: 'on',
             map_module.AUTO_SEARCH_OS_MAP_OPTION_OFF: 'off',
             map_module.AUTO_SEARCH_OS_MAP_OPTION_OFF_DISABLED: 'disabled',
         }.get(button)
 
     main = SimpleNamespace(
-        device=device,
-        loop=loop,
+        device=device, loop=loop,
         is_in_map=lambda: device.image.get('page', 'map') == 'map',
         match_template_color=match, appear=match,
-        walk_counter_changed=Mock(
-            side_effect=lambda reset=False: None if reset else device.image.get('progress', False)),
-        hp_reset=Mock(),
-        on_auto_search_battle_count_reset=Mock(),
+        get_walk_counter=Mock(side_effect=lambda: device.image.get('counter', 0)),
+        hp_reset=Mock(), on_auto_search_battle_count_reset=Mock(),
         on_auto_search_battle_count_add=Mock(),
         handle_os_auto_search_map_option=lambda **kwargs: device.image.get('option', False),
         handle_retirement=lambda: device.image.get('retirement', False),
@@ -58,44 +54,55 @@ def make_auto_search(monkeypatch, frames):
     return main, clock
 
 
-@pytest.mark.parametrize('frames', [
-    [{'progress': False}] * 80,
-    [{'page': 'loading'}] * 80,
-    [{'auto': 'unknown'}] * 80,
-], ids=['unchanged', 'loading', 'unknown-auto'])
-def test_auto_search_without_progress_triggers_stuck_guard(monkeypatch, frames):
-    main, clock = make_auto_search(monkeypatch, [{'progress': True}] + frames)
+@pytest.mark.parametrize('frames,clears', [
+    ([{}] * 80, 2),
+    ([{'counter': 1}] * 80, 3),
+    ([{'counter': 2}] * 80, 3),
+    ([{'counter': 3}] * 80, 3),
+    ([{'counter': 1}, {'page': 'loading'}] * 40, 3),
+    ([{'counter': 1}, {'auto': 'unknown'}] * 40, 3),
+], ids=['absent', 'one', 'two', 'three', 'map-flicker', 'auto-flicker'])
+def test_auto_search_without_progress_triggers_stuck_guard(monkeypatch, frames, clears):
+    main, clock = make_auto_search(monkeypatch, frames)
 
     with pytest.raises(GameStuckError):
         map_module.OSMap.os_auto_search_daemon(main)
 
     assert clock.now >= 1060
-    assert main.device.stuck_record_clear.call_count == 3
+    assert main.device.stuck_record_clear.call_count == clears
+
+
+def test_auto_search_clears_only_on_counter_changes(monkeypatch):
+    frames = [{'counter': value} for value in (0, 0, 1, 1, 2, 0, 0, 3)]
+    main, _ = make_auto_search(monkeypatch, frames)
+
+    assert map_module.OSMap.os_auto_search_daemon(main) == 0
+    assert main.device.stuck_record_clear.call_count == 5
 
 
 def test_auto_search_allows_continuous_wandering(monkeypatch):
-    frames = [{'progress': index % 4 == 0} for index in range(240)]
+    frames = [{'counter': index // 4 % 4} for index in range(240)]
     main, clock = make_auto_search(monkeypatch, frames)
 
     assert map_module.OSMap.os_auto_search_daemon(main) == 0
-
     assert clock.now == 1240
-    assert main.device.stuck_record_clear.call_count == 61
+    assert main.device.stuck_record_clear.call_count == 60
 
 
-@pytest.mark.parametrize('transition,transition_calls', [
-    ({'page': 'loading'}, [call(reset=True)]),
-    ({'auto': 'off'}, [call(reset=True)]),
-    ({'auto': 'disabled'}, [call(reset=True)]),
-    ({'option': True}, [call(), call(reset=True)]),
-    ({'retirement': True}, [call(), call(reset=True)]),
-    ({'combat': True}, [call(), call(reset=True)]),
-    ({'event': True}, [call(), call(reset=True)]),
-    ({'auto': 'unknown'}, []),
+@pytest.mark.parametrize('transition,reads', [
+    ({'page': 'loading'}, 2),
+    ({'auto': 'off'}, 2),
+    ({'auto': 'disabled'}, 2),
+    ({'auto': 'unknown'}, 2),
+    ({'option': True}, 3),
+    ({'retirement': True}, 3),
+    ({'combat': True}, 3),
+    ({'event': True}, 3),
 ])
-def test_auto_search_resets_counter_only_on_transitions(monkeypatch, transition, transition_calls):
-    main, _ = make_auto_search(monkeypatch, [{}, transition, {}])
+def test_auto_search_retains_counter_across_transitions(monkeypatch, transition, reads):
+    frames = [{'counter': 1}, dict(counter=1, **transition), {'counter': 1}]
+    main, _ = make_auto_search(monkeypatch, frames)
 
     assert map_module.OSMap.os_auto_search_daemon(main) == int(transition.get('combat', False))
-
-    assert main.walk_counter_changed.call_args_list == [call(reset=True), call()] + transition_calls + [call()]
+    assert main.get_walk_counter.call_count == reads
+    assert main.device.stuck_record_clear.call_count == 2

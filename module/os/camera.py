@@ -1,4 +1,3 @@
-import cv2
 import numpy as np
 
 from module.base.button import Button
@@ -9,13 +8,14 @@ from module.map.camera import Camera
 from module.map.map_base import location2node, location_ensure
 from module.map_detection.os_grid import OSGrid
 from module.map_detection.view import View
+from module.os.assets import TEMPLATE_WALK_COUNTER_1, TEMPLATE_WALK_COUNTER_2, TEMPLATE_WALK_COUNTER_3
 from module.os.map_operation import OSMapOperation
 from module.os.radar import Radar
 
 
-# Numeral area of the centered fleet's badge in a 1280x720 screenshot.
-WALK_COUNTER_AREA = (574, 253, 594, 270)
-WALK_COUNTER_MAX_MEAN_DIFFERENCE = 20
+# Centered numeral area at 1280x720, with four pixels of positional tolerance.
+WALK_COUNTER_SEARCH_AREA = (570, 249, 598, 274)
+WALK_COUNTER_SIMILARITY = 0.95
 
 
 class OSCamera(OSMapOperation, Camera):
@@ -48,30 +48,17 @@ class OSCamera(OSMapOperation, Camera):
         self.radar.predict(self.device.image)
         self.radar.show()
 
-    _walk_counter_image = None
-
-    def walk_counter_changed(self, reset=False):
+    def get_walk_counter(self):
         """
-        Detect visual changes, including appearance or disappearance, in the walk counter.
-
-        Args:
-            reset (bool): Clear the reference image without reading a screenshot.
-
         Returns:
-            bool | None: True for the first image or a changed image,
-                False when unchanged, None after a reset.
+            int: 1, 2 or 3 if matched, otherwise 0 (including an absent badge).
         """
-        if reset:
-            self._walk_counter_image = None
-            return None
-        image = cv2.cvtColor(self.image_crop(WALK_COUNTER_AREA, copy=False), cv2.COLOR_RGB2GRAY)
-        previous = self._walk_counter_image
-        if previous is not None and cv2.norm(image, previous, cv2.NORM_L1) / image.size \
-                <= WALK_COUNTER_MAX_MEAN_DIFFERENCE:
-            return False
-
-        self._walk_counter_image = image
-        return True
+        image = self.image_crop(WALK_COUNTER_SEARCH_AREA, copy=False)
+        templates = (TEMPLATE_WALK_COUNTER_1, TEMPLATE_WALK_COUNTER_2, TEMPLATE_WALK_COUNTER_3)
+        for counter, template in enumerate(templates, start=1):
+            if template.match(image, similarity=WALK_COUNTER_SIMILARITY):
+                return counter
+        return 0
 
     def grid_is_in_sight(self, grid, camera=None, sight=None):
         location = location_ensure(grid)
