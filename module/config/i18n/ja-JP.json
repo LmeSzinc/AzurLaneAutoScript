@@ -571,7 +571,8 @@
       "help": "保留中のタスクがないときにゲームを終了します。CPU 使用率を抑えられます",
       "stay_there": "その場に留まる",
       "goto_main": "メイン画面へ移動",
-      "close_game": "ゲームを終了"
+      "close_game": "ゲームを終了",
+      "close_emulator": "エミュレーターを閉じる"
     }
   },
   "DropRecord": {
@@ -1913,6 +1914,14 @@
     "Filter": {
       "name": "MedalShop.Filter.name",
       "help": "MedalShop.Filter.help"
+    },
+    "PriorityBulinGold": {
+      "name": "金ブリン優先",
+      "help": "チェック時は金／紫ブリンを優先購入。両方チェック時は金ブリンが先"
+    },
+    "PriorityBulinPurple": {
+      "name": "紫ブリン優先",
+      "help": "チェック時は金／紫ブリンを優先購入。両方チェック時は金ブリンが先"
     },
     "RETROFIT_T1": {
       "name": "MedalShop.RETROFIT_T1.name",

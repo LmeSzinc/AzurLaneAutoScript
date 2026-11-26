@@ -1535,6 +1535,8 @@
     },
     "MedalShop2": {
       "Filter": "DR > PR\n> BookRedT3 > BookYellowT3 > BookBlueT3\n> BookRedT2 > BookYellowT2 > BookBlueT2\n> RetrofitT3\n> FoodT6 > FoodT5\n> PlateGeneralT3 > PlateWildT3",
+      "PriorityBulinGold": false,
+      "PriorityBulinPurple": false,
       "RETROFIT_T1": "cl",
       "RETROFIT_T2": "cl",
       "RETROFIT_T3": "cl",
@@ -1893,7 +1895,9 @@
     "OpsiMeowfficerFarming": {
       "ActionPointPreserve": 1000,
       "HazardLevel": 5,
-      "TargetZone": 0
+      "TargetZone": 0,
+      "AshBeaconDataFullStop": false,
+      "AshBeaconDataLimit": 200
     },
     "OpsiFleet": {
       "Fleet": 1,

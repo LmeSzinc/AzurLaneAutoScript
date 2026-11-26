@@ -571,7 +571,8 @@
       "help": "Close AL when there are no pending tasks, can help reduce CPU",
       "stay_there": "Stay There",
       "goto_main": "Goto Main Page",
-      "close_game": "Close Game"
+      "close_game": "Close Game",
+      "close_emulator": "Close Emulator"
     }
   },
   "DropRecord": {
@@ -1914,6 +1915,14 @@
       "name": "Item Filter",
       "help": "All options have been defined at <https://github.com/LmeSzinc/AzurLaneAutoScript/wiki/reward_shop_filter_string>\nDifferent from other shops, the below select options assist with filling the unknowns for the vague items 'Retrofit' and 'Plate'\nFurthermore restricted for 'Plate', there are both specific and wild types\nIf you are targeting a specific type then use a string combination such as 'PlateGeneralT3 > PlateWildT3' otherwise 'PlateT3' will purchase every available T3 Plate\nFor research blueprints it is adviseable to use 'DR > PR', players should convert surplus into Prototype Core currency"
     },
+    "PriorityBulinGold": {
+      "name": "Priority Gold Bulin",
+      "help": "Buy gold / purple Bulin first, regardless of the item filter. When both are checked, gold Bulin is bought before purple Bulin"
+    },
+    "PriorityBulinPurple": {
+      "name": "Priority Purple Bulin",
+      "help": "Buy gold / purple Bulin first, regardless of the item filter. When both are checked, gold Bulin is bought before purple Bulin"
+    },
     "RETROFIT_T1": {
       "name": "Type Preference RetrofitT1",
       "help": "",
@@ -2644,6 +2653,14 @@
     "TargetZone": {
       "name": "Target Zone ID",
       "help": "Supports either Zone ID or Name in CN/EN/JP/TW, i.e. \"51\", \"NA Ocean SE Sector E\"\nIf specified, Alas will loop on this same zone after each clear\nUse default value 0 or clear the field to remove the specification\nZone information can be acquired from <./module/os/map_data.py>"
+    },
+    "AshBeaconDataFullStop": {
+      "name": "Stop When Ash Beacon Data Is Full",
+      "help": "Reads ash beacon data on the map screen before each farming round\nStops this task and delays it to the next server update once the data limit is reached\nWhen enabled, no action point is spent if the data is already full"
+    },
+    "AshBeaconDataLimit": {
+      "name": "Ash Beacon Data Limit",
+      "help": "Treated as fully collected when either the holding or today's collected data reaches this value, 200 by default\nValue 0 or empty falls back to 200"
     }
   },
   "OpsiHazard1Leveling": {

@@ -6,7 +6,7 @@ import module.config.server as server
 from module.base.button import ButtonGrid
 from module.base.decorator import cached_property, del_cached_property
 from module.base.timer import Timer
-from module.base.utils import rgb2gray
+from module.base.utils import rgb2gray, load_image
 from module.logger import logger
 from module.map_detection.utils import Points
 from module.ocr.ocr import Digit, DigitYuv, Ocr
@@ -68,6 +68,72 @@ TEMPLATE_MEDAL_ICON = Template('./assets/shop/cost/Medal.png')
 TEMPLATE_MEDAL_ICON_2 = Template('./assets/shop/cost/Medal_2.png')
 TEMPLATE_MEDAL_ICON_3 = Template('./assets/shop/cost/Medal_3.png')
 
+# Universal Bulin (gold) / Elite Bulin (purple).
+# module/shop/base.py groups every bulin into the same 'bulin' group, and the
+# file name is not a reliable hint either ('BulinT1_2' is gold, 'BulinT1_3' is
+# purple), so the type is decided by comparing with these templates.
+BULIN_TEMPLATES = {
+    'gold': [
+        './assets/shop/medal/BulinT1.png',
+        './assets/shop/medal/BulinT2.png',
+    ],
+    'purple': [
+        './assets/shop/medal/BulinT1_2.png',
+        './assets/shop/medal/BulinT1_3.png',
+        './assets/shop/medal/BulinT2_2.png',
+    ],
+}
+BULIN_TEMPLATE_CACHE = {}
+
+
+def _bulin_feature(image, size=96):
+    """
+    Turn an item image into a background-free feature vector.
+
+    The shop draws the same item on a slightly different background, and the
+    brightness varies between screenshots, so subtract the border colour and
+    compare directions only. Images are resized to a fixed size first, because
+    the item grid does not always crop to the same shape.
+
+    Args:
+        image (np.ndarray): BGR image
+        size (int): Side of the fixed square the image is resized to
+
+    Returns:
+        np.ndarray: float32, shape (size, size, 3)
+    """
+    if image.shape[0] != size or image.shape[1] != size:
+        image = cv2.resize(image, (size, size))
+    image = image.astype(np.int16)
+    border = np.concatenate([
+        image[:3].reshape(-1, 3), image[-3:].reshape(-1, 3),
+        image[:, :3].reshape(-1, 3), image[:, -3:].reshape(-1, 3),
+    ])
+    background = np.median(border, axis=0)
+    return (image - background).astype(np.float32)
+
+
+def _bulin_template_features(kind):
+    """
+    Args:
+        kind (str): 'gold' or 'purple'
+
+    Returns:
+        list[np.ndarray]: feature vectors of the templates of that kind
+    """
+    if kind not in BULIN_TEMPLATE_CACHE:
+        BULIN_TEMPLATE_CACHE[kind] = [
+            _bulin_feature(load_image(path))
+            for path in BULIN_TEMPLATES[kind]
+        ]
+    return BULIN_TEMPLATE_CACHE[kind]
+
+
+def _cosine_similarity(image1, image2):
+    a = image1.reshape(-1)
+    b = image2.reshape(-1)
+    return float(np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b) + 1e-9))
+
 
 class MedalShop2_250814(ShopClerk, ShopStatus):
     @cached_property
@@ -77,6 +143,117 @@ class MedalShop2_250814(ShopClerk, ShopStatus):
             str:
         """
         return self.config.MedalShop2_Filter.strip()
+
+    @cached_property
+    def priority_bulin(self):
+        """
+        Bulin types to buy before anything else, in the order configured.
+        Gold (Universal Bulin) first when both are enabled.
+
+        Returns:
+            list[str]: e.g. ['gold'], ['purple'], ['gold', 'purple'] or []
+        """
+        result = []
+        if self.config.MedalShop2_PriorityBulinGold:
+            result.append('gold')
+        if self.config.MedalShop2_PriorityBulinPurple:
+            result.append('purple')
+        if result:
+            logger.attr('Medal shop priority bulin', ' > '.join(result))
+        return result
+
+    def bulin_kind(self, item):
+        """
+        Tell gold bulin (Universal) from purple bulin (Elite).
+
+        ShopItemGrid.predict() groups every bulin as 'bulin', so the type has
+        to be decided on the item image itself.
+
+        Args:
+            item: Item from MedalShop2 shop grid
+
+        Returns:
+            str: 'gold', 'purple' or None if neither is close enough
+        """
+        image = _bulin_feature(item.image)
+        scores = {
+            kind: max(_cosine_similarity(image, template)
+                      for template in _bulin_template_features(kind))
+            for kind in BULIN_TEMPLATES
+        }
+        kind = max(scores, key=scores.get)
+        logger.attr('Bulin type', f'{item.name}: gold={scores["gold"]:.3f} purple={scores["purple"]:.3f}')
+        if scores[kind] < 0.75:
+            logger.info(f'Bulin type of "{item.name}" is uncertain '
+                        f'(similarity={scores[kind]:.2f}), treated as non priority')
+            return None
+        return kind
+
+    def shop_check_priority_bulin(self, item):
+        """
+        Whether this item is a bulin that is set as priority.
+
+        Args:
+            item:
+
+        Returns:
+            bool:
+        """
+        if not self.priority_bulin:
+            return False
+        if item.group != 'bulin':
+            return False
+        if not item.is_known_item:
+            return False
+        return self.bulin_kind(item) in self.priority_bulin
+
+    def shop_check_custom_item(self, item):
+        """
+        Override ShopBase.shop_check_custom_item().
+        Priority bulin is bought first, regardless of the shop filter.
+
+        Args:
+            item: Item to check
+
+        Returns:
+            bool:
+        """
+        if self.shop_check_priority_bulin(item):
+            logger.info(f'Priority bulin: {item.name}')
+            return True
+        return False
+
+    def shop_get_item_to_buy(self, items):
+        """
+        Override ShopBase.shop_get_item_to_buy().
+        Priority bulin is picked by the configured order, not by the order the
+        items happen to be on screen, so gold bulin is always bought before
+        purple bulin when both are enabled.
+
+        Args:
+            items list(Item): acquired from shop_get_items
+
+        Returns:
+            Item: Item to buy, or None.
+        """
+        if self.priority_bulin:
+            bulin = {}
+            for item in items:
+                if item.group != 'bulin' or not item.is_known_item:
+                    continue
+                kind = self.bulin_kind(item)
+                if kind is None:
+                    continue
+                # Same kind may appear twice on one page, keep them all
+                bulin.setdefault(kind, []).append(item)
+
+            for kind in self.priority_bulin:
+                for item in bulin.get(kind, ()):
+                    if self.shop_check_item(item):
+                        logger.info(f'Priority bulin: {item.name} ({kind})')
+                        return item
+
+        return super().shop_get_item_to_buy(items)
 
     # New UI in 2025-08-14
     def _get_medals(self):

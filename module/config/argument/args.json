@@ -217,7 +217,8 @@
         "option": [
           "stay_there",
           "goto_main",
-          "close_game"
+          "close_game",
+          "close_emulator"
         ]
       }
     },
@@ -7973,6 +7974,14 @@
         "type": "textarea",
         "value": "DR > PR\n> BookRedT3 > BookYellowT3 > BookBlueT3\n> BookRedT2 > BookYellowT2 > BookBlueT2\n> RetrofitT3\n> FoodT6 > FoodT5\n> PlateGeneralT3 > PlateWildT3"
       },
+      "PriorityBulinGold": {
+        "type": "checkbox",
+        "value": false
+      },
+      "PriorityBulinPurple": {
+        "type": "checkbox",
+        "value": false
+      },
       "RETROFIT_T1": {
         "type": "select",
         "value": "cl",
@@ -9270,6 +9279,18 @@
       "TargetZone": {
         "type": "input",
         "value": 0
+      },
+      "AshBeaconDataFullStop": {
+        "type": "checkbox",
+        "value": false,
+        "option": [
+          true,
+          false
+        ]
+      },
+      "AshBeaconDataLimit": {
+        "type": "input",
+        "value": 200
       }
     },
     "OpsiFleet": {

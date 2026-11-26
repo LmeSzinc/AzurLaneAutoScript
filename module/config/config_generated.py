@@ -41,7 +41,7 @@ class GeneratedConfig:
     Optimization_ScreenshotInterval = 0.3
     Optimization_CombatScreenshotInterval = 1.0
     Optimization_TaskHoardingDuration = 0
-    Optimization_WhenTaskQueueEmpty = 'goto_main'  # stay_there, goto_main, close_game
+    Optimization_WhenTaskQueueEmpty = 'goto_main'  # stay_there, goto_main, close_game, close_emulator
 
     # Group `DropRecord`
     DropRecord_SaveFolder = './screenshots'
@@ -298,6 +298,8 @@ class GeneratedConfig:
     MedalShop2_PLATE_T1 = 'general'  # general, gun, torpedo, antiair, plane
     MedalShop2_PLATE_T2 = 'general'  # general, gun, torpedo, antiair, plane
     MedalShop2_PLATE_T3 = 'general'  # general, gun, torpedo, antiair, plane
+    MedalShop2_PriorityBulinGold = False
+    MedalShop2_PriorityBulinPurple = False
 
     # Group `MeritShop`
     MeritShop_Refresh = False
@@ -442,6 +444,8 @@ class GeneratedConfig:
     OpsiMeowfficerFarming_ActionPointPreserve = 1000
     OpsiMeowfficerFarming_HazardLevel = 5  # 3, 4, 5, 6, 10
     OpsiMeowfficerFarming_TargetZone = 0
+    OpsiMeowfficerFarming_AshBeaconDataFullStop = False  # True, False
+    OpsiMeowfficerFarming_AshBeaconDataLimit = 200
 
     # Group `OpsiHazard1Leveling`
     OpsiHazard1Leveling_TargetZone = 0  # 0, 44, 22

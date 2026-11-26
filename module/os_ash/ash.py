@@ -123,6 +123,61 @@ class OSAsh(UI, MapEventHandler):
             status = 0
         return status
 
+    def ash_collect_status_pair(self):
+        """
+        Read the ash beacon data panel on the map screen.
+
+        Returns:
+            tuple(int, int) or None: (holding, daily), None if the panel is covered.
+
+        Pages:
+            in: is_in_map
+        """
+        if self.image_color_count(ASH_COLLECT_STATUS, color=(235, 235, 235), threshold=30, count=20):
+            letter = (235, 235, 235)
+        elif self.image_color_count(ASH_COLLECT_STATUS, color=(140, 142, 140), threshold=30, count=20):
+            letter = (140, 142, 140)
+        else:
+            logger.info('Ash beacon status is covered, skip ash beacon data check')
+            return None
+
+        ocr_collect = DigitCounter(
+            ASH_COLLECT_STATUS, letter=letter, threshold=160, name='OCR_ASH_COLLECT_STATUS')
+        ocr_daily = DailyDigitCounter(
+            ASH_DAILY_STATUS, letter=letter, threshold=160, name='OCR_ASH_DAILY_STATUS')
+        holding, _, _ = ocr_collect.ocr(self.device.image)
+        daily, _, _ = ocr_daily.ocr(self.device.image)
+        logger.attr('Ash_beacon_data', holding)
+        logger.attr('Ash_beacon_daily', daily)
+        return int(holding), int(daily)
+
+    def ash_beacon_data_reached(self, limit=200):
+        """
+        Check whether ash beacon data reached the limit, either the holding or today's collected.
+
+        Args:
+            limit (int): Data limit, 200 by default.
+
+        Returns:
+            bool: If reached.
+
+        Pages:
+            in: is_in_map
+        """
+        if self._ash_fully_collected:
+            return True
+        pair = self.ash_collect_status_pair()
+        if pair is None:
+            return False
+        holding, daily = pair
+        if daily >= limit:
+            logger.info(f'Ash beacon data collected today reached {daily}, limit={limit}')
+            return True
+        if holding >= limit:
+            logger.info(f'Ash beacon data holding reached {holding}, limit={limit}')
+            return True
+        return False
+
     def _support_call_ash_beacon_task(self):
         # AshBeacon next run
         next_run = self.config.cross_get(keys="OpsiAshBeacon.Scheduler.NextRun", default=DEFAULT_TIME)

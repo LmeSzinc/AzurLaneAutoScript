@@ -40,6 +40,18 @@ class OpsiMeowfficerFarming(OSMap):
 
         ap_checked = False
         while True:
+            # Stop the task when ash beacon data is full, no profit to farm after that.
+            if self.config.OpsiMeowfficerFarming_AshBeaconDataFullStop and self.is_in_map():
+                limit = self.config.OpsiMeowfficerFarming_AshBeaconDataLimit
+                if not limit or limit <= 0:
+                    limit = 200
+                if self.ash_beacon_data_reached(limit):
+                    logger.hr('Ash beacon data is full, stop OS meowfficer farming', level=1)
+                    logger.info(f'Ash beacon data reached {limit}, '
+                                f'delay task until next server update')
+                    self.config.task_delay(server_update=True)
+                    self.config.task_stop()
+
             self.config.OS_ACTION_POINT_PRESERVE = preserve
             if self.config.is_task_enabled('OpsiAshBeacon') \
                     and not self._ash_fully_collected \

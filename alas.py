@@ -181,6 +181,31 @@ class AzurLaneAutoScript:
             LoginHandler(self.config, device=self.device).app_start()
             UI(self.config, device=self.device).ui_goto_main()
 
+    def close_emulator(self):
+        """
+        Stop the emulator instance AL is running on.
+
+        Unlike `close_game`, this releases the emulator's memory as well.
+        The next task starts the emulator again on demand, the same way
+        AL starts it when it is not running at scheduler start.
+        """
+        if self.device.emulator_instance is None:
+            logger.warning(f'No emulator with serial "{self.config.Emulator_Serial}" found, '
+                           f'skip closing emulator')
+            return False
+        logger.hr('Close emulator', level=1)
+        logger.info(f'Closing emulator {self.device.emulator_instance.name}')
+        try:
+            success = self.device.emulator_stop()
+        except Exception as e:
+            logger.exception(e)
+            success = False
+        if success:
+            logger.info('Emulator closed')
+        else:
+            logger.warning('Failed to close emulator')
+        return success
+
     def research(self):
         from module.research.research import RewardResearch
         RewardResearch(config=self.config, device=self.device).run()
@@ -523,6 +548,20 @@ class AzurLaneAutoScript:
                         self.config.task_call('Restart')
                         del_cached_property(self, 'config')
                         continue
+                elif method == 'close_emulator':
+                    logger.info('Close emulator during wait')
+                    self.device.app_stop()
+                    release_resources()
+                    self.device.release_during_wait()
+                    self.close_emulator()
+                    del_cached_property(self, 'device')
+                    if not self.wait_until(task.next_run):
+                        del_cached_property(self, 'config')
+                        continue
+                    if task.command != 'Restart':
+                        self.config.task_call('Restart')
+                        del_cached_property(self, 'config')
+                        continue
                 elif method == 'goto_main':
                     logger.info('Goto main page during wait')
                     self.run('goto_main')
@@ -620,6 +659,14 @@ class AzurLaneAutoScript:
                 continue
             else:
                 break
+
+        # No more tasks in queue and AL is exiting, e.g. pressed stop in GUI
+        try:
+            if self.config.Optimization_WhenTaskQueueEmpty == 'close_emulator':
+                logger.info('Closing emulator before exit')
+                self.close_emulator()
+        except Exception as e:
+            logger.exception(e)
 
 
 if __name__ == '__main__':
