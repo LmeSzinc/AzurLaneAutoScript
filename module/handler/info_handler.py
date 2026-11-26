@@ -431,6 +431,20 @@ class InfoHandler(ModuleBase):
             return False
         return history[-1] == name and history[-2] == name
 
+    def _handle_story_variant_click(self, cause=None):
+        """
+        If clicking too many STORY_SKIP but story did not get skipped, click STORY_SKIP_CENTER instead
+        which is usually because a mandatory story that cannot be skipped
+        """
+        if self._continuous_story_skip():
+            if cause is not None:
+                logger.info(f'Story variant click {cause} -> {STORY_SKIP_CENTER}')
+            else:
+                logger.info(f'Story variant click -> {STORY_SKIP_CENTER}')
+            self.device.click(STORY_SKIP_CENTER)
+            return True
+        return False
+
     def story_skip(self, drop=None):
         """
         2023.09.14 Story options changed with big white options in the middle,
@@ -479,11 +493,17 @@ class InfoHandler(ModuleBase):
                 if drop:
                     drop.handle_add(self, before=2)
                 if self.config.STORY_ALLOW_SKIP:
-                    logger.info(f'{STORY_SKIP_3} -> {STORY_SKIP}')
-                    self.device.click(STORY_SKIP)
+                    if self._handle_story_variant_click(cause=STORY_SKIP_3):
+                        pass
+                    else:
+                        logger.info(f'{STORY_SKIP_3} -> {STORY_SKIP}')
+                        self.device.click(STORY_SKIP)
                 else:
-                    logger.info(f'{STORY_SKIP_3} -> {OS_CLICK_SAFE_AREA}')
-                    self.device.click(OS_CLICK_SAFE_AREA)
+                    if self._handle_story_variant_click(cause=STORY_SKIP_3):
+                        pass
+                    else:
+                        logger.info(f'{STORY_SKIP_3} -> {OS_CLICK_SAFE_AREA}')
+                        self.device.click(OS_CLICK_SAFE_AREA)
                 self._story_confirm.reset()
                 self.story_popup_timeout.reset()
                 return True
