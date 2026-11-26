@@ -414,6 +414,23 @@ class InfoHandler(ModuleBase):
 
         return False
 
+    def _continuous_story_skip(self):
+        """
+        Check if the last two clicks were both STORY_SKIP.
+
+        Consecutive STORY_SKIP clicks mean the story did not disappear after
+        being skipped once, which usually happens when several stories are
+        played one after another.
+
+        Returns:
+            bool:
+        """
+        history = tuple(self.device.click_record)
+        name = str(STORY_SKIP)
+        if len(history) < 2:
+            return False
+        return history[-1] == name and history[-2] == name
+
     def story_skip(self, drop=None):
         """
         2023.09.14 Story options changed with big white options in the middle,
