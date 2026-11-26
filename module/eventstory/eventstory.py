@@ -1,3 +1,4 @@
+from module.base.decorator import cached_property
 from module.base.timer import Timer
 from module.base.utils import rgb2gray
 from module.campaign.campaign_ui import CampaignUI
@@ -49,11 +50,17 @@ class EventStory(CampaignUI, Combat, LoginHandler):
 
         return state
 
+    @cached_property
+    def is_event_20250724(self):
+        return self.config.Campaign_Event in ['event_20250724_cn', 'event_20221124_cn']
+
     def get_event_20250724_button(self):
         """
         Returns:
             Button | None:
         """
+        if not self.is_event_20250724:
+            return None
         area = (0, 72, 1280, 560)
         image = self.image_crop(area, copy=False)
         image = rgb2gray(image)
@@ -78,6 +85,8 @@ class EventStory(CampaignUI, Combat, LoginHandler):
         Returns:
             bool: If clicked
         """
+        if not self.is_event_20250724:
+            return False
         interval = self.get_interval_timer(TEMPLATE_ALCHEMIST_STORY, interval=interval)
         if not interval.reached():
             return False
@@ -88,6 +97,22 @@ class EventStory(CampaignUI, Combat, LoginHandler):
             return True
         else:
             return False
+
+    @cached_property
+    def is_event_20250814(self):
+        return self.config.Campaign_Event in ['event_20250814_cn']
+
+    def handle_event_20250814(self):
+        """
+        Secrets of the Abyss (event_20250814_cn)
+        popup after all story finished
+
+        Returns:
+            bool: If clicked
+        """
+        if self.appear_then_click(POPUP_RPG_STATUS, offset=(20, 20), interval=3):
+            return True
+        return False
 
     def event_story(self, skip_first_screenshot=True):
         """
@@ -149,9 +174,7 @@ class EventStory(CampaignUI, Combat, LoginHandler):
                 self.popup_interval_clear()
                 self.device.click_record_clear()
                 continue
-            # Secrets of the Abyss (event_20250814_cn)
-            # popup after all story finished
-            if self.appear_then_click(POPUP_RPG_STATUS, offset=(20, 20), interval=3):
+            if self.handle_event_20250814():
                 continue
 
     def run_event_story(self):
