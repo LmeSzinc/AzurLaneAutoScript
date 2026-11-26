@@ -798,6 +798,96 @@ class ImageNotSupported(Exception):
     pass
 
 
+def _image_grayscale(image):
+    """
+    Convert an image to a 2D grayscale image, the luminance of RGB and RGBA.
+
+    Args:
+        image (np.ndarray):
+
+    Returns:
+        np.ndarray: shape (height, width)
+
+    Raises:
+        ImageNotSupported: if the image has an unsupported channel count
+    """
+    channel = image_channel(image)
+    if channel == 3:
+        # RGB
+        return cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
+    elif channel == 4:
+        # RGBA
+        return cv2.cvtColor(image, cv2.COLOR_RGBA2GRAY)
+    elif channel == 0:
+        # grayscale
+        return image
+    else:
+        raise ImageNotSupported(f'shape={image.shape}')
+
+
+def _row_flags(flat, threshold, foreground):
+    """
+    Get the per row content flags of a 2D image view.
+
+    Args:
+        flat (np.ndarray): 2D view of the image, shape (height, width * channel)
+        threshold (int):
+        foreground (bool): True to test color > threshold, False for color < threshold
+
+    Returns:
+        np.ndarray: bool array of shape (height,)
+    """
+    if not foreground:
+        return flat.min(axis=1) < threshold
+    if threshold == 0 and flat.dtype == np.uint8 and flat.shape[1] % 8 == 0:
+        # A 64 bit word is non zero exactly when one of its bytes is, which is
+        # the same test as max > 0, but reducing 8 bytes per step vectorizes
+        # better than reducing single bytes on a 1280 wide screenshot.
+        return np.bitwise_or.reduce(flat.view(np.uint64), axis=1) != 0
+    return flat.max(axis=1) > threshold
+
+
+def _bbox_of_gray(gray, threshold, foreground, error_message):
+    """
+    Get the bounding box of the content pixels of a grayscale image.
+
+    A row belongs to the bbox when any of its pixels is content, and the same
+    for a column, so reducing the rows and the columns of the bbox is enough.
+    The reduction is done on the grayscale image instead of a boolean mask,
+    which saves a full size allocation on every call.
+
+    Args:
+        gray (np.ndarray): 2D grayscale image
+        threshold (int):
+        foreground (bool): True if the content is the pixels > threshold,
+            False if the content is the pixels < threshold
+        error_message (str): Message of the error raised without any content
+
+    Returns:
+        tuple[int, int, int, int]: area, (x1, y1, x2, y2)
+
+    Raises:
+        ImageNotSupported: if the image has no content pixel
+    """
+    height, width = gray.shape
+    row_content = _row_flags(gray, threshold, foreground)
+    # argmax() answers 0 on an all False array, so the row has to be checked
+    y1 = int(row_content.argmax())
+    if not row_content[y1]:
+        raise ImageNotSupported(error_message)
+    y2 = int(height - row_content[::-1].argmax())
+    # every content pixel is inside the rows of the bbox, so the columns of
+    # that band are enough and the column scan is shorter than the whole image
+    band = gray[y1:y2]
+    if foreground:
+        col_content = band.max(axis=0) > threshold
+    else:
+        col_content = band.min(axis=0) < threshold
+    x1 = int(col_content.argmax())
+    x2 = int(width - col_content[::-1].argmax())
+    return x1, y1, x2, y2
+
+
 def get_bbox(image, threshold=0):
     """
     Get outbound box of the content in image
@@ -815,54 +905,14 @@ def get_bbox(image, threshold=0):
     Raises:
         ImageNotSupported: if failed to get bbox
     """
-    channel = image_channel(image)
-    # convert to grayscale
-    if channel == 3:
-        # RGB
-        mask = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
-        cv2.threshold(mask, threshold, 255, cv2.THRESH_BINARY, dst=mask)
-    elif channel == 0:
-        # grayscale
-        _, mask = cv2.threshold(image, threshold, 255, cv2.THRESH_BINARY)
-    elif channel == 4:
-        # RGBA
-        mask = cv2.cvtColor(image, cv2.COLOR_RGBA2GRAY)
-        cv2.threshold(mask, threshold, 255, cv2.THRESH_BINARY, dst=mask)
-    else:
-        raise ImageNotSupported(f'shape={image.shape}')
-
-    # find bbox
-    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    min_y, min_x = mask.shape
-    max_x = 0
-    max_y = 0
-    # all black
-    if not contours:
-        raise ImageNotSupported(f'Cannot get bbox from a pure black image')
-    for contour in contours:
-        # x, y, w, h
-        x1, y1, x2, y2 = cv2.boundingRect(contour)
-        x2 += x1
-        y2 += y1
-        if x1 < min_x:
-            min_x = x1
-        if y1 < min_y:
-            min_y = y1
-        if x2 > max_x:
-            max_x = x2
-        if y2 > max_y:
-            max_y = y2
-    if min_x < max_x and min_y < max_y:
-        return min_x, min_y, max_x, max_y
-    else:
-        # This shouldn't happen
-        raise ImageNotSupported(f'Empty bbox {(min_x, min_y, max_x, max_y)}')
+    gray = _image_grayscale(image)
+    return _bbox_of_gray(gray, threshold, True, 'Cannot get bbox from a pure black image')
 
 
 def get_bbox_reversed(image, threshold=255):
     """
     Get outbound box of the content in image
-    A opencv implementation of the getbbox() in pillow
+    A opencv implementation, the reversed version of get_bbox()
 
     Args:
         image (np.ndarray):
@@ -876,48 +926,8 @@ def get_bbox_reversed(image, threshold=255):
     Raises:
         ImageNotSupported: if failed to get bbox
     """
-    channel = image_channel(image)
-    # convert to grayscale
-    if channel == 3:
-        # RGB
-        mask = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
-        cv2.threshold(mask, 0, threshold, cv2.THRESH_BINARY, dst=mask)
-    elif channel == 0:
-        # grayscale
-        mask = cv2.threshold(image, 0, threshold, cv2.THRESH_BINARY)
-    elif channel == 4:
-        # RGBA
-        mask = cv2.cvtColor(image, cv2.COLOR_RGBA2GRAY)
-        cv2.threshold(mask, 0, threshold, cv2.THRESH_BINARY, dst=mask)
-    else:
-        raise ImageNotSupported(f'shape={image.shape}')
-
-    # find bbox
-    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    min_y, min_x = mask.shape
-    max_x = 0
-    max_y = 0
-    # all black
-    if not contours:
-        raise ImageNotSupported(f'Cannot get bbox from a pure black image')
-    for contour in contours:
-        # x, y, w, h
-        x1, y1, x2, y2 = cv2.boundingRect(contour)
-        x2 += x1
-        y2 += y1
-        if x1 < min_x:
-            min_x = x1
-        if y1 < min_y:
-            min_y = y1
-        if x2 > max_x:
-            max_x = x2
-        if y2 > max_y:
-            max_y = y2
-    if min_x < max_x and min_y < max_y:
-        return min_x, min_y, max_x, max_y
-    else:
-        # This shouldn't happen
-        raise ImageNotSupported(f'Empty bbox {(min_x, min_y, max_x, max_y)}')
+    gray = _image_grayscale(image)
+    return _bbox_of_gray(gray, threshold, False, 'Cannot get bbox from an image without content')
 
 
 def color_similarity(color1, color2):
