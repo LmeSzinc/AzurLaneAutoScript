@@ -516,7 +516,8 @@
       "MuMuPlayer": "MuMuPlayer",
       "MuMuPlayerX": "MuMuPlayer X",
       "MuMuPlayer12": "MuMuPlayer 12",
-      "MEmuPlayer": "MEmuPlayer"
+      "MEmuPlayer": "MEmuPlayer",
+      "Waydroid": "Waydroid"
     },
     "name": {
       "name": "エミュレーターのインスタンス名",

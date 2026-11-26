@@ -311,7 +311,30 @@ class Connection(ConnectionAttr):
     def is_waydroid(self):
         res = self.adb_getprop('ro.product.brand')
         logger.attr('ro.product.brand', res)
-        return 'waydroid' in res.lower()
+        if 'waydroid' in res.lower():
+            return True
+        # Brand and model can be spoofed, board platform is set by the Waydroid image
+        # [ro.board.platform]: [waydroid]
+        res = self.adb_getprop('ro.board.platform')
+        logger.attr('ro.board.platform', res)
+        return res == 'waydroid'
+
+    @retry
+    def resolution_check_waydroid(self):
+        """
+        Waydroid takes window size as display size, e.g. 3840x2160 on a fullscreen 4K window,
+        but Alas requires 1280x720. Override display size if it's not.
+        """
+        # Physical size: 3840x2160
+        # Override size: 1280x720
+        res = self.adb_shell(['wm', 'size'])
+        sizes = re.findall(r'(\d+)x(\d+)', res)
+        # Override size is listed after physical size
+        if sizes and sizes[-1] in [('1280', '720'), ('720', '1280')]:
+            return
+        logger.warning(f'Waydroid display size is not 1280x720: {res}')
+        logger.info('Override Waydroid display size to 1280x720')
+        self.adb_shell(['wm', 'size', '1280x720'])
 
     @cached_property
     @retry
@@ -1050,6 +1073,16 @@ class Connection(ConnectionAttr):
             manager = EmulatorManager()
             manager.brute_force_connect()
 
+        @run_once
+        def brute_force_connect_linux():
+            # Emulators like Waydroid are network devices, they won't appear in `adb devices` until connected
+            logger.info('Brute force connect')
+            from module.device.platform.emulator_linux import EmulatorManager
+            manager = EmulatorManager()
+            serial_list = [instance.serial for instance in manager.all_emulator_instances]
+            if serial_list:
+                self.adb_brute_force_connect(serial_list)
+
         for _ in range(2):
             logger.info('Here are the available devices, '
                         'copy to Alas.Emulator.Serial to use it or set Alas.Emulator.Serial="auto"')
@@ -1074,6 +1107,9 @@ class Connection(ConnectionAttr):
                 logger.warning(f'No available device found')
                 if IS_WINDOWS:
                     brute_force_connect()
+                    continue
+                elif IS_LINUX:
+                    brute_force_connect_linux()
                     continue
                 else:
                     break
