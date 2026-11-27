@@ -65,7 +65,7 @@ Deploy:
     InstallUiautomator2: true
 
   Ocr:
-    # Run Ocr as a service, can reduce memory usage by not import mxnet everytime you start an alas instance
+    # Run Ocr as a service, can reduce memory usage by not import OCR dependencies everytime you start an alas instance
 
     # Whether to use ocr server
     # [Default] false
@@ -79,6 +79,13 @@ Deploy:
     # Address of ocr server for alas instance to connect
     # [Default] 127.0.0.1:22268
     OcrClientAddress: 127.0.0.1:22268
+    # Backend used for OCR
+    # Available backends: mxnet, onnx
+    # [Default] mxnet
+    OcrBackend: mxnet
+    # Number of threads used for intra-op parallelism in ONNX Runtime
+    # [Default] null
+    OnnxIntraOpThreads: null
 
   Update:
     # Use auto update and builtin updater feature
