@@ -121,6 +121,7 @@ class AlasGUI(Frame):
         self.inst_cache = []
         self.load_home = False
         self.af_flag = False
+        self.game_manager = None
 
     @use_scope("aside", clear=True)
     def set_aside(self) -> None:
@@ -501,6 +502,8 @@ class AlasGUI(Frame):
     def _init_alas_config_watcher(self) -> None:
         def put_queue(path, value):
             self.modified_config_queue.put({"name": path, "value": value})
+            if self.game_manager and path.startswith("GameManager.GameManager."):
+                self.game_manager.setting_changed(path.rsplit(".", 1)[1], value)
 
         for path in get_alas_config_listen_path(self.ALAS_ARGS):
             pin_on_change(
@@ -741,6 +744,12 @@ class AlasGUI(Frame):
         self.task_handler.add(switch_scheduler.g(), 1, True)
         self.task_handler.add(switch_log_scroll.g(), 1, True)
         self.task_handler.add(log.put_log(self.alas), 0.25, True)
+
+        if task == "GameManager":
+            from module.webui.game_manager import GameManagerPanel
+
+            self.game_manager = GameManagerPanel(self, config)
+            self.game_manager.show()
 
     @use_scope("menu", clear=True)
     def dev_set_menu(self) -> None:
