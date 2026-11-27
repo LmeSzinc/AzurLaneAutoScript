@@ -568,11 +568,12 @@
     },
     "WhenTaskQueueEmpty": {
       "name": "When Task Queue is Empty",
-      "help": "Close AL when there are no pending tasks, can help reduce CPU",
+      "help": "Close AL when there are no pending tasks, can help reduce CPU.\nClose Emulator and Script: after the queue is empty, close the game, the emulator and AL itself, so a scheduled task will not wake AL up again",
       "stay_there": "Stay There",
       "goto_main": "Goto Main Page",
       "close_game": "Close Game",
-      "close_emulator": "Close Emulator"
+      "close_emulator": "Close Emulator",
+      "close_script": "Close Emulator and Script"
     }
   },
   "DropRecord": {

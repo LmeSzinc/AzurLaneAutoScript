@@ -41,7 +41,7 @@ class GeneratedConfig:
     Optimization_ScreenshotInterval = 0.3
     Optimization_CombatScreenshotInterval = 1.0
     Optimization_TaskHoardingDuration = 0
-    Optimization_WhenTaskQueueEmpty = 'goto_main'  # stay_there, goto_main, close_game, close_emulator
+    Optimization_WhenTaskQueueEmpty = 'goto_main'  # stay_there, goto_main, close_game, close_emulator, close_script
 
     # Group `DropRecord`
     DropRecord_SaveFolder = './screenshots'

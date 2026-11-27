@@ -218,7 +218,8 @@
           "stay_there",
           "goto_main",
           "close_game",
-          "close_emulator"
+          "close_emulator",
+          "close_script"
         ]
       }
     },

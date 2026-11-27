@@ -568,11 +568,12 @@
     },
     "WhenTaskQueueEmpty": {
       "name": "当任务队列清空后",
-      "help": "无任务时关闭游戏，能在收菜期间降低 CPU 占用",
+      "help": "无任务时关闭游戏，能在收菜期间降低 CPU 占用。\n关闭模拟器和脚本：任务队列清空后关掉游戏、模拟器以及 Alas 本身，定时任务到点时不会再自己起来",
       "stay_there": "停在原处",
       "goto_main": "前往主界面",
       "close_game": "关闭游戏",
-      "close_emulator": "关闭模拟器"
+      "close_emulator": "关闭模拟器",
+      "close_script": "关闭模拟器和脚本"
     }
   },
   "DropRecord": {

@@ -26,6 +26,9 @@ class AzurLaneAutoScript:
         # Failure count of tasks
         # Key: str, task name, value: int, failure count
         self.failure_record = {}
+        # Set when `WhenTaskQueueEmpty` is `close_script`, exits the loop
+        # normally so the WebUI marks the process as finished, not crashed
+        self.close_script_requested = False
 
     @cached_property
     def config(self):
@@ -522,6 +525,7 @@ class AzurLaneAutoScript:
         """
         Returns:
             str: Name of the next task.
+            None: Asked to exit by `Optimization.WhenTaskQueueEmpty = close_script`.
         """
         while 1:
             task = self.config.get_next()
@@ -562,6 +566,16 @@ class AzurLaneAutoScript:
                         self.config.task_call('Restart')
                         del_cached_property(self, 'config')
                         continue
+                elif method == 'close_script':
+                    logger.info('Close script during wait')
+                    self.device.app_stop()
+                    release_resources()
+                    self.device.release_during_wait()
+                    self.close_emulator()
+                    del_cached_property(self, 'device')
+                    self.close_script_requested = True
+                    AzurLaneConfig.is_hoarding_task = False
+                    return None
                 elif method == 'goto_main':
                     logger.info('Goto main page during wait')
                     self.run('goto_main')
@@ -612,6 +626,9 @@ class AzurLaneAutoScript:
                 self.config.task_call('Restart')
             # Get task
             task = self.get_next_task()
+            # `close_script` asked to exit, or `stop_event` was set while waiting
+            if task is None:
+                break
             # Init device and change server
             _ = self.device
             self.device.config = self.config
@@ -662,7 +679,9 @@ class AzurLaneAutoScript:
 
         # No more tasks in queue and AL is exiting, e.g. pressed stop in GUI
         try:
-            if self.config.Optimization_WhenTaskQueueEmpty == 'close_emulator':
+            if self.close_script_requested:
+                logger.info(f'Alas [{self.config_name}] exited. Reason: close_script')
+            elif self.config.Optimization_WhenTaskQueueEmpty == 'close_emulator':
                 logger.info('Closing emulator before exit')
                 self.close_emulator()
         except Exception as e:
