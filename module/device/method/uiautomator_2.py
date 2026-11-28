@@ -222,7 +222,7 @@ class Uiautomator2(Connection):
         """Drag and shake, like:
                      /\
         +-----------+  +  +
-                        \/
+                        \\/
         A simple swipe or drag don't work well, because it only has two points.
         Add some way point to make it more like swipe.
 

@@ -639,7 +639,7 @@ def hr3(title):
     print('<' * 3 + ' ' + title + ' ' + '>' * 3)
 
 
-FILTER_REGEX = re.compile('([s\!][1234])?'
+FILTER_REGEX = re.compile(r'([s\!][1234])?'
                           '-?'
                           '(neptune|monarch|ibuki|izumo|roon|saintlouis'
                           '|seattle|georgia|kitakaze|azuma|friedrich'
@@ -648,7 +648,7 @@ FILTER_REGEX = re.compile('([s\!][1234])?'
                           '(dr|pry)?'
                           '([bcdeghqtaz])?'
                           '-?'
-                          '(\d.\d|\d\d?)?')
+                          r'(\d.\d|\d\d?)?')
 FILTER_ATTR = ('series', 'ship', 'ship_rarity', 'genre', 'duration')
 FILTER_PRESET = ('shortest', 'cheapest', 'reset')
 FILTER = Filter(FILTER_REGEX, FILTER_ATTR, FILTER_PRESET)

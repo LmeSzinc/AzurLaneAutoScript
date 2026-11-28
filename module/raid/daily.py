@@ -16,7 +16,7 @@ class RaidStage:
 
 
 STAGES = ['easy', 'normal', 'hard']
-STAGE_FILTER = Filter(regex=re.compile('(\w+)'), attr=['name'])
+STAGE_FILTER = Filter(regex=re.compile(r'(\w+)'), attr=['name'])
 
 
 class RaidDaily(RaidRun):

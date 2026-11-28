@@ -39,7 +39,7 @@ for result in re.findall('word_template = (.*?)return', text, re.DOTALL):
     pg = slpp.decode(result)
     extract(pg, word_list=[])
 # Other server
-for result in re.findall('uv0\.{0,1}(.*?)end', text, re.DOTALL):
+for result in re.findall(r'uv0\.{0,1}(.*?)end', text, re.DOTALL):
     pg = slpp.decode('{%s}' % result)
     extract(pg, word_list=[])
 

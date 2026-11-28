@@ -894,10 +894,10 @@ if __name__ == '__main__':
                  task.yaml -+----------------> menu.json
              argument.yaml -+-> args.json ---> config_generated.py
              override.yaml -+       |
-                  gui.yaml --------\|
+                  gui.yaml --------\\|
                                    ||
     (old) i18n/<lang>.json --------\\========> i18n/<lang>.json
-    (old)    template.json ---------\========> template.json
+    (old)    template.json ---------\\========> template.json
     """
     # Ensure running in Alas root folder
     import os

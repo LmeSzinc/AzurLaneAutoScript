@@ -14,8 +14,8 @@ COMMISSION_FILTER = Filter(
         '-?'
         '(resource|chip|event|drill|part|cube|oil|book|retrofit|box|gem|ship)?'
         '-?'
-        '(\d\d?:\d\d)?'
-        '(\d\d?.\d\d?|\d\d?)?'
+        r'(\d\d?:\d\d)?'
+        r'(\d\d?.\d\d?|\d\d?)?'
     ),
     attr=('category_str', 'genre_str', 'duration_hm', 'duration_hour'),
     preset=('shortest',)
@@ -411,7 +411,7 @@ class Commission:
             timedelta: datetime.timedelta instance.
         """
         string = string.replace('D', '0')  # Poor OCR
-        result = re.search('(\d+):(\d+):(\d+)', string)
+        result = re.search(r'(\d+):(\d+):(\d+)', string)
         if not result:
             logger.warning(f'Invalid time string: {string}')
             self.valid = False
